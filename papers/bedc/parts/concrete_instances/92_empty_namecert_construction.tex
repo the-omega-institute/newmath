@@ -70,6 +70,24 @@ impossible carrier. The carrier absurdity theorem closes the contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_semantic\_namecert\_absurd}
 
+\begin{theorem}[Empty source carrier semantic certificate absurdity]
+\label{thm:empty-history-carrier-source-semantic-namecert-absurd}
+There is no semantic name certificate whose source predicate is the
+empty-history carrier, regardless of the displayed pattern, ledger policy, and
+classifier:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{EmptyHistoryCarrier},P,L,R)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The core field of a semantic certificate contains a name certificate over the
+source predicate. Therefore it contains an inhabitant of
+$\mathsf{EmptyHistoryCarrier}$, contradicting the carrier absurdity theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_source\_semantic\_namecert\_absurd}
+
 \begin{theorem}[Empty contradictory carrier name certificate absurdity]
 \label{thm:empty-contradictory-carrier-namecert-absurd}
 There is no name certificate whose carrier asks a single history to be both
@@ -126,3 +144,30 @@ $\emp\hsame\Eone(tail)$. Both are excluded by BEDC history constructor
 separation.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyVisibleContradictoryCarrier\_namecert\_absurd}
+
+\begin{theorem}[Empty visible contradictory carrier semantic certificate absurdity]
+\label{thm:empty-visible-contradictory-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger policies
+all ask a single history to classify both to $\emp$ and to some visible endpoint
+$\Ezero(tail)$ or $\Eone(tail)$:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness. The ledger policy is the
+same visible contradictory carrier, so the witness gives both the empty
+comparison and one visible endpoint comparison. In the zero-headed branch this
+composes to $\emp\hsame\Ezero(tail)$, and in the one-headed branch to
+$\emp\hsame\Eone(tail)$. BEDC history constructor separation rules out both
+branches.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyVisibleContradictoryCarrier\_semantic\_namecert\_absurd}

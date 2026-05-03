@@ -418,6 +418,56 @@ equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_endpoint\_equivalence\_iff}
 
+\begin{theorem}[Group singleton contextual continuation endpoint equivalence]
+\label{thm:group-singleton-contextual-continuation-result-endpoint-equivalence}
+For histories $L,R,L',R',P,Q,S:\mathsf{BHist}$, if $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, $A_{\emp}(R')$, and $\ContR(P,Q,S)$, then
+the concrete singleton group classifier compares the hidden-context
+continuation result with either endpoint equivalently:
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,S),L'),
+\mathsf{append}(\mathsf{append}(R,P),R'))
+\Longleftrightarrow
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,S),L'),
+\mathsf{append}(\mathsf{append}(R,Q),R')).
+$$
+The ten-field fit is: traditional target terminal-group contextual endpoint
+agreement under continuation; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ plus $\Cont$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from two-sided context cancellation and continuation endpoint
+equivalence; ledger hidden prefix/suffix singleton contexts plus the
+continuation witness; core theorem this block; exactness predicate the
+displayed iff; standard bridge terminal group contextual endpoint agreement;
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel} with the
+four singleton carrier witnesses for $L,R,L',R'$. This cancels the hidden
+contexts around the left displayed classifier and exposes $R_{\emp}(S,P)$.
+
+Apply Theorem~\ref{thm:group-singleton-continuation-result-endpoint-equivalence}
+to the continuation witness $\ContR(P,Q,S)$. It transports the exposed
+endpoint classifier from $R_{\emp}(S,P)$ to $R_{\emp}(S,Q)$.
+
+Apply the reverse direction of
+Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel} with the
+same four singleton carrier witnesses. This reinstates the hidden contexts
+around $S$ and $Q$, producing the right displayed classifier.
+
+For the reverse direction, apply
+Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel} to cancel
+the hidden contexts around the right displayed classifier and expose
+$R_{\emp}(S,Q)$.
+
+Use the reverse direction of
+Theorem~\ref{thm:group-singleton-continuation-result-endpoint-equivalence} under
+the same continuation witness to obtain $R_{\emp}(S,P)$.
+
+Reattach the hidden contexts by the reverse direction of the two-sided
+cancellation theorem, producing the left displayed classifier.
+\end{proof}
+
 \begin{theorem}[Group singleton suffix-context product-unit split]
 \label{thm:group-singleton-suffix-contextual-product-unit-split}
 For histories $L,R,p,q:\mathsf{BHist}$, if $A_{\emp}(L)$ and $A_{\emp}(R)$,
