@@ -202,6 +202,77 @@ For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier
 \leandef{BEDC.Derived.RealUp.RealStreamClassifier}
 \leandef{BEDC.Derived.RealUp.RealStreamPrefixClassifier}
 
+\begin{definition}[Real unary-observation stream classifier]
+\label{def:real-unary-observation-stream-classifier}
+For rational-observation maps $s,t:\Hist\to\Hist$, the unary-observation
+stream classifier is pointwise rational-history classification over certified
+unary BEDC observation histories:
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+$$
+\end{definition}
+
+\begin{theorem}[Constant rational streams bridge StreamNameUp and RealUp]
+\label{thm:streamname-real-constant-prefix-bridge}
+For histories $d,e:\Hist$, the RatUp point classifier, the StreamNameUp
+constant-stream classifier, the RealUp unary-observation stream classifier, and
+the constant real-history classifier at e-one seals are equivalent:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+\end{theorem}
+\begin{proof}
+For the first equivalence, the forward direction is exactly the constant
+classifier part of \autoref{thm:rat-stream-name-constant-witness}. Conversely,
+unfold Definition~\ref{def:rat-stream-name-classifier} and read the pointwise
+classifier at the empty unary observation history $\emp$ using its unary
+witness; the two constant stream values are $d$ and $e$.
+
+For the second equivalence, unfold
+Definition~\ref{def:rat-stream-name-classifier} and
+Definition~\ref{def:real-unary-observation-stream-classifier}. Both predicates
+are the same pointwise requirement over certified unary observation histories,
+so each direction is identity transport of the displayed witness.
+
+For the last equivalence, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier} and
+$\mathsf{RatConstStream}$. Reading at the empty unary observation gives
+$\mathsf{RatHistoryClassifier}(d,e)$, while a rational point classifier supplies
+the same pointwise witness at every unary observation.
+
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to identify that
+rational point classifier with
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
+\end{proof}
+
+The certificate fit has ten fields: traditional target constant rational real
+names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
+constant rational observation maps; classifier the displayed bridge; stability
+inherited from RatUp classifier fields; ledger the constant rational history and
+unary observation witness; core theorem
+\autoref{thm:streamname-real-constant-prefix-bridge}; exactness the displayed
+equivalence; standard bridge constant rational real sequence; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier prefix closure]
 \label{thm:real-stream-classifier-prefix}
 If rational-observation streams are pointwise related by the rational history classifier, then every finite observation prefix is related by the recursively accumulated prefix classifier.

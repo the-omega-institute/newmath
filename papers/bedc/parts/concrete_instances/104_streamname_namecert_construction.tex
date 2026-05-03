@@ -87,6 +87,59 @@ witnesses at $(n,\nu)$. The resulting point classifier is the required
 certified observation of $\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name reindexing and map stability]
+\label{thm:rat-stream-name-reindexing-and-map-stability}
+For certified observation maps $s,t,r:\Hist\to\Hist$, suppose $r$ preserves
+certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+Then $\mathsf{RatStreamNameCarrier}(s)$ implies
+$\mathsf{RatStreamNameCarrier}(s\circ r)$, and
+$\mathsf{RatStreamNameClassifier}(s,t)$ implies
+$\mathsf{RatStreamNameClassifier}(s\circ r,t\circ r)$.
+
+For a history map $F:\Hist\to\Hist$, suppose $F$ preserves RatUp carriers and
+classifiers:
+$$
+\forall h,\ \mathsf{RatHistoryCarrier}(h)\to
+\mathsf{RatHistoryCarrier}(F(h))
+$$
+and
+$$
+\forall h,k,\ \mathsf{RatHistoryClassifier}(h,k)\to
+\mathsf{RatHistoryClassifier}(F(h),F(k)).
+$$
+Then $\mathsf{RatStreamNameCarrier}(s)$ implies
+$\mathsf{RatStreamNameCarrier}(F\circ s)$, and
+$\mathsf{RatStreamNameClassifier}(s,t)$ implies
+$\mathsf{RatStreamNameClassifier}(F\circ s,F\circ t)$.
+\end{theorem}
+\begin{proof}
+For reindexing, unfold $\mathsf{RatStreamNameCarrier}$. Fix an observation
+history $n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The reindexer
+hypothesis turns $\nu$ into a certified unary observation witness for $r(n)$,
+and the carrier of $s$ gives the required rational-history carrier at
+$s(r(n))$.
+
+For the reindexed classifier, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix the same certified observation
+data $(n,\nu)$. The reindexer hypothesis again supplies
+$\mathsf{UnaryHistory}(r(n))$, so the classifier of $s$ and $t$ can be read at
+$r(n)$, giving the point classifier between $s(r(n))$ and $t(r(n))$.
+
+For mapped streams, unfold $\mathsf{RatStreamNameCarrier}$ and fix
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The carrier of $s$ gives
+$\mathsf{RatHistoryCarrier}(s(n))$, and the carrier-preservation hypothesis
+for $F$ transports it to $\mathsf{RatHistoryCarrier}(F(s(n)))$.
+
+For mapped classifiers, unfold $\mathsf{RatStreamNameClassifier}$ and fix
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The classifier of $s$ and
+$t$ gives $\mathsf{RatHistoryClassifier}(s(n),t(n))$, and the
+classifier-preservation hypothesis for $F$ transports it to
+$\mathsf{RatHistoryClassifier}(F(s(n)),F(t(n)))$.
+\end{proof}
+
 \begin{definition}[Constant rational stream name]
 \label{def:rat-stream-name-constant}
 For a history $d:\Hist$, write $\mathsf{RatConstStream}_d(n)=d$ for every unary
@@ -156,13 +209,16 @@ The certificate template has ten fields: traditional target certified
 countable rational-observation names; BEDC source $\RatUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
 $\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
-\autoref{thm:rat-stream-name-certificate-fields} together with the constant
-stream witness from \autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-certificate-fields}, the reindexing and mapped
+stream stability clauses from
+\autoref{thm:rat-stream-name-reindexing-and-map-stability}, the constant
+stream witness from \autoref{thm:rat-stream-name-constant-witness}, and
 constant-point exactness from
 \autoref{thm:rat-stream-name-constant-point-exactness}; ledger finite
 observation index plus pointwise rational witnesses, and for a constant stream
 the hidden constant seed together with the observation index; core theorems
 \autoref{thm:rat-stream-name-certificate-fields} and
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
 \autoref{thm:rat-stream-name-constant-witness} and
 \autoref{thm:rat-stream-name-constant-point-exactness}; exactness pointwise over
 the RatUp classifier; standard bridge ordinary rational streams; status
