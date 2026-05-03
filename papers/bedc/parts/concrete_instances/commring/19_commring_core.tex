@@ -246,6 +246,25 @@ component between the contextual endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[CommRing singleton classifier append context carrier split]
+\label{thm:commring-singleton-classifier-append-context-carrier-split}
+If the singleton commutative-ring classifier relates two appended endpoints,
+then all four append factors are singleton carriers:
+$$
+\rho_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longrightarrow
+A_{\emp}(L)\land A_{\emp}(Q)\land A_{\emp}(R)\land A_{\emp}(S).
+$$
+\end{theorem}
+\begin{proof}
+The classifier supplies singleton-carrier witnesses for
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$. Empty-result inversion for
+append splits the first witness into carrier witnesses for $L$ and $Q$, and
+splits the second witness into carrier witnesses for $R$ and $S$. Conjunction
+introduction packages the four factors.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_carrier\_split}
+
 \begin{theorem}[CommRing singleton classifier append commuted factors]
 \label{thm:commring-singleton-classifier-append-comm-congr}
 For histories $h,h',k,k':\mathsf{BHist}$, if the singleton commutative-ring

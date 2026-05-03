@@ -99,4 +99,19 @@ theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
   · intro sameEmptyT
     exact GammaDomainCore_not_empty domain (hsame_trans sameST sameEmptyT)
 
+theorem GammaDomainCore_hsame_transport_not_empty {s t apart : BHist} :
+    hsame s t -> GammaDomainCore s apart ->
+      GammaDomainCore t apart ∧ (hsame t BHist.Empty -> False) := by
+  intro sameST domain
+  have carrierT : ComplexHistoryCarrier t :=
+    ProdHistoryCarrier_hsame_transport sameST domain.left
+  have noPoleT : GammaPoleLocus t -> False := by
+    intro poleT
+    have transported :=
+      GammaPoleLocus_hsame_transport_witness (hsame_symm sameST) poleT
+    exact domain.right.right transported.left
+  have domainT : GammaDomainCore t apart :=
+    And.intro carrierT (And.intro domain.right.left noPoleT)
+  exact And.intro domainT (GammaDomainCore_not_empty domainT)
+
 end BEDC.Derived.GammaUp
