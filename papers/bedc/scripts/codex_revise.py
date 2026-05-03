@@ -1668,14 +1668,15 @@ def verify_worktree_commits(
         for v in var_v[:10]:
             logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
 
-    # Gate C — forbidden iteration-narrative vocabulary
+    # Gate C — forbidden iteration-narrative vocabulary (advisory).
+    # Demoted from blocking to warning: the substring matcher false-positives
+    # too aggressively (e.g. 'increments' hits 'increment'). The prompt still
+    # tells codex to avoid these words; humans can grep for the warnings if
+    # they want a second pass.
     vocab_v = detect_forbidden_vocab(wt)
     if vocab_v:
         for v in vocab_v[:10]:
-            logger.error(f"[P{wt.round_number}] FORBIDDEN VOCAB: {v}")
-        logger.error(f"[P{wt.round_number}] Rejecting round: iteration-narrative "
-                     "vocabulary detected. Replace silently — no version annotations.")
-        return False, new
+            logger.warning(f"[P{wt.round_number}] forbidden-vocab (advisory): {v}")
 
     # Gate D — forbidden math environments
     math_v = detect_forbidden_math(wt)
