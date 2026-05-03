@@ -336,6 +336,38 @@ again using symmetry when the displayed comparison is oriented oppositely.
 The two transported conclusions form the required conjunction.
 \end{proof}
 
+\begin{theorem}[Ring zero-classifier signed factor absorption]
+\label{thm:ring-zero-classifier-signed-factor-absorption}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame((-x)y,0)\land \hsame(y(-x),0)\land
+\hsame((-x)(-y),0)\land \hsame((-y)(-x),0).
+$$
+The ten-field fit is: traditional target signed zero-factor absorption in a
+ring; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations additive inverse congruence, zero
+classifier absorption, and both distributive laws; ledger the zero-classifier
+witness and signed multiplier; core theorem this theorem.
+\end{theorem}
+\begin{proof}
+First transport the zero-classifier witness through additive inverse. Additive
+inverse congruence sends $\hsame(x,0)$ to a comparison between $-x$ and $-0$,
+and \autoref{thm:ring-neg-zero} identifies $-0$ with $0$. Transitivity gives
+$\hsame(-x,0)$.
+
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} with factor $-x$ and
+multiplier $y$. This yields the two absorptions $\hsame((-x)y,0)$ and
+$\hsame(y(-x),0)$.
+
+Apply the same absorption theorem again with factor $-x$ and multiplier $-y$.
+Its left and right conclusions are precisely $\hsame((-x)(-y),0)$ and
+$\hsame((-y)(-x),0)$, and the four conclusions package into the stated
+conjunction.
+\end{proof}
+
 \begin{theorem}[Ring left-negative product sum vanishes]
 \label{thm:ring-mul-neg-left-inverse-sum-zero}
 For BEDC history operations satisfying additive associativity, left zero,

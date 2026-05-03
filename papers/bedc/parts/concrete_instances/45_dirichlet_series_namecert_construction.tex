@@ -30,6 +30,19 @@ Write \(m=\Eone(t)\) with \(t\) unary. Unary append closure gives unary
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_unary\_closed}
 
+\begin{lemma}[Positive Dirichlet index append right cases]
+\label{lem:dirichlet-positive-index-append-right-cases}
+If \(\mathsf{append}(m,n)\) is a positive Dirichlet index, then either \(m\)
+is a positive Dirichlet index or \(n\) is a positive Dirichlet index.
+\end{lemma}
+\begin{proof}
+Inspect the right append factor \(n\). The empty case returns positivity of
+\(m\). A zero-headed right factor cannot produce a visible successor result.
+A one-headed right factor exposes unaryness of its tail from unaryness of the
+successor witness, so \(n\) itself is a positive Dirichlet index.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_right\_cases}
+
 \begin{lemma}[Dirichlet term well-defined]
 \label{lem:dir-term-well-defined}
 For every \((a, n, s)\) with positive unary \(n\) and complex history \(s\), \(\mathsf{DirTerm}(a, n, s, t_n)\) determines a unique complex history \(t_n\) up to \(\hsame\).
