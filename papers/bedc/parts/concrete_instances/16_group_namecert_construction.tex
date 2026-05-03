@@ -377,6 +377,24 @@ right inverse law, and use the left identity on $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_exact\_from\_empty\_unit}
 
+\begin{theorem}[Group left-multiplication equation solution uniqueness]
+\label{thm:group-left-mul-equation-solution-unique}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same left-multiplication equation
+$$
+ax\hsame b
+\qquad\text{and}\qquad
+ay\hsame b,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the left-multiplication solution theorem to both displayed equations.
+Both solutions are classified by the same normal form $a^{-1}b$. Symmetry on
+the second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_solution\_unique\_from\_empty\_unit}
+
 \begin{theorem}[Group right-multiplication equation exactness]
 \label{thm:group-right-mul-equation-exactness}
 For a history-level group operation with associativity, right identity,
@@ -471,6 +489,24 @@ For the reverse direction, multiplication congruence transports $x\hsame y$
 through left multiplication by $a$ and right multiplication by $a^{-1}$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_classifier\_exact\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group conjugation equation solution uniqueness]
+\label{thm:group-conjugation-equation-solution-unique}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same conjugation equation
+$$
+\hsame((a x)a^{-1},b)
+\qquad\text{and}\qquad
+\hsame((a y)a^{-1},b),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply conjugation equation exactness to both displayed equations. Both middle
+factors are classified by the same normal form $(a^{-1}b)a$. Symmetry on the
+second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_solution\_unique\_from\_empty\_unit}
 
 \begin{theorem}[Group commutator detects commutation]
 \label{thm:group-commutator-trivial-iff-commutes}

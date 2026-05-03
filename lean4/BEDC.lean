@@ -157,6 +157,7 @@ import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.ConjugationEmpty
+import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
