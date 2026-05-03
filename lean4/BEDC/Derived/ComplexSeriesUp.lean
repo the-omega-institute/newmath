@@ -41,6 +41,33 @@ theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T 
           have samePartial := ih rightSum
           exact cont_respects_hsame samePartial (hsame_refl (c _)) leftStep rightStep
 
+theorem ComplexPartSum_successor_term_hsame_deterministic {zero zero' : BHist}
+    {c d : BHist -> BHist} {n S T U : BHist} :
+    hsame zero zero' -> (forall {m : BHist}, hsame (c m) (d m)) ->
+      ComplexPartSum zero c n S -> Cont S (c n) T ->
+        ComplexPartSum zero' d (BHist.e1 n) U -> hsame T U := by
+  intro sameZero sameTerm previous step final
+  have cross :
+      forall {m P Q : BHist},
+        ComplexPartSum zero c m P -> ComplexPartSum zero' d m Q -> hsame P Q := by
+    intro m P Q left
+    induction left generalizing Q with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact sameZero
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial sameTerm leftStep rightStep
+  cases final with
+  | step finalPrevious finalStep =>
+      have samePrevious := cross previous finalPrevious
+      exact cont_respects_hsame samePrevious sameTerm step finalStep
+
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
   | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
@@ -100,6 +127,34 @@ theorem ComplexPartSum_term_hsame_deterministic {zero : BHist} {c d : BHist -> B
           have samePartial := ih rightSum
           have sameTerm := pointwise (index_unary leftSum)
           exact cont_respects_hsame samePartial sameTerm leftStep rightStep
+
+theorem ComplexAbsPartSum_successor_modulus_hsame_deterministic {zero zero' : BHist}
+    {modulus modulus' : BHist -> BHist} {n M T U : BHist} :
+    hsame zero zero' -> (forall {m : BHist}, hsame (modulus m) (modulus' m)) ->
+      ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
+        ComplexAbsPartSum zero' modulus' (BHist.e1 n) U -> hsame T U := by
+  intro sameZero sameModulus previous step final
+  have cross :
+      forall {m P Q : BHist},
+        ComplexAbsPartSum zero modulus m P ->
+          ComplexAbsPartSum zero' modulus' m Q -> hsame P Q := by
+    intro m P Q left
+    induction left generalizing Q with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact sameZero
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial sameModulus leftStep rightStep
+  cases final with
+  | step finalPrevious finalStep =>
+      have samePrevious := cross previous finalPrevious
+      exact cont_respects_hsame samePrevious sameModulus step finalStep
 
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)

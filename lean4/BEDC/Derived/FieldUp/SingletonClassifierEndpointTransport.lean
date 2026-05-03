@@ -27,6 +27,21 @@ theorem FieldSingletonClassifier_hsame_empty_transport_iff {h h' k k' : BHist}
       (And.intro (hsame_trans (hsame_symm sameK) data.right.left)
         (hsame_trans (hsame_symm sameH) (hsame_trans data.right.right sameK)))
 
+theorem FieldSingletonClassifier_hsame_empty_endpoints_iff {h h' k k' : BHist} :
+    hsame h h' -> hsame k k' ->
+      (FieldSingletonClassifier h k <->
+        hsame h' BHist.Empty ∧ hsame k' BHist.Empty ∧ hsame h' k') := by
+  intro sameH sameK
+  constructor
+  · intro classified
+    exact And.intro (hsame_trans (hsame_symm sameH) classified.left)
+      (And.intro (hsame_trans (hsame_symm sameK) classified.right.left)
+        (hsame_trans (hsame_symm sameH) (hsame_trans classified.right.right sameK)))
+  · intro data
+    exact And.intro (hsame_trans sameH data.left)
+      (And.intro (hsame_trans sameK data.right.left)
+        (hsame_trans sameH (hsame_trans data.right.right (hsame_symm sameK))))
+
 theorem FieldSingletonClassifier_continuation_left_endpoint_transport_iff {P Q R S : BHist} :
     FieldSingletonCarrier Q -> Cont P Q R ->
       (FieldSingletonClassifier R S <-> FieldSingletonClassifier P S) := by
