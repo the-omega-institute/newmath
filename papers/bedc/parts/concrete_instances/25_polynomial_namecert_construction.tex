@@ -56,3 +56,40 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:polynomial-zero-axiom-note}
 Replaces quotienting by trailing-zero equivalence with normalization.
 \end{remark}
+
+\begin{theorem}[Finite additive fold congruence for coefficient lists]
+\label{thm:finite-additive-fold-congruence-coefficient-lists}
+Let \(R\) be a scalar carrier with classifier \(\sim_R\), zero \(0_R\), and addition \(+\). Assume \(0_R\sim_R0_R\) and the additive congruence field
+\[
+a\sim_R a' \;\text{and}\; b\sim_R b'
+\quad\Longrightarrow\quad
+(a+b)\sim_R(a'+b')
+\]
+for all scalar endpoints. These are among the additive ring fields retained in \autoref{def:ring-stability-certificate}; when the scalar source is presented by the commutative-ring certificate, \autoref{prop:commring-forgets-ring-certificate} keeps these additive fields unchanged.
+
+Let \(\mathsf{fold}_{+}\) be the finite recursive coefficient fold on finite coefficient spines, satisfying
+\[
+\mathsf{fold}_{+}(\mathsf{nil})=0_R,
+\qquad
+\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))=a+\mathsf{fold}_{+}(xs').
+\]
+For finite coefficient spines \(xs,ys:\mathsf{ListCarrier}(R)\), if their same-length pointwise scalar comparison is represented by the structural classifier witness
+\[
+\mathsf{ListClassifierSpec}(\sim_R,xs,ys)
+\]
+from \autoref{def:list-classifier-specification}, then
+\[
+\mathsf{fold}_{+}(xs)\sim_R\mathsf{fold}_{+}(ys).
+\]
+\end{theorem}
+\begin{proof}
+Induct on the structural classifier witness. By \autoref{thm:list-classifier-case-exactness}, the nil case is the nil-nil constructor and the cons case is the cons-cons constructor; mixed nil-cons shapes have no classifier witness. The same structural witness also records the equal finite-spine length by \autoref{thm:list-classifier-length-eq}.
+
+In the nil-nil case, the two fold equations identify both fold endpoints with \(0_R\). The assumed zero self-classification \(0_R\sim_R0_R\) gives the fold comparison.
+
+In the cons-cons case, write the two spines as \(\mathsf{cons}(a,xs')\) and \(\mathsf{cons}(b,ys')\). The constructor clause supplies the head comparison \(a\sim_R b\) and the tail classifier witness \(\mathsf{ListClassifierSpec}(\sim_R,xs',ys')\). The induction hypothesis gives \(\mathsf{fold}_{+}(xs')\sim_R\mathsf{fold}_{+}(ys')\). Applying the additive congruence field from \autoref{def:ring-stability-certificate} to these two comparisons yields
+\[
+(a+\mathsf{fold}_{+}(xs'))\sim_R(b+\mathsf{fold}_{+}(ys')).
+\]
+The cons fold equations identify these endpoints with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\) and \(\mathsf{fold}_{+}(\mathsf{cons}(b,ys'))\), giving the displayed fold comparison.
+\end{proof}
