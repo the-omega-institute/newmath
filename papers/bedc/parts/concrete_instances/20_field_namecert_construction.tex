@@ -128,6 +128,38 @@ same RatUp factor $x$ and context history $r$. The same carrier witness turns
 any witness of $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$
 into contradiction.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_contextual\_singleton\_exclusion}
+
+\begin{theorem}[Rat denominator unit contextual action strict-support singleton classifier exclusion]
+\label{thm:rat-denom-unit-contextual-action-strict-support-singleton-classifier-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the same empty endpoint
+and carried-context hypotheses as
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion},
+suppose also that $N_D^u(h)$ holds. Then for all histories $L,R:\mathsf{BHist}$
+the singleton empty classifier cannot classify the two contextual endpoints
+with the same strict-support tail:
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The contextual action support law reads the strict-support predicate of $x$ as
+the disjunction of the outer left support, inner left support, core support,
+inner right support, and outer right support. Insert the displayed witness
+$N_D^u(h)$ into the core disjunct to obtain $\mathsf{RatHistoryCarrier}(x)$.
+
+Package this witness with itself and reflexivity of $\hsame$ to obtain the
+concrete $\mathsf{RatHistoryClassifier}(x,x)$. The Rat/singleton boundary
+separation theorem
+\autoref{thm:field-singleton-empty-classifier-append-rat-history-classifier-absurd}
+then rules out any singleton empty classifier on
+$\mathsf{append}(L,x)$ and $\mathsf{append}(R,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_singleton\_classifier\_exclusion}
 
 \begin{theorem}[RatUp FieldUp transported strict-support separation package]
 \label{thm:ratup-fieldup-transported-strict-support-separation-package}

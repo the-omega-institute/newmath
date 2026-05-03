@@ -522,4 +522,66 @@ theorem RatDenomUnitContextualAction_pair_transport_classifier
   exact RatDenomUnitContextualAction_pair_classifier_transport sameP sameQ sameP' sameQ'
     carrierH classifiedL classifiedR classifiedL' classifiedR'
 
+theorem RatDenomUnitContextualAction_strict_support_contextual_singleton_exclusion
+    {p q p' q' h l r l' r' ctx : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier l ->
+        RatDenomUnitCarrier r -> RatDenomUnitCarrier l' -> RatDenomUnitCarrier r' ->
+          RatHistoryCarrier h ->
+            (fieldSingletonEmptyCarrier
+                (append ctx
+                  (RatDenomUnitContextualAction p' q' l' r'
+                    (RatDenomUnitContextualAction p q l r h))) -> False) ∧
+            (fieldSingletonEmptyCarrier
+                (append
+                  (RatDenomUnitContextualAction p' q' l' r'
+                    (RatDenomUnitContextualAction p q l r h))
+                  ctx) -> False) := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierL carrierR carrierL' carrierR' ratH
+  have laws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH carrierL carrierR carrierL' carrierR'
+  have nestedRat :
+      RatHistoryCarrier
+        (RatDenomUnitContextualAction p' q' l' r'
+          (RatDenomUnitContextualAction p q l r h)) :=
+    Iff.mpr laws.right.right (Or.inr (Or.inr (Or.inl ratH)))
+  constructor
+  · intro singletonLeft
+    exact fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd singletonLeft nestedRat
+  · intro singletonRight
+    exact fieldSingletonEmptyCarrier_append_left_ratHistoryCarrier_absurd singletonRight nestedRat
+
+theorem RatDenomUnitContextualAction_strict_support_singleton_classifier_exclusion
+    {p q p' q' h l r l' r' L R : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h -> RatDenomUnitCarrier l ->
+        RatDenomUnitCarrier r -> RatDenomUnitCarrier l' -> RatDenomUnitCarrier r' ->
+          RatHistoryCarrier h ->
+            fieldSingletonEmptyClassifier
+              (append L
+                (RatDenomUnitContextualAction p' q' l' r'
+                  (RatDenomUnitContextualAction p q l r h)))
+              (append R
+                (RatDenomUnitContextualAction p' q' l' r'
+                  (RatDenomUnitContextualAction p q l r h))) -> False := by
+  intro sameP sameQ sameP' sameQ' carrierH carrierL carrierR carrierL' carrierR' ratH
+    singleton
+  have laws :=
+    field_rat_denominator_contextual_action_composition_support_laws sameP sameQ sameP'
+      sameQ' carrierH carrierL carrierR carrierL' carrierR'
+  have nestedRat :
+      RatHistoryCarrier
+        (RatDenomUnitContextualAction p' q' l' r'
+          (RatDenomUnitContextualAction p q l r h)) :=
+    Iff.mpr laws.right.right (Or.inr (Or.inr (Or.inl ratH)))
+  have nestedClassifier :
+      RatHistoryClassifier
+        (RatDenomUnitContextualAction p' q' l' r'
+          (RatDenomUnitContextualAction p q l r h))
+        (RatDenomUnitContextualAction p' q' l' r'
+          (RatDenomUnitContextualAction p q l r h)) :=
+    ⟨nestedRat, nestedRat, hsame_refl _⟩
+  exact fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd nestedClassifier singleton
+
 end BEDC.Derived.FieldUp

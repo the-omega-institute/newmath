@@ -744,6 +744,26 @@ identifies $b$ and $c$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_tail\_fixed\_right\_identity}
 
+\begin{theorem}[Continuation morphism fixed right tail has left identity]
+\label{thm:continuation-morphism-comp-right-tail-fixed-left-identity}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if the composite
+append tail of $left$ followed by $right$ is history-same to $right.tail$, then
+$left.tail$ is empty and the endpoints $a$ and $b$ are history-same:
+$$
+\HSame(\mathsf{append}(left.tail,right.tail),right.tail)
+\Longrightarrow
+\HSame(left.tail,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+The displayed fixed-right comparison is a self-continuation of $right.tail$ by
+$left.tail$. Left-unit uniqueness for continuation forces $left.tail$ to be
+empty. Transporting the left morphism's continuation relation to this empty
+tail and comparing it with the canonical right-unit continuation at $a$
+identifies $a$ and $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_tail\_fixed\_left\_identity}
+
 \begin{theorem}[Category hom carrier composite middle identity result]
 \label{thm:category-hom-carrier-comp-middle-identity-result}
 For the unary-continuation category, if

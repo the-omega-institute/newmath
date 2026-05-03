@@ -272,6 +272,7 @@ import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.NonemptyCases
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
+import BEDC.Derived.CategoryUp.RightTailFixedIdentity
 import BEDC.Derived.CategoryUp.ContLeftE1Result
 import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.E1SourceCompTargetVisible
