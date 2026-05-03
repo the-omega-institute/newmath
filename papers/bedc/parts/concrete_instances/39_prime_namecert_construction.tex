@@ -459,3 +459,11 @@ Let $d$ and $e$ be unary histories, and let $d'$ and $e'$ be histories with $d\h
 \begin{proof}
 Unary transport puts $d'$ and $e'$ in the unary carrier. First apply \autoref{thm:nat-divides-divisor-hsame-transport} to transport the divisor from $d$ to $d'$, obtaining $\mathsf{NatDivides}(d',e)$. Then apply \autoref{thm:nat-divides-dividend-hsame-transport} to transport the dividend from $e$ to $e'$. The result is $\mathsf{NatDivides}(d',e')$.
 \end{proof}
+
+\begin{lemma}[Unit right multiplication reads back the multiplicand]
+\label{lem:nat-mul-unit-right-hsame}
+For every unary history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then $\hsame(n,d)$.
+\end{lemma}
+\begin{proof}
+Apply \autoref{lem:nat-mul-succ-inversion} to the multiplication witness. This gives a history $m$ with $\mathsf{NatMul}(d,\emp,m)$ and $\Cont(m,d,n)$. Inverting the zero-multiplier multiplication witness leaves only the zero constructor, so $m$ is identified with $\emp$, and the displayed continuation becomes $\Cont(\emp,d,n)$. The left-unit existence part of \autoref{thm:continuation-unit-laws-spine} gives $\Cont(\emp,d,d)$, and continuation determinacy from \autoref{thm:continuation-determinacy-up-to-history-sameness} identifies $n$ with $d$.
+\end{proof}
