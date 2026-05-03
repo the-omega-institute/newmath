@@ -29,3 +29,24 @@ identified with $\emp$, so $distance\hsame\emp$.
 
 \section{The certificate}
 \label{sec:funcobj-certificate}
+
+\begin{theorem}[Function-object pointwise hom carrier semantic certificate]
+\label{thm:funcobj-pointwise-hom-carrier-semantic-namecert}
+For a unary prefix $p$ and a categorical hom carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, the pointwise function-object carrier
+$$
+\mathsf{CategoryHomCarrier}(a,b,t)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),t)
+$$
+has a semantic naming certificate with source, pattern, and ledger predicates
+all equal to this carrier and classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The witness is the original hom history $f$. Prefix preservation for the
+unary-continuation category supplies the prefixed hom carrier at the same
+history. The classifier laws are reflexivity, symmetry, and transitivity of
+$\hsame$. Transport along a classifier proof keeps the endpoints fixed and
+moves both the base and prefixed hom-carrier conjuncts across the displayed
+history comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_semanticNameCert}
