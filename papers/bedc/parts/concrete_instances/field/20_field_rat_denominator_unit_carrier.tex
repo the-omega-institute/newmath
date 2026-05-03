@@ -1,3 +1,23 @@
+\begin{theorem}[Rat denominator unit semantic NameCert]
+\label{thm:rat-denom-unit-semantic-namecert}
+For carrier, source, pattern, and ledger all equal to
+$\mathsf{RatDenomUnitCarrier}$, and classifier
+$\mathsf{RatDenomUnitClassifier}$, the denominator empty-unit interface
+satisfies $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The source is inhabited because $\emp$ belongs to
+$\mathsf{RatDenomUnitCarrier}$ by the empty-unit branch.
+
+Reflexivity, symmetry, transitivity, and carrier transport are the
+corresponding $\hsame$ fields inside
+$\mathsf{RatDenomUnitClassifier}$.
+
+Pattern soundness and ledger soundness are projections from the source carrier,
+because source, pattern, and ledger are all the same carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_semanticNameCert}
+
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
 unit for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, and $\Cont$; \textbf{carrier
