@@ -189,6 +189,7 @@ import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
+import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp

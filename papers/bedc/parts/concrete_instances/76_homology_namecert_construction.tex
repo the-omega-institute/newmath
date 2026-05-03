@@ -53,6 +53,39 @@ append law identifies that history with $d(\mathsf{append}(u,v))$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_closed}
 
+\begin{theorem}[Homology boundary carrier cycle from square-zero differential]
+\label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
+Assume the differential respects $\hsame$ and satisfies the square-zero
+condition
+$$
+\hsame(d(d(u)),\mathsf{Empty})
+$$
+for every $u:\mathsf{BHist}$. If $B_d(h)$, then $Z_d(h)$.
+\end{theorem}
+\begin{proof}
+Choose a boundary witness $u$ with $\hsame(h,d(u))$. Congruence for the
+differential transports this witness to
+$\hsame(d(h),d(d(u)))$. The square-zero row identifies $d(d(u))$ with
+$\mathsf{Empty}$, and transitivity of $\hsame$ gives the cycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_of\_d\_squared\_zero}
+
+\begin{theorem}[Homology cycle carrier append hsame transport]
+\label{thm:homology-cycle-carrier-append-hsame-transport}
+Assume the differential respects BEDC continuation append and is congruent
+for $\hsame$. If $Z_d(h)$, $Z_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The append-closure theorem gives
+$Z_d(\mathsf{append}(h,k))$. Congruence for the differential transports the
+endpoint comparison to an $\hsame$ comparison between
+$d(\mathsf{append}(h,k))$ and $d(r)$. Symmetry of that comparison, followed
+by the cycle row for the append, proves that $d(r)$ is $\hsame$ to
+$\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:homology-certificate}
 
