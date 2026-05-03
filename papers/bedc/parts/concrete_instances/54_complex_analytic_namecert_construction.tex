@@ -50,6 +50,20 @@ The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is 
 \end{definition}
 \leandef{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary}
 
+\begin{theorem}[Pure-imaginary witness uniqueness]
+\label{thm:cplx-pure-imaginary-witness-unique}
+If the same complex history \(z\) is displayed as pure-imaginary by unary
+witnesses \(\theta\) and \(\phi\), then \(\theta\hsame\phi\).
+\end{theorem}
+\begin{proof}
+The two displayed pure-imaginary equalities identify the append histories
+\(\mathsf{append}(\Eone(\emp),\Eone(\theta))\) and
+\(\mathsf{append}(\Eone(\emp),\Eone(\phi))\). Cancelling the common left
+component \(\Eone(\emp)\) gives \(\Eone(\theta)\hsame\Eone(\phi)\), and
+constructor inversion gives \(\theta\hsame\phi\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_witness\_unique}
+
 \begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
 \label{lem:cplx-exp-well-defined}
 For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).

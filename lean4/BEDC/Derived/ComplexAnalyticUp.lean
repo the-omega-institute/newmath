@@ -70,4 +70,15 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
 
+theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
+    (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
+      (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
+        hsame theta phi := by
+  intro left right
+  have sameAnchors :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) :=
+    hsame_trans (hsame_symm left.right) right.right
+  exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
+
 end BEDC.Derived.ComplexAnalyticUp
