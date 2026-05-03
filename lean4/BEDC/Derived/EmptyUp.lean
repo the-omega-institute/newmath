@@ -55,6 +55,15 @@ theorem EmptyVisibleContradictoryCarrier_namecert_absurd {tail : BHist} :
       | inr sameOne =>
           exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) sameOne)
 
+theorem EmptyVisiblePairContradictoryCarrier_namecert_absurd {leftTail rightTail : BHist} :
+    NameCert
+      (fun h : BHist => hsame h (BHist.e0 leftTail) ∧ hsame h (BHist.e1 rightTail))
+      hsame -> False := by
+  intro cert
+  cases cert.carrier_inhabited with
+  | intro _h carrier =>
+      exact not_hsame_e0_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
+
 theorem EmptyVisiblePairCarrier_namecert_absurd {left right : BHist} :
     NameCert (fun h : BHist => hsame h (BHist.e0 left) ∧ hsame h (BHist.e1 right))
       hsame -> False := by
