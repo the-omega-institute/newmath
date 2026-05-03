@@ -548,6 +548,73 @@ element, and conjugation factors; core theorem list
 predicate restricted action certificate; standard bridge ordinary normalizer
 action on a subgroup; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine normalizer action kernel]
+\label{thm:ratup-fieldup-affine-normalizer-action-kernel}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix certified
+affine automorphisms $A,T:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the affine centralizer carrier
+from \autoref{def:ratup-fieldup-affine-centralizer-carrier}, let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+the restricted action by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$, then the pointwise kernel condition for the restricted
+normalizer action is exactly commutation with every element of the centralizer:
+$$
+\bigl(\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X\bigr)
+\Longleftrightarrow
+\bigl(\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow C_F(X)(T)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $N_F(C_F(A))(T)$. The restricted action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} supplies the
+domain condition: whenever $C_F(A)(X)$ holds, $\mathrm{Act}_T(X)$ is again an
+element of the same concrete centralizer carrier. The present claim identifies
+which normalizing elements act as the classifier identity on all such $X$.
+
+For the forward direction, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and assume
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X$. Unfolding the action gives the inner
+conjugation fixed-point equation
+$\mathrm{Inn}_T(X)\equiv_{\mathrm{aff}}X$. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} to the pair
+$T,X$ and read the fixed-point condition as the commutation equation
+$T\circ_{\mathrm{aff}}X\equiv_{\mathrm{aff}}X\circ_{\mathrm{aff}}T$.
+
+By Definition~\ref{def:ratup-fieldup-affine-centralizer-carrier}, this
+commutation equation is precisely the centralizer membership statement
+$C_F(X)(T)$. Since $X$ was arbitrary inside $C_F(A)$, the required pointwise
+centralizer condition follows.
+
+For the reverse direction, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and assume
+$C_F(X)(T)$. Reading Definition~\ref{def:ratup-fieldup-affine-centralizer-carrier}
+gives $T\circ_{\mathrm{aff}}X\equiv_{\mathrm{aff}}X\circ_{\mathrm{aff}}T$.
+Apply \autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} again,
+now in the reverse direction for the pair $T,X$, to obtain
+$\mathrm{Inn}_T(X)\equiv_{\mathrm{aff}}X$.
+
+Finally replace $\mathrm{Inn}_T(X)$ by the displayed definition of
+$\mathrm{Act}_T(X)$. This gives
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X$ for every $X$ in $C_F(A)$, so the
+restricted normalizer action is pointwise trivial exactly on the stated kernel.
+\end{proof}
+
+Per-object template: traditional target normalizer action kernel; BEDC source
+concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$; carrier $C_F(A)$ acted on by
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability normalizer-supplied
+restricted action domain and pointwise classifier identity; ledger fixed
+centralizer element, normalizing element, inverse witness, and commutation
+certificate; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion}, and
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}; exactness predicate
+kernel iff commutation with every centralizer element; standard bridge ordinary
+normalizer action kernel on a centralizer; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine center normalizes centralizers]
 \label{thm:ratup-fieldup-affine-center-normalizes-centralizers}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
