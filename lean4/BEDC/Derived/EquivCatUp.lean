@@ -30,6 +30,28 @@ theorem EquivCatAdjunction_empty_roundtrip_identity_components
   cases counitUnitEmpty.right
   exact And.intro carrier.left carrier.right.left
 
+theorem EquivCatAdjunction_empty_roundtrip_prefix_determinacy
+    {p q a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty ->
+        hsame p q ∧ hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧
+          NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+            NatTransPrefixComponentCarrier q p a BHist.Empty := by
+  intro carrier leftEmpty rightEmpty
+  have emptyComponents :
+      NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+        NatTransPrefixComponentCarrier q p a BHist.Empty :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  have prefixData :=
+    Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff emptyComponents.left
+  have unitCounitEmpty : unit = BHist.Empty ∧ counit = BHist.Empty := by
+    cases leftEmpty
+    exact cont_empty_result_inversion carrier.right.right.left
+  exact And.intro prefixData.right.right.right
+    (And.intro unitCounitEmpty.left
+      (And.intro unitCounitEmpty.right
+        (And.intro emptyComponents.left emptyComponents.right)))
+
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :
     SemanticNameCert

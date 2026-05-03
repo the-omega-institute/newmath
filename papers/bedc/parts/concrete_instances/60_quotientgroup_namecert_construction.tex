@@ -6,24 +6,38 @@ The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets o
 \section{Carrier definition}
 \label{sec:quotientgroup-carrier}
 
-\begin{definition}[Centralizer normalizer concrete quotient carrier]
+\begin{definition}[Centralizer coset carrier]
+\label{def:quotientgroup-centralizer-coset-carrier}
+For a BEDC multiplication operation $\mathsf{mul}$, parameter $a$, and
+representative $\mathsf{repr}$, the centralizer-coset carrier contains a
+history $h$ exactly when $\mathsf{repr}$ centralizes $a$ and
+$h\hsame\mathsf{repr}$.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier}
+
+\begin{definition}[Centralizer coset classifier]
+\label{def:quotientgroup-centralizer-coset-classifier}
+The centralizer-coset classifier relates two carried histories when both lie
+in the same representative carrier and are internally history-same.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier}
+
+\begin{definition}[Centralizer-normalizer QuotientGroupUp carrier]
 \label{def:quotientgroup-centralizer-normalizer-carrier}
-\label{def:centralizer-normalizer-concrete-quotientgroup-carrier}
 In the BEDC history-level $\GroupUp$ setting of
 \autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, let $Z_a$
 be the centralizer carrier of \autoref{def:group-centralizer-carrier} and let
 $N_a$ be the centralizer normalizer carrier of
 \autoref{def:group-centralizer-normalizer-carrier}. The
 centralizer-normalizer $\QuotientGroupUp$ representative carrier is $N_a$,
-with public classifier
+with classifier
 $Q_{Z_a\triangleleft N_a}$ from
 \autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}.
-Represented multiplication is induced by the ambient word
-$\mathsf{mul}(x,y)$, represented unit is induced by $e$, and represented
-inversion is induced by $\mathsf{inv}(x)$.
+Represented multiplication, unit, and inversion are given by
+$\mathsf{mul}(x,y)$, $e$, and $\mathsf{inv}(x)$.
 
 The certificate ledger records the representative endpoints in $N_a$, the
-hidden centralizer-kernel witness
+relative kernel witness
 $Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, and the tower rows for the lower
 centralizer subgroup, the upper normalizer subgroup, inclusion
 $Z_a\subseteq N_a$, and conjugation preservation of $Z_a$ by carried elements
@@ -31,56 +45,79 @@ of $N_a$. Thus the carrier is a concrete history-level representative system
 equipped with a classifier, not a host quotient type.
 \end{definition}
 
-\begin{theorem}[Centralizer normalizer quotient classifier presentations agree]
-\label{thm:centralizer-normalizer-quotient-classifiers-agree}
-For $x,y:\mathsf{BHist}$ in the centralizer-normalizer setting of
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the right-coset
-classifier of \autoref{def:centralizer-normalizer-quotient-classifier} and the
-relative-kernel classifier of
-\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation} agree:
+\begin{theorem}[Centralizer normalizer orbit-kernel quotient equivalence]
+\label{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:centralizer-normalizer-quotient-classifier-laws} and
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}, and
+for $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, the two representative
+classifiers on the carrier $N_a$ agree:
 $$
 Q_{Z_a\leq N_a}(x,y)
-\iff
+\Longleftrightarrow
 Q_{Z_a\triangleleft N_a}(x,y).
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, unpack the right-coset witness. Thus
-$Q_{Z_a\leq N_a}(x,y)$ supplies endpoint witnesses $N_a(x)$ and $N_a(y)$, a
-history $z$, a centralizer witness $Z_a(z)$, and the displayed equation
-$\hsame(y,\mathsf{mul}(x,z))$.
+For the forward direction, expand
+\autoref{def:centralizer-normalizer-quotient-classifier}. The witness is a
+history $z$ with $Z_a(z)$ and
+$\hsame(y,\mathsf{mul}(x,z))$, together with the endpoint rows $N_a(x)$ and
+$N_a(y)$.
 
-Multiply this equation on the left by $\mathsf{inv}(x)$. Associativity,
-multiplication congruence, the left inverse law, and the unit law identify
-$\mathsf{mul}(\mathsf{inv}(x),y)$ with $z$ up to $\hsame$. Transport the
-$Z_a(z)$ witness along this identification. Together with the two retained
-endpoint witnesses, this is exactly $Q_{Z_a\triangleleft N_a}(x,y)$.
+Multiply the endpoint comparison on the left by $\mathsf{inv}(x)$. By
+associativity, the two-sided inverse law, the unit laws, and multiplication
+congruence, the word
+$\mathsf{mul}(\mathsf{inv}(x),y)$ is transported by $\hsame$ to $z$. The
+$\hsame$ transport row for the centralizer carrier therefore turns $Z_a(z)$
+into $Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, which is exactly the kernel
+clause of $Q_{Z_a\triangleleft N_a}(x,y)$.
 
-For the reverse direction, unpack the relative-kernel classifier. Its endpoint
-clauses give $N_a(x)$ and $N_a(y)$, and its kernel clause gives
-$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$.
+For the reverse direction, expand
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}. Let
+$$
+w=\mathsf{mul}(\mathsf{inv}(x),y).
+$$
+The kernel clause gives $Z_a(w)$, and the endpoint clauses give the same
+representative carrier rows $N_a(x)$ and $N_a(y)$.
 
-Take
-$z:=\mathsf{mul}(\mathsf{inv}(x),y)$. Associativity, multiplication congruence,
-the right inverse law for $x$, and the unit law rewrite
-$\mathsf{mul}(x,z)$ to $y$ up to $\hsame$. The chosen $z$ is therefore the
-right-coset witness, and the endpoint clauses repack the result as
-$Q_{Z_a\leq N_a}(x,y)$.
+Associativity, the left inverse law, the left unit law, and multiplication
+congruence rewrite $\mathsf{mul}(x,w)$ to $y$ up to $\hsame$. Thus $w$ is the
+centralizer witness required by
+\autoref{def:centralizer-normalizer-quotient-classifier}, so
+$Q_{Z_a\leq N_a}(x,y)$ follows.
 \end{proof}
 
 Per-object template: traditional target quotient group by a normal subgroup;
-BEDC source $\GroupUp$ plus the $\SubgroupUp$ centralizer-normalizer tower;
-carrier $N_a$; classifier $Q_{Z_a\triangleleft N_a}$; stability from
-\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence};
-ledger relative kernel witness; core theorem
-\autoref{thm:centralizer-normalizer-quotient-classifiers-agree} together with
-\autoref{thm:centralizer-normalizer-quotient-classifier-laws} and
-\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence};
-exactness the displayed iff; standard bridge ordinary coset/kernel quotient
-agreement; status $\mathsf{ProofTarget}$.
+BEDC source $\GroupUp$ plus the centralizer-normalizer $\SubgroupUp$ tower;
+carrier $N_a$; classifier either $Q_{Z_a\leq N_a}$ or
+$Q_{Z_a\triangleleft N_a}$; stability
+\autoref{thm:centralizer-normalizer-quotient-classifier-laws},
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}, and
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence};
+ledger representative pair plus coset or kernel witness; core theorem list
+\autoref{def:centralizer-normalizer-quotient-classifier},
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}, and
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}; exactness the
+displayed iff; standard bridge ordinary coset/kernel criterion; status
+$\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
+
+\begin{theorem}[Centralizer coset SemanticNameCert]
+\label{thm:quotientgroup-centralizer-coset-semantic-namecert}
+If the representative $\mathsf{repr}$ centralizes $a$, then the
+centralizer-coset carrier, used as source, pattern, and ledger policy, with
+the centralizer-coset classifier forms a $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The representative itself inhabits the carrier. Reflexivity, symmetry, and
+transitivity of the classifier are inherited from $\hsame$, while carrier
+respect follows from the carried right endpoint stored in the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCoset\_semanticNameCert}
 
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
