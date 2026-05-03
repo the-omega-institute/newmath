@@ -202,6 +202,7 @@ import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
 import BEDC.Derived.FieldUp.RatDenomUnitResultEmpty
 import BEDC.Derived.FieldUp.RatContinuationSemigroupPackage
+import BEDC.Derived.FieldUp.RatContinuationObstructionPackage
 import BEDC.Derived.FieldUp.RatDenomUnitCarrierVisibleCases
 import BEDC.Derived.FieldUp.RatDenomUnitSemantic
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd

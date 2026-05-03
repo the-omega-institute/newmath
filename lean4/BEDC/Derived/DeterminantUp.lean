@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.CommRingUp
 
 namespace BEDC.Derived.DeterminantUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.Derived.MatrixUp
 open BEDC.Derived.CommRingUp
@@ -62,10 +64,104 @@ theorem DeterminantSingleton_semanticNameCert :
       exact carrierM
   }
 
-def DeterminantSingletonReadback (_M : BHist) : BHist := BHist.Empty
+def DeterminantSingletonReadback (_M : BHist) : BHist :=
+  BHist.Empty
 
-def DeterminantSingletonEndpoint (M r : BHist) : Prop :=
+def DeterminantSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def DeterminantSingletonClassifier (h k : BHist) : Prop :=
+  DeterminantSingletonCarrier h ∧ DeterminantSingletonCarrier k ∧ hsame h k
+
+def DeterminantSingletonDet (M : BHist) : BHist :=
+  append M BHist.Empty
+
+def DeterminantSingletonEndpointEmpty (M r : BHist) : Prop :=
   MatrixUp.MatrixSingletonClassifier M BHist.Empty ∧
     CommRingUp.CommRingSingletonClassifier r BHist.Empty
+
+def DeterminantSingletonEndpoint (M r : BHist) : Prop :=
+  DeterminantSingletonEndpointEmpty M r ∧
+    MatrixSingletonCarrier M ∧ CommRingSingletonClassifier r CommRingSingletonOne
+
+theorem DeterminantSingleton_certificate :
+    SemanticNameCert DeterminantSingletonCarrier DeterminantSingletonCarrier
+      DeterminantSingletonCarrier DeterminantSingletonClassifier ∧
+      (forall {M r : BHist}, DeterminantSingletonEndpoint M r <->
+        MatrixSingletonCarrier M ∧ CommRingSingletonClassifier r CommRingSingletonOne) ∧
+      CommRingSingletonClassifier (DeterminantSingletonDet MatrixSingletonOne)
+        CommRingSingletonOne ∧
+      (forall {M N : BHist}, MatrixSingletonClassifier M N ->
+        CommRingSingletonClassifier (DeterminantSingletonDet M) (DeterminantSingletonDet N)) ∧
+      (forall {M N : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        CommRingSingletonClassifier (DeterminantSingletonDet (MatrixSingletonMul M N))
+          (CommRingSingletonMul (DeterminantSingletonDet M) (DeterminantSingletonDet N))) := by
+  have emptyCarrier : DeterminantSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have semantic :
+      SemanticNameCert DeterminantSingletonCarrier DeterminantSingletonCarrier
+        DeterminantSingletonCarrier DeterminantSingletonClassifier := {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+      equiv_refl := by
+        intro h carrier
+        exact ⟨carrier, carrier, hsame_refl h⟩
+      equiv_symm := by
+        intro h k same
+        exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+      equiv_trans := by
+        intro h k l sameHK sameKL
+        exact ⟨sameHK.left, sameKL.right.left,
+          hsame_trans sameHK.right.right sameKL.right.right⟩
+      carrier_respects_equiv := by
+        intro h k same _carrier
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro h carrier
+      exact carrier
+    ledger_sound := by
+      intro h carrier
+      exact carrier
+  }
+  have endpointIff :
+      forall {M r : BHist}, DeterminantSingletonEndpoint M r <->
+        MatrixSingletonCarrier M ∧ CommRingSingletonClassifier r CommRingSingletonOne := by
+    intro M r
+    constructor
+    · intro endpoint
+      exact endpoint.right
+    · intro endpoint
+      have matrixEndpoint : MatrixSingletonClassifier M BHist.Empty :=
+        ⟨endpoint.left, hsame_refl BHist.Empty, endpoint.left⟩
+      have scalarEndpoint : CommRingSingletonClassifier r BHist.Empty :=
+        endpoint.right
+      exact ⟨⟨matrixEndpoint, scalarEndpoint⟩, endpoint⟩
+  have detOne :
+      CommRingSingletonClassifier (DeterminantSingletonDet MatrixSingletonOne)
+        CommRingSingletonOne := by
+    exact ⟨append_eq_empty_iff.mpr
+      ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩,
+      hsame_refl BHist.Empty,
+      append_eq_empty_iff.mpr ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩⟩
+  have detClassifier :
+      forall {M N : BHist}, MatrixSingletonClassifier M N ->
+        CommRingSingletonClassifier (DeterminantSingletonDet M) (DeterminantSingletonDet N) := by
+    intro M N classified
+    have detM : hsame (DeterminantSingletonDet M) BHist.Empty :=
+      append_eq_empty_iff.mpr ⟨classified.left, hsame_refl BHist.Empty⟩
+    have detN : hsame (DeterminantSingletonDet N) BHist.Empty :=
+      append_eq_empty_iff.mpr ⟨classified.right.left, hsame_refl BHist.Empty⟩
+    exact ⟨detM, detN, hsame_trans detM (hsame_symm detN)⟩
+  have detMul :
+      forall {M N : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        CommRingSingletonClassifier (DeterminantSingletonDet (MatrixSingletonMul M N))
+          (CommRingSingletonMul (DeterminantSingletonDet M) (DeterminantSingletonDet N)) := by
+    intro M N carrierM carrierN
+    have productCarrier : hsame (MatrixSingletonMul M N) BHist.Empty :=
+      append_eq_empty_iff.mpr ⟨carrierM, carrierN⟩
+    have detProduct : hsame (DeterminantSingletonDet (MatrixSingletonMul M N)) BHist.Empty :=
+      append_eq_empty_iff.mpr ⟨productCarrier, hsame_refl BHist.Empty⟩
+    exact ⟨detProduct, hsame_refl BHist.Empty, detProduct⟩
+  exact ⟨semantic, endpointIff, detOne, detClassifier, detMul⟩
 
 end BEDC.Derived.DeterminantUp
