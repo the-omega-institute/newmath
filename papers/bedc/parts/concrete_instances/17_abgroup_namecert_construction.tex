@@ -176,6 +176,35 @@ carrier definition.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
 
+\begin{theorem}[Concrete singleton empty-history $\AbGroupUp$ naming certificate]
+\label{thm:singleton-empty-history-abgroup-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ of
+\autoref{def:singleton-empty-history-abgroup-instance} supplies the source,
+pattern, classifier, stability, commutativity, ledger, and exactness rows for a
+concrete $\NameCert$ licensing $\AbGroupUp$ over the singleton empty-history
+carrier $A_{\emp}$.
+\end{theorem}
+\begin{proof}
+The source row is $\mathsf{BHist}$ restricted by $A_{\emp}$, and the pattern row
+is the constant operation package
+$(\mu_{\emp},e_{\emp},\iota_{\emp})$. The classifier row is the carrier-aware
+relation $\rho_{\emp}$ from
+\autoref{def:singleton-empty-history-abgroup-instance}.
+
+The carrier, closure, unit, inverse, congruence, and commutativity rows are
+exactly the singleton empty-history AbGroup law package of
+\autoref{thm:singleton-empty-history-abgroup-laws}. That theorem also supplies
+the stability needed for the classifier under the displayed operations, since
+each operation returns $\emp$ and all comparisons are repacked through
+$A_{\emp}$ and $\rho_{\emp}$.
+
+The ledger row is the constant-operation provenance required by
+\autoref{def:abgroup-ledger-policy}. Exactness is the endpoint classification
+already exposed by the carrier-aware classifier: a classified endpoint is
+precisely an endpoint in the singleton empty-history carrier, so the public
+$\AbGroupUp$ name has no additional hidden carrier cases.
+\end{proof}
+
 Thus the AbGroup schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and operations, so Lean formalization can target this BHist-anchored
 instance rather than only abstract operator fields.
