@@ -165,6 +165,20 @@ theorem ResiduePoleData_empty_suffix_reflects_endpoints
   exact And.intro functionEndpoints.left
     (And.intro functionEndpoints.right endpoints.right)
 
+theorem ResiduePoleData_prefix_empty_reflects_endpoints
+    {f center radius pole gap integral residue q qf : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> Cont q f qf ->
+      hsame qf BHist.Empty ->
+        hsame q BHist.Empty ∧ hsame integral BHist.Empty ∧ hsame residue BHist.Empty := by
+  intro data prefixCont resultEmpty
+  have emptyContinuation : Cont q f BHist.Empty :=
+    cont_result_hsame_transport prefixCont resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  have functionEndpoints :=
+    ResiduePoleData_empty_function_endpoints data endpoints.right
+  exact And.intro endpoints.left
+    (And.intro functionEndpoints.left functionEndpoints.right)
+
 theorem ResiduePoleData_suffix_empty_function_endpoints
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->

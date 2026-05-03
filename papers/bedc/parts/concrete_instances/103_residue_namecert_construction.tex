@@ -104,6 +104,23 @@ $f\hsame\emp$ back to the integral and residue endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_suffix\_reflects\_endpoints}
 
+\begin{theorem}[Residue pole data prefix empty reflects endpoints]
+\label{thm:residue-pole-data-prefix-empty-reflects-endpoints}
+If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds, $\Cont(q,f,q_f)$,
+and $q_f\hsame\emp$, then the prefix, integral endpoint, and residue endpoint
+are all empty:
+$$
+q\hsame\emp\land I\hsame\emp\land \rho\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Transport $\Cont(q,f,q_f)$ along $q_f\hsame\emp$ and apply empty-result
+inversion for continuations. This gives $q\hsame\emp$ and $f\hsame\emp$.
+The empty-function endpoint theorem for residue pole data then reflects
+$f\hsame\emp$ to the integral and residue endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_prefix\_empty\_reflects\_endpoints}
+
 \begin{theorem}[Residue pole data suffix empty function endpoints]
 \label{thm:residue-pole-data-suffix-empty-function-endpoints}
 If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,

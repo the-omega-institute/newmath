@@ -23,4 +23,12 @@ theorem EmptyContradictoryCarrier_namecert_absurd :
   | intro _h carrier =>
       exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
 
+theorem EmptyHistoryCarrier_semantic_namecert_absurd :
+    SemanticNameCert EmptyHistoryCarrier EmptyHistoryCarrier EmptyHistoryCarrier hsame ->
+      False := by
+  intro cert
+  cases semanticNameCert_ledger_policy_witness cert with
+  | intro _h carrier =>
+      exact EmptyHistoryCarrier_absurd carrier
+
 end BEDC.Derived.EmptyUp

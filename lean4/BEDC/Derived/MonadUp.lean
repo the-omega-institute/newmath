@@ -106,4 +106,35 @@ theorem MonadAdjunctionEndomorphism_left_triangle_result_empty_suffix_empty
   cases outEmpty
   exact (cont_empty_result_inversion leftSuffix).right
 
+theorem MonadAdjunctionEndomorphism_triangle_bridge_empty_iff
+    {p a unit counit left right bridge : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      (Cont left bridge right ↔ hsame bridge BHist.Empty) := by
+  intro carrier
+  constructor
+  · intro bridgeCont
+    exact
+      MonadAdjunctionEndomorphism_left_triangle_result_empty_suffix_empty
+        carrier bridgeCont (MonadAdjunctionEndomorphism_triangle_results_empty carrier).right
+  · intro bridgeEmpty
+    have leftEmpty : hsame left BHist.Empty :=
+      (MonadAdjunctionEndomorphism_triangle_results_empty carrier).left
+    have rightEmpty : hsame right BHist.Empty :=
+      (MonadAdjunctionEndomorphism_triangle_results_empty carrier).right
+    cases leftEmpty
+    cases bridgeEmpty
+    cases rightEmpty
+    exact cont_right_unit BHist.Empty
+
+theorem MonadAdjunctionEndomorphism_right_triangle_result_empty_suffix_empty
+    {p a unit counit left right suffix out : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont right suffix out -> hsame out BHist.Empty -> hsame suffix BHist.Empty := by
+  intro carrier rightSuffix outEmpty
+  have rightEmpty : hsame right BHist.Empty :=
+    (MonadAdjunctionEndomorphism_triangle_results_empty carrier).right
+  cases rightEmpty
+  cases outEmpty
+  exact (cont_empty_result_inversion rightSuffix).right
+
 end BEDC.Derived.MonadUp
