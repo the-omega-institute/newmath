@@ -117,6 +117,36 @@ $\FieldUp(\RatUp)$ hierarchy exit package have the same rows and the same
 exactness obligations.
 \end{proof}
 
+\begin{lemma}[RatUp FieldUp BMark selector endpoint-pair cases]
+\label{lem:ratup-fieldup-bracketing-selector-pair-cases}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$, let $E_s(h,k,\ell)$ be the endpoint
+selector of \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Set
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. Then for all selectors
+$s,t:\mathsf{BMark}$, the selected endpoint pair
+$(E_s(h,k,\ell),E_t(h,k,\ell))$ is covered by the four generated rows
+$(x,x)$, $(y,y)$, $(x,y)$, and $(y,x)$ up to $\hsame$ on both endpoints.
+\end{lemma}
+\begin{proof}
+Perform generated case analysis on the selector pair $(s,t)$. In every branch,
+unfold the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}; the remaining endpoint
+comparison is reflexivity of $\hsame$.
+
+In the $(\mathsf{BMark.b0},\mathsf{BMark.b0})$ branch, both selected endpoints
+unfold to $x$, so the row $(x,x)$ supplies the pair witness.
+
+In the $(\mathsf{BMark.b1},\mathsf{BMark.b1})$ branch, both selected endpoints
+unfold to $y$, so the row $(y,y)$ supplies the pair witness.
+
+In the $(\mathsf{BMark.b0},\mathsf{BMark.b1})$ branch, the left endpoint
+unfolds to $x$ and the right endpoint unfolds to $y$, giving the row $(x,y)$.
+
+In the $(\mathsf{BMark.b1},\mathsf{BMark.b0})$ branch, the left endpoint
+unfolds to $y$ and the right endpoint unfolds to $x$, giving the row $(y,x)$.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp BMark-selected bracketing exit subpackage]
 \label{thm:ratup-fieldup-bracketing-selector-exit-subpackage}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
@@ -225,7 +255,7 @@ other selected endpoint pair is available.
 This case-exhaustion lemma is consumed by
 \autoref{thm:ratup-fieldup-bracketing-choice-classifier-exclusion},
 \autoref{thm:ratup-fieldup-bracketing-selector-denominator-classifier-coverage},
-and \autoref{thm:ratup-fieldup-selector-complete-denominator-laws}.
+and \autoref{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice}.
 
 \begin{definition}[RatUp FieldUp selector-complete denominator instance]
 \label{def:ratup-fieldup-selector-complete-denominator-instance}
