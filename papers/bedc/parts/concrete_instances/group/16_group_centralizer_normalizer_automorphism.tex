@@ -1,6 +1,68 @@
 \section{Normalizer action on the centralizer}
 \label{sec:group-normalizer-action-on-centralizer}
 
+\begin{theorem}[Group normalizer conjugation inverse roundtrip]
+\label{thm:group-normalizer-conjugation-inverse-roundtrip}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $Z_a$ be the
+centralizer carrier of \autoref{def:group-centralizer-carrier}, let $N_a$ be
+the normalizer carrier of \autoref{def:group-centralizer-normalizer-carrier},
+and write
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$ and $Z_a(x)$ hold, then:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(x))$.
+\item $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item
+$\hsame(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
+\item
+$\hsame(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)),x)$.
+\end{enumerate}
+The ten-field fit is: traditional target inverse-action certificate for the
+normalizer action; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$;
+classifier $\hsame$; stability obligations the two normalizer clauses and the
+two classifier return equations; ledger conjugating element, inverse
+conjugating word, and centralizer witness; core theorem list
+\autoref{thm:group-conjugation-composition},
+\autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-left-inverse-involutive}, and
+\autoref{thm:group-right-inverse-involutive}; exactness predicate conjugation
+by $s$ and by $\mathsf{inv}(s)$ are mutual classifier inverses on $Z_a$;
+standard bridge ordinary inverse inner action on the centralizer; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The carrier rows are exactly the two clauses of $N_a(s)$. Applying the forward
+clause to $Z_a(x)$ gives $Z_a(\mathsf{Conj}_s(x))$, and applying the inverse
+clause to the same $Z_a(x)$ gives
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+
+For the first classifier return equation, expand
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))$. By
+\autoref{thm:group-conjugation-composition}, this is the same conjugation word
+as $\mathsf{Conj}_{\mathsf{mul}(\mathsf{inv}(s),s)}(x)$. The left inverse law
+reduces $\mathsf{mul}(\mathsf{inv}(s),s)$ to $e$, and the unit laws reduce
+$\mathsf{Conj}_e(x)$ to $x$.
+
+For the second return equation, expand
+$\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$. The same composition
+theorem reads it as $\mathsf{Conj}_{\mathsf{mul}(s,\mathsf{inv}(s))}(x)$; the
+right inverse law reduces the conjugating product to $e$, and the unit laws
+again reduce $\mathsf{Conj}_e(x)$ to $x$.
+
+Equivalently, the expanded words contain the adjacent inverse products exposed
+by associativity. Theorem~\ref{thm:group-inverse-mul-reverse} controls the
+inverse word, while \autoref{thm:group-left-inverse-involutive} and
+\autoref{thm:group-right-inverse-involutive} identify the double inverse
+$\mathsf{inv}(\mathsf{inv}(s))$ with $s$ before the inverse and unit laws close
+the two classifier comparisons.
+\end{proof}
+
 \begin{theorem}[Group centralizer normalizer conjugation automorphism]
 \label{thm:group-centralizer-normalizer-conjugation-automorphism}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
@@ -34,6 +96,7 @@ stability obligations normalizer preservation, inverse-conjugation witness,
 and conjugation classifier exactness; ledger conjugating element, inverse
 word, and centralizer membership witnesses; core theorem list
 \autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-normalizer-conjugation-inverse-roundtrip},
 \autoref{thm:group-conjugation-classifier-exactness}, and
 \autoref{thm:group-inverse-mul-reverse}; exactness predicate conjugation is a
 classifier automorphism of $Z_a$; standard bridge ordinary normalizer action
@@ -45,16 +108,9 @@ $Z_a(x)$, that clause returns $Z_a(\mathsf{Conj}_s(x))$ directly.
 
 For the classifier-surjectivity row, let $y$ satisfy $Z_a(y)$ and set
 $x:=\mathsf{Conj}_{\mathsf{inv}(s)}(y)$. The second clause of $N_a(s)$ gives
-$Z_a(x)$ from $Z_a(y)$.
-
-It remains to compare the returned element with $y$. Expanding the two
-conjugation words gives a product whose outer factors are $s$ and
-$\mathsf{inv}(s)$, with the inverse word
-$\mathsf{inv}(\mathsf{inv}(s))$ in the middle. Associativity moves the
-parentheses, the two-sided inverse laws reduce the adjacent inverse products
-to $e$, and the unit laws reduce the remaining word to $y$. The inverse-word
-calculation is the same group calculation recorded by
-\autoref{thm:group-inverse-mul-reverse}.
+$Z_a(x)$ from $Z_a(y)$. The second return equation of
+\autoref{thm:group-normalizer-conjugation-inverse-roundtrip}, applied to
+$Z_a(y)$, gives $\hsame(\mathsf{Conj}_s(x),y)$.
 
 For classifier exactness, apply
 \autoref{thm:group-conjugation-classifier-exactness} to the conjugating word
