@@ -1,0 +1,498 @@
+\begin{theorem}[RatUp FieldUp transported strict-support non-singleton endpoint]
+\label{thm:ratup-fieldup-transported-strict-support-non-singleton}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate contains all of the following endpoint data:
+\begin{enumerate}
+  \item $C_D^u(x)$;
+  \item $N_D^u(x)$;
+  \item $\mathsf{RatHistoryCarrier}(x)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+\end{enumerate}
+Thus the transported strict-support endpoint of the
+$\FieldUp(\mathsf{RatUp})$ exit certificate cannot collapse into the singleton
+empty-history field carrier.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-exit-transported-support-nondegenerate} at the same
+transported endpoint. It gives the carried endpoint clause $C_D^u(x)$ and the
+strict-support equivalence
+$$
+N_D^u(x)\Longleftrightarrow N_D^u(h).
+$$
+
+Use the reverse direction of this equivalence with the displayed witness
+$N_D^u(h)$. This produces the transported strict-support witness $N_D^u(x)$.
+
+Now read the denominator tuple row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(y)=\mathsf{RatHistoryCarrier}(y)$ for every denominator history
+$y$, so the transported support witness gives $\mathsf{RatHistoryCarrier}(x)$.
+
+Finally apply
+\autoref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$x$. Any witness of $\mathsf{fieldSingletonEmptyCarrier}(x)$, together with the
+Rat history carrier witness just obtained, yields contradiction. This is the
+displayed map $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_non\_singleton}
+
+\begin{theorem}[RatUp FieldUp transported strict-support contextual singleton exclusion]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then for every context history $r:\mathsf{BHist}$ both
+boundary collapses are impossible:
+\begin{enumerate}
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton} at the
+same transported endpoint. The endpoint data supplied there includes
+$\mathsf{RatHistoryCarrier}(x)$.
+
+For the right-factor append boundary, apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with the context
+history $r$ and the RatUp factor $x$. The displayed Rat carrier witness turns
+any witness of
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$ into
+contradiction.
+
+For the left-factor append boundary, apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the
+same RatUp factor $x$ and context history $r$. The same carrier witness turns
+any witness of $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$
+into contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_contextual\_singleton\_exclusion}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_contextual\_singleton\_exclusion}
+
+\begin{theorem}[Rat denominator unit contextual action strict-support singleton classifier exclusion]
+\label{thm:rat-denom-unit-contextual-action-strict-support-singleton-classifier-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the same empty endpoint
+and carried-context hypotheses as
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion},
+suppose also that $N_D^u(h)$ holds. Then for all histories $L,R:\mathsf{BHist}$
+the singleton empty classifier cannot classify the two contextual endpoints
+with the same strict-support tail:
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The contextual action support law reads the strict-support predicate of $x$ as
+the disjunction of the outer left support, inner left support, core support,
+inner right support, and outer right support. Insert the displayed witness
+$N_D^u(h)$ into the core disjunct to obtain $\mathsf{RatHistoryCarrier}(x)$.
+
+Package this witness with itself and reflexivity of $\hsame$ to obtain the
+concrete $\mathsf{RatHistoryClassifier}(x,x)$. The Rat/singleton boundary
+separation theorem
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
+then rules out any singleton empty classifier on
+$\mathsf{append}(L,x)$ and $\mathsf{append}(R,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_singleton\_classifier\_exclusion}
+
+\begin{theorem}[RatUp FieldUp transported strict-support singleton classifier exclusion]
+\label{thm:ratup-fieldup-transported-strict-support-singleton-classifier-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that the transported source endpoint carries strict RatUp support. Then for all
+histories $L,R:\mathsf{BHist}$,
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the strict RatUp support across the classified contextual pair, giving
+$\mathsf{RatHistoryCarrier}(x)$. Together with itself and reflexivity of
+$\hsame$, this forms the concrete classifier
+$\mathsf{RatHistoryClassifier}(x,x)$. The Rat/singleton boundary separation
+theorem
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
+then rejects any singleton empty classifier on the two appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_singleton\_classifier\_exclusion}
+
+\begin{theorem}[RatUp FieldUp iterated transported strict-support contextual singleton exclusion]
+\label{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$y:=\Gamma_{p',q',u',v'}(\Gamma_{p,q,u,v}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row},
+suppose also that $N_D^u(h)$ holds. Then the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate contains the following endpoint
+and contextual exclusion package:
+\begin{enumerate}
+  \item $C_D^u(y)$;
+  \item $N_D^u(y)$;
+  \item $\mathsf{RatHistoryCarrier}(y)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row} to the
+same carried context-pair comparisons. This supplies $C_D^u(y)$ and the
+strict-support equivalence
+$$
+N_D^u(y)\Longleftrightarrow N_D^u(h).
+$$
+
+Use the reverse direction of the equivalence with the assumed witness
+$N_D^u(h)$. This gives $N_D^u(y)$.
+
+Read the concrete strict support row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(z)=\mathsf{RatHistoryCarrier}(z)$ for every denominator history
+$z$, hence the support witness at $y$ gives $\mathsf{RatHistoryCarrier}(y)$.
+
+For the endpoint rejection, apply
+\autoref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$y$. A singleton-empty carrier witness at $y$ contradicts the Rat carrier
+witness just obtained.
+
+It remains to reject both contextual singleton boundaries. For any
+$r:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} to the context
+history $r$ and Rat carrier endpoint $y$, and apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} to the same
+two histories in the opposite append order.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp transported strict-support separation package]
+\label{thm:ratup-fieldup-transported-strict-support-separation-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate contains the following separation package:
+\begin{enumerate}
+  \item $C_D^u(x)$;
+  \item $N_D^u(x)$;
+  \item $\mathsf{RatHistoryCarrier}(x)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$;
+  \item $x\hsame\emp\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton} with the
+same denominator tuple, action, endpoint, and hypotheses. This recovers
+$C_D^u(x)$, $N_D^u(x)$, $\mathsf{RatHistoryCarrier}(x)$, and
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+
+It remains to separate the endpoint from the kernel empty history itself. Apply
+\autoref{thm:rat-history-carrier-not-empty} to the recovered
+$\mathsf{RatHistoryCarrier}(x)$ witness. The resulting map sends any equality
+$x\hsame\emp$ to contradiction, giving $x\hsame\emp\to\bot$.
+
+Collect these five clauses as the displayed transported strict-support
+separation package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_separation\_package}
+
+\begin{theorem}[RatUp FieldUp transported strict-support contextual nonzero package]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then for every context history $r:\mathsf{BHist}$ both
+proof-indexed inverse-domain witnesses hold:
+\begin{enumerate}
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+at the same denominator tuple, contextual action, transported endpoint, and
+strict-support witness. This gives the rejection maps
+$$
+\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot.
+$$
+
+For the right-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ as
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(r,x),\emp)\to\bot$.
+Any forbidden classifier witness contains the source carrier field
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$, contradicting the
+first rejection map.
+
+For the left-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$ as
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(x,r),\emp)\to\bot$.
+Any forbidden classifier witness contains the source carrier field
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$, contradicting the
+second rejection map.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_contextual\_nonzero\_package}
+
+\begin{theorem}[RatUp FieldUp transported strict-support inverse-domain classifier package]
+\label{thm:ratup-fieldup-transported-strict-support-inverse-domain-classifier-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate jointly contains the transported strict-support inverse-domain and
+classifier obstruction package:
+\begin{enumerate}
+  \item $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$;
+  \item for all $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} at the
+same denominator tuple, contextual action, transported endpoint, neutrality
+hypotheses, and strict-support witness. Its final clause gives the direct
+empty-history separation $x\hsame\emp\to\bot$.
+
+Next apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+with the same data. For each context history $r:\mathsf{BHist}$, this supplies
+both inverse-domain witnesses
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ and
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$.
+
+Finally apply
+\autoref{thm:rat-denom-unit-contextual-action-strict-support-singleton-classifier-exclusion}
+with the same transported endpoint and strict-support source witness. For all
+$L,R:\mathsf{BHist}$, it gives the classifier obstruction on the two append
+contexts carrying the common strict-support tail $x$.
+\end{proof}
+
+Per-object template: traditional target $\FieldUp(\mathsf{RatUp})$
+strict-support inverse-domain separation; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{append}$, contextual action $\Gamma$,
+and strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+obstruction $\mathsf{fieldSingletonEmptyClassifier}$; stability obligations
+transported support neutrality, contextual nonzero, and singleton-classifier
+exclusion; ledger transported endpoint plus append contexts; core theorem
+\autoref{thm:ratup-fieldup-transported-strict-support-inverse-domain-classifier-package};
+exactness simultaneous nonzero complement and singleton-classifier rejection;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp concrete exit certificate package]
+\label{thm:ratup-fieldup-concrete-exit-certificate-package}
+For Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} and the
+source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate simultaneously contains the
+following certificate data:
+\begin{enumerate}
+  \item the obligation rows of \autoref{def:field-certificate-obligations};
+  \item the denominator multiplicative coverage of
+  \autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage};
+  \item the concrete exit-row closure of
+  \autoref{thm:ratup-fieldup-concrete-exit-row-closure};
+  \item the empty-context nondegenerate witness of
+  \autoref{thm:ratup-fieldup-empty-context-nondegenerate-witness};
+  \item the transported strict-support non-singleton endpoint of
+  \autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}.
+\end{enumerate}
+Hence the exit package is a concrete $\mathsf{BHist}$-anchored
+$\mathsf{ProofTarget}$ over $\mathsf{RatUpFieldSource}_F$, not an abstract
+operator schema.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:field-certificate-obligations}. It fixes the rows that a
+$\FieldUp(\mathsf{RatUp})$ certificate must carry: source, carrier, classifier,
+ring base, apartness, inverse, product, denominator, contextual denominator,
+affine, ledger, exactness, and status rows.
+
+Next apply
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}.
+This supplies the denominator multiplicative row coverage inside the same field
+certificate language, so the denominator component is read as a certificate row
+rather than as an external monoid fact.
+
+Apply \autoref{thm:ratup-fieldup-concrete-exit-row-closure}. It repacks the
+semantic certificate rows, source anchoring rows, support-sensitive coverage, and
+non-singleton endpoint data as one concrete exit-row closure over
+$\mathsf{RatUpFieldSource}_F$.
+
+The nondegenerate empty-context component is supplied by
+\autoref{thm:ratup-fieldup-empty-context-nondegenerate-witness}. It gives the
+wrapped rational endpoint, its rational-history carrier witness, its singleton
+empty rejection map, and the nonzero-complement clause under empty singleton
+wrappers.
+
+Finally apply
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}. This gives
+the transported endpoint clauses $C_D^u(x)$, $N_D^u(x)$,
+$\mathsf{RatHistoryCarrier}(x)$, and
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+
+Combining these five cited sites yields a single concrete
+$\mathsf{BHist}$-anchored certificate package with status
+$\mathsf{ProofTarget}$. Its data are the rows of the displayed
+$\FieldUp(\mathsf{RatUp})$ instance, so the conclusion is a concrete exit
+certificate for $\mathsf{RatUpFieldSource}_F$ and not an abstract operator
+schema.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp transported strict-support contextual separation package]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-separation-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate contains all seven clauses:
+\begin{enumerate}
+  \item $C_D^u(x)$;
+  \item $N_D^u(x)$;
+  \item $\mathsf{RatHistoryCarrier}(x)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$;
+  \item $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} with
+the same denominator tuple, contextual action, endpoint, and hypotheses. This
+supplies the carried endpoint, transported strict support, Rat carrier witness,
+singleton endpoint exclusion, and direct empty-history separation.
+
+It remains to attach the two contextual singleton exclusions. Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+with the same transported endpoint and support witness. For each
+$r:\mathsf{BHist}$, this gives the left-context and right-context rejection maps
+for $\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$.
+
+Collect the five endpoint clauses from the separation package and the two
+contextual clauses from singleton exclusion as the displayed seven-clause
+certificate row.
+\end{proof}
+
+Per-object template: traditional target constructive $\FieldUp$ exit separation;
+BEDC source $\mathsf{RatUpFieldSource}_F$, contextual action $\Gamma$, and
+strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability obligations transported support
+neutrality plus Rat/singleton separation; ledger contextual-pair action and
+denominator support; core theorems
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton},
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion},
+\autoref{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion},
+and
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+and
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package};
+exactness predicate transported and iterated transported strict-support
+non-collapse plus contextual singleton exclusion, and direct internal-nonempty
+endpoint separation; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp transported exit row nondegenerate closure]
+\label{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the single concrete
+$\FieldUp(\mathsf{RatUp})$ exit row package simultaneously contains:
+\begin{enumerate}
+  \item the semantic certificate assembly and source anchoring rows recorded by
+  \autoref{thm:ratup-fieldup-concrete-exit-row-closure};
+  \item the transported carrier clause $C_D^u(x)$ and the strict-support
+  equivalence
+  $$
+  N_D^u(x)\Longleftrightarrow N_D^u(h);
+  $$
+  \item the endpoint facts $C_D^u(x)$, $N_D^u(x)$,
+  $\mathsf{RatHistoryCarrier}(x)$, and
+  $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$;
+  \item the separation clause that no carrier-coverage map
+  $$
+  \kappa:\mathsf{RatHistoryCarrier}(x)\to
+  \mathsf{fieldSingletonEmptyCarrier}(x)
+  $$
+  exists for the transported strict-support endpoint of this exit row.
+\end{enumerate}
+Thus the transported endpoint, its concrete exit-row closure, and its
+source-anchored certificate rows are one nondegenerate
+$\FieldUp(\mathsf{RatUp})$ exit package.
+\end{theorem}
+\begin{proof}
+First fix the row package. Apply
+\autoref{thm:ratup-fieldup-concrete-exit-row-closure}. It identifies the
+concrete $\FieldUp(\mathsf{RatUp})$ exit rows over
+$\mathsf{RatUpFieldSource}_F$ and records the semantic certificate assembly
+together with the source anchoring rows.
+
+Next read the transported endpoint. Apply
+\autoref{thm:ratup-fieldup-exit-transported-support-nondegenerate} under the
+same hypotheses. This supplies the transported carrier clause $C_D^u(x)$ and
+the strict-support equivalence
+$$
+N_D^u(x)\Longleftrightarrow N_D^u(h).
+$$
+Using the assumed witness $N_D^u(h)$ gives $N_D^u(x)$.
+
+Now use the preceding endpoint theorem
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}. It gives
+the concrete Rat carrier witness $\mathsf{RatHistoryCarrier}(x)$ and the
+singleton rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$ for the same endpoint.
+
+It remains to rule out coverage by the singleton empty-history source. Suppose
+that a carrier-coverage map
+$$
+\kappa:\mathsf{RatHistoryCarrier}(x)\to
+\mathsf{fieldSingletonEmptyCarrier}(x)
+$$
+exists at this transported strict-support endpoint. Applying $\kappa$ to the
+witness $\mathsf{RatHistoryCarrier}(x)$ gives
+$\mathsf{fieldSingletonEmptyCarrier}(x)$, contradicting the displayed rejection
+map. Hence no such carrier-coverage map exists.
+\end{proof}
