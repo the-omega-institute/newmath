@@ -742,3 +742,50 @@ $$
 j\sim_C x\vee y .
 $$
 \end{proof}
+
+\begin{lemma}[Directed meet associativity comparison from bounds]
+\label{lem:lattice-directed-meet-associativity-comparison-from-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le$ and classifier $\sim_C$. Assume the inherited $\PreorderUp$ transitivity field from \autoref{def:preorder-stability-certificate} and the directional meet lower-bound and greatest-lower-bound implication fields from \autoref{def:lattice-stability-certificate}. Then for all $x,y,z\in A$,
+$$
+(x\wedge y)\wedge z\le x\wedge(y\wedge z).
+$$
+\end{lemma}
+\begin{proof}
+Put
+$$
+w=(x\wedge y)\wedge z.
+$$
+The meet lower-left field gives
+$$
+w\le x\wedge y,
+$$
+and the meet lower-left field applied to $x\wedge y$ gives
+$$
+x\wedge y\le x.
+$$
+By the inherited preorder transitivity field,
+$$
+w\le x.
+$$
+The meet lower-right field applied to $x\wedge y$ gives
+$$
+x\wedge y\le y,
+$$
+so transitivity with $w\le x\wedge y$ gives
+$$
+w\le y.
+$$
+The meet lower-right field applied to $w=(x\wedge y)\wedge z$ gives
+$$
+w\le z.
+$$
+Applying meet greatestness to the two bounds $w\le y$ and $w\le z$ gives
+$$
+w\le y\wedge z.
+$$
+A second application of meet greatestness, now to $w\le x$ and $w\le y\wedge z$, gives
+$$
+w\le x\wedge(y\wedge z).
+$$
+Substituting the displayed definition of $w$ is the required comparison.
+\end{proof}
