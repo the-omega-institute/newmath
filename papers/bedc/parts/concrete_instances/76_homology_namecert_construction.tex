@@ -68,6 +68,20 @@ append law identifies that history with $d(\mathsf{append}(u,v))$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_closed}
 
+\begin{theorem}[Homology boundary carrier append hsame transport]
+\label{thm:homology-boundary-carrier-append-hsame-transport}
+Assume the differential respects BEDC continuation append. If $B_d(h)$ and
+$B_d(k)$ and $\hsame(\mathsf{append}(h,k),r)$, then $B_d(r)$.
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ for $h$ and $k$. Their appended BEDC
+preimage $\mathsf{append}(u,v)$ maps, by the differential append law, to the
+same endpoint as $\mathsf{append}(d(u),d(v))$. The two boundary endpoint
+comparisons identify $\mathsf{append}(h,k)$ with this value, and the final
+$\hsame$ comparison transports the image witness to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
+
 \begin{theorem}[Homology boundary carrier cycle from square-zero differential]
 \label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
 Assume the differential respects $\hsame$ and satisfies the square-zero
@@ -112,6 +126,21 @@ hypothesis. The ordinary cycle append closure then applies to the two cycle
 histories $h$ and $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_cycle\_closed}
+
+\begin{theorem}[Homology cycle-boundary append hsame transport]
+\label{thm:homology-cycle-boundary-append-hsame-transport}
+Assume the differential respects BEDC continuation append, is square-zero, and
+respects $\hsame$. If $Z_d(h)$, $B_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The square-zero row turns the boundary hypothesis on $k$ into a cycle
+hypothesis. Cycle-boundary append closure therefore gives a cycle at
+$\mathsf{append}(h,k)$. Differential congruence transports the final endpoint
+comparison to $d(r)$, and symmetry followed by transitivity gives
+$\hsame(d(r),\mathsf{Empty})$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_hsame\_transport}
 
 \section{The certificate}
 \label{sec:homology-certificate}
