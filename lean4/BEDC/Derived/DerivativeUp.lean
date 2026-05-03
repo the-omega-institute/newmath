@@ -79,6 +79,28 @@ theorem DerivativeMetricQuotient_hsame_transport
                                   (And.intro metricWitness'
                                     (And.intro diffLedger' metricLedger')))
 
+theorem DerivativeMetricQuotient_distance_result_nonempty {f z h q dist : BHist} :
+    DerivativeMetricQuotient f z h q dist -> hsame dist BHist.Empty -> False := by
+  intro quotient sameDist
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier rest =>
+                  cases rest with
+                  | intro _diffLedger rest =>
+                      cases rest with
+                      | intro _stepCarrier rest =>
+                          cases rest with
+                          | intro _distCarrier metricLedger =>
+                              have emptyLedger : Cont h q BHist.Empty :=
+                                cont_result_hsame_transport metricLedger sameDist
+                              have endpoints := cont_empty_result_inversion emptyLedger
+                              exact stepNonzero endpoints.left
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by

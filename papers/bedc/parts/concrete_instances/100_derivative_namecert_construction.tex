@@ -52,6 +52,20 @@ Reassembling these transported fields gives all stated components.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
 
+\begin{theorem}[Derivative metric quotient distance result is nonempty]
+\label{thm:derivative-metric-quotient-distance-result-nonempty}
+For histories $f,z,h,q,dist:\mathsf{BHist}$, a derivative metric quotient
+cannot have a metric-distance result classified as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the derivative metric quotient. Its metric ledger is a continuation
+$\Cont(h,q,dist)$, while the step field says that $h$ is complex-nonzero.
+Transport the continuation result along $dist\hsame\emp$. Empty-result
+inversion for $\Cont$ forces $h\hsame\emp$, contradicting the complex-nonzero
+step witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_result\_nonempty}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
