@@ -115,6 +115,56 @@ $\mathsf{BMark.b1}$ branch is the right-nested denominator endpoint.
 \leandef{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_endpoint\_selector}
 \leandef{BEDC.Derived.FieldUp.FieldRatBracketingEndpointSelector}
 
+\begin{theorem}[RatUp FieldUp bracketing endpoint selector carrier coverage]
+\label{thm:ratup-fieldup-bracketing-endpoint-selector-carrier-coverage}
+For histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, if
+$$
+(N_D^u(h)\vee N_D^u(k))\vee N_D^u(\ell)
+$$
+holds, then both concrete bracketings carry rational denominator support, and
+every selected endpoint $E_s(h,k,\ell)$ carries that support:
+$$
+N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))
+\wedge N_D^u(\mu_D^u(h,\mu_D^u(k,\ell)))
+\wedge \forall s:\mathsf{BMark},\, N_D^u(E_s(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+First close $C_D^u(h)$ and $C_D^u(k)$ under continuation to obtain
+$C_D^u(\mu_D^u(h,k))$. Split the concrete support disjunction. A support
+witness on $h$ or $k$ closes the left bracketing by the left or right append
+carrier law and then appends $\ell$; a support witness on $\ell$ closes the
+left bracketing from the carried prefix. Associativity transports this carrier
+to the right bracketing. Finally, case analysis on $s:\mathsf{BMark}$ returns
+the corresponding carried endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_endpoint\_selector\_carrier\_coverage}
+
+\begin{theorem}[RatUp FieldUp bracketing endpoint selector sameness]
+\label{thm:ratup-fieldup-bracketing-endpoint-selector-same}
+For all histories $h,k,\ell:\mathsf{BHist}$, every selected endpoint
+$E_s(h,k,\ell)$ is classified with one of the two concrete bracketings, and
+any two selected endpoints are $\hsame$:
+$$
+\forall s:\mathsf{BMark},\,
+E_s(h,k,\ell)\hsame \mu_D^u(\mu_D^u(h,k),\ell)
+\vee
+E_s(h,k,\ell)\hsame \mu_D^u(h,\mu_D^u(k,\ell)),
+$$
+$$
+\forall s,t:\mathsf{BMark},\,
+E_s(h,k,\ell)\hsame E_t(h,k,\ell).
+$$
+\end{theorem}
+\begin{proof}
+Case analysis on $s$ gives either the left bracketing or the right bracketing
+by definition of the selector. For the pairwise statement, case analysis on
+$s$ and $t$ leaves the two diagonal cases, closed by reflexivity, and the two
+crossed cases, closed by associativity and symmetry of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_endpoint\_selector\_same}
+
 \begin{theorem}[RatUp FieldUp bracketing choice classifier exclusion]
 \label{thm:ratup-fieldup-bracketing-choice-classifier-exclusion}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and

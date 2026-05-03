@@ -61,6 +61,24 @@ and empty identity exactness rebuilds the displayed empty hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_morphism\_endpoint\_iff}
 
+\begin{theorem}[Category empty morphism endpoint induction]
+\label{thm:category-hom-carrier-empty-morphism-endpoint-induction}
+Let $P:\mathsf{BHist}\to\mathsf{Prop}$ be any predicate with base case
+$P(\emp)$ and one-step closure
+$$
+\forall h:\mathsf{BHist},\quad
+\mathsf{UnaryHistory}(h)\to P(h)\to P(\Eone(h)).
+$$
+If $\mathsf{CategoryHomCarrier}(a,b,\emp)$ holds, then $P(a)\wedge P(b)$.
+\end{theorem}
+\begin{proof}
+Empty-morphism endpoint exactness identifies the hom-carrier with a unary
+source $a$ and a classifier $a\hsame b$. Unary induction gives $P(a)$ from the
+base and step clauses. The endpoint classifier transports this value from
+$a$ to $b$, producing both endpoint conclusions.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_morphism\_endpoint\_induction}
+
 \input{parts/concrete_instances/category/endomorphism_empty_exactness}
 
 \begin{theorem}[Category one-headed source empty morphism exactness]

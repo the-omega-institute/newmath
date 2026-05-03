@@ -274,6 +274,7 @@ import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.NonemptyMorphismIff
 import BEDC.Derived.CategoryUp.MorphismEmptyEndpoint
+import BEDC.Derived.CategoryUp.MorphismEndpointInduction
 import BEDC.Derived.CategoryUp.EndpointCycle
 import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
 import BEDC.Derived.CategoryUp.SemanticCertificate

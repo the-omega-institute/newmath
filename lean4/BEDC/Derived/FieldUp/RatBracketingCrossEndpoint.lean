@@ -157,4 +157,62 @@ theorem ratup_fieldup_bracketing_selector_classifier_exclusion {h k l : BHist} :
     And.intro (selectedCarrier s) (And.intro (selectedCarrier t) (selectedSame s t))
   exact fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd classified singleton
 
+theorem ratup_fieldup_bracketing_endpoint_selector_carrier_coverage {h k l : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
+        RatHistoryCarrier (append (append h k) l) ∧
+          RatHistoryCarrier (append h (append k l)) ∧
+            (forall s : BEDC.FKernel.Mark.BMark,
+              RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l s)) := by
+  intro carrierH carrierK carrierL support
+  have carrierHK : RatDenomUnitCarrier (append h k) :=
+    RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
+  have ratLeft : RatHistoryCarrier (append (append h k) l) := by
+    cases support with
+    | inl leftSupport =>
+        cases leftSupport with
+        | inl ratH =>
+            have ratHK : RatHistoryCarrier (append h k) :=
+              RatDenomUnitCarrier_append_left_rat_closed ratH carrierK
+            exact RatDenomUnitCarrier_append_left_rat_closed ratHK carrierL
+        | inr ratK =>
+            have ratHK : RatHistoryCarrier (append h k) :=
+              RatDenomUnitCarrier_append_right_rat_closed carrierH ratK
+            exact RatDenomUnitCarrier_append_left_rat_closed ratHK carrierL
+    | inr ratL =>
+        exact RatDenomUnitCarrier_append_right_rat_closed carrierHK ratL
+  have ratRight : RatHistoryCarrier (append h (append k l)) :=
+    RatHistoryCarrier_hsame_transport (append_assoc h k l) ratLeft
+  constructor
+  · exact ratLeft
+  · constructor
+    · exact ratRight
+    · intro s
+      cases s with
+      | b0 => exact ratLeft
+      | b1 => exact ratRight
+
+theorem ratup_fieldup_bracketing_endpoint_selector_same {h k l : BHist} :
+    (forall s : BEDC.FKernel.Mark.BMark,
+      hsame (ratup_fieldup_bracketing_endpoint_selector h k l s) (append (append h k) l) ∨
+        hsame (ratup_fieldup_bracketing_endpoint_selector h k l s) (append h (append k l))) ∧
+      (forall s t : BEDC.FKernel.Mark.BMark,
+        hsame (ratup_fieldup_bracketing_endpoint_selector h k l s)
+          (ratup_fieldup_bracketing_endpoint_selector h k l t)) := by
+  constructor
+  · intro s
+    cases s with
+    | b0 => exact Or.inl (hsame_refl (append (append h k) l))
+    | b1 => exact Or.inr (hsame_refl (append h (append k l)))
+  · intro s t
+    cases s with
+    | b0 =>
+        cases t with
+        | b0 => exact hsame_refl (append (append h k) l)
+        | b1 => exact append_assoc h k l
+    | b1 =>
+        cases t with
+        | b0 => exact hsame_symm (append_assoc h k l)
+        | b1 => exact hsame_refl (append h (append k l))
+
 end BEDC.Derived.FieldUp
