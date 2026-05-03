@@ -50,6 +50,14 @@ theorem NatMul_left_unary {d q n : BHist} : NatMul d q n -> UnaryHistory d := by
   | zero hd => exact hd
   | succ _ _ ih => exact ih
 
+theorem NatMul_right_unary {d q n : BHist} : NatMul d q n -> UnaryHistory q := by
+  intro mul
+  induction mul with
+  | zero _hd =>
+      exact unary_empty
+  | succ _prev _step ih =>
+      exact unary_e1_closed ih
+
 theorem NatMul_result_unary {d q n : BHist} :
     UnaryHistory d -> NatMul d q n -> UnaryHistory n := by
   intro hd mul
@@ -200,6 +208,23 @@ inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)
   | succ {n m m' : BHist} : NatFact n m -> NatMul (BHist.e1 n) m m' ->
       NatFact (BHist.e1 n) m'
+
+theorem NatFact_result_not_empty {n m : BHist} :
+    NatFact n m -> hsame m BHist.Empty -> False := by
+  intro fact
+  induction fact with
+  | zero =>
+      intro resultEmpty
+      exact not_hsame_e1_empty resultEmpty
+  | succ _prevFact mul ih =>
+      intro resultEmpty
+      cases resultEmpty
+      have previousEmpty : hsame _ BHist.Empty :=
+        Iff.mp
+          (NatMul_nonempty_multiplicand_empty_result_iff
+            (NatMul_left_unary mul) not_hsame_e1_empty)
+          mul
+      exact ih previousEmpty
 
 theorem NatFact_total_functional {n : BHist} :
     UnaryHistory n ->

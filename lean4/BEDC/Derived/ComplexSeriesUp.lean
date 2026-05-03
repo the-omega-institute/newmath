@@ -12,6 +12,19 @@ inductive ComplexPartSum (zero : BHist) (c : BHist -> BHist) : BHist -> BHist ->
   | step {n S T : BHist} :
       ComplexPartSum zero c n S -> Cont S (c n) T -> ComplexPartSum zero c (BHist.e1 n) T
 
+theorem ComplexPartSum_index_cases {zero : BHist} {c : BHist -> BHist} {n S : BHist} :
+    ComplexPartSum zero c n S ->
+      (n = BHist.Empty ∧ hsame S zero) ∨
+        exists m P : BHist, n = BHist.e1 m ∧
+          ComplexPartSum zero c m P ∧ Cont P (c m) S := by
+  intro sum
+  cases sum with
+  | zero =>
+      exact Or.inl (And.intro rfl (hsame_refl zero))
+  | step prev stepCont =>
+      exact Or.inr (Exists.intro _ (Exists.intro _
+        (And.intro rfl (And.intro prev stepCont))))
+
 theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T : BHist} :
     ComplexPartSum zero c n S -> ComplexPartSum zero c n T -> hsame S T := by
   intro left

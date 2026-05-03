@@ -37,6 +37,20 @@ For a term sequence \(c\), the complex partial-sum predicate \(\mathsf{ComplexPa
 \end{definition}
 \leandef{BEDC.Derived.ComplexSeriesUp.ComplexPartSum}
 
+\begin{lemma}[Complex partial-sum index cases]
+\label{lem:complex-part-sum-index-cases}
+Every closed witness of $\mathsf{ComplexPartSum}(c,n,S)$ either has the zero
+index $n=\emp$ and identifies $S$ with the chosen zero history, or has a
+successor index $n=\Eone(m)$ together with a predecessor partial sum and the
+continuation step from that predecessor to $S$.
+\end{lemma}
+\begin{proof}
+Invert the closed partial-sum witness. The zero constructor gives the empty
+index and the base history. The step constructor exposes the predecessor index,
+predecessor sum, and continuation payload directly.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_index\_cases}
+
 \begin{lemma}[Partial sums are complex histories]
 \label{lem:complex-part-sum-well-defined}
 For every term sequence \(c\) and unary \(n\), any two histories obtained from
