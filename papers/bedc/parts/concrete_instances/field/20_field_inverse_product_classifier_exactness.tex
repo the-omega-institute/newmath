@@ -1,0 +1,86 @@
+\begin{theorem}[Field inverse product classifier exactness from apartness]
+\label{thm:field-inverse-product-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:field-product-nonzero-of-nonzero-factors},
+\autoref{thm:field-inverse-classifier-exact-from-apartness}, and
+\autoref{thm:field-inverse-product-reverse-from-apartness}, assume a bridge
+$$
+\alpha:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h)
+$$
+and witnesses $p_a:\mathsf{NonZero}_F(a)$,
+$p_b:\mathsf{NonZero}_F(b)$, $p_c:\mathsf{NonZero}_F(c)$, and
+$p_d:\mathsf{NonZero}_F(d)$. Let $p_{ab}$ and $p_{cd}$ be the product nonzero
+witnesses for $\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ supplied by
+\autoref{thm:field-product-nonzero-of-nonzero-factors}. Then
+$$
+\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d) \Longleftrightarrow
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame
+\mathsf{mul}(\mathsf{inv}(d,p_d),\mathsf{inv}(c,p_c)).
+$$
+\end{theorem}
+\begin{proof}
+First build the product witnesses. Apply
+\autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_a$ and $p_b$,
+using the bridge $\alpha$, to obtain
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$. Apply the same theorem to
+$p_c$ and $p_d$ to obtain
+$p_{cd}:\mathsf{NonZero}_F(\mathsf{mul}(c,d))$.
+
+For the forward direction, apply
+\autoref{thm:field-inverse-classifier-exact-from-apartness} to the two product
+endpoints with witnesses $p_{ab}$ and $p_{cd}$. The resulting inverse equality
+has endpoints $\mathsf{inv}(\mathsf{mul}(a,b),p_{ab})$ and
+$\mathsf{inv}(\mathsf{mul}(c,d),p_{cd})$. Apply
+\autoref{thm:field-inverse-product-reverse-from-apartness} on both sides, and
+transport across these two reversal equalities by symmetry and transitivity of
+$\hsame$.
+
+For the reverse direction, start with the displayed reversed-product equality.
+Use the same two product reversal equalities, now in the opposite transport
+orientation, to obtain
+$\mathsf{inv}(\mathsf{mul}(a,b),p_{ab})\hsame
+\mathsf{inv}(\mathsf{mul}(c,d),p_{cd})$. The reverse implication of
+\autoref{thm:field-inverse-classifier-exact-from-apartness} then gives
+$\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_product\_classifier\_exact\_from\_apartness}
+
+\begin{theorem}[Field apart-product inverse classifier exactness from apartness]
+\label{thm:field-apart-product-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+multiplication associativity, left and right unit laws, multiplication
+congruence under $\hsame$, and proof-indexed left and right inverse laws,
+assume a bridge
+$$
+\alpha:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h).
+$$
+If $\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ are explicitly apart from
+$\emp$ and $p_a,p_b,p_c,p_d$ are nonzero witnesses for the four factors, then
+$$
+\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d) \Longleftrightarrow
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame
+\mathsf{mul}(\mathsf{inv}(d,p_d),\mathsf{inv}(c,p_c)).
+$$
+\end{theorem}
+\begin{proof}
+Apply $\alpha$ to the two explicit product-apartness hypotheses to obtain
+the indexed nonzero witnesses for $\mathsf{mul}(a,b)$ and
+$\mathsf{mul}(c,d)$. The inverse classifier exactness theorem converts
+product equality into equality of the two certified product inverses, and
+product inverse reversal identifies those certified inverses with the two
+displayed reversed inverse products. The reverse implication uses the same
+two reversal equalities in the opposite transport orientation before applying
+inverse cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_product\_inverse\_classifier\_exact\_from\_apartness}
+
+Per-object certificate: Traditional target: product inverse classifier
+exactness. BEDC source: $\FieldUp$ over $\mathsf{BHist}$ plus product nonzero.
+Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability
+obligations: inverse exactness, product nonzero construction, product reversal,
+and $\hsame$ transport. Ledger: four factor witnesses $p_a,p_b,p_c,p_d$ and two
+product witnesses $p_{ab},p_{cd}$. Core theorem list:
+Theorem~\ref{thm:field-inverse-product-classifier-exact-from-apartness}.
+Exactness predicate: the displayed iff. Standard bridge: deferred. Status:
+$\mathsf{ProofTarget}$.

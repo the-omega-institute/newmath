@@ -1,0 +1,346 @@
+\section{The certificate}
+\begin{definition}[Field source specification]
+\label{def:field-source-specification}
+The source is a certified commutative ring carrier plus constructive apartness from zero, packaged through the derived predicate $\mathsf{NonZero}_F$.
+\end{definition}
+\begin{definition}[Field pattern specification]
+\label{def:field-pattern-specification}
+The pattern is commutative-ring expression formation extended by inverse formation only from a pair $(a,p)$ with $p:\mathsf{NonZero}_F(a)$.
+\end{definition}
+\begin{definition}[Field classifier specification]
+\label{def:field-classifier-specification}
+The classifier is ring sameness $\sim_F$. Nonzero evidence is stable under classifier replacement: from $a\sim_F b$ and $p:\mathsf{NonZero}_F(a)$ the certificate supplies transported evidence $q:\mathsf{NonZero}_F(b)$.
+\end{definition}
+\begin{definition}[Field stability certificate]
+\label{def:field-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all commutative-ring stability fields
+  \item contradiction of $\mathsf{NonZero}_F(0)$
+  \item stability of $\mathsf{NonZero}_F$ under the carrier classifier
+  \item inverse closure for explicit witnesses $p:\mathsf{NonZero}_F(a)$
+  \item left and right multiplicative inverse laws indexed by each witness $p:\mathsf{NonZero}_F(a)$
+\end{enumerate}
+\end{definition}
+\begin{theorem}[Field inverse congruence from apartness transport]
+\label{thm:field-inverse-congruence-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on $\mathsf{BHist}$, a unit $1$, a unary nonzero certificate $\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by $p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit laws, multiplication congruence under $\hsame$, and left and right inverse laws indexed by nonzero witnesses, if $a\hsame b$, $p:\mathsf{NonZero}_F(a)$, and $q:\mathsf{NonZero}_F(b)$ is any available witness, then $\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$. When $q$ is obtained from $p$ along $a\hsame b$, the certificate transport clause supplies that witness.
+\end{theorem}
+\begin{proof}
+Transport the left inverse law for $\mathsf{inv}(a,p)$ across $a\hsame b$ to obtain a left inverse witness over $b$. Combine this transported witness with the right inverse law for $\mathsf{inv}(b,q)$ at $b$. The group left/right inverse uniqueness argument, applied inside the multiplicative group of nonzero field elements, identifies the transported inverse with the chosen inverse at $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_congruence\_from\_apartness}
+
+\begin{theorem}[Field inverse cancel from apartness-indexed inverses]
+\label{thm:field-inverse-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, a unary nonzero certificate
+$\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by
+$p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit
+laws, multiplication congruence under $\hsame$, and left and right inverse
+laws indexed by nonzero witnesses, if $p:\mathsf{NonZero}_F(a)$,
+$q:\mathsf{NonZero}_F(b)$, and
+$\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$, then $a\hsame b$.
+\end{theorem}
+\begin{proof}
+Transport the left inverse law for $a$ across the equality of
+proof-indexed inverses to make $a$ a right inverse of the common inverse
+$\mathsf{inv}(b,q)$. The right inverse law for $b$ makes $b$ the
+matching left inverse. Group left/right inverse uniqueness identifies $b$
+with $a$, and symmetry gives $a\hsame b$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_cancel\_from\_apartness}
+
+\begin{theorem}[Field inverse classifier exactness from apartness]
+\label{thm:field-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, a unary nonzero certificate
+$\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by
+$p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit
+laws, multiplication congruence under $\hsame$, and left and right inverse
+laws indexed by nonzero witnesses, any elements $a,b:\mathsf{BHist}$ with
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ satisfy
+$$
+a\hsame b \Longleftrightarrow
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:field-inverse-congruence-from-apartness} to $a\hsame b$, using
+the displayed witnesses $p_a$ and $p_b$ as the two proof indices. This gives
+the classifier equality of the two indexed inverses.
+
+For the reverse direction, apply
+\autoref{thm:field-inverse-cancel-from-apartness} to the supplied equality
+between indexed inverses. Its cancellation conclusion is exactly $a\hsame b$,
+so the two implications combine into the stated classifier exactness.
+\end{proof}
+
+\begin{theorem}[Field apart-zero inverse classifier exactness from apartness]
+\label{thm:field-apart-zero-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate supplying multiplication on
+$\mathsf{BHist}$, a unit $1$, and proof-indexed inverses over the concrete
+apart-zero predicate $(x\hsame\emp)\to\bot$, multiplicative associativity,
+left and right unit laws, multiplication congruence under $\hsame$, and left
+and right inverse laws indexed by apart-zero witnesses imply that any
+$a,b:\mathsf{BHist}$ with witnesses
+$p_a:(a\hsame\emp)\to\bot$ and $p_b:(b\hsame\emp)\to\bot$ satisfy
+$$
+a\hsame b \Longleftrightarrow
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, use inverse congruence from apartness with
+$\mathsf{NonZero}_F(x)$ instantiated by the concrete predicate
+$(x\hsame\emp)\to\bot$. For the reverse direction, use inverse cancellation
+from apartness under the same instantiation. The two implications give the
+displayed exact classifier equivalence for apart-zero indexed inverses.
+\end{proof}
+
+\begin{theorem}[Field inverse is nonzero under one-apartness]
+\label{thm:field-inverse-nonzero-from-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, zero $0$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-left
+multiplication $\mathsf{mul}(0,x)\hsame 0$, left inverse law
+$\mathsf{mul}(\mathsf{inv}(a,p),a)\hsame 1$, one-apartness
+$\omega:(1\hsame 0)\to\bot$, and conversion maps
+$\alpha_x:((x\hsame 0)\to\bot)\to\mathsf{NonZero}_F(x)$, every witness
+$p_a:\mathsf{NonZero}_F(a)$ canonically determines
+$$
+\mathsf{NonZero}_F(\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+Fix $p_a:\mathsf{NonZero}_F(a)$. It is enough to build a contradiction
+from a hypothetical equality $\mathsf{inv}(a,p_a)\hsame 0$, because
+$\alpha_{\mathsf{inv}(a,p_a)}$ converts that negated zero equality into
+the required $\mathsf{NonZero}_F$ witness.
+
+Assume $h:\mathsf{inv}(a,p_a)\hsame 0$. Multiplication congruence transports
+$h$ after right multiplication by $a$, giving
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame\mathsf{mul}(0,a)$. The zero-left
+law gives $\mathsf{mul}(0,a)\hsame 0$, so transitivity yields
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame 0$.
+
+The left inverse law gives
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)\hsame 1$. Composing this equality with
+the equality just obtained gives $1\hsame 0$, contradicting $\omega$. Thus
+the assumed zero equality has a constructive refutation, and applying
+$\alpha_{\mathsf{inv}(a,p_a)}$ produces
+$\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_nonzero\_from\_one\_apartness}
+
+\begin{theorem}[Field inverse is apart from empty under one-apartness]
+\label{thm:field-inverse-apart-empty-from-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-left
+multiplication $\mathsf{mul}(0,x)\hsame 0$, left inverse law
+$\mathsf{mul}(\mathsf{inv}(a,p),a)\hsame 1$, and one-apartness
+$\omega:(1\hsame 0)\to\bot$, every witness $p_a:\mathsf{NonZero}_F(a)$
+constructively refutes
+$$
+\mathsf{inv}(a,p_a)\hsame 0.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{inv}(a,p_a)\hsame 0$. Multiplication congruence transports
+this equality through right multiplication by $a$, and the zero-left law
+identifies the transported product with $0$. The left inverse law identifies
+the same product with $1$, so transitivity gives $1\hsame 0$, contradicting
+$\omega$.
+\end{proof}
+
+\begin{theorem}[Field inverse of an indexed nonzero inverse]
+\label{thm:field-inverse-involutive-nonzero-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with multiplication on
+$\mathsf{BHist}$, unit $1$, proof-indexed inverse $\mathsf{inv}(a,p)$,
+associativity, left and right identity, multiplication congruence, and left
+inverse laws indexed by nonzero witnesses, if
+$p_a:\mathsf{NonZero}_F(a)$ and
+$p_{\mathsf{inv}}:\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$, then
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\hsame a.
+$$
+Moreover, if this double inverse collapsed to $\emp$, then $a$ would collapse
+to $\emp$, contradicting the supplied nonzero-empty separation for $p_a$.
+\end{theorem}
+\begin{proof}
+Set the middle element in the inverse-uniqueness argument to
+$\mathsf{inv}(a,p_a)$. The left inverse law for $p_{\mathsf{inv}}$ gives
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\mathsf{inv}(a,p_a)\hsame 1.
+$$
+
+The left inverse law for $p_a$ gives
+$$
+\mathsf{inv}(a,p_a)a\hsame 1.
+$$
+
+Associativity, multiplication congruence, and the identity laws give the
+standard left/right inverse uniqueness chain
+$x\hsame x\,1\hsame x(yz)\hsame (xy)z\hsame 1\,z\hsame z$, with
+$x=\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})$,
+$y=\mathsf{inv}(a,p_a)$, and $z=a$. Hence the two outer witnesses are
+identified, which is the stated equality. A candidate collapse of the double
+inverse to $\emp$ transports along the symmetric equality to a collapse
+$a\hsame\emp$, and this contradicts the nonzero-empty separation for $p_a$.
+\end{proof}
+
+\begin{theorem}[Field inverse is a certified automorphism of the nonzero domain]
+\label{thm:field-inverse-nonzero-domain-automorphism}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+proof-indexed inverse $\mathsf{inv}(x,p)$, inverse laws indexed by
+nonzero witnesses, multiplication congruence under $\hsame$, zero-left
+multiplication, one-apartness $\omega:(1\hsame 0)\to\bot$, and conversion
+maps
+$$
+\alpha_x:((x\hsame 0)\to\bot)\to\mathsf{NonZero}_F(x),
+$$
+every witness $p_a:\mathsf{NonZero}_F(a)$ determines
+$$
+A:=\mathsf{inv}(a,p_a)
+$$
+and a witness $p_A:\mathsf{NonZero}_F(A)$ such that
+$$
+\mathsf{inv}(A,p_A)\hsame a.
+$$
+Moreover, for any $p_b:\mathsf{NonZero}_F(b)$,
+$$
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b)
+\Longleftrightarrow a\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+First construct the nonzero witness for the image. Apply
+\autoref{thm:field-inverse-nonzero-from-one-apartness} to $p_a$, using the
+given multiplication congruence, zero-left multiplication, left inverse law,
+one-apartness, and the conversion maps $\alpha_x$. This gives
+$p_A:\mathsf{NonZero}_F(A)$ for $A:=\mathsf{inv}(a,p_a)$.
+
+With this witness in hand, apply
+\autoref{thm:field-inverse-involutive-nonzero-from-apartness} to $p_a$ and $p_A$.
+The conclusion is exactly $\mathsf{inv}(A,p_A)\hsame a$, so inverse carries
+the nonzero domain back to the original element.
+
+For the classifier equivalence, apply
+\autoref{thm:field-inverse-classifier-exact-from-apartness} to the two
+explicit nonzero witnesses $p_a$ and $p_b$. Its two implications give
+$a\hsame b$ exactly when the indexed inverse images are $\hsame$-equal,
+which is the stated certified automorphism behavior on the nonzero domain.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_nonzero\_domain\_automorphism}
+
+\begin{theorem}[Field apart-zero inverse involution]
+\label{thm:field-apartzero-inverse-involutive}
+For a BEDC history-level $\FieldUp$ candidate whose inverse is indexed by
+explicit apartness from zero, suppose multiplication is associative, has left
+and right unit laws, respects $\hsame$, and has a left inverse law for every
+apart-zero witness. If the inverse operation sends apart-zero inputs to
+apart-zero outputs, then for every $a:\mathsf{BHist}$ and
+$p_a:a\hsame0\to\bot$,
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\hsame a,
+$$
+where $p_{\mathsf{inv}}$ is the supplied apart-zero witness for
+$\mathsf{inv}(a,p_a)$.
+\end{theorem}
+\begin{proof}
+Apply group left/right inverse uniqueness with middle element
+$\mathsf{inv}(a,p_a)$. The indexed left inverse law at the outer inverse gives
+the left inverse equality against the middle element, and the indexed left
+inverse law at $a$ gives the right inverse equality for the same middle
+element. The uniqueness chain identifies the two outer endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apartzero\_inverse\_involutive}
+
+\begin{theorem}[Field inverse product reversal from apartness-indexed inverses]
+\label{thm:field-inverse-product-reverse-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+explicit witnesses $p_{ab}:\mathsf{NonZero}_F(ab)$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$ determine
+the product inverse by
+$$
+\mathsf{inv}(ab,p_{ab})\hsame \mathsf{inv}(b,p_b)\mathsf{inv}(a,p_a).
+$$
+\end{theorem}
+\begin{proof}
+The reversed product $\mathsf{inv}(b,p_b)\mathsf{inv}(a,p_a)$ is a right
+inverse of $ab$: reassociate to expose $b\mathsf{inv}(b,p_b)$, collapse it
+to the unit, and finish with the right inverse law for $a$. The indexed left
+inverse of $ab$ and group uniqueness of left and right inverse witnesses
+identify the chosen inverse of $ab$ with this reversed product.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_product\_reverse\_from\_apartness}
+
+\begin{theorem}[Field inverse product reversal preserves nonzero from one apartness]
+\label{thm:field-inverse-product-reverse-nonzero-from-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+assume one is apart from empty, left zero absorption holds for multiplication,
+apart-empty evidence produces $\mathsf{NonZero}_F$, and
+$\mathsf{NonZero}_F$ transports along $\hsame$. If
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$, then
+$$
+\mathsf{NonZero}_F(
+  \mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))).
+$$
+\end{theorem}
+\begin{proof}
+The inverse of $\mathsf{mul}(a,b)$ is nonzero: if it classified as empty,
+left multiplication by $a b$ would classify its inverse product as empty,
+contradicting the indexed inverse law and the apartness of one from empty.
+\autoref{thm:field-inverse-product-reverse-from-apartness} identifies this
+inverse with the reversed product
+$\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))$.
+Transporting the nonzero witness across that classifier equality gives the
+displayed witness.
+\end{proof}
+
+\begin{theorem}[Field inverse product reversal is apart from empty]
+\label{thm:field-inverse-product-reverse-apart-empty-from-one-apartness}
+Under the hypotheses of
+\autoref{thm:field-inverse-product-reverse-nonzero-from-one-apartness}, if
+the field certificate also converts every $\mathsf{NonZero}_F(x)$ witness into
+a refutation of $x\hsame0$, then the reversed inverse product satisfies
+$$
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame0\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-inverse-product-reverse-nonzero-from-one-apartness} to
+obtain
+$\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))$.
+The nonzero-to-empty-apartness bridge then rejects any classifier equality
+from that product to empty.
+\end{proof}
+
+\begin{theorem}[Field inverse product reversal apartness transports across products]
+\label{thm:field-inverse-product-reverse-apart-empty-transport-from-product-hsame}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+suppose
+$$
+\mathsf{mul}(a,b)\hsame\mathsf{mul}(a',b').
+$$
+Given nonzero witnesses for both products and for all four factors, apartness
+from empty of
+$\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))$ transports to
+apartness from empty of
+$\mathsf{mul}(\mathsf{inv}(b',p_{b'}),\mathsf{inv}(a',p_{a'}))$.
+\end{theorem}
+\begin{proof}
+\autoref{thm:field-inverse-product-reverse-from-apartness} identifies each
+reversed inverse product with the inverse of its corresponding product.
+The product classifier equality transports between those two product inverses
+by inverse congruence. Symmetry and transitivity of $\hsame$ therefore identify
+the two reversed inverse products, so any classifier of the target reversed
+product as empty would classify the source reversed product as empty and
+contradict the supplied source apartness.
+\end{proof}
+
