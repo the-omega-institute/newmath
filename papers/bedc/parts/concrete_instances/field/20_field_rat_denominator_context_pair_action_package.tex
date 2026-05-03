@@ -385,3 +385,62 @@ exactness predicate threefold normalized action classifier and support readback;
 standard bridge FieldUp denominator context-pair action; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp denominator context-pair adjacent-swap coherence]
+\label{thm:ratup-fieldup-context-pair-adjacent-swap-exit-row}
+For the concrete denominator context-pair structure of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, assume that
+$(l_0,r_0)$, $(l_1,r_1)$, and $(l_2,r_2)$ are carried pairs and that
+$C_D^u(h)$. Let
+$$
+H_{012}:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))).
+$$
+Let
+$$
+H_{102}:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(h))).
+$$
+Then the two threefold denominator histories are denominator-classified:
+$$
+R_D^u(H_{012},H_{102}).
+$$
+Their strict-support readbacks agree:
+$$
+N_D^u(H_{012})
+\Longleftrightarrow
+N_D^u(H_{102}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes} to the two
+inner empty-endpoint actions with carried pairs $(l_0,r_0)$ and $(l_1,r_1)$.
+This gives a denominator classifier between
+$\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))$ and
+$\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(h))$.
+
+Transport this inner classifier through the common outer pair $(l_2,r_2)$ by
+\autoref{thm:rat-denom-unit-contextual-action-pair-transport-classifier}, using
+reflexivity for the outer left and right denominator contexts. The transported
+classifier is exactly $R_D^u(H_{012},H_{102})$ after unfolding the two displayed
+definitions.
+
+The denominator classifier contains the history-sameness field for the two acted
+histories. Reading the strict-support predicate $N_D^u$ through that field in
+both directions gives
+$N_D^u(H_{012})\Longleftrightarrow N_D^u(H_{102})$.
+\end{proof}
+
+Per-object template: traditional target adjacent-swap coherence for
+$\FieldUp(\mathsf{RatUp})$ denominator context-pair actions; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{append}$, $\Cont$, $\emp$, and $\Gamma$; carrier carried context pairs;
+classifier componentwise $R_D^u$; stability obligations inner pair commutation
+plus outer classifier transport; ledger three carried pairs and acted
+denominator history; core theorem
+\autoref{thm:ratup-fieldup-context-pair-adjacent-swap-exit-row}; exactness
+predicate adjacent-swap classifier and strict-support invariance; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
