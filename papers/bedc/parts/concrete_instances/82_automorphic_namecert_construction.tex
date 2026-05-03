@@ -18,5 +18,31 @@ domain endpoint to be \(\emp\), contradicting the non-empty property of the
 \end{proof}
 \leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_cont\_nonempty}
 
+\begin{theorem}[Automorphic adele graph visible-context core is non-empty]
+\label{thm:automorphic-adele-graph-visible-context-core-nonempty}
+For adelic domain and value histories, if a visible two-sided context displays
+\(\Cont(p \cdot d, v \cdot q, (p \cdot c) \cdot q)\), then the exposed core
+\(c\) is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Suffix cancellation removes the visible right context \(q\), yielding
+\(\Cont(p \cdot d, v, p \cdot c)\). Prefix cancellation removes the visible
+left context \(p\), yielding \(\Cont(d,v,c)\). The core non-emptiness theorem
+for automorphic adele graphs then rules out \(c\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context non-empty]
+\label{thm:automorphic-adele-graph-visible-context-nonempty}
+For adelic domain and value histories, a displayed graph inside a visible
+left and right continuation context cannot be \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Peel the right visible context and then the left visible context using
+continuation cancellation. The recovered central graph continuation is
+non-empty by the automorphic adele graph continuation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_nonempty}
+
 \section{The certificate}
 \label{sec:automorphic-certificate}
