@@ -51,16 +51,26 @@ jobs:
           name: dossier-pdf
           path: pdf-artifact
 
-      - name: Stage PDF as bedc.pdf
+      - name: Stage PDF with UTC timestamp
+        id: stage_pdf
         run: |
+          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
+          pdf_name="bedc_${ts}.pdf"
+          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
           pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
           if [ -z "$pdf_file" ]; then
             echo "No PDF found in artifact" >&2
             ls -la pdf-artifact || true
             exit 1
           fi
-          cp "$pdf_file" docs/dossier/bedc.pdf
-          ls -lh docs/dossier/bedc.pdf
+          cp "$pdf_file" "docs/dossier/${pdf_name}"
+          ls -lh "docs/dossier/${pdf_name}"
+          # Rewrite literal `bedc.pdf` references in source files so the
+          # rendered site links to the timestamped filename.
+          sed -i "s|bedc\.pdf|${pdf_name}|g" \
+            docs/dossier/_quarto.yml \
+            docs/dossier/index.qmd \
+            docs/dossier/index.zh-CN.qmd
 
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
@@ -73,11 +83,12 @@ jobs:
 
       - name: Verify PDF reached _site
         run: |
-          if [ ! -f docs/dossier/_site/bedc.pdf ]; then
+          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
+          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
             echo "PDF missing from _site after render; copying as fallback"
-            cp docs/dossier/bedc.pdf docs/dossier/_site/bedc.pdf
+            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
           fi
-          ls -lh docs/dossier/_site/bedc.pdf
+          ls -lh "docs/dossier/_site/${pdf_name}"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
