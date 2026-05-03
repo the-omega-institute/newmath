@@ -239,6 +239,34 @@ $\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_hom\_readback}
 
+\begin{theorem}[Category nonempty result visible source hom readback]
+\label{thm:category-hom-carrier-comp-nonempty-result-visible-source-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If both the displayed composite morphism $fg$ and the source object $a$ are not
+internally empty, then the visible result presentation reads back with a visible
+source:
+$$
+\exists s,k,r.\;
+a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(\Eone(s),\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty result visible hom readback theorem to obtain visible
+histories $k,r$ and the hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$. Inspect the source object
+$a$. The empty branch contradicts the nonempty source hypothesis; the zero
+branch contradicts the unary source field of the hom-carrier. In the one-headed
+branch, the exposed source tail supplies $s$, and the displayed hom-carrier is
+already the required visible-source carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_source\_hom\_readback}
+
 \begin{theorem}[Continuation morphism composite visible tails result cases]
 \label{thm:continuation-morphism-comp-visible-tails-result-cases}
 For histories $a,b,c,l,m$, let

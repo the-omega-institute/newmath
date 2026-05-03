@@ -13,13 +13,12 @@ def ratup_fieldup_bracketing_endpoint_selector (h k l : BHist)
   | BEDC.FKernel.Mark.BMark.b0 => append (append h k) l
   | BEDC.FKernel.Mark.BMark.b1 => append h (append k l)
 
-theorem ratup_fieldup_bracketing_selector_denominator_classifier_coverage {h k l : BHist} :
+theorem ratup_fieldup_bracketing_selector_rat_carrier_coverage {h k l : BHist} :
     RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
       ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
-        forall s t : BEDC.FKernel.Mark.BMark,
-          RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l s)
-            (ratup_fieldup_bracketing_endpoint_selector h k l t) := by
-  intro carrierH carrierK carrierL support s t
+        forall s : BEDC.FKernel.Mark.BMark,
+          RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l s) := by
+  intro carrierH carrierK carrierL support s
   have carrierHK : RatDenomUnitCarrier (append h k) :=
     RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
   have ratLeft : RatHistoryCarrier (append (append h k) l) := by
@@ -38,13 +37,22 @@ theorem ratup_fieldup_bracketing_selector_denominator_classifier_coverage {h k l
         exact RatDenomUnitCarrier_append_right_rat_closed carrierHK ratL
   have ratRight : RatHistoryCarrier (append h (append k l)) :=
     RatHistoryCarrier_hsame_transport (append_assoc h k l) ratLeft
+  cases s with
+  | b0 => exact ratLeft
+  | b1 => exact ratRight
+
+theorem ratup_fieldup_bracketing_selector_denominator_classifier_coverage {h k l : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
+        forall s t : BEDC.FKernel.Mark.BMark,
+          RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l s)
+            (ratup_fieldup_bracketing_endpoint_selector h k l t) := by
+  intro carrierH carrierK carrierL support s t
   have selectedCarrier :
       forall u : BEDC.FKernel.Mark.BMark,
-        RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l u) := by
-    intro u
-    cases u with
-    | b0 => exact ratLeft
-    | b1 => exact ratRight
+        RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l u) :=
+    ratup_fieldup_bracketing_selector_rat_carrier_coverage
+      carrierH carrierK carrierL support
   have selectedSame :
       forall u v : BEDC.FKernel.Mark.BMark,
         hsame (ratup_fieldup_bracketing_endpoint_selector h k l u)
@@ -60,6 +68,32 @@ theorem ratup_fieldup_bracketing_selector_denominator_classifier_coverage {h k l
         | b0 => exact hsame_symm (append_assoc h k l)
         | b1 => exact hsame_refl (append h (append k l))
   exact And.intro (selectedCarrier s) (And.intro (selectedCarrier t) (selectedSame s t))
+
+theorem ratup_fieldup_bracketing_selector_rat_classifier_coverage {h k l : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
+        forall s t : BEDC.FKernel.Mark.BMark,
+          RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l s)
+            (ratup_fieldup_bracketing_endpoint_selector h k l t) := by
+  intro carrierH carrierK carrierL support s t
+  have selectedCarrier :
+      forall u : BEDC.FKernel.Mark.BMark,
+        RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l u) :=
+    ratup_fieldup_bracketing_selector_rat_carrier_coverage
+      carrierH carrierK carrierL support
+  have selectedSame :
+      hsame (ratup_fieldup_bracketing_endpoint_selector h k l s)
+        (ratup_fieldup_bracketing_endpoint_selector h k l t) := by
+    cases s with
+    | b0 =>
+        cases t with
+        | b0 => exact hsame_refl (append (append h k) l)
+        | b1 => exact append_assoc h k l
+    | b1 =>
+        cases t with
+        | b0 => exact hsame_symm (append_assoc h k l)
+        | b1 => exact hsame_refl (append h (append k l))
+  exact And.intro (selectedCarrier s) (And.intro (selectedCarrier t) selectedSame)
 
 theorem ratup_fieldup_bracketing_independent_cross_endpoint_classifier_boundary
     {h k l x y : BHist} :

@@ -261,6 +261,46 @@ selected endpoint pair is classified internally by $R_D^u$.
 \leanchecked{BEDC.Derived.FieldUp.FieldRatBracketingEndpointSelector\_denominator\_classifier}
 \leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_denominator\_classifier\_coverage}
 
+\begin{theorem}[RatUp FieldUp bracketing selector Rat carrier coverage]
+\label{thm:ratup-fieldup-bracketing-selector-rat-carrier-coverage}
+For histories $h,k,\ell:\mathsf{BHist}$ with denominator-unit carrier
+witnesses, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If at least one of
+$h,k,\ell$ is a Rat history carrier in the displayed three-support sense, then
+for every selector $s:\mathsf{BMark}$,
+$$
+\mathsf{RatHistoryCarrier}(E_s(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+For the left-nested endpoint, split the three-support witness. If $h$ or $k$
+is already Rat-carried, the denominator-unit append closure keeps the left
+append Rat-carried and then closes the final append with $\ell$. If $\ell$ is
+Rat-carried, first close the denominator-unit append $h\cdot k$ and then append
+the Rat right endpoint. The right-nested endpoint follows by transporting this
+carrier across associativity. The two $\mathsf{BMark}$ cases select exactly
+these two endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_rat\_carrier\_coverage}
+
+\begin{theorem}[RatUp FieldUp bracketing selector Rat classifier coverage]
+\label{thm:ratup-fieldup-bracketing-selector-rat-classifier-coverage}
+Under the same denominator-unit and three-support hypotheses, every selected
+bracketing endpoint pair is classified by the Rat history classifier:
+$$
+\forall s,t:\mathsf{BMark}.\;
+\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the selector Rat-carrier coverage theorem to both selected endpoints.
+The classifier's sameness row is obtained by the four generated selector cases:
+the equal-branch cases use reflexivity, while the crossed cases use append
+associativity and its symmetry. These three fields assemble the Rat history
+classifier for the selected pair.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_rat\_classifier\_coverage}
+
 Per-object template: traditional target selector-indexed bracketing classifier
 coverage for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
 $\mathsf{BMark}$, $\mu_D^u$, $R_D^u$, and $\mathsf{ThreeSupp}_D^u$; carrier
