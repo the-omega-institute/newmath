@@ -6,6 +6,22 @@ The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets o
 \section{Carrier definition}
 \label{sec:quotientgroup-carrier}
 
+\begin{definition}[Centralizer coset carrier]
+\label{def:quotientgroup-centralizer-coset-carrier}
+For a BEDC multiplication operation $\mathsf{mul}$, parameter $a$, and
+representative $\mathsf{repr}$, the centralizer-coset carrier contains a
+history $h$ exactly when $\mathsf{repr}$ centralizes $a$ and
+$h\hsame\mathsf{repr}$.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier}
+
+\begin{definition}[Centralizer coset classifier]
+\label{def:quotientgroup-centralizer-coset-classifier}
+The centralizer-coset classifier relates two carried histories when both lie
+in the same representative carrier and are internally history-same.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier}
+
 \begin{definition}[Centralizer-normalizer QuotientGroupUp carrier]
 \label{def:quotientgroup-centralizer-normalizer-carrier}
 In the BEDC history-level $\GroupUp$ setting of
@@ -89,6 +105,19 @@ $\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
+
+\begin{theorem}[Centralizer coset SemanticNameCert]
+\label{thm:quotientgroup-centralizer-coset-semantic-namecert}
+If the representative $\mathsf{repr}$ centralizes $a$, then the
+centralizer-coset carrier, used as source, pattern, and ledger policy, with
+the centralizer-coset classifier forms a $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The representative itself inhabits the carrier. Reflexivity, symmetry, and
+transitivity of the classifier are inherited from $\hsame$, while carrier
+respect follows from the carried right endpoint stored in the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCoset\_semanticNameCert}
 
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
