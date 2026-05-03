@@ -12,6 +12,10 @@ def SubgroupCentralizerCarrier (mul : BHist -> BHist -> BHist) (a x : BHist) : P
 def SubgroupCentralizerClassifier (mul : BHist -> BHist -> BHist) (a x y : BHist) : Prop :=
   SubgroupCentralizerCarrier mul a x ∧ SubgroupCentralizerCarrier mul a y ∧ hsame x y
 
+def SubgroupCentralizerIntersectionCarrier
+    (mul : BHist -> BHist -> BHist) (a b x : BHist) : Prop :=
+  SubgroupCentralizerCarrier mul a x ∧ SubgroupCentralizerCarrier mul b x
+
 def SubgroupCentralizerNormalizer
     (mul : BHist -> BHist -> BHist) (inv : BHist -> BHist) (a t : BHist) : Prop :=
   forall x : BHist, SubgroupCentralizerCarrier mul a x ->
@@ -34,6 +38,23 @@ protected theorem SubgroupCentralizerCarrier_mul_closed_from_empty_unit
       assocC mulCongr centralX centralY
   exact hsame_trans (hsame_symm (rightId (mul (mul x y) a)))
     (hsame_trans closedEmpty (rightId (mul a (mul x y))))
+
+protected theorem SubgroupCentralizerIntersectionCarrier_mul_closed_from_empty_unit
+    {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a b x y : BHist} :
+    SubgroupCentralizerIntersectionCarrier mul a b x ->
+      SubgroupCentralizerIntersectionCarrier mul a b y ->
+        SubgroupCentralizerIntersectionCarrier mul a b (mul x y) := by
+  intro centralX centralY
+  exact And.intro
+    (BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier_mul_closed_from_empty_unit
+      assocC rightId mulCongr centralX.left centralY.left)
+    (BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier_mul_closed_from_empty_unit
+      assocC rightId mulCongr centralX.right centralY.right)
 
 theorem SubgroupCentralizer_semanticNameCert {mul : BHist -> BHist -> BHist}
     {a : BHist}
