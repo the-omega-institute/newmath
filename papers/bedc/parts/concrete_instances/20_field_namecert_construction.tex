@@ -512,6 +512,76 @@ element and inverse witness provenance; core theorem list
 iff fixed by all inner conjugations; standard bridge ordinary group-center
 criterion; status $\mathsf{ProofTarget}$.
 
+\begin{definition}[Concrete RatUp FieldUp affine automorphism group instance]
+\label{def:ratup-fieldup-affine-automorphism-group-instance}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+affine automorphism group instance has carrier $\mathsf{AffAut}_F$,
+multiplication $\circ_{\mathrm{aff}}$, unit $\mathrm{id}_F$, inverse
+$\iota_F(-)$, and classifier $\equiv_{\mathrm{aff}}$. The carrier,
+composition, unit, and inverse rows are supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and the
+classifier, congruence, associativity, identity, inverse, and cancellation
+obligations are supplied by
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine commutator fixedness criterion]
+\label{thm:ratup-fieldup-affine-commutator-fixedness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,S:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. With the affine group instance of
+Definition~\ref{def:ratup-fieldup-affine-automorphism-group-instance}, define
+$$
+\mathsf{AffComm}_F(T,S):=(T\circ_{\mathrm{aff}}S)\circ_{\mathrm{aff}}
+(\iota_F(T)\circ_{\mathrm{aff}}\iota_F(S)).
+$$
+Then the affine commutator is trivial exactly when the two affine
+automorphisms commute:
+$$
+\mathsf{AffComm}_F(T,S)\equiv_{\mathrm{aff}}\mathrm{id}_F
+\Longleftrightarrow
+T\circ_{\mathrm{aff}}S\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T.
+$$
+Equivalently, the same commutator is trivial exactly when $S$ is fixed by
+inner conjugation by $T$:
+$$
+\mathsf{AffComm}_F(T,S)\equiv_{\mathrm{aff}}\mathrm{id}_F
+\Longleftrightarrow
+\mathrm{Inn}_T(S)\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+Fix the affine group instance of
+Definition~\ref{def:ratup-fieldup-affine-automorphism-group-instance}. It
+reads the group carrier as $\mathsf{AffAut}_F$, the product as
+$\circ_{\mathrm{aff}}$, the unit as $\mathrm{id}_F$, the inverse as
+$\iota_F(-)$, and the classifier as $\equiv_{\mathrm{aff}}$.
+
+Instantiate \autoref{thm:group-commutator-trivial-iff-commutes} in this
+concrete group package with $a=T$ and $b=S$. Its history-level commutator
+becomes the displayed term $\mathsf{AffComm}_F(T,S)$, and its classifier
+statement becomes the first displayed equivalence.
+
+It remains to compare commutation with fixedness under inner conjugation.
+Expand $\mathrm{Inn}_T(S)$ as
+$T\circ_{\mathrm{aff}}S\circ_{\mathrm{aff}}\iota_F(T)$. If
+$T\circ_{\mathrm{aff}}S\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T$, compose
+the comparison on the right by $\iota_F(T)$, reassociate, and collapse
+$T\circ_{\mathrm{aff}}\iota_F(T)$ to $\mathrm{id}_F$. The right identity law
+then gives $\mathrm{Inn}_T(S)\equiv_{\mathrm{aff}}S$.
+
+Conversely, assume
+$\mathrm{Inn}_T(S)\equiv_{\mathrm{aff}}S$. Compose both sides on the right by
+$T$, reassociate the left side, and collapse
+$\iota_F(T)\circ_{\mathrm{aff}}T$ to $\mathrm{id}_F$. The right identity law
+gives $T\circ_{\mathrm{aff}}S\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T$.
+
+All transports use operation congruence, associativity, inverse laws, and
+identity laws from the affine action certificate. The cancellation steps are
+the concrete common-factor exactness clauses of
+\autoref{thm:ratup-fieldup-affine-automorphism-cancellation-exactness-exit}.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp affine threefold inverse antihomomorphism exit]
 \label{thm:ratup-fieldup-affine-threefold-inverse-antihom-exit}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
