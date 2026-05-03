@@ -232,6 +232,7 @@ import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
 import BEDC.Derived.FieldUp.SingletonNonZeroReadback
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
+import BEDC.Derived.FieldUp.SingletonAddMulContext
 import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.SingletonContextBoundary
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd

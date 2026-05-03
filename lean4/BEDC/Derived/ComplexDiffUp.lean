@@ -183,4 +183,13 @@ theorem CplxDiffQuot_cont_result_hsame {f z h q q' : BHist} :
               | intro _quotientCarrier ledger =>
                   exact cont_deterministic ledger continuation
 
+theorem CplxDiffQuot_point_hsame_cont_deterministic {f z z' h q q' : BHist} :
+    hsame z z' -> CplxDiffQuot f z h q -> CplxDiffQuot f z' h q' ->
+      Cont f h q ∧ Cont f h q' ∧ hsame q q' := by
+  intro samePoint left right
+  have rightAtSource : CplxDiffQuot f z h q' :=
+    (CplxDiffQuot_hsame_transport (hsame_refl f) (hsame_symm samePoint)
+      (hsame_refl h) (hsame_refl q') right).left
+  exact CplxDiffQuot_quotient_cont_deterministic left rightAtSource
+
 end BEDC.Derived.ComplexDiffUp

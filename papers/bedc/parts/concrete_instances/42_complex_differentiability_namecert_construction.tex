@@ -91,6 +91,28 @@ ledger $\ContR(f,h,q')$ gives $\hsame(q,q')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_cont\_result\_hsame}
 
+\begin{lemma}[Complex difference quotient point transport determinacy]
+\label{lem:cplx-diff-quot-point-hsame-cont-deterministic}
+If $\hsame(z,z')$ and the quotient relation holds both at $z$ and at $z'$ for
+the same function and non-zero step,
+$$
+\mathsf{CplxDiffQuot}(f,z,h,q)
+\qquad\text{and}\qquad
+\mathsf{CplxDiffQuot}(f,z',h,q'),
+$$
+then both quotient ledgers are exposed and their results agree:
+$$
+\ContR(f,h,q)\land \ContR(f,h,q')\land \hsame(q,q').
+$$
+\end{lemma}
+\begin{proof}
+Transport the right quotient witness back along $\hsame(z,z')$, keeping the
+function, step, and quotient endpoints fixed. The same-point quotient
+determinacy theorem then gives the two continuation ledgers and the endpoint
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_point\_hsame\_cont\_deterministic}
+
 \begin{lemma}[Compatibility of the difference quotient with \(\hsame\)]
 \label{lem:cplx-diff-quot-hsame}
 If \(\mathsf{CplxDiffQuot}(f, z, h, q)\) and \(\hsame(f,f')\), \(\hsame(z,z')\), \(\hsame(h,h')\), and \(\hsame(q,q')\), then \(\mathsf{CplxDiffQuot}(f', z', h', q')\). The transported target also exposes the unary point carrier, the transported non-zero witness on \(h'\), and the quotient ledger \(\Cont(f',h',q')\).

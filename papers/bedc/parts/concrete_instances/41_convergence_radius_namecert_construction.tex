@@ -162,6 +162,27 @@ bound and the carrier of \(z_0\).
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_witness}
 
+\begin{theorem}[Convergence radius visible radius witness endpoint package]
+\label{thm:convrad-visible-radius-witness-endpoint-package}
+If $\mathsf{ConvRad}(a,R)$ holds and $\Eone(tail)$ is an admitted unary radius
+endpoint, then the convergence-radius witness function can be chosen so that
+any continuation
+$$
+\ContR(\Eone(tail),K(\Eone(tail)),R)
+$$
+exposes the payload carrier and non-empty result boundary:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\hsame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Open the witness function in $\mathsf{ConvRad}(a,R)$ and specialize it to the
+visible radius endpoint $\Eone(tail)$. The resulting geometric-bound row,
+together with the displayed continuation, is exactly the visible-radius endpoint
+package for geometric bounds.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_visible\_radius\_witness\_endpoint\_package}
+
 \begin{lemma}[Convergence radius transport]
 \label{lem:conv-rad-radius-transport}
 If \(\hsame(R, R')\), \(\mathsf{ConvRad}(a, R)\), and \(R'\) is unary, then the same geometric-bound witness function supplies \(\mathsf{ConvRad}(a, R')\).

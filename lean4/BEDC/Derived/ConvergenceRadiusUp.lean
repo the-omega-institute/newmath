@@ -189,4 +189,19 @@ theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
     (And.intro (unary_cont_closed bound.right.left constantStep constantContinuation)
       bound.right.right)
 
+theorem ConvRad_visible_radius_witness_endpoint_package {a : Nat -> BHist} {R tail : BHist} :
+    ConvRad a R -> UnaryHistory (BHist.e1 tail) ->
+      ∃ K : BHist -> BHist, Cont (BHist.e1 tail) (K (BHist.e1 tail)) R ->
+        UnaryHistory tail ∧ (hsame R BHist.Empty -> False) := by
+  intro radius visibleRadius
+  cases radius with
+  | intro _radiusCarrier witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact Exists.intro K (by
+            intro continuation
+            have bound : GeomBound a (BHist.e1 tail) (K (BHist.e1 tail)) :=
+              boundAt visibleRadius continuation
+            exact GeomBound_visible_radius_endpoint_package bound continuation)
+
 end BEDC.Derived.ConvergenceRadiusUp

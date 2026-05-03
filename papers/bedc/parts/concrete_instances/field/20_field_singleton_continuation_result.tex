@@ -141,3 +141,21 @@ endpoints empty; the continuation result is therefore singleton and is
 classified with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_context\_empty\_result\_iff}
+
+\begin{theorem}[Field singleton add-mul context continuation result carrier]
+\label{thm:field-singleton-add-mul-context-continuation-result-carrier}
+For histories $L,R,a,b,c,d,out:\mathsf{BHist}$, if $L$ and $R$ are singleton
+field carrier endpoints and
+$$
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out),
+$$
+then $out$ is a singleton field carrier endpoint.
+\end{theorem}
+\begin{proof}
+The singleton add and mul endpoints both unfold to $\emp$. The carrier
+witnesses identify $L$ and $R$ with $\emp$, so both append contexts reduce to
+the empty history. Determinacy against the right-unit continuation at $\emp$
+therefore identifies $out$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
