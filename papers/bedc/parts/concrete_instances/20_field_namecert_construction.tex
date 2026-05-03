@@ -162,6 +162,57 @@ $\mathsf{append}(L,x)$ and $\mathsf{append}(R,x)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_singleton\_classifier\_exclusion}
 
+\begin{theorem}[RatUp FieldUp iterated transported strict-support contextual singleton exclusion]
+\label{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$y:=\Gamma_{p',q',u',v'}(\Gamma_{p,q,u,v}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row},
+suppose also that $N_D^u(h)$ holds. Then the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate contains the following endpoint
+and contextual exclusion package:
+\begin{enumerate}
+  \item $C_D^u(y)$;
+  \item $N_D^u(y)$;
+  \item $\mathsf{RatHistoryCarrier}(y)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row} to the
+same carried context-pair comparisons. This supplies $C_D^u(y)$ and the
+strict-support equivalence
+$$
+N_D^u(y)\Longleftrightarrow N_D^u(h).
+$$
+
+Use the reverse direction of the equivalence with the assumed witness
+$N_D^u(h)$. This gives $N_D^u(y)$.
+
+Read the concrete strict support row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(z)=\mathsf{RatHistoryCarrier}(z)$ for every denominator history
+$z$, hence the support witness at $y$ gives $\mathsf{RatHistoryCarrier}(y)$.
+
+For the endpoint rejection, apply
+\autoref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$y$. A singleton-empty carrier witness at $y$ contradicts the Rat carrier
+witness just obtained.
+
+It remains to reject both contextual singleton boundaries. For any
+$r:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} to the context
+history $r$ and Rat carrier endpoint $y$, and apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} to the same
+two histories in the opposite append order.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp transported strict-support separation package]
 \label{thm:ratup-fieldup-transported-strict-support-separation-package}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
@@ -260,14 +311,14 @@ strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
 $\mathsf{RatHistoryClassifier}$; stability obligations transported support
 neutrality plus Rat/singleton separation; ledger contextual-pair action and
 denominator support; core theorems
-\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton} together
-with
-\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton},
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion},
+\autoref{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion},
 and
 \autoref{thm:ratup-fieldup-transported-strict-support-separation-package};
-exactness predicate transported strict-support non-collapse, contextual
-singleton exclusion, and direct internal-nonempty endpoint separation; standard
-bridge deferred; status $\mathsf{ProofTarget}$.
+exactness predicate transported and iterated transported strict-support
+non-collapse plus contextual singleton exclusion, and direct internal-nonempty
+endpoint separation; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp transported exit row nondegenerate closure]
 \label{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure}

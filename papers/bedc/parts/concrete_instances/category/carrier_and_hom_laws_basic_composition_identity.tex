@@ -1,0 +1,383 @@
+\begin{theorem}[Category hom carrier unary-context middle-object determinacy]
+\label{thm:category-hom-carrier-unary-context-comp-middle-object-deterministic}
+For the unary-continuation category, suppose the two displayed hom-carrier
+ledgers have a shared left prefix $p$ and a shared right suffix $q$:
+$$
+\mathsf{CategoryHomCarrier}((p\cdot a)\cdot q,(p\cdot b)\cdot q,f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}((p\cdot b')\cdot q,(p\cdot c)\cdot q,g).
+$$
+If $\ContR(f,g,fg)$ and $fg$ is displayed as a hom-carrier from
+$(p\cdot a)\cdot q$ to $(p\cdot c)\cdot q$, then $\HSame(b,b')$.
+\end{theorem}
+\begin{proof}
+Apply the unary suffix equivalence of
+\autoref{thm:category-hom-carrier-unary-suffix-iff} to remove the shared
+right suffix from the two input ledgers and the displayed composite ledger.
+Each remaining ledger has the same left prefix $p$ on its source and target
+endpoints; unary append factorization gives the base endpoint carriers, and
+prefix cancellation removes $p$ from the continuation evidence. The base
+hom-carriers now satisfy the hypotheses of
+\autoref{thm:category-hom-carrier-comp-middle-object-deterministic}, which
+identifies the middle objects by $\HSame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_middle\_object\_deterministic}
+
+\begin{theorem}[Category hom carrier parallel-factor composite middle determinacy]
+\label{thm:category-hom-carrier-parallel-factor-comp-tail-middle-deterministic}
+For the unary-continuation category, suppose the two left hom-carriers share
+source endpoint $a$ and have history-same morphisms $f$ and $f'$, while the two
+right hom-carriers share target endpoint $c$ and have history-same morphisms
+$g$ and $g'$:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\quad
+\mathsf{CategoryHomCarrier}(b,c,g),\quad
+\mathsf{CategoryHomCarrier}(a,b',f'),\quad
+\mathsf{CategoryHomCarrier}(b',c,g').
+$$
+Then the four underlying continuation fields are present, the middle endpoints
+are history-same, and the two append composite tails are history-same:
+$$
+\Cont(a,f,b)\wedge\Cont(b,g,c)\wedge\Cont(a,f',b')\wedge\Cont(b',g',c)
+\wedge\HSame(b,b')\wedge\HSame(\mathsf{append}(f,g),\mathsf{append}(f',g')).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the four hom-carrier records to read their continuation fields. The
+comparison $\HSame(f,f')$ transports the left morphism history, so target
+determinacy of the two left hom-carriers identifies $b$ and $b'$. The two
+morphism-history comparisons identify the append products
+$\mathsf{append}(f,g)$ and $\mathsf{append}(f',g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_parallel\_factor\_comp\_tail\_middle\_deterministic}
+
+\begin{theorem}[Category hom carrier tail commutativity]
+\label{thm:category-hom-carrier-tail-comm-hsame}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\),
+\(\ContR(f,g,fg)\), and \(\ContR(g,f,gf)\), then
+\(\HSame(fg,gf)\).
+\end{theorem}
+\begin{proof}
+Unpack the two hom-carrier witnesses to obtain unary membership for \(f\) and
+\(g\). Unary continuation commutativity applied to the two continuation
+ledgers identifies the two tail composites.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_tail\_comm\_hsame}
+
+\begin{theorem}[Category hom carrier tail-comm closure]
+\label{thm:category-hom-carrier-tail-comm-closed}
+For the unary-continuation category, if $f$ is a hom-carrier from $a$ to $b$,
+$g$ is a hom-carrier from $b$ to $c$, and $fg$ and $gf$ are the two displayed
+tail continuation composites, then both histories are hom-carriers from $a$ to
+$c$ and $\HSame(fg,gf)$.
+\end{theorem}
+\begin{proof}
+Composition closure gives the forward carrier $fg:a\to c$. Tail commutativity
+identifies $fg$ with $gf$, and history-same transport moves the forward carrier
+to the reverse-tail history while keeping the source and target endpoints fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_tail\_comm\_closed}
+
+\begin{theorem}[Category hom carrier history-same transport]
+\label{thm:category-hom-carrier-hsame-transport}
+For the unary-continuation category, if source objects, target objects, and
+morphism histories are each transported by $\hsame$, then a hom-carrier witness
+transports to the transported triple.
+\end{theorem}
+\begin{proof}
+Eliminate the three $\hsame$ endpoint and morphism equalities. The target
+hom-carrier statement is then the original concrete
+$\mathsf{CategoryHomCarrier}$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_hsame\_transport}
+
+\begin{theorem}[Category hom carrier endpoint transport with classified morphism]
+\label{thm:category-hom-carrier-endpoint-transport-cont-classified}
+For the unary-continuation category, if source endpoint, target endpoint, and
+morphism histories are transported by $\hsame$, then the transported morphism
+has the transported continuation field and hom-carrier witness. Moreover, any
+displayed hom-carrier over the transported endpoints has morphism history
+classified with the transported morphism.
+\end{theorem}
+\begin{proof}
+Apply hom-carrier history-same transport to the displayed carrier. Its
+continuation field gives the transported $\ContR$ witness. The transported
+carrier and the competing displayed carrier share source and target endpoints,
+so morphism determinacy identifies their morphism histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_endpoint\_transport\_cont\_classified}
+
+\begin{theorem}[Category hom carrier identity square closure]
+\label{thm:category-hom-carrier-identity-square-closed}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\)
+to \(b\), \(left\) is obtained by composing the empty continuation before
+\(f\), and \(right\) is obtained by composing the empty continuation after
+\(f\), then \(left\) and \(right\) are both hom-carriers from \(a\) to \(b\),
+and \(\HSame(left,right)\).
+\end{theorem}
+\begin{proof}
+The left unit continuation identifies \(left\) with \(f\). Determinism of
+\(\ContR\), compared against the right unit continuation for \(f\), identifies
+\(right\) with \(f\). Transporting the hom-carrier witness for \(f\) across
+these two history equalities gives the two carrier witnesses, and transitivity
+of \(\HSame\) identifies \(left\) and \(right\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_square\_closed}
+
+\begin{theorem}[Category hom carrier right-append fixed identity]
+\label{thm:category-hom-carrier-right-append-fixed-identity}
+For the unary-continuation category, if $\mathsf{CategoryHomCarrier}(a,b,f)$,
+then for every history $g:\mathsf{BHist}$,
+$$
+\HSame(\mathsf{append}(f,g),g)
+\Longleftrightarrow
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the displayed fixed append equality is a continuation
+witness $\ContR(f,g,g)$, so left-unit uniqueness forces $\HSame(f,\emp)$.
+Transporting the hom-carrier continuation relation along this empty-tail
+equality gives $\ContR(a,\emp,b)$, and comparison with the canonical right-unit
+continuation identifies $a$ and $b$. Conversely, if $f\hsame\emp$, the equality
+reduces to the kernel empty-left append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_append\_fixed\_identity\_iff}
+
+\begin{theorem}[Category hom carrier left-append fixed identity]
+\label{thm:category-hom-carrier-left-append-fixed-identity}
+For the unary-continuation category, if $\mathsf{CategoryHomCarrier}(a,b,f)$,
+then for every history $g:\mathsf{BHist}$,
+$$
+\HSame(\mathsf{append}(g,f),g)
+\Longleftrightarrow
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, compare $\mathsf{append}(g,f)$ with
+$\mathsf{append}(g,\emp)$ and cancel the common left prefix, obtaining
+$\HSame(f,\emp)$. Transporting the hom-carrier continuation relation across
+this empty-tail equality gives $\ContR(a,\emp,b)$, hence $\HSame(a,b)$ by
+comparison with the canonical right-unit continuation. Conversely, if
+$f\hsame\emp$, the equality reduces to the kernel empty-right append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_append\_fixed\_identity\_iff}
+
+\begin{theorem}[Category hom carrier two-sided identity law]
+\label{thm:category-hom-carrier-two-sided-identity-law}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$, $\ContR(\emp,f,left)$, and
+$\ContR(f,\emp,right)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,left)\wedge
+\mathsf{CategoryHomCarrier}(a,b,right)\wedge
+\HSame(left,f)\wedge\HSame(right,f)\wedge\HSame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The left composite is classified against the original morphism by the
+left-unit result theorem: $\ContR(\emp,f,left)$ and
+\texttt{cont\_left\_unit\_result} give $\HSame(left,f)$.
+
+For the right composite, compare $\ContR(f,\emp,right)$ with the canonical
+right-unit continuation $\ContR(f,\emp,f)$ supplied by
+\texttt{cont\_right\_unit}. Continuation determinism gives
+$\HSame(right,f)$.
+
+Transport the displayed $\mathsf{CategoryHomCarrier}(a,b,f)$ witness across
+the two history-sameness witnesses. This gives
+$\mathsf{CategoryHomCarrier}(a,b,left)$ and
+$\mathsf{CategoryHomCarrier}(a,b,right)$.
+
+Finally compose $\HSame(left,f)$ with the symmetry of $\HSame(right,f)$.
+Transitivity yields $\HSame(left,right)$, completing the two-sided identity
+classification.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_two\_sided\_identity\_law}
+
+\begin{theorem}[Category hom carrier left identity carrier result]
+\label{thm:category-hom-carrier-left-identity-carrier-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,a,id)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$, and $\ContR(id,f,left)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,left)\wedge\HSame(left,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+carrier at $a$. Morphism determinacy gives $\HSame(id,\emp)$. Rewriting the
+displayed continuation by this equality turns $\ContR(id,f,left)$ into an
+empty-left continuation, so the kernel left-unit result gives
+$\HSame(left,f)$. Transport the original hom-carrier witness for $f$ across
+this morphism equality to obtain $\mathsf{CategoryHomCarrier}(a,b,left)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_identity\_carrier\_result}
+
+\begin{theorem}[Category hom carrier right identity carrier result]
+\label{thm:category-hom-carrier-right-identity-carrier-result}
+For the unary-continuation category, for histories $a,b,id,f,right$, if
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$, and $\ContR(f,id,right)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,right)\wedge\HSame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+carrier at $b$ by hom-morphism determinacy, giving $\HSame(id,\emp)$.
+Rewriting the displayed continuation by this equality turns
+$\ContR(f,id,right)$ into $\ContR(f,\emp,right)$. This empty-right
+continuation is determined by the BEDC right-unit continuation on $f$, giving
+$\HSame(right,f)$. Transport the displayed
+$\mathsf{CategoryHomCarrier}(a,b,f)$ witness across this morphism equality to
+obtain $\mathsf{CategoryHomCarrier}(a,b,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_carrier\_result}
+
+\begin{theorem}[Category hom carrier composite left-right identity result]
+\label{thm:category-hom-carrier-comp-left-right-identity-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,both)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,b,both)\wedge\HSame(both,f).
+$$
+\end{theorem}
+\begin{proof}
+Apply the left identity carrier result to the first displayed continuation.
+This gives $\mathsf{CategoryHomCarrier}(a,b,left)$ and
+$\HSame(left,f)$. Then apply the right identity carrier result to
+$\ContR(left,id_B,both)$, using the just-obtained carrier witness for
+$left$. This gives $\mathsf{CategoryHomCarrier}(a,b,both)$ and
+$\HSame(both,left)$. Transitivity with $\HSame(left,f)$ yields the displayed
+result equality.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_right\_identity\_result}
+
+\begin{theorem}[Category continuation left-right identity tail result]
+\label{thm:category-cont-left-right-identity-tail-result}
+For BEDC histories $a,b,id_A,f,id_B,left,both$, if
+$\ContR(a,id_A,a)$, $\ContR(a,f,b)$, $\ContR(b,id_B,b)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,both)$, then
+$$
+\HSame(both,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare $\ContR(a,id_A,a)$ and $\ContR(b,id_B,b)$ with the canonical
+right-unit continuations at $a$ and $b$. Tail determinacy gives
+$\HSame(id_A,\emp)$ and $\HSame(id_B,\emp)$. The first equality turns
+$\ContR(id_A,f,left)$ into an empty-left continuation, so the kernel
+left-unit result gives $\HSame(left,f)$. Transport
+$\ContR(left,id_B,both)$ across this equality, use the second equality to make
+the right tail empty, and compare with the right-unit continuation on $f$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_left\_right\_identity\_tail\_result}
+
+\begin{theorem}[Continuation morphism left-right identity tail result]
+\label{thm:continuation-morphism-left-right-identity-tail-result}
+For continuation morphisms $leftId:a\to a$, $m:a\to b$, and
+$rightId:b\to b$, both identity tails are empty, and composing $m$ with them
+on the left and right leaves its tail unchanged up to $\hsame$:
+$$
+\HSame(leftId.tail,\emp)\wedge
+\HSame(rightId.tail,\emp)\wedge
+\HSame((leftId\circ m)\circ rightId,\;m.tail).
+$$
+\end{theorem}
+\begin{proof}
+Compare each identity morphism with the canonical empty continuation at its
+endpoint to obtain the two empty-tail equalities. After destructing the three
+continuation-morphism records, the composite tail is the displayed append of
+the three tails. The append left-unit and right-unit laws reduce it to
+$m.tail$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_right\_identity\_tail\_result}
+
+\begin{theorem}[Continuation morphism fixed left tail has right identity]
+\label{thm:continuation-morphism-comp-left-tail-fixed-right-identity}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if the composite
+append tail of $left$ followed by $right$ is history-same to $left.tail$, then
+$right.tail$ is empty and the endpoints $b$ and $c$ are history-same:
+$$
+\HSame(\mathsf{append}(left.tail,right.tail),left.tail)
+\Longrightarrow
+\HSame(right.tail,\emp)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The displayed fixed-left comparison is a self-continuation of $left.tail$ by
+$right.tail$. Right-unit uniqueness for continuation forces $right.tail$ to be
+empty. Transporting the right morphism's continuation relation to this empty
+tail and comparing it with the canonical right-unit continuation at $b$
+identifies $b$ and $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_tail\_fixed\_right\_identity}
+
+\begin{theorem}[Continuation morphism fixed right tail has left identity]
+\label{thm:continuation-morphism-comp-right-tail-fixed-left-identity}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if the composite
+append tail of $left$ followed by $right$ is history-same to $right.tail$, then
+$left.tail$ is empty and the endpoints $a$ and $b$ are history-same:
+$$
+\HSame(\mathsf{append}(left.tail,right.tail),right.tail)
+\Longrightarrow
+\HSame(left.tail,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+The displayed fixed-right comparison is a self-continuation of $right.tail$ by
+$left.tail$. Left-unit uniqueness for continuation forces $left.tail$ to be
+empty. Transporting the left morphism's continuation relation to this empty
+tail and comparing it with the canonical right-unit continuation at $a$
+identifies $a$ and $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_tail\_fixed\_left\_identity}
+
+\begin{theorem}[Category hom carrier composite middle identity result]
+\label{thm:category-hom-carrier-comp-middle-identity-result}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$,
+$\ContR(f,id,fid)$, $\ContR(fid,g,result)$, and $\ContR(f,g,fg)$, then
+$$
+\mathsf{CategoryHomCarrier}(a,c,result)\wedge
+\mathsf{CategoryHomCarrier}(a,c,fg)\wedge\HSame(result,fg).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right identity carrier result to $\ContR(f,id,fid)$, obtaining
+$\mathsf{CategoryHomCarrier}(a,b,fid)$ and $\HSame(fid,f)$. Composition
+closure with the right hom-carrier gives the displayed carrier for $result$,
+while direct composition closure gives the displayed carrier for $fg$.
+The two continuation witnesses have history-same left tails and the same
+right tail $g$, so continuation result respect for $\hsame$ gives
+$\HSame(result,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_middle\_identity\_result}
+
+\begin{theorem}[Category continuation middle identity tail result]
+\label{thm:category-cont-middle-identity-tail-result}
+For BEDC histories $a,b,c,f,id,g,fid,result,fg$, if
+$\ContR(a,f,b)$, $\ContR(b,id,b)$, $\ContR(b,g,c)$,
+$\ContR(f,id,fid)$, $\ContR(fid,g,result)$, and $\ContR(f,g,fg)$, then
+$$
+\HSame(result,fg).
+$$
+\end{theorem}
+\begin{proof}
+Compare $\ContR(b,id,b)$ with the canonical right-unit continuation at $b$;
+tail determinacy gives $\HSame(id,\emp)$. Hence $\ContR(f,id,fid)$ is
+determined by the right-unit continuation on $f$, so $\HSame(fid,f)$.
+Continuation result respect for $\hsame$, applied to the two displayed
+continuations with right tail $g$, yields $\HSame(result,fg)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_middle\_identity\_tail\_result}
