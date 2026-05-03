@@ -310,11 +310,9 @@ function populatePicker() {
 function onPickerChange(id) {
   if (!id) return;
   showNodeDetail(id);
-  // also center the cytoscape viewport on the picked node
-  const cyNode = CY.getElementById(id);
-  if (cyNode && cyNode.length) {
-    CY.animate({ center: { eles: cyNode }, zoom: Math.max(CY.zoom(), 1.0), duration: 400 });
-  }
+  // Highlight the picked node + its dependency chain in the existing global
+  // view; do NOT change zoom. The graph stays at its fit-to-screen scale so
+  // the user keeps the full map context.
 }
 
 function statusClass(node) {
