@@ -126,6 +126,28 @@ contradicts the unary no-zero-extension theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_zero\_result\_absurd}
 
+\begin{theorem}[Principal suffix unary intersection e1-result cases]
+\label{thm:filter-principal-suffix-unary-intersection-e1-result-cases}
+Let $base,left,right,meet,leftPoint,rightPoint,z:\mathsf{BHist}$. If
+$base$, $left$, and $right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(base,meet,\Eone(z)),
+$$
+then either $meet=\emp$ and $base\hsame\Eone(z)$, or there is a unary
+$meetTail$ such that $meet=\Eone(meetTail)$ and
+$\ContR(base,meetTail,z)$.
+\end{theorem}
+\begin{proof}
+Unary closure along $\ContR(left,right,meet)$ first gives unary $meet$. The
+kernel unary e1-result case theorem applied to
+$\ContR(base,meet,\Eone(z))$ then splits the result into the empty-meet case
+and the non-empty unary-tail case.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_e1\_result\_cases}
+
 \begin{theorem}[Principal suffix base points empty exactness]
 \label{thm:filter-principal-suffix-base-points-empty-exact}
 Let $base,left,right,leftPoint,rightPoint:\mathsf{BHist}$. If
