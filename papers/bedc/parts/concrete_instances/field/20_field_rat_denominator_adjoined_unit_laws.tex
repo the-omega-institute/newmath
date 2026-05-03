@@ -169,6 +169,29 @@ other branch is the required $\mathsf{RatHistoryCarrier}(h)$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_nonempty\_rat}
 
+\begin{theorem}[Rat denominator unit nonempty classifier exposes Rat classifier]
+\label{thm:rat-denom-unit-classifier-nonempty-rat-classifier}
+For histories $h,k:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(h,k)$ holds and neither endpoint is
+history-same to $\emp$, then the same endpoint pair is classified by the
+underlying Rat denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+(h\hsame\emp\Rightarrow\mathsf{False})\Rightarrow
+(k\hsame\emp\Rightarrow\mathsf{False})\Rightarrow
+\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{RatDenomUnitClassifier}(h,k)$ into the two denominator-unit
+carrier witnesses and the endpoint comparison $h\hsame k$. Apply
+\autoref{thm:rat-denom-unit-carrier-nonempty-rat} separately to the left and
+right carrier witnesses, using the two nonempty endpoint hypotheses. These two
+Rat carrier witnesses, together with the original endpoint comparison, repack
+as $\mathsf{RatHistoryClassifier}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_nonempty\_rat\_classifier}
+
 \begin{theorem}[Rat denominator unit carrier visible cases]
 \label{thm:rat-denom-unit-carrier-visible-cases}
 For every history $h:\mathsf{BHist}$, an adjoined empty-unit denominator carrier

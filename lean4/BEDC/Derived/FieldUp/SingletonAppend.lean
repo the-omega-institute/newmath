@@ -235,6 +235,26 @@ theorem FieldSingletonCarrier_append_context_empty_iff {L R h : BHist} :
       append_eq_empty_iff.mpr (And.intro carrier carrierR)
     exact append_eq_empty_iff.mpr (And.intro carrierL innerCarrier)
 
+theorem FieldSingletonNonZero_append_context_cancel_iff {L R Q : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonNonZero (append L (append Q R)) <-> FieldSingletonNonZero Q) := by
+  intro carrierL carrierR
+  cases carrierL
+  cases carrierR
+  have contextSame : hsame (append BHist.Empty (append Q BHist.Empty)) Q :=
+    hsame_trans (append_empty_left (append Q BHist.Empty)) (append_empty_right Q)
+  constructor
+  · intro contextNonZero
+    exact And.intro
+      (append_eq_empty_iff.mp (append_eq_empty_iff.mp contextNonZero.left).right).left
+      (hsame_trans (hsame_symm contextSame) contextNonZero.right)
+  · intro nonZero
+    exact And.intro
+      (append_eq_empty_iff.mpr
+        (And.intro (hsame_refl BHist.Empty)
+          (append_eq_empty_iff.mpr (And.intro nonZero.left (hsame_refl BHist.Empty)))))
+      (hsame_trans contextSame nonZero.right)
+
 theorem FieldSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R ->
       (FieldSingletonClassifier (append L h) (append k R) ↔ FieldSingletonClassifier h k) := by

@@ -219,6 +219,7 @@ import BEDC.Derived.MetricUp.LeftE1Result
 import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.Triangle
 import BEDC.Derived.MetricUp.EmptyBoundaryDistance
+import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization

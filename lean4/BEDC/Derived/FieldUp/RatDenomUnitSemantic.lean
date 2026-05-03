@@ -5,6 +5,7 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.Derived.RatUp
 
 theorem RatDenomUnitClassifier_semanticNameCert :
     SemanticNameCert RatDenomUnitCarrier RatDenomUnitCarrier RatDenomUnitCarrier
@@ -35,5 +36,15 @@ theorem RatDenomUnitClassifier_semanticNameCert :
       intro _h source
       exact source
   }
+
+theorem RatDenomUnitClassifier_nonempty_rat_classifier {h k : BHist} :
+    RatDenomUnitClassifier h k -> (hsame h BHist.Empty -> False) ->
+      (hsame k BHist.Empty -> False) -> RatHistoryClassifier h k := by
+  intro classified nonemptyH nonemptyK
+  exact And.intro
+    (RatDenomUnitCarrier_nonempty_rat classified.left nonemptyH)
+    (And.intro
+      (RatDenomUnitCarrier_nonempty_rat classified.right.left nonemptyK)
+      classified.right.right)
 
 end BEDC.Derived.FieldUp
