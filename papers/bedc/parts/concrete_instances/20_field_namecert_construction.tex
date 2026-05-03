@@ -367,6 +367,90 @@ predicate center element acts as classifier identity on centralizer elements;
 standard bridge ordinary group center action on centralizers; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action inverse]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For
+$T:\mathsf{AffAut}_F$ define
+$$
+\mathrm{Act}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X)$, then the restricted action is invertible on
+the centralizer:
+\begin{enumerate}
+\item $C_F(A)(\mathrm{Act}_T(X))$.
+\item $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+\item
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X.
+$$
+\item
+$$
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action and inverse package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It supplies
+the carrier $\mathsf{AffAut}_F$, product $\circ_{\mathrm{aff}}$, inverse
+operation $\iota_F(-)$, classifier $\equiv_{\mathrm{aff}}$, and the inverse rows
+for the concrete $\FieldUp(\RatUp)$ exit object.
+
+The forward carrier clause is exactly the preservation part of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} applied to
+$T$ and $X$.
+
+For the inverse carrier clause, use
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} on
+$N_F(C_F(A))(T)$. Its inverse row gives $N_F(C_F(A))(\iota_F(T))$. Applying
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} again, now with
+conjugating element $\iota_F(T)$ and acted element $X$, gives
+$C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+
+We next compose the two restricted actions. The composition law in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} gives
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{\iota_F(T)\circ_{\mathrm{aff}}T}(X).
+$$
+The left inverse row from the canonical package identifies
+$\iota_F(T)\circ_{\mathrm{aff}}T$ with $\mathrm{id}_F$. Classifier congruence for
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, followed by the
+identity clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, identifies the
+right side with $X$. Classifier transitivity yields the displayed left inverse
+law.
+
+The right inverse law is the same calculation in the other order. The
+composition law gives
+$$
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}\iota_F(T)}(X).
+$$
+The right inverse row from the canonical package identifies
+$T\circ_{\mathrm{aff}}\iota_F(T)$ with $\mathrm{id}_F$, and the same classifier
+congruence plus identity-action clause reduces the displayed action to $X$.
+\end{proof}
+
+Per-object template: traditional target invertible normalizer action on
+centralizer; BEDC source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier
+$C_F(A)$ acted on by $N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$;
+stability forward preservation, inverse-parameter preservation, and two-sided
+action inverse laws; ledger fixed element, acted element, conjugator, inverse
+witness, and centralizer witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}; exactness
+predicate restricted action invertibility on centralizer elements; standard
+bridge ordinary normalizer group action by bijections; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
 \label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
 Let $d_1:=\Eone(\emp)$. For
