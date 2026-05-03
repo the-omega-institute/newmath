@@ -266,3 +266,69 @@ $N_F(C_F(A))$; action classifier $\equiv_{\mathrm{aff}}$; automorphism package
 $\mathsf{CentAut}_A$; identity law for $\mathrm{id}_F$; product law for
 $T\circ_{\mathrm{aff}}U$; inverse action $\mathrm{Act}_{\iota_F(T)}$; standard
 bridge ordinary homomorphism into centralizer automorphisms.
+
+\begin{theorem}[RatUp FieldUp restricted normalizer action kernel normality]
+\label{thm:ratup-fieldup-affine-normalizer-action-kernel-normal}
+For Definition~\ref{def:ratup-fieldup-affine-normalizer-action-kernel-carrier},
+the carrier $K_A$ is the normal kernel of the restricted normalizer action on
+$C_F(A)$. Concretely:
+\begin{enumerate}
+\item $K_A(\mathrm{id}_F)$.
+\item If $K_A(T)$ and $K_A(U)$, then $K_A(T\circ_{\mathrm{aff}}U)$.
+\item If $K_A(T)$, then $K_A(\iota_F(T))$.
+\item If $K_A(T)$ and $N_F(C_F(A))(U)$, then
+$$
+K_A(U\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(U)).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The identity element belongs to $K_A$ because
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} supplies
+$N_F(C_F(A))(\mathrm{id}_F)$, and the representation identity row in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-representation}
+gives $\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X$ for every
+$C_F(A)$ element.
+
+For product closure, the same subgroup certificate gives
+$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$. Given $C_F(A)(X)$, the composition row
+of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-representation}
+identifies $\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X)$ with
+$\mathrm{Act}_T(\mathrm{Act}_U(X))$. The fixed-point hypothesis for $K_A(U)$
+reduces the inner action to $X$, and the fixed-point hypothesis for $K_A(T)$
+then reduces the outer action to $X$.
+
+For inverse closure, the inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} places
+$\iota_F(T)$ in $N_F(C_F(A))$. For $X$ in $C_F(A)$, the inverse-action rows of
+\autoref{thm:ratup-fieldup-restricted-normalizer-action-automorphism-kernel-exactness}
+make $\mathrm{Act}_{\iota_F(T)}$ the two-sided inverse of
+$\mathrm{Act}_T$ on the centralizer carrier. Since $K_A(T)$ makes
+$\mathrm{Act}_T$ pointwise equal to the identity action, its inverse action is
+pointwise equal to the identity action as well.
+
+For conjugation, subgroup closure first gives
+$N_F(C_F(A))(U\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(U))$. Fix
+$X$ with $C_F(A)(X)$. The inverse-preservation row puts
+$\mathrm{Act}_{\iota_F(U)}(X)$ back in $C_F(A)$, so the hypothesis $K_A(T)$
+fixes that acted element. Applying $\mathrm{Act}_U$ and then using the
+two-sided inverse-action law for $U$ reduces the conjugated action to $X$.
+Thus every conjugate of a kernel element by a normalizer element again lies in
+$K_A$.
+\end{proof}
+
+Per-object template: target restricted normalizer action kernel normality;
+source concrete $\FieldUp(\RatUp)$ affine exit; acted carrier $C_F(A)$; source
+carrier $N_F(C_F(A))$; kernel carrier $K_A$; classifier
+$\equiv_{\mathrm{aff}}$; stability identity, product, inverse, and conjugation
+inside the normalizer; ledger fixed element, kernel witness, normalizer witness,
+inverse parameter, and acted centralizer witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-representation},
+and
+\autoref{thm:ratup-fieldup-restricted-normalizer-action-automorphism-kernel-exactness};
+exactness predicate pointwise fixed restricted action on $C_F(A)$; standard
+bridge ordinary normal kernel of a group action representation; downstream
+consumer faithful quotient representation of the normalizer on centralizer
+orbits; status $\mathsf{ProofTarget}$.
