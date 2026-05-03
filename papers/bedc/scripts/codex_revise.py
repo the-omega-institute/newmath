@@ -408,13 +408,38 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                      "origin", base_branch],
                     cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
                 )
-            if r3.returncode == 0:
-                logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
-            else:
-                logger.warning(
-                    f"[origin-sync] rebase failed (returncode={r3.returncode}); "
-                    f"stderr={(r3.stderr or '').strip()[:200]}"
-                )
+                if r3.returncode == 0:
+                    logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+                else:
+                    logger.warning(
+                        f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                        f"stderr={(r3.stderr or '').strip()[:200]}"
+                    )
+                    # Abort any in-flight rebase to leave main repo clean —
+                    # otherwise worker pushes hit "rebase in progress" forever.
+                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                    if rebase_merge.exists() or rebase_apply.exists():
+                        logger.warning("[origin-sync] mid-rebase detected, aborting")
+                        subprocess.run(
+                            ["git", "rebase", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
+                    # Best-effort autostash pop (safe no-op if nothing stashed).
+                    subprocess.run(
+                        ["git", "stash", "pop"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                    )
+                    # Verify clean state after recovery.
+                    rs = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                    )
+                    if (rs.stdout or "").strip():
+                        logger.error(
+                            f"[origin-sync] main repo NOT CLEAN after recovery: "
+                            f"{(rs.stdout or '').strip()[:200]} — manual fix needed"
+                        )
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 
