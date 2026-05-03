@@ -118,3 +118,83 @@ contextual nonzero package rows for both selected endpoints on both context
 sides; ledger selector choices plus both context sides; exactness predicate
 selector-independent row coverage; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp final certificate selector noncollapse boundary]
+\label{thm:ratup-fieldup-final-certificate-selector-noncollapse-boundary}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t:\mathsf{BMark}$, and contexts $L,R,r:\mathsf{BHist}$, let
+$E_s(h,k,\ell)$ and $E_t(h,k,\ell)$ be the corresponding bracketing endpoint
+selectors of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then one concrete
+$\FieldUp(\RatUp)$ exit boundary simultaneously contains the following rows:
+\begin{enumerate}
+  \item the final certificate noncollapse action package of
+  \autoref{thm:ratup-fieldup-final-certificate-noncollapse-action-package};
+  \item $C_D^u(E_s(h,k,\ell))$, $C_D^u(E_t(h,k,\ell))$, and
+  $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$;
+  \item $\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$;
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,E_s(h,k,\ell)))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(E_s(h,k,\ell),r))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,E_s(h,k,\ell)));
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(E_s(h,k,\ell),r)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-final-certificate-noncollapse-action-package}
+to Definition~\ref{def:ratup-fieldup-concrete-exit-object}. This fixes the
+concrete $\FieldUp(\RatUp)$ certificate boundary whose source object and action
+rows are consumed by the hierarchy exit criterion.
+
+Next apply \autoref{thm:ratup-fieldup-bracketing-selector-exit-subpackage} to
+the same denominator tuple, histories, carrier witnesses, support witness,
+selectors, and contexts $L,R:\mathsf{BHist}$. This contributes the two selected
+carrier rows, the selected denominator-classifier row, and the arbitrary-context
+singleton-classifier exclusion for the pair
+$(E_s(h,k,\ell),E_t(h,k,\ell))$.
+
+Apply \autoref{thm:ratup-fieldup-bracketing-selector-independence-package} with
+the same selector pair and the context $r:\mathsf{BHist}$. Its
+selector-independent row package supplies
+$\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$ together with
+contextual nonzero rows for the selected left endpoint.
+
+Finally apply \autoref{thm:ratup-fieldup-selector-contextual-nonzero-package} to
+the selector $s$ and context $r:\mathsf{BHist}$. This reads the one-sided
+singleton-carrier exclusions and the two
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses as rows of the same concrete
+exit boundary, so the final certificate and selector bracketing data are
+consumed as one FieldUp object.
+\end{proof}
+
+Per-object template: traditional target final selector noncollapse boundary
+inside $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, $\mathsf{RatUp}$, and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; selected endpoints
+$E_s(h,k,\ell)$ and $E_t(h,k,\ell)$; carrier rows $C_D^u(E_s(h,k,\ell))$,
+$C_D^u(E_t(h,k,\ell))$, and $\mathsf{RatHistoryCarrier}$; classifier rows
+$R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$ and
+$\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$; stability
+obligations final noncollapse action, selector exit subpackage, selector
+independence, and contextual nonzero rows; ledger selector pair plus contexts
+$L,R,r$; exactness predicate one concrete FieldUp exit boundary; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
