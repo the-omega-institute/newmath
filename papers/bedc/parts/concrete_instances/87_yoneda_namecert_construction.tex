@@ -39,6 +39,20 @@ identifies the empty displayed morphism with the supplied displayed component.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_displayed\_deterministic}
 
+\begin{theorem}[Yoneda empty component family component determinacy]
+\label{thm:yoneda-representable-empty-component-family-component-deterministic}
+If $a$ is unary, an empty representable component family exists over every
+unary object, and a displayed component over $a$ is supplied for the same
+prefixes $p,q$, then $\HSame(\emp,displayed)$.
+\end{theorem}
+\begin{proof}
+Evaluate the empty component family at the supplied unary object $a$. The
+resulting empty component and the displayed component expose category
+hom-carriers with the same prefixed source and target, so morphism determinacy
+identifies their component histories.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_component\_deterministic}
+
 \begin{theorem}[Yoneda representable empty component family target determinacy]
 \label{thm:yoneda-representable-empty-component-family-target-deterministic}
 For histories $p,q,r:\mathsf{BHist}$, if the empty natural-transformation
@@ -60,6 +74,28 @@ gives $\HSame(p,r)$. Symmetry converts the first comparison to
 $\HSame(q,p)$, and transitivity composes it with $\HSame(p,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_target\_deterministic}
+
+\begin{theorem}[Yoneda representable empty component family source determinacy]
+\label{thm:yoneda-representable-empty-component-family-source-deterministic}
+For histories $p,q,r:\mathsf{BHist}$, if the empty natural-transformation
+component family from $p$ to $q$ exists over every unary object and the empty
+component family from $r$ to $q$ exists over every unary object, then $p$ and
+$r$ have the same history:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\Bigr)\Rightarrow
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\emp)\Bigr)\Rightarrow
+\HSame(p,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:yoneda-representable-empty-component-family-iff} to
+both component families. The first family gives $\HSame(p,q)$ and the second
+gives $\HSame(r,q)$. Symmetry converts the second comparison to
+$\HSame(q,r)$, and transitivity composes it with $\HSame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_source\_deterministic}
 
 \section{The certificate}
 \label{sec:yoneda-certificate}

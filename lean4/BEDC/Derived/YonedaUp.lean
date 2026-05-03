@@ -84,6 +84,20 @@ theorem YonedaRepresentable_empty_component_family_displayed_deterministic {p q 
     CategoryHomCarrier_morphism_deterministic
       emptyComponent.right.right.right displayedComponent.right.right.right
 
+theorem YonedaRepresentable_empty_component_family_component_deterministic
+    {p q a displayed : BHist} :
+    UnaryHistory a ->
+      (forall {object : BHist}, UnaryHistory object ->
+        NatTransPrefixComponentCarrier p q object BHist.Empty) ->
+      NatTransPrefixComponentCarrier p q a displayed -> hsame BHist.Empty displayed := by
+  intro objectCarrier emptyFamily displayedComponent
+  have emptyComponent :
+      NatTransPrefixComponentCarrier p q a BHist.Empty :=
+    emptyFamily (object := a) objectCarrier
+  exact
+    CategoryHomCarrier_morphism_deterministic
+      emptyComponent.right.right.right displayedComponent.right.right.right
+
 theorem YonedaRepresentable_empty_component_family_target_deterministic {p q r : BHist} :
     (forall {a : BHist}, UnaryHistory a ->
       NatTransPrefixComponentCarrier p q a BHist.Empty) ->
@@ -94,5 +108,16 @@ theorem YonedaRepresentable_empty_component_family_target_deterministic {p q r :
   have leftData := YonedaRepresentable_empty_component_family_iff.mp leftFamily
   have rightData := YonedaRepresentable_empty_component_family_iff.mp rightFamily
   exact hsame_trans (hsame_symm leftData.right.right) rightData.right.right
+
+theorem YonedaRepresentable_empty_component_family_source_deterministic {p q r : BHist} :
+    (forall {a : BHist}, UnaryHistory a ->
+      NatTransPrefixComponentCarrier p q a BHist.Empty) ->
+    (forall {a : BHist}, UnaryHistory a ->
+      NatTransPrefixComponentCarrier r q a BHist.Empty) ->
+    hsame p r := by
+  intro leftFamily rightFamily
+  have leftData := YonedaRepresentable_empty_component_family_iff.mp leftFamily
+  have rightData := YonedaRepresentable_empty_component_family_iff.mp rightFamily
+  exact hsame_trans leftData.right.right (hsame_symm rightData.right.right)
 
 end BEDC.Derived.YonedaUp
