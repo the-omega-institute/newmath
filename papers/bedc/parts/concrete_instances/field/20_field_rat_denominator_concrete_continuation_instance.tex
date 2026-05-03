@@ -162,42 +162,50 @@ relational $\Cont$ law package of
 same concrete law package in the following sense.
 \begin{enumerate}
   \item For all histories $h,k,r:\mathsf{BHist}$, $\Cont(h,k,r)$ identifies
-  $r$ with $\mu_D(h,k)$:
+  $r$ with $\mu_D(h,k)$ through history-sameness:
 
   $$
-  \Cont(h,k,r)\quad\text{if and only if}\quad r=\mu_D(h,k).
+  \Cont(h,k,r)\quad\text{if and only if}\quad r\hsame\mu_D(h,k).
   $$
 
   In particular, the canonical output satisfies $\Cont(h,k,\mu_D(h,k))$.
-  \item Transporting each displayed relational output along this identification
-  converts the six append clauses into the six relational clauses.
+  \item Transporting each displayed relational output along this $\hsame$
+  comparison and reading the result through $R_D$ converts the six append clauses
+  into the six relational clauses.
   \item Instantiating each relational output by the canonical witness
-  $\Cont(h,k,\mu_D(h,k))$ converts the six relational clauses back into the six
-  append clauses.
+  $\Cont(h,k,\mu_D(h,k))$ and transporting through $R_D$ along $\hsame$ converts
+  the six relational clauses back into the six append clauses.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
 Unfold the concrete operation in
 \autoref{def:field-rat-denominator-concrete-continuation-instance}: by
 $\mathsf{BEDC.FKernel.Cont.cont\_iff\_append}$, a continuation witness
-$\Cont(h,k,r)$ is exactly the assertion $r=\mathsf{append}(h,k)$, and
-$\mu_D(h,k)$ is defined to be $\mathsf{append}(h,k)$. This gives the displayed
-identification and the canonical witness at $r=\mu_D(h,k)$.
+$\Cont(h,k,r)$ is internally the assertion $r=\mathsf{append}(h,k)$, and
+$\mu_D(h,k)$ is defined to be $\mathsf{append}(h,k)$.
+
+The history-sameness interface
+$\mathsf{BEDC.FKernel.Hist.hsame\_iff\_eq}$ immediately reads that equality as
+$r\hsame\mu_D(h,k)$. At $r=\mu_D(h,k)$ the same internal append equality gives
+the canonical witness $\Cont(h,k,\mu_D(h,k))$.
 
 To pass from append laws to relational laws, use the checked append package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}$
-and replace every displayed output by the corresponding $\Cont$ output through
-the equality above. Carrier closure, commutative classifier compatibility,
-associativity, binary classifier congruence, ledger closure, and the one-sided
-unit obstruction are therefore the six relational clauses of
+and transport every displayed output to the corresponding $\Cont$ output along
+the $\hsame$ comparison above. Carrier closure is carried directly, while
+commutative classifier compatibility, associativity, binary classifier
+congruence, ledger closure, and the one-sided unit obstruction are read through
+$R_D$. These are the six relational clauses of
 \autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
 
 Conversely, start from the checked relational package
 $\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}$.
 Instantiate each continuation output by the canonical witness
-$\Cont(h,k,\mu_D(h,k))$. The same identification rewrites the six relational
-outputs as append outputs, giving exactly the six clauses of
-\autoref{thm:field-rat-denominator-append-concrete-instance-laws}. Thus the
-functional append presentation and the relational continuation presentation are
-one concrete $\FieldUp(\mathsf{RatUp})$ denominator law package.
+$\Cont(h,k,\mu_D(h,k))$. The same $\hsame$ comparison transports the relational
+outputs through $R_D$ to the append outputs, giving exactly the six clauses of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws}.
+
+Thus the functional append presentation and the relational continuation
+presentation are one concrete $\FieldUp(\mathsf{RatUp})$ denominator law package
+only through the BEDC history-sameness and classifier interfaces.
 \end{proof}
