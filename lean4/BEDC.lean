@@ -131,6 +131,9 @@ import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.Derived.ZetaBasicUp
+import BEDC.Derived.CritStripUp
+import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.SumUp
