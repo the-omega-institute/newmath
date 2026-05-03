@@ -6,5 +6,85 @@ The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets o
 \section{Carrier definition}
 \label{sec:quotientgroup-carrier}
 
+\begin{definition}[Centralizer-normalizer QuotientGroupUp carrier]
+\label{def:quotientgroup-centralizer-normalizer-carrier}
+In the BEDC history-level $\GroupUp$ setting of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, let $Z_a$
+be the centralizer carrier of \autoref{def:group-centralizer-carrier} and let
+$N_a$ be the centralizer normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}. The
+centralizer-normalizer $\QuotientGroupUp$ representative carrier is $N_a$,
+with classifier
+$Q_{Z_a\triangleleft N_a}$ from
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}.
+Represented multiplication, unit, and inversion are given by
+$\mathsf{mul}(x,y)$, $e$, and $\mathsf{inv}(x)$.
+
+The certificate ledger records the representative endpoints in $N_a$, the
+relative kernel witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, and the tower rows for the lower
+centralizer subgroup, the upper normalizer subgroup, inclusion
+$Z_a\subseteq N_a$, and conjugation preservation of $Z_a$ by carried elements
+of $N_a$. Thus the carrier is a concrete history-level representative system
+equipped with a classifier, not a host quotient type.
+\end{definition}
+
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
+
+\begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
+\label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the associativity, unit, multiplication-congruence,
+inverse-congruence, inverse-product reversal, and two-sided inverse laws used
+by \autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the tuple
+of \autoref{def:quotientgroup-centralizer-normalizer-carrier} satisfies the
+$\QuotientGroupUp$ certificate fields:
+\begin{enumerate}
+\item the representative carrier $N_a$ is inhabited by $e$;
+\item $Q_{Z_a\triangleleft N_a}$ is reflexive, symmetric, and transitive on
+carried representatives;
+\item represented multiplication descends through
+$Q_{Z_a\triangleleft N_a}$;
+\item $e$ and $\mathsf{inv}(x)$ are carried by $N_a$ whenever $x$ is carried
+by $N_a$;
+\item the represented product, unit, and inverse operations respect the same
+classifier on all carried representatives.
+\end{enumerate}
+Consequently the centralizer-normalizer tower supplies a quotient-free
+semantic certificate for $\QuotientGroupUp$ whose observable names are
+histories in $N_a$ and whose equality test is the relative-kernel predicate
+$Q_{Z_a\triangleleft N_a}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. Its lower
+and upper subgroup rows give $Z_a(e)$, $N_a(e)$, product and inverse closure
+for $N_a$, the inclusion $Z_a\subseteq N_a$, and the normality rows carrying
+$Z_a$ through conjugation by elements of $N_a$.
+
+Next apply
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence} to
+the classifier
+$Q_{Z_a\triangleleft N_a}$. The first three rows give reflexivity, symmetry,
+and transitivity on representatives in $N_a$. The fourth row gives product
+descent for $\mathsf{mul}$ and the quotient operation congruence required by
+the represented multiplication.
+
+It remains to identify the unit and inverse operation rows. The unit row is
+the upper subgroup inhabitance supplied by the tower. For inverse closure, use
+the upper subgroup inverse row from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}; inverse
+descent follows by combining the ambient inverse-congruence and two-sided
+inverse laws named there with
+\autoref{thm:group-inverse-mul-reverse}. Expanding
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}, the
+kernel witness for inverse representatives is transported from
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$ to the corresponding relative inverse
+word by the $Z_a$ inverse-closure and $\hsame$-transport rows.
+
+These rows are exactly the carrier inhabitance, equivalence, product descent,
+unit closure, inverse closure, and operation congruence fields demanded by the
+history-level $\QuotientGroupUp$ certificate, with the ledger witness kept as
+the relative kernel membership rather than as an element of a host quotient.
+\end{proof}

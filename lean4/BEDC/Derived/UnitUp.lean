@@ -13,6 +13,15 @@ def UnitHistoryCarrier (h : BHist) : Prop :=
 def UnitHistoryClassifier (h k : BHist) : Prop :=
   UnitHistoryCarrier h ∧ UnitHistoryCarrier k ∧ hsame h k
 
+theorem UnitHistoryCarrier_empty_iff {h : BHist} :
+    UnitHistoryCarrier h ↔ hsame h BHist.Empty := by
+  constructor
+  · intro carrier
+    exact cont_right_unit_unique carrier
+  · intro same
+    cases same
+    exact cont_left_unit BHist.Empty
+
 theorem UnitHistoryClassifier_semanticNameCert :
     SemanticNameCert UnitHistoryCarrier UnitHistoryCarrier UnitHistoryCarrier
       UnitHistoryClassifier := by

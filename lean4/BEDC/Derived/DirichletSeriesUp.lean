@@ -180,4 +180,26 @@ theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
             (And.intro (unary_append_closed unaryTail unaryN)
               (unary_append_e1_left (h := n) (k := tail) unaryN))
 
+theorem DirichletPositiveIndex_append_right_cases {m n : BHist} :
+    DirichletPositiveIndex (append m n) ->
+      DirichletPositiveIndex m ∨ DirichletPositiveIndex n := by
+  intro positiveAppend
+  cases positiveAppend with
+  | intro tail data =>
+      cases data with
+      | intro unaryTail appendEq =>
+          induction n generalizing m tail with
+          | Empty =>
+              exact Or.inl (Exists.intro tail (And.intro unaryTail appendEq))
+          | e0 n _ =>
+              exact False.elim (not_hsame_e0_e1 appendEq)
+          | e1 n _ =>
+              have appendTailSame : hsame (append m n) tail :=
+                hsame_e1_iff.mp appendEq
+              have appendUnary : UnaryHistory (append m n) :=
+                unary_transport_symm unaryTail appendTailSame
+              have rightUnary : UnaryHistory n :=
+                unary_append_right_factor appendUnary
+              exact Or.inr (Exists.intro n (And.intro rightUnary rfl))
+
 end BEDC.Derived.DirichletSeriesUp
