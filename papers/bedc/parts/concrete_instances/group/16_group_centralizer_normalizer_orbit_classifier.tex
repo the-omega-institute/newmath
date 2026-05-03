@@ -1,0 +1,49 @@
+\section{Normalizer orbit classifier stability}
+\label{sec:group-normalizer-orbit-classifier-stability}
+
+\begin{theorem}[Group centralizer normalizer orbit classifier certificate]
+\label{thm:group-centralizer-normalizer-orbit-classifier-certificate}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, let $Z_a$,
+$N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be as in
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For
+$x,y,x',y':\mathsf{BHist}$, assume $Z_a(x)$, $Z_a(y)$, $Z_a(x')$,
+$Z_a(y')$, $\hsame(x,x')$, and $\hsame(y,y')$. Then endpoint transport
+preserves and reflects orbit reachability:
+$$
+x\sim_{N_a}y
+\Longleftrightarrow
+x'\sim_{N_a}y'.
+$$
+Together with
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, this
+endpoint-transport row supplies the quotient-free classifier fields on the
+centralizer carrier: carrier reflexivity, symmetry, transitivity, and
+stability under replacement of both exposed endpoints by $\hsame$-equal
+histories.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack an orbit witness $s$ for
+$x\sim_{N_a}y$. Keep the same normalizer witness $N_a(s)$ and replace only the
+source and target endpoints.
+
+Multiplication congruence transports the conjugation word
+$\mathsf{Conj}_s(x)$ across $\hsame(x,x')$, giving a comparison between
+$\mathsf{Conj}_s(x')$ and $\mathsf{Conj}_s(x)$. Compose this comparison with
+the original endpoint witness $\hsame(\mathsf{Conj}_s(x),y)$ and then with
+$\hsame(y,y')$. The carried assumptions $Z_a(x')$ and $Z_a(y')$ repack the
+same $s$ as a witness for $x'\sim_{N_a}y'$.
+
+For the reverse direction, apply the same argument after exchanging
+$(x,y)$ with $(x',y')$. Symmetry of $\hsame$ turns the displayed endpoint
+comparisons into $\hsame(x',x)$ and $\hsame(y',y)$, so the witness for
+$x'\sim_{N_a}y'$ transports back to a witness for $x\sim_{N_a}y$.
+
+The classifier certificate now has its structural rows from
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}: reflexivity,
+symmetry, and transitivity on the carrier $Z_a$. The two endpoint-transport
+directions above add stability under $\hsame$-replacement of the visible
+source and target endpoints, without passing to a quotient object.
+\end{proof}
