@@ -318,3 +318,95 @@ of Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Conjunction
 introduction packages the four row families into the single concrete
 $\mathsf{BHist}$-anchored exit package claimed.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp operation-table final inventory two-sided unit coverage]
+\label{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, and the concrete
+exit object $\mathcal E_F$ of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Let
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ be the concrete denominator tuple, let
+$h,k,\ell:\mathsf{BHist}$ satisfy $C_D^u(h)$, $C_D^u(k)$, $C_D^u(\ell)$, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and let
+$s,t,u,v,w,z:\mathsf{BMark}$ and $L,R,r:\mathsf{BHist}$ be the chosen selectors
+and contexts. For Rat-classified endpoint pairs
+$a,a',b,b':\mathsf{BHist}$ satisfying
+$$
+\mathsf{RatHistoryClassifier}(a,a')
+\land
+\mathsf{RatHistoryClassifier}(b,b'),
+$$
+and for every carried denominator $q:\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryCarrier}(q)$, one concrete $\mathsf{BHist}$-anchored
+$\FieldUp(\RatUp)$ package contains, at the same time:
+\begin{enumerate}
+  \item the assembled certificate operation-table coverage of
+  \autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage};
+  \item the concrete operation-table laws of
+  \autoref{thm:ratup-fieldup-concrete-operation-table-laws};
+  \item the final row inventory of
+  \autoref{thm:ratup-fieldup-final-row-inventory-coverage};
+  \item the two Rat-classified product nonzero exclusions
+  $(\mathsf{mul}(a,b)\hsame0\to\bot)$ and
+  $(\mathsf{mul}(a',b')\hsame0\to\bot)$ from
+  \autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product};
+  \item the append right-unit denial at $q$,
+  $$
+  (\forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(x,q),x))\to \mathsf{False};
+  $$
+  \item the append left-unit denial at $q$,
+  $$
+  (\forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(q,x),x))\to \mathsf{False};
+  $$
+  \item the relational denial for $\Cont(x,q,r)$,
+  $$
+  (\forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(x,q,r)\to R_D(r,x))\to \mathsf{False};
+  $$
+  \item the relational denial for $\Cont(q,x,r)$,
+  $$
+  (\forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(q,x,r)\to R_D(r,x))\to \mathsf{False}.
+  $$
+\end{enumerate}
+Here $C_D,R_D,\mu_D$ are the strict-denominator presentation of
+Definition~\ref{def:field-rat-denominator-concrete-continuation-instance},
+identified there with $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and append. Thus the Phase Algebra Hierarchy
+consumer can read the operation table, final inventory rows, Rat-classified
+product exclusions, and both append and relational one-sided unit denials from
+one concrete $\mathsf{BHist}$ package without changing source, selectors,
+contexts, or denominator tuple.
+\end{theorem}
+\begin{proof}
+First build the operation-table, final-inventory, and nonzero rows. Apply
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage} to
+the concrete source, operation table, exit object, denominator tuple, histories,
+selectors, contexts, Rat-classified endpoint pairs, and carried denominator
+$q$. This gives the assembled operation-table coverage, the concrete
+operation-table laws, the final inventory, and the two Rat-classified product
+nonzero exclusions inside the same $\mathsf{BHist}$-anchored package.
+
+Next build the strict denominator rows. Apply
+\autoref{thm:rat-denominator-append-continuation-final-exit-obstruction-guard}
+at the carried denominator $q$, using the identification of $C_D(q)$ with
+$\mathsf{RatHistoryCarrier}(q)$ in
+Definition~\ref{def:field-rat-denominator-concrete-continuation-instance}. Its
+append presentation supplies the right-unit and left-unit denials, and its
+relational presentation supplies the two $\Cont$ endpoint denials.
+
+Finally, keep the witnesses named by the same source, operation table, exit
+object, denominator tuple, selectors, contexts, endpoint pairs, and carried
+denominator. Conjunction introduction packages these row families as the single
+concrete final $\FieldUp(\RatUp)$ exit package claimed.
+\end{proof}
+
+Per-object template: traditional target $\FieldUp$ final concrete exit package;
+BEDC source $\mathsf{BHist}$, $\Cont$, $\mathsf{RatHistoryCarrier}$, and
+$\mathsf{RatHistoryClassifier}$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligations operation-table coverage plus two-sided unit obstruction; ledger
+selectors $s,t,u,v,w,z$ and contexts $L,R,r$; exactness as the concrete final
+package; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$; status
+$\mathsf{ProofTarget}$.
