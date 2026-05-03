@@ -624,3 +624,71 @@ the contextual boundary rows; core theorem
 \autoref{thm:ratup-fieldup-reduct-context-exit-closure}; exactness predicate
 $\mathsf{CanFieldExitRow}$; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit contextual action row coverage]
+\label{thm:ratup-fieldup-canonical-exit-contextual-action-row-coverage}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the fixed source
+tuple $\mathsf{RatUpFieldSource}_F$, the denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and the contextual action
+$\Gamma$, the contextual-action rows supplied by
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws},
+\autoref{thm:ratup-fieldup-contextual-action-pair-full-transport-package},
+\autoref{thm:rat-denom-unit-contextual-action-nested-pair-action-coherence},
+\autoref{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence},
+\autoref{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport},
+\autoref{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package}, and
+\autoref{thm:ratup-fieldup-four-context-pair-adjacent-swap-closure} satisfy
+$\mathsf{CanFieldExitRow}$. Each such row remains a row over the same concrete
+$\mathsf{BHist}$ source, carrier $\mathsf{RatHistoryCarrier}$, classifier
+$\mathsf{RatHistoryClassifier}$, displayed denominator tuple, and contextual
+action $\Gamma$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-exit-row-exactness}. Its coverage
+clause places every row of the canonical phase-exit object inside
+$\mathsf{CanFieldExitRow}$, and its soundness clause fixes the concrete
+$\mathsf{RatUpFieldSource}_F$ source tuple, the $\mathsf{BHist}$ carrier, the
+classifier, the denominator tuple, and $\Gamma$.
+
+The composition and pair-transport rows are concrete rows of this object. Apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to identify the carried nested action, its denominator classifier, and its
+strict-support readback. Apply
+\autoref{thm:ratup-fieldup-contextual-action-pair-full-transport-package} to
+identify the two-pair classifier transport and the strict-support equivalence.
+
+The finite-order coherence rows use the same concrete denominator endpoints.
+Apply \autoref{thm:rat-denom-unit-contextual-action-nested-pair-action-coherence}
+for the collected threefold action, and apply
+\autoref{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence}
+for the reverse-order classifier and support transport. These two rows mention
+only $\mathsf{BHist}$ histories, $C_D^u$, $R_D^u$, $\mathsf{append}$, $\emp$,
+and $\Gamma$.
+
+The support and noncollapse rows are anchored by the same source data. Apply
+\autoref{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport}
+to identify support under three classified context pairs, and apply
+\autoref{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package} to
+recover the transported Rat carrier, singleton-empty exclusions, inverse-domain
+witnesses, and contextual singleton-classifier obstruction.
+
+Finally apply
+\autoref{thm:ratup-fieldup-four-context-pair-adjacent-swap-closure}. Its
+adjacent-swap row uses the same carried denominator context pairs and the same
+contextual action. The soundness clause from
+\autoref{thm:ratup-fieldup-canonical-exit-row-exactness} therefore keeps every
+contextual-action row anchored to $\mathsf{RatUpFieldSource}_F$, rather than to
+an abstract operation parameter.
+\end{proof}
+
+Per-object template: traditional target contextual-action row coverage inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\Gamma$, $C_D^u$, $R_D^u$,
+$N_D^u$, and $\mathsf{append}$; carrier/context choices the carried denominator
+endpoints and context pairs in the cited rows; classifier $R_D^u$; stability
+obligations contextual composition, pair transport, threefold support transport,
+noncollapse, and adjacent-swap closure; ledger the contextual-action row family;
+core theorem
+\autoref{thm:ratup-fieldup-canonical-exit-contextual-action-row-coverage};
+exactness predicate $\mathsf{CanFieldExitRow}$; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
