@@ -110,6 +110,17 @@ theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail 
         resultEmpty
     exact not_hsame_e1_empty emptyParts.left
 
+theorem PadicPrimeScale_visible_exponent_result_nonempty {p result tail : BHist} :
+    (PadicPrimeScale p (BHist.e0 tail) result -> hsame result BHist.Empty -> False) ∧
+      (PadicPrimeScale p (BHist.e1 tail) result -> hsame result BHist.Empty -> False) := by
+  constructor
+  · intro scale resultEmpty
+    exact not_hsame_e0_empty
+      (Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty)
+  · intro scale resultEmpty
+    exact not_hsame_e1_empty
+      (Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty)
+
 theorem PadicPrimeScale_empty_exponent_result_empty {p exponent : BHist} :
     NatPrime p -> hsame exponent BHist.Empty -> PadicPrimeScale p exponent BHist.Empty := by
   intro prime exponentEmpty
