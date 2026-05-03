@@ -125,3 +125,45 @@ Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete}; exactness
 predicate reduct-row coverage for
 Definition~\ref{def:ratup-fieldup-concrete-exit-object}; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine automorphism action certificate]
+\label{thm:ratup-fieldup-affine-automorphism-action-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+$\FieldUp(\RatUp)$ exit object exports the affine automorphism action certificate
+on $\mathsf{BHist}$ required by downstream algebra. The action carrier is
+$\mathsf{AffAut}_F$; its classifier is $\equiv_{\mathrm{aff}}$; its identity,
+composition, and inverse laws are those of
+Theorem~\ref{thm:field-affine-automorphism-group-certificate}; each affine
+fiber is singleton-classified by
+Theorem~\ref{thm:field-affine-certified-fiber-singleton}; and common affine
+factors cancel exactly by
+Theorem~\ref{thm:field-affine-automorphism-cancellation-exactness}.
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} and
+Theorem~\ref{thm:ratup-fieldup-algebra-reduct-compatibility}. These fix the
+concrete $\FieldUp(\RatUp)$ operations and the reduct rows over
+$\mathsf{BHist}$, so the action is attached to the same exit object rather than
+to a schematic field package.
+
+Next apply Theorem~\ref{thm:field-affine-automorphism-group-certificate} to
+the fixed operations. Its carrier $\mathsf{AffAut}_F$ and classifier
+$\equiv_{\mathrm{aff}}$ supply the identity, composition, and inverse fields of
+the affine action certificate.
+
+Finally project Theorem~\ref{thm:field-affine-certified-fiber-singleton} and
+Theorem~\ref{thm:field-affine-automorphism-cancellation-exactness}. The first
+projection supplies singleton classification of every affine fiber, and the
+second supplies exact cancellation for common affine factors, which are the
+action exactness fields consumed downstream.
+\end{proof}
+
+Per-object template: traditional target affine group action over a field; BEDC
+source concrete $\FieldUp(\RatUp)$ exit rows over $\mathsf{BHist}$; carrier
+$\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$; stability obligations
+group laws, fiber singleton exactness, and cancellation exactness; ledger
+nonzero coefficient witnesses, product witnesses, offsets, and inverse
+witnesses; core theorem
+Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate};
+exactness predicate fiber and cancellation exactness for the action; standard
+bridge ordinary affine action; status $\mathsf{ProofTarget}$.
