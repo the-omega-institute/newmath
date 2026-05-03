@@ -48,11 +48,9 @@ import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
-import BEDC.Derived.EmptyUp
-import BEDC.Derived.CritStripUp
+import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.EmptyUp
-import BEDC.Derived.EqtypeUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -328,7 +326,6 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
-import BEDC.Derived.FuncobjUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -421,10 +418,13 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
+import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
+import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
 import BEDC.Derived.InterHist
