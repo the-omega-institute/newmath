@@ -479,6 +479,23 @@ def count_lean_theorems(bedc_root: Optional[Path] = None) -> int:
     return count
 
 
+def ensure_runtime_from_template(runtime: Path, template: Path) -> None:
+    """If `runtime` does not exist but `template` does, copy template to
+    runtime. Skips when runtime already present. Logs the seed action
+    so operators know a fresh checkout used the default config.
+    """
+    try:
+        if runtime.exists():
+            return
+        if template.exists():
+            shutil.copy(template, runtime)
+            logger.info(
+                f"[runtime-config] seeded {runtime.name} from {template.name}"
+            )
+    except Exception as exc:
+        logger.warning(f"[runtime-config] seed failed for {runtime.name}: {exc}")
+
+
 def read_target_parallel(default: int) -> int:
     """Read live target parallelism from PARALLEL_CONFIG_FILE.
 
@@ -3226,6 +3243,10 @@ def main() -> int:
         # Pool max is fixed at HARD_MAX_PARALLEL so target_parallel can be
         # raised live via PARALLEL_CONFIG_FILE without a restart. Active
         # workers are gated by `read_target_parallel(args.parallel)`.
+        ensure_runtime_from_template(
+            PARALLEL_CONFIG_FILE,
+            PARALLEL_CONFIG_FILE.with_suffix(PARALLEL_CONFIG_FILE.suffix + ".template"),
+        )
         start_origin_sync_ticker(BASE_BRANCH, interval=60)
         initial_target = read_target_parallel(args.parallel)
         logger.info(f"{'='*60}")
