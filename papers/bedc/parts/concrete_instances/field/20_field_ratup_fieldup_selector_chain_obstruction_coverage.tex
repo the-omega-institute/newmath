@@ -1,0 +1,70 @@
+\begin{theorem}[RatUp FieldUp adjacent selector-chain obstruction coverage]
+\label{thm:ratup-fieldup-adjacent-selector-chain-obstruction-coverage}
+For $\mathsf{RatUpFieldSource}_F$,
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v,w,z:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint selector
+of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector} for each
+$q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the same
+concrete $\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$ contains all of the
+following row families:
+\begin{enumerate}
+  \item the complete selector exit obstruction certificate of
+  \autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} for
+  $(s,t,u,v)$;
+  \item the complete selector exit obstruction certificate of
+  \autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} for
+  $(u,v,w,z)$;
+  \item the selector-chain final boundary rows of
+  \autoref{thm:ratup-fieldup-selector-chain-final-boundary} for $(s,t)$,
+  $(u,v)$, and $(w,z)$, including the chained denominator rows
+  $$
+  R_D^u(E_s(h,k,\ell),E_w(h,k,\ell))
+  \land
+  R_D^u(E_t(h,k,\ell),E_z(h,k,\ell))
+  $$
+  and the chained endpoint classifier rows
+  $$
+  \mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_w(h,k,\ell))
+  \land
+  \mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_z(h,k,\ell)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} to the
+displayed denominator tuple, histories, carrier witnesses, support witness,
+selectors $s,t,u,v$, and contexts $L,R,r:\mathsf{BHist}$. This gives the complete
+selector exit obstruction certificate for the first adjacent link
+$(s,t,u,v)$.
+
+Apply the same theorem again with selectors $u,v,w,z$ and the same denominator
+tuple, histories, carrier witnesses, support witness, and contexts. This gives
+the complete selector exit obstruction certificate for the terminal adjacent link
+$(u,v,w,z)$.
+
+Apply \autoref{thm:ratup-fieldup-selector-chain-final-boundary} to the six
+selectors $s,t,u,v,w,z$ over the same denominator tuple, histories, carrier
+witnesses, support witness, and contexts. This supplies the final boundary rows
+for $(s,t)$, $(u,v)$, and $(w,z)$, including the chained $R_D^u$ rows and the
+chained $\mathsf{RatHistoryClassifier}$ endpoint rows.
+
+Finally cite \autoref{thm:ratup-fieldup-concrete-exit-object-complete} only to
+keep all three row families inside the same concrete
+$\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$. Conjunction introduction
+packages the two adjacent complete obstruction certificates and the
+selector-chain final boundary as one concrete $\FieldUp(\RatUp)$ coverage
+certificate.
+\end{proof}
+
+Per-object template: traditional target adjacent selector-chain obstruction
+coverage for $\FieldUp(\RatUp)$; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; carrier $\mathsf{RatHistoryCarrier}$ and $C_D^u$; classifier
+$\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability obligations the two
+complete obstruction packages plus selector-chain final boundary; ledger selector
+sextuple $s,t,u,v,w,z$ and contexts $L,R,r$; core theorem this block; exactness
+one adjacent-chain obstruction coverage package; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
