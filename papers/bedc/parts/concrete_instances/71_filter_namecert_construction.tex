@@ -6,5 +6,41 @@ The filter interface $\FilterUp$ packages a non-empty upward-closed family of su
 \section{Carrier definition}
 \label{sec:filter-carrier}
 
+\begin{theorem}[Principal suffix unary intersection closure]
+\label{thm:filter-principal-suffix-unary-intersection-closed}
+Let $base,left,right,meet,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
+If $base$, $left$, and $right$ are unary histories,
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint),\qquad
+\ContR(base,meet,meetPoint),
+$$
+then $meetPoint$ is unary, and it is simultaneously displayed as the
+continuation of $leftPoint$ by $right$ and of $rightPoint$ by $left$.
+\end{theorem}
+\begin{proof}
+Unary closure first gives unary $meet$ from the continuation
+$\ContR(left,right,meet)$, and then gives unary $meetPoint$ from
+$\ContR(base,meet,meetPoint)$. The left projection follows by associativity of
+history append. The right projection uses unary commutativity of $left$ and
+$right$, followed by the same associativity comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_closed}
+
+\begin{theorem}[Principal suffix unary intersection result determinism]
+\label{thm:filter-principal-suffix-unary-intersection-result-deterministic}
+In the situation of
+\autoref{thm:filter-principal-suffix-unary-intersection-closed}, if another
+history $displayed$ satisfies $\ContR(rightPoint,left,displayed)$, then
+$meetPoint \hsame displayed$.
+\end{theorem}
+\begin{proof}
+The closure theorem supplies the canonical continuation
+$\ContR(rightPoint,left,meetPoint)$. Continuation determinism compares this
+canonical display with the given displayed result.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_result\_deterministic}
+
 \section{The certificate}
 \label{sec:filter-certificate}

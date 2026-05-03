@@ -309,6 +309,7 @@ import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
+import BEDC.Derived.FilterUp
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
@@ -406,6 +407,7 @@ import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.EquivCatUp
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
