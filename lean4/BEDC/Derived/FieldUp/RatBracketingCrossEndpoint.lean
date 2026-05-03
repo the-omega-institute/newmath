@@ -313,4 +313,47 @@ theorem ratup_fieldup_bracketing_selector_independence_package {h k l ctx : BHis
         (And.intro nonzeroRows.right.left
           (And.intro nonzeroRows.right.right.left nonzeroRows.right.right.right))))
 
+theorem ratup_fieldup_selector_complete_strict_exit_package {h k l : BHist}
+    (carrierH : RatDenomUnitCarrier h) (carrierK : RatDenomUnitCarrier k)
+    (carrierL : RatDenomUnitCarrier l)
+    (support : (RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l)
+    (s t : BEDC.FKernel.Mark.BMark) (L R : BHist) :
+    let a := ratup_fieldup_bracketing_endpoint_selector h k l s
+    let b := ratup_fieldup_bracketing_endpoint_selector h k l t
+    RatHistoryCarrier a ∧ RatHistoryCarrier b ∧ RatHistoryClassifier a b ∧
+      (fieldSingletonEmptyClassifier (append L a) (append R b) -> False) ∧
+        fieldSingletonEmptyNonZero a ∧ fieldSingletonEmptyNonZero b := by
+  dsimp
+  have selectedA :
+      RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l s) :=
+    ratup_fieldup_bracketing_selector_rat_carrier_coverage
+      carrierH carrierK carrierL support s
+  have selectedB :
+      RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l t) :=
+    ratup_fieldup_bracketing_selector_rat_carrier_coverage
+      carrierH carrierK carrierL support t
+  have selectedClassifier :
+      RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l s)
+        (ratup_fieldup_bracketing_endpoint_selector h k l t) :=
+    ratup_fieldup_bracketing_selector_rat_classifier_coverage
+      carrierH carrierK carrierL support s t
+  have singletonExit :
+      fieldSingletonEmptyClassifier
+        (append L (ratup_fieldup_bracketing_endpoint_selector h k l s))
+        (append R (ratup_fieldup_bracketing_endpoint_selector h k l t)) -> False := by
+    intro singleton
+    exact fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd singleton.left selectedA
+  have nonzeroA :
+      fieldSingletonEmptyNonZero (ratup_fieldup_bracketing_endpoint_selector h k l s) := by
+    intro singleton
+    exact RatHistoryCarrier_not_empty selectedA singleton.left
+  have nonzeroB :
+      fieldSingletonEmptyNonZero (ratup_fieldup_bracketing_endpoint_selector h k l t) := by
+    intro singleton
+    exact RatHistoryCarrier_not_empty selectedB singleton.left
+  exact And.intro selectedA
+    (And.intro selectedB
+      (And.intro selectedClassifier
+        (And.intro singletonExit (And.intro nonzeroA nonzeroB))))
+
 end BEDC.Derived.FieldUp
