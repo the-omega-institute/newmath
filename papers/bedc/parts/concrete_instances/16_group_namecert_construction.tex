@@ -1,4 +1,55 @@
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
+
+\begin{theorem}[Group singleton terminal classifier package]
+\label{thm:group-singleton-terminal-classifier-package}
+For histories $h,k,p,q:\mathsf{BHist}$, the concrete singleton $\GroupUp$
+instance of Definition~\ref{def:concrete-singleton-history-group-instance}
+carries the terminal classifier package:
+\begin{enumerate}
+\item The classifier is exactly the product carrier relation:
+$$
+R_{\emp}(h,k)\Longleftrightarrow A_{\emp}(h)\land A_{\emp}(k).
+$$
+
+\item With $\mathsf{mul}=\mathsf{append}$, multiplication is exactly closed on
+the singleton carrier:
+$$
+A_{\emp}(\mathsf{mul}(p,q))\Longleftrightarrow A_{\emp}(p)\land A_{\emp}(q).
+$$
+
+\item If $A_{\emp}(h)$, then the constant inverse has both endpoint
+classifications:
+$$
+A_{\emp}(\mathsf{inv}(h))\land R_{\emp}(\mathsf{inv}(h),h)\land R_{\emp}(h,\mathsf{inv}(h)).
+$$
+\end{enumerate}
+The per-object template names the traditional target as the terminal group; the
+BEDC source as the concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability as $\hsame$ symmetry/transitivity
+and append-empty exactness; ledger the hidden singleton endpoint witnesses; core
+theorem this block; exactness predicate the displayed iff rows; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $R_{\emp}$ and $A_{\emp}$. For the first row, the forward direction
+forgets only the displayed $\hsame(h,k)$ witness. Conversely, singleton carrier
+witnesses identify $h$ and $k$ with $\emp$; symmetry and transitivity of
+$\hsame$ compose those endpoint identifications through $\emp$ and supply the
+classifier comparison.
+
+For the second row, use Definition~\ref{def:concrete-singleton-history-group-instance}
+to replace $\mathsf{mul}$ by $\mathsf{append}$. From $A_{\emp}(p)$ and
+$A_{\emp}(q)$, append empty-result construction gives
+$A_{\emp}(\mathsf{append}(p,q))$. In the reverse direction, append empty-result
+inversion splits the singleton endpoint witness for $\mathsf{append}(p,q)$ into
+the two factor witnesses.
+
+For the third row, Definition~\ref{def:concrete-singleton-history-group-instance}
+gives the definitional equation $\mathsf{inv}(h)=\emp$. Hence
+$A_{\emp}(\mathsf{inv}(h))$ is the reflexive singleton endpoint witness, and the
+first row applied to $\mathsf{inv}(h)$ and $h$ packages both classifier
+orientations.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_centralizer_transport}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
