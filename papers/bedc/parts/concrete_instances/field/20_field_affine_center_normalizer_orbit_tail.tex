@@ -15,6 +15,49 @@ N_F(C_F(A))(T)\ \text{and}\ \mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y.
 $$
 \end{definition}
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action orbit coverage]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-orbit-coverage}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, let $\mathrm{Act}$ be the restricted
+normalizer action of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, and let
+$\sim_{N_F(A)}$ be the orbit relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For
+$X,T:\mathsf{AffAut}_F$, if $C_F(A)(X)$ and $N_F(C_F(A))(T)$, then
+$$
+C_F(A)(\mathrm{Act}_T(X))
+\quad\text{and}\quad
+X\sim_{N_F(A)}\mathrm{Act}_T(X).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} to the carried
+source endpoint $X$ and the normalizer element $T$. Its carried-endpoint row
+gives $C_F(A)(\mathrm{Act}_T(X))$.
+
+For the orbit assertion, choose the same $T$ as the existential witness in
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. The witness is
+valid by the given hypothesis $N_F(C_F(A))(T)$.
+
+It remains only to close the classifier endpoint. Reflexivity of
+$\equiv_{\mathrm{aff}}$ on $\mathrm{Act}_T(X)$ gives
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(X)$, so the displayed
+witness proves $X\sim_{N_F(A)}\mathrm{Act}_T(X)$.
+\end{proof}
+
+Per-object template: traditional target normalizer-action orbit coverage; BEDC
+source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability direct action reachability;
+ledger acting normalizer and acted endpoint; core theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-orbit-coverage}
+with
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}; exactness
+predicate action steps are orbit witnesses; standard bridge ordinary
+group-action orbit coverage; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit equivalence]
 \label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-equivalence}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
