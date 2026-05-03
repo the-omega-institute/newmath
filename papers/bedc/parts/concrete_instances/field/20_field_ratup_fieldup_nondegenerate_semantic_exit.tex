@@ -122,3 +122,66 @@ and affine coefficients; core theorem
 \autoref{thm:ratup-fieldup-source-non-singleton-witness}; exactness the
 assembled row coverage plus non-singleton source separation; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp empty-context nondegenerate witness]
+\label{thm:ratup-fieldup-empty-context-nondegenerate-witness}
+Let $d_1:=\Eone(\emp)$. For histories $L,R:\mathsf{BHist}$, assume
+$\mathsf{fieldSingletonEmptyCarrier}(L)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(R)$. Put
+$w:=\mathsf{append}(L,\mathsf{append}(d_1,R))$. Then the wrapped endpoint
+satisfies
+$$
+\mathsf{RatHistoryCarrier}(w),
+$$
+the rejection map
+$$
+\mathsf{fieldSingletonEmptyCarrier}(w)\to\bot,
+$$
+and the nonzero-complement clause
+$$
+\mathsf{fieldSingletonEmptyNonZero}(w).
+$$
+Thus the non-singleton rational witness remains stable under empty singleton
+context wrapping on both sides.
+\end{theorem}
+\begin{proof}
+The hypotheses place both contextual wrappers in the singleton empty carrier.
+By the singleton-empty carrier inversion for $\FieldUp$, each wrapper compares
+by $\mathsf{hsame}$ with $\emp$.
+
+Use the left and right append-unit laws, together with the continuation
+compatibility of $\mathsf{append}$ and transitivity of $\mathsf{hsame}$, to
+compare
+$$
+w=\mathsf{append}(L,\mathsf{append}(d_1,R))
+$$
+with the endpoint $d_1$. This comparison is the transport path for all carrier
+and classifier predicates used below.
+
+Apply \autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}. It supplies
+$\mathsf{RatHistoryCarrier}(d_1)$ and the rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$. Transport the rational
+carrier witness from $d_1$ to $w$ along the displayed $\mathsf{hsame}$
+comparison.
+
+For rejection at $w$, take any hypothetical
+$\mathsf{fieldSingletonEmptyCarrier}(w)$ witness. Transport it back along the
+same comparison to obtain a singleton-empty carrier witness for $d_1$, and
+contradict the rejection map from
+\autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}.
+
+It remains to obtain the nonzero-complement clause. A failure of
+$\mathsf{fieldSingletonEmptyNonZero}(w)$ would build the forbidden singleton
+empty classifier from the carried singleton-empty witness, so the established
+rejection map for $w$ closes the complement.
+\end{proof}
+
+Per-object template: traditional target context-stable nondegenerate rational
+field witness; BEDC source $\mathsf{BHist}$, $\RatUp$, $\Cont$, and singleton
+$\FieldUp$ carrier; carrier choice $\mathsf{RatHistoryCarrier}$; classifier
+choice singleton empty classifier for the obstruction; stability obligations
+append-unit transport and carrier transport; ledger empty context wrappers; core
+theorem \autoref{thm:ratup-fieldup-empty-context-nondegenerate-witness} together
+with \autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}; exactness
+predicate preservation of the non-singleton witness under empty wrappers;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
