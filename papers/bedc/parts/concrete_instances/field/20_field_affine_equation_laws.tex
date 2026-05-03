@@ -138,6 +138,32 @@ right-affine equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_one\_sided\_map\_classifier\_exact\_from\_apartness}
 
+\begin{theorem}[Field affine left equation solutions are unique from apartness]
+\label{thm:field-affine-left-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws, every
+$a,x,y,d,c:\mathsf{BHist}$ and witness $p_a:\mathsf{NonZero}_F(a)$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(a,x),d)\hsame c
+\quad\Longrightarrow\quad
+\mathsf{add}(\mathsf{mul}(a,y),d)\hsame c
+\quad\Longrightarrow\quad
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Assume the two displayed affine equations. Compose the first equation with
+the symmetry of the second, obtaining equality of the two affine outputs with
+the same left factor and offset. The left clause of
+\autoref{thm:field-affine-one-sided-map-classifier-exact-from-apartness}
+removes that shared affine map and yields $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_left\_equation\_solution\_unique\_from\_apartness}
+
 \paragraph{Affine one-sided multiplication certificate.}
 Traditional target: one-sided affine injectivity. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
