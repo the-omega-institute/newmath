@@ -110,6 +110,55 @@ that no schematic $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ parameter is
 part of the certificate.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp inverse-product classifier exit row]
+\label{thm:ratup-fieldup-inverse-product-classifier-exit-row}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete source
+tuple $\mathsf{RatUpFieldSource}_F$ contains the inverse-product classifier
+exactness row over $\mathsf{BHist}$. If
+$a,b,c,d:\mathsf{BHist}$ carry certified nonzero witnesses
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$, and if the
+concrete multiplication package supplies the product witnesses for
+$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$, then the classifier row records
+$$
+\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d)
+\Longleftrightarrow
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame
+\mathsf{mul}(\mathsf{inv}(d,p_d),\mathsf{inv}(c,p_c)).
+$$
+This displayed equivalence is an internal operation-exhaustion row of the
+concrete $\FieldUp(\RatUp)$ exit object, with carrier $\mathsf{BHist}$ and
+classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It
+locates product classifier exactness and nonzero transport inside the same
+concrete source tuple $\mathsf{RatUpFieldSource}_F$, so the witnesses for
+$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ are supplied by the concrete
+multiplication and nonzero package.
+
+Next apply \autoref{thm:field-inverse-product-classifier-exact-from-apartness}.
+With the four certified factor witnesses and the two product witnesses just
+located, the generic history-level theorem converts classifier equality of
+$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ into classifier equality of the
+reversed inverse products, and conversely.
+
+Finally use
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} together with
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. These theorems record
+that the product, inverse, and nonzero rows are consumed by
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, so the displayed
+classifier equivalence is part of the concrete $\FieldUp(\RatUp)$ exit object
+rather than an external schematic operation parameter.
+\end{proof}
+
+Per-object template: traditional target inverse-product exactness row for
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; ledger the four
+factor witnesses plus the two product witnesses; exactness predicate the
+displayed classifier equivalence; status $\mathsf{ProofTarget}$.
+
 Per-object template: traditional target algebra-hierarchy reduct compatibility
 for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with the concrete
 $\mathsf{RatUpFieldSource}_F$ rows; carrier rows
