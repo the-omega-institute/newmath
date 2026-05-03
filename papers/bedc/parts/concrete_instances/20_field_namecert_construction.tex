@@ -426,37 +426,45 @@ $\mathsf{neg}$ parameter is part of the certificate.
 
 \begin{theorem}[RatUp FieldUp inverse-product classifier exit row]
 \label{thm:ratup-fieldup-inverse-product-classifier-exit-row}
-For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete source
-tuple $\mathsf{RatUpFieldSource}_F$ contains the inverse-product classifier
-exactness row over $\mathsf{BHist}$. If
-$a,b,c,d:\mathsf{BHist}$ carry certified nonzero witnesses
-$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
-$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$, and if the
-concrete multiplication package supplies the product witnesses for
-$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$, then the classifier row records
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, bind the rows of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table} as follows: let
+$\mu_F$ be its concrete multiplication row, let $\iota_F$ be its inverse row
+over $\mathsf{FieldApartZero}$, and let $N_F$ be the certified
+nonzero/apartness row carried by the same table. If
+$a,b,c,d:\mathsf{BHist}$ carry witnesses $p_a:N_F(a)$, $p_b:N_F(b)$,
+$p_c:N_F(c)$, and $p_d:N_F(d)$, and if the table supplies product witnesses
+$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$, then the concrete
+classifier row records
 $$
-\mathsf{mul}(a,b)\hsame\mathsf{mul}(c,d)
+\mu_F(a,b)\hsame\mu_F(c,d)
 \Longleftrightarrow
-\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))\hsame
-\mathsf{mul}(\mathsf{inv}(d,p_d),\mathsf{inv}(c,p_c)).
+\mu_F(\iota_F(b,p_b),\iota_F(a,p_a))\hsame
+\mu_F(\iota_F(d,p_d),\iota_F(c,p_c)).
 $$
 This displayed equivalence is an internal operation-exhaustion row of the
 concrete $\FieldUp(\RatUp)$ exit object, with carrier $\mathsf{BHist}$ and
 classifier $\hsame$.
 \end{theorem}
 \begin{proof}
-First invoke
+First invoke \autoref{thm:ratup-fieldup-concrete-operation-table-laws}. It
+binds the concrete carrier and classifier rows, the $\CommRingUp$ base rows, the
+inverse row over $\mathsf{FieldApartZero}$, and the nonzero row inside
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}. Thus $\mu_F$,
+$\iota_F$, and $N_F$ are rows of the displayed table rather than free operation
+parameters.
+
+Next invoke
 \autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It
 locates product classifier exactness and nonzero transport inside the same
-concrete source tuple $\mathsf{RatUpFieldSource}_F$, so the witnesses for
-$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ are supplied by the concrete
-multiplication and nonzero package.
+concrete source tuple $\mathsf{RatUpFieldSource}_F$, so the witnesses
+$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$ are supplied by the bound
+multiplication and nonzero rows.
 
 Next apply \autoref{thm:field-inverse-product-classifier-exact-from-apartness}.
 With the four certified factor witnesses and the two product witnesses just
 located, the generic history-level theorem converts classifier equality of
-$\mathsf{mul}(a,b)$ and $\mathsf{mul}(c,d)$ into classifier equality of the
-reversed inverse products, and conversely.
+$\mu_F(a,b)$ and $\mu_F(c,d)$ into classifier equality of the reversed inverse
+products built from $\iota_F$, and conversely.
 
 Finally use
 \autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} together with
