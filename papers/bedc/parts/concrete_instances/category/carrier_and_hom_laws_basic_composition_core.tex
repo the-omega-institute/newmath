@@ -137,6 +137,21 @@ result, so finite-kernel left cancellation yields $\HSame(g,g')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor\_public\_readback}
 
+\begin{theorem}[Category hom carrier right unary tail composition public readback]
+\label{thm:category-hom-carrier-right-unary-tail-comp-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from $a$ to
+$b$, $q$ is unary, and $\ContR(f,q,r)$, then $r$ is a hom-carrier from $a$
+to $\mathsf{append}(b,q)$. Moreover, any competing result $r'$ with
+$\ContR(f,q,r')$ and the same displayed endpoints satisfies $\HSame(r,r')$.
+\end{theorem}
+\begin{proof}
+The unary tail $q$ gives the canonical right-tail hom-carrier from $b$ to
+$\mathsf{append}(b,q)$ by the defining continuation. Hom-carrier composition
+closes $f$ with this tail carrier along $\ContR(f,q,r)$. The readback clause is
+hom-morphism determinacy against any displayed carrier over the same endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_unary\_tail\_comp\_public\_readback}
+
 \begin{theorem}[Category hom carrier composition left factor]
 \label{thm:category-hom-carrier-comp-left-factor}
 For the unary-continuation category, if \(g\) is a hom-carrier from \(b\) to

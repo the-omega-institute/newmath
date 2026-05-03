@@ -308,7 +308,9 @@ import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
 import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
 import BEDC.Derived.CategoryUp.EndpointVisible
+import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent

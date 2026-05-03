@@ -186,6 +186,23 @@ the central carrier before applying the same determinacy.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_public\_readback}
 
+\begin{theorem}[Prefix functor right unary tail composition public readback]
+\label{thm:functor-prefix-hom-carrier-right-unary-tail-comp-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $q$ is unary, and
+$\ContR(f,q,r)$, then $r$ is displayed from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,\mathsf{append}(b,q))$. Any competing displayed result
+$r'$ with $\ContR(f,q,r')$ satisfies $\HSame(r,r')$.
+\end{theorem}
+\begin{proof}
+The prefixed target $\mathsf{append}(p,b)$ carries the canonical right-tail
+hom into $\mathsf{append}(\mathsf{append}(p,b),q)$. Composing with $f$ gives a
+raw target, and associativity transports it to
+$\mathsf{append}(p,\mathsf{append}(b,q))$. Readback is hom-morphism
+determinacy over the transported endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_right\_unary\_tail\_comp\_public\_readback}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a
