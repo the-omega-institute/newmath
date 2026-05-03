@@ -174,6 +174,62 @@ ledger representative pair plus coset or kernel witness; core theorem list
 displayed iff; standard bridge ordinary coset/kernel criterion; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Centralizer-normalizer QuotientGroupUp identity fiber]
+\label{thm:quotientgroup-centralizer-normalizer-identity-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence},
+for every $x:\mathsf{BHist}$ the left identity fibers of the two
+representative quotient classifiers satisfy
+$$
+Q_{Z_a\leq N_a}(\emp,x)
+\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(\emp,x)
+\Longleftrightarrow
+Z_a(x),
+$$
+and the right identity fibers satisfy
+$$
+Q_{Z_a\leq N_a}(x,\emp)
+\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(x,\emp)
+\Longleftrightarrow
+Z_a(x).
+$$
+\end{theorem}
+\begin{proof}
+For the left fiber, first compare the coset classifier with the relative-kernel
+classifier at $(\emp,x)$. Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}.
+The endpoint rows needed by that theorem are either fields of the classifier
+edge being transported or are supplied by the kernel relation itself.
+
+Next identify the kernel classifier fiber. Apply
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-identity-fiber}
+and, at the Lean level, its empty-fiber form
+\texttt{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_fiber\_iff}.
+This turns
+$Q_{Z_a\triangleleft N_a}(\emp,x)$ into $Z_a(x)$. The group-level
+normalization behind the identity endpoint is
+\texttt{BEDC.Derived.GroupUp.group\_inverse\_identity}, which identifies the
+inverse of the represented identity with the identity before the relative
+kernel word is read.
+
+For the right fiber, repeat the same transport at $(x,\emp)$. The orbit-kernel
+equivalence passes between $Q_{Z_a\leq N_a}(x,\emp)$ and
+$Q_{Z_a\triangleleft N_a}(x,\emp)$, and the empty-right-fiber form
+\texttt{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_right\_fiber\_iff}
+identifies the kernel classifier fiber with $Z_a(x)$.
+\end{proof}
+
+Per-object template: traditional target quotient projection kernel; BEDC
+source $\GroupUp+\SubgroupUp+\QuotientGroupUp$ over $\mathsf{BHist}$; ambient
+sort $\mathsf{BHist}$; carrier $N_a$; classifiers
+$Q_{Z_a\leq N_a}$ and $Q_{Z_a\triangleleft N_a}$; stability orbit-kernel
+equivalence plus identity-fiber transport; ledger identity representative and
+relative-kernel word; endpoint normalization by group inverse identity;
+exactness identity fiber equals centralizer; status $\mathsf{ProofTarget}$.
+
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
 
