@@ -389,6 +389,58 @@ transport above converts the left side to the contextual endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_contextual\_strict\_product\_support\_exactness}
 
+\begin{theorem}[Rat denominator empty-unit threefold strict support exactness]
+\label{thm:field-rat-denominator-empty-unit-threefold-strict-support-exactness}
+For histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, strict support is exact for the left-nested empty-unit
+threefold product:
+$$
+N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))
+\Longleftrightarrow
+(N_D^u(h)\lor N_D^u(k))\lor N_D^u(\ell).
+$$
+\end{theorem}
+\begin{proof}
+The closure clause of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+applied to $C_D^u(h)$ and $C_D^u(k)$ gives
+$C_D^u(\mu_D^u(h,k))$. This supplies the carrier hypothesis needed to read the
+outer product of $\mu_D^u(h,k)$ with $\ell$.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+to the carried histories $\mu_D^u(h,k)$ and $\ell$. The result is
+$$
+N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))
+\Longleftrightarrow
+N_D^u(\mu_D^u(h,k))\lor N_D^u(\ell).
+$$
+
+Apply the same theorem to the original carried histories $h$ and $k$, giving
+$N_D^u(\mu_D^u(h,k))\Longleftrightarrow N_D^u(h)\lor N_D^u(k)$. Substitute this
+inner equivalence into the left disjunct of the outer equivalence.
+
+In the forward direction, the outer equivalence gives either
+$N_D^u(\mu_D^u(h,k))$ or $N_D^u(\ell)$. The first case is transported by the
+inner equivalence to $N_D^u(h)\lor N_D^u(k)$, while the second case gives the
+right disjunct directly.
+
+In the reverse direction, a witness of
+$(N_D^u(h)\lor N_D^u(k))\lor N_D^u(\ell)$ is handled by cases. The left case
+is transported by the reverse direction of the inner equivalence to
+$N_D^u(\mu_D^u(h,k))$; the right case is already $N_D^u(\ell)$. The reverse
+direction of the outer equivalence then yields
+$N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))$.
+\end{proof}
+
+Per-object template: traditional target finite product support readback for
+denominator multiplication; BEDC source $\mathsf{BHist}$ with $C_D^u,R_D^u,
+\mu_D^u,e_D^u,N_D^u$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligation binary product support exactness plus carrier closure; ledger two
+continuation-product witnesses; exactness predicate strict support of the
+left-nested threefold product iff support of one factor; standard bridge
+ordinary finite denominator product support; status $\mathsf{ProofTarget}$.
+
 Per-object template: traditional target empty-context denominator product
 support readback; BEDC source $\mathsf{BHist}$; carrier $C_D^u$; classifier
 $R_D^u$; stability obligation contextual strict product support exactness;
