@@ -72,6 +72,44 @@ $N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$, which is the
 displayed support law.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_composition\_support\_laws}
+
+\begin{theorem}[RatUp FieldUp contextual action pair support transport]
+\label{thm:ratup-fieldup-contextual-action-pair-support-transport}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$p,q,p',q',h,l,r,s,t,l',r',s',t':\mathsf{BHist}$. Suppose
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$; suppose
+$C_D^u(h)$; and suppose the denominator context pairs are classified
+componentwise:
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$. Then strict
+support of the nested contextual action is invariant under replacing the two
+classified context pairs:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to each nested action. The left action reads its support as
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$, and the
+right action reads its support as
+$N_D^u(s')\lor N_D^u(s)\lor N_D^u(h)\lor N_D^u(t)\lor N_D^u(t')$.
+
+The two context products
+$\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$ and
+$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$ have equivalent strict support by
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}.
+Opening both products with
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support}
+transports the four context support alternatives, while the middle term
+$N_D^u(h)$ is shared by both five-term readbacks. Repacking through the two
+composition support laws gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
