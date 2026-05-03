@@ -575,3 +575,67 @@ $\FieldUp(\RatUp)$ exit object. Therefore the rows supplied by
 \autoref{thm:ratup-fieldup-selector-independent-final-boundary} are contained in
 the concrete exit object for $\mathsf{RatUpFieldSource}_F$.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp algebra hierarchy selector-independent exit]
+\label{thm:ratup-fieldup-algebra-hierarchy-selector-independent-exit}
+For $\mathsf{RatUpFieldSource}_F$, the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, if $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then one
+concrete $\mathsf{BHist}$ package contains all of the following rows:
+\begin{enumerate}
+  \item every row of
+  \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness};
+  \item every shared certificate and operation-table row of
+  \autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage};
+  \item every selector-independent final boundary row of
+  \autoref{thm:ratup-fieldup-selector-independent-final-boundary}.
+\end{enumerate}
+Equivalently, the concrete source tuple, carrier, classifier, denominator
+tuple, and endpoint selectors determine a single
+$\FieldUp(\RatUp)$ exit certificate that serves the Phase Algebra Hierarchy
+interface independently of the certified selector pair.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness} at the concrete
+source tuple $\mathsf{RatUpFieldSource}_F$. This gives the paper algebra
+hierarchy rows over the carrier $\mathsf{BHist}$, with the RatUp history
+classifier and the concrete denominator endpoints.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage} at
+the same source tuple and the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}. Its rows use the
+same carrier, classifier, denominator coordinate, contextual action,
+context-pair coordinate, and affine coordinate as the hierarchy package.
+
+Finally instantiate
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary} with the given
+histories, denominator-carrier witnesses, support witness, selectors
+$s,t,u,v$, and contexts $L,R,r$. This supplies the two final-boundary packages
+and the componentwise $R_D^u$ and $\mathsf{RatHistoryClassifier}$ rows for the
+selected endpoints.
+
+The three instantiations name the same concrete source tuple
+$\mathsf{RatUpFieldSource}_F$, the same $\mathsf{BHist}$ carrier, the same RatUp
+classifier, and the same concrete denominator tuple. Conjunction introduction
+therefore packages their row families as one concrete
+$\FieldUp(\RatUp)$ algebra hierarchy exit certificate.
+\end{proof}
+
+Per-object template: concrete Phase Algebra Hierarchy exit package for
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; selected endpoints $E_s(h,k,\ell)$,
+$E_t(h,k,\ell)$, $E_u(h,k,\ell)$, and $E_v(h,k,\ell)$; carrier rows the algebra
+hierarchy exit witness, the assembled certificate operation-table coverage, and
+the selector-independent final boundary; classifier rows
+$\mathsf{RatHistoryClassifier}$ together with the componentwise $R_D^u$ rows;
+stability obligations hierarchy exit witness, assembled certificate
+operation-table coverage, and selector-independent final boundary; ledger
+histories $h,k,\ell$, selectors $s,t,u,v$, contexts $L,R,r$, and the support
+witness $\mathsf{ThreeSupp}_D^u(h,k,\ell)$; exactness predicate one concrete
+selector-independent Phase Algebra Hierarchy exit certificate; status
+$\mathsf{ProofTarget}$.
