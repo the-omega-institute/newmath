@@ -263,6 +263,41 @@ Commute $x+0$ to $0+x$, then apply the left-zero law.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_zero}
 
+\begin{theorem}[Ring additive two-sided cancellation]
+\label{thm:ring-additive-two-sided-cancellation}
+For BEDC history addition satisfying additive associativity, commutativity,
+left-zero, left-inverse, and addition congruence, every
+$a,b,c:\mathsf{BHist}$ satisfies both cancellation implications:
+$$
+a+c\hsame b+c \Longrightarrow a\hsame b
+$$
+and
+$$
+c+a\hsame c+b \Longrightarrow a\hsame b.
+$$
+The ten-field fit is: traditional target additive cancellation in a ring; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus $\GroupUp$ cancellation; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the common addend; core theorem this theorem;
+exactness predicate the two displayed implications; standard bridge ordinary
+ring additive cancellation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. Together with associativity,
+commutativity, left zero, left inverse, and addition congruence, these are the
+group-cancellation hypotheses for the additive operation.
+
+For the first implication, read addition as the group operation and apply
+Theorem~\ref{thm:group-right-cancellation} to the common right summand $c$.
+The hypothesis $a+c\hsame b+c$ then yields $a\hsame b$.
+
+For the second implication, apply
+Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
+The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
+\end{proof}
+
 \begin{theorem}[Ring multiplication zero absorption]
 \label{thm:ring-mul-zero-absorption}
 For BEDC history operations satisfying additive associativity, left zero,
@@ -275,6 +310,30 @@ First cancel a duplicated summand \(a\hsame a+a\) by adding the left inverse,
 reassociating, and using the left-zero law. Then apply distributivity to
 \(x\cdot(0+0)\) and \((0+0)\cdot x\), transport along \(0+0\hsame0\), and use
 the duplicate-cancellation step on the two resulting products.
+\end{proof}
+
+\begin{theorem}[Ring zero-classifier factor absorption]
+\label{thm:ring-zero-classifier-factor-absorption}
+For BEDC history operations satisfying additive associativity, left zero, left
+inverse, addition congruence, multiplication congruence, and both distributive
+laws, if $\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame(x\cdot y,0)\land \hsame(y\cdot x,0).
+$$
+\end{theorem}
+\begin{proof}
+Invoke \autoref{thm:ring-mul-zero-absorption} to obtain the two literal
+zero-factor absorptions. For the left product, multiplication congruence
+transports the left factor along $\hsame(x,0)$, comparing $x\cdot y$ with
+$0\cdot y$. Transitivity with the left zero-factor absorption gives
+$\hsame(x\cdot y,0)$, using symmetry if the congruence step is read in the
+opposite direction.
+
+For the right product, multiplication congruence transports the right factor
+along the same classifier witness, comparing $y\cdot x$ with $y\cdot0$.
+Transitivity with the right zero-factor absorption gives $\hsame(y\cdot x,0)$,
+again using symmetry when the displayed comparison is oriented oppositely.
+The two transported conclusions form the required conjunction.
 \end{proof}
 
 \begin{theorem}[Ring left-negative product sum vanishes]
