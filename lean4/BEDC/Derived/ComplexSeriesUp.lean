@@ -117,6 +117,20 @@ inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
       ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
         ComplexAbsPartSum zero modulus (BHist.e1 n) T
 
+theorem ComplexAbsPartSum_index_cases {zero : BHist} {modulus : BHist -> BHist}
+    {n M : BHist} :
+    ComplexAbsPartSum zero modulus n M ->
+      (n = BHist.Empty ∧ hsame M zero) ∨
+        exists m P : BHist, n = BHist.e1 m ∧
+          ComplexAbsPartSum zero modulus m P ∧ Cont P (modulus m) M := by
+  intro sum
+  cases sum with
+  | zero =>
+      exact Or.inl (And.intro rfl (hsame_refl zero))
+  | step prev stepCont =>
+      exact Or.inr (Exists.intro _ (Exists.intro _
+        (And.intro rfl (And.intro prev stepCont))))
+
 theorem ComplexAbsPartSum_successor_result_deterministic {zero : BHist}
     {modulus : BHist -> BHist} {n M T U : BHist} :
     ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
@@ -236,6 +250,33 @@ theorem ComplexAbsPartSum_successor_modulus_hsame_deterministic {zero zero' : BH
   | step finalPrevious finalStep =>
       have samePrevious := cross previous finalPrevious
       exact cont_respects_hsame samePrevious sameModulus step finalStep
+
+theorem ComplexAbsPartSum_modulus_successor_result_deterministic {zero : BHist}
+    {modulus modulus' : BHist -> BHist} {n M T U : BHist} :
+    (forall m : BHist, hsame (modulus m) (modulus' m)) ->
+      ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
+        ComplexAbsPartSum zero modulus' (BHist.e1 n) U -> hsame T U := by
+  intro pointwise previous step final
+  have deterministic :
+      forall {n S T : BHist},
+        ComplexAbsPartSum zero modulus n S -> ComplexAbsPartSum zero modulus' n T -> hsame S T := by
+    intro n S T left
+    induction left generalizing T with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact hsame_refl zero
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial (pointwise _) leftStep rightStep
+  cases final with
+  | step finalPrevious finalStep =>
+      have samePrevious := deterministic previous finalPrevious
+      exact cont_respects_hsame samePrevious (pointwise n) step finalStep
 
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
