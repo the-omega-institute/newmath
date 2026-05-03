@@ -164,4 +164,34 @@ theorem DeterminantSingleton_certificate :
     exact ⟨detProduct, hsame_refl BHist.Empty, detProduct⟩
   exact ⟨semantic, endpointIff, detOne, detClassifier, detMul⟩
 
+theorem DeterminantSingleton_endpoint_correspondence {M N r : BHist} :
+    let det : BHist -> BHist := fun _ => BHist.Empty
+    let Delta : BHist -> BHist -> Prop := fun M r =>
+      MatrixSingletonClassifier M MatrixSingletonOne ∧
+        CommRingSingletonClassifier r CommRingSingletonOne
+    (Delta M r <->
+        MatrixSingletonCarrier M ∧ CommRingSingletonClassifier r CommRingSingletonOne) ∧
+      CommRingSingletonClassifier (det MatrixSingletonOne) CommRingSingletonOne ∧
+      (MatrixSingletonClassifier M N -> CommRingSingletonClassifier (det M) (det N)) ∧
+      CommRingSingletonClassifier (det (MatrixSingletonMul M N))
+        (CommRingSingletonMul (det M) (det N)) := by
+  dsimp
+  constructor
+  · constructor
+    · intro delta
+      exact And.intro delta.left.left delta.right
+    · intro endpoint
+      have oneCarrier : MatrixSingletonCarrier MatrixSingletonOne := hsame_refl BHist.Empty
+      exact And.intro
+        (And.intro endpoint.left (And.intro oneCarrier endpoint.left)) endpoint.right
+  · constructor
+    · exact And.intro (hsame_refl BHist.Empty)
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    · constructor
+      · intro _classified
+        exact And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+      · exact And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
 end BEDC.Derived.DeterminantUp
