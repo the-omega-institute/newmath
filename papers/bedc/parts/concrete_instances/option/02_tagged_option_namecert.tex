@@ -667,6 +667,34 @@ ledger witness. These three fields repack as the displayed
 $\mathsf{SemanticNameCert}$.
 \end{proof}
 
+\begin{theorem}[Tagged option classifier endpoint semantic fields]
+\label{thm:tagged-option-history-classifier-endpoint-semantic-fields}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $Pattern$ and
+$Ledger$ be predicates on BEDC histories, let $\sim_S$ be a source classifier,
+and let
+$\mathsf{cert}:\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,
+Pattern,Ledger,\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S})$ be a
+semantic certificate. For histories $h,k$, every classifier witness
+$\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}(h,k)$ supplies all four
+endpoint semantic fields:
+$$
+Pattern(h)\land Ledger(h)\land Pattern(k)\land Ledger(k).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:tagged-option-history-classifier-endpoint-carriers} to
+the classifier witness. This gives the endpoint carrier witnesses
+$\mathsf{TaggedOptionHistoryCarrier}_S(h)$ and
+$\mathsf{TaggedOptionHistoryCarrier}_S(k)$.
+
+Apply the $\mathsf{pattern\_sound}$ field of $\mathsf{cert}$ to each endpoint
+carrier witness to obtain $Pattern(h)$ and $Pattern(k)$. Apply the
+$\mathsf{ledger\_sound}$ field of $\mathsf{cert}$ to the same two endpoint
+carrier witnesses to obtain $Ledger(h)$ and $Ledger(k)$, and assemble the four
+conclusions in the displayed order.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionUp.TaggedOptionHistoryClassifier\_endpoint\_semantic\_fields}
+
 \begin{corollary}[Tagged option history certificate over hsame]
 \label{cor:tagged-option-history-semantic-certificate-hsame}
 Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier. If a source $\NameCert(S,\hsame)$ is supplied, then $\mathsf{SemanticNameCert}(\mathsf{TaggedOptionHistoryCarrier}_S,\mathsf{TaggedOptionHistoryPattern}_S,\mathsf{TaggedOptionHistoryLedger}_S,\mathsf{TaggedOptionHistoryClassifier}_{S,\hsame})$ is the tagged option history semantic certificate with no separate compatibility hypothesis.

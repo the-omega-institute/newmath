@@ -100,6 +100,46 @@ Theorem~\ref{thm:prod-component-history-semantic-certificate-target} with the
 two singleton certificates and this coherence witness.
 \end{proof}
 
+\begin{theorem}[Singleton product componentwise classifier endpoint exactness]
+\label{thm:prod-singleton-componentwise-classifier-endpoint-exactness}
+Fix histories $l_0,r_0:\mathsf{BHist}$, and define
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. Then for all histories
+$h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)
+\Longleftrightarrow
+\hsame(h,\mathsf{append}(l_0,r_0))\land
+\hsame(k,\mathsf{append}(l_0,r_0)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the componentwise classifier into displayed
+pair representations for $h$ and $k$ and component links between their left and
+right representatives. The singleton source facts identify the left
+representatives with $l_0$ and the right representatives with $r_0$.
+
+Use transitivity of $\hsame$ to compare each displayed component with the fixed
+components $l_0,r_0$. The displayed representation of
+$\mathsf{append}(l_0,r_0)$ is obtained from reflexivity component witnesses and
+the canonical continuation result. Continuation determinism, applied to the
+displayed continuations for $h$ and $k$ against this fixed displayed
+continuation, yields the two endpoint witnesses
+$\hsame(h,\mathsf{append}(l_0,r_0))$ and
+$\hsame(k,\mathsf{append}(l_0,r_0))$.
+
+For the reverse direction, start from the displayed representation of
+$\mathsf{append}(l_0,r_0)$ with components $l_0,r_0$. Transport this
+representation along the two endpoint $\hsame$ witnesses by
+Theorem~\ref{thm:prod-pair-rep-hsame-transport}, obtaining displayed pair
+representations for $h$ and $k$ with the same components.
+
+The component comparison clauses are the reflexivity witnesses
+$\hsame(l_0,l_0)$ and $\hsame(r_0,r_0)$. Together with the two transported
+displayed representations, these witnesses rebuild
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$.
+\end{proof}
+
 \begin{theorem}[Product componentwise certificate refines the checked envelope]
 \label{thm:prod-componentwise-certificate-refines-checked-envelope}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
