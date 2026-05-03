@@ -91,3 +91,55 @@ The same argument with $\mathsf{inv}(s)$ as the first centralizer element and
 $s$ as the final one proves the conjugation clause for $\mathsf{inv}(s)$.
 These two preservation clauses are exactly $N_a(s)$.
 \end{proof}
+
+\begin{theorem}[Group centralizer normalizer conjugation action]
+\label{thm:group-centralizer-normalizer-conjugation-action}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$, $N_a(t)$, and $Z_a(x)$, then the induced conjugation action on the
+centralizer carrier has the following rows:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(x))$.
+\item $\hsame(\mathsf{Conj}_e(x),x)$.
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$ and
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item If $\hsame(s,t)$, then
+$\hsame(\mathsf{Conj}_s(x),\mathsf{Conj}_t(x))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier preservation row is the first clause in the definition of $N_a(s)$:
+starting from $Z_a(x)$, conjugation by $s$ returns
+$Z_a(\mathsf{Conj}_s(x))$.
+
+For the identity action, expand $\mathsf{Conj}_e(x)$ as
+$\mathsf{mul}(\mathsf{mul}(e,x),\mathsf{inv}(e))$. The inverse laws identify
+$\mathsf{inv}(e)$ with $e$, and the left and right unit laws then identify the
+whole word with $x$ under $\hsame$.
+
+For composition, first apply the forward clause of $N_a(t)$ to $Z_a(x)$, giving
+$Z_a(\mathsf{Conj}_t(x))$. Applying the forward clause of $N_a(s)$ to that
+result gives $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+The classifier comparison is the product-closure calculation from
+\autoref{thm:group-centralizer-normalizer-subgroup}. Associativity moves the
+parentheses in the fourfold word, while
+\autoref{thm:group-inverse-mul-reverse} identifies the inverse of
+$\mathsf{mul}(s,t)$ with $\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$;
+multiplication congruence then yields
+$\hsame(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+Finally assume $\hsame(s,t)$. Inverse congruence gives
+$\hsame(\mathsf{inv}(s),\mathsf{inv}(t))$, and two uses of multiplication
+congruence carry the classifier equality through
+$\mathsf{mul}(\mathsf{mul}(\_,x),\mathsf{inv}(\_))$. Hence
+$\mathsf{Conj}_s(x)$ and $\mathsf{Conj}_t(x)$ are $\hsame$-equal.
+\end{proof}
