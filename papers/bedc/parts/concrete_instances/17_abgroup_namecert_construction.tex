@@ -266,6 +266,57 @@ $x$. The abelian conjugation spine collapses $(a\cdot x)\cdot a^{-1}$ to $x$,
 which gives the inner-conjugation fixed-point clause.
 \end{proof}
 
+\begin{theorem}[AbGroup centralizer normalizer collapse]
+\label{thm:abgroup-centralizer-normalizer-collapse}
+For BEDC histories equipped with the same $\GroupUp$ associativity, unit,
+multiplication-congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, plus $\AbGroupUp$
+commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$ be the
+centralizer carrier of \autoref{def:group-centralizer-carrier}, and let
+$N_a$ be the centralizer normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}. Then every
+$s:\mathsf{BHist}$ satisfies
+$$
+N_a(s).
+$$
+The ten-field fit is: traditional target abelian groups normalize every
+centralizer; BEDC source $\AbGroupUp$ over $\mathsf{BHist}$ plus the
+$\GroupUp$ normalizer carrier; carrier $N_a$; classifier $\hsame$; stability
+from centralizer totality and the two conjugation collapse theorems; ledger
+fixed element, conjugating element, inverse witness, and
+centralizer-preservation proof; core theorem list
+\autoref{thm:abgroup-centralizer-commutator-collapse},
+\autoref{thm:abgroup-conjugation-collapse},
+\autoref{thm:abgroup-inverse-conjugation-collapse}, and
+\autoref{thm:group-centralizer-normalizer-subgroup}; exactness predicate total
+normalizer iff total centralizer under commutativity; standard bridge ordinary
+abelian centralizer normalizer; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the carrier $N_a(s)$ from
+\autoref{def:group-centralizer-normalizer-carrier}. It remains to prove the
+two centralizer-preservation clauses, one for conjugation by $s$ and one for
+conjugation by $\mathsf{inv}(s)$.
+
+For the forward clause, take an arbitrary $x:\mathsf{BHist}$ with $Z_a(x)$.
+The input witness is stronger than needed: by
+\autoref{thm:abgroup-centralizer-commutator-collapse}, every history lies in
+$Z_a$. Apply that theorem to
+$y=\mathsf{Conj}_s(x)$ and obtain $Z_a(\mathsf{Conj}_s(x))$.
+
+For the inverse-conjugation clause, take the same kind of arbitrary
+$x:\mathsf{BHist}$ with $Z_a(x)$. Apply
+\autoref{thm:abgroup-centralizer-commutator-collapse} to
+$y=\mathsf{Conj}_{\mathsf{inv}(s)}(x)$ and obtain
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+
+The conjugation-collapse theorems
+\autoref{thm:abgroup-conjugation-collapse} and
+\autoref{thm:abgroup-inverse-conjugation-collapse} explain why these two
+preservation clauses match the ordinary abelian statement: both conjugation
+words are internally fixed-point words under $\hsame$.
+\end{proof}
+
 \begin{theorem}[AbGroup inverse preserves multiplication order]
 \label{thm:abgroup-inverse-mul}
 For BEDC histories equipped with group laws, commutative multiplication, and
