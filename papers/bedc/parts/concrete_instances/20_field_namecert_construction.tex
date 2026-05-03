@@ -320,3 +320,57 @@ witnesses; core theorem
 Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate};
 exactness predicate fiber and cancellation exactness for the action; standard
 bridge ordinary affine action; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inverse uniqueness exit]
+\label{thm:ratup-fieldup-affine-inverse-uniqueness-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T:\mathsf{AffAut}_F$ be a certified affine automorphism in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $S:\mathsf{AffAut}_F$ be the explicit affine
+inverse of $T$ supplied by
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package}, and
+let $U:\mathsf{AffAut}_F$ be any certified affine automorphism whose left and
+right affine composites with $T$ classify as the affine identity under
+$\equiv_{\mathrm{aff}}$:
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I.
+$$
+Then $U$ is the same affine inverse as $S$ under the concrete action classifier:
+$$
+U\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} to
+fix the concrete $\FieldUp(\RatUp)$ exit object. Apply
+Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate} to attach
+the carrier $\mathsf{AffAut}_F$, the affine composition
+$\circ_{\mathrm{aff}}$, the affine identity $I$, and the classifier
+$\equiv_{\mathrm{aff}}$ to that same object.
+
+The explicit inverse package
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package} supplies
+the displayed inverse witness $S$ for $T$. The hypotheses supply the matching
+left and right inverse equations for $U$ against the same $T$ and under the same
+affine classifier.
+
+Apply Theorem~\ref{thm:field-affine-automorphism-inverse-unique}. Its conclusion
+is the group-classifier equality between the arbitrary inverse candidate $U$ and
+the explicit inverse $S$. The action certificate identifies that group
+classifier with the displayed affine classifier, so the returned relation is
+exactly $U\equiv_{\mathrm{aff}}S$.
+\end{proof}
+
+Per-object template: traditional target affine inverse uniqueness over a field
+action; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphism histories; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations affine group certificate and
+inverse equations; ledger inverse witnesses and composite witnesses; core
+theorem
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}; exactness
+predicate uniqueness of the affine inverse under the action classifier; standard
+bridge ordinary uniqueness of inverse in an affine automorphism group; status
+$\mathsf{ProofTarget}$.
