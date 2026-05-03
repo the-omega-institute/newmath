@@ -78,5 +78,23 @@ equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealPadic\_e1\_append\_empty\_padic\_result\_iff}
 
+\begin{theorem}[Adele constant-slice carrier transport]
+\label{thm:adele-constant-slice-carrier-hsame-transport}
+Let $\mathsf{AdeleConstantSliceCarrier}(h)$ mean that histories $d,p,e,r$
+exist with
+$$
+\hsame(h,\Eone(d))\ \wedge\ \mathsf{RatHistoryCarrier}(d)\ \wedge\
+\mathsf{PadicPrimeScale}(p,e,r).
+$$
+If $h\hsame h'$ and $\mathsf{AdeleConstantSliceCarrier}(h)$, then
+$\mathsf{AdeleConstantSliceCarrier}(h')$.
+\end{theorem}
+\begin{proof}
+Unpack the constant-slice witnesses $d,p,e,r$. The rational endpoint and the
+$p$-adic scale witnesses are unchanged. Symmetry and transitivity of $\hsame$
+move the displayed $\Eone(d)$ endpoint from $h$ to $h'$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleConstantSliceCarrier\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:adele-certificate}
