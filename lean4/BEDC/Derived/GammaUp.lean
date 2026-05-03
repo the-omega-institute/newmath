@@ -51,6 +51,16 @@ theorem GammaPoleLocus_not_empty {s : BHist} :
   | intro _n data =>
       exact ComplexHistoryCarrier_not_empty data.right.right sameEmpty
 
+theorem GammaPoleLocus_append_unary_complex_carrier {s q : BHist} :
+    GammaPoleLocus s -> UnaryHistory q ->
+      ComplexHistoryCarrier (append s q) ∧ (hsame (append s q) BHist.Empty -> False) := by
+  intro pole qUnary
+  cases GammaPoleLocus_complex_carrier_witness pole with
+  | intro _n data =>
+      have appendCarrier : ComplexHistoryCarrier (append s q) :=
+        ComplexHistoryCarrier_append_unary_closed data.right.right qUnary
+      exact And.intro appendCarrier (ComplexHistoryCarrier_not_empty appendCarrier)
+
 theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
     hsame s t ->
       GammaPoleLocus s ->

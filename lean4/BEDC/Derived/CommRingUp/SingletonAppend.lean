@@ -119,4 +119,17 @@ theorem CommRingSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} 
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem CommRingSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
+    CommRingSingletonClassifier (append h k) (append h' k') ->
+      CommRingSingletonClassifier (append k h) (append k' h') := by
+  intro classified
+  have leftParts := append_eq_empty_iff.mp classified.left
+  have rightParts := append_eq_empty_iff.mp classified.right.left
+  have leftCarrier : CommRingSingletonCarrier (append k h) :=
+    append_eq_empty_iff.mpr (And.intro leftParts.right leftParts.left)
+  have rightCarrier : CommRingSingletonCarrier (append k' h') :=
+    append_eq_empty_iff.mpr (And.intro rightParts.right rightParts.left)
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 end BEDC.Derived.CommRingUp

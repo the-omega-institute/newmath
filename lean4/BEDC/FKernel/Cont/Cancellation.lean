@@ -107,6 +107,23 @@ theorem cont_self_extension_tail_absurd {h tail : BHist} :
   · intro hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
+theorem cont_nested_visible_middle_result_absurd {l tail r u v : BHist} :
+    (Cont l (BHist.e0 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) ∧
+      (Cont l (BHist.e1 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) := by
+  constructor
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e0 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp middleEmpty).right
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e1 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp middleEmpty).right
+
 theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} :
     (Cont h (BHist.e0 leftTail) k -> Cont k rightTail h -> False) ∧
       (Cont h (BHist.e1 leftTail) k -> Cont k rightTail h -> False) := by
