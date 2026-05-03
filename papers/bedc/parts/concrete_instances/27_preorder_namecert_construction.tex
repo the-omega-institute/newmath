@@ -126,6 +126,45 @@ This singleton package gives a concrete $\mathsf{BHist}$ source for the
 $\PreorderUp$ relation fields, so order formalization can target this carrier
 rather than arbitrary relation parameters.
 
+\begin{theorem}[Singleton empty $\PreorderUp$ naming certificate]
+\label{thm:concrete-singleton-empty-preorder-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-preorder-instance} supplies the source,
+pattern, classifier, stability, ledger, and exactness rows for a concrete
+$\NameCert$ licensing $\PreorderUp$ over $\mathsf{BHist}$. On carried histories,
+the exactness row is the collapse
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The carrier row is the singleton $\mathsf{BHist}$ source
+$A_{\emp}$, and \autoref{thm:singleton-empty-preorder-laws} supplies its
+inhabitance by $\emp$ together with transport along $\hsame$. The source row is
+therefore the concrete source described by
+\autoref{def:preorder-source-specification}.
+
+The pattern row is the restricted comparison judgment $h\le_{\emp}k$, as in
+\autoref{def:preorder-pattern-specification}. The classifier row is
+$\rho_{\emp}$, and \autoref{thm:singleton-empty-preorder-laws} gives the
+endpoint congruence needed by
+\autoref{def:preorder-classifier-specification}.
+
+The stability row uses the same law package: reflexivity is the displayed
+reflexivity of $\le_{\emp}$ on carried histories, and transitivity is the
+displayed transitivity of $\le_{\emp}$. The ledger row is
+\autoref{def:preorder-ledger-policy}, recording the two carried endpoints and
+the restricted comparison witness.
+
+It remains to identify the exactness row. For carried $h,k:\mathsf{BHist}$,
+\autoref{thm:singleton-empty-preorder-laws} says that opposing comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$ collapse to $\rho_{\emp}(h,k)$. Conversely,
+unfolding $\rho_{\emp}$ gives the carrier witnesses and $\hsame(h,k)$, and the
+same law package turns that identification into the two restricted comparisons.
+Thus the displayed collapse is precisely the exactness row of the concrete
+$\NameCert$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[Preorder source specification]
