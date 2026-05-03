@@ -84,6 +84,25 @@ self-prefix at $\Eone(\emp)$, contradicting asymmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_unary\_boundary\_exclusion}
 
+\begin{theorem}[Critical strip empty-to-unit open interval absurdity]
+\label{thm:crit-strip-open-interval-empty-unit-absurd}
+There is no unary history strictly between the empty endpoint and the one-step
+unit endpoint:
+$$
+\mathsf{NatUnaryStrictPrefix}(\emp,\sigma)\wedge
+\mathsf{NatUnaryStrictPrefix}(\sigma,\Eone(\emp))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The lower strict-prefix witness transports unary structure from $\emp$ to
+$\sigma$. Split the unary history $\sigma$. If it is empty, the lower
+strict-prefix witness has empty right endpoint, impossible by strictness. If it
+is one-headed, the upper strict-prefix witness descends through the one-head
+constructor to a strict prefix into $\emp$, again impossible by strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_empty\_unit\_absurd}
+
 \begin{definition}[Critical strip complex carrier]
 \label{def:crit-strip-complex-carrier}
 A complex strip history $s$ with rational components $\sigma,\tau$ is carried
