@@ -62,5 +62,37 @@ inversion identifies the middle history with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_middle\_between\_counit\_unit\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism triangle composite is empty]
+\label{thm:monad-adjunction-endomorphism-triangle-composite-empty}
+For histories $p,a,unit,counit,left,right,composite:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds and
+$\mathsf{Cont}(left,right,composite)$ holds. Then
+$\hsame(composite,\emp)$.
+\end{theorem}
+\begin{proof}
+The endomorphism triangle theorem identifies both triangle legs with $\emp$.
+Transport the displayed continuation against those two endpoint identifications
+and compare it with the empty right-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_composite\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism unit, counit, and triangles are empty]
+\label{thm:monad-adjunction-endomorphism-unit-counit-triangle-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then the unit component, counit component, and both triangle results are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit are endomorphism prefix components over the same prefix,
+so prefix component exactness identifies both with $\emp$. Applying the
+triangle-result collapse for the same carrier gives the two empty triangle
+results, and the four witnesses are collected in order.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_unit\_counit\_triangle\_empty}
+
 \section{The certificate}
 \label{sec:monad-certificate}

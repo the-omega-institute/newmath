@@ -84,6 +84,28 @@ self-prefix at $\Eone(\emp)$, contradicting asymmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_unary\_boundary\_exclusion}
 
+\begin{definition}[Critical strip complex carrier]
+\label{def:crit-strip-complex-carrier}
+A complex strip history $s$ with rational components $\sigma,\tau$ is carried
+when $\sigma$ and $\tau$ are rational histories, $\Cont(\sigma,\tau,s)$
+assembles the complex endpoint, and $\sigma$ lies in the strict critical
+strip.
+\end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripComplexCarrier}
+
+\begin{theorem}[Critical strip complex carrier nonemptiness]
+\label{thm:crit-strip-complex-carrier-not-empty}
+If $s$ is carried by the critical-strip complex carrier, then
+$s\hsame\emp$ is impossible.
+\end{theorem}
+\begin{proof}
+Transport the stored continuation endpoint along $s\hsame\emp$. The empty
+result inversion for $\Cont$ identifies both rational components with
+$\emp$, contradicting the nonempty denominator witness contained in the real
+rational carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_not\_empty}
+
 \section{Closure laws}
 
 \begin{lemma}[Strip respects \(\hsame\)]
