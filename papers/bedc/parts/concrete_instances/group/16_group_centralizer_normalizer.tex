@@ -1,0 +1,93 @@
+\begin{definition}[Group centralizer normalizer carrier]
+\label{def:group-centralizer-normalizer-carrier}
+Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}. For each history
+$s:\mathsf{BHist}$ define the conjugation word
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+The centralizer normalizer carrier $N_a$ is the predicate
+$$
+N_a(s) :\Longleftrightarrow
+\bigl(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow Z_a(\mathsf{Conj}_s(x))\bigr)
+\land
+\bigl(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))\bigr).
+$$
+Thus $N_a(s)$ records centralizer preservation by conjugation with $s$ and by
+conjugation with $\mathsf{inv}(s)$.
+\end{definition}
+
+\begin{theorem}[Group centralizer normalizer subgroup]
+\label{thm:group-centralizer-normalizer-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, the carrier $N_a$ of
+\autoref{def:group-centralizer-normalizer-carrier} is the two-sided
+normalizer subgroup of $Z_a$:
+\begin{enumerate}
+\item $N_a(e)$.
+\item If $N_a(s)$ and $N_a(t)$, then $N_a(\mathsf{mul}(s,t))$.
+\item If $N_a(s)$, then $N_a(\mathsf{inv}(s))$.
+\item If $N_a(s)$ and $\hsame(s,t)$, then $N_a(t)$.
+\item If $Z_a(s)$, then $N_a(s)$.
+\end{enumerate}
+The ten-field fit is: traditional target normalizer of a subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $N_a$; classifier $\hsame$;
+stability conjugation closure in both directions; ledger conjugating element
+and inverse witness; exactness normalizer action on the centralizer; core
+theorem list \autoref{thm:group-centralizer-subgroup},
+\autoref{thm:group-conjugation-classifier-exactness}, and
+\autoref{thm:group-inverse-mul-reverse}, together with associativity, unit
+laws, inverse laws, and multiplication congruence; standard bridge ordinary
+subgroup normalizer; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the unit row, the unit laws identify $\mathsf{Conj}_e(x)$ with $x$ for
+every $x$. The inverse laws identify $\mathsf{inv}(e)$ with $e$, so the
+second half of the carrier is the same calculation. Hence any $Z_a(x)$ is
+returned to $Z_a$ by both unit conjugation clauses.
+
+For product closure, assume $N_a(s)$ and $N_a(t)$. Associativity rewrites
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$ as
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$, while
+\autoref{thm:group-inverse-mul-reverse} supplies the inverse word
+$\mathsf{mul}(\mathsf{inv}(t),\mathsf{inv}(s))$. If $Z_a(x)$, first apply the
+forward normalizer clause for $t$ and then the forward clause for $s$.
+
+For the inverse-conjugation half of the product, use the same conjugation
+composition reading with the reversed inverse word. Starting from $Z_a(x)$,
+the inverse clause for $s$ gives preservation by $\mathsf{inv}(s)$, and the
+inverse clause for $t$ then gives preservation by $\mathsf{inv}(t)$. The
+classifier comparison between this composite word and
+$\mathsf{Conj}_{\mathsf{inv}(\mathsf{mul}(s,t))}(x)$ is supplied by
+associativity, \autoref{thm:group-inverse-mul-reverse}, and multiplication
+congruence.
+
+For inverse closure, the first clause of $N_a(\mathsf{inv}(s))$ is exactly the
+second clause of $N_a(s)$. The second clause of
+$N_a(\mathsf{inv}(s))$ conjugates by $\mathsf{inv}(\mathsf{inv}(s))$, which
+the inverse laws identify with $s$ under $\hsame$; multiplication congruence
+and \autoref{thm:group-conjugation-classifier-exactness} transport the
+existing first clause of $N_a(s)$ across that classifier equality.
+
+For classifier transport, assume $N_a(s)$ and $\hsame(s,t)$. Multiplication
+congruence transports each word
+$\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ to the corresponding word
+with $t$, using the inverse-congruence consequence of the group laws for the
+last factor. The classifier exactness theorem then shows that the transported
+conjugation has the same $Z_a$ membership, so the two clauses defining
+$N_a(s)$ give the two clauses defining $N_a(t)$.
+
+Finally assume $Z_a(s)$. By the inverse row of
+\autoref{thm:group-centralizer-subgroup}, $Z_a(\mathsf{inv}(s))$ also holds.
+For any $Z_a(x)$, the product row first gives
+$Z_a(\mathsf{mul}(s,x))$ and then
+$Z_a(\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)))$.
+
+The same argument with $\mathsf{inv}(s)$ as the first centralizer element and
+$s$ as the final one proves the conjugation clause for $\mathsf{inv}(s)$.
+These two preservation clauses are exactly $N_a(s)$.
+\end{proof}
