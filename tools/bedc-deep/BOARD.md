@@ -1779,3 +1779,111 @@ Direct sibling to B-28 (CommRing forgets to Ring) at the next layer of the algeb
 
 ---
 
+### B-72 - Ring forgets to AbGroup certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring forgets to AbGroup certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If R carries a RingUp(R) certificate, then dropping multiplication, multiplicative one, and the multiplicative-monoid / distributivity / zero-multiplication stability fields leaves a carrier, source, additive pattern, classifier, additive-stability fields, and additive ledger that form an AbGroupUp(R) certificate, with the carrier, addition, zero, additive inverse, and classifier unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `lean4/BEDC/Derived/RingUp.lean`
+- `lean4/BEDC/Derived/AbGroupUp.lean`
+
+Rationale:
+The Ring stability certificate at 18_ring_namecert_construction.tex:191-203 lists 'additive abelian-group laws' as its first stability item, mirroring the 'all group stability fields' phrasing that powers prop:abgroup-forgets-group-certificate at 17_abgroup_namecert_construction.tex:499-501. Grep for 'forgets' across papers/bedc/parts/ returns only commring-forgets-ring (19_commring_certificate_scaffold.tex:14), abgroup-forgets-group (17_abgroup:499), module-forgets-abgroup (21_module:371), vecspace-forgets-module (22_vecspace:436), and field-forgets-commring (field/20_field_certificate_record.tex:105). No 'ring-forgets' label exists anywhere in papers/ or lean4/. The chain Field -> CommRing -> Ring -> AbGroup -> Group is broken at exactly one link (Ring -> AbGroup); 25_polynomial_namecert_construction.tex repeatedly invokes 'additive ring fields retained in def:ring-stability-certificate' (lines 520, 551, 660, 718) without being able to cite a forget proposition, evidence the gap is real and load-bearing.
+
+---
+
+
+### B-73 - Module forgets to Ring certificate (scalar projection)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module forgets to Ring certificate (scalar projection) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If M carries a ModuleUp(R, M) certificate, then dropping the additive carrier M, vector addition, vector zero, vector negation, the scalar action smul, and the action-shaped stability and ledger rows leaves a carrier, source, ring pattern, classifier, ring stability fields, and ring ledger that form a RingUp(R) certificate, with R's operations and classifier unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `lean4/BEDC/Derived/ModuleUp.lean`
+- `lean4/BEDC/Derived/RingUp.lean`
+
+Rationale:
+The proof of prop:module-forgets-abgroup-certificate (21_module_namecert:371-401) explicitly exposes the existing structure: 'the source side of the module certificate is a certified RingUp(R) together with a certified AbGroupUp(M) sharing the scalar action'. So the scalar-projection forget keeps an already-certified RingUp witness, dual to the established additive-projection forget. Grep for 'module.*forgets|forgets.*ring' in papers/bedc/parts/ returns only commring-forgets-ring and module-forgets-abgroup; the scalar-projection direction is absent. The gap is not hidden under the AbGroup forget because the two forgets project to disjoint halves of the module pair (R, M).
+
+---
+
+
+### B-74 - POSet forgets to Preorder certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | POSet forgets to Preorder certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries a POSetUp(C) certificate, then dropping the antisymmetry field and its compatibility data with relation congruence leaves a carrier, source, pattern, classifier, preorder stability fields, and ledger that form a PreorderUp(C) certificate, with the relation, classifier, and carrier unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `lean4/BEDC/Derived/PreorderUp.lean`
+
+Rationale:
+POSet stability certificate at 28_poset_namecert_construction.tex:206-214 explicitly lists 'all preorder stability fields' as its first item, plus antisymmetry and compatibility, mirroring exactly the structure of prop:abgroup-forgets-group-certificate (drop commutativity field). Preorder obligations are at 27_preorder_namecert_construction.tex:500-503. Grep 'poset.*forgets|forgets.*preorder' returns 0 matches in papers/. The Lean side has PreorderUp.lean but no POSetUp.lean (so this lane is paper-only as expected for bedc-deep). This is the order-theoretic analogue of the algebraic forget chain that already covers AbGroup -> Group, CommRing -> Ring, Field -> CommRing, Module -> AbGroup, VecSpace -> Module.
+
+---
+
+
+### B-75 - TotalOrder forgets to POSet certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TotalOrder forgets to POSet certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries a TotalOrderUp(C) certificate, then dropping the trichotomy comparison data, the strict-order-to-apartness field, the comparison-stability-under-classifier-replacement row, and any strict-comparison transitivity entries leaves a carrier, source, pattern, classifier, poset stability fields, and ledger that form a POSetUp(C) certificate, with the relation, classifier, and carrier unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+TotalOrder stability certificate at 29_totalorder_namecert_construction.tex lists 'all poset stability fields' as item 1, then strict-order-to-apartness, trichotomy, comparison stability, and strict-transitivity. Existing board entry B-13 ('Total order trichotomy reduces classifier fields') addresses the *abstract reduction* of the classifier under trichotomy, not the structural forget that drops trichotomy and comparison data. Grep for 'totalorder.*forgets|forgets.*poset' returns 0 matches anywhere in papers/. Distinct from B-13 because B-13 keeps trichotomy and uses it to *re-express* the classifier; this candidate *drops* trichotomy and projects to the bare poset certificate, which is the canonical mathematical forgetful functor.
+
+---
+
