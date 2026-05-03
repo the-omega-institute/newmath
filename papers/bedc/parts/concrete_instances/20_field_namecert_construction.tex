@@ -602,6 +602,43 @@ $\mathsf{FieldApartTailFactor}(z,x)$.
 \end{enumerate}
 \end{definition}
 
+\begin{lemma}[Field apart-zero tail-factor hsame transport]
+\label{lem:field-apartzero-tail-factor-hsame-transport}
+For histories $y,y',x,x':\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame y'$, and $x\hsame x'$, then
+$\mathsf{FieldApartTailFactor}(y',x')$.
+\end{lemma}
+\begin{proof}
+Induct on the generated witness
+$\mathsf{FieldApartTailFactor}(y,x)$.
+
+In the empty-context constructor, transport the first continuation witness along
+$x\hsame x'$ and reflexivity of its other endpoints using
+\autoref{thm:cont-hsame-transport}. Transport the second continuation witness
+along reflexivity of its source and factor endpoint, and along $y\hsame y'$ for
+the result. The two exterior witnesses $l\hsame\emp$ and $r\hsame\emp$ are
+unchanged, so constructor 1 rebuilds
+$\mathsf{FieldApartTailFactor}(y',x')$.
+
+In the carried-tail constructor, apply the induction hypothesis to the stored
+factor witness, the reflexive comparison on its carried result, and the supplied
+$x\hsame x'$. Transport the final continuation result along $y\hsame y'$ by
+\autoref{thm:cont-hsame-transport}, then reuse constructor 2.
+
+In the exposed-factor constructor, transport the continuation argument by
+$x\hsame x'$ and its result by $y\hsame y'$ using
+\autoref{thm:cont-hsame-transport}. Constructor 3 then gives the transported
+generated factor witness.
+\end{proof}
+
+Per-object template: traditional target tail-factor stability; BEDC source
+$\mathsf{BHist}$ plus $\ContR$; carrier $\mathsf{FieldApartTailFactor}$;
+classifier $\hsame$; stability obligation
+\autoref{lem:field-apartzero-tail-factor-hsame-transport}; ledger transported
+continuation witnesses; core theorem
+\autoref{lem:field-apartzero-tail-factor-hsame-transport}; exactness predicate
+invariance of generated factor witnesses; status $\mathsf{ProofTarget}$.
+
 \begin{lemma}[Field apart-zero tail-factor result closure]
 \label{lem:field-apartzero-tail-factor-result-closure}
 For histories $y,x:\mathsf{BHist}$, if
