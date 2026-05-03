@@ -2,6 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.CommRingUp
+import BEDC.Derived.DeterminantUp
 
 namespace BEDC.Derived.EigenUp
 
@@ -9,13 +10,14 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.LinearMapUp
 open BEDC.Derived.CommRingUp
+open BEDC.Derived.DeterminantUp
 
-def EigenSingletonCarrier (f lam v pair : BHist) : Prop :=
+def EigenComponentSingletonCarrier (f lam v pair : BHist) : Prop :=
   LinearMapSingletonCarrier f ∧ CommRingSingletonCarrier lam ∧
     LinearMapSingletonCarrier v ∧ Cont lam v pair
 
 theorem EigenSingletonCarrier_pair_empty_iff {f lam v pair : BHist} :
-    EigenSingletonCarrier f lam v pair ↔
+    EigenComponentSingletonCarrier f lam v pair ↔
       LinearMapSingletonCarrier f ∧ CommRingSingletonCarrier lam ∧
         LinearMapSingletonCarrier v ∧ hsame pair BHist.Empty := by
   constructor
@@ -45,5 +47,25 @@ theorem EigenSingletonCarrier_pair_empty_iff {f lam v pair : BHist} :
                   cont_intro (pairEmpty.trans appendEmpty.symm)
                 exact And.intro fCarrier
                   (And.intro lamCarrier (And.intro vCarrier contPair))
+
+def EigenSingletonCarrier (pair : BHist) : Prop :=
+  ∃ map scalar vector : BHist,
+    LinearMapSingletonCarrier map ∧
+      DeterminantSingletonCarrier scalar ∧
+        LinearMapSingletonCarrier vector ∧ Cont map (append scalar vector) pair
+
+theorem EigenSingletonCarrier_cont_result_transport {map scalar vector pair pair' : BHist} :
+    LinearMapSingletonCarrier map ->
+      DeterminantSingletonCarrier scalar ->
+        LinearMapSingletonCarrier vector ->
+          Cont map (append scalar vector) pair -> hsame pair pair' ->
+            EigenSingletonCarrier pair' := by
+  intro mapCarrier scalarCarrier vectorCarrier contPair samePair
+  exact Exists.intro map
+    (Exists.intro scalar
+      (Exists.intro vector
+        (And.intro mapCarrier
+          (And.intro scalarCarrier
+            (And.intro vectorCarrier (cont_result_hsame_transport contPair samePair))))))
 
 end BEDC.Derived.EigenUp
