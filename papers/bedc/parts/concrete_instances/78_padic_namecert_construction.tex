@@ -134,3 +134,21 @@ $\emp$, while the same prime witness supplies the prime-scale carrier field.
 
 \section{The certificate}
 \label{sec:padic-certificate}
+
+\begin{theorem}[Prime scale at unit exponent reads back the prime]
+\label{thm:padic-prime-scale-unit-exponent-reads-back-prime}
+For every history $p$, if $\mathsf{NatPrime}(p)$, then
+$\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)$.
+\end{theorem}
+\begin{proof}
+The prime witness supplies the unary carrier field for $p$ required by
+\autoref{def:nat-multiplication}. The zero multiplication constructor gives
+$\mathsf{NatMul}(p,\emp,\emp)$. The left-unit part of
+\autoref{thm:continuation-unit-laws-spine} supplies the continuation
+$\Cont(\emp,p,p)$. Applying the successor constructor of
+\autoref{def:nat-multiplication} therefore yields
+$\mathsf{NatMul}(p,\Eone(\emp),p)$. Pairing this multiplication witness with
+the given prime witness is exactly
+$\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)$ by
+\autoref{def:padic-prime-scale}.
+\end{proof}
