@@ -12,6 +12,19 @@ For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the 
 \end{definition}
 \leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap}
 
+\begin{theorem}[Open-disk gap determinacy]
+\label{thm:cplx-topo-open-disk-gap-deterministic}
+If a complex-topology open-disk gap witness exposes $\Cont(z,g,r)$ and another
+boundary ledger exposes $\Cont(z,g',r)$ with the same point and radius, then
+$g\hsame g'$.
+\end{theorem}
+\begin{proof}
+Unpack the concrete open-disk gap witness to recover its boundary continuation
+ledger. Continuation left cancellation against the alternative ledger compares
+the two gap histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_gap\_deterministic}
+
 \begin{remark}[Compatibility with the inline definition]
 This definition coincides with the inline \texttt{BEDC.Derived.HolomorphicUp.OpenDisk} of \autoref{ch:concrete-instances-holomorphic-namecert} up to namespace; promoting it to \(\ComplexTopologyUp\) lets downstream chapters cite a single canonical home.
 \end{remark}
