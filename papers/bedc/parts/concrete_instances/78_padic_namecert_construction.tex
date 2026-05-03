@@ -28,6 +28,20 @@ is precisely \(\mathsf{PadicPrimeScale}(p,e,r)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_total}
 
+\begin{theorem}[Prime scale exists uniquely]
+\label{thm:padic-prime-scale-exists-unique}
+If \(p\) is a \(\PrimeUp\)-prime and \(e\) is a unary history, then there is a
+history \(r\) with \(\mathsf{PadicPrimeScale}(p,e,r)\), and every other such
+scale result is \(\hsame\)-equal to \(r\).
+\end{theorem}
+\begin{proof}
+Prime-scale totality supplies a concrete result witness. Any competing
+prime-scale result has the same prime base and exponent in its
+\(\mathsf{NatMul}\) field, so unary multiplication functionality identifies
+the two result histories.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_exists\_unique}
+
 \begin{theorem}[Prime scale empty result exactness]
 \label{thm:padic-prime-scale-empty-result-iff-empty-exponent}
 If \(\mathsf{PadicPrimeScale}(p,e,r)\), then \(r\hsame\emp\) exactly when
