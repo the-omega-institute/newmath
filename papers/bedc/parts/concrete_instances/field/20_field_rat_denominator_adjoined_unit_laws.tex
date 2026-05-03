@@ -192,6 +192,26 @@ as $\mathsf{RatHistoryClassifier}(h,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_nonempty\_rat\_classifier}
 
+\begin{theorem}[Rat denominator unit classifier nonempty endpoint iff]
+\label{thm:rat-denom-unit-classifier-nonempty-endpoint-iff}
+For histories $h,k:\mathsf{BHist}$, a denominator-unit classifier witness
+transports the nonempty endpoint predicate in both directions:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+\bigl((h\hsame\emp\Rightarrow\mathsf{False})
+\Longleftrightarrow
+(k\hsame\emp\Rightarrow\mathsf{False})\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_nonempty\_endpoint\_iff}
+\begin{proof}
+Unpack $\mathsf{RatDenomUnitClassifier}(h,k)$ and use its endpoint comparison
+$h\hsame k$. Composing this comparison with an empty-endpoint witness on one
+side produces an empty-endpoint witness on the other side, contradicting the
+assumed nonempty predicate. The reverse direction uses symmetry of the same
+$\hsame$ comparison.
+\end{proof}
+
 \begin{theorem}[Rat denominator unit carrier visible cases]
 \label{thm:rat-denom-unit-carrier-visible-cases}
 For every history $h:\mathsf{BHist}$, an adjoined empty-unit denominator carrier

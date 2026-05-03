@@ -47,4 +47,14 @@ theorem RatDenomUnitClassifier_nonempty_rat_classifier {h k : BHist} :
       (RatDenomUnitCarrier_nonempty_rat classified.right.left nonemptyK)
       classified.right.right)
 
+theorem RatDenomUnitClassifier_nonempty_endpoint_iff {h k : BHist} :
+    RatDenomUnitClassifier h k ->
+      ((hsame h BHist.Empty -> False) ↔ (hsame k BHist.Empty -> False)) := by
+  intro classified
+  constructor
+  · intro nonemptyH kEmpty
+    exact nonemptyH (hsame_trans classified.right.right kEmpty)
+  · intro nonemptyK hEmpty
+    exact nonemptyK (hsame_trans (hsame_symm classified.right.right) hEmpty)
+
 end BEDC.Derived.FieldUp

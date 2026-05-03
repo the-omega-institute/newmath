@@ -69,6 +69,25 @@ identifies $b\cdot q$ with $b'\cdot q$, and right cancellation of the common
 suffix gives $\hsame(b,b')$.
 \end{proof}
 
+\begin{theorem}[Category hom-carrier empty morphism endpoint iff]
+\label{thm:category-hom-carrier-morphism-empty-endpoint-iff}
+For histories $a,b,f:\mathsf{BHist}$, a hom-carrier ledger from $a$ to $b$
+identifies the displayed morphism with the empty tail exactly when the two
+endpoints are internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)\Longrightarrow
+\bigl(f\hsame\emp\Longleftrightarrow a\hsame b\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_empty\_endpoint\_iff}
+\begin{proof}
+Unfold the hom-carrier ledger to its continuation field $\Cont(a,f,b)$. If
+$f\hsame\emp$, determinacy against the right-unit continuation identifies
+$b$ with $a$. Conversely, if $a\hsame b$, compare the displayed continuation
+with the endpoint equality and cancel the common left endpoint to obtain
+$f\hsame\emp$.
+\end{proof}
+
 \begin{theorem}[Cyclic continuation morphisms have empty tails]
 \label{thm:continuation-morphism-cycle-tails-empty}
 If the opposite continuation morphism records

@@ -208,6 +208,28 @@ nonemptiness theorem applies to the canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_iff}
 
+\begin{theorem}[Rat denominator empty-unit product nonempty comm iff]
+\label{thm:field-rat-denominator-empty-unit-product-nonempty-comm-iff}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, reversing
+the two factors preserves the nonempty endpoint predicate of the empty-unit
+product:
+$$
+\bigl(\mathsf{append}(h,k)\hsame\emp\to\mathsf{False}\bigr)
+\Longleftrightarrow
+\bigl(\mathsf{append}(k,h)\hsame\emp\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_comm\_iff}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} to the
+ordered pair $(h,k)$ and again to the reversed pair $(k,h)$. The first
+characterization reads nonemptiness as
+$\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k)$, and the
+second reads it as the same disjunction with the two sides exchanged. Split
+the factor-support disjunction and swap the branch tags.
+\end{proof}
+
 \begin{theorem}[Rat denominator empty-unit strict product factor cases]
 \label{thm:field-rat-denominator-empty-unit-strict-product-factor-cases}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, if the
