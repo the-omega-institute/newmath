@@ -44,6 +44,13 @@ theorem GammaDomainCore_not_empty {s apart : BHist} :
   intro domain sameEmpty
   exact ComplexHistoryCarrier_not_empty domain.left sameEmpty
 
+theorem GammaPoleLocus_not_empty {s : BHist} :
+    GammaPoleLocus s -> hsame s BHist.Empty -> False := by
+  intro pole sameEmpty
+  cases GammaPoleLocus_complex_carrier_witness pole with
+  | intro _n data =>
+      exact ComplexHistoryCarrier_not_empty data.right.right sameEmpty
+
 theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
     hsame s t ->
       GammaPoleLocus s ->
@@ -59,6 +66,17 @@ theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
             hsame_trans (hsame_symm sameST) sameSPole
           exact And.intro (Exists.intro n (And.intro nUnary sameTPole))
             (Exists.intro n (And.intro nUnary sameTPole))
+
+theorem GammaPoleLocus_witness_unique {s n m : BHist} :
+    (UnaryHistory n ∧ hsame s (append (BHist.e1 n) (BHist.e1 BHist.Empty))) ->
+      (UnaryHistory m ∧ hsame s (append (BHist.e1 m) (BHist.e1 BHist.Empty))) ->
+        hsame n m := by
+  intro left right
+  have sameAnchors :
+      hsame (append (BHist.e1 n) (BHist.e1 BHist.Empty))
+        (append (BHist.e1 m) (BHist.e1 BHist.Empty)) :=
+    hsame_trans (hsame_symm left.right) right.right
+  exact hsame_e1_iff.mp (append_right_cancel (k := BHist.e1 BHist.Empty) sameAnchors)
 
 theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
     hsame s t -> GammaDomainCore s apart ->

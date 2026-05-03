@@ -21,6 +21,18 @@ The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), 
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_complex\_carrier\_witness}
 
+\begin{theorem}[Gamma pole locus is not empty]
+\label{thm:gamma-pole-locus-not-empty}
+If \(s\) lies in the Gamma pole locus, then \(s\) cannot be \(\hsame\) to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+The pole-locus witness induces a \(\ComplexUp\) carrier for \(s\) by the
+complex-carrier witness theorem. The complex carrier is non-empty, so an
+\(\hsame(s,\emp)\) assumption contradicts that carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_not\_empty}
+
 \begin{theorem}[Gamma pole locus hsame transport witness]
 \label{thm:gamma-pole-locus-hsame-transport-witness}
 If $s\hsame t$ and $s$ lies in the Gamma pole locus, then $t$ lies in the
@@ -37,6 +49,20 @@ with that equality. The same unary $n$ then witnesses both the pole-locus
 claim for $t$ and the displayed append-history equality.
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_hsame\_transport\_witness}
+
+\begin{theorem}[Gamma pole locus witness uniqueness]
+\label{thm:gamma-pole-locus-witness-unique}
+If the same complex history \(s\) is displayed as a Gamma pole by unary
+witnesses \(n\) and \(m\), then \(n\hsame m\).
+\end{theorem}
+\begin{proof}
+The two displayed pole equalities identify the append histories
+\(\mathsf{append}(\Eone(n),\Eone(\emp))\) and
+\(\mathsf{append}(\Eone(m),\Eone(\emp))\). Cancelling the common right
+component \(\Eone(\emp)\) gives \(\Eone(n)\hsame\Eone(m)\), and constructor
+inversion gives \(n\hsame m\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_witness\_unique}
 
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}
