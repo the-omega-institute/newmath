@@ -107,3 +107,28 @@ associativity so that both sides share the right suffix $p$, then cancel that
 common suffix. For the reverse direction, expand the unsuffixed continuation and
 use associativity of history append to rebuild the suffixed continuation.
 \end{proof}
+
+\begin{theorem}[Continuation common-context equivalence up to history-sameness]
+\label{thm:cont-hsame-common-context-iff}
+For histories $L,R,P,Q,a,b,f:\mathsf{BHist}$, if $L\hsame R$ and $P\hsame Q$,
+then adding those matched contexts to the continuation source, tail, and result
+preserves and reflects the core continuation:
+$$
+L\hsame R\Rightarrow P\hsame Q\Rightarrow
+\bigl(
+\Cont(\mathsf{append}(L,a),
+      \mathsf{append}(f,P),
+      \mathsf{append}(\mathsf{append}(R,b),Q))
+\Longleftrightarrow
+\Cont(a,f,b)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the two context comparisons so the left and right contexts match
+definitionally. The forward direction first removes the common right suffix by
+the continuation suffix equivalence, then removes the common left prefix by the
+continuation prefix equivalence. The reverse direction applies the same two
+equivalences in the opposite order.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_hsame\_common\_context\_iff}

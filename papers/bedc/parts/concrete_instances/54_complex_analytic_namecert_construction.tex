@@ -17,6 +17,68 @@ $$
 each computed by composing \(\RealAnalyticUp\) certificates (\autoref{def:real-analytic-exp}, \autoref{def:real-analytic-sin-cos}) with \(\RealUp\) multiplication. The witness records the explicit input bound \(B = \max(|x|, |y|)\) inherited from the underlying real evaluations.
 \end{definition}
 
+\begin{theorem}[Component continuation witness]
+\label{thm:cplx-analytic-component-continuation-witness}
+Let \(z\) be the continuation of a rational real component by a rational imaginary
+component, and let \(zq\) be the continuation of \(z\) by a unary suffix \(q\).
+Then there is an intermediate imaginary component \(imagq\) such that \(imagq\)
+continues the imaginary component by \(q\), \(zq\) is the continuation of the
+real component by \(imagq\), and \(imagq\) has a positive unary denominator.
+\end{theorem}
+\begin{proof}
+Associativity of \(\Cont\) splits the continuation through the imaginary
+component. The rational carrier on the imaginary component is closed under unary
+suffix continuation, and carrier transport along the resulting \(\Cont\)
+equality gives the positive-denominator readback.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.ComplexAnalytic\_component\_continuation\_witness}
+
+\begin{theorem}[Component continuation has complex carrier]
+\label{thm:cplx-analytic-component-continuation-complex-carrier}
+If rational real and imaginary component histories continue to a history \(z\),
+then \(z\) is carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The two rational component carriers and the displayed continuation are exactly
+the product-history carrier data defining a complex history.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.ComplexAnalytic\_component\_continuation\_complex\_carrier}
+
+\begin{definition}[Pure-imaginary complex source]
+\label{def:cplx-pure-imaginary}
+The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is unary and \(z\) is \(\hsame\) to the complex history with real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\).
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary}
+
+\begin{theorem}[Pure-imaginary witness uniqueness]
+\label{thm:cplx-pure-imaginary-witness-unique}
+If the same complex history \(z\) is displayed as pure-imaginary by unary
+witnesses \(\theta\) and \(\phi\), then \(\theta\hsame\phi\).
+\end{theorem}
+\begin{proof}
+The two displayed pure-imaginary equalities identify the append histories
+\(\mathsf{append}(\Eone(\emp),\Eone(\theta))\) and
+\(\mathsf{append}(\Eone(\emp),\Eone(\phi))\). Cancelling the common left
+component \(\Eone(\emp)\) gives \(\Eone(\theta)\hsame\Eone(\phi)\), and
+constructor inversion gives \(\theta\hsame\phi\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_witness\_unique}
+
+\begin{theorem}[Pure-imaginary component determinacy]
+\label{thm:cplx-pure-imaginary-component-deterministic}
+If two pure-imaginary witnesses present the same complex history $z$ through
+unary parameters $\theta$ and $\theta'$, then the explicit component pairs
+$(\Eone(\emp),\Eone(\theta))$ and $(\Eone(\emp),\Eone(\theta'))$ are
+$\hsame$-equal, and $\theta\hsame\theta'$.
+\end{theorem}
+\begin{proof}
+Unpack both pure-imaginary witnesses and compose the two $\hsame$ comparisons
+through the shared history $z$. Cancelling the common real component
+$\Eone(\emp)$ leaves $\Eone(\theta)\hsame\Eone(\theta')$, and constructor
+inversion for $\Eone$ reads back $\theta\hsame\theta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_deterministic}
+
 \begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
 \label{lem:cplx-exp-well-defined}
 For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).
@@ -40,6 +102,90 @@ For pure-imaginary \(z = i\theta\) with real \(\theta\) (i.e.\ component \((0, \
 \begin{proof}
 Direct unfolding of \autoref{def:cplx-exp} at \(x = 0\): \(\mathsf{Exp}(0) = 1\) by \(\mathsf{ExpPart}(0, n, \cdot)\) collapsing to the empty-product base, so the components reduce to \((\mathsf{Cos}(\theta), \mathsf{Sin}(\theta))\).
 \end{proof}
+
+\begin{theorem}[Pure-imaginary source has complex carrier witness]
+\label{thm:cplx-pure-imaginary-complex-carrier}
+Every \(\mathsf{CplxPureImaginary}(\theta,z)\) witness contains the unary witness for \(\theta\), the \(\hsame\) comparison from \(z\) to the component pair \((0,\theta)\), and a \(\ComplexUp\) carrier for \(z\).
+\end{theorem}
+\begin{proof}
+The real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\) both satisfy the rational positive-denominator carrier. Their product gives the complex carrier for the component pair, and the supplied \(\hsame\) comparison transports that carrier to \(z\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_complex\_carrier\_witness}
+
+\begin{theorem}[Pure-imaginary hsame transport witness]
+\label{thm:cplx-pure-imaginary-hsame-transport}
+If \(z\hsame z'\) and \(z\) is the pure-imaginary source determined by
+\(\theta\), then \(z'\) is the same pure-imaginary source and exposes the
+transported comparison with the component pair \((0,\theta)\).
+\end{theorem}
+\begin{proof}
+Unpack the pure-imaginary witness into the unary carrier for \(\theta\) and
+the comparison from \(z\) to the component-pair history. Compose that
+comparison with the symmetry of \(z\hsame z'\). The same unary carrier and the
+composed comparison rebuild the transported pure-imaginary witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_hsame\_transport\_witness}
+
+\begin{theorem}[Pure-imaginary component continuation witness]
+\label{thm:cplx-pure-imaginary-component-continuation-witness}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then there is an intermediate imaginary component
+\(imagq\) that continues \(\Eone(\theta)\) by \(q\), continues
+\(\Eone(\emp)\) to \(zq\), and retains a positive unary denominator.
+\end{theorem}
+\begin{proof}
+The pure-imaginary witness supplies the component continuation from
+\(\Eone(\emp)\) and \(\Eone(\theta)\) to \(z\). The real and imaginary
+components are rational carriers by the positive-denominator characterization,
+so the component continuation theorem splits the suffix through the imaginary
+component and returns the positive-denominator witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_witness}
+
+\begin{theorem}[Pure-imaginary suffix continuation complex carrier]
+\label{thm:cplx-pure-imaginary-suffix-continuation-complex-carrier}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then \(zq\) is a \(\ComplexUp\) history carrier and
+is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Split the suffix continuation through the imaginary component supplied by the
+pure-imaginary component continuation theorem. The real component
+\(\Eone(\emp)\) is a rational carrier, and the split suffix gives a rational
+imaginary carrier, so the complex component-continuation carrier theorem builds
+the \(\ComplexUp\) carrier for \(zq\). Complex carrier non-emptiness then rules
+out \(zq\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_complex\_carrier}
+
+\begin{theorem}[Pure-imaginary continuation has complex carrier]
+\label{thm:cplx-pure-imaginary-continuation-complex-carrier}
+If \(z\) is the pure-imaginary source determined by \(\theta\), a unary suffix
+\(q\) continues \(z\) to \(zq\), and \(q\) is a unary history, then \(zq\) is
+carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The component-continuation theorem splits the suffix through an intermediate
+imaginary component \(imagq\), with a rational carrier for \(imagq\) and a
+continuation from \(\Eone(\emp)\) and \(imagq\) to \(zq\). The fixed real
+component \(\Eone(\emp)\) is a rational carrier, so product continuation
+introduces the \(\ComplexUp\) carrier for \(zq\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_continuation\_complex\_carrier}
+
+\begin{theorem}[Pure-imaginary component continuation has complex carrier]
+\label{thm:cplx-pure-imaginary-component-continuation-complex-carrier}
+Let $\mathsf{CplxPureImaginary}(\theta,z)$ hold, and let a unary suffix $q$
+continue $z$ to $zq$. Then $zq$ is carried by $\ComplexUp$.
+\end{theorem}
+\begin{proof}
+The pure-imaginary continuation witness splits the suffix through an
+intermediate imaginary component with a rational carrier. The real component
+$\Eone(\emp)$ has the fixed rational carrier, and the displayed continuation
+from that real component and the continued imaginary component to $zq$ forms
+the product-history carrier defining a complex history.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_complex\_carrier}
 
 \section{Complex logarithm with principal branch}
 \label{sec:cplx-analytic-log}
@@ -132,7 +278,7 @@ The tuple \((\mathsf{CplxExp}, \mathsf{CplxLog}, \mathsf{CplxSin}, \mathsf{CplxC
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Componentwise composition of the \(\RealAnalyticUp\) certificate (\autoref{thm:concrete-real-analytic-namecert}) with \(\ComplexUp\) field operations gives the closed inductive carrier and classifier. The five stability obligations reduce to real-side identities or to algebraic manipulations of complex products and Euler's formula. No \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is required.
+Componentwise composition with the supplied $\RealAnalyticUp$ certificate-boundary rows of \autoref{thm:real-analytic-certificate-boundary} and the $\ComplexUp$ field operations gives the closed inductive carrier and classifier. The five stability obligations reduce to real-side identities or to algebraic manipulations of complex products and Euler's formula. No $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$ is required.
 \end{proof}
 
 \begin{corollary}[\(\ComplexAnalyticUp\) is licensed, not primitive]

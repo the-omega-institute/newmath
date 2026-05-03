@@ -6,5 +6,181 @@ The derivative interface $\DerivativeUp$ packages the constructive pointwise der
 \section{Carrier definition}
 \label{sec:derivative-carrier}
 
+\begin{definition}[Derivative metric quotient]
+\label{def:derivative-metric-quotient}
+For histories $f,z,h,q,dist:\mathsf{BHist}$, the derivative metric quotient
+carrier holds when $f$, $z$, $q$, $h$, and $dist$ are unary histories, $h$ is
+complex-nonzero, $q$ is the continuation result of $f$ by the step $h$, and
+$dist$ is the continuation result of $h$ by the quotient $q$:
+$$
+\mathsf{UnaryHistory}(f)\wedge
+\mathsf{UnaryHistory}(z)\wedge
+\mathsf{CplxNonZero}(h)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{Cont}(f,h,q)\wedge
+\mathsf{UnaryHistory}(h)\wedge
+\mathsf{UnaryHistory}(dist)\wedge
+\mathsf{Cont}(h,q,dist).
+$$
+\end{definition}
+\leandef{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient}
+
+\begin{theorem}[Derivative metric quotient history transport]
+\label{thm:derivative-metric-quotient-hsame-transport}
+For histories $f,f',z,z',h,h',q,q',dist,dist':\mathsf{BHist}$, if each
+source component is classifier-equal to its primed component, then a
+derivative metric quotient for $(f,z,h,q,dist)$ transports to a derivative
+metric quotient for $(f',z',h',q',dist')$. The transported package also reads
+back the complex difference quotient, the metric distance witness, and the two
+displayed continuation ledgers:
+$$
+\mathsf{CplxDiffQuot}(f',z',h',q'),\qquad
+\mathsf{MetricDistanceWitness}(h',q',dist'),\qquad
+\mathsf{Cont}(f',h',q'),\qquad
+\mathsf{Cont}(h',q',dist').
+$$
+\end{theorem}
+\begin{proof}
+Destructure the derivative metric quotient into its unary carriers, the
+complex nonzero step proof, and the two continuation ledgers. Transport unary
+carriers along the five $\hsame$ assumptions. The nonzero proof for $h'$
+composes a hypothetical $h'\hsame\emp$ with $h\hsame h'$. The difference
+ledger transports along the function, step, and quotient equalities. The
+metric ledger transports as the continuation field of the concrete metric
+distance witness built from $h$, $q$, $dist$, and $\mathsf{Cont}(h,q,dist)$.
+Reassembling these transported fields gives all stated components.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
+
+\begin{theorem}[Derivative metric quotient distance result is nonempty]
+\label{thm:derivative-metric-quotient-distance-result-nonempty}
+For histories $f,z,h,q,dist:\mathsf{BHist}$, a derivative metric quotient
+cannot have a metric-distance result classified as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the derivative metric quotient. Its metric ledger is a continuation
+$\Cont(h,q,dist)$, while the step field says that $h$ is complex-nonzero.
+Transport the continuation result along $dist\hsame\emp$. Empty-result
+inversion for $\Cont$ forces $h\hsame\emp$, contradicting the complex-nonzero
+step witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_result\_nonempty}
+
+\begin{theorem}[Derivative metric quotient distance visible-context readback]
+\label{thm:derivative-metric-quotient-distance-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the distance
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $dist\hsame core$. The readback
+core is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the distance and the core. This gives $dist\hsame core$. A hypothetical empty
+core transports back to an empty distance result, contradicting the checked
+non-emptiness theorem for derivative metric quotient distance results.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_visible\_context\_readback}
+
+\begin{theorem}[Derivative metric quotient quotient visible-context readback]
+\label{thm:derivative-metric-quotient-quotient-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the quotient
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $q\hsame core$. The readback
+core is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the quotient and the core. This gives $q\hsame core$. A hypothetical empty
+core transports back to an empty quotient result, contradicting the checked
+quotient non-emptiness component of derivative metric quotients.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_visible\_context\_readback}
+
+\begin{theorem}[Derivative metric quotient distance is non-empty]
+\label{thm:derivative-metric-quotient-quotient-distance-nonempty}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then neither
+the quotient $q$ nor the displayed distance $dist$ is $\hsame$-equal to
+$\emp$.
+\end{theorem}
+\begin{proof}
+The quotient component is a concrete complex difference quotient, whose
+nonzero step forbids an empty continuation result. For the distance component,
+transporting a hypothetical $dist\hsame\emp$ into the continuation ledger
+$\Cont(h,q,dist)$ yields an empty result ledger. Empty-result inversion forces
+$h\hsame\emp$, contradicting the complex nonzero step field.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_distance\_nonempty}
+
+\begin{theorem}[Derivative metric quotient result deterministic]
+\label{thm:derivative-metric-quotient-result-deterministic}
+For histories $f,z,h,q,q',dist,dist':\mathsf{BHist}$, two derivative metric
+quotient witnesses with the same function, point, and step determine the same
+quotient and displayed metric-distance result up to $\hsame$. The four
+continuation ledgers
+$$
+\Cont(f,h,q),\qquad \Cont(f,h,q'),\qquad \Cont(h,q,dist),\qquad
+\Cont(h,q',dist')
+$$
+are exposed together with $q\hsame q'$ and $dist\hsame dist'$.
+\end{theorem}
+\begin{proof}
+Destructure the two derivative metric quotient witnesses. Determinism of
+$\Cont(f,h,\cdot)$ identifies the two quotient histories. Transport the second
+metric ledger along that quotient equality, then apply determinism of
+$\Cont(h,q,\cdot)$ to identify the displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_result\_deterministic}
+
+\begin{theorem}[Derivative same-quotient step and distance determinacy]
+\label{thm:derivative-metric-quotient-same-quotient-step-distance-deterministic}
+For histories $f,z,h,h',q,dist,dist':\mathsf{BHist}$, two derivative metric
+quotient witnesses with the same function, point, and quotient determine the
+same step and displayed metric-distance result up to $\hsame$. The
+continuation ledgers
+$$
+\Cont(f,h,q),\qquad \Cont(f,h',q),\qquad \Cont(h,q,dist),\qquad
+\Cont(h',q,dist')
+$$
+are exposed together with $h\hsame h'$ and $dist\hsame dist'$.
+\end{theorem}
+\begin{proof}
+Read both derivative metric quotient witnesses as complex difference quotient
+witnesses with the same quotient. Determinism of the shared quotient identifies
+the two step histories and exposes both function continuation ledgers.
+Transport the second metric continuation ledger back along the step equality,
+then apply continuation determinism to identify the displayed distance
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_same\_quotient\_step\_distance\_deterministic}
+
+\begin{theorem}[Derivative complex-difference witness step is unary]
+\label{thm:derivative-cplx-diff-at-witness-step-unary}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
+\(q\) such that \(h\) and \(q\) are unary, \(\Cont(f,h,q)\) holds, and
+\(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Unfold the displayed differentiability data to obtain a quotient witness
+\(\mathsf{CplxDiffQuot}(f,z,h,q)\). The quotient step-unary theorem extracts
+unarity of \(h\) and \(q\) together with the continuation ledger
+\(\Cont(f,h,q)\). The classifier field of \(\mathsf{CplxDiffAt}\) identifies
+the quotient result \(q\) with the displayed derivative \(f'\).
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_witness\_step\_unary}
+
+\begin{theorem}[Derivative complex-difference derivative is nonempty]
+\label{thm:derivative-cplx-diff-at-derivative-nonempty}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then the displayed derivative
+\(f'\) cannot be $\hsame$-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Unfold the differentiability witness to obtain a concrete quotient
+\(\mathsf{CplxDiffQuot}(f,z,h,q)\). The classifier field identifies the
+quotient result \(q\) with the displayed derivative \(f'\). A hypothetical
+\(f'\hsame\emp\) therefore makes \(q\hsame\emp\), contradicting quotient
+result non-emptiness from the nonzero step.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_derivative\_nonempty}
+
 \section{The certificate}
 \label{sec:derivative-certificate}

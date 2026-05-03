@@ -41,4 +41,30 @@ protected theorem group_conjugation_equation_solution_unique_from_empty_unit
       leftInv rightInv).mp hy
   exact hsame_trans sx (hsame_symm sy)
 
+protected theorem group_two_sided_mul_equation_exact_from_empty_unit_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x b c : BHist} :
+    hsame (mul (mul a x) c) b <->
+      hsame x (mul (inv a) (mul b (inv c))) := by
+  constructor
+  · intro twoSided
+    have solveRight : hsame (mul a x) (mul b (inv c)) :=
+      (group_right_mul_equation_exact_from_empty_unit assocC rightId mulCongr
+        leftInv rightInv).mp twoSided
+    exact (group_left_mul_equation_exact_from_empty_unit assocC leftId mulCongr
+      leftInv rightInv).mp solveRight
+  · intro solved
+    have solveLeft : hsame (mul a x) (mul b (inv c)) :=
+      (group_left_mul_equation_exact_from_empty_unit assocC leftId mulCongr
+        leftInv rightInv).mpr solved
+    exact (group_right_mul_equation_exact_from_empty_unit assocC rightId mulCongr
+      leftInv rightInv).mpr solveLeft
+
 end BEDC.Derived.GroupUp

@@ -148,6 +148,53 @@ the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
 
+\begin{theorem}[Constant real classifier invalid endpoint exclusions]
+\label{thm:real-constant-history-classifier-invalid-endpoint-absurd}
+For every history $h$ and history tail $t$, the constant real-history classifier
+excludes every endpoint shape that is not an $\Eone$-sealed rational history:
+\begin{enumerate}
+  \item $\mathsf{RealConstantHistoryClassifier}(\Ezero(t),h)\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(h,\Ezero(t))\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(\emp,h)\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(h,\emp)\Longrightarrow\bot$.
+\end{enumerate}
+In the ten-field fit, the traditional target is sealed constant-real endpoint
+no-confusion; the BEDC source is $\mathsf{BHist}$ rational seals; the carrier is
+$\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligations are endpoint
+carrier projection and carrier exclusions; the ledger is invalid endpoint shape;
+the core theorem is this block; the exactness predicate is impossible
+non-$\Eone$ endpoint; the standard bridge is constant rational real names; and
+the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its left projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\Ezero(t))$. Apply
+  \autoref{thm:real-constant-history-carrier-e0-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its right projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\Ezero(t))$. Apply
+  \autoref{thm:real-constant-history-carrier-e0-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its left projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\emp)$. Apply
+  \autoref{thm:real-constant-history-carrier-empty-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its right projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\emp)$. Apply
+  \autoref{thm:real-constant-history-carrier-empty-absurd}.
+\end{enumerate}
+\end{proof}
+
 \begin{theorem}[Constant real classifier equivalence fields]
 \label{thm:real-constant-history-classifier-equivalence-fields}
 The constant real history classifier supplies the equivalence fields carried by
@@ -201,6 +248,118 @@ For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier
 \end{definition}
 \leandef{BEDC.Derived.RealUp.RealStreamClassifier}
 \leandef{BEDC.Derived.RealUp.RealStreamPrefixClassifier}
+
+\begin{definition}[Real unary-observation stream classifier]
+\label{def:real-unary-observation-stream-classifier}
+For rational-observation maps $s,t:\Hist\to\Hist$, the unary-observation
+stream classifier is pointwise rational-history classification over certified
+unary BEDC observation histories:
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+$$
+\end{definition}
+
+\begin{theorem}[Constant rational streams bridge StreamNameUp and RealUp]
+\label{thm:streamname-real-constant-prefix-bridge}
+For histories $d,e:\Hist$, the RatUp point classifier, the StreamNameUp
+constant-stream classifier, the RealUp unary-observation stream classifier, and
+the constant real-history classifier at e-one seals are equivalent:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+\end{theorem}
+\begin{proof}
+For the first equivalence, the forward direction is exactly the constant
+classifier part of \autoref{thm:rat-stream-name-constant-witness}. Conversely,
+unfold Definition~\ref{def:rat-stream-name-classifier} and read the pointwise
+classifier at the empty unary observation history $\emp$ using its unary
+witness; the two constant stream values are $d$ and $e$.
+
+For the second equivalence, unfold
+Definition~\ref{def:rat-stream-name-classifier} and
+Definition~\ref{def:real-unary-observation-stream-classifier}. Both predicates
+are the same pointwise requirement over certified unary observation histories,
+so each direction is identity transport of the displayed witness.
+
+For the last equivalence, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier} and
+$\mathsf{RatConstStream}$. Reading at the empty unary observation gives
+$\mathsf{RatHistoryClassifier}(d,e)$, while a rational point classifier supplies
+the same pointwise witness at every unary observation.
+
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to identify that
+rational point classifier with
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
+\end{proof}
+
+\begin{theorem}[Constant rational stream carriers bridge StreamNameUp and RealUp]
+\label{thm:streamname-real-constant-carrier-bridge}
+For every history $d:\Hist$, the RatUp point carrier, the StreamNameUp
+constant-stream carrier, and the RealUp constant real-history carrier at the
+e-one seal are equivalent:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d).
+$$
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+\end{theorem}
+\begin{proof}
+The first equivalence is the carrier row of
+\autoref{thm:rat-stream-name-constant-point-exactness}, read symmetrically:
+the StreamNameUp constant carrier is exactly the RatUp carrier of its hidden
+constant seed.
+
+For the second equivalence, compose that carrier row with
+\autoref{thm:real-constant-history-carrier-e1-iff-rat}. A StreamNameUp
+constant carrier first recovers $\mathsf{RatHistoryCarrier}(d)$, then the
+e-one theorem seals it as
+$\mathsf{RealConstantHistoryCarrier}(\Eone(d))$; the reverse direction unseals
+the RealUp constant carrier to $\mathsf{RatHistoryCarrier}(d)$ and repacks it
+as the StreamNameUp constant carrier.
+\end{proof}
+
+The carrier certificate fit has ten fields: traditional target constant
+rational real carrier embedding; BEDC source RatUp histories plus StreamNameUp
+observations; carrier the displayed constant stream and e-one real seal;
+classifier inherited from \autoref{thm:streamname-real-constant-prefix-bridge};
+stability from RatUp carrier transport and RealConstant carrier transport;
+ledger the hidden rational seed and observation witness; core theorem
+\autoref{thm:streamname-real-constant-carrier-bridge}; exactness the two
+displayed equivalence rows; standard bridge constant rational real name; status
+$\mathsf{ProofTarget}$.
+
+The certificate fit has ten fields: traditional target constant rational real
+names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
+constant rational observation maps; classifier the displayed bridge; stability
+inherited from RatUp classifier fields; ledger the constant rational history and
+unary observation witness; core theorem
+\autoref{thm:streamname-real-constant-prefix-bridge}; exactness the displayed
+equivalence; standard bridge constant rational real sequence; status
+$\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real stream classifier prefix closure]
 \label{thm:real-stream-classifier-prefix}
@@ -366,6 +525,41 @@ rational-history classifier witnesses at that index, and rational-history
 classifier transitivity composes them.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_trans}
+
+\begin{theorem}[Real stream classifier certificate fields]
+\label{thm:real-stream-classifier-certificate-fields}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, the pointwise
+stream classifier supplies the following stability certificate fields:
+\begin{enumerate}
+  \item if $\forall n,\ \mathsf{RatHistoryCarrier}(x(n))$, then
+  $\mathsf{RealStreamClassifier}(x,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then for every $n$ both
+  $\mathsf{RatHistoryCarrier}(x(n))$ and $\mathsf{RatHistoryCarrier}(y(n))$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then
+  $\mathsf{RealStreamClassifier}(y,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$ and
+  $\mathsf{RealStreamClassifier}(y,z)$, then
+  $\mathsf{RealStreamClassifier}(x,z)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, fix the stream $x$ and its pointwise rational-history carrier
+witness. Apply \autoref{thm:real-stream-prefix-classifier-refl} at every finite
+prefix. The reverse direction of
+\autoref{thm:real-stream-finite-prefix-exactness} then repacks these prefix
+witnesses as $\mathsf{RealStreamClassifier}(x,x)$.
+
+For endpoint carrier readback, unfold the pointwise stream classifier and fix an
+index $n$. The classifier at $n$ is a $\mathsf{RatHistoryClassifier}(x(n),y(n))$
+witness, and unpacking the rational-history classifier gives both endpoint
+carrier facts.
+
+The symmetry field is exactly
+\autoref{thm:real-stream-classifier-symmetry}. The transitivity field is exactly
+\autoref{thm:real-stream-classifier-transitivity}. These four clauses are
+therefore available as the certificate-level stability package for the stream
+classifier.
+\end{proof}
 
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}

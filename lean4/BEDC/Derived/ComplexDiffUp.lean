@@ -248,6 +248,20 @@ theorem CplxDiffQuot_result_nonempty {f z h q : BHist} :
                   have emptyParts := cont_empty_result_inversion emptyLedger
                   exact stepNonzero emptyParts.right
 
+theorem CplxDiffQuot_result_visible_context_readback {p r f z h q core : BHist} :
+    CplxDiffQuot f z h q ->
+      hsame (append (append p q) r) (append (append p core) r) ->
+        hsame q core ∧ (hsame core BHist.Empty -> False) := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append q r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p q r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame q core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore
+    (fun coreEmpty =>
+      CplxDiffQuot_result_nonempty quotient (hsame_trans sameCore coreEmpty))
+
 theorem CplxDiffAt_derivative_unique {f z fp gp : BHist} :
     CplxDiffAt f z fp -> CplxDiffAt f z gp ->
       hsame fp gp ∧ ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q := by

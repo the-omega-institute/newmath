@@ -10,6 +10,76 @@ This chapter gives a concrete naming-certificate construction for the Riemann ze
 For complex history \(s\) and complex history \(z\), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds when \(z\) is the explicit complex-history limit of the Dirichlet partial sums of the constant-unit coefficient sequence \(a_n = \Eone(\emp)\) at \(s\); equivalently, \(\mathsf{ZetaBasic}(s, z)\) is the specialization of the \(\DirichletSeriesUp\) carrier (\autoref{ch:concrete-instances-dirichlet-series-namecert}) at unit coefficients.
 \end{definition}
 
+\begin{definition}[Unit Dirichlet part sum]
+\label{def:zeta-basic-part-sum}
+For a complex history \(s\), the unit term at unary index \(n\) is the visible unit extension \(\Eone(s)\), and \(\mathsf{ZetaBasicPartSum}(s,n,z)\) is the specialized \(\mathsf{DirichletPartSum}\) witness for this unit term.
+\end{definition}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicUnitTerm}
+\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum}
+
+\begin{theorem}[Unit Dirichlet part sums are unary]
+\label{thm:zeta-basic-part-sum-unary-result}
+If \(s\) and \(n\) are unary histories and \(\mathsf{ZetaBasicPartSum}(s,n,z)\) holds, then \(z\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the concrete \(\mathsf{DirichletPartSum}\) witness. The zero result is \(\emp\), and the successor case appends the prior unary partial sum to the visible unit term \(\Eone(s)\), which is closed by unary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_unary\_result}
+
+\begin{theorem}[Unit Dirichlet part-sum indices are unary]
+\label{thm:zeta-basic-part-sum-index-unary}
+If \(\mathsf{ZetaBasicPartSum}(s,n,z)\) holds, then \(n\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the specialized \(\mathsf{DirichletPartSum}\) witness. The zero
+constructor gives the empty unary index, and the step constructor preserves
+unaryness by applying the visible unit successor constructor to the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_index\_unary}
+
+\begin{theorem}[Unit Dirichlet successor part sums are nonempty]
+\label{thm:zeta-basic-part-sum-successor-result-nonempty}
+If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then \(z\) is not
+\(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness. Its final step appends the previous
+sum to \(\Eone(s)\). If the result were empty, empty-result inversion for
+\(\Cont\) would force \(\Eone(s)\hsame\emp\), contradicting visible-successor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_result\_nonempty}
+
+\begin{theorem}[Unit Dirichlet successor part-sum step inversion]
+\label{thm:zeta-basic-part-sum-successor-step-inversion}
+If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then there is a
+previous partial sum \(p\) such that \(\mathsf{ZetaBasicPartSum}(s,n,p)\)
+holds and \(\ContR(p,\Eone(s),z)\) is the successor continuation step.
+\end{theorem}
+\begin{proof}
+Invert the specialized partial-sum witness at successor index \(\Eone(n)\).
+The step constructor exposes the predecessor partial sum and its continuation
+by the unit term, which unfolds to \(\Eone(s)\).
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_step\_inversion}
+
+\begin{theorem}[Unit Dirichlet successor source transport step]
+\label{thm:zeta-basic-part-sum-successor-source-transport-step}
+If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,
+then there are histories \(p\) and \(u\) such that
+\(\mathsf{ZetaBasicPartSum}(t,n,p)\), \(\ContR(p,\Eone(t),u)\), and
+\(z\hsame u\).
+\end{theorem}
+\begin{proof}
+Invert the successor part-sum witness at source \(s\). The predecessor index
+is unary by the part-sum index theorem, so termwise \(\hsame\)-transport along
+\(s\hsame t\) moves the predecessor partial sum to source \(t\). Rebuild the
+visible unit continuation step at \(t\), and use continuation congruence to
+compare its result with the original successor sum.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_step}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.

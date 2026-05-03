@@ -6,5 +6,146 @@ The automorphic-form interface $\AutomorphicUp$ packages a function on $\NameCer
 \section{Carrier definition}
 \label{sec:automorphic-carrier}
 
+\begin{theorem}[Automorphic adele graph continuation is non-empty]
+\label{thm:automorphic-adele-graph-cont-nonempty}
+For adelic domain and value histories, any continuation graph produced by
+\(\Cont\) is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Transport the continuation result to \(\emp\). Empty-result inversion forces the
+domain endpoint to be \(\emp\), contradicting the non-empty property of the
+\(\AdeleUp\) carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_cont\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context core is non-empty]
+\label{thm:automorphic-adele-graph-visible-context-core-nonempty}
+For adelic domain and value histories, if a visible two-sided context displays
+\(\Cont(p \cdot d, v \cdot q, (p \cdot c) \cdot q)\), then the exposed core
+\(c\) is not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Suffix cancellation removes the visible right context \(q\), yielding
+\(\Cont(p \cdot d, v, p \cdot c)\). Prefix cancellation removes the visible
+left context \(p\), yielding \(\Cont(d,v,c)\). The core non-emptiness theorem
+for automorphic adele graphs then rules out \(c\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context core determinacy]
+\label{thm:automorphic-adele-graph-visible-context-core-deterministic-nonempty}
+For adelic domain and value histories, if the same visible left and right
+contexts display two central continuation cores $c$ and $c'$, then
+$c\hsame c'$. Both displayed cores are also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Peel the common right context by suffix cancellation and the common left
+context by prefix cancellation. This recovers two central ledgers
+$\Cont(d,v,c)$ and $\Cont(d,v,c')$. Continuation determinacy compares the
+two recovered cores, and automorphic adele graph non-emptiness rules out
+emptiness for each core.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_deterministic\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context non-empty]
+\label{thm:automorphic-adele-graph-visible-context-nonempty}
+For adelic domain and value histories, a displayed graph inside a visible
+left and right continuation context cannot be \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Peel the right visible context and then the left visible context using
+continuation cancellation. The recovered central graph continuation is
+non-empty by the automorphic adele graph continuation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context value readback]
+\label{thm:automorphic-adele-graph-visible-context-value-readback}
+For adelic domain and value histories, if a visible two-sided context displays
+$\Cont(p \cdot d, v \cdot q, (p \cdot graph) \cdot q)$ and the same central
+graph is displayed by $\Cont(d,v',graph)$, then the visible value reads back to
+$v\hsame v'$. The recovered graph is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Suffix cancellation removes the visible right context, and prefix cancellation
+removes the visible left context, recovering $\Cont(d,v,graph)$. Continuation
+left cancellation compares this recovered ledger with $\Cont(d,v',graph)$,
+while automorphic adele graph non-emptiness rules out an empty recovered graph.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_value\_readback}
+
+\begin{theorem}[Automorphic adele graph visible-context domain readback]
+\label{thm:automorphic-adele-graph-visible-context-domain-readback}
+For adelic domain and value histories, if a visible two-sided context displays
+$\Cont(p \cdot d, v \cdot q, (p \cdot graph) \cdot q)$ and the same central
+graph is displayed by $\Cont(d',v,graph)$, then the visible domain reads back
+to $d\hsame d'$. The recovered graph is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Suffix cancellation removes the visible right context, and prefix cancellation
+removes the visible left context, recovering $\Cont(d,v,graph)$. Continuation
+right cancellation compares this recovered ledger with $\Cont(d',v,graph)$,
+while automorphic adele graph non-emptiness rules out an empty recovered graph.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_domain\_readback}
+
+\begin{theorem}[Automorphic adele graph visible-context result is non-empty]
+\label{thm:automorphic-adele-graph-visible-context-result-nonempty}
+For adelic domain and value histories, the whole visible-context result
+\((p \cdot graph) \cdot q\) of a displayed automorphic adele graph cannot be
+\(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+If the visible result were empty, append-empty inversion first forces the
+right context \(q\) and the prefix \(p \cdot graph\) to be empty, and then
+forces \(graph\) itself to be empty. The visible-context graph
+non-emptiness theorem gives the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_result\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible result is non-empty]
+\label{thm:automorphic-adele-graph-visible-result-nonempty}
+For adelic domain and value histories, any continuation result from a visible
+left-context domain $p \cdot d$ to a visible right-context value $v \cdot q$
+cannot be $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Transport the visible continuation result to $\emp$. Empty-result inversion
+then forces the source endpoint $p \cdot d$ to be empty. Append-empty inversion
+exposes $d\hsame\emp$, contradicting the non-empty property of the $\AdeleUp$
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_result\_nonempty}
+
+\begin{theorem}[Automorphic adele graph visible-context result \(\hsame\) transport]
+\label{thm:automorphic-adele-graph-visible-context-result-hsame-transport}
+For adelic domain and value histories, if a visible two-sided context displays
+an automorphic graph \(graph\), and \(graph\hsame graph'\), then the same
+visible context displays \(graph'\). The transported graph is also not
+\(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Apply \(\hsame\) congruence to the nested result
+\((p\cdot graph)\cdot q\), transport the displayed continuation ledger along
+that result comparison, and then apply visible-context graph non-emptiness to
+the transported display.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_result\_hsame\_transport}
+
+\begin{theorem}[Automorphic adele graph visible-context core readback]
+\label{thm:automorphic-adele-graph-visible-context-core-readback}
+For adelic domain and value histories, if a visible two-sided context displays
+an automorphic graph and that whole visible result is $\hsame$-equal to the
+same context around a core, then the graph reads back to the core. The exposed
+core is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both displayed visible results, then cancel the common left and
+right append contexts to recover $graph\hsame core$. Transport the displayed
+continuation ledger from the graph result to the core result and apply the
+visible-context core non-emptiness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_readback}
+
 \section{The certificate}
 \label{sec:automorphic-certificate}

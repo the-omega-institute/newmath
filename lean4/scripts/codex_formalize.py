@@ -563,27 +563,34 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 continue
             logger.info(
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
-                f"ahead — rebasing local"
+                f"ahead — merging into local"
             )
             with _git_lock:
                 r3 = subprocess.run(
-                    ["git", "pull", "--rebase", "--autostash",
+                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
                      "origin", base_branch],
                     cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
                 )
                 if r3.returncode == 0:
-                    logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+                    logger.info(f"[origin-sync] merged origin/{base_branch} into local")
                 else:
                     logger.warning(
-                        f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
                         f"stderr={(r3.stderr or '').strip()[:200]}"
                     )
-                    # Abort any in-flight rebase to leave main repo clean —
-                    # otherwise worker pushes hit "rebase in progress" forever.
+                    # Abort any in-flight merge / leftover rebase to leave the
+                    # main repo clean — otherwise worker pushes hit
+                    # "merge in progress" / "rebase in progress" forever.
+                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+                        logger.warning("[origin-sync] mid-merge detected, aborting")
+                        subprocess.run(
+                            ["git", "merge", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
                     rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
                     rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
                     if rebase_merge.exists() or rebase_apply.exists():
-                        logger.warning("[origin-sync] mid-rebase detected, aborting")
+                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
                         subprocess.run(
                             ["git", "rebase", "--abort"],
                             cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
@@ -819,7 +826,7 @@ def _codex_resolve_conflicts(
     model: Optional[str] = None,
     timeout: int = 1200,
 ) -> bool:
-    """Use codex exec to resolve rebase conflicts in a worktree.
+    """Use codex exec to resolve merge conflicts in a worktree.
 
     Typical conflicts: parallel worktrees both appending imports to BEDC.lean,
     both updating IMPLEMENTATION_PLAN.md header, or both adding \\leanverified
@@ -844,18 +851,22 @@ def _codex_resolve_conflicts(
         timeout_seconds=timeout,
     )
 
-    # Check if still in rebase state
-    still_rebasing = run_cmd(["git", "status"], cwd=wt_path)
-    if "rebase in progress" in still_rebasing.stdout.lower():
-        logger.warning("Codex did not complete rebase, aborting")
-        run_cmd(["git", "rebase", "--abort"], cwd=wt_path)
+    # Check if merge is still in progress (MERGE_HEAD present means resolution
+    # never completed). `git rev-parse --verify -q MERGE_HEAD` exits 0 when
+    # MERGE_HEAD exists, non-zero otherwise — works inside linked worktrees.
+    merge_in_progress = run_cmd(
+        ["git", "rev-parse", "--verify", "-q", "MERGE_HEAD"], cwd=wt_path
+    ).returncode == 0
+    if merge_in_progress:
+        logger.warning("Codex did not complete merge, aborting")
+        run_cmd(["git", "merge", "--abort"], cwd=wt_path)
         return False
 
     # Check for remaining conflicts
     remaining = run_cmd(["git", "diff", "--name-only", "--diff-filter=U"], cwd=wt_path)
     if remaining.stdout.strip():
         logger.warning(f"Codex left unresolved conflicts: {remaining.stdout.strip()}")
-        run_cmd(["git", "rebase", "--abort"], cwd=wt_path)
+        run_cmd(["git", "merge", "--abort"], cwd=wt_path)
         return False
 
     logger.info("Codex resolved all conflicts successfully")
@@ -1027,52 +1038,56 @@ def _ff_local_branch_to(target: str) -> tuple[bool, str]:
 
 
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
-    """Rebase the worktree branch onto BASE_BRANCH, ff-update locally, push.
+    """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
 
     Strategy:
     1. Fetch origin so we have the latest remote state.
     2. Best-effort fast-forward LOCAL BASE_BRANCH from origin; keep local-only
        base commits if origin cannot be fast-forwarded into the local branch.
-    3. Rebase the worktree branch onto the LOCAL BASE_BRANCH.
-    4. Fast-forward LOCAL BASE_BRANCH to the rebased worktree tip.
+    3. Merge LOCAL BASE_BRANCH into the worktree branch (always --no-ff). Round
+       commits are preserved verbatim under a merge commit; conflict surface is
+       a single-shot reconcile, not an N-commit replay. Eliminates the
+       "Diverging branches" and "no own-round commit" failure modes that
+       rebase + codex resolution kept producing.
+    4. Fast-forward LOCAL BASE_BRANCH to the merged worktree tip.
     5. Push to origin and verify origin contains the worktree tip.
     """
     with _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
-        def _do_rebase_and_ff(attempt: int) -> bool:
+        def _do_merge_and_ff(attempt: int) -> bool:
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
             ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
             if not ok:
                 logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
 
-            rebase = run_cmd(
-                ["git", "rebase", BASE_BRANCH],
+            merge = run_cmd(
+                ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
                 cwd=wt.path,
                 timeout=180,
             )
-            if rebase.returncode != 0:
+            if merge.returncode != 0:
                 logger.warning(
-                    f"Rebase conflict for {wt.branch} (attempt {attempt}), "
+                    f"Merge conflict for {wt.branch} (attempt {attempt}), "
                     "invoking codex to resolve..."
                 )
                 resolved = _codex_resolve_conflicts(wt.path, model=model)
                 if not resolved:
                     logger.error(f"Codex could not resolve conflicts for {wt.branch}")
-                    run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
+                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
                     return False
 
-            rebased_new = run_cmd(
+            merged_new = run_cmd(
                 ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
                 cwd=wt.path, timeout=30,
             )
-            rebased_lines = [
-                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            merged_lines = [
+                l.strip() for l in merged_new.stdout.splitlines() if l.strip()
             ]
             own_prefix = f"R{wt.round_number}:"
-            if not any(own_prefix in l for l in rebased_lines):
+            if not any(own_prefix in l for l in merged_lines):
                 logger.error(
-                    f"[R{wt.round_number}] Rebase left no own-round commit "
+                    f"[R{wt.round_number}] Merge left no own-round commit "
                     f"unique to {BASE_BRANCH}; refusing to report merge success"
                 )
                 return False
@@ -1149,17 +1164,17 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                 return False
 
             if attempt == 1:
-                logger.warning("Push rejected, retrying after fetch + rebase...")
+                logger.warning("Push rejected, retrying after fetch + merge...")
                 return False
 
             logger.error(f"Push retry failed: {push.stderr[:300]}")
             return False
 
-        if _do_rebase_and_ff(attempt=1):
+        if _do_merge_and_ff(attempt=1):
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
 
-        if _do_rebase_and_ff(attempt=2):
+        if _do_merge_and_ff(attempt=2):
             logger.info(f"Merged and pushed {wt.branch} to {BASE_BRANCH}")
             return True
 
@@ -2169,7 +2184,7 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
 
     Ground truth for "new commits" is `git log <base_sha>..HEAD` where base_sha
     is the worktree HEAD captured at creation. This is robust to codex doing
-    `git fetch + rebase` inside the worktree (which moves HEAD past commits
+    `git fetch + merge` inside the worktree (which moves HEAD past commits
     that already exist on origin); a window-based comparison against
     `pre_commits` mistakenly counted those as new in earlier versions.
     """
@@ -2850,8 +2865,9 @@ def _builder_codex_fix(wt: WorktreeInfo, build_log: Path,
         - After fix: `git add lean4/BEDC/` + `git commit` + push to
           `{BASE_BRANCH}`:
             git push origin HEAD:{BASE_BRANCH}
-          If push rejected, rebase onto `origin/{BASE_BRANCH}`, re-verify
-          with `lake env lean <file>`, push again.
+          If push rejected, fetch + merge `origin/{BASE_BRANCH}`
+          (`git fetch origin {BASE_BRANCH} && git merge --no-ff --no-edit origin/{BASE_BRANCH}`),
+          re-verify with `lake env lean <file>`, push again.
 
         ## Rename Rule — for `environment already contains 'X'` failures
         When the error is a duplicate-symbol clash, RENAME the colliding

@@ -6,5 +6,202 @@ The monad interface $\MonadUp$ packages an endofunctor on a category with unit a
 \section{Carrier definition}
 \label{sec:monad-carrier}
 
+\begin{theorem}[Monad adjunction endomorphism triangle results are empty]
+\label{thm:monad-adjunction-endomorphism-triangle-results-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then both triangle results are empty:
+$$
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Both the unit and counit components are endomorphism prefix components over
+the same prefix $p$ and object $a$, so natural-transformation endomorphism
+component exactness identifies each component with $\emp$. The two triangle
+continuations are then compared with the empty right-unit continuation, first
+in the unit-counit order and then in the counit-unit order.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
+
+\begin{theorem}[Monad adjunction left triangle empty result has empty suffix]
+\label{thm:monad-adjunction-left-triangle-result-empty-suffix-empty}
+For histories $p,a,unit,counit,left,right,suffix,out:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds. If
+$\ContR(left,suffix,out)$ and $\hsame(out,\emp)$, then
+$$
+\hsame(suffix,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism triangle result theorem identifies the left triangle result
+with $\emp$. After the output is also identified with $\emp$, the displayed
+continuation has empty source and empty result, so continuation empty-result
+inversion identifies the suffix with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_left\_triangle\_result\_empty\_suffix\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism triangle bridge is empty iff]
+\label{thm:monad-adjunction-endomorphism-triangle-bridge-empty-iff}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then
+$$
+\mathsf{Cont}(left,bridge,right)\Longleftrightarrow\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the right triangle result is empty, so the
+left-triangle empty-result suffix theorem applies to the displayed bridge
+continuation. Conversely, the carrier identifies both triangle results with
+$\emp$; after the bridge is also identified with $\emp$, the continuation is
+the empty right-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_bridge\_empty\_iff}
+
+\begin{theorem}[Monad adjunction endomorphism unit-counit bridge is empty iff]
+\label{thm:monad-adjunction-endomorphism-unit-counit-bridge-empty-iff}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+holds. Then
+$$
+\mathsf{Cont}(unit,bridge,counit)\Longleftrightarrow\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the unit-counit middle-empty theorem. Conversely, the
+endomorphism carrier identifies both $unit$ and $counit$ with $\emp$; after
+$bridge$ is also identified with $\emp$, the displayed continuation is the
+canonical right-unit continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_unit\_counit\_bridge\_empty\_iff}
+
+\begin{theorem}[Monad adjunction right triangle empty result has empty suffix]
+\label{thm:monad-adjunction-right-triangle-empty-result-suffix-empty}
+For histories $p,a,unit,counit,left,right,suffix,out:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds. If
+$\ContR(right,suffix,out)$ and $\hsame(out,\emp)$, then
+$$
+\hsame(suffix,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism triangle result theorem identifies the right triangle result
+with $\emp$. With the displayed output also identified with $\emp$, the
+continuation has empty source and empty result. Continuation empty-result
+inversion therefore identifies the suffix with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_right\_triangle\_result\_empty\_suffix\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism left triangle suffix-output empty iff]
+\label{thm:monad-adjunction-endomorphism-left-triangle-suffix-output-empty-iff}
+For histories $p,a,unit,counit,left,right,suffix,out:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\mathsf{Cont}(left,suffix,out)$ hold. Then
+$$
+\hsame(out,\emp)\Longleftrightarrow\hsame(suffix,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the left-triangle empty-result suffix theorem. For
+the reverse direction, the endomorphism triangle theorem identifies $left$ with
+$\emp$; comparing the displayed continuation against the canonical right-unit
+continuation through the empty suffix gives an empty output.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_left\_triangle\_suffix\_output\_empty\_iff}
+
+\begin{theorem}[Monad adjunction endomorphism parallel triangle suffix agreement]
+\label{thm:monad-adjunction-endomorphism-parallel-triangle-suffix-same}
+For histories $p,a,unit,counit,left,right,suffix,left',right':\mathsf{BHist}$,
+suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+If $\ContR(left,suffix,left')$ and $\ContR(right,suffix,right')$, then
+$$
+\hsame(left',right').
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism triangle result theorem identifies both triangle outputs
+$left$ and $right$ with $\emp$. Hence $left\hsame right$. Continuation
+respect for $\hsame$ transports this source equality across the common
+suffix continuation, with the suffix compared reflexively, and yields
+$left'\hsame right'$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_parallel\_triangle\_suffix\_same}
+
+\begin{theorem}[Monad adjunction endomorphism unit-counit middle is empty]
+\label{thm:monad-adjunction-endomorphism-middle-between-unit-counit-empty}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\ContR(unit,bridge,counit)$ hold. Then $bridge$ is empty:
+$$
+\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The adjunction endomorphism carrier identifies both $unit$ and $counit$ with
+$\emp$. With those endpoints collapsed, the displayed continuation is a
+continuation from $\emp$ through $bridge$ back to $\emp$, and empty-result
+inversion gives $bridge\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_middle\_between\_unit\_counit\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism counit-unit middle is empty]
+\label{thm:monad-adjunction-endomorphism-middle-between-counit-unit-empty}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\ContR(counit,bridge,unit)$ hold. Then $bridge$ is empty:
+$$
+\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit are both endomorphism prefix components in the carrier, so
+each is identified with $\emp$. After those endpoint identifications, the
+displayed counit-unit continuation has empty endpoints, and empty-result
+inversion identifies the middle history with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_middle\_between\_counit\_unit\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism triangle composite is empty]
+\label{thm:monad-adjunction-endomorphism-triangle-composite-empty}
+For histories $p,a,unit,counit,left,right,composite:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds and
+$\mathsf{Cont}(left,right,composite)$ holds. Then
+$\hsame(composite,\emp)$.
+\end{theorem}
+\begin{proof}
+The endomorphism triangle theorem identifies both triangle legs with $\emp$.
+Transport the displayed continuation against those two endpoint identifications
+and compare it with the empty right-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_composite\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism unit, counit, and triangles are empty]
+\label{thm:monad-adjunction-endomorphism-unit-counit-triangle-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then the unit component, counit component, and both triangle results are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit are endomorphism prefix components over the same prefix,
+so prefix component exactness identifies both with $\emp$. Applying the
+triangle-result collapse for the same carrier gives the two empty triangle
+  results, and the four witnesses are collected in order.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_unit\_counit\_triangle\_empty}
+
 \section{The certificate}
 \label{sec:monad-certificate}

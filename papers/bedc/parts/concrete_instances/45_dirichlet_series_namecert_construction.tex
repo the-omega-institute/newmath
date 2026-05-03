@@ -30,6 +30,19 @@ Write \(m=\Eone(t)\) with \(t\) unary. Unary append closure gives unary
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_unary\_closed}
 
+\begin{lemma}[Positive Dirichlet index append right cases]
+\label{lem:dirichlet-positive-index-append-right-cases}
+If \(\mathsf{append}(m,n)\) is a positive Dirichlet index, then either \(m\)
+is a positive Dirichlet index or \(n\) is a positive Dirichlet index.
+\end{lemma}
+\begin{proof}
+Inspect the right append factor \(n\). The empty case returns positivity of
+\(m\). A zero-headed right factor cannot produce a visible successor result.
+A one-headed right factor exposes unaryness of its tail from unaryness of the
+successor witness, so \(n\) itself is a positive Dirichlet index.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_right\_cases}
+
 \begin{lemma}[Dirichlet term well-defined]
 \label{lem:dir-term-well-defined}
 For every \((a, n, s)\) with positive unary \(n\) and complex history \(s\), \(\mathsf{DirTerm}(a, n, s, t_n)\) determines a unique complex history \(t_n\) up to \(\hsame\).
@@ -57,6 +70,30 @@ index and empty partial sum. The step constructor exposes the predecessor
 index, predecessor sum, and continuation payload directly.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_cases}
+
+\begin{lemma}[Dirichlet partial-sum index is unary]
+\label{lem:dirichlet-part-sum-index-unary}
+Every closed witness of $\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$
+forces the index history $n$ to be unary.
+\end{lemma}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives the empty
+unary history, and the step constructor applies unary closure under
+$\mathsf{BHist.e1}$ to the predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_unary}
+
+\begin{theorem}[Dirichlet partial-sum nonempty index is positive]
+\label{thm:dirichlet-part-sum-nonempty-index-positive}
+Every closed witness of \(\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)\)
+whose index is not \(\hsame\)-empty has a positive Dirichlet index \(n\).
+\end{theorem}
+\begin{proof}
+The partial-sum witness makes \(n\) unary. Applying nonempty unary-tail
+inversion to \(n\) exposes \(n=\Eone(t)\) for a unary tail \(t\), which is
+exactly the positive Dirichlet index witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_nonempty\_index\_positive}
 
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
@@ -104,13 +141,32 @@ index. Determinacy of \(\mathsf{Cont}\) identifies the successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_deterministic}
 
+\begin{lemma}[Dirichlet partial-sum term transport is deterministic]
+\label{thm:dirichlet-partsum-term-hsame-transport-deterministic}
+Suppose two Dirichlet term functions agree under $\hsame$ at every unary index
+after transporting the ambient parameter from $s$ to $s'$. If $n$ is unary,
+then a closed partial sum $S$ for $\mathsf{term}$ at $(s,n)$ and a closed
+partial sum $T$ for $\mathsf{term}^{\prime}$ at $(s',n)$ satisfy $S\hsame T$.
+\end{lemma}
+\begin{proof}
+Transport the first closed partial-sum witness along the pointwise
+term-history comparison to obtain a closed witness for $\mathsf{term}^{\prime}$ at
+the same unary index. Unary-index determinacy for Dirichlet partial sums then
+compares that transported witness with the displayed $T$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_transport\_deterministic}
+
 \begin{lemma}[Dirichlet partial sums are complex histories]
 \label{lem:dir-part-sum-complex}
 For every \((a, s, N)\), there is a unique complex history \(S_N\) with \(\mathsf{DirPartSum}(a, s, N, S_N)\), up to \(\hsame\).
 \end{lemma}
 \begin{proof}
-By unary induction on \(N\), using totality of \(\mathsf{DirTerm}\) and complex addition.
+Unary induction on \(N\) constructs the empty partial sum at the base index and
+extends the predecessor sum by the concrete continuation step carrying the
+current Dirichlet term. At each unary index, the partial-sum determinacy theorem
+identifies any competing closed derivation with the constructed result.
 \end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_exists\_unique}
 
 \begin{theorem}[Dirichlet series successor index tail is nonempty]
 \label{thm:dirichlet-series-index-e1-tail-nonempty}

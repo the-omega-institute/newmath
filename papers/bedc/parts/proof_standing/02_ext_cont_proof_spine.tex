@@ -237,6 +237,29 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_tails\_empty}
 
+\begin{theorem}[Nested continuation with visible middle cannot end empty]
+\label{thm:cont-nested-visible-middle-result-absurd}
+For histories $l,tail,r,u,v:\mathsf{BHist}$, neither branch
+$$
+\ContR(l,\Ezero(tail),u),\qquad \ContR(u,r,v),\qquad \HSame(v,\emp)
+$$
+nor branch
+$$
+\ContR(l,\Eone(tail),u),\qquad \ContR(u,r,v),\qquad \HSame(v,\emp)
+$$
+can hold.
+\end{theorem}
+\begin{proof}
+In either branch, the outer continuation and $v\hsame\emp$ force
+$\mathsf{append}(u,r)\hsame\emp$. Empty-append inversion gives $u\hsame\emp$.
+The middle continuation then forces
+$\mathsf{append}(l,\Ezero(tail))\hsame\emp$ or
+$\mathsf{append}(l,\Eone(tail))\hsame\emp$, and a second empty-append
+inversion identifies the headed constructor with $\emp$, contradicting
+history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_nested\_visible\_middle\_result\_absurd}
+
 \begin{theorem}[Mutual continuation forbids visible right tails]
 \label{thm:cont-mutual-extension-right-tail-absurd}
 If $\ContR(h,l,k)$ holds, then neither $\ContR(k,\Ezero(r),h)$ nor
@@ -343,6 +366,24 @@ return tail give a mutual continuation with a one-headed right tail, which is
 forbidden by right-tail mutual-extension cancellation.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle forbids a zero right tail]
+\label{thm:cont-triangle-cycle-right-zero-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,\Ezero(k),a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. The composite continuation and the zero
+return tail give a mutual continuation with a zero-headed right tail, which is
+forbidden by right-tail mutual-extension cancellation.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_zero\_tail\_absurd}
 
 \begin{theorem}[Triangular continuation cycle has empty tails]
 \label{thm:continuation-triangle-cycle-tails-empty}

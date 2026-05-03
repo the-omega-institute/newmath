@@ -144,6 +144,24 @@ Unfold the classifier as the product history classifier over two $\mathsf{RatHis
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_symm}
 
+\begin{theorem}[Complex component classifier introduction]
+\label{thm:complex-history-classifier-component-classifier-intro}
+If the real components are related by $\mathsf{RatHistoryClassifier}$, the
+imaginary components are related by $\mathsf{RatHistoryClassifier}$, and the
+two endpoint histories are assembled by the corresponding continuation
+witnesses, then the endpoint histories satisfy
+$\mathsf{ComplexHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+The source carrier is built from the source real and imaginary rational
+component carriers and the first continuation witness. The target carrier is
+built from the target rational component carriers and the second continuation
+witness. The two component $\hsame$ witnesses are transported through the two
+continuation ledgers by $\mathsf{Cont}$ respecting $\hsame$, yielding the
+endpoint $\hsame$ field required by the complex classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_component\_classifier\_intro}
+
 \begin{definition}[Complex stability certificate]
 \label{def:complex-stability-certificate}
 The stability certificate consists of:

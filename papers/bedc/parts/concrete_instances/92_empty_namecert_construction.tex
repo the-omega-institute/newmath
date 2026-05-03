@@ -1,10 +1,134 @@
 \chapter{A Concrete Naming Certificate for $\EmptyUp$}
 \label{ch:concrete-instances-empty-namecert}
 
-The empty-type interface $\EmptyUp$ packages the unique naming certificate over the inductive carrier with no constructors. It is the initial object in the category of naming certificates and supplies the canonical absurdity witness for refutation patterns.
+The empty-type interface $\EmptyUp$ records the impossible BEDC history carrier:
+the carrier has no inhabitant. The useful exported facts are the absurdity
+theorems below for carrier witnesses, for $\NameCert$ attempts over that
+carrier, and for $\mathsf{SemanticNameCert}$ attempts over that carrier.
 
 \section{Carrier definition}
 \label{sec:empty-carrier}
 
+\begin{definition}[Impossible empty-history carrier]
+\label{def:empty-history-carrier}
+For a history $h:\Hist$, the empty-history carrier requires both boundary
+readbacks
+$$
+\hsame(h,\Ezero(\emp)) \quad\text{and}\quad \hsame(h,\Eone(\emp)).
+$$
+Thus it is the concrete impossible carrier whose contradiction is witnessed by
+BEDC constructor separation.
+\end{definition}
+\leandef{BEDC.Derived.EmptyUp.EmptyHistoryCarrier}
+
 \section{The certificate}
 \label{sec:empty-certificate}
+
+\begin{theorem}[Empty history carrier absurd]
+\label{thm:empty-history-carrier-absurd}
+No history inhabits the empty-history carrier.
+\end{theorem}
+\begin{proof}
+Unpack the two carrier witnesses. The first identifies $h$ with
+$\Ezero(\emp)$, while the second identifies the same $h$ with $\Eone(\emp)$.
+The generated history-sameness constructors have no rule relating a zero-headed
+history to a one-headed history, so constructor inversion closes the
+contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_absurd}
+
+\begin{theorem}[Empty history carrier name certificate absurdity]
+\label{thm:empty-history-carrier-namecert-absurd}
+There is no name certificate whose carrier is the empty-history carrier and
+whose classifier is $\hsame$:
+$$
+\NameCert(\mathsf{EmptyHistoryCarrier},\hsame)\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+A name certificate contains a carrier witness. For this carrier, that witness
+is an inhabitant of the empty-history carrier, contradicting the carrier
+absurdity theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_namecert\_absurd}
+
+\begin{theorem}[Empty history carrier semantic certificate absurdity]
+\label{thm:empty-history-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger policies
+are all the empty-history carrier:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{EmptyHistoryCarrier},\mathsf{EmptyHistoryCarrier},
+\mathsf{EmptyHistoryCarrier},\hsame)
+\Longrightarrow \bot .
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness. Since the ledger policy is
+the empty-history carrier itself, this witness is an inhabitant of the
+impossible carrier. The carrier absurdity theorem closes the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_semantic\_namecert\_absurd}
+
+\begin{theorem}[Empty contradictory carrier name certificate absurdity]
+\label{thm:empty-contradictory-carrier-namecert-absurd}
+There is no name certificate whose carrier asks a single history to be both
+the empty history and the one-extension of the empty history:
+$$
+\NameCert(\{h\mid h\hsame\emp\land h\hsame\Eone(\emp)\},\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Take a carrier witness from the certificate. Its two endpoint equations compose
+by symmetry and transitivity of $\hsame$ to give
+$\emp\hsame\Eone(\emp)$. The closed history no-confusion theorem rules out
+that comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyContradictoryCarrier\_namecert\_absurd}
+
+\begin{theorem}[Empty visible contradictory carrier name certificate absurdity]
+\label{thm:empty-visible-contradictory-carrier-namecert-absurd}
+There is no name certificate whose carrier asks a single history to classify
+both to $\emp$ and to some visible endpoint $\Ezero(tail)$ or $\Eone(tail)$:
+$$
+\NameCert(\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Take a carrier witness from the certificate. The empty comparison composes
+against the visible endpoint comparison. In the zero-headed branch this gives
+$\emp\hsame\Ezero(tail)$, and in the one-headed branch it gives
+$\emp\hsame\Eone(tail)$. Both are excluded by BEDC history constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyVisibleContradictoryCarrier\_namecert\_absurd}
+
+\begin{theorem}[Empty visible contradictory carrier semantic certificate absurdity]
+\label{thm:empty-visible-contradictory-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger policies
+all ask a single history to classify both to $\emp$ and to some visible endpoint
+$\Ezero(tail)$ or $\Eone(tail)$:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\{h\mid h\hsame\emp\land
+(h\hsame\Ezero(tail)\lor h\hsame\Eone(tail))\},
+\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness. The ledger policy is the
+same visible contradictory carrier, so the witness gives both the empty
+comparison and one visible endpoint comparison. In the zero-headed branch this
+composes to $\emp\hsame\Ezero(tail)$, and in the one-headed branch to
+$\emp\hsame\Eone(tail)$. BEDC history constructor separation rules out both
+branches.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyVisibleContradictoryCarrier\_semantic\_namecert\_absurd}

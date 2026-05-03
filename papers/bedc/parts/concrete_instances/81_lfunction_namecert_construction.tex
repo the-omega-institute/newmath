@@ -6,5 +6,236 @@ The L-function interface $\LFunctionUp$ packages a Dirichlet series whose coeffi
 \section{Carrier definition}
 \label{sec:lfunction-carrier}
 
+\begin{theorem}[L-function Dirichlet partial-sum successor index is positive]
+\label{thm:lfunction-dirichlet-part-sum-successor-positive-index}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, a closed witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ makes the successor history
+$\mathsf{BHist.e1}(n)$ a Dirichlet positive index.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives unary
+$\emp$, and the step constructor preserves unaryness through the successor
+constructor. Thus the exposed index $n$ is unary, and $n$ itself is the tail
+witness showing that $\mathsf{BHist.e1}(n)$ is positive.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_positive\_index}
+
+\begin{theorem}[L-function Dirichlet partial-sum successor previous uniqueness]
+\label{thm:lfunction-dirichlet-part-sum-successor-previous-unique}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, a closed witness
+$\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),S)$ exposes a previous
+partial sum $P$ such that
+$\mathsf{DirichletPartSum}(term,s,n,P)$, $\mathsf{Cont}(P,term(n,s),S)$, and
+every other closed partial sum at index $n$ is $\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness. Its predecessor gives the previous
+partial sum and continuation into $S$. Positivity of the successor index
+recovers unaryness of $n$, and unary-index determinacy identifies every other
+predecessor partial sum with the exposed one.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_previous\_unique}
+
+\begin{theorem}[L-function Dirichlet partial-sum successor determinacy]
+\label{thm:lfunction-dirichlet-part-sum-successor-deterministic}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+histories $S,T$, two closed witnesses at the same successor index determine
+the same result:
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),S)\land
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)
+\Longrightarrow S\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+Invert one successor partial-sum witness. Positivity of the exposed successor
+recovers unaryness of $n$, hence unaryness of $\mathsf{BHist.e1}(n)$. The
+Dirichlet unary-index determinacy theorem then compares the reconstructed
+left successor witness with the second witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_deterministic}
+
+\begin{theorem}[L-function Dirichlet zero-term successor stability]
+\label{thm:lfunction-dirichlet-part-sum-zero-term-successor-stable}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$\mathsf{DirichletPartSum}(term,s,n,S)$ holds and the next term
+$term(n,s)$ is $\hsame$ to $\emp$, then the same displayed sum $S$ is also a
+closed partial sum at successor index $\mathsf{BHist.e1}(n)$:
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),S).
+$$
+\end{theorem}
+\begin{proof}
+Compare the canonical right-unit continuation out of $S$ with the term
+history $term(n,s)$ using the assumed $\hsame$ identification with $\emp$.
+This supplies the successor-step continuation from $S$ through the zero term
+back to $S$, and the \texttt{DirichletPartSum.step} constructor closes the
+successor partial-sum witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_term\_successor\_stable}
+
+\begin{theorem}[L-function Dirichlet successor zero term recovers previous result]
+\label{thm:lfunction-dirichlet-part-sum-successor-zero-term-previous-result-same}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and result
+history $T$, if
+$\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)$ holds and the
+step term $term(n,s)$ is $\hsame$ to $\emp$, then the successor witness exposes
+a predecessor $P$ such that
+$$
+\mathsf{DirichletPartSum}(term,s,n,P)\land P\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness to expose the predecessor $P$ and the
+continuation from $P$ through $term(n,s)$ into $T$. Compare this continuation
+with the canonical right-unit continuation from $P$ through $\emp$, transporting
+the term endpoint by $term(n,s)\hsame\emp$. Continuation determinacy then
+identifies $T$ with $P$ under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_previous\_result\_same}
+
+\begin{theorem}[L-function Dirichlet successor zero-term result iff]
+\label{thm:lfunction-dirichlet-partsum-successor-zero-term-result-iff}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and result
+history $T$, if $term(n,s)\hsame\emp$, then
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)
+\Longleftrightarrow
+\exists P:\mathsf{BHist},\,
+\mathsf{DirichletPartSum}(term,s,n,P)\land P\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the predecessor readback for a successor whose step
+term is empty. Conversely, a predecessor $P$ with $P\hsame T$ supplies the
+successor continuation by transporting the right-unit continuation
+$\Cont(P,\emp,P)$ along $term(n,s)\hsame\emp$ and $P\hsame T$, after which the
+\texttt{DirichletPartSum.step} constructor closes the successor witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_result\_iff}
+
+\begin{theorem}[L-function Dirichlet zero-terms result is empty]
+\label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. Then every closed partial-sum witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ has empty result $S\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives
+$S=\emp$. In the step case, the predecessor index is unary by the partial-sum
+index theorem, so the zero-term hypothesis identifies the next term with
+$\emp$. Comparing the displayed continuation with the right-unit continuation
+at $\emp$ gives the empty successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_result\_empty}
+
+\begin{theorem}[L-function positive Dirichlet partial-sum index exposes predecessor]
+\label{thm:lfunction-dirichlet-partsum-positive-index-previous-exists}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S).
+$$
+\end{theorem}
+\begin{proof}
+Apply the Dirichlet partial-sum index case split. The zero-index branch is
+incompatible with positive-index shape, since $\emp$ cannot be identified with
+a visible $\mathsf{BHist.e1}$ constructor. The successor branch already
+exposes the displayed predecessor index, predecessor partial sum, and final
+continuation into $S$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_exists}
+
+\begin{theorem}[L-function positive Dirichlet partial-sum predecessor uniqueness]
+\label{thm:lfunction-positive-index-previous-unique}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S),
+$$
+and every other closed partial sum at the predecessor index $m$ is
+$\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+The predecessor-existence theorem exposes the visible predecessor index $m$,
+the displayed predecessor partial sum $P$, and the continuation into $S$.
+The predecessor partial-sum witness makes $m$ unary. Dirichlet unary-index
+determinacy then identifies any other closed partial sum at $m$ with the
+exposed predecessor result $P$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_unique}
+
+\begin{theorem}[L-function visible Dirichlet predecessor decomposition is deterministic]
+\label{thm:lfunction-dirichlet-partsum-visible-previous-decomposition-deterministic}
+For any Dirichlet term operation $term$, parameter $s$, visible index $n$,
+and sum history $S$, suppose $S$ admits two displayed predecessor
+decompositions
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S)
+$$
+and
+$$
+n=\mathsf{BHist.e1}(m')\land
+\mathsf{DirichletPartSum}(term,s,m',P')\land
+\mathsf{Cont}(P',term(m',s),S).
+$$
+Then $m=m'$ and $P\hsame P'$.
+\end{theorem}
+\begin{proof}
+Invert both visible successor equalities. The constructor equality identifies
+the predecessor indices. The exposed predecessor partial-sum witness makes the
+index unary, and Dirichlet unary-index determinacy identifies the two displayed
+predecessor results.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_visible\_previous\_decomposition\_deterministic}
+
+\begin{theorem}[L-function zero-term positive partial-sum predecessor readback]
+\label{thm:lfunction-dirichlet-partsum-zero-terms-positive-previous-readback}
+For any Dirichlet term operation $term$, parameter $s$, positive index $n$,
+and sum history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. If
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+P\hsame S,
+$$
+and every other closed partial sum at index $m$ is $\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+Use positive-index predecessor inversion to write $n$ as
+$\mathsf{BHist.e1}(m)$ and expose the predecessor partial sum $P$ together
+with the continuation through $term(m,s)$ into $S$. The predecessor partial-sum
+witness makes $m$ unary, so the zero-term hypothesis identifies $term(m,s)$
+with $\emp$. Comparing the displayed continuation with the canonical right-unit
+continuation from $P$ gives $P\hsame S$, and unary-index determinacy gives the
+stated uniqueness of predecessor readback.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_positive\_previous\_readback}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

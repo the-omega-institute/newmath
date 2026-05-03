@@ -107,6 +107,23 @@ theorem cont_self_extension_tail_absurd {h tail : BHist} :
   · intro hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
+theorem cont_nested_visible_middle_result_absurd {l tail r u v : BHist} :
+    (Cont l (BHist.e0 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) ∧
+      (Cont l (BHist.e1 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) := by
+  constructor
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e0 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp middleEmpty).right
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e1 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp middleEmpty).right
+
 theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} :
     (Cont h (BHist.e0 leftTail) k -> Cont k rightTail h -> False) ∧
       (Cont h (BHist.e1 leftTail) k -> Cont k rightTail h -> False) := by
@@ -176,6 +193,14 @@ theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     cases left
     exact middle.trans (append_assoc a f g)
   exact (cont_mutual_extension_right_tail_absurd.right composite back)
+
+theorem cont_triangle_cycle_right_zero_tail_absurd {a b c f g k : BHist} :
+    Cont a f b -> Cont b g c -> Cont c (BHist.e0 k) a -> False := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  exact (cont_mutual_extension_right_tail_absurd.left composite back)
 
 theorem cont_triangle_cycle_tails_empty {a b c f g h : BHist} :
     Cont a f b -> Cont b g c -> Cont c h a ->
@@ -284,6 +309,24 @@ theorem cont_suffix_iff {a b f p : BHist} :
     apply cont_intro
     cases base
     exact append_assoc a f p
+
+theorem cont_hsame_common_context_iff {L R P Q a b f : BHist} :
+    hsame L R -> hsame P Q ->
+      (Cont (append L a) (append f P) (append (append R b) Q) ↔ Cont a f b) := by
+  intro sameLR samePQ
+  cases sameLR
+  cases samePQ
+  constructor
+  · intro contextual
+    have withoutSuffix : Cont (append L a) f (append L b) :=
+      (cont_suffix_iff (a := append L a) (b := append L b) (f := f) (p := P)).mp
+        contextual
+    exact (cont_prefix_iff (p := L) (a := a) (b := b) (f := f)).mp withoutSuffix
+  · intro base
+    have withPrefix : Cont (append L a) f (append L b) :=
+      (cont_prefix_iff (p := L) (a := a) (b := b) (f := f)).mpr base
+    exact (cont_suffix_iff (a := append L a) (b := append L b) (f := f) (p := P)).mpr
+      withPrefix
 
 theorem cont_parallel_factor_tails_deterministic {a b c f f' g g' : BHist} :
     Cont a f b -> Cont b g c -> Cont a f' b -> Cont b g' c ->

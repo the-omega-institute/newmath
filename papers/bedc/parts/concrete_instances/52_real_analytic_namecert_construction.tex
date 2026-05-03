@@ -1,7 +1,7 @@
-\chapter{A Concrete Naming Certificate for \(\RealAnalyticUp\)}
+\chapter{A Conditional Certificate Boundary for $\RealAnalyticUp$}
 \label{ch:concrete-instances-real-analytic-namecert}
 
-This chapter gives a concrete naming-certificate construction for the constructive transcendental package \(\RealAnalyticUp\) at the paper-proof level. The package supplies five interrelated objects on \(\RealUp\)-history representations: the constant \(\pi\), the exponential \(\exp\), the logarithm \(\log\) on positive arguments, and the trigonometric pair \(\sin / \cos\). The construction sits above \(\RatUp\) (\autoref{ch:concrete-instances-rat-namecert}) for the rational base, the real-completeness machinery anchored at \(\RealUp\) (\autoref{ch:concrete-instances-real-namecert}, with the regular Cauchy completion of \autoref{ch:capstones-real-completeness}) for the \(\RegSeqRat\)-valued limits, and the unary-history index domain for explicit moduli. Every series below is given by an explicit unary-history term, every modulus is a total function on the unary index domain, and the convergence witness is the \(\RegSeqRat\) carrier. No \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is used, so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter records the proof obligations for the constructive transcendental package $\RealAnalyticUp$ over $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ without asserting a completed $\NameCert(\RealAnalyticUp)$. The package is organized around five interrelated objects on $\RealUp$-history representations: the constant $\pi$, the exponential $\exp$, the logarithm $\log$ on positive arguments, and the trigonometric pair $\sin / \cos$. The construction boundary sits above $\RatUp$ (\autoref{ch:concrete-instances-rat-namecert}) for the rational base, $\StreamNameUp$ for explicit unary streams, $\RegSeqRat$ for regular Cauchy data, and $\RealUp$ (\autoref{ch:concrete-instances-real-namecert}) for the eventual real-history carrier. Every series below is given by an explicit unary-history term, every modulus is a total function on the unary index domain, and every passage from regular rational data to a real-history value requires a supplied limit witness from the Phase Real and Completion obligations.
 
 \section{Constructive \(\pi\) via Leibniz acceleration}
 \label{sec:real-analytic-pi}
@@ -21,7 +21,7 @@ Pair adjacent terms after index \(N(k)\); each pair has magnitude bounded by the
 
 \begin{definition}[Constructive \(\pi\)]
 \label{def:real-analytic-pi}
-\(\mathsf{Pi} : \RealUp\)-history is the limit certificate produced by \autoref{lem:real-analytic-leibniz-cauchy} via the \(\RegSeqRat\)-completeness construction of \autoref{ch:capstones-real-completeness}, applied to the rescaled sequence \((4 S_n)_n\). The witness is the \(\RegSeqRat\)-name with explicit modulus inherited from the alternating-series bound.
+$\mathsf{Pi}$ is a $\RealUp$-history candidate only together with a supplied limit witness from the Phase Real and Completion obligations, applied to the $\RegSeqRat$ Cauchy data of \autoref{lem:real-analytic-leibniz-cauchy} for the rescaled sequence $(4 S_n)_n$. The local data of this chapter is the $\RegSeqRat$ name and its explicit modulus inherited from the alternating-series bound.
 \end{definition}
 
 \begin{remark}
@@ -46,7 +46,7 @@ For \(n \geq 2B\), the ratio of successive terms \(|x|/(n+1)\) is bounded by \(1
 
 \begin{definition}[Constructive \(\exp\)]
 \label{def:real-analytic-exp}
-For \(\RealUp\)-history \(x\), \(\mathsf{Exp}(x, y)\) holds when \(y\) is the \(\RealUp\)-limit certificate of the partial sums \(\mathsf{ExpPart}(x, \cdot, \cdot)\) via \autoref{lem:real-analytic-exp-cauchy} and the \(\RegSeqRat\)-completeness of \autoref{ch:capstones-real-completeness}. The witness includes the explicit input bound \(B\) and the modulus \(N\).
+For a $\RealUp$-history $x$, $\mathsf{Exp}(x, y)$ holds in this chapter only relative to a supplied $\RealUp$ limit witness from the Phase Real and Completion obligations for the partial sums $\mathsf{ExpPart}(x, \cdot, \cdot)$ and the Cauchy modulus of \autoref{lem:real-analytic-exp-cauchy}. The local witness includes the explicit input bound $B$ and the modulus $N$.
 \end{definition}
 
 \begin{theorem}[Exponential additivity]
@@ -62,7 +62,7 @@ Compare the partial sums of \(\exp(x+y)\) and \(\exp(x) \cdot \exp(y)\) by Cauch
 
 \begin{definition}[Logarithm via inverse-of-\(\exp\) bisection]
 \label{def:real-analytic-log}
-For positive \(\RealUp\)-history \(x\) (i.e.\ apartness witness \(x \neq 0\) with positive sign), \(\mathsf{Log}(x, y)\) holds when \(y\) is the \(\RealUp\)-history obtained by explicit dyadic bisection on a unary precision \(k\): at each precision, locate the dyadic-rational interval \([y_k, y_k + 2^{-k}]\) such that \(\exp(y_k) \leq x < \exp(y_k + 2^{-k})\) (decidable on rational representations using \autoref{def:real-analytic-exp}), and assemble the sequence \((y_k)_k\) as a regular Cauchy sequence with modulus \(N(k) = k + \lceil \log_2(1/x) \rceil\).
+For a positive $\RealUp$-history $x$ (i.e.\ apartness witness $x \neq 0$ with positive sign), $\mathsf{Log}(x, y)$ holds in this chapter only relative to a supplied $\RealUp$ limit witness for the dyadic bisection sequence on unary precision $k$: at each precision, locate the dyadic-rational interval $[y_k, y_k + 2^{-k}]$ such that $\exp(y_k) \leq x < \exp(y_k + 2^{-k})$ (decidable on rational representations using \autoref{def:real-analytic-exp}), and assemble the local $\RegSeqRat$ data with modulus $N(k) = k + \lceil \log_2(1/x) \rceil$.
 \end{definition}
 
 \begin{theorem}[Logarithm is the inverse of \(\exp\) on positives]
@@ -96,7 +96,7 @@ For every \(\RealUp\)-history \(x\) with \(|x| \leq B\), the partial sums \(\mat
 
 \begin{definition}[Constructive \(\sin\) and \(\cos\)]
 \label{def:real-analytic-sin-cos}
-\(\mathsf{Sin}(x, s)\) and \(\mathsf{Cos}(x, c)\) hold when \(s, c\) are the \(\RealUp\)-limits of \(\mathsf{SinPart}(x, \cdot, \cdot)\) and \(\mathsf{CosPart}(x, \cdot, \cdot)\) respectively, via \autoref{lem:real-analytic-trig-cauchy} and the \(\RegSeqRat\)-completeness construction.
+$\mathsf{Sin}(x, s)$ and $\mathsf{Cos}(x, c)$ hold in this chapter only relative to supplied $\RealUp$ limit witnesses from the Phase Real and Completion obligations for $\mathsf{SinPart}(x, \cdot, \cdot)$ and $\mathsf{CosPart}(x, \cdot, \cdot)$ respectively, using the explicit Cauchy moduli of \autoref{lem:real-analytic-trig-cauchy}.
 \end{definition}
 
 \begin{theorem}[Pythagorean identity]
@@ -118,24 +118,27 @@ By induction on \(n\) using addition formula \(\sin((n+1)\pi) = \sin(n\pi)\cos(\
 \section{Certificate target}
 \label{sec:real-analytic-cert-target}
 
-\begin{theorem}[Concrete \(\RealAnalyticUp\) naming certificate]
-\label{thm:concrete-real-analytic-namecert}
-The tuple \((\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})\), with sources, classifiers, stability obligations, ledgers, and standard bridges as listed below, forms a paper-side \(\NameCert(\RealAnalyticUp)\) over \(\RealUp\):
+\begin{theorem}[$\RealAnalyticUp$ certificate boundary]
+\label{thm:real-analytic-certificate-boundary}
+Suppose the following machine-checked rows are supplied for the analytic construction over $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$:
 \begin{enumerate}
-  \item \textbf{Source}: \(\RealUp\)-histories with apartness witnesses for positivity (used by \(\mathsf{Log}\)).
-  \item \textbf{Carrier}: each of \(\mathsf{Pi}\), \(\mathsf{Exp}(x, \cdot)\), \(\mathsf{Log}(x, \cdot)\), \(\mathsf{Sin}(x, \cdot)\), \(\mathsf{Cos}(x, \cdot)\) is a closed inductive predicate on \(\RealUp\)-histories.
-  \item \textbf{Classifier}: limit-uniqueness up to \(\mathsf{RealClassifier}\) inherited from \(\RegSeqRat\)-completeness.
-  \item \textbf{Stability}: additivity of \(\exp\) (\autoref{thm:real-analytic-exp-add}), inverse relation \(\log = \exp^{-1}\) (\autoref{thm:real-analytic-log-exp-inverse}), Pythagorean identity (\autoref{thm:real-analytic-pythagorean}), \(\pi\)-multiple zeros of \(\sin\) (\autoref{thm:real-analytic-sin-pi-multiples}).
-  \item \textbf{Ledger}: explicit moduli \(N\) for every Cauchy sequence above; explicit input bound \(B\) for every transcendental evaluation.
-  \item \textbf{Standard bridge}: when classical real \(\exp\), \(\log\), \(\sin\), \(\cos\), and \(\pi\) are supplied externally, the \(\RealClassifier\)-equivalence with the constructive limits is recorded as the bridge slot.
-  \item \textbf{Status}: \(\mathsf{ProofTarget}\). Lean construction proceeds in \(\mathsf{BEDC.Derived.RealAnalyticUp.*}\); the Cauchy completeness anchor is \autoref{ch:capstones-real-completeness}.
+  \item \textbf{Dyadic rational core}: $\DyadicRatCore$ arithmetic, signed fractions, factorial denominators, powers, and positivity comparisons for the displayed series and bisection predicates.
+  \item \textbf{Stream carrier}: $\StreamNameUp$ and $\RegSeqRat$ data for every displayed partial-sum family, including the explicit unary moduli of \autoref{lem:real-analytic-leibniz-cauchy}, \autoref{lem:real-analytic-exp-cauchy}, and \autoref{lem:real-analytic-trig-cauchy}.
+  \item \textbf{Real carrier}: $\RealUp$ limit witnesses for $\mathsf{Pi}$, $\mathsf{Exp}$, $\mathsf{Log}$, $\mathsf{Sin}$, and $\mathsf{Cos}$, supplied from the Phase Real and Completion obligations.
+  \item \textbf{Classifier}: limit uniqueness for the supplied $\RealUp$ witnesses, stated up to $\mathsf{RealClassifier}$.
+  \item \textbf{Stability}: additivity of $\exp$ (\autoref{thm:real-analytic-exp-add}), inverse relation $\log = \exp^{-1}$ (\autoref{thm:real-analytic-log-exp-inverse}), Pythagorean identity (\autoref{thm:real-analytic-pythagorean}), and $\pi$-multiple zeros of $\sin$ (\autoref{thm:real-analytic-sin-pi-multiples}).
 \end{enumerate}
+Under these supplied rows, the tuple $(\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})$, with sources, classifiers, stability obligations, ledgers, and standard bridges, is a $\NameCert(\RealAnalyticUp)$ candidate over $\RealUp$. Without those supplied rows, this chapter exports only the displayed proof obligations and explicit-modulus scaffolds.
 \end{theorem}
 \begin{proof}
-The five constructive carriers of Sections~\ref{sec:real-analytic-pi}--\ref{sec:real-analytic-trig} are explicit closed-inductive predicates on unary-indexed \(\RatUp\)-history sequences, packaged as \(\RegSeqRat\)-Cauchy data. The completeness construction of \autoref{ch:capstones-real-completeness} lifts each to a \(\RealUp\)-history together with the modulus ledger required by the \(\NameCert\) template. The four stability theorems are listed as proof obligations; their proofs use only \(\RealClassifier\) and the explicit moduli, so no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is required.
+The local constructions provide regular rational stream data: the Leibniz rescaling for $\pi$, the exponential power-series family, the bisection presentation of $\log$, and the sine and cosine power-series families. Their moduli are explicit unary functions, so they can be passed to the $\StreamNameUp$ and $\RegSeqRat$ rows once those rows are available.
+
+The supplied $\RealUp$ limit witnesses then assign real-history candidates to the five analytic objects. Limit uniqueness supplies the classifier row, and the four stability obligations listed in the statement provide the algebraic and trigonometric preservation clauses required by the $\NameCert$ template.
+
+Thus the tuple has the shape of a naming-certificate candidate exactly when the rows in the statement are present. In their absence, the chapter has not produced the carrier, classifier, or stability package needed for a completed $\NameCert(\RealAnalyticUp)$.
 \end{proof}
 
-\begin{corollary}[\(\RealAnalyticUp\) is licensed, not primitive]
-\label{cor:real-analytic-licensed-not-primitive}
-\(\RealAnalyticUp\) is licensed by the \(\RegSeqRat\) Cauchy completion of explicit power-series and bisection constructions over \(\RatUp\). It is not a primitive of the BEDC kernel.
+\begin{corollary}[$\RealAnalyticUp$ primitive boundary]
+\label{cor:real-analytic-primitive-boundary}
+$\RealAnalyticUp$ is not a BEDC primitive, and this chapter alone does not license it as an available naming certificate. Its admissible use requires the supplied Real and Completion rows named in \autoref{thm:real-analytic-certificate-boundary}.
 \end{corollary}

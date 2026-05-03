@@ -1,779 +1,291 @@
-\chapter{A Concrete Naming Certificate for \(\CommRingUp\)}
-\label{ch:concrete-instances-commring-namecert}
+\input{parts/concrete_instances/commring/19_commring_core}
+\input{parts/concrete_instances/commring/19_commring_algebraic_consequences}
 
-The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-instances-ring-namecert} with the commutativity field \(a \cdot b = b \cdot a\) for the multiplicative operation under the carrier's classifier. The integer ring from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
-
-\section{Carrier definition}
-
-\begin{definition}[CommRing carrier]
-\label{def:commring-carrier}
-Use a ring setup extended with commutativity of multiplication.
-\end{definition}
-
-\section{Concrete singleton history commutative ring instance}
-\label{sec:commring-concrete-singleton-history-instance}
-
-\begin{theorem}[Concrete singleton history commutative ring laws]
-\label{thm:concrete-singleton-history-commring-laws}
-Let $A_{\emp}(h)$ abbreviate $\hsame(h,\emp)$ and let
-$R_{\emp}(h,k)$ abbreviate
-$A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k)$. With
-$$
-\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
-\mathsf{neg}(h):=\emp,\qquad
-0:=\emp,
-$$
-and
-$$
-\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
-1:=\emp,
-$$
-the carrier contains $0$, is closed under addition, negation, and
-multiplication, has left and right additive zero laws under $R_{\emp}$, and
-satisfies multiplicative commutativity under $R_{\emp}$.
-\end{theorem}
-\begin{proof}
-The carrier witness $A_{\emp}(0)$ is reflexive $\hsame(\emp,\emp)$. For
-addition and multiplication closure, if $A_{\emp}(x)$ and $A_{\emp}(y)$ hold,
-then both inputs are the empty history, so
-$\mathsf{append}(x,y)$ reduces to $\emp$. The negation operation is constantly
-$\emp$, so its closure is immediate from the same reflexive endpoint witness.
-
-For the two additive zero laws, the singleton input witness identifies $x$
-with $\emp$; after that identification, both
-$\mathsf{append}(\emp,x)$ and $\mathsf{append}(x,\emp)$ are the empty history,
-and the classifier packages the two carrier endpoints with reflexive
-$\hsame$. Multiplicative commutativity is identical: two singleton carrier
-witnesses identify $x$ and $y$ with $\emp$, so the two append products are
-both $\emp$ and are related by $R_{\emp}$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_laws}
-
-\section{Concrete singleton empty-history commutative ring instance}
-\label{sec:commring-concrete-singleton-instance}
-
-\begin{definition}[Singleton empty-history commutative ring instance]
-\label{def:singleton-empty-history-commring-instance}
-Let $A_{\emp}$ be the singleton history source of
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
-classifier
-$$
-\rho_{\emp}(h,k)\Longleftrightarrow
-A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
-$$
-Define the concrete commutative ring operations by
-$$
-\mathsf{add}(h,k):=\emp,\qquad
-\mathsf{neg}(h):=\emp,\qquad
-0:=\emp,\qquad
-\mathsf{mul}(h,k):=\emp,\qquad
-1:=\emp.
-$$
-Equip this singleton ring tuple with the multiplicative commutativity field
-$$
-\rho_{\emp}(\mathsf{mul}(x,y),\mathsf{mul}(y,x)).
-$$
-The concrete commutative-ring certificate has the following ten fields:
-\begin{enumerate}
-  \item traditional target: the one-element commutative ring;
-  \item BEDC source: $\mathsf{BHist}$ with the singleton empty-history ring instance;
-  \item carrier: $A_{\emp}$;
-  \item classifier: $\rho_{\emp}$;
-  \item stability obligations: the singleton ring laws, multiplicative commutativity, and multiplication-commutativity compatibility;
-  \item ledger: constant-operation provenance for $0$, $1$, addition, negation, and multiplication;
-  \item core theorem: Theorem~\ref{thm:singleton-empty-history-commring-laws};
-  \item exactness: endpoint classification by membership in the singleton carrier and $\hsame$;
-  \item standard bridge: the ordinary one-element commutative ring;
-  \item status: $\mathsf{ProofTarget}$.
-\end{enumerate}
-\end{definition}
-
-\begin{theorem}[Singleton empty-history commutative ring laws]
-\label{thm:singleton-empty-history-commring-laws}
-The tuple
-$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
-all singleton empty-history ring laws from
-Theorem~\ref{thm:singleton-empty-history-ring-laws}, together with
-multiplicative commutativity and the compatibility fields for multiplication
-commutativity under $\rho_{\emp}$.
-\end{theorem}
-\begin{proof}
-The ring-law part is exactly Theorem~\ref{thm:singleton-empty-history-ring-laws}
-applied to the displayed singleton empty-history operation tuple. This supplies
-carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
-operation congruence, both distributive laws, and zero multiplication laws.
-
-For multiplicative commutativity, both $\mathsf{mul}(x,y)$ and
-$\mathsf{mul}(y,x)$ are definitionally $\emp$. The two endpoint witnesses for
-$\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
-component is $\hsame(\emp,\emp)$.
-
-For compatibility, the multiplication operation is constant on the singleton
-carrier. Replacing inputs by $\rho_{\emp}$-related inputs does not change either
-product endpoint: every source and target product is still $\emp$. Hence the
-same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
-commutativity field after transport.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
-
-\begin{theorem}[CommRing singleton classifier visible-right exclusion]
-\label{thm:commring-singleton-classifier-append-visible-right-absurd}
-For histories $h,p,q:\mathsf{BHist}$, neither
-$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))$ nor
-$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))$ can hold.
-\end{theorem}
-\begin{proof}
-Unfold the singleton commutative-ring classifier. In either branch, the right
-carrier field says that the displayed append endpoint is $\emp$. The
-empty-result inversion theorem for append splits this into an empty prefix and
-an empty visible tail. The latter would identify $\mathsf{e0}(q)$ or
-$\mathsf{e1}(q)$ with $\emp$, contradicting the constructor separation of
-$\mathsf{BHist}$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
-
-\begin{theorem}[CommRing singleton carrier visible exclusion]
-\label{thm:commring-singleton-carrier-visible-absurd}
-For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor
-$\mathsf{e1}(p)$ lies in the singleton commutative-ring carrier.
-\end{theorem}
-\begin{proof}
-Unfold the singleton carrier as equality with $\emp$. The two generated
-history constructors are separated from the empty history, so both endpoint
-carrier witnesses are impossible.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_visible\_absurd}
-
-\begin{theorem}[CommRing singleton carrier visible-head append exclusion]
-\label{thm:commring-singleton-carrier-append-visible-head-absurd}
-For histories $h,k:\mathsf{BHist}$, neither
-$\mathsf{append}(\mathsf{e0}(h),k)$ nor
-$\mathsf{append}(\mathsf{e1}(h),k)$ lies in the singleton commutative-ring
-carrier.
-\end{theorem}
-\begin{proof}
-In either branch, the singleton carrier identifies the displayed append
-history with $\emp$. Empty-result inversion for append then identifies the
-visible head $\mathsf{e0}(h)$ or $\mathsf{e1}(h)$ with $\emp$, contradicting
-constructor separation for $\mathsf{BHist}$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_head\_absurd}
-
-\begin{theorem}[CommRing singleton carrier visible-tail append exclusion]
-\label{thm:commring-singleton-carrier-append-visible-tail-absurd}
-For histories $p,q:\mathsf{BHist}$, neither
-$\mathsf{append}(p,\mathsf{e0}(q))$ nor
-$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton commutative-ring
-carrier.
-\end{theorem}
-\begin{proof}
-In either branch, the singleton carrier identifies the displayed append
-history with $\emp$. Empty-result inversion for append then identifies the
-visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$, contradicting
-constructor separation for $\mathsf{BHist}$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_tail\_absurd}
-
-\begin{theorem}[Singleton empty-history CommRingUp schema certificate]
-\label{thm:singleton-empty-history-commring-schema-certificate}
-Definition~\ref{def:singleton-empty-history-commring-instance}, together with
-Theorem~\ref{thm:singleton-empty-history-commring-laws}, supplies the carrier,
-source, pattern, classifier, stability, and ledger fields required by
-Definition~\ref{def:commring-certificate-obligations} over the concrete
-$\mathsf{BHist}$ singleton source.
-\end{theorem}
-\begin{proof}
-The carrier and source fields are the singleton empty-history source
-$A_{\emp}$ from Definition~\ref{def:singleton-empty-history-commring-instance}.
-The classifier field is $\rho_{\emp}$, and the operation tuple is the constant
-empty-history tuple for addition, negation, zero, multiplication, and one.
-
-The ring-law fields are supplied by
-Theorem~\ref{thm:singleton-empty-history-ring-laws} on that same carrier,
-classifier, and constant operation tuple. The multiplicative commutativity
-field and its compatibility under $\rho_{\emp}$ are exactly the additional
-fields packaged by Theorem~\ref{thm:singleton-empty-history-commring-laws}.
-
-The pattern field is the commutative-ring expression pattern generated by those
-operations and the multiplication-commutativity exchange. The ledger field is
-the constant-operation provenance tuple for $0$, $1$, addition, negation, and
-multiplication, so every operation endpoint recorded by the certificate remains
-the singleton history $\emp$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
-
-The $\CommRingUp$ schema is therefore represented by this concrete
-$\mathsf{BHist}$ certificate rather than by abstract operator fields.
-
-\section{The certificate}
-
-\begin{definition}[CommRing source specification]
-\label{def:commring-source-specification}
-The source is a certified ring carrier plus multiplicative commutativity.
-\end{definition}
-
-\begin{definition}[CommRing pattern specification]
-\label{def:commring-pattern-specification}
-The pattern is ring expression formation where multiplication may be exchanged by the commutativity field.
-\end{definition}
-
-\begin{definition}[CommRing classifier specification]
-\label{def:commring-classifier-specification}
-The classifier is the ring carrier classifier.
-\end{definition}
-
-\begin{definition}[CommRing stability certificate]
-\label{def:commring-stability-certificate}
-The stability certificate consists of:
-\begin{enumerate}
-  \item all ring stability fields
-  \item multiplicative commutativity
-  \item compatibility of multiplication commutativity with ring congruence
-\end{enumerate}
-\end{definition}
-
-\begin{theorem}[CommRing right distributivity from left distributivity]
-\label{thm:commring-right-distrib-from-left}
-For BEDC history addition and multiplication, multiplicative commutativity,
-additive congruence, and left distributivity imply right distributivity:
-$$
-(x+y)\cdot z \hsame x\cdot z + y\cdot z .
-$$
-\end{theorem}
-\begin{proof}
-Commute \((x+y)\cdot z\) to \(z\cdot(x+y)\). Apply left distributivity, then
-use additive congruence with multiplicative commutativity on both summands.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_right\_distrib\_from\_left}
-
-\begin{theorem}[CommRing left distributivity from right distributivity]
-\label{thm:commring-left-distrib-from-right}
-For BEDC history addition and multiplication, multiplicative commutativity,
-additive congruence, and right distributivity imply left distributivity:
-$$
-x\cdot(y+z)\hsame x\cdot y + x\cdot z .
-$$
-\end{theorem}
-\begin{proof}
-Commute $x\cdot(y+z)$ to $(y+z)\cdot x$. Apply right distributivity, then
-use additive congruence with multiplicative commutativity on both summands.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_left\_distrib\_from\_right}
-
-\begin{theorem}[CommRing one-sided distributivity equivalence]
-\label{thm:commring-one-sided-distributivity-equivalence}
-For BEDC history operations $add$ and $mul$, multiplicative commutativity and
-additive congruence imply that left distributivity is equivalent to right
-distributivity:
-$$
-\left(\forall x\,y\,z : \mathsf{BHist},\ x\cdot(y+z)\hsame x\cdot y+x\cdot z\right)
-\leftrightarrow
-\left(\forall x\,y\,z : \mathsf{BHist},\ (x+y)\cdot z\hsame x\cdot z+y\cdot z\right).
-$$
-\end{theorem}
-\begin{proof}
-For the forward direction, assume the displayed left distributivity law. Applying
-Theorem~\ref{thm:commring-right-distrib-from-left} with the shared
-multiplicative commutativity and additive congruence fields gives the displayed
-right distributivity law for all $x,y,z : \mathsf{BHist}$.
-
-For the reverse direction, assume the displayed right distributivity law.
-Applying Theorem~\ref{thm:commring-left-distrib-from-right} with the same
-commutativity and congruence fields gives the displayed left distributivity law
-for all $x,y,z : \mathsf{BHist}$.
-\end{proof}
-
-Per object, the traditional target is one-sided distributivity collapse in
-commutative rings; the BEDC source is $\CommRingUp$ over $\mathsf{BHist}$; the
-carrier is $\mathsf{BHist}$; the classifier is $\hsame$; the stability
-obligations are multiplicative commutativity, additive congruence, and one
-chosen distributivity law; the ledger records which side is primitive and which
-side is derived; the core theorem list records this equivalence; the exactness
-predicate is the displayed iff; the standard bridge is ordinary
-commutative-ring distributivity; and the status is $\mathsf{ProofTarget}$.
-
-\begin{theorem}[CommRing square of a sum expansion]
-\label{thm:commring-square-add-expand}
-For BEDC history addition and multiplication, multiplicative commutativity,
-additive congruence, and both distributive laws imply
-$$
-(a+b)\cdot(a+b)\hsame (a\cdot a+a\cdot b)+(a\cdot b+b\cdot b).
-$$
-\end{theorem}
-\begin{proof}
-Apply right distributivity to the outer product. Apply left distributivity to
-both exposed factors, then use additive congruence and multiplicative
-commutativity to replace \(b\cdot a\) by \(a\cdot b\).
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_square\_add\_expand}
-
-\begin{theorem}[CommRing square of a signed difference]
-\label{thm:commring-square-signed-difference-expand}
-For BEDC history operations $add$, $mul$, and $neg$ satisfying the $\RingUp$
-additive abelian-group laws, addition and multiplication congruence, both
-distributive laws, multiplicative commutativity, and the $\RingUp$
-negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
-$$
-(a+(-b))\cdot(a+(-b))\hsame
-(a\cdot a+(-(a\cdot b)))+((-(a\cdot b))+(b\cdot b)).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-square-add-expand} with second input $-b$.
-This gives the ledger expression
-$$
-(a\cdot a+a\cdot(-b))+(a\cdot(-b)+(-b)\cdot(-b)).
-$$
-
-Use Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul} on each exposed
-$a\cdot(-b)$ term, and use Theorem~\ref{thm:ring-mul-neg-neg-eq-mul} on
-$(-b)\cdot(-b)$.
-
-Nested additive congruence transports these three product rewrites through the
-two additions. Transitivity of $\hsame$ composes the square expansion with the
-transported ledger, yielding the stated signed-difference square form.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_square\_signed\_difference\_expand}
-
-For the $\CommRingUp$ per-object template, this theorem is a Core theorem list
-item for traditional target commutative-ring polynomial algebra. Its BEDC source
-is $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is
-$\mathsf{BHist}$, its classifier is $\hsame$, its stability obligations are
-distributivity, congruence, commutativity, and negative-product laws, and its
-ledger records polynomial expression provenance with status ProofTarget.
-
-\begin{theorem}[CommRing product of binary sums]
-\label{thm:commring-mul-add-add-expand}
-For BEDC history addition and multiplication, multiplicative commutativity,
-additive congruence, and left distributivity imply the expansion
-$$
-(a+b)\cdot(c+d)\hsame
-(a\cdot c+a\cdot d)+(b\cdot c+b\cdot d).
-$$
-\end{theorem}
-\begin{proof}
-First derive right distributivity from multiplicative commutativity and left
-distributivity, then apply it to the outer product. Apply left distributivity
-to the two inner products $a\cdot(c+d)$ and $b\cdot(c+d)$ and transport both
-equalities through additive congruence.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_mul\_add\_add\_expand}
-
-\begin{theorem}[CommRing column expansion of binary sums]
-\label{thm:commring-mul-add-add-column-expand}
-For BEDC history addition and multiplication, additive associativity,
-additive commutativity, additive congruence, multiplicative commutativity,
-and left distributivity imply, for every $a,b,c,d : \mathsf{BHist}$,
-$$
-(a+b)\cdot(c+d)\hsame
-(a\cdot c+b\cdot c)+(a\cdot d+b\cdot d).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-mul-add-add-expand} to obtain the row-major
-expansion of $(a+b)\cdot(c+d)$ as
-$$
-(a\cdot c+a\cdot d)+(b\cdot c+b\cdot d).
-$$
-
-On the additive operation, apply
-Theorem~\ref{thm:abgroup-middle-four-interchange} with the four summands
-$a\cdot c$, $a\cdot d$, $b\cdot c$, and $b\cdot d$. Additive congruence then
-composes this interchange with the row-major expansion and yields the
-column-major normal form.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_mul\_add\_add\_column\_expand}
-
-\begin{theorem}[CommRing left distributivity with commuted terms]
-\label{thm:commring-left-distrib-commuted-terms}
-For BEDC history addition and multiplication, multiplicative commutativity,
-additive congruence, and left distributivity imply
-$$
-x\cdot(y+z)\hsame y\cdot x + z\cdot x .
-$$
-\end{theorem}
-\begin{proof}
-Apply left distributivity to obtain the two summands $x\cdot y$ and
-$x\cdot z$. Additive congruence then transports both summands across
-multiplicative commutativity.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_left\_distrib\_commuted\_terms}
-
-\begin{theorem}[CommRing difference of squares]
-\label{thm:commring-difference-of-squares}
+\begin{theorem}[CommRing zero linear factor annihilator branch]
+\label{thm:commring-zero-linear-factor-annihilator-branch}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
 $$
-(a+b)\cdot(a+(-b))\hsame (a\cdot a)+(-(b\cdot b)).
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr).
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:commring-mul-add-add-expand} to expand
-$(a+b)\cdot(a+(-b))$ into the four-term ledger expression
-$(a\cdot a+a\cdot(-b))+(b\cdot a+b\cdot(-b))$.
+First derive the right distributive law from the supplied left distributive law
+by \autoref{thm:commring-right-distrib-from-left}. The zero-classifier factor
+absorption theorem is then available with both distributive inputs.
 
-Use Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul} to rewrite
-$a\cdot(-b)$ as $-(a\cdot b)$. Commute $b\cdot a$ to $a\cdot b$ by
-multiplicative commutativity, and use the same right-negative product theorem
-to rewrite $b\cdot(-b)$ as $-(b\cdot b)$.
+If the displayed disjunction chooses $(a+b)\hsame0$, retain that branch witness.
+For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and $y=c$.
+Its two components give $(a+b)\cdot c\hsame0$ and $c\cdot(a+b)\hsame0$, so the
+left disjunct packages the original witness with the universal annihilator row.
 
-The expression is therefore transported by additive congruence to
-$(a\cdot a+(-(a\cdot b)))+(a\cdot b+(-(b\cdot b)))$. Additive associativity
-and commutativity move the middle pair next to each other without changing the
-outer square terms.
-
-Finally, additive inverse collapse gives $(-(a\cdot b))+(a\cdot b)\hsame0$.
-The zero laws remove this neutral summand, leaving
-$(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
+If the displayed disjunction chooses $(a+(-b))\hsame0$, retain that branch
+witness instead. For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+(-b)$ and $y=c$.
+The two components give $(a+(-b))\cdot c\hsame0$ and
+$c\cdot(a+(-b))\hsame0$, yielding the right disjunct with the same
+branch-preserving form.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_annihilator\_branch}
 
-\begin{theorem}[CommRing difference-of-squares zero exactness]
-\label{thm:commring-difference-of-squares-zero-exact}
+\begin{theorem}[CommRing zero linear factor signed product zero]
+\label{thm:commring-zero-linear-factor-signed-product-zero}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
 $$
-(a+b)\cdot(a+(-b))\hsame0
-\Longleftrightarrow
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the chosen
+zero linear factor. The result keeps the selected branch and supplies its
+two-sided annihilator row for every multiplier.
+
+In the $(a+b)\hsame0$ branch, specialize the universal row at
+$c=a+(-b)$ and take its left component. This is exactly
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+In the $(a+(-b))\hsame0$ branch, specialize the universal row at $c=a+b$ and
+take its right component. The oriented product is
+$(a+b)\cdot(a+(-b))$, giving the required zero classifier.
+\end{proof}
+
+\begin{theorem}[CommRing zero linear factor commuted signed product zero]
+\label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the
+selected zero linear factor. In the $(a+b)\hsame0$ branch, specialize the
+two-sided annihilator row at $c=a+(-b)$ and take the right multiplication
+component. In the $(a+(-b))\hsame0$ branch, specialize at $c=a+b$ and take the
+left multiplication component. Both cases produce the displayed commuted
+signed product as an empty classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_commuted\_signed\_product\_zero}
+
+\begin{theorem}[CommRing zero linear factor forces equal squares]
+\label{thm:commring-zero-linear-factor-equal-squares}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
 a\cdot a\hsame b\cdot b .
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply Theorem~\ref{thm:commring-difference-of-squares}
-to identify the signed product with $(a\cdot a)+(-(b\cdot b))$. Compose this
-identification, using symmetry where needed, with the zero-product hypothesis.
-The difference term is therefore classified as $0$.
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This produces
+$(a+b)\cdot(a+(-b))\hsame0$.
 
-Add $b\cdot b$ on the right by additive congruence. On the left endpoint,
-additive associativity and commutativity move the inverse pair into the form
-$(b\cdot b)+(-(b\cdot b))$; Theorem~\ref{thm:ring-add-right-inverse}
-collapses that pair to $0$, and the zero laws leave $a\cdot a$. On the right
-endpoint, the zero law collapses $0+(b\cdot b)$ to $b\cdot b$. Transitivity
-gives $a\cdot a\hsame b\cdot b$.
-
-For the reverse direction, apply Theorem~\ref{thm:commring-difference-of-squares}
-to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
-the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
-congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
-is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
-
-Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
-pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
-normal form, the transported square equality, and the inverse collapse.
+The forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact} sends this signed
+product-zero witness to $a\cdot a\hsame b\cdot b$.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_factor\_zero}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares\_zero\_exact}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_equal\_squares}
+\leanvariant{BEDC.Derived.CommRingUp.commring\_empty\_linear\_factor\_equal\_squares}
 
-\begin{theorem}[CommRing signed binary product normal form]
-\label{thm:commring-signed-binary-product-normal-form}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
-$$
-(a+(-b))\cdot(c+(-d))\hsame
-(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-mul-add-add-expand} with the four inputs
-$a$, $-b$, $c$, and $-d$. The left side expands to
-$$
-(a\cdot c+a\cdot(-d))+((-b)\cdot c+(-b)\cdot(-d)).
-$$
-
-Next normalize the signed products. Theorem~\ref{thm:ring-mul-neg-right-eq-neg-mul}
-rewrites $a\cdot(-d)$ as $-(a\cdot d)$,
-Theorem~\ref{thm:ring-mul-neg-left-eq-neg-mul} rewrites $(-b)\cdot c$ as
-$-(b\cdot c)$, and Theorem~\ref{thm:ring-mul-neg-neg-eq-mul} rewrites
-$(-b)\cdot(-d)$ as $b\cdot d$.
-
-Use nested additive congruence to transport the three rewritten summands
-through the outer two additions. Transitivity of $\hsame$ composes the
-expansion step with this transport, giving the stated four-term normal form.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_binary\_product\_normal\_form}
-
-\begin{theorem}[CommRing signed product balance]
-\label{thm:commring-signed-product-balance}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
-$$
-((a+(-b))\cdot(c+(-d)))+((a\cdot d)+(b\cdot c))
-\hsame
-(a\cdot c)+(b\cdot d).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-signed-binary-product-normal-form} to replace
-the signed product by the four-term row expansion
-$$
-(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
-$$
-
-Transport the added mixed-term sum through this identification by additive
-congruence. The expression is then an additive composite containing the two
-ordinary mixed terms $a\cdot d$ and $b\cdot c$ together with their signed
-counterparts $-(a\cdot d)$ and $-(b\cdot c)$.
-
-Use additive associativity and commutativity, with
-Theorem~\ref{thm:abgroup-middle-four-interchange} for the middle summands, to
-place $-(a\cdot d)$ adjacent to $a\cdot d$ and $-(b\cdot c)$ adjacent to
-$b\cdot c$. The unmixed terms $a\cdot c$ and $b\cdot d$ remain as the
-external summands.
-
-Theorem~\ref{thm:ring-add-right-inverse} collapses the right-inverse mixed
-pair, and the additive left-inverse law collapses the left-inverse mixed
-pair. The ring zero laws remove the two neutral summands, leaving
-$(a\cdot c)+(b\cdot d)$ under $\hsame$.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_balance}
-
-The ten-field fit is: traditional target bilinear subtraction balance; BEDC
-source $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; carrier
-$\mathsf{BHist}$; classifier $\hsame$; stability obligations distributivity,
-congruence, commutativity, negative-product laws, and additive cancellation;
-ledger polynomial mixed-term provenance; core theorem this balance identity;
-exactness the displayed $\hsame$; standard bridge commutative-ring bilinear
-expansion; status $\mathsf{ProofTarget}$.
-
-\begin{theorem}[CommRing signed column expansion of binary sums]
-\label{thm:commring-signed-column-binary-product-normal-form}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
-$$
-(a+(-b))\cdot(c+(-d))\hsame
-(a\cdot c+(-(b\cdot c)))+((-(a\cdot d))+(b\cdot d)).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-signed-binary-product-normal-form} to obtain
-the row-major signed expansion
-$$
-(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
-$$
-
-On the additive operation, apply
-Theorem~\ref{thm:abgroup-middle-four-interchange} with the four summands
-$a\cdot c$, $-(a\cdot d)$, $-(b\cdot c)$, and $b\cdot d$. Additive congruence
-transports the middle-four interchange through the displayed signed row form.
-
-Transitivity of $\hsame$ composes the row-major normalization with this
-column reordering, yielding the stated column-major signed normal form.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_column\_binary\_product\_normal\_form}
-
-\begin{theorem}[CommRing signed column cancellations force zero product]
-\label{thm:commring-signed-column-cancellations-zero}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
-$a\cdot c\hsame b\cdot c$ and $a\cdot d\hsame b\cdot d$ satisfies
-$$
-(a+(-b))\cdot(c+(-d))\hsame0.
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-signed-column-binary-product-normal-form} to
-rewrite the signed product as
-$$
-(a\cdot c+(-(b\cdot c)))+((-(a\cdot d))+(b\cdot d)).
-$$
-
-The first hypothesis is transported by additive congruence through the left
-signed column. It identifies $a\cdot c+(-(b\cdot c))$ with
-$(b\cdot c)+(-(b\cdot c))$, and Theorem~\ref{thm:ring-add-right-inverse}
-collapses this right-inverse pair to $0$.
-
-For the second signed column, apply additive inverse congruence to
-$a\cdot d\hsame b\cdot d$ and identify $-(a\cdot d)$ with $-(b\cdot d)$.
-Additive congruence transports $(-(a\cdot d))+(b\cdot d)$ to
-$(-(b\cdot d))+(b\cdot d)$, and the additive left-inverse law collapses this
-left-inverse pair to $0$.
-
-The column normal form is therefore transported to $0+0$. The additive
-left-zero law collapses $0+0$ to $0$, and transitivity of $\hsame$ composes
-the normal-form step, the two signed-column collapses, and the final zero
-collapse.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_column\_cancellations\_zero}
-
-For the $\CommRingUp$ per-object template, the traditional target is signed
-column cancellation in commutative-ring algebra. Its BEDC source is $\RingUp$
-plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is $\mathsf{BHist}$, its
-classifier is $\hsame$, its stability obligations are signed-product
-normalization, additive inverse laws, additive congruence, and transitivity, and
-its ledger records column-paired product provenance. The core theorem list
-contains Theorem~\ref{thm:commring-signed-column-cancellations-zero}; exactness
-is zero classification under column-paired cancellations; the standard bridge
-remains outside this proof site; and the status is $\mathsf{ProofTarget}$.
-
-\begin{theorem}[CommRing signed row cancellations force zero product]
-\label{thm:commring-signed-row-cancellations-zero}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
-$a\cdot c\hsame a\cdot d$ and $b\cdot c\hsame b\cdot d$ satisfies
-$$
-(a+(-b))\cdot(c+(-d))\hsame0.
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:commring-signed-binary-product-normal-form} to rewrite
-the signed product as
-$$
-(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
-$$
-
-The first row equality is transported by additive congruence through the left
-signed row. It identifies $a\cdot c+(-(a\cdot d))$ with
-$(a\cdot d)+(-(a\cdot d))$, and Theorem~\ref{thm:ring-add-right-inverse}
-collapses this right-inverse pair to $0$.
-
-For the second signed row, apply additive inverse congruence to
-$b\cdot c\hsame b\cdot d$ and identify $-(b\cdot c)$ with $-(b\cdot d)$.
-Additive congruence transports $(-(b\cdot c))+(b\cdot d)$ to
-$(-(b\cdot d))+(b\cdot d)$, and the additive left-inverse law collapses this
-left-inverse pair to $0$.
-
-The row normal form is therefore transported to $0+0$. The additive left-zero
-law collapses $0+0$ to $0$, and transitivity of $\hsame$ composes the
-normal-form step, the two signed-row collapses, and the final zero collapse.
-\end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_row\_cancellations\_zero}
-
-The ten-field fit is: traditional target signed row cancellation in
-commutative-ring algebra; BEDC source $\RingUp$ plus $\CommRingUp$ over
+The ten-field fit is: traditional target zero linear factor implies equal
+squares in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
-additive abelian-group laws, congruence, distributivity, commutativity, and
-negative-product laws; ledger signed row product provenance; core theorem
-this row-cancellation result; exactness row-zero soundness; standard bridge
-the ordinary commutative-ring identity; status $\mathsf{ProofTarget}$.
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen zero factor and product-zero witness; core theorem this block; exactness
+equality of squares; standard bridge ordinary commutative-ring factor argument;
+status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[CommRing signed product zero exactness]
-\label{thm:commring-signed-product-zero-exact}
+\begin{theorem}[CommRing zero linear factor exact package]
+\label{thm:commring-zero-linear-factor-exact-package}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ satisfies
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
 $$
-(a+(-b))\cdot(c+(-d))\hsame0
-\Longleftrightarrow
-a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply
-Theorem~\ref{thm:commring-signed-binary-product-normal-form} to rewrite the
-signed product as
-$$
-(a\cdot c+(-(a\cdot d)))+((-(b\cdot c))+(b\cdot d)).
-$$
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This gives the signed product-zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
 
-Apply Theorem~\ref{thm:abgroup-middle-four-interchange} to regroup the
-four-term additive ledger as
-$(a\cdot c+b\cdot d)+((-(a\cdot d))+(-(b\cdot c)))$. The negative-product
-laws and additive inverse congruence identify the second summand with the
-additive inverse of $(a\cdot d+b\cdot c)$. The signed product hypothesis
-therefore presents a balanced difference between the two cross sums.
-
-Add $a\cdot d+b\cdot c$ to both sides by additive congruence. Additive
-associativity moves the inverse pair next to its positive partner, and
-Theorem~\ref{thm:ring-add-right-inverse} collapses the pair to $0$. The zero
-laws remove the neutral summand and leave
-$a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c$.
-
-For the reverse direction, start from the assumed cross-sum equality and
-transport it through additive congruence while keeping the inverse of the
-right cross sum fixed. The right endpoint becomes the sum of
-$a\cdot d+b\cdot c$ and its additive inverse.
-
-Theorem~\ref{thm:ring-add-right-inverse} collapses that endpoint to $0$.
-Symmetry and transitivity compose this collapse with the signed binary
-normal form, yielding
-$ (a+(-b))\cdot(c+(-d))\hsame0 $.
+Feed that witness through the forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact}. The resulting
+square equality is $a\cdot a\hsame b\cdot b$, and pairing it with the
+signed product-zero witness gives the displayed conjunction.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_exact\_package}
 
-\begin{theorem}[CommRing column cancellations balance cross sums]
-\label{thm:commring-column-cancellations-cross-sum-balance}
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor and signed-product witness; core theorem this block;
+exactness the paired conjunction of product zero and equal squares; standard
+bridge ordinary commutative-ring square exit; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor total exact package]
+\label{thm:commring-zero-linear-factor-total-exact-package}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
-$a\cdot c\hsame b\cdot c$ and $a\cdot d\hsame b\cdot d$ satisfies
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
 $$
-a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\Bigl(
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr)
+\Bigr)
+\land
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:commring-signed-column-cancellations-zero} to the two
-column hypotheses. This produces the signed zero product
-$$
-(a+(-b))\cdot(c+(-d))\hsame0.
-$$
+Let $H$ be the displayed zero-linear-factor assumption. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to $H$ to obtain
+the branch-preserving annihilator disjunction.
 
-Apply the forward direction of
-Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
-is exactly the left side of that exactness statement, so its conclusion is the
-displayed cross-sum balance.
+Apply \autoref{thm:commring-zero-linear-factor-exact-package} to the same
+assumption $H$. This yields the paired signed product-zero witness and square
+equality.
+
+Introduce the final conjunction by placing the branch-preserving disjunction in
+the first component and the paired product-zero and square-equality certificate
+in the second component.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_column\_cancellations\_cross\_sum\_balance}
 
-\begin{theorem}[CommRing row cancellations balance cross sums]
-\label{thm:commring-row-cancellations-cross-sum-balance}
-For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
-$\RingUp$ additive abelian-group laws, addition and multiplication
-congruence, left distributivity, multiplicative commutativity, and the
-$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
-$a\cdot c\hsame a\cdot d$ and $b\cdot c\hsame b\cdot d$ satisfies
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor, branch annihilator row, and signed-product witness; core
+theorem \autoref{thm:commring-zero-linear-factor-total-exact-package};
+exactness branch annihilator coverage together with signed product zero and
+equal squares; standard bridge ordinary commutative-ring square exit; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor branch exact package]
+\label{thm:commring-zero-linear-factor-branch-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
 $$
-a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+a\cdot a\hsame b\cdot b
+\right).
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:commring-signed-row-cancellations-zero} to the two
-row hypotheses. This produces the signed zero product
-$$
-(a+(-b))\cdot(c+(-d))\hsame0.
-$$
+Start with the displayed zero-linear-factor disjunction. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to retain the
+selected branch and its two-sided annihilator row for every
+$c:\mathsf{BHist}$.
 
-Apply the forward direction of
-Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
-is exactly the left side of that exactness statement, so its conclusion is the
-displayed cross-sum balance.
+Apply \autoref{thm:commring-zero-linear-factor-equal-squares} to the same
+disjunction. This gives the square equality $a\cdot a\hsame b\cdot b$ under
+the identical hypotheses.
+
+Pair the branch-preserving annihilator package with the square equality. The
+result is exactly the displayed conjunction, so later selector arguments can
+consume the chosen linear factor without reconstructing the branch.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_row\_cancellations\_cross\_sum\_balance}
 
-For the $\CommRingUp$ per-object template, the traditional target is row
-cancellation balance in commutative-ring algebra. Its BEDC source is
-$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is
-$\mathsf{BHist}$, its classifier is $\hsame$, its stability obligations are
-signed row cancellation and signed-product zero exactness, and its ledger
-records row-paired product provenance. The core theorem is
-Theorem~\ref{thm:commring-row-cancellations-cross-sum-balance}; exactness is
-cross-sum balance; the standard bridge is ordinary commutative-ring
-cancellation balance; and the status is $\mathsf{ProofTarget}$.
+The ten-field fit is: traditional target branch-preserving zero-factor
+exactness in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+zero-factor absorption and difference-of-squares exactness; ledger the selected
+linear factor and annihilator row; core theorem this block; exactness the
+displayed conjunction; downstream consumer $\FieldUp$ quadratic and zero-factor
+exit packages; status $\mathsf{ProofTarget}$.
 
-\begin{definition}[CommRing ledger policy]
-\label{def:commring-ledger-policy}
-Record ring expression provenance and the multiplicative commutativity law when used.
-\end{definition}
+\begin{theorem}[CommRing singleton empty square exact package]
+\label{thm:commring-singleton-empty-square-exact-package}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, every pair
+$a,b:\mathsf{BHist}$ carried by $A_{\emp}$ satisfies
+$$
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)\land
+\bigl(a\cdot a\hsame b\cdot b\bigr),
+$$
+where $+$, $\cdot$, $-$, and $0$ are the displayed singleton operations.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:singleton-empty-history-commring-laws} supplies the concrete
+singleton $\CommRingUp$ laws for the operation tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}. Since the
+displayed addition and zero operations are constant at $\emp$, the carried
+inputs identify the sum endpoint with the zero endpoint, giving
+$(a+b)\hsame0$.
 
-\begin{definition}[\(\CommRingUp\) certificate obligations]
-\label{def:commring-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CommRingUp\).
-\end{definition}
+Choose the left branch of the zero-linear-factor disjunction:
+$$
+(a+b)\hsame0 \lor (a+(-b))\hsame0 .
+$$
+The same singleton law package supplies the additive, congruence,
+distributive, negative-product, and multiplicative-commutativity fields needed
+to instantiate Theorem~\ref{thm:commring-zero-linear-factor-exact-package}.
 
-\paragraph{Primitive boundary.}
-\(\CommRingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+Applying that theorem to the selected left branch yields the signed product
+zero witness together with the square equality. These are exactly
+$((a+b)\cdot(a+(-b))\hsame0)$ and $(a\cdot a\hsame b\cdot b)$ for the
+singleton empty-history CommRing tuple.
+\end{proof}
+
+The ten-field fit is: traditional target one-element commutative-ring square
+exactness; BEDC source singleton empty-history $\CommRingUp$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from singleton CommRing laws
+plus the zero-linear-factor exact package; ledger the selected empty linear
+factor and signed-product witness; core theorem this block; exactness the
+paired product-zero and equal-square conclusion; standard bridge the
+one-element commutative ring; status $\mathsf{ProofTarget}$.

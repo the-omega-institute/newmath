@@ -1,0 +1,800 @@
+\begin{theorem}[RatUp FieldUp canonical apart-zero context certificate row]
+\label{thm:ratup-fieldup-canonical-apartzero-context-certificate-row}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the source tuple
+$\mathsf{RatUpFieldSource}_F$, histories $L,R,h:\mathsf{BHist}$, and a witness
+$p:\mathsf{FieldApartZero}(L)$, the canonical $\FieldUp(\RatUp)$ exit
+certificate contains the concrete two-sided apart-zero context row
+$$
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h,k\mapsto h\hsame k\bigr).
+$$
+Its source, pattern, and ledger policy are all the displayed contextual
+apart-zero predicate, and its classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} to fix
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} as the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit object over
+$\mathsf{RatUpFieldSource}_F$. This pins the row to the canonical exit
+certificate rather than to a schematic field interface.
+
+Next apply
+\autoref{thm:field-apartzero-two-sided-context-semantic-namecert} to the
+histories $L$ and $R$ and the apart-zero witness $p$. Its source, pattern,
+ledger policy, and classifier are exactly the four displayed arguments of
+$\mathsf{SemanticNameCert}$.
+
+Combining the fixed canonical exit object with that semantic certificate gives
+row membership for the contextual apart-zero predicate inside the concrete
+$\FieldUp(\RatUp)$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target constructive apart-zero context
+stability inside $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{append}$, and
+$\mathsf{FieldApartZero}$; carrier
+$h\mapsto\mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))$;
+classifier $\hsame$; ledger the hidden left and right contexts $L$ and $R$;
+core theorem list \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}
+and \autoref{thm:field-apartzero-two-sided-context-semantic-namecert};
+exactness predicate row membership in
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; status
+$\mathsf{ProofTarget}$.
+
+\input{parts/concrete_instances/field/20_field_exit_algebra_affine_packages}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_action_inverse_exit_boundary_tail}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_affine_exit_rows}
+\input{parts/concrete_instances/field/20_field_affine_inner_action_exit}
+\input{parts/concrete_instances/field/20_field_affine_commutator_centralizer}
+\input{parts/concrete_instances/field/20_field_affine_commutator_centralizer_normalizer}
+\input{parts/concrete_instances/field/20_field_affine_normalizer_subgroup_action_tail}
+\input{parts/concrete_instances/field/20_field_affine_center_normalizer_orbit_tail}
+\input{parts/concrete_instances/field/20_field_affine_center_normalizer_orbit_classifier_congruence}
+\input{parts/concrete_instances/field/20_field_affine_center_normalizer_orbit_classifier_transport}
+\input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_action_tail}
+\input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_reflection_tail}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer SubgroupUp tower certificate]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the two-sided affine normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+$$
+\mathrm{Act}_T(X)=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then the inclusion
+$$
+C_F(A)\leq N_F(C_F(A))
+$$
+forms the concrete quotient-ready $\SubgroupUp$ tower whose lower subgroup rows
+are the centralizer identity, product, inverse, and classifier-transport rows,
+whose upper subgroup rows are the normalizer identity, product, inverse, and
+classifier-transport rows, whose carrier inclusion is
+$$
+C_F(A)(T)\Rightarrow N_F(C_F(A))(T),
+$$
+and whose action rows state that every $T$ in $N_F(C_F(A))$ preserves $C_F(A)$
+under $\mathrm{Act}_T$, the identity and product action laws hold on the
+centralizer carrier, the classifier well-definedness condition for
+$\mathrm{Act}$ holds on normalizer and centralizer representatives, and the
+inverse action by $\iota_F(T)$ cancels $\mathrm{Act}_T$ on both sides.
+\end{theorem}
+\begin{proof}
+The lower carrier is the concrete affine centralizer of $A$. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup}; it supplies the
+identity, product, inverse, and classifier-transport rows for $C_F(A)$.
+
+The upper carrier is the two-sided affine normalizer of this centralizer. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}; it supplies
+the corresponding subgroup rows for $N_F(C_F(A))$. The carrier inclusion is
+exactly \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion}.
+
+It remains to expose the quotient-ready action data. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} for
+normalizer preservation of the centralizer and for the identity and composition
+action laws. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-certificate} for
+classifier well-definedness of $\mathrm{Act}$ and for inverse-action
+cancellation on the restricted centralizer carrier.
+
+These rows are precisely the concrete $\SubgroupUp$ input demanded by the
+quotient-group construction: a lower subgroup, an upper subgroup, an inclusion
+of carriers, and an action certificate by upper representatives on lower
+representatives.
+\end{proof}
+
+Per-object template: traditional target normal-subgroup input for quotient
+groups; BEDC source concrete $\FieldUp(\RatUp)$ together with $\SubgroupUp$;
+carrier pair $C_F(A),N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; ledger
+fixed affine element, conjugators, inverse rows, and action witnesses; exactness
+as the normalizer action on the centralizer; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field singleton-empty operation context nonzero obstruction]
+\label{thm:field-singleton-empty-operation-context-nonzero-obstruction}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$,
+$\mathsf{fieldSingletonEmptyCarrier}(R)$, and
+$\mathsf{fieldSingletonEmptyNonZero}(out)$, singleton-empty operation contexts
+reject proof-indexed nonzero outputs. The multiplication endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+The unit endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+For every proof witness
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-singleton-empty-operation-context-normalization} to
+the multiplication, unit, or proof-indexed inverse classifier in the displayed
+context. In each case the contextual classifier into $\mathsf{append}(R,out)$
+is converted into $\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+The carrier assertion is the empty endpoint input for
+\autoref{thm:field-singleton-nonzero-empty-endpoint-absurd}. Combining it with
+the assumed witness $\mathsf{fieldSingletonEmptyNonZero}(out)$ gives
+$\mathsf{False}$ for each of the three operation contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_operation\_context\_nonzero\_absurd}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmpty\_operation\_context\_nonzero\_obstruction}
+
+Per-object template: traditional target terminal $\FieldUp$ operation-domain
+obstruction; BEDC source $\mathsf{BHist}$, $\mathsf{append}$, lower-case
+singleton-empty $\FieldUp$ endpoints; carrier
+$\mathsf{fieldSingletonEmptyCarrier}$; classifier
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations
+operation-context normalization and nonzero endpoint obstruction; ledger hidden
+singleton contexts and proof-indexed inverse witness; core theorem this block;
+exactness predicate classifier-to-nonzero contradiction; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field singleton-empty operation context carried nonzero obstruction]
+\label{thm:field-singleton-empty-operation-context-carried-nonzero-obstruction}
+For histories $L,R,U,V,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$,
+$\mathsf{fieldSingletonEmptyCarrier}(R)$,
+$\mathsf{fieldSingletonEmptyCarrier}(U)$,
+$\mathsf{fieldSingletonEmptyCarrier}(V)$, and
+$\mathsf{fieldSingletonEmptyNonZero}
+  (\mathsf{append}(U,\mathsf{append}(out,V)))$, carried nonzero evidence
+rejects the singleton-empty operation contexts. The multiplication endpoint
+satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+The unit endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+For every proof witness $p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the
+proof-indexed inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the carried output contexts. Apply
+\autoref{thm:field-singleton-empty-nonzero-append-context-cancel-iff} to
+$U,V,out$ with the carrier witnesses for $U$ and $V$. The assumed predicate on
+$\mathsf{append}(U,\mathsf{append}(out,V))$ yields the direct witness
+$\mathsf{fieldSingletonEmptyNonZero}(out)$.
+
+Now take any one of the three displayed operation classifiers. Apply
+\autoref{thm:field-singleton-empty-operation-context-normalization} with the
+carrier witnesses for $L$ and $R$. In the multiplication, unit, and
+proof-indexed inverse cases, this produces
+$\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+Finally, use \autoref{thm:field-singleton-nonzero-empty-endpoint-absurd}. The
+output carrier is the empty endpoint input, and the cancelled nonzero witness on
+$out$ supplies the contradictory nonzero side.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmpty\_operation\_context\_carried\_nonzero\_obstruction}
+
+Per-object template: traditional target contextual nonzero obstruction for the
+concrete $\FieldUp$ operation slots; BEDC source $\mathsf{BHist}$,
+$\mathsf{append}$, $\mathsf{fieldSingletonEmptyCarrier}$,
+$\mathsf{fieldSingletonEmptyClassifier}$, and
+$\mathsf{fieldSingletonEmptyNonZero}$; carrier and classifier as named;
+stability obligations context cancellation and operation normalization; ledger
+carried output contexts $U,V$; core theorem this block; exactness predicate
+contextual nonzero rejection; status $\mathsf{ProofTarget}$.
+
+\section{Apart-zero continuation exactness}
+\label{sec:field-apartzero-continuation-exactness}
+
+\begin{theorem}[Field apart-zero nested continuation empty-context exactness]
+\label{thm:field-apartzero-nested-continuation-empty-context-iff}
+For histories $l,h,r,u,v:\mathsf{BHist}$ with $\ContR(l,h,u)$ and
+$\ContR(u,r,v)$, if $l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{ApartZero}_F(v)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h).
+$$
+\end{theorem}
+\begin{proof}
+The two continuation witnesses identify $u$ with $\mathsf{append}(l,h)$ and
+$v$ with $\mathsf{append}(u,r)$. Continuation associativity and result
+transport compare $v$ with the nested append endpoint
+$\mathsf{append}(l,\mathsf{append}(h,r))$.
+
+Transport $\mathsf{ApartZero}_F$ across this $\hsame$ comparison. The result
+is exactly the bilateral empty-context statement of
+\autoref{thm:field-apartzero-empty-context-iff}, applied with the witnesses
+$l\hsame\emp$ and $r\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_empty\_context\_iff}
+
+\begin{theorem}[Field apart-zero nested continuation factor split]
+\label{thm:field-apartzero-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w:\mathsf{BHist}$ with $\ContR(l,h,u)$,
+$\ContR(u,r,v)$, and $\ContR(v,q,w)$, if $l\hsame\emp$ and $r\hsame\emp$,
+then
+$$
+\mathsf{ApartZero}_F(w)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the tail
+continuation witness $\ContR(v,q,w)$. This gives
+$\mathsf{ApartZero}_F(w)$ exactly when
+$\mathsf{ApartZero}_F(v)\lor\mathsf{ApartZero}_F(q)$ holds.
+
+Apply
+\autoref{thm:field-apartzero-nested-continuation-empty-context-iff} to the
+first two continuation witnesses and the exterior empty-context witnesses
+$l\hsame\emp$ and $r\hsame\emp$. Substituting this equivalence for the first
+disjunct yields the displayed factor split.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_factor\_split\_iff}
+
+Per-object template: traditional target continuation-tail apartness factor
+split under empty exterior context; BEDC source $\mathsf{BHist}$, $\ContR$,
+and $\mathsf{ApartZero}_F$; carrier apart-zero histories; classifier $\hsame$
+transport; stability obligations nested empty-context exactness plus
+continuation endpoint split; ledger the two empty-context witnesses and tail
+$q$; exactness predicate the displayed iff; standard bridge ordinary
+product/context apartness factorization; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero two-tail nested continuation factor split]
+\label{thm:field-apartzero-two-tail-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w,s,z:\mathsf{BHist}$ with $\ContR(l,h,u)$,
+$\ContR(u,r,v)$, $\ContR(v,q,w)$, and $\ContR(w,s,z)$, if
+$l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{ApartZero}_F(z)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q)\lor\mathsf{ApartZero}_F(s).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the final
+tail continuation witness $\ContR(w,s,z)$. This gives
+$\mathsf{ApartZero}_F(z)$ exactly when
+$\mathsf{ApartZero}_F(w)\lor\mathsf{ApartZero}_F(s)$ holds.
+
+Apply \autoref{thm:field-apartzero-nested-continuation-factor-split} to the
+first three continuation witnesses and the exterior witnesses $l\hsame\emp$
+and $r\hsame\emp$. This identifies $\mathsf{ApartZero}_F(w)$ with
+$\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q)$.
+
+For the forward direction, case-analyze the endpoint disjunction. The
+$\mathsf{ApartZero}_F(s)$ case supplies the right tail disjunct. In the
+$\mathsf{ApartZero}_F(w)$ case, case-analyze the nested split and place the
+resulting witness in the $h$ or $q$ disjunct.
+
+For the reverse direction, case-analyze the displayed three-way disjunction.
+The $h$ and $q$ cases first rebuild $\mathsf{ApartZero}_F(w)$ by the reverse
+direction of the nested split, and then rebuild $\mathsf{ApartZero}_F(z)$ by
+the reverse direction of the endpoint split. The $s$ case uses the reverse
+direction of the endpoint split directly.
+\end{proof}
+
+Per-object template: object $\FieldUp$ apart-zero multi-tail factorization;
+source $\mathsf{BHist}$ plus $\ContR$; carrier apart-zero histories;
+classifier $\hsame$ transport; transport predicate $\mathsf{ApartZero}_F$;
+ledger the empty exterior witnesses $l\hsame\emp$ and $r\hsame\emp$; tail
+data the two tail factors $q$ and $s$; core theorem this block plus the
+one-tail split and endpoint split; exactness predicate the displayed iff;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero nested continuation singleton-result factor exclusion]
+\label{thm:field-apartzero-nested-continuation-singleton-result-factor-exclusion}
+For histories $l,h,r,u,v,q,w,s,z,endpoint:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, and $\ContR(w,s,z)$, if
+$l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(z,endpoint)$, then
+$$
+(\mathsf{ApartZero}_F(h)\to\bot)
+\land
+(\mathsf{ApartZero}_F(q)\to\bot)
+\land
+(\mathsf{ApartZero}_F(s)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-apartzero-continuation-singleton-result-factor-absurd} to
+the final continuation witness $\ContR(w,s,z)$ together with the terminal
+singleton-result certificate. This gives exclusions for
+$\mathsf{ApartZero}_F(w)$ and $\mathsf{ApartZero}_F(s)$.
+
+To exclude $\mathsf{ApartZero}_F(h)$, assume such a witness. The reverse
+direction of
+\autoref{thm:field-apartzero-nested-continuation-factor-split}, applied to the
+first three continuation witnesses and the exterior empty-context witnesses,
+turns the left factor witness into $\mathsf{ApartZero}_F(w)$. This contradicts
+the exclusion for $w$.
+
+The argument for $\mathsf{ApartZero}_F(q)$ is the same, using the right nested
+factor witness in the reverse direction of the same split theorem. Pair the two
+nested exclusions with the already obtained exclusion for $s$ to obtain the
+displayed triple exclusion.
+\end{proof}
+
+Per-object template: traditional target zero-result factor exclusion for nested
+$\FieldUp$ continuations; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldSingletonClassifier}$, and $\mathsf{ApartZero}_F$; carrier
+apart-zero histories; classifier $\hsame$ transport; transport predicate
+terminal singleton-result rejection; ledger the empty exterior witnesses plus
+the terminal singleton-result certificate; tail data the nested factors $h$,
+$q$, and $s$; core theorem list the one-step singleton-result factor absurd
+theorem and nested factor split; exactness predicate the displayed triple
+exclusion; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero three-tail nested continuation factor split]
+\label{thm:field-apartzero-three-tail-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w,s,z,t,y:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$, and
+$\ContR(z,t,y)$, if $l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{ApartZero}_F(y)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q)\lor
+\mathsf{ApartZero}_F(s)\lor\mathsf{ApartZero}_F(t).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the
+endpoint continuation witness $\ContR(z,t,y)$. This splits
+$\mathsf{ApartZero}_F(y)$ into
+$\mathsf{ApartZero}_F(z)\lor\mathsf{ApartZero}_F(t)$.
+
+Apply
+\autoref{thm:field-apartzero-two-tail-nested-continuation-factor-split} to
+the first four continuation witnesses and the exterior empty-context
+witnesses $l\hsame\emp$ and $r\hsame\emp$. This rewrites
+$\mathsf{ApartZero}_F(z)$ as the three-way disjunction on $h,q,s$.
+
+For the forward direction, case-analyze the endpoint split. The
+$\mathsf{ApartZero}_F(t)$ case supplies the final tail disjunct. In the
+$\mathsf{ApartZero}_F(z)$ case, case-analyze the two-tail nested split and
+place the resulting evidence in the $h$, $q$, or $s$ disjunct.
+
+For the reverse direction, case-analyze the displayed four-way disjunction.
+The $h$, $q$, and $s$ cases first rebuild $\mathsf{ApartZero}_F(z)$ by the
+reverse direction of the two-tail nested split, and then rebuild
+$\mathsf{ApartZero}_F(y)$ by the reverse direction of the endpoint split. The
+$t$ case uses the reverse direction of the endpoint split directly.
+\end{proof}
+
+Per-object template: traditional target finite product/context apartness
+factorization; BEDC source $\mathsf{BHist}$ plus $\ContR$; carrier apart-zero
+histories; classifier $\hsame$ transport; stability obligations endpoint split
+and two-tail nested split; ledger exterior empty witnesses plus tails $q,s,t$;
+core theorem this block; exactness predicate the displayed iff; standard
+bridge finite product apartness; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero three-tail contextual singleton result exclusion]
+\label{thm:field-apartzero-three-tail-contextual-singleton-result-exclusion}
+For histories $L,R,l,h,r,u,v,q,w,s,z,t,y,endpoint:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$,
+$\ContR(z,t,y)$, $l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,endpoint))$,
+one has
+$$
+(\mathsf{ApartZero}_F(h)\to\bot)
+\land
+(\mathsf{ApartZero}_F(q)\to\bot)
+\land
+(\mathsf{ApartZero}_F(s)\to\bot)
+\land
+(\mathsf{ApartZero}_F(t)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:field-singleton-classifier-append-context-cancel} with the
+singleton-carrier witnesses for $L$ and $R$. The forward direction of the
+cancellation equivalence turns the contextual classifier into
+$\mathsf{FieldSingletonClassifier}(y,endpoint)$.
+
+Apply \autoref{thm:field-singleton-classifier-empty-endpoints} to that
+singleton endpoint classifier. The resulting endpoint comparison gives
+$y\hsame\emp$.
+
+Now assume one of the four factor witnesses
+$\mathsf{ApartZero}_F(h)$, $\mathsf{ApartZero}_F(q)$,
+$\mathsf{ApartZero}_F(s)$, or $\mathsf{ApartZero}_F(t)$. The reverse direction
+of
+\autoref{thm:field-apartzero-three-tail-nested-continuation-factor-split},
+applied to the corresponding disjunct and the five continuation witnesses,
+rebuilds $\mathsf{ApartZero}_F(y)$.
+
+Applying this apart-zero witness to $y\hsame\emp$ gives $\bot$ in each case.
+Pairing the four implications gives the displayed exclusion.
+\end{proof}
+
+Per-object template: traditional target contextual singleton-result factor
+exclusion for three-tail $\FieldUp$ continuations; BEDC source
+$\mathsf{BHist}$, $\ContR$, $\mathsf{FieldSingletonClassifier}$, and
+$\mathsf{ApartZero}_F$; carrier apart-zero histories; classifier $\hsame$
+transport; transport predicate singleton-context cancellation; ledger the
+hidden singleton contexts, empty exterior witnesses, and terminal singleton
+certificate; tail data the exposed factors $h,q,s,t$; core theorem list the
+three-tail nested factor split plus singleton endpoint classifier; exactness
+predicate the displayed fourfold exclusion; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero two-tail contextual singleton result exclusion]
+\label{thm:field-apartzero-two-tail-contextual-singleton-result-exclusion}
+For histories $L,R,l,h,r,u,v,q,w,s,z,endpoint:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$,
+$l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,z),\mathsf{append}(R,endpoint))$,
+one has
+$$
+(\mathsf{ApartZero}_F(h)\to\bot)
+\land
+(\mathsf{ApartZero}_F(q)\to\bot)
+\land
+(\mathsf{ApartZero}_F(s)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:field-singleton-classifier-append-context-cancel} with the
+two singleton-context carrier witnesses for $L$ and $R$. The forward direction
+of the cancellation equivalence turns the displayed contextual classifier into
+$\mathsf{FieldSingletonClassifier}(z,endpoint)$.
+
+Apply
+\autoref{thm:field-apartzero-continuation-singleton-result-factor-absurd} to
+the final continuation witness $\ContR(w,s,z)$ and the classifier just
+obtained. This gives exclusions
+$\mathsf{ApartZero}_F(w)\to\bot$ and
+$\mathsf{ApartZero}_F(s)\to\bot$.
+
+It remains to rule out the two exposed earlier factors. Apply
+\autoref{thm:field-apartzero-nested-continuation-factor-split} to the
+first three continuation witnesses and the exterior witnesses $l\hsame\emp$
+and $r\hsame\emp$. The reverse direction sends either
+$\mathsf{ApartZero}_F(h)$ or $\mathsf{ApartZero}_F(q)$ to
+$\mathsf{ApartZero}_F(w)$, contradicting the exclusion of $w$. Together with
+the direct exclusion of $s$, these three maps are exactly the displayed
+conjunction.
+\end{proof}
+
+Per-object template: $\FieldUp$ apart-zero singleton-result exclusion; source
+$\mathsf{BHist}$ plus $\ContR$; carrier predicate $\mathsf{ApartZero}_F$;
+classifier $\hsame$ transport; ledger the hidden singleton contexts; exactness
+predicate the displayed conjunction; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero nested continuation singleton-result factor exclusion]
+\label{thm:field-apartzero-nested-continuation-singleton-result-factor-absurd}
+For histories $l,h,r,u,v,q,w,endpoint:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, and $\ContR(v,q,w)$, if
+$l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(w,endpoint)$, then
+$$
+\bigl(\mathsf{ApartZero}_F(h)\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\mathsf{ApartZero}_F(q)\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-singleton-classifier-empty-endpoints} to the
+classifier witness $\mathsf{FieldSingletonClassifier}(w,endpoint)$. The
+result gives in particular the endpoint comparison $w\hsame\emp$.
+
+Assume $\mathsf{ApartZero}_F(h)$. The reverse direction of
+\autoref{thm:field-apartzero-nested-continuation-factor-split}, applied to
+the left disjunct and the three continuation witnesses, produces
+$\mathsf{ApartZero}_F(w)$. Applying this apart-zero witness to
+$w\hsame\emp$ gives $\mathsf{False}$.
+
+Assume $\mathsf{ApartZero}_F(q)$. The same reverse direction of the nested
+factor split, now applied to the right disjunct, again produces
+$\mathsf{ApartZero}_F(w)$. Applying it to $w\hsame\emp$ gives
+$\mathsf{False}$. Pairing the two implications gives the displayed
+exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_singleton\_result\_factor\_absurd}
+
+Per-object template: traditional target zero-result factor exclusion for
+nested field multiplication; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldSingletonClassifier}$, and $\mathsf{ApartZero}_F$; carrier
+apart-zero histories; classifier $\hsame$ transport; ledger the hidden
+singleton result endpoint and the two exposed factors; core theorem list
+the nested continuation factor split plus singleton endpoint classifier;
+exactness predicate the displayed paired exclusion; standard bridge ordinary
+zero product excludes nonzero factors under a singleton result; status
+$\mathsf{ProofTarget}$.
+
+\begin{definition}[Field apart-zero tail-factor spine]
+\label{def:field-apartzero-tail-factor-spine}
+For histories $y,x:\mathsf{BHist}$, let
+$\mathsf{FieldApartTailFactor}(y,x)$ be the least relation on
+$\mathsf{BHist}$ generated by the following constructors:
+\begin{enumerate}
+\item If $\ContR(l,h,u)$, $\ContR(u,r,v)$, $l\hsame\emp$, and
+$r\hsame\emp$, then $\mathsf{FieldApartTailFactor}(v,h)$.
+\item If $\mathsf{FieldApartTailFactor}(w,x)$ and $\ContR(w,q,z)$, then
+$\mathsf{FieldApartTailFactor}(z,x)$.
+\item If $\ContR(w,q,z)$, then $\mathsf{FieldApartTailFactor}(z,q)$.
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.FieldUp.FieldApartTailFactor}
+\begin{lemma}[Field apart-tailfactor empty-context hsame transport]
+\label{lem:field-aparttailfactor-empty-context-hsame-transport}
+The empty-context generator is stable under $\hsame$ transport of its two
+continuation witnesses, exterior empty comparisons, middle history, and result.
+\end{lemma}
+\begin{proof}
+Transport the two $\ContR$ witnesses and the two exterior comparisons, then use the empty-context constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_context\_hsame\_transport}
+
+\begin{lemma}[Field apart-zero tail-factor empty endpoint exclusion]
+\label{lem:field-apartzero-tail-factor-empty-endpoint-exclusion}
+For histories $y,x:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame\emp$, and
+$\mathsf{ApartZero}_F(x)$, then $\bot$.
+\end{lemma}
+\begin{proof} Induct on the generated tail-factor witness. In the empty-context generator,
+the nested empty-context apart-zero equivalence transports
+$\mathsf{ApartZero}_F(x)$ to the result endpoint, contradicting $y\hsame\emp$.
+In the carried-tail case, empty-result inversion gives an empty previous endpoint.
+In the exposed-factor case, it gives the exposed factor itself as $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion}
+\begin{theorem}[Field apart-tailfactor empty endpoint exclusion hsame transport]\label{thm:field-apart-tail-factor-empty-endpoint-exclusion-hsame-transport}
+For histories $y,x,y',x':\mathsf{BHist}$, if $\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame y'$, $x\hsame x'$, $y'\hsame\emp$, and $\mathsf{ApartZero}_F(x')$, then $\bot$.
+\end{theorem}
+\begin{proof} Transport the two displayed endpoint comparisons across $\hsame$ and apply \autoref{lem:field-apartzero-tail-factor-empty-endpoint-exclusion}. \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion\_hsame\_transport}
+\begin{lemma}[Field apart-zero tail-factor hsame transport]
+\label{lem:field-apartzero-tail-factor-hsame-transport}
+For histories $y,y',x,x':\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame y'$, and $x\hsame x'$, then
+$\mathsf{FieldApartTailFactor}(y',x')$.
+\end{lemma}
+\begin{proof}
+Induct on the generated witness
+$\mathsf{FieldApartTailFactor}(y,x)$.
+
+In the empty-context constructor, transport the first continuation witness along
+$x\hsame x'$ and reflexivity of its other endpoints using
+\autoref{thm:cont-hsame-transport}. Transport the second continuation witness
+along reflexivity of its source and factor endpoint, and along $y\hsame y'$ for
+the result. The two exterior witnesses $l\hsame\emp$ and $r\hsame\emp$ are
+unchanged, so constructor 1 rebuilds
+$\mathsf{FieldApartTailFactor}(y',x')$.
+
+In the carried-tail constructor, apply the induction hypothesis to the stored
+factor witness, the reflexive comparison on its carried result, and the supplied
+$x\hsame x'$. Transport the final continuation result along $y\hsame y'$ by
+\autoref{thm:cont-hsame-transport}, then reuse constructor 2.
+
+In the exposed-factor constructor, transport the continuation argument by
+$x\hsame x'$ and its result by $y\hsame y'$ using
+\autoref{thm:cont-hsame-transport}. Constructor 3 then gives the transported
+generated factor witness.
+\end{proof}
+
+Per-object template: traditional target tail-factor stability; BEDC source
+$\mathsf{BHist}$ plus $\ContR$; carrier $\mathsf{FieldApartTailFactor}$;
+classifier $\hsame$; stability obligation
+\autoref{lem:field-apartzero-tail-factor-hsame-transport}; ledger transported
+continuation witnesses; core theorem
+\autoref{lem:field-apartzero-tail-factor-hsame-transport}; exactness predicate
+invariance of generated factor witnesses; status $\mathsf{ProofTarget}$.
+
+\begin{lemma}[Field apart-zero tail-factor result closure]
+\label{lem:field-apartzero-tail-factor-result-closure}
+For histories $y,x:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, then
+$$
+\mathsf{ApartZero}_F(x)\Rightarrow\mathsf{ApartZero}_F(y).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the generated witness
+$\mathsf{FieldApartTailFactor}(y,x)$.
+
+In the initial empty-context constructor, apply
+\autoref{thm:field-apartzero-nested-continuation-empty-context-iff} to the
+two continuation witnesses and the two exterior comparisons. The reverse
+direction transports $\mathsf{ApartZero}_F(h)$ to
+$\mathsf{ApartZero}_F(v)$.
+
+In the carried-tail constructor, the induction hypothesis first transports
+$\mathsf{ApartZero}_F(x)$ to $\mathsf{ApartZero}_F(w)$. Then apply the
+reverse direction of
+\autoref{thm:field-apartzero-continuation-endpoint-split} to the left
+endpoint disjunct, obtaining $\mathsf{ApartZero}_F(z)$.
+
+In the exposed-factor constructor, apply the reverse direction of
+\autoref{thm:field-apartzero-continuation-endpoint-split} to the right factor
+disjunct. This sends $\mathsf{ApartZero}_F(q)$ to
+$\mathsf{ApartZero}_F(z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_result\_closure}
+
+\begin{theorem}[Field apart-zero tail-factor continuation result closure]
+\label{thm:field-aparttailfactor-continuation-result-closure}
+For histories $w,x,q,z:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(w,x)$, $\ContR(w,q,z)$, and
+$\mathsf{ApartZero}_F(x)$, then $\mathsf{ApartZero}_F(z)$.
+\end{theorem}
+\begin{proof}
+First apply tail-factor result closure to obtain $\mathsf{ApartZero}_F(w)$
+from the generated witness and $\mathsf{ApartZero}_F(x)$. The continuation
+endpoint split for $\ContR(w,q,z)$ closes the result by the left factor
+disjunct.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_continuation\_result\_closure}
+
+\begin{theorem}[Field apart-zero finite tail singleton-result exclusion]
+\label{thm:field-apartzero-finite-tail-singleton-result-exclusion}
+For histories $y,x,endpoint:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$ and
+$\mathsf{FieldSingletonClassifier}(y,endpoint)$, then
+$$
+\mathsf{ApartZero}_F(x)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{lem:field-apartzero-tail-factor-result-closure} to the generated
+tail-factor witness. This turns any $\mathsf{ApartZero}_F(x)$ witness into
+$\mathsf{ApartZero}_F(y)$.
+
+Apply \autoref{thm:field-singleton-classifier-empty-endpoints} to the
+singleton endpoint classifier. The endpoint theorem gives the comparison
+$y\hsame\emp$.
+
+Finally, transport the apart-zero witness along the endpoint comparison. The
+result is the contradiction $\bot$, since $\mathsf{ApartZero}_F(y)$ rejects
+$y\hsame\emp$.
+\end{proof}
+
+Per-object template: traditional target finite product zero-factor exclusion;
+BEDC source $\mathsf{BHist}$, $\ContR$, $\mathsf{ApartZero}_F$, and
+$\mathsf{FieldSingletonClassifier}$; carrier generated tail-factor witnesses;
+classifier $\hsame$; core theorem list
+\autoref{lem:field-apartzero-tail-factor-result-closure} and
+\autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion};
+exactness predicate generated factor-to-result closure plus singleton-result
+rejection; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero finite tail contextual singleton-result exclusion]
+\label{thm:field-apartzero-finite-tail-contextual-singleton-result-exclusion}
+For histories $L,R,y,x,endpoint:\mathsf{BHist}$, if
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\mathsf{FieldApartTailFactor}(y,x)$, and
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,endpoint))$,
+then
+$$
+\mathsf{ApartZero}_F(x)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the carried singleton contexts. Apply
+\autoref{thm:field-singleton-classifier-append-context-cancel} to the two
+carrier witnesses and the appended singleton classifier. The forward direction
+gives $\mathsf{FieldSingletonClassifier}(y,endpoint)$.
+
+Now apply
+\autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion} to the
+generated tail-factor witness
+$\mathsf{FieldApartTailFactor}(y,x)$ and the base singleton classifier. This
+produces $\mathsf{ApartZero}_F(x)\Rightarrow\bot$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_singleton\_context\_exclusion}
+
+Per-object template: traditional target finite product zero-factor exclusion
+under hidden singleton contexts; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldApartTailFactor}$, $\mathsf{FieldSingletonClassifier}$, and
+$\mathsf{ApartZero}_F$; carrier generated tail-factor witnesses; classifier
+$\hsame$; stability from singleton context cancellation and finite tail result
+closure; ledger hidden singleton contexts plus generated factor witness; core
+theorem list \autoref{thm:field-singleton-classifier-append-context-cancel} and
+\autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion};
+exactness predicate contextual singleton-result rejection; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero three-tail tail-factor coverage]
+\label{thm:field-apartzero-three-tail-tail-factor-coverage}
+For histories $l,h,r,u,v,q,w,s,z,t,y:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$, and
+$\ContR(z,t,y)$, if $l\hsame\emp$ and $r\hsame\emp$, then
+$$
+\mathsf{FieldApartTailFactor}(y,h)
+\land
+\mathsf{FieldApartTailFactor}(y,q)
+\land
+\mathsf{FieldApartTailFactor}(y,s)
+\land
+\mathsf{FieldApartTailFactor}(y,t).
+$$
+\end{theorem}
+\begin{proof}
+We first build the hidden initial factor. The initial tail-factor constructor
+applied to $\ContR(l,h,u)$, $\ContR(u,r,v)$, $l\hsame\emp$, and
+$r\hsame\emp$ gives $\mathsf{FieldApartTailFactor}(v,h)$. Carry this witness
+successively across $\ContR(v,q,w)$, $\ContR(w,s,z)$, and $\ContR(z,t,y)$ by
+the carried-tail constructor to obtain $\mathsf{FieldApartTailFactor}(y,h)$.
+
+Next expose the $q$ factor at the first continuation after the initial
+empty-context block. The exposed-factor constructor applied to
+$\ContR(v,q,w)$ gives $\mathsf{FieldApartTailFactor}(w,q)$. Carry it across
+$\ContR(w,s,z)$ and $\ContR(z,t,y)$ to obtain
+$\mathsf{FieldApartTailFactor}(y,q)$.
+
+The $s$ factor is exposed in the same generated spine at the next step.
+Apply the exposed-factor constructor to $\ContR(w,s,z)$, giving
+$\mathsf{FieldApartTailFactor}(z,s)$, and then carry this witness across
+$\ContR(z,t,y)$ to obtain $\mathsf{FieldApartTailFactor}(y,s)$.
+
+Finally, apply the exposed-factor constructor directly to $\ContR(z,t,y)$.
+This gives $\mathsf{FieldApartTailFactor}(y,t)$. Pair the four generated
+witnesses in the displayed order.
+\end{proof}
+
+Per-object template: traditional target finite product factor coverage; BEDC
+source $\mathsf{BHist}$, $\ContR$, and $\mathsf{FieldApartTailFactor}$;
+carrier generated tail-factor witnesses; classifier $\hsame$; ledger the
+exposed factors $h,q,s,t$; core theorem this block plus
+\autoref{thm:field-apartzero-finite-tail-contextual-singleton-result-exclusion};
+exactness predicate factor coverage for generated exclusion; status
+$\mathsf{ProofTarget}$.

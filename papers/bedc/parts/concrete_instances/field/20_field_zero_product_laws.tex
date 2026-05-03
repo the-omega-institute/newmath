@@ -340,6 +340,25 @@ apart-zero factor.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_split\_iff}
 
+\begin{theorem}[Field apart-zero right factor from non-apart head]
+\label{thm:field-apartzero-append-right-factor-of-head-not-apart}
+For histories $p,q:\mathsf{BHist}$, if $\mathsf{append}(p,q)$ is apart from
+zero and $p$ is not apart from zero, then $q$ is apart from zero:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longrightarrow
+(\mathsf{ApartZero}_F(p)\Rightarrow\mathsf{False})
+\Longrightarrow
+\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply the append split exactness theorem to the appended apart-zero witness.
+The left branch contradicts the non-apart head hypothesis, so the right branch
+remains and supplies $\mathsf{ApartZero}_F(q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_factor\_of\_head\_not\_apart}
+
 \begin{theorem}[Field apart-zero continuation endpoint split]
 \label{thm:field-apartzero-continuation-endpoint-split}
 For histories $p,q,r:\mathsf{BHist}$ with $\ContR(p,q,r)$, apartness from
@@ -459,6 +478,64 @@ $\Eone(p)$, with $\emp$. BEDC constructor separation rules out both
 identifications.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_visible\_headed}
+
+\begin{theorem}[Field apart-zero nested continuation visible-left result]
+\label{thm:field-apartzero-nested-continuation-visible-left-result}
+For histories $tail,h,r,u,v:\mathsf{BHist}$, a nested continuation whose
+left source is visibly headed has an apart-zero result:
+$$
+\bigl(\ContR(\Ezero(tail),h,u)\to\ContR(u,r,v)\to
+\mathsf{ApartZero}_F(v)\bigr)
+\land
+\bigl(\ContR(\Eone(tail),h,u)\to\ContR(u,r,v)\to
+\mathsf{ApartZero}_F(v)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the $\Ezero$ branch, the two continuation witnesses identify $u$ with
+$\mathsf{append}(\Ezero(tail),h)$ and $v$ with
+$\mathsf{append}(u,r)$. If $v\hsame\emp$, empty-append inversion first forces
+$u\hsame\emp$, and a second inversion forces $\Ezero(tail)\hsame\emp$,
+contradicting constructor separation.
+
+The $\Eone$ branch is identical, with the second inversion producing
+$\Eone(tail)\hsame\emp$, again contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_visible\_left\_result}
+
+\begin{theorem}[Field apart-zero nested continuation visible-right result]
+\label{thm:field-apartzero-nested-continuation-visible-right-result}
+For histories $l,h,tail,u,v:\mathsf{BHist}$, a nested continuation whose
+second continuation tail is visibly headed has an apart-zero result:
+$$
+\bigl(\ContR(l,h,u)\to\ContR(u,\Ezero(tail),v)\to
+\mathsf{ApartZero}_F(v)\bigr)
+\land
+\bigl(\ContR(l,h,u)\to\ContR(u,\Eone(tail),v)\to
+\mathsf{ApartZero}_F(v)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the $\Ezero$ branch, the first continuation supplies the intermediate
+history $u$, and the second continuation identifies $v$ with an append whose
+right factor is $\Ezero(tail)$. If $v\hsame\emp$, empty-append inversion forces
+that visible right factor to be empty, contradicting BEDC constructor
+separation.
+
+The $\Eone$ branch has the same shape. A hypothetical equality
+$v\hsame\emp$ splits through the second continuation and empty-append
+inversion, forcing $\Eone(tail)\hsame\emp$, which constructor separation
+rules out.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_visible\_right\_result}
+
+Per-object certificate: traditional target visible-suffix apart-zero coverage
+for nested $\FieldUp$ continuations; BEDC source $\mathsf{BHist}$ plus
+$\ContR$; carrier $\mathsf{ApartZero}_F$; classifier $\hsame$; ledger records
+the hidden visible suffix and continuation result; core theorem is
+\autoref{thm:field-apartzero-nested-continuation-visible-right-result}
+together with append empty-result inversion; exactness predicate is the
+displayed apart-zero conclusion; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field apart-zero empty-context exactness]
 \label{thm:field-apartzero-empty-context-iff}

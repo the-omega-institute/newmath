@@ -62,6 +62,41 @@ inverse word, while \autoref{thm:group-left-inverse-involutive} and
 $\mathsf{inv}(\mathsf{inv}(s))$ with $s$ before the inverse and unit laws close
 the two classifier comparisons.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_normalizer\_conjugation\_inverse\_roundtrip\_from\_empty\_unit}
+
+\begin{theorem}[Group normalizer inverse closure]
+\label{thm:group-normalizer-inverse-closure}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, unit, multiplication-congruence, and two-sided inverse laws as in
+\autoref{thm:group-normalizer-conjugation-inverse-roundtrip}, let $Z_a$ be the
+centralizer carrier and let $N_a$ be the two-sided centralizer normalizer
+carrier. If $N_a(s)$ holds, then $N_a(\mathsf{inv}(s))$ holds.
+\end{theorem}
+\begin{proof}
+Unfold $N_a$. Its first row for $\mathsf{inv}(s)$ is exactly the inverse-action
+row already present in $N_a(s)$. For the second row, the target conjugating
+parameter is $\mathsf{inv}(\mathsf{inv}(s))$. The group inverse-involutive
+calculation identifies this parameter with $s$, multiplication congruence carries
+the conjugation word across that $\hsame$ comparison, and centralizer membership
+transports along the resulting conjugation-word equality.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_normalizer\_inv\_closed\_from\_empty\_unit}
+
+\begin{theorem}[Group normalizer inverse hsame transport]
+\label{thm:group-normalizer-inverse-hsame-transport}
+For the same history-level group data and centralizer normalizer carrier $N_a$,
+if $N_a(s)$ holds and $\hsame(\mathsf{inv}(s),t)$, then $N_a(t)$ holds.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:group-normalizer-inverse-closure} to obtain
+$N_a(\mathsf{inv}(s))$. The comparison
+$\hsame(\mathsf{inv}(s),t)$ transports the forward conjugation row by
+multiplication congruence and inverse congruence. Applying inverse congruence to
+the same comparison gives
+$\hsame(\mathsf{inv}(\mathsf{inv}(s)),\mathsf{inv}(t))$, which transports the
+inverse-conjugation row. These two transported rows are precisely $N_a(t)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_normalizer\_inverse\_hsame\_transport\_from\_empty\_unit}
 
 \begin{theorem}[Group centralizer normalizer conjugation automorphism]
 \label{thm:group-centralizer-normalizer-conjugation-automorphism}
