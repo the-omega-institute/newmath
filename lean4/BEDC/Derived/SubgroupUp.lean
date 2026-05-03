@@ -876,4 +876,48 @@ theorem SubgroupCentralizerQuotientKernel_symm_empty_unit
   exact BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_symm_from_empty_unit
     assocC leftId rightId mulCongr leftInv rightInv
 
+theorem SubgroupCentralizerNormalizerQuotientClassifier_coincide
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (_rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerRightCosetClassifier mul inv a x y <->
+      SubgroupCentralizerQuotientKernel mul inv a x y := by
+  exact SubgroupCentralizerRightCosetClassifier_quotientKernel_iff
+    assocC leftId mulCongr leftInv rightInv
+
+theorem SubgroupCentralizerQuotientKernel_classifier_laws
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a : BHist} :
+    (forall {x : BHist}, SubgroupCentralizerNormalizer mul inv a x ->
+      SubgroupCentralizerQuotientKernel mul inv a x x) ∧
+      (forall {x y : BHist}, SubgroupCentralizerQuotientKernel mul inv a x y ->
+        SubgroupCentralizerQuotientKernel mul inv a y x) ∧
+      (forall {x y z : BHist}, SubgroupCentralizerQuotientKernel mul inv a x y ->
+        SubgroupCentralizerQuotientKernel mul inv a y z ->
+          SubgroupCentralizerQuotientKernel mul inv a x z) := by
+  constructor
+  · intro x normalizes
+    exact SubgroupCentralizerNormalizer_kernel_classifier_refl
+      assocC leftId rightId mulCongr leftInv rightInv normalizes
+  · constructor
+    · intro x y kernel
+      exact BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_symm_from_empty_unit
+        assocC leftId rightId mulCongr leftInv rightInv kernel
+    · intro x y z kernelXY kernelYZ
+      exact BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_trans_from_empty_unit
+        assocC leftId rightId mulCongr leftInv rightInv kernelXY kernelYZ
+
 end BEDC.Derived.SubgroupUp
