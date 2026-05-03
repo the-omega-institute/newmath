@@ -59,6 +59,25 @@ the empty right-unit continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_bridge\_empty\_iff}
 
+\begin{theorem}[Monad adjunction endomorphism unit-counit bridge is empty iff]
+\label{thm:monad-adjunction-endomorphism-unit-counit-bridge-empty-iff}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+holds. Then
+$$
+\mathsf{Cont}(unit,bridge,counit)\Longleftrightarrow\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the unit-counit middle-empty theorem. Conversely, the
+endomorphism carrier identifies both $unit$ and $counit$ with $\emp$; after
+$bridge$ is also identified with $\emp$, the displayed continuation is the
+canonical right-unit continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_unit\_counit\_bridge\_empty\_iff}
+
 \begin{theorem}[Monad adjunction right triangle empty result has empty suffix]
 \label{thm:monad-adjunction-right-triangle-empty-result-suffix-empty}
 For histories $p,a,unit,counit,left,right,suffix,out:\mathsf{BHist}$, suppose
@@ -75,6 +94,25 @@ continuation has empty source and empty result. Continuation empty-result
 inversion therefore identifies the suffix with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_right\_triangle\_result\_empty\_suffix\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism left triangle suffix-output empty iff]
+\label{thm:monad-adjunction-endomorphism-left-triangle-suffix-output-empty-iff}
+For histories $p,a,unit,counit,left,right,suffix,out:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\mathsf{Cont}(left,suffix,out)$ hold. Then
+$$
+\hsame(out,\emp)\Longleftrightarrow\hsame(suffix,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the left-triangle empty-result suffix theorem. For
+the reverse direction, the endomorphism triangle theorem identifies $left$ with
+$\emp$; comparing the displayed continuation against the canonical right-unit
+continuation through the empty suffix gives an empty output.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_left\_triangle\_suffix\_output\_empty\_iff}
 
 \begin{theorem}[Monad adjunction endomorphism parallel triangle suffix agreement]
 \label{thm:monad-adjunction-endomorphism-parallel-triangle-suffix-same}
