@@ -140,6 +140,22 @@ theorem FilterPrincipalSuffix_base_points_empty_exact
   have rightParts := cont_empty_result_inversion baseRight
   exact And.intro leftParts.left (And.intro leftParts.right rightParts.right)
 
+theorem FilterPrincipalSuffix_unary_commuting_square_empty_exact
+    {base left right leftPoint rightPoint lrPoint rlPoint : BHist} :
+    Cont base left leftPoint -> Cont base right rightPoint -> Cont leftPoint right lrPoint ->
+      Cont rightPoint left rlPoint -> hsame lrPoint BHist.Empty ->
+        hsame rlPoint BHist.Empty ->
+          hsame base BHist.Empty ∧ hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro baseLeft baseRight leftThenRight rightThenLeft lrEmpty rlEmpty
+  have leftThenRightEmpty : Cont leftPoint right BHist.Empty :=
+    cont_result_hsame_transport leftThenRight lrEmpty
+  have rightThenLeftEmpty : Cont rightPoint left BHist.Empty :=
+    cont_result_hsame_transport rightThenLeft rlEmpty
+  have leftParts := cont_empty_result_inversion leftThenRightEmpty
+  have rightParts := cont_empty_result_inversion rightThenLeftEmpty
+  exact FilterPrincipalSuffix_base_points_empty_exact baseLeft baseRight leftParts.left
+    rightParts.left
+
 theorem FilterPrincipalSuffix_intersection_empty_point_exact
     {base left right meet meetPoint : BHist} :
     Cont left right meet -> Cont base meet meetPoint -> hsame meetPoint BHist.Empty ->
