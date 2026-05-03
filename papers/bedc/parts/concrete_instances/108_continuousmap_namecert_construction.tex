@@ -63,5 +63,37 @@ witness after the five endpoint equalities are exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_cert\_iff}
 
+\begin{theorem}[Empty identity maps reflect metric witnesses]
+\label{thm:continuousmap-empty-identity-metric-witness-reflects}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then every displayed metric witness
+$\mathsf{MetricDistanceWitness}(x',y',d)$ reflects to a source-side witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{theorem}
+\begin{proof}
+The empty-map carrier readback identifies $x'$ with $x$ and $y'$ with $y$.
+Unary endpoint membership and the continuation field of the metric witness
+transport along these two $\hsame$ witnesses, while the distance history is
+held fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_witness\_reflects}
+
+\begin{theorem}[Empty identity maps preserve metric result determinacy]
+\label{thm:continuousmap-empty-identity-metric-result-deterministic}
+For histories $x,y,x',y',d,d',m_x,m_y,c_x,c_y:\mathsf{BHist}$, if the two
+endpoints are carried by empty continuous maps, then an image-side metric
+witness $\mathsf{MetricDistanceWitness}(x',y',d)$ and a source-side metric
+witness $\mathsf{MetricDistanceWitness}(x,y,d')$ have $\hsame$ distance
+results.
+\end{theorem}
+\begin{proof}
+First reflect the image-side witness through the empty continuous maps to get
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Metric witness result determinacy at
+reflexive source endpoints then compares the two displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_result\_deterministic}
+
 \section{The certificate}
 \label{sec:continuousmap-certificate}

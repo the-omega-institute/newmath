@@ -1,6 +1,8 @@
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.Transport
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.ContinuousMapUp
 
@@ -136,5 +138,34 @@ theorem ContinuousMap_empty_map_empty_distance_iff {source modulus cert : BHist}
             (ContinuousFunctionCarrier_empty_map_identity modulusWitness)
             ((MetricDistanceWitness_empty_distance_iff
               (x := source) (y := source)).mpr (And.intro sourceEmpty sourceEmpty))
+
+theorem ContinuousMap_empty_identity_metric_witness_reflects
+    {x y x' y' d mx my cx cy : BHist} :
+    ContinuousFunctionCarrier x BHist.Empty x' mx cx ->
+      ContinuousFunctionCarrier y BHist.Empty y' my cy ->
+        MetricDistanceWitness x' y' d -> MetricDistanceWitness x y d := by
+  intro left right imageWitness
+  have sameX : hsame x' x :=
+    (ContinuousFunctionCarrier_empty_map_iff.mp left).left
+  have sameY : hsame y' y :=
+    (ContinuousFunctionCarrier_empty_map_iff.mp right).left
+  exact
+    And.intro (unary_transport imageWitness.left sameX)
+      (And.intro (unary_transport imageWitness.right.left sameY)
+        (And.intro imageWitness.right.right.left
+          (cont_hsame_transport sameX sameY (hsame_refl d) imageWitness.right.right.right)))
+
+theorem ContinuousMap_empty_identity_metric_result_deterministic
+    {x y x' y' d d' mx my cx cy : BHist} :
+    ContinuousFunctionCarrier x BHist.Empty x' mx cx ->
+      ContinuousFunctionCarrier y BHist.Empty y' my cy ->
+        MetricDistanceWitness x' y' d -> MetricDistanceWitness x y d' -> hsame d d' := by
+  intro left right imageWitness sourceWitness
+  have reflected :
+      MetricDistanceWitness x y d :=
+    ContinuousMap_empty_identity_metric_witness_reflects left right imageWitness
+  exact
+    MetricDistanceWitness_hsame_result_deterministic
+      (hsame_refl x) (hsame_refl y) reflected sourceWitness
 
 end BEDC.Derived.ContinuousMapUp
