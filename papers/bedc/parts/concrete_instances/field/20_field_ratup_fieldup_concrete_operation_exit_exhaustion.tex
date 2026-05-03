@@ -1,0 +1,57 @@
+\begin{theorem}[RatUp FieldUp concrete operation exit exhaustion]
+\label{thm:ratup-fieldup-concrete-operation-exit-exhaustion}
+For the concrete table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, the rows certified
+by
+\autoref{thm:ratup-fieldup-concrete-operation-table-laws},
+\autoref{thm:ratup-fieldup-ten-field-exit-certificate},
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}, and
+\autoref{thm:ratup-fieldup-bracketing-complete-classifier-exit-certificate}
+exhaust the concrete $\FieldUp(\RatUp)$ exit object over
+$\mathsf{RatUpFieldSource}_F$.
+
+The exhaustion contains carrier and classifier anchoring, the $\CommRingUp$ base
+rows, denominator multiplication and unit rows, contextual and context-pair rows,
+affine rows, inverse and nonzero rows, two-sided product exactness, and the
+same-endpoint plus crossed singleton-classifier noncollapse rows for the paired
+bracketing endpoints.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:ratup-fieldup-concrete-operation-table-laws}. This
+identifies the table inventory over $\mathsf{RatUpFieldSource}_F$: the carrier
+and classifier anchors, the $\CommRingUp$ base coordinate, denominator
+multiplication and unit, contextual action, context-pair support, affine
+closure, inverse rows, nonzero rows, and exit noncollapse rows.
+
+Next invoke \autoref{thm:ratup-fieldup-ten-field-exit-certificate}. It packages
+the same inventory as the ten-field per-object certificate for the concrete
+$\FieldUp(\RatUp)$ target, with the source, carrier, classifier, stability
+obligations, ledger, exactness predicate, bridge slot, and status
+$\mathsf{ProofTarget}$ fixed by the displayed table.
+
+For two-sided multiplication through certified nonzero histories, invoke
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. This
+adds product classifier exactness and nonzero transport to the same concrete
+exit object, so the product rows are not external parameters.
+
+Finally invoke
+\autoref{thm:ratup-fieldup-bracketing-complete-classifier-exit-certificate}.
+It supplies the same-endpoint and crossed singleton-classifier noncollapse rows
+for the ordered endpoint pairs
+$\mu_D^u(\mu_D^u(h,k),\ell)$ and $\mu_D^u(h,\mu_D^u(k,\ell))$. Together with the
+table laws, the ten-field certificate, and the product package, these clauses
+cover every row named in the concrete operation table and therefore exhaust the
+concrete exit object.
+\end{proof}
+
+Per-object template: traditional target concrete operation exit exhaustion for
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{RatUpFieldSource}_F$ and
+$\mathsf{BHist}$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with $\mathsf{RatDenomUnitClassifier}$;
+stability obligations carrier/classifier anchoring, $\CommRingUp$ base rows,
+denominator multiplication and unit rows, contextual and context-pair rows,
+affine rows, inverse and nonzero rows, product exactness, and singleton
+noncollapse rows; ledger denominator histories, context pairs, nonzero product
+witnesses, affine witnesses, and bracketing endpoint pairs; exactness predicate
+complete row coverage for the concrete $\FieldUp(\RatUp)$ exit object; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
