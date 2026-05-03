@@ -90,6 +90,29 @@ theorem FieldApartZero_append_right_context_semanticNameCert {p : BHist} :
   · intro h source
     exact source
 
+theorem FieldApartZero_append_context_semanticNameCert {L R : BHist} (apartL : FieldApartZero L) :
+    SemanticNameCert (fun h : BHist => FieldApartZero (append L (append h R)))
+      (fun h : BHist => FieldApartZero (append L (append h R)))
+      (fun h : BHist => FieldApartZero (append L (append h R))) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty (by
+        intro contextEmpty
+        exact apartL (append_eq_empty_iff.mp contextEmpty).left)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem FieldApartZero_append_factor_closed {p q : BHist} :
     FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by
   intro factorApart appendEmpty

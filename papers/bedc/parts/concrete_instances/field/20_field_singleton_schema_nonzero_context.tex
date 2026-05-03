@@ -103,6 +103,29 @@ classifier witness for $Q$ against $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero two-sided context semantic certificate]
+\label{thm:field-singleton-empty-nonzero-two-sided-context-semantic-namecert}
+For histories $L,R:\mathsf{BHist}$, the concrete two-sided context predicate
+$$
+h\longmapsto
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,\mathsf{append}(h,R)))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The source is inhabited by choosing the visible middle history
+$\mathsf{e0}(\emp)$. If the resulting nested append were classified against
+$\emp$, empty-result inversion for the outer append and then the inner append
+would force $\mathsf{e0}(\emp)\hsame\emp$, contradicting the BEDC no-confusion
+law for visible histories. The classifier laws are the reflexive, symmetric,
+and transitive laws for $\hsame$. Carrier transport eliminates the supplied
+history-sameness proof, leaving the same concrete two-sided context predicate;
+pattern and ledger soundness are identities because the three predicates
+coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_semanticNameCert}
+
 \begin{theorem}[Classifier-complement singleton field schema laws]
 \label{thm:field-singleton-empty-schema-laws}
 For the tuple

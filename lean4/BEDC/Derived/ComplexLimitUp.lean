@@ -9,6 +9,9 @@ open BEDC.FKernel.Unary
 def ComplexDistance (z w d : BHist) : Prop :=
   UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d ∧ (Cont z w d ∨ Cont w z d)
 
+def ComplexDistanceTriangleBound (d12 d23 : BHist) : BHist :=
+  append d12 d23
+
 theorem ComplexDistance_symm_iff {z w d : BHist} :
     (ComplexDistance z w d ↔ ComplexDistance w z d) ∧
       (ComplexDistance z w d -> UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d) := by

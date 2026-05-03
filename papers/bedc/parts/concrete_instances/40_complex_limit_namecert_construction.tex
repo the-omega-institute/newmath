@@ -136,6 +136,20 @@ same endpoint identity. Conversely, transport unary membership from $w$ to
 $d$ along $d\hsame w$, and use the left-unit continuation witness.
 \end{proof}
 
+\begin{definition}[Complex distance triangle bound]
+\label{def:complex-distance-triangle-bound}
+For distance histories $D_{12},D_{23}:\mathsf{BHist}$, the explicit BEDC
+history-level triangle bound is
+$$
+\mathsf{ComplexDistanceTriangleBound}(D_{12},D_{23})
+:=
+\mathsf{append}(D_{12},D_{23}).
+$$
+It is the native continuation composition used by the complex-distance
+triangle discussion.
+\end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.
