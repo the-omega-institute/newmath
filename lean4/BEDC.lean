@@ -51,6 +51,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.EmptyUp
+import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -296,6 +297,7 @@ import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
+import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
@@ -315,6 +317,7 @@ import BEDC.Derived.MetricUp.EmptyBoundaryDistance
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.VisibleContextSemantic
+import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContinuousUp.Suffix
@@ -425,10 +428,12 @@ import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp.FamilyReadback
+import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
 import BEDC.Derived.NatTransUp.FamilyReadback
+import BEDC.Derived.NatTransUp.IdentitySquare
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
