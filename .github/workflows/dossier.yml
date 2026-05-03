@@ -6,6 +6,8 @@ on:
     paths:
       - 'docs/dossier/**'
       - 'papers/bedc/**'
+      - 'lean4/**'
+      - 'tools/build_dossier_status.py'
       - '.github/workflows/dossier.yml'
       - '.github/workflows/reusable-pdf.yml'
   workflow_dispatch:
@@ -59,6 +61,9 @@ jobs:
           fi
           cp "$pdf_file" docs/dossier/bedc.pdf
           ls -lh docs/dossier/bedc.pdf
+
+      - name: Build dossier visualization data
+        run: python3 tools/build_dossier_status.py
 
       - name: Render dossier
         run: quarto render docs/dossier/

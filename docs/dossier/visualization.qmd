@@ -1,0 +1,407 @@
+---
+title: "Project Status"
+subtitle: "Live snapshot of theorem counts, critical-path targets, and the dependency graph linking 38+ namecert regions. Bilingual: toggle EN / 中文 at top."
+author: "The Omega Institute"
+date: 2026-05-03
+description: "Live visualization of BEDC project state: theorem counts per region, current AI critical-path targets, paper-Lean marker coverage, and the interactive dependency graph between 38+ namecert regions. Click any node to see the bilingual glossary entry."
+format:
+  html:
+    toc: false
+---
+
+```{=html}
+<style>
+  #lang-toggle { display: flex; gap: 0.5rem; align-items: center; margin: 0 0 1.5rem 0; }
+  #lang-toggle button {
+    padding: 0.35rem 0.9rem; border: 1px solid #888; background: white;
+    cursor: pointer; font-family: inherit; font-size: 0.95rem;
+  }
+  #lang-toggle button.active { background: #2c3e50; color: white; border-color: #2c3e50; }
+  .vis-section { margin: 2.5rem 0; }
+  .vis-section h2 { margin-bottom: 0.5rem; }
+  .vis-section .vis-caption { color: #666; font-size: 0.95rem; margin-bottom: 1rem; }
+  .vis-meta {
+    background: #f8f8f8; border-left: 3px solid #2c3e50;
+    padding: 0.75rem 1rem; margin: 1rem 0; font-size: 0.95rem;
+  }
+  #cy { width: 100%; height: 640px; border: 1px solid #ddd; background: #fafafa; }
+  #cy-detail {
+    margin-top: 0.5rem; padding: 1rem; background: #f8f8f8;
+    border-left: 3px solid #2c3e50; min-height: 4rem;
+  }
+  #cy-detail .term-name { font-weight: 600; font-size: 1.05rem; }
+  #cy-detail .term-other { color: #666; font-style: italic; margin-left: 0.5rem; }
+  #cy-detail .term-desc { margin-top: 0.4rem; }
+  #cy-detail .term-stats { color: #888; font-size: 0.9rem; margin-top: 0.4rem; }
+  .marker-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .marker-table th, .marker-table td { padding: 0.3rem 0.6rem; border-bottom: 1px solid #eee; text-align: left; }
+  .marker-table th { background: #f0f0f0; }
+</style>
+
+<div id="lang-toggle">
+  <span data-i18n="lang_label">Language:</span>
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="btn-zh" onclick="setLang('zh')">中文</button>
+</div>
+
+<p data-i18n="intro_caption" class="vis-caption">
+  Auto-generated from <code>tools/build_dossier_status.py</code>. Refreshes on each dossier deploy.
+</p>
+
+<div class="vis-section">
+  <h2 data-i18n="section_summary">Summary</h2>
+  <div id="summary-meta" class="vis-meta"></div>
+</div>
+
+<div class="vis-section">
+  <h2 data-i18n="section_growth">Activity over time</h2>
+  <p data-i18n="growth_caption" class="vis-caption">Commits per month across the entire project.</p>
+  <div id="chart-activity" style="width:100%; height:380px;"></div>
+</div>
+
+<div class="vis-section">
+  <h2 data-i18n="section_regions">Theorem density by region</h2>
+  <p data-i18n="regions_caption" class="vis-caption">Top 25 regions by Lean theorem / lemma count.</p>
+  <div id="chart-regions" style="width:100%; height:520px;"></div>
+</div>
+
+<div class="vis-section">
+  <h2 data-i18n="section_critpath">Critical path: where AI is attacking next</h2>
+  <p data-i18n="critpath_caption" class="vis-caption">Top targets selected by <code>critical_path.py</code> — high downstream impact, low current implementation.</p>
+  <div id="chart-critpath" style="width:100%; height:420px;"></div>
+</div>
+
+<div class="vis-section">
+  <h2 data-i18n="section_markers">Paper-Lean coverage by chapter</h2>
+  <p data-i18n="markers_caption" class="vis-caption">Per chapter: green = checked, blue = statement, gray = definition. Most concrete-instances chapters appear here.</p>
+  <div id="chart-markers" style="width:100%; height:600px;"></div>
+</div>
+
+<div class="vis-section">
+  <h2 data-i18n="section_deps">Dependency graph</h2>
+  <p data-i18n="deps_caption" class="vis-caption">Each node is a namecert region. Edges point dependent &rarr; dependency. Click any node for its bilingual glossary entry. Drag to pan, scroll to zoom.</p>
+  <div id="cy"></div>
+  <div id="cy-detail">
+    <span data-i18n="cy_hint" style="color:#999;">Click a node to see its glossary entry.</span>
+  </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+
+<script>
+const I18N = {
+  en: {
+    lang_label: "Language:",
+    intro_caption: "Auto-generated from <code>tools/build_dossier_status.py</code>. Refreshes on each dossier deploy.",
+    section_summary: "Summary",
+    section_growth: "Activity over time",
+    section_regions: "Theorem density by region",
+    section_critpath: "Critical path: where AI is attacking next",
+    section_markers: "Paper-Lean coverage by chapter",
+    section_deps: "Dependency graph",
+    growth_caption: "Commits per month across the entire project.",
+    regions_caption: "Top 25 regions by Lean theorem / lemma count.",
+    critpath_caption: "Top targets selected by <code>critical_path.py</code> — high downstream impact, low current implementation.",
+    markers_caption: "Per chapter: green = checked, blue = statement, gray = definition. Most concrete-instances chapters appear here.",
+    deps_caption: "Each node is a namecert region. Edges point dependent &rarr; dependency. Click any node for its bilingual glossary entry. Drag to pan, scroll to zoom.",
+    cy_hint: "Click a node to see its glossary entry.",
+    summary_total: "theorems",
+    summary_regions: "regions",
+    summary_nodes: "graph nodes",
+    summary_edges: "edges",
+    summary_glossary: "glossary entries",
+    summary_generated: "generated",
+    chart_growth_y: "Commits",
+    chart_growth_x: "Month",
+    chart_growth_title: "",
+    chart_regions_x: "Theorems",
+    chart_regions_title: "",
+    chart_critpath_x: "Score",
+    chart_critpath_title: "",
+    chart_markers_x: "Markers",
+    chart_markers_title: "",
+    legend_checked: "Checked",
+    legend_stmt: "Statement",
+    legend_def: "Definition",
+    detail_thms: "Theorems",
+    detail_downstream: "Downstream impact",
+    detail_score: "Priority score",
+  },
+  zh: {
+    lang_label: "语言:",
+    intro_caption: "由 <code>tools/build_dossier_status.py</code> 自动生成. 每次 dossier 部署刷新.",
+    section_summary: "总览",
+    section_growth: "活动时间线",
+    section_regions: "各领域定理密度",
+    section_critpath: "关键路径: AI 下一步攻坚位置",
+    section_markers: "论文-Lean 章节覆盖度",
+    section_deps: "依赖关系图",
+    growth_caption: "项目每月提交数.",
+    regions_caption: "Lean 定理/lemma 数最多的前 25 个领域.",
+    critpath_caption: "<code>critical_path.py</code> 选出的优先目标 -- 下游影响大, 当前实现少.",
+    markers_caption: "每章节: 绿色=已 checked, 蓝色=statement, 灰色=definition. 大部分 concrete-instances 章节都列在这里.",
+    deps_caption: "每个节点是一个 namecert 领域. 边指向 依赖方→被依赖方. 点击节点查看双语词条. 拖动平移, 滚轮缩放.",
+    cy_hint: "点击节点查看词条.",
+    summary_total: "定理",
+    summary_regions: "领域",
+    summary_nodes: "图节点",
+    summary_edges: "边",
+    summary_glossary: "词条",
+    summary_generated: "生成时间",
+    chart_growth_y: "提交数",
+    chart_growth_x: "月份",
+    chart_growth_title: "",
+    chart_regions_x: "定理数",
+    chart_regions_title: "",
+    chart_critpath_x: "得分",
+    chart_critpath_title: "",
+    chart_markers_x: "marker 数",
+    chart_markers_title: "",
+    legend_checked: "已验证",
+    legend_stmt: "陈述",
+    legend_def: "定义",
+    detail_thms: "定理数",
+    detail_downstream: "下游影响",
+    detail_score: "优先得分",
+  },
+};
+
+let LANG = "en";
+let STATUS = null;
+let GLOSSARY = null;
+let DEPS = null;
+let CY = null;
+
+async function loadData() {
+  const [s, g, d] = await Promise.all([
+    fetch("data/status.json").then(r => r.json()),
+    fetch("data/glossary.json").then(r => r.json()),
+    fetch("data/dependency.json").then(r => r.json()),
+  ]);
+  STATUS = s; GLOSSARY = g; DEPS = d;
+}
+
+function t(key) { return I18N[LANG][key] || key; }
+
+function applyStaticI18n() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    const v = I18N[LANG][key];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById("btn-en").classList.toggle("active", LANG === "en");
+  document.getElementById("btn-zh").classList.toggle("active", LANG === "zh");
+}
+
+function renderSummary() {
+  const el = document.getElementById("summary-meta");
+  const ts = STATUS.generated_at ? STATUS.generated_at.split("T")[0] : "?";
+  el.innerHTML = `
+    <strong>${STATUS.total_theorems}</strong> ${t("summary_total")} ·
+    <strong>${STATUS.regions.length}</strong> ${t("summary_regions")} ·
+    <strong>${DEPS.nodes.length}</strong> ${t("summary_nodes")} ·
+    <strong>${DEPS.edges.length}</strong> ${t("summary_edges")} ·
+    <strong>${Object.keys(GLOSSARY).length}</strong> ${t("summary_glossary")} ·
+    ${t("summary_generated")} ${ts}
+  `;
+}
+
+function renderActivity() {
+  const data = [{
+    type: "scatter", mode: "lines+markers",
+    x: STATUS.monthly_activity.map(m => m.month),
+    y: STATUS.monthly_activity.map(m => m.commits),
+    line: { color: "#2c3e50" },
+    marker: { size: 5 },
+  }];
+  const layout = {
+    margin: { t: 20, b: 50, l: 50, r: 20 },
+    xaxis: { title: t("chart_growth_x") },
+    yaxis: { title: t("chart_growth_y") },
+    hovermode: "x unified",
+  };
+  Plotly.newPlot("chart-activity", data, layout, { responsive: true, displayModeBar: false });
+}
+
+function regionLabel(name) {
+  const g = GLOSSARY[name];
+  return g ? g[LANG].label : name;
+}
+
+function renderRegions() {
+  const top = STATUS.regions.slice(0, 25).reverse();
+  const data = [{
+    type: "bar", orientation: "h",
+    x: top.map(r => r.theorems),
+    y: top.map(r => regionLabel(r.name)),
+    marker: { color: "#2c3e50" },
+    text: top.map(r => r.theorems.toString()),
+    textposition: "outside",
+  }];
+  const layout = {
+    margin: { t: 20, b: 50, l: 180, r: 60 },
+    xaxis: { title: t("chart_regions_x") },
+  };
+  Plotly.newPlot("chart-regions", data, layout, { responsive: true, displayModeBar: false });
+}
+
+function renderCritPath() {
+  const cp = STATUS.critical_path.slice().reverse();
+  const data = [{
+    type: "bar", orientation: "h",
+    x: cp.map(c => c.score),
+    y: cp.map(c => regionLabel(c.name)),
+    marker: { color: "#c0392b" },
+    text: cp.map(c => `${c.thms} thm / ${c.downstream} downstream`),
+    textposition: "outside",
+    hovertemplate: "%{y}<br>score=%{x:.2f}<br>%{text}<extra></extra>",
+  }];
+  const layout = {
+    margin: { t: 20, b: 50, l: 200, r: 80 },
+    xaxis: { title: t("chart_critpath_x") },
+  };
+  Plotly.newPlot("chart-critpath", data, layout, { responsive: true, displayModeBar: false });
+}
+
+function renderMarkers() {
+  const rows = STATUS.paper_markers.filter(m => (m.checked + m.stmt + m.def) > 0);
+  const labels = rows.map(r => r.file.replace(/_namecert_construction\.tex$/, "").replace(/_/g, " "));
+  const traces = [
+    { type: "bar", name: t("legend_checked"), y: labels, x: rows.map(r => r.checked),
+      orientation: "h", marker: { color: "#27ae60" } },
+    { type: "bar", name: t("legend_stmt"),    y: labels, x: rows.map(r => r.stmt),
+      orientation: "h", marker: { color: "#2980b9" } },
+    { type: "bar", name: t("legend_def"),     y: labels, x: rows.map(r => r.def),
+      orientation: "h", marker: { color: "#7f8c8d" } },
+  ];
+  const layout = {
+    barmode: "stack",
+    margin: { t: 20, b: 50, l: 240, r: 30 },
+    xaxis: { title: t("chart_markers_x") },
+    legend: { orientation: "h", y: -0.08 },
+    height: Math.max(600, rows.length * 18),
+  };
+  Plotly.newPlot("chart-markers", traces, layout, { responsive: true, displayModeBar: false });
+}
+
+function nodeLabel(node) {
+  const g = GLOSSARY[node.id];
+  if (g) return g[LANG].label;
+  return node["label_" + LANG] || node.label_en || node.id;
+}
+
+function renderCy() {
+  const elements = [
+    ...DEPS.nodes.map(n => ({
+      data: {
+        id: n.id, label: nodeLabel(n),
+        thms: n.thms, score: n.score, downstream: n.downstream || 0,
+      }
+    })),
+    ...DEPS.edges.map((e, i) => ({
+      data: { id: "e" + i, source: e.source, target: e.target }
+    })),
+  ];
+
+  CY = cytoscape({
+    container: document.getElementById("cy"),
+    elements,
+    style: [
+      {
+        selector: "node",
+        style: {
+          "background-color": "data(color)",
+          "label": "data(label)",
+          "font-size": "11px",
+          "color": "#222",
+          "text-valign": "center",
+          "text-halign": "center",
+          "width": "mapData(thms, 0, 60, 24, 80)",
+          "height": "mapData(thms, 0, 60, 24, 80)",
+          "border-width": 1, "border-color": "#888",
+          "background-color": "#3498db",
+        }
+      },
+      { selector: "node[?score]", style: { "background-color": "#c0392b" } },
+      { selector: "node:selected", style: { "border-width": 3, "border-color": "#e67e22" } },
+      {
+        selector: "edge",
+        style: {
+          "width": 1, "line-color": "#bbb",
+          "target-arrow-color": "#bbb", "target-arrow-shape": "triangle",
+          "curve-style": "bezier", "arrow-scale": 0.8,
+        }
+      },
+    ],
+    layout: { name: "breadthfirst", directed: true, padding: 20, spacingFactor: 1.2 },
+    wheelSensitivity: 0.2,
+  });
+
+  CY.on("tap", "node", evt => {
+    const id = evt.target.id();
+    showNodeDetail(id);
+  });
+}
+
+function showNodeDetail(id) {
+  const el = document.getElementById("cy-detail");
+  const g = GLOSSARY[id];
+  const node = DEPS.nodes.find(n => n.id === id);
+  const other = LANG === "en" ? "zh" : "en";
+
+  if (!g) {
+    el.innerHTML = `<span class="term-name">${id}</span><div class="term-desc">(no glossary entry)</div>`;
+    return;
+  }
+
+  const stats = [];
+  if (node) {
+    if (typeof node.thms === "number") stats.push(`${t("detail_thms")}: ${node.thms}`);
+    if (node.downstream) stats.push(`${t("detail_downstream")}: ${node.downstream}`);
+    if (node.score) stats.push(`${t("detail_score")}: ${node.score.toFixed(2)}`);
+  }
+  el.innerHTML = `
+    <span class="term-name">${g[LANG].label}</span>
+    <span class="term-other">${g[other].label}</span>
+    <div class="term-desc">${g[LANG].desc}</div>
+    <div class="term-desc" style="color:#666; font-style:italic;">${g[other].desc}</div>
+    ${stats.length ? `<div class="term-stats">${stats.join(" · ")}</div>` : ""}
+  `;
+}
+
+function renderAll() {
+  applyStaticI18n();
+  renderSummary();
+  renderActivity();
+  renderRegions();
+  renderCritPath();
+  renderMarkers();
+  if (!CY) renderCy();
+  else {
+    CY.nodes().forEach(n => {
+      const id = n.id();
+      const node = DEPS.nodes.find(d => d.id === id);
+      if (node) n.data("label", nodeLabel(node));
+    });
+  }
+}
+
+function setLang(lang) {
+  LANG = lang;
+  renderAll();
+  document.getElementById("cy-detail").innerHTML =
+    `<span data-i18n="cy_hint" style="color:#999;">${t("cy_hint")}</span>`;
+}
+
+(async () => {
+  try {
+    await loadData();
+    renderAll();
+  } catch (e) {
+    document.body.insertAdjacentHTML("afterbegin",
+      `<div style="color:red;padding:1rem;">Error loading data: ${e.message}</div>`);
+  }
+})();
+</script>
+```
