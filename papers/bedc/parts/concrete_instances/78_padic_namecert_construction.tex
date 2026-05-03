@@ -42,6 +42,20 @@ identifies the exponent with \(\emp\), so the zero constructor of
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_empty\_result\_iff\_empty\_exponent}
 
+\begin{lemma}[Prime scale successor exponent inversion]
+\label{lem:padic-prime-scale-succ-exponent-inversion}
+If \(\mathsf{PadicPrimeScale}(p,\Eone(q),r)\), then there is a predecessor
+result \(n\) with \(\mathsf{PadicPrimeScale}(p,q,n)\) and \(\Cont(n,p,r)\).
+\end{lemma}
+\begin{proof}
+The scale witness contains the prime field for \(p\) and a multiplication
+witness \(\mathsf{NatMul}(p,\Eone(q),r)\). Successor inversion for unary
+multiplication extracts the predecessor product \(n\) and the continuation
+\(\Cont(n,p,r)\). Reusing the same prime field packages the predecessor as a
+prime-scale witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_inversion}
+
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}
 If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
