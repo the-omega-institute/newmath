@@ -24,6 +24,15 @@ theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
       have unaryTerm : UnaryHistory (BHist.e1 s) := unary_e1_closed unaryS
       exact unary_cont_closed unaryPreviousSum unaryTerm stepCont
 
+theorem ZetaBasicPartSum_index_unary {s n z : BHist} :
+    ZetaBasicPartSum s n z -> UnaryHistory n := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact unary_empty
+  | step _previous _stepCont ih =>
+      exact unary_e1_closed ih
+
 theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
     ZetaBasicPartSum s (BHist.e1 n) z -> (hsame z BHist.Empty -> False) := by
   intro sum sameEmpty
@@ -33,5 +42,14 @@ theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
         cont_result_hsame_transport stepCont sameEmpty
       have endpoints := cont_empty_result_inversion emptyStep
       exact not_hsame_e1_empty endpoints.right
+
+theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
+    ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists previous : BHist, ZetaBasicPartSum s n previous ∧ Cont previous (BHist.e1 s) z := by
+  intro sum
+  cases sum with
+  | step previousSum stepCont =>
+      unfold ZetaBasicUnitTerm at stepCont
+      exact Exists.intro _ (And.intro previousSum stepCont)
 
 end BEDC.Derived.ZetaBasicUp
