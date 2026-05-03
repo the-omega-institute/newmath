@@ -584,4 +584,26 @@ theorem RatDenomUnitContextualAction_strict_support_singleton_classifier_exclusi
     ⟨nestedRat, nestedRat, hsame_refl _⟩
   exact fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd nestedClassifier singleton
 
+theorem RatDenomContextPair_unit_support_neutrality {h : BHist} :
+    RatDenomUnitCarrier h ->
+      ((RatHistoryCarrier BHist.Empty ∨ RatHistoryCarrier BHist.Empty) -> False) ∧
+      (RatHistoryCarrier
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty BHist.Empty BHist.Empty h) <->
+        RatHistoryCarrier h) := by
+  intro carrierH
+  have carrierEmpty : RatDenomUnitCarrier BHist.Empty :=
+    field_rat_denominator_empty_unit_continuation_monoid_laws.left
+  have notRatEmpty : RatHistoryCarrier BHist.Empty -> False :=
+    fun ratEmpty => RatHistoryCarrier_not_empty ratEmpty (hsame_refl BHist.Empty)
+  constructor
+  · intro support
+    cases support with
+    | inl ratEmpty =>
+        exact notRatEmpty ratEmpty
+    | inr ratEmpty =>
+        exact notRatEmpty ratEmpty
+  · exact field_rat_denominator_contextual_action_unit_support_iff
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) carrierH carrierEmpty carrierEmpty
+      notRatEmpty notRatEmpty
+
 end BEDC.Derived.FieldUp

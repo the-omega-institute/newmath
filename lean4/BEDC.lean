@@ -270,6 +270,7 @@ import BEDC.Derived.CategoryUp.HomContinuationTail
 import BEDC.Derived.CategoryUp.ContinuationBridge
 import BEDC.Derived.CategoryUp.EndomorphismTail
 import BEDC.Derived.CategoryUp.VisibleTailResult
+import BEDC.Derived.CategoryUp.RightVisibleTailEmpty
 import BEDC.Derived.CategoryUp.NonemptyCases
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
