@@ -256,13 +256,95 @@ It rejects
 $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp bracketing-independent threefold contextual boundary]
+\label{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the two bracketings of the
+concrete $\FieldUp(\mathsf{RatUp})$ denominator endpoint carry the following
+common contextual boundary:
+\begin{enumerate}
+  \item $C_D^u(x)$, $C_D^u(y)$, and $R_D^u(x,y)$;
+  \item for every context history $r:\mathsf{BHist}$, the four contextual
+  carrier exclusions:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$.
+  \end{enumerate}
+  \item for every context history $r:\mathsf{BHist}$, the four inverse-domain
+  witnesses:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$.
+  \end{enumerate}
+  \item for all $L,R:\mathsf{BHist}$, the two contextual
+  singleton-classifier exclusions
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-threefold-support-non-singleton-exactness} to the
+carried histories $h,k,\ell$. This supplies the left-nested carrier row
+$C_D^u(x)$, the strict-support comparison for $x$, the Rat carrier witness for
+$x$ under $\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and the direct singleton-carrier
+rejection at $x$.
+
+Apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-support-non-singleton-exactness}
+to the same carried histories. Its endpoint data supplies $C_D^u(y)$,
+$R_D^u(x,y)$, the strict-support comparison for $y$, the Rat carrier witness for
+$y$ under the same support hypothesis, and the direct singleton-carrier
+rejection at $y$. The displayed comparison is the denominator associativity row
+already used in that support exactness proof.
+
+For the left-nested endpoint, use
+\autoref{thm:ratup-fieldup-threefold-support-contextual-separation} with the
+same support witness. It gives, for each context history $r$, the two contextual
+singleton-carrier exclusions around $x$.
+
+Then apply
+\autoref{thm:ratup-fieldup-threefold-support-contextual-nonzero-package}. This
+packages the two corresponding inverse-domain witnesses for
+$\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$.
+
+For the right-nested endpoint, apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}. Its
+five clauses give the contextual singleton-carrier exclusions around $y$, the
+two inverse-domain witnesses for the right-nested bracketing, and the
+contextual singleton-classifier exclusion for arbitrary left and right contexts
+around $y$.
+
+It remains only to record the classifier exclusion around $x$. The
+left-nested contextual separation package already contains the arbitrary
+$L,R:\mathsf{BHist}$ singleton-classifier rejection, so the two endpoint
+classifier exclusions stand side by side with the carrier and inverse-domain
+rows from the preceding paragraphs.
+\end{proof}
+
 Per-object template: traditional target bracketing-independent concrete
 $\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
 $\mathsf{BHist}$ with the concrete denominator tuple
 $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and $\mathsf{RatUpFieldSource}_F$; carrier
-$\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$; stability obligations
-right-nested support exactness plus contextual append separation; ledger the
-right-nested endpoint $y$; core theorem
-\autoref{thm:ratup-fieldup-right-nested-threefold-contextual-boundary};
-exactness predicate contextual singleton and inverse-domain exclusion; standard
-bridge deferred; status $\mathsf{ProofTarget}$.
+$\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$; stability obligations paired
+left- and right-nested support exactness plus contextual append separation;
+ledger the paired denominator endpoints $\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$\mu_D^u(h,\mu_D^u(k,\ell))$; core theorem
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary};
+exactness predicate contextual singleton-carrier, inverse-domain, and
+singleton-classifier exclusion for both product bracketings; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
