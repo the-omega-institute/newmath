@@ -265,6 +265,67 @@ contextual-pair denominator action and nondegenerate witness; core theorem this
 block; exactness predicate semantic exit plus classifier noncollapse for the
 normalized pair; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp singleton-empty operation context normalization]
+\label{thm:field-singleton-empty-operation-context-normalization}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(R)$, the lower-case singleton-empty
+$\FieldUp$ operation slots are contextual $\mathsf{BHist}$ endpoints:
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+The same contextual normalization holds for the terminal unit endpoint:
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+Finally, for every proof witness
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the three lower-case operation endpoints. In the singleton-empty
+$\FieldUp$ construction, $\mathsf{fieldSingletonEmptyMul}(h,k)$,
+$\mathsf{fieldSingletonEmptyOne}$, and
+$\mathsf{fieldSingletonEmptyInv}(h,p)$ are all the endpoint $\emp$.
+
+For the forward direction in each displayed equivalence, use the two context
+carrier witnesses for $L$ and $R$. Empty-result inversion for append removes
+the left endpoint $\mathsf{append}(L,\emp)$ and then removes the right context
+from $\mathsf{append}(R,out)$, leaving precisely
+$\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+For the reverse direction, begin with the displayed output carrier. Append-empty
+reconstruction places the output behind the carried context $R$, and the left
+context witness reconstructs the empty operation endpoint behind $L$.
+Classifier transitivity through $\emp$ gives the required singleton-empty
+classifier in each of the multiplication, unit, and proof-indexed inverse
+cases.
+\end{proof}
+
+Per-object template: traditional target concrete terminal $\FieldUp$ operation
+endpoints; BEDC source $\mathsf{BHist}$, $\mathsf{append}$, and the lower-case
+singleton-empty $\FieldUp$ operations; carrier
+$\mathsf{fieldSingletonEmptyCarrier}$; classifier
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations append empty
+split and constant operation endpoints; ledger hidden left/right singleton
+contexts and the proof-indexed inverse witness; core theorem this block;
+exactness predicate the three displayed equivalences; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
