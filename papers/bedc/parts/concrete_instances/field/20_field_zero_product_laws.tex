@@ -460,6 +460,30 @@ identifications.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_visible\_headed}
 
+\begin{theorem}[Field apart-zero nested continuation visible-left result]
+\label{thm:field-apartzero-nested-continuation-visible-left-result}
+For histories $tail,h,r,u,v:\mathsf{BHist}$, a nested continuation whose
+left source is visibly headed has an apart-zero result:
+$$
+\bigl(\ContR(\Ezero(tail),h,u)\to\ContR(u,r,v)\to
+\mathsf{ApartZero}_F(v)\bigr)
+\land
+\bigl(\ContR(\Eone(tail),h,u)\to\ContR(u,r,v)\to
+\mathsf{ApartZero}_F(v)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the $\Ezero$ branch, the two continuation witnesses identify $u$ with
+$\mathsf{append}(\Ezero(tail),h)$ and $v$ with
+$\mathsf{append}(u,r)$. If $v\hsame\emp$, empty-append inversion first forces
+$u\hsame\emp$, and a second inversion forces $\Ezero(tail)\hsame\emp$,
+contradicting constructor separation.
+
+The $\Eone$ branch is identical, with the second inversion producing
+$\Eone(tail)\hsame\emp$, again contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_visible\_left\_result}
+
 \begin{theorem}[Field apart-zero empty-context exactness]
 \label{thm:field-apartzero-empty-context-iff}
 For histories $l,h,r:\mathsf{BHist}$ with $l\hsame\emp$ and $r\hsame\emp$,

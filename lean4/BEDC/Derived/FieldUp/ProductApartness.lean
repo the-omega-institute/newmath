@@ -237,6 +237,23 @@ theorem FieldApartZero_append_visible_headed {p q : BHist} :
   · intro appendEmpty
     exact not_hsame_e1_empty (append_eq_empty_iff.mp appendEmpty).left
 
+theorem FieldApartZero_nested_continuation_visible_left_result {tail h r u v : BHist} :
+    (Cont (BHist.e0 tail) h u -> Cont u r v -> FieldApartZero v) ∧
+      (Cont (BHist.e1 tail) h u -> Cont u r v -> FieldApartZero v) := by
+  constructor
+  · intro leftCont resultCont resultEmpty
+    cases leftCont
+    cases resultCont
+    have outerEmpty := append_eq_empty_iff.mp resultEmpty
+    have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
+    exact not_hsame_e0_empty innerEmpty.left
+  · intro leftCont resultCont resultEmpty
+    cases leftCont
+    cases resultCont
+    have outerEmpty := append_eq_empty_iff.mp resultEmpty
+    have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
+    exact not_hsame_e1_empty innerEmpty.left
+
 theorem FieldApartZero_empty_context_iff {l h r : BHist} :
     hsame l BHist.Empty -> hsame r BHist.Empty ->
       (FieldApartZero (append l (append h r)) <-> FieldApartZero h) := by
