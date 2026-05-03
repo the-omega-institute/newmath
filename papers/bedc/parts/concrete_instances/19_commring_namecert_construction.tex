@@ -1,6 +1,36 @@
 \input{parts/concrete_instances/commring/19_commring_core}
 \input{parts/concrete_instances/commring/19_commring_algebraic_consequences}
 
+\begin{theorem}[CommRing zero linear factor signed product zero]
+\label{thm:commring-zero-linear-factor-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+First derive the right distributive law from the supplied left distributive law
+by \autoref{thm:commring-right-distrib-from-left}. The zero-factor absorption
+theorem can then be applied with both distributive inputs available.
+
+If the displayed disjunction chooses $(a+b)\hsame0$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and
+$y=a+(-b)$. The left-product conclusion is exactly
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+If the displayed disjunction chooses $(a+(-b))\hsame0$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+(-b)$ and
+$y=a+b$. The right-product conclusion has the oriented product
+$(a+b)\cdot(a+(-b))$ and gives the required zero classifier.
+\end{proof}
+
 \begin{theorem}[CommRing zero linear factor forces equal squares]
 \label{thm:commring-zero-linear-factor-equal-squares}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -16,23 +46,13 @@ a\cdot a\hsame b\cdot b .
 $$
 \end{theorem}
 \begin{proof}
-The commutative-ring source first supplies the right distributive law from the
-left distributive law by \autoref{thm:commring-right-distrib-from-left}. Thus
-the zero-factor absorption theorem may be read with both distributive inputs
-available.
-
-If the chosen zero factor is $a+b$, apply
-\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and
-$y=a+(-b)$. Its left-product conclusion gives
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This produces
 $(a+b)\cdot(a+(-b))\hsame0$.
 
-If the chosen zero factor is $a+(-b)$, apply the same theorem with
-$x=a+(-b)$ and $y=a+b$. Its right-product conclusion gives the same oriented
-product-zero statement $(a+b)\cdot(a+(-b))\hsame0$.
-
-In either case the forward direction of
-\autoref{thm:commring-difference-of-squares-zero-exact} sends that product-zero
-witness to $a\cdot a\hsame b\cdot b$.
+The forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact} sends this signed
+product-zero witness to $a\cdot a\hsame b\cdot b$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_equal\_squares}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_empty\_linear\_factor\_equal\_squares}

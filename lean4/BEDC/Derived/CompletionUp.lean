@@ -1,4 +1,4 @@
-import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.RealUp
 
 namespace BEDC.Derived.CompletionUp
@@ -126,5 +126,29 @@ theorem CompletionMetricDistanceWitness_visible_context_e1_prefix_independent_ta
   exact And.intro dData.left
     (And.intro eData.left
       (And.intro (hsame_e1_iff.mp sameVisibleTail) dData.right))
+
+theorem CompletionMetricDistanceWitness_visible_context_e1_prefix_independent_symmetric_tail_readback
+    {x y : Nat -> BHist} {n : Nat} {p q p' q' d e : BHist} :
+    RealStreamPrefixClassifier x y n ->
+      MetricDistanceWitness (append p (x n)) (append (y n) q)
+        (append (append p (BHist.e1 d)) q) ->
+      MetricDistanceWitness (append p' (y n)) (append (x n) q')
+        (append (append p' (BHist.e1 e)) q') ->
+        UnaryHistory d ∧ UnaryHistory e ∧ hsame d e ∧ RatHistoryClassifier (y n) (x n) := by
+  intro hPrefix hDistanceD hDistanceE
+  have hPrefixSymm : RealStreamPrefixClassifier y x n :=
+    RealStreamPrefixClassifier_symm n hPrefix
+  have dData :=
+    CompletionMetricDistanceWitness_visible_context_e1_tail_real_prefix_readback
+      hPrefix hDistanceD
+  have eData :=
+    CompletionMetricDistanceWitness_visible_context_e1_tail_real_prefix_readback
+      hPrefixSymm hDistanceE
+  have sameVisibleTail : hsame (BHist.e1 d) (BHist.e1 e) :=
+    MetricDistanceWitness_visible_context_prefix_independent_symmetric_classifier
+      hDistanceD hDistanceE
+  exact And.intro dData.left
+    (And.intro eData.left
+      (And.intro (hsame_e1_iff.mp sameVisibleTail) eData.right))
 
 end BEDC.Derived.CompletionUp

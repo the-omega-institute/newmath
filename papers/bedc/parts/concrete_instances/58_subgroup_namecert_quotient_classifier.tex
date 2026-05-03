@@ -65,6 +65,22 @@ core theorem list \autoref{thm:group-normalizer-conjugation-action-composition},
 two-sided preservation of $Z_a$ under conjugation; standard bridge ordinary
 normalizer subgroup of a centralizer; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Centralizer normalizer hsame transport]
+\label{thm:subgroup-centralizer-normalizer-hsame-transport}
+Under the same BEDC history-level $\GroupUp$ laws, if $N_a(s)$ and
+$s\hsame t$, then $N_a(t)$.
+\end{theorem}
+\begin{proof}
+For every centralizer input $x$, the normalizer witness for $s$ gives carried
+membership of the conjugation word
+$\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$. Multiplication congruence
+and inverse congruence transport this word to
+$\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))$. The centralizer
+$\hsame$-transport row from the $\SubgroupUp$ certificate for $Z_a$ gives the
+required carried membership for $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer\_hsame\_transport\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer normalizer SubgroupUp tower certificate]
 \label{thm:subgroup-centralizer-normalizer-tower-certificate}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
@@ -205,6 +221,8 @@ The endpoints are carried by $N_a$, while the right witness is carried by
 $Z_a$. Thus $Q_{Z_a\leq N_a}$ is a classifier predicate over concrete BEDC
 histories, not a host quotient object.
 \end{definition}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientClassifier}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier}
 
 \begin{theorem}[Centralizer normalizer quotient classifier laws]
 \label{thm:centralizer-normalizer-quotient-classifier-laws}
@@ -324,6 +342,59 @@ $\SubgroupUp$ tower; carrier $N_a$; classifier $Q_{Z_a\triangleleft N_a}$;
 exactness identity fiber equals lower carrier; downstream object
 $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Centralizer quotient-kernel hsame transport]
+\label{thm:subgroup-centralizer-quotient-kernel-hsame-transport}
+Under the same BEDC history-level $\GroupUp$ laws, if
+$Q_{Z_a\triangleleft N_a}(x,y)$, $x\hsame x'$, and $y\hsame y'$, then
+$Q_{Z_a\triangleleft N_a}(x',y')$.
+\end{theorem}
+\begin{proof}
+The endpoint clauses transport by
+\autoref{thm:subgroup-centralizer-normalizer-hsame-transport}. For the kernel
+clause, inverse congruence transports $\mathsf{inv}(x)$ to
+$\mathsf{inv}(x')$, multiplication congruence transports
+$\mathsf{mul}(\mathsf{inv}(x),y)$ to
+$\mathsf{mul}(\mathsf{inv}(x'),y')$, and the centralizer carrier
+$\hsame$-transport row moves the stored kernel witness across this comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_hsame\_transport}
+
+\begin{theorem}[Centralizer normalizer quotient-kernel transitivity]
+\label{thm:subgroup-centralizer-quotient-kernel-transitivity}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the relation
+$Q_{Z_a\triangleleft N_a}$ of
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation} is
+transitive:
+$$
+Q_{Z_a\triangleleft N_a}(x,y)\land Q_{Z_a\triangleleft N_a}(y,z)
+\Longrightarrow Q_{Z_a\triangleleft N_a}(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Expand the two hypotheses. Their endpoint rows provide the required
+$N_a(x)$ and $N_a(z)$ clauses. Their kernel rows give
+$$
+Z_a(\mathsf{mul}(\mathsf{inv}(x),y))
+\qquad\text{and}\qquad
+Z_a(\mathsf{mul}(\mathsf{inv}(y),z)).
+$$
+Product closure for $Z_a$ gives a centralizer witness for the product of these
+two relative kernel words. Associativity rewrites that product to
+$$
+\mathsf{mul}(\mathsf{inv}(x),
+  \mathsf{mul}(y,\mathsf{mul}(\mathsf{inv}(y),z))),
+$$
+and the right inverse law for $y$ followed by the left unit law cancels the
+middle $y,\mathsf{inv}(y)$ pair. The carrier transport row for $Z_a$ moves the
+product witness to
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),z))$, which is exactly the kernel clause for
+$Q_{Z_a\triangleleft N_a}(x,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_trans\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer normalizer quotient-kernel right identity fiber]
 \label{thm:subgroup-centralizer-quotient-kernel-empty-right-fiber}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
@@ -425,6 +496,8 @@ for $Q_{Z_a\triangleleft N_a}(x,y)$. The second factor is the kernel witness
 for $Q_{Z_a\triangleleft N_a}(u,v)$. Product closure in $Z_a$ and transport
 along the displayed word identity give the required congruence row.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_classifier\_laws}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_empty\_unit}
 
 Per-object template: traditional target quotient classifier for the
 normal-subgroup tower $Z_a\leq N_a$; BEDC source $\GroupUp$ over
