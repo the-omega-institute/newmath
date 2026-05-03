@@ -26,4 +26,19 @@ theorem ZetaZeroSourceSpec_zero_classifier {s : BHist} :
   exact And.intro source.left
     (And.intro ZetaZeroComplexHistory_carrier source.right)
 
+theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
+    hsame s t ->
+      ZetaZeroSourceSpec s ->
+        ZetaZeroSourceSpec t ∧
+          ComplexHistoryClassifier t
+            (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro sameST source
+  have carrierT : ComplexHistoryCarrier t :=
+    ProdHistoryCarrier_hsame_transport sameST source.left
+  have sameTZero : hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) :=
+    hsame_trans (hsame_symm sameST) source.right
+  have sourceT : ZetaZeroSourceSpec t :=
+    And.intro carrierT sameTZero
+  exact And.intro sourceT (ZetaZeroSourceSpec_zero_classifier sourceT)
+
 end BEDC.Derived.ZetaZerosUp

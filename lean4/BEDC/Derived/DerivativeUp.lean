@@ -155,4 +155,56 @@ theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHis
                                 have endpoints := cont_empty_result_inversion emptyMetricLedger
                                 exact stepNonzero endpoints.left
 
+theorem DerivativeMetricQuotient_result_deterministic {f z h q q' dist dist' : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient f z h q' dist' ->
+        Cont f h q ∧ Cont f h q' ∧ Cont h q dist ∧ Cont h q' dist' ∧
+          hsame q q' ∧ hsame dist dist' := by
+  intro left right
+  cases left with
+  | intro _functionCarrier leftRest =>
+      cases leftRest with
+      | intro _pointCarrier leftRest =>
+          cases leftRest with
+          | intro _stepNonzero leftRest =>
+              cases leftRest with
+              | intro _quotientCarrier leftRest =>
+                  cases leftRest with
+                  | intro leftFunctionLedger leftRest =>
+                      cases leftRest with
+                      | intro _stepCarrier leftRest =>
+                          cases leftRest with
+                          | intro _distCarrier leftMetricLedger =>
+                              cases right with
+                              | intro _functionCarrier' rightRest =>
+                                  cases rightRest with
+                                  | intro _pointCarrier' rightRest =>
+                                      cases rightRest with
+                                      | intro _stepNonzero' rightRest =>
+                                          cases rightRest with
+                                          | intro _quotientCarrier' rightRest =>
+                                              cases rightRest with
+                                              | intro rightFunctionLedger rightRest =>
+                                                  cases rightRest with
+                                                  | intro _stepCarrier' rightRest =>
+                                                      cases rightRest with
+                                                      | intro _distCarrier' rightMetricLedger =>
+                                                          have sameQuotient : hsame q q' :=
+                                                            cont_deterministic leftFunctionLedger
+                                                              rightFunctionLedger
+                                                          have rightMetricAtLeftQuotient :
+                                                              Cont h q dist' :=
+                                                            cont_hsame_transport (hsame_refl h)
+                                                              (hsame_symm sameQuotient)
+                                                              (hsame_refl dist') rightMetricLedger
+                                                          have sameDistance : hsame dist dist' :=
+                                                            cont_deterministic leftMetricLedger
+                                                              rightMetricAtLeftQuotient
+                                                          exact And.intro leftFunctionLedger
+                                                            (And.intro rightFunctionLedger
+                                                              (And.intro leftMetricLedger
+                                                                (And.intro rightMetricLedger
+                                                                  (And.intro sameQuotient
+                                                                    sameDistance))))
+
 end BEDC.Derived.DerivativeUp
