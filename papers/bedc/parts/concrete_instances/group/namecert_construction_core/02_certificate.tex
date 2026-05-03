@@ -563,6 +563,29 @@ yields $x^{-1}a\hsame ax^{-1}$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_inv\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Group centralizer multiplication closure from empty unit]
+\label{thm:group-centralizer-mul-closed-from-empty-unit}
+For a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$
+with associativity, right empty-unit law, and multiplication congruence, the
+centralizer carrier of \autoref{def:group-centralizer-carrier} is closed under
+multiplication:
+$$
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x))
+\Rightarrow
+\hsame(\mathsf{mul}(y,a),\mathsf{mul}(a,y))
+\Rightarrow
+\hsame(\mathsf{mul}(\mathsf{mul}(x,y),a),
+\mathsf{mul}(a,\mathsf{mul}(x,y))).
+$$
+\end{theorem}
+\begin{proof}
+The empty-context multiplication closure compares the two target products
+after multiplying both by $\emp$ on the right. The concrete right empty-unit
+law identifies each right-extended product with its unextended endpoint, and
+transitivity removes the empty context from the comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_mul\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Group centralizer subgroup and commutator fiber]
 \label{thm:group-centralizer-subgroup}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
