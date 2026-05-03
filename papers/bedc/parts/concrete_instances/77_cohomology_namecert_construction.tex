@@ -48,6 +48,23 @@ axis gives the displayed shifted cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_closed}
 
+\begin{theorem}[Cohomology cocycle prepend axis closure]
+\label{thm:cohomology-cocycle-prepend-axis-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
+let the fixed cohomology axis satisfy $d(axis)\hsame\emp$. If the shifted
+histories $axis\cdot h$ and $axis\cdot k$ are $d$-cocycles, then the shifted
+append $axis\cdot(h\cdot k)$ is also a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Append preservation rewrites the two shifted cocycle hypotheses as empty
+append histories $\mathsf{append}(d(axis),d(h))$ and
+$\mathsf{append}(d(axis),d(k))$. Append-empty inversion extracts
+$d(h)\hsame\emp$ and $d(k)\hsame\emp$. The core append closure makes
+$d(h\cdot k)$ empty, and the axis cocycle row then rebuilds the displayed
+left-axis cocycle through the append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_prepend\_axis\_closed}
+
 \begin{theorem}[Cohomology cocycle append hsame transport]
 \label{thm:cohomology-cocycle-append-hsame-transport}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
@@ -76,6 +93,26 @@ $d(k)$. Append-empty introduction makes $d(h)\cdot d(k)$ empty. Append
 preservation transports this empty result back to $d(h\cdot k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_closed}
+
+\begin{theorem}[Cohomology cocycle append empty equivalence]
+\label{thm:cohomology-cocycle-append-empty-iff}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For
+histories $h,k:\mathsf{BHist}$, the appended history $h\cdot k$ is a
+$d$-cocycle exactly when both $h$ and $k$ are $d$-cocycles:
+$$
+d(h\cdot k)\hsame\emp
+\quad\Longleftrightarrow\quad
+d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Append preservation transports the displayed cocycle on $h\cdot k$ to the
+empty appended history $\mathsf{append}(d(h),d(k))$, and BEDC
+append-empty inversion splits this into the two component cocycle equations.
+Conversely, the core append closure theorem combines the two component
+cocycles into the appended cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
 
 \begin{theorem}[Cohomology cocycle left-shift append closure]
 \label{thm:cohomology-cocycle-left-shift-append-closed}
