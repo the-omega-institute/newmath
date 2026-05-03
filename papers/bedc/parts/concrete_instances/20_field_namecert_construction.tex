@@ -666,4 +666,42 @@ boundary; ledger selector sextuple $s,t,u,v,w,z$ plus contexts $L,R,r$;
 exactness one chain-stable final exit package; downstream consumer Phase Algebra
 Hierarchy $\FieldUp(\RatUp)$ exit certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Rat denominator carried continuation unit obstruction]
+\label{thm:rat-denominator-carried-continuation-unit-obstruction}
+For every history $u:\mathsf{BHist}$, a carried Rat denominator cannot itself be
+the continuation left unit for all carried denominators. Concretely,
+$$
+\mathsf{RatHistoryCarrier}(u)
+\to
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Assume a carrier witness $\mathsf{RatHistoryCarrier}(u)$ and the displayed
+left-unit classifier law. Apply
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
+to the law; the forward implication yields $u\hsame\emp$.
+
+Now apply \autoref{thm:rat-history-carrier-not-empty} to the same carrier
+witness and the endpoint comparison $u\hsame\emp$. This contradicts the
+nonempty Rat denominator condition, giving $\mathsf{False}$.
+\end{proof}
+
+Per-object template: traditional target carried-unit obstruction for the
+Rat-denominator side of $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\Cont$, and $\mathsf{RatHistoryCarrier}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability obligation left-unit endpoint exactness; ledger external unit versus
+carried denominator; core theorem
+\autoref{thm:rat-denominator-carried-continuation-unit-obstruction}; exactness
+predicate no carried denominator is the continuation unit; downstream consumer
+the concrete $\FieldUp(\RatUp)$ exit certificate; status $\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
