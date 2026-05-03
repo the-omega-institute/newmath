@@ -92,6 +92,79 @@ def count_paper_markers_per_chapter() -> list[dict]:
     return rows
 
 
+# Match every paper marker target that looks like a namecert theorem (the
+# "completion theorem" of an object in BEDC's framework). Catches both:
+#   - CamelCase    e.g. CategoryHomCarrier_semanticNameCert
+#   - snake_case   e.g. bool_history_semantic_name_certificate
+# Modules can live under BEDC.Derived.<X> (most regions) or BEDC.FKernel.<X>
+# (kernel-level objects like Nat / Add via FKernel.Unary).
+NAMECERT_TARGET_RE = re.compile(
+    r"\\(leanchecked|leanstmt)\{"
+    r"(BEDC\.(?:Derived|FKernel)\.([A-Za-z]+)\.[A-Za-z0-9_\\]*?"
+    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?"
+    r"[A-Za-z0-9_\\]*)"
+    r"\}"
+)
+
+# FKernel namespaces that own a region's namecert (the region lives in
+# `Derived/` conceptually but its proof tree is in the kernel).
+FKERNEL_REGION_OVERRIDES: dict[str, str] = {
+    "Unary": "nat",  # nat_up_name_certificate, add_up_name_certificate_exists
+}
+
+
+def collect_namecert_theorems_per_region() -> dict[str, list[dict]]:
+    """Walk all paper chapters; return {region_id: [{name, status, file}, ...]}.
+
+    A 'namecert theorem' is any \\leanchecked / \\leanstmt target whose Lean
+    name matches *NameCert* or *Name(_)Certificate* (the BEDC convention for
+    the object-completion theorems). Stripped underscore escapes are resolved.
+    """
+    out: dict[str, list[dict]] = defaultdict(list)
+    for f in PAPER_INSTANCES.rglob("*.tex"):
+        try:
+            rel = f.relative_to(PAPER_INSTANCES)
+            text = f.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in NAMECERT_TARGET_RE.finditer(text):
+            status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
+            full_target = m.group(2).replace("\\_", "_")
+            module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary'
+            # Determine region: Derived modules use the standard Up-stripping;
+            # FKernel modules like 'Unary' may map to a specific region via
+            # the override table (FKernel.Unary owns nat / add namecerts).
+            if "FKernel" in m.group(2):
+                region = FKERNEL_REGION_OVERRIDES.get(module)
+                # add_up_name_certificate also lives under FKernel.Unary -- detect.
+                short = full_target.split(".")[-1].lower()
+                if short.startswith("add"):
+                    region = "add"
+                elif short.startswith("nat"):
+                    region = "nat"
+            else:
+                region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
+            if not region:
+                continue
+            out[region].append({
+                "name": full_target,
+                "short": full_target.split(".")[-1],
+                "status": status,
+                "file": str(rel),
+            })
+    # Deduplicate (same target may appear in multiple chapters)
+    for region in out:
+        seen = set()
+        unique = []
+        for entry in out[region]:
+            if entry["name"] in seen:
+                continue
+            seen.add(entry["name"])
+            unique.append(entry)
+        out[region] = sorted(unique, key=lambda e: (0 if e["status"] == "checked" else 1, e["short"]))
+    return dict(out)
+
+
 # Map a paper chapter filename to a region id in HIERARCHY.
 # Most chapters follow `NN_<region>_namecert_construction.tex` or similar;
 # the substring matches below cover all current concrete_instances files.
@@ -459,6 +532,7 @@ def build_dependency_graph() -> dict:
     region_thms = count_lean_theorems_per_region()
     paper_per_chapter = count_paper_markers_per_chapter()
     paper_per_region = aggregate_markers_per_region(paper_per_chapter)
+    namecert_per_region = collect_namecert_theorems_per_region()
 
     deps_map, all_regions = derive_dependency_edges()
     schema_set = detect_schema_only_regions()
@@ -477,6 +551,9 @@ def build_dependency_graph() -> dict:
         thms = region_thms.get(nid, {}).get("theorems", 0)
         cp_entry = cp_data.get(nid, {})
         markers = paper_per_region.get(nid, {"checked": 0, "stmt": 0, "def": 0})
+        namecerts = namecert_per_region.get(nid, [])
+        namecerts_checked = [t for t in namecerts if t["status"] == "checked"]
+        namecerts_stmt    = [t for t in namecerts if t["status"] == "stmt"]
         if nid == "kernel":
             label_en, label_zh = "Kernel", "内核"
         else:
@@ -494,6 +571,12 @@ def build_dependency_graph() -> dict:
             "stmt": markers["stmt"],
             "defs": markers["def"],
             "schema_only": nid in schema_set,
+            # Namecert-theorem-grounded status: these are the actual
+            # object-completion proofs. Node stage is decided by these
+            # counts, not by aggregate chapter marker counts.
+            "namecert_theorems": namecerts,
+            "namecert_checked": len(namecerts_checked),
+            "namecert_stmt": len(namecerts_stmt),
         })
 
     edges: list[dict] = []

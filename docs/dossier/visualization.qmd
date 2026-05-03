@@ -76,6 +76,20 @@ format:
   #detail .term-deps { margin-top: 0.7rem; font-size: 0.86rem; color: #555; }
   #detail .term-deps a { color: #2c3e50; cursor: pointer; text-decoration: underline dotted; margin-right: 0.4rem; }
   #detail .term-deps a:hover { color: #c0392b; }
+  #detail .term-namecerts {
+    margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
+    font-size: 0.83rem;
+  }
+  #detail .term-namecerts-header {
+    font-weight: 600; color: #444; margin-bottom: 0.35rem; font-size: 0.85rem;
+  }
+  #detail .nc-row {
+    padding: 0.15rem 0; line-height: 1.4;
+    word-break: break-all;
+  }
+  #detail .nc-row code {
+    font-size: 0.78rem; color: #2c3e50; background: transparent;
+  }
   #detail .legend { margin-top: 1.5rem; padding-top: 0.9rem; border-top: 1px solid #eee; font-size: 0.82rem; color: #666; }
   #detail .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 0.3rem; border: 1px solid rgba(0,0,0,0.2); }
   #detail .crit-list { margin-top: 0.7rem; }
@@ -232,6 +246,7 @@ const I18N = {
     detail_score: "score",
     detail_downstream: "downstream",
     detail_deps: "Depends on:",
+    detail_namecerts: "Object-completion theorems",
     picker_default: "-- jump to region --",
     grp_kernel: "Kernel primitives",
     grp_namecert: "NameCert framework",
@@ -273,6 +288,7 @@ const I18N = {
     detail_score: "得分",
     detail_downstream: "下游影响",
     detail_deps: "依赖于:",
+    detail_namecerts: "对象完成性定理",
     picker_default: "-- 跳到领域 --",
     grp_kernel: "内核原语",
     grp_namecert: "NameCert 框架",
@@ -469,12 +485,15 @@ function statusClass(node) {
   if (CRIT_SET.has(node.id)) return "crit";
   // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
   if (node.id === "kernel") return "proven";
-  const checked = node.checked || 0;
-  const stmt = node.stmt || 0;
-  if (checked > 0 && stmt === 0) return "proven";   // all paper obligations \leanchecked
-  if (checked > 0 && stmt > 0)  return "progress";  // some checked, some still \leanstmt
-  if (stmt > 0)                  return "scaffold"; // paper exists, no Lean started
-  return "scaffold";                                 // no markers, treat as scaffold
+  // Stage = how many of THIS region's namecert (object-completion) theorems
+  // are proven. The presence of any \leanchecked namecert means the object
+  // exists in BEDC; otherwise the region is scaffold or in progress.
+  const ncChecked = node.namecert_checked || 0;
+  const ncStmt    = node.namecert_stmt || 0;
+  if (ncChecked > 0 && ncStmt === 0) return "proven";    // all namecert proofs landed
+  if (ncChecked > 0)                  return "progress";  // some namecerts proven, others stated
+  if (ncStmt > 0)                     return "scaffold";  // namecerts only stated, not proven
+  return "scaffold";                                       // no namecert markers found
 }
 
 function nodeColor(cls) {
@@ -688,6 +707,25 @@ function showNodeDetail(id) {
       return `<a onclick="showNodeDetail('${s}')">${lbl}</a>`;
     });
     html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
+  }
+
+  // Object-completion theorems (the namecert proofs whose existence IS the
+  // object's existence in BEDC). One green ✓ for checked, blue ◯ for stmt.
+  const ncList = node.namecert_theorems || [];
+  if (ncList.length) {
+    const items = ncList.map(t => {
+      const icon = t.status === "checked"
+        ? '<span style="color:#27ae60;">✓</span>'
+        : '<span style="color:#3498db;">◯</span>';
+      return `<div class="nc-row">${icon}&nbsp;<code>${t.short}</code></div>`;
+    }).join("");
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_namecerts")} ` +
+        `(<strong style="color:#27ae60;">${node.namecert_checked || 0}</strong>` +
+        ` / <strong>${ncList.length}</strong>)</div>
+        ${items}
+      </div>`;
   }
 
   document.getElementById("detail-content").innerHTML = html;
