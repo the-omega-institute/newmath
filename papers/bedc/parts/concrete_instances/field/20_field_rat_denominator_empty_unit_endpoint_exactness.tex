@@ -245,6 +245,42 @@ transport gives $\Cont(\Eone(\emp),u,\Eone(\emp))$. The right-unit uniqueness
 law for continuation then forces $u\hsame\emp$.
 \end{proof}
 
+\begin{theorem}[Rat history classifier right append carrier obstruction]
+\label{thm:rat-history-classifier-append-right-carrier-absurd}
+For all histories $d,u:\mathsf{BHist}$, if $\mathsf{RatHistoryCarrier}(u)$
+holds, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(d,u),d)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_right\_carrier\_absurd}
+\begin{proof}
+Use the canonical continuation
+$\Cont(d,u,\mathsf{append}(d,u))$. The classifier equality transports this
+continuation result to $d$, giving $\Cont(d,u,d)$. Right-unit uniqueness forces
+$u\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(u)$ witness.
+\end{proof}
+
+\begin{theorem}[Rat history classifier left append carrier obstruction]
+\label{thm:rat-history-classifier-append-left-carrier-absurd}
+For all histories $u,d:\mathsf{BHist}$, if $\mathsf{RatHistoryCarrier}(u)$
+holds, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(u,d),d)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_carrier\_absurd}
+\begin{proof}
+Use the canonical continuation
+$\Cont(u,d,\mathsf{append}(u,d))$. The classifier equality transports this
+continuation result to $d$, giving $\Cont(u,d,d)$. Left-unit uniqueness forces
+$u\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(u)$ witness.
+\end{proof}
+
 \begin{theorem}[Rat denominator external unit separation package]
 \label{thm:field-rat-denominator-external-unit-separation-package}
 For the concrete denominator carrier, classifier, and continuation operation

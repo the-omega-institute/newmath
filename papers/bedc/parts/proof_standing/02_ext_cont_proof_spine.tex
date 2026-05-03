@@ -177,6 +177,23 @@ identified with $\emp$, any continuation $\ContR(\emp,d,r)$ is a left-unit
 continuation, so the left-unit result theorem gives $\HSame(r,d)$.
 \end{proof}
 
+\begin{theorem}[Continuation eone right-unit probe forces emptiness]
+\label{thm:cont-e1-right-unit-probe-forces-empty}
+For every generated history $u$, the fixed one-headed probe law
+$$
+\forall r:\mathsf{BHist}.\;
+\ContR(\Eone(\emp),u,r)\to \HSame(r,\Eone(\emp))
+$$
+forces $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_e1\_right\_unit\_probe\_forces\_empty}
+\begin{proof}
+Apply the probe law to the canonical continuation
+$\ContR(\Eone(\emp),u,\mathsf{append}(\Eone(\emp),u))$. Continuation result
+transport gives $\ContR(\Eone(\emp),u,\Eone(\emp))$, and right-unit uniqueness
+then forces the right endpoint $u$ to be empty.
+\end{proof}
+
 \begin{theorem}[Mutual continuation collapses to history-sameness]
 \label{thm:cont-mutual-extension-hsame}
 If \(\ContR(h,l,k)\) and \(\ContR(k,r,h)\), then \(\HSame(h,k)\).
