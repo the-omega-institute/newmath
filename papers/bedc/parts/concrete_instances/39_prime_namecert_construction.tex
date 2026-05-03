@@ -417,3 +417,19 @@ If $q\hsame\emp$, the first multiplication witness has empty multiplier, so $e\h
 
 It remains to consider $q\not\hsame\emp$ and $r\not\hsame\emp$. By \autoref{lem:natmul-nonempty-quotient-product-extension}, there are unary tails $t$ and $s$ with $\Cont(d,t,e)$ and $\Cont(e,s,d)$. By closed unary generation, each tail is either $\emp$ or a one-extension. If $t\hsame\emp$, the first continuation is a right-unit continuation and gives $e\hsame d$ by \autoref{lem:unary-continuation-unit}; symmetry gives $d\hsame e$. If $s\hsame\emp$, the second continuation gives $d\hsame e$ directly. If both tails are one-extensions, the two continuations are strict unary prefix witnesses in the sense of \autoref{def:nat-unary-strict-prefix}, contradicting \autoref{thm:nat-unary-strict-prefix-asymm}. From that contradiction the desired history-sameness follows.
 \end{proof}
+
+\begin{lemma}[Unary multiplication transports along the multiplicand]
+\label{lem:nat-mul-multiplicand-hsame-transport}
+Let $d,q,n$ be unary histories, and let $d'$ be a history with $d\hsame d'$. If $\mathsf{NatMul}(d,q,n)$, then $\mathsf{NatMul}(d',q,n)$.
+\end{lemma}
+\begin{proof}
+By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{NatMul}(d,q,n)$ witness from \autoref{def:nat-multiplication}. In the zero-multiplier case, the result is $\emp$, and the zero constructor with the unary witness for $d'$ gives $\mathsf{NatMul}(d',\emp,\emp)$. In the successor case, the induction hypothesis gives $\mathsf{NatMul}(d',q,n_0)$ for the predecessor product. The original last step is a continuation $\Cont(n_0,d,n_1)$. Transport that continuation along reflexivity on $n_0$, the hypothesis $d\hsame d'$, and reflexivity on $n_1$ using \autoref{thm:cont-hsame-transport}; this gives $\Cont(n_0,d',n_1)$. Applying the successor constructor of \autoref{def:nat-multiplication} yields $\mathsf{NatMul}(d',\Eone(q),n_1)$.
+\end{proof}
+
+\begin{theorem}[Divisibility transports along divisor history-sameness]
+\label{thm:nat-divides-divisor-hsame-transport}
+Let $d$ and $e$ be unary histories, and let $d'$ be any history with $d\hsame d'$. If $\mathsf{NatDivides}(d,e)$, then $\mathsf{NatDivides}(d',e)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-multiplicand-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d',q,e)$. Since the quotient witness itself remains unary, the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d',e)$.
+\end{proof}
