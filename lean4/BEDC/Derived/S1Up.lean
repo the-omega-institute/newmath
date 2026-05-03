@@ -381,4 +381,43 @@ theorem SOneHistoryCarrier_coordinate_pair_right_deterministic {x x' y y' e e' p
   · exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
       (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
 
+theorem SOneHistoryCarrier_y_e1_point_shape {x y equation point dy : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame y (BHist.e1 dy) ->
+      ∃ t : BHist, hsame point (BHist.e1 t) ∧ Cont x dy t := by
+  intro carrier sameY
+  have pointCont : Cont x y point := carrier.right.right.right
+  cases sameY
+  exact Exists.intro (append x dy) (And.intro pointCont (cont_intro rfl))
+
+theorem SOneHistoryCarrier_x_y_e1_point_tail_hsame {x y equation t dx dy : BHist} :
+    SOneHistoryCarrier x y equation (BHist.e1 t) -> hsame x (BHist.e1 dx) ->
+      hsame y (BHist.e1 dy) -> hsame t (append (BHist.e1 dx) dy) := by
+  intro carrier sameX sameY
+  cases sameX
+  exact SOneHistoryCarrier_y_e1_point_tail_hsame carrier sameY
+
+theorem SOneHistoryCarrier_e1_components_tail {dx dy equation t : BHist} :
+    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) equation (BHist.e1 t) ->
+      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧ hsame t (append (BHist.e1 dx) dy) := by
+  intro carrier
+  have dxCarrier : RatHistoryCarrier dx :=
+    RealConstantHistoryCarrier_e1_iff_rat.mp carrier.left
+  have dyCarrier : RatHistoryCarrier dy :=
+    RealConstantHistoryCarrier_e1_iff_rat.mp carrier.right.left
+  exact And.intro dxCarrier
+    (And.intro dyCarrier
+      (SOneHistoryCarrier_y_e1_point_tail_hsame carrier (hsame_refl (BHist.e1 dy))))
+
+theorem SOneHistoryCarrier_e1_components_unit_tail_readback {dx dy equation t : BHist} :
+    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) equation (BHist.e1 t) ->
+      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧ hsame equation SOneUnitHistory ∧
+        Cont (BHist.e1 dx) dy t := by
+  intro carrier
+  have components := SOneHistoryCarrier_e1_components_tail carrier
+  have equationSame : hsame equation SOneUnitHistory :=
+    SOneHistoryCarrier_equation_unit carrier
+  exact And.intro components.left
+    (And.intro components.right.left
+      (And.intro equationSame (cont_intro components.right.right)))
+
 end BEDC.Derived.S1Up

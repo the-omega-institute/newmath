@@ -43,6 +43,27 @@ equality gives $\bot$, so the certified two-sided product is apart from zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_two\_sided\_product\_apartzero\_exact}
 
+\begin{theorem}[Field two-sided empty-product solution uniqueness]
+\label{thm:field-two-sided-mul-empty-solution-unique}
+For a BEDC history-level $\FieldUp$ candidate satisfying the same additive,
+multiplicative, congruence, distributivity, and inverse hypotheses as
+\autoref{thm:field-two-sided-zero-product-cancel-from-apartness}, let
+$a,b:\mathsf{BHist}$ carry nonzero witnesses $p_a,p_b$. If two middle
+histories $x,y$ both solve the empty two-sided product equation
+$$
+\mathsf{mul}(\mathsf{mul}(a,x),b)\hsame\emp,\qquad
+\mathsf{mul}(\mathsf{mul}(a,y),b)\hsame\emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the two-sided empty-product exactness theorem separately to the two
+displayed empty-product witnesses. It identifies both $x$ and $y$ with
+$\emp$. Transitivity through the symmetric second comparison gives
+$x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_two\_sided\_mul\_empty\_solution\_unique\_from\_apartness}
+
 Per-object certificate: Traditional target: constructive nonzero preservation
 under certified two-sided field multiplication. BEDC source: $\FieldUp$ over
 $\mathsf{BHist}$. Carrier choice: $\mathsf{BHist}$. Classifier choice:

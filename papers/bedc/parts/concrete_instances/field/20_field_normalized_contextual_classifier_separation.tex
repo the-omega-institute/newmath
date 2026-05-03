@@ -1,0 +1,52 @@
+\begin{theorem}[RatUp FieldUp normalized contextual singleton-classifier separation]
+\label{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and
+$C_D^u(r')$. Suppose also that $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$,
+$q'\hsame\emp$, $\neg N_D^u(l)$, $\neg N_D^u(r)$, $\neg N_D^u(l')$,
+$\neg N_D^u(r')$, and $N_D^u(h)$. Let
+$x:=\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))$ and let
+$y:=\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)$. Then for all
+$L,R:\mathsf{BHist}$,
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package} to the
+same source tuple, denominator tuple, contextual action, carried histories,
+empty endpoint hypotheses, empty-support context hypotheses, and strict-support
+witness. The package supplies the normalized classifier row $R_D^u(x,y)$ and
+the strict-support transport
+$N_D^u(x)\Longleftrightarrow N_D^u(h)$.
+
+Use the displayed witness $N_D^u(h)$ and the transport equivalence to recover
+$N_D^u(x)$. The denominator boundary identifies this strict support with the
+genuine Rat carrier, so $x$ is carried by $\mathsf{RatHistoryCarrier}$.
+
+Unfold the normalized classifier row through the same denominator boundary.
+Together with the Rat carrier recovered at $x$, the row packages the concrete
+classifier $\mathsf{RatHistoryClassifier}(x,y)$ for the normalized pair.
+
+Now fix arbitrary histories $L,R:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd} to
+the displayed $\mathsf{RatHistoryClassifier}(x,y)$. It rejects every proposed
+singleton empty classifier on
+$\mathsf{append}(L,x)$ and $\mathsf{append}(R,y)$, which is the asserted
+noncollapse.
+\end{proof}
+
+Per-object template: traditional target normalized contextual classifier
+noncollapse for $\FieldUp(\mathsf{RatUp})$; BEDC source
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$, $\mathsf{append}$, $\Gamma$,
+$R_D^u$, and $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ plus singleton-empty classifier; stability
+obligations normalized contextual classifier row and strict-support transport;
+ledger contextual-pair denominator action; core theorem this block; exactness
+predicate singleton-classifier noncollapse for the normalized pair; standard
+bridge deferred; status $\mathsf{ProofTarget}$.

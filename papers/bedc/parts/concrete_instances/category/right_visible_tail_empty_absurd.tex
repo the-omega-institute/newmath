@@ -1,0 +1,74 @@
+\begin{theorem}[Continuation morphism composite right visible tail empty absurd]
+\label{thm:continuation-morphism-comp-right-visible-tail-empty-absurd}
+For histories $a,b,c,m$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is a
+visible constructor, then the canonical composite displayed tail cannot be
+history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(right),\mathsf{e0}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}
+$$
+and
+$$
+\hsame(\mathsf{tail}(right),\mathsf{e1}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The composite tail is the kernel
+append of the left displayed tail with the right displayed tail. If this append
+were empty, append-empty inversion would force the right displayed tail itself
+to be $\emp$. This contradicts constructor separation for either
+$\mathsf{e0}(m)$ or $\mathsf{e1}(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_visible\_tail\_empty\_absurd}
+
+\begin{theorem}[Continuation morphism right visible tail target not empty]
+\label{thm:continuation-morphism-right-visible-tail-target-not-empty}
+For histories $b,c,m$ and a continuation morphism
+$right:\mathsf{ContinuationMorphism}(b,c)$, if the displayed tail of $right$ is
+one-headed, then the target cannot be history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(right),\mathsf{e1}(m))
+\Longrightarrow
+\hsame(c,\emp)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record. Its relation identifies $c$ with
+$\mathsf{append}(b,\mathsf{e1}(m))$. If $c$ were history-same to $\emp$,
+append-empty inversion would force $\mathsf{e1}(m)$ itself to be history-same to
+$\emp$, contradicting one-headed constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_right\_visible\_tail\_target\_not\_empty}
+
+\begin{theorem}[Continuation morphism composite left visible tail empty absurd]
+\label{thm:continuation-morphism-comp-left-visible-tail-empty-absurd}
+For histories $a,b,c,m$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the left displayed tail is a
+visible constructor, then the canonical composite displayed tail cannot be
+history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(left),\mathsf{e0}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}
+$$
+and
+$$
+\hsame(\mathsf{tail}(left),\mathsf{e1}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The composite tail is the kernel
+append of the left displayed tail with the right displayed tail. If this append
+were empty, append-empty inversion would force the left displayed tail itself
+to be $\emp$. This contradicts constructor separation for either
+$\mathsf{e0}(m)$ or $\mathsf{e1}(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_visible\_tail\_empty\_absurd}

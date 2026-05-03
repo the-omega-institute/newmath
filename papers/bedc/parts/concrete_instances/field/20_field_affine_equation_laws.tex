@@ -138,6 +138,32 @@ right-affine equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_one\_sided\_map\_classifier\_exact\_from\_apartness}
 
+\begin{theorem}[Field affine left equation solutions are unique from apartness]
+\label{thm:field-affine-left-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with operations
+$\mathsf{add},\mathsf{mul},\mathsf{neg},\mathsf{zero},\mathsf{one}$ on
+$\mathsf{BHist}$, additive group laws for
+$\mathsf{add},\mathsf{neg},\mathsf{zero}$, addition congruence,
+multiplication associativity, left and right multiplicative identity laws,
+multiplication congruence, and indexed inverse laws, every
+$a,x,y,d,c:\mathsf{BHist}$ and witness $p_a:\mathsf{NonZero}_F(a)$ satisfy
+$$
+\mathsf{add}(\mathsf{mul}(a,x),d)\hsame c
+\quad\Longrightarrow\quad
+\mathsf{add}(\mathsf{mul}(a,y),d)\hsame c
+\quad\Longrightarrow\quad
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Assume the two displayed affine equations. Compose the first equation with
+the symmetry of the second, obtaining equality of the two affine outputs with
+the same left factor and offset. The left clause of
+\autoref{thm:field-affine-one-sided-map-classifier-exact-from-apartness}
+removes that shared affine map and yields $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_left\_equation\_solution\_unique\_from\_apartness}
+
 \paragraph{Affine one-sided multiplication certificate.}
 Traditional target: one-sided affine injectivity. BEDC source: $\FieldUp$ plus
 additive group laws. Carrier choice: $\mathsf{BHist}$. Classifier choice:
@@ -285,6 +311,25 @@ assumed classifier $x\hsame y$, and finally uses symmetry of the right endpoint
 identity to reach the displayed affine endpoint over $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier}
+
+\begin{theorem}[Field affine identity classifier iff]
+\label{thm:field-affine-identity-classifier-iff}
+Under the same identity laws, the identity affine endpoint reflects and
+preserves the history classifier:
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},x),\mathsf{one}),\emp)
+\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(\mathsf{one},y),\mathsf{one}),\emp)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction composes the symmetry of the left endpoint identity, the
+displayed affine classifier, and the right endpoint identity. The reverse
+direction is exactly the identity classifier preservation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_identity\_classifier\_iff}
 
 \paragraph{Affine two-sided multiplication certificate.}
 Traditional target: affine field equation solving. BEDC source: $\FieldUp$ plus

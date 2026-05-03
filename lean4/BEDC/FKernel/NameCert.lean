@@ -107,6 +107,34 @@ theorem semanticNameCert_classifier_left_confluence_transport
     BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedKH classifiedHR
   exact semanticNameCert_pattern_ledger_transport cert classifiedKR sourceK
 
+theorem semanticNameCert_classifier_right_confluence_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h r -> ClassifierSpec k r ->
+      SourceSpec h -> PatternSpec k ∧ LedgerPolicy k := by
+  intro classifiedHR classifiedKR sourceH
+  have classifiedRK : ClassifierSpec r k :=
+    BEDC.FKernel.NameCert.NameCert.equiv_symm cert.core classifiedKR
+  have classifiedHK : ClassifierSpec h k :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedHR classifiedRK
+  exact semanticNameCert_pattern_ledger_transport cert classifiedHK sourceH
+
+theorem semanticNameCert_classifier_reverse_chain_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h k -> ClassifierSpec k r ->
+      SourceSpec r -> PatternSpec h ∧ LedgerPolicy h := by
+  intro classifiedHK classifiedKR sourceR
+  have classifiedHR : ClassifierSpec h r :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedHK classifiedKR
+  have classifiedRH : ClassifierSpec r h :=
+    BEDC.FKernel.NameCert.NameCert.equiv_symm cert.core classifiedHR
+  exact semanticNameCert_pattern_ledger_transport cert classifiedRH sourceR
+
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop} :
@@ -239,6 +267,14 @@ theorem sealInterface_certificate_witness
     SealInterface Thread Carrier Equiv -> Nonempty (NameCert Carrier Equiv) := by
   intro iface
   exact Nonempty.intro iface.nameCert
+
+theorem sealInterface_thread_carrier_witnesses {Thread : Type}
+    {Carrier : BHist -> Prop} {Equiv : BHist -> BHist -> Prop} :
+    SealInterface Thread Carrier Equiv -> Nonempty Thread ∧ exists h : BHist, Carrier h := by
+  intro iface
+  constructor
+  · exact Nonempty.intro iface.thread
+  · exact nameCert_carrier_witness iface.nameCert
 
 structure DescentCertificate
     (Source Target : Type)

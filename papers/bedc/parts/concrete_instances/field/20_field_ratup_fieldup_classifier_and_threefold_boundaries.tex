@@ -1,0 +1,456 @@
+\begin{theorem}[RatUp FieldUp normalized semantic classifier exit certificate]
+\label{thm:ratup-fieldup-normalized-semantic-classifier-exit-certificate}
+Under the hypotheses and notation of
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}, the same
+concrete $\FieldUp(\mathsf{RatUp})$ certificate contains the normalized
+semantic exit package of
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} and, for all
+$L,R:\mathsf{BHist}$, the classifier obstruction
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+supplied by
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}.
+Equivalently, the normalized semantic rows for the carried pair $x,y$ and the
+singleton-classifier noncollapse rows for every contextual pair $L,R$ occupy
+one $\mathsf{BHist}$-anchored $\FieldUp(\mathsf{RatUp})$ exit certificate over
+$\mathsf{RatUpFieldSource}_F$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} under the
+displayed carried endpoint hypotheses, empty endpoint hypotheses,
+empty-support context hypotheses, and strict-support witness. It gives the
+assembled certificate boundary, the normalized row $R_D^u(x,y)$, the
+strict-support equivalence $N_D^u(x)\Longleftrightarrow N_D^u(h)$, the
+contextual rejection maps, source anchoring of the concrete rows, and the
+nondegenerate witness $d_1:=\Eone(\emp)$ with
+$\mathsf{RatHistoryCarrier}(d_1)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+
+Next invoke
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+with the same carried endpoints, empty endpoint hypotheses, empty-support
+context hypotheses, contextual action $\Gamma$, and strict-support witness.
+This yields, for arbitrary $L,R:\mathsf{BHist}$, the obstruction
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot.
+$$
+
+These two applications share the same concrete source tuple, denominator
+tuple, contextual action, normalized endpoints, and support witness. Therefore
+the semantic exit rows and the singleton-classifier obstruction are not
+separate targets: they are clauses of one normalized concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target concrete normalized
+$\FieldUp(\mathsf{RatUp})$ classifier exit; BEDC source
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$, $\mathsf{append}$, $\Gamma$,
+$R_D^u$, and $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ plus
+$\mathsf{fieldSingletonEmptyClassifier}$ obstruction; stability obligations
+normalized semantic exit and singleton-classifier noncollapse; ledger
+contextual-pair denominator action and nondegenerate witness; core theorem this
+block; exactness predicate semantic exit plus classifier noncollapse for the
+normalized pair; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp singleton-empty operation context normalization]
+\label{thm:field-singleton-empty-operation-context-normalization}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(R)$, the lower-case singleton-empty
+$\FieldUp$ operation slots are contextual $\mathsf{BHist}$ endpoints:
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+The same contextual normalization holds for the terminal unit endpoint:
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+Finally, for every proof witness
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyCarrier}(out).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the three lower-case operation endpoints. In the singleton-empty
+$\FieldUp$ construction, $\mathsf{fieldSingletonEmptyMul}(h,k)$,
+$\mathsf{fieldSingletonEmptyOne}$, and
+$\mathsf{fieldSingletonEmptyInv}(h,p)$ are all the endpoint $\emp$.
+
+For the forward direction in each displayed equivalence, use the two context
+carrier witnesses for $L$ and $R$. Empty-result inversion for append removes
+the left endpoint $\mathsf{append}(L,\emp)$ and then removes the right context
+from $\mathsf{append}(R,out)$, leaving precisely
+$\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+For the reverse direction, begin with the displayed output carrier. Append-empty
+reconstruction places the output behind the carried context $R$, and the left
+context witness reconstructs the empty operation endpoint behind $L$.
+Classifier transitivity through $\emp$ gives the required singleton-empty
+classifier in each of the multiplication, unit, and proof-indexed inverse
+cases.
+\end{proof}
+
+Per-object template: traditional target concrete terminal $\FieldUp$ operation
+endpoints; BEDC source $\mathsf{BHist}$, $\mathsf{append}$, and the lower-case
+singleton-empty $\FieldUp$ operations; carrier
+$\mathsf{fieldSingletonEmptyCarrier}$; classifier
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations append empty
+split and constant operation endpoints; ledger hidden left/right singleton
+contexts and the proof-indexed inverse witness; core theorem this block;
+exactness predicate the three displayed equivalences; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
+\label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the right-nested
+$\FieldUp(\mathsf{RatUp})$ denominator endpoint carries the following
+contextual boundary:
+\begin{enumerate}
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$;
+  \item for every context history $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$;
+  \item for all $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-support-non-singleton-exactness}
+to the same concrete denominator tuple, carried histories, and support witness.
+The right-nested endpoint data recovers $\mathsf{RatHistoryCarrier}(y)$ and the
+singleton rejection map $\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$.
+
+Fix a context history $r:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
+and Rat carrier endpoint $y$ to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))$. Apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the same
+two histories in the opposite append order to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))$.
+
+For the right-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$ as rejection of the
+singleton classifier against $\emp$. Any such classifier witness contains the
+source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))$, contradicting the
+right-append rejection.
+
+For the left-append inverse-domain witness, unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$ as rejection of the
+singleton classifier against $\emp$. Its source-carrier component is
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))$, contradicting the
+left-append rejection.
+
+Finally package $\mathsf{RatHistoryClassifier}(y,y)$ from the recovered Rat
+carrier witness on both sides and reflexivity of $\hsame$. For arbitrary
+$L,R:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}.
+It rejects
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_right\_nested\_contextual\_boundary}
+
+\begin{theorem}[RatUp FieldUp bracketing-independent threefold contextual boundary]
+\label{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the two bracketings of the
+concrete $\FieldUp(\mathsf{RatUp})$ denominator endpoint carry the following
+common contextual boundary:
+\begin{enumerate}
+  \item $C_D^u(x)$, $C_D^u(y)$, and $R_D^u(x,y)$;
+  \item for every context history $r:\mathsf{BHist}$, the four contextual
+  carrier exclusions:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$.
+  \end{enumerate}
+  \item for every context history $r:\mathsf{BHist}$, the four inverse-domain
+  witnesses:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$.
+  \end{enumerate}
+  \item for all $L,R:\mathsf{BHist}$, the two contextual
+  singleton-classifier exclusions
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-threefold-support-non-singleton-exactness} to the
+carried histories $h,k,\ell$. This supplies the left-nested carrier row
+$C_D^u(x)$, the strict-support comparison for $x$, the Rat carrier witness for
+$x$ under $\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and the direct singleton-carrier
+rejection at $x$.
+
+Apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-support-non-singleton-exactness}
+to the same carried histories. Its endpoint data supplies $C_D^u(y)$,
+$R_D^u(x,y)$, the strict-support comparison for $y$, the Rat carrier witness for
+$y$ under the same support hypothesis, and the direct singleton-carrier
+rejection at $y$. The displayed comparison is the denominator associativity row
+already used in that support exactness proof.
+
+For the left-nested endpoint, use
+\autoref{thm:ratup-fieldup-threefold-support-contextual-separation} with the
+same support witness. It gives, for each context history $r$, the two contextual
+singleton-carrier exclusions around $x$.
+
+Then apply
+\autoref{thm:ratup-fieldup-threefold-support-contextual-nonzero-package}. This
+packages the two corresponding inverse-domain witnesses for
+$\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$.
+
+For the right-nested endpoint, apply
+\autoref{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}. Its
+five clauses give the contextual singleton-carrier exclusions around $y$, the
+two inverse-domain witnesses for the right-nested bracketing, and the
+contextual singleton-classifier exclusion for arbitrary left and right contexts
+around $y$.
+
+It remains only to record the classifier exclusion around $x$. The
+left-nested contextual separation package already contains the arbitrary
+$L,R:\mathsf{BHist}$ singleton-classifier rejection, so the two endpoint
+classifier exclusions stand side by side with the carrier and inverse-domain
+rows from the preceding paragraphs.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp bracketing-independent cross-endpoint classifier boundary]
+\label{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all $L,R:\mathsf{BHist}$ the
+crossed contextual singleton-classifier exclusions
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+\to\bot
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Invoke
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+once with the same concrete denominator tuple, carried histories, endpoint
+definitions, and support witness. The contextual carrier row gives, in
+particular, rejection maps for
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$.
+
+For the $x$--$y$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,y))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,x)$ gives $\bot$.
+
+For the $y$--$x$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp ten-field cross-endpoint exit certificate]
+\label{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete ten-field exit
+instance for $\FieldUp(\RatUp)$ contains the certificate rows of
+\autoref{thm:ratup-fieldup-ten-field-exit-certificate} and, for all
+$L,R:\mathsf{BHist}$, the crossed contextual exclusions
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+\to\bot.
+$$
+These rows form a single $\mathsf{BHist}$-anchored
+$\FieldUp(\RatUp)$ certificate row, not an abstract operator schema.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:ratup-fieldup-ten-field-exit-certificate}. It
+supplies the concrete ten-field certificate rows listed in
+Definition~\ref{def:ratup-fieldup-ten-field-exit-instance} for the source tuple
+$\mathsf{RatUpFieldSource}_F$.
+
+Next invoke
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+with the same concrete denominator tuple, histories $h,k,\ell$, endpoint
+definitions $x$ and $y$, and the support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This gives the two crossed contextual
+singleton-classifier exclusions for arbitrary histories $L,R:\mathsf{BHist}$.
+
+The certificate and the crossed exclusions are carried by the same
+$\mathsf{BHist}$ source, the same denominator tuple, and the same contextual
+append rows. Thus the strongest concrete noncollapse row is recorded inside
+the ten-field $\FieldUp(\RatUp)$ exit instance as a concrete row rather than an
+abstract operator schema.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp contextual cross-endpoint nondegenerate exit package]
+\label{thm:ratup-fieldup-contextual-cross-endpoint-nondegenerate-exit-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual action
+$\Gamma$ of \autoref{def:ratup-fieldup-denominator-contextual-action-instance},
+let $h,k,\ell:\mathsf{BHist}$ be histories with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$. Define the crossed denominator endpoints
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. For arbitrary contexts
+$L,R:\mathsf{BHist}$ and factors $a,b,c,d,e:\mathsf{BHist}$, put
+$P_5:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e)$.
+Assume the hypotheses of
+\autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate} at
+$h,k,\ell,L,R$, the hypotheses of
+\autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package} for
+the same concrete source tuple, denominator tuple, and action $\Gamma$, and the
+field hypotheses of
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness}. Assume
+also a witness $p_{abcde}:\mathsf{NonZero}_F(P_5)$ and the apartness-to-nonzero maps required by
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}. Then the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit package simultaneously
+contains:
+\begin{enumerate}
+  \item the ten-field certificate rows of
+  \autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate};
+  \item the two crossed singleton-classifier exclusions
+  $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot$ and
+  $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+  \to\bot$;
+  \item the normalized contextual full noncollapse package of
+  \autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package};
+  \item the five individual nonzero factor witnesses
+  $p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+  $p_c:\mathsf{NonZero}_F(c)$, $p_d:\mathsf{NonZero}_F(d)$, and
+  $p_e:\mathsf{NonZero}_F(e)$ extracted from $p_{abcde}$;
+  \item for every $u,v:\mathsf{BHist}$, the right and left five-factor equation
+  exactness rows
+  $$
+  \mathsf{mul}(u,P_5)\hsame v
+  \Longleftrightarrow
+  u\hsame\mathsf{mul}(v,R_5)
+  $$
+  and
+  $$
+  \mathsf{mul}(P_5,u)\hsame v
+  \Longleftrightarrow
+  u\hsame\mathsf{mul}(R_5,v),
+  $$
+  where
+  $R_5:=\mathsf{mul}(\mathsf{inv}(e,p_e),\mathsf{mul}(\mathsf{inv}(d,p_d),
+  \mathsf{mul}(\mathsf{inv}(c,p_c),\mathsf{mul}(\mathsf{inv}(b,p_b),
+  \mathsf{inv}(a,p_a)))))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate} with the
+displayed denominator tuple, histories $h,k,\ell$, endpoints $x,y$, contexts
+$L,R$, and the support hypotheses. This supplies the ten-field certificate rows
+and the two crossed singleton-classifier exclusions in the same
+$\mathsf{RatUpFieldSource}_F$ boundary.
+
+Next apply
+\autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package} to the
+displayed source tuple, denominator tuple, and action $\Gamma$ under its
+normalized contextual hypotheses. Its clauses add the assembled boundary,
+carried contextual endpoint, normalized classifier row, strict-support
+equivalence, exit-row closure, direct endpoint separation, singleton-context
+carrier rejections, and singleton-classifier obstruction.
+
+Apply
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger} to
+$p_{abcde}$ and the apartness-to-nonzero maps. The forward direction yields the
+five factor witnesses $p_a,p_b,p_c,p_d,p_e$ used by the inverse spine $R_5$.
+
+Finally apply
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness} with
+$P_5$ and $p_{abcde}$. It gives the right and left equation exactness rows for
+every $u,v:\mathsf{BHist}$, with $R_5$ built from the same five factor
+witnesses.
+
+All clauses are indexed by $\mathsf{BHist}$ and by the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$. Repacking them therefore gives one concrete
+$\FieldUp(\RatUp)$ exit package rather than separate local rows.
+\end{proof}
+
+Per-object template: traditional target concrete $\FieldUp(\mathsf{RatUp})$
+cross-endpoint exactness; BEDC source $\mathsf{RatUpFieldSource}_F$,
+$\mathsf{BHist}$, the denominator tuple, $\mathsf{append}$, and
+$\mathsf{ThreeSupp}_D^u$; carrier $\mathsf{ThreeSupp}_D^u$ plus
+$\mathsf{RatHistoryCarrier}$; classifier $R_D^u$ plus
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations
+bracketing-independent support and cross-endpoint classifier rejection; ledger
+paired denominator endpoints and contextual append rows; core theorem this
+block; exactness predicate crossed singleton-classifier noncollapse; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
+
+Per-object template: traditional target bracketing-independent concrete
+$\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
+$\mathsf{BHist}$ with the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and $\mathsf{RatUpFieldSource}_F$; carrier
+$\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$; stability obligations paired
+left- and right-nested support exactness plus contextual append separation;
+ledger the paired denominator endpoints $\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$\mu_D^u(h,\mu_D^u(k,\ell))$; core theorem
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary};
+exactness predicate contextual singleton-carrier, inverse-domain, and
+singleton-classifier exclusion for both product bracketings; standard bridge
+deferred; status $\mathsf{ProofTarget}$.

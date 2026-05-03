@@ -65,3 +65,74 @@ histories $k$ and $r$, unary inversion gives the three unary witnesses, and
 constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
+
+\begin{theorem}[Category hom-carrier one-headed source morphism cases iff]
+\label{thm:category-hom-carrier-e1-source-morphism-cases-iff}
+For histories $a,target,morph$, the one-headed-source hom-carrier condition is
+equivalent to the same two concrete cases:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)
+\Longleftrightarrow
+\left[
+\left(morph=\emp\land target=\Eone(a)\land\mathsf{UnaryHistory}(a)\right)
+\lor
+\exists k,r,
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r)
+\right].
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the one-headed source morphism case theorem. For the
+reverse implication, the empty branch is the empty identity hom-carrier on
+$\Eone(a)$, and the visible branch rebuilds the hom-carrier from the three unary
+witnesses together with the one-step continuation rule.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases\_iff}
+
+\begin{theorem}[Category one-headed endpoint visible morphism exactness]
+\label{thm:category-hom-carrier-e1-source-e1-target-visible-morphism-iff}
+For histories $a,r,k$, a visible morphism between one-headed source and target
+histories is exactly unary data on the three visible tails together with the
+tail continuation:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\Eone(k))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\wedge\mathsf{UnaryHistory}(k)\wedge
+\mathsf{UnaryHistory}(r)\wedge\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism-target exactness theorem to the displayed target
+$\Eone(r)$ and morphism $\Eone(k)$. The source carrier and target carrier are
+read back by one-headed unary inversion, while the reverse direction packages
+the source carrier as $\Eone(a)$ and applies the same morphism-target
+exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_visible\_morphism\_iff}
+
+\begin{theorem}[Category one-headed source composite target visibility]
+\label{thm:category-hom-carrier-e1-source-comp-target-visible}
+For histories $a,b,c,f,g,fg$, composing a hom-carrier with source $\Eone(a)$
+through a second displayed hom-carrier preserves one-headed visibility of the
+composite target:
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(\Eone(a),b,f)\Longrightarrow
+\mathsf{CategoryHomCarrier}(b,c,g)\Longrightarrow
+\ContR(f,g,fg)\Longrightarrow
+\\
+\exists r,\ c=\Eone(r)\land\mathsf{UnaryHistory}(r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Composition closure first turns the two displayed hom-carriers and the
+continuation ledger into a composite hom-carrier
+$\mathsf{CategoryHomCarrier}(\Eone(a),c,fg)$. Applying the one-headed source
+morphism case theorem to this composite gives either an empty morphism, where
+the target is $\Eone(a)$, or a visible morphism, where the target is
+$\Eone(r)$ for a unary history $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_comp\_target\_visible}

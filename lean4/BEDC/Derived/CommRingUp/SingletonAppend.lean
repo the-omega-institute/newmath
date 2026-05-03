@@ -73,4 +73,15 @@ theorem CommRingSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     have emptyParts := append_eq_empty_iff.mp carrier
     exact not_hsame_e1_empty emptyParts.left
 
+theorem CommRingSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
+    (CommRingSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
+      (CommRingSingletonCarrier (append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e0_empty emptyParts.right
+  · intro carrier
+    have emptyParts := append_eq_empty_iff.mp carrier
+    exact not_hsame_e1_empty emptyParts.right
+
 end BEDC.Derived.CommRingUp

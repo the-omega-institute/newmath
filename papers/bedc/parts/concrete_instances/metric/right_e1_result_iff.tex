@@ -1,3 +1,28 @@
+\begin{theorem}[Metric distance witness right e1 result shape]
+\label{thm:metric-distance-witness-right-e1-result-shape}
+For histories $x,y,d$, every concrete metric distance witness whose right
+endpoint is visibly one-headed has a visibly one-headed distance ledger, and
+the exposed distance tail is again the metric witness for the exposed right
+endpoint:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)
+\Longrightarrow
+\exists k:\mathsf{BHist}.\;
+\hsame(d,\Eone(k))\land
+\mathsf{MetricDistanceWitness}(x,y,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the distance witness into unary carrier fields and the continuation
+ledger. The continuation result has the form
+$d=x\cdot\Eone(y)$, which is definitionally
+$\Eone(x\cdot y)$. Choose $k=x\cdot y$. Unary inversion on the visible right
+endpoint gives the carrier for $y$, unary append closure gives the carrier for
+$k$, and the canonical append equality gives the descended continuation
+ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
+
 \begin{theorem}[Metric distance witness right e1 result iff]
 \label{thm:metric-distance-witness-right-e1-result-iff}
 For histories $x,y,d$, a distance witness whose right endpoint and result both

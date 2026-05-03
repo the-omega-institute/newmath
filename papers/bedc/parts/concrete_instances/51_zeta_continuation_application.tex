@@ -1,0 +1,126 @@
+\chapter{The \(\zeta\) Continuation Application: Extending \(\ZetaBasicUp\) to \(\ComplexUp \setminus \{1\}\)}
+\label{ch:concrete-instances-zeta-continuation}
+
+This chapter is an APPLICATION of \(\AnalyticContUp\) (\autoref{ch:concrete-instances-analytic-continuation}) to the basic \(\zeta\) function \(\ZetaBasicUp\) (\autoref{ch:concrete-instances-zeta-basic-namecert}). It produces \(\ZetaContUp\): the unique meromorphic extension of \(\zeta\) from \(\Re(s) > 1\) to \(\ComplexUp \setminus \{1\}\) with a simple pole of explicit residue \(1\) at \(s = 1\). The chapter proceeds in two stages: (i) extend \(\zeta\) to \(\Re(s) > 0\) (excluding \(s = 1\)) via the Dirichlet eta function, then (ii) extend \(\zeta\) to \(\ComplexUp \setminus \{1\}\) via the functional equation. Both stages are concrete applications of analytic continuation. The chapter uses the constructive Gamma function \(\Gamma\) on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) as a black-box meromorphic factor --- the constructive Gamma is itself a SCHEMA-ONLY HORIZON awaiting a future BEDC chapter; the present chapter exposes the interface but does not close all underlying witnesses. The construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the application's Lean targets fall under the project's axiom-purity gate.
+
+\section{The Dirichlet eta function}
+
+\begin{definition}[Dirichlet eta function]
+\label{def:dirichlet-eta}
+The Dirichlet eta function is the alternating Dirichlet series \(\eta(s) = \sum_{n=1}^{\infty} (-1)^{n-1} n^{-s}\), with coefficients \(a_n = (-1)^{n-1}\) (decidable on parity of unary index).
+\end{definition}
+\leandef{BEDC.Derived.ZetaContUp.DirichletEta}
+
+\begin{theorem}[Eta well-defined on \(\Re(s) > 0\)]
+\label{thm:eta-well-defined}
+The Dirichlet eta function converges in \(\ComplexSeriesUp\) (\autoref{ch:concrete-instances-complex-series-namecert}) for every \(s\) with \(\Re(s) > 0\), with explicit modulus given by an alternating-series majorant. The function \(s \mapsto \eta(s)\) is holomorphic on \(\Re(s) > 0\) (\autoref{ch:concrete-instances-holomorphic-namecert}).
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.eta\_well\_defined}
+\begin{proof}[Sketch]
+The alternating-sign structure gives Cauchy-criterion convergence on the half-plane \(\Re(s) > 0\); explicit modulus from successive-difference bounds. Holomorphicity from term-wise differentiation with uniform modulus on compact sub-half-planes.
+\end{proof}
+
+\begin{theorem}[Eta-zeta relation]
+\label{thm:eta-relation-zeta}
+For every \(s\) with \(\Re(s) > 1\) and \(s \neq 1\), the relation
+$$\zeta(s) = \frac{\eta(s)}{1 - 2^{1-s}}$$
+holds, where the right-hand side is computed using complex division (\(\ComplexUp\), \autoref{ch:concrete-instances-complex-namecert}). The denominator is non-zero except at points \(s = 1 + 2k\pi i / \log 2\) (a discrete sequence of points distinct from the half-plane closure).
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.eta\_relation\_zeta}
+\begin{proof}[Sketch]
+The relation \(\eta(s) = (1 - 2^{1-s}) \zeta(s)\) follows from the rearrangement \(\zeta(s) - 2 \cdot 2^{-s} \zeta(s) = \eta(s)\), valid by absolute convergence. Solve for \(\zeta\).
+\end{proof}
+
+\section{\(\zeta\) on the half-plane \(\Re(s) > 0\) via eta}
+
+\begin{theorem}[\(\zeta\) on \(\Re(s) > 0\)]
+\label{thm:zeta-on-positive-half-plane}
+The function \(\zeta\) extends holomorphically from \(\Re(s) > 1\) to the half-plane \(\Re(s) > 0\), excluding the singularity at \(s = 1\), via the explicit formula \(\zeta(s) = \eta(s) / (1 - 2^{1-s})\). The extension is unique by the constructive identity theorem (\autoref{ch:concrete-instances-holomorphic-namecert}); the underlying analytic-continuation witness is supplied by \(\AnalyticContUp\) applied to overlapping disk neighbourhoods inside both half-planes.
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.zeta\_on\_positive\_half\_plane}
+\begin{proof}[Sketch]
+Apply \(\mathsf{AnaCont}\) (\autoref{ch:concrete-instances-analytic-continuation}) to the holomorphic restrictions of (i) \(\zeta\) on \(\Re(s) > 1\) and (ii) \(\eta(s)/(1 - 2^{1-s})\) on \(\Re(s) > 0\). The eta-relation provides the overlap-region agreement.
+\end{proof}
+
+\section{The pole at \(s = 1\)}
+
+\begin{theorem}[Simple pole at \(s = 1\) with residue 1]
+\label{thm:pole-at-one-residue}
+\(\zeta\) has a simple pole at \(s = 1\) with residue exactly \(\Eone(\emp)\) (the unit complex history). Concretely, the limit \(\lim_{s \to 1} (s - 1) \zeta(s) = 1\) holds with explicit modulus given by the harmonic-series log-divergence rate.
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.pole\_at\_one\_residue}
+\begin{proof}[Sketch]
+The harmonic divergence \(\sum_{n=1}^N 1/n \sim \log N\) gives \((s - 1) \zeta(s) \to 1\) as \(s \to 1^+\) with explicit unary-history modulus on the difference. Apply the eta-relation continuation to extend this to a simple-pole witness on a neighbourhood of \(s = 1\).
+\end{proof}
+
+\section{The functional equation}
+
+\begin{theorem}[Riemann functional equation]
+\label{thm:functional-equation}
+For every \(s\) with \(\Re(s) > 0\) and \(s \neq 1\), the explicit relation
+$$\zeta(s) = 2^s \pi^{s-1} \sin(\pi s / 2) \, \Gamma(1 - s) \, \zeta(1 - s)$$
+holds, where:
+\begin{enumerate}
+  \item \(2^s = \exp(s \log 2)\) on the constructive complex \(\exp\) and constructive real \(\log 2\) (\(\RealUp\), \autoref{ch:concrete-instances-real-namecert});
+  \item \(\pi^{s-1}\) defined similarly with constructive real \(\log \pi\);
+  \item \(\sin(\pi s / 2)\) defined via the constructive complex sine power series (radius of convergence infinity);
+  \item \(\Gamma(1 - s)\) is the constructive complex Gamma function on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) --- exposed here as a SCHEMA-ONLY interface awaiting a future BEDC \(\mathsf{Gamma}^{\uparrow}\) chapter.
+\end{enumerate}
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.functional\_equation}
+\begin{proof}[Sketch]
+The functional equation is established by the classical contour-integral identity reorganization, made constructive on the BEDC contour-integral framework (\autoref{ch:concrete-instances-contour-integral}). The Gamma factor's constructive Lean target is held open as a schema-only horizon; the rest of the derivation (the trigonometric/exponential factors and the contour reorganization) is fully constructive on the data of this chapter.
+\end{proof}
+
+\begin{remark}[Constructive Gamma as schema-only horizon]
+\label{rem:gamma-schema-horizon}
+The constructive complex Gamma function \(\Gamma\) on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) is intentionally exposed here as a schema-only horizon: this chapter uses \(\Gamma\) as a black-box meromorphic factor in the functional equation, identifies the input/output classifier interface (input: complex history outside the negative integers; output: complex-history value with explicit modulus), but does not produce the closed Lean witness. A future BEDC chapter \(\mathsf{Gamma}^{\uparrow}\) is the natural home for closing the schema.
+\end{remark}
+
+\section{\(\zeta\) on \(\ComplexUp \setminus \{1\}\)}
+
+\begin{theorem}[Full continuation]
+\label{thm:zeta-full-continuation}
+The function \(\zeta\) extends holomorphically to \(\ComplexUp \setminus \{1\}\) by applying the functional equation to reflect from \(\Re(s) > 0\) into \(\Re(s) < 1\) through the line \(\Re(s) = 1/2\). The extension is unique by the identity theorem.
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.zeta\_full\_continuation}
+\begin{proof}[Sketch]
+Apply \(\mathsf{AnaCont}\) (\autoref{ch:concrete-instances-analytic-continuation}) twice: first to extend \(\zeta\) from \(\Re(s) > 1\) to \(\Re(s) > 0\) (via eta), then to extend from \(\Re(s) > 0\) to \(\Re(s) < 1\) (via functional equation reflection). The two extensions agree on the strip \(0 < \Re(s) < 1\), giving a single continuation on \(\ComplexUp \setminus \{1\}\).
+\end{proof}
+
+\section{Trivial zeros from the functional equation}
+
+\begin{theorem}[Trivial zeros witness]
+\label{thm:trivial-zeros-witness}
+For every unary \(n \geq \Eone(\emp)\), \(\zeta(-2n) = 0\) constructively, with witness coming from \(\sin(\pi s / 2) = 0\) at even \(s \leq -2\) in the functional equation. The other factors \(2^s, \pi^{s-1}, \Gamma(1 - s), \zeta(1 - s)\) are non-zero and finite at \(s = -2n\).
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.trivial\_zeros\_witness}
+\begin{proof}[Sketch]
+At \(s = -2n\), \(\pi s / 2 = -n\pi\), so \(\sin(-n\pi) = 0\) constructively (rational multiple of \(\pi\) with even multiplier --- unary-decidable). The remaining factors are non-zero by direct constructive evaluation: \(\Gamma(1 + 2n)\) is the unary factorial \((2n)!\) (\(\PrimeUp\), \autoref{ch:concrete-instances-prime-namecert}); \(\zeta(1 + 2n)\) lies in the half-plane \(\Re(s) > 1\) where \(\zeta\) is non-zero (\autoref{ch:concrete-instances-zeta-basic-namecert}).
+\end{proof}
+
+\section{The application certificate}
+
+\begin{definition}[Zeta continuation application certificate]
+\label{def:zeta-cont-app-cert}
+The application certificate consists of: (i) input spec --- the basic \(\zeta\) certificate of \(\ZetaBasicUp\) (\autoref{ch:concrete-instances-zeta-basic-namecert}); (ii) output spec --- the holomorphic extension of \(\zeta\) on \(\ComplexUp \setminus \{1\}\) with simple pole and residue 1 at \(s = 1\); (iii) classifier --- \(\hsame\) pointwise on the extended domain; (iv) operation laws --- eta-relation, functional equation, chain continuation; (v) ledger policy --- pole at 1, trivial zeros at negative even integers, the constructive Gamma horizon.
+\end{definition}
+\leandef{BEDC.Derived.ZetaContUp.ZetaContAppCert}
+
+\begin{theorem}[Concrete \(\ZetaContUp\) application certificate]
+\label{thm:zeta-continuation-application}
+The data above forms an application certificate of \(\AnalyticContUp\) on \(\ZetaBasicUp\) producing the extended \(\zeta\) function on \(\ComplexUp \setminus \{1\}\).
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.zeta\_continuation\_application}
+\begin{proof}[Sketch]
+Verification of each step of the two-stage continuation in the preceding sections; the constructive-Gamma factor in the functional equation is exposed as a schema-only horizon. The application uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the application's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\ZetaContUp\) application certificate]
+\label{thm:zeta-continuation-semantic}
+The concrete certificate of \autoref{thm:zeta-continuation-application} satisfies the semantic application-certificate schema obtained by adapting \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}) to operation-application inputs/outputs.
+\end{theorem}
+\leanstmt{BEDC.Derived.ZetaContUp.zeta\_continuation\_semantic}
+\begin{proof}[Sketch]
+Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\ZetaBasicUp\), \(\AnalyticContUp\), and \(\ComplexUp\) classifiers.
+\end{proof}

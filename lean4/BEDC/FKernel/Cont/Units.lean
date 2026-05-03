@@ -118,4 +118,15 @@ theorem cont_empty_result_iff {h k : BHist} :
   · intro hk
     exact (append_eq_empty_iff.mpr hk).symm
 
+theorem cont_e1_right_unit_probe_forces_empty {u : BHist} :
+    (∀ {r : BHist}, Cont (BHist.e1 BHist.Empty) u r ->
+      hsame r (BHist.e1 BHist.Empty)) -> hsame u BHist.Empty := by
+  intro rightProbe
+  have canonicalContinuation :
+      Cont (BHist.e1 BHist.Empty) u (append (BHist.e1 BHist.Empty) u) :=
+    cont_intro rfl
+  have collapsedContinuation : Cont (BHist.e1 BHist.Empty) u (BHist.e1 BHist.Empty) :=
+    cont_result_hsame_transport canonicalContinuation (rightProbe canonicalContinuation)
+  exact cont_right_unit_unique collapsedContinuation
+
 end BEDC.FKernel.Cont

@@ -53,6 +53,60 @@ theorem cont_step_one_iff {h k r : BHist} :
   · intro hcont
     exact cont_step_one hcont
 
+theorem cont_result_e0_cases_iff {h k r : BHist} :
+    Cont h k (BHist.e0 r) ↔
+      (k = BHist.Empty ∧ hsame h (BHist.e0 r)) ∨
+        (exists k0 : BHist, k = BHist.e0 k0 ∧ Cont h k0 r) := by
+  constructor
+  · intro hcont
+    cases k with
+    | Empty =>
+        exact Or.inl (And.intro rfl hcont.symm)
+    | e0 k0 =>
+        exact Or.inr
+          (Exists.intro k0 (And.intro rfl (cont_step_zero_iff.mp hcont)))
+    | e1 k0 =>
+        cases hcont
+  · intro data
+    cases data with
+    | inl emptyData =>
+        cases emptyData.left
+        exact emptyData.right.symm
+    | inr witness =>
+        cases witness with
+        | intro k0 stepData =>
+            cases stepData with
+            | intro sameK tail =>
+                cases sameK
+                exact cont_step_zero tail
+
+theorem cont_result_e1_cases_iff {h k r : BHist} :
+    Cont h k (BHist.e1 r) ↔
+      (k = BHist.Empty ∧ hsame h (BHist.e1 r)) ∨
+        (exists k0 : BHist, k = BHist.e1 k0 ∧ Cont h k0 r) := by
+  constructor
+  · intro hcont
+    cases k with
+    | Empty =>
+        exact Or.inl (And.intro rfl hcont.symm)
+    | e0 k0 =>
+        cases hcont
+    | e1 k0 =>
+        exact Or.inr
+          (Exists.intro k0 (And.intro rfl (cont_step_one_iff.mp hcont)))
+  · intro data
+    cases data with
+    | inl emptyData =>
+        cases emptyData.left
+        exact emptyData.right.symm
+    | inr witness =>
+        cases witness with
+        | intro k0 stepData =>
+            cases stepData with
+            | intro sameK tail =>
+                cases sameK
+                exact cont_step_one tail
+
 theorem cont_step_rules_iff_pair :
     (∀ {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (∀ {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by

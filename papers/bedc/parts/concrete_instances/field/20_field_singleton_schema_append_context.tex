@@ -1,0 +1,29 @@
+\begin{theorem}[Field singleton nonzero append context cancellation]
+\label{thm:field-singleton-nonzero-append-context-cancel}
+For histories $L,R,Q:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
+carrier $A_{\emp}$, then surrounding $Q$ by those append contexts preserves
+and reflects the singleton nonzero endpoint predicate:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonNonZero}(\mathsf{append}(L,\mathsf{append}(Q,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonNonZero}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The two context carrier witnesses identify $L$ and $R$ with $\emp$. Thus
+$\mathsf{append}(L,\mathsf{append}(Q,R))$ is history-same to $Q$ by the left
+and right empty append laws. In the forward direction, empty-result inversion
+for append extracts the singleton carrier witness for $Q$, and the history
+comparison transports the displayed $\Ezero(\emp)$ endpoint witness back to
+$Q$.
+
+Conversely, combine the singleton carrier witness for $Q$ with the two context
+carrier witnesses to rebuild the nested append carrier by empty-result
+inversion. The same empty-context comparison transports the nonzero endpoint
+witness from $Q$ to the nested append endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonNonZero\_append\_context\_cancel\_iff}

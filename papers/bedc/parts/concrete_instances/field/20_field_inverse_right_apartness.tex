@@ -1,0 +1,44 @@
+\begin{theorem}[Field inverse is apart from empty under right inverse one-apartness]
+\label{thm:field-inverse-apart-empty-from-right-inverse-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-right
+multiplication $\mathsf{mul}(x,0)\hsame 0$, right inverse law
+$\mathsf{mul}(a,\mathsf{inv}(a,p))\hsame 1$, and one-apartness
+$\omega:(1\hsame 0)\to\bot$, every witness $p_a:\mathsf{NonZero}_F(a)$
+constructively refutes
+$$
+\mathsf{inv}(a,p_a)\hsame 0.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{inv}(a,p_a)\hsame 0$. Multiplication congruence transports
+this equality through left multiplication by $a$, and the zero-right law
+identifies the transported product with $0$. The right inverse law identifies
+the same product with $1$, so transitivity gives $1\hsame 0$, contradicting
+$\omega$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_apart\_empty\_from\_right\_inverse\_one\_apartness}
+
+\begin{theorem}[Field inverse is nonzero under right inverse one-apartness]
+\label{thm:field-inverse-nonzero-from-right-inverse-one-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplication congruence under $\hsame$, zero-right
+multiplication $\mathsf{mul}(x,0)\hsame 0$, right inverse law
+$\mathsf{mul}(a,\mathsf{inv}(a,p))\hsame 1$, one-apartness
+$\omega:(1\hsame 0)\to\bot$, and conversion maps
+$\alpha_x:((x\hsame 0)\to\bot)\to\mathsf{NonZero}_F(x)$, every witness
+$p_a:\mathsf{NonZero}_F(a)$ canonically determines
+$$
+\mathsf{NonZero}_F(\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+The preceding theorem supplies the constructive refutation of
+$\mathsf{inv}(a,p_a)\hsame 0$ from multiplication congruence, the zero-right
+law, the indexed right inverse law, and one-apartness. Applying
+$\alpha_{\mathsf{inv}(a,p_a)}$ to that refutation produces the required
+nonzero witness for the inverse.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_nonzero\_from\_right\_inverse\_one\_apartness}

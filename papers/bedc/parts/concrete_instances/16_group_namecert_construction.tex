@@ -114,6 +114,40 @@ comparison between the two appended endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[Group singleton carrier visible-tail append exclusion]
+\label{thm:group-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(p,\mathsf{e0}(q))$ nor
+$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton group carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed appended
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$. Constructor
+separation for generated histories rules out both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_tail\_absurd}
+
+\begin{theorem}[Group singleton classifier continuation visible result exclusion]
+\label{thm:group-singleton-classifier-continuation-visible-result-absurd}
+For histories $P,Q,r:\mathsf{BHist}$, if the singleton group classifier relates
+$P$ and $Q$, then no continuation from $P$ through $Q$ can have visible result
+$\Ezero(r)$ or $\Eone(r)$:
+$$
+R_{\emp}(P,Q)\Rightarrow
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses for $P$ and $Q$. Transport
+the continuation result along these endpoint witnesses to the right-unit
+continuation at $\emp$, obtaining a singleton carrier witness for the displayed
+result. Constructor separation rules out both visible constructors as
+singleton-empty histories.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_visible\_result\_absurd}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.

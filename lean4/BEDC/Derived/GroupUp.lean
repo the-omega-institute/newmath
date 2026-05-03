@@ -111,6 +111,15 @@ theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem GroupSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
+    (GroupSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
+      (GroupSingletonCarrier (append p (BHist.e1 q)) -> False) := by
+  constructor
+  · intro carrier
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp carrier).right
+  · intro carrier
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp carrier).right
+
 theorem GroupSingletonHistory_laws :
     SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
         GroupSingletonClassifier ∧

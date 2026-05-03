@@ -502,22 +502,32 @@ Record the compared carrier witnesses and the relation derivation.
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\PreorderUp\).
 \end{definition}
 
-\begin{theorem}[Concrete \(\PreorderUp\) naming certificate]
-\label{thm:concrete-preorder-namecert}
-For a carrier $Carrier : \Hist \to \mathsf{Prop}$ and relation
-$Le : \Hist \to \Hist \to \mathsf{Prop}$, suppose the carrier is inhabited,
-carrier membership transports along $\hsame$, $Le$ is reflexive on carrier
-witnesses, and $Le$ is transitive. Then these data form a valid
-$\NameCert$ for $\PreorderUp$.
+\begin{theorem}[Concrete unary prefix \(\PreorderUp\) naming certificate]
+\label{thm:concrete-unary-prefix-preorder-namecert}
+The tuple of \autoref{def:concrete-unary-prefix-preorder-instance} supplies
+the source, pattern, classifier, stability, ledger, and exactness rows for a
+$\NameCert$ licensing $\PreorderUp$ over
+$\mathsf{PreorderCarrier}=\mathsf{UnaryHistory}$, classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})$, and
+relation $\mathsf{PreorderPrefixLE}$.
 \end{theorem}
-\leanchecked{BEDC.Derived.PreorderUp.preorder\_name\_certificate}
 \begin{proof}
-Fill the NameCert carrier witness with the inhabited-carrier assumption.
-The carrier transport field is the supplied transport along $\hsame$.
-The classifier law fields are the history-sameness reflexivity, symmetry,
-and transitivity clauses carried by the restricted carrier classifier; the
-remaining preorder law fields are the supplied reflexivity on carrier
-witnesses and transitivity of $Le$.
+The source, pattern, and classifier rows are the concrete unary-prefix rows
+fixed in \autoref{def:concrete-unary-prefix-preorder-instance}. The carrier is
+inhabited by $\emp$, and carrier membership transports along $\hsame$ by the
+carrier clauses recorded in \autoref{thm:concrete-unary-prefix-preorder-laws}.
+
+The stability row is \autoref{def:preorder-prefix-stability-certificate}. Its
+reflexivity, transitivity, and endpoint-congruence components are exactly the
+remaining law clauses collected in
+\autoref{thm:concrete-unary-prefix-preorder-laws}.
+
+The concrete relation witnesses are
+\autoref{thm:preorder-prefix-le-of-hsame} for comparisons induced by
+history-sameness and \autoref{thm:preorder-prefix-transitivity} for composing
+two prefix comparisons. The ledger row is
+\autoref{def:preorder-ledger-policy}; together these rows repack the concrete
+unary-prefix data as the public $\NameCert$ for $\PreorderUp$.
 \end{proof}
 
 \begin{corollary}[\(\PreorderUp\) is licensed, not primitive]

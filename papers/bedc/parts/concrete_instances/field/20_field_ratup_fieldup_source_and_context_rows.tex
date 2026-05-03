@@ -1,0 +1,575 @@
+\begin{theorem}[RatUp FieldUp source has a non-singleton endpoint]
+\label{thm:ratup-fieldup-source-non-singleton-witness}
+Let $d_1:=\Eone(\emp)$. For the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, the field carrier accepts
+$d_1$, while the singleton empty-history carrier rejects it:
+$$
+\mathsf{RatHistoryCarrier}(d_1)
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot.
+$$
+Consequently no carrier-coverage map from the $\FieldUp(\mathsf{RatUp})$
+source carrier to the singleton empty-history carrier can exist.
+\end{theorem}
+\begin{proof}
+Unfold the carrier coordinate of $\mathsf{RatUpFieldSource}_F$ in
+\autoref{def:ratup-fieldup-concrete-source-tuple}. It is exactly
+$\mathsf{RatHistoryCarrier}$, so the source endpoint question is the concrete
+RatUp carrier question.
+
+Apply
+\autoref{thm:field-rat-history-carrier-has-non-singleton-boundary-witness} at
+$d_1=\Eone(\emp)$. It supplies the displayed
+$\mathsf{RatHistoryCarrier}(d_1)$ witness and the rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+
+Now suppose a carrier-coverage map from the $\FieldUp(\mathsf{RatUp})$ source
+carrier to $\mathsf{fieldSingletonEmptyCarrier}$ were given. Evaluating it at
+$d_1$ and the displayed RatUp carrier witness gives
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)$, contradicting the rejection map.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_carrier\_singleton\_coverage\_obstruction}
+
+\begin{theorem}[RatUp FieldUp source coordinate coverage obstruction]
+\label{thm:ratup-fieldup-source-coordinate-coverage-obstruction}
+Let $d_1:=\Eone(\emp)$. For the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, the diagonal endpoint
+supplies all three source-coordinate witnesses
+$$
+\mathsf{RatHistoryCarrier}(d_1),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d_1,d_1),
+$$
+and
+$$
+\mathsf{RatHistoryLedgerPolicy}(d_1,d_1).
+$$
+Each of the following coverage maps is contradictory:
+\begin{enumerate}
+  \item carrier coverage
+  $$
+  \forall h:\mathsf{BHist},\mathsf{RatHistoryCarrier}(h)\to
+  \mathsf{fieldSingletonEmptyCarrier}(h);
+  $$
+  \item classifier coverage
+  $$
+  \forall h k:\mathsf{BHist},\mathsf{RatHistoryClassifier}(h,k)\to
+  \mathsf{FieldSingletonClassifier}(h,k);
+  $$
+  \item ledger endpoint coverage
+  $$
+  \forall \rho v:\mathsf{BHist},\mathsf{RatHistoryLedgerPolicy}(\rho,v)\to
+  \mathsf{FieldSingletonCarrier}(\rho)\land
+  \mathsf{FieldSingletonCarrier}(v).
+  $$
+\end{enumerate}
+Thus the concrete source tuple cannot be collapsed to the singleton
+$\FieldUp$ boundary in any of its carrier, classifier, or ledger coordinates.
+\end{theorem}
+\begin{proof}
+The carrier coordinate is the one isolated in
+\autoref{thm:ratup-fieldup-source-non-singleton-witness}. It gives the endpoint
+witness $\mathsf{RatHistoryCarrier}(d_1)$ and rules out any carrier-coverage
+map from $\mathsf{RatHistoryCarrier}$ to
+$\mathsf{fieldSingletonEmptyCarrier}$.
+
+The classifier and ledger coordinates are supplied by
+\autoref{thm:field-rat-classifier-ledger-singleton-empty-coverage-obstruction}.
+That theorem gives the diagonal classifier witness
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$ and the diagonal ledger witness
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$.
+
+The same theorem also rejects the displayed classifier coverage map and the
+displayed ledger endpoint coverage map. Combining these two rejections with the
+carrier rejection from the first paragraph leaves no coverage coordinate by
+which $\mathsf{RatUpFieldSource}_F$ can be read as the singleton $\FieldUp$
+boundary.
+\end{proof}
+
+\begin{definition}[Concrete RatUp FieldUp certificate instance]
+\label{def:concrete-ratup-fieldup-certificate-instance}
+The concrete certificate instance for $\FieldUp(\mathsf{RatUp})$ is the BEDC
+tuple with field carrier $\mathsf{RatHistoryCarrier}$, field classifier
+$\mathsf{RatHistoryClassifier}$, denominator carrier
+$\mathsf{RatDenomUnitCarrier}$, denominator classifier
+$\mathsf{RatDenomUnitClassifier}$, denominator multiplication
+$\mathsf{append}$, continuation predicate $\Cont$, empty denominator endpoint
+$\emp$, apart-zero predicate $\mathsf{FieldApartZero}$, the contextual
+denominator action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, and the
+affine automorphism package $\mathsf{AffAut}_F$ of
+\autoref{def:field-affine-automorphism-package}.
+
+Its per-object fields are:
+\begin{enumerate}
+  \item traditional target: the constructive field target
+  $\FieldUp(\mathsf{RatUp})$;
+  \item BEDC source: $\RatUp$ together with $\CommRingUp$ and the concrete
+  denominator BHist rows;
+  \item carrier: $\mathsf{RatHistoryCarrier}$;
+  \item classifier: $\mathsf{RatHistoryClassifier}$ together with
+  $\mathsf{RatDenomUnitClassifier}$ for denominator rows;
+  \item stability obligations: inverse apartness, two-sided zero-product
+  exactness, denominator package closure, denominator support-neutrality,
+  denominator contextual action, unit-pair support-neutrality,
+  total-normalization support collapse, assembled support-neutrality
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+  context-pair action, contextual strict-support transport, context-pair
+  strict-support commutation, and affine automorphism closure;
+  \item ledger: rational history rows, denominator unit histories,
+  continuation witnesses, apart-zero inverse witnesses, nested contextual-action
+  support witnesses from
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+  context-pair action witnesses, and affine coefficient witnesses;
+  \item core theorem list:
+  \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+  \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate},
+  \autoref{thm:ratup-fieldup-denominator-context-pair-unit-support-neutrality},
+  \autoref{thm:ratup-fieldup-denominator-total-normalization-support-collapse-row},
+  \autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes},
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+  \autoref{thm:field-affine-automorphism-group-certificate}, and
+  \autoref{thm:ratup-fieldup-assembled-certificate-boundary};
+  \item exactness predicate: row coverage for $\FieldUp(\mathsf{RatUp})$
+  including inverse, zero-product, denominator multiplication,
+  denominator-action envelope, contextual action, context-pair action,
+  denominator support-neutrality, unit-pair support-neutrality,
+  total-normalization support collapse, assembled support-neutrality classifier
+  and strict-support clauses, contextual strict-support transport,
+  context-pair strict-support commutation, and affine automorphism rows;
+  \item standard bridge: deferred conservative bridge to the ordinary
+  constructive rational field presentation;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Concrete $\FieldUp(\RatUp)$ paper certificate assembly]
+\label{thm:ratup-fieldup-semantic-namecert}
+The concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, with carrier
+$\mathsf{RatHistoryCarrier}$, classifier $\mathsf{RatHistoryClassifier}$,
+denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action
+$\Gamma$, context-pair monoid, and affine source $\mathsf{AffAut}_F$,
+supplies the paper-side carrier, source, classifier, stability, ledger, and
+exactness rows for the $\FieldUp(\RatUp)$ proof target.
+\end{theorem}
+\begin{proof}
+The base name is fixed by \autoref{thm:concrete-rat-namecert}: the rational
+history carrier and classifier are the named $\RatUp$ object on $\mathsf{BHist}$.
+This supplies the semantic target over which the field source tuple is read.
+
+Next apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. It
+identifies $\mathsf{RatUpFieldSource}_F$ as satisfying
+\autoref{def:field-certificate-obligations} with the same carrier,
+classifier, denominator tuple, contextual source, context-pair source, and
+affine source displayed in the statement.
+
+The denominator-action coordinate is the component isolated by
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+It records the envelope closure, normalized row coverage, and context-pair
+action certificate for the same concrete denominator tuple and the same action
+$\Gamma$.
+
+The context-pair product support row is
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}.
+It is registered in
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} as the
+strict-support commutation entry for the same denominator tuple.
+
+The support-neutrality row is
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}. It
+supplies the carried nested contextual action, the collected-action classifier
+comparison, strict-support neutrality, and collected classifier exactness
+consumed by the concrete certificate instance.
+
+Finally use \autoref{thm:field-affine-automorphism-group-certificate} for the
+affine source $\mathsf{AffAut}_F$. Combining the RatUp name certificate, the
+assembled boundary, the denominator-action component, the strict-support
+commutation row, the support-neutrality row, and the affine group row fills
+exactly the carrier, source, classifier, stability, ledger, and exactness slots
+specified by
+\autoref{def:field-certificate-obligations}. This repacks the assembled source
+as the paper certificate row package for $\FieldUp(\RatUp)$.
+\end{proof}
+
+Per-object certificate: traditional target constructive field over rational
+histories; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, denominator
+envelope, contextual action, and affine rows; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability obligations commutative-ring rows, nonzero and inverse rows,
+denominator rows, contextual action rows, context-pair rows,
+context-pair strict-support commutation, and affine closure; ledger ring
+expressions, nonzero witnesses, denominator histories, contextual pairs, and
+affine coefficient witnesses; core theorem list headed by
+\autoref{thm:ratup-fieldup-semantic-namecert},
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate the conjunction of inverse, product, denominator,
+denominator-action envelope, contextual-action, context-pair,
+support-neutrality, strict-support commutation, and affine exactness rows;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+The phase exit becomes reportable only when the canonical machine-checked
+certificate site is present.
+
+\begin{theorem}[RatUp FieldUp contextual action support transports across context-pair classifiers]
+\label{thm:field-rat-denominator-contextual-action-pair-transport-support}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are
+carried denominator context pairs. If
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then strict
+support is invariant under the transported two-layer contextual action:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+to the left pair of carried contexts and the empty endpoint hypotheses. Its
+support row reads the left nested action as the disjunction of the common core
+$N_D^u(h)$ with the four strict-support terms from $(l,r)$ and $(l',r')$.
+
+Apply the same composition-closure theorem to $(s,t)$ and $(s',t')$. This reads
+the right nested action as the same core term $N_D^u(h)$ together with the four
+strict-support terms from the transported context pairs.
+
+Next use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support} on both
+context-pair products. The four support terms on the left are exactly strict
+support of $\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$, while the four support terms
+on the right are strict support of
+$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$.
+
+The componentwise pair classifiers are the hypotheses required by
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}.
+They transport the product strict-support term between the two context-pair
+products.
+
+For the forward direction, use the left composition readback. A core-support
+witness $N_D^u(h)$ is inserted directly into the right composition readback. A
+context-product support witness is transported across the product pair and then
+inserted into the corresponding four context disjuncts on the right.
+
+The reverse direction is symmetric. Use the right composition readback, transport
+the product-pair support term back across the same classifier equivalence, keep
+the common core support fixed, and close with the left composition readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_pair\_transport\_support}
+
+\begin{theorem}[RatUp FieldUp contextual action pair classifier transport]
+\label{thm:rat-denom-unit-contextual-action-pair-classifier-transport}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are
+carried denominator context pairs. If
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then the two
+transported two-layer contextual actions are denominator-classified:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply the two-layer contextual action composition law to the left pair and to
+the right pair. These give carrier closure for both nested contextual actions
+and classify each nested action against its collected context product
+$\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)$ or
+$\Gamma_{p',q',\mu_D^u(s',s),\mu_D^u(t,t')}(h)$.
+
+The component denominator classifiers classify the collected left context
+products $\mu_D^u(l',l)$ and $\mu_D^u(s',s)$ and the collected right context
+products $\mu_D^u(r,r')$ and $\mu_D^u(t,t')$. Combining these with reflexivity
+on the core $h$ classifies the collected contextual actions under the empty
+endpoint hypotheses. Transitivity with the two composition classifiers gives
+the displayed denominator classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_classifier\_transport}
+
+\begin{theorem}[RatUp FieldUp contextual action empty pair commutation]
+\label{thm:rat-denom-unit-contextual-action-empty-pair-commutes}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$.
+Then the two empty-external nested contextual actions obtained by applying
+$(l,r)$ and $(l',r')$ in opposite orders are denominator-classified:
+$$
+R_D^u(\Gamma_{\emp,\emp,l',r'}(\Gamma_{\emp,\emp,l,r}(h)),
+\Gamma_{\emp,\emp,l,r}(\Gamma_{\emp,\emp,l',r'}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Normalize each nested action to the collected empty-endpoint action. The first
+normal form has context products $\mu_D^u(l',l)$ and $\mu_D^u(r,r')$, while the
+second has $\mu_D^u(l,l')$ and $\mu_D^u(r',r)$. The concrete denominator append
+commutativity classifiers compare these two left products and these two right
+products. Combining those product classifiers with reflexivity on $h$ classifies
+the two collected actions, and transitivity with the two normalization
+classifiers gives the displayed denominator classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_pair\_commutes}
+
+\begin{theorem}[RatUp FieldUp contextual action empty pair strict support commutation]
+\label{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$, suppose
+$C_D^u(h)$ and suppose $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$.
+Then the two empty-external nested contextual actions obtained by applying
+$(l,r)$ and $(l',r')$ in opposite orders have equivalent strict support:
+$$
+N_D^u(\Gamma_{\emp,\emp,l',r'}(\Gamma_{\emp,\emp,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{\emp,\emp,l,r}(\Gamma_{\emp,\emp,l',r'}(h))).
+$$
+\end{theorem}
+\begin{proof}
+The empty-pair commutation theorem denominator-classifies the two nested
+actions. Its history-sameness field transports RatUp strict support in both
+directions, giving the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_pair\_strict\_support\_commutes}
+
+\begin{theorem}[RatUp FieldUp contextual action pair transport carrier and support]
+\label{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are
+carried denominator context pairs. If
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$, and if
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then both
+transported nested contextual actions are carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\land
+C_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+Their strict support is transported by the same context-pair classifiers:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+to the carried contexts $(l,r)$ and $(l',r')$ with the empty endpoint
+hypotheses. This gives the left carrier conclusion and reads the left nested
+action as the five-term strict-support expression with core $N_D^u(h)$.
+
+Apply the same composition-closure theorem to $(s,t)$ and $(s',t')$. This gives
+the right carrier conclusion and reads the right nested action as the
+corresponding five-term strict-support expression with the same core term.
+Together these two applications establish the displayed carrier conjunction.
+
+The context tails are compressed by
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support}. On the
+left, the four context support terms are strict support of
+$\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$; on the right, they are strict support of
+$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$.
+
+Use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}
+under the two $\mathsf{PairClass}_D^u$ hypotheses. It transports the compressed
+product strict-support term between the two context-pair products.
+
+For the forward direction of the strict-support equivalence, read the left
+nested action through the left composition theorem. A core witness
+$N_D^u(h)$ is kept fixed, while a context-product witness is transported to the
+right product and expanded through the right product-support readback. The right
+composition readback then yields support of the right nested action.
+
+The reverse direction is the same argument with left and right interchanged.
+The right composition readback supplies either the common core witness or a
+right product-support witness; the latter is transported back across the
+product classifier equivalence and expanded on the left before closing with the
+left composition readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_pair\_transport\_carrier\_support}
+
+\begin{theorem}[RatUp FieldUp contextual action pair transport classifier]
+\label{thm:rat-denom-unit-contextual-action-pair-transport-classifier}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$ and suppose
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$. If
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, then the
+two transported nested contextual actions are denominator-classified:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+\end{theorem}
+\begin{proof}
+Apply the contextual-action composition support laws to the left nested action
+using the carrier fields exposed by the four classifier hypotheses. Apply the
+same laws to the right nested action using the transported carrier fields. The
+classifier equality fields identify $l$ with $s$, $r$ with $t$, $l'$ with
+$s'$, and $r'$ with $t'$, so the two concrete nested action histories are
+$\HSame$. These three rows are exactly the denominator classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_transport\_classifier}
+
+Per-object template: traditional target transported contextual-action
+stability; BEDC source $\mathsf{BHist}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\mathsf{append}$, empty endpoint, and
+$\Gamma$; stability obligations carrier closure plus strict-support transport;
+core theorem
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support};
+exactness predicate the displayed support iff; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp certificate rows are source-anchored]
+\label{thm:ratup-fieldup-certificate-rows-source-anchored}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, every row consumed by
+\autoref{def:concrete-ratup-fieldup-certificate-instance} is read over that
+same concrete $\mathsf{BHist}$ source: field carrier
+$C_F=\mathsf{RatHistoryCarrier}$, field classifier
+$R_F=\mathsf{RatHistoryClassifier}$, denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action
+$\Gamma$, context-pair monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and affine
+coordinate $\mathsf{AffAut}_F$. The $\CommRingUp$ base coordinate is therefore
+consumed only through the concrete boundary
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary}.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. Its field source
+coordinates are the rational history carrier
+$\mathsf{RatHistoryCarrier}$ and rational history classifier
+$\mathsf{RatHistoryClassifier}$, and its denominator source is the displayed
+tuple with multiplication $\mathsf{append}$, endpoint $\emp$, and strict support
+$\mathsf{RatHistoryCarrier}$.
+
+Now apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. It gives
+the full row list for the same source tuple
+$\mathsf{RatUpFieldSource}_F$, including the field carrier, field classifier,
+denominator tuple, contextual source, context-pair source, affine source, and
+the base coordinate consumed by the concrete boundary.
+
+The denominator-action rows are the component isolated by
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+They use the same denominator tuple and the same action $\Gamma$, so their row
+location agrees with the assembled boundary rather than with any separate
+source tuple.
+
+For the context-pair rows, use
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate} and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes}.
+The first theorem supplies the context-pair action certificate, while the second
+supplies strict-support commutation for the context-pair product named in the
+statement.
+
+The assembled support-neutrality row is
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}. It uses
+the same denominator tuple, the same contextual action $\Gamma$, and the same
+named source tuple, so the nested-action carrier, collected classifier,
+strict-support, and classifier-exactness clauses stay anchored to
+$\mathsf{RatUpFieldSource}_F$.
+
+Finally, \autoref{thm:field-affine-automorphism-group-certificate} supplies the
+affine row for $\mathsf{AffAut}_F$. Combining these component rows with the
+assembled boundary pins every entry consumed by
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} to the single
+source tuple $\mathsf{RatUpFieldSource}_F$.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
+inverse apartness, zero-product exactness, denominator package closure,
+denominator-action envelope, support-neutrality, context-pair action,
+context-pair strict-support commutation, and affine automorphism packaging;
+ledger rational history rows, denominator unit histories, continuation
+witnesses, contextual pairs, and apart-zero inverse witnesses; core theorem
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-denominator-context-pair-unit-support-neutrality},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate row coverage for $\FieldUp(\mathsf{RatUp})$, including the
+assembled support-neutrality classifier and strict-support clauses, the
+denominator unit-pair support-neutrality clause, the denominator-action envelope
+rows, and the context-pair strict-support commutation row; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp concrete schema instance]
+\label{thm:ratup-fieldup-concrete-schema-instance}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the
+$\FieldUp(\RatUp)$ schema is instantiated over $\mathsf{BHist}$ by
+$C_F=\mathsf{RatHistoryCarrier}$, $R_F=\mathsf{RatHistoryClassifier}$, the
+denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, the contextual action
+$\Gamma$, the context-pair monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and the affine
+source $\mathsf{AffAut}_F$. Every carrier, source, classifier, stability,
+ledger, and exactness row consumed by
+\autoref{def:concrete-ratup-fieldup-certificate-instance} is a row of this same
+source tuple, so no $\FieldUp$ exit row remains as a schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-ratup-fieldup-certificate-instance}. Its displayed
+fields are exactly the rational history carrier and classifier, the
+denominator carrier, denominator classifier, multiplication $\mathsf{append}$,
+endpoint $\emp$, contextual action $\Gamma$, context-pair monoid rows, and
+affine package named in the theorem statement.
+
+Apply \autoref{thm:ratup-fieldup-semantic-namecert} to obtain the paper
+certificate row package for this source. It supplies the carrier, source,
+classifier, stability, ledger, and exactness slots for the same
+$\mathsf{RatUpFieldSource}_F$ tuple.
+
+Next use \autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. This
+identifies every row consumed by the concrete certificate instance with the
+single $\mathsf{BHist}$ source tuple, including the denominator tuple, the
+contextual action, the context-pair monoid, and the affine coordinate.
+
+Finally apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. The
+assembled boundary contains the full carrier, classifier, denominator,
+contextual-action, context-pair, affine, ledger, and exactness rows, with the
+denominator-action and support-neutrality components supplied by the theorem
+list in \autoref{def:concrete-ratup-fieldup-certificate-instance}. Combining
+these rows shows that the $\FieldUp(\RatUp)$ schema is the concrete
+$\mathsf{BHist}$ instance rather than a transport through free operator
+parameters.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\mathsf{BHist}$ plus $\RatUp$, $\CommRingUp$, denominator, and affine
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ plus $\mathsf{RatDenomUnitClassifier}$ on
+denominator rows; stability obligations the assembled boundary rows; ledger
+rational histories, denominator histories, continuation and action witnesses,
+and affine coefficients; core theorem
+\autoref{thm:ratup-fieldup-concrete-schema-instance}; exactness row coverage
+for the concrete source tuple; standard bridge deferred; status
+$\mathsf{ProofTarget}$.

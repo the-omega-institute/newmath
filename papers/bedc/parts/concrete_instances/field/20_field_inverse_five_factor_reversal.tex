@@ -1,0 +1,88 @@
+\section{Five-factor inverse reversal}
+\label{sec:field-inverse-five-factor-reversal}
+
+\begin{theorem}[Field inverse five-factor product reversal from apartness-indexed inverses]
+\label{thm:field-inverse-five-factor-product-reversal-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication associativity, multiplication congruence, left and right
+identity laws, proof-indexed inverse laws, product nonzero exclusion, and
+conversion maps from $\mathsf{ApartZero}_F$ to $\mathsf{NonZero}_F$ for all
+needed factors and left-nested prefixes
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b),
+$$
+$$
+\alpha_c:\mathsf{ApartZero}_F(c)\to\mathsf{NonZero}_F(c),\quad
+\alpha_d:\mathsf{ApartZero}_F(d)\to\mathsf{NonZero}_F(d),
+$$
+$$
+\alpha_e:\mathsf{ApartZero}_F(e)\to\mathsf{NonZero}_F(e),
+$$
+$$
+\alpha_{ab}:\mathsf{ApartZero}_F(\mathsf{mul}(a,b))\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)),
+$$
+$$
+\alpha_{abc}:\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c)),
+$$
+$$
+\alpha_{abcd}:
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))\to
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)),
+$$
+where $\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$, any witness
+$$
+p_{abcde}:
+\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
+$$
+induces witnesses $p_a$, $p_b$, $p_c$, $p_d$, and $p_e$ such that
+$$
+\mathsf{inv}(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e),
+p_{abcde})
+\hsame
+\mathsf{mul}(\mathsf{inv}(e,p_e),
+\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{abcde}$ for the binary product
+$(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e)$. This gives
+$q_{abcd}:
+\mathsf{ApartZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$
+and $q_e:\mathsf{ApartZero}_F(e)$; set
+$p_{abcd}:=\alpha_{abcd}(q_{abcd})$ and $p_e:=\alpha_e(q_e)$.
+
+Next apply \autoref{thm:field-inverse-product-reverse-from-apartness} to the
+same outer binary product with witnesses $p_{abcde}$, $p_{abcd}$, and $p_e$.
+It identifies the inverse of the fivefold product with
+$\mathsf{mul}(\mathsf{inv}(e,p_e),
+\mathsf{inv}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),p_{abcd}))$.
+
+Apply \autoref{thm:field-inverse-four-factor-product-reversal-from-apartness}
+to the left fourfold prefix, using $p_{abcd}$ and the conversion maps
+$\alpha_{ab}$, $\alpha_{abc}$, $\alpha_a$, $\alpha_b$, $\alpha_c$, and
+$\alpha_d$. This produces the factor witnesses $p_a$, $p_b$, $p_c$, and
+$p_d$ and the reversed fourfold inverse spine.
+
+Multiplication congruence transports the fourfold equality into the right
+factor of the outer equality. Associativity and transitivity of $\hsame$ then
+rebracket the product into the displayed $e,d,c,b,a$ reversed inverse spine,
+with all witnesses induced from the original ledger entry $p_{abcde}$.
+\end{proof}
+
+Per-object certificate: Traditional target: finite product inverse reversal.
+BEDC source: $\FieldUp$ over $\mathsf{BHist}$ plus zero-product exclusion.
+Carrier choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Stability
+obligations: product apartness extraction, inverse reversal, associativity,
+and multiplication congruence. Ledger: $p_{abcde}$ plus induced prefix and
+factor witnesses. Core theorem list:
+Theorem~\ref{thm:field-inverse-five-factor-product-reversal-from-apartness}.
+Exactness predicate: the displayed reversed equality. Standard bridge:
+deferred. Status: $\mathsf{ProofTarget}$.

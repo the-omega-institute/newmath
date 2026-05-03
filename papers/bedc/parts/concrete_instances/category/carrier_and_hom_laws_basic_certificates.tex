@@ -31,4 +31,110 @@ three semantic predicates are the same hom-carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
 
+\begin{theorem}[Category hom carrier composite-result semantic name certificate]
+\label{thm:category-hom-carrier-comp-result-semantic-namecert}
+For displayed hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$ together with $\ContR(f,g,fg)$, the
+predicate
+$$
+h\mapsto \mathsf{CategoryHomCarrier}(a,c,h)\land h\hsame fg
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same concrete composite-result predicate and whose
+classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Composition closure gives the carrier witness at $fg$, and reflexivity gives
+the displayed comparison $fg\hsame fg$. The classifier laws are the reflexive,
+symmetric, and transitive laws for $\hsame$. Transport along a classifier proof
+uses hom-carrier transport for the fixed endpoints $a,c$ and transitivity with
+the inverse classifier proof to keep the displayed composite result aligned
+with $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
+
+\begin{theorem}[Category hom carrier composite-result endpoint semantic name certificate]
+\label{thm:category-hom-carrier-composite-result-endpoint-semantic-name-certificate}
+For displayed hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$ together with $\ContR(f,g,fg)$, if
+$a\hsame a'$ and $c\hsame c'$, then the transported predicate
+$$
+h\mapsto \mathsf{CategoryHomCarrier}(a',c',h)\land h\hsame fg
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same transported composite-result predicate and whose
+classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Composition closure first gives the concrete composite hom carrier at
+endpoints $(a,c)$ and result $fg$. Endpoint transport along $a\hsame a'$ and
+$c\hsame c'$ moves this carrier to $(a',c')$, giving inhabitation at $fg$.
+The classifier laws are reflexivity, symmetry, and transitivity of $\hsame$.
+Carrier transport keeps endpoints fixed at $(a',c')$, transports the displayed
+hom carrier along the classifier proof, and composes the inverse classifier
+proof with the stored comparison to $fg$. Pattern and ledger soundness are
+identities because all three semantic predicates coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_endpoint\_semanticNameCert}
+
+\begin{theorem}[Continuation morphism source semantic name certificate]
+\label{thm:continuation-morphism-source-semantic-namecert}
+For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,
+the source predicate
+$src\mapsto\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(src,b))$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same source predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed morphism $m$ gives carrier inhabitation at source $a$.
+Reflexivity, symmetry, and transitivity of $\hsame$ supply the classifier
+laws. If a source endpoint is transported along $\hsame$, the same displayed
+tail remains valid by continuation transport, so the concrete
+continuation-morphism witness is rebuilt at the transported source.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_source\_semanticNameCert}
+
+\begin{theorem}[Continuation morphism target semantic name certificate]
+\label{thm:continuation-morphism-target-semantic-namecert}
+For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,
+the target predicate
+$tgt\mapsto\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(a,tgt))$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same target predicate and whose classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed morphism $m$ gives carrier inhabitation at target $b$.
+The classifier laws are the three basic laws of $\hsame$. Carrier transport
+uses continuation transport on the result endpoint while keeping the source
+and displayed tail fixed, thereby rebuilding a concrete continuation morphism
+at the transported target. Pattern and ledger soundness are identities for the
+same predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_target\_semanticNameCert}
+
+\begin{theorem}[Composite continuation tail semantic name certificate]
+\label{thm:category-continuation-morphism-composite-tail-semantic-namecert}
+For histories $a,b,c$ and continuation morphisms
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$, let $m$ be their closed composite.
+The predicate
+$$
+t\mapsto \ContR(a,t,c)\land \hsame(t,\mathsf{tail}(m))
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same concrete composite-tail predicate and whose classifier
+is $\hsame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is $\mathsf{tail}(m)$, using the continuation relation of
+the closed composite and reflexivity of $\hsame$. The classifier laws are
+reflexivity, symmetry, and transitivity of $\hsame$. Transport along a
+classifier proof preserves the displayed continuation by continuation transport,
+and it preserves the tail classifier by transitivity with the inverse
+classifier proof.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_semanticNameCert}
+
 Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.

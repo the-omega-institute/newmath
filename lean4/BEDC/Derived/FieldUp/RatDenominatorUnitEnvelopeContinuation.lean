@@ -90,4 +90,28 @@ theorem FieldRatDenominatorUnitEnvelopeClassifier_continuation_closed
               (cont_left_unit BHist.Empty)
           exact Or.inr ⟨emptyR, emptyR'⟩
 
+theorem FieldRatDenominatorUnitEnvelopeCarrier_continuation_closed {h k r : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h ->
+      FieldRatDenominatorUnitEnvelopeCarrier k -> Cont h k r ->
+        FieldRatDenominatorUnitEnvelopeCarrier r := by
+  intro carrierH carrierK continuation
+  have classifiedH : FieldRatDenominatorUnitEnvelopeClassifier h h := by
+    cases carrierH with
+    | inl ratH =>
+        exact Or.inl ⟨ratH, ratH, ratH, ratH, hsame_refl h⟩
+    | inr emptyH =>
+        exact Or.inr ⟨emptyH, emptyH⟩
+  have classifiedK : FieldRatDenominatorUnitEnvelopeClassifier k k := by
+    cases carrierK with
+    | inl ratK =>
+        exact Or.inl ⟨ratK, ratK, ratK, ratK, hsame_refl k⟩
+    | inr emptyK =>
+        exact Or.inr ⟨emptyK, emptyK⟩
+  have classifiedR : FieldRatDenominatorUnitEnvelopeClassifier r r :=
+    FieldRatDenominatorUnitEnvelopeClassifier_continuation_closed classifiedH classifiedK
+      continuation continuation
+  cases classifiedR with
+  | inl ratData => exact Or.inl ratData.left
+  | inr emptyData => exact Or.inr emptyData.left
+
 end BEDC.Derived.FieldUp

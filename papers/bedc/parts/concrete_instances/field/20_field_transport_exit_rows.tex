@@ -1,0 +1,103 @@
+\begin{theorem}[RatUp FieldUp transported exit row contextual separation package]
+\label{thm:ratup-fieldup-transported-exit-row-contextual-separation-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit row
+contains a single contextual separation package with:
+\begin{enumerate}
+  \item the exit-row closure recorded by
+  \autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure};
+  \item the direct endpoint separation $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both contextual rejection maps
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure} with the
+same source tuple, denominator tuple, contextual action, endpoint, and
+strict-support hypothesis. This supplies the concrete exit-row closure consumed
+by the $\FieldUp(\mathsf{RatUp})$ certificate boundary.
+
+Next apply
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} at the
+same endpoint. Its final clause is the direct endpoint separation
+$x\hsame\emp\to\bot$.
+
+Finally fix an arbitrary context history $r:\mathsf{BHist}$ and apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}.
+The two clauses obtained there are exactly the rejection maps for
+$\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$. Collecting these clauses gives
+the displayed contextual separation package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_exit\_row\_contextual\_separation\_package}
+
+\begin{theorem}[RatUp FieldUp transported exit row singleton-classifier noncollapse]
+\label{thm:ratup-fieldup-transported-exit-row-singleton-classifier-noncollapse}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit row
+contains both:
+\begin{enumerate}
+  \item the exit-row closure recorded by
+  \autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure};
+  \item for all $L,R:\mathsf{BHist}$, the singleton-classifier obstruction
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure} with the
+same concrete source tuple, denominator tuple, contextual action, endpoint, and
+strict-support witness. This determines the source-anchored exit-row closure
+package for the displayed endpoint $x$.
+
+Next choose arbitrary $L,R:\mathsf{BHist}$. Apply
+\autoref{thm:rat-denom-unit-contextual-action-strict-support-singleton-classifier-exclusion}
+to the same endpoint $x$ and the same witness $N_D^u(h)$. The theorem gives the
+map from
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))$
+to contradiction.
+
+Combining the exit-row closure package with these uniformly indexed classifier
+obstructions gives the stated concrete $\FieldUp(\mathsf{RatUp})$ exit row.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_exit\_row\_singleton\_classifier\_noncollapse}
+
+Per-object template: traditional target contextual classifier non-collapse for
+constructive $\FieldUp(\mathsf{RatUp})$; BEDC source
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$, $\mathsf{append}$, contextual
+action $\Gamma$, and strict support $N_D^u$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$ plus
+the singleton classifier obstruction; stability transported support neutrality
+and classifier separation; ledger denominator contextual-pair action; core
+theorem
+\autoref{thm:ratup-fieldup-transported-exit-row-singleton-classifier-noncollapse}
+with
+\autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure} and
+\autoref{thm:rat-denom-unit-contextual-action-strict-support-singleton-classifier-exclusion};
+exactness contextual classifier non-collapse; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
+Per-object template: traditional target $\FieldUp(\mathsf{RatUp})$ contextual
+exit separation; BEDC source $\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$,
+$\mathsf{append}$, contextual action $\Gamma$, and strict support $N_D^u$;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability obligations transported support
+neutrality and append-context singleton exclusion; ledger denominator
+contextual-pair action; core theorem
+\autoref{thm:ratup-fieldup-transported-exit-row-contextual-separation-package};
+exactness predicate direct and contextual non-collapse; standard bridge
+deferred; status $\mathsf{ProofTarget}$.

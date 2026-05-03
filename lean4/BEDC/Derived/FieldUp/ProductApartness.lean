@@ -5,9 +5,90 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 def FieldApartZero (a : BHist) : Prop :=
   hsame a BHist.Empty -> False
+
+theorem FieldApartZero_empty_hsame_transport {a b : BHist} :
+    hsame a b -> FieldApartZero a -> (hsame b BHist.Empty -> False) := by
+  intro same apart bEmpty
+  exact apart (hsame_trans same bEmpty)
+
+theorem FieldApartZero_semanticNameCert :
+    SemanticNameCert FieldApartZero FieldApartZero FieldApartZero hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro (BHist.e0 BHist.Empty)
+        (fun sameEmpty => not_hsame_e0_empty sameEmpty)
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier kEmpty
+        exact carrier (hsame_trans same kEmpty)
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
+theorem FieldApartZero_append_left_context_semanticNameCert {p : BHist} :
+    FieldApartZero p ->
+      SemanticNameCert (fun q : BHist => FieldApartZero (append q p))
+        (fun q : BHist => FieldApartZero (append q p))
+        (fun q : BHist => FieldApartZero (append q p)) hsame := by
+  intro apartP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (FieldApartZero_empty_hsame_transport (hsame_symm (append_empty_left p)) apartP)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem FieldApartZero_append_right_context_semanticNameCert {p : BHist} :
+    FieldApartZero p ->
+      SemanticNameCert (fun q : BHist => FieldApartZero (append p q))
+        (fun q : BHist => FieldApartZero (append p q))
+        (fun q : BHist => FieldApartZero (append p q)) hsame := by
+  intro apartP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (FieldApartZero_empty_hsame_transport (hsame_symm (append_empty_right p)) apartP)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem FieldApartZero_append_factor_closed {p q : BHist} :
     FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by
@@ -18,6 +99,81 @@ theorem FieldApartZero_append_factor_closed {p q : BHist} :
       exact leftApart splitEmpty.left
   | inr rightApart =>
       exact rightApart splitEmpty.right
+
+theorem FieldApartZero_append_split_iff {p q : BHist} :
+    FieldApartZero (append p q) <-> FieldApartZero p ∨ FieldApartZero q := by
+  constructor
+  · intro appendApart
+    cases p with
+    | Empty =>
+        right
+        intro qEmpty
+        exact appendApart (hsame_trans (append_empty_left q) qEmpty)
+    | e0 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e0_empty pEmpty
+    | e1 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e1_empty pEmpty
+  · intro split
+    exact FieldApartZero_append_factor_closed split
+
+theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
+    hsame a a' -> hsame b b' ->
+      (FieldApartZero (append a b) <-> FieldApartZero (append a' b')) := by
+  intro sameA sameB
+  have sameAppend : hsame (append a b) (append a' b') := by
+    cases sameA
+    cases sameB
+    exact hsame_refl (append a b)
+  constructor
+  · intro apart
+    exact FieldApartZero_empty_hsame_transport sameAppend apart
+  · intro apart
+    exact FieldApartZero_empty_hsame_transport (hsame_symm sameAppend) apart
+
+theorem FieldApartZero_append_right_empty_iff {p q : BHist}
+    (qEmpty : hsame q BHist.Empty) :
+    FieldApartZero (append p q) <-> FieldApartZero p := by
+  constructor
+  · intro appendApart pEmpty
+    exact appendApart (append_eq_empty_iff.mpr (And.intro pEmpty qEmpty))
+  · intro pApart appendEmpty
+    exact pApart (append_eq_empty_iff.mp appendEmpty).left
+
+theorem FieldApartZero_append_left_empty_iff {p q : BHist}
+    (pEmpty : hsame p BHist.Empty) :
+    FieldApartZero (append p q) <-> FieldApartZero q := by
+  constructor
+  · intro appendApart qEmpty
+    exact appendApart (append_eq_empty_iff.mpr (And.intro pEmpty qEmpty))
+  · intro qApart appendEmpty
+    exact qApart (append_eq_empty_iff.mp appendEmpty).right
+
+theorem FieldApartZero_append_visible_headed {p q : BHist} :
+    FieldApartZero (append (BHist.e0 p) q) ∧
+      FieldApartZero (append (BHist.e1 p) q) := by
+  constructor
+  · intro appendEmpty
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp appendEmpty).left
+  · intro appendEmpty
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp appendEmpty).left
+
+theorem FieldApartZero_empty_context_iff {l h r : BHist} :
+    hsame l BHist.Empty -> hsame r BHist.Empty ->
+      (FieldApartZero (append l (append h r)) <-> FieldApartZero h) := by
+  intro leftEmpty rightEmpty
+  constructor
+  · intro contextApart hEmpty
+    have innerEmpty : hsame (append h r) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro hEmpty rightEmpty)
+    exact contextApart (append_eq_empty_iff.mpr (And.intro leftEmpty innerEmpty))
+  · intro hApart contextEmpty
+    have outerSplit := append_eq_empty_iff.mp contextEmpty
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact hApart innerSplit.left
 
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}

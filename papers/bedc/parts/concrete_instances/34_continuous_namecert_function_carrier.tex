@@ -1,0 +1,295 @@
+\begin{theorem}[Continuous modulus witness modulus determinacy]
+\label{thm:continuous-modulus-witness-modulus-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ source histories and $\hsame$ target histories, then their modulus histories are $\hsame$:
+$$
+\hsame(modulus,modulus').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the source and target endpoints by $\hsame$, and apply continuation left cancellation to the two modulus ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_modulus\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness target determinacy]
+\label{thm:continuous-modulus-witness-target-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ source histories and the same
+modulus history, then their target histories are $\hsame$:
+$$
+\hsame(target,target').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the source endpoint by $\hsame$, and apply
+continuation result determinacy to the two continuation ledgers with the shared
+source and modulus.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_target\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness source determinacy]
+\label{thm:continuous-modulus-witness-source-hsame-deterministic}
+If two one-step modulus witnesses have $\hsame$ target histories and the same
+modulus history, then their source histories are $\hsame$:
+$$
+\hsame(source,source').
+$$
+\end{theorem}
+\begin{proof}
+Unpack both witnesses, identify the target endpoint by $\hsame$, and apply
+continuation right cancellation to the two ledgers with the shared modulus and
+target.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_source\_hsame\_deterministic}
+
+\begin{theorem}[Continuous modulus witness empty target exactness]
+\label{thm:continuous-modulus-witness-empty-target-iff}
+For histories $source$ and $modulus$, a one-step continuous modulus witness
+with empty target is exactly the conjunction that both source and modulus are
+empty histories:
+$$
+\mathsf{ContinuousModulusWitness}(source,modulus,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary carriers and the continuation ledger
+$\Cont(source,modulus,\emp)$. Empty-result inversion for continuation gives
+the two endpoint equalities. Conversely, if both endpoints are empty, the
+empty unary carrier and the canonical empty continuation rebuild the witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_target\_iff}
+
+\begin{theorem}[Continuous empty-source nonempty modulus shape]
+\label{thm:continuous-empty-source-nonempty-modulus-shape}
+For histories $target,modulus$, an empty-source continuous modulus witness with
+nonempty modulus has exactly one visible unary payload:
+$$
+\mathsf{ContinuousModulusWitness}(\emp,modulus,target)\wedge
+\neg\hsame(modulus,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+target=\Eone(r)\wedge modulus=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Empty-source modulus exactness identifies $modulus$ with $target$ and gives
+unary membership of $target$. Nonemptiness excludes the empty target, unary
+membership excludes zero-headed targets, and the visible case strips one
+$\Eone$ constructor to expose the unary payload. The reverse direction
+rebuilds the witness from the visible unary target and reflexive sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_nonempty\_modulus\_shape\_iff}
+
+\begin{theorem}[Continuous modulus chain empty target exactness]
+\label{thm:continuous-modulus-chain-empty-target-iff}
+For histories $source,first,second$, a two-link continuous modulus chain ending
+at $\emp$ is exactly the conjunction that all three displayed histories are
+empty:
+$$
+\mathsf{ContinuousModulusChain}(source,first,second,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(first,\emp)\land\hsame(second,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the middle history and the two continuation ledgers. Empty-result
+inversion on the second leg identifies the middle history and $second$ with
+$\emp$; after replacing the middle endpoint, empty-result inversion on the
+first leg identifies $source$ and $first$ with $\emp$. The reverse direction
+uses the empty middle history and the two right-unit continuations at
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_target\_iff}
+
+\begin{theorem}[Continuous function carrier empty certificate exactness]
+\label{thm:continuous-function-carrier-empty-cert-iff}
+For histories $source,map,target,modulus$, a continuous-function carrier with
+empty certificate is exactly the conjunction that its graph and modulus
+histories are all empty:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(map,\emp)\land
+\hsame(target,\emp)\land\hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the graph continuation and the target-to-certificate continuation.
+Empty-result inversion on the certificate leg identifies $target$ and
+$modulus$ with $\emp$; after replacing the target endpoint, empty-result
+inversion on the graph leg identifies $source$ and $map$ with $\emp$.
+Conversely, when all four histories are empty, the empty unary carrier and the
+two right-unit continuations rebuild the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_cert\_iff}
+
+\begin{theorem}[Continuous function carrier graph-modulus readback]
+\label{thm:continuous-function-carrier-graph-modulus-cont-readback}
+For histories $source,map,target,modulus,cert$, every continuous-function
+carrier directly exposes its graph continuation ledger, its
+modulus-certificate continuation ledger, and the two corresponding one-step
+modulus witnesses:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\ContR(source,map,target)\land
+\ContR(target,modulus,cert)
+\\
+\land\;
+\mathsf{ContinuousModulusWitness}(source,map,target)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuous-function carrier into unary data for $source$, $target$,
+$map$, and $modulus$, together with the two continuation ledgers. The graph
+ledger and the first three unary fields form
+$\mathsf{ContinuousModulusWitness}(source,map,target)$. Unary closure along
+the target-modulus ledger supplies the carrier for $cert$, and this packages
+the second witness
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_graph\_modulus\_cont\_readback}
+
+\begin{theorem}[Continuous function carrier prefix exactness]
+\label{thm:continuous-function-carrier-prefix-iff}
+For histories $p,source,map,target,modulus,cert$, prefixing the visible source,
+target, and certificate ledgers is conservative for the continuous-function
+carrier:
+
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,modulus,p\cdot cert)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed carrier. It supplies unary
+histories for $p\cdot source$, $p\cdot target$, $map$, and $modulus$, together
+with the two continuation ledgers
+$\mathsf{Cont}(p\cdot source,map,p\cdot target)$ and
+$\mathsf{Cont}(p\cdot target,modulus,p\cdot cert)$.
+
+Unary append factorization applied to the source ledger recovers
+$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(source)$. Applied to the
+target ledger, it recovers $\mathsf{UnaryHistory}(target)$. Prefix cancellation
+on the graph continuation ledger gives $\mathsf{Cont}(source,map,target)$, and
+prefix cancellation on the modulus-certificate continuation ledger gives
+$\mathsf{Cont}(target,modulus,cert)$. Repacking these witnesses gives
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+
+For the reverse direction, project $\mathsf{UnaryHistory}(p)$ and the
+unprefixed carrier from the conjunction. Apply
+Theorem~\ref{thm:continuous-function-carrier-prefix-closed} to obtain the
+displayed prefixed carrier.
+
+The ten-field certificate fit is the following. The traditional target is
+prefix-invariant continuous graph evidence. The BEDC source is $BHist$ equipped
+with $\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and
+the classifier is $\mathsf{hsame}$. The stability obligation is exact prefix
+cancellation for graph and modulus-certificate ledgers. The ledger consists of
+source, map, target, modulus, and certificate histories. The core theorem is
+prefix exactness, the exactness predicate is the displayed iff, the standard
+bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefix\_iff}
+
+\begin{theorem}[Continuous function carrier modulus suffix exactness]
+\label{thm:continuous-function-carrier-modulus-suffix-iff}
+For histories $p,source,map,target,modulus,cert$, suffixing the modulus and
+certificate ledgers by the same unary history is conservative for the
+continuous-function carrier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus\cdot p,cert\cdot p)
+\Longleftrightarrow
+\\
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the suffixed carrier. The target-modulus
+certificate leg is a continuous modulus witness from $target$ through
+$modulus\cdot p$ to $cert\cdot p$, with the certificate unary witness obtained
+from unary continuation closure. Apply the continuous modulus witness suffix
+exactness theorem to remove the common right suffix, then repack the graph
+carrier fields.
+
+For the reverse direction, turn the unsuffixed target-modulus certificate leg
+into a continuous modulus witness, apply suffix exactness to append $p$ to the
+modulus and certificate histories, and repack the original graph fields with
+the suffixed certificate leg.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_modulus\_suffix\_iff}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorizes}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta,cert)
+\land
+\mathsf{ContinuousModulusWitness}(target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix from the source, target, and certificate ledgers. This recovers
+the unprefixed carrier and in particular the target-to-certificate continuation
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first modulus witness is the canonical
+continuation from $target$ through $\delta_1$ to this middle history. For the
+second witness, combine $\mathsf{Cont}(\delta_1,\delta_2,\delta)$ with the
+recovered target-to-certificate continuation and reassociate the BEDC append
+spine, obtaining $\mathsf{Cont}(middle,\delta_2,cert)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorizes}
+
+\begin{theorem}[Continuous function carrier prefixed graph-chain first factorization]
+\label{thm:continuous-function-carrier-prefixed-graph-chain-factorization}
+For histories $p,source,map,target,\delta_1,\delta_2,\delta,cert$, if
+$\delta_1$ and $\delta_2$ are unary, $\mathsf{Cont}(\delta_1,\delta_2,\delta)$
+holds, and
+$$
+\mathsf{ContinuousFunctionCarrier}
+(p\cdot source,map,p\cdot target,\delta,p\cdot cert)
+$$
+holds, then there is a middle history $middle$ such that
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\delta_1,middle)
+\land
+\mathsf{ContinuousModulusWitness}(middle,\delta_2,cert).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefix exactness for continuous-function carriers to remove the common
+visible prefix. This exposes the unprefixed graph ledger
+$\mathsf{Cont}(source,map,target)$ and the composite target-certificate ledger
+$\mathsf{Cont}(target,\delta,cert)$.
+
+Choose $middle=target\cdot\delta_1$. The first-stage carrier uses the original
+source, map, and target carrier data, the graph ledger, the unary witness for
+$\delta_1$, and the canonical continuation
+$\mathsf{Cont}(target,\delta_1,middle)$. The second-stage modulus witness uses
+the unary closure of $middle$, the unary witness for $\delta_2$, unary closure
+of $cert$, and associativity of BEDC append to factor the composite ledger
+through $\mathsf{Cont}(\delta_1,\delta_2,\delta)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_prefixed\_graph\_chain\_factorization}

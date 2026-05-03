@@ -12,6 +12,38 @@ theorem ContinuationMorphism_empty_target_inversion {source : BHist}
   | mk tail rel =>
       exact cont_empty_result_inversion rel
 
+theorem ContinuationMorphism_empty_target_nonempty_iff {source : BHist} :
+    Nonempty (ContinuationMorphism source BHist.Empty) ↔ hsame source BHist.Empty := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro morphism =>
+        exact (ContinuationMorphism_empty_target_inversion morphism).left
+  · intro sameSource
+    exact Nonempty.intro
+      { tail := BHist.Empty,
+        rel := cont_result_hsame_transport (cont_right_unit source) sameSource }
+
+theorem ContinuationMorphism_chain_empty_target_nonempty_iff {a b : BHist} :
+    (Nonempty (ContinuationMorphism a b) ∧
+        Nonempty (ContinuationMorphism b BHist.Empty)) ↔
+      hsame a BHist.Empty ∧ hsame b BHist.Empty := by
+  constructor
+  · intro chain
+    cases chain.left with
+    | intro left =>
+        cases chain.right with
+        | intro right =>
+            have endpoints := ContinuationMorphism_comp_empty_target_inversion left right
+            exact And.intro endpoints.left endpoints.right.left
+  · intro endpoints
+    have sameAB : hsame a b := hsame_trans endpoints.left (hsame_symm endpoints.right)
+    constructor
+    · exact Nonempty.intro
+        { tail := BHist.Empty,
+          rel := cont_result_hsame_transport (cont_right_unit a) sameAB }
+    · exact (ContinuationMorphism_empty_target_nonempty_iff (source := b)).mpr endpoints.right
+
 theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g ->
       hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧
@@ -149,6 +181,44 @@ theorem ContinuationMorphism_e1_source_e0_target_tail_not_empty {a r : BHist}
   | intro k exposed =>
       exact not_hsame_e0_empty (hsame_trans (hsame_symm exposed.left) tailEmpty)
 
+theorem ContinuationMorphism_e1_source_e0_target_tail_core_deterministic {a r k l : BHist}
+    (m n : ContinuationMorphism (BHist.e1 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e0 k) -> hsame n.tail (BHist.e0 l) -> hsame k l := by
+  intro sameM sameN
+  exact hsame_e0_iff.mp
+    (hsame_trans (hsame_symm sameM)
+      (hsame_trans (ContinuationMorphism_tail_deterministic m n) sameN))
+
+theorem ContinuationMorphism_e1_source_e0_target_tail_e1_absurd {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e1 k) -> False := by
+  intro tailOne
+  cases ContinuationMorphism_e1_source_e0_target_tail_cases m with
+  | intro t exposed =>
+      exact not_hsame_e0_e1 (hsame_trans (hsame_symm exposed.left) tailOne)
+
+theorem ContinuationMorphism_e1_source_e0_target_tail_e0_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e0 k) ↔ Cont (BHist.e1 a) k r := by
+  constructor
+  · intro tailZero
+    cases m with
+    | mk tail rel =>
+        cases tail with
+        | Empty =>
+            exact False.elim (not_hsame_emp_e0 tailZero)
+        | e0 t =>
+            have sameTK : hsame t k := hsame_e0_iff.mp tailZero
+            cases sameTK
+            exact BHist.e0.inj rel
+        | e1 t =>
+            exact False.elim (not_hsame_e1_e0 tailZero)
+  · intro tailCont
+    let displayed : ContinuationMorphism (BHist.e1 a) (BHist.e0 r) :=
+      { tail := BHist.e0 k, rel := cont_step_zero tailCont }
+    change hsame m.tail displayed.tail
+    exact ContinuationMorphism_tail_deterministic m displayed
+
 theorem ContinuationMorphism_e0_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e0 a) (BHist.e1 r)) :
     Exists (fun k : BHist => hsame m.tail (BHist.e1 k) ∧ Cont (BHist.e0 a) k r) := by
@@ -178,6 +248,44 @@ theorem ContinuationMorphism_e0_source_e1_target_tail_not_empty {a r : BHist}
   | intro k exposed =>
       exact not_hsame_e1_empty (hsame_trans (hsame_symm exposed.left) tailEmpty)
 
+theorem ContinuationMorphism_e0_source_e1_target_tail_core_deterministic {a r k l : BHist}
+    (m n : ContinuationMorphism (BHist.e0 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e1 k) -> hsame n.tail (BHist.e1 l) -> hsame k l := by
+  intro sameM sameN
+  exact hsame_e1_iff.mp
+    (hsame_trans (hsame_symm sameM)
+      (hsame_trans (ContinuationMorphism_tail_deterministic m n) sameN))
+
+theorem ContinuationMorphism_e0_source_e1_target_tail_e0_absurd {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e0 k) -> False := by
+  intro tailZero
+  cases ContinuationMorphism_e0_source_e1_target_tail_cases m with
+  | intro t exposed =>
+      exact not_hsame_e1_e0 (hsame_trans (hsame_symm exposed.left) tailZero)
+
+theorem ContinuationMorphism_e0_source_e1_target_tail_e1_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e1 k) ↔ Cont (BHist.e0 a) k r := by
+  constructor
+  · intro tailOne
+    cases m with
+    | mk tail rel =>
+        cases tail with
+        | Empty =>
+            exact False.elim (not_hsame_emp_e1 tailOne)
+        | e0 t =>
+            exact False.elim (not_hsame_e0_e1 tailOne)
+        | e1 t =>
+            have sameTK : hsame t k := hsame_e1_iff.mp tailOne
+            cases sameTK
+            exact BHist.e1.inj rel
+  · intro tailCont
+    let displayed : ContinuationMorphism (BHist.e0 a) (BHist.e1 r) :=
+      { tail := BHist.e1 k, rel := cont_step_one tailCont }
+    change hsame m.tail displayed.tail
+    exact ContinuationMorphism_tail_deterministic m displayed
+
 theorem ContinuationMorphism_e0_source_e0_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
     (m.tail = BHist.Empty ∧ hsame a r) ∨
@@ -193,6 +301,27 @@ theorem ContinuationMorphism_e0_source_e0_target_tail_cases {a r : BHist}
           exact Exists.intro k (And.intro rfl (BHist.e0.inj rel))
       | e1 k =>
           exact False.elim (not_hsame_e0_e1 rel)
+
+theorem ContinuationMorphism_e0_source_e0_target_nonempty_tail_cases {a r : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    (hsame m.tail BHist.Empty -> False) ->
+      Exists (fun k : BHist => hsame m.tail (BHist.e0 k) ∧ Cont (BHist.e0 a) k r) := by
+  intro nonempty
+  cases ContinuationMorphism_e0_source_e0_target_tail_cases m with
+  | inl emptyCase =>
+      exact False.elim (nonempty emptyCase.left)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro k data =>
+          exact Exists.intro k (And.intro data.left data.right)
+
+theorem ContinuationMorphism_e0_source_e0_target_tail_core_deterministic {a r k l : BHist}
+    (m n : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e0 k) -> hsame n.tail (BHist.e0 l) -> hsame k l := by
+  intro sameM sameN
+  exact hsame_e0_iff.mp
+    (hsame_trans (hsame_symm sameM)
+      (hsame_trans (ContinuationMorphism_tail_deterministic m n) sameN))
 
 theorem ContinuationMorphism_e0_source_e0_target_tail_e1_absurd {a r k : BHist}
     (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
@@ -210,6 +339,45 @@ theorem ContinuationMorphism_e0_source_e0_target_tail_e1_absurd {a r k : BHist}
           cases resultCases with
           | intro r1 data =>
               exact not_hsame_e0_e1 data.left
+
+theorem ContinuationMorphism_e0_source_e0_target_tail_e0_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    hsame m.tail (BHist.e0 k) ↔ Cont (BHist.e0 a) k r := by
+  constructor
+  · intro tailZero
+    cases ContinuationMorphism_e0_source_e0_target_tail_cases m with
+    | inl emptyCase =>
+        exact False.elim
+          (not_hsame_emp_e0 (hsame_trans (hsame_symm emptyCase.left) tailZero))
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro t exposed =>
+            have samePayload : hsame t k :=
+              hsame_e0_iff.mp (hsame_trans (hsame_symm exposed.left) tailZero)
+            exact cont_hsame_transport (hsame_refl (BHist.e0 a)) samePayload
+              (hsame_refl r) exposed.right
+  · intro continuation
+    exact cont_left_cancel m.rel (cont_step_zero continuation)
+
+theorem ContinuationMorphism_e0_source_e0_target_tail_empty_iff {a r : BHist}
+    (m : ContinuationMorphism (BHist.e0 a) (BHist.e0 r)) :
+    hsame m.tail BHist.Empty ↔ hsame a r := by
+  constructor
+  · intro tailEmpty
+    cases ContinuationMorphism_e0_source_e0_target_tail_cases m with
+    | inl emptyCase =>
+        exact emptyCase.right
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k exposed =>
+            exact False.elim (not_hsame_emp_e0 (hsame_trans (hsame_symm tailEmpty) exposed.left))
+  · intro sameEndpoint
+    let displayed : ContinuationMorphism (BHist.e0 a) (BHist.e0 r) :=
+      { tail := BHist.Empty
+        rel := by
+          cases sameEndpoint
+          exact cont_right_unit (BHist.e0 a) }
+    exact ContinuationMorphism_tail_deterministic m displayed
 
 theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
     (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
@@ -236,6 +404,37 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_cases {a r : BHist}
               right
               exact Exists.intro k (And.intro (hsame_refl (BHist.e1 k)) data.right)
 
+theorem ContinuationMorphism_e1_source_e1_target_nonempty_tail_cases {a r : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    (hsame m.tail BHist.Empty -> False) ->
+      Exists (fun k : BHist => hsame m.tail (BHist.e1 k) ∧ Cont (BHist.e1 a) k r) := by
+  intro nonempty
+  cases m with
+  | mk tail rel =>
+      cases tail with
+      | Empty =>
+          exact False.elim (nonempty (hsame_refl BHist.Empty))
+      | e0 k =>
+          have resultCases := cont_step_result_inversions.left rel
+          cases resultCases with
+          | intro r0 data =>
+              exact False.elim (not_hsame_e1_e0 data.left)
+      | e1 k =>
+          have resultCases := cont_step_result_inversions.right rel
+          cases resultCases with
+          | intro r1 data =>
+              have sameR : r = r1 := BHist.e1.inj data.left
+              cases sameR
+              exact Exists.intro k (And.intro (hsame_refl (BHist.e1 k)) data.right)
+
+theorem ContinuationMorphism_e1_source_e1_target_tail_core_deterministic {a r k l : BHist}
+    (m n : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e1 k) -> hsame n.tail (BHist.e1 l) -> hsame k l := by
+  intro sameM sameN
+  exact hsame_e1_iff.mp
+    (hsame_trans (hsame_symm sameM)
+      (hsame_trans (ContinuationMorphism_tail_deterministic m n) sameN))
+
 theorem ContinuationMorphism_e1_source_e1_target_tail_e0_absurd {a r k : BHist}
     (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
     hsame m.tail (BHist.e0 k) -> False := by
@@ -247,5 +446,44 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_e0_absurd {a r k : BHist}
       cases visibleCase with
       | intro t exposed =>
           exact not_hsame_e1_e0 (hsame_trans (hsame_symm exposed.left) tailZero)
+
+theorem ContinuationMorphism_e1_source_e1_target_tail_e1_iff {a r k : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail (BHist.e1 k) ↔ Cont (BHist.e1 a) k r := by
+  constructor
+  · intro tailOne
+    cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+    | inl emptyCase =>
+        exact False.elim
+          (not_hsame_emp_e1 (hsame_trans (hsame_symm emptyCase.left) tailOne))
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro t exposed =>
+            have samePayload : hsame t k :=
+              hsame_e1_iff.mp (hsame_trans (hsame_symm exposed.left) tailOne)
+            exact cont_hsame_transport (hsame_refl (BHist.e1 a)) samePayload
+              (hsame_refl r) exposed.right
+  · intro continuation
+    exact cont_left_cancel m.rel (cont_step_one continuation)
+
+theorem ContinuationMorphism_e1_source_e1_target_tail_empty_iff {a r : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail BHist.Empty ↔ hsame a r := by
+  constructor
+  · intro tailEmpty
+    cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+    | inl emptyCase =>
+        exact emptyCase.right
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k exposed =>
+            exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm tailEmpty) exposed.left))
+  · intro sameEndpoint
+    let displayed : ContinuationMorphism (BHist.e1 a) (BHist.e1 r) :=
+      { tail := BHist.Empty
+        rel := by
+          cases sameEndpoint
+          exact cont_right_unit (BHist.e1 a) }
+    exact ContinuationMorphism_tail_deterministic m displayed
 
 end BEDC.Derived.CategoryUp

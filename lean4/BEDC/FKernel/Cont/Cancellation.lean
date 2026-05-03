@@ -23,6 +23,25 @@ theorem cont_transport_result_classified {h h' k k' r r' s : BHist} :
   have transported := cont_hsame_transport sameH sameK sameR left
   exact And.intro transported (cont_deterministic transported right)
 
+theorem cont_result_hsame_iff {a f r s : BHist} :
+    Cont a f r -> (Cont a f s ↔ hsame s r) := by
+  intro continuation
+  constructor
+  · intro alternative
+    exact cont_deterministic alternative continuation
+  · intro sameResult
+    exact cont_result_hsame_transport continuation (hsame_symm sameResult)
+
+theorem cont_source_hsame_iff {a a' f r : BHist} :
+    Cont a f r -> (Cont a' f r ↔ hsame a' a) := by
+  intro continuation
+  constructor
+  · intro alternative
+    exact cont_right_cancel alternative continuation
+  · intro sameSource
+    exact cont_hsame_transport (hsame_symm sameSource) (hsame_refl f) (hsame_refl r)
+      continuation
+
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->
       hsame left right -> hsame b d := by
@@ -102,6 +121,17 @@ theorem cont_triangle_cycle_left_visible_tail_absurd {a b c k g h : BHist} :
     cont_mutual_extension_tails_empty composite back
   exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).left
 
+theorem cont_triangle_cycle_left_zero_tail_absurd {a b c k g h : BHist} :
+    Cont a (BHist.e0 k) b -> Cont b g c -> Cont c h a -> False := by
+  intro left right back
+  have composite : Cont a (append (BHist.e0 k) g) c := by
+    cases left
+    exact right.trans (append_assoc a (BHist.e0 k) g)
+  have cycleTails :
+      hsame (append (BHist.e0 k) g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e0_empty (append_eq_empty_iff.mp cycleTails.left).left
+
 theorem cont_triangle_cycle_middle_visible_tail_absurd {a b c f k h : BHist} :
     Cont a f b -> Cont b (BHist.e1 k) c -> Cont c h a -> False := by
   intro left middle back
@@ -113,6 +143,17 @@ theorem cont_triangle_cycle_middle_visible_tail_absurd {a b c f k h : BHist} :
     cont_mutual_extension_tails_empty composite back
   exact not_hsame_e1_empty (append_eq_empty_iff.mp cycleTails.left).right
 
+theorem cont_triangle_cycle_middle_zero_tail_absurd {a b c f k h : BHist} :
+    Cont a f b -> Cont b (BHist.e0 k) c -> Cont c h a -> False := by
+  intro left middle back
+  have composite : Cont a (append f (BHist.e0 k)) c := by
+    cases left
+    exact middle.trans (append_assoc a f (BHist.e0 k))
+  have cycleTails :
+      hsame (append f (BHist.e0 k)) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  exact not_hsame_e0_empty (append_eq_empty_iff.mp cycleTails.left).right
+
 theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     Cont a f b -> Cont b g c -> Cont c (BHist.e1 k) a -> False := by
   intro left middle back
@@ -120,6 +161,29 @@ theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     cases left
     exact middle.trans (append_assoc a f g)
   exact (cont_mutual_extension_right_tail_absurd.right composite back)
+
+theorem cont_triangle_cycle_tails_empty {a b c f g h : BHist} :
+    Cont a f b -> Cont b g c -> Cont c h a ->
+      hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame h BHist.Empty ∧
+        hsame a b ∧ hsame b c := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  have cycleTails :
+      hsame (append f g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  have emptyParts : f = BHist.Empty ∧ g = BHist.Empty :=
+    append_eq_empty_iff.mp cycleTails.left
+  cases emptyParts.left
+  cases emptyParts.right
+  exact
+    And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty)
+        (And.intro cycleTails.right
+          (And.intro
+            (cont_deterministic (cont_right_unit a) left)
+            (cont_deterministic (cont_right_unit b) middle))))
 
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
@@ -135,6 +199,17 @@ theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     cases left
     exact right.trans (append_assoc h f g)
   exact cont_left_cancel direct composite
+
+theorem cont_composite_tail_iff {a b c f g t : BHist} :
+    Cont a f b -> Cont b g c -> (Cont f g t <-> Cont a t c) := by
+  intro left right
+  constructor
+  · intro tail
+    cases left
+    cases tail
+    exact right.trans (append_assoc a f g)
+  · intro direct
+    exact cont_composite_tail_unique left right direct
 
 theorem cont_composite_left_factor {a b c f g fg : BHist} :
     Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
@@ -153,6 +228,27 @@ theorem cont_composite_right_factor {a b c f g fg : BHist} :
   cases composite
   cases displayed
   exact cont_intro (append_assoc a f g).symm
+
+theorem cont_composite_factorization_iff {a c f g fg : BHist} :
+    Cont f g fg -> (Cont a fg c <-> ∃ b : BHist, Cont a f b ∧ Cont b g c) := by
+  intro composite
+  constructor
+  · intro displayed
+    exact ⟨append a f, cont_intro rfl,
+      cont_composite_right_factor (cont_intro rfl) composite displayed⟩
+  · intro factorization
+    cases factorization with
+    | intro b factors =>
+        cases factors.left
+        cases composite
+        exact cont_intro (factors.right.trans (append_assoc a f g))
+
+theorem cont_composite_canonical_middle_public_readback {a c f g fg : BHist} :
+    Cont f g fg -> Cont a fg c -> Cont a f (append a f) ∧ Cont (append a f) g c ∧
+      (∀ {b : BHist}, Cont a f b -> Cont b g c -> hsame (append a f) b) := by
+  intro composite displayed
+  exact ⟨cont_intro rfl, cont_composite_right_factor (cont_intro rfl) composite displayed,
+    fun {_b} left _right => left.symm⟩
 
 theorem cont_prefix_iff {p a b f : BHist} :
     Cont (append p a) f (append p b) ↔ Cont a f b := by
@@ -173,5 +269,11 @@ theorem cont_suffix_iff {a b f p : BHist} :
     apply cont_intro
     cases base
     exact append_assoc a f p
+
+theorem cont_parallel_factor_tails_deterministic {a b c f f' g g' : BHist} :
+    Cont a f b -> Cont b g c -> Cont a f' b -> Cont b g' c ->
+      hsame f f' ∧ hsame g g' := by
+  intro left right left' right'
+  exact And.intro (cont_left_cancel left left') (cont_left_cancel right right')
 
 end BEDC.FKernel.Cont

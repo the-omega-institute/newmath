@@ -1,0 +1,20 @@
+\begin{theorem}[Metric distance witness continuation hsame transport]
+\label{thm:metric-distance-witness-cont-hsame-transport}
+For histories $x,x',y,y',d,d':\mathsf{BHist}$, history-sameness of the two
+endpoints and of the distance result transports the continuation field exposed
+by a metric distance witness:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\ContR(x',y',d').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the three supplied $\hsame$ witnesses. The transported endpoints
+and result are then definitionally the endpoints and result of the original
+metric distance witness. Project its continuation field
+$\ContR(x,y,d)$, which is the required transported continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_hsame\_transport}

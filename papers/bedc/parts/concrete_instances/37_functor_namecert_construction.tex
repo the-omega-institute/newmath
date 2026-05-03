@@ -70,6 +70,30 @@ First use category hom-carrier composition closure to place \(fg\) from \(a\) to
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_preserves}
 
+\begin{theorem}[Prefix functor composite-result semantic name certificate]
+\label{thm:functor-prefix-hom-carrier-comp-result-semantic-namecert}
+For the unary-continuation category, if $p$ is unary, $f$ is a hom-carrier from
+$a$ to $b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$, then
+the predicate
+$$
+h\mapsto
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),h)
+\land h\hsame fg
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same prefixed composite-result predicate and whose
+classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Prefix composition preservation supplies the carrier witness at $fg$ between
+the prefixed endpoints, and reflexivity supplies $fg\hsame fg$. The classifier
+laws are the basic laws of $\hsame$. Transport along a classifier proof keeps
+the prefixed endpoints fixed, transports the displayed hom carrier across
+$\hsame$, and composes the inverse classifier proof with the stored comparison
+to retain the composite-result alignment.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_result\_semanticNameCert}
+
 \begin{theorem}[Prefix functor composition hsame transport]
 \label{thm:functor-prefix-hom-carrier-comp-hsame-transport}
 For the unary-continuation category, if $f$ is a hom-carrier from
@@ -186,6 +210,23 @@ the central carrier before applying the same determinacy.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_public\_readback}
 
+\begin{theorem}[Prefix functor right unary tail composition public readback]
+\label{thm:functor-prefix-hom-carrier-right-unary-tail-comp-public-readback}
+For the unary-continuation category, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $q$ is unary, and
+$\ContR(f,q,r)$, then $r$ is displayed from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,\mathsf{append}(b,q))$. Any competing displayed result
+$r'$ with $\ContR(f,q,r')$ satisfies $\HSame(r,r')$.
+\end{theorem}
+\begin{proof}
+The prefixed target $\mathsf{append}(p,b)$ carries the canonical right-tail
+hom into $\mathsf{append}(\mathsf{append}(p,b),q)$. Composing with $f$ gives a
+raw target, and associativity transports it to
+$\mathsf{append}(p,\mathsf{append}(b,q))$. Readback is hom-morphism
+determinacy over the transported endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_right\_unary\_tail\_comp\_public\_readback}
+
 \begin{theorem}[Prefix functor preserves hom composition with tail commutativity]
 \label{thm:functor-prefix-hom-carrier-tail-comm-closed}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a
@@ -201,6 +242,29 @@ hom-carrier witnesses, so unary continuation commutativity identifies \(fg\)
 and \(gf\).
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_tail\_comm\_closed}
+
+\begin{theorem}[Functor prefix triangular cycle empty hom exactness]
+\label{thm:functor-prefix-hom-carrier-triangle-cycle-empty-hom-exactness}
+For prefixed hom-carriers forming a triangle over the common prefix $p$,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,c),\mathsf{append}(p,a),h),
+$$
+the empty morphism is displayed on all three prefixed edges, and the underlying
+objects satisfy $\HSame(a,b)$ and $\HSame(b,c)$.
+\end{theorem}
+\begin{proof}
+Apply category triangular empty hom exactness to the three prefixed endpoints.
+The first three conclusions are already the required prefixed empty
+hom-carriers. Cancelling the common left prefix $p$ from the two endpoint
+equalities gives the unprefixed object equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_triangle\_cycle\_empty\_hom\_exactness}
 
 \begin{theorem}[Prefix functor preserves associative hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-assoc-preserves}
@@ -354,6 +418,28 @@ exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_identity\_iff}
 
+\begin{theorem}[Prefix functor empty composite exactness]
+\label{thm:functor-prefix-hom-carrier-comp-empty-iff}
+For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ and $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, then their empty composite is
+equivalent to both morphism histories being empty and the two unprefixed
+adjacent endpoints agreeing:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Category empty-composite exactness gives the two empty morphism histories and
+the two prefixed endpoint equalities. Left cancellation removes the common
+prefix $p$ from both endpoint equalities. Conversely, the unprefixed endpoint
+equalities rebuild the prefixed endpoint equalities, and category
+empty-composite exactness supplies the empty continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_iff}
+
 \begin{theorem}[Prefix functor one-headed endpoint empty composite exactness]
 \label{thm:functor-prefix-hom-carrier-e1-endpoint-empty-composite-iff}
 For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
@@ -442,6 +528,28 @@ carrier, and the category exactness theorem lifts the tail continuation through
 the visible one constructor on both target and morphism.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_morphism\_target\_components\_iff}
+
+\begin{theorem}[Prefix functor visible endpoint morphism exactness]
+\label{thm:functor-prefix-hom-carrier-e1-endpoint-visible-morphism-iff}
+For histories $p,a,r,k$, a prefixed visible morphism between one-headed
+endpoints is equivalent to a unary prefix, unary visible tails, and the
+unprefixed tail continuation:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(k)\wedge\mathsf{UnaryHistory}(r)\wedge
+\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Forward, reflect the prefixed hom-carrier to the base category and apply the
+one-headed endpoint visible morphism exactness theorem; the prefix carrier is
+read from the prefixed source. Reverse, first rebuild the base visible
+hom-carrier from the tail continuation and then apply prefix preservation.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_visible\_morphism\_iff}
 
 \begin{theorem}[Functor prefix hom-carrier zero-headed component impossibility]
 \label{thm:functor-prefix-hom-carrier-zero-headed-component-absurd}
@@ -655,50 +763,4 @@ of the common left prefix $p$ gives $\hsame(c,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_target\_object\_deterministic}
 
-\section{The certificate}
-
-\begin{definition}[Functor source specification]
-\label{def:functor-source-specification}
-The source is a pair of certified categories.
-\end{definition}
-
-\begin{definition}[Functor pattern specification]
-\label{def:functor-pattern-specification}
-The pattern is structure-preserving mapping formation over object and morphism carriers.
-\end{definition}
-
-\begin{definition}[Functor classifier specification]
-\label{def:functor-classifier-specification}
-The classifier relates functors pointwise on object images and morphism images using the codomain category classifiers.
-\end{definition}
-
-\begin{definition}[Functor stability certificate]
-\label{def:functor-stability-certificate}
-The stability certificate consists of:
-\begin{enumerate}
-  \item pointwise object-map classifier reflexivity
-  \item pointwise morphism-map classifier reflexivity
-  \item pointwise transitivity
-  \item identity preservation
-  \item composition preservation
-  \item stability under source and target classifier replacement
-\end{enumerate}
-\end{definition}
-
-\begin{definition}[Functor ledger policy]
-\label{def:functor-ledger-policy}
-Record the two category ledgers and the preservation witnesses.
-\end{definition}
-
-\begin{definition}[\(\FunctorUp\) certificate obligations]
-\label{def:functor-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FunctorUp\).
-\end{definition}
-
-\paragraph{Primitive boundary.}
-\(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-
-\begin{remark}[Zero-axiom encoding note]
-\label{rem:functor-zero-axiom-note}
-Avoids funext by pointwise classifier sameness for object and morphism mappings.
-\end{remark}
+\input{parts/concrete_instances/functor/certificate_obligations}

@@ -24,6 +24,31 @@ the existential package.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
 
+\begin{theorem}[Category visible composable morphism tail cases]
+\label{thm:category-visible-composable-morphisms-tail-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),m,k).
+$$
+\end{theorem}
+\begin{proof}
+First apply the visible composable target-case theorem to expose the
+intermediate and final target tails $r$ and $s$, together with the two
+descended hom-carriers. The remaining continuation ledger is obtained by
+right inversion of the one-headed step rule for
+$\ContR(\Eone(l),\Eone(m),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_tail\_cases}
+
 \begin{theorem}[Category hom-carrier composite visible morphisms result cases]
 \label{thm:category-hom-carrier-comp-visible-morphisms-result-cases}
 For histories $a,b,c,l,m,fg$, if
@@ -49,6 +74,582 @@ hom-carrier composition closure to the two visible morphisms and the same
 canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
+
+\begin{theorem}[Category hom-carrier nonempty morphism target visible]
+\label{thm:category-hom-carrier-nonempty-morphism-target-visible}
+For histories $source,target,morph:\mathsf{BHist}$, if
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+$$
+and $morph$ is not internally empty, then the morphism and target are both
+one-headed and the hom-continuation ledger descends through their exposed
+payloads:
+$$
+\exists k,r.\;
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(source,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The morphism cannot be empty by the nonempty
+hypothesis, and it cannot be zero-headed because unary histories have no
+zero-headed extension. In the one-headed morphism case, the continuation
+ledger forces the result target to be one-headed; constructor inversion then
+exposes the target payload, both unary payload witnesses, and the descended
+continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_target\_visible}
+
+\begin{theorem}[Category visible composite result target cases]
+\label{thm:category-visible-composite-result-target-cases}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then there exist histories $k,r,s$ such that
+$$
+\begin{aligned}
+fg=\Eone(k)\land b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(s),\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The visible composite result theorem exposes $fg=\Eone(k)$ and the composite
+hom-carrier from $a$ to $c$ with morphism $\Eone(k)$. Applying one-headed
+morphism target cases to the two visible factors exposes $b=\Eone(r)$ and
+$c=\Eone(s)$, with the descended factor hom-carriers. Substituting the target
+equalities gives the displayed target-specific composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_target\_cases}
+
+\begin{theorem}[Category hom-carrier visible composite result is not empty]
+\label{thm:category-hom-carrier-visible-composite-result-not-empty}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then $fg$ cannot be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Invert the displayed continuation ledger. The result is definitionally
+$\mathsf{append}(\Eone(l),\Eone(m))$, hence one-headed. Constructor
+no-confusion rejects any $\HSame$ comparison between that one-headed result and
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_not\_empty}
+
+\begin{theorem}[Category hom-carrier nonempty composite target visible]
+\label{thm:category-hom-carrier-comp-result-nonempty-target-visible}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then $fg$
+and the target object $c$ are both one-headed, and the composite continuation
+ledger is visible at that boundary:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure turns the two hom-carriers and the displayed composite
+ledger into a hom-carrier from $a$ to $c$ over $fg$. The composite morphism is
+unary. The empty case contradicts the nonempty hypothesis, and the zero-headed
+case contradicts unary generation. In the one-headed case, the target cannot
+be empty or zero-headed because the continuation ledger has one-headed result
+shape; the remaining target case exposes $c=\Eone(r)$ and carries the original
+continuation witness at the visible boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
+
+\begin{theorem}[Category nonempty composite source-target cases]
+\label{thm:category-hom-carrier-comp-result-nonempty-source-target-cases}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then either
+the source object is empty and the visible target boundary is carried directly,
+or the source object is itself one-headed and the whole visible source,
+composite, and target boundary is displayed:
+$$
+\begin{array}{l}
+\bigl(\HSame(a,\emp)\land
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land\mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r))\bigr)
+\\
+\vee
+\bigl(\exists s,k,r.\;a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(s)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(s),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty target-visible theorem to the displayed composite.
+This gives one-headed presentations of $fg$ and $c$ together with the
+continuation ledger at that visible target boundary. Inspect the source object
+$a$. The empty case gives the first disjunct. The zero-headed case contradicts
+the unary source field of the left hom-carrier. The one-headed case exposes the
+source tail and reuses the same visible continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_source\_target\_cases}
+
+\begin{theorem}[Category nonempty result visible hom readback]
+\label{thm:category-comp-nonempty-result-visible-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then its
+one-headed result presentation also reads back as a visible composite
+hom-carrier:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty composite target-visible theorem. It exposes histories
+$k,r$ with $fg=\Eone(k)$ and $c=\Eone(r)$, together with unary witnesses for
+$k$ and $r$ and the boundary continuation
+$\ContR(a,\Eone(k),\Eone(r))$. The source unary witness is already part of the
+left hom-carrier, so these fields assemble the visible hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_hom\_readback}
+
+\begin{theorem}[Category nonempty result visible source hom readback]
+\label{thm:category-hom-carrier-comp-nonempty-result-visible-source-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If both the displayed composite morphism $fg$ and the source object $a$ are not
+internally empty, then the visible result presentation reads back with a visible
+source:
+$$
+\exists s,k,r.\;
+a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(\Eone(s),\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty result visible hom readback theorem to obtain visible
+histories $k,r$ and the hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$. Inspect the source object
+$a$. The empty branch contradicts the nonempty source hypothesis; the zero
+branch contradicts the unary source field of the hom-carrier. In the one-headed
+branch, the exposed source tail supplies $s$, and the displayed hom-carrier is
+already the required visible-source carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_source\_hom\_readback}
+
+\begin{theorem}[Continuation morphism composite visible tails result cases]
+\label{thm:continuation-morphism-comp-visible-tails-result-cases}
+For histories $a,b,c,l,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the two displayed tails are
+$\hsame(\mathsf{tail}(left),\Eone(l))$ and
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then there exists a history $k$ such
+that
+$$
+\hsame(\mathsf{tail}(left\circ right),\Eone(k))\land
+\ContR(\Eone(l),m,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite stores the
+append of the two visible tails as its displayed tail, which is definitionally
+one-headed. Choose the exposed payload append as $k$; the remaining continuation
+ledger is the canonical append continuation from $\Eone(l)$ through $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_cases}
+
+\begin{theorem}[Continuation morphism visible-tail composite result is not empty]
+\label{thm:continuation-morphism-visible-tail-composite-not-empty}
+For histories $a,b,c,l,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the two displayed tails are
+$\hsame(\mathsf{tail}(left),\Eone(l))$ and
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then the closed composite tail cannot
+be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and substitute the visible-tail
+equalities. The closed composite tail is the append of two one-headed tails,
+which is itself one-headed. BEDC constructor separation rules out an internal
+history sameness proof from this one-headed tail to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_not\_empty}
+
+\begin{theorem}[Continuation morphism composite tail nonempty cases]
+\label{thm:category-continuation-morphism-comp-tail-nonempty-cases}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then at least one displayed factor tail is not internally
+empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(\mathsf{tail}(left),\emp)\vee
+\neg\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left displayed
+tail. If it is empty, the composite tail reduces to the right displayed tail,
+so right-tail emptiness would contradict the composite nonemptiness
+hypothesis. If it is zero-headed or one-headed, BEDC constructor separation
+rules out any equality from that left tail to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_cases}
+
+\begin{theorem}[Continuation morphism composite tail nonempty endpoint cases]
+\label{thm:continuation-morphism-comp-tail-nonempty-endpoint-cases}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then at least one adjacent endpoint comparison fails:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(a,b)\vee\neg\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+First split composite tail nonemptiness into nonemptiness of one displayed
+factor tail. For each factor, use the empty-tail endpoint iff for continuation
+morphisms: an endpoint comparison would force the corresponding tail to be
+internally empty. This contradicts the selected tail-nonempty branch.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_endpoint\_cases}
+
+\begin{theorem}[Continuation morphism composite tail nonempty equivalence]
+\label{thm:continuation-morphism-comp-tail-nonempty-iff}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The closed composite tail is not
+internally empty exactly when at least one displayed factor tail is not
+internally empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Longleftrightarrow
+\neg\HSame(\mathsf{tail}(left),\emp)\vee
+\neg\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The composite tail is the append
+of the displayed factor tails, so the append nonempty factor equivalence gives
+the displayed statement.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_iff}
+
+\begin{theorem}[Continuation morphism composite target empty iff]
+\label{thm:continuation-morphism-comp-target-empty-iff}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The final target is empty exactly
+when both sources and both displayed factor tails are empty:
+$$
+\HSame(c,\emp)\Longleftrightarrow
+\HSame(a,\emp)\land\HSame(b,\emp)\land
+\HSame(\mathsf{tail}(left),\emp)\land
+\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+If $c\hsame\emp$, transport the right continuation ledger to empty target and
+apply two-stage empty-target inversion. This yields empty source, empty
+middle, and empty tails for the two displayed factors.
+
+Conversely, destruct the right continuation morphism. The empty middle and
+empty right-tail witnesses reduce its continuation ledger to the canonical
+empty continuation, forcing the target to be $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_target\_empty\_iff}
+
+\begin{theorem}[Continuation morphism composite nonempty tail rejects empty target]
+\label{thm:category-continuation-morphism-comp-tail-nonempty-target-not-empty}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then the final target cannot be internally empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the right continuation relation across an internal equality
+$c\hsame\emp$. The empty-target inversion for the two-stage continuation then
+forces both displayed tails to be internally empty. The composite-tail
+nonempty equivalence turns the composite nonemptiness hypothesis into
+nonemptiness of one displayed factor tail, contradicting the inversion data.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_target\_not\_empty}
+
+\begin{theorem}[Continuation morphism composite unary tails reject zero-headed result]
+\label{thm:category-continuation-morphism-comp-unary-tail-e0-absurd}
+For histories $a,b,c,z$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+histories, then the closed composite tail cannot be internally the same as
+$\Ezero(z)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite tail is the
+append of the two component tails, and unary closure under append keeps that
+composite tail unary. A unary history cannot be internally the same as a
+zero-headed history, by the BEDC unary zero-exclusion rule.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_unary\_tail\_e0\_absurd}
+
+\begin{theorem}[Continuation morphism composite one-headed tail left cases]
+\label{thm:continuation-morphism-comp-e1-tail-left-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Eone(k)$ and the left displayed tail is unary, then either the
+left displayed tail is empty and the right displayed tail is classified by
+$\Eone(k)$, or the left displayed tail is itself one-headed and forms a
+continuation witness with the right displayed tail to $\Eone(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left tail. The
+empty case reduces the composite tail by left-unit append. The zero-headed case
+contradicts unary classification. In the one-headed case, the displayed
+composite equality is exactly the continuation witness from the exposed left
+tail and the right tail to $\Eone(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e1\_tail\_left\_cases}
+
+\begin{theorem}[Continuation morphism composite one-headed tail right cases]
+\label{thm:category-continuation-composite-e1-tail-right-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Eone(k)$ and the right displayed tail is unary, then either the
+right displayed tail is empty and the left displayed tail is classified by
+$\Eone(k)$, or the right displayed tail is itself one-headed and forms a
+continuation witness from the left displayed tail to $\Eone(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the right tail. The
+empty case reduces the composite tail by right-unit append. The zero-headed
+case contradicts unary classification. In the one-headed case, the displayed
+composite equality is exactly the continuation witness from the left tail and
+the exposed right tail to $\Eone(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e1\_tail\_right\_cases}
+
+\begin{theorem}[Continuation morphism composite zero-headed tail left cases]
+\label{thm:continuation-morphism-comp-e0-tail-left-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Ezero(k)$ and the left displayed tail is unary, then either the
+left displayed tail is empty and the right displayed tail is classified by
+$\Ezero(k)$, or the left displayed tail is one-headed and forms a continuation
+witness with the right displayed tail to $\Ezero(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left tail. The
+empty case reduces the composite tail by left-unit append. The zero-headed
+case contradicts unary classification of the left tail. In the one-headed
+case, the displayed composite equality is exactly the continuation witness
+from the exposed left tail and the right tail to $\Ezero(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e0\_tail\_left\_cases}
+
+\begin{theorem}[Continuation morphism composite zero-headed tail right cases]
+\label{thm:continuation-morphism-comp-e0-tail-right-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Ezero(k)$ and the right displayed tail is unary, then the right
+displayed tail is empty and the left displayed tail is classified by
+$\Ezero(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the right tail. The
+empty case reduces the composite tail by right-unit append. The zero-headed
+case contradicts unary classification of the right tail. The one-headed case
+would classify a one-headed composite tail as zero-headed, contradicting BEDC
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e0\_tail\_right\_cases}
+
+\begin{theorem}[Continuation morphism nonempty one-headed composite factors]
+\label{thm:continuation-morphism-comp-nonempty-e1-tail-factors}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+and nonempty, and the composite displayed tail is classified by $\Eone(k)$,
+then there are histories $l,m$ such that the left and right displayed tails are
+classified by $\Eone(l)$ and $\Eone(m)$, and
+$$
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Destructure both displayed tails. Empty tails contradict the corresponding
+nonempty hypotheses, and zero-headed tails contradict unary classification.
+The remaining one-headed--one-headed case exposes $l$ and $m$ directly, while
+the composite displayed equality supplies the continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors}
+
+\begin{theorem}[Continuation morphism nonempty one-headed composite factors are unique]
+\label{thm:continuation-morphism-comp-nonempty-e1-tail-factors-unique}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If both displayed tails are unary
+and nonempty, and the composite displayed tail is classified by $\Eone(k)$,
+then there are histories $l,m$ such that the left and right displayed tails are
+classified by $\Eone(l)$ and $\Eone(m)$, the visible boundary satisfies
+$$
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+and any other visible payloads $l',m'$ with the same two displayed tail
+classifications and the same visible boundary satisfy
+$\HSame(l,l')\land\HSame(m,m')$.
+\end{theorem}
+\begin{proof}
+Destructure both displayed tails. Empty tails contradict nonemptiness and
+zero-headed tails contradict unary classification. In the remaining
+one-headed--one-headed case, the witnesses are the two exposed payloads.
+Constructor injectivity for $\Eone$ turns any competing left and right tail
+classifications into the two payload equalities, while the displayed composite
+equality supplies the boundary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors\_unique}
+
+\begin{theorem}[Continuation morphism right one-headed tail target cases]
+\label{thm:continuation-morphism-right-e1-tail-target-cases}
+For histories $b,c,m$, let
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the displayed tail of $right$
+is internally the same as $\Eone(m)$, then the target is one-headed:
+$$
+\exists r:\mathsf{BHist}.\;
+c=\Eone(r)\land \ContR(b,m,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record and replace its displayed tail by
+$\Eone(m)$. The BEDC continuation step-result inversion then exposes the
+unique one-headed target payload $r$ and the descended continuation
+$\ContR(b,m,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_right\_e1\_tail\_target\_cases}
+
+\begin{theorem}[Continuation morphism right zero-headed tail target cases]
+\label{thm:continuation-morphism-right-e0-tail-target-cases}
+For histories $b,c,m$, let
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the displayed tail of $right$
+is internally the same as $\Ezero(m)$, then the target is zero-headed:
+$$
+\exists r:\mathsf{BHist}.\;
+c=\Ezero(r)\land \ContR(b,m,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism record and replace its displayed tail by
+$\Ezero(m)$. The BEDC continuation step-result inversion then exposes the
+zero-headed target payload $r$ together with the descended continuation
+$\ContR(b,m,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_right\_e0\_tail\_target\_cases}
+
+\begin{theorem}[Continuation morphism composite right visible tail result cases]
+\label{thm:category-continuation-morphism-comp-right-visible-tail-result-cases}
+For histories $a,b,c,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then the closed composite tail is
+one-headed, and its exposed payload is the continuation of the left tail by
+$m$:
+$$
+\exists k:\mathsf{BHist}.\;
+\hsame(\mathsf{tail}(left\circ right),\Eone(k))\land
+\ContR(\mathsf{tail}(left),m,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite stores the
+append of the left tail with the right tail as its displayed tail. Replacing
+the right tail by its $\Eone(m)$ presentation makes the composite tail
+definitionally $\Eone(\mathsf{append}(\mathsf{tail}(left),m))$. Choose this
+payload append as $k$; the remaining continuation ledger is the reflexive
+append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_visible\_tail\_result\_cases}
+
+\begin{theorem}[Continuation morphism composite right zero tail result cases]
+\label{thm:category-continuation-morphism-comp-right-e0-tail-result-cases}
+For histories $a,b,c,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is
+$\hsame(\mathsf{tail}(right),\Ezero(m))$, then the closed composite tail is
+zero-headed, and its exposed payload is the continuation of the left tail by
+$m$:
+$$
+\exists k:\mathsf{BHist}.\;
+\hsame(\mathsf{tail}(left\circ right),\Ezero(k))\land
+\ContR(\mathsf{tail}(left),m,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite stores the
+append of the left tail with the right tail as its displayed tail. Replacing
+the right tail by its $\Ezero(m)$ presentation makes the composite tail
+definitionally $\Ezero(\mathsf{append}(\mathsf{tail}(left),m))$. Choose this
+payload append as $k$; the remaining continuation ledger is the reflexive
+append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_e0\_tail\_result\_cases}
+
+\begin{theorem}[Continuation morphism right zero tail composite result is not empty]
+\label{thm:continuation-morphism-comp-right-e0-tail-result-not-empty}
+For histories $a,b,c,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is
+$\hsame(\mathsf{tail}(right),\Ezero(m))$, then the closed composite tail cannot
+be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and replace the right tail by its
+zero-headed presentation. The closed composite tail is then a zero-headed
+history, namely $\Ezero(\mathsf{append}(\mathsf{tail}(left),m))$. BEDC
+constructor separation rules out an internal sameness proof from this
+zero-headed history to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_e0\_tail\_result\_not\_empty}
 
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}

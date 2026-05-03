@@ -442,6 +442,46 @@ theorem field_affine_composite_two_sided_inverse
           (x := x) pa pb
       exact hsame_trans inverseT1Congr inverseT1AtImage.left
 
+theorem field_affine_explicit_inverse_double_cancel_at
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (negRight : forall x : BHist, hsame (add x (neg x)) BHist.Empty)
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulLeftId : forall x : BHist, hsame (mul one x) x)
+    (mulRightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (mulLeftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (mulRightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (zeroLeftMul : forall x : BHist, hsame (mul BHist.Empty x) BHist.Empty)
+    (oneApartEmpty : hsame one BHist.Empty -> False)
+    (nonzeroOfApartEmpty : forall x : BHist, (hsame x BHist.Empty -> False) -> NonZero x)
+    {a b d x : BHist} (pa : NonZero a) (pb : NonZero b) :
+    Exists (fun pA : NonZero (inv a pa) => Exists (fun pB : NonZero (inv b pb) =>
+      hsame
+        (add (mul (mul (inv (inv a pa) pA) x) (inv (inv b pb) pB)) d)
+        (add (mul (mul a x) b) d))) := by
+  let pA : NonZero (inv a pa) :=
+    field_inverse_nonzero_from_one_apartness
+      mulCongr zeroLeftMul mulLeftInv oneApartEmpty nonzeroOfApartEmpty pa
+  let pB : NonZero (inv b pb) :=
+    field_inverse_nonzero_from_one_apartness
+      mulCongr zeroLeftMul mulLeftInv oneApartEmpty nonzeroOfApartEmpty pb
+  have sameA : hsame (inv (inv a pa) pA) a := by
+    exact BEDC.Derived.GroupUp.group_left_right_inverse_uniqueness
+      mulAssoc mulLeftId mulRightId mulCongr (mulLeftInv (inv a pa) pA) (mulLeftInv a pa)
+  have sameB : hsame (inv (inv b pb) pB) b := by
+    exact BEDC.Derived.GroupUp.group_left_right_inverse_uniqueness
+      mulAssoc mulLeftId mulRightId mulCongr (mulLeftInv (inv b pb) pB) (mulLeftInv b pb)
+  exact Exists.intro pA
+    (Exists.intro pB
+      (addCongr (mulCongr (mulCongr sameA (hsame_refl x)) sameB) (hsame_refl d)))
+
 theorem field_affine_identity_endpoint {add mul : BHist -> BHist -> BHist} {one x : BHist}
     (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
     (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
@@ -461,5 +501,24 @@ theorem field_affine_identity_classifier {add mul : BHist -> BHist -> BHist} {on
     (field_affine_identity_endpoint addRightId mulLeftId mulRightId)
     (hsame_trans sameXY
       (hsame_symm (field_affine_identity_endpoint addRightId mulLeftId mulRightId)))
+
+theorem field_affine_identity_classifier_iff {add mul : BHist -> BHist -> BHist} {one x y : BHist}
+    (addRightId : ∀ z : BHist, hsame (add z BHist.Empty) z)
+    (mulLeftId : ∀ z : BHist, hsame (mul one z) z)
+    (mulRightId : ∀ z : BHist, hsame (mul z one) z) :
+    hsame (add (mul (mul one x) one) BHist.Empty)
+      (add (mul (mul one y) one) BHist.Empty) ↔ hsame x y := by
+  constructor
+  · intro sameImages
+    have leftEndpoint :
+        hsame (add (mul (mul one x) one) BHist.Empty) x :=
+      field_affine_identity_endpoint addRightId mulLeftId mulRightId
+    have rightEndpoint :
+        hsame (add (mul (mul one y) one) BHist.Empty) y :=
+      field_affine_identity_endpoint addRightId mulLeftId mulRightId
+    exact hsame_trans (hsame_symm leftEndpoint)
+      (hsame_trans sameImages rightEndpoint)
+  · intro sameXY
+    exact field_affine_identity_classifier addRightId mulLeftId mulRightId sameXY
 
 end BEDC.Derived.FieldUp

@@ -51,3 +51,24 @@ equation. Conversely, a history-sameness proof with $\emp$ reduces the depth
 equation to the empty reflexive case.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}
+
+\begin{theorem}[Metric visible-context depth-zero collapse]
+\label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
+For histories $p,q,x,y,d$, a visible-context distance witness whose central
+distance has structural depth zero collapses the central distance and both
+central endpoints to the empty history:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\to
+\mathsf{MetricDistanceDepth}(d)=0
+\to
+\hsame(d,\emp)\land\hsame(x,\emp)\land\hsame(y,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel away the prefix $p$ and suffix $q$,
+recovering the central witness $\mathsf{MetricDistanceWitness}(x,y,d)$. The
+depth-zero endpoint theorem gives $\hsame(x,\emp)$ and $\hsame(y,\emp)$, while
+the depth-zero classifier theorem gives $\hsame(d,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_zero\_collapse}

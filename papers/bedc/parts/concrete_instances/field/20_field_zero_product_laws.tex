@@ -31,6 +31,43 @@ identifies $\mathsf{inv}(a,p_a)(ay)$ with $y$, and transitivity of
 $\hsame$ finishes.
 \end{proof}
 
+\begin{theorem}[Field one-sided multiplication cancellation exactness from apartness]
+\label{thm:field-one-sided-mul-cancel-iff-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+multiplication congruence, right and left multiplication by apartness-certified
+nonzero factors are classifier-exact. Any witness
+$p_b:\mathsf{NonZero}_F(b)$ makes every $x,y:\mathsf{BHist}$ satisfy
+$$
+xb\hsame yb
+\Longleftrightarrow
+x\hsame y,
+$$
+and any witness $p_a:\mathsf{NonZero}_F(a)$ makes every
+$x,y:\mathsf{BHist}$ satisfy
+$$
+ax\hsame ay
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the right-factor clause, the forward direction is exactly the right
+cancellation clause of
+Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with witness $p_b$.
+
+For the reverse direction, start from $x\hsame y$. Multiplication congruence
+transports this equality through right multiplication by the fixed factor $b$,
+using reflexivity on that factor, and gives $xb\hsame yb$.
+
+For the left-factor clause, the forward direction is exactly the left
+cancellation clause of
+Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with witness $p_a$.
+
+For the reverse direction, start from $x\hsame y$. Multiplication congruence
+transports this equality through left multiplication by the fixed factor $a$,
+using reflexivity on that factor, and gives $ax\hsame ay$.
+\end{proof}
+
 \begin{theorem}[Field two-sided multiplication exactness from apartness]
 \label{thm:field-two-sided-mul-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -43,14 +80,13 @@ x\hsame y.
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply
-Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with the
-right-factor witness $p_b$. This cancels the certified factor $b$ and gives
-$a x\hsame a y$.
+For the forward direction, apply the right-factor clause of
+Theorem~\ref{thm:field-one-sided-mul-cancel-iff-from-apartness} with witness
+$p_b$ to $(a x)b\hsame(a y)b$. This gives $a x\hsame a y$.
 
-Apply Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} again with
-the left-factor witness $p_a$. This cancels the certified factor $a$ and
-gives $x\hsame y$.
+Apply the left-factor clause of the same theorem with witness $p_a$. This
+transports $a x\hsame a y$ across the left multiplication classifier and gives
+$x\hsame y$.
 
 For the reverse direction, start from $x\hsame y$. Multiplication congruence
 transports this classifier equality through left multiplication by $a$, giving
@@ -182,6 +218,37 @@ When this predicate is the nonzero index, inverse formation is indexed
 directly by apart-zero witnesses.
 \end{definition}
 
+\begin{theorem}[Field apart-zero semantic name certificate]
+\label{thm:field-apart-zero-semantic-namecert}
+The apart-zero predicate $\mathsf{ApartZero}_F(h)=(h\hsame0\to\bot)$, used as
+source, pattern, and ledger policy with classifier $\hsame$, forms a semantic
+name certificate.
+\end{theorem}
+\begin{proof}
+The history $\Ezero(\emp)$ is apart from zero by constructor separation, so the
+source carrier is inhabited. The classifier fields are the reflexivity,
+symmetry, and transitivity laws of $\hsame$. Carrier preservation is
+contrapositive transport: if $h\hsame k$ and $h$ is apart from zero, then any
+$k\hsame0$ composes to $h\hsame0$, contradiction. Pattern and ledger soundness
+are immediate because all three policies are the same apart-zero predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_semanticNameCert}
+
+\begin{theorem}[Field apart-zero empty transport along history sameness]
+\label{thm:field-apartzero-empty-hsame-transport}
+If $a\hsame b$ and $a$ is apart from zero, then $b$ is also apart from zero:
+$$
+a\hsame b\land \mathsf{ApartZero}_F(a)
+\Longrightarrow
+(b\hsame0\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Assume $b\hsame0$. Transitivity of $\hsame$ with $a\hsame b$ gives
+$a\hsame0$, contradicting the apart-zero witness for $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_empty\_hsame\_transport}
+
 \begin{theorem}[Field apart-zero append factor closure]
 \label{thm:field-apartzero-append-factor-closed}
 For histories $p,q:\mathsf{BHist}$, if either $p$ or $q$ is apart from zero,
@@ -200,6 +267,184 @@ second equality. Thus either factor witness prevents the appended history
 from classifying as zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_factor\_closed}
+
+\begin{theorem}[Field apart-zero append split exactness]
+\label{thm:field-apartzero-append-split-iff}
+For histories $p,q:\mathsf{BHist}$, apart-zero of an appended history is
+exactly apart-zero of one of its factors:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(p)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, split on the concrete shape of $p$. If
+$p=\emp$, then $q\hsame\emp$ would make the append empty, contradicting the
+appended apart-zero witness. If $p$ has a visible head constructor, that
+constructor is separated from $\emp$, so $p$ itself is apart from zero.
+
+For the reverse direction, use the one-factor closure theorem: an empty append
+would split into empty witnesses for both factors, contradicting the selected
+apart-zero factor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_split\_iff}
+
+\begin{theorem}[Field apart-zero append congruence under history sameness]
+\label{thm:field-apartzero-append-hsame-congr-iff}
+For histories $a,a',b,b':\mathsf{BHist}$, history sameness on both append
+factors preserves and reflects apartness from zero:
+$$
+a\hsame a'\land b\hsame b'
+\Longrightarrow
+\bigl(\mathsf{ApartZero}_F(\mathsf{append}(a,b))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(\mathsf{append}(a',b'))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Substituting the two history-sameness witnesses gives
+$\mathsf{append}(a,b)\hsame\mathsf{append}(a',b')$. The apart-zero transport
+law applies in one direction to preserve apartness, and with symmetry of
+$\hsame$ in the other direction to reflect it.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_hsame\_congr\_iff}
+
+\begin{theorem}[Field apart-zero append right-empty exactness]
+\label{thm:field-apartzero-append-right-empty-iff}
+For histories $p,q:\mathsf{BHist}$ with $q\hsame\emp$, appended apart-zero
+is exactly apart-zero of the left factor:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(p).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $p\hsame\emp$. Together with
+$q\hsame\emp$, empty-append exactness gives
+$\mathsf{append}(p,q)\hsame\emp$, contradicting appended apart-zero. For the
+reverse implication, any equality
+$\mathsf{append}(p,q)\hsame\emp$ splits by empty-append exactness, and the
+left component contradicts apart-zero of $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_empty\_iff}
+
+\begin{theorem}[Field apart-zero append left-empty exactness]
+\label{thm:field-apartzero-append-left-empty-iff}
+For histories $p,q:\mathsf{BHist}$ with $p\hsame\emp$, appended apart-zero
+is exactly apart-zero of the right factor:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $q\hsame\emp$. Together with
+$p\hsame\emp$, empty-append exactness gives
+$\mathsf{append}(p,q)\hsame\emp$, contradicting appended apart-zero. For the
+reverse implication, any equality
+$\mathsf{append}(p,q)\hsame\emp$ splits by empty-append exactness, and the
+right component contradicts apart-zero of $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_left\_empty\_iff}
+
+\begin{theorem}[Field apart-zero append visible-headed]
+\label{thm:field-apartzero-append-visible-headed}
+For histories $p,q:\mathsf{BHist}$, appending any suffix to a visible-headed
+history is apart from zero:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(\Ezero(p),q))
+\land
+\mathsf{ApartZero}_F(\mathsf{append}(\Eone(p),q)).
+$$
+\end{theorem}
+\begin{proof}
+An empty equality for either appended history splits by empty-append
+exactness. The left component would identify $\Ezero(p)$, respectively
+$\Eone(p)$, with $\emp$. BEDC constructor separation rules out both
+identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_visible\_headed}
+
+\begin{theorem}[Field apart-zero empty-context exactness]
+\label{thm:field-apartzero-empty-context-iff}
+For histories $l,h,r:\mathsf{BHist}$ with $l\hsame\emp$ and $r\hsame\emp$,
+bilateral empty context is exact for field apart-zero witnesses:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(l,\mathsf{append}(h,r)))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual apart-zero witness. To prove
+$\mathsf{ApartZero}_F(h)$, take a candidate equality $h\hsame\emp$.
+Empty-append construction combines this equality with $r\hsame\emp$, giving
+$\mathsf{append}(h,r)\hsame\emp$.
+
+Combining that inner equality with $l\hsame\emp$ classifies the whole nested
+append as empty. This contradicts the contextual apart-zero witness.
+
+For the reverse direction, assume $\mathsf{ApartZero}_F(h)$ and take a
+candidate equality
+$$
+\mathsf{append}(l,\mathsf{append}(h,r))\hsame\emp.
+$$
+
+Empty-append inversion first splits off the left context and gives
+$\mathsf{append}(h,r)\hsame\emp$. Applying the same inversion to the inner
+append gives $h\hsame\emp$, contradicting $\mathsf{ApartZero}_F(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_empty\_context\_iff}
+
+\begin{theorem}[Field apart-zero left append-context semantic certificate]
+\label{thm:field-apartzero-append-left-context-semantic-namecert}
+For a history $p:\mathsf{BHist}$ apart from zero, the concrete left-append
+context predicate
+$$
+q\longmapsto \mathsf{ApartZero}_F(\mathsf{append}(q,p))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited at $q=\emp$: $\mathsf{append}(\emp,p)\hsame p$, so
+apart-zero of $p$ transports to apart-zero of the displayed append. The
+classifier laws are reflexivity, symmetry, and transitivity of $\hsame$.
+Carrier preservation follows by eliminating the history-sameness classifier,
+which leaves the same concrete append predicate. Pattern and ledger soundness
+are identities because all three predicates coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_left\_context\_semanticNameCert}
+
+\begin{theorem}[Field apart-zero right append-context semantic certificate]
+\label{thm:field-apartzero-append-right-context-semantic-namecert}
+For a history $p:\mathsf{BHist}$ apart from zero, the concrete right-append
+context predicate
+$$
+q\longmapsto \mathsf{ApartZero}_F(\mathsf{append}(p,q))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited at $q=\emp$: $\mathsf{append}(p,\emp)\hsame p$, so
+apart-zero of $p$ transports to apart-zero of the displayed append. The
+classifier laws are again the equivalence laws of $\hsame$. Carrier
+preservation eliminates the history-sameness classifier and leaves the same
+right-append predicate, while pattern and ledger soundness are identity maps.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_context\_semanticNameCert}
+
+Per-object certificate: traditional target is external-unit context invariance
+of constructive field apartness. BEDC source is $\mathsf{FieldApartZero}$ plus
+BEDC append empty exactness. Carrier is $\mathsf{BHist}$. Classifier is
+$\hsame$. Ledger is the two empty-context witnesses $l\hsame\emp$ and
+$r\hsame\emp$. Core theorem list is
+\autoref{thm:field-apartzero-empty-context-iff}. Exactness predicate is the
+displayed iff. Status is $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}

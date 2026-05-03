@@ -17,3 +17,24 @@ Substitution into the unary target witness and unary one-step inversion give
 $\mathsf{UnaryHistory}(d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_e1\_distance\_target\_exactness}
+
+\begin{theorem}[Metric nonempty distance has a nonempty endpoint]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-nonempty}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and $d$ is not history-same as
+$\emp$, then at least one endpoint is not history-same as $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to
+\bigl((x\hsame\emp\to\mathsf{False})
+\vee (y\hsame\emp\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_nonempty}
+\begin{proof}
+Case-split the two endpoint histories. A visible endpoint constructor is
+immediately disjoint from $\emp$, giving the required side of the disjunction.
+In the remaining empty/empty case, the continuation field of the metric witness
+identifies the distance result with $\emp$, contradicting the assumed
+nonempty distance.
+\end{proof}

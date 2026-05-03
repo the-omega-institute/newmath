@@ -64,6 +64,128 @@ again rules out $A_{\emp}(v)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryLedgerPolicy\_fieldSingletonEmptyCarrier\_endpoints\_absurd}
 
+\begin{theorem}[Singleton append endpoint excludes a RatUp right factor]
+\label{thm:field-singleton-empty-append-rat-carrier-absurd}
+For all histories $p,h:\mathsf{BHist}$, if
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(p,h))$ holds and
+$\mathsf{RatHistoryCarrier}(h)$ holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton carrier on $\mathsf{append}(p,h)$ unfolds to the equality
+$\mathsf{append}(p,h)=\emp$. The kernel append-empty inversion theorem splits
+this equality into $p=\emp$ and $h=\emp$. The right component gives
+$h\hsame\emp$, contradicting
+Theorem~\ref{thm:rat-history-carrier-not-empty} for the displayed RatUp carrier
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_ratHistoryCarrier\_absurd}
+
+\begin{theorem}[Singleton append endpoint excludes a RatUp left factor]
+\label{thm:field-singleton-empty-append-left-rat-carrier-absurd}
+For all histories $p,h:\mathsf{BHist}$, if
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(h,p))$ holds and
+$\mathsf{RatHistoryCarrier}(h)$ holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton carrier on $\mathsf{append}(h,p)$ unfolds to the equality
+$\mathsf{append}(h,p)=\emp$. The kernel append-empty inversion theorem splits
+this equality into $h=\emp$ and $p=\emp$. The left component gives
+$h\hsame\emp$, contradicting
+Theorem~\ref{thm:rat-history-carrier-not-empty} for the displayed RatUp carrier
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_left\_ratHistoryCarrier\_absurd}
+
+\begin{theorem}[Field singleton append classifier excludes a RatUp history carrier]
+\label{thm:field-singleton-classifier-append-rat-history-carrier-absurd}
+For all histories $p,h,endpoint:\mathsf{BHist}$, a singleton classifier whose
+left endpoint is either $\mathsf{append}(p,h)$ or $\mathsf{append}(h,p)$ is
+incompatible with $\mathsf{RatHistoryCarrier}(h)$:
+$$
+\bigl(\mathsf{FieldSingletonClassifier}(\mathsf{append}(p,h),endpoint)\to
+\mathsf{RatHistoryCarrier}(h)\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{FieldSingletonClassifier}(\mathsf{append}(h,p),endpoint)\to
+\mathsf{RatHistoryCarrier}(h)\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the first orientation, the singleton classifier contains the carrier
+comparison $\mathsf{append}(p,h)\hsame\emp$. Append-empty inversion extracts
+$h\hsame\emp$, contradicting $\mathsf{RatHistoryCarrier}(h)$ by rational
+history nonemptiness. The second orientation is the same argument with the
+left factor selected by append-empty inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_RatHistoryCarrier\_absurd}
+
+\begin{theorem}[Singleton append classifier excludes RatUp classifier endpoints]
+\label{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
+For all histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(h,k)$ holds and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,h),\mathsf{append}(R,k))
+$$
+holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton classifier contains
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,h))$, hence the equality
+$\mathsf{append}(L,h)=\emp$. The kernel append-empty inversion theorem splits
+this equality and gives $h\hsame\emp$.
+
+The RatUp classifier endpoint nonemptiness theorem rejects
+$h\hsame\emp$ for any displayed $\mathsf{RatHistoryClassifier}(h,k)$, yielding
+the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_RatHistoryClassifier\_absurd}
+
+\begin{theorem}[Singleton append classifier excludes crossed RatUp carrier endpoints]
+\label{thm:field-singleton-empty-classifier-cross-rat-history-carrier-absurd}
+For all histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(h)$ and $\mathsf{RatHistoryCarrier}(k)$ hold, then
+both displayed singleton-empty classifiers are impossible:
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,h),\mathsf{append}(R,k))
+\to\mathsf{False}
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,k),\mathsf{append}(R,h))
+\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+In the first direction, the singleton classifier contains
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,h))$. Append-empty
+inversion extracts $h\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(h)$ witness.
+
+The crossed direction is identical with $k$ in the appended right factor of
+the left endpoint: append-empty inversion extracts $k\hsame\emp$, which
+contradicts $\mathsf{RatHistoryCarrier}(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_cross\_RatHistoryCarrier\_absurd}
+
+\begin{theorem}[Singleton append classifier excludes RatUp ledger endpoints]
+\label{thm:field-singleton-empty-classifier-append-rat-ledger-absurd}
+For all histories $L,R,\rho,v:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,\rho),\mathsf{append}(R,v))
+$$
+holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton classifier contains the raw endpoint equality
+$\mathsf{append}(L,\rho)=\emp$. Kernel append-empty inversion gives
+$\rho\hsame\emp$.
+
+The RatUp ledger endpoint boundary theorem states that a displayed
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ rejects $\rho\hsame\emp$. Applying
+that raw endpoint obstruction gives the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_RatHistoryLedgerPolicy\_absurd}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
@@ -121,6 +243,7 @@ Theorem~\ref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
 these two witnesses gives $\mathsf{False}$, so no admitted singleton endpoint is
 a RatUp history-carrier endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_RatHistoryCarrier\_disjoint\_certificate}
 
 \begin{theorem}[RatUp one-denominator witness blocks singleton coverage]
 \label{thm:field-rat-carrier-has-non-singleton-boundary-witness}
