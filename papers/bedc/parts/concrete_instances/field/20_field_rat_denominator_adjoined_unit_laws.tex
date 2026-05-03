@@ -301,6 +301,30 @@ required disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_nonempty\_rat\_endpoint}
 
+\begin{theorem}[Rat denominator unit continuation result empty iff]
+\label{thm:rat-denom-unit-continuation-result-empty-iff}
+For histories $h,k,r$, if $h$ and $k$ lie in
+$\mathsf{RatDenomUnitCarrier}$ and $\Cont(h,k,r)$, then the continuation
+result is internally empty exactly when both carried endpoints are internally
+empty:
+$$
+r\hsame\emp
+\Longleftrightarrow
+h\hsame\emp\wedge k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Split the two carrier witnesses into their empty and genuine Rat-history
+branches. The empty--empty branch transports the continuation to the canonical
+empty-left unit result. In either mixed branch, continuation transport
+identifies the result with the genuine Rat endpoint, contradicting
+$\mathsf{RatHistoryCarrier\_not\_empty}$. In the genuine--genuine branch, Rat
+continuation closure makes the result a Rat history, again excluding emptiness.
+Conversely, if both endpoints are internally empty, continuation transport from
+the canonical empty-empty continuation identifies $r$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_result\_empty\_iff}
+
 \begin{theorem}[Rat denominator unit-envelope classifier is append-closed]
 \label{thm:field-rat-denominator-unit-envelope-classifier-append-closed}
 For histories $h,h',k,k':\mathsf{BHist}$, suppose each displayed pair lies in

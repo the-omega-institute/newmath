@@ -263,6 +263,26 @@ rules out any equality from that left tail to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_cases}
 
+\begin{theorem}[Continuation morphism composite tail nonempty endpoint cases]
+\label{thm:continuation-morphism-comp-tail-nonempty-endpoint-cases}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the closed composite tail is
+not internally empty, then at least one adjacent endpoint comparison fails:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Rightarrow
+\neg\HSame(a,b)\vee\neg\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+First split composite tail nonemptiness into nonemptiness of one displayed
+factor tail. For each factor, use the empty-tail endpoint iff for continuation
+morphisms: an endpoint comparison would force the corresponding tail to be
+internally empty. This contradicts the selected tail-nonempty branch.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_endpoint\_cases}
+
 \begin{theorem}[Continuation morphism composite tail nonempty equivalence]
 \label{thm:continuation-morphism-comp-tail-nonempty-iff}
 For histories $a,b,c$, let

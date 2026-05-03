@@ -34,6 +34,24 @@ theorem ContinuationMorphism_comp_tail_nonempty_cases {a b c : BHist}
               intro leftEmpty
               exact not_hsame_e1_empty leftEmpty
 
+theorem ContinuationMorphism_comp_tail_nonempty_endpoint_cases {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    (hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty -> False) ->
+      (hsame a b -> False) ∨ (hsame b c -> False) := by
+  intro compositeNonempty
+  have tailCases :=
+    ContinuationMorphism_comp_tail_nonempty_cases left right compositeNonempty
+  cases tailCases with
+  | inl leftTailNonempty =>
+      left
+      intro sameAB
+      exact leftTailNonempty ((ContinuationMorphism_tail_empty_endpoint_hsame_iff left).mpr sameAB)
+  | inr rightTailNonempty =>
+      right
+      intro sameBC
+      exact rightTailNonempty
+        ((ContinuationMorphism_tail_empty_endpoint_hsame_iff right).mpr sameBC)
+
 theorem CategoryHomCarrier_comp_result_nonempty_cases {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       (hsame fg BHist.Empty -> False) ->
