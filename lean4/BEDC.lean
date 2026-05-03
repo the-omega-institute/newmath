@@ -200,6 +200,7 @@ import BEDC.Derived.FieldUp.ContextualActionPair
 import BEDC.Derived.FieldUp.EmptyUnitCancellation
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
+import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
@@ -278,6 +279,7 @@ import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.E1SourceCompTargetVisible
 import BEDC.Derived.CategoryUp.SourceMorphismCasesIff
 import BEDC.Derived.CategoryUp.NonemptyTargetCarrierCases
+import BEDC.Derived.CategoryUp.EndpointCycleTailEmptyIff
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp

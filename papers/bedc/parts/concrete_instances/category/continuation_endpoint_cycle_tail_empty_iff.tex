@@ -1,0 +1,19 @@
+\begin{theorem}[Continuation morphism composite endpoint cycle tail empty iff]
+\label{thm:continuation-morphism-comp-endpoint-cycle-tail-empty-iff}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$ be continuation morphisms. Then the
+outer endpoints close exactly when the canonical composite displayed tail is
+empty:
+$$
+\hsame(a,c)\Longleftrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the endpoint-cycle empty-tail theorem. Conversely,
+if the composite tail is empty, transport the stored continuation relation
+$\Cont(a,\mathsf{tail}(left\circ right),c)$ across that empty-tail comparison
+to obtain $\Cont(a,\emp,c)$. Determinacy against the right-unit continuation
+$\Cont(a,\emp,a)$ identifies $c$ with $a$, hence $a\hsame c$ by symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_tail\_empty\_iff}
