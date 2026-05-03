@@ -66,6 +66,15 @@ theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
   · intro apart
     exact FieldApartZero_empty_hsame_transport (hsame_symm sameAppend) apart
 
+theorem FieldApartZero_append_right_empty_iff {p q : BHist}
+    (qEmpty : hsame q BHist.Empty) :
+    FieldApartZero (append p q) <-> FieldApartZero p := by
+  constructor
+  · intro appendApart pEmpty
+    exact appendApart (append_eq_empty_iff.mpr (And.intro pEmpty qEmpty))
+  · intro pApart appendEmpty
+    exact pApart (append_eq_empty_iff.mp appendEmpty).left
+
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -252,6 +252,26 @@ $\hsame$ in the other direction to reflect it.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_hsame\_congr\_iff}
 
+\begin{theorem}[Field apart-zero append right-empty exactness]
+\label{thm:field-apartzero-append-right-empty-iff}
+For histories $p,q:\mathsf{BHist}$ with $q\hsame\emp$, appended apart-zero
+is exactly apart-zero of the left factor:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(p).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $p\hsame\emp$. Together with
+$q\hsame\emp$, empty-append exactness gives
+$\mathsf{append}(p,q)\hsame\emp$, contradicting appended apart-zero. For the
+reverse implication, any equality
+$\mathsf{append}(p,q)\hsame\emp$ splits by empty-append exactness, and the
+left component contradicts apart-zero of $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_empty\_iff}
+
 \begin{theorem}[Field product apartness gives inverse product witness]
 \label{thm:field-product-apartness-inverse-product-reverse}
 For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of

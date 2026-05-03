@@ -107,6 +107,23 @@ continuation equivalence to rebuild \(\ContR(\emp,f,b)\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_iff}
 
+\begin{theorem}[Category empty-source semantic name certificate]
+\label{thm:category-empty-source-semantic-namecert}
+Fix a unary target history \(b\). The empty-source hom-carrier
+\(\mathsf{CategoryHomCarrier}(\emp,b,-)\), used as source, pattern, and
+ledger policy with classifier \(\hsame\), forms a semantic name certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by the displayed morphism \(b\): empty-source
+hom-carrier exactness reduces this to unary membership of \(b\) and
+reflexivity \(b\hsame b\). The classifier fields are reflexivity, symmetry,
+and transitivity of \(\hsame\). Carrier preservation transports a displayed
+hom-carrier along morphism sameness while the source \(\emp\) and target \(b\)
+remain fixed. Pattern and ledger soundness are identities because all three
+policies are the same hom-carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_semanticNameCert}
+
 \begin{theorem}[Category empty-target hom carrier exactness]
 \label{thm:category-hom-carrier-empty-target-iff}
 For histories $a,f$, a hom-carrier into the empty target is exactly sameness of
@@ -125,6 +142,23 @@ witnesses are eliminated, the empty source, empty target, and empty morphism
 are unary, and the right-unit continuation at $\emp$ rebuilds the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_iff}
+
+\begin{theorem}[Category empty-target semantic name certificate]
+\label{thm:category-empty-target-semantic-namecert}
+Fix a source history \(a\) satisfying \(a\hsame\emp\). The empty-target
+hom-carrier \(\mathsf{CategoryHomCarrier}(a,\emp,-)\), used as source,
+pattern, and ledger policy with classifier \(\hsame\), forms a semantic name
+certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by the empty morphism. Empty-target hom-carrier
+exactness reduces this witness to the assumed \(a\hsame\emp\) and reflexivity
+of \(\emp\). The classifier laws are the equivalence laws of \(\hsame\), and
+carrier preservation is the hom-carrier transport theorem over morphism
+sameness with source \(a\) and target \(\emp\) fixed. Pattern and ledger
+soundness are identities because all three policies coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_semanticNameCert}
 
 \begin{theorem}[Category hom carrier composition closure]
 \label{thm:category-hom-carrier-comp-closed}
