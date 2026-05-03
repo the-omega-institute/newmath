@@ -34,4 +34,22 @@ theorem UnitHistoryClassifier_semanticNameCert :
   · intro h source
     exact source
 
+theorem UnitHistoryClassifier_empty_endpoints_iff {h k : BHist} :
+    UnitHistoryClassifier h k ↔ hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  constructor
+  · intro classified
+    have hParts := cont_empty_result_inversion classified.left
+    have kParts := cont_empty_result_inversion classified.right.left
+    exact And.intro hParts.right kParts.right
+  · intro endpoints
+    cases endpoints with
+    | intro hEmpty kEmpty =>
+        constructor
+        · cases hEmpty
+          exact cont_left_unit BHist.Empty
+        · constructor
+          · cases kEmpty
+            exact cont_left_unit BHist.Empty
+          · exact hsame_trans hEmpty (hsame_symm kEmpty)
+
 end BEDC.Derived.UnitUp

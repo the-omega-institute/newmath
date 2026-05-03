@@ -70,6 +70,28 @@ theorem ResiduePoleData_empty_function_endpoints
                     cont_result_hsame_transport integralResidue functionEmpty
                   exact cont_empty_result_inversion emptyContinuation
 
+theorem ResiduePoleData_empty_function_endpoints_iff
+    {f center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue ->
+      (hsame f BHist.Empty ↔
+        hsame integral BHist.Empty ∧ hsame residue BHist.Empty) := by
+  intro data
+  constructor
+  · intro functionEmpty
+    exact ResiduePoleData_empty_function_endpoints data functionEmpty
+  · intro endpoints
+    cases data with
+    | intro _disk rest =>
+        cases rest with
+        | intro _integralCarrier rest =>
+            cases rest with
+            | intro _residueCarrier rest =>
+                cases rest with
+                | intro _productCarrier integralResidue =>
+                    exact
+                      cont_respects_hsame endpoints.left endpoints.right integralResidue
+                        (cont_intro rfl)
+
 theorem ResiduePoleData_residue_suffix_closure
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
@@ -108,5 +130,24 @@ theorem ResiduePoleData_residue_suffix_closure
                                   (And.intro residueqCarrier
                                     (And.intro productCarrier integralResidueq))))
                               (And.intro residueSuffix integralResidueq))
+
+theorem ResiduePoleData_suffix_empty_function_endpoints
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont f q fq -> hsame fq BHist.Empty ->
+        hsame integral BHist.Empty ∧
+          ∃ residueq : BHist, Cont residue q residueq ∧ hsame residueq BHist.Empty := by
+  intro data suffixCarrier functionSuffix functionSuffixEmpty
+  have suffixClosure :=
+    ResiduePoleData_residue_suffix_closure data suffixCarrier functionSuffix
+  cases suffixClosure with
+  | intro residueq residueqData =>
+      cases residueqData with
+      | intro shiftedData residueqWitness =>
+          have shiftedEndpoints :=
+            ResiduePoleData_empty_function_endpoints shiftedData functionSuffixEmpty
+          exact And.intro shiftedEndpoints.left
+            (Exists.intro residueq
+              (And.intro residueqWitness.left shiftedEndpoints.right))
 
 end BEDC.Derived.ResidueUp
