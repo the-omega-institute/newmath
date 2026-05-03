@@ -30,6 +30,24 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.UnitUp.UnitHistoryClassifier}
 
+\begin{theorem}[Unit history classifier empty endpoints iff]
+\label{thm:unit-history-classifier-empty-endpoints-iff}
+For histories \(h,k:\mathsf{BHist}\), the unit classifier is equivalent to
+both endpoints being empty:
+$$
+\mathsf{UnitHistoryClassifier}(h,k)
+\Longleftrightarrow h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, each carrier component is a continuation
+\(\Cont(\emp,-,\emp)\); empty-result inversion identifies the endpoint with
+\(\emp\). In the reverse direction, the endpoint equalities reduce both carrier
+continuations to the empty left-unit continuation, and transitivity of
+\(\hsame\) supplies the classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_empty\_endpoints\_iff}
+
 \begin{theorem}[Unit history classifier visible endpoint absurd]
 \label{thm:unit-history-classifier-visible-endpoint-absurd}
 No visible endpoint can occur on either side of the unit history classifier.

@@ -70,6 +70,28 @@ theorem ResiduePoleData_empty_function_endpoints
                     cont_result_hsame_transport integralResidue functionEmpty
                   exact cont_empty_result_inversion emptyContinuation
 
+theorem ResiduePoleData_empty_function_endpoints_iff
+    {f center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue ->
+      (hsame f BHist.Empty ↔
+        hsame integral BHist.Empty ∧ hsame residue BHist.Empty) := by
+  intro data
+  constructor
+  · intro functionEmpty
+    exact ResiduePoleData_empty_function_endpoints data functionEmpty
+  · intro endpoints
+    cases data with
+    | intro _disk rest =>
+        cases rest with
+        | intro _integralCarrier rest =>
+            cases rest with
+            | intro _residueCarrier rest =>
+                cases rest with
+                | intro _productCarrier integralResidue =>
+                    exact
+                      cont_respects_hsame endpoints.left endpoints.right integralResidue
+                        (cont_intro rfl)
+
 theorem ResiduePoleData_residue_suffix_closure
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
@@ -108,6 +130,59 @@ theorem ResiduePoleData_residue_suffix_closure
                                   (And.intro residueqCarrier
                                     (And.intro productCarrier integralResidueq))))
                               (And.intro residueSuffix integralResidueq))
+
+theorem ResiduePoleData_suffix_closure_empty_function_endpoints
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q -> Cont f q fq ->
+      hsame fq BHist.Empty ->
+        exists residueq : BHist,
+          ResiduePoleData fq center radius pole gap integral residueq ∧
+            Cont residue q residueq ∧ hsame integral BHist.Empty ∧
+              hsame residueq BHist.Empty := by
+  intro data suffixCarrier functionSuffix functionEmpty
+  have closed :=
+    ResiduePoleData_residue_suffix_closure data suffixCarrier functionSuffix
+  cases closed with
+  | intro residueq closedData =>
+      have endpoints :=
+        ResiduePoleData_empty_function_endpoints closedData.left functionEmpty
+      exact Exists.intro residueq
+        (And.intro closedData.left
+          (And.intro closedData.right.left
+            (And.intro endpoints.left endpoints.right)))
+
+theorem ResiduePoleData_empty_suffix_reflects_endpoints
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> Cont f q fq ->
+      hsame fq BHist.Empty ->
+        hsame integral BHist.Empty ∧ hsame residue BHist.Empty ∧ hsame q BHist.Empty := by
+  intro data suffix resultEmpty
+  have emptyContinuation : Cont f q BHist.Empty :=
+    cont_result_hsame_transport suffix resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  have functionEndpoints :=
+    ResiduePoleData_empty_function_endpoints data endpoints.left
+  exact And.intro functionEndpoints.left
+    (And.intro functionEndpoints.right endpoints.right)
+
+theorem ResiduePoleData_suffix_empty_function_endpoints
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont f q fq -> hsame fq BHist.Empty ->
+        hsame integral BHist.Empty ∧
+          ∃ residueq : BHist, Cont residue q residueq ∧ hsame residueq BHist.Empty := by
+  intro data suffixCarrier functionSuffix functionSuffixEmpty
+  have suffixClosure :=
+    ResiduePoleData_residue_suffix_closure data suffixCarrier functionSuffix
+  cases suffixClosure with
+  | intro residueq residueqData =>
+      cases residueqData with
+      | intro shiftedData residueqWitness =>
+          have shiftedEndpoints :=
+            ResiduePoleData_empty_function_endpoints shiftedData functionSuffixEmpty
+          exact And.intro shiftedEndpoints.left
+            (Exists.intro residueq
+              (And.intro residueqWitness.left shiftedEndpoints.right))
 
 theorem ResiduePoleData_integral_prefix_closure
     {f center radius pole gap integral residue q qf : BHist} :

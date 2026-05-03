@@ -27,6 +27,28 @@ identified with $\emp$, so $distance\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_components\_empty}
 
+\begin{theorem}[Function object linear singleton continuous-map graphs are empty]
+\label{thm:funcobj-linear-singleton-continuous-map-empty-graphs}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then the displayed graph, certificate, and distance continuations can
+be read over the empty components:
+$$
+\mathsf{Cont}(source,map,\emp)\land
+\mathsf{Cont}(\emp,modulus,cert)\land
+\mathsf{Cont}(source,\emp,distance).
+$$
+\end{theorem}
+\begin{proof}
+The component-empty theorem identifies $target$, $cert$, and $distance$ with
+$\emp$. Transport the continuous-map graph continuation across
+$target\hsame\emp$. Transport the certificate continuation across
+$target\hsame\emp$ on the source side, and transport the metric-distance
+continuation across $target\hsame\emp$ on the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_graphs}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
 

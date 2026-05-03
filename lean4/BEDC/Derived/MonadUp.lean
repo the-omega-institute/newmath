@@ -95,4 +95,15 @@ theorem MonadAdjunctionEndomorphism_unit_counit_triangle_empty
     MonadAdjunctionEndomorphism_triangle_results_empty carrier
   exact And.intro unitEmpty (And.intro counitEmpty triangleEmpty)
 
+theorem MonadAdjunctionEndomorphism_left_triangle_result_empty_suffix_empty
+    {p a unit counit left right suffix out : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont left suffix out -> hsame out BHist.Empty -> hsame suffix BHist.Empty := by
+  intro carrier leftSuffix outEmpty
+  have leftEmpty : hsame left BHist.Empty :=
+    (MonadAdjunctionEndomorphism_triangle_results_empty carrier).left
+  cases leftEmpty
+  cases outEmpty
+  exact (cont_empty_result_inversion leftSuffix).right
+
 end BEDC.Derived.MonadUp

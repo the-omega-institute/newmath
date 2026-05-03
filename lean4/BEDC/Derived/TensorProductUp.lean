@@ -82,6 +82,23 @@ theorem TensorProductSingletonCarrier_result_empty_continuation {tensor : BHist}
 
 open BEDC.FKernel.NameCert
 
+theorem TensorProductSingletonCarrier_empty_iff {h : BHist} :
+    TensorProductSingletonCarrier h ↔ hsame h BHist.Empty := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro left rest =>
+        cases rest with
+        | intro right data =>
+            exact cont_respects_hsame data.left data.right.left data.right.right
+              (cont_right_unit BHist.Empty)
+  · intro emptyH
+    exact Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty)
+            (cont_result_hsame_transport (cont_right_unit BHist.Empty) (hsame_symm emptyH)))))
+
 def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
     ModuleSingletonCarrier tensor ∧ Cont left right tensor
