@@ -72,6 +72,35 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 By induction on the generated right-history structure in the first continuation proof. In the empty case, the second proof must also be the empty case, hence both results are $h$. In the $\Ezero$ case, the second proof must also have right input and result with outer $\Ezero$ by closed generation; apply the induction hypothesis to the sub-results and then apply the $\Ezero$ constructor for $\HSame$. The $\Eone$ case is analogous.
 \end{proof}
 
+\begin{theorem}[Continuation result history-sameness iff]
+\label{thm:cont-result-hsame-iff}
+If $\ContR(a,f,r)$ holds, then for every history $s$,
+$$
+\ContR(a,f,s)\quad\Longleftrightarrow\quad \HSame(s,r).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_iff}
+\begin{proof}
+For the forward direction, continuation determinacy compares the two results
+with the same source and tail. For the reverse direction, transport the given
+continuation result along the displayed history-sameness.
+\end{proof}
+
+\begin{theorem}[Continuation source history-sameness iff]
+\label{thm:cont-source-hsame-iff}
+If $\ContR(a,f,r)$ holds, then for every history $a'$,
+$$
+\ContR(a',f,r)\quad\Longleftrightarrow\quad \HSame(a',a).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_source\_hsame\_iff}
+\begin{proof}
+For the forward direction, right cancellation compares the two continuations
+with shared tail and result. For the reverse direction, transport the source
+endpoint of the given continuation along the displayed history-sameness while
+keeping the tail and result fixed.
+\end{proof}
+
 \begin{theorem}[Continuation result history-sameness tag separation]
 \label{thm:cont-result-hsame-tag-separation}
 If $\ContR(h,k,r_0)$ and $\ContR(h,k,r_1)$, and if

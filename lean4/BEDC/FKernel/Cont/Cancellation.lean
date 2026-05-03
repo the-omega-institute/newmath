@@ -23,6 +23,25 @@ theorem cont_transport_result_classified {h h' k k' r r' s : BHist} :
   have transported := cont_hsame_transport sameH sameK sameR left
   exact And.intro transported (cont_deterministic transported right)
 
+theorem cont_result_hsame_iff {a f r s : BHist} :
+    Cont a f r -> (Cont a f s ↔ hsame s r) := by
+  intro continuation
+  constructor
+  · intro alternative
+    exact cont_deterministic alternative continuation
+  · intro sameResult
+    exact cont_result_hsame_transport continuation (hsame_symm sameResult)
+
+theorem cont_source_hsame_iff {a a' f r : BHist} :
+    Cont a f r -> (Cont a' f r ↔ hsame a' a) := by
+  intro continuation
+  constructor
+  · intro alternative
+    exact cont_right_cancel alternative continuation
+  · intro sameSource
+    exact cont_hsame_transport (hsame_symm sameSource) (hsame_refl f) (hsame_refl r)
+      continuation
+
 theorem cont_cancel_common_context {a b c d ab ad left right : BHist} :
     Cont a b ab -> Cont ab c left -> Cont a d ad -> Cont ad c right ->
       hsame left right -> hsame b d := by

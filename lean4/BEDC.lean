@@ -207,6 +207,7 @@ import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
+import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
