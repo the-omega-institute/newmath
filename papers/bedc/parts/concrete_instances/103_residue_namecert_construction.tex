@@ -53,5 +53,22 @@ continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_residue\_suffix\_closure}
 
+\begin{theorem}[Residue pole data empty suffix reflects endpoints]
+\label{thm:residue-pole-data-empty-suffix-reflects-endpoints}
+If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds, $\Cont(f,q,f_q)$,
+and $f_q\hsame\emp$, then the integral endpoint, the residue endpoint, and the
+suffix are all empty:
+$$
+I\hsame\emp\land \rho\hsame\emp\land q\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Transport $\Cont(f,q,f_q)$ along $f_q\hsame\emp$ and apply empty-result
+inversion for continuations. This gives $f\hsame\emp$ and $q\hsame\emp$.
+The empty-function endpoint theorem for residue pole data then reflects
+$f\hsame\emp$ back to the integral and residue endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_suffix\_reflects\_endpoints}
+
 \section{The certificate}
 \label{sec:residue-certificate}

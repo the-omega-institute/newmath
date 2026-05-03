@@ -66,4 +66,28 @@ theorem FuncObjLinearSingleton_continuous_map_components_empty
     cont_respects_hsame sourceEmpty targetEmpty distanceRel (cont_right_unit BHist.Empty)
   exact And.intro targetEmpty (And.intro certEmpty distanceEmpty)
 
+theorem FuncObjLinearSingleton_continuous_map_empty_graphs
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ->
+      LinearMapSingletonCarrier source -> LinearMapSingletonCarrier map ->
+        LinearMapSingletonCarrier modulus ->
+          Cont source map BHist.Empty ∧ Cont BHist.Empty modulus cert ∧
+            Cont source BHist.Empty distance := by
+  intro carrier sourceEmpty mapEmpty modulusEmpty
+  have emptyComponents :=
+    FuncObjLinearSingleton_continuous_map_components_empty
+      carrier sourceEmpty mapEmpty modulusEmpty
+  have graphRel : Cont source map target :=
+    carrier.left.right.right.right.right.left
+  have certRel : Cont target modulus cert :=
+    carrier.left.right.right.right.right.right
+  have distanceRel : Cont source target distance :=
+    carrier.right.right.right.right
+  exact And.intro
+    (cont_result_hsame_transport graphRel emptyComponents.left)
+    (And.intro
+      (cont_hsame_transport emptyComponents.left (hsame_refl modulus) (hsame_refl cert) certRel)
+      (cont_hsame_transport (hsame_refl source) emptyComponents.left (hsame_refl distance)
+        distanceRel))
+
 end BEDC.Derived.FuncobjUp

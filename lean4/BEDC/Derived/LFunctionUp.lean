@@ -42,4 +42,24 @@ theorem LFunctionDirichletPartSum_successor_previous_unique
             (fun T other =>
               DirichletPartSum_unary_index_deterministic unaryN previous other)))
 
+theorem LFunctionDirichletPartSum_successor_deterministic
+    {term : BHist -> BHist -> BHist} {s n S T : BHist} :
+    DirichletPartSum term s (BHist.e1 n) S -> DirichletPartSum term s (BHist.e1 n) T ->
+      hsame S T := by
+  intro left right
+  cases left with
+  | step previous stepContinuation =>
+      have unaryN : UnaryHistory n := by
+        have positiveIndex : DirichletPositiveIndex (BHist.e1 n) :=
+          LFunctionDirichletPartSum_successor_positive_index previous
+        cases positiveIndex with
+        | intro tail data =>
+            cases data with
+            | intro unaryTail sameSuccessor =>
+                cases sameSuccessor
+                exact unaryTail
+      exact
+        DirichletPartSum_unary_index_deterministic (unary_e1_closed unaryN)
+          (DirichletPartSum.step previous stepContinuation) right
+
 end BEDC.Derived.LFunctionUp
