@@ -293,6 +293,40 @@ Finally apply \autoref{thm:group-right-mul-equation-exactness} backward with
 right factor $c$. The recovered equation becomes $\hsame((a x)c,b)$.
 \end{proof}
 
+\begin{theorem}[Group two-sided multiplication equation solution uniqueness]
+\label{thm:group-two-sided-mul-equation-solution-unique}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with unit
+$\emp$, associativity, left and right identities, multiplication congruence,
+and two-sided inverses, if $x$ and $y$ both solve the same two-sided
+multiplication equation
+$$
+\hsame((a x)c,b)
+\qquad\text{and}\qquad
+\hsame((a y)c,b),
+$$
+then $x\hsame y$.
+The ten-field fit is: traditional target two-sided group equation solution
+uniqueness; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability by two-sided equation
+exactness plus symmetry and transitivity; ledger left factor, right factor,
+target, and inverse witnesses; core theorem list
+\autoref{thm:group-two-sided-mul-equation-exactness}; exactness predicate
+same-target solution uniqueness; standard bridge ordinary two-sided group
+equation uniqueness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the first
+displayed equation. The first solution is classified by the normal form
+$a^{-1}(b c^{-1})$.
+
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the second
+displayed equation. The second solution is classified by the same normal form
+$a^{-1}(b c^{-1})$.
+
+Use symmetry on the second solved comparison and transitivity of $\hsame$ to
+conclude $x\hsame y$.
+\end{proof}
+
 \begin{theorem}[Group conjugation equation exactness]
 \label{thm:group-conjugation-equation-exactness}
 For a history-level group operation with associativity, left and right
