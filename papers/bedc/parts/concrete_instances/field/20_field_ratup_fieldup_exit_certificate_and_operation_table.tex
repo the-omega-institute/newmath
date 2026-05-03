@@ -1,0 +1,423 @@
+\begin{theorem}[RatUp FieldUp five-factor nonzero factor ledger]
+\label{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}
+For a BEDC history-level $\FieldUp(\mathsf{RatUp})$ candidate over
+$\mathsf{BHist}$ satisfying the hypotheses of
+\autoref{thm:field-four-factor-product-nonzero-iff-factors} and
+\autoref{thm:field-product-nonzero-of-nonzero-factors}, together with the
+zero-factor exclusion hypotheses used by
+\autoref{thm:field-product-nonzero-excludes-zero-factors}, assume the
+apartness-to-nonzero bridge
+$$
+\alpha_h:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h)
+$$
+for each history term occurring below. Then every
+$a,b,c,d,e:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+\mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d)\wedge
+\mathsf{NonZero}_F(e).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$p_{abcde}:\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))$.
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the outer
+binary product with left factor
+$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)$ and right factor $e$. This
+gives apartness of the fourfold prefix from $0$ and apartness of $e$ from $0$.
+
+Convert those two apartness witnesses through $\alpha_h$. The left conversion
+gives
+$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$,
+and the right conversion gives $\mathsf{NonZero}_F(e)$.
+
+Apply \autoref{thm:field-four-factor-product-nonzero-iff-factors} to
+$p_{abcd}$. It supplies the four factor witnesses for $a$, $b$, $c$, and $d$.
+Pair these four witnesses with the converted witness for $e$ in the displayed
+order.
+
+For the reverse direction, assume witnesses
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, $p_d:\mathsf{NonZero}_F(d)$, and
+$p_e:\mathsf{NonZero}_F(e)$. Apply
+\autoref{thm:field-four-factor-product-nonzero-iff-factors} in the reverse
+direction to obtain
+$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$.
+
+Apply \autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_{abcd}$ and
+$p_e$. The resulting witness is exactly the nonzero certificate for the
+left-nested fivefold product, completing the equivalence.
+\end{proof}
+
+Per-object template: traditional target RatUp FieldUp five-factor nonzero
+factor ledger; BEDC source $\FieldUp(\mathsf{RatUp})$ over $\mathsf{BHist}$
+with product nonzero exclusion and product nonzero closure; carrier
+$\mathsf{BHist}$; classifier $\hsame$ with $\mathsf{NonZero}_F$; stability
+obligations four-factor exactness, binary product closure, zero-factor
+exclusion, and apartness-to-nonzero transport; ledger factor witnesses
+$p_a,p_b,p_c,p_d,p_e$, prefix witness $p_{abcd}$, and fivefold product witness
+$p_{abcde}$; core theorem
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}; exactness
+predicate nonzero of the left-nested fivefold product equivalent to the five
+factor nonzero witnesses; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp normalized contextual full noncollapse package]
+\label{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose
+$C_D^u(h)$, $C_D^u(k)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and
+$C_D^u(r')$. Suppose also that $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$,
+$q'\hsame\emp$, $\neg N_D^u(l)$, $\neg N_D^u(r)$, $\neg N_D^u(l')$,
+$\neg N_D^u(r')$, and $N_D^u(h)$. Let
+$x:=\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))$ and let
+$y:=\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)$. Then the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate simultaneously contains:
+\begin{enumerate}
+  \item the assembled certificate boundary of
+  \autoref{thm:ratup-fieldup-assembled-certificate-boundary};
+  \item the carried nested endpoint $C_D^u(x)$;
+  \item the normalized classifier row $R_D^u(x,y)$;
+  \item the strict-support equivalence $N_D^u(x)\Longleftrightarrow N_D^u(h)$;
+  \item the exit-row closure recorded by
+  \autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure};
+  \item the direct endpoint separation $x\hsame\emp\to\bot$;
+  \item for every context history $r:\mathsf{BHist}$, both singleton-context
+  rejection maps
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+  \item for all histories $L,R:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package} to the
+same source tuple, denominator tuple, contextual action, carried histories,
+empty endpoint hypotheses, empty-support context hypotheses, and strict-support
+witness. This supplies the assembled certificate boundary, the carried nested
+endpoint, the normalized classifier row, the strict-support equivalence, the
+exit-row closure, the direct endpoint separation, and the singleton-context
+carrier rejections.
+
+Next apply
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+under the same hypotheses and with the same definitions of $x$ and $y$. It
+supplies the uniform singleton-classifier obstruction for arbitrary
+$L,R:\mathsf{BHist}$.
+
+Collect the seven certificate clauses from the normalized contextual separation
+package together with the singleton-classifier obstruction. The resulting row
+is one concrete $\mathsf{BHist}$ package for the normalized
+$\FieldUp(\mathsf{RatUp})$ exit criterion.
+\end{proof}
+
+Per-object template: traditional target normalized contextual full noncollapse
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatUpFieldSource}_F$,
+$\mathsf{BHist}$, $\mathsf{append}$, $\Gamma$, $R_D^u$, and $N_D^u$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$ plus
+singleton-empty classifier; stability obligations normalized contextual
+separation and singleton-classifier obstruction; ledger contextual-pair
+denominator action; core theorem
+\autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package};
+exactness predicate carrier and classifier noncollapse for the normalized
+contextual pair; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp proof-target exit package]
+\label{thm:ratup-fieldup-proof-target-exit-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the
+$\FieldUp(\RatUp)$ proof target is exhausted by concrete $\mathsf{BHist}$ rows.
+Its exit package is the constructive composition of the paper certificate
+assembly of \autoref{thm:ratup-fieldup-semantic-namecert}, the source anchoring
+of \autoref{thm:ratup-fieldup-certificate-rows-source-anchored}, the concrete
+schema instance of \autoref{thm:ratup-fieldup-concrete-schema-instance}, the
+concrete exit certificate package of
+\autoref{thm:ratup-fieldup-concrete-exit-certificate-package}, the transported
+exit-row contextual separation of
+\autoref{thm:ratup-fieldup-transported-exit-row-contextual-separation-package},
+and the normalized contextual separation of
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}, together
+with the normalized semantic exit certificate of
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} and the
+normalized singleton-classifier separation of
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation},
+as well as the five-factor product equation exactness of
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness} backed by
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness}.
+Thus the displayed $\mathsf{BHist}$ source tuple carries the exit package for
+$\FieldUp(\RatUp)$: it contains the normalized semantic nondegenerate witness
+$d_1:=\Eone(\emp)$, the normalized classifier row, the all-context
+singleton-classifier rejection for $\mathsf{append}(L,x)$ and
+$\mathsf{append}(R,y)$, and the five-factor right and left product equation
+exactness rows, while no exit row remains as a schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:ratup-fieldup-semantic-namecert}. It supplies the
+paper-side carrier, source, classifier, stability, ledger, and exactness rows
+for the concrete source tuple $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$.
+
+Next apply \autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. It
+identifies every row consumed by the concrete certificate with the same source
+tuple: the rational history carrier and classifier, the denominator tuple, the
+contextual action $\Gamma$, the context-pair monoid, and the affine coordinate.
+
+The schema and exit boundary are then fixed by
+\autoref{thm:ratup-fieldup-concrete-schema-instance} and
+\autoref{thm:ratup-fieldup-concrete-exit-certificate-package}. Together these
+theorem sites repack the source-anchored rows as the public
+$\FieldUp(\RatUp)$ certificate instance and its concrete exit certificate.
+
+Finally use
+\autoref{thm:ratup-fieldup-transported-exit-row-contextual-separation-package}
+and \autoref{thm:ratup-fieldup-normalized-contextual-separation-package}. The
+first theorem supplies the transported noncollapse and contextual rejection
+rows, while the second records the normalized row package in the same concrete
+source. Combining these clauses leaves only rows carried by
+$\mathsf{RatUpFieldSource}_F$.
+
+Apply \autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate}. It
+adds the nondegenerate RatUp witness $d_1:=\Eone(\emp)$, its source anchoring in
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$, and the same
+normalized contextual rows to the concrete exit certificate.
+
+Apply
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+for arbitrary $L,R:\mathsf{BHist}$. The resulting row rejects every
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$
+claim for the normalized pair.
+
+Use \autoref{thm:field-five-factor-product-equation-exact-from-apartness} for
+the displayed factor product $P_5$. It supplies the right and left solver
+equivalences for $P_5$, while
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness} supplies
+the induced factor witnesses used by the reversed inverse spine. Both theorem
+sites are stated over $\FieldUp$ on $\mathsf{BHist}$, so their rows occupy the
+same $\mathsf{RatUpFieldSource}_F$ boundary.
+
+These semantic, classifier-separation, and five-factor exactness rows live in
+the same concrete $\mathsf{RatUpFieldSource}_F$ boundary, so the exit package
+has no schematic $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator
+coordinate.
+\end{proof}
+
+\begin{definition}[RatUp FieldUp ten-field exit instance]
+\label{def:ratup-fieldup-ten-field-exit-instance}
+The ten-field exit instance for $\FieldUp(\RatUp)$ is the following concrete
+paper certificate object.
+\begin{enumerate}
+  \item Traditional target: $\FieldUp(\RatUp)$ as a fully derived field
+  instance.
+  \item BEDC source: $\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$,
+  $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, the denominator
+  tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, the contextual action $\Gamma$,
+  the context-pair monoid of
+  Definition~\ref{def:ratup-fieldup-denominator-context-pair-monoid}, and the affine
+  rows of $\mathsf{AffAut}_F$.
+  \item Carrier: $\mathsf{RatHistoryCarrier}$ on the concrete history carrier
+  $\mathsf{BHist}$.
+  \item Classifier: $\mathsf{RatHistoryClassifier}$ together with the
+  denominator classifier row $R_D^u$ and the singleton-empty classifier
+  obstruction rows for the normalized contextual endpoints.
+  \item Stability obligations:
+  \autoref{thm:ratup-fieldup-semantic-namecert},
+  \autoref{thm:ratup-fieldup-certificate-rows-source-anchored},
+  \autoref{thm:ratup-fieldup-concrete-schema-instance},
+  \autoref{thm:ratup-fieldup-concrete-exit-certificate-package}, the transported
+  and normalized contextual separation packages, and the normalized semantic and
+  classifier exit certificates.
+  \item Ledger: rational history rows, denominator rows, contextual-pair rows,
+  affine rows, and the nondegenerate witness row $d_1:=\Eone(\emp)$.
+  \item Core theorem list: chiefly
+  \autoref{thm:ratup-fieldup-proof-target-exit-package}, with the normalized
+  semantic classifier exit certificate and the bracketing-independent threefold
+  contextual boundary as the concrete support theorem sites, plus
+  \autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+  as the concrete cross-endpoint singleton-classifier exclusion.
+  \item Exactness predicate: concrete row exhaustion for the
+  $\mathsf{RatUpFieldSource}_F$ package and singleton noncollapse for the
+  normalized contextual classifier rows, including the crossed endpoint
+  singleton-classifier noncollapse rows.
+  \item Standard bridge: deferred.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp ten-field exit certificate]
+\label{thm:ratup-fieldup-ten-field-exit-certificate}
+The instance of
+Definition~\ref{def:ratup-fieldup-ten-field-exit-instance}, together with
+\autoref{thm:ratup-fieldup-proof-target-exit-package},
+\autoref{thm:ratup-fieldup-normalized-semantic-classifier-exit-certificate}, and
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary},
+supplies the concrete ten-field paper certificate for $\FieldUp(\RatUp)$ with no
+schematic $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-proof-target-exit-package}. It identifies the
+paper certificate, source anchoring, schema instance, concrete exit package, and
+contextual separation rows as clauses of the single
+$\mathsf{RatUpFieldSource}_F$ boundary.
+
+Next apply
+\autoref{thm:ratup-fieldup-normalized-semantic-classifier-exit-certificate}. It
+adds the normalized semantic witness rows, the $R_D^u$ classifier row, and the
+singleton-empty classifier obstruction for every contextual pair.
+
+Finally apply
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}.
+It supplies the common threefold denominator support for both bracketings, so the
+certificate has contextual-pair and denominator support independent of the
+chosen bracketing. These three theorem sites fill every field listed in
+Definition~\ref{def:ratup-fieldup-ten-field-exit-instance}, completing the concrete
+paper certificate.
+\end{proof}
+
+\begin{definition}[RatUp FieldUp concrete operation table]
+\label{def:ratup-fieldup-concrete-operation-table}
+The concrete operation table for $\FieldUp(\RatUp)$ is the
+$\mathsf{BHist}$-anchored row package whose carrier row is
+$\mathsf{RatHistoryCarrier}$ and whose classifier row is
+$\mathsf{RatHistoryClassifier}$. Its base coordinate is the $\CommRingUp$ row
+inside $\mathsf{RatUpFieldSource}_F$. Its denominator coordinate is
+$$
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+The contextual coordinate is the action $\Gamma$ together with the
+context-pair monoid of
+Definition~\ref{def:ratup-fieldup-denominator-context-pair-monoid}. The
+apartness coordinate is $\mathsf{FieldApartZero}$, with the inverse rows
+supplied by apartness, and the affine coordinate is $\mathsf{AffAut}_F$.
+
+The table uses the following ten-field per-object template.
+\begin{enumerate}
+  \item Traditional target: the concrete constructive field
+  $\FieldUp(\RatUp)$.
+  \item BEDC source: $\mathsf{RatUpFieldSource}_F$ over
+  $\mathsf{BHist}$, with $\RatUp$, $\CommRingUp$, denominator, contextual,
+  context-pair, apartness, inverse, and affine rows.
+  \item Carrier: $\mathsf{RatHistoryCarrier}$.
+  \item Classifier: $\mathsf{RatHistoryClassifier}$ together with
+  $\mathsf{RatDenomUnitClassifier}$ for denominator histories.
+  \item Stability obligations: carrier and classifier anchoring, the ring-base
+  rows, denominator multiplication and unit rows, contextual-action rows,
+  context-pair support rows, affine closure rows, inverse rows over
+  $\mathsf{FieldApartZero}$, and exit noncollapse rows.
+  \item Ledger: rational histories, denominator unit histories, continuation
+  witnesses, context pairs, apart-zero inverse witnesses, affine coefficients,
+  and singleton obstruction witnesses.
+  \item Core theorem list:
+  \autoref{thm:ratup-fieldup-certificate-rows-source-anchored},
+  \autoref{thm:ratup-fieldup-concrete-schema-instance},
+  \autoref{thm:ratup-fieldup-ten-field-exit-certificate},
+  \autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}, and
+  \autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}.
+  \item Exactness predicate: row coverage for the same
+  $\mathsf{RatUpFieldSource}_F$ table, including denominator support,
+  contextual transport, product-classifier transport, inverse-domain transport,
+  affine transport, and singleton noncollapse.
+  \item Standard bridge: the public $\FieldUp(\RatUp)$ certificate consumes this
+  table as the concrete operation schema.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp concrete operation table laws]
+\label{thm:ratup-fieldup-concrete-operation-table-laws}
+The table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table} satisfies the
+carrier and classifier rows, the $\CommRingUp$ ring-base rows, the denominator
+multiplication and unit rows, the contextual-action rows, the context-pair
+support rows, the affine rows, the inverse and nonzero rows, and the exit
+noncollapse rows required by the concrete $\FieldUp(\RatUp)$ schema.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. It places the
+carrier, classifier, denominator tuple, contextual action, context-pair monoid,
+affine coordinate, and $\CommRingUp$ base coordinate inside the single concrete
+source tuple $\mathsf{RatUpFieldSource}_F$.
+
+Next apply \autoref{thm:ratup-fieldup-concrete-schema-instance}. The schema
+instance identifies those rows with the concrete $\FieldUp(\RatUp)$ operation
+schema, so the table has no free schematic $\mathsf{mul}$, $\mathsf{add}$, or
+$\mathsf{neg}$ coordinate outside the displayed $\mathsf{BHist}$ rows.
+
+The exit side is supplied by
+\autoref{thm:ratup-fieldup-ten-field-exit-certificate}. It fills the per-object
+certificate fields and contributes the normalized semantic and classifier
+noncollapse rows required by the table.
+
+For multiplication through nonzero contexts, use
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It gives
+the product-classifier exactness row and the nonzero transport row for
+two-sided multiplication by certified nonzero histories.
+
+Finally apply
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}.
+It supplies the cross-endpoint singleton-classifier exclusions for the common
+threefold denominator support. Together with the previous rows, this gives the
+carrier/classifier, base, denominator, contextual, context-pair, affine,
+inverse, nonzero, and exit noncollapse laws listed in the statement.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp product classifier and nonzero exit package]
+\label{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}
+For the concrete BEDC history-level $\FieldUp(\RatUp)$ row over
+$\mathsf{BHist}$, let $a,b,x,y:\mathsf{BHist}$ and let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be certified
+outer nonzero witnesses. The two-sided product map
+$x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$ is exact as a classifier row and
+as a nonzero-transport row:
+$$
+\bigl(\mathsf{mul}(\mathsf{mul}(a,x),b)
+\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b)\bigr)
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{NonZero}_F(x).
+$$
+Together these two equivalences form one concrete
+$\FieldUp(\RatUp)$ exit-package clause for certified two-sided products.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-two-sided-mul-exact-from-apartness} to the same
+history-level $\FieldUp$ candidate and to the certified outer witnesses
+$p_a$ and $p_b$. This supplies the classifier exactness row for the map
+$x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$.
+
+Apply
+\autoref{thm:field-two-sided-product-nonzero-middle-factor-iff} with the
+same witnesses. This supplies the nonzero-transport row for the identical
+two-sided product endpoint.
+
+Both rows use the same $\mathsf{BHist}$ carrier, the same classifier
+$\hsame$, the same multiplication endpoint, and the same ledger witnesses
+$p_a,p_b$. They therefore assemble as one concrete
+$\FieldUp(\RatUp)$ product certificate clause rather than as two unrelated
+rows.
+\end{proof}
+
+Per-object template: traditional target two-sided product exactness inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\FieldUp$, $\RingUp$, and
+$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations multiplication congruence, inverse
+cancellation, zero absorption, and nonzero transport; ledger the outer
+witnesses $p_a,p_b$ and product endpoint
+$\mathsf{mul}(\mathsf{mul}(a,x),b)$; core theorem this block; exactness
+predicate the displayed paired equivalences; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
