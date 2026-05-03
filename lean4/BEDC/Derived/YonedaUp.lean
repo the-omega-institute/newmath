@@ -120,4 +120,21 @@ theorem YonedaRepresentable_empty_component_family_source_deterministic {p q r :
   have rightData := YonedaRepresentable_empty_component_family_iff.mp rightFamily
   exact hsame_trans leftData.right.right (hsame_symm rightData.right.right)
 
+theorem YonedaRepresentable_empty_component_family_boundary_hsame_iff {p q r s : BHist} :
+    (forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier p q a BHist.Empty) ->
+      (forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier r s a BHist.Empty) ->
+        (hsame p r ↔ hsame q s) := by
+  intro leftFamily rightFamily
+  have leftData := YonedaRepresentable_empty_component_family_iff.mp leftFamily
+  have rightData := YonedaRepresentable_empty_component_family_iff.mp rightFamily
+  constructor
+  · intro samePR
+    exact hsame_trans (hsame_symm leftData.right.right)
+      (hsame_trans samePR rightData.right.right)
+  · intro sameQS
+    exact hsame_trans leftData.right.right
+      (hsame_trans sameQS (hsame_symm rightData.right.right))
+
 end BEDC.Derived.YonedaUp
