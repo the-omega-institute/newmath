@@ -174,6 +174,7 @@ import BEDC.Derived.FieldUp.SquareApartnessAndAffine
 import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.NestedProduct
 import BEDC.Derived.FieldUp.RatDenomUnit
+import BEDC.Derived.FieldUp.RatContinuationSemigroupPackage
 import BEDC.Derived.FieldUp.RatDenomUnitCarrierVisibleCases
 import BEDC.Derived.FieldUp.RatDenomUnitSemantic
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
@@ -252,6 +253,7 @@ import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.NonemptyMorphismIff
 import BEDC.Derived.CategoryUp.MorphismEmptyEndpoint
 import BEDC.Derived.CategoryUp.EndpointCycle
 import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare

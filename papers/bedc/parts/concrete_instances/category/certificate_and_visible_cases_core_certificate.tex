@@ -247,6 +247,26 @@ continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_nonempty\_morphism\_target\_cases}
 
+\begin{theorem}[Category nonempty one-headed source morphism target iff]
+\label{thm:category-hom-carrier-e1-source-nonempty-morphism-target-iff}
+For $\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)$ together with
+$morph$ not $\HSame$ to $\emp$, the carrier data is equivalent to:
+$$
+\exists k,r:\mathsf{BHist}.\;
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the nonempty one-headed source morphism target case
+split. Conversely, the displayed histories $k,r$, the one-headed equalities,
+the three unary witnesses, and the continuation ledger rebuild the concrete
+hom-carrier; the morphism is visibly one-headed, so it cannot be $\HSame$ to
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_nonempty\_morphism\_target\_iff}
+
 \begin{theorem}[Category nonempty one-headed source morphism target carrier cases]
 \label{thm:category-hom-carrier-e1-source-nonempty-morphism-target-carrier-cases}
 For $\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)$, if $morph$ is not
@@ -278,6 +298,30 @@ one-headed-source branch applies the nonempty one-headed endpoint case split to
 expose the morphism tail and continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_nonempty\_morphism\_source\_cases}
+
+\begin{theorem}[Category nonempty one-headed target morphism source iff]
+\label{thm:category-hom-carrier-e1-target-nonempty-morphism-source-iff}
+For $\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)$ together with
+$morph$ not $\HSame$ to $\emp$, the source is classified exactly by
+$$
+\left(source=\emp\land morph=\Eone(r)\land\mathsf{UnaryHistory}(r)\right)
+\lor
+\exists a,k:\mathsf{BHist}.\;
+source=\Eone(a)\land morph=\Eone(k)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the nonempty one-headed target morphism source case
+split. In the empty-source branch, the empty-source carrier equivalence
+rebuilds $\mathsf{CategoryHomCarrier}(\emp,\Eone(r),\Eone(r))$. In the visible
+source branch, the displayed one-headed source, one-headed morphism, unary
+witnesses, and continuation ledger rebuild the concrete hom-carrier. In both
+reverse branches the displayed morphism is one-headed, hence not $\HSame$ to
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_nonempty\_morphism\_source\_iff}
 
 \begin{theorem}[Category one-headed target and morphism source cases iff]
 \label{thm:category-e1-target-e1-morphism-source-cases}
@@ -391,4 +435,3 @@ $\hsame(k,l)$. Repack each unary tail and continuation with the original
 source carrier, deriving the target carrier $r$ by unary continuation closure.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_tail\_carrier\_alignment}
-
