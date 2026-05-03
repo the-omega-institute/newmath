@@ -2206,3 +2206,132 @@ Two-stage forgetful certificate (VecSpace -> Module -> AbGroup) targeting the ac
 
 ---
 
+### B-88 - NatMul right unit projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatMul right unit projection |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For every unary history d, if NatMul(d, Eone(emp), n), then hsame(n, d).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+39_prime_namecert_construction.tex:84-91 proves NatMul_unit_left_hsame for the LEFT unit (1·q = q). The dual right-unit theorem (d·1 = d) is missing both from the paper and from lean4/BEDC/Derived/PrimeUp.lean (greppable). Single-implication, mechanically derivable by NatMul_succ_inversion + NatMul.zero inversion + Cont(emp, d, d). This pair (with the absorption candidate above) closes the unit/zero ledger for NatMul, which the entire prime/p-adic/factorization stack downstream silently assumes.
+
+---
+
+
+### B-89 - Constant complex sequence has constant complex limit
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Constant complex sequence has constant complex limit |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For every complex history z, if the constant sequence s(n):=z and trivial modulus N(k):=emp form a regular complex sequence (lem:cplx-constant-regular), then CplxLim(s, N, z, M_const) holds with the trivial limit modulus M_const(k):=emp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_complex_namecert_construction.tex`
+
+Rationale:
+Chapter 40 (complex limit) has 15 theorems/12 definitions and is one of seven complex-analysis chapters (40-44, 52-54) that have ZERO completed targets — a major topic blindspot. 40:237-246 proves that the constant sequence is regular, but no theorem evaluates the limit of the constant sequence — the most basic CplxLim instance is missing. Single-implication, follows from CplxDist(z,z,append(z,z)) being trivially within any 2^{-k} tolerance. Closing this opens the complex-analysis chapters to the loop with the easiest possible foothold; the existing B-15 (real-history-sameness under limit transport) crashed and never produced LaTeX, so analytic-limit content remains entirely unwritten.
+
+---
+
+
+### B-90 - Geometric bound persists when radius shrinks
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Geometric bound persists when radius shrinks |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For coefficients a, unary radius histories r, r' with NatUnaryStrictPrefix(r', r), and unary constant K, if GeomBound(a, r, K), then GeomBound(a, r', K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Chapter 41 (convergence radius) has 8 theorems / 9 definitions, never targeted. 41:112-132 (`GeomBound_radius_constant_continuation_closed`) proves closure under generic continuation perturbations of the radius, but the natural monotone consequence — shrinking the radius preserves the bound — is not isolated as a theorem. The bound `|a_n|·r^n ≤ K` only gets easier when r decreases unarily, and Cauchy-Hadamard (41:220) and absolute-convergence-inside-disk (41:228) implicitly need radius monotonicity. Single-implication. Opens the convergence-radius chapter.
+
+---
+
+
+### B-91 - Adjunction triangle carrier swap symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Adjunction triangle carrier swap symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If AdjunctionTriangleCarrier(left, right, object, unit, counit, leftLeg, rightLeg), then AdjunctionTriangleCarrier(right, left, object, counit, unit, rightLeg, leftLeg).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Chapter 85 (adjunction) has 9 theorems but never targeted. The advanced category-theoretic chapters 83-88 are mostly empty (83 catlimit, 84 catcolimit, 86 monad, 87 yoneda, 88 equivcat are 10-line stubs — only 85 has substrate). 85:100-135 defines AdjunctionTriangleCarrier and proves empty-roundtrip determinacy, but the basic carrier-level symmetry under data-swap is missing — required for any later left/right symmetric reasoning about adjunctions. Single-implication, definitionally follows from the symmetric structure of the two prefix natural-transformation components and the two ContR ledgers. Opens the only category-theoretic chapter that has substrate beyond functor/nattrans.
+
+---
+
+
+### B-92 - Padic prime scale at unit exponent reads back the prime
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Padic prime scale at unit exponent reads back the prime |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+For every history p with NatPrime(p), PadicPrimeScale(p, Eone(emp), p) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/78_padic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+
+Rationale:
+Chapter 78 (p-adic) has 7 theorems but is otherwise a stub between section 6 (carrier) and section 9 (certificate) — never targeted. 78:9-15 defines PadicPrimeScale and 78:123-133 proves the empty-exponent case PadicPrimeScale(p, emp, emp) (i.e., p^0 readback). The dual unit-exponent case PadicPrimeScale(p, Eone(emp), p) (i.e., p^1 readback) is missing, even though it is the next constructor of NatMul and the prerequisite of any p-adic valuation computation. Single implication, derives from NatMul.succ over NatMul.zero via Cont(emp, p, p) plus the prime witness for the carrier field. Opens the p-adic chapter at its weakest current edge.
+
+---
+
