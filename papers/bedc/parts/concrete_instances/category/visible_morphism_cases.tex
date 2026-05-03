@@ -197,6 +197,30 @@ the composite displayed equality supplies the continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_nonempty\_e1\_tail\_factors}
 
+\begin{theorem}[Continuation morphism composite right visible tail result cases]
+\label{thm:category-continuation-morphism-comp-right-visible-tail-result-cases}
+For histories $a,b,c,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then the closed composite tail is
+one-headed, and its exposed payload is the continuation of the left tail by
+$m$:
+$$
+\exists k:\mathsf{BHist}.\;
+\hsame(\mathsf{tail}(left\circ right),\Eone(k))\land
+\ContR(\mathsf{tail}(left),m,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite stores the
+append of the left tail with the right tail as its displayed tail. Replacing
+the right tail by its $\Eone(m)$ presentation makes the composite tail
+definitionally $\Eone(\mathsf{append}(\mathsf{tail}(left),m))$. Choose this
+payload append as $k$; the remaining continuation ledger is the reflexive
+append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_visible\_tail\_result\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

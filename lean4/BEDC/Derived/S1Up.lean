@@ -381,4 +381,12 @@ theorem SOneHistoryCarrier_coordinate_pair_right_deterministic {x x' y y' e e' p
   · exact hsame_trans (SOneHistoryCarrier_unit_equation_deterministic left)
       (hsame_symm (SOneHistoryCarrier_unit_equation_deterministic right))
 
+theorem SOneHistoryCarrier_y_e1_point_shape {x y equation point dy : BHist} :
+    SOneHistoryCarrier x y equation point -> hsame y (BHist.e1 dy) ->
+      ∃ t : BHist, hsame point (BHist.e1 t) ∧ Cont x dy t := by
+  intro carrier sameY
+  have pointCont : Cont x y point := carrier.right.right.right
+  cases sameY
+  exact Exists.intro (append x dy) (And.intro pointCont (cont_intro rfl))
+
 end BEDC.Derived.S1Up

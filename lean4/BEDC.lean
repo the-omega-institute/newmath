@@ -209,6 +209,7 @@ import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
 import BEDC.Derived.MetricUp.DepthClassifier
 import BEDC.Derived.MetricUp.LeftE1Result
+import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.Triangle
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix

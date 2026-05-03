@@ -228,6 +228,29 @@ inversion gives the displayed tail classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_y\_e1\_point\_tail\_hsame}
 
+\begin{theorem}[SOne history carrier y e-one point shape]
+\label{thm:sone-history-carrier-y-e1-point-shape}
+For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness
+presents the second coordinate as $\Eone(d_y)$, then the point ledger is
+visibly one-headed and its exposed tail is the continuation of $x$ by $d_y$:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(y,\Eone(d_y))
+\Longrightarrow
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(t))\land \ContR(x,d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier only to its point-continuation field. Replacing the
+second coordinate by its $\Eone(d_y)$ presentation makes the point ledger
+definitionally $\Eone(x\cdot d_y)$. Choose the exposed payload
+$t=x\cdot d_y$; the remaining continuation statement is the canonical append
+ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_y\_e1\_point\_shape}
+
 \begin{theorem}[SOne unit equation determinacy]
 \label{thm:s1-unit-equation-deterministic}
 For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness
