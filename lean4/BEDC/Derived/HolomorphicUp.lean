@@ -233,4 +233,24 @@ theorem OpenDiskGap_e1_point_empty_radius_absurd {z0 z gap : BHist} :
   have endpoints := cont_empty_result_inversion disk.right.right.right
   exact not_hsame_e1_empty endpoints.left
 
+def IteratedCplxDiff (seed : BHist) : Nat -> BHist -> Prop :=
+  Nat.rec
+    (fun h : BHist => hsame seed h)
+    (fun _ prior h =>
+      ∃ previous : BHist, ∃ step : BHist,
+        prior previous ∧ UnaryHistory step ∧ Cont previous step h)
+
+theorem IteratedCplxDiff_unary_of_seed {seed h : BHist} {n : Nat} :
+    UnaryHistory seed -> IteratedCplxDiff seed n h -> UnaryHistory h := by
+  intro seedUnary diff
+  induction n generalizing h with
+  | zero =>
+      exact unary_transport seedUnary diff
+  | succ n ih =>
+      cases diff with
+      | intro previous rest =>
+          cases rest with
+          | intro step data =>
+              exact unary_cont_closed (ih data.left) data.right.left data.right.right
+
 end BEDC.Derived.HolomorphicUp

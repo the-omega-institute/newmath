@@ -136,6 +136,16 @@ The $\HolomorphicUp$ seed carries the following proof obligations before it can 
   \item Cauchy-bound obligation: local upper bounds for $|f|$ on smaller disks must yield unary bounds for the iterated derivatives at the center.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.HolomorphicUp.IteratedCplxDiff}
+
+\begin{lemma}[Iterated complex differentiability preserves unary seed histories]
+\label{lem:iterated-cplx-diff-unary-of-seed}
+If an iterated complex-differentiability chain starts from a unary seed history and each successor stage is recorded by a unary continuation step, then every selected iterate is unary.
+\end{lemma}
+\begin{proof}
+Induct on the iteration index. At zero, transport the unary seed along the displayed \(\hsame\) endpoint. At a successor index, unpack the previous iterate, the unary step, and the continuation witness; the induction hypothesis gives the previous iterate as unary, and unary continuation closure gives the selected successor history.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_unary\_of\_seed}
 
 \section{The seed fields}
 
