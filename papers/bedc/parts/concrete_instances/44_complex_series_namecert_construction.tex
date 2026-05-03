@@ -233,6 +233,23 @@ continuation results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_successor\_result}
 
+\begin{lemma}[Absolute partial sums respect pointwise modulus equivalence]
+\label{lem:complex-abs-part-sum-modulus-hsame-deterministic}
+If two modulus functions \(m,m':\Hist\to\Hist\) are pointwise related by
+\(\hsame\) on every unary index, and \(M,T\) are closed absolute partial sums
+for \(m,m'\) at the same index \(n\), then \(M\hsame T\).
+\end{lemma}
+\begin{proof}
+Induct on the first absolute partial-sum witness. The base case forces the
+second witness to be the zero constructor. In the successor case, the second
+witness has the same successor index; the induction hypothesis identifies the
+predecessor sums, closedness of the first witness supplies unaryness of the
+predecessor index, and the pointwise modulus comparison identifies the two
+modulus terms. Determinacy of the BEDC continuation relation identifies the
+successor sums.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_deterministic}
+
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}
 A complex series \(c\) converges absolutely with bound \(M\) and modulus \(N : \Unary \to \Unary\), written \(\mathsf{AbsConv}(c, M, N)\), when:

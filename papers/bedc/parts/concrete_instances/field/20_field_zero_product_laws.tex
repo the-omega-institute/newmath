@@ -31,6 +31,35 @@ identifies $\mathsf{inv}(a,p_a)(ay)$ with $y$, and transitivity of
 $\hsame$ finishes.
 \end{proof}
 
+\begin{theorem}[Field empty-context multiplication cancellation from apartness]
+\label{thm:field-nonzero-mul-empty-context-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+multiplication congruence, and apartness-certified nonzero factors, empty left
+append context on the product endpoint is cancellative. Any witness
+$p_b:\mathsf{NonZero}_F(b)$ makes
+$$
+xb\hsame \mathsf{append}(\emp,yb)
+\quad\Longrightarrow\quad
+x\hsame y,
+$$
+and any witness $p_a:\mathsf{NonZero}_F(a)$ makes
+$$
+au\hsame \mathsf{append}(\emp,av)
+\quad\Longrightarrow\quad
+u\hsame v.
+$$
+\end{theorem}
+\begin{proof}
+The empty left append endpoint reduces by the finite-kernel law
+\(\mathsf{append}(\emp,h)=h\). The right-factor clause solves the equation
+\(xb\hsame \mathsf{append}(\emp,yb)\) using the indexed inverse of \(b\), then
+cancels \((yb)\mathsf{inv}(b,p_b)\) back to \(y\). The left-factor clause is
+symmetric: solve the left multiplication equation using the indexed inverse of
+\(a\), reduce the empty-context endpoint, and cancel
+\(\mathsf{inv}(a,p_a)(av)\) back to \(v\).
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_nonzero\_mul\_empty\_context\_cancel\_from\_apartness}
+
 \begin{theorem}[Field one-sided multiplication cancellation exactness from apartness]
 \label{thm:field-one-sided-mul-cancel-iff-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and

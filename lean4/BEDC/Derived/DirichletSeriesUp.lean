@@ -96,6 +96,33 @@ theorem DirichletPartSum_unary_index_deterministic
           have samePartial := ih unaryPrev rightSum
           exact cont_respects_hsame samePartial (hsame_refl (term _ s)) leftStep rightStep
 
+theorem DirichletPartSum_term_hsame_deterministic
+    {term term' : BHist -> BHist -> BHist} {s n S T : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) (term' m s)) ->
+      DirichletPartSum term s n S -> DirichletPartSum term' s n T -> hsame S T := by
+  intro pointwise left
+  have index_unary :
+      forall {m U : BHist}, DirichletPartSum term s m U -> UnaryHistory m := by
+    intro m U sum
+    induction sum with
+    | zero =>
+        exact unary_empty
+    | step _ _ ih =>
+        exact unary_e1_closed ih
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl BHist.Empty
+  | step leftSum leftStep ih =>
+      intro right
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih rightSum
+          have sameTerm := pointwise (index_unary leftSum)
+          exact cont_respects_hsame samePartial sameTerm leftStep rightStep
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by
