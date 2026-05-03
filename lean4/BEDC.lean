@@ -195,6 +195,7 @@ import BEDC.Derived.FieldUp.RatContinuationAppendComm
 import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
+import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeNormalForm
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeProductStrictSupport
 import BEDC.Derived.FieldUp.ProductRightEquation
 import BEDC.Derived.FieldUp.ProductInverseClassifier
@@ -338,6 +339,7 @@ import BEDC.Derived.CategoryUp.RightE1TailTargetCases
 import BEDC.Derived.CategoryUp.CompTargetEmptyIff
 import BEDC.Derived.CategoryUp.CompSourceEmptyTailTargetIff
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp

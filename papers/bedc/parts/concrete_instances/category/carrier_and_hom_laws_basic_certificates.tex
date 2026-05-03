@@ -31,6 +31,29 @@ three semantic predicates are the same hom-carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
 
+\begin{theorem}[Category hom carrier composite-result semantic name certificate]
+\label{thm:category-hom-carrier-comp-result-semantic-namecert}
+For displayed hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$ together with $\ContR(f,g,fg)$, the
+predicate
+$$
+h\mapsto \mathsf{CategoryHomCarrier}(a,c,h)\land h\hsame fg
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same concrete composite-result predicate and whose
+classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Composition closure gives the carrier witness at $fg$, and reflexivity gives
+the displayed comparison $fg\hsame fg$. The classifier laws are the reflexive,
+symmetric, and transitive laws for $\hsame$. Transport along a classifier proof
+uses hom-carrier transport for the fixed endpoints $a,c$ and transitivity with
+the inverse classifier proof to keep the displayed composite result aligned
+with $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
+
 \begin{theorem}[Continuation morphism source semantic name certificate]
 \label{thm:continuation-morphism-source-semantic-namecert}
 For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,
