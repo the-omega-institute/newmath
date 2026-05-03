@@ -1,0 +1,59 @@
+你已经在本对话中附加了 BEDC 论文 PDF (papers/bedc/main.pdf)。基于全文研究, 提议 5-10 个值得作为新 BOARD target 的命题候选。
+
+每个候选必须满足:
+1. 题目精确, 一句话能讲清楚要证什么
+2. implication 形式 ("在 setup S 下, P(x) 推出 Q(x)") 或类似可形式化陈述
+3. **当前论文未证**: 你判断这条结果在 PDF 里没有作为 theorem / lemma / proposition / corollary 出现 (允许重要 obstruction / counterexample 命题)
+4. **落地到 BEDC 现有 chapter** 之一: core / proof_obligations / concrete_hardening / concrete_instances / hardening / formalization / proof_sprint / proof_standing
+5. **真正可做的尺寸**: 一个 oracle / codex 可以在 1-3 轮内闭合的命题。不是十年项目, 不是博士论文级别的全新理论
+6. **优先发表价值**: 主结构定理 / 分类定理 / 刚性定理 / 二分定理 / 等价性定理 / 不可实现性定理 / 预算下界定理 / 多尺度归纳定理 / 局部到全局失败障碍定理 等等. 不要琐碎引理.
+7. **不要重复**: 已有 BOARD 候选见下方, 不要提语义等价的同义改写
+
+## 已有 BOARD 候选 (跳过同义版本)
+
+```
+{board_content}
+```
+
+## 已经在 paper 里的所有 \label (skip these)
+
+```
+{paper_labels}
+```
+
+## 输出格式
+
+只输出一个 JSON 对象, 不要 markdown 围栏, 不要解释:
+
+{{
+  "candidates": [
+    {{
+      "title": "<短题目, ≤80 字符>",
+      "claim": "<一句话精确陈述, implication 形式>",
+      "chapter": "<core | proof_obligations | concrete_instances | hardening | formalization | proof_sprint | proof_standing>",
+      "fit_score": <0-10>,
+      "novelty": <0-10>,
+      "rationale": "<一段: 论文哪个对象 / 哪个未证 obligation 引出这个候选; 它和已有定理是 prerequisite / extension / counterpart / sibling 的哪种; 为什么是真的 open 而不是已经被遮盖>",
+      "estimated_complexity": "<short | medium | deep>",
+      "local_inputs": ["papers/bedc/parts/<theme>/<file>.tex", ...]
+    }}
+  ]
+}}
+
+## 选题策略
+
+优先以下类型 (高发表价值, 真闭合):
+- 一组定理因为论文里某个 setup field 多次提到但从未独立成定理
+- 已有 A→B 类定理但缺 B→A / 双向版本
+- 已有结构定理但缺其极值 / 分类版本
+- 已有正例但缺反例 / 障碍定理
+- 一个 chapter 已有定义集但缺 representation / soundness theorem 配套
+- 多个 chapter 之间有 prerequisite 链但中间环节缺 transitive 闭合定理
+
+避免以下:
+- 简单的术语换皮 (\sim_R 改成 \sim_M 之类)
+- 已经被 \leanchecked 标记的目标
+- 跨 BEDC 的纯外部数学 (number theory / general categorical extensions)
+- 大到一组定理才能闭合的"研究方向"
+
+quality > quantity. 5 个真 open 强 candidate 远好于 10 个似是而非.

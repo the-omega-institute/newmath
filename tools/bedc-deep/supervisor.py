@@ -47,6 +47,7 @@ DEFAULT_LOW_WATER = 3
 DEFAULT_PROBE_COOLDOWN_HOURS = 6
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
+DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 12
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
 COMPLETIONS_PER_CURATOR = 5
@@ -60,6 +61,11 @@ def _now() -> float:
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _now_tag_safe() -> str:
+    """Filesystem-safe timestamp tag (no colons, no slashes)."""
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 def supervisor_log(msg: str) -> None:
@@ -350,13 +356,39 @@ def git_sync_dev() -> bool:
 def trigger_probe() -> None:
     git_sync_dev()
     supervisor_log("triggering auto_discovery probe")
-    subprocess.Popen(
-        ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
-        cwd=str(REPO_ROOT),
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
+    # Capture output so silent crashes (e.g. prompt format() KeyError) are
+    # visible in the supervisor logs instead of vanishing into DEVNULL.
+    log_path = SUPERVISOR_LOG_DIR / f"probe_{_now_tag_safe()}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
+def trigger_oracle_board_refill() -> None:
+    """Ask oracle (with project-attached PDF) for new BOARD candidates.
+
+    Complementary to auto_discovery probe: probe finds mechanical gaps via
+    codex static scan, oracle_board_refill leverages the full PDF + research
+    intuition to suggest deeper directions. Run when BOARD unfinished count
+    is low and probe alone isn't refilling.
+    """
+    supervisor_log("triggering oracle_board_refill")
+    log_path = SUPERVISOR_LOG_DIR / f"refill_{_now_tag_safe()}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py")],
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
 
 
 def trigger_curator() -> None:
@@ -527,6 +559,12 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
                 applied.append(f"pi={args['pi_hours']}")
             except (TypeError, ValueError):
                 pass
+        if "oracle_refill_hours" in args:
+            try:
+                supervisor_state["oracle_refill_cooldown_hours"] = float(args["oracle_refill_hours"])
+                applied.append(f"oracle_refill={args['oracle_refill_hours']}")
+            except (TypeError, ValueError):
+                pass
         return ", ".join(applied) or "no recognized cooldown keys"
 
     callbacks = {
@@ -559,6 +597,9 @@ def main() -> int:
     parser.add_argument("--probe-cooldown-hours", type=float, default=DEFAULT_PROBE_COOLDOWN_HOURS)
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
+    parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
+                        help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
+                             "leverages project-attached PDF for deeper candidate suggestions.")
     parser.add_argument("--no-claude-review", action="store_true")
     parser.add_argument("--pi-version", choices=["v0", "v1"], default="v0",
                         help="v0 = observer-only PI agent. v1 = maker/checker gauntlet with expanded action surface (experimental).")
@@ -590,6 +631,7 @@ def main() -> int:
     last_probe_ts = 0.0
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
+    last_oracle_refill_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     inner: subprocess.Popen | None = None
@@ -599,6 +641,7 @@ def main() -> int:
         "probe_cooldown_hours": args.probe_cooldown_hours,
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
+        "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
         "pi_version": args.pi_version,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
@@ -631,10 +674,15 @@ def main() -> int:
 
             unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
+            since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
                 trigger_probe()
                 last_probe_ts = _now()
+            if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
+                trigger_oracle_board_refill()
+                last_oracle_refill_ts = _now()
 
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
