@@ -149,6 +149,25 @@ $q$ with $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_deterministic}
 
+\begin{theorem}[EquivCat empty roundtrip source-prefix determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-source-prefix-deterministic}
+For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+$left\hsame\emp$ and $right\hsame\emp$, and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\emp)
+$$
+is also displayed, then $p\hsame r$.
+\end{theorem}
+\begin{proof}
+The empty roundtrip identity-components theorem extracts the reverse empty
+component from $q$ to $p$. Compose the displayed empty component from $r$ to
+$q$ with that reverse component by NatTrans empty-identity prefix
+transitivity; this gives $r\hsame p$. Symmetry of $\hsame$ gives the stated
+source-prefix equality.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_source\_prefix\_deterministic}
+
 \section{The certificate}
 \label{sec:equivcat-certificate}
 
