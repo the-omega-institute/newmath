@@ -324,6 +324,7 @@ import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
 import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.CategoryUp.TailCommCongr
+import BEDC.Derived.CategoryUp.RightE1TailTargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.NatTransUp
