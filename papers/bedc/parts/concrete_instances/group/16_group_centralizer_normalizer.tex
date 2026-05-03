@@ -373,6 +373,70 @@ $\mathsf{mul}(\mathsf{mul}(\_,x),\mathsf{inv}(\_))$. Hence
 $\mathsf{Conj}_s(x)$ and $\mathsf{Conj}_t(x)$ are $\hsame$-equal.
 \end{proof}
 
+\begin{theorem}[Group centralizer normalizer action inverse]
+\label{thm:group-centralizer-normalizer-action-inverse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$ and $Z_a(x)$, then the normalizer action restricts to a classifier
+equivalence on the centralizer:
+\begin{enumerate}
+\item $Z_a(\mathsf{Conj}_s(x))$.
+\item $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$.
+\item $\hsame(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
+\item $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item $Z_a(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+\item $\hsame(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)),x)$.
+\end{enumerate}
+The ten-field per-object fit is: traditional target normalizer action by
+equivalences; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$;
+classifier $\hsame$; stability inverse action, identity action, and
+composition; ledger normalizer witness, inverse witness, and acted-on
+centralizer element; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-normalizer-conjugation-action-composition}, and
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, together with
+the inverse and unit laws; exactness predicate restricted action invertibility
+on $Z_a$; standard bridge ordinary normalizer action by automorphisms; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The first and fourth rows are the two carrier clauses in the definition of
+$N_a(s)$: the normalizer witness sends a centralizer element forward by
+$\mathsf{Conj}_s$ and backward by $\mathsf{Conj}_{\mathsf{inv}(s)}$.
+The inverse-closure row of
+\autoref{thm:group-centralizer-normalizer-subgroup} also records
+$N_a(\mathsf{inv}(s))$.
+
+Using $N_a(\mathsf{inv}(s))$ with $Z_a(\mathsf{Conj}_s(x))$, the forward
+preservation row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$. Using $N_a(s)$
+with $Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$ gives
+$Z_a(\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x)))$.
+
+For the left inverse identity, the composition row of
+\autoref{thm:group-normalizer-conjugation-action-composition} identifies
+$\mathsf{Conj}_{\mathsf{mul}(\mathsf{inv}(s),s)}(x)$ with
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))$. The two-sided inverse
+law identifies $\mathsf{mul}(\mathsf{inv}(s),s)$ with $e$, and the identity
+row of \autoref{thm:group-centralizer-normalizer-conjugation-action}
+identifies $\mathsf{Conj}_e(x)$ with $x$ under $\hsame$.
+
+For the right inverse identity, the same composition row identifies
+$\mathsf{Conj}_{\mathsf{mul}(s,\mathsf{inv}(s))}(x)$ with
+$\mathsf{Conj}_s(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$. The other two-sided
+inverse law reduces $\mathsf{mul}(s,\mathsf{inv}(s))$ to $e$, and the identity
+row again gives the comparison with $x$. Multiplication congruence and
+inverse congruence supply the classifier transport at each product
+replacement.
+\end{proof}
+
 \section{Centralizer normalizer orbit relation}
 \label{sec:group-centralizer-normalizer-orbit}
 
