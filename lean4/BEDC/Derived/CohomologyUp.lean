@@ -13,6 +13,14 @@ theorem CohomologyCocycle_axis_right_cancel {d : BHist -> BHist} {axis h : BHist
     hsame_trans (hsame_symm (dAppend h axis)) shiftedCycle
   exact (append_eq_empty_iff.mp shiftedByParts).left
 
+theorem CohomologyCocycle_axis_left_cancel {d : BHist -> BHist} {axis h : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d (append axis h)) BHist.Empty -> hsame (d h) BHist.Empty := by
+  intro shiftedCycle
+  have shiftedByParts : hsame (append (d axis) (d h)) BHist.Empty :=
+    hsame_trans (hsame_symm (dAppend axis h)) shiftedCycle
+  exact (append_eq_empty_iff.mp shiftedByParts).right
+
 theorem CohomologyCocycle_append_closed {d : BHist -> BHist} {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (axisCycle : hsame (d axis) BHist.Empty) :
@@ -40,5 +48,22 @@ theorem CohomologyCocycle_append_core_closed {d : BHist -> BHist} {h k : BHist}
   have dkEmpty : d k = BHist.Empty :=
     hsame_empty_iff.mp kCycle
   exact hsame_trans (dAppend h k) (append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
+
+theorem CohomologyCocycle_left_shift_append_closed {d : BHist -> BHist} {axis h k : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (axisCycle : hsame (d axis) BHist.Empty) :
+    hsame (d (append axis h)) BHist.Empty ->
+      hsame (d (append axis k)) BHist.Empty ->
+        hsame (d (append axis (append h k))) BHist.Empty := by
+  intro hCycle kCycle
+  have hCore : hsame (d h) BHist.Empty :=
+    CohomologyCocycle_axis_left_cancel dAppend hCycle
+  have kCore : hsame (d k) BHist.Empty :=
+    CohomologyCocycle_axis_left_cancel dAppend kCycle
+  have hkCore : hsame (d (append h k)) BHist.Empty :=
+    CohomologyCocycle_append_core_closed dAppend hCore kCore
+  exact hsame_trans (dAppend axis (append h k))
+    (append_eq_empty_iff.mpr
+      (And.intro (hsame_empty_iff.mp axisCycle) (hsame_empty_iff.mp hkCore)))
 
 end BEDC.Derived.CohomologyUp
