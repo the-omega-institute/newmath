@@ -95,6 +95,45 @@ introduction gives the displayed full transport package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
 
+\begin{theorem}[RatUp FieldUp contextual action nested pair action coherence]
+\label{thm:rat-denom-unit-contextual-action-nested-pair-action-coherence}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2:\mathsf{BHist}$. Suppose
+$C_D^u(h)$, $C_D^u(l_0)$, $C_D^u(r_0)$, $C_D^u(l_1)$, $C_D^u(r_1)$,
+$C_D^u(l_2)$, and $C_D^u(r_2)$. Then the threefold empty-endpoint action is
+carried:
+$$
+C_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+It is denominator-classified by the single collected action:
+$$
+R_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))),
+\Gamma_{\emp,\emp,\mathsf{append}(l_2,\mathsf{append}(l_1,l_0)),\mathsf{append}(\mathsf{append}(r_0,r_1),r_2)}(h)).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to the inner two empty-endpoint actions. This carries the nested action through
+the first two denominator context pairs and classifies it against the collected
+pair $(\mathsf{append}(l_1,l_0),\mathsf{append}(r_0,r_1))$.
+
+Append closure for $C_D^u$ carries
+$\mathsf{append}(l_1,l_0)$ and $\mathsf{append}(r_0,r_1)$. Apply the same
+two-layer composition support law again, now with the outer pair $(l_2,r_2)$
+and the collected inner pair. This gives the carried target action and the
+classifier to
+$\Gamma_{\emp,\emp,\mathsf{append}(l_2,\mathsf{append}(l_1,l_0)),\mathsf{append}(\mathsf{append}(r_0,r_1),r_2)}(h)$.
+
+Finally, transport the outer action along the inner classifier and compose the
+two classifier rows by transitivity of $R_D^u$. The carried row from the second
+application gives the displayed carrier statement, and the composed classifier
+is exactly the displayed denominator-classification statement.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_nested\_pair\_action\_coherence}
+
 \begin{theorem}[RatUp FieldUp contextual action three-pair reverse-order coherence]
 \label{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence}
 For the concrete denominator tuple
@@ -356,4 +395,3 @@ singleton context wrappers; core theorem list
 \autoref{thm:field-singleton-two-sided-context-exactness}; exactness predicate
 the displayed carrier and classifier equivalences; standard bridge deferred;
 status $\mathsf{ProofTarget}$.
-
