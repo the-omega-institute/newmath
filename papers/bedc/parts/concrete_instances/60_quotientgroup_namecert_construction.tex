@@ -6,5 +6,65 @@ The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets o
 \section{Carrier definition}
 \label{sec:quotientgroup-carrier}
 
+\begin{definition}[QuotientGroup singleton carrier]
+\label{def:quotientgroup-singleton-carrier}
+For the concrete singleton quotient-group object over histories, the carrier is
+the empty-history class
+$$
+Q_{\emp}(h)\Longleftrightarrow \hsame(h,\emp).
+$$
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonCarrier}
+
+\begin{definition}[QuotientGroup singleton classifier]
+\label{def:quotientgroup-singleton-classifier}
+The concrete singleton quotient-group classifier is
+$$
+\rho_Q(h,k)\Longleftrightarrow
+Q_{\emp}(h)\land Q_{\emp}(k)\land \hsame(h,k).
+$$
+It records both endpoint carrier witnesses together with their BEDC
+history-sameness witness.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier}
+
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
+
+\begin{theorem}[QuotientGroup singleton semantic naming certificate]
+\label{thm:quotientgroup-singleton-semantic-namecert}
+The singleton quotient-group carrier and classifier form a semantic naming
+certificate whose source, pattern, and ledger predicates are all
+$Q_{\emp}$.
+\end{theorem}
+\begin{proof}
+The inhabited endpoint is $\emp$, witnessed by reflexive
+$\hsame(\emp,\emp)$. Reflexivity of the classifier packages the source carrier
+twice with reflexive $\hsame(h,h)$. Symmetry swaps the endpoint carriers and
+reverses the $\hsame$ component. Transitivity composes the two $\hsame$
+components and keeps the outer endpoint carrier witnesses. Carrier transport
+along a classifier edge is the right endpoint carrier field. Since the semantic
+source, pattern, and ledger predicates are the same singleton predicate, their
+soundness clauses are direct projections of the source witness.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingleton\_semanticNameCert}
+
+\begin{theorem}[QuotientGroup singleton classifier visible endpoint exclusion]
+\label{thm:quotientgroup-singleton-classifier-visible-endpoint-absurd}
+For histories $p,q,k:\mathsf{BHist}$, no classifier edge can have a visible
+$\mathsf{e0}$ or $\mathsf{e1}$ endpoint on either side:
+$$
+\rho_Q(\mathsf{e0}(p),k),\quad
+\rho_Q(\mathsf{e1}(p),k),\quad
+\rho_Q(k,\mathsf{e0}(q)),\quad
+\rho_Q(k,\mathsf{e1}(q))
+$$
+are all impossible.
+\end{theorem}
+\begin{proof}
+Unfold the classifier. A visible left endpoint gives its left carrier field,
+which identifies $\mathsf{e0}(p)$ or $\mathsf{e1}(p)$ with $\emp$. A visible
+right endpoint gives the same contradiction from the right carrier field. Each
+case is excluded by constructor separation for generated BEDC histories.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_visible\_endpoint\_absurd}
