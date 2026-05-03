@@ -126,6 +126,53 @@ then excludes both visible results $\Ezero(r)$ and $\Eone(r)$ for continuations
 from $P$ through $Q$.
 \end{proof}
 
+\begin{theorem}[Group singleton contextual continuation terminal collapse]
+\label{thm:group-singleton-contextual-continuation-terminal-collapse}
+For histories $L,R,L',R',P,Q,S,r:\mathsf{BHist}$, suppose $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, $A_{\emp}(R')$, and $\ContR(P,Q,S)$.
+Then the singleton contextual classifier collapses to the same terminal
+continuation conditions:
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,P),L'),
+\mathsf{append}(\mathsf{append}(R,Q),R'))
+\Longleftrightarrow
+R_{\emp}(P,Q)
+\Longleftrightarrow
+R_{\emp}(S,P)
+\Longleftrightarrow
+R_{\emp}(S,Q)
+\Longleftrightarrow
+A_{\emp}(S).
+$$
+Moreover, under these equivalent conditions, both visible continuation results
+are excluded:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The ten-field fit names the traditional target terminal-group contextual
+continuation collapse; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ plus $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from two-sided context cancellation and continuation terminal
+collapse; ledger hidden prefix/suffix endpoint witnesses; core theorem this
+block; exactness predicate the contextual terminal equivalence; standard bridge
+terminal-group contextual continuation collapse; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel}
+with the four singleton carrier witnesses for $L,R,L',R'$. This strips the
+hidden prefix and suffix contexts from the displayed contextual classifier and
+identifies it with the uncontexted classifier $R_{\emp}(P,Q)$.
+
+Apply Theorem~\ref{thm:group-singleton-continuation-terminal-collapse} to the
+continuation witness $\ContR(P,Q,S)$. It identifies $R_{\emp}(P,Q)$ with
+$R_{\emp}(S,P)$, $R_{\emp}(S,Q)$, and $A_{\emp}(S)$, and it gives the two
+implications excluding $\ContR(P,Q,\Ezero(r))$ and
+$\ContR(P,Q,\Eone(r))$. Composing this terminal collapse with the contextual
+cancellation gives the displayed theorem.
+\end{proof}
+
 \section{Singleton contextual continuation obstruction}
 \label{sec:group-singleton-contextual-continuation-obstruction}
 
