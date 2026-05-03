@@ -198,3 +198,92 @@ and inverse witness provenance; core theorem list
 \autoref{thm:group-conjugation-equation-exactness}; exactness predicate the
 displayed iff; standard bridge ordinary affine conjugacy equations; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inner conjugation exit]
+\label{thm:ratup-fieldup-affine-inner-conjugation-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,V,W:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\iota_F(-)$ be the explicit inverse from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and define
+$$
+\mathrm{Inn}_T(V)=T\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then inner conjugation by $T$ is a concrete affine action theorem for the
+canonical exit object:
+\begin{enumerate}
+\item $\mathrm{Inn}_T(V)$ is a certified affine automorphism.
+\item If $V\equiv_{\mathrm{aff}}W$, then
+$\mathrm{Inn}_T(V)\equiv_{\mathrm{aff}}\mathrm{Inn}_T(W)$.
+\item $\mathrm{Inn}_T(\mathrm{id}_F)\equiv_{\mathrm{aff}}\mathrm{id}_F$.
+\item
+$\mathrm{Inn}_T(V\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(V)\circ_{\mathrm{aff}}\mathrm{Inn}_T(W)$.
+\item
+$\iota_F(\mathrm{Inn}_T(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(\iota_F(V))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the concrete exit package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the product $\circ_{\mathrm{aff}}$, the identity
+$\mathrm{id}_F$, the inverse row $\iota_F(-)$, and the classifier
+$\equiv_{\mathrm{aff}}$ over
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+Certification of $\mathrm{Inn}_T(V)$ is closure under the two displayed affine
+products. Apply \autoref{thm:field-affine-automorphism-group-laws} to compose
+$T$ with $V$, then compose the result with $\iota_F(T)$ supplied by the
+canonical inverse row.
+
+Classifier respect follows by transporting $V\equiv_{\mathrm{aff}}W$ through
+the fixed left factor $T$ and the fixed right factor $\iota_F(T)$. This is the
+operation congruence field of
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}, with the
+same classifier chosen by the canonical exit package.
+
+For the identity clause, use
+\autoref{thm:field-affine-automorphism-composition-associative} to reassociate
+$T\circ_{\mathrm{aff}}\mathrm{id}_F\circ_{\mathrm{aff}}\iota_F(T)$. The unit
+and inverse laws from
+\autoref{thm:field-affine-automorphism-group-laws} then identify the middle
+product with $T\circ_{\mathrm{aff}}\iota_F(T)$ and hence with
+$\mathrm{id}_F$ under $\equiv_{\mathrm{aff}}$.
+
+For products, reassociate
+$T\circ_{\mathrm{aff}}(V\circ_{\mathrm{aff}}W)\circ_{\mathrm{aff}}\iota_F(T)$
+so that the inverse-product pair
+$\iota_F(T)\circ_{\mathrm{aff}}T$ occurs between the transported $V$ and $W$
+terms. The group inverse law collapses that pair to $\mathrm{id}_F$, and
+associativity returns the classifier equality
+$$
+\mathrm{Inn}_T(V\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(V)\circ_{\mathrm{aff}}\mathrm{Inn}_T(W).
+$$
+
+For inverse preservation, apply
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to the two products in
+$T\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(T)$. The reverse-order
+inverse is
+$\iota_F(\iota_F(T))\circ_{\mathrm{aff}}\iota_F(V)\circ_{\mathrm{aff}}\iota_F(T)$.
+The double-inverse clause of that theorem identifies $\iota_F(\iota_F(T))$
+with $T$, and operation congruence transports the comparison to
+$$
+\iota_F(\mathrm{Inn}_T(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(\iota_F(V)).
+$$
+\end{proof}
+
+Per-object template: traditional target inner automorphism action; BEDC source
+concrete $\FieldUp(\RatUp)$ exit object plus $\mathsf{AffAut}_F$; carrier
+certified affine automorphisms; classifier $\equiv_{\mathrm{aff}}$; stability
+obligations composition closure, classifier congruence, unit, product, and
+inverse preservation; ledger affine coefficients, product witnesses, inverse
+witnesses, and conjugating element; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:field-affine-automorphism-group-laws},
+\autoref{thm:field-affine-automorphism-composition-associative},
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}, and
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}; exactness predicate
+inner-conjugation action laws; standard bridge ordinary inner automorphisms;
+status $\mathsf{ProofTarget}$.
