@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.13
+// @version      1.14
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.13";
+  const SCRIPT_VERSION = "bedc-1.14";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -426,7 +426,12 @@
       if (btn && !btn.disabled) {
         const tid = btn.getAttribute("data-testid");
         const lbl = btn.getAttribute("aria-label");
-        log(`Send button found (testid=${tid}, label=${lbl}), clicking ONCE...`);
+        // BEDC FIX: snapshot assistant message count IMMEDIATELY before send,
+        // so waitForResponse can require count strict-increase. This is the
+        // structural fix for oracle_duplicate_response (turn N captures
+        // turn N-1's content because DOM still has prior turns visible).
+        const pre = snapshotAssistantCount();
+        log(`Send button found (testid=${tid}, label=${lbl}), pre-send assistant count=${pre}, clicking ONCE...`);
         btn.click();
         await sleep(500);
         return true;
@@ -480,6 +485,31 @@
   // ── Response extraction (verbatim from paper oracle v4.10) ───────────
   let sentPromptText = "";
   let postSendLines = new Set();
+  // BEDC FIX: snapshot of `[data-message-author-role='assistant']` COUNT
+  // taken immediately before we hit Send. waitForResponse waits until the
+  // count strictly increases, then captures only the NEW last assistant
+  // message. Without this, follow-up turns can return turn N-1's text
+  // because the multi-strategy fallbacks in extractResponseText see prior
+  // assistant messages still in DOM and pick one of them as "stable".
+  // Root cause of the historical oracle_duplicate_response failure cluster.
+  let preSubmitAssistantCount = 0;
+  function snapshotAssistantCount() {
+    try {
+      preSubmitAssistantCount = document.querySelectorAll(
+        "[data-message-author-role='assistant']"
+      ).length;
+    } catch {
+      preSubmitAssistantCount = 0;
+    }
+    return preSubmitAssistantCount;
+  }
+  function newAssistantCount() {
+    try {
+      return document.querySelectorAll("[data-message-author-role='assistant']").length;
+    } catch {
+      return 0;
+    }
+  }
 
   function setSentPrompt(text) { sentPromptText = text; }
 
@@ -803,16 +833,28 @@
   }
 
   async function waitForResponse(task_id) {
-    log("Waiting for ChatGPT response...");
+    log(`Waiting for ChatGPT response (pre-send assistant count was ${preSubmitAssistantCount})...`);
     const startTime = Date.now();
     let lastResponseText = "";
     let lastStableKey = "";
     let stableCount = 0;
     let lastLogTime = 0;
     let lastHeartbeat = 0;
+    let countIncreasedLogged = false;
     while (Date.now() - startTime < MAX_WAIT) {
       await sleep(STABLE_INTERVAL);
-      const responseText = extractResponseText();
+      // BEDC FIX: require strict count increase before trusting any
+      // extractResponseText output. Without this, the multi-strategy
+      // fallback can return prior-turn text that happens to be "stable"
+      // because no new generation has rendered yet.
+      const curCount = newAssistantCount();
+      const responseText = (curCount > preSubmitAssistantCount)
+        ? extractAssistantOnly()    // count increased: take the LAST assistant message only
+        : "";                       // count not yet increased: don't even consider stability
+      if (curCount > preSubmitAssistantCount && !countIncreasedLogged) {
+        log(`new assistant message detected (count ${preSubmitAssistantCount} → ${curCount})`);
+        countIncreasedLogged = true;
+      }
       const generating = isStillGenerating();
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const mainLen = (document.querySelector("main")?.innerText || "").length;
