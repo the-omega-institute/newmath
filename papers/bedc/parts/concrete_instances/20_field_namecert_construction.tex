@@ -354,6 +354,7 @@ endpoint interface.
 
 \begin{theorem}[RatUp FieldUp selector-complete denominator well-formed exit slice]
 \label{thm:ratup-fieldup-selector-complete-denominator-laws}
+\label{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
 histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
 $C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
@@ -553,6 +554,85 @@ The selector-complete denominator instance therefore carries both endpoint
 coverage and package membership: the two selected endpoints remain in $C_D^u$,
 the selected pair lies in $R_D^u$, and every contextual singleton-empty
 classifier on the selected pair collapses to $\bot$.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp selector-complete denominator row exhaustion]
+\label{thm:ratup-fieldup-selector-complete-denominator-row-exhaustion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Fix contexts
+$L,R:\mathsf{BHist}$ and assume $\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Set
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. Then the selected denominator row of
+Definition~\ref{def:ratup-fieldup-selector-complete-denominator-instance} is
+exhausted by exactly the following four ordered endpoint rows:
+\begin{enumerate}
+  \item $(x,x)$, with carrier rows $C_D^u(x)$ and $C_D^u(x)$, classifier row
+  $R_D^u(x,x)$, and obstruction
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,x),\mathsf{append}(R,x))\to\bot;
+  $$
+  \item $(x,y)$, with carrier rows $C_D^u(x)$ and $C_D^u(y)$, classifier row
+  $R_D^u(x,y)$, and obstruction
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,x),\mathsf{append}(R,y))\to\bot;
+  $$
+  \item $(y,x)$, with carrier rows $C_D^u(y)$ and $C_D^u(x)$, classifier row
+  $R_D^u(y,x)$, and obstruction
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,y),\mathsf{append}(R,x))\to\bot;
+  $$
+  \item $(y,y)$, with carrier rows $C_D^u(y)$ and $C_D^u(y)$, classifier row
+  $R_D^u(y,y)$, and obstruction
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,y),\mathsf{append}(R,y))\to\bot.
+  $$
+\end{enumerate}
+For every selector pair $s,t:\mathsf{BMark}$, the row selected by
+$(E_s(h,k,\ell),E_t(h,k,\ell))$ is one of these four rows, and its two carrier
+rows, $R_D^u$ classifier row, and singleton-empty contextual obstruction are
+the corresponding rows supplied by the selector-complete $\FieldUp(\mathsf{RatUp})$
+exit package. Conversely, the four displayed ordered endpoint rows are realized
+by the selector pairs $(\mathsf{BMark.b0},\mathsf{BMark.b0})$,
+$(\mathsf{BMark.b0},\mathsf{BMark.b1})$,
+$(\mathsf{BMark.b1},\mathsf{BMark.b0})$, and
+$(\mathsf{BMark.b1},\mathsf{BMark.b1})$.
+\end{theorem}
+\begin{proof}
+Apply Lemma~\ref{lem:ratup-fieldup-bracketing-endpoint-selector-exhaustion} to
+the arbitrary selectors $s,t:\mathsf{BMark}$. It gives the four generated
+selector branches and identifies their selected endpoint pairs as $(x,x)$,
+$(x,y)$, $(y,x)$, and $(y,y)$.
+
+Apply Theorem~\ref{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice}
+to the concrete denominator tuple, the three carrier hypotheses, the support
+witness $\mathsf{ThreeSupp}_D^u(h,k,\ell)$, the selected pair $s,t$, and the
+contexts $L,R$. This supplies the two carrier rows, the $R_D^u$ classifier row,
+and the singleton-empty contextual obstruction for the selected denominator
+row.
+
+Apply Theorem~\ref{thm:ratup-fieldup-selector-complete-exit-package} to the
+same data. The classifier row and the contextual obstruction are recorded as
+concrete $\FieldUp(\mathsf{RatUp})$ exit-package rows over
+$\mathsf{RatUpFieldSource}_F$, so each of the four cases is an admissible row
+of the concrete exit package.
+
+It remains to account for the converse realization. Specialize
+Lemma~\ref{lem:ratup-fieldup-bracketing-endpoint-selector-exhaustion} to the
+four selector pairs
+$(\mathsf{BMark.b0},\mathsf{BMark.b0})$,
+$(\mathsf{BMark.b0},\mathsf{BMark.b1})$,
+$(\mathsf{BMark.b1},\mathsf{BMark.b0})$, and
+$(\mathsf{BMark.b1},\mathsf{BMark.b1})$. Unfolding
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector} gives respectively
+the endpoint rows $(x,x)$, $(x,y)$, $(y,x)$, and $(y,y)$, and the preceding
+well-formedness and exit-package applications attach the corresponding four
+rows displayed in the statement.
 \end{proof}
 
 Per-object template: traditional target selector-complete FieldUp denominator
