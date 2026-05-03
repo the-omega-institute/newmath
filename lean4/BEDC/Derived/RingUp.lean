@@ -219,6 +219,25 @@ theorem ring_add_duplicate_eq_zero {add : BHist -> BHist -> BHist}
     exact hsame_trans (hsame_symm (negLeft a)) negToA
   exact hsame_symm zeroToA
 
+theorem ring_add_duplicate_empty_iff {add : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    {a : BHist} :
+    hsame a (add a a) <-> hsame a BHist.Empty := by
+  constructor
+  · intro duplicate
+    exact ring_add_duplicate_eq_zero addAssoc zeroLeft negLeft addCongr a duplicate
+  · intro aEmpty
+    have duplicateEmpty : hsame (add a a) (add BHist.Empty BHist.Empty) :=
+      addCongr aEmpty aEmpty
+    have emptySum : hsame (add a a) BHist.Empty :=
+      hsame_trans duplicateEmpty (zeroLeft BHist.Empty)
+    exact hsame_trans aEmpty (hsame_symm emptySum)
+
 theorem ring_add_right_zero {add : BHist -> BHist -> BHist} {zero : BHist}
     (addComm : forall x y : BHist, hsame (add x y) (add y x))
     (zeroLeft : forall x : BHist, hsame (add zero x) x) :

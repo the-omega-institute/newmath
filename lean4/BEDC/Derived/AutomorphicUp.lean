@@ -72,6 +72,17 @@ theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value 
   exact AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier visibleGraph
     innerEmpty.right
 
+theorem AutomorphicAdeleGraph_visible_result_nonempty {p q domain value result : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) result -> hsame result BHist.Empty -> False := by
+  intro domainCarrier _valueCarrier visibleCont resultEmpty
+  have emptyCont : Cont (append p domain) (append value q) BHist.Empty :=
+    cont_result_hsame_transport visibleCont resultEmpty
+  have endpoints := cont_empty_result_inversion emptyCont
+  have domainEmpty : hsame domain BHist.Empty :=
+    (append_eq_empty_iff.mp endpoints.left).right
+  exact AdeleHistoryCarrier_not_empty domainCarrier domainEmpty
+
 theorem AutomorphicAdeleGraph_visible_context_core_readback {p q domain value graph core : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
       Cont (append p domain) (append value q) (append (append p graph) q) ->
