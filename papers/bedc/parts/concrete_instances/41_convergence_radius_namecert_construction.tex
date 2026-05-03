@@ -96,6 +96,19 @@ geometric-bound carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_semanticNameCert}
 
+\begin{lemma}[Geometric bound supplies the power series carrier]
+\label{lem:geom-bound-power-series-carrier}
+If \(\mathsf{GeomBound}(a,r,K)\) holds and the expansion center \(z_0\) is a
+complex history, then \((a,z_0)\) is a power series carrier, and both \(r\)
+and \(K\) are unary histories.
+\end{lemma}
+\begin{proof}
+Unpack the geometric-bound predicate. Its fields give the unary radius, the
+unary constant, and the coefficient-wise complex carrier; combine the latter
+with the displayed carrier of \(z_0\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_powerSeriesCarrier}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.
@@ -111,6 +124,21 @@ Each term is bounded above by \(K (r'/r)^n\); apply the geometric series formula
 For coefficients \(a\), the convergence radius predicate \(\mathsf{ConvRad}(a, R)\) holds when there is a constant-witness function \(K : \Unary \to \Unary\) such that for every unary radius \(r\) with \(\mathsf{NatUnaryStrictPrefix}(r, R)\), \(\mathsf{GeomBound}(a, r, K(r))\) is satisfied.
 \end{definition}
 \leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRad}
+
+\begin{lemma}[Convergence radius supplies power series carriers along witnesses]
+\label{lem:conv-rad-power-series-carrier-witness}
+If \(\mathsf{ConvRad}(a,R)\) holds and \(z_0\) is a complex history, then the
+constant-witness function \(K\) can be chosen so that every admitted radius row
+simultaneously gives \(\mathsf{PowerSeriesCarrier}(a,z_0)\) and
+\(\mathsf{GeomBound}(a,r,K(r))\).
+\end{lemma}
+\begin{proof}
+Open the witness function in the convergence-radius predicate. For each
+admitted radius row, apply
+\autoref{lem:geom-bound-power-series-carrier} to the resulting geometric
+bound and the carrier of \(z_0\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_witness}
 
 \begin{lemma}[Convergence radius transport]
 \label{lem:conv-rad-radius-transport}

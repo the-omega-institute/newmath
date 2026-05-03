@@ -117,6 +117,33 @@ theorem field_affine_inverse_offset_empty_normal_form
   exact addCongr (hsame_trans reassoc (hsame_trans splitLeft splitRight))
     (hsame_refl BHist.Empty)
 
+theorem field_affine_inverse_empty_offset_normal_form
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addRightId : forall x : BHist, hsame (add x BHist.Empty) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    {a b d c : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame (add (mul (inv a pa) (mul (add c (neg d)) (inv b pb))) BHist.Empty)
+      (add (mul (mul (inv a pa) c) (inv b pb))
+        (mul (mul (inv a pa) (neg d)) (inv b pb))) := by
+  have expanded :
+      hsame (add (mul (inv a pa) (mul (add c (neg d)) (inv b pb))) BHist.Empty)
+        (add (add (mul (mul (inv a pa) c) (inv b pb))
+          (mul (mul (inv a pa) (neg d)) (inv b pb))) BHist.Empty) := by
+    exact field_affine_inverse_offset_empty_normal_form
+      mulAssoc mulCongr addCongr leftDistrib rightDistrib pa pb
+  exact hsame_trans expanded
+    (addRightId (add (mul (mul (inv a pa) c) (inv b pb))
+      (mul (mul (inv a pa) (neg d)) (inv b pb))))
+
 theorem field_affine_composition_right_empty_normal_form
     {add mul : BHist -> BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

@@ -14,19 +14,35 @@ def GeomBound (a : Nat -> BHist) (r K : BHist) : Prop :=
   UnaryHistory r ∧ UnaryHistory K ∧ ∀ n : Nat, ComplexHistoryCarrier (a n)
 
 def PowerSeriesCarrier (a : Nat -> BHist) (z0 : BHist) : Prop :=
-  UnaryHistory z0 /\ forall n : Nat, ComplexHistoryCarrier (a n)
+  UnaryHistory z0 ∧ (∀ n : Nat, ComplexHistoryCarrier (a n)) ∧ ComplexHistoryCarrier z0
 
 theorem PowerSeriesCarrier_origin_coefficient_transport {a b : Nat -> BHist} {z0 z0' : BHist} :
-    hsame z0 z0' -> (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
-      PowerSeriesCarrier a z0 -> UnaryHistory z0' /\ PowerSeriesCarrier b z0' := by
+    hsame z0 z0' -> (∀ n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
+      PowerSeriesCarrier a z0 -> UnaryHistory z0' ∧ PowerSeriesCarrier b z0' := by
   intro sameOrigin coeffClassified carrier
   have targetOrigin : UnaryHistory z0' := unary_transport carrier.left sameOrigin
+  have targetOriginComplex : ComplexHistoryCarrier z0' :=
+    BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameOrigin carrier.right.right
   exact And.intro targetOrigin
-    (And.intro targetOrigin (fun n => (coeffClassified n).right.left))
+    (And.intro targetOrigin
+      (And.intro (fun n => (coeffClassified n).right.left) targetOriginComplex))
 
 def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
   UnaryHistory R ∧ ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r ->
     Cont r (K r) R -> GeomBound a r (K r)
+
+theorem GeomBound_powerSeriesCarrier {a : Nat -> BHist} {r K z0 : BHist} :
+    GeomBound a r K -> ComplexHistoryCarrier z0 ->
+      PowerSeriesCarrier a z0 ∧ UnaryHistory r ∧ UnaryHistory K := by
+  intro bound centerCarrier
+  cases bound with
+  | intro radiusUnary rest =>
+      cases rest with
+      | intro constantUnary coeffCarrier =>
+          exact And.intro
+            (And.intro (ComplexHistoryCarrier_unary centerCarrier)
+              (And.intro coeffCarrier centerCarrier))
+            (And.intro radiusUnary constantUnary)
 
 theorem ConvRad_radius_transport {a : Nat -> BHist} {R R' : BHist} :
     hsame R R' -> ConvRad a R -> UnaryHistory R' -> ConvRad a R' := by
@@ -130,5 +146,19 @@ theorem GeomBound_append_unary_coeff_closed {a : Nat -> BHist} {r K q : BHist} :
   exact And.intro bound.left
     (And.intro bound.right.left
       (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (bound.right.right n) qUnary))
+
+theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
+    ConvRad a R -> ComplexHistoryCarrier z0 ->
+      ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+        PowerSeriesCarrier a z0 ∧ GeomBound a r (K r) := by
+  intro radius centerCarrier
+  cases radius with
+  | intro _ witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact Exists.intro K (by
+            intro r radiusUnary contRadius
+            have bound : GeomBound a r (K r) := boundAt radiusUnary contRadius
+            exact And.intro (GeomBound_powerSeriesCarrier bound centerCarrier).left bound)
 
 end BEDC.Derived.ConvergenceRadiusUp

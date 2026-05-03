@@ -156,6 +156,35 @@ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_inverse\_offset\_empty\_normal\_form}
 
+\begin{lemma}[Field affine inverse empty-offset normal form]
+\label{lem:field-affine-inverse-empty-offset-normal-form}
+For a BEDC history-level $\FieldUp$ candidate with right identity for the
+additive empty endpoint, multiplication associativity and congruence, addition
+congruence, and the two distributivity laws, every
+$a,b,c,d:\mathsf{BHist}$ with witnesses \(p_a:\mathsf{NonZero}_F(a)\) and
+\(p_b:\mathsf{NonZero}_F(b)\) satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{mul}(\mathsf{inv}(a,p_a),
+    \mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),
+      \mathsf{inv}(b,p_b))),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),c),
+    \mathsf{inv}(b,p_b)),
+  \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{neg}(d)),
+    \mathsf{inv}(b,p_b))).
+\end{aligned}
+$$
+\end{lemma}
+\begin{proof}
+First use the inverse offset-empty normal form above to separate the two
+right-multiplied summands and retain the explicit empty endpoint. Then apply
+the additive right-identity law to remove that final empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_inverse\_empty\_offset\_normal\_form}
+
 \begin{theorem}[Field affine certified fibers are singleton classified]
 \label{thm:field-affine-explicit-fiber-classifier}
 \label{thm:field-affine-certified-fiber-singleton}
