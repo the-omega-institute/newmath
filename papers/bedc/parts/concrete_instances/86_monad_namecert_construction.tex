@@ -24,5 +24,43 @@ in the unit-counit order and then in the counit-unit order.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism unit-counit middle is empty]
+\label{thm:monad-adjunction-endomorphism-middle-between-unit-counit-empty}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\ContR(unit,bridge,counit)$ hold. Then $bridge$ is empty:
+$$
+\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The adjunction endomorphism carrier identifies both $unit$ and $counit$ with
+$\emp$. With those endpoints collapsed, the displayed continuation is a
+continuation from $\emp$ through $bridge$ back to $\emp$, and empty-result
+inversion gives $bridge\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_middle\_between\_unit\_counit\_empty}
+
+\begin{theorem}[Monad adjunction endomorphism counit-unit middle is empty]
+\label{thm:monad-adjunction-endomorphism-middle-between-counit-unit-empty}
+For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\ContR(counit,bridge,unit)$ hold. Then $bridge$ is empty:
+$$
+\hsame(bridge,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit are both endomorphism prefix components in the carrier, so
+each is identified with $\emp$. After those endpoint identifications, the
+displayed counit-unit continuation has empty endpoints, and empty-result
+inversion identifies the middle history with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_middle\_between\_counit\_unit\_empty}
+
 \section{The certificate}
 \label{sec:monad-certificate}
