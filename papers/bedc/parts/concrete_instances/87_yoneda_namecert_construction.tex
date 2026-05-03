@@ -28,3 +28,26 @@ equality and the supplied unary object carrier.
 
 \section{The certificate}
 \label{sec:yoneda-certificate}
+
+\begin{theorem}[Yoneda representable empty component family semantic certificate]
+\label{thm:yoneda-representable-empty-component-family-semantic-namecert}
+For a unary prefix history $p$, the empty component family predicate
+$$
+Y_p(q) :\Longleftrightarrow
+\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+$$
+carries a semantic naming certificate with source, pattern, and ledger all
+equal to $Y_p$, and classifier $\HSame$.
+\end{theorem}
+\begin{proof}
+The carrier witness is $q=p$. For each unary object $a$, the empty-component
+identity exactness theorem rebuilds
+$\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\emp)$ from unary membership of
+$p$, unary membership of $a$, and reflexivity of $\HSame(p,p)$. The classifier
+fields are the reflexivity, symmetry, and transitivity of $\HSame$, while
+carrier transport along $\HSame(q,r)$ is obtained by replacing $q$ with $r$ in
+the component family. Since source, pattern, and ledger are the same predicate,
+the soundness rows are direct projections.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_semanticNameCert}
