@@ -36,14 +36,15 @@ A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k).
 $$
 \end{definition}
 
-\begin{theorem}[Concrete singleton history group laws]
-\label{thm:concrete-singleton-history-group-laws}
-The tuple $(A_{\emp},R_{\emp},\mathsf{mul},e,\mathsf{inv})$ first supplies
-the singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$ over
-$\mathsf{BHist}$, and also satisfies carrier inhabitance, multiplication
-closure, inverse closure, left and right unit laws, associativity up to
-$\hsame$, multiplication congruence, inverse congruence, and left and right
-inverse laws.
+\begin{theorem}[Group singleton history SemanticNameCert]
+\label{thm:group-singleton-history-semantic-namecert}
+The carrier $A_{\emp}$, classifier $R_{\emp}$, multiplication
+$\mathsf{mul}$, unit $e$, and inverse operation $\mathsf{inv}$ of
+Definition~\ref{def:concrete-singleton-history-group-instance} supply the
+singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$ over
+$\mathsf{BHist}$, together with the concrete multiplication-closure,
+inverse-closure, left-unit, right-unit, left-inverse, and right-inverse rows
+captured by $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
 \end{theorem}
 \begin{proof}
 The $\mathsf{SemanticNameCert}$ component is packaged by the carrier-aware
@@ -70,10 +71,24 @@ and transitivity of $\hsame$ to compose the displayed witnesses.
 Inverse closure is immediate because $\mathsf{inv}(h)$ is definitionally
 $\emp$. The singleton carrier witness is again $\hsame(\emp,\emp)$.
 
-The left unit law reduces $\mathsf{append}(\emp,h)$ to $h$ by the continuation
-left-unit law, and the right unit law reduces $\mathsf{append}(h,\emp)$ to
-$h$ by the continuation right-unit law. The endpoint witnesses required by
-$R_{\emp}$ are supplied by the carrier facts for $\emp$ and $h$.
+The left and right unit rows reduce $\mathsf{append}(\emp,h)$ and
+$\mathsf{append}(h,\emp)$ to $h$ by the continuation unit laws. The inverse
+rows use $\mathsf{inv}(h)=\emp$, so the same unit laws and the carrier witness
+for $h$ classify both products against $e=\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
+
+\begin{theorem}[Concrete singleton history group algebraic laws]
+\label{thm:concrete-singleton-history-group-laws}
+The concrete singleton history group over $\mathsf{BHist}$ satisfies carrier
+inhabitance, multiplication closure, inverse closure, left and right unit laws,
+associativity up to $\hsame$, multiplication congruence, inverse congruence,
+and left and right inverse laws.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance, multiplication closure, inverse closure, and the unit rows
+are the corresponding concrete rows of
+Theorem~\ref{thm:group-singleton-history-semantic-namecert}.
 
 Associativity is the continuation associativity theorem cited in
 Theorem~\ref{thm:concrete-history-monoid-laws}: the histories
@@ -97,7 +112,6 @@ $\mathsf{append}(h,\emp)$. The continuation unit laws reduce these products to
 $h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.concrete\_singleton\_history\_group\_laws}
-\leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
 
 \begin{theorem}[Group singleton classifier append context cancellation]
 \label{thm:group-singleton-classifier-append-context-cancel}
