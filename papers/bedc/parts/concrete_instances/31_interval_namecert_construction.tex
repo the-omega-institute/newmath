@@ -283,3 +283,38 @@ Then for all histories \(h,k:\mathsf{BHist}\),
 \begin{proof}
 Eliminate the inner classifier witness using \autoref{def:interval-classifier-specification}. It consists of an \(\mathsf{IntervalCarrier}_{\ell_2,u_2}(h)\) witness, an \(\mathsf{IntervalCarrier}_{\ell_2,u_2}(k)\) witness, and the stored \(\hsame(h,k)\) link. Apply \autoref{thm:interval-carrier-boundary-weakening} at \(h\) to obtain \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(h)\), and apply the same theorem at \(k\) to obtain \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(k)\). Rebuild the restricted classifier from these two carrier witnesses and the unchanged stored \(\hsame(h,k)\) witness by \autoref{def:interval-classifier-specification}.
 \end{proof}
+
+\begin{proposition}[Interval nesting requires boundary eliminators]
+\label{prop:interval-nesting-requires-boundary-eliminators}
+There is a finite one-history interpretation of the interval carrier and classifier clauses in which bare symbolic lower- and upper-nesting assumptions hold, the inner interval classifier holds at the unique endpoint, and the outer interval classifier fails at the pair of unique endpoints. Hence the classifier weakening
+$$
+\mathsf{IntervalClassifierSpec}_{\ell_{\mathrm{in}},u_{\mathrm{in}}}(h,k)\to
+\mathsf{IntervalClassifierSpec}_{\ell_{\mathrm{out}},u_{\mathrm{out}}}(h,k)
+$$
+is not forced by symbolic nesting data unless that data eliminates to pointwise boundary maps
+$$
+\forall x:\mathsf{BHist},\ \ell_{\mathrm{in}}(x)\to\ell_{\mathrm{out}}(x)
+\qquad\text{and}\qquad
+\forall x:\mathsf{BHist},\ u_{\mathrm{in}}(x)\to u_{\mathrm{out}}(x),
+$$
+as required by \autoref{thm:interval-classifier-boundary-weakening}. In the naming-certificate template of \autoref{def:typed-naming-certificate}, a classifier-facing nesting field must therefore supply those maps, or data from which those maps are obtained.
+\end{proposition}
+\begin{proof}
+Interpret $\mathsf{BHist}$ by the singleton set $H=\{\star\}$. Let the unary-history predicate hold at $\star$, and let $\hsame(\star,\star)$ hold. Define the inner and outer boundaries by
+$$
+\ell_{\mathrm{in}}(\star)=\top,\qquad
+u_{\mathrm{in}}(\star)=\top,\qquad
+\ell_{\mathrm{out}}(\star)=\bot,\qquad
+u_{\mathrm{out}}(\star)=\bot.
+$$
+Let the bare symbolic lower-nesting and upper-nesting assumptions be two atomic propositions $\sigma_{\ell}$ and $\sigma_{u}$, both interpreted by $\top$.
+
+By \autoref{def:interval-carrier}, $\mathsf{IntervalCarrier}_{\ell_{\mathrm{in}},u_{\mathrm{in}}}(\star)$ holds: its witnesses are the unary-history witness, the true inner lower-bound witness, and the true inner upper-bound witness. Together with $\hsame(\star,\star)$, \autoref{def:interval-classifier-specification} gives
+$$
+\mathsf{IntervalClassifierSpec}_{\ell_{\mathrm{in}},u_{\mathrm{in}}}(\star,\star).
+$$
+
+If the outer classifier held, \autoref{def:interval-classifier-specification} would expose an outer carrier witness at the left endpoint. Eliminating that carrier by \autoref{def:interval-carrier} would give a witness of $\ell_{\mathrm{out}}(\star)$ and a witness of $u_{\mathrm{out}}(\star)$. These are witnesses of $\bot$, so the outer classifier fails.
+
+A lower-bound eliminator in this interpretation is exactly a map $\top\to\bot$, obtained by evaluating $\forall x:H,\ \ell_{\mathrm{in}}(x)\to\ell_{\mathrm{out}}(x)$ at $\star$. Applying such a map to the true inner lower-bound witness would produce a contradiction. The upper-bound eliminator has the same form after evaluating $\forall x:H,\ u_{\mathrm{in}}(x)\to u_{\mathrm{out}}(x)$ at $\star$. Thus the true symbolic tokens $\sigma_{\ell}$ and $\sigma_{u}$ do not determine carrier inclusion; only boundary eliminators, or structure that yields them, can support interval classifier weakening.
+\end{proof}
