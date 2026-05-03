@@ -1,0 +1,82 @@
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_chain_stable_exit_packages}
+
+\input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
+
+\begin{theorem}[RatUp FieldUp final row inventory coverage]
+\label{thm:ratup-fieldup-final-row-inventory-coverage}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete exit
+object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}. For the
+concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v,w,z:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint
+selector of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}
+for each $q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then
+the final row inventory of $\mathcal E_F$ contains all of the following rows as
+one consumable Phase Algebra Hierarchy package:
+\begin{enumerate}
+  \item the selector inverse-domain coverage row of
+  \autoref{thm:ratup-fieldup-concrete-exit-selector-inverse-domain-coverage}
+  for the selected pair $(s,t)$ and contexts $L,R$;
+  \item for every primed denominator triple
+  $h',k',\ell':\mathsf{BHist}$ satisfying $C_D^u(h')$, $C_D^u(k')$,
+  $C_D^u(\ell')$, $\mathsf{ThreeSupp}_D^u(h',k',\ell')$,
+  $R_D^u(h,h')$, $R_D^u(k,k')$, and $R_D^u(\ell,\ell')$, and for every
+  $L',R':\mathsf{BHist}$ with $\hsame(L,L')$ and $\hsame(R,R')$, the selector
+  row-stability row of
+  \autoref{thm:ratup-fieldup-concrete-exit-selector-row-stability};
+  \item the complete selector exit obstruction certificate of
+  \autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate}
+  for the selector quadruple $(s,t,u,v)$ and contexts $L,R,r$;
+  \item the selector-chain final boundary rows of
+  \autoref{thm:ratup-fieldup-selector-chain-final-boundary} for the selector
+  pairs $(s,t)$, $(u,v)$, and $(w,z)$.
+\end{enumerate}
+Equivalently, the one concrete FieldUp exit object supplies selector
+inverse-domain coverage, selector row transport, complete obstruction, and
+chain boundary rows to the $\FieldUp(\RatUp)$ exit certificate without changing
+the underlying $\mathsf{BHist}$ source, $\mathsf{BMark}$ selectors, or
+$\mathsf{RatUpFieldSource}_F$ package.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-concrete-exit-selector-inverse-domain-coverage} at
+the displayed concrete denominator tuple, the histories $h,k,\ell$, their
+carrier witnesses, the support witness, the selector pair $(s,t)$, and the
+contexts $L,R$. This gives the strict inverse-domain selector row for
+$\mathcal E_F$.
+
+Next take an arbitrary primed denominator triple $h',k',\ell'$ with the
+displayed carrier, support, and $R_D^u$ comparison hypotheses, and take
+$L',R'$ with $\hsame(L,L')$ and $\hsame(R,R')$. Apply
+\autoref{thm:ratup-fieldup-concrete-exit-selector-row-stability} to these
+data. The result is the selector row-stability transport row for the same
+concrete exit object.
+
+We then instantiate
+\autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} with
+the same denominator tuple, histories, carrier witnesses, support witness,
+selectors $s,t,u,v$, and contexts $L,R,r$. This supplies the complete selector
+exit obstruction certificate inside the concrete $\FieldUp(\RatUp)$ package.
+
+Finally instantiate \autoref{thm:ratup-fieldup-selector-chain-final-boundary}
+with the same denominator tuple, histories, carrier witnesses, support witness,
+selectors $s,t,u,v,w,z$, and contexts $L,R,r$. It supplies the three
+selector-pair final boundary row families and the chained endpoint classifier
+rows.
+
+All four cited results refer to Definition~\ref{def:ratup-fieldup-concrete-exit-object}
+and to the concrete tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$. Conjunction
+introduction packages their row families as one final row inventory for the
+Phase Algebra Hierarchy consumer.
+\end{proof}
+
+Per-object template: traditional target final FieldUp row inventory; BEDC
+source $\mathsf{BHist}$, $\mathsf{BMark}$, and
+$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{RatHistoryCarrier}$ and
+$C_D^u$; classifier $\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability
+obligations selector coverage, selector row transport, complete obstruction,
+and chain boundary; ledger selectors $s,t,u,v,w,z$ plus contexts $L,R,r$; core
+theorem this block; exactness final row inventory coverage; downstream consumer
+Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit certificate; status
+$\mathsf{ProofTarget}$.
