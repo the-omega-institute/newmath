@@ -1,11 +1,15 @@
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
+import BEDC.Derived.ComplexUp
+import BEDC.Derived.NatUp
 
 namespace BEDC.Derived.HolomorphicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
+open BEDC.Derived.NatUp
 
 def HolomorphicOpenDisk (center radius point gap : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧ UnaryHistory gap ∧
@@ -71,5 +75,14 @@ theorem HolomorphicOpenDisk_radius_extension_closed {center radius radius' point
                     (And.intro radiusCarrier'
                       (And.intro pointCarrier
                         (And.intro extendedGapCarrier extendedLedger)))
+
+theorem HolomorphicOpenDisk_e1_gap_radius_inversion {z0 z gap radius : BHist} :
+    ComplexHistoryCarrier z0 -> ComplexHistoryCarrier z -> UnaryHistory gap ->
+      NatUnaryStrictPrefix (BHist.e1 gap) (BHist.e1 radius) -> Cont z0 (BHist.e1 gap) z ->
+        NatUnaryStrictPrefix z0 z ∧ NatUnaryStrictPrefix gap radius := by
+  intro _centerCarrier _pointCarrier gapUnary radiusStrict centerToPoint
+  constructor
+  · exact ⟨BHist.e1 gap, unary_e1_closed gapUnary, (fun empty => by cases empty), centerToPoint⟩
+  · exact NatUnaryStrictPrefix_e1_inversion radiusStrict
 
 end BEDC.Derived.HolomorphicUp

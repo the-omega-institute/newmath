@@ -70,4 +70,32 @@ theorem FieldSingletonClassifier_operation_context_endpoint_package {L R h k out
     · intro p
       exact endpointIff (FieldSingletonInv h p) (hsame_refl BHist.Empty)
 
+theorem FieldSingletonAddNegZero_operation_context_endpoint_package {L R h k out : BHist}
+    (carrierL : FieldSingletonCarrier L) (carrierR : FieldSingletonCarrier R) :
+    (FieldSingletonClassifier (append L (FieldSingletonAdd h k)) (append R out) ↔
+      FieldSingletonCarrier out) ∧
+    (FieldSingletonClassifier (append L (FieldSingletonNeg h)) (append R out) ↔
+      FieldSingletonCarrier out) ∧
+    (FieldSingletonClassifier (append L FieldSingletonZero) (append R out) ↔
+      FieldSingletonCarrier out) := by
+  have endpointIff : ∀ endpoint : BHist, FieldSingletonCarrier endpoint ->
+      (FieldSingletonClassifier (append L endpoint) (append R out) ↔
+        FieldSingletonCarrier out) := by
+    intro endpoint endpointCarrier
+    constructor
+    · intro classified
+      exact (append_eq_empty_iff.mp classified.right.left).right
+    · intro outCarrier
+      have leftCarrier : FieldSingletonCarrier (append L endpoint) :=
+        append_eq_empty_iff.mpr (And.intro carrierL endpointCarrier)
+      have rightCarrier : FieldSingletonCarrier (append R out) :=
+        append_eq_empty_iff.mpr (And.intro carrierR outCarrier)
+      exact And.intro leftCarrier
+        (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+  constructor
+  · exact endpointIff (FieldSingletonAdd h k) (hsame_refl BHist.Empty)
+  · constructor
+    · exact endpointIff (FieldSingletonNeg h) (hsame_refl BHist.Empty)
+    · exact endpointIff FieldSingletonZero (hsame_refl BHist.Empty)
+
 end BEDC.Derived.FieldUp

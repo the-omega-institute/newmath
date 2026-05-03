@@ -149,6 +149,14 @@ theorem CategoryHomCarrier_tail_comm_target_deterministic {a b c d f g fg gf : B
     CategoryHomCarrier_tail_comm_closed left right fgRel gfRel
   exact CategoryHomCarrier_target_deterministic closed.right.left displayed
 
+theorem CategoryHomCarrier_tail_comm_source_deterministic {a b c d f g fg gf : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> Cont g f gf ->
+      CategoryHomCarrier d c gf -> hsame a d := by
+  intro left right fgRel gfRel displayed
+  have closed :=
+    CategoryHomCarrier_tail_comm_closed left right fgRel gfRel
+  exact CategoryHomCarrier_source_deterministic closed.right.left displayed
+
 theorem CategoryHomCarrier_comp_left_factor_source_deterministic {a a' b c f f' g fg : BHist} :
     CategoryHomCarrier b c g -> Cont f g fg -> CategoryHomCarrier a c fg ->
       Cont f' g fg -> CategoryHomCarrier a' b f' -> hsame a a' ∧ hsame f f' := by
