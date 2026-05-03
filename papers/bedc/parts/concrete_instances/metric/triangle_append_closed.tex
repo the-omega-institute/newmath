@@ -21,6 +21,63 @@ this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
 
+\begin{theorem}[Metric distance witness triangle append depth add]
+\label{thm:metric-distance-witness-triangle-append-depth-add}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three triangle distance witnesses
+identify the displayed ledger with $x\cdot d_{yz}$ and compute its structural
+depth as the sum of the left endpoint depth and the middle-to-right distance
+depth:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\mathsf{MetricDistanceDepth}(d_{xyz})=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(d_{yz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append closure supplies the equality
+$\hsame(d_{xyz},x\cdot d_{yz})$. Together with the unary carrier fields
+already present in the three distance witnesses, this equality is a concrete
+distance witness from $x$ to $d_{yz}$ with result $d_{xyz}$. The metric depth
+addition law applied to that central witness gives the displayed depth
+equation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_depth\_add}
+
+\begin{theorem}[Metric distance witness triangle depth-zero collapse]
+\label{thm:metric-distance-witness-triangle-depth-zero-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if three triangle distance
+witnesses have a final ledger of structural depth zero, then the triangle
+append equality holds and every displayed endpoint and intermediate distance
+collapses to $\emp$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\Longrightarrow
+\\
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append closure forms the central witness from $x$ to $d_{yz}$ with
+result $d_{xyz}$. The depth-zero endpoint theorem for this central witness
+forces $x$ and $d_{yz}$ to be empty. Empty-distance exactness for the witness
+from $y$ to $z$ then forces $y$ and $z$ to be empty, and the continuation
+field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
+
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
 For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$
