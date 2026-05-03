@@ -426,6 +426,77 @@ inverse witness; core theorem
 centralizer membership iff trivial commutator; standard bridge ordinary affine
 centralizer subgroup; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine center as centralizer intersection]
+\label{thm:ratup-fieldup-affine-center-centralizer-intersection}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$Z:\mathsf{AffAut}_F$ be a certified affine automorphism in the concrete
+$\FieldUp(\RatUp)$ exit object. Then the concrete affine center is the
+intersection of all concrete affine centralizers:
+$$
+\mathsf{Center}_F(Z)
+\Longleftrightarrow
+\forall A:\mathsf{AffAut}_F,\ C_F(A)(Z).
+$$
+Equivalently, the same center predicate is the condition that every concrete
+affine commutator with $Z$ is classifier-trivial:
+$$
+\mathsf{Center}_F(Z)
+\Longleftrightarrow
+\forall A:\mathsf{AffAut}_F,\ 
+\mathsf{Comm}_F(Z,A)\equiv_{\mathrm{aff}}\mathrm{id}_F.
+$$
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the affine product $\circ_{\mathrm{aff}}$,
+the identity $\mathrm{id}_F$, the inverse row $\iota_F(-)$, and the classifier
+$\equiv_{\mathrm{aff}}$.
+
+For the first forward direction, assume $\mathsf{Center}_F(Z)$ and fix
+$A:\mathsf{AffAut}_F$. Unfold
+\autoref{def:ratup-fieldup-affine-center} at the parameter $A$ to obtain
+$Z\circ_{\mathrm{aff}}A\equiv_{\mathrm{aff}}A\circ_{\mathrm{aff}}Z$.
+Together with the already fixed carrier witness for $Z$, this is exactly
+$C_F(A)(Z)$ by \autoref{def:ratup-fieldup-affine-centralizer-carrier}.
+
+For the first reverse direction, assume
+$\forall A:\mathsf{AffAut}_F,\ C_F(A)(Z)$ and fix
+$A:\mathsf{AffAut}_F$. Unfold the centralizer carrier at $A$ and $Z$; its
+commuting component gives
+$Z\circ_{\mathrm{aff}}A\equiv_{\mathrm{aff}}A\circ_{\mathrm{aff}}Z$.
+Since $A$ was arbitrary, this is precisely
+\autoref{def:ratup-fieldup-affine-center}.
+
+It remains to compare centralizer membership with commutator triviality. For
+each fixed $A:\mathsf{AffAut}_F$, apply the fourth clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup} with $X=Z$.
+It gives
+$$
+C_F(A)(Z)
+\Longleftrightarrow
+\mathsf{Comm}_F(Z,A)\equiv_{\mathrm{aff}}\mathrm{id}_F.
+$$
+
+Compose this pointwise equivalence with the first equivalence already proved.
+Classifier symmetry is used only to present the commuting equation in the
+displayed order when the centralizer carrier is read back as the center
+predicate. The result is the second displayed equivalence.
+\end{proof}
+
+Per-object template: traditional target center as intersection of
+centralizers; BEDC source concrete $\FieldUp(\RatUp)$ affine automorphism exit
+plus $\GroupUp$ commutator criterion; carrier $\mathsf{AffAut}_F$; classifier
+$\equiv_{\mathrm{aff}}$; stability center predicate, centralizer carrier,
+commutator exactness, and classifier symmetry; ledger quantified centralizer
+witness and commutator spine; core theorem list the center definition
+\autoref{def:ratup-fieldup-affine-center}, centralizer carrier
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and centralizer
+subgroup theorem \autoref{thm:ratup-fieldup-affine-centralizer-subgroup};
+exactness predicate center iff all centralizer memberships iff all
+commutators trivial; standard bridge ordinary group center-centralizer
+theorem; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine centralizer fixed-point criterion]
 \label{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
