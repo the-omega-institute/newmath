@@ -55,8 +55,42 @@ $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_coincide}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientClassifier\_kernel\_iff}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_witness\_classifier\_iff}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_kernel\_iff}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
+
+\begin{theorem}[Centralizer quotient kernel empty fiber]
+\label{thm:subgroup-centralizer-quotient-kernel-empty-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{e},x)\Longleftrightarrow Z_a(x).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_fiber\_iff}
+\begin{proof}
+For the forward direction, unpack the relative-kernel classifier
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$. Its kernel clause gives
+$Z_a(\mathsf{mul}(\mathsf{inv}(\mathsf{e}),x))$.
+
+The inverse identity row identifies $\mathsf{inv}(\mathsf{e})$ with
+$\mathsf{e}$, and the left-unit law identifies
+$\mathsf{mul}(\mathsf{e},x)$ with $x$. The $Z_a$ carrier-transport row from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} carries the
+kernel witness across this endpoint comparison and gives $Z_a(x)$.
+
+For the reverse direction, assume $Z_a(x)$. The empty centralizer row gives
+$Z_a(\mathsf{e})$, and
+\autoref{thm:subgroup-centralizer-self-normalizer} sends both $Z_a(\mathsf{e})$
+and $Z_a(x)$ into the normalizer carrier $N_a$.
+
+It remains to supply the kernel word. The same inverse identity and left-unit
+comparison identify $\mathsf{mul}(\mathsf{inv}(\mathsf{e}),x)$ with $x$; by
+transporting $Z_a(x)$ along the reverse comparison, we obtain the carried
+kernel clause and package
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$.
+\end{proof}
 
 \begin{theorem}[Centralizer normalizer coset classifier identity fiber]
 \label{thm:subgroup-centralizer-normalizer-coset-classifier-identity-fiber}
@@ -70,24 +104,18 @@ Q_{Z_a\leq N_a}(\mathsf{e},x)\Longleftrightarrow Z_a(x).
 $$
 \end{theorem}
 \begin{proof}
-Unfold the classifier in
-\autoref{def:centralizer-normalizer-quotient-classifier}. For the forward
-direction, the right-witness clause gives a history $z$ with $Z_a(z)$ and
-$\hsame(x,\mathsf{mul}(\mathsf{e},z))$.
+Apply
+\autoref{thm:subgroup-centralizer-normalizer-quotient-classifiers-coincide} at
+the endpoint pair $(\mathsf{e},x)$. It identifies the right-coset classifier
+$Q_{Z_a\leq N_a}(\mathsf{e},x)$ with the relative-kernel classifier
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$.
 
-The left-unit law identifies $\mathsf{mul}(\mathsf{e},z)$ with $z$ up to
-$\hsame$. The $Z_a$ carrier-transport row from
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} carries
-$Z_a(z)$ across the endpoint comparison and gives $Z_a(x)$.
-
-For the reverse direction, assume $Z_a(x)$. The identity row of
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} gives
-$N_a(\mathsf{e})$, and the inclusion row $Z_a\subseteq N_a$ gives $N_a(x)$.
-
-Choose the right witness $z:=x$. The left-unit law supplies the endpoint
-comparison $\hsame(x,\mathsf{mul}(\mathsf{e},x))$, so the endpoint clauses
-together with the witness $Z_a(x)$ package
-$Q_{Z_a\leq N_a}(\mathsf{e},x)$.
+Then apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-empty-fiber}. Its empty
+fiber calculation identifies
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$ with $Z_a(x)$. Transitivity of these
+two equivalences gives the displayed identity fiber for
+$Q_{Z_a\leq N_a}$.
 \end{proof}
 
 Per-object template: traditional target identity coset fiber for the
