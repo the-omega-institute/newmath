@@ -152,6 +152,7 @@ import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.Derived.AdeleUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.ConjugationParameter

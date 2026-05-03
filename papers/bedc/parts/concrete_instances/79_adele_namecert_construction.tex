@@ -6,5 +6,30 @@ The adele interface $\AdeleUp$ packages the restricted product of $\NameCert_{\R
 \section{Carrier definition}
 \label{sec:adele-carrier}
 
+\begin{definition}[Adele history carrier]
+\label{def:adele-history-carrier}
+For a history $h$, the predicate $\mathsf{AdeleHistoryCarrier}(h)$ holds when
+there are histories $r,p,e,s$ such that $r$ is a constant real history,
+$\mathsf{PadicPrimeScale}(p,e,s)$ holds, and
+$$
+\hsame(h,\mathsf{append}(r,s)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.AdeleUp.AdeleHistoryCarrier}
+
+\begin{theorem}[Adele history carrier nonempty]
+\label{thm:adele-history-carrier-not-empty}
+If $\mathsf{AdeleHistoryCarrier}(h)$ holds, then $h$ is not internally the same
+as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier into its constant real endpoint, $p$-adic scale endpoint,
+and append witness. If $h\hsame\emp$, the append witness identifies the
+appended real and scale endpoints with $\emp$, so append-empty exactness makes
+the real endpoint empty. The constant real endpoint is one-sealed, and empty
+cannot be internally the same as a one-sealed history.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_not\_empty}
+
 \section{The certificate}
 \label{sec:adele-certificate}

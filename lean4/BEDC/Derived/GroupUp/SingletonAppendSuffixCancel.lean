@@ -69,4 +69,14 @@ theorem GroupSingletonClassifier_suffix_context_product_unit_split_iff {L R p q 
   · intro carriers
     exact cancel.mpr (GroupSingletonClassifier_append_unit_split_iff.mpr carriers)
 
+theorem GroupSingletonClassifier_append_suffix_unit_split_iff {L R p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append (append p q) L) (append BHist.Empty R) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR
+  exact Iff.trans
+    (GroupSingletonClassifier_append_suffix_cancel_iff (P := append p q) (R := L)
+      (Q := BHist.Empty) (S := R) carrierL carrierR)
+    GroupSingletonClassifier_append_unit_split_iff
+
 end BEDC.Derived.GroupUp
