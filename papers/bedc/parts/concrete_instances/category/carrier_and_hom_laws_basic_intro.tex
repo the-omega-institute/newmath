@@ -226,6 +226,28 @@ Unpack the two hom-carrier witnesses. The source, middle, target, and morphism h
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
 
+\begin{theorem}[Category hom carrier composite tail exact iff]
+\label{thm:category-hom-carrier-comp-tail-exact-iff}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\) and \(g\) is a hom-carrier from \(b\) to \(c\), then a displayed history
+\(fg\) is a hom-carrier from \(a\) to \(c\) exactly when \(fg\) is the
+continuation tail composite of \(f\) and \(g\):
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)
+\Longleftrightarrow
+\ContR(f,g,fg).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction compares the displayed composite hom-carrier continuation
+\(\ContR(a,fg,c)\) with the two factor continuations
+\(\ContR(a,f,b)\) and \(\ContR(b,g,c)\). Kernel composite-tail uniqueness
+identifies \(fg\) with \(\mathsf{append}(f,g)\), which is exactly
+\(\ContR(f,g,fg)\). The reverse direction is hom-carrier composition closure
+along that continuation witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_tail\_exact\_iff}
+
 \begin{theorem}[Category hom carrier composite hsame transport]
 \label{thm:category-hom-carrier-comp-hsame-transport}
 For the unary-continuation category, if $f$ is a hom-carrier from $a$ to $b$,

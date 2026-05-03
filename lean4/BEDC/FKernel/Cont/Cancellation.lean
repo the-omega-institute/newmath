@@ -200,6 +200,17 @@ theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     exact right.trans (append_assoc h f g)
   exact cont_left_cancel direct composite
 
+theorem cont_composite_tail_iff {a b c f g t : BHist} :
+    Cont a f b -> Cont b g c -> (Cont f g t <-> Cont a t c) := by
+  intro left right
+  constructor
+  · intro tail
+    cases left
+    cases tail
+    exact right.trans (append_assoc a f g)
+  · intro direct
+    exact cont_composite_tail_unique left right direct
+
 theorem cont_composite_left_factor {a b c f g fg : BHist} :
     Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
   intro right composite displayed

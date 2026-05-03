@@ -67,6 +67,25 @@ carrier for $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
 
+\begin{theorem}[Rat history classifier continuation tail iff]
+\label{thm:rat-history-classifier-continuation-tail-iff}
+For rational history carriers $d,e:\mathsf{BHist}$ and a displayed result
+$r:\mathsf{BHist}$,
+$$
+\Cont(d,e,r)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(r,\mathsf{append}(d,e)).
+$$
+\end{theorem}
+\begin{proof}
+If $\Cont(d,e,r)$ holds, carrier closure gives $\mathsf{RatHistoryCarrier}(r)$.
+The same closure theorem applied to the canonical append continuation gives
+$\mathsf{RatHistoryCarrier}(\mathsf{append}(d,e))$, and continuation
+determinacy supplies $r\hsame\mathsf{append}(d,e)$. These three components are
+the Rat history classifier. Conversely, the classifier comparison component is
+exactly the continuation equation $\Cont(d,e,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_tail\_iff}
+
 \begin{theorem}[Rat history carrier continuation result is nonempty]
 \label{thm:field-rat-history-carrier-continuation-result-not-empty}
 For all histories $d,e,r:\mathsf{BHist}$, if

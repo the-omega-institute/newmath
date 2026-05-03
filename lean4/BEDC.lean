@@ -184,6 +184,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitStrictProduct
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatDenomUnitProductNonemptyComm
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContinuationTail
 import BEDC.Derived.FieldUp.RatContinuationE1LeftUnitLawAbsurd
 import BEDC.Derived.FieldUp.RatContinuationOneSidedUnit
 import BEDC.Derived.FieldUp.RatContextInvariantObstruction
@@ -272,6 +273,7 @@ import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationCertificate
 import BEDC.Derived.CategoryUp.TailCommClosed
 import BEDC.Derived.CategoryUp.CompDeterminism
+import BEDC.Derived.CategoryUp.CompTailExact
 import BEDC.Derived.CategoryUp.EndpointMiddleDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite

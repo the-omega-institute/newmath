@@ -383,6 +383,27 @@ cancellation for continuation then identifies this composite tail with the
 given direct tail.
 \end{proof}
 
+\begin{theorem}[Composite continuation tail iff]
+\label{thm:cont-composite-tail-iff}
+If
+$$
+\ContR(a,f,b),\quad \ContR(b,g,c),
+$$
+then for every displayed tail $t$,
+$$
+\ContR(f,g,t)\Longleftrightarrow \ContR(a,t,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_tail\_iff}
+\begin{proof}
+Forwards, reassociate the two displayed continuation equations: the tail
+continuation $\ContR(f,g,t)$ turns the path from $a$ through $t$ into the same
+append tree as the path from $a$ through $f$ and then $g$. Conversely, the direct
+continuation $\ContR(a,t,c)$ shares its source and target with the composite of
+$\ContR(a,f,b)$ and $\ContR(b,g,c)$, so composite-tail uniqueness identifies
+$t$ with $\mathsf{append}(f,g)$ and hence gives $\ContR(f,g,t)$.
+\end{proof}
+
 \begin{theorem}[Composite continuation left factor]
 \label{thm:cont-composite-left-factor}
 If
