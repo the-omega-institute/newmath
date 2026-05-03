@@ -71,6 +71,36 @@ theorem LFunctionDirichletPartSum_zero_term_successor_stable
     exact cont_intro (((congrArg (append S) termEmpty).trans (append_empty_right S)).symm)
   exact DirichletPartSum.step sum stepContinuation
 
+theorem LFunctionDirichletPartSum_successor_zero_term_previous_result_same
+    {term : BHist -> BHist -> BHist} {s n T : BHist} :
+    DirichletPartSum term s (BHist.e1 n) T -> hsame (term n s) BHist.Empty ->
+      exists P : BHist, DirichletPartSum term s n P ∧ hsame P T := by
+  intro sum termEmpty
+  cases sum with
+  | step previous stepContinuation =>
+      have sameResult : hsame T _ :=
+        cont_respects_hsame (hsame_refl _) termEmpty stepContinuation
+          (cont_right_unit _)
+      exact Exists.intro _
+        (And.intro previous (hsame_symm sameResult))
+
+theorem LFunctionDirichletPartSum_zero_terms_result_empty
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->
+      DirichletPartSum term s n S -> hsame S BHist.Empty := by
+  intro zeroTerm sum
+  induction sum with
+  | zero =>
+      exact hsame_refl BHist.Empty
+  | step previous stepContinuation ih =>
+      have previousUnary : UnaryHistory _ :=
+        DirichletPartSum_index_unary previous
+      have currentTermEmpty : hsame (term _ s) BHist.Empty :=
+        zeroTerm previousUnary
+      exact
+        cont_respects_hsame ih currentTermEmpty stepContinuation
+          (cont_right_unit BHist.Empty)
+
 theorem LFunctionDirichletPartSum_positive_index_previous_exists
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
     DirichletPartSum term s n S -> DirichletPositiveIndex n ->

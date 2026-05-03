@@ -147,6 +147,15 @@ theorem DirichletPartSum_term_hsame_deterministic
           have sameTerm := pointwise (index_unary leftSum)
           exact cont_respects_hsame samePartial sameTerm leftStep rightStep
 
+theorem DirichletPartSum_index_unary {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S -> UnaryHistory n := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact unary_empty
+  | step _ _ ih =>
+      exact unary_e1_closed ih
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by

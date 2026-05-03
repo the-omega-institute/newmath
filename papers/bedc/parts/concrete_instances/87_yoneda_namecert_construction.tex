@@ -26,6 +26,27 @@ equality and the supplied unary object carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_iff}
 
+\begin{theorem}[Yoneda empty component family e1 target characterization]
+\label{thm:yoneda-representable-empty-component-family-e1-target-iff}
+For generated histories $p$ and $q$, the empty component family with target
+$\Eone(q)$ is equivalent to unary membership of $q$ together with
+$p\hsame\Eone(q)$:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,\Eone(q),a,\emp)\Bigr)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(q)\land p\hsame\Eone(q).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the empty component family characterization and
+then inverts unary membership of the $\Eone$ target. Conversely, unary
+membership of $q$ closes $\Eone(q)$ under unary construction, and the
+$\hsame$ comparison transports unary membership back to $p$. The general empty
+component family characterization then gives the displayed family.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_e1\_target\_iff}
+
 \begin{theorem}[Yoneda empty component family displayed determinacy]
 \label{thm:yoneda-representable-empty-component-family-displayed-deterministic}
 If an empty representable component family and a displayed component family
@@ -38,6 +59,18 @@ share the same source and target hom-carrier endpoints, so morphism determinacy
 identifies the empty displayed morphism with the supplied displayed component.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_displayed\_deterministic}
+
+\begin{theorem}[Yoneda component family displayed determinacy]
+\label{thm:yoneda-representable-component-family-displayed-deterministic}
+If two displayed component families both exist over every unary object for the
+same prefixes $p,q$, then their displayed histories are $\HSame$-equivalent.
+\end{theorem}
+\begin{proof}
+Evaluate both families at the empty unary object. The two exposed component
+carriers share the same prefixed hom-carrier source and target, so category
+morphism determinacy identifies the two displayed component histories.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_component\_family\_displayed\_deterministic}
 
 \begin{theorem}[Yoneda empty component family component determinacy]
 \label{thm:yoneda-representable-empty-component-family-component-deterministic}
