@@ -176,3 +176,72 @@ conjugating element, acted element, and inverse witness; core theorem list
 \autoref{thm:subgroup-centralizer-certificate-target}; exactness predicate
 normalizer witness; standard bridge ordinary centralizer inclusion in its
 normalizer; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Centralizer normalizer SubgroupUp tower certificate]
+\label{thm:subgroup-centralizer-normalizer-tower-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in \autoref{thm:subgroup-centralizer-certificate-target}, let $Z_a$
+be the centralizer carrier of \autoref{def:group-centralizer-carrier} and let
+$N_a$ be the centralizer normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}. The pair $Z_a\leq N_a$
+forms a quotient-ready $\SubgroupUp$ tower:
+\begin{enumerate}
+\item $Z_a$ satisfies the identity, product, inverse, $\hsame$-transport, and
+commutator-fiber rows of the centralizer $\SubgroupUp$ certificate.
+\item $N_a$ satisfies the identity, product, inverse, and $\hsame$-transport
+subgroup rows over the same ambient classifier.
+\item Every carried centralizer element is carried by the normalizer: if
+$Z_a(t)$, then $N_a(t)$.
+\item If $N_a(s)$ and $Z_a(x)$, then
+$Z_a(\mathsf{Conj}_s(x))$ and
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item The two conjugation-closure rows are stable under the ambient
+classifier: if $\hsame(s,t)$, then the corresponding forward and inverse
+conjugation words define the same carried $Z_a$ membership after transport.
+\end{enumerate}
+Equivalently, the ten-field $\SubgroupUp$ certificate for $Z_a$, the
+four-field subgroup certificate for $N_a$, the inclusion $Z_a\subseteq N_a$,
+the two conjugation rows, and their classifier stability are packaged as the
+normal-subgroup input used by quotient-group construction.
+\end{theorem}
+\begin{proof}
+The $Z_a$ certificate is exactly
+\autoref{thm:subgroup-centralizer-certificate-target}. It supplies the
+identity carrier, product closure, inverse closure, $\hsame$ transport, and
+commutator-fiber exactness rows for the centralizer object viewed as a
+$\SubgroupUp$ instance.
+
+The $N_a$ subgroup rows come from
+\autoref{thm:group-centralizer-normalizer-subgroup}. Its identity, product,
+inverse, and $\hsame$-transport clauses give the normalizer carrier the same
+ambient operation, unit, inverse, and classifier interface required for the
+upper subgroup object.
+
+The inclusion row has two equivalent sources. The fifth row of
+\autoref{thm:group-centralizer-normalizer-subgroup} states directly that
+$Z_a(t)$ implies $N_a(t)$, while
+\autoref{thm:subgroup-centralizer-self-normalizer} gives the same witness by
+showing that every centralizer element preserves $Z_a$ under conjugation.
+
+Finally,
+\autoref{thm:group-centralizer-normal-in-normalizer} supplies the forward
+conjugation row, the inverse-conjugation row, and the classifier transport of
+those rows. Repacking these data in the order displayed above gives the
+quotient-ready tower certificate without introducing any host quotient or
+external parameter transport.
+\end{proof}
+
+Per-object template: traditional target normal centralizer subgroup inside
+its normalizer for quotient groups; BEDC source $\GroupUp$ over
+$\mathsf{BHist}$ plus $\SubgroupUp$; lower carrier $Z_a$; upper carrier
+$N_a$; classifier $\hsame$; stability identity, product, inverse, classifier
+transport, inclusion, forward conjugation, inverse conjugation, and
+conjugation-word transport; ledger centralizing element, normalizing element,
+acted element, inverse normalizer witness, and carried conjugation witnesses;
+core theorem list \autoref{thm:subgroup-centralizer-certificate-target},
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:subgroup-centralizer-self-normalizer}, and
+\autoref{thm:group-centralizer-normal-in-normalizer}; exactness predicate
+normalizer action on the centralizer; standard bridge normal-subgroup input
+for quotient groups; status $\mathsf{ProofTarget}$.
