@@ -356,6 +356,13 @@ theorem NatPrime_NatMul_succ_result_not_empty {p q n : BHist} :
   cases multiplicandEmpty
   exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
 
+theorem NatMul_first_prime_unit_result :
+    NatMul (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
+      (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  have primeTwo : NatPrime (BHist.e1 (BHist.e1 BHist.Empty)) := NatPrime_first_pair.left
+  exact NatMul.succ (NatMul.zero primeTwo.left)
+    (cont_left_unit (BHist.e1 (BHist.e1 BHist.Empty)))
+
 inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)
   | succ {n m m' : BHist} : NatFact n m -> NatMul (BHist.e1 n) m m' ->

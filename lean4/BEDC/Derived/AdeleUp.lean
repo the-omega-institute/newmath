@@ -47,4 +47,16 @@ theorem AdeleRealPadic_e1_real_nonempty_scale_result_package
       Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty
     exact not_hsame_e1_empty exponentEmpty
 
+theorem AdeleHistoryCarrier_first_prime_unit_scale {realTail : BHist} :
+    RatHistoryCarrier realTail ->
+      AdeleHistoryCarrier
+        (append (BHist.e1 realTail) (BHist.e1 (BHist.e1 BHist.Empty))) := by
+  intro ratCarrier
+  exact
+    ⟨BHist.e1 realTail, BHist.e1 (BHist.e1 BHist.Empty), BHist.e1 BHist.Empty,
+      BHist.e1 (BHist.e1 BHist.Empty),
+      Iff.mpr RealConstantHistoryCarrier_e1_iff_rat ratCarrier,
+      PadicPrimeScale_first_prime_unit_exponent_result,
+      hsame_refl (append (BHist.e1 realTail) (BHist.e1 (BHist.e1 BHist.Empty)))⟩
+
 end BEDC.Derived.AdeleUp
