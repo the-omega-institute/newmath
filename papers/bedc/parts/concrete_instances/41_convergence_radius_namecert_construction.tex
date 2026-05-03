@@ -47,6 +47,29 @@ For coefficients \(a\), unary radius history \(r\), and unary constant \(K\), th
 \end{definition}
 \leandef{BEDC.Derived.ConvergenceRadiusUp.GeomBound}
 
+\begin{lemma}[Geometric bound visible radius endpoint package]
+\label{lem:geom-bound-visible-radius-endpoint-package}
+For coefficients $a$, constant history $K$, result history $R$, and tail
+history $tail$, if
+$$
+\mathsf{GeomBound}(a,\Eone(tail),K)
+\qquad\text{and}\qquad
+\ContR(\Eone(tail),K,R),
+$$
+then $tail$ is unary and the continuation result is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{lemma}
+\begin{proof}
+The geometric-bound witness contains the unary carrier for the visible radius
+$\Eone(tail)$, so unary inversion gives the payload carrier for $tail$. If the
+continuation result were empty, empty-result inversion would identify the
+visible radius endpoint $\Eone(tail)$ with $\emp$, contradicting constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.

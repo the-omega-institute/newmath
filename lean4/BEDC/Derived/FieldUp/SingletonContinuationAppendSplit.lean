@@ -58,4 +58,28 @@ theorem FieldSingletonClassifier_continuation_append_context_split_iff
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem FieldSingletonClassifier_continuation_context_empty_result_iff {L R P Q T : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      Cont (append L P) (append Q R) T ->
+        (FieldSingletonClassifier T BHist.Empty <-> FieldSingletonClassifier P Q) := by
+  intro carrierL carrierR continuation
+  constructor
+  · intro classified
+    have emptyContinuation : Cont (append L P) (append Q R) BHist.Empty :=
+      cont_result_hsame_transport continuation classified.left
+    have emptyParts := cont_empty_result_inversion emptyContinuation
+    have leftSplit := append_eq_empty_iff.mp emptyParts.left
+    have rightSplit := append_eq_empty_iff.mp emptyParts.right
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.left (hsame_trans leftSplit.right (hsame_symm rightSplit.left)))
+  · intro classified
+    have leftEmpty : hsame (append L P) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightEmpty : hsame (append Q R) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierR)
+    have resultEmpty : FieldSingletonCarrier T :=
+      hsame_trans continuation (append_eq_empty_iff.mpr (And.intro leftEmpty rightEmpty))
+    exact And.intro resultEmpty
+      (And.intro (hsame_refl BHist.Empty) resultEmpty)
+
 end BEDC.Derived.FieldUp

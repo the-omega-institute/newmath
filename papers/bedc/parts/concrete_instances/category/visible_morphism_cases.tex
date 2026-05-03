@@ -101,6 +101,38 @@ continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_target\_visible}
 
+\begin{theorem}[Category hom-carrier nonempty morphism visible endpoint cases]
+\label{thm:category-hom-carrier-nonempty-morphism-visible-endpoint-cases}
+For histories $source,target,morph:\mathsf{BHist}$, if
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+$$
+and $morph$ is not internally empty, then either the source is empty and the
+visible target and morphism coincide, or all three visible endpoints are
+one-headed:
+$$
+\begin{array}{l}
+\exists r.\;source=\emp\land target=\Eone(r)\land morph=\Eone(r)\land
+\mathsf{UnaryHistory}(r)
+\\
+\vee
+\exists a,k,r.\;source=\Eone(a)\land morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Inspect the source constructor. In the empty-source branch, the empty-source
+hom-carrier law identifies the morphism with the target; the nonempty morphism
+hypothesis removes the empty target case, and unary generation removes the
+zero-headed target case. In the one-headed source branch, the nonempty and
+unary hypotheses force the morphism to be one-headed, and the continuation
+ledger then forces the target to be one-headed. Constructor inversion exposes
+the three unary payloads and the descended continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_visible\_endpoint\_cases}
+
 \begin{theorem}[Category visible composite result target cases]
 \label{thm:category-visible-composite-result-target-cases}
 For histories $a,b,c,l,m,fg$, if

@@ -90,3 +90,29 @@ make $T$ singleton through the continuation equation, so both appended
 endpoints are singleton and therefore compare through $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_context\_split\_iff}
+
+\begin{lemma}[Field singleton classifier continuation context empty result]
+\label{lem:field-singleton-classifier-continuation-context-empty-result}
+For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton
+carriers and
+$$
+\ContR(\mathsf{append}(L,P),\mathsf{append}(Q,R),T),
+$$
+then singleton classification of the continuation result against $\emp$ is
+equivalent to singleton classification of the exposed middle endpoints:
+$$
+\mathsf{FieldSingletonClassifier}(T,\emp)
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(P,Q).
+$$
+\end{lemma}
+\begin{proof}
+For the forward implication, transport the displayed continuation to the empty
+result and invert it. The two appended endpoints split at $\emp$, exposing
+singleton carriers for $P$ and $Q$, and the two carriers compare through
+$\emp$. Conversely, singleton carriers for $P$ and $Q$, together with the
+assumed singleton carriers for $L$ and $R$, make both appended continuation
+endpoints empty; the continuation result is therefore singleton and is
+classified with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_context\_empty\_result\_iff}

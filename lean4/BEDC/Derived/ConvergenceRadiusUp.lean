@@ -34,4 +34,16 @@ theorem ConvRad_radius_transport {a : Nat -> BHist} {R R' : BHist} :
   | intro _ witness =>
       exact And.intro targetUnary witness
 
+theorem GeomBound_visible_radius_endpoint_package {a : Nat -> BHist} {K R tail : BHist} :
+    GeomBound a (BHist.e1 tail) K -> Cont (BHist.e1 tail) K R ->
+      UnaryHistory tail ∧ (hsame R BHist.Empty -> False) := by
+  intro bound continuation
+  constructor
+  · exact unary_e1_inversion bound.left
+  · intro resultEmpty
+    have emptyContinuation : Cont (BHist.e1 tail) K BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have emptyParts := cont_empty_result_inversion emptyContinuation
+    exact not_hsame_e1_empty emptyParts.left
+
 end BEDC.Derived.ConvergenceRadiusUp
