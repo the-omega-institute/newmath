@@ -123,8 +123,46 @@ $R_{\emp}(P,Q)$. Theorem~\ref{thm:group-singleton-classifier-continuation-visibl
 then excludes both visible results $\Ezero(r)$ and $\Eone(r)$ for continuations
 from $P$ through $Q$.
 \end{proof}
+
+\section{Singleton contextual continuation obstruction}
+\label{sec:group-singleton-contextual-continuation-obstruction}
+
+\begin{theorem}[Group singleton contextual continuation visible-result exclusion]
+\label{thm:group-singleton-contextual-continuation-visible-result-exclusion}
+For histories $L,R,L',R',P,Q,r:\mathsf{BHist}$, suppose $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, $A_{\emp}(R')$, and
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,P),L'),
+\mathsf{append}(\mathsf{append}(R,Q),R')).
+$$
+Then singleton hidden contexts obstruct both visible continuation results:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The ten-field fit is: traditional target terminal-group contextual continuation
+obstruction; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$
+plus $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$; stability from
+two-sided context cancellation plus visible-result exclusion; ledger hidden
+prefix and suffix singleton contexts; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel} and
+Theorem~\ref{thm:group-singleton-classifier-continuation-visible-result-absurd};
+exactness predicate the displayed implication pair; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply the forward direction of
+Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel} to the
+displayed contextual classifier, using the four singleton carrier witnesses for
+$L,R,L',R'$. This exposes the uncontexted classifier $R_{\emp}(P,Q)$.
+
+Apply Theorem~\ref{thm:group-singleton-classifier-continuation-visible-result-absurd}
+to that classifier. It gives exactly the two implications excluding visible
+results $\Ezero(r)$ and $\Eone(r)$ for continuations from $P$ through $Q$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_centralizer_transport}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer}
+\input{parts/concrete_instances/group/16_group_centralizer_normalizer_orbit_classifier}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
 \input{parts/concrete_instances/group/16_group_certificate_tail}
 
@@ -260,6 +298,7 @@ Together with the center-to-centralizer carrier fact for $x$, the supplied
 $Z_a(y)$, and the assumed $\hsame(x,y)$, these data package the orbit witness
 for $x\sim_{N_a}y$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_center\_normalizer\_orbit\_collapse\_from\_empty\_unit\_iff}
 
 \begin{theorem}[Group center normalizer orbit fiber determinacy]
 \label{thm:group-center-normalizer-orbit-fiber-determinacy}
