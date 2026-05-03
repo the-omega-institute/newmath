@@ -1992,3 +1992,191 @@ Direct symmetric counterpart to the already-proven thm:nat-divides-divisor-hsame
 
 ---
 
+### B-80 - Module zero-action annihilation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Module zero-action annihilation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under ModuleUp(R,M) with distributivity, scalar action congruence, ring zero, and additive cancellation in M, then 0_R ⊙ m ∼M 0_M and r ⊙ 0_M ∼M 0_M for all carried r,m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Module章节缺乏零标量/零向量湮灭的派生定理。区别于 B-08 / B-19 / B-20 / B-23 / B-24 这一组围绕 scalar associativity 与代表元稳定性/独立性的 module 目标:此候选不依赖 associativity field, 而是从分配律和加法消去得到零作用. 是 LinMap 零保持 (候选 3) 与矩阵零行列运算的 prerequisite.
+
+---
+
+
+### B-81 - VecSpace module-fragment projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | VecSpace module-fragment projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under VecSpaceUp(F,V) with FieldUp(F) projected to RingUp(F), forgetting inverse-enabled scalar reasoning yields a ModuleUp(F,V) with the same carrier, scalar action, and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+VecSpace 章节明确把自身定位为 Module↑ 在 scalar source 为 Field 时的 specialization, 但 module fragment 投影未独立成定理. 与 B-28 (CommRing→Ring) 是同 pattern 的 forgetful certificate 但作用于不同 setup, 是 LinMap / Mat 章节使用 vector-space 输入时的 prerequisite, 落在 module-stack 中独立的一格.
+
+---
+
+
+### B-82 - LinearMap zero preservation from additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap zero preservation from additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under LinMapUp(V,W) with f preserving addition and W's AbGroup additive cancellation, then f(0_V) ∼W 0_W.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+LinMap stability certificate 列了 zero preservation derived from linearity 这一字段, 但只在 singleton empty-history 实例下 instantiated, 一般 LinMap 上未证. 是 LinMap composition / identity law 与 module zero-action 的下游应用, 不与 BOARD 任何条目重复.
+
+---
+
+
+### B-83 - LinearMap composition classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap composition classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a common scalar source with Module/VecSpace carriers U,V,W, if f∼f′ as U→V LinMaps and g∼g′ as V→W LinMaps pointwise, then g∘f and g′∘f′ are LinMap carriers with the same pointwise classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+B-11 是 Functor composition hom-carrier 关闭, 这是 LinMap 上的 pointwise classifier congruence —— 同 pattern, 不同 theory: 一个走 categorical hom-carrier, 一个走 module-style pointwise scalar classifier. LinMap 章节当前只有 singleton composition collapse, 缺一般合成 congruence, 是 LinMap stability certificate 列出的 identity-and-composition closure 字段所要求的.
+
+---
+
+
+### B-84 - Matrix identity multiplication unit
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix identity multiplication unit |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under MatUp(n,m,R) with finite-index sum certificate, scalar 0/1 laws, and Kronecker-delta identity matrix closure, then I_n · M ∼Mat M and M · I_m ∼Mat M for every carried matrix M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Matrix 章节当前只覆盖 singleton empty-history matrix laws 与 append/continuation 精确性, 没有 identity-matrix 单位律. 是 multiplication closure 字段的极值版本, 也是 Mat↑ 接口必备的 structural theorem; 比矩阵结合律小, 主要走有限指标析取与 scalar 0/1.
+
+---
+
+
+### B-85 - FPS Cauchy product classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FPS Cauchy product classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under FPSUp(R), if F∼FPS F′ and G∼FPS G′ coefficientwise scalar-classified, then the Cauchy product satisfies F⊙G ∼FPS F′⊙G′.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+FPS 章节当前定理只覆盖 singleton zero-FPS 的 law package 和 classifier exactness, Cauchy product 仅作为 closure obligation 出现, 没有一般 product congruence. 区别于 B-22 (polynomial multiplication zero-tail invariance) 的 finite-list-trim 设置, 这里走形式幂级数的 coefficientwise scalar congruence, 不依赖 trim. 是 FPS↑ 的核心 operation-congruence theorem.
+
+---
+
+
+### B-86 - Equivalence-closure reflection obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Equivalence-closure reflection obstruction |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Without TokUnique or ClosureReflect, there exists a finite TokIntro/psamebase configuration where psameeq(p,q) holds but some introducing signatures s,t fail hsame(s,t), so ExactGlobalizeBase cannot extend to eq-closure exactness.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/proof_obligations/package_sameness_design.tex`
+
+Rationale:
+B-16 是正向: 在 concrete TokIntro 下 psame 反射 hsame; 此候选反向 obstruction: 显式给出 finite counterexample 证明 TokUnique / ClosureReflect 是 local-to-global exactness 的必要边界, 是 Corollary 69.6 的 counterexample counterpart. 与 paper 中现有 token-policy 引理不重复, 且支撑 package_token_policy 章节作为 boundary statement 的论证强度.
+
+---
+
