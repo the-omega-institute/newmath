@@ -119,6 +119,23 @@ theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
     cases qEmpty
     exact NatMul.zero hd
 
+theorem NatMul_append_cont_empty_result_empty_factors_iff {d w q n e r : BHist} :
+    UnaryHistory d -> (hsame d BHist.Empty -> False) ->
+      NatMul d w n -> NatMul d q e -> Cont n e r ->
+        (hsame r BHist.Empty <-> hsame w BHist.Empty ∧ hsame q BHist.Empty) := by
+  intro hd dNonempty left right continuation
+  have combined : NatMul d (append w q) r := NatMul_append_cont left right continuation
+  have resultIff : NatMul d (append w q) BHist.Empty <-> hsame (append w q) BHist.Empty :=
+    NatMul_nonempty_multiplicand_empty_result_iff hd dNonempty
+  constructor
+  · intro resultEmpty
+    cases resultEmpty
+    exact append_eq_empty_iff.mp (Iff.mp resultIff combined)
+  · intro partsEmpty
+    have emptyProduct : NatMul d (append w q) BHist.Empty :=
+      Iff.mpr resultIff (append_eq_empty_iff.mpr partsEmpty)
+    exact NatMul_functional hd combined emptyProduct
+
 theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
     NatMul d (BHist.e1 q) n -> hsame n BHist.Empty -> hsame d BHist.Empty := by
   intro mul resultEmpty

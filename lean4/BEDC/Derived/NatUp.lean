@@ -70,6 +70,20 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_append_tail_trans {h k l leftTail rightTail : BHist} :
+    UnaryHistory leftTail -> (leftTail = BHist.Empty -> False) -> Cont h leftTail k ->
+      UnaryHistory rightTail -> (rightTail = BHist.Empty -> False) -> Cont k rightTail l ->
+        NatUnaryStrictPrefix h l ∧ Cont h (append leftTail rightTail) l := by
+  intro leftUnary leftNonempty leftCont rightUnary _rightNonempty rightCont
+  have joinedCont : Cont h (append leftTail rightTail) l := by
+    cases leftCont
+    cases rightCont
+    exact cont_intro (append_assoc h leftTail rightTail)
+  have joinedStrict : NatUnaryStrictPrefix h l := by
+    exact ⟨append leftTail rightTail, unary_append_closed leftUnary rightUnary,
+      (fun appendedEmpty => leftNonempty (append_eq_empty_iff.mp appendedEmpty).left), joinedCont⟩
+  exact And.intro joinedStrict joinedCont
+
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/

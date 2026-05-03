@@ -36,6 +36,14 @@ theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
   intro left right continuation
   exact And.intro left.left (NatMul_append_cont left.right right.right continuation)
 
+theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
+    PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
+      PadicPrimeScale p (append w q) r' -> hsame r r' := by
+  intro left right continuation other
+  have combined : PadicPrimeScale p (append w q) r :=
+    PadicPrimeScale_append_cont_closure left right continuation
+  exact NatMul_functional left.left.left combined.right other.right
+
 theorem PadicPrimeScale_append_empty_result_empty_factors_iff {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       (hsame r BHist.Empty <-> hsame w BHist.Empty ∧ hsame q BHist.Empty) := by

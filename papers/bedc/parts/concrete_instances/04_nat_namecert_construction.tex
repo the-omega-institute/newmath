@@ -125,6 +125,21 @@ Unpack the strict witness tail. The empty tail contradicts strictness, and an \(
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
 
+\begin{theorem}[Strict unary prefix append-tail transitivity]
+\label{thm:nat-unary-strict-prefix-append-tail-trans}
+If \(h\) continues by a nonempty unary tail to \(k\), and \(k\) continues by a
+unary tail to \(l\), then \(h\) is a strict unary prefix of \(l\). The witness
+tail is \(\mathsf{append}(t_1,t_2)\), and it also gives
+\(\mathsf{Cont}(h,\mathsf{append}(t_1,t_2),l)\).
+\end{theorem}
+\begin{proof}
+Invert the two continuation witnesses and reassociate append. Unary closure
+under append gives a unary composite tail, and append empty-result exactness
+shows that the composite tail cannot be empty because its left component is
+nonempty.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_append\_tail\_trans}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

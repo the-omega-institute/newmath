@@ -116,6 +116,23 @@ direction is the zero constructor after identifying $q$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_empty\_result\_iff}
 
+\begin{theorem}[Append-continuation multiplication empty result split]
+\label{thm:natmul-append-cont-empty-result-empty-factors-iff}
+Let \(d\) be unary and not history-same to \(\emp\). If
+\(\mathsf{NatMul}(d,w,n)\), \(\mathsf{NatMul}(d,q,e)\), and
+\(\mathsf{Cont}(n,e,r)\), then \(r\hsame\emp\) exactly when both
+\(w\hsame\emp\) and \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Append-continuation closure first gives a multiplication witness for
+\(\mathsf{append}(w,q)\) with result \(r\). The nonempty-multiplicand
+empty-result theorem reduces the empty result to an empty appended multiplier,
+and append empty-result exactness splits that condition into the two factors.
+The converse builds the empty appended multiplier and uses multiplication
+functionality to identify the continuation result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont\_empty\_result\_empty\_factors\_iff}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
