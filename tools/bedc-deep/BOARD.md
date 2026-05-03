@@ -2729,3 +2729,29 @@ Lands directly in the existing complex-limit certificate surface (`def:cplx-lim`
 
 ---
 
+### B-108 - Adjunction unit-counit carrier swap symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction unit-counit carrier swap symmetry |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+AdjunctionUnitCounitCarrier(p, q, a, unit, counit, left, right) implies AdjunctionUnitCounitCarrier(q, p, a, counit, unit, right, left), and vice versa.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+The paper defines `def:adjunction-unit-counit-carrier` and `def:adjunction-triangle-carrier` but no theorem records the standard left/right swap symmetry of an adjunction carrier (the involution that exchanges the role of unit/counit and the two functors). It fits the concrete_instances pattern alongside B-11 (functor composition) and B-14 (nattrans naturality), which similarly take chapters that are 100% definitions and add the first structural theorems. The claim is a single concrete biconditional, not a survey, and is distinct from every existing BOARD entry (none mention adjunctions). It is also not paraphrased by any existing BOARD entry. Risk is low-to-medium: depending on whether the carrier is pure data or carries triangle laws, the proof is either definitional unfolding or a dualization of the triangle equations — both are well-suited for a single deep-reasoning loop.
+
+---
+
