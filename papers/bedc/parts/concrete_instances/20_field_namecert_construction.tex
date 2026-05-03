@@ -176,3 +176,69 @@ and
 exactness predicate transported strict-support non-collapse, contextual
 singleton exclusion, and direct internal-nonempty endpoint separation; standard
 bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp transported exit row nondegenerate closure]
+\label{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual
+action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the single concrete
+$\FieldUp(\mathsf{RatUp})$ exit row package simultaneously contains:
+\begin{enumerate}
+  \item the semantic certificate assembly and source anchoring rows recorded by
+  \autoref{thm:ratup-fieldup-concrete-exit-row-closure};
+  \item the transported carrier clause $C_D^u(x)$ and the strict-support
+  equivalence
+  $$
+  N_D^u(x)\Longleftrightarrow N_D^u(h);
+  $$
+  \item the endpoint facts $C_D^u(x)$, $N_D^u(x)$,
+  $\mathsf{RatHistoryCarrier}(x)$, and
+  $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$;
+  \item the separation clause that no carrier-coverage map
+  $$
+  \kappa:\mathsf{RatHistoryCarrier}(x)\to
+  \mathsf{fieldSingletonEmptyCarrier}(x)
+  $$
+  exists for the transported strict-support endpoint of this exit row.
+\end{enumerate}
+Thus the transported endpoint, its concrete exit-row closure, and its
+source-anchored certificate rows are one nondegenerate
+$\FieldUp(\mathsf{RatUp})$ exit package.
+\end{theorem}
+\begin{proof}
+First fix the row package. Apply
+\autoref{thm:ratup-fieldup-concrete-exit-row-closure}. It identifies the
+concrete $\FieldUp(\mathsf{RatUp})$ exit rows over
+$\mathsf{RatUpFieldSource}_F$ and records the semantic certificate assembly
+together with the source anchoring rows.
+
+Next read the transported endpoint. Apply
+\autoref{thm:ratup-fieldup-exit-transported-support-nondegenerate} under the
+same hypotheses. This supplies the transported carrier clause $C_D^u(x)$ and
+the strict-support equivalence
+$$
+N_D^u(x)\Longleftrightarrow N_D^u(h).
+$$
+Using the assumed witness $N_D^u(h)$ gives $N_D^u(x)$.
+
+Now use the preceding endpoint theorem
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}. It gives
+the concrete Rat carrier witness $\mathsf{RatHistoryCarrier}(x)$ and the
+singleton rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$ for the same endpoint.
+
+It remains to rule out coverage by the singleton empty-history source. Suppose
+that a carrier-coverage map
+$$
+\kappa:\mathsf{RatHistoryCarrier}(x)\to
+\mathsf{fieldSingletonEmptyCarrier}(x)
+$$
+exists at this transported strict-support endpoint. Applying $\kappa$ to the
+witness $\mathsf{RatHistoryCarrier}(x)$ gives
+$\mathsf{fieldSingletonEmptyCarrier}(x)$, contradicting the displayed rejection
+map. Hence no such carrier-coverage map exists.
+\end{proof}
