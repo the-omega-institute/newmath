@@ -55,6 +55,20 @@ identify a zero-headed history with a one-headed history, which is impossible
 by generated-history no-confusion.
 \end{proof}
 
+\begin{theorem}[Category left one-headed continuation result cases]
+\label{thm:category-cont-left-e1-result-cases}
+If $\ContR(\Eone(h),k,\Eone(r))$, then either $k=\emp$ and
+$\HSame(h,r)$, or $k=\Eone(k_1)$ for some $k_1$ and
+$\ContR(\Eone(h),k_1,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.category\_cont\_left\_e1\_result\_cases}
+\begin{proof}
+Classify the continuation history $k$. The empty branch removes the matching
+one-headed constructor from the displayed result. The zero branch is ruled out
+by constructor disjointness. The one branch exposes the predecessor of $k$ and
+removes the matching outer constructor from the continuation result.
+\end{proof}
+
 \begin{theorem}[Category hom-carrier zero-headed source impossibility]
 \label{thm:category-hom-carrier-e0-source-absurd}
 For histories $a,target,f$, no hom-carrier can have source $\Ezero(a)$:
