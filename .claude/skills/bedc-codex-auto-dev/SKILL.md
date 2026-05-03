@@ -49,7 +49,7 @@ nohup bash -c '
   python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
     --base-branch codex-auto-dev --resume && \
   python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
-    --base-branch codex-auto-dev --parallel 5 --continuous --peer-sync-interval 0
+    --base-branch codex-auto-dev --continuous --peer-sync-interval 0
 ' >> /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log 2>&1 &
 disown
 ```
@@ -59,8 +59,8 @@ Lean:
 ```bash
 mkdir -p /Users/chronoai/newmath/lean4/scripts/logs && \
 nohup python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py \
-  --base-branch codex-auto-dev --parallel 5 --continuous \
-  --lake-parallel 1 --phase-b-timeout 3600 --phase-c-timeout 4500 \
+  --base-branch codex-auto-dev --continuous \
+  --phase-b-timeout 3600 --phase-c-timeout 4500 \
   >> /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log 2>&1 &
 disown
 ```
@@ -73,30 +73,47 @@ ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.p
 
 `PPID` should be `1` (init) — that's the proof that nohup detached cleanly. If `PPID` is your shell's PID, the disown didn't take and a session exit will SIGHUP the orchestrator.
 
-Tune `--parallel` upward (3 → 5 → 7) only when phase B is consistently completing well under the timeout (otherwise rebase conflicts and codex-API contention eat the gain). `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under parallel ≥ 5: bump to 3600 / 4500. The lake gate stays at `--lake-parallel 1` regardless — multiple concurrent `lake build` exhaust memory.
+`--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under high parallelism: bump to 3600 / 4500. These are CLI-only — restart required to change.
+
+## Tuning concurrency live (no restart)
+
+Concurrency is read from `<repo>/.pipeline_parallel.json` on every round dispatch — edit the file and the next dispatched round picks up the new value. **CLI `--parallel` and `--lake-parallel` flags are deprecated; the JSON file is the only source of truth at runtime.**
+
+```json
+{"paper": 8, "lean": 12, "lean_lake": 3}
+```
+
+| Key | Effect | Sane range |
+|---|---|---|
+| `paper` | Concurrent paper rounds (Phase REVIEW / REVISE / VERIFY / merge overlap; codex-exec children = ~paper) | 5–10 |
+| `lean` | Concurrent lean rounds | 8–14 |
+| `lean_lake` | Concurrent `lake build` invocations gated by the lake mutex; was hard-coded 1 historically | 1–3 (3 fits in 16 GB if memory pressure is moderate) |
+
+Memory floor is the binding constraint, not CPU — each codex-exec child is ~50–100 MB; each `lake build` is ~1–1.5 GB. With `lean_lake: 3` and 16 GB RAM, leaving `paper + lean ≤ ~20` keeps `vm_stat` "free" above 0.5 GB. The orchestrator's memory_guard kicks in only when `swap > 16 GB AND avail < 1.5 GB`, so the JSON file is your knob, not the guard.
 
 ## Monitor (read-only, never owns the orchestrator)
 
 Monitors `tail -F` the log files the detached orchestrators write to. They are pure observers — killing, swapping, or re-launching a Monitor never touches the orchestrator process.
 
-Paper monitor:
+Default to a **terse** filter that emits ~1 line per round (only actionable signals). Phase transitions, audit-OK, PDF-OK, and routine merge-into messages are noise — drop them.
+
+Paper monitor (terse):
 
 ```bash
 tail -F /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log \
-  | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|P[0-9]+'
+  | grep -E --line-buffered 'Round SUCCESS|Round FAIL|Merge failed|3 consecutive failures|Push rejected|ff update of .*failed|Codex did not complete|cooldown|Traceback|Exception|\bERROR\b'
 ```
 
-Lean monitor:
+Lean monitor (terse):
 
 ```bash
 tail -F /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log \
-  | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
+  | grep -E --line-buffered 'Round SUCCESS|Round FAIL|Merge failed|3 consecutive failures|Push rejected|ff update of .*failed|Codex did not complete|cooldown|Traceback|Exception|\bERROR\b|builder.*FAIL'
 ```
 
-Use `persistent: true` for both. Describe them as:
+Use `persistent: true` for both. Describe them as `BEDC paper pipeline (terse)` / `BEDC lean pipeline (terse)`.
 
-- `BEDC paper pipeline log on codex-auto-dev`
-- `BEDC Lean pipeline log on codex-auto-dev`
+If you need verbose per-phase visibility for a debugging session, swap the filter to a wider one, e.g. `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|P[0-9]+'` (paper) or the same with `R[0-9]+` (lean). Don't leave the verbose filter on long-running monitors — it produces 20+ events/min during steady state and burns transcript tokens.
 
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
@@ -167,13 +184,18 @@ When a signal repeats across ≥2 commits, treat it as systematic and edit the r
 
 ### Merge-efficiency signals
 
-The merge path is high-risk because two pipelines share `codex-auto-dev`:
+The merge path uses `git merge --no-ff --no-edit BASE_BRANCH` inside each round's worktree (rebase was retired 2026-05-04 in commit `35da139d5`). Round commits are preserved verbatim under a merge commit; conflict surface is a single-shot reconcile, not an N-commit replay.
 
-- **`ff update of codex-auto-dev failed`**: the main repo's working tree is dirty (often: a code edit done concurrently with an in-flight merge). Resolve by committing or stashing the local changes, then resume.
-- **`Pre-merge hard gate failed: ... bedc_ci.py audit`** (Lean): means rebase introduced a duplicate label or marker mismatch from a concurrent paper round. The audit-stdout will name the offending label — the script auto-routes to `_codex_resolve_post_rebase_audit` to drop this round's colliding additions.
-- **`Drift audit OK` followed by ff fail in paper merge**: paper's drift audit runs in the worktree pre-rebase, so it cannot see sibling-induced collisions. The newly added post-rebase audit + codex resolver in `codex_revise.py::merge_worktree_to_base` catches this.
-- **`Diverging branches can't be fast-forwarded`**: rebase resolution by codex left the round branch off the BASE_BRANCH lineage. Round will FAIL. Investigate the codex resolution log.
+- **`Merge conflict for codex-R<N> (attempt 1/2), invoking codex to resolve`**: codex is invoked with `prompts/conflict_resolve.txt` to resolve in-tree. If codex completes resolution, round continues; if not, round FAILs and worktree is retained for manual cleanup. With merge flow this is rarer than rebase was, but still happens when both sides genuinely edit the same theorem block.
+- **`ff update of codex-auto-dev failed: hint: Diverging branches can't be fast-forwarded`**: this is now a **transient race** in `_ff_local_branch_to(wt_tip)` when a sibling worker pushed to origin between this round's merge step and its ff-update step. The push-retry loop (`fetch + merge --no-ff origin/<BASE> + push`) handles it; usually followed by `Round SUCCESS` within 1-2 seconds. **Not a real failure.** The previous rebase-flow's same-message error meant the round branch had diverged from BASE lineage and the round would FAIL; that semantics is gone now.
+- **`Pre-merge hard gate failed: ... bedc_ci.py audit`** (Lean): means a sibling round landed a duplicate label or marker mismatch on BASE_BRANCH while this worktree was working. The script auto-routes to `_codex_resolve_post_rebase_audit` (kept its old name) to drop this round's colliding additions and retry the gate.
+- **`Drift audit OK` followed by audit fail in paper merge**: paper's drift audit runs pre-merge inside the worktree, so it cannot see sibling-induced collisions until BASE is merged in. Same recovery path as above.
 - **`3 consecutive failures — sleeping 180s`**: cooldown trigger. Look at the failing rounds' Phase B output files (`lean4/scripts/logs/codex/R<N>_phaseB_*.out.txt`); zero-byte means codex was killed externally (not a prompt issue), non-zero means inspect the gate that rejected it.
+
+Modes the new merge flow eliminated entirely (do not appear anymore):
+
+- **`Rebase left no own-round commit unique to BASE_BRANCH`** — codex's rebase resolution sometimes dropped the round's own work; merge can't drop a parent.
+- **`Codex did not complete rebase, aborting`** with subsequent round FAIL — no rebase to abort.
 
 ### Hot-reload vs restart boundary
 
@@ -181,16 +203,17 @@ Edit-and-go (no pipeline restart needed; next round picks up the change):
 
 | File | Role |
 |---|---|
+| `<repo>/.pipeline_parallel.json` | Live concurrency knobs: `paper`, `lean`, `lean_lake`. Read on every dispatch — edit and the next round respects the new value. |
 | `lean4/scripts/prompts/phase_b.txt`, `phase_c.txt` | Lean target selection / implementation |
-| `lean4/scripts/prompts/conflict_resolve.txt` | Lean codex-side rebase conflict resolver |
-| `lean4/scripts/prompts/post_rebase_audit_resolve.txt` | Lean codex-side audit recovery |
+| `lean4/scripts/prompts/conflict_resolve.txt` | Lean codex-side merge conflict resolver |
+| `lean4/scripts/prompts/post_rebase_audit_resolve.txt` | Lean codex-side audit recovery (legacy filename; now post-MERGE recovery) |
 | `papers/bedc/scripts/prompts/phase_review.txt`, `phase_revise.txt` | Paper review / revise |
 | `papers/bedc/scripts/prompts/conflict_resolve.txt` | Paper codex-side conflict resolver |
-| `papers/bedc/scripts/prompts/post_rebase_audit_resolve.txt` | Paper codex-side audit recovery |
+| `papers/bedc/scripts/prompts/post_rebase_audit_resolve.txt` | Paper codex-side audit recovery (legacy filename) |
 | `lean4/NAMING.md` | Naming and decomposition discipline (referenced by phase prompts) |
-| `lean4/scripts/critical_path.py` | Critical-path top-N discovery (called via subprocess from Phase B) |
-| `lean4/scripts/phase_d_lint.py` | Mechanical post-rebase lints (called via subprocess from `run_phase_d_lints`) |
-| `lean4/scripts/bedc_ci.py` audit / `--shape-saturation` | Drift + saturation reports (called via subprocess) |
+| `lean4/scripts/critical_path.py` | Critical-path top-N discovery + per-call rolling cooldown (lock at `<repo>/.git/bedc-critical-path-locks.json`, shared across worktrees since 2026-05-04 commit `3af7dd36d`) |
+| `lean4/scripts/phase_d_lint.py` | Mechanical post-merge lints (called via subprocess from `run_phase_d_lints`) |
+| `lean4/scripts/bedc_ci.py` audit / `--shape-saturation` | Drift + saturation + case-collision reports (called via subprocess) |
 
 Restart-required (the long-running Python process loaded these at startup):
 
@@ -198,7 +221,8 @@ Restart-required (the long-running Python process loaded these at startup):
 |---|---|
 | `lean4/scripts/codex_formalize.py` body (merge flow, retries, gate ordering, timeouts) | Lean pipeline |
 | `papers/bedc/scripts/codex_revise.py` body (merge flow, retries, gate ordering, timeouts) | Paper pipeline |
-| `--phase-b-timeout` / `--review-timeout` defaults | Both |
+| `--phase-b-timeout` / `--phase-c-timeout` / `--review-timeout` CLI defaults | Both |
+| `--base-branch`, `--peer-sync-interval`, `--continuous`, `--resume` CLI flags | Both |
 
 When you bump a phase-prompt version, edit BOTH files of that side together (`phase_b.txt` + `phase_c.txt`, or `phase_review.txt` + `phase_revise.txt`); the `## Prompts version` line gets mirrored into every commit body as `prompts: vN.M` so the trail is reconstructable.
 
@@ -320,14 +344,15 @@ NOT necessary (do not restart):
 
 - Swapping a Monitor `grep` filter to reduce noise. Monitors are now decoupled from the orchestrator (background-launched via nohup, see "Start (background, detached)") — kill or re-launch the Monitor freely.
 - A prompt or `critical_path.py` constant change. Those are hot-reloaded by next round dispatch.
-- A single round failure or a transient `ff update` race. Self-recovers.
+- A `.pipeline_parallel.json` edit (paper / lean / lean_lake concurrency). Re-read on every dispatch.
+- A single round failure or a transient `ff update of codex-auto-dev failed: Diverging branches can't be fast-forwarded` race during merge push retry — self-recovers within 1-2 seconds via the orchestrator's fetch+merge+push retry loop.
 
 When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Verify with `ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep` that the new processes have `PPID 1`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
 
 Still NOT in autonomous scope (always ask):
 
 - Loosening a HARD GATE (would need a concrete false-positive trace plus user sign-off).
-- Changing `--parallel` / `--lake-parallel` / `--phase-*-timeout` defaults (resource budget belongs to the user).
+- Changing `.pipeline_parallel.json` keys (`paper` / `lean` / `lean_lake`) or `--phase-*-timeout` CLI defaults (resource budget belongs to the user).
 
 Frequency discipline: even with authority, do not edit prompts faster than the pipeline can produce signal. Wait at least 30 commits or 1 hour after a prompt bump before another edit on the same file, unless the new prompt is producing immediate misbehaviour. Edit churn confuses codex.
 
@@ -336,6 +361,10 @@ Concrete autonomous-action examples this skill has handled:
 - Removing chapters from `SCHEMA_ONLY_HORIZONS` once paper-side concrete instances landed (paper P699-P712 unlocked monoid/group/abgroup/ring/commring/field; updated `critical_path.py` constant + mirror in `phase_b.txt` BAN section without asking).
 - Tightening `phase_d_lint.py` parameter-echo to be conclusion-aware after R1261/R1262 false positives.
 - Splitting an oversized `.tex` file (now superseded by Makefile precheck — codex self-heals).
+- 2026-05-04 commit `651cb017d`: case-collision audit. Added `detect_case_collision_paths()` to `bedc_ci.py audit` after a `Singleton…NonZero.lean` vs `Singleton…Nonzero.lean` index dup wedged macOS APFS for several rounds. Future occurrences self-heal.
+- 2026-05-04 commit `3af7dd36d`: shared critical-path lock. Anchored `LOCKS_FILE` to `git rev-parse --git-common-dir` so all worktrees see one lock at `<repo>/.git/bedc-critical-path-locks.json`. Eliminated the dedup pile-up where 10+ rounds picked identical top-1.
+- 2026-05-04 commit `35da139d5`: rebase → merge. Replaced `git rebase BASE` with `git merge --no-ff --no-edit BASE` in both orchestrators' `merge_worktree_to_base`. Eliminated the "Diverging branches" / "no own-round commit" / "Codex did not complete rebase" round-FAIL modes — observed 0 hard FAILs in the 30-min window after restart vs ~5 hard FAILs in the equivalent window before.
+- 2026-05-04 commit `8c156773c`: phase_revise v2.4 dropped Step 5 "Re-sync with remote before commit" (the `_git_lock`-serialised pipeline guarantees origin doesn't move during a revise; Step 5's merge-commit was pure noise). Paper rounds went from 3 commits/round to 2.
 
 ### Harness design principles
 
