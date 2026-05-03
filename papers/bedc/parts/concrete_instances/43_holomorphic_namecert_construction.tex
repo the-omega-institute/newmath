@@ -1,7 +1,7 @@
-\chapter{A Concrete Naming Certificate for \(\HolomorphicUp\)}
+\chapter{A Naming Seed for \texorpdfstring{$\HolomorphicUp$}{Holomorphic-up}}
 \label{ch:concrete-instances-holomorphic-namecert}
 
-This chapter gives a concrete naming-certificate construction for holomorphic functions on an open disk subset of \(\ComplexUp\), realized as functions complex-differentiable at every point of the disk with a uniform modulus that depends explicitly on the precision and on the distance to the boundary. Builds on \(\ComplexDiffUp\) (\autoref{ch:concrete-instances-complex-diff-namecert}) and \(\ConvergenceRadiusUp\) (\autoref{ch:concrete-instances-convergence-radius-namecert}). Power-series representation is given as explicit Taylor coefficients via iterated complex differentiability; the constructive identity theorem is supplied as a quantitative-density statement. Cauchy estimates appear as explicit unary upper bounds on iterated derivatives. The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter records a naming seed for holomorphic functions on open disks in $\ComplexUp$. The ten fields of the seed are: traditional target, the ordinary holomorphic-on-open-disk interface; BEDC source, $\ComplexDiffUp$ together with $\ConvergenceRadiusUp$ and the open-disk predicate; carrier choice, triples $(f,z_0,r)$ equipped with a disk-local differentiability predicate; classifier choice, $\hsame$-equivalence of the restricted pointwise functions and disk data; stability obligations, transport of the carrier, classifier, moduli, and derivative data along $\hsame$; ledger, the retained function history, disk witness, modulus witness, and analytic-bounds witnesses; core theorem list, the obligations in \autoref{def:holo-core-theorem-obligations}; exactness predicate, soundness and coverage against the intended holomorphic-on-disk behavior; standard bridge, comparison with ordinary complex analysis through constructive modulus data; status, $\text{Seed}$.
 
 \section{Open-disk carrier}
 
@@ -13,7 +13,7 @@ For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unar
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
-For every \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap modulus \(\mathsf{Gap}(z_0, r, z)\) is a unary history giving an explicit positive distance from \(z\) to the boundary of the disk.
+For every $(z_0, r, z)$ with $\mathsf{OpenDisk}(z_0, r, z)$, the gap modulus $\mathsf{Gap}(z_0, r, z)$ is a unary history giving an explicit positive distance from $z$ to the boundary of the disk.
 \end{lemma}
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
@@ -54,117 +54,54 @@ The radius comparison descends by $e1$ strict-prefix inversion.
 
 \section{Holomorphic predicate}
 
-\begin{definition}[Holomorphic on disk]
+\begin{definition}[Holomorphic on disk seed predicate]
 \label{def:holo-on-disk}
-For function \(f : \ComplexUp \to \ComplexUp\), center \(z_0\), and unary radius \(r\), the holomorphic predicate \(\mathsf{HoloOnDisk}(f, z_0, r)\) holds when there is a uniform modulus function \(\delta : \Unary \times \Unary \to \Unary\) such that for every point \(z\) with \(\mathsf{OpenDisk}(z_0, r, z)\) and every unary precision \(k\), \(f\) is complex-differentiable at \(z\) with modulus \(\delta(k, \mathsf{Gap}(z_0, r, z))\).
+For function $f : \ComplexUp \to \ComplexUp$, center $z_0$, and unary radius $r$, the seed predicate $\mathsf{HoloOnDisk}(f, z_0, r)$ is the intended carrier condition saying that a uniform modulus function $\delta : \Unary \times \Unary \to \Unary$ controls complex differentiability at every point $z$ with $\mathsf{OpenDisk}(z_0, r, z)$ and every unary precision $k$, using the boundary gap $\mathsf{Gap}(z_0, r, z)$ as the second modulus input.
 \end{definition}
 
-\begin{theorem}[Uniform modulus]
-\label{thm:holo-uniform-modulus}
-For each \(f, z_0, r\) with \(\mathsf{HoloOnDisk}(f, z_0, r)\), the uniform modulus \(\delta\) is unique up to pointwise refinement, and is computable as an explicit unary function of the inputs.
-\end{theorem}
-\begin{proof}[Sketch]
-Take the pointwise minimum of any two candidate moduli; well-defined as a unary function.
-\end{proof}
+\section{Core theorem obligations}
 
-\section{Power-series representation}
-
-\begin{definition}[Iterated complex differentiability]
-\label{def:iterated-cplx-diff}
-For \(f\) holomorphic on \(\mathsf{OpenDisk}(z_0, r)\), the iterated derivative \(\mathsf{IteratedCplxDiff}(f, z_0, n, f^{(n)})\) is defined by an explicit unary recursion: \(f^{(0)} = f\); \(f^{(n+1)}\) is the complex derivative of \(f^{(n)}\) at \(z_0\) (which exists because \(f^{(n)}\) inherits holomorphicity by closure of \(\HolomorphicUp\) under differentiation).
+\begin{definition}[Holomorphic core theorem obligations]
+\label{def:holo-core-theorem-obligations}
+The $\HolomorphicUp$ seed carries the following proof obligations before it can be presented as a certificate:
+\begin{enumerate}
+  \item uniform-modulus obligation: any accepted carrier witness must expose explicit modulus data, and equivalent witnesses must admit pointwise refinements compatible with $\hsame$;
+  \item iterated-derivative obligation: the derivative sequence $\mathsf{IteratedCplxDiff}(f, z_0, n, f^{(n)})$ must be generated by unary recursion from the local complex-differentiability data;
+  \item closure obligations: sum, product, and composition must preserve the carrier, with explicit modulus transport and an explicit image-containment witness for composition;
+  \item power-series obligation: Taylor coefficients computed from the iterated-derivative data must determine a power-series witness with a convergence-radius comparison to $r$;
+  \item identity obligation: agreement on a quantitatively dense sequence inside the disk must transport to agreement on an explicitly smaller disk;
+  \item Cauchy-bound obligation: local upper bounds for $|f|$ on smaller disks must yield unary bounds for the iterated derivatives at the center.
+\end{enumerate}
 \end{definition}
 
-\begin{theorem}[Power-series witness]
-\label{thm:holo-power-series-witness}
-Every holomorphic \(f\) on \(\mathsf{OpenDisk}(z_0, r)\) admits an explicit power-series representation \(\sum_{n=0}^{\infty} a_n (z - z_0)^n\) with coefficients \(a_n = f^{(n)}(z_0) / n!\) (computed via \(\mathsf{IteratedCplxDiff}\)) and convergence radius \(R \geq r\) (cite \autoref{ch:concrete-instances-convergence-radius-namecert}).
-\end{theorem}
-\begin{proof}[Sketch]
-The Taylor remainder bound is given explicitly via the contour-integral form of Cauchy's theorem (\autoref{ch:concrete-instances-contour-integral}); the remainder tends to zero with explicit modulus on \(\mathsf{OpenDisk}(z_0, r')\) for any \(r' < r\).
-\end{proof}
+\section{The seed fields}
 
-\section{Closure laws}
-
-\begin{lemma}[Holomorphic sum]
-\label{lem:holo-sum}
-If \(\mathsf{HoloOnDisk}(f, z_0, r)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\), then \(\mathsf{HoloOnDisk}(f + g, z_0, r)\) with explicit modulus pasting.
-\end{lemma}
-\begin{proof}
-Pointwise sum of complex-differentiable functions; modulus is the pointwise minimum.
-\end{proof}
-
-\begin{lemma}[Holomorphic product]
-\label{lem:holo-product}
-If \(\mathsf{HoloOnDisk}(f, z_0, r)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\), then \(\mathsf{HoloOnDisk}(f \cdot g, z_0, r)\) with explicit Leibniz modulus.
-\end{lemma}
-\begin{proof}
-Leibniz rule pointwise; modulus inflated by an explicit local-supremum bound on \(|f|\) and \(|g|\).
-\end{proof}
-
-\begin{lemma}[Holomorphic composition]
-\label{lem:holo-composition}
-If \(\mathsf{HoloOnDisk}(f, w_0, s)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\) and the image of \(g\) on \(\mathsf{OpenDisk}(z_0, r)\) is contained in \(\mathsf{OpenDisk}(w_0, s)\) with explicit witness, then \(\mathsf{HoloOnDisk}(f \circ g, z_0, r)\) with explicit chain-rule modulus.
-\end{lemma}
-\begin{proof}[Sketch]
-Composition of two complex-differentiable functions with the chain-rule modulus; image-containment witness is preserved on smaller disks.
-\end{proof}
-
-\section{Identity theorem and Cauchy estimates}
-
-\begin{theorem}[Identity theorem, constructive form]
-\label{thm:identity-theorem-constructive}
-Let \(f, g\) be holomorphic on \(\mathsf{OpenDisk}(z_0, r)\). If there exists an explicit sequence of points \((z_n)_n\) clustering at \(z_0\) with quantitative density bound (i.e.\ \(|z_n - z_0| \leq 2^{-n}\) and \(z_n \neq z_0\)) on which \(f(z_n) = g(z_n)\) (decidable equality on rational components), then \(f\) and \(g\) agree on a smaller \(\mathsf{OpenDisk}(z_0, r')\) for some explicit \(r' < r\).
-\end{theorem}
-\begin{proof}[Sketch]
-The Taylor coefficients of \(f - g\) all vanish at \(z_0\) by induction on \(n\) using the cluster sequence; therefore \(f = g\) on the convergence disk of the Taylor series, which has radius \(\geq r'\).
-\end{proof}
-
-\begin{theorem}[Cauchy estimates]
-\label{thm:cauchy-estimates}
-Let \(f\) be holomorphic on \(\mathsf{OpenDisk}(z_0, r)\) and let \(M(r')\) be an explicit unary upper bound on \(|f|\) over \(\overline{\mathsf{OpenDisk}}(z_0, r')\) for any \(r' < r\). Then for every unary \(n\), \(|f^{(n)}(z_0)| \leq n! \cdot M(r') / r'^n\).
-\end{theorem}
-\begin{proof}[Sketch]
-Standard contour-integral derivation of the Cauchy formula bounds (\autoref{ch:concrete-instances-contour-integral}).
-\end{proof}
-
-\section{The certificate}
-
-\begin{definition}[Holomorphic source specification]
+\begin{definition}[Holomorphic source seed field]
 \label{def:holo-source-spec}
-The source specification on \((f, z_0, r)\) carries the constraint \(\mathsf{HoloOnDisk}(f, z_0, r)\).
+The source seed field on $(f, z_0, r)$ records the intended constraint $\mathsf{HoloOnDisk}(f, z_0, r)$ together with its open-disk gap data.
 \end{definition}
 
-\begin{definition}[Holomorphic pattern specification]
+\begin{definition}[Holomorphic pattern seed field]
 \label{def:holo-pattern-spec}
-The pattern is the uniform-modulus complex-differentiability predicate over the open disk.
+The pattern seed field is the uniform-modulus complex-differentiability predicate over the open disk.
 \end{definition}
 
-\begin{definition}[Holomorphic classifier specification]
+\begin{definition}[Holomorphic classifier seed field]
 \label{def:holo-classifier-spec}
-Two holomorphic-on-disk witnesses are classified together when they restrict to \(\hsame\)-equivalent pointwise functions on the disk's interior.
+The classifier seed field groups two holomorphic-on-disk witnesses when they restrict to $\hsame$-equivalent pointwise functions on the disk's interior and carry compatible disk data.
 \end{definition}
 
-\begin{definition}[Holomorphic stability certificate]
+\begin{definition}[Holomorphic stability seed field]
 \label{def:holo-stability-cert}
-The stability certificate consists of \(\hsame\)-respect of \(\mathsf{HoloOnDisk}\) on the input function and on the disk parameters, transport of moduli under \(\hsame\), and compatibility with the iterated-derivative recursion.
+The stability seed field lists the required $\hsame$-respect of $\mathsf{HoloOnDisk}$ on the input function and on the disk parameters, transport of moduli under $\hsame$, and compatibility with the iterated-derivative recursion.
 \end{definition}
 
-\begin{definition}[Holomorphic ledger policy]
+\begin{definition}[Holomorphic ledger seed field]
 \label{def:holo-ledger-policy}
-The ledger policy records: (i) closure under sum, product, and composition (with image-containment witness); (ii) uniform-limit closure with explicit modulus inheritance; (iii) Taylor power-series representation; (iv) Cauchy estimates and identity theorem.
+The ledger seed field records the originating function history, center, radius, disk-gap witnesses, modulus witnesses, closure witnesses, Taylor-data witnesses, Cauchy-bound witnesses, and identity-theorem density witnesses.
 \end{definition}
 
-\begin{theorem}[Concrete \(\HolomorphicUp\) naming certificate]
-\label{thm:holo-namecert}
-The five fields above form a naming certificate over \(\Hist\) for the holomorphic interface \(\HolomorphicUp\).
-\end{theorem}
-\begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
-\end{proof}
-
-\begin{theorem}[Semantic \(\HolomorphicUp\) naming certificate]
-\label{thm:holo-semantic-namecert}
-The concrete certificate of \autoref{thm:holo-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
-\end{theorem}
-\begin{proof}[Sketch]
-Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
-\end{proof}
+\begin{definition}[\texorpdfstring{$\HolomorphicUp$}{Holomorphic-up} certificate seed]
+\label{def:holo-certificate-seed}
+The public status of this chapter is $\text{Seed}$. The fields in this chapter specify the intended carrier, classifier, stability, and ledger data for $\HolomorphicUp$, while \autoref{def:holo-core-theorem-obligations} records the theorem obligations that must be supplied before the object can be treated as a paper certificate or a machine-checked certificate.
+\end{definition}

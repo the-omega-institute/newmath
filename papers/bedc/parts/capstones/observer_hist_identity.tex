@@ -3,6 +3,24 @@
 
 BEDC was built for mathematical purposes: axiom-purity over a mathlib-free Lean 4 base, distinction-foundationalism as the only primitive, and a closed inductive kernel as the entire generative apparatus. The construction is mathematical end to end, and its theorems are mathematical theorems. Yet the kernel architecture, when read at the level of its signatures and closure laws rather than at the level of its derived chapters, carries an implicit position about what observation, observer, and time are inside the formal layer. This position became visible during development, not as a design goal, but as a structural consequence of the kernel's signature: the Cont relation has only Hist-valued arguments, the only identity criterion at the kernel is \(\hsame\) on Hists, and the temporal direction of derivation is fixed by the asymmetry of Cont. The position is the single line: observation = distinction = time, and observer = Hist with no separate subject. This capstone formalizes that line. It introduces no new mathematics. Each section identifies a carrier predicate or closure law in which a specific commitment is encoded and proves a theorem showing the commitment is mathematically forced rather than philosophically added on. Five sections cover, in turn, distinction as the source of information (\autoref{sec:observer-distinction-source}), observer as the Hist self-reference loop (\autoref{sec:observer-as-self-reference}), time as Hist growth (\autoref{sec:observer-time-as-growth}), the two-loops architecture as the consistency face of the no-subject commitment (\autoref{sec:observer-two-loops-no-subject}), and the synthesis as a three-fold identity at the kernel level (\autoref{sec:observer-synthesis-threefold-identity}). Like the rest of the manuscript, the chapter falls under the project's axiom-purity gate: the formal targets it cites do not depend on \(\mathsf{Classical.choice}\), \(\mathsf{Quot.sound}\), or \(\mathsf{propext}\).
 
+\section{Observer history identity ledger}
+\label{sec:observer-history-identity-ledger}
+
+Observer history identity records the point where observational sameness and generated-history sameness meet. In BEDC, an observer can inspect a history only through marks, continuations, bundles, signatures, and certified classifiers. Two histories that agree under every licensed observation are therefore not identified by a host equality principle; they are compared through the internal history-sameness and classifier ledgers already present in the kernel.
+
+\begin{definition}[Observer history identity]
+\label{def:observer-hist-identity}
+An observer identity judgment between histories \(h\) and \(k\) is a certificate-level comparison whose observations are all mediated by BEDC witnesses: mark emission, continuation, probe bundles, signature relations, and derived classifiers. Its intended public reading is that no licensed observer separates \(h\) from \(k\) without producing a classifier witness against \(\hsame(h,k)\).
+\end{definition}
+
+\begin{theorem}[Observer identity remains internal]
+\label{thm:observer-hist-identity-internal}
+Every observer history identity judgment is internal to BEDC when its observations factor through the kernel ledgers of \autoref{ch:core-emission-histories-and-history-sameness}, \autoref{ch:core-generated-probe-bundles-and-signature-events}, and the naming-certificate classifier discipline.
+\end{theorem}
+\begin{proof}
+Each observation listed in the judgment is a BEDC object: a mark emission, a continuation, a bundle event, a signature relation, or a certified classifier comparison. Repack these witnesses as the observer ledger. The resulting comparison uses only the internal sameness and classifier relations named in the premise, so no external equality principle is introduced.
+\end{proof}
+
 \section{Distinction as the source of information}
 \label{sec:observer-distinction-source}
 
