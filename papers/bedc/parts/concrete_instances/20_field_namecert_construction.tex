@@ -343,3 +343,42 @@ Per-object template: $\FieldUp$ apart-zero singleton-result exclusion; source
 $\mathsf{BHist}$ plus $\ContR$; carrier predicate $\mathsf{ApartZero}_F$;
 classifier $\hsame$ transport; ledger the hidden singleton contexts; exactness
 predicate the displayed conjunction; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero nested continuation singleton-result factor exclusion]
+\label{thm:field-apartzero-nested-continuation-singleton-result-factor-absurd}
+For histories $l,h,r,u,v,q,w,endpoint:\mathsf{BHist}$ with
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, and $\ContR(v,q,w)$, if
+$l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(w,endpoint)$, then
+$$
+\bigl(\mathsf{ApartZero}_F(h)\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\mathsf{ApartZero}_F(q)\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-singleton-classifier-empty-endpoints} to the
+classifier witness $\mathsf{FieldSingletonClassifier}(w,endpoint)$. The
+result gives in particular the endpoint comparison $w\hsame\emp$.
+
+Assume $\mathsf{ApartZero}_F(h)$. The reverse direction of
+\autoref{thm:field-apartzero-nested-continuation-factor-split}, applied to
+the left disjunct and the three continuation witnesses, produces
+$\mathsf{ApartZero}_F(w)$. Applying this apart-zero witness to
+$w\hsame\emp$ gives $\mathsf{False}$.
+
+Assume $\mathsf{ApartZero}_F(q)$. The same reverse direction of the nested
+factor split, now applied to the right disjunct, again produces
+$\mathsf{ApartZero}_F(w)$. Applying it to $w\hsame\emp$ gives
+$\mathsf{False}$. Pairing the two implications gives the displayed
+exclusion.
+\end{proof}
+
+Per-object template: traditional target zero-result factor exclusion for
+nested field multiplication; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldSingletonClassifier}$, and $\mathsf{ApartZero}_F$; carrier
+apart-zero histories; classifier $\hsame$ transport; ledger the hidden
+singleton result endpoint and the two exposed factors; core theorem list
+the nested continuation factor split plus singleton endpoint classifier;
+exactness predicate the displayed paired exclusion; standard bridge ordinary
+zero product excludes nonzero factors under a singleton result; status
+$\mathsf{ProofTarget}$.
