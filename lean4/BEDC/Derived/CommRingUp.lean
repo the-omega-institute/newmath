@@ -112,6 +112,19 @@ theorem CommRingSingletonClassifier_append_visible_right_absurd {h p q : BHist} 
     have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.right.left
     cases emptyParts.right
 
+theorem CommRingSingletonClassifier_append_visible_prefix_absurd {p q h : BHist} :
+    (CommRingSingletonClassifier (BEDC.FKernel.Cont.append (BHist.e0 p) q) h ->
+      False) ∧
+      (CommRingSingletonClassifier (BEDC.FKernel.Cont.append (BHist.e1 p) q) h ->
+        False) := by
+  constructor
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.left
+  · intro classified
+    have emptyParts := BEDC.FKernel.Cont.append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.left
+
 theorem commring_right_distrib_from_left {add mul : BHist -> BHist -> BHist}
     (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
     (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->

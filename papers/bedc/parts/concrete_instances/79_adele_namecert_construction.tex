@@ -78,6 +78,27 @@ append history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_first\_prime\_unit\_scale}
 
+\begin{theorem}[Adele visible scale result carrier and nonempty result]
+\label{thm:adele-history-carrier-visible-scale-result-nonempty}
+For histories $r,p,e,s:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$ hold, then the appended history
+$\mathsf{append}(r,s)$ is an adele-history carrier and the visible scale result
+is not history-same as $\emp$:
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use $r,p,\mathsf{e1}(e),s$ as the four carrier witnesses for the appended
+adele history. The append witness is reflexive history sameness. If
+$s\hsame\emp$, the $p$-adic empty-result iff forces
+$\hsame(\mathsf{e1}(e),\emp)$, contradicting the BEDC separation of
+one-sealed histories from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
+
 \begin{theorem}[Adele empty scale real readback]
 \label{thm:adele-history-carrier-empty-scale-real-readback}
 Let $real,p,result:\mathsf{BHist}$. If $real$ is a constant real-history

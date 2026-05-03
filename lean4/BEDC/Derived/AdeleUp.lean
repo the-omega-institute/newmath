@@ -60,6 +60,19 @@ theorem AdeleHistoryCarrier_first_prime_unit_scale {realTail : BHist} :
       PadicPrimeScale_first_prime_unit_exponent_result,
       hsame_refl (append (BHist.e1 realTail) (BHist.e1 (BHist.e1 BHist.Empty)))⟩
 
+theorem AdeleHistoryCarrier_visible_scale_result_nonempty {real p exponent result : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
+      AdeleHistoryCarrier (append real result) ∧ (hsame result BHist.Empty -> False) := by
+  intro realCarrier scale
+  constructor
+  · exact
+      ⟨real, p, BHist.e1 exponent, result, realCarrier, scale,
+        hsame_refl (append real result)⟩
+  · intro resultEmpty
+    have exponentEmpty : hsame (BHist.e1 exponent) BHist.Empty :=
+      Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty
+    exact not_hsame_e1_empty exponentEmpty
+
 theorem AdeleRealStreamPrefix_visible_scale_carrier {x y : Nat -> BHist} {n m : Nat}
     {denTail imagTail exponent result : BHist} :
     (forall i : Nat, UnaryHistory (x i)) -> RealStreamPrefixClassifier x y (m + n) ->
