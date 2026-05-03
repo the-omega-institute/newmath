@@ -16,6 +16,18 @@ theorem AutomorphicAdeleGraph_cont_nonempty {domain value graph : BHist} :
   have endpoints := cont_empty_result_inversion emptyGraph
   exact AdeleHistoryCarrier_not_empty domainCarrier endpoints.left
 
+theorem AutomorphicAdeleGraph_visible_context_core_nonempty {p q domain value core : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p core) q) ->
+        hsame core BHist.Empty -> False := by
+  intro domainCarrier valueCarrier visibleCont coreEmpty
+  have prefixCont : Cont (append p domain) value (append p core) :=
+    (cont_suffix_iff (a := append p domain) (b := append p core) (f := value) (p := q)).mp
+      visibleCont
+  have coreCont : Cont domain value core :=
+    (cont_prefix_iff (p := p) (a := domain) (b := core) (f := value)).mp prefixCont
+  exact AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont coreEmpty
+
 theorem AutomorphicAdeleGraph_visible_context_nonempty {p q domain value graph : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
       Cont (append p domain) (append value q) (append (append p graph) q) ->
