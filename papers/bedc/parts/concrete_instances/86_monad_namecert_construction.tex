@@ -6,5 +6,23 @@ The monad interface $\MonadUp$ packages an endofunctor on a category with unit a
 \section{Carrier definition}
 \label{sec:monad-carrier}
 
+\begin{theorem}[Monad adjunction endomorphism triangle results are empty]
+\label{thm:monad-adjunction-endomorphism-triangle-results-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+Then both triangle results are empty:
+$$
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Both the unit and counit components are endomorphism prefix components over
+the same prefix $p$ and object $a$, so natural-transformation endomorphism
+component exactness identifies each component with $\emp$. The two triangle
+continuations are then compared with the empty right-unit continuation, first
+in the unit-counit order and then in the counit-unit order.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
+
 \section{The certificate}
 \label{sec:monad-certificate}

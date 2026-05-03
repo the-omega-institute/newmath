@@ -51,6 +51,7 @@ first row applied to $\mathsf{inv}(h)$ and $h$ packages both classifier
 orientations.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingleton\_terminal\_classifier\_package}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_terminal\_package}
 
 \begin{theorem}[Group singleton continuation terminal collapse]
 \label{thm:group-singleton-continuation-terminal-collapse}
@@ -140,6 +141,7 @@ returns either double-inverse comparison to the original factor.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_iff}
 \leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_from\_empty\_unit\_iff}
+\leanchecked{BEDC.Derived.GroupUp.group\_product\_unit\_inverse\_correspondence\_from\_empty\_unit}
 
 \section{Center orbit collapse}
 \label{sec:group-center-orbit-collapse}
@@ -264,3 +266,42 @@ equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_context\_product\_unit\_split\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_suffix\_unit\_split\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_product\_unit\_split\_iff}
+
+\section{Singleton two-sided product-unit exactness}
+\label{sec:group-singleton-two-sided-product-unit-exactness}
+
+\begin{theorem}[Group singleton two-sided contextual product-unit split]
+\label{thm:group-singleton-two-sided-contextual-product-unit-split}
+For $L,R,L',R',p,q:\mathsf{BHist}$, if $A_{\emp}(L)$, $A_{\emp}(R)$,
+$A_{\emp}(L')$, and $A_{\emp}(R')$, then
+$$
+\begin{array}{c}
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,\mathsf{append}(p,q)),L'),
+\mathsf{append}(\mathsf{append}(R,\emp),R'))\\
+\Longleftrightarrow A_{\emp}(p)\land A_{\emp}(q).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group product-unit exactness
+under two-sided contexts; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ and $\mathsf{append}$; carrier $A_{\emp}$; classifier
+$R_{\emp}$; stability from two-sided context cancellation and append
+empty-result split; ledger prefix and suffix contexts and factors $p,q$; core
+theorem list
+\autoref{thm:group-singleton-classifier-two-sided-context-cancel} and
+\autoref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate the displayed iff; standard bridge terminal group; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-two-sided-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The four singleton carrier hypotheses
+strip the prefix and suffix context pairs, reducing the displayed classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply \autoref{thm:group-singleton-classifier-product-unit-split} to the
+reduced classifier. It identifies the reduced classifier with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving the desired equivalence.
+\end{proof}

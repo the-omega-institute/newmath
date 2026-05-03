@@ -33,3 +33,20 @@ history to a one-headed history, so constructor inversion closes the
 contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_absurd}
+
+\begin{theorem}[Empty contradictory carrier name certificate absurdity]
+\label{thm:empty-contradictory-carrier-namecert-absurd}
+There is no name certificate whose carrier asks a single history to be both
+the empty history and the one-extension of the empty history:
+$$
+\NameCert(\{h\mid h\hsame\emp\land h\hsame\Eone(\emp)\},\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Take a carrier witness from the certificate. Its two endpoint equations compose
+by symmetry and transitivity of $\hsame$ to give
+$\emp\hsame\Eone(\emp)$. The closed history no-confusion theorem rules out
+that comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyContradictoryCarrier\_namecert\_absurd}
