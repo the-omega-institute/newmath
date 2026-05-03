@@ -456,6 +456,27 @@ theorem FieldSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem FieldSingletonClassifier_append_self_context_split_iff {a x b : BHist} :
+    FieldSingletonClassifier (append a (append x a)) b <->
+      FieldSingletonCarrier a ∧ FieldSingletonClassifier x b := by
+  constructor
+  · intro classified
+    have outerSplit := append_eq_empty_iff.mp classified.left
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    have middleClassified : FieldSingletonClassifier x b :=
+      And.intro innerSplit.left
+        (And.intro classified.right.left
+          (hsame_trans innerSplit.left (hsame_symm classified.right.left)))
+    exact And.intro outerSplit.left middleClassified
+  · intro split
+    have innerCarrier : FieldSingletonCarrier (append x a) :=
+      append_eq_empty_iff.mpr (And.intro split.right.left split.left)
+    have leftCarrier : FieldSingletonCarrier (append a (append x a)) :=
+      append_eq_empty_iff.mpr (And.intro split.left innerCarrier)
+    exact And.intro leftCarrier
+      (And.intro split.right.right.left
+        (hsame_trans leftCarrier (hsame_symm split.right.right.left)))
+
 theorem FieldSingletonClassifier_append_hsame_common_context_cancel_iff {L R P Q a b : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier P -> hsame L R -> hsame P Q ->
       (FieldSingletonClassifier (append L (append a P)) (append R (append b Q)) ↔

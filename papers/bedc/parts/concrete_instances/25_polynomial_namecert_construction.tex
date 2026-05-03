@@ -302,6 +302,31 @@ $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_pair\_carrier\_iff}
 
+\begin{theorem}[Polynomial singleton classifier self-context split]
+\label{thm:polynomial-singleton-classifier-self-context-split}
+For histories $a,x,b:\mathsf{BHist}$, the singleton polynomial classifier
+splits the repeated self-context around $x$ into the carrier of that context
+and the classifier of the middle endpoint:
+$$
+\rho_{\emp}(\mathsf{append}(a,\mathsf{append}(x,a)),b)
+\Longleftrightarrow
+A_{\emp}(a)\land\rho_{\emp}(x,b).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier. The forward direction applies empty-result
+inversion to the outer append carrier and then to the inner append carrier,
+extracting $A_{\emp}(a)$ and $A_{\emp}(x)$. Together with the target carrier
+field, these witnesses rebuild $\rho_{\emp}(x,b)$ by transitivity through
+$\emp$.
+
+Conversely, use $A_{\emp}(a)$ and the source carrier in $\rho_{\emp}(x,b)$ to
+rebuild the inner append as empty, then rebuild the full self-context endpoint
+as empty. The target carrier and empty-history comparison come from the middle
+classifier data.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_self\_context\_split\_iff}
+
 \begin{theorem}[Polynomial singleton normalized append classifier carrier]
 \label{thm:polynomial-singleton-normalize-append-classifier-carrier-iff}
 For histories $P,Q,h$, classifying $h$ against the normalized singleton append

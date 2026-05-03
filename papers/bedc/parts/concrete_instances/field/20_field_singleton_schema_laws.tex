@@ -395,6 +395,32 @@ $\emp$, transitivity through $\emp$ gives the appended classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_context\_empty\_iff}
 
+\begin{theorem}[Field singleton classifier self-context split]
+\label{thm:field-singleton-classifier-self-context-split}
+For histories $a,x,b:\mathsf{BHist}$, a singleton field classifier from the
+self-context append endpoint to $b$ is exactly a singleton carrier witness for
+the repeated context and a singleton classifier from the middle history to $b$:
+$$
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(a,\mathsf{append}(x,a)),b)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(a)\land\mathsf{FieldSingletonClassifier}(x,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the source carrier identifies
+$\mathsf{append}(a,\mathsf{append}(x,a))$ with $\emp$. Empty-result inversion
+for append first recovers the carrier for $a$, then splits the inner append and
+recovers the carrier for $x$. The target carrier field of the classifier and
+transitivity through $\emp$ rebuild $\mathsf{FieldSingletonClassifier}(x,b)$.
+
+Conversely, combine the carrier for $a$ with the source carrier in
+$\mathsf{FieldSingletonClassifier}(x,b)$ to rebuild the inner empty append, and
+combine that result with the same context carrier to rebuild the outer source
+carrier. The target carrier is already supplied by the middle classifier, and
+both endpoints compare through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_self\_context\_split\_iff}
+
 \begin{theorem}[Field singleton classifier append common-context cancellation up to history-sameness]
 \label{thm:field-singleton-classifier-append-hsame-common-context-cancel}
 For histories $L,R,P,Q,a,b:\mathsf{BHist}$, if $L$ and $P$ lie in the
