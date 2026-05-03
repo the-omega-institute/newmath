@@ -289,6 +289,59 @@ linear factor and annihilator row; core theorem this block; exactness the
 displayed conjunction; downstream consumer $\FieldUp$ quadratic and zero-factor
 exit packages; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[CommRing zero linear factor bilateral exact package]
+\label{thm:commring-zero-linear-factor-bilateral-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+(a+b)\cdot(a+(-b))\hsame0
+\land
+(a+(-b))\cdot(a+b)\hsame0
+\land
+a\cdot a\hsame b\cdot b
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor hypothesis. Apply
+\autoref{thm:commring-zero-linear-factor-branch-exact-package} to $H$ to obtain
+the branch-preserving annihilator disjunction together with the square equality
+$a\cdot a\hsame b\cdot b$.
+
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to $H$.
+This yields the forward signed product
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Apply \autoref{thm:commring-zero-linear-factor-commuted-signed-product-zero} to
+$H$. This yields the reversed signed product
+$(a+(-b))\cdot(a+b)\hsame0$.
+
+Introduce the final conjunction by placing the branch annihilator package first,
+the forward signed product second, the reversed signed product third, and the
+square equality fourth. The result is the displayed bilateral certificate.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor bilateral exact
+package in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+zero-factor absorption and difference-of-squares exactness; ledger the selected
+linear factor, branch annihilator row, both signed product orientations, and
+square equality; core theorem this block; exactness the displayed four-component
+certificate; downstream consumer $\FieldUp$ quadratic and zero-factor exit
+packages; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing singleton empty square exact package]
 \label{thm:commring-singleton-empty-square-exact-package}
 For the singleton empty-history CommRing tuple of
