@@ -201,6 +201,37 @@ For $\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),morph)$, if $morph$ is not $\
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_cases}
 
+\begin{theorem}[Category nonempty one-headed endpoint morphism target descent]
+\label{thm:category-hom-carrier-e1-source-e1-target-nonempty-morphism-target-descent}
+For $\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),morph)$, if $morph$ is
+not $\HSame$ to $\emp$, then there is a history $k$ such that
+$morph=\Eone(k)$ and the exposed tail itself is a hom-carrier
+$\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$.
+\end{theorem}
+\begin{proof}
+Apply the nonempty one-headed endpoint morphism cases. The exposed data gives
+$morph=\Eone(k)$, unary witnesses for $a,k,r$, and
+$\ContR(\Eone(a),k,r)$. Reassembling these fields gives the descended
+hom-carrier from $\Eone(a)$ to $r$ with morphism $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_target\_descent}
+
+\begin{theorem}[Category nonempty one-headed endpoint morphism unique descent]
+\label{thm:category-hom-carrier-e1-source-e1-target-nonempty-morphism-descent-unique}
+Under the same hypotheses, the descended tail is unique up to $\HSame$: there
+is a history $k$ with $morph=\Eone(k)$,
+$\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$, and every other displayed
+one-headed descent $morph=\Eone(k')$ with
+$\mathsf{CategoryHomCarrier}(\Eone(a),r,k')$ satisfies $k\hsame k'$.
+\end{theorem}
+\begin{proof}
+First use target descent to obtain the displayed tail $k$ and its descended
+hom-carrier. If another tail $k'$ displays the same morphism as $\Eone(k')$,
+constructor injectivity for $\Eone$ identifies $k$ and $k'$, hence gives
+$k\hsame k'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_descent\_unique}
+
 \begin{theorem}[Category nonempty one-headed source morphism target cases]
 \label{thm:category-e1-source-nonempty-morphism-target-cases}
 For $\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)$, if $morph$ is not

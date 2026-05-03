@@ -232,6 +232,25 @@ from classifying as zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_factor\_closed}
 
+\begin{theorem}[Field apart-zero append split exactness]
+\label{thm:field-apartzero-append-split-iff}
+For histories $p,q:\mathsf{BHist}$, apart-zero of an appended history is
+exactly apart-zero of one of its factors:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(p)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+The reverse direction is append factor closure. For the forward direction,
+split on the constructor of $p$. If $p=\emp$, then
+$\mathsf{append}(\emp,q)$ is empty exactly when $q$ is empty, so appended
+apart-zero gives apart-zero of $q$. If $p$ is zero-headed or one-headed, its
+constructor is disjoint from $\emp$, so $p$ is already apart from zero.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_split\_iff}
+
 \begin{theorem}[Field apart-zero append congruence under history sameness]
 \label{thm:field-apartzero-append-hsame-congr-iff}
 For histories $a,a',b,b':\mathsf{BHist}$, history sameness on both append

@@ -52,6 +52,26 @@ theorem FieldApartZero_append_factor_closed {p q : BHist} :
   | inr rightApart =>
       exact rightApart splitEmpty.right
 
+theorem FieldApartZero_append_split_iff {p q : BHist} :
+    FieldApartZero (append p q) <-> FieldApartZero p \/ FieldApartZero q := by
+  constructor
+  · intro appendApart
+    cases p with
+    | Empty =>
+        right
+        intro qEmpty
+        exact appendApart (hsame_trans (append_empty_left q) qEmpty)
+    | e0 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e0_empty pEmpty
+    | e1 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e1_empty pEmpty
+  · intro factorApart
+    exact FieldApartZero_append_factor_closed factorApart
+
 theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
     hsame a a' -> hsame b b' ->
       (FieldApartZero (append a b) <-> FieldApartZero (append a' b')) := by
