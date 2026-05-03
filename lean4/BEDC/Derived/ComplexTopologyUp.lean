@@ -16,6 +16,13 @@ def ComplexTopologyOpenDiskGap (center radius point gap : BHist) : Prop :=
   ComplexHistoryCarrier center ∧ UnaryHistory radius ∧ ComplexHistoryCarrier point ∧
     UnaryHistory gap ∧ Cont point gap radius
 
+theorem ComplexTopologyOpenDiskGap_gap_deterministic
+    {center radius point gap gap' : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> Cont point gap' radius ->
+      hsame gap gap' := by
+  intro disk alternativeGap
+  exact cont_left_cancel disk.right.right.right.right alternativeGap
+
 theorem ComplexTopologyOpenDiskGap_hsame_transport
     {center center' radius radius' point point' gap gap' : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap ->
