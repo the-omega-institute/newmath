@@ -470,7 +470,44 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
             logger.warning(f"[origin-sync] error: {exc}")
 
 
+_ORIGIN_SYNC_LOCK = REPO_ROOT / ".origin_sync.lock"
+
+
+def _acquire_origin_sync_lock() -> bool:
+    """Atomic-create a lock file owned by this PID. Returns False if another
+    live orchestrator already holds it (so only one ticker runs across all
+    pipeline scripts on this repo). Stale locks (dead PIDs) are taken over.
+    """
+    pid = os.getpid()
+    try:
+        fd = os.open(str(_ORIGIN_SYNC_LOCK),
+                     os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+        os.write(fd, str(pid).encode())
+        os.close(fd)
+        return True
+    except FileExistsError:
+        try:
+            existing = int(_ORIGIN_SYNC_LOCK.read_text(encoding="utf-8").strip() or "0")
+        except Exception:
+            existing = 0
+        if existing > 0:
+            try:
+                os.kill(existing, 0)  # signal 0 = liveness probe
+                return False  # other orchestrator alive, skip
+            except (ProcessLookupError, PermissionError):
+                pass
+        # Stale (dead PID) — take over.
+        _ORIGIN_SYNC_LOCK.write_text(str(pid), encoding="utf-8")
+        return True
+
+
 def start_origin_sync_ticker(base_branch: str, interval: int = 60) -> None:
+    if not _acquire_origin_sync_lock():
+        logger.info(
+            f"[origin-sync] another orchestrator already owns the ticker "
+            f"(lock={_ORIGIN_SYNC_LOCK.name}); skipping"
+        )
+        return
     t = threading.Thread(
         target=origin_sync_loop,
         args=(base_branch, interval),
@@ -479,7 +516,8 @@ def start_origin_sync_ticker(base_branch: str, interval: int = 60) -> None:
     )
     t.start()
     logger.info(
-        f"[origin-sync] ticker started (interval={interval}s, branch={base_branch})"
+        f"[origin-sync] ticker started (interval={interval}s, branch={base_branch}, "
+        f"lock={_ORIGIN_SYNC_LOCK.name})"
     )
 
 
