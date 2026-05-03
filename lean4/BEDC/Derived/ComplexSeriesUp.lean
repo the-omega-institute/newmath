@@ -170,6 +170,25 @@ theorem ComplexPartSum_term_hsame_deterministic {zero : BHist} {c d : BHist -> B
           have sameTerm := pointwise (index_unary leftSum)
           exact cont_respects_hsame samePartial sameTerm leftStep rightStep
 
+theorem ComplexAbsPartSum_unary_index_deterministic {zero : BHist}
+    {modulus : BHist -> BHist} {n S T : BHist} :
+    UnaryHistory n -> ComplexAbsPartSum zero modulus n S ->
+      ComplexAbsPartSum zero modulus n T -> hsame S T := by
+  intro unaryN left
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl zero
+  | step leftSum leftStep ih =>
+      intro right
+      have unaryPrev := unary_e1_inversion unaryN
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih unaryPrev rightSum
+          exact cont_respects_hsame samePartial (hsame_refl (modulus _)) leftStep rightStep
+
 theorem ComplexAbsPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
     {modulus modulus' : BHist -> BHist} {n M T : BHist} :
     hsame zero zero' ->

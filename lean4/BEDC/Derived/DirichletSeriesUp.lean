@@ -63,6 +63,25 @@ theorem DirichletPartSum_term_hsame_transport {term term' : BHist -> BHist -> BH
           exact Exists.intro (append previous' (term' _ s'))
             (And.intro (DirichletPartSum.step previousData.left (cont_intro rfl)) resultSame)
 
+theorem DirichletPartSum_unary_index_deterministic
+    {term : BHist -> BHist -> BHist} {s n S T : BHist} :
+    UnaryHistory n -> DirichletPartSum term s n S ->
+      DirichletPartSum term s n T -> hsame S T := by
+  intro unaryN left
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl BHist.Empty
+  | step leftSum leftStep ih =>
+      intro right
+      have unaryPrev := unary_e1_inversion unaryN
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih unaryPrev rightSum
+          exact cont_respects_hsame samePartial (hsame_refl (term _ s)) leftStep rightStep
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by
