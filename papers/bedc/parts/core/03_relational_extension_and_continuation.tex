@@ -462,6 +462,31 @@ tail sameness forces the same constructor there as well, and constructor
 inversion gives the exposed $\HSame$ relation.
 \end{proof}
 
+\begin{theorem}[Continuation right-tail result cases]
+\label{thm:cont-right-tail-result-cases}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$, then the right
+continuation tail has one of the following displayed forms:
+$$
+\HSame(k,\emp)\land\HSame(r,h),
+$$
+or there exist histories $t,u$ such that
+$$
+\HSame(k,\Ezero(t))\land\HSame(r,\Ezero(u))\land\ContR(h,t,u),
+$$
+or there exist histories $t,u$ such that
+$$
+\HSame(k,\Eone(t))\land\HSame(r,\Eone(u))\land\ContR(h,t,u).
+$$
+\end{theorem}
+\begin{proof}
+Classify the right continuation tail $k$. The empty case is the right-unit
+continuation, so the result is classified with the source. In the zero-headed
+and one-headed cases, step-result inversion removes the displayed outer
+constructor from the result and exposes the residual continuation through the
+tail payload.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_tail\_result\_cases}
+
 \begin{lemma}[Continuation right unit]
 For every history \(h\), \(\ContR(h,\emp,h)\).
 \end{lemma}
@@ -581,6 +606,51 @@ $\mathsf{append}(p,\mathsf{append}(a,f))$ with
 $\mathsf{append}(\mathsf{append}(p,a),f)$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_prefix\_iff}
+
+\begin{theorem}[Append right-context cancellation up to history-sameness]
+\label{thm:append-hsame-right-context-cancel}
+For histories $P,Q,a,b:\mathsf{BHist}$, if $P\hsame Q$, then appending the
+history-same right contexts $P$ and $Q$ preserves and reflects endpoint
+history-sameness:
+$$
+P\hsame Q\Rightarrow
+\bigl(
+\hsame(\mathsf{append}(a,P),\mathsf{append}(b,Q))
+\Longleftrightarrow
+a\hsame b
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the right context along $P\hsame Q$. The forward direction is right
+append cancellation for the common suffix. Conversely, after the endpoints
+$a$ and $b$ are identified, the two appended histories are definitionally the
+same.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_hsame\_right\_context\_cancel\_iff}
+
+\begin{theorem}[Append common-context cancellation up to history-sameness]
+\label{thm:append-hsame-common-context-cancel}
+For histories $L,R,P,Q,a,b:\mathsf{BHist}$, if $L\hsame R$ and $P\hsame Q$,
+then the two-sided contextual append comparison is exactly the comparison of
+the middle histories:
+$$
+L\hsame R\Rightarrow P\hsame Q\Rightarrow
+\bigl(
+\hsame(\mathsf{append}(L,\mathsf{append}(a,P)),
+       \mathsf{append}(R,\mathsf{append}(b,Q)))
+\Longleftrightarrow
+a\hsame b
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First transport the left and right contexts along the two $\hsame$ witnesses.
+In the forward direction, left append cancellation removes the common outer
+context and right append cancellation removes the common suffix. The reverse
+direction is immediate after the middle histories are identified.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_hsame\_common\_context\_cancel\_iff}
 
 \begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}

@@ -46,6 +46,27 @@ $\emp$, contradicting one-headed constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_right\_visible\_tail\_target\_not\_empty}
 
+\begin{theorem}[Continuation morphism zero-tail target not empty]
+\label{thm:continuation-morphism-e0-tail-target-not-empty}
+For histories $a,b,m$ and a continuation morphism
+$morph:\mathsf{ContinuationMorphism}(a,b)$, if the displayed tail of $morph$
+is zero-headed, then the target cannot be history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(morph),\mathsf{e0}(m))
+\Longrightarrow
+\hsame(b,\emp)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The zero-headed tail case exposes a zero-headed target presentation
+$b=\mathsf{e0}(r)$ for some residual history $r$. If $b$ were history-same to
+$\emp$, constructor separation would force $\mathsf{e0}(r)\hsame\emp$, which is
+impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_tail\_target\_not\_empty}
+
 \begin{theorem}[Continuation morphism composite left visible tail empty absurd]
 \label{thm:continuation-morphism-comp-left-visible-tail-empty-absurd}
 For histories $a,b,c,m$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and

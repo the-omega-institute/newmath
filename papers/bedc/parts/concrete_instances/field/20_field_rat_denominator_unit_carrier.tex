@@ -39,6 +39,29 @@ These three fields assemble the suffix classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_left\_factor\_classifier}
 
+\begin{theorem}[Rat denominator unit classifier append prefix factor classifiers]
+\label{thm:rat-denom-unit-classifier-append-prefix-factor-classifiers}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended endpoints are
+classified and the prefix factors are $\hsame$, then both factor pairs are
+classified:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+h\hsame h'
+\Longrightarrow
+\mathsf{RatDenomUnitClassifier}(h,h')\land
+\mathsf{RatDenomUnitClassifier}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+The appended classifier factors the two product carriers into
+denominator-unit carriers for $h,h',k,k'$. The supplied prefix sameness,
+together with the two prefix carrier witnesses, forms the prefix classifier.
+The suffix classifier is obtained by the append left factor classifier theorem,
+which cancels the shared prefix after transporting along $h\hsame h'$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_prefix\_factor\_classifiers}
+
 \begin{theorem}[Rat denominator unit classifier append factor hsame iff]
 \label{thm:rat-denom-unit-classifier-append-factor-hsame-iff}
 For histories $h,h',k,k':\mathsf{BHist}$, if

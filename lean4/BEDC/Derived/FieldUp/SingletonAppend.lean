@@ -5,6 +5,7 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 theorem fieldSingletonEmptyClassifier_append_split_empty_iff {p q h : BHist} :
     fieldSingletonEmptyClassifier (append p q) h ↔
@@ -253,6 +254,24 @@ theorem FieldSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
         (hsame_trans classified.right.right (hsame_symm (append_empty_right R)))
     exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
 
+theorem FieldSingletonClassifier_append_cross_context_cancel_iff {L R Q S : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonClassifier (append Q L) (append R S) ↔ FieldSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro rightSplit.right (hsame_trans leftSplit.left (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append Q L) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierL)
+    have rightCarrier : FieldSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem FieldSingletonCarrier_append_right_cancel_iff {P Q : BHist} :
     FieldSingletonCarrier P ->
       (FieldSingletonCarrier (append Q P) <-> FieldSingletonCarrier Q) := by
@@ -272,6 +291,58 @@ theorem FieldSingletonCarrier_append_left_cancel_iff {P Q : BHist} :
     exact (append_eq_empty_iff.mp appendCarrier).right
   · intro carrierQ
     exact append_eq_empty_iff.mpr (And.intro carrierP carrierQ)
+
+theorem FieldSingletonCarrier_append_left_context_semanticNameCert {p : BHist} :
+    FieldSingletonCarrier p ->
+      SemanticNameCert (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h k : BHist => FieldSingletonClassifier (append p h) (append p k)) := by
+  intro carrierP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty carrierP
+    · intro h carrierH
+      exact And.intro carrierH (And.intro carrierH (hsame_refl (append p h)))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _carrierH
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem FieldSingletonCarrier_append_right_context_semanticNameCert {p : BHist} :
+    FieldSingletonCarrier p ->
+      SemanticNameCert (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h k : BHist => FieldSingletonClassifier (append h p) (append k p)) := by
+  intro carrierP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty (hsame_trans (append_empty_left p) carrierP)
+    · intro h carrierH
+      exact And.intro carrierH (And.intro carrierH (hsame_refl (append h p)))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _carrierH
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem FieldSingletonCarrier_append_comm_iff {h k : BHist} :
     FieldSingletonCarrier (append h k) ↔ FieldSingletonCarrier (append k h) := by
@@ -343,6 +414,34 @@ theorem FieldSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
       append_eq_empty_iff.mpr (And.intro carrierL classified.left)
     have rightCarrier : FieldSingletonCarrier (append k R) :=
       append_eq_empty_iff.mpr (And.intro classified.right.left carrierR)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem FieldSingletonClassifier_append_hsame_common_context_cancel_iff {L R P Q a b : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier P -> hsame L R -> hsame P Q ->
+      (FieldSingletonClassifier (append L (append a P)) (append R (append b Q)) ↔
+        FieldSingletonClassifier a b) := by
+  intro carrierL carrierP sameLR samePQ
+  cases sameLR
+  cases samePQ
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have leftInnerSplit := append_eq_empty_iff.mp leftSplit.right
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    have rightInnerSplit := append_eq_empty_iff.mp rightSplit.right
+    exact And.intro leftInnerSplit.left
+      (And.intro rightInnerSplit.left
+        (hsame_trans leftInnerSplit.left (hsame_symm rightInnerSplit.left)))
+  · intro classified
+    have leftInnerCarrier : FieldSingletonCarrier (append a P) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierP)
+    have rightInnerCarrier : FieldSingletonCarrier (append b P) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierP)
+    have leftCarrier : FieldSingletonCarrier (append L (append a P)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL leftInnerCarrier)
+    have rightCarrier : FieldSingletonCarrier (append L (append b P)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL rightInnerCarrier)
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 

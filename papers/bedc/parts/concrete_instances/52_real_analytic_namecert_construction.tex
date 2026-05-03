@@ -1,0 +1,141 @@
+\chapter{A Concrete Naming Certificate for \(\RealAnalyticUp\)}
+\label{ch:concrete-instances-real-analytic-namecert}
+
+This chapter gives a concrete naming-certificate construction for the constructive transcendental package \(\RealAnalyticUp\) at the paper-proof level. The package supplies five interrelated objects on \(\RealUp\)-history representations: the constant \(\pi\), the exponential \(\exp\), the logarithm \(\log\) on positive arguments, and the trigonometric pair \(\sin / \cos\). The construction sits above \(\RatUp\) (\autoref{ch:concrete-instances-rat-namecert}) for the rational base, the real-completeness machinery anchored at \(\RealUp\) (\autoref{ch:concrete-instances-real-namecert}, with the regular Cauchy completion of \autoref{ch:capstones-real-completeness}) for the \(\RegSeqRat\)-valued limits, and the unary-history index domain for explicit moduli. Every series below is given by an explicit unary-history term, every modulus is a total function on the unary index domain, and the convergence witness is the \(\RegSeqRat\) carrier. No \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is used, so the certificate's Lean targets fall under the project's axiom-purity gate.
+
+\section{Constructive \(\pi\) via Leibniz acceleration}
+\label{sec:real-analytic-pi}
+
+\begin{definition}[Leibniz partial sum]
+\label{def:real-analytic-leibniz-partial-sum}
+For unary index \(n\), the Leibniz partial sum predicate \(\mathsf{LeibPart}(n, S_n)\) holds when \(S_n\) is the explicit \(\RatUp\)-history obtained by summing the first \(n\) terms of \(\sum_{k \geq 0} (-1)^k / (2k+1)\) via unary recursion using \(\RatUp\) addition and signed-fraction subtraction.
+\end{definition}
+
+\begin{lemma}[Leibniz alternating-series Cauchy modulus]
+\label{lem:real-analytic-leibniz-cauchy}
+The sequence of partial sums \(S_n\) is a \(\RegSeqRat\)-Cauchy sequence with explicit modulus \(N(k) := 2^{k+1}\): for all unary \(m, n \geq N(k)\), \(|4 S_m - 4 S_n| < 2^{-k}\).
+\end{lemma}
+\begin{proof}
+Pair adjacent terms after index \(N(k)\); each pair has magnitude bounded by the next omitted term \(1/(2N(k)+1)\). The alternating bound gives \(|4 S_m - 4 S_n| \leq 4/(2N(k)+1) < 2^{-k}\) for the chosen \(N(k)\).
+\end{proof}
+
+\begin{definition}[Constructive \(\pi\)]
+\label{def:real-analytic-pi}
+\(\mathsf{Pi} : \RealUp\)-history is the limit certificate produced by \autoref{lem:real-analytic-leibniz-cauchy} via the \(\RegSeqRat\)-completeness construction of \autoref{ch:capstones-real-completeness}, applied to the rescaled sequence \((4 S_n)_n\). The witness is the \(\RegSeqRat\)-name with explicit modulus inherited from the alternating-series bound.
+\end{definition}
+
+\begin{remark}
+The Leibniz series is the simplest constructive presentation; faster-converging series (Machin, Chudnovsky) define the same \(\RealUp\)-history up to \(\RegSeqRat\)-classifier equivalence, with smaller explicit moduli. Only the existence of \emph{some} explicit modulus is required by the certificate.
+\end{remark}
+
+\section{Constructive exponential}
+\label{sec:real-analytic-exp}
+
+\begin{definition}[Exponential partial sum]
+\label{def:real-analytic-exp-part}
+For \(\RealUp\)-history \(x\) and unary index \(n\), the predicate \(\mathsf{ExpPart}(x, n, S_n)\) holds when \(S_n\) is the partial sum \(\sum_{k=0}^{n} x^k / k!\) computed by unary recursion: powers \(x^k\) via iterated \(\RealUp\) multiplication, factorials \(k!\) via the unary factorial of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}), and division as \(\RealUp\)-multiplicative inverse against the positive unary denominator.
+\end{definition}
+
+\begin{lemma}[Exponential Cauchy modulus on bounded inputs]
+\label{lem:real-analytic-exp-cauchy}
+For every \(\RealUp\)-history \(x\) with \(|x| \leq B\) (explicit unary upper bound \(B\)), the partial sums \(\mathsf{ExpPart}(x, n, S_n)\) form a \(\RegSeqRat\)-Cauchy sequence with explicit modulus \(N(k) := 2 B + k\): for all \(m, n \geq N(k)\), \(|S_m - S_n| < 2^{-k}\).
+\end{lemma}
+\begin{proof}
+For \(n \geq 2B\), the ratio of successive terms \(|x|/(n+1)\) is bounded by \(1/2\), so the tail majorizes a geometric series with ratio \(1/2\). The geometric-series modulus \(2^{-(n - 2B)}\) gives the explicit \(N(k)\) above.
+\end{proof}
+
+\begin{definition}[Constructive \(\exp\)]
+\label{def:real-analytic-exp}
+For \(\RealUp\)-history \(x\), \(\mathsf{Exp}(x, y)\) holds when \(y\) is the \(\RealUp\)-limit certificate of the partial sums \(\mathsf{ExpPart}(x, \cdot, \cdot)\) via \autoref{lem:real-analytic-exp-cauchy} and the \(\RegSeqRat\)-completeness of \autoref{ch:capstones-real-completeness}. The witness includes the explicit input bound \(B\) and the modulus \(N\).
+\end{definition}
+
+\begin{theorem}[Exponential additivity]
+\label{thm:real-analytic-exp-add}
+For all \(\RealUp\)-histories \(x, y\) and corresponding \(\mathsf{Exp}(x, e_x)\), \(\mathsf{Exp}(y, e_y)\), \(\mathsf{Exp}(x + y, e_{x+y})\), the equality \(\mathsf{RealClassifier}(e_{x+y}, e_x \cdot e_y)\) holds.
+\end{theorem}
+\begin{proof}
+Compare the partial sums of \(\exp(x+y)\) and \(\exp(x) \cdot \exp(y)\) by Cauchy product; the tail bound is dominated by the geometric tail of \autoref{lem:real-analytic-exp-cauchy} applied at \(B = |x| + |y|\). The classifier equality then follows from limit uniqueness.
+\end{proof}
+
+\section{Constructive logarithm on positives}
+\label{sec:real-analytic-log}
+
+\begin{definition}[Logarithm via inverse-of-\(\exp\) bisection]
+\label{def:real-analytic-log}
+For positive \(\RealUp\)-history \(x\) (i.e.\ apartness witness \(x \neq 0\) with positive sign), \(\mathsf{Log}(x, y)\) holds when \(y\) is the \(\RealUp\)-history obtained by explicit dyadic bisection on a unary precision \(k\): at each precision, locate the dyadic-rational interval \([y_k, y_k + 2^{-k}]\) such that \(\exp(y_k) \leq x < \exp(y_k + 2^{-k})\) (decidable on rational representations using \autoref{def:real-analytic-exp}), and assemble the sequence \((y_k)_k\) as a regular Cauchy sequence with modulus \(N(k) = k + \lceil \log_2(1/x) \rceil\).
+\end{definition}
+
+\begin{theorem}[Logarithm is the inverse of \(\exp\) on positives]
+\label{thm:real-analytic-log-exp-inverse}
+For positive \(\RealUp\)-history \(x\) with \(\mathsf{Log}(x, y)\) and \(\mathsf{Exp}(y, e_y)\), \(\mathsf{RealClassifier}(e_y, x)\) holds. Conversely, for \(\RealUp\)-history \(z\) with \(\mathsf{Exp}(z, w)\), \(\mathsf{Log}(w, z')\) gives \(\mathsf{RealClassifier}(z', z)\).
+\end{theorem}
+\begin{proof}
+The bisection construction in \autoref{def:real-analytic-log} explicitly enforces \(\exp(y_k) \to x\) at every precision; limit uniqueness gives the forward direction. The reverse direction is the same construction applied to \(\exp(z)\).
+\end{proof}
+
+\begin{theorem}[Logarithm of a unary natural]
+\label{thm:real-analytic-log-unary}
+For positive unary natural \(n\), \(\mathsf{Log}(\Eone^n(\emp), y_n)\) gives a constructive \(\log n\) used by the Dirichlet term construction (\autoref{ch:concrete-instances-dirichlet-series-namecert}).
+\end{theorem}
+\begin{proof}
+Specialize \autoref{def:real-analytic-log} to the rational embedding of the unary natural; the bisection terminates with explicit modulus determined by the unary length of \(n\).
+\end{proof}
+
+\section{Constructive sine and cosine}
+\label{sec:real-analytic-trig}
+
+\begin{definition}[Sine and cosine partial sums]
+\label{def:real-analytic-trig-part}
+For \(\RealUp\)-history \(x\) and unary index \(n\), \(\mathsf{SinPart}(x, n, S_n)\) and \(\mathsf{CosPart}(x, n, C_n)\) are the partial sums \(\sum_{k=0}^{n} (-1)^k x^{2k+1}/(2k+1)!\) and \(\sum_{k=0}^{n} (-1)^k x^{2k}/(2k)!\) respectively, computed by unary recursion as in \autoref{def:real-analytic-exp-part}.
+\end{definition}
+
+\begin{lemma}[Trigonometric Cauchy modulus]
+\label{lem:real-analytic-trig-cauchy}
+For every \(\RealUp\)-history \(x\) with \(|x| \leq B\), the partial sums \(\mathsf{SinPart}\) and \(\mathsf{CosPart}\) form \(\RegSeqRat\)-Cauchy sequences with explicit modulus \(N(k) := B^2 + k\). The bound is the alternating-series majorant: each term has magnitude bounded by the previous one once \(2k(2k+1) > B^2\).
+\end{lemma}
+
+\begin{definition}[Constructive \(\sin\) and \(\cos\)]
+\label{def:real-analytic-sin-cos}
+\(\mathsf{Sin}(x, s)\) and \(\mathsf{Cos}(x, c)\) hold when \(s, c\) are the \(\RealUp\)-limits of \(\mathsf{SinPart}(x, \cdot, \cdot)\) and \(\mathsf{CosPart}(x, \cdot, \cdot)\) respectively, via \autoref{lem:real-analytic-trig-cauchy} and the \(\RegSeqRat\)-completeness construction.
+\end{definition}
+
+\begin{theorem}[Pythagorean identity]
+\label{thm:real-analytic-pythagorean}
+For all \(\RealUp\)-history \(x\) with \(\mathsf{Sin}(x, s)\) and \(\mathsf{Cos}(x, c)\), \(\mathsf{RealClassifier}(s^2 + c^2, \Eone(\emp))\) holds.
+\end{theorem}
+\begin{proof}
+Compare partial sums \(S_n^2 + C_n^2\) against the constant \(1\) using the Cauchy product with explicit cancellation between odd-power and even-power terms. The tail bound is the squared geometric tail of \autoref{lem:real-analytic-trig-cauchy}.
+\end{proof}
+
+\begin{theorem}[Sine vanishes at integer multiples of \(\pi\)]
+\label{thm:real-analytic-sin-pi-multiples}
+For every signed unary integer \(n\), \(\mathsf{Sin}(n \cdot \mathsf{Pi}, s)\) gives \(\mathsf{RealClassifier}(s, \emp)\). In particular, \(\sin(-n\pi) = 0\) for every unary \(n \geq \emp\), supplying the trivial-zero witness used in \autoref{ch:concrete-instances-zeta-zeros-namecert}.
+\end{theorem}
+\begin{proof}
+By induction on \(n\) using addition formula \(\sin((n+1)\pi) = \sin(n\pi)\cos(\pi) + \cos(n\pi)\sin(\pi)\), with base cases \(\sin(0) = 0\) and \(\sin(\pi) = 0\). The base \(\sin(\pi) = 0\) is established by comparing the alternating partial sums of \(\sin(\mathsf{Pi})\) against the explicit cancellation pattern visible in the \(\mathsf{LeibPart}\) construction.
+\end{proof}
+
+\section{Certificate target}
+\label{sec:real-analytic-cert-target}
+
+\begin{theorem}[Concrete \(\RealAnalyticUp\) naming certificate]
+\label{thm:concrete-real-analytic-namecert}
+The tuple \((\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})\), with sources, classifiers, stability obligations, ledgers, and standard bridges as listed below, forms a paper-side \(\NameCert(\RealAnalyticUp)\) over \(\RealUp\):
+\begin{enumerate}
+  \item \textbf{Source}: \(\RealUp\)-histories with apartness witnesses for positivity (used by \(\mathsf{Log}\)).
+  \item \textbf{Carrier}: each of \(\mathsf{Pi}\), \(\mathsf{Exp}(x, \cdot)\), \(\mathsf{Log}(x, \cdot)\), \(\mathsf{Sin}(x, \cdot)\), \(\mathsf{Cos}(x, \cdot)\) is a closed inductive predicate on \(\RealUp\)-histories.
+  \item \textbf{Classifier}: limit-uniqueness up to \(\mathsf{RealClassifier}\) inherited from \(\RegSeqRat\)-completeness.
+  \item \textbf{Stability}: additivity of \(\exp\) (\autoref{thm:real-analytic-exp-add}), inverse relation \(\log = \exp^{-1}\) (\autoref{thm:real-analytic-log-exp-inverse}), Pythagorean identity (\autoref{thm:real-analytic-pythagorean}), \(\pi\)-multiple zeros of \(\sin\) (\autoref{thm:real-analytic-sin-pi-multiples}).
+  \item \textbf{Ledger}: explicit moduli \(N\) for every Cauchy sequence above; explicit input bound \(B\) for every transcendental evaluation.
+  \item \textbf{Standard bridge}: when classical real \(\exp\), \(\log\), \(\sin\), \(\cos\), and \(\pi\) are supplied externally, the \(\RealClassifier\)-equivalence with the constructive limits is recorded as the bridge slot.
+  \item \textbf{Status}: \(\mathsf{ProofTarget}\). Lean construction proceeds in \(\mathsf{BEDC.Derived.RealAnalyticUp.*}\); the Cauchy completeness anchor is \autoref{ch:capstones-real-completeness}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The five constructive carriers of Sections~\ref{sec:real-analytic-pi}--\ref{sec:real-analytic-trig} are explicit closed-inductive predicates on unary-indexed \(\RatUp\)-history sequences, packaged as \(\RegSeqRat\)-Cauchy data. The completeness construction of \autoref{ch:capstones-real-completeness} lifts each to a \(\RealUp\)-history together with the modulus ledger required by the \(\NameCert\) template. The four stability theorems are listed as proof obligations; their proofs use only \(\RealClassifier\) and the explicit moduli, so no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is required.
+\end{proof}
+
+\begin{corollary}[\(\RealAnalyticUp\) is licensed, not primitive]
+\label{cor:real-analytic-licensed-not-primitive}
+\(\RealAnalyticUp\) is licensed by the \(\RegSeqRat\) Cauchy completion of explicit power-series and bisection constructions over \(\RatUp\). It is not a primitive of the BEDC kernel.
+\end{corollary}

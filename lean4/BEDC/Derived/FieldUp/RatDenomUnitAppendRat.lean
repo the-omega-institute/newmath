@@ -154,6 +154,16 @@ theorem RatDenomUnitClassifier_append_left_factor_classifier {h h' k k' : BHist}
     hsame_trans classified.right.right sameRightPrefix
   exact ⟨leftFactors.right, rightFactors.right, append_left_cancel sameWithSharedPrefix⟩
 
+theorem RatDenomUnitClassifier_append_prefix_factor_classifiers {h h' k k' : BHist} :
+    RatDenomUnitClassifier (append h k) (append h' k') -> hsame h h' ->
+      RatDenomUnitClassifier h h' ∧ RatDenomUnitClassifier k k' := by
+  intro classified prefixSame
+  have leftFactors := RatDenomUnitCarrier_append_factor_carriers classified.left
+  have rightFactors := RatDenomUnitCarrier_append_factor_carriers classified.right.left
+  exact
+    ⟨⟨leftFactors.left, rightFactors.left, prefixSame⟩,
+      RatDenomUnitClassifier_append_left_factor_classifier classified prefixSame⟩
+
 theorem RatDenomUnitClassifier_append_factor_hsame_iff {h h' k k' : BHist} :
     RatDenomUnitClassifier (append h k) (append h' k') -> (hsame h h' ↔ hsame k k') := by
   intro classified

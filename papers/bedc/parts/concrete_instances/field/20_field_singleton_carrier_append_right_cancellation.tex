@@ -44,6 +44,54 @@ $Q\hsame\emp$ and rebuild the empty append witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Field singleton carrier append left-context semantic name certificate]
+\label{thm:field-singleton-carrier-append-left-context-semantic-namecert}
+For a singleton carrier context $p$, the predicate
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(p,h))$ carries a
+semantic naming certificate whose classifier compares the contextualized
+endpoints by the field singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(p)\Longrightarrow
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h,k\mapsto\mathsf{FieldSingletonClassifier}(p\cdot h,p\cdot k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The empty history is inhabited after the left context because
+$p\hsame\emp$. The classifier fields are the singleton carrier evidence on
+both contextualized endpoints together with their $\hsame$ comparison.
+Reflexivity, symmetry, and transitivity are inherited from $\hsame$, and
+carrier transport is the classified right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_context\_semanticNameCert}
+
+\begin{theorem}[Field singleton carrier append right-context semantic name certificate]
+\label{thm:field-singleton-carrier-append-right-context-semantic-namecert}
+For a singleton carrier context $p$, the predicate
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,p))$ carries a
+semantic naming certificate whose classifier compares the contextualized
+endpoints by the field singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(p)\Longrightarrow
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h,k\mapsto\mathsf{FieldSingletonClassifier}(h\cdot p,k\cdot p)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The empty history is inhabited because $\emp\cdot p$ is the same history as
+$p$, and $p$ is carried to $\emp$. The classifier equivalence laws are exactly
+the reflexive, symmetric, and transitive laws of $\hsame$ wrapped with the two
+contextual carrier witnesses. Carrier transport is obtained from the
+classifier evidence at the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_context\_semanticNameCert}
+
 \begin{theorem}[Field singleton carrier append commutation]
 \label{thm:field-singleton-carrier-append-comm}
 For histories $h,k:\mathsf{BHist}$, the singleton carrier is insensitive to

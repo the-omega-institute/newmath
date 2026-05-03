@@ -45,7 +45,6 @@ Each level depends only on the levels strictly below it. The dependency is acycl
 \label{def:rh-predicate}
 The Riemann Hypothesis $\mathsf{RH}$ is the proposition that for every complex history $s$ carried by $\NameCert_{\ComplexUp}$ such that $\mathsf{InCritStrip}(s)$ holds (\autoref{ch:concrete-instances-critical-strip-namecert}: $0 < \Re(s) < 1$, presented as a constructive predicate on the regular Cauchy representative of $\Re(s)$) and such that $\mathsf{ZetaZero}(s)$ holds (\autoref{ch:concrete-instances-zeta-zeros-namecert}: the regular Cauchy representative of $\zeta(s)$ is $\hsame$ to the zero history of $\NameCert_{\ComplexUp}$), the predicate $\mathsf{OnCritLine}(s)$ holds, where $\mathsf{OnCritLine}(s)$ is the constructive predicate stating that the regular Cauchy representative of $\Re(s)$ is $\hsame$ to the rational history $1/2$. The predicate $\mathsf{RH}$ is a $\Pi$-statement over the carrier of $\NameCert_{\ZetaZerosUp}$ restricted by $\NameCert_{\CritStripUp}$.
 \end{definition}
-\leandef{BEDC.Derived.RHUp.RH\_predicate}
 
 \begin{proposition}[Constructive form: zero-by-zero certificate]
 \label{prop:rh-constructive-form}
@@ -53,7 +52,6 @@ A constructive proof of $\mathsf{RH}$ is, by Curry-Howard, a total function
 \(\Phi : \{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \,\} \to \{\, \text{witness of } \mathsf{OnCritLine}(s) \,\}\)
 that takes any zero of $\zeta$ in the critical strip and produces an explicit $\hsame$-witness identifying the regular Cauchy representative of $\Re(s)$ with the rational history $1/2$. Equivalently, a constructive disproof of $\mathsf{RH}$ is an explicit complex history $s$ together with three concrete witnesses $\mathsf{ZetaZero}(s)$, $\mathsf{InCritStrip}(s)$, and $\neg\mathsf{OnCritLine}(s)$, the last being a positive lower bound on the distance from the regular Cauchy representative of $\Re(s)$ to $1/2$.
 \end{proposition}
-\leanstmt{BEDC.Derived.RHUp.RH\_constructive\_form}
 
 \begin{remark}[Why the constructive form is strictly stronger]
 \label{rem:rh-strictly-stronger}
@@ -69,31 +67,26 @@ A constructive proof of $\mathsf{RH}$ exposes constructive content beyond the ba
 \label{thm:rh-witness-modulus}
 A constructive proof of $\mathsf{RH}$ supplies, for every $s$ with $\mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s)$, an explicit modulus function $\mu_s : \NatUp \to \NatUp$ such that for every $n$, the rational representative $q_n$ of $\Re(s)$ at depth $\mu_s(n)$ satisfies $|q_n - 1/2| < 2^{-n}$ as a $\RatUp$-level inequality. The function $\mu_s$ is the constructive content of the $\hsame$-witness for $\Re(s) = 1/2$.
 \end{theorem}
-\leanstmt{BEDC.Derived.RHUp.RH\_witness\_modulus}
 
 \begin{theorem}[Approach-rate bound near the critical line]
 \label{thm:rh-witness-approach-rate}
 A constructive proof of $\mathsf{RH}$ supplies a bound function $\beta : \NatUp \to \RatUp$ with $\beta(n) > 0$ such that for every complex history $s$ in the critical strip with $|\Re(s) - 1/2| > 2^{-n}$ at the rational level, the regular Cauchy representative of $|\zeta(s)|$ admits a constructive lower bound $\beta(n)$. The function $\beta$ is the quantitative content of "no zeros off the critical line": away from the line, $\zeta$ is bounded away from zero by a computable amount.
 \end{theorem}
-\leanstmt{BEDC.Derived.RHUp.RH\_witness\_approach\_rate}
 
 \begin{theorem}[Riemann-von Mangoldt zero count, constructive form]
 \label{thm:rh-witness-zero-count}
 A constructive proof of $\mathsf{RH}$ supplies an explicit zero-counting function $N : \NatUp \to \NatUp$ together with a witness, for every imaginary height $T \in \NatUp$, of a $\Unary$ upper bound on the cardinality of $\{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \wedge |\Im(s)| \le T \,\}$ that agrees, up to an explicit constructive error term, with the Riemann-von Mangoldt formula $N(T) \approx (T / 2\pi) \log(T / 2\pi) - T / 2\pi$. The agreement is stated as a $\UnaryHistory$-level inequality on the zero-count history.
 \end{theorem}
-\leanstmt{BEDC.Derived.RHUp.RH\_witness\_zero\_count}
 
 \begin{theorem}[Trivial-zero classifier]
 \label{thm:rh-witness-trivial-zero}
 A constructive proof of $\mathsf{RH}$ supplies an explicit decidable classifier separating trivial zeros (the negative even integers $-2, -4, -6, \dots$, where the functional equation forces $\zeta(s) = 0$ outside the critical strip) from non-trivial zeros (those with $\mathsf{InCritStrip}(s)$). The classifier takes the form of a $\psame$-respecting predicate on $\NameCert_{\ZetaZerosUp}$ such that the trivial-zero subset is exactly the image of the negative-even-integer carrier under the embedding $\IntUp \hookrightarrow \ComplexUp$.
 \end{theorem}
-\leanstmt{BEDC.Derived.RHUp.RH\_witness\_trivial\_zero\_classifier}
 
 \begin{theorem}[Critical-line restriction of the zero set]
 \label{thm:rh-witness-critical-line-restriction}
 A constructive proof of $\mathsf{RH}$ supplies a $\psame$-isomorphism between the carrier of $\{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \,\}$ and the carrier of $\{\, t \in \RealUp \mid \mathsf{ZetaZero}(1/2 + it) \,\}$, exhibiting that every non-trivial zero is determined by its imaginary part alone. The isomorphism is the conjunction of $\Phi$ from \autoref{prop:rh-constructive-form} with the projection to imaginary part.
 \end{theorem}
-\leanstmt{BEDC.Derived.RHUp.RH\_witness\_critical\_line\_iso}
 
 \section{Axiom-purity considerations}
 \label{sec:rh-axiom-purity}

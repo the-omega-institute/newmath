@@ -5,6 +5,28 @@ namespace BEDC.Derived.FieldUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+theorem FieldSingletonCarrier_hsame_empty_transport_iff {h k : BHist} (sameHK : hsame h k) :
+    FieldSingletonCarrier h ↔ hsame k BHist.Empty := by
+  constructor
+  · intro carrierH
+    exact hsame_trans (hsame_symm sameHK) carrierH
+  · intro carrierK
+    exact hsame_trans sameHK carrierK
+
+theorem FieldSingletonClassifier_hsame_empty_transport_iff {h h' k k' : BHist}
+    (sameH : hsame h h') (sameK : hsame k k') :
+    FieldSingletonClassifier h' k' ↔
+      hsame h BHist.Empty ∧ hsame k BHist.Empty ∧ hsame h k := by
+  constructor
+  · intro classified
+    exact And.intro (hsame_trans sameH classified.left)
+      (And.intro (hsame_trans sameK classified.right.left)
+        (hsame_trans sameH (hsame_trans classified.right.right (hsame_symm sameK))))
+  · intro data
+    exact And.intro (hsame_trans (hsame_symm sameH) data.left)
+      (And.intro (hsame_trans (hsame_symm sameK) data.right.left)
+        (hsame_trans (hsame_symm sameH) (hsame_trans data.right.right sameK)))
+
 theorem FieldSingletonClassifier_continuation_left_endpoint_transport_iff {P Q R S : BHist} :
     FieldSingletonCarrier Q -> Cont P Q R ->
       (FieldSingletonClassifier R S <-> FieldSingletonClassifier P S) := by

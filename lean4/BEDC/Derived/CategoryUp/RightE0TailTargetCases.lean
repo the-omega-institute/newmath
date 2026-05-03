@@ -15,4 +15,13 @@ theorem ContinuationMorphism_right_e0_tail_target_cases {b c m : BHist}
       cases sameTail
       exact cont_e0_result_witness rel
 
+theorem ContinuationMorphism_e0_tail_target_not_empty {a b m : BHist}
+    (morph : ContinuationMorphism a b) :
+    hsame morph.tail (BHist.e0 m) -> hsame b BHist.Empty -> False := by
+  intro sameTail sameTarget
+  cases ContinuationMorphism_right_e0_tail_target_cases morph sameTail with
+  | intro r targetCases =>
+      cases targetCases.left
+      exact not_hsame_e0_empty sameTarget
+
 end BEDC.Derived.CategoryUp

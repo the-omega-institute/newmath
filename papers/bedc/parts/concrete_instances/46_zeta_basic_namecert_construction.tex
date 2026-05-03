@@ -9,13 +9,11 @@ This chapter gives a concrete naming-certificate construction for the Riemann ze
 \label{def:zeta-basic}
 For complex history \(s\) and complex history \(z\), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds when \(z\) is the explicit complex-history limit of the Dirichlet partial sums of the constant-unit coefficient sequence \(a_n = \Eone(\emp)\) at \(s\); equivalently, \(\mathsf{ZetaBasic}(s, z)\) is the specialization of the \(\DirichletSeriesUp\) carrier (\autoref{ch:concrete-instances-dirichlet-series-namecert}) at unit coefficients.
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasic}
 
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.
 \end{lemma}
-\leanstmt{BEDC.Derived.ZetaBasicUp.zeta\_basic\_well\_defined}
 \begin{proof}[Sketch]
 Specialize \autoref{thm:half-plane-convergence} of \(\DirichletSeriesUp\) at unit coefficients with abscissa of absolute convergence exactly \(\Eone(\emp)\); existence and uniqueness of the limit follow from the \(\ComplexLimitUp\) certificate (\autoref{ch:concrete-instances-complex-limit-namecert}).
 \end{proof}
@@ -24,7 +22,6 @@ Specialize \autoref{thm:half-plane-convergence} of \(\DirichletSeriesUp\) at uni
 \label{thm:zeta-basic-unique}
 If \(\mathsf{ZetaBasic}(s, z)\) and \(\mathsf{ZetaBasic}(s, z')\) both hold for the same \(s\), then \(\hsame\) holds on both real components of \(z\) and \(z'\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.zeta\_basic\_unique}
 \begin{proof}
 Direct uniqueness from \(\DirichletSeriesUp\) limit uniqueness.
 \end{proof}
@@ -35,7 +32,6 @@ Direct uniqueness from \(\DirichletSeriesUp\) limit uniqueness.
 \label{thm:zeta-abscissa-one}
 The abscissa of absolute convergence for the unit Dirichlet series is the rational unit \(\Eone(\emp)\): \(\mathsf{AbsConvAbscissa}(\mathbf{1}, \Eone(\emp))\). The harmonic series at \(s = 1\) diverges with explicit lower-bound logarithmic-rate witness, so the abscissa cannot be smaller; the geometric majorant for \(s > 1\) shows that the abscissa is exactly 1.
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.zeta\_abscissa\_one}
 \begin{proof}[Sketch]
 The harmonic divergence is constructively witnessed by the explicit comparison \(\sum_{n=1}^{2^k} 1/n \geq k/2\), proving abscissa is at least 1; the half-plane convergence theorem at any \(s\) with \(\Re(s) > 1\) shows the abscissa is at most 1.
 \end{proof}
@@ -48,7 +44,6 @@ For every \(s\) with \(\Re(s) > 1\), the explicit factorization
 $$\zeta(s) = \prod_p (1 - p^{-s})^{-1}$$
 holds, where the product runs over primes \(p\) in the sense of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}). The product converges absolutely with explicit modulus over compact sub-half-planes \(\{s : \Re(s) \geq 1 + \epsilon, |\Im(s)| \leq T\}\) for unary \(\epsilon, T\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.euler\_product}
 \begin{proof}[Sketch]
 Direct specialization of the Euler product theorem of \(\DirichletSeriesUp\) (\autoref{thm:euler-product}) at completely multiplicative coefficients \(a_n = \Eone(\emp)\) with \(a_p = \Eone(\emp)\) for each prime \(p\).
 \end{proof}
@@ -59,7 +54,6 @@ Direct specialization of the Euler product theorem of \(\DirichletSeriesUp\) (\a
 \label{thm:non-vanishing-half-plane}
 For every \(s\) with \(\Re(s) > 1\), \(\zeta(s) \neq 0\) in the strict sense: the modulus \(|\zeta(s)|\) admits an explicit positive lower bound depending on \(\Re(s)\), given by the geometric tail of the Euler product.
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.non\_vanishing\_half\_plane}
 \begin{proof}[Sketch]
 The Euler product factors are each bounded below in modulus by \(1 - p^{-\Re(s)} > 0\); the infinite product converges with explicit modulus, so the limiting modulus is bounded below by an explicit positive constant.
 \end{proof}
@@ -67,10 +61,9 @@ The Euler product factors are each bounded below in modulus by \(1 - p^{-\Re(s)}
 \section{Holomorphicity on the half-plane}
 
 \begin{theorem}[\(\zeta\) holomorphic on \(\Re(s) > 1\)]
-\label{thm:half-plane-holomorphic}
+\label{thm:zeta-half-plane-holomorphic}
 The function \(s \mapsto \zeta(s)\) is holomorphic in the open half-plane \(\Re(s) > 1\) in the sense of \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}), with uniform modulus over compact sub-half-planes.
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.half\_plane\_holomorphic}
 \begin{proof}
 Direct specialization of \autoref{thm:half-plane-holomorphic} of \(\DirichletSeriesUp\) at unit coefficients.
 \end{proof}
@@ -81,37 +74,31 @@ Direct specialization of \autoref{thm:half-plane-holomorphic} of \(\DirichletSer
 \label{def:zeta-basic-source-spec}
 The source specification on \(s\) carries the constraint \(\Re(s) > 1\) (decidable on the rational representation).
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicSourceSpec}
 
 \begin{definition}[Zeta basic pattern specification]
 \label{def:zeta-basic-pattern-spec}
 The pattern is the unit-coefficient Dirichlet partial-sum convergence predicate, equivalently the Euler-product convergence predicate.
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicPatternSpec}
 
 \begin{definition}[Zeta basic classifier specification]
 \label{def:zeta-basic-classifier-spec}
 Two \(\zeta\)-values at the same \(s\) are classified together when they agree under \(\hsame\) on both real components.
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicClassifierSpec}
 
 \begin{definition}[Zeta basic stability certificate]
 \label{def:zeta-basic-stability-cert}
 The stability certificate consists of \(\hsame\)-respect on \(s\), transport of partial-sum modulus under \(\hsame\), and equivalence of the Dirichlet-sum and Euler-product values.
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicStabilityCert}
 
 \begin{definition}[Zeta basic ledger policy]
 \label{def:zeta-basic-ledger-policy}
 The ledger policy records: (i) abscissa exactly 1, (ii) Euler product factorization, (iii) non-vanishing on the half-plane with explicit lower bound, (iv) holomorphicity over compact sub-half-planes.
 \end{definition}
-\leandef{BEDC.Derived.ZetaBasicUp.ZetaBasicLedgerPolicy}
 
 \begin{theorem}[Concrete \(\ZetaBasicUp\) naming certificate]
 \label{thm:zeta-basic-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the basic \(\zeta\) interface \(\ZetaBasicUp\) on \(\Re(s) > 1\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.zeta\_basic\_namecert}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -120,7 +107,6 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:zeta-basic-semantic-namecert}
 The concrete certificate of \autoref{thm:zeta-basic-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaBasicUp.zeta\_basic\_semantic\_namecert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

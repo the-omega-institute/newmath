@@ -96,6 +96,41 @@ $h\hsame k$, completing the classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Field singleton carrier hsame empty transport]
+\label{thm:field-singleton-carrier-hsame-empty-transport}
+For histories $h,k:\mathsf{BHist}$ with $h\hsame k$, singleton carrier
+membership of $h$ is exactly empty-endpoint classification of $k$:
+$$
+\mathsf{FieldSingletonCarrier}(h)\Longleftrightarrow k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unfold singleton carrier membership as $h\hsame\emp$. The forward direction
+composes $k\hsame h$ with $h\hsame\emp$. The reverse direction composes
+$h\hsame k$ with $k\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_hsame\_empty\_transport\_iff}
+
+\begin{theorem}[Field singleton classifier hsame empty transport]
+\label{thm:field-singleton-classifier-hsame-empty-transport}
+For histories $h,h',k,k':\mathsf{BHist}$ with $h\hsame h'$ and $k\hsame k'$,
+the transported singleton classifier on $h',k'$ is equivalent to the three
+empty-endpoint and comparison facts on $h,k$:
+$$
+\mathsf{FieldSingletonClassifier}(h',k')
+\Longleftrightarrow
+h\hsame\emp\land k\hsame\emp\land h\hsame k.
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, transport the two classifier carrier fields along
+$h\hsame h'$ and $k\hsame k'$, and transport the classifier comparison
+$h'\hsame k'$ back to $h\hsame k$. Conversely, transport the two empty-endpoint
+facts to $h'$ and $k'$, and compose $h'\hsame h$, $h\hsame k$, and
+$k\hsame k'$ to obtain the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_hsame\_empty\_transport\_iff}
+
 \begin{theorem}[Field singleton classifier continuation commutativity closure]
 \label{thm:field-singleton-classifier-continuation-comm-closed}
 For histories $P,Q,L,R:\mathsf{BHist}$, if the singleton field classifier
@@ -410,3 +445,21 @@ zero-headed endpoint $a\hsame\mathsf{e0}(\emp)$. Symmetry of the first endpoint
 and transitivity with the second endpoint give the displayed classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonNonZero\_empty\_e0\_forced}
+
+\begin{theorem}[Singleton nonzero hsame target readback]
+\label{thm:field-singleton-nonzero-hsame-target-readback}
+For histories $h,k:\mathsf{BHist}$, if $h\hsame k$, then
+$$
+\mathsf{FieldSingletonNonZero}(h)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(k)\land
+k\hsame\mathsf{e0}(\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the singleton nonzero witness into its carrier endpoint and its
+zero-headed endpoint. Symmetry and transitivity of $\hsame$ transport both
+endpoints across $h\hsame k$. The reverse implication transports the two
+displayed target endpoints back along the same $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonNonZero\_hsame\_target\_readback\_iff}

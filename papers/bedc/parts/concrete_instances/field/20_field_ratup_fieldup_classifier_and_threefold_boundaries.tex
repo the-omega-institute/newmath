@@ -118,6 +118,58 @@ contexts and the proof-indexed inverse witness; core theorem this block;
 exactness predicate the three displayed equivalences; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field singleton classifier operation context endpoint package]
+\label{thm:field-singleton-classifier-operation-context-endpoint-package}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$,
+the canonical singleton field operation endpoints are contextual classifier
+endpoints:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{FieldSingletonMul}(h,k)),\mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(out).
+$$
+The same endpoint exactness holds for $\mathsf{FieldSingletonOne}$ and, for
+each witness $p:\mathsf{FieldSingletonNonZero}(h)$, for
+$\mathsf{FieldSingletonInv}(h,p)$.
+\end{theorem}
+\begin{proof}
+Each displayed operation endpoint is definitionally $\emp$ in the singleton
+field schema. For the forward direction, the classifier supplies the carrier
+witness for $\mathsf{append}(R,out)$; empty-result inversion for append removes
+the carried context $R$ and leaves precisely the output carrier.
+
+For the reverse direction, combine the carrier witnesses for $L$ and $R$ with
+the empty operation endpoint and the displayed output carrier. Append-empty
+reconstruction gives carrier witnesses for both classified endpoints, and
+transitivity through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_operation\_context\_endpoint\_package}
+
+\begin{theorem}[Field singleton add-neg-zero operation context endpoint package]
+\label{thm:field-singleton-add-neg-zero-operation-context-endpoint-package}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$,
+the singleton additive operation endpoints are contextual classifier endpoints:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{FieldSingletonAdd}(h,k)),\mathsf{append}(R,out))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(out).
+$$
+The same endpoint exactness holds for $\mathsf{FieldSingletonNeg}(h)$ and
+$\mathsf{FieldSingletonZero}$.
+\end{theorem}
+\begin{proof}
+Each additive singleton operation endpoint is definitionally $\emp$. Forward
+classification exposes the right appended endpoint carrier and append-empty
+inversion removes $R$. Conversely, the carriers for $L$, $R$, the empty
+operation endpoint, and $out$ rebuild the two appended carriers; transitivity
+through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_operation\_context\_endpoint\_package}
+
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and

@@ -126,6 +126,8 @@ import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexDiffUp
+import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
@@ -218,6 +220,8 @@ import BEDC.Derived.FieldUp.SingletonContinuationLeftEndpoint
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.SingletonClassifierEndpointTransport
 import BEDC.Derived.FieldUp.SingletonContinuationCommIff
+import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
+import BEDC.Derived.FieldUp.SingletonNonZeroReadback
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
@@ -246,6 +250,7 @@ import BEDC.Derived.MetricUp.Triangle
 import BEDC.Derived.MetricUp.EmptyBoundaryDistance
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.ContDepthAdd
+import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
@@ -258,6 +263,7 @@ import BEDC.Derived.ContinuousUp.EmptyModulus
 import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
+import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.CompactUp
@@ -276,6 +282,7 @@ import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CompactUp.EndpointCycle
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.E1TargetMorphismExactness
 import BEDC.Derived.CategoryUp.NonemptyMorphismIff
 import BEDC.Derived.CategoryUp.MorphismEmptyEndpoint
 import BEDC.Derived.CategoryUp.MorphismEndpointInduction
@@ -322,6 +329,7 @@ import BEDC.Derived.CategoryUp.CompResultNonemptySourceTargetCases
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.RightTailFixedIdentity
+import BEDC.Derived.CategoryUp.LeftTailResult
 import BEDC.Derived.CategoryUp.ContLeftE1Result
 import BEDC.Derived.CategoryUp.EmptySourceVisibleTargetTail
 import BEDC.Derived.CategoryUp.UnaryTailZero
@@ -334,6 +342,7 @@ import BEDC.Derived.CategoryUp.NonemptyTailResultDescent
 import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
 import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
+import BEDC.Derived.CategoryUp.E1NonemptyMorphismUnique
 import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.CategoryUp.TailCommCongr
