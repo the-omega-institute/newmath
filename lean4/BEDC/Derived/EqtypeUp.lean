@@ -24,6 +24,12 @@ theorem EqtypeClassCarrier_e0_anchor_tail_readback {anchor tail h : BHist} :
     hsame_trans (hsame_symm sameTail) carrier
   exact hsame_e0_iff.mp sameAnchored
 
+theorem EqtypeClassCarrier_e0_anchor_pair_deterministic {anchor left right : BHist} :
+    EqtypeClassCarrier (BHist.e0 anchor) left ->
+      EqtypeClassCarrier (BHist.e0 anchor) right -> hsame left right := by
+  intro leftCarrier rightCarrier
+  exact hsame_trans leftCarrier (hsame_symm rightCarrier)
+
 theorem EqtypeClassCarrier_e0_anchor_e1_tail_absurd {anchor tail h : BHist} :
     EqtypeClassCarrier (BHist.e0 anchor) h -> hsame h (BHist.e1 tail) -> False := by
   intro carrier sameTail

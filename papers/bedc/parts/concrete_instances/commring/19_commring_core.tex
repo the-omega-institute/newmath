@@ -221,6 +221,23 @@ constructor separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_tail\_absurd}
 
+\begin{theorem}[CommRing singleton carrier append commutation]
+\label{thm:commring-singleton-carrier-append-comm-iff}
+For histories $h,k:\mathsf{BHist}$,
+$$
+\mathsf{CommRingSingletonCarrier}(\mathsf{append}(h,k))
+\Longleftrightarrow
+\mathsf{CommRingSingletonCarrier}(\mathsf{append}(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+In either direction, empty-result inversion for append splits the singleton
+carrier witness into singleton witnesses for the two factors. Reversing the
+two factors and applying empty-result construction rebuilds the singleton
+carrier witness for the commuted append.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_comm\_iff}
+
 \begin{theorem}[CommRing singleton classifier append context cancellation]
 \label{thm:commring-singleton-classifier-append-context-cancel}
 For singleton commutative-ring carrier contexts $L,R:\mathsf{BHist}$ and
