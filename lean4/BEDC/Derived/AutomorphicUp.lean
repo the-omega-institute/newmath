@@ -62,4 +62,14 @@ theorem AutomorphicAdeleGraph_visible_context_core_deterministic_nonempty
     (And.intro (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont)
       (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont'))
 
+theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        hsame (append (append p graph) q) BHist.Empty -> False := by
+  intro domainCarrier valueCarrier visibleGraph resultEmpty
+  have outerEmpty := append_eq_empty_iff.mp resultEmpty
+  have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
+  exact AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier visibleGraph
+    innerEmpty.right
+
 end BEDC.Derived.AutomorphicUp

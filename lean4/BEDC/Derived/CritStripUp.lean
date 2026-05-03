@@ -50,6 +50,24 @@ theorem InCritStrip_boundary_excluded {sigma : BHist} :
     cases sameUnit
     exact NatUnaryStrictPrefix_asymm strip.right strip.right
 
+theorem InCritStrip_hsame_transport_boundary_exclusion {sigma sigma' : BHist} :
+    InCritStrip sigma -> hsame sigma sigma' ->
+      InCritStrip sigma' ∧ (hsame sigma' BHist.Empty -> False) ∧
+        (hsame sigma' (BHist.e1 BHist.Empty) -> False) := by
+  intro strip sameSigma
+  have leftStrict : NatUnaryStrictPrefix BHist.Empty sigma' := by
+    cases strip.left with
+    | intro tail data =>
+        exact NatUnaryStrictPrefix_cont_hsame_transport data.left data.right.left
+          data.right.right (hsame_refl BHist.Empty) sameSigma
+  have rightStrict : NatUnaryStrictPrefix sigma' (BHist.e1 BHist.Empty) := by
+    cases strip.right with
+    | intro tail data =>
+        exact NatUnaryStrictPrefix_cont_hsame_transport data.left data.right.left
+          data.right.right sameSigma (hsame_refl (BHist.e1 BHist.Empty))
+  have transported : InCritStrip sigma' := And.intro leftStrict rightStrict
+  exact And.intro transported (InCritStrip_boundary_excluded transported)
+
 def CritStripComplexCarrier (s sigma tau : BHist) : Prop :=
   RatHistoryCarrier sigma ∧ RatHistoryCarrier tau ∧ Cont sigma tau s ∧ InCritStrip sigma
 
