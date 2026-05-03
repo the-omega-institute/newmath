@@ -421,3 +421,122 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:matrix-zero-axiom-note}
 Avoids funext by using pointwise classifier sameness; finite indices are inductive, not quotient indices.
 \end{remark}
+
+\begin{lemma}[Finite Kronecker selector sum]
+\label{lem:matrix-finite-kronecker-selector-sum}
+Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
+certificate of \autoref{ch:concrete-instances-nat-namecert}. Let $R$ be a
+scalar carrier from the $\CommRingUp$ certificate of
+\autoref{ch:concrete-instances-commring-namecert}, with classifier $\sim_R$,
+operations $+_R,\cdot_R$, and scalars $0_R,1_R$. Assume a finite-index sum
+certificate $\Sigma_J$ satisfying classifier congruence and the selector row:
+if $j_0:J$, $t:J\to R$ is carried pointwise, $t(j_0)\sim_R u$, and
+$t(j)\sim_R 0_R$ for every $j\ne j_0$, then $\Sigma_J(t)\sim_R u$.
+For every pointwise carried scalar family $x:J\to R$ and every $j_0:J$,
+$$
+\Sigma_J(j\mapsto \delta_{j_0,j}\cdot_R x(j))\sim_R x(j_0)
+\qquad\text{and}\qquad
+\Sigma_J(j\mapsto x(j)\cdot_R \delta_{j,j_0})\sim_R x(j_0),
+$$
+where $\delta_{a,b}$ is $1_R$ when the finite-index equality certificate
+identifies $a$ with $b$, and $0_R$ otherwise.
+\end{lemma}
+\begin{proof}
+For the first displayed sum, split the finite index $j$. At the selected index
+$j=j_0$, the Kronecker entry is $1_R$, so the scalar left-one law gives
+$\delta_{j_0,j_0}\cdot_R x(j_0)\sim_R x(j_0)$. At every other index, the
+Kronecker entry is $0_R$, so scalar left-zero absorption gives
+$\delta_{j_0,j}\cdot_R x(j)\sim_R 0_R$. These are exactly the selected and
+off-selected hypotheses of the selector row for $\Sigma_J$, applied to the
+summand family $j\mapsto \delta_{j_0,j}\cdot_R x(j)$ with $u=x(j_0)$.
+
+The second displayed sum uses the same selector-row hypothesis for
+$j\mapsto x(j)\cdot_R \delta_{j,j_0}$. The scalar right-one law gives the
+selected comparison at $j=j_0$, and scalar right-zero absorption gives the
+comparison with $0_R$ away from $j_0$.
+\end{proof}
+
+\begin{theorem}[Matrix identity multiplication unit]
+\label{thm:matrix-identity-multiplication-unit}
+Let $n,m:\NatUp$ and let $R$ be a scalar $\CommRingUp$ certificate. Consider
+the $\MatrixUp$ carrier of \autoref{def:matrix-carrier} with the pointwise
+classifier of \autoref{def:matrix-classifier-specification}. Assume the
+stability data of \autoref{def:matrix-stability-certificate} supplies finite
+product sums over $\mathsf{Fin}(n)$ and $\mathsf{Fin}(m)$, the scalar zero and
+one multiplication laws over $R$, and carried Kronecker identity matrices
+$I_n$ and $I_m$ with entries
+$$
+(I_n)_{i,a}\sim_R\delta_{i,a}
+\qquad\text{and}\qquad
+(I_m)_{b,j}\sim_R\delta_{b,j}.
+$$
+If $M:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R$ is carried, then the products
+$I_n\cdot M$ and $M\cdot I_m$ are carried and
+$$
+I_n\cdot M\sim_{\mathrm{Mat}} M
+\qquad\text{and}\qquad
+M\cdot I_m\sim_{\mathrm{Mat}} M.
+$$
+\end{theorem}
+\begin{proof}
+The carriedness of $I_n$ and $I_m$ is part of the Kronecker identity closure
+field, and $M$ is carried by hypothesis. Multiplication closure in
+\autoref{def:matrix-stability-certificate} therefore carries both products.
+It remains to prove the pointwise scalar comparisons required by
+\autoref{def:matrix-classifier-specification}.
+
+Fix $i:\mathsf{Fin}(n)$ and $b:\mathsf{Fin}(m)$. The left product entry is the
+finite sum
+$$
+(I_n\cdot M)_{i,b}
+\sim_R
+\Sigma_{\mathsf{Fin}(n)}(a\mapsto (I_n)_{i,a}\cdot_R M_{a,b}).
+$$
+For each inner index $a$, identity-entry closure gives
+$(I_n)_{i,a}\sim_R\delta_{i,a}$, and scalar classifier congruence for
+$\cdot_R$ gives
+$$
+(I_n)_{i,a}\cdot_R M_{a,b}
+\sim_R
+\delta_{i,a}\cdot_R M_{a,b}.
+$$
+The finite-sum classifier congruence for $\Sigma_{\mathsf{Fin}(n)}$ yields
+$$
+\Sigma_{\mathsf{Fin}(n)}(a\mapsto (I_n)_{i,a}\cdot_R M_{a,b})
+\sim_R
+\Sigma_{\mathsf{Fin}(n)}(a\mapsto \delta_{i,a}\cdot_R M_{a,b}).
+$$
+Applying \autoref{lem:matrix-finite-kronecker-selector-sum} to the carried
+family $a\mapsto M_{a,b}$ selects the unique inner index $a=i$, hence
+$(I_n\cdot M)_{i,b}\sim_R M_{i,b}$.
+
+For the right product, the entry at the same outer indices is
+$$
+(M\cdot I_m)_{i,b}
+\sim_R
+\Sigma_{\mathsf{Fin}(m)}(a\mapsto M_{i,a}\cdot_R (I_m)_{a,b}).
+$$
+For each inner index $a$, identity-entry closure gives
+$(I_m)_{a,b}\sim_R\delta_{a,b}$, and scalar classifier congruence for
+$\cdot_R$ gives
+$$
+M_{i,a}\cdot_R (I_m)_{a,b}
+\sim_R
+M_{i,a}\cdot_R \delta_{a,b}.
+$$
+The finite-sum classifier congruence for $\Sigma_{\mathsf{Fin}(m)}$ yields
+$$
+\Sigma_{\mathsf{Fin}(m)}(a\mapsto M_{i,a}\cdot_R (I_m)_{a,b})
+\sim_R
+\Sigma_{\mathsf{Fin}(m)}(a\mapsto M_{i,a}\cdot_R \delta_{a,b}).
+$$
+The right-hand selector part of
+\autoref{lem:matrix-finite-kronecker-selector-sum} applied to the carried
+family $a\mapsto M_{i,a}$ selects $a=b$, giving
+$(M\cdot I_m)_{i,b}\sim_R M_{i,b}$.
+
+Since these scalar comparisons hold for every row and column index, the
+pointwise matrix classifier gives both displayed matrix identity laws. The
+ledger in \autoref{def:matrix-ledger-policy} records the same row and column
+witnesses throughout the two products, so no dimension data is changed.
+\end{proof}
