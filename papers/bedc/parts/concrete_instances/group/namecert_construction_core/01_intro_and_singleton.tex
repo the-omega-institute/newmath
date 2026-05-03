@@ -215,6 +215,7 @@ Then use Theorem~\ref{thm:group-singleton-classifier-right-context-cancel} in
 the constructive direction to attach the singleton suffixes $L'$ and $R'$,
 giving exactly the displayed two-sided classifier relation.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_right\_context\_cancel\_iff}
 
 \begin{theorem}[Group singleton classifier product-unit split]
 \label{thm:group-singleton-classifier-product-unit-split}
@@ -282,6 +283,20 @@ reduced classifier. It identifies the reduced classifier exactly with
 $A_{\emp}(p)\land A_{\emp}(q)$, giving both directions of the displayed
 equivalence.
 \end{proof}
+
+\begin{theorem}[Group singleton carrier visible-head append exclusion]
+\label{thm:group-singleton-carrier-append-visible-head-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(\mathsf{e0}(p),q)$ nor
+$\mathsf{append}(\mathsf{e1}(p),q)$ lies in the singleton group carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed appended
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(p)$ or $\mathsf{e1}(p)$ with $\emp$. Constructor
+separation for generated histories rules out both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_head\_absurd}
 
 \begin{theorem}[Group singleton carrier visible-tail append exclusion]
 \label{thm:group-singleton-carrier-append-visible-tail-absurd}

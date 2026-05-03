@@ -497,6 +497,28 @@ For another middle $b$, inverting $\ContR(a,f,b)$ identifies $b$ with
 $\mathsf{append}(a,f)$.
 \end{proof}
 
+\begin{theorem}[Continuation factorization middle exactness]
+\label{thm:cont-factorization-middle-hsame-iff}
+If
+$$
+\ContR(a,f,b),\qquad \ContR(b,g,c),
+$$
+then a displayed alternative middle $b'$ carries both factors exactly when it
+is history-same to the original middle:
+$$
+\ContR(a,f,b')\land \ContR(b',g,c)
+\Longleftrightarrow
+\HSame(b',b).
+$$
+\end{theorem}
+\begin{proof}
+Forwards, determinacy of $\ContR(a,f,\_)$ compares the alternative first
+factor with the original first factor. Conversely, a history-sameness witness
+from $b'$ to $b$ transports the first factor's result and the second factor's
+source, yielding the two displayed continuation witnesses.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_factorization\_middle\_hsame\_iff}
+
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}
 The continuation relation supplies a finite-kernel seed for addition-like derived interfaces. The additive interface is not primitive; it may be licensed only by a naming certificate whose stability component cites continuation unit and associativity.
