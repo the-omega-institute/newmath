@@ -21,6 +21,23 @@ The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), 
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_complex\_carrier\_witness}
 
+\begin{theorem}[Gamma pole locus hsame transport witness]
+\label{thm:gamma-pole-locus-hsame-transport-witness}
+If $s\hsame t$ and $s$ lies in the Gamma pole locus, then $t$ lies in the
+same pole locus. Moreover, the transported pole claim exposes a concrete unary
+witness $n$ with
+$$
+t\hsame \mathsf{append}(\Eone(n),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The pole-locus witness for $s$ supplies a unary history $n$ and an equality
+from $s$ to the explicit append history. Compose the symmetry of $s\hsame t$
+with that equality. The same unary $n$ then witnesses both the pole-locus
+claim for $t$ and the displayed append-history equality.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_hsame\_transport\_witness}
+
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}
 \(\mathsf{GammaDom}(s)\) holds when \(\mathsf{ComplexUp}(s)\) and \(\neg \mathsf{GammaPole}(s)\). The negation is constructive: \(\mathsf{GammaDom}(s)\) is witnessed by an explicit apartness datum \((k, w)\) where \(k\) is a unary precision and \(w\) is a strict-prefix witness showing that the distance from \(s\) to the closest non-positive integer exceeds \(2^{-k}\).
