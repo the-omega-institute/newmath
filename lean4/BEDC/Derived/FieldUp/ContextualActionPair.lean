@@ -358,4 +358,67 @@ theorem ratup_fieldup_transported_strict_support_singleton_classifier_exclusion
   exact fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd
     transportedClassifier singleton
 
+theorem RatDenomUnitContextualAction_nested_pair_action_coherence
+    {h l0 r0 l1 r1 l2 r2 : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier l0 -> RatDenomUnitCarrier r0 ->
+      RatDenomUnitCarrier l1 -> RatDenomUnitCarrier r1 -> RatDenomUnitCarrier l2 ->
+        RatDenomUnitCarrier r2 ->
+          RatDenomUnitCarrier
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h))) ∧
+          RatDenomUnitClassifier
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h)))
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty
+              (append l2 (append l1 l0)) (append (append r0 r1) r2) h) := by
+  intro carrierH carrierL0 carrierR0 carrierL1 carrierR1 carrierL2 carrierR2
+  have firstLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) carrierH carrierL0 carrierR0 carrierL1 carrierR1
+  have carrierL10 : RatDenomUnitCarrier (append l1 l0) :=
+    RatDenomUnitCarrier_continuation_closed carrierL1 carrierL0 (cont_intro rfl)
+  have carrierR01 : RatDenomUnitCarrier (append r0 r1) :=
+    RatDenomUnitCarrier_continuation_closed carrierR0 carrierR1 (cont_intro rfl)
+  have finalLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) carrierH carrierL10 carrierR01 carrierL2 carrierR2
+  have sameInner :
+      hsame
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty (append l1 l0)
+          (append r0 r1) h) :=
+    firstLaws.right.left.right.right
+  have sameNested :
+      hsame
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h)))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty (append l1 l0)
+            (append r0 r1) h)) :=
+    congrArg (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2) sameInner
+  have carrierNested : RatDenomUnitCarrier
+      (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h))) :=
+    RatDenomUnitCarrier_hsame_transport (hsame_symm sameNested) finalLaws.left
+  have carrierTarget : RatDenomUnitCarrier
+      (RatDenomUnitContextualAction BHist.Empty BHist.Empty
+        (append l2 (append l1 l0)) (append (append r0 r1) r2) h) :=
+    finalLaws.right.left.right.left
+  have sameTarget :
+      hsame
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h)))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty
+          (append l2 (append l1 l0)) (append (append r0 r1) r2) h) :=
+    hsame_trans sameNested finalLaws.right.left.right.right
+  exact ⟨carrierNested, carrierNested, carrierTarget, sameTarget⟩
+
 end BEDC.Derived.FieldUp
