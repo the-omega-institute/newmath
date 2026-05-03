@@ -234,3 +234,28 @@ prefix equalities. Reordering those four facts gives the stated adjunction
 cycle boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}
+
+\begin{theorem}[Adjunction triangle carrier carrier-swap symmetry]
+\label{thm:adjunction-triangle-carrier-carrier-swap-symmetry}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier is invariant under exchanging the
+two carrier sides together with the unit-counit data and the two triangle
+ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionTriangleCarrier}(right,left,object,counit,unit,rightLeg,leftLeg).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-triangle-carrier}, the left-hand carrier consists of
+four fields: the prefix component from $left$ to $right$ carried by $unit$, the
+prefix component from $right$ to $left$ carried by $counit$, the continuation
+ledger $\ContR(unit,counit,leftLeg)$, and the continuation ledger
+$\ContR(counit,unit,rightLeg)$. The right-hand carrier asks for the same four
+fields in the exchanged order: the $counit$ component, the $unit$ component,
+the second ledger, and then the first ledger. Each implication is therefore
+obtained by reordering these four conjunctive fields.
+\end{proof}
