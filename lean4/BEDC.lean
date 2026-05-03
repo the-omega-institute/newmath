@@ -208,6 +208,7 @@ import BEDC.Derived.FieldUp.RatCanonicalEndpoint
 import BEDC.Derived.FieldUp.PositiveDenominatorAppendSplit
 import BEDC.Derived.FieldUp.EmptyOffsetComposition
 import BEDC.Derived.FieldUp.ContextualAction
+import BEDC.Derived.FieldUp.ContextualActionEmptyContextTransport
 import BEDC.Derived.FieldUp.ContextualActionEmptyUnit
 import BEDC.Derived.FieldUp.ContextualActionStrictSupport
 import BEDC.Derived.FieldUp.RatDenomContextPair
@@ -340,6 +341,7 @@ import BEDC.Derived.CategoryUp.RightE1TailTargetCases
 import BEDC.Derived.CategoryUp.CompTargetEmptyIff
 import BEDC.Derived.CategoryUp.CompSourceEmptyTailTargetIff
 import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
+import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback

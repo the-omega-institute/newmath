@@ -1,4 +1,4 @@
-import BEDC.Derived.FieldUp.ContextualAction
+import BEDC.Derived.FieldUp.ContextualActionEmptyContextTransport
 
 namespace BEDC.Derived.FieldUp
 
@@ -46,5 +46,52 @@ theorem RatDenomUnitContextualAction_empty_pair_strict_support_commutes
     exact RatHistoryCarrier_hsame_transport classified.right.right leftRat
   · intro rightRat
     exact RatHistoryCarrier_hsame_transport (hsame_symm classified.right.right) rightRat
+
+theorem RatDenomUnitContextualAction_empty_pair_adjacent_swap_coherence
+    {h l0 r0 l1 r1 l2 r2 : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier l0 -> RatDenomUnitCarrier r0 ->
+      RatDenomUnitCarrier l1 -> RatDenomUnitCarrier r1 -> RatDenomUnitCarrier l2 ->
+        RatDenomUnitCarrier r2 ->
+          RatDenomUnitClassifier
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h)))
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1 h))) ∧
+          (RatHistoryCarrier
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+                  (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h))) ↔
+            RatHistoryCarrier
+              (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+                (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0
+                  (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1 h)))) := by
+  intro carrierH carrierL0 carrierR0 carrierL1 carrierR1 carrierL2 carrierR2
+  have innerClassified :
+      RatDenomUnitClassifier
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1 h)) :=
+    RatDenomUnitContextualAction_empty_pair_commutes carrierH carrierL0 carrierR0
+      carrierL1 carrierR1
+  have outerClassified :
+      RatDenomUnitClassifier
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0 h)))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l2 r2
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l0 r0
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l1 r1 h))) :=
+    RatDenomUnitContextualAction_empty_context_hsame_transport carrierL2 carrierR2
+      innerClassified
+  constructor
+  · exact outerClassified
+  · constructor
+    · intro leftRat
+      exact RatHistoryCarrier_hsame_transport outerClassified.right.right leftRat
+    · intro rightRat
+      exact RatHistoryCarrier_hsame_transport (hsame_symm outerClassified.right.right) rightRat
 
 end BEDC.Derived.FieldUp

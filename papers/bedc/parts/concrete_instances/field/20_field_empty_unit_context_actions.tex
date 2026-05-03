@@ -323,6 +323,24 @@ first for $(h,t)$ and then for $(t,h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_context\_action\_support\_exactness}
 
+\begin{theorem}[Rat denominator contextual action empty-context classifier transport]
+\label{thm:rat-denom-unit-contextual-action-empty-context-hsame-transport}
+For histories $h,h',l,r:\mathsf{BHist}$, if $C_D^u(l)$ and $C_D^u(r)$ hold
+and $R_D^u(h,h')$, then the bilateral empty-context action preserves the
+denominator classifier:
+$$
+R_D^u(\Gamma_{\emp,\emp,l,r}(h),\Gamma_{\emp,\emp,l,r}(h')).
+$$
+\end{theorem}
+\begin{proof}
+Classify $l$ with itself and $r$ with itself by reflexivity of $\hsame$.
+Apply continuation closure of $R_D^u$ first to the left product
+$\mathsf{append}(l,h)$ versus $\mathsf{append}(l,h')$, and then to the right
+product with $r$. The empty external contexts are removed by the denominator
+unit classifier empty-context equivalence in both directions.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_context\_hsame\_transport}
+
 Per-object template: traditional target denominator context action for
 $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatDenomUnitCarrier}$,
 $\mathsf{RatDenomUnitClassifier}$, $\mathsf{RatHistoryCarrier}$, $\Cont$,
