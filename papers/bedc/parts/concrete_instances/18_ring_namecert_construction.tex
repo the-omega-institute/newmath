@@ -429,3 +429,40 @@ By \autoref{def:ring-stability-certificate}, the stability certificate consists 
 
 Finally, \autoref{def:ring-ledger-policy} records the shared carrier ledger and operation tree for ring expressions. Removing ledger entries whose expression tree uses $\cdot$ or $1$ leaves the additive operation provenance, including uses of the additive commutativity law. This is the group-expression provenance and commutativity-use ledger of \autoref{def:abgroup-ledger-policy}. Hence the retained carrier, source, pattern, classifier, stability, and ledger data satisfy the obligations named in \autoref{def:abgroup-certificate-obligations}, with the same carrier, addition, zero, additive inverse, and classifier carried by the original $\RingUp(R)$ certificate.
 \end{proof}
+
+\begin{theorem}[Ring zero absorption from distributivity]
+\label{thm:ring-zero-absorption-from-distributivity}
+Let $R$ carry a history-level $\RingUp$ certificate with classifier $\sim_R$, addition $+$, zero endpoint $0_R$, and multiplication $\cdot$. Assume the additive component supplies additive left cancellation under $\sim_R$, as obtained from \autoref{thm:group-left-cancellation} for the additive group part of \autoref{def:ring-source-specification}. If the ring stability fields of \autoref{def:ring-stability-certificate} supply multiplication congruence, left distributivity, and right distributivity, then every endpoint $x$ satisfies
+$$
+0_R\cdot x\sim_R0_R\qquad\text{and}\qquad x\cdot0_R\sim_R0_R.
+$$
+\end{theorem}
+\begin{proof}
+The additive left-zero row gives $0_R+0_R\sim_R0_R$. By multiplication congruence, for any $x$,
+$$
+x\cdot(0_R+0_R)\sim_Rx\cdot0_R.
+$$
+Left distributivity gives
+$$
+x\cdot(0_R+0_R)\sim_R(x\cdot0_R)+(x\cdot0_R).
+$$
+Writing $u=x\cdot0_R$, symmetry and transitivity of the classifier give $u\sim_Ru+u$. The additive right-zero theorem, \autoref{thm:ring-add-right-zero}, gives $u+0_R\sim_Ru$, hence
+$$
+u+0_R\sim_Ru+u.
+$$
+Additive left cancellation of the common summand $u$ yields $0_R\sim_Ru$, and symmetry gives $x\cdot0_R\sim_R0_R$.
+
+For the other side, multiplication congruence gives
+$$
+(0_R+0_R)\cdot x\sim_R0_R\cdot x,
+$$
+while right distributivity gives
+$$
+(0_R+0_R)\cdot x\sim_R(0_R\cdot x)+(0_R\cdot x).
+$$
+Writing $v=0_R\cdot x$, the same transitivity step gives $v\sim_Rv+v$. Again \autoref{thm:ring-add-right-zero} gives $v+0_R\sim_Rv$, so
+$$
+v+0_R\sim_Rv+v.
+$$
+Additive left cancellation of the common summand $v$ gives $0_R\sim_Rv$, and symmetry gives $0_R\cdot x\sim_R0_R$.
+\end{proof}
