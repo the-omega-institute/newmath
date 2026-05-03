@@ -87,6 +87,28 @@ comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_append\_deterministic}
 
+\begin{theorem}[Continuation morphism tail factorization iff]
+\label{thm:continuation-morphism-tail-factorization-iff}
+For histories $a,c,l,r,t:\mathsf{BHist}$, if $\ContR(l,r,t)$, then a
+continuation morphism from $a$ to $c$ whose displayed tail is $t$ exists
+exactly when there is a middle history $b$ carrying a left continuation
+morphism from $a$ to $b$ with tail $l$ and a right continuation morphism from
+$b$ to $c$ with tail $r$.
+\end{theorem}
+\begin{proof}
+For the forward implication, unpack the composite morphism and the displayed
+split $\ContR(l,r,t)$. The middle object is $\mathsf{append}(a,l)$. The left
+factor is the reflexive continuation from $a$ through $l$ to that middle, and
+the right factor is obtained by reassociating the composite continuation
+witness through the displayed split.
+
+For the reverse implication, compose the two displayed factor morphisms. The
+closed composite tail is the append of the two factor tails; transport that
+tail along the two supplied tail classifiers and the split $\ContR(l,r,t)$ to
+obtain the required composite tail classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_factorization\_iff}
+
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
 $\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;

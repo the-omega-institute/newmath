@@ -18,6 +18,46 @@ because source, pattern, and ledger are all the same carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_semanticNameCert}
 
+\begin{theorem}[Rat denominator unit classifier append left factor classifier]
+\label{thm:rat-denom-unit-classifier-append-left-factor-classifier}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+$$
+and $h\hsame h'$, then
+$$
+\mathsf{RatDenomUnitClassifier}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+The classifier on the appended histories supplies denominator-unit carriers for
+both appended endpoints and their $\hsame$ comparison. Carrier factorization
+recovers denominator-unit carriers for $k$ and $k'$. Replacing the right
+endpoint by the same left prefix using $h\hsame h'$ leaves a shared-prefix
+append comparison, and finite-kernel left cancellation gives $k\hsame k'$.
+These three fields assemble the suffix classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_left\_factor\_classifier}
+
+\begin{theorem}[Rat denominator unit classifier append factor hsame iff]
+\label{thm:rat-denom-unit-classifier-append-factor-hsame-iff}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')),
+$$
+then
+$$
+h\hsame h' \Longleftrightarrow k\hsame k'.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the append left factor classifier theorem and
+projects the suffix $\hsame$ field from the resulting classifier. The reverse
+direction applies the corresponding right factor classifier theorem and
+projects the prefix $\hsame$ field.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_factor\_hsame\_iff}
+
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
 unit for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, and $\Cont$; \textbf{carrier

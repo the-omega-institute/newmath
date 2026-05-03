@@ -70,4 +70,40 @@ theorem ContinuationMorphism_comp_left_factor_reconstructs {a b c l : BHist}
     tailRel.symm
   exact displayed
 
+theorem ContinuationMorphism_tail_factorization_iff {a c l r t : BHist} :
+    Cont l r t ->
+      ((∃ composite : ContinuationMorphism a c, hsame composite.tail t) ↔
+        ∃ b : BHist,
+          (∃ left : ContinuationMorphism a b, hsame left.tail l) ∧
+            (∃ right : ContinuationMorphism b c, hsame right.tail r)) := by
+  intro split
+  constructor
+  · intro compositeData
+    cases compositeData with
+    | intro composite sameTail =>
+        refine Exists.intro (append a l) ?_
+        constructor
+        · exact Exists.intro { tail := l, rel := cont_intro rfl } (hsame_refl l)
+        · refine Exists.intro { tail := r, rel := ?_ } (hsame_refl r)
+          cases composite with
+          | mk compositeTail compositeRel =>
+              cases split
+              cases sameTail
+              exact cont_intro (compositeRel.trans (append_assoc a l r).symm)
+  · intro factorData
+    cases factorData with
+    | intro b factors =>
+        cases factors.left with
+        | intro left sameLeft =>
+            cases factors.right with
+            | intro right sameRight =>
+                let composite := ContinuationMorphism_comp_closed left right
+                refine Exists.intro composite ?_
+                have compositeSplit : Cont left.tail right.tail composite.tail := by
+                  cases left
+                  cases right
+                  exact cont_intro rfl
+                exact cont_respects_hsame sameLeft sameRight
+                  compositeSplit split
+
 end BEDC.Derived.CategoryUp

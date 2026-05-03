@@ -125,6 +125,29 @@ theorem RatDenomUnitClassifier_append_right_factor_classifier {h h' k k' : BHist
     hsame_trans classified.right.right sameRightSuffix
   exact ⟨leftFactors.left, rightFactors.left, append_right_cancel sameWithSharedSuffix⟩
 
+theorem RatDenomUnitClassifier_append_left_factor_classifier {h h' k k' : BHist} :
+    RatDenomUnitClassifier (append h k) (append h' k') -> hsame h h' ->
+      RatDenomUnitClassifier k k' := by
+  intro classified prefixSame
+  have leftFactors := RatDenomUnitCarrier_append_factor_carriers classified.left
+  have rightFactors := RatDenomUnitCarrier_append_factor_carriers classified.right.left
+  have sameRightPrefix : hsame (append h' k') (append h k') :=
+    congrArg (fun p => append p k') (hsame_symm prefixSame)
+  have sameWithSharedPrefix : hsame (append h k) (append h k') :=
+    hsame_trans classified.right.right sameRightPrefix
+  exact ⟨leftFactors.right, rightFactors.right, append_left_cancel sameWithSharedPrefix⟩
+
+theorem RatDenomUnitClassifier_append_factor_hsame_iff {h h' k k' : BHist} :
+    RatDenomUnitClassifier (append h k) (append h' k') -> (hsame h h' ↔ hsame k k') := by
+  intro classified
+  constructor
+  · intro prefixSame
+    exact
+      (RatDenomUnitClassifier_append_left_factor_classifier classified prefixSame).right.right
+  · intro suffixSame
+    exact
+      (RatDenomUnitClassifier_append_right_factor_classifier classified suffixSame).right.right
+
 theorem RatDenomUnitClassifier_append_context_cancel_iff {L R Q S : BHist} :
     RatDenomUnitClassifier L R ->
       (RatDenomUnitClassifier (append Q L) (append S R) <->
