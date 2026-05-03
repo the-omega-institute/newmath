@@ -363,3 +363,49 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\RingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{definition}[Finite additive scalar fold]
+\label{def:finite-additive-scalar-fold}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$. The finite additive fold on finite coefficient spines $xs:\mathsf{ListCarrier}(R)$ is the recursion
+$$
+\mathsf{fold}_{+,R}(\mathsf{nil})=0_R
+$$
+and
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs'))=a+\mathsf{fold}_{+,R}(xs').
+$$
+A witness $\mathsf{ListClassifierSpec}(\sim_R,xs,ys)$ is the finite-spine presentation of same-length pointwise scalar classification: by \autoref{thm:list-classifier-length-eq} it forces $\ell(xs)=\ell(ys)$, and by the cons clause of \autoref{def:list-classifier-specification} it records $xs[i]\sim_R ys[i]$ at every valid finite index.
+\end{definition}
+
+\begin{theorem}[Finite additive fold respects scalar classifier]
+\label{thm:finite-additive-fold-respects-scalar-classifier}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$. Assume the additive ring fields from \autoref{def:ring-stability-certificate}: zero self-classification $0_R\sim_R0_R$ and additive congruence
+$$
+a\sim_R a'\quad\text{and}\quad b\sim_R b'
+\quad\Longrightarrow\quad
+(a+b)\sim_R(a'+b')
+$$
+for all scalar endpoints. For finite coefficient spines $xs,ys:\mathsf{ListCarrier}(R)$, if the same-length pointwise scalar comparison is represented by
+$$
+\mathsf{ListClassifierSpec}(\sim_R,xs,ys),
+$$
+then
+$$
+\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(ys).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed structural classifier witness. By \autoref{thm:list-classifier-case-exactness}, the only possible cases are nil-nil and cons-cons; the mixed nil-cons shapes have no classifier witness. The length assertion in the indexed reading is supplied by \autoref{thm:list-classifier-length-eq}.
+
+In the nil-nil case, both spines are $\mathsf{nil}$. The fold recursion in \autoref{def:finite-additive-scalar-fold} identifies both fold endpoints with $0_R$, and the assumed witness $0_R\sim_R0_R$ gives the conclusion.
+
+In the cons-cons case, write the two spines as $\mathsf{cons}(a,xs')$ and $\mathsf{cons}(b,ys')$. The classifier constructor supplies the head comparison $a\sim_R b$ and the tail witness $\mathsf{ListClassifierSpec}(\sim_R,xs',ys')$. The induction hypothesis gives
+$$
+\mathsf{fold}_{+,R}(xs')\sim_R\mathsf{fold}_{+,R}(ys').
+$$
+Applying additive congruence to the head comparison and the tail-fold comparison yields
+$$
+(a+\mathsf{fold}_{+,R}(xs'))\sim_R(b+\mathsf{fold}_{+,R}(ys')).
+$$
+The cons fold equations from \autoref{def:finite-additive-scalar-fold} identify these two endpoints with $\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs'))$ and $\mathsf{fold}_{+,R}(\mathsf{cons}(b,ys'))$, which is the required scalar-classifier comparison.
+\end{proof}
