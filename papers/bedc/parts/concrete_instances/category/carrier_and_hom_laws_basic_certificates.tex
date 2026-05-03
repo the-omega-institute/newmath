@@ -31,6 +31,27 @@ three semantic predicates are the same hom-carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_semanticNameCert\_of\_hom}
 
+\begin{theorem}[Category hom carrier unary suffix semantic boundary]
+\label{thm:category-hom-carrier-unary-suffix-semantic-boundary}
+For a unary suffix $q$ and displayed hom carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, the suffixed hom-carrier predicate
+$g\mapsto\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),g)$
+carries a semantic naming certificate with classifier $\hsame$. The displayed
+endpoint is exact:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),f)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(q)\land\mathsf{CategoryHomCarrier}(a,b,f).
+$$
+\end{theorem}
+\begin{proof}
+The unary suffix equivalence rebuilds the displayed suffixed hom carrier from
+$q$ and the base hom carrier. The existing hom-carrier semantic certificate is
+then applied at the suffixed endpoints. The same unary suffix equivalence gives
+the exact endpoint readback.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_semantic\_boundary}
+
 \begin{theorem}[Category hom carrier composite-result semantic name certificate]
 \label{thm:category-hom-carrier-comp-result-semantic-namecert}
 For displayed hom carriers

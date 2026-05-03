@@ -274,4 +274,54 @@ theorem RatDenomContextPair_product_commutative_support {l r l' r' : BHist} :
               exact Or.inr (Or.inr (Or.inr ratR'))
     exact Iff.mpr strictSupport strict
 
+theorem RatDenomContextPair_product_strict_support_commutes {l r l' r' : BHist} :
+    RatDenomUnitCarrier l -> RatDenomUnitCarrier r -> RatDenomUnitCarrier l' ->
+      RatDenomUnitCarrier r' ->
+        (RatHistoryCarrier (append (append l' l) (append r r')) ↔
+          RatHistoryCarrier (append (append l l') (append r' r))) := by
+  intro carrierL carrierR carrierL' carrierR'
+  have supportLeft :=
+    RatDenomContextPair_product_strict_support_iff carrierL carrierR carrierL' carrierR'
+  have supportRight :=
+    RatDenomContextPair_product_strict_support_iff carrierL' carrierR' carrierL carrierR
+  constructor
+  · intro productCarrier
+    have leftStrict := Iff.mp supportLeft productCarrier
+    have rightStrict :
+        RatHistoryCarrier l ∨ RatHistoryCarrier l' ∨ RatHistoryCarrier r' ∨
+          RatHistoryCarrier r := by
+      cases leftStrict with
+      | inl ratL' =>
+          exact Or.inr (Or.inl ratL')
+      | inr tail =>
+          cases tail with
+          | inl ratL =>
+              exact Or.inl ratL
+          | inr rightTail =>
+              cases rightTail with
+              | inl ratR =>
+                  exact Or.inr (Or.inr (Or.inr ratR))
+              | inr ratR' =>
+                  exact Or.inr (Or.inr (Or.inl ratR'))
+    exact Iff.mpr supportRight rightStrict
+  · intro productCarrier
+    have rightStrict := Iff.mp supportRight productCarrier
+    have leftStrict :
+        RatHistoryCarrier l' ∨ RatHistoryCarrier l ∨ RatHistoryCarrier r ∨
+          RatHistoryCarrier r' := by
+      cases rightStrict with
+      | inl ratL =>
+          exact Or.inr (Or.inl ratL)
+      | inr tail =>
+          cases tail with
+          | inl ratL' =>
+              exact Or.inl ratL'
+          | inr rightTail =>
+              cases rightTail with
+              | inl ratR' =>
+                  exact Or.inr (Or.inr (Or.inr ratR'))
+              | inr ratR =>
+                  exact Or.inr (Or.inr (Or.inl ratR))
+    exact Iff.mpr supportLeft leftStrict
+
 end BEDC.Derived.FieldUp
