@@ -5,3 +5,75 @@ The three axioms classical mathematics needs but BEDC rejects -- the axiom of ch
 
 \section{The three axioms as syntactic variants of meta closure}
 \label{sec:three-axioms-one-closure-variants}
+
+\begin{definition}[Meta-closure operation]
+\label{def:three-axioms-meta-closure-operation}
+A \emph{meta-closure operation} at a syntactic stratum $S \in \{\text{term}, \text{type}, \text{proposition}\}$ is a derivation step that, given a positive existential statement at stratum $S$ together with no constructor witness, supplies a value of $S$ as if a witness had been given. The accepted value plays the role of an oracle: it appears as input to subsequent constructions inside the kernel without being traceable to a closed inductive constructor.
+\end{definition}
+
+\begin{example}[Choice as term-level meta closure]
+\label{ex:three-axioms-choice}
+The axiom of choice asserts: from $\forall i \in I, \exists x_i \in A_i$, conclude $\exists f \colon I \to \bigsqcup A_i$ with $f\,i \in A_i$. Read at the term stratum, the conclusion is a term $f$ of function type whose body is not constructed from the existential witnesses. The axiom supplies $f$ as an oracle; the body is unwitnessed and therefore inaccessible to kernel-level computation. This is the term-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+\end{example}
+
+\begin{example}[Quotient soundness as type-level meta closure]
+\label{ex:three-axioms-quot-sound}
+$\Quot$-soundness asserts: from an equivalence relation $R$ on a type $A$, conclude that there exists a type $A / R$ together with a section $A / R \to A$ choosing a canonical representative. Read at the type stratum, the section is a type-level oracle: it returns a representative without exhibiting one. This is the type-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+\end{example}
+
+\begin{example}[Propositional extensionality as proposition-level meta closure]
+\label{ex:three-axioms-propext}
+$\mathsf{propext}$ asserts: from $P \Leftrightarrow Q$, conclude $P = Q$ at the proposition level. The conclusion identifies two propositions whose only relation is bidirectional implication; reading the identification at the proposition stratum, $\mathsf{propext}$ supplies an unwitnessed equality of propositions. This is the proposition-level instance of \autoref{def:three-axioms-meta-closure-operation}.
+\end{example}
+
+\section{The unification theorem}
+\label{sec:three-axioms-unification}
+
+\begin{theorem}[The three axioms instantiate one meta-closure schema]
+\label{thm:three-axioms-unification}
+Choice (\autoref{ex:three-axioms-choice}), $\Quot$-soundness (\autoref{ex:three-axioms-quot-sound}), and $\mathsf{propext}$ (\autoref{ex:three-axioms-propext}) are instances of the same meta-closure schema of \autoref{def:three-axioms-meta-closure-operation}, differing only in the syntactic stratum at which the unwitnessed existential is accepted. Accepting any one of the three closes the open meta loop of \autoref{ch:capstones-reflection-and-limits} at the corresponding stratum.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The three examples display the schema directly: an unwitnessed positive existential is accepted, and the accepted value is fed into the subsequent kernel construction. The differences across choice, $\Quot$-soundness, and $\mathsf{propext}$ are exactly which stratum the existential lives at -- term, type, proposition. Closure at any one stratum supplies a $\NameCert$-level decision for a predicate that the open meta loop refuses to settle, so the unified statement of \autoref{thm:reasoning-forbidden-implements-meta-closure} applies stratum by stratum.
+\end{proof}
+
+\section{Effective replacements inside BEDC}
+\label{sec:three-axioms-replacements}
+
+\begin{definition}[Effective replacement for choice]
+\label{def:three-axioms-replacement-choice}
+The BEDC \emph{effective replacement for choice} is the package consisting of: countable choice on $\mathbb{N}$-indexed families with explicit witness functions; dependent choice along a $\Cont$-chain with explicit step functions; and finite choice via primitive recursion on a closed inductive list. Each replacement supplies a witness function whose body is constructed from the kernel-level data of the assumption.
+\end{definition}
+
+\begin{definition}[Effective replacement for $\Quot$-soundness]
+\label{def:three-axioms-replacement-quot}
+The BEDC \emph{effective replacement for $\Quot$-soundness} is the typed naming-certificate framework of \autoref{ch:core-typed-naming-certificates}. Two carrier elements identified by a classifier are not collapsed at the type level; instead, the certificate exposes a $\psame$-transport that lets every classifier-respecting operation pass through the identification without selecting a canonical representative.
+\end{definition}
+
+\begin{definition}[Effective replacement for $\mathsf{propext}$]
+\label{def:three-axioms-replacement-propext}
+The BEDC \emph{effective replacement for $\mathsf{propext}$} is the explicit $\hsame$ and $\psame$ transport on every certificate. Two propositions $P, Q$ that are bidirectionally implied are not identified; instead, every kernel-level construction that consumes $P$ receives a $Q$-version via the bidirectional implication, and the construction is parameterised over the chosen direction.
+\end{definition}
+
+\begin{theorem}[Replacements suffice for BEDC's certified content]
+\label{thm:three-axioms-replacements-suffice}
+Every theorem in the manuscript whose statement is supported by a Lean-checked-level marker is provable using only the replacements of \autoref{def:three-axioms-replacement-choice}, \autoref{def:three-axioms-replacement-quot}, and \autoref{def:three-axioms-replacement-propext} in place of the three classical axioms.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The replacements are themselves kernel-level constructions on closed inductive carriers. A traversal of the manuscript's certified content maps each invocation of choice to countable, dependent, or finite choice; each invocation of $\Quot$-soundness to certificate-level $\psame$-transport; and each invocation of $\mathsf{propext}$ to a $\hsame$-mediated rewrite. The traversal terminates because the certified content is finite and the replacement is uniform across applications of each axiom.
+\end{proof}
+
+\section{The axiom-purity gate as refusal of meta closure}
+\label{sec:three-axioms-purity-gate}
+
+\begin{remark}[The gate's structural meaning]
+\label{rem:three-axioms-gate-meaning}
+The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4/scripts/bedc\_ci.py}) refuses every kernel-level theorem whose transitive dependencies include $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Read through \autoref{thm:three-axioms-unification}, the gate is a single refusal at three strata: it forbids meta-closure at the term, type, and proposition layers. The gate is therefore not a rejection of the application content the three axioms serve; it is a refusal of the syntactic shortcut that supplies that content without constructive witnesses.
+\end{remark}
+
+\begin{remark}[Sibling instance: halting and reasoning by contradiction]
+\label{rem:three-axioms-siblings}
+The chapter's unification theorem (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:capstones-reasoning-by-contradiction-boundary}): all three identify a different face of the same refusal of meta closure. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
+\end{remark}

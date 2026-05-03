@@ -6,8 +6,61 @@ A compiler from source language $S$ to target language $T$ is a structure-preser
 \section{Compiler as classifier-preserving morphism}
 \label{sec:compilation-as-namecert-morphism-compiler}
 
+\begin{definition}[Naming-certificate morphism]
+\label{def:compilation-namecert-morphism}
+A \emph{morphism} from $\NameCert_S$ to $\NameCert_T$ is a kernel-level function $\Phi$ on the carriers of $S$ and $T$ together with two preservation witnesses: $\Phi$ sends every $\Ext_S$-marked source history to an $\Ext_T$-marked target history, and $\Phi$ commutes with the continuation chains, $\Phi(\Cont_S\,h\,m\,h') = \Cont_T\,(\Phi h)\,m'\,(\Phi h')$ for an explicit mark translation $m \mapsto m'$. The morphism preserves \emph{classifier membership} because every classifier-decided fact about $h$ becomes a classifier-decided fact about $\Phi h$ via the preservation witnesses.
+\end{definition}
+
+\begin{definition}[Compiler]
+\label{def:compilation-compiler}
+A \emph{compiler} from $S$ to $T$ is a naming-certificate morphism $\Phi \colon \NameCert_S \to \NameCert_T$ together with the additional witness that $\Phi$ preserves $\hsame$: if two source histories are $\hsame$-equivalent, their images are $\hsame$-equivalent in the target.
+\end{definition}
+
 \begin{theorem}[Compilation as naming-certificate morphism]
 \label{thm:compilation-as-namecert-morphism}
 For every pair of naming certificates $(\NameCert_{S}, \NameCert_{T})$, every compiler from $S$ to $T$ that preserves $\hsame$ corresponds to a naming-certificate morphism $\NameCert_{S} \to \NameCert_{T}$ in the natural category of certificates. Compiler correctness is the assertion that this morphism is a $\hsame$-preserving classifier morphism. Sequential composition of correct compilers is composition of morphisms in this category; an optimisation is an endomorphism whose source and target certificates coincide.
 \leanstmt{BEDC.Reflection.compilation\_as\_namecert\_morphism}
 \end{theorem}
+
+\begin{proof}[Sketch]
+The forward direction is the unfolding of \autoref{def:compilation-compiler}: a compiler is, by definition, the data of a naming-certificate morphism plus the $\hsame$-preservation witness. The backward direction observes that a naming-certificate morphism is precisely a translation of source histories into target histories that respects $\Ext$ and $\Cont$, which is the operational reading of a compiler. Sequential composition of compilers $\Phi_2 \circ \Phi_1$ inherits the preservation witnesses by composing them, and the resulting $\hsame$-preservation is a kernel-level conjunction of the two component witnesses.
+\end{proof}
+
+\section{Compositional compilation}
+\label{sec:compilation-compositional}
+
+\begin{theorem}[Composition of correct compilers is correct]
+\label{thm:compilation-composition-correct}
+Given correct compilers $\Phi_1 \colon \NameCert_S \to \NameCert_M$ and $\Phi_2 \colon \NameCert_M \to \NameCert_T$, the composition $\Phi_2 \circ \Phi_1 \colon \NameCert_S \to \NameCert_T$ is a correct compiler from $S$ to $T$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Both $\Ext$-preservation and $\Cont$-commutation are closed under function composition: applying $\Phi_2$ to the output of $\Phi_1$ produces a target-marked, target-continuing image of every source-marked, source-continuing input. $\hsame$-preservation composes by transitivity of $\hsame$.
+\end{proof}
+
+\section{Optimisation and decompilation}
+\label{sec:compilation-optimisation-decompilation}
+
+\begin{definition}[Optimisation]
+\label{def:compilation-optimisation}
+An \emph{optimisation} on $\NameCert_S$ is an endomorphism $\Phi \colon \NameCert_S \to \NameCert_S$ in the sense of \autoref{def:compilation-namecert-morphism} that preserves $\hsame$.
+\end{definition}
+
+\begin{theorem}[Optimisation correctness as endomorphism preservation]
+\label{thm:compilation-optimisation-correct}
+An optimisation $\Phi$ on $\NameCert_S$ is correct exactly when, for every source history $h$, $\hsame(h, \Phi h)$ holds. Equivalently, $\Phi$ acts as the identity in the category of naming certificates modulo $\hsame$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The endomorphism condition $\hsame(h, \Phi h)$ is the assertion that the optimisation's output is observationally identical to the input under the certificate's classifier. By \autoref{def:compilation-namecert-morphism}, this preserves $\Ext$ and $\Cont$, so the kernel-level behaviour is unchanged.
+\end{proof}
+
+\begin{definition}[Decompilation]
+\label{def:compilation-decompilation}
+A \emph{decompilation} from $\NameCert_T$ to $\NameCert_S$ is a naming-certificate morphism $\Psi \colon \NameCert_T \to \NameCert_S$ such that $\Phi \circ \Psi$ is an optimisation on $\NameCert_T$ in the sense of \autoref{def:compilation-optimisation}, where $\Phi$ is the compiler from $S$ to $T$. Decompilation is therefore not always available; when $\Phi$ has no morphism right-inverse modulo $\hsame$, decompilation does not exist.
+\end{definition}
+
+\begin{remark}[Compiler category]
+\label{rem:compilation-category}
+The naming certificates over a fixed mark alphabet, together with the morphisms of \autoref{def:compilation-namecert-morphism}, form a category by \autoref{ch:capstones-kernel-as-category}: identities are kernel identity functions, composition is function composition, and the laws follow from $\Cont$ associativity and unit. Compilers are the $\hsame$-preserving morphisms, optimisations are the endomorphisms, and decompilations are the partial right-inverses. The framework subsumes intermediate-representation pipelines (chains $\Phi_n \circ \cdots \circ \Phi_1$) and source-to-source transformations (loops in the morphism graph).
+\end{remark}
