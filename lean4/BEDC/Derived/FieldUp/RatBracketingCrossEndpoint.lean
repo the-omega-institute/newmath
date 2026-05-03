@@ -313,4 +313,52 @@ theorem ratup_fieldup_bracketing_selector_independence_package {h k l ctx : BHis
         (And.intro nonzeroRows.right.left
           (And.intro nonzeroRows.right.right.left nonzeroRows.right.right.right))))
 
+theorem ratup_fieldup_selector_pair_strict_exit_determinacy {h k l L R : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
+        forall s t u v : BEDC.FKernel.Mark.BMark,
+          let a := ratup_fieldup_bracketing_endpoint_selector h k l s
+          let b := ratup_fieldup_bracketing_endpoint_selector h k l t
+          let c := ratup_fieldup_bracketing_endpoint_selector h k l u
+          let d := ratup_fieldup_bracketing_endpoint_selector h k l v
+          RatHistoryClassifier a c ∧ RatHistoryClassifier b d ∧
+            (fieldSingletonEmptyClassifier (append L a) (append R b) -> False) ∧
+              (fieldSingletonEmptyClassifier (append L c) (append R d) -> False) ∧
+                fieldSingletonEmptyNonZero (append L a) ∧
+                  fieldSingletonEmptyNonZero (append c R) := by
+  intro carrierH carrierK carrierL support s t u v
+  have classifierAC :
+      RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l s)
+        (ratup_fieldup_bracketing_endpoint_selector h k l u) :=
+    ratup_fieldup_bracketing_selector_rat_classifier_coverage
+      carrierH carrierK carrierL support s u
+  have classifierBD :
+      RatHistoryClassifier (ratup_fieldup_bracketing_endpoint_selector h k l t)
+        (ratup_fieldup_bracketing_endpoint_selector h k l v) :=
+    ratup_fieldup_bracketing_selector_rat_classifier_coverage
+      carrierH carrierK carrierL support t v
+  have excludeAB :
+      fieldSingletonEmptyClassifier
+        (append L (ratup_fieldup_bracketing_endpoint_selector h k l s))
+        (append R (ratup_fieldup_bracketing_endpoint_selector h k l t)) -> False :=
+    ratup_fieldup_bracketing_selector_classifier_exclusion
+      carrierH carrierK carrierL support s t L R
+  have excludeCD :
+      fieldSingletonEmptyClassifier
+        (append L (ratup_fieldup_bracketing_endpoint_selector h k l u))
+        (append R (ratup_fieldup_bracketing_endpoint_selector h k l v)) -> False :=
+    ratup_fieldup_bracketing_selector_classifier_exclusion
+      carrierH carrierK carrierL support u v L R
+  have nonzeroA :=
+    ratup_fieldup_bracketing_selector_contextual_nonzero_package
+      (ctx := L) carrierH carrierK carrierL support s
+  have nonzeroC :=
+    ratup_fieldup_bracketing_selector_contextual_nonzero_package
+      (ctx := R) carrierH carrierK carrierL support u
+  exact And.intro classifierAC
+    (And.intro classifierBD
+      (And.intro excludeAB
+        (And.intro excludeCD
+          (And.intro nonzeroA.right.right.left nonzeroC.right.right.right))))
+
 end BEDC.Derived.FieldUp
