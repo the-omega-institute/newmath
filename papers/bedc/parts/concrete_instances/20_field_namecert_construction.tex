@@ -84,7 +84,22 @@ exclusions for $(x,y)$ and $(y,x)$ under arbitrary contexts $L,R:\mathsf{BHist}$
 Together with the same-endpoint rows already obtained, these are exactly the
 four ordered endpoint-pair classifier exclusions, so the certificate package is
 bracketing-complete.
+
+For the $x$--$y$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,y))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,x)$ gives $\bot$.
+
+For the $y$--$x$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_independent\_cross\_endpoint\_classifier\_boundary}
 
 Per-object template: traditional target bracketing-complete classifier exit for
 $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatUpFieldSource}_F$,

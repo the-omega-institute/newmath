@@ -95,6 +95,22 @@ theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
   intro mul
   cases mul
 
+theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
+    UnaryHistory d -> (hsame d BHist.Empty -> False) ->
+      (NatMul d q BHist.Empty <-> hsame q BHist.Empty) := by
+  intro hd dNonempty
+  constructor
+  · intro mul
+    cases mul with
+    | zero _hd =>
+        rfl
+    | succ _prev step =>
+        have emptyParts := cont_empty_result_inversion step
+        exact False.elim (dNonempty emptyParts.right)
+  · intro qEmpty
+    cases qEmpty
+    exact NatMul.zero hd
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 

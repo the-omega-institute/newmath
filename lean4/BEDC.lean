@@ -212,6 +212,7 @@ import BEDC.Derived.FieldUp.SingletonOperationContext
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary
+import BEDC.Derived.FieldUp.RatBracketingCrossEndpoint
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp

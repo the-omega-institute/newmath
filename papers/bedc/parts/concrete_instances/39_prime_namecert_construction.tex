@@ -77,6 +77,21 @@ multiplier argument is generated only by \(\emp\) and \(\Eone\)-successor cases.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_e0\_multiplier\_absurd}
 
+\begin{theorem}[Nonempty multiplicand and empty multiplication result]
+\label{thm:natmul-nonempty-multiplicand-empty-result-iff}
+For every unary multiplicand $d$ with $d\not\hsame\emp$, the empty-result
+case of $\mathsf{NatMul}(d,q,\emp)$ is equivalent to the empty multiplier
+$q\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The forward direction inverts the $\mathsf{NatMul}$ derivation. The zero
+constructor gives the empty multiplier. A successor constructor would include
+a continuation $\Cont(n,d,\emp)$; empty-result inversion for $\Cont$ forces
+$d\hsame\emp$, contradicting the nonempty multiplicand hypothesis. The reverse
+direction is the zero constructor after identifying $q$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_empty\_result\_iff}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
