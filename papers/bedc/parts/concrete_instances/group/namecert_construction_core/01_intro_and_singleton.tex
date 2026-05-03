@@ -162,6 +162,49 @@ $\mathsf{append}(Q,L)$ and $\mathsf{append}(S,R)$, and transitivity through
 $\emp$ gives their classifier comparison.
 \end{proof}
 
+\begin{theorem}[Group singleton classifier bilateral context cancellation]
+\label{thm:group-singleton-classifier-bilateral-context-cancel}
+For histories $L_0,L_1,R_0,R_1,Q,S:\mathsf{BHist}$, singleton left and right
+contexts preserve and reflect the concrete singleton group classifier:
+$$
+A_{\emp}(L_0)\Rightarrow A_{\emp}(L_1)\Rightarrow
+A_{\emp}(R_0)\Rightarrow A_{\emp}(R_1)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(\mathsf{append}(L_0,Q),R_0),
+\mathsf{append}(\mathsf{append}(L_1,S),R_1))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+The ten-field fit names the traditional target as terminal-group bilateral
+context exactness; the BEDC source as the concrete singleton $\GroupUp$
+instance over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability by the prefix and suffix cancellation theorems; ledger the hidden
+prefix and suffix singleton contexts; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+Theorem~\ref{thm:group-singleton-classifier-right-context-cancel}; exactness
+predicate the displayed iff; standard bridge terminal group context
+cancellation; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:group-singleton-classifier-right-context-cancel} to cancel
+the singleton suffixes $R_0$ and $R_1$. This reduces the classifier statement
+to
+$$
+R_{\emp}(\mathsf{append}(L_0,Q),\mathsf{append}(L_1,S)).
+$$
+Then apply Theorem~\ref{thm:group-singleton-classifier-append-context-cancel}
+to cancel the singleton prefixes $L_0$ and $L_1$, producing $R_{\emp}(Q,S)$.
+
+For the reverse direction, start from $R_{\emp}(Q,S)$ and use
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} in the
+constructive direction to attach the singleton prefixes $L_0$ and $L_1$.
+Then use Theorem~\ref{thm:group-singleton-classifier-right-context-cancel} in
+the constructive direction to attach the singleton suffixes $R_0$ and $R_1$,
+giving exactly the displayed bilateral classifier relation.
+\end{proof}
+
 \begin{theorem}[Group singleton classifier product-unit split]
 \label{thm:group-singleton-classifier-product-unit-split}
 For histories $p,q:\mathsf{BHist}$, the concrete singleton group classifier
