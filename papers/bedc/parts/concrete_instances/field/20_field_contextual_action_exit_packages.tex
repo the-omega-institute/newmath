@@ -568,3 +568,59 @@ singleton context wrappers; core theorem list
 \autoref{thm:field-singleton-two-sided-context-exactness}; exactness predicate
 the displayed carrier and classifier equivalences; standard bridge deferred;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp reduct-context exit closure]
+\label{thm:ratup-fieldup-reduct-context-exit-closure}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object} and the fixed source
+tuple $\mathsf{RatUpFieldSource}_F$, the rows supplied by
+\autoref{thm:ratup-fieldup-algebra-reduct-compatibility} and the
+singleton-context boundary rows of
+\autoref{thm:ratup-fieldup-canonical-exit-singleton-context-boundary} are covered
+by $\mathsf{CanFieldExitRow}$. Concretely, for histories
+$L,R,h,k:\mathsf{BHist}$ with $\mathsf{FieldSingletonCarrier}(L)$ and
+$\mathsf{FieldSingletonCarrier}(R)$, after the singleton boundary is wrapped by
+the carried contexts $L$ and $R$, its $\MonoidUp$, $\GroupUp$, $\AbGroupUp$,
+$\RingUp$, and $\CommRingUp$ reduct projections remain rows over
+$\mathsf{RatUpFieldSource}_F$ with carrier $\mathsf{RatHistoryCarrier}$,
+classifier $\mathsf{RatHistoryClassifier}$, denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and contextual action
+$\Gamma$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-exit-row-exactness}. Its coverage
+clause places every row of the canonical phase-exit certificate inside
+$\mathsf{CanFieldExitRow}$, and its soundness clause fixes the source tuple,
+carrier, classifier, denominator tuple, and contextual action displayed in the
+statement.
+
+Next apply \autoref{thm:ratup-fieldup-algebra-reduct-compatibility}. The
+denominator continuation, singleton obstruction, zero/one boundary, and
+commutative-ring base coordinate are already rows consumed by
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, so their algebra reduct
+projections do not introduce a separate schematic operation parameter.
+
+Finally apply
+\autoref{thm:ratup-fieldup-canonical-exit-singleton-context-boundary} to the
+witnesses for $L$ and $R$. Its semantic certificate, carrier exactness, and
+classifier exactness rows are rows of the same canonical exit object. Projecting
+these rows to the monoid, group, abelian-group, ring, and commutative-ring
+reduct views only forgets algebra fields; it preserves the
+$\mathsf{RatUpFieldSource}_F$ anchor and therefore keeps each projected
+contextual boundary row inside $\mathsf{CanFieldExitRow}$.
+\end{proof}
+
+Per-object template: traditional target $\FieldUp(\RatUp)$ reduct-context row
+closure; BEDC source $\mathsf{BHist}$ with $\mathsf{RatUpFieldSource}_F$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and $\Gamma$; carrier the
+canonical Rat history carrier together with the contextual singleton carrier
+rows; classifier the Rat history classifier together with the contextual
+singleton classifier rows; stability obligations algebra reduct compatibility,
+canonical exit row exactness, and singleton-context boundary closure; ledger the
+monoid, group, abelian-group, ring, and commutative-ring reduct projections of
+the contextual boundary rows; core theorem
+\autoref{thm:ratup-fieldup-reduct-context-exit-closure}; exactness predicate
+$\mathsf{CanFieldExitRow}$; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
