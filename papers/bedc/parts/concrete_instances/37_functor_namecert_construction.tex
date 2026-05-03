@@ -61,6 +61,19 @@ at \(\mathsf{append}(p,a)\) supplies the hom-continuation witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_identity\_closed}
 
+\begin{theorem}[Prefix functor identity square public readback]
+\label{thm:functor-prefix-hom-carrier-identity-square-public-readback}
+For unary $p,a$, if $id$ is an empty identity continuation, $left$ and $right$
+are its two unit composites, and $displayed$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to itself, then
+$\HSame(left,displayed)\wedge\HSame(right,displayed)$.
+\end{theorem}
+\begin{proof}
+Identity closure gives the central carrier. Continuation determinism identifies
+both unit-composite legs with it, and hom-carrier morphism determinacy reads
+both legs back to the displayed carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_identity\_square\_public\_readback}
 \begin{theorem}[Prefix functor preserves hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-preserves}
 For the unary-continuation category, if \(p\) is unary, \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\).
