@@ -1,4 +1,5 @@
 import BEDC.Derived.NatUp
+import BEDC.Derived.RatUp
 
 namespace BEDC.Derived.CritStripUp
 
@@ -6,6 +7,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
+open BEDC.Derived.RatUp
 
 def CritStripOpenInterval (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
@@ -47,5 +49,17 @@ theorem InCritStrip_boundary_excluded {sigma : BHist} :
   · intro sameUnit
     cases sameUnit
     exact NatUnaryStrictPrefix_asymm strip.right strip.right
+
+def CritStripComplexCarrier (s sigma tau : BHist) : Prop :=
+  RatHistoryCarrier sigma ∧ RatHistoryCarrier tau ∧ Cont sigma tau s ∧ InCritStrip sigma
+
+theorem CritStripComplexCarrier_not_empty {s sigma tau : BHist} :
+    CritStripComplexCarrier s sigma tau -> hsame s BHist.Empty -> False := by
+  intro carrier sameEmpty
+  have emptyCont : Cont sigma tau BHist.Empty :=
+    cont_result_hsame_transport carrier.right.right.left sameEmpty
+  have endpoints : sigma = BHist.Empty ∧ tau = BHist.Empty :=
+    cont_empty_result_inversion emptyCont
+  exact RatHistoryCarrier_not_empty carrier.left endpoints.left
 
 end BEDC.Derived.CritStripUp
