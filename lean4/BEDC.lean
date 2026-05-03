@@ -199,6 +199,7 @@ import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeProductStrictSupport
 import BEDC.Derived.FieldUp.ProductRightEquation
 import BEDC.Derived.FieldUp.ProductInverseClassifier
 import BEDC.Derived.FieldUp.ProductWitnessIndependence
+import BEDC.Derived.FieldUp.InverseEmptyTransport
 import BEDC.Derived.FieldUp.EquationUniqueness
 import BEDC.Derived.FieldUp.RatContinuationExternalBoundary
 import BEDC.Derived.FieldUp.RatCanonicalEndpoint
@@ -239,6 +240,7 @@ import BEDC.Derived.MetricUp.RightE1ResultShape
 import BEDC.Derived.MetricUp.Triangle
 import BEDC.Derived.MetricUp.EmptyBoundaryDistance
 import BEDC.Derived.MetricUp.Transport
+import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
@@ -262,6 +264,7 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
+import BEDC.Derived.CompactUp.NonemptyForward
 import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.EmptyCenter
 import BEDC.Derived.CompactUp.LeftE1ResultCases

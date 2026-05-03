@@ -232,6 +232,26 @@ the prior ledger with $\emp$, and apply the induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_empty\_final\_reflects\_empty\_initial}
 
+\begin{theorem}[Compact finite refinement chain nonempty forward]
+\label{thm:compact-finite-refinement-chain-nonempty-forward}
+If a compact finite refinement chain starts from a finite-net ledger apart from
+$\emp$, then its final finite-net ledger is apart from $\emp$:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+\land ((finite\hsame\emp)\to\bot)
+\Longrightarrow
+((finalFinite\hsame\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the refinement chain. The base case is the starting apartness
+predicate. In a step, a collapse of the final finite ledger to $\emp$ identifies
+the appended prior finite ledger and refinement tail with $\emp$. Empty-append
+inversion gives a collapse of the prior finite ledger, contradicting the
+induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_nonempty\_forward}
+
 \begin{theorem}[Compact finite refinement chain continuation witness]
 \label{thm:compact-finite-refinement-chain-continuation-witness}
 If

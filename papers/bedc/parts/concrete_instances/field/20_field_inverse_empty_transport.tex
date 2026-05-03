@@ -1,0 +1,22 @@
+\begin{theorem}[Field inverse empty-apartness hsame transport]
+\label{thm:field-inverse-apart-empty-hsame-transport}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+multiplication $\mathsf{mul}$, unit $1$, proof-indexed inverse
+$\mathsf{inv}(a,p)$, multiplicative associativity, left and right unit laws,
+multiplication congruence under $\hsame$, and left and right inverse laws, if
+$a\hsame b$, then apartness of the indexed inverse at $a$ from $\emp$
+transports to the indexed inverse at $b$:
+$$
+(\mathsf{inv}(a,p_a)\hsame\emp\to\bot)
+\Longrightarrow
+(\mathsf{inv}(b,p_b)\hsame\emp\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Apply inverse congruence from apartness transport to $a\hsame b$, obtaining
+$\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b)$. Any collapse
+$\mathsf{inv}(b,p_b)\hsame\emp$ composes with that equality, producing a
+collapse of $\mathsf{inv}(a,p_a)$ to $\emp$, contradicting the supplied
+apartness predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_apart\_empty\_hsame\_transport}

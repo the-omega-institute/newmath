@@ -74,6 +74,29 @@ equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_depth\_add}
 
+\begin{theorem}[Metric distance witness continuation depth add]
+\label{thm:metric-distance-witness-cont-depth-add}
+For histories $x,y,z,d_{xy},d_{xyz}$, a distance witness from $x$ to $y$ and a
+displayed continuation from $d_{xy}$ by $z$ compute the final structural
+distance depth:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{UnaryHistory}(z)\Longrightarrow
+\Cont(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y)
++\mathsf{MetricDistanceDepth}(z).
+$$
+\end{theorem}
+\begin{proof}
+The first witness supplies the unary carrier of $d_{xy}$. Together with the
+unary carrier of $z$ and the displayed continuation ledger, this forms a second
+distance witness from $d_{xy}$ to $z$ with result $d_{xyz}$. Apply the depth
+additivity theorem to the first and second witnesses, then associate addition.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_depth\_add}
+
 \begin{theorem}[Metric distance witness triangle depth-zero collapse]
 \label{thm:metric-distance-witness-triangle-depth-zero-collapse}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if three triangle distance
