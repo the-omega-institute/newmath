@@ -24,3 +24,30 @@ to be $\emp$. This contradicts constructor separation for either
 $\mathsf{e0}(m)$ or $\mathsf{e1}(m)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_visible\_tail\_empty\_absurd}
+
+\begin{theorem}[Continuation morphism composite left visible tail empty absurd]
+\label{thm:continuation-morphism-comp-left-visible-tail-empty-absurd}
+For histories $a,b,c,m$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the left displayed tail is a
+visible constructor, then the canonical composite displayed tail cannot be
+history-same to $\emp$:
+$$
+\hsame(\mathsf{tail}(left),\mathsf{e0}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}
+$$
+and
+$$
+\hsame(\mathsf{tail}(left),\mathsf{e1}(m))
+\Longrightarrow
+\hsame(\mathsf{tail}(left\circ right),\emp)\Longrightarrow\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack both continuation morphism records. The composite tail is the kernel
+append of the left displayed tail with the right displayed tail. If this append
+were empty, append-empty inversion would force the left displayed tail itself
+to be $\emp$. This contradicts constructor separation for either
+$\mathsf{e0}(m)$ or $\mathsf{e1}(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_visible\_tail\_empty\_absurd}

@@ -162,6 +162,31 @@ $\mathsf{append}(L,x)$ and $\mathsf{append}(R,x)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_strict\_support\_singleton\_classifier\_exclusion}
 
+\begin{theorem}[RatUp FieldUp transported strict-support singleton classifier exclusion]
+\label{thm:ratup-fieldup-transported-strict-support-singleton-classifier-exclusion}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that the transported source endpoint carries strict RatUp support. Then for all
+histories $L,R:\mathsf{BHist}$,
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the strict RatUp support across the classified contextual pair, giving
+$\mathsf{RatHistoryCarrier}(x)$. Together with itself and reflexivity of
+$\hsame$, this forms the concrete classifier
+$\mathsf{RatHistoryClassifier}(x,x)$. The Rat/singleton boundary separation
+theorem
+\autoref{thm:field-singleton-empty-classifier-append-rat-history-classifier-absurd}
+then rejects any singleton empty classifier on the two appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_singleton\_classifier\_exclusion}
+
 \begin{theorem}[RatUp FieldUp iterated transported strict-support contextual singleton exclusion]
 \label{thm:ratup-fieldup-iterated-transported-strict-support-contextual-singleton-exclusion}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
@@ -288,6 +313,7 @@ Any forbidden classifier witness contains the source carrier field
 $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$, contradicting the
 second rejection map.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_transported\_strict\_support\_contextual\_nonzero\_package}
 
 \begin{theorem}[RatUp FieldUp concrete exit certificate package]
 \label{thm:ratup-fieldup-concrete-exit-certificate-package}
