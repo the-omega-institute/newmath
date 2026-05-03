@@ -242,6 +242,85 @@ normalizer elements and by their inverse conjugation words, with the closure
 stable under the ambient history classifier.
 \end{proof}
 
+\begin{theorem}[Group centralizer normalizer action automorphism and kernel exactness]
+\label{thm:group-centralizer-normalizer-action-automorphism-kernel-exactness}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, fix
+$a:\mathsf{BHist}$. Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}, let $N_a$ be the normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}, and write
+$$
+\mathrm{Act}_s(x):=\mathsf{Conj}_s(x).
+$$
+If $N_a(s)$ and $Z_a(x)$, then conjugation by $s$ restricts to a
+classifier-exact automorphism of $Z_a$ with inverse action by
+$\mathsf{inv}(s)$:
+\begin{enumerate}
+\item $Z_a(\mathrm{Act}_s(x))$ and
+$Z_a(\mathrm{Act}_{\mathsf{inv}(s)}(x))$.
+\item $\hsame(\mathrm{Act}_{\mathsf{inv}(s)}(\mathrm{Act}_s(x)),x)$.
+\item $\hsame(\mathrm{Act}_s(\mathrm{Act}_{\mathsf{inv}(s)}(x)),x)$.
+\end{enumerate}
+For every $s$ with $N_a(s)$, the action kernel is exact:
+$$
+(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+\hsame(\mathrm{Act}_s(x),x))
+\Longleftrightarrow
+(\forall x:\mathsf{BHist},\ Z_a(x)\Rightarrow
+\hsame(\mathsf{mul}(s,x),\mathsf{mul}(x,s))).
+$$
+The ten-field fit is: traditional target normalizer action by automorphisms
+and action kernel; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$Z_a$; classifier $\hsame$; stability normalizer preservation, inverse
+action, and fixed-point exactness; ledger fixed element, normalizer witness,
+acted element, inverse parameter, and centralizing witness; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-conjugation-classifier-exactness},
+\autoref{thm:group-inverse-mul-reverse}, and
+\autoref{thm:group-commutator-fixed-point-criterion}, together with the group
+associativity, unit, inverse, multiplication-congruence, and
+inverse-congruence laws; exactness predicate pointwise fixed action iff
+pointwise centralizing; standard bridge ordinary normalizer action on a
+subgroup; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The two preservation rows come directly from the defining clauses of $N_a$.
+The first clause sends $Z_a(x)$ to $Z_a(\mathrm{Act}_s(x))$, and the second
+clause sends $Z_a(x)$ to
+$Z_a(\mathrm{Act}_{\mathsf{inv}(s)}(x))$. The inverse-closure row of
+\autoref{thm:group-centralizer-normalizer-subgroup} records the same
+preservation with the inverse parameter as a normalizer witness.
+
+For the first inverse-action identity, expand
+$\mathrm{Act}_{\mathsf{inv}(s)}(\mathrm{Act}_s(x))$ as the conjugation word
+with parameter $\mathsf{inv}(s)$ applied to the conjugation word with parameter
+$s$. Associativity regroups the product into the adjacent inverse factors;
+the two-sided inverse laws reduce those factors to $e$, and the left and right
+unit laws reduce the remaining word to $x$. Multiplication congruence and
+\autoref{thm:group-conjugation-classifier-exactness} carry this calculation
+through $\hsame$.
+
+The second inverse-action identity is symmetric. Expand
+$\mathrm{Act}_s(\mathrm{Act}_{\mathsf{inv}(s)}(x))$, regroup by
+associativity, reduce the adjacent factors
+$\mathsf{mul}(s,\mathsf{inv}(s))$ and
+$\mathsf{mul}(\mathsf{inv}(s),s)$ by the inverse laws, and use the unit laws
+to obtain $x$ under $\hsame$. The inverse-product reversal theorem supplies
+the same ordered-word comparison when the composite is read through the
+normalizer-action product row.
+
+For kernel exactness, fix $x$ with $Z_a(x)$. The fixed-point criterion
+\autoref{thm:group-commutator-fixed-point-criterion} identifies the statement
+$\hsame(\mathrm{Act}_s(x),x)$ with the pointwise centralizing statement
+$\hsame(\mathsf{mul}(s,x),\mathsf{mul}(x,s))$.
+
+Quantifying that equivalence over all elements of $Z_a$ gives the displayed
+kernel clause. No additional carrier is introduced: the kernel predicate is
+the pointwise fixed-action predicate for the restricted normalizer action.
+\end{proof}
+
 \begin{theorem}[Group centralizer normalizer conjugation action]
 \label{thm:group-centralizer-normalizer-conjugation-action}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
