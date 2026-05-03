@@ -146,6 +146,34 @@ inversion for the second continuation identifies $right$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_base\_points\_empty\_exact}
 
+\begin{theorem}[Principal suffix commuting square empty exactness]
+\label{thm:filter-principal-suffix-unary-commuting-square-empty-exact}
+Let $base,left,right,leftPoint,rightPoint,lrPoint,rlPoint:\mathsf{BHist}$.
+If the two displayed continuations
+$$
+\ContR(base,left,leftPoint),\qquad
+\ContR(base,right,rightPoint)
+$$
+are extended around the square by
+$$
+\ContR(leftPoint,right,lrPoint),\qquad
+\ContR(rightPoint,left,rlPoint),
+$$
+and both square endpoints satisfy
+$$
+lrPoint\hsame\emp,\qquad rlPoint\hsame\emp,
+$$
+then $base\hsame\emp$, $left\hsame\emp$, and $right\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Transport the two square endpoints to $\emp$. Empty-result inversion of
+$\ContR(leftPoint,right,lrPoint)$ identifies $leftPoint$ with $\emp$, and
+empty-result inversion of $\ContR(rightPoint,left,rlPoint)$ identifies
+$rightPoint$ with $\emp$. Apply the base-points empty exactness theorem to the
+two base continuations and these two transported endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square\_empty\_exact}
+
 \begin{theorem}[Principal suffix intersection empty point exactness]
 \label{thm:filter-principal-suffix-intersection-empty-point-exact}
 Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If
