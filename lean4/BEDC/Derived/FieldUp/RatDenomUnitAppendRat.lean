@@ -122,6 +122,29 @@ theorem RatDenomUnitCarrier_append_nonempty_factor_cases {h k : BHist} :
       | inr ratK =>
           exact Or.inr ⟨factors.left, ratK⟩
 
+theorem RatDenomUnitCarrier_append_nonempty_rat_endpoint_pair {h k : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k ->
+      (hsame (append h k) BHist.Empty -> False) ->
+        RatHistoryCarrier (append h k) ∧ (RatHistoryCarrier h ∨ RatHistoryCarrier k) := by
+  intro carrierH carrierK productNonempty
+  have productCarrier : RatDenomUnitCarrier (append h k) :=
+    RatDenomUnitCarrier_continuation_closed carrierH carrierK (cont_intro rfl)
+  have productRat : RatHistoryCarrier (append h k) := by
+    cases productCarrier with
+    | inl productEmpty =>
+        exact False.elim (productNonempty productEmpty)
+    | inr ratProduct =>
+        exact ratProduct
+  have factorCases :=
+    RatDenomUnitCarrier_append_nonempty_factor_cases productCarrier productNonempty
+  have ratEndpoint : RatHistoryCarrier h ∨ RatHistoryCarrier k := by
+    cases factorCases with
+    | inl leftRat =>
+        exact Or.inl leftRat.left
+    | inr rightRat =>
+        exact Or.inr rightRat.right
+  exact And.intro productRat ratEndpoint
+
 theorem RatDenomUnitCarrier_append_iff {h k : BHist} :
     RatDenomUnitCarrier (append h k) ↔ RatDenomUnitCarrier h ∧ RatDenomUnitCarrier k := by
   constructor

@@ -33,6 +33,20 @@ complex-carrier witness theorem. The complex carrier is non-empty, so an
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_not\_empty}
 
+\begin{theorem}[Gamma pole locus is stable under unary append as a complex carrier]
+\label{thm:gamma-pole-locus-append-unary-complex-carrier}
+If $s$ lies in the Gamma pole locus and $q$ is unary, then
+$\mathsf{append}(s,q)$ is carried by $\ComplexUp$ and cannot be $\hsame$ to
+$\emp$.
+\end{theorem}
+\begin{proof}
+The pole-locus witness gives a $\ComplexUp$ carrier for $s$. Complex carriers
+are closed under unary append, so $\mathsf{append}(s,q)$ is again a complex
+carrier. The complex-carrier non-emptiness theorem excludes any comparison of
+that appended history with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_append\_unary\_complex\_carrier}
+
 \begin{theorem}[Gamma pole locus hsame transport witness]
 \label{thm:gamma-pole-locus-hsame-transport-witness}
 If $s\hsame t$ and $s$ lies in the Gamma pole locus, then $t$ lies in the
@@ -95,6 +109,34 @@ the domain-core apartness field. For the empty-history exclusion, compose
 \(s\hsame t\) with \(t\hsame\emp\) and apply the non-empty core theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_exclusions}
+
+\begin{theorem}[Gamma domain core hsame transport]
+\label{thm:gamma-domain-core-hsame-transport}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core with apartness datum
+\(apart\), then \(t\) is in the Gamma-domain core with the same apartness datum,
+and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport the complex-history carrier of \(s\) along \(s\hsame t\). The unary
+apartness datum is unchanged. The pole-locus and empty-history exclusions are
+the two exclusion clauses transported by the preceding theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport}
+
+\begin{theorem}[Gamma domain core hsame transport nonempty]
+\label{thm:gamma-domain-core-hsame-transport-not-empty}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core, then \(t\) is in the
+same domain core and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport the \(\ComplexUp\) carrier from \(s\) to \(t\). A pole-locus witness
+for \(t\) transports back along the symmetric \(\hsame\)-comparison to a
+pole-locus witness for \(s\), contradicting the apartness field of the original
+domain witness. Together with the unchanged unary apartness datum, these fields
+rebuild the domain core for \(t\), and the non-empty theorem excludes
+\(t\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_not\_empty}
 
 \begin{lemma}[Apartness from the pole locus is decidable]
 \label{lem:gamma-pole-apartness-decidable}

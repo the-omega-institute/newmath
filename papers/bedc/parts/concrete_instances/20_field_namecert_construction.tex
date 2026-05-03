@@ -1,120 +1,8 @@
 \input{parts/concrete_instances/field/20_field_namecert_construction_core}
-
-\begin{theorem}[RatUp FieldUp assembled certificate operation-table coverage]
-\label{thm:ratup-fieldup-assembled-certificate-operation-table-coverage}
-For the concrete source tuple $\mathsf{RatUpFieldSource}_F$ of
-\autoref{def:ratup-fieldup-concrete-source-tuple} and the concrete operation
-table of Definition~\ref{def:ratup-fieldup-concrete-operation-table}, one and
-the same $\mathsf{BHist}$ row package satisfies both
-\autoref{def:field-certificate-obligations} and the concrete
-$\FieldUp(\RatUp)$ operation-table laws. The shared carrier and classifier are
-$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$. The shared
-denominator coordinate is
-$$
-(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
-\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
-$$
-The shared contextual coordinate is the action $\Gamma$, the shared
-context-pair coordinate is the monoid of
-\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and the shared
-affine coordinate is $\mathsf{AffAut}_F$. The inverse and nonzero rows, together
-with the exit-noncollapse rows, are the rows consumed by both cited interfaces.
-\end{theorem}
-\begin{proof}
-Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. It names
-$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, the displayed
-denominator tuple, $\Gamma$, the context-pair monoid, and
-$\mathsf{AffAut}_F$ as coordinates of the single source
-$\mathsf{RatUpFieldSource}_F$.
-
-Apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. This gives
-\autoref{def:field-certificate-obligations} for exactly those coordinates.
-Apply \autoref{thm:ratup-fieldup-concrete-operation-table-laws}. This gives the
-carrier, classifier, denominator, contextual-action, context-pair, affine,
-inverse, nonzero, and exit-noncollapse laws for the concrete operation table of
-Definition~\ref{def:ratup-fieldup-concrete-operation-table}.
-
-Both cited results name the same concrete carrier, classifier, denominator
-tuple, contextual action, context-pair monoid, affine row source, inverse rows,
-nonzero rows, and exit rows. Therefore the certificate-obligation interface and
-the operation-table interface are satisfied by the same concrete
-$\mathsf{BHist}$ rows.
-\end{proof}
+\input{parts/concrete_instances/field/20_field_assembled_certificate_operation_table_coverage}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
 \input{parts/concrete_instances/field/20_field_affine_composite_inverse}
-
-\begin{theorem}[Field affine composite inverse product-witness independence]
-\label{thm:field-affine-composite-inverse-product-witness-independence}
-Under the notation of
-\autoref{thm:field-affine-composite-inverse-reverse-coherence}, fix the
-collected coefficients
-$$
-A=\mathsf{mul}(a',a),
-\qquad
-B=\mathsf{mul}(b,b'),
-\qquad
-D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d').
-$$
-Let $p_A,p'_A:\mathsf{NonZero}_F(A)$ and
-$p_B,p'_B:\mathsf{NonZero}_F(B)$ be two choices of product nonzero witnesses.
-For each $q:\mathsf{BHist}$ define
-$$
-s_{21}^{p_A,p_B}(q)=
-\mathsf{mul}(\mathsf{inv}(A,p_A),
-\mathsf{mul}(\mathsf{add}(q,\mathsf{neg}(D)),\mathsf{inv}(B,p_B)))
-$$
-and define $s_{21}^{p'_A,p'_B}(q)$ by the same displayed formula with
-$p'_A,p'_B$ in place of $p_A,p_B$. Then every $q:\mathsf{BHist}$ satisfies
-the three comparisons
-\begin{enumerate}
-\item
-
-$$
-s_{21}^{p_A,p_B}(q)\hsame s_{21}^{p'_A,p'_B}(q).
-$$
-\item
-
-$$
-s_{21}^{p_A,p_B}(q)\hsame s_1(s_2(q)).
-$$
-\item
-
-$$
-s_{21}^{p'_A,p'_B}(q)\hsame s_1(s_2(q)).
-$$
-\end{enumerate}
-\end{theorem}
-\begin{proof}
-We first compare the two collected inverse terms. Apply
-\autoref{thm:field-affine-product-witness-independence} to the two composite
-affine members with common coefficients $A,B,D$ and witness pairs
-$(p_A,p_B)$ and $(p'_A,p'_B)$. Its inverse-formula field gives the first
-displayed comparison pointwise in $q$.
-
-For agreement with the reverse-composed inverse, apply
-\autoref{thm:field-affine-composite-inverse-reverse-coherence} with the
-witness pair $(p_A,p_B)$ to obtain the second displayed comparison. Apply the
-same theorem with $(p'_A,p'_B)$ to obtain the third displayed comparison.
-
-The classifier $\hsame$ is transitive and symmetric, so these three
-comparisons form a single certificate: changing product witnesses does not
-change the collected explicit inverse, and each collected representative
-agrees with the reverse-composed inverse $s_1(s_2(q))$.
-\end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_affine\_composite\_inverse\_product\_witness\_independence}
-
-Per-object certificate: traditional target affine composite inverse ledger
-determinacy; BEDC source $\FieldUp$ over $\mathsf{BHist}$; carrier
-$\mathsf{BHist}$; classifier $\hsame$; stability obligations
-\autoref{thm:field-affine-product-witness-independence},
-\autoref{thm:field-affine-composite-inverse-reverse-coherence}, and $\hsame$
-transitivity; ledger the component witnesses, product witnesses, and offsets;
-core theorem
-\autoref{thm:field-affine-composite-inverse-product-witness-independence};
-exactness predicate witness-independent collected inverse agreeing with the
-reverse-composed inverse; downstream consumer affine automorphism group
-composition certificate; status $\mathsf{ProofTarget}$.
-
+\input{parts/concrete_instances/field/20_field_affine_composite_inverse_product_witness_independence}
 \input{parts/concrete_instances/field/20_field_affine_automorphism_package}
 \input{parts/concrete_instances/field/20_field_affine_automorphism_group}
 \input{parts/concrete_instances/field/20_field_affine_automorphism_context_exactness}
@@ -140,6 +28,7 @@ composition certificate; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_selector_complete_denominator_row_exhaustion}
 \input{parts/concrete_instances/field/20_field_contextual_action_exit_packages}
 \input{parts/concrete_instances/field/20_field_apartzero_contextual_tail_certificates}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_hierarchy_exit_package}
 
 \begin{theorem}[RatUp FieldUp selector-pair strict exit determinacy]
 \label{thm:ratup-fieldup-selector-pair-strict-exit-determinacy}
@@ -222,6 +111,7 @@ same contexts. Its row is the fourth displayed conjunction, and together with
 the two componentwise classifier rows it assembles the stated deterministic
 selector-pair package.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_selector\_pair\_strict\_exit\_determinacy}
 
 Per-object template: traditional target selector-pair determinacy for the
 concrete $\FieldUp(\RatUp)$ exit; BEDC source $\mathsf{BHist}$,

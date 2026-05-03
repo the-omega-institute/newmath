@@ -30,6 +30,20 @@ theorem EmptyContradictoryCarrier_namecert_absurd :
   | intro _h carrier =>
       exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
 
+theorem EmptyVisibleContradictoryCarrier_namecert_absurd {tail : BHist} :
+    NameCert
+      (fun h : BHist =>
+        hsame h BHist.Empty ∧ (hsame h (BHist.e0 tail) ∨ hsame h (BHist.e1 tail)))
+      hsame -> False := by
+  intro cert
+  cases cert.carrier_inhabited with
+  | intro _h carrier =>
+      cases carrier.right with
+      | inl sameZero =>
+          exact not_hsame_emp_e0 (hsame_trans (hsame_symm carrier.left) sameZero)
+      | inr sameOne =>
+          exact not_hsame_emp_e1 (hsame_trans (hsame_symm carrier.left) sameOne)
+
 theorem EmptyHistoryCarrier_semantic_namecert_absurd :
     SemanticNameCert EmptyHistoryCarrier EmptyHistoryCarrier EmptyHistoryCarrier hsame ->
       False := by
