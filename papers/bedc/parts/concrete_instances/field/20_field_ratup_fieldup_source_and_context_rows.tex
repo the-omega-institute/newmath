@@ -475,3 +475,57 @@ assembled support-neutrality classifier and strict-support clauses, the
 denominator unit-pair support-neutrality clause, the denominator-action envelope
 rows, and the context-pair strict-support commutation row; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp concrete schema instance]
+\label{thm:ratup-fieldup-concrete-schema-instance}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the
+$\FieldUp(\RatUp)$ schema is instantiated over $\mathsf{BHist}$ by
+$C_F=\mathsf{RatHistoryCarrier}$, $R_F=\mathsf{RatHistoryClassifier}$, the
+denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, the contextual action
+$\Gamma$, the context-pair monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and the affine
+source $\mathsf{AffAut}_F$. Every carrier, source, classifier, stability,
+ledger, and exactness row consumed by
+\autoref{def:concrete-ratup-fieldup-certificate-instance} is a row of this same
+source tuple, so no $\FieldUp$ exit row remains as a schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:concrete-ratup-fieldup-certificate-instance}. Its displayed
+fields are exactly the rational history carrier and classifier, the
+denominator carrier, denominator classifier, multiplication $\mathsf{append}$,
+endpoint $\emp$, contextual action $\Gamma$, context-pair monoid rows, and
+affine package named in the theorem statement.
+
+Apply \autoref{thm:ratup-fieldup-semantic-namecert} to obtain the paper
+certificate row package for this source. It supplies the carrier, source,
+classifier, stability, ledger, and exactness slots for the same
+$\mathsf{RatUpFieldSource}_F$ tuple.
+
+Next use \autoref{thm:ratup-fieldup-certificate-rows-source-anchored}. This
+identifies every row consumed by the concrete certificate instance with the
+single $\mathsf{BHist}$ source tuple, including the denominator tuple, the
+contextual action, the context-pair monoid, and the affine coordinate.
+
+Finally apply \autoref{thm:ratup-fieldup-assembled-certificate-boundary}. The
+assembled boundary contains the full carrier, classifier, denominator,
+contextual-action, context-pair, affine, ledger, and exactness rows, with the
+denominator-action and support-neutrality components supplied by the theorem
+list in \autoref{def:concrete-ratup-fieldup-certificate-instance}. Combining
+these rows shows that the $\FieldUp(\RatUp)$ schema is the concrete
+$\mathsf{BHist}$ instance rather than a transport through free operator
+parameters.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\mathsf{BHist}$ plus $\RatUp$, $\CommRingUp$, denominator, and affine
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ plus $\mathsf{RatDenomUnitClassifier}$ on
+denominator rows; stability obligations the assembled boundary rows; ledger
+rational histories, denominator histories, continuation and action witnesses,
+and affine coefficients; core theorem
+\autoref{thm:ratup-fieldup-concrete-schema-instance}; exactness row coverage
+for the concrete source tuple; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
