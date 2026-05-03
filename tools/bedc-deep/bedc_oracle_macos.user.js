@@ -1184,7 +1184,19 @@
           setTaskPhase("navigating");
           busy = false;
           updatePanel();
-          window.location.href = "https://chatgpt.com/?bedc=1";
+          // BEDC FIX: if we're inside a ChatGPT Project (URL like
+          // /g/g-p-XXXXXX-name/c/<uuid>), fall back to the project's
+          // root URL so we DON'T leave the Project (which would lose
+          // the project-attached PDF and any project-wide instructions).
+          // Outside a Project, fall back to chatgpt.com root with the
+          // tab's bedc=N flag pinned.
+          const m = window.location.pathname.match(/^(\/g\/g-p-[a-zA-Z0-9_-]+)/);
+          const bedcFlag = (window.location.search.match(/[?&]bedc=([^&]+)/) || [])[1] || "1";
+          const fallbackUrl = m
+            ? `https://chatgpt.com${m[1]}/project?bedc=${bedcFlag}`
+            : `https://chatgpt.com/?bedc=${bedcFlag}`;
+          log(`fallback URL: ${fallbackUrl}`);
+          window.location.href = fallbackUrl;
           return;
         }
       } else if (needNavToConv) {
