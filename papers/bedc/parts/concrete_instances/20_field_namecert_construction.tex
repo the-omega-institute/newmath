@@ -28,3 +28,111 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_affine_exit_rows}
 \input{parts/concrete_instances/field/20_field_affine_inner_action_exit}
 \input{parts/concrete_instances/field/20_field_affine_normalizer_subgroup_action_tail}
+\input{parts/concrete_instances/field/20_field_affine_center_normalizer_tail}
+
+\begin{definition}[RatUp FieldUp affine normalizer action kernel carrier]
+\label{def:ratup-fieldup-affine-normalizer-action-kernel-carrier}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and write
+the restricted normalizer action as
+$$
+\mathrm{Act}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+The pointwise kernel carrier of this action is the predicate $K_A$ on certified
+affine automorphisms given by
+$$
+K_A(T):=N_F(C_F(A))(T)\ \text{and}\quad
+\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X.
+$$
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine normalizer action kernel normal subgroup]
+\label{thm:ratup-fieldup-affine-normalizer-action-kernel-normal-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix
+$A:\mathsf{AffAut}_F$. The carrier $K_A$ of
+Definition~\ref{def:ratup-fieldup-affine-normalizer-action-kernel-carrier} is a
+normal subgroup package inside the affine normalizer $N_F(C_F(A))$:
+\begin{enumerate}
+\item $K_A(\mathrm{id}_F)$.
+\item If $K_A(T)$ and $K_A(U)$, then $K_A(T\circ_{\mathrm{aff}}U)$.
+\item If $K_A(T)$, then $K_A(\iota_F(T))$.
+\item If $K_A(T)$, $N_F(C_F(A))(U)$, and $T\equiv_{\mathrm{aff}}U$, then
+$K_A(U)$.
+\item If $K_A(T)$ and $N_F(C_F(A))(S)$, then
+$K_A(S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier part of each clause is supplied by
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. Its
+identity, product, inverse, and classifier-transport rows keep the first four
+displayed witnesses inside $N_F(C_F(A))$; for the conjugation word, use the
+inverse row on $S$ and the product row twice.
+
+For the identity element, use the identity law in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. For every
+$X$ with $C_F(A)(X)$, it gives
+$\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X$, so the pointwise
+kernel predicate holds.
+
+For products, assume $K_A(T)$ and $K_A(U)$ and fix $X$ with $C_F(A)(X)$. The
+composition law in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} rewrites
+$\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X)$ as
+$\mathrm{Act}_T(\mathrm{Act}_U(X))$. The $U$-kernel hypothesis identifies the
+inner acted element with $X$, and the $T$-kernel hypothesis then identifies the
+outer action with $X$.
+
+For inverses, start with $K_A(T)$. The inverse theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+identifies $\mathrm{Act}_{\iota_F(T)}$ as a two-sided inverse of
+$\mathrm{Act}_T$ on $C_F(A)$. Since $\mathrm{Act}_T$ is pointwise the classifier
+identity there, the inverse action is also pointwise the classifier identity.
+
+For classifier transport, assume $K_A(T)$, $N_F(C_F(A))(U)$, and
+$T\equiv_{\mathrm{aff}}U$. The action classifier congruence theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}
+transports the pointwise equality
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X$ to
+$\mathrm{Act}_U(X)\equiv_{\mathrm{aff}}X$ for each $X$ in $C_F(A)$.
+
+Finally assume $K_A(T)$ and $N_F(C_F(A))(S)$. For any $X$ with $C_F(A)(X)$,
+apply the composition law twice to rewrite
+$$
+\mathrm{Act}_{S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S)}(X)
+$$
+as
+$$
+\mathrm{Act}_S(\mathrm{Act}_T(\mathrm{Act}_{\iota_F(S)}(X))).
+$$
+
+The inverse theorem keeps $\mathrm{Act}_{\iota_F(S)}(X)$ inside $C_F(A)$. Apply
+the $K_A(T)$ hypothesis to this middle acted element, obtaining
+$\mathrm{Act}_T(\mathrm{Act}_{\iota_F(S)}(X))
+\equiv_{\mathrm{aff}}\mathrm{Act}_{\iota_F(S)}(X)$. Acting by $S$ on both sides
+and using classifier congruence reduces the displayed conjugation action to
+$\mathrm{Act}_S(\mathrm{Act}_{\iota_F(S)}(X))$.
+
+The right inverse cancellation clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+identifies this last term with $X$. Hence
+$S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S)$ lies in $K_A$, giving
+normality inside the concrete affine normalizer.
+\end{proof}
+
+Per-object template: traditional target kernel normal subgroup of a group
+action; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$;
+carrier $K_A$; classifier $\equiv_{\mathrm{aff}}$; stability subgroup and
+conjugation closure; ledger fixed centralizer, acting normalizer, inverse
+witness, and conjugation word; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}, and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence};
+exactness predicate pointwise trivial action; standard bridge ordinary kernel
+of a group action; status $\mathsf{ProofTarget}$.
