@@ -215,6 +215,7 @@ import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary
 import BEDC.Derived.FieldUp.RatBracketingCrossEndpoint
+import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
@@ -242,6 +243,7 @@ import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.ResultCases
 import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.EmptyModulus
+import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.CompactUp
@@ -254,6 +256,7 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
+import BEDC.Derived.CompactUp.EmptyNet
 import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.NonemptyMorphismIff

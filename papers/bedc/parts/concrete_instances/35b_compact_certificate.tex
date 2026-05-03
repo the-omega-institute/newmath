@@ -90,6 +90,24 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness empty net exactness]
+\label{thm:compact-net-witness-empty-net-iff}
+For histories $c$ and $\epsilon$, a compact-net witness with empty net is
+equivalent to both the center and precision histories being empty:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,\emp)
+\Longleftrightarrow
+\hsame(c,\emp)\land\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness and invert the continuation
+$\Cont(c,\epsilon,\emp)$. This yields empty center and empty precision. The
+reverse implication uses the empty unary carrier for both endpoints and the
+canonical continuation from $\emp$ through $\emp$ to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_net\_iff}
+
 \begin{theorem}[Compact net witness left e1 result cases]
 \label{thm:compact-net-witness-left-e1-result-cases}
 For histories $center,precision,net$, a compact-net witness from a visible

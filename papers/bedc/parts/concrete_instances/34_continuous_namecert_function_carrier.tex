@@ -40,6 +40,25 @@ target.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_source\_hsame\_deterministic}
 
+\begin{theorem}[Continuous modulus witness empty target exactness]
+\label{thm:continuous-modulus-witness-empty-target-iff}
+For histories $source$ and $modulus$, a one-step continuous modulus witness
+with empty target is exactly the conjunction that both source and modulus are
+empty histories:
+$$
+\mathsf{ContinuousModulusWitness}(source,modulus,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary carriers and the continuation ledger
+$\Cont(source,modulus,\emp)$. Empty-result inversion for continuation gives
+the two endpoint equalities. Conversely, if both endpoints are empty, the
+empty unary carrier and the canonical empty continuation rebuild the witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_target\_iff}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

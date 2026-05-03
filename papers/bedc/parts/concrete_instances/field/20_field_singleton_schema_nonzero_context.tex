@@ -50,6 +50,28 @@ inversion splits this into carrier witnesses for both factors, and the right
 factor witness rebuilds the forbidden singleton empty classifier for $Q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Rat classifier singleton-empty nonzero context endpoints]
+\label{thm:rat-history-classifier-field-singleton-empty-nonzero-context-endpoints}
+For histories $L,R,h,k:\mathsf{BHist}$, any rational history classifier
+between $h$ and $k$ forces both contextual endpoints to satisfy the
+singleton-empty nonzero predicate:
+$$
+\mathsf{RatHistoryClassifier}(h,k)
+\Longrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,h))\land
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(R,k)).
+$$
+\end{theorem}
+\begin{proof}
+The rational classifier supplies the endpoint facts that neither $h$ nor $k$
+is empty. To refute a singleton-empty classifier on $\mathsf{append}(L,h)$,
+invert the append-empty carrier equation; its right endpoint says $h=\emp$,
+contradicting the rational endpoint fact. The right contextual endpoint is
+identical with $R$ and $k$ in place of $L$ and $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_fieldSingletonEmptyNonZero\_context\_endpoints}
+
 \input{parts/concrete_instances/field/20_field_singleton_nonzero_append_source_or_tail}
 \input{parts/concrete_instances/field/20_field_singleton_empty_nonzero_append_split}
 \begin{theorem}[Singleton empty nonzero append context cancellation]
