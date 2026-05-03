@@ -344,6 +344,93 @@ the ten-field $\FieldUp(\RatUp)$ exit instance as a concrete row rather than an
 abstract operator schema.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp contextual cross-endpoint nondegenerate exit package]
+\label{thm:ratup-fieldup-contextual-cross-endpoint-nondegenerate-exit-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual action
+$\Gamma$ of \autoref{def:ratup-fieldup-denominator-contextual-action-instance},
+let $h,k,\ell:\mathsf{BHist}$ be histories with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$. Define the crossed denominator endpoints
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. For arbitrary contexts
+$L,R:\mathsf{BHist}$ and factors $a,b,c,d,e:\mathsf{BHist}$, put
+$P_5:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e)$.
+Assume the hypotheses of
+\autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate} at
+$h,k,\ell,L,R$, the hypotheses of
+\autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package} for
+the same concrete source tuple, denominator tuple, and action $\Gamma$, and the
+field hypotheses of
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness}. Assume
+also a witness $p_{abcde}:\mathsf{NonZero}_F(P_5)$ and the apartness-to-nonzero maps required by
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}. Then the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit package simultaneously
+contains:
+\begin{enumerate}
+  \item the ten-field certificate rows of
+  \autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate};
+  \item the two crossed singleton-classifier exclusions
+  $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot$ and
+  $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+  \to\bot$;
+  \item the normalized contextual full noncollapse package of
+  \autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package};
+  \item the five individual nonzero factor witnesses
+  $p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+  $p_c:\mathsf{NonZero}_F(c)$, $p_d:\mathsf{NonZero}_F(d)$, and
+  $p_e:\mathsf{NonZero}_F(e)$ extracted from $p_{abcde}$;
+  \item for every $u,v:\mathsf{BHist}$, the right and left five-factor equation
+  exactness rows
+  $$
+  \mathsf{mul}(u,P_5)\hsame v
+  \Longleftrightarrow
+  u\hsame\mathsf{mul}(v,R_5)
+  $$
+  and
+  $$
+  \mathsf{mul}(P_5,u)\hsame v
+  \Longleftrightarrow
+  u\hsame\mathsf{mul}(R_5,v),
+  $$
+  where
+  $R_5:=\mathsf{mul}(\mathsf{inv}(e,p_e),\mathsf{mul}(\mathsf{inv}(d,p_d),
+  \mathsf{mul}(\mathsf{inv}(c,p_c),\mathsf{mul}(\mathsf{inv}(b,p_b),
+  \mathsf{inv}(a,p_a)))))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate} with the
+displayed denominator tuple, histories $h,k,\ell$, endpoints $x,y$, contexts
+$L,R$, and the support hypotheses. This supplies the ten-field certificate rows
+and the two crossed singleton-classifier exclusions in the same
+$\mathsf{RatUpFieldSource}_F$ boundary.
+
+Next apply
+\autoref{thm:ratup-fieldup-normalized-contextual-full-noncollapse-package} to the
+displayed source tuple, denominator tuple, and action $\Gamma$ under its
+normalized contextual hypotheses. Its clauses add the assembled boundary,
+carried contextual endpoint, normalized classifier row, strict-support
+equivalence, exit-row closure, direct endpoint separation, singleton-context
+carrier rejections, and singleton-classifier obstruction.
+
+Apply
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger} to
+$p_{abcde}$ and the apartness-to-nonzero maps. The forward direction yields the
+five factor witnesses $p_a,p_b,p_c,p_d,p_e$ used by the inverse spine $R_5$.
+
+Finally apply
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness} with
+$P_5$ and $p_{abcde}$. It gives the right and left equation exactness rows for
+every $u,v:\mathsf{BHist}$, with $R_5$ built from the same five factor
+witnesses.
+
+All clauses are indexed by $\mathsf{BHist}$ and by the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$. Repacking them therefore gives one concrete
+$\FieldUp(\RatUp)$ exit package rather than separate local rows.
+\end{proof}
+
 Per-object template: traditional target concrete $\FieldUp(\mathsf{RatUp})$
 cross-endpoint exactness; BEDC source $\mathsf{RatUpFieldSource}_F$,
 $\mathsf{BHist}$, the denominator tuple, $\mathsf{append}$, and
