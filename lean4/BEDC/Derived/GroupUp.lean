@@ -111,6 +111,17 @@ theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem GroupSingletonClassifier_append_unit_split_iff {p q : BHist} :
+    GroupSingletonClassifier (append p q) BHist.Empty <->
+      GroupSingletonCarrier p ∧ GroupSingletonCarrier q := by
+  constructor
+  · intro classified
+    exact append_eq_empty_iff.mp classified.left
+  · intro split
+    have appendCarrier : GroupSingletonCarrier (append p q) := append_eq_empty_iff.mpr split
+    exact And.intro appendCarrier
+      (And.intro (hsame_refl BHist.Empty) appendCarrier)
+
 theorem GroupSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     (GroupSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
       (GroupSingletonCarrier (append p (BHist.e1 q)) -> False) := by
