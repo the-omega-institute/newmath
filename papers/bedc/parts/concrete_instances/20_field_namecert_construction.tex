@@ -31,12 +31,61 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_hierarchy_exit_package}
 
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_chain_stable_exit_packages}
+
 \input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_selector_chain_obstruction_coverage}
 \input{parts/concrete_instances/field/20_field_selector_obstruction_chain_exit_packages}
 \input{parts/concrete_instances/field/20_field_two_step_algebra_hierarchy_exit_certificate}
 \input{parts/concrete_instances/field/20_field_final_inventory_packages}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_final_inventory_and_nonzero_exit}
+
+\begin{theorem}[RatUp FieldUp chapter certificate row coverage]
+\label{thm:ratup-fieldup-chapter-certificate-row-coverage}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+\autoref{def:ratup-fieldup-concrete-exit-object}. The chapter-level
+$\FieldUp(\RatUp)$ certificate exposes over one concrete $\mathsf{BHist}$
+source the following row package:
+\begin{enumerate}
+  \item the carrier, classifier, denominator, and contextual-action rows of
+  \autoref{thm:ratup-fieldup-concrete-schema-instance};
+  \item the operation-table coverage of
+  \autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion};
+  \item the completed exit object of
+  \autoref{thm:ratup-fieldup-concrete-exit-object-complete};
+  \item the final-row semantic certificate of
+  \autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate};
+  \item the nonzero and unit-obstruction rows of
+  \autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}.
+\end{enumerate}
+Thus a downstream Phase Algebra Hierarchy consumer can read
+$\mathcal E_F$ as a single concrete row-coverage certificate for the canonical
+$\mathsf{BHist}$ source.
+\end{theorem}
+\begin{proof}
+First take the concrete schema instance of
+\autoref{thm:ratup-fieldup-concrete-schema-instance}. It fixes the shared
+$\mathsf{BHist}$ source together with the carrier, classifier, denominator
+tuple, and contextual action rows used by the $\FieldUp(\RatUp)$ construction.
+
+Next combine the operation-table coverage from
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} with the
+completed exit object of
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. These two cited
+certificates identify the same selectors and the same concrete object
+$\mathcal E_F$ rather than introducing a second exit target.
+
+Finally append the final-row semantic certificate from
+\autoref{thm:ratup-fieldup-final-row-inventory-semantic-certificate} and the
+nonzero and unit-obstruction rows from
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}.
+Conjunction introduction packages these cited rows into one chapter-level
+certificate.
+
+The consumer never changes the carrier, classifier, denominator tuple,
+contextual action, selectors, or exit object. It only reads the rows already
+provided by the cited concrete $\mathsf{BHist}$ certificates.
+\end{proof}
 
 \begin{theorem}[RatUp FieldUp phase-exit certificate consumption]
 \label{thm:ratup-fieldup-phase-exit-certificate-consumption}
