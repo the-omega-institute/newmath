@@ -507,3 +507,50 @@ f(0_V)\sim_W0_W.
 $$
 This is exactly the zero-preservation item listed in \autoref{def:linearmap-stability-certificate}, obtained from additivity and the codomain additive cancellation package.
 \end{proof}
+
+\begin{theorem}[LinearMap composition classifier congruence]
+\label{thm:linmap-composition-classifier-congruence}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $U$, $V$, and $W$ carry $\VecSpaceUp(F,U)$, $\VecSpaceUp(F,V)$, and $\VecSpaceUp(F,W)$ certificates over the same scalar source. Write $+_U$, $+_V$, and $+_W$ for vector addition, write the scalar actions as $r\cdot_U x$, $r\cdot_V y$, and $r\cdot_W z$, and write $\sim_U$, $\sim_V$, and $\sim_W$ for the corresponding vector classifiers. Let $f,f':U\to V$ be carried $\LinearMapUp(U,V)$ maps, and let $g,g':V\to W$ be carried $\LinearMapUp(V,W)$ maps. If $f$ and $f'$ are related by the pointwise $\LinearMapUp(U,V)$ classifier, and $g$ and $g'$ are related by the pointwise $\LinearMapUp(V,W)$ classifier, then $g\circ f$ and $g'\circ f'$ are carried $\LinearMapUp(U,W)$ maps and are related by the pointwise $\LinearMapUp(U,W)$ classifier:
+$$
+g\circ f\sim_{\LinearMapUp(U,W)}g'\circ f'.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:vecspace-carrier}, each displayed vector-space certificate is a module certificate over the same scalar field, and by \autoref{def:module-carrier} the addition, scalar action, carrier, and classifier rows used below are the module rows specialized to vector spaces. By \autoref{def:linearmap-carrier}, each carried linear map has output closure, additive preservation, scalar compatibility, and a descent certificate for transporting classifier comparisons through evaluation.
+
+First consider $g\circ f$. For a carried input $x:U$, output closure for $f$ gives that $f(x)$ is carried in $V$, and output closure for $g$ gives that $g(f(x))$ is carried in $W$. Thus the composite has output closure. For carried inputs $x,y:U$, the additive row of $f$ gives
+$$
+f(x+_U y)\sim_V f(x)+_V f(y).
+$$
+Transporting this comparison through evaluation by $g$ using \autoref{thm:descent-certificate-respects}, and then applying the additive row of $g$, gives
+$$
+g(f(x+_U y))\sim_W g(f(x)+_V f(y))\sim_W g(f(x))+_W g(f(y)).
+$$
+Classifier transitivity in the codomain module gives the additive row for $g\circ f$. For a carried scalar $r:F$ and carried input $x:U$, the scalar row of $f$ gives
+$$
+f(r\cdot_U x)\sim_V r\cdot_V f(x).
+$$
+Transporting this comparison through evaluation by $g$, and then applying the scalar row of $g$, gives
+$$
+g(f(r\cdot_U x))\sim_W g(r\cdot_V f(x))\sim_W r\cdot_W g(f(x)).
+$$
+Again codomain transitivity gives scalar compatibility for $g\circ f$. Hence $g\circ f$ is a carried $\LinearMapUp(U,W)$ map. The same argument with $f'$ and $g'$ gives that $g'\circ f'$ is carried.
+
+It remains to prove pointwise classifier congruence. Fix a carried input $x:U$. The pointwise classifier relation between $f$ and $f'$ gives
+$$
+f(x)\sim_V f'(x).
+$$
+The descent certificate for $g$ transports this input comparison to
+$$
+g(f(x))\sim_W g(f'(x)).
+$$
+The pointwise classifier relation between $g$ and $g'$ applied at the carried input $f'(x)$ gives
+$$
+g(f'(x))\sim_W g'(f'(x)).
+$$
+Transitivity of $\sim_W$ yields
+$$
+(g\circ f)(x)\sim_W(g'\circ f')(x).
+$$
+Because $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} identifies this pointwise comparison with the $\LinearMapUp(U,W)$ classifier relation between the two composites. The ledger is the composition row recorded by \autoref{def:linearmap-ledger-policy}, with the two input map ledgers and the codomain pointwise comparison ledger as its witnesses.
+\end{proof}
