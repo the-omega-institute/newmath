@@ -14,6 +14,20 @@ result of \(p\) by the exponent \(e\).
 \end{definition}
 \leandef{BEDC.Derived.PadicUp.PadicPrimeScale}
 
+\begin{theorem}[Prime scale totality]
+\label{thm:padic-prime-scale-total}
+If \(p\) is a \(\PrimeUp\)-prime and \(e\) is a unary history, then some unary
+history \(r\) realizes \(\mathsf{PadicPrimeScale}(p,e,r)\).
+\end{theorem}
+\begin{proof}
+The prime witness contains the unary carrier field for \(p\). Unary
+multiplication totality applied to this carrier and to the exponent carrier
+produces a unary result \(r\) together with the \(\mathsf{NatMul}(p,e,r)\)
+witness. Pairing the original prime witness with that multiplication witness
+is precisely \(\mathsf{PadicPrimeScale}(p,e,r)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_total}
+
 \begin{theorem}[Prime scale empty result exactness]
 \label{thm:padic-prime-scale-empty-result-iff-empty-exponent}
 If \(\mathsf{PadicPrimeScale}(p,e,r)\), then \(r\hsame\emp\) exactly when

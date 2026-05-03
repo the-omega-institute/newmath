@@ -4,11 +4,21 @@ namespace BEDC.Derived.PadicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 open BEDC.Derived.PrimeUp
 
 def PadicPrimeScale (p exponent result : BHist) : Prop :=
   NatPrime p ∧ NatMul p exponent result
+
+theorem PadicPrimeScale_total {p exponent : BHist} :
+    NatPrime p -> UnaryHistory exponent ->
+      ∃ result : BHist, UnaryHistory result ∧ PadicPrimeScale p exponent result := by
+  intro prime exponentUnary
+  have product := NatMul_total prime.left exponentUnary
+  cases product with
+  | intro result data =>
+      exact ⟨result, data.left, And.intro prime data.right⟩
 
 theorem PadicPrimeScale_empty_result_iff_empty_exponent {p exponent result : BHist} :
     PadicPrimeScale p exponent result ->
