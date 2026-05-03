@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\AbGroupUp\)}
 \label{ch:concrete-instances-abgroup-namecert}
 
-The abelian group interface \(\AbGroupUp\) extends \autoref{ch:concrete-instances-group-namecert} with the commutativity field \(a \cdot b = b \cdot a\) under the carrier's classifier. It is the abelian specialization of the group certificate; the integer additive group from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+The abelian group interface $\AbGroupUp$ extends \autoref{ch:concrete-instances-group-namecert} with the commutativity field $a \cdot b = b \cdot a$ under the carrier's classifier. It is the abelian specialization of the group certificate. The concrete $\AbGroupUp$ instances in this chapter are the singleton $\mathsf{BHist}$ instances below, while the signed-unary $\IntUp$ carrier contributes the fixed-sign commutativity boundary recorded in \autoref{def:abgroup-int-additive-obligation-boundary}.
 
 \section{Carrier definition}
 
@@ -53,6 +53,34 @@ the endpoint relation, these are exactly the classifier witness
 $R_{\emp}(\mathsf{mul}(h,k),\mathsf{mul}(k,h))$.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.concrete\_singleton\_history\_abgroup\_laws}
+
+\begin{definition}[Integer additive AbGroup obligation boundary]
+\label{def:abgroup-int-additive-obligation-boundary}
+The signed-unary integer carrier supplies the carrier and classifier
+$$
+\mathsf{IntCarrier}(s,h),\qquad
+\mathsf{IntClassifierSpec}((s,h),(t,k)).
+$$
+For a fixed sign $s$, the same-sign append operation row is
+$$
+\mu_s((s,h),(s,k))=(s,\mathsf{append}(h,k)).
+$$
+The checked commutativity boundary for this row is supplied by
+\autoref{thm:int-classifier-append-comm-same-sign}. An AbGroup instance over the
+signed carrier still requires the remaining certificate rows: zero
+representative, inverse or negation representative, cross-sign addition,
+associativity, unit, inverse, and congruence rows over
+$\mathsf{IntClassifierSpec}$.
+
+The ten-field template is: traditional target the integer additive abelian
+group; BEDC source $\IntUp$ over signed unary histories; carrier
+$\mathsf{IntCarrier}$; classifier $\mathsf{IntClassifierSpec}$; stability
+obligations the rows just listed; ledger sign and magnitude witnesses plus
+continuation rows; core theorem list including
+\autoref{thm:int-classifier-append-comm-same-sign}; exactness predicate the
+classifier laws over the signed carrier; standard bridge the integer additive
+group; and status $\mathsf{ProofTarget}$.
+\end{definition}
 
 Thus the $\AbGroupUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and operation, so later Lean work can formalize BHist-anchored abelian
