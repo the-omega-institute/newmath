@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.MetricUp.Transport
 
@@ -203,8 +204,23 @@ theorem DerivativeMetricQuotient_result_deterministic {f z h q q' dist dist' : B
                                                           exact And.intro leftFunctionLedger
                                                             (And.intro rightFunctionLedger
                                                               (And.intro leftMetricLedger
-                                                                (And.intro rightMetricLedger
-                                                                  (And.intro sameQuotient
-                                                                    sameDistance))))
+                                                              (And.intro rightMetricLedger
+                                                                (And.intro sameQuotient
+                                                                  sameDistance))))
+
+theorem DerivativeMetricQuotient_distance_visible_context_readback {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p dist) r) (append (append p core) r) ->
+        hsame dist core ∧ (hsame core BHist.Empty -> False) := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append dist r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p dist r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame dist core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore
+    (fun coreEmpty =>
+      DerivativeMetricQuotient_distance_result_nonempty quotient
+        (hsame_trans sameCore coreEmpty))
 
 end BEDC.Derived.DerivativeUp
