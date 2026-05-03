@@ -99,6 +99,17 @@ theorem TensorProductSingletonCarrier_empty_iff {h : BHist} :
           (And.intro (hsame_refl BHist.Empty)
             (cont_result_hsame_transport (cont_right_unit BHist.Empty) (hsame_symm emptyH)))))
 
+theorem TensorProductSingletonCarrier_continuation_result_closed {pair suffix out : BHist} :
+    TensorProductSingletonCarrier pair -> ModuleSingletonCarrier suffix -> Cont pair suffix out ->
+      TensorProductSingletonCarrier out := by
+  intro pairCarrier suffixCarrier pairSuffix
+  have pairEmpty : hsame pair BHist.Empty :=
+    TensorProductSingletonCarrier_empty_iff.mp pairCarrier
+  have moved : Cont BHist.Empty BHist.Empty out :=
+    cont_hsame_transport pairEmpty suffixCarrier (hsame_refl out) pairSuffix
+  have outEmpty : hsame out BHist.Empty := cont_left_unit_result moved
+  exact TensorProductSingletonCarrier_empty_iff.mpr outEmpty
+
 def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
     ModuleSingletonCarrier tensor ∧ Cont left right tensor

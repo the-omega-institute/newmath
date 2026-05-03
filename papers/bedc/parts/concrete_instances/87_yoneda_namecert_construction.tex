@@ -26,6 +26,27 @@ equality and the supplied unary object carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_iff}
 
+\begin{theorem}[Yoneda empty component family e1 target characterization]
+\label{thm:yoneda-representable-empty-component-family-e1-target-iff}
+For generated histories $p$ and $q$, the empty component family with target
+$\Eone(q)$ is equivalent to unary membership of $q$ together with
+$p\hsame\Eone(q)$:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,\Eone(q),a,\emp)\Bigr)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(q)\land p\hsame\Eone(q).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the empty component family characterization and
+then inverts unary membership of the $\Eone$ target. Conversely, unary
+membership of $q$ closes $\Eone(q)$ under unary construction, and the
+$\hsame$ comparison transports unary membership back to $p$. The general empty
+component family characterization then gives the displayed family.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_e1\_target\_iff}
+
 \begin{theorem}[Yoneda empty component family displayed determinacy]
 \label{thm:yoneda-representable-empty-component-family-displayed-deterministic}
 If an empty representable component family and a displayed component family

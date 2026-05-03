@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.UnitUp
@@ -21,6 +22,12 @@ theorem UnitHistoryCarrier_empty_iff {h : BHist} :
   · intro same
     cases same
     exact cont_left_unit BHist.Empty
+
+theorem UnitHistoryCarrier_continuation_suffix_closed {h k r : BHist} :
+    UnitHistoryCarrier h -> Cont h k r -> hsame r BHist.Empty -> UnitHistoryCarrier k := by
+  intro hCarrier hcont rEmpty
+  have hEmpty : hsame h BHist.Empty := UnitHistoryCarrier_empty_iff.mp hCarrier
+  exact cont_hsame_transport hEmpty (hsame_refl k) rEmpty hcont
 
 theorem UnitHistoryClassifier_semanticNameCert :
     SemanticNameCert UnitHistoryCarrier UnitHistoryCarrier UnitHistoryCarrier
