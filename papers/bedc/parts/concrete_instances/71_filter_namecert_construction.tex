@@ -49,6 +49,24 @@ $left$ and $right$ identifies the two suffix orders.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_commuting\_square}
 
+\begin{theorem}[Principal suffix unary intersection meet commutes]
+\label{thm:filter-principal-suffix-unary-intersection-meet-commutes}
+Let $left,right,meet,commute:\mathsf{BHist}$. If $left$ and $right$ are unary
+histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(right,left,commute),
+$$
+then $meet\hsame commute$.
+\end{theorem}
+\begin{proof}
+Apply the unary commuting square with empty base. The left and right base legs
+are the canonical left-unit continuations, so the two displayed intersection
+results are precisely the two suffix orders, and the square identifies them by
+$\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_meet\_commutes}
+
 \begin{theorem}[Principal suffix unary commuting square base determinism]
 \label{thm:filter-principal-suffix-unary-commuting-square-base-deterministic}
 Let $base,base',left,right,leftPoint,rightPoint,meetPoint:\mathsf{BHist}$.
@@ -91,6 +109,24 @@ fixed prefix $base$, giving the displayed continuation by
 $\mathsf{append}(right,left)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_commuted\_meet\_closed}
+
+\begin{theorem}[Principal suffix commuted result determinism]
+\label{thm:filter-principal-suffix-unary-intersection-commuted-result-deterministic}
+Let $base,left,right,meet,meetPoint,displayed:\mathsf{BHist}$. If $left$ and
+$right$ are unary histories and
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,meet,meetPoint),\qquad
+\ContR(base,\mathsf{append}(right,left),displayed),
+$$
+then $meetPoint\hsame displayed$.
+\end{theorem}
+\begin{proof}
+The commuted meet closure theorem displays $meetPoint$ as a continuation of
+$base$ by $\mathsf{append}(right,left)$. Continuation determinism compares this
+canonical commuted display with the given $displayed$ history.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_unary\_intersection\_commuted\_result\_deterministic}
 
 \begin{theorem}[Principal suffix unary intersection result determinism]
 \label{thm:filter-principal-suffix-unary-intersection-result-deterministic}

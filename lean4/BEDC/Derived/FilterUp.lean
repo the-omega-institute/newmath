@@ -78,6 +78,13 @@ theorem FilterPrincipalSuffix_unary_commuting_square_base_deterministic
           (congrArg (append base') (unary_append_comm leftCarrier rightCarrier).symm)))
   exact append_right_cancel (k := append left right) sameCommonSuffix
 
+theorem FilterPrincipalSuffix_unary_intersection_meet_commutes {left right meet commute : BHist} :
+    UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont right left commute ->
+      hsame meet commute := by
+  intro leftCarrier rightCarrier leftRight rightLeft
+  exact FilterPrincipalSuffix_unary_commuting_square leftCarrier rightCarrier
+    (cont_left_unit left) (cont_left_unit right) leftRight rightLeft
+
 theorem FilterPrincipalSuffix_unary_intersection_commuted_meet_closed
     {base left right meet meetPoint : BHist} :
     UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont base meet meetPoint ->
@@ -87,6 +94,17 @@ theorem FilterPrincipalSuffix_unary_intersection_commuted_meet_closed
   cases leftRight
   exact cont_intro (congrArg (fun tail => append base tail)
     (unary_append_comm leftCarrier rightCarrier))
+
+theorem FilterPrincipalSuffix_unary_intersection_commuted_result_deterministic
+    {base left right meet meetPoint displayed : BHist} :
+    UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont base meet meetPoint ->
+      Cont base (append right left) displayed -> hsame meetPoint displayed := by
+  intro leftCarrier rightCarrier leftRight baseMeet displayedRel
+  have commutedMeet :
+      Cont base (append right left) meetPoint :=
+    FilterPrincipalSuffix_unary_intersection_commuted_meet_closed leftCarrier rightCarrier
+      leftRight baseMeet
+  exact cont_deterministic commutedMeet displayedRel
 
 theorem FilterPrincipalSuffix_unary_intersection_zero_result_absurd
     {base left right meet leftPoint rightPoint z : BHist} :
