@@ -129,6 +129,24 @@ this morphism equality to obtain $\mathsf{CategoryHomCarrier}(a,b,left)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_identity\_carrier\_result}
 
+\begin{theorem}[Category hom carrier left identity result iff]
+\label{thm:category-hom-carrier-left-identity-result-iff}
+For the unary-continuation category, for histories $a,b,id,f,left$, if
+$\mathsf{CategoryHomCarrier}(a,a,id)$ and
+$\mathsf{CategoryHomCarrier}(a,b,f)$, then
+$$
+\ContR(id,f,left)\Longleftrightarrow\HSame(left,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+at $a$, giving $\HSame(id,\emp)$. The forward direction is the left identity
+carrier result. For the reverse direction, rewrite the left endpoint by
+$\HSame(id,\emp)$ and use the BEDC left-unit continuation characterized by
+$\HSame(left,f)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_identity\_result\_iff}
+
 \begin{theorem}[Category hom carrier right identity carrier result]
 \label{thm:category-hom-carrier-right-identity-carrier-result}
 For the unary-continuation category, for histories $a,b,id,f,right$, if
@@ -149,6 +167,24 @@ $\mathsf{CategoryHomCarrier}(a,b,f)$ witness across this morphism equality to
 obtain $\mathsf{CategoryHomCarrier}(a,b,right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_carrier\_result}
+
+\begin{theorem}[Category hom carrier right identity result iff]
+\label{thm:category-hom-carrier-right-identity-result-iff}
+For the unary-continuation category, for histories $a,b,id,f,right$, if
+$\mathsf{CategoryHomCarrier}(b,b,id)$ and
+$\mathsf{CategoryHomCarrier}(a,b,f)$, then
+$$
+\ContR(f,id,right)\Longleftrightarrow\HSame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+Compare the displayed identity carrier $id$ with the canonical empty identity
+at $b$, giving $\HSame(id,\emp)$. The forward direction is the right identity
+carrier result. For the reverse direction, rewrite the right endpoint by
+$\HSame(id,\emp)$ and use the BEDC right-unit continuation characterized by
+$\HSame(right,f)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_identity\_result\_iff}
 
 \begin{theorem}[Category hom carrier composite left-right identity result]
 \label{thm:category-hom-carrier-comp-left-right-identity-result}

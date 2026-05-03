@@ -106,6 +106,24 @@ the canonical right-unit continuation $\ContR(\emp,\emp,\emp)$. The resulting
 determinacy identifies $R$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_closed}
+\begin{theorem}[Field singleton carrier continuation endpoint split]
+\label{thm:field-singleton-carrier-continuation-endpoint-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the result $R$
+is a singleton field carrier endpoint exactly when both inputs are singleton
+field carrier endpoints:
+$$
+\mathsf{FieldSingletonCarrier}(R)\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(P)\wedge\mathsf{FieldSingletonCarrier}(Q).
+$$
+\end{theorem}
+\begin{proof}
+If $R$ is identified with $\emp$, transport the displayed continuation result
+to $\emp$ and use empty-result inversion for $\ContR(P,Q,\emp)$ to identify
+both endpoints with $\emp$. Conversely, when $P$ and $Q$ are both identified
+with $\emp$, compare the displayed continuation with the canonical
+continuation $\ContR(\emp,\emp,\emp)$ to identify $R$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_endpoint\_split\_iff}
 \input{parts/concrete_instances/field/20_field_singleton_carrier_continuation_right_endpoint}
 \begin{theorem}[Field singleton classifier continuation endpoint split]
 \label{thm:field-singleton-classifier-continuation-endpoint-split}

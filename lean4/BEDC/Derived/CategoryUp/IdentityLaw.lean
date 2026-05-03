@@ -38,6 +38,21 @@ theorem CategoryHomCarrier_left_identity_carrier_result {a b id f left : BHist} 
     exact homCarrier
   exact And.intro leftCarrier leftSame
 
+theorem CategoryHomCarrier_left_identity_result_iff {a b id f left : BHist} :
+    CategoryHomCarrier a a id -> CategoryHomCarrier a b f ->
+      (Cont id f left ↔ hsame left f) := by
+  intro identityCarrier homCarrier
+  have emptyIdentity : CategoryHomCarrier a a BHist.Empty :=
+    CategoryHomCarrier_empty_identity identityCarrier.left
+  have idEmpty : hsame id BHist.Empty :=
+    CategoryHomCarrier_morphism_deterministic identityCarrier emptyIdentity
+  constructor
+  · intro leftRel
+    exact (CategoryHomCarrier_left_identity_carrier_result identityCarrier homCarrier leftRel).right
+  · intro leftSame
+    cases idEmpty
+    exact Iff.mpr cont_left_unit_iff leftSame
+
 theorem CategoryHomCarrier_right_identity_carrier_result {a b id f right : BHist} :
     CategoryHomCarrier b b id -> CategoryHomCarrier a b f -> Cont f id right ->
       CategoryHomCarrier a b right ∧ hsame right f := by
@@ -53,6 +68,21 @@ theorem CategoryHomCarrier_right_identity_carrier_result {a b id f right : BHist
     cases rightSame
     exact homCarrier
   exact And.intro rightCarrier rightSame
+
+theorem CategoryHomCarrier_right_identity_result_iff {a b id f right : BHist} :
+    CategoryHomCarrier b b id -> CategoryHomCarrier a b f ->
+      (Cont f id right ↔ hsame right f) := by
+  intro identityCarrier homCarrier
+  have emptyIdentity : CategoryHomCarrier b b BHist.Empty :=
+    CategoryHomCarrier_empty_identity identityCarrier.left
+  have idEmpty : hsame id BHist.Empty :=
+    CategoryHomCarrier_morphism_deterministic identityCarrier emptyIdentity
+  constructor
+  · intro rightRel
+    exact (CategoryHomCarrier_right_identity_carrier_result identityCarrier homCarrier rightRel).right
+  · intro rightSame
+    cases idEmpty
+    exact Iff.mpr cont_right_unit_iff rightSame
 
 theorem CategoryHomCarrier_comp_left_right_identity_result {a b idA idB f left both : BHist} :
     CategoryHomCarrier a a idA -> CategoryHomCarrier b b idB -> CategoryHomCarrier a b f ->

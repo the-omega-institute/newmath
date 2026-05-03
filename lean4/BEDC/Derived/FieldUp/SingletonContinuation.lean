@@ -23,6 +23,19 @@ theorem FieldSingletonCarrier_continuation_closed {P Q R : BHist} :
   intro carrierP carrierQ continuation
   exact cont_respects_hsame carrierP carrierQ continuation (cont_right_unit BHist.Empty)
 
+theorem FieldSingletonCarrier_continuation_endpoint_split_iff {P Q R : BHist} :
+    Cont P Q R ->
+      (FieldSingletonCarrier R ↔ FieldSingletonCarrier P ∧ FieldSingletonCarrier Q) := by
+  intro continuation
+  constructor
+  · intro resultCarrier
+    have emptyContinuation : Cont P Q BHist.Empty :=
+      cont_result_hsame_transport continuation resultCarrier
+    exact cont_empty_result_inversion emptyContinuation
+  · intro endpoints
+    exact cont_respects_hsame endpoints.left endpoints.right continuation
+      (cont_right_unit BHist.Empty)
+
 theorem FieldSingletonClassifier_continuation_result_classifier {P Q R : BHist} :
     FieldSingletonClassifier P Q -> Cont P Q R -> FieldSingletonClassifier R BHist.Empty := by
   intro classified continuation
