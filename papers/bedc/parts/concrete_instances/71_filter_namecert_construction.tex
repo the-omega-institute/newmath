@@ -8,3 +8,22 @@ The filter interface $\FilterUp$ packages a non-empty upward-closed family of su
 
 \section{The certificate}
 \label{sec:filter-certificate}
+
+\begin{theorem}[Principal empty filter carrier semantic certificate]
+\label{thm:filter-principal-empty-carrier-semantic-namecert}
+The BEDC unary carrier restricted to the empty history,
+$$
+\mathsf{UnaryHistory}(h)\wedge h\hsame \emp,
+$$
+has a semantic naming certificate with source, pattern, and ledger predicates
+all equal to this principal empty carrier, and with classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The witness is the empty history, which is unary and classifies to itself.
+Reflexivity, symmetry, and transitivity are the finite-kernel laws for
+$\hsame$. If $h$ lies in the principal empty carrier and $h\hsame k$, unary
+transport moves the unary carrier from $h$ to $k$, while symmetry followed by
+transitivity sends the displayed comparison $h\hsame\emp$ to
+$k\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalEmptyCarrier\_semanticNameCert}
