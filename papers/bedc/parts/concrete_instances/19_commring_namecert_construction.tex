@@ -1,6 +1,43 @@
 \input{parts/concrete_instances/commring/19_commring_core}
 \input{parts/concrete_instances/commring/19_commring_algebraic_consequences}
 
+\begin{theorem}[CommRing zero linear factor annihilator branch]
+\label{thm:commring-zero-linear-factor-annihilator-branch}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First derive the right distributive law from the supplied left distributive law
+by \autoref{thm:commring-right-distrib-from-left}. The zero-classifier factor
+absorption theorem is then available with both distributive inputs.
+
+If the displayed disjunction chooses $(a+b)\hsame0$, retain that branch witness.
+For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and $y=c$.
+Its two components give $(a+b)\cdot c\hsame0$ and $c\cdot(a+b)\hsame0$, so the
+left disjunct packages the original witness with the universal annihilator row.
+
+If the displayed disjunction chooses $(a+(-b))\hsame0$, retain that branch
+witness instead. For an arbitrary $c:\mathsf{BHist}$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+(-b)$ and $y=c$.
+The two components give $(a+(-b))\cdot c\hsame0$ and
+$c\cdot(a+(-b))\hsame0$, yielding the right disjunct with the same
+branch-preserving form.
+\end{proof}
+
 \begin{theorem}[CommRing zero linear factor signed product zero]
 \label{thm:commring-zero-linear-factor-signed-product-zero}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -16,19 +53,17 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-First derive the right distributive law from the supplied left distributive law
-by \autoref{thm:commring-right-distrib-from-left}. The zero-factor absorption
-theorem can then be applied with both distributive inputs available.
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the chosen
+zero linear factor. The result keeps the selected branch and supplies its
+two-sided annihilator row for every multiplier.
 
-If the displayed disjunction chooses $(a+b)\hsame0$, apply
-\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and
-$y=a+(-b)$. The left-product conclusion is exactly
+In the $(a+b)\hsame0$ branch, specialize the universal row at
+$c=a+(-b)$ and take its left component. This is exactly
 $(a+b)\cdot(a+(-b))\hsame0$.
 
-If the displayed disjunction chooses $(a+(-b))\hsame0$, apply
-\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+(-b)$ and
-$y=a+b$. The right-product conclusion has the oriented product
-$(a+b)\cdot(a+(-b))$ and gives the required zero classifier.
+In the $(a+(-b))\hsame0$ branch, specialize the universal row at $c=a+b$ and
+take its right component. The oriented product is
+$(a+b)\cdot(a+(-b))$, giving the required zero classifier.
 \end{proof}
 
 \begin{theorem}[CommRing zero linear factor forces equal squares]
