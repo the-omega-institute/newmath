@@ -15,6 +15,26 @@ def CplxNonZero (h : BHist) : Prop :=
 def CplxDiffQuot (f z h q : BHist) : Prop :=
   UnaryHistory f ∧ UnaryHistory z ∧ CplxNonZero h ∧ UnaryHistory q ∧ Cont f h q
 
+theorem CplxNonZero_empty_or_nonzero {h : BHist} :
+    hsame h BHist.Empty ∨ CplxNonZero h := by
+  cases h with
+  | Empty => exact Or.inl (hsame_refl BHist.Empty)
+  | e0 p => exact Or.inr not_hsame_e0_empty
+  | e1 p => exact Or.inr not_hsame_e1_empty
+
+theorem CplxDiffQuot_visible_step_construct {f z p q out0 out1 : BHist} :
+    UnaryHistory f -> UnaryHistory z -> UnaryHistory out0 -> UnaryHistory out1 ->
+      Cont f (BHist.e0 p) out0 -> Cont f (BHist.e1 q) out1 ->
+        CplxDiffQuot f z (BHist.e0 p) out0 ∧ CplxDiffQuot f z (BHist.e1 q) out1 := by
+  intro functionCarrier pointCarrier out0Carrier out1Carrier cont0 cont1
+  constructor
+  · exact And.intro functionCarrier
+      (And.intro pointCarrier
+        (And.intro not_hsame_e0_empty (And.intro out0Carrier cont0)))
+  · exact And.intro functionCarrier
+      (And.intro pointCarrier
+        (And.intro not_hsame_e1_empty (And.intro out1Carrier cont1)))
+
 theorem CplxDiffQuot_hsame_transport {f f' z z' h h' q q' : BHist} :
     hsame f f' -> hsame z z' -> hsame h h' -> hsame q q' ->
       CplxDiffQuot f z h q ->

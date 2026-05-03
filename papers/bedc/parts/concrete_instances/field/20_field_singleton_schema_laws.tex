@@ -192,6 +192,25 @@ comparison from $\emp$ to $out$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_mul\_empty\_endpoint\_iff}
 
+\begin{theorem}[Field singleton addition endpoint classifier]
+\label{thm:field-singleton-add-endpoint-classifier}
+For histories $h,k,out:\mathsf{BHist}$, classifying the singleton-empty field
+addition endpoint against $out$ is exactly the assertion that $out$ is
+history-same to $\emp$:
+$$
+\rho_{\emp}(\mathsf{FieldSingletonAdd}(h,k),out)
+\Longleftrightarrow
+\hsame(out,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The addition endpoint is definitionally $\emp$. Forward classification exposes
+the carrier witness for $out$. Conversely, a witness $\hsame(out,\emp)$ gives
+the output carrier, the reflexive source carrier at $\emp$, and the symmetric
+classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAdd\_endpoint\_classifier\_iff}
+
 \begin{theorem}[Field singleton classifier append right cancellation]
 \label{thm:field-singleton-classifier-append-right-cancel}
 For histories $P,Q,R:\mathsf{BHist}$, if $P$ lies in the singleton carrier

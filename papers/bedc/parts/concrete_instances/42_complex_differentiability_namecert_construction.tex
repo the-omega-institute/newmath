@@ -11,6 +11,21 @@ For a complex history \(h\), the predicate \(\mathsf{CplxNonZero}(h)\) holds whe
 \end{definition}
 \leandef{BEDC.Derived.ComplexDiffUp.CplxNonZero}
 
+\begin{theorem}[Complex non-zero empty-or-apart split]
+\label{thm:cplx-nonzero-empty-or-nonzero}
+Every BEDC history is either history-same to the empty endpoint or supplies the
+constructor-level apartness witness used by \(\mathsf{CplxNonZero}\):
+$$
+\hsame(h,\emp)\ \vee\ \mathsf{CplxNonZero}(h).
+$$
+\end{theorem}
+\begin{proof}
+Split on the three constructors of \(h\). The empty branch is reflexive. The
+two visible branches use constructor separation from \(\emp\), yielding the
+non-zero contradiction witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxNonZero\_empty\_or\_nonzero}
+
 \begin{definition}[Complex difference quotient]
 \label{def:cplx-diff-quot}
 For complex histories \(z, h\) with \(\mathsf{CplxNonZero}(h)\) and a function-history \(f\) on the complex carrier, the complex difference-quotient relation \(\mathsf{CplxDiffQuot}(f, z, h, q)\) holds when the BEDC quotient ledger records the unary carriers of \(f\), \(z\), and \(q\), the non-zero witness on \(h\), and \(\Cont(f,h,q)\). Analytically, \(q\) represents the history obtained by:
@@ -54,6 +69,24 @@ $\mathsf{append}(f,h)$ with $\emp$. Empty-result inversion for append gives
 $h\hsame\emp$, contradicting $\mathsf{CplxNonZero}(h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty\_from\_step}
+
+\begin{theorem}[Complex difference quotient visible-step construction]
+\label{thm:cplx-diff-quot-visible-step-construct}
+If \(f,z,out_0,out_1\) are unary histories and the quotient ledgers
+\(\Cont(f,\Ezero(p),out_0)\) and \(\Cont(f,\Eone(q),out_1)\) are present, then
+both visible-step quotient records hold:
+$$
+\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out_0)
+\land
+\mathsf{CplxDiffQuot}(f,z,\Eone(q),out_1).
+$$
+\end{theorem}
+\begin{proof}
+Build each quotient record from the shared unary function and point carriers,
+the corresponding unary output carrier, the supplied continuation ledger, and
+constructor separation of the visible step from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_construct}
 
 \begin{lemma}[Complex difference quotient is well-defined]
 \label{lem:cplx-diff-quot-well-defined}
