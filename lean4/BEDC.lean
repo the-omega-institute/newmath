@@ -338,6 +338,7 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.DerivativeUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -435,6 +436,7 @@ import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
+import BEDC.Derived.NatTransUp.EmptyComponentSemantic
 import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.NatTransUp.IdentitySquare
 import BEDC.Derived.AdjunctionUp
