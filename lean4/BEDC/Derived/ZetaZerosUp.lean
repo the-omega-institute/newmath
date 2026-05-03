@@ -53,6 +53,19 @@ theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
     And.intro carrierT sameTZero
   exact And.intro sourceT (ZetaZeroSourceSpec_zero_classifier sourceT)
 
+theorem ZetaZeroPatternSpec_hsame_transport_classifier {s t z w : BHist} :
+    hsame s t -> hsame z w -> ZetaZeroPatternSpec s z ->
+      ZetaZeroPatternSpec t w ∧
+        ComplexHistoryClassifier w (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro sameST sameZW pattern
+  have sourceT : ZetaZeroSourceSpec t :=
+    (ZetaZeroSourceSpec_hsame_transport_classifier sameST pattern.left).left
+  have sameWZero : hsame w (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) :=
+    hsame_trans (hsame_symm sameZW) pattern.right
+  have patternTW : ZetaZeroPatternSpec t w :=
+    And.intro sourceT sameWZero
+  exact And.intro patternTW (ZetaZeroPatternSpec_zero_result_classifier patternTW)
+
 theorem ZetaZeroSourceSpec_zero_anchor_unique {s t : BHist} :
     ZetaZeroSourceSpec s ->
       ZetaZeroSourceSpec t ->

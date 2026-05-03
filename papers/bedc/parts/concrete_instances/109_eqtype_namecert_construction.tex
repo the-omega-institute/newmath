@@ -76,6 +76,20 @@ comparisons.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_empty\_anchor\_visible\_absurd}
 
+\begin{theorem}[EqType visible-context anchor readback]
+\label{thm:eqtype-class-carrier-visible-context-anchor-readback}
+For BEDC histories $anchor$, $h$, and $core$, if $h$ belongs to the
+equality-type class anchored at $anchor$ and the display of $h$ inside a common
+left and right append context agrees with the corresponding display of $core$,
+then $core\hsame anchor$.
+\end{theorem}
+\begin{proof}
+Reassociate the two displays into a common-context form and cancel the common
+prefix and suffix, obtaining $h\hsame core$. Symmetry composes this readback
+with the carrier comparison $h\hsame anchor$, so $core\hsame anchor$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_anchor\_readback}
+
 \section{The certificate}
 \label{sec:eqtype-certificate}
 
