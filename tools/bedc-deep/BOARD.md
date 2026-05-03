@@ -1624,3 +1624,29 @@ Surfaced in Turn 1 as the dual join-side comparison to be tested after the meet-
 
 ---
 
+### B-66 - Functor composition preservation requires morphism-sameness respect
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor composition preservation requires morphism-sameness respect |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under FunctorUp setups for F: C -> D and G: D -> E with raw composition ledgers, if G separates a D-classifier witness supplied by F's composition ledger (i.e. fails morphism-sameness on F's image), then the composite functor pair fails the composition-preservation field of the FunctorUp certificate, even though both individual raw composition ledgers exist.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+This is the separation/independence counterpart to B-11 (positive functor composition preservation). Where B-11 proves the composite carries the certificate when both factors do, this candidate isolates exactly which field is required: morphism-sameness respect by G on F's image. It pinpoints the concrete failure mode when the abstract obligation is dropped, mirroring the pattern set by B-18/B-20/B-24 (independence theorems for stability fields). The functor chapter is currently 100% definitions (per B-11 rationale); a finite-construction counterexample here would harden the boundary and supply a directly formalizable Lean target distinct from the positive theorem in B-11. Not a paraphrase of any existing BOARD entry: B-11 is positive preservation, this is negative-without-the-extra-hypothesis. Not present in paper coverage (no thm/lem/cor:functor-composition-* labels yet).
+
+---
+
