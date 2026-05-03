@@ -188,6 +188,17 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
 
+theorem DirichletPartSum_nonempty_index_positive {term : BHist -> BHist -> BHist}
+    {s n S : BHist} :
+    DirichletPartSum term s n S -> (hsame n BHist.Empty -> False) ->
+      DirichletPositiveIndex n := by
+  intro sum nonemptyN
+  have unaryN : UnaryHistory n := DirichletPartSum_index_unary sum
+  have tail := BEDC.FKernel.Unary.unary_history_nonempty_e1_tail unaryN nonemptyN
+  cases tail with
+  | intro t data =>
+      exact Exists.intro t (And.intro data.right data.left)
+
 theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
     DirichletPositiveIndex m -> UnaryHistory n -> DirichletPositiveIndex (append m n) := by
   intro positiveM unaryN
