@@ -1,3 +1,53 @@
 \input{parts/concrete_instances/58_subgroup_namecert_construction_core}
 \input{parts/concrete_instances/58_subgroup_namecert_construction_quotient_empty}
 \input{parts/concrete_instances/58_subgroup_namecert_quotient_classifier}
+
+\begin{theorem}[Centralizer normalizer quotient classifiers coincide]
+\label{thm:subgroup-centralizer-normalizer-quotient-classifiers-coincide}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack
+$Q_{Z_a\leq N_a}(x,y)$. The endpoint clauses give $N_a(x)$ and $N_a(y)$, and
+the right-witness clause gives a history $z$ with $Z_a(z)$ and
+$\hsame(y,\mathsf{mul}(x,z))$.
+
+It remains to produce the kernel word for
+$Q_{Z_a\triangleleft N_a}(x,y)$. Multiply the endpoint comparison on the left
+by $\mathsf{inv}(x)$. Associativity, the left inverse law, the unit law, and
+multiplication congruence identify
+$\mathsf{mul}(\mathsf{inv}(x),y)$ with $z$ up to $\hsame$. The carrier
+transport row for $Z_a$ from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} moves the
+witness $Z_a(z)$ to the displayed relative kernel word.
+
+For the reverse direction, unpack
+$Q_{Z_a\triangleleft N_a}(x,y)$. The endpoint clauses already give the
+$N_a(x)$ and $N_a(y)$ clauses needed by $Q_{Z_a\leq N_a}(x,y)$, and the kernel
+clause gives $Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$.
+
+Choose the right witness
+$z:=\mathsf{mul}(\mathsf{inv}(x),y)$. Associativity, the left inverse law, the
+unit law, and multiplication congruence identify
+$\mathsf{mul}(x,z)$ with $y$ up to $\hsame$, so the kernel clause supplies the
+required $Z_a(z)$ witness and the endpoint comparison repacks the
+coset-witness classifier.
+
+The ten-field fit is the ordinary quotient coset/kernel classifier
+equivalence for the centralizer-normalizer tower: the BEDC source is
+$\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$; the carrier is $N_a$; the
+classifier is either displayed predicate; stability comes from the tower
+certificate, inverse laws, unit laws, multiplication congruence, and carrier
+transport; the ledger records the right witness and the relative-kernel word;
+the core theorem is this statement; exactness is the displayed equivalence;
+the downstream consumer is $\QuotientGroupUp$; and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
