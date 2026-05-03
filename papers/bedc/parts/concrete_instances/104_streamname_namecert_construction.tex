@@ -79,8 +79,12 @@ $\mathsf{RatStreamNameClassifier}(s',t')$.
 
 \begin{definition}[Constant rational stream name]
 \label{def:rat-stream-name-constant}
-For a history $d:\Hist$, write $\mathsf{RatConstStream}_d(n)=d$ for every unary
-observation index $n$.
+\label{def:rat-stream-name-constant-stream}
+For a history $h:\Hist$, write $\mathsf{RatConstStream}_h=c_h$ for the stream
+$c_h:\mathbb{N}\to\Hist$ determined by
+$$
+c_h(n):=h.
+$$
 \end{definition}
 
 \begin{theorem}[Constant rational stream-name witness]
@@ -109,14 +113,50 @@ $d$ and $e$, so the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the
 required pointwise classifier witness.
 \end{proof}
 
+\begin{theorem}[Rational stream-name constant point exactness]
+\label{thm:rat-stream-name-constant-point-exactness}
+For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
+constant streams recover exactly the RatUp history data:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_h)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(h)
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatConstStream}$. In the
+forward direction, read the pointwise carrier witness at observation index $0$.
+In the reverse direction, fix an arbitrary observation index $n$; since the
+constant stream value is $h$, the supplied $\mathsf{RatHistoryCarrier}(h)$
+witness is exactly the required pointwise witness.
+
+For the classifier statement, unfold $\mathsf{RatStreamNameClassifier}$ and
+the two constant streams. In the forward direction, read the pointwise
+classifier witness at observation index $0$. In the reverse direction, fix an
+arbitrary observation index $n$; since the endpoint stream values are $h$ and
+$k$, the supplied $\mathsf{RatHistoryClassifier}(h,k)$ witness is exactly the
+required pointwise classifier at that observation.
+\end{proof}
+
 The certificate template has ten fields: traditional target certified
 countable rational-observation names; BEDC source $\RatUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
 $\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
-\autoref{thm:rat-stream-name-certificate-fields}; ledger finite observation
-index plus pointwise rational witnesses, with the constant stream ledger storing
-no data beyond the certified rational observation; core theorems
+\autoref{thm:rat-stream-name-certificate-fields} together with the constant
+stream witness from \autoref{thm:rat-stream-name-constant-witness} and
+constant-point exactness from
+\autoref{thm:rat-stream-name-constant-point-exactness}; ledger finite
+observation index plus pointwise rational witnesses, and for a constant stream
+the hidden constant seed together with the observation index; core theorems
 \autoref{thm:rat-stream-name-certificate-fields} and
-\autoref{thm:rat-stream-name-constant-witness}; exactness pointwise over the
-RatUp classifier; standard bridge ordinary rational streams; status
+\autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-point-exactness}; exactness pointwise over
+the RatUp classifier; standard bridge ordinary rational streams; status
 $\mathsf{ProofTarget}$.
