@@ -409,6 +409,81 @@ $\CommRingUp$ base coordinate, denominator histories, context pairs, affine
 witnesses, inverse/nonzero witnesses, and selector endpoint rows; status
 $\mathsf{ProofTarget}$.
 
+\begin{definition}[Canonical RatUp FieldUp exit row predicate]
+\label{def:ratup-fieldup-canonical-exit-row-predicate}
+For a $\mathsf{BHist}$ certificate row $R$ over
+$\mathsf{RatUpFieldSource}_F$, the predicate
+$\mathsf{CanFieldExitRow}(R)$ holds exactly when $R$ belongs to the finite
+disjunction of concrete rows exported by the displayed
+$\mathsf{RatUpFieldSource}_F$ object:
+\begin{enumerate}
+  \item one of the source, carrier, classifier, denominator, contextual-action,
+  context-pair, affine, ledger, or exactness rows identified by
+  \autoref{thm:ratup-fieldup-concrete-schema-instance};
+  \item one of the carrier and classifier anchors, $\CommRingUp$ base rows,
+  denominator multiplication and unit rows, contextual and context-pair rows,
+  affine rows, inverse and nonzero rows, product exactness rows, singleton
+  noncollapse rows, or selector endpoint rows exhausted by
+  \autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion};
+  \item one of the ten-field certificate, one-sided multiplication cancellation,
+  two-sided product classifier and nonzero transport, five-factor ledger,
+  cross-endpoint singleton-classifier, or bracketing-complete classifier rows
+  packaged by \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness};
+  \item one of the source, carrier, classifier, stability, ledger, core theorem,
+  exactness, bridge-slot, status, or completion-identification rows of
+  Definition~\ref{def:ratup-fieldup-concrete-exit-object} as certified by
+  \autoref{thm:ratup-fieldup-concrete-exit-object-complete}.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp canonical exit row exactness]
+\label{thm:ratup-fieldup-canonical-exit-row-exactness}
+For $\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+$\FieldUp(\RatUp)$ phase-exit object of
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} satisfies exact row
+coverage, row soundness, and row completeness for
+Definition~\ref{def:ratup-fieldup-canonical-exit-row-predicate}.
+\begin{enumerate}
+  \item Row coverage: every row of the canonical phase-exit object satisfies
+  $\mathsf{CanFieldExitRow}$.
+  \item Row soundness: every row satisfying $\mathsf{CanFieldExitRow}$ is a row
+  over the fixed concrete source tuple $\mathsf{RatUpFieldSource}_F$ with carrier
+  $\mathsf{RatHistoryCarrier}$, classifier $\mathsf{RatHistoryClassifier}$,
+  denominator tuple
+  $(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+  \mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and contextual action
+  $\Gamma$.
+  \item Row completeness: no row belongs to the canonical phase-exit object
+  unless it satisfies $\mathsf{CanFieldExitRow}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For row coverage, apply
+\autoref{thm:ratup-fieldup-concrete-schema-instance} to fix the source,
+carrier, classifier, denominator, contextual-action, context-pair, and affine
+coordinates. Then apply
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} to cover the
+operation inventory: denominator histories, context pairs, affine witnesses,
+inverse and nonzero witnesses, product exactness, singleton noncollapse, and
+selector endpoint rows.
+
+For row soundness, project each disjunct in
+Definition~\ref{def:ratup-fieldup-canonical-exit-row-predicate} back through
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}. Each case has the
+same displayed source tuple, the same $\mathsf{BHist}$ carrier, the same
+classifier, the same denominator tuple, and the same contextual action
+$\Gamma$, so the predicate contains no schematic operation row.
+
+For row completeness, apply
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness} to assemble the
+covered rows as the Phase Algebra Hierarchy paper certificate. Then use
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete} to identify that
+certificate with Definition~\ref{def:ratup-fieldup-concrete-exit-object}. This
+identification leaves no phase-exit row outside
+$\mathsf{CanFieldExitRow}$.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp canonical exit singleton context boundary]
 \label{thm:ratup-fieldup-canonical-exit-singleton-context-boundary}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the source tuple
