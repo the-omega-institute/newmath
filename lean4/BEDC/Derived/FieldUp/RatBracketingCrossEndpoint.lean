@@ -249,4 +249,37 @@ theorem ratup_fieldup_bracketing_endpoint_selector_same {h k l : BHist} :
         | b0 => exact hsame_symm (append_assoc h k l)
         | b1 => exact hsame_refl (append h (append k l))
 
+theorem ratup_fieldup_bracketing_selector_contextual_nonzero_package {h k l ctx : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> RatDenomUnitCarrier l ->
+      ((RatHistoryCarrier h ∨ RatHistoryCarrier k) ∨ RatHistoryCarrier l) ->
+        forall s : BEDC.FKernel.Mark.BMark,
+          (fieldSingletonEmptyCarrier
+            (append ctx (ratup_fieldup_bracketing_endpoint_selector h k l s)) -> False) ∧
+            (fieldSingletonEmptyCarrier
+              (append (ratup_fieldup_bracketing_endpoint_selector h k l s) ctx) -> False) ∧
+            fieldSingletonEmptyNonZero
+              (append ctx (ratup_fieldup_bracketing_endpoint_selector h k l s)) ∧
+            fieldSingletonEmptyNonZero
+              (append (ratup_fieldup_bracketing_endpoint_selector h k l s) ctx) := by
+  intro carrierH carrierK carrierL support s
+  have selectedCarrier :
+      RatHistoryCarrier (ratup_fieldup_bracketing_endpoint_selector h k l s) :=
+    ratup_fieldup_bracketing_selector_rat_carrier_coverage
+      carrierH carrierK carrierL support s
+  have rightContextEmpty :
+      fieldSingletonEmptyCarrier
+        (append ctx (ratup_fieldup_bracketing_endpoint_selector h k l s)) -> False :=
+    fun singleton =>
+      fieldSingletonEmptyCarrier_append_ratHistoryCarrier_absurd singleton selectedCarrier
+  have leftContextEmpty :
+      fieldSingletonEmptyCarrier
+        (append (ratup_fieldup_bracketing_endpoint_selector h k l s) ctx) -> False :=
+    fun singleton =>
+      fieldSingletonEmptyCarrier_append_left_ratHistoryCarrier_absurd singleton selectedCarrier
+  exact And.intro rightContextEmpty
+    (And.intro leftContextEmpty
+      (And.intro
+        (fun classified => rightContextEmpty classified.left)
+        (fun classified => leftContextEmpty classified.left)))
+
 end BEDC.Derived.FieldUp

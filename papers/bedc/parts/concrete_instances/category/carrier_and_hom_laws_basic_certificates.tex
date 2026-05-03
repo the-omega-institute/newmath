@@ -54,6 +54,31 @@ with $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_semanticNameCert}
 
+\begin{theorem}[Category hom carrier composite-result endpoint semantic name certificate]
+\label{thm:category-hom-carrier-composite-result-endpoint-semantic-name-certificate}
+For displayed hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$ together with $\ContR(f,g,fg)$, if
+$a\hsame a'$ and $c\hsame c'$, then the transported predicate
+$$
+h\mapsto \mathsf{CategoryHomCarrier}(a',c',h)\land h\hsame fg
+$$
+carries a semantic naming certificate whose source, pattern, and ledger
+predicates are this same transported composite-result predicate and whose
+classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Composition closure first gives the concrete composite hom carrier at
+endpoints $(a,c)$ and result $fg$. Endpoint transport along $a\hsame a'$ and
+$c\hsame c'$ moves this carrier to $(a',c')$, giving inhabitation at $fg$.
+The classifier laws are reflexivity, symmetry, and transitivity of $\hsame$.
+Carrier transport keeps endpoints fixed at $(a',c')$, transports the displayed
+hom carrier along the classifier proof, and composes the inverse classifier
+proof with the stored comparison to $fg$. Pattern and ledger soundness are
+identities because all three semantic predicates coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_endpoint\_semanticNameCert}
+
 \begin{theorem}[Continuation morphism source semantic name certificate]
 \label{thm:continuation-morphism-source-semantic-namecert}
 For a displayed continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$,

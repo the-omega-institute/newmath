@@ -98,4 +98,33 @@ theorem CategoryHomCarrier_comp_result_semanticNameCert {a b c f g fg : BHist}
   · intro h source
     exact source
 
+theorem CategoryHomCarrier_comp_result_endpoint_semanticNameCert {a b c a' c' f g fg : BHist}
+    (sameSource : hsame a a') (sameTarget : hsame c c')
+    (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b c g) (comp : Cont f g fg) :
+    SemanticNameCert (fun h : BHist => CategoryHomCarrier a' c' h ∧ hsame h fg)
+      (fun h : BHist => CategoryHomCarrier a' c' h ∧ hsame h fg)
+      (fun h : BHist => CategoryHomCarrier a' c' h ∧ hsame h fg) hsame := by
+  constructor
+  · constructor
+    · have composite : CategoryHomCarrier a c fg :=
+        CategoryHomCarrier_comp_closed left right comp
+      exact Exists.intro fg
+        (And.intro
+          (CategoryHomCarrier_hsame_transport sameSource sameTarget (hsame_refl fg) composite)
+          (hsame_refl fg))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact And.intro
+        (CategoryHomCarrier_hsame_transport (hsame_refl a') (hsame_refl c') same carrier.left)
+        (hsame_trans (hsame_symm same) carrier.right)
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 end BEDC.Derived.CategoryUp
