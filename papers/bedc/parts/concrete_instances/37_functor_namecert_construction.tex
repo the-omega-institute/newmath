@@ -743,3 +743,40 @@ $$
 $$
 By the displayed definition of the composite object map, the right-hand side is exactly $\mathsf{HomCarrier}_{E}(G_0(F_0(x)),G_0(F_0(y)),m)$. The classifier discipline of \autoref{def:functor-classifier-specification} and the pointwise reading in \autoref{rem:functor-zero-axiom-note} identify classifier sameness by this morphism-argument equivalence, so the composite functor carries precisely the composed hom-carrier classifier.
 \end{proof}
+
+\begin{proposition}[Functor composition identity needs morphism-sameness respect]
+\label{prop:functor-composition-identity-sameness-respect-required}
+Let $C,D,E$ be finite certified categories, and let $F:C\to D$ and $G:D\to E$ be carrier pairs with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Write $m\sim_D n$ and $r\sim_E s$ for the endpoint-indexed morphism classifiers, and suppose the $E$-classifier is symmetric and transitive. Assume the raw identity and raw composition preservation ledgers for $F$ and $G$ are present in the sense of \autoref{def:functor-carrier}. Fix an object $x$ of $C$ and set $H=G\circ F$ with $H_0(x)=G_0(F_0(x))$ and $H_1(u)=G_1(F_1(u))$. If
+$$
+F_1(\mathsf{id}_x)\sim_D \mathsf{id}_{F_0(x)}
+$$
+and
+$$
+G_1(\mathsf{id}_{F_0(x)})\sim_E \mathsf{id}_{G_0(F_0(x))}
+$$
+but
+$$
+\neg\bigl(G_1(F_1(\mathsf{id}_x))\sim_E G_1(\mathsf{id}_{F_0(x)})\bigr),
+$$
+then $H$ has no identity preservation witness at $x$:
+$$
+\neg\bigl(H_1(\mathsf{id}_x)\sim_E \mathsf{id}_{H_0(x)}\bigr).
+$$
+\end{proposition}
+\begin{proof}
+Assume that the displayed composite identity witness exists. Unfolding the composite carrier gives
+$$
+G_1(F_1(\mathsf{id}_x))\sim_E \mathsf{id}_{G_0(F_0(x))}.
+$$
+The raw identity ledger for $G$ gives
+$$
+G_1(\mathsf{id}_{F_0(x)})\sim_E \mathsf{id}_{G_0(F_0(x))}.
+$$
+Symmetry reverses the second comparison, and transitivity composes it with the first. Hence
+$$
+G_1(F_1(\mathsf{id}_x))\sim_E G_1(\mathsf{id}_{F_0(x)}),
+$$
+contradicting the displayed non-respect premise. Thus the composite identity witness cannot exist.
+
+The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(\mathsf{id}_x)$ and $\mathsf{id}_{F_0(x)}$. To use the raw identity ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the step used in \autoref{thm:functor-composite-preservation-witnesses}. Raw composition preservation does not supply this transport, so it cannot restore identity preservation for $G\circ F$.
+\end{proof}
