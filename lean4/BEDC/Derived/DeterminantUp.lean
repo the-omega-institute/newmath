@@ -1,3 +1,4 @@
+import BEDC.FKernel.Hist
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.CommRingUp
 
@@ -60,5 +61,7 @@ theorem DeterminantSingleton_semanticNameCert :
       intro M carrierM
       exact carrierM
   }
+
+def DeterminantSingletonReadback (_M : BHist) : BHist := BHist.Empty
 
 end BEDC.Derived.DeterminantUp

@@ -166,6 +166,7 @@ import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
+import BEDC.Derived.DeterminantUp
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
