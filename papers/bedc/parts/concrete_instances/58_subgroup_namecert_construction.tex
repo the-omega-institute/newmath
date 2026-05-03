@@ -57,6 +57,48 @@ $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_witness\_classifier\_iff}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
 
+\begin{theorem}[Centralizer normalizer right quotient classifier transitivity]
+\label{thm:subgroup-centralizer-right-quotient-classifier-trans}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence, and
+two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the
+right-witness quotient classifier $Q_{Z_a\leq N_a}$ is transitive:
+$$
+Q_{Z_a\leq N_a}(x,y)\land Q_{Z_a\leq N_a}(y,z)
+\Longrightarrow Q_{Z_a\leq N_a}(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Convert both right-witness classifier hypotheses to the relative-kernel
+classifier using the centralizer-normalizer quotient classifier equivalence.
+The kernel classifier is transitive by the empty-unit centralizer quotient
+kernel theorem: the two relative kernel words multiply, and the middle
+endpoint cancels by associativity, unit, congruence, and inverse laws. Convert
+the resulting kernel classifier back to the right-witness classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_trans\_from\_empty\_unit}
+
+\begin{theorem}[Centralizer right coset classifier hsame transport]
+\label{thm:subgroup-centralizer-right-coset-classifier-hsame-transport}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence, and
+two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, if
+$Q_{Z_a\leq N_a}(x,y)$ is presented by the right-coset classifier and
+$x\hsame x'$ and $y\hsame y'$, then the same right-coset classifier holds at
+$(x',y')$.
+\end{theorem}
+\begin{proof}
+Translate the right-coset classifier through the quotient-kernel equivalence
+to obtain $Q_{Z_a\triangleleft N_a}(x,y)$. The quotient-kernel transport row
+moves both normalizer endpoints and the displayed kernel carrier across the
+two $\hsame$ endpoint comparisons. Translating back through the same
+coset/kernel equivalence repackages the transported kernel as the
+right-coset classifier at $(x',y')$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_hsame\_transport}
+
 \begin{theorem}[Centralizer quotient kernel empty fiber]
 \label{thm:subgroup-centralizer-quotient-kernel-empty-fiber}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$

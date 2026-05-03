@@ -137,6 +137,31 @@ predicates are all the same concrete intersection carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersection\_certificate\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer intersection self-conjugation closure]
+\label{thm:subgroup-centralizer-intersection-self-conjugation-closure}
+Under the same BEDC history-level $\GroupUp$ laws, if
+$Z_{a,b}(t)$ and $Z_{a,b}(x)$, then both conjugation words
+$$
+\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))
+$$
+and
+$$
+\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(t),x),
+  \mathsf{inv}(\mathsf{inv}(t)))
+$$
+belong to the two-centralizer intersection carrier $Z_{a,b}$.
+\end{theorem}
+\begin{proof}
+Unpack $Z_{a,b}(t)$ and $Z_{a,b}(x)$ into their $a$-centralizer and
+$b$-centralizer components. The self-normalizer theorem for a centralizer
+applied to the $a$ component of $t$ carries the $a$ component of $x$ through
+both displayed conjugation words. The same theorem applied to the $b$
+component of $t$ carries the $b$ component of $x$ through the same two words.
+Pairing the corresponding components reconstructs membership in
+$Z_{a,b}$ for both conjugates.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier\_self\_conjugation\_closed\_from\_empty\_unit}
+
 Per-object template: traditional target two-centralizer subgroup certificate;
 BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
 restricted $\hsame$; stability identity, product, inverse, and carrier
