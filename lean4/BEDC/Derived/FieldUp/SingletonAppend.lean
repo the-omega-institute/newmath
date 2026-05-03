@@ -5,6 +5,7 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 theorem fieldSingletonEmptyClassifier_append_split_empty_iff {p q h : BHist} :
     fieldSingletonEmptyClassifier (append p q) h ↔
@@ -272,6 +273,58 @@ theorem FieldSingletonCarrier_append_left_cancel_iff {P Q : BHist} :
     exact (append_eq_empty_iff.mp appendCarrier).right
   · intro carrierQ
     exact append_eq_empty_iff.mpr (And.intro carrierP carrierQ)
+
+theorem FieldSingletonCarrier_append_left_context_semanticNameCert {p : BHist} :
+    FieldSingletonCarrier p ->
+      SemanticNameCert (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h : BHist => FieldSingletonCarrier (append p h))
+        (fun h k : BHist => FieldSingletonClassifier (append p h) (append p k)) := by
+  intro carrierP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty carrierP
+    · intro h carrierH
+      exact And.intro carrierH (And.intro carrierH (hsame_refl (append p h)))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _carrierH
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem FieldSingletonCarrier_append_right_context_semanticNameCert {p : BHist} :
+    FieldSingletonCarrier p ->
+      SemanticNameCert (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h : BHist => FieldSingletonCarrier (append h p))
+        (fun h k : BHist => FieldSingletonClassifier (append h p) (append k p)) := by
+  intro carrierP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty (hsame_trans (append_empty_left p) carrierP)
+    · intro h carrierH
+      exact And.intro carrierH (And.intro carrierH (hsame_refl (append h p)))
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · intro h k r classifiedHK classifiedKR
+      exact And.intro classifiedHK.left
+        (And.intro classifiedKR.right.left
+          (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+    · intro h k classified _carrierH
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 theorem FieldSingletonCarrier_append_comm_iff {h k : BHist} :
     FieldSingletonCarrier (append h k) ↔ FieldSingletonCarrier (append k h) := by
