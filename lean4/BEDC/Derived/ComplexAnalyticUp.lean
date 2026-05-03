@@ -53,4 +53,21 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
 
+theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ∃ imagq : BHist,
+        RatHistoryCarrier imagq ∧ Cont (BHist.e1 theta) q imagq ∧
+          Cont (BHist.e1 BHist.Empty) imagq zq ∧ PositiveUnaryDenominator imagq := by
+  intro pureImaginary qUnary zqCont
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have realCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) := by
+        exact RatHistoryCarrier_iff_positive_denominator.mpr
+          (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
+      have imagCarrier : RatHistoryCarrier (BHist.e1 theta) := by
+        exact RatHistoryCarrier_iff_positive_denominator.mpr
+          (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
+      exact
+        ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
+
 end BEDC.Derived.ComplexAnalyticUp

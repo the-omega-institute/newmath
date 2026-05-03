@@ -110,11 +110,15 @@ rational carrier.
 
 \begin{lemma}[Strip respects \(\hsame\)]
 \label{lem:strip-hsame-respect}
-If \(\mathsf{InCritStrip}(s)\) and \(\hsame\) holds on both real components of \(s\) and \(s'\), then \(\mathsf{InCritStrip}(s')\). The same holds for \(\mathsf{OnCritLine}\) and \(\mathsf{CompactSubStrip}\).
+If \(\mathsf{InCritStrip}(\sigma)\) and \(\sigma\hsame\sigma'\), then
+\(\mathsf{InCritStrip}(\sigma')\), and \(\sigma'\) is internally same to
+neither boundary \(\emp\) nor \(\Eone(\emp)\).
 \end{lemma}
 \begin{proof}
-Each defining inequality is closed under \(\hsame\) by transport along the rational representations.
+Transport the lower and upper strict-prefix witnesses along \(\hsame\), then
+apply boundary exclusion at the transported strip point.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.InCritStrip\_hsame\_transport\_boundary\_exclusion}
 
 \section{The certificate}
 
