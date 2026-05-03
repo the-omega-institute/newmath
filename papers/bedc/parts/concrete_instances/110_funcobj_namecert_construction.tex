@@ -70,6 +70,28 @@ from unary emptiness and the empty right-unit continuation rows.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_components\_iff}
 
+\begin{theorem}[Function object linear singleton continuous-map target graph empty iff]
+\label{thm:funcobj-linear-singleton-continuous-map-target-graph-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source and map histories lie in the linear-map singleton carrier. Then
+the empty graph continuation is equivalent to the target endpoint being empty:
+$$
+\mathsf{Cont}(source,map,\emp)\Longleftrightarrow\hsame(target,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The continuous-map carrier contains the graph continuation
+$\mathsf{Cont}(source,map,target)$. In the forward direction, the singleton
+carrier identifies $source$ and $map$ with $\emp$, so this graph continuation
+compares with the right-unit continuation at $\emp$ and forces
+$target\hsame\emp$. Conversely, if $target\hsame\emp$, transport the graph
+continuation result along this history comparison to obtain
+$\mathsf{Cont}(source,map,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_target\_graph\_empty\_iff}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
 
