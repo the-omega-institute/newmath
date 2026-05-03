@@ -89,6 +89,14 @@ theorem FieldApartTailFactor_continuation_result_closure {w x q z : BHist} :
     Iff.mpr (FieldApartZero_continuation_endpoint_split_iff continuation)
       (Or.inl (FieldApartTailFactor_result_closure factor apart))
 
+theorem FieldApartTailFactor_continuation_hsame_closure {w w' x x' q z : BHist} :
+    FieldApartTailFactor w x -> hsame w w' -> hsame x x' -> Cont w' q z ->
+      FieldApartTailFactor z x' := by
+  intro factor sameW sameX continuation
+  cases sameW
+  cases sameX
+  exact FieldApartTailFactor.carriedTail factor continuation
+
 theorem FieldApartTailFactor_singleton_context_exclusion {L R y x endpoint : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R -> FieldApartTailFactor y x ->
       FieldSingletonClassifier (append L y) (append R endpoint) -> FieldApartZero x ->
