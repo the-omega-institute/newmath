@@ -27,6 +27,25 @@ module factors and the left-unit continuation law.
 \end{proof}
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier\_empty\_endpoint\_iff}
 
+\begin{theorem}[Tensor-product singleton result-empty continuation]
+\label{thm:tensorproduct-singleton-carrier-result-empty-continuation}
+For a history $t:\mathsf{BHist}$, if $t$ satisfies the tensor-product
+singleton carrier, then $t$ continues with the empty suffix to the empty
+history:
+$$
+\mathsf{TensorProductSingletonCarrier}(t)\Rightarrow
+\mathsf{Cont}(t,\emp,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier into module-singleton endpoints $l,r$ and a continuation
+$\mathsf{Cont}(l,r,t)$. The two endpoint carrier witnesses identify both
+$l$ and $r$ with $\emp$, and the displayed continuation therefore reduces to
+the empty result. The right-unit continuation gives
+$\mathsf{Cont}(t,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier\_result\_empty\_continuation}
+
 \begin{theorem}[Tensor-product singleton suffix carrier]\label{thm:tensorproduct-singleton-carrier-continuation-suffix-carrier}
 Let $p$, $s$, and $o$ be generated histories. If $p$ and $o$ satisfy the
 tensor-product singleton carrier and $\Cont(p,s,o)$ holds, then $s$ satisfies the

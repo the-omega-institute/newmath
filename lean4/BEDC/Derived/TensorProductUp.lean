@@ -63,6 +63,23 @@ theorem TensorProductSingletonCarrier_continuation_suffix_carrier {pair suffix o
                                   cases outRightCarrier
                                   cases outCont
                                   exact (append_eq_empty_iff.mp pairSuffix.symm).right
+
+theorem TensorProductSingletonCarrier_result_empty_continuation {tensor : BHist} :
+    TensorProductSingletonCarrier tensor -> Cont tensor BHist.Empty BHist.Empty := by
+  intro carrier
+  cases carrier with
+  | intro l rest =>
+      cases rest with
+      | intro r data =>
+          cases data with
+          | intro lCarrier tail =>
+              cases tail with
+              | intro rCarrier cont =>
+                  cases lCarrier
+                  cases rCarrier
+                  cases cont
+                  rfl
+
 open BEDC.FKernel.NameCert
 
 def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
