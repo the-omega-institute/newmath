@@ -144,6 +144,29 @@ $\hsame$ at $\emp$. Hence the two empty support disjuncts are absent, and the
 middle disjunct is exactly $N_D^u(h)$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp denominator empty-unit action rejects singleton carrier]
+\label{thm:rat-denom-unit-contextual-action-empty-unit-singleton-absurd}
+For every history $h:\mathsf{BHist}$, if $C_D^u(h)$ and $N_D^u(h)$, then
+the empty-unit action cannot land in the singleton-empty carrier:
+$$
+A_{\emp}(\Gamma_{\emp,\emp,\emp,\emp}(h))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-empty-context-identity}
+with both endpoint witnesses reflexive at $\emp$. The strict-support row
+transports $N_D^u(h)$ to
+$N_D^u(\Gamma_{\emp,\emp,\emp,\emp}(h))$.
+
+Unfold $N_D^u$ as $\mathsf{RatHistoryCarrier}$. A witness in
+$A_{\emp}(\Gamma_{\emp,\emp,\emp,\emp}(h))$ is exactly a singleton endpoint
+witness for the action output, so
+\autoref{thm:rat-history-carrier-not-empty} contradicts the transported Rat
+carrier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_unit\_singleton\_absurd}
+
 Per-object template: traditional target identity element for the denominator
 contextual action; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
