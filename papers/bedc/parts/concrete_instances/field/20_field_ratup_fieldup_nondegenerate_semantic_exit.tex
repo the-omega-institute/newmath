@@ -53,6 +53,58 @@ empty-history $\FieldUp$ source would have to send this carried endpoint to the
 singleton carrier, contradicting that rejection map.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp concrete exit row closure]
+\label{thm:ratup-fieldup-concrete-exit-row-closure}
+Let $d_1:=\Eone(\emp)$. For the concrete source tuple
+$\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple}, the
+$\FieldUp(\mathsf{RatUp})$ exit row package is the concrete
+$\mathsf{BHist}$-anchored closure jointly supplied by the following data:
+\begin{enumerate}
+  \item the semantic certificate rows of
+  \autoref{thm:ratup-fieldup-semantic-certificate-assembly};
+  \item the source anchoring rows of
+  \autoref{thm:ratup-fieldup-certificate-rows-source-anchored};
+  \item the support-sensitive row coverage of
+  \autoref{thm:ratup-fieldup-support-neutrality-row-completeness};
+  \item the endpoint facts $\mathsf{RatHistoryCarrier}(d_1)$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$;
+  \item the shared concrete row language over
+  $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+  $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+  $\mathsf{append}$, $\Cont$, $\emp$, $\Gamma$, and $\mathsf{AffAut}_F$.
+\end{enumerate}
+Thus the displayed exit package is a concrete closure over
+$\mathsf{RatUpFieldSource}_F$ and not an instance of an abstract operator schema.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-semantic-certificate-assembly} first. It gives
+the assembled carrier, source, pattern, classifier, stability, ledger, and
+exactness rows for the concrete target $\FieldUp(\mathsf{RatUp})$.
+
+Apply \autoref{thm:ratup-fieldup-certificate-rows-source-anchored} next. It pins
+those rows to the single source tuple $\mathsf{RatUpFieldSource}_F$, with field
+carrier $\mathsf{RatHistoryCarrier}$, field classifier
+$\mathsf{RatHistoryClassifier}$, denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, contextual action $\Gamma$,
+and affine coordinate $\mathsf{AffAut}_F$.
+
+The support-sensitive part is closed by
+\autoref{thm:ratup-fieldup-support-neutrality-row-completeness}. It records that
+the support rows consumed by the assembled semantic certificate are precisely
+the concrete $\mathsf{BHist}$ rows already present in the named certificate
+instance.
+
+Finally, \autoref{thm:ratup-fieldup-nondegenerate-semantic-exit} supplies the
+endpoint $d_1=\Eone(\emp)$, the witness
+$\mathsf{RatHistoryCarrier}(d_1)$, and the rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$. Combining these four cited
+sites repacks the existing rows as one concrete closure theorem for the exit
+package. The result is therefore a composite closure statement, not a variant of
+any single checked theorem.
+\end{proof}
+
 Per-object template: traditional target constructive field over rational
 histories; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, denominator
 tuple, contextual action, context-pair action, and affine rows; carrier
