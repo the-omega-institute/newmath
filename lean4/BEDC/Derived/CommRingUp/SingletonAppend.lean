@@ -84,4 +84,39 @@ theorem CommRingSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp carrier
     exact not_hsame_e1_empty emptyParts.right
 
+theorem commringSingletonEmptyClassifier_mul_context_carrier_iff {L R x y out : BHist}
+    (carrierL : commringSingletonEmptyCarrier L) (carrierR : commringSingletonEmptyCarrier R) :
+    commringSingletonEmptyClassifier (append L (commringSingletonEmptyMul x y))
+      (append R out) <-> commringSingletonEmptyCarrier out := by
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp classified.right.left).right
+  · intro carrierOut
+    have leftCarrier :
+        commringSingletonEmptyCarrier (append L (commringSingletonEmptyMul x y)) := by
+      exact append_eq_empty_iff.mpr (And.intro carrierL (hsame_refl BHist.Empty))
+    have rightCarrier : commringSingletonEmptyCarrier (append R out) := by
+      exact append_eq_empty_iff.mpr (And.intro carrierR carrierOut)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem CommRingSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
+    CommRingSingletonCarrier L -> CommRingSingletonCarrier R ->
+      (CommRingSingletonClassifier (append L Q) (append R S) <->
+        CommRingSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : CommRingSingletonCarrier (append L Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightCarrier : CommRingSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 end BEDC.Derived.CommRingUp

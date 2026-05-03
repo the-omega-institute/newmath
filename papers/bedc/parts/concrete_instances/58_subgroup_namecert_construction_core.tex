@@ -357,6 +357,30 @@ $\mathsf{Norm}_{Z_a}(t)$, so both preservation directions hold.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizer\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizes}
 
+\begin{lemma}[Centralizer normalizer kernel classifier reflexivity]
+\label{lem:subgroup-centralizer-normalizer-kernel-classifier-refl}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in \autoref{thm:subgroup-centralizer-certificate-target}, if
+$x:\mathsf{BHist}$ is carried by the centralizer normalizer $N_a$, then the
+normalizer endpoint classifies with itself and the inverse-left kernel word is
+carried by the centralizer:
+$$
+N_a(x)\Rightarrow N_a(x)\land N_a(x)\land
+Z_a(\mathsf{mul}(\mathsf{inv}(x),x)).
+$$
+\end{lemma}
+\begin{proof}
+The two normalizer endpoint rows are the given $N_a(x)$ witness. For the
+kernel word, use the centralizer certificate target of
+\autoref{thm:subgroup-centralizer-certificate-target}: its identity row gives
+$Z_a(\emp)$ and its $\hsame$-transport row transports this membership along
+the inverse-left law
+$\mathsf{mul}(\mathsf{inv}(x),x)\hsame\emp$ read in the reverse direction.
+Thus the inverse-left kernel endpoint lies in the lower centralizer carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer\_kernel\_classifier\_refl}
+
 Per-object template: traditional target centralizer self-normalization; BEDC
 source $\GroupUp$ over $\mathsf{BHist}$ plus $\SubgroupUp$; carrier $Z_a$;
 classifier restricted $\hsame$; stability product and inverse closure; ledger
