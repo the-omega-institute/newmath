@@ -185,6 +185,7 @@ import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
+import BEDC.Derived.SubgroupUp
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
@@ -291,6 +292,7 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
 import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsurd
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.FieldUp.TailFactor
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
