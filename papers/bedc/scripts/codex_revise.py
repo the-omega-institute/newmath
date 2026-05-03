@@ -1624,6 +1624,47 @@ def run_axiom_audit(wt: WorktreeInfo) -> tuple[bool, str]:
     return r.returncode == 0, (r.stdout + r.stderr)[-400:]
 
 
+def _run_phase_paper_gates(wt: WorktreeInfo) -> dict:
+    """Invoke `phase_paper_gates.py` as a subprocess and return the
+    parsed JSON gate results. On any failure the return is an empty
+    dict so callers degrade to "no violations detected" rather than
+    crashing the round."""
+    script = SCRIPT_DIR / "phase_paper_gates.py"
+    if not script.exists():
+        logger.warning(
+            f"[P{wt.round_number}] phase_paper_gates.py missing — "
+            f"skipping content lint gates"
+        )
+        return {}
+    if not wt.base_sha:
+        return {}
+    try:
+        r = subprocess.run(
+            ["python3", str(script),
+             "--worktree", str(wt.path),
+             "--base-sha", wt.base_sha,
+             "--gate", "all"],
+            capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        logger.error(f"[P{wt.round_number}] phase_paper_gates.py timed out")
+        return {}
+    if r.returncode != 0:
+        logger.error(
+            f"[P{wt.round_number}] phase_paper_gates.py exit {r.returncode}: "
+            f"{(r.stderr or '').strip()[:400]}"
+        )
+        return {}
+    try:
+        return json.loads(r.stdout or "{}")
+    except json.JSONDecodeError as exc:
+        logger.error(
+            f"[P{wt.round_number}] phase_paper_gates.py produced invalid JSON: "
+            f"{exc}; stdout={(r.stdout or '')[:200]!r}"
+        )
+        return {}
+
+
 def verify_worktree_commits(
     wt: WorktreeInfo, pre_commits: list[str]
 ) -> tuple[bool, list[str]]:
@@ -1650,43 +1691,39 @@ def verify_worktree_commits(
     for c in new:
         logger.info(f"  {c}")
 
+    # Gates A/B/C/D/E run in a subprocess so the gate logic and lint
+    # patterns can be tightened or relaxed without restarting the
+    # supervisor. See `phase_paper_gates.py` for the implementations.
+    gate_results = _run_phase_paper_gates(wt)
+
     # Gate A — register-only / nothing-real-changed
-    rv = detect_register_only_round(wt)
+    rv = gate_results.get("register-only", [])
     if rv:
         for v in rv:
             logger.error(f"[P{wt.round_number}] REGISTER-ONLY: {v}")
         return False, new
 
-    # Gate B — new \leanvariant markers were rejected here; relaxed to
-    # WARN only. The register-only gate above already rejects the truly
-    # bad case (round whose only effect is adding \leanvariant lines).
-    # When a substantive revise also incidentally adds a \leanvariant
-    # (e.g. splitting one paper block into two propositions, each
-    # pointing to a different Lean target), let it through.
-    var_v = detect_new_leanvariant_markers(wt)
+    # Gate B — new \leanvariant markers: warning only.
+    var_v = gate_results.get("leanvariant", [])
     if var_v:
         for v in var_v[:10]:
             logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
 
     # Gate C — forbidden iteration-narrative vocabulary (advisory).
-    # Demoted from blocking to warning: the substring matcher false-positives
-    # too aggressively (e.g. 'increments' hits 'increment'). The prompt still
-    # tells codex to avoid these words; humans can grep for the warnings if
-    # they want a second pass.
-    vocab_v = detect_forbidden_vocab(wt)
+    vocab_v = gate_results.get("vocab", [])
     if vocab_v:
         for v in vocab_v[:10]:
             logger.warning(f"[P{wt.round_number}] forbidden-vocab (advisory): {v}")
 
     # Gate D — forbidden math environments
-    math_v = detect_forbidden_math(wt)
+    math_v = gate_results.get("math", [])
     if math_v:
         for v in math_v[:10]:
             logger.error(f"[P{wt.round_number}] FORBIDDEN MATH ENV: {v}")
         return False, new
 
     # Gate E — oversized .tex files
-    size_v = detect_oversized_tex(wt)
+    size_v = gate_results.get("oversized", [])
     if size_v:
         for v in size_v[:10]:
             logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
