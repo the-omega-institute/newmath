@@ -106,15 +106,30 @@ Compare the Weierstrass partial products of \(\Gamma(s+1)\) and \(s \cdot \Gamma
 Specialize \autoref{def:gamma-weierstrass-part} at \(s = 1\): the product becomes \(\frac{1}{1} \prod_{n=1}^{N} (1 + 1/n) (1 + 1/n)^{-1} = 1\) telescopically. The limit is \(1\) by direct unfolding.
 \end{proof}
 
-\section{Reflection formula at integer poles (statement)}
+\section{Reflection formula boundary certificate}
 \label{sec:gamma-reflection}
 
-\begin{theorem}[Reflection formula on the Gamma domain]
+\begin{theorem}[Reflection formula boundary certificate]
 \label{thm:gamma-reflection}
-For \(s\) with \(\mathsf{GammaDom}(s)\) and \(\mathsf{GammaDom}(\Eone(\emp) - s)\), the product \(\Gamma(s) \Gamma(1 - s)\) equals \(\pi / \sin(\pi s)\) up to \(\ComplexClassifier\), where \(\pi\) is from \autoref{def:real-analytic-pi} and \(\sin\) is the constructive complex sine extending \autoref{def:real-analytic-sin-cos}.
+For $s$ with $\mathsf{GammaDom}(s)$ and $\mathsf{GammaDom}(\Eone(\emp) - s)$, a BEDC derivation of the classifier target
+$$
+\mathsf{ComplexClassifier}\!\left(\Gamma(s)\Gamma(\Eone(\emp)-s), \mathsf{Pi} / \mathsf{CplxSin}(\mathsf{Pi}\cdot s)\right)
+$$
+at the Gamma boundary carries the following certificate data:
+\begin{enumerate}
+  \item a Weierstrass-product witness for the $\Gamma(s)$ factor from \autoref{def:gamma-weierstrass-part};
+  \item a Weierstrass-product witness for the $\Gamma(\Eone(\emp)-s)$ factor from \autoref{def:gamma-weierstrass-part};
+  \item a common unary Cauchy modulus controlling both Gamma factors, obtained from \autoref{lem:gamma-weierstrass-cauchy};
+  \item a complex-sine product witness from $\ComplexAnalyticUp$ (\autoref{sec:cplx-analytic-trig});
+  \item an apartness witness showing that $\mathsf{CplxSin}(\mathsf{Pi}\cdot s)$ is a valid denominator on the displayed domain.
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-Combine \autoref{thm:gamma-recurrence} with the Weierstrass product for \(\sin\): \(\sin(\pi s) = \pi s \prod_{n \geq 1} (1 - s^2/n^2)\). The product representation of \(\Gamma(s) \Gamma(1-s)\) telescopes against the \(\sin\) product; details are deferred to a subsequent chapter, where the reflection formula is the principal application supporting the zeta functional equation in \autoref{ch:concrete-instances-zeta-continuation}.
+The two Gamma factors are already supplied by the closed Gamma construction: unfold \autoref{def:gamma} at $s$ and at $\Eone(\emp)-s$, then read off the partial products of \autoref{def:gamma-weierstrass-part}. Apply \autoref{lem:gamma-weierstrass-cauchy} to each domain witness and take the larger unary bound as the common modulus.
+
+The boundary also records the shift compatibility needed by any telescoping argument, namely \autoref{thm:gamma-recurrence}, together with the complex sine construction of \autoref{sec:cplx-analytic-trig}. The denominator side is not accepted without an explicit apartness witness for $\mathsf{CplxSin}(\mathsf{Pi}\cdot s)$ on the chosen domain point.
+
+These data are the certificate boundary consumed by downstream zeta arguments. The classifier equality displayed in the statement is a target for a BEDC derivation carrying those witnesses, not an equality asserted by this Gamma certificate alone.
 \end{proof}
 
 \section{Certificate target}
@@ -127,7 +142,7 @@ The tuple \((\mathsf{GammaDom}, \mathsf{Gamma}, \mathsf{Factorial})\), with sour
   \item \textbf{Source}: \(\ComplexUp\)-histories with explicit apartness witnesses against the negative-integer pole locus \(\mathsf{GammaPole}\).
   \item \textbf{Carrier}: \(\mathsf{GammaDom}\) is the closed inductive predicate of \autoref{def:gamma-domain}; \(\mathsf{Gamma}(s, z)\) is the closed inductive predicate of \autoref{def:gamma}.
   \item \textbf{Classifier}: limit-uniqueness up to \(\ComplexClassifier\) inherited from \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}).
-  \item \textbf{Stability obligations}: factorial bridge at positive integers (\autoref{thm:gamma-positive-integer}), Weierstrass Cauchy modulus (\autoref{lem:gamma-weierstrass-cauchy}), holomorphicity (\autoref{thm:gamma-holomorphic}), recurrence (\autoref{thm:gamma-recurrence}), \(\Gamma(1) = 1\) (\autoref{thm:gamma-at-one}), reflection formula (\autoref{thm:gamma-reflection}).
+  \item \textbf{Stability obligations}: factorial bridge at positive integers (\autoref{thm:gamma-positive-integer}), Weierstrass Cauchy modulus (\autoref{lem:gamma-weierstrass-cauchy}), holomorphicity (\autoref{thm:gamma-holomorphic}), recurrence (\autoref{thm:gamma-recurrence}), \(\Gamma(1) = 1\) (\autoref{thm:gamma-at-one}), reflection boundary certificate (\autoref{thm:gamma-reflection}).
   \item \textbf{Ledger}: explicit apartness precision \(k_0\) for every domain witness; explicit Cauchy modulus \(N\) for every Weierstrass evaluation; the unary factorial table for integer points.
   \item \textbf{Exactness predicate}: \(\mathsf{Gamma}(s, z)\) holds exactly for \(s \in \mathsf{GammaDom}\), with \(z\) determined uniquely up to \(\ComplexClassifier\).
   \item \textbf{Standard bridge}: when classical complex Gamma is supplied externally (Euler integral or Bohr-Mollerup characterisation), the \(\ComplexClassifier\)-equivalence with the constructive Weierstrass-product limit is recorded as the bridge slot.
@@ -145,5 +160,5 @@ The pole-locus apartness of \autoref{def:gamma-domain} together with the Weierst
 
 \begin{remark}[Schema-only horizon discharge]
 \label{rem:gamma-schema-horizon-discharge}
-This chapter discharges the schema-only-horizon flag set in \autoref{ch:concrete-instances-zeta-continuation} for the constructive Gamma function: the present Weierstrass-product construction supplies the witness types and explicit moduli that the zeta functional equation requires. Future closure of the Gamma reflection formula (\autoref{thm:gamma-reflection}) at the \texttt{\textbackslash leanchecked} level will fully retire the schema flag.
+This chapter exports the constructive Gamma witness types, the Weierstrass-product carriers, and the explicit unary moduli consumed by the zeta functional-equation chapter \autoref{ch:concrete-instances-zeta-continuation}.
 \end{remark}
