@@ -157,6 +157,17 @@ theorem FieldApartZero_append_split_iff {p q : BHist} :
   · intro split
     exact FieldApartZero_append_factor_closed split
 
+theorem FieldApartZero_append_right_factor_of_head_not_apart {p q : BHist} :
+    FieldApartZero (append p q) -> (FieldApartZero p -> False) -> FieldApartZero q := by
+  intro appendApart headNotApart
+  have splitApart : FieldApartZero p ∨ FieldApartZero q :=
+    Iff.mp FieldApartZero_append_split_iff appendApart
+  cases splitApart with
+  | inl headApart =>
+      exact False.elim (headNotApart headApart)
+  | inr tailApart =>
+      exact tailApart
+
 theorem FieldApartZero_continuation_endpoint_split_iff {p q r : BHist} :
     Cont p q r -> (FieldApartZero r <-> FieldApartZero p ∨ FieldApartZero q) := by
   intro continuation
