@@ -134,6 +134,19 @@ $\Cont(\emp,k,\emp)$, which is exactly the unit history carrier for $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_continuation\_suffix\_closed}
 
+\begin{theorem}[Unit history carrier continuation prefix closure]
+\label{thm:unit-history-carrier-continuation-prefix-closed}
+For histories $h,k,r:\mathsf{BHist}$, if $\Cont(h,k,r)$ holds and
+$r\hsame\emp$, then $h$ lies in the unit history carrier.
+\end{theorem}
+\begin{proof}
+Transport the continuation result to $\emp$ and invert the empty-result
+continuation. The inversion identifies the left endpoint $h$ with $\emp$, and
+the empty characterization of the unit history carrier converts this endpoint
+identity into $\mathsf{UnitHistoryCarrier}(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_continuation\_prefix\_closed}
+
 \section{The certificate}
 \label{sec:unit-certificate}
 

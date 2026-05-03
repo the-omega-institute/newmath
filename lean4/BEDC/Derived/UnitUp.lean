@@ -29,6 +29,14 @@ theorem UnitHistoryCarrier_continuation_suffix_closed {h k r : BHist} :
   have hEmpty : hsame h BHist.Empty := UnitHistoryCarrier_empty_iff.mp hCarrier
   exact cont_hsame_transport hEmpty (hsame_refl k) rEmpty hcont
 
+theorem UnitHistoryCarrier_continuation_prefix_closed {h k r : BHist} :
+    Cont h k r -> hsame r BHist.Empty -> UnitHistoryCarrier h := by
+  intro hcont rEmpty
+  have emptyContinuation : Cont h k BHist.Empty :=
+    cont_result_hsame_transport hcont rEmpty
+  have emptyParts := cont_empty_result_inversion emptyContinuation
+  exact UnitHistoryCarrier_empty_iff.mpr emptyParts.left
+
 theorem UnitHistoryClassifier_semanticNameCert :
     SemanticNameCert UnitHistoryCarrier UnitHistoryCarrier UnitHistoryCarrier
       UnitHistoryClassifier := by
