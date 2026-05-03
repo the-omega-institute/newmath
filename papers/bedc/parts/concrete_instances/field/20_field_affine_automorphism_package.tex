@@ -708,3 +708,49 @@ are supplied, it repacks them as the public $\GroupUp$ stability certificate.
 The preceding paragraphs provide precisely those fields for
 $\mathsf{AffAut}_F$.
 \end{proof}
+
+\begin{theorem}[Field affine automorphism inverse uniqueness]
+\label{thm:field-affine-automorphism-inverse-unique}
+For a BEDC history-level $\FieldUp+\CommRingUp$ candidate over
+$\mathsf{BHist}$ satisfying
+\autoref{thm:field-affine-automorphism-group-certificate}, let
+$T:\mathsf{AffAut}_F$ be a certified affine automorphism history. Let
+$I:\mathsf{AffAut}_F$ be the identity affine automorphism, let
+$\circ_{\mathrm{aff}}$ be the collected-coefficient affine composition
+operation, and let $S:\mathsf{AffAut}_F$ be the explicit inverse certificate
+for $T$ supplied by
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}. If
+$U:\mathsf{AffAut}_F$ is any certified affine automorphism history satisfying
+both inverse equations
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I
+$$
+under the affine composition classifier, then $U$ and $S$ are related by the
+affine pointwise classifier:
+$$
+U\equiv_{\mathrm{aff}} S.
+$$
+\end{theorem}
+\begin{proof}
+Read \autoref{thm:field-affine-automorphism-group-certificate} as the concrete
+$\GroupUp$ package on the carrier $\mathsf{AffAut}_F$. Its operation is
+$\circ_{\mathrm{aff}}$, its identity is $I$, and its classifier is the affine
+pointwise classifier.
+
+The explicit inverse package
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package} gives the
+two inverse equations for $S$ against $T$. The hypotheses give the corresponding
+left and right inverse equations for $U$ against the same element $T$ in the
+same classifier.
+
+Apply the checked group inverse uniqueness principle
+$\mathsf{BEDC.Derived.GroupUp.group\_left\_right\_inverse\_uniqueness}$ to this
+affine $\GroupUp$ package, with middle element $T$, left inverse candidate $U$,
+and right inverse candidate $S$. The resulting group-classifier relation is
+exactly $U\equiv_{\mathrm{aff}}S$, because the group certificate was built from
+the affine pointwise classifier.
+\end{proof}
