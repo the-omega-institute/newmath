@@ -236,6 +236,7 @@ import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
+import BEDC.Derived.CompactUp.EmptyFinalReflection
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.EndpointCycle
 import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
@@ -274,6 +275,7 @@ import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.ContLeftE1Result
 import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.E1SourceCompTargetVisible
+import BEDC.Derived.CategoryUp.SourceMorphismCasesIff
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp

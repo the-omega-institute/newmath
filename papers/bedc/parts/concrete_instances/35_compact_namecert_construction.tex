@@ -215,6 +215,23 @@ common continuation structure needed by both directions.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_endpoint\_hsame\_iff}
 
+\begin{theorem}[Compact finite refinement chain empty final reflects empty initial]
+\label{thm:compact-finite-refinement-chain-empty-final-reflects-empty-initial}
+If a compact finite refinement chain ends with both final ledgers empty, then
+both initial ledgers are empty:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+\land \hsame(finalFinite,\emp)\land\hsame(finalCompact,\emp)
+\Longrightarrow \hsame(finite,\emp)\land\hsame(compact,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the refinement chain. In a step, transport the final empty equality
+back across each displayed continuation, use empty-result inversion to identify
+the prior ledger with $\emp$, and apply the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_empty\_final\_reflects\_empty\_initial}
+
 \begin{theorem}[Compact finite refinement chain continuation witness]
 \label{thm:compact-finite-refinement-chain-continuation-witness}
 If
@@ -276,6 +293,32 @@ $\Cont(f,e,f')$ and $\Cont(c,e,c')$. The result is the required compact witness
 carrier at $(f',c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_chain\_closed}
+
+\begin{theorem}[Compact witness carrier empty final refinement reflects empty initial]
+\label{thm:compact-witness-carrier-empty-final-refinement-reflects-empty-initial}
+For a compact witness carrier, if a finite refinement chain sends the finite
+and compact ledgers to empty final ledgers, then all five carrier ledgers are
+empty:
+$$
+\begin{array}{l}
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)
+\land
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+\\
+\land\ \hsame(finalFinite,\emp)\land\hsame(finalCompact,\emp)
+\Longrightarrow
+\hsame(subset,\emp)\land\hsame(located,\emp)\land\hsame(finite,\emp)\land
+\hsame(intermediate,\emp)\land\hsame(compact,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the finite-chain empty reflection theorem to the refinement chain.
+Then use empty-result inversion on the compactness continuation
+$\Cont(intermediate,finite,compact)$ and on the locatedness continuation
+$\Cont(subset,located,intermediate)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_empty\_final\_refinement\_reflects\_empty\_initial}
 
 \begin{theorem}[Compact witness carrier finite refinement chain endpoints unary]
 \label{thm:compact-witness-carrier-finite-refinement-chain-endpoints-unary}

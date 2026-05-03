@@ -66,6 +66,31 @@ constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
 
+\begin{theorem}[Category hom-carrier one-headed source morphism cases iff]
+\label{thm:category-hom-carrier-e1-source-morphism-cases-iff}
+For histories $a,target,morph$, the one-headed-source hom-carrier condition is
+equivalent to the same two concrete cases:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)
+\Longleftrightarrow
+\left[
+\left(morph=\emp\land target=\Eone(a)\land\mathsf{UnaryHistory}(a)\right)
+\lor
+\exists k,r,
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r)
+\right].
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the one-headed source morphism case theorem. For the
+reverse implication, the empty branch is the empty identity hom-carrier on
+$\Eone(a)$, and the visible branch rebuilds the hom-carrier from the three unary
+witnesses together with the one-step continuation rule.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases\_iff}
+
 \begin{theorem}[Category one-headed source composite target visibility]
 \label{thm:category-hom-carrier-e1-source-comp-target-visible}
 For histories $a,b,c,f,g,fg$, composing a hom-carrier with source $\Eone(a)$
