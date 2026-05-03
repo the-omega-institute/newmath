@@ -96,6 +96,62 @@ uniqueness theorem identifies the two presentations, and inverse involutivity
 returns either double-inverse comparison to the original factor.
 \end{proof}
 
+\section{Center orbit collapse}
+\label{sec:group-center-orbit-collapse}
+
+\begin{theorem}[Group center normalizer orbit collapse]
+\label{thm:group-center-normalizer-orbit-collapse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $\mathsf{Z}(G)$ be
+the center carrier of \autoref{def:group-center-carrier}, and let $Z_a$,
+$N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be as in
+\autoref{def:group-centralizer-normalizer-carrier} and
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For histories
+$x,y:\mathsf{BHist}$, if $\mathsf{Z}(G)(x)$ and $Z_a(y)$, then
+$$
+x\sim_{N_a}y \Longleftrightarrow \hsame(x,y).
+$$
+The per-object template names the traditional target center orbit collapse;
+the BEDC source as $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{Z}(G)$ inside $Z_a$; classifier $\sim_{N_a}$ versus $\hsame$;
+stability from conjugation fixedness of center elements; ledger the normalizer
+witness; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-centralizer-normalizer-conjugation-action},
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, and
+\autoref{thm:group-center-normal-subgroup}; exactness predicate the displayed
+iff; standard bridge ordinary center elements have singleton conjugation
+orbits; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The last row of \autoref{thm:group-center-normal-subgroup} places the center
+element $x$ in the centralizer carrier $Z_a$. Thus the orbit relation has both
+endpoint carrier facts available once $Z_a(y)$ is supplied.
+
+For the forward direction, unpack a witness $s$ for $x\sim_{N_a}y$. Centrality
+of $x$ commutes $x$ past $s$ and past $\mathsf{inv}(s)$. Associativity, the
+two-sided inverse laws, unit laws, multiplication congruence, and inverse
+congruence then identify
+$\mathsf{Conj}_s(x)=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ with
+$x$ under $\hsame$.
+
+Composing this fixedness comparison with the orbit endpoint witness
+$\hsame(\mathsf{Conj}_s(x),y)$ gives $\hsame(x,y)$ by symmetry and
+transitivity of $\hsame$.
+
+For the reverse direction, use the identity element as the normalizer witness.
+The identity row of \autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(e)$, and the identity-action row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$\hsame(\mathsf{Conj}_e(x),x)$.
+
+Together with the center-to-centralizer carrier fact for $x$, the supplied
+$Z_a(y)$, and the assumed $\hsame(x,y)$, these data package the orbit witness
+for $x\sim_{N_a}y$.
+\end{proof}
+
 \section{Singleton continuation endpoint equivalence}
 \label{sec:group-singleton-continuation-endpoint-equivalence}
 
