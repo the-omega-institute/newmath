@@ -505,3 +505,89 @@ core theorem list \autoref{thm:subgroup-centralizer-certificate-target},
 \autoref{thm:group-centralizer-normal-in-normalizer}; exactness predicate
 normalizer action on the centralizer; standard bridge normal-subgroup input
 for quotient groups; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[Centralizer normalizer quotient-kernel relation]
+\label{def:subgroup-centralizer-normalizer-quotient-kernel-relation}
+In the setting of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, define the
+relation on ambient histories by
+$$
+Q_{Z_a\triangleleft N_a}(x,y) :\Longleftrightarrow
+N_a(x)\land N_a(y)\land
+Z_a(\mathsf{mul}(\mathsf{inv}(x),y)).
+$$
+The first two clauses keep both representatives inside the normalizer carrier,
+and the third clause says that their relative displacement lies in the
+centralizer kernel.
+\end{definition}
+
+\begin{theorem}[Centralizer normalizer quotient-kernel classifier congruence]
+\label{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the relation
+$Q_{Z_a\triangleleft N_a}$ of
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation} is a
+quotient-ready classifier on the upper carrier:
+\begin{enumerate}
+\item if $N_a(x)$, then $Q_{Z_a\triangleleft N_a}(x,x)$;
+\item if $Q_{Z_a\triangleleft N_a}(x,y)$, then
+$Q_{Z_a\triangleleft N_a}(y,x)$;
+\item if $Q_{Z_a\triangleleft N_a}(x,y)$ and
+$Q_{Z_a\triangleleft N_a}(y,z)$, then
+$Q_{Z_a\triangleleft N_a}(x,z)$;
+\item if $Q_{Z_a\triangleleft N_a}(x,y)$ and
+$Q_{Z_a\triangleleft N_a}(u,v)$, then
+$Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,u),\mathsf{mul}(y,v))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Reflexivity uses the identity row of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. From
+$N_a(x)$ the endpoint clauses are immediate, and the two-sided inverse law
+identifies $\mathsf{mul}(\mathsf{inv}(x),x)$ with $e$. Transport along
+$\hsame$ carries the centralizer identity witness $Z_a(e)$ to the required
+kernel witness.
+
+For symmetry, expand $Q_{Z_a\triangleleft N_a}(x,y)$. The endpoint clauses
+swap because both $x$ and $y$ already lie in $N_a$. The kernel witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$ is inverted by the inverse-closure row
+for $Z_a$, and inverse-product reversal identifies the inverse word with
+$\mathsf{mul}(\mathsf{inv}(y),x)$ after the ambient inverse laws. The
+$\hsame$-transport row for $Z_a$ gives the displayed symmetric witness.
+
+For transitivity, take kernel witnesses
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$ and
+$Z_a(\mathsf{mul}(\mathsf{inv}(y),z))$. Product closure in $Z_a$ gives a
+witness for their product. Associativity and the inverse laws cancel the
+middle factors $y$ and $\mathsf{inv}(y)$, and transport turns the product
+witness into $Z_a(\mathsf{mul}(\mathsf{inv}(x),z))$. The endpoint clauses are
+the retained $N_a(x)$ and $N_a(z)$ clauses.
+
+For multiplication compatibility, product closure in $N_a$ supplies
+$N_a(\mathsf{mul}(x,u))$ and $N_a(\mathsf{mul}(y,v))$. The kernel word
+$\mathsf{mul}(\mathsf{inv}(\mathsf{mul}(x,u)),\mathsf{mul}(y,v))$ is rewritten
+by inverse-product reversal and associativity as the product of
+$\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),
+\mathsf{mul}(\mathsf{inv}(x),y)),u)$ with
+$\mathsf{mul}(\mathsf{inv}(u),v)$. Since $u$ lies in $N_a$, the normality row
+of the tower carries the first factor back into $Z_a$ from the kernel witness
+for $Q_{Z_a\triangleleft N_a}(x,y)$. The second factor is the kernel witness
+for $Q_{Z_a\triangleleft N_a}(u,v)$. Product closure in $Z_a$ and transport
+along the displayed word identity give the required congruence row.
+\end{proof}
+
+Per-object template: traditional target quotient classifier for the
+normal-subgroup tower $Z_a\leq N_a$; BEDC source $\GroupUp$ over
+$\mathsf{BHist}$ plus $\SubgroupUp$; lower carrier $Z_a$; upper carrier
+$N_a$; classifier $Q_{Z_a\triangleleft N_a}$; stability identity, symmetry,
+transitivity, multiplication compatibility, endpoint membership, kernel
+membership, kernel transport, normality transport, kernel product closure, and
+quotient operation transport; ledger left representative, right
+representative, product representatives, relative kernel witness, conjugated
+kernel witness, and transported product witness; core theorem list
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate},
+\autoref{thm:group-inverse-mul-reverse}, and the ambient $\GroupUp$ laws;
+exactness predicate relative displacement in $Z_a$ inside $N_a$; downstream
+object $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
