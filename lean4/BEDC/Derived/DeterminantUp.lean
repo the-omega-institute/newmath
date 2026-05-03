@@ -194,4 +194,49 @@ theorem DeterminantSingleton_endpoint_correspondence {M N r : BHist} :
       · exact And.intro (hsame_refl BHist.Empty)
           (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
+theorem DeterminantSingletonEndpoint_correspondence {M r : BHist} :
+    (DeterminantSingletonEndpoint M r ↔
+      BEDC.Derived.MatrixUp.MatrixSingletonCarrier M ∧
+        BEDC.Derived.CommRingUp.CommRingSingletonClassifier r BHist.Empty) ∧
+      BEDC.Derived.CommRingUp.CommRingSingletonClassifier
+        (DeterminantSingletonDet BEDC.Derived.MatrixUp.MatrixSingletonOne) BHist.Empty ∧
+      (∀ {N : BHist}, BEDC.Derived.MatrixUp.MatrixSingletonClassifier M N →
+        BEDC.Derived.CommRingUp.CommRingSingletonClassifier
+          (DeterminantSingletonDet M) (DeterminantSingletonDet N)) ∧
+      (∀ {N : BHist}, BEDC.Derived.MatrixUp.MatrixSingletonCarrier M →
+        BEDC.Derived.MatrixUp.MatrixSingletonCarrier N →
+          BEDC.Derived.CommRingUp.CommRingSingletonClassifier
+            (DeterminantSingletonDet (BEDC.Derived.MatrixUp.MatrixSingletonMul M N))
+            (BEDC.Derived.CommRingUp.CommRingSingletonMul
+              (DeterminantSingletonDet M) (DeterminantSingletonDet N))) := by
+  constructor
+  · constructor
+    · intro endpoint
+      exact And.intro endpoint.right.left endpoint.right.right
+    · intro data
+      have matrixEndpoint : MatrixSingletonClassifier M BHist.Empty :=
+        ⟨data.left, hsame_refl BHist.Empty, data.left⟩
+      have scalarEndpoint : CommRingSingletonClassifier r BHist.Empty :=
+        data.right
+      exact ⟨⟨matrixEndpoint, scalarEndpoint⟩, data⟩
+  · constructor
+    · exact ⟨append_eq_empty_iff.mpr
+        ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩,
+        hsame_refl BHist.Empty,
+        append_eq_empty_iff.mpr ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty⟩⟩
+    · constructor
+      · intro N classified
+        have detM : hsame (DeterminantSingletonDet M) BHist.Empty :=
+          append_eq_empty_iff.mpr ⟨classified.left, hsame_refl BHist.Empty⟩
+        have detN : hsame (DeterminantSingletonDet N) BHist.Empty :=
+          append_eq_empty_iff.mpr ⟨classified.right.left, hsame_refl BHist.Empty⟩
+        exact ⟨detM, detN, hsame_trans detM (hsame_symm detN)⟩
+      · intro N carrierM carrierN
+        have productCarrier : hsame (MatrixSingletonMul M N) BHist.Empty :=
+          append_eq_empty_iff.mpr ⟨carrierM, carrierN⟩
+        have detProduct : hsame (DeterminantSingletonDet (MatrixSingletonMul M N))
+            BHist.Empty :=
+          append_eq_empty_iff.mpr ⟨productCarrier, hsame_refl BHist.Empty⟩
+        exact ⟨detProduct, hsame_refl BHist.Empty, detProduct⟩
+
 end BEDC.Derived.DeterminantUp
