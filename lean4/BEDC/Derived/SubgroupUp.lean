@@ -460,7 +460,70 @@ theorem SubgroupCentralizerQuotientKernel_empty_fiber_iff
       carrierTransport centralX (hsame_symm displacementSameX)
     exact And.intro emptyNormalizer (And.intro xNormalizer kernelCentral)
 
+theorem SubgroupCentralizerQuotientKernel_witness_classifier_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    (SubgroupCentralizerNormalizer mul inv a x ∧
+        SubgroupCentralizerNormalizer mul inv a y ∧
+          Exists (fun z : BHist =>
+            SubgroupCentralizerCarrier mul a z ∧ hsame y (mul x z))) <->
+      SubgroupCentralizerQuotientKernel mul inv a x y := by
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  constructor
+  · intro witnessClassified
+    cases witnessClassified.right.right with
+    | intro z witness =>
+        have sameZKernel : hsame z (mul (inv x) y) := by
+          exact hsame_trans (hsame_symm (leftId z))
+            (hsame_trans (hsame_symm (mulCongr (leftInv x) (hsame_refl z)))
+              (hsame_trans (assocC (inv x) x z)
+                (mulCongr (hsame_refl (inv x)) (hsame_symm witness.right))))
+        have kernelCentral : SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+          carrierTransport witness.left sameZKernel
+        exact And.intro witnessClassified.left
+          (And.intro witnessClassified.right.left kernelCentral)
+  · intro kernelClassified
+    have sameYWitness : hsame y (mul x (mul (inv x) y)) := by
+      exact hsame_trans (hsame_symm (leftId y))
+        (hsame_trans (hsame_symm (mulCongr (rightInv x) (hsame_refl y)))
+          (assocC x (inv x) y))
+    exact And.intro kernelClassified.left
+      (And.intro kernelClassified.right.left
+        (Exists.intro (mul (inv x) y)
+          (And.intro kernelClassified.right.right sameYWitness)))
+
 theorem SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    (SubgroupCentralizerNormalizer mul inv a x ∧
+        SubgroupCentralizerNormalizer mul inv a y ∧
+          Exists (fun z : BHist =>
+            SubgroupCentralizerCarrier mul a z ∧ hsame y (mul x z))) <->
+      SubgroupCentralizerQuotientKernel mul inv a x y := by
+  exact SubgroupCentralizerQuotientKernel_witness_classifier_iff
+    assocC leftId rightId mulCongr leftInv rightInv
+
+theorem SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff_direct
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
