@@ -185,6 +185,48 @@ core theorem \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness};
 exactness predicate concrete hierarchy row coverage without schematic operation
 parameters; standard bridge deferred; status $\mathsf{ProofTarget}$.
 
+\begin{lemma}[RatUp FieldUp bracketing endpoint selector exhaustion]
+\label{lem:ratup-fieldup-bracketing-endpoint-selector-exhaustion}
+For histories $h,k,\ell:\mathsf{BHist}$, set
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. For every pair of selectors
+$s,t:\mathsf{BMark}$, the selected endpoint pair
+$(E_s(h,k,\ell),E_t(h,k,\ell))$ is one of
+$(x,x)$, $(x,y)$, $(y,x)$, and $(y,y)$, with the corresponding displayed
+equalities between $E_s(h,k,\ell)$, $E_t(h,k,\ell)$ and the selected endpoints
+$x,y$.
+\end{lemma}
+\begin{proof}
+Apply $\mathsf{BMark\_generated\_cases}$ to $s$ and then to $t$. This gives
+four closed generated selector pairs.
+
+\begin{enumerate}
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b0}$, unfold
+  \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Then
+  $E_s(h,k,\ell)=x$ and $E_t(h,k,\ell)=x$, so the selected pair is $(x,x)$.
+
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b1}$, unfold
+  \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Then
+  $E_s(h,k,\ell)=x$ and $E_t(h,k,\ell)=y$, so the selected pair is $(x,y)$.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b0}$, unfold
+  \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Then
+  $E_s(h,k,\ell)=y$ and $E_t(h,k,\ell)=x$, so the selected pair is $(y,x)$.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b1}$, unfold
+  \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. Then
+  $E_s(h,k,\ell)=y$ and $E_t(h,k,\ell)=y$, so the selected pair is $(y,y)$.
+\end{enumerate}
+
+These four branches exhaust the generated $\mathsf{BMark}$ selectors, so no
+other selected endpoint pair is available.
+\end{proof}
+
+This case-exhaustion lemma is consumed by
+\autoref{thm:ratup-fieldup-bracketing-choice-classifier-exclusion},
+\autoref{thm:ratup-fieldup-bracketing-selector-denominator-classifier-coverage},
+and \autoref{thm:ratup-fieldup-selector-complete-denominator-laws}.
+
 \begin{definition}[RatUp FieldUp selector-complete denominator instance]
 \label{def:ratup-fieldup-selector-complete-denominator-instance}
 For fixed histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$,
