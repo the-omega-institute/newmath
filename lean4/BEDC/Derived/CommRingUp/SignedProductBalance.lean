@@ -191,6 +191,39 @@ theorem commring_signed_product_empty_zero_exact {add mul : BHist -> BHist -> BH
     exact BEDC.Derived.GroupUp.group_right_cancel
       addAssoc addRightZero addCongr addRightInverse sameProducts
 
+theorem commring_signed_square_zero_exact {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b : BHist} :
+    hsame (mul (add a (neg b)) (add a (neg b))) BHist.Empty <->
+      hsame (add (mul a a) (mul b b)) (add (mul a b) (mul a b)) := by
+  have squareExact :
+      hsame (mul (add a (neg b)) (add a (neg b))) BHist.Empty <->
+        hsame (add (mul a a) (mul b b)) (add (mul a b) (mul b a)) := by
+    exact commring_signed_product_empty_zero_exact addAssoc addComm zeroLeft negLeft
+      addCongr mulComm mulCongr leftDistrib
+  have crossSwap :
+      hsame (add (mul a b) (mul b a)) (add (mul a b) (mul a b)) := by
+    exact addCongr (hsame_refl (mul a b)) (mulComm b a)
+  constructor
+  · intro squareZero
+    exact hsame_trans (Iff.mp squareExact squareZero) crossSwap
+  · intro diagonalSame
+    have crossSame :
+        hsame (add (mul a a) (mul b b)) (add (mul a b) (mul b a)) := by
+      exact hsame_trans diagonalSame (hsame_symm crossSwap)
+    exact Iff.mpr squareExact crossSame
+
 theorem commring_column_cancellations_cross_sum_balance {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
