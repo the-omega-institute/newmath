@@ -223,7 +223,7 @@ def _active_tab_count() -> int:
     return len(s.get("active_recent_agents") or [])
 
 
-def spawn_inner(parallel: int) -> subprocess.Popen:
+def spawn_inner(parallel: int, *, pipeline_version: str = "v1") -> subprocess.Popen:
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
     tabs = _active_tab_count()
     if tabs > 0 and tabs < parallel:
@@ -232,7 +232,7 @@ def spawn_inner(parallel: int) -> subprocess.Popen:
     elif tabs == 0:
         supervisor_log("no active tabs detected at spawn time; using requested parallel and trusting preflight wait")
     log_handle = open(SUPERVISOR_LOG_DIR / "inner.log", "ab")
-    log_handle.write(f"\n=== inner spawn at {_now_iso()} parallel={parallel} ===\n".encode())
+    log_handle.write(f"\n=== inner spawn at {_now_iso()} parallel={parallel} pipeline={pipeline_version} ===\n".encode())
     log_handle.flush()
     cmd = [
         "python3",
@@ -240,6 +240,7 @@ def spawn_inner(parallel: int) -> subprocess.Popen:
         "--loop",
         "--parallel", str(parallel),
         "--preflight-agent-wait", "60",
+        "--pipeline-version", pipeline_version,
     ]
     proc = subprocess.Popen(
         cmd,
@@ -441,34 +442,54 @@ def run_claude_review() -> dict | None:
 
 def run_pi_review(supervisor_state: dict) -> dict | None:
     """PI agent action-capable review. supervisor_state carries mutable
-    cooldowns the PI agent may adjust autonomously."""
-    import pi_agent
+    cooldowns the PI agent may adjust autonomously.
 
-    def _restart_inner_cb() -> None:
+    Dispatches to pi_agent (v0, observer-only) or pi_agent_v1
+    (maker/checker gauntlet with expanded action surface) based on
+    supervisor_state["pi_version"] (default "v0" for safety).
+    """
+    pi_version = supervisor_state.get("pi_version", "v0")
+    if pi_version == "v1":
+        import pi_agent_v1 as pi_module
+    else:
+        import pi_agent as pi_module
+
+    def _restart_inner_cb() -> str | None:
         proc: subprocess.Popen | None = supervisor_state.get("inner")
         if proc is not None and proc.poll() is None:
             stop_inner(proc, grace_seconds=20)
         supervisor_state["inner"] = None
+        return "inner stopped; supervisor will respawn"
 
-    def _adjust_cooldown_cb(args: dict) -> None:
+    def _adjust_cooldown_cb(args: dict) -> str | None:
         if not isinstance(args, dict):
-            return
+            return "args not dict"
+        applied = []
         if "probe_hours" in args:
             try:
                 supervisor_state["probe_cooldown_hours"] = float(args["probe_hours"])
+                applied.append(f"probe={args['probe_hours']}")
             except (TypeError, ValueError):
                 pass
         if "curator_hours" in args:
             try:
                 supervisor_state["curator_cooldown_hours"] = float(args["curator_hours"])
+                applied.append(f"curator={args['curator_hours']}")
             except (TypeError, ValueError):
                 pass
+        if "pi_hours" in args:
+            try:
+                supervisor_state["pi_cooldown_hours"] = float(args["pi_hours"])
+                applied.append(f"pi={args['pi_hours']}")
+            except (TypeError, ValueError):
+                pass
+        return ", ".join(applied) or "no recognized cooldown keys"
 
     callbacks = {
         "restart_inner": _restart_inner_cb,
         "adjust_cooldown": _adjust_cooldown_cb,
     }
-    plan = pi_agent.run_review(supervisor_callbacks=callbacks)
+    plan = pi_module.run_review(supervisor_callbacks=callbacks)
     if plan is None:
         supervisor_log("pi_agent returned no plan")
         return None
@@ -495,6 +516,10 @@ def main() -> int:
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--no-claude-review", action="store_true")
+    parser.add_argument("--pi-version", choices=["v0", "v1"], default="v0",
+                        help="v0 = observer-only PI agent. v1 = maker/checker gauntlet with expanded action surface (experimental).")
+    parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
+                        help="Inner pipeline version. Forwarded to oracle_client.py --pipeline-version. v2 = codex-first track.")
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--no-dev-sync", action="store_true", help="Skip auto-merging origin/dev at startup and before probe/curator")
     parser.add_argument("--inner-restart-backoff", type=int, default=DEFAULT_INNER_RESTART_BACKOFF_S)
@@ -524,6 +549,9 @@ def main() -> int:
         "inner": None,
         "probe_cooldown_hours": args.probe_cooldown_hours,
         "curator_cooldown_hours": args.curator_cooldown_hours,
+        "pi_cooldown_hours": args.claude_review_hours,
+        "pi_version": args.pi_version,
+        "pipeline_version": args.pipeline_version,
     }
 
     try:
@@ -544,7 +572,10 @@ def main() -> int:
                     rc = inner.poll()
                     supervisor_log(f"inner exited rc={rc}; backoff {args.inner_restart_backoff}s before respawn")
                     time.sleep(args.inner_restart_backoff)
-                inner = spawn_inner(args.parallel)
+                inner = spawn_inner(
+                    args.parallel,
+                    pipeline_version=supervisor_state.get("pipeline_version", "v1"),
+                )
                 supervisor_state["inner"] = inner
 
             unfinished = board_unfinished_count()
@@ -583,7 +614,7 @@ def main() -> int:
 
             if not args.no_claude_review:
                 since_claude_h = (_now() - last_claude_review_ts) / 3600.0
-                if since_claude_h > args.claude_review_hours:
+                if since_claude_h > supervisor_state.get("pi_cooldown_hours", args.claude_review_hours):
                     supervisor_log("running periodic PI agent review")
                     try:
                         plan = run_pi_review(supervisor_state)
