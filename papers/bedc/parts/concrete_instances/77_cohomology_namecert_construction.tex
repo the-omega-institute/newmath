@@ -107,6 +107,20 @@ transitivity of $\hsame$ carries the cocycle predicate to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_hsame\_transport}
 
+\begin{theorem}[Cohomology cocycle mixed-axis append hsame transport]
+\label{thm:cohomology-cocycle-mixed-axis-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$. If $h\cdot axis$ and $axis\cdot k$ are
+$d$-cocycles, and if $h\cdot k\hsame r$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Right-axis cancellation extracts the core cocycle for $h$, and left-axis
+cancellation extracts the core cocycle for $k$. Core append closure then gives
+the cocycle for $h\cdot k$. Congruence for $d$ transports this cocycle across
+the displayed $\hsame$ comparison to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_mixed\_axis\_append\_hsame\_transport}
+
 \begin{theorem}[Cohomology cocycle core append closure]
 \label{thm:cohomology-cocycle-append-core-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
@@ -119,6 +133,20 @@ $d(k)$. Append-empty introduction makes $d(h)\cdot d(k)$ empty. Append
 preservation transports this empty result back to $d(h\cdot k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_closed}
+
+\begin{theorem}[Cohomology cocycle continuation hsame transport]
+\label{thm:cohomology-cocycle-continuation-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$. If $\Cont(h,k,r)$, the histories $h$ and $k$ are
+$d$-cocycles, and $\hsame(r,s)$, then $s$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Continuation identifies $r$ with $h\cdot k$. Core append closure gives
+$d(h\cdot k)\hsame\emp$ from the two endpoint cocycle hypotheses. The
+$\hsame(r,s)$ comparison is transported through $d$, and symmetry plus
+transitivity carries the cocycle witness to $s$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_hsame\_transport}
 
 \begin{theorem}[Cohomology cocycle core append hsame transport]
 \label{thm:cohomology-cocycle-core-append-hsame-transport}
