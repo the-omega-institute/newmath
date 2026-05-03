@@ -484,6 +484,39 @@ $\Eone(tail)\hsame\emp$, again contradicting constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_visible\_left\_result}
 
+\begin{theorem}[Field apart-zero nested continuation visible-right result]
+\label{thm:field-apartzero-nested-continuation-visible-right-result}
+For histories $l,h,tail,u,v:\mathsf{BHist}$, a nested continuation whose
+second continuation tail is visibly headed has an apart-zero result:
+$$
+\bigl(\ContR(l,h,u)\to\ContR(u,\Ezero(tail),v)\to
+\mathsf{ApartZero}_F(v)\bigr)
+\land
+\bigl(\ContR(l,h,u)\to\ContR(u,\Eone(tail),v)\to
+\mathsf{ApartZero}_F(v)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the $\Ezero$ branch, the first continuation supplies the intermediate
+history $u$, and the second continuation identifies $v$ with an append whose
+right factor is $\Ezero(tail)$. If $v\hsame\emp$, empty-append inversion forces
+that visible right factor to be empty, contradicting BEDC constructor
+separation.
+
+The $\Eone$ branch has the same shape. A hypothetical equality
+$v\hsame\emp$ splits through the second continuation and empty-append
+inversion, forcing $\Eone(tail)\hsame\emp$, which constructor separation
+rules out.
+\end{proof}
+
+Per-object certificate: traditional target visible-suffix apart-zero coverage
+for nested $\FieldUp$ continuations; BEDC source $\mathsf{BHist}$ plus
+$\ContR$; carrier $\mathsf{ApartZero}_F$; classifier $\hsame$; ledger records
+the hidden visible suffix and continuation result; core theorem is
+\autoref{thm:field-apartzero-nested-continuation-visible-right-result}
+together with append empty-result inversion; exactness predicate is the
+displayed apart-zero conclusion; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field apart-zero empty-context exactness]
 \label{thm:field-apartzero-empty-context-iff}
 For histories $l,h,r:\mathsf{BHist}$ with $l\hsame\emp$ and $r\hsame\emp$,

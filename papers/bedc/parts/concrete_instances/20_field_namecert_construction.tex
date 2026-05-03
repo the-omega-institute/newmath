@@ -606,3 +606,38 @@ classifier $\hsame$; core theorem list
 \autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion};
 exactness predicate generated factor-to-result closure plus singleton-result
 rejection; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero finite tail contextual singleton-result exclusion]
+\label{thm:field-apartzero-finite-tail-contextual-singleton-result-exclusion}
+For histories $L,R,y,x,endpoint:\mathsf{BHist}$, if
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\mathsf{FieldApartTailFactor}(y,x)$, and
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,endpoint))$,
+then
+$$
+\mathsf{ApartZero}_F(x)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the carried singleton contexts. Apply
+\autoref{thm:field-singleton-classifier-append-context-cancel} to the two
+carrier witnesses and the appended singleton classifier. The forward direction
+gives $\mathsf{FieldSingletonClassifier}(y,endpoint)$.
+
+Now apply
+\autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion} to the
+generated tail-factor witness
+$\mathsf{FieldApartTailFactor}(y,x)$ and the base singleton classifier. This
+produces $\mathsf{ApartZero}_F(x)\Rightarrow\bot$.
+\end{proof}
+
+Per-object template: traditional target finite product zero-factor exclusion
+under hidden singleton contexts; BEDC source $\mathsf{BHist}$, $\ContR$,
+$\mathsf{FieldApartTailFactor}$, $\mathsf{FieldSingletonClassifier}$, and
+$\mathsf{ApartZero}_F$; carrier generated tail-factor witnesses; classifier
+$\hsame$; stability from singleton context cancellation and finite tail result
+closure; ledger hidden singleton contexts plus generated factor witness; core
+theorem list \autoref{thm:field-singleton-classifier-append-context-cancel} and
+\autoref{thm:field-apartzero-finite-tail-singleton-result-exclusion};
+exactness predicate contextual singleton-result rejection; status
+$\mathsf{ProofTarget}$.
