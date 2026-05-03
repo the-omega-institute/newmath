@@ -15,6 +15,7 @@ import BEDC.FKernel.Cont.AssocSpine
 import BEDC.FKernel.Cont.Step
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Pattern
+import BEDC.FKernel.Cont.VisibleLeft
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Bundle.Cancellation
@@ -228,6 +229,7 @@ import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
 import BEDC.Derived.FieldUp.SingletonNonZeroReadback
 import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
+import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary

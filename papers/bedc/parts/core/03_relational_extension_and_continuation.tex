@@ -180,6 +180,41 @@ nonempty disjunct.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_nonempty\_iff}
 
+\begin{theorem}[Append visible-left empty exclusion]
+\label{thm:append-visible-left-empty-absurd}
+For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible
+left endpoint cannot produce an internally empty history:
+$$
+\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot,
+\qquad
+\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Split on the right tail $k$. If it is empty, the visible left endpoint remains
+the outer constructor. If it is visible, append exposes that right-tail
+constructor as the outer constructor. In every branch, constructor separation
+from $\emp$ rules out the displayed history sameness.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_empty\_absurd}
+
+\begin{theorem}[Append visible-left same-tail tag separation]
+\label{thm:append-visible-left-same-tail-tag-separation}
+For histories $h_0,h_1,k:\mathsf{BHist}$, common right-tail append preserves
+separation between zero-headed and one-headed visible left endpoints:
+$$
+\HSame(\mathsf{append}(\Ezero(h_0),k),
+\mathsf{append}(\Eone(h_1),k))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Induct on the common right tail $k$. The empty case is direct zero/one
+constructor no-confusion. In each visible tail step, both appended histories
+gain the same outer constructor; constructor injectivity peels that shared
+outer layer and the induction hypothesis applies to the shorter tail.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tail\_tag\_separation}
+
 \begin{lemma}[Continuation respects a matching right extension step]
 \label{lem:cont-ext-right-step}
 If $\ContR(h,k,r)$, $\ExtR(m,k,k')$, and $\ExtR(m,r,r')$, then
