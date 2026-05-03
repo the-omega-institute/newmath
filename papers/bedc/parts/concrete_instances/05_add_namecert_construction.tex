@@ -200,3 +200,24 @@ Use the cover $t=e$ or $t=u$ for each carrier element $t$. If $x=e$, the left-un
 
 The only remaining case is $x=u$ and $y=u$. In that case both ordered products are the same expression $u\star u$, so $x\star y=y\star x$ by reflexivity of equality. Combining this product equality with the two graph witnesses gives $z=z'$. The conclusion is exactly the swapped-source comparison not supplied by the monoid-like fields of \autoref{def:additive-stability-certificate}. In contrast, \autoref{thm:core-additive-stability-not-swapped-commutative} shows that three carrier elements suffice for an equality-classified unital deterministic graph to fail that comparison.
 \end{proof}
+
+\begin{theorem}[Unary continuation activation without commutativity]
+\label{thm:unary-continuation-activation-without-commutativity}
+Let the typed naming-certificate template of \autoref{def:typed-naming-certificate} be instantiated on the unary carrier with classifier $\hsame$. Assume a core carrier certificate $\NameCert(\Unary,\hsame)$ in the sense of \autoref{def:lean-carrier-naming-certificate}. Use the ordered continuation source, continuation pattern, result classifier, and ledger policies of \autoref{def:additive-source-specification}, \autoref{def:additive-pattern-specification}, \autoref{def:additive-classifier-specification}, and \autoref{def:additive-stability-and-ledger-policy}. Assume source-to-pattern soundness and source-to-ledger soundness for those policies. If $\mathsf{AddStabilityCert}$ supplies unary closure under continuation, the empty-history unit, associativity up to $\hsame$, and same-source determinacy up to $\hsame$, then
+$$
+  \mathsf{License}(\UnaryContMonoidUp)
+$$
+holds. The implication does not require any swapped-source additive commutativity premise of the form
+$$
+  \ContR(h,k,r)\ \text{and}\ \ContR(k,h,s)\Rightarrow \hsame(r,s).
+$$
+\end{theorem}
+\begin{proof}
+The naming template of \autoref{def:typed-naming-certificate} licenses a derived interface once its source, pattern, classifier, stability, and ledger fields are supplied. The assumed $\NameCert(\Unary,\hsame)$ supplies the carrier inhabitedness, classifier reflexivity, classifier symmetry, classifier transitivity, and carrier transport fields listed in \autoref{def:lean-carrier-naming-certificate}. Thus the unary carrier and its classifier core are available before any binary behavior is considered.
+
+The source field is the ordered pair of unary histories together with a continuation witness, as in \autoref{def:additive-source-specification}. The pattern field is the continuation behavior of \autoref{def:additive-pattern-specification}. The classifier field is $\hsame$ on generated results, as in \autoref{def:additive-classifier-specification}. The ledger field records the ordered inputs and the continuation witness, as in \autoref{def:additive-stability-and-ledger-policy}. The assumed soundness fields send every source witness to this pattern witness and to this ledger witness.
+
+It remains only to read the stability fields. Unary closure gives closure of the carrier under the continuation result. The empty-history unit gives the left and right unit clauses for the unary continuation operation, matching \autoref{lem:unary-continuation-unit}. Associativity up to $\hsame$ gives the monoid-like associativity clause, matching \autoref{lem:unary-continuation-associativity}. Same-source determinacy says that two results generated from the same ordered source pair are classified together by $\hsame$; this is exactly the deterministic result-classification role in \autoref{def:additive-stability-certificate}.
+
+These fields are precisely the certificate data for $\UnaryContMonoidUp$: an inhabited classified unary carrier, a closed continuation operation, the empty unit, associativity, deterministic classification for fixed ordered sources, and a ledger. A swapped-source field compares the ordered source $(h,k)$ with the different ordered source $(k,h)$. No field in this construction makes that comparison, so the activation of $\UnaryContMonoidUp$ follows without the swapped-source additive commutativity premise.
+\end{proof}
