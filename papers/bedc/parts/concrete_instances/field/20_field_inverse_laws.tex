@@ -1,20 +1,16 @@
 \section{The certificate}
-
 \begin{definition}[Field source specification]
 \label{def:field-source-specification}
 The source is a certified commutative ring carrier plus constructive apartness from zero, packaged through the derived predicate $\mathsf{NonZero}_F$.
 \end{definition}
-
 \begin{definition}[Field pattern specification]
 \label{def:field-pattern-specification}
 The pattern is commutative-ring expression formation extended by inverse formation only from a pair $(a,p)$ with $p:\mathsf{NonZero}_F(a)$.
 \end{definition}
-
 \begin{definition}[Field classifier specification]
 \label{def:field-classifier-specification}
 The classifier is ring sameness $\sim_F$. Nonzero evidence is stable under classifier replacement: from $a\sim_F b$ and $p:\mathsf{NonZero}_F(a)$ the certificate supplies transported evidence $q:\mathsf{NonZero}_F(b)$.
 \end{definition}
-
 \begin{definition}[Field stability certificate]
 \label{def:field-stability-certificate}
 The stability certificate consists of:
@@ -26,7 +22,6 @@ The stability certificate consists of:
   \item left and right multiplicative inverse laws indexed by each witness $p:\mathsf{NonZero}_F(a)$
 \end{enumerate}
 \end{definition}
-
 \begin{theorem}[Field inverse congruence from apartness transport]
 \label{thm:field-inverse-congruence-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate supplying multiplication on $\mathsf{BHist}$, a unit $1$, a unary nonzero certificate $\mathsf{NonZero}_F$, an inverse operation $\mathsf{inv}(a,p)$ indexed by $p:\mathsf{NonZero}_F(a)$, multiplicative associativity, left and right unit laws, multiplication congruence under $\hsame$, and left and right inverse laws indexed by nonzero witnesses, if $a\hsame b$, $p:\mathsf{NonZero}_F(a)$, and $q:\mathsf{NonZero}_F(b)$ is any available witness, then $\mathsf{inv}(a,p)\hsame\mathsf{inv}(b,q)$. When $q$ is obtained from $p$ along $a\hsame b$, the certificate transport clause supplies that witness.
@@ -163,8 +158,8 @@ $\omega$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_inverse\_apart\_empty\_from\_one\_apartness}
 
-\begin{theorem}[Field inverse of an indexed inverse]
-\label{thm:field-inverse-involutive-from-apartness}
+\begin{theorem}[Field inverse of an indexed nonzero inverse]
+\label{thm:field-inverse-involutive-nonzero-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with multiplication on
 $\mathsf{BHist}$, unit $1$, proof-indexed inverse $\mathsf{inv}(a,p)$,
 associativity, left and right identity, multiplication congruence, and left
@@ -174,6 +169,8 @@ $p_{\mathsf{inv}}:\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$, then
 $$
 \mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\hsame a.
 $$
+Moreover, if this double inverse collapsed to $\emp$, then $a$ would collapse
+to $\emp$, contradicting the supplied nonzero-empty separation for $p_a$.
 \end{theorem}
 \begin{proof}
 Set the middle element in the inverse-uniqueness argument to
@@ -192,8 +189,11 @@ standard left/right inverse uniqueness chain
 $x\hsame x\,1\hsame x(yz)\hsame (xy)z\hsame 1\,z\hsame z$, with
 $x=\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})$,
 $y=\mathsf{inv}(a,p_a)$, and $z=a$. Hence the two outer witnesses are
-identified, which is the stated equality.
+identified, which is the stated equality. A candidate collapse of the double
+inverse to $\emp$ transports along the symmetric equality to a collapse
+$a\hsame\emp$, and this contradicts the nonzero-empty separation for $p_a$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_involutive\_nonzero\_from\_apartness}
 
 \begin{theorem}[Field inverse is a certified automorphism of the nonzero domain]
 \label{thm:field-inverse-nonzero-domain-automorphism}
@@ -227,7 +227,7 @@ one-apartness, and the conversion maps $\alpha_x$. This gives
 $p_A:\mathsf{NonZero}_F(A)$ for $A:=\mathsf{inv}(a,p_a)$.
 
 With this witness in hand, apply
-\autoref{thm:field-inverse-involutive-from-apartness} to $p_a$ and $p_A$.
+\autoref{thm:field-inverse-involutive-nonzero-from-apartness} to $p_a$ and $p_A$.
 The conclusion is exactly $\mathsf{inv}(A,p_A)\hsame a$, so inverse carries
 the nonzero domain back to the original element.
 

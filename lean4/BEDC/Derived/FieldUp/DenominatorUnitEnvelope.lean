@@ -249,6 +249,44 @@ theorem field_rat_denominator_unit_envelope_empty_product_reflection {h k : BHis
       append_eq_empty_iff.mpr (And.intro emptyH emptyK)
     exact Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff productEmpty
 
+theorem field_rat_denominator_unit_envelope_support_unit_no_confusion {h k : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h -> FieldRatDenominatorUnitEnvelopeCarrier k ->
+      (RatHistoryCarrier h <->
+        (FieldRatDenominatorUnitEnvelopeClassifier h BHist.Empty -> False)) ∧
+      ((FieldRatDenominatorUnitEnvelopeClassifier (append h k) BHist.Empty -> False) <->
+        RatHistoryCarrier h ∨ RatHistoryCarrier k) := by
+  intro carrierH carrierK
+  have noConfusion :
+      ∀ {t : BHist}, FieldRatDenominatorUnitEnvelopeCarrier t ->
+        (RatHistoryCarrier t <->
+          (FieldRatDenominatorUnitEnvelopeClassifier t BHist.Empty -> False)) := by
+    intro t carrierT
+    constructor
+    · intro ratT classifiedUnit
+      exact RatHistoryCarrier_not_empty ratT
+        (Iff.mp FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff classifiedUnit)
+    · intro rejectsUnit
+      cases carrierT with
+      | inl ratT =>
+          exact ratT
+      | inr emptyT =>
+          exact False.elim
+            (rejectsUnit
+              (Iff.mpr FieldRatDenominatorUnitEnvelopeClassifier_empty_right_iff emptyT))
+  have productCarrier :
+      FieldRatDenominatorUnitEnvelopeCarrier (append h k) :=
+    field_rat_denominator_unit_envelope_monoid_laws.right.left carrierH carrierK
+  have productNoConfusion := noConfusion productCarrier
+  have productSupport :=
+    (field_rat_denominator_unit_envelope_strict_support_laws carrierH carrierK).right
+  constructor
+  · exact noConfusion carrierH
+  · constructor
+    · intro rejectsProductUnit
+      exact Iff.mp productSupport (Iff.mpr productNoConfusion rejectsProductUnit)
+    · intro factorSupport
+      exact Iff.mp productNoConfusion (Iff.mpr productSupport factorSupport)
+
 theorem FieldRatDenominatorUnitEnvelopeClassifier_empty_context_iff {p q p' q' h k : BHist} :
     hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
       hsame q' BHist.Empty ->

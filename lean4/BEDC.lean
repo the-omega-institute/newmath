@@ -163,6 +163,7 @@ import BEDC.Derived.FieldUp.SingletonAppend
 import BEDC.Derived.FieldUp.SingletonRatDisjoint
 import BEDC.Derived.FieldUp.RatBoundary
 import BEDC.Derived.FieldUp.Nonzero
+import BEDC.Derived.FieldUp.InverseInvolutiveNonzero
 import BEDC.Derived.FieldUp.InverseApartness
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SquareApartness

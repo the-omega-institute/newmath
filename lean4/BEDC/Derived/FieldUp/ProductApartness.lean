@@ -75,6 +75,20 @@ theorem FieldApartZero_append_right_empty_iff {p q : BHist}
   · intro pApart appendEmpty
     exact pApart (append_eq_empty_iff.mp appendEmpty).left
 
+theorem FieldApartZero_empty_context_iff {l h r : BHist} :
+    hsame l BHist.Empty -> hsame r BHist.Empty ->
+      (FieldApartZero (append l (append h r)) <-> FieldApartZero h) := by
+  intro leftEmpty rightEmpty
+  constructor
+  · intro contextApart hEmpty
+    have innerEmpty : hsame (append h r) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro hEmpty rightEmpty)
+    exact contextApart (append_eq_empty_iff.mpr (And.intro leftEmpty innerEmpty))
+  · intro hApart contextEmpty
+    have outerSplit := append_eq_empty_iff.mp contextEmpty
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact hApart innerSplit.left
+
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
