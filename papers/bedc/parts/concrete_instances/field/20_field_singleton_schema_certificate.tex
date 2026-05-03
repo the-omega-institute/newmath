@@ -1,0 +1,49 @@
+\begin{theorem}[Singleton empty-history FieldUp schema certificate]
+\label{thm:singleton-empty-history-field-schema-certificate}
+The tuple from
+Definition~\ref{def:singleton-empty-history-field-schema-instance}, together
+with the law package from
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}, supplies the
+carrier, source, pattern, classifier, stability, and ledger fields required by
+Definition~\ref{def:field-certificate-obligations} over the concrete
+$\mathsf{BHist}$ singleton source. Its ten-field certificate template is:
+\begin{enumerate}
+  \item Traditional target: the singleton proof-indexed $\FieldUp$ schema.
+  \item BEDC source: $\mathsf{BHist}$ with $A_{\emp}$.
+  \item Carrier choice: $A_{\emp}$.
+  \item Classifier choice: $\rho_{\emp}$.
+  \item Stability obligations: commutative-ring laws plus vacuous nonzero
+  transport, inverse closure, and inverse laws.
+  \item Ledger: the singleton endpoint and the empty nonzero witness domain.
+  \item Core theorem list:
+  Theorem~\ref{thm:singleton-empty-history-field-schema-laws} and the
+  semantic certificate theorem for the same singleton carrier.
+  \item Exactness predicate: singleton endpoint classification together with
+  the $\mathsf{SemanticNameCert}$ source, pattern, and ledger fields.
+  \item Standard bridge: the terminal proof-indexed schema.
+  \item Status: CheckedCert.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The source and carrier fields are the singleton history source
+$A_{\emp}$ from Definition~\ref{def:singleton-empty-history-field-schema-instance}.
+The classifier field is $\rho_{\emp}$, whose only endpoints are the empty
+histories admitted by $A_{\emp}$.
+
+For the algebraic stability fields, use
+Theorem~\ref{thm:singleton-empty-history-commring-laws}. It supplies the
+commutative-ring part for the constant empty-history operations on the same
+carrier and classifier.
+
+For the field-specific clauses, apply
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}. Nonzero transport,
+inverse closure, inverse congruence, and the left and right inverse laws all
+begin with a witness $p:\mathsf{FieldSingletonNonZero}(h)$.
+
+Theorem~\ref{thm:field-singleton-nonzero-absurd} shows that
+no such witness exists, while the inverse operation itself still has the total
+proof-indexed form $\mathsf{inv}(h,p):=\emp$. The ledger therefore records only
+the singleton endpoint and the empty witness domain, giving the required
+concrete $\mathsf{BHist}$ FieldUp naming certificate template.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_semanticNameCert}

@@ -162,6 +162,64 @@ Collect these five clauses as the displayed transported strict-support
 separation package.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp concrete exit certificate package]
+\label{thm:ratup-fieldup-concrete-exit-certificate-package}
+For Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} and the
+source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate simultaneously contains the
+following certificate data:
+\begin{enumerate}
+  \item the obligation rows of \autoref{def:field-certificate-obligations};
+  \item the denominator multiplicative coverage of
+  \autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage};
+  \item the concrete exit-row closure of
+  \autoref{thm:ratup-fieldup-concrete-exit-row-closure};
+  \item the empty-context nondegenerate witness of
+  \autoref{thm:ratup-fieldup-empty-context-nondegenerate-witness};
+  \item the transported strict-support non-singleton endpoint of
+  \autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}.
+\end{enumerate}
+Hence the exit package is a concrete $\mathsf{BHist}$-anchored
+$\mathsf{ProofTarget}$ over $\mathsf{RatUpFieldSource}_F$, not an abstract
+operator schema.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:field-certificate-obligations}. It fixes the rows that a
+$\FieldUp(\mathsf{RatUp})$ certificate must carry: source, carrier, classifier,
+ring base, apartness, inverse, product, denominator, contextual denominator,
+affine, ledger, exactness, and status rows.
+
+Next apply
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-obligation-coverage}.
+This supplies the denominator multiplicative row coverage inside the same field
+certificate language, so the denominator component is read as a certificate row
+rather than as an external monoid fact.
+
+Apply \autoref{thm:ratup-fieldup-concrete-exit-row-closure}. It repacks the
+semantic certificate rows, source anchoring rows, support-sensitive coverage, and
+non-singleton endpoint data as one concrete exit-row closure over
+$\mathsf{RatUpFieldSource}_F$.
+
+The nondegenerate empty-context component is supplied by
+\autoref{thm:ratup-fieldup-empty-context-nondegenerate-witness}. It gives the
+wrapped rational endpoint, its rational-history carrier witness, its singleton
+empty rejection map, and the nonzero-complement clause under empty singleton
+wrappers.
+
+Finally apply
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}. This gives
+the transported endpoint clauses $C_D^u(x)$, $N_D^u(x)$,
+$\mathsf{RatHistoryCarrier}(x)$, and
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+
+Combining these five cited sites yields a single concrete
+$\mathsf{BHist}$-anchored certificate package with status
+$\mathsf{ProofTarget}$. Its data are the rows of the displayed
+$\FieldUp(\mathsf{RatUp})$ instance, so the conclusion is a concrete exit
+certificate for $\mathsf{RatUpFieldSource}_F$ and not an abstract operator
+schema.
+\end{proof}
+
 Per-object template: traditional target constructive $\FieldUp$ exit separation;
 BEDC source $\mathsf{RatUpFieldSource}_F$, contextual action $\Gamma$, and
 strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier

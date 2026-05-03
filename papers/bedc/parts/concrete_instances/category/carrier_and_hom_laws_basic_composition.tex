@@ -785,23 +785,4 @@ continuations with right tail $g$, yields $\HSame(result,fg)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.category\_cont\_middle\_identity\_tail\_result}
 
-\begin{theorem}[Continuation morphism composite middle identity tail result]
-\label{thm:continuation-morphism-comp-middle-identity-tail-result}
-For continuation morphisms $left:a\to b$, $identity:b\to b$, and
-$right:b\to c$, the middle identity tail is empty, and inserting it between
-$left$ and $right$ leaves the composite tail history-same to the direct
-composite:
-$$
-\HSame(identity.tail,\emp)\wedge
-\HSame((left\circ identity)\circ right,\; left\circ right).
-$$
-\end{theorem}
-\begin{proof}
-Compare $identity$ with the canonical empty continuation morphism at $b$ by
-tail determinacy, giving $\HSame(identity.tail,\emp)$. Unfolding the two
-composite tails reduces the comparison to append histories. The middle tail
-is transported to $\emp$, and the right-unit law
-$\mathsf{append}(left.tail,\emp)\hsame left.tail$ collapses the displayed
-middle factor.
-\end{proof}
-\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_middle\_identity\_tail\_result}
+\input{parts/concrete_instances/category/carrier_and_hom_laws_basic_composition_middle_identity_tail}
