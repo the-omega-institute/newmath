@@ -67,6 +67,30 @@ take its right component. The oriented product is
 $(a+b)\cdot(a+(-b))$, giving the required zero classifier.
 \end{proof}
 
+\begin{theorem}[CommRing zero linear factor commuted signed product zero]
+\label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the
+selected zero linear factor. In the $(a+b)\hsame0$ branch, specialize the
+two-sided annihilator row at $c=a+(-b)$ and take the right multiplication
+component. In the $(a+(-b))\hsame0$ branch, specialize at $c=a+b$ and take the
+left multiplication component. Both cases produce the displayed commuted
+signed product as an empty classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_commuted\_signed\_product\_zero}
+
 \begin{theorem}[CommRing zero linear factor forces equal squares]
 \label{thm:commring-zero-linear-factor-equal-squares}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
