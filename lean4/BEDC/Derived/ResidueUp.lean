@@ -53,6 +53,23 @@ theorem ResiduePoleData_hsame_transport
                           (And.intro productCarrier' integralResidue'))))
                     integralResidue'
 
+theorem ResiduePoleData_empty_function_endpoints
+    {f center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> hsame f BHist.Empty ->
+      hsame integral BHist.Empty ∧ hsame residue BHist.Empty := by
+  intro data functionEmpty
+  cases data with
+  | intro _disk rest =>
+      cases rest with
+      | intro _integralCarrier rest =>
+          cases rest with
+          | intro _residueCarrier rest =>
+              cases rest with
+              | intro _productCarrier integralResidue =>
+                  have emptyContinuation : Cont integral residue BHist.Empty :=
+                    cont_result_hsame_transport integralResidue functionEmpty
+                  exact cont_empty_result_inversion emptyContinuation
+
 theorem ResiduePoleData_residue_suffix_closure
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
