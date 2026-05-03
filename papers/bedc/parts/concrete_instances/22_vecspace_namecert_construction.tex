@@ -470,3 +470,15 @@ For the ledger, \autoref{def:vecspace-ledger-policy} records module ledgers toge
 
 Thus the retained carrier, source, pattern, classifier, stability, and ledger fields satisfy \autoref{def:module-certificate-obligations}. Every retained operation, carrier, classifier, exactness predicate, and non-inverse ledger row is copied from the original $\VecSpaceUp(F,V)$ certificate, so the projected $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate has the same module fragment.
 \end{proof}
+
+\begin{corollary}[VecSpace additive carrier projection]
+\label{cor:vecspace-additive-carrier-projection}
+Let $F$ carry a $\FieldUp(F)$ certificate. Let $F_{\mathsf{Ring}}$ be the scalar certificate obtained from it by first taking the commutative-ring reduct and then the ring reduct. Let $V$ carry a $\VecSpaceUp(F,V)$ certificate with vector carrier $C_V$, vector classifier $\sim_V$, vector addition $+_V$, vector zero $0_V$, vector negation $(-)_V$, and scalar action $\odot:F\times V\to V$. If the vector-space certificate is first read through the module-fragment projection of \autoref{prop:vecspace-module-fragment-projection}, and the resulting module certificate is then read through the additive reduct of \autoref{prop:module-forgets-abgroup-certificate}, the retained vector-side data form an $\AbGroupUp(V)$ certificate. The carrier $C_V$, classifier $\sim_V$, vector addition $+_V$, vector zero $0_V$, and vector negation $(-)_V$ are unchanged from the original $\VecSpaceUp(F,V)$ certificate.
+\end{corollary}
+\begin{proof}
+Apply \autoref{prop:vecspace-module-fragment-projection} to the given vector-space certificate. It supplies a $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate after deleting only the apartness predicate, proof-indexed scalar inverse operation, inverse-indexed stability rows, and inverse-witness ledger rows. The proposition states that this module certificate keeps the original vector carrier $C_V$, vector classifier $\sim_V$, vector addition, vector zero, vector negation, and scalar action.
+
+Now apply \autoref{prop:module-forgets-abgroup-certificate} to that $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate. Its scalar input is available because $F_{\mathsf{Ring}}$ is a certified $\RingUp$ source. This second reduct removes the scalar-ring package, the scalar action, and the scalar-action stability rows, and retains exactly the additive carrier, additive source, additive pattern, carrier classifier, additive stability fields, and additive ledger.
+
+By \autoref{def:abgroup-certificate-obligations}, those retained fields are the obligations for an $\AbGroupUp(V)$ certificate. The first projection did not alter the vector-side additive data, and the second projection explicitly keeps the additive carrier data of the module certificate. Therefore the final $\AbGroupUp(V)$ certificate is over the same carrier $C_V$ with the same classifier $\sim_V$, addition $+_V$, zero $0_V$, and additive inverse $(-)_V$ carried by the original vector-space certificate.
+\end{proof}
