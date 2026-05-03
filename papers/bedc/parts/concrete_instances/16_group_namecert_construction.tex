@@ -55,6 +55,47 @@ orientations.
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
 \input{parts/concrete_instances/group/16_group_certificate_tail}
 
+\begin{theorem}[Group product-unit inverse correspondence]
+\label{thm:group-product-unit-inverse-correspondence}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, write $xy$ for
+$\mathsf{mul}(x,y)$ and $x^{-1}$ for $\mathsf{inv}(x)$. Then every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\hsame(ab,e)
+\Longleftrightarrow
+\hsame(a,b^{-1})
+\Longleftrightarrow
+\hsame(b,a^{-1}).
+$$
+The ten-field fit is: traditional target product-equals-unit inverse
+extraction; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations left and right
+equation exactness, unit laws, inverse laws, inverse uniqueness, inverse
+involutivity, and multiplication congruence; ledger the two factors and the
+two extracted inverse witnesses; core theorem this block; exactness predicate
+the displayed chain of equivalences; standard bridge ordinary group inverse
+extraction from $ab=e$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-right-mul-equation-exactness} to the equation
+$\hsame(ab,e)$ with right factor $b$. It classifies the same equation by
+$\hsame(a,eb^{-1})$. The left identity law reduces $eb^{-1}$ to $b^{-1}$,
+so the product-unit equation is equivalent to $\hsame(a,b^{-1})$.
+
+Apply Theorem~\ref{thm:group-left-mul-equation-exactness} to the same equation
+with left factor $a$. It classifies the equation by $\hsame(b,a^{-1}e)$. The
+right identity law reduces $a^{-1}e$ to $a^{-1}$, giving the equivalence with
+$\hsame(b,a^{-1})$.
+
+The two extracted descriptions are compatible because a witness
+$\hsame(a,b^{-1})$ makes $a$ a right-inverse presentation for $b$, while
+$\hsame(b,a^{-1})$ makes $b$ a left-inverse presentation for $a$. The inverse
+uniqueness theorem identifies the two presentations, and inverse involutivity
+returns either double-inverse comparison to the original factor.
+\end{proof}
+
 \section{Singleton continuation endpoint equivalence}
 \label{sec:group-singleton-continuation-endpoint-equivalence}
 
