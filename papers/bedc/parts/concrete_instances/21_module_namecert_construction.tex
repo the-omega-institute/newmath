@@ -407,3 +407,46 @@ By \autoref{def:module-stability-certificate}, the module certificate contains r
 
 Finally, the scalar ledger retained from the certified $\RingUp(R)$ source is the shared carrier ledger and ring operation tree of \autoref{def:ring-ledger-policy}. The discarded ledger entries are precisely those whose provenance uses vector operations or scalar action. Thus the retained carrier, source, pattern, classifier, stability, and ledger fields satisfy \autoref{def:ring-certificate-obligations}, with $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the scalar classifier copied from the original module certificate.
 \end{proof}
+
+\begin{lemma}[Additive duplicate cancellation to zero]
+\label{lem:module-additive-duplicate-cancel-zero}
+Let $M$ be an additive carrier with classifier $\sim_M$, addition $+_M$, and zero $0_M$. Assume the right-zero row $x+_M0_M\sim_M x$ and additive left cancellation: from $a+_M b\sim_M a+_M c$ one may conclude $b\sim_M c$. If $x\sim_M x+_M x$, then $x\sim_M0_M$.
+\end{lemma}
+\begin{proof}
+The right-zero row gives $x+_M0_M\sim_M x$. Compose this comparison with the supplied comparison $x\sim_M x+_M x$ to obtain
+$$
+x+_M0_M\sim_M x+_M x.
+$$
+Additive left cancellation removes the common left summand $x$ and yields $0_M\sim_M x$. Symmetry of the classifier gives $x\sim_M0_M$.
+\end{proof}
+
+\begin{theorem}[Module zero-action annihilation]
+\label{thm:module-zero-action-annihilation}
+Let a $\ModuleUp$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $+_R$ and $0_R$ for scalar addition and scalar zero, $+_M$ and $0_M$ for module addition and module zero, and $\odot$ for scalar action. Assume the scalar source has the zero row $0_R+_R0_R\sim_R0_R$ from \autoref{def:ring-stability-certificate}, the module additive source has right-zero and additive left-cancellation as in \autoref{def:abgroup-stability-certificate} and \autoref{thm:group-left-cancellation}, and the action rows include scalar-action congruence and both distributivity rows from \autoref{def:module-stability-certificate}. For every carried scalar $r$ and carried module element $m$,
+$$
+0_R\odot m\sim_M0_M
+\qquad\text{and}\qquad
+r\odot0_M\sim_M0_M.
+$$
+\end{theorem}
+\begin{proof}
+Let $a=0_R\odot m$. Scalar distributivity over ring addition gives
+$$
+(0_R+_R0_R)\odot m\sim_M a+_M a.
+$$
+The scalar zero row $0_R+_R0_R\sim_R0_R$, classifier reflexivity on the carried element $m$, and scalar-action congruence give
+$$
+(0_R+_R0_R)\odot m\sim_M a.
+$$
+Symmetry and transitivity of $\sim_M$ therefore give $a\sim_M a+_M a$. Applying \autoref{lem:module-additive-duplicate-cancel-zero} in the additive carrier $M$ gives $0_R\odot m\sim_M0_M$.
+
+Let $b=r\odot0_M$. The module zero row gives $0_M+_M0_M\sim_M0_M$. Scalar-action congruence, using reflexivity on the carried scalar $r$, gives
+$$
+r\odot(0_M+_M0_M)\sim_M b.
+$$
+Scalar distributivity over module addition gives
+$$
+r\odot(0_M+_M0_M)\sim_M b+_M b.
+$$
+Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{lem:module-additive-duplicate-cancel-zero} gives $r\odot0_M\sim_M0_M$.
+\end{proof}
