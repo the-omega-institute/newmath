@@ -99,6 +99,30 @@ right-coset classifier at $(x',y')$.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_hsame\_transport}
 
+\begin{theorem}[Centralizer right coset classifier transitivity]
+\label{thm:subgroup-centralizer-right-coset-classifier-trans}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+associativity, right-unit, and multiplication-congruence laws, the centralizer
+right-coset classifier is transitive:
+$$
+Q^{\mathrm{right}}_{Z_a\leq N_a}(x,y)\land
+Q^{\mathrm{right}}_{Z_a\leq N_a}(y,z)
+\Longrightarrow Q^{\mathrm{right}}_{Z_a\leq N_a}(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two right-coset witnesses. The first supplies a centralizer element
+$u$ with $y\hsame \mathsf{mul}(x,u)$, and the second supplies a centralizer
+element $v$ with $z\hsame \mathsf{mul}(y,v)$. Product closure for the
+centralizer carrier gives a carried witness $\mathsf{mul}(u,v)$. Multiplication
+congruence transports the second endpoint along the first comparison, and
+associativity identifies
+$\mathsf{mul}(\mathsf{mul}(x,u),v)$ with
+$\mathsf{mul}(x,\mathsf{mul}(u,v))$. The endpoint clauses are inherited from
+the two classifier hypotheses.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_trans\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer quotient kernel empty fiber]
 \label{thm:subgroup-centralizer-quotient-kernel-empty-fiber}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$

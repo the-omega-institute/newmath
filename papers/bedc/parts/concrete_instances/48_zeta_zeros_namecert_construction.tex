@@ -210,6 +210,24 @@ fields.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec\_pair\_classifier}
 
+\begin{theorem}[Zeta zero pattern pair classifier]
+\label{thm:zeta-zero-pattern-spec-pair-classifier}
+If \((s,z)\) and \((t,w)\) satisfy the zeta-zero pattern specification, then
+\(\ComplexUp\) classifies \(s\) with \(t\) and \(z\) with \(w\), and all four
+histories remain anchored at the displayed zero complex history
+$$
+\mathsf{append}(\Eone(\emp),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the source pair classifier to the two source specifications. Apply the
+zero-result classifier to each result component, then compose one classifier
+with the symmetry of the other to classify \(z\) with \(w\). The four displayed
+anchor comparisons are the source and result comparisons stored in the two
+pattern witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec\_pair\_classifier}
+
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ZetaZero}\), conjugate symmetry of zeros, and the boundary exclusion witnesses (no zeros on \(\Re(s) = 1\), trivial zeros at negative even integers, no zeros on \(\Re(s) \geq 1\)).

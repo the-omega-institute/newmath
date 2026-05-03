@@ -103,6 +103,38 @@ with the carrier comparison $h\hsame anchor$, so $core\hsame anchor$.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_anchor\_readback}
 
+\begin{theorem}[EqType visible-context core determinism]
+\label{thm:eqtype-class-carrier-visible-context-cores-deterministic}
+For BEDC histories $p$, $r$, $anchor$, $left$, $right$, $coreLeft$, and
+$coreRight$, if both $left$ and $right$ belong to the equality-type class
+anchored at $anchor$, and the common visible context displays $left$ as
+$coreLeft$ and $right$ as $coreRight$, then $coreLeft\hsame coreRight$.
+\end{theorem}
+\begin{proof}
+Apply visible-context anchor readback to both displays. This identifies each
+displayed core with the shared anchor. Composing the left readback with the
+reverse of the right readback gives the core comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_cores\_deterministic}
+
+\begin{theorem}[EqType visible-context pair determinacy]
+\label{thm:eqtype-class-carrier-visible-context-pair-deterministic}
+For BEDC histories $p$, $r$, $anchor$, $left$, $right$, $leftCore$, and
+$rightCore$, suppose $left$ and $right$ both belong to the equality-type class
+anchored at $anchor$. If the display of $left$ inside the common context $p,r$
+agrees with the corresponding display of $leftCore$, and the display of
+$right$ inside the same common context agrees with the display of $rightCore$,
+then $leftCore\hsame rightCore$.
+\end{theorem}
+\begin{proof}
+Apply visible-context anchor readback to the left comparison to obtain
+$leftCore\hsame anchor$. Apply the same readback to the right comparison to
+obtain $rightCore\hsame anchor$. The first comparison and the reverse of the
+second compose by transitivity of $\hsame$, giving
+$leftCore\hsame rightCore$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_pair\_deterministic}
+
 \section{The certificate}
 \label{sec:eqtype-certificate}
 
