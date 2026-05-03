@@ -49,6 +49,8 @@ import BEDC.BaseReflection
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.EmptyUp
+import BEDC.Derived.EqtypeUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -279,6 +281,7 @@ import BEDC.Derived.ModuleUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
+import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
