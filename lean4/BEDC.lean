@@ -261,6 +261,7 @@ import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.CompTransport
 import BEDC.Derived.CategoryUp.EmptySourceComposite
+import BEDC.Derived.CategoryUp.EmptySourceSwap
 import BEDC.Derived.CategoryUp.EmptyMiddleInversion
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.Derived.CategoryUp.FactorTail

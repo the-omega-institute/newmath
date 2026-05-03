@@ -14,6 +14,45 @@ branch is impossible because the Rat denominator carrier has no zero-headed
 inhabitant.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier empty endpoint iff]
+\label{thm:rat-denom-unit-classifier-empty-endpoint-iff}
+For every history $h:\mathsf{BHist}$, the empty-unit denominator classifier
+against the empty endpoint records exactly the displayed empty endpoint
+comparison, on either side:
+$$
+\mathsf{RatDenomUnitClassifier}(\emp,h)\Longleftrightarrow h\hsame\emp,
+\qquad
+\mathsf{RatDenomUnitClassifier}(h,\emp)\Longleftrightarrow h\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the classifier into its two carrier fields and its endpoint sameness
+field. In the forward directions, the endpoint field gives the desired
+comparison, using symmetry for the left endpoint placement. In the reverse
+directions, the displayed empty comparison supplies the nonempty endpoint
+carrier by the empty branch, while the empty endpoint itself uses reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_endpoint\_iff}
+
+\begin{theorem}[Rat denominator unit carrier append zero-headed absurd]
+\label{thm:rat-denom-unit-carrier-append-e0-absurd}
+For histories $h,k,tail:\mathsf{BHist}$, two empty-unit denominator carrier
+witnesses cannot have a product classified with a zero-headed endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{append}(h,k)\hsame\Ezero(tail)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Closure of $\mathsf{RatDenomUnitCarrier}$ under continuation gives a carrier
+witness for $\mathsf{append}(h,k)$. Transport this carrier witness along the
+displayed endpoint sameness to obtain
+$\mathsf{RatDenomUnitCarrier}(\Ezero(tail))$, contradicting the zero-headed
+absurdity theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_e0\_absurd}
+
 \begin{theorem}[Rat denominator unit carrier one-headed unary iff]
 \label{thm:field-rat-denom-unit-carrier-one-headed-unary-iff}
 For every tail $t:\mathsf{BHist}$, the empty-unit denominator carrier sees a

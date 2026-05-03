@@ -1,3 +1,22 @@
+\begin{theorem}[Category empty-source target morphism swap]
+\label{thm:category-empty-source-target-morphism-swap}
+For histories $b,f:\mathsf{BHist}$, an empty-source hom-carrier is unchanged
+when its target and morphism fields are exchanged:
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,f)
+\Longleftrightarrow
+\mathsf{CategoryHomCarrier}(\emp,f,b).
+$$
+\end{theorem}
+\begin{proof}
+Empty-source exactness rewrites the left side as unary membership of $b$
+together with $\HSame(f,b)$. Transport unary membership across this sameness
+to obtain unary membership of $f$, reverse the endpoint classifier, and apply
+empty-source exactness again. The converse is the same argument with $b$ and
+$f$ exchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_target\_morphism\_swap\_iff}
+
 \begin{theorem}[Category empty-target morphism source determinacy]
 \label{thm:category-empty-target-morphism-source-deterministic}
 For the unary-continuation category, if two hom-carriers share the empty target
