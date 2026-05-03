@@ -64,4 +64,8 @@ theorem DeterminantSingleton_semanticNameCert :
 
 def DeterminantSingletonReadback (_M : BHist) : BHist := BHist.Empty
 
+def DeterminantSingletonEndpoint (M r : BHist) : Prop :=
+  MatrixUp.MatrixSingletonClassifier M BHist.Empty ∧
+    CommRingUp.CommRingSingletonClassifier r BHist.Empty
+
 end BEDC.Derived.DeterminantUp
