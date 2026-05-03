@@ -118,6 +118,24 @@ $\ContR(\emp,\emp,\emp)$ together with unary emptiness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_endpoint\_iff}
 
+\begin{lemma}[Complex distance from the empty source]
+\label{lem:cplx-distance-empty-source-iff}
+For histories $w,d:\mathsf{BHist}$,
+$$
+\mathsf{ComplexDistance}(\emp,w,d)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(w)\wedge d\hsame w.
+$$
+\end{lemma}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_source\_iff}
+\begin{proof}
+Unpack the distance witness. The left branch is a continuation
+$\Cont(\emp,w,d)$, whose left-unit result gives $d\hsame w$. The right
+branch is $\Cont(w,\emp,d)$, whose right-unit characterization gives the
+same endpoint identity. Conversely, transport unary membership from $w$ to
+$d$ along $d\hsame w$, and use the left-unit continuation witness.
+\end{proof}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.

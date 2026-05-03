@@ -142,4 +142,27 @@ theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q 
           (And.intro rightUnary
             (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
 
+theorem ComplexDistance_empty_source_iff {w d : BHist} :
+    ComplexDistance BHist.Empty w d ↔ UnaryHistory w ∧ hsame d w := by
+  constructor
+  · intro distance
+    cases distance with
+    | intro _emptyCarrier rest =>
+        cases rest with
+        | intro wCarrier rest =>
+            cases rest with
+            | intro _dCarrier rel =>
+                constructor
+                · exact wCarrier
+                · cases rel with
+                  | inl leftRel =>
+                      exact cont_left_unit_result leftRel
+                  | inr rightRel =>
+                      exact Iff.mp cont_right_unit_iff rightRel
+  · intro data
+    have dCarrier : UnaryHistory d := unary_transport data.left (hsame_symm data.right)
+    exact And.intro unary_empty
+      (And.intro data.left
+        (And.intro dCarrier (Or.inl (Iff.mpr cont_left_unit_iff data.right))))
+
 end BEDC.Derived.ComplexLimitUp

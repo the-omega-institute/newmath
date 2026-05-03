@@ -207,6 +207,35 @@ displayed classifier law. Constructor separation for $\mathsf{BHist}$ rejects
 any equality between a one-headed history and the empty history.
 \end{proof}
 
+\begin{theorem}[Rat denominator visible left-unit law is impossible]
+\label{thm:field-rat-denominator-continuation-visible-left-unit-law-absurd}
+For every history $u:\mathsf{BHist}$, if $u$ is history-same to a visible
+zero-headed or one-headed history, then $u$ cannot satisfy the
+Rat-denominator left-unit classifier law:
+$$
+\left(
+(\exists t:\mathsf{BHist}.\; u\hsame\Ezero(t))
+\lor
+(\exists t:\mathsf{BHist}.\; u\hsame\Eone(t))
+\right)
+\to
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_visible\_left\_unit\_law\_absurd}
+\begin{proof}
+The left-unit endpoint equivalence forces $u\hsame\emp$. In the visible
+zero-headed branch, transitivity gives $\Ezero(t)\hsame\emp$, contradicting
+constructor separation. In the one-headed branch, the same argument gives
+$\Eone(t)\hsame\emp$, again impossible by constructor separation.
+\end{proof}
+
 \begin{theorem}[Rat denominator e1-probe classifier endpoint empty]
 \label{thm:field-rat-denominator-e1-probe-classifier-endpoint-empty}
 For every history $u:\mathsf{BHist}$, if the one-headed denominator probe
