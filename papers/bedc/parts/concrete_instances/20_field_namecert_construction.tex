@@ -388,6 +388,90 @@ exactness predicate action kernel iff centralizes every element of $C_F(A)$;
 standard bridge ordinary restricted normalizer action kernel; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action representation]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-representation}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+the restricted action by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+The assignment
+$$
+T\longmapsto \mathrm{Act}_T
+$$
+from $N_F(C_F(A))$ to classifier-exact automorphisms of $C_F(A)$ is a concrete
+homomorphic action representation. Concretely, if
+$N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, and $C_F(A)(X),C_F(A)(Y)$, then:
+\begin{enumerate}
+\item $C_F(A)(\mathrm{Act}_T(X))$.
+\item
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+\item
+$$
+\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X.
+$$
+\item
+$$
+\mathrm{Act}_T(\mathrm{Act}_U(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X).
+$$
+\item $N_F(C_F(A))(\iota_F(T))$, and the inverse action is two-sided:
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier and homomorphism laws are supplied by
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. Its
+preservation clause gives $C_F(A)(\mathrm{Act}_T(X))$, its identity clause gives
+the action of $\mathrm{id}_F$, and its composition clause gives the displayed
+law for $T\circ_{\mathrm{aff}}U$.
+
+The subgroup certificate
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} supplies the
+normalizer bookkeeping for the representing source: identity membership, product
+closure, and the inverse witness $N_F(C_F(A))(\iota_F(T))$.
+
+For the target automorphism attached to $T$, apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism}.
+Its classifier-exactness clause gives the displayed equivalence on
+$\equiv_{\mathrm{aff}}$, and its inverse-action clauses give the two-sided
+cancellation formulas.
+
+Finally,
+\autoref{thm:ratup-fieldup-affine-conjugation-exactness} identifies these
+clauses with concrete affine conjugation in the $\FieldUp(\RatUp)$ exit object.
+Thus the map $T\mapsto\mathrm{Act}_T$ lands in the classifier-exact
+automorphisms of $C_F(A)$ and respects the normalizer multiplication by the
+stated composition law.
+\end{proof}
+
+Per-object template: traditional target normalizer action representation; BEDC
+source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier source
+$N_F(C_F(A))$ and acted carrier $C_F(A)$; classifier $\equiv_{\mathrm{aff}}$;
+stability carrier preservation, classifier exactness, identity action,
+composition action, and inverse action; ledger fixed element, normalizer
+witnesses, acted elements, and inverse witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism},
+and \autoref{thm:ratup-fieldup-affine-conjugation-exactness}; exactness
+predicate concrete homomorphic action representation into classifier-exact
+automorphisms; standard bridge ordinary normalizer representation by
+automorphisms; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine center normalizes centralizers]
 \label{thm:ratup-fieldup-affine-center-normalizes-centralizers}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
