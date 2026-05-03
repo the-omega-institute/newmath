@@ -427,6 +427,70 @@ protected theorem SubgroupCentralizerNormalizer_mul_closed_from_empty_unit
       assocC leftId rightId mulCongr leftInv rightInv normalizesS normalizesT centralX
   exact carrierTransport composed.left (hsame_symm composed.right)
 
+protected theorem SubgroupCentralizerNormalizer_hsame_transport_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s t : BHist} :
+    SubgroupCentralizerNormalizer mul inv a s -> hsame s t ->
+      SubgroupCentralizerNormalizer mul inv a t := by
+  intro normalizesS sameST x centralX
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have invCongr : forall {u v : BHist}, hsame u v -> hsame (inv u) (inv v) :=
+    BEDC.Derived.GroupUp.group_inverse_congruence_from_laws
+      assocC leftId rightId mulCongr leftInv rightInv
+  have sameConjugate :
+      hsame (mul (mul s x) (inv s)) (mul (mul t x) (inv t)) :=
+    mulCongr (mulCongr sameST (hsame_refl x)) (invCongr sameST)
+  exact carrierTransport (normalizesS x centralX) sameConjugate
+
+theorem SubgroupCentralizerQuotientKernel_hsame_transport
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x x' y y' : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y -> hsame x x' -> hsame y y' ->
+      SubgroupCentralizerQuotientKernel mul inv a x' y' := by
+  intro kernel sameXX' sameYY'
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have invCongr : forall {u v : BHist}, hsame u v -> hsame (inv u) (inv v) :=
+    BEDC.Derived.GroupUp.group_inverse_congruence_from_laws
+      assocC leftId rightId mulCongr leftInv rightInv
+  have normalizesX' : SubgroupCentralizerNormalizer mul inv a x' :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer_hsame_transport_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv kernel.left sameXX'
+  have normalizesY' : SubgroupCentralizerNormalizer mul inv a y' :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer_hsame_transport_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv kernel.right.left sameYY'
+  have sameKernel :
+      hsame (mul (inv x) y) (mul (inv x') y') :=
+    mulCongr (invCongr sameXX') sameYY'
+  have centralKernel : SubgroupCentralizerCarrier mul a (mul (inv x') y') :=
+    carrierTransport kernel.right.right sameKernel
+  exact And.intro normalizesX' (And.intro normalizesY' centralKernel)
+
 theorem SubgroupCentralizerQuotientKernel_empty_fiber_iff
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

@@ -55,3 +55,21 @@ append law identifies that history with $d(\mathsf{append}(u,v))$.
 
 \section{The certificate}
 \label{sec:homology-certificate}
+
+\begin{theorem}[Homology singleton cycle semantic name certificate]
+\label{thm:homology-singleton-cycle-semantic-namecert}
+Let the singleton cycle carrier contain exactly the BEDC histories
+$h\hsame\mathsf{BHist.Empty}$. Let its classifier require both endpoints to
+lie in that carrier and require $h\hsame k$. This classifier is a semantic
+naming certificate for the carrier used simultaneously as source, pattern,
+and ledger policy.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\mathsf{BHist.Empty}$ through reflexivity of
+$\hsame$. Classifier reflexivity, symmetry, and transitivity are obtained by
+unpacking the two endpoint-carrier witnesses and composing the underlying
+$\hsame$ proofs. Carrier transport along a classifier edge is the right
+endpoint carrier witness already stored in the classifier. The semantic
+pattern and ledger fields are the source witness itself.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
