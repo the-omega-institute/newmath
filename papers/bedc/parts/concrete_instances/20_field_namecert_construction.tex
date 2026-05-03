@@ -242,6 +242,62 @@ conjugating elements, acted element, and inverse witnesses; core theorem list
 restricted normalizer action; standard bridge ordinary normalizer action on a
 subgroup; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine center normalizes centralizers]
+\label{thm:ratup-fieldup-affine-center-normalizes-centralizers}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,Z:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. If $Z$ is in the concrete affine center, then
+$Z$ normalizes the concrete affine centralizer of $A$:
+$$
+\mathsf{Center}_F(Z)\Rightarrow N_F(C_F(A))(Z).
+$$
+Moreover, for every $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$, the restricted
+normalizer action from
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} is pointwise
+the classifier identity:
+$$
+\mathrm{Act}_Z(X)\equiv_{\mathrm{aff}}X.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{Center}_F(Z)$. Apply
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection} and read the
+first equivalence forward at the fixed automorphism $A$. This gives the concrete
+centralizer witness $C_F(A)(Z)$.
+
+Now apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion} to that
+witness. The conclusion is exactly $N_F(C_F(A))(Z)$, with the normalizer carrier
+read as the two-sided preservation predicate of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}.
+
+For the pointwise identity, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$. The
+center hypothesis, unfolded at the test element $X$, says that $Z$ and $X$
+commute under $\equiv_{\mathrm{aff}}$.
+
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} to the pair
+$(Z,X)$. The commuting row identifies the inner affine conjugate
+$\mathrm{Act}_Z(X)$ with $X$ under the same classifier. The action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} supplies the
+restricted-action reading on the carrier $C_F(A)$, and the normalizer membership
+already proved supplies the required action domain.
+\end{proof}
+
+Per-object template: traditional target center action on centralizers; BEDC
+source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$; carrier
+$C_F(A)$ and center predicate; classifier $\equiv_{\mathrm{aff}}$; stability
+center intersection, normalizer inclusion, fixed-point criterion, and restricted
+action; ledger fixed element, center witness, centralizer witness, and inverse
+row; core theorem list
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion},
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion}, and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}; exactness
+predicate center element acts as classifier identity on centralizer elements;
+standard bridge ordinary group center action on centralizers; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
 \label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
 Let $d_1:=\Eone(\emp)$. For
