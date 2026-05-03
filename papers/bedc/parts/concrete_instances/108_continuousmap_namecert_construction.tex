@@ -6,5 +6,40 @@ The continuous-map interface $\ContinuousMapUp$ packages a function between metr
 \section{Carrier definition}
 \label{sec:continuousmap-carrier}
 
+\begin{definition}[ContinuousMap concrete carrier]
+\label{def:continuousmap-concrete-carrier}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$,
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,dist)$ is the
+conjunction of the continuous-function carrier
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ and the
+metric distance witness $\mathsf{MetricDistanceWitness}(source,target,dist)$.
+\end{definition}
+\leandef{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier}
+
+\begin{theorem}[ContinuousMap carrier empty distance exactness]
+\label{thm:continuousmap-carrier-empty-distance-exact}
+For histories $source,map,modulus,cert:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,\emp,modulus,cert,\emp)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(map)\land
+\mathsf{UnaryHistory}(modulus)\land
+source\sim\emp\land map\sim\emp\land cert\sim modulus.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_exact}
+\begin{proof}
+Unpack the carrier into the continuous-function row and the metric-distance
+row. Empty distance forces the source endpoint to be $\emp$, while the
+continuous-function graph row into $\emp$ forces the map component to be
+$\emp$. The remaining certificate row is the left-unit continuation from
+$\emp$ to $modulus$, hence $cert\sim modulus$. Conversely, the displayed
+unary and boundary data build the two continuation rows and the empty-distance
+metric witness directly.
+\end{proof}
+
 \section{The certificate}
 \label{sec:continuousmap-certificate}

@@ -54,4 +54,12 @@ theorem MetricDistanceWitness_e0_component_absurd {x y d : BHist} :
     · intro witness
       exact unary_no_zero_extension witness.right.right.left
 
+theorem MetricDistanceWitness_e1_pair_empty_distance_absurd {x y : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) BHist.Empty -> False := by
+  intro witness
+  have endpoints :=
+    (MetricDistanceWitness_empty_distance_iff (x := BHist.e1 x) (y := BHist.e1 y)).mp
+      witness
+  exact not_hsame_e1_empty endpoints.left
+
 end BEDC.Derived.MetricUp

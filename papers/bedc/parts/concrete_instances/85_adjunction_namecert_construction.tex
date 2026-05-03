@@ -6,5 +6,38 @@ The adjunction interface $\AdjunctionUp$ packages a pair of functors $F \dashv G
 \section{Carrier definition}
 \label{sec:adjunction-carrier}
 
+\begin{definition}[Adjunction unit-counit carrier]
+\label{def:adjunction-unit-counit-carrier}
+For histories $p,q,a,unit,counit,composite:\mathsf{BHist}$,
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,composite)$ asserts
+that $unit$ is a natural-transformation prefix component from $p$ to $q$ at
+$a$, $counit$ is the corresponding component from $q$ to $p$, and
+$composite$ is their continuation composite.
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier}
+
+\begin{theorem}[Adjunction unit-counit empty components exactness]
+\label{thm:adjunction-unit-counit-empty-components-exact}
+For histories $p,q,a,composite:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,composite)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land
+\mathsf{UnaryHistory}(q)\land
+\mathsf{UnaryHistory}(a)\land
+p\sim q\land composite\sim\emp.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_exact}
+\begin{proof}
+Both displayed natural-transformation components are empty identity components.
+Their exactness theorem gives unary histories for $p,q,a$ and $p\sim q$. The
+continuation composite of the two empty components is history-same as $\emp$.
+Conversely, $p\sim q$ supplies both empty identity components, and
+$composite\sim\emp$ supplies the empty continuation composite.
+\end{proof}
+
 \section{The certificate}
 \label{sec:adjunction-certificate}
