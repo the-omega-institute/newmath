@@ -190,9 +190,11 @@ import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.AbGroupUp
+import BEDC.Derived.HomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
+import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
@@ -308,6 +310,7 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
+import BEDC.Derived.HomologyUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
