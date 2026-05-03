@@ -126,6 +126,49 @@ then excludes both visible results $\Ezero(r)$ and $\Eone(r)$ for continuations
 from $P$ through $Q$.
 \end{proof}
 
+\begin{theorem}[Group singleton continuation product-unit triple coverage]
+\label{thm:group-singleton-continuation-product-unit-triple-coverage}
+For histories $P,Q,S,T:\mathsf{BHist}$ with $\ContR(P,Q,S)$, the concrete
+singleton $\GroupUp$ continuation and append product-unit classifier give the
+three endpoint coverage equivalence:
+$$
+R_{\emp}(\mathsf{append}(S,T),\emp)\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T).
+$$
+The ten-field fit names the traditional target terminal-group continuation
+product-unit coverage; the BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ plus $\ContR$ and append; carrier $A_{\emp}$; classifier
+$R_{\emp}$; stability from continuation terminal collapse and product-unit
+split; ledger continuation witness, product suffix, and hidden endpoint
+witnesses; core theorem list
+\autoref{thm:group-singleton-classifier-product-unit-split},
+\autoref{thm:group-singleton-continuation-terminal-collapse}, and
+\autoref{thm:group-singleton-terminal-classifier-package}; exactness the
+displayed iff; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-product-unit-split} to rewrite the
+left side as the product of the continuation result carrier and suffix carrier:
+
+$$
+A_{\emp}(S)\land A_{\emp}(T).
+$$
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under the
+displayed continuation witness to identify $A_{\emp}(S)$ with
+$R_{\emp}(P,Q)$. This changes the intermediate condition to
+$R_{\emp}(P,Q)\land A_{\emp}(T)$.
+
+Finally, apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to rewrite
+$R_{\emp}(P,Q)$ as $A_{\emp}(P)\land A_{\emp}(Q)$. Reassociating conjunctions
+gives exactly
+
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T).
+$$
+\end{proof}
+
 \begin{theorem}[Group singleton contextual continuation terminal collapse]
 \label{thm:group-singleton-contextual-continuation-terminal-collapse}
 For histories $L,R,L',R',P,Q,S,r:\mathsf{BHist}$, suppose $A_{\emp}(L)$,
