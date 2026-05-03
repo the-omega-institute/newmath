@@ -10,6 +10,7 @@ This chapter gives a concrete naming-certificate construction for the complex to
 \label{def:cplx-topo-open-disk}
 For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the open-disk membership predicate \(\mathsf{OpenDisk}(z_0, r, z)\) holds when the rational representation of the complex modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). The witness is an explicit unary gap \(\mathsf{Gap}(z_0, r, z) > \emp\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap}
 
 \begin{remark}[Compatibility with the inline definition]
 This definition coincides with the inline \texttt{BEDC.Derived.HolomorphicUp.OpenDisk} of \autoref{ch:concrete-instances-holomorphic-namecert} up to namespace; promoting it to \(\ComplexTopologyUp\) lets downstream chapters cite a single canonical home.
@@ -27,6 +28,21 @@ For every triple \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap 
 \begin{proof}
 Compute \(\mathsf{Gap}(z_0, r, z) := r \ominus |z - z_0|\) using \(\RealUp\) truncated subtraction. The strict inequality of \autoref{def:cplx-topo-open-disk} guarantees the result is non-empty unary.
 \end{proof}
+
+\begin{lemma}[Open-disk gap transport along \(\hsame\)]
+\label{lem:cplx-topo-open-disk-gap-hsame-transport}
+If a complex-topology open-disk gap witness is transported by the complex
+history classifier at its center and point, and by \(\hsame\) at its radius
+and gap histories, then the transported tuple is again an open-disk gap
+witness and exposes the transported boundary ledger.
+\end{lemma}
+\begin{proof}
+Unpack the open-disk gap witness. The complex classifiers provide the target
+complex carriers for the center and point. Unary transport moves the radius
+and gap carriers along \(\hsame\), and continuation transport moves
+\(\Cont(z,g,r)\) to \(\Cont(z',g',r')\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_hsame\_transport}
 
 \section{Open sets and finite intersections}
 \label{sec:cplx-topo-open-sets}
