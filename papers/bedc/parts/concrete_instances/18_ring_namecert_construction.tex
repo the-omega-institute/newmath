@@ -234,6 +234,25 @@ Add the left inverse of \(a\) on the left, reassociate to bring
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_eq\_zero}
 
+\begin{theorem}[Ring additive duplicate zero exactness]
+\label{thm:ring-add-duplicate-zero-iff}
+For BEDC history addition satisfying additive associativity, left zero, left
+inverse, and addition congruence, every history $a$ satisfies
+$$
+a\hsame a+a \Longleftrightarrow a\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is exactly the duplicate-addition collapse: apply
+\autoref{thm:ring-add-duplicate-eq-zero} to the hypothesis $a\hsame a+a$.
+
+For the reverse implication, use symmetry of $a\hsame0$ to transport the left
+summand from $a$ to $0$, and use the hypothesis itself to transport the right
+summand from $a$ to $0$ by addition congruence. The resulting comparison
+$a+a\hsame0+0$ reduces by the left-zero law to $0$, and transitivity with the
+original hypothesis gives $a\hsame a+a$.
+\end{proof}
+
 \begin{theorem}[Ring additive right zero]
 \label{thm:ring-add-right-zero}
 For BEDC history addition, additive commutativity and the supplied left-zero
