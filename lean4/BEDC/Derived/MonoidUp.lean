@@ -225,6 +225,43 @@ theorem unary_append_monoid_left_identity_empty {e : BHist} :
       exact And.intro (unary_append_closed unaryH unary_empty)
         (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h)))
 
+theorem unary_append_monoid_right_identity_empty {e : BHist} :
+    UnaryHistory e ->
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h e) h) ->
+      MonoidHistoryClassifier UnaryHistory e BHist.Empty := by
+  intro unaryE rightId
+  have emptyToE : MonoidHistoryClassifier UnaryHistory BHist.Empty e :=
+    MonoidHistoryClassifier_identity_unique UnaryHistory unary_empty unaryE
+      (by
+        intro h unaryH
+        exact And.intro (unary_append_closed unary_empty unaryH)
+          (And.intro unaryH (BEDC.FKernel.Cont.append_empty_left h)))
+      rightId
+  exact And.intro unaryE (And.intro unary_empty (hsame_symm emptyToE.right.right))
+
+theorem unary_append_monoid_identity_empty_iff {e : BHist} :
+    UnaryHistory e ->
+      (((forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append e h) h) ∧
+        (forall {h : BHist}, UnaryHistory h ->
+          MonoidHistoryClassifier UnaryHistory (append h e) h)) <->
+        MonoidHistoryClassifier UnaryHistory e BHist.Empty) := by
+  intro unaryE
+  constructor
+  · intro laws
+    exact unary_append_monoid_left_identity_empty unaryE laws.left
+  · intro classified
+    constructor
+    · intro h unaryH
+      cases classified.right.right
+      exact And.intro (unary_append_closed unary_empty unaryH)
+        (And.intro unaryH (BEDC.FKernel.Cont.append_empty_left h))
+    · intro h unaryH
+      cases classified.right.right
+      exact And.intro (unary_append_closed unaryH unary_empty)
+        (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h))
+
 theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->
       MonoidHistoryClassifier UnaryHistory (append left (append a right))

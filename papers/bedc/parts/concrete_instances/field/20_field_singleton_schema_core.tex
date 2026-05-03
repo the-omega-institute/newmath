@@ -270,6 +270,25 @@ Definition~\ref{def:field-singleton-empty-nonzero}.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_empty\_endpoint\_complement\_iff}
 
+\begin{theorem}[Singleton empty nonzero hsame empty complement]
+\label{thm:field-singleton-empty-nonzero-hsame-empty-complement}
+For histories $h$ and $k$ with $h\hsame k$, the proof-indexed singleton empty
+nonzero predicate at $h$ is exactly the complement of $k$ being empty:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(h)
+\Longleftrightarrow
+(\hsame(k,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Transport an empty endpoint for $k$ across $h\hsame k$ to obtain an empty
+endpoint for $h$, then apply the singleton nonzero obstruction. Conversely,
+unpack a forbidden classifier witness for $h$ to get $h\hsame\emp$, transport
+that endpoint back across $h\hsame k$, and contradict the displayed complement
+for $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_hsame\_empty\_complement\_iff}
+
 This identifies the concrete $\mathsf{BHist}$ $\FieldUp$ schema's
 proof-indexed nonzero domain with the carrier complement of the singleton
 empty-classifier instance.
