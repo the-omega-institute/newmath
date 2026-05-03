@@ -58,4 +58,19 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
   · intro appendEmpty
     exact nNonempty (append_eq_empty_iff.mp appendEmpty).left
 
+def DirichletPositiveIndex (n : BHist) : Prop :=
+  exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
+
+theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
+    DirichletPositiveIndex m -> UnaryHistory n -> DirichletPositiveIndex (append m n) := by
+  intro positiveM unaryN
+  cases positiveM with
+  | intro tail data =>
+      cases data with
+      | intro unaryTail mEq =>
+          cases mEq
+          exact Exists.intro (append tail n)
+            (And.intro (unary_append_closed unaryTail unaryN)
+              (unary_append_e1_left (h := n) (k := tail) unaryN))
+
 end BEDC.Derived.DirichletSeriesUp

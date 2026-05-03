@@ -10,6 +10,26 @@ This chapter gives a concrete naming-certificate construction for Dirichlet seri
 For coefficient sequence \(a : \Unary \to \ComplexUp\)-history (with \(a_0\) ignored, indexing starts at \(\Eone(\emp)\)), positive unary \(n\), complex history \(s\), the Dirichlet term \(\mathsf{DirTerm}(a, n, s, t_n)\) is the explicit complex history \(t_n = a_n \cdot n^{-s}\), where \(n^{-s}\) is computed via \(\exp(-s \log n)\) on the rational/real-history representation of \(\log n\) (defer constructive log to the \(\RealUp\)-namecert machinery, \autoref{ch:concrete-instances-real-namecert}).
 \end{definition}
 
+\begin{definition}[Dirichlet positive index]
+\label{def:dirichlet-positive-index}
+A Dirichlet positive index is a history of the form \(\Eone(t)\) where \(t\) is
+unary. This excludes the empty index and matches the \(n\geq 1\) indexing used
+by Dirichlet terms.
+\end{definition}
+\leandef{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex}
+
+\begin{lemma}[Positive Dirichlet index is append closed]
+\label{lem:dirichlet-positive-index-append-unary-closed}
+If \(m\) is a Dirichlet positive index and \(n\) is unary, then
+\(\mathsf{append}(m,n)\) is again a Dirichlet positive index.
+\end{lemma}
+\begin{proof}
+Write \(m=\Eone(t)\) with \(t\) unary. Unary append closure gives unary
+\(\mathsf{append}(t,n)\), and the unary append law rewrites
+\(\mathsf{append}(\Eone(t),n)\) as \(\Eone(\mathsf{append}(t,n))\).
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_unary\_closed}
+
 \begin{lemma}[Dirichlet term well-defined]
 \label{lem:dir-term-well-defined}
 For every \((a, n, s)\) with positive unary \(n\) and complex history \(s\), \(\mathsf{DirTerm}(a, n, s, t_n)\) determines a unique complex history \(t_n\) up to \(\hsame\).

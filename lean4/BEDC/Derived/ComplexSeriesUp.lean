@@ -74,6 +74,33 @@ theorem ComplexAbsPartSum_successor_result_deterministic {zero : BHist}
       have samePrevious := deterministic previous finalPrevious
       exact cont_respects_hsame samePrevious (hsame_refl (modulus n)) step finalStep
 
+theorem ComplexPartSum_term_hsame_deterministic {zero : BHist} {c d : BHist -> BHist}
+    {n S T : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (c m) (d m)) ->
+      ComplexPartSum zero c n S -> ComplexPartSum zero d n T -> hsame S T := by
+  intro pointwise left
+  have index_unary :
+      forall {m U : BHist}, ComplexPartSum zero c m U -> UnaryHistory m := by
+    intro m U sum
+    induction sum with
+    | zero =>
+        exact unary_empty
+    | step _ _ ih =>
+        exact unary_e1_closed ih
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl zero
+  | step leftSum leftStep ih =>
+      intro right
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih rightSum
+          have sameTerm := pointwise (index_unary leftSum)
+          exact cont_respects_hsame samePartial sameTerm leftStep rightStep
+
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
 
