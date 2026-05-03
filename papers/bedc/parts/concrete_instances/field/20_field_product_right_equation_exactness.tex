@@ -425,3 +425,76 @@ for $\mathsf{mul}(-,r)$. The identified spine now appears on the left, so the
 transported solution is $x\hsame\mathsf{mul}(R,r)$, and the reverse transport
 recovers the original fourfold left equation.
 \end{proof}
+
+\begin{theorem}[Field five-factor product equation exactness from apartness]
+\label{thm:field-five-factor-product-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+proof-indexed inverses, multiplication associativity, left and right unit laws,
+multiplication congruence under $\hsame$, indexed left and right inverse laws,
+product nonzero exclusion, and the conversion maps required by
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness}, define
+$$
+P_5:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e).
+$$
+For any witness $p_{abcde}:\mathsf{NonZero}_F(P_5)$, the five-factor inverse
+reversal theorem induces witnesses $p_a:\mathsf{NonZero}_F(a)$,
+$p_b:\mathsf{NonZero}_F(b)$, $p_c:\mathsf{NonZero}_F(c)$,
+$p_d:\mathsf{NonZero}_F(d)$, and $p_e:\mathsf{NonZero}_F(e)$. Define
+$$
+R_5:=\mathsf{mul}(\mathsf{inv}(e,p_e),
+\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))))).
+$$
+Then every $x,r:\mathsf{BHist}$ satisfies both clauses
+$$
+\mathsf{mul}(x,P_5)\hsame r
+\Longleftrightarrow
+x\hsame\mathsf{mul}(r,R_5)
+$$
+and
+$$
+\mathsf{mul}(P_5,x)\hsame r
+\Longleftrightarrow
+x\hsame\mathsf{mul}(R_5,r).
+$$
+Traditional target finite five-factor product equation solving; BEDC source
+$\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations one-factor right and left equation exactness,
+five-factor inverse reversal, multiplication congruence, symmetry, and
+transitivity; ledger $p_{abcde}$ and the induced witnesses
+$p_a,p_b,p_c,p_d,p_e$; core theorem this block; exactness predicate the two
+displayed equivalences; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:field-right-mul-equation-exact-from-apartness} to the
+active right factor $P_5$ with witness $p_{abcde}$. This gives the right
+equation equivalence with the one-factor solution
+$x\hsame\mathsf{mul}(r,\mathsf{inv}(P_5,p_{abcde}))$.
+
+Next apply
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness} to
+$p_{abcde}$. It produces the factor witnesses $p_a$, $p_b$, $p_c$, $p_d$, and
+$p_e$ and identifies the indexed inverse of $P_5$ with the displayed reversed
+spine $R_5$.
+
+For the forward direction of the right equation, use multiplication congruence
+on the right factor of $\mathsf{mul}(r,-)$ to transport the one-factor solution
+from $\mathsf{inv}(P_5,p_{abcde})$ to $R_5$.
+
+For the reverse direction of the right equation, use symmetry of the same
+inverse identification, the same congruence, and transitivity of $\hsame$ to
+return to the indexed-inverse solution before applying the reverse half of the
+one-factor right exactness theorem.
+
+For the left equation, apply
+\autoref{thm:field-left-mul-equation-exact-from-apartness} to the active left
+factor $P_5$ with witness $p_{abcde}$. This gives the left equation equivalence
+with $x\hsame\mathsf{mul}(\mathsf{inv}(P_5,p_{abcde}),r)$.
+
+Transport this solution through multiplication congruence for
+$\mathsf{mul}(-,r)$ and the five-factor inverse identification. Symmetry and
+transitivity give the reverse transport, so the reverse half of the one-factor
+left exactness theorem recovers $\mathsf{mul}(P_5,x)\hsame r$.
+\end{proof}
