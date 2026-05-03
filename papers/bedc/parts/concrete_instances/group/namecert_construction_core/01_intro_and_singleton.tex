@@ -307,6 +307,37 @@ The recovered carrier witnesses for $P$ and $Q$, composed through $\emp$,
 rebuild $R_{\emp}(P,Q)$.
 \end{proof}
 
+\begin{theorem}[Group singleton continuation result carrier exactness]
+\label{thm:group-singleton-continuation-result-carrier-iff}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the continuation inputs exactly when the continuation result
+lies in the singleton carrier:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+Assume $R_{\emp}(P,Q)$. The classifier exposes endpoint witnesses
+$A_{\emp}(P)$ and $A_{\emp}(Q)$. Transporting the displayed continuation
+against the empty right-unit continuation carries the result endpoint to
+$\emp$, and therefore classifies $R$ as a singleton-carried history.
+
+Conversely, assume $A_{\emp}(R)$. Transport the continuation result to $\emp$
+along this carrier witness. Empty-result inversion for continuation and append
+then recovers endpoint witnesses $A_{\emp}(P)$ and $A_{\emp}(Q)$. Composing
+these endpoint witnesses through $\emp$ packages the input pair classifier
+$R_{\emp}(P,Q)$.
+\end{proof}
+
+The per-object certificate data are: traditional target terminal-group
+continuation-result coverage; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ and $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability obligations continuation result transport and empty-result inversion;
+ledger hidden continuation result endpoint; core theorem this block plus
+\autoref{thm:group-singleton-classifier-continuation-result-left}; exactness
+predicate $R_{\emp}(P,Q)\Longleftrightarrow A_{\emp}(R)$; standard bridge
+terminal-group product result; and status $\mathsf{ProofTarget}$.
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
