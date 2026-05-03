@@ -764,3 +764,29 @@ $$
 $$
 which is the nil-nil constructor of the finite-spine classifier from \autoref{def:list-classifier-specification}, as isolated by \autoref{thm:list-classifier-case-exactness}. Hence $\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{nil})$ holds.
 \end{proof}
+
+\begin{proposition}[Literal polynomial add-trim equality fails at cancelling singletons]
+\label{prop:polynomial-literal-add-trim-equality-fails-cancelling-singletons}
+Let $R$ be a scalar ring carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and canonical trim $\mathsf{trim}_R$ as in \autoref{def:polynomial-pattern-specification} and \autoref{def:polynomial-stability-certificate}. Let $\mathsf{radd}_R$ and $\mathsf{PolySame}_R$ be as in \autoref{def:polynomial-raw-add-comparison-data}. Suppose $\neg(a\sim_R0_R)$, $\neg(b\sim_R0_R)$, and $(a+b)\sim_R0_R$.
+Write $[c]:=\mathsf{cons}(c,\mathsf{nil})$, and set $p:=[a]$ and $q:=[b]$. Then literal finite-spine equality does not commute with raw addition and trimming:
+$$
+\begin{aligned}
+\mathsf{trim}_R(\mathsf{radd}_R(p,q))&=\mathsf{nil},\\
+\mathsf{radd}_R(\mathsf{trim}_R(p),\mathsf{trim}_R(q))&=[a+b],\\
+\mathsf{trim}_R(\mathsf{radd}_R(p,q))&\ne \mathsf{radd}_R(\mathsf{trim}_R(p),\mathsf{trim}_R(q)).
+\end{aligned}
+$$
+Nevertheless the two displayed outputs are polynomial-classified the same:
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{trim}_R(\mathsf{radd}_R(p,q)),\mathsf{radd}_R(\mathsf{trim}_R(p),\mathsf{trim}_R(q))\bigr).
+$$
+For the canonical integer coefficient ring from \autoref{ch:concrete-instances-int-namecert} and \autoref{ch:concrete-instances-commring-namecert}, taking $a=1$ and $b=-1$ gives $p=[1]$, $q=[-1]$, $\mathsf{trim}_{\mathbb{Z}}(\mathsf{radd}_{\mathbb{Z}}(p,q))=\mathsf{nil}$, and $\mathsf{radd}_{\mathbb{Z}}(\mathsf{trim}_{\mathbb{Z}}(p),\mathsf{trim}_{\mathbb{Z}}(q))=[0]$.
+\end{proposition}
+\begin{proof}
+The nonzero hypotheses make $p$ and $q$ normalized singleton representatives by \autoref{def:polynomial-normalized-singleton-representative}; the canonical trim fixes normalized representatives, so $\mathsf{trim}_R(p)=p$ and $\mathsf{trim}_R(q)=q$.
+By the cons-cons and nil-nil clauses of $\mathsf{radd}_R$ in \autoref{def:polynomial-raw-add-comparison-data}, $\mathsf{radd}_R(\mathsf{trim}_R(p),\mathsf{trim}_R(q))=\mathsf{radd}_R([a],[b])=[a+b]$.
+The equality $\mathsf{trim}_R(\mathsf{radd}_R(p,q))=\mathsf{nil}$ is the singleton cancellation conclusion of \autoref{prop:raw-polynomial-addition-leaves-singleton-normal-form}.
+The displayed inequality follows because the left side is $\mathsf{nil}$ while the right side is a cons spine. Constructor no-confusion for the finite-spine carrier of \autoref{def:list-carrier} is the mixed nil/cons separation isolated in \autoref{thm:list-classifier-case-exactness} and \autoref{lem:list-classifier-nil-cons-no-confusion}.
+For classifier comparison, unfold $\mathsf{PolySame}_R$. The first argument trims again to $\mathsf{nil}$. The second argument is $[a+b]$, and the hypothesis $(a+b)\sim_R0_R$ sends its singleton coefficient to the trailing-zero branch, so its trim is also $\mathsf{nil}$. The nil-nil clause of $\mathsf{ListClassifierSpec}$ gives the displayed $\mathsf{PolySame}_R$ witness.
+The integer specialization uses the standard integer facts $1\ne0$, $-1\ne0$, and $1+(-1)=0$; \autoref{prop:commring-forgets-ring-certificate} keeps the ring operations and classifier when the commutative-ring source is read through $\RingUp$.
+\end{proof}
