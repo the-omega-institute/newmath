@@ -66,6 +66,25 @@ theorem field_affine_empty_offset_composition_normal_form
   exact hsame_trans (addCongr (hsame_trans leftExpanded distributed) (hsame_refl BHist.Empty))
     (hsame_trans withOffset reassocAdd)
 
+theorem field_affine_empty_offset_composition_classifier_congr
+    {add mul : BHist -> BHist -> BHist}
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a a' b b' c c' e e' d d' x : BHist}
+    (sameA : hsame a a') (sameB : hsame b b') (sameC : hsame c c')
+    (sameE : hsame e e') (sameD : hsame d d') :
+    hsame (add (mul (mul c (add (mul (mul a x) b) d)) e) BHist.Empty)
+      (add (mul (mul c' (add (mul (mul a' x) b') d')) e') BHist.Empty) := by
+  exact
+    addCongr
+      (mulCongr
+        (mulCongr sameC
+          (addCongr (mulCongr (mulCongr sameA (hsame_refl x)) sameB) sameD))
+        sameE)
+      (hsame_refl BHist.Empty)
+
 theorem field_affine_inverse_offset_empty_normal_form
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}

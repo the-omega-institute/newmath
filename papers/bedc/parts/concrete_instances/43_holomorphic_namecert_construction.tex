@@ -46,6 +46,15 @@ Transport the four unary fields by unary-history stability under \(\hsame\), and
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_hsame\_transport}
 
+\begin{theorem}[Open-disk gap semantic naming certificate]
+\label{thm:holomorphic-open-disk-gap-semantic-namecert}
+Given a concrete open-disk witness \(\mathsf{OpenDisk}(z_0,r,z,g)\), the gap fiber \(g' \mapsto \mathsf{OpenDisk}(z_0,r,z,g')\) carries a semantic naming certificate whose source, pattern, and ledger predicates are this same fiber and whose classifier is \(\hsame\).
+\end{theorem}
+\begin{proof}
+The witness \(g\) inhabits the source fiber. Reflexivity, symmetry, and transitivity are the corresponding laws for \(\hsame\). Carrier transport follows from open-disk transport along \(\hsame\) with \(z_0\), \(r\), and \(z\) fixed by reflexivity and the gap slot transported by the classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_gap\_semanticNameCert}
+
 \begin{lemma}[Radius ledger enlargement]
 \label{lem:holomorphic-open-disk-radius-extension-closed}
 If \(\mathsf{OpenDisk}(z_0,r,z,g)\), \(e\) is unary, and \(\Cont(r,e,r')\), then \(\mathsf{OpenDisk}(z_0,r',z,g \cdot e)\), where \(g \cdot e\) denotes BEDC history append.

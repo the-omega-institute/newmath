@@ -316,6 +316,29 @@ empty offset on the final translated component.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_affine\_empty\_offset\_composition\_normal\_form}
 
+\begin{theorem}[Field affine empty-offset composition classifier congruence]
+\label{thm:field-affine-empty-offset-composition-classifier-congr}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+addition and multiplication congruence, if the affine coefficients satisfy
+$a\hsame a'$, $b\hsame b'$, $c\hsame c'$, $d\hsame d'$, and $e\hsame e'$,
+then the empty-offset composite expression
+$$
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(c,
+    \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)),e),\emp)
+$$
+is \(\hsame\)-equivalent to the same expression with the primed coefficients.
+\end{theorem}
+\begin{proof}
+Apply multiplication congruence to the inner product \(\mathsf{mul}(a,x)\)
+using \(x\hsame x\), then to the product with \(b\). Addition congruence
+transports the inner affine offset using \(d\hsame d'\). Two further
+multiplication-congruence steps transport the left factor \(c\) and right
+factor \(e\). The final addition-congruence step uses \(\emp\hsame\emp\) for
+the empty offset.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_empty\_offset\_composition\_classifier\_congr}
+
 \begin{theorem}[Field affine composition right empty normal form]
 \label{thm:field-affine-composition-right-empty-normal-form}
 For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with

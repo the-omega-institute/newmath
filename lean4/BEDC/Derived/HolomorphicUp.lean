@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.NatUp
@@ -7,6 +8,7 @@ import BEDC.Derived.NatUp
 namespace BEDC.Derived.HolomorphicUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
@@ -51,6 +53,30 @@ theorem HolomorphicOpenDisk_hsame_transport {center center' radius radius' point
                       (And.intro radiusCarrier'
                         (And.intro pointCarrier'
                           (And.intro gapCarrier' ledger'))))
+
+theorem HolomorphicOpenDisk_gap_semanticNameCert {center radius point gap : BHist} :
+    HolomorphicOpenDisk center radius point gap ->
+      SemanticNameCert (fun g : BHist => HolomorphicOpenDisk center radius point g)
+        (fun g : BHist => HolomorphicOpenDisk center radius point g)
+        (fun g : BHist => HolomorphicOpenDisk center radius point g) hsame := by
+  intro disk
+  constructor
+  · constructor
+    · exact Exists.intro gap disk
+    · intro g _carrier
+      exact hsame_refl g
+    · intro g g' same
+      exact hsame_symm same
+    · intro g g' g'' sameGG' sameG'G''
+      exact hsame_trans sameGG' sameG'G''
+    · intro g g' same carrier
+      exact
+        (HolomorphicOpenDisk_hsame_transport (hsame_refl center) (hsame_refl radius)
+          (hsame_refl point) same carrier).left
+  · intro _g source
+    exact source
+  · intro _g source
+    exact source
 
 theorem HolomorphicOpenDisk_radius_extension_closed {center radius radius' point gap extra :
     BHist} :

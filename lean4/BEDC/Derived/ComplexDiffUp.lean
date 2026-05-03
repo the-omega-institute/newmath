@@ -68,4 +68,28 @@ theorem CplxDiffQuot_append_classifier_transport {f : BHist -> BHist} {z z' h h'
               exact And.intro qClass
                 (And.intro zCarrier (And.intro targetNonzero (And.intro qCarrier qClass)))
 
+theorem CplxDiffQuot_quotient_cont_deterministic {f z h q q' : BHist} :
+    CplxDiffQuot f z h q -> CplxDiffQuot f z h q' ->
+      Cont f h q ∧ Cont f h q' ∧ hsame q q' := by
+  intro left right
+  cases left with
+  | intro _functionCarrier leftRest =>
+      cases leftRest with
+      | intro _pointCarrier leftRest =>
+          cases leftRest with
+          | intro _stepNonzero leftRest =>
+              cases leftRest with
+              | intro _quotientCarrier leftLedger =>
+                  cases right with
+                  | intro _functionCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _pointCarrier' rightRest =>
+                          cases rightRest with
+                          | intro _stepNonzero' rightRest =>
+                              cases rightRest with
+                              | intro _quotientCarrier' rightLedger =>
+                                  exact And.intro leftLedger
+                                    (And.intro rightLedger
+                                      (cont_deterministic leftLedger rightLedger))
+
 end BEDC.Derived.ComplexDiffUp
