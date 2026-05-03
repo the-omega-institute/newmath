@@ -53,6 +53,29 @@ $\mathsf{e1}(p)$ from $\emp$, so either carrier witness is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_visible\_absurd}
 
+\begin{theorem}[Field singleton classifier visible endpoint exclusion]
+\label{thm:field-singleton-classifier-visible-endpoint-absurd}
+For histories $p,q,k:\mathsf{BHist}$, no singleton classifier row can have a
+visible-headed endpoint on either side:
+$$
+\begin{array}{l}
+\rho_{\emp}(\mathsf{e0}(p),k)\to\bot,\qquad
+\rho_{\emp}(\mathsf{e1}(p),k)\to\bot,
+\\
+\rho_{\emp}(k,\mathsf{e0}(q))\to\bot,\qquad
+\rho_{\emp}(k,\mathsf{e1}(q))\to\bot.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier into its two carrier fields and classifier
+comparison. If the visible endpoint is on the left, its left carrier field is
+one of the two impossible carrier witnesses from
+\autoref{thm:field-singleton-carrier-visible-absurd}. If the visible endpoint
+is on the right, the right carrier field gives the same contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_visible\_endpoint\_absurd}
+
 \begin{theorem}[Field singleton classifier empty endpoints]
 \label{thm:field-singleton-classifier-empty-endpoints}
 For histories $h,k:\mathsf{BHist}$, the singleton field classifier satisfies

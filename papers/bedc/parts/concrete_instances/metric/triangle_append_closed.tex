@@ -21,6 +21,28 @@ this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
 
+\begin{theorem}[Metric distance witness composite endpoint append result]
+\label{thm:metric-distance-witness-composite-endpoint-hsame-append-result}
+For histories $x,x',y,y',z,z',d_{xy},d_{xyz}$, endpoint comparisons
+$x\hsame x'$, $y\hsame y'$, and $z\hsame z'$ transport the composite distance
+ledger to the endpoint-normal append result:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\hsame(d_{xyz},x'\cdot(y'\cdot z')).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Transport along the three endpoint $\hsame$ comparisons and unpack the two
+distance witnesses to their continuation fields. Constructor analysis of the
+two continuation ledgers reduces the displayed result comparison to
+associativity of history append.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_composite\_endpoint\_hsame\_append\_result}
+
 \begin{theorem}[Metric distance witness triangle continuation middle closure]
 \label{thm:metric-distance-witness-triangle-cont-middle-closed}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, a distance witness from $x$ to

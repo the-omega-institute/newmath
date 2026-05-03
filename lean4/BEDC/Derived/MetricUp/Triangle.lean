@@ -18,6 +18,21 @@ theorem MetricDistanceWitness_triangle_append_closed {x y z dxy dyz dxyz : BHist
   cases xyzRel
   exact append_assoc x y z
 
+theorem MetricDistanceWitness_composite_endpoint_hsame_append_result
+    {x x' y y' z z' dxy dxyz : BHist} :
+    hsame x x' -> hsame y y' -> hsame z z' ->
+      MetricDistanceWitness x y dxy -> MetricDistanceWitness dxy z dxyz ->
+        hsame dxyz (append x' (append y' z')) := by
+  intro sameX sameY sameZ xy xyz
+  cases sameX
+  cases sameY
+  cases sameZ
+  have xyRel : Cont x y dxy := xy.right.right.right
+  have xyzRel : Cont dxy z dxyz := xyz.right.right.right
+  cases xyRel
+  cases xyzRel
+  exact append_assoc x y z
+
 theorem MetricDistanceWitness_triangle_cont_middle_closed {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
       MetricDistanceWitness x dyz dxyz := by
