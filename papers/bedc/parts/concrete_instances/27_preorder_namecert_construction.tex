@@ -122,48 +122,43 @@ witness with the two singleton carrier witnesses for $h$ and $k$ to obtain
 $\rho_{\emp}(h,k)$.
 \end{proof}
 
-This singleton package gives a concrete $\mathsf{BHist}$ source for the
-$\PreorderUp$ relation fields, so order formalization can target this carrier
-rather than arbitrary relation parameters.
-
 \begin{theorem}[Singleton empty $\PreorderUp$ naming certificate]
-\label{thm:concrete-singleton-empty-preorder-namecert}
+\label{thm:singleton-empty-preorder-namecert}
 The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
 \autoref{def:concrete-singleton-empty-preorder-instance} supplies the source,
-pattern, classifier, stability, ledger, and exactness rows for a concrete
-$\NameCert$ licensing $\PreorderUp$ over $\mathsf{BHist}$. On carried histories,
-the exactness row is the collapse
+pattern, classifier, stability, ledger, and singleton exactness rows for a
+concrete $\PreorderUp$ certificate over $A_{\emp}$, $\rho_{\emp}$, and
+$\le_{\emp}$. On carried histories, the exactness row is
 $$
 \rho_{\emp}(h,k)\Longleftrightarrow(h\le_{\emp}k\land k\le_{\emp}h).
 $$
 \end{theorem}
 \begin{proof}
-The carrier row is the singleton $\mathsf{BHist}$ source
-$A_{\emp}$, and \autoref{thm:singleton-empty-preorder-laws} supplies its
-inhabitance by $\emp$ together with transport along $\hsame$. The source row is
-therefore the concrete source described by
-\autoref{def:preorder-source-specification}.
+The carrier row is the singleton $\mathsf{BHist}$ source $A_{\emp}$, and
+\autoref{thm:singleton-empty-preorder-laws} supplies its inhabitance by $\emp$
+together with transport along $\hsame$. The pattern row is the restricted
+comparison judgment $h\le_{\emp}k$, and the classifier row is $\rho_{\emp}$.
 
-The pattern row is the restricted comparison judgment $h\le_{\emp}k$, as in
-\autoref{def:preorder-pattern-specification}. The classifier row is
-$\rho_{\emp}$, and \autoref{thm:singleton-empty-preorder-laws} gives the
-endpoint congruence needed by
-\autoref{def:preorder-classifier-specification}.
+The same law package gives the stability rows: reflexivity of $\le_{\emp}$ on
+carried histories, transitivity, and endpoint congruence for the classifier.
+The ledger row is \autoref{def:preorder-ledger-policy}, which packages the two
+carried endpoints and the restricted comparison witness.
 
-The stability row uses the same law package: reflexivity is the displayed
-reflexivity of $\le_{\emp}$ on carried histories, and transitivity is the
-displayed transitivity of $\le_{\emp}$. The ledger row is
-\autoref{def:preorder-ledger-policy}, recording the two carried endpoints and
-the restricted comparison witness.
+For the forward exactness direction, unfold $\rho_{\emp}(h,k)$. The classifier
+witness contains $\hsame(h,k)$, so \autoref{thm:preorder-prefix-le-of-hsame}
+gives $h\le_{\emp}k$, and symmetry of $\hsame$ followed by the same theorem
+gives $k\le_{\emp}h$.
 
-It remains to identify the exactness row. For carried $h,k:\mathsf{BHist}$,
-\autoref{thm:singleton-empty-preorder-laws} says that opposing comparisons
-$h\le_{\emp}k$ and $k\le_{\emp}h$ collapse to $\rho_{\emp}(h,k)$. Conversely,
-unfolding $\rho_{\emp}$ gives the carrier witnesses and $\hsame(h,k)$, and the
-same law package turns that identification into the two restricted comparisons.
-Thus the displayed collapse is precisely the exactness row of the concrete
-$\NameCert$.
+For the reverse exactness direction, use
+\autoref{thm:singleton-empty-preorder-laws}: opposing carried comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$ collapse to $\rho_{\emp}(h,k)$. These two
+directions are exactly the singleton exactness row of the concrete
+$\PreorderUp$ certificate.
 \end{proof}
+
+This singleton package gives a concrete $\mathsf{BHist}$ source for the
+$\PreorderUp$ relation fields, so order formalization can target this carrier
+rather than arbitrary relation parameters.
 
 \section{The certificate}
 
