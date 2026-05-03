@@ -168,6 +168,90 @@ $\CommRingUp$ base coordinate, denominator histories, context pairs, affine
 witnesses, inverse/nonzero witnesses, and selector endpoint rows; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp canonical exit singleton context boundary]
+\label{thm:ratup-fieldup-canonical-exit-singleton-context-boundary}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the source tuple
+$\mathsf{RatUpFieldSource}_F$, and histories $L,R,h,k:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$, the
+same canonical $\FieldUp(\RatUp)$ exit certificate includes the following
+singleton-context boundary rows over $\mathsf{BHist}$.
+
+\begin{enumerate}
+\item The contextual carrier has the semantic certificate
+$$
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h,k\mapsto
+  \mathsf{FieldSingletonClassifier}
+    (\mathsf{append}(L,\mathsf{append}(h,R)),
+     \mathsf{append}(L,\mathsf{append}(k,R)))\bigr).
+$$
+
+\item The contextual carrier is exact:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(h).
+$$
+
+\item The contextual classifier is exact:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(h,R)),
+   \mathsf{append}(L,\mathsf{append}(k,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} to fix
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} as the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit object over
+$\mathsf{RatUpFieldSource}_F$. This identifies the singleton-context boundary as
+a row of the same canonical certificate, not as a separate schematic parameter.
+
+For the semantic certificate row, apply
+\autoref{thm:field-singleton-carrier-two-sided-context-semantic-namecert} to the
+two carrier witnesses for $L$ and $R$. Its displayed source, pattern, ledger, and
+classifier are exactly the contextual
+$\mathsf{FieldSingletonCarrier}$ and $\mathsf{FieldSingletonClassifier}$ rows
+shown above.
+
+For the two exactness rows, apply
+\autoref{thm:field-singleton-two-sided-context-exactness} to the same witnesses
+and the histories $h$ and $k$. The carrier projection gives the displayed
+equivalence for $h$, and the classifier projection gives the displayed
+equivalence for the pair $(h,k)$.
+
+Thus the canonical exit consumes concrete $\mathsf{BHist}$, $\mathsf{append}$,
+$\mathsf{FieldSingletonCarrier}$, and $\mathsf{FieldSingletonClassifier}$ rows
+from the FieldUp singleton boundary, rather than abstract operator fields.
+\end{proof}
+
+Per-object template: traditional target singleton-context boundary inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{append}$,
+$\mathsf{FieldSingletonCarrier}$, and $\mathsf{FieldSingletonClassifier}$;
+carrier
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))$;
+classifier
+$(h,k)\mapsto\mathsf{FieldSingletonClassifier}
+(\mathsf{append}(L,\mathsf{append}(h,R)),
+\mathsf{append}(L,\mathsf{append}(k,R)))$; stability obligations contextual
+semantic certificate plus exact carrier and classifier cancellation; ledger
+singleton context wrappers; core theorem list
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit},
+\autoref{thm:field-singleton-carrier-two-sided-context-semantic-namecert}, and
+\autoref{thm:field-singleton-two-sided-context-exactness}; exactness predicate
+the displayed carrier and classifier equivalences; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp algebra reduct compatibility]
 \label{thm:ratup-fieldup-algebra-reduct-compatibility}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
