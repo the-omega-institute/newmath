@@ -92,11 +92,26 @@ The source specification carries the constraint \(\mathsf{ZetaZero}(s)\) plus an
 \label{def:zeta-zero-pattern-spec}
 The pattern is the joint predicate \(\mathsf{ZetaVal}(s, z) \wedge \hsame(z, \emp_{\ComplexUp})\) on complex-history pairs.
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec}
 
 \begin{definition}[Zeta zero classifier specification]
 \label{def:zeta-zero-classifier-spec}
 Two zero witnesses at the same \(s\) are classified together when their underlying \(\mathsf{ZetaVal}\) witnesses agree under \(\hsame\) on the zero complex history.
 \end{definition}
+
+\begin{theorem}[Zeta zero pattern classifies the zero result]
+\label{thm:zeta-zero-pattern-spec-zero-result-classifier}
+Every zeta-zero pattern witness identifies its result component with the explicit zero
+complex history, so that result is classified with the zero history by the
+\(\ComplexUp\) classifier.
+\end{theorem}
+\begin{proof}
+The pattern supplies the \(\hsame\) comparison from \(z\) to the zero complex
+history. The explicit zero complex history carries \(\ComplexUp\), and
+\(\hsame\)-transport gives the carrier for \(z\). These fields are exactly the
+\(\ComplexClassifier\) datum.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec\_zero\_result\_classifier}
 
 \begin{theorem}[Zeta zero source classifies against zero]
 \label{thm:zeta-zero-source-spec-zero-classifier}
