@@ -119,6 +119,14 @@ theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
     cases qEmpty
     exact NatMul.zero hd
 
+theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
+    NatMul d (BHist.e1 q) n -> hsame n BHist.Empty -> hsame d BHist.Empty := by
+  intro mul resultEmpty
+  cases resultEmpty
+  cases mul with
+  | succ _prev step =>
+      exact (cont_empty_result_inversion step).right
+
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
@@ -323,6 +331,13 @@ theorem NatPrime_first_pair :
                         cases divides with
                         | intro q qData =>
                             exact False.elim (largeDivisor_not_three qData.right)
+
+theorem NatPrime_NatMul_succ_result_not_empty {p q n : BHist} :
+    NatPrime p -> NatMul p (BHist.e1 q) n -> hsame n BHist.Empty -> False := by
+  intro prime mul resultEmpty
+  have multiplicandEmpty := NatMul_succ_result_empty_left_empty mul resultEmpty
+  cases multiplicandEmpty
+  exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
 
 inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)

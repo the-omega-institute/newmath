@@ -6,5 +6,27 @@ The $p$-adic interface $\PadicUp$ packages the carrier of regular Cauchy sequenc
 \section{Carrier definition}
 \label{sec:padic-carrier}
 
+\begin{definition}[Prime scale over unary multiplication]
+\label{def:padic-prime-scale}
+For histories \(p,e,r\), the predicate \(\mathsf{PadicPrimeScale}(p,e,r)\)
+holds when \(p\) is a \(\PrimeUp\)-prime and \(r\) is the unary multiplication
+result of \(p\) by the exponent \(e\).
+\end{definition}
+\leandef{BEDC.Derived.PadicUp.PadicPrimeScale}
+
+\begin{theorem}[Prime scale empty result exactness]
+\label{thm:padic-prime-scale-empty-result-iff-empty-exponent}
+If \(\mathsf{PadicPrimeScale}(p,e,r)\), then \(r\hsame\emp\) exactly when
+\(e\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The forward direction uses the \(\PrimeUp\) prime field to rule out
+\(p\hsame\emp\), then applies the empty-result exactness theorem for
+\(\mathsf{NatMul}\) with a nonempty multiplicand. The reverse direction
+identifies the exponent with \(\emp\), so the zero constructor of
+\(\mathsf{NatMul}\) identifies the result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_empty\_result\_iff\_empty\_exponent}
+
 \section{The certificate}
 \label{sec:padic-certificate}

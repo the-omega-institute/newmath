@@ -27,6 +27,18 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{theorem}[Successor multiplication with empty result has empty left factor]
+\label{thm:natmul-succ-result-empty-left-empty}
+If \(\mathsf{NatMul}(d,\Eone(q),n)\) and \(n\hsame\emp\), then \(d\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Invert the successor multiplication witness. Its final step is a continuation
+\(\Cont(n_0,d,n)\). Since the result is empty, empty-result inversion for
+\(\Cont\) forces both inputs of that continuation to be empty, in particular
+the left multiplicand \(d\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}
+
 \begin{lemma}[Unary multiplication right operand is unary]
 \label{lem:nat-mul-right-unary}
 Every closed witness of $\mathsf{NatMul}(d,q,n)$ carries a unary multiplier
@@ -156,6 +168,19 @@ A unary history \(p\) is prime, written \(\mathsf{NatPrime}(p)\), when:
 For \(p = 2\), the only divisors are the unit and \(p\) itself by \autoref{def:nat-divides} and the case analysis on the quotient \(q\). The same case analysis applies to \(p = 3\), with the additional sub-case ruling out \(q = 2\) by the failure of \(\mathsf{NatMul}(2, 2, 3)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_first\_pair}
+
+\begin{theorem}[Prime successor multiplication cannot have empty result]
+\label{thm:natprime-natmul-succ-result-not-empty}
+If \(p\) is prime and \(\mathsf{NatMul}(p,\Eone(q),n)\), then \(n\) is not
+empty up to \(\hsame\).
+\end{theorem}
+\begin{proof}
+If \(n\hsame\emp\), then
+\autoref{thm:natmul-succ-result-empty-left-empty} forces \(p\hsame\emp\).
+After this identification, the strict-prefix field in the prime predicate
+would be a strict unary prefix into \(\emp\), which is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_succ\_result\_not\_empty}
 
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
