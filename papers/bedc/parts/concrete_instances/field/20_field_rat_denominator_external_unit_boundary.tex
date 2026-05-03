@@ -1,3 +1,45 @@
+\begin{theorem}[Rat denominator unit classifier zero-headed endpoint separation]
+\label{thm:rat-denom-unit-classifier-e0-endpoint-absurd}
+For every $t,k:\mathsf{BHist}$, the adjoined-unit classifier cannot classify
+a zero-headed endpoint in either argument:
+$$
+R_D^u(\Ezero(t),k)\to\mathsf{False},
+$$
+and
+$$
+R_D^u(k,\Ezero(t))\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Project the classifier endpoint carriers from
+$\mathsf{RatDenomUnitClassifier}$. A zero-headed history is neither the
+adjoined empty unit nor a carried rational denominator history, so the
+corresponding carrier component contradicts the BEDC constructor separation
+for the denominator-unit carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Rat denominator unit classifier one-headed empty endpoint separation]
+\label{thm:rat-denom-unit-classifier-e1-empty-absurd}
+For every history $d:\mathsf{BHist}$, the adjoined-unit classifier cannot
+classify a one-headed endpoint against $\emp$ in either direction:
+$$
+R_D^u(\Eone(d),\emp)\to\mathsf{False},
+$$
+and
+$$
+R_D^u(\emp,\Eone(d))\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_D^u$ as $\mathsf{RatDenomUnitClassifier}$. The classifier contains
+the displayed $\hsame$ comparison between its two endpoints. The first branch
+would give $\Eone(d)\hsame\emp$, and the second branch would give
+$\emp\hsame\Eone(d)$; both contradict the constructor separation laws for
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_e1\_empty\_absurd}
+
 \begin{theorem}[Rat denominator unit classifier mixed endpoint separation]
 \label{thm:field-rat-denominator-unit-classifier-mixed-endpoint-separation}
 For all $d,e:\mathsf{BHist}$, the external-unit classifier $R_D^u$ has no

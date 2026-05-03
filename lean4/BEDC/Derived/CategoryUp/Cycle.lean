@@ -2,11 +2,13 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.CategoryUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 
 theorem CategoryHomCarrier_cycle_tails_empty {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b a g ->
@@ -116,6 +118,23 @@ theorem CategoryHomCarrier_triangle_cycle_tails_empty {a b c f g h : BHist} :
             (cont_deterministic (cont_right_unit a) left.right.right.right)
             (cont_deterministic (cont_right_unit b) right.right.right.right))))
 
+theorem CategoryHomCarrier_triangle_cycle_empty_hom_exactness {a b c f g h : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c a h ->
+      CategoryHomCarrier a b BHist.Empty ∧ CategoryHomCarrier b c BHist.Empty ∧
+        CategoryHomCarrier c a BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  intro left right back
+  have cycle := CategoryHomCarrier_triangle_cycle_tails_empty left right back
+  exact
+    And.intro
+      (CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl b) cycle.left left)
+      (And.intro
+        (CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_refl c)
+          cycle.right.left right)
+        (And.intro
+          (CategoryHomCarrier_hsame_transport (hsame_refl c) (hsame_refl a)
+            cycle.right.right.left back)
+          (And.intro cycle.right.right.right.left cycle.right.right.right.right)))
+
 theorem CategoryHomCarrier_triangle_cycle_identity_carriers {a b c f g h : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c a h ->
       CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧
@@ -142,6 +161,27 @@ theorem CategoryHomCarrier_unary_suffix_cycle_tails_empty {q a b f g : BHist} :
     (CategoryHomCarrier_unary_suffix_iff.mp left).right
   exact CategoryHomCarrier_cycle_tails_empty baseLeft right
 
+theorem ContinuationMorphism_unary_suffix_cycle_tails_empty {q a b : BHist}
+    (qCarrier : UnaryHistory q)
+    (left : ContinuationMorphism (append a q) (append b q))
+    (right : ContinuationMorphism b a)
+    (leftTailCarrier : UnaryHistory left.tail) :
+    hsame a b ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          have baseLeft : Cont a leftTail b := by
+            apply cont_intro
+            have sameSuffix : hsame (append (append a leftTail) q) (append b q) := by
+              exact (append_assoc a leftTail q).trans
+                ((congrArg (append a) (unary_append_comm qCarrier leftTailCarrier).symm).trans
+                  ((append_assoc a q leftTail).symm.trans leftRel.symm))
+            exact hsame_symm (append_right_cancel (k := q) sameSuffix)
+          exact And.intro
+            (cont_mutual_extension_hsame baseLeft rightRel)
+            (cont_mutual_extension_tails_empty baseLeft rightRel)
+
 theorem CategoryHomCarrier_unary_suffix_cycle_identity_carriers {q a b f g : BHist} :
     CategoryHomCarrier (append a q) (append b q) f -> CategoryHomCarrier b a g ->
       CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧ hsame a b := by
@@ -149,6 +189,17 @@ theorem CategoryHomCarrier_unary_suffix_cycle_identity_carriers {q a b f g : BHi
   have baseLeft : CategoryHomCarrier a b f :=
     (CategoryHomCarrier_unary_suffix_iff.mp left).right
   exact CategoryHomCarrier_cycle_identity_carriers baseLeft right
+
+theorem CategoryHomCarrier_unary_context_cycle_tails_empty {p q a b f g : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append b q) (append a q) g ->
+        hsame a b ∧ hsame f BHist.Empty ∧ hsame g BHist.Empty := by
+  intro left right
+  have baseLeft : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_prefix_iff.mp left).right
+  have baseRight : CategoryHomCarrier b a g :=
+    (CategoryHomCarrier_unary_suffix_iff.mp right).right
+  exact CategoryHomCarrier_cycle_tails_empty baseLeft baseRight
 
 theorem CategoryHomCarrier_unary_context_cycle_identity_carriers {p q a b f g : BHist} :
     CategoryHomCarrier (append p a) (append p b) f ->

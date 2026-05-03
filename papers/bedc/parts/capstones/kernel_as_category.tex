@@ -5,3 +5,70 @@ The BEDC finite kernel -- $\Hist$ as objects, $\Cont$ as morphisms, $\hsame$ as 
 
 \section{Hom as restricted continuation}
 \label{sec:kernel-as-category-hom-as-cont}
+
+\begin{definition}[Kernel hom-set]
+\label{def:kernel-as-category-hom-set}
+For histories $h, k \in \Hist$, the \emph{kernel hom-set} $\mathrm{Hom}_{\BEDC}(h, k)$ is the family of finite $\Cont$-chains starting at $h$ and ending at a history $k'$ with $\hsame(k', k)$. A morphism is a sequence of pairs $((m_1, h_1), (m_2, h_2), \ldots, (m_n, h_n))$ with $\Cont\,h\,m_1\,h_1$, $\Cont\,h_{i-1}\,m_i\,h_i$ for $1 < i \le n$, and $\hsame(h_n, k)$. The empty chain $n = 0$ is admissible exactly when $\hsame(h, k)$.
+\end{definition}
+
+\begin{definition}[Identity morphism]
+\label{def:kernel-as-category-identity}
+The \emph{identity morphism} on $h$ is the empty chain in $\mathrm{Hom}_{\BEDC}(h, h)$, witnessed by the reflexivity of $\hsame$ established in \autoref{ch:proof-standing-internal-sameness-no-confusion}.
+\end{definition}
+
+\begin{definition}[Composition]
+\label{def:kernel-as-category-composition}
+For chains $\alpha \in \mathrm{Hom}_{\BEDC}(h, k)$ and $\beta \in \mathrm{Hom}_{\BEDC}(k, \ell)$, the \emph{composition} $\beta \circ \alpha$ is the concatenation of the underlying lists, with the bridging $\hsame$ witness from $\alpha$'s endpoint into $k$ and from $k$ into $\beta$'s start absorbed by $\hsame$-transport on $\Cont$.
+\end{definition}
+
+\section{Category laws as kernel theorems}
+\label{sec:kernel-as-category-laws}
+
+\begin{theorem}[Associativity of $\Cont$-chain composition]
+\label{thm:kernel-as-category-assoc}
+For chains $\alpha \in \mathrm{Hom}_{\BEDC}(h, k)$, $\beta \in \mathrm{Hom}_{\BEDC}(k, \ell)$, $\gamma \in \mathrm{Hom}_{\BEDC}(\ell, m)$,
+$$ (\gamma \circ \beta) \circ \alpha \;=\; \gamma \circ (\beta \circ \alpha) $$
+holds at the level of $\Cont$-chains, witnessed by the kernel lemma \texttt{cont\_assoc} of \autoref{ch:core-relational-extension-and-continuation}.
+\end{theorem}
+
+\begin{proof}[Sketch]
+List concatenation is associative as a primitive recursion on the underlying inductive list type. The bridging $\hsame$ witnesses contribute only to the endpoint identification, not to the concatenation order, and \texttt{cont\_assoc} provides the explicit equality of the two associated chains as $\Cont$-chains, not merely as lists.
+\end{proof}
+
+\begin{theorem}[Left and right unit]
+\label{thm:kernel-as-category-units}
+For every $\alpha \in \mathrm{Hom}_{\BEDC}(h, k)$,
+$$ \mathrm{id}_k \circ \alpha \;=\; \alpha \;=\; \alpha \circ \mathrm{id}_h, $$
+where $\mathrm{id}_h$ and $\mathrm{id}_k$ are the empty chains of \autoref{def:kernel-as-category-identity}. The two equalities are witnessed by \texttt{cont\_left\_unit} and \texttt{cont\_right\_unit}.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The empty chain at the right boundary of $\alpha$ contributes a single $\hsame$-reflexivity step that is absorbed by $\hsame$-transport; the dual statement holds at the left boundary. Both equalities are pointwise on the underlying list and reduce to the unit laws of list concatenation together with the reflexivity of $\hsame$.
+\end{proof}
+
+\begin{corollary}[Kernel-level category]
+\label{cor:kernel-as-category-category}
+$\Hist$ as objects, $\mathrm{Hom}_{\BEDC}$ as morphisms, identity from \autoref{def:kernel-as-category-identity}, and composition from \autoref{def:kernel-as-category-composition} satisfy the strict category axioms. No additional structure is introduced.
+\end{corollary}
+
+\section{The derived chapters as projections}
+\label{sec:kernel-as-category-derived-as-projections}
+
+\begin{theorem}[CategoryUp as kernel-category instance]
+\label{thm:kernel-as-category-upcat-instance}
+The naming certificate $\NameCert_{\CategoryUp}$ of \autoref{ch:concrete-instances-functor-namecert} (the sibling category certificate underlying the functor and natural-transformation chapters) is canonically isomorphic to the kernel-level category of \autoref{cor:kernel-as-category-category}. The isomorphism sends an object of $\NameCert_{\CategoryUp}$ to its underlying history representative and a morphism to its underlying $\Cont$-chain.
+\end{theorem}
+
+\begin{proof}[Sketch]
+The certificate $\NameCert_{\CategoryUp}$ is built from a $\psame$ closure on a closed inductive of category data; unfolding the closure shows that each object reduces to an $\hsame$-equivalence class of histories and each morphism reduces to a $\Cont$-chain modulo $\hsame$ at endpoints. The forward map reads off this representation; the backward map is the canonical embedding of histories and $\Cont$-chains into the inductive. Composition and identity are preserved by construction.
+\end{proof}
+
+\begin{remark}[FunctorUp and NatTransUp as canonical instances]
+\label{rem:kernel-as-category-functorup-nattransup}
+$\NameCert_{\FunctorUp}$ (\autoref{ch:concrete-instances-functor-namecert}) packages a functor as an $\hsame$-preserving, $\Cont$-chain-preserving map between two kernel-level categories; $\NameCert_{\NatTransUp}$ (\autoref{ch:concrete-instances-nattrans-namecert}) packages a natural transformation as a family of $\Cont$-chains indexed by objects, with naturality witnessed by $\Cont$-chain commutation. Both certificates therefore live entirely inside the kernel-level category and impose no new categorical axioms; they expose the structure that $\Hist$ and $\Cont$ already carry.
+\end{remark}
+
+\begin{remark}[No new axioms]
+\label{rem:kernel-as-category-no-new-axioms}
+\autoref{cor:kernel-as-category-category} introduces no kernel-level definition not already present in \autoref{ch:core-relational-extension-and-continuation}. The chapter is structural visibility: the category laws are the kernel laws \texttt{cont\_assoc}, \texttt{cont\_left\_unit}, \texttt{cont\_right\_unit} renamed in categorical language. The derived $\NameCert_{\CategoryUp}$ chapter uses no logical principle beyond closed induction on the naming-certificate signature, so the categorical reading inherits the same axiom-purity gate.
+\end{remark}

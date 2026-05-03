@@ -118,6 +118,26 @@ constructor lifts the recovered tail continuation to $\ContR(t,s,u)$ for the
 whole appended signature.
 \end{proof}
 
+\begin{theorem}[Signature bundle-append decomposition]
+\label{thm:signature-bundleappend-decomposition}
+For probe bundles $\Pi,\Theta$ and source history $h$,
+$$
+\Sig(\mathsf{BAppend}(\Pi,\Theta),h,u,\Lambda)
+\Longleftrightarrow
+\exists s,t,\Delta,\Gamma.\;
+\Sig(\Pi,h,s,\Delta)\land
+\Sig(\Theta,h,t,\Gamma)\land
+\ContR(t,s,u).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Sig.sigRel\_bundleAppend\_decomposition\_iff}
+\begin{proof}
+The forward implication is append-signature inversion. Conversely, generate
+the canonical appended signature from the two component signatures. Its
+continuation has the same displayed endpoints as $\ContR(t,s,u)$, so
+continuation determinacy identifies the generated result with $u$.
+\end{proof}
+
 \begin{theorem}[Signature generation append component determinacy]
 \label{thm:signature-generation-append-component-determinacy}
 For probe bundles $\Pi,\Theta$, domain $D$, and source history $h$, assume

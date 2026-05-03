@@ -45,6 +45,7 @@ $R_D^u(t,t)$ as the first classifier input and the assumed $R_D^u(h,k)$ as the
 second classifier input. The same binary congruence field then gives
 $R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_right\_multiplication\_classifier\_exactness}
 
 Per-object template: traditional target cancellation exactness in the
 denominator monoid boundary; BEDC source $\mathsf{RatDenomUnitCarrier}$,
@@ -106,6 +107,7 @@ same congruence field as packaged in
 combines $R_D^u(t,t)$ with $R_D^u(h,k)$ and yields
 $R_D^u(\mu_D^u(t,h),\mu_D^u(t,k))$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_left\_multiplication\_classifier\_exactness}
 
 Per-object template: traditional target left multiplication by a fixed
 denominator-unit factor; BEDC source $\mathsf{RatDenomUnitCarrier}$,
@@ -120,6 +122,69 @@ $\mathsf{ProofTarget}$.
 This is the left-context companion to the right-cancellation law
 \autoref{thm:field-rat-denominator-empty-unit-right-cancellation} inside the
 concrete empty-unit denominator boundary.
+
+\begin{theorem}[Rat history classifier append left denominator unit closure]
+\label{thm:rat-history-classifier-append-left-denom-unit-closed}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(h,h')$ and
+$\mathsf{RatHistoryClassifier}(k,k')$, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+The denominator-unit carrier on $h$ and the Rat carrier on $k$ close the left
+appended endpoint as a Rat history carrier; the same argument closes the right
+endpoint from $h'$ and $k'$. The classifier comparisons for the two factors
+are respected by the canonical append continuations, giving the required
+history sameness between the appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_denom\_unit\_closed}
+
+\begin{theorem}[Rat denominator unit classifier append-context cancellation]
+\label{thm:rat-denom-unit-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if $R_D^u(L,R)$, then appending the
+classified suffixes $L$ and $R$ preserves and reflects the empty-unit
+denominator classifier:
+$$
+R_D^u(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow R_D^u(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the displayed classifier. Product-carrier
+factorization gives carried witnesses for $Q$ and $S$. The suffix classifier
+gives $L\hsame R$, so the right displayed endpoint can be transported to the
+common suffix $L$; right append cancellation then gives $Q\hsame S$.
+
+For the reverse direction, classifier closure under continuation appends the
+two carried suffix witnesses to the two carried endpoints. The endpoint
+classifier and suffix classifier identify the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Rat denominator unit classifier append left context cancellation]
+\label{thm:rat-denom-unit-classifier-append-left-context-cancel-iff}
+For histories $L,R,Q,S:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(L,R)$, then appending the classified prefixes
+$L$ and $R$ preserves and reflects the empty-unit denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, factor the two appended carrier witnesses to recover
+carried witnesses for $Q$ and $S$. Transport the right displayed endpoint along
+$R\hsame L$ so both endpoints have common prefix $L$, then apply left append
+cancellation to obtain $Q\hsame S$.
+
+For the reverse direction, close the two appended endpoints by denominator-unit
+continuation closure. Continuation respect for the classified prefixes and
+classified suffixes gives the endpoint comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_left\_context\_cancel\_iff}
 
 \begin{definition}[Rat denominator empty-unit bilateral multiplication context]
 \label{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
@@ -173,6 +238,7 @@ Apply the right-hand preservation direction of
 with the common carried context $r$. After folding the definition of $B_{l,r}$,
 the result is exactly $R_D^u(B_{l,r}(h),B_{l,r}(k))$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_bilateral\_multiplication\_classifier\_exactness}
 
 Per-object template: traditional target bilateral denominator-context exactness;
 BEDC source $\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
@@ -255,6 +321,25 @@ The two fixed-factor support equivalences are the two orientations of
 \autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness},
 first for $(h,t)$ and then for $(t,h)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_context\_action\_support\_exactness}
+
+\begin{theorem}[Rat denominator contextual action empty-context classifier transport]
+\label{thm:rat-denom-unit-contextual-action-empty-context-hsame-transport}
+For histories $h,h',l,r:\mathsf{BHist}$, if $C_D^u(l)$ and $C_D^u(r)$ hold
+and $R_D^u(h,h')$, then the bilateral empty-context action preserves the
+denominator classifier:
+$$
+R_D^u(\Gamma_{\emp,\emp,l,r}(h),\Gamma_{\emp,\emp,l,r}(h')).
+$$
+\end{theorem}
+\begin{proof}
+Classify $l$ with itself and $r$ with itself by reflexivity of $\hsame$.
+Apply continuation closure of $R_D^u$ first to the left product
+$\mathsf{append}(l,h)$ versus $\mathsf{append}(l,h')$, and then to the right
+product with $r$. The empty external contexts are removed by the denominator
+unit classifier empty-context equivalence in both directions.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_empty\_context\_hsame\_transport}
 
 Per-object template: traditional target denominator context action for
 $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{RatDenomUnitCarrier}$,
@@ -307,6 +392,7 @@ $N_D^u(\mu_D^u(l,h))$ by the reverse direction of the inner equivalence, and
 then supply $N_D^u(B_{l,r}(h))$ by the reverse direction of the outer
 equivalence.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_bilateral\_multiplication\_support\_exactness}
 
 Per-object template: traditional target bilateral denominator-context support
 exactness; BEDC source $\mathsf{RatDenomUnitCarrier}$,

@@ -1,0 +1,108 @@
+\begin{theorem}[RatUp FieldUp crossed ten-field exit certificate]
+\label{thm:ratup-fieldup-crossed-ten-field-exit-certificate}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$, let
+$x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete ten-field paper
+certificate for $\FieldUp(\RatUp)$ over $\mathsf{RatUpFieldSource}_F$ is the
+composition of
+\autoref{thm:ratup-fieldup-ten-field-exit-certificate},
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package},
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger},
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary},
+and
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}.
+Its conclusion contains all of the following concrete rows, with no schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator parameter:
+\begin{enumerate}
+  \item the same-bracketing endpoint rows $C_D^u(x)$, $C_D^u(y)$,
+  $R_D^u(x,y)$, and, for all $L,R:\mathsf{BHist}$, the contextual
+  singleton-classifier exclusions
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot;
+  $$
+  \item the crossed contextual singleton-classifier exclusions, for all
+  $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+  \to\bot;
+  $$
+  \item the two-sided product classifier and nonzero equivalences, for every
+  $a,b,u,v:\mathsf{BHist}$ with certified outer witnesses
+  $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$,
+  $$
+  \bigl(\mathsf{mul}(\mathsf{mul}(a,u),b)
+  \hsame
+  \mathsf{mul}(\mathsf{mul}(a,v),b)\bigr)
+  \Longleftrightarrow
+  u\hsame v
+  $$
+  and
+  $$
+  \mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,u),b))
+  \Longleftrightarrow
+  \mathsf{NonZero}_F(u);
+  $$
+  \item the five-factor nonzero ledger, for every
+  $a,b,c,d,e:\mathsf{BHist}$,
+  $$
+  \mathsf{NonZero}_F(
+  \mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
+  \Longleftrightarrow
+  \mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+  \mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d)\wedge
+  \mathsf{NonZero}_F(e).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:ratup-fieldup-ten-field-exit-certificate}. It fixes the
+paper certificate site, the $\mathsf{RatUpFieldSource}_F$ source, the
+$\mathsf{BHist}$ carrier, the contextual action, and the denominator rows as one
+concrete $\FieldUp(\RatUp)$ package.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}.
+It supplies the same-bracketing endpoint rows $C_D^u(x)$, $C_D^u(y)$, and
+$R_D^u(x,y)$, together with the $x$--$x$ and $y$--$y$ contextual
+singleton-classifier exclusions for arbitrary $L,R:\mathsf{BHist}$.
+
+Then apply
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}.
+It supplies the two crossed contextual singleton-classifier exclusions, again
+for arbitrary $L,R:\mathsf{BHist}$, so the certificate consumes both the
+$x$--$y$ and $y$--$x$ classifier boundary rows.
+
+Finally use
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package} for the
+two-sided product classifier and nonzero equivalences, and
+\autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger} for the five
+nonzero factor witnesses. These clauses share the same concrete source,
+carrier, classifier, and ledger vocabulary, so they assemble as one ten-field
+exit certificate rather than as separate paper endpoints.
+\end{proof}
+
+Per-object template: traditional target crossed RatUp FieldUp exit certificate;
+BEDC source $\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$, denominator tuple,
+contextual action, and product/nonzero rows; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$ plus
+singleton-empty classifier boundary; stability obligations the same-bracketing
+and crossed contextual boundaries plus product classifier exactness; ledger
+denominator bracketings, contextual endpoints, nonzero factors, and product
+witnesses; core theorem
+\autoref{thm:ratup-fieldup-crossed-ten-field-exit-certificate}; exactness the
+paired same/cross classifier exclusions and product equivalences; standard
+bridge deferred; status $\mathsf{ProofTarget}$.

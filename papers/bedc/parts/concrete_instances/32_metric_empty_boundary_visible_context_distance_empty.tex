@@ -1,0 +1,19 @@
+\begin{theorem}[Metric distance witness empty-boundary visible-context distance empty]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-distance-empty}
+For histories $p,q,d$, a visible-context distance witness whose central left and
+right endpoints are both empty identifies the central distance with the empty
+history and gives zero central distance depth:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(d,\emp)\wedge\mathsf{MetricDistanceDepth}(d)=0.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to peel away
+the visible prefix and suffix. The remaining central witness is
+$\mathsf{MetricDistanceWitness}(\emp,\emp,d)$. The empty-left boundary theorem
+identifies $d$ with $\emp$; case analysis on that classifier gives the zero
+depth equation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_distance\_empty}

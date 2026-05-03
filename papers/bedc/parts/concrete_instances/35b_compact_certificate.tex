@@ -90,6 +90,88 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness empty net exactness]
+\label{thm:compact-net-witness-empty-net-iff}
+For histories $c$ and $\epsilon$, a compact-net witness with empty net is
+equivalent to both the center and precision histories being empty:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,\emp)
+\Longleftrightarrow
+\hsame(c,\emp)\land\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness and invert the continuation
+$\Cont(c,\epsilon,\emp)$. This yields empty center and empty precision. The
+reverse implication uses the empty unary carrier for both endpoints and the
+canonical continuation from $\emp$ through $\emp$ to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_net\_iff}
+
+\begin{theorem}[Compact net witness endpoint cycle precision empty]
+\label{thm:compact-net-witness-endpoint-cycle-precision-empty}
+For histories $c,\epsilon,n$, a compact-net witness whose center and net are
+history-same has empty precision:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)\Longrightarrow
+\hsame(c,n)\Longrightarrow\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_endpoint\_cycle\_precision\_empty}
+\begin{proof}
+Transport the witness continuation $\ContR(c,\epsilon,n)$ across
+$\hsame(c,n)$ to obtain a self-extension of $c$. Right-unit uniqueness forces
+the precision tail to be empty.
+\end{proof}
+
+\begin{theorem}[Compact empty-center nonempty precision shape]
+\label{thm:compact-empty-center-nonempty-precision-shape}
+For histories $net,\epsilon$, a compact-net witness with empty center and
+nonempty precision has exactly one visible unary payload:
+$$
+\mathsf{CompactNetWitness}(\emp,\epsilon,net)\wedge\neg\hsame(\epsilon,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+net=\Eone(r)\wedge \epsilon=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+The continuation field is $\Cont(\emp,\epsilon,net)$, so left-unit exactness
+identifies $net$ with $\epsilon$. The nonempty precision premise removes the
+empty case, and unary membership removes zero-headed precision. In the visible
+case, the precision carrier exposes the unary payload and sameness fixes the
+net to the same visible history. Conversely, the displayed visible payload
+rebuilds the compact-net witness by the left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_center\_nonempty\_precision\_shape\_iff}
+
+\begin{theorem}[Compact net witness left e1 result cases]
+\label{thm:compact-net-witness-left-e1-result-cases}
+For histories $center,precision,net$, a compact-net witness from a visible
+center to a visible net has only the empty precision case or a visible
+precision tail:
+$$
+\mathsf{CompactNetWitness}(\Eone(center),precision,\Eone(net))
+\Longrightarrow
+\bigl(precision=\emp\land\mathsf{UnaryHistory}(center)\land
+\hsame(center,net)\bigr)
+\lor
+\bigl(\exists precisionTail:\mathsf{BHist}.\;
+precision=\Eone(precisionTail)\land
+\mathsf{CompactNetWitness}(\Eone(center),precisionTail,net)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness to expose the unary carriers and the
+continuation ledger. Inverting the ledger with visible result $\Eone(net)$
+gives either empty precision or a visible precision tail. The empty branch
+strips the visible constructor from the center-net equality and inverts the
+center carrier to obtain $\mathsf{UnaryHistory}(center)$. The visible branch
+inverts the precision and net carriers and repacks the tail continuation as a
+compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_cases}
+
 \begin{theorem}[Compact net witness suffix exactness]
 \label{thm:compact-net-witness-suffix-iff}
 For histories $p,c,\epsilon,n$, a compact-net witness with the same right
@@ -251,6 +333,25 @@ yields $\hsame(m,m')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_result\_deterministic}
 
+\begin{theorem}[Compact net witness composite middle continuation determinacy]
+\label{thm:compact-net-witness-composite-middle-cont-deterministic}
+For histories $c,\epsilon,\eta,n,n',m$, if
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$,
+$\mathsf{CompactNetWitness}(n,\eta,m)$,
+$\mathsf{CompactNetWitness}(c,\epsilon,n')$, and
+$\mathsf{CompactNetWitness}(n',\eta,m)$ hold, then
+$$
+\ContR(c,\epsilon,n)\land \ContR(c,\epsilon,n')\land \hsame(n,n').
+$$
+\end{theorem}
+\begin{proof}
+The first and third compact-net witnesses expose the concrete first-stage
+continuation ledgers $\ContR(c,\epsilon,n)$ and $\ContR(c,\epsilon,n')$.
+Continuation determinacy compares those two ledgers with the same source and
+precision, giving $\hsame(n,n')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_middle\_cont\_deterministic}
+
 \begin{theorem}[Compact net witness composite center determinacy]
 \label{thm:compact-net-witness-composite-center-deterministic}
 For histories $c,c',\epsilon,\eta,n,n',m$, if the first-stage net witnesses
@@ -295,6 +396,23 @@ context and result, so continuation left cancellation identifies the precision
 histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_precision\_hsame\_deterministic}
+
+\begin{theorem}[Compact net witness composite precision continuation determinacy]
+\label{thm:compact-net-witness-composite-precision-cont-deterministic}
+For histories $c,\epsilon,\epsilon',\eta,n,n',m$, if
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$ and
+$\mathsf{CompactNetWitness}(c,\epsilon',n')$ hold and both $n$ and $n'$ refine
+through the same extra precision $\eta$ to the same history $m$, then
+$$
+\hsame(\epsilon,\epsilon').
+$$
+\end{theorem}
+\begin{proof}
+Continuation right cancellation on the two refinement ledgers identifies
+$n$ and $n'$. With the center already common, compact-net precision
+determinacy under endpoint sameness identifies $\epsilon$ and $\epsilon'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_precision\_cont\_deterministic}
 
 \begin{theorem}[Prefixed composite compact net witness closure]
 \label{thm:compact-net-witness-prefixed-composite-closed}
@@ -583,58 +701,6 @@ Let $X$ and $Y$ be certified $\MetricSpaceUp$ objects with the metric data of
 \autoref{def:metric-carrier}. Let $S$ be a certified subset of $X$ whose
 finite-net field satisfies the total-boundedness clause of
 \autoref{def:compact-stability-certificate}. Let $G$ be a certified
-$\ContinuousFunctionUp$ graph from $S$ to $Y$, with totality and
-single-valuedness as in \autoref{def:continuous-carrier}, and let
-$\delta_g$ be a unary modulus ledger satisfying the modulus-validity field of
-\autoref{def:continuous-stability-certificate} on $S$.
-
-Write $\mathsf{Close}_X^{\delta}(x,x')$ and
-$\mathsf{Close}_Y^{n}(y,y')$ for the certified metric closeness judgments at
-source precision $\delta$ and target precision $n$. Define the image predicate
-by
-$$
-G[S](y)\Longleftrightarrow \exists x.\;S(x)\wedge G(x,y).
-$$
-Then $G[S]$ is totally bounded in $Y$. More explicitly, for each target
-precision $n$, a finite $\delta_g(n)$-net for $S$ transfers to a finite
-$n$-net for $G[S]$.
-\end{proposition}
-\begin{proof}
-Fix a target precision $n$. The modulus ledger of the continuous certificate
-returns the source precision $\delta_g(n)$. By total boundedness of $S$, choose
-a finite list $a_1,\ldots,a_m$ of source centers, each carrying an $S$-membership
-certificate, such that every $x\in S$ has an index $i$ with
-$\mathsf{Close}_X^{\delta_g(n)}(x,a_i)$.
-
-For each center $a_i$, totality of the graph certificate supplies an output
-$b_i$ with $G(a_i,b_i)$. This is a finite construction by induction on the
-finite source list, so it uses no choice principle beyond the displayed
-certificate fields. The list $b_1,\ldots,b_m$ is a list of image points because
-each $b_i$ is witnessed by the pair $(a_i,G(a_i,b_i))$.
-
-It remains to verify that this list covers the image predicate at precision
-$n$. Let $y$ be any point of $G[S]$. Unpack its image membership to obtain
-$x\in S$ and a graph witness $G(x,y)$. The finite
-$\delta_g(n)$-net for $S$ gives an index $i$ with
-$\mathsf{Close}_X^{\delta_g(n)}(x,a_i)$. Since both $x$ and $a_i$ are admitted
-by $S$, and since $G(x,y)$ and $G(a_i,b_i)$ are graph witnesses, the
-modulus-validity field applies and yields
-$\mathsf{Close}_Y^{n}(y,b_i)$.
-
-Thus every image point is within target precision $n$ of one of the finitely
-many listed image centers. Metric classifier replacement and distance stability
-are exactly the stability fields of \autoref{def:metric-stability-certificate},
-so changing representatives inside the certified source or target classifiers
-does not alter the cover judgment. Since $n$ was arbitrary, the image predicate
-has finite nets at every target precision and is totally bounded.
-\end{proof}
-
-\begin{proposition}[Uniformly continuous image total boundedness]
-\label{prop:uniform-continuous-image-total-bounded}
-Let $X$ and $Y$ be certified $\MetricSpaceUp$ objects with the metric data of
-\autoref{def:metric-carrier}. Let $S$ be a certified subset of $X$ whose
-finite-net field satisfies the total-boundedness clause of
-\autoref{def:compact-stability-certificate}. Let $G$ be a certified
 $\ContinuousFunctionUp$ graph from $S$ to $Y$, with graph totality and
 single-valuedness as in \autoref{def:continuous-carrier}. Suppose its
 uniform-continuity modulus is certified on $S$: for every target precision $n$
@@ -682,62 +748,4 @@ does not alter the cover judgment. Since $n$ was arbitrary, the image predicate
 has finite nets at every target precision and is totally bounded.
 \end{proof}
 
-\begin{proposition}[Uniformly continuous image of a totally bounded source]
-\label{prop:uniformly-continuous-image-totally-bounded-source}
-Let $X$ and $Y$ be certified $\MetricSpaceUp$ objects with the metric data of
-\autoref{def:metric-carrier}. Let $S$ be a certified $\TotallyBoundedUp$ source
-subset of $X$ in the domain discipline of
-\autoref{def:continuous-source-specification}. Write
-$\mathsf{TotBdd}_X(S)$ for its finite-net field, in the internal form that each
-source precision $\delta$ has a finite list
-$A_\delta=(a_1,\ldots,a_m)$ of $S$-admitted centers such that every
-$x\in S$ satisfies $\mathsf{Close}_X^{\delta}(x,a_i)$ for some $i$.
-Let $G$ be a certified $\ContinuousMapUp$ graph from $S$ to $Y$, with graph
-totality and single-valuedness as in \autoref{def:continuous-carrier}. Suppose
-that a unary modulus ledger $\delta_G$ satisfies the modulus-validity field of
-\autoref{def:continuous-stability-certificate} on $S$: for every target
-precision $n$, it supplies a source precision $\delta_G(n)$ such that
-$$
-\mathsf{Close}_X^{\delta_G(n)}(x,x')
-\Longrightarrow
-\mathsf{Close}_Y^n(y,y')
-$$
-whenever $x,x'\in S$ and $G(x,y)$ and $G(x',y')$ are graph witnesses. Define
-the image predicate by
-$$
-G[S](y)\Longleftrightarrow \exists x.\;S(x)\wedge G(x,y).
-$$
-Then $G[S]$ is certified totally bounded in $Y$.
-\end{proposition}
-\begin{proof}
-Fix a target precision $n$, and let $\delta=\delta_G(n)$ be the source
-precision supplied by the certified modulus ledger. The finite-net field of
-$S$ returns a finite $\delta$-net
-$A_\delta=(a_1,\ldots,a_m)$ whose centers carry $S$-membership certificates and
-whose cover field says that every $x\in S$ is
-$\mathsf{Close}_X^{\delta}$ to one of the centers.
-
-Apply graph totality to each admitted center $a_i$. Induction on the finite
-source list produces a finite target list $B_n=(b_1,\ldots,b_m)$ with graph
-witnesses $G(a_i,b_i)$ for all $i$. This is a finite certificate construction:
-the empty list gives the empty target list, and the cons step uses one instance
-of graph totality and the induction hypothesis. Each $b_i$ lies in the image
-predicate, witnessed by $a_i\in S$ together with $G(a_i,b_i)$.
-
-It remains to prove that $B_n$ covers $G[S]$ at precision $n$. Let $y$ satisfy
-$G[S](y)$. Unpack the image witness to obtain $x\in S$ and $G(x,y)$. The
-finite $\delta$-net for $S$ gives an index $i$ such that
-$\mathsf{Close}_X^{\delta}(x,a_i)$. Since both $x$ and $a_i$ are admitted by
-$S$, the modulus-validity field applies to the graph witnesses $G(x,y)$ and
-$G(a_i,b_i)$ and yields
-$$
-\mathsf{Close}_Y^n(y,b_i).
-$$
-Thus every image point is covered by one of the finitely many image centers.
-Single-valuedness of the graph certificate makes the chosen $b_i$ stable under
-alternative graph outputs, and the classifier and distance-stability fields of
-\autoref{def:metric-classifier-specification} and
-\autoref{def:metric-stability-certificate} transport the cover judgment across
-source and target representatives. The target precision $n$ was arbitrary, so
-the finite lists $B_n$ certify $\mathsf{TotBdd}_Y(G[S])$.
-\end{proof}
+\input{parts/concrete_instances/35b_compact_image_total_bounded}

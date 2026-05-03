@@ -1,0 +1,218 @@
+\begin{theorem}[Metric distance witness triangle append closure]
+\label{thm:metric-distance-witness-triangle-append-closed}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, a distance witness from $x$ to
+$y$, a distance witness from $y$ to $z$, and a distance witness from $d_{xy}$ to
+$z$ close the appended triangle ledger:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\hsame(d_{xyz},x\cdot d_{yz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three distance witnesses to their continuation fields. The three
+continuations identify $d_{xy}$ with $x\cdot y$, $d_{yz}$ with $y\cdot z$, and
+$d_{xyz}$ with $(x\cdot y)\cdot z$. Associativity of history append classifies
+this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
+
+\begin{theorem}[Metric distance witness composite endpoint append result]
+\label{thm:metric-distance-witness-composite-endpoint-hsame-append-result}
+For histories $x,x',y,y',z,z',d_{xy},d_{xyz}$, endpoint comparisons
+$x\hsame x'$, $y\hsame y'$, and $z\hsame z'$ transport the composite distance
+ledger to the endpoint-normal append result:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\hsame(d_{xyz},x'\cdot(y'\cdot z')).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Transport along the three endpoint $\hsame$ comparisons and unpack the two
+distance witnesses to their continuation fields. Constructor analysis of the
+two continuation ledgers reduces the displayed result comparison to
+associativity of history append.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_composite\_endpoint\_hsame\_append\_result}
+
+\begin{theorem}[Metric distance witness triangle continuation middle closure]
+\label{thm:metric-distance-witness-triangle-cont-middle-closed}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, a distance witness from $x$ to
+$y$, a distance witness from $y$ to $z$, and a continuation ledger
+$\ContR(d_{xy},z,d_{xyz})$ close the middle-composite distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\ContR(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,d_{yz},d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The two distance witnesses expose the continuation ledgers
+$\ContR(x,y,d_{xy})$ and $\ContR(y,z,d_{yz})$. Together with the displayed
+ledger $\ContR(d_{xy},z,d_{xyz})$, constructor analysis reduces the resulting
+source-to-middle continuation to associativity of history append. The unary
+carrier for $d_{xyz}$ follows from unary continuation closure applied to
+$d_{xy}$ and $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_cont\_middle\_closed}
+
+\begin{theorem}[Metric distance witness triangle append depth add]
+\label{thm:metric-distance-witness-triangle-append-depth-add}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three triangle distance witnesses
+identify the displayed ledger with $x\cdot d_{yz}$ and compute its structural
+depth as the sum of the left endpoint depth and the middle-to-right distance
+depth:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\mathsf{MetricDistanceDepth}(d_{xyz})=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(d_{yz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append closure supplies the equality
+$\hsame(d_{xyz},x\cdot d_{yz})$. Together with the unary carrier fields
+already present in the three distance witnesses, this equality is a concrete
+distance witness from $x$ to $d_{yz}$ with result $d_{xyz}$. The metric depth
+addition law applied to that central witness gives the displayed depth
+equation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_depth\_add}
+
+\begin{theorem}[Metric distance witness continuation depth add]
+\label{thm:metric-distance-witness-cont-depth-add}
+For histories $x,y,z,d_{xy},d_{xyz}$, a distance witness from $x$ to $y$ and a
+displayed continuation from $d_{xy}$ by $z$ compute the final structural
+distance depth:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{UnaryHistory}(z)\Longrightarrow
+\Cont(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})
+=
+\mathsf{MetricDistanceDepth}(x)+\mathsf{MetricDistanceDepth}(y)
++\mathsf{MetricDistanceDepth}(z).
+$$
+\end{theorem}
+\begin{proof}
+The first witness supplies the unary carrier of $d_{xy}$. Together with the
+unary carrier of $z$ and the displayed continuation ledger, this forms a second
+distance witness from $d_{xy}$ to $z$ with result $d_{xyz}$. Apply the depth
+additivity theorem to the first and second witnesses, then associate addition.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_depth\_add}
+
+\begin{theorem}[Metric distance witness triangle depth-zero collapse]
+\label{thm:metric-distance-witness-triangle-depth-zero-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if three triangle distance
+witnesses have a final ledger of structural depth zero, then the triangle
+append equality holds and every displayed endpoint and intermediate distance
+collapses to $\emp$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\Longrightarrow
+\\
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append closure forms the central witness from $x$ to $d_{yz}$ with
+result $d_{xyz}$. The depth-zero endpoint theorem for this central witness
+forces $x$ and $d_{yz}$ to be empty. Empty-distance exactness for the witness
+from $y$ to $z$ then forces $y$ and $z$ to be empty, and the continuation
+field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
+
+\begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
+\label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
+witnesses hold and the final triangle distance is not history-same as $\emp$,
+then at least one endpoint of the triangle is not history-same as $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+(d_{xyz}\hsame\emp\to\mathsf{False})\Longrightarrow
+\bigl((x\hsame\emp\to\mathsf{False})\vee
+(y\hsame\emp\to\mathsf{False})\vee
+(z\hsame\emp\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply metric nonempty-distance endpoint exactness to the outer witness
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$. If the nonempty endpoint is
+$z$, the conclusion follows directly. If it is $d_{xy}$, apply the same
+exactness theorem to $\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, yielding a
+nonempty $x$ or $y$ endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_endpoint\_nonempty}
+
+\begin{theorem}[Metric distance witness triangle append context closure]
+\label{thm:metric-distance-witness-triangle-append-context-closed}
+For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$
+to $z$, and from $d_{xy}$ to $z$ produce a distance witness from $p\cdot x$ to
+$d_{yz}\cdot q$ whose result is $p\cdot d_{xyz}\cdot q$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,p\cdot d_{xyz}\cdot q).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The triangle append closure identifies the central result with $x\cdot d_{yz}$.
+Together with the carrier fields already present in the three distance witnesses,
+this gives the central witness from $x$ to $d_{yz}$ with result $d_{xyz}$.
+Visible-context closure then appends the unary contexts $p$ and $q$ on the
+outside.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_closed}
+
+\begin{theorem}[Metric distance witness triangle append context result determinacy]
+\label{thm:metric-distance-witness-triangle-append-context-result-deterministic}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then any
+displayed distance witness from $p\cdot x$ to $d_{yz}\cdot q$ has the same
+result as the canonical contextual triangle result:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,displayed)
+\Longrightarrow
+\HSame(displayed,p\cdot d_{xyz}\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Triangle append context closure constructs the canonical witness from
+$p\cdot x$ to $d_{yz}\cdot q$ with result $p\cdot d_{xyz}\cdot q$. The
+displayed witness and this canonical witness have the same source and target
+histories, so continuation determinacy for their distance ledgers identifies
+their result histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}

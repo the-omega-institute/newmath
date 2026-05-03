@@ -60,6 +60,89 @@ the Rat branch of $\mathsf{RatDenomUnitCarrier}(r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_closed}
 
+\begin{theorem}[Rat denominator unit carrier append with Rat left factor]
+\label{thm:rat-denom-unit-carrier-append-left-rat-closed}
+For histories $h,k:\mathsf{BHist}$, if $h$ is a Rat denominator endpoint and
+$k$ is carried by the adjoined empty-unit denominator carrier, then the append
+product is again a Rat denominator endpoint:
+$$
+\mathsf{RatHistoryCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+Split the adjoined-unit carrier witness for $k$. If $k\hsame\emp$, the append
+product is history-same to $h$, so the Rat carrier for $h$ transports to the
+product. If $k$ is a Rat denominator endpoint, apply Rat denominator
+continuation carrier closure to the canonical append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_left\_rat\_closed}
+
+\begin{theorem}[Rat denominator unit carrier append with Rat right factor]
+\label{thm:rat-denom-unit-carrier-append-right-rat-closed}
+For histories $h,k:\mathsf{BHist}$, if $h$ is carried by the adjoined
+empty-unit denominator carrier and $k$ is a Rat denominator endpoint, then the
+append product is again a Rat denominator endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatHistoryCarrier}(k)\to
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+Split the adjoined-unit carrier witness for $h$. If $h\hsame\emp$, the append
+product is history-same to $k$, so the Rat carrier for $k$ transports to the
+product. If $h$ is a Rat denominator endpoint, apply Rat denominator
+continuation carrier closure to the canonical append continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_right\_rat\_closed}
+
+\begin{theorem}[Rat history classifier append with right denominator unit]
+\label{thm:rat-history-classifier-append-right-denom-unit-closed}
+For histories $h,h',k,k':\mathsf{BHist}$, if $h$ and $h'$ are related by the
+Rat history classifier and $k$ and $k'$ are related by the adjoined denominator
+unit classifier, then appending the unit-classified right factor preserves the
+Rat history classifier:
+$$
+\mathsf{RatHistoryClassifier}(h,h')\to
+\mathsf{RatDenomUnitClassifier}(k,k')\to
+\mathsf{RatHistoryClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+The carrier fields are obtained from the Rat left-factor append closure for
+the adjoined denominator unit carrier. The endpoint comparison is the
+canonical append continuation comparison transported along the two classifier
+$\hsame$ witnesses. These data assemble the Rat history classifier for the two
+appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_right\_denom\_unit\_closed}
+
+\begin{theorem}[Rat denominator unit append carrier branch cases]
+\label{thm:rat-denom-unit-carrier-append-branch-cases}
+For histories $h,k:\mathsf{BHist}$, if the append endpoint is carried by the
+adjoined empty-unit denominator carrier, then either both factors are empty
+endpoints or one factor is a genuine Rat denominator endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(\mathsf{append}(h,k))
+\to
+\bigl(h\hsame\emp\land k\hsame\emp\bigr)
+\lor
+\mathsf{RatHistoryCarrier}(h)
+\lor
+\mathsf{RatHistoryCarrier}(k).
+$$
+\end{theorem}
+\begin{proof}
+Split the concrete carrier disjunction for
+$\mathsf{RatDenomUnitCarrier}(\mathsf{append}(h,k))$. In the empty branch,
+the append-empty inversion theorem gives $h\hsame\emp$ and $k\hsame\emp$.
+In the Rat branch, apply Rat denominator append splitting to the carried
+append endpoint, obtaining a Rat carrier witness on the left or right factor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_branch\_cases}
+
 The per-object certificate has ten fields: traditional target carrier stability
 for the denominator unit fragment; BEDC source $\mathsf{BHist}$,
 $\mathsf{RatHistoryCarrier}$, and $\Cont$; carrier
@@ -86,6 +169,119 @@ other branch is the required $\mathsf{RatHistoryCarrier}(h)$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_nonempty\_rat}
 
+\begin{theorem}[Rat denominator unit nonempty classifier exposes Rat classifier]
+\label{thm:rat-denom-unit-classifier-nonempty-rat-classifier}
+For histories $h,k:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(h,k)$ holds and neither endpoint is
+history-same to $\emp$, then the same endpoint pair is classified by the
+underlying Rat denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+(h\hsame\emp\Rightarrow\mathsf{False})\Rightarrow
+(k\hsame\emp\Rightarrow\mathsf{False})\Rightarrow
+\mathsf{RatHistoryClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{RatDenomUnitClassifier}(h,k)$ into the two denominator-unit
+carrier witnesses and the endpoint comparison $h\hsame k$. Apply
+\autoref{thm:rat-denom-unit-carrier-nonempty-rat} separately to the left and
+right carrier witnesses, using the two nonempty endpoint hypotheses. These two
+Rat carrier witnesses, together with the original endpoint comparison, repack
+as $\mathsf{RatHistoryClassifier}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_nonempty\_rat\_classifier}
+
+\begin{theorem}[Rat denominator unit classifier nonempty endpoint iff]
+\label{thm:rat-denom-unit-classifier-nonempty-endpoint-iff}
+For histories $h,k:\mathsf{BHist}$, a denominator-unit classifier witness
+transports the nonempty endpoint predicate in both directions:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+\bigl((h\hsame\emp\Rightarrow\mathsf{False})
+\Longleftrightarrow
+(k\hsame\emp\Rightarrow\mathsf{False})\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_nonempty\_endpoint\_iff}
+\begin{proof}
+Unpack $\mathsf{RatDenomUnitClassifier}(h,k)$ and use its endpoint comparison
+$h\hsame k$. Composing this comparison with an empty-endpoint witness on one
+side produces an empty-endpoint witness on the other side, contradicting the
+assumed nonempty predicate. The reverse direction uses symmetry of the same
+$\hsame$ comparison.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit carrier visible cases]
+\label{thm:rat-denom-unit-carrier-visible-cases}
+For every history $h:\mathsf{BHist}$, an adjoined empty-unit denominator carrier
+witness exposes exactly the visible empty branch or a one-headed unary
+denominator tail:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\left(
+h\hsame\emp
+\lor
+\exists t:\mathsf{BHist}.\; h=\Eone(t)\land \mathsf{UnaryHistory}(t)
+\right).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_visible\_cases}
+\begin{proof}
+Split the concrete history $h$. The empty constructor gives the empty branch.
+The zero-headed constructor is incompatible with the denominator-unit carrier
+by the zero-endpoint exclusion theorem. The one-headed constructor reads the
+unary tail back through the carrier endpoint equivalence.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit classifier visible cases]
+\label{thm:rat-denom-unit-classifier-visible-cases}
+For any classified pair $h,k:\mathsf{BHist}$ in the adjoined empty-unit
+denominator classifier, both endpoints are empty together or both are
+one-headed unary denominator tails with equal exposed tails:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\to
+\left(
+h\hsame\emp\land k\hsame\emp
+\right)
+\lor
+\exists d,e:\mathsf{BHist}.\;
+h=\Eone(d)\land k=\Eone(e)\land
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(e)\land\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-case split for $\mathsf{RatDenomUnitCarrier}$ to both
+classifier endpoints. The two empty branches give the empty pair. The mixed
+empty and one-headed branches contradict the classifier's $\hsame$ field by
+history constructor separation. In the one-headed branch, the two carrier
+witnesses give unary tails and $\hsame$ constructor inversion gives the
+exposed tail equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_visible\_cases}
+
+\begin{theorem}[Rat denominator unit carrier visible cases iff]
+\label{thm:rat-denom-unit-carrier-visible-cases-iff}
+For every history $h:\mathsf{BHist}$, the adjoined empty-unit denominator
+carrier is equivalent to the visible empty branch or a one-headed unary
+denominator tail:
+$$
+\mathsf{RatDenomUnitCarrier}(h)
+\Longleftrightarrow
+\left(
+h\hsame\emp
+\lor
+\exists t:\mathsf{BHist}.\; h=\Eone(t)\land\mathsf{UnaryHistory}(t)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the visible carrier case split above. Conversely, the
+empty branch is the adjoined unit carrier branch, and the one-headed branch is
+rebuilt from the one-headed denominator carrier characterization.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_visible\_cases\_iff}
+
 \begin{theorem}[Rat denominator unit continuation exposes a nonempty Rat endpoint]
 \label{thm:rat-denom-unit-continuation-nonempty-rat-endpoint}
 For histories $h,k,r$, if $h$ and $k$ lie in
@@ -104,6 +300,30 @@ nonempty result condition. In either mixed branch, the Rat side is already the
 required disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_nonempty\_rat\_endpoint}
+
+\begin{theorem}[Rat denominator unit continuation result empty iff]
+\label{thm:rat-denom-unit-continuation-result-empty-iff}
+For histories $h,k,r$, if $h$ and $k$ lie in
+$\mathsf{RatDenomUnitCarrier}$ and $\Cont(h,k,r)$, then the continuation
+result is internally empty exactly when both carried endpoints are internally
+empty:
+$$
+r\hsame\emp
+\Longleftrightarrow
+h\hsame\emp\wedge k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Split the two carrier witnesses into their empty and genuine Rat-history
+branches. The empty--empty branch transports the continuation to the canonical
+empty-left unit result. In either mixed branch, continuation transport
+identifies the result with the genuine Rat endpoint, contradicting
+$\mathsf{RatHistoryCarrier\_not\_empty}$. In the genuine--genuine branch, Rat
+continuation closure makes the result a Rat history, again excluding emptiness.
+Conversely, if both endpoints are internally empty, continuation transport from
+the canonical empty-empty continuation identifies $r$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_continuation\_result\_empty\_iff}
 
 \begin{theorem}[Rat denominator unit-envelope classifier is append-closed]
 \label{thm:field-rat-denominator-unit-envelope-classifier-append-closed}
@@ -270,6 +490,7 @@ $$
 $$
 \end{theorem}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_continuation\_closed}
+\input{parts/concrete_instances/field/20_field_rat_denominator_unit_obstruction_continuation_closure}
 
 \begin{theorem}[Rat denominator unit classifier append commutativity]
 \label{thm:field-rat-denom-unit-classifier-append-comm}
@@ -291,4 +512,24 @@ In every case, continuation closure supplies the carried evidence for both
 append results.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_comm}
-\input{parts/concrete_instances/field/20_field_rat_denominator_unit_obstruction_continuation_closure}
+
+\begin{theorem}[Rat denominator unit classifier append commutation congruence]
+\label{thm:rat-denom-unit-classifier-append-comm-congruence}
+If two endpoint pairs are classified by the adjoined empty-unit denominator
+classifier, then appending the source endpoints and the reversed target
+endpoints again produces a classified pair:
+$$
+\mathsf{RatDenomUnitClassifier}(h,h')\Rightarrow
+\mathsf{RatDenomUnitClassifier}(k,k')\Rightarrow
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(k',h')).
+$$
+\end{theorem}
+\begin{proof}
+Continuation closure first classifies
+$\mathsf{append}(h,k)$ against $\mathsf{append}(h',k')$ using the canonical
+append continuations. The append-commutativity classifier applied to the two
+target carriers classifies $\mathsf{append}(h',k')$ against
+$\mathsf{append}(k',h')$. Composing the two history-same endpoint comparisons
+and keeping the carried evidence gives the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_comm\_congr}

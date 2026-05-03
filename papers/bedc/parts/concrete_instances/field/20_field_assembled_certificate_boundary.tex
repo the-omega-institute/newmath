@@ -1,0 +1,194 @@
+\begin{theorem}[RatUp FieldUp denominator action envelope certificate component]
+\label{thm:ratup-fieldup-denominator-action-envelope-certificate-component}
+For the concrete denominator tuple
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$
+and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, the
+denominator-action component required by
+\autoref{def:field-certificate-obligations} is supplied by the envelope closure
+of \autoref{thm:ratup-fieldup-denominator-action-envelope-closure}, the
+normalized row exhaustion of
+\autoref{thm:ratup-fieldup-denominator-context-pair-normalized-row-exhaustion},
+and the context-pair action certificate of
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}.
+Consequently the assembled $\FieldUp(\mathsf{RatUp})$ boundary may treat the
+multiplicative denominator coverage, the contextual boundary, the normalized
+row coverage, and the context-pair product and action rows as one concrete
+BHist-anchored certificate component.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-denominator-action-envelope-closure}. It fixes the
+multiplicative coverage and contextual multiplicative boundary over the RatUp
+denominator carrier, classifier, append operation, empty endpoint, strict-support
+predicate, and contextual action $\Gamma$.
+
+Next apply
+\autoref{thm:ratup-fieldup-denominator-context-pair-normalized-row-exhaustion}.
+It accounts for every normalized denominator action row by the same concrete
+BHist carrier data, the empty external contexts, and the pair product $\star$.
+
+Finally apply
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}. It
+supplies the pair classifier, pair product, unit-pair action, product-action
+composition, support readback, and iterated action rows for the same
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$
+tuple and the same action $\Gamma$.
+
+All three cited results use identical carrier, classifier, append, empty unit,
+strict-support predicate, and contextual-action data. Their conclusions therefore
+occupy one denominator-action component of
+\autoref{def:field-certificate-obligations}, with no transport between separate
+FieldUp sources.
+\end{proof}
+
+\begin{definition}[Concrete RatUp FieldUp source tuple]
+\label{def:ratup-fieldup-concrete-source-tuple}
+The concrete source tuple for $\FieldUp(\mathsf{RatUp})$ is denoted
+$\mathsf{RatUpFieldSource}_F$. Its field-level BHist source is
+$$
+C_F=\mathsf{RatHistoryCarrier},\qquad
+R_F=\mathsf{RatHistoryClassifier}.
+$$
+Its denominator coordinate is the concrete tuple
+$$
+(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)=
+(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier}).
+$$
+Its contextual-action coordinate is the action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. Its
+context-pair coordinate is the carried pair carrier, componentwise classifier,
+unit pair, product $\star$, and support predicate of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}. Its affine
+coordinate is the certified affine automorphism row source
+$\mathsf{AffAut}_F$ of
+\autoref{def:field-affine-automorphism-package}, with the group certificate
+rows supplied by \autoref{thm:field-affine-automorphism-group-certificate}.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp assembled certificate boundary]
+\label{thm:ratup-fieldup-assembled-certificate-boundary}
+The named source tuple $\mathsf{RatUpFieldSource}_F$ of
+\autoref{def:ratup-fieldup-concrete-source-tuple} satisfies
+\autoref{def:field-certificate-obligations}. Its carrier is
+$\mathsf{RatHistoryCarrier}$, its classifier is
+$\mathsf{RatHistoryClassifier}$, its denominator source is the concrete
+RatUp denominator tuple, its contextual source is $\Gamma$, its context-pair
+source is the monoid of
+\autoref{def:ratup-fieldup-denominator-context-pair-monoid}, and its affine
+source is $\mathsf{AffAut}_F$. The jointly registered rows are:
+\begin{enumerate}
+  \item the commutative-ring rows inherited from $\CommRingUp$ on the same
+  history carrier and classifier;
+  \item the inverse and nonzero rows supplied by
+  \autoref{thm:field-inverse-classifier-exact-from-apartness},
+  \autoref{thm:field-inverse-nonzero-domain-automorphism},
+  \autoref{thm:field-inverse-product-classifier-exact-from-apartness}, and
+  \autoref{thm:field-product-factor-map-classifier-exact-from-apartness};
+  \item the multiplicative denominator rows supplied by
+  \autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+  and \autoref{thm:ratup-fieldup-denominator-certificate-assembly};
+  \item the denominator-action component consumed by
+  \autoref{def:field-certificate-obligations}, supplied by
+  \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}
+  from envelope closure, normalized row exhaustion, and context-pair action
+  certification;
+  \item the contextual denominator rows supplied by
+  \autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package},
+  \autoref{thm:field-rat-denominator-normalized-contextual-action-package},
+  \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws},
+  \autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}, and
+  \autoref{thm:ratup-fieldup-denominator-context-pair-normalized-row-exhaustion};
+  \item the affine automorphism closure supplied by
+  \autoref{thm:field-affine-automorphism-group-certificate}.
+\end{enumerate}
+Consequently $\mathsf{RatUpFieldSource}_F$ supplies the Phase Algebra
+Hierarchy paper-certificate object for the concrete BHist-anchored
+$\FieldUp(\mathsf{RatUp})$ certificate. The machine-checked phase exit is the
+canonical Lean certificate site for that same object.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ratup-fieldup-concrete-source-tuple}. The carrier and
+classifier fields are the concrete RatUp history predicates
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$, so every row
+below is read over the same $\mathsf{BHist}$ source rather than over detached
+parameters.
+
+The denominator coordinate is
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, the contextual-action
+coordinate is $\Gamma$, and the context-pair coordinate is the carried pair
+monoid of \autoref{def:ratup-fieldup-denominator-context-pair-monoid}. The
+affine coordinate is $\mathsf{AffAut}_F$ with rows read from
+\autoref{thm:field-affine-automorphism-group-certificate}.
+
+The algebraic spine is the inherited $\CommRingUp$ structure together with the
+inverse block. Apply
+\autoref{thm:field-inverse-classifier-exact-from-apartness},
+\autoref{thm:field-inverse-nonzero-domain-automorphism},
+\autoref{thm:field-inverse-product-classifier-exact-from-apartness}, and
+\autoref{thm:field-product-factor-map-classifier-exact-from-apartness}. These
+rows give classifier exactness for inverse formation, nonzero transport through
+the inverse domain, product inverse exactness, and certified multiplication by
+nonzero factors.
+
+The denominator subcertificate is then read from
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+and \autoref{thm:ratup-fieldup-denominator-certificate-assembly}. The first
+theorem records the multiplicative denominator rows, and the second identifies
+them as the denominator component consumed by the FieldUp certificate
+obligations.
+
+Now apply
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component}.
+It combines the envelope closure, normalized row exhaustion, and context-pair
+action certificate into the single denominator-action component required by
+\autoref{def:field-certificate-obligations}.
+
+The contextual extension first uses
+\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package} and
+\autoref{thm:field-rat-denominator-normalized-contextual-action-package}. These
+rows add one-step and iterated contextual actions, normalized action transport,
+classifier exactness, strict-support readback, and bilateral cancellation for
+the same denominator carrier.
+
+Next apply \autoref{thm:ratup-fieldup-denominator-context-pair-action-laws},
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate}, and
+\autoref{thm:ratup-fieldup-denominator-context-pair-normalized-row-exhaustion}.
+The pair-action block supplies pair composition, unit action, componentwise
+product laws, certified contextual action rows, and normalized row coverage
+across the concrete BHist context pairs.
+
+Finally, apply \autoref{thm:field-affine-automorphism-group-certificate}. Its
+identity, composition, inverse, associativity, classifier-congruence, and
+witness-choice descent rows close the affine automorphism part of the FieldUp
+interface. Combining these disjoint rows gives exactly the carrier,
+classifier, stability, exactness, and ledger obligations listed in
+\autoref{def:field-certificate-obligations}.
+\end{proof}
+
+Per-object template: traditional target concrete constructive field certificate
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$ with
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability obligations commutative-ring laws, proof-indexed inverse closure,
+nonzero transport, denominator multiplication, contextual action, context-pair
+composition, and affine automorphism closure; ledger ring expression data,
+nonzero witnesses, denominator histories, contextual pairs, and affine
+coefficient witnesses; core theorem list
+\autoref{thm:ratup-fieldup-assembled-certificate-boundary},
+\autoref{thm:ratup-fieldup-denominator-certificate-assembly},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-denominator-contextual-row-closure-package},
+\autoref{thm:field-rat-denominator-normalized-contextual-action-package},
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-laws},
+\autoref{thm:ratup-fieldup-denominator-context-pair-action-certificate},
+\autoref{thm:ratup-fieldup-denominator-context-pair-normalized-row-exhaustion},
+and
+\autoref{thm:field-affine-automorphism-group-certificate}; exactness predicate
+classifier exactness for inverse, product, denominator, denominator-action
+component, contextual action, normalized contextual action, context-pair action,
+normalized context-pair row coverage, and affine automorphism rows; standard
+bridge ordinary constructive field over rational histories with certified
+affine automorphisms; status $\mathsf{ProofTarget}$.

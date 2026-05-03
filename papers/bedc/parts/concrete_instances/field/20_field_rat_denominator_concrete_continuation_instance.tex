@@ -21,11 +21,11 @@ $\mathsf{RatHistoryLedgerPolicy}$. The empty history $\emp$ is an external
 classifier-unit endpoint for the operation and is not a carried denominator.
 \end{definition}
 
-\begin{theorem}[Rat denominator continuation concrete instance laws]
-\label{thm:field-rat-denominator-concrete-continuation-instance-laws}
-For histories $d,d',e,e',f,\rho,v:\mathsf{BHist}$, the concrete data of
-\autoref{def:field-rat-denominator-concrete-continuation-instance} satisfy the
-following laws.
+\begin{theorem}[Rat denominator append concrete instance laws]
+\label{thm:field-rat-denominator-append-concrete-instance-laws}
+For histories $d,d',e,e',f,\rho,v:\mathsf{BHist}$, the concrete function data
+of \autoref{def:field-rat-denominator-concrete-continuation-instance}, with
+$\mu_D(h,k):=\mathsf{append}(h,k)$, satisfy the following append laws.
 \begin{enumerate}
   \item If $C_D(d)$ and $C_D(e)$, then $C_D(\mu_D(d,e))$.
   \item If $C_D(d)$ and $C_D(e)$, then $R_D(\mu_D(d,e),\mu_D(e,d))$.
@@ -36,6 +36,67 @@ following laws.
   \item If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $C_D(e)$, and
   $R_D(e,e')$, then
   $\mathsf{RatHistoryLedgerPolicy}(\mu_D(\rho,e),\mu_D(v,e'))$.
+  \item No carried history $u:\mathsf{BHist}$ can satisfy either one-sided
+  classifier-unit law
+
+  $$
+  \forall x:\mathsf{BHist}.\;
+  C_D(x)\to
+  R_D(\mu_D(x,u),x)
+  $$
+
+  or
+
+  $$
+  \forall x:\mathsf{BHist}.\;
+  C_D(x)\to
+  R_D(\mu_D(u,x),x).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D$, $R_D$, and $\mu_D$. The operation is ordinary history append,
+so the first five clauses are the concrete append package proved for
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and
+$\mathsf{RatHistoryLedgerPolicy}$.
+
+Carrier closure uses the carried denominator closure of append. The
+commutative classifier clause uses the unary append commutativity theorem
+inside the two carried histories.
+
+Associativity compares the two append bracketings by append associativity and
+then repacks the result into $R_D$. Binary classifier congruence and ledger
+closure are the corresponding Rat denominator append-closure clauses for the
+classifier and ledger predicates.
+
+For a one-sided carried unit, pass from the displayed append law to its
+canonical continuation instance using $\Cont(x,u,\mu_D(x,u))$ or
+$\Cont(u,x,\mu_D(u,x))$. Then
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty} forces
+$u\hsame\emp$, while \autoref{thm:rat-history-carrier-not-empty} rules out a
+carried empty denominator.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}
+
+\begin{theorem}[Rat denominator continuation concrete instance laws]
+\label{thm:field-rat-denominator-concrete-continuation-instance-laws}
+For histories
+$d,d',e,e',f,\rho,v,de,ed,ef,left,right,dep,rhoe,vep:\mathsf{BHist}$, the
+relational continuation data of
+\autoref{def:field-rat-denominator-concrete-continuation-instance} satisfy the
+following laws.
+\begin{enumerate}
+  \item If $C_D(d)$, $C_D(e)$, and $\Cont(d,e,de)$, then $C_D(de)$.
+  \item If $C_D(d)$, $C_D(e)$, $\Cont(d,e,de)$, and $\Cont(e,d,ed)$, then
+  $R_D(de,ed)$.
+  \item If $C_D(d)$, $C_D(e)$, $C_D(f)$, $\Cont(d,e,de)$,
+  $\Cont(e,f,ef)$, $\Cont(de,f,left)$, and $\Cont(d,ef,right)$, then
+  $R_D(left,right)$.
+  \item If $R_D(d,d')$, $R_D(e,e')$, $\Cont(d,e,de)$, and
+  $\Cont(d',e',dep)$, then $R_D(de,dep)$.
+  \item If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $C_D(e)$,
+  $R_D(e,e')$, $\Cont(\rho,e,rhoe)$, and $\Cont(v,e',vep)$, then
+  $\mathsf{RatHistoryLedgerPolicy}(rhoe,vep)$.
   \item No carried history $u:\mathsf{BHist}$ can satisfy either one-sided
   classifier-unit law
 
@@ -57,40 +118,96 @@ following laws.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Unfold $C_D$, $R_D$, and $\mu_D$. The canonical witness
-$\Cont(h,k,\mu_D(h,k))$ is the append continuation constructor, so every law
-reduces to the Rat denominator continuation theorems already established in
-the FieldUp boundary.
+Unfold $C_D$ and $R_D$. The relational presentation leaves each output
+history named by its $\Cont$ witness instead of replacing it by append at the
+statement level.
 
-Carrier closure is exactly
-\autoref{thm:field-rat-denominator-continuation-carrier-closure} applied to
-the canonical continuation. The commutative classifier law is
-\autoref{thm:field-rat-denominator-continuation-commutative-classifier} with
-the two canonical continuations for $\mu_D(d,e)$ and $\mu_D(e,d)$.
+Carrier closure is
+\autoref{thm:field-rat-denominator-continuation-carrier-closure}. The
+commutative classifier clause is
+\autoref{thm:field-rat-denominator-continuation-commutative-classifier}
+applied to the two displayed continuations.
 
-Associativity of the classifier follows from
-\autoref{thm:field-rat-denominator-continuation-semigroup-laws} and
-\autoref{thm:field-rat-denominator-continuation-associative-classifier-congruence}
-applied to the displayed bracketings. These theorems supply both the carried
-outer results and the classifier comparison between the two bracketings.
+Associativity uses
+\autoref{thm:field-rat-denominator-continuation-semigroup-laws} on the four
+continuation witnesses. The theorem supplies the carried intermediate results
+and the history-sameness comparison needed to read the two bracketings as
+classifier-equivalent.
 
 For binary classifier congruence, unpack $R_D(d,d')$ and $R_D(e,e')$. The
-second classifier supplies the matching denominator comparison needed by
-\autoref{thm:field-rat-denominator-continuation-classifier-closure}; applying
-that theorem to the two canonical continuations gives
-$R_D(\mu_D(d,e),\mu_D(d',e'))$.
+right input classifier supplies the matching denominator comparison required
+by \autoref{thm:field-rat-denominator-continuation-classifier-closure}, and
+the two displayed continuations give $R_D(de,dep)$.
 
-The ledger clause uses the same matching continuation pattern. Read $C_D(e)$
-and $R_D(e,e')$ as the right-tail carrier and classifier data, then apply
-\autoref{thm:field-rat-denominator-continuation-ledger-closure} to the two
-canonical continuations for $\mu_D(\rho,e)$ and $\mu_D(v,e')$.
+The ledger clause applies
+\autoref{thm:field-rat-denominator-continuation-ledger-closure} to
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, the carried and classified right
+tail, and the two displayed continuations.
 
 Finally,
 \autoref{thm:field-rat-denominator-continuation-unit-endpoint-empty} says that
 any one-sided classifier-unit endpoint is $\hsame$ to $\emp$, and its carried
 endpoint clause rules out such a history inside $\mathsf{RatHistoryCarrier}$.
-Thus $\emp$ remains only the external classifier-unit endpoint named in the
-definition, not a carried denominator.
 \end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}
+
+\begin{theorem}[Rat denominator append-continuation law equivalence]
+\label{thm:field-rat-denominator-functional-relational-instance-equivalence}
+For the concrete data of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, the append
+law package of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws} and the
+relational $\Cont$ law package of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws} are the
+same concrete law package in the following sense.
+\begin{enumerate}
+  \item If $C_D(h)$ and $C_D(k)$, then every history $r:\mathsf{BHist}$
+  satisfies the endpoint classifier bridge
+
+  $$
+  \Cont(h,k,r)\quad\text{if and only if}\quad R_D(r,\mu_D(h,k)).
+  $$
+
+  Thus the canonical endpoint and any displayed continuation endpoint are
+  identified at the denominator classifier surface.
+  \item Transporting each displayed append output through this $R_D$ classifier
+  endpoint bridge converts the six append clauses into the six relational
+  clauses.
+  \item Reading each displayed relational output through the same $R_D$
+  classifier endpoint bridge converts the six relational clauses back into the
+  six append clauses.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $C_D$, $R_D$, and $\mu_D$ only to read them as
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and
+$\mathsf{append}$. With the two carrier hypotheses in place,
+\autoref{thm:rat-history-classifier-continuation-tail-iff} gives, for every
+displayed result $r$, exactly
+$\Cont(h,k,r)\Longleftrightarrow R_D(r,\mu_D(h,k))$.
+
+At the canonical endpoint, the same bridge reads the canonical continuation
+witness as the reflexive denominator classifier comparison
+$R_D(\mu_D(h,k),\mu_D(h,k))$.
+
+To pass from append laws to relational laws, use the checked append package
+$\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}$
+and transport every displayed output to the corresponding $\Cont$ output through
+the $R_D$ classifier endpoint bridge above. Carrier closure is carried directly,
+while
+commutative classifier compatibility, associativity, binary classifier
+congruence, ledger closure, and the one-sided unit obstruction are read through
+$R_D$. These are the six relational clauses of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
+
+Conversely, start from the checked relational package
+$\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}$.
+Read each displayed continuation endpoint through the same $R_D$ classifier
+endpoint bridge. This transports the relational outputs to the append outputs,
+giving exactly the six clauses of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws}.
+
+Thus the functional append presentation and the relational continuation
+presentation are one concrete $\FieldUp(\mathsf{RatUp})$ denominator law package
+only through the BEDC history-sameness and classifier interfaces.
+\end{proof}

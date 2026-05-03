@@ -1,0 +1,102 @@
+\chapter{Cannot-Claim Registry and Failure Witnesses}
+\label{ch:acceptance-cannot-claim}
+
+The acceptance gate of \autoref{ch:acceptance-gate} states what the manuscript may export at each strength; the standard bridge protocol of \autoref{ch:acceptance-bridge} states the additional discipline that bridge-strength export requires. Both chapters describe the positive face of the project's discipline. This chapter records the negative face: the typed failure witnesses that block an upgrade and the explicit cannot-claim registry that records which export claims the manuscript refuses on principle. Read together with \autoref{rem:three-axioms-gate-meaning}, the cannot-claim registry plays at the export level the same role that axiom-purity plays at the kernel level: a refusal to admit an unwitnessed positive claim.
+
+\section{The discipline of negative claims}
+\label{sec:acceptance-cannot-claim-discipline}
+
+\begin{remark}[Negative claims as part of the export surface]
+\label{rem:acceptance-negative-claims-surface}
+A research manuscript that exhibits only its positive theorems implicitly invites readers to infer the rest of mathematics is on its way. The BEDC discipline is the opposite: every claim outside the certified surface is presumed unsupported until a certificate is exhibited, and the manuscript states explicitly which downstream claims it refuses to make at the present strength. The cannot-claim registry of \autoref{def:acceptance-cannot-claim-entry} is the explicit form of that refusal.
+\end{remark}
+
+\begin{remark}[Failure witnesses as negative duals of certificates]
+\label{rem:acceptance-failure-witness-dual}
+A certificate exhibits the structure that licenses an export. A failure witness exhibits the structure that blocks one. Both are typed: the certificate populates a fixed schema of fields, and the failure witness selects one of a fixed list of failure modes. The pairing is total: at any given moment an object either satisfies the acceptance gate at strength $s$, in which case its certificate is exhibited; or it does not, in which case a failure witness names the missing field.
+\end{remark}
+
+\section{Failure witness type}
+\label{sec:acceptance-failure-cert}
+
+\begin{definition}[Failure certificate]
+\label{def:acceptance-failure-cert}
+The \emph{failure certificate} $\FailureCert(N, s)$ at the candidate strength $s$ for an object $N$ is one of the ten typed branches:
+\begin{enumerate}
+  \item \texttt{missing-source}: no source-layer assignment in the sense of \autoref{def:acceptance-derivation-certificate};
+  \item \texttt{missing-classifier}: no classifier supplied for the cited source;
+  \item \texttt{classifier-not-transitive}: classifier supplied but transitivity fails or is unproved;
+  \item \texttt{exactness-fails}: classifier does not respect $\msame / \hsame / \psame$ on the cited source;
+  \item \texttt{operation-does-not-descend}: a kernel operation fails to descend through the classifier;
+  \item \texttt{gap-ledger-absent}: the ledger field is unspecified and no explicit absence statement is supplied;
+  \item \texttt{completion-not-stable}: a completion construction fails the stability field;
+  \item \texttt{standard-bridge-fails}: $\StdBridge(N,T)$ is incomplete in at least one of its six fields;
+  \item \texttt{host-primitive-leakage}: the no-host-leak field is violated, that is, host $\mathsf{Nat}$, $\mathsf{Quot}$, $\mathsf{propext}$, or $\mathsf{Classical.choice}$ appears in the BEDC public surface for $N$;
+  \item \texttt{theorem-checker-failure}: a Lean target cited under $\verb|\leanchecked|$ is missing or fails to build.
+\end{enumerate}
+A claim that $\AcceptGate(N, s)$ holds is refuted by exhibiting any one of these ten branches.
+\end{definition}
+
+\begin{theorem}[Failure witness blocks the gate]
+\label{thm:acceptance-failure-blocks-gate}
+If $\FailureCert(N, s)$ is exhibited, then $\AcceptGate(N, s)$ does not hold.
+\end{theorem}
+\begin{proof}[Sketch]
+Each branch of \autoref{def:acceptance-failure-cert} negates a clause of \autoref{def:acceptance-derivation-certificate} or of \autoref{def:acceptance-standard-bridge}. A field that the gate requires is absent or invalid by exhibiting the branch; therefore the conjunction of \autoref{def:acceptance-gate} fails.
+\end{proof}
+
+\begin{remark}[Why ten branches and not fewer]
+\label{rem:acceptance-ten-branches-rationale}
+The ten branches of \autoref{def:acceptance-failure-cert} are not a partition into incomparable failure modes; some branches are special cases of others read at different strengths. The list is finite and explicit so that a given audit pass can refer to a single branch when refuting an export claim, and so that downgrade decisions can be local: a failure cited under one branch is the obligation that needs discharging before re-promotion.
+\end{remark}
+
+\section{Cannot-claim registry}
+\label{sec:acceptance-cannot-claim-registry}
+
+\begin{definition}[Cannot-claim entry]
+\label{def:acceptance-cannot-claim-entry}
+A \emph{cannot-claim entry} is a quadruple
+\[
+  (\mathrm{ClaimText},\ \mathrm{Status},\ \mathrm{WhyNotClaimable},\ \mathrm{RequiredUpgrade})
+\]
+where $\mathrm{ClaimText}$ is a sentence the manuscript refuses to assert at the present time; $\mathrm{Status}$ is one of $\{\mathtt{forbidden}, \mathtt{deferred}, \mathtt{partial}\}$; $\mathrm{WhyNotClaimable}$ cites either an open obligation or a structural reason; and $\mathrm{RequiredUpgrade}$ names the certificate or bridge whose discharge would license the claim.
+\end{definition}
+
+\begin{definition}[Cannot-claim registry]
+\label{def:acceptance-cannot-claim-registry}
+The \emph{cannot-claim registry} is the finite list of cannot-claim entries that the manuscript currently records. The registry is part of the manuscript's export surface in the sense of \autoref{rem:acceptance-negative-claims-surface}: removing an entry requires the corresponding upgrade discharged, and adding an entry records a new refusal.
+\end{definition}
+
+\begin{remark}[Anchor entries of the registry]
+\label{rem:acceptance-anchor-entries}
+The four anchor entries below name claims that the manuscript explicitly refuses at the present strength. They are the registry: principled refusals that this chapter commits to fixed phrasing. A claim's removal from the registry, or its addition, is a manuscript edit at the cadence of editorial review, not an automated state report.
+\begin{itemize}
+  \item \textbf{Anchor 1.} $\mathrm{ClaimText}$: ``BEDC derives all mathematics.'' $\mathrm{Status}$: \texttt{forbidden}. $\mathrm{WhyNotClaimable}$: the kernel admits only finite generative content; downstream theories enter through naming certificates and standard bridges, not as primitives. $\mathrm{RequiredUpgrade}$: there is no upgrade. The claim is refused on principle, not deferred.
+  \item \textbf{Anchor 2.} $\mathrm{ClaimText}$: ``$\NatUp$ is the full Peano natural numbers.'' $\mathrm{Status}$: \texttt{partial}. $\mathrm{WhyNotClaimable}$: $\NatUp$ records unary repetition histories with paper-level classifier and exactness; full Peano content (induction principle as a closed theorem schema, primitive recursion with computation rules, totality of arithmetic operations) requires further test-suite obligations beyond the present certificate. $\mathrm{RequiredUpgrade}$: $\NatUp$'s arithmetic test suite (induction, recursion, addition associativity and commutativity, multiplication distributivity, order totality) at $\checkedCertStr$.
+  \item \textbf{Anchor 3.} $\mathrm{ClaimText}$: ``A real-valued completion is exported.'' $\mathrm{Status}$: \texttt{deferred}. $\mathrm{WhyNotClaimable}$: the seal/completion module of \autoref{ch:core-thin-seal-interface} is a thin interface; Cauchy equivalence, completion existence, uniqueness of limits, and the field-operation descent are not discharged. $\mathrm{RequiredUpgrade}$: a Seal/Completion certificate satisfying \autoref{def:acceptance-closure-reflection-obligation} on Cauchy equivalence, with field operations descending to the completion.
+  \item \textbf{Anchor 4.} $\mathrm{ClaimText}$: ``The Lean scaffold is verified end-to-end.'' $\mathrm{Status}$: \texttt{forbidden}. $\mathrm{WhyNotClaimable}$: the scaffold of \autoref{ch:proof-obligations-lean-scaffold-contract} is a statement-level surface; verification means each scaffold target is at $\checkedCertStr$ in \texttt{lean4/BEDC/} with a successful build report. $\mathrm{RequiredUpgrade}$: a complete checker report from \texttt{lake build} together with the audit of \texttt{lean4/scripts/bedc\_ci.py} and the axiom-purity gate, all exiting clean.
+\end{itemize}
+\end{remark}
+
+\begin{remark}[The registry is finite by design]
+\label{rem:acceptance-registry-finite}
+The cannot-claim registry of \autoref{def:acceptance-cannot-claim-registry} is a finite list because the chapter's discipline is to commit only to refusals it can phrase precisely. A status report enumerating every object that does not currently meet $\paperCertStr$ would mistake a derivation queue for a refusal: an object that is presently at $\seedStr$ for lack of a classifier is not a refused claim but an unfinished one. The registry therefore lists principled refusals (Anchor 1, Anchor 4) and bounded deferred claims with explicit upgrade obligations (Anchor 2, Anchor 3); per-object derivation status is read from the chapter markers of \autoref{ch:core-typed-naming-certificates} and the audit script of \autoref{lem:acceptance-audit-reflects-strength}, not from the registry.
+\end{remark}
+
+\section{Failure witness as audit input}
+\label{sec:acceptance-cannot-claim-audit}
+
+\begin{remark}[Audit policy when a failure is exhibited]
+\label{rem:acceptance-audit-failure-policy}
+When a failure certificate is exhibited for an object $N$ presently marked at strength $s \ge \paperCertStr$, the corresponding marker is downgraded by the discipline of \autoref{def:acceptance-marker-assignment}: a $\verb|\leanchecked|$ becomes a $\verb|\leanstmt|$ if the source still survives but exactness no longer holds, or a $\verb|\leansorryd|$ if the proof has been retracted. The audit script of \autoref{lem:acceptance-audit-reflects-strength} continues to reflect the state of the markers; the failure certificate is the document that justifies the marker change.
+\end{remark}
+
+\begin{remark}[The cannot-claim registry is not a roadmap]
+\label{rem:acceptance-not-roadmap}
+A roadmap states what will be claimed when the present blockers are cleared. The cannot-claim registry of \autoref{def:acceptance-cannot-claim-registry} states what the manuscript currently refuses. The two artefacts are not the same: a refusal that is principled (Anchor 1) does not become a future claim regardless of progress; a refusal that is deferred (Anchor 3) becomes a future claim only when the named upgrade is discharged. The registry is the negative face of the manuscript, not the schedule of what the manuscript will eventually admit.
+\end{remark}
+
+\begin{remark}[Composition with the axiom-purity gate]
+\label{rem:acceptance-compose-axiom-purity}
+The axiom-purity gate of \autoref{rem:three-axioms-gate-meaning} refuses kernel theorems whose transitive dependencies include the three meta-closure axioms. The cannot-claim registry refuses export claims whose certificates or bridges are absent. The two refusals operate at different layers and compose: a kernel theorem permitted by axiom-purity may still fail to license an export claim if its standard bridge is incomplete, and an export claim refused by the registry does not become licit by the kernel passing its purity gate.
+\end{remark}

@@ -11,8 +11,7 @@ def append : BHist → BHist → BHist
   | h, .e1 k => .e1 (append h k)
 
 theorem append_empty_right : ∀ h : BHist, append h .Empty = h := by
-  intro h
-  rfl
+  intro h; rfl
 
 theorem append_eq_empty_iff {h k : BHist} :
     append h k = BHist.Empty ↔ h = BHist.Empty ∧ k = BHist.Empty := by
@@ -33,6 +32,25 @@ theorem append_eq_empty_iff {h k : BHist} :
         cases hh
         cases kk
         rfl
+
+theorem append_nonempty_iff {h k : BHist} :
+    ((hsame (append h k) BHist.Empty -> False) <->
+      (hsame h BHist.Empty -> False) ∨ (hsame k BHist.Empty -> False)) := by
+  constructor
+  · intro compositeNonempty
+    cases h with
+    | Empty =>
+        exact Or.inr (fun kEmpty => by cases kEmpty; exact compositeNonempty rfl)
+    | e0 h =>
+        exact Or.inl (fun hEmpty => by cases hEmpty)
+    | e1 h =>
+        exact Or.inl (fun hEmpty => by cases hEmpty)
+  · intro parts compositeEmpty
+    cases parts with
+    | inl leftNonempty =>
+        exact leftNonempty (append_eq_empty_iff.mp compositeEmpty).left
+    | inr rightNonempty =>
+        exact rightNonempty (append_eq_empty_iff.mp compositeEmpty).right
 
 theorem append_empty_left : forall h : BHist, append .Empty h = h := by
   intro h

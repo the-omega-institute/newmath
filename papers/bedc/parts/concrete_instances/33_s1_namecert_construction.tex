@@ -228,6 +228,92 @@ inversion gives the displayed tail classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_y\_e1\_point\_tail\_hsame}
 
+\begin{theorem}[SOne endpoints read the e-one point tail]
+\label{thm:sone-x-y-e1-point-tail-hsame}
+For histories $x,y,e,t,d_x,d_y$, a concrete $\SOneUp$ history-carrier witness
+with point ledger $\Eone(t)$ and coordinate presentations
+$\hsame(x,\Eone(d_x))$ and $\hsame(y,\Eone(d_y))$ reads the point tail as
+$$
+\hsame(t,\Eone(d_x)\cdot d_y).
+$$
+\end{theorem}
+\begin{proof}
+The second coordinate presentation gives the point-tail readback
+$t\sim x\cdot d_y$. Transporting the first coordinate presentation
+$x\sim \Eone(d_x)$ through the same continuation tail identifies this with
+$\Eone(d_x)\cdot d_y$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_x\_y\_e1\_point\_tail\_hsame}
+
+\begin{theorem}[SOne e-one components read point tail]
+\label{thm:sone-history-carrier-e1-components-tail}
+For histories $d_x,d_y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+coordinates and point ledger are all one-headed exposes rational coordinate
+tails and reads the point tail from the BEDC continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),e,\Eone(t))
+\Longrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\hsame(t,\Eone(d_x)\cdot d_y).
+$$
+\end{theorem}
+\begin{proof}
+The first two carrier fields are real-constant carriers on one-headed
+histories, hence the real-constant e-one exactness theorem gives rational
+carriers for $d_x$ and $d_y$. The displayed second coordinate presentation is
+reflexive, so the point-tail readback theorem gives
+$\hsame(t,\Eone(d_x)\cdot d_y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_tail}
+
+\begin{theorem}[SOne e-one components unit tail readback]
+\label{thm:s1-history-carrier-e1-components-unit-tail-readback}
+For histories $d_x,d_y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+coordinates and point ledger are all one-headed exposes the two rational
+coordinate tails, identifies the equation endpoint with the circle unit
+history, and reads the point tail as the displayed continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),e,\Eone(t))
+\Longrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\hsame(e,\mathsf{SOneUnitHistory})\land
+\ContR(\Eone(d_x),d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+The e-one component tail theorem supplies the two rational coordinate carriers
+and the equality $t\hsame \Eone(d_x)\cdot d_y$. The equation-unit readback
+identifies $e$ with $\mathsf{SOneUnitHistory}$. Reading the displayed tail
+equality as a BEDC continuation gives $\ContR(\Eone(d_x),d_y,t)$, and these
+four fields form the claimed package.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_unit\_tail\_readback}
+
+\begin{theorem}[SOne history carrier y e-one point shape]
+\label{thm:sone-history-carrier-y-e1-point-shape}
+For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness
+presents the second coordinate as $\Eone(d_y)$, then the point ledger is
+visibly one-headed and its exposed tail is the continuation of $x$ by $d_y$:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\hsame(y,\Eone(d_y))
+\Longrightarrow
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(t))\land \ContR(x,d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the circle carrier only to its point-continuation field. Replacing the
+second coordinate by its $\Eone(d_y)$ presentation makes the point ledger
+definitionally $\Eone(x\cdot d_y)$. Choose the exposed payload
+$t=x\cdot d_y$; the remaining continuation statement is the canonical append
+ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_y\_e1\_point\_shape}
+
 \begin{theorem}[SOne unit equation determinacy]
 \label{thm:s1-unit-equation-deterministic}
 For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness

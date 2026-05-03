@@ -28,6 +28,62 @@ theorem ContinuationMorphism_tail_semanticNameCert {a b : BHist}
   · intro h source
     exact source
 
+theorem ContinuationMorphism_source_semanticNameCert {a b : BHist}
+    (m : ContinuationMorphism a b) :
+    SemanticNameCert (fun src : BHist => Nonempty (ContinuationMorphism src b))
+      (fun src : BHist => Nonempty (ContinuationMorphism src b))
+      (fun src : BHist => Nonempty (ContinuationMorphism src b)) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro a (Nonempty.intro m)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases carrierH with
+      | intro sourceMorphism =>
+          exact Nonempty.intro {
+            tail := sourceMorphism.tail
+            rel :=
+              cont_hsame_transport same (hsame_refl sourceMorphism.tail) (hsame_refl b)
+                sourceMorphism.rel
+          }
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem ContinuationMorphism_target_semanticNameCert {a b : BHist}
+    (m : ContinuationMorphism a b) :
+    SemanticNameCert (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt))
+      (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt))
+      (fun tgt : BHist => Nonempty (ContinuationMorphism a tgt)) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro b (Nonempty.intro m)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases carrierH with
+      | intro targetMorphism =>
+          exact Nonempty.intro {
+            tail := targetMorphism.tail
+            rel :=
+              cont_hsame_transport (hsame_refl a) (hsame_refl targetMorphism.tail) same
+                targetMorphism.rel
+          }
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem ContinuationMorphism_endpoint_transport_tail_classified {a a' b b' : BHist}
     (sameSource : hsame a a') (sameTarget : hsame b b')
     (left : ContinuationMorphism a b) (right : ContinuationMorphism a' b') :
@@ -62,6 +118,15 @@ theorem ContinuationMorphism_tail_cont_witness_iff {a b t : BHist} :
   · intro rel
     exact Exists.intro { tail := t, rel := rel } (hsame_refl t)
 
+theorem ContinuationMorphism_tail_hsame_iff {a b t : BHist}
+    (m : ContinuationMorphism a b) :
+    hsame m.tail t <-> Cont a t b := by
+  constructor
+  · intro sameTail
+    exact cont_hsame_transport (hsame_refl a) sameTail (hsame_refl b) m.rel
+  · intro rel
+    exact cont_left_cancel m.rel rel
+
 theorem CategoryHomCarrier_continuation_morphism_tail_iff {a b f : BHist} :
     CategoryHomCarrier a b f <->
       UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧
@@ -86,5 +151,46 @@ theorem CategoryHomCarrier_continuation_morphism_tail_iff {a b f : BHist} :
                         (And.intro tailCarrier
                           (cont_hsame_transport (hsame_refl a) sameTail (hsame_refl b)
                             m.rel)))
+
+theorem ContinuationMorphism_comp_tail_semanticNameCert {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    SemanticNameCert
+      (fun t : BHist =>
+        Cont a t c ∧ hsame t (ContinuationMorphism_comp_closed left right).tail)
+      (fun t : BHist =>
+        Cont a t c ∧ hsame t (ContinuationMorphism_comp_closed left right).tail)
+      (fun t : BHist =>
+        Cont a t c ∧ hsame t (ContinuationMorphism_comp_closed left right).tail)
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro (ContinuationMorphism_comp_closed left right).tail
+        (And.intro (ContinuationMorphism_comp_closed left right).rel
+          (hsame_refl (ContinuationMorphism_comp_closed left right).tail))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact And.intro
+        (cont_hsame_transport (hsame_refl a) same (hsame_refl c) carrier.left)
+        (hsame_trans (hsame_symm same) carrier.right)
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem ContinuationMorphism_comp_tail_unary_closed {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    UnaryHistory left.tail -> UnaryHistory right.tail ->
+      UnaryHistory (ContinuationMorphism_comp_closed left right).tail := by
+  intro leftCarrier rightCarrier
+  cases left with
+  | mk leftTail _leftRel =>
+      cases right with
+      | mk rightTail _rightRel =>
+          exact unary_append_closed leftCarrier rightCarrier
 
 end BEDC.Derived.CategoryUp

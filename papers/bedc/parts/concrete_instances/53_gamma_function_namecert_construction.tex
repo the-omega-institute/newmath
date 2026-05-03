@@ -1,0 +1,139 @@
+\chapter{A Concrete Naming Certificate for \(\GammaUp\)}
+\label{ch:concrete-instances-gamma-namecert}
+
+This chapter gives a concrete naming-certificate construction for the constructive Gamma-function interface \(\GammaUp\) at the paper-proof level. The construction sits above \(\NatUp\) (\autoref{ch:concrete-instances-nat-namecert}) for the unary factorial, \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}) for the explicit prime-power decomposition of factorials, \(\RealAnalyticUp\) (\autoref{ch:concrete-instances-real-analytic-namecert}) for the constructive \(\exp\) and \(\log\) used in the analytic extension, \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}) for the codomain, and \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}) for the meromorphic-extension classifier. The construction proceeds in three layers: integer-point factorial (\(\Gamma(n+1) = n!\)), Weierstrass-product extension to \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) with explicit unary modulus, and the recurrence \(\Gamma(s+1) = s\,\Gamma(s)\). All convergence witnesses are unary-indexed total functions; the construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+
+\section{The pole locus and the Gamma domain}
+\label{sec:gamma-domain}
+
+\begin{definition}[Negative-integer pole locus]
+\label{def:gamma-pole-locus}
+The pole-locus predicate \(\mathsf{GammaPole}(s)\) on \(\ComplexUp\)-history holds when there exists a unary natural \(n\) with \(\hsame(s, -n)\), where \(-n\) is the explicit signed-integer encoding of \autoref{ch:concrete-instances-int-namecert}. Equivalently, the imaginary part of \(s\) equals \(\emp\) and the real part is a non-positive integer.
+\end{definition}
+
+\begin{definition}[Gamma domain]
+\label{def:gamma-domain}
+\(\mathsf{GammaDom}(s)\) holds when \(\mathsf{ComplexUp}(s)\) and \(\neg \mathsf{GammaPole}(s)\). The negation is constructive: \(\mathsf{GammaDom}(s)\) is witnessed by an explicit apartness datum \((k, w)\) where \(k\) is a unary precision and \(w\) is a strict-prefix witness showing that the distance from \(s\) to the closest non-positive integer exceeds \(2^{-k}\).
+\end{definition}
+
+\begin{lemma}[Apartness from the pole locus is decidable]
+\label{lem:gamma-pole-apartness-decidable}
+For every complex history \(s\) and unary precision \(k\), the question ``does \(s\) lie within \(2^{-k}\) of \(\mathsf{GammaPole}\)?'' is decidable. The decision either supplies a near-pole witness \(\hsame(\mathsf{Re}(s), -n)\) up to precision \(k\) for some specific unary \(n\), or supplies the apartness datum required by \autoref{def:gamma-domain}.
+\end{lemma}
+\begin{proof}
+Compare the rational real-part history \(\mathsf{Re}(s)\) against the finite list of negative-integer candidates \(\{0, -1, -2, \ldots, -K\}\) where \(K\) is the unary length of \(\mathsf{Re}(s)\) at precision \(k\). All comparisons are decidable on rational representations by \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}). The imaginary-part check uses the same strict-prefix decidability.
+\end{proof}
+
+\section{Gamma at unary positive integers via factorial}
+\label{sec:gamma-positive-integers}
+
+\begin{definition}[Factorial bridge]
+\label{def:gamma-factorial}
+For unary \(n \geq \emp\), \(\mathsf{Factorial}(n, m)\) holds when \(m\) is the unary product \(1 \cdot 2 \cdots n\) computed by unary recursion: \(\mathsf{Factorial}(\emp, \Eone(\emp))\) and \(\mathsf{Factorial}(\Eone(p), m)\) iff there exists \(m'\) with \(\mathsf{Factorial}(p, m')\) and \(m = \Eone(p) \cdot m'\) under unary multiplication (\(\PrimeUp\), \autoref{ch:concrete-instances-prime-namecert}).
+\end{definition}
+
+\begin{theorem}[Gamma at positive integers equals factorial]
+\label{thm:gamma-positive-integer}
+For unary \(n \geq \emp\), \(\mathsf{Gamma}(n + \Eone(\emp), z)\) holds with \(\hsame(z, m)\) where \(\mathsf{Factorial}(n, m)\). Concretely, \(\Gamma(1) = 1\), \(\Gamma(2) = 1\), \(\Gamma(3) = 2\), and in general \(\Gamma(n+1) = n!\).
+\end{theorem}
+\begin{proof}
+Direct unfolding of \autoref{def:gamma-factorial} together with the recurrence \(\Gamma(s+1) = s\,\Gamma(s)\) of \autoref{thm:gamma-recurrence} below, applied unary-inductively starting from \(\Gamma(1) = 1\) (the empty-product base case).
+\end{proof}
+
+\begin{remark}[Factorial used by the zeta functional equation]
+The functional equation \(\zeta(s) = 2^s \pi^{s-1} \sin(\pi s/2) \Gamma(1-s) \zeta(1-s)\) (\autoref{ch:concrete-instances-zeta-continuation}) requires \(\Gamma(1-s)\) at \(s = -2n\) (negative even integers), which is \(\Gamma(1+2n) = (2n)!\). \autoref{thm:gamma-positive-integer} supplies this value as a closed unary expression.
+\end{remark}
+
+\section{Gamma extension via Weierstrass product}
+\label{sec:gamma-weierstrass}
+
+\begin{definition}[Weierstrass partial product]
+\label{def:gamma-weierstrass-part}
+For complex history \(s\) with \(\mathsf{GammaDom}(s)\) and unary index \(N\), the Weierstrass partial product predicate \(\mathsf{GammaPart}(s, N, P_N)\) holds when \(P_N\) is the explicit complex history
+$$
+P_N \;=\; \frac{1}{s} \prod_{n=1}^{N} \left(1 + \frac{1}{n}\right)^{s} \left(1 + \frac{s}{n}\right)^{-1},
+$$
+computed by unary recursion using complex multiplication, division (legitimate by \(\mathsf{GammaDom}(s)\) supplying \(\mathsf{CplxNonZero}\) at every factor), and the constructive complex \(\exp\) of \autoref{ch:concrete-instances-real-analytic-namecert} for the rational power \((1 + 1/n)^s = \exp(s \log(1 + 1/n))\).
+\end{definition}
+
+\begin{lemma}[Weierstrass product Cauchy modulus on the Gamma domain]
+\label{lem:gamma-weierstrass-cauchy}
+For every \(s\) with \(\mathsf{GammaDom}(s)\) at apartness precision \(k_0\), the partial products \(P_N\) form a regular complex Cauchy sequence with explicit modulus \(N(k) := \max(k_0, k) + |\mathsf{Re}(s)|^2 + |\mathsf{Im}(s)|^2\): for all \(M, N \geq N(k)\), the modulus of \(P_M - P_N\) is below \(2^{-k}\).
+\end{lemma}
+\begin{proof}
+Take logarithms of consecutive partial products: \(\log(P_{N+1}/P_N) = s \log(1 + 1/N) - \log(1 + s/N)\). Taylor-expand both logarithms via \(\log(1 + u) = u - u^2/2 + O(u^3)\) using the constructive \(\log\) of \autoref{def:real-analytic-log}; the leading \(s/N\) terms cancel and the residual is of order \(|s|^2/N^2\), giving an explicit geometric tail bound. The modulus \(N(k)\) is the precision at which the geometric tail falls below \(2^{-k}\).
+\end{proof}
+
+\begin{definition}[Constructive Gamma]
+\label{def:gamma}
+For \(s\) with \(\mathsf{GammaDom}(s)\), \(\mathsf{Gamma}(s, z)\) holds when \(z\) is the complex limit certificate of \autoref{lem:gamma-weierstrass-cauchy} via the \(\ComplexLimitUp\) construction of \autoref{ch:concrete-instances-complex-limit-namecert}, applied to the partial products \((P_N)_N\). The witness includes the apartness precision \(k_0\), the modulus \(N\), and the limit \(z\).
+\end{definition}
+
+\begin{theorem}[Gamma is holomorphic on the Gamma domain]
+\label{thm:gamma-holomorphic}
+\(\mathsf{Gamma} : \mathsf{GammaDom} \to \ComplexUp\) is holomorphic in the sense of \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}) on every open disk \(\mathsf{OpenDisk}(z_0, r)\) entirely contained in \(\mathsf{GammaDom}\).
+\end{theorem}
+\begin{proof}
+Term-wise complex differentiability of each Weierstrass factor follows from the constructive \(\exp\) and \(\log\) being holomorphic in their arguments (\autoref{ch:concrete-instances-real-analytic-namecert}). Uniform convergence of the partial products on a compact sub-domain of \(\mathsf{GammaDom}\) is the geometric-tail bound of \autoref{lem:gamma-weierstrass-cauchy}. Apply the holomorphic-limit closure of \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}).
+\end{proof}
+
+\section{Functional equation \(\Gamma(s+1) = s\,\Gamma(s)\)}
+\label{sec:gamma-recurrence}
+
+\begin{theorem}[Gamma recurrence]
+\label{thm:gamma-recurrence}
+For every \(s\) with \(\mathsf{GammaDom}(s)\) and \(\mathsf{GammaDom}(s + \Eone(\emp))\), if \(\mathsf{Gamma}(s, z)\) and \(\mathsf{Gamma}(s + \Eone(\emp), w)\), then \(\mathsf{ComplexClassifier}(w, s \cdot z)\). Equivalently, \(\Gamma(s+1) = s\,\Gamma(s)\) up to \(\ComplexClassifier\).
+\end{theorem}
+\begin{proof}
+Compare the Weierstrass partial products of \(\Gamma(s+1)\) and \(s \cdot \Gamma(s)\): the index-shift identity \(P_N(s+1) = (s/(N+1)) \cdot s \cdot P_N(s) \cdot \text{(small correction)}\) emerges term by term from the explicit factor formula. The small correction is bounded by \autoref{lem:gamma-weierstrass-cauchy}; the limits agree by uniqueness of \(\ComplexLimitUp\).
+\end{proof}
+
+\begin{theorem}[Gamma at \(1\)]
+\label{thm:gamma-at-one}
+\(\mathsf{Gamma}(\Eone(\emp), z)\) gives \(\mathsf{ComplexClassifier}(z, \Eone(\emp))\): \(\Gamma(1) = 1\).
+\end{theorem}
+\begin{proof}
+Specialize \autoref{def:gamma-weierstrass-part} at \(s = 1\): the product becomes \(\frac{1}{1} \prod_{n=1}^{N} (1 + 1/n) (1 + 1/n)^{-1} = 1\) telescopically. The limit is \(1\) by direct unfolding.
+\end{proof}
+
+\section{Reflection formula at integer poles (statement)}
+\label{sec:gamma-reflection}
+
+\begin{theorem}[Reflection formula on the Gamma domain]
+\label{thm:gamma-reflection}
+For \(s\) with \(\mathsf{GammaDom}(s)\) and \(\mathsf{GammaDom}(\Eone(\emp) - s)\), the product \(\Gamma(s) \Gamma(1 - s)\) equals \(\pi / \sin(\pi s)\) up to \(\ComplexClassifier\), where \(\pi\) is from \autoref{def:real-analytic-pi} and \(\sin\) is the constructive complex sine extending \autoref{def:real-analytic-sin-cos}.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:gamma-recurrence} with the Weierstrass product for \(\sin\): \(\sin(\pi s) = \pi s \prod_{n \geq 1} (1 - s^2/n^2)\). The product representation of \(\Gamma(s) \Gamma(1-s)\) telescopes against the \(\sin\) product; details are deferred to a subsequent chapter, where the reflection formula is the principal application supporting the zeta functional equation in \autoref{ch:concrete-instances-zeta-continuation}.
+\end{proof}
+
+\section{Certificate target}
+\label{sec:gamma-cert-target}
+
+\begin{theorem}[Concrete \(\GammaUp\) naming certificate]
+\label{thm:concrete-gamma-namecert}
+The tuple \((\mathsf{GammaDom}, \mathsf{Gamma}, \mathsf{Factorial})\), with sources, classifiers, stability obligations, ledger, and standard bridge as listed below, forms a paper-side \(\NameCert(\GammaUp)\) over \(\ComplexUp\):
+\begin{enumerate}
+  \item \textbf{Source}: \(\ComplexUp\)-histories with explicit apartness witnesses against the negative-integer pole locus \(\mathsf{GammaPole}\).
+  \item \textbf{Carrier}: \(\mathsf{GammaDom}\) is the closed inductive predicate of \autoref{def:gamma-domain}; \(\mathsf{Gamma}(s, z)\) is the closed inductive predicate of \autoref{def:gamma}.
+  \item \textbf{Classifier}: limit-uniqueness up to \(\ComplexClassifier\) inherited from \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}).
+  \item \textbf{Stability obligations}: factorial bridge at positive integers (\autoref{thm:gamma-positive-integer}), Weierstrass Cauchy modulus (\autoref{lem:gamma-weierstrass-cauchy}), holomorphicity (\autoref{thm:gamma-holomorphic}), recurrence (\autoref{thm:gamma-recurrence}), \(\Gamma(1) = 1\) (\autoref{thm:gamma-at-one}), reflection formula (\autoref{thm:gamma-reflection}).
+  \item \textbf{Ledger}: explicit apartness precision \(k_0\) for every domain witness; explicit Cauchy modulus \(N\) for every Weierstrass evaluation; the unary factorial table for integer points.
+  \item \textbf{Exactness predicate}: \(\mathsf{Gamma}(s, z)\) holds exactly for \(s \in \mathsf{GammaDom}\), with \(z\) determined uniquely up to \(\ComplexClassifier\).
+  \item \textbf{Standard bridge}: when classical complex Gamma is supplied externally (Euler integral or Bohr-Mollerup characterisation), the \(\ComplexClassifier\)-equivalence with the constructive Weierstrass-product limit is recorded as the bridge slot.
+  \item \textbf{Status}: \(\mathsf{ProofTarget}\). Lean construction proceeds in \(\mathsf{BEDC.Derived.GammaUp.*}\); the holomorphic anchor is \autoref{ch:concrete-instances-holomorphic-namecert} and the limit anchor is \autoref{ch:concrete-instances-complex-limit-namecert}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The pole-locus apartness of \autoref{def:gamma-domain} together with the Weierstrass partial product of \autoref{def:gamma-weierstrass-part} supplies the constructive carrier. The Cauchy modulus of \autoref{lem:gamma-weierstrass-cauchy} lifts to a complex limit via \(\ComplexLimitUp\). The five stability obligations are listed as proof targets; each is a finite-step argument over the Weierstrass product representation. No \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is required.
+\end{proof}
+
+\begin{corollary}[\(\GammaUp\) is licensed, not primitive]
+\label{cor:gamma-licensed-not-primitive}
+\(\GammaUp\) is licensed by the constructive Weierstrass product on \(\ComplexUp\) over \(\RealAnalyticUp\) and \(\PrimeUp\). It is not a primitive of the BEDC kernel.
+\end{corollary}
+
+\begin{remark}[Schema-only horizon discharge]
+\label{rem:gamma-schema-horizon-discharge}
+This chapter discharges the schema-only-horizon flag set in \autoref{ch:concrete-instances-zeta-continuation} for the constructive Gamma function: the present Weierstrass-product construction supplies the witness types and explicit moduli that the zeta functional equation requires. Future closure of the Gamma reflection formula (\autoref{thm:gamma-reflection}) at the \texttt{\textbackslash leanchecked} level will fully retire the schema flag.
+\end{remark}

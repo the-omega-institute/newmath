@@ -33,6 +33,23 @@ theorem CategoryHomCarrier_empty_composite_iff {a b c f g : BHist} :
     cases emptyData.right.left
     rfl
 
+theorem CategoryHomCarrier_e1_endpoint_empty_composite_iff {a b c f g : BHist} :
+    CategoryHomCarrier (BHist.e1 a) b f -> CategoryHomCarrier b (BHist.e1 c) g ->
+      (Cont f g BHist.Empty <->
+        hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a c) := by
+  intro left right
+  constructor
+  · intro comp
+    have emptyData := (CategoryHomCarrier_empty_composite_iff left right).mp comp
+    have sameEndpoints : hsame (BHist.e1 a) (BHist.e1 c) :=
+      hsame_trans emptyData.right.right.left emptyData.right.right.right
+    exact And.intro emptyData.left
+      (And.intro emptyData.right.left (hsame_e1_iff.mp sameEndpoints))
+  · intro emptyData
+    cases emptyData.left
+    cases emptyData.right.left
+    rfl
+
 theorem CategoryHomCarrier_empty_composite_identity_factors_iff {a b c f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
       (Cont f g BHist.Empty <->

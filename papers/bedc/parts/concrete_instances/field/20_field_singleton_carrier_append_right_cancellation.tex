@@ -1,0 +1,149 @@
+\begin{theorem}[Field singleton carrier append right cancellation]
+\label{thm:field-singleton-carrier-append-right-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton carrier
+$A_{\emp}$, then appending $P$ on the right preserves and reflects
+singleton-carrier membership:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(Q,P))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is the assertion of history-sameness to $\emp$. In the
+forward direction, empty-result inversion for append splits
+$\mathsf{append}(Q,P)\hsame\emp$ and exposes the $Q\hsame\emp$ component. In
+the reverse direction, combine $Q\hsame\emp$ with the displayed carrier
+witness for $P$ and rebuild the empty append witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Field singleton carrier append right nonempty contradiction]
+\label{thm:field-singleton-carrier-append-right-nonempty-absurd}
+For histories $h,k:\mathsf{BHist}$, if the appended history lies in the
+singleton carrier, then the right factor cannot be nonempty:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,k))\Rightarrow
+(\HSame(k,\emp)\to\bot)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier unfolds to $\HSame(\mathsf{append}(h,k),\emp)$.
+Empty-append inversion splits this into $h\hsame\emp$ and $k\hsame\emp$.
+The right component contradicts the displayed nonempty right-factor
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_nonempty\_absurd}
+
+\begin{theorem}[Field singleton carrier append left cancellation]
+\label{thm:field-singleton-carrier-append-left-cancel}
+For histories $P,Q:\mathsf{BHist}$, if $P$ lies in the singleton carrier
+$A_{\emp}$, then appending $P$ on the left preserves and reflects
+singleton-carrier membership:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\bigl(
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(P,Q))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(Q)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier asserts history-sameness to $\emp$. In the forward
+direction, empty-result inversion for append splits
+$\mathsf{append}(P,Q)\hsame\emp$ and exposes the $Q\hsame\emp$ component. In
+the reverse direction, combine the carrier witness for $P$ with
+$Q\hsame\emp$ and rebuild the empty append witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Field singleton carrier append left-context semantic name certificate]
+\label{thm:field-singleton-carrier-append-left-context-semantic-namecert}
+For a singleton carrier context $p$, the predicate
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(p,h))$ carries a
+semantic naming certificate whose classifier compares the contextualized
+endpoints by the field singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(p)\Longrightarrow
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(p\cdot h)\bigr)
+\bigl(h,k\mapsto\mathsf{FieldSingletonClassifier}(p\cdot h,p\cdot k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The empty history is inhabited after the left context because
+$p\hsame\emp$. The classifier fields are the singleton carrier evidence on
+both contextualized endpoints together with their $\hsame$ comparison.
+Reflexivity, symmetry, and transitivity are inherited from $\hsame$, and
+carrier transport is the classified right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_left\_context\_semanticNameCert}
+
+\begin{theorem}[Field singleton carrier append right-context semantic name certificate]
+\label{thm:field-singleton-carrier-append-right-context-semantic-namecert}
+For a singleton carrier context $p$, the predicate
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,p))$ carries a
+semantic naming certificate whose classifier compares the contextualized
+endpoints by the field singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(p)\Longrightarrow
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h\mapsto\mathsf{FieldSingletonCarrier}(h\cdot p)\bigr)
+\bigl(h,k\mapsto\mathsf{FieldSingletonClassifier}(h\cdot p,k\cdot p)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The empty history is inhabited because $\emp\cdot p$ is the same history as
+$p$, and $p$ is carried to $\emp$. The classifier equivalence laws are exactly
+the reflexive, symmetric, and transitive laws of $\hsame$ wrapped with the two
+contextual carrier witnesses. Carrier transport is obtained from the
+classifier evidence at the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_right\_context\_semanticNameCert}
+
+\begin{theorem}[Field singleton carrier append commutation]
+\label{thm:field-singleton-carrier-append-comm}
+For histories $h,k:\mathsf{BHist}$, the singleton carrier is insensitive to
+the order of an append pair:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(h,k))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is history-sameness to $\emp$. Empty-append inversion
+splits $\mathsf{append}(h,k)\hsame\emp$ into $h\hsame\emp$ and
+$k\hsame\emp$. Reversing the two components rebuilds
+$\mathsf{append}(k,h)\hsame\emp$, and the converse is symmetric.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_comm\_iff}
+
+\begin{theorem}[Field singleton classifier append commutation congruence]
+\label{thm:field-singleton-classifier-append-comm-congruence}
+For histories $h,h',k,k':\mathsf{BHist}$, two singleton classifier witnesses
+for $(h,h')$ and $(k,k')$ rebuild a classifier after commuting the appended
+endpoints:
+$$
+\mathsf{FieldSingletonClassifier}(h,h')\Rightarrow
+\mathsf{FieldSingletonClassifier}(k,k')\Rightarrow
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(h,k),\mathsf{append}(k',h')).
+$$
+\end{theorem}
+\begin{proof}
+Each classifier witness contains singleton-carrier evidence for both of its
+endpoints. Empty-append inversion rebuilds a singleton carrier for
+$\mathsf{append}(h,k)$ from the source endpoints and for
+$\mathsf{append}(k',h')$ from the target endpoints. Since both appended
+histories are carried to $\emp$, transitivity through $\emp$ supplies the
+classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_comm\_congr}

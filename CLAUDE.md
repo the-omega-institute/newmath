@@ -162,6 +162,50 @@ python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Clas
 
 ---
 
+# Codex pipeline 协作纪律
+
+`codex-auto-dev` 分支上常驻并行 codex worker (`lean4/scripts/codex_formalize.py` + `papers/bedc/scripts/codex_revise.py`), 每个 worker 周期性 fetch / rebase 远端然后 push 自己的小 commit.
+
+## 核心规则: 单 commit 原子提交 + merge 不 rebase
+
+**人工提交一律单 commit 原子打包**, 涉及多少文件无所谓. 永远不要把"HOT 文件改动"和"新文件"拆成两个 commit —— 那会让 commit A 在远端处于编译失败的中间状态 (e.g. `_index_files.tex` 引用还没被 push 的章节文件), CI 跑一次失一次, codex worker 拉到那一刻也会 build fail.
+
+每个 commit 必须 *自己就编译干净*. 这是底线, 优先级高于 worker 冲突优化.
+
+## 同步远端: 一律用 git merge, 不用 rebase
+
+push 被拒绝 (远端有新 commit) 时, 不要 `git pull --rebase` 也不要 `git pull` (默认 merge 但行为不显式). 用:
+
+```bash
+git fetch origin <branch>
+git merge origin/<branch>      # 生成 merge commit, 远端 codex commit 和本地 commit 都保留原样
+git push origin <branch>
+```
+
+**禁止 `git pull --rebase`** —— 落后远端多个 codex 小 commit 时, rebase 把你的 local commit 在每个 codex commit 上重 apply 一遍, 一个冲突就让一长串 commit 进入 rebase-conflict 状态.
+
+**禁止 `git reset --hard origin/<branch>`** 当本地有未推送 commit 时 —— 直接丢工作.
+
+未 commit 的 working tree 改动, 用 `git stash -u` → `git pull --ff-only origin <branch>` → `git stash pop`. (这个场景也 OK 用 merge, 但 ff-only 更轻.)
+
+## push 前活跃度检查
+
+```bash
+gh run list --branch codex-auto-dev --limit 5
+```
+
+若有 ≥ 2 个 `in_progress` run, 等到只剩 0-1 个再 push. 高负载时段大 commit 跟 worker 撞上会让 worker 一窝蜂 rebase 失败 —— 等一个安静窗口再发.
+
+## worker 冲突由 worker 端 codex 兜底处理
+
+worker 现在 (≥ 2026-05-03) 已经有 `693fb128` / `001d0c3d` / `0cdf518c` 三个 fix: rebase 冲突 abort + stash pop, 留脏调 codex 兜底, PID-lock 防双 orchestrator. 大 commit 撞 worker 不再是灾难, 顶多 worker 当轮重试. 你这边责任只是 *atomic commit + merge sync + 选安静窗口*.
+
+## 历史教训
+
+2026-05-03 RH 路线图 commit (`da6e6e10`, 16 文件 / 2108 行) 撞上并行 worker 触发 rebase 风暴, 三个 fix commit 上线后才稳. 当时一度想用"HOT 文件单独 commit + 等 30 秒 + 内容文件 commit"两步法防御, 但那做法会让 commit A 处于编译失败状态 (引用了未 push 的章节文件), 反而更糟. 正确教训是: 单 commit 原子, merge 不 rebase, 选安静窗口.
+
+---
+
 # The Omega 科研宪章
 
 ## I. 第一性原理优先

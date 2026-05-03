@@ -1,7 +1,70 @@
 \chapter{Real Completeness via Regular Cauchy Sequences}
 \label{ch:capstones-real-completeness}
 
-This capstone closes the analytical layer of BEDC by upgrading the real naming certificate $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}) from a pointwise carrier to a complete one in the Bishop sense, using only the rational rig developed for $\NameCert_{\RatUp}$ (\autoref{ch:concrete-instances-rat-namecert}). The chapter defines a regular Cauchy sequence over $\RegSeqRat$ as a sequence of regular rational sequences together with an explicit modulus of convergence, gives a concrete construction of the limit modulus and the limit $\RegSeqRat$ representative by diagonal extraction, and assembles these into a $\RealUp$ name certificate. Existence and uniqueness of the limit are then stated as a single theorem on $\NameCert_{\RealUp}$, with uniqueness up to the standard $\psame$ equivalence on naming certificates, and the construction is reused later as the underlying limit step for the continuous certificate $\NameCert_{\Cont}$ (\autoref{ch:concrete-instances-continuous-namecert}). The construction is fully constructive: every modulus is given as an explicit function on naturals and rationals, no real number is identified with an equivalence class, and the corresponding Lean development uses neither $\mathsf{Classical.choice}$ nor $\mathsf{Quot.sound}$ nor $\mathsf{propext}$, so the chapter's targets fall under the project's axiom-purity gate.
+This capstone records the conditional analytical target for the Phase Real and Completion milestone of \autoref{sec:roadmap-l10-construction-order}. It treats the real naming certificate $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}) as complete in the Bishop sense only after the DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp certificate obligations are available at machine-checked strength. The chapter defines a regular Cauchy sequence over $\RegSeqRat$ as a sequence of regular rational sequences together with an explicit modulus of convergence, gives the intended limit modulus and $\RegSeqRat$ representative by diagonal extraction, and records the uniqueness criterion up to the standard $\psame$ equivalence on naming certificates. The construction is fully constructive as a proof target: every modulus is an explicit function on naturals and rationals, no real number is identified with an equivalence class, and the required Lean target is expected to use neither $\mathsf{Classical.choice}$ nor $\mathsf{Quot.sound}$ nor $\mathsf{propext}$.
 
 \section{Regular Cauchy sequences and their limits}
 \label{sec:real-completeness-regular-cauchy}
+
+\begin{definition}[Regular sequence over $\RatUp$]
+\label{def:real-completeness-regular-rat-sequence}
+A \emph{regular sequence} over $\NameCert_{\RatUp}$ is a function $x \colon \mathbb{N} \to \mathbb{Q}$ together with the explicit regularity witness
+$$ \forall\, m, n \in \mathbb{N}, \quad |x_m - x_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+The carrier $\RegSeqRat$ of \autoref{ch:concrete-instances-real-namecert} packages such pairs as a closed inductive over $\NameCert_{\RatUp}$ data, with $\RealClassifier$ the $\psame$ closure that identifies two regular sequences whose pointwise difference shrinks at the regularity rate.
+\end{definition}
+
+\begin{definition}[Regular Cauchy sequence over $\RegSeqRat$]
+\label{def:real-completeness-regular-cauchy-rat}
+A \emph{regular Cauchy sequence} of regular rational sequences is a function $X \colon \mathbb{N} \to \RegSeqRat$ together with an explicit modulus $\mu \colon \mathbb{Q}_{>0} \to \mathbb{N}$ such that, for every $\varepsilon \in \mathbb{Q}_{>0}$ and every $m, n \ge \mu(\varepsilon)$, the regular rational sequence $X_m - X_n$ (computed pointwise on representatives) lies inside the $\varepsilon$-ball at $0$ in the sense of $\NameCert_{\RegSeqRat}$.
+\end{definition}
+
+\begin{definition}[Diagonal limit representative]
+\label{def:real-completeness-diagonal-limit}
+The \emph{diagonal limit representative} of $(X, \mu)$ is the rational sequence $L \colon \mathbb{N} \to \mathbb{Q}$ given by
+$$ L_n \;=\; \big(X_{\mu(1/(n+1))}\big)_{\,\mu(1/(n+1)) + n + 1}, $$
+that is, the value at index $\mu(1/(n+1)) + n + 1$ of the $\mu(1/(n+1))$-th member of the Cauchy sequence. The construction is primitive recursion on $n$ together with $\NameCert_{\RatUp}$ arithmetic on the indices.
+\end{definition}
+
+\begin{theorem}[Diagonal limit is a regular sequence]
+\label{thm:real-completeness-diagonal-regular}
+The diagonal limit representative $L$ of \autoref{def:real-completeness-diagonal-limit} is a regular sequence in the sense of \autoref{def:real-completeness-regular-rat-sequence}: for every $m, n \in \mathbb{N}$,
+$$ |L_m - L_n| \;\le\; \tfrac{1}{m+1} + \tfrac{1}{n+1}. $$
+\end{theorem}
+
+\begin{proof}[Sketch]
+Fix $m \le n$. Bound $|L_m - L_n|$ by triangle inequality through three intermediate points: the value of $X_{\mu(1/(m+1))}$ at the diagonal index, the value of $X_{\mu(1/(n+1))}$ at the same index, and the value at $L_n$'s diagonal index. The first and third differences are controlled by the regularity of the constituent regular sequences (\autoref{def:real-completeness-regular-rat-sequence}); the middle difference is controlled by the Cauchy modulus $\mu$ (\autoref{def:real-completeness-regular-cauchy-rat}). Each bound is at most $1/(m+1) + 1/(n+1)$ after a one-line rational arithmetic step.
+\end{proof}
+
+\section{The limit theorem}
+\label{sec:real-completeness-limit-theorem}
+
+\begin{theorem}[Real completeness proof target over $\RegSeqRat$]
+\label{thm:real-completeness-limit-exists-unique}
+Assume that the DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp certificate obligations of Phase Real and Completion are supplied at machine-checked strength. For every regular Cauchy sequence $(X, \mu)$ over $\RegSeqRat$, the diagonal representative $L$ of \autoref{def:real-completeness-diagonal-limit} is the Bishop-style limit candidate: it is a regular sequence by \autoref{thm:real-completeness-diagonal-regular}, and the assignment $(X, \mu) \mapsto [L]$ into the supplied $\NameCert_{\RealUp}$ satisfies
+$$ \forall\, n \in \mathbb{N}, \quad |X_n - L| \;\le\; \tfrac{2}{n+1} $$
+in the metric of $\NameCert_{\RealUp}$. The limit candidate is unique up to the $\psame$-equivalence underlying $\NameCert_{\RealUp}$: if $L'$ is another regular sequence with the same convergence bound, then $L \,\psame\, L'$ as elements of $\NameCert_{\RealUp}$.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Under the stated certificate obligations, the convergence bound is an unfolding of the supplied definitions. At scale $n$, the diagonal index is at least $\mu(1/(n+1))$, so the regular Cauchy modulus controls $X_n$ against $X_{\mu(1/(n+1))}$, and the diagonal-index regularity (\autoref{thm:real-completeness-diagonal-regular}) controls $X_{\mu(1/(n+1))}$ against $L$.
+
+The uniqueness assertion is the $\psame$ closure on the supplied $\NameCert_{\RealUp}$ applied to the difference $L - L'$. Its pointwise size is bounded by $4/(n+1)$ for every $n$, hence shrinks at the regularity rate, hence is identified with $0$ by the supplied $\RealClassifier$.
+\end{proof}
+
+\section{Constructive content and axiom purity}
+\label{sec:real-completeness-axiom-purity}
+
+\begin{remark}[Explicit moduli throughout]
+\label{rem:real-completeness-explicit-moduli}
+Every modulus appearing in \autoref{def:real-completeness-regular-cauchy-rat}, \autoref{def:real-completeness-diagonal-limit}, and \autoref{thm:real-completeness-limit-exists-unique} is specified as a function on naturals and rationals computed by primitive recursion on the inductive carriers of \autoref{ch:concrete-instances-rat-namecert}. The required proof obligations are exactly the certificate-level regularity, convergence, and $\psame$-closure facts that avoid quotienting an equivalence relation by a host-level $\Quot$-soundness step. These obligations are the axiom-pure targets for the later machine-checked real-completion layer.
+\end{remark}
+
+\begin{remark}[Reuse for the continuous certificate]
+\label{rem:real-completeness-reuse-continuous}
+The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit}) identifies the limit step expected by the continuous certificate $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}). A continuous function on $\NameCert_{\RealUp}$ is, in BEDC, a function on $\RegSeqRat$ together with an explicit pointwise modulus; once the real-completion obligations are checked, downstream continuity certificates can consume the same diagonal regularity bound. The reuse is structural, not a separate construction.
+\end{remark}
+
+\begin{remark}[Composition with the compact uniform-continuity capstone]
+\label{rem:real-completeness-compact-composition}
+After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:capstones-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
+\end{remark}

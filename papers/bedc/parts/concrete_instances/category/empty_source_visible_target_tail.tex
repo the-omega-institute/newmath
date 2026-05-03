@@ -1,0 +1,60 @@
+\begin{theorem}[Continuation morphism empty-source one-headed target tail iff]
+\label{thm:continuation-morphism-empty-source-e1-target-tail}
+For histories $r,k:\mathsf{BHist}$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\emp,\Eone(r))$, the displayed tail of $m$
+has one-headed payload $k$ exactly when the target payload is $k$:
+$$
+\hsame(\mathsf{tail}(m),\Eone(k))
+\Longleftrightarrow
+\hsame(r,k).
+$$
+\end{theorem}
+\begin{proof}
+The empty-source tail target exactness identifies $\mathsf{tail}(m)$ with
+$\Eone(r)$. In the forward direction, compose this equality with the displayed
+tail equality and invert the one-headed constructor. Conversely, lift
+$r\hsame k$ through the one-headed constructor and compose with the tail-target
+exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_e1\_target\_tail\_iff}
+
+\begin{theorem}[Continuation morphism empty-source zero-headed target tail iff]
+\label{thm:continuation-morphism-empty-source-e0-target-tail}
+For histories $r,k:\mathsf{BHist}$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\emp,\Ezero(r))$, the displayed tail of $m$
+has zero-headed payload $k$ exactly when the target payload is $k$:
+$$
+\hsame(\mathsf{tail}(m),\Ezero(k))
+\Longleftrightarrow
+\hsame(r,k).
+$$
+\end{theorem}
+\begin{proof}
+The empty-source tail target exactness identifies $\mathsf{tail}(m)$ with
+$\Ezero(r)$. In the forward direction, compose this equality with the displayed
+tail equality and invert the zero-headed constructor. Conversely, lift
+$r\hsame k$ through the zero-headed constructor and compose with the tail-target
+exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_empty\_source\_e0\_target\_tail\_iff}
+
+\begin{theorem}[Category empty-source one-headed target payload exactness]
+\label{thm:category-empty-source-e1-target-payload}
+For histories $r,k$, an empty-source hom-carrier into the one-headed target
+$\Eone(r)$ with displayed one-headed morphism $\Eone(k)$ is exactly unary
+membership of the target payload together with payload sameness:
+$$
+\mathsf{CategoryHomCarrier}(\emp,\Eone(r),\Eone(k))
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(r)\wedge\hsame(k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-source hom-carrier exactness to read back unary membership of
+$\Eone(r)$ and sameness $\hsame(\Eone(k),\Eone(r))$. Unary one-headed inversion
+and one-headed sameness inversion expose the payload data. Conversely, unary
+closure under $\Eone$ and one-headed congruence rebuild the target carrier and
+the displayed morphism-target sameness, so empty-source exactness reconstructs
+the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_e1\_target\_payload\_iff}

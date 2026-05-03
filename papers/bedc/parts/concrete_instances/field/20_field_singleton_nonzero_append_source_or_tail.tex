@@ -1,0 +1,20 @@
+\begin{theorem}[Singleton empty nonzero append source or tail]
+\label{thm:field-singleton-empty-nonzero-append-source-or-tail}
+For histories $P,Q:\mathsf{BHist}$, if the appended history is in the
+classifier-complement singleton nonzero predicate, then the source or the tail
+is also in that predicate:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(P,Q))
+\Rightarrow
+\mathsf{fieldSingletonEmptyNonZero}(P)\vee
+\mathsf{fieldSingletonEmptyNonZero}(Q).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the source history $P$. If $P=\emp$, a forbidden classifier witness for
+$Q$ rebuilds a forbidden classifier witness for $\mathsf{append}(P,Q)$ by the
+left unit law for append. If $P$ is zero-headed or one-headed, BEDC constructor
+separation prevents $P$ from lying in the singleton empty classifier, giving
+the source-side nonzero predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_source\_or\_tail}

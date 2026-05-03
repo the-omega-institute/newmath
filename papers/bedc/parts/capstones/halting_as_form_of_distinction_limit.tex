@@ -6,8 +6,51 @@ Reading the form of distinction (\autoref{def:form-of-distinction}) as the primi
 \section{Halting as fixed-point obstruction}
 \label{sec:halting-as-form-of-distinction-fixed-point}
 
+\begin{definition}[Termination of a $\Cont$-chain]
+\label{def:halting-termination}
+The $\Cont$-chain from $h$ in $\NameCert_{P}$ \emph{terminates} when there exists a finite list of marks $[m_1, \ldots, m_n]$ and a sequence $h = h_0, h_1, \ldots, h_n$ with $\Cont_P\,h_i\,m_{i+1}\,h_{i+1}$ for $0 \le i < n$ and no $m, h'$ with $\Cont_P\,h_n\,m\,h'$. Termination is a positive existential at the kernel level.
+\end{definition}
+
+\begin{definition}[Halting predicate]
+\label{def:halting-predicate}
+A \emph{halting predicate} is a naming certificate $\NameCert_H$ over the carrier $\mathcal{C} \times \Hist$ of pairs (certificate, history) whose $\Ext_H$ on $(\NameCert_P, h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates in the sense of \autoref{def:halting-termination}, and whose $\Cont_H$ supplies the kernel-level evidence required by the certificate framework.
+\end{definition}
+
 \begin{theorem}[Undecidability of halting via fixed point of the form of distinction]
 \label{thm:halting-as-form-of-distinction-fixed-point}
 There is no naming certificate $\NameCert_{H}$ over the carrier of all naming certificates whose extension predicate $\Ext_{H}$ decides, for arbitrary $\NameCert_{P}$ and $h$, whether $\Cont$ in $\NameCert_{P}$ terminates from $h$. The obstruction is a Tarski-style fixed-point construction: the assumption of such $\NameCert_{H}$ produces a self-referential certificate whose extension contradicts itself, in direct analogy with G\"odel's incompleteness witness (\autoref{rem:incompleteness-downstream}). The negative result is the open-meta-loop counterpart of the closed ground loop in \autoref{thm:two-loops}: the form of distinction must close at the bottom for BEDC to start, and the same closure forbids any classifier that deciding all its downstream behaviours.
 \leanstmt{BEDC.Reflection.halting\_as\_form\_of\_distinction\_fixed\_point}
 \end{theorem}
+
+\begin{proof}[Sketch]
+Assume a halting predicate $\NameCert_H$ as in \autoref{def:halting-predicate}. Construct the diagonal certificate $\NameCert_D$ over $\mathcal{C}$ whose continuation on input $\NameCert_P$ is: ``run the halting predicate on $(\NameCert_P, h_0)$ for the canonical empty history $h_0$ of $\NameCert_P$; if it reports termination, do not terminate; if it reports non-termination, terminate immediately''. Apply $\NameCert_D$ to itself. If $\NameCert_H$ reports termination on $(\NameCert_D, h_0)$, the diagonal certificate runs forever, contradicting the report. If $\NameCert_H$ reports non-termination, the diagonal certificate halts at the first step, again contradicting the report. The contradiction destroys the assumed $\NameCert_H$ at the certificate level.
+\end{proof}
+
+\section{Halting as open-meta-loop closure}
+\label{sec:halting-meta-loop-closure}
+
+\begin{theorem}[Halting decidability is open-meta-loop closure]
+\label{thm:halting-meta-loop-closure}
+Accepting a halting predicate as in \autoref{def:halting-predicate} closes the open meta loop of \autoref{ch:capstones-reflection-and-limits} at the certificate stratum: it supplies a $\NameCert$-level decision for a predicate over the carrier of all naming certificates, which is precisely the stratum the meta loop refuses to settle.
+\end{theorem}
+
+\begin{proof}[Sketch]
+A halting predicate is, by \autoref{def:halting-predicate}, a $\NameCert$-level decision procedure indexed by the certificate-of-certificates carrier $\mathcal{C}$. By the unification theorem of \autoref{thm:reasoning-forbidden-implements-meta-closure}, supplying a $\NameCert$-level decision indexed by $\mathcal{C}$ closes the open meta loop. The diagonal contradiction of \autoref{thm:halting-as-form-of-distinction-fixed-point} is the kernel-level witness that the closure is inconsistent.
+\end{proof}
+
+\section{Connection to the form of distinction}
+\label{sec:halting-form-of-distinction}
+
+\begin{theorem}[Halting irreducibility is form-of-distinction irreducibility at the meta level]
+\label{thm:halting-form-of-distinction-meta}
+The irreducibility of the halting predicate (\autoref{thm:halting-as-form-of-distinction-fixed-point}) is the meta-level reading of the irreducibility of the form of distinction (\autoref{thm:form-of-distinction-irreducible}): both assert that no kernel-level classifier reduces a certain primitive distinction to anything strictly simpler. The form of distinction is the irreducible primitive at the constructor stratum (telling $\bzero$ and $\bone$ apart); halting is the irreducible primitive at the certificate stratum (telling terminating from non-terminating $\Cont$-chains apart).
+\end{theorem}
+
+\begin{proof}[Sketch]
+\autoref{thm:form-of-distinction-irreducible} shows that any classifier $\sim$ on a carrier $G$ presupposes the form of distinction in its very statement. Read $G$ as $\mathcal{C}$ and $\sim$ as the would-be halting classifier: deciding whether $(\NameCert_P, h) \sim (\NameCert_Q, k)$ in the sense of having the same termination status is an instance of the form of distinction at the certificate stratum. The halting irreducibility is therefore the form-of-distinction irreducibility specialised to $G = \mathcal{C}$ and $\sim$ = halting equivalence; the diagonal contradiction is the explicit witness that this instance does not collapse.
+\end{proof}
+
+\begin{remark}[Two-loops architecture]
+\label{rem:halting-two-loops}
+\autoref{thm:halting-as-form-of-distinction-fixed-point} and \autoref{thm:form-of-distinction-irreducible} sit on the two opposite faces of \autoref{thm:two-loops}: the form of distinction must close at the bottom for the kernel to start (closed ground loop), and the same closure forbids halting decidability at the top (open meta loop). The two-loops structure is, read through this chapter, the discipline that the closure paid at the bottom is the closure refused at the top.
+\end{remark}

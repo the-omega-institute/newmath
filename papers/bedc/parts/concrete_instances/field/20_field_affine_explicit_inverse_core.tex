@@ -100,7 +100,93 @@ theorem: \autoref{thm:field-affine-two-sided-certified-automorphism}. Exactness
 predicate: inverse-pair plus classifier iff. Standard bridge: deferred. Status:
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Field affine inverse coefficients are derived]
+\label{thm:field-affine-inverse-coefficients-derived}
+For a BEDC history-level $\FieldUp$ candidate with associative multiplication,
+left and right unit laws, multiplication congruence, zero-left multiplication,
+indexed left inverse laws, one-apartness from $\emp$, and conversion from
+apartness from $\emp$ to $\mathsf{NonZero}_F$, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$. Then there are
+derived witnesses
+$p_A:\mathsf{NonZero}_F(\mathsf{inv}(a,p_a))$ and
+$p_B:\mathsf{NonZero}_F(\mathsf{inv}(b,p_b))$ such that
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_A)\hsame a
+\qquad\text{and}\qquad
+\mathsf{inv}(\mathsf{inv}(b,p_b),p_B)\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+Apply inverse nonzero from one-apartness to $p_a$ and $p_b$ separately. The
+two resulting nonzero witnesses make the inverse coefficients admissible
+inputs to the indexed inverse operation. For each coefficient, apply
+left-right inverse uniqueness to the pair consisting of the inverse law for
+the inverse coefficient and the inverse law for the original coefficient.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_inverse\_coefficients\_derived}
+
+\begin{theorem}[Field affine inverse offset empty normal form]
+\label{thm:field-affine-inverse-offset-empty-normal-form}
+For a BEDC history-level $\FieldUp$ candidate with multiplication
+associativity and congruence, addition congruence, and the two distributivity
+laws, every $a,b,c,d:\mathsf{BHist}$ with witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{mul}(\mathsf{inv}(a,p_a),
+    \mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),
+      \mathsf{inv}(b,p_b))),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{add}(
+    \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),c),
+      \mathsf{inv}(b,p_b)),
+    \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{neg}(d)),
+      \mathsf{inv}(b,p_b))),\emp).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Reassociate multiplication so the left inverse coefficient acts directly on
+$c+\mathsf{neg}(d)$. Left distributivity separates the two summands, right
+distributivity carries the final right multiplication by the inverse of $b$
+through the separated sum, and addition congruence preserves the empty
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_inverse\_offset\_empty\_normal\_form}
+
+\begin{lemma}[Field affine inverse empty-offset normal form]
+\label{lem:field-affine-inverse-empty-offset-normal-form}
+For a BEDC history-level $\FieldUp$ candidate with right identity for the
+additive empty endpoint, multiplication associativity and congruence, addition
+congruence, and the two distributivity laws, every
+$a,b,c,d:\mathsf{BHist}$ with witnesses \(p_a:\mathsf{NonZero}_F(a)\) and
+\(p_b:\mathsf{NonZero}_F(b)\) satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{mul}(\mathsf{inv}(a,p_a),
+    \mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),
+      \mathsf{inv}(b,p_b))),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),c),
+    \mathsf{inv}(b,p_b)),
+  \mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),\mathsf{neg}(d)),
+    \mathsf{inv}(b,p_b))).
+\end{aligned}
+$$
+\end{lemma}
+\begin{proof}
+First use the inverse offset-empty normal form above to separate the two
+right-multiplied summands and retain the explicit empty endpoint. Then apply
+the additive right-identity law to remove that final empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_inverse\_empty\_offset\_normal\_form}
+
 \begin{theorem}[Field affine certified fibers are singleton classified]
+\label{thm:field-affine-explicit-fiber-classifier}
 \label{thm:field-affine-certified-fiber-singleton}
 Under the hypotheses and notation of
 \autoref{thm:field-affine-two-sided-certified-automorphism}, define
@@ -228,6 +314,89 @@ $\mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)$, and witnesses
 $p_{ca},p_{be}$. The theorem supplies the inverse-pair clauses and classifier
 iff for $C$, so the normalized composite is again certified.
 \end{proof}
+
+\begin{theorem}[Field affine empty-offset composition normal form]
+\label{thm:field-affine-empty-offset-composition-normal-form}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+addition associativity and congruence, multiplication associativity and
+congruence, and the two distributivity laws, every $a,b,c,d,e,x:\mathsf{BHist}$
+satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(c,
+    \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)),e),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(\mathsf{mul}(c,a),x),\mathsf{mul}(b,e)),
+  \mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),\emp)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Distribute the left multiplication by $c$ across the inner affine offset and
+then distribute the right multiplication by $e$ across the resulting sum. This
+separates the $x$-term from the offset term
+$\mathsf{mul}(\mathsf{mul}(c,d),e)$. Multiplication associativity rewrites
+the $x$-term from
+$(c((ax)b))e$ to $((ca)x)(be)$. Addition congruence transports this product
+normal form through the surrounding sum, and addition associativity places the
+empty offset on the final translated component.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_empty\_offset\_composition\_normal\_form}
+
+\begin{theorem}[Field affine empty-offset composition classifier congruence]
+\label{thm:field-affine-empty-offset-composition-classifier-congr}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+addition and multiplication congruence, if the affine coefficients satisfy
+$a\hsame a'$, $b\hsame b'$, $c\hsame c'$, $d\hsame d'$, and $e\hsame e'$,
+then the empty-offset composite expression
+$$
+\mathsf{add}(
+  \mathsf{mul}(\mathsf{mul}(c,
+    \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)),e),\emp)
+$$
+is \(\hsame\)-equivalent to the same expression with the primed coefficients.
+\end{theorem}
+\begin{proof}
+Apply multiplication congruence to the inner product \(\mathsf{mul}(a,x)\)
+using \(x\hsame x\), then to the product with \(b\). Addition congruence
+transports the inner affine offset using \(d\hsame d'\). Two further
+multiplication-congruence steps transport the left factor \(c\) and right
+factor \(e\). The final addition-congruence step uses \(\emp\hsame\emp\) for
+the empty offset.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_empty\_offset\_composition\_classifier\_congr}
+
+\begin{theorem}[Field affine composition right empty normal form]
+\label{thm:field-affine-composition-right-empty-normal-form}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+addition associativity and congruence, multiplication associativity and
+congruence, and the two distributivity laws, every
+$a,b,c,d,e,f,x:\mathsf{BHist}$ satisfies
+$$
+\begin{aligned}
+&\mathsf{add}(
+  \mathsf{add}(
+    \mathsf{mul}(\mathsf{mul}(c,
+      \mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)),e),f),\emp)\\
+&\quad\hsame
+\mathsf{add}(
+  \mathsf{add}(
+    \mathsf{mul}(\mathsf{mul}(\mathsf{mul}(c,a),x),\mathsf{mul}(b,e)),
+    \mathsf{add}(\mathsf{mul}(\mathsf{mul}(c,d),e),f)),\emp).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Distribute the left multiplication by $c$ across the inner affine offset and
+then distribute the right multiplication by $e$ across the resulting sum.
+Multiplication associativity collects the $x$-coefficient as
+$\mathsf{mul}(\mathsf{mul}(c,a),x)$ and the right coefficient as
+$\mathsf{mul}(b,e)$. Addition associativity places the outer offset $f$ on the
+translated component before the empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_composition\_right\_empty\_normal\_form}
 
 Per-object certificate: traditional target affine automorphism composition.
 BEDC source: $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$. Carrier:

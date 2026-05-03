@@ -1,0 +1,91 @@
+\begin{theorem}[Field singleton carrier two-sided context semantic name certificate]
+\label{thm:field-singleton-carrier-two-sided-context-semantic-namecert}
+For histories $L,R:\mathsf{BHist}$, if $L$ and $R$ lie in the field singleton
+carrier, then the two-sided contextual carrier has a semantic name certificate
+whose source, pattern, and ledger predicates are that same contextual carrier,
+and whose classifier compares the two contextualized endpoints by the field
+singleton classifier:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h,k\mapsto
+  \mathsf{FieldSingletonClassifier}
+    (\mathsf{append}(L,\mathsf{append}(h,R)),
+     \mathsf{append}(L,\mathsf{append}(k,R)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Let $C_{L,R}(h)$ denote the displayed two-sided contextual carrier. The
+inhabited point is $h=\emp$: the carrier witnesses for $L$ and $R$, together
+with $\emp\hsame\emp$, rebuild the nested empty append witness for
+$\mathsf{append}(L,\mathsf{append}(\emp,R))$.
+
+For reflexivity, symmetry, and transitivity of the classifier, unpack the
+displayed singleton classifier. Its endpoint carrier fields are precisely the
+instances of $C_{L,R}$ at the endpoints, and the comparison field is an
+$\hsame$ witness between the two contextualized histories. The three laws are
+therefore inherited from reflexivity, symmetry, and transitivity of $\hsame$.
+
+It remains to transport carrier membership along the classifier. Apply
+\autoref{thm:field-singleton-carrier-append-context-empty} to identify
+$C_{L,R}(h)$ with the underlying singleton carrier of $h$, and use
+\autoref{thm:field-singleton-classifier-append-hsame-common-context-cancel}
+with the reflexive context comparisons for $L$ and $R$ to cancel the common
+two-sided context. The transported endpoint carrier repacks into the source,
+pattern, and ledger fields of the required $\mathsf{SemanticNameCert}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_context\_semanticNameCert}
+
+Per-object template: traditional target contextual singleton boundary for
+$\FieldUp$ exits; BEDC source $\mathsf{BHist}$ with $\hsame$ and append;
+carrier choice
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))$;
+classifier choice the displayed contextual $\mathsf{FieldSingletonClassifier}$;
+stability obligations inhabitedness, $\hsame$ equivalence laws, and carrier
+transport under common two-sided context; ledger the same contextual carrier;
+core theorem list
+\autoref{thm:field-singleton-carrier-append-context-empty} and
+\autoref{thm:field-singleton-classifier-append-hsame-common-context-cancel};
+exactness predicate contextual singleton-carrier equivalence; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field singleton two-sided context exactness]
+\label{thm:field-singleton-two-sided-context-exactness}
+For histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{FieldSingletonCarrier}(L)$ and
+$\mathsf{FieldSingletonCarrier}(R)$, then the two-sided singleton context is
+exact for both the carrier and the classifier:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(h).
+$$
+and
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(h,R)),
+   \mathsf{append}(L,\mathsf{append}(k,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Assume carrier witnesses for $L$ and $R$. The carrier equivalence is exactly
+\autoref{thm:field-singleton-carrier-append-context-empty} applied to those
+two witnesses and the middle history $h$.
+
+For the classifier equivalence, apply
+\autoref{thm:field-singleton-classifier-append-hsame-common-context-cancel}
+with the left contexts both equal to $L$ and the right contexts both equal to
+$R$. The required context comparisons are the reflexive witnesses
+$L\hsame L$ and $R\hsame R$, so the cancellation theorem identifies the
+displayed contextual classifier with
+$\mathsf{FieldSingletonClassifier}(h,k)$.
+\end{proof}

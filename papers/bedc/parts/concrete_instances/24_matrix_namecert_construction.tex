@@ -140,6 +140,29 @@ classifier comparison between them.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_pair\_carrier\_iff}
 
+\begin{theorem}[Matrix singleton classifier self-context split]
+\label{thm:matrix-singleton-classifier-self-context-split}
+For histories $a,x,b:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(a,\mathsf{append}(x,a)),b)
+\Longleftrightarrow
+A_{\emp}(a)\land\rho_{\emp}(x,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication splits the source carrier of the classifier twice by
+empty-result inversion for append. This gives the carrier witness for the
+repeated context $a$ and the carrier witness for the middle history $x$; the
+target carrier field and transitivity through $\emp$ rebuild
+$\rho_{\emp}(x,b)$.
+
+Conversely, the carrier for $a$ and the source carrier inside
+$\rho_{\emp}(x,b)$ rebuild the inner and outer empty append endpoints. The
+target carrier is inherited from $\rho_{\emp}(x,b)$, and both endpoints compare
+through the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_self\_context\_split\_iff}
+
 \begin{theorem}[Matrix singleton classifier append-left cancellation]
 \label{thm:matrix-singleton-classifier-append-left-cancellation}
 For histories $P,Q,R:\mathsf{BHist}$,

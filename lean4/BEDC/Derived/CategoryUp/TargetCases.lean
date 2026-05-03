@@ -136,6 +136,32 @@ theorem CategoryHomCarrier_e1_morphism_target_cases {a target k : BHist} :
                             (And.intro (unary_e1_inversion targetCarrier)
                               (And.intro (unary_e1_inversion morphCarrier) tailCont))))
 
+theorem CategoryHomCarrier_e1_morphism_source_target_cases {source target k : BHist} :
+    CategoryHomCarrier source target (BHist.e1 k) ->
+      (source = BHist.Empty /\ target = BHist.e1 k /\ UnaryHistory k) \/
+        (exists a r : BHist, source = BHist.e1 a /\ target = BHist.e1 r /\
+          UnaryHistory a /\ UnaryHistory k /\ UnaryHistory r /\ Cont (BHist.e1 a) k r) := by
+  intro homCarrier
+  cases source with
+  | Empty =>
+      have emptyData :=
+        (CategoryHomCarrier_empty_source_e1_morphism_iff (k := k) (target := target)).mp
+          homCarrier
+      left
+      exact And.intro rfl (And.intro emptyData.left emptyData.right)
+  | e0 a =>
+      exact False.elim (CategoryHomCarrier_e0_source_absurd homCarrier)
+  | e1 a =>
+      have targetData :=
+        (CategoryHomCarrier_e1_source_e1_morphism_target_iff (a := a) (k := k)
+          (target := target)).mp homCarrier
+      cases targetData with
+      | intro r data =>
+          right
+          exact Exists.intro a
+            (Exists.intro r
+              (And.intro rfl data))
+
 theorem CategoryHomCarrier_e1_source_e1_target_morphism_iff {a r morph : BHist} :
     CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) morph ↔
       (morph = BHist.Empty ∧ UnaryHistory a ∧ hsame a r) ∨
@@ -235,6 +261,65 @@ theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_alignment {a r 
       exact False.elim (nonempty (by cases emptyCase.left; exact hsame_refl BHist.Empty))
   | inr visibleCase =>
       exact visibleCase
+
+theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_tail_cont_alignment
+    {a r m n : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) m ->
+      CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) n ->
+        (hsame m BHist.Empty -> False) ->
+          exists k : BHist, exists l : BHist,
+            m = BHist.e1 k /\ n = BHist.e1 l /\ UnaryHistory k /\ UnaryHistory l /\
+              Cont (BHist.e1 a) k r /\ Cont (BHist.e1 a) l r /\ hsame k l := by
+  intro left right nonempty
+  have visibleAlignment :=
+    CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_alignment left right nonempty
+  cases visibleAlignment with
+  | intro k visibleAlignment =>
+      cases visibleAlignment with
+      | intro l visibleData =>
+          cases visibleData with
+          | intro mEq rest =>
+              cases rest with
+              | intro nEq sameTail =>
+                  cases mEq
+                  cases nEq
+                  have leftPayload : UnaryHistory k ∧ Cont (BHist.e1 a) k r := by
+                    have splitLeft :=
+                      (CategoryHomCarrier_e1_source_e1_target_morphism_iff
+                        (a := a) (r := r) (morph := BHist.e1 k)).mp left
+                    cases splitLeft with
+                    | inl emptyCase =>
+                        cases emptyCase.left
+                    | inr visibleCase =>
+                        cases visibleCase with
+                        | intro k' payload =>
+                            cases payload with
+                            | intro morphEq rest =>
+                                cases morphEq
+                                exact And.intro rest.right.left rest.right.right
+                  have rightPayload : UnaryHistory l ∧ Cont (BHist.e1 a) l r := by
+                    have splitRight :=
+                      (CategoryHomCarrier_e1_source_e1_target_morphism_iff
+                        (a := a) (r := r) (morph := BHist.e1 l)).mp right
+                    cases splitRight with
+                    | inl emptyCase =>
+                        cases emptyCase.left
+                    | inr visibleCase =>
+                        cases visibleCase with
+                        | intro l' payload =>
+                            cases payload with
+                            | intro morphEq rest =>
+                                cases morphEq
+                                exact And.intro rest.right.left rest.right.right
+                  exact
+                    Exists.intro k
+                      (Exists.intro l
+                        (And.intro rfl
+                          (And.intro rfl
+                            (And.intro leftPayload.left
+                              (And.intro rightPayload.left
+                                (And.intro leftPayload.right
+                                  (And.intro rightPayload.right sameTail)))))))
 
 theorem CategoryHomCarrier_comp_e1_morphism_target_factor {a b c f g k : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
@@ -355,5 +440,204 @@ theorem CategoryHomCarrier_visible_composable_morphisms_target_cases {a b c l m 
                     (Exists.intro s
                       (And.intro rfl
                         (And.intro cEq (And.intro leftTail (And.intro rightTail comp)))))
+
+theorem CategoryHomCarrier_visible_composable_morphisms_tail_cases {a b c l m k : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) ->
+        ∃ r s : BHist, b = BHist.e1 r ∧ c = BHist.e1 s ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) s m ∧
+            Cont (BHist.e1 l) m k := by
+  intro left right comp
+  have targetCases :=
+    CategoryHomCarrier_visible_composable_morphisms_target_cases left right comp
+  cases targetCases with
+  | intro r targetCases =>
+      cases targetCases with
+      | intro s data =>
+          exact Exists.intro r
+            (Exists.intro s
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro data.right.right.left
+                    (And.intro data.right.right.right.left
+                      (cont_step_rules_inversion_pair.right comp))))))
+
+theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg ->
+        ∃ k : BHist, fg = BHist.e1 k ∧ Cont (BHist.e1 l) m k ∧
+          CategoryHomCarrier a c (BHist.e1 k) := by
+  intro left right comp
+  cases comp
+  exact Exists.intro (append (BHist.e1 l) m)
+      (And.intro rfl
+        (And.intro (cont_intro rfl)
+          (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
+
+theorem CategoryHomCarrier_comp_visible_morphisms_result_not_empty {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg -> hsame fg BHist.Empty -> False := by
+  intro _left _right comp resultEmpty
+  cases comp
+  exact not_hsame_e1_empty resultEmpty
+
+theorem CategoryHomCarrier_comp_visible_morphisms_result_target_cases {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg ->
+        ∃ k r s : BHist, fg = BHist.e1 k ∧ b = BHist.e1 r ∧ c = BHist.e1 s ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) s m ∧
+            CategoryHomCarrier a (BHist.e1 s) (BHist.e1 k) := by
+  intro left right comp
+  have resultCases := CategoryHomCarrier_comp_visible_morphisms_result_cases left right comp
+  have leftCases := CategoryHomCarrier_e1_morphism_target_cases left
+  have rightCases := CategoryHomCarrier_e1_morphism_target_cases right
+  cases resultCases with
+  | intro k resultData =>
+      cases resultData with
+      | intro fgEq resultRest =>
+          cases resultRest with
+          | intro _tailComp resultCarrier =>
+              cases leftCases with
+              | intro r leftData =>
+                  cases leftData with
+                  | intro bEq leftTail =>
+                      cases rightCases with
+                      | intro s rightData =>
+                          cases rightData with
+                          | intro cEq rightTail =>
+                              cases bEq
+                              cases cEq
+                              exact Exists.intro k
+                                (Exists.intro r
+                                  (Exists.intro s
+                                    (And.intro fgEq
+                                      (And.intro rfl
+                                        (And.intro rfl
+                                          (And.intro leftTail
+                                            (And.intro rightTail resultCarrier)))))))
+
+theorem CategoryHomCarrier_comp_nonempty_e1_morphism_factors {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      (hsame f BHist.Empty -> False) -> (hsame g BHist.Empty -> False) ->
+        ∃ l m r s : BHist, f = BHist.e1 l ∧ g = BHist.e1 m ∧ b = BHist.e1 r ∧
+          c = BHist.e1 s ∧ CategoryHomCarrier a r l ∧
+            CategoryHomCarrier (BHist.e1 r) s m ∧
+              Cont (BHist.e1 l) (BHist.e1 m) (BHist.e1 k) := by
+  intro left right comp nonemptyF nonemptyG
+  have leftSplit := CategoryHomCarrier_comp_e1_morphism_left_factor_cases left right comp
+  cases leftSplit with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro fEmpty _rest =>
+          exact False.elim (nonemptyF (by cases fEmpty; exact hsame_refl BHist.Empty))
+  | inr visibleLeft =>
+      cases visibleLeft with
+      | intro l leftData =>
+          cases leftData with
+          | intro r leftData =>
+              cases leftData with
+              | intro fEq rest =>
+                  cases rest with
+                  | intro bEq rest =>
+                      cases rest with
+                      | intro leftTail rest =>
+                          cases rest with
+                          | intro rightVisible visibleComp =>
+                              have rightSplit :=
+                                CategoryHomCarrier_e1_source_nonempty_morphism_target_cases
+                                  rightVisible nonemptyG
+                              cases rightSplit with
+                              | intro m rightData =>
+                                  cases rightData with
+                                  | intro s rightData =>
+                                      cases rightData with
+                                      | intro gEq rest =>
+                                          cases rest with
+                                          | intro cEq rest =>
+                                              cases rest with
+                                              | intro rUnary rest =>
+                                                  cases rest with
+                                                  | intro mUnary rest =>
+                                                      cases rest with
+                                                      | intro sUnary rightCont =>
+                                                          cases gEq
+                                                          exact Exists.intro l
+                                                            (Exists.intro m
+                                                              (Exists.intro r
+                                                                (Exists.intro s
+                                                                  (And.intro fEq
+                                                                    (And.intro rfl
+                                                                      (And.intro bEq
+                                                                        (And.intro cEq
+                                                                          (And.intro leftTail
+                                                                            (And.intro
+                                                                              (And.intro
+                                                                                (unary_e1_closed rUnary)
+                                                                                 (And.intro sUnary
+                                                                                   (And.intro mUnary
+                                                                                     rightCont)))
+                                                                              visibleComp)))))))))
+
+theorem CategoryHomCarrier_comp_nonempty_e1_morphism_result_descent {a b c f g k : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
+      (hsame f BHist.Empty -> False) -> (hsame g BHist.Empty -> False) ->
+        ∃ l m r s : BHist, f = BHist.e1 l ∧ g = BHist.e1 m ∧ b = BHist.e1 r ∧
+          c = BHist.e1 s ∧ CategoryHomCarrier a r l ∧
+            CategoryHomCarrier (BHist.e1 r) s m ∧ CategoryHomCarrier a s k := by
+  intro left right comp nonemptyF nonemptyG
+  have factors :=
+    CategoryHomCarrier_comp_nonempty_e1_morphism_factors left right comp nonemptyF nonemptyG
+  cases factors with
+  | intro l factors =>
+      cases factors with
+      | intro m factors =>
+          cases factors with
+          | intro r factors =>
+              cases factors with
+              | intro s data =>
+                  cases data with
+                  | intro fEq data =>
+                      cases data with
+                      | intro gEq data =>
+                          cases data with
+                          | intro bEq data =>
+                              cases data with
+                              | intro cEq data =>
+                                  cases data with
+                                  | intro leftTail data =>
+                                      cases data with
+                                      | intro rightTail visibleComp =>
+                                          have visibleTail : Cont (BHist.e1 l) m k :=
+                                            BHist.e1.inj visibleComp
+                                          have resultCarrier : CategoryHomCarrier a s k := by
+                                            have sourceCarrier : UnaryHistory a := leftTail.left
+                                            have targetCarrier : UnaryHistory s :=
+                                              rightTail.right.left
+                                            have lCarrier : UnaryHistory l :=
+                                              leftTail.right.right.left
+                                            have mCarrier : UnaryHistory m :=
+                                              rightTail.right.right.left
+                                            have morphCarrier : UnaryHistory k :=
+                                              unary_cont_closed (unary_e1_closed lCarrier)
+                                                mCarrier visibleTail
+                                            have resultCont : Cont a k s := by
+                                              cases leftTail.right.right.right
+                                              cases visibleTail
+                                              cases rightTail.right.right.right
+                                              exact append_assoc a (BHist.e1 l) m
+                                            exact And.intro sourceCarrier
+                                              (And.intro targetCarrier
+                                                (And.intro morphCarrier resultCont))
+                                          exact Exists.intro l
+                                            (Exists.intro m
+                                              (Exists.intro r
+                                                (Exists.intro s
+                                                  (And.intro fEq
+                                                    (And.intro gEq
+                                                      (And.intro bEq
+                                                        (And.intro cEq
+                                                          (And.intro leftTail
+                                                            (And.intro rightTail
+                                                              resultCarrier)))))))))
 
 end BEDC.Derived.CategoryUp

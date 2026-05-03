@@ -1,0 +1,2247 @@
+{
+  "_meta": {
+    "description": "Bilingual glossary source-of-truth for the BEDC dossier visualization. Each entry maps a project key to {en, zh} labels and descriptions; optional `aliases` lists alternative names (e.g. preamble macros) that resolve to this key. _meta.exempt_macros lists preamble macros that are rendering helpers / aliases and need no glossary entry. _meta.label_identical_ok lists keys whose en/zh labels are intentionally the same code identifier (no Chinese name). tools/check_glossary.py uses these fields as gating data.",
+    "categories": [
+      "kernel-primitive",
+      "namecert-framework",
+      "methodology",
+      "region",
+      "operation",
+      "capstone",
+      "roadmap"
+    ],
+    "exempt_macros": [
+      "AcceptGate",
+      "BEDC",
+      "CannotClaim",
+      "Checked",
+      "ClosureReflect",
+      "CompGap",
+      "CompactMetricCarrier",
+      "CompleteCarrier",
+      "ComplexClassifier",
+      "ContR",
+      "DerivCert",
+      "DomainPolicy",
+      "Eone",
+      "EoneCong",
+      "EqCl",
+      "ExactGlobalizeBase",
+      "ExtR",
+      "Ezero",
+      "FailureCert",
+      "Frozen",
+      "GapSig",
+      "GeneratedSameSig",
+      "GlobSig",
+      "GlobalizeExactBase",
+      "HSame",
+      "InDom",
+      "InGapSig",
+      "LinMapUp",
+      "MSame",
+      "Mbin",
+      "MetricSpaceCarrier",
+      "OneCtor",
+      "PBase",
+      "PBaseData",
+      "PEq",
+      "PSame",
+      "PSig",
+      "PackageReflection",
+      "PackageTokenPolicy",
+      "PkgReflect",
+      "PkgSig",
+      "PkgSound",
+      "PkgTokPol",
+      "PosetUp",
+      "ProofObligation",
+      "Quot",
+      "RealAlgOrder",
+      "RealCarrier",
+      "RealClassifier",
+      "SameSig",
+      "StabCert",
+      "StdBridge",
+      "Strength",
+      "Tok",
+      "TokCan",
+      "TotallyBoundedCarrier",
+      "UnaryComm",
+      "UnarySource",
+      "VerifierTarget",
+      "bedcciaudit",
+      "bone",
+      "bridgeCertStr",
+      "bzero",
+      "checkedCertStr",
+      "decodeEncode",
+      "decodeN",
+      "e",
+      "encodeDecode",
+      "encodeN",
+      "leanchecked",
+      "leandef",
+      "leannobreak",
+      "leansorryd",
+      "leanstmt",
+      "leanvariant",
+      "noHostLeak",
+      "paperCertStr",
+      "seedStr",
+      "theoremPreservation"
+    ],
+    "label_identical_ok": [
+      "E0",
+      "E1",
+      "fourier",
+      "magma",
+      "yoneda"
+    ]
+  },
+  "BHist": {
+    "en": {
+      "label": "BHist",
+      "desc": "Closed inductive type of distinction histories. Empty / E0 / E1."
+    },
+    "zh": {
+      "label": "区分历史类型",
+      "desc": "区分历史的闭合归纳类型. Empty / E0 / E1."
+    }
+  },
+  "Hist": {
+    "en": {
+      "label": "Hist",
+      "desc": "A specific value of BHist; the trace of an observer's distinctions."
+    },
+    "zh": {
+      "label": "区分轨迹",
+      "desc": "BHist 的具体值; 一个观察者的区分轨迹."
+    }
+  },
+  "Cont": {
+    "en": {
+      "label": "Cont",
+      "desc": "Continuation relation: Cont(h, m, h') means h continues to h' by emitting mark m."
+    },
+    "zh": {
+      "label": "延展关系",
+      "desc": "延展关系: Cont(h, m, h') 表示 h 通过 emit mark m 延续为 h'."
+    }
+  },
+  "hsame": {
+    "en": {
+      "label": "hsame",
+      "desc": "History sameness: identifies two Hists as the same observer trace."
+    },
+    "zh": {
+      "label": "历史同一性",
+      "desc": "历史同一性: 把两个 Hist 认定为同一个观察者轨迹."
+    }
+  },
+  "psame": {
+    "en": {
+      "label": "psame",
+      "desc": "Package sameness: classifier on Package values."
+    },
+    "zh": {
+      "label": "Package 同一性",
+      "desc": "Package 同一性: Package 值上的分类器."
+    }
+  },
+  "msame": {
+    "en": {
+      "label": "msame",
+      "desc": "Mark sameness: identifies two BMarks."
+    },
+    "zh": {
+      "label": "Mark 同一性",
+      "desc": "Mark 同一性: 识别两个 BMark."
+    }
+  },
+  "E0": {
+    "en": {
+      "label": "E0",
+      "desc": "One of two binary distinction constructors on BHist."
+    },
+    "zh": {
+      "label": "E0",
+      "desc": "BHist 上两个二元区分构造子之一."
+    }
+  },
+  "E1": {
+    "en": {
+      "label": "E1",
+      "desc": "The other binary distinction constructor on BHist."
+    },
+    "zh": {
+      "label": "E1",
+      "desc": "BHist 上另一个二元区分构造子."
+    }
+  },
+  "emp": {
+    "en": {
+      "label": "emp",
+      "desc": "The empty Hist value; pre-distinction state, observer with no marks."
+    },
+    "zh": {
+      "label": "空 Hist",
+      "desc": "空 Hist 值; 区分之前状态, 无 mark 的观察者."
+    }
+  },
+  "Mark": {
+    "en": {
+      "label": "Mark",
+      "desc": "An emission step appended to a Hist; b0 / b1 binary distinguishing acts."
+    },
+    "zh": {
+      "label": "标记",
+      "desc": "附加到 Hist 上的 emit 步骤; b0 / b1 二元区分动作."
+    }
+  },
+  "Ext": {
+    "en": {
+      "label": "Ext",
+      "desc": "Extension predicate: h is a prefix of h' under repeated marks."
+    },
+    "zh": {
+      "label": "延展谓词",
+      "desc": "延展谓词: h 是 h' 在重复 mark 下的前缀."
+    }
+  },
+  "ProbeName": {
+    "en": {
+      "label": "ProbeName",
+      "desc": "Identifier for a probe; carrier predicate of a name interface."
+    },
+    "zh": {
+      "label": "探针名",
+      "desc": "探针的标识符; 命名接口的载体谓词."
+    },
+    "aliases": [
+      "PN"
+    ]
+  },
+  "Bundle": {
+    "en": {
+      "label": "Bundle",
+      "desc": "Probe bundle inductive type; Bnil terminator and Bcons constructor."
+    },
+    "zh": {
+      "label": "探针包",
+      "desc": "探针包的闭合归纳类型; Bnil 终止子和 Bcons 构造子."
+    },
+    "aliases": [
+      "Bcons",
+      "Bnil"
+    ]
+  },
+  "Sig": {
+    "en": {
+      "label": "Sig",
+      "desc": "Signature: the structural shape of a name (carrier + classifier types)."
+    },
+    "zh": {
+      "label": "签名",
+      "desc": "签名: 名字的结构形状(载体+分类器类型)."
+    }
+  },
+  "sameSig": {
+    "en": {
+      "label": "sameSig",
+      "desc": "Signature sameness: classifier on Sig values."
+    },
+    "zh": {
+      "label": "签名同一性",
+      "desc": "签名同一性: Sig 值上的分类器."
+    }
+  },
+  "Pkg": {
+    "en": {
+      "label": "Package",
+      "desc": "Package: a Sig + carrier predicate + classifier triple over Hist."
+    },
+    "zh": {
+      "label": "包",
+      "desc": "包: Sig + 载体谓词 + 分类器的三元组, 建在 Hist 上."
+    }
+  },
+  "Gap": {
+    "en": {
+      "label": "Gap",
+      "desc": "Gap predicate: structured difference between packages within a unified frame."
+    },
+    "zh": {
+      "label": "间隙",
+      "desc": "Gap 谓词: 同一框架下两个 package 间的结构性差异."
+    }
+  },
+  "InGap": {
+    "en": {
+      "label": "InGap",
+      "desc": "Membership in a Gap; the bridging predicate."
+    },
+    "zh": {
+      "label": "间隙成员",
+      "desc": "Gap 中成员; 桥接谓词."
+    }
+  },
+  "PkgPol": {
+    "en": {
+      "label": "PackagePolicy",
+      "desc": "Policy controlling which Sig + carrier + classifier shapes count as a Package."
+    },
+    "zh": {
+      "label": "包策略",
+      "desc": "控制哪些 Sig + 载体 + 分类器形状算 Package 的策略."
+    }
+  },
+  "GapPol": {
+    "en": {
+      "label": "GapPolicy",
+      "desc": "Policy controlling which Gap predicates are admissible."
+    },
+    "zh": {
+      "label": "间隙策略",
+      "desc": "控制哪些 Gap 谓词可接受的策略."
+    }
+  },
+  "Ev": {
+    "en": {
+      "label": "Ev",
+      "desc": "Evidence: a witnessing element for a probe predicate."
+    },
+    "zh": {
+      "label": "证据",
+      "desc": "证据: 探针谓词的见证元素."
+    }
+  },
+  "Ask": {
+    "en": {
+      "label": "Ask",
+      "desc": "Inquiry primitive: 'does this Hist satisfy this probe?'"
+    },
+    "zh": {
+      "label": "询问原语",
+      "desc": "询问原语: '这条 Hist 是否满足该探针?'"
+    }
+  },
+  "AskPol": {
+    "en": {
+      "label": "AskPolicy",
+      "desc": "Policy: which Ask requests are answerable from local data."
+    },
+    "zh": {
+      "label": "询问策略",
+      "desc": "策略: 哪些 Ask 请求可以由本地数据回答."
+    }
+  },
+  "Stage": {
+    "en": {
+      "label": "Stage",
+      "desc": "Continuation stage: a step in a multi-stage proof / computation pipeline."
+    },
+    "zh": {
+      "label": "阶段",
+      "desc": "延展阶段: 多阶段证明 / 计算流水线中的一步."
+    }
+  },
+  "Thread": {
+    "en": {
+      "label": "Thread",
+      "desc": "A linear sequence of stages; the path of a computation through stages."
+    },
+    "zh": {
+      "label": "线程",
+      "desc": "阶段的线性序列; 计算穿过阶段的路径."
+    }
+  },
+  "Seal": {
+    "en": {
+      "label": "Seal",
+      "desc": "A finalization marker on a stage; commits the stage to its result."
+    },
+    "zh": {
+      "label": "封印",
+      "desc": "阶段上的终结标记; 把该阶段固定到其结果."
+    }
+  },
+  "TokIntro": {
+    "en": {
+      "label": "TokIntro",
+      "desc": "Token introduction rule: how a fresh token enters a context."
+    },
+    "zh": {
+      "label": "标识引入",
+      "desc": "标识引入规则: 新标识如何进入上下文."
+    }
+  },
+  "TokUnique": {
+    "en": {
+      "label": "TokUnique",
+      "desc": "Token uniqueness predicate: identical tokens classify identically."
+    },
+    "zh": {
+      "label": "标识唯一性",
+      "desc": "标识唯一性谓词: 相同标识被同样分类."
+    }
+  },
+  "Unary": {
+    "en": {
+      "label": "Unary",
+      "desc": "Unary-history predicate: only E1 marks, no E0; encodes natural numbers."
+    },
+    "zh": {
+      "label": "一元谓词",
+      "desc": "一元历史谓词: 只有 E1 没有 E0; 编码自然数."
+    }
+  },
+  "UnaryCont": {
+    "en": {
+      "label": "UnaryCont",
+      "desc": "Unary continuation: extends a unary Hist by one E1 step."
+    },
+    "zh": {
+      "label": "一元延展",
+      "desc": "一元延展: 把一元 Hist 加一步 E1."
+    }
+  },
+  "UnaryShift": {
+    "en": {
+      "label": "UnaryShift",
+      "desc": "Unary shift: re-indexing a unary Hist by a constant offset."
+    },
+    "zh": {
+      "label": "一元位移",
+      "desc": "一元位移: 用常数偏移重索引一元 Hist."
+    }
+  },
+  "UnaryHistory": {
+    "en": {
+      "label": "UnaryHistory",
+      "desc": "Restriction of Hist to unary segments; the inhabitation predicate of Nat."
+    },
+    "zh": {
+      "label": "一元历史",
+      "desc": "Hist 限于一元段; Nat 的居留谓词."
+    }
+  },
+  "RegSeqRat": {
+    "en": {
+      "label": "RegSeqRat",
+      "desc": "Regular Cauchy rational sequence: explicit modulus + bounded variation."
+    },
+    "zh": {
+      "label": "正则有理 Cauchy 序列",
+      "desc": "正则有理 Cauchy 序列: 显式模量 + 有界变差."
+    }
+  },
+  "DyadicRatCore": {
+    "en": {
+      "label": "DyadicRatCore",
+      "desc": "Dyadic rational core; explicit binary fractions used in real construction."
+    },
+    "zh": {
+      "label": "二进有理核",
+      "desc": "二进有理核; 实数构造中使用的显式二进分数."
+    }
+  },
+  "StreamCarrier": {
+    "en": {
+      "label": "StreamCarrier",
+      "desc": "Carrier predicate for a stream-name (a co-inductive Hist as Real witness)."
+    },
+    "zh": {
+      "label": "流载体",
+      "desc": "流命名的载体谓词(共归纳 Hist 作实数见证)."
+    }
+  },
+  "StreamSame": {
+    "en": {
+      "label": "StreamSame",
+      "desc": "Stream sameness; classifier on stream carriers (~ regular Cauchy equivalence)."
+    },
+    "zh": {
+      "label": "流同一性",
+      "desc": "流同一性; 流载体上的分类器(~ 正则 Cauchy 等价)."
+    }
+  },
+  "BaseReflect": {
+    "en": {
+      "label": "BaseReflect",
+      "desc": "Base-reflection structure exposing the kernel inside a verification target."
+    },
+    "zh": {
+      "label": "基础反射",
+      "desc": "基础反射结构, 在验证目标里暴露内核."
+    }
+  },
+  "NameCert": {
+    "en": {
+      "label": "NameCert",
+      "desc": "Naming certificate: 5-field structure (carrier, classifier, closure laws) replacing Quot."
+    },
+    "zh": {
+      "label": "命名证书",
+      "desc": "命名证书: 5 字段结构(载体, 分类器, 闭合律), 替代 Quot."
+    }
+  },
+  "SourceSpec": {
+    "en": {
+      "label": "SourceSpec",
+      "desc": "Source specification: which Hists qualify as carriers."
+    },
+    "zh": {
+      "label": "源规范",
+      "desc": "源规范: 哪些 Hist 满足载体条件."
+    }
+  },
+  "PatternSpec": {
+    "en": {
+      "label": "PatternSpec",
+      "desc": "Pattern specification: shape of admissible patterns."
+    },
+    "zh": {
+      "label": "模式规范",
+      "desc": "模式规范: 可接受模式的形状."
+    }
+  },
+  "ClassifierSpec": {
+    "en": {
+      "label": "ClassifierSpec",
+      "desc": "Classifier specification: when two carriers are equivalent."
+    },
+    "zh": {
+      "label": "分类器规范",
+      "desc": "分类器规范: 两个载体何时等价."
+    }
+  },
+  "StabilityCert": {
+    "en": {
+      "label": "StabilityCert",
+      "desc": "Stability certificate: hsame-respect of carrier and classifier."
+    },
+    "zh": {
+      "label": "稳定证书",
+      "desc": "稳定证书: 载体和分类器对 hsame 的尊重."
+    }
+  },
+  "LedgerPolicy": {
+    "en": {
+      "label": "LedgerPolicy",
+      "desc": "Ledger policy: structural laws of the certificate."
+    },
+    "zh": {
+      "label": "账本策略",
+      "desc": "账本策略: 证书的结构性律法."
+    }
+  },
+  "ClosureCert": {
+    "en": {
+      "label": "ClosureCert",
+      "desc": "Closure certificate: the kernel's invariance under its closure operator."
+    },
+    "zh": {
+      "label": "闭合证书",
+      "desc": "闭合证书: 内核在其闭合算子下的不变性."
+    }
+  },
+  "DescentCert": {
+    "en": {
+      "label": "DescentCert",
+      "desc": "Descent certificate: passing from a quotient-like cover to its base."
+    },
+    "zh": {
+      "label": "下降证书",
+      "desc": "下降证书: 从类似商的覆盖回到底."
+    }
+  },
+  "CompositionCert": {
+    "en": {
+      "label": "CompositionCert",
+      "desc": "Composition certificate: how two certificates compose under a binary operation."
+    },
+    "zh": {
+      "label": "合成证书",
+      "desc": "合成证书: 两个证书在二元运算下如何合成."
+    }
+  },
+  "ReuseCert": {
+    "en": {
+      "label": "ReuseCert",
+      "desc": "Reuse certificate: licenses a derived theorem via an existing primary one."
+    },
+    "zh": {
+      "label": "复用证书",
+      "desc": "复用证书: 通过已有主证书 license 一个派生定理."
+    }
+  },
+  "SealCert": {
+    "en": {
+      "label": "SealCert",
+      "desc": "Seal certificate: finalisation evidence for a multi-stage object."
+    },
+    "zh": {
+      "label": "封印证书",
+      "desc": "封证书: 多阶段对象的终结见证."
+    }
+  },
+  "axiom-purity": {
+    "en": {
+      "label": "axiom-purity",
+      "desc": "BEDC invariant: no Classical.choice, no Quot.sound, no propext."
+    },
+    "zh": {
+      "label": "公理纯度",
+      "desc": "BEDC 不变量: 禁 Classical.choice / Quot.sound / propext."
+    }
+  },
+  "schema-only": {
+    "en": {
+      "label": "schema-only horizon",
+      "desc": "Interface formalized but closed witnesses deferred."
+    },
+    "zh": {
+      "label": "Schema-only 视界",
+      "desc": "接口已形式化但闭合 witness 推迟."
+    }
+  },
+  "two-loops": {
+    "en": {
+      "label": "Two-loops theorem",
+      "desc": "Ground self-reference closes (form of distinction); meta self-reference must not (Tarski)."
+    },
+    "zh": {
+      "label": "两环定理",
+      "desc": "地基自指闭合(区分形式); 元层自指不能闭合(Tarski)."
+    }
+  },
+  "distinction-foundationalism": {
+    "en": {
+      "label": "Distinction-foundationalism",
+      "desc": "Information starts with distinction; before any distinction, no information exists."
+    },
+    "zh": {
+      "label": "区分基础主义",
+      "desc": "信息源于区分; 任何区分之前, 没有信息."
+    }
+  },
+  "form-of-distinction": {
+    "en": {
+      "label": "Form of distinction",
+      "desc": "The minimal structural template of separating one Hist into two by a single mark."
+    },
+    "zh": {
+      "label": "区分形式",
+      "desc": "用单一 mark 把一段 Hist 分成两段的最小结构模板."
+    }
+  },
+  "strict-prefix": {
+    "en": {
+      "label": "Strict prefix",
+      "desc": "Order witnessing one Hist as a prefix of another, used as constructive < on unary."
+    },
+    "zh": {
+      "label": "严格前缀",
+      "desc": "见证一段 Hist 是另一段前缀的序; 用作一元上的构造性 <."
+    }
+  },
+  "kernel": {
+    "en": {
+      "label": "Kernel",
+      "desc": "BHist + Cont + hsame: the three primitives everything is built on."
+    },
+    "zh": {
+      "label": "有限内核",
+      "desc": "BHist + Cont + hsame: 一切都建在这三个原语上."
+    }
+  },
+  "nat": {
+    "en": {
+      "label": "Nat",
+      "desc": "Unary natural numbers as Hist segments."
+    },
+    "zh": {
+      "label": "自然数",
+      "desc": "一元自然数, 作为 Hist 段."
+    },
+    "aliases": [
+      "NatUp"
+    ]
+  },
+  "add": {
+    "en": {
+      "label": "Add",
+      "desc": "Additive structure on natural numbers."
+    },
+    "zh": {
+      "label": "加法",
+      "desc": "自然数上的加法结构."
+    },
+    "aliases": [
+      "AddUp"
+    ]
+  },
+  "int": {
+    "en": {
+      "label": "Int",
+      "desc": "Integers as signed pairs of Nat."
+    },
+    "zh": {
+      "label": "整数",
+      "desc": "整数, 作为带符号 Nat 对."
+    },
+    "aliases": [
+      "IntUp"
+    ]
+  },
+  "rat": {
+    "en": {
+      "label": "Rat",
+      "desc": "Rationals as Int / positive Nat pairs."
+    },
+    "zh": {
+      "label": "有理数",
+      "desc": "有理数, 作为 Int / 正 Nat 对."
+    },
+    "aliases": [
+      "RatUp"
+    ]
+  },
+  "real": {
+    "en": {
+      "label": "Real",
+      "desc": "Reals as regular Cauchy sequences over Rat."
+    },
+    "zh": {
+      "label": "实数",
+      "desc": "实数, 作为 Rat 上的正则 Cauchy 序列."
+    },
+    "aliases": [
+      "RealUp"
+    ]
+  },
+  "complex": {
+    "en": {
+      "label": "Complex",
+      "desc": "Complex numbers as pairs of Reals."
+    },
+    "zh": {
+      "label": "复数",
+      "desc": "复数, 作为实数对."
+    },
+    "aliases": [
+      "ComplexUp"
+    ]
+  },
+  "option": {
+    "en": {
+      "label": "Option",
+      "desc": "Optional values: none / some(x)."
+    },
+    "zh": {
+      "label": "可选类型",
+      "desc": "可选值: none / some(x)."
+    },
+    "aliases": [
+      "OptionUp"
+    ]
+  },
+  "prod": {
+    "en": {
+      "label": "Prod",
+      "desc": "Product types A x B as Hist pairs."
+    },
+    "zh": {
+      "label": "乘积类型",
+      "desc": "乘积类型 A x B, 作为 Hist 对."
+    },
+    "aliases": [
+      "ProdUp"
+    ]
+  },
+  "sum": {
+    "en": {
+      "label": "Sum",
+      "desc": "Sum types A + B as tagged Hist."
+    },
+    "zh": {
+      "label": "和类型",
+      "desc": "和类型 A + B, 作为带标签 Hist."
+    },
+    "aliases": [
+      "SumUp"
+    ]
+  },
+  "list": {
+    "en": {
+      "label": "List",
+      "desc": "Lists over a base type, as Hist sequences."
+    },
+    "zh": {
+      "label": "列表",
+      "desc": "列表, 作为 Hist 序列."
+    },
+    "aliases": [
+      "ListUp"
+    ]
+  },
+  "prime": {
+    "en": {
+      "label": "Prime",
+      "desc": "Primality predicate; Euclid's infinitude; FTA."
+    },
+    "zh": {
+      "label": "素数",
+      "desc": "素数谓词; Euclid 无穷性; 算术基本定理."
+    },
+    "aliases": [
+      "PrimeUp"
+    ]
+  },
+  "monoid": {
+    "en": {
+      "label": "Monoid",
+      "desc": "Monoid: associative binary op + unit."
+    },
+    "zh": {
+      "label": "幺半群",
+      "desc": "幺半群: 结合性二元运算 + 单位."
+    },
+    "aliases": [
+      "MonoidUp"
+    ]
+  },
+  "group": {
+    "en": {
+      "label": "Group",
+      "desc": "Group: monoid + inverse element."
+    },
+    "zh": {
+      "label": "群",
+      "desc": "群: 幺半群 + 逆元."
+    },
+    "aliases": [
+      "GroupUp"
+    ]
+  },
+  "abgroup": {
+    "en": {
+      "label": "AbGroup",
+      "desc": "Abelian group: commutative group."
+    },
+    "zh": {
+      "label": "阿贝尔群",
+      "desc": "阿贝尔群: 可交换群."
+    },
+    "aliases": [
+      "AbGroupUp"
+    ]
+  },
+  "ring": {
+    "en": {
+      "label": "Ring",
+      "desc": "Ring: AbGroup + multiplicative monoid + distributivity."
+    },
+    "zh": {
+      "label": "环",
+      "desc": "环: AbGroup + 乘法幺半群 + 分配律."
+    },
+    "aliases": [
+      "RingUp"
+    ]
+  },
+  "commring": {
+    "en": {
+      "label": "CommRing",
+      "desc": "Commutative ring."
+    },
+    "zh": {
+      "label": "交换环",
+      "desc": "交换环."
+    },
+    "aliases": [
+      "CommRingUp"
+    ]
+  },
+  "field": {
+    "en": {
+      "label": "Field",
+      "desc": "Field: commutative ring + multiplicative inverses for nonzero."
+    },
+    "zh": {
+      "label": "域",
+      "desc": "域: 交换环 + 非零元有乘法逆."
+    },
+    "aliases": [
+      "FieldUp"
+    ]
+  },
+  "module": {
+    "en": {
+      "label": "Module",
+      "desc": "Module over a ring."
+    },
+    "zh": {
+      "label": "模",
+      "desc": "环上的模."
+    },
+    "aliases": [
+      "ModuleUp"
+    ]
+  },
+  "vecspace": {
+    "en": {
+      "label": "VecSpace",
+      "desc": "Vector space over a field."
+    },
+    "zh": {
+      "label": "向量空间",
+      "desc": "域上的向量空间."
+    },
+    "aliases": [
+      "VecSpaceUp"
+    ]
+  },
+  "linearmap": {
+    "en": {
+      "label": "LinearMap",
+      "desc": "Linear map between modules."
+    },
+    "zh": {
+      "label": "线性映射",
+      "desc": "模之间的线性映射."
+    },
+    "aliases": [
+      "LinearMapUp"
+    ]
+  },
+  "matrix": {
+    "en": {
+      "label": "Matrix",
+      "desc": "Matrices over a ring."
+    },
+    "zh": {
+      "label": "矩阵",
+      "desc": "环上的矩阵."
+    },
+    "aliases": [
+      "MatrixUp"
+    ]
+  },
+  "polynomial": {
+    "en": {
+      "label": "Polynomial",
+      "desc": "Polynomials in one variable."
+    },
+    "zh": {
+      "label": "多项式",
+      "desc": "单变量多项式."
+    },
+    "aliases": [
+      "PolynomialUp"
+    ]
+  },
+  "fps": {
+    "en": {
+      "label": "FPS",
+      "desc": "Formal power series."
+    },
+    "zh": {
+      "label": "形式幂级数",
+      "desc": "形式幂级数."
+    },
+    "aliases": [
+      "FormalPowerSeriesUp"
+    ]
+  },
+  "preorder": {
+    "en": {
+      "label": "Preorder",
+      "desc": "Preorder: reflexive + transitive."
+    },
+    "zh": {
+      "label": "预序",
+      "desc": "预序: 自反 + 传递."
+    },
+    "aliases": [
+      "PreorderUp"
+    ]
+  },
+  "poset": {
+    "en": {
+      "label": "POSet",
+      "desc": "Partial order: preorder + antisymmetry."
+    },
+    "zh": {
+      "label": "偏序",
+      "desc": "偏序: 预序 + 反对称."
+    },
+    "aliases": [
+      "POSetUp"
+    ]
+  },
+  "totalorder": {
+    "en": {
+      "label": "TotalOrder",
+      "desc": "Total order: poset + trichotomy."
+    },
+    "zh": {
+      "label": "全序",
+      "desc": "全序: 偏序 + 三分律."
+    },
+    "aliases": [
+      "TotalOrderUp"
+    ]
+  },
+  "lattice": {
+    "en": {
+      "label": "Lattice",
+      "desc": "Lattice: poset with binary join and meet."
+    },
+    "zh": {
+      "label": "格",
+      "desc": "格: 带二元 join / meet 的偏序."
+    },
+    "aliases": [
+      "LatticeUp"
+    ]
+  },
+  "interval": {
+    "en": {
+      "label": "Interval",
+      "desc": "Closed interval [a, b] over a totally-ordered carrier."
+    },
+    "zh": {
+      "label": "区间",
+      "desc": "全序载体上的闭区间 [a, b]."
+    },
+    "aliases": [
+      "IntervalUp"
+    ]
+  },
+  "metric": {
+    "en": {
+      "label": "Metric",
+      "desc": "Metric space: distance with triangle inequality."
+    },
+    "zh": {
+      "label": "度量空间",
+      "desc": "度量空间: 满足三角不等式的距离."
+    },
+    "aliases": [
+      "MetricSpaceUp",
+      "MetricUp"
+    ]
+  },
+  "compact": {
+    "en": {
+      "label": "Compact",
+      "desc": "Compactness: total boundedness + completeness."
+    },
+    "zh": {
+      "label": "紧致",
+      "desc": "紧致性: 全有界 + 完备."
+    },
+    "aliases": [
+      "CompactUp"
+    ]
+  },
+  "continuous": {
+    "en": {
+      "label": "Continuous",
+      "desc": "Continuous functions with explicit modulus."
+    },
+    "zh": {
+      "label": "连续函数",
+      "desc": "带显式模量的连续函数."
+    },
+    "aliases": [
+      "ContinuousFunctionUp"
+    ]
+  },
+  "s1": {
+    "en": {
+      "label": "S¹",
+      "desc": "Circle S^1 as a quotient of the unit interval."
+    },
+    "zh": {
+      "label": "单位圆",
+      "desc": "圆 S^1, 作为单位区间的商."
+    },
+    "aliases": [
+      "SOneUp"
+    ]
+  },
+  "circle": {
+    "en": {
+      "label": "Circle",
+      "desc": "Circle as compact 1-manifold."
+    },
+    "zh": {
+      "label": "圆",
+      "desc": "圆, 作为紧致 1-流形."
+    },
+    "aliases": [
+      "CircleUp"
+    ]
+  },
+  "category": {
+    "en": {
+      "label": "Category",
+      "desc": "Category as Hist of objects + Cont as Hom."
+    },
+    "zh": {
+      "label": "范畴",
+      "desc": "范畴, 对象=Hist, Hom=Cont."
+    },
+    "aliases": [
+      "CategoryUp"
+    ]
+  },
+  "functor": {
+    "en": {
+      "label": "Functor",
+      "desc": "Functor between categories."
+    },
+    "zh": {
+      "label": "函子",
+      "desc": "范畴间的函子."
+    },
+    "aliases": [
+      "FunctorUp"
+    ]
+  },
+  "nattrans": {
+    "en": {
+      "label": "NatTrans",
+      "desc": "Natural transformation."
+    },
+    "zh": {
+      "label": "自然变换",
+      "desc": "自然变换."
+    },
+    "aliases": [
+      "NatTransUp"
+    ]
+  },
+  "complexlimit": {
+    "en": {
+      "label": "CplxLim",
+      "desc": "Convergence of complex sequences with explicit modulus."
+    },
+    "zh": {
+      "label": "复极限",
+      "desc": "带显式模量的复数列收敛."
+    },
+    "aliases": [
+      "ComplexLimitUp"
+    ]
+  },
+  "convergenceradius": {
+    "en": {
+      "label": "ConvRad",
+      "desc": "Radius of convergence of a power series."
+    },
+    "zh": {
+      "label": "收敛半径",
+      "desc": "幂级数的收敛半径."
+    },
+    "aliases": [
+      "ConvergenceRadiusUp"
+    ]
+  },
+  "complexdiff": {
+    "en": {
+      "label": "CplxDiff",
+      "desc": "Complex differentiability + Cauchy-Riemann."
+    },
+    "zh": {
+      "label": "复可微",
+      "desc": "复可微 + Cauchy-Riemann."
+    },
+    "aliases": [
+      "ComplexDiffUp"
+    ]
+  },
+  "holomorphic": {
+    "en": {
+      "label": "Holo",
+      "desc": "Holomorphic functions on open disks."
+    },
+    "zh": {
+      "label": "全纯",
+      "desc": "开盘上的全纯函数."
+    },
+    "aliases": [
+      "HolomorphicUp"
+    ]
+  },
+  "complexseries": {
+    "en": {
+      "label": "CplxSer",
+      "desc": "Convergent infinite complex sums."
+    },
+    "zh": {
+      "label": "复级数",
+      "desc": "收敛的无限复求和."
+    },
+    "aliases": [
+      "ComplexSeriesUp"
+    ]
+  },
+  "dirichletseries": {
+    "en": {
+      "label": "Dirichlet",
+      "desc": "Dirichlet series with abscissa of absolute convergence."
+    },
+    "zh": {
+      "label": "Dirichlet 级数",
+      "desc": "Dirichlet 级数及其绝对收敛 abscissa."
+    },
+    "aliases": [
+      "DirichletSeriesUp"
+    ]
+  },
+  "zetabasic": {
+    "en": {
+      "label": "ZetaBasic",
+      "desc": "Riemann zeta on Re(s) > 1, with Euler product."
+    },
+    "zh": {
+      "label": "ζ 基础",
+      "desc": "Re(s)>1 上的 Riemann zeta 加 Euler 乘积."
+    },
+    "aliases": [
+      "ZetaBasicUp"
+    ]
+  },
+  "zetacont": {
+    "en": {
+      "label": "ZetaCont",
+      "desc": "Analytic continuation of zeta to C \\ {1}."
+    },
+    "zh": {
+      "label": "ζ 延拓",
+      "desc": "zeta 解析延拓到 C \\ {1}."
+    },
+    "aliases": [
+      "ZetaContUp"
+    ]
+  },
+  "critstrip": {
+    "en": {
+      "label": "CritStrip",
+      "desc": "The critical strip 0 < Re(s) < 1 and the line Re(s) = 1/2."
+    },
+    "zh": {
+      "label": "关键带",
+      "desc": "关键带 0<Re(s)<1 与关键线 Re(s)=1/2."
+    },
+    "aliases": [
+      "CritStripUp"
+    ]
+  },
+  "zetazeros": {
+    "en": {
+      "label": "ZetaZeros",
+      "desc": "Zero predicate of zeta; trivial vs non-trivial zeros."
+    },
+    "zh": {
+      "label": "ζ 零点",
+      "desc": "zeta 零点谓词; 平凡零点 vs 非平凡零点."
+    },
+    "aliases": [
+      "ZetaZerosUp"
+    ]
+  },
+  "contour": {
+    "en": {
+      "label": "Contour",
+      "desc": "Contour integration as operation on holomorphic functions."
+    },
+    "zh": {
+      "label": "围道积分",
+      "desc": "围道积分, 作为全纯函数上的操作."
+    },
+    "aliases": [
+      "ContourUp"
+    ]
+  },
+  "anacont": {
+    "en": {
+      "label": "AnaCont",
+      "desc": "Analytic continuation as operation on holomorphic charts."
+    },
+    "zh": {
+      "label": "解析延拓",
+      "desc": "解析延拓, 作为全纯图册上的操作."
+    },
+    "aliases": [
+      "AnalyticContUp"
+    ]
+  },
+  "observer": {
+    "en": {
+      "label": "Observer-Hist Identity",
+      "desc": "Observer = Hist; observation = Cont; time = Hist growth."
+    },
+    "zh": {
+      "label": "观察者-Hist 同一性",
+      "desc": "观察者 = Hist; 观察 = Cont; 时间 = Hist 增长."
+    }
+  },
+  "interhist": {
+    "en": {
+      "label": "Inter-Hist Locality",
+      "desc": "Multi-Hist roadmap: from no global frame to a constant max-causal-rate."
+    },
+    "zh": {
+      "label": "跨-Hist 局部性",
+      "desc": "多 Hist 路线图: 从无全局 frame 到常数最大因果率."
+    }
+  },
+  "rh": {
+    "en": {
+      "label": "RH",
+      "desc": "The Riemann Hypothesis as a BEDC conjecture interface."
+    },
+    "zh": {
+      "label": "黎曼猜想",
+      "desc": "黎曼猜想作为 BEDC 猜想接口."
+    },
+    "aliases": [
+      "RHUp"
+    ]
+  },
+  "zeta": {
+    "en": {
+      "label": "Zeta",
+      "desc": "Riemann zeta function umbrella interface (basic + cont + zeros)."
+    },
+    "zh": {
+      "label": "ζ 函数",
+      "desc": "Riemann zeta 函数综合接口(基础+延拓+零点)."
+    },
+    "aliases": [
+      "ZetaUp"
+    ]
+  },
+  "gamma": {
+    "en": {
+      "label": "Gamma",
+      "desc": "Gamma function on C \\ {0, -1, -2, ...}; meromorphic factor in zeta functional eq."
+    },
+    "zh": {
+      "label": "Γ 函数",
+      "desc": "C \\ {0,-1,-2,...} 上的 Gamma 函数; ζ 函数方程中的亚纯因子."
+    },
+    "aliases": [
+      "GammaUp"
+    ]
+  },
+  "padic": {
+    "en": {
+      "label": "Padic",
+      "desc": "p-adic numbers; completion of Q under p-adic norm."
+    },
+    "zh": {
+      "label": "p 进数",
+      "desc": "p-adic 数; Q 在 p-adic 范数下的完备化."
+    },
+    "aliases": [
+      "PadicUp"
+    ]
+  },
+  "adele": {
+    "en": {
+      "label": "Adele",
+      "desc": "Adele ring; restricted product of all completions of Q."
+    },
+    "zh": {
+      "label": "Adele 环",
+      "desc": "Adele 环; Q 所有完备化的限制积."
+    },
+    "aliases": [
+      "AdeleUp"
+    ]
+  },
+  "norm": {
+    "en": {
+      "label": "Norm",
+      "desc": "Normed space interface: vector space with a length function."
+    },
+    "zh": {
+      "label": "赋范空间",
+      "desc": "赋范空间接口: 带长度函数的向量空间."
+    },
+    "aliases": [
+      "NormUp"
+    ]
+  },
+  "hilbert": {
+    "en": {
+      "label": "Hilbert",
+      "desc": "Hilbert space: complete inner-product space."
+    },
+    "zh": {
+      "label": "Hilbert 空间",
+      "desc": "Hilbert 空间: 完备的内积空间."
+    },
+    "aliases": [
+      "HilbertUp"
+    ]
+  },
+  "magma": {
+    "en": {
+      "label": "Magma",
+      "desc": "Magma: a set with a binary operation, no further laws."
+    },
+    "zh": {
+      "label": "Magma",
+      "desc": "Magma: 带二元运算的集合, 无更多律法."
+    },
+    "aliases": [
+      "MagmaUp"
+    ]
+  },
+  "semigroup": {
+    "en": {
+      "label": "Semigroup",
+      "desc": "Semigroup: associative magma."
+    },
+    "zh": {
+      "label": "半群",
+      "desc": "半群: 满足结合律的 magma."
+    },
+    "aliases": [
+      "SemigroupUp"
+    ]
+  },
+  "topology": {
+    "en": {
+      "label": "Topology",
+      "desc": "Topological space interface; opens / continuity / connectedness."
+    },
+    "zh": {
+      "label": "拓扑空间",
+      "desc": "拓扑空间接口; 开集/连续/连通."
+    },
+    "aliases": [
+      "TopologyUp"
+    ]
+  },
+  "completion": {
+    "en": {
+      "label": "Completion",
+      "desc": "Completion of a metric space; Cauchy-equivalence quotient."
+    },
+    "zh": {
+      "label": "完备化",
+      "desc": "度量空间的完备化; Cauchy 等价商."
+    },
+    "aliases": [
+      "CompletionUp"
+    ]
+  },
+  "calculus": {
+    "en": {
+      "label": "Calculus",
+      "desc": "Differential / integral calculus on Real-valued functions."
+    },
+    "zh": {
+      "label": "微积分",
+      "desc": "实值函数上的微分/积分."
+    },
+    "aliases": [
+      "CalculusUp"
+    ]
+  },
+  "measure": {
+    "en": {
+      "label": "Measure",
+      "desc": "Measure theory; Lebesgue / Borel structure."
+    },
+    "zh": {
+      "label": "测度",
+      "desc": "测度论; Lebesgue / Borel 结构."
+    },
+    "aliases": [
+      "MeasureUp"
+    ]
+  },
+  "functionalanalysis": {
+    "en": {
+      "label": "FunctionalAnalysis",
+      "desc": "Banach / Hilbert spaces; bounded operators."
+    },
+    "zh": {
+      "label": "泛函分析",
+      "desc": "Banach / Hilbert 空间; 有界算子."
+    },
+    "aliases": [
+      "FunctionalAnalysisUp"
+    ]
+  },
+  "manifold": {
+    "en": {
+      "label": "Manifold",
+      "desc": "Smooth manifold; locally Euclidean with charts."
+    },
+    "zh": {
+      "label": "流形",
+      "desc": "光滑流形; 局部欧式 + 图卡."
+    },
+    "aliases": [
+      "ManifoldUp"
+    ]
+  },
+  "homology": {
+    "en": {
+      "label": "Homology",
+      "desc": "Singular / chain homology; topological invariants."
+    },
+    "zh": {
+      "label": "同调",
+      "desc": "奇异/链同调; 拓扑不变量."
+    },
+    "aliases": [
+      "HomologyUp"
+    ]
+  },
+  "eq": {
+    "en": {
+      "label": "Eq",
+      "desc": "Equality / sameness interface generalising hsame."
+    },
+    "zh": {
+      "label": "等同接口",
+      "desc": "等同接口, 泛化 hsame."
+    },
+    "aliases": [
+      "EqUp"
+    ]
+  },
+  "func": {
+    "en": {
+      "label": "Func",
+      "desc": "Function interface; generic Hist-to-Hist mapping."
+    },
+    "zh": {
+      "label": "函数接口",
+      "desc": "函数接口; 通用 Hist→Hist 映射."
+    },
+    "aliases": [
+      "FuncUp"
+    ]
+  },
+  "limit": {
+    "en": {
+      "label": "Limit",
+      "desc": "Limit interface; generic convergence carrier."
+    },
+    "zh": {
+      "label": "极限接口",
+      "desc": "极限接口; 通用收敛载体."
+    },
+    "aliases": [
+      "LimitUp"
+    ]
+  },
+  "fold": {
+    "en": {
+      "label": "Fold",
+      "desc": "Fold / catamorphism interface over inductive carriers."
+    },
+    "zh": {
+      "label": "折叠接口",
+      "desc": "归纳载体上的 fold/catamorphism 接口."
+    },
+    "aliases": [
+      "FoldUp"
+    ]
+  },
+  "setlike": {
+    "en": {
+      "label": "SetLike",
+      "desc": "Set-like membership interface, finite / decidable."
+    },
+    "zh": {
+      "label": "类集合接口",
+      "desc": "类集合的成员关系接口, 有限/可判定."
+    },
+    "aliases": [
+      "SetLikeUp"
+    ]
+  },
+  "typelike": {
+    "en": {
+      "label": "TypeLike",
+      "desc": "Type-like inhabitation interface; carriers as types."
+    },
+    "zh": {
+      "label": "类类型接口",
+      "desc": "类类型的居留接口; 载体作类型."
+    },
+    "aliases": [
+      "TypeLikeUp"
+    ]
+  },
+  "mul": {
+    "en": {
+      "label": "Mul",
+      "desc": "Multiplicative monoid interface."
+    },
+    "zh": {
+      "label": "乘法接口",
+      "desc": "乘法 monoid 接口."
+    },
+    "aliases": [
+      "MulUp"
+    ]
+  },
+  "order": {
+    "en": {
+      "label": "Order",
+      "desc": "Generic order-relation interface."
+    },
+    "zh": {
+      "label": "序接口",
+      "desc": "通用序关系接口."
+    },
+    "aliases": [
+      "OrderUp"
+    ]
+  },
+  "totallybounded": {
+    "en": {
+      "label": "TotallyBounded",
+      "desc": "Totally bounded metric space; finite ε-net for any ε."
+    },
+    "zh": {
+      "label": "全有界",
+      "desc": "全有界度量空间; 任意 ε 都有有限 ε-网."
+    },
+    "aliases": [
+      "TotallyBoundedUp"
+    ]
+  },
+  "completemetric": {
+    "en": {
+      "label": "CompleteMetric",
+      "desc": "Complete metric space; every Cauchy sequence converges."
+    },
+    "zh": {
+      "label": "完备度量",
+      "desc": "完备度量空间; 每个 Cauchy 序列都收敛."
+    },
+    "aliases": [
+      "CompleteMetricUp"
+    ]
+  },
+  "compactmetric": {
+    "en": {
+      "label": "CompactMetric",
+      "desc": "Compact metric: complete + totally bounded."
+    },
+    "zh": {
+      "label": "紧致度量",
+      "desc": "紧致度量: 完备 + 全有界."
+    },
+    "aliases": [
+      "CompactMetricUp"
+    ]
+  },
+  "continuousmap": {
+    "en": {
+      "label": "ContinuousMap",
+      "desc": "Continuous map between metric / topological spaces."
+    },
+    "zh": {
+      "label": "连续映射",
+      "desc": "度量/拓扑空间之间的连续映射."
+    },
+    "aliases": [
+      "ContinuousMapUp"
+    ]
+  },
+  "streamname": {
+    "en": {
+      "label": "StreamName",
+      "desc": "Stream-name interface; co-inductive carrier for Real."
+    },
+    "zh": {
+      "label": "流命名",
+      "desc": "流命名接口; Real 的共归纳载体."
+    },
+    "aliases": [
+      "StreamNameUp"
+    ]
+  },
+  "contadd": {
+    "en": {
+      "label": "ContAdd",
+      "desc": "Continuation-additive structure; the Cont-side of AddUp."
+    },
+    "zh": {
+      "label": "延展加法",
+      "desc": "延展加法结构; AddUp 的 Cont 侧."
+    },
+    "aliases": [
+      "ContAddUp"
+    ]
+  },
+  "unarycontmonoid": {
+    "en": {
+      "label": "UnaryContMonoid",
+      "desc": "Unary continuation monoid; monoid laws expressed via UnaryCont."
+    },
+    "zh": {
+      "label": "一元延展幺半群",
+      "desc": "一元延展幺半群; 通过 UnaryCont 表述的幺半群律."
+    },
+    "aliases": [
+      "UnaryContMonoidUp"
+    ]
+  },
+  "realanalytic-up": {
+    "en": {
+      "label": "RealAnalytic",
+      "desc": "Real analytic functions on R; convergent power series locally."
+    },
+    "zh": {
+      "label": "实解析",
+      "desc": "R 上的实解析函数; 局部收敛幂级数."
+    },
+    "aliases": [
+      "RealAnalyticUp"
+    ]
+  },
+  "complexanalytic-up": {
+    "en": {
+      "label": "ComplexAnalytic",
+      "desc": "Complex analytic = holomorphic; locally convergent power series in z."
+    },
+    "zh": {
+      "label": "复解析",
+      "desc": "复解析 = 全纯; z 中的局部收敛幂级数."
+    },
+    "aliases": [
+      "ComplexAnalyticUp"
+    ]
+  },
+  "complextopology-up": {
+    "en": {
+      "label": "ComplexTopology",
+      "desc": "Topological structure on ComplexUp; opens / paths / connectedness."
+    },
+    "zh": {
+      "label": "复拓扑",
+      "desc": "ComplexUp 上的拓扑结构; 开集/路径/连通."
+    },
+    "aliases": [
+      "ComplexTopologyUp"
+    ]
+  },
+  "bool": {
+    "en": {
+      "label": "Bool",
+      "desc": "Booleans as a 2-element finite Hist type."
+    },
+    "zh": {
+      "label": "布尔类型",
+      "desc": "布尔值, 作为 2-元素有限 Hist 类型."
+    },
+    "aliases": [
+      "BoolUp"
+    ]
+  },
+  "adjunction": {
+    "en": {
+      "label": "Adjunction",
+      "desc": "Pair of functors with unit / counit; left and right adjoints."
+    },
+    "zh": {
+      "label": "伴随",
+      "desc": "伴随函子对; 带单位/余单位映射, 左伴随和右伴随."
+    },
+    "aliases": [
+      "AdjunctionUp"
+    ]
+  },
+  "automorphic": {
+    "en": {
+      "label": "Automorphic",
+      "desc": "Automorphic forms / functions on a group quotient."
+    },
+    "zh": {
+      "label": "自守",
+      "desc": "群商空间上的自守形式 / 自守函数."
+    },
+    "aliases": [
+      "AutomorphicUp"
+    ]
+  },
+  "banach": {
+    "en": {
+      "label": "Banach",
+      "desc": "Complete normed vector space."
+    },
+    "zh": {
+      "label": "Banach 空间",
+      "desc": "完备的赋范向量空间."
+    },
+    "aliases": [
+      "BanachUp"
+    ]
+  },
+  "bundle": {
+    "en": {
+      "label": "Bundle",
+      "desc": "Fiber bundle: total space + base + projection + local trivializations."
+    },
+    "zh": {
+      "label": "纤维丛",
+      "desc": "纤维丛: 全空间 + 底空间 + 投影 + 局部平凡化."
+    },
+    "aliases": [
+      "BundleUp"
+    ]
+  },
+  "catcolimit": {
+    "en": {
+      "label": "CatColimit",
+      "desc": "Colimit of a diagram in a category."
+    },
+    "zh": {
+      "label": "范畴余极限",
+      "desc": "范畴中图形的余极限."
+    },
+    "aliases": [
+      "CatColimitUp"
+    ]
+  },
+  "catlimit": {
+    "en": {
+      "label": "CatLimit",
+      "desc": "Limit of a diagram in a category."
+    },
+    "zh": {
+      "label": "范畴极限",
+      "desc": "范畴中图形的极限."
+    },
+    "aliases": [
+      "CatLimitUp"
+    ]
+  },
+  "cohomology": {
+    "en": {
+      "label": "Cohomology",
+      "desc": "Singular / cellular / sheaf cohomology; dual to homology."
+    },
+    "zh": {
+      "label": "上同调",
+      "desc": "奇异 / 胞腔 / 层上同调; 与同调对偶."
+    },
+    "aliases": [
+      "CohomologyUp"
+    ]
+  },
+  "derivative": {
+    "en": {
+      "label": "Derivative",
+      "desc": "Differentiation operator on functions."
+    },
+    "zh": {
+      "label": "导数",
+      "desc": "函数上的微分算子."
+    },
+    "aliases": [
+      "DerivativeUp"
+    ]
+  },
+  "determinant": {
+    "en": {
+      "label": "Determinant",
+      "desc": "Multilinear alternating form on matrices over a ring."
+    },
+    "zh": {
+      "label": "行列式",
+      "desc": "环上矩阵的多重线性交错形式."
+    },
+    "aliases": [
+      "DeterminantUp"
+    ]
+  },
+  "eigen": {
+    "en": {
+      "label": "Eigen",
+      "desc": "Eigenvalues and eigenvectors of linear maps."
+    },
+    "zh": {
+      "label": "特征",
+      "desc": "线性映射的特征值和特征向量."
+    },
+    "aliases": [
+      "EigenUp"
+    ]
+  },
+  "empty": {
+    "en": {
+      "label": "Empty",
+      "desc": "Empty type / initial object; no inhabitants."
+    },
+    "zh": {
+      "label": "空类型",
+      "desc": "空类型 / 始对象; 无居留元."
+    },
+    "aliases": [
+      "EmptyUp"
+    ]
+  },
+  "eqtype": {
+    "en": {
+      "label": "EqType",
+      "desc": "Type equipped with decidable equality."
+    },
+    "zh": {
+      "label": "可判定等同类型",
+      "desc": "带可判定等同的类型."
+    }
+  },
+  "equivcat": {
+    "en": {
+      "label": "EquivCat",
+      "desc": "Equivalence of categories: F, G with F G iso to id and G F iso to id."
+    },
+    "zh": {
+      "label": "等价范畴",
+      "desc": "范畴等价: 一对函子互逆到自然同构."
+    },
+    "aliases": [
+      "EquivCatUp"
+    ]
+  },
+  "filter": {
+    "en": {
+      "label": "Filter",
+      "desc": "Filter on a set; prefilter, proper filter, ultrafilter."
+    },
+    "zh": {
+      "label": "滤子",
+      "desc": "集合上的滤子; prefilter, proper filter, ultrafilter."
+    },
+    "aliases": [
+      "FilterUp"
+    ]
+  },
+  "finset": {
+    "en": {
+      "label": "FinSet",
+      "desc": "Finite-set interface with cardinality."
+    },
+    "zh": {
+      "label": "有限集合",
+      "desc": "带基数的有限集合接口."
+    },
+    "aliases": [
+      "FinSetUp"
+    ]
+  },
+  "fourier": {
+    "en": {
+      "label": "Fourier",
+      "desc": "Fourier series and Fourier transform."
+    },
+    "zh": {
+      "label": "Fourier",
+      "desc": "Fourier 级数和 Fourier 变换."
+    },
+    "aliases": [
+      "FourierUp"
+    ]
+  },
+  "funcobj": {
+    "en": {
+      "label": "FuncObj",
+      "desc": "Internal hom or exponential object in a closed category."
+    },
+    "zh": {
+      "label": "函数对象",
+      "desc": "闭范畴中的内部 Hom 或指数对象."
+    }
+  },
+  "graph": {
+    "en": {
+      "label": "Graph",
+      "desc": "Directed or undirected graph; vertices and edges."
+    },
+    "zh": {
+      "label": "图",
+      "desc": "有向或无向图; 顶点和边."
+    },
+    "aliases": [
+      "GraphUp"
+    ]
+  },
+  "ideal": {
+    "en": {
+      "label": "Ideal",
+      "desc": "Ideal of a ring; left, right, two-sided."
+    },
+    "zh": {
+      "label": "理想",
+      "desc": "环的理想; 左, 右, 双侧."
+    },
+    "aliases": [
+      "IdealUp"
+    ]
+  },
+  "innerproduct": {
+    "en": {
+      "label": "InnerProduct",
+      "desc": "Inner product on a vector space."
+    },
+    "zh": {
+      "label": "内积",
+      "desc": "向量空间上的内积."
+    },
+    "aliases": [
+      "InnerProductUp"
+    ]
+  },
+  "integral": {
+    "en": {
+      "label": "Integral",
+      "desc": "Integration operator; Riemann, Lebesgue, Bishop-style."
+    },
+    "zh": {
+      "label": "积分",
+      "desc": "积分算子; Riemann, Lebesgue, Bishop 风格."
+    },
+    "aliases": [
+      "IntegralUp"
+    ]
+  },
+  "lfunction": {
+    "en": {
+      "label": "LFunction",
+      "desc": "Dirichlet L-function attached to a character."
+    },
+    "zh": {
+      "label": "L 函数",
+      "desc": "附属于特征的 Dirichlet L 函数."
+    },
+    "aliases": [
+      "LFunctionUp"
+    ]
+  },
+  "modn": {
+    "en": {
+      "label": "ModN",
+      "desc": "Integers modulo N; Z/nZ structure."
+    },
+    "zh": {
+      "label": "模 N 整数",
+      "desc": "模 N 整数; Z/nZ 结构."
+    },
+    "aliases": [
+      "ModNUp"
+    ]
+  },
+  "monad": {
+    "en": {
+      "label": "Monad",
+      "desc": "Monoidal endofunctor with unit and multiplication."
+    },
+    "zh": {
+      "label": "monad",
+      "desc": "带单位和乘法的 monoidal endofunctor."
+    },
+    "aliases": [
+      "MonadUp"
+    ]
+  },
+  "permutation": {
+    "en": {
+      "label": "Permutation",
+      "desc": "Bijection of a finite set with itself."
+    },
+    "zh": {
+      "label": "置换",
+      "desc": "有限集到自身的双射."
+    },
+    "aliases": [
+      "PermutationUp"
+    ]
+  },
+  "quotientgroup": {
+    "en": {
+      "label": "QuotientGroup",
+      "desc": "G / N for a normal subgroup N of G."
+    },
+    "zh": {
+      "label": "商群",
+      "desc": "G / N, N 是 G 的正规子群."
+    },
+    "aliases": [
+      "QuotientGroupUp"
+    ]
+  },
+  "quotientring": {
+    "en": {
+      "label": "QuotientRing",
+      "desc": "R / I for an ideal I of a ring R."
+    },
+    "zh": {
+      "label": "商环",
+      "desc": "R / I, I 是环 R 的理想."
+    },
+    "aliases": [
+      "QuotientRingUp"
+    ]
+  },
+  "residue": {
+    "en": {
+      "label": "Residue",
+      "desc": "Residue at a pole; complex contour-integral coefficient."
+    },
+    "zh": {
+      "label": "留数",
+      "desc": "极点处的留数; 复围道积分系数."
+    },
+    "aliases": [
+      "ResidueUp"
+    ]
+  },
+  "seq": {
+    "en": {
+      "label": "Seq",
+      "desc": "Sequence interface; indexed family over Nat."
+    },
+    "zh": {
+      "label": "序列",
+      "desc": "序列接口; Nat 上的索引族."
+    },
+    "aliases": [
+      "SeqUp"
+    ]
+  },
+  "series": {
+    "en": {
+      "label": "Series",
+      "desc": "Infinite sum; partial-sum convergence interface."
+    },
+    "zh": {
+      "label": "级数",
+      "desc": "无穷求和; 部分和收敛接口."
+    },
+    "aliases": [
+      "SeriesUp"
+    ]
+  },
+  "set": {
+    "en": {
+      "label": "Set",
+      "desc": "Set interface; predicate-as-set on a base type."
+    },
+    "zh": {
+      "label": "集合",
+      "desc": "集合接口; 基类型上的成员谓词."
+    },
+    "aliases": [
+      "SetUp"
+    ]
+  },
+  "subgroup": {
+    "en": {
+      "label": "Subgroup",
+      "desc": "Subset of a group closed under the group operation."
+    },
+    "zh": {
+      "label": "子群",
+      "desc": "群中对群运算闭合的子集."
+    },
+    "aliases": [
+      "SubgroupUp"
+    ]
+  },
+  "subtype": {
+    "en": {
+      "label": "Subtype",
+      "desc": "Type carved out by a predicate; { x : T // P x }."
+    },
+    "zh": {
+      "label": "子类型",
+      "desc": "由谓词刻出的类型; { x : T // P x }."
+    },
+    "aliases": [
+      "SubtypeUp"
+    ]
+  },
+  "symgroup": {
+    "en": {
+      "label": "SymGroup",
+      "desc": "Symmetric group S_n: permutations of n elements."
+    },
+    "zh": {
+      "label": "对称群",
+      "desc": "对称群 S_n: n 元集合的置换."
+    },
+    "aliases": [
+      "SymGroupUp"
+    ]
+  },
+  "tensorproduct": {
+    "en": {
+      "label": "TensorProduct",
+      "desc": "Tensor product of modules / vector spaces."
+    },
+    "zh": {
+      "label": "张量积",
+      "desc": "模 / 向量空间的张量积."
+    },
+    "aliases": [
+      "TensorProductUp"
+    ]
+  },
+  "tree": {
+    "en": {
+      "label": "Tree",
+      "desc": "Tree data structure; rooted with branching."
+    },
+    "zh": {
+      "label": "树",
+      "desc": "树数据结构; 有根、有分支."
+    },
+    "aliases": [
+      "TreeUp"
+    ]
+  },
+  "unit": {
+    "en": {
+      "label": "Unit",
+      "desc": "Singleton type; one inhabitant."
+    },
+    "zh": {
+      "label": "单元类型",
+      "desc": "单元类型; 只有一个居留元."
+    },
+    "aliases": [
+      "UnitUp"
+    ]
+  },
+  "yoneda": {
+    "en": {
+      "label": "Yoneda",
+      "desc": "Yoneda embedding and Yoneda lemma."
+    },
+    "zh": {
+      "label": "Yoneda",
+      "desc": "Yoneda 嵌入和 Yoneda 引理."
+    },
+    "aliases": [
+      "YonedaUp"
+    ]
+  }
+}

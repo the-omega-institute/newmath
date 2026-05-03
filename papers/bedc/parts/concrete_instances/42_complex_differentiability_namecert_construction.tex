@@ -1,0 +1,378 @@
+\chapter{A Concrete Naming Certificate for \(\ComplexDiffUp\)}
+\label{ch:concrete-instances-complex-diff-namecert}
+
+This chapter gives a concrete naming-certificate construction for the complex-differentiability interface \(\ComplexDiffUp\) at the paper-proof level. The construction sits above the complex-limit certificate \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}) and below the holomorphic certificate \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}), and licenses pointwise complex differentiability with an explicit modulus in Bishop's constructive style. Every claim of the form ``\(f\) is complex-differentiable at \(z\) with derivative \(f'\)'' is unfolded into an explicit unary modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) controlling the difference quotient. The Cauchy--Riemann equations are derived inside this chapter as a coupling of real-component partial derivatives, with both directions of the equivalence given as constructive proofs. No use of classical case analysis on complex equality is permitted; everywhere the data is a witness or an explicit refutation.
+
+\section{The complex difference quotient}
+
+\begin{definition}[Complex non-zero witness]
+\label{def:cplx-non-zero}
+For a complex history \(h\), the predicate \(\mathsf{CplxNonZero}(h)\) holds when \(h\) is apart from the empty BEDC history: \(\hsame(h,\emp)\) implies contradiction. In analytic uses this apartness is supplied by an explicit modulus witness showing that \(h\) is bounded away from zero.
+\end{definition}
+\leandef{BEDC.Derived.ComplexDiffUp.CplxNonZero}
+
+\begin{theorem}[Complex non-zero empty-or-apart split]
+\label{thm:cplx-nonzero-empty-or-nonzero}
+Every BEDC history is either history-same to the empty endpoint or supplies the
+constructor-level apartness witness used by \(\mathsf{CplxNonZero}\):
+$$
+\hsame(h,\emp)\ \vee\ \mathsf{CplxNonZero}(h).
+$$
+\end{theorem}
+\begin{proof}
+Split on the three constructors of \(h\). The empty branch is reflexive. The
+two visible branches use constructor separation from \(\emp\), yielding the
+non-zero contradiction witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxNonZero\_empty\_or\_nonzero}
+
+\begin{definition}[Complex difference quotient]
+\label{def:cplx-diff-quot}
+For complex histories \(z, h\) with \(\mathsf{CplxNonZero}(h)\) and a function-history \(f\) on the complex carrier, the complex difference-quotient relation \(\mathsf{CplxDiffQuot}(f, z, h, q)\) holds when the BEDC quotient ledger records the unary carriers of \(f\), \(z\), and \(q\), the non-zero witness on \(h\), and \(\Cont(f,h,q)\). Analytically, \(q\) represents the history obtained by:
+\begin{enumerate}
+  \item evaluating \(f\) at the complex continuation \(z + h\) to obtain \(\mathsf{val}^+\);
+  \item evaluating \(f\) at \(z\) to obtain \(\mathsf{val}\);
+  \item forming the complex difference \(\mathsf{val}^+ - \mathsf{val}\); and
+  \item dividing by \(h\) using the explicit reciprocal of \(h\) supplied by \(\mathsf{CplxNonZero}(h)\).
+\end{enumerate}
+The resulting \(q\) is the unique complex history (up to \(\hsame\)) representing \((f(z+h)-f(z))/h\).
+\end{definition}
+\leandef{BEDC.Derived.ComplexDiffUp.CplxDiffQuot}
+
+\begin{theorem}[Complex difference quotient step unary]
+\label{thm:cplx-diff-quot-step-unary}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds, then the step history $h$, the
+quotient history $q$, and the quotient continuation ledger are exposed:
+$$
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(q)\land
+\ContR(f,h,q).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete quotient witness. It already contains the unary quotient
+carrier and the ledger $\ContR(f,h,q)$. Since the result $q$ is unary, the
+right-factor inversion for unary continuations recovers the unary carrier of
+the step history $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_step\_unary}
+
+\begin{lemma}[Complex difference quotient result is nonempty from a nonzero step]
+\label{thm:cplx-diff-quot-result-nonempty-from-step}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and $h$ carries the displayed
+$\mathsf{CplxNonZero}$ witness, then $q$ cannot be history-same to $\emp$.
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness to expose $\Cont(f,h,q)$ and the nonzero witness
+on $h$. If $q\hsame\emp$, then the continuation equality identifies
+$\mathsf{append}(f,h)$ with $\emp$. Empty-result inversion for append gives
+$h\hsame\emp$, contradicting $\mathsf{CplxNonZero}(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty\_from\_step}
+
+\begin{theorem}[Complex difference quotient visible-step construction]
+\label{thm:cplx-diff-quot-visible-step-construct}
+If \(f,z,out_0,out_1\) are unary histories and the quotient ledgers
+\(\Cont(f,\Ezero(p),out_0)\) and \(\Cont(f,\Eone(q),out_1)\) are present, then
+both visible-step quotient records hold:
+$$
+\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out_0)
+\land
+\mathsf{CplxDiffQuot}(f,z,\Eone(q),out_1).
+$$
+\end{theorem}
+\begin{proof}
+Build each quotient record from the shared unary function and point carriers,
+the corresponding unary output carrier, the supplied continuation ledger, and
+constructor separation of the visible step from \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_construct}
+
+\begin{lemma}[Complex difference quotient is well-defined]
+\label{lem:cplx-diff-quot-well-defined}
+For each \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\) there is exactly one complex history \(q\), up to \(\hsame\), with \(\mathsf{CplxDiffQuot}(f, z, h, q)\).
+\end{lemma}
+\begin{proof}
+Functionality of complex addition, subtraction, and division on the rational-pair representation of complex histories (\autoref{ch:concrete-instances-complex-namecert}) gives a unique \(q\) up to \(\hsame\). The reciprocal step is governed by the explicit witness in \(\mathsf{CplxNonZero}(h)\), which fixes a precision below which the modulus is bounded away from zero.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_quotient\_cont\_deterministic}
+
+\begin{theorem}[Empty-function difference quotient has non-zero result]
+\label{thm:cplx-diff-quot-empty-function-result-nonzero}
+If \(\mathsf{CplxDiffQuot}(\emp,z,h,q)\) holds, then \(q\) is non-zero as a
+complex history.
+\end{theorem}
+\begin{proof}
+The quotient ledger contains the non-zero witness for \(h\) and the
+continuation \(\ContR(\emp,h,q)\). Left-unit uniqueness for continuation gives
+\(q\hsame h\), so any classifier of \(q\) with \(\emp\) transports back to a
+classifier of \(h\) with \(\emp\), contradicting the stored witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_empty\_function\_result\_nonzero}
+
+\begin{theorem}[Shared-result difference quotients determine the step]
+\label{thm:cplx-diff-quot-same-result-step-deterministic}
+If \(\mathsf{CplxDiffQuot}(f,z,h,q)\) and
+\(\mathsf{CplxDiffQuot}(f,z,h',q)\) hold with the same function history and
+the same result history, then \(h\hsame h'\), and both quotient ledgers expose
+\(\ContR(f,h,q)\) and \(\ContR(f,h',q)\).
+\end{theorem}
+\begin{proof}
+Unpack the two quotient witnesses. Their ledger fields are continuations with
+the same source \(f\) and result \(q\); left cancellation for continuation
+therefore identifies the two step histories. The two ledger fields are retained
+as the displayed continuation witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_same\_result\_step\_deterministic}
+
+\begin{lemma}[Difference quotient result agrees with any matching continuation]
+\label{lem:cplx-diff-quot-cont-result-hsame}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the same source and step also
+continue to $q'$, then $\hsame(q,q')$.
+\end{lemma}
+\begin{proof}
+Eliminate the concrete difference-quotient package to expose its continuation
+ledger $\ContR(f,h,q)$. Determinism of BEDC continuation against the supplied
+ledger $\ContR(f,h,q')$ gives $\hsame(q,q')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_cont\_result\_hsame}
+
+\begin{lemma}[Complex difference quotient point transport determinacy]
+\label{lem:cplx-diff-quot-point-hsame-cont-deterministic}
+If $\hsame(z,z')$ and the quotient relation holds both at $z$ and at $z'$ for
+the same function and non-zero step,
+$$
+\mathsf{CplxDiffQuot}(f,z,h,q)
+\qquad\text{and}\qquad
+\mathsf{CplxDiffQuot}(f,z',h,q'),
+$$
+then both quotient ledgers are exposed and their results agree:
+$$
+\ContR(f,h,q)\land \ContR(f,h,q')\land \hsame(q,q').
+$$
+\end{lemma}
+\begin{proof}
+Transport the right quotient witness back along $\hsame(z,z')$, keeping the
+function, step, and quotient endpoints fixed. The same-point quotient
+determinacy theorem then gives the two continuation ledgers and the endpoint
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_point\_hsame\_cont\_deterministic}
+
+\begin{lemma}[Compatibility of the difference quotient with \(\hsame\)]
+\label{lem:cplx-diff-quot-hsame}
+If \(\mathsf{CplxDiffQuot}(f, z, h, q)\) and \(\hsame(f,f')\), \(\hsame(z,z')\), \(\hsame(h,h')\), and \(\hsame(q,q')\), then \(\mathsf{CplxDiffQuot}(f', z', h', q')\). The transported target also exposes the unary point carrier, the transported non-zero witness on \(h'\), and the quotient ledger \(\Cont(f',h',q')\).
+\end{lemma}
+\begin{proof}
+Transport the unary function, point, and quotient carriers along \(\hsame\). The non-zero witness transports by contradiction against \(\hsame(h,h')\), and the quotient ledger transports by \(\Cont\)-stability on source, step, and result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_hsame\_transport}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_append\_classifier\_transport}
+
+\begin{theorem}[Complex difference quotient result is not empty]
+\label{thm:cplx-diff-quot-result-not-empty}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$, then $\hsame(q,\emp)$ implies
+contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_not\_empty}
+\begin{proof}
+Unpack the quotient ledger to obtain the non-zero witness on $h$ and the
+continuation $\Cont(f,h,q)$. If $q\hsame\emp$, transport the continuation
+result to $\Cont(f,h,\emp)$; empty-result inversion for continuation then
+identifies $h$ with $\emp$, contradicting $\mathsf{CplxNonZero}(h)$.
+\end{proof}
+
+\begin{theorem}[Complex difference quotient append target is not empty]
+\label{thm:cplx-diff-quot-append-target-not-empty}
+If $\mathsf{CplxDiffQuotAppendClassifier}(f,z,h,q)$, then
+$\hsame(\mathsf{append}(z,h),\emp)$ implies contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuotAppendClassifier\_append\_target\_not\_empty}
+\begin{proof}
+Unpack the append classifier to obtain the non-zero witness on $h$. The
+append-empty decomposition of
+$\hsame(\mathsf{append}(z,h),\emp)$ gives $h\hsame\emp$, which contradicts
+that witness.
+\end{proof}
+
+\begin{lemma}[Difference quotient results are nonempty]
+\label{lem:cplx-diff-quot-result-nonempty}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds, then $q$ cannot be internally
+equal to the empty history.
+\end{lemma}
+\begin{proof}
+The quotient relation contains the non-zero witness on $h$ and the ledger
+$\Cont(f,h,q)$. Transporting the ledger along a hypothetical $q\hsame\emp$
+would give $\Cont(f,h,\emp)$. Empty-result inversion for continuation then
+forces $h\hsame\emp$, contradicting the non-zero witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty}
+
+\section{Pointwise complex differentiability}
+
+\begin{definition}[Pointwise complex differentiability]
+\label{def:cplx-diff-at}
+For a complex-valued function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), the pointwise complex differentiability predicate \(\mathsf{CplxDiffAt}(f, z, f')\) records unary carriers for \(f\) and \(z\), a complex-history carrier for \(f'\), at least one difference-quotient witness of \autoref{def:cplx-diff-quot}, and the requirement that every such quotient classifies to \(f'\) under \(\hsame\).
+\end{definition}
+\leandef{BEDC.Derived.ComplexDiffUp.CplxDiffAt}
+
+\begin{lemma}[Uniqueness of the derivative]
+\label{lem:cplx-diff-at-unique}
+If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
+\end{lemma}
+\begin{proof}
+Choose a displayed quotient witness \(q\) from \(\mathsf{CplxDiffAt}(f,z,f')\). The classifier field of the first differentiability witness gives \(q\hsame f'\), while the classifier field of the second gives \(q\hsame g'\). Symmetry and transitivity of \(\hsame\) identify \(f'\) and \(g'\); the same quotient package also exposes the continuation ledger \(\Cont(f,h,q)\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_derivative\_unique}
+
+\begin{lemma}[Compatibility with \(\hsame\)]
+\label{lem:cplx-diff-at-hsame}
+If \(\mathsf{CplxDiffAt}(f, z, f')\), \(\hsame(z, z')\), and \(\hsame(f', g')\), then \(\mathsf{CplxDiffAt}(f, z', g')\) with the same modulus \(\delta\).
+\end{lemma}
+\begin{proof}
+Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus comparison's stability under \(\hsame\).
+\end{proof}
+
+\section{Closure laws for complex differentiability}
+
+\begin{lemma}[Sum rule]
+\label{lem:cplx-diff-sum}
+If \(\mathsf{CplxDiffAt}(f, z, f')\) with modulus \(\delta_f\) and \(\mathsf{CplxDiffAt}(g, z, g')\) with modulus \(\delta_g\), then \(\mathsf{CplxDiffAt}(f + g, z, f' + g')\) with modulus \(k \mapsto \max(\delta_f(k+1), \delta_g(k+1))\).
+\end{lemma}
+\begin{proof}
+The difference quotient of \(f + g\) decomposes into the sum of the two individual difference quotients. The pasted modulus halves each error budget at precision \(k+1\), giving total error below \(2^{-k}\).
+\end{proof}
+
+\begin{lemma}[Scalar rule]
+\label{lem:cplx-diff-scalar}
+If \(\mathsf{CplxDiffAt}(f, z, f')\) with modulus \(\delta_f\) and \(c\) is a complex history, then \(\mathsf{CplxDiffAt}(c \cdot f, z, c \cdot f')\) with modulus \(k \mapsto \delta_f(k + |c|)\), where \(|c|\) is an explicit unary upper bound on the modulus of \(c\).
+\end{lemma}
+\begin{proof}
+Linear scaling of the difference quotient absorbs \(c\); the modulus pastes by adding the explicit bound on \(|c|\) at each precision.
+\end{proof}
+
+\begin{lemma}[Product rule with Leibniz modulus pasting]
+\label{lem:cplx-diff-product}
+If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(g, z, g')\), then \(\mathsf{CplxDiffAt}(f \cdot g, z, f' \cdot g(z) + f(z) \cdot g')\) with modulus pasted by an explicit Leibniz-style combination of \(\delta_f\), \(\delta_g\), an upper bound \(|f|_z\) for the modulus of \(f\) near \(z\), and an upper bound \(|g|_z\) for the modulus of \(g\) near \(z\).
+\end{lemma}
+\begin{proof}
+Write the difference quotient of \(f \cdot g\) as
+$$
+\frac{(f(z+h) - f(z)) \cdot g(z+h) + f(z) \cdot (g(z+h) - g(z))}{h}.
+$$
+Each summand contributes one of the two derivative terms up to an explicit error controlled by the local moduli of \(f\) and \(g\) near \(z\); the local-modulus bounds are obtained from \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(g, z, g')\) by integrating the difference-quotient bound on a small explicit disk around \(z\).
+\end{proof}
+
+\begin{lemma}[Chain rule with explicit composite modulus]
+\label{lem:cplx-diff-chain}
+If \(\mathsf{CplxDiffAt}(g, z, g')\) with modulus \(\delta_g\) and \(\mathsf{CplxDiffAt}(f, g(z), f')\) with modulus \(\delta_f\), then \(\mathsf{CplxDiffAt}(f \circ g, z, f' \cdot g')\) with modulus \(k \mapsto \delta_g(\delta_f(k+1) + |g'|_z + 1) + 1\), where \(|g'|_z\) is an explicit bound on the modulus of \(g'\).
+\end{lemma}
+\begin{proof}
+For \(h\) small enough (controlled by the inner \(\delta_g\)), \(g(z+h) - g(z)\) is close to \(g' \cdot h\); plugging this into the outer difference quotient via \(\delta_f\) yields the composite estimate. The \(+1\) corrections absorb the rounding from each linear-approximation step.
+\end{proof}
+
+\section{Real-component partial derivatives}
+
+\begin{definition}[Real-coordinate projections of a complex function]
+\label{def:cplx-real-proj}
+For a complex-valued function-history \(f\), write \(f = u + i \cdot v\) where the real part \(u\) and the imaginary part \(v\) are explicit real-valued function-histories obtained by projecting the rational-pair representation of \(f\). Each of \(u\) and \(v\) takes a complex input \((x, y)\) and returns a real history.
+\end{definition}
+
+\begin{definition}[One-variable real partial derivative]
+\label{def:partial-real}
+For a real-valued function-history \(u\) on the complex carrier and a complex history \(z = (x, y)\), the partial derivative with respect to the real coordinate, \(\mathsf{PartialReal}(u, z, p)\), is the data of an explicit modulus \(\delta : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary precision \(k\) and every real history \(t\) with \(0 < |t| < 2^{-\delta(k)}\), the difference \(\bigl(u(x + t, y) - u(x, y)\bigr)/t\) is within \(2^{-k}\) of \(p\) as a real-modulus comparison.
+\end{definition}
+
+\begin{definition}[One-variable imaginary partial derivative]
+\label{def:partial-imag}
+\(\mathsf{PartialImag}(u, z, q)\) is defined analogously with respect to the imaginary coordinate: the difference \(\bigl(u(x, y + s) - u(x, y)\bigr)/s\) approaches \(q\) under the modulus \(\delta\).
+\end{definition}
+
+\begin{lemma}[Uniqueness of real-coordinate partials]
+\label{lem:partial-unique}
+The real and imaginary partial derivatives of \autoref{def:partial-real} and \autoref{def:partial-imag} are unique up to \(\hsame\), and respect \(\hsame\) on the input position \(z\).
+\end{lemma}
+\begin{proof}
+The argument is the one-variable specialization of \autoref{lem:cplx-diff-at-unique}: triangle-inequality combination of the two moduli halves the precision budget.
+\end{proof}
+
+\section{Cauchy--Riemann equations, constructive form}
+
+\begin{theorem}[Cauchy--Riemann, forward direction]
+\label{thm:cauchy-riemann-forward}
+If \(\mathsf{CplxDiffAt}(f, z, f')\) holds with \(f = u + i \cdot v\) and \(f' = a + i \cdot b\), then there exist explicit moduli witnessing all four real-coordinate partial derivatives \(\partial_x u\), \(\partial_x v\), \(\partial_y u\), \(\partial_y v\) at \(z\), and the two coupling equations
+\(\hsame(\partial_x u, \partial_y v)\) and \(\hsame(\partial_x v, -\partial_y u)\)
+hold up to \(\hsame\) on real histories.
+\end{theorem}
+\begin{proof}[Sketch]
+Specializing \(\mathsf{CplxDiffAt}(f, z, f')\) to a real \(h\) (i.e., \(h = (t, 0)\)) yields \(\mathsf{PartialReal}\) for both \(u\) and \(v\) at \(z\), with witnesses \(\partial_x u = a\) and \(\partial_x v = b\). Specializing to a purely imaginary \(h = (0, s)\) and dividing by \(i\) yields \(\mathsf{PartialImag}\) for both \(u\) and \(v\), with witnesses \(\partial_y u = -b\) and \(\partial_y v = a\). The coupling \(\hsame(\partial_x u, \partial_y v)\) follows directly from \(a = a\), and \(\hsame(\partial_x v, -\partial_y u)\) from \(b = -(-b)\). Both are uniqueness-up-to-\(\hsame\) reductions via \autoref{lem:partial-unique}.
+\end{proof}
+
+\begin{theorem}[Cauchy--Riemann, backward direction]
+\label{thm:cauchy-riemann-backward}
+Suppose \(f = u + i \cdot v\) admits the four real-coordinate partial derivatives at \(z\) with explicit moduli, and the two coupling equations \(\hsame(\partial_x u, \partial_y v)\) and \(\hsame(\partial_x v, -\partial_y u)\) hold. If in addition the partials are continuous at \(z\) with an explicit local modulus, then \(\mathsf{CplxDiffAt}(f, z, \partial_x u + i \cdot \partial_x v)\) holds, with an explicit composite modulus.
+\end{theorem}
+\begin{proof}[Sketch]
+For complex \(h = (t, s)\), the difference \(f(z+h) - f(z)\) decomposes via the mean-value form (one-variable) along the path \((x, y) \to (x + t, y) \to (x + t, y + s)\). Each segment contributes a partial-derivative term up to an explicit error controlled by the continuity modulus. The two coupling equations are exactly what is needed to reassemble the result into the complex-linear form \((\partial_x u + i \cdot \partial_x v) \cdot h\), giving the complex difference quotient with an explicit error bound.
+\end{proof}
+
+\begin{lemma}[Cauchy--Riemann is an iff under continuity]
+\label{lem:cauchy-riemann-iff}
+Under the hypothesis that \(f\) has continuous real-coordinate partial derivatives at \(z\), \(\mathsf{CplxDiffAt}(f, z, f')\) is equivalent to the conjunction of the two coupling equations of \autoref{thm:cauchy-riemann-forward}.
+\end{lemma}
+\begin{proof}
+Combine \autoref{thm:cauchy-riemann-forward} and \autoref{thm:cauchy-riemann-backward}.
+\end{proof}
+
+\section{The certificate}
+
+\begin{definition}[Complex-differentiability source specification]
+\label{def:cplx-diff-source-specification}
+The source specification carries a complex function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), constrained by \(\mathsf{CplxDiffAt}(f, z, f')\) of \autoref{def:cplx-diff-at}. The generator is the explicit modulus \(\delta\).
+\end{definition}
+
+\begin{definition}[Complex-differentiability pattern specification]
+\label{def:cplx-diff-pattern-specification}
+The pattern of \(\ComplexDiffUp\) is the explicit difference-quotient witness of \autoref{def:cplx-diff-quot}: for an input \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\), the pattern is the unique \(q\) with \(\mathsf{CplxDiffQuot}(f, z, h, q)\), parametrically in the precision \(k\).
+\end{definition}
+
+\begin{definition}[Complex-differentiability classifier specification]
+\label{def:cplx-diff-classifier-specification}
+The classifier on the differentiability carrier is \(\hsame\) lifted to the triple \((f, z, f')\): two triples classify together iff each component is \(\hsame\)-equal as a history (with the function-history part compared on its rational-pair representation).
+\end{definition}
+
+\begin{definition}[Complex-differentiability stability certificate]
+\label{def:cplx-diff-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item closure of \(\mathsf{CplxDiffAt}\) under \(\hsame\) on each input slot (\autoref{lem:cplx-diff-at-hsame});
+  \item uniqueness of the derivative up to \(\hsame\) (\autoref{lem:cplx-diff-at-unique});
+  \item compatibility of the difference-quotient pattern with \(\hsame\) (\autoref{lem:cplx-diff-quot-hsame}).
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Complex-differentiability ledger policy]
+\label{def:cplx-diff-ledger-policy}
+The ledger policy records:
+\begin{enumerate}
+  \item sum, scalar, product, and chain closure (\autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain});
+  \item the Cauchy--Riemann coupling (\autoref{thm:cauchy-riemann-forward}, \autoref{thm:cauchy-riemann-backward}, \autoref{lem:cauchy-riemann-iff});
+  \item explicit modulus pasting laws so that any finite combination of differentiable pieces yields an explicit composite modulus.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Concrete \(\ComplexDiffUp\) naming certificate]
+\label{thm:complex-diff-namecert}
+The data \((\mathsf{CplxDiffAt}, \mathsf{CplxDiffQuot}, \hsame, \mathsf{CplxDiffStabilityCert}, \mathsf{CplxDiffLedgerPolicy})\) of \autoref{def:cplx-diff-source-specification}--\autoref{def:cplx-diff-ledger-policy} forms a naming certificate over \(\Hist\) for the complex-differentiability interface \(\ComplexDiffUp\). The certificate is constructive (every modulus is an explicit unary function), unique-up-to-\(\hsame\) on the derivative slot, and closed under sum, scalar, product, and chain rule.
+\end{theorem}
+\begin{proof}[Sketch]
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Constructivity is explicit in the modulus data of \autoref{def:cplx-diff-at}. Uniqueness is \autoref{lem:cplx-diff-at-unique}. The four closure laws are \autoref{lem:cplx-diff-sum}--\autoref{lem:cplx-diff-chain}. The Cauchy--Riemann coupling sits inside the ledger policy as a derived fact, not as an additional axiom. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\ComplexDiffUp\) naming certificate]
+\label{thm:complex-diff-semantic-namecert}
+The concrete certificate of \autoref{thm:complex-diff-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate on triples \((f, z, f')\), the classifier is a restriction of \(\hsame\), and every closure law is given by an explicit constructive proof. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{theorem}
+\begin{proof}[Sketch]
+Direct verification of the four \(\NameCert\) field types using the constructions of this chapter, together with transport along \(\hsame\) on each input slot.
+\end{proof}

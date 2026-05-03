@@ -1,0 +1,66 @@
+\begin{theorem}[Group left absorption forces the right factor to the unit]
+\label{thm:group-left-absorb-right-factor-unit}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and left inverses, if $ab\hsame a$,
+then $b\hsame e$.
+\end{theorem}
+\begin{proof}
+Chain $ab$ through the assumption to $a$, then backward through the right
+identity $ae\hsame a$. Left cancellation of the common factor $a$ yields
+$b\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_absorb\_right\_factor\_unit}
+
+\begin{theorem}[Group right cancellation]
+\label{thm:group-right-cancellation}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, equality of \(ba\) and \(ca\)
+under \(\hsame\) implies equality of \(b\) and \(c\) under \(\hsame\).
+\end{theorem}
+\begin{proof}
+Chain \(b\) through the right identity, replace that identity by
+\(aa^{-1}\), reassociate to \((ba)a^{-1}\), use multiplication congruence on
+the assumed product equality, reassociate back to \(c(aa^{-1})\), collapse the
+right inverse, and finish by the right identity on \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_cancel}
+
+\begin{theorem}[Group right absorption forces the left factor to the unit]
+\label{thm:group-right-absorb-left-factor-unit}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and right inverses, if $ba\hsame a$,
+then $b\hsame e$.
+\end{theorem}
+\begin{proof}
+Chain $ba$ through the assumption to $a$, then backward through the left
+identity $ea\hsame a$. Right cancellation of the common factor $a$ yields
+$b\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_absorb\_left\_factor\_unit}
+
+\begin{theorem}[Group two-sided cancellation]
+\label{thm:group-two-sided-cancellation}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, equality of
+$(ab)c$ and $(ad)c$ under $\hsame$ implies equality of $b$ and $d$ under
+$\hsame$.
+\end{theorem}
+\begin{proof}
+First apply right cancellation to the common final factor $c$, reducing the
+displayed equality to $\hsame(ab,ad)$. Then apply left cancellation to the
+common initial factor $a$, yielding $\hsame(b,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_two\_sided\_cancel}
+
+\begin{definition}[Group ledger policy]
+\label{def:group-ledger-policy}
+Record the monoid ledger plus every inverse operation applied.
+\end{definition}
+
+\begin{definition}[\(\GroupUp\) certificate obligations]
+\label{def:group-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\GroupUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\GroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

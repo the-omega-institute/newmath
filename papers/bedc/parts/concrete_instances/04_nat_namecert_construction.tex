@@ -83,6 +83,16 @@ $\emp$ and $\mathsf{Cont}(h,t,k)$.
 \end{definition}
 \leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
 
+\begin{lemma}[Strict unary prefix one-step]
+\label{lem:nat-unary-strict-prefix-one-step}
+If \(h\) is unary, then \(h\) is a strict unary prefix of \(\Eone(h)\).
+\end{lemma}
+\begin{proof}
+Use the tail \(\Eone(\emp)\). It is unary, it is not \(\emp\), and
+\(\Cont(h,\Eone(\emp),\Eone(h))\) holds by the continuation constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_one\_step}
+
 \begin{theorem}[Strict unary prefix asymmetry]
 \label{thm:nat-unary-strict-prefix-asymm}
 No pair of histories can strictly prefix each other through nonempty unary
@@ -95,6 +105,40 @@ forward target, so left cancellation identifies the forward tail with $\emp$,
 contradicting its strictness.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_asymm}
+
+\begin{theorem}[Strict unary prefix has nonempty target]
+\label{thm:nat-unary-strict-prefix-empty-right-absurd}
+No history can be a strict unary prefix of \(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the strict-prefix witness. The continuation into \(\emp\) forces the
+tail to be \(\emp\), contradicting the nonempty-tail condition.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_empty\_right\_absurd}
+
+\begin{theorem}[Strict unary prefix one-boundary inversion]
+\label{thm:nat-unary-strict-prefix-e1-inversion}
+If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\), then \(h\) is a strict unary prefix of \(k\).
+\end{theorem}
+\begin{proof}
+Unpack the strict witness tail. The empty tail contradicts strictness, and an \(\Ezero\)-headed tail contradicts unary generation. For an \(\Eone(t)\) tail, invert the result boundary of the continuation and commute the visible \(\Eone\) across the unary tail \(t\), yielding the strict witness \(\Eone(t)\) from \(h\) to \(k\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
+
+\begin{theorem}[Strict unary prefix append-tail transitivity]
+\label{thm:nat-unary-strict-prefix-append-tail-trans}
+If \(h\) continues by a nonempty unary tail to \(k\), and \(k\) continues by a
+unary tail to \(l\), then \(h\) is a strict unary prefix of \(l\). The witness
+tail is \(\mathsf{append}(t_1,t_2)\), and it also gives
+\(\mathsf{Cont}(h,\mathsf{append}(t_1,t_2),l)\).
+\end{theorem}
+\begin{proof}
+Invert the two continuation witnesses and reassociate append. Unary closure
+under append gives a unary composite tail, and append empty-result exactness
+shows that the composite tail cannot be empty because its left component is
+nonempty.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_append\_tail\_trans}
 
 \section{The certificate}
 

@@ -1,0 +1,589 @@
+\begin{theorem}[RatUp FieldUp algebra reduct compatibility]
+\label{thm:ratup-fieldup-algebra-reduct-compatibility}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+$\FieldUp(\RatUp)$ certificate is compatible with the already licensed algebraic
+reducts over BEDC histories. Its denominator continuation product uses the same
+empty-unit and associativity data as the unary append $\MonoidUp$ certificate;
+its singleton empty obstruction rows restrict to the concrete singleton
+$\GroupUp$ and $\AbGroupUp$ certificates; its zero/one singleton boundary
+restricts to the singleton empty-history $\RingUp$ laws; its zero/one
+singleton boundary together with multiplicative commutativity restricts to the
+singleton empty-history $\CommRingUp$ schema certificate of
+Theorem~\ref{thm:singleton-empty-history-commring-schema-certificate}; and
+Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} consumes these
+reduct rows without introducing schematic operation parameters.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:unary-append-monoid-semantic-name-certificate} to the
+denominator continuation product. The empty source, left and right unit laws,
+append associativity, and append congruence are exactly the rows used by the
+denominator carrier and classifier package.
+
+Next apply Theorem~\ref{thm:concrete-singleton-history-group-laws} and
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws}. The singleton empty
+obstruction rows have carrier $A_{\emp}$ and classifier $\rho_{\emp}$, so their
+group and abelian-group reducts are the corresponding singleton certificates.
+
+For the zero/one boundary, apply
+Theorem~\ref{thm:singleton-empty-history-ring-laws}. Its singleton
+empty-history ring tuple supplies the additive, multiplicative, zero, and one
+laws required by the boundary rows.
+
+For the commutative-ring base coordinate, apply
+Theorem~\ref{thm:singleton-empty-history-commring-schema-certificate}. Its
+carrier, classifier, constant-operation tuple, and multiplicative commutativity
+field supply the $\CommRingUp$ base coordinate named by
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}.
+
+Finally apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete}.
+That theorem packages the displayed denominator, singleton, ring, and
+commutative-ring reduct rows into the concrete $\FieldUp(\RatUp)$ exit object,
+and its conclusion states that no schematic $\mathsf{mul}$, $\mathsf{add}$, or
+$\mathsf{neg}$ parameter is part of the certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatUpFieldUp\_algebra\_reduct\_compatibility}
+
+\begin{theorem}[RatUp FieldUp inverse-product classifier exit row]
+\label{thm:ratup-fieldup-inverse-product-classifier-exit-row}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, bind the rows of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table} as follows: let
+$\mu_F$ be its concrete multiplication row, let $\iota_F$ be its inverse row
+over $\mathsf{FieldApartZero}$, and let $N_F$ be the certified
+nonzero/apartness row carried by the same table. If
+$a,b,c,d:\mathsf{BHist}$ carry witnesses $p_a:N_F(a)$, $p_b:N_F(b)$,
+$p_c:N_F(c)$, and $p_d:N_F(d)$, and if the table supplies product witnesses
+$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$, then the concrete
+classifier row records
+$$
+\mu_F(a,b)\hsame\mu_F(c,d)
+\Longleftrightarrow
+\mu_F(\iota_F(b,p_b),\iota_F(a,p_a))\hsame
+\mu_F(\iota_F(d,p_d),\iota_F(c,p_c)).
+$$
+This displayed equivalence is an internal operation-exhaustion row of the
+concrete $\FieldUp(\RatUp)$ exit object, with carrier $\mathsf{BHist}$ and
+classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+First invoke \autoref{thm:ratup-fieldup-concrete-operation-table-laws}. It
+binds the concrete carrier and classifier rows, the $\CommRingUp$ base rows, the
+inverse row over $\mathsf{FieldApartZero}$, and the nonzero row inside
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}. Thus $\mu_F$,
+$\iota_F$, and $N_F$ are rows of the displayed table rather than free operation
+parameters.
+
+Next invoke
+\autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It
+locates product classifier exactness and nonzero transport inside the same
+concrete source tuple $\mathsf{RatUpFieldSource}_F$, so the witnesses
+$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$ are supplied by the bound
+multiplication and nonzero rows.
+
+Next apply \autoref{thm:field-inverse-product-classifier-exact-from-apartness}.
+With the four certified factor witnesses and the two product witnesses just
+located, the generic history-level theorem converts classifier equality of
+$\mu_F(a,b)$ and $\mu_F(c,d)$ into classifier equality of the reversed inverse
+products built from $\iota_F$, and conversely.
+
+Finally use
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} together with
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. These theorems record
+that the product, inverse, and nonzero rows are consumed by
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, so the displayed
+classifier equivalence is part of the concrete $\FieldUp(\RatUp)$ exit object
+rather than an external schematic operation parameter.
+\end{proof}
+
+Per-object template: traditional target inverse-product exactness row for
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; ledger the four
+factor witnesses plus the two product witnesses; exactness predicate the
+displayed classifier equivalence; status $\mathsf{ProofTarget}$.
+
+Per-object template: traditional target algebra-hierarchy reduct compatibility
+for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with the concrete
+$\mathsf{RatUpFieldSource}_F$ rows; carrier rows
+$\mathsf{RatHistoryCarrier}$ and $\mathsf{RatDenomUnitCarrier}$; classifier rows
+$\mathsf{RatHistoryClassifier}$ and $\mathsf{RatDenomUnitClassifier}$; ledger
+the denominator continuation reduct, singleton empty obstruction reducts, and
+singleton zero/one ring and commutative-ring reducts, including the
+$\CommRingUp$ base coordinate; core theorem list
+Theorem~\ref{thm:unary-append-monoid-semantic-name-certificate},
+Theorem~\ref{thm:concrete-singleton-history-group-laws},
+Theorem~\ref{thm:singleton-empty-history-abgroup-laws},
+Theorem~\ref{thm:singleton-empty-history-ring-laws},
+Theorem~\ref{thm:singleton-empty-history-commring-schema-certificate}, and
+Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete}; exactness
+predicate reduct-row coverage for
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine automorphism action certificate]
+\label{thm:ratup-fieldup-affine-automorphism-action-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+$\FieldUp(\RatUp)$ exit object exports the affine automorphism action certificate
+on $\mathsf{BHist}$ required by downstream algebra. The action carrier is
+$\mathsf{AffAut}_F$; its classifier is $\equiv_{\mathrm{aff}}$; its identity,
+composition, and inverse laws are those of
+Theorem~\ref{thm:field-affine-automorphism-group-certificate}; each affine
+fiber is singleton-classified by
+Theorem~\ref{thm:field-affine-certified-fiber-singleton}; and common affine
+factors cancel exactly by
+Theorem~\ref{thm:field-affine-automorphism-cancellation-exactness}.
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} and
+Theorem~\ref{thm:ratup-fieldup-algebra-reduct-compatibility}. These fix the
+concrete $\FieldUp(\RatUp)$ operations and the reduct rows over
+$\mathsf{BHist}$, so the action is attached to the same exit object rather than
+to a schematic field package.
+
+Next apply Theorem~\ref{thm:field-affine-automorphism-group-certificate} to
+the fixed operations. Its carrier $\mathsf{AffAut}_F$ and classifier
+$\equiv_{\mathrm{aff}}$ supply the identity, composition, and inverse fields of
+the affine action certificate.
+
+Finally project Theorem~\ref{thm:field-affine-certified-fiber-singleton} and
+Theorem~\ref{thm:field-affine-automorphism-cancellation-exactness}. The first
+projection supplies singleton classification of every affine fiber, and the
+second supplies exact cancellation for common affine factors, which are the
+action exactness fields consumed downstream.
+\end{proof}
+
+Per-object template: traditional target affine group action over a field; BEDC
+source concrete $\FieldUp(\RatUp)$ exit rows over $\mathsf{BHist}$; carrier
+$\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$; stability obligations
+group laws, fiber singleton exactness, and cancellation exactness; ledger
+nonzero coefficient witnesses, product witnesses, offsets, and inverse
+witnesses; core theorem
+Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate};
+exactness predicate fiber and cancellation exactness for the action; standard
+bridge ordinary affine action; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit action and inverse package]
+\label{thm:ratup-fieldup-canonical-exit-action-inverse-package}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+$\FieldUp(\RatUp)$ exit target simultaneously exports the following rows as one
+concrete exit package.
+
+\begin{enumerate}
+\item The algebra-reduct compatibility rows of
+\autoref{thm:ratup-fieldup-algebra-reduct-compatibility}.
+\item The inverse-product classifier exactness row of
+\autoref{thm:ratup-fieldup-inverse-product-classifier-exit-row}.
+\item The affine automorphism action certificate of
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}.
+\end{enumerate}
+
+Thus downstream $\FieldUp$ consumers may cite this one canonical package for
+reduct rows, inverse-product exactness, and affine action support without
+reassembling the three certificate rows from their separate locations.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}. This fixes
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} as the concrete
+$\mathsf{BHist}$-anchored source object with carrier
+$\mathsf{RatHistoryCarrier}$, classifier $\mathsf{RatHistoryClassifier}$,
+denominator data, and contextual action $\Gamma$.
+
+Apply \autoref{thm:ratup-fieldup-algebra-reduct-compatibility} to the fixed
+source anchor. This supplies the denominator continuation reduct, singleton
+empty obstruction reducts, singleton zero/one ring rows, and commutative-ring
+base coordinate as fields of the same concrete exit object.
+
+Next apply \autoref{thm:ratup-fieldup-inverse-product-classifier-exit-row}. Its
+row is carried by the same $\mathsf{BHist}$ source and classifier $\hsame$, so
+the inverse-product classifier exactness field is collected without changing
+the carrier or source tuple.
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}. Its affine
+carrier $\mathsf{AffAut}_F$, classifier $\equiv_{\mathrm{aff}}$, group laws,
+fiber singleton exactness, and cancellation exactness become the action fields
+of the same exit object.
+
+This is not a single-theorem variant of any one cited result. It composes three
+separately located exit rows into one canonical package whose fields are all
+anchored by Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+\end{proof}
+
+Per-object template: traditional target canonical $\FieldUp(\RatUp)$ exit action
+and inverse package; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; carrier $\mathsf{RatHistoryCarrier}$ together with
+$\mathsf{AffAut}_F$ for the action row; classifier
+$\mathsf{RatHistoryClassifier}$, $\hsame$, and $\equiv_{\mathrm{aff}}$ on their
+displayed rows; stability obligations algebra-reduct compatibility,
+inverse-product classifier exactness, affine group laws, affine fiber
+singleton exactness, and affine cancellation exactness; ledger denominator
+continuation reducts, singleton obstruction reducts, zero/one boundary rows,
+commutative-ring base coordinate, certified nonzero factor witnesses, product
+witnesses, affine coefficients, offsets, and inverse witnesses; core theorem
+list \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit},
+\autoref{thm:ratup-fieldup-algebra-reduct-compatibility},
+\autoref{thm:ratup-fieldup-inverse-product-classifier-exit-row}, and
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}; exactness
+predicate inverse-product classifier equivalence plus affine fiber and
+cancellation exactness; standard bridge ordinary field reducts with ordinary
+affine action; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp contextual pair transport full noncollapse invariance]
+\label{thm:ratup-fieldup-contextual-pair-transport-full-noncollapse-invariance}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$$
+x_L:=\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))
+$$
+and
+$$
+x_R:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)).
+$$
+Suppose $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$;
+suppose $C_D^u(h)$; suppose the four denominator context comparisons
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$ hold; and
+suppose $\mathsf{RatHistoryCarrier}(x_L)$. Then the transported endpoint $x_R$
+has the following concrete noncollapse package:
+\begin{enumerate}
+  \item $R_D^u(x_L,x_R)$;
+  \item $C_D^u(x_R)$;
+  \item $\mathsf{RatHistoryCarrier}(x_R)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x_R)\to\bot$;
+  \item $x_R\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x_R))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x_R,r))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x_R))$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x_R,r))$;
+  \item for all $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x_R),
+  \mathsf{append}(R,x_R))\to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-denom-unit-contextual-action-pair-transport-classifier} to the
+four denominator classifier rows and the two nested contextual actions. This
+gives the transported denominator classifier $R_D^u(x_L,x_R)$.
+
+Next apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+to the same empty endpoints, carried source, and classifier rows. Transporting
+the assumed $\mathsf{RatHistoryCarrier}(x_L)$ witness gives
+$\mathsf{RatHistoryCarrier}(x_R)$, and the carrier component gives $C_D^u(x_R)$.
+
+The endpoint noncollapse clauses come from
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} with
+the same data. This supplies the singleton-empty rejection at $x_R$ and the
+direct empty-history rejection $x_R\hsame\emp\to\bot$.
+
+For contextual singleton-carrier rejection, apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}.
+For each context history $r$, it rejects both
+$\mathsf{append}(r,x_R)$ and $\mathsf{append}(x_R,r)$ as singleton-empty
+carriers.
+
+Then apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+to the same transported endpoint. It repacks the two contextual carrier
+rejections as the proof-indexed nonzero witnesses for both append orders.
+
+Finally apply
+\autoref{thm:ratup-fieldup-transported-strict-support-singleton-classifier-exclusion}.
+For all $L,R:\mathsf{BHist}$, this rules out a singleton-empty classifier
+between $\mathsf{append}(L,x_R)$ and $\mathsf{append}(R,x_R)$, completing the
+displayed package.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp affine inverse uniqueness exit]
+\label{thm:ratup-fieldup-affine-inverse-uniqueness-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T:\mathsf{AffAut}_F$ be a certified affine automorphism in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $S:\mathsf{AffAut}_F$ be the explicit affine
+inverse of $T$ supplied by
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package}, and
+let $U:\mathsf{AffAut}_F$ be any certified affine automorphism whose left and
+right affine composites with $T$ classify as the affine identity under
+$\equiv_{\mathrm{aff}}$:
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I.
+$$
+Then $U$ is the same affine inverse as $S$ under the concrete action classifier:
+$$
+U\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-concrete-exit-object-complete} to
+fix the concrete $\FieldUp(\RatUp)$ exit object. Apply
+Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate} to attach
+the carrier $\mathsf{AffAut}_F$, the affine composition
+$\circ_{\mathrm{aff}}$, the affine identity $I$, and the classifier
+$\equiv_{\mathrm{aff}}$ to that same object.
+
+The explicit inverse package
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package} supplies
+the displayed inverse witness $S$ for $T$. The hypotheses supply the matching
+left and right inverse equations for $U$ against the same $T$ and under the same
+affine classifier.
+
+Apply Theorem~\ref{thm:field-affine-automorphism-inverse-unique}. Its conclusion
+is the group-classifier equality between the arbitrary inverse candidate $U$ and
+the explicit inverse $S$. The action certificate identifies that group
+classifier with the displayed affine classifier, so the returned relation is
+exactly $U\equiv_{\mathrm{aff}}S$.
+\end{proof}
+
+Per-object template: traditional target affine inverse uniqueness over a field
+action; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphism histories; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations affine group certificate and
+inverse equations; ledger inverse witnesses and composite witnesses; core
+theorem
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}; exactness
+predicate uniqueness of the affine inverse under the action classifier; standard
+bridge ordinary uniqueness of inverse in an affine automorphism group; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical affine inverse descent and uniqueness]
+\label{thm:ratup-fieldup-canonical-affine-inverse-descent-and-uniqueness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,T':\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $S,S':\mathsf{AffAut}_F$ be their explicit
+affine inverse witnesses supplied by
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package}. If
+the two input automorphisms have the same affine classifier,
+$$
+T\equiv_{\mathrm{aff}}T',
+$$
+then their explicit inverse witnesses have the same affine classifier:
+$$
+S\equiv_{\mathrm{aff}}S'.
+$$
+Moreover, for any $U:\mathsf{AffAut}_F$, if
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I,
+$$
+then $U$ is the explicit inverse witness for $T$ under the same classifier:
+$$
+U\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+First invoke
+Theorem~\ref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This
+fixes the concrete exit action carrier, the classifier
+$\equiv_{\mathrm{aff}}$, the identity $I$, the composition
+$\circ_{\mathrm{aff}}$, and the inverse package inside
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+For classifier descent, apply
+Theorem~\ref{thm:field-affine-explicit-inverse-classifier-congruence} to the
+explicit inverse formula for $T$ and $T'$. The hypothesis
+$T\equiv_{\mathrm{aff}}T'$ is exactly the input classifier equality, so the
+returned relation is $S\equiv_{\mathrm{aff}}S'$.
+
+For uniqueness of an arbitrary inverse candidate, keep the same action carrier
+and apply Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit} to
+$U$ with its two displayed composite witnesses. Its conclusion is precisely
+$U\equiv_{\mathrm{aff}}S$ under the concrete affine classifier.
+\end{proof}
+
+Per-object template: traditional target affine inverse operation in the
+concrete $\FieldUp(\RatUp)$ exit action; BEDC source
+$\mathsf{RatUpFieldSource}_F$ over $\mathsf{BHist}$; carrier
+$\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$; stability obligations
+inverse classifier descent and two-sided inverse uniqueness; ledger affine
+coefficients, nonzero witnesses, explicit inverse witnesses, and composite
+witnesses; core theorem list
+Theorem~\ref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+Theorem~\ref{thm:field-affine-explicit-inverse-classifier-congruence}, and
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}; exactness
+predicate inverse descent plus uniqueness under the action classifier; standard
+bridge ordinary affine inverse operation; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inverse determinacy exit]
+\label{thm:ratup-fieldup-affine-inverse-determinacy-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Suppose that both $U$ and $V$ have left and
+right affine composites with $T$ classified as the affine identity under
+$\equiv_{\mathrm{aff}}$:
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(V\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}V)\equiv_{\mathrm{aff}} I.
+$$
+Then the two inverse candidates are equal under the concrete affine classifier:
+$$
+U\equiv_{\mathrm{aff}}V.
+$$
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:ratup-fieldup-affine-automorphism-action-certificate}
+to the concrete exit object. This supplies the carrier $\mathsf{AffAut}_F$, the
+affine identity $I$, composition $\circ_{\mathrm{aff}}$, and the classifier
+$\equiv_{\mathrm{aff}}$ together with its symmetry and transitivity rules.
+
+Take the explicit inverse $S$ of $T$ from
+Theorem~\ref{thm:field-affine-automorphism-identity-and-inverse-package}. Apply
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit} to the two
+composite witnesses for $U$. This gives
+$$
+U\equiv_{\mathrm{aff}}S.
+$$
+
+Apply the same theorem to the two composite witnesses for $V$. This gives
+$$
+V\equiv_{\mathrm{aff}}S.
+$$
+
+Use symmetry for the affine classifier to turn the second relation into
+$S\equiv_{\mathrm{aff}}V$. Transitivity of the same classifier then composes
+$U\equiv_{\mathrm{aff}}S$ with $S\equiv_{\mathrm{aff}}V$, yielding
+$U\equiv_{\mathrm{aff}}V$.
+\end{proof}
+
+Per-object template: traditional target inverse determinacy in the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations affine classifier symmetry and
+transitivity; ledger two inverse-candidate composite witnesses; core theorem
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-determinacy-exit}; exactness
+predicate uniqueness of two-sided inverse candidates; standard bridge ordinary
+inverse determinacy in a group action; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit inverse determinacy package]
+\label{thm:ratup-fieldup-canonical-exit-inverse-determinacy-package}
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} exports, as one
+concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit package, the
+contextual pair transport full noncollapse invariance of
+Theorem~\ref{thm:ratup-fieldup-contextual-pair-transport-full-noncollapse-invariance},
+the affine inverse uniqueness row of
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}, and the affine
+inverse determinacy row of
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-determinacy-exit}.
+\end{theorem}
+\begin{proof}
+First fix the canonical exit object by applying
+Theorem~\ref{thm:ratup-fieldup-canonical-machine-checkable-exit} and
+Theorem~\ref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. The first
+theorem identifies Definition~\ref{def:ratup-fieldup-concrete-exit-object} as
+the concrete machine-checkable exit object, and the second attaches the action
+and inverse rows to that same object.
+
+Next project the contextual noncollapse row from
+Theorem~\ref{thm:ratup-fieldup-contextual-pair-transport-full-noncollapse-invariance}.
+Project the affine inverse uniqueness row from
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-uniqueness-exit}. Project the
+affine inverse determinacy row from
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-determinacy-exit}.
+
+The three projected rows share the same $\mathsf{BHist}$ source, denominator
+contextual action, affine carrier, and classifier rows. Conjunction introduction
+therefore gives the advertised public package: contextual transport keeps the
+endpoint noncollapsed, uniqueness identifies any two-sided affine inverse with
+the explicit inverse, and determinacy identifies any two inverse candidates
+with each other.
+\end{proof}
+
+Per-object template: traditional target concrete $\FieldUp(\RatUp)$ exit
+inverse-determinacy package; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatUpFieldSource}_F$, denominator contextual actions, and
+$\mathsf{AffAut}_F$; carrier $\mathsf{RatHistoryCarrier}$ plus certified affine
+automorphisms; classifier $\mathsf{RatHistoryClassifier}$, $\hsame$, and
+$\equiv_{\mathrm{aff}}$; stability obligations contextual transport, endpoint
+noncollapse, affine inverse uniqueness, and affine inverse determinacy; ledger
+transported context pairs and affine inverse witnesses; exactness predicate the
+displayed noncollapse package plus inverse-candidate classifier equality;
+standard bridge ordinary field action inverse determinacy; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inverse compositional determinacy]
+\label{thm:ratup-fieldup-affine-inverse-compositional-determinacy}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V,W:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Suppose that $U$ and $V$ both satisfy the left
+and right inverse equations with $T$ under $\equiv_{\mathrm{aff}}$:
+$$
+(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(V\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}} I
+$$
+and
+$$
+(T\circ_{\mathrm{aff}}V)\equiv_{\mathrm{aff}} I.
+$$
+Then inverse-candidate equality is stable under affine composition on either
+side:
+$$
+(U\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}(V\circ_{\mathrm{aff}}W)
+$$
+and
+$$
+(W\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}}(W\circ_{\mathrm{aff}}V).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit} to the four inverse
+equations for $U$ and $V$. This gives the determined inverse-candidate equality
+$$
+U\equiv_{\mathrm{aff}}V.
+$$
+
+Next apply
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate} to the same
+concrete exit object. The certificate exposes affine composition
+$\circ_{\mathrm{aff}}$, classifier reflexivity, and operation congruence for the
+displayed affine classifier.
+
+For right composition by $W$, use operation congruence with
+$U\equiv_{\mathrm{aff}}V$ in the first coordinate and reflexivity
+$W\equiv_{\mathrm{aff}}W$ in the second coordinate. This yields
+$(U\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}(V\circ_{\mathrm{aff}}W)$.
+
+For left composition by $W$, use reflexivity $W\equiv_{\mathrm{aff}}W$ in the
+first coordinate and $U\equiv_{\mathrm{aff}}V$ in the second coordinate. The
+same congruence row yields
+$(W\circ_{\mathrm{aff}}U)\equiv_{\mathrm{aff}}(W\circ_{\mathrm{aff}}V)$.
+\end{proof}
+
+Per-object template: traditional target inverse candidate descent through
+affine composition; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability affine inverse determinacy and affine
+composition congruence; ledger $T$, $U$, $V$, $W$ and the four inverse
+equations; core theorem
+Theorem~\ref{thm:ratup-fieldup-affine-inverse-compositional-determinacy};
+exactness predicate compositional equality of determined inverse candidates;
+standard bridge ordinary group-action congruence; status $\mathsf{ProofTarget}$.

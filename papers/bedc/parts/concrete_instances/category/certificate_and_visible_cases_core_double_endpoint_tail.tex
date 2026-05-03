@@ -1,0 +1,124 @@
+\begin{theorem}[Continuation morphism zero-headed source to zero-headed target tail cases]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-cases}
+For histories $a,r:\mathsf{BHist}$, every continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$ has either the
+empty-tail case with exposed endpoints classified together,
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r),
+$$
+or a zero-headed tail whose payload still continues from $\Ezero(a)$ to $r$:
+$$
+\exists k:\mathsf{BHist}.\;
+\mathsf{tail}(m)=\Ezero(k)\land \ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail branch is the right-unit
+continuation, so constructor injectivity exposes $\HSame(a,r)$. A one-headed
+tail would force a zero-headed result to be one-headed, contradicting
+constructor disjointness. In the zero-headed branch, constructor injectivity
+on the continuation result removes the outer zero constructor and leaves
+$\ContR(\Ezero(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_cases}
+
+\begin{theorem}[Continuation morphism zero-headed endpoints nonempty tail extraction]
+\label{thm:continuation-morphism-e0-source-e0-target-nonempty-tail-cases}
+For histories $a,r:\mathsf{BHist}$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, if the displayed tail
+is not classified with $\emp$, then it has a zero-headed payload continuing
+from $\Ezero(a)$ to $r$:
+$$
+\bigl(\HSame(\mathsf{tail}(m),\emp)\to\mathsf{False}\bigr)
+\to
+\exists k:\mathsf{BHist}.\;
+\HSame(\mathsf{tail}(m),\Ezero(k))\land \ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the zero-headed endpoint tail split above. The empty-tail branch
+contradicts the displayed nonempty-tail hypothesis. The remaining branch
+already exposes a zero-headed tail and the continuation payload
+$\ContR(\Ezero(a),k,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_nonempty\_tail\_cases}
+
+\begin{theorem}[Continuation morphism zero-headed endpoints tail core determinacy]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-core-deterministic}
+For histories $a,r,k,l:\mathsf{BHist}$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, if their displayed
+tails are classified with $\Ezero(k)$ and $\Ezero(l)$, then the exposed tail
+cores are classified:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))
+\to
+\HSame(\mathsf{tail}(n),\Ezero(l))
+\to
+\HSame(k,l).
+$$
+\end{theorem}
+\begin{proof}
+Tail determinacy for continuation morphisms with the same endpoints gives
+$\HSame(\mathsf{tail}(m),\mathsf{tail}(n))$. Chaining with the two displayed
+zero-headed tail classifications gives
+$\HSame(\Ezero(k),\Ezero(l))$, and zero-constructor inversion removes the
+outer tag.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_core\_deterministic}
+
+\begin{proposition}[Continuation morphism zero-headed endpoints reject one-headed tail]
+\label{prop:category-continuation-e0-e0-tail-e1-absurd}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$,
+$$
+\HSame(\mathsf{tail}(m),\Eone(k))\to\mathsf{False}.
+$$
+\end{proposition}
+\begin{proof}
+Unpack the displayed continuation tail. The empty-tail case contradicts
+$\emp\hsame\Eone(k)$, the zero-headed tail case contradicts
+$\Ezero(t)\hsame\Eone(k)$, and the one-headed tail case would force the
+zero-headed result to be one-headed in the continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e1\_absurd}
+
+\begin{theorem}[Continuation morphism zero-headed endpoints zero-tail exactness]
+\label{thm:continuation-morphism-e0-source-e0-target-tail-e0-iff}
+For histories $a,r,k:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, the displayed tail is
+zero-headed with payload $k$ exactly when the payload continues from the
+zero-headed source to the target payload:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))
+\Longleftrightarrow
+\ContR(\Ezero(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the zero-headed endpoint tail cases. The
+empty-tail branch contradicts the assumed zero-headed tail comparison. In the
+visible branch, the exposed zero-headed tail payload and the assumed tail
+comparison identify the two payloads, so continuation transport gives
+$\ContR(\Ezero(a),k,r)$. Conversely, step the displayed payload continuation
+through the zero constructor and compare it with the record continuation by
+left cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e0\_iff}
+
+\begin{proposition}[Continuation morphism zero-headed endpoints empty-tail exactness]
+\label{prop:continuation-morphism-e0-source-e0-target-tail-empty-iff}
+For histories $a,r:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, the displayed tail is
+empty exactly when the endpoint payloads are history-same:
+$$
+\HSame(\mathsf{tail}(m),\emp)\Longleftrightarrow\HSame(a,r).
+$$
+\end{proposition}
+\begin{proof}
+Apply the zero-headed endpoint tail cases. In the forward direction, the
+empty-tail branch exposes $\HSame(a,r)$, while the zero-headed visible-tail
+branch contradicts empty/zero separation. Conversely, an endpoint payload
+comparison builds the empty-tail displayed morphism, and continuation-morphism
+tail determinacy identifies it with $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_empty\_iff}

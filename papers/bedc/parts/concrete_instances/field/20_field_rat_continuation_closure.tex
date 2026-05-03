@@ -17,6 +17,32 @@ membership of $t$, and hence a positive denominator witness for $\Eone(t)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_positive\_denominator\_append\_split}
 
+\begin{theorem}[Rat history carrier append split]
+\label{thm:rat-history-carrier-append-split}
+If the appended denominator $\mathsf{append}(h,k)$ lies in the rational history
+carrier, then either $h$ or $k$ lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Convert the appended rational history carrier to a positive unary denominator
+witness by the rational carrier equivalence. The field positive-denominator
+append split places that witness on $h$ or on $k$; converting the selected
+positive-denominator branch back through the same equivalence gives the
+corresponding rational history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_append\_split}
+
+\begin{theorem}[Rat history classifier left append split]
+\label{thm:rat-history-classifier-append-left-split}
+If the rational history classifier relates $\mathsf{append}(h,k)$ to a
+denominator $d$, then either $h$ or $k$ lies in the rational history carrier.
+\end{theorem}
+\begin{proof}
+Project the left endpoint carrier from the classifier witness. The rat history
+carrier append split then exposes the carried denominator branch on $h$ or on
+$k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_split}
+
 \begin{theorem}[Rat denominators are closed under continuation]
 \label{thm:field-rat-denominator-continuation-carrier-closure}
 For all histories $d,e,r:\mathsf{BHist}$, if
@@ -41,6 +67,25 @@ carrier for $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_carrier\_closure}
 
+\begin{theorem}[Rat history classifier continuation tail iff]
+\label{thm:rat-history-classifier-continuation-tail-iff}
+For rational history carriers $d,e:\mathsf{BHist}$ and a displayed result
+$r:\mathsf{BHist}$,
+$$
+\Cont(d,e,r)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(r,\mathsf{append}(d,e)).
+$$
+\end{theorem}
+\begin{proof}
+If $\Cont(d,e,r)$ holds, carrier closure gives $\mathsf{RatHistoryCarrier}(r)$.
+The same closure theorem applied to the canonical append continuation gives
+$\mathsf{RatHistoryCarrier}(\mathsf{append}(d,e))$, and continuation
+determinacy supplies $r\hsame\mathsf{append}(d,e)$. These three components are
+the Rat history classifier. Conversely, the classifier comparison component is
+exactly the continuation equation $\Cont(d,e,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_tail\_iff}
+
 \begin{theorem}[Rat history carrier continuation result is nonempty]
 \label{thm:field-rat-history-carrier-continuation-result-not-empty}
 For all histories $d,e,r:\mathsf{BHist}$, if
@@ -58,6 +103,26 @@ $\mathsf{RatHistoryCarrier}(r)$. The Rat carrier nonempty theorem then rejects
 any comparison $r\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_result\_not\_empty}
+
+\begin{theorem}[Rat continuation results cannot be singleton-classified]
+\label{thm:rat-history-classifier-continuation-result-field-singleton-classifier-absurd}
+For histories $d,d',e,e',r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$ and
+$\mathsf{RatHistoryClassifier}(e,e')$ hold, and if
+$\Cont(d,e,r)$ and $\Cont(d',e',r')$ display the two continuation results, then
+$\mathsf{FieldSingletonClassifier}(r,r')$ is impossible.
+\end{theorem}
+\begin{proof}
+The left classifier supplies rational carrier witnesses for $d$ and $e$.
+The carrier on $e$ exposes a positive unary denominator, hence a unary history.
+Rational denominators are closed under appending a unary denominator, so
+$\mathsf{append}(d,e)$ lies in the rational history carrier. Continuation
+determinacy identifies this canonical append result with the displayed result
+$r$, transporting the rational carrier to $r$. The singleton classifier would
+also force $r\hsame\emp$, contradicting non-emptiness of rational history
+carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_result\_FieldSingletonClassifier\_absurd}
 
 \begin{theorem}[Rat denominator continuation semigroup laws]
 \label{thm:field-rat-denominator-continuation-semigroup-laws}
@@ -332,6 +397,53 @@ and the resulting equality $u\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_unit\_endpoint\_empty}
 
+\begin{theorem}[Rat denominator canonical right-unit endpoint is empty]
+\label{thm:field-rat-denominator-canonical-right-unit-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if continuation by $u$ makes the fixed
+canonical denominator $d_1:=\Eone(\emp)$ classify back to $d_1$, then $u$ is
+externally empty:
+$$
+\left(
+  \forall r:\mathsf{BHist}.\;
+  \Cont(d_1,u,r)\to
+  \mathsf{RatHistoryClassifier}(r,d_1)
+\right)
+\Longrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the assumed classifier law to the canonical continuation
+$\Cont(d_1,u,\mathsf{append}(d_1,u))$. The resulting classifier compares the
+continuation result with $d_1$. Transport the canonical continuation along
+this result comparison to obtain $\Cont(d_1,u,d_1)$, then apply right-unit
+uniqueness for continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_canonical\_right\_unit\_endpoint\_empty}
+
+\begin{theorem}[Rat denominator canonical left-unit endpoint is empty]
+\label{thm:field-rat-denominator-canonical-left-unit-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if continuation from $u$ into the fixed
+canonical denominator $d_1:=\Eone(\emp)$ classifies back to $d_1$, then $u$ is
+externally empty:
+$$
+\left(
+  \forall r:\mathsf{BHist}.\;
+  \Cont(u,d_1,r)\to
+  \mathsf{RatHistoryClassifier}(r,d_1)
+\right)
+\Longrightarrow
+u\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the assumed classifier law to the canonical continuation
+$\Cont(u,d_1,\mathsf{append}(u,d_1))$. The classifier result gives a comparison
+with $d_1$. Transport the continuation result to $d_1$ and apply left-unit
+uniqueness for continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_canonical\_left\_unit\_endpoint\_empty}
+
 \begin{theorem}[Rat denominator two-sided unit law endpoint empty iff]
 \label{thm:field-rat-denominator-continuation-two-sided-unit-law-endpoint-empty-iff}
 For every history $u:\mathsf{BHist}$, the simultaneous right and left
@@ -370,6 +482,7 @@ Theorem~\ref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty
 to obtain the left classifier-unit law. Pair these two laws into the displayed
 conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_two\_sided\_unit\_law\_endpoint\_empty\_iff}
 
 \begin{theorem}[Rat denominator continuation unit endpoint uniqueness]
 \label{thm:field-rat-denominator-continuation-unit-endpoint-unique}

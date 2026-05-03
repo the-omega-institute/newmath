@@ -44,6 +44,38 @@ For every generated history $h$, $\Cont(h,\e,h)$.
 This is the base generator of $\Cont$.
 \end{proof}
 
+\begin{theorem}[Append right nonempty self contradiction]
+\label{thm:append-right-nonempty-self-absurd}
+For histories $h,k:\mathsf{BHist}$, a nonempty right factor cannot leave the
+append result internally the same as the left factor:
+$$
+(\HSame(k,\emp)\to\bot)\Rightarrow
+\HSame(\mathsf{append}(h,k),h)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Compare $\mathsf{append}(h,k)$ with $\mathsf{append}(h,\emp)$ using the
+displayed self-sameness and the right unit for append. Left cancellation
+forces $k\hsame\emp$, contradicting the nonempty right-factor hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_right\_nonempty\_self\_absurd}
+
+\begin{theorem}[Append left nonempty self contradiction]
+\label{thm:append-left-nonempty-self-absurd}
+For histories $h,k:\mathsf{BHist}$, a nonempty left factor cannot leave the
+append result internally the same as the right factor:
+$$
+(\HSame(h,\emp)\to\bot)\Rightarrow
+\HSame(\mathsf{append}(h,k),k)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Compare $\mathsf{append}(h,k)$ with $\mathsf{append}(\emp,k)$ using the
+displayed self-sameness and the left unit for append. Right cancellation
+forces $h\hsame\emp$, contradicting the nonempty left-factor hypothesis.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_left\_nonempty\_self\_absurd}
+
 \begin{theorem}[Continuation associativity, relational form]
 If $\Cont(a,b,ab)$ and $\Cont(b,c,bc)$, then there exists a generated history $abc$ such that
 $$

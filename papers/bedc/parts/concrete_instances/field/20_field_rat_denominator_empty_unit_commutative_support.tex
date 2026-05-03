@@ -106,6 +106,91 @@ $$
 Thus the empty endpoint is carried by $C_D^u$ but is not in the strict support.
 \end{definition}
 
+\begin{theorem}[Rat denominator unit carrier append factor carriers]
+\label{thm:rat-denom-unit-carrier-append-factor-carriers}
+For histories $h,k:\mathsf{BHist}$, if their append product is carried by the
+Rat denominator empty-unit carrier, then each factor is carried:
+$$
+C_D^u(\mathsf{append}(h,k))
+\Longrightarrow
+C_D^u(h)\wedge C_D^u(k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $C_D^u$. In the empty branch,
+$\mathsf{append}(h,k)\hsame\emp$, and append-empty inversion identifies both
+factors with $\emp$. In the Rat-history branch, positivity of the denominator
+product gives a unary, nonempty append history. Unary append factorization
+recovers unary witnesses for $h$ and $k$; each unary factor is either $\emp$
+or an $\Eone$-headed positive denominator, hence a
+$\mathsf{RatDenomUnitCarrier}$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_factor\_carriers}
+
+\begin{theorem}[Rat denominator unit carrier append nonempty factor cases]
+\label{thm:rat-denom-unit-carrier-append-nonempty-factor-cases}
+For histories $h,k:\mathsf{BHist}$, a nonempty append product carried by
+$C_D^u$ has a genuine Rat denominator endpoint on at least one factor, while
+both factors remain carried by $C_D^u$:
+$$
+C_D^u(\mathsf{append}(h,k))
+\Longrightarrow
+\bigl(\mathsf{append}(h,k)\hsame\emp\Longrightarrow\bot\bigr)
+\Longrightarrow
+\bigl(\mathsf{RatHistoryCarrier}(h)\wedge C_D^u(k)\bigr)
+\lor
+\bigl(C_D^u(h)\wedge\mathsf{RatHistoryCarrier}(k)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply append branch cases to the carried product. The both-empty branch would
+make the appended product empty by append-empty reconstruction, contradicting
+the nonempty hypothesis. In the remaining branches, append factor-carrier
+closure supplies the denominator-unit carrier witness for the opposite factor.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_nonempty\_factor\_cases}
+
+\begin{proposition}[Rat denominator unit carrier append exactness]
+\label{prop:rat-denom-unit-carrier-append-iff}
+For histories $h,k:\mathsf{BHist}$, the empty-unit Rat denominator carrier is
+closed and reflected by append:
+$$
+C_D^u(\mathsf{append}(h,k))
+\Longleftrightarrow
+C_D^u(h)\wedge C_D^u(k).
+$$
+\end{proposition}
+\begin{proof}
+The forward direction is the append factor-carrier theorem above. Conversely,
+given carrier witnesses for both factors, apply denominator empty-unit
+continuation closure to the canonical continuation
+$\ContR(h,k,\mathsf{append}(h,k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_iff}
+
+\begin{theorem}[Rat denominator unit classifier append right factor classifier]
+\label{thm:rat-denom-unit-classifier-append-right-factor-classifier}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended denominator-unit
+endpoints are classified and the right factors are internally the same, then
+the left factors are classified:
+$$
+R_D^u(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+\hsame(k,k')
+\Longrightarrow
+R_D^u(h,h').
+$$
+\end{theorem}
+\begin{proof}
+The classifier on the appended endpoints first supplies carrier witnesses for
+both products. Factor-carrier closure for $C_D^u$ extracts carrier witnesses
+for $h$ and $h'$. Transport the second appended endpoint along
+$\hsame(k,k')$ so that both products share the suffix $k$. Right cancellation
+for append then identifies $h$ with $h'$, and these three pieces reassemble
+the denominator-unit classifier on the left factors.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_right\_factor\_classifier}
+
 \begin{theorem}[Rat denominator empty-unit product nonempty iff]
 \label{thm:field-rat-denominator-empty-unit-product-nonempty-iff}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, the
@@ -146,6 +231,47 @@ nonemptiness theorem applies to the canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_iff}
 
+\begin{theorem}[Rat denominator empty-unit product nonempty comm iff]
+\label{thm:field-rat-denominator-empty-unit-product-nonempty-comm-iff}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, reversing
+the two factors preserves the nonempty endpoint predicate of the empty-unit
+product:
+$$
+\bigl(\mathsf{append}(h,k)\hsame\emp\to\mathsf{False}\bigr)
+\Longleftrightarrow
+\bigl(\mathsf{append}(k,h)\hsame\emp\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_product\_nonempty\_comm\_iff}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-product-nonempty-iff} to the
+ordered pair $(h,k)$ and again to the reversed pair $(k,h)$. The first
+characterization reads nonemptiness as
+$\mathsf{RatHistoryCarrier}(h)\lor\mathsf{RatHistoryCarrier}(k)$, and the
+second reads it as the same disjunction with the two sides exchanged. Split
+the factor-support disjunction and swap the branch tags.
+\end{proof}
+
+\begin{theorem}[Rat denominator empty-unit strict product factor cases]
+\label{thm:field-rat-denominator-empty-unit-strict-product-factor-cases}
+For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, if the
+empty-unit product has strict Rat denominator support, then one input has
+strict support while the other remains carried:
+$$
+N_D^u(\mu_D^u(h,k))
+\Longrightarrow
+(N_D^u(h)\wedge C_D^u(k))\lor(C_D^u(h)\wedge N_D^u(k)).
+$$
+\end{theorem}
+\begin{proof}
+Strict support of the product rules out $\hsame(\mathsf{append}(h,k),\emp)$ by
+$\mathsf{RatHistoryCarrier\_not\_empty}$. Apply the product nonempty
+characterization above to obtain $N_D^u(h)\lor N_D^u(k)$, then reattach the
+original carrier hypotheses on the other factor in each case.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_strict\_product\_factor\_cases}
+
 \begin{theorem}[Rat denominator empty-unit strict product support exactness]
 \label{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
 For histories $h,k:\mathsf{BHist}$ with $C_D^u(h)$ and $C_D^u(k)$, strict
@@ -179,6 +305,7 @@ and the nonempty product witness. The result is
 $\mathsf{RatHistoryCarrier}(\mu_D^u(h,k))$, equivalently
 $N_D^u(\mu_D^u(h,k))$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_strict\_product\_support\_exactness}
 
 Per-object template: traditional target strict support for the empty-unit
 denominator multiplication; BEDC source $\mathsf{RatHistoryCarrier}$,
@@ -347,6 +474,86 @@ to the carried inputs $h$ and $k$. Its product-support equivalence gives
 $N_D^u(\mu_D^u(h,k))\Longleftrightarrow N_D^u(h)\lor N_D^u(k)$, and the
 transport above converts the left side to the contextual endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_empty\_unit\_contextual\_strict\_product\_support\_exactness}
+
+\begin{theorem}[Rat denominator empty-unit contextual product classifier exactness]
+\label{thm:rat-denom-unit-classifier-contextual-product-rat-classifier-iff}
+For histories \(p,q,p',q',h,k,h',k':\mathsf{BHist}\), assume
+\(p\hsame\emp\), \(q\hsame\emp\), \(p'\hsame\emp\), and \(q'\hsame\emp\).
+If the empty-unit denominator classifier relates \(h\) with \(h'\) and \(k\)
+with \(k'\), then the contextual rational classifier on the product endpoints
+is equivalent to strict rational support of the exposed product:
+$$
+\mathsf{RatHistoryClassifier}
+  (\mathsf{append}(p,\mathsf{append}(\mathsf{append}(h,k),q)),
+   \mathsf{append}(p',\mathsf{append}(\mathsf{append}(h',k'),q')))
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+\end{theorem}
+\begin{proof}
+The empty left and right contexts identify the two contextual endpoints with
+the exposed products. Binary classifier congruence for
+\(\mathsf{RatDenomUnitClassifier}\) classifies
+\(\mathsf{append}(h,k)\) with \(\mathsf{append}(h',k')\). In the forward
+direction, rational support transports out of the left empty context. In the
+reverse direction, the product classifier transports rational support to the
+right product, and the rational classifier is then transported back into the
+two displayed empty contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_contextual\_product\_rat\_classifier\_iff}
+
+\begin{theorem}[Rat denominator empty-unit threefold strict support exactness]
+\label{thm:field-rat-denominator-empty-unit-threefold-strict-support-exactness}
+For histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, strict support is exact for the left-nested empty-unit
+threefold product:
+$$
+N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))
+\Longleftrightarrow
+(N_D^u(h)\lor N_D^u(k))\lor N_D^u(\ell).
+$$
+\end{theorem}
+\begin{proof}
+The closure clause of
+\autoref{thm:field-rat-denominator-empty-unit-continuation-monoid-laws}
+applied to $C_D^u(h)$ and $C_D^u(k)$ gives
+$C_D^u(\mu_D^u(h,k))$. This supplies the carrier hypothesis needed to read the
+outer product of $\mu_D^u(h,k)$ with $\ell$.
+
+Apply
+\autoref{thm:field-rat-denominator-empty-unit-strict-product-support-exactness}
+to the carried histories $\mu_D^u(h,k)$ and $\ell$. The result is
+$$
+N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))
+\Longleftrightarrow
+N_D^u(\mu_D^u(h,k))\lor N_D^u(\ell).
+$$
+
+Apply the same theorem to the original carried histories $h$ and $k$, giving
+$N_D^u(\mu_D^u(h,k))\Longleftrightarrow N_D^u(h)\lor N_D^u(k)$. Substitute this
+inner equivalence into the left disjunct of the outer equivalence.
+
+In the forward direction, the outer equivalence gives either
+$N_D^u(\mu_D^u(h,k))$ or $N_D^u(\ell)$. The first case is transported by the
+inner equivalence to $N_D^u(h)\lor N_D^u(k)$, while the second case gives the
+right disjunct directly.
+
+In the reverse direction, a witness of
+$(N_D^u(h)\lor N_D^u(k))\lor N_D^u(\ell)$ is handled by cases. The left case
+is transported by the reverse direction of the inner equivalence to
+$N_D^u(\mu_D^u(h,k))$; the right case is already $N_D^u(\ell)$. The reverse
+direction of the outer equivalence then yields
+$N_D^u(\mu_D^u(\mu_D^u(h,k),\ell))$.
+\end{proof}
+
+Per-object template: traditional target finite product support readback for
+denominator multiplication; BEDC source $\mathsf{BHist}$ with $C_D^u,R_D^u,
+\mu_D^u,e_D^u,N_D^u$; carrier $C_D^u$; classifier $R_D^u$; stability
+obligation binary product support exactness plus carrier closure; ledger two
+continuation-product witnesses; exactness predicate strict support of the
+left-nested threefold product iff support of one factor; standard bridge
+ordinary finite denominator product support; status $\mathsf{ProofTarget}$.
 
 Per-object template: traditional target empty-context denominator product
 support readback; BEDC source $\mathsf{BHist}$; carrier $C_D^u$; classifier

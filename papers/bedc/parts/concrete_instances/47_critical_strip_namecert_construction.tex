@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for \(\CritStripUp\)}
+\label{ch:concrete-instances-critical-strip-namecert}
+
+This chapter gives a concrete naming-certificate construction for the open critical strip \(0 < \Re(s) < 1\) and its critical line \(\Re(s) = 1/2\) as predicates on \(\ComplexUp\)-history. The strip is a region of \(\ComplexUp\) --- the analogue of \(\mathsf{OpenDisk}\) for a vertical strip --- together with explicit witnesses for compact sub-strips and a decidable membership in the critical line. The chapter is intentionally short: it just sets up the predicates used by \(\ZetaContUp\) (\autoref{ch:concrete-instances-zeta-continuation}) and \(\ZetaZerosUp\) (\autoref{ch:concrete-instances-zeta-zeros-namecert}). The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+
+\section{The strip and critical-line predicates}
+
+\begin{definition}[Critical strip membership]
+\label{def:in-crit-strip}
+For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{InCritStrip}(s)\) holds when both \(\mathsf{NatUnaryStrictPrefix}(\emp, \sigma)\) and \(\mathsf{NatUnaryStrictPrefix}(\sigma, \Eone(\emp))\) are decidably true on the rational representation, i.e.\ \(0 < \sigma < 1\) strictly.
+\end{definition}
+
+\begin{lemma}[Critical strip membership decidable]
+\label{lem:in-crit-strip-decidable}
+For every complex history \(s\), \(\mathsf{InCritStrip}(s)\) is decidable: an explicit unary algorithm returns either a witness for both strict inequalities or a witness for at least one failure.
+\end{lemma}
+\begin{proof}
+Both inequalities are decidable on rational representations by the strict-prefix decidability of \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}).
+\end{proof}
+
+\begin{definition}[Critical line membership]
+\label{def:on-crit-line}
+For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{OnCritLine}(s)\) holds when \(\hsame(\sigma, \mathsf{Half})\), where \(\mathsf{Half}\) is the rational representation of \(1/2\).
+\end{definition}
+
+\begin{lemma}[Critical line membership decidable]
+\label{lem:on-crit-line-decidable}
+For every complex history \(s\) with rational real component, \(\mathsf{OnCritLine}(s)\) is decidable.
+\end{lemma}
+\begin{proof}
+Decidable from \(\hsame\)-decidability on rational representations of unary histories (\autoref{ch:concrete-instances-rat-namecert}).
+\end{proof}
+
+\section{Compact sub-strips and boundary witnesses}
+
+\begin{definition}[Compact sub-strip]
+\label{def:compact-sub-strip}
+For unary \(\epsilon\) (with \(\epsilon < 1/2\)) and unary \(T\), the compact sub-strip predicate \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) holds when \(\epsilon \leq \sigma \leq 1 - \epsilon\) (rational comparisons) and \(|t| \leq T\) (modulus comparison on the imaginary part).
+\end{definition}
+
+\begin{lemma}[Compact sub-strip decidable]
+\label{lem:compact-sub-strip-decidable}
+For every \((\epsilon, T, s)\), \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) is decidable; the decision procedure returns either witnesses for all three bounds or an explicit failed-bound witness.
+\end{lemma}
+\begin{proof}
+Each bound is a decidable rational comparison.
+\end{proof}
+
+\begin{theorem}[Boundary excluded]
+\label{thm:boundary-excluded}
+For every complex history \(s\) with \(\hsame(\sigma, \emp)\) or \(\hsame(\sigma, \Eone(\emp))\), \(\neg \mathsf{InCritStrip}(s)\). Both edges \(\Re(s) = 0\) and \(\Re(s) = 1\) are explicitly excluded by the strict-inequality witnesses.
+\end{theorem}
+\begin{proof}
+Direct: the strict-prefix relations require non-equality witnesses.
+\end{proof}
+
+\section{Closure laws}
+
+\begin{lemma}[Strip respects \(\hsame\)]
+\label{lem:strip-hsame-respect}
+If \(\mathsf{InCritStrip}(s)\) and \(\hsame\) holds on both real components of \(s\) and \(s'\), then \(\mathsf{InCritStrip}(s')\). The same holds for \(\mathsf{OnCritLine}\) and \(\mathsf{CompactSubStrip}\).
+\end{lemma}
+\begin{proof}
+Each defining inequality is closed under \(\hsame\) by transport along the rational representations.
+\end{proof}
+
+\section{The certificate}
+
+\begin{definition}[Critical strip source specification]
+\label{def:crit-strip-source-spec}
+The source specification on complex history \(s\) carries the constraint \(\mathsf{InCritStrip}(s)\) or its complement at the boundary.
+\end{definition}
+
+\begin{definition}[Critical strip pattern specification]
+\label{def:crit-strip-pattern-spec}
+The pattern is the conjunction of the two strict-prefix inequalities on the rational representation.
+\end{definition}
+
+\begin{definition}[Critical strip classifier specification]
+\label{def:crit-strip-classifier-spec}
+Two strip-membership witnesses are classified together when they agree under \(\hsame\) on both real and imaginary components.
+\end{definition}
+
+\begin{definition}[Critical strip stability certificate]
+\label{def:crit-strip-stability-cert}
+The stability certificate consists of \(\hsame\)-respect of \(\mathsf{InCritStrip}\), \(\mathsf{OnCritLine}\), and \(\mathsf{CompactSubStrip}\); transport of all three under \(\hsame\) on each component.
+\end{definition}
+
+\begin{definition}[Critical strip ledger policy]
+\label{def:crit-strip-ledger-policy}
+The ledger policy records: (i) decidability of strip and critical-line membership, (ii) decidability of compact sub-strip predicate, (iii) boundary exclusion witnesses, (iv) closure under \(\hsame\) on inputs.
+\end{definition}
+
+\begin{theorem}[Concrete \(\CritStripUp\) naming certificate]
+\label{thm:crit-strip-namecert}
+The five fields above form a naming certificate over \(\Hist\) for the critical-strip interface \(\CritStripUp\).
+\end{theorem}
+\begin{proof}[Sketch]
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\CritStripUp\) naming certificate]
+\label{thm:crit-strip-semantic-namecert}
+The concrete certificate of \autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
+\end{theorem}
+\begin{proof}[Sketch]
+Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
+\end{proof}

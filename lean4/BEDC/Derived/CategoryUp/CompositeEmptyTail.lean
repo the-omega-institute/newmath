@@ -72,6 +72,16 @@ theorem ContinuationMorphism_comp_tail_cont {a b c : BHist}
             exact cont_intro rfl
   · exact (ContinuationMorphism_comp_closed left right).rel
 
+theorem ContinuationMorphism_tail_factorization_transport_cont {a b c l r : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    hsame left.tail l -> hsame right.tail r ->
+      Cont l r (ContinuationMorphism_comp_closed left right).tail := by
+  intro sameLeft sameRight
+  exact
+    cont_hsame_transport sameLeft sameRight
+      (hsame_refl (ContinuationMorphism_comp_closed left right).tail)
+      (ContinuationMorphism_comp_tail_cont left right).left
+
 theorem ContinuationMorphism_comp_tail_hsame_congruence {a b c a' b' c' : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
     (left' : ContinuationMorphism a' b') (right' : ContinuationMorphism b' c')
@@ -98,5 +108,36 @@ theorem ContinuationMorphism_comp_tail_hsame_congruence {a b c a' b' c' : BHist}
                       cases sameLeftTail
                       cases sameRightTail
                       rfl
+
+theorem ContinuationMorphism_comp_endpoint_hsame_tail_transport {a b c a' b' c' : BHist}
+    (sameSource : hsame a a') (sameTarget : hsame c c')
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (left' : ContinuationMorphism a' b') (right' : ContinuationMorphism b' c') :
+    Cont a' (ContinuationMorphism_comp_closed left right).tail c' ∧
+      hsame (ContinuationMorphism_comp_closed left right).tail
+        (ContinuationMorphism_comp_closed left' right').tail := by
+  have transported : Cont a' (ContinuationMorphism_comp_closed left right).tail c' :=
+    cont_hsame_transport sameSource
+      (hsame_refl (ContinuationMorphism_comp_closed left right).tail)
+      sameTarget (ContinuationMorphism_comp_closed left right).rel
+  exact And.intro transported
+    (cont_left_cancel transported (ContinuationMorphism_comp_closed left' right').rel)
+
+theorem ContinuationMorphism_comp_endpoint_transport_exists {a a' b b' c c' : BHist}
+    (sameSource : hsame a a') (sameMiddle : hsame b b') (sameTarget : hsame c c')
+    (m : ContinuationMorphism a b) (n : ContinuationMorphism b c) :
+    ∃ m' : ContinuationMorphism a' b', ∃ n' : ContinuationMorphism b' c',
+      hsame (ContinuationMorphism_comp_closed m' n').tail
+        (ContinuationMorphism_comp_closed m n).tail ∧
+        Cont a' (ContinuationMorphism_comp_closed m' n').tail c' := by
+  let m' : ContinuationMorphism a' b' :=
+    { tail := m.tail
+      rel := cont_hsame_transport sameSource (hsame_refl m.tail) sameMiddle m.rel }
+  let n' : ContinuationMorphism b' c' :=
+    { tail := n.tail
+      rel := cont_hsame_transport sameMiddle (hsame_refl n.tail) sameTarget n.rel }
+  exact Exists.intro m' (Exists.intro n'
+    (And.intro (hsame_refl (ContinuationMorphism_comp_closed m' n').tail)
+      (ContinuationMorphism_comp_closed m' n').rel))
 
 end BEDC.Derived.CategoryUp

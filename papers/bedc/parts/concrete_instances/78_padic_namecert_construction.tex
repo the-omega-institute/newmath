@@ -1,0 +1,136 @@
+\chapter{A Concrete Naming Certificate for $\PadicUp$}
+\label{ch:concrete-instances-padic-namecert}
+
+The $p$-adic interface $\PadicUp$ packages the carrier of regular Cauchy sequences over $\NameCert_{\RatUp}$ (\autoref{ch:concrete-instances-rat-namecert}) under the $p$-adic absolute value, indexed by a prime $p$ from $\NameCert_{\PrimeUp}$ (\autoref{ch:concrete-instances-prime-namecert}). It is the non-archimedean sibling of $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}).
+
+\section{Carrier definition}
+\label{sec:padic-carrier}
+
+\begin{definition}[Prime scale over unary multiplication]
+\label{def:padic-prime-scale}
+For histories \(p,e,r\), the predicate \(\mathsf{PadicPrimeScale}(p,e,r)\)
+holds when \(p\) is a \(\PrimeUp\)-prime and \(r\) is the unary multiplication
+result of \(p\) by the exponent \(e\).
+\end{definition}
+\leandef{BEDC.Derived.PadicUp.PadicPrimeScale}
+
+\begin{theorem}[Prime scale totality]
+\label{thm:padic-prime-scale-total}
+If \(p\) is a \(\PrimeUp\)-prime and \(e\) is a unary history, then some unary
+history \(r\) realizes \(\mathsf{PadicPrimeScale}(p,e,r)\).
+\end{theorem}
+\begin{proof}
+The prime witness contains the unary carrier field for \(p\). Unary
+multiplication totality applied to this carrier and to the exponent carrier
+produces a unary result \(r\) together with the \(\mathsf{NatMul}(p,e,r)\)
+witness. Pairing the original prime witness with that multiplication witness
+is precisely \(\mathsf{PadicPrimeScale}(p,e,r)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_total}
+
+\begin{theorem}[Prime scale empty result exactness]
+\label{thm:padic-prime-scale-empty-result-iff-empty-exponent}
+If \(\mathsf{PadicPrimeScale}(p,e,r)\), then \(r\hsame\emp\) exactly when
+\(e\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The forward direction uses the \(\PrimeUp\) prime field to rule out
+\(p\hsame\emp\), then applies the empty-result exactness theorem for
+\(\mathsf{NatMul}\) with a nonempty multiplicand. The reverse direction
+identifies the exponent with \(\emp\), so the zero constructor of
+\(\mathsf{NatMul}\) identifies the result with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_empty\_result\_iff\_empty\_exponent}
+
+\begin{theorem}[Prime scale append continuation closure]
+\label{thm:padic-prime-scale-append-cont-closure}
+If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
+and \(\mathsf{Cont}(n,e,r)\), then
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)\).
+\end{theorem}
+\begin{proof}
+Both scale witnesses share the same prime field for \(p\). The multiplication
+fields are concrete \(\mathsf{NatMul}\) derivations, so append continuation
+closure for \(\mathsf{NatMul}\), applied to the supplied continuation witness,
+gives the scale witness for the appended exponent.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_closure}
+
+\begin{lemma}[Prime scale append continuation result functional]
+\label{lem:padic-prime-scale-append-cont-result-functional}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, any other
+\(\mathsf{PadicPrimeScale}\) result over the same appended exponent is
+history-same to the continuation result.
+\end{lemma}
+\begin{proof}
+The closure theorem constructs the prime-scale witness for the continuation
+result. Its multiplication field and the multiplication field of the other
+scale witness have the same prime base and appended exponent, so
+\(\mathsf{NatMul}\) functionality identifies the two results.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
+
+\begin{theorem}[Prime scale append totality]
+\label{thm:padic-prime-scale-append-total}
+If \(p\) is a \(\PrimeUp\)-prime and \(w,q\) are unary histories, then there
+is a history \(r\) such that
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)\). Moreover \(r\) is
+obtained from scale witnesses for \(w\) and \(q\) by a continuation witness.
+\end{theorem}
+\begin{proof}
+Totality for \(\mathsf{NatMul}\) supplies histories \(n\) and \(e\) with
+\(\mathsf{PadicPrimeScale}(p,w,n)\) and
+\(\mathsf{PadicPrimeScale}(p,q,e)\), using the unary field of the prime
+witness for \(p\). The concrete continuation
+\(\mathsf{Cont}(n,e,\mathsf{append}(n,e))\) then feeds
+\autoref{thm:padic-prime-scale-append-cont-closure}, producing the scale
+witness for \(\mathsf{append}(w,q)\) together with the displayed factor
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_total}
+
+\begin{theorem}[Prime scale appended empty result split]
+\label{thm:padic-prime-scale-append-empty-result-empty-factors-iff}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, the result history
+satisfies \(r\hsame\emp\) exactly when both exponent factors satisfy
+\(w\hsame\emp\) and \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The closure theorem first supplies a prime-scale witness for
+\(\mathsf{append}(w,q)\) with result \(r\). Empty-result exactness for prime
+scales reduces \(r\hsame\emp\) to
+\(\mathsf{append}(w,q)\hsame\emp\), and append empty-result exactness splits
+that condition into the two factor witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_result\_empty\_factors\_iff}
+
+\begin{theorem}[Prime scale visible exponent nonempty result]
+\label{thm:padic-prime-scale-append-visible-exponent-result-nonempty}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-empty-result-empty-factors-iff}, if the
+left exponent factor is $e0(tail)$ or $e1(tail)$, then the continuation result
+cannot satisfy $r\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Assume $r\hsame\emp$. The appended empty-result split forces the left exponent
+factor to satisfy empty sameness. This contradicts the no-confusion theorem for
+$e0(tail)$ in the first case and for $e1(tail)$ in the second case.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_visible\_exponent\_result\_nonempty}
+
+\begin{theorem}[Prime scale empty exponent result]
+\label{thm:padic-prime-scale-empty-exponent-result-empty}
+If $\mathsf{NatPrime}(p)$ and $e\hsame\emp$, then
+$\mathsf{PadicPrimeScale}(p,e,\emp)$.
+\end{theorem}
+\begin{proof}
+Transport the exponent along $e\hsame\emp$. The zero constructor of
+$\mathsf{NatMul}$ multiplies the prime base by the empty exponent and returns
+$\emp$, while the same prime witness supplies the prime-scale carrier field.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_empty\_exponent\_result\_empty}
+
+\section{The certificate}
+\label{sec:padic-certificate}

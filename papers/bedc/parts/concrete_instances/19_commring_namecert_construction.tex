@@ -159,6 +159,21 @@ constructor separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_head\_absurd}
 
+\begin{theorem}[CommRing singleton carrier visible-tail append exclusion]
+\label{thm:commring-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(p,\mathsf{e0}(q))$ nor
+$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton commutative-ring
+carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_tail\_absurd}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with
@@ -318,6 +333,7 @@ Nested additive congruence transports these three product rewrites through the
 two additions. Transitivity of $\hsame$ composes the square expansion with the
 transported ledger, yielding the stated signed-difference square form.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_square\_signed\_difference\_expand}
 
 For the $\CommRingUp$ per-object template, this theorem is a Core theorem list
 item for traditional target commutative-ring polynomial algebra. Its BEDC source
@@ -591,15 +607,15 @@ collapse.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_column\_cancellations\_zero}
 
-For the $\CommRingUp$ per-object template, the traditional target is signed row
-cancellation in commutative-ring algebra. Its BEDC source is $\RingUp$ plus
-$\CommRingUp$ over $\mathsf{BHist}$, its carrier is $\mathsf{BHist}$, its
+For the $\CommRingUp$ per-object template, the traditional target is signed
+column cancellation in commutative-ring algebra. Its BEDC source is $\RingUp$
+plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is $\mathsf{BHist}$, its
 classifier is $\hsame$, its stability obligations are signed-product
 normalization, additive inverse laws, additive congruence, and transitivity, and
-its ledger records row-paired product provenance. The core theorem list contains
-Theorem~\ref{thm:commring-signed-row-cancellations-zero}; exactness is zero
-classification under row-paired cancellations; the standard bridge remains
-outside this proof site; and the status is $\mathsf{ProofTarget}$.
+its ledger records column-paired product provenance. The core theorem list
+contains Theorem~\ref{thm:commring-signed-column-cancellations-zero}; exactness
+is zero classification under column-paired cancellations; the standard bridge
+remains outside this proof site; and the status is $\mathsf{ProofTarget}$.
 
 \begin{theorem}[CommRing signed row cancellations force zero product]
 \label{thm:commring-signed-row-cancellations-zero}
@@ -634,6 +650,7 @@ The row normal form is therefore transported to $0+0$. The additive left-zero
 law collapses $0+0$ to $0$, and transitivity of $\hsame$ composes the
 normal-form step, the two signed-row collapses, and the final zero collapse.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_row\_cancellations\_zero}
 
 The ten-field fit is: traditional target signed row cancellation in
 commutative-ring algebra; BEDC source $\RingUp$ plus $\CommRingUp$ over
@@ -688,58 +705,65 @@ $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
 
-\begin{definition}[CommRing ledger policy]
-\label{def:commring-ledger-policy}
-Record ring expression provenance and the multiplicative commutativity law when used.
-\end{definition}
-
-\begin{definition}[\(\CommRingUp\) certificate obligations]
-\label{def:commring-certificate-obligations}
-The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\CommRingUp\).
-\end{definition}
-
-\paragraph{Primitive boundary.}
-\(\CommRingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
-
-\begin{proposition}[CommRing forgets to Ring certificate]
-\label{prop:commring-forgets-ring-certificate}
-Let \(R\) carry a \(\CommRingUp(R)\) certificate. If the multiplicative
-commutativity field and its compatibility data are ignored, the retained
-carrier, source, pattern, classifier, stability, and ledger fields form a
-\(\RingUp(R)\) certificate. The carrier operations \(0\), \(1\), \(+\),
-\(-\), \(\cdot\), and the classifier are unchanged.
-\end{proposition}
+\begin{theorem}[CommRing column cancellations balance cross sums]
+\label{thm:commring-column-cancellations-cross-sum-balance}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame b\cdot c$ and $a\cdot d\hsame b\cdot d$ satisfies
+$$
+a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+$$
+\end{theorem}
 \begin{proof}
-By \autoref{def:commring-carrier}, a \(\CommRingUp\) carrier is a ring setup
-together with multiplication commutativity. The underlying carrier,
-classifier, addition, zero, additive inverse, multiplication, and one are
-therefore already the data listed in \autoref{def:ring-carrier}.
+Apply Theorem~\ref{thm:commring-signed-column-cancellations-zero} to the two
+column hypotheses. This produces the signed zero product
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
 
-By \autoref{def:commring-source-specification}, the source is a certified ring
-carrier plus multiplicative commutativity. Ignoring the commutativity field
-leaves exactly the ring source from \autoref{def:ring-source-specification}.
-By \autoref{def:commring-classifier-specification}, the classifier is the ring
-carrier classifier, so it is the classifier of
-\autoref{def:ring-classifier-specification} with no replacement.
-
-By \autoref{def:commring-pattern-specification}, the commutative-ring pattern
-is ring expression formation together with the permission to exchange
-multiplication operands by the commutativity field. Removing only that exchange
-permission leaves the ring expression formation of
-\autoref{def:ring-pattern-specification}.
-
-By \autoref{def:commring-stability-certificate}, the stability certificate
-contains all ring stability fields, multiplicative commutativity, and the
-compatibility data for that commutativity field. The first component is the
-entire list of ring stability fields in \autoref{def:ring-stability-certificate};
-the latter two components are not obligations for \(\RingUp\). The ledger left
-after suppressing entries justified solely by commutativity is the shared
-carrier ledger and operation tree of \autoref{def:ring-ledger-policy}, matching
-the ring part of \autoref{def:commring-ledger-policy}.
-
-The remaining carrier, source, pattern, classifier, stability, and ledger data
-are exactly the obligations named in \autoref{def:ring-certificate-obligations}.
-Since every retained operation and the classifier are copied from the original
-\(\CommRingUp(R)\) certificate, the resulting \(\RingUp(R)\) source package has
-the same carrier operations and classifier.
+Apply the forward direction of
+Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
+is exactly the left side of that exactness statement, so its conclusion is the
+displayed cross-sum balance.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_column\_cancellations\_cross\_sum\_balance}
+
+\begin{theorem}[CommRing row cancellations balance cross sums]
+\label{thm:commring-row-cancellations-cross-sum-balance}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame a\cdot d$ and $b\cdot c\hsame b\cdot d$ satisfies
+$$
+a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-row-cancellations-zero} to the two
+row hypotheses. This produces the signed zero product
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
+
+Apply the forward direction of
+Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
+is exactly the left side of that exactness statement, so its conclusion is the
+displayed cross-sum balance.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_row\_cancellations\_cross\_sum\_balance}
+
+For the $\CommRingUp$ per-object template, the traditional target is row
+cancellation balance in commutative-ring algebra. Its BEDC source is
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is
+$\mathsf{BHist}$, its classifier is $\hsame$, its stability obligations are
+signed row cancellation and signed-product zero exactness, and its ledger
+records row-paired product provenance. The core theorem is
+Theorem~\ref{thm:commring-row-cancellations-cross-sum-balance}; exactness is
+cross-sum balance; the standard bridge is ordinary commutative-ring
+cancellation balance; and the status is $\mathsf{ProofTarget}$.
+
+
+\input{parts/concrete_instances/19_commring_certificate_scaffold}

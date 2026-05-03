@@ -1,0 +1,118 @@
+\begin{theorem}[Functor hom-carrier codomain evaluation]
+\label{thm:functor-hom-carrier-codomain-evaluation}
+Let \(C\) and \(E\) be certified categories, and let \(H:C\to E\) be a certified functor with object map \(H_0\). Write \(\mathsf{FunctorHomCarrier}_{H}(x,y)\) for the predicate on codomain morphism candidates \(m\) abbreviated by
+\[
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\equiv
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+\]
+Then for every pair of source objects \(x,y\) and every codomain morphism candidate \(m\), the functor-indexed hom-carrier classifier at \(x,y\) evaluates to the codomain category hom-carrier classifier at the image endpoints:
+\[
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+\]
+\end{theorem}
+\begin{proof}
+The functor carrier of \autoref{def:functor-carrier} supplies the object map \(H_0\). The category carrier of \autoref{def:category-carrier} supplies, in the codomain category \(E\), a hom-carrier classifier for each ordered pair of codomain objects. Applying that category classifier to the image pair \(H_0(x),H_0(y)\) is exactly the displayed abbreviation for \(\mathsf{FunctorHomCarrier}_{H}(x,y,-)\). The pointwise classifier discipline in \autoref{def:functor-classifier-specification} and \autoref{rem:functor-zero-axiom-note} reads classifier equality at the morphism argument \(m\), so unfolding the abbreviation gives the stated biconditional.
+\end{proof}
+
+\begin{theorem}[Functor composite preservation witnesses]
+\label{thm:functor-composite-preservation-witnesses}
+Let \(C,D,E\) be certified categories. Let \(F:C\to D\) and \(G:D\to E\) be certified \(\FunctorUp\) carriers with object maps \(F_0,G_0\) and morphism maps \(F_1,G_1\). Write \(H\) for the composite pair with
+\[
+H_0(x)=G_0(F_0(x)),
+\qquad
+H_1(u)=G_1(F_1(u)).
+\]
+Then \(H\) has identity and composition preservation witnesses under the morphism classifier of \(E\): for every object \(x\) of \(C\), \(H_1(\mathsf{id}_x)\) is classified with \(\mathsf{id}_{H_0(x)}\), and for every composable pair \(u:x\to y\), \(v:y\to z\) in \(C\), \(H_1(v\circ_C u)\) is classified with \(H_1(v)\circ_E H_1(u)\).
+\end{theorem}
+\begin{proof}
+The functor carrier of \autoref{def:functor-carrier} supplies the object and morphism maps for \(F\) and \(G\). The stability certificate in \autoref{def:functor-stability-certificate} supplies identity preservation, composition preservation, and classifier-replacement stability, all read through the codomain morphism classifier. By \autoref{thm:functor-hom-carrier-codomain-evaluation}, the hom-carrier classifier for the composite pair \(H\) is the hom-carrier classifier of \(E\) at the image endpoints \(H_0(x)\) and \(H_0(y)\).
+
+Fix an object \(x\) of \(C\). The identity field of \(F\) classifies \(F_1(\mathsf{id}_x)\) with \(\mathsf{id}_{F_0(x)}\) in \(D\). The classifier-replacement stability field of \(G\) transports that comparison through \(G_1\), giving a classifier witness in \(E\) between \(G_1(F_1(\mathsf{id}_x))\) and \(G_1(\mathsf{id}_{F_0(x)})\). The identity field of \(G\), applied at \(F_0(x)\), classifies \(G_1(\mathsf{id}_{F_0(x)})\) with \(\mathsf{id}_{G_0(F_0(x))}\). Morphism-classifier transitivity from the category stability certificate in \autoref{def:category-stability-certificate} composes the two comparisons, giving the identity witness for \(H\).
+
+Fix composable morphisms \(u:x\to y\) and \(v:y\to z\) in \(C\). The composition field of \(F\) classifies \(F_1(v\circ_C u)\) with \(F_1(v)\circ_D F_1(u)\) in \(D\). The classifier-replacement stability field of \(G\) transports this comparison through \(G_1\), giving a classifier witness in \(E\) between \(G_1(F_1(v\circ_C u))\) and \(G_1(F_1(v)\circ_D F_1(u))\). The composition field of \(G\), applied to the composable pair \(F_1(u),F_1(v)\), classifies \(G_1(F_1(v)\circ_D F_1(u))\) with \(G_1(F_1(v))\circ_E G_1(F_1(u))\). Transitivity in \(E\) gives the composition witness for \(H\), and \autoref{def:functor-ledger-policy} records these two preservation ledgers as the composite functor ledger data.
+\end{proof}
+
+\begin{theorem}[Functor composition carries the hom-carrier classifier]
+\label{thm:functor-composite-hom-carrier-classifier}
+Let $C,D,E$ be certified categories. Let $F:C\to D$ and $G:D\to E$ be certified $\FunctorUp$ carriers with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Let $H=G\circ F$ be the composite carrier whose object and morphism maps are
+$$
+H_0(x)=G_0(F_0(x)),
+\qquad
+H_1(u)=G_1(F_1(u)).
+$$
+For every pair of source objects $x,y$ and every codomain morphism candidate $m$, the hom-carrier classifier carried by $H$ is pointwise the codomain hom-carrier classifier at the composed image endpoints:
+$$
+\mathsf{FunctorHomCarrier}_{G\circ F}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(G_0(F_0(x)),G_0(F_0(y)),m).
+$$
+\end{theorem}
+\begin{proof}
+The carrier fields in \autoref{def:functor-carrier} give the maps $F_0,F_1,G_0,G_1$, and \autoref{thm:functor-composite-preservation-witnesses} supplies the identity and composition preservation witnesses for the composite pair $H$ under the morphism classifier of $E$. Thus $H$ is read as the certified functor $C\to E$ with object map $H_0$.
+
+Apply \autoref{thm:functor-hom-carrier-codomain-evaluation} to this functor $H$. It gives
+$$
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+$$
+By the displayed definition of the composite object map, the right-hand side is exactly $\mathsf{HomCarrier}_{E}(G_0(F_0(x)),G_0(F_0(y)),m)$. The classifier discipline of \autoref{def:functor-classifier-specification} and the pointwise reading in \autoref{rem:functor-zero-axiom-note} identify classifier sameness by this morphism-argument equivalence, so the composite functor carries precisely the composed hom-carrier classifier.
+\end{proof}
+
+\begin{proposition}[Functor composition identity needs morphism-sameness respect]
+\label{prop:functor-composition-identity-sameness-respect-required}
+Let $C,D,E$ be finite certified categories, and let $F:C\to D$ and $G:D\to E$ be carrier pairs with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Write $m\sim_D n$ and $r\sim_E s$ for the endpoint-indexed morphism classifiers, and suppose the $E$-classifier is symmetric and transitive. Assume the raw identity and raw composition preservation ledgers for $F$ and $G$ are present in the sense of \autoref{def:functor-carrier}. Fix an object $x$ of $C$ and set $H=G\circ F$ with $H_0(x)=G_0(F_0(x))$ and $H_1(u)=G_1(F_1(u))$. If
+$$
+F_1(\mathsf{id}_x)\sim_D \mathsf{id}_{F_0(x)}
+$$
+and
+$$
+G_1(\mathsf{id}_{F_0(x)})\sim_E \mathsf{id}_{G_0(F_0(x))}
+$$
+but
+$$
+\neg\bigl(G_1(F_1(\mathsf{id}_x))\sim_E G_1(\mathsf{id}_{F_0(x)})\bigr),
+$$
+then $H$ has no identity preservation witness at $x$:
+$$
+\neg\bigl(H_1(\mathsf{id}_x)\sim_E \mathsf{id}_{H_0(x)}\bigr).
+$$
+\end{proposition}
+\begin{proof}
+Assume that the displayed composite identity witness exists. Unfolding the composite carrier gives
+$$
+G_1(F_1(\mathsf{id}_x))\sim_E \mathsf{id}_{G_0(F_0(x))}.
+$$
+The raw identity ledger for $G$ gives
+$$
+G_1(\mathsf{id}_{F_0(x)})\sim_E \mathsf{id}_{G_0(F_0(x))}.
+$$
+Symmetry reverses the second comparison, and transitivity composes it with the first. Hence
+$$
+G_1(F_1(\mathsf{id}_x))\sim_E G_1(\mathsf{id}_{F_0(x)}),
+$$
+contradicting the displayed non-respect premise. Thus the composite identity witness cannot exist.
+
+The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(\mathsf{id}_x)$ and $\mathsf{id}_{F_0(x)}$. To use the raw identity ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the step used in \autoref{thm:functor-composite-preservation-witnesses}. Raw composition preservation does not supply this transport, so it cannot restore identity preservation for $G\circ F$.
+\end{proof}
+
+\begin{theorem}[Raw functor hom-carrier landing obstruction]\label{thm:raw-functor-hom-carrier-landing-obstruction}
+There are finite two-object certified categories $C$ and $D$, together with an object map $F_0$, a raw morphism map $F_1$, and strict raw identity and composition preservation ledgers, such that a displayed source hom is not carried to the endpoint-indexed codomain hom-carrier required by $\FunctorUp$. Take object and morphism classifiers in both categories to be literal equality.
+Let $C$ have objects $0,1$, raw morphisms $\mathsf{id}_0,\mathsf{id}_1,a$, and hom-carrier table $\mathsf{HomCarrier}_{C}(0,0,\mathsf{id}_0)$, $\mathsf{HomCarrier}_{C}(1,1,\mathsf{id}_1)$, and $\mathsf{HomCarrier}_{C}(0,1,a)$, with no other hom-carrier witnesses. Its legal composites are $\mathsf{id}_0\circ_C\mathsf{id}_0=\mathsf{id}_0$, $\mathsf{id}_1\circ_C\mathsf{id}_1=\mathsf{id}_1$, $a\circ_C\mathsf{id}_0=a$, and $\mathsf{id}_1\circ_C a=a$.
+Let $D$ have objects $0,1$, raw morphisms $\mathsf{id}_0,\mathsf{id}_1,b$, and hom-carrier table $\mathsf{HomCarrier}_{D}(0,0,\mathsf{id}_0)$, $\mathsf{HomCarrier}_{D}(1,1,\mathsf{id}_1)$, and $\mathsf{HomCarrier}_{D}(1,0,b)$, with no other hom-carrier witnesses. Its legal composites are $\mathsf{id}_0\circ_D\mathsf{id}_0=\mathsf{id}_0$, $\mathsf{id}_1\circ_D\mathsf{id}_1=\mathsf{id}_1$, $b\circ_D\mathsf{id}_1=b$, and $\mathsf{id}_0\circ_D b=b$.
+Define $F_0(0)=0$, $F_0(1)=1$, $F_1(\mathsf{id}_0)=\mathsf{id}_0$, $F_1(\mathsf{id}_1)=\mathsf{id}_1$, and $F_1(a)=b$. Equip the raw morphism carrier of $D$ with an auxiliary total raw operation $\star_D$ whose values on the image pairs of source composites are $\mathsf{id}_0\star_D\mathsf{id}_0=\mathsf{id}_0$, $\mathsf{id}_1\star_D\mathsf{id}_1=\mathsf{id}_1$, $b\star_D\mathsf{id}_0=b$, and $\mathsf{id}_1\star_D b=b$.
+Then the object-map field, raw morphism-map field, identity preservation field, and raw composition preservation field are all satisfied. Nevertheless $\mathsf{HomCarrier}_{C}(0,1,a)$ and $\neg\,\mathsf{HomCarrier}_{D}(F_0(0),F_0(1),F_1(a))$. Thus endpoint-indexed hom-carrier landing is not entailed by those raw fields.
+\end{theorem}
+\begin{proof}
+The displayed hom-carrier and composite tables make $C$ and $D$ certified finite categories in the sense of \autoref{def:category-carrier}. In each category every legal composite contains only identity morphisms except for the single displayed nonidentity arrow, so the left and right identity laws hold strictly and every legal threefold composite reduces to the same displayed morphism on both associations. This supplies the category stability fields of \autoref{def:category-stability-certificate}.
+The map $F_0$ sends the two source objects to objects of $D$, and $F_1$ sends each raw source morphism to a raw morphism of $D$, giving the two carrier maps named in \autoref{def:functor-carrier}. Identity preservation is strict because $F_1(\mathsf{id}_0)=\mathsf{id}_0=\mathsf{id}_{F_0(0)}$ and $F_1(\mathsf{id}_1)=\mathsf{id}_1=\mathsf{id}_{F_0(1)}$.
+For raw composition preservation, the only composable pairs in $C$ are the four listed pairs. Applying $F_1$ to their composites gives respectively $\mathsf{id}_0$, $\mathsf{id}_1$, $b$, and $b$. The displayed values of $\star_D$ give exactly the same four results, so the raw composition preservation field from \autoref{def:functor-stability-certificate} is satisfied on all source composites.
+The source hom assertion $\mathsf{HomCarrier}_{C}(0,1,a)$ is one of the constructors in the table for $C$. On the codomain side, $F_0(0)=0$, $F_0(1)=1$, and $F_1(a)=b$, so the required endpoint-indexed landing assertion is $\mathsf{HomCarrier}_{D}(0,1,b)$. The table for $D$ has no such generator; by the closed-generation discipline of \autoref{ch:proof-standing-internal-sameness-no-confusion} and the indexed hom-carrier reading in \autoref{def:category-classifier-specification}, no hidden witness is available. Hence $\neg\,\mathsf{HomCarrier}_{D}(F_0(0),F_0(1),F_1(a))$.
+By \autoref{thm:functor-hom-carrier-codomain-evaluation}, a certified $\FunctorUp$ carrier reads the source-indexed functor hom predicate as the codomain hom-carrier at the image endpoints. The finite table above satisfies the raw preservation data while failing exactly that predicate at $(0,1,a)$, so the endpoint-indexed hom-carrier landing field is a separate obligation.
+\end{proof}
+
+\begin{proposition}[Functor composition preservation needs morphism-sameness respect]\label{prop:functor-composition-preservation-sameness-respect-required} Let $C,D,E$ be finite certified categories, and let $F:C\to D$ and $G:D\to E$ be carrier pairs with object maps $F_0,G_0$ and morphism maps $F_1,G_1$. Write $m\sim_D n$ and $r\sim_E s$ for the endpoint-indexed morphism classifiers, and suppose the $E$-classifier is symmetric and transitive. Assume the raw identity and raw composition preservation ledgers for $F$ and $G$ are present in the sense of \autoref{def:functor-carrier}. Fix composable morphisms $u:x\to y$ and $v:y\to z$ in $C$, and suppose the image pair $F_1(u),F_1(v)$ is a $D$-composable pair to which the raw composition ledger for $G$ applies. Set $H=G\circ F$ with $H_0(a)=G_0(F_0(a))$ and $H_1(w)=G_1(F_1(w))$. If $F_1(v\circ_C u)\sim_D F_1(v)\circ_D F_1(u)$ and $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$ but $\neg\bigl(G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))\bigr)$, then $H$ has no composition preservation witness at the pair $(u,v)$: $\neg\bigl(H_1(v\circ_C u)\sim_E H_1(v)\circ_E H_1(u)\bigr)$. \end{proposition} \begin{proof} Assume that the displayed composite composition witness exists. Unfolding the composite carrier gives $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. The raw composition ledger for $G$ on the displayed image pair gives $G_1(F_1(v)\circ_D F_1(u))\sim_E G_1(F_1(v))\circ_E G_1(F_1(u))$. Symmetry reverses the second comparison, and transitivity composes it with the first. Hence $G_1(F_1(v\circ_C u))\sim_E G_1(F_1(v)\circ_D F_1(u))$, contradicting the displayed separation premise. Thus the composite composition witness cannot exist. The comparison supplied by $F$ is only a $D$-morphism classifier witness between $F_1(v\circ_C u)$ and $F_1(v)\circ_D F_1(u)$. To use the raw composition ledger for $G$, that witness must be transported through $G_1$. This is exactly the classifier-replacement stability field in \autoref{def:functor-stability-certificate} and the composition step used in \autoref{thm:functor-composite-preservation-witnesses}. The raw composition ledgers recorded by \autoref{def:functor-ledger-policy} do not by themselves supply this transport, so they cannot restore composition preservation for $G\circ F$. \end{proof}
+

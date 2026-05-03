@@ -1,0 +1,178 @@
+\chapter{Inter-Hist Locality: From No God's-Eye View to Light-Speed Constancy}
+\label{ch:capstones-inter-hist-locality}
+
+This capstone is the road-map sibling to \autoref{ch:capstones-observer-hist-identity}. Where that chapter formalizes the SINGLE-Hist commitments that BEDC already proves --- namely that an observer is identified with the Hist of its observations, with no observer-substance carrier behind the record --- the present chapter scaffolds the MULTI-Hist consequences that BEDC must develop next. When several independent Hist values are considered together, with no shared base and no shared time-step indexing, the kernel does not give a global frame and cannot give one without violating the closed-inductive structure of \(\Hist\). In that setting only inter-Hist invariants can carry frame-independent physical content, and the maximum cross-Hist causal rate, in particular, must be observer-symmetric and constant across all observers in a configuration. That last consequence is the structural skeleton of the constancy of light speed in special relativity. The chapter catalogues the structure: multi-Hist configuration, no global synchronization, inter-Hist relation, observer-symmetric invariant, maximum cross-Hist causal rate, and the observer-independence of that maximum. Most of the multi-Hist semantics is currently a SCHEMA-ONLY HORIZON in BEDC: the type signatures and statement targets are sketched here, and the closed witnesses are deferred to a future BEDC physics-of-multi-observer development that does not yet exist. The chapter is therefore a roadmap, not a proof; it identifies the interface that future BEDC chapters would close. The structural commitments of the capstone connect to existing relational physics traditions: Rovelli's relational quantum mechanics, Wheeler's ``It from Bit'', Connes's noncommutative geometry, and Penrose's spin networks all locate physical content in observer-relations rather than in a privileged global frame. BEDC differs from these traditions in that it constructs the relational substrate from a still more primitive layer: distinction (\(\Hist\)) and observation (\(\Cont\)). The chapter falls under the same axiom-purity gate as the rest of the project --- whether multi-Hist semantics can preserve no-\(\mathsf{Classical.choice}\) / no-\(\mathsf{Quot.sound}\) / no-\(\mathsf{propext}\) is itself part of the road-map question, and is articulated as such in the closing section.
+
+\section{Ledger-local relations}
+\label{sec:inter-hist-ledger-local-relations}
+
+Inter-history locality names the BEDC principle that any comparison between two histories must be witnessed through finite continuation data visible inside the kernel. A relation between histories is admissible only when its evidence can be read from generated marks, emitted histories, continuation witnesses, or classifiers built from those objects. No external equality oracle is part of the public surface.
+
+\begin{definition}[Inter-history locality]
+\label{def:inter-hist-locality}
+An inter-history relation \(R(h,k)\) is local when every positive witness of \(R(h,k)\) factors through a finite BEDC ledger: a source history for \(h\), a source history for \(k\), a finite continuation or bundle witness connecting the inspected data, and a classifier comparison stated with \(\hsame\), \(\msame\), or a derived classifier already licensed by a naming certificate.
+\end{definition}
+
+\begin{theorem}[Locality is ledger visibility]
+\label{thm:inter-hist-locality-ledger-visibility}
+If an inter-history relation is local, then its public use can be audited by the same ledger discipline used for naming certificates: the hidden data are exactly the generating histories and continuation witnesses, and the visible judgment is the classifier-level relation they expose.
+\end{theorem}
+\begin{proof}
+Unfold locality. The witness already consists of source histories, finite continuation or bundle data, and a classifier comparison. These are precisely the ledger fields available to a naming certificate, so the public relation is the visible projection of that finite BEDC ledger.
+\end{proof}
+
+\section{Multi-Hist configurations}
+\label{sec:multi-hist-config}
+
+\begin{definition}[Multi-Hist configuration]
+\label{def:multi-hist-config}
+A multi-Hist configuration is a finite collection of Hist values \(h_1, \ldots, h_n\) considered together, with no requirement of a shared base history and no requirement of a shared time-step indexing. The configuration is the bare collection: the kernel does not append, glue, or synchronize the members.
+\end{definition}
+\begin{definition}[No global synchronization]
+\label{def:no-global-sync}
+There is no Hist-valued global synchronization for multi-Hist configurations: there is no \(\Hist\) value \(h_g\) such that for every multi-Hist configuration, \(h_g\) records a privileged shared ``now'' across all members of the configuration. The closed-inductive structure of \(\Hist\) does not admit such an \(h_g\).
+\end{definition}
+\begin{theorem}[Hists are frame-independent]
+\label{thm:hists-frame-independent}
+For any two \(\Hist\) values \(h_a, h_b\), neither carries the other's time-step indexing intrinsically. Any cross-Hist temporal correlation must be constructed via an external relation, not read off either Hist alone, and any such relation is itself a Hist-level construction subject to the same no-global-frame constraint.
+\end{theorem}
+\begin{lemma}[Empty configuration is degenerate]
+\label{lem:empty-config-degenerate}
+A multi-Hist configuration with zero or one members carries no inter-Hist content. The smallest non-degenerate configuration has two members, and the smallest configuration in which cross-Hist causal dependence (\autoref{def:cross-hist-causal-schema}) can be non-trivial likewise has two members.
+\end{lemma}
+\begin{lemma}[Configuration extension preserves no-global-sync]
+\label{lem:extension-preserves-no-sync}
+Adding a new \(\Hist\) value to an existing multi-Hist configuration does not produce a global synchronization that the original configuration lacked. No-global-synchronization is monotone: it is preserved under configuration extension, and cannot be acquired by accumulating Hists.
+\end{lemma}
+\begin{remark}[Reading: no observer-of-observers]
+\label{rem:no-gods-eye}
+This section formalizes the no-God's-eye-view commitment. There is no observer-of-observers that synchronizes the multi-Hist totality, because the kernel is silent about a global frame and the closed-inductive \(\Hist\) type does not admit one. By the sibling capstone (\autoref{ch:capstones-observer-hist-identity}), once observer is identified with Hist, no super-observer can coexist: any candidate super-observer is itself a Hist, and is subject to the same locality constraints as every other member of a configuration. \autoref{lem:extension-preserves-no-sync} shows that the absence cannot be repaired from inside the kernel by adding more observers; it is a feature of the closed-inductive structure of \(\Hist\) rather than a contingent fact about the current configuration.
+\end{remark}
+
+\section{Inter-Hist invariants}
+\label{sec:inter-hist-invariants}
+
+\begin{definition}[Inter-Hist relation]
+\label{def:inter-hist-relation}
+An inter-Hist relation is a predicate \(R(h_a, h_b)\) on pairs of \(\Hist\) values that is observer-symmetric: \(R(h_a, h_b)\) holds if and only if \(R(h_b, h_a)\) holds, up to \(\hsame\) on each component. Symmetry is required at the type-signature level: the predicate cannot privilege one slot over the other.
+\end{definition}
+\begin{definition}[Inter-Hist invariant]
+\label{def:inter-hist-invariant}
+An inter-Hist invariant is a function \(I : \Hist \times \Hist \to \Unary\) that is observer-symmetric and frame-independent: for any pair of perspectives on the configuration --- that is, for either \(\Hist\) taking the role of measurement-anchor --- the function \(I\) produces the same output up to \(\hsame\), and the output does not depend on any external choice of frame.
+\end{definition}
+\begin{theorem}[Invariants are observer-independent]
+\label{thm:invariants-observer-independent}
+Every inter-Hist invariant produces the same value regardless of which \(\Hist\) is taken as the perspective anchor. The value is a property of the pair as such, and not of either individual \(\Hist\); it is not measurable from inside one observer's record except as a relational quantity involving the other.
+\end{theorem}
+\begin{proposition}[Invariants compose under \(\hsame\)]
+\label{prop:invariants-hsame-stable}
+If \(I\) is an inter-Hist invariant and \(h_a \hsame h_a'\) and \(h_b \hsame h_b'\), then \(I(h_a, h_b) \hsame I(h_a', h_b')\). The invariant respects the kernel's history-equivalence relation; it cannot distinguish histories that the kernel does not distinguish.
+\end{proposition}
+\begin{lemma}[Trivial invariants exist]
+\label{lem:trivial-invariants-exist}
+The constant function \(I(h_a, h_b) := \emp\) and the constant function \(I(h_a, h_b) := \UnaryHistory\) are inter-Hist invariants in the sense of \autoref{def:inter-hist-invariant}. The class of inter-Hist invariants is therefore non-empty before any physics is committed; the substantive content of the road-map is the construction of non-trivial invariants whose values discriminate between configurations.
+\end{lemma}
+\begin{proposition}[\(\psame\)-stability of invariants]
+\label{prop:psame-stable}
+If \(I\) is an inter-Hist invariant and \(p_a \psame p_a'\) is a probe-equivalence at the anchor of \(h_a\) and \(p_b \psame p_b'\) at the anchor of \(h_b\), the invariant \(I\) returns \(\hsame\)-equivalent values on the corresponding pairs. Inter-Hist invariants are stable under both kernel-level history equivalence (\autoref{prop:invariants-hsame-stable}) and kernel-level probe equivalence; they cannot distinguish what the kernel does not distinguish at either layer.
+\end{proposition}
+\begin{remark}[Reading: relational content is forced]
+\label{rem:relational-content}
+This section formalizes the operationalist principle that, in the absence of a privileged frame, all physical content lives in inter-observer relations rather than in any one observer's record. The principle is forced by no-global-synchronization (\autoref{def:no-global-sync}); it is not assumed. In particular, an observer's individual Hist is not a frame-independent carrier of physical content on its own; only \(I\)-images of pairs are. \autoref{prop:psame-stable} sharpens this: invariants cannot smuggle in distinctions below the kernel's resolution, on either the history or the probe layer, so the relational content lives strictly in the kernel-level equivalence quotient.
+\end{remark}
+
+\section{Cross-Hist causal dependence (schema-only)}
+\label{sec:cross-hist-causal}
+
+\begin{definition}[Cross-Hist causal dependence --- SCHEMA-ONLY]
+\label{def:cross-hist-causal-schema}
+A cross-Hist causal dependence is a relation \(C(h_a, h_b, k)\) saying ``\(h_b\)'s most recent \(k\) \(\Cont\) steps depend on \(h_a\)'s recent steps''. The relation is currently a SCHEMA-ONLY HORIZON in BEDC: the kernel exposes the type signature, but no closed witness produces a non-trivial cross-Hist causal relation. Future BEDC chapters on multi-Hist physics would close this schema by giving a constructive predicate together with concrete witnesses.
+\end{definition}
+\begin{definition}[Maximum cross-Hist causal rate --- SCHEMA-ONLY]
+\label{def:max-causal-rate-schema}
+The maximum cross-Hist causal rate is a unary-valued function \(\mathsf{MaxRate}\) on multi-Hist configurations such that, for every cross-Hist causal dependence \(C(h_a, h_b, k)\), the ratio of cross-affected \(\Cont\) steps in \(h_b\) to corresponding \(\Cont\) steps in \(h_a\) is bounded above by \(\mathsf{MaxRate}\). SCHEMA-ONLY: the upper-bound theorem awaits the multi-Hist semantics that gives \(C\) its closed witnesses.
+\end{definition}
+\begin{theorem}[Maximum rate is an inter-Hist invariant --- SCHEMA-ONLY]
+\label{thm:max-rate-invariant-schema}
+The maximum cross-Hist causal rate, when defined, is an inter-Hist invariant in the sense of \autoref{def:inter-hist-invariant}: its value is observer-symmetric and frame-independent. SCHEMA-ONLY: this theorem is part of the road-map; its closed proof requires the multi-Hist causal-dependence semantics to be made constructive.
+\end{theorem}
+\begin{theorem}[Maximum rate is an observer-independent constant --- SCHEMA-ONLY]
+\label{thm:max-rate-constant-schema}
+For any multi-Hist configuration with a non-trivial cross-Hist causal dependence, the maximum cross-Hist causal rate is the same constant for all observers in the configuration. Equivalently, no observer can measure a different value for the maximum rate without invoking a privileged frame; and no privileged frame exists, by \autoref{def:no-global-sync}.
+\end{theorem}
+\begin{corollary}[Light-speed-like constant]
+\label{cor:light-speed-constant-schema}
+A multi-Hist configuration that admits a non-trivial cross-Hist causal dependence has a single observer-independent maximum-rate constant attached to it. The form of the result --- ``a constant maximum cross-Hist causal rate exists and is observer-independent'' --- is the structural skeleton of the constancy of light speed in special relativity. The empirical specific value of the constant is not derived inside BEDC; only the form is.
+\end{corollary}
+\begin{lemma}[Causal dependence is asymmetric in the time slot --- SCHEMA-ONLY]
+\label{lem:causal-asymmetric-time-schema}
+The relation \(C(h_a, h_b, k)\) of \autoref{def:cross-hist-causal-schema} is asymmetric in the time slot \(k\): \(C(h_a, h_b, k)\) and \(C(h_b, h_a, k)\) are distinct predicates in general, even though the inter-Hist invariants of \autoref{sec:inter-hist-invariants} are observer-symmetric. The asymmetry is the content of ``\(h_b\) depends on \(h_a\)'' as opposed to ``\(h_a\) depends on \(h_b\)'', and is exactly the structure that the maximum-rate constant must average over to recover observer symmetry.
+\end{lemma}
+\begin{lemma}[Causal dependence respects \(\hsame\) --- SCHEMA-ONLY]
+\label{lem:causal-hsame-schema}
+If \(C(h_a, h_b, k)\) and \(h_a \hsame h_a'\) and \(h_b \hsame h_b'\), then \(C(h_a', h_b', k)\). The cross-Hist causal-dependence predicate is required to be \(\hsame\)-stable; without this stability, no inter-Hist invariant could be defined on top of it without leaking kernel-undistinguishable distinctions.
+\end{lemma}
+\begin{proposition}[Triviality at degenerate configurations --- SCHEMA-ONLY]
+\label{prop:max-rate-trivial-schema}
+For a multi-Hist configuration with no non-trivial cross-Hist causal dependence, the maximum cross-Hist causal rate is the trivial bound, and \autoref{thm:max-rate-constant-schema} reduces to a vacuous truth. The non-trivial content of the maximum-rate constant arises only once \(C\) has at least one closed witness on the configuration; until then, the road-map cannot distinguish the constant numerically.
+\end{proposition}
+\begin{remark}[Reading: the structural argument]
+\label{rem:light-speed-like}
+The structural argument runs as follows. No-God's-eye view (\autoref{def:no-global-sync}) forces all physical content into inter-Hist invariants (\autoref{thm:invariants-observer-independent}); the maximum cross-Hist causal rate is one such invariant (\autoref{def:max-causal-rate-schema}); the symmetry of ``no privileged frame'' forces this rate to be the same constant for all observers (\autoref{thm:max-rate-constant-schema}). Each step is inevitability under the previous, not a separate postulate. In standard relativistic terms: BEDC derives the form of an invariant maximum signal speed from no-global-frame plus relational content; what it does not derive is that this constant takes any particular numerical value.
+\end{remark}
+
+\section{Roadmap toward physics}
+\label{sec:roadmap-toward-physics}
+
+\begin{remark}[Form of the next dependency chain]
+\label{rem:next-dependency-chain}
+The capstone identifies the next BEDC roadmap, parallel in form to the Riemann Hypothesis dependency chain (\autoref{ch:capstones-riemann-hypothesis}). It is a sequence of multi-Hist namecert chapters that close the schema-only horizons of \autoref{sec:cross-hist-causal}. The chain proceeds: (i) \(\NameCert\) for \(\mathsf{MultiHistConfig}\); (ii) \(\NameCert\) for \(\mathsf{CrossHistCausal}\); (iii) \(\NameCert\) for \(\mathsf{MaxCausalRate}\); (iv) Lorentz-geometry \(\NameCert\), in which the inter-Hist invariant produces a Minkowski-like distance from the observer-symmetric maximum rate; (v) curved spacetime as a Lorentz-\(\NameCert\) with non-trivial gluing data over a multi-Hist configuration; (vi) quantum-state \(\NameCert\) as multi-Hist superposition, in which the relational content is carried by \(\Eone\)/\(\Ezero\) refinements rather than by metric data; and so on. Each step on this chain is its own chapter and its own statement-only Lean target.
+\end{remark}
+
+\begin{remark}[Falsification surfaces along the chain]
+\label{rem:falsification-surfaces}
+Each step of \autoref{rem:next-dependency-chain} carries its own falsification surface. Step (i) fails if no closed witness for \(\mathsf{MultiHistConfig}\) can be produced without smuggling in a global frame. Step (ii) fails if cross-Hist causal dependence cannot be expressed as an \(\hsame\)- and \(\psame\)-stable predicate. Step (iii) fails if the maximum-rate function cannot be defined without choice. Step (iv) fails if the candidate Minkowski-like distance is not symmetric in the two observers, or if it does not respect \autoref{prop:invariants-hsame-stable}. Step (v) fails if the gluing data over the configuration cannot be made constructive. Step (vi) fails if the multi-Hist superposition predicate forces \(\mathsf{propext}\). The road-map's intermediate failures are themselves informative; they are not engineering setbacks but structural results about where distinction-foundationalism stops being sufficient.
+\end{remark}
+
+\begin{remark}[Relation to existing single-Hist Lean targets]
+\label{rem:relation-existing-lean}
+The Lean targets named in \autoref{def:multi-hist-config} through \autoref{prop:max-rate-trivial-schema} are statement-only and do not yet have closed proofs. They are nevertheless not isolated from the rest of the formalization. \(\mathsf{InterHistInvariant}\) (\autoref{def:inter-hist-invariant}) takes \(\Hist\)-pairs to \(\Unary\), and \(\Unary\) is already a closed-inductive carrier in BEDC; \(\mathsf{MaxCausalRate}\) (\autoref{def:max-causal-rate-schema}) is unary-valued in the same sense. The interface uses no Lean fragment that BEDC has not already committed to. What it adds is the multi-Hist combinator structure: pairing two \(\Hist\) values into a configuration, and predicating over pairs.
+\end{remark}
+
+\begin{remark}[Connection to relational physics traditions]
+\label{rem:relational-physics}
+The structural commitments of this capstone are the same commitments as Rovelli's relational quantum mechanics, Wheeler's ``It from Bit'', Connes's noncommutative geometry, and Penrose's spin networks: physical content is observer-relational, not located in any single observer's record, and observer is not a substance prior to its observations. BEDC differs from these traditions in that it constructs the relational substrate from a still more primitive layer: distinction (\(\Hist\)) and observation (\(\Cont\)), with no observer-substance carrier behind either, and with everything closed-inductive. Where those traditions take observer-relations as physical primitives, BEDC derives them from the structure of distinction.
+\end{remark}
+
+\begin{remark}[Schema-only horizons and axiom-purity]
+\label{rem:schema-only-axiom-purity}
+A central open question on this roadmap is whether the multi-Hist semantics can be closed inside BEDC's axiom-purity gate. If yes, BEDC's distinction-foundationalist position extends from pure mathematics into physics with no additional axiomatic cost: the same fragment that proves the single-Hist commitments of \autoref{ch:capstones-observer-hist-identity} would also prove the multi-Hist commitments of this chapter. If no, the boundary point at which axiom-purity fails would itself be a structurally meaningful result: it would mark precisely where physics requires more than distinction --- whether choice, propositional extensionality, or quotient sound is the first to be needed, and on which specific schema. Either outcome is informative.
+\end{remark}
+
+\begin{remark}[Why the chain is acyclic]
+\label{rem:chain-acyclic}
+The dependency chain of \autoref{rem:next-dependency-chain} is acyclic by construction. Step (i) \(\mathsf{MultiHistConfig}\) does not depend on cross-Hist causal dependence, only on \(\Hist\); step (ii) builds \(\mathsf{CrossHistCausal}\) on top of (i); step (iii) extracts a single unary upper bound from (ii); steps (iv) and (v) elaborate that bound into geometric data; step (vi) lifts the same machinery to a \(\NameCert\) over multi-Hist superpositions. Each step strictly extends the predicate vocabulary of the previous step. The order in which the multi-Hist semantics must be assembled is exactly the order of the chain; no step can be deferred past a later step without circularity.
+\end{remark}
+
+\begin{remark}[\(\Eone\)/\(\Ezero\) refinements at the multi-Hist level]
+\label{rem:e1-e0-multi-hist}
+The single-Hist semantics distinguishes \(\Eone\) (extensional, observation-driven) from \(\Ezero\) (intensional, name-driven) at the level of one observer's record. The multi-Hist roadmap inherits this distinction: an inter-Hist invariant may be sensitive to \(\Eone\)-level refinements of the two component records, to \(\Ezero\)-level refinements, or to both. Quantum-state \(\NameCert\)s in step (vi) of \autoref{rem:next-dependency-chain} are expected to live in the \(\Eone\)-sensitive class, and metric \(\NameCert\)s in steps (iv) and (v) in the \(\Ezero\)-sensitive class. Articulating which refinement layer carries which physical content is part of the multi-Hist development.
+\end{remark}
+
+\begin{remark}[Single-Hist obligations as preconditions]
+\label{rem:single-hist-preconditions}
+The roadmap of this capstone presupposes the single-Hist obligations articulated in the sibling capstone (\autoref{ch:capstones-observer-hist-identity}). Without observer-Hist identity, the multi-Hist configuration of \autoref{def:multi-hist-config} would not yet be a configuration of observers; without \(\hsame\)-stability of single-observer content, \autoref{prop:invariants-hsame-stable} would not type-check at the inter-observer level. The two capstones close adjacent layers of the same problem.
+\end{remark}
+
+\section{Closing}
+\label{sec:closing-inter-hist}
+
+\begin{remark}[What this capstone is and is not]
+\label{rem:what-this-is-not}
+This capstone is not a derivation of relativity, of quantum mechanics, or of any particular physical theory. It is a derivation of the form of an observer-independent maximum-rate constant from the combination of distinction-foundationalist commitments (single-Hist identification of observer with record, no observer-substance carrier) and the closed-inductive structure of \(\Hist\). The form is the strong claim; the value is not derived. Equally, the capstone is not a claim that BEDC will succeed in closing the multi-Hist roadmap inside its axiom-purity gate. It is a claim that the question is well-posed and that the interface is now sketched precisely enough that progress and failure can be told apart.
+\end{remark}
+
+\begin{remark}[The structure of physics from observer locality]
+\label{rem:closing-physics-from-locality}
+The capstone makes one structural argument. In a configuration of independent Hists with no global frame, all physical content lives in observer-symmetric inter-Hist invariants, and the maximum cross-Hist causal rate must be observer-independent. This is the BEDC-derived skeleton of the relativistic structure of physics. The current chapter does not produce that physics; it identifies the interface that a future BEDC physics chain would close. Whether closure is possible inside the axiom-purity gate is the next research question. The chapter falls under the project's axiom-purity gate, and the road-map question of whether physics can be constructively closed inside that gate is itself open. \autoref{rem:falsification-surfaces} catalogues the specific surfaces along which the road-map can fail informatively; the answer to the road-map question will be assembled from a sequence of step-by-step constructive successes or step-localized failures, not declared in advance.
+\end{remark}

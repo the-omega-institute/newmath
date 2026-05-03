@@ -1,0 +1,809 @@
+---
+title: "Project Map"
+description: "An interactive dependency map of the BEDC project: each node is a namecert region, each edge a dependency, sized by theorem count, colored by status. Click any node for the bilingual term entry. EN / 中文 toggle at top right."
+format:
+  html:
+    toc: false
+    page-layout: full
+    include-in-header:
+      text: |
+        <link rel="stylesheet" href="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.css">
+---
+
+```{=html}
+<style>
+  body { background: #fbfbfa; }
+  main.content { padding-top: 1rem !important; padding-bottom: 0 !important; max-width: 100% !important; }
+  #title-block-header { display: none; }
+
+  .map-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "header header" "graph detail" "footer footer";
+    height: calc(100vh - 60px);
+    min-height: 760px;
+    gap: 0;
+    background: #fbfbfa;
+    border: 1px solid #e0e0e0;
+  }
+  main.content > .quarto-section-identifier { display: none; }
+  .quarto-container { max-width: 100% !important; padding: 0 !important; }
+  @media (max-width: 900px) {
+    .map-shell { grid-template-columns: 1fr; grid-template-areas: "header" "graph" "detail" "footer"; height: auto; }
+    #cy { height: 540px; }
+    #detail { max-height: 480px; overflow-y: auto; }
+  }
+
+  .map-header {
+    grid-area: header;
+    padding: 0.7rem 1.2rem;
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0; background: #fff;
+  }
+  .map-header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+  .map-header .summary { font-size: 0.86rem; color: #666; }
+  .map-header .summary strong { color: #222; }
+  .lang-toggle { font-size: 0.85rem; }
+  .lang-toggle button {
+    border: 1px solid #ccc; background: white; padding: 0.2rem 0.6rem;
+    cursor: pointer; font-family: inherit; font-size: 0.85rem;
+  }
+  .lang-toggle button.active { background: #222; color: white; border-color: #222; }
+  .region-picker {
+    font-family: inherit; font-size: 0.88rem;
+    padding: 0.25rem 0.5rem; border: 1px solid #bbb; border-radius: 3px;
+    background: white; min-width: 220px; cursor: pointer;
+  }
+  .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
+
+  #cy { grid-area: graph; height: 100%; background: #fbfbfa; }
+
+  #detail {
+    grid-area: detail; padding: 1.2rem; overflow-y: auto;
+    border-left: 1px solid #e0e0e0; background: #fff; font-size: 0.92rem;
+  }
+  #detail .hint { color: #aaa; font-style: italic; }
+  #detail .term-name { font-size: 1.25rem; font-weight: 600; }
+  #detail .term-other { color: #888; font-size: 0.95rem; margin-left: 0.4rem; font-style: italic; }
+  #detail .term-desc { margin-top: 0.5rem; line-height: 1.55; }
+  #detail .term-other-desc { margin-top: 0.4rem; color: #777; line-height: 1.5; font-style: italic; }
+  #detail .term-stats {
+    margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
+    font-family: ui-monospace, monospace; font-size: 0.84rem;
+  }
+  #detail .term-stats span { display: inline-block; margin-right: 0.6rem; padding: 0.1rem 0.45rem; background: #f4f4f4; border-radius: 3px; }
+  #detail .term-deps { margin-top: 0.7rem; font-size: 0.86rem; color: #555; }
+  #detail .term-deps a { color: #2c3e50; cursor: pointer; text-decoration: underline dotted; margin-right: 0.4rem; }
+  #detail .term-deps a:hover { color: #c0392b; }
+  #detail .term-namecerts {
+    margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed #ddd;
+    font-size: 0.83rem;
+  }
+  #detail .term-namecerts-header {
+    font-weight: 600; color: #444; margin-bottom: 0.35rem; font-size: 0.85rem;
+  }
+  #detail .nc-row {
+    padding: 0.15rem 0; line-height: 1.4;
+    word-break: break-all;
+  }
+  #detail .nc-row code {
+    font-size: 0.78rem; color: #2c3e50; background: transparent;
+  }
+  #detail .legend { margin-top: 1.5rem; padding-top: 0.9rem; border-top: 1px solid #eee; font-size: 0.82rem; color: #666; }
+  #detail .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin-right: 0.3rem; border: 1px solid rgba(0,0,0,0.2); }
+  #detail .crit-list { margin-top: 0.7rem; }
+  #detail .crit-list a {
+    display: block; padding: 0.25rem 0.5rem; margin-bottom: 0.2rem;
+    background: #fef5f3; border-left: 3px solid #c0392b; cursor: pointer;
+    text-decoration: none; color: #222; font-size: 0.86rem;
+  }
+  #detail .crit-list a:hover { background: #fdebe7; }
+  #detail .crit-list .crit-meta { color: #888; font-size: 0.78rem; margin-left: 0.4rem; }
+  #detail .glossary-toggle {
+    margin-top: 1rem; padding: 0.4rem 0.7rem; width: 100%;
+    border: 1px solid #ccc; background: white; border-radius: 4px;
+    cursor: pointer; font-family: inherit; font-size: 0.85rem;
+    text-align: left;
+  }
+  #detail .glossary-toggle:hover { background: #f4f4f4; }
+  #detail .glossary-toggle.active { background: #2c3e50; color: white; border-color: #2c3e50; }
+  #glossary-pane {
+    position: fixed; top: 0; right: 0; width: 420px; height: 100vh;
+    background: white; border-left: 1px solid #ccc;
+    box-shadow: -4px 0 18px rgba(0,0,0,0.1);
+    overflow-y: auto; z-index: 1000;
+    transform: translateX(100%); transition: transform 0.2s ease;
+  }
+  #glossary-pane.open { transform: translateX(0); }
+  #glossary-pane .glossary-header {
+    position: sticky; top: 0; padding: 0.8rem 1.2rem;
+    background: #fff; border-bottom: 1px solid #eee;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 1rem;
+  }
+  #glossary-pane .glossary-header button {
+    border: none; background: transparent; font-size: 1.4rem;
+    cursor: pointer; color: #666;
+  }
+  #glossary-pane .glossary-body { padding: 0.8rem 1.2rem; }
+  #glossary-pane .glossary-section {
+    margin-bottom: 1.4rem;
+  }
+  #glossary-pane .glossary-section h3 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #888; margin: 0 0 0.4rem 0; font-weight: 600;
+  }
+  #glossary-pane .glossary-entry {
+    padding: 0.4rem 0; border-bottom: 1px solid #f4f4f4;
+  }
+  #glossary-pane .glossary-entry:last-child { border-bottom: none; }
+  #glossary-pane .glossary-entry .term {
+    font-weight: 600; font-size: 0.95rem;
+  }
+  #glossary-pane .glossary-entry .term-zh {
+    color: #888; font-style: italic; margin-left: 0.4rem; font-size: 0.88rem;
+  }
+  #glossary-pane .glossary-entry .desc {
+    margin-top: 0.25rem; font-size: 0.84rem; line-height: 1.45; color: #444;
+  }
+  #glossary-pane .glossary-entry .desc-zh {
+    margin-top: 0.2rem; font-size: 0.8rem; line-height: 1.45; color: #888;
+    font-style: italic;
+  }
+
+  .map-footer {
+    grid-area: footer; padding: 0.5rem 1.2rem;
+    border-top: 1px solid #e0e0e0; background: #fff;
+    display: flex; align-items: center; gap: 1rem; font-size: 0.83rem; color: #666;
+  }
+  #spark { flex: 1; height: 28px; }
+  .map-footer .meta { white-space: nowrap; }
+</style>
+
+<div class="map-shell">
+  <div class="map-header">
+    <h1 data-i18n="title">BEDC Project Map</h1>
+    <div class="summary" id="summary"></div>
+    <select id="region-picker" class="region-picker" onchange="onPickerChange(this.value)">
+      <option value="" data-i18n="picker_default">-- jump to region --</option>
+    </select>
+    <div class="lang-toggle">
+      <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-zh" onclick="setLang('zh')">中文</button>
+    </div>
+  </div>
+
+  <div id="cy"></div>
+
+  <div id="detail">
+    <div id="detail-content">
+      <div class="hint" data-i18n="hint">Click a node to see its bilingual entry, stats, and dependencies.</div>
+    </div>
+
+    <div class="legend">
+      <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
+      <div><span class="swatch" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
+      <div><span class="swatch" style="background:#27ae60;"></span><span data-i18n="legend_proven">Proven (object-completion theorem checked)</span></div>
+      <div><span class="swatch" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, completion theorem pending)</span></div>
+      <div><span class="swatch" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
+      <div><span class="swatch" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
+      <div style="margin-top:0.4rem; color:#888;" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
+    </div>
+
+    <div class="legend">
+      <div data-i18n="crit_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Where AI is attacking now</div>
+      <div id="crit-list" class="crit-list"></div>
+    </div>
+
+    <button class="glossary-toggle" onclick="toggleGlossary()">
+      <span data-i18n="glossary_btn">📖 Browse all bilingual terms</span>
+    </button>
+  </div>
+
+  <div id="glossary-pane">
+    <div class="glossary-header">
+      <span data-i18n="glossary_title">Bilingual Glossary</span>
+      <button onclick="toggleGlossary()">×</button>
+    </div>
+    <div class="glossary-body" id="glossary-body"></div>
+  </div>
+
+  <div class="map-footer">
+    <span class="meta"><span data-i18n="footer_activity">Monthly commits</span></span>
+    <svg id="spark" preserveAspectRatio="none"></svg>
+    <span class="meta" id="footer-range"></span>
+  </div>
+</div>
+
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+
+<script>
+const I18N = {
+  en: {
+    title: "BEDC Project Map",
+    lang_label: "Language:",
+    hint: "Click a node to see its bilingual entry, stats, and dependencies.",
+    legend_title: "Legend",
+    legend_crit: "Frontline (AI's current target)",
+    legend_proven: "Proven (object-completion theorem checked)",
+    legend_prog: "In progress (theorems landing, completion theorem pending)",
+    legend_scaf: "Scaffold (paper only, Lean pending)",
+    legend_schema: "Schema-only horizon (intentional)",
+    legend_size: "Size = total paper obligations (checked + stated).",
+    crit_title: "Where AI is attacking now",
+    footer_activity: "Monthly commits",
+    sum_theorems: "theorems",
+    sum_regions: "regions",
+    sum_edges: "edges",
+    detail_thms: "Lean theorems",
+    detail_checked: "checked",
+    detail_stmt: "stated",
+    detail_files: "files",
+    detail_score: "score",
+    detail_downstream: "downstream",
+    detail_deps: "Depends on:",
+    detail_namecerts: "Object-completion theorems",
+    picker_default: "-- jump to region --",
+    grp_kernel: "Kernel primitives",
+    grp_namecert: "NameCert framework",
+    grp_methodology: "Methodology",
+    grp_discrete: "Discrete primitives",
+    grp_number: "Number systems",
+    grp_algebra: "Algebra",
+    grp_order: "Order / lattice",
+    grp_topology: "Topology",
+    grp_categorical: "Categorical",
+    grp_analysis: "Complex analysis",
+    grp_zeta: "Dirichlet / Zeta",
+    grp_reflection: "Reflection / capstone",
+    grp_roadmap: "Roadmap (future Up types)",
+    grp_other: "Other",
+    glossary_btn: "📖 Browse all bilingual terms",
+    glossary_title: "Bilingual Glossary",
+  },
+  zh: {
+    title: "BEDC 项目地图",
+    lang_label: "语言:",
+    hint: "点击节点查看双语词条, 统计和依赖关系.",
+    legend_title: "图例",
+    legend_crit: "前线 (AI 当前攻坚)",
+    legend_proven: "已证 (对象完成性定理已扣上)",
+    legend_prog: "进行中 (有定理在落, 主完成性定理还差)",
+    legend_scaf: "脚架 (仅论文, Lean 待补)",
+    legend_schema: "Schema-only 视界 (有意为之)",
+    legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
+    crit_title: "AI 当前攻坚位置",
+    footer_activity: "每月提交数",
+    sum_theorems: "定理",
+    sum_regions: "领域",
+    sum_edges: "依赖边",
+    detail_thms: "Lean 定理",
+    detail_checked: "已证",
+    detail_stmt: "陈述",
+    detail_files: "文件",
+    detail_score: "得分",
+    detail_downstream: "下游影响",
+    detail_deps: "依赖于:",
+    detail_namecerts: "对象完成性定理",
+    picker_default: "-- 跳到领域 --",
+    grp_kernel: "内核原语",
+    grp_namecert: "NameCert 框架",
+    grp_methodology: "方法论",
+    grp_discrete: "离散原语",
+    grp_number: "数系",
+    grp_algebra: "代数",
+    grp_order: "序 / 格",
+    grp_topology: "拓扑",
+    grp_categorical: "范畴",
+    grp_analysis: "复分析",
+    grp_zeta: "Dirichlet / ζ",
+    grp_reflection: "反思 / capstone",
+    grp_roadmap: "路线图 (未来 Up 类型)",
+    grp_other: "其他",
+    glossary_btn: "📖 浏览全部双语术语",
+    glossary_title: "双语术语表",
+  },
+};
+
+let LANG = "en";
+let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
+let CRIT_SET = new Set();
+
+async function loadData() {
+  const v = "?v=" + Date.now();
+  const [s, g, d] = await Promise.all([
+    fetch("data/status.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/glossary.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/dependency.json" + v, { cache: "no-store" }).then(r => r.json()),
+  ]);
+  STATUS = s; GLOSSARY = g; DEPS = d;
+  CRIT_SET = new Set((STATUS.critical_path || []).map(c => c.name));
+}
+
+function t(key) { return I18N[LANG][key] || key; }
+
+function applyStaticI18n() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (I18N[LANG][key] !== undefined) el.innerHTML = I18N[LANG][key];
+  });
+  document.getElementById("btn-en").classList.toggle("active", LANG === "en");
+  document.getElementById("btn-zh").classList.toggle("active", LANG === "zh");
+  document.getElementById("summary").innerHTML =
+    `<strong>${STATUS.total_theorems}</strong> ${t("sum_theorems")} · ` +
+    `<strong>${DEPS.nodes.length}</strong> ${t("sum_regions")} · ` +
+    `<strong>${DEPS.edges.length}</strong> ${t("sum_edges")}`;
+  populatePicker();
+}
+
+// Group regions into mathematical areas for the dropdown picker.
+const REGION_GROUPS = [
+  ["grp_kernel",       ["kernel"]],
+  ["grp_discrete",     ["bool", "option", "prod", "sum", "list"]],
+  ["grp_number",       ["nat", "add", "int", "rat", "real", "complex", "prime"]],
+  ["grp_algebra",      ["monoid", "group", "abgroup", "ring", "commring", "field",
+                        "module", "vecspace", "linearmap", "matrix", "polynomial", "fps"]],
+  ["grp_order",        ["preorder", "poset", "totalorder", "lattice", "interval"]],
+  ["grp_topology",     ["metric", "compact", "continuous", "s1"]],
+  ["grp_categorical",  ["category", "functor", "nattrans"]],
+  ["grp_analysis",     ["complexlimit", "convergenceradius", "complexdiff",
+                        "holomorphic", "complexseries", "contour", "anacont"]],
+  ["grp_zeta",         ["dirichletseries", "zetabasic", "zetacont", "critstrip", "zetazeros"]],
+  ["grp_reflection",   ["observer", "interhist"]],
+];
+
+function pickerOptionLabel(node) {
+  const g = GLOSSARY[node.id];
+  const en = g ? g.en.label : node.id;
+  const zh = g ? g.zh.label : "";
+  return LANG === "zh"
+    ? `${zh}${en !== zh ? "  ·  " + en : ""}`
+    : `${en}${zh && zh !== en ? "  ·  " + zh : ""}`;
+}
+
+function populatePicker() {
+  const sel = document.getElementById("region-picker");
+  if (!sel) return;
+  const idsInGraph = new Set(DEPS.nodes.map(n => n.id));
+  const placed = new Set();
+
+  // build option groups from REGION_GROUPS, then a final "Other" group for stragglers
+  const groups = REGION_GROUPS.map(([key, ids]) => ({
+    key,
+    items: ids.filter(id => idsInGraph.has(id)),
+  })).filter(g => g.items.length > 0);
+  groups.forEach(g => g.items.forEach(id => placed.add(id)));
+  const leftover = DEPS.nodes
+    .filter(n => !placed.has(n.id))
+    .map(n => n.id)
+    .sort();
+  if (leftover.length) groups.push({ key: "grp_other", items: leftover });
+
+  let html = `<option value="">${t("picker_default")}</option>`;
+  for (const g of groups) {
+    html += `<optgroup label="${t(g.key)}">`;
+    for (const id of g.items) {
+      const node = DEPS.nodes.find(n => n.id === id);
+      if (!node) continue;
+      html += `<option value="${id}">${pickerOptionLabel(node)}</option>`;
+    }
+    html += `</optgroup>`;
+  }
+  sel.innerHTML = html;
+}
+
+function onPickerChange(id) {
+  if (!id) return;
+  showNodeDetail(id);
+  // Highlight the picked node + its dependency chain in the existing global
+  // view; do NOT change zoom. The graph stays at its fit-to-screen scale so
+  // the user keeps the full map context.
+}
+
+// --- Glossary side pane ----------------------------------------------------
+// Group ordering for the side pane. Each entry: [i18n_key, [glossary keys]].
+// Glossary keys not listed here fall into 'grp_other'.
+const GLOSSARY_GROUPS = [
+  ["grp_kernel",      ["BHist", "Hist", "Cont", "hsame", "psame", "msame", "E0", "E1", "kernel"]],
+  ["grp_namecert",    ["NameCert", "SourceSpec", "PatternSpec", "ClassifierSpec", "StabilityCert", "LedgerPolicy"]],
+  ["grp_methodology", ["axiom-purity", "schema-only"]],
+  ["grp_discrete",    ["bool", "option", "prod", "sum", "list"]],
+  ["grp_number",      ["nat", "add", "int", "rat", "real", "complex", "prime"]],
+  ["grp_algebra",     ["monoid", "group", "abgroup", "ring", "commring", "field",
+                       "module", "vecspace", "linearmap", "matrix", "polynomial", "fps"]],
+  ["grp_order",       ["preorder", "poset", "totalorder", "lattice", "interval"]],
+  ["grp_topology",    ["metric", "compact", "continuous", "s1", "circle"]],
+  ["grp_categorical", ["category", "functor", "nattrans"]],
+  ["grp_analysis",    ["complexlimit", "convergenceradius", "complexdiff",
+                       "holomorphic", "complexseries", "contour", "anacont"]],
+  ["grp_zeta",        ["dirichletseries", "zetabasic", "zetacont", "critstrip", "zetazeros", "zeta"]],
+  ["grp_reflection",  ["observer", "interhist"]],
+  ["grp_roadmap",     ["padic", "adele", "norm", "hilbert", "magma", "semigroup", "topology",
+                       "completion", "calculus", "measure", "functionalanalysis",
+                       "manifold", "bundle", "homology", "rh", "eq", "func", "limit",
+                       "fold", "setlike", "typelike", "mul", "order"]],
+];
+
+function renderGlossary() {
+  const body = document.getElementById("glossary-body");
+  const placed = new Set();
+  let html = "";
+  for (const [groupKey, keys] of GLOSSARY_GROUPS) {
+    const items = keys.filter(k => GLOSSARY[k]);
+    if (!items.length) continue;
+    items.forEach(k => placed.add(k));
+    html += `<div class="glossary-section"><h3>${t(groupKey)}</h3>`;
+    for (const k of items) {
+      const g = GLOSSARY[k];
+      const primary = LANG === "zh" ? g.zh : g.en;
+      const other   = LANG === "zh" ? g.en : g.zh;
+      html += `
+        <div class="glossary-entry">
+          <span class="term">${primary.label}</span>
+          ${other.label && other.label !== primary.label ? `<span class="term-zh">${other.label}</span>` : ""}
+          <div class="desc">${primary.desc}</div>
+          ${other.desc && other.desc !== primary.desc ? `<div class="desc-zh">${other.desc}</div>` : ""}
+        </div>`;
+    }
+    html += `</div>`;
+  }
+  // Anything left over goes under "Other"
+  const leftover = Object.keys(GLOSSARY).filter(k => !placed.has(k));
+  if (leftover.length) {
+    html += `<div class="glossary-section"><h3>${t("grp_other")}</h3>`;
+    for (const k of leftover) {
+      const g = GLOSSARY[k];
+      const primary = LANG === "zh" ? g.zh : g.en;
+      const other   = LANG === "zh" ? g.en : g.zh;
+      html += `
+        <div class="glossary-entry">
+          <span class="term">${primary.label}</span>
+          ${other.label && other.label !== primary.label ? `<span class="term-zh">${other.label}</span>` : ""}
+          <div class="desc">${primary.desc}</div>
+          ${other.desc && other.desc !== primary.desc ? `<div class="desc-zh">${other.desc}</div>` : ""}
+        </div>`;
+    }
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+function toggleGlossary() {
+  const pane = document.getElementById("glossary-pane");
+  pane.classList.toggle("open");
+  if (pane.classList.contains("open")) renderGlossary();
+}
+
+function statusClass(node) {
+  // Schema-only takes precedence: an intentional horizon is not a missing target.
+  if (node.schema_only) return "schema";
+  // Critical path: AI is targeting this region right now.
+  if (CRIT_SET.has(node.id)) return "crit";
+  // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
+  if (node.id === "kernel") return "proven";
+
+  // Three-tier classification grounded in two signals:
+  //   - namecert_checked   = the region's *completion* proofs are landed
+  //   - thms / checked     = there is *any* theorem activity in the region
+  //
+  // proven    : at least one namecert (object-completion) theorem is checked
+  //             AND there are no still-stated namecert theorems
+  // progress  : namecert not yet proven, but the region has Lean theorems or
+  //             paper-marker activity -- work is in flight
+  // scaffold  : nothing yet (paper exists, no theorems, no namecert)
+  const ncChecked = node.namecert_checked || 0;
+  const ncStmt    = node.namecert_stmt    || 0;
+  const thms      = node.thms             || 0;
+  const checked   = node.checked          || 0;
+
+  if (ncChecked > 0 && ncStmt === 0) return "proven";
+  if (ncChecked > 0)                  return "progress";  // mixed namecert states
+  if (thms > 0 || checked > 0)        return "progress";  // theorems exist, namecert pending
+  return "scaffold";
+}
+
+function nodeColor(cls) {
+  return {
+    schema:   "#8e44ad",  // purple — intentional horizon
+    crit:     "#c0392b",  // red — frontline / AI's current target
+    proven:   "#27ae60",  // green — all paper markers \leanchecked
+    progress: "#3498db",  // blue — partially proven (checked + stmt mixed)
+    scaffold: "#bdc3c7",  // gray — paper-only, Lean pending
+  }[cls] || "#bdc3c7";
+}
+
+function nodeSizeMetric(node) {
+  // Size = total paper obligations (proxy for chapter "weight"), not Lean theorem count.
+  // Kernel has no paper markers; anchor it to a representative size.
+  if (node.id === "kernel") return 12;
+  return (node.checked || 0) + (node.stmt || 0);
+}
+
+function nodeLabel(node) {
+  const g = GLOSSARY[node.id];
+  if (g) return g[LANG].label;
+  return node["label_" + LANG] || node.label_en || node.id;
+}
+
+function renderCy() {
+  const nodes = DEPS.nodes.map(n => {
+    const cls = statusClass(n);
+    return {
+      data: {
+        id: n.id, label: nodeLabel(n),
+        thms: n.thms || 0, score: n.score || 0,
+        downstream: n.downstream || 0, cls,
+        color: nodeColor(cls),
+        size: nodeSizeMetric(n),
+        checked: n.checked || 0, stmt: n.stmt || 0,
+        schema_only: !!n.schema_only,
+      },
+    };
+  });
+  const edges = DEPS.edges.map((e, i) => ({
+    data: { id: "e" + i, source: e.source, target: e.target }
+  }));
+
+  CY = cytoscape({
+    container: document.getElementById("cy"),
+    elements: [...nodes, ...edges],
+    style: [
+      {
+        selector: "node",
+        style: {
+          "background-color": "data(color)",
+          "label": "data(label)",
+          "font-size": "45px",
+          "font-weight": 700,
+          "color": "#0f0f0f",
+          "text-valign": "bottom",
+          "text-halign": "center",
+          "text-margin-y": 20,
+          "text-outline-color": "#fbfbfa",
+          "text-outline-width": 9,
+          "text-background-color": "#fbfbfa",
+          "text-background-opacity": 0.92,
+          "text-background-padding": "8px",
+          "text-background-shape": "roundrectangle",
+          "width": "mapData(size, 0, 30, 24, 60)",
+          "height": "mapData(size, 0, 30, 24, 60)",
+          "border-width": 2,
+          "border-color": "#fff",
+          "overlay-padding": 4,
+        },
+      },
+      { selector: "node[cls = 'crit']", style: { "border-width": 3, "border-color": "#7e1810" } },
+      {
+        selector: "node:selected",
+        style: {
+          "border-width": 8,
+          "border-color": "#f39c12",
+          "border-opacity": 1,
+          "overlay-color": "#f39c12",
+          "overlay-opacity": 0.18,
+          "overlay-padding": 12,
+          "z-index": 999,
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          "width": 1.5, "line-color": "#7a8a99",
+          "target-arrow-color": "#7a8a99", "target-arrow-shape": "triangle",
+          "curve-style": "bezier", "arrow-scale": 0.95,
+          "opacity": 0.55,
+        },
+      },
+      { selector: "edge.highlight", style: { "line-color": "#c0392b", "target-arrow-color": "#c0392b", "width": 3, "opacity": 1 } },
+      { selector: "edge.faded", style: { "opacity": 0.06 } },
+      { selector: "node.faded", style: { "opacity": 0.15 } },
+    ],
+    layout: {
+      name: "dagre",
+      rankDir: "LR",
+      // Wider rank spacing + tighter node spacing -> bigger labels under fit:true.
+      // The geometry is tuned so that the graph's natural size matches a typical
+      // viewport at fit ratio close to 1.0.
+      nodeSep: 36,
+      rankSep: 96,
+      edgeSep: 14,
+      ranker: "network-simplex",
+      padding: 16,
+      fit: true,
+      animate: false,
+    },
+    // Disable wheel/pinch zoom (per request); pan-drag remains for nudging
+    // so the dropdown's centered jump can be fine-tuned without the user
+    // ever needing to scroll-zoom.
+    userZoomingEnabled: false,
+    userPanningEnabled: true,
+    boxSelectionEnabled: false,
+    wheelSensitivity: 0,
+    autoungrabify: true,
+  });
+
+  CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
+  CY.on("tap", evt => {
+    if (evt.target === CY) {
+      document.getElementById("detail-content").innerHTML =
+        `<div class="hint">${t("hint")}</div>`;
+      CY.elements().removeClass("highlight");
+      CY.nodes().unselect();
+    }
+  });
+  // Global view: fit all nodes in the viewport. With the bigger font and
+  // outline below, labels stay legible even when fit-zoomed. The dropdown
+  // is the primary nav for jumping between specific regions.
+  CY.fit(undefined, 16);
+}
+
+function showNodeDetail(id) {
+  const node = DEPS.nodes.find(n => n.id === id);
+  const g = GLOSSARY[id];
+  if (!node) return;
+
+  CY.elements().removeClass("highlight").removeClass("faded");
+  CY.nodes().unselect();
+  const cyNode = CY.getElementById(id);
+  cyNode.select();
+
+  // Find the full upstream subtree (all ancestors) and downstream subtree (all descendants)
+  const upstream = new Set([id]);
+  const downstream = new Set([id]);
+  const queueUp = [id];
+  while (queueUp.length) {
+    const cur = queueUp.shift();
+    DEPS.edges.forEach(e => {
+      if (e.target === cur && !upstream.has(e.source)) {
+        upstream.add(e.source);
+        queueUp.push(e.source);
+      }
+    });
+  }
+  const queueDown = [id];
+  while (queueDown.length) {
+    const cur = queueDown.shift();
+    DEPS.edges.forEach(e => {
+      if (e.source === cur && !downstream.has(e.target)) {
+        downstream.add(e.target);
+        queueDown.push(e.target);
+      }
+    });
+  }
+  const keep = new Set([...upstream, ...downstream]);
+
+  CY.nodes().forEach(n => { if (!keep.has(n.id())) n.addClass("faded"); });
+  CY.edges().forEach(e => {
+    const s = e.data("source"), t = e.data("target");
+    if (keep.has(s) && keep.has(t)) e.addClass("highlight");
+    else e.addClass("faded");
+  });
+
+  const incoming = DEPS.edges
+    .filter(e => e.target === id)
+    .map(e => e.source)
+    .filter(s => DEPS.nodes.find(n => n.id === s));
+
+  const otherLang = LANG === "en" ? "zh" : "en";
+
+  let html = "";
+  if (g) {
+    html += `<div class="term-name">${g[LANG].label}<span class="term-other">${g[otherLang].label}</span></div>`;
+    html += `<div class="term-desc">${g[LANG].desc}</div>`;
+    html += `<div class="term-other-desc">${g[otherLang].desc}</div>`;
+  } else {
+    html += `<div class="term-name">${id}</div>`;
+    html += `<div class="term-desc" style="color:#888;">(no glossary entry)</div>`;
+  }
+
+  const stats = [];
+  if (node.checked) stats.push(`<span style="background:#e9f7ef;color:#1e7c43;"><strong>${node.checked}</strong> ${t("detail_checked")}</span>`);
+  if (node.stmt) stats.push(`<span style="background:#eaf3fb;color:#1f5d8a;"><strong>${node.stmt}</strong> ${t("detail_stmt")}</span>`);
+  if (typeof node.thms === "number" && node.thms > 0) stats.push(`<span><strong>${node.thms}</strong> ${t("detail_thms")}</span>`);
+  if (node.downstream) stats.push(`<span><strong>${node.downstream}</strong> ${t("detail_downstream")}</span>`);
+  if (node.score) stats.push(`<span><strong>${node.score.toFixed(2)}</strong> ${t("detail_score")}</span>`);
+  if (node.schema_only) stats.push(`<span style="background:#f4ecf7;color:#7d3c98;">${t("legend_schema")}</span>`);
+  else if (CRIT_SET.has(id)) stats.push(`<span style="background:#fef5f3;color:#c0392b;">${t("legend_crit")}</span>`);
+  if (stats.length) html += `<div class="term-stats">${stats.join(" ")}</div>`;
+
+  if (incoming.length) {
+    const links = incoming.map(s => {
+      const sg = GLOSSARY[s];
+      const lbl = sg ? sg[LANG].label : s;
+      return `<a onclick="showNodeDetail('${s}')">${lbl}</a>`;
+    });
+    html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
+  }
+
+  // Object-completion theorems (the namecert proofs whose existence IS the
+  // object's existence in BEDC). One green ✓ for checked, blue ◯ for stmt.
+  const ncList = node.namecert_theorems || [];
+  if (ncList.length) {
+    const items = ncList.map(t => {
+      const icon = t.status === "checked"
+        ? '<span style="color:#27ae60;">✓</span>'
+        : '<span style="color:#3498db;">◯</span>';
+      return `<div class="nc-row">${icon}&nbsp;<code>${t.short}</code></div>`;
+    }).join("");
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_namecerts")} ` +
+        `(<strong style="color:#27ae60;">${node.namecert_checked || 0}</strong>` +
+        ` / <strong>${ncList.length}</strong>)</div>
+        ${items}
+      </div>`;
+  }
+
+  document.getElementById("detail-content").innerHTML = html;
+}
+
+function renderCritList() {
+  const cp = (STATUS.critical_path || []).slice(0, 7);
+  const el = document.getElementById("crit-list");
+  el.innerHTML = cp.map(c => {
+    const g = GLOSSARY[c.name];
+    const lbl = g ? g[LANG].label : c.name;
+    return `<a onclick="showNodeDetail('${c.name}')">${lbl}<span class="crit-meta">· ${c.thms} thm · score ${c.score.toFixed(2)}</span></a>`;
+  }).join("");
+}
+
+function renderSpark() {
+  const months = STATUS.monthly_activity || [];
+  if (!months.length) return;
+  const svg = document.getElementById("spark");
+  const w = svg.clientWidth || 600, h = 28;
+  const max = Math.max(...months.map(m => m.commits));
+  const stepX = w / Math.max(months.length - 1, 1);
+  const points = months.map((m, i) => `${(i * stepX).toFixed(1)},${(h - (m.commits / max) * (h - 4) - 1).toFixed(1)}`).join(" ");
+  svg.innerHTML = `
+    <polyline fill="none" stroke="#2c3e50" stroke-width="1.4" points="${points}"/>
+    ${months.map((m, i) => `<circle cx="${(i * stepX).toFixed(1)}" cy="${(h - (m.commits / max) * (h - 4) - 1).toFixed(1)}" r="1.3" fill="#2c3e50"/>`).join("")}
+  `;
+  const first = months[0]?.month || "";
+  const last = months[months.length - 1]?.month || "";
+  const total = months.reduce((s, m) => s + m.commits, 0);
+  document.getElementById("footer-range").textContent = `${first} – ${last} · ${total} total`;
+}
+
+function renderAll() {
+  applyStaticI18n();
+  if (!CY) renderCy();
+  else {
+    CY.nodes().forEach(n => {
+      const node = DEPS.nodes.find(d => d.id === n.id());
+      if (node) n.data("label", nodeLabel(node));
+    });
+  }
+  renderCritList();
+  renderSpark();
+  if (CY && CY.nodes(":selected").length) {
+    showNodeDetail(CY.nodes(":selected")[0].id());
+  } else {
+    document.getElementById("detail-content").innerHTML = `<div class="hint">${t("hint")}</div>`;
+  }
+}
+
+function setLang(lang) {
+  LANG = lang;
+  renderAll();
+  // refresh glossary if open
+  const pane = document.getElementById("glossary-pane");
+  if (pane && pane.classList.contains("open")) renderGlossary();
+}
+
+(async () => {
+  try {
+    await loadData();
+    renderAll();
+    window.addEventListener("resize", renderSpark);
+  } catch (e) {
+    document.getElementById("cy").innerHTML =
+      `<div style="padding:2rem;color:red;">Error loading data: ${e.message}</div>`;
+  }
+})();
+</script>
+```

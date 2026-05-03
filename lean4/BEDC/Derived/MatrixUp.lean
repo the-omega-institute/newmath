@@ -67,6 +67,27 @@ theorem MatrixSingletonClassifier_append_pair_carrier_iff {M N P Q : BHist} :
     exact And.intro leftEmpty
       (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem MatrixSingletonClassifier_append_self_context_split_iff {a x b : BHist} :
+    MatrixSingletonClassifier (append a (append x a)) b <->
+      MatrixSingletonCarrier a ∧ MatrixSingletonClassifier x b := by
+  constructor
+  · intro classified
+    have outerSplit := append_eq_empty_iff.mp classified.left
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    have middleClassified : MatrixSingletonClassifier x b :=
+      And.intro innerSplit.left
+        (And.intro classified.right.left
+          (hsame_trans innerSplit.left (hsame_symm classified.right.left)))
+    exact And.intro outerSplit.left middleClassified
+  · intro split
+    have innerCarrier : MatrixSingletonCarrier (append x a) :=
+      append_eq_empty_iff.mpr (And.intro split.right.left split.left)
+    have leftCarrier : MatrixSingletonCarrier (append a (append x a)) :=
+      append_eq_empty_iff.mpr (And.intro split.left innerCarrier)
+    exact And.intro leftCarrier
+      (And.intro split.right.right.left
+        (hsame_trans leftCarrier (hsame_symm split.right.right.left)))
+
 theorem MatrixSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
     MatrixSingletonClassifier (append P R) (append Q R) <->
       MatrixSingletonClassifier P Q ∧ MatrixSingletonCarrier R := by
