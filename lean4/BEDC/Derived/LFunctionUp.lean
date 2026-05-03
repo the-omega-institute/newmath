@@ -143,6 +143,22 @@ theorem LFunctionDirichletPartSum_positive_index_previous_unique
                       DirichletPartSum_unary_index_deterministic unaryM
                         data.right.left other)))))
 
+theorem LFunctionDirichletPartSum_visible_previous_decomposition_deterministic
+    {term : BHist -> BHist -> BHist} {s n S m P m' P' : BHist}
+    (left : n = BHist.e1 m ∧ DirichletPartSum term s m P ∧ Cont P (term m s) S)
+    (right : n = BHist.e1 m' ∧ DirichletPartSum term s m' P' ∧ Cont P' (term m' s) S) :
+    m = m' ∧ hsame P P' := by
+  cases left with
+  | intro leftEq leftRest =>
+      cases right with
+      | intro rightEq rightRest =>
+          cases leftEq
+          cases rightEq
+          have unaryM : UnaryHistory m := DirichletPartSum_index_unary leftRest.left
+          constructor
+          · rfl
+          · exact DirichletPartSum_unary_index_deterministic unaryM leftRest.left rightRest.left
+
 theorem LFunctionDirichletPartSum_zero_terms_positive_previous_readback
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->

@@ -163,6 +163,32 @@ exposed predecessor result $P$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_unique}
 
+\begin{theorem}[L-function visible Dirichlet predecessor decomposition is deterministic]
+\label{thm:lfunction-dirichlet-partsum-visible-previous-decomposition-deterministic}
+For any Dirichlet term operation $term$, parameter $s$, visible index $n$,
+and sum history $S$, suppose $S$ admits two displayed predecessor
+decompositions
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S)
+$$
+and
+$$
+n=\mathsf{BHist.e1}(m')\land
+\mathsf{DirichletPartSum}(term,s,m',P')\land
+\mathsf{Cont}(P',term(m',s),S).
+$$
+Then $m=m'$ and $P\hsame P'$.
+\end{theorem}
+\begin{proof}
+Invert both visible successor equalities. The constructor equality identifies
+the predecessor indices. The exposed predecessor partial-sum witness makes the
+index unary, and Dirichlet unary-index determinacy identifies the two displayed
+predecessor results.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_visible\_previous\_decomposition\_deterministic}
+
 \begin{theorem}[L-function zero-term positive partial-sum predecessor readback]
 \label{thm:lfunction-dirichlet-partsum-zero-terms-positive-previous-readback}
 For any Dirichlet term operation $term$, parameter $s$, positive index $n$,

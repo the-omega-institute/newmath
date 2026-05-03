@@ -64,6 +64,28 @@ continuation relation identifies the two successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_deterministic}
 
+\begin{lemma}[Complex partial-sum visible predecessor decomposition is deterministic]
+\label{thm:complex-partsum-visible-previous-decomposition-deterministic}
+If two displayed successor decompositions of the same complex partial-sum
+history have the forms
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{ComplexPartSum}(zero,c,m,P)\land \mathsf{Cont}(P,c(m),S)
+$$
+and
+$$
+n=\mathsf{BHist.e1}(m')\land
+\mathsf{ComplexPartSum}(zero,c,m',P')\land \mathsf{Cont}(P',c(m'),S),
+$$
+then $m=m'$ and $P\hsame P'$.
+\end{lemma}
+\begin{proof}
+Invert both visible successor equalities. Constructor injectivity identifies
+the exposed predecessor indices, and closed complex partial-sum determinacy
+identifies the predecessor results under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_visible\_previous\_decomposition\_deterministic}
+
 \begin{lemma}[Complex partial sums exist uniquely]
 \label{lem:complex-part-sum-exists-unique}
 For every chosen zero history, term family \(c\), and unary index \(n\), there

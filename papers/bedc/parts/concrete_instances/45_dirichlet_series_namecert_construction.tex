@@ -129,6 +129,21 @@ index. Determinacy of \(\mathsf{Cont}\) identifies the successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_deterministic}
 
+\begin{lemma}[Dirichlet partial-sum term transport is deterministic]
+\label{thm:dirichlet-partsum-term-hsame-transport-deterministic}
+Suppose two Dirichlet term functions agree under $\hsame$ at every unary index
+after transporting the ambient parameter from $s$ to $s'$. If $n$ is unary,
+then a closed partial sum $S$ for $\mathsf{term}$ at $(s,n)$ and a closed
+partial sum $T$ for $\mathsf{term}^{\prime}$ at $(s',n)$ satisfy $S\hsame T$.
+\end{lemma}
+\begin{proof}
+Transport the first closed partial-sum witness along the pointwise
+term-history comparison to obtain a closed witness for $\mathsf{term}^{\prime}$ at
+the same unary index. Unary-index determinacy for Dirichlet partial sums then
+compares that transported witness with the displayed $T$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_transport\_deterministic}
+
 \begin{lemma}[Dirichlet partial sums are complex histories]
 \label{lem:dir-part-sum-complex}
 For every \((a, s, N)\), there is a unique complex history \(S_N\) with \(\mathsf{DirPartSum}(a, s, N, S_N)\), up to \(\hsame\).
