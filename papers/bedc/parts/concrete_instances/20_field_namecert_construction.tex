@@ -648,30 +648,64 @@ $r:\mathsf{BHist}$ satisfies the two inverse-domain witnesses:
 \end{theorem}
 \begin{proof}
 First apply
-\autoref{thm:ratup-fieldup-threefold-support-contextual-separation} at the
-same denominator tuple, carried inputs, endpoint, support carrier witness, and
-context history $r$. This gives the rejection maps
-$$
-\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot
-$$
-and
-$$
-\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot.
-$$
-
+\autoref{thm:ratup-fieldup-threefold-support-contextual-separation} at the same
+denominator tuple, carried inputs, endpoint, support carrier witness, and context
+history $r$. This gives the rejection maps
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
 For the right-append inverse-domain witness, unfold
 $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ as
 $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(r,x),\emp)\to\bot$.
 Any forbidden classifier witness contains the source carrier field
 $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$, contradicting the
 first rejection map.
-
 For the left-append inverse-domain witness, unfold
 $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$ as
 $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(x,r),\emp)\to\bot$.
 Any forbidden classifier witness contains the source carrier field
 $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$, contradicting the
 second rejection map.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp threefold support contextual nonzero boundary]
+\label{thm:ratup-fieldup-threefold-support-contextual-nonzero-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for every $r:\mathsf{BHist}$ the
+concrete append-context boundary contains:
+\begin{enumerate}
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-threefold-support-non-singleton-exactness} to the same carried histories and threefold support witness. The endpoint data recovered
+there includes $\mathsf{RatHistoryCarrier}(x)$ and the singleton endpoint
+rejection map $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+Fix an arbitrary context history $r:\mathsf{BHist}$. For the right-factor append
+boundary, apply \autoref{thm:field-singleton-empty-append-rat-carrier-absurd}
+with context $r$ and RatUp factor $x$. The Rat carrier witness turns any witness of
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$ into
+contradiction.
+For the left-factor append boundary, apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the same
+RatUp factor $x$ and context $r$. The same carrier witness turns any witness of
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$ into
+contradiction.
+It remains to record the two inverse-domain witnesses. Unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ as rejection of the
+singleton classifier against $\emp$. Any such classifier witness contains the
+source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$, contradicting the
+right-factor append rejection.
+The left-factor inverse-domain witness is identical: unfold
+$\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$ as rejection of
+the singleton classifier against $\emp$. The source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$ contradicts the
+left-factor append rejection.
 \end{proof}
 
 Per-object template: traditional target concrete $\FieldUp(\mathsf{RatUp})$
@@ -682,12 +716,12 @@ $R_D^u$; stability obligations empty-unit continuation closure and Rat
 carrier readback; ledger left-nested denominator product endpoint
 $\mu_D^u(\mu_D^u(h,k),\ell)$; core theorems
 \autoref{thm:ratup-fieldup-threefold-support-non-singleton-exactness},
-\autoref{thm:ratup-fieldup-threefold-support-contextual-separation}, and
-\autoref{thm:ratup-fieldup-threefold-support-contextual-nonzero-package};
-exactness predicate threefold strict-support non-singleton boundary with
-contextual append separation and inverse-domain nonzero package; standard
-bridge finite denominator support into the concrete FieldUp exit; status
-$\mathsf{ProofTarget}$.
+\autoref{thm:ratup-fieldup-threefold-support-contextual-separation},
+\autoref{thm:ratup-fieldup-threefold-support-contextual-nonzero-package}, and
+\autoref{thm:ratup-fieldup-threefold-support-contextual-nonzero-boundary};
+exactness predicate threefold strict-support non-singleton boundary with contextual
+append separation and inverse-domain nonzero package; standard bridge finite
+denominator support into the concrete FieldUp exit; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp transported exit row contextual separation package]
 \label{thm:ratup-fieldup-transported-exit-row-contextual-separation-package}
