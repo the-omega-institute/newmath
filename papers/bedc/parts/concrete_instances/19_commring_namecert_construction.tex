@@ -67,6 +67,30 @@ take its right component. The oriented product is
 $(a+b)\cdot(a+(-b))$, giving the required zero classifier.
 \end{proof}
 
+\begin{theorem}[CommRing zero linear factor commuted signed product zero]
+\label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-annihilator-branch} to the
+selected zero linear factor. In the $(a+b)\hsame0$ branch, specialize the
+two-sided annihilator row at $c=a+(-b)$ and take the right multiplication
+component. In the $(a+(-b))\hsame0$ branch, specialize at $c=a+b$ and take the
+left multiplication component. Both cases produce the displayed commuted
+signed product as an empty classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_commuted\_signed\_product\_zero}
+
 \begin{theorem}[CommRing zero linear factor forces equal squares]
 \label{thm:commring-zero-linear-factor-equal-squares}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -134,6 +158,96 @@ from zero-factor absorption and difference-of-squares exactness; ledger the
 chosen linear factor and signed-product witness; core theorem this block;
 exactness the paired conjunction of product zero and equal squares; standard
 bridge ordinary commutative-ring square exit; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor total exact package]
+\label{thm:commring-zero-linear-factor-total-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\Bigl(
+\bigl((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\bigr)
+\lor
+\bigl((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\bigr)
+\Bigr)
+\land
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor assumption. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to $H$ to obtain
+the branch-preserving annihilator disjunction.
+
+Apply \autoref{thm:commring-zero-linear-factor-exact-package} to the same
+assumption $H$. This yields the paired signed product-zero witness and square
+equality.
+
+Introduce the final conjunction by placing the branch-preserving disjunction in
+the first component and the paired product-zero and square-equality certificate
+in the second component.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor, branch annihilator row, and signed-product witness; core
+theorem \autoref{thm:commring-zero-linear-factor-total-exact-package};
+exactness branch annihilator coverage together with signed product zero and
+equal squares; standard bridge ordinary commutative-ring square exit; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing zero linear factor branch exact package]
+\label{thm:commring-zero-linear-factor-branch-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+\left(
+\left((a+b)\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+b)\cdot c\hsame0 \land c\cdot(a+b)\hsame0)\right)
+\lor
+\left((a+(-b))\hsame0 \land
+\forall c : \mathsf{BHist},\ ((a+(-b))\cdot c\hsame0 \land c\cdot(a+(-b))\hsame0)\right)
+\right)
+\land
+a\cdot a\hsame b\cdot b
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Start with the displayed zero-linear-factor disjunction. Apply
+\autoref{thm:commring-zero-linear-factor-annihilator-branch} to retain the
+selected branch and its two-sided annihilator row for every
+$c:\mathsf{BHist}$.
+
+Apply \autoref{thm:commring-zero-linear-factor-equal-squares} to the same
+disjunction. This gives the square equality $a\cdot a\hsame b\cdot b$ under
+the identical hypotheses.
+
+Pair the branch-preserving annihilator package with the square equality. The
+result is exactly the displayed conjunction, so later selector arguments can
+consume the chosen linear factor without reconstructing the branch.
+\end{proof}
+
+The ten-field fit is: traditional target branch-preserving zero-factor
+exactness in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+zero-factor absorption and difference-of-squares exactness; ledger the selected
+linear factor and annihilator row; core theorem this block; exactness the
+displayed conjunction; downstream consumer $\FieldUp$ quadratic and zero-factor
+exit packages; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[CommRing singleton empty square exact package]
 \label{thm:commring-singleton-empty-square-exact-package}
