@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.2 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -263,6 +263,23 @@ If the staged changes show ZERO insertions in `lean4/BEDC/` (i.e., the round onl
 A valid round produces a non-trivial Lean diff. Marker registration alone is not formalization.
 
 Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\leanvariant` markers stay; the `bedc_ci.py audit` still requires their Lean targets to resolve. But Phase C in automated rounds must not produce new variants — if a target's only effect is to be a wrapper / projection / iff-rewrite / pair-bundle / weaker form of an already-`\leanchecked` theorem, abort that target and pick something that produces a genuinely new theorem statement.
+
+## Step 5.6: HARD GATE — no same-conclusion sibling theorems in one round
+
+Phase D's `phase_d_lint.py` rejects rounds where two newly-added theorems have the same conclusion text under different names (e.g. `<X>_iff` and `<X>_iff_direct`, or `<X>_kernel_iff` and `<X>QuotientClassifier_kernel_iff`). Three rounds (R1948 / R1949 / R1953) FAILed this gate in two minutes by adding `SubgroupCentralizerQuotientKernel_witness_classifier_iff` together with `SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff` and `_kernel_iff_direct` — three names, one conclusion.
+
+Self-check before commit:
+
+```bash
+# After staging, list the conclusions of every new theorem this round adds.
+git diff --cached lean4/BEDC/ \
+  | awk '/^\+theorem |^\+lemma /{flag=1; print; next} /^\+/ && flag {print} /^[^+]/{flag=0}' \
+  | head -200
+```
+
+If you see two new declarations whose **conclusion type** (after stripping forall binders and any `iff`/`<->` direction) is alpha-equivalent, KEEP only one. Drop the others by `git restore --staged <file>` and re-edit the file to delete the redundant declaration. The round commits whichever ONE new theorem you want as the canonical name.
+
+A round must not introduce both `<X>_iff` and `<X>_iff_direct`, both `<X>` and `<X>_witness`, or both `<X>` and `<X>_kernel_iff` when the second's conclusion proves the same biconditional/equation as the first. If one is a strict generalization or specialization, only the more useful one stays.
 
 ## Step 6: Single combined commit
 ```bash
