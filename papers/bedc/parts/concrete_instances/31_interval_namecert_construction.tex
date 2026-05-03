@@ -247,3 +247,21 @@ The bounded-real subcarrier tuple forms a valid NameCert for \(\IntervalUp\).
 \label{rem:interval-zero-axiom-note}
 Uses constructive inequality witnesses with moduli rather than classical order trichotomy.
 \end{remark}
+
+\begin{theorem}[Interval carrier boundary weakening]
+\label{thm:interval-carrier-boundary-weakening}
+Let \(\ell_1,\ell_2,u_1,u_2:\mathsf{BHist}\to\mathsf{Prop}\) be interval boundary predicates. Suppose that for every history \(h:\mathsf{BHist}\) there are pointwise boundary maps
+\[
+\lambda_h:\ell_2(h)\to\ell_1(h),
+\qquad
+\upsilon_h:u_2(h)\to u_1(h).
+\]
+Then every inhabitant of the inner interval carrier is an inhabitant of the outer interval carrier:
+\[
+\mathsf{IntervalCarrier}_{\ell_2,u_2}(h)\to
+\mathsf{IntervalCarrier}_{\ell_1,u_1}(h).
+\]
+\end{theorem}
+\begin{proof}
+By \autoref{def:interval-carrier}, an inner carrier witness consists of unary membership for \(h\), a lower-bound witness in \(\ell_2(h)\), and an upper-bound witness in \(u_2(h)\). Keep the unary membership witness unchanged. Apply the pointwise lower-bound map \(\lambda_h\) to the lower witness, and apply the pointwise upper-bound map \(\upsilon_h\) to the upper witness. These three witnesses reconstruct \(\mathsf{IntervalCarrier}_{\ell_1,u_1}(h)\) by \autoref{def:interval-carrier}.
+\end{proof}
