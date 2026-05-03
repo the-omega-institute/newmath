@@ -150,4 +150,18 @@ theorem FuncObjLinearSingleton_continuous_map_empty_components_iff
           (And.intro unary_empty
             (And.intro unary_empty (cont_right_unit BHist.Empty))))
 
+theorem FuncObjLinearSingleton_continuous_map_target_graph_empty_iff
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ->
+      LinearMapSingletonCarrier source -> LinearMapSingletonCarrier map ->
+        (Cont source map BHist.Empty ↔ hsame target BHist.Empty) := by
+  intro carrier sourceEmpty mapEmpty
+  have graphRel : Cont source map target :=
+    carrier.left.right.right.right.right.left
+  constructor
+  · intro _emptyGraph
+    exact cont_respects_hsame sourceEmpty mapEmpty graphRel (cont_right_unit BHist.Empty)
+  · intro targetEmpty
+    exact cont_result_hsame_transport graphRel targetEmpty
+
 end BEDC.Derived.FuncobjUp

@@ -15,6 +15,13 @@ theorem EmptyHistoryCarrier_absurd {h : BHist} :
   cases carrier.left
   cases carrier.right
 
+theorem EmptyHistoryCarrier_namecert_absurd :
+    NameCert EmptyHistoryCarrier hsame -> False := by
+  intro cert
+  cases cert.carrier_inhabited with
+  | intro _h carrier =>
+      exact EmptyHistoryCarrier_absurd carrier
+
 theorem EmptyContradictoryCarrier_namecert_absurd :
     NameCert (fun h : BHist => hsame h BHist.Empty ∧ hsame h (BHist.e1 BHist.Empty))
       hsame -> False := by

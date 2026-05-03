@@ -34,6 +34,21 @@ contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_absurd}
 
+\begin{theorem}[Empty history carrier name certificate absurdity]
+\label{thm:empty-history-carrier-namecert-absurd}
+There is no name certificate whose carrier is the empty-history carrier and
+whose classifier is $\hsame$:
+$$
+\NameCert(\mathsf{EmptyHistoryCarrier},\hsame)\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+A name certificate contains a carrier witness. For this carrier, that witness
+is an inhabitant of the empty-history carrier, contradicting the carrier
+absurdity theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyHistoryCarrier\_namecert\_absurd}
+
 \begin{theorem}[Empty history carrier semantic certificate absurdity]
 \label{thm:empty-history-carrier-semantic-namecert-absurd}
 There is no semantic name certificate whose source, pattern, and ledger policies

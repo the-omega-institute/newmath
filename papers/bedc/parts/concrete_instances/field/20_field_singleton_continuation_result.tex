@@ -17,6 +17,25 @@ $\emp$, contradicting BEDC history no-confusion for $\Ezero$ or $\Eone$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_left\_absurd}
 
+\begin{theorem}[Field singleton carrier continuation visible-right exclusion]
+\label{thm:field-singleton-carrier-continuation-visible-right-absurd}
+For histories $P,q,R:\mathsf{BHist}$, no continuation whose right input is
+headed by a visible constructor can land in the singleton field carrier:
+$$
+\bigl(\ContR(P,\Ezero(q),R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr)
+\land
+\bigl(\ContR(P,\Eone(q),R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result through the singleton carrier to
+$\emp$. Empty-result inversion then identifies the visible right input with
+$\emp$, contradicting BEDC history no-confusion for $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_right\_absurd}
+
 \begin{theorem}[Field singleton classifier continuation empty result iff]
 \label{thm:field-singleton-classifier-continuation-empty-result-iff}
 For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
