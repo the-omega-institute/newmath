@@ -107,6 +107,40 @@ theorem EquivCatAdjunction_empty_roundtrip_target_prefix_deterministic
     EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
   exact NatTransPrefixComponentCarrier_empty_identity_prefix_trans emptyComponents.right displayed
 
+theorem EquivCatAdjunction_empty_roundtrip_unit_counit_empty_iff
+    {p q a unit counit left right : BHist}
+    (carrier : AdjunctionUnitCounitCarrier p q a unit counit left right) :
+    (hsame left BHist.Empty ∧ hsame right BHist.Empty) ↔
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty := by
+  constructor
+  · intro roundtripEmpty
+    have data :=
+      EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier
+        roundtripEmpty.left roundtripEmpty.right
+    exact And.intro data.right.left data.right.right.left
+  · intro unitCounitEmpty
+    cases unitCounitEmpty.left
+    cases unitCounitEmpty.right
+    have leftEmpty : hsame left BHist.Empty :=
+      cont_deterministic carrier.right.right.left (cont_right_unit BHist.Empty)
+    have rightEmpty : hsame right BHist.Empty :=
+      cont_deterministic carrier.right.right.right (cont_right_unit BHist.Empty)
+    exact And.intro leftEmpty rightEmpty
+
+theorem EquivCatAdjunction_empty_roundtrip_source_prefix_deterministic
+    {p q r a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      hsame left BHist.Empty -> hsame right BHist.Empty ->
+        NatTransPrefixComponentCarrier r q a BHist.Empty -> hsame p r := by
+  intro carrier leftEmpty rightEmpty displayed
+  have emptyComponents :
+      NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+        NatTransPrefixComponentCarrier q p a BHist.Empty :=
+    EquivCatAdjunction_empty_roundtrip_identity_components carrier leftEmpty rightEmpty
+  have sameRP : hsame r p :=
+    NatTransPrefixComponentCarrier_empty_identity_prefix_trans displayed emptyComponents.right
+  exact hsame_symm sameRP
+
 theorem EquivCatCycleIdentityCarrier_semanticNameCert {a b f g : BHist}
     (left : CategoryHomCarrier a b f) (right : CategoryHomCarrier b a g) :
     SemanticNameCert

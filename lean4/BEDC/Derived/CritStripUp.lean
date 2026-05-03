@@ -110,4 +110,17 @@ theorem CritStripComplexCarrier_strict_interval_absurd {s sigma tau : BHist} :
   exact And.intro interval
     (CritStripOpenInterval_empty_unit_absurd interval.left interval.right)
 
+theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHist} :
+    CritStripComplexCarrier s sigma tau ->
+      (hsame sigma BHist.Empty -> False) ∧
+        (hsame sigma (BHist.e1 BHist.Empty) -> False) ∧
+          (hsame tau BHist.Empty -> False) ∧ (hsame s BHist.Empty -> False) := by
+  intro carrier
+  have sigmaExcluded := InCritStrip_boundary_excluded carrier.right.right.right
+  exact And.intro sigmaExcluded.left
+    (And.intro sigmaExcluded.right
+      (And.intro
+        (RatHistoryCarrier_not_empty carrier.right.left)
+        (CritStripComplexCarrier_not_empty carrier)))
+
 end BEDC.Derived.CritStripUp
