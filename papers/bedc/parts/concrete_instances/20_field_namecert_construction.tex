@@ -451,6 +451,61 @@ predicate restricted action invertibility on centralizer elements; standard
 bridge ordinary normalizer group action by bijections; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action classifier congruence]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix
+$A:\mathsf{AffAut}_F$. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and define $\mathrm{Act}_T(X)$ as in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. If
+$N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, $C_F(A)(X)$, $C_F(A)(Y)$,
+$T\equiv_{\mathrm{aff}}U$, and $X\equiv_{\mathrm{aff}}Y$, then
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y).
+$$
+Consequently each normalizer element determines a classifier-respecting endomap
+of $C_F(A)$, and classifier-equal normalizer elements determine
+classifier-equal endomaps of $C_F(A)$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} for the
+endpoint carrier membership: $N_F(C_F(A))(T)$ sends every $C_F(A)$-element to
+$C_F(A)$ by $\mathrm{Act}_T$, and likewise for $U$.
+
+The affine inverse congruence clause of
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} transports
+$T\equiv_{\mathrm{aff}}U$ to
+$\iota_F(T)\equiv_{\mathrm{aff}}\iota_F(U)$. Apply the operation-congruence
+clause of the same theorem to $T\circ_{\mathrm{aff}}X$ and
+$U\circ_{\mathrm{aff}}Y$, using $T\equiv_{\mathrm{aff}}U$ and
+$X\equiv_{\mathrm{aff}}Y$.
+
+Apply operation congruence once more to compose the resulting comparison with
+the inverse comparison. This gives
+$$
+(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)
+\equiv_{\mathrm{aff}}
+(U\circ_{\mathrm{aff}}Y)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+
+Unfolding the definition of $\mathrm{Act}$ in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} identifies
+the two sides with $\mathrm{Act}_T(X)$ and $\mathrm{Act}_U(Y)$. Setting
+$U=T$ gives classifier respect for the acted coordinate, while setting $Y=X$
+shows that classifier-equal normalizer elements induce classifier-equal
+restricted endomaps.
+\end{proof}
+
+Per-object template: traditional target well-defined normalizer action on a
+classified centralizer; BEDC source concrete $\FieldUp(\RatUp)$ affine exit
+object plus $\GroupUp$ action laws; carrier $C_F(A)$ acted on by
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability classifier
+congruence in acting and acted coordinates; ledger conjugating element, acted
+element, inverse witness, and normalizer witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} and
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence};
+exactness predicate restricted action respects the affine classifier; standard
+bridge ordinary normalizer action on a subgroup; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
 \label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
 Let $d_1:=\Eone(\emp)$. For
