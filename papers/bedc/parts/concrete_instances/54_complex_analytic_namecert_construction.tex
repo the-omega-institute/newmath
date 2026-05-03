@@ -17,6 +17,12 @@ $$
 each computed by composing \(\RealAnalyticUp\) certificates (\autoref{def:real-analytic-exp}, \autoref{def:real-analytic-sin-cos}) with \(\RealUp\) multiplication. The witness records the explicit input bound \(B = \max(|x|, |y|)\) inherited from the underlying real evaluations.
 \end{definition}
 
+\begin{definition}[Pure-imaginary complex source]
+\label{def:cplx-pure-imaginary}
+The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is unary and \(z\) is \(\hsame\) to the complex history with real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\).
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary}
+
 \begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
 \label{lem:cplx-exp-well-defined}
 For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).
@@ -40,6 +46,15 @@ For pure-imaginary \(z = i\theta\) with real \(\theta\) (i.e.\ component \((0, \
 \begin{proof}
 Direct unfolding of \autoref{def:cplx-exp} at \(x = 0\): \(\mathsf{Exp}(0) = 1\) by \(\mathsf{ExpPart}(0, n, \cdot)\) collapsing to the empty-product base, so the components reduce to \((\mathsf{Cos}(\theta), \mathsf{Sin}(\theta))\).
 \end{proof}
+
+\begin{theorem}[Pure-imaginary source has complex carrier witness]
+\label{thm:cplx-pure-imaginary-complex-carrier}
+Every \(\mathsf{CplxPureImaginary}(\theta,z)\) witness contains the unary witness for \(\theta\), the \(\hsame\) comparison from \(z\) to the component pair \((0,\theta)\), and a \(\ComplexUp\) carrier for \(z\).
+\end{theorem}
+\begin{proof}
+The real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\) both satisfy the rational positive-denominator carrier. Their product gives the complex carrier for the component pair, and the supplied \(\hsame\) comparison transports that carrier to \(z\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_complex\_carrier\_witness}
 
 \section{Complex logarithm with principal branch}
 \label{sec:cplx-analytic-log}

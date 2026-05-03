@@ -10,6 +10,16 @@ This chapter gives a concrete naming-certificate construction for the constructi
 \label{def:gamma-pole-locus}
 The pole-locus predicate \(\mathsf{GammaPole}(s)\) on \(\ComplexUp\)-history holds when there exists a unary natural \(n\) with \(\hsame(s, -n)\), where \(-n\) is the explicit signed-integer encoding of \autoref{ch:concrete-instances-int-namecert}. Equivalently, the imaginary part of \(s\) equals \(\emp\) and the real part is a non-positive integer.
 \end{definition}
+\leandef{BEDC.Derived.GammaUp.GammaPoleLocus}
+
+\begin{theorem}[Gamma pole locus has complex carrier witness]
+\label{thm:gamma-pole-locus-complex-carrier}
+If \(s\) lies in the Gamma pole locus through a unary witness \(n\), then the same witness presents \(s\) as \(\hsame\) to the complex history with real component \(\Eone(n)\) and imaginary component \(\Eone(\emp)\), and \(s\) is carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), while \(\emp\) gives the positive rational denominator for \(\Eone(\emp)\). The product carrier forms the corresponding complex history, and the pole-locus \(\hsame\) witness transports that carrier back to \(s\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_complex\_carrier\_witness}
 
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}

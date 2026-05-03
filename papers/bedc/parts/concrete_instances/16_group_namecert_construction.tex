@@ -114,7 +114,7 @@ $R_{\emp}(R,P)$ under the displayed continuation witness.
 Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-right} to
 identify the same input classifier $R_{\emp}(P,Q)$ with the right result
 classifier $R_{\emp}(R,Q)$. Then use
-Theorem~\ref{thm:group-singleton-continuation-result-carrier-iff} to identify
+Theorem~\ref{thm:group-singleton-continuation-result-carrier-exactness} to identify
 $R_{\emp}(P,Q)$ with the result carrier condition $A_{\emp}(R)$. These three
 exactness statements give the four-way equivalence.
 
@@ -364,6 +364,54 @@ equivalence.
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_context\_product\_unit\_split\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_suffix\_unit\_split\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_suffix\_product\_unit\_split\_iff}
+
+\begin{theorem}[Group singleton classifier append context visible middle exclusion]
+\label{thm:group-singleton-classifier-append-context-visible-middle-absurd}
+For histories $L,R,p,q,S:\mathsf{BHist}$, if $A_{\emp}(L)$ and
+$A_{\emp}(R)$, then a visible endpoint exposed after appending hidden
+singleton contexts cannot support the concrete singleton group classifier:
+$$
+\begin{array}{l}
+\bigl(R_{\emp}(\mathsf{append}(L,\Ezero(p)),\mathsf{append}(R,S))
+\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(L,\Eone(p)),\mathsf{append}(R,S))
+\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(L,S),\mathsf{append}(R,\Ezero(q)))
+\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(L,S),\mathsf{append}(R,\Eone(q)))
+\to \mathsf{False}\bigr).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group visible-endpoint
+exclusion under hidden singleton contexts; BEDC source concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability by context cancellation and constructor no-confusion; ledger hidden
+singleton contexts and visible endpoint witness; core theorem list
+\autoref{thm:group-singleton-classifier-append-context-cancel},
+\autoref{thm:group-singleton-carrier-append-visible-head-absurd}, and
+\autoref{thm:group-singleton-carrier-append-visible-tail-absurd}; exactness
+predicate the four displayed contradictions; standard bridge the terminal
+group has no visible non-unit endpoint; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-append-context-cancel} with the
+supplied carrier hypotheses $A_{\emp}(L)$ and $A_{\emp}(R)$. In each of the
+four displayed cases, context cancellation exposes the corresponding
+uncontexted classifier with either an $\Ezero$ or an $\Eone$ endpoint.
+
+Unfolding $R_{\emp}$ gives the two endpoint carrier witnesses for that
+uncontexted classifier. In the first two cases the left carrier contains a
+visible head created by $\mathsf{append}(L,\Ezero(p))$ or
+$\mathsf{append}(L,\Eone(p))$, so
+\autoref{thm:group-singleton-carrier-append-visible-head-absurd} contradicts
+the singleton carrier.
+
+In the last two cases the right carrier contains a visible tail created by
+$\mathsf{append}(R,\Ezero(q))$ or $\mathsf{append}(R,\Eone(q))$, so
+\autoref{thm:group-singleton-carrier-append-visible-tail-absurd} gives the
+contradiction. Constructor separation distinguishes the $\Ezero$ and $\Eone$
+branches without any additional classifier data.
+\end{proof}
 
 \section{Singleton two-sided product-unit exactness}
 \label{sec:group-singleton-two-sided-product-unit-exactness}
