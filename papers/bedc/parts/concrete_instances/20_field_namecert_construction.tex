@@ -65,6 +65,22 @@ $a:=E_s(h,k,\ell)$ and $b:=E_t(h,k,\ell)$ gives the following package:
   $$
   \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(a,r)).
   $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,b))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(b,r))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,b));
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(b,r)).
+  $$
 \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -81,21 +97,26 @@ classifier row $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$ and the Rat classifier row
 $\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$.
 
 Finally apply \autoref{thm:ratup-fieldup-selector-contextual-nonzero-package} to
-the selected endpoint $E_s(h,k,\ell)$ and the context $r:\mathsf{BHist}$. Its
-four rows give the two one-sided singleton-carrier exclusions and the two
-corresponding $\mathsf{fieldSingletonEmptyNonZero}$ witnesses. Replacing the
-temporary names $a$ and $b$ by their selector definitions assembles the displayed
-package.
+the selector $s$ and the context $r:\mathsf{BHist}$. Its four rows give the two
+one-sided singleton-carrier exclusions and the two corresponding
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses for $E_s(h,k,\ell)$.
+
+Apply the same theorem again to the selector $t$ and the same context $r$. The
+resulting four rows give the matching singleton-carrier exclusions and
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses for $E_t(h,k,\ell)$. Replacing
+the temporary names $a$ and $b$ by their selector definitions assembles the
+displayed package.
 \end{proof}
 
 Per-object template: traditional target bracketing-selector independence inside
 $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
 $\mathsf{RatUp}$, the denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$,
-and selector $E_s$; carrier $C_D^u$ and $\mathsf{RatHistoryCarrier}$; classifier
-$R_D^u$ and $\mathsf{RatHistoryClassifier}$; stability obligations selector
-sameness, selector denominator coverage, selector Rat coverage, and contextual
-nonzero package rows; ledger selector choice plus context side; exactness
-predicate selector-independent row coverage; standard bridge deferred; status
+and selectors $E_s,E_t$; carrier $C_D^u$ and $\mathsf{RatHistoryCarrier}$;
+classifier $R_D^u$ and $\mathsf{RatHistoryClassifier}$; stability obligations
+selector sameness, selector denominator coverage, selector Rat coverage, and
+contextual nonzero package rows for both selected endpoints on both context
+sides; ledger selector choices plus both context sides; exactness predicate
+selector-independent row coverage; standard bridge deferred; status
 $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp final certificate selector noncollapse boundary]
