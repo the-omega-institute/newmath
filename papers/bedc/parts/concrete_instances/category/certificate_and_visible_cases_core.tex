@@ -306,6 +306,24 @@ unary witnesses and continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_e1\_morphism\_source\_cases\_iff}
 
+\begin{theorem}[Category nonempty morphism source cases]
+\label{thm:category-hom-carrier-nonempty-morphism-source-cases}
+For $\mathsf{CategoryHomCarrier}(source,target,morph)$, if $morph$ is not
+$\HSame$ to $\emp$, then either $source=\emp$, $target$ is unary, and
+$morph\hsame target$, or there are histories $a,k,r$ such that
+$source=\Eone(a)$, $morph=\Eone(k)$, $target=\Eone(r)$, $a,k,r$ are unary, and
+$\ContR(\Eone(a),k,r)$.
+\end{theorem}
+\begin{proof}
+Split on the source constructor. The empty-source branch is exactly the
+empty-source hom-carrier inversion. A zero-headed source contradicts the unary
+source field. In the one-headed branch, an empty displayed morphism contradicts
+the nonempty hypothesis and a zero-headed morphism contradicts the unary
+morphism field; the remaining one-headed morphism exposes the one-headed target
+and tail continuation by the one-headed morphism target cases theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_source\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed endpoint morphism alignment]
 \label{thm:category-hom-carrier-e1-source-e1-target-morphism-alignment}
 For hom-carriers between the same one-headed source and one-headed target,
