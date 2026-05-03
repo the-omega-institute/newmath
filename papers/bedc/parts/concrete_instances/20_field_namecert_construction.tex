@@ -249,3 +249,54 @@ denominator classifier coverage for every selected endpoint pair, and the
 other supplies contextual singleton-classifier noncollapse for the same
 selector interface.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp selector-complete exit package]
+\label{thm:ratup-fieldup-selector-complete-exit-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the selector-complete
+denominator instance of
+\autoref{def:ratup-fieldup-selector-complete-denominator-instance} supplies a
+concrete $\FieldUp(\mathsf{RatUp})$ exit-package row over
+$\mathsf{RatUpFieldSource}_F$: for every $s,t:\mathsf{BMark}$ and every
+$L,R:\mathsf{BHist}$ it provides both
+$$
+R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+(\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot.
+$$
+This selector row is one of the concrete denominator rows consumed by
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}. No schematic
+$\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ parameter enters the row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-selector-complete-denominator-laws} to the
+concrete denominator tuple, the three carrier hypotheses, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This gives, for arbitrary
+$s,t:\mathsf{BMark}$ and $L,R:\mathsf{BHist}$, the selected endpoint
+classifier row and the contextual singleton-empty obstruction.
+
+Apply \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}. It records
+the denominator classifier coverage and singleton-classifier noncollapse rows
+as concrete rows inside the $\FieldUp(\mathsf{RatUp})$ hierarchy exit package
+over $\mathsf{RatUpFieldSource}_F$.
+
+The row is therefore an admissible concrete exit-package component. Its data
+are the selected denominator endpoints inside $\mathsf{BHist}$ and the two
+selector laws just cited, so no schematic $\mathsf{mul}$, $\mathsf{add}$, or
+$\mathsf{neg}$ operator parameter is introduced.
+\end{proof}
+
+Per-object template: traditional target selector-complete FieldUp denominator
+row; BEDC source $\mathsf{RatUpFieldSource}_F$ over $\mathsf{BHist}$; carrier
+$C_D^u$ with $\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$ plus
+singleton-empty obstruction; stability obligations the two cited selector
+laws; ledger selected denominator endpoints; core theorem
+\autoref{thm:ratup-fieldup-selector-complete-exit-package}; exactness
+predicate selector coverage plus contextual noncollapse; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
