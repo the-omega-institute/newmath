@@ -97,6 +97,26 @@ identifies $T$ with $P$ under $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_previous\_result\_same}
 
+\begin{theorem}[L-function Dirichlet successor zero-term result iff]
+\label{thm:lfunction-dirichlet-partsum-successor-zero-term-result-iff}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and result
+history $T$, if $term(n,s)\hsame\emp$, then
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),T)
+\Longleftrightarrow
+\exists P:\mathsf{BHist},\,
+\mathsf{DirichletPartSum}(term,s,n,P)\land P\hsame T.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the predecessor readback for a successor whose step
+term is empty. Conversely, a predecessor $P$ with $P\hsame T$ supplies the
+successor continuation by transporting the right-unit continuation
+$\Cont(P,\emp,P)$ along $term(n,s)\hsame\emp$ and $P\hsame T$, after which the
+\texttt{DirichletPartSum.step} constructor closes the successor witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_zero\_term\_result\_iff}
+
 \begin{theorem}[L-function Dirichlet zero-terms result is empty]
 \label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
 For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
