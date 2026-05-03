@@ -352,6 +352,23 @@ theorem SubgroupCentralizerNormalizer_kernel_classifier_refl
     carrierTransport emptyCentral (hsame_symm (leftInv x))
   exact And.intro normalizes (And.intro normalizes kernelCentral)
 
+protected theorem SubgroupCentralizerNormalizerQuotientClassifier_refl_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    {a x : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x ->
+      SubgroupCentralizerNormalizer mul inv a x ∧
+        SubgroupCentralizerNormalizer mul inv a x ∧
+          Exists (fun z : BHist =>
+            SubgroupCentralizerCarrier mul a z ∧ hsame x (mul x z)) := by
+  intro normalizes
+  have emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty :=
+    BEDC.Derived.GroupUp.group_centralizer_empty_unit_mem leftId rightId
+  exact And.intro normalizes
+    (And.intro normalizes
+      (Exists.intro BHist.Empty (And.intro emptyCentral (hsame_symm (rightId x)))))
+
 protected theorem SubgroupCentralizerNormalizer_mul_closed_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
