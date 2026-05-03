@@ -84,6 +84,16 @@ theorem CommRingSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     have emptyParts := append_eq_empty_iff.mp carrier
     exact not_hsame_e1_empty emptyParts.right
 
+theorem CommRingSingletonCarrier_append_comm_iff {h k : BHist} :
+    CommRingSingletonCarrier (append h k) <-> CommRingSingletonCarrier (append k h) := by
+  constructor
+  · intro carrier
+    have parts := append_eq_empty_iff.mp carrier
+    exact append_eq_empty_iff.mpr (And.intro parts.right parts.left)
+  · intro carrier
+    have parts := append_eq_empty_iff.mp carrier
+    exact append_eq_empty_iff.mpr (And.intro parts.right parts.left)
+
 theorem commringSingletonEmptyClassifier_mul_context_carrier_iff {L R x y out : BHist}
     (carrierL : commringSingletonEmptyCarrier L) (carrierR : commringSingletonEmptyCarrier R) :
     commringSingletonEmptyClassifier (append L (commringSingletonEmptyMul x y))
@@ -99,6 +109,47 @@ theorem commringSingletonEmptyClassifier_mul_context_carrier_iff {L R x y out : 
       exact append_eq_empty_iff.mpr (And.intro carrierR carrierOut)
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem commringSingletonEmptyClassifier_operation_context_carrier_package {L R x y out : BHist}
+    (carrierL : commringSingletonEmptyCarrier L) (carrierR : commringSingletonEmptyCarrier R) :
+    (commringSingletonEmptyClassifier (append L (commringSingletonEmptyAdd x y))
+      (append R out) <-> commringSingletonEmptyCarrier out) ∧
+    (commringSingletonEmptyClassifier (append L (commringSingletonEmptyNeg x))
+      (append R out) <-> commringSingletonEmptyCarrier out) ∧
+    (commringSingletonEmptyClassifier (append L (commringSingletonEmptyMul x y))
+      (append R out) <-> commringSingletonEmptyCarrier out) := by
+  have emptyEndpoint : commringSingletonEmptyCarrier BHist.Empty := hsame_refl BHist.Empty
+  have addIff :
+      commringSingletonEmptyClassifier (append L (commringSingletonEmptyAdd x y))
+        (append R out) <-> commringSingletonEmptyCarrier out := by
+    constructor
+    · intro classified
+      exact (append_eq_empty_iff.mp classified.right.left).right
+    · intro carrierOut
+      have leftCarrier :
+          commringSingletonEmptyCarrier (append L (commringSingletonEmptyAdd x y)) :=
+        append_eq_empty_iff.mpr (And.intro carrierL emptyEndpoint)
+      have rightCarrier : commringSingletonEmptyCarrier (append R out) :=
+        append_eq_empty_iff.mpr (And.intro carrierR carrierOut)
+      exact And.intro leftCarrier
+        (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+  have negIff :
+      commringSingletonEmptyClassifier (append L (commringSingletonEmptyNeg x))
+        (append R out) <-> commringSingletonEmptyCarrier out := by
+    constructor
+    · intro classified
+      exact (append_eq_empty_iff.mp classified.right.left).right
+    · intro carrierOut
+      have leftCarrier :
+          commringSingletonEmptyCarrier (append L (commringSingletonEmptyNeg x)) :=
+        append_eq_empty_iff.mpr (And.intro carrierL emptyEndpoint)
+      have rightCarrier : commringSingletonEmptyCarrier (append R out) :=
+        append_eq_empty_iff.mpr (And.intro carrierR carrierOut)
+      exact And.intro leftCarrier
+        (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+  exact And.intro addIff
+    (And.intro negIff
+      (commringSingletonEmptyClassifier_mul_context_carrier_iff carrierL carrierR))
 
 theorem CommRingSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     CommRingSingletonCarrier L -> CommRingSingletonCarrier R ->
@@ -118,6 +169,16 @@ theorem CommRingSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} 
       append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem CommRingSingletonClassifier_append_context_carrier_split {L R Q S : BHist} :
+    CommRingSingletonClassifier (append L Q) (append R S) ->
+      CommRingSingletonCarrier L ∧ CommRingSingletonCarrier Q ∧
+        CommRingSingletonCarrier R ∧ CommRingSingletonCarrier S := by
+  intro classified
+  have leftSplit := append_eq_empty_iff.mp classified.left
+  have rightSplit := append_eq_empty_iff.mp classified.right.left
+  exact And.intro leftSplit.left
+    (And.intro leftSplit.right (And.intro rightSplit.left rightSplit.right))
 
 theorem CommRingSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
     CommRingSingletonClassifier (append h k) (append h' k') ->
