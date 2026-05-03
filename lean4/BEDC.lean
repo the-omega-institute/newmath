@@ -132,6 +132,7 @@ import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
+import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
