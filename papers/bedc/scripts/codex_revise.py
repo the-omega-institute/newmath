@@ -2082,7 +2082,11 @@ def main() -> int:
         return 1
     logger.info(f"Codex CLI:    {codex_bin}")
     logger.info(f"Base branch:  {BASE_BRANCH}")
-    logger.info(f"Parallelism:  {args.parallel}")
+    logger.info(
+        f"Parallelism: CLI fallback={args.parallel}; "
+        f"live JSON config={PARALLEL_CONFIG_FILE.name} authoritative "
+        f"(key: {PARALLEL_CONFIG_KEY!r})"
+    )
 
     if not args.dry_run:
         ensure_base_branch()
