@@ -645,3 +645,66 @@ $\equiv_{\mathrm{aff}}$; core theorem list
 \autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}; exactness predicate
 trivial affine commutator iff affine commutation; standard bridge ordinary
 affine automorphism group; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine commutator centralizer exactness]
+\label{thm:ratup-fieldup-affine-commutator-centralizer-exactness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,B:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine composition, let $\iota_F(-)$ be the explicit inverse row, and let
+$\equiv_{\mathrm{aff}}$ be the affine classifier. Define
+$$
+\mathrm{Inn}_A(B):=(A\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}\iota_F(A).
+$$
+Then the commutation condition is exactly the fixed-point condition for
+conjugation by $A$:
+$$
+A\circ_{\mathrm{aff}}B\equiv_{\mathrm{aff}}B\circ_{\mathrm{aff}}A
+\Longleftrightarrow
+\mathrm{Inn}_A(B)\equiv_{\mathrm{aff}}B.
+$$
+\end{theorem}
+\begin{proof}
+Fix the canonical exit package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the collected-coefficient composite
+$\circ_{\mathrm{aff}}$, the explicit inverse row $\iota_F(-)$, the identity
+$\mathrm{id}_F$, and the classifier $\equiv_{\mathrm{aff}}$.
+
+For the forward direction, compose
+$A\circ_{\mathrm{aff}}B\equiv_{\mathrm{aff}}B\circ_{\mathrm{aff}}A$ on the
+right by $\iota_F(A)$. The affine operation congruence and associativity rows
+transport the comparison to
+$$
+(A\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}\iota_F(A)
+\equiv_{\mathrm{aff}}
+B\circ_{\mathrm{aff}}(A\circ_{\mathrm{aff}}\iota_F(A)).
+$$
+The right inverse and right identity rows reduce the right side to $B$, giving
+$\mathrm{Inn}_A(B)\equiv_{\mathrm{aff}}B$.
+
+For the reverse direction, use
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness} with
+$X=B$ and target $B$. The displayed fixed-point condition for
+$\mathrm{Inn}_A(B)$ gives
+$$
+B\equiv_{\mathrm{aff}}(\iota_F(A)\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}A.
+$$
+Compose on the left by $A$, then use affine associativity, inverse laws,
+identity laws, and cancellation exactness from
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}. The
+resulting comparison is exactly
+$A\circ_{\mathrm{aff}}B\equiv_{\mathrm{aff}}B\circ_{\mathrm{aff}}A$.
+\end{proof}
+
+Per-object template: traditional target affine commutator centralizer
+criterion; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations affine group certificate,
+operation congruence, inverse-product reversal, conjugation equation, and
+cancellation exactness; ledger two affine factors, inverse witnesses,
+commutator composite, and inner conjugation composite; core theorem
+\autoref{thm:ratup-fieldup-affine-commutator-centralizer-exactness}; exactness
+predicate commutation iff conjugation fixed point;
+standard bridge ordinary affine automorphism centralizer criterion; status
+$\mathsf{ProofTarget}$.
