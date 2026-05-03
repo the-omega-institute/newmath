@@ -217,6 +217,7 @@ import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary
 import BEDC.Derived.FieldUp.RatBracketingCrossEndpoint
 import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
+import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
@@ -279,6 +280,7 @@ import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.CompTransport
 import BEDC.Derived.CategoryUp.EmptySourceComposite
+import BEDC.Derived.CategoryUp.EmptySourceCompositeEndpoint
 import BEDC.Derived.CategoryUp.EmptySourceSwap
 import BEDC.Derived.CategoryUp.EmptyMiddleInversion
 import BEDC.Derived.CategoryUp.ContinuationBoundary

@@ -333,6 +333,38 @@ the result equality $fg\hsame c$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_comp\_result\_hsame}
 
+\begin{theorem}[Category empty-source composite target equality]
+\label{thm:category-hom-carrier-empty-source-comp-target-hsame}
+If $f$ is a hom-carrier from $\emp$ to $b$, $g$ is a hom-carrier from $b$ to
+$c$, and $\ContR(f,g,fg)$, then the composite result is endpoint-equal to the
+right target:
+$$
+fg\hsame c.
+$$
+\end{theorem}
+\begin{proof}
+Empty-source exactness on the left carrier identifies $f$ with $b$. Transport
+the displayed continuation $\ContR(f,g,fg)$ along this equality to obtain
+$\ContR(b,g,fg)$. The right hom-carrier supplies $\ContR(b,g,c)$, and
+continuation determinism identifies $fg$ with $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_comp\_target\_hsame}
+
+\begin{theorem}[Category empty-source composite empty-result iff]
+\label{thm:category-hom-carrier-empty-source-comp-empty-result-iff}
+If $f$ is a hom-carrier from $\emp$ to $b$, $g$ is a hom-carrier from $b$ to
+$c$, and $\ContR(f,g,fg)$, then the composite result is empty exactly when the
+right target is empty:
+$$
+fg\hsame\emp\Longleftrightarrow c\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+By the empty-source composite target equality, $fg\hsame c$. Composing this
+comparison with either empty-endpoint comparison gives the two implications.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_comp\_empty\_result\_iff}
+
 \begin{theorem}[Category empty-middle composite inversion]
 \label{thm:category-hom-carrier-comp-empty-middle-inversion}
 If $f$ is a hom-carrier from $a$ to $\emp$, $g$ is a hom-carrier from $\emp$
