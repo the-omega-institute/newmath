@@ -151,6 +151,21 @@ to the target \(k\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_target\_unary}
 
+\begin{theorem}[Strict unary prefix composite-tail transitivity]
+\label{thm:nat-unary-strict-prefix-trans-composite-tail}
+If $h$ is a strict unary prefix of $k$ and $k$ is a strict unary prefix of $l$,
+then the two nonempty unary tails compose into a concrete tail from $h$ to
+$l$. This composite tail witnesses both $\mathsf{Cont}(h,t,l)$ and the strict
+unary prefix relation from $h$ to $l$.
+\end{theorem}
+\begin{proof}
+Unpack the two strict-prefix witnesses. Append their unary tails and apply
+append-tail transitivity. Unary append closure gives the composite tail
+carrier, and append empty-result exactness shows that the composite tail is
+nonempty because its left component is nonempty.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_trans\_composite\_tail}
+
 \section{The certificate}
 
 \begin{definition}[Unary source specification]

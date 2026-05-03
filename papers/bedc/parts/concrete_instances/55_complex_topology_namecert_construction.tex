@@ -16,6 +16,20 @@ For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the 
 This definition coincides with the inline \texttt{BEDC.Derived.HolomorphicUp.OpenDisk} of \autoref{ch:concrete-instances-holomorphic-namecert} up to namespace; promoting it to \(\ComplexTopologyUp\) lets downstream chapters cite a single canonical home.
 \end{remark}
 
+\begin{theorem}[Open-disk point-radius suffix closure]
+\label{thm:cplx-topo-open-disk-point-radius-suffix}
+If \(\mathsf{OpenDisk}(z_0,r,z)\) holds and a unary suffix \(extra\) continues
+both \(r\) to \(r'\) and \(z\) to \(z'\), then
+\(\mathsf{OpenDisk}(z_0,r',z')\) holds. The same gap witness continues \(z'\)
+to \(r'\), while its original ledger continues \(z\) to \(r\).
+\end{theorem}
+\begin{proof}
+Unpack the witnessed open disk. Unary closure gives the shifted radius, complex
+history closure gives the shifted point, and associativity of \(\Cont\) rewrites
+the original gap ledger after the common unary suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDisk\_point\_radius\_suffix\_closed}
+
 \begin{definition}[Closed disk]
 \label{def:cplx-topo-closed-disk}
 \(\mathsf{ClosedDisk}(z_0, r, z)\) holds when \(|z - z_0| \leq r\) on rational representations, decidable by non-strict prefix comparison.

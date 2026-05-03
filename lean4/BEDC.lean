@@ -48,7 +48,9 @@ import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
+import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.EmptyUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -127,6 +129,7 @@ import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
@@ -139,6 +142,8 @@ import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
+import BEDC.Derived.GammaUp
+import BEDC.Derived.FilterUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
@@ -157,10 +162,12 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.AdeleUp
+import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.ConjugationParameter
@@ -172,7 +179,6 @@ import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
-import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
@@ -284,12 +290,15 @@ import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
 import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsurd
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
+import BEDC.Derived.EquivCatUp
+import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
+import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
@@ -306,6 +315,7 @@ import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
@@ -321,7 +331,6 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
-import BEDC.Derived.FuncobjUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -414,10 +423,13 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
+import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
+import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
 import BEDC.Derived.InterHist

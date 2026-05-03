@@ -86,6 +86,7 @@ The classical inequality \(3 + 4 \cos\theta + \cos 2\theta \geq 0\) translates t
 \label{def:zeta-zero-source-spec}
 The source specification carries the constraint \(\mathsf{ZetaZero}(s)\) plus an optional \(\mathsf{InCritStrip}(s)\) flag distinguishing trivial from non-trivial zeros.
 \end{definition}
+\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec}
 
 \begin{definition}[Zeta zero pattern specification]
 \label{def:zeta-zero-pattern-spec}
@@ -96,6 +97,15 @@ The pattern is the joint predicate \(\mathsf{ZetaVal}(s, z) \wedge \hsame(z, \em
 \label{def:zeta-zero-classifier-spec}
 Two zero witnesses at the same \(s\) are classified together when their underlying \(\mathsf{ZetaVal}\) witnesses agree under \(\hsame\) on the zero complex history.
 \end{definition}
+
+\begin{theorem}[Zeta zero source classifies against zero]
+\label{thm:zeta-zero-source-spec-zero-classifier}
+Every source history carried by \(\ComplexUp\) and \(\hsame\)-identified with the zero complex history is classified with that zero history by the \(\ComplexUp\) classifier.
+\end{theorem}
+\begin{proof}
+The source predicate supplies the left carrier and the \(\hsame\) comparison. The zero-history carrier is \autoref{thm:zeta-zero-complex-history-carrier}; these three fields are exactly the \(\ComplexClassifier\) record.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec\_zero\_classifier}
 
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
