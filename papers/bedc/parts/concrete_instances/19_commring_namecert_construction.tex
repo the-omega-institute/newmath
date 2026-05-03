@@ -92,6 +92,39 @@ product-zero witness to $a\cdot a\hsame b\cdot b$.
 \leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_equal\_squares}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_empty\_linear\_factor\_equal\_squares}
 
+\begin{theorem}[CommRing zero linear factor exact package]
+\label{thm:commring-zero-linear-factor-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-zero-linear-factor-signed-product-zero} to the
+chosen zero linear factor. This gives the signed product-zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Feed that witness through the forward direction of
+\autoref{thm:commring-difference-of-squares-zero-exact}. The resulting
+square equality is $a\cdot a\hsame b\cdot b$, and pairing it with the
+signed product-zero witness gives the displayed conjunction.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor exact package in a
+commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+from zero-factor absorption and difference-of-squares exactness; ledger the
+chosen linear factor and signed-product witness; core theorem this block;
+exactness the paired conjunction of product zero and equal squares; standard
+bridge ordinary commutative-ring square exit; status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target zero linear factor implies equal
 squares in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
