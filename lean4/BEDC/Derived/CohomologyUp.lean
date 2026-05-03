@@ -107,6 +107,18 @@ theorem CohomologyCocycle_append_hsame_transport {d : BHist -> BHist} {axis h k 
     CohomologyCocycle_append_closed dAppend axisCycle hCycle kCycle
   exact hsame_trans (hsame_symm (dCongr sameResult)) appendCycle
 
+theorem CohomologyCocycle_continuation_hsame_transport {d : BHist -> BHist}
+    {h k r s : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) :
+    Cont h k r -> hsame (d h) BHist.Empty -> hsame (d k) BHist.Empty ->
+      hsame r s -> hsame (d s) BHist.Empty := by
+  intro continuation hCycle kCycle sameResult
+  cases continuation
+  have appendCycle : hsame (d (append h k)) BHist.Empty :=
+    CohomologyCocycle_append_core_closed dAppend hCycle kCycle
+  exact hsame_trans (hsame_symm (dCongr sameResult)) appendCycle
+
 theorem CohomologyCocycle_prepend_hsame_transport {d : BHist -> BHist} {axis h k r : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
