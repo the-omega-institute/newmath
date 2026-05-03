@@ -44,4 +44,20 @@ theorem GammaDomainCore_not_empty {s apart : BHist} :
   intro domain sameEmpty
   exact ComplexHistoryCarrier_not_empty domain.left sameEmpty
 
+theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
+    hsame s t ->
+      GammaPoleLocus s ->
+        GammaPoleLocus t ∧
+          ∃ n : BHist, UnaryHistory n ∧
+            hsame t (append (BHist.e1 n) (BHist.e1 BHist.Empty)) := by
+  intro sameST pole
+  cases pole with
+  | intro n data =>
+      cases data with
+      | intro nUnary sameSPole =>
+          have sameTPole : hsame t (append (BHist.e1 n) (BHist.e1 BHist.Empty)) :=
+            hsame_trans (hsame_symm sameST) sameSPole
+          exact And.intro (Exists.intro n (And.intro nUnary sameTPole))
+            (Exists.intro n (And.intro nUnary sameTPole))
+
 end BEDC.Derived.GammaUp
