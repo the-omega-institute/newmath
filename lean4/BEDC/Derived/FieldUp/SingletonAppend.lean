@@ -399,6 +399,34 @@ theorem FieldSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem FieldSingletonClassifier_append_hsame_common_context_cancel_iff {L R P Q a b : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier P -> hsame L R -> hsame P Q ->
+      (FieldSingletonClassifier (append L (append a P)) (append R (append b Q)) ↔
+        FieldSingletonClassifier a b) := by
+  intro carrierL carrierP sameLR samePQ
+  cases sameLR
+  cases samePQ
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have leftInnerSplit := append_eq_empty_iff.mp leftSplit.right
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    have rightInnerSplit := append_eq_empty_iff.mp rightSplit.right
+    exact And.intro leftInnerSplit.left
+      (And.intro rightInnerSplit.left
+        (hsame_trans leftInnerSplit.left (hsame_symm rightInnerSplit.left)))
+  · intro classified
+    have leftInnerCarrier : FieldSingletonCarrier (append a P) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierP)
+    have rightInnerCarrier : FieldSingletonCarrier (append b P) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierP)
+    have leftCarrier : FieldSingletonCarrier (append L (append a P)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL leftInnerCarrier)
+    have rightCarrier : FieldSingletonCarrier (append L (append b P)) :=
+      append_eq_empty_iff.mpr (And.intro carrierL rightInnerCarrier)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem FieldSingletonClassifier_append_endpoint_split_iff {L Q R S : BHist} :
     FieldSingletonClassifier (append L Q) (append R S) <->
       FieldSingletonCarrier L /\ FieldSingletonCarrier Q /\

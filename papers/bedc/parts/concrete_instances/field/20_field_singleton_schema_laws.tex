@@ -348,6 +348,37 @@ $\emp$, transitivity through $\emp$ gives the appended classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_context\_empty\_iff}
 
+\begin{theorem}[Field singleton classifier append common-context cancellation up to history-sameness]
+\label{thm:field-singleton-classifier-append-hsame-common-context-cancel}
+For histories $L,R,P,Q,a,b:\mathsf{BHist}$, if $L$ and $P$ lie in the
+singleton carrier and the displayed contexts satisfy $L\hsame R$ and
+$P\hsame Q$, then the nested contextual singleton classifier is equivalent to
+the classifier of the middle histories:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+L\hsame R\Rightarrow P\hsame Q\Rightarrow
+\bigl(
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(a,P)),
+   \mathsf{append}(R,\mathsf{append}(b,Q)))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(a,b)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the two contexts along the displayed history-sameness witnesses. In
+the forward direction, empty-result inversion for append first splits the
+outer empty endpoints and then splits the inner append endpoints, exposing
+$a\hsame\emp$ and $b\hsame\emp$. These endpoint carrier witnesses rebuild the
+base classifier. Conversely, combine the classifier endpoint carriers with
+the singleton carrier witnesses for the common contexts, and use
+empty-result inversion for append in reverse to rebuild the two nested
+singleton-carrier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_hsame\_common\_context\_cancel\_iff}
+
 \begin{theorem}[Field singleton classifier append suffix cancellation]
 \label{thm:field-singleton-classifier-append-suffix-cancel}
 For histories $P,R,Q,S:\mathsf{BHist}$, if $Q$ and $S$ lie in the singleton

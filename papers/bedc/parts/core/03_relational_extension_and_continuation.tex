@@ -607,6 +607,51 @@ $\mathsf{append}(\mathsf{append}(p,a),f)$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_prefix\_iff}
 
+\begin{theorem}[Append right-context cancellation up to history-sameness]
+\label{thm:append-hsame-right-context-cancel}
+For histories $P,Q,a,b:\mathsf{BHist}$, if $P\hsame Q$, then appending the
+history-same right contexts $P$ and $Q$ preserves and reflects endpoint
+history-sameness:
+$$
+P\hsame Q\Rightarrow
+\bigl(
+\hsame(\mathsf{append}(a,P),\mathsf{append}(b,Q))
+\Longleftrightarrow
+a\hsame b
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the right context along $P\hsame Q$. The forward direction is right
+append cancellation for the common suffix. Conversely, after the endpoints
+$a$ and $b$ are identified, the two appended histories are definitionally the
+same.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_hsame\_right\_context\_cancel\_iff}
+
+\begin{theorem}[Append common-context cancellation up to history-sameness]
+\label{thm:append-hsame-common-context-cancel}
+For histories $L,R,P,Q,a,b:\mathsf{BHist}$, if $L\hsame R$ and $P\hsame Q$,
+then the two-sided contextual append comparison is exactly the comparison of
+the middle histories:
+$$
+L\hsame R\Rightarrow P\hsame Q\Rightarrow
+\bigl(
+\hsame(\mathsf{append}(L,\mathsf{append}(a,P)),
+       \mathsf{append}(R,\mathsf{append}(b,Q)))
+\Longleftrightarrow
+a\hsame b
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+First transport the left and right contexts along the two $\hsame$ witnesses.
+In the forward direction, left append cancellation removes the common outer
+context and right append cancellation removes the common suffix. The reverse
+direction is immediate after the middle histories are identified.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_hsame\_common\_context\_cancel\_iff}
+
 \begin{theorem}[Continuation cancellation laws]
 \label{thm:continuation-right-cancellation}
 Continuation admits cancellation on both sides:

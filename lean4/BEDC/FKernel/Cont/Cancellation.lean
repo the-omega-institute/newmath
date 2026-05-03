@@ -276,4 +276,30 @@ theorem cont_parallel_factor_tails_deterministic {a b c f f' g g' : BHist} :
   intro left right left' right'
   exact And.intro (cont_left_cancel left left') (cont_left_cancel right right')
 
+theorem append_hsame_right_context_cancel_iff {P Q a b : BHist} :
+    hsame P Q -> (hsame (append a P) (append b Q) ↔ hsame a b) := by
+  intro samePQ
+  cases samePQ
+  constructor
+  · intro sameAppend
+    exact append_right_cancel (k := P) sameAppend
+  · intro sameAB
+    cases sameAB
+    rfl
+
+theorem append_hsame_common_context_cancel_iff {L R P Q a b : BHist} :
+    hsame L R -> hsame P Q ->
+      (hsame (append L (append a P)) (append R (append b Q)) ↔ hsame a b) := by
+  intro sameLR samePQ
+  cases sameLR
+  cases samePQ
+  constructor
+  · intro sameAppend
+    have sameMiddle : hsame (append a P) (append b P) :=
+      append_left_cancel (h := L) sameAppend
+    exact append_right_cancel (k := P) sameMiddle
+  · intro sameAB
+    cases sameAB
+    rfl
+
 end BEDC.FKernel.Cont
