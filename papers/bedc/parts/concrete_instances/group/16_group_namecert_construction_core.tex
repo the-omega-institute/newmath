@@ -432,6 +432,40 @@ left inverse law, and use the right identity on $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_exact\_from\_empty\_unit}
 
+\begin{theorem}[Group two-sided multiplication equation exactness]
+\label{thm:group-two-sided-mul-equation-exactness}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with unit
+$\emp$, associativity, left and right identities, multiplication congruence,
+and two-sided inverses, every $a,c,x,b:\mathsf{BHist}$ satisfies
+$$
+\hsame((a x)c,b) \Longleftrightarrow \hsame(x,a^{-1}(b c^{-1})).
+$$
+The ten-field fit is: traditional target two-sided group equation solving;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability left and right equation exactness,
+associativity, inverse laws, and multiplication congruence; ledger the left
+factor, right factor, target, and two inverse witnesses; core theorem this
+exactness iff; standard bridge ordinary two-sided group equations; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:group-right-mul-equation-exactness} to
+$\hsame((a x)c,b)$. This solves the right factor first and gives
+$\hsame(a x,b c^{-1})$.
+
+Then apply \autoref{thm:group-left-mul-equation-exactness} to
+$\hsame(a x,b c^{-1})$. The left factor is solved exactly, yielding
+$\hsame(x,a^{-1}(b c^{-1}))$.
+
+For the reverse direction, apply
+\autoref{thm:group-left-mul-equation-exactness} backward to
+$\hsame(x,a^{-1}(b c^{-1}))$. This recovers $\hsame(a x,b c^{-1})$.
+
+Finally apply \autoref{thm:group-right-mul-equation-exactness} backward with
+right factor $c$. The recovered equation becomes $\hsame((a x)c,b)$.
+\end{proof}
+
 \begin{theorem}[Group conjugation equation exactness]
 \label{thm:group-conjugation-equation-exactness}
 For a history-level group operation with associativity, left and right
