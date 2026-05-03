@@ -2569,3 +2569,137 @@ Category chapter is definition-only at the certificate level and BOARD only carr
 
 ---
 
+### B-102 - Matrix multiplication classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix multiplication classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a Mat↑ setup with shared scalar source and dimension compatibility, if A∼A′ and B∼B′ as carrier-pointwise classifier equivalences, then AB and A′B′ are Mat↑ carriers and AB∼A′B′.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Sibling of linear-map composition congruence at the matrix layer. Distinct because the proof must traverse finite-index aggregation, scalar multiplication, additive folds, and pointwise classifier ledger fields rather than function composition congruence. No existing BOARD entry covers Mat↑ and no paper label thm:matrix-* exists. Establishes a computable matrix-layer counterpart to LinMap stability.
+
+---
+
+
+### B-103 - Finite direct product module descent
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Finite direct product module descent |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Prod↑ and Module↑ certificates over a common scalar source, pointwise addition and scalar action make Prod↑(M,N) a Module↑ carrier, and componentwise classifier equivalences imply product-carrier classifier equivalence.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Prerequisite for bilinear constructions, matrix column-vector semantics, and categorical product structure on modules. Distinct from B-08 / B-19 / B-23 (which all stay within a single module carrier) — this builds a new module out of two via the product classifier, exercising compatibility between Prod↑ and the algebraic stability fields. No existing BOARD entry covers product-of-modules.
+
+---
+
+
+### B-104 - Package-token pullback separation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Package-token pullback separation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under PackagePolicy(Π), GapPolicy(Π,D), and a classifier-preserving source map τ:D′→D, if two pulled-back gap ledgers intersect on the same D′-source, then their visible package tokens are psame in the original Π.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Distinct from B-16 (concrete-term token reflection from package sameness): this candidate is about provenance stability under pullback of source domain via a classifier-preserving map, rather than reducing the abstract policy to a concrete predicate. Tests whether BEDC's provenance layer survives source-domain change exactly. Fills an explicit gap in the package_token_policy / exact_globalize obligation surface.
+
+---
+
+
+### B-105 - DescentCertificate composition for stable transformations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | DescentCertificate composition for stable transformations |
+| Layer | hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under NameCert StableTransformation and DescentCertificate setups, if T:S→R and U:R→Q each preserve the corresponding source/target classifiers, then U∘T preserves the source-to-Q classifier and carries the composite ledger policy.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+General composition closure for descent certificates of function-like interfaces — the structural skeleton that B-11 (functor composition closure) and B-14 (nattrans composition naturality) both instantiate. Proving this once would let ContinuousMap↑, Functor↑, NatTrans↑ share the same descent-composition pattern without re-proving classifier preservation per interface. Distinct from B-11 / B-14 because it is the general theorem, not a categorical specialization.
+
+---
+
+
+### B-106 - Signature append residual exactness under known token component
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Signature append residual exactness under known token component |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), PackagePolicy(BAppend(Π,Θ)), and a known Π-component package token, if two sources have psame appended package tokens and psame Π-component tokens, then their Θ-signatures are sameSigΘ.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+Lifts signature append cancellation from the sameSig layer to the visible package-token layer, giving a residual exactness statement for finite-kernel globalization. No existing BOARD entry treats appended-token cancellation; the paper has bundle-append definitions but no thm/lem with this residual form. Direct downstream consumer for B-16 and the package_token_policy block.
+
+---
+
