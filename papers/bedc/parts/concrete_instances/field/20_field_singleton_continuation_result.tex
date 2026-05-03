@@ -201,6 +201,31 @@ therefore identifies $out$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
 
+\begin{theorem}[Field singleton add-mul context continuation result iff]
+\label{thm:field-singleton-addmul-context-continuation-result-iff}
+For histories $L,R,a,b,c,d,out:\mathsf{BHist}$, if $L$ and $R$ are singleton
+field carrier endpoints, then the add-mul contextual continuation exists
+exactly for singleton field carrier results:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\bigl(
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(out)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the add-mul contextual carrier closure. Conversely,
+the singleton add and mul endpoints unfold to $\emp$, and the carrier
+witnesses for $L$ and $R$ reduce both contextual inputs to $\emp$. Transport
+the right-unit continuation at $\emp$ along the supplied carrier witness for
+$out$ to obtain the displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_iff}
+
 \begin{theorem}[Field singleton add-mul context continuation classifier]
 \label{thm:field-singleton-add-mul-context-continuation-classifier}
 For histories

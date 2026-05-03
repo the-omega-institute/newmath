@@ -24,6 +24,12 @@ theorem ComplexAnalytic_component_continuation_witness {real imag z q zq : BHist
       exact ⟨imagq, imagqCarrier, split.left, split.right,
         RatHistoryCarrier_iff_positive_denominator.mp imagqCarrier⟩
 
+theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BHist} :
+    RatHistoryCarrier real -> RatHistoryCarrier imag -> Cont real imag z ->
+      ComplexHistoryCarrier z := by
+  intro realCarrier imagCarrier realImag
+  exact ProdHistoryCarrier_cont_intro realCarrier imagCarrier realImag
+
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
@@ -46,5 +52,22 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
       exact And.intro thetaUnary
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
+
+theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ∃ imagq : BHist,
+        RatHistoryCarrier imagq ∧ Cont (BHist.e1 theta) q imagq ∧
+          Cont (BHist.e1 BHist.Empty) imagq zq ∧ PositiveUnaryDenominator imagq := by
+  intro pureImaginary qUnary zqCont
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have realCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) := by
+        exact RatHistoryCarrier_iff_positive_denominator.mpr
+          (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
+      have imagCarrier : RatHistoryCarrier (BHist.e1 theta) := by
+        exact RatHistoryCarrier_iff_positive_denominator.mpr
+          (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
+      exact
+        ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
 
 end BEDC.Derived.ComplexAnalyticUp

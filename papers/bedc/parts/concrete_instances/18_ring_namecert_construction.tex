@@ -298,6 +298,40 @@ Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
 The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
 \end{proof}
 
+\begin{theorem}[Ring additive difference zero exactness]
+\label{thm:ring-additive-difference-zero-exact}
+For BEDC history addition satisfying additive associativity, commutativity,
+left zero, left inverse, and addition congruence, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+x+(-y)\hsame0 \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive difference exactness; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus the $\GroupUp$ cancellation spine
+already cited by \autoref{thm:ring-additive-two-sided-cancellation}; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the hidden signed summand; core theorem this
+theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
+exactness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. These give the removable zero and
+inverse pairs used on both sides of the equivalence.
+
+For the forward implication, add $y$ to the right of the comparison
+$x+(-y)\hsame0$. Associativity rewrites $(x+(-y))+y$ as $x+((-y)+y)$,
+commutativity and the right-inverse law collapse $(-y)+y$ to $0$, and the
+right-zero law removes that terminal zero. The right endpoint $0+y$ reduces to
+$y$ by the left-zero law, leaving $x\hsame y$.
+
+For the reverse implication, transport $x\hsame y$ through addition congruence
+against the common summand $-y$. The right side becomes $y+(-y)$, which
+Theorem~\ref{thm:ring-add-right-inverse} collapses to $0$, yielding
+$x+(-y)\hsame0$ by transitivity.
+\end{proof}
+
 \begin{theorem}[Ring multiplication zero absorption]
 \label{thm:ring-mul-zero-absorption}
 For BEDC history operations satisfying additive associativity, left zero,
@@ -334,6 +368,37 @@ along the same classifier witness, comparing $y\cdot x$ with $y\cdot0$.
 Transitivity with the right zero-factor absorption gives $\hsame(y\cdot x,0)$,
 again using symmetry when the displayed comparison is oriented oppositely.
 The two transported conclusions form the required conjunction.
+\end{proof}
+
+\begin{theorem}[Ring equal-factor difference annihilation]
+\label{thm:ring-equal-factor-difference-annihilation}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, and both distributive laws, if $x\hsame y$, then every
+$z:\mathsf{BHist}$ satisfies
+$$
+\hsame((x+(-y))\cdot z,0)\land \hsame(z\cdot(x+(-y)),0).
+$$
+The ten-field fit is: traditional target ordinary ring difference
+annihilation; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws,
+addition congruence, multiplication congruence, and both distributive laws;
+ledger the equal-factor witness and the multiplier; core theorem this theorem;
+exactness additive difference zero exactness feeding zero-factor absorption;
+standard bridge ordinary ring equal-factor difference annihilation; downstream
+use FieldUp and RatUp zero-product reasoning; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply the reverse direction of
+\autoref{thm:ring-additive-difference-zero-exact} to the classifier witness
+$x\hsame y$. This turns the displayed difference into a zero-classified factor,
+namely $x+(-y)\hsame0$.
+
+Now apply \autoref{thm:ring-zero-classifier-factor-absorption} with factor
+$x+(-y)$ and multiplier $z$. The left component gives
+$\hsame((x+(-y))\cdot z,0)$, and the right component gives
+$\hsame(z\cdot(x+(-y)),0)$; these two components are exactly the displayed
+conjunction.
 \end{proof}
 
 \begin{theorem}[Ring zero-classifier signed factor absorption]

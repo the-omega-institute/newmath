@@ -33,6 +33,17 @@ equality gives the positive-denominator readback.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.ComplexAnalytic\_component\_continuation\_witness}
 
+\begin{theorem}[Component continuation has complex carrier]
+\label{thm:cplx-analytic-component-continuation-complex-carrier}
+If rational real and imaginary component histories continue to a history \(z\),
+then \(z\) is carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The two rational component carriers and the displayed continuation are exactly
+the product-history carrier data defining a complex history.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.ComplexAnalytic\_component\_continuation\_complex\_carrier}
+
 \begin{definition}[Pure-imaginary complex source]
 \label{def:cplx-pure-imaginary}
 The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is unary and \(z\) is \(\hsame\) to the complex history with real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\).
@@ -71,6 +82,22 @@ Every \(\mathsf{CplxPureImaginary}(\theta,z)\) witness contains the unary witnes
 The real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\) both satisfy the rational positive-denominator carrier. Their product gives the complex carrier for the component pair, and the supplied \(\hsame\) comparison transports that carrier to \(z\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_complex\_carrier\_witness}
+
+\begin{theorem}[Pure-imaginary component continuation witness]
+\label{thm:cplx-pure-imaginary-component-continuation-witness}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then there is an intermediate imaginary component
+\(imagq\) that continues \(\Eone(\theta)\) by \(q\), continues
+\(\Eone(\emp)\) to \(zq\), and retains a positive unary denominator.
+\end{theorem}
+\begin{proof}
+The pure-imaginary witness supplies the component continuation from
+\(\Eone(\emp)\) and \(\Eone(\theta)\) to \(z\). The real and imaginary
+components are rational carriers by the positive-denominator characterization,
+so the component continuation theorem splits the suffix through the imaginary
+component and returns the positive-denominator witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_witness}
 
 \section{Complex logarithm with principal branch}
 \label{sec:cplx-analytic-log}
