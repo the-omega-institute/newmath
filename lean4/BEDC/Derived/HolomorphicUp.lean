@@ -85,4 +85,11 @@ theorem HolomorphicOpenDisk_e1_gap_radius_inversion {z0 z gap radius : BHist} :
   · exact ⟨BHist.e1 gap, unary_e1_closed gapUnary, (fun empty => by cases empty), centerToPoint⟩
   · exact NatUnaryStrictPrefix_e1_inversion radiusStrict
 
+def HolomorphicOpenDiskCarrier (center radius point : BHist) : Prop :=
+  BEDC.Derived.ComplexUp.ComplexHistoryCarrier center ∧
+    BEDC.Derived.RatUp.RatHistoryCarrier radius ∧
+      BEDC.Derived.ComplexUp.ComplexHistoryCarrier point ∧
+        ∃ gap : BHist, UnaryHistory gap ∧ NatUnaryStrictPrefix gap radius ∧
+          Cont point gap radius
+
 end BEDC.Derived.HolomorphicUp

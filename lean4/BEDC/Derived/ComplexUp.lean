@@ -6,6 +6,7 @@ namespace BEDC.Derived.ComplexUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 def ComplexHistoryCarrier (h : BHist) : Prop :=
   BEDC.Derived.ProdUp.ProdHistoryCarrier BEDC.Derived.RatUp.RatHistoryCarrier
@@ -140,6 +141,48 @@ theorem ComplexHistoryClassifier_positive_components {h k : BHist} :
                                                             kiCarrier, contH, contK, sameHK,
                                                             positiveHr, positiveHi, positiveKr,
                                                             positiveKi⟩
+
+theorem ComplexHistoryCarrier_prepend_unary_closed {p h : BHist} :
+    UnaryHistory p -> ComplexHistoryCarrier h -> ComplexHistoryCarrier (append p h) := by
+  intro pUnary carrier
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  exact Exists.intro (append p real)
+                    (Exists.intro imag
+                      (And.intro
+                        (RatUp.RatHistoryCarrier_prepend_unary_denominator_closed pUnary
+                          realCarrier)
+                        (And.intro imagCarrier
+                          (cont_intro
+                            ((congrArg (append p) cont).trans
+                              (append_assoc p real imag).symm)))))
+
+theorem ComplexHistoryCarrier_append_unary_closed {h q : BHist} :
+    ComplexHistoryCarrier h -> UnaryHistory q -> ComplexHistoryCarrier (append h q) := by
+  intro carrier qUnary
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  exact Exists.intro real
+                    (Exists.intro (append imag q)
+                      (And.intro realCarrier
+                        (And.intro
+                          (RatUp.RatHistoryCarrier_append_unary_denominator_closed
+                            imagCarrier qUnary)
+                          (cont_intro
+                            ((congrArg (fun visible => append visible q) cont).trans
+                              (append_assoc real imag q))))))
 
 theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->
