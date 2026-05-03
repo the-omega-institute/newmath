@@ -38,6 +38,18 @@ theorem ZetaZeroPatternSpec_zero_result_classifier {s z : BHist} :
   exact And.intro carrierZ
     (And.intro ZetaZeroComplexHistory_carrier pattern.right)
 
+theorem ZetaZeroPatternSpec_source_result_classifier {s z : BHist} :
+    ZetaZeroPatternSpec s z ->
+      ComplexHistoryClassifier s z ∧
+        hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+          hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro pattern
+  have resultClassifier := ZetaZeroPatternSpec_zero_result_classifier pattern
+  have sameSourceResult : hsame s z :=
+    hsame_trans pattern.left.right (hsame_symm pattern.right)
+  exact And.intro (And.intro pattern.left.left (And.intro resultClassifier.left sameSourceResult))
+    (And.intro pattern.left.right pattern.right)
+
 theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
     hsame s t ->
       ZetaZeroSourceSpec s ->
