@@ -188,6 +188,16 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
 
+theorem DirichletPositiveIndex_nonempty {n : BHist} :
+    DirichletPositiveIndex n -> (hsame n BHist.Empty -> False) := by
+  intro positiveN sameEmpty
+  cases positiveN with
+  | intro tail data =>
+      cases data with
+      | intro _unaryTail nEq =>
+          cases nEq
+          exact not_hsame_e1_empty sameEmpty
+
 theorem DirichletPartSum_nonempty_index_positive {term : BHist -> BHist -> BHist}
     {s n S : BHist} :
     DirichletPartSum term s n S -> (hsame n BHist.Empty -> False) ->

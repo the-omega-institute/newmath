@@ -95,6 +95,22 @@ continuation is a successor \(\mathsf{ZetaBasicPartSum}\) witness at source
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_result\_nonempty}
 
+\begin{theorem}[Unit Dirichlet successor source transport preserves nonempty result]
+\label{thm:zeta-basic-part-sum-successor-source-result-nonempty-transport}
+If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,
+then there is a transported successor partial sum \(u\) at source \(t\) such
+that \(\mathsf{ZetaBasicPartSum}(t,\Eone(n),u)\), \(z\hsame u\), and \(u\)
+is not \(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Use successor source transport to obtain the transported predecessor sum and
+its visible unit continuation at \(t\). Rebuild the successor
+\(\mathsf{ZetaBasicPartSum}\) witness from that continuation step, retain the
+  result comparison with \(z\), and apply successor-result nonemptiness to the
+rebuilt target sum.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_result\_nonempty\_transport}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.

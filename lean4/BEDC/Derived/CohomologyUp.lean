@@ -21,6 +21,16 @@ theorem CohomologyCocycle_axis_left_cancel {d : BHist -> BHist} {axis h : BHist}
     hsame_trans (hsame_symm (dAppend axis h)) shiftedCycle
   exact (append_eq_empty_iff.mp shiftedByParts).right
 
+theorem CohomologyCocycle_axis_bilateral_cancel
+    {d : BHist -> BHist} {leftAxis rightAxis h : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d (append (append leftAxis h) rightAxis)) BHist.Empty ->
+      hsame (d h) BHist.Empty := by
+  intro shiftedCycle
+  have leftShiftCycle : hsame (d (append leftAxis h)) BHist.Empty :=
+    CohomologyCocycle_axis_right_cancel dAppend shiftedCycle
+  exact CohomologyCocycle_axis_left_cancel dAppend leftShiftCycle
+
 theorem CohomologyCocycle_append_closed {d : BHist -> BHist} {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (axisCycle : hsame (d axis) BHist.Empty) :
@@ -109,6 +119,18 @@ theorem CohomologyCocycle_append_hsame_transport {d : BHist -> BHist} {axis h k 
 
 theorem CohomologyCocycle_left_shift_append_hsame_transport {d : BHist -> BHist}
     {axis h k r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
+    (axisCycle : hsame (d axis) BHist.Empty) :
+    hsame (d (append axis h)) BHist.Empty ->
+      hsame (d (append axis k)) BHist.Empty ->
+        hsame (append axis (append h k)) r -> hsame (d r) BHist.Empty := by
+  intro hCycle kCycle sameResult
+  have appendCycle : hsame (d (append axis (append h k))) BHist.Empty :=
+    CohomologyCocycle_left_shift_append_closed dAppend axisCycle hCycle kCycle
+  exact hsame_trans (hsame_symm (dCongr sameResult)) appendCycle
+
+theorem CohomologyCocycle_prepend_hsame_transport {d : BHist -> BHist} {axis h k r : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
     (axisCycle : hsame (d axis) BHist.Empty) :
