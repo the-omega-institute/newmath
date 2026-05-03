@@ -67,13 +67,22 @@ def count_lean_theorems_per_region() -> dict[str, dict[str, int]]:
 
 
 def count_paper_markers_per_chapter() -> list[dict]:
-    """Scan concrete_instances/*.tex for marker counts."""
+    """Scan concrete_instances/**/*.tex for marker counts.
+
+    Files in subdirectories like `field/foo.tex` are tagged with the parent
+    directory name as the region hint, so they roll up under the right region.
+    """
     rows = []
-    for f in sorted(PAPER_INSTANCES.glob("*.tex")):
+    for f in sorted(PAPER_INSTANCES.rglob("*.tex")):
         text = f.read_text(encoding="utf-8", errors="ignore")
         counts = Counter(MARKER_RE.findall(text))
+        rel = f.relative_to(PAPER_INSTANCES)
+        # subdirectory name (e.g. 'field') is a strong region hint when present
+        subdir_hint = rel.parts[0] if len(rel.parts) > 1 else None
         rows.append({
-            "file": f.name,
+            "file": str(rel),
+            "name": f.name,
+            "subdir": subdir_hint,
             "checked": counts.get("leanchecked", 0),
             "stmt": counts.get("leanstmt", 0),
             "def": counts.get("leandef", 0),
@@ -81,6 +90,77 @@ def count_paper_markers_per_chapter() -> list[dict]:
             "sorry": counts.get("leansorryd", 0),
         })
     return rows
+
+
+# Map a paper chapter filename to a region id in HIERARCHY.
+# Most chapters follow `NN_<region>_namecert_construction.tex` or similar;
+# the substring matches below cover all current concrete_instances files.
+def paper_file_to_region(filename: str) -> str | None:
+    name = filename.lower()
+    # explicit overrides where the substring heuristic would misfire
+    overrides = {
+        "complex_limit": "complexlimit",
+        "complex_differentiability": "complexdiff",
+        "complex_series": "complexseries",
+        "convergence_radius": "convergenceradius",
+        "dirichlet_series": "dirichletseries",
+        "zeta_basic": "zetabasic",
+        "zeta_continuation": "zetacont",
+        "zeta_zeros": "zetazeros",
+        "critical_strip": "critstrip",
+        "contour_integral": "contour",
+        "analytic_continuation": "anacont",
+        "complex_analytic": "anacont",  # 54_complex_analytic falls under anacont scope
+        "real_analytic": "real",
+        "complex_topology": "complex",
+        "gamma_function": "zetacont",  # gamma is inside zeta-continuation chapter scope
+        "nattrans": "nattrans",
+        "totalorder": "totalorder",
+        "abgroup": "abgroup",
+        "commring": "commring",
+        "linearmap": "linearmap",
+        "vecspace": "vecspace",
+    }
+    for key, region in overrides.items():
+        if key in name:
+            return region
+    # fallback: split on _, take the segment after numeric prefix
+    base = name.replace(".tex", "")
+    parts = base.split("_")
+    # skip leading numeric prefix tokens like "08", "34b"
+    while parts and (parts[0].isdigit() or (parts[0][:-1].isdigit() and parts[0][-1].isalpha())):
+        parts.pop(0)
+    if not parts:
+        return None
+    candidate = parts[0]
+    return candidate if candidate else None
+
+
+# Regions that are intentionally schema-only horizons. These should NOT be
+# coloured the same as "scaffold" (paper exists, Lean awaits): they are by
+# design without closed Lean witnesses.
+SCHEMA_ONLY_REGIONS: set[str] = {
+    "interhist",  # multi-Hist locality capstone — entire chapter schema-only
+    "observer",   # observer-Hist identity capstone — declarative re-reading, no Lean obligations yet
+}
+
+
+def aggregate_markers_per_region(per_chapter: list[dict]) -> dict[str, dict[str, int]]:
+    """Sum paper marker counts across chapters belonging to each region.
+
+    Region resolution priority:
+      1. subdir name (e.g. files in concrete_instances/field/ -> 'field')
+      2. paper_file_to_region heuristic on the basename
+    """
+    out: dict[str, dict[str, int]] = defaultdict(lambda: {"checked": 0, "stmt": 0, "def": 0})
+    for row in per_chapter:
+        region = row.get("subdir") or paper_file_to_region(row.get("name", row["file"]))
+        if not region:
+            continue
+        out[region]["checked"] += row["checked"]
+        out[region]["stmt"] += row["stmt"]
+        out[region]["def"] += row["def"]
+    return dict(out)
 
 
 def monthly_commit_activity() -> list[dict]:
@@ -106,79 +186,147 @@ def critical_path_targets() -> dict:
         return {"top": [], "error": str(e)}
 
 
-def build_dependency_graph() -> dict:
-    """Build cytoscape graph from critical_path's deps + extra paper-only nodes.
+# Canonical BEDC mathematical dependency tree.
+# Each entry: region -> list of regions it depends on (its direct parents).
+# Edge in output graph: parent -> region (the dependency points DOWN the chain).
+# This is hand-curated knowledge: critical_path.py only knows the deps it was
+# explicitly told about, but the BEDC layering is fixed and well-known.
+HIERARCHY: dict[str, list[str]] = {
+    # --- Layer 0: Kernel ---
+    "kernel": [],
+    # --- Layer 1: Discrete primitives (built directly on Hist/Cont) ---
+    "bool": ["kernel"],
+    "option": ["kernel"],
+    "nat": ["kernel"],
+    # --- Layer 2: Generic structure on a base type ---
+    "prod": ["kernel"],
+    "sum": ["kernel"],
+    "list": ["kernel"],
+    # --- Layer 3: Number-system tower over Nat ---
+    "add": ["nat"],
+    "int": ["nat"],
+    "rat": ["int", "nat"],
+    "real": ["rat"],
+    "complex": ["real"],
+    # --- Layer 3b: Prime over Nat (sibling to Int/Rat) ---
+    "prime": ["nat"],
+    # --- Layer 4: Algebra over Nat ---
+    "monoid": ["nat"],
+    "group": ["monoid"],
+    "abgroup": ["group"],
+    "ring": ["abgroup"],
+    "commring": ["ring"],
+    "field": ["commring"],
+    "module": ["ring"],
+    "vecspace": ["module", "field"],
+    "linearmap": ["vecspace"],
+    "matrix": ["vecspace"],
+    "polynomial": ["commring"],
+    "fps": ["polynomial"],
+    # --- Layer 5: Order / lattice ---
+    "preorder": ["kernel"],
+    "poset": ["preorder"],
+    "totalorder": ["poset"],
+    "lattice": ["poset"],
+    "interval": ["totalorder", "real"],
+    # --- Layer 6: Topology over Real ---
+    "metric": ["real"],
+    "compact": ["metric"],
+    "continuous": ["real"],
+    "s1": ["interval"],
+    "circle": ["compact"],
+    # --- Layer 7: Categorical (built on Cont as Hom) ---
+    "category": ["kernel"],
+    "functor": ["category"],
+    "nattrans": ["functor"],
+    # --- Layer 8: Complex analysis (RH dependency chain) ---
+    "complexlimit": ["complex"],
+    "convergenceradius": ["complexlimit", "fps"],
+    "complexdiff": ["complexlimit"],
+    "holomorphic": ["complexdiff", "convergenceradius"],
+    "complexseries": ["complexlimit"],
+    "contour": ["holomorphic", "continuous"],
+    "anacont": ["holomorphic"],
+    # --- Layer 9: Dirichlet / Zeta tower ---
+    "dirichletseries": ["complexseries", "prime"],
+    "zetabasic": ["dirichletseries"],
+    "zetacont": ["zetabasic", "anacont"],
+    "critstrip": ["complex"],
+    "zetazeros": ["zetacont", "critstrip"],
+    # --- Reflection capstones (live above everything) ---
+    "observer": ["kernel"],
+    "interhist": ["observer"],
+}
 
-    Nodes: each region (52+) and special kernel nodes.
-    Edges: u -> v means v depends on u.
-    """
+
+def compute_levels(hierarchy: dict[str, list[str]]) -> dict[str, int]:
+    """Longest-path level from any root (kernel) to each node."""
+    level: dict[str, int] = {}
+
+    def lvl(n: str, stack: tuple[str, ...] = ()) -> int:
+        if n in level:
+            return level[n]
+        if n in stack:
+            return 0  # cycle guard
+        deps = hierarchy.get(n, [])
+        if not deps:
+            level[n] = 0
+        else:
+            level[n] = 1 + max(lvl(d, stack + (n,)) for d in deps)
+        return level[n]
+
+    for n in hierarchy:
+        lvl(n)
+    return level
+
+
+def build_dependency_graph() -> dict:
+    """Build cytoscape graph using HIERARCHY as ground truth, augmented with
+    theorem counts and critical-path scores from current state."""
     cp = critical_path_targets()
     region_thms = count_lean_theorems_per_region()
 
-    nodes: dict[str, dict] = {}
-
-    # add a kernel root node so the graph isn't disconnected
-    nodes["kernel"] = {
-        "id": "kernel",
-        "label_en": "Kernel",
-        "label_zh": "内核",
-        "thms": region_thms.get("kernel", {}).get("theorems", 0),
-        "tier": 0,
-    }
-
-    # add nodes from critical_path output (well-shaped regions)
+    cp_data: dict[str, dict] = {}
+    valid_regions = set(HIERARCHY.keys())
     for entry in cp.get("top", []) + cp.get("rest", []) + cp.get("saturated", []):
         name = entry.get("name", "")
-        if not name or "/" in name or "." in name:
-            continue
-        nodes[name] = {
-            "id": name,
-            "label_en": name + "Up",
-            "label_zh": name + "Up",  # default; zh override via glossary
-            "thms": entry.get("thms", region_thms.get(name, {}).get("theorems", 0)),
-            "tier": 1,
-            "downstream": entry.get("downstream", 0),
-            "score": entry.get("score", 0.0),
-        }
+        if name in valid_regions:
+            cp_data[name] = entry
 
-    # also add any region in lean4 that critical_path didn't list
-    for region, stats in region_thms.items():
-        if region == "kernel":
-            continue
-        if region not in nodes:
-            nodes[region] = {
-                "id": region,
-                "label_en": region + "Up",
-                "label_zh": region + "Up",
-                "thms": stats["theorems"],
-                "tier": 1,
-                "downstream": 0,
-                "score": 0.0,
-            }
+    levels = compute_levels(HIERARCHY)
+    max_level = max(levels.values()) if levels else 0
 
-    # build edges from critical_path's deps field
-    edges: list[dict] = []
-    seen_edges: set[tuple[str, str]] = set()
-    for entry in cp.get("top", []) + cp.get("rest", []) + cp.get("saturated", []):
-        name = entry.get("name", "")
-        if name not in nodes:
-            continue
-        for dep in entry.get("deps", []):
-            if dep in nodes:
-                key = (dep, name)
-                if key not in seen_edges:
-                    edges.append({"source": dep, "target": name})
-                    seen_edges.add(key)
+    paper_per_chapter = count_paper_markers_per_chapter()
+    paper_per_region = aggregate_markers_per_region(paper_per_chapter)
 
-    # connect orphan nodes to kernel root
-    has_incoming = {e["target"] for e in edges}
-    for nid, node in nodes.items():
+    nodes: list[dict] = []
+    for nid in HIERARCHY:
+        thms = region_thms.get(nid, {}).get("theorems", 0)
         if nid == "kernel":
-            continue
-        if nid not in has_incoming:
-            edges.append({"source": "kernel", "target": nid})
+            # kernel theorem count comes from FKernel scan
+            thms = region_thms.get("kernel", {}).get("theorems", 0)
+        cp_entry = cp_data.get(nid, {})
+        markers = paper_per_region.get(nid, {"checked": 0, "stmt": 0, "def": 0})
+        nodes.append({
+            "id": nid,
+            "label_en": nid + "Up" if nid != "kernel" else "Kernel",
+            "label_zh": nid + "Up" if nid != "kernel" else "内核",
+            "thms": cp_entry.get("thms", thms),
+            "level": levels[nid],
+            "downstream": cp_entry.get("downstream", 0),
+            "score": cp_entry.get("score", 0.0),
+            "checked": markers["checked"],
+            "stmt": markers["stmt"],
+            "defs": markers["def"],
+            "schema_only": nid in SCHEMA_ONLY_REGIONS,
+        })
 
-    return {"nodes": list(nodes.values()), "edges": edges}
+    edges: list[dict] = []
+    for nid, deps in HIERARCHY.items():
+        for d in deps:
+            edges.append({"source": d, "target": nid})
+
+    return {"nodes": nodes, "edges": edges, "max_level": max_level}
 
 
 def build_glossary() -> dict:
@@ -511,7 +659,10 @@ def main() -> int:
         ],
         "paper_markers": paper_markers,
         "monthly_activity": activity,
-        "critical_path": cp.get("top", [])[:15],
+        "critical_path": [
+            entry for entry in cp.get("top", [])
+            if entry.get("name", "") in HIERARCHY
+        ][:15],
     }
 
     (DATA_DIR / "status.json").write_text(json.dumps(status, indent=2), encoding="utf-8")
