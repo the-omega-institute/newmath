@@ -110,6 +110,51 @@ pair the two decompositions.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_nonempty\_factor\_carriers}
 
+\begin{theorem}[Rat denominator unit classifier two-sided context cancellation package]
+\label{thm:rat-denom-unit-classifier-two-sided-context-cancel-package}
+For histories $L,R,Q,S:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(L,R)$, then
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S)
+$$
+and
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the suffix-context statement, apply
+\autoref{thm:rat-denom-unit-classifier-append-context-cancel} to
+$\mathsf{append}(Q,L)$ and $\mathsf{append}(S,R)$. The assumed classifier on
+$L,R$ is exactly the classified context required by that checked row, so the
+result is the first displayed equivalence.
+
+For the prefix-context statement, apply
+\autoref{thm:rat-denom-unit-classifier-append-left-context-cancel-iff} to
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$. The same classified context
+$L,R$ supplies the prefix certificate, and the checked row returns the second
+displayed equivalence.
+
+Pairing the two equivalences gives the advertised two-sided cancellation
+package.
+\end{proof}
+
+\textbf{Traditional target}: two-sided classified denominator context
+cancellation; \textbf{BEDC source}: $\mathsf{BHist}$ plus
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, and
+$\mathsf{append}$; \textbf{carrier choice}: $C_D^u$; \textbf{classifier
+choice}: $R_D^u$; \textbf{stability obligations}: suffix and prefix context
+cancellation; \textbf{ledger}: the classified context pair $L,R$;
+\textbf{core theorem}:
+\autoref{thm:rat-denom-unit-classifier-two-sided-context-cancel-package};
+\textbf{exactness predicate}: the displayed pair of iff statements;
+\textbf{standard bridge}: ordinary cancellation by a classified
+denominator-unit context; \textbf{status}: $\mathsf{ProofTarget}$.
+
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
 unit for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, and $\Cont$; \textbf{carrier
