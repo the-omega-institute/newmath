@@ -126,6 +126,24 @@ prefix is exactly $\Eone(tail)$. The last field is the required equality.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_e1\_source\_target\_eq}
 
+\begin{theorem}[EquivCat empty roundtrip $\Eone$ prefix tail determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-e1-prefix-tail-hsame}
+For histories
+$sourceTail,targetTail,a,unit,counit,left,right:\mathsf{BHist}$, if an
+adjunction unit-counit carrier is displayed from $\Eone(sourceTail)$ to
+$\Eone(targetTail)$ and both roundtrip results classify to $\emp$, then
+$$
+sourceTail\hsame targetTail.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip prefix determinacy theorem identifies the full prefixes
+$\Eone(sourceTail)$ and $\Eone(targetTail)$ by $\hsame$. Inverting the
+one-headed constructor under $\hsame$ reads this back to
+$sourceTail\hsame targetTail$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_e1\_prefix\_tail\_hsame}
+
 \begin{theorem}[EquivCat empty roundtrip target-prefix determinacy]
 \label{thm:equivcat-adjunction-empty-roundtrip-target-prefix-deterministic}
 For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
@@ -148,6 +166,25 @@ NatTrans empty-identity prefix transitivity identifies the target prefix
 $q$ with $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_deterministic}
+
+\begin{theorem}[EquivCat empty roundtrip source-prefix determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-source-prefix-deterministic}
+For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+$left\hsame\emp$ and $right\hsame\emp$, and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\emp)
+$$
+is also displayed, then $p\hsame r$.
+\end{theorem}
+\begin{proof}
+The empty roundtrip identity-components theorem extracts the reverse empty
+component from $q$ to $p$. Compose the displayed empty component from $r$ to
+$q$ with that reverse component by NatTrans empty-identity prefix
+transitivity; this gives $r\hsame p$. Symmetry of $\hsame$ gives the stated
+source-prefix equality.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_source\_prefix\_deterministic}
 
 \section{The certificate}
 \label{sec:equivcat-certificate}
