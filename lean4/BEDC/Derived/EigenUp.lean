@@ -119,8 +119,57 @@ theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
             (And.intro (hsame_refl BHist.Empty)
               (And.intro (hsame_refl BHist.Empty) (cont_intro pairEmpty))))))
 
+theorem EigenSingletonCarrier_append_context_empty_iff {L R h : BHist} :
+    EigenSingletonCarrier (append L (append h R)) ↔
+      hsame L BHist.Empty ∧ EigenSingletonCarrier h ∧ hsame R BHist.Empty := by
+  constructor
+  · intro carrier
+    have contextualEmpty : hsame (append L (append h R)) BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp carrier
+    have outerSplit := append_eq_empty_iff.mp contextualEmpty
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact And.intro outerSplit.left
+      (And.intro (EigenSingletonCarrier_empty_iff.mpr innerSplit.left) innerSplit.right)
+  · intro data
+    have hEmpty : hsame h BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp data.right.left
+    have innerEmpty : hsame (append h R) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro hEmpty data.right.right)
+    have contextualEmpty : hsame (append L (append h R)) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro data.left innerEmpty)
+    exact EigenSingletonCarrier_empty_iff.mpr contextualEmpty
+
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
+
+theorem EigenSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
+    EigenSingletonClassifier (append L h) (append k R) ↔
+      hsame L BHist.Empty ∧ EigenSingletonClassifier h k ∧ hsame R BHist.Empty := by
+  constructor
+  · intro classified
+    have leftEmpty : hsame (append L h) BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp classified.left
+    have rightEmpty : hsame (append k R) BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp classified.right.left
+    have leftSplit := append_eq_empty_iff.mp leftEmpty
+    have rightSplit := append_eq_empty_iff.mp rightEmpty
+    have coreClassified : EigenSingletonClassifier h k :=
+      And.intro (EigenSingletonCarrier_empty_iff.mpr leftSplit.right)
+        (And.intro (EigenSingletonCarrier_empty_iff.mpr rightSplit.left)
+          (hsame_trans leftSplit.right (hsame_symm rightSplit.left)))
+    exact And.intro leftSplit.left (And.intro coreClassified rightSplit.right)
+  · intro data
+    have hEmpty : hsame h BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp data.right.left.left
+    have kEmpty : hsame k BHist.Empty :=
+      EigenSingletonCarrier_empty_iff.mp data.right.left.right.left
+    have leftEmpty : hsame (append L h) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro data.left hEmpty)
+    have rightEmpty : hsame (append k R) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro kEmpty data.right.right)
+    exact And.intro (EigenSingletonCarrier_empty_iff.mpr leftEmpty)
+      (And.intro (EigenSingletonCarrier_empty_iff.mpr rightEmpty)
+        (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
 theorem eigen_singleton_semantic_name_certificate :
     SemanticNameCert EigenSingletonCarrier EigenSingletonCarrier EigenSingletonCarrier
