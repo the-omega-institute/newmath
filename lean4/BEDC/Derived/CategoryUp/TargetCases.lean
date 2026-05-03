@@ -262,6 +262,65 @@ theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_alignment {a r 
   | inr visibleCase =>
       exact visibleCase
 
+theorem CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_tail_cont_alignment
+    {a r m n : BHist} :
+    CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) m ->
+      CategoryHomCarrier (BHist.e1 a) (BHist.e1 r) n ->
+        (hsame m BHist.Empty -> False) ->
+          exists k : BHist, exists l : BHist,
+            m = BHist.e1 k /\ n = BHist.e1 l /\ UnaryHistory k /\ UnaryHistory l /\
+              Cont (BHist.e1 a) k r /\ Cont (BHist.e1 a) l r /\ hsame k l := by
+  intro left right nonempty
+  have visibleAlignment :=
+    CategoryHomCarrier_e1_source_e1_target_nonempty_morphism_alignment left right nonempty
+  cases visibleAlignment with
+  | intro k visibleAlignment =>
+      cases visibleAlignment with
+      | intro l visibleData =>
+          cases visibleData with
+          | intro mEq rest =>
+              cases rest with
+              | intro nEq sameTail =>
+                  cases mEq
+                  cases nEq
+                  have leftPayload : UnaryHistory k ∧ Cont (BHist.e1 a) k r := by
+                    have splitLeft :=
+                      (CategoryHomCarrier_e1_source_e1_target_morphism_iff
+                        (a := a) (r := r) (morph := BHist.e1 k)).mp left
+                    cases splitLeft with
+                    | inl emptyCase =>
+                        cases emptyCase.left
+                    | inr visibleCase =>
+                        cases visibleCase with
+                        | intro k' payload =>
+                            cases payload with
+                            | intro morphEq rest =>
+                                cases morphEq
+                                exact And.intro rest.right.left rest.right.right
+                  have rightPayload : UnaryHistory l ∧ Cont (BHist.e1 a) l r := by
+                    have splitRight :=
+                      (CategoryHomCarrier_e1_source_e1_target_morphism_iff
+                        (a := a) (r := r) (morph := BHist.e1 l)).mp right
+                    cases splitRight with
+                    | inl emptyCase =>
+                        cases emptyCase.left
+                    | inr visibleCase =>
+                        cases visibleCase with
+                        | intro l' payload =>
+                            cases payload with
+                            | intro morphEq rest =>
+                                cases morphEq
+                                exact And.intro rest.right.left rest.right.right
+                  exact
+                    Exists.intro k
+                      (Exists.intro l
+                        (And.intro rfl
+                          (And.intro rfl
+                            (And.intro leftPayload.left
+                              (And.intro rightPayload.left
+                                (And.intro leftPayload.right
+                                  (And.intro rightPayload.right sameTail)))))))
+
 theorem CategoryHomCarrier_comp_e1_morphism_target_factor {a b c f g k : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
       ∃ r : BHist, c = BHist.e1 r ∧ CategoryHomCarrier a r k ∧

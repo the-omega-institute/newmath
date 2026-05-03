@@ -115,6 +115,27 @@ continuation carrier closure to the canonical append continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_right\_rat\_closed}
 
+\begin{theorem}[Rat history classifier append with right denominator unit]
+\label{thm:rat-history-classifier-append-right-denom-unit-closed}
+For histories $h,h',k,k':\mathsf{BHist}$, if $h$ and $h'$ are related by the
+Rat history classifier and $k$ and $k'$ are related by the adjoined denominator
+unit classifier, then appending the unit-classified right factor preserves the
+Rat history classifier:
+$$
+\mathsf{RatHistoryClassifier}(h,h')\to
+\mathsf{RatDenomUnitClassifier}(k,k')\to
+\mathsf{RatHistoryClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+The carrier fields are obtained from the Rat left-factor append closure for
+the adjoined denominator unit carrier. The endpoint comparison is the
+canonical append continuation comparison transported along the two classifier
+$\hsame$ witnesses. These data assemble the Rat history classifier for the two
+appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_right\_denom\_unit\_closed}
+
 \begin{theorem}[Rat denominator unit append carrier branch cases]
 \label{thm:rat-denom-unit-carrier-append-branch-cases}
 For histories $h,k:\mathsf{BHist}$, if the append endpoint is carried by the

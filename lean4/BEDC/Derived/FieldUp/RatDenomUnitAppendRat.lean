@@ -28,6 +28,19 @@ theorem RatDenomUnitCarrier_append_right_rat_closed {h k : BHist} :
   | inr ratH =>
       exact field_rat_denominator_continuation_carrier_closure ratH carrierK (cont_intro rfl)
 
+theorem RatHistoryClassifier_append_right_denom_unit_closed {h h' k k' : BHist} :
+    RatHistoryClassifier h h' -> RatDenomUnitClassifier k k' ->
+      RatHistoryClassifier (append h k) (append h' k') := by
+  intro classifiedH classifiedK
+  have carrierLeft : RatHistoryCarrier (append h k) :=
+    RatDenomUnitCarrier_append_left_rat_closed classifiedH.left classifiedK.left
+  have carrierRight : RatHistoryCarrier (append h' k') :=
+    RatDenomUnitCarrier_append_left_rat_closed classifiedH.right.left classifiedK.right.left
+  have sameAppend : hsame (append h k) (append h' k') :=
+    cont_respects_hsame classifiedH.right.right classifiedK.right.right (cont_intro rfl)
+      (cont_intro rfl)
+  exact And.intro carrierLeft (And.intro carrierRight sameAppend)
+
 theorem RatDenomUnitCarrier_append_branch_cases {h k : BHist} :
     RatDenomUnitCarrier (append h k) ->
       (hsame h BHist.Empty ∧ hsame k BHist.Empty) ∨
