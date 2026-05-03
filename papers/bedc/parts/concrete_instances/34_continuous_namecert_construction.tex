@@ -608,6 +608,31 @@ determinacy gives $\hsame(t,t')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_visible\_context\_target\_deterministic}
 
+\begin{theorem}[Continuous modulus witness zero-headed component impossibility]
+\label{thm:continuous-modulus-witness-e0-component-absurd}
+For histories $source,modulus,target:\mathsf{BHist}$, no concrete one-step
+modulus witness has a zero-headed source, modulus, or target component:
+$$
+\begin{array}{l}
+\bigl(\mathsf{ContinuousModulusWitness}(\Ezero(source),modulus,target)
+\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{ContinuousModulusWitness}(source,\Ezero(modulus),target)
+\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{ContinuousModulusWitness}(source,modulus,\Ezero(target))
+\to\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_e0\_component\_absurd}
+\begin{proof}
+The witness definition records unary-history evidence for its source, modulus,
+and target components. Each displayed $\Ezero$ component contradicts the
+unary no-zero-extension theorem, since unary histories are generated only by
+the empty history and one-headed extension.
+\end{proof}
+
 \begin{theorem}[Continuous modulus witness left e1 result cases]
 \label{thm:continuous-modulus-witness-left-e1-result-cases}
 For histories $source,modulus,target$, a one-step modulus witness from a

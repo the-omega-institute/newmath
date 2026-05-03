@@ -155,6 +155,34 @@ Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
 then yields $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation right-unit visible endpoint exclusion]
+\label{thm:field-rat-denominator-continuation-right-unit-law-visible-endpoint-absurd}
+For every pair of histories $u,p:\mathsf{BHist}$, if $u$ satisfies the
+right-unit classifier law for Rat denominator continuation, then $u$ cannot be
+history-same to either visible endpoint over $p$:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longrightarrow
+\bigl(\hsame(u,\Ezero(p))\to\mathsf{False}\bigr)
+\land
+\bigl(\hsame(u,\Eone(p))\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_visible\_endpoint\_absurd}
+\begin{proof}
+Test the law on the concrete Rat carrier $\Eone(\emp)$ and the displayed
+continuation $\Cont(\Eone(\emp),u,\Eone(\emp)\cdot u)$. The classifier result
+collapses the continuation result back to $\Eone(\emp)$, so continuation
+right-unit uniqueness gives $u\hsame\emp$. Composing either visible presentation
+of $u$ with this empty endpoint contradicts BEDC history constructor
+no-confusion for $\Ezero$ and $\Eone$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation left-unit endpoint iff empty]
 \label{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
 For every history $u:\mathsf{BHist}$, the left-unit classifier law is equivalent
