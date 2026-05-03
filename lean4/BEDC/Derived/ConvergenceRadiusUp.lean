@@ -87,4 +87,33 @@ theorem GeomBound_radius_semanticNameCert {a : Nat -> BHist} {r K : BHist}
   · intro _h source
     exact source
 
+theorem GeomBound_semanticNameCert {a : Nat -> BHist} {r K : BHist}
+    (bound : GeomBound a r K) :
+    SemanticNameCert (fun x : BHist => GeomBound a x K)
+      (fun x : BHist => GeomBound a x K) (fun x : BHist => GeomBound a x K) hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro r bound
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        exact And.intro (unary_transport carrier.left same)
+          (And.intro carrier.right.left carrier.right.right)
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 end BEDC.Derived.ConvergenceRadiusUp

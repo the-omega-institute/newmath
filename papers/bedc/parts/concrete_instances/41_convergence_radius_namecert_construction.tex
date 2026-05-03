@@ -79,6 +79,23 @@ The witnessed radius \(r\) inhabits the carrier. Reflexivity, symmetry, and tran
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_semanticNameCert}
 
+\begin{theorem}[Geometric bound semantic naming certificate]
+\label{thm:geom-bound-semantic-namecert}
+If \(\mathsf{GeomBound}(a,r,K)\) holds, then the radius-indexed carrier
+\(x\mapsto\mathsf{GeomBound}(a,x,K)\), with classifier \(\hsame\), forms a
+semantic naming certificate whose source, pattern, and ledger predicates are
+all this same concrete geometric-bound carrier.
+\end{theorem}
+\begin{proof}
+The displayed bound supplies the inhabited carrier witness. Reflexivity,
+symmetry, and transitivity are the kernel laws for \(\hsame\). Carrier
+transport along \(\hsame\) transports only the unary radius field; the constant
+\(K\) and the coefficient carrier rows are preserved unchanged. Pattern and
+ledger soundness are direct because all three semantic predicates are the same
+geometric-bound carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_semanticNameCert}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.

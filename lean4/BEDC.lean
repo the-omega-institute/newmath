@@ -352,6 +352,7 @@ import BEDC.Derived.CategoryUp.TailCarrierAlignment
 import BEDC.Derived.CategoryUp.NonemptyTailResultDescent
 import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
+import BEDC.Derived.CategoryUp.NonemptyMorphismEndpointCases
 import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
 import BEDC.Derived.CategoryUp.E1NonemptyMorphismUnique
 import BEDC.Derived.CategoryUp.EndpointVisible
