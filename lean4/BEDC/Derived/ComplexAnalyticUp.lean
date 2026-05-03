@@ -53,6 +53,16 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
 
+theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
+    hsame z z' -> CplxPureImaginary theta z ->
+      CplxPureImaginary theta z' ∧ hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+  intro sameZZ' pureImaginary
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have sameZ' : hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) :=
+        hsame_trans (hsame_symm sameZZ') sameZ
+      exact And.intro (And.intro thetaUnary sameZ') sameZ'
+
 theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ∃ imagq : BHist,

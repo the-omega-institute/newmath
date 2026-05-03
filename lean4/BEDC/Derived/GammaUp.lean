@@ -44,6 +44,13 @@ theorem GammaDomainCore_not_empty {s apart : BHist} :
   intro domain sameEmpty
   exact ComplexHistoryCarrier_not_empty domain.left sameEmpty
 
+theorem GammaPoleLocus_not_empty {s : BHist} :
+    GammaPoleLocus s -> hsame s BHist.Empty -> False := by
+  intro pole sameEmpty
+  cases GammaPoleLocus_complex_carrier_witness pole with
+  | intro _n data =>
+      exact ComplexHistoryCarrier_not_empty data.right.right sameEmpty
+
 theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
     hsame s t ->
       GammaPoleLocus s ->
