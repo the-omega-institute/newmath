@@ -88,6 +88,24 @@ cancellation identifies their tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_hsame\_tail\_transport}
 
+\begin{theorem}[Continuation morphism composite endpoint transport existence]
+\label{thm:category-continuation-morphism-comp-endpoint-transport-exists}
+For continuation morphisms $m:a\to b$ and $n:b\to c$, endpoint comparisons
+$a\hsame a'$, $b\hsame b'$, and $c\hsame c'$ determine transported factor
+morphisms $m':a'\to b'$ and $n':b'\to c'$ such that the transported composite
+tail is history-same to the original composite tail and carries a continuation
+from $a'$ to $c'$.
+\end{theorem}
+\begin{proof}
+Keep the displayed tails of $m$ and $n$. Transport the relation field of $m$
+across the source and middle endpoint comparisons, and transport the relation
+field of $n$ across the middle and target endpoint comparisons. The composite
+of these transported factor morphisms has the same appended tail as the
+original composite by reflexivity, and its own relation field supplies the
+continuation from $a'$ to $c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_transport\_exists}
+
 \begin{theorem}[Continuation morphism composite tail append determinacy]
 \label{thm:continuation-morphism-comp-tail-append-deterministic}
 For continuation morphisms $left,left':a\to b$ and $right,right':b\to c$, the

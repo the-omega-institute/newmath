@@ -130,6 +130,27 @@ def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
     Cont (N k) n n -> Cont (N k) m m ->
       exists d : BHist, ComplexDistance (s n) (s m) d
 
+theorem ComplexRegularSequence_constant {z : BHist} :
+    UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
+      (fun _ : BHist => BHist.Empty) := by
+  intro zUnary
+  intro k n m unaryK unaryN unaryM contN contM
+  exact Exists.intro (append z z)
+    (And.intro zUnary
+      (And.intro zUnary
+        (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl)))))
+
+theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
+      ComplexRegularSequence s N -> ComplexRegularSequence t N := by
+  intro pointwise regular
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regular k n m unaryK unaryN unaryM contN contM with
+  | intro d distance =>
+      exact Exists.intro d
+        (ComplexDistance_hsame_transport_with_relation
+          (pointwise unaryN) (pointwise unaryM) (hsame_refl d) distance).left
+
 theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q : BHist} :
     UnaryHistory q -> ComplexRegularSequence s N ->
       ComplexRegularSequence (fun n : BHist => append (s n) q) N := by

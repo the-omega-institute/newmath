@@ -197,8 +197,11 @@ Each component bound is dominated by the modulus witness of \autoref{def:cplx-mo
 For every complex history \(z\), the constant sequence \(s(n) := z\) together with the trivial modulus \(N(k) := \emp\) satisfies \(\mathsf{CplxRegSeq}(s, N)\).
 \end{lemma}
 \begin{proof}
-The pairwise distance is the modulus of the zero history, which is \(\emp\) under \autoref{def:cplx-modulus}; trivially below \(2^{-k}\) for all \(k\).
+For any accepted pair of indices, unary support of \(z\) supplies both
+endpoints. The BEDC distance witness is \(\mathsf{append}(z,z)\), with the
+canonical continuation from \(z\) to \(z\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_constant}
 
 \section{The complex-limit predicate}
 
@@ -246,6 +249,19 @@ distance history. The canonical continuation witness for append supplies the
 distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
+
+\begin{theorem}[Regular complex sequence endpoint transport]
+\label{thm:complex-regular-sequence-hsame-transport}
+Let \(s,t,N:\Hist\to\Hist\). If every unary index \(n\) satisfies
+\(\hsame(s(n),t(n))\), then regularity of \((s,N)\) implies regularity of
+\((t,N)\) with the same modulus.
+\end{theorem}
+\begin{proof}
+Apply regularity of \((s,N)\) to the accepted unary indices \(n,m\). Reuse the
+same distance witness \(d\), transport the two complex-distance endpoints along
+the pointwise \(\hsame\) comparisons, and keep \(d\) fixed by reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_hsame\_transport}
 
 \begin{definition}[Pointwise sum of complex sequences]
 \label{def:cplx-pointwise-sum}
