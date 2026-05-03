@@ -433,3 +433,29 @@ Let $d$ and $e$ be unary histories, and let $d'$ be any history with $d\hsame d'
 \begin{proof}
 Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-multiplicand-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d',q,e)$. Since the quotient witness itself remains unary, the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d',e)$.
 \end{proof}
+
+\begin{lemma}[Unary multiplication transports along the result]
+\label{lem:nat-mul-result-hsame-transport}
+Let $d,q,n$ be unary histories, and let $n'$ be a history with $n\hsame n'$. If $\mathsf{NatMul}(d,q,n)$, then $\mathsf{NatMul}(d,q,n')$.
+\end{lemma}
+\begin{proof}
+Case-analyze the closed witness for $\mathsf{NatMul}(d,q,n)$ from \autoref{def:nat-multiplication}. In the zero-multiplier case the result is $\emp$; by closed generation for $\hsame$ in \autoref{def:history-sameness}, the target $n'$ is also $\emp$, so the zero constructor gives $\mathsf{NatMul}(d,\emp,n')$.
+
+In the successor case, the witness consists of a predecessor product $\mathsf{NatMul}(d,q_0,n_0)$ and a continuation $\Cont(n_0,d,n_1)$. The result hypothesis is $n_1\hsame n'$. Apply \autoref{thm:cont-hsame-transport} to this continuation, using reflexivity from \autoref{thm:history-sameness-equivalence} on $n_0$ and $d$ and the displayed result sameness. This yields $\Cont(n_0,d,n')$, and the successor constructor of \autoref{def:nat-multiplication} gives $\mathsf{NatMul}(d,\Eone(q_0),n')$.
+\end{proof}
+
+\begin{theorem}[Divisibility transports along dividend history-sameness]
+\label{thm:nat-divides-dividend-hsame-transport}
+Let $d$ and $e$ be unary histories, and let $e'$ be a history with $e\hsame e'$. If $\mathsf{NatDivides}(d,e)$, then $\mathsf{NatDivides}(d,e')$.
+\end{theorem}
+\begin{proof}
+By \autoref{lem:unary-transport}, the history $e'$ is unary, so it is an admissible dividend endpoint. Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-result-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d,q,e')$. The quotient witness remains unary, so the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d,e')$.
+\end{proof}
+
+\begin{corollary}[Divisibility transports along both endpoints]
+\label{cor:nat-divides-endpoint-hsame-transport}
+Let $d$ and $e$ be unary histories, and let $d'$ and $e'$ be histories with $d\hsame d'$ and $e\hsame e'$. If $\mathsf{NatDivides}(d,e)$, then $\mathsf{NatDivides}(d',e')$.
+\end{corollary}
+\begin{proof}
+Unary transport puts $d'$ and $e'$ in the unary carrier. First apply \autoref{thm:nat-divides-divisor-hsame-transport} to transport the divisor from $d$ to $d'$, obtaining $\mathsf{NatDivides}(d',e)$. Then apply \autoref{thm:nat-divides-dividend-hsame-transport} to transport the dividend from $e$ to $e'$. The result is $\mathsf{NatDivides}(d',e')$.
+\end{proof}
