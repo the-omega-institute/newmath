@@ -33,6 +33,34 @@ Functionality of complex addition, subtraction, and division on the rational-pai
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_quotient\_cont\_deterministic}
 
+\begin{theorem}[Empty-function difference quotient has non-zero result]
+\label{thm:cplx-diff-quot-empty-function-result-nonzero}
+If \(\mathsf{CplxDiffQuot}(\emp,z,h,q)\) holds, then \(q\) is non-zero as a
+complex history.
+\end{theorem}
+\begin{proof}
+The quotient ledger contains the non-zero witness for \(h\) and the
+continuation \(\ContR(\emp,h,q)\). Left-unit uniqueness for continuation gives
+\(q\hsame h\), so any classifier of \(q\) with \(\emp\) transports back to a
+classifier of \(h\) with \(\emp\), contradicting the stored witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_empty\_function\_result\_nonzero}
+
+\begin{theorem}[Shared-result difference quotients determine the step]
+\label{thm:cplx-diff-quot-same-result-step-deterministic}
+If \(\mathsf{CplxDiffQuot}(f,z,h,q)\) and
+\(\mathsf{CplxDiffQuot}(f,z,h',q)\) hold with the same function history and
+the same result history, then \(h\hsame h'\), and both quotient ledgers expose
+\(\ContR(f,h,q)\) and \(\ContR(f,h',q)\).
+\end{theorem}
+\begin{proof}
+Unpack the two quotient witnesses. Their ledger fields are continuations with
+the same source \(f\) and result \(q\); left cancellation for continuation
+therefore identifies the two step histories. The two ledger fields are retained
+as the displayed continuation witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_same\_result\_step\_deterministic}
+
 \begin{lemma}[Compatibility of the difference quotient with \(\hsame\)]
 \label{lem:cplx-diff-quot-hsame}
 If \(\mathsf{CplxDiffQuot}(f, z, h, q)\) and \(\hsame(f,f')\), \(\hsame(z,z')\), \(\hsame(h,h')\), and \(\hsame(q,q')\), then \(\mathsf{CplxDiffQuot}(f', z', h', q')\). The transported target also exposes the unary point carrier, the transported non-zero witness on \(h'\), and the quotient ledger \(\Cont(f',h',q')\).

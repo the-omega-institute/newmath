@@ -98,6 +98,27 @@ identical with $R$ and $k$ in place of $L$ and $h$.
 
 \input{parts/concrete_instances/field/20_field_singleton_nonzero_append_source_or_tail}
 \input{parts/concrete_instances/field/20_field_singleton_empty_nonzero_append_split}
+
+\begin{theorem}[Singleton empty nonzero continuation cycle tail obstruction]
+\label{thm:field-singleton-empty-nonzero-continuation-cycle-tail-absurd}
+For histories $h,k,\mathit{tail},\mathit{backTail}:\mathsf{BHist}$, if
+$$
+\ContR(h,\mathit{tail},k)
+\quad\text{and}\quad
+\ContR(k,\mathit{backTail},h)
+$$
+form a continuation cycle, then
+$\mathsf{fieldSingletonEmptyNonZero}(\mathit{tail})$ is contradictory.
+\end{theorem}
+\begin{proof}
+The two continuations compose to a self-continuation of $h$. Right-unit
+uniqueness for continuation forces the composite tail to be empty, and
+empty-result inversion for append gives $\mathit{tail}\hsame\emp$. The
+singleton empty nonzero endpoint obstruction then contradicts the displayed
+nonzero witness on $\mathit{tail}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_cycle\_tail\_absurd}
+
 \begin{theorem}[Singleton empty nonzero append context cancellation]
 \label{thm:field-singleton-empty-nonzero-append-context-cancel-iff}
 For histories $L,R,Q:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton

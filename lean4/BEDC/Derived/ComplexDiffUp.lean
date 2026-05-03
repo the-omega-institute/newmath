@@ -92,4 +92,42 @@ theorem CplxDiffQuot_quotient_cont_deterministic {f z h q q' : BHist} :
                                     (And.intro rightLedger
                                       (cont_deterministic leftLedger rightLedger))
 
+theorem CplxDiffQuot_empty_function_result_nonzero {z h q : BHist} :
+    CplxDiffQuot BHist.Empty z h q -> CplxNonZero q := by
+  intro quotient
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier ledger =>
+                  intro quotientEmpty
+                  have sameQH : hsame q h := cont_left_unit_result ledger
+                  exact stepNonzero (hsame_trans (hsame_symm sameQH) quotientEmpty)
+
+theorem CplxDiffQuot_same_result_step_deterministic {f z h h' q : BHist} :
+    CplxDiffQuot f z h q -> CplxDiffQuot f z h' q ->
+      hsame h h' ∧ Cont f h q ∧ Cont f h' q := by
+  intro left right
+  cases left with
+  | intro _functionCarrier leftRest =>
+      cases leftRest with
+      | intro _pointCarrier leftRest =>
+          cases leftRest with
+          | intro _stepNonzero leftRest =>
+              cases leftRest with
+              | intro _quotientCarrier leftLedger =>
+                  cases right with
+                  | intro _functionCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _pointCarrier' rightRest =>
+                          cases rightRest with
+                          | intro _stepNonzero' rightRest =>
+                              cases rightRest with
+                              | intro _quotientCarrier' rightLedger =>
+                                  exact And.intro (cont_left_cancel leftLedger rightLedger)
+                                    (And.intro leftLedger rightLedger)
+
 end BEDC.Derived.ComplexDiffUp
