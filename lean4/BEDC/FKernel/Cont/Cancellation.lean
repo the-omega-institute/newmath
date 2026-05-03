@@ -251,6 +251,21 @@ theorem cont_composite_tail_iff {a b c f g t : BHist} :
   · intro direct
     exact cont_composite_tail_unique left right direct
 
+theorem cont_nested_empty_result_inversion {a b c f g : BHist} :
+    Cont a f b -> Cont b g c -> hsame c BHist.Empty ->
+      hsame a BHist.Empty ∧ hsame f BHist.Empty ∧ hsame b BHist.Empty ∧
+        hsame g BHist.Empty := by
+  intro first second resultEmpty
+  have secondToEmpty : Cont b g BHist.Empty :=
+    cont_result_hsame_transport second resultEmpty
+  have secondParts := cont_empty_result_inversion secondToEmpty
+  cases secondParts.left
+  have firstToEmpty : Cont a f BHist.Empty := first
+  have firstParts := cont_empty_result_inversion firstToEmpty
+  exact And.intro firstParts.left
+    (And.intro firstParts.right
+      (And.intro (hsame_refl BHist.Empty) secondParts.right))
+
 theorem cont_composite_left_factor {a b c f g fg : BHist} :
     Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
   intro right composite displayed
