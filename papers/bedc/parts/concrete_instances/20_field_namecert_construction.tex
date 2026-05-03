@@ -365,6 +365,84 @@ witnesses, and conjugating element; core theorem list
 inner-conjugation action laws; standard bridge ordinary inner automorphisms;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine inner action composition exit]
+\label{thm:ratup-fieldup-affine-inner-action-composition-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. For a certified affine automorphism $S$, define
+$$
+\mathrm{Inn}_S(V)=S\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(S),
+$$
+where $\iota_F(-)$ is the explicit inverse operation supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. Then the
+inner affine transformations obey the identity and composition laws in the
+conjugating parameter:
+$$
+\mathrm{Inn}_{\mathrm{id}_F}(V)\equiv_{\mathrm{aff}}V.
+$$
+$$
+\mathrm{Inn}_T(\mathrm{Inn}_U(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_{T\circ_{\mathrm{aff}}U}(V).
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete affine package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the identity $\mathrm{id}_F$, the concrete product
+$\circ_{\mathrm{aff}}$, the inverse operation $\iota_F(-)$, and the classifier
+$\equiv_{\mathrm{aff}}$.
+
+For the identity parameter, expand
+$\mathrm{Inn}_{\mathrm{id}_F}(V)$ as
+$\mathrm{id}_F\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(\mathrm{id}_F)$.
+The unit rows and inverse rows of the fixed package identify
+$\iota_F(\mathrm{id}_F)$ with $\mathrm{id}_F$, and associativity from
+\autoref{thm:field-affine-automorphism-composition-associative} removes the two
+unit factors. The classifier conclusion is
+$\mathrm{Inn}_{\mathrm{id}_F}(V)\equiv_{\mathrm{aff}}V$.
+
+For composition of conjugating parameters, first use
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} to certify the inner
+term $\mathrm{Inn}_U(V)$ and to transport classifier equalities through the
+outer conjugation by $T$.
+
+After expansion, associativity rewrites the left side to the common affine
+word
+$$
+T\circ_{\mathrm{aff}}U\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}
+\iota_F(U)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+
+Apply
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to
+$T\circ_{\mathrm{aff}}U$. It identifies
+$\iota_F(T\circ_{\mathrm{aff}}U)$ with
+$\iota_F(U)\circ_{\mathrm{aff}}\iota_F(T)$ under the same classifier. Operation
+congruence and classifier transitivity in the fixed package replace the final
+two inverse factors by $\iota_F(T\circ_{\mathrm{aff}}U)$.
+
+A final use of
+\autoref{thm:field-affine-automorphism-composition-associative} repacks the
+word as
+$(T\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}
+\iota_F(T\circ_{\mathrm{aff}}U)$, which is
+$\mathrm{Inn}_{T\circ_{\mathrm{aff}}U}(V)$.
+\end{proof}
+
+Per-object template: traditional target inner action of the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations identity action, composition
+action, inverse antihomomorphism, associativity, and classifier congruence;
+ledger conjugating factors, product witnesses, and inverse witnesses; core
+theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit},
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}, and
+\autoref{thm:field-affine-automorphism-composition-associative}; exactness
+predicate concrete inner-action law; standard bridge ordinary conjugation
+action; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine threefold inverse antihomomorphism exit]
 \label{thm:ratup-fieldup-affine-threefold-inverse-antihom-exit}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
