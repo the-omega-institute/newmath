@@ -80,6 +80,28 @@ compare its result with the original successor sum.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_step}
 
+\begin{theorem}[Unit Dirichlet successor previous-sum determinism]
+\label{thm:zeta-basic-part-sum-successor-source-hsame-previous-deterministic}
+If $s\hsame t$ and both sources carry successor-index unit partial sums
+at the same predecessor index $n$,
+$$
+\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)
+\quad\text{and}\quad
+\mathsf{ZetaBasicPartSum}(t,\Eone(n),u),
+$$
+then their predecessor sums can be chosen as histories $p,q$ with
+\(\mathsf{ZetaBasicPartSum}(s,n,p)\), \(\mathsf{ZetaBasicPartSum}(t,n,q)\),
+$p\hsame q$, the two visible unit continuation steps
+\(\ContR(p,\Eone(s),z)\), \(\ContR(q,\Eone(t),u)\), and $z\hsame u$.
+\end{theorem}
+\begin{proof}
+Invert both successor partial-sum witnesses. The predecessor index is unary
+by the index theorem, so termwise source transport compares the two
+predecessor sums. The visible unit terms compare by $s\hsame t$, and
+continuation congruence compares the two successor results.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_previous\_deterministic}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.
