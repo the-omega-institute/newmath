@@ -38,3 +38,28 @@ witness for $R$ and the reflexive carrier of $\emp$ directly rebuild the
 result-side singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_endpoint\_split\_iff}
+
+\begin{theorem}[Field singleton classifier continuation append split]
+\label{thm:field-singleton-classifier-continuation-append-split}
+For histories $L,P,Q,R,T:\mathsf{BHist}$ with $\ContR(P,Q,T)$, singleton
+classification of $\mathsf{append}(L,T)$ against $R$ is equivalent to the four
+displayed endpoints lying in the singleton carrier:
+$$
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,T),R)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(L)\land
+\mathsf{FieldSingletonCarrier}(P)\land
+\mathsf{FieldSingletonCarrier}(Q)\land
+\mathsf{FieldSingletonCarrier}(R).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits the empty appended endpoint into carrier witnesses
+for $L$ and $T$. Transporting the continuation ledger to the empty result and
+inverting it gives carrier witnesses for $P$ and $Q$, while the classifier
+itself supplies the carrier witness for $R$. Conversely, carrier witnesses for
+$P$ and $Q$ make the continuation result $T$ singleton, and combining that
+with the carrier of $L$ rebuilds the left appended endpoint. Both classifier
+endpoints then compare through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_split\_iff}
