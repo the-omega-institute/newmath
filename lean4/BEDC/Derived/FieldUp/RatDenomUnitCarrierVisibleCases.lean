@@ -3,6 +3,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
 theorem RatDenomUnitCarrier_visible_cases {h : BHist} :
@@ -160,5 +161,43 @@ theorem RatDenomUnitClassifier_visible_cases_iff {h k : BHist} :
                                   ⟨RatDenomUnitCarrier_e1_tail_unary_iff.mpr htailCarrier,
                                     RatDenomUnitCarrier_e1_tail_unary_iff.mpr ktailCarrier,
                                     hsame_e1_iff.mpr sameTail⟩
+
+theorem RatDenomUnitCarrier_append_e1_result_cases {h k tail : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier k -> hsame (append h k) (BHist.e1 tail) ->
+      (hsame k BHist.Empty ∧ RatDenomUnitCarrier (BHist.e1 tail) ∧
+          hsame h (BHist.e1 tail)) ∨
+        ∃ k0 : BHist,
+          k = BHist.e1 k0 ∧ UnaryHistory k0 ∧ RatDenomUnitCarrier tail ∧
+            Cont h k0 tail := by
+  intro carrierH carrierK productSame
+  have productCont : Cont h k (BHist.e1 tail) := hsame_symm productSame
+  have resultCases := cont_e1_result_inversion productCont
+  cases resultCases with
+  | inl emptyTail =>
+      cases emptyTail with
+      | intro kEmpty hSame =>
+          cases kEmpty
+          left
+          exact
+            And.intro (hsame_refl BHist.Empty)
+              (And.intro
+                (RatDenomUnitCarrier_continuation_closed carrierH
+                  (Or.inl (hsame_refl BHist.Empty)) productCont)
+                hSame)
+  | inr headedTail =>
+      cases headedTail with
+      | intro k0 headedData =>
+          cases headedData with
+          | intro kEq tailCont =>
+              right
+              cases kEq
+              have k0Unary : UnaryHistory k0 :=
+                RatDenomUnitCarrier_e1_tail_unary_iff.mp carrierK
+              have carrierK0 : RatDenomUnitCarrier k0 :=
+                RatDenomUnitCarrier_visible_cases_iff.mpr (unary_history_cases k0Unary)
+              have tailCarrier : RatDenomUnitCarrier tail :=
+                RatDenomUnitCarrier_continuation_closed carrierH carrierK0 tailCont
+              exact Exists.intro k0
+                (And.intro rfl (And.intro k0Unary (And.intro tailCarrier tailCont)))
 
 end BEDC.Derived.FieldUp

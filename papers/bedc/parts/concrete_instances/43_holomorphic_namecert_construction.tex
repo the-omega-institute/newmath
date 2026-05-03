@@ -52,6 +52,38 @@ The radius comparison descends by $e1$ strict-prefix inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_e1\_gap\_radius\_inversion}
 
+\begin{theorem}[Open disk radius continuation gap witness]
+\label{thm:holo-open-disk-radius-extension-gap-witness}
+If \(z\) lies in the unary open disk with center \(z_0\) and radius \(r\), and
+\(r\) continues by a unary history \(e\) to \(r'\), then the original boundary
+gap factors through a unary continued gap. Concretely, there are histories
+\(g,g'\) with
+$$
+\mathsf{UnaryHistory}(g)\land\mathsf{UnaryHistory}(g')\land
+\Cont(z,g,r)\land\Cont(g,e,g')\land\Cont(z,g',r').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the open-disk witness as a unary gap \(g\) with \(\Cont(z,g,r)\).
+Associativity of continuation supplies the middle history \(g'\) with
+\(\Cont(g,e,g')\) and \(\Cont(z,g',r')\); unary continuation closure makes
+\(g'\) unary.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_witness}
+
+\begin{theorem}[Open disk radius continuation closure]
+\label{thm:holo-open-disk-radius-continuation-extend}
+Under the same hypotheses, membership in the unary open disk is preserved when
+the radius is continued from \(r\) to \(r'\).
+\end{theorem}
+\begin{proof}
+Use the continued gap from
+\autoref{thm:holo-open-disk-radius-extension-gap-witness}. The center and point
+carriers are unchanged, and the continued radius is unary by continuation
+closure.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
+
 \section{Holomorphic predicate}
 
 \begin{definition}[Holomorphic on disk seed predicate]

@@ -266,6 +266,7 @@ import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
+import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
