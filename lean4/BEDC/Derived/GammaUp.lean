@@ -60,4 +60,15 @@ theorem GammaPoleLocus_hsame_transport_witness {s t : BHist} :
           exact And.intro (Exists.intro n (And.intro nUnary sameTPole))
             (Exists.intro n (And.intro nUnary sameTPole))
 
+theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
+    hsame s t -> GammaDomainCore s apart ->
+      (GammaPoleLocus t -> False) ∧ (hsame t BHist.Empty -> False) := by
+  intro sameST domain
+  constructor
+  · intro poleT
+    have transported := GammaPoleLocus_hsame_transport_witness (hsame_symm sameST) poleT
+    exact domain.right.right transported.left
+  · intro sameEmptyT
+    exact GammaDomainCore_not_empty domain (hsame_trans sameST sameEmptyT)
+
 end BEDC.Derived.GammaUp
