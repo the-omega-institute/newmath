@@ -44,6 +44,20 @@ For \(a, s\) and unary \(N\), the Dirichlet partial sum \(\mathsf{DirPartSum}(a,
 \end{definition}
 \leandef{BEDC.Derived.DirichletSeriesUp.DirichletPartSum}
 
+\begin{lemma}[Dirichlet partial-sum index cases]
+\label{lem:dirichlet-part-sum-index-cases}
+Every closed witness of $\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$
+either has the zero index $n=\emp$ and identifies $S$ with $\emp$, or has a
+successor index $n=\Eone(m)$ together with a predecessor partial sum and the
+continuation step from that predecessor to $S$.
+\end{lemma}
+\begin{proof}
+Invert the closed partial-sum witness. The zero constructor gives the empty
+index and empty partial sum. The step constructor exposes the predecessor
+index, predecessor sum, and continuation payload directly.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_cases}
+
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
 If the Dirichlet partial-sum recursion reaches $S$ at unary index $n$, and the

@@ -179,6 +179,30 @@ therefore identifies $out$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
 
+\begin{theorem}[Field singleton add-mul context continuation classifier]
+\label{thm:field-singleton-add-mul-context-continuation-classifier}
+For histories
+$L,R,L',R',a,b,c,d,a',b',c',d',out,out':\mathsf{BHist}$, if all four
+context endpoints are singleton field carriers and the two add-mul contextual
+continuations
+$$
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out)
+$$
+and
+$$
+\ContR(\mathsf{append}(L',\mathsf{FieldSingletonAdd}(a',b')),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c',d'),R'),out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+Apply the add-mul contextual carrier closure to both continuations. The two
+results are each $\hsame$ to $\emp$, so transitivity and symmetry of $\hsame$
+assemble the singleton classifier between the results.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_classifier}
+
 \begin{theorem}[Field singleton continuation result context]
 \label{thm:field-singleton-continuation-result-context}
 For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton

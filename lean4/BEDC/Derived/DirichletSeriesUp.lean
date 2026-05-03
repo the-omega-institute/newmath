@@ -14,6 +14,20 @@ inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
       DirichletPartSum term s n S -> Cont S (term n s) T ->
         DirichletPartSum term s (BHist.e1 n) T
 
+theorem DirichletPartSum_index_cases
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S ->
+      (n = BHist.Empty ∧ hsame S BHist.Empty) ∨
+        exists m P : BHist, n = BHist.e1 m ∧
+          DirichletPartSum term s m P ∧ Cont P (term m s) S := by
+  intro sum
+  cases sum with
+  | zero =>
+      exact Or.inl (And.intro rfl (hsame_refl BHist.Empty))
+  | step prev stepCont =>
+      exact Or.inr (Exists.intro _ (Exists.intro _
+        (And.intro rfl (And.intro prev stepCont))))
+
 theorem DirichletPartSum_successor_result_deterministic
     {term : BHist -> BHist -> BHist} {s n S T U : BHist} :
     DirichletPartSum term s n S -> Cont S (term n s) T ->
