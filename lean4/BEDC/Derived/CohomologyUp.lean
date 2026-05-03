@@ -61,6 +61,29 @@ theorem CohomologyCocycle_append_empty_iff {d : BHist -> BHist} {h k : BHist}
   · intro cycles
     exact CohomologyCocycle_append_core_closed dAppend cycles.left cycles.right
 
+theorem CohomologyCocycle_left_shift_append_empty_iff {d : BHist -> BHist}
+    {axis h k : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d (append axis (append h k))) BHist.Empty ↔
+      hsame (d axis) BHist.Empty ∧ hsame (d h) BHist.Empty ∧ hsame (d k) BHist.Empty := by
+  constructor
+  · intro cycle
+    have axisTail :
+        hsame (d axis) BHist.Empty ∧ hsame (d (append h k)) BHist.Empty :=
+      (CohomologyCocycle_append_empty_iff (d := d) (h := axis) (k := append h k)
+        dAppend).mp cycle
+    have tail :
+        hsame (d h) BHist.Empty ∧ hsame (d k) BHist.Empty :=
+      (CohomologyCocycle_append_empty_iff (d := d) (h := h) (k := k) dAppend).mp
+        axisTail.right
+    exact And.intro axisTail.left (And.intro tail.left tail.right)
+  · intro cycles
+    have tailCycle : hsame (d (append h k)) BHist.Empty :=
+      (CohomologyCocycle_append_empty_iff (d := d) (h := h) (k := k) dAppend).mpr
+        cycles.right
+    exact (CohomologyCocycle_append_empty_iff (d := d) (h := axis) (k := append h k)
+      dAppend).mpr (And.intro cycles.left tailCycle)
+
 theorem CohomologyCocycle_prepend_axis_closed {d : BHist -> BHist} {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (axisCycle : hsame (d axis) BHist.Empty) :
