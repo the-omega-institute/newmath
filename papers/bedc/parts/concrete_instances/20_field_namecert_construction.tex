@@ -37,3 +37,57 @@
 \input{parts/concrete_instances/field/20_field_affine_center_normalizer_orbit_classifier_transport}
 \input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_action_tail}
 \input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_reflection_tail}
+
+\begin{theorem}[Field singleton-empty operation context nonzero obstruction]
+\label{thm:field-singleton-empty-operation-context-nonzero-obstruction}
+For histories $L,R,h,k,out:\mathsf{BHist}$ with
+$\mathsf{fieldSingletonEmptyCarrier}(L)$,
+$\mathsf{fieldSingletonEmptyCarrier}(R)$, and
+$\mathsf{fieldSingletonEmptyNonZero}(out)$, singleton-empty operation contexts
+reject proof-indexed nonzero outputs. The multiplication endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyMul}(h,k)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+The unit endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyOne}),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+For every proof witness
+$p:\mathsf{fieldSingletonEmptyNonZero}(h)$, the inverse endpoint satisfies
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,\mathsf{fieldSingletonEmptyInv}(h,p)),
+   \mathsf{append}(R,out))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-singleton-empty-operation-context-normalization} to
+the multiplication, unit, or proof-indexed inverse classifier in the displayed
+context. In each case the contextual classifier into $\mathsf{append}(R,out)$
+is converted into $\mathsf{fieldSingletonEmptyCarrier}(out)$.
+
+The carrier assertion is the empty endpoint input for
+\autoref{thm:field-singleton-nonzero-empty-endpoint-absurd}. Combining it with
+the assumed witness $\mathsf{fieldSingletonEmptyNonZero}(out)$ gives
+$\mathsf{False}$ for each of the three operation contexts.
+\end{proof}
+
+Per-object template: traditional target terminal $\FieldUp$ operation-domain
+obstruction; BEDC source $\mathsf{BHist}$, $\mathsf{append}$, lower-case
+singleton-empty $\FieldUp$ endpoints; carrier
+$\mathsf{fieldSingletonEmptyCarrier}$; classifier
+$\mathsf{fieldSingletonEmptyClassifier}$; stability obligations
+operation-context normalization and nonzero endpoint obstruction; ledger hidden
+singleton contexts and proof-indexed inverse witness; core theorem this block;
+exactness predicate classifier-to-nonzero contradiction; status
+$\mathsf{ProofTarget}$.
