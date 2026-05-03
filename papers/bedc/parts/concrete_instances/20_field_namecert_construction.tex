@@ -651,21 +651,22 @@ $\mathsf{ProofTarget}$.
 \begin{theorem}[RatUp FieldUp affine commutator detects commutation]
 \label{thm:ratup-fieldup-affine-commutator-trivial-iff-commutes}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
-$A,B:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
-$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$,
-$\iota_F(-)$, $\mathrm{id}_F$, and $\equiv_{\mathrm{aff}}$ be supplied by
-the same canonical exit action. Define
+$T,U:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine product, let $\mathrm{id}_F$ be the concrete identity, let
+$\iota_F(-)$ be the inverse row, and let $\equiv_{\mathrm{aff}}$ be the
+affine classifier supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. Define
 $$
-\mathsf{Comm}_F(A,B):=
-((A\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}\iota_F(A))
-\circ_{\mathrm{aff}}\iota_F(B).
+\mathsf{Comm}_F(T,U):=(T\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}
+(\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U)).
 $$
 Then the concrete affine commutator is classifier-trivial exactly when the
 two affine factors commute:
 $$
-\mathsf{Comm}_F(A,B)\equiv_{\mathrm{aff}}\mathrm{id}_F
+\mathsf{Comm}_F(T,U)\equiv_{\mathrm{aff}}\mathrm{id}_F
 \Longleftrightarrow
-A\circ_{\mathrm{aff}}B\equiv_{\mathrm{aff}}B\circ_{\mathrm{aff}}A.
+T\circ_{\mathrm{aff}}U\equiv_{\mathrm{aff}}U\circ_{\mathrm{aff}}T.
 $$
 \end{theorem}
 \begin{proof}
@@ -673,33 +674,47 @@ Fix Theorem~\ref{thm:ratup-fieldup-canonical-exit-action-inverse-package}.
 It supplies the same affine composition, inverse operation, identity row, and
 classifier used in the displayed statement.
 
-Read the affine group rows through
-\autoref{thm:field-affine-automorphism-group-certificate}. These rows provide
-associativity, the identity laws, operation congruence, and the inverse laws
-for certified affine automorphisms over the field object.
+Read those rows as the concrete affine group package certified by
+\autoref{thm:field-affine-automorphism-group-certificate}. The package gives
+the same carrier, product, identity, inverse operation, classifier,
+associativity, identity laws, inverse laws, and affine operation congruence.
 
-Instantiate \autoref{thm:group-commutator-trivial-iff-commutes} on that
-concrete affine group package. Its abstract expression
-$\mathsf{mul}(\mathsf{mul}(A,B),
-\mathsf{mul}(\mathsf{inv}(A),\mathsf{inv}(B)))$ becomes the affine product of
-$A$, $B$, $\iota_F(A)$, and $\iota_F(B)$ under the canonical exit action.
+Instantiate
+\autoref{thm:group-commutator-trivial-iff-commutes} in this concrete group
+with $a=T$ and $b=U$. The checked theorem gives the equivalence between
+triviality of
+$\mathsf{mul}(\mathsf{mul}(T,U),
+\mathsf{mul}(\mathsf{inv}(T),\mathsf{inv}(U)))$ and commutation of
+$\mathsf{mul}(T,U)$ with $\mathsf{mul}(U,T)$.
 
-The displayed definition of $\mathsf{Comm}_F(A,B)$ uses the same four factors
-with the left-associated bracketing. Associativity and operation congruence
-transport the generic commutator comparison to this concrete bracketing, while
-the identity row identifies the trivial element with $\mathrm{id}_F$.
+It remains to match the displayed affine notation with this group notation.
+The operation, identity, inverse row, and classifier are the same fields of
+the fixed affine package. Affine operation congruence transports classifier
+equalities through the two product slots, and affine associativity matches
+the displayed bracketing of $\mathsf{Comm}_F(T,U)$ with the bracketing used by
+the $\GroupUp$ theorem.
+
+Reading the group equivalence through this notation gives the forward
+direction from a trivial displayed $\mathsf{Comm}_F(T,U)$ to affine
+commutation.
+
+Reading the same equivalence in reverse gives the converse: affine
+commutation transports through the classifier-congruence rows to the displayed
+commutator relation
+$\mathsf{Comm}_F(T,U)\equiv_{\mathrm{aff}}\mathrm{id}_F$.
 \end{proof}
 
 Per-object template: traditional target affine commutator criterion; BEDC
-source $\mathsf{RatUpFieldSource}_F$ plus $\mathsf{AffAut}_F$; carrier
-certified affine automorphisms; classifier $\equiv_{\mathrm{aff}}$; stability
-obligations affine group laws and inverse-product reversal; ledger affine
-factors and inverse witnesses; core theorem list
+source concrete $\FieldUp(\RatUp)$ exit rows plus $\GroupUp$; carrier
+$\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$; stability obligations
+affine group laws, inverse-product reversal, operation congruence, and
+identity laws; ledger the two affine factors and inverse witnesses; core
+theorem list the canonical exit action and inverse package
 \autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
 \autoref{thm:field-affine-automorphism-group-certificate}, and
 \autoref{thm:group-commutator-trivial-iff-commutes}; exactness predicate
-commutator-trivial iff commutation; standard bridge ordinary affine
-automorphism commutators; status $\mathsf{ProofTarget}$.
+trivial affine commutator iff affine commutation; standard bridge ordinary
+affine automorphism commutator criterion; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp affine commutator centralizer exactness]
 \label{thm:ratup-fieldup-affine-commutator-centralizer-exactness}
