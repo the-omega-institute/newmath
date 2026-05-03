@@ -136,6 +136,15 @@ theorem NatUnaryStrictPrefix_trans_composite_tail {h k l : BHist} :
                                   leftNonempty (append_eq_empty_iff.mp appendedEmpty).left)
                                 (And.intro joined.right joined.left)))
 
+theorem NatUnaryStrictPrefix_cont_hsame_transport {h h' k k' tail : BHist} :
+    UnaryHistory tail -> (tail = BHist.Empty -> False) -> Cont h tail k ->
+      hsame h h' -> hsame k k' -> NatUnaryStrictPrefix h' k' := by
+  intro tailUnary tailNonempty tailCont sameH sameK
+  exact Exists.intro tail
+    (And.intro tailUnary
+      (And.intro tailNonempty
+        (cont_hsame_transport sameH (hsame_refl tail) sameK tailCont)))
+
 theorem NatUnaryPrefix_total {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       (exists tail : BHist, UnaryHistory tail /\ Cont h tail k) \/
