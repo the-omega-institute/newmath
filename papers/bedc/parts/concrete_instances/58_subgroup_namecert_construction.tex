@@ -67,6 +67,86 @@ and ledger gives the advertised $\SubgroupUp$ certificate target.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_mul\_closed\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizer\_semanticNameCert}
 
+\begin{definition}[Two-centralizer intersection carrier]
+\label{def:subgroup-centralizer-intersection-carrier}
+For two fixed histories $a,b:\mathsf{BHist}$ in the same BEDC
+history-level $\GroupUp$ source, let $Z_a$ and $Z_b$ be the centralizer
+carriers of \autoref{def:group-centralizer-carrier}. Define the
+two-centralizer carrier by
+$$
+Z_{a,b}(x) :\Longleftrightarrow Z_a(x)\land Z_b(x).
+$$
+Its $\SubgroupUp$ classifier is the restriction of $\hsame$ to this
+carrier: two carried histories represent the same element exactly when their
+ambient histories satisfy $x\hsame y$.
+\end{definition}
+
+\begin{theorem}[Centralizer intersection SubgroupUp certificate]
+\label{thm:subgroup-centralizer-intersection-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, left and right unit laws, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-certificate-target}, and for fixed histories
+$a,b:\mathsf{BHist}$, the carrier $Z_{a,b}$ of
+\autoref{def:subgroup-centralizer-intersection-carrier} has the following
+$\SubgroupUp$ certificate rows:
+\begin{enumerate}
+\item $Z_{a,b}(e)$.
+\item If $Z_{a,b}(x)$ and $Z_{a,b}(y)$, then
+$Z_{a,b}(\mathsf{mul}(x,y))$.
+\item If $Z_{a,b}(x)$, then $Z_{a,b}(\mathsf{inv}(x))$.
+\item If $Z_{a,b}(x)$ and $x\hsame y$, then $Z_{a,b}(y)$.
+\item For every $x:\mathsf{BHist}$,
+$$
+Z_{a,b}(x) \Longleftrightarrow
+\mathsf{comm}(x,a)\hsame e\land \mathsf{comm}(x,b)\hsame e.
+$$
+\end{enumerate}
+Thus the simultaneous centralizer of $a$ and $b$ is a reusable
+$\SubgroupUp$ certificate target over the ambient history classifier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:subgroup-centralizer-certificate-target} twice, once to
+the fixed history $a$ and once to the fixed history $b$. The two identity
+rows give $Z_a(e)$ and $Z_b(e)$, which package directly as $Z_{a,b}(e)$ by
+\autoref{def:subgroup-centralizer-intersection-carrier}.
+
+For product closure, unpack $Z_{a,b}(x)$ and $Z_{a,b}(y)$ into their two
+centralizer components. The $a$-row gives
+$Z_a(\mathsf{mul}(x,y))$, and the $b$-row gives
+$Z_b(\mathsf{mul}(x,y))$; pairing these witnesses proves the displayed
+product row for $Z_{a,b}$.
+
+The inverse row is componentwise in the same sense. From $Z_a(x)$ obtain
+$Z_a(\mathsf{inv}(x))$, and from $Z_b(x)$ obtain
+$Z_b(\mathsf{inv}(x))$; the pair is exactly
+$Z_{a,b}(\mathsf{inv}(x))$.
+
+Carrier transport also separates into the two coordinates. Given
+$Z_{a,b}(x)$ and $x\hsame y$, use the centralizer transport row for $a$ to
+move $Z_a(x)$ to $Z_a(y)$, and use the centralizer transport row for $b$ to
+move $Z_b(x)$ to $Z_b(y)$. The restricted $\hsame$ classifier on
+$Z_{a,b}$ is therefore stable under ambient history equality.
+
+Finally, unfold the carrier definition. The commutator exactness row for
+$a$ rewrites $Z_a(x)$ as $\mathsf{comm}(x,a)\hsame e$, and the corresponding
+row for $b$ rewrites $Z_b(x)$ as $\mathsf{comm}(x,b)\hsame e$. Combining the
+two equivalences gives the advertised simultaneous commutator criterion.
+\end{proof}
+
+Per-object template: traditional target two-centralizer subgroup certificate;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
+restricted $\hsame$; stability identity, product, inverse, and carrier
+transport; ledger fixed histories $a,b$, two commutator witnesses, and
+ambient operation witnesses; core theorem list
+\autoref{thm:subgroup-centralizer-certificate-target} and
+\autoref{thm:subgroup-centralizer-intersection-certificate}; exactness
+predicate simultaneous triviality of $\mathsf{comm}(x,a)$ and
+$\mathsf{comm}(x,b)$; downstream consumer
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection}; standard
+bridge center as an intersection of centralizers; status
+$\mathsf{ProofTarget}$.
+
 \begin{definition}[RatUp FieldUp affine center subgroup carrier]
 \label{def:ratup-fieldup-affine-center-subgroup-carrier}
 For the concrete $\FieldUp(\RatUp)$ affine exit package of
