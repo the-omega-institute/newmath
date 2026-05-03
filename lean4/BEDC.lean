@@ -163,10 +163,10 @@ import BEDC.Derived.GroupUp.CentralizerNormalizer
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
+import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
-import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
