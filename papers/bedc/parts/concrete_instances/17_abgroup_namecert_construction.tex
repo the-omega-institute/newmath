@@ -268,53 +268,52 @@ which gives the inner-conjugation fixed-point clause.
 
 \begin{theorem}[AbGroup centralizer normalizer collapse]
 \label{thm:abgroup-centralizer-normalizer-collapse}
-For BEDC histories equipped with the same $\GroupUp$ associativity, unit,
-multiplication-congruence, and two-sided inverse laws as in
-\autoref{thm:group-centralizer-normalizer-subgroup}, plus $\AbGroupUp$
-commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$ be the
-centralizer carrier of \autoref{def:group-centralizer-carrier}, and let
-$N_a$ be the centralizer normalizer carrier of
+For BEDC histories equipped with the $\GroupUp$ associativity, unit,
+multiplication-congruence, inverse-congruence, and two-sided inverse laws, plus
+$\AbGroupUp$ commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$,
+$N_a$, and $\mathsf{Conj}_s(x)$ be the carriers/action from
+\autoref{def:group-centralizer-carrier} and
 \autoref{def:group-centralizer-normalizer-carrier}. Then every
-$s:\mathsf{BHist}$ satisfies
-$$
-N_a(s).
-$$
-The ten-field fit is: traditional target abelian groups normalize every
-centralizer; BEDC source $\AbGroupUp$ over $\mathsf{BHist}$ plus the
-$\GroupUp$ normalizer carrier; carrier $N_a$; classifier $\hsame$; stability
-from centralizer totality and the two conjugation collapse theorems; ledger
-fixed element, conjugating element, inverse witness, and
-centralizer-preservation proof; core theorem list
+$s:\mathsf{BHist}$ satisfies:
+\begin{enumerate}
+\item $N_a(s)$.
+\item For every $x:\mathsf{BHist}$ with $Z_a(x)$,
+$Z_a(\mathsf{Conj}_s(x))$.
+\item For every $x:\mathsf{BHist}$ with $Z_a(x)$,
+$\hsame(\mathsf{Conj}_s(x),x)$.
+\end{enumerate}
+The ten-field fit is: traditional target abelian groups have total centralizer
+normalizers acting trivially; BEDC source $\AbGroupUp$ plus $\GroupUp$
+normalizer carrier; carrier $N_a$; classifier $\hsame$; stability from total
+centralizer, normalizer subgroup inclusion, and abelian conjugation collapse;
+ledger conjugating element and inverse witness; core theorem list
 \autoref{thm:abgroup-centralizer-commutator-collapse},
-\autoref{thm:abgroup-conjugation-collapse},
-\autoref{thm:abgroup-inverse-conjugation-collapse}, and
-\autoref{thm:group-centralizer-normalizer-subgroup}; exactness predicate total
-normalizer iff total centralizer under commutativity; standard bridge ordinary
-abelian centralizer normalizer; status $\mathsf{ProofTarget}$.
+\autoref{thm:group-centralizer-normalizer-subgroup}, and
+\autoref{thm:group-centralizer-normalizer-conjugation-action}; exactness
+trivial normalizer action; standard bridge ordinary abelian centralizer
+normalizer; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Unfold the carrier $N_a(s)$ from
-\autoref{def:group-centralizer-normalizer-carrier}. It remains to prove the
-two centralizer-preservation clauses, one for conjugation by $s$ and one for
-conjugation by $\mathsf{inv}(s)$.
+The first row of
+\autoref{thm:abgroup-centralizer-commutator-collapse} gives totality of
+$Z_a$: every history is a centralizer element for the fixed $a$. Applying this
+to the conjugating element gives $Z_a(s)$.
 
-For the forward clause, take an arbitrary $x:\mathsf{BHist}$ with $Z_a(x)$.
-The input witness is stronger than needed: by
-\autoref{thm:abgroup-centralizer-commutator-collapse}, every history lies in
-$Z_a$. Apply that theorem to
-$y=\mathsf{Conj}_s(x)$ and obtain $Z_a(\mathsf{Conj}_s(x))$.
+The final inclusion row of
+\autoref{thm:group-centralizer-normalizer-subgroup} sends this centralizer
+witness to $N_a(s)$. Equivalently, unfolding
+\autoref{def:group-centralizer-normalizer-carrier}, totality applied to
+$\mathsf{Conj}_s(x)$ and to
+$\mathsf{Conj}_{\mathsf{inv}(s)}(x)$ supplies the two preservation clauses.
 
-For the inverse-conjugation clause, take the same kind of arbitrary
-$x:\mathsf{BHist}$ with $Z_a(x)$. Apply
-\autoref{thm:abgroup-centralizer-commutator-collapse} to
-$y=\mathsf{Conj}_{\mathsf{inv}(s)}(x)$ and obtain
-$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+Now fix $x:\mathsf{BHist}$ with $Z_a(x)$. The carrier row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, read with the
+just-built $N_a(s)$, gives $Z_a(\mathsf{Conj}_s(x))$.
 
-The conjugation-collapse theorems
-\autoref{thm:abgroup-conjugation-collapse} and
-\autoref{thm:abgroup-inverse-conjugation-collapse} explain why these two
-preservation clauses match the ordinary abelian statement: both conjugation
-words are internally fixed-point words under $\hsame$.
+Finally apply \autoref{thm:abgroup-conjugation-collapse} with conjugating
+element $s$ and middle element $x$. The abelian conjugation word
+$\mathsf{Conj}_s(x)$ collapses to $x$ under $\hsame$, so the normalizer action
+is pointwise trivial on the centralizer carrier.
 \end{proof}
 
 \begin{theorem}[AbGroup inverse preserves multiplication order]
