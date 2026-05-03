@@ -137,4 +137,39 @@ theorem MonadAdjunctionEndomorphism_right_triangle_result_empty_suffix_empty
   cases outEmpty
   exact (cont_empty_result_inversion rightSuffix).right
 
+theorem MonadAdjunctionEndomorphism_unit_counit_bridge_empty_iff
+    {p a unit counit left right bridge : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      (Cont unit bridge counit ↔ hsame bridge BHist.Empty) := by
+  intro carrier
+  constructor
+  · intro bridgeCont
+    exact MonadAdjunctionEndomorphism_middle_between_unit_counit_empty carrier bridgeCont
+  · intro bridgeEmpty
+    have componentEmpty :=
+      MonadAdjunctionEndomorphism_unit_counit_triangle_empty carrier
+    have unitEmpty : hsame unit BHist.Empty := componentEmpty.left
+    have counitEmpty : hsame counit BHist.Empty := componentEmpty.right.left
+    cases unitEmpty
+    cases bridgeEmpty
+    cases counitEmpty
+    exact cont_right_unit BHist.Empty
+
+theorem MonadAdjunctionEndomorphism_left_triangle_suffix_output_empty_iff
+    {p a unit counit left right suffix out : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont left suffix out -> (hsame out BHist.Empty ↔ hsame suffix BHist.Empty) := by
+  intro carrier leftSuffix
+  constructor
+  · intro outEmpty
+    exact
+      MonadAdjunctionEndomorphism_left_triangle_result_empty_suffix_empty
+        carrier leftSuffix outEmpty
+  · intro suffixEmpty
+    have leftEmpty : hsame left BHist.Empty :=
+      (MonadAdjunctionEndomorphism_triangle_results_empty carrier).left
+    exact
+      cont_respects_hsame leftEmpty suffixEmpty leftSuffix
+        (cont_right_unit BHist.Empty)
+
 end BEDC.Derived.MonadUp

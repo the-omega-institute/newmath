@@ -206,6 +206,7 @@ $Z_a$. Thus $Q_{Z_a\leq N_a}$ is a classifier predicate over concrete BEDC
 histories, not a host quotient object.
 \end{definition}
 \leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientClassifier}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier}
 
 \begin{theorem}[Centralizer normalizer quotient classifier laws]
 \label{thm:centralizer-normalizer-quotient-classifier-laws}
@@ -264,6 +265,7 @@ Together with product closure of $N_a$ from
 \autoref{thm:group-centralizer-normalizer-subgroup}, this gives
 $Q_{Z_a\leq N_a}(\mathsf{mul}(x,u),\mathsf{mul}(y,v))$.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_refl\_from\_empty\_unit}
 
 \begin{definition}[Centralizer normalizer quotient-kernel relation]
 \label{def:subgroup-centralizer-normalizer-quotient-kernel-relation}
@@ -323,6 +325,87 @@ normal-subgroup tower $Z_a\leq N_a$; BEDC source $\GroupUp$ plus the
 $\SubgroupUp$ tower; carrier $N_a$; classifier $Q_{Z_a\triangleleft N_a}$;
 exactness identity fiber equals lower carrier; downstream object
 $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Centralizer normalizer quotient-kernel transitivity]
+\label{thm:subgroup-centralizer-quotient-kernel-transitivity}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the relation
+$Q_{Z_a\triangleleft N_a}$ of
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation} is
+transitive:
+$$
+Q_{Z_a\triangleleft N_a}(x,y)\land Q_{Z_a\triangleleft N_a}(y,z)
+\Longrightarrow Q_{Z_a\triangleleft N_a}(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Expand the two hypotheses. Their endpoint rows provide the required
+$N_a(x)$ and $N_a(z)$ clauses. Their kernel rows give
+$$
+Z_a(\mathsf{mul}(\mathsf{inv}(x),y))
+\qquad\text{and}\qquad
+Z_a(\mathsf{mul}(\mathsf{inv}(y),z)).
+$$
+Product closure for $Z_a$ gives a centralizer witness for the product of these
+two relative kernel words. Associativity rewrites that product to
+$$
+\mathsf{mul}(\mathsf{inv}(x),
+  \mathsf{mul}(y,\mathsf{mul}(\mathsf{inv}(y),z))),
+$$
+and the right inverse law for $y$ followed by the left unit law cancels the
+middle $y,\mathsf{inv}(y)$ pair. The carrier transport row for $Z_a$ moves the
+product witness to
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),z))$, which is exactly the kernel clause for
+$Q_{Z_a\triangleleft N_a}(x,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_trans\_from\_empty\_unit}
+
+\begin{theorem}[Centralizer normalizer quotient-kernel right identity fiber]
+\label{thm:subgroup-centralizer-quotient-kernel-empty-right-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\triangleleft N_a}(x,\mathsf{e})\Longleftrightarrow Z_a(x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the quotient-kernel relation. The forward direction starts from the
+kernel witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),\mathsf{e}))$. The right unit law identifies
+this word with $\mathsf{inv}(x)$, inverse closure gives
+$Z_a(\mathsf{inv}(\mathsf{inv}(x)))$, and inverse involution transports it to
+$Z_a(x)$. Conversely, from $Z_a(x)$ the tower gives both normalizer endpoints,
+inverse closure gives $Z_a(\mathsf{inv}(x))$, and the right unit law transports
+that witness to the displayed kernel word.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_right\_fiber\_iff}
+
+\begin{theorem}[Centralizer normalizer quotient-kernel symmetry]
+\label{thm:subgroup-centralizer-quotient-kernel-symm}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the
+quotient-kernel relation is symmetric:
+$$
+Q_{Z_a\triangleleft N_a}(x,y)\Longrightarrow
+Q_{Z_a\triangleleft N_a}(y,x).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint clauses swap directly. For the kernel clause, invert the witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$ using the inverse-closure row of
+$Z_a$. The inverse-product-reversal law identifies the resulting word with
+$\mathsf{mul}(\mathsf{inv}(y),\mathsf{inv}(\mathsf{inv}(x)))$, and inverse
+involution followed by carrier transport gives the displayed
+$Z_a(\mathsf{mul}(\mathsf{inv}(y),x))$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_from\_empty\_unit}
 
 \begin{theorem}[Centralizer normalizer quotient-kernel classifier congruence]
 \label{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}

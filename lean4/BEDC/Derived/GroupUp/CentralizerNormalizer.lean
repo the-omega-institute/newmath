@@ -5,6 +5,19 @@ namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
 
+protected theorem group_conjugation_empty_action_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {x : BHist} :
+    hsame (mul (mul BHist.Empty x) (inv BHist.Empty)) x := by
+  have invEmpty : hsame (inv BHist.Empty) BHist.Empty := by
+    exact hsame_trans (hsame_symm (leftId (inv BHist.Empty))) (rightInv BHist.Empty)
+  exact hsame_trans (mulCongr (leftId x) invEmpty) (rightId x)
+
 protected theorem group_normalizer_conjugation_action_composition_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
