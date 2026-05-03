@@ -259,7 +259,6 @@ These cases exhaust the generated $\mathsf{BMark}$ selector interface, so every
 selected endpoint pair is classified internally by $R_D^u$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldRatBracketingEndpointSelector\_denominator\_classifier}
-\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_denominator\_classifier\_coverage}
 
 \begin{theorem}[RatUp FieldUp bracketing selector Rat carrier coverage]
 \label{thm:ratup-fieldup-bracketing-selector-rat-carrier-coverage}
@@ -301,11 +300,105 @@ classifier for the selected pair.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_selector\_rat\_classifier\_coverage}
 
+\begin{theorem}[RatUp FieldUp bracketing selector independence package]
+\label{thm:ratup-fieldup-bracketing-selector-independence-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all selectors
+$s,t:\mathsf{BMark}$ and every context $r:\mathsf{BHist}$, setting
+$a:=E_s(h,k,\ell)$ and $b:=E_t(h,k,\ell)$ gives the following package:
+\begin{enumerate}
+  \item
+  $$
+  a\hsame b;
+  $$
+  \item
+  $$
+  R_D^u(a,b);
+  $$
+  \item
+  $$
+  \mathsf{RatHistoryClassifier}(a,b);
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,a))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(a,r))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,a));
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(a,r)).
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,b))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(b,r))\to\bot;
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,b));
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(b,r)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:ratup-fieldup-bracketing-endpoint-selector-same} to the
+selectors $s,t:\mathsf{BMark}$. This gives the endpoint sameness row
+$E_s(h,k,\ell)\hsame E_t(h,k,\ell)$.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-selector-denominator-classifier-coverage}
+and \autoref{thm:ratup-fieldup-bracketing-selector-rat-classifier-coverage} to
+the same carrier witnesses and the same
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. These give the denominator
+classifier row $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$ and the Rat classifier row
+$\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$.
+
+Finally apply \autoref{thm:ratup-fieldup-selector-contextual-nonzero-package} to
+the selector $s$ and the context $r:\mathsf{BHist}$. Its four rows give the two
+one-sided singleton-carrier exclusions and the two corresponding
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses for $E_s(h,k,\ell)$.
+
+Apply the same theorem again to the selector $t$ and the same context $r$. The
+resulting four rows give the matching singleton-carrier exclusions and
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses for $E_t(h,k,\ell)$. Replacing
+the temporary names $a$ and $b$ by their selector definitions assembles the
+displayed package.
+\end{proof}
+
+Per-object template: traditional target bracketing-selector independence inside
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
+$\mathsf{RatUp}$, the denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$,
+and selectors $E_s,E_t$; carrier $C_D^u$ and $\mathsf{RatHistoryCarrier}$;
+classifier $R_D^u$ and $\mathsf{RatHistoryClassifier}$; stability obligations
+selector sameness, selector denominator coverage, selector Rat coverage, and
+contextual nonzero package rows for both selected endpoints on both context
+sides; ledger selector choices plus both context sides; exactness predicate
+selector-independent row coverage; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 Per-object template: traditional target selector-indexed bracketing classifier
 coverage for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
 $\mathsf{BMark}$, $\mu_D^u$, $R_D^u$, and $\mathsf{ThreeSupp}_D^u$; carrier
-$C_D^u$; classifier $R_D^u$; stability obligations reflexivity, symmetry, and
-bracketing-complete endpoint coverage; ledger the selected endpoint pair
-$(s,t)$; exactness predicate total denominator-classifier coverage over
-generated selector pairs; standard bridge deferred; status
-$\mathsf{ProofTarget}$.
+$C_D^u$ and $\mathsf{RatHistoryCarrier}$; classifier block records both the
+denominator classifier $R_D^u$ and the Rat classifier
+$\mathsf{RatHistoryClassifier}$; stability obligations reflexivity, symmetry,
+bracketing-complete endpoint coverage, Rat carrier coverage, and selector
+sameness; ledger the selected endpoint pair $(s,t)$; exactness predicate paired
+denominator-classifier and Rat-classifier coverage over generated selector
+pairs; standard bridge deferred; status $\mathsf{ProofTarget}$.
