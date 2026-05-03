@@ -2,11 +2,13 @@ import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.Prefix
 import BEDC.Derived.CategoryUp.ContinuationBoundary
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.CategoryUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Unary
 
 theorem CategoryHomCarrier_cycle_tails_empty {a b f g : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b a g ->
@@ -158,6 +160,27 @@ theorem CategoryHomCarrier_unary_suffix_cycle_tails_empty {q a b f g : BHist} :
   have baseLeft : CategoryHomCarrier a b f :=
     (CategoryHomCarrier_unary_suffix_iff.mp left).right
   exact CategoryHomCarrier_cycle_tails_empty baseLeft right
+
+theorem ContinuationMorphism_unary_suffix_cycle_tails_empty {q a b : BHist}
+    (qCarrier : UnaryHistory q)
+    (left : ContinuationMorphism (append a q) (append b q))
+    (right : ContinuationMorphism b a)
+    (leftTailCarrier : UnaryHistory left.tail) :
+    hsame a b ∧ hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          have baseLeft : Cont a leftTail b := by
+            apply cont_intro
+            have sameSuffix : hsame (append (append a leftTail) q) (append b q) := by
+              exact (append_assoc a leftTail q).trans
+                ((congrArg (append a) (unary_append_comm qCarrier leftTailCarrier).symm).trans
+                  ((append_assoc a q leftTail).symm.trans leftRel.symm))
+            exact hsame_symm (append_right_cancel (k := q) sameSuffix)
+          exact And.intro
+            (cont_mutual_extension_hsame baseLeft rightRel)
+            (cont_mutual_extension_tails_empty baseLeft rightRel)
 
 theorem CategoryHomCarrier_unary_suffix_cycle_identity_carriers {q a b f g : BHist} :
     CategoryHomCarrier (append a q) (append b q) f -> CategoryHomCarrier b a g ->

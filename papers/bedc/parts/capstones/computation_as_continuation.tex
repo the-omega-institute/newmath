@@ -139,6 +139,34 @@ opposite continuation from $b$ to $a$ form mutual extensions, so kernel
 cancellation identifies the base endpoints and empties both tails.
 \end{proof}
 
+\begin{theorem}[Unary-suffix cyclic continuation morphisms have empty tails]
+\label{thm:continuation-morphism-unary-suffix-cycle-tails-empty}
+If a unary suffix $q$ is shared by the source and target of the forward
+continuation morphism, and the displayed forward tail is unary,
+$$
+left:\mathsf{ContinuationMorphism}(\mathsf{append}(a,q),\mathsf{append}(b,q))
+$$
+and
+$$
+right:\mathsf{ContinuationMorphism}(b,a),
+$$
+then the base endpoints are internally the same and both displayed tails are
+empty:
+$$
+\hsame(a,b)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_unary\_suffix\_cycle\_tails\_empty}
+\begin{proof}
+Unpack the suffixed morphism. Unary commutation moves the shared suffix past
+the unary displayed tail, and suffix cancellation exposes a base continuation
+from $a$ to $b$. This base continuation and the opposite continuation from
+$b$ to $a$ form mutual extensions, so kernel cancellation identifies the base
+endpoints and forces both displayed tails to be empty.
+\end{proof}
+
 \begin{theorem}[Zero-headed to one-headed continuation morphisms have no opposite cycle]
 \label{thm:continuation-morphism-e0-e1-cycle-absurd}
 For histories $a,r:\mathsf{BHist}$, no opposite pair can run from
