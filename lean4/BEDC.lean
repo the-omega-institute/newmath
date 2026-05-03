@@ -290,6 +290,7 @@ import BEDC.Derived.CategoryUp.NonemptyTargetCarrierCases
 import BEDC.Derived.CategoryUp.EndpointCycleTailEmptyIff
 import BEDC.Derived.CategoryUp.TailCarrierAlignment
 import BEDC.Derived.CategoryUp.NonemptyTailResultDescent
+import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp

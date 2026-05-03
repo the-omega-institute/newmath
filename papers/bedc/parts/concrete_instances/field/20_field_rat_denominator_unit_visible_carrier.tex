@@ -51,3 +51,30 @@ sameness field. Each carrier field is converted by the one-headed carrier
 characterization above, and the endpoint sameness field is converted by
 constructor injectivity for $\Eone$.
 \end{proof}
+
+\begin{theorem}[Rat denominator unit classifier visible cases iff]
+\label{thm:rat-denom-unit-classifier-visible-cases-iff}
+For histories $h,k:\mathsf{BHist}$, the empty-unit denominator classifier is
+equivalent to either the empty--empty branch or a matched pair of one-headed
+unary denominator tails:
+$$
+\begin{aligned}
+&\mathsf{RatDenomUnitClassifier}(h,k)\\
+&\Longleftrightarrow
+\left(h\hsame\emp\land k\hsame\emp\right)\\
+&\quad{}\lor
+\exists h_t,k_t:\mathsf{BHist}.\;
+h=\Eone(h_t)\land k=\Eone(k_t)\land \mathsf{UnaryHistory}(h_t)\\
+&\qquad{}\land \mathsf{UnaryHistory}(k_t)\land h_t\hsame k_t.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into two carrier witnesses and an endpoint comparison.
+Each carrier is split by the visible carrier equivalence. Mixed empty and
+one-headed endpoints contradict constructor disjointness. The one-headed pair
+branch converts endpoint sameness through $\Eone$ injectivity, and the reverse
+direction rebuilds the two carriers and the classifier comparison from the
+displayed tail data.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_visible\_cases\_iff}

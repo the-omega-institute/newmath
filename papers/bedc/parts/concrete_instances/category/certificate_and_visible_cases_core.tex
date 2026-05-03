@@ -279,6 +279,33 @@ expose the morphism tail and continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_nonempty\_morphism\_source\_cases}
 
+\begin{theorem}[Category one-headed target and morphism source cases iff]
+\label{thm:category-e1-target-e1-morphism-source-cases}
+For $\mathsf{CategoryHomCarrier}(source,\Eone(r),\Eone(k))$, the source is
+classified by the empty-source unit branch or by a visible one-headed source:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(source,\Eone(r),\Eone(k))\\
+&\Longleftrightarrow
+\left(source=\emp\land k\hsame r\land \mathsf{UnaryHistory}(r)\right)\\
+&\quad{}\lor
+\exists a:\mathsf{BHist}.\;
+source=\Eone(a)\land \mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(k)\\
+&\qquad{}\land \mathsf{UnaryHistory}(r)\land \ContR(\Eone(a),k,r).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, invert the one-headed morphism target carrier and
+split the concrete source constructor. The empty branch is the unit-source
+continuation case, the zero-headed branch contradicts unary history, and the
+one-headed branch exposes the source tail and continuation ledger. For the
+reverse direction, the empty branch builds the empty-source hom-carrier, while
+the visible branch rebuilds the one-headed source carrier from the displayed
+unary witnesses and continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_e1\_morphism\_source\_cases\_iff}
+
 \begin{theorem}[Category hom-carrier one-headed endpoint morphism alignment]
 \label{thm:category-hom-carrier-e1-source-e1-target-morphism-alignment}
 For hom-carriers between the same one-headed source and one-headed target,

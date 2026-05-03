@@ -240,6 +240,28 @@ exposed tail equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_visible\_cases}
 
+\begin{theorem}[Rat denominator unit carrier visible cases iff]
+\label{thm:rat-denom-unit-carrier-visible-cases-iff}
+For every history $h:\mathsf{BHist}$, the adjoined empty-unit denominator
+carrier is equivalent to the visible empty branch or a one-headed unary
+denominator tail:
+$$
+\mathsf{RatDenomUnitCarrier}(h)
+\Longleftrightarrow
+\left(
+h\hsame\emp
+\lor
+\exists t:\mathsf{BHist}.\; h=\Eone(t)\land\mathsf{UnaryHistory}(t)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the visible carrier case split above. Conversely, the
+empty branch is the adjoined unit carrier branch, and the one-headed branch is
+rebuilt from the one-headed denominator carrier characterization.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_visible\_cases\_iff}
+
 \begin{theorem}[Rat denominator unit continuation exposes a nonempty Rat endpoint]
 \label{thm:rat-denom-unit-continuation-nonempty-rat-endpoint}
 For histories $h,k,r$, if $h$ and $k$ lie in
