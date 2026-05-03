@@ -155,6 +155,7 @@ import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
+import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContinuation
@@ -166,6 +167,7 @@ import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
+import BEDC.Derived.FieldUp.EmptyUnitConjugationFixedPoint
 import BEDC.Derived.FieldUp.ContinuationCycle
 import BEDC.Derived.FieldUp.RatHistoryClassifierAppendCarrierAbsurd
 import BEDC.Derived.FieldUp.SingletonMulEndpoint
