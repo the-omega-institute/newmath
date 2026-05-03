@@ -316,6 +316,55 @@ $\mathsf{Conj}_s(x)$ collapses to $x$ under $\hsame$, so the normalizer action
 is pointwise trivial on the centralizer carrier.
 \end{proof}
 
+\begin{theorem}[AbGroup centralizer normalizer orbit collapse]
+\label{thm:abgroup-centralizer-normalizer-orbit-collapse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the
+$\GroupUp$ associativity, unit, multiplication-congruence,
+inverse-congruence, and two-sided inverse laws, plus $\AbGroupUp$
+commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$, $N_a$,
+$\mathsf{Conj}_s$, and $\sim_{N_a}$ be the centralizer, normalizer, action,
+and orbit relation from \autoref{def:group-centralizer-carrier},
+\autoref{def:group-centralizer-normalizer-carrier}, and
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For carried
+centralizer histories $x,y:\mathsf{BHist}$ with $Z_a(x)$ and $Z_a(y)$,
+$$
+x\sim_{N_a}y \Longleftrightarrow \hsame(x,y).
+$$
+The ten-field fit is: traditional target abelian normalizer orbits are
+singleton classifier fibers; BEDC source $\AbGroupUp$ plus the $\GroupUp$
+normalizer orbit relation; carrier $Z_a$; classifier $\sim_{N_a}$; stability
+from trivial conjugation action and orbit equivalence; ledger conjugator and
+centralizer endpoint witnesses; core theorem list
+\autoref{thm:abgroup-centralizer-normalizer-collapse},
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, and
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}; exactness
+predicate orbit iff $\hsame$; standard bridge ordinary abelian group
+normalizer-orbit collapse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack an orbit witness $s$ for
+$x\sim_{N_a}y$. The witness provides $N_a(s)$, the endpoint carriers
+$Z_a(x)$ and $Z_a(y)$, and the comparison
+$\hsame(\mathsf{Conj}_s(x),y)$.
+
+Apply \autoref{thm:abgroup-centralizer-normalizer-collapse} to the same
+conjugator $s$ and centralizer endpoint $x$. Its trivial-action row gives
+$\hsame(\mathsf{Conj}_s(x),x)$. Symmetry and transitivity of $\hsame$ combine
+this with the orbit endpoint comparison, yielding $\hsame(x,y)$.
+
+For the reverse direction, assume $\hsame(x,y)$. The collapse theorem gives
+$N_a(e)$ for the identity conjugator. The identity-action row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$\hsame(\mathsf{Conj}_e(x),x)$ on the carried endpoint $Z_a(x)$.
+
+Transitivity of $\hsame$ composes the identity-action comparison with the
+assumed $\hsame(x,y)$. Together with $N_a(e)$ and the endpoint witnesses
+$Z_a(x)$ and $Z_a(y)$, this packages the orbit witness required by
+\autoref{def:group-centralizer-normalizer-orbit-relation}. The equivalence
+context of \autoref{thm:group-centralizer-normalizer-orbit-equivalence}
+records that the resulting classifier is stable on the centralizer carrier.
+\end{proof}
+
 \begin{theorem}[AbGroup inverse preserves multiplication order]
 \label{thm:abgroup-inverse-mul}
 For BEDC histories equipped with group laws, commutative multiplication, and
