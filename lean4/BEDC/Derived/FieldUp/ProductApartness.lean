@@ -288,6 +288,22 @@ theorem FieldApartZero_nested_continuation_factor_split_iff {l h r u v q w : BHi
   · intro factorApart
     exact Iff.mpr resultIff (Iff.mpr FieldApartZero_append_split_iff factorApart)
 
+theorem FieldApartZero_nested_continuation_empty_context_iff {l h r u v : BHist} :
+    Cont l h u -> Cont u r v -> hsame l BHist.Empty -> hsame r BHist.Empty ->
+      (FieldApartZero v <-> FieldApartZero h) := by
+  intro leftCont rightCont leftEmpty rightEmpty
+  cases leftCont
+  cases rightCont
+  have contextIff := FieldApartZero_empty_context_iff (l := l) (h := h) (r := r)
+    leftEmpty rightEmpty
+  constructor
+  · intro nestedApart
+    exact Iff.mp contextIff
+      (FieldApartZero_empty_hsame_transport (append_assoc l h r) nestedApart)
+  · intro coreApart
+    exact FieldApartZero_empty_hsame_transport (hsame_symm (append_assoc l h r))
+      (Iff.mpr contextIff coreApart)
+
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

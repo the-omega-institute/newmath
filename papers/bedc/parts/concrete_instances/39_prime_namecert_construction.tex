@@ -27,6 +27,18 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{lemma}[Empty left unary multiplication has empty result]
+\label{lem:natmul-empty-left-result-empty}
+If \(\mathsf{NatMul}(\emp,q,n)\), then \(n\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Induct on the concrete multiplication witness. The zero constructor is
+immediate. In the successor constructor, the induction hypothesis identifies
+the previous product with \(\emp\), and the final continuation is therefore an
+empty-left continuation whose result is \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_left\_result\_empty}
+
 \begin{theorem}[Successor multiplication with empty result has empty left factor]
 \label{thm:natmul-succ-result-empty-left-empty}
 If \(\mathsf{NatMul}(d,\Eone(q),n)\) and \(n\hsame\emp\), then \(d\hsame\emp\).
@@ -139,6 +151,17 @@ For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d,
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatDivides}
 
+\begin{lemma}[Empty left divisibility has empty result]
+\label{lem:natdivides-empty-left-result-empty}
+If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness for divisibility. Its multiplication field is a
+witness of \(\mathsf{NatMul}(\emp,q,n)\), so empty-left multiplication
+exactness identifies the result \(n\) with \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_result\_empty}
+
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
 For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
@@ -185,6 +208,22 @@ A unary history \(p\) is prime, written \(\mathsf{NatPrime}(p)\), when:
 For \(p = 2\), the only divisors are the unit and \(p\) itself by \autoref{def:nat-divides} and the case analysis on the quotient \(q\). The same case analysis applies to \(p = 3\), with the additional sub-case ruling out \(q = 2\) by the failure of \(\mathsf{NatMul}(2, 2, 3)\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_first\_pair}
+
+\begin{lemma}[First prime multiplied by the unit exponent]
+\label{lem:nat-mul-first-prime-unit-result}
+The concrete unary multiplication witness for the first prime and the unit
+exponent returns the first prime:
+$$
+\mathsf{NatMul}(\Eone(\Eone(\emp)),\Eone(\emp),\Eone(\Eone(\emp))).
+$$
+\end{lemma}
+\begin{proof}
+Use the first-prime witness for \(\Eone(\Eone(\emp))\). The zero
+multiplication constructor gives the empty predecessor product, and the
+successor multiplication constructor appends the first prime once using the
+left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_first\_prime\_unit\_result}
 
 \begin{theorem}[Prime successor multiplication cannot have empty result]
 \label{thm:natprime-natmul-succ-result-not-empty}
