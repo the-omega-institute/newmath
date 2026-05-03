@@ -664,6 +664,41 @@ $\FieldUp(\RatUp)$ exit object. Therefore the rows supplied by
 the concrete exit object for $\mathsf{RatUpFieldSource}_F$.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp exit object operation-table lock]
+\label{thm:ratup-fieldup-exit-object-operation-table-lock}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete exit
+object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}. The same
+$\mathsf{BHist}$ row package simultaneously satisfies
+$$
+\mathsf{RatUpFieldExitObject}_F(\mathcal E_F),
+$$
+the concrete operation-table coverage of
+\autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage}, and
+the selector-independent final boundary row of
+\autoref{thm:ratup-fieldup-concrete-exit-selector-independent-final-boundary}.
+Equivalently, $\mathcal E_F$ is a completed concrete exit object whose carrier,
+classifier, denominator, contextual, affine, inverse, nonzero, and final
+boundary rows are all borne by the one concrete $\mathsf{BHist}$ package.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-concrete-exit-object-complete}. This gives
+$\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$ for the paper package
+determined by Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+Apply
+\autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage}. It
+identifies the carrier, classifier, denominator tuple, contextual action,
+context-pair monoid, affine row source, inverse rows, nonzero rows, and
+exit-noncollapse rows as rows of the same concrete $\mathsf{BHist}$ package.
+
+Finally apply
+\autoref{thm:ratup-fieldup-concrete-exit-selector-independent-final-boundary}.
+This supplies the selector-independent final boundary row for that concrete
+exit object. Conjoining these three cited results yields a single completed
+$\FieldUp(\RatUp)$ exit object that carries the operation table and the
+selector-independent boundary simultaneously.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp algebra hierarchy selector-independent exit]
 \label{thm:ratup-fieldup-algebra-hierarchy-selector-independent-exit}
 For $\mathsf{RatUpFieldSource}_F$, the concrete denominator tuple
