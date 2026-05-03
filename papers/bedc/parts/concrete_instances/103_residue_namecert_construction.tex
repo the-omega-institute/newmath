@@ -69,6 +69,24 @@ continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_residue\_suffix\_closure}
 
+\begin{theorem}[Residue pole data suffix closure with empty function endpoints]
+\label{thm:residue-pole-data-suffix-closure-empty-function-endpoints}
+If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds, $q$ is unary,
+$\Cont(f,q,f_q)$, and $f_q\hsame\emp$, then there is a residue history
+$\rho_q$ such that $\mathsf{ResiduePoleData}(f_q,z_0,r,p,g,I,\rho_q)$,
+$\Cont(\rho,q,\rho_q)$, and
+$$
+I\hsame\emp\land \rho_q\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply suffix closure to obtain the transported residue witness $\rho_q$ and
+the closed residue data over $f_q$. The empty-function endpoint theorem then
+applies to that closed data and $f_q\hsame\emp$, identifying both the integral
+and the transported residue with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_suffix\_closure\_empty\_function\_endpoints}
+
 \begin{theorem}[Residue pole data empty suffix reflects endpoints]
 \label{thm:residue-pole-data-empty-suffix-reflects-endpoints}
 If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds, $\Cont(f,q,f_q)$,

@@ -131,6 +131,26 @@ theorem ResiduePoleData_residue_suffix_closure
                                     (And.intro productCarrier integralResidueq))))
                               (And.intro residueSuffix integralResidueq))
 
+theorem ResiduePoleData_suffix_closure_empty_function_endpoints
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q -> Cont f q fq ->
+      hsame fq BHist.Empty ->
+        exists residueq : BHist,
+          ResiduePoleData fq center radius pole gap integral residueq ∧
+            Cont residue q residueq ∧ hsame integral BHist.Empty ∧
+              hsame residueq BHist.Empty := by
+  intro data suffixCarrier functionSuffix functionEmpty
+  have closed :=
+    ResiduePoleData_residue_suffix_closure data suffixCarrier functionSuffix
+  cases closed with
+  | intro residueq closedData =>
+      have endpoints :=
+        ResiduePoleData_empty_function_endpoints closedData.left functionEmpty
+      exact Exists.intro residueq
+        (And.intro closedData.left
+          (And.intro closedData.right.left
+            (And.intro endpoints.left endpoints.right)))
+
 theorem ResiduePoleData_empty_suffix_reflects_endpoints
     {f center radius pole gap integral residue q fq : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> Cont f q fq ->

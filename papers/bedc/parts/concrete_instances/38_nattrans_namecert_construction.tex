@@ -657,6 +657,25 @@ morphism determinacy compares both legs with the displayed component.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixIdentity\_identity\_component\_square\_public\_readback}
 
+\begin{theorem}[NatTrans prefix component empty component semantic name certificate]
+\label{thm:nattrans-prefix-component-carrier-empty-component-semantic-namecert}
+For fixed histories $p,q,a$, any empty component witness
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)$ licenses the component
+predicate
+$\eta\mapsto\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ as a
+semantic naming certificate with source, pattern, and ledger equal to that
+predicate and classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The supplied empty component is the carrier witness. The classifier rows are
+the reflexive, symmetric, and transitive laws for $\hsame$. Carrier transport
+keeps the fixed prefix and object witnesses and transports the underlying
+category hom-carrier along the displayed component-history sameness. Since
+source, pattern, and ledger are the same predicate, the soundness rows are
+direct projections.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_component\_semanticNameCert}
+
 \begin{theorem}[NatTrans prefix component identity semantic name certificate]
 \label{thm:nattrans-prefix-component-identity-semantic-namecert}
 For unary histories $p,a$, the identity prefix-component predicate
