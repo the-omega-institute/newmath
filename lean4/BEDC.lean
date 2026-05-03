@@ -290,6 +290,7 @@ import BEDC.Derived.FieldUp.EmptyContextCancel
 import BEDC.Derived.FieldUp.SingletonContinuationLeftEndpoint
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
 import BEDC.Derived.FieldUp.SingletonClassifierEndpointTransport
+import BEDC.Derived.FieldUp.SingletonContinuationContextTransport
 import BEDC.Derived.FieldUp.SingletonContinuationCommIff
 import BEDC.Derived.FieldUp.SingletonContinuationAppendSplit
 import BEDC.Derived.FieldUp.SingletonCycleTailClassifier
@@ -300,6 +301,7 @@ import BEDC.Derived.FieldUp.SingletonOperationContextNonZero
 import BEDC.Derived.FieldUp.SingletonAddMulContext
 import BEDC.Derived.FieldUp.SingletonAddNegZeroContextContinuation
 import BEDC.Derived.FieldUp.SingletonNegContextContinuationClassifier
+import BEDC.Derived.FieldUp.SingletonMulInvContextContinuationClassifier
 import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.SingletonContextBoundary
 import BEDC.Derived.FieldUp.SingletonAppendContextVisibleMiddle
@@ -323,7 +325,6 @@ import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
-import BEDC.Derived.HomologyUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
@@ -342,7 +343,6 @@ import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
-import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContinuousUp.Suffix
 import BEDC.Derived.ContinuousUp.GraphChainFactorization
 import BEDC.Derived.ContinuousUp.ModulusWitnessDeterminism
@@ -358,7 +358,6 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
-import BEDC.Derived.DerivativeUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
