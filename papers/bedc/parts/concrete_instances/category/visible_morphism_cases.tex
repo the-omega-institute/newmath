@@ -207,6 +207,27 @@ continuation witness at the visible boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
 
+\begin{theorem}[Category hom-carrier nonempty composite target not empty]
+\label{thm:category-hom-carrier-comp-result-nonempty-target-not-empty}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then the
+target object $c$ is not internally empty:
+$$
+\neg\HSame(fg,\emp)\Longrightarrow \neg\HSame(c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty target-visible theorem. It presents the target as
+$c=\Eone(r)$ for a unary payload $r$. Constructor separation rules out an
+internal equality between this one-headed target and $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_not\_empty}
+
 \begin{theorem}[Category nonempty composite source-target cases]
 \label{thm:category-hom-carrier-comp-result-nonempty-source-target-cases}
 For the unary-continuation category, suppose

@@ -109,6 +109,28 @@ with the displayed carrier of \(z_0\).
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_powerSeriesCarrier}
 
+\begin{lemma}[Geometric bound radius and constant continuation closure]
+\label{lem:geom-bound-radius-constant-continuation-closed}
+For coefficients $a$, radius histories $r,R$, constant histories $K,K'$, and
+unary increments $dr,dK$, if
+$$
+\mathsf{GeomBound}(a,r,K),\qquad
+\mathsf{UnaryHistory}(dr),\qquad
+\mathsf{UnaryHistory}(dK),
+$$
+and the continuation ledgers $\ContR(r,dr,R)$ and $\ContR(K,dK,K')$ hold,
+then the geometric bound persists at the transported radius and constant:
+$$
+\mathsf{GeomBound}(a,R,K').
+$$
+\end{lemma}
+\begin{proof}
+The geometric-bound witness contains unary carrier data for both $r$ and $K$.
+Unary continuation closure transports those carriers along the two displayed
+continuation ledgers, while the coefficient carrier clause is unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_constant\_continuation\_closed}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.

@@ -133,4 +133,18 @@ theorem CategoryHomCarrier_comp_result_nonempty_target_visible {a b c f g fg : B
                     (And.intro (unary_e1_inversion composite.right.left)
                       composite.right.right.right)))))
 
+theorem CategoryHomCarrier_comp_result_nonempty_target_not_empty {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      (hsame fg BHist.Empty -> False) -> hsame c BHist.Empty -> False := by
+  intro left right comp resultNonempty targetEmpty
+  have visible :=
+    CategoryHomCarrier_comp_result_nonempty_target_visible left right comp resultNonempty
+  cases visible with
+  | intro k visible =>
+      cases visible with
+      | intro r data =>
+          have targetEq : c = BHist.e1 r := data.right.left
+          cases targetEq
+          exact not_hsame_e1_empty targetEmpty
+
 end BEDC.Derived.CategoryUp

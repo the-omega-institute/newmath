@@ -161,4 +161,13 @@ theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
             have bound : GeomBound a r (K r) := boundAt radiusUnary contRadius
             exact And.intro (GeomBound_powerSeriesCarrier bound centerCarrier).left bound)
 
+theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
+    {r K dr dK R K' : BHist} :
+    GeomBound a r K -> UnaryHistory dr -> UnaryHistory dK -> Cont r dr R -> Cont K dK K' ->
+      GeomBound a R K' := by
+  intro bound radiusStep constantStep radiusContinuation constantContinuation
+  exact And.intro (unary_cont_closed bound.left radiusStep radiusContinuation)
+    (And.intro (unary_cont_closed bound.right.left constantStep constantContinuation)
+      bound.right.right)
+
 end BEDC.Derived.ConvergenceRadiusUp

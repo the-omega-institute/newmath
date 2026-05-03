@@ -51,6 +51,30 @@ factor witness rebuilds the forbidden singleton empty classifier for $Q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero continuation left endpoint cancellation]
+\label{thm:field-singleton-empty-nonzero-continuation-left-endpoint-cancel-iff}
+For histories $P,Q,R:\mathsf{BHist}$, if $Q$ lies in the singleton empty
+carrier and $\ContR(P,Q,R)$, then the classifier-complement singleton nonzero
+predicate is unchanged from $P$ to $R$:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(Q)\Rightarrow
+\ContR(P,Q,R)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(R)
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(P)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, a forbidden classifier on $P$ combines with the
+singleton empty carrier of $Q$ and the continuation ledger to rebuild a
+forbidden classifier on $R$. Conversely, a forbidden classifier on $R$ is
+transported back through the displayed continuation; append-empty inversion
+then exposes the forbidden classifier on $P$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_left\_endpoint\_cancel\_iff}
+
 \begin{theorem}[Rat classifier singleton-empty nonzero context endpoints]
 \label{thm:rat-history-classifier-field-singleton-empty-nonzero-context-endpoints}
 For histories $L,R,h,k:\mathsf{BHist}$, any rational history classifier
