@@ -206,6 +206,58 @@ Definition~\ref{def:ratup-fieldup-ten-field-exit-instance}, completing the concr
 paper certificate.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp product classifier and nonzero exit package]
+\label{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}
+For the concrete BEDC history-level $\FieldUp(\RatUp)$ row over
+$\mathsf{BHist}$, let $a,b,x,y:\mathsf{BHist}$ and let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be certified
+outer nonzero witnesses. The two-sided product map
+$x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$ is exact as a classifier row and
+as a nonzero-transport row:
+$$
+\bigl(\mathsf{mul}(\mathsf{mul}(a,x),b)
+\hsame
+\mathsf{mul}(\mathsf{mul}(a,y),b)\bigr)
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,x),b))
+\Longleftrightarrow
+\mathsf{NonZero}_F(x).
+$$
+Together these two equivalences form one concrete
+$\FieldUp(\RatUp)$ exit-package clause for certified two-sided products.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-two-sided-mul-exact-from-apartness} to the same
+history-level $\FieldUp$ candidate and to the certified outer witnesses
+$p_a$ and $p_b$. This supplies the classifier exactness row for the map
+$x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$.
+
+Apply
+\autoref{thm:field-two-sided-product-nonzero-middle-factor-iff} with the
+same witnesses. This supplies the nonzero-transport row for the identical
+two-sided product endpoint.
+
+Both rows use the same $\mathsf{BHist}$ carrier, the same classifier
+$\hsame$, the same multiplication endpoint, and the same ledger witnesses
+$p_a,p_b$. They therefore assemble as one concrete
+$\FieldUp(\RatUp)$ product certificate clause rather than as two unrelated
+rows.
+\end{proof}
+
+Per-object template: traditional target two-sided product exactness inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\FieldUp$, $\RingUp$, and
+$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations multiplication congruence, inverse
+cancellation, zero absorption, and nonzero transport; ledger the outer
+witnesses $p_a,p_b$ and product endpoint
+$\mathsf{mul}(\mathsf{mul}(a,x),b)$; core theorem this block; exactness
+predicate the displayed paired equivalences; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp normalized semantic classifier exit certificate]
 \label{thm:ratup-fieldup-normalized-semantic-classifier-exit-certificate}
 Under the hypotheses and notation of
