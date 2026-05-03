@@ -67,7 +67,7 @@ theorem CohomologyCocycle_append_core_closed {d : BHist -> BHist} {h k : BHist}
     hsame_empty_iff.mp kCycle
   exact hsame_trans (dAppend h k) (append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
 
-theorem CohomologyCocycle_core_append_hsame_transport {d : BHist -> BHist} {h k r : BHist}
+theorem CohomologyCocycle_append_core_hsame_transport {d : BHist -> BHist} {h k r : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) :
     hsame (d h) BHist.Empty -> hsame (d k) BHist.Empty ->
@@ -76,6 +76,13 @@ theorem CohomologyCocycle_core_append_hsame_transport {d : BHist -> BHist} {h k 
   have appendCycle : hsame (d (append h k)) BHist.Empty :=
     CohomologyCocycle_append_core_closed dAppend hCycle kCycle
   exact hsame_trans (hsame_symm (dCongr sameResult)) appendCycle
+
+theorem CohomologyCocycle_core_append_hsame_transport {d : BHist -> BHist} {h k r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) :
+    hsame (d h) BHist.Empty -> hsame (d k) BHist.Empty ->
+      hsame (append h k) r -> hsame (d r) BHist.Empty := by
+  exact CohomologyCocycle_append_core_hsame_transport dAppend dCongr
 
 theorem CohomologyCocycle_append_empty_iff {d : BHist -> BHist} {h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
