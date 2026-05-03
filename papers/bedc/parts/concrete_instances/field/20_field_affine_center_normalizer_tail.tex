@@ -1,0 +1,761 @@
+\begin{theorem}[RatUp FieldUp affine center normal subgroup]
+\label{thm:ratup-fieldup-affine-center-normal-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+affine center predicate $\mathsf{Center}_F$ on certified affine automorphisms
+forms a normal subgroup package inside $\mathsf{AffAut}_F$. Namely:
+\begin{enumerate}
+\item $\mathsf{Center}_F(\mathrm{id}_F)$.
+\item If $\mathsf{Center}_F(Z)$ and $\mathsf{Center}_F(W)$, then
+$\mathsf{Center}_F(Z\circ_{\mathrm{aff}}W)$.
+\item If $\mathsf{Center}_F(Z)$, then
+$\mathsf{Center}_F(\iota_F(Z))$.
+\item If $Z\equiv_{\mathrm{aff}}W$ and $\mathsf{Center}_F(Z)$, then
+$\mathsf{Center}_F(W)$.
+\item If $\mathsf{Center}_F(Z)$, then for every
+$T:\mathsf{AffAut}_F$,
+$\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical exit action and inverse package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the product $\circ_{\mathrm{aff}}$, the
+identity $\mathrm{id}_F$, the inverse row $\iota_F(-)$, the classifier
+$\equiv_{\mathrm{aff}}$, and the inner action $\mathrm{Inn}_T$ from
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}.
+
+The identity member is central by the identity rows in
+\autoref{thm:field-affine-automorphism-group-laws}. For product closure, fix a
+test automorphism $T$ and central elements $Z,W$. Associativity from
+\autoref{thm:field-affine-automorphism-composition-associative} exposes
+$W\circ_{\mathrm{aff}}T$ and then $Z\circ_{\mathrm{aff}}T$ as adjacent
+subproducts. Apply the two center equations and transport both replacements by
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}; the same
+associativity theorem repacks the result as
+$T\circ_{\mathrm{aff}}(Z\circ_{\mathrm{aff}}W)$.
+
+For inverse closure, use
+\autoref{thm:ratup-fieldup-affine-center-fixed-point-criterion}. If
+$\mathsf{Center}_F(Z)$, then every $\mathrm{Inn}_T(Z)$ is classifier-equal to
+$Z$. The inverse-preservation clause of
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, together with
+classifier congruence, transports this fixed-point equation through
+$\iota_F(-)$ and gives
+$\mathrm{Inn}_T(\iota_F(Z))\equiv_{\mathrm{aff}}\iota_F(Z)$ for every $T$.
+The fixed-point criterion returns $\mathsf{Center}_F(\iota_F(Z))$.
+
+Classifier transport is pointwise: if $Z\equiv_{\mathrm{aff}}W$, then
+operation congruence replaces $Z$ by $W$ on both sides of the defining
+commutation equation for each test automorphism.
+
+Finally assume $\mathsf{Center}_F(Z)$ and fix a conjugating element $T$. By
+\autoref{thm:ratup-fieldup-affine-center-fixed-point-criterion}, $Z$ is fixed
+by every inner affine action. For any test element $S$,
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} rewrites
+$\mathrm{Inn}_S(\mathrm{Inn}_T(Z))$ as
+$\mathrm{Inn}_{S\circ_{\mathrm{aff}}T}(Z)$, which is classifier-equal to $Z$.
+The same criterion also identifies $\mathrm{Inn}_T(Z)$ with $Z$, and classifier
+transitivity yields
+$\mathrm{Inn}_S(\mathrm{Inn}_T(Z))\equiv_{\mathrm{aff}}\mathrm{Inn}_T(Z)$.
+Applying the fixed-point criterion once more gives
+$\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
+\end{proof}
+\input{parts/concrete_instances/field/20_field_affine_commutator_centralizer}
+\input{parts/concrete_instances/field/20_field_affine_commutator_centralizer_normalizer}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer subgroup]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let $N_F(C_F(A))$
+be the two-sided normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Then
+$N_F(C_F(A))$ is the concrete affine normalizer subgroup of $C_F(A)$:
+\begin{enumerate}
+\item $N_F(C_F(A))(\mathrm{id}_F)$.
+\item If $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, then
+$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$.
+\item If $N_F(C_F(A))(T)$, then $N_F(C_F(A))(\iota_F(T))$.
+\item If $N_F(C_F(A))(T)$ and $T\equiv_{\mathrm{aff}}U$, then
+$N_F(C_F(A))(U)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action and inverse package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
+and $\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit object.
+
+For the identity element, fix $X:\mathsf{AffAut}_F$. The identity clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} identifies
+$\mathrm{Conj}_{\mathrm{id}_F}(X)$ with $X$. Hence centralizer membership is
+preserved and reflected by identity conjugation, and the identity row of
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup} supplies the required
+carrier witness.
+
+For product closure, assume $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, and fix
+$X:\mathsf{AffAut}_F$. If $C_F(A)(X)$, the two-sided definition first gives
+$C_F(A)(\mathrm{Conj}_U(X))$ and then gives
+$C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The composition clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} identifies
+the composite conjugation with conjugation by $T\circ_{\mathrm{aff}}U$, so the
+forward half gives $C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$.
+
+Conversely assume $C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$. The
+same composition clause reads this as
+$C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The reverse half of the
+two-sided definition for $T$ gives $C_F(A)(\mathrm{Conj}_U(X))$, and the
+reverse half for $U$ gives $C_F(A)(X)$.
+
+For inverse closure, assume $N_F(C_F(A))(T)$ and fix $X:\mathsf{AffAut}_F$.
+Let $Y=\mathrm{Conj}_{\iota_F(T)}(X)$. The inverse antihomomorphism package of
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} and the conjugation
+equation exactness of
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness} identify
+$\mathrm{Conj}_T(Y)$ with $X$ under $\equiv_{\mathrm{aff}}$.
+
+If $C_F(A)(X)$, transport this membership across the exactness comparison to
+$C_F(A)(\mathrm{Conj}_T(Y))$. The reverse half of the normalizer equivalence for
+$T$, applied to $Y$, gives $C_F(A)(Y)$. If $C_F(A)(Y)$, the forward half for
+$T$ and the same double-conjugation exactness return $C_F(A)(X)$. Thus
+conjugation by $\iota_F(T)$ preserves and reflects centralizer membership, and
+the inverse row gives the carrier witness for $\iota_F(T)$.
+
+For classifier transport, assume $N_F(C_F(A))(T)$ and
+$T\equiv_{\mathrm{aff}}U$. For each $X$, affine operation congruence from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} transports
+the conjugation word
+$(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)$ to
+$(U\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(U)$. The preservation and
+reflection clauses for $T$ therefore give the same two-sided centralizer
+equivalence for $U$, and the carrier witness is transported along
+$T\equiv_{\mathrm{aff}}U$.
+\end{proof}
+
+Per-object template: traditional target normalizer subgroup; BEDC source
+concrete $\FieldUp(\RatUp)$ affine automorphism group plus $\GroupUp$; carrier
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability identity, product,
+inverse, and transport; ledger fixed element and conjugating witnesses;
+exactness preservation-reflection of centralizer membership; standard bridge
+ordinary normalizer subgroup; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action automorphism]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+the restricted action by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X),C_F(A)(Y)$, then conjugation by $T$ is an
+automorphism of the centralizer classifier:
+\begin{enumerate}
+\item $N_F(C_F(A))(\iota_F(T))$.
+\item $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+\item
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\item
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The inverse normalizer witness is the inverse-closure row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. Applied to
+$N_F(C_F(A))(T)$, it gives $N_F(C_F(A))(\iota_F(T))$.
+
+Carrier preservation for the inverse action is then exactly the preservation
+part of \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+specialized to the normalizer element $\iota_F(T)$ and the centralizer element
+$X$. This gives $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+
+For cancellation, use
+\autoref{thm:ratup-fieldup-affine-conjugation-exactness} with conjugating
+element $T$ and acted element $X$. Its inverse-action clauses identify the two
+double conjugations by $T$ and $\iota_F(T)$ with $X$ under
+$\equiv_{\mathrm{aff}}$, which are precisely the two displayed
+$\mathrm{Act}$-cancellation laws.
+
+For classifier exactness, apply the same theorem to the pair $X,Y$. Its
+classifier-exact conjugation clause gives
+$$
+\mathrm{Conj}_T(X)\equiv_{\mathrm{aff}}\mathrm{Conj}_T(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+Replacing $\mathrm{Conj}_T(-)$ by the definition of $\mathrm{Act}_T(-)$ gives
+the stated equivalence on the centralizer carrier.
+\end{proof}
+
+Per-object template: traditional target normalizer action by automorphisms;
+BEDC source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability inverse action, classifier
+exactness, and cancellation; ledger fixed element, normalizer witness, acted
+element, and inverse witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, and
+\autoref{thm:ratup-fieldup-affine-conjugation-exactness}; exactness predicate
+classifier-exact automorphism action on the centralizer; standard bridge
+ordinary normalizer action by automorphisms; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the affine centralizer carrier
+from \autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For
+$T:\mathsf{AffAut}_F$ define the restricted normalizer action on centralizer
+elements by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X)$, then
+$$
+C_F(A)(\mathrm{Act}_T(X)).
+$$
+The restricted action also obeys the identity and composition laws:
+$$
+\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X.
+$$
+For $N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, and $C_F(A)(X)$,
+$$
+\mathrm{Act}_T(\mathrm{Act}_U(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Its
+preservation clause says exactly that a normalizing affine automorphism sends
+each $C_F(A)$-element to another $C_F(A)$-element by the concrete conjugation
+$\mathrm{Conj}_T(-)$. Since $\mathrm{Act}_T(X)$ is defined to be this conjugate,
+$N_F(C_F(A))(T)$ and $C_F(A)(X)$ give
+$C_F(A)(\mathrm{Act}_T(X))$.
+
+For the identity law, apply
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} with
+conjugating parameter $\mathrm{id}_F$ and acted element $X$. The identity clause
+of that theorem gives
+$\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X$ under the same affine
+classifier.
+
+For composition, first use the preservation clause of $U$ to obtain
+$C_F(A)(\mathrm{Act}_U(X))$. Then use the preservation clause of $T$ to keep the
+outer acted element inside $C_F(A)$. The composition clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit}, applied to
+$T$, $U$, and $X$, identifies the two affine words as
+$$
+\mathrm{Act}_T(\mathrm{Act}_U(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}U}(X).
+$$
+
+The carrier membership clauses come from the two normalizer hypotheses, while
+the classifier comparison is the concrete inner-action law already supplied for
+the $\FieldUp(\RatUp)$ affine exit object. The inverse witnesses are the
+$\iota_F(T)$ and $\iota_F(U)$ rows fixed by the canonical affine inverse
+package, and the acted elements remain in the same centralizer carrier
+throughout.
+\end{proof}
+
+Per-object template: traditional target normalizer action on centralizer; BEDC
+source concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$; carrier $C_F(A)$ acted
+on by $N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability
+preservation, identity action, and composition action; ledger fixed element,
+conjugating elements, acted element, and inverse witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion},
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit}, and
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}; exactness predicate
+restricted normalizer action; standard bridge ordinary normalizer action on a
+subgroup; status $\mathsf{ProofTarget}$.
+
+\input{parts/concrete_instances/field/20_field_affine_normalizer_action_representation_tail}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action certificate]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For each
+$T:\mathsf{AffAut}_F$ define
+$$
+\mathrm{Act}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, $C_F(A)(X)$, $C_F(A)(Y)$,
+$T\equiv_{\mathrm{aff}}U$, and $X\equiv_{\mathrm{aff}}Y$, then the restricted
+action is classifier well-defined:
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y).
+$$
+Moreover, for every $T$ with $N_F(C_F(A))(T)$, the inverse affine automorphism
+is again a normalizer element,
+$$
+N_F(C_F(A))(\iota_F(T)),
+$$
+and for every $X$ with $C_F(A)(X)$ the two restricted actions cancel:
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete affine exit package supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the operation $\circ_{\mathrm{aff}}$, the inverse
+operation $\iota_F(-)$, and the classifier $\equiv_{\mathrm{aff}}$ for the
+concrete $\FieldUp(\RatUp)$ affine exit object.
+
+For classifier well-definedness, first apply
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} to the
+left action factor and the acted element. This transports
+$T\circ_{\mathrm{aff}}X$ to $U\circ_{\mathrm{aff}}Y$ under the affine
+classifier. The same congruence theorem, applied to the right inverse factors
+and using the inverse determinacy encoded by
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, transports the full
+conjugation word
+$(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)$ to
+$(U\circ_{\mathrm{aff}}Y)\circ_{\mathrm{aff}}\iota_F(U)$. This is exactly
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y)$.
+
+For the inverse normalizer clause, apply the inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} to
+$N_F(C_F(A))(T)$. It gives $N_F(C_F(A))(\iota_F(T))$.
+
+Finally, use
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness} with
+conjugating element $T$ and acted element $X$. Its two inverse-action
+cancellation clauses identify conjugation by $\iota_F(T)$ after conjugation by
+$T$, and conjugation by $T$ after conjugation by $\iota_F(T)$, with the original
+acted element $X$ under $\equiv_{\mathrm{aff}}$. Since $\mathrm{Act}$ is the
+restricted notation for these conjugation words on $C_F(A)$, the displayed
+restricted cancellation laws follow.
+\end{proof}
+
+Per-object template: traditional target group action by a normalizer on a
+centralizer; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus
+$\GroupUp$; carrier $C_F(A)$ acted on by $N_F(C_F(A))$; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations classifier well-definedness and
+inverse-action cancellation; ledger normalizer witness, inverse witness, acted
+element, and conjugation factors; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness}; exactness
+predicate restricted action certificate; standard bridge ordinary normalizer
+action on a subgroup; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine normalizer action kernel]
+\label{thm:ratup-fieldup-affine-normalizer-action-kernel}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix certified
+affine automorphisms $A,T:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the affine centralizer carrier
+from \autoref{def:ratup-fieldup-affine-centralizer-carrier}, let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+the restricted action by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$, then the pointwise kernel condition for the restricted
+normalizer action is exactly commutation with every element of the centralizer:
+$$
+\bigl(\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X\bigr)
+\Longleftrightarrow
+\bigl(\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow C_F(X)(T)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $N_F(C_F(A))(T)$. The restricted action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} supplies the
+domain condition: whenever $C_F(A)(X)$ holds, $\mathrm{Act}_T(X)$ is again an
+element of the same concrete centralizer carrier. The present claim identifies
+which normalizing elements act as the classifier identity on all such $X$.
+
+For the forward direction, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and assume
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X$. Unfolding the action gives the inner
+conjugation fixed-point equation
+$\mathrm{Inn}_T(X)\equiv_{\mathrm{aff}}X$. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} to the pair
+$T,X$ and read the fixed-point condition as the commutation equation
+$T\circ_{\mathrm{aff}}X\equiv_{\mathrm{aff}}X\circ_{\mathrm{aff}}T$.
+
+By Definition~\ref{def:ratup-fieldup-affine-centralizer-carrier}, this
+commutation equation is precisely the centralizer membership statement
+$C_F(X)(T)$. Since $X$ was arbitrary inside $C_F(A)$, the required pointwise
+centralizer condition follows.
+
+For the reverse direction, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and assume
+$C_F(X)(T)$. Reading Definition~\ref{def:ratup-fieldup-affine-centralizer-carrier}
+gives $T\circ_{\mathrm{aff}}X\equiv_{\mathrm{aff}}X\circ_{\mathrm{aff}}T$.
+Apply \autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} again,
+now in the reverse direction for the pair $T,X$, to obtain
+$\mathrm{Inn}_T(X)\equiv_{\mathrm{aff}}X$.
+
+Finally replace $\mathrm{Inn}_T(X)$ by the displayed definition of
+$\mathrm{Act}_T(X)$. This gives
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}X$ for every $X$ in $C_F(A)$, so the
+restricted normalizer action is pointwise trivial exactly on the stated kernel.
+\end{proof}
+
+Per-object template: traditional target normalizer action kernel; BEDC source
+concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$; carrier $C_F(A)$ acted on by
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability normalizer-supplied
+restricted action domain and pointwise classifier identity; ledger fixed
+centralizer element, normalizing element, inverse witness, and commutation
+certificate; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion}, and
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}; exactness predicate
+kernel iff commutation with every centralizer element; standard bridge ordinary
+normalizer action kernel on a centralizer; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine center normalizes centralizers]
+\label{thm:ratup-fieldup-affine-center-normalizes-centralizers}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,Z:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. If $Z$ is in the concrete affine center, then
+$Z$ normalizes the concrete affine centralizer of $A$:
+$$
+\mathsf{Center}_F(Z)\Rightarrow N_F(C_F(A))(Z).
+$$
+Moreover, for every $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$, the restricted
+normalizer action from
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} is pointwise
+the classifier identity:
+$$
+\mathrm{Act}_Z(X)\equiv_{\mathrm{aff}}X.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{Center}_F(Z)$. Apply
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection} and read the
+first equivalence forward at the fixed automorphism $A$. This gives the concrete
+centralizer witness $C_F(A)(Z)$.
+
+Now apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion} to that
+witness. The conclusion is exactly $N_F(C_F(A))(Z)$, with the normalizer carrier
+read as the two-sided preservation predicate of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}.
+
+For the pointwise identity, fix $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$. The
+center hypothesis, unfolded at the test element $X$, says that $Z$ and $X$
+commute under $\equiv_{\mathrm{aff}}$.
+
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion} to the pair
+$(Z,X)$. The commuting row identifies the inner affine conjugate
+$\mathrm{Act}_Z(X)$ with $X$ under the same classifier. The action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} supplies the
+restricted-action reading on the carrier $C_F(A)$, and the normalizer membership
+already proved supplies the required action domain.
+\end{proof}
+
+Per-object template: traditional target center action on centralizers; BEDC
+source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$; carrier
+$C_F(A)$ and center predicate; classifier $\equiv_{\mathrm{aff}}$; stability
+center intersection, normalizer inclusion, fixed-point criterion, and restricted
+action; ledger fixed element, center witness, centralizer witness, and inverse
+row; core theorem list
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion},
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion}, and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}; exactness
+predicate center element acts as classifier identity on centralizer elements;
+standard bridge ordinary group center action on centralizers; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action inverse]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For
+$T:\mathsf{AffAut}_F$ define
+$$
+\mathrm{Act}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X)$, then the restricted action is invertible on
+the centralizer:
+\begin{enumerate}
+\item $C_F(A)(\mathrm{Act}_T(X))$.
+\item $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+\item
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X.
+$$
+\item
+$$
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action and inverse package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It supplies
+the carrier $\mathsf{AffAut}_F$, product $\circ_{\mathrm{aff}}$, inverse
+operation $\iota_F(-)$, classifier $\equiv_{\mathrm{aff}}$, and the inverse rows
+for the concrete $\FieldUp(\RatUp)$ exit object.
+
+The forward carrier clause is exactly the preservation part of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} applied to
+$T$ and $X$.
+
+For the inverse carrier clause, use
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} on
+$N_F(C_F(A))(T)$. Its inverse row gives $N_F(C_F(A))(\iota_F(T))$. Applying
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} again, now with
+conjugating element $\iota_F(T)$ and acted element $X$, gives
+$C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+
+We next compose the two restricted actions. The composition law in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} gives
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{\iota_F(T)\circ_{\mathrm{aff}}T}(X).
+$$
+The left inverse row from the canonical package identifies
+$\iota_F(T)\circ_{\mathrm{aff}}T$ with $\mathrm{id}_F$. Classifier congruence for
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, followed by the
+identity clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, identifies the
+right side with $X$. Classifier transitivity yields the displayed left inverse
+law.
+
+The right inverse law is the same calculation in the other order. The
+composition law gives
+$$
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}
+\mathrm{Act}_{T\circ_{\mathrm{aff}}\iota_F(T)}(X).
+$$
+The right inverse row from the canonical package identifies
+$T\circ_{\mathrm{aff}}\iota_F(T)$ with $\mathrm{id}_F$, and the same classifier
+congruence plus identity-action clause reduces the displayed action to $X$.
+\end{proof}
+
+Per-object template: traditional target invertible normalizer action on
+centralizer; BEDC source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier
+$C_F(A)$ acted on by $N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$;
+stability forward preservation, inverse-parameter preservation, and two-sided
+action inverse laws; ledger fixed element, acted element, conjugator, inverse
+witness, and centralizer witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}; exactness
+predicate restricted action invertibility on centralizer elements; standard
+bridge ordinary normalizer group action by bijections; status
+$\mathsf{ProofTarget}$.
+
+\input{parts/concrete_instances/field/20_field_affine_center_normalizer_orbit_tail}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action classifier congruence]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix
+$A:\mathsf{AffAut}_F$. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and define $\mathrm{Act}_T(X)$ as in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. If
+$N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, $C_F(A)(X)$, $C_F(A)(Y)$,
+$T\equiv_{\mathrm{aff}}U$, and $X\equiv_{\mathrm{aff}}Y$, then
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y).
+$$
+Consequently each normalizer element determines a classifier-respecting endomap
+of $C_F(A)$, and classifier-equal normalizer elements determine
+classifier-equal endomaps of $C_F(A)$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} for the
+endpoint carrier membership: $N_F(C_F(A))(T)$ sends every $C_F(A)$-element to
+$C_F(A)$ by $\mathrm{Act}_T$, and likewise for $U$.
+
+The affine inverse congruence clause of
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} transports
+$T\equiv_{\mathrm{aff}}U$ to
+$\iota_F(T)\equiv_{\mathrm{aff}}\iota_F(U)$. Apply the operation-congruence
+clause of the same theorem to $T\circ_{\mathrm{aff}}X$ and
+$U\circ_{\mathrm{aff}}Y$, using $T\equiv_{\mathrm{aff}}U$ and
+$X\equiv_{\mathrm{aff}}Y$.
+
+Apply operation congruence once more to compose the resulting comparison with
+the inverse comparison. This gives
+$$
+(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)
+\equiv_{\mathrm{aff}}
+(U\circ_{\mathrm{aff}}Y)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+
+Unfolding the definition of $\mathrm{Act}$ in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} identifies
+the two sides with $\mathrm{Act}_T(X)$ and $\mathrm{Act}_U(Y)$. Setting
+$U=T$ gives classifier respect for the acted coordinate, while setting $Y=X$
+shows that classifier-equal normalizer elements induce classifier-equal
+restricted endomaps.
+\end{proof}
+
+Per-object template: traditional target well-defined normalizer action on a
+classified centralizer; BEDC source concrete $\FieldUp(\RatUp)$ affine exit
+object plus $\GroupUp$ action laws; carrier $C_F(A)$ acted on by
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability classifier
+congruence in acting and acted coordinates; ledger conjugating element, acted
+element, inverse witness, and normalizer witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} and
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence};
+exactness predicate restricted action respects the affine classifier; standard
+bridge ordinary normalizer action on a subgroup; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine normalizer representation]
+\label{thm:ratup-fieldup-affine-normalizer-representation}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Define
+$$
+\rho_A(T)(X):=\mathrm{Act}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then the normalizer represents through classifier automorphisms of $C_F(A)$:
+\begin{enumerate}
+\item If $N_F(C_F(A))(T)$, then $\rho_A(T)$ is a classifier automorphism of
+$C_F(A)$: for all $X,Y:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and $C_F(A)(Y)$,
+$$
+C_F(A)(\rho_A(T)(X))
+$$
+and
+$$
+\rho_A(T)(X)\equiv_{\mathrm{aff}}\rho_A(T)(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+\item For every $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$,
+$$
+\rho_A(\mathrm{id}_F)(X)\equiv_{\mathrm{aff}}X.
+$$
+\item If $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, then
+$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$, and for every $X:\mathsf{AffAut}_F$
+with $C_F(A)(X)$,
+$$
+\rho_A(T)(\rho_A(U)(X))\equiv_{\mathrm{aff}}
+\rho_A(T\circ_{\mathrm{aff}}U)(X).
+$$
+\item If $N_F(C_F(A))(T)$, then $\rho_A(\iota_F(T))$ is the two-sided inverse
+classifier automorphism of $\rho_A(T)$ on $C_F(A)$: for every
+$X:\mathsf{AffAut}_F$ with $C_F(A)(X)$,
+$$
+\rho_A(\iota_F(T))(\rho_A(T)(X))\equiv_{\mathrm{aff}}X
+$$
+and
+$$
+\rho_A(T)(\rho_A(\iota_F(T))(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The identity, product, and inverse normalizer witnesses are supplied by
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. In
+particular, its first row gives $N_F(C_F(A))(\mathrm{id}_F)$, its product row
+gives $N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$ from two normalizer witnesses, and
+its inverse row gives $N_F(C_F(A))(\iota_F(T))$.
+
+For a fixed normalizer element $T$, preservation of the centralizer carrier by
+$\rho_A(T)$ is exactly the preservation clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. Classifier
+exactness for pairs $X,Y$ in $C_F(A)$ is the automorphism clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism},
+with $\rho_A(T)$ read as the displayed restricted action.
+
+The identity and product representation laws are the identity and composition
+clauses of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. The identity
+clause gives $\rho_A(\mathrm{id}_F)(X)\equiv_{\mathrm{aff}}X$ on each
+centralizer element, and the composition clause gives
+$$
+\rho_A(T)(\rho_A(U)(X))\equiv_{\mathrm{aff}}
+\rho_A(T\circ_{\mathrm{aff}}U)(X).
+$$
+The product membership needed to name the right side as another normalizer
+automorphism is the product row cited above.
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}. Its
+inverse-parameter preservation row keeps $\rho_A(\iota_F(T))(X)$ inside
+$C_F(A)$, and its two cancellation rows give the displayed left and right
+inverse laws for $\rho_A(\iota_F(T))$ against $\rho_A(T)$.
+\end{proof}
+
+Per-object template: traditional target normalizer representation on
+centralizer classifier automorphisms; BEDC source concrete $\FieldUp(\RatUp)$
+affine exit plus $\GroupUp$; carrier $N_F(C_F(A))$ acting on $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability identity, product, inverse,
+preservation, and classifier exactness; ledger fixed element, normalizer
+witnesses, acted elements, product witness, and inverse witness; core theorem
+list \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism},
+and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse};
+exactness predicate representation through centralizer classifier
+automorphisms; standard bridge ordinary normalizer homomorphism into
+automorphism group of a centralizer; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
+\label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
+Let $d_1:=\Eone(\emp)$. For
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+$\FieldUp(\RatUp)$ exit certificate has the concrete source-coordinate witnesses
+$$
+\mathsf{RatHistoryCarrier}(d_1),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d_1,d_1),
+$$
+and
+$$
+\mathsf{RatHistoryLedgerPolicy}(d_1,d_1).
+$$
+Each attempted coverage map from these carrier, classifier, or ledger
+coordinates to the singleton empty-history $\FieldUp$ boundary is contradictory.
+Equivalently, the canonical exit certificate cannot collapse to that singleton
+boundary in any of its carrier, classifier, or ledger coordinates.
+\end{theorem}
+\begin{proof}
+Invoke
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}. It identifies the
+canonical exit object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}
+with the concrete $\mathsf{RatUpFieldSource}_F$ source, whose carrier,
+classifier, and ledger coordinates are the displayed RatUp history rows.
+
+Now apply
+\autoref{thm:ratup-fieldup-source-coordinate-coverage-obstruction} at
+$d_1=\Eone(\emp)$. That theorem supplies the three witnesses
+$\mathsf{RatHistoryCarrier}(d_1)$,
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$, and
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$, and rejects carrier coverage,
+classifier coverage, and ledger endpoint coverage into the singleton
+empty-history boundary.
+
+Transporting those three rejections along the canonical-exit identification
+leaves no coordinate map by which the canonical $\FieldUp(\RatUp)$ exit
+certificate can be read as the singleton empty-history $\FieldUp$ boundary.
+\end{proof}
