@@ -38,5 +38,25 @@ predecessor partial sum with the exposed one.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_previous\_unique}
 
+\begin{theorem}[L-function Dirichlet zero-term successor stability]
+\label{thm:lfunction-dirichlet-part-sum-zero-term-successor-stable}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$\mathsf{DirichletPartSum}(term,s,n,S)$ holds and the next term
+$term(n,s)$ is $\hsame$ to $\emp$, then the same displayed sum $S$ is also a
+closed partial sum at successor index $\mathsf{BHist.e1}(n)$:
+$$
+\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),S).
+$$
+\end{theorem}
+\begin{proof}
+Compare the canonical right-unit continuation out of $S$ with the term
+history $term(n,s)$ using the assumed $\hsame$ identification with $\emp$.
+This supplies the successor-step continuation from $S$ through the zero term
+back to $S$, and the \texttt{DirichletPartSum.step} constructor closes the
+successor partial-sum witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_term\_successor\_stable}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

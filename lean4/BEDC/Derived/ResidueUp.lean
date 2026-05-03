@@ -150,4 +150,41 @@ theorem ResiduePoleData_suffix_empty_function_endpoints
             (Exists.intro residueq
               (And.intro residueqWitness.left shiftedEndpoints.right))
 
+theorem ResiduePoleData_integral_prefix_closure
+    {f center radius pole gap integral residue q qf : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont q f qf ->
+        ∃ integralq : BHist,
+          ResiduePoleData qf center radius pole gap integralq residue ∧
+            Cont q integral integralq ∧ Cont integralq residue qf := by
+  intro data prefixCarrier functionPrefix
+  cases data with
+  | intro disk rest =>
+      cases rest with
+      | intro integralCarrier rest =>
+          cases rest with
+          | intro residueCarrier rest =>
+              cases rest with
+              | intro _productCarrier integralResidue =>
+                  let integralq := append q integral
+                  have integralqCarrier : ComplexHistoryCarrier integralq :=
+                    ComplexHistoryCarrier_prepend_unary_closed prefixCarrier integralCarrier
+                  have prefixIntegral : Cont q integral integralq :=
+                    cont_intro rfl
+                  have integralqResidue : Cont integralq residue qf := by
+                    cases functionPrefix
+                    cases integralResidue
+                    exact cont_intro (append_assoc q integral residue).symm
+                  have productCarrier :
+                      ProdHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier qf :=
+                    ProdHistoryCarrier_cont_intro integralqCarrier residueCarrier
+                      integralqResidue
+                  exact Exists.intro integralq
+                    (And.intro
+                      (And.intro disk
+                        (And.intro integralqCarrier
+                          (And.intro residueCarrier
+                            (And.intro productCarrier integralqResidue))))
+                      (And.intro prefixIntegral integralqResidue))
+
 end BEDC.Derived.ResidueUp

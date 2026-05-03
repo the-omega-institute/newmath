@@ -42,4 +42,13 @@ theorem LFunctionDirichletPartSum_successor_previous_unique
             (fun T other =>
               DirichletPartSum_unary_index_deterministic unaryN previous other)))
 
+theorem LFunctionDirichletPartSum_zero_term_successor_stable
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    DirichletPartSum term s n S -> hsame (term n s) BHist.Empty ->
+      DirichletPartSum term s (BHist.e1 n) S := by
+  intro sum termEmpty
+  have stepContinuation : Cont S (term n s) S := by
+    exact cont_intro (((congrArg (append S) termEmpty).trans (append_empty_right S)).symm)
+  exact DirichletPartSum.step sum stepContinuation
+
 end BEDC.Derived.LFunctionUp
