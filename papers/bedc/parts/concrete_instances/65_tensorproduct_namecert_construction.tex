@@ -6,5 +6,71 @@ The tensor-product interface $\TensorProductUp$ packages the universal bilinear 
 \section{Carrier definition}
 \label{sec:tensorproduct-carrier}
 
+\begin{definition}[Tensor-product singleton carrier]\label{def:tensorproduct-singleton-carrier}
+For a generated history $h$, the singleton tensor-product carrier holds when there are
+histories $l$ and $r$ such that $l$ and $r$ are both module-singleton histories and
+$\Cont(l,r,h)$ holds. Thus the tensor-product singleton object is represented by a
+concrete continuation ledger from its two singleton module endpoints.
+\end{definition}
+\leandef{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier}
+
+\begin{theorem}[Tensor-product singleton suffix carrier]\label{thm:tensorproduct-singleton-carrier-continuation-suffix-carrier}
+Let $p$, $s$, and $o$ be generated histories. If $p$ and $o$ satisfy the
+tensor-product singleton carrier and $\Cont(p,s,o)$ holds, then $s$ satisfies the
+module-singleton carrier.
+\end{theorem}
+\begin{proof}
+Unpack the two tensor-product singleton carriers into module-singleton endpoints
+and continuation ledgers. The endpoint carriers identify both tensor endpoints with
+the empty history. The displayed continuation $\Cont(p,s,o)$ therefore has empty
+source and empty result, so the append-empty inversion for continuation identifies
+the suffix $s$ with the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonCarrier\_continuation\_suffix\_carrier}
+
+\begin{definition}[Tensor product singleton factor]
+\label{def:tensorproduct-singleton-factor}
+For histories $l,r,t:\mathsf{BHist}$, the tensor-product singleton factor
+predicate holds when $l$, $r$, and $t$ all lie in the module singleton carrier
+and the continuation relation composes $l$ with $r$ to produce $t$:
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+:=
+A_{\emp}(l)\land A_{\emp}(r)\land A_{\emp}(t)\land
+\mathsf{Cont}(l,r,t).
+$$
+\end{definition}
+\leandef{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor}
+
+\begin{theorem}[Tensor product singleton factor hsame transport]
+\label{thm:tensorproduct-singleton-factor-hsame-transport}
+If $\mathsf{TensorProductSingletonFactor}(l,r,t)$ holds and
+$l\hsame l'$, $r\hsame r'$, and $t\hsame t'$, then
+$\mathsf{TensorProductSingletonFactor}(l',r',t')$ holds, and the transported
+continuation witness $\mathsf{Cont}(l',r',t')$ is retained.
+\end{theorem}
+\begin{proof}
+Unpack the singleton factor. Transport each singleton carrier endpoint by
+symmetry and transitivity of $\hsame$. Transport the continuation witness
+across the three endpoint comparisons by continuation $\hsame$ transport.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:tensorproduct-certificate}
+
+\begin{theorem}[Tensor product singleton factor tensor semantic name certificate]
+\label{thm:tensorproduct-singleton-factor-tensor-semantic-namecert}
+Given a concrete singleton factor
+$\mathsf{TensorProductSingletonFactor}(l,r,t)$, the tensor endpoint carrier
+$u\mapsto\mathsf{TensorProductSingletonFactor}(l,r,u)$ forms a semantic name
+certificate when source, pattern, and ledger policy are all this carrier and
+the classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+The displayed factor supplies the inhabited carrier. Reflexivity, symmetry,
+and transitivity are those of $\hsame$. Carrier transport is exactly
+\autoref{thm:tensorproduct-singleton-factor-hsame-transport} with the left and
+right endpoints fixed by reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert}
