@@ -107,6 +107,25 @@ The source predicate supplies the left carrier and the \(\hsame\) comparison. Th
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec\_zero\_classifier}
 
+\begin{theorem}[Zeta zero source hsame transport classifier]
+\label{thm:zeta-zero-source-spec-hsame-transport-classifier}
+If $s\hsame t$ and $s$ satisfies the zeta-zero source specification, then $t$
+satisfies the same specification and is classified with the explicit zero
+complex history
+$$
+\mathsf{append}(\Eone(\emp),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The source specification supplies a $\ComplexUp$ carrier for $s$ and an
+$\hsame$ equality from $s$ to the zero complex history. Transport the product
+carrier along $s\hsame t$ and compose equality symmetrically to obtain
+$t\hsame\mathsf{append}(\Eone(\emp),\Eone(\emp))$. These two fields rebuild the
+source specification for $t$, and the zero-classifier theorem classifies it
+against the explicit zero history.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec\_hsame\_transport\_classifier}
+
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ZetaZero}\), conjugate symmetry of zeros, and the boundary exclusion witnesses (no zeros on \(\Re(s) = 1\), trivial zeros at negative even integers, no zeros on \(\Re(s) \geq 1\)).
