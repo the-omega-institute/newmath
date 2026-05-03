@@ -21,6 +21,31 @@ this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
 
+\begin{theorem}[Metric distance witness triangle continuation middle closure]
+\label{thm:metric-distance-witness-triangle-cont-middle-closed}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, a distance witness from $x$ to
+$y$, a distance witness from $y$ to $z$, and a continuation ledger
+$\ContR(d_{xy},z,d_{xyz})$ close the middle-composite distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\ContR(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,d_{yz},d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The two distance witnesses expose the continuation ledgers
+$\ContR(x,y,d_{xy})$ and $\ContR(y,z,d_{yz})$. Together with the displayed
+ledger $\ContR(d_{xy},z,d_{xyz})$, constructor analysis reduces the resulting
+source-to-middle continuation to associativity of history append. The unary
+carrier for $d_{xyz}$ follows from unary continuation closure applied to
+$d_{xy}$ and $z$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_cont\_middle\_closed}
+
 \begin{theorem}[Metric distance witness triangle append depth add]
 \label{thm:metric-distance-witness-triangle-append-depth-add}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three triangle distance witnesses

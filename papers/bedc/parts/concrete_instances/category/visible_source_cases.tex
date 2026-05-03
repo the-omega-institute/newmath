@@ -65,3 +65,28 @@ histories $k$ and $r$, unary inversion gives the three unary witnesses, and
 constructor inversion on the continuation ledger yields $\ContR(\Eone(a),k,r)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases}
+
+\begin{theorem}[Category one-headed source composite target visibility]
+\label{thm:category-hom-carrier-e1-source-comp-target-visible}
+For histories $a,b,c,f,g,fg$, composing a hom-carrier with source $\Eone(a)$
+through a second displayed hom-carrier preserves one-headed visibility of the
+composite target:
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(\Eone(a),b,f)\Longrightarrow
+\mathsf{CategoryHomCarrier}(b,c,g)\Longrightarrow
+\ContR(f,g,fg)\Longrightarrow
+\\
+\exists r,\ c=\Eone(r)\land\mathsf{UnaryHistory}(r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Composition closure first turns the two displayed hom-carriers and the
+continuation ledger into a composite hom-carrier
+$\mathsf{CategoryHomCarrier}(\Eone(a),c,fg)$. Applying the one-headed source
+morphism case theorem to this composite gives either an empty morphism, where
+the target is $\Eone(a)$, or a visible morphism, where the target is
+$\Eone(r)$ for a unary history $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_comp\_target\_visible}

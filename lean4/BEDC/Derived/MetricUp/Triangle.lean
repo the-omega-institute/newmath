@@ -18,6 +18,21 @@ theorem MetricDistanceWitness_triangle_append_closed {x y z dxy dyz dxyz : BHist
   cases xyzRel
   exact append_assoc x y z
 
+theorem MetricDistanceWitness_triangle_cont_middle_closed {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
+      MetricDistanceWitness x dyz dxyz := by
+  intro xy yz xyzRel
+  have xyRel : Cont x y dxy := xy.right.right.right
+  have yzRel : Cont y z dyz := yz.right.right.right
+  exact And.intro xy.left
+    (And.intro yz.right.right.left
+      (And.intro (unary_cont_closed xy.right.right.left yz.right.left xyzRel)
+        (by
+          cases xyRel
+          cases yzRel
+          cases xyzRel
+          exact cont_intro (append_assoc x y z))))
+
 theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz dxyz : BHist} :
     UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
       MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->

@@ -93,6 +93,33 @@ composite modulus certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
 
+\begin{theorem}[Continuous function carrier composition through modulus chain]
+\label{thm:continuous-function-carrier-comp-modulus-chain-closed}
+If two continuous-function carriers compose through $fg$, and their moduli form
+a concrete modulus chain over the target certificate, then the composite
+modulus ledger yields the composite continuous-function carrier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,f,middle,modF,certF)\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(middle,g,target,modG,certG)\Longrightarrow
+\\
+\ContR(f,g,fg)\Longrightarrow
+\mathsf{ContinuousModulusChain}(target,modF,modG,cert)\Longrightarrow
+\ContR(modF,modG,modFG)\Longrightarrow
+\\
+\mathsf{ContinuousFunctionCarrier}(source,fg,target,modFG,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The modulus chain and the displayed modulus continuation produce a concrete
+modulus witness from $target$ through $modFG$ to $cert$. Its continuation field
+is the target-certificate ledger required by continuous-function composition
+closure. Feeding that ledger together with the two function carriers, the graph
+continuation, and the modulus continuation gives the composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_modulus\_chain\_closed}
+
 \begin{theorem}[Continuous function carrier empty-map identity]
 \label{thm:continuous-function-carrier-empty-map-identity}
 For histories $source$, $modulus$, and $cert$, a certified modulus witness over
