@@ -221,3 +221,40 @@ It remains only to read the stability fields. Unary closure gives closure of the
 
 These fields are precisely the certificate data for $\UnaryContMonoidUp$: an inhabited classified unary carrier, a closed continuation operation, the empty unit, associativity, deterministic classification for fixed ordered sources, and a ledger. A swapped-source field compares the ordered source $(h,k)$ with the different ordered source $(k,h)$. No field in this construction makes that comparison, so the activation of $\UnaryContMonoidUp$ follows without the swapped-source additive commutativity premise.
 \end{proof}
+
+\begin{theorem}[Two-element unital continuation commutativity]
+\label{thm:two-element-unital-continuation-commutativity}
+Let $U$ be the unary part of a finite equality-classified carrier with classifier $\hsame$, and assume $U$ has exactly the two elements $e$ and $u$. Let $\star:U\times U\to U$ be a total binary operation with two-sided unit $e$:
+$$
+  e\star t=t
+  \quad\text{and}\quad
+  t\star e=t
+  \quad\text{for every }t\in U.
+$$
+Suppose the continuation relation on $U$ is the graph of $\star$:
+$$
+  \ContR(h,k,r)
+  \quad\text{if and only if}\quad
+  r=h\star k.
+$$
+Then for all $h,k,r,r'\in U$,
+$$
+  \ContR(h,k,r)
+  \quad\text{and}\quad
+  \ContR(k,h,r')
+  \quad\Rightarrow\quad
+  \hsame(r,r').
+$$
+No associativity premise is needed.
+\end{theorem}
+\begin{proof}
+The source role of \autoref{def:additive-source-specification} treats a continuation source as an ordered pair together with a continuation witness, and the classifier role of \autoref{def:additive-classifier-specification} compares generated results by $\hsame$. In the equality-classified instance of the carrier certificate of \autoref{def:lean-carrier-naming-certificate}, proving $\hsame(r,r')$ is the same as proving $r=r'$.
+
+Assume $\ContR(h,k,r)$ and $\ContR(k,h,r')$. Since $\ContR$ is the graph of $\star$, these witnesses give $r=h\star k$ and $r'=k\star h$. It is enough to show $h\star k=k\star h$.
+
+Because $U$ has exactly the two elements $e$ and $u$, each of $h$ and $k$ is either $e$ or $u$. If $h=e$, then $h\star k=e\star k=k$ by the left-unit law, while $k\star h=k\star e=k$ by the right-unit law. If $k=e$, the same unit laws give $h\star k=h$ and $k\star h=e\star h=h$.
+
+The only remaining case is $h=u$ and $k=u$. Then both ordered products are the identical product $u\star u$, so they are equal by reflexivity. Thus $h\star k=k\star h$ in every case, and the two graph identities give $r=r'$. Equality classification then gives $\hsame(r,r')$.
+
+Relative to the stability fields of \autoref{def:additive-stability-certificate}, this is an automatic two-element consequence of graph determinacy and the unit laws, not a separate swapped-source field. Together with \autoref{thm:core-additive-stability-not-swapped-commutative}, it identifies three equality classes as the first possible size for such a unital deterministic swapped-source failure.
+\end{proof}
