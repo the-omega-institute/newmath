@@ -77,5 +77,45 @@ successor partial-sum witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_term\_successor\_stable}
 
+\begin{theorem}[L-function Dirichlet zero-terms result is empty]
+\label{thm:lfunction-dirichlet-part-sum-zero-terms-result-empty}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. Then every closed partial-sum witness
+$\mathsf{DirichletPartSum}(term,s,n,S)$ has empty result $S\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives
+$S=\emp$. In the step case, the predecessor index is unary by the partial-sum
+index theorem, so the zero-term hypothesis identifies the next term with
+$\emp$. Comparing the displayed continuation with the right-unit continuation
+at $\emp$ gives the empty successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_result\_empty}
+
+\begin{theorem}[L-function positive Dirichlet partial-sum index exposes predecessor]
+\label{thm:lfunction-dirichlet-partsum-positive-index-previous-exists}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S).
+$$
+\end{theorem}
+\begin{proof}
+Apply the Dirichlet partial-sum index case split. The zero-index branch is
+incompatible with positive-index shape, since $\emp$ cannot be identified with
+a visible $\mathsf{BHist.e1}$ constructor. The successor branch already
+exposes the displayed predecessor index, predecessor partial sum, and final
+continuation into $S$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_exists}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}
