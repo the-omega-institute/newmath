@@ -86,3 +86,37 @@ identify the same input classifier $R_{\emp}(P,Q)$ with $R_{\emp}(R,Q)$.
 Composing these two equivalences gives the displayed endpoint-to-endpoint
 equivalence.
 \end{proof}
+
+\begin{theorem}[Group singleton suffix-context product-unit split]
+\label{thm:group-singleton-suffix-contextual-product-unit-split}
+For histories $L,R,p,q:\mathsf{BHist}$, if $A_{\emp}(L)$ and $A_{\emp}(R)$,
+then
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(p,q),L),\mathsf{append}(\emp,R))
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as terminal-group unit-product
+split under suffix contexts; the BEDC source as the concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability as right-context cancellation plus append empty-result split; ledger
+the hidden suffix endpoints and factors $p,q$; core theorem list
+\autoref{thm:group-singleton-classifier-right-context-cancel} and
+\autoref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate the displayed iff; standard bridge terminal group suffix-context
+unit-product split; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-right-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The carrier hypotheses $A_{\emp}(L)$ and
+$A_{\emp}(R)$ strip the singleton suffix contexts, reducing the displayed
+classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply \autoref{thm:group-singleton-classifier-product-unit-split} to this
+reduced classifier. It identifies the reduced classifier exactly with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving both directions of the displayed
+equivalence.
+\end{proof}
