@@ -601,6 +601,25 @@ $\mathsf{FieldApartTailFactor}(z,x)$.
 \item If $\ContR(w,q,z)$, then $\mathsf{FieldApartTailFactor}(z,q)$.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.FieldUp.FieldApartTailFactor}
+
+\begin{lemma}[Field apart-zero tail-factor empty endpoint exclusion]
+\label{lem:field-apartzero-tail-factor-empty-endpoint-exclusion}
+For histories $y,x:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame\emp$, and
+$\mathsf{ApartZero}_F(x)$, then $\bot$.
+\end{lemma}
+\begin{proof}
+Induct on the generated tail-factor witness. In the empty-context generator,
+the nested empty-context apart-zero equivalence transports
+$\mathsf{ApartZero}_F(x)$ to the result endpoint, contradicting
+$y\hsame\emp$. In the carried-tail generator, empty-result inversion for the
+last continuation gives an empty previous endpoint, so the induction
+hypothesis applies. In the exposed-factor generator, empty-result inversion
+gives the exposed factor itself as $\emp$, contradicting
+$\mathsf{ApartZero}_F(x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion}
 
 \begin{lemma}[Field apart-zero tail-factor hsame transport]
 \label{lem:field-apartzero-tail-factor-hsame-transport}
