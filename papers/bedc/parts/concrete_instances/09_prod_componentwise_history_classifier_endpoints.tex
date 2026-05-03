@@ -83,3 +83,47 @@ $\mathsf{ProdHistoryCarrier}(L,R,h)$ and to the second displayed pair
 representation to rebuild $\mathsf{ProdHistoryCarrier}(L,R,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_endpoint\_carriers}
+
+\begin{theorem}[Product history classifier hsame component cancellation]
+\label{thm:prod-history-classifier-hsame-component-cancellation}
+For source predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,l,l',r,r':\mathsf{BHist}$, suppose
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k),
+\qquad
+\Cont(l,r,h),
+\qquad
+\Cont(l',r',k).
+$$
+Then the displayed component comparisons determine each other:
+$$
+(\hsame(l,l')\to\hsame(r,r'))
+\land
+(\hsame(r,r')\to\hsame(l,l')).
+$$
+
+The ten-field fit is: traditional target ordered-pair component cancellation;
+BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier $\mathsf{ProdHistoryClassifier}$;
+stability from endpoint $\hsame$ plus continuation cancellation; ledger
+displayed pair continuations; core theorem this component-cancellation block;
+exactness component readback under one known component comparison; standard
+bridge ordered-pair cancellation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the product-history classifier only to expose the stored endpoint
+comparison $\hsame(h,k)$. The two displayed continuation witnesses already show
+that $h$ is presented by $(l,r)$ and $k$ is presented by $(l',r')$.
+
+For the first implication, assume $\hsame(l,l')$. Use
+\autoref{thm:cont-cancel-hsame-left-context} on the two displayed
+continuations, with the left contexts aligned by $\hsame(l,l')$ and the results
+aligned by the classifier endpoint comparison $\hsame(h,k)$. The left-context
+cancellation clause yields $\hsame(r,r')$.
+
+For the second implication, assume $\hsame(r,r')$. Transport the right suffix
+of one displayed continuation along this comparison so the two continuations
+have a common suffix. Then apply the common-suffix cancellation clause recorded
+in \autoref{thm:continuation-right-cancellation}, using the same endpoint
+comparison $\hsame(h,k)$, to obtain $\hsame(l,l')$.
+\end{proof}

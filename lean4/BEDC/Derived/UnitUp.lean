@@ -92,4 +92,14 @@ theorem UnitHistoryClassifier_visible_endpoint_absurd {p q k : BHist} :
       · intro classified
         exact not_hsame_emp_e1 (cont_left_unit_result classified.right.left)
 
+theorem UnitHistoryClassifier_continuation_middle_carrier {left middle right : BHist} :
+    UnitHistoryClassifier left right -> Cont left middle right -> UnitHistoryCarrier middle := by
+  intro classified continuation
+  have endpoints := UnitHistoryClassifier_empty_endpoints_iff.mp classified
+  have emptyContinuation := cont_result_hsame_transport continuation endpoints.right
+  have emptyParts := cont_empty_result_inversion emptyContinuation
+  apply UnitHistoryCarrier_empty_iff.mpr
+  cases emptyParts.right
+  exact hsame_refl BHist.Empty
+
 end BEDC.Derived.UnitUp
