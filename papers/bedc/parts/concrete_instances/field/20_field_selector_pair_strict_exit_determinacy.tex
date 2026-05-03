@@ -1,0 +1,89 @@
+\begin{theorem}[RatUp FieldUp selector-pair strict exit determinacy]
+\label{thm:ratup-fieldup-selector-pair-strict-exit-determinacy}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_q(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector} for each
+$q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all
+selector pairs $s,t,u,v:\mathsf{BMark}$ and contexts $L,R:\mathsf{BHist}$ the
+following concrete $\FieldUp(\RatUp)$ exit package is determined:
+\begin{enumerate}
+  \item
+  $$
+  R_D^u(E_s(h,k,\ell),E_u(h,k,\ell))
+  \land
+  R_D^u(E_t(h,k,\ell),E_v(h,k,\ell));
+  $$
+  \item
+  $$
+  \mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_u(h,k,\ell))
+  \land
+  \mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_v(h,k,\ell));
+  $$
+  \item
+  $$
+  C_D^u(E_s(h,k,\ell))
+  \land
+  C_D^u(E_t(h,k,\ell))
+  \land
+  R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))
+  \land
+  \left(
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot
+  \right)
+  \land
+  \mathsf{fieldSingletonEmptyNonZero}(E_s(h,k,\ell))
+  \land
+  \mathsf{fieldSingletonEmptyNonZero}(E_t(h,k,\ell));
+  $$
+  \item
+  $$
+  C_D^u(E_u(h,k,\ell))
+  \land
+  C_D^u(E_v(h,k,\ell))
+  \land
+  R_D^u(E_u(h,k,\ell),E_v(h,k,\ell))
+  \land
+  \left(
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,E_u(h,k,\ell)),\mathsf{append}(R,E_v(h,k,\ell)))\to\bot
+  \right)
+  \land
+  \mathsf{fieldSingletonEmptyNonZero}(E_u(h,k,\ell))
+  \land
+  \mathsf{fieldSingletonEmptyNonZero}(E_v(h,k,\ell)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-selector-complete-strict-exit-package} to the
+selector pair $(s,u)$ and contexts $L,R:\mathsf{BHist}$. Its strict exit row
+contains the denominator classifier row
+$R_D^u(E_s(h,k,\ell),E_u(h,k,\ell))$.
+
+Apply the same strict exit package to the selector pair $(t,v)$ and the same
+contexts. This supplies $R_D^u(E_t(h,k,\ell),E_v(h,k,\ell))$.
+
+Apply \autoref{thm:ratup-fieldup-bracketing-selector-rat-classifier-coverage} to
+the selected pairs $(s,u)$ and $(t,v)$. This gives
+$\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_u(h,k,\ell))$ and
+$\mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_v(h,k,\ell))$.
+
+Next apply \autoref{thm:ratup-fieldup-selector-complete-strict-exit-package} to
+the selector pair $(s,t)$ and contexts $L,R:\mathsf{BHist}$. The resulting
+strict exit row is exactly the third displayed conjunction.
+
+Finally apply the same strict exit package to the selector pair $(u,v)$ and the
+same contexts. Its row is the fourth displayed conjunction, and together with
+the two componentwise classifier rows it assembles the stated deterministic
+selector-pair package.
+\end{proof}
+
+Per-object template: traditional target selector-pair determinacy for the
+concrete $\FieldUp(\RatUp)$ exit; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, and $\mathsf{RatUpFieldSource}$; carrier $C_D^u$; classifier
+$R_D^u$ plus $\mathsf{RatHistoryClassifier}$; stability obligations selector
+strict exit row coverage and Rat classifier coverage; ledger the two selector
+pairs and contexts $L,R$; core theorem this block; exactness predicate
+componentwise selector determinacy; status $\mathsf{ProofTarget}$.
