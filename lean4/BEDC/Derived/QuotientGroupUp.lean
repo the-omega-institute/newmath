@@ -202,4 +202,47 @@ theorem QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
       (And.intro kernel.right.left
         (Exists.intro (mul (inv x) y) (And.intro kernel.right.right endpoint)))
 
+theorem QuotientGroupCentralizerNormalizer_semanticNameCert
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a : BHist} :
+    SemanticNameCert (SubgroupCentralizerNormalizer mul inv a)
+      (SubgroupCentralizerNormalizer mul inv a) (SubgroupCentralizerNormalizer mul inv a)
+      (SubgroupCentralizerQuotientKernel mul inv a) := by
+  have emptyNormalizer :
+      SubgroupCentralizerNormalizer mul inv a BHist.Empty :=
+    QuotientGroupCentralizerNormalizer_empty_unit leftId rightId mulCongr rightInv
+  have laws :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_classifier_laws
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyNormalizer
+      equiv_refl := by
+        intro h normalizes
+        exact laws.left normalizes
+      equiv_symm := by
+        intro h k classified
+        exact laws.right.left classified
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact laws.right.right classifiedHK classifiedKR
+      carrier_respects_equiv := by
+        intro h k classified _normalizesH
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 end BEDC.Derived.QuotientGroupUp
