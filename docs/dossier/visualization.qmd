@@ -18,7 +18,7 @@ format:
 
   .map-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-columns: minmax(0, 1fr) 200px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
     height: calc(100vh - 60px);
@@ -50,6 +50,12 @@ format:
     cursor: pointer; font-family: inherit; font-size: 0.85rem;
   }
   .lang-toggle button.active { background: #222; color: white; border-color: #222; }
+  .region-picker {
+    font-family: inherit; font-size: 0.88rem;
+    padding: 0.25rem 0.5rem; border: 1px solid #bbb; border-radius: 3px;
+    background: white; min-width: 220px; cursor: pointer;
+  }
+  .region-picker:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
 
   #cy { grid-area: graph; height: 100%; background: #fbfbfa; }
 
@@ -94,6 +100,9 @@ format:
   <div class="map-header">
     <h1 data-i18n="title">BEDC Project Map</h1>
     <div class="summary" id="summary"></div>
+    <select id="region-picker" class="region-picker" onchange="onPickerChange(this.value)">
+      <option value="" data-i18n="picker_default">-- jump to region --</option>
+    </select>
     <div class="lang-toggle">
       <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
       <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
@@ -160,6 +169,18 @@ const I18N = {
     detail_score: "score",
     detail_downstream: "downstream",
     detail_deps: "Depends on:",
+    picker_default: "-- jump to region --",
+    grp_kernel: "Kernel",
+    grp_discrete: "Discrete primitives",
+    grp_number: "Number systems",
+    grp_algebra: "Algebra",
+    grp_order: "Order / lattice",
+    grp_topology: "Topology",
+    grp_categorical: "Categorical",
+    grp_analysis: "Complex analysis",
+    grp_zeta: "Dirichlet / Zeta",
+    grp_reflection: "Reflection / capstone",
+    grp_other: "Other",
   },
   zh: {
     title: "BEDC 项目地图",
@@ -184,6 +205,18 @@ const I18N = {
     detail_score: "得分",
     detail_downstream: "下游影响",
     detail_deps: "依赖于:",
+    picker_default: "-- 跳到领域 --",
+    grp_kernel: "内核",
+    grp_discrete: "离散原语",
+    grp_number: "数系",
+    grp_algebra: "代数",
+    grp_order: "序 / 格",
+    grp_topology: "拓扑",
+    grp_categorical: "范畴",
+    grp_analysis: "复分析",
+    grp_zeta: "Dirichlet / ζ",
+    grp_reflection: "反思 / capstone",
+    grp_other: "其他",
   },
 };
 
@@ -192,10 +225,11 @@ let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
 let CRIT_SET = new Set();
 
 async function loadData() {
+  const v = "?v=" + Date.now();
   const [s, g, d] = await Promise.all([
-    fetch("data/status.json").then(r => r.json()),
-    fetch("data/glossary.json").then(r => r.json()),
-    fetch("data/dependency.json").then(r => r.json()),
+    fetch("data/status.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/glossary.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/dependency.json" + v, { cache: "no-store" }).then(r => r.json()),
   ]);
   STATUS = s; GLOSSARY = g; DEPS = d;
   CRIT_SET = new Set((STATUS.critical_path || []).map(c => c.name));
@@ -214,6 +248,73 @@ function applyStaticI18n() {
     `<strong>${STATUS.total_theorems}</strong> ${t("sum_theorems")} · ` +
     `<strong>${DEPS.nodes.length}</strong> ${t("sum_regions")} · ` +
     `<strong>${DEPS.edges.length}</strong> ${t("sum_edges")}`;
+  populatePicker();
+}
+
+// Group regions into mathematical areas for the dropdown picker.
+const REGION_GROUPS = [
+  ["grp_kernel",       ["kernel"]],
+  ["grp_discrete",     ["bool", "option", "prod", "sum", "list"]],
+  ["grp_number",       ["nat", "add", "int", "rat", "real", "complex", "prime"]],
+  ["grp_algebra",      ["monoid", "group", "abgroup", "ring", "commring", "field",
+                        "module", "vecspace", "linearmap", "matrix", "polynomial", "fps"]],
+  ["grp_order",        ["preorder", "poset", "totalorder", "lattice", "interval"]],
+  ["grp_topology",     ["metric", "compact", "continuous", "s1"]],
+  ["grp_categorical",  ["category", "functor", "nattrans"]],
+  ["grp_analysis",     ["complexlimit", "convergenceradius", "complexdiff",
+                        "holomorphic", "complexseries", "contour", "anacont"]],
+  ["grp_zeta",         ["dirichletseries", "zetabasic", "zetacont", "critstrip", "zetazeros"]],
+  ["grp_reflection",   ["observer", "interhist"]],
+];
+
+function pickerOptionLabel(node) {
+  const g = GLOSSARY[node.id];
+  const en = g ? g.en.label : node.id;
+  const zh = g ? g.zh.label : "";
+  return LANG === "zh"
+    ? `${zh}${en !== zh ? "  ·  " + en : ""}`
+    : `${en}${zh && zh !== en ? "  ·  " + zh : ""}`;
+}
+
+function populatePicker() {
+  const sel = document.getElementById("region-picker");
+  if (!sel) return;
+  const idsInGraph = new Set(DEPS.nodes.map(n => n.id));
+  const placed = new Set();
+
+  // build option groups from REGION_GROUPS, then a final "Other" group for stragglers
+  const groups = REGION_GROUPS.map(([key, ids]) => ({
+    key,
+    items: ids.filter(id => idsInGraph.has(id)),
+  })).filter(g => g.items.length > 0);
+  groups.forEach(g => g.items.forEach(id => placed.add(id)));
+  const leftover = DEPS.nodes
+    .filter(n => !placed.has(n.id))
+    .map(n => n.id)
+    .sort();
+  if (leftover.length) groups.push({ key: "grp_other", items: leftover });
+
+  let html = `<option value="">${t("picker_default")}</option>`;
+  for (const g of groups) {
+    html += `<optgroup label="${t(g.key)}">`;
+    for (const id of g.items) {
+      const node = DEPS.nodes.find(n => n.id === id);
+      if (!node) continue;
+      html += `<option value="${id}">${pickerOptionLabel(node)}</option>`;
+    }
+    html += `</optgroup>`;
+  }
+  sel.innerHTML = html;
+}
+
+function onPickerChange(id) {
+  if (!id) return;
+  showNodeDetail(id);
+  // also center the cytoscape viewport on the picked node
+  const cyNode = CY.getElementById(id);
+  if (cyNode && cyNode.length) {
+    CY.animate({ center: { eles: cyNode }, zoom: Math.max(CY.zoom(), 1.0), duration: 400 });
+  }
 }
 
 function statusClass(node) {
@@ -282,16 +383,20 @@ function renderCy() {
         style: {
           "background-color": "data(color)",
           "label": "data(label)",
-          "font-size": "12px",
-          "font-weight": 600,
-          "color": "#1a1a1a",
+          "font-size": "22px",
+          "font-weight": 700,
+          "color": "#0f0f0f",
           "text-valign": "bottom",
           "text-halign": "center",
-          "text-margin-y": 6,
+          "text-margin-y": 11,
           "text-outline-color": "#fbfbfa",
-          "text-outline-width": 2,
-          "width": "mapData(size, 0, 30, 22, 70)",
-          "height": "mapData(size, 0, 30, 22, 70)",
+          "text-outline-width": 5,
+          "text-background-color": "#fbfbfa",
+          "text-background-opacity": 0.92,
+          "text-background-padding": "4px",
+          "text-background-shape": "roundrectangle",
+          "width": "mapData(size, 0, 30, 26, 64)",
+          "height": "mapData(size, 0, 30, 26, 64)",
           "border-width": 2,
           "border-color": "#fff",
           "overlay-padding": 4,
@@ -315,17 +420,25 @@ function renderCy() {
     layout: {
       name: "dagre",
       rankDir: "LR",
-      nodeSep: 38,
-      rankSep: 130,
-      edgeSep: 12,
-      ranker: "tight-tree",
-      padding: 40,
+      // Wider rank spacing + tighter node spacing -> bigger labels under fit:true.
+      // The geometry is tuned so that the graph's natural size matches a typical
+      // viewport at fit ratio close to 1.0.
+      nodeSep: 36,
+      rankSep: 96,
+      edgeSep: 14,
+      ranker: "network-simplex",
+      padding: 16,
       fit: true,
       animate: false,
     },
-    wheelSensitivity: 0.2,
-    minZoom: 0.3,
-    maxZoom: 2.5,
+    // Disable wheel/pinch zoom (per request); pan-drag remains for nudging
+    // so the dropdown's centered jump can be fine-tuned without the user
+    // ever needing to scroll-zoom.
+    userZoomingEnabled: false,
+    userPanningEnabled: true,
+    boxSelectionEnabled: false,
+    wheelSensitivity: 0,
+    autoungrabify: true,
   });
 
   CY.on("tap", "node", evt => showNodeDetail(evt.target.id()));
@@ -337,6 +450,10 @@ function renderCy() {
       CY.nodes().unselect();
     }
   });
+  // Global view: fit all nodes in the viewport. With the bigger font and
+  // outline below, labels stay legible even when fit-zoomed. The dropdown
+  // is the primary nav for jumping between specific regions.
+  CY.fit(undefined, 16);
 }
 
 function showNodeDetail(id) {
