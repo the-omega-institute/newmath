@@ -242,6 +242,7 @@ import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.EmptyFinalReflection
+import BEDC.Derived.CompactUp.LeftE1ResultCases
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.EndpointCycle
 import BEDC.Derived.CategoryUp.ContinuationTailIdentitySquare
@@ -293,4 +294,5 @@ import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
+import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Reflection

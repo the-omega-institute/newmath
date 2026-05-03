@@ -90,6 +90,33 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness left e1 result cases]
+\label{thm:compact-net-witness-left-e1-result-cases}
+For histories $center,precision,net$, a compact-net witness from a visible
+center to a visible net has only the empty precision case or a visible
+precision tail:
+$$
+\mathsf{CompactNetWitness}(\Eone(center),precision,\Eone(net))
+\Longrightarrow
+\bigl(precision=\emp\land\mathsf{UnaryHistory}(center)\land
+\hsame(center,net)\bigr)
+\lor
+\bigl(\exists precisionTail:\mathsf{BHist}.\;
+precision=\Eone(precisionTail)\land
+\mathsf{CompactNetWitness}(\Eone(center),precisionTail,net)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness to expose the unary carriers and the
+continuation ledger. Inverting the ledger with visible result $\Eone(net)$
+gives either empty precision or a visible precision tail. The empty branch
+strips the visible constructor from the center-net equality and inverts the
+center carrier to obtain $\mathsf{UnaryHistory}(center)$. The visible branch
+inverts the precision and net carriers and repacks the tail continuation as a
+compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_cases}
+
 \begin{theorem}[Compact net witness suffix exactness]
 \label{thm:compact-net-witness-suffix-iff}
 For histories $p,c,\epsilon,n$, a compact-net witness with the same right
