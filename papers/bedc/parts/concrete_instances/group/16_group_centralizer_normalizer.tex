@@ -129,6 +129,58 @@ $s$ as the final one proves the conjugation clause for $\mathsf{inv}(s)$.
 These two preservation clauses are exactly $N_a(s)$.
 \end{proof}
 
+\begin{theorem}[Centralizer normal in its normalizer]
+\label{thm:group-centralizer-normal-in-normalizer}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-subgroup}, the centralizer carrier $Z_a$ of
+\autoref{def:group-centralizer-carrier} forms a normal subgroup package inside
+the normalizer carrier $N_a$ of
+\autoref{def:group-centralizer-normalizer-carrier}. Namely:
+\begin{enumerate}
+\item The identity, product, inverse, and $\hsame$-transport subgroup rows for
+$Z_a$ are those of \autoref{thm:group-centralizer-subgroup}.
+\item If $Z_a(s)$, then $N_a(s)$.
+\item If $N_a(s)$ and $Z_a(x)$, then $Z_a(\mathsf{Conj}_s(x))$.
+\item If $N_a(s)$ and $Z_a(x)$, then
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$.
+\item If $\hsame(s,t)$, then the two displayed conjugation-closure rows
+transport from $s$ to $t$ by the classifier comparison for the corresponding
+conjugation words.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The subgroup data are exactly the first four rows of
+\autoref{thm:group-centralizer-subgroup}. The inclusion $Z_a(s)\Rightarrow
+N_a(s)$ is the final row of
+\autoref{thm:group-centralizer-normalizer-subgroup}, so the carrier inclusion
+needed for a normal-subgroup package is already part of the normalizer
+subgroup theorem.
+
+It remains to identify the conjugation action of $N_a$ on $Z_a$. Unpack
+\autoref{def:group-centralizer-normalizer-carrier}. Its first clause says that
+every $Z_a(x)$ is sent to $Z_a(\mathsf{Conj}_s(x))$, and its second clause says
+that every $Z_a(x)$ is sent to
+$Z_a(\mathsf{Conj}_{\mathsf{inv}(s)}(x))$. These are precisely the two
+normality closure rows.
+
+For classifier transport, assume $\hsame(s,t)$. Multiplication congruence
+transports the word $\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ to
+$\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))$, using inverse congruence for
+the last factor. Applying
+\autoref{thm:group-conjugation-classifier-exactness} identifies the
+corresponding conjugation classifiers, and the $\hsame$-transport row of
+\autoref{thm:group-centralizer-subgroup} carries $Z_a$ membership across the
+comparison.
+
+The same multiplication-congruence and inverse-congruence calculation with
+$\mathsf{inv}(s)$ and $\mathsf{inv}(t)$ gives transport for the inverse
+conjugation row. Thus centralizer membership is closed under conjugation by
+normalizer elements and by their inverse conjugation words, with the closure
+stable under the ambient history classifier.
+\end{proof}
+
 \begin{theorem}[Group centralizer normalizer conjugation action]
 \label{thm:group-centralizer-normalizer-conjugation-action}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
