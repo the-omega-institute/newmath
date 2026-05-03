@@ -11,8 +11,11 @@ Run with no arguments. Output is JSON to stdout.
 
 from __future__ import annotations
 
+import fcntl
 import json
+import os
 import re
+import time
 from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +23,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NAMECERT_GLOB = ROOT / "papers/bedc/parts/concrete_instances"
 DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
+
+# Per-call rolling cooldown: when 8+ paper reviewers run critical_path in the
+# same minute they all see identical scores and converge on the same top-1,
+# producing a dedup pile-up downstream. Each invocation atomically picks the
+# best non-locked node and writes it to LOCKS_FILE so the next concurrent
+# invocation skips it. Locks expire after LOCK_TTL_SECONDS so when a round
+# finishes (or stalls) the anchor naturally re-enters the candidate pool.
+LOCKS_FILE = Path(__file__).resolve().parent / ".critical_path_locks.json"
+LOCK_TTL_SECONDS = 1500  # 25 min — matches typical paper round duration
 
 # Lower bound for "node is implemented enough that its dependents may proceed".
 DEPS_READY_THRESHOLD = 5
@@ -134,6 +146,50 @@ def deps_ready(name: str, horizons: dict[str, dict]) -> bool:
     return True
 
 
+def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
+    """Atomically pick the best non-locked node, record it in LOCKS_FILE, and
+    return a re-ordered top with locked nodes demoted to the bottom.
+
+    Concurrent critical_path invocations serialize on flock so each one sees
+    the latest lock state — 8 simultaneous reviewers will each pick a
+    different top because each adds its choice to the lock file before the
+    next gets the lock.
+    """
+    # Open with O_CREAT so we can flock even if the file doesn't exist yet.
+    fd = os.open(LOCKS_FILE, os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        try:
+            os.lseek(fd, 0, 0)
+            raw = os.read(fd, 1 << 20).decode("utf-8") or "{}"
+            locks: dict[str, float] = json.loads(raw)
+        except Exception:
+            locks = {}
+        now = time.time()
+        # Drop expired locks
+        locks = {k: v for k, v in locks.items() if v > now}
+        locked_names = set(locks.keys())
+        # Partition ranked into available / locked, preserve internal order
+        available = [r for r in ranked if r["name"] not in locked_names]
+        locked = [r for r in ranked if r["name"] in locked_names]
+        # Claim the new top-1 (the available[0]) for this caller
+        if available:
+            locks[available[0]["name"]] = now + LOCK_TTL_SECONDS
+        try:
+            os.lseek(fd, 0, 0)
+            os.ftruncate(fd, 0)
+            os.write(fd, json.dumps(locks).encode("utf-8"))
+        except Exception:
+            pass
+        return available + locked
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        except Exception:
+            pass
+        os.close(fd)
+
+
 def main() -> int:
     horizons = extract_horizons()
     downstream = transitive_downstream(horizons)
@@ -152,11 +208,12 @@ def main() -> int:
             "score": round(score, 2),
         })
     ranked.sort(key=lambda r: (-r["score"], -r["downstream"], r["name"]))
+    rolled = _claim_top_with_cooldown(ranked)
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": DEPS_READY_THRESHOLD,
         "saturation_threshold": SATURATION_THRESHOLD,
-        "top": ranked[:10],
+        "top": rolled[:10],
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
