@@ -153,6 +153,26 @@ cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
 
+\begin{theorem}[Cohomology cocycle left-shift append empty equivalence]
+\label{thm:cohomology-cocycle-left-shift-append-empty-iff}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For
+histories $axis,h,k:\mathsf{BHist}$, the left-shifted appended history
+$axis\cdot(h\cdot k)$ is a $d$-cocycle exactly when the axis and both tail
+components are $d$-cocycles:
+$$
+d(axis\cdot(h\cdot k))\hsame\emp
+\quad\Longleftrightarrow\quad
+d(axis)\hsame\emp\ \wedge\ d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply append-empty equivalence to split the left axis from the tail
+$h\cdot k$. Apply the same equivalence again to split the tail into $h$ and
+$k$. The converse first rebuilds the tail cocycle and then rebuilds the
+left-shifted cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_left\_shift\_append\_empty\_iff}
+
 \begin{theorem}[Cohomology cocycle core append transport]
 \label{thm:cohomology-cocycle-append-core-hsame-transport}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
