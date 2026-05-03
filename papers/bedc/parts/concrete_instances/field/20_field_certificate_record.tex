@@ -93,6 +93,54 @@ following rows as a single obligation record.
   \item Status: ProofTarget.
 \end{enumerate}
 
+\begin{theorem}[RatUp FieldUp certificate record absorbs selector-independent exit]
+\label{thm:ratup-fieldup-certificate-record-absorbs-selector-independent-exit}
+For the certificate-obligation record of
+Definition~\ref{def:field-certificate-obligations}, for
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, for the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, for histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$, for
+selectors $s,t,u,v:\mathsf{BMark}$, and for contexts
+$L,R,r:\mathsf{BHist}$, if $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the
+concrete $\FieldUp(\RatUp)$ certificate record contains, as one record-level
+row family, every row of
+\autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} and
+every row of
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary}. This family
+includes the selector-pair strict exit rows, the bracketing obstruction rows,
+both selected final boundaries, and the componentwise
+$\mathsf{RatHistoryClassifier}$ selector rows.
+\end{theorem}
+\begin{proof}
+Instantiate
+\autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate} with
+the displayed denominator tuple, histories, carrier witnesses, selectors
+$s,t,u,v$, contexts $L,R,r$, and the given
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. This supplies the selector-pair
+strict exit rows, the bracketing obstruction rows, and the selected
+final-boundary rows for the concrete exit object.
+
+Instantiate
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary} with the same
+tuple, witnesses, selectors, contexts, and support witness. This supplies both
+selected final boundaries together with the componentwise
+$R_D^u$ and $\mathsf{RatHistoryClassifier}$ selector rows.
+
+The ledger fields of Definition~\ref{def:field-certificate-obligations} already
+name the denominator ledger, contextual-pair ledger, and coverage rows. The
+exactness fields name denominator exactness, contextual-action exactness,
+context-pair exactness, and classifier exactness. Package the two instantiated
+row families under those fields, using the selector pairs and contexts as the
+ledger indices.
+
+The result is a single $\FieldUp(\RatUp)$ record-level final exit certificate:
+the traditional target is the $\FieldUp(\RatUp)$ record-level final exit
+certificate, the BEDC source is $\mathsf{BHist}$, $\mathsf{BMark}$, and
+$\mathsf{RatUp}$, the carrier and classifier rows are the denominator and
+rational classifier rows, the ledger is selector pairs plus contexts, and the
+downstream consumer is the Phase Algebra Hierarchy exit criterion.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 $\FieldUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
 

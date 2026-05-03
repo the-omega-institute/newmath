@@ -12,6 +12,19 @@ For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the 
 \end{definition}
 \leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap}
 
+\begin{theorem}[Open-disk gap determinacy]
+\label{thm:cplx-topo-open-disk-gap-deterministic}
+If a complex-topology open-disk gap witness exposes $\Cont(z,g,r)$ and another
+boundary ledger exposes $\Cont(z,g',r)$ with the same point and radius, then
+$g\hsame g'$.
+\end{theorem}
+\begin{proof}
+Unpack the concrete open-disk gap witness to recover its boundary continuation
+ledger. Continuation left cancellation against the alternative ledger compares
+the two gap histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_gap\_deterministic}
+
 \begin{remark}[Compatibility with the inline definition]
 This definition coincides with the inline \texttt{BEDC.Derived.HolomorphicUp.OpenDisk} of \autoref{ch:concrete-instances-holomorphic-namecert} up to namespace; promoting it to \(\ComplexTopologyUp\) lets downstream chapters cite a single canonical home.
 \end{remark}
@@ -115,6 +128,22 @@ boundary ledger follows by reassociating \(\Cont\) after commuting the unary
 gap and suffix histories.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_unary\_suffix\_transport}
+
+\begin{theorem}[Open-disk gap center-point unary suffix transport]
+\label{thm:cplx-topo-open-disk-gap-center-point-unary-suffix-transport}
+If a complex-topology open-disk gap witness has center \(z_0\), point \(z\),
+radius \(r\), and boundary ledger \(\Cont(z,g,r)\), and a unary suffix \(q\)
+continues \(z_0\), \(z\), and \(r\) to \(z_{0q}\), \(z_q\), and \(r_q\), then
+\((z_{0q},r_q,z_q,g)\) is again an open-disk gap witness and exposes
+\(\Cont(z_q,g,r_q)\).
+\end{theorem}
+\begin{proof}
+The preceding unary suffix theorem shifts the point and radius while retaining
+the gap ledger. Complex carrier closure under the same unary suffix shifts the
+center carrier from \(z_0\) to \(z_{0q}\), so the transported center, shifted
+radius, shifted point, and original gap repack the open-disk gap witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_center\_point\_unary\_suffix\_transport}
 
 \section{Open sets and finite intersections}
 \label{sec:cplx-topo-open-sets}

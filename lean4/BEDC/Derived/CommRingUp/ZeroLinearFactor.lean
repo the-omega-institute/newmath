@@ -4,6 +4,61 @@ namespace BEDC.Derived.CommRingUp
 
 open BEDC.FKernel.Hist
 
+theorem commring_zero_linear_factor_annihilator_branch {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b : BHist} :
+    (hsame (add a b) BHist.Empty ∨ hsame (add a (neg b)) BHist.Empty) ->
+      ((hsame (add a b) BHist.Empty ∧ forall c : BHist,
+          hsame (mul (add a b) c) BHist.Empty ∧
+            hsame (mul c (add a b)) BHist.Empty) ∨
+        (hsame (add a (neg b)) BHist.Empty ∧ forall c : BHist,
+          hsame (mul (add a (neg b)) c) BHist.Empty ∧
+            hsame (mul c (add a (neg b))) BHist.Empty)) := by
+  intro zeroFactor
+  have rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)) := by
+    exact commring_right_distrib_from_left mulComm addCongr leftDistrib
+  have zeroAbsorption :
+      And (forall x : BHist, hsame (mul x BHist.Empty) BHist.Empty)
+        (forall x : BHist, hsame (mul BHist.Empty x) BHist.Empty) :=
+    BEDC.Derived.RingUp.ring_mul_zero_absorption addAssoc zeroLeft negLeft addCongr
+      mulCongr leftDistrib rightDistrib
+  cases zeroFactor with
+  | inl plusZero =>
+      apply Or.inl
+      constructor
+      · exact plusZero
+      · intro c
+        constructor
+        · exact hsame_trans
+            (mulCongr plusZero (hsame_refl c))
+            (zeroAbsorption.right c)
+        · exact hsame_trans
+            (mulCongr (hsame_refl c) plusZero)
+            (zeroAbsorption.left c)
+  | inr minusZero =>
+      apply Or.inr
+      constructor
+      · exact minusZero
+      · intro c
+        constructor
+        · exact hsame_trans
+            (mulCongr minusZero (hsame_refl c))
+            (zeroAbsorption.right c)
+        · exact hsame_trans
+            (mulCongr (hsame_refl c) minusZero)
+            (zeroAbsorption.left c)
+
 theorem commring_zero_linear_factor_equal_squares {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
