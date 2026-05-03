@@ -185,8 +185,8 @@ format:
     <div class="legend">
       <div data-i18n="legend_title" style="font-weight:600; color:#444; margin-bottom:0.4rem;">Legend</div>
       <div><span class="swatch" style="background:#c0392b;"></span><span data-i18n="legend_crit">Frontline (AI's current target)</span></div>
-      <div><span class="swatch" style="background:#27ae60;"></span><span data-i18n="legend_proven">Proven (all markers checked)</span></div>
-      <div><span class="swatch" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (partly checked)</span></div>
+      <div><span class="swatch" style="background:#27ae60;"></span><span data-i18n="legend_proven">Proven (object-completion theorem checked)</span></div>
+      <div><span class="swatch" style="background:#3498db;"></span><span data-i18n="legend_prog">In progress (theorems landing, completion theorem pending)</span></div>
       <div><span class="swatch" style="background:#bdc3c7;"></span><span data-i18n="legend_scaf">Scaffold (paper only, Lean pending)</span></div>
       <div><span class="swatch" style="background:#8e44ad;"></span><span data-i18n="legend_schema">Schema-only horizon (intentional)</span></div>
       <div style="margin-top:0.4rem; color:#888;" data-i18n="legend_size">Size = total paper obligations (checked + stated).</div>
@@ -229,8 +229,8 @@ const I18N = {
     hint: "Click a node to see its bilingual entry, stats, and dependencies.",
     legend_title: "Legend",
     legend_crit: "Frontline (AI's current target)",
-    legend_proven: "Proven (all markers checked)",
-    legend_prog: "In progress (partly checked)",
+    legend_proven: "Proven (object-completion theorem checked)",
+    legend_prog: "In progress (theorems landing, completion theorem pending)",
     legend_scaf: "Scaffold (paper only, Lean pending)",
     legend_schema: "Schema-only horizon (intentional)",
     legend_size: "Size = total paper obligations (checked + stated).",
@@ -271,8 +271,8 @@ const I18N = {
     hint: "点击节点查看双语词条, 统计和依赖关系.",
     legend_title: "图例",
     legend_crit: "前线 (AI 当前攻坚)",
-    legend_proven: "已证 (所有 marker 都已 checked)",
-    legend_prog: "进行中 (部分 checked)",
+    legend_proven: "已证 (对象完成性定理已扣上)",
+    legend_prog: "进行中 (有定理在落, 主完成性定理还差)",
     legend_scaf: "脚架 (仅论文, Lean 待补)",
     legend_schema: "Schema-only 视界 (有意为之)",
     legend_size: "节点大小 = 论文 obligation 总数 (checked + stated).",
@@ -485,15 +485,25 @@ function statusClass(node) {
   if (CRIT_SET.has(node.id)) return "crit";
   // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
   if (node.id === "kernel") return "proven";
-  // Stage = how many of THIS region's namecert (object-completion) theorems
-  // are proven. The presence of any \leanchecked namecert means the object
-  // exists in BEDC; otherwise the region is scaffold or in progress.
+
+  // Three-tier classification grounded in two signals:
+  //   - namecert_checked   = the region's *completion* proofs are landed
+  //   - thms / checked     = there is *any* theorem activity in the region
+  //
+  // proven    : at least one namecert (object-completion) theorem is checked
+  //             AND there are no still-stated namecert theorems
+  // progress  : namecert not yet proven, but the region has Lean theorems or
+  //             paper-marker activity -- work is in flight
+  // scaffold  : nothing yet (paper exists, no theorems, no namecert)
   const ncChecked = node.namecert_checked || 0;
-  const ncStmt    = node.namecert_stmt || 0;
-  if (ncChecked > 0 && ncStmt === 0) return "proven";    // all namecert proofs landed
-  if (ncChecked > 0)                  return "progress";  // some namecerts proven, others stated
-  if (ncStmt > 0)                     return "scaffold";  // namecerts only stated, not proven
-  return "scaffold";                                       // no namecert markers found
+  const ncStmt    = node.namecert_stmt    || 0;
+  const thms      = node.thms             || 0;
+  const checked   = node.checked          || 0;
+
+  if (ncChecked > 0 && ncStmt === 0) return "proven";
+  if (ncChecked > 0)                  return "progress";  // mixed namecert states
+  if (thms > 0 || checked > 0)        return "progress";  // theorems exist, namecert pending
+  return "scaffold";
 }
 
 function nodeColor(cls) {
