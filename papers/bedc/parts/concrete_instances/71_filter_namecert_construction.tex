@@ -146,6 +146,29 @@ inversion for the second continuation identifies $right$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_base\_points\_empty\_exact}
 
+\begin{theorem}[Principal suffix intersection empty point exactness]
+\label{thm:filter-principal-suffix-intersection-empty-point-exact}
+Let $base,left,right,meet,meetPoint:\mathsf{BHist}$. If
+$$
+\ContR(left,right,meet),\qquad
+\ContR(base,meet,meetPoint),
+$$
+and the displayed intersection point satisfies $meetPoint\hsame\emp$, then
+all four histories collapse to the empty history:
+$$
+base\hsame\emp,\qquad meet\hsame\emp,\qquad
+left\hsame\emp,\qquad right\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Transport $meetPoint$ to $\emp$ and apply empty-result inversion to
+$\ContR(base,meet,meetPoint)$. This identifies both $base$ and $meet$ with
+$\emp$. Substituting the empty meet into $\ContR(left,right,meet)$ and
+applying the same empty-result inversion identifies $left$ and $right$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_intersection\_empty\_point\_exact}
+
 \section{The certificate}
 \label{sec:filter-certificate}
 
