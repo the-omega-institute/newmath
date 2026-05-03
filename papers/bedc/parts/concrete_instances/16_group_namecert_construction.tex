@@ -114,6 +114,20 @@ comparison between the two appended endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[Group singleton carrier visible-tail append exclusion]
+\label{thm:group-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(p,\mathsf{e0}(q))$ nor
+$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton group carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed appended
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$. Constructor
+separation for generated histories rules out both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_tail\_absurd}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.

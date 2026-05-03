@@ -397,6 +397,93 @@ theorem field_rat_denominator_bilateral_strict_factor_cancellation {h k l r : BH
               ⟨carrierLeftContext, carrierRightContext, carrierLeftContext, carrierRightContext,
                 hsame_refl (append l (append BHist.Empty r))⟩
 
+theorem field_rat_denominator_unit_envelope_cancellation_exactness {h k t : BHist} :
+    FieldRatDenominatorUnitEnvelopeCarrier h -> FieldRatDenominatorUnitEnvelopeCarrier k ->
+      FieldRatDenominatorUnitEnvelopeCarrier t -> RatHistoryCarrier t ->
+        (FieldRatDenominatorUnitEnvelopeClassifier (append h t) (append k t) <->
+            FieldRatDenominatorUnitEnvelopeClassifier h k) ∧
+          (FieldRatDenominatorUnitEnvelopeClassifier (append t h) (append t k) <->
+            FieldRatDenominatorUnitEnvelopeClassifier h k) := by
+  intro carrierH carrierK _carrierT ratT
+  have carrierAppendRight :
+      ∀ {x : BHist}, FieldRatDenominatorUnitEnvelopeCarrier x ->
+        RatHistoryCarrier (append x t) := by
+    intro x carrierX
+    cases carrierX with
+    | inl ratX =>
+        exact RatHistoryCarrier_continuation_closed ratX ratT (cont_intro rfl)
+    | inr emptyX =>
+        cases emptyX
+        exact RatHistoryCarrier_hsame_transport (hsame_symm (append_empty_left t)) ratT
+  have carrierAppendLeft :
+      ∀ {x : BHist}, FieldRatDenominatorUnitEnvelopeCarrier x ->
+        RatHistoryCarrier (append t x) := by
+    intro x carrierX
+    cases carrierX with
+    | inl ratX =>
+        exact RatHistoryCarrier_continuation_closed ratT ratX (cont_intro rfl)
+    | inr emptyX =>
+        cases emptyX
+        exact ratT
+  have ratTT : RatHistoryClassifier t t := ⟨ratT, ratT, hsame_refl t⟩
+  constructor
+  · constructor
+    · intro classifiedContext
+      have ratContext : RatHistoryClassifier (append h t) (append k t) :=
+        Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left
+          (carrierAppendRight carrierH) (carrierAppendRight carrierK)) classifiedContext
+      cases carrierH with
+      | inl ratH =>
+          cases carrierK with
+          | inl ratK =>
+              have ratHK : RatHistoryClassifier h k :=
+                ⟨ratH, ratK, append_right_cancel ratContext.right.right⟩
+              exact Or.inl ⟨ratH, ratK, ratHK⟩
+          | inr emptyK =>
+              cases emptyK
+              exact False.elim
+                (RatHistoryCarrier_not_empty ratH (append_right_cancel ratContext.right.right))
+      | inr emptyH =>
+          cases carrierK with
+          | inl ratK =>
+              cases emptyH
+              exact False.elim
+                (RatHistoryCarrier_not_empty ratK
+                  (hsame_symm (append_right_cancel ratContext.right.right)))
+          | inr emptyK =>
+              exact Or.inr ⟨emptyH, emptyK⟩
+    · intro classified
+      exact field_rat_denominator_unit_envelope_classifier_append_closed classified
+        (Or.inl ⟨ratT, ratT, ratTT⟩)
+  · constructor
+    · intro classifiedContext
+      have ratContext : RatHistoryClassifier (append t h) (append t k) :=
+        Iff.mp (field_rat_denominator_unit_envelope_classifier_exactness.left
+          (carrierAppendLeft carrierH) (carrierAppendLeft carrierK)) classifiedContext
+      cases carrierH with
+      | inl ratH =>
+          cases carrierK with
+          | inl ratK =>
+              have ratHK : RatHistoryClassifier h k :=
+                ⟨ratH, ratK, append_left_cancel ratContext.right.right⟩
+              exact Or.inl ⟨ratH, ratK, ratHK⟩
+          | inr emptyK =>
+              cases emptyK
+              exact False.elim
+                (RatHistoryCarrier_not_empty ratH (append_left_cancel ratContext.right.right))
+      | inr emptyH =>
+          cases carrierK with
+          | inl ratK =>
+              cases emptyH
+              exact False.elim
+                (RatHistoryCarrier_not_empty ratK
+                  (hsame_symm (append_left_cancel ratContext.right.right)))
+          | inr emptyK =>
+              exact Or.inr ⟨emptyH, emptyK⟩
+    · intro classified
+      exact field_rat_denominator_unit_envelope_classifier_append_closed
+        (Or.inl ⟨ratT, ratT, ratTT⟩) classified
+
 theorem FieldRatDenominatorUnitEnvelope_external_strict :
     FieldRatDenominatorUnitEnvelopeCarrier BHist.Empty ∧
       (RatHistoryCarrier BHist.Empty -> False) ∧
