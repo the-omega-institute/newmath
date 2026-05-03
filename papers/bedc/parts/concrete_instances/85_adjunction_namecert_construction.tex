@@ -97,6 +97,43 @@ determinism separately to the left and right triangle rows.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
 
+\begin{definition}[Adjunction triangle carrier]
+\label{def:adjunction-triangle-carrier}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier consists of a prefix natural
+transformation component from $left$ to $right$, a prefix natural
+transformation component from $right$ to $left$, and the two continuation
+ledgers
+$$
+\ContR(unit,counit,leftLeg),\qquad
+\ContR(counit,unit,rightLeg).
+$$
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier}
+
+\begin{theorem}[Adjunction empty roundtrip prefix determinacy]
+\label{thm:adjunction-empty-roundtrip-prefix-deterministic}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, if an adjunction triangle carrier has both roundtrip legs
+$\hsame$ to $\emp$, then its two prefix histories are classifier-equal:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(leftLeg,\emp)\Longrightarrow
+\hsame(rightLeg,\emp)\Longrightarrow
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The empty left roundtrip continuation collapses both $unit$ and $counit$ to
+$\emp$, and the empty right roundtrip gives the same collapse in the opposite
+order. The prefix component identity exactness theorem applied to the empty
+$unit$ component yields $\hsame(left,right)$; applying it to the empty $counit$
+component gives the reverse classifier equality, so the two displayed
+roundtrip collapses agree on the same prefix pair.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_empty\_roundtrip\_prefix\_deterministic}
+
 \section{The certificate}
 \label{sec:adjunction-certificate}
 

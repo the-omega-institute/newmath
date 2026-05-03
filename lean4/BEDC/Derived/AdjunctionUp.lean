@@ -182,4 +182,34 @@ theorem AdjunctionPrefix_endomorphism_triangle_component_closed
   exact And.intro leftCarrier
     (And.intro rightCarrier (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+def AdjunctionTriangleCarrier
+    (left right object unit counit leftLeg rightLeg : BHist) : Prop :=
+  NatTransPrefixComponentCarrier left right object unit ∧
+    NatTransPrefixComponentCarrier right left object counit ∧
+      Cont unit counit leftLeg ∧ Cont counit unit rightLeg
+
+theorem AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      hsame leftLeg BHist.Empty -> hsame rightLeg BHist.Empty -> hsame left right := by
+  intro carrier leftLegEmpty rightLegEmpty
+  have unitCounitEmpty : unit = BHist.Empty ∧ counit = BHist.Empty := by
+    cases leftLegEmpty
+    exact cont_empty_result_inversion carrier.right.right.left
+  have counitUnitEmpty : counit = BHist.Empty ∧ unit = BHist.Empty := by
+    cases rightLegEmpty
+    exact cont_empty_result_inversion carrier.right.right.right
+  cases unitCounitEmpty.left
+  cases unitCounitEmpty.right
+  cases counitUnitEmpty.left
+  cases counitUnitEmpty.right
+  have leftPrefixData :=
+    (NatTransPrefixComponentCarrier_empty_identity_iff
+      (p := left) (q := right) (a := object)).mp carrier.left
+  have rightPrefixData :=
+    (NatTransPrefixComponentCarrier_empty_identity_iff
+      (p := right) (q := left) (a := object)).mp carrier.right.left
+  exact hsame_trans leftPrefixData.right.right.right
+    (hsame_trans rightPrefixData.right.right.right leftPrefixData.right.right.right)
+
 end BEDC.Derived.AdjunctionUp

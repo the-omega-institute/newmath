@@ -12,9 +12,9 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.ContinuousUp
 open BEDC.Derived.MetricUp
 
-def ContinuousMapCarrier (source map target modulus cert dist : BHist) : Prop :=
+def ContinuousMapCarrier (source map target modulus cert distance : BHist) : Prop :=
   ContinuousFunctionCarrier source map target modulus cert ∧
-    MetricDistanceWitness source target dist
+    MetricDistanceWitness source target distance
 
 theorem ContinuousMapCarrier_empty_distance_exact {source map modulus cert : BHist} :
     ContinuousMapCarrier source map BHist.Empty modulus cert BHist.Empty ↔
@@ -192,5 +192,51 @@ theorem ContinuousMap_empty_target_metric_cert_deterministic
   exact
     cont_respects_hsame (hsame_symm distData.right) (hsame_refl modulus)
       carrier.right.right.right.right.right certRel
+
+theorem ContinuousMapCarrier_target_cert_distance_deterministic
+    {source map target target' modulus cert cert' distance distance' : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ->
+      ContinuousMapCarrier source map target' modulus cert' distance' ->
+        hsame target target' ∧ hsame cert cert' ∧ hsame distance distance' ∧
+          Cont source target distance := by
+  intro left right
+  have targetCertSame :
+      hsame target target' ∧ hsame cert cert' :=
+    ContinuousFunctionCarrier_target_cert_deterministic left.left right.left
+  have distanceSame : hsame distance distance' :=
+    MetricDistanceWitness_hsame_result_deterministic
+      (hsame_refl source) targetCertSame.left left.right right.right
+  exact And.intro targetCertSame.left
+    (And.intro targetCertSame.right
+      (And.intro distanceSame left.right.right.right.right))
+
+theorem ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
+    {source target modulus cert : BHist} :
+    ContinuousMapCarrier source BHist.Empty target modulus cert BHist.Empty ↔
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        ContinuousModulusWitness BHist.Empty modulus cert := by
+  constructor
+  · intro carrier
+    have mapData :=
+      (ContinuousFunctionCarrier_empty_map_iff
+        (source := source) (target := target) (modulus := modulus) (cert := cert)).mp
+        carrier.left
+    have distanceData :=
+      (MetricDistanceWitness_empty_distance_iff (x := source) (y := target)).mp
+        carrier.right
+    cases distanceData.right
+    exact And.intro distanceData.left (And.intro (hsame_refl BHist.Empty) mapData.right)
+  · intro data
+    cases data.left
+    cases data.right.left
+    have functionCarrier :
+        ContinuousFunctionCarrier BHist.Empty BHist.Empty BHist.Empty modulus cert :=
+      (ContinuousFunctionCarrier_empty_map_iff
+        (source := BHist.Empty) (target := BHist.Empty) (modulus := modulus) (cert := cert)).mpr
+        (And.intro (hsame_refl BHist.Empty) data.right.right)
+    have distanceWitness : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+      (MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
+        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+    exact And.intro functionCarrier distanceWitness
 
 end BEDC.Derived.ContinuousMapUp
