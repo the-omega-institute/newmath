@@ -177,6 +177,57 @@ the exactness predicate is the displayed $\hsame$; the standard bridge is the
 ordinary parallelogram identity in a commutative ring; and the status is
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[CommRing square cross-term extraction pair]
+\label{thm:commring-square-cross-term-extraction-pair}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+both distributive laws, multiplicative commutativity, and the $\RingUp$
+negative-product laws, every $a,b : \mathsf{BHist}$ satisfies both identities
+$$
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+$$
+and
+$$
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b)).
+$$
+\end{theorem}
+\begin{proof}
+For the positive square, apply \autoref{thm:commring-square-add-expand} and
+transport the appended $(-(a\cdot a))+(-(b\cdot b))$ ledger through addition
+congruence. Additive associativity, additive commutativity, and
+\autoref{thm:abgroup-middle-four-interchange} move the $a\cdot a$ term next to
+its inverse and the $b\cdot b$ term next to its inverse.
+
+\autoref{thm:ring-add-right-inverse} cancels the two exposed diagonal pairs.
+The additive zero laws remove the resulting zero summands, leaving exactly the
+two positive mixed terms in the displayed order.
+
+For the signed square, apply
+\autoref{thm:commring-square-signed-difference-expand} and use addition
+congruence to append the same diagonal inverse ledger. The same associativity,
+commutativity, and middle-four interchange rearrangement exposes the
+$a\cdot a$ and $b\cdot b$ inverse pairs without changing the two signed mixed
+terms.
+
+Apply \autoref{thm:ring-add-right-inverse} again, then use the additive zero
+laws to erase the cancelled diagonal ledger. The remaining terms are
+$-(a\cdot b)$ and $-(a\cdot b)$, which gives the second displayed identity.
+\end{proof}
+
+For the $\CommRingUp$ per-object template, the traditional target is
+commutative-ring cross-term extraction for quadratic algebra; the BEDC source is
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$; the carrier is
+$\mathsf{BHist}$; the classifier is $\hsame$; the stability obligations are
+square expansion, signed-square expansion, additive congruence, additive
+associativity, additive commutativity, diagonal inverse cancellation, additive
+zero laws, and middle-four interchange; the ledger records diagonal removal from
+the two normalized square ledgers; the core theorem is this block; the exactness
+predicate is the two displayed $\hsame$ identities; the downstream use is
+$\FieldUp$ quadratic normalization and later polarization-style algebra; and the
+status is $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing product of binary sums]
 \label{thm:commring-mul-add-add-expand}
 For BEDC history addition and multiplication, multiplicative commutativity,
@@ -291,6 +342,31 @@ $(a\cdot a)+(-(b\cdot b))$ under $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares}
 
+\begin{theorem}[CommRing equal squares force signed factor zero]
+\label{thm:commring-equal-squares-signed-factor-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+(a+b)\cdot(a+(-b))\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-difference-of-squares}
+to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
+the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
+congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
+is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
+
+Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
+pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
+normal form, the transported square equality, and the inverse collapse.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_factor\_zero}
+
 \begin{theorem}[CommRing difference-of-squares zero exactness]
 \label{thm:commring-difference-of-squares-zero-exact}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -316,17 +392,10 @@ collapses that pair to $0$, and the zero laws leave $a\cdot a$. On the right
 endpoint, the zero law collapses $0+(b\cdot b)$ to $b\cdot b$. Transitivity
 gives $a\cdot a\hsame b\cdot b$.
 
-For the reverse direction, apply Theorem~\ref{thm:commring-difference-of-squares}
-to rewrite the signed factor product as $(a\cdot a)+(-(b\cdot b))$. Transport
-the assumed square equality $a\cdot a\hsame b\cdot b$ through additive
-congruence while keeping the right summand $-(b\cdot b)$ fixed. The right side
-is therefore identified with $(b\cdot b)+(-(b\cdot b))$.
-
-Theorem~\ref{thm:ring-add-right-inverse} collapses this final additive inverse
-pair to $0$. Transitivity of $\hsame$ composes the difference-of-squares
-normal form, the transported square equality, and the inverse collapse.
+For the reverse direction, apply
+Theorem~\ref{thm:commring-equal-squares-signed-factor-zero} to the square
+equality $a\cdot a\hsame b\cdot b$.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_factor\_zero}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_difference\_of\_squares\_zero\_exact}
 
 \begin{theorem}[CommRing signed binary product normal form]

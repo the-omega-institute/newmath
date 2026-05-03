@@ -31,6 +31,25 @@ theorem YonedaRepresentable_empty_component_family_iff {p q : BHist} :
         (And.intro data.right.left
           (And.intro objectCarrier data.right.right)))
 
+theorem YonedaRepresentable_empty_component_family_e1_target_iff {p q : BHist} :
+    ((forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier p (BHist.e1 q) a BHist.Empty) <->
+      UnaryHistory q /\ hsame p (BHist.e1 q)) := by
+  constructor
+  · intro family
+    have data := YonedaRepresentable_empty_component_family_iff.mp family
+    exact And.intro (unary_e1_inversion data.right.left) data.right.right
+  · intro data
+    have targetUnary : UnaryHistory (BHist.e1 q) := unary_e1_closed data.left
+    have sourceUnary : UnaryHistory p := unary_transport_symm targetUnary data.right
+    have family :
+        forall {a : BHist}, UnaryHistory a ->
+          NatTransPrefixComponentCarrier p (BHist.e1 q) a BHist.Empty :=
+      YonedaRepresentable_empty_component_family_iff.mpr
+        (And.intro sourceUnary (And.intro targetUnary data.right))
+    intro a aUnary
+    exact family aUnary
+
 theorem YonedaRepresentable_empty_component_family_semanticNameCert {p : BHist}
     (prefixCarrier : UnaryHistory p) :
     SemanticNameCert
@@ -152,5 +171,23 @@ theorem YonedaRepresentable_empty_component_family_boundary_hsame_iff {p q r s :
   · intro sameQS
     exact hsame_trans leftData.right.right
       (hsame_trans sameQS (hsame_symm rightData.right.right))
+
+theorem YonedaRepresentable_empty_component_family_boundary_transport {p q r s : BHist} :
+    (forall {a : BHist}, UnaryHistory a ->
+        NatTransPrefixComponentCarrier p q a BHist.Empty) ->
+      hsame p r -> hsame q s ->
+        (forall {a : BHist}, UnaryHistory a ->
+          NatTransPrefixComponentCarrier r s a BHist.Empty) := by
+  intro familyCarrier samePR sameQS
+  have familyData := YonedaRepresentable_empty_component_family_iff.mp familyCarrier
+  intro a objectCarrier
+  exact
+    (NatTransPrefixComponentCarrier_empty_identity_iff
+      (p := r) (q := s) (a := a)).mpr
+      (And.intro (unary_transport familyData.left samePR)
+        (And.intro (unary_transport familyData.right.left sameQS)
+          (And.intro objectCarrier
+            (hsame_trans (hsame_symm samePR)
+              (hsame_trans familyData.right.right sameQS)))))
 
 end BEDC.Derived.YonedaUp

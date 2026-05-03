@@ -64,6 +64,18 @@ theorem TensorProductSingletonCarrier_continuation_suffix_carrier {pair suffix o
                                   cases outCont
                                   exact (append_eq_empty_iff.mp pairSuffix.symm).right
 
+theorem TensorProductSingletonCarrier_continuation_prefix_carrier {pre pair out : BHist} :
+    TensorProductSingletonCarrier pair -> Cont pre pair out ->
+      TensorProductSingletonCarrier out -> ModuleSingletonCarrier pre := by
+  intro pairCarrier prefixPair outCarrier
+  have pairEmpty : hsame pair BHist.Empty :=
+    TensorProductSingletonCarrier_empty_endpoint_iff.mp pairCarrier
+  have outEmpty : hsame out BHist.Empty :=
+    TensorProductSingletonCarrier_empty_endpoint_iff.mp outCarrier
+  cases pairEmpty
+  cases outEmpty
+  exact (cont_empty_result_inversion prefixPair).left
+
 theorem TensorProductSingletonCarrier_result_empty_continuation {tensor : BHist} :
     TensorProductSingletonCarrier tensor -> Cont tensor BHist.Empty BHist.Empty := by
   intro carrier
@@ -98,6 +110,17 @@ theorem TensorProductSingletonCarrier_empty_iff {h : BHist} :
         (And.intro (hsame_refl BHist.Empty)
           (And.intro (hsame_refl BHist.Empty)
             (cont_result_hsame_transport (cont_right_unit BHist.Empty) (hsame_symm emptyH)))))
+
+theorem TensorProductSingletonCarrier_continuation_result_closed {pair suffix out : BHist} :
+    TensorProductSingletonCarrier pair -> ModuleSingletonCarrier suffix -> Cont pair suffix out ->
+      TensorProductSingletonCarrier out := by
+  intro pairCarrier suffixCarrier pairSuffix
+  have pairEmpty : hsame pair BHist.Empty :=
+    TensorProductSingletonCarrier_empty_iff.mp pairCarrier
+  have moved : Cont BHist.Empty BHist.Empty out :=
+    cont_hsame_transport pairEmpty suffixCarrier (hsame_refl out) pairSuffix
+  have outEmpty : hsame out BHist.Empty := cont_left_unit_result moved
+  exact TensorProductSingletonCarrier_empty_iff.mpr outEmpty
 
 def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧

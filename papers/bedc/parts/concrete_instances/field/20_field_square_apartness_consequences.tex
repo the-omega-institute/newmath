@@ -34,6 +34,38 @@ to the displayed square-zero classifier $z$ gives $\bot$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_square\_zero\_rejects\_factor\_nonzero}
 
+\begin{theorem}[Field square nonzero iff factor nonzero]
+\label{thm:field-square-nonzero-iff-factor-nonzero}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-product-nonzero-of-nonzero-factors}, including a
+constructive bridge family
+$$
+\alpha_t:\bigl(t\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(t),
+$$
+every $a:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(a,a))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$p_{aa}:\mathsf{NonZero}_F(\mathsf{mul}(a,a))$.
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the square
+product with both factors equal to $a$. The left-factor clause gives
+$a\hsame0\to\bot$.
+
+Apply the bridge-family instance $\alpha_a$ to this apartness witness. The
+result is $\mathsf{NonZero}_F(a)$.
+
+For the reverse direction, assume $p_a:\mathsf{NonZero}_F(a)$. Apply
+\autoref{thm:field-product-nonzero-of-nonzero-factors} to the same witness
+$p_a$ in both factor slots. The resulting product witness is exactly
+$\mathsf{NonZero}_F(\mathsf{mul}(a,a))$.
+\end{proof}
+
 Per-object certificate: Traditional target: square inverse descent. BEDC
 source: $\FieldUp$ plus $\RingUp$. Carrier choice: $\mathsf{BHist}$.
 Classifier choice: $\hsame$. Stability obligations: zero absorption,
@@ -41,7 +73,13 @@ multiplication congruence, apartness transport, and proof-indexed inverse
 laws. Ledger: the square apartness witness, induced factor witness, and
 square-zero classifier. Core theorem list entries:
 Theorem~\ref{thm:field-square-apartness-inverse-descent} and
-Theorem~\ref{thm:field-square-zero-rejects-factor-nonzero}. Exactness
-predicate: square apartness descends to the factor inverse, while square-zero
-classification rejects nonzero factors. Standard bridge: deferred
-conservative bridge. Status: $\mathsf{ProofTarget}$.
+Theorem~\ref{thm:field-square-zero-rejects-factor-nonzero}, together with
+Theorem~\ref{thm:field-square-nonzero-iff-factor-nonzero}. Exactness
+predicate: square apartness descends to the factor inverse, square-zero
+classification rejects nonzero factors, and
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(a,a))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a).
+$$
+Standard bridge: deferred conservative bridge. Status: $\mathsf{ProofTarget}$.
