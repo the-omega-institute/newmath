@@ -1,0 +1,46 @@
+\section{Centralizer transport}
+\label{sec:group-centralizer-transport}
+
+\begin{theorem}[Group centralizer fixed-element transport]
+\label{thm:group-centralizer-fixed-element-transport}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+multiplication congruence, let $Z_a$ and $Z_b$ be the centralizer carriers of
+\autoref{def:group-centralizer-carrier} for fixed elements
+$a,b:\mathsf{BHist}$. If $\hsame(a,b)$, then for every
+$x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow Z_b(x).
+$$
+The ten-field fit is: traditional target transport of centralizers along
+internal equality of the fixed element; BEDC source $\GroupUp$ over
+$\mathsf{BHist}$; carrier the family $Z_a$; classifier $\hsame$; stability
+obligation multiplication congruence in the fixed-element slot; ledger the
+fixed-element comparison; core theorem list
+\autoref{def:group-centralizer-carrier}, multiplication congruence, and
+$\hsame$ symmetry and transitivity; exactness predicate the displayed iff;
+standard bridge ordinary equality-invariant centralizers; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the centralizer carrier. The assertion $Z_a(x)$ is the comparison
+$\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x))$, and $Z_b(x)$ is the
+comparison $\hsame(\mathsf{mul}(x,b),\mathsf{mul}(b,x))$.
+
+For the forward direction, assume $Z_a(x)$. Symmetry turns
+$\hsame(a,b)$ into $\hsame(b,a)$, and multiplication congruence in the
+fixed-element slot transports it to
+$\hsame(\mathsf{mul}(x,b),\mathsf{mul}(x,a))$. Transitivity with the
+$Z_a(x)$ witness gives
+$\hsame(\mathsf{mul}(x,b),\mathsf{mul}(a,x))$.
+
+Multiplication congruence also transports $\hsame(a,b)$ through the left
+fixed-element slot, giving
+$\hsame(\mathsf{mul}(a,x),\mathsf{mul}(b,x))$. A final transitivity step
+therefore yields
+$\hsame(\mathsf{mul}(x,b),\mathsf{mul}(b,x))$, which is $Z_b(x)$.
+
+For the reverse direction, exchange $a$ and $b$. The same calculation starts
+from $Z_b(x)$, uses symmetry of $\hsame(a,b)$ where the fixed element is
+transported from $b$ back to $a$, and concludes with
+$\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x))$, namely $Z_a(x)$.
+\end{proof}

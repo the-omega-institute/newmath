@@ -556,6 +556,32 @@ theorem signature_generation_append_component_determinacy [AskSetup]
             sig_deterministic_from_bundle_policy appendPolicy hdom generatedSig appendedSig
           exact Exists.intro v (And.intro hcont sameResult)
 
+theorem sigRel_bundleAppend_decomposition_iff [AskSetup]
+    {left right : ProbeBundle ProbeName} {h u : BHist} :
+    SigRel (bundleAppend left right) h u <->
+      exists s : BHist, exists t : BHist,
+        SigRel left h s /\ SigRel right h t /\ Cont t s u := by
+  constructor
+  · intro appended
+    exact sigRel_bundleAppend_inversion appended
+  · intro data
+    cases data with
+    | intro s rest =>
+        cases rest with
+        | intro t witnesses =>
+            cases witnesses with
+            | intro leftSig rightData =>
+                cases rightData with
+                | intro rightSig displayed =>
+                    cases sigRel_bundleAppend leftSig rightSig with
+                    | intro generated generatedData =>
+                        cases generatedData with
+                        | intro generatedCont generatedSig =>
+                            have sameResult : hsame generated u :=
+                              cont_deterministic generatedCont displayed
+                            cases sameResult
+                            exact generatedSig
+
 theorem sigRel_bundleAppend_recompose_hsame [AskSetup]
     {left right : ProbeBundle ProbeName} {D : BHist → Prop} (policy : AskPolicy D)
     {h s t u v : BHist} :

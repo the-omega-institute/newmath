@@ -1,0 +1,138 @@
+\begin{definition}[RatUp FieldUp affine centralizer normalizer orbit relation]
+\label{def:ratup-fieldup-affine-centralizer-normalizer-orbit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and define $\mathrm{Act}_T(X)$ as in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. On carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and $C_F(A)(Y)$,
+define
+$$
+X\sim_{N_F(A)}Y
+\Longleftrightarrow
+\exists T:\mathsf{AffAut}_F,\,
+N_F(C_F(A))(T)\ \text{and}\ \mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y.
+$$
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action orbit coverage]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-orbit-coverage}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, let $\mathrm{Act}$ be the restricted
+normalizer action of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, and let
+$\sim_{N_F(A)}$ be the orbit relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For
+$X,T:\mathsf{AffAut}_F$, if $C_F(A)(X)$ and $N_F(C_F(A))(T)$, then
+$$
+C_F(A)(\mathrm{Act}_T(X))
+\quad\text{and}\quad
+X\sim_{N_F(A)}\mathrm{Act}_T(X).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} to the carried
+source endpoint $X$ and the normalizer element $T$. Its carried-endpoint row
+gives $C_F(A)(\mathrm{Act}_T(X))$.
+
+For the orbit assertion, choose the same $T$ as the existential witness in
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. The witness is
+valid by the given hypothesis $N_F(C_F(A))(T)$.
+
+It remains only to close the classifier endpoint. Reflexivity of
+$\equiv_{\mathrm{aff}}$ on $\mathrm{Act}_T(X)$ gives
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(X)$, so the displayed
+witness proves $X\sim_{N_F(A)}\mathrm{Act}_T(X)$.
+\end{proof}
+
+Per-object template: traditional target normalizer-action orbit coverage; BEDC
+source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability direct action reachability;
+ledger acting normalizer and acted endpoint; core theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-orbit-coverage}
+with
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}; exactness
+predicate action steps are orbit witnesses; standard bridge ordinary
+group-action orbit coverage; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit equivalence]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-equivalence}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. The relation
+$\sim_{N_F(A)}$ of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit} is reflexive,
+symmetric, and transitive on the affine centralizer carrier $C_F(A)$. More
+explicitly, for $X,Y,Z:\mathsf{AffAut}_F$ with $C_F(A)(X)$, $C_F(A)(Y)$, and
+$C_F(A)(Z)$:
+\begin{enumerate}
+\item $X\sim_{N_F(A)}X$.
+\item If $X\sim_{N_F(A)}Y$, then $Y\sim_{N_F(A)}X$.
+\item If $X\sim_{N_F(A)}Y$ and $Y\sim_{N_F(A)}Z$, then
+$X\sim_{N_F(A)}Z$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item
+For reflexivity, use the identity row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. It gives
+$N_F(C_F(A))(\mathrm{id}_F)$.
+
+The identity row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} gives
+$\mathrm{Act}_{\mathrm{id}_F}(X)\equiv_{\mathrm{aff}}X$. Thus
+$\mathrm{id}_F$ is the required orbit witness for $X\sim_{N_F(A)}X$.
+
+\item
+For symmetry, suppose $X\sim_{N_F(A)}Y$ and choose a witness
+$T:\mathsf{AffAut}_F$ with $N_F(C_F(A))(T)$ and
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$. The inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} gives
+$N_F(C_F(A))(\iota_F(T))$.
+
+The two-sided inverse laws in
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+identify $\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))$ with $X$. Transport
+the endpoint comparison
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$ through the restricted action using
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}.
+Classifier symmetry and transitivity then give
+$\mathrm{Act}_{\iota_F(T)}(Y)\equiv_{\mathrm{aff}}X$, so
+$\iota_F(T)$ witnesses $Y\sim_{N_F(A)}X$.
+
+\item
+For transitivity, suppose $X\sim_{N_F(A)}Y$ via $T$ and $Y\sim_{N_F(A)}Z$ via
+$U$. The product row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} gives
+$N_F(C_F(A))(U\circ_{\mathrm{aff}}T)$.
+
+The composition row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} identifies
+$\mathrm{Act}_U(\mathrm{Act}_T(X))$ with
+$\mathrm{Act}_{U\circ_{\mathrm{aff}}T}(X)$. Transport the comparison
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$ through the action by $U$, then
+compose it with $\mathrm{Act}_U(Y)\equiv_{\mathrm{aff}}Z$. Classifier symmetry
+and transitivity yield
+$\mathrm{Act}_{U\circ_{\mathrm{aff}}T}(X)\equiv_{\mathrm{aff}}Z$, so
+$U\circ_{\mathrm{aff}}T$ witnesses $X\sim_{N_F(A)}Z$.
+\end{enumerate}
+\end{proof}
+
+Per-object template: traditional target normalizer orbit relation on a
+centralizer; BEDC source concrete $\FieldUp(\RatUp)$ affine exit object plus
+$\GroupUp$; carrier $C_F(A)$ with orbit witnesses in $N_F(C_F(A))$;
+classifier $\equiv_{\mathrm{aff}}$; stability reflexivity, symmetry, and
+transitivity of $\sim_{N_F(A)}$; ledger fixed element, source endpoint, target
+endpoint, intermediate endpoint, conjugator, inverse conjugator, and product
+conjugator; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}, and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence};
+exactness predicate normalizer-action reachability is an equivalence relation
+on carried centralizer elements; standard bridge ordinary group-action orbit
+equivalence relation; status $\mathsf{ProofTarget}$.

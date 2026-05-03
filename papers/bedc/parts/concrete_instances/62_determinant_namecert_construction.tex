@@ -1,0 +1,156 @@
+\chapter{A Concrete Naming Certificate for $\DeterminantUp$}
+\label{ch:concrete-instances-determinant-namecert}
+
+The determinant interface $\DeterminantUp$ packages the alternating multilinear form on square matrices that detects invertibility. It depends on $\NameCert_{\MatrixUp}$ (\autoref{ch:concrete-instances-matrix-namecert}) and $\NameCert_{\CommRingUp}$ (\autoref{ch:concrete-instances-commring-namecert}), and supplies the invariant used by the eigenvalue and characteristic-polynomial certificates.
+
+\section{Carrier definition}
+\label{sec:determinant-carrier}
+
+\begin{definition}[Singleton matrix determinant certificate]
+\label{def:singleton-matrix-determinant-certificate}
+Use the singleton empty-history matrix carrier and classifier from
+$\MatrixUp$,
+$$
+\mathsf{MatrixSingletonCarrier},\qquad
+\mathsf{MatrixSingletonClassifier},
+$$
+together with the singleton empty-history commutative-ring carrier and
+classifier from $\CommRingUp$,
+$$
+\mathsf{CommRingSingletonCarrier},\qquad
+\mathsf{CommRingSingletonClassifier}.
+$$
+The determinant readback is the constant scalar endpoint
+$$
+\det_{\emp}(M):=\emp.
+$$
+Let $\mathsf{MatrixSingletonOne}$ denote the singleton matrix identity and
+$\mathsf{CommRingSingletonOne}$ the singleton commutative-ring unit. Define
+the endpoint relation by
+$$
+\Delta_{\emp}(M,r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonClassifier}(M,\mathsf{MatrixSingletonOne})
+\land
+\mathsf{CommRingSingletonClassifier}(r,\mathsf{CommRingSingletonOne}).
+$$
+The certificate fit has ten fields:
+\begin{enumerate}
+  \item Traditional target: the terminal determinant on the one-by-one
+  terminal matrix algebra.
+  \item BEDC source: the singleton $\MatrixUp$ instance over the singleton
+  $\CommRingUp$ scalar instance.
+  \item Carrier choice: $\mathsf{MatrixSingletonCarrier}$.
+  \item Classifier choice: $\mathsf{MatrixSingletonClassifier}$, with scalar
+  readback classified by $\mathsf{CommRingSingletonClassifier}$.
+  \item Stability obligations: identity stability, classifier transport,
+  multiplicativity, and row-swap sign collapse at the singleton endpoint.
+  \item Ledger: the singleton matrix endpoint together with the singleton
+  scalar endpoint.
+  \item Core theorem list:
+  Theorem~\ref{thm:singleton-matrix-determinant-endpoint-correspondence},
+  Theorem~\ref{thm:singleton-empty-history-matrix-laws}, and
+  Theorem~\ref{thm:singleton-empty-history-commring-laws}.
+  \item Exactness predicate: $\Delta_{\emp}(M,r)$.
+  \item Standard bridge: the determinant of the terminal one-by-one matrix
+  algebra.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.DeterminantUp.DeterminantSingletonCertificate}
+\leandef{BEDC.Derived.DeterminantUp.DeterminantSingletonReadback}
+\leandef{BEDC.Derived.DeterminantUp.DeterminantSingletonDet}
+\leandef{BEDC.Derived.DeterminantUp.DeterminantSingletonEndpoint}
+
+\begin{theorem}[Singleton matrix determinant endpoint correspondence]
+\label{thm:singleton-matrix-determinant-endpoint-correspondence}
+For histories $M,r:\mathsf{BHist}$, the determinant endpoint relation satisfies
+$$
+\Delta_{\emp}(M,r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(M)
+\land
+\mathsf{CommRingSingletonClassifier}(r,\mathsf{CommRingSingletonOne}).
+$$
+Moreover, for singleton-carried histories $M,N:\mathsf{BHist}$:
+\begin{enumerate}
+  \item $\det_{\emp}(\mathsf{MatrixSingletonOne})$ is classified with
+  $\mathsf{CommRingSingletonOne}$ by
+  $\mathsf{CommRingSingletonClassifier}$.
+  \item If $\mathsf{MatrixSingletonClassifier}(M,N)$, then
+  $\mathsf{CommRingSingletonClassifier}(\det_{\emp}(M),\det_{\emp}(N))$.
+  \item $\mathsf{CommRingSingletonClassifier}
+  (\det_{\emp}(\mathsf{MatrixSingletonMul}(M,N)),
+  \mathsf{CommRingSingletonMul}(\det_{\emp}(M),\det_{\emp}(N)))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the forward direction of the displayed equivalence, unfold
+$\Delta_{\emp}$. The matrix component classifies $M$ with
+$\mathsf{MatrixSingletonOne}$, so its carrier field gives
+$\mathsf{MatrixSingletonCarrier}(M)$. The scalar component is already the
+displayed $\mathsf{CommRingSingletonClassifier}$ witness.
+
+For the reverse direction, apply
+Theorem~\ref{thm:singleton-empty-history-matrix-endpoint-collapse} with the
+carried matrix $M$ and the carried identity endpoint supplied by
+Theorem~\ref{thm:singleton-empty-history-matrix-laws}. Equivalently,
+Theorem~\ref{thm:singleton-empty-history-matrix-endpoint-collapse} collapses
+the singleton matrix endpoint to $\emp$, and the identity law in
+Theorem~\ref{thm:singleton-empty-history-matrix-laws} identifies
+$\mathsf{MatrixSingletonOne}$ with the same endpoint. Together with the given
+scalar classifier witness, these two components repackage
+$\Delta_{\emp}(M,r)$.
+
+For the determinant of the identity, $\det_{\emp}$ is constantly $\emp$ and
+$\mathsf{CommRingSingletonOne}$ is the singleton scalar endpoint. The
+commutative-ring singleton laws of
+Theorem~\ref{thm:singleton-empty-history-commring-laws} classify these two
+scalar histories at the same endpoint.
+
+Classifier transport is immediate from the same scalar collapse. If
+$\mathsf{MatrixSingletonClassifier}(M,N)$, both determinant readbacks are
+$\emp$, so the commutative-ring singleton laws package the scalar comparison.
+
+For multiplicativity, the matrix product endpoint is first collapsed by
+Theorem~\ref{thm:singleton-empty-history-matrix-endpoint-collapse}. The two
+scalar sides are then $\emp$ and
+$\mathsf{CommRingSingletonMul}(\emp,\emp)$; the singleton commutative-ring
+laws identify the multiplication result with
+$\mathsf{CommRingSingletonOne}$, so the final scalar classifier witness is
+again packaged at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingleton\_semanticNameCert}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingleton\_certificate}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingleton\_endpoint\_correspondence}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonEndpoint\_correspondence}
+\leanchecked{BEDC.Derived.DeterminantUp.determinant\_singleton\_endpoint\_laws}
+
+\section{The certificate}
+\label{sec:determinant-certificate}
+
+\begin{theorem}[Determinant singleton classifier semantic name certificate]
+\label{thm:determinant-singleton-classifier-semantic-namecert}
+The determinant singleton classifier over $\mathsf{MatrixSingletonCarrier}$ is
+a semantic name certificate:
+$$
+\mathsf{SemanticNameCert}(
+\mathsf{MatrixSingletonCarrier},
+\mathsf{MatrixSingletonCarrier},
+\mathsf{MatrixSingletonCarrier},
+\mathsf{DeterminantSingletonClassifier}).
+$$
+\end{theorem}
+\begin{proof}
+Use the matrix singleton certificate supplied by
+Theorem~\ref{thm:singleton-empty-history-matrix-laws} for carrier inhabitation,
+reflexivity, symmetry, transitivity, and carrier transport on the matrix
+component. The determinant readback is the constant singleton scalar endpoint,
+and the commutative-ring singleton certificate supplied by
+Theorem~\ref{thm:singleton-empty-history-commring-laws} classifies the scalar
+readbacks. Pairing these two classifier components gives the determinant
+classifier fields. Pattern and ledger soundness are the identity inclusions
+because all three semantic predicates are
+$\mathsf{MatrixSingletonCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonClassifier\_semanticNameCert}

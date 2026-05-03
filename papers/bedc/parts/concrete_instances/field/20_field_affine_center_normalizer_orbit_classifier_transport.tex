@@ -1,0 +1,46 @@
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit classifier transport]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and let $\sim_{N_F(A)}$ be the orbit
+relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. If
+$X,Y,X',Y':\mathsf{AffAut}_F$ satisfy $C_F(A)(X)$, $C_F(A)(Y)$,
+$C_F(A)(X')$, $C_F(A)(Y')$, $X\sim_{N_F(A)}Y$,
+$X\equiv_{\mathrm{aff}}X'$, and $Y\equiv_{\mathrm{aff}}Y'$, then
+$$
+X'\sim_{N_F(A)}Y'.
+$$
+\end{theorem}
+\begin{proof}
+Choose the normalizer witness $T:\mathsf{AffAut}_F$ from
+$X\sim_{N_F(A)}Y$. Thus $N_F(C_F(A))(T)$ and
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$.
+
+Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}
+with the same acting element in both acting slots. Using classifier reflexivity
+for $T$ and the endpoint comparison $X\equiv_{\mathrm{aff}}X'$, this gives
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(X').
+$$
+
+By classifier symmetry, read the last display from $\mathrm{Act}_T(X')$ back
+to $\mathrm{Act}_T(X)$. Compose it by classifier transitivity with the
+original orbit endpoint comparison
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$ and then with
+$Y\equiv_{\mathrm{aff}}Y'$. The result is
+$$
+\mathrm{Act}_T(X')\equiv_{\mathrm{aff}}Y'.
+$$
+
+The same witness $T$ therefore satisfies the defining clause of
+$X'\sim_{N_F(A)}Y'$.
+\end{proof}
+
+Per-object template: traditional target orbit-relation descent; BEDC source
+concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $C_F(A)$; classifier
+$\equiv_{\mathrm{aff}}$; stability endpoint classifier transport; ledger
+source endpoint, target endpoint, transported endpoints, and normalizer
+witness; exactness orbit reachability stable under affine classifier.

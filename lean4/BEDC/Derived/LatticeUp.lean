@@ -262,4 +262,21 @@ theorem LatticeSingletonMeet_greatest_lower_bound_empty_iff {h k z : BHist} :
       (And.intro bounds.right.right
         (PreorderPrefixLE_of_hsame (hsame_trans zCarrier (hsame_symm bounds.right.right))))
 
+theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonClassifier P Q <-> LatticeSingletonClassifier R P) := by
+  intro continuation
+  constructor
+  · intro classified
+    have resultCarrier : LatticeSingletonCarrier R :=
+      cont_respects_hsame classified.left classified.right.left continuation
+        (cont_right_unit BHist.Empty)
+    exact And.intro resultCarrier
+      (And.intro classified.left (hsame_trans resultCarrier (hsame_symm classified.left)))
+  · intro resultClassified
+    have emptyContinuation : Cont P Q BHist.Empty :=
+      cont_result_hsame_transport continuation resultClassified.left
+    have endpoints := cont_empty_result_inversion emptyContinuation
+    exact And.intro endpoints.left
+      (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
+
 end BEDC.Derived.LatticeUp

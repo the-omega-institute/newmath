@@ -1,0 +1,67 @@
+\begin{theorem}[RatUp FieldUp five-factor product-map classifier exactness]
+\label{thm:ratup-fieldup-five-factor-product-map-classifier-exactness}
+For the concrete $\mathsf{RatUpFieldSource}_F$ operation rows over
+$\mathsf{BHist}$, assume the proof-indexed inverse, multiplication congruence,
+unit, associativity, product nonzero exclusion, and apartness-conversion rows
+used by
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness}. For
+five histories $a,b,c,d,e:\mathsf{BHist}$, set
+$$
+P_5:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e).
+$$
+Let $p_{abcde}:\mathsf{NonZero}_F(P_5)$ be the product ledger witness, and let
+$R_5$ be the reversed inverse spine supplied by
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness}. Then
+for every $x,y:\mathsf{BHist}$, multiplication by the same five-factor product
+is classifier-exact on both sides:
+$$
+\mathsf{mul}(x,P_5)\hsame\mathsf{mul}(y,P_5)
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{mul}(P_5,x)\hsame\mathsf{mul}(P_5,y)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction of the right-product clause, apply
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness} to the
+equation $\mathsf{mul}(x,P_5)\hsame\mathsf{mul}(y,P_5)$ with shared target
+endpoint $\mathsf{mul}(y,P_5)$. It classifies $x$ by the solved endpoint
+$\mathsf{mul}(\mathsf{mul}(y,P_5),R_5)$.
+
+Apply the same theorem to the reflexive right-product equation for $y$ at that
+same target endpoint. The two solved endpoints are identical, so symmetry and
+transitivity of $\hsame$ compare $x$ and $y$.
+
+For the reverse direction of the right-product clause, use multiplication
+congruence to transport $x\hsame y$ through
+$z\mapsto\mathsf{mul}(z,P_5)$. This gives
+$\mathsf{mul}(x,P_5)\hsame\mathsf{mul}(y,P_5)$.
+
+For the forward direction of the left-product clause, apply
+\autoref{thm:field-five-factor-product-equation-exact-from-apartness} to the
+equation $\mathsf{mul}(P_5,x)\hsame\mathsf{mul}(P_5,y)$ with shared target
+endpoint $\mathsf{mul}(P_5,y)$. The left equation solver classifies $x$ by
+$\mathsf{mul}(R_5,\mathsf{mul}(P_5,y))$.
+
+Apply the same left-product exactness clause to the reflexive equation for
+$y$ at the same target endpoint. The solved endpoint is again identical, and
+symmetry plus transitivity of $\hsame$ yields $x\hsame y$.
+
+For the reverse direction of the left-product clause, multiplication
+congruence transports $x\hsame y$ through
+$z\mapsto\mathsf{mul}(P_5,z)$, producing the displayed left classifier
+equality.
+\end{proof}
+
+Per-object template: traditional target finite five-factor product-map
+classifier exactness; BEDC source $\mathsf{RatUpFieldSource}_F$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; ledger
+$p_{abcde}$ plus induced factor witnesses; core theorem
+\autoref{thm:ratup-fieldup-five-factor-product-map-classifier-exactness};
+exactness predicate the two displayed iff clauses; standard bridge deferred;
+status $\mathsf{ProofTarget}$.

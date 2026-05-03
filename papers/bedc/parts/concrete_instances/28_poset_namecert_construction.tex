@@ -49,6 +49,64 @@ The preorder and classifier-congruence fields are supplied by the concrete prefi
 It remains to supply the partial-order field. Apply \autoref{thm:poset-prefix-antisymmetry}: opposing $\mathsf{PreorderPrefixLE}$ witnesses provide the two comparison tails, and the theorem collapses them to $\hsame(h,k)$, which is exactly antisymmetry under the carrier classifier.
 \end{proof}
 
+\begin{definition}[Concrete singleton empty POSet instance]
+\label{def:concrete-singleton-empty-poset-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+restricted classifier by
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+For carried histories, define the restricted order by
+$$
+h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+$$
+The concrete POSet package is the fixed $\mathsf{BHist}$ tuple
+$(A_{\emp},\rho_{\emp},\le_{\emp})$.
+\end{definition}
+
+\begin{theorem}[Singleton empty POSet laws]
+\label{thm:singleton-empty-poset-laws}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, the carrier is
+inhabited by $\emp$, carrier membership transports along $\hsame$, and
+$\le_{\emp}$ has preorder reflexivity, transitivity, and endpoint congruence
+inherited from the singleton empty preorder laws. The package also satisfies
+antisymmetry under $\rho_{\emp}$. For carried histories $h,k:\mathsf{BHist}$,
+the classifier is exact:
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The carrier and preorder fields are those of
+\autoref{thm:singleton-empty-preorder-laws}. Inhabitance is witnessed by
+$\emp$, carrier transport is transport along $\hsame$, and the reflexive,
+transitive, and endpoint-congruent behavior of $\le_{\emp}$ is the restricted
+$\mathsf{PreorderPrefixLE}$ package on the singleton source.
+
+For antisymmetry, suppose $h$ and $k$ are carried and that
+$h\le_{\emp}k$ and $k\le_{\emp}h$. The two comparisons are
+$\mathsf{PreorderPrefixLE}$ witnesses, so
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ gives $\hsame(h,k)$. Pair this
+with the carrier witnesses for $h$ and $k$ to obtain $\rho_{\emp}(h,k)$.
+
+For exactness, first assume $\rho_{\emp}(h,k)$. The classifier supplies the
+two carrier witnesses and the endpoint witness $\hsame(h,k)$. Apply
+$\mathsf{PreorderPrefixLE\_of\_hsame}$ to this witness and to its symmetric
+orientation to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+Conversely, assume the two comparisons for carried histories. The singleton
+carrier unpacks both endpoints through $\emp$, and antisymmetry for
+$\mathsf{PreorderPrefixLE}$ supplies $\hsame(h,k)$. Recombine that endpoint
+witness with the two carrier witnesses to get $\rho_{\emp}(h,k)$.
+\end{proof}
+
+This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
+machine checking.
+
 \section{The certificate}
 
 \begin{definition}[POSet source specification]

@@ -226,19 +226,15 @@ theorem CompactNetWitness_precision_hsame_deterministic
   intro sameCenter sameNet left right
   cases sameCenter
   cases sameNet
-  cases left with
-  | intro _centerCarrier leftRest =>
-      cases leftRest with
-      | intro _precisionCarrier leftRest =>
-          cases leftRest with
-          | intro _netCarrier leftRel =>
-              cases right with
-              | intro _centerCarrier' rightRest =>
-                  cases rightRest with
-                  | intro _precisionCarrier' rightRest =>
-                      cases rightRest with
-                      | intro _netCarrier' rightRel =>
-                          exact cont_left_cancel leftRel rightRel
+  exact cont_left_cancel left.right.right.right right.right.right.right
+
+theorem CompactNetWitness_composite_precision_cont_deterministic
+    {center precision precision' extra net net' refined : BHist} :
+    CompactNetWitness center precision net -> CompactNetWitness center precision' net' ->
+      Cont net extra refined -> Cont net' extra refined -> hsame precision precision' := by
+  intro left right leftRefinement rightRefinement
+  exact CompactNetWitness_precision_hsame_deterministic (hsame_refl center)
+    (cont_right_cancel leftRefinement rightRefinement) left right
 
 theorem CompactWitnessCarrier_located_extension_closed
     {subset located finite extra intermediate compact newLocated newIntermediate extended : BHist} :
@@ -595,5 +591,10 @@ theorem CompactNetWitness_prefixed_composite_precision_deterministic
   have sameComposite : hsame composite composite' :=
     cont_left_cancel left.right.right.right right.right.right.right
   exact cont_common_suffix_cancellation leftComposite rightComposite sameComposite
+
+theorem CompactWitnessCarrier_iterated_finite_refinement_closed {subset located finite extra0 extra1 intermediate compact finite0 compact0 finite1 compact1 : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact -> UnaryHistory extra0 -> UnaryHistory extra1 -> Cont finite extra0 finite0 -> Cont compact extra0 compact0 -> Cont finite0 extra1 finite1 -> Cont compact0 extra1 compact1 -> CompactWitnessCarrier subset located finite1 intermediate compact1 := by
+  intro carrier extra0Carrier extra1Carrier finite0Rel compact0Rel finite1Rel compact1Rel
+  exact CompactWitnessCarrier_finite_extension_closed (CompactWitnessCarrier_finite_extension_closed carrier extra0Carrier finite0Rel compact0Rel) extra1Carrier finite1Rel compact1Rel
 
 end BEDC.Derived.CompactUp

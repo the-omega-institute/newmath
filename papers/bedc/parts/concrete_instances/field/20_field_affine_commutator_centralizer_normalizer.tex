@@ -1,0 +1,102 @@
+\begin{definition}[RatUp FieldUp affine centralizer normalizer carrier]
+\label{def:ratup-fieldup-affine-centralizer-normalizer-carrier}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object, and let $C_F(A)$ be the carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}. The concrete affine
+normalizer carrier of $C_F(A)$ is the predicate
+$$
+N_F(C_F(A))(T)
+:\Longleftrightarrow
+T:\mathsf{AffAut}_F
+\quad\text{and}\quad
+\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Longleftrightarrow
+C_F(A)(\mathrm{Conj}_T(X)),
+$$
+where
+$$
+\mathrm{Conj}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)
+$$
+uses the affine product and inverse row fixed by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer inclusion]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $C_F(A)$ be the carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Then every
+centralizer element normalizes the centralizer in the two-sided sense:
+$$
+C_F(A)(T)\Rightarrow N_F(C_F(A))(T).
+$$
+Equivalently, if $T$ commutes with $A$, then inner affine conjugation by $T$
+both preserves and reflects centralizer membership:
+$$
+C_F(A)(T)\Rightarrow
+\forall X:\mathsf{AffAut}_F,\quad
+C_F(A)(X)
+\Longleftrightarrow
+C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)).
+$$
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
+and $\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit object.
+
+Assume $C_F(A)(T)$ and let $X:\mathsf{AffAut}_F$ be fixed. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup} to the fixed element
+$A$. Its inverse closure gives $C_F(A)(\iota_F(T))$.
+
+For preservation, assume $C_F(A)(X)$. Product closure first gives
+$C_F(A)(T\circ_{\mathrm{aff}}X)$ and then gives
+$C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T))$.
+
+The displayed product is the concrete inner conjugate
+$\mathrm{Conj}_T(X)$ in the notation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. The carrier
+certification and classifier stability of this inner conjugate are exactly the
+action clauses supplied by
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}.
+
+For reflection, assume
+$C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T))$. Apply the
+same preservation argument with $\iota_F(T)$ as the conjugating centralizer
+element and $\mathrm{Conj}_T(X)$ as the element being transported. Product
+closure gives
+$C_F(A)(\mathrm{Conj}_{\iota_F(T)}(\mathrm{Conj}_T(X)))$.
+
+The affine conjugation equation exactness of
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness}, together
+with the inverse row fixed above, identifies
+$\mathrm{Conj}_{\iota_F(T)}(\mathrm{Conj}_T(X))$ with $X$ under
+$\equiv_{\mathrm{aff}}$. The classifier-stability row from
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} transfers the
+centralizer membership back to $C_F(A)(X)$.
+
+Reading the two directions through
+\autoref{thm:ratup-fieldup-affine-commutator-centralizer-exactness} gives the
+equivalent commutator form: conjugation preserves and reflects the condition
+that the commutator with $A$ is trivial under the concrete affine classifier.
+This is
+precisely $N_F(C_F(A))(T)$.
+\end{proof}
+
+Per-object template: traditional target centralizer normalizer inclusion; BEDC
+source concrete $\FieldUp(\RatUp)$ exit plus $\GroupUp$; carrier $C_F(A)$ and
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability two-sided
+centralizer preservation, inverse, product, and inner-conjugation closure;
+ledger fixed element, conjugating element, commuting witness, inverse witness,
+and double-conjugation witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:ratup-fieldup-affine-commutator-centralizer-exactness}; exactness
+predicate normalizer records preservation and reflection of centralizer
+membership under concrete affine conjugation; standard bridge ordinary
+centralizer-normalizer inclusion; status $\mathsf{ProofTarget}$.

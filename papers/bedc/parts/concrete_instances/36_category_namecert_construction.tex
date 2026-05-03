@@ -1,6 +1,24 @@
 \input{parts/concrete_instances/category/carrier_and_hom_laws}
 \input{parts/concrete_instances/category/certificate_and_visible_cases}
 
+\begin{theorem}[Continuation morphism fixed tail iff]
+\label{thm:continuation-morphism-tail-hsame-iff}
+For histories $a,b,t:\mathsf{BHist}$ and a fixed continuation morphism
+$m:\mathsf{ContinuationMorphism}(a,b)$,
+$$
+\hsame(\mathsf{tail}(m),t)\Longleftrightarrow \ContR(a,t,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the relation field
+$\ContR(a,\mathsf{tail}(m),b)$ along the displayed tail comparison, with
+source and target held fixed. Conversely, if $t$ is a continuation tail from
+$a$ to $b$, then the relation field of $m$ and this new continuation share
+the same source and target, so continuation left cancellation identifies
+$\mathsf{tail}(m)$ with $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_hsame\_iff}
+
 \begin{theorem}[Category hom carrier and continuation morphism tail correspondence]
 \label{thm:category-hom-carrier-continuation-morphism-tail-correspondence}
 For histories $a,b,f:\mathsf{BHist}$, the concrete hom-carrier witness is
@@ -52,6 +70,93 @@ $\mathsf{tail}(m)$. Transport the relation field of $m$ across these two
 history equalities and compose the equalities by transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_identity\_square\_closed}
+
+\begin{theorem}[Continuation morphism composite endpoint transport]
+\label{thm:continuation-morphism-comp-endpoint-hsame-tail-transport}
+For continuation morphisms $left:a\to b$, $right:b\to c$,
+$left':a'\to b'$, and $right':b'\to c'$, if $\hsame(a,a')$ and
+$\hsame(c,c')$, then the canonical composite tail of $left$ and $right$
+transports to a continuation from $a'$ to $c'$, and it is $\hsame$ to the
+canonical composite tail of $left'$ and $right'$.
+\end{theorem}
+\begin{proof}
+Transport the composite continuation field of $left\circ right$ across the
+source and target endpoint comparisons, keeping its displayed tail fixed.
+The transported continuation and the composite continuation field of
+$left'\circ right'$ share source and target, so finite-kernel left
+cancellation identifies their tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_hsame\_tail\_transport}
+
+\begin{theorem}[Continuation morphism composite endpoint transport existence]
+\label{thm:category-continuation-morphism-comp-endpoint-transport-exists}
+For continuation morphisms $m:a\to b$ and $n:b\to c$, endpoint comparisons
+$a\hsame a'$, $b\hsame b'$, and $c\hsame c'$ determine transported factor
+morphisms $m':a'\to b'$ and $n':b'\to c'$ such that the transported composite
+tail is history-same to the original composite tail and carries a continuation
+from $a'$ to $c'$.
+\end{theorem}
+\begin{proof}
+Keep the displayed tails of $m$ and $n$. Transport the relation field of $m$
+across the source and middle endpoint comparisons, and transport the relation
+field of $n$ across the middle and target endpoint comparisons. The composite
+of these transported factor morphisms has the same appended tail as the
+original composite by reflexivity, and its own relation field supplies the
+continuation from $a'$ to $c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_transport\_exists}
+
+\begin{theorem}[Continuation morphism composite tail append determinacy]
+\label{thm:continuation-morphism-comp-tail-append-deterministic}
+For continuation morphisms $left,left':a\to b$ and $right,right':b\to c$, the
+appended composite tail is determined by the endpoints:
+$$
+\hsame(\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right)),
+\mathsf{append}(\mathsf{tail}(left'),\mathsf{tail}(right'))).
+$$
+\end{theorem}
+\begin{proof}
+Continuation left cancellation identifies the two displayed tails from $a$ to
+$b$, and again identifies the two displayed tails from $b$ to $c$. Congruence
+of BEDC append combines these two tail comparisons into the composite-tail
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_append\_deterministic}
+
+\begin{theorem}[Continuation morphism composite tail unary closure]
+\label{thm:continuation-morphism-comp-tail-unary-closed}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, if both displayed
+factor tails are unary histories, then the closed composite tail of
+$left\circ right$ is a unary history.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The closed composite tail is
+$\mathsf{append}(\mathsf{tail}(left),\mathsf{tail}(right))$, so unary append
+closure applies to the two supplied tail carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_unary\_closed}
+
+\begin{theorem}[Continuation morphism tail factorization iff]
+\label{thm:continuation-morphism-tail-factorization-iff}
+For histories $a,c,l,r,t:\mathsf{BHist}$, if $\ContR(l,r,t)$, then a
+continuation morphism from $a$ to $c$ whose displayed tail is $t$ exists
+exactly when there is a middle history $b$ carrying a left continuation
+morphism from $a$ to $b$ with tail $l$ and a right continuation morphism from
+$b$ to $c$ with tail $r$.
+\end{theorem}
+\begin{proof}
+For the forward implication, unpack the composite morphism and the displayed
+split $\ContR(l,r,t)$. The middle object is $\mathsf{append}(a,l)$. The left
+factor is the reflexive continuation from $a$ through $l$ to that middle, and
+the right factor is obtained by reassociating the composite continuation
+witness through the displayed split.
+
+For the reverse implication, compose the two displayed factor morphisms. The
+closed composite tail is the append of the two factor tails; transport that
+tail along the two supplied tail classifiers and the split $\ContR(l,r,t)$ to
+obtain the required composite tail classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_factorization\_iff}
 
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,

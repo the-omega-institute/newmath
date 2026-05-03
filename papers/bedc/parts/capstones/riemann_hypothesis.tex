@@ -1,0 +1,142 @@
+\chapter{The Riemann Hypothesis as a BEDC Conjecture}
+\label{ch:capstones-riemann-hypothesis}
+
+This capstone formally states the Riemann Hypothesis inside BEDC's distinction-foundationalist framework, using only the naming certificates and operations licensed in the dependency chain spanning LEVEL 1 (the arithmetic certificates $\NameCert_{\NatUp}$, $\NameCert_{\IntUp}$, $\NameCert_{\RatUp}$, $\NameCert_{\PrimeUp}$), LEVEL 2 (the analytic certificates $\NameCert_{\RealUp}$, $\NameCert_{\ContinuousFunctionUp}$, $\NameCert_{\MetricSpaceUp}$ together with the regular Cauchy completion of \autoref{ch:capstones-real-completeness}), LEVEL 3 (the complex-analytic limit and convergence-radius certificates $\NameCert_{\ComplexLimitUp}$ and $\NameCert_{\ConvergenceRadiusUp}$), LEVEL 4 (the holomorphy package $\NameCert_{\ComplexDiffUp}$, $\NameCert_{\HolomorphicUp}$, $\NameCert_{\ContourUp}$, $\NameCert_{\AnalyticContUp}$), and LEVEL 5 (the Dirichlet and zeta package $\NameCert_{\ComplexSeriesUp}$, $\NameCert_{\DirichletSeriesUp}$, $\NameCert_{\ZetaBasicUp}$, $\NameCert_{\ZetaContUp}$, $\NameCert_{\CritStripUp}$, $\NameCert_{\ZetaZerosUp}$). The chapter does not prove the Riemann Hypothesis. Its purpose is fivefold. First, it makes the conjecture precise as a single BEDC statement-level Lean target. Second, it traces the LEVEL 1 through LEVEL 5 dependency chain explicitly so that the chain of constructive obligations is visible at a glance. Third, it catalogs the witness types that any constructive proof inside BEDC would have to produce. Fourth, it discusses axiom-purity considerations: any RH proof would have to remain inside the BEDC fragment that uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, or else expose explicitly the points at which it leaves the framework. Fifth, it connects the conjecture to existing partial BEDC results. A constructive proof of RH is, by Curry-Howard, a function that takes any complex history $s$ in the critical strip with $\zeta(s) = 0$ and produces an explicit witness that $\Re(s) = 1/2$; equivalently, a constructive disproof would produce an explicit $s$ realizing $\mathsf{ZetaZero}(s)$ and $\mathsf{InCritStrip}(s)$ and $\neg\mathsf{OnCritLine}(s)$ as distinct concrete histories. Whether RH is provable inside this fragment is itself an open question, and articulating that open question precisely is the only contribution this capstone makes.
+
+\section{LEVEL 1--5 dependency chain}
+\label{sec:rh-dependency-chain}
+
+The dependency chain of the conjecture is laid out explicitly here, level by level, because the constructive content of the statement depends on every layer above it. Each level is given as a remark naming the supporting certificates, the responsible chapters, the current closure status (closed $\checkmark$, pending $\Box$, scaffold-only $\circ$), and the specific contribution of each chapter to the RH statement.
+
+\begin{remark}[LEVEL 1: arithmetic foundation, status $\checkmark$]
+\label{rem:rh-level-1}
+The naming certificates $\NameCert_{\NatUp}$ (\autoref{ch:concrete-instances-nat-namecert}), $\NameCert_{\IntUp}$, $\NameCert_{\RatUp}$ (\autoref{ch:concrete-instances-rat-namecert}), and $\NameCert_{\PrimeUp}$ (\autoref{ch:concrete-instances-prime-namecert}) are closed. They supply the arithmetic generators on which every later layer is built: $\NatUp$ provides indexing for series, $\IntUp$ provides signed exponents, $\RatUp$ provides the dense subfield needed for the regular Cauchy completion of $\RealUp$, and $\PrimeUp$ provides the index set of the Euler product $\zeta(s) = \prod_{p} (1 - p^{-s})^{-1}$.
+\end{remark}
+
+\begin{remark}[LEVEL 2: real analysis, status $\Box$]
+\label{rem:rh-level-2}
+The certificate $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}) is in place pointwise; its completion to a regular Cauchy carrier is the subject of \autoref{ch:capstones-real-completeness} and remains a pending capstone. The certificates $\NameCert_{\ContinuousFunctionUp}$ and $\NameCert_{\MetricSpaceUp}$ depend on $\RealUp$ for their distance and convergence structure. RH inherits the constructive content of the real completion: every $\zeta(s)$ value inside the critical strip is, ultimately, a regular Cauchy sequence over $\RatUp$ with an explicit modulus.
+\end{remark}
+
+\begin{remark}[LEVEL 3: complex limit and radius, status $\circ$]
+\label{rem:rh-level-3}
+The certificates $\NameCert_{\ComplexLimitUp}$ (\autoref{ch:concrete-instances-complex-limit-namecert}) and $\NameCert_{\ConvergenceRadiusUp}$ (\autoref{ch:concrete-instances-convergence-radius-namecert}) are scaffolds awaiting elaboration. They lift the regular Cauchy machinery from $\RealUp$ to $\ComplexUp$, and they fix what it means for a complex power series to converge with an explicit modulus. RH needs both: zeta-as-Dirichlet-series converges in $\Re(s) > 1$, and the analytic continuation past $\Re(s) = 1$ requires a complex-limit notion that is constructively well-behaved in the critical strip.
+\end{remark}
+
+\begin{remark}[LEVEL 4: holomorphy, status $\circ$]
+\label{rem:rh-level-4}
+The certificates $\NameCert_{\ComplexDiffUp}$ (\autoref{ch:concrete-instances-complex-diff-namecert}, packaging the Cauchy-Riemann equations as a constructive predicate), $\NameCert_{\HolomorphicUp}$ (\autoref{ch:concrete-instances-holomorphic-namecert}, packaging holomorphy as a uniform-on-compacts version of complex differentiability), $\NameCert_{\ContourUp}$ (the contour-integral operation), and $\NameCert_{\AnalyticContUp}$ (the analytic-continuation operation) are scaffolds. RH lives inside this layer: $\zeta$ is holomorphic on $\ComplexUp \setminus \{1\}$, its zero set is invariant under contour deformation, and the critical strip is the natural domain of analytic continuation from $\Re(s) > 1$.
+\end{remark}
+
+\begin{remark}[LEVEL 5: Dirichlet series and zeta, status $\circ$]
+\label{rem:rh-level-5}
+The certificates $\NameCert_{\ComplexSeriesUp}$ (\autoref{ch:concrete-instances-complex-series-namecert}), $\NameCert_{\DirichletSeriesUp}$ (\autoref{ch:concrete-instances-dirichlet-series-namecert}), $\NameCert_{\ZetaBasicUp}$ (\autoref{ch:concrete-instances-zeta-basic-namecert}), the $\NameCert_{\ZetaContUp}$ application (\autoref{ch:concrete-instances-zeta-continuation}), $\NameCert_{\CritStripUp}$ (\autoref{ch:concrete-instances-critical-strip-namecert}), and $\NameCert_{\ZetaZerosUp}$ (\autoref{ch:concrete-instances-zeta-zeros-namecert}) are scaffolds. They specialize the LEVEL 4 holomorphy package to the specific function $\zeta$ and to the specific predicates $\mathsf{InCritStrip}$, $\mathsf{ZetaZero}$, $\mathsf{OnCritLine}$ that appear in the conjecture. The RH statement of \autoref{def:rh-predicate} is a single quantification over the histories carried by $\NameCert_{\ZetaZerosUp}$.
+\end{remark}
+
+\begin{remark}[Reading the chain]
+\label{rem:rh-chain-reading}
+Each level depends only on the levels strictly below it. The dependency is acyclic; the order in which a constructive RH proof must be assembled is exactly the order of \autoref{rem:rh-level-1} through \autoref{rem:rh-level-5}. No level can be skipped. The closure status column makes visible the current obligation: LEVEL 1 is fully closed, LEVEL 2 is one capstone away from closure, and LEVELs 3 through 5 are scaffolds whose elaboration is the bulk of the work between this capstone and a finished RH statement.
+\end{remark}
+
+\section{Formal statement of RH in BEDC}
+\label{sec:rh-formal-statement}
+
+\begin{definition}[RH predicate]
+\label{def:rh-predicate}
+The Riemann Hypothesis $\mathsf{RH}$ is the proposition that for every complex history $s$ carried by $\NameCert_{\ComplexUp}$ such that $\mathsf{InCritStrip}(s)$ holds (\autoref{ch:concrete-instances-critical-strip-namecert}: $0 < \Re(s) < 1$, presented as a constructive predicate on the regular Cauchy representative of $\Re(s)$) and such that $\mathsf{ZetaZero}(s)$ holds (\autoref{ch:concrete-instances-zeta-zeros-namecert}: the regular Cauchy representative of $\zeta(s)$ is $\hsame$ to the zero history of $\NameCert_{\ComplexUp}$), the predicate $\mathsf{OnCritLine}(s)$ holds, where $\mathsf{OnCritLine}(s)$ is the constructive predicate stating that the regular Cauchy representative of $\Re(s)$ is $\hsame$ to the rational history $1/2$. The predicate $\mathsf{RH}$ is a $\Pi$-statement over the carrier of $\NameCert_{\ZetaZerosUp}$ restricted by $\NameCert_{\CritStripUp}$.
+\end{definition}
+
+\begin{proposition}[Constructive form: zero-by-zero certificate]
+\label{prop:rh-constructive-form}
+A constructive proof of $\mathsf{RH}$ is, by Curry-Howard, a total function
+\(\Phi : \{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \,\} \to \{\, \text{witness of } \mathsf{OnCritLine}(s) \,\}\)
+that takes any zero of $\zeta$ in the critical strip and produces an explicit $\hsame$-witness identifying the regular Cauchy representative of $\Re(s)$ with the rational history $1/2$. Equivalently, a constructive disproof of $\mathsf{RH}$ is an explicit complex history $s$ together with three concrete witnesses $\mathsf{ZetaZero}(s)$, $\mathsf{InCritStrip}(s)$, and $\neg\mathsf{OnCritLine}(s)$, the last being a positive lower bound on the distance from the regular Cauchy representative of $\Re(s)$ to $1/2$.
+\end{proposition}
+
+\begin{remark}[Why the constructive form is strictly stronger]
+\label{rem:rh-strictly-stronger}
+A classical proof of $\mathsf{RH}$ that proceeds by contradiction (assume a zero off the critical line, derive a contradiction) does not, on its own, supply the function $\Phi$ of \autoref{prop:rh-constructive-form}. Inside BEDC the constructive form is the only form available: by \autoref{ch:capstones-reasoning-by-contradiction-boundary}, the framework simulates classical reasoning by contradiction but does not entail it on existential conclusions. Any RH proof landing inside the BEDC fragment therefore has to produce $\Phi$ explicitly, or expose precisely where it appeals to a meta-closure move outside the fragment.
+\end{remark}
+
+\section{Witness types a proof would produce}
+\label{sec:rh-witness-types}
+
+A constructive proof of $\mathsf{RH}$ exposes constructive content beyond the bare conjunction. The witness types below catalog this content as Lean statement-level targets that any RH proof would have to discharge or supply. Each is a refinement or corollary of \autoref{prop:rh-constructive-form}.
+
+\begin{theorem}[Modulus from zero-on-strip to half]
+\label{thm:rh-witness-modulus}
+A constructive proof of $\mathsf{RH}$ supplies, for every $s$ with $\mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s)$, an explicit modulus function $\mu_s : \NatUp \to \NatUp$ such that for every $n$, the rational representative $q_n$ of $\Re(s)$ at depth $\mu_s(n)$ satisfies $|q_n - 1/2| < 2^{-n}$ as a $\RatUp$-level inequality. The function $\mu_s$ is the constructive content of the $\hsame$-witness for $\Re(s) = 1/2$.
+\end{theorem}
+
+\begin{theorem}[Approach-rate bound near the critical line]
+\label{thm:rh-witness-approach-rate}
+A constructive proof of $\mathsf{RH}$ supplies a bound function $\beta : \NatUp \to \RatUp$ with $\beta(n) > 0$ such that for every complex history $s$ in the critical strip with $|\Re(s) - 1/2| > 2^{-n}$ at the rational level, the regular Cauchy representative of $|\zeta(s)|$ admits a constructive lower bound $\beta(n)$. The function $\beta$ is the quantitative content of "no zeros off the critical line": away from the line, $\zeta$ is bounded away from zero by a computable amount.
+\end{theorem}
+
+\begin{theorem}[Riemann-von Mangoldt zero count, constructive form]
+\label{thm:rh-witness-zero-count}
+A constructive proof of $\mathsf{RH}$ supplies an explicit zero-counting function $N : \NatUp \to \NatUp$ together with a witness, for every imaginary height $T \in \NatUp$, of a $\Unary$ upper bound on the cardinality of $\{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \wedge |\Im(s)| \le T \,\}$ that agrees, up to an explicit constructive error term, with the Riemann-von Mangoldt formula $N(T) \approx (T / 2\pi) \log(T / 2\pi) - T / 2\pi$. The agreement is stated as a $\UnaryHistory$-level inequality on the zero-count history.
+\end{theorem}
+
+\begin{theorem}[Trivial-zero classifier]
+\label{thm:rh-witness-trivial-zero}
+A constructive proof of $\mathsf{RH}$ supplies an explicit decidable classifier separating trivial zeros (the negative even integers $-2, -4, -6, \dots$, where the functional equation forces $\zeta(s) = 0$ outside the critical strip) from non-trivial zeros (those with $\mathsf{InCritStrip}(s)$). The classifier takes the form of a $\psame$-respecting predicate on $\NameCert_{\ZetaZerosUp}$ such that the trivial-zero subset is exactly the image of the negative-even-integer carrier under the embedding $\IntUp \hookrightarrow \ComplexUp$.
+\end{theorem}
+
+\begin{theorem}[Critical-line restriction of the zero set]
+\label{thm:rh-witness-critical-line-restriction}
+A constructive proof of $\mathsf{RH}$ supplies a $\psame$-isomorphism between the carrier of $\{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \,\}$ and the carrier of $\{\, t \in \RealUp \mid \mathsf{ZetaZero}(1/2 + it) \,\}$, exhibiting that every non-trivial zero is determined by its imaginary part alone. The isomorphism is the conjunction of $\Phi$ from \autoref{prop:rh-constructive-form} with the projection to imaginary part.
+\end{theorem}
+
+\section{Axiom-purity considerations}
+\label{sec:rh-axiom-purity}
+
+The supporting chapters of LEVELs 1 through 5 are required to remain axiom-pure in the BEDC sense: no use of $\mathsf{Classical.choice}$, no use of $\mathsf{Quot.sound}$, no use of $\mathsf{propext}$. Any RH statement-level target sits on top of this entire stack, so the same gate applies to it transitively. Three outcomes are mathematically meaningful, and the RH roadmap distinguishes them as the only three things a constructive engagement with the conjecture can land on.
+
+\begin{remark}[Outcome (i): RH is provable in the fragment]
+\label{rem:rh-outcome-provable}
+A construction $\Phi$ of \autoref{prop:rh-constructive-form} is exhibited inside BEDC and the entire dependency chain runs under $\mathsf{check\text{-}axioms.py}$ and $\mathsf{bedc\_ci.py\ axiom\text{-}purity\ \text{-}\text{-}strict}$ without flagging any stdlib axiom. This is the strongest possible outcome and would constitute a genuine constructive proof of RH.
+\end{remark}
+
+\begin{remark}[Outcome (ii): independence inside the fragment]
+\label{rem:rh-outcome-independence}
+A meta-theorem is exhibited stating that neither $\mathsf{RH}$ nor $\neg\mathsf{RH}$ is provable in the BEDC fragment. This outcome would not require the supporting chapters to leave axiom-purity but would require a meta-level layer above the kernel. By \autoref{ch:capstones-reflection-and-limits}, that meta layer is structurally available, and the independence statement would be a meta-level \texttt{leanstmt} record, not a closure of $\mathsf{RH}$ at the kernel level. This is the "schema-only horizon" outcome: BEDC exposes the conjecture as an interface that codifies the constructive content but admits no closed witness inside the framework.
+\end{remark}
+
+\begin{remark}[Outcome (iii): explicit constructive counterexample]
+\label{rem:rh-outcome-counterexample}
+A specific complex history $s_0$ is exhibited together with explicit witnesses $\mathsf{ZetaZero}(s_0)$, $\mathsf{InCritStrip}(s_0)$, and a positive $\RatUp$-level lower bound on $|\Re(s_0) - 1/2|$. By \autoref{prop:rh-constructive-form}, this is the constructive disproof. It would settle RH negatively, and unlike a classical disproof it would carry the actual offending zero as data.
+\end{remark}
+
+\begin{remark}[The fragment may not decide which outcome]
+\label{rem:rh-fragment-undecided}
+The BEDC fragment is constructive and axiom-pure; it is not, in general, complete. By \autoref{rem:incompleteness-downstream}, the open meta loop of the framework guarantees that some statements over BEDC primitives are formally undecidable inside the fragment. Whether $\mathsf{RH}$ is one such statement is itself open. Articulating this open question is the purpose of the present capstone.
+\end{remark}
+
+\section{Connection to existing BEDC content}
+\label{sec:rh-connections}
+
+\begin{remark}[Reasoning by contradiction in RH]
+\label{rem:rh-reasoning-by-contradiction}
+\autoref{ch:capstones-reasoning-by-contradiction-boundary} establishes that BEDC reasoning by contradiction has a boundary: refutation of a false existence claim by exhibited counterexample stays inside the closed ground loop and is accepted, but proof of an existence statement by contradiction is not. The classical literature on RH is full of contradiction arguments. A BEDC translation of any such argument has to respect this boundary: refutational content stays, but any existence conclusion has to be replaced by an explicit witness or recategorized as a meta-closure move that exits the fragment.
+\end{remark}
+
+\begin{remark}[Reflection and limits]
+\label{rem:rh-reflection}
+\autoref{ch:capstones-reflection-and-limits} fixes the level structure: the BEDC kernel lives at the ground, the meta layer describes the kernel from above, and Tarski undefinability prevents the meta layer from closing. The conjecture $\mathsf{RH}$ lives at the kernel level. Any proof of $\mathsf{RH}$ is a kernel-level theorem. Any meta-theorem about the provability of $\mathsf{RH}$ inside the fragment (\autoref{rem:rh-outcome-independence}) lives at the meta level. The two are different artifacts and do not collapse into one another; conflating them would be a Tarski-undefinability move and is forbidden by the framework.
+\end{remark}
+
+\begin{remark}[Real completeness dependency]
+\label{rem:rh-real-completeness}
+\autoref{ch:capstones-real-completeness} is the immediate prerequisite of LEVEL 2 closure. Every $\zeta(s)$ value inside the critical strip is, ultimately, a regular Cauchy sequence over $\RatUp$, and the closure of \autoref{ch:concrete-instances-real-namecert} into a complete carrier through that capstone is what licenses talking about $\zeta$-values and zeros at all in the constructive sense. RH inherits the constructive content of the real completion: until the regular Cauchy completion of $\RealUp$ closes, the RH statement of \autoref{def:rh-predicate} type-checks but is not yet inhabitable in any nontrivial way.
+\end{remark}
+
+\begin{remark}[Curry-Howard placement]
+\label{rem:rh-curry-howard}
+The constructive form of \autoref{prop:rh-constructive-form} is what Curry-Howard buys at the BEDC fragment level: $\mathsf{RH}$ as a $\Pi$-type, a proof as a function, a disproof as a sigma-type witness. This is the same Curry-Howard discipline applied in every other concrete-instance certificate of LEVELs 1 through 5. RH is special only in that the inhabiting function or sigma-witness is conjectured but not yet supplied; the typing is identical to every other constructive statement in the manuscript.
+\end{remark}
+
+\section{Roadmap and scope}
+\label{sec:rh-roadmap-scope}
+
+This capstone is a roadmap, not a proof. The conjecture $\mathsf{RH}$ has been stated as \autoref{def:rh-predicate} and refined to its constructive form as \autoref{prop:rh-constructive-form}; the witness types of \autoref{thm:rh-witness-modulus} through \autoref{thm:rh-witness-critical-line-restriction} catalog the constructive content any proof would expose; the dependency chain of \autoref{sec:rh-dependency-chain} fixes the order in which the supporting concrete-instance chapters must close before the RH statement can be inhabited; and \autoref{sec:rh-axiom-purity} fixes the three mathematically meaningful outcomes inside the BEDC fragment. The supporting LEVEL 3 through LEVEL 5 chapters are scaffolds awaiting codex pipeline elaboration. A rough scale estimate: twelve concrete-instance chapters across LEVELs 3, 4, and 5, each carrying eight to twelve Lean targets, totaling on the order of one hundred and twenty new theorems plus the RH statement-level targets of the present capstone. Even when the entire scaffold is closed and the chain is fully formalized, the Riemann Hypothesis remains the foundation for a future research program rather than a finished result; the roadmap clarifies what such a program would have to produce, in what order, and under what axiom-purity constraints. The chapter uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$; whether RH itself is provable inside this fragment is part of what this roadmap is intended to clarify.

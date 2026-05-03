@@ -150,6 +150,48 @@ $\mathsf{mul}(-,\emp)$ in both directions.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_left\_mul\_empty\_equation\_exact\_from\_apartness}
 
+\begin{theorem}[Field empty-unit right multiplication cancellation from apartness]
+\label{thm:field-empty-unit-right-mul-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate whose multiplicative unit is
+$\emp$, suppose multiplication is associative, has a right unit law at $\emp$,
+respects $\hsame$, and has a right inverse law indexed by nonzero witnesses.
+For every nonzero witness $p_b:\mathsf{NonZero}_F(b)$,
+$$
+\mathsf{mul}(x,b)\hsame\mathsf{mul}(y,b)
+\Longrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply right-multiplication equation solving to the displayed product equality.
+It identifies $x$ with
+$\mathsf{mul}(\mathsf{mul}(y,b),\mathsf{inv}(b,p_b))$. The right inverse
+cancellation theorem collapses this latter history to $y$, and transitivity of
+$\hsame$ gives the stated cancellation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_right\_mul\_cancel\_from\_apartness}
+
+\begin{theorem}[Field empty-unit left multiplication cancellation from apartness]
+\label{thm:field-empty-unit-left-mul-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate whose multiplicative unit is
+$\emp$, suppose multiplication is associative, has a left unit law at $\emp$,
+respects $\hsame$, and has a left inverse law indexed by nonzero witnesses.
+For every nonzero witness $p_a:\mathsf{NonZero}_F(a)$,
+$$
+\mathsf{mul}(a,x)\hsame\mathsf{mul}(a,y)
+\Longrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Multiply the displayed product comparison on the left by
+$\mathsf{inv}(a,p_a)$ using multiplication congruence. The left inverse
+cancellation theorem identifies the transported left endpoint with $x$ and
+the transported right endpoint with $y$. Symmetry on the first identification
+and transitivity through the transported comparison give $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_left\_mul\_cancel\_from\_apartness}
+
 \begin{theorem}[Field product-factor map classifier exactness from apartness]
 \label{thm:field-product-factor-map-classifier-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -203,6 +245,110 @@ congruence transports $x\hsame y$ through
 $z\mapsto\mathsf{mul}(\mathsf{mul}(a,b),z)$, which is exactly the left
 classifier equality.
 \end{proof}
+
+\begin{theorem}[Field empty-unit conjugation equation exactness from apartness]
+\label{thm:field-empty-unit-conjugation-equation-exactness}
+For a BEDC history-level $\FieldUp$ candidate whose multiplicative unit is
+$\emp$, with proof-indexed inverses, multiplication associativity, left and
+right unit laws, multiplication congruence under $\hsame$, and left and right
+inverse laws indexed by a nonzero witness $p_a:\mathsf{NonZero}_F(a)$,
+conjugation by $a$ solves the middle equation exactly:
+$$
+\hsame(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{inv}(a,p_a)),b)
+\Longleftrightarrow
+\hsame(x,\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(a,p_a),b),a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the displayed conjugation equation on the
+right by $a$. Reassociate to expose
+$\mathsf{mul}(\mathsf{inv}(a,p_a),a)$, collapse it by the indexed left inverse
+law, and use the right unit law to obtain
+$\mathsf{mul}(a,x)\hsame\mathsf{mul}(b,a)$. Then multiply on the left by
+$\mathsf{inv}(a,p_a)$, reassociate, collapse the left inverse pair, and use
+the left unit law.
+
+For the reverse direction, transport the displayed solved endpoint through
+left multiplication by $a$. Reassociate to expose
+$\mathsf{mul}(a,\mathsf{inv}(a,p_a))$, collapse it by the indexed right
+inverse law, and use the left unit law. A final right multiplication by
+$\mathsf{inv}(a,p_a)$, followed by reassociation, the indexed right inverse
+law, and the right unit law, recovers the original conjugation equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_conjugation\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field empty-unit conjugation classifier exactness from apartness]
+\label{thm:field-empty-unit-conjugation-classifier-exactness}
+Under the same empty-unit $\FieldUp$ hypotheses and witness
+$p_a:\mathsf{NonZero}_F(a)$, conjugation by $a$ preserves and reflects the
+$\hsame$ classifier:
+$$
+\hsame(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{inv}(a,p_a)),
+\mathsf{mul}(\mathsf{mul}(a,y),\mathsf{inv}(a,p_a)))
+\Longleftrightarrow
+\hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:field-empty-unit-conjugation-equation-exactness} to the displayed
+comparison with target
+$\mathsf{mul}(\mathsf{mul}(a,y),\mathsf{inv}(a,p_a))$. Apply the same
+equation exactness theorem to the reflexive equation for $y$ at that target.
+The two solved endpoints compare by symmetry and transitivity of $\hsame$.
+
+For the reverse direction, multiplication congruence transports $x\hsame y$
+through left multiplication by $a$ and right multiplication by
+$\mathsf{inv}(a,p_a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_empty\_unit\_conjugation\_classifier\_exact\_from\_apartness}
+
+\begin{theorem}[Field right product empty-context solution determinacy from apartness]
+\label{thm:field-product-right-mul-empty-context-solution-deterministic-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+the displayed associativity, unit, congruence, and inverse laws, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$. If $x$ and $y$
+solve the same right product equation at the empty-context endpoint
+$\mathsf{append}(\emp,c)$, then $x\hsame y$:
+$$
+\mathsf{mul}(x,\mathsf{mul}(a,b))\hsame\mathsf{append}(\emp,c)
+\quad\text{and}\quad
+\mathsf{mul}(y,\mathsf{mul}(a,b))\hsame\mathsf{append}(\emp,c)
+\Rightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right product equation exactness theorem to both displayed
+equations at the shared endpoint $\mathsf{append}(\emp,c)$. Both solutions
+are classified by the same explicit inverse-product endpoint, so symmetry
+and transitivity of $\hsame$ compare them.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_right\_mul\_empty\_context\_solution\_deterministic\_from\_apartness}
+
+\begin{theorem}[Field left product empty-context solution determinacy from apartness]
+\label{thm:field-product-left-mul-empty-context-solution-deterministic-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+the displayed associativity, unit, congruence, and inverse laws, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
+$p_a:\mathsf{NonZero}_F(a)$, and $p_b:\mathsf{NonZero}_F(b)$. If $x$ and $y$
+solve the same left product equation at the empty-context endpoint
+$\mathsf{append}(\emp,c)$, then $x\hsame y$:
+$$
+\mathsf{mul}(\mathsf{mul}(a,b),x)\hsame\mathsf{append}(\emp,c)
+\quad\text{and}\quad
+\mathsf{mul}(\mathsf{mul}(a,b),y)\hsame\mathsf{append}(\emp,c)
+\Rightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply the left product equation exactness theorem to both displayed equations
+at the shared endpoint $\mathsf{append}(\emp,c)$. The two solved endpoints
+are identical, and $\hsame$ symmetry and transitivity give $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_product\_left\_mul\_empty\_context\_solution\_deterministic\_from\_apartness}
 
 \begin{theorem}[Field product-factor map empty-context classifier exactness from apartness]
 \label{thm:field-product-factor-map-empty-context-classifier-exact-from-apartness}
@@ -322,64 +468,140 @@ $\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),x)\hsame q$.
 For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
 proof-indexed inverses, multiplication associativity, left and right unit laws,
 multiplication congruence under $\hsame$, and left and right inverse laws
-indexed by nonzero witnesses, let
-$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$,
-$p_{abc}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(a,b),c))$,
-$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$,
-$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
-$p_c:\mathsf{NonZero}_F(c)$, and $p_d:\mathsf{NonZero}_F(d)$ be explicit
-witnesses. Define the reversed inverse spine
+indexed by nonzero witnesses, product nonzero exclusion, and the conversion
+maps required by
+\autoref{thm:field-inverse-four-factor-product-reversal-from-apartness}, define
 $$
-R:=
+P_4:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d).
+$$
+For any witness $p_{abcd}:\mathsf{NonZero}_F(P_4)$, the four-factor inverse
+reversal theorem induces witnesses $p_a:\mathsf{NonZero}_F(a)$,
+$p_b:\mathsf{NonZero}_F(b)$, $p_c:\mathsf{NonZero}_F(c)$, and
+$p_d:\mathsf{NonZero}_F(d)$. Define the reversed inverse spine
+$$
+R_4:=
 \mathsf{mul}(\mathsf{inv}(d,p_d),
 \mathsf{mul}(\mathsf{inv}(c,p_c),
 \mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a)))).
 $$
 Then every $x,r:\mathsf{BHist}$ satisfies both clauses
 $$
-\mathsf{mul}(x,\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))\hsame r
+\mathsf{mul}(x,P_4)\hsame r
 \Longleftrightarrow
-x\hsame \mathsf{mul}(r,R)
+x\hsame \mathsf{mul}(r,R_4)
 $$
 and
 $$
-\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),x)\hsame r
+\mathsf{mul}(P_4,x)\hsame r
 \Longleftrightarrow
-x\hsame \mathsf{mul}(R,r).
+x\hsame \mathsf{mul}(R_4,r).
 $$
 Traditional target finite product equation solving; BEDC source $\FieldUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
 obligations one-factor equation exactness, inverse-product reversal,
-congruence, associativity, and unit laws; ledger the seven displayed witnesses;
-core theorem this block; exactness predicate the two displayed equivalences;
-standard bridge deferred; status $\mathsf{ProofTarget}$.
+congruence, associativity, unit laws, product nonzero exclusion, and conversion
+maps; ledger $p_{abcd}$, induced factor witnesses, and conversion maps; core
+theorem this block; exactness predicate the two displayed equivalences; standard
+bridge deferred; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:field-right-mul-equation-exact-from-apartness} to the
-active fourfold right factor
-$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)$ with witness
-$p_{abcd}$. This gives the right-multiplication equation in terms of the
-certified inverse of the whole product.
+active fourfold right factor $P_4$ with witness $p_{abcd}$. This gives the
+right-multiplication equation in terms of the certified inverse
+$\mathsf{inv}(P_4,p_{abcd})$.
 
-Apply \autoref{thm:field-left-mul-equation-exact-from-apartness} to the same
-fourfold product with witness $p_{abcd}$. This gives the left-multiplication
-equation in terms of the same certified inverse, now placed on the left of
-$r$.
-
-We next identify that certified inverse with $R$. Use
-\autoref{thm:field-inverse-product-reverse-from-apartness} first along
-$p_{abcd}$, then along $p_{abc}$, and finally along $p_{ab}$. Associativity
-and the unit laws put the resulting nested product into the displayed reversed
-spine.
+Invoke
+\autoref{thm:field-inverse-four-factor-product-reversal-from-apartness} on
+$p_{abcd}$ and the conversion maps. It produces the factor witnesses
+$p_a,p_b,p_c,p_d$ and identifies $\mathsf{inv}(P_4,p_{abcd})$ with the
+displayed reversed spine $R_4$.
 
 For the right equation, transport the solution side through multiplication
 congruence for $\mathsf{mul}(r,-)$. Symmetry and transitivity of $\hsame$
-move between the certified inverse of the active product and $R$, yielding
-$x\hsame\mathsf{mul}(r,R)$ in the forward direction and returning to the
+move between the certified inverse of the active product and $R_4$, yielding
+$x\hsame\mathsf{mul}(r,R_4)$ in the forward direction and returning to the
 one-factor exactness statement in the reverse direction.
 
-For the left equation, use the same transport with multiplication congruence
-for $\mathsf{mul}(-,r)$. The identified spine now appears on the left, so the
-transported solution is $x\hsame\mathsf{mul}(R,r)$, and the reverse transport
-recovers the original fourfold left equation.
+For the left equation, apply
+\autoref{thm:field-left-mul-equation-exact-from-apartness} to the active left
+factor $P_4$ with witness $p_{abcd}$. This gives the left equation in terms of
+$\mathsf{inv}(P_4,p_{abcd})$ on the left of $r$.
+
+Use the same inverse identification and multiplication congruence for
+$\mathsf{mul}(-,r)$. The identified spine now appears on the left, so the
+transported solution is $x\hsame\mathsf{mul}(R_4,r)$, and the reverse transport
+recovers $\mathsf{mul}(P_4,x)\hsame r$.
+\end{proof}
+
+\begin{theorem}[Field five-factor product equation exactness from apartness]
+\label{thm:field-five-factor-product-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+proof-indexed inverses, multiplication associativity, left and right unit laws,
+multiplication congruence under $\hsame$, indexed left and right inverse laws,
+product nonzero exclusion, and the conversion maps required by
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness}, define
+$$
+P_5:=\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e).
+$$
+For any witness $p_{abcde}:\mathsf{NonZero}_F(P_5)$, the five-factor inverse
+reversal theorem induces witnesses $p_a:\mathsf{NonZero}_F(a)$,
+$p_b:\mathsf{NonZero}_F(b)$, $p_c:\mathsf{NonZero}_F(c)$,
+$p_d:\mathsf{NonZero}_F(d)$, and $p_e:\mathsf{NonZero}_F(e)$. Define
+$$
+R_5:=\mathsf{mul}(\mathsf{inv}(e,p_e),
+\mathsf{mul}(\mathsf{inv}(d,p_d),
+\mathsf{mul}(\mathsf{inv}(c,p_c),
+\mathsf{mul}(\mathsf{inv}(b,p_b),\mathsf{inv}(a,p_a))))).
+$$
+Then every $x,r:\mathsf{BHist}$ satisfies both clauses
+$$
+\mathsf{mul}(x,P_5)\hsame r
+\Longleftrightarrow
+x\hsame\mathsf{mul}(r,R_5)
+$$
+and
+$$
+\mathsf{mul}(P_5,x)\hsame r
+\Longleftrightarrow
+x\hsame\mathsf{mul}(R_5,r).
+$$
+Traditional target finite five-factor product equation solving; BEDC source
+$\FieldUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations one-factor right and left equation exactness,
+five-factor inverse reversal, multiplication congruence, symmetry, and
+transitivity; ledger $p_{abcde}$ and the induced witnesses
+$p_a,p_b,p_c,p_d,p_e$; core theorem this block; exactness predicate the two
+displayed equivalences; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:field-right-mul-equation-exact-from-apartness} to the
+active right factor $P_5$ with witness $p_{abcde}$. This gives the right
+equation equivalence with the one-factor solution
+$x\hsame\mathsf{mul}(r,\mathsf{inv}(P_5,p_{abcde}))$.
+
+Next apply
+\autoref{thm:field-inverse-five-factor-product-reversal-from-apartness} to
+$p_{abcde}$. It produces the factor witnesses $p_a$, $p_b$, $p_c$, $p_d$, and
+$p_e$ and identifies the indexed inverse of $P_5$ with the displayed reversed
+spine $R_5$.
+
+For the forward direction of the right equation, use multiplication congruence
+on the right factor of $\mathsf{mul}(r,-)$ to transport the one-factor solution
+from $\mathsf{inv}(P_5,p_{abcde})$ to $R_5$.
+
+For the reverse direction of the right equation, use symmetry of the same
+inverse identification, the same congruence, and transitivity of $\hsame$ to
+return to the indexed-inverse solution before applying the reverse half of the
+one-factor right exactness theorem.
+
+For the left equation, apply
+\autoref{thm:field-left-mul-equation-exact-from-apartness} to the active left
+factor $P_5$ with witness $p_{abcde}$. This gives the left equation equivalence
+with $x\hsame\mathsf{mul}(\mathsf{inv}(P_5,p_{abcde}),r)$.
+
+Transport this solution through multiplication congruence for
+$\mathsf{mul}(-,r)$ and the five-factor inverse identification. Symmetry and
+transitivity give the reverse transport, so the reverse half of the one-factor
+left exactness theorem recovers $\mathsf{mul}(P_5,x)\hsame r$.
 \end{proof}

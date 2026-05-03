@@ -84,6 +84,26 @@ the empty component.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_source\_empty\_component\_iff}
 
+\begin{theorem}[NatTrans one-headed target empty component exactness]
+\label{thm:nattrans-prefix-component-e1-target-empty-component-iff}
+For histories $p,q,a$, an empty prefix component from $p$ to $\Eone(q)$ over
+$a$ exists exactly when $q$ and $a$ are unary and the source prefix is literally
+$\Eone(q)$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,\Eone(q),a,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(q)\wedge\mathsf{UnaryHistory}(a)\wedge p=\Eone(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-identity component exactness. Unary inversion on the one-headed
+target prefix extracts unary membership of $q$, and the prefix sameness
+specializes to the equality $p=\Eone(q)$. Conversely, substituting this equality
+rebuilds the one-headed source prefix, and empty-identity exactness packages
+the empty component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_target\_empty\_component\_iff}
+
 \begin{theorem}[NatTrans prefix component empty-source prefix exactness]
 \label{thm:nattrans-prefix-component-carrier-empty-source-prefix}
 For histories $q,a,\eta$, a prefix component from the empty prefix to $q$ over
@@ -238,6 +258,53 @@ morphism determinacy compares the underlying hom-carriers, yielding the public
 \(\HSame\) readback for the composite.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_public\_readback}
+
+\begin{theorem}[NatTrans prefix component empty vertical composite exactness]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-iff}
+For prefix components over a common object $a$, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$ and $\theta$ is a component
+from $\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$, then the empty vertical
+composite is equivalent to both component histories being empty and the
+adjacent prefixes agreeing:
+$$
+\ContR(\eta,\theta,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\wedge\HSame(\theta,\emp)\wedge\HSame(p,q)\wedge\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two prefix components to their category hom-carriers over the
+shared object suffix $a$. Category empty-composite exactness gives the two
+empty component histories and the two endpoint equalities. Right cancellation
+removes the common suffix $a$ from both endpoint equalities. Conversely, the
+prefix equalities rebuild the component endpoint equalities, and category
+empty-composite exactness supplies the empty vertical continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_iff}
+
+\begin{theorem}[NatTrans one-headed prefix empty vertical composite exactness]
+\label{thm:nattrans-prefix-component-e1-prefix-empty-vert-comp-iff}
+For prefix components over a common object $a$, if $\eta$ is a component from
+$\Eone(p)$ to $q$ and $\theta$ is a component from $q$ to $\Eone(r)$, then the
+empty vertical composite is equivalent to both component histories being empty
+and the one-headed source and target prefix payloads agreeing:
+$$
+\ContR(\eta,\theta,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\wedge\HSame(\theta,\emp)\wedge\HSame(p,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two prefix components to their category hom-carriers over
+$\mathsf{append}(\Eone(p),a)$, $\mathsf{append}(q,a)$, and
+$\mathsf{append}(\Eone(r),a)$. Category empty-composite exactness gives the
+two empty component histories and adjacent endpoint equalities. Transitivity
+identifies the two endpoints with the common suffix $a$; right cancellation
+removes that suffix, and one-headed constructor inversion yields
+$\HSame(p,r)$. Conversely, empty component histories reduce the vertical
+continuation ledger to the empty continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_prefix\_empty\_vert\_comp\_iff}
 
 \begin{theorem}[NatTrans prefix component vertical composition right factor]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-right-factor}
@@ -500,6 +567,29 @@ continuation commutativity identifies the forward and reversed component
 composites.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_tail\_comm\_hsame}
+
+\begin{theorem}[NatTrans prefix component vertical triangle empty components]
+\label{thm:nattrans-prefix-component-vert-triangle-cycle-empty-components}
+For prefix components over a fixed object $a$, if components run from $p$ to
+$q$, from $q$ to $r$, and from $r$ back to $p$, then the empty component is
+displayed on all three sides and the adjacent prefixes collapse:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\emp)\land
+\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp)\land
+\HSame(p,q)\land
+\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three component carriers to their category hom-carrier fields and
+apply triangular empty hom exactness at the endpoints
+$\mathsf{append}(p,a)$, $\mathsf{append}(q,a)$, and
+$\mathsf{append}(r,a)$. Repack the empty hom-carriers with the original unary
+prefix and object witnesses, then cancel the common right object suffix $a$ in
+the endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_triangle\_cycle\_empty\_components}
 
 \begin{theorem}[Prefix identity naturality square]
 \label{thm:nattrans-prefix-identity-naturality-square}

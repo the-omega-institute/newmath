@@ -45,4 +45,16 @@ theorem RatDenomUnitClassifier_append_comm {h k : BHist} :
           exact (field_rat_denominator_continuation_commutative_classifier ratH ratK
             (cont_intro rfl) (cont_intro rfl)).right.right
 
+theorem RatDenomUnitClassifier_append_comm_congr {h h' k k' : BHist} :
+    RatDenomUnitClassifier h h' -> RatDenomUnitClassifier k k' ->
+      RatDenomUnitClassifier (append h k) (append k' h') := by
+  intro classifiedH classifiedK
+  have straight : RatDenomUnitClassifier (append h k) (append h' k') :=
+    RatDenomUnitClassifier_continuation_closed classifiedH classifiedK (cont_intro rfl)
+      (cont_intro rfl)
+  have swapped : RatDenomUnitClassifier (append h' k') (append k' h') :=
+    RatDenomUnitClassifier_append_comm classifiedH.right.left classifiedK.right.left
+  exact And.intro straight.left
+    (And.intro swapped.right.left (hsame_trans straight.right.right swapped.right.right))
+
 end BEDC.Derived.FieldUp

@@ -1,0 +1,240 @@
+\begin{definition}[RatUp FieldUp composed denominator contextual action instance]
+\label{def:ratup-fieldup-composed-denominator-contextual-action-instance}
+The composed concrete denominator contextual action instance for
+$\FieldUp(\mathsf{RatUp})$ is the tuple
+$$
+\mathcal{A}_{D,2}^u:=(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u,\Gamma^{(2)})
+$$
+on the same concrete data
+$$
+C_D^u:=\mathsf{RatDenomUnitCarrier},\qquad
+R_D^u:=\mathsf{RatDenomUnitClassifier},
+$$
+$$
+\mu_D^u(h,k):=\mathsf{append}(h,k),\qquad
+e_D^u:=\emp,\qquad
+N_D^u(h):=\mathsf{RatHistoryCarrier}(h).
+$$
+For carried contexts $l_1,r_1,l_2,r_2:\mathsf{BHist}$ and external endpoint
+contexts $p_1,q_1,p_2,q_2:\mathsf{BHist}$, its two-layer carried action is
+$$
+\Gamma^{(2)}_{p_2,q_2,l_2,r_2;p_1,q_1,l_1,r_1}(h)
+:=\Gamma_{p_2,q_2,l_2,r_2}(\Gamma_{p_1,q_1,l_1,r_1}(h)).
+$$
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp denominator contextual action composition]
+\label{thm:ratup-fieldup-denominator-contextual-action-composition}
+For histories
+$h,k,l_1,r_1,l_2,r_2,p_1,q_1,p_2,q_2,p_1',q_1',p_2',q_2':\mathsf{BHist}$,
+assume $C_D^u(h)$, $C_D^u(k)$, $C_D^u(l_1)$, $C_D^u(r_1)$, $C_D^u(l_2)$,
+$C_D^u(r_2)$, and assume
+$p_1\hsame\emp$, $q_1\hsame\emp$, $p_2\hsame\emp$, $q_2\hsame\emp$,
+$p_1'\hsame\emp$, $q_1'\hsame\emp$, $p_2'\hsame\emp$, and
+$q_2'\hsame\emp$. Then the composed contextual action instance of
+\autoref{def:ratup-fieldup-composed-denominator-contextual-action-instance}
+satisfies the following classifier and strict-support laws:
+$$
+R_D^u(
+\Gamma^{(2)}_{p_2,q_2,l_2,r_2;p_1,q_1,l_1,r_1}(h),
+\Gamma^{(2)}_{p_2',q_2',l_2,r_2;p_1',q_1',l_1,r_1}(k))
+\Longleftrightarrow
+R_D^u(h,k),
+$$
+$$
+N_D^u(\Gamma^{(2)}_{p_2,q_2,l_2,r_2;p_1,q_1,l_1,r_1}(h))
+\Longleftrightarrow
+N_D^u(l_2)\lor N_D^u(l_1)\lor N_D^u(h)\lor N_D^u(r_1)\lor N_D^u(r_2),
+$$
+and
+$$
+N_D^u(\Gamma^{(2)}_{p_2',q_2',l_2,r_2;p_1',q_1',l_1,r_1}(k))
+\Longleftrightarrow
+N_D^u(l_2)\lor N_D^u(l_1)\lor N_D^u(k)\lor N_D^u(r_1)\lor N_D^u(r_2).
+$$
+\end{theorem}
+\begin{proof}
+First build the carrier facts needed for the second action layer. Carrier
+closure for the bilateral denominator multiplication, together with empty
+external endpoint carrier exactness, sends $C_D^u(h)$, $C_D^u(l_1)$, and
+$C_D^u(r_1)$ to $C_D^u(\Gamma_{p_1,q_1,l_1,r_1}(h))$. The same argument sends
+$C_D^u(k)$, $C_D^u(l_1)$, and $C_D^u(r_1)$ to
+$C_D^u(\Gamma_{p_1',q_1',l_1,r_1}(k))$.
+
+For classifier exactness, apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} to the
+outer layer with carried contexts $l_2,r_2$ and the two inner-action endpoints.
+The empty outer endpoint witnesses reduce the classifier comparison to the
+classifier comparison of the two inner actions.
+
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} again to
+the inner layer with carried contexts $l_1,r_1$. The empty inner endpoint
+witnesses identify that inner classifier comparison with $R_D^u(h,k)$, giving
+the displayed classifier equivalence in both directions.
+
+For strict support at $h$, the outer action certificate gives
+$N_D^u(l_2)\lor N_D^u(\Gamma_{p_1,q_1,l_1,r_1}(h))\lor N_D^u(r_2)$. Applying
+the inner action certificate rewrites the middle term as
+$N_D^u(l_1)\lor N_D^u(h)\lor N_D^u(r_1)$.
+
+Reassociate the constructive disjunction by the ordinary introduction and
+case-analysis rules for $\lor$. This yields exactly
+$N_D^u(l_2)\lor N_D^u(l_1)\lor N_D^u(h)\lor N_D^u(r_1)\lor N_D^u(r_2)$.
+
+The strict-support statement for $k$ is identical with $k$ in place of $h$ and
+the primed external endpoint contexts in both layers. The outer certificate,
+the inner certificate, and the same reassociation of $\lor$ give
+$N_D^u(l_2)\lor N_D^u(l_1)\lor N_D^u(k)\lor N_D^u(r_1)\lor N_D^u(r_2)$.
+\end{proof}
+
+Per-object template: traditional target composed denominator action
+certificate for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^u$; classifier $R_D^u$; action
+$\Gamma^{(2)}_{p_2,q_2,l_2,r_2;p_1,q_1,l_1,r_1}$; strict support $N_D^u$;
+ledger two carried left denominator contexts, two carried right denominator
+contexts, and two empty external endpoint layers; core theorem
+\autoref{thm:ratup-fieldup-denominator-contextual-action-composition};
+exactness predicate composed classifier exactness and five-term strict-support
+readback; standard bridge iterated denominator multiplication with empty
+external endpoints; status $\mathsf{ProofTarget}$.
+
+Per-object template: traditional target total denominator action certificate
+for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatDenomUnitCarrier}$,
+$\mathsf{RatDenomUnitClassifier}$, $\Cont$, $\mathsf{append}$, and $\emp$;
+carrier $C_D^u$; classifier $R_D^u$; stability obligations multiplicative
+certificate rows plus contextual classifier, classified left-core-right
+congruence, and strict-support rows; ledger external endpoint bit plus carried
+left and right denominator contexts; core theorem
+\autoref{thm:field-rat-denominator-contextual-action-total-certificate};
+exactness predicate denominator classifier exactness, classified contextual
+action congruence, and strict-support readback; standard bridge ordinary
+denominator multiplication with adjoined empty endpoint; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp denominator contextual action composition closure]
+\label{thm:ratup-fieldup-denominator-contextual-action-composition-closure}
+For histories $h,l,r,l',r',p,q,p',q':\mathsf{BHist}$, assume
+$C_D^u(h)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$, and assume
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. Then the
+composite concrete denominator contextual action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is classified by the single normalized action with combined carried
+contexts:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)).
+$$
+Its strict-support readback is exactly
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r').
+$$
+\end{theorem}
+\begin{proof}
+Unfold the action of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}. The inner
+term is
+$\mathsf{append}(p,\mathsf{append}(B_{l,r}(h),q))$, and the outer action is
+obtained by placing $B_{l',r'}$ around that term and then adjoining the external
+endpoints $p'$ and $q'$.
+
+Carrier closure follows from the denominator continuation monoid laws for
+$C_D^u$. The hypotheses on $l$, $h$, and $r$ put $B_{l,r}(h)$ in the carrier,
+and the empty endpoint hypotheses strip the external endpoints of the inner
+action. Applying the same closure step to $l'$, the carried inner action, and
+$r'$ puts the composite action in $C_D^u$.
+
+For the classifier statement, first remove the empty external endpoints with
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}.
+The comparison reduces to the carried products
+$B_{l',r'}(B_{l,r}(h))$ and
+$B_{\mu_D^u(l',l),\mu_D^u(r,r')}(h)$.
+
+Unfold $B_{l,r}$ and use the denominator multiplicative certificate rows of
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-record}
+to reassociate the append products. The left carried contexts combine as
+$\mu_D^u(l',l)$, and the right carried contexts combine as
+$\mu_D^u(r,r')$.
+
+After this reassociation, apply
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-classifier-exactness}
+to identify the nested carried action with the normalized single action inside
+$R_D^u$.
+
+For strict support, apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} to the
+outer action. Its support is
+$N_D^u(l')\lor N_D^u(\Gamma_{p,q,l,r}(h))\lor N_D^u(r')$.
+
+Apply
+\autoref{thm:ratup-fieldup-denominator-contextual-action-certificate} again to
+the inner action, or equivalently unfold $B_{l,r}$ and use
+\autoref{thm:field-rat-denominator-empty-unit-bilateral-multiplication-support-exactness}.
+This replaces the middle term by
+$N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$. Reassociate the constructive
+disjunction to obtain the displayed five-term support readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_composition\_support\_laws}
+
+\begin{theorem}[Rat denominator envelope bilateral context cancellation]
+\label{thm:field-rat-denominator-envelope-bilateral-context-cancellation}
+For the concrete tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$ of
+\autoref{def:field-rat-denominator-fieldup-multiplicative-exactness-instance},
+let $h,k,l,r,p,q,p',q':\mathsf{BHist}$. If $C_D^\ast(h)$,
+$C_D^\ast(k)$, $C_D^\ast(l)$, $C_D^\ast(r)$, $N_D^\ast(l)$,
+$N_D^\ast(r)$, $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and
+$q'\hsame\emp$, then
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(h,r)),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(k,r)),q')))
+\Longleftrightarrow R_D^\ast(h,k).
+$$
+\end{theorem}
+\begin{proof}
+First build the two bilateral products inside the concrete carrier. The
+multiplicative certificate boundary of
+\autoref{thm:field-rat-denominator-fieldup-multiplicative-certificate-boundary}
+uses $C_D^\ast(l)$, $C_D^\ast(h)$, $C_D^\ast(k)$, $C_D^\ast(r)$,
+$N_D^\ast(l)$, and $N_D^\ast(r)$ to place
+$\mu_D^\ast(l,\mu_D^\ast(h,r))$ and
+$\mu_D^\ast(l,\mu_D^\ast(k,r))$ in $C_D^\ast$.
+
+Next strip the external endpoint contexts. Apply
+\autoref{thm:field-rat-denominator-fieldup-envelope-empty-context-exactness} to
+these two carried products together with $p\hsame\emp$, $q\hsame\emp$,
+$p'\hsame\emp$, and $q'\hsame\emp$. The classifier component gives
+$$
+R_D^\ast(\mathsf{append}(p,\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(h,r)),q)),
+\mathsf{append}(p',\mathsf{append}(\mu_D^\ast(l,\mu_D^\ast(k,r)),q')))
+\Longleftrightarrow
+R_D^\ast(\mu_D^\ast(l,\mu_D^\ast(h,r)),
+\mu_D^\ast(l,\mu_D^\ast(k,r))).
+$$
+
+Finally apply
+\autoref{thm:field-rat-denominator-bilateral-strict-factor-cancellation} with
+strict factors $l$ and $r$. It identifies the remaining uncontextualized
+bilateral comparison with $R_D^\ast(h,k)$, and composing the two equivalences
+proves the displayed statement.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_envelope\_bilateral\_context\_cancellation}
+
+Per-object template: traditional target envelope bilateral context cancellation
+for the Rat denominator side of $\FieldUp(\mathsf{RatUp})$; BEDC source
+$\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, and $\emp$; carrier $C_D^\ast$; classifier $R_D^\ast$;
+multiplication $\mu_D^\ast$; unit $e_D^\ast$; strict support $N_D^\ast$;
+ledger empty external endpoint contexts plus strict carried left and right
+denominator factors; core theorem
+\autoref{thm:field-rat-denominator-envelope-bilateral-context-cancellation};
+exactness predicate empty-envelope classifier transport followed by bilateral
+strict-factor cancellation; status $\mathsf{ProofTarget}$.

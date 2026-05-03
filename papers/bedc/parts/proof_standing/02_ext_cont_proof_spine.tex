@@ -40,6 +40,23 @@ Suppose \(\MSame(m,n)\), \(\HSame(h,k)\), \(\ExtR(m,h,r)\), and \(\ExtR(n,k,s)\)
 By induction on the generated proof of \(\MSame(m,n)\). There are only two cases. In the \(\bzero\) case, the extension results are generated with outer constructor \(\Ezero\), and the conclusion follows by applying the \(\Ezero\) history-sameness constructor to \(\HSame(h,k)\). The \(\bone\) case is identical with \(\Eone\).
 \end{proof}
 
+\begin{theorem}[Extension result source-mark characterization]
+\label{thm:extension-result-source-mark-iff}
+If $\ExtR(m,h,r)$ and $\ExtR(m',h',r')$, then
+$$
+\HSame(r,r')
+\Longleftrightarrow
+\HSame(h,h')\land\MSame(m,m').
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Ext.ext\_result\_hsame\_source\_mark\_hsame\_iff}
+\begin{proof}
+For the forward direction, use result-history injectivity for generated
+extensions. For the reverse direction, transport the source histories and
+marks across internal sameness, then compare the two generated extension
+results.
+\end{proof}
+
 \begin{theorem}[Extension result is nonempty]
 \label{thm:ext-result-ne-empty}
 If $\ExtR(m,h,r)$, then $r$ is not history-same to $\emp$.
@@ -70,6 +87,35 @@ If \(\ContR(h,k,r)\) and \(\ContR(h,k,r')\), then \(\HSame(r,r')\).
 \leanchecked{BEDC.FKernel.Cont.cont\_determinacy\_up\_to\_hsame\_spine}
 \begin{proof}
 By induction on the generated right-history structure in the first continuation proof. In the empty case, the second proof must also be the empty case, hence both results are $h$. In the $\Ezero$ case, the second proof must also have right input and result with outer $\Ezero$ by closed generation; apply the induction hypothesis to the sub-results and then apply the $\Ezero$ constructor for $\HSame$. The $\Eone$ case is analogous.
+\end{proof}
+
+\begin{theorem}[Continuation result history-sameness iff]
+\label{thm:cont-result-hsame-iff}
+If $\ContR(a,f,r)$ holds, then for every history $s$,
+$$
+\ContR(a,f,s)\quad\Longleftrightarrow\quad \HSame(s,r).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_iff}
+\begin{proof}
+For the forward direction, continuation determinacy compares the two results
+with the same source and tail. For the reverse direction, transport the given
+continuation result along the displayed history-sameness.
+\end{proof}
+
+\begin{theorem}[Continuation source history-sameness iff]
+\label{thm:cont-source-hsame-iff}
+If $\ContR(a,f,r)$ holds, then for every history $a'$,
+$$
+\ContR(a',f,r)\quad\Longleftrightarrow\quad \HSame(a',a).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_source\_hsame\_iff}
+\begin{proof}
+For the forward direction, right cancellation compares the two continuations
+with shared tail and result. For the reverse direction, transport the source
+endpoint of the given continuation along the displayed history-sameness while
+keeping the tail and result fixed.
 \end{proof}
 
 \begin{theorem}[Continuation result history-sameness tag separation]
@@ -148,6 +194,23 @@ identified with $\emp$, any continuation $\ContR(\emp,d,r)$ is a left-unit
 continuation, so the left-unit result theorem gives $\HSame(r,d)$.
 \end{proof}
 
+\begin{theorem}[Continuation eone right-unit probe forces emptiness]
+\label{thm:cont-e1-right-unit-probe-forces-empty}
+For every generated history $u$, the fixed one-headed probe law
+$$
+\forall r:\mathsf{BHist}.\;
+\ContR(\Eone(\emp),u,r)\to \HSame(r,\Eone(\emp))
+$$
+forces $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_e1\_right\_unit\_probe\_forces\_empty}
+\begin{proof}
+Apply the probe law to the canonical continuation
+$\ContR(\Eone(\emp),u,\mathsf{append}(\Eone(\emp),u))$. Continuation result
+transport gives $\ContR(\Eone(\emp),u,\Eone(\emp))$, and right-unit uniqueness
+then forces the right endpoint $u$ to be empty.
+\end{proof}
+
 \begin{theorem}[Mutual continuation collapses to history-sameness]
 \label{thm:cont-mutual-extension-hsame}
 If \(\ContR(h,l,k)\) and \(\ContR(k,r,h)\), then \(\HSame(h,k)\).
@@ -206,6 +269,25 @@ contradicting history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a zero left tail]
+\label{thm:cont-triangle-cycle-left-zero-tail-absurd}
+If
+$$
+\ContR(a,\Ezero(k),b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(\Ezero(k),g),c)$. This composite and the return
+continuation $\ContR(c,h,a)$ form a mutual continuation cycle, so the composite
+tail is empty. Empty-append inversion identifies $\Ezero(k)$ with $\emp$,
+contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_left\_zero\_tail\_absurd}
+
 \begin{theorem}[Triangular continuation cycle forbids a visible middle tail]
 \label{thm:cont-triangle-cycle-middle-visible-tail-absurd}
 If
@@ -225,6 +307,25 @@ $\emp$, contradicting history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle forbids a zero middle tail]
+\label{thm:cont-triangle-cycle-middle-zero-tail-absurd}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,\Ezero(k),c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,\Ezero(k)),c)$. This composite and the return
+continuation form a mutual continuation cycle, so the composite tail is empty.
+Empty-append inversion identifies the middle zero tail $\Ezero(k)$ with
+$\emp$, contradicting history constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_middle\_zero\_tail\_absurd}
+
 \begin{theorem}[Triangular continuation cycle forbids a visible right tail]
 \label{thm:cont-triangle-cycle-right-visible-tail-absurd}
 If
@@ -242,6 +343,32 @@ return tail give a mutual continuation with a one-headed right tail, which is
 forbidden by right-tail mutual-extension cancellation.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
+
+\begin{theorem}[Triangular continuation cycle has empty tails]
+\label{thm:continuation-triangle-cycle-tails-empty}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then all three continuation tails are empty and the adjacent
+endpoints collapse:
+$$
+\HSame(f,\emp)\land \HSame(g,\emp)\land \HSame(h,\emp)\land
+\HSame(a,b)\land \HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. This composite and the return continuation
+$\ContR(c,h,a)$ form a mutual continuation cycle, so the composite tail and
+the return tail are empty. Empty-append inversion splits the composite tail
+into $f\hsame\emp$ and $g\hsame\emp$. Comparing the first two continuation
+ledgers with right-unit continuations at $a$ and $b$ gives the adjacent
+endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_tails\_empty}
 
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}
@@ -271,6 +398,27 @@ Compose the first two continuation witnesses using associativity to obtain a
 direct witness from $h$ to $r$ with tail $\mathsf{append}(f,g)$.  Left
 cancellation for continuation then identifies this composite tail with the
 given direct tail.
+\end{proof}
+
+\begin{theorem}[Composite continuation tail iff]
+\label{thm:cont-composite-tail-iff}
+If
+$$
+\ContR(a,f,b),\quad \ContR(b,g,c),
+$$
+then for every displayed tail $t$,
+$$
+\ContR(f,g,t)\Longleftrightarrow \ContR(a,t,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_tail\_iff}
+\begin{proof}
+Forwards, reassociate the two displayed continuation equations: the tail
+continuation $\ContR(f,g,t)$ turns the path from $a$ through $t$ into the same
+append tree as the path from $a$ through $f$ and then $g$. Conversely, the direct
+continuation $\ContR(a,t,c)$ shares its source and target with the composite of
+$\ContR(a,f,b)$ and $\ContR(b,g,c)$, so composite-tail uniqueness identifies
+$t$ with $\mathsf{append}(f,g)$ and hence gives $\ContR(f,g,t)$.
 \end{proof}
 
 \begin{theorem}[Composite continuation left factor]
@@ -307,6 +455,69 @@ endpoint is $\mathsf{append}(\mathsf{append}(a,f),g)$. BEDC append
 associativity identifies these two histories and supplies the displayed
 continuation from $b$ by $g$ to $c$.
 \end{proof}
+
+\begin{theorem}[Composite continuation factorization iff]
+\label{thm:cont-composite-factorization-iff}
+If $\ContR(f,g,fg)$, then a displayed composite continuation from $a$ to $c$
+by $fg$ is equivalent to the existence of an intermediate history $b$ carrying
+$a$ by $f$ to $b$ and $b$ by $g$ to $c$:
+$$
+\ContR(a,fg,c)
+\Longleftrightarrow
+\exists b:\mathsf{BHist},\ \ContR(a,f,b)\wedge \ContR(b,g,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_factorization\_iff}
+\begin{proof}
+The forward direction chooses the canonical endpoint
+$b=\mathsf{append}(a,f)$ and applies right-factor recovery for the displayed
+composite. Conversely, any displayed intermediate factorization composes by
+rewriting the middle endpoint with $\ContR(a,f,b)$ and applying associativity
+of append against the fixed witness $\ContR(f,g,fg)$.
+\end{proof}
+
+\begin{theorem}[Composite continuation canonical middle public readback]
+\label{thm:cont-composite-canonical-middle-public-readback}
+If $\ContR(f,g,fg)$ and $\ContR(a,fg,c)$, then the canonical middle history
+$\mathsf{append}(a,f)$ displays both factors,
+$$
+\ContR(a,f,\mathsf{append}(a,f))
+\quad\text{and}\quad
+\ContR(\mathsf{append}(a,f),g,c),
+$$
+and any other displayed middle $b$ with $\ContR(a,f,b)$ and $\ContR(b,g,c)$
+satisfies $\HSame(\mathsf{append}(a,f),b)$.
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_canonical\_middle\_public\_readback}
+\begin{proof}
+The left factor is the defining continuation for append. The right factor is
+the composite right-factor theorem applied to this canonical left factor, the
+tail composite $\ContR(f,g,fg)$, and the displayed composite $\ContR(a,fg,c)$.
+For another middle $b$, inverting $\ContR(a,f,b)$ identifies $b$ with
+$\mathsf{append}(a,f)$.
+\end{proof}
+
+\begin{theorem}[Continuation factorization middle exactness]
+\label{thm:cont-factorization-middle-hsame-iff}
+If
+$$
+\ContR(a,f,b),\qquad \ContR(b,g,c),
+$$
+then a displayed alternative middle $b'$ carries both factors exactly when it
+is history-same to the original middle:
+$$
+\ContR(a,f,b')\land \ContR(b',g,c)
+\Longleftrightarrow
+\HSame(b',b).
+$$
+\end{theorem}
+\begin{proof}
+Forwards, determinacy of $\ContR(a,f,\_)$ compares the alternative first
+factor with the original first factor. Conversely, a history-sameness witness
+from $b'$ to $b$ transports the first factor's result and the second factor's
+source, yielding the two displayed continuation witnesses.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_factorization\_middle\_hsame\_iff}
 
 \begin{corollary}[Addition-like behavior requires no primitive addition]
 \label{cor:addition-like-behavior-requires-no-primitive-addition}

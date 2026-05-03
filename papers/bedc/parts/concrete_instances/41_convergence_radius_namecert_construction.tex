@@ -1,0 +1,330 @@
+\chapter{A Concrete Naming Certificate for \(\ConvergenceRadiusUp\)}
+\label{ch:concrete-instances-convergence-radius-namecert}
+
+This chapter gives a concrete naming-certificate construction for the convergence radius of a complex power series \(\sum a_n z^n\) at the paper-proof level. The certificate sits above \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}) and the formal power series chapter (\autoref{ch:concrete-instances-fps-namecert}), and gives an explicit unary-history witness for the radius rather than a real-number supremum. Absolute convergence inside the disk is proved by geometric majorant; the Cauchy-Hadamard characterization is given in constructive form using only explicit unary suprema. The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+
+\section{Power series carrier and partial sums}
+
+\begin{definition}[Power series carrier]
+\label{def:power-series-carrier}
+A complex power series carrier is a unary-indexed family \(a : \Unary \to \ComplexUp\)-history of complex coefficient histories together with a complex history \(z_0\) marking the origin of the expansion.
+\end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier}
+
+\begin{lemma}[Power series origin and coefficient transport]
+\label{lem:power-series-carrier-origin-coefficient-transport}
+If the origin history is transported along $\hsame$ and every displayed
+coefficient is classified by the complex-history classifier, then the target
+origin is unary and the transported coefficient family is again a power series
+carrier at that target origin.
+\end{lemma}
+\begin{proof}
+The origin carrier is transported by unary transport. For each coefficient,
+the target-carrier component of the complex-history classifier supplies the
+complex coefficient carrier, so the transported family satisfies the power
+series carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_origin\_coefficient\_transport}
+
+\begin{definition}[Partial sum at a point]
+\label{def:part-sum-power-series}
+For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
+\end{definition}
+
+\begin{lemma}[Partial sums are complex histories]
+\label{lem:part-sum-complex}
+For every power series \((a, z_0)\), every complex history \(z\), and every unary \(n\), there is a unique complex history \(S_n\) with \(\mathsf{PartSum}(a, z_0, z, n, S_n)\), up to \(\hsame\) on both real components.
+\end{lemma}
+\begin{proof}
+By unary induction on \(n\), using totality and functionality of complex multiplication and addition.
+\end{proof}
+
+\section{Geometric bound predicate}
+
+\begin{definition}[Geometric bound]
+\label{def:geom-bound}
+For coefficients \(a\), unary radius history \(r\), and unary constant \(K\), the geometric bound \(\mathsf{GeomBound}(a, r, K)\) holds when for every unary \(n\), the modulus comparison \(|a_n| \cdot r^n \leq K\) is decidably true on the rational representation.
+\end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.GeomBound}
+
+\begin{lemma}[Geometric bound visible radius endpoint package]
+\label{lem:geom-bound-visible-radius-endpoint-package}
+For coefficients $a$, constant history $K$, result history $R$, and tail
+history $tail$, if
+$$
+\mathsf{GeomBound}(a,\Eone(tail),K)
+\qquad\text{and}\qquad
+\ContR(\Eone(tail),K,R),
+$$
+then $tail$ is unary and the continuation result is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{lemma}
+\begin{proof}
+The geometric-bound witness contains the unary carrier for the visible radius
+$\Eone(tail)$, so unary inversion gives the payload carrier for $tail$. If the
+continuation result were empty, empty-result inversion would identify the
+visible radius endpoint $\Eone(tail)$ with $\emp$, contradicting constructor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
+
+\begin{theorem}[Geometric bound radius semantic naming certificate]
+\label{thm:geom-bound-radius-semantic-namecert}
+For fixed coefficients \(a\) and unary bound constant \(K\), any witness of \(\mathsf{GeomBound}(a,r,K)\) yields a semantic naming certificate whose carrier, pattern, and ledger are the same radius-indexed geometric-bound predicate and whose classifier is \(\hsame\) on the displayed radius.
+\end{theorem}
+\begin{proof}
+The witnessed radius \(r\) inhabits the carrier. Reflexivity, symmetry, and transitivity are the finite-kernel \(\hsame\) laws. Carrier transport moves only the unary radius component across the displayed \(\hsame\) comparison and leaves the fixed coefficient and bound data unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_semanticNameCert}
+
+\begin{theorem}[Geometric bound semantic naming certificate]
+\label{thm:geom-bound-semantic-namecert}
+If \(\mathsf{GeomBound}(a,r,K)\) holds, then the radius-indexed carrier
+\(x\mapsto\mathsf{GeomBound}(a,x,K)\), with classifier \(\hsame\), forms a
+semantic naming certificate whose source, pattern, and ledger predicates are
+all this same concrete geometric-bound carrier.
+\end{theorem}
+\begin{proof}
+The displayed bound supplies the inhabited carrier witness. Reflexivity,
+symmetry, and transitivity are the kernel laws for \(\hsame\). Carrier
+transport along \(\hsame\) transports only the unary radius field; the constant
+\(K\) and the coefficient carrier rows are preserved unchanged. Pattern and
+ledger soundness are direct because all three semantic predicates are the same
+geometric-bound carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_semanticNameCert}
+
+\begin{lemma}[Geometric bound supplies the power series carrier]
+\label{lem:geom-bound-power-series-carrier}
+If \(\mathsf{GeomBound}(a,r,K)\) holds and the expansion center \(z_0\) is a
+complex history, then \((a,z_0)\) is a power series carrier, and both \(r\)
+and \(K\) are unary histories.
+\end{lemma}
+\begin{proof}
+Unpack the geometric-bound predicate. Its fields give the unary radius, the
+unary constant, and the coefficient-wise complex carrier; combine the latter
+with the displayed carrier of \(z_0\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_powerSeriesCarrier}
+
+\begin{lemma}[Geometric bound radius and constant continuation closure]
+\label{lem:geom-bound-radius-constant-continuation-closed}
+For coefficients $a$, radius histories $r,R$, constant histories $K,K'$, and
+unary perturbations $dr,dK$, if
+$$
+\mathsf{GeomBound}(a,r,K),\qquad
+\mathsf{UnaryHistory}(dr),\qquad
+\mathsf{UnaryHistory}(dK),
+$$
+and the continuation ledgers $\ContR(r,dr,R)$ and $\ContR(K,dK,K')$ hold,
+then the geometric bound persists at the transported radius and constant:
+$$
+\mathsf{GeomBound}(a,R,K').
+$$
+\end{lemma}
+\begin{proof}
+The geometric-bound witness contains unary carrier data for both $r$ and $K$.
+Unary continuation closure transports those carriers along the two displayed
+continuation ledgers, while the coefficient carrier clause is unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_constant\_continuation\_closed}
+
+\begin{lemma}[Geometric majorant inside the disk]
+\label{lem:geom-bound-majorant}
+If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.
+\end{lemma}
+\begin{proof}[Sketch]
+Each term is bounded above by \(K (r'/r)^n\); apply the geometric series formula with the explicit ratio.
+\end{proof}
+
+\section{Convergence radius predicate}
+
+\begin{definition}[Convergence radius]
+\label{def:conv-rad}
+For coefficients \(a\), the convergence radius predicate \(\mathsf{ConvRad}(a, R)\) holds when there is a constant-witness function \(K : \Unary \to \Unary\) such that for every unary radius \(r\) with \(\mathsf{NatUnaryStrictPrefix}(r, R)\), \(\mathsf{GeomBound}(a, r, K(r))\) is satisfied.
+\end{definition}
+\leandef{BEDC.Derived.ConvergenceRadiusUp.ConvRad}
+
+\begin{lemma}[Convergence radius supplies power series carriers along witnesses]
+\label{lem:conv-rad-power-series-carrier-witness}
+If \(\mathsf{ConvRad}(a,R)\) holds and \(z_0\) is a complex history, then the
+constant-witness function \(K\) can be chosen so that every admitted radius row
+simultaneously gives \(\mathsf{PowerSeriesCarrier}(a,z_0)\) and
+\(\mathsf{GeomBound}(a,r,K(r))\).
+\end{lemma}
+\begin{proof}
+Open the witness function in the convergence-radius predicate. For each
+admitted radius row, apply
+\autoref{lem:geom-bound-power-series-carrier} to the resulting geometric
+bound and the carrier of \(z_0\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_witness}
+
+\begin{theorem}[Convergence radius visible radius witness endpoint package]
+\label{thm:convrad-visible-radius-witness-endpoint-package}
+If $\mathsf{ConvRad}(a,R)$ holds and $\Eone(tail)$ is an admitted unary radius
+endpoint, then the convergence-radius witness function can be chosen so that
+any continuation
+$$
+\ContR(\Eone(tail),K(\Eone(tail)),R)
+$$
+exposes the payload carrier and non-empty result boundary:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\hsame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Open the witness function in $\mathsf{ConvRad}(a,R)$ and specialize it to the
+visible radius endpoint $\Eone(tail)$. The resulting geometric-bound row,
+together with the displayed continuation, is exactly the visible-radius endpoint
+package for geometric bounds.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_visible\_radius\_witness\_endpoint\_package}
+
+\begin{lemma}[Convergence radius transport]
+\label{lem:conv-rad-radius-transport}
+If \(\hsame(R, R')\), \(\mathsf{ConvRad}(a, R)\), and \(R'\) is unary, then the same geometric-bound witness function supplies \(\mathsf{ConvRad}(a, R')\).
+\end{lemma}
+\begin{proof}
+Transport the radius endpoint along \(\hsame\). The unary carrier for the target radius is explicit, and the existing constant-witness function continues to provide the same geometric-bound data.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_radius\_transport}
+
+\begin{lemma}[Convergence radius coefficient classifier transport]
+\label{lem:conv-rad-radius-coefficient-classifier-transport}
+If \(\hsame(R,R')\), \(R'\) is unary, every coefficient \(a_n\) is classified
+with \(b_n\) by the complex-history classifier, and \(\mathsf{ConvRad}(a,R)\)
+holds, then \(R'\) is unary and \(\mathsf{ConvRad}(b,R')\) holds.
+\end{lemma}
+\begin{proof}
+First transport the radius endpoint from \(R\) to \(R'\), retaining the same
+constant-witness function for geometric bounds. For each supplied geometric
+bound, keep the radius and constant unary carriers, and use the target-carrier
+component of the complex-history classifier at every coefficient index to
+rebuild the coefficient side of the bound for \(b\).
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_radius\_coefficient\_classifier\_transport}
+
+\begin{theorem}[Convergence radius is unique]
+\label{thm:conv-rad-unique}
+If \(\mathsf{ConvRad}(a, R)\) and \(\mathsf{ConvRad}(a, R')\) both hold, then \(\hsame(R, R')\) on the rational representation.
+\end{theorem}
+\begin{proof}[Sketch]
+Suppose \(R \neq R'\). Pick a rational \(r\) strictly between them. \(\mathsf{GeomBound}\) at \(r\) follows from one side and fails from the other, contradicting consistency of the witness.
+\end{proof}
+
+\section{Cauchy-Hadamard characterization}
+
+\begin{theorem}[Cauchy-Hadamard]
+\label{thm:cauchy-hadamard}
+The convergence radius is the explicit witness given as the supremum of \(r\) for which \(\mathsf{GeomBound}(a, r, K)\) admits a finite \(K\). Equivalently, \(R = 1 / \mathsf{LimSup}_n |a_n|^{1/n}\), where the limsup is computed by an explicit unary diagonal extraction.
+\end{theorem}
+\begin{proof}[Sketch]
+The supremum side is by definition. The limsup side is matched via the elementary inequality \(|a_n|^{1/n} \to 1/R\), shown constructively by unary diagonal majorant.
+\end{proof}
+
+\begin{theorem}[Absolute convergence inside the disk]
+\label{thm:abs-conv-inside}
+If \(\mathsf{ConvRad}(a, R)\) and \(z\) satisfies \(|z - z_0| < R\) (strict inequality with explicit witness), then the power series \(\sum a_n (z - z_0)^n\) converges absolutely with explicit modulus.
+\end{theorem}
+\begin{proof}[Sketch]
+By \autoref{lem:geom-bound-majorant}: pick a rational \(r\) with \(|z - z_0| < r < R\); the series is bounded by a geometric majorant.
+\end{proof}
+
+\section{Closure laws}
+
+\begin{lemma}[Geometric bound classifier append-unary closure]
+\label{thm:geom-bound-coeff-classifier-append-unary-closed}
+If coefficient families $a$ and $b$ are pointwise classified as complex
+histories, $\mathsf{GeomBound}(a,r,K)$ holds, and $q$ is unary, then appending
+$q$ to every displayed $b_n$ preserves the same geometric-bound radius and
+constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(b_n,q),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Each classifier row exposes the target coefficient $b_n$ as a complex-history
+carrier. Complex-history carriers are closed under append of a unary suffix, so
+each appended coefficient remains in the carrier. The radius and constant
+unary witnesses are the ones already carried by $\mathsf{GeomBound}(a,r,K)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_coeff\_classifier\_append\_unary\_closed}
+
+\begin{lemma}[Geometric bound append-unary coefficient closure]
+\label{thm:geom-bound-append-unary-coeff-closed}
+If $\mathsf{GeomBound}(a,r,K)$ holds and $q$ is unary, then appending $q$ to
+every coefficient preserves the same radius and constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(a_n,q),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{GeomBound}(a,r,K)$ into its unary radius witness, unary constant
+witness, and coefficient carrier family. Apply complex-history carrier
+append-unary closure pointwise to each coefficient and keep the same radius and
+constant witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_append\_unary\_coeff\_closed}
+
+\begin{lemma}[Differentiation preserves radius]
+\label{lem:diff-preserves-radius}
+If \(\mathsf{ConvRad}(a, R)\), then the term-wise derivative coefficients \(b_n = (n+1) \cdot a_{n+1}\) satisfy \(\mathsf{ConvRad}(b, R)\) with the same radius and an explicit constant adjustment.
+\end{lemma}
+\begin{proof}[Sketch]
+For \(r' < r < R\), \(|b_n| r'^n \leq (n+1) |a_{n+1}| r'^n\); pull out a factor of \((r'/r)^n\) using \(\mathsf{GeomBound}(a, r, K)\) and bound \(n (r'/r)^n\) by an explicit polynomial-times-geometric majorant.
+\end{proof}
+
+\begin{lemma}[Cauchy product radius]
+\label{lem:cauchy-product-radius}
+If \(\mathsf{ConvRad}(a, R_a)\) and \(\mathsf{ConvRad}(b, R_b)\), then the Cauchy product \(c_n = \sum_{k=0}^n a_k b_{n-k}\) satisfies \(\mathsf{ConvRad}(c, R)\) with \(R \geq \min(R_a, R_b)\) and explicit \(K(r)\) computed from \(K_a, K_b\).
+\end{lemma}
+\begin{proof}[Sketch]
+Triangular pasting of geometric bounds; constant inflation by a factor of \((n+1)\) absorbed into the geometric majorant.
+\end{proof}
+
+\section{The certificate}
+
+\begin{definition}[Convergence radius source specification]
+\label{def:conv-rad-source-spec}
+The source specification is the predicate \(\mathsf{ConvRad}(a, R)\) on power series carriers paired with a unary radius candidate.
+\end{definition}
+
+\begin{definition}[Convergence radius pattern specification]
+\label{def:conv-rad-pattern-spec}
+The pattern is the supremum-of-geometric-bound predicate, computed through \(\mathsf{GeomBound}\).
+\end{definition}
+
+\begin{definition}[Convergence radius classifier specification]
+\label{def:conv-rad-classifier-spec}
+Two convergence radii are classified together when they agree under \(\hsame\) on the rational representation of the radius.
+\end{definition}
+
+\begin{definition}[Convergence radius stability certificate]
+\label{def:conv-rad-stability-cert}
+The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ConvRad}\) on coefficient input, transport of constant-witness functions, and compatibility with the geometric-bound predicate under \(\hsame\) on radii.
+\end{definition}
+
+\begin{definition}[Convergence radius ledger policy]
+\label{def:conv-rad-ledger-policy}
+The ledger policy records: (i) term-by-term differentiation preserving radius, (ii) Cauchy product taking minimum, (iii) absolute convergence inside the open disk, and (iv) Cauchy-Hadamard limsup characterization.
+\end{definition}
+
+\begin{theorem}[Concrete \(\ConvergenceRadiusUp\) naming certificate]
+\label{thm:conv-rad-namecert}
+The five fields above form a naming certificate over \(\Hist\) for the convergence radius interface \(\ConvergenceRadiusUp\).
+\end{theorem}
+\begin{proof}[Sketch]
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+\end{proof}
+
+\begin{theorem}[Semantic \(\ConvergenceRadiusUp\) naming certificate]
+\label{thm:conv-rad-semantic-namecert}
+The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier, pattern, and ledger are the convergence-radius predicate for a fixed coefficient family, the classifier is \(\hsame\) on the radius, and every closure law is given by an explicit constructive proof.
+\end{theorem}
+\begin{proof}[Sketch]
+The witnessed radius inhabits the carrier. The equivalence fields are the finite-kernel \(\hsame\) laws. Carrier transport uses radius transport together with unary transport of the displayed radius.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}

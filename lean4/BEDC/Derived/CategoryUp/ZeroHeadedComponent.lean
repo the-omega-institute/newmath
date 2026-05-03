@@ -30,6 +30,11 @@ theorem CategoryHomCarrier_zero_headed_component_absurd {source target morph : B
               cases morphEq
               exact unary_no_zero_extension homCarrier.right.right.left
 
+theorem CategoryHomCarrier_e0_morphism_absurd {source target a : BHist} :
+    CategoryHomCarrier source target (BHist.e0 a) -> False := by
+  intro homCarrier
+  exact unary_no_zero_extension homCarrier.right.right.left
+
 theorem CategoryHomCarrier_comp_zero_result_absurd {a b c f g z : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e0 z) ->
       False := by

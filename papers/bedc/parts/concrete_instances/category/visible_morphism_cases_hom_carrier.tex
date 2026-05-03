@@ -1,0 +1,321 @@
+\begin{theorem}[Category visible composable morphism target cases]
+\label{thm:category-visible-composable-morphisms-target-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism target-case theorem to the left visible
+hom-carrier and to the right visible hom-carrier. The two applications expose
+tails $r$ and $s$ with $b=\Eone(r)$ and $c=\Eone(s)$. Substitute the first
+target equality into the right descended hom-carrier, retain the left
+descended hom-carrier, and carry the original visible continuation ledger into
+the existential package.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
+
+\begin{theorem}[Category visible composable morphism tail cases]
+\label{thm:category-visible-composable-morphisms-tail-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),m,k).
+$$
+\end{theorem}
+\begin{proof}
+First apply the visible composable target-case theorem to expose the
+intermediate and final target tails $r$ and $s$, together with the two
+descended hom-carriers. The remaining continuation ledger is obtained by
+right inversion of the one-headed step rule for
+$\ContR(\Eone(l),\Eone(m),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_tail\_cases}
+
+\begin{theorem}[Category hom-carrier composite visible morphisms result cases]
+\label{thm:category-hom-carrier-comp-visible-morphisms-result-cases}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then there exists a history $k$ such that
+$$
+fg=\Eone(k)\land
+\ContR(\Eone(l),m,k)\land
+\mathsf{CategoryHomCarrier}(a,c,\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+The continuation ledger unfolds the composite result as
+$\mathsf{append}(\Eone(l),\Eone(m))$, which is definitionally
+$\Eone(\mathsf{append}(\Eone(l),m))$. Choose
+$k=\mathsf{append}(\Eone(l),m)$. The exposed tail continuation is the canonical
+append continuation, and the hom-carrier result is obtained by applying
+hom-carrier composition closure to the two visible morphisms and the same
+canonical continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
+
+\begin{theorem}[Category hom-carrier nonempty morphism target visible]
+\label{thm:category-hom-carrier-nonempty-morphism-target-visible}
+For histories $source,target,morph:\mathsf{BHist}$, if
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+$$
+and $morph$ is not internally empty, then the morphism and target are both
+one-headed and the hom-continuation ledger descends through their exposed
+payloads:
+$$
+\exists k,r.\;
+morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(source,k,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The morphism cannot be empty by the nonempty
+hypothesis, and it cannot be zero-headed because unary histories have no
+zero-headed extension. In the one-headed morphism case, the continuation
+ledger forces the result target to be one-headed; constructor inversion then
+exposes the target payload, both unary payload witnesses, and the descended
+continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_target\_visible}
+
+\begin{theorem}[Category hom-carrier nonempty morphism visible endpoint cases]
+\label{thm:category-hom-carrier-nonempty-morphism-visible-endpoint-cases}
+For histories $source,target,morph:\mathsf{BHist}$, if
+$$
+\mathsf{CategoryHomCarrier}(source,target,morph)
+$$
+and $morph$ is not internally empty, then either the source is empty and the
+visible target and morphism coincide, or all three visible endpoints are
+one-headed:
+$$
+\begin{array}{l}
+\exists r.\;source=\emp\land target=\Eone(r)\land morph=\Eone(r)\land
+\mathsf{UnaryHistory}(r)
+\\
+\vee
+\exists a,k,r.\;source=\Eone(a)\land morph=\Eone(k)\land target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land\ContR(\Eone(a),k,r).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Inspect the source constructor. In the empty-source branch, the empty-source
+hom-carrier law identifies the morphism with the target; the nonempty morphism
+hypothesis removes the empty target case, and unary generation removes the
+zero-headed target case. In the one-headed source branch, the nonempty and
+unary hypotheses force the morphism to be one-headed, and the continuation
+ledger then forces the target to be one-headed. Constructor inversion exposes
+the three unary payloads and the descended continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_visible\_endpoint\_cases}
+
+\begin{theorem}[Category visible composite result target cases]
+\label{thm:category-visible-composite-result-target-cases}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then there exist histories $k,r,s$ such that
+$$
+\begin{aligned}
+fg=\Eone(k)\land b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(s),\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The visible composite result theorem exposes $fg=\Eone(k)$ and the composite
+hom-carrier from $a$ to $c$ with morphism $\Eone(k)$. Applying one-headed
+morphism target cases to the two visible factors exposes $b=\Eone(r)$ and
+$c=\Eone(s)$, with the descended factor hom-carriers. Substituting the target
+equalities gives the displayed target-specific composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_target\_cases}
+
+\begin{theorem}[Category hom-carrier visible composite result is not empty]
+\label{thm:category-hom-carrier-visible-composite-result-not-empty}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then $fg$ cannot be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Invert the displayed continuation ledger. The result is definitionally
+$\mathsf{append}(\Eone(l),\Eone(m))$, hence one-headed. Constructor
+no-confusion rejects any $\HSame$ comparison between that one-headed result and
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_not\_empty}
+
+\begin{theorem}[Category hom-carrier nonempty composite target visible]
+\label{thm:category-hom-carrier-comp-result-nonempty-target-visible}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then $fg$
+and the target object $c$ are both one-headed, and the composite continuation
+ledger is visible at that boundary:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure turns the two hom-carriers and the displayed composite
+ledger into a hom-carrier from $a$ to $c$ over $fg$. The composite morphism is
+unary. The empty case contradicts the nonempty hypothesis, and the zero-headed
+case contradicts unary generation. In the one-headed case, the target cannot
+be empty or zero-headed because the continuation ledger has one-headed result
+shape; the remaining target case exposes $c=\Eone(r)$ and carries the original
+continuation witness at the visible boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
+
+\begin{theorem}[Category hom-carrier nonempty composite target not empty]
+\label{thm:category-hom-carrier-comp-result-nonempty-target-not-empty}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then the
+target object $c$ is not internally empty:
+$$
+\neg\HSame(fg,\emp)\Longrightarrow \neg\HSame(c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty target-visible theorem. It presents the target as
+$c=\Eone(r)$ for a unary payload $r$. Constructor separation rules out an
+internal equality between this one-headed target and $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_not\_empty}
+
+\begin{theorem}[Category nonempty composite source-target cases]
+\label{thm:category-hom-carrier-comp-result-nonempty-source-target-cases}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then either
+the source object is empty and the visible target boundary is carried directly,
+or the source object is itself one-headed and the whole visible source,
+composite, and target boundary is displayed:
+$$
+\begin{array}{l}
+\bigl(\HSame(a,\emp)\land
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land\mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r))\bigr)
+\\
+\vee
+\bigl(\exists s,k,r.\;a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(s)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(s),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty target-visible theorem to the displayed composite.
+This gives one-headed presentations of $fg$ and $c$ together with the
+continuation ledger at that visible target boundary. Inspect the source object
+$a$. The empty case gives the first disjunct. The zero-headed case contradicts
+the unary source field of the left hom-carrier. The one-headed case exposes the
+source tail and reuses the same visible continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_source\_target\_cases}
+
+\begin{theorem}[Category nonempty result visible hom readback]
+\label{thm:category-comp-nonempty-result-visible-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then its
+one-headed result presentation also reads back as a visible composite
+hom-carrier:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty composite target-visible theorem. It exposes histories
+$k,r$ with $fg=\Eone(k)$ and $c=\Eone(r)$, together with unary witnesses for
+$k$ and $r$ and the boundary continuation
+$\ContR(a,\Eone(k),\Eone(r))$. The source unary witness is already part of the
+left hom-carrier, so these fields assemble the visible hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_hom\_readback}
+
+\begin{theorem}[Category nonempty result visible source hom readback]
+\label{thm:category-hom-carrier-comp-nonempty-result-visible-source-hom-readback}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If both the displayed composite morphism $fg$ and the source object $a$ are not
+internally empty, then the visible result presentation reads back with a visible
+source:
+$$
+\exists s,k,r.\;
+a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{CategoryHomCarrier}(\Eone(s),\Eone(r),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty result visible hom readback theorem to obtain visible
+histories $k,r$ and the hom-carrier
+$\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))$. Inspect the source object
+$a$. The empty branch contradicts the nonempty source hypothesis; the zero
+branch contradicts the unary source field of the hom-carrier. In the one-headed
+branch, the exposed source tail supplies $s$, and the displayed hom-carrier is
+already the required visible-source carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_result\_visible\_source\_hom\_readback}

@@ -45,6 +45,45 @@ rational-history carrier characterization to each component to read back the
 positive unary denominator evidence, and keep the same continuation witness.
 \end{proof}
 
+\begin{theorem}[Complex carrier left unary context closure]
+\label{thm:complex-history-carrier-prepend-unary-closed}
+If \(p\) is a unary history and \(h\) is a complex history carrier, then
+\(\mathsf{append}(p,h)\) is again a complex history carrier.
+\end{theorem}
+\begin{proof}
+Unpack \(h\) as a rational real component, a rational imaginary component,
+and a continuation witness. Close the real component under the left unary
+denominator context \(p\), keep the imaginary component fixed, and reassociate
+the continuation by associativity of \(\mathsf{append}\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_prepend\_unary\_closed}
+
+\begin{theorem}[Complex carrier right unary context closure]
+\label{thm:complex-history-carrier-append-unary-closed}
+If \(h\) is a complex history carrier and \(q\) is a unary history, then
+\(\mathsf{append}(h,q)\) is again a complex history carrier.
+\end{theorem}
+\begin{proof}
+Unpack \(h\) as a rational real component, a rational imaginary component,
+and a continuation witness. Close the imaginary component under the right
+unary denominator context \(q\), keep the real component fixed, and reassociate
+the continuation by associativity of \(\mathsf{append}\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_append\_unary\_closed}
+
+\begin{theorem}[Complex history carrier is not empty]
+\label{thm:complex-history-carrier-not-empty}
+No complex history carrier can be identified with the empty history.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier into its real rational component, imaginary rational
+component, and continuation witness assembling the two components. Transport
+the continuation result to the empty endpoint, invert the empty-result
+continuation, and obtain that the real rational component is empty. This
+contradicts the rational-history carrier non-emptiness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_not\_empty}
+
 \section{The certificate}
 
 \begin{definition}[Complex source specification]

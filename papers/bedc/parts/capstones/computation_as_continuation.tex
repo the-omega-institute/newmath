@@ -69,6 +69,25 @@ identifies $b\cdot q$ with $b'\cdot q$, and right cancellation of the common
 suffix gives $\hsame(b,b')$.
 \end{proof}
 
+\begin{theorem}[Category hom-carrier empty morphism endpoint iff]
+\label{thm:category-hom-carrier-morphism-empty-endpoint-iff}
+For histories $a,b,f:\mathsf{BHist}$, a hom-carrier ledger from $a$ to $b$
+identifies the displayed morphism with the empty tail exactly when the two
+endpoints are internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)\Longrightarrow
+\bigl(f\hsame\emp\Longleftrightarrow a\hsame b\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_empty\_endpoint\_iff}
+\begin{proof}
+Unfold the hom-carrier ledger to its continuation field $\Cont(a,f,b)$. If
+$f\hsame\emp$, determinacy against the right-unit continuation identifies
+$b$ with $a$. Conversely, if $a\hsame b$, compare the displayed continuation
+with the endpoint equality and cancel the common left endpoint to obtain
+$f\hsame\emp$.
+\end{proof}
+
 \begin{theorem}[Cyclic continuation morphisms have empty tails]
 \label{thm:continuation-morphism-cycle-tails-empty}
 If the opposite continuation morphism records
@@ -118,6 +137,34 @@ Unpack the prefixed morphism and cancel the common left continuation prefix in
 its exposed ledger. The resulting base continuation from $a$ to $b$ and the
 opposite continuation from $b$ to $a$ form mutual extensions, so kernel
 cancellation identifies the base endpoints and empties both tails.
+\end{proof}
+
+\begin{theorem}[Unary-suffix cyclic continuation morphisms have empty tails]
+\label{thm:continuation-morphism-unary-suffix-cycle-tails-empty}
+If a unary suffix $q$ is shared by the source and target of the forward
+continuation morphism, and the displayed forward tail is unary,
+$$
+left:\mathsf{ContinuationMorphism}(\mathsf{append}(a,q),\mathsf{append}(b,q))
+$$
+and
+$$
+right:\mathsf{ContinuationMorphism}(b,a),
+$$
+then the base endpoints are internally the same and both displayed tails are
+empty:
+$$
+\hsame(a,b)\land
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_unary\_suffix\_cycle\_tails\_empty}
+\begin{proof}
+Unpack the suffixed morphism. Unary commutation moves the shared suffix past
+the unary displayed tail, and suffix cancellation exposes a base continuation
+from $a$ to $b$. This base continuation and the opposite continuation from
+$b$ to $a$ form mutual extensions, so kernel cancellation identifies the base
+endpoints and forces both displayed tails to be empty.
 \end{proof}
 
 \begin{theorem}[Zero-headed to one-headed continuation morphisms have no opposite cycle]
@@ -219,6 +266,34 @@ $\Eone$ target with an $\Ezero$ target, contradicting kernel no-confusion. In
 the one-headed branch, constructor injectivity reindexes the displayed target
 payload, leaving the tail equality and the continuation witness
 $\Cont(\Eone(a),k,r)$.
+\end{proof}
+
+\begin{theorem}[Visible e1 continuation morphism nonempty tail extraction]
+\label{thm:category-continuation-morphism-e1-source-e1-target-nonempty-tail-cases}
+If a continuation morphism runs from $\Eone(a)$ to $\Eone(r)$ and its displayed
+tail is not $\emp$, then the tail has one-headed form $\Eone(k)$ and exposes a
+continuation witness $\Cont(\Eone(a),k,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_nonempty\_tail\_cases}
+\begin{proof}
+Inspect the concrete tail of the continuation morphism. The empty branch is
+excluded by the nonempty hypothesis. A zero-headed tail would force the
+one-headed target to coincide with a zero-headed result of the step inversion,
+contradicting kernel no-confusion. The remaining one-headed tail branch gives
+the displayed core continuation after constructor injectivity on the target.
+\end{proof}
+
+\begin{theorem}[Visible e1 continuation morphism tail core deterministic]
+\label{thm:category-continuation-morphism-e1-source-e1-target-tail-core-deterministic}
+For two continuation morphisms from $\Eone(a)$ to $\Eone(r)$, if their displayed
+tails are respectively $\Eone(k)$ and $\Eone(l)$ up to $\hsame$, then the tail
+cores satisfy $k\hsame l$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_core\_deterministic}
+\begin{proof}
+Continuation morphism tail determinacy compares the two displayed tails. Compose
+that comparison with the two one-headed tail identifications, then use
+constructor injectivity for $\Eone$ to obtain the core comparison.
 \end{proof}
 
 \begin{theorem}[Cyclic hom-carriers have empty tails]
@@ -329,6 +404,36 @@ Comparing the original component ledgers with the right-unit continuations at
 $a$ and $b$ gives $a\hsame b$ and $b\hsame c$.
 \end{proof}
 
+\begin{theorem}[Triangular cyclic hom-carriers have empty hom exactness]
+\label{thm:category-hom-carrier-triangle-cycle-empty-hom-exactness}
+If the hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(b,c,g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(c,a,h)
+$$
+all hold, then the empty morphism itself is displayed on each side of the
+triangle, and the adjacent endpoints collapse:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\emp)\land
+\mathsf{CategoryHomCarrier}(b,c,\emp)\land
+\mathsf{CategoryHomCarrier}(c,a,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_triangle\_cycle\_empty\_hom\_exactness}
+\begin{proof}
+The triangular tail theorem gives $f\hsame\emp$, $g\hsame\emp$, and
+$h\hsame\emp$, together with the adjacent endpoint equalities. Hom-carrier
+transport moves the three displayed carriers across those tail equalities,
+yielding empty hom-carriers on the original triangle edges.
+\end{proof}
+
 \begin{theorem}[Visible one-step morphisms have no triangular cycle]
 \label{thm:category-hom-carrier-e1-morphism-triangle-cycle-absurd}
 If the first hom-carrier in a triangular cycle has visible one-headed morphism
@@ -387,6 +492,34 @@ the empty identity carrier at $b$. The return carrier is transported along the
 composite endpoint equality $a\hsame c$ and $h\hsame\emp$ to become the empty
 identity carrier at $c$.
 \end{proof}
+
+\begin{theorem}[Unary-prefix triangle cyclic hom-carriers expose identity carriers]
+\label{thm:category-hom-carrier-unary-prefix-triangle-cycle-identity-carriers}
+If the first hom-carrier has a shared unary prefix,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f),
+$$
+and the remaining two hom-carriers close the triangle,
+$$
+\mathsf{CategoryHomCarrier}(b,c,g)\qquad\text{and}\qquad
+\mathsf{CategoryHomCarrier}(c,a,h),
+$$
+then the base endpoints carry empty-tail identities and adjacent endpoints are
+internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\land
+\mathsf{CategoryHomCarrier}(b,b,\emp)\land
+\mathsf{CategoryHomCarrier}(c,c,\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Prefix exactness strips the shared unary prefix from the first hom-carrier,
+leaving a base carrier from $a$ to $b$. The ordinary triangular cyclic
+identity-carrier theorem applies to this base carrier and the two remaining
+hom-carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_prefix\_triangle\_cycle\_identity\_carriers}
 
 \begin{theorem}[Unary prefix category isomorphism collapse]
 \label{thm:unary-prefix-category-isomorphism-collapse}
@@ -496,6 +629,30 @@ $$
 Strip the shared unary suffix from the forward hom-carrier. The resulting base
 cycle is an ordinary cyclic hom-carrier pair, so cyclic identity-carrier
 exposure transports the two tails to empty identity carriers at $a$ and $b$.
+\end{proof}
+
+\begin{theorem}[Unary-context cyclic hom-carriers have empty tails]
+\label{thm:category-hom-carrier-unary-context-cycle-tails-empty}
+If the forward hom-carrier has a shared unary prefix and the opposite
+hom-carrier has a shared unary suffix,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(\mathsf{append}(b,q),\mathsf{append}(a,q),g),
+$$
+then the base endpoints are internally the same and both morphism tails are
+empty:
+$$
+\hsame(a,b)\land \hsame(f,\emp)\land \hsame(g,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_cycle\_tails\_empty}
+\begin{proof}
+Prefix exactness strips the shared unary prefix from the forward hom-carrier,
+leaving a base carrier from $a$ to $b$. Suffix exactness strips the shared
+unary suffix from the opposite hom-carrier, leaving a base carrier from $b$ to
+$a$. The ordinary cyclic tail theorem then identifies the endpoints and forces
+the two morphism tails to be empty.
 \end{proof}
 
 \begin{theorem}[Unary-context cyclic hom-carriers expose identity carriers]

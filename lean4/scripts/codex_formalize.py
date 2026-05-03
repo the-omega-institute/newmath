@@ -68,6 +68,12 @@ LAKE_GATE_MAX_PARALLEL = 1
 # current. Removing or replacing it prevents new rounds from being dispatched;
 # current rounds finish normally and the process exits once the pool drains.
 PID_FILE = REPO_ROOT / ".pipeline.pid"
+# Dynamic parallelism: read target worker count from this JSON each dispatch
+# decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
+# pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
+PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_KEY = "lean"
+HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
@@ -471,6 +477,211 @@ def count_lean_theorems(bedc_root: Optional[Path] = None) -> int:
         text = path.read_text(encoding="utf-8", errors="replace")
         count += len(re.findall(r"^\s*(?:theorem|lemma)\s+", text, re.MULTILINE))
     return count
+
+
+def ensure_runtime_from_template(runtime: Path, template: Path) -> None:
+    """If `runtime` does not exist but `template` does, copy template to
+    runtime. Skips when runtime already present. Logs the seed action
+    so operators know a fresh checkout used the default config.
+    """
+    try:
+        if runtime.exists():
+            return
+        if template.exists():
+            shutil.copy(template, runtime)
+            logger.info(
+                f"[runtime-config] seeded {runtime.name} from {template.name}"
+            )
+    except Exception as exc:
+        logger.warning(f"[runtime-config] seed failed for {runtime.name}: {exc}")
+
+
+def read_target_parallel(default: int) -> int:
+    """Read live target parallelism from PARALLEL_CONFIG_FILE.
+
+    Returns the value clamped to [1, HARD_MAX_PARALLEL]. Falls back to
+    `default` if file missing or unreadable. Allows tuning concurrency
+    without restarting the orchestrator.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(PARALLEL_CONFIG_KEY, default))
+            return max(1, min(v, HARD_MAX_PARALLEL))
+    except Exception:
+        pass
+    return max(1, min(default, HARD_MAX_PARALLEL))
+
+
+def read_lake_parallel(default: int) -> int:
+    """Read live lake-gate concurrency cap from PARALLEL_CONFIG_FILE.
+
+    Reads the optional "lean_lake" key. Falls back to `default` (the
+    startup CLI value) if the file or key is missing. Lets us scale
+    Phase B parallelism without restart so it stays in step with
+    `read_target_parallel` raising `lean`.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get("lean_lake", default))
+            return max(1, min(v, HARD_MAX_PARALLEL))
+    except Exception:
+        pass
+    return max(1, min(default, HARD_MAX_PARALLEL))
+
+
+_origin_sync_stop = threading.Event()
+
+
+def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
+    """Background ticker: rebase local base onto origin/<base> when remote
+    is ahead.
+
+    Prevents push race storms when an external commit lands on the remote.
+    Without this, individual rounds keep failing with "Diverging branches"
+    or "Rebase left no own-round commit" until a human intervenes. Runs in
+    a daemon thread; safe to spawn once per orchestrator process.
+    """
+    while not _origin_sync_stop.wait(interval):
+        try:
+            r = subprocess.run(
+                ["git", "fetch", "origin", base_branch],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+            )
+            if r.returncode != 0:
+                continue
+            r2 = subprocess.run(
+                ["git", "rev-list", "--count",
+                 f"{base_branch}..origin/{base_branch}"],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+            )
+            if r2.returncode != 0:
+                continue
+            ahead = int((r2.stdout or "0").strip() or "0")
+            if ahead == 0:
+                continue
+            logger.info(
+                f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
+                f"ahead — rebasing local"
+            )
+            with _git_lock:
+                r3 = subprocess.run(
+                    ["git", "pull", "--rebase", "--autostash",
+                     "origin", base_branch],
+                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                )
+                if r3.returncode == 0:
+                    logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+                else:
+                    logger.warning(
+                        f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                        f"stderr={(r3.stderr or '').strip()[:200]}"
+                    )
+                    # Abort any in-flight rebase to leave main repo clean —
+                    # otherwise worker pushes hit "rebase in progress" forever.
+                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                    if rebase_merge.exists() or rebase_apply.exists():
+                        logger.warning("[origin-sync] mid-rebase detected, aborting")
+                        subprocess.run(
+                            ["git", "rebase", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
+                    # Best-effort autostash pop (safe no-op if nothing stashed).
+                    subprocess.run(
+                        ["git", "stash", "pop"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                    )
+                    # Verify clean state after recovery.
+                    rs = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                    )
+                    if (rs.stdout or "").strip():
+                        logger.warning(
+                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
+                            "delegating to codex"
+                        )
+                        try:
+                            prompt = (
+                                _load_prompt("origin_sync_recover")
+                                .replace("<REPO_ROOT>", str(REPO_ROOT))
+                                .replace("<BASE_BRANCH>", base_branch)
+                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
+                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+                            )
+                            codex_exec(
+                                prompt,
+                                work_dir=REPO_ROOT,
+                                timeout_seconds=600,
+                            )
+                            rs2 = subprocess.run(
+                                ["git", "status", "--porcelain"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                            )
+                            if (rs2.stdout or "").strip():
+                                logger.error(
+                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
+                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
+                                )
+                            else:
+                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
+                        except Exception as exc:
+                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
+        except Exception as exc:
+            logger.warning(f"[origin-sync] error: {exc}")
+
+
+_ORIGIN_SYNC_LOCK = REPO_ROOT / ".origin_sync.lock"
+
+
+def _acquire_origin_sync_lock() -> bool:
+    """Atomic-create a lock file owned by this PID. Returns False if another
+    live orchestrator already holds it (so only one ticker runs across all
+    pipeline scripts on this repo). Stale locks (dead PIDs) are taken over.
+    """
+    pid = os.getpid()
+    try:
+        fd = os.open(str(_ORIGIN_SYNC_LOCK),
+                     os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+        os.write(fd, str(pid).encode())
+        os.close(fd)
+        return True
+    except FileExistsError:
+        try:
+            existing = int(_ORIGIN_SYNC_LOCK.read_text(encoding="utf-8").strip() or "0")
+        except Exception:
+            existing = 0
+        if existing > 0:
+            try:
+                os.kill(existing, 0)  # signal 0 = liveness probe
+                return False  # other orchestrator alive, skip
+            except (ProcessLookupError, PermissionError):
+                pass
+        # Stale (dead PID) — take over.
+        _ORIGIN_SYNC_LOCK.write_text(str(pid), encoding="utf-8")
+        return True
+
+
+def start_origin_sync_ticker(base_branch: str, interval: int = 60) -> None:
+    if not _acquire_origin_sync_lock():
+        logger.info(
+            f"[origin-sync] another orchestrator already owns the ticker "
+            f"(lock={_ORIGIN_SYNC_LOCK.name}); skipping"
+        )
+        return
+    t = threading.Thread(
+        target=origin_sync_loop,
+        args=(base_branch, interval),
+        daemon=True,
+        name="origin-sync",
+    )
+    t.start()
+    logger.info(
+        f"[origin-sync] ticker started (interval={interval}s, branch={base_branch}, "
+        f"lock={_ORIGIN_SYNC_LOCK.name})"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -1057,7 +1268,9 @@ def codex_exec(
     # in $TMPDIR — usually fine, but explicit is safer when callers override.
     child_env = os.environ.copy()
     child_env.setdefault("LAKE_GATE_LOCK_DIR", str(LAKE_GATE_LOCK_DIR))
-    child_env.setdefault("LAKE_GATE_MAX_PARALLEL", str(LAKE_GATE_MAX_PARALLEL))
+    child_env.setdefault(
+        "LAKE_GATE_MAX_PARALLEL", str(read_lake_parallel(LAKE_GATE_MAX_PARALLEL))
+    )
 
     try:
         with open(prompt_file, "r", encoding="utf-8") as pf:
@@ -2989,7 +3202,11 @@ def main() -> int:
         return 1
     logger.info(f"Codex CLI: {codex_bin}")
     logger.info(f"Base branch: {BASE_BRANCH}")
-    logger.info(f"Parallelism: {args.parallel}")
+    logger.info(
+        f"Parallelism: CLI fallback={args.parallel}; "
+        f"live JSON config={PARALLEL_CONFIG_FILE.name} authoritative "
+        f"(keys: {PARALLEL_CONFIG_KEY!r}, 'lean_lake')"
+    )
     if not args.dry_run:
         previous_pid = claim_pipeline_pid()
         if previous_pid is not None and previous_pid != os.getpid():
@@ -3047,11 +3264,23 @@ def main() -> int:
 
     if args.continuous:
         # ── True rolling pipeline: as soon as one worker finishes, start the next ──
+        # Pool max is fixed at HARD_MAX_PARALLEL so target_parallel can be
+        # raised live via PARALLEL_CONFIG_FILE without a restart. Active
+        # workers are gated by `read_target_parallel(args.parallel)`.
+        ensure_runtime_from_template(
+            PARALLEL_CONFIG_FILE,
+            PARALLEL_CONFIG_FILE.with_suffix(PARALLEL_CONFIG_FILE.suffix + ".template"),
+        )
+        start_origin_sync_ticker(BASE_BRANCH, interval=60)
+        initial_target = read_target_parallel(args.parallel)
         logger.info(f"{'='*60}")
-        logger.info(f"Rolling pipeline: {args.parallel} concurrent workers, running until stopped")
+        logger.info(
+            f"Rolling pipeline: target={initial_target} workers (config={PARALLEL_CONFIG_FILE.name}, "
+            f"hard cap={HARD_MAX_PARALLEL}), running until stopped"
+        )
         logger.info(f"{'='*60}")
 
-        with ThreadPoolExecutor(max_workers=args.parallel, thread_name_prefix="worker") as pool:
+        with ThreadPoolExecutor(max_workers=HARD_MAX_PARALLEL, thread_name_prefix="worker") as pool:
             futures: dict[Future, int] = {}
 
             # Cooldown after consecutive_failures hits the threshold: pause
@@ -3093,10 +3322,11 @@ def main() -> int:
                 futures[fut] = rn
                 logger.info(f"Dispatching R{rn} (rolling)")
 
-            # Fill the pool initially
-            for _ in range(args.parallel):
+            # Fill the pool initially up to current target (live-readable).
+            for _ in range(read_target_parallel(args.parallel)):
                 _submit_next()
 
+            last_target = read_target_parallel(args.parallel)
             while futures:
                 if not pipeline_token_is_current():
                     logger.info(f"Pipeline PID token is not current; draining {len(futures)} in-flight workers")
@@ -3121,10 +3351,20 @@ def main() -> int:
                     state.total_theorems = count_lean_theorems()
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
-                    # Immediately launch a replacement worker (will cooldown
-                    # if too many consecutive failures, then resume).
+                    # Re-read live target each completion. Top up to target;
+                    # if target dropped below current pool, simply skip
+                    # replacement and let pool shrink naturally.
                     if pipeline_token_is_current():
-                        _submit_next()
+                        target = read_target_parallel(args.parallel)
+                        if target != last_target:
+                            logger.info(
+                                f"[parallel] target changed {last_target} -> {target} "
+                                f"(in-flight={len(futures)})"
+                            )
+                            last_target = target
+                        deficit = max(0, target - len(futures))
+                        for _ in range(deficit):
+                            _submit_next()
 
     else:
         # ── Batch mode (non-continuous) ────────────────────────────────────────────

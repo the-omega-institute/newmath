@@ -1,0 +1,50 @@
+\begin{theorem}[Metric distance witness continuation hsame transport]
+\label{thm:metric-distance-witness-cont-hsame-transport}
+For histories $x,x',y,y',d,d':\mathsf{BHist}$, history-sameness of the two
+endpoints and of the distance result transports the continuation field exposed
+by a metric distance witness:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\ContR(x',y',d').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the three supplied $\hsame$ witnesses. The transported endpoints
+and result are then definitionally the endpoints and result of the original
+metric distance witness. Project its continuation field
+$\ContR(x,y,d)$, which is the required transported continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_hsame\_transport}
+
+\begin{theorem}[Metric distance witness visible-context semantic name certificate]
+\label{thm:metric-distance-witness-visible-context-semantic-namecert}
+For unary visible contexts $p,q$ and unary central endpoints $x,y$, the
+contextual distance predicate
+$d\mapsto\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$
+carries a semantic naming certificate with classifier $\hsame$:
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{UnaryHistory}(x)\Longrightarrow
+\mathsf{UnaryHistory}(y)\Longrightarrow
+\\
+\mathsf{SemanticNameCert}
+\bigl(d\mapsto\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\bigr)
+\bigl(d\mapsto\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\bigr)
+\bigl(d\mapsto\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\bigr)
+\hsame .
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The inhabited carrier is the central distance $x\cdot y$, lifted through
+visible-context exactness. The classifier is $\hsame$, so its equivalence laws
+are the kernel history-sameness laws. Transport along the classifier is by
+case analysis on the history-sameness witness, after which the contextual
+distance predicate is unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_semanticNameCert}

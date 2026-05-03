@@ -95,6 +95,32 @@ $\mathsf{RatDenomUnitCarrier}$ predicate along that history-sameness
 comparison in both directions.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier empty context strict support iff]
+\label{thm:rat-denom-unit-classifier-empty-context-rat-carrier-iff}
+For histories $p,q,p',q',h,k:\mathsf{BHist}$, assume
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$. If the
+empty-unit denominator classifier relates the two context-enlarged endpoints,
+$$
+\mathsf{RatDenomUnitClassifier}
+  (\mathsf{append}(p,\mathsf{append}(h,q)),
+   \mathsf{append}(p',\mathsf{append}(k,q'))),
+$$
+then strict rational support is the same on the exposed endpoints:
+$$
+\mathsf{RatHistoryCarrier}(h)\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(k).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_context\_rat\_carrier\_iff}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-unit-classifier-empty-context-exactness}
+to the four empty-context witnesses and the displayed classifier. This yields
+the core classifier $\mathsf{RatDenomUnitClassifier}(h,k)$. Its final field is
+$h\hsame k$, so $\mathsf{RatHistoryCarrier}$ transports from $h$ to $k$; using
+the symmetric $\hsame$ comparison gives the reverse implication.
+\end{proof}
+
 \section{Rat denominator unit endpoint exactness}
 \label{sec:field-rat-denominator-unit-endpoint-exactness}
 
@@ -129,6 +155,34 @@ Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
 then yields $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation right-unit visible endpoint exclusion]
+\label{thm:field-rat-denominator-continuation-right-unit-law-visible-endpoint-absurd}
+For every pair of histories $u,p:\mathsf{BHist}$, if $u$ satisfies the
+right-unit classifier law for Rat denominator continuation, then $u$ cannot be
+history-same to either visible endpoint over $p$:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longrightarrow
+\bigl(\hsame(u,\Ezero(p))\to\mathsf{False}\bigr)
+\land
+\bigl(\hsame(u,\Eone(p))\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_visible\_endpoint\_absurd}
+\begin{proof}
+Test the law on the concrete Rat carrier $\Eone(\emp)$ and the displayed
+continuation $\Cont(\Eone(\emp),u,\Eone(\emp)\cdot u)$. The classifier result
+collapses the continuation result back to $\Eone(\emp)$, so continuation
+right-unit uniqueness gives $u\hsame\emp$. Composing either visible presentation
+of $u$ with this empty endpoint contradicts BEDC history constructor
+no-confusion for $\Ezero$ and $\Eone$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation left-unit endpoint iff empty]
 \label{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
 For every history $u:\mathsf{BHist}$, the left-unit classifier law is equivalent
@@ -158,6 +212,167 @@ $u\hsame\emp$ to obtain $\Cont(\emp,d,r)$. The left external-boundary law in
 Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
 classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
+\end{proof}
+
+\begin{theorem}[Rat denominator left-unit result is not empty]
+\label{thm:field-rat-denominator-continuation-left-unit-result-not-empty}
+For histories $u,d,r:\mathsf{BHist}$, suppose $u$ satisfies the
+Rat-denominator left-unit classifier law:
+$$
+\forall x,y:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(x)\to
+\Cont(u,x,y)\to
+\mathsf{RatHistoryClassifier}(y,x).
+$$
+If $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(u,d,r)$, then
+$\hsame(r,\emp)$ implies contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_result\_not\_empty}
+\begin{proof}
+Apply the displayed left-unit classifier law to the concrete carried
+denominator $d$ and continuation $\Cont(u,d,r)$. The resulting
+$\mathsf{RatHistoryClassifier}(r,d)$ exposes a Rat carrier witness on $r$,
+and Rat carrier histories cannot be internally the same as $\emp$.
+\end{proof}
+
+\begin{lemma}[Rat denominator left-unit results classify together]
+\label{lem:field-rat-denominator-continuation-left-unit-result-classifier}
+For histories $u,d,r,s:\mathsf{BHist}$, suppose $u$ satisfies the
+Rat-denominator left-unit classifier law. If $\mathsf{RatHistoryCarrier}(d)$,
+$\Cont(u,d,r)$, and $\Cont(u,d,s)$, then
+$\mathsf{RatHistoryClassifier}(r,s)$.
+\end{lemma}
+\begin{proof}
+Apply the left-unit classifier law to both displayed continuations. This gives
+$\mathsf{RatHistoryClassifier}(r,d)$ and
+$\mathsf{RatHistoryClassifier}(s,d)$. The carrier fields supply Rat carrier
+witnesses for $r$ and $s$, and the two $\hsame$ comparisons compose through
+$d$ to classify $r$ with $s$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_result\_classifier}
+
+\begin{theorem}[Rat denominator e1 left-unit law is impossible]
+\label{thm:field-rat-denominator-continuation-e1-left-unit-law-absurd}
+For every tail history $t:\mathsf{BHist}$, the one-headed candidate
+$\Eone(t)$ cannot satisfy the Rat-denominator left-unit classifier law:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(\Eone(t),d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_e1\_left\_unit\_law\_absurd}
+\begin{proof}
+The left-unit endpoint equivalence forces $\Eone(t)\hsame\emp$ from the
+displayed classifier law. Constructor separation for $\mathsf{BHist}$ rejects
+any equality between a one-headed history and the empty history.
+\end{proof}
+
+\begin{theorem}[Rat denominator visible left-unit law is impossible]
+\label{thm:field-rat-denominator-continuation-visible-left-unit-law-absurd}
+For every history $u:\mathsf{BHist}$, if $u$ is history-same to a visible
+zero-headed or one-headed history, then $u$ cannot satisfy the
+Rat-denominator left-unit classifier law:
+$$
+\left(
+(\exists t:\mathsf{BHist}.\; u\hsame\Ezero(t))
+\lor
+(\exists t:\mathsf{BHist}.\; u\hsame\Eone(t))
+\right)
+\to
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_visible\_left\_unit\_law\_absurd}
+\begin{proof}
+The left-unit endpoint equivalence forces $u\hsame\emp$. In the visible
+zero-headed branch, transitivity gives $\Ezero(t)\hsame\emp$, contradicting
+constructor separation. In the one-headed branch, the same argument gives
+$\Eone(t)\hsame\emp$, again impossible by constructor separation.
+\end{proof}
+
+\begin{theorem}[Rat denominator e1-probe classifier endpoint empty]
+\label{thm:field-rat-denominator-e1-probe-classifier-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if the one-headed denominator probe
+classifies the displayed product with its endpoint,
+$$
+\mathsf{RatHistoryClassifier}
+\bigl(\mathsf{append}(u,\Eone(\emp)),\Eone(\emp)\bigr),
+$$
+then $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_e1\_probe\_classifier\_endpoint\_empty}
+\begin{proof}
+Use the canonical continuation witness
+$\Cont(u,\Eone(\emp),\mathsf{append}(u,\Eone(\emp)))$. The classifier supplies
+history sameness between its result and $\Eone(\emp)$, so continuation result
+transport gives $\Cont(u,\Eone(\emp),\Eone(\emp))$. The left-unit uniqueness
+law for continuation then forces $u\hsame\emp$.
+\end{proof}
+
+\begin{theorem}[Rat denominator right e1-probe classifier endpoint empty]
+\label{thm:field-rat-denominator-right-e1-probe-classifier-endpoint-empty}
+For every history $u:\mathsf{BHist}$, if the fixed one-headed denominator probe
+on the left classifies the displayed product with its endpoint,
+$$
+\mathsf{RatHistoryClassifier}
+\bigl(\mathsf{append}(\Eone(\emp),u),\Eone(\emp)\bigr),
+$$
+then $u\hsame\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_right\_e1\_probe\_classifier\_endpoint\_empty}
+\begin{proof}
+Use the canonical continuation witness
+$\Cont(\Eone(\emp),u,\mathsf{append}(\Eone(\emp),u))$. The classifier supplies
+history sameness between its result and $\Eone(\emp)$, so continuation result
+transport gives $\Cont(\Eone(\emp),u,\Eone(\emp))$. The right-unit uniqueness
+law for continuation then forces $u\hsame\emp$.
+\end{proof}
+
+\begin{theorem}[Rat history classifier right append carrier obstruction]
+\label{thm:rat-history-classifier-append-right-carrier-absurd}
+For all histories $d,u:\mathsf{BHist}$, if $\mathsf{RatHistoryCarrier}(u)$
+holds, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(d,u),d)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_right\_carrier\_absurd}
+\begin{proof}
+Use the canonical continuation
+$\Cont(d,u,\mathsf{append}(d,u))$. The classifier equality transports this
+continuation result to $d$, giving $\Cont(d,u,d)$. Right-unit uniqueness forces
+$u\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(u)$ witness.
+\end{proof}
+
+\begin{theorem}[Rat history classifier left append carrier obstruction]
+\label{thm:rat-history-classifier-append-left-carrier-absurd}
+For all histories $u,d:\mathsf{BHist}$, if $\mathsf{RatHistoryCarrier}(u)$
+holds, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(u,d),d)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_carrier\_absurd}
+\begin{proof}
+Use the canonical continuation
+$\Cont(u,d,\mathsf{append}(u,d))$. The classifier equality transports this
+continuation result to $d$, giving $\Cont(u,d,d)$. Left-unit uniqueness forces
+$u\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(u)$ witness.
 \end{proof}
 
 \begin{theorem}[Rat denominator external unit separation package]
@@ -243,6 +458,67 @@ The left/right branch is the symmetric form of the right/left branch applied
 with the two endpoints exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_endpoint\_disjunction\_unique}
+
+\begin{theorem}[Rat denominator external unit normal form]
+\label{thm:field-rat-denominator-external-unit-normal-form}
+For every history $u:\mathsf{BHist}$, write $R(u)$ for the right
+classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+and write $L(u)$ for the left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d).
+$$
+Then $R(u)$, $L(u)$, $R(u)\lor L(u)$, and $u\hsame\emp$ are pairwise
+equivalent: each of the four propositions implies each of the other three.
+Moreover,
+$$
+\mathsf{RatHistoryCarrier}(u)\to (R(u)\lor L(u))\to \mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The right endpoint law is equivalent to $u\hsame\emp$ by
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}.
+The left endpoint law is equivalent to $u\hsame\emp$ by
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+Thus $R(u)$ and $L(u)$ each factor through the same external empty endpoint,
+and the empty endpoint returns both one-sided laws by the reverse directions.
+
+For the disjunction, assume $R(u)\lor L(u)$. Constructive case analysis
+reduces the right case to the right endpoint theorem and the left case to the
+left endpoint theorem, so either branch gives $u\hsame\emp$. Conversely,
+$u\hsame\emp$ gives both $R(u)$ and $L(u)$, hence gives the displayed
+disjunction. Factoring every implication through $u\hsame\emp$ gives the
+pairwise equivalence of all four propositions.
+
+For the carried exclusion, assume $\mathsf{RatHistoryCarrier}(u)$ and
+$R(u)\lor L(u)$. In the right branch, the no-internal-unit theorem
+\autoref{thm:field-rat-denominator-continuation-no-internal-unit} gives
+$\mathsf{False}$. In the left branch, the no-internal-left-unit theorem
+\autoref{thm:field-rat-denominator-continuation-no-internal-left-unit} gives
+$\mathsf{False}$. Equivalently, this is the carried exclusion clause of
+\autoref{thm:field-rat-denominator-external-unit-separation-package} applied
+to the displayed one-sided law.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_normal\_form}
+
+\textbf{Traditional target}: external denominator unit normal form;
+\textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}: Rat
+denominators; \textbf{classifier}: Rat history classifier;
+\textbf{stability obligation}: endpoint-unit exactness; \textbf{ledger}: the
+displayed continuation witness; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-external-unit-normal-form};
+\textbf{exactness predicate}: one-sided unit laws coincide with external
+emptiness; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.
 
 \textbf{Traditional target}: external unit boundary for the Rat denominator
 continuation fragment; \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,

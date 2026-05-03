@@ -5,3 +5,67 @@ BEDC accepts certain forms of reasoning by contradiction and rejects others, and
 
 \section{Permitted refutation patterns}
 \label{sec:reasoning-by-contradiction-permitted}
+
+\begin{definition}[Permitted refutation pattern]
+\label{def:reasoning-permitted-pattern}
+A \emph{permitted refutation pattern} is a derivation rule of the form ``from $A \Rightarrow \bot$, conclude $\neg A$'' or one of its decidable specialisations, where the derivation of $\bot$ uses only $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate. The conclusion $\neg A$ is read as the BEDC predicate ``every witness of $A$ produces $\bot$ inside the certificate's classifier'', not as ``$A$ holds in no possible world''.
+\end{definition}
+
+\begin{example}[Negation by derived falsity]
+\label{ex:reasoning-negation-by-falsity}
+The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-and-mark-sameness} is a permitted refutation. Assuming a witness $w$ of $\msame(\bzero, \bone)$ produces $\bot$ by inversion on the constructor pattern: $\msame$ is a closed inductive whose only constructor identifies a mark with itself, and the constructors of $\Mark$ are different. The derivation never leaves the inductive carrier of $\Mark$ and never appeals to a meta-level predicate.
+\end{example}
+
+\begin{example}[Double negation on decidable predicates]
+\label{ex:reasoning-double-negation-decidable}
+For a decidable predicate $P$ on $\Hist$, the rule $\neg \neg P\,h \Rightarrow P\,h$ is permitted: decidability supplies a constructive disjunction $P\,h \vee \neg P\,h$, and the second disjunct contradicts $\neg \neg P\,h$, leaving the first. The rule fails for predicates that are not given decidably; the failure is not a stylistic restriction but a refusal to substitute meta-level reasoning for missing constructive content.
+\end{example}
+
+\begin{example}[Counterexample to a false existence]
+\label{ex:reasoning-counterexample}
+Refuting $\exists h, P\,h$ by exhibiting a uniform $\Hist$ map $\varphi$ with $\neg P(\varphi h)$ for every $h$ is permitted: the witness $\varphi$ is a kernel-level continuation that converts a putative existential witness into a $\bot$. The refutation is constructive in the same sense the existence claim would have been.
+\end{example}
+
+\section{Forbidden patterns and their meta-closure}
+\label{sec:reasoning-forbidden-patterns}
+
+\begin{definition}[Forbidden pattern]
+\label{def:reasoning-forbidden-pattern}
+A \emph{forbidden pattern} is a derivation step that produces a kernel-level conclusion of one of the following shapes without supplying the corresponding constructive witness:
+\begin{enumerate}
+\item proving $\exists h, P\,h$ from the assumption $\neg \forall h, \neg P\,h$;
+\item eliminating double negation on a predicate not given decidably;
+\item splitting on the law of excluded middle for a predicate over the carrier $\mathcal{C}$ of all naming certificates.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Each forbidden pattern implements meta closure]
+\label{thm:reasoning-forbidden-implements-meta-closure}
+For every forbidden pattern of \autoref{def:reasoning-forbidden-pattern}, accepting the pattern as an admissible derivation step at the certificate level closes the open meta loop of \autoref{ch:capstones-reflection-and-limits}: it supplies a $\NameCert$-level decision for a predicate whose decidability is not constructively available, and the supplied decision is, structurally, an $\NameCert$-level value of the host's truth predicate.
+\end{theorem}
+
+\begin{proof}[Sketch]
+For (i): the move from $\neg \forall \neg$ to $\exists$ supplies a witness without exhibiting one. Reading the existential as a $\NameCert$-level extension predicate, the witness is the value the predicate takes when applied to the assumption; reading the value back as a constructor of the witness type closes the meta loop. For (ii): double-negation elimination on a non-decidable $P$ supplies a value of $P\,h$ without a constructor; reading $P$ as a $\NameCert$ classifier exposes the supplied value as a $\NameCert$-level truth witness. For (iii): excluded middle on a predicate over $\mathcal{C}$ asserts that the certificate-of-certificates settles every certificate-level proposition, which is precisely the assumption that the meta loop is closed (\autoref{rem:reflection-tarski-undefinability}).
+\end{proof}
+
+\section{The boundary as ground vs meta loop}
+\label{sec:reasoning-boundary}
+
+\begin{theorem}[Permitted iff stays within the closed ground loop]
+\label{thm:reasoning-permitted-iff-ground}
+A refutation pattern is permitted in BEDC if and only if its derivation factors through the closed ground loop of \autoref{ch:capstones-reflection-and-limits}: every step uses $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate, and no step appeals to a $\NameCert$-level predicate over the carrier of all naming certificates.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Forward: \autoref{def:reasoning-permitted-pattern} restricts the derivation primitives to those of the kernel together with a fixed certificate, and these primitives are exactly the closed ground loop's data. Backward: a derivation that stays in the ground loop produces only certificate-level consequences supported by their constructors, hence avoids the meta-closure characterised by \autoref{thm:reasoning-forbidden-implements-meta-closure}.
+\end{proof}
+
+\begin{remark}[Sibling instance: halting]
+\label{rem:reasoning-halting-sibling}
+The same boundary, applied to the predicate ``the continuation chain from $h$ in $\NameCert_P$ terminates'', produces the halting obstruction of \autoref{thm:halting-as-form-of-distinction-fixed-point}. Halting decidability is the canonical instance of the third forbidden pattern: a $\NameCert$-level decision for a predicate over the carrier of all naming certificates. The catalogues of \autoref{def:reasoning-permitted-pattern} and \autoref{def:reasoning-forbidden-pattern} therefore unify the proof discipline of the kernel with the halting result of the operational-semantics capstone.
+\end{remark}
+
+\begin{remark}[Sibling instance: three axioms]
+\label{rem:reasoning-three-axioms-sibling}
+The chapter is also the discipline-side complement of \autoref{ch:capstones-three-axioms-one-closure}: the three axioms classified there as ``unwitnessed-$\exists$ acceptance'' instantiate the first forbidden pattern at the term, type, and proposition layers respectively. Refusing the forbidden patterns at the proof level and refusing the three axioms at the foundation level are two faces of the same refusal of meta closure.
+\end{remark}

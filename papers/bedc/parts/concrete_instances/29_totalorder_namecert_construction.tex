@@ -67,6 +67,165 @@ Trichotomy is the same branch just constructed; no classical comparison
 principle is used.
 \end{proof}
 
+\begin{theorem}[Singleton total-order comparison exactness]
+\label{thm:singleton-totalorder-comparison-exactness}
+For carried histories $h,k:\mathsf{BHist}$ with $A_{\emp}(h)$ and
+$A_{\emp}(k)$ in the concrete instance of
+\autoref{def:concrete-singleton-history-totalorder-instance}, the comparison
+branches are exact in the following sense:
+\begin{enumerate}
+  \item $\mathsf{lt}_{\emp}(h,k)\to\mathsf{False}$ and
+  $\mathsf{gt}_{\emp}(h,k)\to\mathsf{False}$.
+  \item $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$.
+  \item $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow
+  (h\le_{\emp}k\land k\le_{\emp}h)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the three comparison branches in
+\autoref{def:concrete-singleton-history-totalorder-instance}. The strict
+branches are both $\bot$, so each strict witness eliminates to
+$\mathsf{False}$.
+
+The same branch is defined to be $\rho_{\emp}(h,k)$, giving the second
+equivalence by reflexive unfolding.
+
+For the opposing-prefix characterization, apply the exactness part of
+\autoref{thm:singleton-empty-poset-laws} to the carried histories $h$ and $k$.
+Composing that equivalence with the displayed unfolding
+$\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$ gives the stated
+equivalence with $h\le_{\emp}k$ and $k\le_{\emp}h$.
+\end{proof}
+
+\section{Concrete unary prefix total order instance}
+\label{sec:totalorder-concrete-unary-prefix-instance}
+
+\begin{definition}[Concrete unary prefix total order instance]
+\label{def:concrete-unary-prefix-totalorder-instance}
+Let the carrier be the concrete unary-history preorder carrier:
+$$
+\mathsf{Carrier}_{\mathsf{u}}:=\mathsf{PreorderCarrier}
+=\mathsf{UnaryHistory}.
+$$
+Let the carrier classifier be
+$$
+\rho_{\mathsf{u}}(h,k):=
+\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k),
+$$
+and let the order relation be the concrete prefix relation
+$$
+h\le_{\mathsf{u}}k:=\mathsf{PreorderPrefixLE}(h,k).
+$$
+The constructive comparison package has the three branches
+$$
+\mathsf{lt}_{\mathsf{u}}(h,k):=\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\mathsf{same}_{\mathsf{u}}(h,k):=\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{gt}_{\mathsf{u}}(h,k):=\mathsf{NatUnaryStrictPrefix}(k,h).
+$$
+Thus strict-left means that $k$ extends $h$ by a nonempty unary tail, same is
+the carrier classifier, and strict-right is the opposite strict unary prefix.
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix total order laws]
+\label{thm:concrete-unary-prefix-totalorder-laws}
+For carried unary histories $h,k$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, the branches of
+\autoref{def:concrete-unary-prefix-totalorder-instance} supply constructive
+total comparison. Each strict branch implies carrier-classifier apartness, the
+same branch satisfies
+$$
+\mathsf{same}_{\mathsf{u}}(h,k)\Longleftrightarrow
+(\mathsf{PreorderPrefixLE}(h,k)\land\mathsf{PreorderPrefixLE}(k,h)),
+$$
+and the inherited preorder and antisymmetry fields assemble these data into a
+concrete $\TotalOrderUp$ law package over unary histories.
+\end{theorem}
+\begin{proof}
+Start from the total unary prefix comparison of
+\autoref{thm:nat-unary-prefix-total}. For carried histories $h$ and $k$, this
+returns a unary continuation from $h$ to $k$ or one from $k$ to $h$.
+
+Split the selected unary tail by the unary-generation cases. A nonempty tail
+chooses the corresponding strict branch
+$\mathsf{NatUnaryStrictPrefix}(h,k)$ or
+$\mathsf{NatUnaryStrictPrefix}(k,h)$. An empty tail collapses the continuation
+to $\hsame(h,k)$, which repackages with the two carrier witnesses as
+$\rho_{\mathsf{u}}(h,k)$ and therefore chooses the same branch.
+
+The strict branches are apart from the same branch. If a strict-left witness and
+the carrier classifier both held, the classifier exactness of
+\autoref{thm:poset-prefix-classifier-exactness} would give the reverse prefix
+comparison as well; splitting that reverse continuation into empty or nonempty
+form either collapses the strict tail to $\emp$ or gives opposing strict
+prefixes, both ruled out by \autoref{thm:nat-unary-strict-prefix-asymm}. The
+strict-right case is symmetric.
+
+The displayed equivalence for the same branch is exactly the prefix classifier
+exactness theorem \autoref{thm:poset-prefix-classifier-exactness} after
+unfolding $\mathsf{same}_{\mathsf{u}}$. Relation stability, reflexivity, and
+transitivity are inherited from
+\autoref{thm:concrete-unary-prefix-preorder-laws}, while antisymmetry is the
+same exactness field of \autoref{thm:poset-prefix-classifier-exactness}. These
+fields repack into the concrete $\TotalOrderUp$ law package.
+\end{proof}
+
+\begin{theorem}[Concrete unary prefix total-order comparison partition]
+\label{thm:concrete-unary-prefix-totalorder-comparison-partition}
+For carried unary histories $h,k$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, exactly one of the three concrete branches
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h)
+$$
+supplies the comparison branch. The middle branch is exact:
+$$
+\rho_{\mathsf{u}}(h,k)\Longleftrightarrow
+(\mathsf{PreorderPrefixLE}(h,k)\land\mathsf{PreorderPrefixLE}(k,h)).
+$$
+The strict-left and strict-right branches cannot both hold, and neither strict
+branch is compatible with $\rho_{\mathsf{u}}(h,k)$.
+
+The per-object fields are: traditional target constructive total-order branch
+partition; BEDC source $\mathsf{UnaryHistory}$, $\mathsf{PreorderPrefixLE}$, and
+$\mathsf{NatUnaryStrictPrefix}$ over $\mathsf{BHist}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; stability
+obligations branch totality and incompatibility; ledger selected comparison
+branch; core theorem this partition; exactness the same-branch equivalence;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use the total unary prefix comparison of
+\autoref{thm:nat-unary-prefix-total}. For carried histories $h$ and $k$, it gives
+a unary continuation in one direction, and the unary tail is then split into
+empty and nonempty cases.
+
+If the selected tail is nonempty from $h$ to $k$, the selected branch is
+$\mathsf{NatUnaryStrictPrefix}(h,k)$. If the selected tail is nonempty from $k$
+to $h$, the selected branch is $\mathsf{NatUnaryStrictPrefix}(k,h)$.
+
+If the selected tail is empty, the continuation collapses to the same-history
+case. The carrier classifier is exactly the same-history branch, and
+\autoref{thm:poset-prefix-classifier-exactness} identifies it with the pair of
+prefix comparisons in both directions.
+
+The two strict branches are incompatible by
+\autoref{thm:nat-unary-strict-prefix-asymm}. A strict branch together with
+$\rho_{\mathsf{u}}(h,k)$ would, by
+\autoref{thm:poset-prefix-classifier-exactness}, also provide the opposite
+prefix comparison; splitting that opposite comparison yields either an empty
+tail contradicting strictness or the opposing strict branch, again ruled out by
+\autoref{thm:nat-unary-strict-prefix-asymm}. The strict-right case is symmetric.
+
+These cases give total coverage, the exact middle branch, and pairwise
+incompatibility, so the three branches form the concrete constructive
+partition.
+\end{proof}
+
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
@@ -109,6 +268,45 @@ Record the comparison certificate selected for each pair.
 \label{def:totalorder-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\TotalOrderUp\).
 \end{definition}
+
+\begin{theorem}[Concrete singleton history $\TotalOrderUp$ naming certificate]
+\label{thm:concrete-singleton-history-totalorder-namecert}
+The concrete tuple of
+\autoref{def:concrete-singleton-history-totalorder-instance} supplies the
+source, pattern, classifier, stability, ledger, and exactness rows for a
+$\NameCert$ licensing $\TotalOrderUp$ over the singleton carrier $A_{\emp}$,
+classifier $\rho_{\emp}$, order $\le_{\emp}$, and comparison branches
+$\mathsf{lt}_{\emp}:=\bot$, $\mathsf{same}_{\emp}:=\rho_{\emp}$, and
+$\mathsf{gt}_{\emp}:=\bot$.
+\end{theorem}
+\begin{proof}
+The carrier row is the singleton $\mathsf{BHist}$ source. Apply
+\autoref{thm:singleton-history-totalorder-laws} to obtain the carried endpoint
+facts, classifier stability, the $\POSetUp$ fields, trichotomy, and comparison
+stability for the displayed branches.
+
+The exactness row is the underlying partial-order exactness supplied by
+\autoref{thm:singleton-empty-poset-laws}: on carried histories,
+$\rho_{\emp}(h,k)$ is equivalent to the two opposing prefix comparisons
+$h\le_{\emp}k$ and $k\le_{\emp}h$.
+
+The strict rows contribute no extra witnesses. Both strict comparison branches
+are empty by definition, so strict-to-apartness and strict transitivity are
+vacuous.
+
+It remains to assemble the public certificate. Repack the source as
+$A_{\emp}$, the pattern as the three-way comparison formation, the classifier
+as $\rho_{\emp}$, the stability data as the fields just cited, and the ledger
+as the selected same-branch comparison certificate.
+\end{proof}
+
+The per-object template is: traditional target singleton constructive total
+order; BEDC source singleton $\mathsf{BHist}$; carrier $A_{\emp}$; classifier
+$\rho_{\emp}$; stability obligations from
+\autoref{thm:concrete-singleton-history-totalorder-namecert}; ledger the
+selected same-branch comparison certificate; exactness singleton classifier
+iff opposing prefix comparisons; standard bridge singleton total order; status
+$\mathsf{ProofTarget}$.
 
 \paragraph{Primitive boundary.}
 \(\TotalOrderUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

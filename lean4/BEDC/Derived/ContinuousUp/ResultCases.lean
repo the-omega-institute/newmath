@@ -70,4 +70,42 @@ theorem ContinuousModulusWitness_right_e1_visible_source_exactness
   cases sameSource
   exact tailWitness
 
+theorem ContinuousModulusWitness_right_e1_source_cases {source modulus target : BHist} :
+    ContinuousModulusWitness source (BHist.e1 modulus) (BHist.e1 target) ->
+      (source = BHist.Empty ∧ UnaryHistory modulus ∧ hsame target modulus) ∨
+        (∃ sourceTail : BHist,
+          source = BHist.e1 sourceTail ∧
+            ContinuousModulusWitness (BHist.e1 sourceTail) modulus target) := by
+  intro witness
+  have tailWitness : ContinuousModulusWitness source modulus target :=
+    ContinuousModulusWitness_right_e1_result_exactness witness
+  have sourceCases := unary_history_cases tailWitness.left
+  cases sourceCases with
+  | inl sourceEmpty =>
+      cases sourceEmpty
+      exact Or.inl
+        (And.intro rfl
+          (And.intro tailWitness.right.left
+            (cont_left_unit_result tailWitness.right.right.right)))
+  | inr visibleSource =>
+      cases visibleSource with
+      | intro sourceTail sourceData =>
+          cases sourceData with
+          | intro sourceEq _sourceTailCarrier =>
+              cases sourceEq
+              exact Or.inr (Exists.intro sourceTail (And.intro rfl tailWitness))
+
+theorem ContinuousModulusWitness_e0_component_absurd {source modulus target : BHist} :
+    (ContinuousModulusWitness (BHist.e0 source) modulus target -> False) ∧
+      (ContinuousModulusWitness source (BHist.e0 modulus) target -> False) ∧
+        (ContinuousModulusWitness source modulus (BHist.e0 target) -> False) := by
+  constructor
+  · intro witness
+    exact unary_no_zero_extension witness.left
+  · constructor
+    · intro witness
+      exact unary_no_zero_extension witness.right.left
+    · intro witness
+      exact unary_no_zero_extension witness.right.right.left
+
 end BEDC.Derived.ContinuousUp

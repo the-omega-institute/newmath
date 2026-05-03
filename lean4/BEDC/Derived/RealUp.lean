@@ -227,6 +227,31 @@ theorem RealStreamPrefixClassifier_e1_pair_readback {x y : Nat -> BHist} :
           classified.right
       exact BEDC.Derived.RatUp.RatHistoryClassifier_e1_tail_unary_iff.mp displayed
 
+theorem RealStreamPrefixClassifier_previous_with_unary {x y : Nat -> BHist} :
+    (forall i : Nat, UnaryHistory (x i)) -> forall n : Nat,
+      RealStreamPrefixClassifier x y (Nat.succ n) ->
+        RealStreamPrefixClassifier x y n ∧ UnaryHistory (x n) := by
+  intro unary n classified
+  exact And.intro classified.left (unary n)
+
+theorem RealStreamPrefixClassifier_add_left_previous_with_unary {x y : Nat -> BHist} :
+    (forall i : Nat, UnaryHistory (x i)) -> forall n m : Nat,
+      RealStreamPrefixClassifier x y (m + n) ->
+        RealStreamPrefixClassifier x y n ∧ UnaryHistory (x n) := by
+  intro unary n m
+  induction m with
+  | zero =>
+      intro classified
+      simp only [Nat.zero_add] at classified
+      exact And.intro classified (unary n)
+  | succ m ih =>
+      intro classified
+      have stepClassified : RealStreamPrefixClassifier x y (Nat.succ (m + n)) := by
+        simp only [Nat.succ_add] at classified
+        exact classified
+      have peeled := RealStreamPrefixClassifier_previous_with_unary unary (m + n) stepClassified
+      exact ih peeled.left
+
 theorem RealConstantHistoryClassifier_equivalence_fields :
     (∀ {h : BHist}, RealConstantHistoryCarrier h → RealConstantHistoryClassifier h h) ∧
       (∀ {h k : BHist}, RealConstantHistoryClassifier h k → RealConstantHistoryClassifier k h) ∧

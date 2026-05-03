@@ -71,6 +71,23 @@ theorem FieldSingletonCarrier_visible_absurd {p : BHist} :
   · intro carrier
     exact not_hsame_e1_empty carrier
 
+theorem FieldSingletonClassifier_visible_endpoint_absurd {p q k : BHist} :
+    (FieldSingletonClassifier (BHist.e0 p) k -> False) ∧
+      (FieldSingletonClassifier (BHist.e1 p) k -> False) ∧
+        (FieldSingletonClassifier k (BHist.e0 q) -> False) ∧
+          (FieldSingletonClassifier k (BHist.e1 q) -> False) := by
+  constructor
+  · intro classified
+    exact FieldSingletonCarrier_visible_absurd.left classified.left
+  · constructor
+    · intro classified
+      exact FieldSingletonCarrier_visible_absurd.right classified.left
+    · constructor
+      · intro classified
+        exact FieldSingletonCarrier_visible_absurd.left classified.right.left
+      · intro classified
+        exact FieldSingletonCarrier_visible_absurd.right classified.right.left
+
 theorem singleton_empty_history_field_schema_laws :
     SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
       FieldSingletonClassifier ∧

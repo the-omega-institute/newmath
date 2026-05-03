@@ -74,33 +74,113 @@ CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 STOP_FILE = REPO_ROOT / ".paper_pipeline.stop"
 MAX_TEX_FILE_LINES = 800
 
+# Dynamic parallelism: read target worker count from this JSON each dispatch
+# decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
+# pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
+PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_KEY = "paper"
+HARD_MAX_PARALLEL = 50
+
 # Iteration-narrative vocabulary banned in the paper (CLAUDE.md §写作纪律).
 # Detection runs on lines newly added in the round's diff.
-FORBIDDEN_VOCAB = [
+_DEFAULT_FORBIDDEN_VOCAB = [
     "新增", "新版", "修订", "修复了上一版本",
     "增量", "修改记录", "变更记录", "变更原因",
     "patch", "migration", "frozen", "supersede", "superseded",
     "deprecated", "legacy", "increment",
     "rectification", "amendment",
 ]
-# Version-prefixed labels and "v1.5.X"-style numerics
-FORBIDDEN_VERSION_RE = re.compile(
-    r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+",
+_DEFAULT_FORBIDDEN_VERSION_PATTERN = (
+    r"\bv\d+\.\d+\.[Xx0-9]+\b|\bv\d+-[A-Za-z0-9_-]+"
 )
-FORBIDDEN_VOCAB_RE = re.compile(
-    r"(" + "|".join(re.escape(w) for w in FORBIDDEN_VOCAB) + r")",
-    re.IGNORECASE,
-)
-
-# Math syntax: ban LaTeX math environments other than $...$ / $$...$$
-FORBIDDEN_MATH_PATTERNS = [
-    (r"\\begin\{equation\*?\}", r"\\begin{equation}"),
-    (r"\\begin\{align\*?\}",    r"\\begin{align}"),
-    (r"\\begin\{eqnarray\*?\}", r"\\begin{eqnarray}"),
-    (r"\\\[", r"\\["),
+# Math syntax: ban LaTeX math environments other than $...$ / $$...$$.
+# `(?<!\\)\\\[` matches \[ NOT preceded by another backslash, so the
+# LaTeX line-break optional argument like `\\[0.35em]` (vertical row
+# spacing in tabular/array) does not false-trigger.
+_DEFAULT_FORBIDDEN_MATH_PATTERNS = [
+    r"\\begin\{equation\*?\}",
+    r"\\begin\{align\*?\}",
+    r"\\begin\{eqnarray\*?\}",
+    r"(?<!\\)\\\[",
 ]
+
+# Hot-loaded lint patterns: `papers/bedc/scripts/lint_patterns.json`.
+# Edit the file (no orchestrator restart) and the next round picks up
+# the change. Falls back to the _DEFAULT_* constants above when the
+# file is missing or unreadable.
+LINT_PATTERNS_FILE = SCRIPT_DIR / "lint_patterns.json"
+_lint_patterns_cache: dict = {"mtime": -1.0, "compiled": None}
+
+
+def _build_vocab_regex(words: list[str]) -> re.Pattern:
+    """Build a single regex that matches each forbidden word; ASCII-only
+    words gated by `\\b` word boundary so 'patch' does not match inside
+    'dispatch'. CJK words match as-is (Python's `\\b` requires a word
+    boundary which is too narrow for CJK)."""
+    parts: list[str] = []
+    for w in words:
+        esc = re.escape(w)
+        if w.isascii():
+            parts.append(rf"\b{esc}\b")
+        else:
+            parts.append(esc)
+    return re.compile(r"(" + "|".join(parts) + r")", re.IGNORECASE)
+
+
+def _compile_lint_patterns(*, vocab: list[str], version: str,
+                           math: list[str]) -> dict:
+    return {
+        "vocab": _build_vocab_regex(vocab),
+        "version": re.compile(version),
+        "math": re.compile(r"(" + "|".join(math) + r")"),
+    }
+
+
+def _load_lint_patterns() -> dict:
+    """Read LINT_PATTERNS_FILE if newer than cache; recompile and cache.
+    Returns dict with keys 'vocab', 'version', 'math' -> compiled regexes.
+    """
+    try:
+        if not LINT_PATTERNS_FILE.exists():
+            mtime = -1.0
+        else:
+            mtime = LINT_PATTERNS_FILE.stat().st_mtime
+        if mtime != _lint_patterns_cache["mtime"]:
+            if mtime > 0:
+                data = json.loads(LINT_PATTERNS_FILE.read_text(encoding="utf-8"))
+                vocab = data.get("forbidden_vocab", _DEFAULT_FORBIDDEN_VOCAB)
+                version = data.get(
+                    "forbidden_version_pattern", _DEFAULT_FORBIDDEN_VERSION_PATTERN
+                )
+                math = data.get(
+                    "forbidden_math_patterns", _DEFAULT_FORBIDDEN_MATH_PATTERNS
+                )
+            else:
+                vocab = _DEFAULT_FORBIDDEN_VOCAB
+                version = _DEFAULT_FORBIDDEN_VERSION_PATTERN
+                math = _DEFAULT_FORBIDDEN_MATH_PATTERNS
+            _lint_patterns_cache["compiled"] = _compile_lint_patterns(
+                vocab=vocab, version=version, math=math,
+            )
+            _lint_patterns_cache["mtime"] = mtime
+    except Exception:
+        if _lint_patterns_cache["compiled"] is None:
+            _lint_patterns_cache["compiled"] = _compile_lint_patterns(
+                vocab=_DEFAULT_FORBIDDEN_VOCAB,
+                version=_DEFAULT_FORBIDDEN_VERSION_PATTERN,
+                math=_DEFAULT_FORBIDDEN_MATH_PATTERNS,
+            )
+    return _lint_patterns_cache["compiled"]
+
+
+# Backward-compat module-level shims so any caller that still references
+# the old constants gets the current loaded values. detect_* functions
+# below call _load_lint_patterns() each invocation for hot-reload.
+FORBIDDEN_VOCAB = _DEFAULT_FORBIDDEN_VOCAB
+FORBIDDEN_VOCAB_RE = _build_vocab_regex(_DEFAULT_FORBIDDEN_VOCAB)
+FORBIDDEN_VERSION_RE = re.compile(_DEFAULT_FORBIDDEN_VERSION_PATTERN)
 FORBIDDEN_MATH_RE = re.compile(
-    r"(" + "|".join(p for p, _ in FORBIDDEN_MATH_PATTERNS) + r")"
+    r"(" + "|".join(_DEFAULT_FORBIDDEN_MATH_PATTERNS) + r")"
 )
 
 LEAN_MARKER_RE = re.compile(
@@ -342,6 +422,193 @@ def memory_pressure_wait(context: str = "") -> bool:
             )
             warned = True
             time.sleep(poll)
+
+
+def ensure_runtime_from_template(runtime: Path, template: Path) -> None:
+    """If `runtime` does not exist but `template` does, copy template to
+    runtime. Skips when runtime already present. Logs the seed action
+    so operators know a fresh checkout used the default config.
+    """
+    try:
+        if runtime.exists():
+            return
+        if template.exists():
+            shutil.copy(template, runtime)
+            logger.info(
+                f"[runtime-config] seeded {runtime.name} from {template.name}"
+            )
+    except Exception as exc:
+        logger.warning(f"[runtime-config] seed failed for {runtime.name}: {exc}")
+
+
+def read_target_parallel(default: int) -> int:
+    """Read live target parallelism from PARALLEL_CONFIG_FILE.
+
+    Returns the value clamped to [1, HARD_MAX_PARALLEL]. Falls back to
+    `default` if file missing or unreadable. Allows tuning concurrency
+    without restarting the orchestrator.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(PARALLEL_CONFIG_KEY, default))
+            return max(1, min(v, HARD_MAX_PARALLEL))
+    except Exception:
+        pass
+    return max(1, min(default, HARD_MAX_PARALLEL))
+
+
+_origin_sync_stop = threading.Event()
+
+
+def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
+    """Background ticker: rebase local base onto origin/<base> when remote
+    is ahead.
+
+    Prevents push race storms when an external commit lands on the remote.
+    Without this, individual rounds keep failing with "Diverging branches"
+    or "Rebase left no own-round commit" until a human intervenes. Runs in
+    a daemon thread; safe to spawn once per orchestrator process.
+    """
+    while not _origin_sync_stop.wait(interval):
+        try:
+            r = subprocess.run(
+                ["git", "fetch", "origin", base_branch],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+            )
+            if r.returncode != 0:
+                continue
+            r2 = subprocess.run(
+                ["git", "rev-list", "--count",
+                 f"{base_branch}..origin/{base_branch}"],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+            )
+            if r2.returncode != 0:
+                continue
+            ahead = int((r2.stdout or "0").strip() or "0")
+            if ahead == 0:
+                continue
+            logger.info(
+                f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
+                f"ahead — rebasing local"
+            )
+            with _git_lock:
+                r3 = subprocess.run(
+                    ["git", "pull", "--rebase", "--autostash",
+                     "origin", base_branch],
+                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                )
+                if r3.returncode == 0:
+                    logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+                else:
+                    logger.warning(
+                        f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                        f"stderr={(r3.stderr or '').strip()[:200]}"
+                    )
+                    # Abort any in-flight rebase to leave main repo clean —
+                    # otherwise worker pushes hit "rebase in progress" forever.
+                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                    if rebase_merge.exists() or rebase_apply.exists():
+                        logger.warning("[origin-sync] mid-rebase detected, aborting")
+                        subprocess.run(
+                            ["git", "rebase", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
+                    # Best-effort autostash pop (safe no-op if nothing stashed).
+                    subprocess.run(
+                        ["git", "stash", "pop"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                    )
+                    # Verify clean state after recovery.
+                    rs = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                    )
+                    if (rs.stdout or "").strip():
+                        logger.warning(
+                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
+                            "delegating to codex"
+                        )
+                        try:
+                            prompt = (
+                                _load_prompt("origin_sync_recover")
+                                .replace("<REPO_ROOT>", str(REPO_ROOT))
+                                .replace("<BASE_BRANCH>", base_branch)
+                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
+                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+                            )
+                            codex_exec(
+                                prompt,
+                                work_dir=REPO_ROOT,
+                                timeout_seconds=600,
+                            )
+                            rs2 = subprocess.run(
+                                ["git", "status", "--porcelain"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                            )
+                            if (rs2.stdout or "").strip():
+                                logger.error(
+                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
+                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
+                                )
+                            else:
+                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
+                        except Exception as exc:
+                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
+        except Exception as exc:
+            logger.warning(f"[origin-sync] error: {exc}")
+
+
+_ORIGIN_SYNC_LOCK = REPO_ROOT / ".origin_sync.lock"
+
+
+def _acquire_origin_sync_lock() -> bool:
+    """Atomic-create a lock file owned by this PID. Returns False if another
+    live orchestrator already holds it (so only one ticker runs across all
+    pipeline scripts on this repo). Stale locks (dead PIDs) are taken over.
+    """
+    pid = os.getpid()
+    try:
+        fd = os.open(str(_ORIGIN_SYNC_LOCK),
+                     os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+        os.write(fd, str(pid).encode())
+        os.close(fd)
+        return True
+    except FileExistsError:
+        try:
+            existing = int(_ORIGIN_SYNC_LOCK.read_text(encoding="utf-8").strip() or "0")
+        except Exception:
+            existing = 0
+        if existing > 0:
+            try:
+                os.kill(existing, 0)  # signal 0 = liveness probe
+                return False  # other orchestrator alive, skip
+            except (ProcessLookupError, PermissionError):
+                pass
+        # Stale (dead PID) — take over.
+        _ORIGIN_SYNC_LOCK.write_text(str(pid), encoding="utf-8")
+        return True
+
+
+def start_origin_sync_ticker(base_branch: str, interval: int = 60) -> None:
+    if not _acquire_origin_sync_lock():
+        logger.info(
+            f"[origin-sync] another orchestrator already owns the ticker "
+            f"(lock={_ORIGIN_SYNC_LOCK.name}); skipping"
+        )
+        return
+    t = threading.Thread(
+        target=origin_sync_loop,
+        args=(base_branch, interval),
+        daemon=True,
+        name="origin-sync",
+    )
+    t.start()
+    logger.info(
+        f"[origin-sync] ticker started (interval={interval}s, branch={base_branch}, "
+        f"lock={_ORIGIN_SYNC_LOCK.name})"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -1220,7 +1487,11 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
-    """Reject diffs that introduce iteration-narrative vocabulary."""
+    """Reject diffs that introduce iteration-narrative vocabulary.
+    Uses hot-loaded patterns from `lint_patterns.json` (see _load_lint_patterns)."""
+    pats = _load_lint_patterns()
+    vocab_re = pats["vocab"]
+    version_re = pats["version"]
     violations: list[str] = []
     for rel in _changed_files(wt, prefix="papers/bedc/"):
         if not (rel.endswith(".tex") or rel.endswith(".md")):
@@ -1229,11 +1500,11 @@ def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
             stripped = content.strip()
             # Skip pure comment lines (% …) — they should not exist either,
             # but the inline-comment ban is a separate gate (out of scope).
-            for m in FORBIDDEN_VOCAB_RE.finditer(stripped):
+            for m in vocab_re.finditer(stripped):
                 violations.append(f"{rel}:{line_no}: '{m.group(1)}' — {stripped[:120]}")
                 break
             else:
-                vm = FORBIDDEN_VERSION_RE.search(stripped)
+                vm = version_re.search(stripped)
                 if vm:
                     violations.append(
                         f"{rel}:{line_no}: version-prefix '{vm.group(0)}' — {stripped[:120]}"
@@ -1242,10 +1513,13 @@ def detect_forbidden_vocab(wt: WorktreeInfo) -> list[str]:
 
 
 def detect_forbidden_math(wt: WorktreeInfo) -> list[str]:
+    """Reject diffs that introduce LaTeX math environments other than
+    $...$ / $$...$$. Hot-loaded patterns; see _load_lint_patterns."""
+    math_re = _load_lint_patterns()["math"]
     violations: list[str] = []
     for rel in _changed_tex_files(wt):
         for line_no, content in _added_lines_per_file(wt, rel):
-            m = FORBIDDEN_MATH_RE.search(content)
+            m = math_re.search(content)
             if m:
                 violations.append(
                     f"{rel}:{line_no}: forbidden math env '{m.group(1)}' — "
@@ -1350,6 +1624,47 @@ def run_axiom_audit(wt: WorktreeInfo) -> tuple[bool, str]:
     return r.returncode == 0, (r.stdout + r.stderr)[-400:]
 
 
+def _run_phase_paper_gates(wt: WorktreeInfo) -> dict:
+    """Invoke `phase_paper_gates.py` as a subprocess and return the
+    parsed JSON gate results. On any failure the return is an empty
+    dict so callers degrade to "no violations detected" rather than
+    crashing the round."""
+    script = SCRIPT_DIR / "phase_paper_gates.py"
+    if not script.exists():
+        logger.warning(
+            f"[P{wt.round_number}] phase_paper_gates.py missing — "
+            f"skipping content lint gates"
+        )
+        return {}
+    if not wt.base_sha:
+        return {}
+    try:
+        r = subprocess.run(
+            ["python3", str(script),
+             "--worktree", str(wt.path),
+             "--base-sha", wt.base_sha,
+             "--gate", "all"],
+            capture_output=True, text=True, timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        logger.error(f"[P{wt.round_number}] phase_paper_gates.py timed out")
+        return {}
+    if r.returncode != 0:
+        logger.error(
+            f"[P{wt.round_number}] phase_paper_gates.py exit {r.returncode}: "
+            f"{(r.stderr or '').strip()[:400]}"
+        )
+        return {}
+    try:
+        return json.loads(r.stdout or "{}")
+    except json.JSONDecodeError as exc:
+        logger.error(
+            f"[P{wt.round_number}] phase_paper_gates.py produced invalid JSON: "
+            f"{exc}; stdout={(r.stdout or '')[:200]!r}"
+        )
+        return {}
+
+
 def verify_worktree_commits(
     wt: WorktreeInfo, pre_commits: list[str]
 ) -> tuple[bool, list[str]]:
@@ -1376,42 +1691,39 @@ def verify_worktree_commits(
     for c in new:
         logger.info(f"  {c}")
 
+    # Gates A/B/C/D/E run in a subprocess so the gate logic and lint
+    # patterns can be tightened or relaxed without restarting the
+    # supervisor. See `phase_paper_gates.py` for the implementations.
+    gate_results = _run_phase_paper_gates(wt)
+
     # Gate A — register-only / nothing-real-changed
-    rv = detect_register_only_round(wt)
+    rv = gate_results.get("register-only", [])
     if rv:
         for v in rv:
             logger.error(f"[P{wt.round_number}] REGISTER-ONLY: {v}")
         return False, new
 
-    # Gate B — new \leanvariant markers were rejected here; relaxed to
-    # WARN only. The register-only gate above already rejects the truly
-    # bad case (round whose only effect is adding \leanvariant lines).
-    # When a substantive revise also incidentally adds a \leanvariant
-    # (e.g. splitting one paper block into two propositions, each
-    # pointing to a different Lean target), let it through.
-    var_v = detect_new_leanvariant_markers(wt)
+    # Gate B — new \leanvariant markers: warning only.
+    var_v = gate_results.get("leanvariant", [])
     if var_v:
         for v in var_v[:10]:
             logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
 
-    # Gate C — forbidden iteration-narrative vocabulary
-    vocab_v = detect_forbidden_vocab(wt)
+    # Gate C — forbidden iteration-narrative vocabulary (advisory).
+    vocab_v = gate_results.get("vocab", [])
     if vocab_v:
         for v in vocab_v[:10]:
-            logger.error(f"[P{wt.round_number}] FORBIDDEN VOCAB: {v}")
-        logger.error(f"[P{wt.round_number}] Rejecting round: iteration-narrative "
-                     "vocabulary detected. Replace silently — no version annotations.")
-        return False, new
+            logger.warning(f"[P{wt.round_number}] forbidden-vocab (advisory): {v}")
 
     # Gate D — forbidden math environments
-    math_v = detect_forbidden_math(wt)
+    math_v = gate_results.get("math", [])
     if math_v:
         for v in math_v[:10]:
             logger.error(f"[P{wt.round_number}] FORBIDDEN MATH ENV: {v}")
         return False, new
 
     # Gate E — oversized .tex files
-    size_v = detect_oversized_tex(wt)
+    size_v = gate_results.get("oversized", [])
     if size_v:
         for v in size_v[:10]:
             logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
@@ -1808,7 +2120,11 @@ def main() -> int:
         return 1
     logger.info(f"Codex CLI:    {codex_bin}")
     logger.info(f"Base branch:  {BASE_BRANCH}")
-    logger.info(f"Parallelism:  {args.parallel}")
+    logger.info(
+        f"Parallelism: CLI fallback={args.parallel}; "
+        f"live JSON config={PARALLEL_CONFIG_FILE.name} authoritative "
+        f"(key: {PARALLEL_CONFIG_KEY!r})"
+    )
 
     if not args.dry_run:
         ensure_base_branch()
@@ -1847,10 +2163,26 @@ def main() -> int:
     total_succeeded = total_failed = 0
 
     if args.continuous:
+        # Pool max is fixed at HARD_MAX_PARALLEL so target_parallel can be
+        # raised live via PARALLEL_CONFIG_FILE without a restart. Active
+        # workers are gated by `read_target_parallel(args.parallel)`.
+        ensure_runtime_from_template(
+            PARALLEL_CONFIG_FILE,
+            PARALLEL_CONFIG_FILE.with_suffix(PARALLEL_CONFIG_FILE.suffix + ".template"),
+        )
+        ensure_runtime_from_template(
+            LINT_PATTERNS_FILE,
+            LINT_PATTERNS_FILE.with_suffix(LINT_PATTERNS_FILE.suffix + ".template"),
+        )
+        start_origin_sync_ticker(BASE_BRANCH, interval=60)
+        initial_target = read_target_parallel(args.parallel)
         logger.info(f"{'='*60}")
-        logger.info(f"Rolling pipeline: {args.parallel} workers, until stopped")
+        logger.info(
+            f"Rolling pipeline: target={initial_target} workers (config={PARALLEL_CONFIG_FILE.name}, "
+            f"hard cap={HARD_MAX_PARALLEL}), until stopped"
+        )
         logger.info(f"{'='*60}")
-        with ThreadPoolExecutor(max_workers=args.parallel,
+        with ThreadPoolExecutor(max_workers=HARD_MAX_PARALLEL,
                                 thread_name_prefix="worker") as pool:
             futures: dict[Future, int] = {}
             cooldown_seconds = max(60, int(args.max_consecutive_failures) * 60)
@@ -1885,8 +2217,9 @@ def main() -> int:
                 futures[fut] = rn
                 logger.info(f"Dispatching P{rn} (rolling)")
 
-            for _ in range(args.parallel):
+            for _ in range(read_target_parallel(args.parallel)):
                 _submit_next()
+            last_target = read_target_parallel(args.parallel)
             while futures:
                 if STOP_FILE.exists():
                     logger.info(f"Stop file detected; draining {len(futures)} workers")
@@ -1907,8 +2240,20 @@ def main() -> int:
                         logger.error(f"[P{rn}] EXCEPTION: {exc}")
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
+                    # Re-read live target each completion. Top up to target;
+                    # if target dropped below current pool, simply skip
+                    # replacement and let pool shrink naturally.
                     if not STOP_FILE.exists():
-                        _submit_next()
+                        target = read_target_parallel(args.parallel)
+                        if target != last_target:
+                            logger.info(
+                                f"[parallel] target changed {last_target} -> {target} "
+                                f"(in-flight={len(futures)})"
+                            )
+                            last_target = target
+                        deficit = max(0, target - len(futures))
+                        for _ in range(deficit):
+                            _submit_next()
     else:
         for batch_idx in range(args.rounds):
             if state.consecutive_failures >= args.max_consecutive_failures:

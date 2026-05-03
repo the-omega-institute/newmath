@@ -85,6 +85,7 @@ $\mathsf{RatDenomUnitCarrier}$ is the same carrier as $C_D^\ast$; by the second
 clause, $R_D^\ast(h,k)$ is exactly the conjunction of the two carrier witnesses
 and $h\hsame k$. This is precisely the denominator unit classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_carrier\_empty\_split\_iff}
 
 \begin{theorem}[Rat denominator external-unit envelope classifier exactness]
 \label{thm:field-rat-denominator-unit-envelope-classifier-exactness}
@@ -200,6 +201,22 @@ comparisons reduces both results to the empty-left unit continuation at
 $\emp$. Thus $r\hsame\emp$ and $r'\hsame\emp$, so the empty-empty branch of
 $R_D^\ast(r,r')$ applies.
 \end{proof}
+
+\begin{theorem}[Rat denominator external-unit envelope carrier continuation closure]
+\label{thm:field-rat-denominator-unit-envelope-carrier-continuation-closed}
+For all histories $h,k,r:\mathsf{BHist}$, if $h$ and $k$ lie in the
+external-unit envelope carrier and $\Cont(h,k,r)$, then $r$ lies in the same
+envelope carrier.
+\end{theorem}
+\begin{proof}
+Split the two carrier witnesses into carried Rat and empty endpoint branches.
+Each carrier witness gives a reflexive envelope classifier on its endpoint.
+Apply envelope classifier continuation closure to the two reflexive
+classifiers and the displayed continuation twice. The resulting classifier of
+$r$ against itself exposes either the carried Rat branch for $r$ or the empty
+endpoint branch, which is exactly the envelope carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeCarrier\_continuation\_closed}
 
 \begin{theorem}[Rat denominator external-unit envelope monoid laws]
 \label{thm:field-rat-denominator-unit-envelope-monoid-laws}
@@ -431,6 +448,24 @@ operations shows that $\mu_D^\ast$ and $\mu_D$ both return the append history
 on carried inputs.
 \end{proof}
 
+\begin{theorem}[Rat denominator external-unit envelope strict carried fragment]
+\label{thm:field-rat-denominator-unit-envelope-external-strict-fragment}
+For the concrete external-unit envelope of
+\autoref{def:field-rat-denominator-unit-envelope}, the endpoint $\emp$ is in
+the envelope carrier, is not in the carried Rat-history carrier, has no mixed
+classifier edge to a carried history on either side, and the classifier
+restricted to carried histories is exactly $\mathsf{RatHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+The endpoint carrier clause is the carrier component of
+\autoref{thm:field-rat-denominator-unit-envelope-monoid-laws}. The exclusion
+from the carried fragment is \autoref{thm:rat-history-carrier-not-empty} at
+$\emp$. The two mixed endpoint obstructions and the carried-classifier
+exactness are the corresponding concrete clauses of the envelope classifier
+exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelope\_external\_strict}
+
 \begin{theorem}[Rat denominator external-unit envelope mixed endpoint separation]
 \label{thm:field-rat-denominator-unit-envelope-mixed-endpoint-separation}
 For all $d,e:\mathsf{BHist}$, the external-unit classifier $R_D^u$ has no
@@ -612,6 +647,7 @@ two empty endpoint comparisons. This gives
 $\mathsf{append}(h,k)\hsame\emp$, and the empty-empty branch of $R_D^\ast$
 classifies $\mu_D^\ast(h,k)$ with $e_D^\ast$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_unit\_envelope\_empty\_product\_reflection}
 
 \textbf{Traditional target}: Rat denominator external-unit envelope
 empty-product reflection for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:

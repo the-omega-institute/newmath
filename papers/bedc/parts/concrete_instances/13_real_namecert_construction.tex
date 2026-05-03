@@ -290,6 +290,34 @@ the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
 
+\begin{lemma}[Real stream prefix previous classifier with unary anchor]
+\label{lem:real-stream-prefix-previous-with-unary}
+For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then every successor finite-prefix classifier contains both the previous prefix classifier and the unary anchor at the previous left endpoint:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(x(n)).
+$$
+\end{lemma}
+\begin{proof}
+The recursive successor prefix is a pair whose left component is the previous prefix classifier. The unary side condition supplies \(\mathsf{UnaryHistory}(x(n))\) at the same previous endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_previous\_with\_unary}
+
+\begin{theorem}[Real stream prefix add-left previous classifier with unary anchor]
+\label{thm:real-stream-prefix-add-left-previous-with-unary}
+For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then any prefix classified through \(m+n\) descends to the prefix classified through \(n\), while retaining the unary anchor at \(x(n)\):
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(x(n)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(m\). At \(m=0\), the displayed prefix is the target prefix and the unary side condition supplies the endpoint anchor. At a successor \(m+1\), apply \autoref{lem:real-stream-prefix-previous-with-unary} to peel one recursive prefix layer, then apply the induction hypothesis to the exposed prefix through \(m+n\).
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_previous\_with\_unary}
+
 \begin{theorem}[Real stream finite-prefix exactness]
 \label{thm:real-stream-finite-prefix-exactness}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$,

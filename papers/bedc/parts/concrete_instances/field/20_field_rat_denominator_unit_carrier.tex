@@ -1,3 +1,160 @@
+\begin{theorem}[Rat denominator unit semantic NameCert]
+\label{thm:rat-denom-unit-semantic-namecert}
+For carrier, source, pattern, and ledger all equal to
+$\mathsf{RatDenomUnitCarrier}$, and classifier
+$\mathsf{RatDenomUnitClassifier}$, the denominator empty-unit interface
+satisfies $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The source is inhabited because $\emp$ belongs to
+$\mathsf{RatDenomUnitCarrier}$ by the empty-unit branch.
+
+Reflexivity, symmetry, transitivity, and carrier transport are the
+corresponding $\hsame$ fields inside
+$\mathsf{RatDenomUnitClassifier}$.
+
+Pattern soundness and ledger soundness are projections from the source carrier,
+because source, pattern, and ledger are all the same carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_semanticNameCert}
+
+\begin{theorem}[Rat denominator unit classifier append left factor classifier]
+\label{thm:rat-denom-unit-classifier-append-left-factor-classifier}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+$$
+and $h\hsame h'$, then
+$$
+\mathsf{RatDenomUnitClassifier}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+The classifier on the appended histories supplies denominator-unit carriers for
+both appended endpoints and their $\hsame$ comparison. Carrier factorization
+recovers denominator-unit carriers for $k$ and $k'$. Replacing the right
+endpoint by the same left prefix using $h\hsame h'$ leaves a shared-prefix
+append comparison, and finite-kernel left cancellation gives $k\hsame k'$.
+These three fields assemble the suffix classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_left\_factor\_classifier}
+
+\begin{theorem}[Rat denominator unit classifier append prefix factor classifiers]
+\label{thm:rat-denom-unit-classifier-append-prefix-factor-classifiers}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended endpoints are
+classified and the prefix factors are $\hsame$, then both factor pairs are
+classified:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+h\hsame h'
+\Longrightarrow
+\mathsf{RatDenomUnitClassifier}(h,h')\land
+\mathsf{RatDenomUnitClassifier}(k,k').
+$$
+\end{theorem}
+\begin{proof}
+The appended classifier factors the two product carriers into
+denominator-unit carriers for $h,h',k,k'$. The supplied prefix sameness,
+together with the two prefix carrier witnesses, forms the prefix classifier.
+The suffix classifier is obtained by the append left factor classifier theorem,
+which cancels the shared prefix after transporting along $h\hsame h'$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_prefix\_factor\_classifiers}
+
+\begin{theorem}[Rat denominator unit classifier append factor hsame iff]
+\label{thm:rat-denom-unit-classifier-append-factor-hsame-iff}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')),
+$$
+then
+$$
+h\hsame h' \Longleftrightarrow k\hsame k'.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the append left factor classifier theorem and
+projects the suffix $\hsame$ field from the resulting classifier. The reverse
+direction applies the corresponding right factor classifier theorem and
+projects the prefix $\hsame$ field.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_factor\_hsame\_iff}
+
+\begin{theorem}[Rat denominator unit classifier append nonempty factor carriers]
+\label{thm:rat-denom-unit-classifier-append-nonempty-factor-carriers}
+For histories $h,h',k,k':\mathsf{BHist}$, if the appended endpoints are
+classified by $R_D^u$ and the left appended endpoint is nonempty, then both
+classified endpoints split into denominator-unit carried factors with a
+genuine Rat denominator endpoint on at least one side:
+$$
+R_D^u(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longrightarrow
+\bigl(\mathsf{append}(h,k)\hsame\emp\Longrightarrow\bot\bigr)
+\Longrightarrow
+\begin{aligned}
+&\bigl(\mathsf{RatHistoryCarrier}(h)\wedge C_D^u(k)
+  \lor C_D^u(h)\wedge\mathsf{RatHistoryCarrier}(k)\bigr)\\
+&{}\wedge
+\bigl(\mathsf{RatHistoryCarrier}(h')\wedge C_D^u(k')
+  \lor C_D^u(h')\wedge\mathsf{RatHistoryCarrier}(k')\bigr).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply the carrier-level nonempty factor cases theorem to the left endpoint.
+The classifier sameness field transports the nonempty condition to the right
+endpoint: if the right append were empty, transitivity would make the left
+append empty. Apply the same carrier-level theorem to the right endpoint and
+pair the two decompositions.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_nonempty\_factor\_carriers}
+
+\begin{theorem}[Rat denominator unit classifier two-sided context cancellation package]
+\label{thm:rat-denom-unit-classifier-two-sided-context-cancel-package}
+For histories $L,R,Q,S:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(L,R)$, then
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S)
+$$
+and
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the suffix-context statement, apply
+\autoref{thm:rat-denom-unit-classifier-append-context-cancel} to
+$\mathsf{append}(Q,L)$ and $\mathsf{append}(S,R)$. The assumed classifier on
+$L,R$ is exactly the classified context required by that checked row, so the
+result is the first displayed equivalence.
+
+For the prefix-context statement, apply
+\autoref{thm:rat-denom-unit-classifier-append-left-context-cancel-iff} to
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$. The same classified context
+$L,R$ supplies the prefix certificate, and the checked row returns the second
+displayed equivalence.
+
+Pairing the two equivalences gives the advertised two-sided cancellation
+package.
+\end{proof}
+
+\textbf{Traditional target}: two-sided classified denominator context
+cancellation; \textbf{BEDC source}: $\mathsf{BHist}$ plus
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$, and
+$\mathsf{append}$; \textbf{carrier choice}: $C_D^u$; \textbf{classifier
+choice}: $R_D^u$; \textbf{stability obligations}: suffix and prefix context
+cancellation; \textbf{ledger}: the classified context pair $L,R$;
+\textbf{core theorem}:
+\autoref{thm:rat-denom-unit-classifier-two-sided-context-cancel-package};
+\textbf{exactness predicate}: the displayed pair of iff statements;
+\textbf{standard bridge}: ordinary cancellation by a classified
+denominator-unit context; \textbf{status}: $\mathsf{ProofTarget}$.
+
 \textbf{Traditional target}: denominator-side continuation with empty endpoint
 unit for $\FieldUp(\mathsf{RatUp})$; \textbf{BEDC source}:
 $\mathsf{BHist}$, $\mathsf{RatHistoryCarrier}$, and $\Cont$; \textbf{carrier

@@ -1,0 +1,488 @@
+\begin{theorem}[RatUp FieldUp affine inverse antihomomorphism exit]
+\label{thm:ratup-fieldup-affine-inverse-antihom-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $U\circ_{\mathrm{aff}}T$ be the concrete
+affine composite supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and let
+$\iota_F(-)$ denote the explicit inverse witness supplied by
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package} under the
+same concrete action classifier. Then the inverse of a composite is the reverse
+composite of the explicit inverses under the concrete affine classifier:
+$$
+\iota_F(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+The same classifier also identifies the double inverse with the original
+certified affine automorphism:
+$$
+\iota_F(\iota_F(T))\equiv_{\mathrm{aff}}T.
+$$
+\end{theorem}
+\begin{proof}
+First fix the concrete exit action by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the concrete affine composite
+$\circ_{\mathrm{aff}}$, the explicit inverse row, and the classifier
+$\equiv_{\mathrm{aff}}$ inside
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+For the composite inverse law, apply
+\autoref{thm:field-affine-composite-inverse-reverse-coherence} pointwise to the
+two certified affine automorphisms. The theorem identifies the collected
+inverse of $U\circ_{\mathrm{aff}}T$ with the pointwise reverse composite
+$\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U)$ under $\hsame$.
+
+The affine action classifier from the fixed exit package lifts this pointwise
+$\hsame$ relation to the displayed relation
+$$
+\iota_F(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+
+For the double-inverse clause, view $T$ as a two-sided inverse candidate for
+$\iota_F(T)$ by the identity and inverse fields of
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}. Apply
+\autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit} to compare this
+candidate with the explicit inverse $\iota_F(\iota_F(T))$ of $\iota_F(T)$.
+The resulting classifier equality is exactly
+$\iota_F(\iota_F(T))\equiv_{\mathrm{aff}}T$.
+\end{proof}
+
+Per-object template: traditional target affine inverse antihomomorphism; BEDC
+source concrete $\FieldUp(\RatUp)$ exit rows plus $\mathsf{AffAut}_F$; carrier
+certified affine automorphisms; classifier $\equiv_{\mathrm{aff}}$; stability
+obligations concrete composition, inverse uniqueness, and reverse-composite
+inverse coherence; ledger factor witnesses, product witnesses, inverse
+witnesses, and offsets; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:field-affine-composite-inverse-reverse-coherence}, and
+\autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit}; exactness
+predicate inverse antihomomorphism plus double-inverse law; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\paragraph{Capstone.}
+
+\begin{theorem}[RatUp FieldUp affine conjugation equation exactness]
+\label{thm:ratup-fieldup-affine-conjugation-equation-exactness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,X,B:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\iota_F(A)$ be the explicit inverse
+supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and define
+the affine inner action by
+$$
+\mathsf{Conj}_A(X):=(A\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(A).
+$$
+Then affine conjugation classifies the middle affine automorphism exactly:
+$$
+\mathsf{Conj}_A(X)\equiv_{\mathrm{aff}}B
+\Longleftrightarrow
+X\equiv_{\mathrm{aff}}(\iota_F(A)\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}A.
+$$
+The inverse affine inner action also cancels on both sides:
+$$
+\mathsf{Conj}_{\iota_F(A)}(\mathsf{Conj}_A(X))\equiv_{\mathrm{aff}}X.
+$$
+$$
+\mathsf{Conj}_A(\mathsf{Conj}_{\iota_F(A)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete affine action package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the collected-coefficient composite
+$\circ_{\mathrm{aff}}$, the explicit inverse row $\iota_F(-)$, and the
+classifier $\equiv_{\mathrm{aff}}$.
+
+Instantiate \autoref{thm:field-affine-automorphism-group-certificate} on this
+package. The identity, associativity, inverse laws, and classifier congruence
+fields make $\mathsf{AffAut}_F$ a concrete $\GroupUp$ object for the displayed
+affine operation.
+
+Apply \autoref{thm:group-conjugation-equation-exactness} inside that
+$\GroupUp$ object with group element $A$, middle element $X$, and target $B$.
+Under the fixed action notation, the resulting group classifier statement is
+exactly
+$$
+\mathsf{Conj}_A(X)\equiv_{\mathrm{aff}}B
+\Longleftrightarrow
+X\equiv_{\mathrm{aff}}(\iota_F(A)\circ_{\mathrm{aff}}B)\circ_{\mathrm{aff}}A.
+$$
+
+For the first cancellation clause, expand
+$\mathsf{Conj}_{\iota_F(A)}(\mathsf{Conj}_A(X))$. Associativity rewrites it as
+left multiplication by $\iota_F(A)$, then by $A$, followed by the displayed
+right inverse of $\iota_F(A)$. Use
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to normalize
+$\iota_F(\iota_F(A))$ to $A$, and then collapse the adjacent inverse pairs by
+the affine group certificate.
+
+For the second cancellation clause, expand
+$\mathsf{Conj}_A(\mathsf{Conj}_{\iota_F(A)}(X))$. The same associativity and
+inverse-law fields reduce the middle product after
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} identifies the double
+inverse of $A$ with $A$. The remaining term is classifier-equal to $X$.
+\end{proof}
+
+Per-object template: traditional target affine inner automorphism exactness;
+BEDC source $\mathsf{RatUpFieldSource}_F$ plus $\mathsf{AffAut}_F$; carrier
+certified affine automorphism histories; classifier $\equiv_{\mathrm{aff}}$;
+stability obligations affine group laws, conjugation exactness, inverse
+antihomomorphism, and double inverse; ledger affine coefficients and inverse
+witnesses; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:field-affine-automorphism-group-certificate},
+\autoref{thm:group-conjugation-equation-exactness}, and
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}; exactness predicate
+affine conjugation equation exactness; standard bridge ordinary inner
+automorphism equation exactness; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine conjugation exactness]
+\label{thm:ratup-fieldup-affine-conjugation-exactness}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,S,T:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine composite, let $\iota_F(-)$ be the explicit inverse witness, and let
+$\equiv_{\mathrm{aff}}$ be the affine classifier supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. Define
+$$
+\mathrm{Conj}_A(S)=A\circ_{\mathrm{aff}}S\circ_{\mathrm{aff}}\iota_F(A).
+$$
+Then conjugation by $A$ is classifier-exact:
+$$
+\mathrm{Conj}_A(S)\equiv_{\mathrm{aff}}\mathrm{Conj}_A(T)
+\Longleftrightarrow S\equiv_{\mathrm{aff}}T.
+$$
+Its inverse conjugation action is conjugation by the explicit inverse:
+$$
+\mathrm{Conj}_{\iota_F(A)}(\mathrm{Conj}_A(S))
+\equiv_{\mathrm{aff}}S
+\quad\text{and}\quad
+\mathrm{Conj}_A(\mathrm{Conj}_{\iota_F(A)}(S))
+\equiv_{\mathrm{aff}}S.
+$$
+\end{theorem}
+\begin{proof}
+First fix the concrete affine group package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This supplies
+the carrier $\mathsf{AffAut}_F$, the operation $\circ_{\mathrm{aff}}$, the
+classifier $\equiv_{\mathrm{aff}}$, and the explicit inverse row inside the
+concrete $\FieldUp(\RatUp)$ exit object.
+
+Apply \autoref{thm:group-conjugation-equation-exactness} to this affine group
+package with $a=A$ and with the equation target specialized to
+$\mathrm{Conj}_A(T)$. The group theorem gives the middle-factor equation
+equivalent to the displayed conjugation equation. Use the two cancellation
+clauses and operation congruence in
+\autoref{thm:field-affine-automorphism-cancellation-exactness} to identify that
+middle-factor equation with $S\equiv_{\mathrm{aff}}T$.
+
+For the inverse-action clause, expand
+$\mathrm{Conj}_{\iota_F(A)}(\mathrm{Conj}_A(S))$ and
+$\mathrm{Conj}_A(\mathrm{Conj}_{\iota_F(A)}(S))$. The reverse-composite inverse
+law and double-inverse clause of
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} identify the conjugating
+factors as mutual inverse witnesses. The remaining outer factors cancel by
+\autoref{thm:field-affine-automorphism-cancellation-exactness}, leaving exactly
+$S$ under $\equiv_{\mathrm{aff}}$ in both composites.
+\end{proof}
+
+Per-object template: traditional target inner automorphism of the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\GroupUp$; carrier $\mathsf{AffAut}_F$; classifier $\equiv_{\mathrm{aff}}$;
+ledger conjugation factors and inverse witnesses; exactness predicate
+classifier-exact conjugation; standard bridge ordinary inner automorphism;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine conjugation equation exactness exit]
+\label{thm:ratup-fieldup-affine-conjugation-equation-exactness-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,S,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\circ_{\mathrm{aff}}$ be the concrete
+affine composite, let $\iota_F(T)$ be the explicit inverse of $T$, and let
+$\equiv_{\mathrm{aff}}$ be the affine classifier supplied by
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate} for the
+same fixed action. Then conjugation by $T$ classifies the middle affine
+automorphism exactly:
+$$
+((T\circ_{\mathrm{aff}}S)\circ_{\mathrm{aff}}\iota_F(T))\equiv_{\mathrm{aff}}V
+\Longleftrightarrow
+S\equiv_{\mathrm{aff}}((\iota_F(T)\circ_{\mathrm{aff}}V)\circ_{\mathrm{aff}}T).
+$$
+\end{theorem}
+\begin{proof}
+First fix the concrete exit action by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This pins
+down the affine carrier $\mathsf{AffAut}_F$, the concrete composite
+$\circ_{\mathrm{aff}}$, the explicit inverse row $\iota_F(-)$, and the
+classifier $\equiv_{\mathrm{aff}}$ inside
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+Read the same carrier, composite, inverse, and classifier through
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}. The action
+certificate supplies the associativity, identity, inverse, and operation
+congruence rows needed to regard these data as the concrete affine group
+package.
+
+Instantiate \autoref{thm:group-conjugation-equation-exactness} in that fixed
+group package with $a=T$, $x=S$, and $b=V$. The resulting classifier statement
+is the displayed equivalence after replacing the package multiplication,
+inverse, and classifier symbols by $\circ_{\mathrm{aff}}$, $\iota_F(-)$, and
+$\equiv_{\mathrm{aff}}$.
+
+The forward direction carries an affine equation for
+$(T\circ_{\mathrm{aff}}S)\circ_{\mathrm{aff}}\iota_F(T)$ to the recovered middle
+factor $S$. The reverse direction transports the recovered middle factor back
+through left composition by $T$ and right composition by $\iota_F(T)$, using the
+same concrete inverse witnesses and classifier congruence.
+\end{proof}
+
+Per-object template: traditional target affine conjugation equation solving;
+BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus $\mathsf{GroupUp}$
+conjugation exactness; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations associativity, identity, inverse,
+and operation congruence of the fixed action; ledger conjugating automorphism
+and inverse witness provenance; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}, and
+\autoref{thm:group-conjugation-equation-exactness}; exactness predicate the
+displayed iff; standard bridge ordinary affine conjugacy equations; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inner conjugation exit]
+\label{thm:ratup-fieldup-affine-inner-conjugation-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,V,W:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\iota_F(-)$ be the explicit inverse from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and define
+$$
+\mathrm{Inn}_T(V)=T\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then inner conjugation by $T$ is a concrete affine action theorem for the
+canonical exit object:
+\begin{enumerate}
+\item $\mathrm{Inn}_T(V)$ is a certified affine automorphism.
+\item If $V\equiv_{\mathrm{aff}}W$, then
+$\mathrm{Inn}_T(V)\equiv_{\mathrm{aff}}\mathrm{Inn}_T(W)$.
+\item $\mathrm{Inn}_T(\mathrm{id}_F)\equiv_{\mathrm{aff}}\mathrm{id}_F$.
+\item
+$\mathrm{Inn}_T(V\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(V)\circ_{\mathrm{aff}}\mathrm{Inn}_T(W)$.
+\item
+$\iota_F(\mathrm{Inn}_T(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(\iota_F(V))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the concrete exit package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the product $\circ_{\mathrm{aff}}$, the identity
+$\mathrm{id}_F$, the inverse row $\iota_F(-)$, and the classifier
+$\equiv_{\mathrm{aff}}$ over
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+Certification of $\mathrm{Inn}_T(V)$ is closure under the two displayed affine
+products. Apply \autoref{thm:field-affine-automorphism-group-laws} to compose
+$T$ with $V$, then compose the result with $\iota_F(T)$ supplied by the
+canonical inverse row.
+
+Classifier respect follows by transporting $V\equiv_{\mathrm{aff}}W$ through
+the fixed left factor $T$ and the fixed right factor $\iota_F(T)$. This is the
+operation congruence field of
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}, with the
+same classifier chosen by the canonical exit package.
+
+For the identity clause, use
+\autoref{thm:field-affine-automorphism-composition-associative} to reassociate
+$T\circ_{\mathrm{aff}}\mathrm{id}_F\circ_{\mathrm{aff}}\iota_F(T)$. The unit
+and inverse laws from
+\autoref{thm:field-affine-automorphism-group-laws} then identify the middle
+product with $T\circ_{\mathrm{aff}}\iota_F(T)$ and hence with
+$\mathrm{id}_F$ under $\equiv_{\mathrm{aff}}$.
+
+For products, reassociate
+$T\circ_{\mathrm{aff}}(V\circ_{\mathrm{aff}}W)\circ_{\mathrm{aff}}\iota_F(T)$
+so that the inverse-product pair
+$\iota_F(T)\circ_{\mathrm{aff}}T$ occurs between the transported $V$ and $W$
+terms. The group inverse law collapses that pair to $\mathrm{id}_F$, and
+associativity returns the classifier equality
+$$
+\mathrm{Inn}_T(V\circ_{\mathrm{aff}}W)\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(V)\circ_{\mathrm{aff}}\mathrm{Inn}_T(W).
+$$
+
+For inverse preservation, apply
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to the two products in
+$T\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(T)$. The reverse-order
+inverse is
+$\iota_F(\iota_F(T))\circ_{\mathrm{aff}}\iota_F(V)\circ_{\mathrm{aff}}\iota_F(T)$.
+The double-inverse clause of that theorem identifies $\iota_F(\iota_F(T))$
+with $T$, and operation congruence transports the comparison to
+$$
+\iota_F(\mathrm{Inn}_T(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(\iota_F(V)).
+$$
+\end{proof}
+
+Per-object template: traditional target inner automorphism action; BEDC source
+concrete $\FieldUp(\RatUp)$ exit object plus $\mathsf{AffAut}_F$; carrier
+certified affine automorphisms; classifier $\equiv_{\mathrm{aff}}$; stability
+obligations composition closure, classifier congruence, unit, product, and
+inverse preservation; ledger affine coefficients, product witnesses, inverse
+witnesses, and conjugating element; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:field-affine-automorphism-group-laws},
+\autoref{thm:field-affine-automorphism-composition-associative},
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}, and
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}; exactness predicate
+inner-conjugation action laws; standard bridge ordinary inner automorphisms;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine inner action composition exit]
+\label{thm:ratup-fieldup-affine-inner-action-composition-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U,V:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. For a certified affine automorphism $S$, define
+$$
+\mathrm{Inn}_S(V)=S\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(S),
+$$
+where $\iota_F(-)$ is the explicit inverse operation supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. Then the
+inner affine transformations obey the identity and composition laws in the
+conjugating parameter:
+$$
+\mathrm{Inn}_{\mathrm{id}_F}(V)\equiv_{\mathrm{aff}}V.
+$$
+$$
+\mathrm{Inn}_T(\mathrm{Inn}_U(V))\equiv_{\mathrm{aff}}
+\mathrm{Inn}_{T\circ_{\mathrm{aff}}U}(V).
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete affine package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the identity $\mathrm{id}_F$, the concrete product
+$\circ_{\mathrm{aff}}$, the inverse operation $\iota_F(-)$, and the classifier
+$\equiv_{\mathrm{aff}}$.
+
+For the identity parameter, expand
+$\mathrm{Inn}_{\mathrm{id}_F}(V)$ as
+$\mathrm{id}_F\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}\iota_F(\mathrm{id}_F)$.
+The unit rows and inverse rows of the fixed package identify
+$\iota_F(\mathrm{id}_F)$ with $\mathrm{id}_F$, and associativity from
+\autoref{thm:field-affine-automorphism-composition-associative} removes the two
+unit factors. The classifier conclusion is
+$\mathrm{Inn}_{\mathrm{id}_F}(V)\equiv_{\mathrm{aff}}V$.
+
+For composition of conjugating parameters, first use
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} to certify the inner
+term $\mathrm{Inn}_U(V)$ and to transport classifier equalities through the
+outer conjugation by $T$.
+
+After expansion, associativity rewrites the left side to the common affine
+word
+$$
+T\circ_{\mathrm{aff}}U\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}
+\iota_F(U)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+
+Apply
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} to
+$T\circ_{\mathrm{aff}}U$. It identifies
+$\iota_F(T\circ_{\mathrm{aff}}U)$ with
+$\iota_F(U)\circ_{\mathrm{aff}}\iota_F(T)$ under the same classifier. Operation
+congruence and classifier transitivity in the fixed package replace the final
+two inverse factors by $\iota_F(T\circ_{\mathrm{aff}}U)$.
+
+A final use of
+\autoref{thm:field-affine-automorphism-composition-associative} repacks the
+word as
+$(T\circ_{\mathrm{aff}}U)\circ_{\mathrm{aff}}V\circ_{\mathrm{aff}}
+\iota_F(T\circ_{\mathrm{aff}}U)$, which is
+$\mathrm{Inn}_{T\circ_{\mathrm{aff}}U}(V)$.
+\end{proof}
+
+Per-object template: traditional target inner action of the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations identity action, composition
+action, inverse antihomomorphism, associativity, and classifier congruence;
+ledger conjugating factors, product witnesses, and inverse witnesses; core
+theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit},
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit}, and
+\autoref{thm:field-affine-automorphism-composition-associative}; exactness
+predicate concrete inner-action law; standard bridge ordinary conjugation
+action; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[RatUp FieldUp affine center predicate]
+\label{def:ratup-fieldup-affine-center}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$Z:\mathsf{AffAut}_F$ be a certified affine automorphism in the concrete
+$\FieldUp(\RatUp)$ exit object. The concrete affine center predicate is
+$$
+\mathsf{Center}_F(Z)
+:\Longleftrightarrow
+\forall T:\mathsf{AffAut}_F,\ 
+Z\circ_{\mathrm{aff}}T\equiv_{\mathrm{aff}}T\circ_{\mathrm{aff}}Z.
+$$
+Here $\circ_{\mathrm{aff}}$ and $\equiv_{\mathrm{aff}}$ are the concrete affine
+composition and classifier supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine center fixed-point criterion]
+\label{thm:ratup-fieldup-affine-center-fixed-point-criterion}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$Z:\mathsf{AffAut}_F$ be a certified affine automorphism in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\mathrm{Inn}_T$ be the inner affine action
+from \autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}. Then
+$$
+\mathsf{Center}_F(Z)
+\Longleftrightarrow
+\forall T:\mathsf{AffAut}_F,\ \mathrm{Inn}_T(Z)\equiv_{\mathrm{aff}}Z.
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete exit action package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, the inverse row
+$\iota_F(-)$, and the classifier $\equiv_{\mathrm{aff}}$.
+
+For the forward direction, assume $\mathsf{Center}_F(Z)$ and fix
+$T:\mathsf{AffAut}_F$. The center equation rewrites
+$T\circ_{\mathrm{aff}}Z$ as $Z\circ_{\mathrm{aff}}T$ under
+$\equiv_{\mathrm{aff}}$. Substitute this into
+$\mathrm{Inn}_T(Z)=(T\circ_{\mathrm{aff}}Z)\circ_{\mathrm{aff}}\iota_F(T)$,
+reassociate by
+\autoref{thm:field-affine-automorphism-composition-associative}, and cancel the
+trailing product $T\circ_{\mathrm{aff}}\iota_F(T)$ by the inverse law in
+\autoref{thm:field-affine-automorphism-group-laws}. The right identity row
+then identifies the result with $Z$.
+
+For the reverse direction, assume
+$\forall T:\mathsf{AffAut}_F,\ \mathrm{Inn}_T(Z)\equiv_{\mathrm{aff}}Z$ and
+fix $T$. Apply the hypothesis to $T$, right-compose the displayed classifier
+equation by $T$, and use classifier congruence from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}. After
+reassociation, the product $\iota_F(T)\circ_{\mathrm{aff}}T$ collapses by the
+inverse law, so the transported equation gives
+$T\circ_{\mathrm{aff}}Z\equiv_{\mathrm{aff}}Z\circ_{\mathrm{aff}}T$. Symmetry
+of the classifier presents it in the order required by
+$\mathsf{Center}_F(Z)$.
+\end{proof}
+
+Per-object template: traditional target center of the affine automorphism
+group; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations inner action exactness, affine
+associativity, inverse laws, and classifier congruence; ledger conjugating
+element and inverse witness provenance; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:group-conjugation-equation-exactness}; exactness predicate center
+iff fixed by all inner conjugations; standard bridge ordinary group-center
+criterion; status $\mathsf{ProofTarget}$.
+

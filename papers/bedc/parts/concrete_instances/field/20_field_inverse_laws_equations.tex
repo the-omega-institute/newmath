@@ -1,0 +1,312 @@
+\begin{theorem}[Field right-multiplication empty equation solutions are unique from apartness]
+\label{thm:field-right-mul-empty-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_b:\mathsf{NonZero}_F(b)$ and both $x$ and $y$ solve the empty endpoint
+right-multiplication equation
+$$
+x b\hsame \emp
+\qquad\text{and}\qquad
+y b\hsame \emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations at
+the concrete endpoint $\emp$. Both solutions are classified with the same
+normal form $\emp\,\mathsf{inv}(b,p_b)$. Symmetry on the second classification
+and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field right-multiplication empty-context equation solutions are unique from apartness]
+\label{thm:field-right-mul-empty-context-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_b:\mathsf{NonZero}_F(b)$ and both $x$ and $y$ solve the same right
+multiplication equation at the endpoint $\mathsf{append}(\emp,c)$,
+$$
+x b\hsame \mathsf{append}(\emp,c)
+\qquad\text{and}\qquad
+y b\hsame \mathsf{append}(\emp,c),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations at
+the concrete endpoint $\mathsf{append}(\emp,c)$. Both solutions are classified
+with the same normal form
+$\mathsf{append}(\emp,c)\,\mathsf{inv}(b,p_b)$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_empty\_context\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field multiplication by an indexed left inverse cancels]
+\label{thm:field-mul-inverse-left-cancel-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+any witness $p_a:\mathsf{NonZero}_F(a)$ determines
+$$
+\mathsf{inv}(a,p_a)(a b)\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $\mathsf{inv}(a,p_a)(a b)$ to
+$(\mathsf{inv}(a,p_a)a)b$. The apartness-indexed left inverse law collapses
+the head to the unit, and the left identity law leaves $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_mul\_inverse\_left\_cancel\_from\_apartness}
+
+\begin{theorem}[Field left-multiplication equation solution from apartness]
+\label{thm:field-left-mul-equation-solution-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+any witness $p_a:\mathsf{NonZero}_F(a)$ makes $a x\hsame c$ imply
+$x\hsame \mathsf{inv}(a,p_a)c$.
+\end{theorem}
+\begin{proof}
+First use Theorem~\ref{thm:field-mul-inverse-left-cancel-from-apartness}
+to identify $x$ with $\mathsf{inv}(a,p_a)(a x)$.
+
+Then transport the supplied equality $a x\hsame c$ through left multiplication
+by $\mathsf{inv}(a,p_a)$, yielding
+$\mathsf{inv}(a,p_a)(a x)\hsame \mathsf{inv}(a,p_a)c$.
+\end{proof}
+
+\begin{theorem}[Field left-multiplication equation exactness from apartness]
+\label{thm:field-left-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+any witness $p_a:\mathsf{NonZero}_F(a)$ makes the left-multiplication
+equation and its displayed solution equivalent:
+$$
+a x\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)c.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-left-mul-equation-solution-from-apartness}. This is
+the one-way solver from the equation $a x\hsame c$ to the proof-indexed
+solution $x\hsame \mathsf{inv}(a,p_a)c$.
+
+For the reverse direction, transport the assumed solution through left
+multiplication by $a$. The transported right side is
+$a(\mathsf{inv}(a,p_a)c)$.
+
+Reassociate the factors as $(a\mathsf{inv}(a,p_a))c$. The indexed right
+inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the left
+identity law leaves $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field left-multiplication empty equation solutions are unique from apartness]
+\label{thm:field-left-mul-empty-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and both $x$ and $y$ solve the empty endpoint
+left-multiplication equation
+$$
+a x\hsame \emp
+\qquad\text{and}\qquad
+a y\hsame \emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Cancel the common certified left factor in both displayed equations. The
+left-inverse cancellation theorem classifies both solutions with the same
+normal form $\mathsf{inv}(a,p_a)\emp$. Symmetry on the second classification
+and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field left-multiplication empty-context equation solutions are unique from apartness]
+\label{thm:field-left-mul-empty-context-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and both $x$ and $y$ solve the same left
+multiplication equation at the endpoint $\mathsf{append}(\emp,c)$,
+$$
+a x\hsame \mathsf{append}(\emp,c)
+\qquad\text{and}\qquad
+a y\hsame \mathsf{append}(\emp,c),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the left-multiplication exactness theorem to both displayed equations at
+the concrete endpoint $\mathsf{append}(\emp,c)$. Both solutions are classified
+with the same normal form
+$\mathsf{inv}(a,p_a)\,\mathsf{append}(\emp,c)$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_empty\_context\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field middle multiplication equation solution from apartness]
+\label{thm:field-middle-mul-equation-solution-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ make
+$$
+(a x)b\hsame c
+$$
+imply
+$$
+x\hsame \mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+First solve the right factor equation using the indexed right inverse of $b$,
+obtaining $a x\hsame c\mathsf{inv}(b,p_b)$. Then cancel the left factor
+with the indexed left inverse of $a$, transporting the right-factor solution
+through left multiplication by $\mathsf{inv}(a,p_a)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness}
+
+\begin{theorem}[Field middle multiplication equation exactness from apartness]
+\label{thm:field-middle-mul-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
+explicit witnesses $p_a:\mathsf{NonZero}_F(a)$ and
+$p_b:\mathsf{NonZero}_F(b)$ make the middle equation and its displayed
+solution equivalent:
+$$
+(a x)b\hsame c
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:field-middle-mul-equation-solution-from-apartness}. It is
+exactly the one-way solver from the middle equation to the proof-indexed
+displayed solution.
+
+For the reverse direction, transport the assumed solution through the
+congruence of left multiplication by $a$ and right multiplication by $b$.
+The resulting term is
+$\bigl(a(\mathsf{inv}(a,p_a)(c\mathsf{inv}(b,p_b)))\bigr)b$.
+
+Reassociate the factors so that $a\mathsf{inv}(a,p_a)$ is exposed at the
+left and $\mathsf{inv}(b,p_b)b$ is exposed at the right. The indexed right
+inverse law collapses $a\mathsf{inv}(a,p_a)$ to the unit, and the indexed
+left inverse law collapses $\mathsf{inv}(b,p_b)b$ to the unit. The left and
+right identity laws then leave $c$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_exact\_from\_apartness}
+\leanvariant{BEDC.Derived.FieldUp.field\_middle\_mul\_equation\_solution\_from\_apartness\_iff}
+
+\begin{theorem}[Field conjugation equation exactness from apartness]
+\label{thm:field-conjugation-equation-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and the unit is apart from $\emp$, then conjugating
+by $a$ gives the exact equation
+$$
+(a x)\mathsf{inv}(a,p_a)\hsame b
+\Longleftrightarrow
+x\hsame \mathsf{inv}(a,p_a)(b a).
+$$
+\end{theorem}
+\begin{proof}
+First derive that $\mathsf{inv}(a,p_a)$ is nonzero from apartness of the unit
+and the left inverse law. Apply middle multiplication exactness with right
+factor $\mathsf{inv}(a,p_a)$. The displayed right side contains the double
+inverse of $a$; inverse uniqueness identifies this double inverse with $a$,
+and multiplication congruence transports the solution term.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_conjugation\_equation\_exact\_from\_apartness}
+
+\begin{theorem}[Field apart-empty conjugation equation exactness]
+\label{thm:field-apart-empty-conjugation-equation-exact}
+For a BEDC history-level $\FieldUp$ candidate whose proof-indexed inverse is
+indexed by apartness from $\emp$, any witness
+$p_a:\hsame(a,\emp)\to\mathsf{False}$ makes conjugation by $a$ classify the
+middle factor exactly:
+$$
+\hsame((a x)\mathsf{inv}(a,p_a),b)
+\Longleftrightarrow
+\hsame(x,(\mathsf{inv}(a,p_a)b)a).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the conjugation equation on the right by
+$a$. Associativity exposes $\mathsf{inv}(a,p_a)a$, the left inverse law
+collapses it to the unit, and the right identity law leaves $a x\hsame b a$.
+Then apply left-multiplication exactness and reassociate the target to
+$(\mathsf{inv}(a,p_a)b)a$.
+
+For the reverse direction, transport the assumed middle-factor equation by
+left multiplication with $a$. Reassociation exposes
+$a\mathsf{inv}(a,p_a)$, the right inverse law collapses it to the unit, and
+the left identity law gives $a x\hsame b a$. Multiplying on the right by
+$\mathsf{inv}(a,p_a)$ and collapsing
+$a\mathsf{inv}(a,p_a)$ gives the original conjugation equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_empty\_conjugation\_equation\_exact}
+
+\begin{theorem}[Field apart-empty inverse conjugation equation exactness]
+\label{thm:field-apart-empty-inverse-conjugation-equation-exact}
+For the same $\FieldUp$ data and apart-empty witness
+$p_a:\hsame(a,\emp)\to\mathsf{False}$, inverse conjugation by
+$\mathsf{inv}(a,p_a)$ also classifies the middle factor exactly:
+$$
+\hsame((\mathsf{inv}(a,p_a)x)a,b)
+\Longleftrightarrow
+\hsame(x,(a b)\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the inverse-conjugation equation on the
+right by $\mathsf{inv}(a,p_a)$. Reassociation exposes
+$a\mathsf{inv}(a,p_a)$, the right inverse law collapses it to the unit, and
+the right identity law leaves
+$\mathsf{inv}(a,p_a)x\hsame b\mathsf{inv}(a,p_a)$. Transporting by left
+multiplication with $a$ collapses $a\mathsf{inv}(a,p_a)$ and reassociates the
+right side to $(a b)\mathsf{inv}(a,p_a)$.
+
+For the reverse direction, transport the displayed middle equation by left
+multiplication with $\mathsf{inv}(a,p_a)$. Reassociation exposes
+$\mathsf{inv}(a,p_a)a$, the left inverse law collapses it to the unit, and
+left identity gives
+$\mathsf{inv}(a,p_a)x\hsame b\mathsf{inv}(a,p_a)$. Multiplying on the right by
+$a$ and collapsing $\mathsf{inv}(a,p_a)a$ gives the inverse-conjugation
+equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_empty\_inverse\_conjugation\_equation\_exact}
+
+\begin{theorem}[Field middle multiplication empty equation solutions are unique from apartness]
+\label{thm:field-middle-mul-empty-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ and both $x$ and
+$y$ solve the empty endpoint middle multiplication equation
+$$
+(a x)b\hsame \emp
+\qquad\text{and}\qquad
+(a y)b\hsame \emp,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the middle multiplication solution theorem to both displayed equations at
+the concrete endpoint $\emp$. Both solutions are classified with
+$\mathsf{inv}(a,p_a)(\emp\,\mathsf{inv}(b,p_b))$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_middle\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field two-sided empty-context product solution uniqueness]
+\label{thm:field-two-sided-empty-context-product-solution-unique}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ and both $x$ and
+$y$ solve the same two-sided product equation at the concrete empty-context
+target
+$$
+(a x)b\hsame \mathsf{append}(\emp,c)
+\qquad\text{and}\qquad
+(a y)b\hsame \mathsf{append}(\emp,c),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the middle multiplication solution theorem to both displayed equations at
+the concrete endpoint $\mathsf{append}(\emp,c)$. Both solutions are classified
+with the same normal form
+$\mathsf{inv}(a,p_a)(\mathsf{append}(\emp,c)\mathsf{inv}(b,p_b))$.
+Symmetry on the second classification and transitivity of $\hsame$ identify
+$x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_two\_sided\_empty\_context\_product\_solution\_unique\_from\_apartness}

@@ -1,5 +1,7 @@
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.NatTransUp
 
@@ -378,6 +380,32 @@ theorem NatTransPrefixComponentCarrier_tail_comm_hsame
   intro left right etathetaRel thetaetaRel
   exact CategoryHomCarrier_tail_comm_hsame left.2.2.2 right.2.2.2 etathetaRel thetaetaRel
 
+theorem NatTransPrefixComponentCarrier_vert_triangle_cycle_empty_components
+    {p q r a eta theta iota : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        NatTransPrefixComponentCarrier r p a iota ->
+          NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+            NatTransPrefixComponentCarrier q r a BHist.Empty ∧
+              NatTransPrefixComponentCarrier r p a BHist.Empty ∧ hsame p q ∧ hsame q r := by
+  intro left right back
+  have cycle :=
+    CategoryHomCarrier_triangle_cycle_empty_hom_exactness
+      left.right.right.right right.right.right.right back.right.right.right
+  exact
+    And.intro
+      (And.intro left.left
+        (And.intro left.right.left (And.intro left.right.right.left cycle.left)))
+      (And.intro
+        (And.intro right.left
+          (And.intro right.right.left (And.intro right.right.right.left cycle.right.left)))
+        (And.intro
+          (And.intro back.left
+            (And.intro back.right.left (And.intro back.right.right.left cycle.right.right.left)))
+          (And.intro
+            (append_right_cancel (k := a) cycle.right.right.right.left)
+            (append_right_cancel (k := a) cycle.right.right.right.right))))
+
 theorem NatTransPrefixIdentity_identity_component_square_closed {p a id left right : BHist} :
     UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->
       Cont id BHist.Empty left -> Cont BHist.Empty id right ->
@@ -541,5 +569,28 @@ theorem NatTransPrefixComponentCarrier_zero_headed_component_absurd {p q a eta :
               | intro z morphEq =>
                   cases morphEq
                   exact unary_no_zero_extension component.right.right.right.right.right.left
+
+theorem NatTransPrefixComponentCarrier_e1_prefix_empty_vert_comp_iff {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier (BHist.e1 p) q a eta ->
+      NatTransPrefixComponentCarrier q (BHist.e1 r) a theta ->
+        (Cont eta theta BHist.Empty <->
+          hsame eta BHist.Empty ∧ hsame theta BHist.Empty ∧ hsame p r) := by
+  intro left right
+  constructor
+  · intro comp
+    have emptyData :=
+      (CategoryHomCarrier_empty_composite_iff
+        left.right.right.right right.right.right.right).mp comp
+    have sameComponentEndpoints :
+        hsame (append (BHist.e1 p) a) (append (BHist.e1 r) a) :=
+      hsame_trans emptyData.right.right.left emptyData.right.right.right
+    have samePrefixEndpoints : hsame (BHist.e1 p) (BHist.e1 r) :=
+      append_right_cancel (k := a) sameComponentEndpoints
+    exact And.intro emptyData.left
+      (And.intro emptyData.right.left (hsame_e1_iff.mp samePrefixEndpoints))
+  · intro emptyData
+    cases emptyData.left
+    cases emptyData.right.left
+    rfl
 
 end BEDC.Derived.NatTransUp

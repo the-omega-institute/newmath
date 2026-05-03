@@ -1,0 +1,47 @@
+\section{The certificate}
+
+\begin{definition}[Functor source specification]
+\label{def:functor-source-specification}
+The source is a pair of certified categories.
+\end{definition}
+
+\begin{definition}[Functor pattern specification]
+\label{def:functor-pattern-specification}
+The pattern is structure-preserving mapping formation over object and morphism carriers.
+\end{definition}
+
+\begin{definition}[Functor classifier specification]
+\label{def:functor-classifier-specification}
+The classifier relates functors pointwise on object images and morphism images using the codomain category classifiers.
+\end{definition}
+
+\begin{definition}[Functor stability certificate]
+\label{def:functor-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise object-map classifier reflexivity
+  \item pointwise morphism-map classifier reflexivity
+  \item pointwise transitivity
+  \item identity preservation
+  \item composition preservation
+  \item stability under source and target classifier replacement
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Functor ledger policy]
+\label{def:functor-ledger-policy}
+Record the two category ledgers and the preservation witnesses.
+\end{definition}
+
+\begin{definition}[\(\FunctorUp\) certificate obligations]
+\label{def:functor-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FunctorUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:functor-zero-axiom-note}
+Avoids funext by pointwise classifier sameness for object and morphism mappings.
+\end{remark}

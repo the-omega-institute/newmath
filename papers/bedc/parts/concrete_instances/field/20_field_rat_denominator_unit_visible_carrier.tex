@@ -1,3 +1,89 @@
+\begin{theorem}[Rat denominator unit carrier zero-headed absurd]
+\label{thm:rat-denom-unit-carrier-e0-absurd}
+For every tail $t:\mathsf{BHist}$, the empty-unit denominator carrier cannot
+hold on a zero-headed history:
+$$
+\mathsf{RatDenomUnitCarrier}(\Ezero(t))\Longrightarrow \bot.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_e0\_absurd}
+\begin{proof}
+Unfold the empty-unit denominator carrier. Its empty-endpoint branch would make
+$\Ezero(t)$ equal to $\emp$, contradicting constructor disjointness. Its Rat
+branch is impossible because the Rat denominator carrier has no zero-headed
+inhabitant.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit classifier empty endpoint iff]
+\label{thm:rat-denom-unit-classifier-empty-endpoint-iff}
+For every history $h:\mathsf{BHist}$, the empty-unit denominator classifier
+against the empty endpoint records exactly the displayed empty endpoint
+comparison, on either side:
+$$
+\mathsf{RatDenomUnitClassifier}(\emp,h)\Longleftrightarrow h\hsame\emp,
+\qquad
+\mathsf{RatDenomUnitClassifier}(h,\emp)\Longleftrightarrow h\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the classifier into its two carrier fields and its endpoint sameness
+field. In the forward directions, the endpoint field gives the desired
+comparison, using symmetry for the left endpoint placement. In the reverse
+directions, the displayed empty comparison supplies the nonempty endpoint
+carrier by the empty branch, while the empty endpoint itself uses reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_empty\_endpoint\_iff}
+
+\begin{theorem}[Rat denominator unit carrier append zero-headed absurd]
+\label{thm:rat-denom-unit-carrier-append-e0-absurd}
+For histories $h,k,tail:\mathsf{BHist}$, two empty-unit denominator carrier
+witnesses cannot have a product classified with a zero-headed endpoint:
+$$
+\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{append}(h,k)\hsame\Ezero(tail)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Closure of $\mathsf{RatDenomUnitCarrier}$ under continuation gives a carrier
+witness for $\mathsf{append}(h,k)$. Transport this carrier witness along the
+displayed endpoint sameness to obtain
+$\mathsf{RatDenomUnitCarrier}(\Ezero(tail))$, contradicting the zero-headed
+absurdity theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_e0\_absurd}
+
+\begin{theorem}[Rat denominator unit carrier append one-headed result cases]
+\label{thm:rat-denom-unit-carrier-append-e1-result-cases}
+For histories \(h,k,tail:\mathsf{BHist}\), if \(h\) and \(k\) are carried by
+the empty-unit denominator carrier and their append is one-headed, then either
+the right factor is empty and the left factor accounts for the one-headed
+result, or the right factor itself is one-headed with a unary exposed tail:
+$$
+\begin{aligned}
+&\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{append}(h,k)\hsame\Eone(tail)\\
+&\quad\to
+\left(k\hsame\emp\land
+  \mathsf{RatDenomUnitCarrier}(\Eone(tail))\land h\hsame\Eone(tail)\right)\\
+&\qquad{}\lor
+\exists k_0:\mathsf{BHist}.\;
+  k=\Eone(k_0)\land\mathsf{UnaryHistory}(k_0)\land
+  \mathsf{RatDenomUnitCarrier}(tail)\land\Cont(h,k_0,tail).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Read the append comparison as a continuation into a one-headed result and
+apply the continuation one-headed-result inversion. The empty-right branch
+closes the displayed one-headed carrier by denominator-unit continuation
+closure. In the headed-right branch, the carrier on \(k=\Eone(k_0)\) gives a
+unary witness for \(k_0\); visible carrier cases make \(k_0\) carried, and
+continuation closure then carries the exposed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_e1\_result\_cases}
+
 \begin{theorem}[Rat denominator unit carrier one-headed unary iff]
 \label{thm:field-rat-denom-unit-carrier-one-headed-unary-iff}
 For every tail $t:\mathsf{BHist}$, the empty-unit denominator carrier sees a
@@ -15,3 +101,50 @@ $\Eone(t)\hsame\emp$, contradicting constructor disjointness. The remaining
 branch is $\mathsf{RatHistoryCarrier}(\Eone(t))$, which is equivalent to
 $\mathsf{UnaryHistory}(t)$ by the one-headed Rat carrier characterization.
 \end{proof}
+
+\begin{theorem}[Rat denominator unit classifier one-headed tail iff]
+\label{thm:rat-denom-unit-classifier-e1-tail-iff}
+For histories $d,e:\mathsf{BHist}$, the empty-unit denominator classifier on
+two one-headed histories is exactly the pair of unary tail witnesses together
+with tail sameness:
+$$
+\mathsf{RatDenomUnitClassifier}(\Eone(d),\Eone(e))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(d)\wedge
+\mathsf{UnaryHistory}(e)\wedge d\hsame e.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_e1\_tail\_iff}
+\begin{proof}
+Unfold the classifier into its two empty-unit carrier fields and the endpoint
+sameness field. Each carrier field is converted by the one-headed carrier
+characterization above, and the endpoint sameness field is converted by
+constructor injectivity for $\Eone$.
+\end{proof}
+
+\begin{theorem}[Rat denominator unit classifier visible cases iff]
+\label{thm:rat-denom-unit-classifier-visible-cases-iff}
+For histories $h,k:\mathsf{BHist}$, the empty-unit denominator classifier is
+equivalent to either the empty--empty branch or a matched pair of one-headed
+unary denominator tails:
+$$
+\begin{aligned}
+&\mathsf{RatDenomUnitClassifier}(h,k)\\
+&\Longleftrightarrow
+\left(h\hsame\emp\land k\hsame\emp\right)\\
+&\quad{}\lor
+\exists h_t,k_t:\mathsf{BHist}.\;
+h=\Eone(h_t)\land k=\Eone(k_t)\land \mathsf{UnaryHistory}(h_t)\\
+&\qquad{}\land \mathsf{UnaryHistory}(k_t)\land h_t\hsame k_t.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into two carrier witnesses and an endpoint comparison.
+Each carrier is split by the visible carrier equivalence. Mixed empty and
+one-headed endpoints contradict constructor disjointness. The one-headed pair
+branch converts endpoint sameness through $\Eone$ injectivity, and the reverse
+direction rebuilds the two carriers and the classifier comparison from the
+displayed tail data.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_visible\_cases\_iff}

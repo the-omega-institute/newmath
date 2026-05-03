@@ -143,6 +143,43 @@ $\mathsf{append}(h,\emp)=h$.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_left\_identity\_empty}
 
+\begin{theorem}[Unary append monoid right identity is empty]
+\label{thm:unary-append-monoid-right-identity-empty}
+For the concrete unary-history append monoid, any unary history $e$ whose
+append action is a right identity under
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ is classified with
+$\emp$:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier identity uniqueness with $\emp$ as the left identity and $e$
+as the right identity. The left-identity classifier for $\emp$ follows from
+unary closure of append, $\mathsf{UnaryHistory}(\emp)$, and the BEDC append law
+$\mathsf{append}(\emp,h)=h$. Symmetry of the resulting $\hsame$ component gives
+the displayed classifier orientation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_right\_identity\_empty}
+
+\begin{theorem}[Unary append monoid identity is empty iff]
+\label{thm:unary-append-monoid-identity-empty-iff}
+For the concrete unary-history append monoid, a unary history $e$ is both a
+left and right identity under
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ exactly when it is
+classified with $\emp$.
+\end{theorem}
+\begin{proof}
+The forward implication uses the left-identity uniqueness result for the
+concrete empty right identity. Conversely, a classifier witness
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp)$ gives
+$e\hsame\emp$. Replacing $e$ by $\emp$ reduces the two identity classifier
+families to the BEDC append laws
+$\mathsf{append}(\emp,h)=h$ and $\mathsf{append}(h,\emp)=h$, with unary closure
+supplying the endpoint carrier fields.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_identity\_empty\_iff}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.

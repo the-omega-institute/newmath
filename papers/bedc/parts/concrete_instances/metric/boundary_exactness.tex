@@ -17,3 +17,60 @@ Substitution into the unary target witness and unary one-step inversion give
 $\mathsf{UnaryHistory}(d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_e1\_distance\_target\_exactness}
+
+\begin{theorem}[Metric nonempty distance has a nonempty endpoint]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-nonempty}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and $d$ is not history-same as
+$\emp$, then at least one endpoint is not history-same as $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to
+\bigl((x\hsame\emp\to\mathsf{False})
+\vee (y\hsame\emp\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_nonempty}
+\begin{proof}
+Case-split the two endpoint histories. A visible endpoint constructor is
+immediately disjoint from $\emp$, giving the required side of the disjunction.
+In the remaining empty/empty case, the continuation field of the metric witness
+identifies the distance result with $\emp$, contradicting the assumed
+nonempty distance.
+\end{proof}
+
+\begin{theorem}[Metric distance witness zero-headed component impossibility]
+\label{thm:metric-distance-witness-e0-component-absurd}
+For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
+a zero-headed source, target, or distance component:
+$$
+\begin{array}{l}
+\bigl(\mathsf{MetricDistanceWitness}(\Ezero(x),y,d)\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MetricDistanceWitness}(x,\Ezero(y),d)\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{MetricDistanceWitness}(x,y,\Ezero(d))\to\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e0\_component\_absurd}
+\begin{proof}
+Unpack the concrete witness. Its three component fields are unary-history
+evidence for the source, target, and distance histories. BEDC unary histories
+are generated only from $\emp$ by $\Eone$, so each displayed $\Ezero$ component
+contradicts unary no-zero-extension.
+\end{proof}
+
+\begin{theorem}[Metric e1-pair empty-distance impossibility]
+\label{thm:metric-distance-witness-e1-pair-empty-distance-absurd}
+For histories $x,y:\mathsf{BHist}$,
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\emp)\to\mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_empty\_distance\_absurd}
+\begin{proof}
+Apply empty-distance exactness to the displayed metric witness. It forces the
+left endpoint $\Eone(x)$ to be history-same as $\emp$, contradicting the
+disjointness of visible one-headed histories from the empty history.
+\end{proof}

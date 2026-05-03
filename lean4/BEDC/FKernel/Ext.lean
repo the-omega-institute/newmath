@@ -82,6 +82,15 @@ theorem ext_respects_sameness :
   cases hm
   cases hr <;> cases hr' <;> rfl
 
+theorem ext_result_hsame_source_mark_hsame_iff {h h' r r' : BHist} {m m' : BMark} :
+    Ext h m r -> Ext h' m' r' -> (hsame r r' <-> hsame h h' /\ msame m m') := by
+  intro left right
+  constructor
+  · intro sameResult
+    exact ext_result_hsame_injective_pair left right sameResult
+  · intro sameSourceMark
+    exact ext_respects_sameness sameSourceMark.left sameSourceMark.right left right
+
 theorem ext_respects_internal_sameness_spine {h k r s : BHist} {m n : BMark} :
     msame m n → hsame h k → Ext h m r → Ext k n s → hsame r s := by
   intro hm hh left right

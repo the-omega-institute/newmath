@@ -53,6 +53,60 @@ theorem cont_step_one_iff {h k r : BHist} :
   · intro hcont
     exact cont_step_one hcont
 
+theorem cont_result_e0_cases_iff {h k r : BHist} :
+    Cont h k (BHist.e0 r) ↔
+      (k = BHist.Empty ∧ hsame h (BHist.e0 r)) ∨
+        (exists k0 : BHist, k = BHist.e0 k0 ∧ Cont h k0 r) := by
+  constructor
+  · intro hcont
+    cases k with
+    | Empty =>
+        exact Or.inl (And.intro rfl hcont.symm)
+    | e0 k0 =>
+        exact Or.inr
+          (Exists.intro k0 (And.intro rfl (cont_step_zero_iff.mp hcont)))
+    | e1 k0 =>
+        cases hcont
+  · intro data
+    cases data with
+    | inl emptyData =>
+        cases emptyData.left
+        exact emptyData.right.symm
+    | inr witness =>
+        cases witness with
+        | intro k0 stepData =>
+            cases stepData with
+            | intro sameK tail =>
+                cases sameK
+                exact cont_step_zero tail
+
+theorem cont_result_e1_cases_iff {h k r : BHist} :
+    Cont h k (BHist.e1 r) ↔
+      (k = BHist.Empty ∧ hsame h (BHist.e1 r)) ∨
+        (exists k0 : BHist, k = BHist.e1 k0 ∧ Cont h k0 r) := by
+  constructor
+  · intro hcont
+    cases k with
+    | Empty =>
+        exact Or.inl (And.intro rfl hcont.symm)
+    | e0 k0 =>
+        cases hcont
+    | e1 k0 =>
+        exact Or.inr
+          (Exists.intro k0 (And.intro rfl (cont_step_one_iff.mp hcont)))
+  · intro data
+    cases data with
+    | inl emptyData =>
+        cases emptyData.left
+        exact emptyData.right.symm
+    | inr witness =>
+        cases witness with
+        | intro k0 stepData =>
+            cases stepData with
+            | intro sameK tail =>
+                cases sameK
+                exact cont_step_one tail
+
 theorem cont_step_rules_iff_pair :
     (∀ {h k r : BHist}, Cont h (BHist.e0 k) (BHist.e0 r) ↔ Cont h k r) ∧
       (∀ {h k r : BHist}, Cont h (BHist.e1 k) (BHist.e1 r) ↔ Cont h k r) := by
@@ -271,6 +325,17 @@ theorem cont_left_e0_result_iff {h k r : BHist} :
                 cases kStep
                 exact cont_step_zero tail
 
+theorem cont_left_e0_result_nonempty_tail_cases {h k r : BHist} :
+    Cont (BHist.e0 h) k (BHist.e0 r) -> (hsame k BHist.Empty -> False) ->
+      ∃ k0 : BHist, k = BHist.e0 k0 ∧ Cont (BHist.e0 h) k0 r := by
+  intro hcont nonempty
+  have splitCases := (cont_left_e0_result_iff (h := h) (k := k) (r := r)).mp hcont
+  cases splitCases with
+  | inl emptyCase =>
+      exact False.elim (nonempty (by cases emptyCase.left; exact hsame_refl BHist.Empty))
+  | inr visibleCase =>
+      exact visibleCase
+
 theorem cont_left_e1_result_cases {h k r : BHist} :
     Cont (BHist.e1 h) k (BHist.e1 r) ->
       (k = BHist.Empty ∧ hsame h r) ∨
@@ -310,6 +375,17 @@ theorem cont_left_e1_result_iff {h k r : BHist} :
             | intro kStep tail =>
                 cases kStep
                 exact cont_step_one tail
+
+theorem cont_left_e1_result_nonempty_tail_cases {h k r : BHist} :
+    Cont (BHist.e1 h) k (BHist.e1 r) -> (hsame k BHist.Empty -> False) ->
+      ∃ k0 : BHist, k = BHist.e1 k0 ∧ Cont (BHist.e1 h) k0 r := by
+  intro hcont nonempty
+  have splitCases := cont_left_e1_result_cases hcont
+  cases splitCases with
+  | inl emptyCase =>
+      exact False.elim (nonempty (by cases emptyCase.left; exact hsame_refl BHist.Empty))
+  | inr visibleCase =>
+      exact visibleCase
 
 theorem cont_left_tag_cross_result_cases :
     (forall {h k r : BHist},
@@ -472,5 +548,36 @@ theorem cont_left_tag_cross_tail_alignment :
                     (And.intro rfl (And.intro rfl (BHist.e0.inj sameTail))))
             | e1 l0 =>
                 cases sameTail
+
+theorem cont_right_tail_result_cases {h k r : BHist} :
+    Cont h k r ->
+      (hsame k BHist.Empty ∧ hsame r h) ∨
+        (∃ t u : BHist,
+          hsame k (BHist.e0 t) ∧ hsame r (BHist.e0 u) ∧ Cont h t u) ∨
+          (∃ t u : BHist,
+            hsame k (BHist.e1 t) ∧ hsame r (BHist.e1 u) ∧ Cont h t u) := by
+  intro hcont
+  cases k with
+  | Empty =>
+      left
+      exact And.intro (hsame_refl BHist.Empty) (hcont.trans (append_empty_right h))
+  | e0 t =>
+      right
+      left
+      cases cont_step_result_inversions.left hcont with
+      | intro u witness =>
+          exact Exists.intro t
+            (Exists.intro u
+              (And.intro (hsame_refl (BHist.e0 t))
+                (And.intro witness.left witness.right)))
+  | e1 t =>
+      right
+      right
+      cases cont_step_result_inversions.right hcont with
+      | intro u witness =>
+          exact Exists.intro t
+            (Exists.intro u
+              (And.intro (hsame_refl (BHist.e1 t))
+                (And.intro witness.left witness.right)))
 
 end BEDC.FKernel.Cont

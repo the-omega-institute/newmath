@@ -189,6 +189,28 @@ $h\hsame k$ and hence the classifier tuple.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Singleton lattice classifier continuation result-left iff]
+\label{thm:lattice-singleton-classifier-continuation-result-left}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+lattice classifier relates $P$ and $Q$ exactly when it relates the
+continuation result $R$ to $P$:
+$$
+\mathsf{LatticeSingletonClassifier}(P,Q)
+\Longleftrightarrow
+\mathsf{LatticeSingletonClassifier}(R,P).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction uses the singleton carriers of $P$ and $Q$ to transport
+the continuation result to the right-unit continuation at $\emp$, so $R$ is
+singleton-carried and compares with $P$ through $\emp$. For the reverse
+direction, the result-left classifier identifies $R$ with $\emp$; transporting
+the continuation to empty result and applying empty-result inversion recovers
+the singleton carrier witnesses for both inputs, and hence the input
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_iff}
+
 \begin{theorem}[Singleton meet--join absorption gives order and classifier data]
 \label{thm:lattice-singleton-meet-join-absorption-order-classifier}
 If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice

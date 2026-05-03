@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v2.2 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.3 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -163,7 +163,17 @@ theme = stem(paper_files[0]) before "_namecert"
 e.g. "08_option" → option,  "11_list" → list,  "10_sum" → sum
 ```
 
-Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..2]` node from the critical-path JSON. The library has already received six rounds of attention on that theme; the marginal value of a seventh is below the marginal value of opening a top-3 chapter.
+Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..2]` node from the critical-path JSON AND `theme_count < 12`. The library has already received six rounds of attention on that theme; even for a top-3 critical-path node, going past 12 commits in a 20-commit window means the chapter is saturated relative to the rest of the library and the marginal value of a 13th hit is below opening a fresh chapter (especially the recently-added paper-only stubs under `papers/bedc/parts/concrete_instances/` like `16_group_namecert_construction.tex`, `56_magma…`, `57_semigroup…`, `58_subgroup…`, `60_quotientgroup…`, etc.). Pick a chapter from those instead.
+
+### Hot-anchor avoidance (within a file)
+
+Even when the file passes theme saturation, also run:
+
+```bash
+git log --oneline -20 -- <paper_files[0]> | head -20
+```
+
+and `git show --stat -1 <sha>` for each commit to read its commit body. If the SAME anchor section (the theorem/definition LABEL referenced in the commit body, e.g. `thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance`) has appeared in `>= 4` of the last 20 commits to that file, that anchor is HOT and must NOT be picked. Pick a different anchor in the same file, or move to a different chapter.
 
 ## Schema-only unlock priority (HARD GATE)
 

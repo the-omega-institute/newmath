@@ -1,0 +1,436 @@
+\chapter{A Concrete Naming Certificate for \(\GroupUp\)}
+\label{ch:concrete-instances-group-namecert}
+
+The group interface \(\GroupUp\) extends \autoref{ch:concrete-instances-monoid-namecert} with a unary inverse operation \({}^{-1} : C \to C\) satisfying left and right inverse laws under the carrier's classifier. It is not a primitive structure; it is licensed only by composing the monoid certificate with the inverse field.
+
+\begin{remark}[Roadmap chapter]
+\label{rem:concrete-instances-group-namecert-roadmap}
+This chapter records the licensing target. Lean markers identify the
+algebraic fields and derived laws that are formalized for the certificate.
+\end{remark}
+
+\section{Carrier definition}
+
+\begin{definition}[Group carrier]
+\label{def:group-carrier}
+Use a monoid setup extended with inverse operation \(a^{-1}\).
+\end{definition}
+
+\section{Concrete singleton history group instance}
+\label{sec:group-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history group instance]
+\label{def:concrete-singleton-history-group-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+the concrete history operations and classifier by
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{inv}(h):=\emp,\qquad
+e:=\emp,
+$$
+and
+$$
+R_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land \hsame(h,k).
+$$
+\end{definition}
+
+\begin{theorem}[Group singleton history SemanticNameCert]
+\label{thm:group-singleton-history-semantic-namecert}
+The carrier $A_{\emp}$, classifier $R_{\emp}$, multiplication
+$\mathsf{mul}$, unit $e$, and inverse operation $\mathsf{inv}$ of
+Definition~\ref{def:concrete-singleton-history-group-instance} supply the
+singleton-history $\mathsf{SemanticNameCert}$ for $\GroupUp$ over
+$\mathsf{BHist}$, together with the concrete multiplication-closure,
+inverse-closure, left-unit, right-unit, left-inverse, and right-inverse rows
+captured by $\mathsf{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}$.
+\end{theorem}
+\begin{proof}
+The $\mathsf{SemanticNameCert}$ component is packaged by the carrier-aware
+classifier $R_{\emp}$. Its inhabited carrier is witnessed by
+$\hsame(\emp,\emp)$. Reflexivity, symmetry, and transitivity are inherited
+from $\hsame$ after unpacking and repacking the carrier endpoints required by
+$R_{\emp}$.
+
+Carrier transport follows by composing singleton endpoint witnesses through
+$\emp$: if a source endpoint and its classifier partner are both related by
+$R_{\emp}$, then the transported endpoint remains in $A_{\emp}$ by
+transitivity through their displayed witnesses to $\emp$.
+
+Carrier inhabitance is the reflexive endpoint witness
+$\hsame(\emp,\emp)$, which is exactly the singleton carrier condition from
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$.
+
+For multiplication closure, suppose $A_{\emp}(h)$ and $A_{\emp}(k)$. The two
+carrier facts identify $h$ and $k$ with $\emp$. The BEDC continuation unit
+laws used in Theorem~\ref{thm:concrete-history-monoid-laws} reduce
+$\mathsf{append}(h,k)$ to the same endpoint class as $\emp$, using symmetry
+and transitivity of $\hsame$ to compose the displayed witnesses.
+
+Inverse closure is immediate because $\mathsf{inv}(h)$ is definitionally
+$\emp$. The singleton carrier witness is again $\hsame(\emp,\emp)$.
+
+The left and right unit rows reduce $\mathsf{append}(\emp,h)$ and
+$\mathsf{append}(h,\emp)$ to $h$ by the continuation unit laws. The inverse
+rows use $\mathsf{inv}(h)=\emp$, so the same unit laws and the carrier witness
+for $h$ classify both products against $e=\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
+
+\begin{theorem}[Concrete singleton history group algebraic laws]
+\label{thm:concrete-singleton-history-group-laws}
+The concrete singleton history group over $\mathsf{BHist}$ satisfies carrier
+inhabitance, multiplication closure, inverse closure, left and right unit laws,
+associativity up to $\hsame$, multiplication congruence, inverse congruence,
+and left and right inverse laws.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance, multiplication closure, inverse closure, and the unit rows
+are the corresponding concrete rows of
+Theorem~\ref{thm:group-singleton-history-semantic-namecert}.
+
+Associativity is the continuation associativity theorem cited in
+Theorem~\ref{thm:concrete-history-monoid-laws}: the histories
+$\mathsf{append}(\mathsf{append}(h,k),l)$ and
+$\mathsf{append}(h,\mathsf{append}(k,l))$ are $\hsame$-equivalent. Closure of
+the two products follows from the multiplication-closure clause.
+
+Multiplication congruence follows by transporting the two input $\hsame$
+witnesses across $\mathsf{append}$ and then composing with the same
+continuation associativity and unit laws. Since all carrier elements are in
+the singleton class of $\emp$, the source and target products both lie in
+$A_{\emp}$ and are related by $\hsame$.
+
+Inverse congruence is constant: both inverses are $\emp$, so the classifier
+witness is the pair of singleton carrier witnesses together with
+$\hsame(\emp,\emp)$.
+
+For the inverse laws, $\mathsf{append}(\mathsf{inv}(h),h)$ is
+$\mathsf{append}(\emp,h)$ and $\mathsf{append}(h,\mathsf{inv}(h))$ is
+$\mathsf{append}(h,\emp)$. The continuation unit laws reduce these products to
+$h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.concrete\_singleton\_history\_group\_laws}
+
+\begin{theorem}[Group singleton classifier append context cancellation]
+\label{thm:group-singleton-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed left contexts are in
+the singleton group carrier $A_{\emp}$, then appending those contexts to the
+two classifier endpoints preserves and reflects the singleton classifier:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two appended endpoints are classified as
+singleton endpoints. Empty-result inversion for append splits each endpoint
+witness, giving $Q\hsame\emp$ and $S\hsame\emp$. These two carrier witnesses,
+together with transitivity through $\emp$, assemble $R_{\emp}(Q,S)$.
+
+Conversely, combine the supplied singleton witnesses for $L$ and $R$ with the
+endpoint carrier fields in $R_{\emp}(Q,S)$. Empty-result construction for
+append gives singleton witnesses for $\mathsf{append}(L,Q)$ and
+$\mathsf{append}(R,S)$, and transitivity through $\emp$ gives the classifier
+comparison between the two appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Group singleton classifier right-context cancellation]
+\label{thm:group-singleton-classifier-right-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed right contexts are in
+the singleton group carrier $A_{\emp}$, then appending those contexts as
+suffixes preserves and reflects the singleton classifier:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+The ten-field fit names the traditional target as terminal-group cancellation
+by a classified suffix; the BEDC source as the concrete singleton $\GroupUp$
+carrier; carrier $A_{\emp}$; classifier $R_{\emp}$; stability as singleton
+carrier transport and \texttt{append\_eq\_empty\_iff}; ledger the hidden
+singleton suffix endpoints; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+\texttt{append\_eq\_empty\_iff}; exactness predicate the displayed iff;
+standard bridge cancellation in the terminal group; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+In the forward direction, singleton classification of the two appended
+histories and empty-result inversion for append split the suffix endpoints.
+The resulting singleton witnesses for $Q$ and $S$, together with transitivity
+through $\emp$, package $R_{\emp}(Q,S)$.
+
+Conversely, combine $R_{\emp}(Q,S)$ with the carrier witnesses for $L$ and
+$R$. Empty-result construction for append gives singleton witnesses for
+$\mathsf{append}(Q,L)$ and $\mathsf{append}(S,R)$, and transitivity through
+$\emp$ gives their classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_suffix\_cancel\_iff}
+
+\begin{theorem}[Group singleton classifier two-sided context cancellation]
+\label{thm:group-singleton-classifier-two-sided-context-cancel}
+For histories $L,R,L',R',Q,S:\mathsf{BHist}$, if $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, and $A_{\emp}(R')$, then
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,Q),L'),
+\mathsf{append}(\mathsf{append}(R,S),R'))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+$$
+The ten-field fit names the traditional target as terminal-group two-sided
+contextual cancellation; the BEDC source as the concrete singleton $\GroupUp$
+carrier; carrier $A_{\emp}$; classifier $R_{\emp}$; stability as left and
+right context cancellation; ledger as hidden singleton prefix and suffix
+contexts; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+Theorem~\ref{thm:group-singleton-classifier-right-context-cancel}; exactness
+predicate as the displayed iff; standard bridge as cancellation of
+terminal-group contexts; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:group-singleton-classifier-right-context-cancel} to cancel
+the singleton suffixes $L'$ and $R'$. This reduces the classifier statement
+to
+$$
+R_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S)).
+$$
+Then apply Theorem~\ref{thm:group-singleton-classifier-append-context-cancel}
+to cancel the singleton prefixes $L$ and $R$, producing $R_{\emp}(Q,S)$.
+
+For the reverse direction, start from $R_{\emp}(Q,S)$ and use
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} in the
+constructive direction to attach the singleton prefixes $L$ and $R$.
+Then use Theorem~\ref{thm:group-singleton-classifier-right-context-cancel} in
+the constructive direction to attach the singleton suffixes $L'$ and $R'$,
+giving exactly the displayed two-sided classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_right\_context\_cancel\_iff}
+
+\begin{theorem}[Group singleton classifier product-unit split]
+\label{thm:group-singleton-classifier-product-unit-split}
+For histories $p,q:\mathsf{BHist}$, the concrete singleton group classifier
+satisfies
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp)
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as a product equal to the unit
+in the one-element group; the BEDC source as the concrete singleton $\GroupUp$
+instance over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability as append empty-result construction and inversion; ledger factors
+$p,q$; core theorem list
+Theorem~\ref{thm:concrete-singleton-history-group-laws} together with the BEDC
+append empty-result inversion; exactness predicate the displayed iff; standard
+bridge the terminal group unit-product split; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $R_{\emp}$ and $A_{\emp}$. In the forward direction, the classifier
+supplies $A_{\emp}(\mathsf{append}(p,q))$, so
+$\hsame(\mathsf{append}(p,q),\emp)$ holds. Append empty-result inversion splits
+this witness into $A_{\emp}(p)$ and $A_{\emp}(q)$, giving the displayed
+conjunction.
+
+Conversely, assume $A_{\emp}(p)$ and $A_{\emp}(q)$. Append empty-result
+construction gives $A_{\emp}(\mathsf{append}(p,q))$, while reflexivity gives
+$A_{\emp}(\emp)$. Symmetry and transitivity of $\hsame$ then package the
+endpoint comparison required by
+$R_{\emp}(\mathsf{append}(p,q),\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_unit\_split\_iff}
+
+\begin{theorem}[Group singleton contextual product-unit split]
+\label{thm:group-singleton-contextual-product-unit-split}
+For histories $L,R,p,q:\mathsf{BHist}$, if $A_{\emp}(L)$ and $A_{\emp}(R)$,
+then
+$$
+R_{\emp}(\mathsf{append}(L,\mathsf{append}(p,q)),\mathsf{append}(R,\emp))
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as terminal-group contextual
+unit-product splitting; the BEDC source as the concrete singleton $\GroupUp$
+carrier; carrier $A_{\emp}$; classifier $R_{\emp}$; stability as context
+cancellation plus append empty-result construction and inversion; ledger as the
+hidden singleton contexts and product factors; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+Theorem~\ref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate as the displayed iff; standard bridge as the terminal group
+unit-product split under context; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The carrier hypotheses $A_{\emp}(L)$ and
+$A_{\emp}(R)$ strip the singleton left and right contexts, reducing the
+displayed classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply Theorem~\ref{thm:group-singleton-classifier-product-unit-split} to this
+reduced classifier. It identifies the reduced classifier exactly with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving both directions of the displayed
+equivalence.
+\end{proof}
+
+\begin{theorem}[Group singleton carrier visible-head append exclusion]
+\label{thm:group-singleton-carrier-append-visible-head-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(\mathsf{e0}(p),q)$ nor
+$\mathsf{append}(\mathsf{e1}(p),q)$ lies in the singleton group carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed appended
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(p)$ or $\mathsf{e1}(p)$ with $\emp$. Constructor
+separation for generated histories rules out both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_head\_absurd}
+
+\begin{theorem}[Group singleton carrier visible-tail append exclusion]
+\label{thm:group-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(p,\mathsf{e0}(q))$ nor
+$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton group carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed appended
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$. Constructor
+separation for generated histories rules out both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_tail\_absurd}
+
+\begin{theorem}[Group singleton classifier continuation visible result exclusion]
+\label{thm:group-singleton-classifier-continuation-visible-result-absurd}
+For histories $P,Q,r:\mathsf{BHist}$, if the singleton group classifier relates
+$P$ and $Q$, then no continuation from $P$ through $Q$ can have visible result
+$\Ezero(r)$ or $\Eone(r)$:
+$$
+R_{\emp}(P,Q)\Rightarrow
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses for $P$ and $Q$. Transport
+the continuation result along these endpoint witnesses to the right-unit
+continuation at $\emp$, obtaining a singleton carrier witness for the displayed
+result. Constructor separation rules out both visible constructors as
+singleton-empty histories.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_visible\_result\_absurd}
+
+\begin{theorem}[Group singleton classifier continuation result-left iff]
+\label{thm:group-singleton-classifier-continuation-result-left}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the two continuation inputs exactly when it relates the
+continuation result to the left input:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow R_{\emp}(R,P).
+$$
+\end{theorem}
+\begin{proof}
+If $R_{\emp}(P,Q)$ holds, then both inputs are singleton-carried. Continuation
+result transport against the right-unit continuation at $\emp$ makes $R$
+singleton-carried, and transitivity through $\emp$ relates $R$ to $P$.
+Conversely, if $R_{\emp}(R,P)$ holds, then $R$ is singleton-carried. Transport
+the displayed continuation to empty result and invert it to recover singleton
+carrier witnesses for $P$ and $Q$; these witnesses classify the input pair.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_left\_iff}
+
+\begin{theorem}[Group singleton inverse continuation left-unit iff]
+\label{thm:group-singleton-inv-continuation-left-unit-iff}
+For histories $x,r:\mathsf{BHist}$, if $r$ is a continuation result of the
+singleton inverse of $x$ followed by $x$, then classifying $r$ against the unit
+endpoint is exactly the singleton carrier condition on $x$:
+$$
+\ContR(\mathsf{GroupSingletonInv}(x),x,r)
+\Rightarrow
+\bigl(R_{\emp}(r,\emp)\Longleftrightarrow A_{\emp}(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfolding the continuation identifies $r$ with
+$\mathsf{append}(\mathsf{GroupSingletonInv}(x),x)$. In the forward direction,
+the classifier says this appended result is singleton-carried, and
+empty-result inversion for append recovers the carrier witness for $x$.
+Conversely, the inverse endpoint is definitionally $\emp$; combining its
+reflexive carrier witness with the carrier witness for $x$ constructs the
+singleton carrier witness for the appended result, which then classifies the
+result against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonInv\_continuation\_left\_unit\_iff}
+
+\begin{theorem}[Group singleton classifier continuation result-right iff]
+\label{thm:group-singleton-classifier-continuation-result-right}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the two continuation inputs exactly when it relates the
+continuation result to the right input:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow R_{\emp}(R,Q).
+$$
+\end{theorem}
+\begin{proof}
+If $R_{\emp}(P,Q)$ holds, then both inputs carry singleton witnesses. Transport
+the continuation result against the empty right-unit continuation to make $R$
+singleton-carried. Together with the existing carrier witness for $Q$,
+transitivity through $\emp$ classifies $R$ with $Q$.
+
+Conversely, if $R_{\emp}(R,Q)$ holds, then $R$ and $Q$ are singleton-carried.
+Transport the displayed continuation to an empty result using the witness for
+$R$, and then apply empty-result inversion for append and continuation. This
+recovers a singleton carrier witness for $P$ while preserving the displayed
+singleton witness for $Q$.
+
+The recovered carrier witnesses for $P$ and $Q$, composed through $\emp$,
+rebuild $R_{\emp}(P,Q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_right\_iff}
+
+\begin{theorem}[Group singleton continuation result carrier exactness]
+\label{thm:group-singleton-continuation-result-carrier-iff}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton group
+classifier relates the continuation inputs exactly when the continuation result
+lies in the singleton carrier:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+Assume $R_{\emp}(P,Q)$. The classifier exposes endpoint witnesses
+$A_{\emp}(P)$ and $A_{\emp}(Q)$. Transporting the displayed continuation
+against the empty right-unit continuation carries the result endpoint to
+$\emp$, and therefore classifies $R$ as a singleton-carried history.
+
+Conversely, assume $A_{\emp}(R)$. Transport the continuation result to $\emp$
+along this carrier witness. Empty-result inversion for continuation and append
+then recovers endpoint witnesses $A_{\emp}(P)$ and $A_{\emp}(Q)$. Composing
+these endpoint witnesses through $\emp$ packages the input pair classifier
+$R_{\emp}(P,Q)$.
+\end{proof}
+
+The per-object certificate data are: traditional target terminal-group
+continuation-result coverage; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ and $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability obligations continuation result transport and empty-result inversion;
+ledger hidden continuation result endpoint; core theorem this block plus
+\autoref{thm:group-singleton-classifier-continuation-result-left}; exactness
+predicate $R_{\emp}(P,Q)\Longleftrightarrow A_{\emp}(R)$; standard bridge
+terminal-group product result; and status $\mathsf{ProofTarget}$.
+
+The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
+operations, so subsequent formalization can prove $BHist$-anchored group laws
+instead of relying only on an abstract operator schema.

@@ -6,8 +6,61 @@ The extension predicate $\Ext$ of \autoref{ch:core-relational-extension-and-cont
 \section{Extension predicate as type-membership}
 \label{sec:type-checking-as-classifier-ext-membership}
 
+\begin{definition}[Typed term language as naming certificate]
+\label{def:type-checking-typed-term-language}
+A \emph{typed term language} $L$ with type system $\tau$ is a closed inductive carrier $\mathrm{Term}_L$ together with a closed inductive predicate $\tau\,t$ on $\mathrm{Term}_L$ marking well-typedness. The corresponding \emph{naming certificate} $\NameCert_L$ has carrier $\mathrm{Term}_L$ embedded in $\Hist$, $\Ext_L\,t = \tau\,t$, and $\Cont_L\,t\,m\,t'$ encoding the small-step typed reduction relation of $L$.
+\end{definition}
+
+\begin{definition}[Type checking]
+\label{def:type-checking-decidable-ext}
+\emph{Type checking} for a term $t \in \mathrm{Term}_L$ is the decision procedure for $\Ext_L\,t$. The procedure exists when $\NameCert_L$ supplies a kernel-level decidability witness for $\Ext_L$, given as a function on $\mathrm{Term}_L$ returning $\bone$ on well-typed terms and $\bzero$ otherwise.
+\end{definition}
+
 \begin{theorem}[Type-checking as $\Ext$ membership]
 \label{thm:type-checking-as-ext-membership}
 For every typed term language $L$ with a fixed type system, there exists a naming certificate over $L$ such that well-typedness of a term $t$ is exactly $\Ext\,t$ in the certificate's classifier. Type-checking decidability is $\Ext$-decidability; subject reduction is the closure law connecting $\Ext$ with the certificate's continuation; the Curry-Howard correspondence between proofs and programs is the identification of the certificate's closure laws with constructive proofs of those closures.
 \leanstmt{BEDC.Reflection.type\_checking\_as\_ext\_membership}
 \end{theorem}
+
+\begin{proof}[Sketch]
+The forward direction is \autoref{def:type-checking-typed-term-language}: a typed term language is given as a closed inductive carrier with a typing predicate, and the predicate is encoded directly as $\Ext_L$. The backward direction reads a naming certificate over a term-shaped carrier as a typed term language: $\Ext$ is the typing predicate, $\Cont$ is the typed reduction, and the certificate's closure laws are the type-system rules. The Curry-Howard correspondence is the observation that the closure laws of $\NameCert_L$ are themselves typed: each closure law is a function from witnesses of its hypotheses to a witness of its conclusion, and witnesses of $\Ext_L\,t$ are programs whose types are the conclusions.
+\end{proof}
+
+\section{Subject reduction from closure laws}
+\label{sec:type-checking-subject-reduction}
+
+\begin{definition}[Subject reduction]
+\label{def:type-checking-subject-reduction}
+\emph{Subject reduction} for $\NameCert_L$ is the closure law: for every $t, t' \in \mathrm{Term}_L$ and every $m \in \Mark$, $\Ext_L\,t \wedge \Cont_L\,t\,m\,t' \Rightarrow \Ext_L\,t'$. The law expresses that typed reduction preserves well-typedness.
+\end{definition}
+
+\begin{theorem}[Closure law equals subject reduction]
+\label{thm:type-checking-closure-law-subject-reduction}
+The closure law of $\NameCert_L$ that connects $\Ext_L$ with $\Cont_L$ is, by unfolding, the subject-reduction property of \autoref{def:type-checking-subject-reduction}. A naming certificate satisfies the kernel's $\Ext$-$\Cont$ closure law if and only if the underlying typed term language enjoys subject reduction.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Both statements have the same shape: ``if the source is in the extension and the continuation step holds, the target is in the extension''. The only difference is the choice of vocabulary: closure law for the certificate framework, subject reduction for the typed-language framework. The proof is a one-line rewrite of the kernel's closure-law statement using the embedding of $\mathrm{Term}_L$ into $\Hist$.
+\end{proof}
+
+\section{Curry-Howard as identity}
+\label{sec:type-checking-curry-howard}
+
+\begin{theorem}[Closure proofs are programs]
+\label{thm:type-checking-closure-proofs-programs}
+Every constructive proof of a closure law of $\NameCert_L$ is, on the nose, a program in $\mathrm{Term}_L$ whose type is the conclusion of the closure law. Conversely, every well-typed program in $\mathrm{Term}_L$ is the constructive content of a closure-law proof in $\NameCert_L$ for some closure formed from its type.
+\end{theorem}
+
+\begin{proof}[Sketch]
+A closure law is a kernel-level implication ``hypotheses $\Rightarrow$ conclusion''. A constructive proof of the implication is a function from witnesses of the hypotheses to a witness of the conclusion. Witnesses of the hypotheses are programs with the hypotheses' types; the constructed witness of the conclusion is a program with the conclusion's type; the function itself is a typed lambda abstraction. The reverse reading takes a well-typed term $t \colon T$ and reads the type $T$ as the conclusion of a closure law whose hypotheses are the types of the free variables of $t$; the term $t$ is the proof.
+\end{proof}
+
+\begin{remark}[Curry-Howard built into BEDC]
+\label{rem:type-checking-curry-howard-built-in}
+\autoref{thm:type-checking-closure-proofs-programs} is the BEDC reading of the Curry-Howard correspondence. In a separate logical-system-plus-programming-language presentation, Curry-Howard is a non-trivial identification of two prima facie distinct domains; in BEDC, the identification is the unfolding of a single object, the naming certificate, into its two readings as a type system and as a program. The kernel's closure-law discipline is therefore not a logical commitment imposed on top of a programming language; it is the programming language at the kernel level.
+\end{remark}
+
+\begin{remark}[Composition with the compilation capstone]
+\label{rem:type-checking-compilation-composition}
+\autoref{thm:type-checking-as-ext-membership} supplies, for every typed term language, a naming certificate; \autoref{ch:capstones-compilation-as-namecert-morphism} reads compilers as naming-certificate morphisms; together, the two chapters identify type-preserving compilers with $\Ext$-preserving naming-certificate morphisms. Subject reduction in the source language and target language is, in this composed reading, the kernel-level closure-law preservation that any compiler must witness.
+\end{remark}

@@ -1,0 +1,84 @@
+\begin{theorem}[RatUp FieldUp bracketing-independent full crossed contextual boundary]
+\label{thm:ratup-fieldup-bracketing-independent-full-crossed-contextual-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the two bracketings of the
+concrete $\FieldUp(\mathsf{RatUp})$ denominator endpoint carry the following
+single contextual boundary:
+\begin{enumerate}
+  \item $C_D^u(x)$, $C_D^u(y)$, and $R_D^u(x,y)$;
+  \item for every context history $r:\mathsf{BHist}$, the four contextual
+  carrier exclusions:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
+    \item $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))\to\bot$.
+  \end{enumerate}
+  \item for every context history $r:\mathsf{BHist}$, the four inverse-domain
+  witnesses:
+  \begin{enumerate}
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,y))$;
+    \item $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(y,r))$.
+  \end{enumerate}
+  \item for all $L,R:\mathsf{BHist}$, the four contextual
+  singleton-classifier exclusions
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))
+  \to\bot,
+  $$
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+  \to\bot,
+  $$
+  and
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+to the displayed concrete denominator tuple, carried histories, endpoint
+definitions, and support witness. This gives the carrier rows $C_D^u(x)$ and
+$C_D^u(y)$, the classifier row $R_D^u(x,y)$, the four contextual
+singleton-carrier exclusions around $x$ and $y$, the four corresponding
+$\mathsf{fieldSingletonEmptyNonZero}$ witnesses, and the two same-endpoint
+singleton-classifier exclusions.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+under the same hypotheses and with the same definitions of $x$ and $y$. This
+supplies the two crossed contextual singleton-classifier exclusions, one for
+$(x,y)$ and one for $(y,x)$, for arbitrary $L,R:\mathsf{BHist}$.
+
+The two theorem applications share the same $\mathsf{BHist}$ carrier, the same
+denominator tuple, and the same support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Collect the carrier, inverse-domain,
+same-endpoint classifier, and crossed classifier rows into the displayed
+boundary package.
+\end{proof}
+
+Per-object template: traditional target bracketing-independent concrete
+$\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
+$\mathsf{BHist}$ with the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and $\mathsf{RatUpFieldSource}_F$; carrier
+$\mathsf{ThreeSupp}_D^u$; classifier $R_D^u$; stability obligations paired
+left- and right-nested support exactness plus contextual append separation and
+crossed classifier rejection;
+ledger the paired denominator endpoints $\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$\mu_D^u(h,\mu_D^u(k,\ell))$; core theorem
+\autoref{thm:ratup-fieldup-bracketing-independent-full-crossed-contextual-boundary};
+exactness predicate contextual singleton-carrier, inverse-domain, and
+same-endpoint and crossed singleton-classifier exclusion for both product
+bracketings; standard bridge deferred; status $\mathsf{ProofTarget}$.
