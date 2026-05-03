@@ -302,4 +302,27 @@ theorem OpenDisk_gap_endpoint_transport {z0 z0' r r' z z' gap : BHist} :
                       (And.intro targetPointCarrier
                         (Exists.intro gap (And.intro gapUnary gapCont))))
 
+theorem HolomorphicOpenDiskWitnessed_empty_radius_boundary {center radius point : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> hsame radius BHist.Empty ->
+      hsame point BHist.Empty ∧ ∃ gap : BHist,
+        UnaryHistory gap ∧ hsame gap BHist.Empty ∧ Cont point gap radius := by
+  intro disk radiusEmpty
+  cases disk with
+  | intro _centerUnary diskRest =>
+      cases diskRest with
+      | intro _radiusUnary diskRest =>
+          cases diskRest with
+          | intro _pointUnary gapWitness =>
+              cases gapWitness with
+              | intro gap gapData =>
+                  cases gapData with
+                  | intro gapUnary pointGap =>
+                      have emptyPointGap : Cont point gap BHist.Empty :=
+                        cont_result_hsame_transport pointGap radiusEmpty
+                      have endpoints := cont_empty_result_inversion emptyPointGap
+                      exact And.intro endpoints.left
+                        (Exists.intro gap
+                          (And.intro gapUnary
+                            (And.intro endpoints.right pointGap)))
+
 end BEDC.Derived.HolomorphicUp

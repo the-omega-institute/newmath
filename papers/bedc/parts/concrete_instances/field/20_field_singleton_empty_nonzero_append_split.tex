@@ -21,3 +21,25 @@ append into carrier witnesses for both $L$ and $Q$. The chosen left or right
 nonzero witness rejects the corresponding carrier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_split\_iff}
+
+\begin{theorem}[Singleton empty nonzero continuation endpoint split]
+\label{thm:field-singleton-empty-nonzero-continuation-endpoint-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the
+classifier-complement singleton empty nonzero predicate on the continuation
+result is exactly the disjunction of the corresponding endpoint predicates:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(R)
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(P)\lor
+\mathsf{fieldSingletonEmptyNonZero}(Q).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the continuation ledger as $R=\mathsf{append}(P,Q)$. In the forward
+direction, split on the concrete shape of $P$: the empty case transfers the
+forbidden classifier to $Q$, while either visible head gives constructor
+separation at the left endpoint. In the reverse direction, a classifier of
+$R$ against $\emp$ splits by empty append inversion, and the selected endpoint
+nonzero witness rejects the matching empty component.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_endpoint\_split\_iff}

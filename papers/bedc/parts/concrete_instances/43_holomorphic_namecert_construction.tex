@@ -134,6 +134,25 @@ Unfold the open-disk witness. The target center and point carriers are supplied 
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_gap\_endpoint\_transport}
 
+\begin{theorem}[Open disk witnessed empty-radius boundary]
+\label{thm:holo-open-disk-witnessed-empty-radius-boundary}
+If a witnessed unary open disk has radius history $r$ with $r\hsame\emp$, then
+its point and displayed boundary gap are both empty endpoints. Concretely,
+from $\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)$ and $r\hsame\emp$ one
+obtains $z\hsame\emp$ and a unary gap $g$ such that
+$$
+g\hsame\emp\land\ContR(z,g,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witnessed open disk to obtain the unary gap $g$ and the boundary
+ledger $\ContR(z,g,r)$. Transport this ledger along $r\hsame\emp$, producing
+$\ContR(z,g,\emp)$. Empty-result inversion for continuation identifies both
+the point endpoint and the gap endpoint with $\emp$, while the original ledger
+and unary gap witness remain part of the displayed boundary data.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_empty\_radius\_boundary}
+
 \section{Holomorphic predicate}
 
 \begin{definition}[Holomorphic on disk seed predicate]
