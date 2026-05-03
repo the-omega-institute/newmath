@@ -113,7 +113,15 @@ def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "
     ts = _now_tag()
     (LOG_DIR / f"{tag}_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
 
-    cmd = [CLAUDE_PATH, "-p", "--dangerously-skip-permissions"]
+    cmd = [
+        CLAUDE_PATH, "-p", "--dangerously-skip-permissions",
+        # Tools so claude can verify autoref existence, look up adjacent
+        # relation usage style, and check the target file's neighborhood.
+        # Edit/Write withheld — claude proposes content via JSON output,
+        # the Python writeback() does the actual file mutation.
+        "--allowed-tools",
+        "Read,Grep,Glob,Bash(grep:*),Bash(find:*),Bash(wc:*),Bash(ls:*)",
+    ]
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
     proc = subprocess.Popen(
         cmd,
@@ -147,6 +155,43 @@ def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "
     (LOG_DIR / f"{tag}_{ts}.stdout.txt").write_text(stdout or "", encoding="utf-8")
     (LOG_DIR / f"{tag}_{ts}.stderr.txt").write_text(stderr or "", encoding="utf-8")
     return (rc == 0, stdout, rc)
+
+
+def _all_paper_labels() -> set[str]:
+    """Return all \\label{X} values from papers/bedc/parts/**/*.tex.
+
+    Recomputed each call (~500ms). We do not cache because pipeline
+    writebacks append content to existing .tex files without updating
+    parent-dir mtime, so cache invalidation is unreliable. Per-call
+    cost is acceptable: writebacks happen every 5-10 min.
+    """
+    parts = REPO_ROOT / "papers" / "bedc" / "parts"
+    if not parts.exists():
+        return set()
+    labels: set[str] = set()
+    for path in parts.rglob("*.tex"):
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        labels.update(re.findall(r"\\label\{([^}]+)\}", text))
+    return labels
+
+
+def _detect_dangling_autorefs(content: str) -> list[str]:
+    """Return list of \\autoref{X} / \\ref{X} citations whose label is
+    not present anywhere in papers/bedc/parts/. Excludes refs to labels
+    defined IN the candidate content itself (forward refs within the
+    new block are valid)."""
+    cited = set(re.findall(r"\\autoref\{([^}]+)\}", content))
+    cited.update(re.findall(r"(?<!\\auto)\\ref\{([^}]+)\}", content))
+    if not cited:
+        return []
+    own_labels = set(re.findall(r"\\label\{([^}]+)\}", content))
+    cited -= own_labels
+    paper_labels = _all_paper_labels()
+    missing = sorted(cited - paper_labels)
+    return missing
 
 
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
@@ -265,11 +310,28 @@ def writeback(
         except OSError:
             pass
 
-    # ── Step 4: claude review ONLY if blocking issues remain ──
+    # ── Step 3.5: scan for dangling \autoref / \ref ──
+    # This is repo-aware (needs to grep all paper labels), so it lives
+    # here rather than inside hygiene_normalize. Missing refs ALWAYS
+    # force the claude review path so the gate has a chance to either
+    # fix typos via Grep or reject with a precise rejection reason.
+    dangling_refs = _detect_dangling_autorefs(norm.content)
+    extra_blocking_issues: list[str] = []
+    if dangling_refs:
+        extra_blocking_issues.append(
+            "dangling autoref(s): the following \\autoref / \\ref citations "
+            "have no \\label{X} anywhere under papers/bedc/parts/: "
+            + ", ".join(dangling_refs[:8])
+            + (f" (and {len(dangling_refs) - 8} more)" if len(dangling_refs) > 8 else "")
+        )
+
+    # ── Step 4: claude review when blocking issues remain ──
     # Blocking issues are things normalize cannot mechanically fix:
-    # missing environment, unbalanced begin/end, Chinese chars, etc.
+    # missing environment, unbalanced begin/end, Chinese chars, dangling
+    # autorefs, BEDC-relation-as-function misuses, transport-without-citation.
     rejection_reasons: list[str] = []
-    if norm.blocking_issues:
+    all_blocking = list(norm.blocking_issues) + extra_blocking_issues
+    if all_blocking:
         # Heavy review path: blocking issue exists, ask claude to assess
         # whether content is salvageable or needs to escalate.
         template = (PROMPTS_DIR / "killo_golden_writeback.txt").read_text(encoding="utf-8")
@@ -289,7 +351,7 @@ def writeback(
         for t in norm.transformations:
             prompt += f"- {t}\n"
         prompt += "\n## Blocking issues (require your judgement)\n"
-        for b in norm.blocking_issues:
+        for b in all_blocking:
             prompt += f"- {b}\n"
         ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
         if not ok:

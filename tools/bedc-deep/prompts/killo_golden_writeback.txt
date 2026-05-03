@@ -59,6 +59,48 @@ Hygiene checklist (all must pass):
     when the surrounding chapter does not establish that subscript
     notation.
 
+14. \autoref / \ref existence. Every `\autoref{{X}}` and `\ref{{X}}` cited
+    in the new content MUST resolve to a `\label{{X}}` present somewhere
+    under `papers/bedc/parts/**/*.tex`. The Python pre-scan lists missing
+    refs (if any) under "Blocking issues" below. For each missing ref X
+    you have two options:
+    - If Grep finds a near-match Y (typo: e.g. `thm:foo-bar` vs
+      `thm:foo-bar-iff`, or `def:nat-mul` vs `def:nat-multiplication`):
+      MAY auto-fix `\autoref{{X}}` -> `\autoref{{Y}}` in the emitted
+      content. Note the fix as a string in the optional `auto_fixes`
+      array in the JSON output.
+    - If no near-match exists: REJECT with reason listing X.
+
+15. BEDC core relations are PREDICATES, not functions. The relations
+    `\Cont`, `\Ext`, `\hsame`, `\msame`, `\psame`, `\Sig`, `\Pkg`,
+    `\NatMul`, `\NatDivides`, `\PolySame`, `\InGapSig`, `\InBundle`,
+    `\SigRel` are inductively / definitionally specified PROPOSITIONS.
+    Each argument position takes a HISTORY TERM (a bound variable, a
+    constructor like `\emp` / `\Eone(q)`, a previously bound name), NOT
+    a function expression. Reject any usage like
+    `\Cont(d, \mathsf{{append}}(t,d), n)` or
+    `\NatMul(d, \mathsf{{succ}}(q), n)`. The correct form is existential:
+    introduce a fresh history variable u and write
+    `\exists u.\ \Cont(t,d,u) \wedge \Cont(d,u,n)`. You may NOT fix this
+    yourself — it changes the proof's mathematical claim. REJECT with a
+    precise rejection reason naming the relation and the offending
+    argument expression.
+
+16. Implicit transport (`\hsame` / `\msame` / `\psame` used as host
+    equality). When proof prose says "replacing $a$ by $b$", "identifies
+    $p$ with $q$", "after substituting", "transporting along", or
+    "sends $x$ to $y$", an explicit `\autoref{{lem:...transport}}` /
+    `\autoref{{thm:...transport}}` reference MUST appear in the same
+    sentence or adjacent sentence. If the proof omits citation, you may
+    NOT add it yourself. REJECT with reason naming the offending phrase
+    and the missing citation.
+
+17. Implicit inversion / induction. When proof says "by NatMul inversion",
+    "unpacking the witness", "inducting on q", or similar, the inversion /
+    induction lemma must already exist as a labeled `\begin{{lemma}}` /
+    `\begin{{theorem}}` reachable via Grep. If missing: REJECT with
+    "needs <env>:<concept>-inversion to be added before this proof works".
+
 9. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
    `import Mathlib`.
 
@@ -70,13 +112,25 @@ a. Read {raw_latex_path}.
 b. Verify {target_tex_file} exists and is a concrete body file. If not,
    pick a better one by reading the chapters under
    `{repo_root}/papers/bedc/parts/`. Choose by topic match.
-c. Count current target file lines; estimate appended size; verify ≤ 800.
-d. Run all 10 hygiene items against the raw LaTeX.
-e. If any item fails, emit verdict=reject with specific reasons.
-f. If all pass, you MAY make minor cleanups (strip leading/trailing blank
-   lines, normalize whitespace) but do NOT rewrite content, retitle theorems,
-   or change proofs. Preserve the oracle's mathematics verbatim.
-g. Output JSON only.
+c. Count current target file lines; estimate appended size; verify <= 800.
+d. Run all 17 hygiene items against the raw LaTeX. Use the granted tools
+   (Read / Grep / Glob / Bash(grep)) to verify autoref existence and to
+   look up adjacent style for relation usage. The Python pre-scan has
+   already populated "Blocking issues" with mechanically-detectable
+   problems; you handle the judgement layer.
+e. If any item fails AND the failure is in the auto-fix scope (item 14
+   typo case), apply the auto-fix in the emitted content and proceed.
+f. If any item fails OUTSIDE auto-fix scope (items 15, 16, 17 — semantic
+   misuse), emit verdict=reject with specific reasons. The corrective
+   track will use your rejection_reasons as the prompt for the next
+   oracle attempt — be precise: name the relation, quote the phrase,
+   point at the missing citation/lemma.
+g. If all pass (or only item 14 typos which you auto-fixed), you MAY
+   make minor surface cleanups (strip leading/trailing blank lines,
+   normalize whitespace) but do NOT rewrite proofs, retitle theorems,
+   change relation arities, add/remove transport citations, or invent
+   new lemmas. Preserve the oracle's mathematics verbatim.
+h. Output JSON only.
 
 Output exactly one JSON object on stdout, no prose, no markdown fences:
 
@@ -84,8 +138,11 @@ Output exactly one JSON object on stdout, no prose, no markdown fences:
   "verdict": "accept" | "reject",
   "tex_file": "<repo-relative path of the file to append into>",
   "content": "<final cleaned LaTeX block, only when verdict=accept>",
-  "rejection_reasons": ["item N: ..."]
+  "rejection_reasons": ["item N: ..."],
+  "auto_fixes": ["fixed \\autoref{{X}} -> \\autoref{{Y}} per item 14", ...]
 }}
 
 If verdict is "reject", omit "content" or set it to "".
 If verdict is "accept", "rejection_reasons" must be an empty array.
+If you applied any auto-fixes (item 14 typos), list them in `auto_fixes`;
+omit the field or set to [] if you made no fixes beyond minor cleanups.

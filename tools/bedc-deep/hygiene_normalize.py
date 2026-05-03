@@ -307,6 +307,82 @@ def _detect_blocking_issues(text: str) -> list[str]:
     if inline_dd_pre or inline_dd_post:
         issues.append("`$$ ... $$` display math block not on its own line")
 
+    # Interface-level checks: BEDC core relations used as functions.
+    issues.extend(_detect_relation_as_function(text))
+
+    # Interface-level checks: transport-style language without explicit ref.
+    issues.extend(_detect_hsame_as_equality(text))
+
+    return issues
+
+
+# BEDC core *predicates* (relations). Arguments must be history terms, never
+# function expressions. Misuse pattern: `\Rel(a, \mathsf{f}(args), c)` or
+# `\Rel(a, \append(args), c)` — the second arg is a function expression
+# rather than a bound history variable. Correct form is existential:
+# `\exists u. \Rel(a, u, c) \wedge ...`.
+BEDC_CORE_RELATIONS = (
+    "Cont", "Ext", "hsame", "msame", "psame",
+    "Sig", "Pkg", "NatMul", "NatDivides", "PolySame",
+    "InGapSig", "InBundle", "SigRel",
+)
+
+
+def _detect_relation_as_function(text: str) -> list[str]:
+    """Flag BEDC predicate uses with function-expression arguments."""
+    issues: list[str] = []
+    for rel in BEDC_CORE_RELATIONS:
+        # \Rel(...) with any \mathsf{...}(...) inside args, or \append(...).
+        # We scan each occurrence's argument list (top-level paren balanced).
+        for m in re.finditer(rf"\\{rel}\s*\(", text):
+            # Find matching close paren, depth-tracking
+            i = m.end()
+            depth = 1
+            start = i
+            while i < len(text) and depth > 0:
+                if text[i] == "(":
+                    depth += 1
+                elif text[i] == ")":
+                    depth -= 1
+                i += 1
+            args = text[start : i - 1]
+            # Function-expression patterns inside args
+            if re.search(r"\\mathsf\s*\{[^}]+\}\s*\(", args) or \
+               re.search(r"\\append\s*\(", args) or \
+               re.search(r"\\mul\s*\(", args):
+                issues.append(
+                    f"\\{rel} is a BEDC relation; argument list contains a "
+                    f"function expression: '{args[:80]}…'. Relations take "
+                    f"history terms only — restructure as \\exists witness."
+                )
+                break  # one per relation is enough
+    return issues
+
+
+def _detect_hsame_as_equality(text: str) -> list[str]:
+    """Flag transport-style prose without an adjacent \\autoref reference."""
+    issues: list[str] = []
+    transport_phrases = [
+        r"replacing\s+\$[^$]+\$\s+by\s+\$[^$]+\$",
+        r"identif(?:y|ies|ying|ied)\s+\$[^$]+\$\s+with\s+\$[^$]+\$",
+        r"after\s+substituting\s+\$[^$]+\$",
+        r"transporting\s+(?:the\s+)?\w+\s+(?:along|across)\s+\$[^$]+\$",
+        r"sends\s+\$[^$]+\$\s+to\s+\$[^$]+\$",
+    ]
+    for phrase in transport_phrases:
+        for m in re.finditer(phrase, text, re.IGNORECASE):
+            # Adjacent context window — must contain \autoref or \ref to
+            # an explicit lemma/theorem within ±300 chars.
+            start = max(0, m.start() - 100)
+            end = min(len(text), m.end() + 300)
+            window = text[start:end]
+            if not re.search(r"\\autoref\{(?:lem|thm|prop):[^}]+\}", window):
+                issues.append(
+                    f"transport-style prose ('{m.group(0)[:60]}') without "
+                    f"adjacent \\autoref{{lem|thm|prop:...}} citation; "
+                    f"BEDC requires explicit transport lemma references."
+                )
+                return issues  # one per file is enough
     return issues
 
 
