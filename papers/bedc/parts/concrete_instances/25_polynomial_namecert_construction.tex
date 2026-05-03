@@ -687,3 +687,16 @@ $$
 $$
 Substituting $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$, this is exactly the asserted polynomial classifier comparison.
 \end{proof}
+
+\begin{proposition}[Polynomial raw addition right zero-tail invariance]
+\label{prop:polynomial-raw-add-right-zero-tail-invariance}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume $0_R\sim_R0_R$ and the additive fields retained in \autoref{def:ring-stability-certificate}: classifier transitivity, additive congruence, and the additive zero laws. For a commutative-ring scalar source, these fields are unchanged by \autoref{prop:commring-forgets-ring-certificate}.
+
+For finite coefficient spines $p,q,t:\mathsf{ListCarrier}(R)$, if $\mathsf{ZeroRem}_R(t)$ holds in the sense of \autoref{def:classified-zero-remainder-spine}, then
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(p,q{++}t),\mathsf{radd}_R(p,q)).
+$$
+\end{proposition}
+\begin{proof}
+Apply \autoref{lem:polynomial-raw-add-zero-tail-trim-stability} with $x=p$, $y=q$, and $z=t$, and read its second displayed conclusion. The hypothesis on $t$ is exactly the classified zero-tail condition from \autoref{def:classified-zero-remainder-spine}; \autoref{def:polynomial-raw-add-comparison-data} identifies the displayed relation as the normalized polynomial classifier.
+\end{proof}
