@@ -55,3 +55,43 @@ $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_witness\_classifier\_iff}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_kernel\_iff}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
+
+\begin{theorem}[Centralizer normalizer coset classifier identity fiber]
+\label{thm:subgroup-centralizer-normalizer-coset-classifier-identity-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\leq N_a}(\mathsf{e},x)\Longleftrightarrow Z_a(x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the classifier in
+\autoref{def:centralizer-normalizer-quotient-classifier}. For the forward
+direction, the right-witness clause gives a history $z$ with $Z_a(z)$ and
+$\hsame(x,\mathsf{mul}(\mathsf{e},z))$.
+
+The left-unit law identifies $\mathsf{mul}(\mathsf{e},z)$ with $z$ up to
+$\hsame$. The $Z_a$ carrier-transport row from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} carries
+$Z_a(z)$ across the endpoint comparison and gives $Z_a(x)$.
+
+For the reverse direction, assume $Z_a(x)$. The identity row of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} gives
+$N_a(\mathsf{e})$, and the inclusion row $Z_a\subseteq N_a$ gives $N_a(x)$.
+
+Choose the right witness $z:=x$. The left-unit law supplies the endpoint
+comparison $\hsame(x,\mathsf{mul}(\mathsf{e},x))$, so the endpoint clauses
+together with the witness $Z_a(x)$ package
+$Q_{Z_a\leq N_a}(\mathsf{e},x)$.
+\end{proof}
+
+Per-object template: traditional target identity coset fiber for the
+centralizer-normalizer quotient; BEDC source $\GroupUp$ plus $\SubgroupUp$
+over $\mathsf{BHist}$; carrier $N_a$; classifier $Q_{Z_a\leq N_a}$; stability
+identity, inclusion, left-unit endpoint transport, and $Z_a$ carrier transport;
+ledger identity representative and right witness; exactness predicate identity
+fiber equals lower carrier; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
