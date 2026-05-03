@@ -405,6 +405,49 @@ classifier exclusions stand side by side with the carrier and inverse-domain
 rows from the preceding paragraphs.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp bracketing-independent cross-endpoint classifier boundary]
+\label{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all $L,R:\mathsf{BHist}$ the
+crossed contextual singleton-classifier exclusions
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))
+\to\bot
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Invoke
+\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
+once with the same concrete denominator tuple, carried histories, endpoint
+definitions, and support witness. The contextual carrier row gives, in
+particular, rejection maps for
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$.
+
+For the $x$--$y$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,y))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,x)$ gives $\bot$.
+
+For the $y$--$x$ crossed classifier, unpack a witness of
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))$.
+Its source and target carrier fields include
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
+source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
+\end{proof}
+
 Per-object template: traditional target bracketing-independent concrete
 $\FieldUp(\mathsf{RatUp})$ denominator exit support; BEDC source
 $\mathsf{BHist}$ with the concrete denominator tuple
