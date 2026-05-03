@@ -10,7 +10,7 @@ N_F(C_F(A))(T)
 :\Longleftrightarrow
 T:\mathsf{AffAut}_F
 \quad\text{and}\quad
-\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Rightarrow
+\forall X:\mathsf{AffAut}_F,\ C_F(A)(X)\Longleftrightarrow
 C_F(A)(\mathrm{Conj}_T(X)),
 $$
 where
@@ -33,11 +33,13 @@ centralizer element normalizes the centralizer:
 $$
 C_F(A)(T)\Rightarrow N_F(C_F(A))(T).
 $$
-Equivalently, if $T$ and $X$ commute with $A$, then the inner affine conjugate
-of $X$ by $T$ also commutes with $A$:
+Equivalently, if $T$ commutes with $A$, then inner affine conjugation by $T$
+both preserves and reflects centralizer membership:
 $$
-C_F(A)(T)\quad\text{and}\quad C_F(A)(X)
-\quad\Rightarrow\quad
+C_F(A)(T)\Rightarrow
+\forall X:\mathsf{AffAut}_F,\quad
+C_F(A)(X)
+\Longleftrightarrow
 C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)).
 $$
 \end{theorem}
@@ -47,10 +49,12 @@ Fix the canonical affine exit action from
 $\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
 and $\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit object.
 
-Assume $C_F(A)(T)$ and let $X$ satisfy $C_F(A)(X)$. Apply
+Assume $C_F(A)(T)$ and let $X:\mathsf{AffAut}_F$ be fixed. Apply
 \autoref{thm:ratup-fieldup-affine-centralizer-subgroup} to the fixed element
-$A$. Its inverse closure gives $C_F(A)(\iota_F(T))$, and its product closure
-first gives $C_F(A)(T\circ_{\mathrm{aff}}X)$ and then gives
+$A$. Its inverse closure gives $C_F(A)(\iota_F(T))$.
+
+For preservation, assume $C_F(A)(X)$. Product closure first gives
+$C_F(A)(T\circ_{\mathrm{aff}}X)$ and then gives
 $C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T))$.
 
 The displayed product is the concrete inner conjugate
@@ -60,10 +64,26 @@ certification and classifier stability of this inner conjugate are exactly the
 action clauses supplied by
 \autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}.
 
-Reading the final membership through
+For reflection, assume
+$C_F(A)((T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T))$. Apply the
+same preservation argument with $\iota_F(T)$ as the conjugating centralizer
+element and $\mathrm{Conj}_T(X)$ as the element being transported. Product
+closure gives
+$C_F(A)(\mathrm{Conj}_{\iota_F(T)}(\mathrm{Conj}_T(X)))$.
+
+The affine conjugation equation exactness of
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness}, together
+with the inverse row fixed above, identifies
+$\mathrm{Conj}_{\iota_F(T)}(\mathrm{Conj}_T(X))$ with $X$ under
+$\equiv_{\mathrm{aff}}$. The classifier-stability row from
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} transfers the
+centralizer membership back to $C_F(A)(X)$.
+
+Reading the two directions through
 \autoref{thm:ratup-fieldup-affine-commutator-centralizer-exactness} gives the
-equivalent commutator form: the conjugated element has trivial commutator with
-$A$, hence it commutes with $A$ under the concrete affine classifier. This is
+equivalent commutator form: conjugation preserves and reflects the condition
+that the commutator with $A$ is trivial under the concrete affine classifier.
+This is
 precisely $N_F(C_F(A))(T)$.
 \end{proof}
 
@@ -73,7 +93,9 @@ $N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability inverse, product,
 and inner-conjugation closure; ledger fixed element, conjugating element,
 commuting witness, and inverse witness; core theorem list
 \autoref{thm:ratup-fieldup-affine-centralizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness},
 \autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
 \autoref{thm:ratup-fieldup-affine-commutator-centralizer-exactness}; exactness
-predicate centralizer elements normalize the centralizer; standard bridge
-ordinary centralizer-normalizer inclusion; status $\mathsf{ProofTarget}$.
+predicate normalizer records preservation and reflection of centralizer
+membership under concrete affine conjugation; standard bridge ordinary
+centralizer-normalizer inclusion; status $\mathsf{ProofTarget}$.
