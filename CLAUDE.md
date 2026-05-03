@@ -162,6 +162,57 @@ python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Clas
 
 ---
 
+# Codex pipeline 协作纪律
+
+`codex-auto-dev` 分支上常驻并行 codex worker (`lean4/scripts/codex_formalize.py` + `papers/bedc/scripts/codex_revise.py`), 每个 worker 周期性 fetch + rebase 远端然后 push 自己的小 commit. 人工提交必须按下述纪律, 否则会触发 rebase 风暴.
+
+## HOT 共享文件
+
+下面四个文件所有 worker 都可能修改, 任何提交动到它们都会卡 rebase 队列:
+
+- `papers/bedc/preamble.tex` (worker 加新 `\Up` 宏会动)
+- `papers/bedc/main.tex` (worker 加章节 `\input` 会动)
+- `papers/bedc/parts/capstones/_index_files.tex`
+- 类似 index / dispatch 入口文件
+
+## 提交切分规则
+
+人工提交涉及上述任一 HOT 文件 + N 个新文件时, **必须拆开**:
+
+1. **commit A**: 仅 HOT 文件改动 (新 `\Up` 宏 / 新 `\input` 行 / index 改动). push.
+2. 等 30 秒, 让 worker 在你的小改动上完成本轮 rebase.
+3. **commit B**: 全部新文件 (新章节 / 新模块). push.
+
+新文件 worker 不会动, 批量提交无冲突风险. 危险只在 HOT 文件多人争抢.
+
+## push 前活跃度检查
+
+```bash
+gh run list --branch codex-auto-dev --limit 5
+```
+
+若有 ≥ 2 个 `in_progress` run, 等到只剩 0-1 个再 push HOT 文件 commit. 否则 worker 们一窝蜂 rebase 你的 commit, 再加上它们彼此的小 commit, 三角冲突几乎无法自动恢复.
+
+## 同步远端: 三种场景三种做法
+
+**禁止把"落后远端 100+ commit"时直接 `git pull --rebase`** —— 它把每个 codex 小 commit 重新 apply 到你的 local commit 上, 一个冲突让一长串 commit 进入 rebase-conflict 状态. 改用以下决策树:
+
+| 本地状态 | 远端落后 | 做法 |
+|---|---|---|
+| 只有未 commit 的 working tree 改动 | 任意 | `git stash -u` → `git pull --ff-only origin <branch>` → `git stash pop` |
+| 已 commit + 落后少 (< 10) | < 10 | `git pull --rebase origin <branch>` (重写少量 local commit 风险可控) |
+| 已 commit + 落后多 (≥ 10) | ≥ 10 | `git fetch origin <branch>` 然后 `git merge origin/<branch>` (生成 merge commit, 不重写任何历史) |
+
+**重点**: 落后远端多且本地有 commit 时, `git merge` 比 rebase 安全得多 —— 远端 codex worker 的 commit 保持原样, 本地 commit 保持原样, 冲突只发生在一个 merge 点. rebase 把每个 codex 小 commit 都拿你的工作重 apply 一遍, 冲突一旦出现就在长链上扩散.
+
+**绝对禁止** `git reset --hard origin/<branch>` 当本地有未推送 commit 时 —— 直接丢工作.
+
+## 历史教训
+
+2026-05-03 RH 路线图提交 (`da6e6e10`, 16 文件 / 2108 行, 含 preamble + main) 触发 codex pipeline rebase 风暴: 30 分钟内 7 个 worker commit 在同一秒落地 (`14:22:35`), 然后三个 fix commit (`693fb128` / `001d0c3d` / `0cdf518c`) 加 PID-lock + abort + codex 兜底才把状态修干净. 那一次本可避免: 把 preamble / main / `_index_files` 改动单独 push, 再 push 13 个新章节文件, 不会触发任何争抢.
+
+---
+
 # The Omega 科研宪章
 
 ## I. 第一性原理优先
