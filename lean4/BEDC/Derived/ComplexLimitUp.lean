@@ -12,6 +12,14 @@ def ComplexDistance (z w d : BHist) : Prop :=
 def ComplexDistanceTriangleBound (d12 d23 : BHist) : BHist :=
   append d12 d23
 
+theorem ComplexDistanceTriangleBound_unary_of_distances {z w u d12 d23 : BHist} :
+    ComplexDistance z w d12 -> ComplexDistance w u d23 ->
+      UnaryHistory (ComplexDistanceTriangleBound d12 d23) ∧ UnaryHistory z ∧ UnaryHistory u := by
+  intro leftDistance rightDistance
+  have boundUnary : UnaryHistory (ComplexDistanceTriangleBound d12 d23) :=
+    unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
+  exact And.intro boundUnary (And.intro leftDistance.left rightDistance.right.left)
+
 theorem ComplexDistance_symm_iff {z w d : BHist} :
     (ComplexDistance z w d ↔ ComplexDistance w z d) ∧
       (ComplexDistance z w d -> UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d) := by

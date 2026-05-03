@@ -42,6 +42,19 @@ the step history $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_step\_unary}
 
+\begin{lemma}[Complex difference quotient result is nonempty from a nonzero step]
+\label{thm:cplx-diff-quot-result-nonempty-from-step}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and $h$ carries the displayed
+$\mathsf{CplxNonZero}$ witness, then $q$ cannot be history-same to $\emp$.
+\end{lemma}
+\begin{proof}
+Unpack the quotient witness to expose $\Cont(f,h,q)$ and the nonzero witness
+on $h$. If $q\hsame\emp$, then the continuation equality identifies
+$\mathsf{append}(f,h)$ with $\emp$. Empty-result inversion for append gives
+$h\hsame\emp$, contradicting $\mathsf{CplxNonZero}(h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty\_from\_step}
+
 \begin{lemma}[Complex difference quotient is well-defined]
 \label{lem:cplx-diff-quot-well-defined}
 For each \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\) there is exactly one complex history \(q\), up to \(\hsame\), with \(\mathsf{CplxDiffQuot}(f, z, h, q)\).

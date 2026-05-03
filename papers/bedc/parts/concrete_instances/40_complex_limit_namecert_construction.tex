@@ -168,6 +168,30 @@ unary append closure gives the displayed unary carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_unary}
 
+\begin{theorem}[Complex distance triangle bound unary carrier from distances]
+\label{thm:complex-distance-triangle-bound-unary-of-distances}
+For complex histories $z,w,u$ and distance histories $d_{12},d_{23}$,
+two concrete distance witnesses
+$$
+\mathsf{ComplexDistance}(z,w,d_{12})
+\quad\text{and}\quad
+\mathsf{ComplexDistance}(w,u,d_{23})
+$$
+make the explicit triangle bound a unary history and retain unary support for
+the outer endpoints:
+$$
+\mathsf{UnaryHistory}(\mathsf{ComplexDistanceTriangleBound}(d_{12},d_{23}))
+\land \mathsf{UnaryHistory}(z)\land \mathsf{UnaryHistory}(u).
+$$
+\end{theorem}
+\begin{proof}
+Project the unary distance witnesses from the two distance hypotheses. Since
+the triangle bound is $\mathsf{append}(d_{12},d_{23})$, unary append closure
+gives unary support for the bound. The same two distance hypotheses already
+store unary support for the outer endpoints $z$ and $u$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_unary\_of\_distances}
+
 \begin{lemma}[Complex distance nonempty endpoint cases]
 \label{thm:cplx-dist-nonempty-distance-endpoint-cases}
 For complex histories $z,w$ and distance endpoint $d$, if

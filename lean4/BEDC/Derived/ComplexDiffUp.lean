@@ -118,6 +118,21 @@ theorem CplxDiffQuot_quotient_cont_deterministic {f z h q q' : BHist} :
                                     (And.intro rightLedger
                                       (cont_deterministic leftLedger rightLedger))
 
+protected theorem CplxDiffQuot_result_nonempty_from_step {f z h q : BHist} :
+    CplxDiffQuot f z h q -> hsame q BHist.Empty -> False := by
+  intro quotient qEmpty
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier ledger =>
+                  have appendEmpty : hsame (append f h) BHist.Empty :=
+                    hsame_trans (hsame_symm ledger) qEmpty
+                  exact stepNonzero (append_eq_empty_iff.mp appendEmpty).right
+
 theorem CplxDiffQuot_empty_function_result_nonzero {z h q : BHist} :
     CplxDiffQuot BHist.Empty z h q -> CplxNonZero q := by
   intro quotient
