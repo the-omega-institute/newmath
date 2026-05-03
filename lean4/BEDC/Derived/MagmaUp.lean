@@ -1,10 +1,12 @@
 import BEDC.FKernel.Unary
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.MagmaUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.NameCert
 
 theorem concrete_unary_history_magma_cont_laws :
     let Carrier : BHist -> Prop := UnaryHistory
@@ -26,5 +28,36 @@ theorem concrete_unary_history_magma_cont_laws :
     have sameR : hsame r r' :=
       cont_respects_hsame classifiedH.right.right classifiedK.right.right hcont hcont'
     exact And.intro unaryR (And.intro unaryR' sameR)
+
+theorem ConcreteUnaryHistoryMagma_semanticNameCert :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    SemanticNameCert Carrier Carrier Carrier Classifier ∧
+      (∀ {h k : BHist}, Carrier h -> Carrier k ->
+        Carrier (append h k) ∧ Cont h k (append h k)) ∧
+      (∀ {h h' k k' r r' : BHist}, Classifier h h' -> Classifier k k' ->
+        Cont h k r -> Cont h' k' r' -> Classifier r r') := by
+  dsimp
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro BHist.Empty unary_empty
+      · intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      · intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      · intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      · intro h k classified _carrier
+        exact classified.right.left
+    · intro h source
+      exact source
+    · intro h source
+      exact source
+  · exact concrete_unary_history_magma_cont_laws
 
 end BEDC.Derived.MagmaUp

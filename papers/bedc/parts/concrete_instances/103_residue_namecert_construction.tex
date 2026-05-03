@@ -36,6 +36,22 @@ inversion for BEDC continuations to recover the two empty endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_function\_endpoints}
 
+\begin{theorem}[Residue pole data empty function endpoints iff]
+\label{thm:residue-pole-data-empty-function-endpoints-iff}
+If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds, then the function
+history is empty exactly when both residue endpoints are empty:
+$$
+f \hsame \emp \Longleftrightarrow I \hsame \emp \land \rho \hsame \emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the empty-function endpoint theorem. Conversely,
+unpack the residue pole data to expose $\Cont(I,\rho,f)$. Compare this
+continuation with $\Cont(\emp,\emp,\emp)$ using the supplied endpoint
+equalities; continuation result respect for $\hsame$ gives $f\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_function\_endpoints\_iff}
+
 \begin{theorem}[Residue pole data residue suffix closure]
 \label{thm:residue-pole-data-residue-suffix-closure}
 If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,
@@ -69,6 +85,40 @@ The empty-function endpoint theorem for residue pole data then reflects
 $f\hsame\emp$ back to the integral and residue endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_suffix\_reflects\_endpoints}
+
+\begin{theorem}[Residue pole data suffix empty function endpoints]
+\label{thm:residue-pole-data-suffix-empty-function-endpoints}
+If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,
+\(\Cont(f,q,f_q)\), and \(f_q\hsame\emp\), then \(I\hsame\emp\) and there is
+a shifted residue \(\rho_q\) such that
+$$
+\Cont(\rho,q,\rho_q)\land \rho_q\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply residue suffix closure to obtain the shifted pole data and the residue
+suffix witness. The empty-function endpoint theorem applied to the shifted
+data and \(f_q\hsame\emp\) identifies \(I\) and \(\rho_q\) with the empty
+history, and the residue suffix witness supplies the displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_suffix\_empty\_function\_endpoints}
+
+\begin{theorem}[Residue pole data integral prefix closure]
+\label{thm:residue-pole-data-integral-prefix-closure}
+If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,
+and \(\Cont(q,f,q_f)\), then there is an integral history \(I_q\) such that
+\(\mathsf{ResiduePoleData}(q_f,z_0,r,p,g,I_q,\rho)\), with
+\(\Cont(q,I,I_q)\) and \(\Cont(I_q,\rho,q_f)\).
+\end{theorem}
+\begin{proof}
+Take \(I_q=\mathsf{append}(q,I)\). The complex integral carrier is closed under
+unary prefixing. The two continuation witnesses \(\Cont(I,\rho,f)\) and
+\(\Cont(q,f,q_f)\), together with append associativity, identify
+\(\Cont(I_q,\rho,q_f)\). The product carrier for \(q_f\) is then rebuilt from
+the prefixed integral carrier, the original residue carrier, and that
+continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_integral\_prefix\_closure}
 
 \section{The certificate}
 \label{sec:residue-certificate}

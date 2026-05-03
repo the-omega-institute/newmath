@@ -63,3 +63,46 @@ $\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:semigroup-certificate}
+
+\begin{theorem}[Concrete unary-history SemigroupUp semantic certificate]
+\label{thm:concrete-unary-history-semigroup-semantic-certificate}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$, let
+$\mathsf{mul}_U(h,k):=\mathsf{append}(h,k)$, and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+The tuple with source, pattern, and ledger all equal to $U$, classifier
+$R_U$, and multiplication $\mathsf{mul}_U$ is the concrete $\SemigroupUp$
+semantic naming certificate over $\mathsf{BHist}$. Its certificate fields are:
+carrier inhabitation by $\emp$; classifier reflexivity, symmetry,
+transitivity, and carrier transport; multiplication closure; multiplication
+congruence; associativity; ledger append provenance through $\Cont$; and
+exactness
+$$
+R_U(h,k)\Longleftrightarrow U(h)\land U(k)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The carrier field is supplied by $\emp$, which is a unary history. The
+classifier fields are the four stability components of
+\autoref{lem:concrete-unary-history-magma-classifier-stability}: reflexivity on
+carrier points, symmetry, transitivity, and the two endpoint carrier
+projections stored in each $R_U(h,k)$ witness.
+
+The multiplication closure and multiplication congruence fields are inherited
+from \autoref{thm:concrete-unary-history-magma-laws}, applied to the same
+carrier $U$, multiplication $\mathsf{append}$, and classifier $R_U$. The ledger
+row is the canonical append provenance
+$\Cont(h,k,\mathsf{append}(h,k))$ for the displayed multiplication.
+
+Associativity is the additional semigroup law in
+\autoref{thm:concrete-unary-history-semigroup-laws}. Its checked Lean source,
+\texttt{BEDC.Derived.SemigroupUp.concrete\_unary\_history\_semigroup\_cont\_assoc\_classifier},
+packages the two parenthesized append products as carrier-aware $R_U$-equivalent
+endpoints.
+
+Finally, exactness is definitional: the public classifier $R_U$ is precisely the
+triple consisting of the two unary carrier witnesses and the endpoint
+$\hsame$ proof. Thus the displayed biconditional is the certificate's endpoint
+criterion, with no extra cases beyond the concrete unary-history carrier.
+\end{proof}
