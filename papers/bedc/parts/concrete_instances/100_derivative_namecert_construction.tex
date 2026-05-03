@@ -6,6 +6,52 @@ The derivative interface $\DerivativeUp$ packages the constructive pointwise der
 \section{Carrier definition}
 \label{sec:derivative-carrier}
 
+\begin{definition}[Derivative metric quotient]
+\label{def:derivative-metric-quotient}
+For histories $f,z,h,q,dist:\mathsf{BHist}$, the derivative metric quotient
+carrier holds when $f$, $z$, $q$, $h$, and $dist$ are unary histories, $h$ is
+complex-nonzero, $q$ is the continuation result of $f$ by the step $h$, and
+$dist$ is the continuation result of $h$ by the quotient $q$:
+$$
+\mathsf{UnaryHistory}(f)\wedge
+\mathsf{UnaryHistory}(z)\wedge
+\mathsf{CplxNonZero}(h)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{Cont}(f,h,q)\wedge
+\mathsf{UnaryHistory}(h)\wedge
+\mathsf{UnaryHistory}(dist)\wedge
+\mathsf{Cont}(h,q,dist).
+$$
+\end{definition}
+\leandef{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient}
+
+\begin{theorem}[Derivative metric quotient history transport]
+\label{thm:derivative-metric-quotient-hsame-transport}
+For histories $f,f',z,z',h,h',q,q',dist,dist':\mathsf{BHist}$, if each
+source component is classifier-equal to its primed component, then a
+derivative metric quotient for $(f,z,h,q,dist)$ transports to a derivative
+metric quotient for $(f',z',h',q',dist')$. The transported package also reads
+back the complex difference quotient, the metric distance witness, and the two
+displayed continuation ledgers:
+$$
+\mathsf{CplxDiffQuot}(f',z',h',q'),\qquad
+\mathsf{MetricDistanceWitness}(h',q',dist'),\qquad
+\mathsf{Cont}(f',h',q'),\qquad
+\mathsf{Cont}(h',q',dist').
+$$
+\end{theorem}
+\begin{proof}
+Destructure the derivative metric quotient into its unary carriers, the
+complex nonzero step proof, and the two continuation ledgers. Transport unary
+carriers along the five $\hsame$ assumptions. The nonzero proof for $h'$
+composes a hypothetical $h'\hsame\emp$ with $h\hsame h'$. The difference
+ledger transports along the function, step, and quotient equalities. The
+metric ledger transports as the continuation field of the concrete metric
+distance witness built from $h$, $q$, $dist$, and $\mathsf{Cont}(h,q,dist)$.
+Reassembling these transported fields gives all stated components.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
