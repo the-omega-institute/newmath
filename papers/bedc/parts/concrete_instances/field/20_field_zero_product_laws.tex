@@ -31,6 +31,43 @@ identifies $\mathsf{inv}(a,p_a)(ay)$ with $y$, and transitivity of
 $\hsame$ finishes.
 \end{proof}
 
+\begin{theorem}[Field one-sided multiplication cancellation exactness from apartness]
+\label{thm:field-one-sided-mul-cancel-iff-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses and
+multiplication congruence, right and left multiplication by apartness-certified
+nonzero factors are classifier-exact. Any witness
+$p_b:\mathsf{NonZero}_F(b)$ makes every $x,y:\mathsf{BHist}$ satisfy
+$$
+xb\hsame yb
+\Longleftrightarrow
+x\hsame y,
+$$
+and any witness $p_a:\mathsf{NonZero}_F(a)$ makes every
+$x,y:\mathsf{BHist}$ satisfy
+$$
+ax\hsame ay
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+For the right-factor clause, the forward direction is exactly the right
+cancellation clause of
+Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with witness $p_b$.
+
+For the reverse direction, start from $x\hsame y$. Multiplication congruence
+transports this equality through right multiplication by the fixed factor $b$,
+using reflexivity on that factor, and gives $xb\hsame yb$.
+
+For the left-factor clause, the forward direction is exactly the left
+cancellation clause of
+Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with witness $p_a$.
+
+For the reverse direction, start from $x\hsame y$. Multiplication congruence
+transports this equality through left multiplication by the fixed factor $a$,
+using reflexivity on that factor, and gives $ax\hsame ay$.
+\end{proof}
+
 \begin{theorem}[Field two-sided multiplication exactness from apartness]
 \label{thm:field-two-sided-mul-exact-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -43,14 +80,13 @@ x\hsame y.
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, apply
-Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} with the
-right-factor witness $p_b$. This cancels the certified factor $b$ and gives
-$a x\hsame a y$.
+For the forward direction, apply the right-factor clause of
+Theorem~\ref{thm:field-one-sided-mul-cancel-iff-from-apartness} with witness
+$p_b$ to $(a x)b\hsame(a y)b$. This gives $a x\hsame a y$.
 
-Apply Theorem~\ref{thm:field-nonzero-mul-cancel-from-apartness} again with
-the left-factor witness $p_a$. This cancels the certified factor $a$ and
-gives $x\hsame y$.
+Apply the left-factor clause of the same theorem with witness $p_a$. This
+transports $a x\hsame a y$ across the left multiplication classifier and gives
+$x\hsame y$.
 
 For the reverse direction, start from $x\hsame y$. Multiplication congruence
 transports this classifier equality through left multiplication by $a$, giving

@@ -359,8 +359,8 @@ noncollapse rows required by the table.
 
 For multiplication through nonzero contexts, use
 \autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It gives
-the product-classifier exactness row and the nonzero transport row for
-two-sided multiplication by certified nonzero histories.
+the one-sided cancellation row, the product-classifier exactness row, and the
+nonzero transport row for multiplication by certified nonzero histories.
 
 Finally apply
 \autoref{thm:ratup-fieldup-bracketing-independent-cross-endpoint-classifier-boundary}.
@@ -370,14 +370,26 @@ carrier/classifier, base, denominator, contextual, context-pair, affine,
 inverse, nonzero, and exit noncollapse laws listed in the statement.
 \end{proof}
 
-\begin{theorem}[RatUp FieldUp product classifier and nonzero exit package]
+\begin{theorem}[RatUp FieldUp multiplication exactness and nonzero exit package]
 \label{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}
 For the concrete BEDC history-level $\FieldUp(\RatUp)$ row over
 $\mathsf{BHist}$, let $a,b,x,y:\mathsf{BHist}$ and let
 $p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$ be certified
-outer nonzero witnesses. The two-sided product map
-$x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$ is exact as a classifier row and
-as a nonzero-transport row:
+nonzero witnesses. The multiplication package contains the one-sided
+cancellation classifier rows
+$$
+\mathsf{mul}(x,b)\hsame\mathsf{mul}(y,b)
+\Longleftrightarrow
+x\hsame y
+$$
+and
+$$
+\mathsf{mul}(a,x)\hsame\mathsf{mul}(a,y)
+\Longleftrightarrow
+x\hsame y.
+$$
+The two-sided product map $x\mapsto\mathsf{mul}(\mathsf{mul}(a,x),b)$ is exact
+as a classifier row and as a nonzero-transport row:
 $$
 \bigl(\mathsf{mul}(\mathsf{mul}(a,x),b)
 \hsame
@@ -391,10 +403,15 @@ $$
 \Longleftrightarrow
 \mathsf{NonZero}_F(x).
 $$
-Together these two equivalences form one concrete
-$\FieldUp(\RatUp)$ exit-package clause for certified two-sided products.
+Together these four equivalences form one concrete
+$\FieldUp(\RatUp)$ multiplication package for certified nonzero factors.
 \end{theorem}
 \begin{proof}
+Apply
+\autoref{thm:field-one-sided-mul-cancel-iff-from-apartness} to the same
+history-level $\FieldUp$ candidate. With witnesses $p_b$ and $p_a$, it supplies
+the right- and left-factor classifier exactness rows over $\mathsf{BHist}$.
+
 Apply \autoref{thm:field-two-sided-mul-exact-from-apartness} to the same
 history-level $\FieldUp$ candidate and to the certified outer witnesses
 $p_a$ and $p_b$. This supplies the classifier exactness row for the map
@@ -405,19 +422,19 @@ Apply
 same witnesses. This supplies the nonzero-transport row for the identical
 two-sided product endpoint.
 
-Both rows use the same $\mathsf{BHist}$ carrier, the same classifier
-$\hsame$, the same multiplication endpoint, and the same ledger witnesses
+These rows use the same $\mathsf{BHist}$ carrier, the same classifier
+$\hsame$, the same multiplication endpoints, and the same ledger witnesses
 $p_a,p_b$. They therefore assemble as one concrete
-$\FieldUp(\RatUp)$ product certificate clause rather than as two unrelated
-rows.
+$\FieldUp(\RatUp)$ multiplication certificate clause.
 \end{proof}
 
-Per-object template: traditional target two-sided product exactness inside
+Per-object template: traditional target multiplication exactness inside
 $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\FieldUp$, $\RingUp$, and
 $\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{BHist}$; classifier
-$\hsame$; stability obligations multiplication congruence, inverse
-cancellation, zero absorption, and nonzero transport; ledger the outer
-witnesses $p_a,p_b$ and product endpoint
+$\hsame$; stability obligations multiplication congruence, one-sided
+cancellation exactness, inverse cancellation, zero absorption, and nonzero
+transport; ledger the one-sided witnesses, the outer witnesses $p_a,p_b$, and
+product endpoint
 $\mathsf{mul}(\mathsf{mul}(a,x),b)$; core theorem this block; exactness
-predicate the displayed paired equivalences; standard bridge deferred; status
-$\mathsf{ProofTarget}$.
+predicate the one-sided cancellation iff rows and the displayed paired
+equivalences; standard bridge deferred; status $\mathsf{ProofTarget}$.
