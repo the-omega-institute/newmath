@@ -1,0 +1,212 @@
+\chapter{A Concrete Naming Certificate for \(\CommRingUp\)}
+\label{ch:concrete-instances-commring-namecert}
+
+The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-instances-ring-namecert} with the commutativity field \(a \cdot b = b \cdot a\) for the multiplicative operation under the carrier's classifier. The integer ring from \autoref{ch:concrete-instances-int-namecert} is the canonical concrete instance.
+
+\section{Carrier definition}
+
+\begin{definition}[CommRing carrier]
+\label{def:commring-carrier}
+Use a ring setup extended with commutativity of multiplication.
+\end{definition}
+
+\section{Concrete singleton history commutative ring instance}
+\label{sec:commring-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history commutative ring instance]
+\label{def:concrete-singleton-history-commring-instance}
+On the concrete $\mathsf{BHist}$ carrier, define
+$A_{\emp}(h):=\hsame(h,\emp)$ and
+$$
+R_{\emp}(h,k):=A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+The commutative-ring operation tuple is
+$$
+\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,
+$$
+with multiplication and unit
+$$
+\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
+1:=\emp.
+$$
+\end{definition}
+
+\begin{theorem}[Concrete singleton history commutative ring laws]
+\label{thm:concrete-singleton-history-commring-laws}
+The concrete singleton history commutative ring instance of
+Definition~\ref{def:concrete-singleton-history-commring-instance} has carrier
+containing $0$, is closed under addition, negation, and multiplication, has
+left and right additive zero laws under $R_{\emp}$, and satisfies
+multiplicative commutativity under $R_{\emp}$.
+\end{theorem}
+\begin{proof}
+The carrier witness $A_{\emp}(0)$ is reflexive $\hsame(\emp,\emp)$. For
+addition and multiplication closure, if $A_{\emp}(x)$ and $A_{\emp}(y)$ hold,
+then both inputs are the empty history, so
+$\mathsf{append}(x,y)$ reduces to $\emp$. The negation operation is constantly
+$\emp$, so its closure is immediate from the same reflexive endpoint witness.
+
+For the two additive zero laws, the singleton input witness identifies $x$
+with $\emp$; after that identification, both
+$\mathsf{append}(\emp,x)$ and $\mathsf{append}(x,\emp)$ are the empty history,
+and the classifier packages the two carrier endpoints with reflexive
+$\hsame$. Multiplicative commutativity is identical: two singleton carrier
+witnesses identify $x$ and $y$ with $\emp$, so the two append products are
+both $\emp$ and are related by $R_{\emp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_laws}
+
+\section{Concrete singleton empty-history commutative ring instance}
+\label{sec:commring-concrete-singleton-instance}
+
+\begin{definition}[Singleton empty-history commutative ring instance]
+\label{def:singleton-empty-history-commring-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define the
+classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Define the concrete commutative ring operations by
+$$
+\mathsf{add}(h,k):=\emp,\qquad
+\mathsf{neg}(h):=\emp,\qquad
+0:=\emp,\qquad
+\mathsf{mul}(h,k):=\emp,\qquad
+1:=\emp.
+$$
+Equip this singleton ring tuple with the multiplicative commutativity field
+$$
+\rho_{\emp}(\mathsf{mul}(x,y),\mathsf{mul}(y,x)).
+$$
+The concrete commutative-ring certificate has the following ten fields:
+\begin{enumerate}
+  \item traditional target: the one-element commutative ring;
+  \item BEDC source: $\mathsf{BHist}$ with the singleton empty-history ring instance;
+  \item carrier: $A_{\emp}$;
+  \item classifier: $\rho_{\emp}$;
+  \item stability obligations: the singleton ring laws, multiplicative commutativity, and multiplication-commutativity compatibility;
+  \item ledger: constant-operation provenance for $0$, $1$, addition, negation, and multiplication;
+  \item core theorem: Theorem~\ref{thm:singleton-empty-history-commring-laws};
+  \item exactness: endpoint classification by membership in the singleton carrier and $\hsame$;
+  \item standard bridge: the ordinary one-element commutative ring;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Singleton empty-history commutative ring laws]
+\label{thm:singleton-empty-history-commring-laws}
+The tuple
+$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+all singleton empty-history ring laws from
+Theorem~\ref{thm:singleton-empty-history-ring-laws}, together with
+multiplicative commutativity and the compatibility fields for multiplication
+commutativity under $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The ring-law part is exactly Theorem~\ref{thm:singleton-empty-history-ring-laws}
+applied to the displayed singleton empty-history operation tuple. This supplies
+carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
+operation congruence, both distributive laws, and zero multiplication laws.
+
+For multiplicative commutativity, both $\mathsf{mul}(x,y)$ and
+$\mathsf{mul}(y,x)$ are definitionally $\emp$. The two endpoint witnesses for
+$\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
+component is $\hsame(\emp,\emp)$.
+
+For compatibility, the multiplication operation is constant on the singleton
+carrier. Replacing inputs by $\rho_{\emp}$-related inputs does not change either
+product endpoint: every source and target product is still $\emp$. Hence the
+same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
+commutativity field after transport.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
+
+\begin{theorem}[CommRing singleton classifier visible-right exclusion]
+\label{thm:commring-singleton-classifier-append-visible-right-absurd}
+For histories $h,p,q:\mathsf{BHist}$, neither
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))$ nor
+$\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton commutative-ring classifier. In either branch, the right
+carrier field says that the displayed append endpoint is $\emp$. The
+empty-result inversion theorem for append splits this into an empty prefix and
+an empty visible tail. The latter would identify $\mathsf{e0}(q)$ or
+$\mathsf{e1}(q)$ with $\emp$, contradicting the constructor separation of
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible exclusion]
+\label{thm:commring-singleton-carrier-visible-absurd}
+For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor
+$\mathsf{e1}(p)$ lies in the singleton commutative-ring carrier.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier as equality with $\emp$. The two generated
+history constructors are separated from the empty history, so both endpoint
+carrier witnesses are impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_visible\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible-head append exclusion]
+\label{thm:commring-singleton-carrier-append-visible-head-absurd}
+For histories $h,k:\mathsf{BHist}$, neither
+$\mathsf{append}(\mathsf{e0}(h),k)$ nor
+$\mathsf{append}(\mathsf{e1}(h),k)$ lies in the singleton commutative-ring
+carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible head $\mathsf{e0}(h)$ or $\mathsf{e1}(h)$ with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_head\_absurd}
+
+\begin{theorem}[CommRing singleton carrier visible-tail append exclusion]
+\label{thm:commring-singleton-carrier-append-visible-tail-absurd}
+For histories $p,q:\mathsf{BHist}$, neither
+$\mathsf{append}(p,\mathsf{e0}(q))$ nor
+$\mathsf{append}(p,\mathsf{e1}(q))$ lies in the singleton commutative-ring
+carrier.
+\end{theorem}
+\begin{proof}
+In either branch, the singleton carrier identifies the displayed append
+history with $\emp$. Empty-result inversion for append then identifies the
+visible tail $\mathsf{e0}(q)$ or $\mathsf{e1}(q)$ with $\emp$, contradicting
+constructor separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_tail\_absurd}
+
+\begin{theorem}[Singleton empty-history CommRingUp schema certificate]
+\label{thm:singleton-empty-history-commring-schema-certificate}
+Definition~\ref{def:singleton-empty-history-commring-instance}, together with
+Theorem~\ref{thm:singleton-empty-history-commring-laws}, supplies the carrier,
+source, pattern, classifier, stability, and ledger fields required by
+Definition~\ref{def:commring-certificate-obligations} over the concrete
+$\mathsf{BHist}$ singleton source.
+\end{theorem}
+\begin{proof}
+The carrier and source fields are the singleton empty-history source
+$A_{\emp}$ from Definition~\ref{def:singleton-empty-history-commring-instance}.
+The classifier field is $\rho_{\emp}$, and the operation tuple is the constant
+empty-history tuple for addition, negation, zero, multiplication, and one.
+
+The ring-law fields are supplied by
+Theorem~\ref{thm:singleton-empty-history-ring-laws} on that same carrier,
+classifier, and constant operation tuple. The multiplicative commutativity
+field and its compatibility under $\rho_{\emp}$ are exactly the additional
+fields packaged by Theorem~\ref{thm:singleton-empty-history-commring-laws}.
+
+The pattern field is the commutative-ring expression pattern generated by those
+operations and the multiplication-commutativity exchange. The ledger field is
+the constant-operation provenance tuple for $0$, $1$, addition, negation, and
+multiplication, so every operation endpoint recorded by the certificate remains
+the singleton history $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}

@@ -26,6 +26,19 @@ Induct on the concrete \(\mathsf{DirichletPartSum}\) witness. The zero result is
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_unary\_result}
 
+\begin{theorem}[Unit Dirichlet successor part sums are nonempty]
+\label{thm:zeta-basic-part-sum-successor-result-nonempty}
+If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then \(z\) is not
+\(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness. Its final step appends the previous
+sum to \(\Eone(s)\). If the result were empty, empty-result inversion for
+\(\Cont\) would force \(\Eone(s)\hsame\emp\), contradicting visible-successor
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_result\_nonempty}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.
