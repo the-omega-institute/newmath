@@ -126,6 +126,25 @@ again packaged at $\emp$.
 \leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonEndpoint\_correspondence}
 \leanchecked{BEDC.Derived.DeterminantUp.determinant\_singleton\_endpoint\_laws}
 
+\begin{theorem}[Determinant append-pair scalar classifier]
+\label{thm:determinant-singleton-det-append-pair-scalar-classifier}
+For histories $M,N,r:\mathsf{BHist}$, the scalar classifier of the singleton
+determinant readback on $\mathsf{append}(M,N)$ is equivalent to singleton
+matrix carriers for $M$ and $N$ together with the singleton commutative-ring
+carrier for $r$.
+\end{theorem}
+\begin{proof}
+Unfold the determinant readback as an append with the empty suffix. In the
+forward direction, the scalar classifier supplies emptiness of
+$\mathsf{append}(\mathsf{append}(M,N),\emp)$; append-empty inversion first
+removes the determinant suffix and then splits the matrix pair into carrier
+witnesses for $M$ and $N$. The target scalar carrier is the second endpoint
+field of the classifier. Conversely, the two matrix carrier witnesses make
+$\mathsf{append}(M,N)$ empty, the determinant suffix keeps it empty, and this
+empty determinant endpoint classifies with the carried scalar endpoint $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonDet\_append\_pair\_scalar\_classifier\_iff}
+
 \section{The certificate}
 \label{sec:determinant-certificate}
 

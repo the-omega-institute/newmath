@@ -291,4 +291,21 @@ theorem complex_history_semantic_name_certificate :
               exact source
           }
 
+theorem ComplexHistoryClassifier_component_classifier_intro
+    {real imag real' imag' h k : BHist} :
+    RatUp.RatHistoryClassifier real real' -> RatUp.RatHistoryClassifier imag imag' ->
+      Cont real imag h -> Cont real' imag' k -> ComplexHistoryClassifier h k := by
+  intro realClassifier imagClassifier contH contK
+  have carrierH : ComplexHistoryCarrier h :=
+    Exists.intro real
+      (Exists.intro imag
+        (And.intro realClassifier.left (And.intro imagClassifier.left contH)))
+  have carrierK : ComplexHistoryCarrier k :=
+    Exists.intro real'
+      (Exists.intro imag'
+        (And.intro realClassifier.right.left (And.intro imagClassifier.right.left contK)))
+  have sameHK : hsame h k :=
+    cont_respects_hsame realClassifier.right.right imagClassifier.right.right contH contK
+  exact And.intro carrierH (And.intro carrierK sameHK)
+
 end BEDC.Derived.ComplexUp

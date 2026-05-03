@@ -6,5 +6,47 @@ The function-object interface $\FuncUp$ packages the carrier of functions $A \to
 \section{Carrier definition}
 \label{sec:funcobj-carrier}
 
+\begin{theorem}[Function object linear singleton continuous-map components are empty]
+\label{thm:funcobj-linear-singleton-continuous-map-components-empty}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then
+$$
+\hsame(target,\emp)\land\hsame(cert,\emp)\land\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier identifies $source$, $map$, and $modulus$ with $\emp$.
+The continuous-map graph continuation compares with the right-unit
+continuation at $\emp$, forcing $target\hsame\emp$. The certificate
+continuation then compares against the same empty right unit, forcing
+$cert\hsame\emp$. Finally, the metric-distance continuation from $source$ to
+$target$ compares against the empty right unit after both endpoints have been
+identified with $\emp$, so $distance\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_components\_empty}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
+
+\begin{theorem}[Function-object pointwise hom carrier semantic certificate]
+\label{thm:funcobj-pointwise-hom-carrier-semantic-namecert}
+For a unary prefix $p$ and a categorical hom carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, the pointwise function-object carrier
+$$
+\mathsf{CategoryHomCarrier}(a,b,t)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),t)
+$$
+has a semantic naming certificate with source, pattern, and ledger predicates
+all equal to this carrier and classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The witness is the original hom history $f$. Prefix preservation for the
+unary-continuation category supplies the prefixed hom carrier at the same
+history. The classifier laws are reflexivity, symmetry, and transitivity of
+$\hsame$. Transport along a classifier proof keeps the endpoints fixed and
+moves both the base and prefixed hom-carrier conjuncts across the displayed
+history comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_semanticNameCert}
