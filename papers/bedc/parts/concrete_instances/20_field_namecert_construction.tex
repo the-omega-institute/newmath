@@ -472,6 +472,82 @@ predicate concrete homomorphic action representation into classifier-exact
 automorphisms; standard bridge ordinary normalizer representation by
 automorphisms; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action certificate]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. For each
+$T:\mathsf{AffAut}_F$ define
+$$
+\mathrm{Act}_T(X):=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$, $N_F(C_F(A))(U)$, $C_F(A)(X)$, $C_F(A)(Y)$,
+$T\equiv_{\mathrm{aff}}U$, and $X\equiv_{\mathrm{aff}}Y$, then the restricted
+action is classifier well-defined:
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y).
+$$
+Moreover, for every $T$ with $N_F(C_F(A))(T)$, the inverse affine automorphism
+is again a normalizer element,
+$$
+N_F(C_F(A))(\iota_F(T)),
+$$
+and for every $X$ with $C_F(A)(X)$ the two restricted actions cancel:
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{theorem}
+\begin{proof}
+Fix the concrete affine exit package supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. It fixes the
+carrier $\mathsf{AffAut}_F$, the operation $\circ_{\mathrm{aff}}$, the inverse
+operation $\iota_F(-)$, and the classifier $\equiv_{\mathrm{aff}}$ for the
+concrete $\FieldUp(\RatUp)$ affine exit object.
+
+For classifier well-definedness, first apply
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} to the
+left action factor and the acted element. This transports
+$T\circ_{\mathrm{aff}}X$ to $U\circ_{\mathrm{aff}}Y$ under the affine
+classifier. The same congruence theorem, applied to the right inverse factors
+and using the inverse determinacy encoded by
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, transports the full
+conjugation word
+$(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)$ to
+$(U\circ_{\mathrm{aff}}Y)\circ_{\mathrm{aff}}\iota_F(U)$. This is exactly
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_U(Y)$.
+
+For the inverse normalizer clause, apply the inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} to
+$N_F(C_F(A))(T)$. It gives $N_F(C_F(A))(\iota_F(T))$.
+
+Finally, use
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness} with
+conjugating element $T$ and acted element $X$. Its two inverse-action
+cancellation clauses identify conjugation by $\iota_F(T)$ after conjugation by
+$T$, and conjugation by $T$ after conjugation by $\iota_F(T)$, with the original
+acted element $X$ under $\equiv_{\mathrm{aff}}$. Since $\mathrm{Act}$ is the
+restricted notation for these conjugation words on $C_F(A)$, the displayed
+restricted cancellation laws follow.
+\end{proof}
+
+Per-object template: traditional target group action by a normalizer on a
+centralizer; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus
+$\GroupUp$; carrier $C_F(A)$ acted on by $N_F(C_F(A))$; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations classifier well-definedness and
+inverse-action cancellation; ledger normalizer witness, inverse witness, acted
+element, and conjugation factors; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, and
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness}; exactness
+predicate restricted action certificate; standard bridge ordinary normalizer
+action on a subgroup; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine center normalizes centralizers]
 \label{thm:ratup-fieldup-affine-center-normalizes-centralizers}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
