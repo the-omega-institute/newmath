@@ -60,6 +60,19 @@ theorem FuncobjPointwiseHomCarrier_comp_public_readback {p a b c f g fg : BHist}
   · intro displayed displayedCarrier
     exact baseReadback.right displayedCarrier.left
 
+theorem FuncobjPointwiseHomCarrier_comp_hsame_transport {p a b c f g fg fg' : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame fg fg' ->
+        CategoryHomCarrier a c fg' ∧ CategoryHomCarrier (append p a) (append p c) fg' := by
+  intro prefixCarrier left right comp sameComposite
+  have carriers :=
+    (FuncobjPointwiseHomCarrier_comp_public_readback prefixCarrier left right comp).left
+  exact And.intro
+    (CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl c) sameComposite
+      carriers.left)
+    (CategoryHomCarrier_hsame_transport (hsame_refl (append p a)) (hsame_refl (append p c))
+      sameComposite carriers.right)
+
 theorem FuncObjLinearSingleton_continuous_map_components_empty
     {source map target modulus cert distance : BHist} :
     ContinuousMapCarrier source map target modulus cert distance ->
@@ -105,5 +118,36 @@ theorem FuncObjLinearSingleton_continuous_map_empty_graphs
       (cont_hsame_transport emptyComponents.left (hsame_refl modulus) (hsame_refl cert) certRel)
       (cont_hsame_transport (hsame_refl source) emptyComponents.left (hsame_refl distance)
         distanceRel))
+
+theorem FuncObjLinearSingleton_continuous_map_empty_components_iff
+    {source map target modulus cert distance : BHist} :
+    LinearMapSingletonCarrier source -> LinearMapSingletonCarrier map ->
+      LinearMapSingletonCarrier modulus ->
+        (ContinuousMapCarrier source map target modulus cert distance ↔
+          hsame target BHist.Empty ∧ hsame cert BHist.Empty ∧
+            hsame distance BHist.Empty) := by
+  intro sourceEmpty mapEmpty modulusEmpty
+  constructor
+  · intro carrier
+    exact
+      FuncObjLinearSingleton_continuous_map_components_empty
+        carrier sourceEmpty mapEmpty modulusEmpty
+  · intro componentsEmpty
+    cases sourceEmpty
+    cases mapEmpty
+    cases modulusEmpty
+    cases componentsEmpty.left
+    cases componentsEmpty.right.left
+    cases componentsEmpty.right.right
+    exact
+      And.intro
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro unary_empty
+              (And.intro unary_empty
+                (And.intro (cont_right_unit BHist.Empty) (cont_right_unit BHist.Empty))))))
+        (And.intro unary_empty
+          (And.intro unary_empty
+            (And.intro unary_empty (cont_right_unit BHist.Empty))))
 
 end BEDC.Derived.FuncobjUp
