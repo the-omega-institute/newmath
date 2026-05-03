@@ -98,6 +98,32 @@ $\mathsf{ListClassifierSpec}(sameA,xs,ys)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_iff}
 
+\begin{theorem}[BHist-parametric list classifier append stability]
+\label{thm:list-classifier-BHist-append}
+For any relation $sameA:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and
+finite spines $xs,ys,zs,ws:\mathsf{ListCarrier}(\mathsf{BHist})$, if
+$$
+\mathsf{ListClassifierSpec}(sameA,xs,ys)
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,zs,ws)
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,xs{++}zs,ys{++}ws)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Induct on the first classified spine pair. In the nil case, the first
+classifier forces the second left spine to be nil, so the conclusion is exactly
+the second classifier witness. In the cons case, the second left spine is also
+cons; keep the head classifier witness and apply the induction hypothesis to
+the classified tails and the second append witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_BHist\_append}
+
 \begin{theorem}[BHist-parametric classified list prefix cancellation]
 \label{thm:list-classifier-source-append-left-cancel-classified}
 For any relation $sameA:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and
@@ -206,6 +232,36 @@ classifier relates $p{++}x$ to $p'{++}y$, so
 Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified} cancels
 the classified prefixes and yields $\mathsf{ListClassifierSpec}(sameA,x,y)$.
 \end{proof}
+
+\begin{theorem}[BHist-parametric classified append context equivalence]
+\label{thm:list-classifier-BHist-append-context-iff}
+For any relation $sameA:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ and
+finite spines $p,p',x,y,s,s':\mathsf{ListCarrier}(\mathsf{BHist})$, if
+$$
+\mathsf{ListClassifierSpec}(sameA,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(sameA,s,s')
+$$
+hold, then
+$$
+\mathsf{ListClassifierSpec}(sameA,p{++}(x{++}s),p'{++}(y{++}s'))
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(sameA,x,y)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the left-to-right direction, first cancel the classified prefixes using
+Theorem~\ref{thm:list-classifier-source-append-left-cancel-classified}. Then
+cancel the classified suffixes using
+Theorem~\ref{thm:list-classifier-source-append-right-cancel-classified}. For
+the right-to-left direction, append the classified middle spines to the
+classified suffixes using Theorem~\ref{thm:list-classifier-BHist-append}, and
+append the classified prefixes to the result using the same append stability.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_BHist\_append\_context\_iff}
 
 \begin{theorem}[List represented-spine classifier alignment]
 \label{thm:list-represented-spine-classifier-alignment}

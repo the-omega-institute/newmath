@@ -1,18 +1,45 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 import BEDC.Derived.GroupUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.FieldUp.SingletonEmpty
+import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
+open BEDC.Derived.RatUp
 
 def FieldSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
 
 def FieldSingletonClassifier (h k : BHist) : Prop :=
   FieldSingletonCarrier h ∧ FieldSingletonCarrier k ∧ hsame h k
+
+theorem FieldSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      (FieldSingletonClassifier (append L Q) (append R S) <->
+        FieldSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : FieldSingletonCarrier (append L Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightCarrier : FieldSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
 def FieldSingletonAdd (_x _y : BHist) : BHist :=
   BHist.Empty
@@ -34,6 +61,15 @@ def FieldSingletonNonZero (a : BHist) : Prop :=
 
 def FieldSingletonInv (a : BHist) (_p : FieldSingletonNonZero a) : BHist :=
   BHist.Empty
+
+theorem FieldSingletonCarrier_visible_absurd {p : BHist} :
+    (FieldSingletonCarrier (BHist.e0 p) -> False) ∧
+      (FieldSingletonCarrier (BHist.e1 p) -> False) := by
+  constructor
+  · intro carrier
+    exact not_hsame_e0_empty carrier
+  · intro carrier
+    exact not_hsame_e1_empty carrier
 
 theorem singleton_empty_history_field_schema_laws :
     SemanticNameCert FieldSingletonCarrier FieldSingletonCarrier FieldSingletonCarrier
@@ -147,6 +183,44 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
       mulCongr
       (rightInv b q)
       transportedLeft)
+
+protected theorem field_apart_zero_inverse_classifier_exact_from_apartness
+    {mul : BHist -> BHist -> BHist}
+    {one : BHist} {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : hsame a BHist.Empty -> False),
+      hsame (mul a (inv a p)) one)
+    {a b : BHist} (pa : hsame a BHist.Empty -> False)
+    (pb : hsame b BHist.Empty -> False) :
+    hsame a b <-> hsame (inv a pa) (inv b pb) := by
+  constructor
+  · intro sameAB
+    exact field_inverse_congruence_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv sameAB pa pb
+  · intro sameInv
+    exact field_inverse_cancel_from_apartness
+      assocC leftId rightId mulCongr leftInv rightInv pa pb sameInv
+
+theorem field_inverse_nonzero_from_one_apartness {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (zeroLeft : forall x : BHist, hsame (mul BHist.Empty x) BHist.Empty)
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (oneApartEmpty : hsame one BHist.Empty -> False)
+    (nonzeroOfApartEmpty : forall x : BHist, (hsame x BHist.Empty -> False) -> NonZero x)
+    {a : BHist} (pa : NonZero a) : NonZero (inv a pa) := by
+  apply nonzeroOfApartEmpty
+  intro inverseEmpty
+  have productEmpty : hsame (mul (inv a pa) a) BHist.Empty := by
+    exact hsame_trans (mulCongr inverseEmpty (hsame_refl a)) (zeroLeft a)
+  exact oneApartEmpty (hsame_trans (hsame_symm (leftInv a pa)) productEmpty)
 
  theorem field_inverse_product_reverse_from_apartness {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
@@ -369,73 +443,6 @@ theorem field_inverse_cancel_from_apartness {mul : BHist -> BHist -> BHist}
     exact hsame_trans transported
       (hsame_trans reassoc (hsame_trans cancelHead (leftId c)))
 
-def fieldSingletonEmptyCarrier (h : BHist) : Prop :=
-  hsame h BHist.Empty
-
-def fieldSingletonEmptyClassifier (h k : BHist) : Prop :=
-  fieldSingletonEmptyCarrier h ∧ fieldSingletonEmptyCarrier k ∧ hsame h k
-
-def fieldSingletonEmptyNonZero (h : BHist) : Prop :=
-  fieldSingletonEmptyClassifier h BHist.Empty -> False
-
-def fieldSingletonEmptyMul (_x _y : BHist) : BHist :=
-  BHist.Empty
-
-def fieldSingletonEmptyOne : BHist :=
-  BHist.Empty
-
-def fieldSingletonEmptyInv (_h : BHist) (_p : fieldSingletonEmptyNonZero _h) : BHist :=
-  BHist.Empty
-
-theorem field_singleton_empty_schema_laws :
-    (fieldSingletonEmptyCarrier BHist.Empty) ∧
-      (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧
-      (∀ {h k : BHist}, fieldSingletonEmptyClassifier h k ->
-        fieldSingletonEmptyNonZero h -> fieldSingletonEmptyNonZero k) ∧
-      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h), fieldSingletonEmptyCarrier h ->
-        fieldSingletonEmptyCarrier (fieldSingletonEmptyInv h p)) ∧
-      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h),
-        fieldSingletonEmptyClassifier (fieldSingletonEmptyMul (fieldSingletonEmptyInv h p) h)
-          fieldSingletonEmptyOne) ∧
-      (∀ (h : BHist) (p : fieldSingletonEmptyNonZero h),
-        fieldSingletonEmptyClassifier (fieldSingletonEmptyMul h (fieldSingletonEmptyInv h p))
-          fieldSingletonEmptyOne) := by
-  constructor
-  · exact hsame_refl BHist.Empty
-  · constructor
-    · intro nonzeroEmpty
-      apply nonzeroEmpty
-      constructor
-      · exact hsame_refl BHist.Empty
-      · constructor
-        · exact hsame_refl BHist.Empty
-        · exact hsame_refl BHist.Empty
-    · constructor
-      · intro h k sameHK nonzeroH
-        intro sameKEmpty
-        apply nonzeroH
-        constructor
-        · exact sameHK.left
-        · constructor
-          · exact hsame_refl BHist.Empty
-          · exact hsame_trans sameHK.right.right sameKEmpty.right.right
-      · constructor
-        · intro h p carrierH
-          exact hsame_refl BHist.Empty
-        · constructor
-          · intro h p
-            constructor
-            · exact hsame_refl BHist.Empty
-            · constructor
-              · exact hsame_refl BHist.Empty
-              · exact hsame_refl BHist.Empty
-          · intro h p
-            constructor
-            · exact hsame_refl BHist.Empty
-            · constructor
-              · exact hsame_refl BHist.Empty
-              · exact hsame_refl BHist.Empty
-
  theorem field_two_sided_mul_exact_from_apartness {mul : BHist -> BHist -> BHist}
     {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -485,6 +492,15 @@ theorem field_singleton_nonzero_absurd {a : BHist} :
   intro sameEmpty sameSingleton
   exact not_hsame_emp_e0 (hsame_trans (hsame_symm sameEmpty) sameSingleton)
 
+theorem FieldSingletonNonZero_empty_e0_forced {a : BHist} :
+    FieldSingletonNonZero a -> hsame BHist.Empty (BHist.e0 BHist.Empty) := by
+  intro nonzero
+  exact hsame_trans (hsame_symm nonzero.left) nonzero.right
+
+theorem FieldSingletonNonZero_absurd {h : BHist} : FieldSingletonNonZero h -> False := by
+  intro nonzero
+  exact field_singleton_nonzero_absurd nonzero.left nonzero.right
+
  theorem field_one_sided_zero_product_cancel_from_apartness
     {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {zero one : BHist}
     {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
@@ -532,5 +548,124 @@ theorem field_singleton_nonzero_absurd {a : BHist} :
         assocC rightId mulCongr rightInv a b nonzeroB
     exact hsame_trans (hsame_symm cancelRight)
       (hsame_trans transportProduct (zeroAbsorption.right (inv b nonzeroB)))
+ theorem field_two_sided_empty_product_exact_from_apartness
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a b x : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame (mul (mul a x) b) BHist.Empty <-> hsame x BHist.Empty := by
+  have zeroAbsorption :=
+    BEDC.Derived.RingUp.ring_mul_zero_absorption addAssoc zeroLeft negLeft addCongr
+      mulCongr leftDistrib rightDistrib
+  have emptyProduct : hsame (mul (mul a BHist.Empty) b) BHist.Empty := by
+    exact hsame_trans (mulCongr (zeroAbsorption.left a) (hsame_refl b))
+      (zeroAbsorption.right b)
+  have exactProducts : hsame (mul (mul a x) b) (mul (mul a BHist.Empty) b) <->
+        hsame x BHist.Empty :=
+    field_two_sided_mul_exact_from_apartness assocC leftId rightId mulCongr leftInv
+      rightInv pa pb
+  constructor
+  · intro productEmpty
+    exact Iff.mp exactProducts (hsame_trans productEmpty (hsame_symm emptyProduct))
+  · intro xEmpty
+    exact hsame_trans (Iff.mpr exactProducts xEmpty) emptyProduct
+ theorem field_nonzero_factors_exclude_empty_product
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist} {one : BHist}
+    {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    (nonzeroTransport : forall {a b : BHist}, hsame a b -> NonZero a -> NonZero b)
+    (nonzeroEmptyAbsurd : NonZero BHist.Empty -> False)
+    {a b : BHist} (pa : NonZero a) (pb : NonZero b) :
+    hsame (mul a b) BHist.Empty -> False := by
+  intro productEmpty
+  have bEmpty : hsame b BHist.Empty := by
+    exact (field_one_sided_zero_product_cancel_from_apartness addAssoc zeroLeft negLeft
+      assocC leftId rightId addCongr mulCongr leftDistrib rightDistrib leftInv rightInv a b).left
+      pa productEmpty
+  exact nonzeroEmptyAbsurd (nonzeroTransport bEmpty pb)
+
+theorem field_rat_denominator_continuation_left_unit_law_endpoint_empty_iff {u : BHist} :
+    ((∀ {d r : BHist}, RatHistoryCarrier d -> Cont u d r -> RatHistoryClassifier r d) ↔
+      hsame u BHist.Empty) := by
+  constructor
+  · intro leftUnit
+    have carrierD1 : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+      RatHistoryCarrier_e1_tail_unary_iff.mpr unary_empty
+    have canonicalContinuation :
+        Cont u (BHist.e1 BHist.Empty) (append u (BHist.e1 BHist.Empty)) :=
+      cont_intro rfl
+    have classifiedResult :
+        RatHistoryClassifier (append u (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) :=
+      leftUnit carrierD1 canonicalContinuation
+    have collapsedContinuation : Cont u (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+      cont_result_hsame_transport canonicalContinuation classifiedResult.right.right
+    exact cont_left_unit_unique collapsedContinuation
+  · intro uEmpty
+    intro d r carrierD contUDR
+    have sameRD : hsame r d := by
+      cases uEmpty
+      exact cont_left_unit_result contUDR
+    exact ⟨RatHistoryCarrier_hsame_transport (hsame_symm sameRD) carrierD,
+      carrierD, sameRD⟩
+
+theorem fieldSingletonEmptyNonZero_append_right_cancel_iff {P Q : BHist} :
+    fieldSingletonEmptyCarrier P ->
+      (fieldSingletonEmptyNonZero (append Q P) ↔ fieldSingletonEmptyNonZero Q) := by
+  intro carrierP
+  constructor
+  · intro nonzeroAppend classifiedQ
+    apply nonzeroAppend
+    have leftCarrier : fieldSingletonEmptyCarrier (append Q P) :=
+      append_eq_empty_iff.mpr (And.intro classifiedQ.left carrierP)
+    exact And.intro leftCarrier (And.intro (hsame_refl BHist.Empty) leftCarrier)
+  · intro nonzeroQ classifiedAppend
+    apply nonzeroQ
+    have split := append_eq_empty_iff.mp classifiedAppend.left
+    exact And.intro split.left (And.intro (hsame_refl BHist.Empty) split.left)
+
+theorem fieldSingletonEmptyNonZero_append_left_cancel_iff {P Q : BHist} :
+    fieldSingletonEmptyCarrier P ->
+      (fieldSingletonEmptyNonZero (append P Q) ↔ fieldSingletonEmptyNonZero Q) := by
+  intro carrierP
+  constructor
+  · intro nonzeroAppend classifiedQ
+    apply nonzeroAppend
+    have leftCarrier : fieldSingletonEmptyCarrier (append P Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierP classifiedQ.left)
+    exact And.intro leftCarrier (And.intro (hsame_refl BHist.Empty) leftCarrier)
+  · intro nonzeroQ classifiedAppend
+    apply nonzeroQ
+    have split := append_eq_empty_iff.mp classifiedAppend.left
+    exact And.intro split.right (And.intro (hsame_refl BHist.Empty) split.right)
 
 end BEDC.Derived.FieldUp

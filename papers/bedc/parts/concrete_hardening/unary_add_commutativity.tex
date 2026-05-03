@@ -65,6 +65,25 @@ If \(\UnaryCont(h,k,r)\), then \(\Unary(r)\). If \(\ContR(h,k,r)\) and \(\Unary(
 Induct on the derivation of \(\ContR(h,k,r)\). The empty case gives \(r\) internally same as \(k\), hence unary. The \(\Eone\)-case preserves unary by the constructor rule. The \(\Ezero\)-case is incompatible with \(\Unary(h)\) by unary no-zero-extension.
 \end{proof}
 
+\begin{theorem}[Unary append context middle equivalence]
+\label{thm:unary-append-context-middle-iff}
+Let $l,m,r:\mathsf{BHist}$. If $l$ and $r$ are unary histories, then unary
+membership of the two-sided append context is equivalent to unary membership
+of the middle history:
+$$
+\Unary(\mathsf{append}(l,\mathsf{append}(m,r)))
+\Longleftrightarrow
+\Unary(m).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies unary append factor recovery twice: first recover
+the right factor of the outer append, then recover the left factor of the inner
+append. The reverse direction closes unary histories under append, first for
+the middle with the right context and then with the left context.
+\end{proof}
+\leanchecked{BEDC.FKernel.Unary.unary\_append\_context\_middle\_iff}
+
 \begin{theorem}[Unary continuation commutativity]
 \label{thm:unary-cont-comm}
 If

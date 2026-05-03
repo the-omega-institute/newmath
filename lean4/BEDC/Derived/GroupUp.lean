@@ -92,6 +92,25 @@ def GroupSingletonInv (_x : BHist) : BHist :=
 def GroupSingletonUnit : BHist :=
   BHist.Empty
 
+theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append L Q) (append R S) <->
+        GroupSingletonClassifier Q S) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    have leftCarrier : GroupSingletonCarrier (append L Q) :=
+      append_eq_empty_iff.mpr (And.intro carrierL classified.left)
+    have rightCarrier : GroupSingletonCarrier (append R S) :=
+      append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem GroupSingletonHistory_laws :
     SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
         GroupSingletonClassifier ∧
@@ -376,6 +395,29 @@ theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BH
       (hsame_trans (assocC (inv a) a x)
         (mulCongr (hsame_refl (inv a)) sameProduct)))
 
+ theorem group_left_mul_equation_exact_from_empty_unit {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x b : BHist} :
+    hsame (mul a x) b <-> hsame x (mul (inv a) b) := by
+  constructor
+  · intro sameProduct
+    exact group_left_mul_equation_solution assocC leftId mulCongr leftInv sameProduct
+  · intro sameSolution
+    have replaceX : hsame (mul a x) (mul a (mul (inv a) b)) := by
+      exact mulCongr (hsame_refl a) sameSolution
+    have reassoc :
+        hsame (mul a (mul (inv a) b)) (mul (mul a (inv a)) b) := by
+      exact hsame_symm (assocC a (inv a) b)
+    have cancelHead : hsame (mul (mul a (inv a)) b) (mul BHist.Empty b) := by
+      exact mulCongr (rightInv a) (hsame_refl b)
+    exact hsame_trans replaceX (hsame_trans reassoc (hsame_trans cancelHead (leftId b)))
+
 theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -389,6 +431,29 @@ theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : B
     (hsame_trans (mulCongr (hsame_refl x) (hsame_symm (rightInv a)))
       (hsame_trans (hsame_symm (assocC x a (inv a)))
         (mulCongr sameProduct (hsame_refl (inv a)))))
+
+ theorem group_right_mul_equation_exact_from_empty_unit {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {x a b : BHist} :
+    hsame (mul x a) b <-> hsame x (mul b (inv a)) := by
+  constructor
+  · intro sameProduct
+    exact group_right_mul_equation_solution assocC rightId mulCongr rightInv sameProduct
+  · intro sameSolution
+    have replaceX : hsame (mul x a) (mul (mul b (inv a)) a) := by
+      exact mulCongr sameSolution (hsame_refl a)
+    have reassoc :
+        hsame (mul (mul b (inv a)) a) (mul b (mul (inv a) a)) := by
+      exact assocC b (inv a) a
+    have cancelTail : hsame (mul b (mul (inv a) a)) (mul b BHist.Empty) := by
+      exact mulCongr (hsame_refl b) (leftInv a)
+    exact hsame_trans replaceX (hsame_trans reassoc (hsame_trans cancelTail (rightId b)))
 
 theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
@@ -460,5 +525,55 @@ theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : B
     (hsame_trans (mulCongr (hsame_refl y) (hsame_symm rightInv))
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr leftInv (hsame_refl z)) (leftId z))))
+
+ theorem group_conjugation_equation_exact_from_empty_unit_iff {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x b : BHist} :
+    hsame (mul (mul a x) (inv a)) b <-> hsame x (mul (mul (inv a) b) a) := by
+  constructor
+  · intro sameConj
+    have collapseConjRight :
+        hsame (mul (mul (mul a x) (inv a)) a) (mul a x) := by
+      exact hsame_trans (assocC (mul a x) (inv a) a)
+        (hsame_trans (mulCongr (hsame_refl (mul a x)) (leftInv a)) (rightId (mul a x)))
+    have sameLeftProduct : hsame (mul a x) (mul b a) := by
+      exact hsame_trans (hsame_symm collapseConjRight)
+        (mulCongr sameConj (hsame_refl a))
+    exact hsame_trans (hsame_symm (leftId x))
+      (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl x))
+        (hsame_trans (assocC (inv a) a x)
+          (hsame_trans (mulCongr (hsame_refl (inv a)) sameLeftProduct)
+            (hsame_symm (assocC (inv a) b a)))))
+  · intro sameMiddle
+    have sameLeftProduct : hsame (mul a x) (mul b a) := by
+      have replaceMiddle :
+          hsame (mul a x) (mul a (mul (mul (inv a) b) a)) := by
+        exact mulCongr (hsame_refl a) sameMiddle
+      have reassocOuter :
+          hsame (mul a (mul (mul (inv a) b) a))
+            (mul (mul a (mul (inv a) b)) a) := by
+        exact hsame_symm (assocC a (mul (inv a) b) a)
+      have reassocInner :
+          hsame (mul (mul a (mul (inv a) b)) a)
+            (mul (mul (mul a (inv a)) b) a) := by
+        exact mulCongr (hsame_symm (assocC a (inv a) b)) (hsame_refl a)
+      have collapseHead :
+          hsame (mul (mul (mul a (inv a)) b) a) (mul (mul BHist.Empty b) a) := by
+        exact mulCongr (mulCongr (rightInv a) (hsame_refl b)) (hsame_refl a)
+      have collapseUnit : hsame (mul (mul BHist.Empty b) a) (mul b a) := by
+        exact mulCongr (leftId b) (hsame_refl a)
+      exact hsame_trans replaceMiddle
+        (hsame_trans reassocOuter
+          (hsame_trans reassocInner (hsame_trans collapseHead collapseUnit)))
+    exact hsame_trans (mulCongr sameLeftProduct (hsame_refl (inv a)))
+      (hsame_trans (assocC b a (inv a))
+        (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b)))
 
 end BEDC.Derived.GroupUp

@@ -3,12 +3,439 @@
 
 The polynomial interface \(\PolynomialUp\) has certificate obligations over a scalar ring from \autoref{ch:concrete-instances-ring-namecert} as finite coefficient sequences from \autoref{ch:concrete-instances-list-namecert}, normalized to remove trailing zeros so that the highest-index entry is nonzero (or the sequence is empty for the zero polynomial). The classifier is structural sameness on the normalized representative. Polynomial addition and multiplication are derived operations governed by the ring's certificate fields.
 
+\section{Concrete singleton zero-polynomial instance}
+\label{sec:polynomial-concrete-singleton-zero-instance}
+
+\begin{definition}[Singleton zero-polynomial instance]
+\label{def:singleton-zero-polynomial-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Use the
+singleton empty-history scalar ring of
+Definition~\ref{def:singleton-empty-history-ring-instance}. Define the
+polynomial classifier
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+The normalized coefficient-list representative is $\emp$, and the singleton
+normalization map on admitted endpoints is $\mathsf{norm}_{\emp}(h):=\emp$.
+The polynomial carrier is $A_{\emp}$ on $\mathsf{BHist}$ endpoints. Define the
+displayed polynomial operations by
+$$
+0_P:=\emp,\qquad 1_P:=\emp,\qquad
+P\oplus_P Q:=\mathsf{append}(P,Q),\qquad
+P\odot_P Q:=\mathsf{append}(P,Q).
+$$
+This tuple is the concrete zero-polynomial instance of the
+$\PolynomialUp$ certificate schema over the singleton BEDC history carrier.
+\end{definition}
+
+\begin{theorem}[Singleton zero-polynomial laws]
+\label{thm:singleton-zero-polynomial-laws}
+For the singleton instance of
+Definition~\ref{def:singleton-zero-polynomial-instance}, the displayed
+polynomial carrier and operations satisfy the concrete $\PolynomialUp$ law
+package:
+\begin{enumerate}
+  \item $0_P$ and $1_P$ are carried by $A_{\emp}$.
+  \item If $A_{\emp}(P)$ and $A_{\emp}(Q)$, then
+  $A_{\emp}(P\oplus_P Q)$ and $A_{\emp}(P\odot_P Q)$.
+  \item $0_P$ is a left and right unit for $\oplus_P$ under $\rho_{\emp}$.
+  \item $1_P$ is a left and right identity for $\odot_P$ under $\rho_{\emp}$.
+  \item $\oplus_P$ and $\odot_P$ are associative under $\rho_{\emp}$.
+  \item Left and right distributivity of $\odot_P$ over $\oplus_P$ hold under
+  $\rho_{\emp}$.
+  \item $\mathsf{norm}_{\emp}(\mathsf{norm}_{\emp}(P))$ is classified with
+  $\mathsf{norm}_{\emp}(P)$ by $\rho_{\emp}$.
+\end{enumerate}
+The $\PolynomialUp$ schema is represented by this concrete $\mathsf{BHist}$
+carrier and its displayed operations, so Lean formalization can target
+$\mathsf{BEDC.Derived.PolynomialUp}$ through a carrier certificate instead of
+abstract operator-only statements.
+\end{theorem}
+\begin{proof}
+The carrier endpoint is the singleton source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Thus
+$0_P$, $1_P$, and the normalized representative $\emp$ are all carried by the
+same reflexive endpoint witness.
+
+For closure under $\oplus_P$ and $\odot_P$, carried inputs reduce to the
+singleton endpoint under $\rho_{\emp}$. The displayed operations are BEDC
+append endpoints. The continuation unit and associativity laws used in
+Theorem~\ref{thm:concrete-history-monoid-laws}, together with
+Theorem~\ref{thm:singleton-empty-history-ring-laws}, identify those append
+endpoints with the singleton class of $\emp$.
+
+The additive unit laws and multiplicative identity laws are the same endpoint
+calculation. On the left and on the right, the comparison is between
+$\mathsf{append}(\emp,P)$ or $\mathsf{append}(P,\emp)$ and $P$. The append unit
+laws provide the $\hsame$ component, while the carrier witnesses come from
+$A_{\emp}(P)$ and $A_{\emp}(\emp)$.
+
+Associativity for both operations follows from BEDC append associativity.
+The two parenthesized endpoints are related by the same continuation spine, and
+the singleton classifier packages that relation with the already established
+carrier closure.
+
+For distributivity, every term appearing on either side is a carried singleton
+endpoint after the closure step. Both sides are therefore classified with
+$\emp$, and transitivity of $\hsame$ supplies the displayed
+$\rho_{\emp}$ relation.
+
+Finally, normalization idempotence is immediate because
+$\mathsf{norm}_{\emp}$ is the constant endpoint $\emp$ on admitted inputs. Both
+iterated and one-step normalization have the same carried endpoint, so
+reflexivity of $\hsame$ gives the classifier witness.
+\end{proof}
+
 \section{Carrier definition}
 
 \begin{definition}[Polynomial carrier]
 \label{def:polynomial-carrier}
 Use finite coefficient lists over a scalar ring, normalized by removing trailing zero coefficients.
 \end{definition}
+
+\section{Concrete singleton history polynomial instance}
+\label{sec:polynomial-concrete-singleton-history-instance}
+
+\begin{definition}[Concrete singleton history polynomial instance]
+\label{def:concrete-singleton-history-polynomial-instance}
+Let $A_{\emp}$ be the singleton history source of
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$. Define
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+Set the polynomial code carrier to $A_{\emp}$ on $\mathsf{BHist}$. Define the
+displayed polynomial operations by
+$$
+\mathsf{normalize}_P(h):=\emp,\qquad
+0_P:=\emp,\qquad
+1_P:=\emp,\qquad
+\mathsf{add}_P(f,g):=\mathsf{append}(f,g),\qquad
+\mathsf{mul}_P(f,g):=\mathsf{append}(f,g).
+$$
+The ledger is the empty normalized coefficient list over the singleton
+empty-history ring of Definition~\ref{def:singleton-empty-history-ring-instance}.
+\end{definition}
+
+\begin{theorem}[Singleton history polynomial laws]
+\label{thm:singleton-empty-history-polynomial-laws}
+The tuple
+$$
+(A_{\emp},\rho_{\emp},\mathsf{normalize}_P,
+0_P,1_P,\mathsf{add}_P,\mathsf{mul}_P)
+$$
+satisfies the $\PolynomialUp$ law package over $\mathsf{BHist}$: normalization
+closure, normalization idempotence, zero and one closure, addition and
+multiplication closure, additive zero laws, multiplicative zero laws,
+multiplicative one laws, associativity, distributivity, and congruence under
+$\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$ supplies the
+singleton source witness $A_{\emp}(\emp)$. The same endpoint is the scalar
+zero and scalar unit carrier supplied by
+Theorem~\ref{thm:singleton-empty-history-ring-laws}.
+
+Normalization closure holds because $\mathsf{normalize}_P(h)$ is the endpoint
+$\emp$. Normalization idempotence compares
+$\mathsf{normalize}_P(\mathsf{normalize}_P(h))$ with
+$\mathsf{normalize}_P(h)$, and both sides are the same carried endpoint.
+
+The constants $0_P$ and $1_P$ are both $\emp$, so zero closure and one closure
+are exactly $A_{\emp}(\emp)$. Addition closure and multiplication closure use
+empty-result inversion for BEDC append: if both inputs are singleton-carried,
+then both inputs are $\emp$, and the appended result is again singleton-carried.
+
+The additive zero laws, multiplicative zero laws, and multiplicative one laws
+all reduce to a comparison of an appended empty endpoint with the carried
+endpoint. Each classifier goal is assembled from the two endpoint witnesses and
+the corresponding history-sameness witness.
+
+Associativity and distributivity have no remaining endpoint computation after
+the displayed operations are unfolded under singleton-carrier hypotheses. The
+left-associated, right-associated, left-distributive, and right-distributive
+terms are all singleton-carried, so $\rho_{\emp}$ packages the same singleton
+carrier witnesses with the BEDC append associativity witness.
+
+For congruence under $\rho_{\emp}$, assume the inputs are pairwise related by
+$\rho_{\emp}$. The operation outputs are singleton-carried on both sides for
+normalization, addition, and multiplication. The output relation is the
+singleton classifier witness built from the carrier witnesses and
+history-sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.singleton\_empty\_history\_polynomial\_laws}
+
+\begin{theorem}[Polynomial singleton classifier empty addition split]
+\label{thm:polynomial-singleton-classifier-add-split-empty}
+For singleton-history polynomial codes $P,Q,h$, the classifier relation
+between $\mathsf{add}_P(P,Q)$ and $h$ holds exactly when $P$ and $Q$
+are each history-same to $\emp$ and $h$ is singleton-carried:
+$$
+\rho_{\emp}(\mathsf{add}_P(P,Q),h)
+\quad\Longleftrightarrow\quad
+\hsame(P,\emp)\wedge\hsame(Q,\emp)\wedge A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier. The left carrier field says that
+$\mathsf{append}(P,Q)$ is history-same to $\emp$. Empty-result inversion
+for BEDC append splits this into $\hsame(P,\emp)$ and $\hsame(Q,\emp)$,
+while the right carrier field is exactly $A_{\emp}(h)$. Conversely, after
+the two endpoint sameness witnesses identify $P$ and $Q$ with $\emp$,
+the classifier is rebuilt from the singleton carrier of $\emp$, the given
+carrier of $h$, and symmetry of the carrier witness for $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_split\_empty\_iff}
+
+\begin{theorem}[Polynomial singleton add visible-left exclusion]
+\label{thm:polynomial-singleton-add-visible-left-absurd}
+For histories $P,Q,h:\mathsf{BHist}$, no singleton polynomial classifier
+witness can classify an addition endpoint whose left source begins with a
+visible constructor:
+$$
+\rho_{\emp}(\mathsf{add}_P(\mathsf{e0}(P),Q),h)\Rightarrow\bot,
+\qquad
+\rho_{\emp}(\mathsf{add}_P(\mathsf{e1}(P),Q),h)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{add}_P$ to BEDC append and unfold the singleton classifier.
+The source carrier field says the appended endpoint is history-same to
+$\emp$. Empty-result inversion for append then forces the visible left source
+itself to be $\emp$, contradicting constructor separation for
+$\mathsf{e0}$ or $\mathsf{e1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_visible\_left\_absurd}
+
+\begin{theorem}[Polynomial singleton add visible-right exclusion]
+\label{thm:polynomial-singleton-add-visible-right-absurd}
+For histories $P,Q,h:\mathsf{BHist}$, no singleton polynomial classifier
+witness can classify an addition endpoint whose right source begins with a
+visible constructor:
+$$
+\rho_{\emp}(\mathsf{add}_P(P,\mathsf{e0}(Q)),h)\Rightarrow\bot,
+\qquad
+\rho_{\emp}(\mathsf{add}_P(P,\mathsf{e1}(Q)),h)\Rightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Again the classifier source carrier identifies the BEDC append endpoint with
+$\emp$. Empty-result inversion for append separates the left and right source
+endpoints, so the visible right endpoint would have to be $\emp$. This is
+excluded by the disjointness of visible $\mathsf{BHist}$ constructors from the
+empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_add\_visible\_right\_absurd}
+
+\begin{theorem}[Polynomial singleton classifier append-left cancellation]
+\label{thm:polynomial-singleton-classifier-append-left-cancel}
+For singleton-carried $P$, adding the same BEDC append context on the left of
+two singleton polynomial endpoints preserves and reflects the singleton
+classifier:
+$$
+A_{\emp}(P)\Longrightarrow
+\left(
+\rho_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(P,R))
+\Longleftrightarrow
+\rho_{\emp}(Q,R)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the classifier says that both appended endpoints are
+singleton-carried. Empty append inversion splits the two endpoint carriers,
+giving $Q\hsame\emp$ and $R\hsame\emp$, and these witnesses rebuild
+$\rho_{\emp}(Q,R)$. Conversely, the singleton carrier of $P$ identifies the
+left context with $\emp$, so both appended endpoints reduce to the original
+classified endpoints $Q$ and $R$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Polynomial singleton classifier append-right cancellation]
+\label{thm:polynomial-singleton-classifier-append-right-cancel}
+For singleton-carried $P$, adding the same BEDC append context on the right of
+two singleton polynomial endpoints preserves and reflects the singleton
+classifier:
+$$
+A_{\emp}(P)\Longrightarrow
+\left(
+\rho_{\emp}(\mathsf{append}(Q,P),\mathsf{append}(R,P))
+\Longleftrightarrow
+\rho_{\emp}(Q,R)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two appended endpoints are singleton-carried.
+Empty append inversion splits those carrier witnesses into $Q\hsame\emp$,
+$P\hsame\emp$, and $R\hsame\emp$, so the recovered witnesses for $Q$ and $R$
+rebuild $\rho_{\emp}(Q,R)$.
+
+For the reverse direction, combine the supplied singleton carrier for $P$ with
+the two endpoint carriers in $\rho_{\emp}(Q,R)$. Empty append inversion
+rebuilds singleton carrier witnesses for both right-appended endpoints, and
+transitivity through $\emp$ supplies their classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Polynomial singleton classifier append-pair carrier exactness]
+\label{thm:polynomial-singleton-classifier-append-pair-carrier}
+For histories $P,Q,R,S:\mathsf{BHist}$, the singleton polynomial classifier
+relates the two appended endpoints exactly when all four factors are carried
+by the singleton carrier:
+$$
+\rho_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(R)\land A_{\emp}(S).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton classifier. In the forward direction, the two carrier
+fields identify $\mathsf{append}(P,Q)$ and $\mathsf{append}(R,S)$ with
+$\emp$, and empty-result inversion for append splits these into the four
+singleton carrier witnesses. Conversely, if all four factors are
+singleton-carried, each factor is identified with $\emp$, so both appended
+endpoints reduce to $\emp$ and the classifier is rebuilt from reflexivity of
+$\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_append\_pair\_carrier\_iff}
+
+\begin{theorem}[Polynomial singleton normalized append classifier carrier]
+\label{thm:polynomial-singleton-normalize-append-classifier-carrier-iff}
+For histories $P,Q,h$, classifying $h$ against the normalized singleton append
+endpoint is exactly the singleton carrier predicate on $h$:
+$$
+\rho_{\emp}(\mathsf{normalize}_P(\mathsf{append}(P,Q)),h)
+\quad\Longleftrightarrow\quad
+A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton normalization endpoint is $\emp$. In the forward direction, the
+right carrier field of $\rho_{\emp}$ is precisely $A_{\emp}(h)$. Conversely, a
+carrier witness for $h$ combines with reflexivity of $\emp$ and symmetry of the
+same carrier witness to rebuild the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonNormalize\_append\_classifier\_carrier\_iff}
+
+\begin{theorem}[Polynomial singleton append distributivity is classified]
+\label{thm:polynomial-singleton-append-distrib-classified}
+For singleton-carried polynomial endpoints $P,Q,R$, the displayed append
+forms of the two distributivity comparisons are classified by
+$\rho_{\emp}$:
+$$
+\rho_{\emp}(\mathsf{append}(P,\mathsf{append}(Q,R)),
+\mathsf{append}(\mathsf{append}(P,Q),\mathsf{append}(P,R)))
+$$
+and
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(P,Q),R),
+\mathsf{append}(\mathsf{append}(P,R),\mathsf{append}(Q,R))).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier is closed under BEDC append: once an input is identified
+with $\emp$, appending it to another singleton-carried endpoint again produces
+a singleton-carried endpoint. Applying this closure to all displayed append
+trees shows that both sides of each comparison are carried by $A_{\emp}$.
+Each classifier is then assembled by transitivity through $\emp$: the left
+append tree is history-same to $\emp$, and the right append tree is
+history-same to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingleton\_append\_distrib\_classified}
+
+\begin{theorem}[Polynomial singleton classifier continuation commutativity closure]
+\label{thm:polynomial-singleton-classifier-continuation-comm-closed}
+Let $P,Q:\mathsf{BHist}$ be carried by the singleton polynomial carrier
+$A_{\emp}$. If $\ContR(P,Q,L)$ and $\ContR(Q,P,R)$, then both continuation
+results are carried by $A_{\emp}$, and the singleton polynomial classifier
+relates them:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The carrier hypotheses reduce $P$ and $Q$ to the empty history. The two
+continuation witnesses then reduce $L$ and $R$ to the same endpoint
+$\mathsf{append}(\emp,\emp)=\emp$. Repacking the reflexive empty-history
+carrier witnesses for the two results with $\hsame(\emp,\emp)$ gives the
+singleton classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_comm\_closed}
+
+\begin{theorem}[Polynomial singleton classifier continuation closure]
+\label{thm:polynomial-singleton-classifier-continuation-closed}
+Let $P,P',Q,Q',L,R:\mathsf{BHist}$. If the singleton polynomial classifier
+relates $P$ with $P'$ and $Q$ with $Q'$, and if
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(P',Q',R),
+$$
+then the singleton polynomial classifier relates the continuation results:
+$$
+\rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+Each classifier witness supplies singleton carrier evidence for its two
+endpoints. Thus all four continuation inputs are internally the empty history.
+Transporting the two continuation witnesses to the canonical empty-empty
+continuation shows $L\hsame\emp$ and $R\hsame\emp$. These carrier witnesses,
+together with transitivity through $\emp$, rebuild $\rho_{\emp}(L,R)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_continuation\_closed}
+
+\begin{theorem}[Polynomial singleton continuation result against empty is classified]
+\label{thm:polynomial-singleton-cont-result-empty-classified}
+Let $P,Q,r:\mathsf{BHist}$ be singleton-carried polynomial endpoints. If
+$\ContR(P,Q,r)$, then the continuation result is classified against the empty
+singleton endpoint:
+$$
+\rho_{\emp}(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The two singleton carrier witnesses identify $P$ and $Q$ with $\emp$. The
+continuation ledger then identifies $r$ with
+$\mathsf{append}(\emp,\emp)=\emp$. The classifier is rebuilt from the
+empty-history carrier witnesses on both endpoints and reflexivity of
+$\HSame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_cont\_result\_empty\_classified}
+
+\begin{theorem}[Polynomial singleton classifier continuation result empty witness iff]
+\label{thm:polynomial-singleton-classifier-cont-result-empty-witness-iff}
+For a history $r:\mathsf{BHist}$, $r$ is classified with the singleton empty
+polynomial endpoint exactly when it is the continuation result of two
+singleton-carried polynomial endpoints:
+$$
+\exists P,Q:\mathsf{BHist},\,
+A_{\emp}(P)\wedge A_{\emp}(Q)\wedge \ContR(P,Q,r)
+\quad\Longleftrightarrow\quad
+\rho_{\emp}(r,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two carrier witnesses identify $P$ and $Q$ with
+$\emp$. The continuation witness then identifies $r$ with
+$\mathsf{append}(\emp,\emp)$, hence with $\emp$, and the singleton classifier
+is assembled from the two empty endpoint carrier witnesses and reflexive
+$\hsame$.
+
+Conversely, if $\rho_{\emp}(r,\emp)$ holds, take $P=\emp$ and $Q=r$. The
+left endpoint is carried by reflexivity, the right endpoint is carried by the
+left carrier field of the classifier, and the empty-source continuation
+witness gives $\ContR(\emp,r,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonClassifier\_cont\_result\_empty\_witness\_iff}
+
+The $\PolynomialUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and the displayed $\mathsf{BHist}$-valued operations, so later
+formalization can target BHist-anchored polynomial laws rather than abstract
+coefficient operators.
 
 \section{The certificate}
 

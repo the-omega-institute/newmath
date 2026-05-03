@@ -1,0 +1,67 @@
+\begin{theorem}[Category visible composable morphism target cases]
+\label{thm:category-visible-composable-morphisms-target-cases}
+For histories $a,b,c,l,m,k$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),\Eone(k)),
+$$
+then there exist histories $r,s$ such that
+$$
+b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),\Eone(m),\Eone(k)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism target-case theorem to the left visible
+hom-carrier and to the right visible hom-carrier. The two applications expose
+tails $r$ and $s$ with $b=\Eone(r)$ and $c=\Eone(s)$. Substitute the first
+target equality into the right descended hom-carrier, retain the left
+descended hom-carrier, and carry the original visible continuation ledger into
+the existential package.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_visible\_composable\_morphisms\_target\_cases}
+
+\begin{theorem}[Category hom-carrier one-headed target and morphism descent]
+\label{thm:category-hom-carrier-e1-target-morphism-exactness}
+For histories $a,k,r$, a hom-carrier whose target and morphism histories are
+both one-headed descends to the corresponding tail hom-carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,\Eone(r),\Eone(k))
+\Longrightarrow
+\mathsf{CategoryHomCarrier}(a,r,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier fields. The source unary witness is unchanged. Unary
+inversion removes the visible constructor from both the target carrier and the
+morphism carrier, and the right step-rule inversion for $\ContR$ removes the
+same visible constructor from the continuation ledger. Repacking these fields
+gives $\mathsf{CategoryHomCarrier}(a,r,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_morphism\_exactness}
+
+\begin{theorem}[Category hom-carrier one-headed source and morphism target exactness]
+\label{thm:category-hom-e1-source-e1-morphism-target-iff}
+For histories $a,k,t$,
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(\Eone(a),t,\Eone(k)) \\
+&\quad\Longleftrightarrow\quad
+\exists r,\ t=\Eone(r)\land \mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(a),k,r).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. The continuation field forces the target to
+have a visible one constructor; removing that constructor gives
+\(\ContR(\Eone(a),k,r)\). The source, morphism, and target unary witnesses
+invert through the same visible constructors. Conversely, the displayed target
+equation, the three unary witnesses, and the one-step continuation rule rebuild
+the hom-carrier fields.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_morphism\_target\_iff}

@@ -209,6 +209,25 @@ witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_point\_tail\_readback}
 
+\begin{theorem}[SOne y endpoint reads the point tail]
+\label{thm:sone-history-carrier-y-e1-point-tail-hsame}
+For histories $x,y,e,t,d_y$, a concrete $\SOneUp$ history-carrier witness with
+point ledger $\Eone(t)$ and second coordinate presented as $\Eone(d_y)$ reads
+back the point tail as the continuation of $x$ by $d_y$:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,\Eone(t))\to
+\hsame(y,\Eone(d_y))\to
+\hsame(t,x\cdot d_y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack only the point-continuation field of the circle carrier. Transport the
+displayed second endpoint along $\hsame(y,\Eone(d_y))$. The continuation result
+then has the visible form $\Eone(t)=\Eone(x\cdot d_y)$, and one-constructor
+inversion gives the displayed tail classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_y\_e1\_point\_tail\_hsame}
+
 \begin{theorem}[SOne unit equation determinacy]
 \label{thm:s1-unit-equation-deterministic}
 For histories $x,y,e,p$, every concrete $\SOneUp$ history-carrier witness

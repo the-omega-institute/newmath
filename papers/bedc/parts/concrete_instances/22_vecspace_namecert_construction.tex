@@ -94,10 +94,299 @@ $\mathsf{NonZero}_{\bot}(h)$ is $\bot$, eliminating $p$ closes the clause over
 the empty witness domain. No classical nonzero test or further endpoint datum
 is needed.
 \end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.singleton\_empty\_history\_vecspace\_laws}
+
+\begin{theorem}[Singleton empty-history vector space endpoint collapse]
+\label{thm:singleton-empty-history-vecspace-endpoint-collapse}
+With the notation of
+Definition~\ref{def:singleton-empty-history-vecspace-instance}, let
+$r,s:\mathsf{BHist}$ be scalar endpoints and $m,n:\mathsf{BHist}$ be vector
+endpoints carried by $A_{\emp}$. Then the concrete singleton tuple has the
+following endpoint classifications:
+\begin{enumerate}
+  \item For any $x,y:\mathsf{BHist}$, if $A_{\emp}(x)$ and $A_{\emp}(y)$,
+  then $\rho_{\emp}(x,y)$.
+  \item $A_{\emp}(\mathsf{smul}(r,m))$ and
+  $\rho_{\emp}(\mathsf{smul}(r,m),\emp)$.
+  \item The vector endpoints $\mathsf{add}(m,n)$, $\mathsf{neg}(m)$, and
+  the vector zero are all carried by $A_{\emp}$ and classified with $\emp$.
+  \item The scalar endpoints $0$, $1$, and $\mathsf{mul}(r,s)$ are all
+  carried by $A_{\emp}$ and classified with $\emp$.
+  \item For any witness $p:\mathsf{NonZero}_{\bot}(r)$, the inverse endpoint
+  $\mathsf{inv}(r,p)$ is carried by $A_{\emp}$ and classified with $\emp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:module-singleton-scalar-action-laws} to the carried
+scalar and vector inputs. Its closure and congruence clauses cover the
+additive vector endpoints and the scalar-action endpoint for the same
+$A_{\emp}$ carrier and $\rho_{\emp}$ classifier.
+
+Apply Theorem~\ref{thm:singleton-empty-history-field-schema-laws} to the
+scalar side. It supplies closure for scalar zero, scalar one, scalar
+multiplication, and the proof-indexed inverse clauses over the same singleton
+source.
+
+Unfold the concrete operations in
+Definition~\ref{def:singleton-empty-history-vecspace-instance}. The displayed
+scalar action is definitionally $\emp$, and the imported singleton vector and
+scalar operations reduce to the singleton endpoint as recorded by the module
+and field law packages.
+
+For any two carried endpoints $x$ and $y$, unfold
+$\rho_{\emp}(x,y)$. The carrier components are the two assumptions
+$A_{\emp}(x)$ and $A_{\emp}(y)$, and the singleton endpoint witnesses for
+$x$ and $y$ compose to give the required $\hsame(x,y)$ component.
+
+Each operation endpoint already reduces to $\emp$ or is closed by the cited
+law package at the singleton endpoint. Pair the relevant
+$A_{\emp}(\emp)$ witness with reflexivity $\hsame(\emp,\emp)$ to obtain the
+displayed classifier witness against $\emp$.
+
+For the inverse-indexed clause, assume
+$p:\mathsf{NonZero}_{\bot}(r)$. Since $A_{\emp}(r)$ holds,
+Theorem~\ref{thm:field-singleton-nonzero-absurd} eliminates the nonzero
+witness at the only possible endpoint. From that contradiction, the carried
+and classified inverse conclusion follows over the empty witness domain.
+\end{proof}
+
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonEmptyHistory\_laws}
+
+\begin{theorem}[VecSpace singleton classifier endpoint transitivity]
+\label{thm:vecspace-singleton-classifier-endpoint-trans}
+For singleton vector endpoints $a,b,c:\mathsf{BHist}$, if
+$$
+\mathsf{VecSpaceSingletonClassifier}(a,b)
+\quad\text{and}\quad
+\mathsf{VecSpaceSingletonClassifier}(b,c),
+$$
+then
+$$
+a\hsame\emp\wedge c\hsame\emp\wedge
+\mathsf{VecSpaceSingletonClassifier}(a,c).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton classifier. The first classifier supplies the
+empty endpoint witness for $a$ and the comparison $a\hsame b$. The second
+classifier supplies the empty endpoint witness for $c$ and the comparison
+$b\hsame c$. Compose the two comparisons by transitivity to obtain
+$a\hsame c$, and package it with the carried endpoint witnesses for $a$ and
+$c$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonClassifier\_endpoint\_trans}
+
+\begin{theorem}[VecSpace singleton scalar action carrier readback]
+\label{thm:vecspace-singleton-smul-carrier-readback}
+For the concrete singleton $\VecSpaceUp$ instance, if
+$m:\mathsf{BHist}$ satisfies $A_{\emp}(m)$, then
+$\mathsf{smul}(r,m)$ is classified with $m$, and
+$\mathsf{smul}(r,m)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The scalar action in
+Definition~\ref{def:singleton-empty-history-vecspace-instance} is the constant
+empty-history action, so its endpoint has the singleton carrier by
+$\hsame(\emp,\emp)$. The assumed carrier witness for $m$ is the second endpoint
+component. Symmetry of that same witness gives
+$\emp\hsame m$, which is the classifier comparison from the scalar-action
+endpoint back to $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_carrier\_readback}
+
+\begin{theorem}[VecSpace singleton scalar action classifier empty equivalence]
+\label{thm:vecspace-singleton-smul-classifier-empty-iff}
+For all histories $r,m,t:\mathsf{BHist}$, the singleton scalar action
+classifier satisfies
+$$
+\mathsf{VecSpaceSingletonClassifier}
+  (\mathsf{VecSpaceSingletonSmul}(r,m),t)
+\Longleftrightarrow
+t\hsame\emp .
+$$
+\end{theorem}
+\begin{proof}
+The scalar action endpoint is definitionally $\emp$. In the forward direction,
+unfolding the classifier exposes the carried target endpoint, which is exactly
+$t\hsame\emp$. Conversely, from $t\hsame\emp$, use reflexivity for the source
+empty endpoint, the displayed target carrier, and symmetry to obtain the
+classifier comparison $\emp\hsame t$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_classifier\_empty\_iff}
+
+\begin{theorem}[VecSpace singleton scalar action target deterministic]
+\label{thm:vecspace-singleton-smul-target-deterministic}
+For all histories $r,s,m,n,x,y:\mathsf{BHist}$, if
+$\mathsf{VecSpaceSingletonClassifier}(\mathsf{VecSpaceSingletonSmul}(r,m),x)$
+and
+$\mathsf{VecSpaceSingletonClassifier}(\mathsf{VecSpaceSingletonSmul}(s,n),y)$,
+then $x\hsame\emp$, $y\hsame\emp$, and $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton scalar-action classifier at both displayed endpoints.
+The target-carrier field of the first classifier gives $x\hsame\emp$, and the
+target-carrier field of the second classifier gives $y\hsame\emp$. Composing
+the first equality with the symmetry of the second yields $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_target\_deterministic}
+
+\begin{theorem}[VecSpace singleton scalar action inverse law]
+\label{thm:vecspace-singleton-scalar-action-inverse-law}
+For the concrete singleton $\VecSpaceUp$ instance, let
+$p:\mathsf{FieldSingletonNonZero}(r)$ be an explicit scalar inverse witness and
+let $m:\mathsf{BHist}$ satisfy $A_{\emp}(m)$. Then
+$\mathsf{smul}(r,m)$ is classified with $\emp$, and applying the proof-indexed
+inverse scalar to that result is classified with the original vector endpoint
+$m$.
+\end{theorem}
+\begin{proof}
+The scalar action is the constant empty-history action, so
+$\mathsf{smul}(r,m)\hsame\emp$ by reflexivity. Applying the inverse scalar
+again has the same empty-history endpoint. The first classifier package uses
+$A_{\emp}(\emp)$ on both sides. The second uses $A_{\emp}(\emp)$ on the action
+side and the assumed singleton-carrier witness for $m$ on the readback side;
+symmetry of that witness gives $\emp\hsame m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_scalar\_action\_inverse\_law}
+
+\begin{theorem}[VecSpace singleton scalar action inverse readback classifier iff]
+\label{thm:vecspace-singleton-smul-inverse-readback-classifier-iff}
+For the concrete singleton $\VecSpaceUp$ instance, let
+$p:\mathsf{FieldSingletonNonZero}(r)$ and let $m$ satisfy $A_{\emp}(m)$. Then
+the inverse-indexed scalar action after scalar action has empty readback, and
+classification against any target $n$ is equivalent to classification of the
+original vector endpoint $m$ against $n$:
+$$
+\mathsf{VecSpaceSingletonClassifier}
+  (\mathsf{VecSpaceSingletonSmul}(\mathsf{FieldSingletonInv}(r,p),
+    \mathsf{VecSpaceSingletonSmul}(r,m)),n)
+\Longleftrightarrow
+\mathsf{VecSpaceSingletonClassifier}(m,n).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_inverse\_readback\_classifier\_iff}
+\begin{proof}
+The singleton scalar action is the constant empty-history endpoint, so the
+double action has carrier equality to $\emp$ by reflexivity. In the forward
+classifier direction, the target carrier and action-target equality combine
+with the assumed carrier equality $m\hsame\emp$ to give
+$\mathsf{VecSpaceSingletonClassifier}(m,n)$. In the reverse direction, the
+target carrier contained in $\mathsf{VecSpaceSingletonClassifier}(m,n)$,
+together with symmetry, classifies the empty double-action endpoint against
+$n$.
+\end{proof}
+
+\begin{theorem}[VecSpace singleton scalar action empty readback classifier]
+\label{thm:vecspace-singleton-smul-empty-readback-classifier}
+For the concrete singleton $\VecSpaceUp$ instance, if
+$m:\mathsf{BHist}$ satisfies $A_{\emp}(m)$, then
+$\mathsf{smul}(r,m)$ is classified with $\emp$ and is also classified with
+the original vector endpoint $m$.
+\end{theorem}
+\begin{proof}
+The scalar action is definitionally the constant empty-history action. The
+empty endpoint classifier is therefore the reflexive classifier on $\emp$.
+For the readback classifier, the left endpoint again supplies
+$A_{\emp}(\emp)$, the right endpoint is the assumed carrier witness
+$A_{\emp}(m)$, and symmetry of that witness gives $\emp\hsame m$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_empty\_readback\_classifier}
+
+\begin{theorem}[VecSpace singleton scalar action empty-result readback]
+\label{thm:vecspace-singleton-smul-empty-result-readback}
+For the concrete singleton $\VecSpaceUp$ instance, let
+$r,m,n:\mathsf{BHist}$. If $m$ is carried by $A_{\emp}$ and
+$\mathsf{smul}(r,m)$ is classified with $n$, then
+$\mathsf{smul}(r,m)\hsame\emp$ and $m$ is classified with $n$.
+\end{theorem}
+\begin{proof}
+Unfolding the singleton scalar action gives
+$\mathsf{smul}(r,m)=\emp$, so the first classifier endpoint supplies
+$\mathsf{smul}(r,m)\hsame\emp$. The classifier hypothesis also contains the
+carrier witness for $n$ and the endpoint equality
+$\mathsf{smul}(r,m)\hsame n$. Compose the assumed carrier equality
+$m\hsame\emp$ with this action equality to obtain $m\hsame n$, and pair it
+with the two carrier witnesses to recover the classifier $\rho_{\emp}(m,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_empty\_result\_readback}
 
 The $\VecSpaceUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and scalar action, so Lean formalization can target BHist-anchored
 vector-space laws in $\mathsf{BEDC.Derived.VecSpaceUp}$.
+
+\begin{theorem}[Singleton empty-history vector space semantic certificate]
+\label{thm:singleton-empty-history-vecspace-semantic-certificate}
+The tuple from
+Definition~\ref{def:singleton-empty-history-vecspace-instance}, together with
+the law package of Theorem~\ref{thm:singleton-empty-history-vecspace-laws},
+supplies the concrete paper-side semantic certificate for the terminal
+$\VecSpaceUp$ over the singleton $\FieldUp$ and singleton $\ModuleUp$ carriers.
+Its certificate target is the following ten-field template:
+\begin{enumerate}
+  \item Traditional target: the terminal vector space.
+  \item BEDC source: $\mathsf{BHist}$.
+  \item Carrier: $A_{\emp}$.
+  \item Classifier: $\rho_{\emp}$.
+  \item Stability: the singleton field and module law packages together with
+  nonzero-witness elimination.
+  \item Ledger: singleton scalar, vector, and action provenance.
+  \item Core theorem:
+  Theorem~\ref{thm:singleton-empty-history-vecspace-laws}.
+  \item Exactness: singleton endpoint classification.
+  \item Standard bridge: the terminal vector space.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The scalar component is supplied by
+Theorem~\ref{thm:singleton-empty-history-field-schema-laws}, and its
+paper-side packaging is recorded by
+Theorem~\ref{thm:singleton-empty-history-field-schema-certificate}. These give
+the singleton $\FieldUp$ source, the shared $A_{\emp}$ carrier, and the
+classifier $\rho_{\emp}$ used by the displayed tuple.
+
+The vector component is supplied by
+Theorem~\ref{thm:module-singleton-scalar-action-laws}. It gives the singleton
+$\ModuleUp$ additive laws, scalar-action closure, scalar-action congruence,
+associativity, both distributivity laws, and the scalar unit law over the same
+empty-history endpoint.
+
+The remaining inverse-indexed clauses are vacuous in the singleton field
+source. By Theorem~\ref{thm:field-singleton-nonzero-absurd}, any witness of
+$\mathsf{NonZero}_{\bot}(h)$ is impossible at the only endpoint, so each
+nonzero-indexed scalar obligation is closed by elimination.
+
+Thus the tuple already carries the scalar, vector, classifier, ledger,
+exactness, bridge, and status data listed in the ten-field template, with
+Theorem~\ref{thm:singleton-empty-history-vecspace-laws} as its core theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingleton\_semanticNameCert}
+
+\begin{theorem}[VecSpace singleton scalar action image semantic certificate]
+\label{thm:vecspace-singleton-smul-image-semantic-name-cert}
+For the concrete singleton $\VecSpaceUp$ instance, the source carrier
+$A_{\emp}$, the scalar-action image pattern
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{VecSpaceSingletonSmul}(r,m),
+$$
+the ledger carrier $A_{\emp}$, and the singleton classifier $\rho_{\emp}$
+form a $\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The core certificate is the singleton $A_{\emp}$ certificate for $\rho_{\emp}$:
+inhabitation is witnessed by $\emp$, reflexivity uses the carried endpoint,
+symmetry reverses the $\hsame$ comparison, transitivity composes comparisons,
+and carrier transport reads the target carrier field from the classifier.
+
+For pattern soundness, assume $A_{\emp}(h)$. Choose the displayed scalar
+$r=\emp$ and vector $m=h$. The vector side is carried by the same witness, and
+the scalar action is definitionally the empty-history endpoint, so the same
+$A_{\emp}(h)$ witness is the required comparison
+$h\hsame\mathsf{VecSpaceSingletonSmul}(r,m)$. Ledger soundness is the identity
+map on the concrete singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_image\_semanticNameCert}
 
 \section{The certificate}
 

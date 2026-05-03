@@ -41,6 +41,49 @@ Transitivity of history sameness identifies \(p\) and \(r\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_identity\_prefix\_trans}
 
+\begin{theorem}[NatTrans prefix component endomorphism component empty exactness]
+\label{thm:nattrans-prefix-component-endomorphism-component-empty}
+For prefix components whose source and target prefixes agree, a component
+history \(\eta\) is carried exactly when the prefix, object, and component
+histories are unary and the component is internally empty:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(\eta)\wedge\eta\hsame\emp.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_endomorphism\_component\_empty\_iff}
+\begin{proof}
+Unfold the prefix component into its category hom-carrier
+\(\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,a),\eta)\).
+The continuation field has matching source and target, hence right-unit
+uniqueness forces \(\eta\hsame\emp\), while the component fields provide unary
+membership of \(p\), \(a\), and \(\eta\). Conversely, an empty component is
+rebuilt by the prefix empty-identity exactness theorem with reflexivity of
+\(\hsame(p,p)\).
+\end{proof}
+
+\begin{theorem}[NatTrans one-headed source empty component exactness]
+\label{thm:nattrans-prefix-component-e1-source-empty-component-exactness}
+For histories $p,q,a$, an empty prefix component from $\Eone(p)$ to $q$ over
+$a$ exists exactly when $p$ and $a$ are unary and the target prefix is literally
+$\Eone(p)$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\Eone(p),q,a,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge q=\Eone(p).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-identity component exactness. Unary inversion on the one-headed
+source prefix extracts unary membership of $p$, and the prefix sameness
+specializes to the equality $q=\Eone(p)$. Conversely, substituting this equality
+rebuilds the one-headed target prefix, and empty-identity exactness packages
+the empty component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_source\_empty\_component\_iff}
+
 \begin{theorem}[NatTrans prefix component empty-source prefix exactness]
 \label{thm:nattrans-prefix-component-carrier-empty-source-prefix}
 For histories $q,a,\eta$, a prefix component from the empty prefix to $q$ over
@@ -63,6 +106,85 @@ opposite direction and packages the empty prefix carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_source\_prefix\_iff}
 
+\begin{theorem}[NatTrans prefix component empty-target prefix exactness]
+\label{thm:nattrans-prefix-component-empty-target-prefix-iff}
+For histories $p,a,\eta$, a prefix component from $p$ to the empty prefix over
+$a$ is exactly a unary source prefix, a unary object, and a category hom-carrier
+from $\mathsf{append}(p,a)$ to $a$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,\emp,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The target endpoint is
+$\mathsf{append}(\emp,a)$, which is history-same as $a$ by the left unit law
+for append. Category hom-carrier transport across this target endpoint
+equality gives the unprefixed target form. The converse uses the same endpoint
+equality in the opposite direction and packages the empty target prefix
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_target\_prefix\_iff}
+
+\begin{theorem}[NatTrans prefix component empty-prefix exactness]
+\label{thm:nattrans-prefix-component-carrier-empty-prefixes-iff}
+For histories $a,\eta$, a prefix component with both prefixes empty is exactly
+a unary object together with a category hom-carrier from $a$ to itself:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(\emp,\emp,a,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{CategoryHomCarrier}(a,a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. Both endpoints are
+$\mathsf{append}(\emp,a)$, which is history-same as $a$ by the left unit law
+for append. Category hom-carrier transport across those endpoint equalities
+gives the displayed carrier from $a$ to itself. The converse transports this
+carrier back to the two empty-prefixed endpoints and packages the two empty
+prefix carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_prefixes\_iff}
+
+\begin{theorem}[NatTrans prefix component zero-headed component impossibility]
+\label{thm:nattrans-prefix-component-carrier-zero-headed-component-absurd}
+For histories $p,q,a,\eta$, a prefix component carrier has no zero-headed
+source prefix, target prefix, object, or component morphism:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)
+\Longrightarrow
+\left(
+\exists z,\ p=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ q=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ a=\Ezero(z)
+\right)
+\lor
+\left(
+\exists z,\ \eta=\Ezero(z)
+\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The first three fields give unary-history
+witnesses for $p$, $q$, and $a$, and the underlying category hom-carrier gives
+the unary-history witness for the component morphism $\eta$. A zero-headed
+component in any of those positions contradicts unary zero-extension
+separation.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_zero\_headed\_component\_absurd}
+
 \begin{theorem}[NatTrans prefix component vertical composition closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-closed}
 For prefix components over unary histories, if \(\eta\) is a component from
@@ -79,6 +201,24 @@ composes the two component morphisms across the shared middle object
 \(\mathsf{append}(q,a)\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_closed}
+
+\begin{theorem}[NatTrans prefix component vertical composition hsame transport]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-hsame-transport}
+For prefix components over unary histories, if $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$, $\theta$ is a component from
+$\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$, and
+$\ContR(\eta,\theta,\theta\eta)$, then any $\HSame$-equal source prefix,
+target prefix, object, and composite history display the same vertical
+composite as a component from $\mathsf{append}(p',a')$ to
+$\mathsf{append}(r',a')$.
+\end{theorem}
+\begin{proof}
+Vertical composition closure gives the composite component at the original
+source prefix, target prefix, object, and composite history. The supplied
+$\HSame$ witnesses transport those concrete component fields to the displayed
+source prefix, target prefix, object, and composite history.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_hsame\_transport}
 
 \begin{theorem}[NatTrans prefix component vertical composition public readback]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-public-readback}
@@ -157,6 +297,25 @@ $a$ reassemble the NatTrans prefix component carrier for $\eta$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_left\_factor}
 
+\begin{theorem}[NatTrans prefix component vertical composition left factor public readback]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-left-factor-public-readback}
+For prefix components over unary histories, if $\theta$ is a component from
+$\mathsf{append}(q,a)$ to $\mathsf{append}(r,a)$,
+$\ContR(\eta,\theta,\theta\eta)$ composes $\eta$ with $\theta$, and the
+composite is displayed as a component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(r,a)$, then $\eta$ is a component from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$. Moreover, any competing left
+component $\eta'$ with $\ContR(\eta',\theta,\theta\eta)$ and the same component
+endpoints satisfies $\HSame(\eta,\eta')$.
+\end{theorem}
+\begin{proof}
+Vertical left-factor recovery supplies the displayed component carrier for
+$\eta$. For any competing $\eta'$, the two continuation ledgers have the same
+right component and composite result, so finite-kernel right cancellation gives
+$\HSame(\eta,\eta')$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_left\_factor\_public\_readback}
+
 \begin{theorem}[NatTrans prefix component vertical composition right identity closure]
 \label{thm:nattrans-prefix-component-vert-comp-right-identity-closed}
 For prefix components over unary histories, if $\eta$ is a component from
@@ -188,6 +347,21 @@ $\eta'$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_left\_identity\_closed}
 
+\begin{theorem}[NatTrans prefix component vertical composition identity square closure]
+\label{thm:nattrans-prefix-component-vert-comp-identity-square-closed}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, if $left$ is obtained by
+composing $\emp$ before $\eta$ and $right$ is obtained by composing $\emp$
+after $\eta$, then both displayed histories are prefix components from $p$ to
+$q$ at $a$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+Apply the left-identity vertical composition closure to $left$ and the
+right-identity vertical composition closure to $right$. The two closure
+theorems identify the displayed histories with $\eta$, so transitivity and
+symmetry give $\HSame(left,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_identity\_square\_closed}
+
 \begin{theorem}[NatTrans prefix component vertical composition associativity closure]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-assoc-closed}
 For prefix components over unary histories, let \(\eta\), \(\theta\), and
@@ -208,6 +382,24 @@ prefix, target prefix, and object unary witnesses around those two underlying
 hom-carriers.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_assoc\_closed}
+
+\begin{theorem}[NatTrans prefix component displayed vertical associativity determinacy]
+\label{thm:nattrans-prefix-component-vert-comp-assoc-displayed-deterministic}
+For prefix components over unary histories, let $\eta$, $\theta$, and
+$\iota$ be consecutive components from $p$ to $q$, $q$ to $r$, and $r$ to
+$s$ at the object $a$. If the two bracketed vertical composites are supplied
+by the BEDC continuation relation and a displayed component carrier from
+$p$ to $s$ at $a$ is also given, then both bracketed composite histories are
+$\HSame$ to the displayed component history.
+\end{theorem}
+\begin{proof}
+Vertical associativity closure constructs both prefix-component carriers from
+$p$ to $s$ at $a$. Unpacking these carriers and the displayed carrier exposes
+category hom-carriers with the same source and target, so category morphism
+determinacy identifies each bracketed composite history with the displayed
+history.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_assoc\_displayed\_deterministic}
 
 \begin{theorem}[NatTrans prefix component target-prefix determinacy]
 \label{thm:nattrans-prefix-component-carrier-target-prefix-deterministic}

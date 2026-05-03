@@ -86,6 +86,34 @@ $h$, and the carrier fact $A_{\emp}(h)$ identifies $h$ with $e=\emp$.
 \leanchecked{BEDC.Derived.GroupUp.concrete\_singleton\_history\_group\_laws}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonHistory\_laws}
 
+\begin{theorem}[Group singleton classifier append context cancellation]
+\label{thm:group-singleton-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed left contexts are in
+the singleton group carrier $A_{\emp}$, then appending those contexts to the
+two classifier endpoints preserves and reflects the singleton classifier:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two appended endpoints are classified as
+singleton endpoints. Empty-result inversion for append splits each endpoint
+witness, giving $Q\hsame\emp$ and $S\hsame\emp$. These two carrier witnesses,
+together with transitivity through $\emp$, assemble $R_{\emp}(Q,S)$.
+
+Conversely, combine the supplied singleton witnesses for $L$ and $R$ with the
+endpoint carrier fields in $R_{\emp}(Q,S)$. Empty-result construction for
+append gives singleton witnesses for $\mathsf{append}(L,Q)$ and
+$\mathsf{append}(R,S)$, and transitivity through $\emp$ gives the classifier
+comparison between the two appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
+
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
@@ -297,33 +325,41 @@ transport the supplied equality $xa\hsame b$ through multiplication congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
 
-\begin{theorem}[Group multiplication equation exactness]
-\label{thm:group-mul-equation-exactness}
-For a history-level group operation with associativity, left and right
-identities, multiplication congruence, and two-sided inverses, the displayed
-left and right multiplication solutions classify the original equations:
+\begin{theorem}[Group left-multiplication equation exactness]
+\label{thm:group-left-mul-equation-exactness}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and two-sided inverses, left multiplication by $a$
+classifies the original equation:
 $$
 ax\hsame b \Longleftrightarrow x\hsame a^{-1}b
 $$
-and
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:group-left-mul-equation-solution}.
+
+For the reverse direction, transport $x\hsame a^{-1}b$ by left multiplication
+with $a$. Reassociate $a(a^{-1}b)$ to $(aa^{-1})b$, collapse $aa^{-1}$ by the
+right inverse law, and use the left identity on $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_exact\_from\_empty\_unit}
+
+\begin{theorem}[Group right-multiplication equation exactness]
+\label{thm:group-right-mul-equation-exactness}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and two-sided inverses, right multiplication by $a$
+classifies the original equation:
 $$
 xa\hsame b \Longleftrightarrow x\hsame ba^{-1}.
 $$
 \end{theorem}
 \begin{proof}
-The forward implications are Theorem~\ref{thm:group-left-mul-equation-solution}
-and Theorem~\ref{thm:group-right-mul-equation-solution}.
+The forward implication is Theorem~\ref{thm:group-right-mul-equation-solution}.
 
-For the reverse direction of the left equation, transport
-$x\hsame a^{-1}b$ by left multiplication with $a$. Reassociate
-$a(a^{-1}b)$ to $(aa^{-1})b$, collapse $aa^{-1}$ by the right inverse law,
-and use the left identity on $b$.
-
-For the reverse direction of the right equation, transport
-$x\hsame ba^{-1}$ by right multiplication with $a$. Reassociate
-$(ba^{-1})a$ to $b(a^{-1}a)$, collapse $a^{-1}a$ by the left inverse law,
-and use the right identity on $b$.
+For the reverse direction, transport $x\hsame ba^{-1}$ by right multiplication
+with $a$. Reassociate $(ba^{-1})a$ to $b(a^{-1}a)$, collapse $a^{-1}a$ by the
+left inverse law, and use the right identity on $b$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_exact\_from\_empty\_unit}
 
 \begin{theorem}[Group conjugation equation exactness]
 \label{thm:group-conjugation-equation-exactness}
@@ -359,6 +395,49 @@ $(a x)a^{-1}$ as the transported left side and reassociate
 $(b a)a^{-1}$ to $b(aa^{-1})$, collapse $aa^{-1}$ by the right inverse law,
 and finish with the right identity on $b$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_exact\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group commutator detects commutation]
+\label{thm:group-commutator-trivial-iff-commutes}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identities, multiplication congruence, and
+two-sided inverse laws, define
+$$
+\mathsf{comm}(a,b):=\mathsf{mul}(\mathsf{mul}(a,b),
+\mathsf{mul}(\mathsf{inv}(a),\mathsf{inv}(b))).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfy
+$$
+\mathsf{comm}(a,b)\hsame e \Longleftrightarrow
+\mathsf{mul}(a,b)\hsame \mathsf{mul}(b,a).
+$$
+The ten-field fit is: traditional target group commutator criterion; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations inverse-product reversal, multiplication
+congruence, right cancellation, and inverse laws; ledger the two factors and
+inverse-product spine; core theorem this block; exactness predicate trivial
+commutator iff commutation; standard bridge ordinary group commutator
+criterion; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:group-inverse-mul-reverse} with the ordered product
+$ba$ to identify $a^{-1}b^{-1}$ as an inverse-product presentation of
+$(ba)^{-1}$. Thus the displayed commutator is the product of $ab$ with an
+inverse witness for $ba$.
+
+For the forward direction, multiply the trivial commutator equation on the
+right by $ba$. The right side becomes $ba$ by the left identity, while the
+left side reassociates to $ab((ba)^{-1}(ba))$; the left inverse law for $ba$
+collapses the final factor to $e$, and the right identity leaves $ab$. This
+is exactly the right-cancellation comparison between $ab$ and $ba$.
+
+For the reverse direction, transport $ab\hsame ba$ through multiplication
+congruence by the common right factor $(ba)^{-1}$. The right-hand product
+collapses to $e$ by the right-inverse law, and the inverse-product reversal
+identification rewrites the left-hand product as
+$\mathsf{comm}(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_commutator\_trivial\_iff\_commutes\_from\_empty\_unit}
 
 \begin{theorem}[Group left absorption forces the right factor to the unit]
 \label{thm:group-left-absorb-right-factor-unit}

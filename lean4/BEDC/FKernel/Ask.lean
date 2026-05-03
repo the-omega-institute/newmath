@@ -322,6 +322,15 @@ theorem bundleAskPolicy_append_iff [AskSetup]
     exact bundleAskPolicy_append_gluing policies.left policies.right
 
 omit S in
+theorem bundleAskPolicy_append_comm [AskSetup]
+    {left right : ProbeBundle ProbeName} {D : BHist -> Prop} :
+    BundleAskPolicy (bundleAppend left right) D ->
+      BundleAskPolicy (bundleAppend right left) D := by
+  intro policy
+  have pieces := bundleAskPolicy_append_restriction policy
+  exact bundleAskPolicy_append_gluing pieces.right pieces.left
+
+omit S in
 theorem askPolicy_total_event [AskSetup] {D : BHist → Prop} (policy : AskPolicy D)
     {pi : ProbeName} {h : BHist} :
     D h → Nonempty (AskEvent pi h) := by

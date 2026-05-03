@@ -82,6 +82,31 @@ theorem NatTransPrefixComponentCarrier_empty_identity_prefix_trans {p q r a : BH
   have rightData := Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff right
   exact hsame_trans leftData.right.right.right rightData.right.right.right
 
+theorem NatTransPrefixComponentCarrier_e1_source_empty_component_iff {p q a : BHist} :
+    NatTransPrefixComponentCarrier (BHist.e1 p) q a BHist.Empty ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ q = BHist.e1 p := by
+  constructor
+  · intro component
+    have identityData :=
+      (NatTransPrefixComponentCarrier_empty_identity_iff
+        (p := BHist.e1 p) (q := q) (a := a)).mp component
+    exact
+      And.intro (unary_e1_inversion identityData.left)
+        (And.intro identityData.right.right.left
+          (hsame_symm identityData.right.right.right))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier targetEq =>
+            cases targetEq
+            exact
+              (NatTransPrefixComponentCarrier_empty_identity_iff
+                (p := BHist.e1 p) (q := BHist.e1 p) (a := a)).mpr
+                (And.intro (unary_e1_closed prefixCarrier)
+                  (And.intro (unary_e1_closed prefixCarrier)
+                    (And.intro objectCarrier (hsame_refl (BHist.e1 p)))))
+
 theorem NatTransPrefixComponentCarrier_empty_source_prefix_iff {q a eta : BHist} :
     NatTransPrefixComponentCarrier BHist.Empty q a eta ↔
       UnaryHistory q ∧ UnaryHistory a ∧ CategoryHomCarrier a (append q a) eta := by
@@ -112,6 +137,86 @@ theorem NatTransPrefixComponentCarrier_empty_source_prefix_iff {q a eta : BHist}
                       (hsame_symm (append_empty_left a)) (hsame_refl (append q a))
                       (hsame_refl eta) homCarrier)))
 
+theorem NatTransPrefixComponentCarrier_empty_target_prefix_iff {p a eta : BHist} :
+    NatTransPrefixComponentCarrier p BHist.Empty a eta ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ CategoryHomCarrier (append p a) a eta := by
+  constructor
+  · intro component
+    cases component with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro _emptyCarrier rest =>
+            cases rest with
+            | intro objectCarrier homCarrier =>
+                exact
+                  And.intro prefixCarrier
+                    (And.intro objectCarrier
+                      (CategoryHomCarrier_hsame_transport
+                        (hsame_refl (append p a)) (append_empty_left a) (hsame_refl eta)
+                        homCarrier))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier homCarrier =>
+            exact
+              And.intro prefixCarrier
+                (And.intro unary_empty
+                  (And.intro objectCarrier
+                    (CategoryHomCarrier_hsame_transport
+                      (hsame_refl (append p a)) (hsame_symm (append_empty_left a))
+                      (hsame_refl eta) homCarrier)))
+
+theorem NatTransPrefixComponentCarrier_empty_prefixes_iff {a eta : BHist} :
+    NatTransPrefixComponentCarrier BHist.Empty BHist.Empty a eta ↔
+      UnaryHistory a ∧ CategoryHomCarrier a a eta := by
+  constructor
+  · intro component
+    cases component with
+    | intro _sourcePrefixCarrier rest =>
+        cases rest with
+        | intro _targetPrefixCarrier rest =>
+            cases rest with
+            | intro objectCarrier homCarrier =>
+                exact
+                  And.intro objectCarrier
+                    (CategoryHomCarrier_hsame_transport
+                      (append_empty_left a) (append_empty_left a) (hsame_refl eta)
+                      homCarrier)
+  · intro data
+    cases data with
+    | intro objectCarrier homCarrier =>
+        exact
+          And.intro unary_empty
+            (And.intro unary_empty
+              (And.intro objectCarrier
+                (CategoryHomCarrier_hsame_transport
+                  (hsame_symm (append_empty_left a)) (hsame_symm (append_empty_left a))
+                  (hsame_refl eta) homCarrier)))
+
+theorem NatTransPrefixComponentCarrier_endomorphism_component_empty_iff {p a eta : BHist} :
+    NatTransPrefixComponentCarrier p p a eta ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory eta ∧ hsame eta BHist.Empty := by
+  constructor
+  · intro component
+    exact And.intro component.left
+      (And.intro component.right.right.left
+        (And.intro component.right.right.right.right.right.left
+          (cont_right_unit_unique component.right.right.right.right.right.right)))
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro objectCarrier rest =>
+            cases rest with
+            | intro _etaCarrier etaEmpty =>
+                cases etaEmpty
+                exact (NatTransPrefixComponentCarrier_empty_identity_iff
+                  (p := p) (q := p) (a := a)).mpr
+                    (And.intro prefixCarrier
+                      (And.intro prefixCarrier
+                        (And.intro objectCarrier (hsame_refl p))))
+
 theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
       NatTransPrefixComponentCarrier q r a theta ->
@@ -134,6 +239,21 @@ theorem NatTransPrefixComponentCarrier_vert_comp_closed {p q r a eta theta compo
                               (And.intro targetCarrier
                                 (And.intro objectCarrier
                                   (CategoryHomCarrier_comp_closed leftComponent rightComponent comp)))
+
+theorem NatTransPrefixComponentCarrier_vert_comp_hsame_transport
+    {p q r a eta theta composite p' r' a' composite' : BHist} :
+    hsame p p' -> hsame r r' -> hsame a a' -> hsame composite composite' ->
+      NatTransPrefixComponentCarrier p q a eta ->
+        NatTransPrefixComponentCarrier q r a theta -> Cont eta theta composite ->
+          NatTransPrefixComponentCarrier p' r' a' composite' := by
+  intro sameSource sameTarget sameObject sameComposite left right comp
+  have compositeCarrier : NatTransPrefixComponentCarrier p r a composite :=
+    NatTransPrefixComponentCarrier_vert_comp_closed left right comp
+  cases sameSource
+  cases sameTarget
+  cases sameObject
+  cases sameComposite
+  exact compositeCarrier
 
 theorem NatTransPrefixComponentCarrier_vert_comp_public_readback
     {p q r a eta theta composite : BHist} :
@@ -192,6 +312,19 @@ theorem NatTransPrefixComponentCarrier_vert_comp_left_factor
           (CategoryHomCarrier_comp_left_factor right.right.right.right comp
             displayed.right.right.right)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_left_factor_public_readback
+    {p q r a eta theta composite : BHist} :
+    NatTransPrefixComponentCarrier q r a theta -> Cont eta theta composite ->
+      NatTransPrefixComponentCarrier p r a composite ->
+        NatTransPrefixComponentCarrier p q a eta /\
+          (forall {eta' : BHist}, Cont eta' theta composite ->
+            NatTransPrefixComponentCarrier p q a eta' -> hsame eta eta') := by
+  intro right comp displayed
+  constructor
+  · exact NatTransPrefixComponentCarrier_vert_comp_left_factor right comp displayed
+  · intro eta' comp' _left
+    exact cont_right_cancel comp comp'
+
 theorem NatTransPrefixComponentCarrier_vert_comp_assoc_closed
     {p q r s a eta theta iota etatheta thetaiota left right : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
@@ -217,6 +350,25 @@ theorem NatTransPrefixComponentCarrier_vert_comp_assoc_closed
           (And.intro third.right.left
             (And.intro first.right.right.left assocClosed.right.left)))
         assocClosed.right.right)
+
+theorem NatTransPrefixComponentCarrier_vert_comp_assoc_displayed_deterministic
+    {p q r s a eta theta iota etatheta thetaiota left right displayed : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        NatTransPrefixComponentCarrier r s a iota ->
+          Cont eta theta etatheta -> Cont theta iota thetaiota ->
+            Cont etatheta iota left -> Cont eta thetaiota right ->
+              NatTransPrefixComponentCarrier p s a displayed ->
+                hsame left displayed ∧ hsame right displayed := by
+  intro first second third etathetaRel thetaiotaRel leftRel rightRel displayedCarrier
+  have closed :=
+    NatTransPrefixComponentCarrier_vert_comp_assoc_closed
+      first second third etathetaRel thetaiotaRel leftRel rightRel
+  exact And.intro
+    (CategoryHomCarrier_morphism_deterministic
+      closed.left.right.right.right displayedCarrier.right.right.right)
+    (CategoryHomCarrier_morphism_deterministic
+      closed.right.left.right.right.right displayedCarrier.right.right.right)
 
 theorem NatTransPrefixComponentCarrier_tail_comm_hsame
     {p q r a eta theta etatheta thetaeta : BHist} :
@@ -315,6 +467,20 @@ theorem NatTransPrefixComponentCarrier_vert_comp_left_identity_closed
     exact component
   exact And.intro leftCarrier leftSame
 
+theorem NatTransPrefixComponentCarrier_vert_comp_identity_square_closed
+    {p q a eta left right : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont BHist.Empty eta left ->
+      Cont eta BHist.Empty right ->
+        NatTransPrefixComponentCarrier p q a left /\
+          NatTransPrefixComponentCarrier p q a right /\ hsame left right := by
+  intro component leftRel rightRel
+  have leftClosed :=
+    NatTransPrefixComponentCarrier_vert_comp_left_identity_closed component leftRel
+  have rightClosed :=
+    NatTransPrefixComponentCarrier_vert_comp_right_identity_closed component rightRel
+  exact And.intro leftClosed.left
+    (And.intro rightClosed.left (leftClosed.right.trans rightClosed.right.symm))
+
 theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
     UnaryHistory p -> UnaryHistory a ->
       BEDC.FKernel.NameCert.SemanticNameCert (NatTransPrefixComponentCarrier p p a)
@@ -343,5 +509,37 @@ theorem NatTransPrefixComponentCarrier_identity_semanticNameCert {p a : BHist} :
     exact source
   · intro h source
     exact source
+
+theorem NatTransPrefixComponentCarrier_zero_headed_component_absurd {p q a eta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta →
+      ((∃ z : BHist, p = BHist.e0 z) ∨ (∃ z : BHist, q = BHist.e0 z) ∨
+        (∃ z : BHist, a = BHist.e0 z) ∨ (∃ z : BHist, eta = BHist.e0 z)) →
+        False := by
+  intro component zeroComponent
+  cases zeroComponent with
+  | inl sourcePrefixZero =>
+      cases sourcePrefixZero with
+      | intro z sourcePrefixEq =>
+          cases sourcePrefixEq
+          exact unary_no_zero_extension component.left
+  | inr rest =>
+      cases rest with
+      | inl targetPrefixZero =>
+          cases targetPrefixZero with
+          | intro z targetPrefixEq =>
+              cases targetPrefixEq
+              exact unary_no_zero_extension component.right.left
+      | inr rest =>
+          cases rest with
+          | inl objectZero =>
+              cases objectZero with
+              | intro z objectEq =>
+                  cases objectEq
+                  exact unary_no_zero_extension component.right.right.left
+          | inr morphZero =>
+              cases morphZero with
+              | intro z morphEq =>
+                  cases morphEq
+                  exact unary_no_zero_extension component.right.right.right.right.right.left
 
 end BEDC.Derived.NatTransUp

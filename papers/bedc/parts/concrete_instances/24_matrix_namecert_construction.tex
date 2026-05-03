@@ -55,6 +55,161 @@ The certificate fit has ten fields:
 \end{enumerate}
 \end{definition}
 
+\begin{theorem}[Matrix singleton classifier append split empty]
+\label{thm:matrix-singleton-classifier-append-split-empty}
+For $M,N,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(M,N),h)
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the left carrier component of
+$\rho_{\emp}(\mathsf{append}(M,N),h)$ as
+$\mathsf{append}(M,N)\hsame\emp$. Empty-result inversion for append splits this
+endpoint witness into $M\hsame\emp$ and $N\hsame\emp$, while the right carrier
+component supplies $A_{\emp}(h)$.
+
+Conversely, $M\hsame\emp$ and $N\hsame\emp$ reconstruct the singleton carrier
+witness for $\mathsf{append}(M,N)$. Together with $A_{\emp}(h)$, transitivity of
+$\hsame$ through $\emp$ gives the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_split\_empty\_iff}
+
+\begin{theorem}[Matrix singleton add-mul classifier iff]
+\label{thm:matrix-singleton-add-mul-classifier-iff}
+For $M,N:\mathsf{BHist}$, the singleton matrix classifier relates the displayed
+addition and multiplication results exactly when both inputs are singleton
+empty endpoints:
+$$
+\rho_{\emp}(M\oplus N,M\odot N)
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Both displayed operations are the same BEDC append spine
+$\mathsf{append}(M,N)$. In the forward direction, the left carrier component
+of $\rho_{\emp}(M\oplus N,M\odot N)$ says that this append spine is
+$\hsame$ to $\emp$. Empty-result inversion for append splits it into the two
+endpoint witnesses $M\hsame\emp$ and $N\hsame\emp$.
+
+Conversely, the two endpoint witnesses reconstruct the singleton carrier for
+$\mathsf{append}(M,N)$. Since $M\oplus N$ and $M\odot N$ unfold to that same
+append spine, reflexivity of $\hsame$ supplies the classifier relation between
+the displayed operation results.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_classifier\_iff}
+
+\begin{theorem}[Matrix singleton classifier visible right append exclusion]
+\label{thm:matrix-singleton-classifier-append-visible-right-absurd}
+For histories $h,p,q:\mathsf{BHist}$, a singleton matrix classifier witness
+cannot target an append whose right factor has a visible head:
+$$
+\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))\to\bot
+\qquad\text{and}\qquad
+\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton matrix classifier. A classifier witness supplies the
+target carrier endpoint
+$\mathsf{append}(p,\mathsf{e0}(q))\hsame\emp$ in the first case, or
+$\mathsf{append}(p,\mathsf{e1}(q))\hsame\emp$ in the second case. Empty-result
+inversion for append forces the visible right factor itself to be $\emp$,
+contradicting the disjointness of each visible constructor from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_visible\_right\_absurd}
+
+\begin{theorem}[Matrix singleton classifier append pair carrier]
+\label{thm:matrix-singleton-classifier-append-pair-carrier}
+For $M,N,P,Q:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(M,N),\mathsf{append}(P,Q))
+\quad\Longleftrightarrow\quad
+A_{\emp}(M)\land A_{\emp}(N)\land A_{\emp}(P)\land A_{\emp}(Q).
+$$
+\end{theorem}
+\begin{proof}
+The classifier exposes singleton carrier witnesses for both append endpoints.
+Empty-result inversion for append splits these witnesses into the four displayed
+endpoint carriers. Conversely, the four endpoint carriers rebuild the two empty
+append endpoints, and transitivity of $\hsame$ through $\emp$ supplies the
+classifier comparison between them.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_pair\_carrier\_iff}
+
+\begin{theorem}[Matrix singleton classifier append-left cancellation]
+\label{thm:matrix-singleton-classifier-append-left-cancellation}
+For histories $P,Q,R:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(R,P),\mathsf{append}(R,Q))
+\Longleftrightarrow
+A_{\emp}(R)\land \rho_{\emp}(P,Q).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two carrier fields say that
+$\mathsf{append}(R,P)$ and $\mathsf{append}(R,Q)$ are empty. Empty-result
+inversion for append splits these witnesses into $R\hsame\emp$,
+$P\hsame\emp$, and $Q\hsame\emp$. The shared left endpoint gives
+$A_{\emp}(R)$, and the two remaining endpoint witnesses rebuild
+$\rho_{\emp}(P,Q)$.
+
+Conversely, unpack $A_{\emp}(R)$ and $\rho_{\emp}(P,Q)$. The shared left
+endpoint and each singleton classified endpoint rebuild both empty append
+endpoints. Transitivity of $\hsame$ through $\emp$ then supplies the classifier
+comparison between the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Matrix singleton classifier append-right cancellation]
+\label{thm:matrix-singleton-classifier-append-right-cancellation}
+For histories $P,Q,R:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(P,R),\mathsf{append}(Q,R))
+\Longleftrightarrow
+\rho_{\emp}(P,Q)\land A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two carrier fields say that
+$\mathsf{append}(P,R)$ and $\mathsf{append}(Q,R)$ are empty. Empty-result
+inversion for append splits these witnesses into $P\hsame\emp$,
+$Q\hsame\emp$, and $R\hsame\emp$. The first two endpoint witnesses rebuild
+$\rho_{\emp}(P,Q)$, and the shared right endpoint gives $A_{\emp}(R)$.
+
+Conversely, unpack $\rho_{\emp}(P,Q)$ and $A_{\emp}(R)$. All three displayed
+histories are singleton endpoints, so both appended histories reduce to
+$\emp$, and the singleton classifier follows by reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Matrix singleton classifier append common context]
+\label{thm:matrix-singleton-classifier-append-common-context}
+For histories $L,P,Q,R:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(L,\mathsf{append}(P,R)),
+  \mathsf{append}(L,\mathsf{append}(Q,R)))
+\Longleftrightarrow
+A_{\emp}(L)\land \rho_{\emp}(P,Q)\land A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two classifier carrier fields say that both
+common-context append endpoints are empty. Empty-result inversion first splits
+off the shared left context $L$, then splits the middle append endpoints. This
+yields $A_{\emp}(L)$, $A_{\emp}(P)$, $A_{\emp}(Q)$, and $A_{\emp}(R)$; the
+middle comparison $\rho_{\emp}(P,Q)$ follows by transitivity through $\emp$.
+
+Conversely, $A_{\emp}(L)$, $\rho_{\emp}(P,Q)$, and $A_{\emp}(R)$ reconstruct
+both common-context append endpoints as empty. Transitivity through $\emp$
+then supplies the singleton classifier relation between the displayed
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_append\_common\_context\_iff}
+
 \begin{theorem}[Singleton empty-history matrix laws]
 \label{thm:singleton-empty-history-matrix-laws}
 For the singleton instance of
@@ -100,6 +255,101 @@ combined by reflexivity, symmetry, and transitivity of $\hsame$ after the
 append unit and associativity reductions. This gives the required
 $\rho_{\emp}$ comparison for both $\oplus$ and $\odot$.
 \end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonEmptyHistory\_laws}
+
+\begin{theorem}[Singleton empty-history matrix endpoint collapse]
+\label{thm:singleton-empty-history-matrix-endpoint-collapse}
+With the notation of
+Definition~\ref{def:singleton-empty-history-matrix-instance}, if
+$A_{\emp}(M)$ and $A_{\emp}(N)$, then
+\begin{enumerate}
+  \item $\rho_{\emp}(M\oplus N,\emp)$.
+  \item $\rho_{\emp}(M\odot N,\emp)$.
+  \item $\rho_{\emp}(M\oplus N,M\odot N)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:singleton-empty-history-matrix-laws} to the carried
+inputs $M$ and $N$. Its closure clause puts both $M\oplus N$ and $M\odot N$
+back in $A_{\emp}$, while the singleton carrier witnesses identify $M$ and
+$N$ with the endpoint $\emp$.
+
+By the displayed definitions, both operations are
+$\mathsf{append}(M,N)$. Replace the carried inputs by their singleton endpoint
+witnesses, then use the left and right continuation unit laws cited in
+Theorem~\ref{thm:concrete-history-monoid-laws} to reduce the resulting append
+history to $\emp$.
+
+For $\rho_{\emp}(M\oplus N,\emp)$ and
+$\rho_{\emp}(M\odot N,\emp)$, combine the closure witnesses with the
+corresponding $\hsame$ endpoint calculation. Symmetry is used when the unit
+witness is oriented from $\emp$ to the displayed operation rather than from
+the displayed operation to $\emp$.
+
+For $\rho_{\emp}(M\oplus N,M\odot N)$, compose the first endpoint comparison
+with the symmetry of the second by transitivity of $\hsame$. The two carrier
+witnesses are the closure witnesses already supplied by the law package, so
+the classifier definition gives the required comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonEmptyHistory\_endpoint\_collapse}
+
+The $\MatrixUp$ schema is instantiated by this concrete $\mathsf{BHist}$
+carrier and operations, so formalization can target the endpoint-collapse and
+law package rather than an abstract operator schema.
+
+\begin{theorem}[Singleton empty-history matrix endpoint exactness]
+\label{thm:singleton-empty-history-matrix-endpoint-exactness}
+For the singleton instance of
+Definition~\ref{def:singleton-empty-history-matrix-instance}, if
+$A_{\emp}(M)$ and $A_{\emp}(N)$, then all displayed matrix endpoints are
+classified by the singleton empty history:
+\begin{enumerate}
+  \item $\rho_{\emp}(M,\emp)$.
+  \item $\rho_{\emp}(0_M,\emp)$.
+  \item $\rho_{\emp}(I_M,\emp)$.
+  \item $\rho_{\emp}(M\oplus N,\emp)$.
+  \item $\rho_{\emp}(M\odot N,\emp)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier $A_{\emp}$ and the classifier
+$\rho_{\emp}$. The hypotheses say that $M$ and $N$ are carried by the
+singleton endpoint, so the first classification is obtained by pairing the
+two carrier witnesses with the corresponding singleton endpoint witness in
+$\hsame$.
+
+Apply Theorem~\ref{thm:singleton-empty-history-matrix-laws} to obtain closure
+of $0_M$, $I_M$, $M\oplus N$, and $M\odot N$ in $A_{\emp}$. These closure
+witnesses supply the carrier components required by the classifier for the
+four remaining endpoints.
+
+For the $\hsame$ components, compose the singleton endpoint witnesses with
+symmetry and transitivity of $\hsame$. Thus each displayed endpoint is
+identified with $\emp$, and repacking the carrier witnesses with the
+$\hsame$ witness gives the five asserted instances of $\rho_{\emp}$.
+\end{proof}
+
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonEmptyHistory\_endpoint\_exactness}
+
+\begin{theorem}[Matrix singleton classifier continuation commutativity closure]
+\label{thm:matrix-singleton-classifier-continuation-comm-closed}
+Let $M,N:\mathsf{BHist}$ be carried by the singleton matrix carrier
+$A_{\emp}$. If $\ContR(M,N,L)$ and $\ContR(N,M,R)$, then both continuation
+results are again carried by $A_{\emp}$, and the singleton matrix classifier
+relates the two results:
+$$
+A_{\emp}(L)\land A_{\emp}(R)\land \rho_{\emp}(L,R).
+$$
+\end{theorem}
+\begin{proof}
+The two carrier hypotheses identify $M$ and $N$ with $\emp$. After these
+identifications, the two continuation premises identify both $L$ and $R$ with
+the BEDC append endpoint $\mathsf{append}(\emp,\emp)$, which is $\emp$. The
+singleton carrier witnesses for $L$ and $R$ are therefore reflexive empty
+history witnesses, and the classifier is rebuilt from those two carrier
+components and $\hsame(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
 
 \section{The certificate}
 

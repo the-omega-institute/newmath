@@ -51,6 +51,23 @@ The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.
 
+\begin{theorem}[Unary append monoid commutative classifier]
+\label{thm:unary-append-monoid-commutative-classifier}
+For unary histories $a$ and $b$, the concrete monoid classifier identifies the
+two append products:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(a,b),\mathsf{append}(b,a)).
+$$
+\end{theorem}
+\begin{proof}
+Unary append commutativity gives
+$\mathsf{append}(a,b)\hsame\mathsf{append}(b,a)$, and unary append closure
+supplies the two endpoint carrier witnesses required by
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_commutative\_classifier}
+
 \section{The certificate}
 
 \begin{definition}[Monoid source specification]
@@ -108,6 +125,24 @@ $e$ and $e'$ supply the classifier endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_identity\_unique}
 
+\begin{theorem}[Unary append monoid left identity is empty]
+\label{thm:unary-append-monoid-left-identity-empty}
+For the concrete unary-history append monoid, any unary history $e$ whose
+append action is a left identity under
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ is classified with
+$\emp$:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier identity uniqueness with $e$ as the left identity and $\emp$
+as the right identity. The right-identity classifier for $\emp$ follows from
+unary closure of append, $\mathsf{UnaryHistory}(\emp)$, and the BEDC append law
+$\mathsf{append}(h,\emp)=h$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_left\_identity\_empty}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
@@ -128,6 +163,18 @@ Right-unit uniqueness for continuation forces any suffix whose result is the
 source to be \(\emp\). BEDC history no-confusion separates \(\Ezero(k)\) and
 \(\Eone(k)\) from \(\emp\).
 \end{proof}
+
+\begin{theorem}[Nonempty continuation prefix changes the target]
+\label{thm:history-continuation-nonempty-prefix-target-absurd}
+For any target history $k$, no continuation with source of the form
+$\Ezero(h)$ or $\Eone(h)$ can have result $k$ itself.
+\end{theorem}
+\begin{proof}
+Left-unit uniqueness for continuation forces any source whose continuation
+leaves the target unchanged to be $\emp$. BEDC history no-confusion separates
+$\Ezero(h)$ and $\Eone(h)$ from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.history\_continuation\_nonempty\_prefix\_target\_absurd}
 
 \begin{theorem}[Unary append monoid semantic name certificate]
 \label{thm:unary-append-monoid-semantic-name-certificate}
@@ -204,6 +251,25 @@ left context $l$, and right append cancellation removes the common suffix $r$.
 The given unary witnesses for $a$ and $b$ supply the classifier endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_cancel\_context}
+
+\begin{theorem}[Unary append monoid classifier context equivalence]
+\label{thm:unary-append-monoid-classifier-context-iff}
+For unary histories $l,r,a,b$, the monoid classifier identifies
+$$
+l(a r)
+$$
+with
+$$
+l(b r)
+$$
+exactly when it identifies $a$ with $b$.
+\end{theorem}
+\begin{proof}
+The forward direction is common-context cancellation: left append cancellation
+removes $l$, and right append cancellation removes $r$. The reverse direction
+is common-context congruence using unary append closure on both endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_context\_iff}
 
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}

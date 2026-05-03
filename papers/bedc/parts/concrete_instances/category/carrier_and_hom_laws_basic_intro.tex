@@ -1,0 +1,449 @@
+\chapter{A Concrete Naming Certificate for \(\CategoryUp\)}
+\label{ch:concrete-instances-category-namecert}
+
+The category interface \(\CategoryUp\) has certificate obligations over an object carrier together with, for each ordered pair of objects, a morphism carrier, identity morphisms at each object, a binary composition operation respecting source and target, and the associativity and identity laws expressed as morphism-classifier sameness. The size discipline is BEDC-internal: object and morphism carriers are each covered by their own NameCert obligations, avoiding any global "set of all objects" assumption. It is not a primitive structure; it is admitted only as a multi-sorted carrier with relational composition.
+
+\section{Carrier definition}
+
+\begin{definition}[Category carrier]
+\label{def:category-carrier}
+Use a multi-sorted setup with object carrier, morphism carrier for each ordered object pair, identities, composition, and law fields.
+\end{definition}
+\leandef{BEDC.Derived.CategoryUp.CategoryHomCarrier}
+
+\begin{theorem}[Category empty identity hom carrier]
+\label{thm:category-hom-carrier-empty-identity}
+For the unary-continuation category, if \(h\) is unary, then the empty history
+is a hom-carrier from \(h\) to \(h\).
+\end{theorem}
+\begin{proof}
+The source and target carrier witnesses are the given unary witness for \(h\).
+The morphism carrier is the unary empty history, and the continuation field is
+the right-unit continuation \(\ContR(h,\emp,h)\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity}
+
+\begin{theorem}[Category empty identity hom carrier exactness]
+\label{thm:category-hom-carrier-empty-identity-iff}
+For histories \(a,b\), the empty history is a hom-carrier from \(a\) to \(b\)
+exactly when \(a\) and \(b\) are unary and internally the same:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge \mathsf{UnaryHistory}(b)\wedge \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its continuation field is
+\(\ContR(a,\emp,b)\); determinism against the right-unit continuation
+\(\ContR(a,\emp,a)\) identifies \(a\) and \(b\). Conversely, unary source and
+target witnesses together with \(\hsame(a,b)\) transport the right-unit
+continuation to a continuation ending at \(b\), while \(\emp\) supplies the
+empty morphism carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity\_iff}
+
+\input{parts/concrete_instances/category/endomorphism_empty_exactness}
+
+\begin{theorem}[Category one-headed source empty morphism exactness]
+\label{thm:category-hom-carrier-e1-source-empty-morphism-iff}
+For histories \(a\) and \(target\), the empty morphism is a hom-carrier from
+\(\Eone(a)\) to \(target\) exactly when the target is \(\Eone(a)\) and the
+tail \(a\) is unary:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),target,\emp)
+\quad\Longleftrightarrow\quad
+target=\Eone(a)\wedge\mathsf{UnaryHistory}(a).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty identity hom-carrier exactness to the source \(\Eone(a)\). The
+resulting history-sameness witness identifies \(target\) with \(\Eone(a)\),
+and unary inversion on the one-headed source gives unary membership of \(a\).
+Conversely, after the displayed target equation is eliminated, unary closure
+under \(\Eone\) and the empty identity carrier rebuild the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_empty\_morphism\_iff}
+
+\begin{theorem}[Category one-headed target empty morphism exactness]
+\label{thm:category-hom-carrier-e1-target-empty-morphism}
+For histories $source,r:\mathsf{BHist}$, the empty morphism is a hom-carrier
+from $source$ to $\Eone(r)$ exactly when the source is $\Eone(r)$ and the tail
+$r$ is unary:
+$$
+\mathsf{CategoryHomCarrier}(source,\Eone(r),\emp)
+\quad\Longleftrightarrow\quad
+source=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty identity hom-carrier exactness to the target $\Eone(r)$. The
+resulting history-sameness witness identifies the source with $\Eone(r)$, and
+unary inversion gives unary membership of $r$.
+
+Conversely, after eliminating the displayed source equation, unary closure
+under $\Eone$ gives the object carrier at $\Eone(r)$, and the empty identity
+hom carrier rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_empty\_morphism\_iff}
+
+\begin{theorem}[Category empty-source hom carrier exactness]
+\label{thm:category-hom-carrier-empty-source-iff}
+For histories \(b,f\), a hom-carrier out of the empty source is exactly unary
+membership of the target together with sameness of the morphism and target:
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(b)\wedge\hsame(f,b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its continuation field is
+\(\ContR(\emp,f,b)\), and the left-unit continuation exactness identifies
+\(b\) with \(f\); symmetry gives \(\hsame(f,b)\), while the target unary
+witness is already present. Conversely, transport the target unary witness
+across \(\hsame(f,b)\) to obtain the morphism carrier, and use the left-unit
+continuation equivalence to rebuild \(\ContR(\emp,f,b)\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_iff}
+
+\begin{theorem}[Category empty-target hom carrier exactness]
+\label{thm:category-hom-carrier-empty-target-iff}
+For histories $a,f$, a hom-carrier into the empty target is exactly sameness of
+the source and morphism with the empty history:
+$$
+\mathsf{CategoryHomCarrier}(a,\emp,f)
+\quad\Longleftrightarrow\quad
+\hsame(a,\emp)\wedge\hsame(f,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the hom-carrier witness. Its continuation field is
+$\ContR(a,f,\emp)$, and empty-result inversion for continuation splits the
+source and morphism into empty histories. Conversely, after those two sameness
+witnesses are eliminated, the empty source, empty target, and empty morphism
+are unary, and the right-unit continuation at $\emp$ rebuilds the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_iff}
+
+\begin{theorem}[Category hom carrier composition closure]
+\label{thm:category-hom-carrier-comp-closed}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to \(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\), then \(fg\) is a hom-carrier from \(a\) to \(c\).
+\end{theorem}
+\begin{proof}
+Unpack the two hom-carrier witnesses. The source, middle, target, and morphism histories are unary. Unary continuation closure gives unary membership for the composite morphism \(fg\), and associativity of the recursive append representative underlying \(\ContR\) supplies the continuation from \(a\) through \(fg\) to \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_closed}
+
+\begin{theorem}[Category hom-carrier composite endpoint cycle has empty morphism]
+\label{thm:category-hom-carrier-composite-endpoint-cycle-morphism-empty}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+composite endpoints satisfy $\hsame(a,c)$, then the composite morphism history
+is empty:
+$$
+\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure first turns the displayed continuation $\ContR(f,g,fg)$
+into a hom-carrier from $a$ to $c$. Its concrete continuation field is
+$\ContR(a,fg,c)$. Transporting the result endpoint along $\hsame(a,c)$ gives
+$\ContR(a,fg,a)$, and right-unit uniqueness forces $fg$ to be $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_morphism\_empty}
+
+\begin{theorem}[Category hom-carrier endpoint cycle empty morphism equivalence]
+\label{thm:category-hom-carrier-composite-endpoint-cycle-morphism-empty-iff}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. Then the
+composite endpoints close exactly when the composite morphism is empty:
+$$
+\hsame(a,c)\Longleftrightarrow\hsame(fg,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the endpoint-cycle empty-morphism theorem above.
+Conversely, composition closure gives a hom-carrier from $a$ to $c$ with
+morphism $fg$. If $fg\hsame\emp$, eliminate that comparison and apply the
+empty-identity exactness theorem to the composite hom-carrier; its endpoint
+projection is $\hsame(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_morphism\_empty\_iff}
+
+\begin{theorem}[Category empty-source composite result]
+\label{thm:category-hom-carrier-empty-source-composite-result}
+If $f$ is a hom-carrier from $\emp$ to $b$, $g$ is a hom-carrier from $b$ to
+$c$, and $\ContR(f,g,fg)$, then $fg$ is a hom-carrier from $\emp$ to $c$ and
+$fg\hsame c$.
+\end{theorem}
+\begin{proof}
+Composition closure first places $fg$ as a displayed hom-carrier from $\emp$
+to $c$. Applying empty-source exactness to this composite carrier reads back
+the result equality $fg\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_comp\_result\_hsame}
+
+\begin{theorem}[Category empty-middle composite inversion]
+\label{thm:category-hom-carrier-comp-empty-middle-inversion}
+If $f$ is a hom-carrier from $a$ to $\emp$, $g$ is a hom-carrier from $\emp$
+to $c$, and $\ContR(f,g,fg)$, then $a\hsame\emp$, $f\hsame\emp$, $g\hsame c$,
+$fg$ is a hom-carrier from $\emp$ to $c$, and $fg\hsame c$.
+\end{theorem}
+\begin{proof}
+Empty-target exactness on the left hom-carrier identifies both its source and
+morphism with $\emp$. The empty-source exactness on the right hom-carrier reads
+back $g\hsame c$. Composition closure gives a hom-carrier from $a$ to $c$ for
+$fg$; transporting its source along $a\hsame\emp$ gives a hom-carrier from
+$\emp$ to $c$, and empty-source exactness reads back $fg\hsame c$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_empty\_middle\_inversion}
+
+\begin{theorem}[Category empty-target composite boundary inversion]
+\label{thm:category-hom-carrier-empty-target-composite-boundary-inversion}
+If $f$ is a hom-carrier from $a$ to $b$, $g$ is a hom-carrier from $b$ to
+$\emp$, and $\ContR(f,g,fg)$, then $a$, $b$, $f$, $g$, and $fg$ are all
+$\hsame$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Empty-target exactness applied to the right hom-carrier identifies $b$ and
+$g$ with $\emp$. With $b$ reduced to $\emp$, empty-target exactness applied to
+the left hom-carrier identifies $a$ and $f$ with $\emp$. The displayed
+continuation ledger then has both inputs empty, so its result is $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_comp\_boundary\_inversion}
+
+\begin{theorem}[Category hom carrier composition public readback]
+\label{thm:category-hom-carrier-comp-public-readback}
+For the unary-continuation category, if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and \(\ContR(f,g,fg)\),
+then \(fg\) is a hom-carrier from \(a\) to \(c\), and every displayed
+hom-carrier from \(a\) to \(c\) has morphism history \(\hsame\)-equal to
+\(fg\).
+\end{theorem}
+\begin{proof}
+Composition closure supplies the displayed carrier for \(fg\). The
+hom-carrier morphism determinacy theorem then compares that carrier with any
+other displayed carrier over the same source and target.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Category hom-carrier composite result congruence]
+\label{thm:category-hom-carrier-composite-result-congruence}
+For unary-continuation hom carriers $f:a\to b$, $g:b\to c$,
+$f':a\to b$, and $g':b\to c$, if $\ContR(f,g,fg)$ and
+$\ContR(f',g',fg')$ hold, then the two composite morphism histories are
+classified the same:
+$$
+\HSame(fg,fg').
+$$
+\end{theorem}
+\begin{proof}
+Composition closure places $fg$ and $fg'$ as hom-carriers from the same source
+$a$ to the same target $c$. Hom-carrier morphism determinacy at those
+endpoints then identifies the two composite morphism histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_hsame\_congruence}
+
+\begin{theorem}[Category hom carrier same-endpoint composite result determinacy]
+\label{thm:category-hom-carrier-comp-same-endpoints-result-deterministic}
+For unary-continuation hom carriers $f:a\to b$, $g:b\to c$,
+$f':a\to b'$, and $g':b'\to c$, if $\ContR(f,g,fg)$ and
+$\ContR(f',g',fg')$ hold, then the two composite morphism histories have the
+same displayed source and target and hence
+$$
+\HSame(fg,fg').
+$$
+\end{theorem}
+\begin{proof}
+Apply composition closure to $f,g$ and to $f',g'$. The two displayed
+composites are hom-carriers from the same source $a$ to the same target $c$.
+Hom-carrier morphism determinacy at those endpoints identifies their result
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_endpoints\_result\_deterministic}
+
+\begin{theorem}[Category hom carrier same-composite middle-factor determinacy]
+\label{thm:category-hom-carrier-comp-same-middle-factors-deterministic}
+For unary-continuation hom carriers $f:a\to b$, $g:b\to c$,
+$f':a\to b$, and $g':b\to c$, if $\ContR(f,g,fg)$ and
+$\ContR(f',g',fg)$ hold, then
+$\HSame(f,f')\land\HSame(g,g')$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:category-hom-carrier-morphism-deterministic} to the two
+$a\to b$ carriers. This gives $\HSame(f,f')$.
+
+Transport the first continuation ledger across this equality. The transported
+ledger and $\ContR(f',g',fg)$ now have the same left continuation history and
+the same result history, so continuation left cancellation identifies the two
+right factors, giving $\HSame(g,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_same\_middle\_factors\_deterministic}
+
+\begin{theorem}[Category empty composite has empty hom factors]
+\label{thm:category-hom-carrier-empty-composite-factors}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if their
+composite ledger has empty result,
+$$
+\ContR(f,g,\emp),
+$$
+then both factors are internally empty and the adjacent endpoints are
+identified:
+$$
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Empty-result inversion for the continuation ledger first gives
+$\HSame(f,\emp)$ and $\HSame(g,\emp)$. Transport the two displayed hom-carrier
+witnesses across these morphism equalities, obtaining
+$\mathsf{CategoryHomCarrier}(a,b,\emp)$ and
+$\mathsf{CategoryHomCarrier}(b,c,\emp)$. The empty identity exactness theorem
+then reads back $\HSame(a,b)$ from the first carrier and $\HSame(b,c)$ from
+the second.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_factors}
+
+\begin{theorem}[Category empty composite exactness]
+\label{thm:category-hom-carrier-empty-composite-iff}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, the composite
+ledger has empty result exactly when both morphism tails are empty and the
+adjacent endpoints collapse:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the empty-composite factor theorem. Conversely,
+$\HSame(f,\emp)$ and $\HSame(g,\emp)$ identify both continuation tails with
+the empty history, so the empty continuation ledger is the right-unit
+calculation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_iff}
+
+\input{parts/concrete_instances/category/carrier_and_hom_laws_displayed_empty}
+
+\begin{theorem}[Category empty composite identity factors]
+\label{thm:category-hom-carrier-empty-composite-identity-factors}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, the composite
+ledger has empty result exactly when the two corresponding identity carriers
+are present:
+$$
+\ContR(f,g,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{CategoryHomCarrier}(a,b,\emp)\wedge
+\mathsf{CategoryHomCarrier}(b,c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+An empty composite gives empty tails by continuation inversion, and hom-carrier
+transport moves the two displayed carriers to those empty tails. In the reverse
+direction, morphism determinacy compares each displayed carrier with its empty
+identity factor, reducing the continuation ledger to $\ContR(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_identity\_factors\_iff}
+
+\begin{theorem}[Category empty composite exposes identity carriers]
+\label{thm:category-empty-composite-identity-carriers}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if their
+composite ledger has empty result, then the empty morphism is a displayed
+identity carrier at each endpoint:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\wedge
+\mathsf{CategoryHomCarrier}(b,b,\emp)\wedge
+\mathsf{CategoryHomCarrier}(c,c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The empty-composite factor theorem transports both displayed morphisms to
+empty hom carriers and reads back the adjacent endpoint identifications. The
+empty identity exactness theorem then packages the unary endpoint carriers as
+the three displayed empty identity carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_composite\_identity\_carriers}
+
+\begin{theorem}[Category displayed empty composite exposes identity carriers]
+\label{thm:category-hom-carrier-comp-result-empty-identity-carriers}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if
+$\ContR(f,g,fg)$ and $\HSame(fg,\emp)$, then the empty morphism is a displayed
+identity carrier at each endpoint:
+$$
+\mathsf{CategoryHomCarrier}(a,a,\emp)\wedge
+\mathsf{CategoryHomCarrier}(b,b,\emp)\wedge
+\mathsf{CategoryHomCarrier}(c,c,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed composite ledger along $\HSame(fg,\emp)$ to obtain an
+empty-result composite ledger. The empty-composite identity-carrier theorem
+then supplies the three displayed identity carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_empty\_identity\_carriers}
+
+\begin{theorem}[Category hom carrier unary suffix equivalence]
+\label{thm:category-hom-carrier-unary-suffix-iff}
+For a unary suffix $q$, a displayed hom-carrier
+$\mathsf{CategoryHomCarrier}(\mathsf{append}(a,q),\mathsf{append}(b,q),f)$
+is equivalent to the pair consisting of unary evidence for $q$ and the
+unsuffixed carrier $\mathsf{CategoryHomCarrier}(a,b,f)$.
+\end{theorem}
+\begin{proof}
+The forward direction reads unary evidence from the suffixed endpoints, swaps
+the unary suffix past the unary morphism, and cancels the common suffix in the
+continuation ledger. The reverse direction uses unary append closure and the
+same commutation to rebuild the suffixed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_iff}
+
+\begin{theorem}[Category hom carrier unary context exactness]
+\label{thm:category-hom-carrier-unary-context-exactness}
+For unary histories $p$ and $q$, a displayed hom-carrier between
+$\mathsf{append}(\mathsf{append}(p,a),q)$ and
+$\mathsf{append}(\mathsf{append}(p,b),q)$ is equivalent to unary evidence for
+both boundary histories together with the central carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$.
+\end{theorem}
+\begin{proof}
+First peel the common unary suffix by the suffix equivalence. The remaining
+prefixed carrier exposes unary evidence for $p$, and prefix cancellation on
+the continuation ledger recovers the central carrier. Conversely, prefix
+closure rebuilds the central carrier under $p$, and suffix closure appends the
+visible suffix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_iff}
+
+\begin{theorem}[Category hom carrier unary context composition public readback]
+\label{thm:category-hom-carrier-unary-context-comp-public-readback}
+For composable category hom-carriers $f,g$, unary histories $p,q$, and a
+continuation composite $\ContR(f,g,fg)$, the morphism $fg$ is a hom-carrier
+from $\mathsf{append}(\mathsf{append}(p,a),q)$ to
+$\mathsf{append}(\mathsf{append}(p,c),q)$. Any other displayed hom-carrier
+between those same contextual endpoints is $\hsame$-equal to $fg$.
+\end{theorem}
+\begin{proof}
+Apply category hom-carrier composite public readback to the central
+composable pair. The unary context exactness theorem lifts the resulting
+central carrier through the left prefix $p$ and right suffix $q$. For a
+competing displayed carrier, the same context exactness theorem reflects it
+back to the central endpoints, where public readback uniqueness gives
+$\hsame$ with the chosen composite.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_comp\_public\_readback}
+
+\begin{theorem}[Category hom carrier unary suffix composite public readback]
+\label{thm:category-hom-carrier-unary-suffix-comp-public-readback}
+For composable category hom-carriers $f,g$ and unary suffix $q$, the composite
+carrier over $\mathsf{append}(a,q)$ and $\mathsf{append}(c,q)$ exists, and any
+competing displayed composite over those suffixed endpoints is $\hsame$-equal
+to the same composite morphism.
+\end{theorem}
+\begin{proof}
+Apply unsuffixed composite public readback, transport its carrier through the
+unary suffix equivalence, and reflect any competing suffixed display back
+through the same equivalence before applying morphism determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_suffix\_comp\_public\_readback}

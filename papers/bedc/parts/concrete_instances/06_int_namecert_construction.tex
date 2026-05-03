@@ -80,6 +80,25 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
 
+\begin{theorem}[Integer classifier endpoint sign cases]
+\label{thm:int-classifier-endpoint-sign-cases}
+If $\mathsf{IntClassifierSpec}(x,y)$, then the two endpoint signs are either
+both $\bzero$ or both $\bone$, and both endpoint magnitudes are unary:
+$$
+\bigl((x_1=\bzero\wedge y_1=\bzero)\vee
+(x_1=\bone\wedge y_1=\bone)\bigr)\wedge
+\mathsf{Unary}(x_2)\wedge\mathsf{Unary}(y_2).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two signed carrier witnesses, sign sameness,
+and magnitude sameness. The left carrier splits the left sign into the two
+finite mark cases and gives the unary witness for the left magnitude. The sign
+sameness transports the same sign case to the right endpoint, while the right
+carrier supplies the unary witness for the right magnitude.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_endpoint\_sign\_cases}
+
 \begin{theorem}[Integer classifier magnitude transport]
 \label{thm:int-classifier-hsame-magnitude-transport}
 If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
@@ -176,5 +195,24 @@ gives the two result carriers, while continuation respects the two magnitude
 \(\hsame\) links and gives the result magnitude sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_continuation\_closed\_same\_sign}
+
+\begin{theorem}[Integer classifier append commutativity with the same sign]
+\label{thm:int-classifier-append-comm-same-sign}
+For a fixed sign \(s:\mathsf{BMark}\), if \(h\) and \(k\) are both carried by
+\(\mathsf{IntCarrier}(s,-)\), then the two append magnitudes classify each
+other under the same sign:
+$$
+\mathsf{IntClassifierSpec}\bigl((s,\mathsf{append}(h,k)),
+(s,\mathsf{append}(k,h))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two integer carrier witnesses. The shared sign evidence supplies
+both endpoint carriers. Unary append closure gives the two appended magnitude
+carriers, reflexivity of \(\msame\) relates the fixed sign to itself, and
+unary append commutativity gives
+\(\mathsf{append}(h,k)\hsame\mathsf{append}(k,h)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_comm\_same\_sign}
 
 \section{The certificate}

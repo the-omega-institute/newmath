@@ -1,0 +1,168 @@
+\section{Concrete Rat denominator external-unit package}
+\label{sec:field-rat-denominator-external-unit-package}
+
+\begin{theorem}[Rat denominator concrete continuation is cancellative and unitless]
+\label{thm:field-rat-denominator-concrete-cancellative-unitless-semigroup}
+For the concrete data $C_D$, $R_D$, and $\mu_D$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, the
+denominator-side fragment consumed by the $\FieldUp(\mathsf{RatUp})$
+certificate has the following form.
+\begin{enumerate}
+  \item $C_D$, $R_D$, and $\mu_D$ form the carried commutative semigroup
+  fragment: multiplication closes on carried denominators, commutativity and
+  associativity hold up to $R_D$, binary classifier congruence is respected in
+  both inputs, and the Rat history ledger is closed under classified carried
+  right tails.
+  \item For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if
+  $\mathsf{UnaryHistory}(p)$, $\mathsf{UnaryHistory}(q)$, $C_D(d)$, $C_D(e)$,
+  $\Cont(p,d,pd)$, $\Cont(p,e,pe)$, $\Cont(pd,q,left)$, and
+  $\Cont(pe,q,right)$, then the common unary context is exact for both the
+  classifier and the ledger:
+  $$
+  R_D(left,right)\Longleftrightarrow R_D(d,e).
+  $$
+  $$
+  \mathsf{RatHistoryLedgerPolicy}(left,right)\Longleftrightarrow
+  \mathsf{RatHistoryLedgerPolicy}(d,e).
+  $$
+  \item For every endpoint $u:\mathsf{BHist}$, if either one-sided
+  classifier-unit law
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  C_D(d)\to
+  \Cont(d,u,r)\to
+  R_D(r,d)
+  $$
+  or
+  $$
+  \forall d,r:\mathsf{BHist}.\;
+  C_D(d)\to
+  \Cont(u,d,r)\to
+  R_D(r,d)
+  $$
+  holds, then $u\hsame\emp$. If also $C_D(u)$, then $\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the concrete data of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, so that
+$C_D$ is $\mathsf{RatHistoryCarrier}$, $R_D$ is
+$\mathsf{RatHistoryClassifier}$, and $\mu_D$ is append with its canonical
+continuation witness.
+
+The semigroup fragment is exactly
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}. Its
+clauses give carrier closure, commutativity, associativity, binary classifier
+congruence, and ledger closure for the displayed concrete operation.
+
+For the common-context clause, apply
+\autoref{thm:field-rat-denominator-continuation-common-context-exactness-package}
+to the two unary contexts and the four displayed continuation witnesses. After
+the same unfolding of $C_D$ and $R_D$, its two conclusions are precisely the
+classifier cancellation equivalence and the ledger exactness equivalence in the
+statement.
+
+For the endpoint obstruction, use
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
+for the right-unit classifier law and
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
+for the left-unit classifier law. Either case yields $u\hsame\emp$. If a
+carrier witness $C_D(u)$ is also present, unfold $C_D$ and apply
+\autoref{thm:rat-history-carrier-not-empty} to that witness and the comparison
+$u\hsame\emp$, giving $\mathsf{False}$.
+\end{proof}
+
+\begin{theorem}[Rat denominator continuation exact external-unit package]
+\label{thm:field-rat-denominator-concrete-external-unit-package}
+For the concrete Rat denominator continuation data
+$(C_D,R_D,\mu_D)$ of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, the
+following package holds.
+\begin{enumerate}
+  \item If $C_D(d)$ and $C_D(e)$, then $C_D(\mu_D(d,e))$.
+  \item If $C_D(d)$ and $C_D(e)$, then
+  $R_D(\mu_D(d,e),\mu_D(e,d))$.
+  \item If $C_D(d)$, $C_D(e)$, and $C_D(f)$, then
+  $R_D(\mu_D(\mu_D(d,e),f),\mu_D(d,\mu_D(e,f)))$.
+  \item If $R_D(d,d')$ and $R_D(e,e')$, then
+  $R_D(\mu_D(d,e),\mu_D(d',e'))$.
+  \item If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$, $C_D(e)$, and
+  $R_D(e,e')$, then
+  $\mathsf{RatHistoryLedgerPolicy}(\mu_D(\rho,e),\mu_D(v,e'))$.
+  \item For every endpoint $u:\mathsf{BHist}$,
+
+  $$
+  \left(
+  \forall d,r:\mathsf{BHist}.\;
+  C_D(d)\to
+  \Cont(d,u,r)\to
+  R_D(r,d)
+  \right)
+  \Longleftrightarrow
+  u\hsame\emp.
+  $$
+
+  \item For every endpoint $u:\mathsf{BHist}$,
+
+  $$
+  \left(
+  \forall d,r:\mathsf{BHist}.\;
+  C_D(d)\to
+  \Cont(u,d,r)\to
+  R_D(r,d)
+  \right)
+  \Longleftrightarrow
+  u\hsame\emp.
+  $$
+
+  \item If $C_D(u)$, then neither displayed one-sided classifier-unit law can
+  hold for $u$.
+  \item If $u$ and $v$ each satisfy either displayed one-sided classifier-unit
+  law, then $u\hsame v$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the concrete names $C_D$, $R_D$, and $\mu_D$ only as needed. The first
+five clauses are exactly the first law group in
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}:
+carrier closure, commutative classifier, associative classifier, binary
+classifier congruence, and ledger closure.
+
+For the right external-unit exactness clause, read $C_D$ as
+$\mathsf{RatHistoryCarrier}$ and $R_D$ as $\mathsf{RatHistoryClassifier}$. Apply
+\autoref{thm:field-rat-denominator-continuation-right-unit-endpoint-iff-empty}
+to the displayed right-unit law.
+
+For the left external-unit exactness clause, use the same identifications and
+apply
+\autoref{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}.
+
+For carried-endpoint exclusion, suppose $C_D(u)$ and one of the displayed
+one-sided classifier-unit laws holds. The corresponding exactness clause gives
+$u\hsame\emp$. Since $C_D(u)$ is $\mathsf{RatHistoryCarrier}(u)$, rational
+history carrier nonemptiness,
+\autoref{thm:rat-history-carrier-not-empty}, contradicts $u\hsame\emp$.
+
+Finally, take two one-sided classifier-unit endpoints $u$ and $v$. The
+right/right, left/left, and right/left cases are the three clauses of
+\autoref{thm:field-rat-denominator-continuation-unit-endpoint-unique}. The
+left/right case follows by applying the mixed clause in the opposite order and
+then using symmetry of $\hsame$.
+\end{proof}
+
+\textbf{Traditional target}: denominator-side continuation package for
+$\FieldUp(\mathsf{RatUp})$ with an external unit endpoint; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, $\Cont$,
+$\mathsf{append}$, and $\mathsf{RatHistoryLedgerPolicy}$; \textbf{carrier
+choice}: $C_D$ from
+\autoref{def:field-rat-denominator-concrete-continuation-instance};
+\textbf{classifier choice}: $R_D$ from
+\autoref{def:field-rat-denominator-concrete-continuation-instance};
+\textbf{stability obligation}: carrier closure, commutative classifier,
+associative classifier, classifier congruence, ledger closure, and endpoint
+uniqueness; \textbf{ledger}: the Rat history ledger policy transported through
+$\mu_D$; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-concrete-external-unit-package};
+\textbf{exactness predicate}: the right and left external-unit iff clauses
+identifying the endpoint with $\emp$; \textbf{standard bridge}: deferred;
+\textbf{status}: $\mathsf{ProofTarget}$.

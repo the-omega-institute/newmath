@@ -1,5 +1,6 @@
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Unary.History
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.IntUp
 
@@ -239,5 +240,51 @@ theorem IntClassifierSpec_sign_magnitude_transport
     (IntClassifierSpec_hsame_magnitude_transport classifier sameHx sameHy)
     sameSx
     sameSy
+
+theorem IntClassifierSpec_endpoint_sign_cases
+    {x y : BEDC.FKernel.Mark.BMark × BEDC.FKernel.Hist.BHist} :
+    IntClassifierSpec x y ->
+      (((x.1 = BEDC.FKernel.Mark.BMark.b0 ∧ y.1 = BEDC.FKernel.Mark.BMark.b0) ∨
+          (x.1 = BEDC.FKernel.Mark.BMark.b1 ∧ y.1 = BEDC.FKernel.Mark.BMark.b1)) ∧
+        BEDC.FKernel.Unary.UnaryHistory x.2 ∧
+          BEDC.FKernel.Unary.UnaryHistory y.2) := by
+  intro classifier
+  cases classifier with
+  | intro carrierX rest =>
+      cases rest with
+      | intro carrierY sameRest =>
+          cases sameRest with
+          | intro sameSign _sameMagnitude =>
+              cases IntCarrier_sign_cases carrierX with
+              | inl zeroCase =>
+                  exact And.intro
+                    (Or.inl (And.intro zeroCase.left (sameSign.symm.trans zeroCase.left)))
+                    (And.intro zeroCase.right carrierY.right)
+              | inr oneCase =>
+                  exact And.intro
+                    (Or.inr (And.intro oneCase.left (sameSign.symm.trans oneCase.left)))
+                    (And.intro oneCase.right carrierY.right)
+
+theorem IntClassifierSpec_append_comm_same_sign {sign : BEDC.FKernel.Mark.BMark}
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntCarrier sign h -> IntCarrier sign k ->
+      IntClassifierSpec (sign, BEDC.FKernel.Cont.append h k)
+        (sign, BEDC.FKernel.Cont.append k h) := by
+  intro carrierH carrierK
+  cases carrierH with
+  | intro signCases hUnary =>
+      cases carrierK with
+      | intro _ kUnary =>
+          constructor
+          · constructor
+            · exact signCases
+            · exact BEDC.FKernel.Unary.unary_append_closed hUnary kUnary
+          · constructor
+            · constructor
+              · exact signCases
+              · exact BEDC.FKernel.Unary.unary_append_closed kUnary hUnary
+            · constructor
+              · exact BEDC.FKernel.Mark.msame_refl sign
+              · exact BEDC.FKernel.Unary.unary_append_comm hUnary kUnary
 
 end BEDC.Derived.IntUp

@@ -110,6 +110,24 @@ theorem ContinuousModulusWitness_visible_context_modulus_deterministic
     ContinuousModulusWitness_modulus_hsame_deterministic
       (hsame_refl source) (hsame_refl target) leftData.right.right rightData.right.right
 
+theorem ContinuousModulusWitness_visible_context_target_deterministic
+    {p q source modulus target target' : BHist} :
+    ContinuousModulusWitness (append p source) (append modulus q)
+        (append (append p target) q) ->
+      ContinuousModulusWitness (append p source) (append modulus q)
+        (append (append p target') q) ->
+        hsame target target' := by
+  intro left right
+  have leftData :=
+    (ContinuousModulusWitness_visible_context_iff (p := p) (q := q) (source := source)
+      (modulus := modulus) (target := target)).mp left
+  have rightData :=
+    (ContinuousModulusWitness_visible_context_iff (p := p) (q := q) (source := source)
+      (modulus := modulus) (target := target')).mp right
+  exact
+    ContinuousModulusWitness_target_hsame_deterministic
+      (hsame_refl source) leftData.right.right rightData.right.right
+
 theorem ContinuousModulusChain_suffix_iff {p source first second target : BHist} :
     ContinuousModulusChain source first (append second p) (append target p) <->
       UnaryHistory p /\ ContinuousModulusChain source first second target := by

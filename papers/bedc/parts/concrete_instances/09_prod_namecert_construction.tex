@@ -215,6 +215,27 @@ projection.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_component\_inversion}
 
+\begin{theorem}[Product history classifier common-right component left equality]
+\label{thm:prod-history-classifier-common-right-component-left-hsame}
+For source predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
+$h,k,l,l',r:\mathsf{BHist}$, if
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k),
+\qquad
+\Cont(l,r,h),
+\qquad
+\Cont(l',r,k),
+$$
+then $\hsame(l,l')$.
+\end{theorem}
+\begin{proof}
+The product-history classifier stores the endpoint equality $\hsame(h,k)$.
+Both displayed continuation witnesses use the same right component $r$.
+BEDC common-suffix cancellation for continuations therefore cancels the shared
+right component across the equal endpoints and yields $\hsame(l,l')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_common\_right\_component\_left\_hsame}
+
 \begin{theorem}[Product history source monotonicity]
 \label{thm:prod-history-source-monotonicity}
 The roadmap-template fit is: traditional target ordered-product stability

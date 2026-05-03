@@ -1,0 +1,332 @@
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+
+namespace BEDC.Derived.PolynomialUp
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+def PolynomialSingletonCarrier (h : BHist) : Prop :=
+  hsame h BHist.Empty
+
+def PolynomialSingletonClassifier (h k : BHist) : Prop :=
+  PolynomialSingletonCarrier h ∧ PolynomialSingletonCarrier k ∧ hsame h k
+
+def PolynomialSingletonZero : BHist :=
+  BHist.Empty
+
+def PolynomialSingletonOne : BHist :=
+  BHist.Empty
+
+def PolynomialSingletonNormalize (_P : BHist) : BHist :=
+  BHist.Empty
+
+def PolynomialSingletonAdd (P Q : BHist) : BHist :=
+  append P Q
+
+def PolynomialSingletonMul (P Q : BHist) : BHist :=
+  append P Q
+
+theorem PolynomialSingletonClassifier_add_split_empty_iff {P Q h : BHist} :
+    PolynomialSingletonClassifier (PolynomialSingletonAdd P Q) h ↔
+      hsame P BHist.Empty ∧ hsame Q BHist.Empty ∧ PolynomialSingletonCarrier h := by
+  constructor
+  · intro classified
+    have split := append_eq_empty_iff.mp classified.left
+    exact And.intro split.left (And.intro split.right classified.right.left)
+  · intro split
+    cases split.left
+    cases split.right.left
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro split.right.right (hsame_symm split.right.right))
+
+theorem PolynomialSingletonClassifier_add_visible_left_absurd {P Q h : BHist} :
+    (PolynomialSingletonClassifier (PolynomialSingletonAdd (BHist.e0 P) Q) h -> False) ∧
+      (PolynomialSingletonClassifier (PolynomialSingletonAdd (BHist.e1 P) Q) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.left
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.left
+
+theorem PolynomialSingletonClassifier_add_visible_right_absurd {P Q h : BHist} :
+    (PolynomialSingletonClassifier (PolynomialSingletonAdd P (BHist.e0 Q)) h -> False) ∧
+      (PolynomialSingletonClassifier (PolynomialSingletonAdd P (BHist.e1 Q)) h -> False) := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e0_empty emptyParts.right
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.left
+    exact not_hsame_e1_empty emptyParts.right
+
+theorem PolynomialSingletonClassifier_append_left_cancel_iff {P Q R : BHist} :
+    PolynomialSingletonCarrier P ->
+      (PolynomialSingletonClassifier (append P Q) (append P R) ↔
+        PolynomialSingletonClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.right
+      (And.intro rightSplit.right
+        (hsame_trans leftSplit.right (hsame_symm rightSplit.right)))
+  · intro classified
+    cases carrierP
+    have leftCarrier : PolynomialSingletonCarrier (append BHist.Empty Q) :=
+      hsame_trans (append_empty_left Q) classified.left
+    have rightCarrier : PolynomialSingletonCarrier (append BHist.Empty R) :=
+      hsame_trans (append_empty_left R) classified.right.left
+    have sameAppend : hsame (append BHist.Empty Q) (append BHist.Empty R) :=
+      hsame_trans (append_empty_left Q)
+        (hsame_trans classified.right.right (hsame_symm (append_empty_left R)))
+    exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
+theorem PolynomialSingletonClassifier_append_right_cancel_iff {P Q R : BHist} :
+    PolynomialSingletonCarrier P ->
+      (PolynomialSingletonClassifier (append Q P) (append R P) ↔
+        PolynomialSingletonClassifier Q R) := by
+  intro carrierP
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro rightSplit.left
+        (hsame_trans leftSplit.left (hsame_symm rightSplit.left)))
+  · intro classified
+    have leftCarrier : PolynomialSingletonCarrier (append Q P) :=
+      append_eq_empty_iff.mpr (And.intro classified.left carrierP)
+    have rightCarrier : PolynomialSingletonCarrier (append R P) :=
+      append_eq_empty_iff.mpr (And.intro classified.right.left carrierP)
+    have sameAppend : hsame (append Q P) (append R P) :=
+      hsame_trans leftCarrier (hsame_symm rightCarrier)
+    exact And.intro leftCarrier (And.intro rightCarrier sameAppend)
+
+theorem PolynomialSingletonClassifier_append_pair_carrier_iff {P Q R S : BHist} :
+    PolynomialSingletonClassifier (append P Q) (append R S) ↔
+      PolynomialSingletonCarrier P ∧ PolynomialSingletonCarrier Q ∧
+        PolynomialSingletonCarrier R ∧ PolynomialSingletonCarrier S := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro leftSplit.right (And.intro rightSplit.left rightSplit.right))
+  · intro parts
+    cases parts.left
+    cases parts.right.left
+    cases parts.right.right.left
+    cases parts.right.right.right
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
+theorem singleton_empty_history_polynomial_laws :
+    SemanticNameCert PolynomialSingletonCarrier PolynomialSingletonCarrier
+      PolynomialSingletonCarrier PolynomialSingletonClassifier ∧
+      PolynomialSingletonCarrier PolynomialSingletonZero ∧
+      PolynomialSingletonCarrier PolynomialSingletonOne ∧
+      (forall {P : BHist}, PolynomialSingletonCarrier P ->
+        PolynomialSingletonClassifier
+          (PolynomialSingletonNormalize (PolynomialSingletonNormalize P))
+          (PolynomialSingletonNormalize P)) ∧
+      (forall {P Q : BHist}, PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q ->
+        PolynomialSingletonCarrier (PolynomialSingletonAdd P Q) ∧
+          PolynomialSingletonCarrier (PolynomialSingletonMul P Q)) ∧
+      (forall {P : BHist}, PolynomialSingletonCarrier P ->
+        PolynomialSingletonClassifier (PolynomialSingletonAdd PolynomialSingletonZero P) P ∧
+          PolynomialSingletonClassifier (PolynomialSingletonAdd P PolynomialSingletonZero) P ∧
+          PolynomialSingletonClassifier (PolynomialSingletonMul PolynomialSingletonOne P) P ∧
+          PolynomialSingletonClassifier (PolynomialSingletonMul P PolynomialSingletonOne) P) ∧
+      (forall {P Q R : BHist}, PolynomialSingletonCarrier P ->
+        PolynomialSingletonCarrier Q -> PolynomialSingletonCarrier R ->
+          PolynomialSingletonClassifier (PolynomialSingletonAdd (PolynomialSingletonAdd P Q) R)
+            (PolynomialSingletonAdd P (PolynomialSingletonAdd Q R)) ∧
+            PolynomialSingletonClassifier (PolynomialSingletonMul (PolynomialSingletonMul P Q) R)
+              (PolynomialSingletonMul P (PolynomialSingletonMul Q R))) := by
+  have emptyCarrier : PolynomialSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyClassified : PolynomialSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  have semantic :
+      SemanticNameCert PolynomialSingletonCarrier PolynomialSingletonCarrier
+        PolynomialSingletonCarrier PolynomialSingletonClassifier := {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCarrier
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k same
+        exact And.intro same.right.left
+          (And.intro same.left (hsame_symm same.right.right))
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact And.intro sameHK.left
+          (And.intro sameKR.right.left
+            (hsame_trans sameHK.right.right sameKR.right.right))
+      carrier_respects_equiv := by
+        intro h k same _carrier
+        exact same.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+  have appendCarrier :
+      forall {P Q : BHist}, PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q ->
+        PolynomialSingletonCarrier (append P Q) := by
+    intro P Q carrierP carrierQ
+    cases carrierP
+    exact hsame_trans (append_empty_left Q) carrierQ
+  constructor
+  · exact semantic
+  · constructor
+    · exact emptyCarrier
+    · constructor
+      · exact emptyCarrier
+      · constructor
+        · intro P _carrierP
+          exact emptyClassified
+        · constructor
+          · intro P Q carrierP carrierQ
+            constructor
+            · exact appendCarrier carrierP carrierQ
+            · exact appendCarrier carrierP carrierQ
+          · constructor
+            · intro P carrierP
+              constructor
+              · exact And.intro
+                  (hsame_trans (append_empty_left P) carrierP)
+                  (And.intro carrierP (append_empty_left P))
+              · constructor
+                · exact And.intro
+                    (hsame_trans (append_empty_right P) carrierP)
+                    (And.intro carrierP (append_empty_right P))
+                · constructor
+                  · exact And.intro
+                      (hsame_trans (append_empty_left P) carrierP)
+                      (And.intro carrierP (append_empty_left P))
+                  · exact And.intro
+                      (hsame_trans (append_empty_right P) carrierP)
+                      (And.intro carrierP (append_empty_right P))
+            · intro P Q R carrierP carrierQ carrierR
+              have assocAdd :
+                  hsame (PolynomialSingletonAdd (PolynomialSingletonAdd P Q) R)
+                    (PolynomialSingletonAdd P (PolynomialSingletonAdd Q R)) :=
+                append_assoc P Q R
+              have assocMul :
+                  hsame (PolynomialSingletonMul (PolynomialSingletonMul P Q) R)
+                    (PolynomialSingletonMul P (PolynomialSingletonMul Q R)) :=
+                append_assoc P Q R
+              have rightCarrier :
+                  PolynomialSingletonCarrier (PolynomialSingletonAdd P (PolynomialSingletonAdd Q R)) := by
+                exact appendCarrier carrierP (appendCarrier carrierQ carrierR)
+              constructor
+              · exact And.intro (hsame_trans assocAdd rightCarrier)
+                  (And.intro rightCarrier assocAdd)
+              · exact And.intro (hsame_trans assocMul rightCarrier)
+                  (And.intro rightCarrier assocMul)
+
+theorem PolynomialSingleton_append_distrib_classified {P Q R : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> PolynomialSingletonCarrier R ->
+      PolynomialSingletonClassifier (append P (append Q R))
+        (append (append P Q) (append P R)) ∧
+      PolynomialSingletonClassifier (append (append P Q) R)
+        (append (append P R) (append Q R)) := by
+  intro carrierP carrierQ carrierR
+  have appendCarrier :
+      forall {X Y : BHist}, PolynomialSingletonCarrier X -> PolynomialSingletonCarrier Y ->
+        PolynomialSingletonCarrier (append X Y) := by
+    intro X Y carrierX carrierY
+    cases carrierX
+    exact hsame_trans (append_empty_left Y) carrierY
+  have leftFirst : PolynomialSingletonCarrier (append P (append Q R)) :=
+    appendCarrier carrierP (appendCarrier carrierQ carrierR)
+  have rightFirst : PolynomialSingletonCarrier (append (append P Q) (append P R)) :=
+    appendCarrier (appendCarrier carrierP carrierQ) (appendCarrier carrierP carrierR)
+  have leftSecond : PolynomialSingletonCarrier (append (append P Q) R) :=
+    appendCarrier (appendCarrier carrierP carrierQ) carrierR
+  have rightSecond : PolynomialSingletonCarrier (append (append P R) (append Q R)) :=
+    appendCarrier (appendCarrier carrierP carrierR) (appendCarrier carrierQ carrierR)
+  constructor
+  · exact And.intro leftFirst
+      (And.intro rightFirst (hsame_trans leftFirst (hsame_symm rightFirst)))
+  · exact And.intro leftSecond
+      (And.intro rightSecond (hsame_trans leftSecond (hsame_symm rightSecond)))
+
+theorem PolynomialSingletonClassifier_continuation_comm_closed {P Q left right : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q left ->
+      Cont Q P right -> PolynomialSingletonCarrier left ∧ PolynomialSingletonCarrier right ∧
+        PolynomialSingletonClassifier left right := by
+  intro carrierP carrierQ leftCont rightCont
+  cases carrierP
+  cases carrierQ
+  cases leftCont
+  cases rightCont
+  have emptyCarrier : PolynomialSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro emptyCarrier
+    (And.intro emptyCarrier
+      (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
+
+theorem PolynomialSingletonClassifier_continuation_closed {P P' Q Q' left right : BHist} :
+    PolynomialSingletonClassifier P P' -> PolynomialSingletonClassifier Q Q' -> Cont P Q left ->
+      Cont P' Q' right -> PolynomialSingletonClassifier left right := by
+  intro classifiedP classifiedQ leftContinuation rightContinuation
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame classifiedP.left classifiedQ.left leftContinuation
+      (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame classifiedP.right.left classifiedQ.right.left rightContinuation
+      (cont_right_unit BHist.Empty)
+  exact And.intro leftEmpty
+    (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
+theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
+    PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->
+      PolynomialSingletonClassifier r BHist.Empty := by
+  intro carrierP carrierQ resultCont
+  cases carrierP
+  cases carrierQ
+  cases resultCont
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+
+theorem PolynomialSingletonClassifier_cont_result_empty_witness_iff {r : BHist} :
+    (exists P Q : BHist, PolynomialSingletonCarrier P ∧ PolynomialSingletonCarrier Q ∧
+      Cont P Q r) ↔ PolynomialSingletonClassifier r BHist.Empty := by
+  constructor
+  · intro witness
+    cases witness with
+    | intro P rest =>
+        cases rest with
+        | intro Q data =>
+            cases data.left
+            cases data.right.left
+            cases data.right.right
+            exact And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · intro classified
+    exact Exists.intro BHist.Empty
+      (Exists.intro r
+        (And.intro (hsame_refl BHist.Empty)
+          (And.intro classified.left (cont_left_unit r))))
+
+theorem PolynomialSingletonNormalize_append_classifier_carrier_iff {P Q h : BHist} :
+    PolynomialSingletonClassifier (PolynomialSingletonNormalize (append P Q)) h ↔
+      PolynomialSingletonCarrier h := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro carrier
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro carrier (hsame_symm carrier))
+
+end BEDC.Derived.PolynomialUp

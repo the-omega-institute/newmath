@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.MonoidUp
@@ -172,6 +173,15 @@ theorem history_continuation_nonempty_suffix_source_absurd :
   · intro h k hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
+theorem history_continuation_nonempty_prefix_target_absurd :
+    (forall {h k : BHist}, Cont (BHist.e0 h) k k -> False) ∧
+      (forall {h k : BHist}, Cont (BHist.e1 h) k k -> False) := by
+  constructor
+  · intro h k hcont
+    exact not_hsame_e0_empty (cont_left_unit_unique hcont)
+  · intro h k hcont
+    exact not_hsame_e1_empty (cont_left_unit_unique hcont)
+
 theorem unary_append_monoid_semantic_name_certificate :
     SemanticNameCert UnaryHistory UnaryHistory UnaryHistory (MonoidHistoryClassifier UnaryHistory) ∧
       (forall {h : BHist}, UnaryHistory h ->
@@ -202,6 +212,18 @@ theorem unary_append_monoid_semantic_name_certificate :
       cases sameA
       cases sameB
       exact hsame_refl (append a b))
+
+theorem unary_append_monoid_left_identity_empty {e : BHist} :
+    UnaryHistory e ->
+      (forall {h : BHist}, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append e h) h) ->
+      MonoidHistoryClassifier UnaryHistory e BHist.Empty := by
+  intro unaryE leftId
+  exact MonoidHistoryClassifier_identity_unique UnaryHistory unaryE unary_empty leftId
+    (by
+      intro h unaryH
+      exact And.intro (unary_append_closed unaryH unary_empty)
+        (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h)))
 
 theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->
@@ -253,5 +275,24 @@ theorem unary_append_monoid_classifier_append_context {left right a b : BHist} :
               (by
                 cases sameAB
                 exact hsame_refl (append left (append a right))))
+
+theorem unary_append_monoid_classifier_context_iff {left right a b : BHist} :
+    UnaryHistory left -> UnaryHistory right -> UnaryHistory a -> UnaryHistory b ->
+      (MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append left (append b right)) <-> MonoidHistoryClassifier UnaryHistory a b) := by
+  intro unaryLeft unaryRight unaryA unaryB
+  constructor
+  · intro classified
+    exact unary_append_monoid_classifier_cancel_context unaryLeft unaryRight unaryA unaryB
+      classified
+  · intro classified
+    exact unary_append_monoid_classifier_append_context unaryLeft unaryRight classified
+
+theorem unary_append_monoid_commutative_classifier {a b : BHist} :
+    UnaryHistory a -> UnaryHistory b ->
+      MonoidHistoryClassifier UnaryHistory (append a b) (append b a) := by
+  intro unaryA unaryB
+  have commData := unary_append_comm_with_closed_results unaryA unaryB
+  exact And.intro commData.right.left (And.intro commData.right.right commData.left)
 
 end BEDC.Derived.MonoidUp

@@ -1,0 +1,133 @@
+\section{Field square apartness inverse descent}
+
+\begin{theorem}[Field square-certified two-sided affine exactness]
+\label{thm:field-square-certified-two-sided-affine-exact}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-square-nonzero-one-sided-mul-exact},
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}, and
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness},
+let
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+For $a,b:\mathsf{BHist}$, assume explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b).
+$$
+With square witnesses
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+\quad
+p_{b^2}:\mathsf{NonZero}_F(\mathsf{mul}(b,b)),
+$$
+let $r_a:\mathsf{ApartZero}_F(a)$ and $r_b:\mathsf{ApartZero}_F(b)$ be the
+first zero-factor obstructions induced by zero-factor exclusion, and set
+$p_a:=\alpha_a(r_a)$ and $p_b:=\alpha_b(r_b)$. Then for every
+$c,d,x,y:\mathsf{BHist}$ both clauses hold:
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+\Longleftrightarrow
+x\hsame
+\mathsf{mul}(\mathsf{inv}(a,p_a),
+\mathsf{mul}(\mathsf{add}(c,\mathsf{neg}(d)),\mathsf{inv}(b,p_b)))
+$$
+and
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)
+\Longleftrightarrow
+x\hsame y.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. As in
+\autoref{thm:field-square-nonzero-one-sided-mul-exact}, the first factor
+clause gives $r_a:\mathsf{ApartZero}_F(a)$. Convert it by the displayed map,
+setting $p_a:=\alpha_a(r_a):\mathsf{NonZero}_F(a)$.
+
+Apply the same zero-factor exclusion theorem to $p_{b^2}$ with both product
+entries instantiated by $b$. The first factor clause gives
+$r_b:\mathsf{ApartZero}_F(b)$. Convert it by the displayed map, setting
+$p_b:=\alpha_b(r_b):\mathsf{NonZero}_F(b)$.
+
+With these two induced witnesses, invoke
+\autoref{thm:field-affine-two-sided-equation-exact-from-apartness}. Its
+equivalence is exactly the stated solution formula for
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c$.
+
+For the classifier exactness clause, invoke
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} with
+the same witnesses $p_a$ and $p_b$ and the same offset $d$. This removes the
+common certified affine map and yields precisely
+$\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)$ if and only if
+$x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_square\_certified\_two\_sided\_affine\_exact}
+
+The per-object certificate records traditional target affine equation
+uniqueness under square-certified factors; BEDC source $\FieldUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability
+obligations square nonzero descent and affine classifier exactness; ledger the
+two square witnesses, conversions, offset, and target; core theorem
+\autoref{thm:field-square-certified-affine-equation-solution-unique};
+exactness predicate same-target solution uniqueness; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field square-certified affine equation solutions are unique]
+\label{thm:field-square-certified-affine-equation-solution-unique}
+For a BEDC history-level $\FieldUp$ candidate satisfying the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness}, let
+$$
+\mathsf{ApartZero}_F(h) := (h\hsame0\to\bot).
+$$
+For $a,b:\mathsf{BHist}$, assume explicit conversion maps
+$$
+\alpha_a:\mathsf{ApartZero}_F(a)\to\mathsf{NonZero}_F(a),
+\quad
+\alpha_b:\mathsf{ApartZero}_F(b)\to\mathsf{NonZero}_F(b).
+$$
+With square witnesses
+$$
+p_{a^2}:\mathsf{NonZero}_F(\mathsf{mul}(a,a)),
+\quad
+p_{b^2}:\mathsf{NonZero}_F(\mathsf{mul}(b,b)),
+$$
+for every $c,d,x,y:\mathsf{BHist}$, if
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame c
+$$
+and
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d)\hsame c,
+$$
+then $x\hsame y$.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_square\_certified\_affine\_solution\_unique}
+\begin{proof}
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to
+$p_{a^2}$ with both product entries instantiated by $a$. The first
+zero-factor obstruction gives $r_a:\mathsf{ApartZero}_F(a)$, and the
+conversion map gives $p_a:=\alpha_a(r_a):\mathsf{NonZero}_F(a)$.
+
+Apply the same descent to $p_{b^2}$ with both product entries instantiated by
+$b$. This gives $r_b:\mathsf{ApartZero}_F(b)$ and hence
+$p_b:=\alpha_b(r_b):\mathsf{NonZero}_F(b)$.
+
+Let the two displayed hypotheses be $e_x$ and $e_y$. By symmetry of
+$\hsame$ applied to $e_y$ and transitivity of $\hsame$ with $e_x$, obtain
+$$
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,x),b),d)\hsame
+\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a,y),b),d).
+$$
+
+Invoke
+\autoref{thm:field-affine-two-sided-map-classifier-exact-from-apartness} with
+the certified factors $p_a$ and $p_b$ and the same offset $d$. The classifier
+exactness theorem cancels the common two-sided affine map, yielding
+$x\hsame y$.
+\end{proof}
