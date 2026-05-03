@@ -232,6 +232,7 @@ is exactly the bilateral empty-context statement of
 \autoref{thm:field-apartzero-empty-context-iff}, applied with the witnesses
 $l\hsame\emp$ and $r\hsame\emp$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_nested\_continuation\_empty\_context\_iff}
 
 \begin{theorem}[Field apart-zero nested continuation factor split]
 \label{thm:field-apartzero-nested-continuation-factor-split}
@@ -393,6 +394,56 @@ histories; classifier $\hsame$ transport; stability obligations endpoint split
 and two-tail nested split; ledger exterior empty witnesses plus tails $q,s,t$;
 core theorem this block; exactness predicate the displayed iff; standard
 bridge finite product apartness; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Field apart-zero three-tail contextual singleton result exclusion]
+\label{thm:field-apartzero-three-tail-contextual-singleton-result-exclusion}
+For histories $L,R,l,h,r,u,v,q,w,s,z,t,y,endpoint:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$,
+$\ContR(z,t,y)$, $l\hsame\emp$, $r\hsame\emp$, and
+$\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,endpoint))$,
+one has
+$$
+(\mathsf{ApartZero}_F(h)\to\bot)
+\land
+(\mathsf{ApartZero}_F(q)\to\bot)
+\land
+(\mathsf{ApartZero}_F(s)\to\bot)
+\land
+(\mathsf{ApartZero}_F(t)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:field-singleton-classifier-append-context-cancel} with the
+singleton-carrier witnesses for $L$ and $R$. The forward direction of the
+cancellation equivalence turns the contextual classifier into
+$\mathsf{FieldSingletonClassifier}(y,endpoint)$.
+
+Apply \autoref{thm:field-singleton-classifier-empty-endpoints} to that
+singleton endpoint classifier. The resulting endpoint comparison gives
+$y\hsame\emp$.
+
+Now assume one of the four factor witnesses
+$\mathsf{ApartZero}_F(h)$, $\mathsf{ApartZero}_F(q)$,
+$\mathsf{ApartZero}_F(s)$, or $\mathsf{ApartZero}_F(t)$. The reverse direction
+of
+\autoref{thm:field-apartzero-three-tail-nested-continuation-factor-split},
+applied to the corresponding disjunct and the five continuation witnesses,
+rebuilds $\mathsf{ApartZero}_F(y)$.
+
+Applying this apart-zero witness to $y\hsame\emp$ gives $\bot$ in each case.
+Pairing the four implications gives the displayed exclusion.
+\end{proof}
+
+Per-object template: traditional target contextual singleton-result factor
+exclusion for three-tail $\FieldUp$ continuations; BEDC source
+$\mathsf{BHist}$, $\ContR$, $\mathsf{FieldSingletonClassifier}$, and
+$\mathsf{ApartZero}_F$; carrier apart-zero histories; classifier $\hsame$
+transport; transport predicate singleton-context cancellation; ledger the
+hidden singleton contexts, empty exterior witnesses, and terminal singleton
+certificate; tail data the exposed factors $h,q,s,t$; core theorem list the
+three-tail nested factor split plus singleton endpoint classifier; exactness
+predicate the displayed fourfold exclusion; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Field apart-zero two-tail contextual singleton result exclusion]
 \label{thm:field-apartzero-two-tail-contextual-singleton-result-exclusion}

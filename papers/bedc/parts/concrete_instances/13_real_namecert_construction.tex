@@ -202,6 +202,77 @@ For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier
 \leandef{BEDC.Derived.RealUp.RealStreamClassifier}
 \leandef{BEDC.Derived.RealUp.RealStreamPrefixClassifier}
 
+\begin{definition}[Real unary-observation stream classifier]
+\label{def:real-unary-observation-stream-classifier}
+For rational-observation maps $s,t:\Hist\to\Hist$, the unary-observation
+stream classifier is pointwise rational-history classification over certified
+unary BEDC observation histories:
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
+$$
+\end{definition}
+
+\begin{theorem}[Constant rational streams bridge StreamNameUp and RealUp]
+\label{thm:streamname-real-constant-prefix-bridge}
+For histories $d,e:\Hist$, the RatUp point classifier, the StreamNameUp
+constant-stream classifier, the RealUp unary-observation stream classifier, and
+the constant real-history classifier at e-one seals are equivalent:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,
+\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+\end{theorem}
+\begin{proof}
+For the first equivalence, the forward direction is exactly the constant
+classifier part of \autoref{thm:rat-stream-name-constant-witness}. Conversely,
+unfold Definition~\ref{def:rat-stream-name-classifier} and read the pointwise
+classifier at the empty unary observation history $\emp$ using its unary
+witness; the two constant stream values are $d$ and $e$.
+
+For the second equivalence, unfold
+Definition~\ref{def:rat-stream-name-classifier} and
+Definition~\ref{def:real-unary-observation-stream-classifier}. Both predicates
+are the same pointwise requirement over certified unary observation histories,
+so each direction is identity transport of the displayed witness.
+
+For the last equivalence, unfold
+Definition~\ref{def:real-unary-observation-stream-classifier} and
+$\mathsf{RatConstStream}$. Reading at the empty unary observation gives
+$\mathsf{RatHistoryClassifier}(d,e)$, while a rational point classifier supplies
+the same pointwise witness at every unary observation.
+
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to identify that
+rational point classifier with
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
+\end{proof}
+
+The certificate fit has ten fields: traditional target constant rational real
+names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
+constant rational observation maps; classifier the displayed bridge; stability
+inherited from RatUp classifier fields; ledger the constant rational history and
+unary observation witness; core theorem
+\autoref{thm:streamname-real-constant-prefix-bridge}; exactness the displayed
+equivalence; standard bridge constant rational real sequence; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier prefix closure]
 \label{thm:real-stream-classifier-prefix}
 If rational-observation streams are pointwise related by the rational history classifier, then every finite observation prefix is related by the recursively accumulated prefix classifier.
@@ -366,6 +437,41 @@ rational-history classifier witnesses at that index, and rational-history
 classifier transitivity composes them.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_trans}
+
+\begin{theorem}[Real stream classifier certificate fields]
+\label{thm:real-stream-classifier-certificate-fields}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, the pointwise
+stream classifier supplies the following stability certificate fields:
+\begin{enumerate}
+  \item if $\forall n,\ \mathsf{RatHistoryCarrier}(x(n))$, then
+  $\mathsf{RealStreamClassifier}(x,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then for every $n$ both
+  $\mathsf{RatHistoryCarrier}(x(n))$ and $\mathsf{RatHistoryCarrier}(y(n))$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then
+  $\mathsf{RealStreamClassifier}(y,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$ and
+  $\mathsf{RealStreamClassifier}(y,z)$, then
+  $\mathsf{RealStreamClassifier}(x,z)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, fix the stream $x$ and its pointwise rational-history carrier
+witness. Apply \autoref{thm:real-stream-prefix-classifier-refl} at every finite
+prefix. The reverse direction of
+\autoref{thm:real-stream-finite-prefix-exactness} then repacks these prefix
+witnesses as $\mathsf{RealStreamClassifier}(x,x)$.
+
+For endpoint carrier readback, unfold the pointwise stream classifier and fix an
+index $n$. The classifier at $n$ is a $\mathsf{RatHistoryClassifier}(x(n),y(n))$
+witness, and unpacking the rational-history classifier gives both endpoint
+carrier facts.
+
+The symmetry field is exactly
+\autoref{thm:real-stream-classifier-symmetry}. The transitivity field is exactly
+\autoref{thm:real-stream-classifier-transitivity}. These four clauses are
+therefore available as the certificate-level stability package for the stream
+classifier.
+\end{proof}
 
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
