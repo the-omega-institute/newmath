@@ -151,63 +151,39 @@ endpoint clause rules out such a history inside $\mathsf{RatHistoryCarrier}$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}
 
-\begin{theorem}[Rat denominator append-continuation law equivalence]
+\begin{theorem}[Rat denominator append-continuation endpoint bridge]
 \label{thm:field-rat-denominator-functional-relational-instance-equivalence}
 For the concrete data of
-\autoref{def:field-rat-denominator-concrete-continuation-instance}, the append
-law package of
-\autoref{thm:field-rat-denominator-append-concrete-instance-laws} and the
-relational $\Cont$ law package of
-\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws} are the
-same concrete law package in the following sense.
-\begin{enumerate}
-  \item If $C_D(h)$ and $C_D(k)$, then every history $r:\mathsf{BHist}$
-  satisfies the endpoint classifier bridge
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, if
+$C_D(h)$ and $C_D(k)$, then every history $r:\mathsf{BHist}$ satisfies the
+endpoint classifier bridge
 
-  $$
-  \Cont(h,k,r)\quad\text{if and only if}\quad R_D(r,\mu_D(h,k)).
-  $$
+$$
+\Cont(h,k,r)\Longleftrightarrow R_D(r,\mu_D(h,k)).
+$$
 
-  Thus the canonical endpoint and any displayed continuation endpoint are
-  identified at the denominator classifier surface.
-  \item Transporting each displayed append output through this $R_D$ classifier
-  endpoint bridge converts the six append clauses into the six relational
-  clauses.
-  \item Reading each displayed relational output through the same $R_D$
-  classifier endpoint bridge converts the six relational clauses back into the
-  six append clauses.
-\end{enumerate}
+Thus the canonical append endpoint $\mu_D(h,k)$ and any displayed continuation
+endpoint $r$ are identified exactly at the denominator classifier surface.
 \end{theorem}
 \begin{proof}
 Unfold $C_D$, $R_D$, and $\mu_D$ only to read them as
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and
 $\mathsf{append}$. With the two carrier hypotheses in place,
 \autoref{thm:rat-history-classifier-continuation-tail-iff} gives, for every
-displayed result $r$, exactly
+history $r$, exactly
 $\Cont(h,k,r)\Longleftrightarrow R_D(r,\mu_D(h,k))$.
 
 At the canonical endpoint, the same bridge reads the canonical continuation
 witness as the reflexive denominator classifier comparison
 $R_D(\mu_D(h,k),\mu_D(h,k))$.
-
-To pass from append laws to relational laws, use the checked append package
-$\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_append\_concrete\_instance\_laws}$
-and transport every displayed output to the corresponding $\Cont$ output through
-the $R_D$ classifier endpoint bridge above. Carrier closure is carried directly,
-while
-commutative classifier compatibility, associativity, binary classifier
-congruence, ledger closure, and the one-sided unit obstruction are read through
-$R_D$. These are the six relational clauses of
-\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
-
-Conversely, start from the checked relational package
-$\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_concrete\_instance\_laws}$.
-Read each displayed continuation endpoint through the same $R_D$ classifier
-endpoint bridge. This transports the relational outputs to the append outputs,
-giving exactly the six clauses of
-\autoref{thm:field-rat-denominator-append-concrete-instance-laws}.
-
-Thus the functional append presentation and the relational continuation
-presentation are one concrete $\FieldUp(\mathsf{RatUp})$ denominator law package
-only through the BEDC history-sameness and classifier interfaces.
 \end{proof}
+
+For the ten-field exit certificate of
+\autoref{def:ratup-fieldup-ten-field-exit-instance}, this theorem occupies only
+the denominator endpoint-identification part of the classifier and stability
+rows. The traditional target, BEDC source, carrier, ledger, core theorem list,
+exactness predicate, standard bridge, and status rows are supplied by their
+named concrete certificates, while the append and relational denominator laws
+remain the checked packages of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws} and
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
