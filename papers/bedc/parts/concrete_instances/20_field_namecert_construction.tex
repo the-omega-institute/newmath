@@ -627,6 +627,85 @@ exactness predicate normalizer action on centralizer orbit classes; standard
 bridge ordinary quotient action by the kernel of a group action; status
 $\mathsf{ProofTarget}$.
 
+\begin{definition}[RatUp FieldUp right-kernel normalizer representatives]
+\label{def:ratup-fieldup-right-kernel-normalizer-representatives}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $K_A$ be the kernel carrier of
+Definition~\ref{def:ratup-fieldup-affine-normalizer-action-kernel-carrier}.
+For affine normalizer representatives $S,S':\mathsf{AffAut}_F$, define
+right-kernel representative equivalence by
+$$
+S\equiv_{K_A}^{\mathrm{right}}S'
+\Longleftrightarrow
+\exists T:\mathsf{AffAut}_F,\,
+K_A(T)\ \text{and}\ S'\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T.
+$$
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp normalizer kernel representatives act equally on orbit classes]
+\label{thm:ratup-fieldup-normalizer-kernel-representatives-act-equally-on-orbits}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, let $K_A$ be the kernel carrier of
+Definition~\ref{def:ratup-fieldup-affine-normalizer-action-kernel-carrier}, let
+$\mathrm{Act}$ be the restricted normalizer action, and let
+$\sim_{N_F(A)}$ be the orbit relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$ and normalizer representatives
+$S,S':\mathsf{AffAut}_F$, if $C_F(A)(X)$, $C_F(A)(Y)$,
+$X\sim_{N_F(A)}Y$, $N_F(C_F(A))(S)$, $N_F(C_F(A))(S')$, and
+$S\equiv_{K_A}^{\mathrm{right}}S'$, then
+$C_F(A)(\mathrm{Act}_S(Y))$, $C_F(A)(\mathrm{Act}_{S'}(X))$, and
+$$
+\mathrm{Act}_{S'}(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $S\equiv_{K_A}^{\mathrm{right}}S'$ and choose
+$T:\mathsf{AffAut}_F$ with $K_A(T)$ and
+$S'\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T$. The normalizer action theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} applied to
+$S$ and $Y$ gives $C_F(A)(\mathrm{Act}_S(Y))$, and the same theorem applied to
+$S'$ and $X$ gives $C_F(A)(\mathrm{Act}_{S'}(X))$.
+
+Apply
+\autoref{thm:ratup-fieldup-normalizer-kernel-collapses-orbit-action}
+to $S,T,X,Y$. It uses the kernel factor $T$ and the orbit witness
+$X\sim_{N_F(A)}Y$ to produce
+$$
+\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+
+It remains to replace the product representative by $S'$. The action
+classifier congruence theorem transports
+$S'\equiv_{\mathrm{aff}}S\circ_{\mathrm{aff}}T$ along the fixed endpoint $X$,
+yielding a classifier comparison between $\mathrm{Act}_{S'}(X)$ and
+$\mathrm{Act}_{S\circ_{\mathrm{aff}}T}(X)$.
+
+Use orbit classifier transport
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport}
+with this left-endpoint comparison and classifier reflexivity on
+$\mathrm{Act}_S(Y)$. The transported witness is exactly
+$\mathrm{Act}_{S'}(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$.
+\end{proof}
+
+Per-object template: traditional target representative independence for a
+group action modulo its pointwise kernel; BEDC source concrete
+$\FieldUp(\RatUp)$ affine exit plus $\GroupUp$; carrier $C_F(A)$; classifier
+$\equiv_{\mathrm{aff}}$; stability right-kernel representative independence
+on orbit classes; ledger representative, kernel factor, product word,
+endpoint carriers, and transported orbit witness; core theorem
+\autoref{thm:ratup-fieldup-normalizer-kernel-collapses-orbit-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, and
+\autoref{thm:ratup-fieldup-affine-normalizer-action-kernel-normal-subgroup};
+exactness predicate induced action on centralizer orbit classes; standard
+bridge ordinary action modulo a kernel relation; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit action reflection]
 \label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-iff}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
