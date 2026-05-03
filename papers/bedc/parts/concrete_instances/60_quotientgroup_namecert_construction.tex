@@ -406,3 +406,43 @@ product, inverse, and transport; ledger relative-kernel witness; exactness
 predicate $K_Q(x)\Longleftrightarrow Z_a(x)$; downstream consumer
 first-isomorphism-style $\QuotientGroupUp$ kernel exactness; status
 $\mathsf{ProofTarget}$.
+
+\paragraph{Capstone}
+
+\begin{theorem}[Abelian centralizer-normalizer quotient terminal fiber]
+\label{thm:abelian-centralizer-normalizer-quotient-terminal-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup},
+and additionally the $\AbGroupUp$ commutativity hypothesis used by
+\autoref{thm:abgroup-centralizer-commutator-collapse}, fix
+$a:\mathsf{BHist}$ and define
+$$
+K_Q(x) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},x).
+$$
+Then the quotient identity fiber is total:
+$$
+\forall x:\mathsf{BHist},\ K_Q(x).
+$$
+The subgroup-package rows of
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}
+also give closure of this total fiber under product, inverse, and $\hsame$
+transport.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}.
+Its final row identifies the displayed carrier with the centralizer carrier:
+for every $x:\mathsf{BHist}$, $K_Q(x)\Longleftrightarrow Z_a(x)$.
+
+Now apply \autoref{thm:abgroup-centralizer-commutator-collapse}. Under the
+same $\AbGroupUp$ commutativity hypothesis, its first row gives $Z_a(x)$ for
+every history $x$. Transporting this witness across the reverse direction of
+the identity-fiber equivalence gives $K_Q(x)$ for every $x:\mathsf{BHist}$.
+
+The remaining assertion is inherited without changing the carrier. The product,
+inverse, and $\hsame$-transport rows are exactly the second, third, and fourth
+rows of
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup},
+now read on a carrier whose every BEDC history lies in the identity fiber.
+\end{proof}
