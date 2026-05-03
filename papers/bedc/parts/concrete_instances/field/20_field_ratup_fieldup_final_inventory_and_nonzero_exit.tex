@@ -177,6 +177,75 @@ exactness final row inventory coverage and one chain-stable final exit package;
 downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit
 certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp selector-independent two-step final inventory]
+\label{thm:ratup-fieldup-selector-independent-two-step-final-inventory}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete exit
+object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}. For the
+concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and the endpoint selector $E_q(h,k,\ell)$ of
+Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}, if
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the same concrete
+$\FieldUp(\RatUp)$ exit object $\mathcal E_F$ simultaneously supplies all of
+the following rows as one concrete Phase Algebra Hierarchy exit package:
+\begin{enumerate}
+  \item the operation-table lock of
+  \autoref{thm:ratup-fieldup-exit-object-operation-table-lock};
+  \item the selector-independent algebra hierarchy exit of
+  \autoref{thm:ratup-fieldup-algebra-hierarchy-selector-independent-exit};
+  \item the two-step algebra hierarchy exit certificate of
+  \autoref{thm:ratup-fieldup-two-step-algebra-hierarchy-exit-certificate};
+  \item the final row inventory of
+  \autoref{thm:ratup-fieldup-final-row-inventory-coverage}.
+\end{enumerate}
+Thus the operation table, selector-independent boundary, two-step obstruction,
+and final inventory rows are consumed through one displayed
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit object, with no change of
+source, denominator tuple, selectors, contexts, or support witness.
+\end{theorem}
+\begin{proof}
+First instantiate \autoref{thm:ratup-fieldup-exit-object-operation-table-lock}
+at $\mathsf{RatUpFieldSource}_F$ and the concrete exit object $\mathcal E_F$.
+This supplies the completed exit-object row, the assembled operation-table
+coverage row, and the selector-independent final boundary row for the same
+$\mathsf{BHist}$ package.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-algebra-hierarchy-selector-independent-exit} with the
+displayed denominator tuple, histories $h,k,\ell$, carrier witnesses, support
+witness, selectors $s,t,u,v$, and contexts $L,R,r$. This gives the
+selector-independent Phase Algebra Hierarchy exit rows over the same concrete
+source tuple.
+
+Now instantiate
+\autoref{thm:ratup-fieldup-two-step-algebra-hierarchy-exit-certificate} with
+the same exit object, denominator tuple, histories, carrier witnesses, support
+witness, selector sextuple $s,t,u,v,w,z$, contexts $L,R,r$, and endpoint
+selector $E_q(h,k,\ell)$. This contributes both adjacent selector-obstruction
+certificates and the selector-chain final boundary rows.
+
+Finally instantiate \autoref{thm:ratup-fieldup-final-row-inventory-coverage}
+with the same concrete exit object, denominator tuple, histories, carrier
+witnesses, support witness, selectors, and contexts. Its rows provide selector
+inverse-domain coverage, selector row transport, complete obstruction, and
+chain-boundary inventory.
+
+The four instantiations all name Definition~\ref{def:ratup-fieldup-concrete-exit-object}
+and the tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$. Conjunction introduction
+packages those row families as the single selector-independent, two-step, final
+inventory exit object claimed.
+\end{proof}
+
+Per-object template: traditional target final $\FieldUp(\RatUp)$ exit
+inventory; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$, and
+$\mathsf{RatUpFieldSource}_F$; carrier $\mathsf{RatHistoryCarrier}$ and
+$C_D^u$; classifier $\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability
+obligations operation-table lock, selector-independent boundary, two-step
+obstruction, and final row inventory; ledger selector sextuple $s,t,u,v,w,z$
+plus contexts $L,R,r$; exactness one concrete Phase Algebra Hierarchy exit
+package; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp operation-table final inventory nonzero coverage]
 \label{thm:ratup-fieldup-operation-table-final-inventory-nonzero-coverage}
 Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
