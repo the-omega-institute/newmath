@@ -35,6 +35,35 @@ theorem FieldApartTailFactor_empty_endpoint_exclusion {y x : BHist} :
       have split := cont_empty_result_inversion tailCont
       exact apart split.right
 
+theorem FieldApartTailFactor_result_closure {y x : BHist} :
+    FieldApartTailFactor y x -> FieldApartZero x -> FieldApartZero y := by
+  intro factor
+  induction factor with
+  | emptyContext leftCont rightCont leftEmpty rightEmpty =>
+      intro apart
+      exact
+        Iff.mpr
+          (FieldApartZero_nested_continuation_empty_context_iff
+            leftCont rightCont leftEmpty rightEmpty)
+          apart
+  | carriedTail factor tailCont ih =>
+      intro apart
+      exact
+        Iff.mpr (FieldApartZero_continuation_endpoint_split_iff tailCont)
+          (Or.inl (ih apart))
+  | exposedFactor tailCont =>
+      intro apart
+      exact
+        Iff.mpr (FieldApartZero_continuation_endpoint_split_iff tailCont)
+          (Or.inr apart)
+
+theorem FieldApartTailFactor_continuation_result_closure {w x q z : BHist} :
+    FieldApartTailFactor w x -> Cont w q z -> FieldApartZero x -> FieldApartZero z := by
+  intro factor continuation apart
+  exact
+    Iff.mpr (FieldApartZero_continuation_endpoint_split_iff continuation)
+      (Or.inl (FieldApartTailFactor_result_closure factor apart))
+
 theorem FieldApartTailFactor_singleton_context_exclusion {L R y x endpoint : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R -> FieldApartTailFactor y x ->
       FieldSingletonClassifier (append L y) (append R endpoint) -> FieldApartZero x ->
