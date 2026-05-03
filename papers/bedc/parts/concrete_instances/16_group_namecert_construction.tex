@@ -53,6 +53,35 @@ orientations.
 \leanchecked{BEDC.Derived.GroupUp.GroupSingleton\_terminal\_classifier\_package}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_terminal\_package}
 
+\begin{theorem}[Group singleton two-sided contextual classifier coverage]
+\label{thm:group-singleton-two-sided-contextual-classifier-coverage}
+For histories $L,R,L',R',Q,S:\mathsf{BHist}$, if $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, and $A_{\emp}(R')$, then
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(L,Q),L'),
+\mathsf{append}(\mathsf{append}(R,S),R'))
+\Longleftrightarrow A_{\emp}(Q)\land A_{\emp}(S).
+$$
+The ten-field fit names the traditional target terminal-group contextual
+endpoint coverage; the BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ with append; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from two-sided context cancellation and terminal classifier
+coverage; ledger hidden singleton prefix/suffix endpoints; exactness predicate
+the displayed iff; standard bridge terminal group contextual equality; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-classifier-two-sided-context-cancel}
+with the four displayed singleton context witnesses. This identifies the
+context-wrapped classifier with the endpoint classifier $R_{\emp}(Q,S)$.
+
+Apply the first row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} to replace
+$R_{\emp}(Q,S)$ by the pair of singleton carrier facts
+$A_{\emp}(Q)\land A_{\emp}(S)$. Composing the two equivalences gives exactly
+the displayed contextual classifier coverage.
+\end{proof}
+
 \begin{theorem}[Group singleton continuation terminal collapse]
 \label{thm:group-singleton-continuation-terminal-collapse}
 For histories $P,Q,R,r:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the concrete
