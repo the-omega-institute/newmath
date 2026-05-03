@@ -471,6 +471,9 @@ $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the right-nested
 $\FieldUp(\mathsf{RatUp})$ denominator endpoint carries the following
 contextual boundary:
 \begin{enumerate}
+  \item the right-nested endpoint rows $C_D^u(y)$,
+  $\mathsf{RatHistoryCarrier}(y)$, and
+  $\mathsf{RatHistoryClassifier}(y,y)$;
   \item for every context history $r:\mathsf{BHist}$,
   $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,y))\to\bot$;
   \item for every context history $r:\mathsf{BHist}$,
@@ -490,8 +493,14 @@ contextual boundary:
 Apply
 \autoref{thm:ratup-fieldup-right-nested-threefold-support-non-singleton-exactness}
 to the same concrete denominator tuple, carried histories, and support witness.
-The right-nested endpoint data recovers $\mathsf{RatHistoryCarrier}(y)$ and the
-singleton rejection map $\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$.
+It supplies $C_D^u(y)$ and, under
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, recovers
+$\mathsf{RatHistoryCarrier}(y)$ and the singleton rejection map
+$\mathsf{fieldSingletonEmptyCarrier}(y)\to\bot$.
+
+The recovered Rat carrier witness on both endpoints, together with reflexivity
+of $\hsame$, packages $\mathsf{RatHistoryClassifier}(y,y)$ as the endpoint
+classifier row in the theorem statement.
 
 Fix a context history $r:\mathsf{BHist}$. Apply
 \autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
@@ -514,9 +523,8 @@ singleton classifier against $\emp$. Its source-carrier component is
 $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(y,r))$, contradicting the
 left-append rejection.
 
-Finally package $\mathsf{RatHistoryClassifier}(y,y)$ from the recovered Rat
-carrier witness on both sides and reflexivity of $\hsame$. For arbitrary
-$L,R:\mathsf{BHist}$, apply
+Finally, for arbitrary $L,R:\mathsf{BHist}$, apply the packaged
+$\mathsf{RatHistoryClassifier}(y,y)$ row and
 \autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}.
 It rejects
 $\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,y))$.
