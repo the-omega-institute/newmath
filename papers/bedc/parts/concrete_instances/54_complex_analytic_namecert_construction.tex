@@ -1,0 +1,160 @@
+\chapter{A Concrete Naming Certificate for \(\ComplexAnalyticUp\)}
+\label{ch:concrete-instances-complex-analytic-namecert}
+
+This chapter gives a concrete naming-certificate construction for the constructive complex transcendental package \(\ComplexAnalyticUp\) at the paper-proof level. The package extends the real-side \(\RealAnalyticUp\) (\autoref{ch:concrete-instances-real-analytic-namecert}) to complex inputs by separating each complex history into its real and imaginary components and applying the real-side power series componentwise. The construction sits above \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}) for the rational-pair carrier, \(\RealAnalyticUp\) for the underlying real \(\exp / \log / \sin / \cos / \pi\), and \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}) for the limit packaging. All moduli are explicit unary-history total functions; the construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+
+\section{Complex exponential via Euler decomposition}
+\label{sec:cplx-analytic-exp}
+
+\begin{definition}[Complex exponential by real components]
+\label{def:cplx-exp}
+For complex history \(z\) with components \((x, y)\) (real and imaginary parts as \(\RealUp\)-histories), the complex exponential predicate \(\mathsf{CplxExp}(z, w)\) holds when \(w\) is the complex history with components
+\[
+\mathsf{Re}(w) \;=\; \mathsf{Exp}(x) \cdot \mathsf{Cos}(y),
+\qquad
+\mathsf{Im}(w) \;=\; \mathsf{Exp}(x) \cdot \mathsf{Sin}(y),
+\]
+each computed by composing \(\RealAnalyticUp\) certificates (\autoref{def:real-analytic-exp}, \autoref{def:real-analytic-sin-cos}) with \(\RealUp\) multiplication. The witness records the explicit input bound \(B = \max(|x|, |y|)\) inherited from the underlying real evaluations.
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxExp}
+
+\begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
+\label{lem:cplx-exp-well-defined}
+For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).
+\end{lemma}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxExp\_well\_defined}
+\begin{proof}
+Componentwise determination follows from \(\RealClassifier\)-uniqueness of \(\mathsf{Exp}\), \(\mathsf{Sin}\), \(\mathsf{Cos}\) on \(\RealUp\). Componentwise \(\hsame\)-transport on \(z\) lifts through the real-side carrier transports inherited from \(\RealAnalyticUp\) and through componentwise \(\RealUp\) multiplication.
+\end{proof}
+
+\begin{theorem}[Complex exponential additivity]
+\label{thm:cplx-exp-add}
+For all complex histories \(z, z'\) with \(\mathsf{CplxExp}(z, w)\), \(\mathsf{CplxExp}(z', w')\), \(\mathsf{CplxExp}(z + z', w'')\), the equality \(\ComplexClassifier(w'', w \cdot w')\) holds, where \(w \cdot w'\) is the \(\ComplexUp\) product.
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxExp\_add}
+\begin{proof}
+Decompose into components. The real component of \(w \cdot w'\) is \(\mathsf{Exp}(x) \mathsf{Cos}(y) \mathsf{Exp}(x') \mathsf{Cos}(y') - \mathsf{Exp}(x) \mathsf{Sin}(y) \mathsf{Exp}(x') \mathsf{Sin}(y')\); use \(\mathsf{Exp}\) additivity (\autoref{thm:real-analytic-exp-add}) to combine the \(\mathsf{Exp}\) factors, then use the \(\cos(y+y')\) addition formula derivable from the Pythagorean identity (\autoref{thm:real-analytic-pythagorean}) and the \(\sin / \cos\) power series. The imaginary component proceeds analogously with the \(\sin(y + y')\) addition formula.
+\end{proof}
+
+\begin{theorem}[Euler identity at \(i\theta\)]
+\label{thm:cplx-exp-euler}
+For pure-imaginary \(z = i\theta\) with real \(\theta\) (i.e.\ component \((0, \theta)\)), \(\mathsf{CplxExp}(z, w)\) gives \(w\) with components \((\mathsf{Cos}(\theta), \mathsf{Sin}(\theta))\). Equivalently, \(e^{i\theta} = \cos\theta + i\sin\theta\) up to \(\ComplexClassifier\).
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxExp\_euler}
+\begin{proof}
+Direct unfolding of \autoref{def:cplx-exp} at \(x = 0\): \(\mathsf{Exp}(0) = 1\) by \(\mathsf{ExpPart}(0, n, \cdot)\) collapsing to the empty-product base, so the components reduce to \((\mathsf{Cos}(\theta), \mathsf{Sin}(\theta))\).
+\end{proof}
+
+\section{Complex logarithm with principal branch}
+\label{sec:cplx-analytic-log}
+
+\begin{definition}[Complex modulus and argument as real-side data]
+\label{def:cplx-modarg}
+For complex history \(z\) with \(\mathsf{CplxNonZero}(z)\) (\autoref{def:cplx-non-zero} of \autoref{ch:concrete-instances-complex-diff-namecert}), the modulus-argument decomposition \(\mathsf{ModArg}(z, r, \theta)\) holds when \(r\) is the \(\RealUp\)-history modulus \(\sqrt{x^2 + y^2}\) and \(\theta\) is a \(\RealUp\)-history in \((-\pi, \pi]\) such that \(z = r \cdot (\mathsf{Cos}(\theta) + i \mathsf{Sin}(\theta))\). Both \(r\) and \(\theta\) are constructed by explicit bisection on the rational-pair representation, with the apartness witness from \(\mathsf{CplxNonZero}\) guaranteeing termination.
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.ModArg}
+
+\begin{definition}[Principal complex logarithm]
+\label{def:cplx-log}
+For complex history \(z\) with \(\mathsf{CplxNonZero}(z)\) and \(\mathsf{ModArg}(z, r, \theta)\), the principal complex logarithm predicate \(\mathsf{CplxLog}(z, w)\) holds when \(w\) is the complex history with components \((\mathsf{Log}(r), \theta)\), where \(\mathsf{Log}\) is the constructive real logarithm of \autoref{def:real-analytic-log} (legitimate because \(r > 0\) by \(\mathsf{CplxNonZero}\)).
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxLog}
+
+\begin{theorem}[Complex log is the inverse of complex exp on the principal branch]
+\label{thm:cplx-log-exp-inverse}
+For \(z\) with \(\mathsf{CplxNonZero}(z)\), \(\mathsf{CplxLog}(z, w)\), and \(\mathsf{CplxExp}(w, z')\), \(\ComplexClassifier(z', z)\) holds. Conversely, for \(w\) with imaginary part in \((-\pi, \pi]\), \(\mathsf{CplxExp}(w, z)\) and \(\mathsf{CplxLog}(z, w')\) gives \(\ComplexClassifier(w', w)\).
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxLog\_CplxExp\_inverse}
+\begin{proof}
+Forward: write \(\mathsf{CplxExp}(\mathsf{CplxLog}(z))\) using \autoref{def:cplx-exp} and \autoref{def:cplx-modarg}; the components reproduce \((r \cos\theta, r \sin\theta)\) which is \(z\) by the modulus-argument decomposition.
+
+Reverse: \(\mathsf{CplxExp}(w)\) has modulus \(\mathsf{Exp}(\mathsf{Re}(w))\) and argument \(\mathsf{Im}(w)\) (mod \(2\pi\)); the principal-branch restriction \(\mathsf{Im}(w) \in (-\pi, \pi]\) makes the inversion unique.
+\end{proof}
+
+\begin{remark}[Branch-cut horizon]
+\label{rem:cplx-log-branch-cut}
+The principal-branch restriction is a SCHEMA-ONLY HORIZON for general analytic continuation: BEDC can decide whether a given \(\theta\)-witness is the principal value (decidable on rational representations), but cannot in general continue \(\mathsf{CplxLog}\) across the negative-real-axis branch cut without external chain data. This is consistent with the branch-obstruction interface flagged in \autoref{ch:concrete-instances-analytic-continuation}.
+\end{remark}
+
+\section{Complex sine and cosine}
+\label{sec:cplx-analytic-trig}
+
+\begin{definition}[Complex sine and cosine via Euler]
+\label{def:cplx-sin-cos}
+For complex history \(z\), the predicates \(\mathsf{CplxSin}(z, s)\) and \(\mathsf{CplxCos}(z, c)\) are defined by Euler's formula:
+\[
+s \;=\; \frac{\mathsf{CplxExp}(iz) - \mathsf{CplxExp}(-iz)}{2i},
+\qquad
+c \;=\; \frac{\mathsf{CplxExp}(iz) + \mathsf{CplxExp}(-iz)}{2}.
+\]
+Both are computed using \autoref{def:cplx-exp} and the \(\ComplexUp\) field operations.
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxSin}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxCos}
+
+\begin{theorem}[Pythagorean identity on \(\ComplexUp\)]
+\label{thm:cplx-pythagorean}
+For all \(z\) with \(\mathsf{CplxSin}(z, s)\) and \(\mathsf{CplxCos}(z, c)\), \(\ComplexClassifier(s^2 + c^2, \Eone(\emp))\) holds.
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxPythagorean}
+\begin{proof}
+Use \autoref{def:cplx-sin-cos}: \(s^2 + c^2 = \frac{1}{4}\left[\mathsf{CplxExp}(iz)^2 + 2 + \mathsf{CplxExp}(-iz)^2 - \mathsf{CplxExp}(iz)^2 + 2 - \mathsf{CplxExp}(-iz)^2\right] / 1 = 1\), where the algebraic cancellation uses \autoref{thm:cplx-exp-add} and \(\mathsf{CplxExp}(0) = 1\).
+\end{proof}
+
+\begin{theorem}[Complex sine vanishes at integer multiples of \(\pi\)]
+\label{thm:cplx-sin-pi-multiples}
+For every signed unary integer \(n\), \(\mathsf{CplxSin}(n \cdot \mathsf{Pi}, s)\) gives \(\ComplexClassifier(s, \emp_{\ComplexUp})\), where \(\emp_{\ComplexUp}\) is the complex zero. In particular, \(\sin(\pi s) = 0\) at integer \(s\) supplies the Weierstrass-product zero locus used in \autoref{thm:gamma-reflection}.
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxSin\_pi\_multiples}
+\begin{proof}
+Real-imaginary projection: at \(z = n\pi\) (real, imaginary part zero), \autoref{def:cplx-sin-cos} reduces to the real-side \(\mathsf{Sin}(n\pi)\), which is \(0\) by \autoref{thm:real-analytic-sin-pi-multiples}.
+\end{proof}
+
+\section{Complex powers \(z \mapsto a^z\) and \(n^{-s}\)}
+\label{sec:cplx-analytic-powers}
+
+\begin{definition}[Complex power]
+\label{def:cplx-power}
+For complex histories \(a\) and \(s\) with \(\mathsf{CplxNonZero}(a)\), the complex power predicate \(\mathsf{CplxPow}(a, s, w)\) holds when \(w\) is the complex history obtained by composition \(w = \mathsf{CplxExp}(s \cdot \mathsf{CplxLog}(a))\). The witness inherits the principal-branch restriction from \(\mathsf{CplxLog}\).
+\end{definition}
+\leandef{BEDC.Derived.ComplexAnalyticUp.CplxPow}
+
+\begin{theorem}[Dirichlet-term factor \(n^{-s}\) is well-defined]
+\label{thm:cplx-pow-dirichlet}
+For every positive unary natural \(n\) and complex history \(s\), \(\mathsf{CplxPow}(n, -s, w)\) gives the Dirichlet term factor \(n^{-s}\) used in \autoref{ch:concrete-instances-dirichlet-series-namecert}, with explicit modulus determined by \(\mathsf{Log}(n)\) (\autoref{thm:real-analytic-log-unary}).
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.CplxPow\_dirichlet}
+\begin{proof}
+The principal logarithm of a positive real \(n\) is \(\mathsf{Log}(n)\) on the real axis with imaginary part \(0\), supplied by \autoref{thm:real-analytic-log-unary}. The composition with complex multiplication and \(\mathsf{CplxExp}\) gives the explicit Dirichlet factor.
+\end{proof}
+
+\section{Certificate target}
+\label{sec:cplx-analytic-cert-target}
+
+\begin{theorem}[Concrete \(\ComplexAnalyticUp\) naming certificate]
+\label{thm:concrete-cplx-analytic-namecert}
+The tuple \((\mathsf{CplxExp}, \mathsf{CplxLog}, \mathsf{CplxSin}, \mathsf{CplxCos}, \mathsf{CplxPow}, \mathsf{ModArg})\), with sources, classifiers, stability obligations, ledger, and standard bridge as listed below, forms a paper-side \(\NameCert(\ComplexAnalyticUp)\) over \(\ComplexUp\):
+\begin{enumerate}
+  \item \textbf{Source}: \(\ComplexUp\)-histories, with \(\mathsf{CplxNonZero}\) apartness witnesses required by \(\mathsf{CplxLog}\), \(\mathsf{ModArg}\), and \(\mathsf{CplxPow}\).
+  \item \textbf{Carrier}: each predicate of Sections~\ref{sec:cplx-analytic-exp}--\ref{sec:cplx-analytic-powers} is a closed inductive predicate on \(\ComplexUp\)-histories, defined by composition over real-side \(\RealAnalyticUp\) carriers.
+  \item \textbf{Classifier}: \(\ComplexClassifier\) inherited componentwise from \(\RealClassifier\) on the real and imaginary parts.
+  \item \textbf{Stability obligations}: well-definedness of \(\mathsf{CplxExp}\) (\autoref{lem:cplx-exp-well-defined}), exponential additivity (\autoref{thm:cplx-exp-add}), Euler identity (\autoref{thm:cplx-exp-euler}), \(\log\)-\(\exp\) inverse on principal branch (\autoref{thm:cplx-log-exp-inverse}), Pythagorean identity (\autoref{thm:cplx-pythagorean}), \(\sin\)-\(\pi\)-multiple zeros (\autoref{thm:cplx-sin-pi-multiples}).
+  \item \textbf{Ledger}: explicit input bound \(B\) and Cauchy modulus \(N\) inherited from \(\RealAnalyticUp\); explicit principal-branch witness \(\theta \in (-\pi, \pi]\) for every \(\mathsf{CplxLog}\) evaluation; explicit apartness witness for every \(\mathsf{CplxNonZero}\)-required input.
+  \item \textbf{Standard bridge}: when classical complex \(\exp\), \(\log\), \(\sin\), \(\cos\) are supplied externally, the \(\ComplexClassifier\)-equivalence with the constructive limits is recorded as the bridge slot.
+  \item \textbf{Status}: \(\mathsf{ProofTarget}\). Lean construction proceeds in \(\mathsf{BEDC.Derived.ComplexAnalyticUp.*}\); the underlying real-side anchor is \autoref{ch:concrete-instances-real-analytic-namecert} and the limit anchor is \autoref{ch:concrete-instances-complex-limit-namecert}.
+\end{enumerate}
+\end{theorem}
+\leanstmt{BEDC.Derived.ComplexAnalyticUp.complex\_analytic\_namecert}
+\begin{proof}
+Componentwise composition of the \(\RealAnalyticUp\) certificate (\autoref{thm:concrete-real-analytic-namecert}) with \(\ComplexUp\) field operations gives the closed inductive carrier and classifier. The five stability obligations reduce to real-side identities or to algebraic manipulations of complex products and Euler's formula. No \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\) is required.
+\end{proof}
+
+\begin{corollary}[\(\ComplexAnalyticUp\) is licensed, not primitive]
+\label{cor:cplx-analytic-licensed-not-primitive}
+\(\ComplexAnalyticUp\) is licensed by componentwise composition of \(\RealAnalyticUp\) with \(\ComplexUp\) field operations and the modulus-argument decomposition for principal logarithm. It is not a primitive of the BEDC kernel.
+\end{corollary}
+
+\begin{remark}[Discharge of Gamma chapter forward references]
+\label{rem:cplx-analytic-gamma-discharge}
+The complex \(\exp\) and \(\log\) used by \autoref{def:gamma-weierstrass-part} (the Weierstrass partial product for Gamma) are now anchored at the \(\ComplexAnalyticUp\) certificate of this chapter. The Dirichlet-term factor \(n^{-s}\) used by \autoref{ch:concrete-instances-dirichlet-series-namecert} is similarly anchored at \autoref{thm:cplx-pow-dirichlet}.
+\end{remark}
