@@ -27,4 +27,17 @@ theorem CategoryHomCarrier_comp_endpoint_cycle_tails_empty {a b c f g fg : BHist
   have tailsEmpty := cont_empty_result_inversion emptyComp
   exact And.intro tailsEmpty.left (And.intro tailsEmpty.right compositeEmpty)
 
+theorem CategoryHomCarrier_comp_endpoint_cycle_boundary {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg -> hsame a c ->
+      hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame fg BHist.Empty ∧ hsame a b ∧
+        hsame b c := by
+  intro left right comp sameEndpoint
+  have tails := CategoryHomCarrier_comp_endpoint_cycle_tails_empty left right comp sameEndpoint
+  exact ⟨tails.left, tails.right.left, tails.right.right,
+    cont_deterministic (cont_right_unit a)
+      (cont_hsame_transport (hsame_refl a) tails.left (hsame_refl b) left.right.right.right),
+    cont_deterministic (cont_right_unit b)
+      (cont_hsame_transport (hsame_refl b) tails.right.left (hsame_refl c)
+        right.right.right.right)⟩
+
 end BEDC.Derived.CategoryUp

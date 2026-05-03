@@ -325,6 +325,9 @@ theorem ContinuationMorphism_comp_endpoint_cycle_tail_empty {a b c : BHist}
   exact cont_right_unit_unique
     (cont_result_hsame_transport
       (ContinuationMorphism_comp_closed left right).rel (hsame_symm sameEndpoint))
+theorem ContinuationMorphism_comp_endpoint_cycle_boundary {a b c : BHist} (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) : hsame a c -> hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  intro sameEndpoint; cases left with | mk leftTail leftRel => cases right with | mk rightTail rightRel =>
+    exact let tails := cont_mutual_extension_tails_empty leftRel (cont_result_hsame_transport rightRel (hsame_symm sameEndpoint)); ⟨tails.left, tails.right, cont_deterministic (cont_right_unit a) (cont_hsame_transport (hsame_refl a) tails.left (hsame_refl b) leftRel), cont_deterministic (cont_right_unit b) (cont_hsame_transport (hsame_refl b) tails.right (hsame_refl c) rightRel)⟩
 theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
     (m : ContinuationMorphism a b) :
     hsame (ContinuationMorphism_comp_closed { tail := BHist.Empty, rel := cont_right_unit a } m).tail

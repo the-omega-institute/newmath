@@ -106,6 +106,37 @@ theorem fieldSingletonEmptyNonZero_append_source_or_tail {P Q : BHist} :
       intro pClassified
       exact not_hsame_e1_empty pClassified.left
 
+theorem fieldSingletonEmptyNonZero_append_split_iff {L Q : BHist} :
+    fieldSingletonEmptyNonZero (append L Q) ↔
+      fieldSingletonEmptyNonZero L ∨ fieldSingletonEmptyNonZero Q := by
+  constructor
+  · intro appendNonzero
+    cases L with
+    | Empty =>
+        right
+        intro classifiedQ
+        have appendEmpty : hsame (append BHist.Empty Q) BHist.Empty :=
+          hsame_trans (append_empty_left Q) classifiedQ.left
+        exact appendNonzero
+          (And.intro appendEmpty (And.intro (hsame_refl BHist.Empty) appendEmpty))
+    | e0 l =>
+        left
+        intro classifiedL
+        exact not_hsame_e0_empty classifiedL.left
+    | e1 l =>
+        left
+        intro classifiedL
+        exact not_hsame_e1_empty classifiedL.left
+  · intro split classifiedAppend
+    have emptyParts := append_eq_empty_iff.mp classifiedAppend.left
+    cases split with
+    | inl leftNonzero =>
+        exact leftNonzero
+          (And.intro emptyParts.left (And.intro (hsame_refl BHist.Empty) emptyParts.left))
+    | inr rightNonzero =>
+        exact rightNonzero
+          (And.intro emptyParts.right (And.intro (hsame_refl BHist.Empty) emptyParts.right))
+
 theorem FieldSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     (FieldSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
       (FieldSingletonCarrier (append (BHist.e1 h) k) -> False) := by

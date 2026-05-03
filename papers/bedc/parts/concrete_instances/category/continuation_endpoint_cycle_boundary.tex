@@ -1,0 +1,22 @@
+\begin{theorem}[Continuation morphism endpoint cycle boundary]
+\label{thm:continuation-morphism-comp-endpoint-cycle-boundary}
+For histories $a,b,c:\mathsf{BHist}$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the outer endpoints close as
+$\hsame(a,c)$, then both displayed tails and both adjacent endpoint pairs
+collapse:
+$$
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Transport the right continuation relation across the outer endpoint comparison
+to obtain a return continuation from $b$ to $a$. Mutual-extension empty-tail
+inversion applied to the left relation and this transported return relation
+forces both displayed tails to be empty. Transporting each original relation
+along its empty tail and comparing with the corresponding right-unit
+continuation gives the adjacent endpoint comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_boundary}

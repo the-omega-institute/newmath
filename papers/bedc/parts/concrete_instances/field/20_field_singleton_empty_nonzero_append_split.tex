@@ -1,0 +1,23 @@
+\begin{theorem}[Singleton empty nonzero append split]
+\label{thm:singleton-empty-nonzero-append-split}
+For histories $L,Q:\mathsf{BHist}$, the classifier-complement singleton empty
+nonzero predicate on an append splits exactly over the two factors:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,Q))
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(L)\lor
+\mathsf{fieldSingletonEmptyNonZero}(Q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, split on the left factor. If $L=\emp$, a
+classifier witness for $Q$ against $\emp$ rebuilds the forbidden classifier
+witness for $\mathsf{append}(\emp,Q)$. If $L$ is visibly headed, constructor
+separation already makes $L$ a singleton-empty nonzero witness.
+
+For the reverse implication, any classifier witness for
+\(\mathsf{append}(L,Q)\) against \(\emp\) splits by empty-result inversion for
+append into carrier witnesses for both $L$ and $Q$. The chosen left or right
+nonzero witness rejects the corresponding carrier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_split\_iff}
