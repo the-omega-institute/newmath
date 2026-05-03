@@ -24,5 +24,24 @@ in the unit-counit order and then in the counit-unit order.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism parallel triangle suffix agreement]
+\label{thm:monad-adjunction-endomorphism-parallel-triangle-suffix-same}
+For histories $p,a,unit,counit,left,right,suffix,left',right':\mathsf{BHist}$,
+suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+If $\ContR(left,suffix,left')$ and $\ContR(right,suffix,right')$, then
+$$
+\hsame(left',right').
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism triangle result theorem identifies both triangle outputs
+$left$ and $right$ with $\emp$. Hence $left\hsame right$. Continuation
+respect for $\hsame$ transports this source equality across the common
+suffix continuation, with the suffix compared reflexively, and yields
+$left'\hsame right'$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_parallel\_triangle\_suffix\_same}
+
 \section{The certificate}
 \label{sec:monad-certificate}
