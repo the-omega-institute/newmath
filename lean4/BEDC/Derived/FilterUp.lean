@@ -111,6 +111,20 @@ theorem FilterPrincipalSuffix_base_points_empty_exact
   have rightParts := cont_empty_result_inversion baseRight
   exact And.intro leftParts.left (And.intro leftParts.right rightParts.right)
 
+theorem FilterPrincipalSuffix_intersection_empty_point_exact
+    {base left right meet meetPoint : BHist} :
+    Cont left right meet -> Cont base meet meetPoint -> hsame meetPoint BHist.Empty ->
+      hsame base BHist.Empty ∧ hsame meet BHist.Empty ∧
+        hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro leftRight baseMeet meetPointEmpty
+  cases meetPointEmpty
+  have pointParts := cont_empty_result_inversion baseMeet
+  cases pointParts.right
+  have meetParts := cont_empty_result_inversion leftRight
+  exact And.intro pointParts.left
+    (And.intro (hsame_refl BHist.Empty)
+      (And.intro meetParts.left meetParts.right))
+
 theorem FilterPrincipalEmptyCarrier_semanticNameCert :
     SemanticNameCert (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
       (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
