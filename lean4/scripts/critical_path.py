@@ -30,7 +30,7 @@ DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 # best non-locked node and writes it to LOCKS_FILE so the next concurrent
 # invocation skips it. Locks expire after LOCK_TTL_SECONDS so when a round
 # finishes (or stalls) the anchor naturally re-enters the candidate pool.
-LOCKS_FILE = ROOT / ".critical_path_locks.json"
+LOCKS_FILE = Path(__file__).resolve().parent / ".critical_path_locks.json"
 LOCK_TTL_SECONDS = 1500  # 25 min — matches typical paper round duration
 
 # Lower bound for "node is implemented enough that its dependents may proceed".
