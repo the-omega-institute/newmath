@@ -86,4 +86,23 @@ theorem ZetaZeroSourceSpec_pair_classifier {s t : BHist} :
   exact And.intro (And.intro sourceS.left (And.intro sourceT.left sameST))
     (And.intro sourceS.right sourceT.right)
 
+theorem ZetaZeroPatternSpec_pair_classifier {s t z w : BHist} :
+    ZetaZeroPatternSpec s z -> ZetaZeroPatternSpec t w ->
+      ComplexHistoryClassifier s t ∧ ComplexHistoryClassifier z w ∧
+        hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+          hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+            hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+              hsame w (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro patternSZ patternTW
+  have sourcePair := ZetaZeroSourceSpec_pair_classifier patternSZ.left patternTW.left
+  have zZero := ZetaZeroPatternSpec_zero_result_classifier patternSZ
+  have wZero := ZetaZeroPatternSpec_zero_result_classifier patternTW
+  have classifiedZW : ComplexHistoryClassifier z w :=
+    ComplexHistoryClassifier_trans zZero (ComplexHistoryClassifier_symm wZero)
+  exact And.intro sourcePair.left
+    (And.intro classifiedZW
+      (And.intro sourcePair.right.left
+        (And.intro sourcePair.right.right
+          (And.intro patternSZ.right patternTW.right))))
+
 end BEDC.Derived.ZetaZerosUp
