@@ -82,6 +82,29 @@ endpoint-sameness field along this result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_right\_endpoint\_transport\_iff}
 
+\begin{theorem}[Field singleton classifier continuation two-sided context transport]
+\label{thm:field-singleton-classifier-continuation-two-sided-context-transport-iff}
+For histories $L,R,h,mid,out,S:\mathsf{BHist}$, if $L$ and $R$ are singleton
+field carrier endpoints, $\ContR(L,h,mid)$, and $\ContR(mid,R,out)$, then
+singleton classification from $out$ to $S$ is equivalent to singleton
+classification from $h$ to $S$:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\ContR(L,h,mid)\Rightarrow
+\ContR(mid,R,out)\Rightarrow
+\bigl(\mathsf{FieldSingletonClassifier}(out,S)\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(h,S)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The right-context singleton endpoint transports the classifier on $out$ back
+to the intermediate endpoint $mid$. The left-context singleton endpoint then
+transports the classifier on $mid$ back to the exposed history $h$. Composing
+the two equivalences gives the displayed classifier equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_two\_sided\_context\_transport\_iff}
+
 \begin{theorem}[Field singleton carrier continuation visible result exclusion]
 \label{thm:field-singleton-carrier-continuation-visible-result-absurd}
 For histories $P,Q,r:\mathsf{BHist}$, if $P$ and $Q$ are singleton field
