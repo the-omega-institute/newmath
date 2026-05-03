@@ -229,7 +229,7 @@ def _active_tab_count() -> int:
     return len(s.get("active_recent_agents") or [])
 
 
-def spawn_inner(parallel: int, *, pipeline_version: str = "v1", attach_pdf: str = "") -> subprocess.Popen:
+def spawn_inner(parallel: int, *, pipeline_version: str = "v2", attach_pdf: str = "") -> subprocess.Popen:
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
     # Honor PI v1 adjust_parallel intent if it dropped a file under state/
     parallel_intent_path = SCRIPT_DIR / "state" / ".pi_parallel_intent"
@@ -601,8 +601,10 @@ def main() -> int:
     # call sites still passing it.
     parser.add_argument("--pi-version", choices=["v0", "v1"], default="v1",
                         help=argparse.SUPPRESS)
-    parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v1",
-                        help="Inner pipeline version. Forwarded to oracle_client.py --pipeline-version. v2 = codex-first track.")
+    # --pipeline-version was removed when v1 retired; accept-and-ignore for
+    # backward compat with existing launch scripts.
+    parser.add_argument("--pipeline-version", choices=["v1", "v2"], default="v2",
+                        help=argparse.SUPPRESS)
     parser.add_argument("--attach-pdf", default="",
                         help="PDF path to attach on first oracle turn of fresh conversations. "
                              "Default empty (skip — assumes you're using a ChatGPT Project with "
@@ -664,7 +666,7 @@ def main() -> int:
                     time.sleep(args.inner_restart_backoff)
                 inner = spawn_inner(
                     args.parallel,
-                    pipeline_version=supervisor_state.get("pipeline_version", "v1"),
+                    pipeline_version=supervisor_state.get("pipeline_version", "v2"),
                     attach_pdf=supervisor_state.get("attach_pdf", ""),
                 )
                 supervisor_state["inner"] = inner
