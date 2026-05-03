@@ -116,6 +116,65 @@ $\mathsf{RatUpFieldSource}_F$, so the exit package has no schematic
 $\mathsf{mul}$, $\mathsf{add}$, or $\mathsf{neg}$ operator coordinate.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp normalized semantic classifier exit certificate]
+\label{thm:ratup-fieldup-normalized-semantic-classifier-exit-certificate}
+Under the hypotheses and notation of
+\autoref{thm:ratup-fieldup-normalized-contextual-separation-package}, the same
+concrete $\FieldUp(\mathsf{RatUp})$ certificate contains the normalized
+semantic exit package of
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} and, for all
+$L,R:\mathsf{BHist}$, the classifier obstruction
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot
+$$
+supplied by
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}.
+Equivalently, the normalized semantic rows for the carried pair $x,y$ and the
+singleton-classifier noncollapse rows for every contextual pair $L,R$ occupy
+one $\mathsf{BHist}$-anchored $\FieldUp(\mathsf{RatUp})$ exit certificate over
+$\mathsf{RatUpFieldSource}_F$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:ratup-fieldup-normalized-semantic-exit-certificate} under the
+displayed carried endpoint hypotheses, empty endpoint hypotheses,
+empty-support context hypotheses, and strict-support witness. It gives the
+assembled certificate boundary, the normalized row $R_D^u(x,y)$, the
+strict-support equivalence $N_D^u(x)\Longleftrightarrow N_D^u(h)$, the
+contextual rejection maps, source anchoring of the concrete rows, and the
+nondegenerate witness $d_1:=\Eone(\emp)$ with
+$\mathsf{RatHistoryCarrier}(d_1)$ and
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$.
+
+Next invoke
+\autoref{thm:ratup-fieldup-normalized-contextual-singleton-classifier-separation}
+with the same carried endpoints, empty endpoint hypotheses, empty-support
+context hypotheses, contextual action $\Gamma$, and strict-support witness.
+This yields, for arbitrary $L,R:\mathsf{BHist}$, the obstruction
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))
+\to\bot.
+$$
+
+These two applications share the same concrete source tuple, denominator
+tuple, contextual action, normalized endpoints, and support witness. Therefore
+the semantic exit rows and the singleton-classifier obstruction are not
+separate targets: they are clauses of one normalized concrete
+$\FieldUp(\mathsf{RatUp})$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target concrete normalized
+$\FieldUp(\mathsf{RatUp})$ classifier exit; BEDC source
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{BHist}$, $\mathsf{append}$, $\Gamma$,
+$R_D^u$, and $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ plus
+$\mathsf{fieldSingletonEmptyClassifier}$ obstruction; stability obligations
+normalized semantic exit and singleton-classifier noncollapse; ledger
+contextual-pair denominator action and nondegenerate witness; core theorem this
+block; exactness predicate semantic exit plus classifier noncollapse for the
+normalized pair; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
