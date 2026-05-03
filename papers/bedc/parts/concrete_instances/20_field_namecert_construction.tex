@@ -92,6 +92,83 @@ $\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer}
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer_normalizer}
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer subgroup]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let $N_F(C_F(A))$
+be the two-sided normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Then
+$N_F(C_F(A))$ is the concrete affine normalizer subgroup of $C_F(A)$:
+\begin{enumerate}
+\item $N_F(C_F(A))(\mathrm{id}_F)$.
+\item If $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, then
+$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$.
+\item If $N_F(C_F(A))(T)$, then $N_F(C_F(A))(\iota_F(T))$.
+\item If $N_F(C_F(A))(T)$ and $T\equiv_{\mathrm{aff}}U$, then
+$N_F(C_F(A))(U)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit action and inverse package from
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
+and $\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit object.
+
+For the identity element, fix $X:\mathsf{AffAut}_F$. The identity clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} identifies
+$\mathrm{Conj}_{\mathrm{id}_F}(X)$ with $X$. Hence centralizer membership is
+preserved and reflected by identity conjugation, and the identity row of
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup} supplies the required
+carrier witness.
+
+For product closure, assume $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, and fix
+$X:\mathsf{AffAut}_F$. If $C_F(A)(X)$, the two-sided definition first gives
+$C_F(A)(\mathrm{Conj}_U(X))$ and then gives
+$C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The composition clause of
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} identifies
+the composite conjugation with conjugation by $T\circ_{\mathrm{aff}}U$, so the
+forward half gives $C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$.
+
+Conversely assume $C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$. The
+same composition clause reads this as
+$C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The reverse half of the
+two-sided definition for $T$ gives $C_F(A)(\mathrm{Conj}_U(X))$, and the
+reverse half for $U$ gives $C_F(A)(X)$.
+
+For inverse closure, assume $N_F(C_F(A))(T)$ and fix $X:\mathsf{AffAut}_F$.
+Let $Y=\mathrm{Conj}_{\iota_F(T)}(X)$. The inverse antihomomorphism package of
+\autoref{thm:ratup-fieldup-affine-inverse-antihom-exit} and the conjugation
+equation exactness of
+\autoref{thm:ratup-fieldup-affine-conjugation-equation-exactness} identify
+$\mathrm{Conj}_T(Y)$ with $X$ under $\equiv_{\mathrm{aff}}$.
+
+If $C_F(A)(X)$, transport this membership across the exactness comparison to
+$C_F(A)(\mathrm{Conj}_T(Y))$. The reverse half of the normalizer equivalence for
+$T$, applied to $Y$, gives $C_F(A)(Y)$. If $C_F(A)(Y)$, the forward half for
+$T$ and the same double-conjugation exactness return $C_F(A)(X)$. Thus
+conjugation by $\iota_F(T)$ preserves and reflects centralizer membership, and
+the inverse row gives the carrier witness for $\iota_F(T)$.
+
+For classifier transport, assume $N_F(C_F(A))(T)$ and
+$T\equiv_{\mathrm{aff}}U$. For each $X$, affine operation congruence from
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} transports
+the conjugation word
+$(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T)$ to
+$(U\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(U)$. The preservation and
+reflection clauses for $T$ therefore give the same two-sided centralizer
+equivalence for $U$, and the carrier witness is transported along
+$T\equiv_{\mathrm{aff}}U$.
+\end{proof}
+
+Per-object template: traditional target normalizer subgroup; BEDC source
+concrete $\FieldUp(\RatUp)$ affine automorphism group plus $\GroupUp$; carrier
+$N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; stability identity, product,
+inverse, and transport; ledger fixed element and conjugating witnesses;
+exactness preservation-reflection of centralizer membership; standard bridge
+ordinary normalizer subgroup; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine centralizer normalizer action]
 \label{thm:ratup-fieldup-affine-centralizer-normalizer-action}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
@@ -205,68 +282,3 @@ Transporting those three rejections along the canonical-exit identification
 leaves no coordinate map by which the canonical $\FieldUp(\RatUp)$ exit
 certificate can be read as the singleton empty-history $\FieldUp$ boundary.
 \end{proof}
-
-\begin{theorem}[RatUp FieldUp affine centralizer normalizer subgroup]
-\label{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}
-For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
-affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
-exit object. Let $C_F(A)$ be the carrier from
-\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
-$N_F(C_F(A))$ be the two-sided carrier from
-\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Then
-$N_F(C_F(A))$ is the concrete affine normalizer subgroup of $C_F(A)$:
-\begin{enumerate}
-\item $N_F(C_F(A))(\mathrm{id}_F)$.
-\item If $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, then
-$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$.
-\item If $N_F(C_F(A))(T)$, then $N_F(C_F(A))(\iota_F(T))$.
-\end{enumerate}
-\end{theorem}
-\begin{proof}
-Fix the canonical affine exit action and inverse package from
-\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
-$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$, $\iota_F(-)$,
-and $\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit object.
-
-For the unit, fix $X:\mathsf{AffAut}_F$. The identity law for inner conjugation
-from \autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} identifies
-$\mathrm{Conj}_{\mathrm{id}_F}(X)$ with $X$. Hence centralizer membership is
-preserved and reflected by identity conjugation, and the identity row of
-\autoref{thm:ratup-fieldup-affine-centralizer-subgroup} supplies the required
-carrier witness.
-
-For product closure, assume $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, and fix
-$X:\mathsf{AffAut}_F$. If $C_F(A)(X)$, the two-sided definition first gives
-$C_F(A)(\mathrm{Conj}_U(X))$ and then gives
-$C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The composition law for inner
-conjugations identifies this with
-$C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$.
-
-Conversely assume
-$C_F(A)(\mathrm{Conj}_{T\circ_{\mathrm{aff}}U}(X))$. The same composition law
-reads this as $C_F(A)(\mathrm{Conj}_T(\mathrm{Conj}_U(X)))$. The reverse half
-of the two-sided definition for $T$ gives $C_F(A)(\mathrm{Conj}_U(X))$, and the
-reverse half for $U$ gives $C_F(A)(X)$.
-
-For inverse closure, assume $N_F(C_F(A))(T)$ and fix $X:\mathsf{AffAut}_F$.
-Let $Y=\mathrm{Conj}_{\iota_F(T)}(X)$. The affine inverse and double-conjugation
-rows from \autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} identify
-$\mathrm{Conj}_T(Y)$ with $X$ under $\equiv_{\mathrm{aff}}$.
-
-If $C_F(A)(X)$, the reverse half of the two-sided definition for $T$, applied to
-$Y$, gives $C_F(A)(Y)$. If $C_F(A)(Y)$, the forward half gives
-$C_F(A)(X)$. Thus conjugation by $\iota_F(T)$ preserves and reflects
-centralizer membership, and the inverse row of the affine package gives the
-carrier witness for $\iota_F(T)$.
-\end{proof}
-
-Per-object template: traditional target centralizer normalizer subgroup; BEDC
-source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $N_F(C_F(A))$;
-classifier $\equiv_{\mathrm{aff}}$; stability identity, product, and inverse
-closure; ledger fixed element, conjugator, inverse witness, and centralizer
-witness; core theorem list
-\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier},
-\autoref{thm:ratup-fieldup-affine-centralizer-subgroup}, and
-\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}; exactness predicate
-two-sided preservation of centralizer membership; standard bridge ordinary
-normalizer subgroup; status $\mathsf{ProofTarget}$.
