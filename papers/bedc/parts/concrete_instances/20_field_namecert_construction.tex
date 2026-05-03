@@ -116,3 +116,35 @@ is exactly the bilateral empty-context statement of
 \autoref{thm:field-apartzero-empty-context-iff}, applied with the witnesses
 $l\hsame\emp$ and $r\hsame\emp$.
 \end{proof}
+
+\begin{theorem}[Field apart-zero nested continuation factor split]
+\label{thm:field-apartzero-nested-continuation-factor-split}
+For histories $l,h,r,u,v,q,w:\mathsf{BHist}$ with $\ContR(l,h,u)$,
+$\ContR(u,r,v)$, and $\ContR(v,q,w)$, if $l\hsame\emp$ and $r\hsame\emp$,
+then
+$$
+\mathsf{ApartZero}_F(w)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(h)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:field-apartzero-continuation-endpoint-split} to the tail
+continuation witness $\ContR(v,q,w)$. This gives
+$\mathsf{ApartZero}_F(w)$ exactly when
+$\mathsf{ApartZero}_F(v)\lor\mathsf{ApartZero}_F(q)$ holds.
+
+Apply
+\autoref{thm:field-apartzero-nested-continuation-empty-context-iff} to the
+first two continuation witnesses and the exterior empty-context witnesses
+$l\hsame\emp$ and $r\hsame\emp$. Substituting this equivalence for the first
+disjunct yields the displayed factor split.
+\end{proof}
+
+Per-object template: traditional target continuation-tail apartness factor
+split under empty exterior context; BEDC source $\mathsf{BHist}$, $\ContR$,
+and $\mathsf{ApartZero}_F$; carrier apart-zero histories; classifier $\hsame$
+transport; stability obligations nested empty-context exactness plus
+continuation endpoint split; ledger the two empty-context witnesses and tail
+$q$; exactness predicate the displayed iff; standard bridge ordinary
+product/context apartness factorization; status $\mathsf{ProofTarget}$.
