@@ -176,3 +176,27 @@ It remains to check the stability component. Unary closure is the closure field 
 
 These fields give a closed unary carrier, a two-sided unit, associative continuation, deterministic classification for fixed ordered sources, and an explicit ledger. That is the full certificate for $\UnaryContMonoidUp$. A swapped-source field would compare $\ContR(h,k,r)$ with $\ContR(k,h,s)$; no such comparison is used in the construction, so neither $\mathsf{AddCommField}$ nor $\UnaryComm$ enters the proof.
 \end{proof}
+
+\begin{theorem}[Two-element monoids cannot witness additive noncommutativity]
+\label{thm:two-element-monoid-cannot-witness-additive-noncommutativity}
+Let $C$ be an equality-classified carrier whose unary source is total. Let $e,u\in C$ and assume every $x\in C$ satisfies $x=e$ or $x=u$. Let $\star:C\times C\to C$ be a monoid operation with unit $e$, and let the additive continuation relation be the graph of $\star$:
+$$
+  \Gamma(x,y,z)\quad\text{means}\quad x\star y=z.
+$$
+Then for all $x,y,z,z'\in C$,
+$$
+  \Gamma(x,y,z)
+  \quad\text{and}\quad
+  \Gamma(y,x,z')
+  \quad\Rightarrow\quad
+  z=z'.
+$$
+Thus no equality-classified monoid with at most two carrier elements and total unary source can witness failure of the swapped-source additive commutativity field measured by \autoref{def:additive-classifier-specification}.
+\end{theorem}
+\begin{proof}
+By \autoref{def:additive-source-specification}, an additive source in this interpretation is an ordered pair together with a graph witness $\Gamma(x,y,z)$. Since the unary source is total, every pair of carrier elements is admissible. By \autoref{def:additive-classifier-specification}, the result comparison is the carrier classifier; here that classifier is equality. It is therefore enough to prove $x\star y=y\star x$ for arbitrary $x,y\in C$, because $\Gamma(x,y,z)$ and $\Gamma(y,x,z')$ identify $z$ with $x\star y$ and $z'$ with $y\star x$.
+
+Use the cover $t=e$ or $t=u$ for each carrier element $t$. If $x=e$, the left-unit law gives $x\star y=e\star y=y$, and the right-unit law gives $y\star x=y\star e=y$. Hence $x\star y=y\star x$. If $y=e$, the same argument with the two roles exchanged gives $x\star y=x=y\star x$.
+
+The only remaining case is $x=u$ and $y=u$. In that case both ordered products are the same expression $u\star u$, so $x\star y=y\star x$ by reflexivity of equality. Combining this product equality with the two graph witnesses gives $z=z'$. The conclusion is exactly the swapped-source comparison not supplied by the monoid-like fields of \autoref{def:additive-stability-certificate}. In contrast, \autoref{thm:core-additive-stability-not-swapped-commutative} shows that three carrier elements suffice for an equality-classified unital deterministic graph to fail that comparison.
+\end{proof}
