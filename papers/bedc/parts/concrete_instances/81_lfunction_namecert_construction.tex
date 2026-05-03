@@ -137,5 +137,31 @@ continuation into $S$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_exists}
 
+\begin{theorem}[L-function positive Dirichlet partial-sum predecessor uniqueness]
+\label{thm:lfunction-positive-index-previous-unique}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S),
+$$
+and every other closed partial sum at the predecessor index $m$ is
+$\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+The predecessor-existence theorem exposes the visible predecessor index $m$,
+the displayed predecessor partial sum $P$, and the continuation into $S$.
+The predecessor partial-sum witness makes $m$ unary. Dirichlet unary-index
+determinacy then identifies any other closed partial sum at $m$ with the
+exposed predecessor result $P$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_unique}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}
