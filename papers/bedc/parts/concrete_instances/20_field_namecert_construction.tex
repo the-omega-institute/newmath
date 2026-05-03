@@ -530,6 +530,52 @@ Rat history carrier witness yields contradiction, giving the displayed
 non-singleton endpoint map.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp threefold support contextual separation package]
+\label{thm:ratup-fieldup-threefold-support-contextual-separation-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $x:=\mu_D^u(\mu_D^u(h,k),\ell)$. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the concrete
+$\FieldUp(\mathsf{RatUp})$ exit boundary contains the following contextual
+separation package:
+\begin{enumerate}
+  \item the direct endpoint separation $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both contextual carrier exclusions
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$;
+  \item for all $L,R:\mathsf{BHist}$, the contextual classifier exclusion
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))
+  \to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-threefold-support-non-singleton-exactness} with the
+same denominator tuple and carried histories. The threefold support hypothesis
+recovers $\mathsf{RatHistoryCarrier}(x)$ and the singleton endpoint rejection
+$\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+
+For direct empty separation, apply \autoref{thm:rat-history-carrier-not-empty} to
+the recovered Rat carrier witness. Any comparison $x\hsame\emp$ is thereby sent
+to contradiction.
+
+Now fix an arbitrary context history $r:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
+and Rat carrier endpoint $x$ to rule out
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))$. Apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the same
+two histories in the opposite append order to rule out
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))$.
+
+Finally package $\mathsf{RatHistoryClassifier}(x,x)$ from the carrier witness on
+both sides and reflexivity of $\hsame$. For arbitrary $L,R:\mathsf{BHist}$,
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
+then rejects
+$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,x))$.
+\end{proof}
+
 Per-object template: traditional target concrete $\FieldUp(\mathsf{RatUp})$
 threefold denominator exit support; BEDC source $\mathsf{BHist}$ with
 $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; context
