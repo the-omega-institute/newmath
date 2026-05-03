@@ -18,6 +18,27 @@ and transitivity of $\hsame$ identify $x$ and $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
 
+\begin{theorem}[Field right-multiplication empty-context equation solutions are unique from apartness]
+\label{thm:field-right-mul-empty-context-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_b:\mathsf{NonZero}_F(b)$ and both $x$ and $y$ solve the same right
+multiplication equation at the endpoint $\mathsf{append}(\emp,c)$,
+$$
+x b\hsame \mathsf{append}(\emp,c)
+\qquad\text{and}\qquad
+y b\hsame \mathsf{append}(\emp,c),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations at
+the concrete endpoint $\mathsf{append}(\emp,c)$. Both solutions are classified
+with the same normal form
+$\mathsf{append}(\emp,c)\,\mathsf{inv}(b,p_b)$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_right\_mul\_empty\_context\_equation\_solution\_unique\_from\_apartness}
+
 \begin{theorem}[Field multiplication by an indexed left inverse cancels]
 \label{thm:field-mul-inverse-left-cancel-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses,
@@ -94,6 +115,27 @@ normal form $\mathsf{inv}(a,p_a)\emp$. Symmetry on the second classification
 and transitivity of $\hsame$ identify $x$ and $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_empty\_equation\_solution\_unique\_from\_apartness}
+
+\begin{theorem}[Field left-multiplication empty-context equation solutions are unique from apartness]
+\label{thm:field-left-mul-empty-context-equation-solution-unique-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if
+$p_a:\mathsf{NonZero}_F(a)$ and both $x$ and $y$ solve the same left
+multiplication equation at the endpoint $\mathsf{append}(\emp,c)$,
+$$
+a x\hsame \mathsf{append}(\emp,c)
+\qquad\text{and}\qquad
+a y\hsame \mathsf{append}(\emp,c),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the left-multiplication exactness theorem to both displayed equations at
+the concrete endpoint $\mathsf{append}(\emp,c)$. Both solutions are classified
+with the same normal form
+$\mathsf{inv}(a,p_a)\,\mathsf{append}(\emp,c)$. Symmetry on the second
+classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_left\_mul\_empty\_context\_equation\_solution\_unique\_from\_apartness}
 
 \begin{theorem}[Field middle multiplication equation solution from apartness]
 \label{thm:field-middle-mul-equation-solution-from-apartness}

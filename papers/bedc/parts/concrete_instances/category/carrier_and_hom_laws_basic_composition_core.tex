@@ -18,6 +18,24 @@ $fg\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_endpoint\_cycle\_tails\_empty}
 
+\begin{theorem}[Category hom-carrier composite nonempty morphism excludes empty target]
+\label{thm:category-hom-carrier-comp-morphism-nonempty-target-not-empty}
+For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to
+$b$, $g$ is a hom-carrier from $b$ to $c$, and $\ContR(f,g,fg)$. If the
+displayed composite morphism is apart from the empty history, then the target
+endpoint cannot be empty:
+$$
+(\hsame(fg,\emp)\to\mathsf{False})\to\hsame(c,\emp)\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Composition closure first builds the composite hom-carrier from $a$ to $c$
+over $fg$. If $c\hsame\emp$, transport this carrier to an empty target. The
+empty-target exactness theorem then forces $fg\hsame\emp$, contradicting the
+displayed nonemptiness of the composite morphism.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_morphism\_nonempty\_target\_not\_empty}
+
 \begin{theorem}[Category hom-carrier composite endpoint cycle boundary]
 \label{thm:category-hom-carrier-comp-endpoint-cycle-boundary}
 For the unary-continuation category, suppose $f$ is a hom-carrier from $a$ to

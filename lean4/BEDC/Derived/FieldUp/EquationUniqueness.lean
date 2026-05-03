@@ -3,6 +3,7 @@ import BEDC.Derived.FieldUp.Affine
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
 protected theorem field_right_mul_empty_equation_solution_unique_from_apartness
     {mul : BHist -> BHist -> BHist}
@@ -18,6 +19,24 @@ protected theorem field_right_mul_empty_equation_solution_unique_from_apartness
   have sx : hsame x (mul BHist.Empty (inv b pb)) :=
     field_right_mul_equation_solution_from_apartness assocC rightId mulCongr rightInv pb hx
   have sy : hsame y (mul BHist.Empty (inv b pb)) :=
+    field_right_mul_equation_solution_from_apartness assocC rightId mulCongr rightInv pb hy
+  exact hsame_trans sx (hsame_symm sy)
+
+protected theorem field_right_mul_empty_context_equation_solution_unique_from_apartness
+    {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x one) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {x y b c : BHist} (pb : NonZero b) :
+    hsame (mul x b) (append BHist.Empty c) ->
+      hsame (mul y b) (append BHist.Empty c) -> hsame x y := by
+  intro hx hy
+  have sx : hsame x (mul (append BHist.Empty c) (inv b pb)) :=
+    field_right_mul_equation_solution_from_apartness assocC rightId mulCongr rightInv pb hx
+  have sy : hsame y (mul (append BHist.Empty c) (inv b pb)) :=
     field_right_mul_equation_solution_from_apartness assocC rightId mulCongr rightInv pb hy
   exact hsame_trans sx (hsame_symm sy)
 
@@ -71,6 +90,27 @@ protected theorem field_left_mul_empty_equation_solution_unique_from_apartness
         hsame (mul (inv a pa) (mul a y)) (mul (inv a pa) BHist.Empty) :=
       mulCongr (hsame_refl (inv a pa)) hy
     exact hsame_trans (hsame_symm cancelY) transportY
+  exact hsame_trans sx (hsame_symm sy)
+
+protected theorem field_left_mul_empty_context_equation_solution_unique_from_apartness
+    {mul : BHist -> BHist -> BHist}
+    {one : BHist} {NonZero : BHist -> Prop} {inv : (a : BHist) -> NonZero a -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul one x) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall (a : BHist) (p : NonZero a), hsame (mul (inv a p) a) one)
+    (rightInv : forall (a : BHist) (p : NonZero a), hsame (mul a (inv a p)) one)
+    {a x y c : BHist} (pa : NonZero a) :
+    hsame (mul a x) (append BHist.Empty c) ->
+      hsame (mul a y) (append BHist.Empty c) -> hsame x y := by
+  intro hx hy
+  have sx : hsame x (mul (inv a pa) (append BHist.Empty c)) :=
+    (field_left_mul_equation_exact_from_apartness
+      assocC leftId mulCongr leftInv rightInv pa).mp hx
+  have sy : hsame y (mul (inv a pa) (append BHist.Empty c)) :=
+    (field_left_mul_equation_exact_from_apartness
+      assocC leftId mulCongr leftInv rightInv pa).mp hy
   exact hsame_trans sx (hsame_symm sy)
 
 protected theorem field_affine_left_equation_solution_unique_from_apartness
