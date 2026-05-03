@@ -509,12 +509,19 @@ def build_glossary() -> dict:
 
     The canonical glossary lives in
     `docs/dossier/data_source/glossary.json` (committed to git). This
-    function just loads it and strips the `_meta` documentation key.
+    function strips the `_meta` block and per-entry `aliases` list
+    (both used by `tools/check_glossary.py` as gating data, not needed
+    by the front-end renderer).
     """
     src = ROOT / "docs" / "dossier" / "data_source" / "glossary.json"
     with src.open(encoding="utf-8") as fh:
         data = json.load(fh)
-    return {k: v for k, v in data.items() if not k.startswith("_")}
+    out: dict[str, dict] = {}
+    for k, v in data.items():
+        if k.startswith("_"):
+            continue
+        out[k] = {ek: ev for ek, ev in v.items() if ek != "aliases"}
+    return out
 
 
 def main() -> int:

@@ -65,6 +65,9 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
+      - name: Glossary completeness gate
+        run: python3 tools/check_glossary.py
+
       - name: Render dossier
         run: quarto render docs/dossier/
 
