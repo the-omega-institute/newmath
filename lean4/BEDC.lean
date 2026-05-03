@@ -154,6 +154,7 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.ConjugationParameter
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
@@ -186,6 +187,7 @@ import BEDC.Derived.FieldUp.RatBoundary
 import BEDC.Derived.FieldUp.Nonzero
 import BEDC.Derived.FieldUp.InverseInvolutiveNonzero
 import BEDC.Derived.FieldUp.InverseApartness
+import BEDC.Derived.FieldUp.InverseClassifier
 import BEDC.Derived.FieldUp.ProductApartness
 import BEDC.Derived.FieldUp.SquareApartness
 import BEDC.Derived.FieldUp.SignedFactor
