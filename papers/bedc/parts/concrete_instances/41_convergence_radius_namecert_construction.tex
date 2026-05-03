@@ -328,3 +328,26 @@ The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semant
 The witnessed radius inhabits the carrier. The equivalence fields are the finite-kernel \(\hsame\) laws. Carrier transport uses radius transport together with unary transport of the displayed radius.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}
+
+\begin{theorem}[Geometric bound is downward closed in the radius]
+\label{thm:geom-bound-radius-shrink-closed}
+For coefficients $a$, radius histories $r'$ and $r$, and constant history $K$, if
+$$
+\mathsf{NatUnaryStrictPrefix}(r',r)
+\qquad\text{and}\qquad
+\mathsf{GeomBound}(a,r,K),
+$$
+then
+$$
+\mathsf{GeomBound}(a,r',K).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:nat-unary-strict-prefix}, choose a unary tail $t$ such that $t$ is not $\emp$ and $\ContR(r',t,r)$ holds. By \autoref{def:geom-bound}, the bound at $r$ supplies the unary carrier for $r$, the unary carrier for $K$, the coefficient carrier rows, and the decidable comparison rows $|a_n|\cdot r^n\leq K$ for every unary index $n$. The strict-prefix witness is in particular a prefix witness from $r'$ to $r$; applying \autoref{thm:preorder-prefix-source-carrier-of-target-carrier} to that witness and to the unary carrier of $r$ gives the unary carrier of $r'$.
+
+It remains to transport the comparison rows. In the rational representation of unary histories, the continuation ledger $\ContR(r',t,r)$ reads $r=r'+t$ with $t\geq 0$, hence $0\leq r'\leq r$. Fix a unary index $n$. Unary induction on $n$ gives $(r')^n\leq r^n$: the empty exponent gives equality of units, and the one-extension step multiplies the induction comparison by the nonnegative factor $r'$ and then uses $r'\leq r$ with the nonnegative factor $r^n$. Since complex moduli are nonnegative, rational-history multiplication gives
+$$
+|a_n|\cdot (r')^n\leq |a_n|\cdot r^n.
+$$
+Composing this inequality with the comparison row supplied by $\mathsf{GeomBound}(a,r,K)$ yields $|a_n|\cdot (r')^n\leq K$. The constant carrier and coefficient carrier rows are unchanged, so \autoref{def:geom-bound} repacks these data as $\mathsf{GeomBound}(a,r',K)$.
+\end{proof}
