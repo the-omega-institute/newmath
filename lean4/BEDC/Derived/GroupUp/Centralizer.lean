@@ -4,6 +4,13 @@ namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
 
+theorem group_centralizer_empty_unit_mem {mul : BHist -> BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    {a : BHist} :
+    hsame (mul BHist.Empty a) (mul a BHist.Empty) := by
+  exact hsame_trans (leftId a) (hsame_symm (rightId a))
+
 protected theorem group_centralizer_inv_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
