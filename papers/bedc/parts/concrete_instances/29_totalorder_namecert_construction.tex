@@ -97,6 +97,80 @@ $\mathsf{same}_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k)$ gives the stated
 equivalence with $h\le_{\emp}k$ and $k\le_{\emp}h$.
 \end{proof}
 
+\section{Concrete unary prefix total order instance}
+\label{sec:totalorder-concrete-unary-prefix-instance}
+
+\begin{definition}[Concrete unary prefix total order instance]
+\label{def:concrete-unary-prefix-totalorder-instance}
+Let the carrier be the concrete unary-history preorder carrier:
+$$
+\mathsf{Carrier}_{\mathsf{u}}:=\mathsf{PreorderCarrier}
+=\mathsf{UnaryHistory}.
+$$
+Let the carrier classifier be
+$$
+\rho_{\mathsf{u}}(h,k):=
+\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k),
+$$
+and let the order relation be the concrete prefix relation
+$$
+h\le_{\mathsf{u}}k:=\mathsf{PreorderPrefixLE}(h,k).
+$$
+The constructive comparison package has the three branches
+$$
+\mathsf{lt}_{\mathsf{u}}(h,k):=\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\mathsf{same}_{\mathsf{u}}(h,k):=\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{gt}_{\mathsf{u}}(h,k):=\mathsf{NatUnaryStrictPrefix}(k,h).
+$$
+Thus strict-left means that $k$ extends $h$ by a nonempty unary tail, same is
+the carrier classifier, and strict-right is the opposite strict unary prefix.
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix total order laws]
+\label{thm:concrete-unary-prefix-totalorder-laws}
+For carried unary histories $h,k$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, the branches of
+\autoref{def:concrete-unary-prefix-totalorder-instance} supply constructive
+total comparison. Each strict branch implies carrier-classifier apartness, the
+same branch satisfies
+$$
+\mathsf{same}_{\mathsf{u}}(h,k)\Longleftrightarrow
+(\mathsf{PreorderPrefixLE}(h,k)\land\mathsf{PreorderPrefixLE}(k,h)),
+$$
+and the inherited preorder and antisymmetry fields assemble these data into a
+concrete $\TotalOrderUp$ law package over unary histories.
+\end{theorem}
+\begin{proof}
+Start from the total unary prefix comparison of
+\autoref{thm:nat-unary-prefix-total}. For carried histories $h$ and $k$, this
+returns a unary continuation from $h$ to $k$ or one from $k$ to $h$.
+
+Split the selected unary tail by the unary-generation cases. A nonempty tail
+chooses the corresponding strict branch
+$\mathsf{NatUnaryStrictPrefix}(h,k)$ or
+$\mathsf{NatUnaryStrictPrefix}(k,h)$. An empty tail collapses the continuation
+to $\hsame(h,k)$, which repackages with the two carrier witnesses as
+$\rho_{\mathsf{u}}(h,k)$ and therefore chooses the same branch.
+
+The strict branches are apart from the same branch. If a strict-left witness and
+the carrier classifier both held, the classifier exactness of
+\autoref{thm:poset-prefix-classifier-exactness} would give the reverse prefix
+comparison as well; splitting that reverse continuation into empty or nonempty
+form either collapses the strict tail to $\emp$ or gives opposing strict
+prefixes, both ruled out by \autoref{thm:nat-unary-strict-prefix-asymm}. The
+strict-right case is symmetric.
+
+The displayed equivalence for the same branch is exactly the prefix classifier
+exactness theorem \autoref{thm:poset-prefix-classifier-exactness} after
+unfolding $\mathsf{same}_{\mathsf{u}}$. Relation stability, reflexivity, and
+transitivity are inherited from
+\autoref{thm:concrete-unary-prefix-preorder-laws}, while antisymmetry is the
+same exactness field of \autoref{thm:poset-prefix-classifier-exactness}. These
+fields repack into the concrete $\TotalOrderUp$ law package.
+\end{proof}
+
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
