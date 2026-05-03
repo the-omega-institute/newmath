@@ -21,5 +21,37 @@ Transport the open-disk witness through holomorphic-disk \(\hsame\)-stability. T
 \end{proof}
 \leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_hsame\_transport}
 
+\begin{theorem}[Residue pole data empty function endpoints]
+\label{thm:residue-pole-data-empty-function-endpoints}
+If $\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)$ holds and
+$f \hsame \emp$, then both residue endpoints are empty:
+$$
+I \hsame \emp \land \rho \hsame \emp.
+$$
+\end{theorem}
+\begin{proof}
+Destructure the residue pole data to expose $\mathsf{Cont}(I,\rho,f)$.
+Transport the continuation result along $f \hsame \emp$, then apply empty-result
+inversion for BEDC continuations to recover the two empty endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_empty\_function\_endpoints}
+
+\begin{theorem}[Residue pole data residue suffix closure]
+\label{thm:residue-pole-data-residue-suffix-closure}
+If \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) holds, \(q\) is unary,
+and \(\Cont(f,q,f_q)\), then there is a residue history \(\rho_q\) such that
+\(\mathsf{ResiduePoleData}(f_q,z_0,r,p,g,I,\rho_q)\), with
+\(\Cont(\rho,q,\rho_q)\) and \(\Cont(I,\rho_q,f_q)\).
+\end{theorem}
+\begin{proof}
+Unpack the residue data to obtain \(\Cont(I,\rho,f)\). Continuation
+associativity against \(\Cont(f,q,f_q)\) supplies \(\rho_q\) with
+\(\Cont(\rho,q,\rho_q)\) and \(\Cont(I,\rho_q,f_q)\). The residue carrier is
+closed under the unary suffix \(q\), and the product carrier for \(f_q\) is
+rebuilt from the integral carrier, the shifted residue carrier, and the final
+continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_residue\_suffix\_closure}
+
 \section{The certificate}
 \label{sec:residue-certificate}
