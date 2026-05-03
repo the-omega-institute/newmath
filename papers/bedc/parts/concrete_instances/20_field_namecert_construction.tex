@@ -179,3 +179,55 @@ slot with raw continuation. The positive table laws remain supplied by
 inside the denominator coordinate and not inside the $\FieldUp(\RatUp)$
 multiplication coordinate.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit action invariance]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and let $\sim_{N_F(A)}$ be the orbit
+relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$ and a normalizer element
+$S:\mathsf{AffAut}_F$, if $C_F(A)(X)$, $C_F(A)(Y)$,
+$X\sim_{N_F(A)}Y$, and $N_F(C_F(A))(S)$, then
+$$
+\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+\end{theorem}
+\begin{proof}
+Choose an orbit witness $T:\mathsf{AffAut}_F$ for $X\sim_{N_F(A)}Y$, so
+$N_F(C_F(A))(T)$ and
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$. The inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} gives
+$N_F(C_F(A))(\iota_F(S))$, and the product row gives the composite witness
+$$
+N_F(C_F(A))(S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S)).
+$$
+
+It remains to identify the action of this composite witness on
+$\mathrm{Act}_S(X)$. Apply the composition rows of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} to reassociate
+the restricted action, and use
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse} to
+cancel the adjacent $\iota_F(S)$ and $S$ actions. The result is classifier-equal
+to $\mathrm{Act}_S(\mathrm{Act}_T(X))$.
+
+Now transport
+$\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}Y$ through the action by $S$ using
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-classifier-congruence}.
+Classifier transitivity identifies the composite action on
+$\mathrm{Act}_S(X)$ with $\mathrm{Act}_S(Y)$. Hence
+$S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S)$ is an orbit witness for
+$\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$.
+\end{proof}
+
+Per-object template: traditional target action invariance of normalizer
+orbits; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$;
+carrier $C_F(A)$; classifier $\equiv_{\mathrm{aff}}$; stability orbit
+invariance under certified action; ledger acting normalizer, orbit witness,
+inverse acting normalizer, and composite witness; core theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance};
+exactness predicate orbit classes are stable under the certified action;
+standard bridge ordinary group-action orbit invariance; status
+$\mathsf{ProofTarget}$.
