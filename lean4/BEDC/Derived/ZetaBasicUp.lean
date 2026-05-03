@@ -43,6 +43,17 @@ theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
       have endpoints := cont_empty_result_inversion emptyStep
       exact not_hsame_e1_empty endpoints.right
 
+theorem ZetaBasicPartSum_positive_index_result_nonempty {s n z : BHist} :
+    DirichletPositiveIndex n -> ZetaBasicPartSum s n z ->
+      (hsame z BHist.Empty -> False) := by
+  intro positive sum sameEmpty
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro _unaryTail nEq =>
+          cases nEq
+          exact ZetaBasicPartSum_successor_result_nonempty sum sameEmpty
+
 theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
     ZetaBasicPartSum s (BHist.e1 n) z ->
       exists previous : BHist, ZetaBasicPartSum s n previous ∧ Cont previous (BHist.e1 s) z := by
@@ -76,6 +87,54 @@ theorem ZetaBasicPartSum_successor_source_hsame_transport_step {s t n z : BHist}
           exact Exists.intro previous'
             (Exists.intro transported
               (And.intro transportData.left (And.intro transportedStep sameResult)))
+
+theorem ZetaBasicPartSum_successor_source_hsame_previous_deterministic {s t n z u : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      ZetaBasicPartSum t (BHist.e1 n) u ->
+        exists p q : BHist, ZetaBasicPartSum s n p ∧ ZetaBasicPartSum t n q ∧
+          hsame p q ∧ Cont p (BHist.e1 s) z ∧ Cont q (BHist.e1 t) u ∧ hsame z u := by
+  intro sameST leftSum rightSum
+  have leftStep := ZetaBasicPartSum_successor_step_inversion leftSum
+  have rightStep := ZetaBasicPartSum_successor_step_inversion rightSum
+  cases leftStep with
+  | intro p pData =>
+      cases rightStep with
+      | intro q qData =>
+          have unaryN : UnaryHistory n := ZetaBasicPartSum_index_unary pData.left
+          have samePQ : hsame p q :=
+            DirichletPartSum_term_hsame_transport_deterministic
+              (term := ZetaBasicUnitTerm) (term' := ZetaBasicUnitTerm) (s := s) (s' := t)
+              (fun {_m} _unaryM => hsame_e1_congr sameST)
+              unaryN pData.left qData.left
+          have sameZU : hsame z u :=
+            cont_respects_hsame samePQ (hsame_e1_congr sameST) pData.right qData.right
+          exact Exists.intro p
+            (Exists.intro q
+              (And.intro pData.left
+                (And.intro qData.left
+                  (And.intro samePQ
+                    (And.intro pData.right (And.intro qData.right sameZU))))))
+
+theorem ZetaBasicPartSum_successor_source_hsame_transport_result_nonempty {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists previous transported : BHist, ZetaBasicPartSum t n previous ∧
+        Cont previous (BHist.e1 t) transported ∧ hsame z transported ∧
+          (hsame transported BHist.Empty -> False) := by
+  intro sameST sum
+  have transportedStep :=
+    ZetaBasicPartSum_successor_source_hsame_transport_step sameST sum
+  cases transportedStep with
+  | intro previous resultData =>
+      cases resultData with
+      | intro transported transportedData =>
+          have transportedSum : ZetaBasicPartSum t (BHist.e1 n) transported :=
+            DirichletPartSum.step transportedData.left transportedData.right.left
+          exact Exists.intro previous
+            (Exists.intro transported
+              (And.intro transportedData.left
+                (And.intro transportedData.right.left
+                  (And.intro transportedData.right.right
+                    (ZetaBasicPartSum_successor_result_nonempty transportedSum)))))
 
 theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : BHist} :
     hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->

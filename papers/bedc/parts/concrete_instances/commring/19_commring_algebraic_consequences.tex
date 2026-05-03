@@ -672,6 +672,49 @@ $(a+(-b))\cdot(a+(-b))\hsame0$.
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_square\_empty\_zero\_exact}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_square\_zero\_exact}
 
+\begin{theorem}[CommRing signed square zero diagonal extraction package]
+\label{thm:commring-signed-square-zero-diagonal-extraction-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ with
+$(a+(-b))\cdot(a+(-b))\hsame0$ satisfies both
+$$
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+$$
+and
+$$
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b)).
+$$
+\end{theorem}
+\begin{proof}
+The first displayed identity is the forward implication of
+Theorem~\ref{thm:commring-signed-square-zero-exact} applied to the assumed zero
+signed square.
+
+For the diagonal inverse ledger, use the signed half of
+Theorem~\ref{thm:commring-square-cross-term-extraction-pair}. Additive
+congruence transports the signed-square factor across
+$(a+(-b))\cdot(a+(-b))\hsame0$, so its left side becomes the same diagonal
+inverse ledger with a zero summand.
+
+The ring zero law removes that zero summand. Symmetry and transitivity of
+$\hsame$ compose the transport with the signed cross-term endpoint, leaving
+exactly
+$$
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b)).
+$$
+\end{proof}
+
+For the $\CommRingUp$ per-object template, the traditional target is diagonal
+extraction from a zero signed square; the BEDC source is $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; the carrier is $\mathsf{BHist}$; the
+classifier is $\hsame$; the stability obligations are signed-square exactness,
+cross-term extraction, additive congruence, and zero laws; the ledger records the
+zero signed square and diagonal inverse ledger; the downstream consumer is
+$\FieldUp$ quadratic and zero-factor exit packages; and the status is
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing column cancellations balance cross sums]
 \label{thm:commring-column-cancellations-cross-sum-balance}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the

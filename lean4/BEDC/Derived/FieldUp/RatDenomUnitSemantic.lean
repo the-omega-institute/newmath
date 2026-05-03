@@ -57,4 +57,16 @@ theorem RatDenomUnitClassifier_nonempty_endpoint_iff {h k : BHist} :
   · intro nonemptyK hEmpty
     exact nonemptyK (hsame_trans (hsame_symm classified.right.right) hEmpty)
 
+theorem RatDenomUnitClassifier_rat_classifier_left_nonempty_iff {h k : BHist} :
+    RatDenomUnitClassifier h k ->
+      (RatHistoryClassifier h k ↔ (hsame h BHist.Empty -> False)) := by
+  intro classified
+  constructor
+  · intro ratClassified
+    exact (RatHistoryClassifier_endpoints_not_empty ratClassified).left
+  · intro nonemptyH
+    have endpoints := RatDenomUnitClassifier_nonempty_endpoint_iff classified
+    have nonemptyK : hsame k BHist.Empty -> False := endpoints.mp nonemptyH
+    exact RatDenomUnitClassifier_nonempty_rat_classifier classified nonemptyH nonemptyK
+
 end BEDC.Derived.FieldUp
