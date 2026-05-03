@@ -85,4 +85,35 @@ theorem ComplexTopologyOpenDisk_point_radius_suffix_closed {z0 r z extra r' z' :
                         (Exists.intro gap
                           (And.intro gapUnary (And.intro gapPoint shiftedGapPoint)))
 
+theorem ComplexTopologyOpenDiskGap_radius_extension_closed
+    {center radius point gap extra radiusOut gapOut : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory extra ->
+      Cont radius extra radiusOut -> Cont gap extra gapOut ->
+        ComplexTopologyOpenDiskGap center radiusOut point gapOut ∧
+          Cont point gapOut radiusOut := by
+  intro disk extraCarrier radiusStep gapStep
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro gapCarrier pointGap =>
+                  have radiusOutCarrier : UnaryHistory radiusOut :=
+                    unary_cont_closed radiusCarrier extraCarrier radiusStep
+                  have gapOutCarrier : UnaryHistory gapOut :=
+                    unary_cont_closed gapCarrier extraCarrier gapStep
+                  have pointGapOut : Cont point gapOut radiusOut := by
+                    cases pointGap
+                    cases gapStep
+                    cases radiusStep
+                    exact append_assoc point gap extra
+                  exact And.intro
+                    (And.intro centerCarrier
+                      (And.intro radiusOutCarrier
+                        (And.intro pointCarrier
+                          (And.intro gapOutCarrier pointGapOut))))
+                    pointGapOut
+
 end BEDC.Derived.ComplexTopologyUp
