@@ -44,3 +44,24 @@ Visible-context closure then appends the unary contexts $p$ and $q$ on the
 outside.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_closed}
+
+\begin{theorem}[Metric distance witness triangle append context result determinacy]
+\label{thm:metric-distance-witness-triangle-append-context-result-deterministic}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then any
+displayed distance witness from $p\cdot x$ to $d_{yz}\cdot q$ has the same
+result as the canonical contextual triangle result:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,displayed)
+\Longrightarrow
+\HSame(displayed,p\cdot d_{xyz}\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Triangle append context closure constructs the canonical witness from
+$p\cdot x$ to $d_{yz}\cdot q$ with result $p\cdot d_{xyz}\cdot q$. The
+displayed witness and this canonical witness have the same source and target
+histories, so continuation determinacy for their distance ledgers identifies
+their result histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}

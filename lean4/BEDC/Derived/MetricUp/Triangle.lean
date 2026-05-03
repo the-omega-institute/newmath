@@ -33,4 +33,16 @@ theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz 
       (d := dxyz)).mpr
       (And.intro pCarrier (And.intro qCarrier central))
 
+theorem MetricDistanceWitness_triangle_append_context_result_deterministic
+    {p q x y z dxy dyz dxyz displayed : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceWitness (append p x) (append dyz q) displayed ->
+          hsame displayed (append (append p dxyz) q) := by
+  intro pCarrier qCarrier xy yz xyz displayedWitness
+  have canonical :
+      MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+    MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+  exact cont_deterministic displayedWitness.right.right.right canonical.right.right.right
+
 end BEDC.Derived.MetricUp

@@ -33,4 +33,22 @@ theorem ContinuationMorphism_comp_same_right_tail_factorization_deterministic
       (And.intro rightCompTail.left
         (And.intro sameSource (And.intro sameMiddle sameLeftTail)))
 
+theorem ContinuationMorphism_comp_same_left_tail_factorization_deterministic {a b b' c c' : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (left' : ContinuationMorphism a b') (right' : ContinuationMorphism b' c')
+    (sameLeft : hsame left.tail left'.tail)
+    (sameComposite : hsame (append left.tail right.tail) (append left'.tail right'.tail)) :
+    hsame b b' ∧ hsame right.tail right'.tail ∧ hsame c c' := by
+  have sameMiddle : hsame b b' :=
+    ContinuationMorphism_target_deterministic left left' sameLeft
+  have sameRightTail : hsame right.tail right'.tail := by
+    apply append_left_cancel (h := left.tail)
+    exact sameComposite.trans (congrArg (fun tail => append tail right'.tail) sameLeft.symm)
+  have transportedRight : Cont b' right.tail c :=
+    cont_hsame_transport sameMiddle (hsame_refl right.tail) (hsame_refl c) right.rel
+  have sameTarget : hsame c c' :=
+    cont_deterministic transportedRight
+      (cont_hsame_transport (hsame_refl b') (hsame_symm sameRightTail) (hsame_refl c') right'.rel)
+  exact And.intro sameMiddle (And.intro sameRightTail sameTarget)
+
 end BEDC.Derived.CategoryUp
