@@ -98,6 +98,22 @@ and the closed successor derivation identifies the final results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_successor\_term\_hsame\_deterministic}
 
+\begin{lemma}[Partial sums respect pointwise history sameness]
+\label{lem:complex-part-sum-pointwise-hsame-deterministic}
+For two term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$ with
+$\hsame(c(m),d(m))$ at every unary index $m$, and for base histories
+$z,z'$ with $z\hsame z'$, closed partial-sum derivations for $c$ and $d$ at
+the same unary index have $\hsame$ results.
+\end{lemma}
+\begin{proof}
+Induct on the first closed partial-sum derivation. The zero constructor uses
+the base comparison $z\hsame z'$. In the successor case, invert the
+second derivation, recover the predecessor unary witness, apply the induction
+hypothesis to the predecessor sums, and use continuation determinacy with the
+pointwise comparison of the current terms.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_pointwise\_hsame\_deterministic}
+
 \section{Absolute convergence}
 
 \begin{definition}[Modulus partial sum]
@@ -139,6 +155,22 @@ determinacy statement to the predecessor of the displayed successor step and
 the closed successor derivation gives the required result comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_successor\_modulus\_hsame\_deterministic}
+
+\begin{lemma}[Absolute partial sums respect pointwise history sameness]
+\label{lem:complex-abs-part-sum-pointwise-hsame-deterministic}
+For two modulus families $m,m':\mathsf{BHist}\to\mathsf{BHist}$ with pointwise
+$\hsame$ agreement at every unary index, and for base histories $z,z'$ with
+$z\hsame z'$, closed absolute partial-sum derivations at the same unary index
+have $\hsame$ results.
+\end{lemma}
+\begin{proof}
+Induct on the first absolute partial-sum derivation. The zero constructor is
+the base comparison. In the successor case, invert the matching derivation,
+identify the predecessor sums by the induction hypothesis, and apply
+continuation determinacy using the pointwise modulus comparison at the
+predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_pointwise\_hsame\_deterministic}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}

@@ -90,6 +90,26 @@ theorem ComplexPartSum_term_hsame_transport {zero zero' : BHist} {c d : BHist ->
           exact Exists.intro (append previous' (d _))
             (And.intro (ComplexPartSum.step previousData.left (cont_intro rfl)) resultSame)
 
+theorem ComplexPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
+    {c d : BHist -> BHist} {n S T : BHist} :
+    hsame zero zero' ->
+      (∀ {m : BHist}, UnaryHistory m -> hsame (c m) (d m)) ->
+        UnaryHistory n -> ComplexPartSum zero c n S -> ComplexPartSum zero' d n T ->
+          hsame S T := by
+  intro sameZero pointwise unaryN left
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero => exact sameZero
+  | step leftPrev leftStep ih =>
+      intro right
+      cases right with
+      | step rightPrev rightStep =>
+          have unaryTail : UnaryHistory _ := unary_history_e1_iff.mp unaryN
+          have samePrev := ih unaryTail rightPrev
+          exact cont_respects_hsame samePrev (pointwise unaryTail) leftStep rightStep
+
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
   | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
@@ -149,6 +169,26 @@ theorem ComplexPartSum_term_hsame_deterministic {zero : BHist} {c d : BHist -> B
           have samePartial := ih rightSum
           have sameTerm := pointwise (index_unary leftSum)
           exact cont_respects_hsame samePartial sameTerm leftStep rightStep
+
+theorem ComplexAbsPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
+    {modulus modulus' : BHist -> BHist} {n M T : BHist} :
+    hsame zero zero' ->
+      (∀ {m : BHist}, UnaryHistory m -> hsame (modulus m) (modulus' m)) ->
+        UnaryHistory n -> ComplexAbsPartSum zero modulus n M ->
+          ComplexAbsPartSum zero' modulus' n T -> hsame M T := by
+  intro sameZero pointwise unaryN left
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero => exact sameZero
+  | step leftPrev leftStep ih =>
+      intro right
+      cases right with
+      | step rightPrev rightStep =>
+          have unaryTail : UnaryHistory _ := unary_history_e1_iff.mp unaryN
+          have samePrev := ih unaryTail rightPrev
+          exact cont_respects_hsame samePrev (pointwise unaryTail) leftStep rightStep
 
 theorem ComplexAbsPartSum_successor_modulus_hsame_deterministic {zero zero' : BHist}
     {modulus modulus' : BHist -> BHist} {n M T U : BHist} :
