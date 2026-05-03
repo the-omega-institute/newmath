@@ -296,6 +296,25 @@ $\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_nonempty\_morphism\_target\_carrier\_cases}
 
+\begin{theorem}[Category nonempty one-headed source morphism target carrier uniqueness]
+\label{thm:category-e1-source-nonempty-morphism-target-carrier-unique}
+For $\mathsf{CategoryHomCarrier}(\Eone(a),target,morph)$, if $morph$ is not
+$\HSame$ to $\emp$, then there are histories $k,r$ such that
+$morph=\Eone(k)$, $target=\Eone(r)$, and
+$\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$. Moreover, any other displayed
+decomposition with $morph=\Eone(k')$, $target=\Eone(r')$, and
+$\mathsf{CategoryHomCarrier}(\Eone(a),r',k')$ satisfies
+$k\hsame k'$ and $r\hsame r'$.
+\end{theorem}
+\begin{proof}
+Apply the nonempty one-headed source morphism target case theorem. It exposes
+the one-headed morphism and target, the three unary tail witnesses, and the
+descended continuation ledger, which reassemble the descended hom-carrier.
+Uniqueness follows by constructor injectivity for the two displayed
+$\Eone$ equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_nonempty\_morphism\_target\_carrier\_unique}
+
 \begin{theorem}[Category nonempty one-headed target morphism source cases]
 \label{thm:category-hom-carrier-e1-target-nonempty-morphism-source-cases}
 For $\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)$, if $morph$ is not
@@ -311,6 +330,26 @@ one-headed-source branch applies the nonempty one-headed endpoint case split to
 expose the morphism tail and continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_nonempty\_morphism\_source\_cases}
+
+\begin{theorem}[Category nonempty one-headed target morphism source carrier uniqueness]
+\label{thm:category-e1-target-nonempty-morphism-source-carrier-unique}
+For $\mathsf{CategoryHomCarrier}(source,\Eone(r),morph)$, if $morph$ is not
+$\HSame$ to $\emp$, then either $source=\emp$, $morph=\Eone(r)$, and the
+visible target tail is unique under every one-headed display of $morph$; or
+there are histories $a,k$ such that $source=\Eone(a)$, $morph=\Eone(k)$, and
+$\mathsf{CategoryHomCarrier}(\Eone(a),r,k)$. In the visible-source branch, any
+other one-headed source and morphism display with a descended hom-carrier has
+$a\hsame a'$ and $k\hsame k'$.
+\end{theorem}
+\begin{proof}
+Split the nonempty one-headed target morphism source cases. In the empty-source
+branch, the displayed equality $morph=\Eone(r)$ makes every other one-headed
+display equal on tails by constructor injectivity. In the visible-source branch,
+the exposed unary witnesses and continuation ledger reassemble the descended
+hom-carrier, and constructor injectivity on $source=\Eone(a)$ and
+$morph=\Eone(k)$ gives the stated tail uniqueness.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_target\_nonempty\_morphism\_source\_carrier\_unique}
 
 \begin{theorem}[Category nonempty one-headed target morphism source iff]
 \label{thm:category-hom-carrier-e1-target-nonempty-morphism-source-iff}
