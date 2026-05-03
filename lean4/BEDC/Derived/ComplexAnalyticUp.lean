@@ -66,6 +66,16 @@ theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
         (And.intro sameZ
           (ProdHistoryCarrier_hsame_transport (hsame_symm sameZ) pureCarrier))
 
+theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
+    hsame z z' -> CplxPureImaginary theta z ->
+      CplxPureImaginary theta z' ∧ hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) := by
+  intro sameZZ' pureImaginary
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have sameZ' : hsame z' (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) :=
+        hsame_trans (hsame_symm sameZZ') sameZ
+      exact And.intro (And.intro thetaUnary sameZ') sameZ'
+
 theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ∃ imagq : BHist,
@@ -82,5 +92,16 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
           (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
+
+theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
+    (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
+      (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
+        hsame theta phi := by
+  intro left right
+  have sameAnchors :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) :=
+    hsame_trans (hsame_symm left.right) right.right
+  exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
 
 end BEDC.Derived.ComplexAnalyticUp
