@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\CritStripUp\)}
 \label{ch:concrete-instances-critical-strip-namecert}
 
-This chapter gives a concrete naming-certificate construction for the open critical strip \(0 < \Re(s) < 1\) and its critical line \(\Re(s) = 1/2\) as predicates on \(\ComplexUp\)-history. The strip is a region of \(\ComplexUp\) --- the analogue of \(\mathsf{OpenDisk}\) for a vertical strip --- together with explicit witnesses for compact sub-strips and a decidable membership in the critical line. The chapter is intentionally short: it just sets up the predicates used by \(\ZetaContUp\) (\autoref{ch:concrete-instances-zeta-continuation}) and \(\ZetaZerosUp\) (\autoref{ch:concrete-instances-zeta-zeros-namecert}). The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter records the finite-unary obstruction boundary for $\CritStripUp$ as predicates on $\ComplexUp$-history. The nominal strip predicate is written with strict unary prefix witnesses between $\emp$ and $\Eone(\emp)$, so the finite carrier exposes an empty open interval rather than a nonempty analytic critical strip. The chapter isolates that obstruction before $\ZetaContUp$ (\autoref{ch:concrete-instances-zeta-continuation}) and $\ZetaZerosUp$ (\autoref{ch:concrete-instances-zeta-zeros-namecert}) consume any strip-shaped interface. The construction is fully constructive and uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so the certificate's Lean targets fall under the project's axiom-purity gate.
 
 \section{The strip and critical-line predicates}
 
@@ -125,6 +125,18 @@ rational carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_not\_empty}
 
+\begin{theorem}[Critical strip complex carrier is empty]
+\label{thm:crit-strip-complex-carrier-empty}
+If $\mathsf{CritStripComplexCarrier}(s,\sigma,\tau)$, then $\bot$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier fields. Its strip field gives the strict unary interval
+witnesses for $\sigma$ between $\emp$ and $\Eone(\emp)$.
+
+Apply \autoref{thm:crit-strip-open-interval-empty-unit-absurd} to those two
+strict-prefix witnesses.
+\end{proof}
+
 \section{Closure laws}
 
 \begin{lemma}[Strip respects \(\hsame\)]
@@ -166,18 +178,31 @@ The stability certificate consists of \(\hsame\)-respect of \(\mathsf{InCritStri
 The ledger policy records: (i) decidability of strip and critical-line membership, (ii) decidability of compact sub-strip predicate, (iii) boundary exclusion witnesses, (iv) closure under \(\hsame\) on inputs.
 \end{definition}
 
-\begin{theorem}[Concrete \(\CritStripUp\) naming certificate]
+\begin{theorem}[Concrete $\CritStripUp$ obstruction-boundary certificate]
 \label{thm:crit-strip-namecert}
-The five fields above form a naming certificate over \(\Hist\) for the critical-strip interface \(\CritStripUp\).
+The five fields above form the finite-unary obstruction-boundary certificate
+over $\Hist$ for the critical-strip interface $\CritStripUp$. The certificate
+records the strict-prefix boundary laws and the emptiness of the finite unary
+complex carrier; it does not certify a nonempty analytic open strip.
 \end{theorem}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+The five fields satisfy the closure laws of the naming-certificate framework
+(\autoref{ch:core-typed-naming-certificates}) after the strip field is read as
+the finite-unary boundary object. The empty-carrier theorem above supplies the
+obstruction side of the certificate. The certificate uses no
+$\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no
+$\mathsf{propext}$, so the certificate's Lean targets fall under the project's
+axiom-purity gate.
 \end{proof}
 
-\begin{theorem}[Semantic \(\CritStripUp\) naming certificate]
+\begin{theorem}[Semantic $\CritStripUp$ obstruction-boundary certificate]
 \label{thm:crit-strip-semantic-namecert}
-The concrete certificate of \autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
+The concrete obstruction-boundary certificate of
+\autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate
+schema of $\NameCert$ (\autoref{ch:core-typed-naming-certificates}) for the
+finite-unary $\CritStripUp$ boundary.
 \end{theorem}
 \begin{proof}[Sketch]
-Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
+Direct verification of the four $\NameCert$ field types using the boundary
+constructions and the empty-carrier theorem of this chapter.
 \end{proof}
