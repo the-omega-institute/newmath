@@ -744,6 +744,7 @@ generated tail-factor witness
 $\mathsf{FieldApartTailFactor}(y,x)$ and the base singleton classifier. This
 produces $\mathsf{ApartZero}_F(x)\Rightarrow\bot$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_singleton\_context\_exclusion}
 
 Per-object template: traditional target finite product zero-factor exclusion
 under hidden singleton contexts; BEDC source $\mathsf{BHist}$, $\ContR$,
@@ -756,48 +757,4 @@ theorem list \autoref{thm:field-singleton-classifier-append-context-cancel} and
 exactness predicate contextual singleton-result rejection; status
 $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Field apart-zero three-tail tail-factor coverage]
-\label{thm:field-apartzero-three-tail-tail-factor-coverage}
-For histories $l,h,r,u,v,q,w,s,z,t,y:\mathsf{BHist}$ with
-$\ContR(l,h,u)$, $\ContR(u,r,v)$, $\ContR(v,q,w)$, $\ContR(w,s,z)$, and
-$\ContR(z,t,y)$, if $l\hsame\emp$ and $r\hsame\emp$, then
-$$
-\mathsf{FieldApartTailFactor}(y,h)
-\land
-\mathsf{FieldApartTailFactor}(y,q)
-\land
-\mathsf{FieldApartTailFactor}(y,s)
-\land
-\mathsf{FieldApartTailFactor}(y,t).
-$$
-\end{theorem}
-\begin{proof}
-We first build the hidden initial factor. The initial tail-factor constructor
-applied to $\ContR(l,h,u)$, $\ContR(u,r,v)$, $l\hsame\emp$, and
-$r\hsame\emp$ gives $\mathsf{FieldApartTailFactor}(v,h)$. Carry this witness
-successively across $\ContR(v,q,w)$, $\ContR(w,s,z)$, and $\ContR(z,t,y)$ by
-the carried-tail constructor to obtain $\mathsf{FieldApartTailFactor}(y,h)$.
-
-Next expose the $q$ factor at the first continuation after the initial
-empty-context block. The exposed-factor constructor applied to
-$\ContR(v,q,w)$ gives $\mathsf{FieldApartTailFactor}(w,q)$. Carry it across
-$\ContR(w,s,z)$ and $\ContR(z,t,y)$ to obtain
-$\mathsf{FieldApartTailFactor}(y,q)$.
-
-The $s$ factor is exposed in the same generated spine at the next step.
-Apply the exposed-factor constructor to $\ContR(w,s,z)$, giving
-$\mathsf{FieldApartTailFactor}(z,s)$, and then carry this witness across
-$\ContR(z,t,y)$ to obtain $\mathsf{FieldApartTailFactor}(y,s)$.
-
-Finally, apply the exposed-factor constructor directly to $\ContR(z,t,y)$.
-This gives $\mathsf{FieldApartTailFactor}(y,t)$. Pair the four generated
-witnesses in the displayed order.
-\end{proof}
-
-Per-object template: traditional target finite product factor coverage; BEDC
-source $\mathsf{BHist}$, $\ContR$, and $\mathsf{FieldApartTailFactor}$;
-carrier generated tail-factor witnesses; classifier $\hsame$; ledger the
-exposed factors $h,q,s,t$; core theorem this block plus
-\autoref{thm:field-apartzero-finite-tail-contextual-singleton-result-exclusion};
-exactness predicate factor coverage for generated exclusion; status
-$\mathsf{ProofTarget}$.
+\input{parts/concrete_instances/field/20_field_tail_factor_coverage.tex}

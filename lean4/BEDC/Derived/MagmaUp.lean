@@ -27,4 +27,28 @@ theorem concrete_unary_history_magma_cont_laws :
       cont_respects_hsame classifiedH.right.right classifiedK.right.right hcont hcont'
     exact And.intro unaryR (And.intro unaryR' sameR)
 
+theorem concrete_unary_history_magma_classifier_stability :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    (∀ {h : BHist}, Carrier h -> Classifier h h) ∧
+      (∀ {h k : BHist}, Classifier h k -> Classifier k h) ∧
+        (∀ {h k l : BHist}, Classifier h k -> Classifier k l -> Classifier h l) ∧
+          (∀ {h k : BHist}, Classifier h k -> Carrier h ∧ Carrier k) := by
+  dsimp
+  constructor
+  · intro h carrierH
+    exact And.intro carrierH (And.intro carrierH (hsame_refl h))
+  · constructor
+    · intro h k classified
+      exact And.intro classified.right.left
+        (And.intro classified.left (hsame_symm classified.right.right))
+    · constructor
+      · intro h k l classifiedHK classifiedKL
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKL.right.left
+            (hsame_trans classifiedHK.right.right classifiedKL.right.right))
+      · intro h k classified
+        exact And.intro classified.left classified.right.left
+
 end BEDC.Derived.MagmaUp
