@@ -402,10 +402,13 @@ import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
+import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
+import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.YonedaUp
 import BEDC.Derived.InterHist
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
