@@ -116,4 +116,19 @@ theorem GeomBound_semanticNameCert {a : Nat -> BHist} {r K : BHist}
       exact source
   }
 
+theorem GeomBound_coeff_classifier_append_unary_closed {a b : Nat -> BHist} {r K q : BHist} :
+    (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> GeomBound a r K ->
+      UnaryHistory q -> GeomBound (fun n : Nat => append (b n) q) r K := by
+  intro classified bound qUnary
+  exact And.intro bound.left
+    (And.intro bound.right.left
+      (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (classified n).right.left qUnary))
+
+theorem GeomBound_append_unary_coeff_closed {a : Nat -> BHist} {r K q : BHist} :
+    GeomBound a r K -> UnaryHistory q -> GeomBound (fun n : Nat => append (a n) q) r K := by
+  intro bound qUnary
+  exact And.intro bound.left
+    (And.intro bound.right.left
+      (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (bound.right.right n) qUnary))
+
 end BEDC.Derived.ConvergenceRadiusUp

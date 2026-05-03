@@ -355,6 +355,7 @@ import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
 import BEDC.Derived.CategoryUp.NonemptyMorphismEndpointCases
 import BEDC.Derived.CategoryUp.NonemptyMorphismTargetVisible
 import BEDC.Derived.CategoryUp.E1NonemptyMorphismUnique
+import BEDC.Derived.CategoryUp.E1PayloadDeterminism
 import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.CategoryUp.TailCommCongr

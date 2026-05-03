@@ -149,6 +149,40 @@ By \autoref{lem:geom-bound-majorant}: pick a rational \(r\) with \(|z - z_0| < r
 
 \section{Closure laws}
 
+\begin{lemma}[Geometric bound classifier append-unary closure]
+\label{thm:geom-bound-coeff-classifier-append-unary-closed}
+If coefficient families $a$ and $b$ are pointwise classified as complex
+histories, $\mathsf{GeomBound}(a,r,K)$ holds, and $q$ is unary, then appending
+$q$ to every displayed $b_n$ preserves the same geometric-bound radius and
+constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(b_n,q),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Each classifier row exposes the target coefficient $b_n$ as a complex-history
+carrier. Complex-history carriers are closed under append of a unary suffix, so
+each appended coefficient remains in the carrier. The radius and constant
+unary witnesses are the ones already carried by $\mathsf{GeomBound}(a,r,K)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_coeff\_classifier\_append\_unary\_closed}
+
+\begin{lemma}[Geometric bound append-unary coefficient closure]
+\label{thm:geom-bound-append-unary-coeff-closed}
+If $\mathsf{GeomBound}(a,r,K)$ holds and $q$ is unary, then appending $q$ to
+every coefficient preserves the same radius and constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(a_n,q),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{GeomBound}(a,r,K)$ into its unary radius witness, unary constant
+witness, and coefficient carrier family. Apply complex-history carrier
+append-unary closure pointwise to each coefficient and keep the same radius and
+constant witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_append\_unary\_coeff\_closed}
+
 \begin{lemma}[Differentiation preserves radius]
 \label{lem:diff-preserves-radius}
 If \(\mathsf{ConvRad}(a, R)\), then the term-wise derivative coefficients \(b_n = (n+1) \cdot a_{n+1}\) satisfy \(\mathsf{ConvRad}(b, R)\) with the same radius and an explicit constant adjustment.
