@@ -330,6 +330,26 @@ left component contradicts apart-zero of $p$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_empty\_iff}
 
+\begin{theorem}[Field apart-zero append left-empty exactness]
+\label{thm:field-apartzero-append-left-empty-iff}
+For histories $p,q:\mathsf{BHist}$ with $p\hsame\emp$, appended apart-zero
+is exactly apart-zero of the right factor:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longleftrightarrow
+\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $q\hsame\emp$. Together with
+$p\hsame\emp$, empty-append exactness gives
+$\mathsf{append}(p,q)\hsame\emp$, contradicting appended apart-zero. For the
+reverse implication, any equality
+$\mathsf{append}(p,q)\hsame\emp$ splits by empty-append exactness, and the
+right component contradicts apart-zero of $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_left\_empty\_iff}
+
 \begin{theorem}[Field apart-zero append visible-headed]
 \label{thm:field-apartzero-append-visible-headed}
 For histories $p,q:\mathsf{BHist}$, appending any suffix to a visible-headed

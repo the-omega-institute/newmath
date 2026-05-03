@@ -75,6 +75,27 @@ hom-carrier ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor}
 
+\begin{theorem}[Category hom carrier composition right factor exactness]
+\label{thm:category-hom-carrier-comp-right-factor-iff}
+For the unary-continuation category, suppose \(f\) is a hom-carrier from \(a\)
+to \(b\), and \(fg\) is displayed as a hom-carrier from \(a\) to \(c\). Then
+the proposed right factor \(g\) is a hom-carrier from \(b\) to \(c\) exactly
+when it composes with \(f\) to the displayed morphism:
+$$
+\mathsf{CategoryHomCarrier}(b,c,g)
+\Longleftrightarrow
+\ContR(f,g,fg).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication compares the two endpoint continuations
+\(\ContR(a,f,b)\) and \(\ContR(b,g,c)\) with the displayed continuation
+\(\ContR(a,fg,c)\). Composite-tail uniqueness cancels the common source and
+recovers \(\ContR(f,g,fg)\). The reverse implication is the right-factor
+recovery theorem applied to the displayed composite.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_factor\_iff}
+
 \begin{theorem}[Category hom carrier canonical middle factorization]
 \label{thm:category-hom-carrier-comp-canonical-middle-iff}
 For the unary-continuation category, if $\ContR(f,g,fg)$, then a displayed
@@ -168,6 +189,26 @@ theorem recovers \(\ContR(a,f,b)\). These fields assemble the hom-carrier from
 \(a\) to \(b\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor}
+
+\begin{theorem}[Category hom carrier composition left factor exactness]
+\label{thm:category-hom-carrier-comp-left-factor-iff}
+For the unary-continuation category, suppose \(g\) is a hom-carrier from \(b\)
+to \(c\), and \(fg\) is displayed as a hom-carrier from \(a\) to \(c\). Then
+the proposed left factor \(f\) is a hom-carrier from \(a\) to \(b\) exactly
+when it composes with \(g\) to the displayed morphism:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\Longleftrightarrow
+\ContR(f,g,fg).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication compares \(\ContR(a,f,b)\) and \(\ContR(b,g,c)\)
+with the displayed continuation \(\ContR(a,fg,c)\). Composite-tail uniqueness
+recovers the tail equation \(\ContR(f,g,fg)\). The reverse implication is the
+left-factor recovery theorem applied to the displayed composite.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_left\_factor\_iff}
 
 \begin{theorem}[Category hom carrier composition left factor public readback]
 \label{thm:category-hom-carrier-comp-left-factor-public-readback}

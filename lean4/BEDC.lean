@@ -287,6 +287,7 @@ import BEDC.Derived.CategoryUp.ContinuationCertificate
 import BEDC.Derived.CategoryUp.TailCommClosed
 import BEDC.Derived.CategoryUp.CompDeterminism
 import BEDC.Derived.CategoryUp.CompTailExact
+import BEDC.Derived.CategoryUp.CompFactorIff
 import BEDC.Derived.CategoryUp.EndpointMiddleDeterminism
 import BEDC.Derived.CategoryUp.EmptyMorphism
 import BEDC.Derived.CategoryUp.EmptyComposite

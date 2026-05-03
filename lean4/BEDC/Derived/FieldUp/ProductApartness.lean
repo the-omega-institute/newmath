@@ -143,6 +143,15 @@ theorem FieldApartZero_append_right_empty_iff {p q : BHist}
   · intro pApart appendEmpty
     exact pApart (append_eq_empty_iff.mp appendEmpty).left
 
+theorem FieldApartZero_append_left_empty_iff {p q : BHist}
+    (pEmpty : hsame p BHist.Empty) :
+    FieldApartZero (append p q) <-> FieldApartZero q := by
+  constructor
+  · intro appendApart qEmpty
+    exact appendApart (append_eq_empty_iff.mpr (And.intro pEmpty qEmpty))
+  · intro qApart appendEmpty
+    exact qApart (append_eq_empty_iff.mp appendEmpty).right
+
 theorem FieldApartZero_append_visible_headed {p q : BHist} :
     FieldApartZero (append (BHist.e0 p) q) ∧
       FieldApartZero (append (BHist.e1 p) q) := by
