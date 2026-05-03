@@ -38,4 +38,61 @@ theorem MonadAdjunctionEndomorphism_parallel_triangle_suffix_same
     hsame_trans triangleEmpty.left (hsame_symm triangleEmpty.right)
   exact cont_respects_hsame sameSource (hsame_refl suffix) leftCont rightCont
 
+theorem MonadAdjunctionEndomorphism_middle_between_unit_counit_empty
+    {p a unit counit left right bridge : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont unit bridge counit -> hsame bridge BHist.Empty := by
+  intro carrier bridgeCont
+  have unitEmpty : hsame unit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.left).right.right.right
+  have counitEmpty : hsame counit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.right.left).right.right.right
+  cases unitEmpty
+  cases counitEmpty
+  exact (cont_empty_result_inversion bridgeCont).right
+
+theorem MonadAdjunctionEndomorphism_middle_between_counit_unit_empty
+    {p a unit counit left right bridge : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont counit bridge unit -> hsame bridge BHist.Empty := by
+  intro carrier bridgeCont
+  have unitEmpty : hsame unit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.left).right.right.right
+  have counitEmpty : hsame counit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.right.left).right.right.right
+  cases unitEmpty
+  cases counitEmpty
+  exact (cont_empty_result_inversion bridgeCont).right
+
+theorem MonadAdjunctionEndomorphism_triangle_composite_empty
+    {p a unit counit left right composite : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right -> Cont left right composite ->
+      hsame composite BHist.Empty := by
+  intro carrier compositeRel
+  have triangleEmpty :=
+    MonadAdjunctionEndomorphism_triangle_results_empty carrier
+  exact cont_respects_hsame triangleEmpty.left triangleEmpty.right compositeRel
+    (cont_right_unit BHist.Empty)
+
+theorem MonadAdjunctionEndomorphism_unit_counit_triangle_empty
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧
+        hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro carrier
+  have unitEmpty : hsame unit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.left).right.right.right
+  have counitEmpty : hsame counit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.right.left).right.right.right
+  have triangleEmpty :
+      hsame left BHist.Empty ∧ hsame right BHist.Empty :=
+    MonadAdjunctionEndomorphism_triangle_results_empty carrier
+  exact And.intro unitEmpty (And.intro counitEmpty triangleEmpty)
+
 end BEDC.Derived.MonadUp

@@ -88,9 +88,25 @@ theorem GroupSingletonClassifier_two_sided_contextual_coverage_iff {L R L' R' Q 
   exact Iff.trans
     (GroupSingletonClassifier_right_context_cancel_iff (L := L') (R := R')
       (Q := append L Q) (S := append R S) carrierL' carrierR')
-    (Iff.trans
-      (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
-        (Q := Q) (S := S) carrierL carrierR)
-      (GroupSingleton_terminal_classifier_package.left Q S))
+      (Iff.trans
+        (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+          (Q := Q) (S := S) carrierL carrierR)
+        (GroupSingleton_terminal_classifier_package.left Q S))
+
+theorem GroupSingletonClassifier_two_sided_contextual_carrier_coverage_iff
+    {L R Lp Rp Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      (GroupSingletonClassifier (append (append L Q) Lp) (append (append R S) Rp) <->
+        GroupSingletonCarrier Q ∧ GroupSingletonCarrier S) := by
+  intro carrierL carrierR carrierLp carrierRp
+  have suffixCancel :=
+    GroupSingletonClassifier_append_suffix_cancel_iff (P := append L Q) (R := Lp)
+      (Q := append R S) (S := Rp) carrierLp carrierRp
+  have prefixCancel :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := Q) (S := S) carrierL carrierR
+  exact Iff.trans suffixCancel
+    (Iff.trans prefixCancel (GroupSingleton_terminal_classifier_package.left Q S))
 
 end BEDC.Derived.GroupUp
