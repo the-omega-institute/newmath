@@ -40,6 +40,28 @@ theorem AutomorphicAdeleGraph_visible_context_nonempty {p q domain value graph :
     (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
   exact AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier baseGraph graphEmpty
 
+theorem AutomorphicAdeleGraph_visible_context_core_deterministic_nonempty
+    {p q domain value core core' : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p core) q) ->
+      Cont (append p domain) (append value q) (append (append p core') q) ->
+        hsame core core' ∧ (hsame core BHist.Empty -> False) ∧
+          (hsame core' BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleCore visibleCore'
+  have rightPeeled : Cont (append p domain) value (append p core) :=
+    (cont_suffix_iff (a := append p domain) (b := append p core) (f := value)
+      (p := q)).mp visibleCore
+  have rightPeeled' : Cont (append p domain) value (append p core') :=
+    (cont_suffix_iff (a := append p domain) (b := append p core') (f := value)
+      (p := q)).mp visibleCore'
+  have coreCont : Cont domain value core :=
+    (cont_prefix_iff (p := p) (a := domain) (b := core) (f := value)).mp rightPeeled
+  have coreCont' : Cont domain value core' :=
+    (cont_prefix_iff (p := p) (a := domain) (b := core') (f := value)).mp rightPeeled'
+  exact And.intro (cont_deterministic coreCont coreCont')
+    (And.intro (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont)
+      (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont'))
+
 theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value graph : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
       Cont (append p domain) (append value q) (append (append p graph) q) ->
