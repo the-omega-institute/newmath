@@ -1,5 +1,6 @@
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.EmptyMap
+import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.FKernel.Cont.Cancellation
@@ -238,5 +239,14 @@ theorem ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
       (MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
         (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
     exact And.intro functionCarrier distanceWitness
+
+theorem ContinuousMapFunctionCarrier_metric_graph_exactness
+    {source map target modulus cert dist : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert ->
+      MetricDistanceWitness source map dist -> Cont source map target ∧ hsame dist target := by
+  intro functionCarrier metricWitness
+  have readback :=
+    ContinuousFunctionCarrier_graph_modulus_cont_readback functionCarrier
+  exact And.intro readback.left (cont_deterministic metricWitness.right.right.right readback.left)
 
 end BEDC.Derived.ContinuousMapUp

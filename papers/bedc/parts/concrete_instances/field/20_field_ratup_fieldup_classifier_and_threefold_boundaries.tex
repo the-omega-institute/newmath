@@ -216,6 +216,30 @@ the endpoints by transitivity through $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_classifier}
 
+\begin{theorem}[Field singleton neg context continuation classifier]
+\label{thm:field-singleton-neg-context-continuation-classifier}
+For histories $L,R,L',R',a,a',out,out':\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$, $\mathsf{FieldSingletonCarrier}(R)$,
+$\mathsf{FieldSingletonCarrier}(L')$, and
+$\mathsf{FieldSingletonCarrier}(R')$, if
+$$
+\mathsf{Cont}(\mathsf{append}(L,\mathsf{FieldSingletonNeg}(a)),R,out)
+$$
+and
+$$
+\mathsf{Cont}(\mathsf{append}(L',\mathsf{FieldSingletonNeg}(a')),R',out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+The singleton negation endpoint is definitionally $\emp$. Each left context
+therefore remains an empty carrier after appending the negation endpoint. With
+the matching right context carrier, singleton continuation closure makes both
+outputs empty-carrier histories. The classifier follows by transitivity through
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonNeg\_context\_continuation\_classifier}
+
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and

@@ -246,6 +246,7 @@ import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.SingletonOperationContext
 import BEDC.Derived.FieldUp.SingletonAddMulContext
 import BEDC.Derived.FieldUp.SingletonAddNegZeroContextContinuation
+import BEDC.Derived.FieldUp.SingletonNegContextContinuationClassifier
 import BEDC.Derived.FieldUp.SingletonCarrierPartition
 import BEDC.Derived.FieldUp.SingletonContextBoundary
 import BEDC.Derived.FieldUp.SingletonAppendContextVisibleMiddle

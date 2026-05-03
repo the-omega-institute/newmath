@@ -338,6 +338,30 @@ standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_target\_cert\_deterministic}
 
+\begin{theorem}[ContinuousMap function carrier metric graph exactness]
+\label{thm:continuousmap-function-carrier-metric-graph-exactness}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$, if
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+$$
+and
+$$
+\mathsf{MetricDistanceWitness}(source,map,dist)
+$$
+both hold, then the carrier exposes the graph continuation and the metric
+distance endpoint is exactly the same history as the graph target:
+$$
+\mathsf{Cont}(source,map,target)\land \hsame(dist,target).
+$$
+\end{theorem}
+\begin{proof}
+Read back the continuous-function carrier to obtain its graph continuation
+$\mathsf{Cont}(source,map,target)$. The metric witness supplies the continuation
+$\mathsf{Cont}(source,map,dist)$ over the same source and map. Continuation
+determinacy identifies the two endpoints, giving $\hsame(dist,target)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapFunctionCarrier\_metric\_graph\_exactness}
+
 \begin{theorem}[Continuous function carrier composite public readback]
 \label{thm:continuous-function-carrier-comp-public-readback}
 If two continuous-function carriers compose through $fg$ and $modFG$, and a

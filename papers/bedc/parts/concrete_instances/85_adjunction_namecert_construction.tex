@@ -183,3 +183,30 @@ Unary continuation closure supplies the component carriers for $left$ and
 $right$, and transitivity through the empty history gives $\hsame(left,right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_endomorphism\_triangle\_component\_closed}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle identity exactness]
+\label{thm:adjunction-prefix-endomorphism-triangle-identity-exactness}
+For histories $p,a,f,\eta,\epsilon,left,right:\mathsf{BHist}$, assume
+$\eta$ and $\epsilon$ are prefix natural-transformation components from
+$p$ to $p$ at $a$, and assume $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to itself. If
+$$
+\mathsf{Cont}(\eta,f,left)
+$$
+and
+$$
+\mathsf{Cont}(f,\epsilon,right)
+$$
+hold, then both triangle composites are exactly the displayed endomorphism:
+$$
+\hsame(left,f)\land\hsame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+The prefix-component endomorphism exactness theorem identifies both
+$\eta$ and $\epsilon$ with the empty component. Transport the two displayed
+continuations across these endpoint equalities. The left composite is then a
+left-unit continuation, and the right composite is a right-unit continuation,
+so the two unit laws identify the results with $f$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixEndomorphismTriangle\_identity\_exactness}

@@ -1,9 +1,11 @@
+import BEDC.Derived.CategoryUp
 import BEDC.Derived.NatTransUp
 
 namespace BEDC.Derived.AdjunctionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.Derived.CategoryUp
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatTransUp
 
@@ -211,5 +213,25 @@ theorem AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic
       (p := right) (q := left) (a := object)).mp carrier.right.left
   exact hsame_trans leftPrefixData.right.right.right
     (hsame_trans rightPrefixData.right.right.right leftPrefixData.right.right.right)
+
+theorem AdjunctionPrefixEndomorphismTriangle_identity_exactness
+    {p a f eta eps left right : BHist} :
+    NatTransPrefixComponentCarrier p p a eta ->
+      NatTransPrefixComponentCarrier p p a eps ->
+        CategoryHomCarrier (append p a) (append p a) f ->
+          Cont eta f left -> Cont f eps right -> hsame left f ∧ hsame right f := by
+  intro etaCarrier epsCarrier _homCarrier leftContinuation rightContinuation
+  have etaEmpty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp etaCarrier).right.right.right
+  have epsEmpty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp epsCarrier).right.right.right
+  have leftEmpty : Cont BHist.Empty f left := by
+    cases etaEmpty
+    exact leftContinuation
+  have rightEmpty : Cont f BHist.Empty right := by
+    cases epsEmpty
+    exact rightContinuation
+  exact And.intro (cont_left_unit_result leftEmpty)
+    (cont_deterministic rightEmpty (cont_right_unit f))
 
 end BEDC.Derived.AdjunctionUp
