@@ -86,4 +86,10 @@ theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail 
         resultEmpty
     exact not_hsame_e1_empty emptyParts.left
 
+theorem PadicPrimeScale_empty_exponent_result_empty {p exponent : BHist} :
+    NatPrime p -> hsame exponent BHist.Empty -> PadicPrimeScale p exponent BHist.Empty := by
+  intro prime exponentEmpty
+  cases exponentEmpty
+  exact And.intro prime (NatMul.zero prime.left)
+
 end BEDC.Derived.PadicUp
