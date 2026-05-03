@@ -60,6 +60,27 @@ Collecting these conclusions gives the stated determinacy package.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_prefix\_determinacy}
 
+\begin{theorem}[Equivalence empty roundtrip zero-source exclusion]
+\label{thm:equivcat-adjunction-empty-roundtrip-zero-source-absurd}
+For histories $tail,q,a,unit,counit,left,right:\mathsf{BHist}$, no
+adjunction unit-counit carrier can start its first prefix source with
+$\Ezero(tail)$ while both displayed roundtrip results classify to $\emp$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (\Ezero(tail),q,a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem extracts the displayed empty natural
+transformation prefix component out of the zero-headed source. The
+zero-headed component exclusion for natural transformations contradicts this
+component by exposing the visible zero constructor at the source head.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_zero\_source\_absurd}
+
 \begin{theorem}[EquivCat empty roundtrip target-prefix determinacy]
 \label{thm:equivcat-adjunction-empty-roundtrip-target-prefix-deterministic}
 For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
