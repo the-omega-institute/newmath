@@ -154,3 +154,65 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 $\ModuleUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{definition}[Dual-number parity action]
+\label{def:dual-number-parity-action}
+Let
+$$
+R:=\mathbb F_2[\epsilon]/(\epsilon^2),\qquad M:=\mathbb F_2.
+$$
+Write every scalar of $R$ uniquely as $a+b\epsilon$ with $a,b\in\mathbb F_2$. Define
+$$
+\chi(a+b\epsilon):=a+b
+$$
+and define the scalar action $\star:R\times M\to M$ by
+$$
+r\star m:=\chi(r)m.
+$$
+Equivalently,
+$$
+\chi(0)=0,\qquad \chi(1)=1,\qquad \chi(\epsilon)=1,
+\qquad \chi(1+\epsilon)=0.
+$$
+\end{definition}
+
+\begin{proposition}[Module associativity boundary for additive unit action laws]
+\label{prop:module-associativity-boundary-additive-unit-action-laws}
+For the action of \autoref{def:dual-number-parity-action}, the scalar ring $R$ satisfies the ordinary ring fields used in \autoref{ch:concrete-instances-ring-namecert}, the carrier $M$ satisfies the additive abelian-group fields used in \autoref{ch:concrete-instances-abgroup-namecert}, and equality classifiers make scalar-action congruence immediate. The action also satisfies scalar distributivity over module addition, scalar distributivity over ring addition, and the scalar unit law. It does not satisfy scalar associativity. Hence the scalar associativity item in \autoref{def:module-stability-certificate} is not forced by the remaining additive, congruence, and unit action fields.
+\end{proposition}
+\begin{proof}
+The ring $R$ is the four-element quotient ring with elements $0,1,\epsilon,1+\epsilon$ and relation $\epsilon^2=0$. The carrier $M=\mathbb F_2$ is an additive abelian group. With equality as classifier, scalar-action congruence says that equal scalar and module inputs have equal action outputs, which follows directly from $r\star m=\chi(r)m$.
+
+For scalar distributivity over module addition, let $r\in R$ and $m,n\in M$. Since $\chi(r)\in\mathbb F_2$ and multiplication in $\mathbb F_2$ distributes over addition,
+$$
+r\star(m+n)=\chi(r)(m+n)=\chi(r)m+\chi(r)n=(r\star m)+(r\star n).
+$$
+
+For scalar distributivity over ring addition, write $r=a+b\epsilon$ and $s=c+d\epsilon$. Then
+$$
+\chi(r+s)=\chi((a+c)+(b+d)\epsilon)=a+c+b+d=(a+b)+(c+d)=\chi(r)+\chi(s),
+$$
+with all sums in $\mathbb F_2$. Therefore, for every $m\in M$,
+$$
+(r+s)\star m=\chi(r+s)m=(\chi(r)+\chi(s))m=\chi(r)m+\chi(s)m=(r\star m)+(s\star m).
+$$
+
+The scalar unit law follows from $\chi(1)=1$:
+$$
+1\star m=\chi(1)m=m.
+$$
+
+Scalar associativity fails at $r=s=\epsilon$ and $m=1$. Since $\epsilon^2=0$ in $R$,
+$$
+(\epsilon\epsilon)\star 1=0\star 1=\chi(0)1=0.
+$$
+On the other hand,
+$$
+\epsilon\star(\epsilon\star 1)=\epsilon\star(\chi(\epsilon)1)=\epsilon\star 1=\chi(\epsilon)1=1.
+$$
+Thus
+$$
+(\epsilon\epsilon)\star 1\neq \epsilon\star(\epsilon\star 1),
+$$
+so scalar associativity is a separate stability requirement for $\ModuleUp$.
+\end{proof}
