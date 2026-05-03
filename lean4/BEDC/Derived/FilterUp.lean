@@ -45,6 +45,32 @@ theorem FilterPrincipalSuffix_unary_intersection_result_deterministic
       baseCarrier leftCarrier rightCarrier leftRight baseLeft baseRight baseMeet
   exact cont_deterministic closed.right.right displayedRel
 
+theorem FilterPrincipalSuffix_unary_commuting_square
+    {base left right leftPoint rightPoint lrPoint rlPoint : BHist} :
+    UnaryHistory left -> UnaryHistory right -> Cont base left leftPoint ->
+      Cont base right rightPoint -> Cont leftPoint right lrPoint ->
+        Cont rightPoint left rlPoint -> hsame lrPoint rlPoint := by
+  intro leftCarrier rightCarrier baseLeft baseRight leftThenRight rightThenLeft
+  cases baseLeft
+  cases baseRight
+  cases leftThenRight
+  cases rightThenLeft
+  exact hsame_trans (append_assoc base left right)
+    (hsame_trans
+      (congrArg (fun tail => append base tail)
+        (unary_append_comm leftCarrier rightCarrier))
+      (hsame_symm (append_assoc base right left)))
+
+theorem FilterPrincipalSuffix_unary_intersection_commuted_meet_closed
+    {base left right meet meetPoint : BHist} :
+    UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont base meet meetPoint ->
+      Cont base (append right left) meetPoint := by
+  intro leftCarrier rightCarrier leftRight baseMeet
+  cases baseMeet
+  cases leftRight
+  exact cont_intro (congrArg (fun tail => append base tail)
+    (unary_append_comm leftCarrier rightCarrier))
+
 theorem FilterPrincipalSuffix_unary_intersection_zero_result_absurd
     {base left right meet leftPoint rightPoint z : BHist} :
     UnaryHistory base -> UnaryHistory left -> UnaryHistory right -> Cont left right meet ->
