@@ -123,6 +123,28 @@ This is the left-context companion to the right-cancellation law
 \autoref{thm:field-rat-denominator-empty-unit-right-cancellation} inside the
 concrete empty-unit denominator boundary.
 
+\begin{theorem}[Rat denominator unit classifier append-context cancellation]
+\label{thm:rat-denom-unit-classifier-append-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if $R_D^u(L,R)$, then appending the
+classified suffixes $L$ and $R$ preserves and reflects the empty-unit
+denominator classifier:
+$$
+R_D^u(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow R_D^u(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the displayed classifier. Product-carrier
+factorization gives carried witnesses for $Q$ and $S$. The suffix classifier
+gives $L\hsame R$, so the right displayed endpoint can be transported to the
+common suffix $L$; right append cancellation then gives $Q\hsame S$.
+
+For the reverse direction, classifier closure under continuation appends the
+two carried suffix witnesses to the two carried endpoints. The endpoint
+classifier and suffix classifier identify the two appended histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_context\_cancel\_iff}
+
 \begin{definition}[Rat denominator empty-unit bilateral multiplication context]
 \label{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
 For carried contexts $l,r:\mathsf{BHist}$ with $C_D^u(l)$ and $C_D^u(r)$, define

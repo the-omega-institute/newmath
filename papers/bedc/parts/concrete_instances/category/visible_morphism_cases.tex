@@ -102,6 +102,24 @@ equalities gives the displayed target-specific composite carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_target\_cases}
 
+\begin{theorem}[Category hom-carrier visible composite result is not empty]
+\label{thm:category-hom-carrier-visible-composite-result-not-empty}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then $fg$ cannot be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Invert the displayed continuation ledger. The result is definitionally
+$\mathsf{append}(\Eone(l),\Eone(m))$, hence one-headed. Constructor
+no-confusion rejects any $\HSame$ comparison between that one-headed result and
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_not\_empty}
+
 \begin{theorem}[Continuation morphism composite visible tails result cases]
 \label{thm:continuation-morphism-comp-visible-tails-result-cases}
 For histories $a,b,c,l,m$, let
@@ -122,6 +140,23 @@ one-headed. Choose the exposed payload append as $k$; the remaining continuation
 ledger is the canonical append continuation from $\Eone(l)$ through $m$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_cases}
+
+\begin{theorem}[Continuation morphism visible-tail composite result is not empty]
+\label{thm:continuation-morphism-visible-tail-composite-not-empty}
+For histories $a,b,c,l,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the two displayed tails are
+$\hsame(\mathsf{tail}(left),\Eone(l))$ and
+$\hsame(\mathsf{tail}(right),\Eone(m))$, then the closed composite tail cannot
+be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and substitute the visible-tail
+equalities. The closed composite tail is the append of two one-headed tails,
+which is itself one-headed. BEDC constructor separation rules out an internal
+history sameness proof from this one-headed tail to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_visible\_tails\_result\_not\_empty}
 
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}

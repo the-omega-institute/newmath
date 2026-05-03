@@ -470,9 +470,16 @@ theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : B
   intro left right comp
   cases comp
   exact Exists.intro (append (BHist.e1 l) m)
-    (And.intro rfl
-      (And.intro (cont_intro rfl)
-        (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
+      (And.intro rfl
+        (And.intro (cont_intro rfl)
+          (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
+
+theorem CategoryHomCarrier_comp_visible_morphisms_result_not_empty {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg -> hsame fg BHist.Empty -> False := by
+  intro _left _right comp resultEmpty
+  cases comp
+  exact not_hsame_e1_empty resultEmpty
 
 theorem CategoryHomCarrier_comp_visible_morphisms_result_target_cases {a b c l m fg : BHist} :
     CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->

@@ -92,4 +92,28 @@ theorem RatDenomUnitCarrier_append_factor_carriers {h k : BHist} :
                       (RatHistoryCarrier_iff_positive_denominator.mpr
                         (PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary))
 
+theorem RatDenomUnitClassifier_append_context_cancel_iff {L R Q S : BHist} :
+    RatDenomUnitClassifier L R ->
+      (RatDenomUnitClassifier (append Q L) (append S R) <->
+        RatDenomUnitClassifier Q S) := by
+  intro suffixClassified
+  constructor
+  · intro classified
+    have leftFactors := RatDenomUnitCarrier_append_factor_carriers classified.left
+    have rightFactors := RatDenomUnitCarrier_append_factor_carriers classified.right.left
+    have sameRightSuffix : hsame (append S R) (append S L) :=
+      hsame_symm (congrArg (append S) suffixClassified.right.right)
+    have sameWithSharedSuffix : hsame (append Q L) (append S L) :=
+      hsame_trans classified.right.right sameRightSuffix
+    exact ⟨leftFactors.left, rightFactors.left, append_right_cancel sameWithSharedSuffix⟩
+  · intro classified
+    have leftCarrier : RatDenomUnitCarrier (append Q L) :=
+      RatDenomUnitCarrier_continuation_closed classified.left suffixClassified.left (cont_intro rfl)
+    have rightCarrier : RatDenomUnitCarrier (append S R) :=
+      RatDenomUnitCarrier_continuation_closed classified.right.left suffixClassified.right.left
+        (cont_intro rfl)
+    cases classified.right.right
+    cases suffixClassified.right.right
+    exact ⟨leftCarrier, rightCarrier, hsame_refl (append Q L)⟩
+
 end BEDC.Derived.FieldUp
