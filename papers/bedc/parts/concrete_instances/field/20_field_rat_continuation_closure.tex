@@ -239,6 +239,28 @@ with this comparison assemble the target classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_right\_closed}
 
+\begin{theorem}[Rat history classifiers are left-closed under continuation]
+\label{thm:rat-history-classifier-continuation-left-closed}
+For all histories $e,d,d',r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(e)$, $\mathsf{RatHistoryClassifier}(d,d')$,
+$\Cont(e,d,r)$, and $\Cont(e,d',r')$, then
+$\mathsf{RatHistoryClassifier}(r,r')$.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into carrier witnesses for $d$ and
+$d'$, together with the comparison $d\hsame d'$. The carrier closure theorem
+applies to the two displayed continuations with the shared left carrier $e$,
+giving $\mathsf{RatHistoryCarrier}(r)$ and
+$\mathsf{RatHistoryCarrier}(r')$.
+
+Continuation respects internal sameness on both endpoints. Use reflexivity
+$e\hsame e$ for the shared left context and the classifier comparison
+$d\hsame d'$ for the right endpoints. The resulting $r\hsame r'$ comparison,
+with the two result carriers, is exactly the rational history classifier for
+the displayed continuation results.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_left\_closed}
+
 \begin{theorem}[Rat denominator ledgers are closed under matching continuations]
 \label{thm:field-rat-denominator-continuation-ledger-closure}
 For all histories $\rho,v,u,u',r,s:\mathsf{BHist}$, if

@@ -252,6 +252,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatDenomUnitProductNonemptyComm
 import BEDC.Derived.FieldUp.RatDenomUnitContextualProduct
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContinuationLeftClosed
 import BEDC.Derived.FieldUp.RatContinuationTail
 import BEDC.Derived.FieldUp.RatContinuationE1LeftUnitLawAbsurd
 import BEDC.Derived.FieldUp.RatContinuationVisibleLeftUnitLawAbsurd
