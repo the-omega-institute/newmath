@@ -59,3 +59,24 @@ kernel result-transport theorem for $\Cont$.
 
 \section{The certificate}
 \label{sec:eigen-certificate}
+
+\begin{definition}[Eigen singleton classifier]
+\label{def:eigen-singleton-classifier}
+Two histories $p,q:\mathsf{BHist}$ are classified by the singleton eigen
+interface when both lie in the singleton eigen carrier and $p\hsame q$.
+\end{definition}
+\leandef{BEDC.Derived.EigenUp.EigenSingletonClassifier}
+
+\begin{theorem}[Eigen singleton semantic name certificate]
+\label{thm:eigen-singleton-semantic-namecert}
+The singleton eigen carrier, equipped with the carrier-restricted
+$\hsame$ classifier above, satisfies the semantic naming-certificate schema.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by the displayed empty eigen pair: empty linear-map
+history, empty determinant history, empty vector history, and the empty
+continuation endpoint. Reflexivity, symmetry, and transitivity are inherited
+from $\hsame$, with carrier membership retained in the classifier fields.
+Pattern and ledger soundness are the identity inclusions on the same carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.eigen\_singleton\_semantic\_name\_certificate}
