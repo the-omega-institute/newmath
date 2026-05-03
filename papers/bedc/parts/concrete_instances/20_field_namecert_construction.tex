@@ -88,6 +88,64 @@ $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_action_tail}
 \input{parts/concrete_instances/field/20_field_affine_normalizer_orbit_reflection_tail}
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer SubgroupUp tower certificate]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup-tower-certificate}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the two-sided affine normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+$$
+\mathrm{Act}_T(X)=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then the inclusion
+$$
+C_F(A)\leq N_F(C_F(A))
+$$
+forms the concrete quotient-ready $\SubgroupUp$ tower whose lower subgroup rows
+are the centralizer identity, product, inverse, and classifier-transport rows,
+whose upper subgroup rows are the normalizer identity, product, inverse, and
+classifier-transport rows, whose carrier inclusion is
+$$
+C_F(A)(T)\Rightarrow N_F(C_F(A))(T),
+$$
+and whose action rows state that every $T$ in $N_F(C_F(A))$ preserves $C_F(A)$
+under $\mathrm{Act}_T$, the identity and product action laws hold on the
+centralizer carrier, the classifier well-definedness condition for
+$\mathrm{Act}$ holds on normalizer and centralizer representatives, and the
+inverse action by $\iota_F(T)$ cancels $\mathrm{Act}_T$ on both sides.
+\end{theorem}
+\begin{proof}
+The lower carrier is the concrete affine centralizer of $A$. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-subgroup}; it supplies the
+identity, product, inverse, and classifier-transport rows for $C_F(A)$.
+
+The upper carrier is the two-sided affine normalizer of this centralizer. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}; it supplies
+the corresponding subgroup rows for $N_F(C_F(A))$. The carrier inclusion is
+exactly \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-inclusion}.
+
+It remains to expose the quotient-ready action data. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action} for
+normalizer preservation of the centralizer and for the identity and composition
+action laws. Apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-certificate} for
+classifier well-definedness of $\mathrm{Act}$ and for inverse-action
+cancellation on the restricted centralizer carrier.
+
+These rows are precisely the concrete $\SubgroupUp$ input demanded by the
+quotient-group construction: a lower subgroup, an upper subgroup, an inclusion
+of carriers, and an action certificate by upper representatives on lower
+representatives.
+\end{proof}
+
+Per-object template: traditional target normal-subgroup input for quotient
+groups; BEDC source concrete $\FieldUp(\RatUp)$ together with $\SubgroupUp$;
+carrier pair $C_F(A),N_F(C_F(A))$; classifier $\equiv_{\mathrm{aff}}$; ledger
+fixed affine element, conjugators, inverse rows, and action witnesses; exactness
+as the normalizer action on the centralizer; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Field singleton-empty operation context nonzero obstruction]
 \label{thm:field-singleton-empty-operation-context-nonzero-obstruction}
 For histories $L,R,h,k,out:\mathsf{BHist}$ with
@@ -543,6 +601,25 @@ $\mathsf{FieldApartTailFactor}(z,x)$.
 \item If $\ContR(w,q,z)$, then $\mathsf{FieldApartTailFactor}(z,q)$.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.FieldUp.FieldApartTailFactor}
+
+\begin{lemma}[Field apart-zero tail-factor empty endpoint exclusion]
+\label{lem:field-apartzero-tail-factor-empty-endpoint-exclusion}
+For histories $y,x:\mathsf{BHist}$, if
+$\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame\emp$, and
+$\mathsf{ApartZero}_F(x)$, then $\bot$.
+\end{lemma}
+\begin{proof}
+Induct on the generated tail-factor witness. In the empty-context generator,
+the nested empty-context apart-zero equivalence transports
+$\mathsf{ApartZero}_F(x)$ to the result endpoint, contradicting
+$y\hsame\emp$. In the carried-tail generator, empty-result inversion for the
+last continuation gives an empty previous endpoint, so the induction
+hypothesis applies. In the exposed-factor generator, empty-result inversion
+gives the exposed factor itself as $\emp$, contradicting
+$\mathsf{ApartZero}_F(x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion}
 
 \begin{lemma}[Field apart-zero tail-factor result closure]
 \label{lem:field-apartzero-tail-factor-result-closure}

@@ -24,6 +24,25 @@ in the unit-counit order and then in the counit-unit order.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism parallel triangle suffix agreement]
+\label{thm:monad-adjunction-endomorphism-parallel-triangle-suffix-same}
+For histories $p,a,unit,counit,left,right,suffix,left',right':\mathsf{BHist}$,
+suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds.
+If $\ContR(left,suffix,left')$ and $\ContR(right,suffix,right')$, then
+$$
+\hsame(left',right').
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism triangle result theorem identifies both triangle outputs
+$left$ and $right$ with $\emp$. Hence $left\hsame right$. Continuation
+respect for $\hsame$ transports this source equality across the common
+suffix continuation, with the suffix compared reflexively, and yields
+$left'\hsame right'$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_parallel\_triangle\_suffix\_same}
+
 \begin{theorem}[Monad adjunction endomorphism unit-counit middle is empty]
 \label{thm:monad-adjunction-endomorphism-middle-between-unit-counit-empty}
 For histories $p,a,unit,counit,left,right,bridge:\mathsf{BHist}$, suppose
@@ -90,7 +109,7 @@ $$
 The unit and counit are endomorphism prefix components over the same prefix,
 so prefix component exactness identifies both with $\emp$. Applying the
 triangle-result collapse for the same carrier gives the two empty triangle
-results, and the four witnesses are collected in order.
+  results, and the four witnesses are collected in order.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_unit\_counit\_triangle\_empty}
 

@@ -26,6 +26,18 @@ theorem MonadAdjunctionEndomorphism_triangle_results_empty
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty rightEmpty
 
+theorem MonadAdjunctionEndomorphism_parallel_triangle_suffix_same
+    {p a unit counit left right suffix left' right' : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      Cont left suffix left' -> Cont right suffix right' -> hsame left' right' := by
+  intro carrier leftCont rightCont
+  have triangleEmpty :=
+    MonadAdjunctionEndomorphism_triangle_results_empty (p := p) (a := a) (unit := unit)
+      (counit := counit) (left := left) (right := right) carrier
+  have sameSource : hsame left right :=
+    hsame_trans triangleEmpty.left (hsame_symm triangleEmpty.right)
+  exact cont_respects_hsame sameSource (hsame_refl suffix) leftCont rightCont
+
 theorem MonadAdjunctionEndomorphism_middle_between_unit_counit_empty
     {p a unit counit left right bridge : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ->
