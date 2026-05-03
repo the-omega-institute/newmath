@@ -67,4 +67,23 @@ theorem PadicPrimeScale_append_empty_result_empty_factors_iff {p w q n e r : BHi
   · intro partsEmpty
     exact Iff.mpr resultIff (append_eq_empty_iff.mpr partsEmpty)
 
+theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail : BHist} :
+    (PadicPrimeScale p (BHist.e0 tail) n -> PadicPrimeScale p q e -> Cont n e r ->
+      hsame r BHist.Empty -> False) ∧
+    (PadicPrimeScale p (BHist.e1 tail) n -> PadicPrimeScale p q e -> Cont n e r ->
+      hsame r BHist.Empty -> False) := by
+  constructor
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e0_empty emptyParts.left
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e1_empty emptyParts.left
+
 end BEDC.Derived.PadicUp
