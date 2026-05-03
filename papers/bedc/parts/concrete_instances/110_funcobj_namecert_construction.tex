@@ -117,3 +117,24 @@ categorical readback uniqueness proof, which identifies the displayed history
 with $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Function-object pointwise hom carrier composite transport]
+\label{thm:funcobj-pointwise-hom-carrier-comp-hsame-transport}
+For a unary prefix $p$, categorical hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$, a continuation $\Cont(f,g,fg)$, and a
+history comparison $fg\hsame fg'$, the transported composite history $fg'$
+carries both the base composite hom carrier and the pointwise prefixed
+composite hom carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg')\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),fg').
+$$
+\end{theorem}
+\begin{proof}
+First read back the base and prefixed composite carriers at $fg$ from the
+pointwise composition theorem. Then transport each carrier along
+$fg\hsame fg'$, keeping the source and target endpoints fixed by reflexive
+history sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_hsame\_transport}
