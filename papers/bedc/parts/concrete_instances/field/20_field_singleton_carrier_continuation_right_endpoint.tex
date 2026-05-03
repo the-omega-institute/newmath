@@ -81,3 +81,42 @@ singleton classifier on both sides transports the source-carrier field and the
 endpoint-sameness field along this result equality.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_right\_endpoint\_transport\_iff}
+
+\begin{theorem}[Field singleton carrier continuation visible result exclusion]
+\label{thm:field-singleton-carrier-continuation-visible-result-absurd}
+For histories $P,Q,r:\mathsf{BHist}$, if $P$ and $Q$ are singleton field
+carrier endpoints, then no continuation from $P$ through $Q$ can have visible
+result $\Ezero(r)$ or $\Eone(r)$:
+$$
+\mathsf{FieldSingletonCarrier}(P)\Rightarrow
+\mathsf{FieldSingletonCarrier}(Q)\Rightarrow
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The two singleton carrier witnesses identify the continuation endpoints with
+$\emp$. Continuation result transport compares the displayed continuation with
+the right-unit continuation at $\emp$, forcing its result to be in the
+singleton carrier. Constructor separation rules out both visible histories
+$\Ezero(r)$ and $\Eone(r)$ being internally the same as $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_result\_absurd}
+
+\begin{theorem}[Field singleton classifier continuation visible result exclusion]
+\label{thm:field-singleton-classifier-continuation-visible-result-absurd}
+For histories $P,Q,r:\mathsf{BHist}$, if the singleton field classifier relates
+$P$ and $Q$, then no continuation from $P$ through $Q$ can have visible result
+$\Ezero(r)$ or $\Eone(r)$:
+$$
+\mathsf{FieldSingletonClassifier}(P,Q)\Rightarrow
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into singleton carrier witnesses for the two endpoints.
+The preceding carrier exclusion then applies to the same continuation and
+eliminates both visible result shapes.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_visible\_result\_absurd}
