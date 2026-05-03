@@ -84,4 +84,15 @@ theorem GroupSingletonClassifier_continuation_result_carrier_iff {P Q R : BHist}
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem GroupSingletonClassifier_continuation_endpoint_equivalence_iff {P Q R : BHist} :
+    Cont P Q R -> (GroupSingletonClassifier R P <-> GroupSingletonClassifier R Q) := by
+  intro continuation
+  have leftIff := GroupSingletonClassifier_continuation_result_left_iff continuation
+  have rightIff := GroupSingletonClassifier_continuation_result_right_iff continuation
+  constructor
+  · intro classifiedRP
+    exact rightIff.mp (leftIff.mpr classifiedRP)
+  · intro classifiedRQ
+    exact leftIff.mp (rightIff.mpr classifiedRQ)
+
 end BEDC.Derived.GroupUp
