@@ -182,6 +182,40 @@ $R_{\emp}(\mathsf{append}(p,q),\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_unit\_split\_iff}
 
+\begin{theorem}[Group singleton contextual product-unit split]
+\label{thm:group-singleton-contextual-product-unit-split}
+For histories $L,R,p,q:\mathsf{BHist}$, if $A_{\emp}(L)$ and $A_{\emp}(R)$,
+then
+$$
+R_{\emp}(\mathsf{append}(L,\mathsf{append}(p,q)),\mathsf{append}(R,\emp))
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as terminal-group contextual
+unit-product splitting; the BEDC source as the concrete singleton $\GroupUp$
+carrier; carrier $A_{\emp}$; classifier $R_{\emp}$; stability as context
+cancellation plus append empty-result construction and inversion; ledger as the
+hidden singleton contexts and product factors; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+Theorem~\ref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate as the displayed iff; standard bridge as the terminal group
+unit-product split under context; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The carrier hypotheses $A_{\emp}(L)$ and
+$A_{\emp}(R)$ strip the singleton left and right contexts, reducing the
+displayed classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply Theorem~\ref{thm:group-singleton-classifier-product-unit-split} to this
+reduced classifier. It identifies the reduced classifier exactly with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving both directions of the displayed
+equivalence.
+\end{proof}
+
 \begin{theorem}[Group singleton carrier visible-tail append exclusion]
 \label{thm:group-singleton-carrier-append-visible-tail-absurd}
 For histories $p,q:\mathsf{BHist}$, neither
