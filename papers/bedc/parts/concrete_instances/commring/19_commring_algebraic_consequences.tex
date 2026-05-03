@@ -194,6 +194,32 @@ equalities through additive congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_mul\_add\_add\_expand}
 
+\begin{theorem}[CommRing square of a binary sum]
+\label{thm:commring-square-of-sum-duplicate-middle}
+For BEDC history addition and multiplication satisfying additive
+associativity, additive congruence, multiplicative commutativity, and left
+distributivity, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+b)\cdot(a+b)\hsame
+(a\cdot a+a\cdot b)+(a\cdot b+b\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Specialize Theorem~\ref{thm:commring-mul-add-add-expand} with $c:=a$ and
+$d:=b$. This gives the row-major expansion
+$$
+(a+b)\cdot(a+b)\hsame
+(a\cdot a+a\cdot b)+(b\cdot a+b\cdot b).
+$$
+
+Multiplicative commutativity rewrites the exposed middle product
+$b\cdot a$ to $a\cdot b$. Additive congruence transports this product rewrite
+through the right inner sum, then through the outer sum.
+
+Transitivity of $\hsame$ composes the specialized expansion with the
+transported right-hand ledger, yielding the duplicate-middle square form.
+\end{proof}
+
 \begin{theorem}[CommRing column expansion of binary sums]
 \label{thm:commring-mul-add-add-column-expand}
 For BEDC history addition and multiplication, additive associativity,
@@ -539,6 +565,39 @@ normal form, yielding
 $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
+
+\begin{theorem}[CommRing signed square zero exactness]
+\label{thm:commring-signed-square-zero-exact}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-product-zero-exact} with $c=a$ and
+$d=b$. The signed product side becomes the signed square, and the cross-sum
+criterion becomes
+$$
+a\cdot a+b\cdot b\hsame a\cdot b+b\cdot a .
+$$
+
+For the forward direction, multiplicative commutativity gives
+$b\cdot a\hsame a\cdot b$. Additive congruence transports the right summand
+of $a\cdot b+b\cdot a$ along this equality, so the cross sum obtained from
+the specialized exactness theorem is identified with
+$a\cdot b+a\cdot b$.
+
+For the reverse direction, use symmetry of the same commutativity instance
+and additive congruence to transport $a\cdot b+a\cdot b$ back to
+$a\cdot b+b\cdot a$. The reverse implication of the specialized
+signed-product exactness theorem then returns
+$(a+(-b))\cdot(a+(-b))\hsame0$.
+\end{proof}
 
 \begin{theorem}[CommRing column cancellations balance cross sums]
 \label{thm:commring-column-cancellations-cross-sum-balance}
