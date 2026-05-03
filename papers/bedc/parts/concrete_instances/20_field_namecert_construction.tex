@@ -23,3 +23,66 @@
 \input{parts/concrete_instances/field/20_field_exit_algebra_affine_packages}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_action_inverse_exit_boundary_tail}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_affine_exit_rows}
+
+\begin{theorem}[RatUp FieldUp affine inverse antihomomorphism exit]
+\label{thm:ratup-fieldup-affine-inverse-antihom-exit}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$T,U:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $U\circ_{\mathrm{aff}}T$ be the concrete
+affine composite supplied by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, and let
+$\iota_F(-)$ denote the explicit inverse witness supplied by
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package} under the
+same concrete action classifier. Then the inverse of a composite is the reverse
+composite of the explicit inverses under the concrete affine classifier:
+$$
+\iota_F(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+The same classifier also identifies the double inverse with the original
+certified affine automorphism:
+$$
+\iota_F(\iota_F(T))\equiv_{\mathrm{aff}}T.
+$$
+\end{theorem}
+\begin{proof}
+First fix the concrete exit action by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the concrete affine composite
+$\circ_{\mathrm{aff}}$, the explicit inverse row, and the classifier
+$\equiv_{\mathrm{aff}}$ inside
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}.
+
+For the composite inverse law, apply
+\autoref{thm:field-affine-composite-inverse-reverse-coherence} pointwise to the
+two certified affine automorphisms. The theorem identifies the collected
+inverse of $U\circ_{\mathrm{aff}}T$ with the pointwise reverse composite
+$\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U)$ under $\hsame$.
+
+The affine action classifier from the fixed exit package lifts this pointwise
+$\hsame$ relation to the displayed relation
+$$
+\iota_F(U\circ_{\mathrm{aff}}T)\equiv_{\mathrm{aff}}
+\iota_F(T)\circ_{\mathrm{aff}}\iota_F(U).
+$$
+
+For the double-inverse clause, view $T$ as a two-sided inverse candidate for
+$\iota_F(T)$ by the identity and inverse fields of
+\autoref{thm:field-affine-automorphism-identity-and-inverse-package}. Apply
+\autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit} to compare this
+candidate with the explicit inverse $\iota_F(\iota_F(T))$ of $\iota_F(T)$.
+The resulting classifier equality is exactly
+$\iota_F(\iota_F(T))\equiv_{\mathrm{aff}}T$.
+\end{proof}
+
+Per-object template: traditional target affine inverse antihomomorphism; BEDC
+source concrete $\FieldUp(\RatUp)$ exit rows plus $\mathsf{AffAut}_F$; carrier
+certified affine automorphisms; classifier $\equiv_{\mathrm{aff}}$; stability
+obligations concrete composition, inverse uniqueness, and reverse-composite
+inverse coherence; ledger factor witnesses, product witnesses, inverse
+witnesses, and offsets; core theorem list
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package},
+\autoref{thm:field-affine-composite-inverse-reverse-coherence}, and
+\autoref{thm:ratup-fieldup-affine-inverse-determinacy-exit}; exactness
+predicate inverse antihomomorphism plus double-inverse law; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
