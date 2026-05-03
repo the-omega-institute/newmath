@@ -350,61 +350,6 @@ $S\circ_{\mathrm{aff}}T\circ_{\mathrm{aff}}\iota_F(S)$ is an orbit witness for
 $\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$.
 \end{proof}
 
-\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit action equivalence]
-\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-equivalence}
-For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
-affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
-exit object. Let $C_F(A)$ be the affine centralizer carrier, let
-$N_F(C_F(A))$ be its normalizer carrier, and let $\sim_{N_F(A)}$ be the orbit
-relation of
-\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
-centralizer elements $X,Y:\mathsf{AffAut}_F$ and a normalizer element
-$S:\mathsf{AffAut}_F$, if $C_F(A)(X)$, $C_F(A)(Y)$, and $N_F(C_F(A))(S)$, then
-$$
-\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)
-\quad\Longleftrightarrow\quad
-X\sim_{N_F(A)}Y.
-$$
-\end{theorem}
-\begin{proof}
-For the forward direction, assume
-$\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$. The action theorem supplies
-the carried centralizer endpoints $\mathrm{Act}_S(X)$ and $\mathrm{Act}_S(Y)$.
-The inverse row of
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} gives
-$N_F(C_F(A))(\iota_F(S))$.
-
-Apply
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
-to the acted endpoints and to $\iota_F(S)$. This gives
-$$
-\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(X))
-\sim_{N_F(A)}
-\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(Y)).
-$$
-The inverse-action theorem
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
-cancels both displayed endpoints back to $X$ and $Y$, and classifier transport
-for the orbit relation yields $X\sim_{N_F(A)}Y$.
-
-For the reverse direction, assume $X\sim_{N_F(A)}Y$. Then
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
-applied to $S$ gives
-$\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y)$ directly.
-\end{proof}
-
-Per-object template: traditional target orbit-action descent and reflection;
-BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$; carrier
-$C_F(A)$; classifier orbit relation $\sim_{N_F(A)}$; stability preserve-and-reflect
-under normalizer action; ledger normalizer witness, inverse witness, acted
-endpoints, and orbit witness; core theorem
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance},
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}, and
-\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse};
-exactness predicate normalizer action is classifier-exact on orbit
-reachability; standard bridge ordinary group-action orbit automorphism; status
-$\mathsf{ProofTarget}$.
-
 Per-object template: traditional target action invariance of normalizer
 orbits; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus $\GroupUp$;
 carrier $C_F(A)$; classifier $\equiv_{\mathrm{aff}}$; stability orbit
@@ -413,6 +358,65 @@ inverse acting normalizer, and composite witness; core theorem
 \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance};
 exactness predicate orbit classes are stable under the certified action;
 standard bridge ordinary group-action orbit invariance; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer orbit action equivalence]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-equivalence}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier, let
+$N_F(C_F(A))$ be its normalizer carrier, and let $\sim_{N_F(A)}$ be the orbit
+relation of
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-orbit}. For carried
+centralizer elements $X,Y:\mathsf{AffAut}_F$ and an acting normalizer element
+$S:\mathsf{AffAut}_F$, if $C_F(A)(X)$, $C_F(A)(Y)$, and $N_F(C_F(A))(S)$, then
+$$
+X\sim_{N_F(A)}Y
+\Longleftrightarrow
+\mathrm{Act}_S(X)\sim_{N_F(A)}\mathrm{Act}_S(Y).
+$$
+\end{theorem}
+\begin{proof}
+The left-to-right direction is exactly
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-invariance}
+applied to $X$, $Y$, and $S$.
+
+For the right-to-left direction, use the inverse row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup} to obtain
+$N_F(C_F(A))(\iota_F(S))$. The inverse-action theorem gives carrier witnesses
+for $\mathrm{Act}_S(X)$ and $\mathrm{Act}_S(Y)$, so the single-direction orbit
+invariance theorem can be applied to the acted orbit relation with acting
+element $\iota_F(S)$. This yields
+$$
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(X))
+\sim_{N_F(A)}
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(Y)).
+$$
+
+The inverse-action cancellation rows of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}
+identify the two endpoints with $X$ and $Y$, respectively:
+$$
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_{\iota_F(S)}(\mathrm{Act}_S(Y))\equiv_{\mathrm{aff}}Y.
+$$
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-classifier-transport}
+to replace the double-action endpoints by $X$ and $Y$. The transported orbit
+witness is precisely $X\sim_{N_F(A)}Y$.
+\end{proof}
+
+Per-object template: traditional target orbit action automorphism on orbit
+reachability; BEDC source concrete $\FieldUp(\RatUp)$ affine exit plus
+$\GroupUp$; carrier $C_F(A)$; classifier $\equiv_{\mathrm{aff}}$ and
+$\sim_{N_F(A)}$; stability forward and reflected orbit transport; ledger acting
+normalizer, inverse acting normalizer, acted endpoints, inverse-cancellation
+comparisons, and transported orbit witness; core theorem
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-orbit-action-equivalence};
+exactness predicate orbit reachability is classifier-exact under the restricted
+action; standard bridge ordinary group action on orbit classes; status
 $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp concrete certificate boundary]
