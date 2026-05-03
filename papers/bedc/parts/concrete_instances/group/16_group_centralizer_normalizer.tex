@@ -373,6 +373,94 @@ $\mathsf{mul}(\mathsf{mul}(\_,x),\mathsf{inv}(\_))$. Hence
 $\mathsf{Conj}_s(x)$ and $\mathsf{Conj}_t(x)$ are $\hsame$-equal.
 \end{proof}
 
+\section{Centralizer normalizer orbit relation}
+\label{sec:group-centralizer-normalizer-orbit}
+
+\begin{definition}[Group centralizer normalizer orbit relation]
+\label{def:group-centralizer-normalizer-orbit-relation}
+Let $Z_a$ be the centralizer carrier of
+\autoref{def:group-centralizer-carrier}, let $N_a$ be the normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}, and let
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+For carried centralizer histories $x,y:\mathsf{BHist}$, define the
+normalizer-orbit relation by
+$$
+x\sim_{N_a}y
+:\Longleftrightarrow
+\exists s:\mathsf{BHist},\
+N_a(s)\land Z_a(x)\land Z_a(y)\land
+\hsame(\mathsf{Conj}_s(x),y).
+$$
+This is a quotient-free classifier of reachability inside $Z_a$ by conjugation
+with histories carried by $N_a$.
+\end{definition}
+
+\begin{theorem}[Group centralizer normalizer orbit equivalence]
+\label{thm:group-centralizer-normalizer-orbit-equivalence}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $Z_a$, $N_a$, and
+$\mathsf{Conj}_s$ be as in
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For
+$x,y,z:\mathsf{BHist}$ with $Z_a(x)$, $Z_a(y)$, and $Z_a(z)$, the relation
+$\sim_{N_a}$ is reflexive, symmetric, and transitive on the centralizer
+carrier:
+\begin{enumerate}
+\item $x\sim_{N_a}x$.
+\item If $x\sim_{N_a}y$, then $y\sim_{N_a}x$.
+\item If $x\sim_{N_a}y$ and $y\sim_{N_a}z$, then $x\sim_{N_a}z$.
+\end{enumerate}
+The ten-field fit is: traditional target group-action orbit relation on a
+centralizer; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$;
+classifier $\sim_{N_a}$; stability reflexive, symmetric, and transitive;
+ledger source endpoint $x$; target endpoint $y$; intermediate endpoint $z$;
+conjugator $s$; inverse conjugator $\mathsf{inv}(s)$; product conjugator
+$\mathsf{mul}(t,s)$; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, and
+\autoref{thm:group-conjugation-composition}; exactness orbit reachability on
+centralizer elements; standard bridge ordinary orbit relation for normalizer
+action; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For reflexivity, use the identity row of
+\autoref{thm:group-centralizer-normalizer-subgroup} to obtain $N_a(e)$. The
+identity action row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$\hsame(\mathsf{Conj}_e(x),x)$, so $e$ is the orbit witness for
+$x\sim_{N_a}x$ together with the carried endpoint $Z_a(x)$.
+
+For symmetry, unpack a witness $s$ for $x\sim_{N_a}y$. Inverse closure in
+\autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(\mathsf{inv}(s))$, and the inverse-conjugation clause in the definition
+of $N_a$ keeps the conjugated history inside $Z_a$.
+
+The composition row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action}, the inverse
+laws, and transitivity of $\hsame$ identify conjugating back by
+$\mathsf{inv}(s)$ with the original source endpoint. Classifier transport
+across the displayed witness $\hsame(\mathsf{Conj}_s(x),y)$ then replaces the
+acted-on endpoint by $y$, producing a witness for $y\sim_{N_a}x$.
+
+For transitivity, unpack witnesses $s$ for $x\sim_{N_a}y$ and $t$ for
+$y\sim_{N_a}z$. Product closure in
+\autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(\mathsf{mul}(t,s))$.
+
+The composition row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} compares
+$\mathsf{Conj}_{\mathsf{mul}(t,s)}(x)$ with
+$\mathsf{Conj}_t(\mathsf{Conj}_s(x))$. The first witness transports
+$\mathsf{Conj}_s(x)$ to $y$, and the second witness transports
+$\mathsf{Conj}_t(y)$ to $z$. Transitivity of $\hsame$ combines these
+comparisons, while $Z_a(x)$ and $Z_a(z)$ supply the carried endpoints, so
+$\mathsf{mul}(t,s)$ witnesses $x\sim_{N_a}z$.
+\end{proof}
+
 \begin{definition}[Group center carrier]
 \label{def:group-center-carrier}
 Fix a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$.
