@@ -705,6 +705,40 @@ $ (a+(-b))\cdot(c+(-d))\hsame0 $.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_signed\_product\_empty\_zero\_exact}
 
+\begin{theorem}[CommRing row cancellations balance cross sums]
+\label{thm:commring-row-cancellations-cross-sum-balance}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication
+congruence, left distributivity, multiplicative commutativity, and the
+$\RingUp$ negative-product laws, every $a,b,c,d : \mathsf{BHist}$ with
+$a\cdot c\hsame a\cdot d$ and $b\cdot c\hsame b\cdot d$ satisfies
+$$
+a\cdot c+b\cdot d\hsame a\cdot d+b\cdot c .
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:commring-signed-row-cancellations-zero} to the two
+row hypotheses. This produces the signed zero product
+$$
+(a+(-b))\cdot(c+(-d))\hsame0.
+$$
+
+Apply the forward direction of
+Theorem~\ref{thm:commring-signed-product-zero-exact}. The signed zero product
+is exactly the left side of that exactness statement, so its conclusion is the
+displayed cross-sum balance.
+\end{proof}
+
+For the $\CommRingUp$ per-object template, the traditional target is row
+cancellation balance in commutative-ring algebra. Its BEDC source is
+$\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$, its carrier is
+$\mathsf{BHist}$, its classifier is $\hsame$, its stability obligations are
+signed row cancellation and signed-product zero exactness, and its ledger
+records row-paired product provenance. The core theorem is
+Theorem~\ref{thm:commring-row-cancellations-cross-sum-balance}; exactness is
+cross-sum balance; the standard bridge is ordinary commutative-ring
+cancellation balance; and the status is $\mathsf{ProofTarget}$.
+
 \begin{definition}[CommRing ledger policy]
 \label{def:commring-ledger-policy}
 Record ring expression provenance and the multiplicative commutativity law when used.
