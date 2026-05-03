@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.3 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.4 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -181,20 +181,6 @@ git diff --cached -- papers/bedc/ \
     done
 ```
 Any DUPLICATE line means the proposed change collides with a label already in the tree (either a sibling round added the same label, or you're echoing an existing definition under a new name). ABORT and either pick a fresh label or drop the target.
-
-## Step 5: Re-sync with remote before commit
-```bash
-git fetch origin <BASE_BRANCH>
-git merge --no-ff --no-edit origin/<BASE_BRANCH>
-```
-
-Conflict resolution rules:
-- Independent paragraphs in the same chapter: keep both.
-- Same paragraph touched by both sides: prefer upstream IF the upstream change subsumes yours; otherwise keep yours and re-target your remaining work.
-- `\leanchecked` / `\leanvariant` lines added by both sides: dedup identical lines, keep both if they reference different targets.
-- `lean4/BEDC.lean` and other index files: union the imports, dedup.
-
-After resolving each conflict, `git add` the file, then `git commit --no-edit` to complete the merge. Re-run `cd papers/bedc && make` AND `python3 lean4/scripts/bedc_ci.py audit` to confirm the merged tree is still clean.
 
 ## Step 5.5: HARD GATE — round must contain real revision
 Before committing, run:

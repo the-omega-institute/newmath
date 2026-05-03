@@ -86,6 +86,17 @@ theorem NatMul_succ_inversion {d q n' : BHist} :
   | succ prev step =>
       exact ⟨_, prev, step⟩
 
+theorem NatMul_empty_left_result_empty {q n : BHist} :
+    NatMul BHist.Empty q n -> hsame n BHist.Empty := by
+  intro mul
+  induction mul with
+  | zero _ =>
+      rfl
+  | succ _ step ih =>
+      have emptyResult : hsame _ BHist.Empty := ih
+      cases emptyResult
+      exact cont_left_unit_result step
+
 theorem NatMul_unit_left_hsame {q n : BHist} :
     UnaryHistory q -> NatMul (BHist.e1 BHist.Empty) q n -> hsame n q := by
   intro hq hmul
@@ -146,6 +157,13 @@ theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
 
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+theorem NatDivides_empty_left_result_empty {n : BHist} :
+    NatDivides BHist.Empty n -> hsame n BHist.Empty := by
+  intro divides
+  cases divides with
+  | intro _ qData =>
+      exact NatMul_empty_left_result_empty qData.right
 
 theorem NatDivides_reflexive_pair {n : BHist} :
     UnaryHistory n ->
@@ -234,14 +252,8 @@ theorem NatPrime_first_pair :
       NatPrime (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) := by
   have emptyFactor_result_empty :
       ∀ {q n : BHist}, NatMul BHist.Empty q n -> hsame n BHist.Empty := by
-    intro q n mul
-    induction mul with
-    | zero _ =>
-        rfl
-    | succ _ step ih =>
-        have emptyResult : hsame _ BHist.Empty := ih
-        cases emptyResult
-        exact cont_left_unit_result step
+    intro _ _ mul
+    exact NatMul_empty_left_result_empty mul
   have largeDivisor_not_two :
       ∀ {d q : BHist}, NatMul (BHist.e1 (BHist.e1 (BHist.e1 d))) q
         (BHist.e1 (BHist.e1 BHist.Empty)) -> False := by
@@ -355,6 +367,13 @@ theorem NatPrime_NatMul_succ_result_not_empty {p q n : BHist} :
   have multiplicandEmpty := NatMul_succ_result_empty_left_empty mul resultEmpty
   cases multiplicandEmpty
   exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
+
+theorem NatMul_first_prime_unit_result :
+    NatMul (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
+      (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  have primeTwo : NatPrime (BHist.e1 (BHist.e1 BHist.Empty)) := NatPrime_first_pair.left
+  exact NatMul.succ (NatMul.zero primeTwo.left)
+    (cont_left_unit (BHist.e1 (BHist.e1 BHist.Empty)))
 
 inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)
