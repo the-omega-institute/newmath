@@ -119,4 +119,37 @@ theorem LFunctionDirichletPartSum_positive_index_previous_exists
   | inr successorCase =>
       exact successorCase
 
+theorem LFunctionDirichletPartSum_zero_terms_positive_previous_readback
+    {term : BHist -> BHist -> BHist} {s n S : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->
+      DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+        exists m P : BHist, n = BHist.e1 m ∧ DirichletPartSum term s m P ∧
+          hsame P S ∧ (forall T : BHist, DirichletPartSum term s m T -> hsame P T) := by
+  intro zeroTerm sum positiveIndex
+  have previousData :=
+    LFunctionDirichletPartSum_positive_index_previous_exists
+      (term := term) (s := s) sum positiveIndex
+  cases previousData with
+  | intro m rest =>
+      cases rest with
+      | intro P data =>
+          have unaryM : UnaryHistory m :=
+            DirichletPartSum_index_unary data.right.left
+          have termEmpty : hsame (term m s) BHist.Empty :=
+            zeroTerm unaryM
+          have samePS : hsame P S := by
+            exact hsame_symm
+              (cont_respects_hsame (hsame_refl P) termEmpty data.right.right
+                (cont_right_unit P))
+          have uniqueP :
+              forall T : BHist, DirichletPartSum term s m T -> hsame P T := by
+            intro T other
+            exact
+              DirichletPartSum_unary_index_deterministic unaryM data.right.left other
+          exact Exists.intro m
+            (Exists.intro P
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro samePS uniqueP))))
+
 end BEDC.Derived.LFunctionUp

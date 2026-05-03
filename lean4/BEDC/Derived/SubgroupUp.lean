@@ -435,4 +435,93 @@ theorem SubgroupCentralizerQuotientKernel_empty_fiber_iff
       carrierTransport centralX (hsame_symm displacementSameX)
     exact And.intro emptyNormalizer (And.intro xNormalizer kernelCentral)
 
+theorem SubgroupCentralizerQuotientKernel_empty_right_fiber_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x BHist.Empty <->
+      SubgroupCentralizerCarrier mul a x := by
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty :=
+    certificateRows.right.left
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have invClosed :
+      forall {u : BHist}, SubgroupCentralizerCarrier mul a u ->
+        SubgroupCentralizerCarrier mul a (inv u) :=
+    certificateRows.right.right.right.left
+  have displacementSameInvX : hsame (mul (inv x) BHist.Empty) (inv x) :=
+    rightId (inv x)
+  constructor
+  · intro classified
+    have centralInvX : SubgroupCentralizerCarrier mul a (inv x) :=
+      carrierTransport classified.right.right displacementSameInvX
+    have centralInvInvX : SubgroupCentralizerCarrier mul a (inv (inv x)) :=
+      invClosed centralInvX
+    have invInvSameX : hsame (inv (inv x)) x :=
+      BEDC.Derived.GroupUp.group_left_inverse_involutive assocC leftId rightId mulCongr
+        leftInv x
+    exact carrierTransport centralInvInvX invInvSameX
+  · intro centralX
+    have xNormalizer : SubgroupCentralizerNormalizer mul inv a x :=
+      SubgroupCentralizerCarrier_self_normalizes
+        assocC leftId rightId mulCongr leftInv rightInv centralX
+    have emptyNormalizer : SubgroupCentralizerNormalizer mul inv a BHist.Empty :=
+      SubgroupCentralizerCarrier_self_normalizes
+        assocC leftId rightId mulCongr leftInv rightInv emptyCentral
+    have centralInvX : SubgroupCentralizerCarrier mul a (inv x) :=
+      invClosed centralX
+    have kernelCentral : SubgroupCentralizerCarrier mul a (mul (inv x) BHist.Empty) :=
+      carrierTransport centralInvX (hsame_symm displacementSameInvX)
+    exact And.intro xNormalizer (And.intro emptyNormalizer kernelCentral)
+
+protected theorem SubgroupCentralizerQuotientKernel_symm_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y ->
+      SubgroupCentralizerQuotientKernel mul inv a y x := by
+  intro classified
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have invClosed :
+      forall {u : BHist}, SubgroupCentralizerCarrier mul a u ->
+        SubgroupCentralizerCarrier mul a (inv u) :=
+    certificateRows.right.right.right.left
+  have inverseKernel : SubgroupCentralizerCarrier mul a (inv (mul (inv x) y)) :=
+    invClosed classified.right.right
+  have reverseKernel :
+      hsame (inv (mul (inv x) y)) (mul (inv y) (inv (inv x))) :=
+    BEDC.Derived.GroupUp.group_inverse_mul_reverse assocC leftId rightId mulCongr
+      leftInv rightInv (inv x) y
+  have invInvSameX : hsame (inv (inv x)) x :=
+    BEDC.Derived.GroupUp.group_left_inverse_involutive assocC leftId rightId mulCongr
+      leftInv x
+  have displayedKernel :
+      hsame (inv (mul (inv x) y)) (mul (inv y) x) :=
+    hsame_trans reverseKernel (mulCongr (hsame_refl (inv y)) invInvSameX)
+  exact And.intro classified.right.left
+    (And.intro classified.left (carrierTransport inverseKernel displayedKernel))
+
 end BEDC.Derived.SubgroupUp
