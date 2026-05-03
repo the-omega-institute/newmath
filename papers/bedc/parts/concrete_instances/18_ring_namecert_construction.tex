@@ -312,6 +312,30 @@ reassociating, and using the left-zero law. Then apply distributivity to
 the duplicate-cancellation step on the two resulting products.
 \end{proof}
 
+\begin{theorem}[Ring zero-classifier factor absorption]
+\label{thm:ring-zero-classifier-factor-absorption}
+For BEDC history operations satisfying additive associativity, left zero, left
+inverse, addition congruence, multiplication congruence, and both distributive
+laws, if $\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame(x\cdot y,0)\land \hsame(y\cdot x,0).
+$$
+\end{theorem}
+\begin{proof}
+Invoke \autoref{thm:ring-mul-zero-absorption} to obtain the two literal
+zero-factor absorptions. For the left product, multiplication congruence
+transports the left factor along $\hsame(x,0)$, comparing $x\cdot y$ with
+$0\cdot y$. Transitivity with the left zero-factor absorption gives
+$\hsame(x\cdot y,0)$, using symmetry if the congruence step is read in the
+opposite direction.
+
+For the right product, multiplication congruence transports the right factor
+along the same classifier witness, comparing $y\cdot x$ with $y\cdot0$.
+Transitivity with the right zero-factor absorption gives $\hsame(y\cdot x,0)$,
+again using symmetry when the displayed comparison is oriented oppositely.
+The two transported conclusions form the required conjunction.
+\end{proof}
+
 \begin{theorem}[Ring left-negative product sum vanishes]
 \label{thm:ring-mul-neg-left-inverse-sum-zero}
 For BEDC history operations satisfying additive associativity, left zero,
