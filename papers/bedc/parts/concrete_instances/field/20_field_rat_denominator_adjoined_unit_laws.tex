@@ -214,6 +214,32 @@ by the zero-endpoint exclusion theorem. The one-headed constructor reads the
 unary tail back through the carrier endpoint equivalence.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier visible cases]
+\label{thm:rat-denom-unit-classifier-visible-cases}
+For any classified pair $h,k:\mathsf{BHist}$ in the adjoined empty-unit
+denominator classifier, both endpoints are empty together or both are
+one-headed unary denominator tails with equal exposed tails:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\to
+\left(
+h\hsame\emp\land k\hsame\emp
+\right)
+\lor
+\exists d,e:\mathsf{BHist}.\;
+h=\Eone(d)\land k=\Eone(e)\land
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(e)\land\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-case split for $\mathsf{RatDenomUnitCarrier}$ to both
+classifier endpoints. The two empty branches give the empty pair. The mixed
+empty and one-headed branches contradict the classifier's $\hsame$ field by
+history constructor separation. In the one-headed branch, the two carrier
+witnesses give unary tails and $\hsame$ constructor inversion gives the
+exposed tail equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_visible\_cases}
+
 \begin{theorem}[Rat denominator unit continuation exposes a nonempty Rat endpoint]
 \label{thm:rat-denom-unit-continuation-nonempty-rat-endpoint}
 For histories $h,k,r$, if $h$ and $k$ lie in

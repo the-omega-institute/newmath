@@ -294,6 +294,28 @@ side.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_tail\_cont\_alignment}
 
+\begin{theorem}[Category nonempty one-headed endpoint morphism tail carrier alignment]
+\label{thm:category-e1-source-e1-target-nonempty-morphism-tail-carrier-alignment}
+For two hom-carriers between $\Eone(a)$ and $\Eone(r)$, if the first morphism
+is not $\HSame$ to $\emp$, then both displayed morphisms descend to
+one-headed tails whose tail hom-carriers share the same source and target:
+$$
+\exists k,l:\mathsf{BHist}.\;
+m=\Eone(k)\land n=\Eone(l)\land
+\mathsf{CategoryHomCarrier}(\Eone(a),r,k)\land
+\mathsf{CategoryHomCarrier}(\Eone(a),r,l)\land
+\hsame(k,l).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty tail-continuation alignment theorem. It supplies the
+one-headed displays, the two unary tail witnesses, the two continuations
+$\ContR(\Eone(a),k,r)$ and $\ContR(\Eone(a),l,r)$, and the tail equality
+$\hsame(k,l)$. Repack each unary tail and continuation with the original
+source carrier, deriving the target carrier $r$ by unary continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_nonempty\_morphism\_tail\_carrier\_alignment}
+
 \begin{theorem}[Continuation morphism zero-headed source tail cases]
 \label{thm:continuation-morphism-e0-source-tail-cases}
 For histories $a,target$, every continuation morphism

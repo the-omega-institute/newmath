@@ -360,3 +360,36 @@ visible-tail continuation supply the remaining fields of
 $\mathsf{CategoryHomCarrier}(a,s,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_e1\_morphism\_result\_descent}
+
+\begin{theorem}[Category nonempty one-headed composite tail-result descent]
+\label{thm:category-comp-nonempty-e1-morphism-tail-result-descent}
+For composable category hom-carriers $f:a\to b$ and $g:b\to c$, if their
+continuation composite is $\Eone(k)$ and neither factor is internally the
+empty morphism, then the same exposed factor data also carries the visible
+tail continuation into the descended composite carrier:
+$$
+\begin{aligned}
+&\mathsf{CategoryHomCarrier}(a,b,f)\land
+\mathsf{CategoryHomCarrier}(b,c,g)\land
+\ContR(f,g,\Eone(k))\\
+&\quad\land (f\hsame\emp\to\mathsf{False})\land
+(g\hsame\emp\to\mathsf{False})\\
+&\Longrightarrow
+\exists l,m,r,s:\mathsf{BHist}.\;
+f=\Eone(l)\land g=\Eone(m)\land b=\Eone(r)\land c=\Eone(s)\\
+&\qquad\land\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\ContR(\Eone(l),m,k)\land
+\mathsf{CategoryHomCarrier}(a,s,k).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty factor theorem to obtain the one-headed factor displays
+and the visible composite continuation
+$\ContR(\Eone(l),\Eone(m),\Eone(k))$. Constructor inversion turns that ledger
+into $\ContR(\Eone(l),m,k)$. The same carrier fields and continuation
+associativity then reconstruct the descended composite hom-carrier
+$\mathsf{CategoryHomCarrier}(a,s,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_nonempty\_e1\_morphism\_tail\_result\_descent}
