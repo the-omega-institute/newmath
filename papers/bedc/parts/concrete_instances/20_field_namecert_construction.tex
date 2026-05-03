@@ -651,6 +651,101 @@ element, inverse witness, and normalizer witnesses; core theorem list
 exactness predicate restricted action respects the affine classifier; standard
 bridge ordinary normalizer action on a subgroup; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine normalizer representation]
+\label{thm:ratup-fieldup-affine-normalizer-representation}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, and let
+$N_F(C_F(A))$ be the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}. Define
+$$
+\rho_A(T)(X):=\mathrm{Act}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+Then the normalizer represents through classifier automorphisms of $C_F(A)$:
+\begin{enumerate}
+\item If $N_F(C_F(A))(T)$, then $\rho_A(T)$ is a classifier automorphism of
+$C_F(A)$: for all $X,Y:\mathsf{AffAut}_F$ with $C_F(A)(X)$ and $C_F(A)(Y)$,
+$$
+C_F(A)(\rho_A(T)(X))
+$$
+and
+$$
+\rho_A(T)(X)\equiv_{\mathrm{aff}}\rho_A(T)(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+\item For every $X:\mathsf{AffAut}_F$ with $C_F(A)(X)$,
+$$
+\rho_A(\mathrm{id}_F)(X)\equiv_{\mathrm{aff}}X.
+$$
+\item If $N_F(C_F(A))(T)$ and $N_F(C_F(A))(U)$, then
+$N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$, and for every $X:\mathsf{AffAut}_F$
+with $C_F(A)(X)$,
+$$
+\rho_A(T)(\rho_A(U)(X))\equiv_{\mathrm{aff}}
+\rho_A(T\circ_{\mathrm{aff}}U)(X).
+$$
+\item If $N_F(C_F(A))(T)$, then $\rho_A(\iota_F(T))$ is the two-sided inverse
+classifier automorphism of $\rho_A(T)$ on $C_F(A)$: for every
+$X:\mathsf{AffAut}_F$ with $C_F(A)(X)$,
+$$
+\rho_A(\iota_F(T))(\rho_A(T)(X))\equiv_{\mathrm{aff}}X
+$$
+and
+$$
+\rho_A(T)(\rho_A(\iota_F(T))(X))\equiv_{\mathrm{aff}}X.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The identity, product, and inverse normalizer witnesses are supplied by
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. In
+particular, its first row gives $N_F(C_F(A))(\mathrm{id}_F)$, its product row
+gives $N_F(C_F(A))(T\circ_{\mathrm{aff}}U)$ from two normalizer witnesses, and
+its inverse row gives $N_F(C_F(A))(\iota_F(T))$.
+
+For a fixed normalizer element $T$, preservation of the centralizer carrier by
+$\rho_A(T)$ is exactly the preservation clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. Classifier
+exactness for pairs $X,Y$ in $C_F(A)$ is the automorphism clause of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism},
+with $\rho_A(T)$ read as the displayed restricted action.
+
+The identity and product representation laws are the identity and composition
+clauses of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}. The identity
+clause gives $\rho_A(\mathrm{id}_F)(X)\equiv_{\mathrm{aff}}X$ on each
+centralizer element, and the composition clause gives
+$$
+\rho_A(T)(\rho_A(U)(X))\equiv_{\mathrm{aff}}
+\rho_A(T\circ_{\mathrm{aff}}U)(X).
+$$
+The product membership needed to name the right side as another normalizer
+automorphism is the product row cited above.
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse}. Its
+inverse-parameter preservation row keeps $\rho_A(\iota_F(T))(X)$ inside
+$C_F(A)$, and its two cancellation rows give the displayed left and right
+inverse laws for $\rho_A(\iota_F(T))$ against $\rho_A(T)$.
+\end{proof}
+
+Per-object template: traditional target normalizer representation on
+centralizer classifier automorphisms; BEDC source concrete $\FieldUp(\RatUp)$
+affine exit plus $\GroupUp$; carrier $N_F(C_F(A))$ acting on $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability identity, product, inverse,
+preservation, and classifier exactness; ledger fixed element, normalizer
+witnesses, acted elements, product witness, and inverse witness; core theorem
+list \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism},
+and
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action-inverse};
+exactness predicate representation through centralizer classifier
+automorphisms; standard bridge ordinary normalizer homomorphism into
+automorphism group of a centralizer; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
 \label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
 Let $d_1:=\Eone(\emp)$. For
