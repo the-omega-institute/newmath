@@ -254,6 +254,102 @@ formula, transport the selected context-support alternative back through the
 same three classified pairs, keep the shared middle alternative fixed, and
 repack through the first seven-term formula.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp threefold pair transported noncollapse package]
+\label{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2:\mathsf{BHist}$.
+Suppose $C_D^u(h)$, suppose each of $l_0,l_1,l_2,s_0,s_1,s_2$ lies in
+$C_D^u$, and suppose each of $r_0,r_1,r_2,t_0,t_1,t_2$ lies in $C_D^u$.
+Suppose also that $R_D^u(l_i,s_i)$ and $R_D^u(r_i,t_i)$ hold for
+$i=0,1,2$. Let
+$$
+H_l:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))
+$$
+and
+$$
+H_s:=
+\Gamma_{\emp,\emp,s_2,t_2}
+(\Gamma_{\emp,\emp,s_1,t_1}(\Gamma_{\emp,\emp,s_0,t_0}(h))).
+$$
+If $N_D^u(H_l)$ holds, then the transported endpoint $H_s$ carries the
+following noncollapse package:
+\begin{enumerate}
+  \item $N_D^u(H_s)$;
+  \item $\mathsf{RatHistoryCarrier}(H_s)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(H_s)\to\bot$;
+  \item $H_s\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both contextual carrier exclusions
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both inverse-domain witnesses
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,H_s))$ and
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(H_s,r))$;
+  \item for all $L,R:\mathsf{BHist}$, the contextual singleton-classifier
+  exclusion
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+    (\mathsf{append}(L,H_s),\mathsf{append}(R,H_s))\to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport}
+to the displayed context data. The forward direction sends the assumed
+$N_D^u(H_l)$ witness to $N_D^u(H_s)$.
+
+Read the denominator tuple row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(z)=\mathsf{RatHistoryCarrier}(z)$ for every denominator history
+$z$, so the transported support witness gives
+$\mathsf{RatHistoryCarrier}(H_s)$.
+
+The direct empty boundary follows from
+\autoref{thm:rat-history-carrier-not-empty}. Any comparison
+$H_s\hsame\emp$ contradicts the recovered Rat carrier witness. A direct witness
+of $\mathsf{fieldSingletonEmptyCarrier}(H_s)$ unfolds to that same empty
+comparison, so it is rejected by the same boundary.
+
+Fix an arbitrary context history $r:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
+and Rat carrier endpoint $H_s$ to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))$. Apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the
+same two histories in the opposite append order to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))$.
+
+Unfold $\mathsf{fieldSingletonEmptyNonZero}$ for the right-append endpoint as
+rejection of the singleton classifier against $\emp$. Any such classifier
+witness contains the source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))$, contradicting
+the right-append rejection. The left-append inverse-domain witness is identical,
+using the source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))$.
+
+Finally package $\mathsf{RatHistoryClassifier}(H_s,H_s)$ from the recovered Rat
+carrier witness on both sides and reflexivity of $\hsame$. For arbitrary
+$L,R:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}.
+It rejects the displayed singleton classifier on the two contextual copies of
+$H_s$.
+\end{proof}
+
+Per-object template: traditional target transported threefold denominator
+noncollapse for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\Gamma$,
+$C_D^u$, $R_D^u$, and $N_D^u$; carrier transported endpoint $H_s$; classifier
+$R_D^u$ plus $\hsame$ boundary rows; ledger the three classified context pairs
+$(l_0,r_0)\mapsto(s_0,t_0)$, $(l_1,r_1)\mapsto(s_1,t_1)$, and
+$(l_2,r_2)\mapsto(s_2,t_2)$; core theorem
+\autoref{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package};
+exactness predicate endpoint strict support, Rat carrier readback,
+singleton-empty exclusion, contextual append exclusions, inverse-domain
+witnesses, and contextual singleton-classifier obstruction; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
