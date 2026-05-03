@@ -274,3 +274,33 @@ $$
 $$
 Downstream use: four-factor product equation exactness and inverse-reversal
 proof targets. Status: ProofTarget.
+
+\begin{theorem}[Field nonzero product rigidity]
+\label{thm:field-nonzero-product-rigidity}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying the hypotheses of
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness}, the classifier-transport and zero-contradiction rows of
+\autoref{def:field-stability-certificate}, and the zero-apartness interface of
+\autoref{def:field-zero-apartness}, let $a,b:\mathsf{BHist}$ be equipped with witnesses
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$. If the product endpoint carries an apartness-to-nonzero conversion
+$$
+\alpha_{ab}:\bigl(\mathsf{mul}(a,b)\hsame0\to\bot\bigr)\to
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)),
+$$
+then
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)).
+$$
+\end{theorem}
+\begin{proof}
+It is enough to construct zero-apartness of the product endpoint. Assume
+$z:\mathsf{mul}(a,b)\hsame0$. Apply
+\autoref{thm:field-one-sided-zero-product-cancel-from-apartness} with the left-factor witness $p_a$. Its left-factor clause sends $z$ to
+$b\hsame0$.
+
+Transport $p_b:\mathsf{NonZero}_F(b)$ along this classifier equality by the nonzero-transport row of \autoref{def:field-stability-certificate}. This gives
+$\mathsf{NonZero}_F(0)$, contradicting the zero-contradiction row of the same stability certificate. Hence
+$\mathsf{mul}(a,b)\hsame0\to\bot$.
+
+Applying the displayed conversion $\alpha_{ab}$ to this product apartness gives the required witness
+$\mathsf{NonZero}_F(\mathsf{mul}(a,b))$.
+\end{proof}
