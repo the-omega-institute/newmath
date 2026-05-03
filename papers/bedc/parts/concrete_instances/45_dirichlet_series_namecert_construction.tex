@@ -47,6 +47,32 @@ For every \((a, s, N)\), there is a unique complex history \(S_N\) with \(\maths
 By unary induction on \(N\), using totality of \(\mathsf{DirTerm}\) and complex addition.
 \end{proof}
 
+\begin{theorem}[Dirichlet series successor index tail is nonempty]
+\label{thm:dirichlet-series-index-e1-tail-nonempty}
+For every history $n:\mathsf{BHist}$, if $n$ is a unary index, then
+$\mathsf{BHist.e1}(n)$ is again a unary index and
+$\hsame(\mathsf{BHist.e1}(n),\emp)\to\bot$.
+\end{theorem}
+\begin{proof}
+Unary indices are closed under the $\Eone$ constructor. The constructor
+$\mathsf{BHist.e1}$ is disjoint from $\emp$, so the successor index supplies a
+nonempty tail witness for Dirichlet indexing.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletSeriesIndex\_e1\_tail\_nonempty}
+
+\begin{theorem}[Dirichlet series appended unary tail is nonempty]
+\label{thm:dirichlet-series-index-append-unary-tail-nonempty}
+For histories $n,tail:\mathsf{BHist}$, if $n$ is a unary index distinct from
+$\emp$ and $tail$ is unary, then $\mathsf{append}(n,tail)$ is unary and
+$\hsame(\mathsf{append}(n,tail),\emp)\to\bot$.
+\end{theorem}
+\begin{proof}
+Unary histories are closed under append. If the appended history were empty,
+append-empty inversion would force the left factor $n$ to be empty, contrary to
+the supplied nonempty index witness.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletSeriesIndex\_append\_unary\_tail\_nonempty}
+
 \section{Abscissa of absolute convergence}
 
 \begin{definition}[Abscissa of absolute convergence]
