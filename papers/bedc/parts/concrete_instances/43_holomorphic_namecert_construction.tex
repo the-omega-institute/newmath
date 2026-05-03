@@ -7,8 +7,9 @@ This chapter gives a concrete naming-certificate construction for holomorphic fu
 
 \begin{definition}[Open disk predicate]
 \label{def:open-disk}
-For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the open-disk predicate \(\mathsf{OpenDisk}(z_0, r, z)\) holds when the rational representation of the modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). The witness is an explicit unary gap function.
+For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unary gap \(g\), the open-disk predicate \(\mathsf{OpenDisk}(z_0, r, z, g)\) holds when the rational representation of the modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). We write \(\mathsf{OpenDisk}(z_0,r,z)\) when the gap witness is existentially understood. The BEDC kernel anchor records the four histories as unary and records the boundary ledger by \(\Cont(z,g,r)\).
 \end{definition}
+\leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
@@ -17,6 +18,24 @@ For every \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap modulus
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
 \end{proof}
+
+\begin{lemma}[Open-disk transport along \(\hsame\)]
+\label{lem:holomorphic-open-disk-hsame-transport}
+If \(\mathsf{OpenDisk}(z_0,r,z,g)\) and each of \(z_0,r,z,g\) is replaced by an \(\hsame\)-equivalent history, then the transported tuple is again an open-disk witness. The transported witness exposes the unary carriers of the four target histories and the transported ledger \(\Cont(z',g',r')\).
+\end{lemma}
+\begin{proof}
+Transport the four unary fields by unary-history stability under \(\hsame\), and transport the boundary ledger by \(\Cont\)-stability under \(\hsame\) on source, gap, and result.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_hsame\_transport}
+
+\begin{lemma}[Radius ledger enlargement]
+\label{lem:holomorphic-open-disk-radius-extension-closed}
+If \(\mathsf{OpenDisk}(z_0,r,z,g)\), \(e\) is unary, and \(\Cont(r,e,r')\), then \(\mathsf{OpenDisk}(z_0,r',z,g \cdot e)\), where \(g \cdot e\) denotes BEDC history append.
+\end{lemma}
+\begin{proof}
+The radius carrier follows from unary closure of \(\Cont(r,e,r')\). The enlarged gap is unary by append closure, and the ledger \(\Cont(z,g \cdot e,r')\) is obtained by composing \(\Cont(z,g,r)\) with \(\Cont(r,e,r')\) using associativity of append.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_closed}
 
 \section{Holomorphic predicate}
 
