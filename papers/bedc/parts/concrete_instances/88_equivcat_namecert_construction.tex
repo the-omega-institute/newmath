@@ -167,6 +167,27 @@ $q$ with $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_deterministic}
 
+\begin{theorem}[EquivCat empty roundtrip unit-counit equivalence]
+\label{thm:equivcat-adjunction-empty-roundtrip-unit-counit-empty-iff}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+then the two displayed roundtrip results classify to $\emp$ exactly when the
+unit and counit components classify to $\emp$:
+$$
+left\hsame\emp\ \wedge\ right\hsame\emp
+\quad\Longleftrightarrow\quad
+unit\hsame\emp\ \wedge\ counit\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the unit-counit part of the empty roundtrip prefix
+determinacy theorem. Conversely, after the unit and counit are identified with
+$\emp$, the stored triangle continuations have the same source and suffix as
+the right-unit continuation at $\emp$; continuation determinism identifies
+both displayed roundtrip results with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_unit\_counit\_empty\_iff}
+
 \section{The certificate}
 \label{sec:equivcat-certificate}
 

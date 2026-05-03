@@ -48,5 +48,25 @@ preservation transports this empty result back to $d(h\cdot k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_closed}
 
+\begin{theorem}[Cohomology cocycle append empty equivalence]
+\label{thm:cohomology-cocycle-append-empty-iff}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For
+histories $h,k:\mathsf{BHist}$, the appended history $h\cdot k$ is a
+$d$-cocycle exactly when both $h$ and $k$ are $d$-cocycles:
+$$
+d(h\cdot k)\hsame\emp
+\quad\Longleftrightarrow\quad
+d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Append preservation transports the displayed cocycle on $h\cdot k$ to the
+empty appended history $\mathsf{append}(d(h),d(k))$, and BEDC
+append-empty inversion splits this into the two component cocycle equations.
+Conversely, the core append closure theorem combines the two component
+cocycles into the appended cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
+
 \section{The certificate}
 \label{sec:cohomology-certificate}
