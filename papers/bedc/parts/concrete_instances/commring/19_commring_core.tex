@@ -163,6 +163,22 @@ $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_right\_absurd}
 
+\begin{theorem}[CommRing singleton classifier visible-prefix exclusion]
+\label{thm:commring-singleton-classifier-append-visible-prefix-absurd}
+For histories $p,q,h:\mathsf{BHist}$, neither
+$\rho_{\emp}(\mathsf{append}(\mathsf{e0}(p),q),h)$ nor
+$\rho_{\emp}(\mathsf{append}(\mathsf{e1}(p),q),h)$ can hold.
+\end{theorem}
+\begin{proof}
+Unfold the singleton commutative-ring classifier. In either branch, the left
+carrier field says that the displayed append endpoint is $\emp$. The
+empty-result inversion theorem for append splits this into an empty visible
+prefix and an empty suffix. The former would identify $\mathsf{e0}(p)$ or
+$\mathsf{e1}(p)$ with $\emp$, contradicting the constructor separation of
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_prefix\_absurd}
+
 \begin{theorem}[CommRing singleton carrier visible exclusion]
 \label{thm:commring-singleton-carrier-visible-absurd}
 For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor

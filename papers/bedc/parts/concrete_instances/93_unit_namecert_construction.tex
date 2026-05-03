@@ -120,6 +120,20 @@ $\mathsf{Cont}(\emp,\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_empty\_iff}
 
+\begin{theorem}[Unit history carrier continuation suffix closure]
+\label{thm:unit-history-carrier-continuation-suffix-closed}
+For histories $h,k,r:\mathsf{BHist}$, if $h$ lies in the unit history carrier,
+$\Cont(h,k,r)$ holds, and $r\hsame\emp$, then $k$ lies in the unit history
+carrier.
+\end{theorem}
+\begin{proof}
+The carrier characterization identifies $h$ with $\emp$. Transporting the
+displayed continuation along this source identification, the reflexive suffix
+identification, and the empty result identification gives
+$\Cont(\emp,k,\emp)$, which is exactly the unit history carrier for $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_continuation\_suffix\_closed}
+
 \section{The certificate}
 \label{sec:unit-certificate}
 
