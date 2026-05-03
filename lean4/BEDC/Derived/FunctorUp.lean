@@ -1,5 +1,6 @@
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.Cycle
+import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.Prefix
 
@@ -384,6 +385,35 @@ theorem FunctorPrefixHomCarrier_e1_morphism_target_components_iff {p a k r : BHi
       (CategoryHomCarrier_e1_morphism_target_iff (a := append p a) (k := k) (r := r)).mpr
         (And.intro (unary_append_closed data.left data.right.left)
           (And.intro data.right.right.left data.right.right.right))
+
+theorem FunctorPrefixHomCarrier_e1_endpoint_visible_morphism_iff {p a r k : BHist} :
+    CategoryHomCarrier (append p (BHist.e1 a)) (append p (BHist.e1 r)) (BHist.e1 k) ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory k ∧ UnaryHistory r ∧
+        Cont (BHist.e1 a) k r := by
+  constructor
+  · intro homCarrier
+    have baseCarrier :=
+      FunctorPrefixHomCarrier_reflects
+        (p := p) (a := BHist.e1 a) (b := BHist.e1 r) (f := BHist.e1 k) homCarrier
+    have visibleData :=
+      (CategoryHomCarrier_e1_source_e1_target_visible_morphism_iff
+        (a := a) (r := r) (k := k)).mp baseCarrier
+    exact
+      And.intro (unary_append_left_factor homCarrier.left)
+        (And.intro visibleData.left
+          (And.intro visibleData.right.left
+            (And.intro visibleData.right.right.left visibleData.right.right.right)))
+  · intro data
+    have baseCarrier :=
+      (CategoryHomCarrier_e1_source_e1_target_visible_morphism_iff
+        (a := a) (r := r) (k := k)).mpr
+        (And.intro data.right.left
+          (And.intro data.right.right.left
+            (And.intro data.right.right.right.left data.right.right.right.right)))
+    exact
+      FunctorPrefixHomCarrier_preserves
+        (p := p) (a := BHist.e1 a) (b := BHist.e1 r) (f := BHist.e1 k)
+        data.left baseCarrier
 
 theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BHist} :
     CategoryHomCarrier (append p a) target f →

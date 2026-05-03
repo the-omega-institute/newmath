@@ -84,6 +84,26 @@ the empty component.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_source\_empty\_component\_iff}
 
+\begin{theorem}[NatTrans one-headed target empty component exactness]
+\label{thm:nattrans-prefix-component-e1-target-empty-component-iff}
+For histories $p,q,a$, an empty prefix component from $p$ to $\Eone(q)$ over
+$a$ exists exactly when $q$ and $a$ are unary and the source prefix is literally
+$\Eone(q)$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,\Eone(q),a,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(q)\wedge\mathsf{UnaryHistory}(a)\wedge p=\Eone(q).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-identity component exactness. Unary inversion on the one-headed
+target prefix extracts unary membership of $q$, and the prefix sameness
+specializes to the equality $p=\Eone(q)$. Conversely, substituting this equality
+rebuilds the one-headed source prefix, and empty-identity exactness packages
+the empty component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_e1\_target\_empty\_component\_iff}
+
 \begin{theorem}[NatTrans prefix component empty-source prefix exactness]
 \label{thm:nattrans-prefix-component-carrier-empty-source-prefix}
 For histories $q,a,\eta$, a prefix component from the empty prefix to $q$ over

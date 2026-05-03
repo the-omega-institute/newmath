@@ -301,9 +301,11 @@ import BEDC.Derived.CategoryUp.TailCarrierAlignment
 import BEDC.Derived.CategoryUp.NonemptyTailResultDescent
 import BEDC.Derived.CategoryUp.TargetSourceCasesIff
 import BEDC.Derived.CategoryUp.NonemptyMorphismSourceCases
+import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
+import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Reflection

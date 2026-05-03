@@ -91,6 +91,27 @@ witnesses together with the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_morphism\_cases\_iff}
 
+\begin{theorem}[Category one-headed endpoint visible morphism exactness]
+\label{thm:category-hom-carrier-e1-source-e1-target-visible-morphism-iff}
+For histories $a,r,k$, a visible morphism between one-headed source and target
+histories is exactly unary data on the three visible tails together with the
+tail continuation:
+$$
+\mathsf{CategoryHomCarrier}(\Eone(a),\Eone(r),\Eone(k))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\wedge\mathsf{UnaryHistory}(k)\wedge
+\mathsf{UnaryHistory}(r)\wedge\ContR(\Eone(a),k,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the one-headed morphism-target exactness theorem to the displayed target
+$\Eone(r)$ and morphism $\Eone(k)$. The source carrier and target carrier are
+read back by one-headed unary inversion, while the reverse direction packages
+the source carrier as $\Eone(a)$ and applies the same morphism-target
+exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_target\_visible\_morphism\_iff}
+
 \begin{theorem}[Category one-headed source composite target visibility]
 \label{thm:category-hom-carrier-e1-source-comp-target-visible}
 For histories $a,b,c,f,g,fg$, composing a hom-carrier with source $\Eone(a)$
