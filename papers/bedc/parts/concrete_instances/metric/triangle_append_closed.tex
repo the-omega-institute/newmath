@@ -148,6 +148,30 @@ field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
+\label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
+witnesses hold and the final triangle distance is not history-same as $\emp$,
+then at least one endpoint of the triangle is not history-same as $\emp$:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+(d_{xyz}\hsame\emp\to\mathsf{False})\Longrightarrow
+\bigl((x\hsame\emp\to\mathsf{False})\vee
+(y\hsame\emp\to\mathsf{False})\vee
+(z\hsame\emp\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply metric nonempty-distance endpoint exactness to the outer witness
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$. If the nonempty endpoint is
+$z$, the conclusion follows directly. If it is $d_{xy}$, apply the same
+exactness theorem to $\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, yielding a
+nonempty $x$ or $y$ endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_endpoint\_nonempty}
+
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
 For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$

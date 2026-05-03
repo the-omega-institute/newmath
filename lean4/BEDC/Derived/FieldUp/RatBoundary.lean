@@ -188,4 +188,15 @@ theorem fieldSingletonEmptyClassifier_append_RatHistoryLedgerPolicy_absurd
   exact (RatHistoryLedgerPolicy_fieldSingletonEmptyCarrier_endpoints_absurd ledger).left
     splitLeft.right
 
+theorem FieldSingletonClassifier_append_RatHistoryCarrier_absurd {p h endpoint : BHist} :
+    (FieldSingletonClassifier (append p h) endpoint -> RatHistoryCarrier h -> False) ∧
+      (FieldSingletonClassifier (append h p) endpoint -> RatHistoryCarrier h -> False) := by
+  constructor
+  · intro classified carrierH
+    have splitLeft := append_eq_empty_iff.mp classified.left
+    exact RatHistoryCarrier_not_empty carrierH splitLeft.right
+  · intro classified carrierH
+    have splitLeft := append_eq_empty_iff.mp classified.left
+    exact RatHistoryCarrier_not_empty carrierH splitLeft.left
+
 end BEDC.Derived.FieldUp

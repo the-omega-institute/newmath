@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp.DepthZero
+import BEDC.Derived.MetricUp.BoundaryExactness
 
 namespace BEDC.Derived.MetricUp
 
@@ -116,5 +117,25 @@ theorem MetricDistanceWitness_triangle_depth_zero_collapse {x y z dxy dyz dxyz :
     (And.intro xEmpty
       (And.intro yEmpty
         (And.intro zEmpty (And.intro dxyEmpty dyzEmpty))))
+
+theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> (hsame dxyz BHist.Empty -> False) ->
+        (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
+          (hsame z BHist.Empty -> False) := by
+  intro xy _yz xyz nonemptyDxyz
+  have outerEndpoints :=
+    MetricDistanceWitness_nonempty_distance_endpoint_nonempty xyz nonemptyDxyz
+  cases outerEndpoints with
+  | inl nonemptyDxy =>
+      have leftEndpoints :=
+        MetricDistanceWitness_nonempty_distance_endpoint_nonempty xy nonemptyDxy
+      cases leftEndpoints with
+      | inl nonemptyX =>
+          exact Or.inl nonemptyX
+      | inr nonemptyY =>
+          exact Or.inr (Or.inl nonemptyY)
+  | inr nonemptyZ =>
+      exact Or.inr (Or.inr nonemptyZ)
 
 end BEDC.Derived.MetricUp

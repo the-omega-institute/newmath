@@ -96,6 +96,28 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_left\_ratHistoryCarrier\_absurd}
 
+\begin{theorem}[Field singleton append classifier excludes a RatUp history carrier]
+\label{thm:field-singleton-classifier-append-rat-history-carrier-absurd}
+For all histories $p,h,endpoint:\mathsf{BHist}$, a singleton classifier whose
+left endpoint is either $\mathsf{append}(p,h)$ or $\mathsf{append}(h,p)$ is
+incompatible with $\mathsf{RatHistoryCarrier}(h)$:
+$$
+\bigl(\mathsf{FieldSingletonClassifier}(\mathsf{append}(p,h),endpoint)\to
+\mathsf{RatHistoryCarrier}(h)\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{FieldSingletonClassifier}(\mathsf{append}(h,p),endpoint)\to
+\mathsf{RatHistoryCarrier}(h)\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the first orientation, the singleton classifier contains the carrier
+comparison $\mathsf{append}(p,h)\hsame\emp$. Append-empty inversion extracts
+$h\hsame\emp$, contradicting $\mathsf{RatHistoryCarrier}(h)$ by rational
+history nonemptiness. The second orientation is the same argument with the
+left factor selected by append-empty inversion.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_RatHistoryCarrier\_absurd}
+
 \begin{theorem}[Singleton append classifier excludes RatUp classifier endpoints]
 \label{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
 For all histories $L,R,h,k:\mathsf{BHist}$, if
