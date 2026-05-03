@@ -60,6 +60,29 @@ Collecting these conclusions gives the stated determinacy package.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_prefix\_determinacy}
 
+\begin{theorem}[EquivCat empty roundtrip target-prefix determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-target-prefix-deterministic}
+For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+$left\hsame\emp$ and $right\hsame\emp$, and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,r,a,\emp)
+$$
+is also displayed, then $q\hsame r$.
+\end{theorem}
+\begin{proof}
+The empty roundtrip identity-components theorem extracts the reverse empty
+component
+$$
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp)
+$$
+from the adjunction carrier and the two empty displayed roundtrips. Composing
+that empty component with the displayed empty component from $p$ to $r$ by
+NatTrans empty-identity prefix transitivity identifies the target prefix
+$q$ with $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_deterministic}
+
 \section{The certificate}
 \label{sec:equivcat-certificate}
 
