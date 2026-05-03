@@ -200,6 +200,7 @@ import BEDC.Derived.FieldUp.RatDenomContextPair
 import BEDC.Derived.FieldUp.ContextualActionPair
 import BEDC.Derived.FieldUp.EmptyUnitCancellation
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
+import BEDC.Derived.FieldUp.SingletonAppendSuffixCancel
 import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FieldUp.NondegenerateSemanticExit
 import BEDC.Derived.FpsUp
@@ -279,6 +280,7 @@ import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.RightTailFixedIdentity
 import BEDC.Derived.CategoryUp.ContLeftE1Result
+import BEDC.Derived.CategoryUp.EmptySourceVisibleTargetTail
 import BEDC.Derived.CategoryUp.UnaryTailZero
 import BEDC.Derived.CategoryUp.E1SourceCompTargetVisible
 import BEDC.Derived.CategoryUp.SourceMorphismCasesIff
