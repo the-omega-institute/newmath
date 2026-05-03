@@ -195,6 +195,7 @@ import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.SingletonAppend
+import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
