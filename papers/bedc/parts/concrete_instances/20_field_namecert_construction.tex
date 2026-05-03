@@ -473,6 +473,79 @@ predicate inverse-product classifier equivalence plus affine fiber and
 cancellation exactness; standard bridge ordinary field reducts with ordinary
 affine action; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp contextual pair transport full noncollapse invariance]
+\label{thm:ratup-fieldup-contextual-pair-transport-full-noncollapse-invariance}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$$
+x_L:=\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))
+$$
+and
+$$
+x_R:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)).
+$$
+Suppose $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$;
+suppose $C_D^u(h)$; suppose the four denominator context comparisons
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$ hold; and
+suppose $\mathsf{RatHistoryCarrier}(x_L)$. Then the transported endpoint $x_R$
+has the following concrete noncollapse package:
+\begin{enumerate}
+  \item $R_D^u(x_L,x_R)$;
+  \item $C_D^u(x_R)$;
+  \item $\mathsf{RatHistoryCarrier}(x_R)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x_R)\to\bot$;
+  \item $x_R\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x_R))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x_R,r))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x_R))$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x_R,r))$;
+  \item for all $L,R:\mathsf{BHist}$,
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x_R),
+  \mathsf{append}(R,x_R))\to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-denom-unit-contextual-action-pair-transport-classifier} to the
+four denominator classifier rows and the two nested contextual actions. This
+gives the transported denominator classifier $R_D^u(x_L,x_R)$.
+
+Next apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+to the same empty endpoints, carried source, and classifier rows. Transporting
+the assumed $\mathsf{RatHistoryCarrier}(x_L)$ witness gives
+$\mathsf{RatHistoryCarrier}(x_R)$, and the carrier component gives $C_D^u(x_R)$.
+
+The endpoint noncollapse clauses come from
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} with
+the same data. This supplies the singleton-empty rejection at $x_R$ and the
+direct empty-history rejection $x_R\hsame\emp\to\bot$.
+
+For contextual singleton-carrier rejection, apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}.
+For each context history $r$, it rejects both
+$\mathsf{append}(r,x_R)$ and $\mathsf{append}(x_R,r)$ as singleton-empty
+carriers.
+
+Then apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+to the same transported endpoint. It repacks the two contextual carrier
+rejections as the proof-indexed nonzero witnesses for both append orders.
+
+Finally apply
+\autoref{thm:ratup-fieldup-transported-strict-support-singleton-classifier-exclusion}.
+For all $L,R:\mathsf{BHist}$, this rules out a singleton-empty classifier
+between $\mathsf{append}(L,x_R)$ and $\mathsf{append}(R,x_R)$, completing the
+displayed package.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp affine inverse uniqueness exit]
 \label{thm:ratup-fieldup-affine-inverse-uniqueness-exit}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
