@@ -178,4 +178,36 @@ protected theorem group_center_normalizer_orbit_collapse_from_empty_unit_iff
         (And.intro (centerX a)
           (And.intro centralY (hsame_trans (unitAction x) sameXY))))
 
+protected theorem group_center_normalizer_orbit_fiber_determinacy_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y z : BHist} :
+    let Center := fun t : BHist => forall q : BHist, hsame (mul t q) (mul q t)
+    let Centralizer := fun t : BHist => hsame (mul t a) (mul a t)
+    let Conj := fun s t : BHist => mul (mul s t) (inv s)
+    let Normalizer := fun s : BHist =>
+      (forall t : BHist, Centralizer t -> Centralizer (Conj s t)) ∧
+        (forall t : BHist, Centralizer t -> Centralizer (Conj (inv s) t))
+    let Orbit := fun u v : BHist =>
+      Exists (fun s : BHist =>
+        Normalizer s ∧ Centralizer u ∧ Centralizer v ∧ hsame (Conj s u) v)
+    Center x -> Centralizer y -> Centralizer z -> Orbit x y -> Orbit x z -> hsame y z := by
+  dsimp
+  intro centerX centralY centralZ orbitXY orbitXZ
+  have collapseY :=
+    BEDC.Derived.GroupUp.group_center_normalizer_orbit_collapse_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv (a := a) (x := x) (y := y)
+  have collapseZ :=
+    BEDC.Derived.GroupUp.group_center_normalizer_orbit_collapse_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv (a := a) (x := x) (y := z)
+  have sameXY : hsame x y := (collapseY centerX centralY).mp orbitXY
+  have sameXZ : hsame x z := (collapseZ centerX centralZ).mp orbitXZ
+  exact hsame_trans (hsame_symm sameXY) sameXZ
+
 end BEDC.Derived.GroupUp

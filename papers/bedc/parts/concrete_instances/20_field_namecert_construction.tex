@@ -101,6 +101,7 @@ comparisons form a single certificate: changing product witnesses does not
 change the collected explicit inverse, and each collected representative
 agrees with the reverse-composed inverse $s_1(s_2(q))$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_affine\_composite\_inverse\_product\_witness\_independence}
 
 Per-object certificate: traditional target affine composite inverse ledger
 determinacy; BEDC source $\FieldUp$ over $\mathsf{BHist}$; carrier
@@ -548,6 +549,94 @@ exactness predicate one final FieldUp exit boundary independent of certified
 selector-pair replacement; downstream consumer stable algebra-hierarchy exit
 certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp selector-chain final boundary]
+\label{thm:ratup-fieldup-selector-chain-final-boundary}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v,w,z:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint
+selector of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}
+for each $q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds,
+then the same concrete $\FieldUp(\RatUp)$ final exit boundary contains the
+following rows:
+\begin{enumerate}
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(s,t)$;
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(u,v)$;
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(w,z)$;
+  \item
+  $$
+  R_D^u(E_s(h,k,\ell),E_w(h,k,\ell))
+  \land
+  R_D^u(E_t(h,k,\ell),E_z(h,k,\ell));
+  $$
+  \item
+  $$
+  \mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_w(h,k,\ell))
+  \land
+  \mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_z(h,k,\ell)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary} to the
+selector comparison from $(s,t)$ to $(u,v)$ with the same concrete exit object,
+denominator tuple, histories, carrier witnesses, support witness, and contexts
+$L,R,r:\mathsf{BHist}$. This gives the final-boundary rows for $(s,t)$ and
+$(u,v)$ together with the componentwise denominator and
+$\mathsf{RatHistoryClassifier}$ rows from $E_s$ to $E_u$ and from $E_t$ to
+$E_v$.
+
+Next apply
+\autoref{thm:ratup-fieldup-selector-independent-final-boundary} to the
+selector comparison from $(u,v)$ to $(w,z)$ over the same data. This gives the
+final-boundary rows for $(u,v)$ and $(w,z)$ together with the componentwise
+denominator and $\mathsf{RatHistoryClassifier}$ rows from $E_u$ to $E_w$ and
+from $E_v$ to $E_z$.
+
+It remains to collapse the two adjacent replacements into endpoint rows. Use
+the transitivity field of the concrete denominator classifier $R_D^u$ to
+compose
+$$
+R_D^u(E_s(h,k,\ell),E_u(h,k,\ell))
+\quad\text{with}\quad
+R_D^u(E_u(h,k,\ell),E_w(h,k,\ell))
+$$
+
+and likewise compose the $E_t$ to $E_v$ row with the $E_v$ to $E_z$ row.
+
+Finally use the transitivity field of $\mathsf{RatHistoryClassifier}$ in the
+same two components. Conjunction introduction repacks the three
+final-boundary row families and the two chained componentwise classifier
+families into one stable final boundary for the concrete
+$\FieldUp(\RatUp)$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target selector-chain final boundary inside
+$\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
+$\mathsf{RatUp}$, and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; selected endpoints
+$E_s(h,k,\ell)$, $E_t(h,k,\ell)$, $E_u(h,k,\ell)$, $E_v(h,k,\ell)$,
+$E_w(h,k,\ell)$, and $E_z(h,k,\ell)$; carrier rows the three final certificate
+boundaries plus the two chained componentwise denominator comparisons;
+classifier rows $\mathsf{RatHistoryClassifier}$ for the two chained selector
+comparisons; nonzero rows the contextual witnesses consumed by the three final
+certificate boundaries; stability obligations selector-independent final
+boundary and transitivity for both denominator and history classifiers; ledger
+selector pairs $(s,t)$, $(u,v)$, and $(w,z)$ plus contexts $L,R,r$; exactness
+predicate one final FieldUp exit boundary closed under selector-chain
+replacement; downstream consumer stable selector-chain replacement for the
+Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit certificate; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp concrete exit selector-independent final boundary]
 \label{thm:ratup-fieldup-concrete-exit-selector-independent-final-boundary}
 For $\mathsf{RatUpFieldSource}_F$, the concrete exit object of
@@ -623,3 +712,5 @@ contexts $L,R,r$; core theorem
 \autoref{thm:ratup-fieldup-concrete-final-obstruction-boundary-package};
 exactness one concrete final exit package; downstream consumer Phase Algebra
 Hierarchy $\FieldUp(\RatUp)$ exit criterion; status $\mathsf{ProofTarget}$.
+
+\input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
