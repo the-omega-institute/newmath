@@ -522,6 +522,14 @@ theorem SubgroupCentralizerQuotientKernel_witness_classifier_iff
       (And.intro kernelClassified.right.left
         (Exists.intro (mul (inv x) y)
           (And.intro kernelClassified.right.right sameYWitness)))
+theorem SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist} (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z))) (leftId : forall
+    x : BHist, hsame (mul BHist.Empty x) x) (rightId : forall x : BHist, hsame (mul x BHist.Empty) x) (mulCongr : forall {a a' b b' : BHist}, hsame a
+    a' -> hsame b b' -> hsame (mul a b) (mul a' b')) (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty) (rightInv : forall x : BHist,
+    hsame (mul x (inv x)) BHist.Empty) {a x y : BHist} : (SubgroupCentralizerNormalizer mul inv a x ∧ SubgroupCentralizerNormalizer mul inv a y ∧
+    Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧ hsame y (mul x z))) <-> SubgroupCentralizerQuotientKernel mul inv a x y := by
+  exact SubgroupCentralizerQuotientKernel_witness_classifier_iff
+    assocC leftId rightId mulCongr leftInv rightInv
 theorem SubgroupCentralizerRightCosetClassifier_quotientKernel_iff
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist} (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z))) (leftId : forall
     x : BHist, hsame (mul BHist.Empty x) x) (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' -> hsame (mul a b) (mul a' b')) (leftInv
