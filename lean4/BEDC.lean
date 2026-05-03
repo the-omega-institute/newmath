@@ -190,6 +190,7 @@ import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.AbGroupUp
+import BEDC.Derived.HomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor

@@ -41,4 +41,14 @@ theorem ZetaZeroSourceSpec_hsame_transport_classifier {s t : BHist} :
     And.intro carrierT sameTZero
   exact And.intro sourceT (ZetaZeroSourceSpec_zero_classifier sourceT)
 
+theorem ZetaZeroSourceSpec_zero_anchor_unique {s t : BHist} :
+    ZetaZeroSourceSpec s ->
+      ZetaZeroSourceSpec t ->
+        hsame s t ∧
+          hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+            hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro sourceS sourceT
+  exact And.intro (hsame_trans sourceS.right (hsame_symm sourceT.right))
+    (And.intro sourceS.right sourceT.right)
+
 end BEDC.Derived.ZetaZerosUp
