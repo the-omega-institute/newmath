@@ -23,4 +23,14 @@ theorem FieldSingletonAdd_endpoint_classifier_iff {h k out : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro outEmpty (hsame_symm outEmpty))
 
+theorem FieldSingletonNeg_endpoint_classifier_iff {h out : BHist} :
+    FieldSingletonClassifier (FieldSingletonNeg h) out <-> hsame out BHist.Empty := by
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro outEmpty
+    have leftCarrier : FieldSingletonCarrier (FieldSingletonNeg h) := hsame_refl BHist.Empty
+    exact And.intro leftCarrier
+      (And.intro outEmpty (hsame_trans leftCarrier (hsame_symm outEmpty)))
+
 end BEDC.Derived.FieldUp

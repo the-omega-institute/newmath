@@ -1,0 +1,168 @@
+\chapter{Derivation Acceptance Gate}
+\label{ch:acceptance-gate}
+
+This chapter records the discipline by which a mature mathematical object becomes an admissible export of the BEDC kernel. The criterion is not that the object exists somewhere in the codebase: it is that the object carries (i) a typed naming certificate in the sense of \autoref{ch:core-typed-naming-certificates}, and (ii) a derivation certificate that places the object at one of four explicit strengths. The conjunction is the \emph{acceptance gate}. Read against \autoref{rem:three-axioms-gate-meaning}, the acceptance gate is the positive face of the same discipline whose negative face is the axiom-purity refusal: positive content admitted only if witnesses are constructed, not asserted.
+
+\section{Three derivation strengths and a fourth bridge layer}
+\label{sec:acceptance-gate-strengths}
+
+\begin{definition}[Derivation strength index]
+\label{def:acceptance-strength-index}
+The \emph{derivation strength index} is the four-element set
+\[
+  \Strength = \{\, \seedStr,\ \paperCertStr,\ \checkedCertStr,\ \bridgeCertStr \,\}
+\]
+ordered by $\seedStr < \paperCertStr < \checkedCertStr < \bridgeCertStr$.
+\end{definition}
+
+\begin{definition}[Derivation strength interpretations]
+\label{def:acceptance-strength-interpretations}
+The four strengths are read as follows. \textbf{$\seedStr$:} a naming seed has been declared; carrier and classifier are sketched; no exactness theorem has been settled. \textbf{$\paperCertStr$:} every clause of \autoref{def:typed-naming-certificate} is filled in by a paper-level proof, including a classifier-respecting transport. \textbf{$\checkedCertStr$:} every clause is additionally machine-checked, with each cited Lean target really present in \texttt{lean4/BEDC/}. \textbf{$\bridgeCertStr$:} a standard bridge as in \autoref{ch:acceptance-bridge} is exhibited, and the no-host-leak field of that bridge is itself machine-checked.
+\end{definition}
+
+\begin{remark}[The four strengths are layered, not parallel]
+\label{rem:acceptance-strengths-layered}
+Each strength contains the previous as a substructure: a paper certificate exhibits a naming seed, a checked certificate exhibits a paper certificate, and a bridge certificate exhibits a checked certificate together with a conservative bridge. The strength index records what is presently established, not what is in principle possible.
+\end{remark}
+
+\section{The acceptance gate}
+\label{sec:acceptance-gate-statement}
+
+\begin{definition}[Acceptance gate]
+\label{def:acceptance-gate}
+For a mature mathematical object $N$, the \emph{acceptance gate at strength $s \in \Strength$} is the predicate
+\[
+  \AcceptGate(N, s) \;:=\; \NameCert(N) \,\wedge\, \DerivCert(N, s).
+\]
+A claim that BEDC \emph{exports} $N$ is admissible only when $\AcceptGate(N, s)$ holds for some $s$, with the exported strength being the largest such $s$.
+\end{definition}
+
+\begin{definition}[Derivation certificate fields]
+\label{def:acceptance-derivation-certificate}
+The derivation certificate $\DerivCert(N, s)$ packages six fields:
+\begin{enumerate}
+  \item a \emph{source field} naming the BEDC layer that carries $N$ ($\Mark$, $\Hist$, $\Bundle$, $\Pkg$, or $\NameCert$);
+  \item a \emph{classifier field} witnessing the equivalence relation that organises $N$'s carriers into the intended classes;
+  \item an \emph{exactness field} naming the theorem that the classifier respects $\msame / \hsame / \psame$ on its source layer;
+  \item a \emph{ledger field} citing either \autoref{def:typed-naming-certificate}'s gap-policy ledger or an explicit absence statement;
+  \item a \emph{stability field} citing the $\StabCert$ of \autoref{def:typed-naming-certificate};
+  \item a \emph{strength index} $s \in \Strength$.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}[The acceptance gate refers to existing objects only]
+\label{rem:acceptance-gate-existing-objects}
+Every field of \autoref{def:acceptance-derivation-certificate} is a citation, not a new construction: source and classifier reuse the constructions of \autoref{ch:core-typed-naming-certificates}; exactness reuses the proof spines of \autoref{ch:proof-standing-internal-sameness-no-confusion}, \autoref{ch:proof-standing-ext-cont-proof-spine}, and \autoref{ch:proof-standing-signature-proof-spine}; ledger reuses the gap policy of \autoref{ch:core-gap-policies-coverage-separation-and-composition}; stability reuses the certificate's $\StabCert$ field. The gate adds no new mathematical structure; it adds a bookkeeping discipline.
+\end{remark}
+
+\begin{theorem}[The gate is monotone in strength]
+\label{thm:acceptance-gate-monotone}
+For any object $N$ and strengths $s, s' \in \Strength$ with $s' \le s$, $\AcceptGate(N, s) \to \AcceptGate(N, s')$.
+\end{theorem}
+\begin{proof}[Sketch]
+The naming-certificate conjunct is independent of the strength index. Each $\DerivCert(N, s)$ at higher $s$ exhibits the lower-$s$ certificate as substructure (\autoref{rem:acceptance-strengths-layered}); deleting the additional fields yields $\DerivCert(N, s')$.
+\end{proof}
+
+\begin{theorem}[The gate is closed under $\NameCert$ reuse]
+\label{thm:acceptance-gate-reuse}
+If $\AcceptGate(N, s)$ holds and $M$ is constructed from $N$ as a carrier-respecting reuse in the sense of $\ReuseCert$, then no separate $\NameCert(N)$ obligation is required for the construction of $M$. The $\NameCert(M)$ obligation must still be discharged on its own carrier.
+\end{theorem}
+\begin{proof}[Sketch]
+The reuse certificate of \autoref{def:typed-naming-certificate} carries a classifier-respecting transport from the carrier of $N$ to the carrier of $M$. The transport composes the existing classifier of $N$ with the construction of $M$, leaving the obligation that the constructed object satisfy its own certificate fields.
+\end{proof}
+
+\section{Marker-to-strength correspondence}
+\label{sec:acceptance-gate-markers}
+
+\begin{definition}[Marker assignment]
+\label{def:acceptance-marker-assignment}
+The five status macros of the manuscript map to derivation strengths:
+\begin{enumerate}
+  \item $\verb|\leandef|$ and $\verb|\leanstmt|$ on a target $X$ mark $X$ at strength $\seedStr$ when no proof clauses cite a checked target, otherwise at strength $\paperCertStr$;
+  \item $\verb|\leansorryd|$ on a target $X$ with rationale $r$ marks $X$ at strength $\seedStr$ regardless of paper coverage;
+  \item $\verb|\leanchecked|$ at the canonical proof site for target $X$, with no $\verb|\leansorryd|$ siblings on the same claim, marks $X$ at strength $\checkedCertStr$;
+  \item $\verb|\leanvariant|$ on a target $X$ does not change the strength of the canonical site; it labels a wrapper or projection at the strength of its primary;
+  \item the additional standard-bridge field of \autoref{ch:acceptance-bridge}, when present and machine-checked, lifts $X$ from $\checkedCertStr$ to $\bridgeCertStr$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[The audit script reflects strength assignment]
+\label{lem:acceptance-audit-reflects-strength}
+The script \texttt{lean4/scripts/bedc\_ci.py audit} verifies that every $\verb|\leanchecked|$ and $\verb|\leanvariant|$ argument names a Lean target really present in \texttt{lean4/BEDC/}. Combined with \autoref{def:acceptance-marker-assignment}, an audit-clean state implies that every claimed $\checkedCertStr$ object is supported by an extant Lean target.
+\end{lemma}
+\begin{proof}[Sketch]
+The audit's positive guarantee is that no \verb|\leanchecked| or \verb|\leanvariant| argument is dangling. The marker assignment of \autoref{def:acceptance-marker-assignment} only awards $\checkedCertStr$ to targets cited under those macros. The conjunction is the claim.
+\end{proof}
+
+\begin{remark}[The strength assignment is not an audit input]
+\label{rem:acceptance-strength-not-audit}
+The marker-to-strength map is a reading of the manuscript by the discipline of this chapter, not a hook the audit script consults. The audit's job is to refuse drift; the strength map's job is to record what the audited surface admits.
+\end{remark}
+
+\section{Upgrade obligations}
+\label{sec:acceptance-gate-upgrade}
+
+\begin{definition}[Upgrade obligation $\seedStr \to \paperCertStr$]
+\label{def:acceptance-upgrade-seed-to-paper}
+A seed strength $\seedStr$ object $N$ upgrades to $\paperCertStr$ when paper-level proofs are exhibited for: source membership; classifier transitivity and reflexivity on the cited source layer; exactness against $\msame / \hsame / \psame$; the absence or explicit form of a gap-policy ledger; the stability of the constructed certificate under composition with previously accepted certificates.
+\end{definition}
+
+\begin{definition}[Upgrade obligation $\paperCertStr \to \checkedCertStr$]
+\label{def:acceptance-upgrade-paper-to-checked}
+A paper-level certificate upgrades to $\checkedCertStr$ when, for every theorem named in the certificate, a corresponding Lean target is present in \texttt{lean4/BEDC/} and the manuscript carries a $\verb|\leanchecked|$ marker pointing to it. The site discipline of \autoref{rem:acceptance-canonical-site-discipline} below applies.
+\end{definition}
+
+\begin{definition}[Upgrade obligation $\checkedCertStr \to \bridgeCertStr$]
+\label{def:acceptance-upgrade-checked-to-bridge}
+A machine-checked certificate upgrades to $\bridgeCertStr$ when a standard bridge in the sense of \autoref{ch:acceptance-bridge} is exhibited, with each of its six fields supplied, and the no-host-leak field machine-checked against the host language.
+\end{definition}
+
+\begin{remark}[Canonical site discipline]
+\label{rem:acceptance-canonical-site-discipline}
+At each upgrade level, the canonical site of the corresponding marker is unique: a single $\verb|\leanchecked|$ for the primary statement, with $\verb|\leanvariant|$ markers reserved for wrappers, projections, and equivalent restatements. Two competing $\verb|\leanchecked|$ markers on the same claim violate the canonical site discipline and are refused at audit time.
+\end{remark}
+
+\begin{theorem}[Upgrade obligations are local]
+\label{thm:acceptance-upgrade-local}
+Each upgrade obligation refers only to the certificate of $N$ and the previously accepted certificates that $N$ reuses. The act of upgrading $N$ does not require re-discharging the obligations of objects $N$ depends on.
+\end{theorem}
+\begin{proof}[Sketch]
+Each obligation in \autoref{def:acceptance-upgrade-seed-to-paper}, \autoref{def:acceptance-upgrade-paper-to-checked}, and \autoref{def:acceptance-upgrade-checked-to-bridge} cites the certificate of $N$ alone or composes it with a previously accepted certificate via $\ReuseCert$. By \autoref{thm:acceptance-gate-reuse}, the reused certificate's gate status need not be re-established.
+\end{proof}
+
+\section{Closure under reuse and composition}
+\label{sec:acceptance-gate-closure}
+
+\begin{theorem}[Reuse closure]
+\label{thm:acceptance-gate-reuse-closure}
+If $N_1, \dotsc, N_k$ are objects with $\AcceptGate(N_i, s_i)$ and $M$ is constructed from the $N_i$ via $\ReuseCert$ instances, then $M$ admits an acceptance gate at strength $\min_i s_i$, conditional on $M$'s own certificate fields being supplied.
+\end{theorem}
+\begin{proof}[Sketch]
+The reuse certificate composes the classifier-respecting transports of the $N_i$ into a transport on $M$'s carrier. The strength of $M$ cannot exceed the weakest summand because the lower-strength fields are not present to be transported. The certificate's own fields (its source, classifier, exactness, ledger, stability) remain to be supplied at the chosen strength on $M$.
+\end{proof}
+
+\begin{theorem}[Composition with descent]
+\label{thm:acceptance-gate-composition-descent}
+If two accepted objects $N_1, N_2$ admit a $\DescentCert$ in the sense of \autoref{def:typed-naming-certificate}, then the descended construction admits an acceptance gate at strength $\min(s_1, s_2)$, conditional on its own certificate fields.
+\end{theorem}
+\begin{proof}[Sketch]
+The descent certificate carries the classifier-respecting transport of $N_1$ down to the constructed object via $N_2$'s carrier. The strength bound is the same as in \autoref{thm:acceptance-gate-reuse-closure}.
+\end{proof}
+
+\begin{remark}[The gate refuses retroactive promotion]
+\label{rem:acceptance-gate-no-retroactive}
+A construction admitted at strength $s$ does not become a construction at strength $s' > s$ merely because the inputs are later upgraded. Promoting the construction requires re-discharging \autoref{def:acceptance-upgrade-seed-to-paper}, \autoref{def:acceptance-upgrade-paper-to-checked}, or \autoref{def:acceptance-upgrade-checked-to-bridge} on the construction itself.
+\end{remark}
+
+\section{The gate as research-plan language}
+\label{sec:acceptance-gate-as-language}
+
+\begin{remark}[What the gate is for]
+\label{rem:acceptance-gate-purpose}
+The acceptance gate is not a new theorem; it is a vocabulary for stating the present derivation status of every claim in the manuscript and every Lean target in the codebase. Its role is to replace the implicit reading---that an object ``exists'' in BEDC if it appears anywhere---with the explicit reading that an object \emph{is exported at strength $s$} only when $\AcceptGate(N, s)$ holds. The chapters that follow use this vocabulary to state the bridge protocol (\autoref{ch:acceptance-bridge}) and the cannot-claim registry (\autoref{ch:acceptance-cannot-claim}).
+\end{remark}
+
+\begin{remark}[The gate is not a proof obligation]
+\label{rem:acceptance-gate-not-obligation}
+The proof obligations of \autoref{ch:proof-obligations-domain-policy} and its siblings are obligations on the kernel: they constrain what theorems must hold for the kernel to be coherent. The acceptance gate is an obligation on the manuscript: it constrains what claims may be made about objects exported from the kernel. The two disciplines compose: a kernel theorem that fails its proof obligation cannot support any object's acceptance at $\paperCertStr$ or above.
+\end{remark}

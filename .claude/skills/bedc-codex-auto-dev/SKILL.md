@@ -35,28 +35,70 @@ python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch c
 
 If either pipeline is already running on `codex-auto-dev`, do not start a duplicate. Report what is already running and monitor it instead.
 
-## Start and monitor
+## Start (background, detached)
 
-Use `Monitor`, not a separate background Bash launcher, so the command both starts and streams actionable events.
+**Always launch the orchestrators as fully-detached background processes — never inside a `Monitor` and never piped through anything that the harness owns.** The orchestrator must outlive any Claude Code session, Monitor swap, or filter change. Use `nohup … &` plus `disown` so the process re-parents to PID 1 and survives shell exit.
 
-Paper command:
+Use the `Bash` tool. Do **not** also pass `run_in_background: true` — `nohup … &` + `disown` already detaches; double-backgrounding only confuses cleanup.
 
-```bash
-python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --base-branch codex-auto-dev --resume && python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --base-branch codex-auto-dev --parallel 5 --continuous --peer-sync-interval 0 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|P[0-9]+'
-```
-
-Lean command:
+Paper:
 
 ```bash
-python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --parallel 5 --continuous --lake-parallel 1 --phase-b-timeout 3600 --phase-c-timeout 4500 2>&1 | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
+mkdir -p /Users/chronoai/newmath/papers/bedc/scripts/logs && \
+nohup bash -c '
+  python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
+    --base-branch codex-auto-dev --resume && \
+  python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
+    --base-branch codex-auto-dev --parallel 5 --continuous --peer-sync-interval 0
+' >> /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log 2>&1 &
+disown
 ```
+
+Lean:
+
+```bash
+mkdir -p /Users/chronoai/newmath/lean4/scripts/logs && \
+nohup python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py \
+  --base-branch codex-auto-dev --parallel 5 --continuous \
+  --lake-parallel 1 --phase-b-timeout 3600 --phase-c-timeout 4500 \
+  >> /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log 2>&1 &
+disown
+```
+
+Immediately after launching, confirm both processes are alive and re-parented:
+
+```bash
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep
+```
+
+`PPID` should be `1` (init) — that's the proof that nohup detached cleanly. If `PPID` is your shell's PID, the disown didn't take and a session exit will SIGHUP the orchestrator.
 
 Tune `--parallel` upward (3 → 5 → 7) only when phase B is consistently completing well under the timeout (otherwise rebase conflicts and codex-API contention eat the gain). `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under parallel ≥ 5: bump to 3600 / 4500. The lake gate stays at `--lake-parallel 1` regardless — multiple concurrent `lake build` exhaust memory.
 
-Use `persistent: true` for both monitors. Describe them as:
+## Monitor (read-only, never owns the orchestrator)
 
-- `BEDC paper pipeline on codex-auto-dev`
-- `BEDC Lean pipeline on codex-auto-dev`
+Monitors `tail -F` the log files the detached orchestrators write to. They are pure observers — killing, swapping, or re-launching a Monitor never touches the orchestrator process.
+
+Paper monitor:
+
+```bash
+tail -F /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log \
+  | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|P[0-9]+'
+```
+
+Lean monitor:
+
+```bash
+tail -F /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log \
+  | grep -E --line-buffered 'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Rebase conflict|Merging|Merged|builder|PASS|FAIL|R[0-9]+'
+```
+
+Use `persistent: true` for both. Describe them as:
+
+- `BEDC paper pipeline log on codex-auto-dev`
+- `BEDC Lean pipeline log on codex-auto-dev`
+
+Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
 ## 3-hour open-ended self-check loop
 
@@ -276,11 +318,11 @@ When making an autonomous change:
 
 NOT necessary (do not restart):
 
-- Swapping a Monitor `grep` filter to reduce noise. The orchestrator and Monitor share one process group, so any TaskStop kills the orchestrator with it. Tolerate the noise.
+- Swapping a Monitor `grep` filter to reduce noise. Monitors are now decoupled from the orchestrator (background-launched via nohup, see "Start (background, detached)") — kill or re-launch the Monitor freely.
 - A prompt or `critical_path.py` constant change. Those are hot-reloaded by next round dispatch.
 - A single round failure or a transient `ff update` race. Self-recovers.
 
-When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the Monitor commands above. Verify with `ps`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
+When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Verify with `ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep` that the new processes have `PPID 1`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
 
 Still NOT in autonomous scope (always ask):
 

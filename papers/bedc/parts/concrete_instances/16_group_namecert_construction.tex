@@ -1,5 +1,261 @@
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
+
+\begin{theorem}[Group singleton terminal classifier package]
+\label{thm:group-singleton-terminal-classifier-package}
+For histories $h,k,p,q:\mathsf{BHist}$, the concrete singleton $\GroupUp$
+instance of Definition~\ref{def:concrete-singleton-history-group-instance}
+carries the terminal classifier package:
+\begin{enumerate}
+\item The classifier is exactly the product carrier relation:
+$$
+R_{\emp}(h,k)\Longleftrightarrow A_{\emp}(h)\land A_{\emp}(k).
+$$
+
+\item With $\mathsf{mul}=\mathsf{append}$, multiplication is exactly closed on
+the singleton carrier:
+$$
+A_{\emp}(\mathsf{mul}(p,q))\Longleftrightarrow A_{\emp}(p)\land A_{\emp}(q).
+$$
+
+\item If $A_{\emp}(h)$, then the constant inverse has both endpoint
+classifications:
+$$
+A_{\emp}(\mathsf{inv}(h))\land R_{\emp}(\mathsf{inv}(h),h)\land R_{\emp}(h,\mathsf{inv}(h)).
+$$
+\end{enumerate}
+The per-object template names the traditional target as the terminal group; the
+BEDC source as the concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability as $\hsame$ symmetry/transitivity
+and append-empty exactness; ledger the hidden singleton endpoint witnesses; core
+theorem this block; exactness predicate the displayed iff rows; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $R_{\emp}$ and $A_{\emp}$. For the first row, the forward direction
+forgets only the displayed $\hsame(h,k)$ witness. Conversely, singleton carrier
+witnesses identify $h$ and $k$ with $\emp$; symmetry and transitivity of
+$\hsame$ compose those endpoint identifications through $\emp$ and supply the
+classifier comparison.
+
+For the second row, use Definition~\ref{def:concrete-singleton-history-group-instance}
+to replace $\mathsf{mul}$ by $\mathsf{append}$. From $A_{\emp}(p)$ and
+$A_{\emp}(q)$, append empty-result construction gives
+$A_{\emp}(\mathsf{append}(p,q))$. In the reverse direction, append empty-result
+inversion splits the singleton endpoint witness for $\mathsf{append}(p,q)$ into
+the two factor witnesses.
+
+For the third row, Definition~\ref{def:concrete-singleton-history-group-instance}
+gives the definitional equation $\mathsf{inv}(h)=\emp$. Hence
+$A_{\emp}(\mathsf{inv}(h))$ is the reflexive singleton endpoint witness, and the
+first row applied to $\mathsf{inv}(h)$ and $h$ packages both classifier
+orientations.
+\end{proof}
+
+\begin{theorem}[Group singleton continuation terminal collapse]
+\label{thm:group-singleton-continuation-terminal-collapse}
+For histories $P,Q,R,r:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the concrete
+singleton $\GroupUp$ continuation collapses the input classifier, both result
+classifiers, and the result carrier to one terminal condition:
+$$
+R_{\emp}(P,Q)\Longleftrightarrow
+R_{\emp}(R,P)\Longleftrightarrow
+R_{\emp}(R,Q)\Longleftrightarrow
+A_{\emp}(R).
+$$
+Moreover, under these equivalent conditions, both visible continuation results
+are excluded:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The per-object template names the traditional target terminal-group
+continuation collapse; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ plus $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from continuation result transport and empty-result inversion; ledger
+hidden continuation result endpoint; core theorem this block; exactness
+predicate the four-way equivalence; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-left} to
+identify the input classifier $R_{\emp}(P,Q)$ with the left result classifier
+$R_{\emp}(R,P)$ under the displayed continuation witness.
+
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-right} to
+identify the same input classifier $R_{\emp}(P,Q)$ with the right result
+classifier $R_{\emp}(R,Q)$. Then use
+Theorem~\ref{thm:group-singleton-continuation-result-carrier-iff} to identify
+$R_{\emp}(P,Q)$ with the result carrier condition $A_{\emp}(R)$. These three
+exactness statements give the four-way equivalence.
+
+Under any of the equivalent conditions, take the input-classifier presentation
+$R_{\emp}(P,Q)$. Theorem~\ref{thm:group-singleton-classifier-continuation-visible-result-absurd}
+then excludes both visible results $\Ezero(r)$ and $\Eone(r)$ for continuations
+from $P$ through $Q$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_centralizer_transport}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
 \input{parts/concrete_instances/group/16_group_certificate_tail}
+
+\begin{theorem}[Group product-unit inverse correspondence]
+\label{thm:group-product-unit-inverse-correspondence}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, write $xy$ for
+$\mathsf{mul}(x,y)$ and $x^{-1}$ for $\mathsf{inv}(x)$. Then every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\hsame(ab,e)
+\Longleftrightarrow
+\hsame(a,b^{-1})
+\Longleftrightarrow
+\hsame(b,a^{-1}).
+$$
+The ten-field fit is: traditional target product-equals-unit inverse
+extraction; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations left and right
+equation exactness, unit laws, inverse laws, inverse uniqueness, inverse
+involutivity, and multiplication congruence; ledger the two factors and the
+two extracted inverse witnesses; core theorem this block; exactness predicate
+the displayed chain of equivalences; standard bridge ordinary group inverse
+extraction from $ab=e$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-right-mul-equation-exactness} to the equation
+$\hsame(ab,e)$ with right factor $b$. It classifies the same equation by
+$\hsame(a,eb^{-1})$. The left identity law reduces $eb^{-1}$ to $b^{-1}$,
+so the product-unit equation is equivalent to $\hsame(a,b^{-1})$.
+
+Apply Theorem~\ref{thm:group-left-mul-equation-exactness} to the same equation
+with left factor $a$. It classifies the equation by $\hsame(b,a^{-1}e)$. The
+right identity law reduces $a^{-1}e$ to $a^{-1}$, giving the equivalence with
+$\hsame(b,a^{-1})$.
+
+The two extracted descriptions are compatible because a witness
+$\hsame(a,b^{-1})$ makes $a$ a right-inverse presentation for $b$, while
+$\hsame(b,a^{-1})$ makes $b$ a left-inverse presentation for $a$. The inverse
+uniqueness theorem identifies the two presentations, and inverse involutivity
+returns either double-inverse comparison to the original factor.
+\end{proof}
+
+\section{Center orbit collapse}
+\label{sec:group-center-orbit-collapse}
+
+\begin{theorem}[Group center normalizer orbit collapse]
+\label{thm:group-center-normalizer-orbit-collapse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $\mathsf{Z}(G)$ be
+the center carrier of \autoref{def:group-center-carrier}, and let $Z_a$,
+$N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be as in
+\autoref{def:group-centralizer-normalizer-carrier} and
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For histories
+$x,y:\mathsf{BHist}$, if $\mathsf{Z}(G)(x)$ and $Z_a(y)$, then
+$$
+x\sim_{N_a}y \Longleftrightarrow \hsame(x,y).
+$$
+The per-object template names the traditional target center orbit collapse;
+the BEDC source as $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{Z}(G)$ inside $Z_a$; classifier $\sim_{N_a}$ versus $\hsame$;
+stability from conjugation fixedness of center elements; ledger the normalizer
+witness; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-centralizer-normalizer-conjugation-action},
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, and
+\autoref{thm:group-center-normal-subgroup}; exactness predicate the displayed
+iff; standard bridge ordinary center elements have singleton conjugation
+orbits; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The last row of \autoref{thm:group-center-normal-subgroup} places the center
+element $x$ in the centralizer carrier $Z_a$. Thus the orbit relation has both
+endpoint carrier facts available once $Z_a(y)$ is supplied.
+
+For the forward direction, unpack a witness $s$ for $x\sim_{N_a}y$. Centrality
+of $x$ commutes $x$ past $s$ and past $\mathsf{inv}(s)$. Associativity, the
+two-sided inverse laws, unit laws, multiplication congruence, and inverse
+congruence then identify
+$\mathsf{Conj}_s(x)=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$ with
+$x$ under $\hsame$.
+
+Composing this fixedness comparison with the orbit endpoint witness
+$\hsame(\mathsf{Conj}_s(x),y)$ gives $\hsame(x,y)$ by symmetry and
+transitivity of $\hsame$.
+
+For the reverse direction, use the identity element as the normalizer witness.
+The identity row of \autoref{thm:group-centralizer-normalizer-subgroup} gives
+$N_a(e)$, and the identity-action row of
+\autoref{thm:group-centralizer-normalizer-conjugation-action} gives
+$\hsame(\mathsf{Conj}_e(x),x)$.
+
+Together with the center-to-centralizer carrier fact for $x$, the supplied
+$Z_a(y)$, and the assumed $\hsame(x,y)$, these data package the orbit witness
+for $x\sim_{N_a}y$.
+\end{proof}
+
+\section{Singleton continuation endpoint equivalence}
+\label{sec:group-singleton-continuation-endpoint-equivalence}
+
+\begin{theorem}[Group singleton continuation endpoint equivalence]
+\label{thm:group-singleton-continuation-result-endpoint-equivalence}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the concrete
+singleton group classifier compares the continuation result with either input
+endpoint equivalently:
+$$
+R_{\emp}(R,P)\Longleftrightarrow R_{\emp}(R,Q).
+$$
+The ten-field fit is: traditional target terminal-group endpoint agreement
+under continuation; BEDC source the concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ and $\Cont$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability from result-left and result-right classifier exactness; ledger the
+continuation witness; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-continuation-result-left} and
+Theorem~\ref{thm:group-singleton-classifier-continuation-result-right};
+exactness predicate the displayed iff; standard bridge the one-element group;
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-left} to
+identify $R_{\emp}(R,P)$ with the input classifier $R_{\emp}(P,Q)$ under the
+given continuation witness.
+
+Use Theorem~\ref{thm:group-singleton-classifier-continuation-result-right} to
+identify the same input classifier $R_{\emp}(P,Q)$ with $R_{\emp}(R,Q)$.
+Composing these two equivalences gives the displayed endpoint-to-endpoint
+equivalence.
+\end{proof}
+
+\begin{theorem}[Group singleton suffix-context product-unit split]
+\label{thm:group-singleton-suffix-contextual-product-unit-split}
+For histories $L,R,p,q:\mathsf{BHist}$, if $A_{\emp}(L)$ and $A_{\emp}(R)$,
+then
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(p,q),L),\mathsf{append}(\emp,R))
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q).
+$$
+The ten-field fit names the traditional target as terminal-group unit-product
+split under suffix contexts; the BEDC source as the concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$;
+stability as right-context cancellation plus append empty-result split; ledger
+the hidden suffix endpoints and factors $p,q$; core theorem list
+\autoref{thm:group-singleton-classifier-right-context-cancel} and
+\autoref{thm:group-singleton-classifier-product-unit-split}; exactness
+predicate the displayed iff; standard bridge terminal group suffix-context
+unit-product split; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-classifier-right-context-cancel} with
+$Q=\mathsf{append}(p,q)$ and $S=\emp$. The carrier hypotheses $A_{\emp}(L)$ and
+$A_{\emp}(R)$ strip the singleton suffix contexts, reducing the displayed
+classifier to
+$$
+R_{\emp}(\mathsf{append}(p,q),\emp).
+$$
+
+Apply \autoref{thm:group-singleton-classifier-product-unit-split} to this
+reduced classifier. It identifies the reduced classifier exactly with
+$A_{\emp}(p)\land A_{\emp}(q)$, giving both directions of the displayed
+equivalence.
+\end{proof}

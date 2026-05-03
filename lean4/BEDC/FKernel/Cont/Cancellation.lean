@@ -32,6 +32,21 @@ theorem cont_result_hsame_iff {a f r s : BHist} :
   · intro sameResult
     exact cont_result_hsame_transport continuation (hsame_symm sameResult)
 
+theorem cont_factorization_middle_hsame_iff {a b c f g bprime : BHist} :
+    Cont a f b -> Cont b g c ->
+      (Cont a f bprime ∧ Cont bprime g c <-> hsame bprime b) := by
+  intro left right
+  constructor
+  · intro factorization
+    exact cont_deterministic factorization.left left
+  · intro sameMiddle
+    have sameCanonical : hsame b bprime := hsame_symm sameMiddle
+    have leftPrime : Cont a f bprime :=
+      cont_result_hsame_transport left sameCanonical
+    have rightPrime : Cont bprime g c :=
+      cont_hsame_transport sameCanonical (hsame_refl g) (hsame_refl c) right
+    exact And.intro leftPrime rightPrime
+
 theorem cont_source_hsame_iff {a a' f r : BHist} :
     Cont a f r -> (Cont a' f r ↔ hsame a' a) := by
   intro continuation

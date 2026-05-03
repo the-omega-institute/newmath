@@ -406,6 +406,38 @@ def inventory_payload(
     }
 
 
+def detect_case_collision_paths() -> list[dict[str, object]]:
+    """Detect git index entries that differ only by case.
+
+    On case-insensitive filesystems (default macOS APFS, Windows NTFS) the
+    working tree can only hold one of the two paths, so the other index
+    entry's blob never matches disk and ``git status`` reports a
+    perpetually-modified file. The duplicate also breaks Lean's
+    case-sensitive import resolution on Linux CI even when local builds
+    pass. We scan ``git ls-files`` (the index, not the FS) so the check
+    catches the bug regardless of which path is currently materialized.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "ls-files", "-z", "--full-name"],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return []
+    paths = [p for p in out.split("\x00") if p]
+    by_lower: dict[str, list[str]] = {}
+    for p in paths:
+        by_lower.setdefault(p.lower(), []).append(p)
+    return [
+        {"lower": lower, "paths": sorted(group)}
+        for lower, group in sorted(by_lower.items())
+        if len(group) > 1
+    ]
+
+
 def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
@@ -425,6 +457,7 @@ def audit_payload() -> dict[str, object]:
         for m in markers
         if m.target not in symbols
     ]
+    case_collisions = detect_case_collision_paths()
 
     return {
         "forbidden_constructs": forbidden,
@@ -432,6 +465,8 @@ def audit_payload() -> dict[str, object]:
         "duplicate_part_labels": duplicate_part_labels,
         "missing_marker_targets": missing_marker_targets,
         "missing_marker_targets_count": len(missing_marker_targets),
+        "case_collisions": case_collisions,
+        "case_collisions_count": len(case_collisions),
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
 
@@ -544,11 +579,21 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 locs = label_to_files.get(label, [])
                 loc_str = ", ".join(locs) if locs else f"appears {count} times"
                 print(f"  {label}  @ {loc_str}")
+        if payload["case_collisions"]:
+            print(f"[bedc-ci] case-only-different paths in git index: {payload['case_collisions_count']}")
+            for item in payload["case_collisions"][:50]:
+                print(f"  {' , '.join(item['paths'])}")
+            print(
+                "[bedc-ci] resolution: pick the canonical casing, then "
+                "`git update-index --force-remove <wrong-case-path>`; "
+                "also remove the duplicate import / reference."
+            )
 
     failures = (
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
+        + payload["case_collisions_count"]
     )
     return 0 if failures == 0 else 1
 
