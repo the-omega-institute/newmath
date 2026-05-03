@@ -119,3 +119,11 @@ By \autoref{def:typed-naming-certificate}, a derived interface is licensed by a 
 
 The remaining certificate component is stability. Unary closure is the closure field in \(\mathsf{AddStabilityCert}\). The empty-history unit is \autoref{lem:unary-continuation-unit}. Associativity up to \(\hsame\) is \autoref{lem:unary-continuation-associativity}. Same-source determinacy is the determinacy field of \(\mathsf{AddStabilityCert}\), so two continuation results generated from the same ordered unary source pair are classified together by \(\hsame\). These fields give a closed carrier, a unit, associative continuation, and deterministic result classification for fixed sources. That is exactly the certificate data for the unary continuation monoid-like interface. Since no order-swap commutativity field is used, the activated upward name is \(\UnaryContMonoidUp\).
 \end{proof}
+
+\begin{theorem}[Same-source additive determinacy bridge]
+\label{thm:same-source-additive-determinacy-bridge}
+For histories \(h\), \(k\), \(r\), and \(r'\), if \(\mathsf{AddSource}(h,k,r)\) and \(\mathsf{AddSource}(h,k,r')\), then \(\mathsf{AddClassifier}(r,r')\).
+\end{theorem}
+\begin{proof}
+By \autoref{def:additive-source-specification}, the first source witness supplies unary inputs \(h\) and \(k\) together with \(\ContR(h,k,r)\). The second source witness has the same ordered input pair, so it supplies the same unary inputs together with \(\ContR(h,k,r')\). The determinacy field listed in \autoref{def:additive-stability-certificate} applies to these two continuation witnesses and gives \(\HSame(r,r')\). By \autoref{def:additive-classifier-specification}, \(\mathsf{AddClassifier}\) classifies additive outputs precisely by \(\HSame\) of their generated result histories, so this witness is \(\mathsf{AddClassifier}(r,r')\).
+\end{proof}
