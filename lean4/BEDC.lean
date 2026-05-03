@@ -145,6 +145,8 @@ import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.MagmaUp
+import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorContext
@@ -168,6 +170,7 @@ import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
+import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
