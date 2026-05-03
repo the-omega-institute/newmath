@@ -169,6 +169,75 @@ inverse, and transport; ledger fixed element and conjugating witnesses;
 exactness preservation-reflection of centralizer membership; standard bridge
 ordinary normalizer subgroup; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp affine centralizer normalizer action automorphism]
+\label{thm:ratup-fieldup-affine-centralizer-normalizer-action-automorphism}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
+affine automorphism $A:\mathsf{AffAut}_F$ in the concrete $\FieldUp(\RatUp)$
+exit object. Let $C_F(A)$ be the affine centralizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-carrier}, let $N_F(C_F(A))$ be
+the normalizer carrier from
+\autoref{def:ratup-fieldup-affine-centralizer-normalizer-carrier}, and define
+the restricted action by
+$$
+\mathrm{Act}_T(X):=\mathrm{Conj}_T(X)
+=(T\circ_{\mathrm{aff}}X)\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $N_F(C_F(A))(T)$ and $C_F(A)(X),C_F(A)(Y)$, then conjugation by $T$ is an
+automorphism of the centralizer classifier:
+\begin{enumerate}
+\item $N_F(C_F(A))(\iota_F(T))$.
+\item $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+\item
+$$
+\mathrm{Act}_{\iota_F(T)}(\mathrm{Act}_T(X))\equiv_{\mathrm{aff}}X
+\quad\text{and}\quad
+\mathrm{Act}_T(\mathrm{Act}_{\iota_F(T)}(X))\equiv_{\mathrm{aff}}X.
+$$
+\item
+$$
+\mathrm{Act}_T(X)\equiv_{\mathrm{aff}}\mathrm{Act}_T(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The inverse normalizer witness is the inverse-closure row of
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup}. Applied to
+$N_F(C_F(A))(T)$, it gives $N_F(C_F(A))(\iota_F(T))$.
+
+Carrier preservation for the inverse action is then exactly the preservation
+part of \autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action},
+specialized to the normalizer element $\iota_F(T)$ and the centralizer element
+$X$. This gives $C_F(A)(\mathrm{Act}_{\iota_F(T)}(X))$.
+
+For cancellation, use
+\autoref{thm:ratup-fieldup-affine-conjugation-exactness} with conjugating
+element $T$ and acted element $X$. Its inverse-action clauses identify the two
+double conjugations by $T$ and $\iota_F(T)$ with $X$ under
+$\equiv_{\mathrm{aff}}$, which are precisely the two displayed
+$\mathrm{Act}$-cancellation laws.
+
+For classifier exactness, apply the same theorem to the pair $X,Y$. Its
+classifier-exact conjugation clause gives
+$$
+\mathrm{Conj}_T(X)\equiv_{\mathrm{aff}}\mathrm{Conj}_T(Y)
+\Longleftrightarrow X\equiv_{\mathrm{aff}}Y.
+$$
+Replacing $\mathrm{Conj}_T(-)$ by the definition of $\mathrm{Act}_T(-)$ gives
+the stated equivalence on the centralizer carrier.
+\end{proof}
+
+Per-object template: traditional target normalizer action by automorphisms;
+BEDC source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$; carrier $C_F(A)$;
+classifier $\equiv_{\mathrm{aff}}$; stability inverse action, classifier
+exactness, and cancellation; ledger fixed element, normalizer witness, acted
+element, and inverse witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-subgroup},
+\autoref{thm:ratup-fieldup-affine-centralizer-normalizer-action}, and
+\autoref{thm:ratup-fieldup-affine-conjugation-exactness}; exactness predicate
+classifier-exact automorphism action on the centralizer; standard bridge
+ordinary normalizer action by automorphisms; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[RatUp FieldUp affine centralizer normalizer action]
 \label{thm:ratup-fieldup-affine-centralizer-normalizer-action}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, fix a certified
