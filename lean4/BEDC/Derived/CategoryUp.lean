@@ -13,23 +13,14 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
     CategoryHomCarrier a b BHist.Empty ↔ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
   constructor
   · intro homCarrier
-    cases homCarrier with
-    | intro sourceCarrier rest =>
-        cases rest with
-        | intro targetCarrier rest =>
-            cases rest with
-            | intro _emptyCarrier homCont =>
-                exact And.intro sourceCarrier
-                  (And.intro targetCarrier
-                    (hsame_symm (cont_deterministic homCont (cont_right_unit a))))
+    exact And.intro homCarrier.left
+      (And.intro homCarrier.right.left
+        (hsame_symm (cont_deterministic homCarrier.right.right.right (cont_right_unit a))))
   · intro data
-    cases data with
-    | intro sourceCarrier rest =>
-        cases rest with
-        | intro targetCarrier same =>
-            exact And.intro sourceCarrier
-              (And.intro targetCarrier
-                (And.intro unary_empty (cont_result_hsame_transport (cont_right_unit a) same)))
+    exact And.intro data.left
+      (And.intro data.right.left
+        (And.intro unary_empty
+          (cont_result_hsame_transport (cont_right_unit a) data.right.right)))
 theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
     CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
   constructor
@@ -61,6 +52,14 @@ theorem CategoryHomCarrier_empty_target_iff {a f : BHist} :
         cases sameF
         exact And.intro unary_empty
           (And.intro unary_empty (And.intro unary_empty (cont_right_unit BHist.Empty)))
+theorem CategoryHomCarrier_empty_source_empty_target_same_morphism_boundary {a b f : BHist} :
+    CategoryHomCarrier BHist.Empty b f -> CategoryHomCarrier a BHist.Empty f ->
+      hsame a BHist.Empty /\ hsame b BHist.Empty /\ hsame f BHist.Empty := by
+  intro emptySource emptyTarget
+  have sourceData := CategoryHomCarrier_empty_source_iff.mp emptySource
+  have targetData := CategoryHomCarrier_empty_target_iff.mp emptyTarget
+  exact And.intro targetData.left
+    (And.intro (hsame_trans (hsame_symm sourceData.right) targetData.right) targetData.right)
 theorem CategoryHomCarrier_comp_closed {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier a c fg := by

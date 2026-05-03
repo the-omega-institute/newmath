@@ -343,6 +343,45 @@ append gives $h\hsame\emp$, contradicting $\mathsf{ApartZero}_F(h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_empty\_context\_iff}
 
+\begin{theorem}[Field apart-zero left append-context semantic certificate]
+\label{thm:field-apartzero-append-left-context-semantic-namecert}
+For a history $p:\mathsf{BHist}$ apart from zero, the concrete left-append
+context predicate
+$$
+q\longmapsto \mathsf{ApartZero}_F(\mathsf{append}(q,p))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited at $q=\emp$: $\mathsf{append}(\emp,p)\hsame p$, so
+apart-zero of $p$ transports to apart-zero of the displayed append. The
+classifier laws are reflexivity, symmetry, and transitivity of $\hsame$.
+Carrier preservation follows by eliminating the history-sameness classifier,
+which leaves the same concrete append predicate. Pattern and ledger soundness
+are identities because all three predicates coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_left\_context\_semanticNameCert}
+
+\begin{theorem}[Field apart-zero right append-context semantic certificate]
+\label{thm:field-apartzero-append-right-context-semantic-namecert}
+For a history $p:\mathsf{BHist}$ apart from zero, the concrete right-append
+context predicate
+$$
+q\longmapsto \mathsf{ApartZero}_F(\mathsf{append}(p,q))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited at $q=\emp$: $\mathsf{append}(p,\emp)\hsame p$, so
+apart-zero of $p$ transports to apart-zero of the displayed append. The
+classifier laws are again the equivalence laws of $\hsame$. Carrier
+preservation eliminates the history-sameness classifier and leaves the same
+right-append predicate, while pattern and ledger soundness are identity maps.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_context\_semanticNameCert}
+
 Per-object certificate: traditional target is external-unit context invariance
 of constructive field apartness. BEDC source is $\mathsf{FieldApartZero}$ plus
 BEDC append empty exactness. Carrier is $\mathsf{BHist}$. Classifier is

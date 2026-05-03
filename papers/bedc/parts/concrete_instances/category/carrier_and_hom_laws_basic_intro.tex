@@ -143,6 +143,26 @@ are unary, and the right-unit continuation at $\emp$ rebuilds the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_iff}
 
+\begin{theorem}[Category empty-source empty-target same morphism boundary]
+\label{thm:category-empty-source-empty-target-same-morphism-boundary}
+For histories $a,b,f:\mathsf{BHist}$, if the same morphism $f$ is displayed
+both as a hom-carrier out of $\emp$ into $b$ and as a hom-carrier from $a$ into
+$\emp$, then all visible boundary histories read back to the empty history:
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,f)\land
+\mathsf{CategoryHomCarrier}(a,\emp,f)
+\Longrightarrow
+a\hsame\emp\land b\hsame\emp\land f\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Empty-target exactness applied to the second hom-carrier gives
+$a\hsame\emp$ and $f\hsame\emp$. Empty-source exactness applied to the first
+hom-carrier gives $f\hsame b$. Symmetry of this morphism-readback equality,
+followed by transitivity with $f\hsame\emp$, gives $b\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_empty\_target\_same\_morphism\_boundary}
+
 \begin{theorem}[Continuation morphism empty target existence equivalence]
 \label{thm:continuation-morphism-empty-target-nonempty-iff}
 For every source history $source$, there exists a continuation morphism from

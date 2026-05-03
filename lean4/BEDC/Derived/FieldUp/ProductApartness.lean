@@ -42,6 +42,54 @@ theorem FieldApartZero_semanticNameCert :
       exact source
   }
 
+theorem FieldApartZero_append_left_context_semanticNameCert {p : BHist} :
+    FieldApartZero p ->
+      SemanticNameCert (fun q : BHist => FieldApartZero (append q p))
+        (fun q : BHist => FieldApartZero (append q p))
+        (fun q : BHist => FieldApartZero (append q p)) hsame := by
+  intro apartP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (FieldApartZero_empty_hsame_transport (hsame_symm (append_empty_left p)) apartP)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
+theorem FieldApartZero_append_right_context_semanticNameCert {p : BHist} :
+    FieldApartZero p ->
+      SemanticNameCert (fun q : BHist => FieldApartZero (append p q))
+        (fun q : BHist => FieldApartZero (append p q))
+        (fun q : BHist => FieldApartZero (append p q)) hsame := by
+  intro apartP
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (FieldApartZero_empty_hsame_transport (hsame_symm (append_empty_right p)) apartP)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem FieldApartZero_append_factor_closed {p q : BHist} :
     FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by
   intro factorApart appendEmpty
