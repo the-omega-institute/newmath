@@ -19,6 +19,26 @@ prefix classifier supplies the rational endpoint classifier at the selected inde
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_real\_prefix\_readback}
 
+\begin{theorem}[Completion visible-tail transport]
+\label{thm:completion-metric-distance-witness-e1-tail-hsame-transport}
+Let $x,x',y,y'$ be real stream representatives and let $n$ be a prefix
+index. If every endpoint of $x$ is $\hsame$-equal to the corresponding
+endpoint of $x'$ and every endpoint of $y$ is $\hsame$-equal to the
+corresponding endpoint of $y'$, then a real prefix classifier and a metric
+distance witness from $x_n$ to $y_n$ with visible result $\Eone(t)$ transport
+to the primed streams. The transported witness still reads back unary
+membership of $t$ and the rational endpoint classifier between $x'_n$ and
+$y'_n$.
+\end{theorem}
+\begin{proof}
+Transport the finite real prefix classifier endpointwise. Transport the metric
+distance continuation ledger along the endpoint equalities while keeping the
+visible result fixed, and transport the unary endpoint carriers contained in
+the witness. The visible-tail readback theorem applied to the transported
+prefix and witness gives the unary tail and rational endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_hsame\_transport}
+
 \begin{theorem}[Completion metric distance visible-tail determinacy]
 \label{thm:completion-metric-distance-witness-e1-result-tail-deterministic}
 Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index. If the

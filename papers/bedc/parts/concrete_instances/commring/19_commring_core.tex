@@ -268,6 +268,49 @@ component between the contextual endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[CommRing singleton classifier append context carrier split]
+\label{thm:commring-singleton-classifier-append-context-carrier-split}
+If the singleton commutative-ring classifier relates two appended endpoints,
+then all four append factors are singleton carriers:
+$$
+\rho_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longrightarrow
+A_{\emp}(L)\land A_{\emp}(Q)\land A_{\emp}(R)\land A_{\emp}(S).
+$$
+\end{theorem}
+\begin{proof}
+The classifier supplies singleton-carrier witnesses for
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$. Empty-result inversion for
+append splits the first witness into carrier witnesses for $L$ and $Q$, and
+splits the second witness into carrier witnesses for $R$ and $S$. Conjunction
+introduction packages the four factors.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_carrier\_split}
+
+\begin{theorem}[CommRing singleton classifier append commuted factors]
+\label{thm:commring-singleton-classifier-append-comm-congr}
+For histories $h,h',k,k':\mathsf{BHist}$, if the singleton commutative-ring
+classifier relates the two appended endpoints
+$$
+\rho_{\emp}(\mathsf{append}(h,k),\mathsf{append}(h',k')),
+$$
+then it also relates the endpoints with the two append factors exchanged:
+$$
+\rho_{\emp}(\mathsf{append}(k,h),\mathsf{append}(k',h')).
+$$
+\end{theorem}
+\begin{proof}
+The classifier gives singleton carrier witnesses for
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$. Empty-result inversion for
+append splits each witness into singleton carrier witnesses for its two
+factors. Swapping the two factors on each side and applying empty-result
+construction rebuilds singleton carrier witnesses for
+$\mathsf{append}(k,h)$ and $\mathsf{append}(k',h')$. Both rebuilt endpoints are
+therefore classified through $\emp$, so transitivity and symmetry of $\hsame$
+give the displayed singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with
