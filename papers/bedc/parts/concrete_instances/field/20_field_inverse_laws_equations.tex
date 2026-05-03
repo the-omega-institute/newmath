@@ -210,6 +210,64 @@ and multiplication congruence transports the solution term.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_conjugation\_equation\_exact\_from\_apartness}
 
+\begin{theorem}[Field apart-empty conjugation equation exactness]
+\label{thm:field-apart-empty-conjugation-equation-exact}
+For a BEDC history-level $\FieldUp$ candidate whose proof-indexed inverse is
+indexed by apartness from $\emp$, any witness
+$p_a:\hsame(a,\emp)\to\mathsf{False}$ makes conjugation by $a$ classify the
+middle factor exactly:
+$$
+\hsame((a x)\mathsf{inv}(a,p_a),b)
+\Longleftrightarrow
+\hsame(x,(\mathsf{inv}(a,p_a)b)a).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the conjugation equation on the right by
+$a$. Associativity exposes $\mathsf{inv}(a,p_a)a$, the left inverse law
+collapses it to the unit, and the right identity law leaves $a x\hsame b a$.
+Then apply left-multiplication exactness and reassociate the target to
+$(\mathsf{inv}(a,p_a)b)a$.
+
+For the reverse direction, transport the assumed middle-factor equation by
+left multiplication with $a$. Reassociation exposes
+$a\mathsf{inv}(a,p_a)$, the right inverse law collapses it to the unit, and
+the left identity law gives $a x\hsame b a$. Multiplying on the right by
+$\mathsf{inv}(a,p_a)$ and collapsing
+$a\mathsf{inv}(a,p_a)$ gives the original conjugation equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_empty\_conjugation\_equation\_exact}
+
+\begin{theorem}[Field apart-empty inverse conjugation equation exactness]
+\label{thm:field-apart-empty-inverse-conjugation-equation-exact}
+For the same $\FieldUp$ data and apart-empty witness
+$p_a:\hsame(a,\emp)\to\mathsf{False}$, inverse conjugation by
+$\mathsf{inv}(a,p_a)$ also classifies the middle factor exactly:
+$$
+\hsame((\mathsf{inv}(a,p_a)x)a,b)
+\Longleftrightarrow
+\hsame(x,(a b)\mathsf{inv}(a,p_a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, multiply the inverse-conjugation equation on the
+right by $\mathsf{inv}(a,p_a)$. Reassociation exposes
+$a\mathsf{inv}(a,p_a)$, the right inverse law collapses it to the unit, and
+the right identity law leaves
+$\mathsf{inv}(a,p_a)x\hsame b\mathsf{inv}(a,p_a)$. Transporting by left
+multiplication with $a$ collapses $a\mathsf{inv}(a,p_a)$ and reassociates the
+right side to $(a b)\mathsf{inv}(a,p_a)$.
+
+For the reverse direction, transport the displayed middle equation by left
+multiplication with $\mathsf{inv}(a,p_a)$. Reassociation exposes
+$\mathsf{inv}(a,p_a)a$, the left inverse law collapses it to the unit, and
+left identity gives
+$\mathsf{inv}(a,p_a)x\hsame b\mathsf{inv}(a,p_a)$. Multiplying on the right by
+$a$ and collapsing $\mathsf{inv}(a,p_a)a$ gives the inverse-conjugation
+equation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_apart\_empty\_inverse\_conjugation\_equation\_exact}
+
 \begin{theorem}[Field middle multiplication empty equation solutions are unique from apartness]
 \label{thm:field-middle-mul-empty-equation-solution-unique-from-apartness}
 For a BEDC history-level $\FieldUp$ candidate with proof-indexed inverses, if

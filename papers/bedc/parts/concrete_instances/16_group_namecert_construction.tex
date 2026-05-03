@@ -431,6 +431,26 @@ and finish with the right identity on $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_exact\_from\_empty\_unit\_iff}
 
+\begin{theorem}[Group conjugation preserves the empty unit exactly]
+\label{thm:group-conjugation-empty-exact}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right empty-unit laws, multiplication congruence, and
+two-sided inverse laws, conjugation by $a$ has empty target exactly when the
+middle factor is empty:
+$$
+\hsame((a x)a^{-1},\emp) \Longleftrightarrow \hsame(x,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-conjugation-equation-exactness} with target
+$\emp$. The resulting right side is
+$x\hsame (a^{-1}\emp)a$. Associativity rewrites
+$(a^{-1}\emp)a$ as $a^{-1}(\emp a)$; the left empty-unit law reduces
+$\emp a$ to $a$, and the left inverse law collapses $a^{-1}a$ to $\emp$.
+Transitivity gives both directions of the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_empty\_exact\_from\_empty\_unit}
+
 \begin{theorem}[Group commutator detects commutation]
 \label{thm:group-commutator-trivial-iff-commutes}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
