@@ -1,0 +1,54 @@
+\begin{theorem}[RatUp FieldUp transported exit row full noncollapse package]
+\label{thm:ratup-fieldup-transported-exit-row-full-noncollapse-package}
+For the concrete source tuple $\mathsf{RatUpFieldSource}_F$, the denominator
+tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the transported strict-support endpoint $x$
+carries one package containing:
+\begin{enumerate}
+  \item the exit-row closure of
+  \autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure};
+  \item $C_D^u(x)$, $N_D^u(x)$, $\mathsf{RatHistoryCarrier}(x)$,
+  $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$, and $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both contextual carrier exclusions on
+  $\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$;
+  \item for every $r:\mathsf{BHist}$, both inverse-domain witnesses
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,x))$ and
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(x,r))$;
+  \item for all $L,R:\mathsf{BHist}$, the singleton-classifier obstruction on
+  $\mathsf{append}(L,x)$ and $\mathsf{append}(R,x)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-transported-exit-row-nondegenerate-closure} with the
+same source tuple, denominator tuple, contextual action, endpoint, and witness.
+This supplies the exit-row closure clause.
+
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} at
+the same endpoint. The resulting separation package gives $C_D^u(x)$,
+$N_D^u(x)$, $\mathsf{RatHistoryCarrier}(x)$, the singleton carrier rejection,
+and the direct empty-history separation.
+
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+for an arbitrary context history $r:\mathsf{BHist}$. Its two conclusions are
+the carrier exclusions for $\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$.
+
+Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-nonzero-package}
+with the same endpoint and support witness. This gives the two contextual
+inverse-domain witnesses for every $r:\mathsf{BHist}$.
+
+Finally apply
+\autoref{thm:ratup-fieldup-transported-exit-row-singleton-classifier-noncollapse}.
+For arbitrary $L,R:\mathsf{BHist}$ it supplies the classifier obstruction on the
+two endpoints. Collecting these clauses gives the full noncollapse package.
+\end{proof}
+
+Per-object template: traditional target full exit-row noncollapse package for
+$\FieldUp(\mathsf{RatUp})$; source $\mathsf{RatUpFieldSource}_F$, action
+$\Gamma$, strict support $N_D^u$, all obstructions read at $x$; status $\mathsf{ProofTarget}$.
