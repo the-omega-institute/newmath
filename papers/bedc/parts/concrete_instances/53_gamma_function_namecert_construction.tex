@@ -57,6 +57,19 @@ contradicts the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_not\_empty}
 
+\begin{theorem}[Gamma domain core transports exclusions]
+\label{thm:gamma-domain-core-hsame-transport-exclusions}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core, then \(t\) is excluded
+from the pole locus and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport any pole-locus witness for \(t\) back along the symmetric
+\(\hsame\)-comparison to obtain a pole-locus witness for \(s\), contradicting
+the domain-core apartness field. For the empty-history exclusion, compose
+\(s\hsame t\) with \(t\hsame\emp\) and apply the non-empty core theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_exclusions}
+
 \begin{lemma}[Apartness from the pole locus is decidable]
 \label{lem:gamma-pole-apartness-decidable}
 For every complex history \(s\) and unary precision \(k\), the question ``does \(s\) lie within \(2^{-k}\) of \(\mathsf{GammaPole}\)?'' is decidable. The decision either supplies a near-pole witness \(\hsame(\mathsf{Re}(s), -n)\) up to precision \(k\) for some specific unary \(n\), or supplies the apartness datum required by \autoref{def:gamma-domain}.
