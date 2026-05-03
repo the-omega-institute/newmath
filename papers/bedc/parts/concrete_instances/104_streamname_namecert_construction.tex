@@ -211,6 +211,42 @@ the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the required
 pointwise classifier witness.
 \end{proof}
 
+\begin{theorem}[Rational stream-name constant reindexing classifier]
+\label{thm:rat-stream-name-constant-reindexing-classifier}
+For histories $d,e:\Hist$ and an observation reindexer $r:\Hist\to\Hist$,
+suppose $r$ preserves certified unary observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+If $\mathsf{RatHistoryCarrier}(d)$, then
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$ and
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_d)$. If $\mathsf{RatHistoryClassifier}(d,e)$, then
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r)$.
+\end{theorem}
+\begin{proof}
+For the carrier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameCarrier}$. Fix an observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The reindexer supplies a certified unary
+observation witness for $r(n)$, but the reindexed constant stream still has
+value $d$, so the supplied $\mathsf{RatHistoryCarrier}(d)$ is the required
+pointwise carrier witness.
+
+For the classifier against the original constant stream, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix the same certified observation data
+$(n,\nu)$. Both stream values are $d$ after expanding the constant stream, so
+RatUp carrier-reflexivity turns the carrier witness for $d$ into the required
+point classifier $\mathsf{RatHistoryClassifier}(d,d)$.
+
+For two reindexed constant streams, unfold
+$\mathsf{RatStreamNameClassifier}$ and fix $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The unary-preservation hypothesis certifies
+$r(n)$ as an admissible observation, while both endpoint stream values remain
+the seeds $d$ and $e$. The supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ is therefore reused pointwise.
+\end{proof}
+
 \begin{theorem}[Rational stream-name constant point exactness]
 \label{thm:rat-stream-name-constant-point-exactness}
 For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
@@ -252,7 +288,9 @@ stream stability clauses from
 \autoref{thm:rat-stream-name-reindexing-and-map-stability}, the composed
 reindexing stability law from
 \autoref{thm:rat-stream-name-reindexing-composition-law}, the constant stream
-witness from \autoref{thm:rat-stream-name-constant-witness}, and
+witness from \autoref{thm:rat-stream-name-constant-witness},
+constant reindexing classification from
+\autoref{thm:rat-stream-name-constant-reindexing-classifier}, and
 constant-point exactness from
 \autoref{thm:rat-stream-name-constant-point-exactness}; ledger finite
 observation index plus pointwise rational witnesses, and for a constant stream
@@ -261,6 +299,7 @@ the hidden constant seed together with the observation index; core theorems
 \autoref{thm:rat-stream-name-reindexing-and-map-stability} and
 \autoref{thm:rat-stream-name-reindexing-composition-law} and
 \autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-reindexing-classifier} and
 \autoref{thm:rat-stream-name-constant-point-exactness}; exactness pointwise over
 the RatUp classifier; standard bridge ordinary rational streams; status
 $\mathsf{ProofTarget}$.
