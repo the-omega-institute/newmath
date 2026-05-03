@@ -11,6 +11,7 @@ For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unar
 \end{definition}
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk}
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap}
+\leandef{BEDC.Derived.HolomorphicUp.OpenDiskGap}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
@@ -99,6 +100,20 @@ carriers are unchanged, and the continued radius is unary by continuation
 closure.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
+
+\begin{theorem}[Open disk empty radius excludes visible points]
+\label{thm:holo-open-disk-e1-point-empty-radius-absurd}
+For every complex center \(z_0\), visible point \(\mathsf{e1}(z)\), and gap
+history \(g\), the concrete open-disk gap predicate with empty radius leads to
+contradiction.
+\end{theorem}
+\begin{proof}
+Unpack the concrete gap predicate to obtain the continuation witness
+\(\mathsf{Cont}(\mathsf{e1}(z),g,\emp)\). Empty-result inversion for
+continuations identifies the visible point endpoint with \(\emp\), contradicting
+constructor disjointness of \(\mathsf{e1}\) and \(\emp\) in \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e1\_point\_empty\_radius\_absurd}
 
 \section{Holomorphic predicate}
 

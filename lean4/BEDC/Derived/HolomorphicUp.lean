@@ -224,4 +224,13 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
 
+def OpenDiskGap (z0 r z gap : BHist) : Prop :=
+  ComplexHistoryCarrier z0 ∧ UnaryHistory r ∧ ComplexHistoryCarrier z ∧ Cont z gap r
+
+theorem OpenDiskGap_e1_point_empty_radius_absurd {z0 z gap : BHist} :
+    OpenDiskGap z0 BHist.Empty (BHist.e1 z) gap -> False := by
+  intro disk
+  have endpoints := cont_empty_result_inversion disk.right.right.right
+  exact not_hsame_e1_empty endpoints.left
+
 end BEDC.Derived.HolomorphicUp
