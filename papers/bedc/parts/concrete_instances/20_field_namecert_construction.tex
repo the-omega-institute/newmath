@@ -666,4 +666,76 @@ boundary; ledger selector sextuple $s,t,u,v,w,z$ plus contexts $L,R,r$;
 exactness one chain-stable final exit package; downstream consumer Phase Algebra
 Hierarchy $\FieldUp(\RatUp)$ exit certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp concrete algebra hierarchy obstruction-chain exit package]
+\label{thm:ratup-fieldup-concrete-algebra-hierarchy-obstruction-chain-exit-package}
+For $\mathsf{RatUpFieldSource}_F$,
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v,w,z:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint selector
+of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector} for each
+$q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then the
+concrete $\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$ contains one
+$\mathsf{BHist}$ package with all of the following rows:
+\begin{enumerate}
+  \item every row of
+  \autoref{thm:ratup-fieldup-algebra-hierarchy-selector-chain-exit};
+  \item the assembled obstruction certificate of
+  \autoref{thm:ratup-fieldup-complete-selector-exit-obstruction-certificate}
+  for $(s,t,u,v)$;
+  \item the concrete final obstruction-chain rows of
+  \autoref{thm:ratup-fieldup-concrete-final-obstruction-chain-boundary-package}.
+\end{enumerate}
+In particular, the same concrete exit object contains the chained denominator
+rows
+$$
+R_D^u(E_s(h,k,\ell),E_w(h,k,\ell))
+\land
+R_D^u(E_t(h,k,\ell),E_z(h,k,\ell))
+$$
+and the chained endpoint classifier rows
+$$
+\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_w(h,k,\ell))
+\land
+\mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_z(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-algebra-hierarchy-selector-chain-exit} with the
+displayed source, denominator tuple, histories, carrier witnesses, support
+witness, selectors $s,t,u,v,w,z$, and contexts $L,R,r:\mathsf{BHist}$. This
+supplies the algebra-hierarchy exit witness, shared operation-table coverage,
+and selector-chain final-boundary rows over one concrete $\mathsf{BHist}$
+package.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-concrete-final-obstruction-chain-boundary-package}
+with the same source, concrete exit object, denominator tuple, histories,
+carrier witnesses, support witness, selectors $s,t,u,v,w,z$, and contexts
+$L,R,r$. This supplies the assembled obstruction certificate for $(s,t,u,v)$
+and the concrete final obstruction-chain rows, including the chained $R_D^u$
+and $\mathsf{RatHistoryClassifier}$ comparisons from $E_s,E_t$ to $E_w,E_z$.
+
+Both cited packages live over $\mathsf{RatUpFieldSource}_F$, the concrete
+denominator tuple, and the common carrier $\mathsf{BHist}$. Conjunction
+introduction repacks their rows as one concrete
+$\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$ exit object for
+$\FieldUp(\RatUp)$.
+\end{proof}
+
+Per-object template: traditional target algebra hierarchy obstruction-chain
+exit package for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, and $\mathsf{RatUpFieldSource}_F$; concrete exit object
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; carrier
+$\mathsf{RatHistoryCarrier}$ and $C_D^u$; classifier
+$\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability obligations algebra
+hierarchy selector-chain exit, assembled obstruction certificate, and concrete
+final obstruction-chain boundary package; ledger selector sextuple
+$s,t,u,v,w,z$ plus contexts $L,R,r$; exactness one concrete
+$\mathsf{RatUpFieldExitObject}_F(\mathcal E_F)$ package; downstream consumer
+Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit criterion; status
+$\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
