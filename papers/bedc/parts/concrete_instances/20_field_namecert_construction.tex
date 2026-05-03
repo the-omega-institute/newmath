@@ -305,6 +305,45 @@ certificate for $\mathsf{RatUpFieldSource}_F$ and not an abstract operator
 schema.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp transported strict-support contextual separation package]
+\label{thm:ratup-fieldup-transported-strict-support-contextual-separation-package}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate contains all seven clauses:
+\begin{enumerate}
+  \item $C_D^u(x)$;
+  \item $N_D^u(x)$;
+  \item $\mathsf{RatHistoryCarrier}(x)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$;
+  \item $x\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,x))\to\bot$;
+  \item for every $r:\mathsf{BHist}$,
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(x,r))\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-strict-support-separation-package} with
+the same denominator tuple, contextual action, endpoint, and hypotheses. This
+supplies the carried endpoint, transported strict support, Rat carrier witness,
+singleton endpoint exclusion, and direct empty-history separation.
+
+It remains to attach the two contextual singleton exclusions. Apply
+\autoref{thm:ratup-fieldup-transported-strict-support-contextual-singleton-exclusion}
+with the same transported endpoint and support witness. For each
+$r:\mathsf{BHist}$, this gives the left-context and right-context rejection maps
+for $\mathsf{append}(r,x)$ and $\mathsf{append}(x,r)$.
+
+Collect the five endpoint clauses from the separation package and the two
+contextual clauses from singleton exclusion as the displayed seven-clause
+certificate row.
+\end{proof}
+
 Per-object template: traditional target constructive $\FieldUp$ exit separation;
 BEDC source $\mathsf{RatUpFieldSource}_F$, contextual action $\Gamma$, and
 strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
