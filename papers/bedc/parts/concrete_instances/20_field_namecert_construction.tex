@@ -24,5 +24,67 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_action_inverse_exit_boundary_tail}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_affine_exit_rows}
 \input{parts/concrete_instances/field/20_field_affine_inner_action_exit}
+\begin{theorem}[RatUp FieldUp affine center normal subgroup]
+\label{thm:ratup-fieldup-affine-center-normal-subgroup}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+affine center predicate $\mathsf{Center}_F$ on certified affine automorphisms
+forms a normal subgroup package inside $\mathsf{AffAut}_F$. Namely:
+\begin{enumerate}
+\item $\mathsf{Center}_F(\mathrm{id}_F)$.
+\item If $\mathsf{Center}_F(Z)$ and $\mathsf{Center}_F(W)$, then
+$\mathsf{Center}_F(Z\circ_{\mathrm{aff}}W)$.
+\item If $\mathsf{Center}_F(Z)$, then
+$\mathsf{Center}_F(\iota_F(Z))$.
+\item If $Z\equiv_{\mathrm{aff}}W$ and $\mathsf{Center}_F(Z)$, then
+$\mathsf{Center}_F(W)$.
+\item If $\mathsf{Center}_F(Z)$, then for every
+$T:\mathsf{AffAut}_F$,
+$\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Fix the canonical exit action and inverse package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the carrier $\mathsf{AffAut}_F$, the product $\circ_{\mathrm{aff}}$, the
+identity $\mathrm{id}_F$, the inverse row $\iota_F(-)$, the classifier
+$\equiv_{\mathrm{aff}}$, and the inner action $\mathrm{Inn}_T$ from
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}.
+
+The identity member is central by the identity rows in
+\autoref{thm:field-affine-automorphism-group-laws}. For product closure, fix a
+test automorphism $T$ and central elements $Z,W$. Associativity from
+\autoref{thm:field-affine-automorphism-composition-associative} exposes
+$W\circ_{\mathrm{aff}}T$ and then $Z\circ_{\mathrm{aff}}T$ as adjacent
+subproducts. Apply the two center equations and transport both replacements by
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence}; the same
+associativity theorem repacks the result as
+$T\circ_{\mathrm{aff}}(Z\circ_{\mathrm{aff}}W)$.
+
+For inverse closure, use
+\autoref{thm:ratup-fieldup-affine-center-fixed-point-criterion}. If
+$\mathsf{Center}_F(Z)$, then every $\mathrm{Inn}_T(Z)$ is classifier-equal to
+$Z$. The inverse-preservation clause of
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}, together with
+classifier congruence, transports this fixed-point equation through
+$\iota_F(-)$ and gives
+$\mathrm{Inn}_T(\iota_F(Z))\equiv_{\mathrm{aff}}\iota_F(Z)$ for every $T$.
+The fixed-point criterion returns $\mathsf{Center}_F(\iota_F(Z))$.
+
+Classifier transport is pointwise: if $Z\equiv_{\mathrm{aff}}W$, then
+operation congruence replaces $Z$ by $W$ on both sides of the defining
+commutation equation for each test automorphism.
+
+Finally assume $\mathsf{Center}_F(Z)$ and fix a conjugating element $T$. By
+\autoref{thm:ratup-fieldup-affine-center-fixed-point-criterion}, $Z$ is fixed
+by every inner affine action. For any test element $S$,
+\autoref{thm:ratup-fieldup-affine-inner-action-composition-exit} rewrites
+$\mathrm{Inn}_S(\mathrm{Inn}_T(Z))$ as
+$\mathrm{Inn}_{S\circ_{\mathrm{aff}}T}(Z)$, which is classifier-equal to $Z$.
+The same criterion also identifies $\mathrm{Inn}_T(Z)$ with $Z$, and classifier
+transitivity yields
+$\mathrm{Inn}_S(\mathrm{Inn}_T(Z))\equiv_{\mathrm{aff}}\mathrm{Inn}_T(Z)$.
+Applying the fixed-point criterion once more gives
+$\mathsf{Center}_F(\mathrm{Inn}_T(Z))$.
+\end{proof}
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer}
 \input{parts/concrete_instances/field/20_field_affine_commutator_centralizer_normalizer}
