@@ -13,6 +13,29 @@ def TensorProductSingletonCarrier (h : BHist) : Prop :=
   exists l : BHist, exists r : BHist, ModuleSingletonCarrier l ∧
     ModuleSingletonCarrier r ∧ Cont l r h
 
+theorem TensorProductSingletonCarrier_empty_endpoint_iff {h : BHist} :
+    TensorProductSingletonCarrier h ↔ hsame h BHist.Empty := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro left leftRest =>
+        cases leftRest with
+        | intro right data =>
+            cases data with
+            | intro leftCarrier tail =>
+                cases tail with
+                | intro rightCarrier continuation =>
+                    cases leftCarrier
+                    cases rightCarrier
+                    cases continuation
+                    rfl
+  · intro sameEmpty
+    cases sameEmpty
+    exact Exists.intro BHist.Empty
+      (Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (And.intro (hsame_refl BHist.Empty) (cont_left_unit BHist.Empty))))
+
 theorem TensorProductSingletonCarrier_continuation_suffix_carrier {pair suffix out : BHist} :
     TensorProductSingletonCarrier pair -> Cont pair suffix out ->
       TensorProductSingletonCarrier out -> ModuleSingletonCarrier suffix := by
@@ -45,6 +68,31 @@ open BEDC.FKernel.NameCert
 def TensorProductSingletonFactor (left right tensor : BHist) : Prop :=
   ModuleSingletonCarrier left ∧ ModuleSingletonCarrier right ∧
     ModuleSingletonCarrier tensor ∧ Cont left right tensor
+
+theorem TensorProductSingletonCarrier_factor_witness {tensor : BHist} :
+    TensorProductSingletonCarrier tensor ->
+      Exists (fun left : BHist => Exists (fun right : BHist =>
+        TensorProductSingletonFactor left right tensor ∧ Cont left right tensor)) := by
+  intro carrier
+  cases carrier with
+  | intro left leftRest =>
+      cases leftRest with
+      | intro right data =>
+          cases data with
+          | intro leftCarrier tail =>
+              cases tail with
+              | intro rightCarrier continuation =>
+                  cases leftCarrier
+                  cases rightCarrier
+                  cases continuation
+                  exact Exists.intro BHist.Empty
+                    (Exists.intro BHist.Empty
+                      (And.intro
+                        (And.intro (hsame_refl BHist.Empty)
+                          (And.intro (hsame_refl BHist.Empty)
+                            (And.intro (hsame_refl BHist.Empty)
+                              (cont_left_unit BHist.Empty))))
+                        (cont_left_unit BHist.Empty)))
 
 theorem TensorProductSingletonFactor_hsame_transport
     {left left' right right' tensor tensor' : BHist} :
