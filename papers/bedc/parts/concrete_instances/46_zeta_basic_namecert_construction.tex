@@ -64,6 +64,22 @@ by the unit term, which unfolds to \(\Eone(s)\).
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_step\_inversion}
 
+\begin{theorem}[Unit Dirichlet successor source transport step]
+\label{thm:zeta-basic-part-sum-successor-source-transport-step}
+If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,
+then there are histories \(p\) and \(u\) such that
+\(\mathsf{ZetaBasicPartSum}(t,n,p)\), \(\ContR(p,\Eone(t),u)\), and
+\(z\hsame u\).
+\end{theorem}
+\begin{proof}
+Invert the successor part-sum witness at source \(s\). The predecessor index
+is unary by the part-sum index theorem, so termwise \(\hsame\)-transport along
+\(s\hsame t\) moves the predecessor partial sum to source \(t\). Rebuild the
+visible unit continuation step at \(t\), and use continuation congruence to
+compare its result with the original successor sum.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_step}
+
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
 For every \(s\) with rational representation of \(\Re(s)\) strictly greater than \(\Eone(\emp)\) (decidable on the rational representation), the predicate \(\mathsf{ZetaBasic}(s, z)\) holds for some complex history \(z\), and \(z\) is unique up to \(\hsame\) on both real components.

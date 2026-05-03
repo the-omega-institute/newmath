@@ -52,4 +52,29 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
 
+theorem ZetaBasicPartSum_successor_source_hsame_transport_step {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists previous transported : BHist, ZetaBasicPartSum t n previous ∧
+        Cont previous (BHist.e1 t) transported ∧ hsame z transported := by
+  intro sameST sum
+  have inverted := ZetaBasicPartSum_successor_step_inversion sum
+  cases inverted with
+  | intro previous previousData =>
+      have unaryN : UnaryHistory n := ZetaBasicPartSum_index_unary previousData.left
+      have transportedPrevious :=
+        DirichletPartSum_term_hsame_transport
+          (term := ZetaBasicUnitTerm) (term' := ZetaBasicUnitTerm) (s := s) (s' := t)
+          (fun {_m} _unaryM => hsame_e1_congr sameST)
+          unaryN previousData.left
+      cases transportedPrevious with
+      | intro previous' transportData =>
+          let transported := append previous' (BHist.e1 t)
+          have transportedStep : Cont previous' (BHist.e1 t) transported := cont_intro rfl
+          have sameResult : hsame z transported :=
+            cont_respects_hsame transportData.right (hsame_e1_congr sameST)
+              previousData.right transportedStep
+          exact Exists.intro previous'
+            (Exists.intro transported
+              (And.intro transportData.left (And.intro transportedStep sameResult)))
+
 end BEDC.Derived.ZetaBasicUp
