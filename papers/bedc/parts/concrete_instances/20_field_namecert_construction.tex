@@ -25,6 +25,56 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_hierarchy_selector_tail}
 \input{parts/concrete_instances/field/20_field_selector_complete_denominator_row_exhaustion}
 \input{parts/concrete_instances/field/20_field_contextual_action_exit_packages}
+
+\begin{theorem}[RatUp FieldUp canonical apart-zero context certificate row]
+\label{thm:ratup-fieldup-canonical-apartzero-context-certificate-row}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the source tuple
+$\mathsf{RatUpFieldSource}_F$, histories $L,R,h:\mathsf{BHist}$, and a witness
+$p:\mathsf{FieldApartZero}(L)$, the canonical $\FieldUp(\RatUp)$ exit
+certificate contains the concrete two-sided apart-zero context row
+$$
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h,k\mapsto h\hsame k\bigr).
+$$
+Its source, pattern, and ledger policy are all the displayed contextual
+apart-zero predicate, and its classifier is $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} to fix
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} as the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit object over
+$\mathsf{RatUpFieldSource}_F$. This pins the row to the canonical exit
+certificate rather than to a schematic field interface.
+
+Next apply
+\autoref{thm:field-apartzero-two-sided-context-semantic-namecert} to the
+histories $L$ and $R$ and the apart-zero witness $p$. Its source, pattern,
+ledger policy, and classifier are exactly the four displayed arguments of
+$\mathsf{SemanticNameCert}$.
+
+Combining the fixed canonical exit object with that semantic certificate gives
+row membership for the contextual apart-zero predicate inside the concrete
+$\FieldUp(\RatUp)$ exit certificate.
+\end{proof}
+
+Per-object template: traditional target constructive apart-zero context
+stability inside $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{append}$, and
+$\mathsf{FieldApartZero}$; carrier
+$h\mapsto\mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))$;
+classifier $\hsame$; ledger the hidden left and right contexts $L$ and $R$;
+core theorem list \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}
+and \autoref{thm:field-apartzero-two-sided-context-semantic-namecert};
+exactness predicate row membership in
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; status
+$\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_exit_algebra_affine_packages}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_action_inverse_exit_boundary_tail}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_affine_exit_rows}
