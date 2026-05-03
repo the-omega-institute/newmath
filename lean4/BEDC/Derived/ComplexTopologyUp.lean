@@ -139,6 +139,21 @@ theorem ComplexTopologyOpenDiskGap_radius_extension_closed
                           (And.intro gapOutCarrier pointGapOut))))
                     pointGapOut
 
+theorem ComplexTopologyOpenDiskGap_radius_not_empty {center radius point gap : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> hsame radius BHist.Empty -> False := by
+  intro disk sameRadius
+  cases disk with
+  | intro _centerCarrier rest =>
+      cases rest with
+      | intro _radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro _gapCarrier pointGap =>
+                  have emptyParts :=
+                    cont_empty_result_inversion (cont_result_hsame_transport pointGap sameRadius)
+                  exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
+
 theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
     {center radius point gap q pointq radiusq : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q -> Cont point q pointq ->

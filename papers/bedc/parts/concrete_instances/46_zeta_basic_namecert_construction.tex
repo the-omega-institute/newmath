@@ -26,6 +26,18 @@ Induct on the concrete \(\mathsf{DirichletPartSum}\) witness. The zero result is
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_unary\_result}
 
+\begin{theorem}[Unit Dirichlet part-sum indices are unary]
+\label{thm:zeta-basic-part-sum-index-unary}
+If \(\mathsf{ZetaBasicPartSum}(s,n,z)\) holds, then \(n\) is a unary history.
+\end{theorem}
+\begin{proof}
+Induct on the specialized \(\mathsf{DirichletPartSum}\) witness. The zero
+constructor gives the empty unary index, and the step constructor preserves
+unaryness by applying the visible unit successor constructor to the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_index\_unary}
+
 \begin{theorem}[Unit Dirichlet successor part sums are nonempty]
 \label{thm:zeta-basic-part-sum-successor-result-nonempty}
 If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then \(z\) is not
@@ -38,6 +50,19 @@ sum to \(\Eone(s)\). If the result were empty, empty-result inversion for
 separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_result\_nonempty}
+
+\begin{theorem}[Unit Dirichlet successor part-sum step inversion]
+\label{thm:zeta-basic-part-sum-successor-step-inversion}
+If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then there is a
+previous partial sum \(p\) such that \(\mathsf{ZetaBasicPartSum}(s,n,p)\)
+holds and \(\ContR(p,\Eone(s),z)\) is the successor continuation step.
+\end{theorem}
+\begin{proof}
+Invert the specialized partial-sum witness at successor index \(\Eone(n)\).
+The step constructor exposes the predecessor partial sum and its continuation
+by the unit term, which unfolds to \(\Eone(s)\).
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_step\_inversion}
 
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}
