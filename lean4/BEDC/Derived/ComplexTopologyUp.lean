@@ -85,6 +85,29 @@ theorem ComplexTopologyOpenDisk_point_radius_suffix_closed {z0 r z extra r' z' :
                         (Exists.intro gap
                           (And.intro gapUnary (And.intro gapPoint shiftedGapPoint)))
 
+theorem ComplexTopologyOpenDisk_gap_modulus {z0 r z : BHist} :
+    OpenDisk z0 r z ->
+      (∃ gap : BHist, UnaryHistory gap ∧ Cont gap z r) ∧
+        (hsame r BHist.Empty -> False) := by
+  intro disk
+  cases disk with
+  | intro _centerCarrier diskRest =>
+      cases diskRest with
+      | intro _radiusUnary diskRest =>
+          cases diskRest with
+          | intro pointCarrier gapWitness =>
+              exact And.intro gapWitness
+                (fun radiusEmpty =>
+                  match gapWitness with
+                  | Exists.intro gap gapData =>
+                      have emptyGapPoint : Cont gap z BHist.Empty :=
+                        cont_result_hsame_transport gapData.right radiusEmpty
+                      have endpoints := cont_empty_result_inversion emptyGapPoint
+                      have pointEmpty : hsame z BHist.Empty := by
+                        cases endpoints.right
+                        exact hsame_refl BHist.Empty
+                      ComplexHistoryCarrier_not_empty pointCarrier pointEmpty)
+
 theorem ComplexTopologyOpenDiskGap_radius_extension_closed
     {center radius point gap extra radiusOut gapOut : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory extra ->

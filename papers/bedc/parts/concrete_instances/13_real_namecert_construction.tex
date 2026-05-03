@@ -148,6 +148,53 @@ the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
 
+\begin{theorem}[Constant real classifier invalid endpoint exclusions]
+\label{thm:real-constant-history-classifier-invalid-endpoint-absurd}
+For every history $h$ and history tail $t$, the constant real-history classifier
+excludes every endpoint shape that is not an $\Eone$-sealed rational history:
+\begin{enumerate}
+  \item $\mathsf{RealConstantHistoryClassifier}(\Ezero(t),h)\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(h,\Ezero(t))\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(\emp,h)\Longrightarrow\bot$;
+  \item $\mathsf{RealConstantHistoryClassifier}(h,\emp)\Longrightarrow\bot$.
+\end{enumerate}
+In the ten-field fit, the traditional target is sealed constant-real endpoint
+no-confusion; the BEDC source is $\mathsf{BHist}$ rational seals; the carrier is
+$\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligations are endpoint
+carrier projection and carrier exclusions; the ledger is invalid endpoint shape;
+the core theorem is this block; the exactness predicate is impossible
+non-$\Eone$ endpoint; the standard bridge is constant rational real names; and
+the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its left projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\Ezero(t))$. Apply
+  \autoref{thm:real-constant-history-carrier-e0-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its right projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\Ezero(t))$. Apply
+  \autoref{thm:real-constant-history-carrier-e0-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its left projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\emp)$. Apply
+  \autoref{thm:real-constant-history-carrier-empty-absurd}.
+
+  \item Apply
+  \autoref{thm:real-constant-history-classifier-endpoint-carriers} to the
+  classifier witness. Its right projection gives
+  $\mathsf{RealConstantHistoryCarrier}(\emp)$. Apply
+  \autoref{thm:real-constant-history-carrier-empty-absurd}.
+\end{enumerate}
+\end{proof}
+
 \begin{theorem}[Constant real classifier equivalence fields]
 \label{thm:real-constant-history-classifier-equivalence-fields}
 The constant real history classifier supplies the equivalence fields carried by
