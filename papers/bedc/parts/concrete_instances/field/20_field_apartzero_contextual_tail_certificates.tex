@@ -590,18 +590,18 @@ For histories $y,x:\mathsf{BHist}$, if
 $\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame\emp$, and
 $\mathsf{ApartZero}_F(x)$, then $\bot$.
 \end{lemma}
-\begin{proof}
-Induct on the generated tail-factor witness. In the empty-context generator,
+\begin{proof} Induct on the generated tail-factor witness. In the empty-context generator,
 the nested empty-context apart-zero equivalence transports
-$\mathsf{ApartZero}_F(x)$ to the result endpoint, contradicting
-$y\hsame\emp$. In the carried-tail generator, empty-result inversion for the
-last continuation gives an empty previous endpoint, so the induction
-hypothesis applies. In the exposed-factor generator, empty-result inversion
-gives the exposed factor itself as $\emp$, contradicting
-$\mathsf{ApartZero}_F(x)$.
+$\mathsf{ApartZero}_F(x)$ to the result endpoint, contradicting $y\hsame\emp$.
+In the carried-tail case, empty-result inversion gives an empty previous endpoint.
+In the exposed-factor case, it gives the exposed factor itself as $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion}
-
+\begin{theorem}[Field apart-tailfactor empty endpoint exclusion hsame transport]\label{thm:field-apart-tail-factor-empty-endpoint-exclusion-hsame-transport}
+For histories $y,x,y',x':\mathsf{BHist}$, if $\mathsf{FieldApartTailFactor}(y,x)$, $y\hsame y'$, $x\hsame x'$, $y'\hsame\emp$, and $\mathsf{ApartZero}_F(x')$, then $\bot$.
+\end{theorem}
+\begin{proof} Transport the two displayed endpoint comparisons across $\hsame$ and apply \autoref{lem:field-apartzero-tail-factor-empty-endpoint-exclusion}. \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartTailFactor\_empty\_endpoint\_exclusion\_hsame\_transport}
 \begin{lemma}[Field apart-zero tail-factor hsame transport]
 \label{lem:field-apartzero-tail-factor-hsame-transport}
 For histories $y,y',x,x':\mathsf{BHist}$, if

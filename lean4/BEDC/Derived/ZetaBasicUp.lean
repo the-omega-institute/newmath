@@ -52,4 +52,46 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
 
+theorem ZetaBasicPartSum_successor_source_hsame_transport_step {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists previous transported : BHist, ZetaBasicPartSum t n previous ∧
+        Cont previous (BHist.e1 t) transported ∧ hsame z transported := by
+  intro sameST sum
+  have inverted := ZetaBasicPartSum_successor_step_inversion sum
+  cases inverted with
+  | intro previous previousData =>
+      have unaryN : UnaryHistory n := ZetaBasicPartSum_index_unary previousData.left
+      have transportedPrevious :=
+        DirichletPartSum_term_hsame_transport
+          (term := ZetaBasicUnitTerm) (term' := ZetaBasicUnitTerm) (s := s) (s' := t)
+          (fun {_m} _unaryM => hsame_e1_congr sameST)
+          unaryN previousData.left
+      cases transportedPrevious with
+      | intro previous' transportData =>
+          let transported := append previous' (BHist.e1 t)
+          have transportedStep : Cont previous' (BHist.e1 t) transported := cont_intro rfl
+          have sameResult : hsame z transported :=
+            cont_respects_hsame transportData.right (hsame_e1_congr sameST)
+              previousData.right transportedStep
+          exact Exists.intro previous'
+            (Exists.intro transported
+              (And.intro transportData.left (And.intro transportedStep sameResult)))
+
+theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : BHist} :
+    hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
+      exists u : BHist, ZetaBasicPartSum t (BHist.e1 n) u ∧
+        hsame z u ∧ (hsame u BHist.Empty -> False) := by
+  intro sameST sum
+  have transported := ZetaBasicPartSum_successor_source_hsame_transport_step sameST sum
+  cases transported with
+  | intro previous transportedData =>
+      cases transportedData with
+      | intro u stepData =>
+          have targetSum : ZetaBasicPartSum t (BHist.e1 n) u :=
+            DirichletPartSum.step stepData.left stepData.right.left
+          exact Exists.intro u
+            (And.intro targetSum
+              (And.intro stepData.right.right
+                (ZetaBasicPartSum_successor_result_nonempty targetSum)))
+
 end BEDC.Derived.ZetaBasicUp
