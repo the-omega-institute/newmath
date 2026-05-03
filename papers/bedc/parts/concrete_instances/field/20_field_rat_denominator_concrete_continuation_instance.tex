@@ -178,6 +178,71 @@ witness as the reflexive denominator classifier comparison
 $R_D(\mu_D(h,k),\mu_D(h,k))$.
 \end{proof}
 
+\begin{theorem}[Rat denominator append-relational unit-law equivalence]
+\label{thm:field-rat-denominator-append-relational-unit-law-equivalence}
+For the concrete data of
+\autoref{def:field-rat-denominator-concrete-continuation-instance}, every
+history $u:\mathsf{BHist}$ satisfying $C_D(u)$ has the following two one-sided
+unit-law equivalences:
+
+$$
+\left(\forall x:\mathsf{BHist}.\;
+C_D(x)\to R_D(\mu_D(x,u),x)\right)
+\Longleftrightarrow
+\left(\forall x,r:\mathsf{BHist}.\;
+C_D(x)\to \Cont(x,u,r)\to R_D(r,x)\right)
+$$
+
+and
+
+$$
+\left(\forall x:\mathsf{BHist}.\;
+C_D(x)\to R_D(\mu_D(u,x),x)\right)
+\Longleftrightarrow
+\left(\forall x,r:\mathsf{BHist}.\;
+C_D(x)\to \Cont(u,x,r)\to R_D(r,x)\right).
+$$
+
+Thus the functional append presentation and the relational continuation
+presentation carry exactly the same one-sided internal-unit obstruction for a
+carried denominator endpoint.
+\end{theorem}
+\begin{proof}
+Fix $u:\mathsf{BHist}$ with $C_D(u)$.
+
+For the right-unit forward direction, assume the append family
+$\forall x.\;C_D(x)\to R_D(\mu_D(x,u),x)$. Given $x$, $r$, $C_D(x)$, and
+$\Cont(x,u,r)$, apply
+\autoref{thm:field-rat-denominator-functional-relational-instance-equivalence}
+to the carried pair $(x,u)$. This classifies the displayed endpoint $r$ with
+the canonical append endpoint $\mu_D(x,u)$. The assumed append family
+classifies $\mu_D(x,u)$ with $x$, and classifier transitivity gives $R_D(r,x)$.
+
+For the right-unit reverse direction, assume the relational family
+$\forall x,r.\;C_D(x)\to\Cont(x,u,r)\to R_D(r,x)$. At each carried $x$, use the
+canonical continuation witness $\Cont(x,u,\mu_D(x,u))$ from
+\autoref{def:field-rat-denominator-concrete-continuation-instance}. Applying
+the relational family to this witness gives $R_D(\mu_D(x,u),x)$.
+
+The left-unit equivalence is identical with the inputs reversed. The forward
+direction compares any displayed $\Cont(u,x,r)$ endpoint to the canonical
+append endpoint $\mu_D(u,x)$ by
+\autoref{thm:field-rat-denominator-functional-relational-instance-equivalence},
+then composes with the assumed append left-unit row by classifier transitivity.
+The reverse direction applies the relational left-unit family to the canonical
+witness $\Cont(u,x,\mu_D(u,x))$.
+\end{proof}
+
+This theorem fits the ten-field per-object template as follows: traditional
+target append/$\Cont$ unit-law equivalence for strict denominator multiplication
+support; BEDC source $\mathsf{BHist}$ together with $\Cont$,
+$\mathsf{RatHistoryCarrier}$, and $\mathsf{RatHistoryClassifier}$; carrier
+$C_D$; classifier $R_D$; stability obligation endpoint bridge plus classifier
+transitivity; ledger $\mathsf{RatHistoryLedgerPolicy}$; core theorem
+\autoref{thm:field-rat-denominator-append-relational-unit-law-equivalence};
+exactness the displayed iff pair; standard bridge strict denominator semigroup
+interface; status $\mathsf{ProofTarget}$.
+
 For the ten-field exit certificate of
 \autoref{def:ratup-fieldup-ten-field-exit-instance}, this theorem occupies only
 the denominator endpoint-identification part of the classifier and stability
