@@ -155,6 +155,32 @@ equalities through additive congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_mul\_add\_add\_expand}
 
+\begin{theorem}[CommRing square of a binary sum]
+\label{thm:commring-square-of-sum-duplicate-middle}
+For BEDC history addition and multiplication satisfying additive
+associativity, additive congruence, multiplicative commutativity, and left
+distributivity, every $a,b : \mathsf{BHist}$ satisfies
+$$
+(a+b)\cdot(a+b)\hsame
+(a\cdot a+a\cdot b)+(a\cdot b+b\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Specialize Theorem~\ref{thm:commring-mul-add-add-expand} with $c:=a$ and
+$d:=b$. This gives the row-major expansion
+$$
+(a+b)\cdot(a+b)\hsame
+(a\cdot a+a\cdot b)+(b\cdot a+b\cdot b).
+$$
+
+Multiplicative commutativity rewrites the exposed middle product
+$b\cdot a$ to $a\cdot b$. Additive congruence transports this product rewrite
+through the right inner sum, then through the outer sum.
+
+Transitivity of $\hsame$ composes the specialized expansion with the
+transported right-hand ledger, yielding the duplicate-middle square form.
+\end{proof}
+
 \begin{theorem}[CommRing column expansion of binary sums]
 \label{thm:commring-mul-add-add-column-expand}
 For BEDC history addition and multiplication, additive associativity,
