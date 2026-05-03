@@ -30,6 +30,22 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.UnitUp.UnitHistoryClassifier}
 
+\begin{theorem}[Unit history carrier empty equivalence]
+\label{thm:unit-history-carrier-empty-iff}
+For a history $h:\mathsf{BHist}$, membership in the unit history carrier is
+equivalent to history-sameness with the empty history:
+$$
+\mathsf{UnitHistoryCarrier}(h)\Longleftrightarrow \HSame(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the right-unit uniqueness law to
+$\mathsf{Cont}(\emp,h,\emp)$. Conversely, a witness $\HSame(h,\emp)$ reduces
+the endpoint to the empty history, where the left-unit continuation law gives
+$\mathsf{Cont}(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryCarrier\_empty\_iff}
+
 \section{The certificate}
 \label{sec:unit-certificate}
 
