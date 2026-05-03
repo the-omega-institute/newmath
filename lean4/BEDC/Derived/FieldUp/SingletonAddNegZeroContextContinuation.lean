@@ -5,6 +5,18 @@ namespace BEDC.Derived.FieldUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+theorem FieldSingletonAddNegZero_context_continuation_result_carrier {L R a b c out : BHist} :
+    FieldSingletonCarrier L -> FieldSingletonCarrier R ->
+      Cont (append L (FieldSingletonAdd a b)) (append (FieldSingletonNeg c) R) out ->
+        FieldSingletonCarrier out := by
+  intro carrierL carrierR continuation
+  unfold FieldSingletonCarrier
+  unfold FieldSingletonAdd FieldSingletonNeg at continuation
+  unfold FieldSingletonCarrier at carrierL carrierR
+  cases carrierL
+  cases carrierR
+  exact cont_deterministic continuation (cont_right_unit BHist.Empty)
+
 theorem FieldSingletonAddNegZero_context_continuation_classifier {L R a b c d out out' : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R ->
       Cont (append L (FieldSingletonAdd a b)) (append (FieldSingletonNeg c) R) out ->

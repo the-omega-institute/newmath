@@ -216,6 +216,22 @@ comparison identifies the next term, and BEDC continuation determinacy
 identifies the resulting successor histories.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_successor\_result\_deterministic}
+\begin{lemma}[Absolute partial-sum modulus-hsame successor result]
+\label{thm:complex-abs-part-sum-modulus-hsame-successor-result}
+Let the two absolute partial-sum systems have $\hsame$ zero histories and
+pointwise $\hsame$ modulus histories. If both systems compute partial sums at
+the same index $n$, and their successor continuations are formed from the
+corresponding modulus histories, then the two successor results are $\hsame$.
+\end{lemma}
+\begin{proof}
+Induct on the first absolute partial-sum derivation. The zero case compares
+the two zero histories and the pointwise modulus histories directly by
+continuation respect for $\hsame$. In the successor case, the second derivation
+has successor shape; the induction hypothesis identifies the previous successor
+partial sums, and the pointwise modulus comparison identifies the final
+continuation results.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_successor\_result}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}

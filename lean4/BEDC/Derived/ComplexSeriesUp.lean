@@ -277,6 +277,25 @@ theorem ComplexAbsPartSum_modulus_successor_result_deterministic {zero : BHist}
   | step finalPrevious finalStep =>
       have samePrevious := deterministic previous finalPrevious
       exact cont_respects_hsame samePrevious (pointwise n) step finalStep
+theorem ComplexAbsPartSum_modulus_hsame_successor_result {zero zero' : BHist}
+    {modulus modulus' : BHist -> BHist} (zeroSame : hsame zero zero')
+    (modulusSame : forall {n : BHist}, hsame (modulus n) (modulus' n))
+    {n M M' T T' : BHist} :
+    ComplexAbsPartSum zero modulus n M -> ComplexAbsPartSum zero' modulus' n M' ->
+      Cont M (modulus n) T -> Cont M' (modulus' n) T' -> hsame T T' := by
+  intro left
+  induction left generalizing M' T T' with
+  | zero =>
+      intro right leftStep rightStep
+      cases right with
+      | zero =>
+          exact cont_respects_hsame zeroSame modulusSame leftStep rightStep
+  | step leftSum leftStep ih =>
+      intro right successorLeft successorRight
+      cases right with
+      | step rightSum rightStep =>
+          have samePrevious := ih rightSum leftStep rightStep
+          exact cont_respects_hsame samePrevious modulusSame successorLeft successorRight
 
 def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)

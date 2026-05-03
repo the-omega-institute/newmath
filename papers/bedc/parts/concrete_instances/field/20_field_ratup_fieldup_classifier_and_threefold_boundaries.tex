@@ -170,6 +170,25 @@ through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_operation\_context\_endpoint\_package}
 
+\begin{theorem}[Field singleton add-neg-zero context continuation result carrier]
+\label{thm:field-singleton-add-neg-zero-context-continuation-result-carrier}
+For histories $L,R,a,b,c,out:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$, if
+$$
+\mathsf{Cont}
+  (\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+   \mathsf{append}(\mathsf{FieldSingletonNeg}(c),R),out)
+$$
+holds, then $\mathsf{FieldSingletonCarrier}(out)$.
+\end{theorem}
+\begin{proof}
+The singleton additive and negation endpoints are definitionally $\emp$. The
+carrier witnesses for $L$ and $R$ reduce both continuation endpoints to the
+empty-empty continuation, so continuation determinacy identifies $out$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_result\_carrier}
+
 \begin{theorem}[Field singleton add-neg-zero context continuation classifier]
 \label{thm:field-singleton-add-neg-zero-context-continuation-classifier}
 For histories $L,R,a,b,c,d,out,out':\mathsf{BHist}$ with
