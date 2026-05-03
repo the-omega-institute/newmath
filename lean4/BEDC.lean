@@ -23,6 +23,7 @@ import BEDC.FKernel.Bundle.Length
 import BEDC.FKernel.Bundle.MembershipAppend
 import BEDC.FKernel.Bundle.ResultInversion
 import BEDC.FKernel.Sig
+import BEDC.FKernel.Sig.EmptyVisible
 import BEDC.FKernel.Sig.Totality
 import BEDC.FKernel.Sig.WitnessChain
 import BEDC.FKernel.Sig.SameSig
@@ -202,6 +203,7 @@ import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
+import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation
