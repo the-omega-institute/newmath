@@ -53,4 +53,60 @@ theorem ResiduePoleData_hsame_transport
                           (And.intro productCarrier' integralResidue'))))
                     integralResidue'
 
+theorem ResiduePoleData_empty_function_endpoints
+    {f center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> hsame f BHist.Empty ->
+      hsame integral BHist.Empty ∧ hsame residue BHist.Empty := by
+  intro data functionEmpty
+  cases data with
+  | intro _disk rest =>
+      cases rest with
+      | intro _integralCarrier rest =>
+          cases rest with
+          | intro _residueCarrier rest =>
+              cases rest with
+              | intro _productCarrier integralResidue =>
+                  have emptyContinuation : Cont integral residue BHist.Empty :=
+                    cont_result_hsame_transport integralResidue functionEmpty
+                  exact cont_empty_result_inversion emptyContinuation
+
+theorem ResiduePoleData_residue_suffix_closure
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
+      Cont f q fq ->
+        ∃ residueq : BHist,
+          ResiduePoleData fq center radius pole gap integral residueq ∧
+            Cont residue q residueq ∧ Cont integral residueq fq := by
+  intro data suffixCarrier functionSuffix
+  cases data with
+  | intro disk rest =>
+      cases rest with
+      | intro integralCarrier rest =>
+          cases rest with
+          | intro residueCarrier rest =>
+              cases rest with
+              | intro _productCarrier integralResidue =>
+                  have residueSuffixData :=
+                    cont_assoc_middle_exists integralResidue functionSuffix
+                  cases residueSuffixData with
+                  | intro residueq residueqData =>
+                      cases residueqData with
+                      | intro residueSuffix integralResidueq =>
+                          have residueqCarrier : ComplexHistoryCarrier residueq := by
+                            cases residueSuffix
+                            exact
+                              ComplexHistoryCarrier_append_unary_closed residueCarrier
+                                suffixCarrier
+                          have productCarrier :
+                              ProdHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier fq :=
+                            ProdHistoryCarrier_cont_intro integralCarrier residueqCarrier
+                              integralResidueq
+                          exact Exists.intro residueq
+                            (And.intro
+                              (And.intro disk
+                                (And.intro integralCarrier
+                                  (And.intro residueqCarrier
+                                    (And.intro productCarrier integralResidueq))))
+                              (And.intro residueSuffix integralResidueq))
+
 end BEDC.Derived.ResidueUp

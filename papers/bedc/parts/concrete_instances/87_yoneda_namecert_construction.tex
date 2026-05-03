@@ -26,6 +26,41 @@ equality and the supplied unary object carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_iff}
 
+\begin{theorem}[Yoneda empty component family displayed determinacy]
+\label{thm:yoneda-representable-empty-component-family-displayed-deterministic}
+If an empty representable component family and a displayed component family
+both exist over every unary object for the same prefixes $p,q$, then
+$\HSame(\emp,displayed)$.
+\end{theorem}
+\begin{proof}
+Evaluate both families at the empty unary object. Their component carriers
+share the same source and target hom-carrier endpoints, so morphism determinacy
+identifies the empty displayed morphism with the supplied displayed component.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_displayed\_deterministic}
+
+\begin{theorem}[Yoneda representable empty component family target determinacy]
+\label{thm:yoneda-representable-empty-component-family-target-deterministic}
+For histories $p,q,r:\mathsf{BHist}$, if the empty natural-transformation
+component family from $p$ to $q$ exists over every unary object and the empty
+component family from $p$ to $r$ exists over every unary object, then $q$ and
+$r$ have the same history:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\Bigr)\Rightarrow
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,r,a,\emp)\Bigr)\Rightarrow
+\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:yoneda-representable-empty-component-family-iff} to
+both component families. The first family gives $\HSame(p,q)$ and the second
+gives $\HSame(p,r)$. Symmetry converts the first comparison to
+$\HSame(q,p)$, and transitivity composes it with $\HSame(p,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_target\_deterministic}
+
 \section{The certificate}
 \label{sec:yoneda-certificate}
 
