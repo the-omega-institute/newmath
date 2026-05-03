@@ -1,0 +1,577 @@
+\section{The certificate}
+
+\begin{definition}[Group source specification]
+\label{def:group-source-specification}
+The source is a certified monoid carrier plus inverse data.
+\end{definition}
+
+\begin{definition}[Group pattern specification]
+\label{def:group-pattern-specification}
+The pattern is monoid expression formation extended by inverse formation.
+\end{definition}
+
+\begin{definition}[Group classifier specification]
+\label{def:group-classifier-specification}
+The classifier is the monoid carrier classifier, with inverse congruence.
+\end{definition}
+
+\begin{definition}[Group stability certificate]
+\label{def:group-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item all monoid stability fields
+  \item inverse congruence
+  \item left inverse law
+  \item right inverse law
+  \item closure under inverse
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.GroupUp.group\_stability\_certificate\_fields}
+
+\begin{theorem}[Group inverse of identity]
+\label{thm:group-inverse-identity}
+For a history-level group operation with right identity and left inverses, the
+inverse of the identity is internally the same as the identity:
+\(\hsame(e^{-1},e)\).
+\end{theorem}
+\begin{proof}
+Chain \(e^{-1}\) backward through the right identity
+\(e^{-1}\cdot e\hsame e^{-1}\), then apply the left inverse law at \(e\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_identity}
+
+\begin{theorem}[Left inverse involutivity]
+\label{thm:group-left-inverse-involutive}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and left inverses, the left inverse
+operation is involutive: \((x^{-1})^{-1}\hsame x\).
+\end{theorem}
+\begin{proof}
+Rewrite \((x^{-1})^{-1}\) through the right identity. Replace the identity
+by \(x^{-1}x\), reassociate, collapse
+\((x^{-1})^{-1}x^{-1}\) by the left inverse law, and finish with the left
+identity.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_inverse\_involutive}
+
+\begin{theorem}[Right inverse involutivity]
+\label{thm:group-right-inverse-involutive}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and right inverses, the right inverse
+operation is involutive: $(x^{-1})^{-1}\hsame x$.
+\end{theorem}
+\begin{proof}
+Rewrite $(x^{-1})^{-1}$ through the left identity. Replace the identity
+by $xx^{-1}$, reassociate, collapse $x^{-1}(x^{-1})^{-1}$ by the right
+inverse law, and finish with the right identity.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_inverse\_involutive}
+
+\begin{theorem}[Left and right inverse witnesses agree]
+\label{thm:group-left-right-inverse-uniqueness}
+For a history-level group operation with associativity, left and right identity,
+and multiplication congruence, if histories $y$ and $z$ satisfy
+$$
+\hsame(yx,e)
+$$
+and
+$$
+\hsame(xz,e),
+$$
+then $\hsame(y,z)$.
+\end{theorem}
+\begin{proof}
+Chain $y$ through the right identity, replace the identity $e$ by $xz$,
+reassociate to $(yx)z$, replace $yx$ by $e$, and finish with the left identity
+on $z$. Each replacement is licensed by multiplication congruence and the
+displayed inverse hypotheses.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_right\_inverse\_uniqueness}
+
+\begin{theorem}[Group inverse congruence from laws]
+\label{thm:group-inverse-congruence-from-laws}
+For a history-level group operation with associativity, left and right identity,
+multiplication congruence, and left and right inverses, \(\hsame(x,y)\) implies
+\(\hsame(x^{-1},y^{-1})\).
+\end{theorem}
+\begin{proof}
+Transport the left inverse witness for \(x^{-1}\) from \(x\) to \(y\) using
+multiplication congruence. Combine it with the right inverse witness for
+\(y^{-1}\) at \(y\), and apply uniqueness of left and right inverse witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_congruence\_from\_laws}
+
+\begin{theorem}[Group inverse cancellation from laws]
+\label{thm:group-inverse-cancel-from-laws}
+For a history-level group operation with associativity, left and right
+identity, multiplication congruence, and left and right inverses, equality of
+inverses under $\hsame$ implies equality of the original histories:
+$$
+\hsame(x^{-1},y^{-1})\to\hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+Apply the derived inverse congruence theorem to the displayed equality of
+inverses, yielding $\hsame((x^{-1})^{-1},(y^{-1})^{-1})$. Chain the left
+inverse involutivity law backward at $x$, across this double-inverse equality,
+and forward at $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_cancel\_from\_laws}
+
+\begin{theorem}[Group multiplication by a right inverse cancels]
+\label{thm:group-mul-right-inverse-cancel}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, every pair of histories satisfies
+$$
+(ab)b^{-1}\hsame a.
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $(ab)b^{-1}$ to $a(bb^{-1})$. The right inverse law collapses
+$bb^{-1}$ to the identity, and the right identity law leaves $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_mul\_right\_inverse\_cancel}
+
+\begin{theorem}[Group multiplication by a left inverse cancels]
+\label{thm:group-mul-left-inverse-cancel}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, every pair of histories satisfies
+$$
+a^{-1}(ab)\hsame b.
+$$
+\end{theorem}
+\begin{proof}
+Reassociate $a^{-1}(ab)$ back to $(a^{-1}a)b$. The left inverse law collapses
+$a^{-1}a$ to the identity, and the left identity law leaves $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_mul\_left\_inverse\_cancel}
+
+\begin{theorem}[Group inverse reverses multiplication]
+\label{thm:group-inverse-mul-reverse}
+For a history-level group operation with associativity, left and right identity,
+multiplication congruence, and left and right inverses, the inverse of a product
+is internally the same as the reversed product of inverses:
+$$
+\hsame((xy)^{-1},y^{-1}x^{-1}).
+$$
+\end{theorem}
+\begin{proof}
+The product $y^{-1}x^{-1}$ is a right inverse of $xy$: reassociate
+$(xy)(y^{-1}x^{-1})$ to $x(y(y^{-1}x^{-1}))$, reassociate the inner product to
+$(yy^{-1})x^{-1}$, collapse $yy^{-1}$ to the identity, and finish with the
+left identity followed by the right inverse law for $x$. The left inverse law
+for $xy$ and uniqueness of left and right inverse witnesses identify
+$(xy)^{-1}$ with $y^{-1}x^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_mul\_reverse}
+
+\begin{theorem}[Group left cancellation]
+\label{thm:group-left-cancellation}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, equality of \(ab\) and \(ac\)
+under \(\hsame\) implies equality of \(b\) and \(c\) under \(\hsame\).
+\end{theorem}
+\begin{proof}
+Chain \(b\) through the left identity, replace that identity by
+\(a^{-1}a\), reassociate to \(a^{-1}(ab)\), use multiplication congruence on
+the assumed product equality, reassociate back to \((a^{-1}a)c\), collapse the
+left inverse, and finish by the left identity on \(c\).
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_cancel}
+
+\begin{theorem}[Group left-multiplication equation solution]
+\label{thm:group-left-mul-equation-solution}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and left inverses, $ax\hsame b$ implies
+$x\hsame a^{-1}b$.
+\end{theorem}
+\begin{proof}
+Chain $x$ backward through the left identity $ex\hsame x$, replace $e$ by
+$a^{-1}a$ using the left inverse law, reassociate to $a^{-1}(ax)$, and
+transport the supplied equality $ax\hsame b$ through multiplication congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_solution}
+
+\begin{theorem}[Group right-multiplication equation solution]
+\label{thm:group-right-mul-equation-solution}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and right inverses, $xa\hsame b$ implies
+$x\hsame ba^{-1}$.
+\end{theorem}
+\begin{proof}
+Chain $x$ backward through the right identity $xe\hsame x$, replace $e$ by
+$aa^{-1}$ using the right inverse law, reassociate to $(xa)a^{-1}$, and
+transport the supplied equality $xa\hsame b$ through multiplication congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
+
+\begin{theorem}[Group left-multiplication equation exactness]
+\label{thm:group-left-mul-equation-exactness}
+For a history-level group operation with associativity, left identity,
+multiplication congruence, and two-sided inverses, left multiplication by $a$
+classifies the original equation:
+$$
+ax\hsame b \Longleftrightarrow x\hsame a^{-1}b
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:group-left-mul-equation-solution}.
+
+For the reverse direction, transport $x\hsame a^{-1}b$ by left multiplication
+with $a$. Reassociate $a(a^{-1}b)$ to $(aa^{-1})b$, collapse $aa^{-1}$ by the
+right inverse law, and use the left identity on $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_exact\_from\_empty\_unit}
+
+\begin{theorem}[Group left-multiplication equation solution uniqueness]
+\label{thm:group-left-mul-equation-solution-unique}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same left-multiplication equation
+$$
+ax\hsame b
+\qquad\text{and}\qquad
+ay\hsame b,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the left-multiplication solution theorem to both displayed equations.
+Both solutions are classified by the same normal form $a^{-1}b$. Symmetry on
+the second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_equation\_solution\_unique\_from\_empty\_unit}
+
+\begin{theorem}[Group right-multiplication equation exactness]
+\label{thm:group-right-mul-equation-exactness}
+For a history-level group operation with associativity, right identity,
+multiplication congruence, and two-sided inverses, right multiplication by $a$
+classifies the original equation:
+$$
+xa\hsame b \Longleftrightarrow x\hsame ba^{-1}.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:group-right-mul-equation-solution}.
+
+For the reverse direction, transport $x\hsame ba^{-1}$ by right multiplication
+with $a$. Reassociate $(ba^{-1})a$ to $b(a^{-1}a)$, collapse $a^{-1}a$ by the
+left inverse law, and use the right identity on $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_exact\_from\_empty\_unit}
+
+\begin{theorem}[Group two-sided multiplication equation exactness]
+\label{thm:group-two-sided-mul-equation-exactness}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with unit
+$\emp$, associativity, left and right identities, multiplication congruence,
+and two-sided inverses, every $a,c,x,b:\mathsf{BHist}$ satisfies
+$$
+\hsame((a x)c,b) \Longleftrightarrow \hsame(x,a^{-1}(b c^{-1})).
+$$
+The ten-field fit is: traditional target two-sided group equation solving;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability left and right equation exactness,
+associativity, inverse laws, and multiplication congruence; ledger the left
+factor, right factor, target, and two inverse witnesses; core theorem this
+exactness iff; standard bridge ordinary two-sided group equations; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:group-right-mul-equation-exactness} to
+$\hsame((a x)c,b)$. This solves the right factor first and gives
+$\hsame(a x,b c^{-1})$.
+
+Then apply \autoref{thm:group-left-mul-equation-exactness} to
+$\hsame(a x,b c^{-1})$. The left factor is solved exactly, yielding
+$\hsame(x,a^{-1}(b c^{-1}))$.
+
+For the reverse direction, apply
+\autoref{thm:group-left-mul-equation-exactness} backward to
+$\hsame(x,a^{-1}(b c^{-1}))$. This recovers $\hsame(a x,b c^{-1})$.
+
+Finally apply \autoref{thm:group-right-mul-equation-exactness} backward with
+right factor $c$. The recovered equation becomes $\hsame((a x)c,b)$.
+\end{proof}
+
+\begin{theorem}[Group conjugation equation exactness]
+\label{thm:group-conjugation-equation-exactness}
+For a history-level group operation with associativity, left and right
+identities, multiplication congruence, and two-sided inverses, conjugation by
+$a$ classifies the middle factor exactly:
+$$
+\hsame((a x)a^{-1},b) \Longleftrightarrow \hsame(x,(a^{-1}b)a).
+$$
+The ten-field fit is: traditional target conjugation equation solving; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability associativity, inverse laws, and multiplication
+congruence; ledger conjugation provenance; core theorem this exactness iff;
+standard bridge group conjugacy equations; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed equation by right
+multiplication with $a$. Reassociate $((a x)a^{-1})a$ to
+$(a x)(a^{-1}a)$, collapse $a^{-1}a$ by the left inverse law, and use the
+right identity to obtain $a x\hsame b a$.
+
+Then transport by left multiplication with $a^{-1}$. Reassociate
+$a^{-1}(a x)$ to $(a^{-1}a)x$, collapse $a^{-1}a$, and use the left identity
+to obtain $x\hsame (a^{-1}b)a$.
+
+For the reverse direction, transport $x\hsame (a^{-1}b)a$ by left
+multiplication with $a$. Reassociate $a((a^{-1}b)a)$ through
+$(aa^{-1})b$ and then back to $b a$, using the right inverse law for
+$aa^{-1}$ and the left identity on $b$.
+
+Finally transport by right multiplication with $a^{-1}$. Reassociate
+$(a x)a^{-1}$ as the transported left side and reassociate
+$(b a)a^{-1}$ to $b(aa^{-1})$, collapse $aa^{-1}$ by the right inverse law,
+and finish with the right identity on $b$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_exact\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group conjugation preserves the empty unit exactly]
+\label{thm:group-conjugation-empty-exact}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right empty-unit laws, multiplication congruence, and
+two-sided inverse laws, conjugation by $a$ has empty target exactly when the
+middle factor is empty:
+$$
+\hsame((a x)a^{-1},\emp) \Longleftrightarrow \hsame(x,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-conjugation-equation-exactness} with target
+$\emp$. The resulting right side is
+$x\hsame (a^{-1}\emp)a$. Associativity rewrites
+$(a^{-1}\emp)a$ as $a^{-1}(\emp a)$; the left empty-unit law reduces
+$\emp a$ to $a$, and the left inverse law collapses $a^{-1}a$ to $\emp$.
+Transitivity gives both directions of the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_empty\_exact\_from\_empty\_unit}
+
+\begin{theorem}[Group conjugation classifier exactness]
+\label{thm:group-conjugation-classifier-exactness}
+For a history-level group operation with empty unit, associativity, left and
+right identities, multiplication congruence, and two-sided inverses,
+conjugation by $a$ preserves and reflects the $\hsame$ classifier:
+$$
+\hsame((a x)a^{-1},(a y)a^{-1}) \Longleftrightarrow \hsame(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:group-conjugation-equation-exactness} to the displayed equation
+with target $(a y)a^{-1}$. Apply the same equation exactness theorem to the
+reflexive equation for $y$ at the same target. The two solved endpoints are
+then compared by symmetry and transitivity of $\hsame$.
+
+For the reverse direction, multiplication congruence transports $x\hsame y$
+through left multiplication by $a$ and right multiplication by $a^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_classifier\_exact\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group conjugation equation solution uniqueness]
+\label{thm:group-conjugation-equation-solution-unique}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same conjugation equation
+$$
+\hsame((a x)a^{-1},b)
+\qquad\text{and}\qquad
+\hsame((a y)a^{-1},b),
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply conjugation equation exactness to both displayed equations. Both middle
+factors are classified by the same normal form $(a^{-1}b)a$. Symmetry on the
+second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_solution\_unique\_from\_empty\_unit}
+
+\begin{theorem}[Group commutator detects commutation]
+\label{thm:group-commutator-trivial-iff-commutes}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identities, multiplication congruence, and
+two-sided inverse laws, define
+$$
+\mathsf{comm}(a,b):=\mathsf{mul}(\mathsf{mul}(a,b),
+\mathsf{mul}(\mathsf{inv}(a),\mathsf{inv}(b))).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfy
+$$
+\mathsf{comm}(a,b)\hsame e \Longleftrightarrow
+\mathsf{mul}(a,b)\hsame \mathsf{mul}(b,a).
+$$
+The ten-field fit is: traditional target group commutator criterion; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability obligations inverse-product reversal, multiplication
+congruence, right cancellation, and inverse laws; ledger the two factors and
+inverse-product spine; core theorem this block; exactness predicate trivial
+commutator iff commutation; standard bridge ordinary group commutator
+criterion; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use Theorem~\ref{thm:group-inverse-mul-reverse} with the ordered product
+$ba$ to identify $a^{-1}b^{-1}$ as an inverse-product presentation of
+$(ba)^{-1}$. Thus the displayed commutator is the product of $ab$ with an
+inverse witness for $ba$.
+
+For the forward direction, multiply the trivial commutator equation on the
+right by $ba$. The right side becomes $ba$ by the left identity, while the
+left side reassociates to $ab((ba)^{-1}(ba))$; the left inverse law for $ba$
+collapses the final factor to $e$, and the right identity leaves $ab$. This
+is exactly the right-cancellation comparison between $ab$ and $ba$.
+
+For the reverse direction, transport $ab\hsame ba$ through multiplication
+congruence by the common right factor $(ba)^{-1}$. The right-hand product
+collapses to $e$ by the right-inverse law, and the inverse-product reversal
+identification rewrites the left-hand product as
+$\mathsf{comm}(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_commutator\_trivial\_iff\_commutes\_from\_empty\_unit}
+
+\begin{theorem}[Group commutator fixed-point criterion]
+\label{thm:group-commutator-fixed-point-criterion}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identities, multiplication congruence, and
+two-sided inverse laws, define
+$$
+\mathrm{Inn}_a(b):=(a\cdot b)\cdot a^{-1}
+\qquad\text{and}\qquad
+\mathsf{comm}(a,b):=(a\cdot b)\cdot(a^{-1}\cdot b^{-1}).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfy
+$$
+\hsame(\mathrm{Inn}_a(b),b)
+\Longleftrightarrow
+\hsame(\mathsf{comm}(a,b),e)
+\Longleftrightarrow
+\hsame(a\cdot b,b\cdot a).
+$$
+The ten-field fit is: traditional target centralizer fixed-point criterion;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations conjugation exactness,
+commutator exactness, associativity, inverse laws, and multiplication
+congruence; ledger conjugating factor, inverse witness, and commutator spine;
+core theorem this fixed-point equivalence; exactness predicate fixed point iff
+commutator trivial iff commutation; standard bridge ordinary group
+centralizers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-conjugation-equation-exactness} with middle
+factor $b$ and target $b$. The fixed-point assertion
+$\hsame((a\cdot b)\cdot a^{-1},b)$ is therefore equivalent to the comparison
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
+
+For the forward comparison, multiply the right-side equation by $a$ on the
+left and reassociate $a\cdot((a^{-1}\cdot b)\cdot a)$ through
+$(a\cdot a^{-1})\cdot b$. The inverse law collapses $a\cdot a^{-1}$ to the
+unit, and the unit laws identify the transported comparison with
+$\hsame(a\cdot b,b\cdot a)$.
+
+For the reverse comparison, multiply $a\cdot b\hsame b\cdot a$ on the left by
+$a^{-1}$. Associativity moves the inverse next to $a$, the inverse and unit
+laws collapse the left factor, and the resulting comparison is exactly
+$\hsame(b,(a^{-1}\cdot b)\cdot a)$.
+
+Theorem~\ref{thm:group-commutator-trivial-iff-commutes} gives the second
+equivalence, so transitivity of equivalences yields the displayed
+fixed-point, commutator, and commutation criterion.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_fixed\_point\_commutation\_iff\_from\_empty\_unit}
+
+\begin{definition}[Group centralizer carrier]
+\label{def:group-centralizer-carrier}
+Fix a BEDC history-level group operation $\mathsf{mul}$ over
+$\mathsf{BHist}$, unit $e$, inverse operation $\mathsf{inv}$, and fixed
+element $a:\mathsf{BHist}$. The centralizer carrier of $a$ is the classifier
+$Z_a$ on histories defined by
+$$
+Z_a(x) :\Longleftrightarrow
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x)).
+$$
+\end{definition}
+
+\begin{theorem}[Group centralizer inverse closure]
+\label{thm:group-centralizer-inverse-closure}
+For a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$
+with empty history unit $e=\mathsf{BHist.Empty}$, associativity, empty left
+and right unit laws, multiplication congruence, and two-sided inverse laws,
+the centralizer carrier of \autoref{def:group-centralizer-carrier} is closed
+under inverse:
+$$
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x))
+\Rightarrow
+\hsame(\mathsf{mul}(\mathsf{inv}(x),a),
+\mathsf{mul}(a,\mathsf{inv}(x))).
+$$
+Equivalently, $Z_a(x)$ implies $Z_a(\mathsf{inv}(x))$.
+The ten-field fit is: traditional target centralizer inverse closure; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability obligations associativity, empty unit laws, multiplication
+congruence, and two-sided inverse laws; ledger fixed element $a$ and commuting
+witness for $x$; core theorem inverse closure of the centralizer carrier;
+exactness predicate commutation with $a$; standard bridge ordinary group
+centralizers; status $\mathsf{Proof}$.
+\end{theorem}
+\begin{proof}
+For inverse closure, first use \autoref{thm:group-inverse-congruence-from-laws}
+on the witness $xa\hsame ax$. Apply
+\autoref{thm:group-inverse-mul-reverse} to both products. The inverse of
+$xa$ is represented by $a^{-1}x^{-1}$, and the inverse of $ax$ is represented
+by $x^{-1}a^{-1}$; transporting along the inverse-congruence witness gives
+$a^{-1}x^{-1}\hsame x^{-1}a^{-1}$.
+
+Multiplying on the left by $a$ and on the right by $a$, then using
+associativity and the two inverse laws, cancels the outer $a^{-1}$ factors and
+yields $x^{-1}a\hsame ax^{-1}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_inv\_closed\_from\_empty\_unit}
+
+\begin{theorem}[Group centralizer subgroup and commutator fiber]
+\label{thm:group-centralizer-subgroup}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws, the carrier $Z_a$ of
+\autoref{def:group-centralizer-carrier} is closed under the group operations:
+\begin{enumerate}
+\item $Z_a(e)$.
+\item If $Z_a(x)$ and $Z_a(y)$, then $Z_a(\mathsf{mul}(x,y))$.
+\item If $Z_a(x)$, then $Z_a(\mathsf{inv}(x))$.
+\item For every $x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow \mathsf{comm}(x,a)\hsame e,
+$$
+where $\mathsf{comm}$ is the commutator operation of
+\autoref{thm:group-commutator-trivial-iff-commutes}.
+\end{enumerate}
+The ten-field fit is: traditional target centralizer subgroup; BEDC source
+$\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability obligations unit, product, inverse closure, and commutator-fiber
+exactness; ledger fixed element $a$ and commuting witnesses for the active
+factors; core theorem list \autoref{thm:group-inverse-mul-reverse},
+\autoref{thm:group-inverse-congruence-from-laws}, and
+\autoref{thm:group-commutator-trivial-iff-commutes}, together with
+associativity, unit laws, inverse laws, and multiplication congruence;
+exactness predicate $Z_a(x)$ iff trivial commutator; standard bridge ordinary
+group centralizers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The unit belongs to $Z_a$ because the left and right identity laws identify
+$ea$ and $ae$ with the same history $a$. Symmetry and transitivity of
+$\hsame$ close the comparison.
+
+For product closure, start from witnesses $xa\hsame ax$ and $ya\hsame ay$.
+Associativity rewrites $(xy)a$ as $x(ya)$; multiplication congruence transports
+the second witness to $x(ay)$, and associativity rewrites this as $(xa)y$.
+The first witness then transports the left factor to $(ax)y$, and
+associativity gives $a(xy)$.
+
+For inverse closure, apply
+\autoref{thm:group-centralizer-inverse-closure} to the witness $Z_a(x)$.
+
+The commutator fiber is exactly the displayed carrier by
+\autoref{thm:group-commutator-trivial-iff-commutes} with the ordered pair
+$(x,a)$. Its right side is precisely the definition of $Z_a(x)$, and symmetry
+of the displayed equivalence supplies the stated orientation.
+\end{proof}
