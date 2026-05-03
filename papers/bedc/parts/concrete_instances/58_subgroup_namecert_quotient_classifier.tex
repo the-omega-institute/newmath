@@ -279,6 +279,48 @@ and the third clause says that their relative displacement lies in the
 centralizer kernel.
 \end{definition}
 
+\begin{theorem}[Centralizer normalizer quotient-kernel identity fiber]
+\label{thm:subgroup-centralizer-normalizer-quotient-kernel-identity-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{e},x)\Longleftrightarrow Z_a(x).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the classifier in
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}.
+For the forward direction, the endpoint clauses give $N_a(\mathsf{e})$ and
+$N_a(x)$, and the kernel clause gives
+$Z_a(\mathsf{mul}(\mathsf{inv}(\mathsf{e}),x))$.
+
+The inverse and unit laws identify
+$\mathsf{mul}(\mathsf{inv}(\mathsf{e}),x)$ with $x$ up to $\hsame$. The
+$Z_a$ carrier-transport row from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} carries the
+kernel witness to $Z_a(x)$.
+
+For the reverse direction, assume $Z_a(x)$. The inclusion row
+$Z_a\subseteq N_a$ in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} gives
+$N_a(x)$, and the identity row gives $N_a(\mathsf{e})$.
+
+It remains to supply the kernel clause for
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$. The same inverse and unit laws
+identify $x$ with $\mathsf{mul}(\mathsf{inv}(\mathsf{e}),x)$ up to $\hsame$,
+and carrier transport for $Z_a$ moves the assumed $Z_a(x)$ to the displayed
+kernel word.
+\end{proof}
+
+Per-object template: traditional target identity coset and unit fiber for the
+normal-subgroup tower $Z_a\leq N_a$; BEDC source $\GroupUp$ plus the
+$\SubgroupUp$ tower; carrier $N_a$; classifier $Q_{Z_a\triangleleft N_a}$;
+exactness identity fiber equals lower carrier; downstream object
+$\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Centralizer normalizer quotient-kernel classifier congruence]
 \label{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying

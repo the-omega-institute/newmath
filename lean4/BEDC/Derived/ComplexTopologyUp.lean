@@ -139,4 +139,41 @@ theorem ComplexTopologyOpenDiskGap_radius_extension_closed
                           (And.intro gapOutCarrier pointGapOut))))
                     pointGapOut
 
+theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
+    {center radius point gap q pointq radiusq : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q -> Cont point q pointq ->
+      Cont radius q radiusq ->
+        ComplexTopologyOpenDiskGap center radiusq pointq gap ∧ Cont pointq gap radiusq := by
+  intro disk suffixCarrier pointSuffix radiusSuffix
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro gapCarrier pointGap =>
+                  have shiftedPointCarrier : ComplexHistoryCarrier pointq :=
+                    BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport pointSuffix.symm
+                      (ComplexHistoryCarrier_append_unary_closed pointCarrier suffixCarrier)
+                  have shiftedRadiusCarrier : UnaryHistory radiusq :=
+                    unary_cont_closed radiusCarrier suffixCarrier radiusSuffix
+                  have shiftedBoundary : Cont pointq gap radiusq := by
+                    apply cont_intro
+                    exact
+                      radiusSuffix.trans
+                        ((congrArg (fun h => append h q) pointGap).trans
+                          ((append_assoc point gap q).trans
+                            ((congrArg (append point)
+                              (unary_append_comm gapCarrier suffixCarrier)).trans
+                              ((append_assoc point q gap).symm.trans
+                                (congrArg (fun h => append h gap) pointSuffix.symm)))))
+                  exact
+                    And.intro
+                      (And.intro centerCarrier
+                        (And.intro shiftedRadiusCarrier
+                          (And.intro shiftedPointCarrier
+                            (And.intro gapCarrier shiftedBoundary))))
+                      shiftedBoundary
+
 end BEDC.Derived.ComplexTopologyUp

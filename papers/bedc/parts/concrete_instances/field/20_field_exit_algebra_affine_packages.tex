@@ -43,7 +43,7 @@ $\mathsf{neg}$ parameter is part of the certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatUpFieldUp\_algebra\_reduct\_compatibility}
 
-\begin{theorem}[RatUp FieldUp inverse-product classifier exit row]
+\begin{theorem}[RatUp FieldUp apart-product inverse classifier exit row]
 \label{thm:ratup-fieldup-inverse-product-classifier-exit-row}
 For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, bind the rows of
 Definition~\ref{def:ratup-fieldup-concrete-operation-table} as follows: let
@@ -51,9 +51,10 @@ $\mu_F$ be its concrete multiplication row, let $\iota_F$ be its inverse row
 over $\mathsf{FieldApartZero}$, and let $N_F$ be the certified
 nonzero/apartness row carried by the same table. If
 $a,b,c,d:\mathsf{BHist}$ carry witnesses $p_a:N_F(a)$, $p_b:N_F(b)$,
-$p_c:N_F(c)$, and $p_d:N_F(d)$, and if the table supplies product witnesses
-$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$, then the concrete
-classifier row records
+$p_c:N_F(c)$, and $p_d:N_F(d)$, and if the two products are apart from the
+empty history by hypotheses
+$h_s:\mu_F(a,b)\hsame\emp\to\bot$ and
+$h_t:\mu_F(c,d)\hsame\emp\to\bot$, then the concrete classifier row records
 $$
 \mu_F(a,b)\hsame\mu_F(c,d)
 \Longleftrightarrow
@@ -75,13 +76,17 @@ parameters.
 Next invoke
 \autoref{thm:ratup-fieldup-product-classifier-and-nonzero-exit-package}. It
 locates product classifier exactness and nonzero transport inside the same
-concrete source tuple $\mathsf{RatUpFieldSource}_F$, so the witnesses
-$p_{ab}:N_F(\mu_F(a,b))$ and $p_{cd}:N_F(\mu_F(c,d))$ are supplied by the bound
-multiplication and nonzero rows.
+concrete source tuple $\mathsf{RatUpFieldSource}_F$. The same package supplies
+the bridge from explicit product apartness to the nonzero row, so the
+hypotheses $h_s$ and $h_t$ may be consumed without presupposing separate
+product nonzero witnesses.
 
-Next apply \autoref{thm:field-inverse-product-classifier-exact-from-apartness}.
-With the four certified factor witnesses and the two product witnesses just
-located, the generic history-level theorem converts classifier equality of
+Next apply the checked theorem
+\texttt{BEDC.Derived.FieldUp.field\_apart\_product\_inverse\_classifier\_exact\_from\_apartness},
+recorded in
+\autoref{thm:field-apart-product-inverse-classifier-exact-from-apartness}. With
+the four certified factor witnesses and the two product-apartness hypotheses,
+the generic history-level theorem converts classifier equality of
 $\mu_F(a,b)$ and $\mu_F(c,d)$ into classifier equality of the reversed inverse
 products built from $\iota_F$, and conversely.
 
@@ -97,8 +102,8 @@ rather than an external schematic operation parameter.
 Per-object template: traditional target inverse-product exactness row for
 $\FieldUp(\RatUp)$; BEDC source $\mathsf{RatUpFieldSource}_F$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; ledger the four
-factor witnesses plus the two product witnesses; exactness predicate the
-displayed classifier equivalence; status $\mathsf{ProofTarget}$.
+factor witnesses plus the two product-apartness witnesses; exactness predicate
+the displayed classifier equivalence; status $\mathsf{ProofTarget}$.
 
 Per-object template: traditional target algebra-hierarchy reduct compatibility
 for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with the concrete
