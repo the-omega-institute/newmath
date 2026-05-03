@@ -131,5 +131,19 @@ the quotient result \(q\) with the displayed derivative \(f'\).
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_witness\_step\_unary}
 
+\begin{theorem}[Derivative complex-difference derivative is nonempty]
+\label{thm:derivative-cplx-diff-at-derivative-nonempty}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then the displayed derivative
+\(f'\) cannot be $\hsame$-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+Unfold the differentiability witness to obtain a concrete quotient
+\(\mathsf{CplxDiffQuot}(f,z,h,q)\). The classifier field identifies the
+quotient result \(q\) with the displayed derivative \(f'\). A hypothetical
+\(f'\hsame\emp\) therefore makes \(q\hsame\emp\), contradicting quotient
+result non-emptiness from the nonzero step.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_derivative\_nonempty}
+
 \section{The certificate}
 \label{sec:derivative-certificate}

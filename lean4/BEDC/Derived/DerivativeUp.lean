@@ -125,6 +125,25 @@ theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
                                 (And.intro stepUnary.right.left
                                   (And.intro stepUnary.right.right (classifier quotient)))))
 
+theorem DerivativeCplxDiffAt_derivative_nonempty {f z fp : BHist} :
+    CplxDiffAt f z fp -> hsame fp BHist.Empty -> False := by
+  intro derivative derivativeEmpty
+  cases derivative with
+  | intro _functionCarrier derivativeRest =>
+      cases derivativeRest with
+      | intro _pointCarrier derivativeRest =>
+          cases derivativeRest with
+          | intro _derivativeCarrier derivativeRest =>
+              cases derivativeRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have quotientEmpty : hsame q BHist.Empty :=
+                            hsame_trans (classifier quotient) derivativeEmpty
+                          exact CplxDiffQuot_result_nonempty quotient quotientEmpty
+
 theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist ->
       (hsame q BHist.Empty -> False) ∧ (hsame dist BHist.Empty -> False) := by
