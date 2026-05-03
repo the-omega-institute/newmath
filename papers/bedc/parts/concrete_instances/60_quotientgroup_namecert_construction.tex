@@ -6,92 +6,85 @@ The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets o
 \section{Carrier definition}
 \label{sec:quotientgroup-carrier}
 
-\begin{definition}[Concrete centralizer-normalizer quotient group carrier]
-\label{def:quotientgroup-centralizer-normalizer-concrete-carrier}
-Let a BEDC history-level $\GroupUp$ operation on $\mathsf{BHist}$ satisfy the
-group laws used in
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. Let $Z_a$ be
-the lower centralizer carrier and let $N_a$ be the upper normalizer carrier of
-that tower. The concrete $\QuotientGroupUp$ carrier is the representative
-predicate $N_a$ on histories, and its classifier is the quotient-kernel
-relation $Q_{Z_a\triangleleft N_a}$ of
+\begin{definition}[Centralizer-normalizer QuotientGroupUp carrier]
+\label{def:quotientgroup-centralizer-normalizer-carrier}
+In the BEDC history-level $\GroupUp$ setting of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, let $Z_a$
+be the centralizer carrier of \autoref{def:group-centralizer-carrier} and let
+$N_a$ be the centralizer normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}. The
+centralizer-normalizer $\QuotientGroupUp$ representative carrier is $N_a$,
+with classifier
+$Q_{Z_a\triangleleft N_a}$ from
 \autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}.
+Represented multiplication, unit, and inversion are given by
+$\mathsf{mul}(x,y)$, $e$, and $\mathsf{inv}(x)$.
 
-Multiplication is induced by the ambient $\mathsf{mul}$ on representatives,
-the unit is the ambient group unit, and inverse is the ambient group inverse.
-The certificate ledger records a representative in $N_a$, its relative kernel
-displacement in $Z_a$, and the normality witness that moves centralizer
-displacements across normalizer representatives.
+The certificate ledger records the representative endpoints in $N_a$, the
+relative kernel witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, and the tower rows for the lower
+centralizer subgroup, the upper normalizer subgroup, inclusion
+$Z_a\subseteq N_a$, and conjugation preservation of $Z_a$ by carried elements
+of $N_a$. Thus the carrier is a concrete history-level representative system
+equipped with a classifier, not a host quotient type.
 \end{definition}
 
 \section{The certificate}
 \label{sec:quotientgroup-certificate}
 
-\begin{theorem}[Concrete centralizer-normalizer QuotientGroupUp certificate]
-\label{thm:quotientgroup-centralizer-normalizer-certificate}
-For a BEDC history-level $\GroupUp$ operation on $\mathsf{BHist}$ satisfying
-the associativity, unit, multiplication-congruence, inverse-congruence, and
-two-sided inverse laws used in
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the carrier,
-classifier, induced multiplication, unit, inverse, and ledger of
-\autoref{def:quotientgroup-centralizer-normalizer-concrete-carrier} satisfy
-the concrete $\QuotientGroupUp$ certificate fields:
+\begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
+\label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the associativity, unit, multiplication-congruence,
+inverse-congruence, inverse-product reversal, and two-sided inverse laws used
+by \autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the tuple
+of \autoref{def:quotientgroup-centralizer-normalizer-carrier} satisfies the
+$\QuotientGroupUp$ certificate fields:
 \begin{enumerate}
-\item carrier inhabitation, because the ambient unit is carried by $N_a$;
-\item classifier reflexivity on representatives carried by $N_a$;
-\item classifier symmetry;
-\item classifier transitivity;
-\item operation congruence for the induced multiplication on representatives;
-\item unit descent for the ambient unit through the classifier;
-\item inverse descent for the ambient inverse through the classifier;
-\item quotient-kernel exactness, because two representatives are classified
-precisely when their relative displacement lies in $Z_a$.
+\item the representative carrier $N_a$ is inhabited by $e$;
+\item $Q_{Z_a\triangleleft N_a}$ is reflexive, symmetric, and transitive on
+carried representatives;
+\item represented multiplication descends through
+$Q_{Z_a\triangleleft N_a}$;
+\item $e$ and $\mathsf{inv}(x)$ are carried by $N_a$ whenever $x$ is carried
+by $N_a$;
+\item the represented product, unit, and inverse operations respect the same
+classifier on all carried representatives.
 \end{enumerate}
-Thus the centralizer-normalizer tower supplies a quotient-ready group carrier
-without forming a host quotient object.
+Consequently the centralizer-normalizer tower supplies a quotient-free
+semantic certificate for $\QuotientGroupUp$ whose observable names are
+histories in $N_a$ and whose equality test is the relative-kernel predicate
+$Q_{Z_a\triangleleft N_a}$.
 \end{theorem}
 \begin{proof}
-The carrier rows come from
+Apply
 \autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. Its lower
-subgroup certificate supplies $Z_a$, its upper subgroup rows supply $N_a$, and
-its normality clauses place the centralizer as a normal lower carrier inside
-the normalizer carrier.
+and upper subgroup rows give $Z_a(e)$, $N_a(e)$, product and inverse closure
+for $N_a$, the inclusion $Z_a\subseteq N_a$, and the normality rows carrying
+$Z_a$ through conjugation by elements of $N_a$.
 
-The classifier rows are exactly the first three laws of
-\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}.
-The same theorem gives the multiplication-compatibility row, so the ambient
-$\mathsf{mul}$ descends to representatives modulo
-$Q_{Z_a\triangleleft N_a}$.
+Next apply
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence} to
+the classifier
+$Q_{Z_a\triangleleft N_a}$. The first three rows give reflexivity, symmetry,
+and transitivity on representatives in $N_a$. The fourth row gives product
+descent for $\mathsf{mul}$ and the quotient operation congruence required by
+the represented multiplication.
 
-For the unit row, use the ambient $\GroupUp$ left and right unit laws together
-with the $N_a$ identity row of
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. The relative
-displacement between a representative and its product with the unit reduces to
-the centralizer identity witness.
+It remains to identify the unit and inverse operation rows. The unit row is
+the upper subgroup inhabitance supplied by the tower. For inverse closure, use
+the upper subgroup inverse row from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}; inverse
+descent follows by combining the ambient inverse-congruence and two-sided
+inverse laws named there with
+\autoref{thm:group-inverse-mul-reverse}. Expanding
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}, the
+kernel witness for inverse representatives is transported from
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$ to the corresponding relative inverse
+word by the $Z_a$ inverse-closure and $\hsame$-transport rows.
 
-For inverse descent, use the ambient inverse-congruence and two-sided inverse
-rows. The inverse closure rows for $N_a$ and $Z_a$, together with
-\autoref{thm:group-inverse-mul-reverse}, transport the relative displacement
-for $Q_{Z_a\triangleleft N_a}(x,y)$ to the relative displacement for the
-inverse representatives.
-
-Finally, quotient-kernel exactness is the defining third clause of
-\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}. The
-ledger records the representative endpoints, the displacement
-$\mathsf{mul}(\mathsf{inv}(x),y)$, and the normality witness used by the
-multiplication row; these are exactly the data repacked by the
-$\QuotientGroupUp$ certificate.
+These rows are exactly the carrier inhabitance, equivalence, product descent,
+unit closure, inverse closure, and operation congruence fields demanded by the
+history-level $\QuotientGroupUp$ certificate, with the ledger witness kept as
+the relative kernel membership rather than as an element of a host quotient.
 \end{proof}
-
-Per-object template: traditional target quotient group; BEDC source
-$\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$; carrier $N_a$; classifier
-$Q_{Z_a\triangleleft N_a}$; operations induced ambient multiplication, ambient
-unit, and ambient inverse; stability obligations carrier inhabitation,
-classifier reflexivity, classifier symmetry, classifier transitivity,
-operation congruence, unit descent, inverse descent, and quotient-kernel
-exactness; ledger representative, relative kernel displacement, and normality
-witness; core theorem list
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate},
-\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}, and
-\autoref{thm:group-inverse-mul-reverse}; exactness relative displacement in
-$Z_a$; standard bridge ordinary quotient group; status $\mathsf{ProofTarget}$.
