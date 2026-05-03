@@ -178,6 +178,65 @@ application order; core theorem list
 and \autoref{thm:field-rat-denominator-contextual-action-composition-support-laws};
 exactness predicate the displayed classifier plus support iff; standard bridge
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp contextual action threefold pair support transport]
+\label{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2:\mathsf{BHist}$.
+Suppose $C_D^u(h)$ and suppose each of
+$l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2$ lies in $C_D^u$. Suppose
+also that the denominator context pairs are classified componentwise:
+$R_D^u(l_i,s_i)$ and $R_D^u(r_i,t_i)$ for $i=0,1,2$. Let
+$$
+H_l:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))
+$$
+and
+$$
+H_s:=
+\Gamma_{\emp,\emp,s_2,t_2}
+(\Gamma_{\emp,\emp,s_1,t_1}(\Gamma_{\emp,\emp,s_0,t_0}(h))).
+$$
+Then strict support is invariant under replacing the three classified context
+pairs:
+$$
+N_D^u(H_l)\Longleftrightarrow N_D^u(H_s).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-threefold-normalization}
+to $H_l$. Its strict-support row reads $N_D^u(H_l)$ as the seven-term
+disjunction with context supports
+$N_D^u(l_2)$, $N_D^u(l_1)$, $N_D^u(l_0)$, $N_D^u(r_0)$, $N_D^u(r_1)$, and
+$N_D^u(r_2)$ around the shared middle term $N_D^u(h)$.
+
+Apply the same threefold normalization theorem to $H_s$. The second readback
+has the same shape, with the corresponding $s_i$ and $t_i$ support terms
+around the same middle term.
+
+The three componentwise classified context pairs give three product-support
+transports. Use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}
+for the pairs $(l_0,r_0)$ and $(s_0,t_0)$, then for $(l_1,r_1)$ and
+$(s_1,t_1)$, and then for $(l_2,r_2)$ and $(s_2,t_2)$. Opening each product
+with
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support}
+identifies the six outer support alternatives on the two sides.
+
+For the forward direction, read $N_D^u(H_l)$ through the first seven-term
+formula. Transport the selected context-support alternative through the
+corresponding classified pair, keep the shared $N_D^u(h)$ alternative fixed,
+and close the result through the second seven-term formula.
+
+The reverse direction is symmetric. Read $N_D^u(H_s)$ through the second
+formula, transport the selected context-support alternative back through the
+same three classified pairs, keep the shared middle alternative fixed, and
+repack through the first seven-term formula.
+\end{proof}
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
