@@ -66,6 +66,21 @@ step witness.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_result\_nonempty}
 
+\begin{theorem}[Derivative metric quotient distance visible-context readback]
+\label{thm:derivative-metric-quotient-distance-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the distance
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $dist\hsame core$. The readback
+core is also not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the distance and the core. This gives $dist\hsame core$. A hypothetical empty
+core transports back to an empty distance result, contradicting the checked
+non-emptiness theorem for derivative metric quotient distance results.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_visible\_context\_readback}
+
 \begin{theorem}[Derivative metric quotient distance is non-empty]
 \label{thm:derivative-metric-quotient-quotient-distance-nonempty}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then neither

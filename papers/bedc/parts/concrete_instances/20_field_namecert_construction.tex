@@ -1,6 +1,78 @@
 \input{parts/concrete_instances/field/20_field_namecert_construction_core}
 \input{parts/concrete_instances/field/20_field_affine_explicit_inverse}
 \input{parts/concrete_instances/field/20_field_affine_composite_inverse}
+
+\begin{theorem}[Field affine composite inverse product-witness independence]
+\label{thm:field-affine-composite-inverse-product-witness-independence}
+Under the notation of
+\autoref{thm:field-affine-composite-inverse-reverse-coherence}, fix the
+collected coefficients
+$$
+A=\mathsf{mul}(a',a),
+\qquad
+B=\mathsf{mul}(b,b'),
+\qquad
+D=\mathsf{add}(\mathsf{mul}(\mathsf{mul}(a',d),b'),d').
+$$
+Let $p_A,p'_A:\mathsf{NonZero}_F(A)$ and
+$p_B,p'_B:\mathsf{NonZero}_F(B)$ be two choices of product nonzero witnesses.
+For each $q:\mathsf{BHist}$ define
+$$
+s_{21}^{p_A,p_B}(q)=
+\mathsf{mul}(\mathsf{inv}(A,p_A),
+\mathsf{mul}(\mathsf{add}(q,\mathsf{neg}(D)),\mathsf{inv}(B,p_B)))
+$$
+and define $s_{21}^{p'_A,p'_B}(q)$ by the same displayed formula with
+$p'_A,p'_B$ in place of $p_A,p_B$. Then every $q:\mathsf{BHist}$ satisfies
+the three comparisons
+\begin{enumerate}
+\item
+
+$$
+s_{21}^{p_A,p_B}(q)\hsame s_{21}^{p'_A,p'_B}(q).
+$$
+\item
+
+$$
+s_{21}^{p_A,p_B}(q)\hsame s_1(s_2(q)).
+$$
+\item
+
+$$
+s_{21}^{p'_A,p'_B}(q)\hsame s_1(s_2(q)).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+We first compare the two collected inverse terms. Apply
+\autoref{thm:field-affine-product-witness-independence} to the two composite
+affine members with common coefficients $A,B,D$ and witness pairs
+$(p_A,p_B)$ and $(p'_A,p'_B)$. Its inverse-formula field gives the first
+displayed comparison pointwise in $q$.
+
+For agreement with the reverse-composed inverse, apply
+\autoref{thm:field-affine-composite-inverse-reverse-coherence} with the
+witness pair $(p_A,p_B)$ to obtain the second displayed comparison. Apply the
+same theorem with $(p'_A,p'_B)$ to obtain the third displayed comparison.
+
+The classifier $\hsame$ is transitive and symmetric, so these three
+comparisons form a single certificate: changing product witnesses does not
+change the collected explicit inverse, and each collected representative
+agrees with the reverse-composed inverse $s_1(s_2(q))$.
+\end{proof}
+
+Per-object certificate: traditional target affine composite inverse ledger
+determinacy; BEDC source $\FieldUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations
+\autoref{thm:field-affine-product-witness-independence},
+\autoref{thm:field-affine-composite-inverse-reverse-coherence}, and $\hsame$
+transitivity; ledger the component witnesses, product witnesses, and offsets;
+core theorem
+\autoref{thm:field-affine-composite-inverse-product-witness-independence};
+exactness predicate witness-independent collected inverse agreeing with the
+reverse-composed inverse; downstream consumer affine automorphism group
+composition certificate; status $\mathsf{ProofTarget}$.
+
 \input{parts/concrete_instances/field/20_field_affine_automorphism_package}
 \input{parts/concrete_instances/field/20_field_affine_automorphism_group}
 \input{parts/concrete_instances/field/20_field_affine_automorphism_context_exactness}
@@ -274,3 +346,79 @@ noncollapse boundary and bracketing selector independence; ledger selector pair
 plus contexts $L,R,r$; exactness predicate one concrete FieldUp exit boundary
 with both endpoint contexts; downstream consumer final certificate bracketing
 endpoint consumption; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp selector-independent final boundary]
+\label{thm:ratup-fieldup-selector-independent-final-boundary}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and $C_D^u(\ell)$,
+selectors $s,t,u,v:\mathsf{BMark}$, and contexts
+$L,R,r:\mathsf{BHist}$, let $E_q(h,k,\ell)$ be the bracketing endpoint
+selector of Definition~\ref{def:ratup-fieldup-bracketing-endpoint-selector}
+for each $q:\mathsf{BMark}$. If $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds,
+then the same concrete $\FieldUp(\RatUp)$ final exit boundary contains the
+following rows:
+\begin{enumerate}
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(s,t)$;
+  \item every row of
+  \autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+  for the selector pair $(u,v)$;
+  \item
+  $$
+  R_D^u(E_s(h,k,\ell),E_u(h,k,\ell))
+  \land
+  R_D^u(E_t(h,k,\ell),E_v(h,k,\ell));
+  $$
+  \item
+  $$
+  \mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_u(h,k,\ell))
+  \land
+  \mathsf{RatHistoryClassifier}(E_t(h,k,\ell),E_v(h,k,\ell)).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-selector-pair-strict-exit-determinacy} to the
+histories, carrier witnesses, support witness, selectors $s,t,u,v$, and
+contexts $L,R:\mathsf{BHist}$. Its componentwise rows give
+$R_D^u(E_s(h,k,\ell),E_u(h,k,\ell))$,
+$R_D^u(E_t(h,k,\ell),E_v(h,k,\ell))$, and the two displayed
+$\mathsf{RatHistoryClassifier}$ rows. The same application also supplies the
+strict exit rows for both selector pairs $(s,t)$ and $(u,v)$.
+
+Next apply
+\autoref{thm:ratup-fieldup-bracketing-selector-complete-obstruction-package} to
+the pair $(s,t)$ and then to the pair $(u,v)$ with the same contexts
+$L,R:\mathsf{BHist}$. These two obstruction packages provide the contextual
+singleton-classifier exclusions and contextual nonzero rows consumed by the
+final certificate boundary for each selected pair.
+
+Finally apply
+\autoref{thm:ratup-fieldup-final-certificate-two-selector-noncollapse-boundary}
+once with selectors $s,t$ and once with selectors $u,v$, keeping the same
+concrete exit object, denominator tuple, histories, support witness, and context
+$r:\mathsf{BHist}$. Combining those two final-boundary packages with the
+componentwise comparison rows from the strict determinacy theorem yields one
+selector-independent final boundary for the concrete
+$\FieldUp(\RatUp)$ certificate.
+\end{proof}
+
+Per-object template: traditional target selector-independent final boundary
+inside $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, $\mathsf{RatUp}$, and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}; denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$; selected endpoints
+$E_s(h,k,\ell)$, $E_t(h,k,\ell)$, $E_u(h,k,\ell)$, and
+$E_v(h,k,\ell)$; carrier rows the two final certificate boundaries plus the
+componentwise denominator comparisons; classifier rows
+$\mathsf{RatHistoryClassifier}$ for the two componentwise selector comparisons;
+nonzero rows the contextual witnesses consumed by both final certificate
+boundaries; stability obligations selector-pair strict exit determinacy,
+bracketing selector complete obstruction, and final certificate two-selector
+noncollapse; ledger selector pairs $(s,t)$ and $(u,v)$ plus contexts $L,R,r$;
+exactness predicate one final FieldUp exit boundary independent of certified
+selector-pair replacement; downstream consumer stable algebra-hierarchy exit
+certificate; status $\mathsf{ProofTarget}$.
