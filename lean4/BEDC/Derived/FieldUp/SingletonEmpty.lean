@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 
 def fieldSingletonEmptyCarrier (h : BHist) : Prop :=
@@ -166,5 +168,34 @@ theorem field_singleton_empty_schema_laws :
             · constructor
               · exact hsame_refl BHist.Empty
               · exact hsame_refl BHist.Empty
+
+theorem fieldSingletonEmptyClassifier_operation_context_normalization {L R h k out : BHist}
+    (carrierL : fieldSingletonEmptyCarrier L) (carrierR : fieldSingletonEmptyCarrier R) :
+    (fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyMul h k)) (append R out) <->
+      fieldSingletonEmptyCarrier out) /\
+    (fieldSingletonEmptyClassifier (append L fieldSingletonEmptyOne) (append R out) <->
+      fieldSingletonEmptyCarrier out) /\
+    (forall p : fieldSingletonEmptyNonZero h,
+      fieldSingletonEmptyClassifier (append L (fieldSingletonEmptyInv h p)) (append R out) <->
+        fieldSingletonEmptyCarrier out) := by
+  have contextNormalize : forall op : BHist, fieldSingletonEmptyCarrier op ->
+      (fieldSingletonEmptyClassifier (append L op) (append R out) <->
+        fieldSingletonEmptyCarrier out) := by
+    intro op carrierOp
+    constructor
+    · intro classified
+      exact (append_eq_empty_iff.mp classified.right.left).right
+    · intro carrierOut
+      have leftCarrier : fieldSingletonEmptyCarrier (append L op) :=
+        append_eq_empty_iff.mpr ⟨carrierL, carrierOp⟩
+      have rightCarrier : fieldSingletonEmptyCarrier (append R out) :=
+        append_eq_empty_iff.mpr ⟨carrierR, carrierOut⟩
+      exact ⟨leftCarrier, rightCarrier, hsame_trans leftCarrier (hsame_symm rightCarrier)⟩
+  constructor
+  · exact contextNormalize (fieldSingletonEmptyMul h k) (hsame_refl BHist.Empty)
+  · constructor
+    · exact contextNormalize fieldSingletonEmptyOne (hsame_refl BHist.Empty)
+    · intro p
+      exact contextNormalize (fieldSingletonEmptyInv h p) (hsame_refl BHist.Empty)
 
 end BEDC.Derived.FieldUp

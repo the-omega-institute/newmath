@@ -13,14 +13,16 @@ theorem CategoryHomCarrier_empty_identity_iff {a b : BHist} :
     CategoryHomCarrier a b BHist.Empty ↔ UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
   constructor
   · intro homCarrier
-    exact And.intro homCarrier.left
-      (And.intro homCarrier.right.left
-        (hsame_symm (cont_deterministic homCarrier.right.right.right (cont_right_unit a))))
+    exact ⟨homCarrier.left, homCarrier.right.left,
+      hsame_symm (cont_deterministic homCarrier.right.right.right (cont_right_unit a))⟩
   · intro data
-    exact And.intro data.left
-      (And.intro data.right.left
-        (And.intro unary_empty
-          (cont_result_hsame_transport (cont_right_unit a) data.right.right)))
+    exact ⟨data.left, data.right.left, unary_empty,
+      cont_result_hsame_transport (cont_right_unit a) data.right.right⟩
+theorem CategoryHomCarrier_empty_morphism_endpoint_iff {a b : BHist} : CategoryHomCarrier a b BHist.Empty <-> UnaryHistory a /\ hsame a b :=
+  ⟨fun h => ⟨(CategoryHomCarrier_empty_identity_iff.mp h).left,
+    (CategoryHomCarrier_empty_identity_iff.mp h).right.right⟩,
+    fun h => CategoryHomCarrier_empty_identity_iff.mpr
+      ⟨h.left, unary_transport h.left h.right, h.right⟩⟩
 theorem CategoryHomCarrier_empty_source_iff {b f : BHist} :
     CategoryHomCarrier BHist.Empty b f ↔ UnaryHistory b ∧ hsame f b := by
   constructor

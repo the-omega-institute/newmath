@@ -43,6 +43,24 @@ empty morphism carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_identity\_iff}
 
+\begin{theorem}[Category empty morphism endpoint exactness]
+\label{thm:category-hom-carrier-empty-morphism-endpoint-iff}
+For histories $a,b:\mathsf{BHist}$, the empty history is a hom-carrier from
+$a$ to $b$ exactly when $a$ is unary and $a\hsame b$:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies empty identity hom-carrier exactness and keeps
+the source carrier together with the endpoint classifier. Conversely, the
+classifier $a\hsame b$ transports the unary source carrier from $a$ to $b$,
+and empty identity exactness rebuilds the displayed empty hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_morphism\_endpoint\_iff}
+
 \input{parts/concrete_instances/category/endomorphism_empty_exactness}
 
 \begin{theorem}[Category one-headed source empty morphism exactness]

@@ -166,6 +166,19 @@ theorem fieldSingletonEmptyClassifier_append_RatHistoryClassifier_absurd {L R h 
   have splitLeft := append_eq_empty_iff.mp singleton.left
   exact (RatHistoryClassifier_endpoints_not_empty classifier).left splitLeft.right
 
+theorem fieldSingletonEmptyClassifier_cross_RatHistoryCarrier_absurd {L R h k : BHist} :
+    RatHistoryCarrier h -> RatHistoryCarrier k ->
+      (fieldSingletonEmptyClassifier (append L h) (append R k) -> False) /\
+        (fieldSingletonEmptyClassifier (append L k) (append R h) -> False) := by
+  intro carrierH carrierK
+  constructor
+  · intro singleton
+    have splitLeft := append_eq_empty_iff.mp singleton.left
+    exact RatHistoryCarrier_not_empty carrierH splitLeft.right
+  · intro singleton
+    have splitLeft := append_eq_empty_iff.mp singleton.left
+    exact RatHistoryCarrier_not_empty carrierK splitLeft.right
+
 theorem fieldSingletonEmptyClassifier_append_RatHistoryLedgerPolicy_absurd
     {L R raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible ->

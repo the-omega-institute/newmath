@@ -117,6 +117,33 @@ the contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_RatHistoryClassifier\_absurd}
 
+\begin{theorem}[Singleton append classifier excludes crossed RatUp carrier endpoints]
+\label{thm:field-singleton-empty-classifier-cross-rat-history-carrier-absurd}
+For all histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryCarrier}(h)$ and $\mathsf{RatHistoryCarrier}(k)$ hold, then
+both displayed singleton-empty classifiers are impossible:
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,h),\mathsf{append}(R,k))
+\to\mathsf{False}
+$$
+and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,k),\mathsf{append}(R,h))
+\to\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+In the first direction, the singleton classifier contains
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,h))$. Append-empty
+inversion extracts $h\hsame\emp$, contradicting the displayed
+$\mathsf{RatHistoryCarrier}(h)$ witness.
+
+The crossed direction is identical with $k$ in the appended right factor of
+the left endpoint: append-empty inversion extracts $k\hsame\emp$, which
+contradicts $\mathsf{RatHistoryCarrier}(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_cross\_RatHistoryCarrier\_absurd}
+
 \begin{theorem}[Singleton append classifier excludes RatUp ledger endpoints]
 \label{thm:field-singleton-empty-classifier-append-rat-ledger-absurd}
 For all histories $L,R,\rho,v:\mathsf{BHist}$, if
