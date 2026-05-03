@@ -73,41 +73,47 @@ displayed support law.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_composition\_support\_laws}
 
-\begin{theorem}[RatUp FieldUp contextual action pair support transport]
-\label{thm:ratup-fieldup-contextual-action-pair-support-transport}
+\begin{theorem}[RatUp FieldUp contextual action pair full transport package]
+\label{thm:ratup-fieldup-contextual-action-pair-full-transport-package}
 For the concrete denominator tuple
 $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
 \autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
 $p,q,p',q',h,l,r,s,t,l',r',s',t':\mathsf{BHist}$. Suppose
 $p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$; suppose
-$C_D^u(h)$; and suppose the denominator context pairs are classified
-componentwise:
-$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$. Then strict
-support of the nested contextual action is invariant under replacing the two
-classified context pairs:
+$C_D^u(h)$; suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are carried
+denominator context pairs; and suppose the four component classifiers
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$. Then the two
+nested contextual actions are denominator-classified and have equivalent strict
+support:
 $$
-N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))
+\quad\land\quad
+\bigl(N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
 \Longleftrightarrow
-N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))\bigr).
 $$
 \end{theorem}
 \begin{proof}
-Apply
-\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
-to each nested action. The left action reads its support as
-$N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$, and the
-right action reads its support as
-$N_D^u(s')\lor N_D^u(s)\lor N_D^u(h)\lor N_D^u(t)\lor N_D^u(t')$.
+The carried-pair hypotheses and the four component classifiers assemble the two
+context-pair classifier rows
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$.
 
-The two context products
-$\mu_D^u(\mu_D^u(l',l),\mu_D^u(r,r'))$ and
-$\mu_D^u(\mu_D^u(s',s),\mu_D^u(t,t'))$ have equivalent strict support by
-\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}.
-Opening both products with
-\autoref{thm:field-rat-denominator-context-pair-product-strict-support}
-transports the four context support alternatives, while the middle term
-$N_D^u(h)$ is shared by both five-term readbacks. Repacking through the two
-composition support laws gives the displayed equivalence.
+Apply
+\autoref{thm:rat-denom-unit-contextual-action-pair-classifier-transport} with
+these two pair classifiers and the empty endpoint hypotheses. This gives the
+first conjunct, namely denominator classification of the two transported
+two-layer contextual actions.
+
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-support}
+with the same carried pairs, pair classifiers, core carrier row, and empty
+endpoint hypotheses. This gives the second conjunct, namely equivalence of
+strict support for the same two nested actions.
+
+The two cited conclusions have identical source data, so conjunction
+introduction gives the displayed full transport package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
 
