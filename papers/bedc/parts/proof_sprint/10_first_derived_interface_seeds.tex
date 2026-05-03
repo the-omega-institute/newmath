@@ -6,6 +6,18 @@ A unary history is a generated history built from \(\e\) using only \(\Eone\).  
 \end{definition}
 \leandef{BEDC.FKernel.Unary.UnaryHistory}
 
+\begin{theorem}[Nonempty unary histories expose an \(E_1\)-tail]
+\label{thm:unary-history-nonempty-e1-tail}
+For every history \(h:\mathsf{BHist}\), if \(h\) is unary and \(h\hsame\emp\)
+would be contradictory, then \(h=\Eone(t)\) for some unary tail \(t\).
+\end{theorem}
+\begin{proof}
+Split the unary-history cases into the empty case and the visible
+\(\Eone\)-tail case. The empty branch contradicts the displayed nonempty
+hypothesis, while the visible branch gives the required tail witness.
+\end{proof}
+\leanchecked{BEDC.FKernel.Unary.unary\_history\_nonempty\_e1\_tail}
+
 \begin{corollary}[Natural-number-like interface seed]
 The family of unary histories licenses a minimal \(\mathsf{Nat}^{\uparrow}\) seed once supplied with a name certificate whose pattern is repeated one-emission and whose stability certifies closure under one-extension.
 \end{corollary}
