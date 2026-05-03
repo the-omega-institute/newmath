@@ -93,3 +93,32 @@ In the cons-cons case, write the two spines as \(\mathsf{cons}(a,xs')\) and \(\m
 \]
 The cons fold equations identify these endpoints with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\) and \(\mathsf{fold}_{+}(\mathsf{cons}(b,ys'))\), giving the displayed fold comparison.
 \end{proof}
+
+\begin{theorem}[Zero convolution summands fold to zero]
+\label{thm:zero-convolution-summands-fold-zero}
+Let \(R\) be a scalar carrier with classifier \(\sim_R\), zero \(0_R\), and addition \(+\), equipped with the additive fields retained in \autoref{def:ring-stability-certificate}: zero self-classification, classifier transitivity, additive congruence, and the additive left-zero law. For a commutative-ring scalar source, these are unchanged by \autoref{prop:commring-forgets-ring-certificate}.
+
+Let \(\mathsf{fold}_{+}\) be the finite recursive coefficient fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let \(\mathsf{summ}_I:\mathsf{ListCarrier}(R)\) be the finite spine of scalar summands selected by a raw Cauchy convolution index spine \(I\), and let \(\mathsf{zero}_I:\mathsf{ListCarrier}(R)\) be the same finite spine with every entry replaced by \(0_R\). If the all-zero summand condition is represented by the structural witness
+\[
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{summ}_I,\mathsf{zero}_I),
+\]
+then
+\[
+\mathsf{fold}_{+}(\mathsf{summ}_I)\sim_R0_R.
+\]
+\end{theorem}
+\begin{proof}
+The displayed hypothesis is a finite-spine classifier witness as in \autoref{def:list-classifier-specification}. By \autoref{thm:list-classifier-case-exactness}, its only possible constructor cases are nil-nil and cons-cons. Induct on this structural witness.
+
+In the nil-nil case, both spines are \(\mathsf{nil}\). The fold equation from \autoref{thm:finite-additive-fold-congruence-coefficient-lists} identifies the left endpoint with \(0_R\), and zero self-classification supplies \(0_R\sim_R0_R\).
+
+In the cons-cons case, write the summand spine as \(\mathsf{cons}(a,xs')\) and the matching zero spine as \(\mathsf{cons}(0_R,zs')\). The constructor clause gives the head comparison \(a\sim_R0_R\) and the tail witness \(\mathsf{ListClassifierSpec}(\sim_R,xs',zs')\). The induction hypothesis gives
+\[
+\mathsf{fold}_{+}(xs')\sim_R0_R.
+\]
+Applying additive congruence from \autoref{def:ring-stability-certificate} to the head comparison and this tail comparison yields
+\[
+(a+\mathsf{fold}_{+}(xs'))\sim_R(0_R+0_R).
+\]
+The additive left-zero law identifies \(0_R+0_R\) with \(0_R\). Classifier transitivity composes these two comparisons. The cons fold equation then identifies \(a+\mathsf{fold}_{+}(xs')\) with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\), giving the claimed fold comparison for the cons spine.
+\end{proof}
