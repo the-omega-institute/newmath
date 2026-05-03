@@ -80,6 +80,8 @@ Its $\SubgroupUp$ classifier is the restriction of $\hsame$ to this
 carrier: two carried histories represent the same element exactly when their
 ambient histories satisfy $x\hsame y$.
 \end{definition}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier}
 
 \begin{theorem}[Centralizer intersection SubgroupUp certificate]
 \label{thm:subgroup-centralizer-intersection-certificate}
@@ -91,16 +93,13 @@ $a,b:\mathsf{BHist}$, the carrier $Z_{a,b}$ of
 \autoref{def:subgroup-centralizer-intersection-carrier} has the following
 $\SubgroupUp$ certificate rows:
 \begin{enumerate}
+\item The restricted $\hsame$ classifier is a semantic naming certificate for
+$Z_{a,b}$.
 \item $Z_{a,b}(e)$.
 \item If $Z_{a,b}(x)$ and $Z_{a,b}(y)$, then
 $Z_{a,b}(\mathsf{mul}(x,y))$.
 \item If $Z_{a,b}(x)$, then $Z_{a,b}(\mathsf{inv}(x))$.
 \item If $Z_{a,b}(x)$ and $x\hsame y$, then $Z_{a,b}(y)$.
-\item For every $x:\mathsf{BHist}$,
-$$
-Z_{a,b}(x) \Longleftrightarrow
-\mathsf{comm}(x,a)\hsame e\land \mathsf{comm}(x,b)\hsame e.
-$$
 \end{enumerate}
 Thus the simultaneous centralizer of $a$ and $b$ is a reusable
 $\SubgroupUp$ certificate target over the ambient history classifier.
@@ -116,6 +115,7 @@ centralizer components. The $a$-row gives
 $Z_a(\mathsf{mul}(x,y))$, and the $b$-row gives
 $Z_b(\mathsf{mul}(x,y))$; pairing these witnesses proves the displayed
 product row for $Z_{a,b}$.
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier\_mul\_closed\_from\_empty\_unit}
 
 The inverse row is componentwise in the same sense. From $Z_a(x)$ obtain
 $Z_a(\mathsf{inv}(x))$, and from $Z_b(x)$ obtain
@@ -128,11 +128,13 @@ move $Z_a(x)$ to $Z_a(y)$, and use the centralizer transport row for $b$ to
 move $Z_b(x)$ to $Z_b(y)$. The restricted $\hsame$ classifier on
 $Z_{a,b}$ is therefore stable under ambient history equality.
 
-Finally, unfold the carrier definition. The commutator exactness row for
-$a$ rewrites $Z_a(x)$ as $\mathsf{comm}(x,a)\hsame e$, and the corresponding
-row for $b$ rewrites $Z_b(x)$ as $\mathsf{comm}(x,b)\hsame e$. Combining the
-two equivalences gives the advertised simultaneous commutator criterion.
+Finally, the restricted classifier is reflexive on carried histories,
+symmetric by symmetry of $\hsame$, and transitive by transitivity of
+$\hsame$. Its carrier-respect row is the second carrier component already
+stored in the classifier witness, and the source, pattern, and ledger
+predicates are all the same concrete intersection carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersection\_certificate\_from\_empty\_unit}
 
 Per-object template: traditional target two-centralizer subgroup certificate;
 BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
@@ -141,8 +143,7 @@ transport; ledger fixed histories $a,b$, two commutator witnesses, and
 ambient operation witnesses; core theorem list
 \autoref{thm:subgroup-centralizer-certificate-target} and
 \autoref{thm:subgroup-centralizer-intersection-certificate}; exactness
-predicate simultaneous triviality of $\mathsf{comm}(x,a)$ and
-$\mathsf{comm}(x,b)$; downstream consumer
+predicate simultaneous centralizer membership against $a$ and $b$; downstream consumer
 \autoref{thm:ratup-fieldup-affine-center-centralizer-intersection}; standard
 bridge center as an intersection of centralizers; status
 $\mathsf{ProofTarget}$.
@@ -318,6 +319,28 @@ carrier $N_a$ of \autoref{def:group-centralizer-normalizer-carrier} with the
 abbreviation $\mathsf{Conj}$ expanded.
 \end{definition}
 \leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer}
+
+\begin{theorem}[Centralizer normalizer forward product closure]
+\label{thm:subgroup-centralizer-normalizer-mul-closed-from-empty-unit}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in \autoref{thm:subgroup-centralizer-certificate-target}, the forward
+centralizer-normalizer witness is closed under multiplication. Explicitly, if
+$s$ and $t$ both send every carried element of $Z_a$ to another carried element
+under conjugation, then $\mathsf{mul}(s,t)$ has the same forward preservation
+property.
+\end{theorem}
+\begin{proof}
+Let $x:\mathsf{BHist}$ satisfy $Z_a(x)$. Apply the forward normalizer action
+composition theorem to the witnesses for $s$ and $t$. It gives a carried
+nested conjugation endpoint together with an $\hsame$ identification between
+the direct conjugation by $\mathsf{mul}(s,t)$ and that nested endpoint. The
+carrier-transport row from
+\autoref{thm:subgroup-centralizer-certificate-target} then moves centralizer
+membership across this $\hsame$ equality, yielding the required carried
+endpoint for $\mathsf{mul}(s,t)$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer\_mul\_closed\_from\_empty\_unit}
 
 \begin{theorem}[Centralizer elements normalize the centralizer]
 \label{thm:subgroup-centralizer-self-normalizer}
