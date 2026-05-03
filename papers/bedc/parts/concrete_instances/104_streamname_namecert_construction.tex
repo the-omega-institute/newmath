@@ -8,23 +8,26 @@ The stream-name interface $\StreamNameUp$ packages an abstract sequential carrie
 
 \begin{definition}[Rational stream-name carrier]
 \label{def:rat-stream-name-carrier}
-For a stream $s:\mathbb{N}\to\Hist$, the rational stream-name carrier is the
-pointwise rational-history carrier:
+For a certified observation map $s:\Hist\to\Hist$, the rational stream-name
+carrier is the pointwise rational-history carrier over unary BEDC observation
+histories:
 $$
 \mathsf{RatStreamNameCarrier}(s)
 \Longleftrightarrow
-\forall n,\ \mathsf{RatHistoryCarrier}(s(n)).
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{RatHistoryCarrier}(s(n)).
 $$
 \end{definition}
 
 \begin{definition}[Rational stream-name classifier]
 \label{def:rat-stream-name-classifier}
-For streams $s,t:\mathbb{N}\to\Hist$, the rational stream-name classifier is
-the pointwise rational-history classifier:
+For certified observation maps $s,t:\Hist\to\Hist$, the rational stream-name
+classifier is the pointwise rational-history classifier over the same unary
+BEDC observation histories:
 $$
 \mathsf{RatStreamNameClassifier}(s,t)
 \Longleftrightarrow
-\forall n,\ \mathsf{RatHistoryClassifier}(s(n),t(n)).
+\forall n,\ \mathsf{UnaryHistory}(n)\to
+\mathsf{RatHistoryClassifier}(s(n),t(n)).
 $$
 \end{definition}
 
@@ -33,8 +36,8 @@ $$
 
 \begin{theorem}[Rational stream-name certificate fields]
 \label{thm:rat-stream-name-certificate-fields}
-For streams $s,t,u:\mathbb{N}\to\Hist$, the carrier and classifier above
-supply the rational stream-name certificate fields:
+For certified observation maps $s,t,u:\Hist\to\Hist$, the carrier and
+classifier above supply the rational stream-name certificate fields:
 \begin{enumerate}
   \item $\mathsf{RatStreamNameCarrier}(s)$ implies
   $\mathsf{RatStreamNameClassifier}(s,s)$.
@@ -43,44 +46,51 @@ supply the rational stream-name certificate fields:
   \item $\mathsf{RatStreamNameClassifier}(s,t)$ and
   $\mathsf{RatStreamNameClassifier}(t,u)$ imply
   $\mathsf{RatStreamNameClassifier}(s,u)$.
-  \item $\mathsf{RatStreamNameClassifier}(s,t)$ implies, for every $n$, both
-  $\mathsf{RatHistoryCarrier}(s(n))$ and
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$ implies, for every $n$ with
+  $\mathsf{UnaryHistory}(n)$, both $\mathsf{RatHistoryCarrier}(s(n))$ and
   $\mathsf{RatHistoryCarrier}(t(n))$.
   \item If $\mathsf{RatStreamNameClassifier}(s,t)$ and streams $s',t'$ satisfy
-  $\forall n,\ \hsame(s(n),s'(n))$ and
-  $\forall n,\ \hsame(t(n),t'(n))$, then
+  $\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n))$ and
+  $\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n))$, then
   $\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-For reflexivity, fix an observation index $n$. The carrier gives
-$\mathsf{RatHistoryCarrier}(s(n))$, and RatUp classifier reflexivity turns that
-single observation witness into
+For reflexivity, fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The carrier gives
+$\mathsf{RatHistoryCarrier}(s(n))$ from $\nu$, and RatUp classifier
+reflexivity turns that single pointwise rational witness into
 $\mathsf{RatHistoryClassifier}(s(n),s(n))$.
 
-For symmetry, again fix $n$ and read the supplied stream classifier at that
-index. RatUp rational-history classifier symmetry reverses the point
-classifier, so the reversed stream classifier is obtained pointwise.
+For symmetry, fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$ and read the supplied stream classifier at
+$(n,\nu)$. RatUp rational-history classifier symmetry reverses that point
+classifier, so the reversed stream classifier is obtained over the same
+certified observation.
 
-For transitivity, fix $n$ and read the two stream classifiers at the same
-observation. RatUp rational-history classifier transitivity composes those two
+For transitivity, fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$ and read the two stream classifiers at
+$(n,\nu)$. RatUp rational-history classifier transitivity composes those two
 point classifiers, giving the classifier between $s(n)$ and $u(n)$.
 
-For endpoint carriers, fix $n$ and unpack the rational-history classifier
-witness between $s(n)$ and $t(n)$. Its stored endpoint data are exactly the
-two rational-history carrier witnesses required at that observation.
+For endpoint carriers, fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$ and unpack the rational-history classifier
+witness between $s(n)$ and $t(n)$ obtained from $(n,\nu)$. Its stored endpoint
+data are exactly the two rational-history carrier witnesses required at that
+certified observation.
 
-For transport, fix $n$. Apply
+For transport, fix a certified observation history $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. Apply
 $\mathsf{BEDC.Derived.RatUp.RatHistoryClassifier\_hsame\_transport}$ to the
-point classifier at $n$ and to the two supplied endpoint history-sameness
-witnesses at $n$. The resulting point classifier is the required observation of
-$\mathsf{RatStreamNameClassifier}(s',t')$.
+point classifier at $(n,\nu)$ and to the two supplied endpoint history-sameness
+witnesses at $(n,\nu)$. The resulting point classifier is the required
+certified observation of $\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{proof}
 
 \begin{definition}[Constant rational stream name]
 \label{def:rat-stream-name-constant}
 For a history $d:\Hist$, write $\mathsf{RatConstStream}_d(n)=d$ for every unary
-observation index $n$.
+observation history $n$.
 \end{definition}
 
 \begin{theorem}[Constant rational stream-name witness]
@@ -94,29 +104,30 @@ $\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,
 \end{theorem}
 \begin{proof}
 Unfold $\mathsf{RatConstStream}$ and
-$\mathsf{RatStreamNameCarrier}$. For any observation index $n$, the stream value
-is $d$, so the supplied $\mathsf{RatHistoryCarrier}(d)$ is the required
-pointwise carrier witness.
+$\mathsf{RatStreamNameCarrier}$. For any certified observation history $n$ with
+witness $\nu:\mathsf{UnaryHistory}(n)$, the stream value is $d$, so the supplied
+$\mathsf{RatHistoryCarrier}(d)$ is the required pointwise carrier witness.
 
 For the self-classifier, unfold $\mathsf{RatStreamNameClassifier}$ and fix
-$n$. The two endpoint observations are both $d$, and RatUp carrier-reflexivity
-turns the certified rational observation into
-$\mathsf{RatHistoryClassifier}(d,d)$.
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The two endpoint observations
+are both $d$, and RatUp carrier-reflexivity turns the certified rational
+observation into $\mathsf{RatHistoryClassifier}(d,d)$.
 
 For a classifier between two constant streams, unfold
-$\mathsf{RatStreamNameClassifier}$ and fix $n$. The endpoint observations are
-$d$ and $e$, so the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the
-required pointwise classifier witness.
+$\mathsf{RatStreamNameClassifier}$ and fix $n$ with witness
+$\nu:\mathsf{UnaryHistory}(n)$. The endpoint observations are $d$ and $e$, so
+the supplied $\mathsf{RatHistoryClassifier}(d,e)$ is already the required
+pointwise classifier witness.
 \end{proof}
 
 The certificate template has ten fields: traditional target certified
 countable rational-observation names; BEDC source $\RatUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
 $\mathsf{RatStreamNameClassifier}$; stability obligations as the fields of
-\autoref{thm:rat-stream-name-certificate-fields}; ledger finite observation
-index plus pointwise rational witnesses, with the constant stream ledger storing
-no data beyond the certified rational observation; core theorems
-\autoref{thm:rat-stream-name-certificate-fields} and
+\autoref{thm:rat-stream-name-certificate-fields}; ledger certified unary
+observation history together with its pointwise rational witness, with the
+constant stream ledger storing no data beyond the certified rational
+observation; core theorems \autoref{thm:rat-stream-name-certificate-fields} and
 \autoref{thm:rat-stream-name-constant-witness}; exactness pointwise over the
 RatUp classifier; standard bridge ordinary rational streams; status
 $\mathsf{ProofTarget}$.
