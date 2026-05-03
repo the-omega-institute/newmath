@@ -78,5 +78,43 @@ append history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_first\_prime\_unit\_scale}
 
+\begin{theorem}[Real--padic empty-result split]
+\label{thm:adele-real-padic-e1-append-empty-padic-result}
+Let the two real coordinates be displayed as endpoint histories
+\(\Eone(d)\) and \(\Eone(e)\), and let two \(p\)-adic prime-scale factors
+\(\mathsf{PadicPrimeScale}(p,w,n)\) and
+\(\mathsf{PadicPrimeScale}(p,q,r)\) be linked by
+\(\mathsf{Cont}(n,r,out)\). Then \(out\hsame\emp\) exactly when the real
+endpoint payloads are rational carriers and both \(p\)-adic exponent factors
+satisfy \(w\hsame\emp\) and \(q\hsame\emp\).
+\end{theorem}
+\begin{proof}
+The endpoint theorem for \(\mathsf{RealConstantHistoryCarrier}\) reads
+\(\Eone(d)\) and \(\Eone(e)\) back to rational-carrier payloads. The
+\(p\)-adic append empty-result theorem applies to the two prime-scale factors
+and the continuation witness, splitting \(out\hsame\emp\) into the two empty
+exponent conditions. Combining these independent readbacks gives the displayed
+equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealPadic\_e1\_append\_empty\_padic\_result\_iff}
+
+\begin{theorem}[Adele constant-slice carrier transport]
+\label{thm:adele-constant-slice-carrier-hsame-transport}
+Let $\mathsf{AdeleConstantSliceCarrier}(h)$ mean that histories $d,p,e,r$
+exist with
+$$
+\hsame(h,\Eone(d))\ \wedge\ \mathsf{RatHistoryCarrier}(d)\ \wedge\
+\mathsf{PadicPrimeScale}(p,e,r).
+$$
+If $h\hsame h'$ and $\mathsf{AdeleConstantSliceCarrier}(h)$, then
+$\mathsf{AdeleConstantSliceCarrier}(h')$.
+\end{theorem}
+\begin{proof}
+Unpack the constant-slice witnesses $d,p,e,r$. The rational endpoint and the
+$p$-adic scale witnesses are unchanged. Symmetry and transitivity of $\hsame$
+move the displayed $\Eone(d)$ endpoint from $h$ to $h'$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleConstantSliceCarrier\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:adele-certificate}
