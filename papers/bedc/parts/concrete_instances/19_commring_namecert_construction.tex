@@ -121,6 +121,54 @@ Introduce the conjunction with these two oriented zero-product witnesses as its
 left and right components.
 \end{proof}
 
+\begin{theorem}[CommRing zero linear factor signed product annihilator package]
+\label{thm:commring-zero-linear-factor-signed-product-annihilator-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the same
+hypotheses as \autoref{thm:commring-zero-linear-factor-exact-package}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\left(
+(a+b)\cdot(a+(-b))\hsame0
+\land
+\forall c : \mathsf{BHist},\
+\left(
+((a+b)\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+b)\cdot(a+(-b)))\hsame0
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $H$ be the displayed zero-linear-factor hypothesis. Apply
+\autoref{thm:commring-zero-linear-factor-signed-product-zero} to $H$ to obtain
+the signed product-zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+Use \autoref{thm:commring-right-distrib-from-left} to recover the right
+distributive row from the supplied left distributive row. Together with the
+$\RingUp$ zero-factor absorption theorem, this gives the same two-sided
+absorption mechanism used in
+\autoref{thm:commring-zero-linear-factor-annihilator-branch}.
+
+Now instantiate that absorption mechanism with
+$x=(a+b)\cdot(a+(-b))$. For an arbitrary $c:\mathsf{BHist}$, the product-zero
+witness gives both $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
+$c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal row with the original
+signed product-zero witness to obtain the displayed package.
+\end{proof}
+
+The ten-field fit is: traditional target signed-product annihilator package in
+a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+right distributivity and zero-factor absorption; ledger the selected zero
+linear factor, signed product-zero witness, and universal two-sided multiplier
+row; core theorem this block; exactness the paired product-zero and
+signed-product annihilator certificate; downstream consumer $\FieldUp$
+quadratic and zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target branch-preserving zero-product
 certificate for both signed orientations; BEDC source $\RingUp$ plus
 $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
