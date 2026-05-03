@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\ComplexLimitUp\)}
 \label{ch:concrete-instances-complex-limit-namecert}
 
-This chapter gives a concrete naming-certificate construction for the complex-limit interface \(\ComplexLimitUp\) at the paper-proof level. The construction sits above the complex-history certificate \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}), where a complex history is encoded as a pair of rational-history components, and the real-completeness chapter \(\RealUp\) (\autoref{ch:concrete-instances-real-namecert}). All moduli appearing below are explicit total functions on the unary-history index domain; no quantifier-elimination over real-valued suprema and no unbounded search are needed. In particular, the construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter gives a concrete naming-certificate construction for the complex-limit interface $\ComplexLimitUp$ at the paper-proof level. The construction sits above the complex-history certificate $\ComplexUp$ (\autoref{ch:concrete-instances-complex-namecert}), where a complex history is encoded as a pair of rational-history components, and the RealUp chapter $\RealUp$ (\autoref{ch:concrete-instances-real-namecert}). All moduli appearing below are explicit total functions on the unary-history index domain; no quantifier-elimination over real-valued suprema and no unbounded search are needed. In particular, the construction uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so the certificate's Lean targets fall under the project's axiom-purity gate.
 
 \section{Modulus and complex distance on \(\Hist\)}
 
@@ -211,27 +211,31 @@ If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_
 Standard \(ab - a'b' = a(b-b') + (a-a')b'\) decomposition; bound each summand using the hypotheses, with the bounds on \(z_s, z_t\) entering as the multiplicative shift on the modulus indices.
 \end{proof}
 
-\section{Cauchy completeness}
+\section{Componentwise limit assembly}
 
 \begin{definition}[Cauchy regular complex sequence]
 \label{def:cplx-cauchy}
 The Cauchy condition on \((s, N)\) is exactly the condition built into \autoref{def:cplx-regseq}: it is the same regular-sequence predicate, named separately for emphasis. We write \(\mathsf{CplxCauchy}(s, N) := \mathsf{CplxRegSeq}(s, N)\).
 \end{definition}
 
-\begin{lemma}[Diagonal extraction over real components]
-\label{lem:cplx-diagonal-extraction}
-For \(\mathsf{CplxCauchy}(s, N)\), the projection onto real components is a \(\RegSeqRat\)-Cauchy sequence (\autoref{lem:cplx-regseq-projects}) and so admits an explicit limit \(x^*\) by the real-completeness theorem of \autoref{ch:concrete-instances-real-namecert}; similarly the imaginary projection admits a limit \(y^*\). The pair \((x^*, y^*)\) is the candidate complex limit.
+\begin{lemma}[Component limit assembly]
+\label{lem:cplx-component-limit-assembly}
+Assume $\mathsf{CplxCauchy}(s, N)$. Suppose the real projection $\mathsf{Re}(s)$ is supplied with an explicit $\RegSeqRat$ limit witness $x^*$ and modulus $M_x$, and the imaginary projection $\mathsf{Im}(s)$ is supplied with an explicit $\RegSeqRat$ limit witness $y^*$ and modulus $M_y$. Then the pair $(x^*, y^*)$ is the candidate complex limit point, with pasted modulus $M^\sharp(k) := \max(M_x(k+1), M_y(k+1))$.
 \end{lemma}
 \begin{proof}[Sketch]
-Apply the rational \(\RegSeqRat\) completeness construction (real completeness capstone, \autoref{ch:concrete-instances-real-namecert}) to each of the two projection sequences, yielding two real histories with explicit moduli derived from \(N\).
+Use \autoref{lem:cplx-regseq-projects} only to read the real and imaginary projections as regular $\RegSeqRat$ streams. The component limit witnesses are part of the input data, so no ambient completeness principle is invoked.
+
+For each unary level $k$, ask the real component at level $k+1$ through $M_x$ and the imaginary component at level $k+1$ through $M_y$. Taking the unary maximum gives one threshold above which both component bounds hold, and the modulus witness of \autoref{def:cplx-modulus} packages the two component inequalities as a complex-distance bound.
 \end{proof}
 
-\begin{theorem}[Cauchy completeness for complex sequences]
-\label{thm:cplx-cauchy-complete}
-For every Cauchy regular complex sequence \((s, N)\) there exists an explicit complex history \(z^* = (x^*, y^*)\) and an explicit modulus \(M^*\) such that \(\mathsf{CplxLim}(s, N, z^*, M^*)\). The witness \(z^*\) is unique up to \(\hsame\) on each component by \autoref{thm:cplx-lim-unique}.
+\begin{theorem}[Complex limit from component limits]
+\label{thm:cplx-limit-from-component-limits}
+If $\mathsf{CplxCauchy}(s, N)$ holds and explicit $\RegSeqRat$ limit witnesses are supplied for $\mathsf{Re}(s)$ and $\mathsf{Im}(s)$ with limit histories $x^*$ and $y^*$ and moduli $M_x$ and $M_y$, then there exists an explicit complex history $z^* = (x^*, y^*)$ and pasted modulus $M^*$ such that $\mathsf{CplxLim}(s, N, z^*, M^*)$. Any other complex limit with its own modulus agrees with $z^*$ componentwise by \autoref{thm:cplx-lim-unique}.
 \end{theorem}
 \begin{proof}[Sketch]
-Combine \autoref{lem:cplx-diagonal-extraction} with the componentwise modulus pasting from \autoref{def:cplx-modulus}: since each projection has an explicit limit modulus from real completeness, the complex distance bound follows by the modulus witness of \autoref{def:cplx-distance}.
+Apply \autoref{lem:cplx-component-limit-assembly} to obtain the candidate point and the pasted unary threshold. The real and imaginary component bounds above that threshold are exactly the two inputs needed by the complex modulus predicate.
+
+Define $z^* := (x^*, y^*)$ and $M^* := M^\sharp$. The distance predicate of \autoref{def:cplx-distance} reduces the desired limit statement to the modulus packaging supplied in the assembly lemma, and uniqueness is only the already stated consequence of \autoref{thm:cplx-lim-unique}.
 \end{proof}
 
 \section{The certificate}
@@ -268,16 +272,16 @@ The ledger policy records:
   \item composition of moduli under pointwise sum (\autoref{thm:cplx-lim-sum});
   \item composition of moduli under scalar multiplication (\autoref{thm:cplx-lim-scalar});
   \item composition of moduli under pointwise product (\autoref{thm:cplx-lim-product});
-  \item Cauchy completeness for regular complex sequences (\autoref{thm:cplx-cauchy-complete}).
+  \item componentwise limit assembly from supplied component witnesses (\autoref{thm:cplx-limit-from-component-limits}).
 \end{enumerate}
 \end{definition}
 
 \begin{theorem}[Concrete \(\ComplexLimitUp\) naming certificate]
 \label{thm:complex-limit-namecert}
-The data \((\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})\) of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over \(\Hist\) for the complex-limit interface \(\ComplexLimitUp\). The certificate is functional (\autoref{thm:cplx-lim-unique}), closed under linear combinations and products (\autoref{thm:cplx-lim-sum}--\autoref{thm:cplx-lim-product}), and Cauchy-complete (\autoref{thm:cplx-cauchy-complete}).
+The data $(\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})$ of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over $\Hist$ for the complex-limit interface $\ComplexLimitUp$. The certificate is functional (\autoref{thm:cplx-lim-unique}), closed under linear combinations and products (\autoref{thm:cplx-lim-sum}--\autoref{thm:cplx-lim-product}), and supports componentwise limit assembly when component limit witnesses are part of the input (\autoref{thm:cplx-limit-from-component-limits}).
 \end{theorem}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Linear-combination closure is \autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-scalar}; product closure is \autoref{thm:cplx-lim-product}. Cauchy completeness is \autoref{thm:cplx-cauchy-complete}. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so its Lean targets fall under the project's axiom-purity gate.
+The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Linear-combination closure is \autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-scalar}; product closure is \autoref{thm:cplx-lim-product}. Componentwise limit assembly is \autoref{thm:cplx-limit-from-component-limits}. The certificate uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so its Lean targets fall under the project's axiom-purity gate.
 \end{proof}
 
 \begin{theorem}[Semantic \(\ComplexLimitUp\) naming certificate]
