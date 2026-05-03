@@ -290,6 +290,26 @@ apart-zero factor.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_split\_iff}
 
+\begin{theorem}[Field apart-zero continuation endpoint split]
+\label{thm:field-apartzero-continuation-endpoint-split}
+For histories $p,q,r:\mathsf{BHist}$ with $\ContR(p,q,r)$, apartness from
+zero of the continuation result is exactly apartness from zero of one endpoint:
+$$
+\mathsf{ApartZero}_F(r)
+\Longleftrightarrow
+\mathsf{ApartZero}_F(p)\lor\mathsf{ApartZero}_F(q).
+$$
+\end{theorem}
+\begin{proof}
+The continuation ledger identifies $r$ with $\mathsf{append}(p,q)$. The
+forward implication performs induction by cases on the left endpoint: if it is
+$\emp$, any empty endpoint for $q$ would empty the append; if it is visibly
+headed, constructor separation supplies apartness of $p$. Conversely, an empty
+append result splits into empty endpoints for both factors, and the selected
+apart-zero witness rejects the corresponding endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_continuation\_endpoint\_split\_iff}
+
 \begin{theorem}[Field apart-zero append congruence under history sameness]
 \label{thm:field-apartzero-append-hsame-congr-iff}
 For histories $a,a',b,b':\mathsf{BHist}$, history sameness on both append
@@ -437,6 +457,27 @@ preservation eliminates the history-sameness classifier and leaves the same
 right-append predicate, while pattern and ledger soundness are identity maps.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_context\_semanticNameCert}
+
+\begin{theorem}[Field apart-zero two-sided context semantic certificate]
+\label{thm:field-apartzero-two-sided-context-semantic-namecert}
+For histories $L,R:\mathsf{BHist}$, if $L$ is apart from zero, then the
+two-sided context predicate
+$$
+h\longmapsto \mathsf{FieldApartZero}(\mathsf{append}(L,\mathsf{append}(h,R)))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The source is inhabited at the empty middle history. If
+$\mathsf{append}(L,\mathsf{append}(\emp,R))$ were empty, append-empty
+inversion would force $L\hsame\emp$, contradicting the assumed apart-zero
+witness for $L$. The equivalence laws are the standard $\hsame$ laws, and
+carrier preservation follows by eliminating the history-sameness classifier.
+Pattern and ledger soundness are identities because source, pattern, and
+ledger policy are the same concrete predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_context\_semanticNameCert}
 
 Per-object certificate: traditional target is external-unit context invariance
 of constructive field apartness. BEDC source is $\mathsf{FieldApartZero}$ plus

@@ -90,6 +90,29 @@ theorem FieldApartZero_append_right_context_semanticNameCert {p : BHist} :
   · intro h source
     exact source
 
+theorem FieldApartZero_append_context_semanticNameCert {L R : BHist} (apartL : FieldApartZero L) :
+    SemanticNameCert (fun h : BHist => FieldApartZero (append L (append h R)))
+      (fun h : BHist => FieldApartZero (append L (append h R)))
+      (fun h : BHist => FieldApartZero (append L (append h R))) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty (by
+        intro contextEmpty
+        exact apartL (append_eq_empty_iff.mp contextEmpty).left)
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrierH
+      cases same
+      exact carrierH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem FieldApartZero_append_factor_closed {p q : BHist} :
     FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by
   intro factorApart appendEmpty
@@ -119,6 +142,33 @@ theorem FieldApartZero_append_split_iff {p q : BHist} :
         exact not_hsame_e1_empty pEmpty
   · intro split
     exact FieldApartZero_append_factor_closed split
+
+theorem FieldApartZero_continuation_endpoint_split_iff {p q r : BHist} :
+    Cont p q r -> (FieldApartZero r <-> FieldApartZero p ∨ FieldApartZero q) := by
+  intro continuation
+  cases continuation
+  constructor
+  · intro appendApart
+    cases p with
+    | Empty =>
+        right
+        intro qEmpty
+        exact appendApart (hsame_trans (append_empty_left q) qEmpty)
+    | e0 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e0_empty pEmpty
+    | e1 p =>
+        left
+        intro pEmpty
+        exact not_hsame_e1_empty pEmpty
+  · intro split appendEmpty
+    have splitEmpty := append_eq_empty_iff.mp appendEmpty
+    cases split with
+    | inl leftApart =>
+        exact leftApart splitEmpty.left
+    | inr rightApart =>
+        exact rightApart splitEmpty.right
 
 theorem FieldApartZero_append_hsame_congr_iff {a a' b b' : BHist} :
     hsame a a' -> hsame b b' ->

@@ -18,6 +18,11 @@ theorem append_left_unit_iff {h k : BHist} : append h k = k ↔ hsame h BHist.Em
     cases hh
     exact append_empty_left k
 
+theorem append_left_nonempty_self_absurd {h k : BHist} :
+    (hsame h BHist.Empty -> False) -> hsame (append h k) k -> False := by
+  intro hNonempty same
+  exact hNonempty (append_right_cancel (k := k) (same.trans (append_empty_left k).symm))
+
 theorem append_right_unit_iff {h k : BHist} : append h k = h ↔ hsame k BHist.Empty := by
   constructor
   · intro eq
@@ -26,6 +31,11 @@ theorem append_right_unit_iff {h k : BHist} : append h k = h ↔ hsame k BHist.E
   · intro hk
     cases hk
     exact append_empty_right h
+
+theorem append_right_nonempty_self_absurd {h k : BHist} :
+    (hsame k BHist.Empty -> False) -> hsame (append h k) h -> False := by
+  intro kNonempty same
+  exact kNonempty (append_left_cancel (h := h) (same.trans (append_empty_right h).symm))
 
 theorem cont_right_unit_result {h r : BHist} : Cont h BHist.Empty r -> hsame r h := by
   intro hr

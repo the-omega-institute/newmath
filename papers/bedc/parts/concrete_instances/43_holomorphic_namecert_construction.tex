@@ -10,6 +10,9 @@ This chapter records a naming seed for holomorphic functions on open disks in $\
 For complex history \(z_0\), unary radius \(r\), complex history \(z\), and unary gap \(g\), the open-disk predicate \(\mathsf{OpenDisk}(z_0, r, z, g)\) holds when the rational representation of the modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). We write \(\mathsf{OpenDisk}(z_0,r,z)\) when the gap witness is existentially understood. The BEDC kernel anchor records the four histories as unary and records the boundary ledger by \(\Cont(z,g,r)\).
 \end{definition}
 \leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk}
+\leandef{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap}
+\leandef{BEDC.Derived.HolomorphicUp.OpenDiskGap}
+\leandef{BEDC.Derived.HolomorphicUp.OpenDisk}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
@@ -18,6 +21,21 @@ For every $(z_0, r, z)$ with $\mathsf{OpenDisk}(z_0, r, z)$, the gap modulus $\m
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
 \end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_transport\_certificate}
+
+\begin{lemma}[Open disk unary suffix transport]
+\label{lem:open-disk-unary-suffix-transport}
+If an open-disk gap is represented by unary histories \(z_0,r,z,g\) with continuation
+\(\Cont(z,g,r)\), then any unary suffix \(q\) preserving the point and radius endpoints
+keeps the same gap as a boundary witness: from \(\Cont(z,q,z_q)\) and \(\Cont(r,q,r_q)\)
+one obtains \(\Cont(z_q,g,r_q)\).
+\end{lemma}
+\begin{proof}
+Unary closure gives unary histories for \(z_q\) and \(r_q\). Associativity of
+\(\Cont\), together with unary commutativity of the suffix and gap histories, identifies
+the shifted boundary continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_unary\_suffix\_transport}
 
 \begin{lemma}[Open-disk transport along \(\hsame\)]
 \label{lem:holomorphic-open-disk-hsame-transport}
@@ -27,6 +45,15 @@ If \(\mathsf{OpenDisk}(z_0,r,z,g)\) and each of \(z_0,r,z,g\) is replaced by an 
 Transport the four unary fields by unary-history stability under \(\hsame\), and transport the boundary ledger by \(\Cont\)-stability under \(\hsame\) on source, gap, and result.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_hsame\_transport}
+
+\begin{theorem}[Open-disk gap semantic naming certificate]
+\label{thm:holomorphic-open-disk-gap-semantic-namecert}
+Given a concrete open-disk witness \(\mathsf{OpenDisk}(z_0,r,z,g)\), the gap fiber \(g' \mapsto \mathsf{OpenDisk}(z_0,r,z,g')\) carries a semantic naming certificate whose source, pattern, and ledger predicates are this same fiber and whose classifier is \(\hsame\).
+\end{theorem}
+\begin{proof}
+The witness \(g\) inhabits the source fiber. Reflexivity, symmetry, and transitivity are the corresponding laws for \(\hsame\). Carrier transport follows from open-disk transport along \(\hsame\) with \(z_0\), \(r\), and \(z\) fixed by reflexivity and the gap slot transported by the classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_gap\_semanticNameCert}
 
 \begin{lemma}[Radius ledger enlargement]
 \label{lem:holomorphic-open-disk-radius-extension-closed}
@@ -52,6 +79,80 @@ The radius comparison descends by $e1$ strict-prefix inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_e1\_gap\_radius\_inversion}
 
+\begin{theorem}[Open disk radius continuation gap witness]
+\label{thm:holo-open-disk-radius-extension-gap-witness}
+If \(z\) lies in the unary open disk with center \(z_0\) and radius \(r\), and
+\(r\) continues by a unary history \(e\) to \(r'\), then the original boundary
+gap factors through a unary continued gap. Concretely, there are histories
+\(g,g'\) with
+$$
+\mathsf{UnaryHistory}(g)\land\mathsf{UnaryHistory}(g')\land
+\Cont(z,g,r)\land\Cont(g,e,g')\land\Cont(z,g',r').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the open-disk witness as a unary gap \(g\) with \(\Cont(z,g,r)\).
+Associativity of continuation supplies the middle history \(g'\) with
+\(\Cont(g,e,g')\) and \(\Cont(z,g',r')\); unary continuation closure makes
+\(g'\) unary.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_witness}
+
+\begin{theorem}[Open disk radius continuation closure]
+\label{thm:holo-open-disk-radius-continuation-extend}
+Under the same hypotheses, membership in the unary open disk is preserved when
+the radius is continued from \(r\) to \(r'\).
+\end{theorem}
+\begin{proof}
+Use the continued gap from
+\autoref{thm:holo-open-disk-radius-extension-gap-witness}. The center and point
+carriers are unchanged, and the continued radius is unary by continuation
+closure.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
+
+\begin{theorem}[Open disk empty radius excludes visible points]
+\label{thm:holo-open-disk-e1-point-empty-radius-absurd}
+For every complex center \(z_0\), visible point \(\mathsf{e1}(z)\), and gap
+history \(g\), the concrete open-disk gap predicate with empty radius leads to
+contradiction.
+\end{theorem}
+\begin{proof}
+Unpack the concrete gap predicate to obtain the continuation witness
+\(\mathsf{Cont}(\mathsf{e1}(z),g,\emp)\). Empty-result inversion for
+continuations identifies the visible point endpoint with \(\emp\), contradicting
+constructor disjointness of \(\mathsf{e1}\) and \(\emp\) in \(\mathsf{BHist}\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDiskGap\_e1\_point\_empty\_radius\_absurd}
+
+\begin{lemma}[Open disk endpoint transport]
+\label{lem:open-disk-endpoint-transport}
+If the center and point are transported by the complex-history classifier, the radius is transported by \(\hsame\), and the same unary gap continues the point to the radius, then \(\mathsf{OpenDisk}(z_0, r, z)\) transports to \(\mathsf{OpenDisk}(z_0', r', z')\).
+\end{lemma}
+\begin{proof}
+Unfold the open-disk witness. The target center and point carriers are supplied by the two complex classifiers, the radius is moved along \(\hsame\), and the explicit continuation witness for the gap is reused at the transported endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_gap\_endpoint\_transport}
+
+\begin{theorem}[Open disk witnessed empty-radius boundary]
+\label{thm:holo-open-disk-witnessed-empty-radius-boundary}
+If a witnessed unary open disk has radius history $r$ with $r\hsame\emp$, then
+its point and displayed boundary gap are both empty endpoints. Concretely,
+from $\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)$ and $r\hsame\emp$ one
+obtains $z\hsame\emp$ and a unary gap $g$ such that
+$$
+g\hsame\emp\land\ContR(z,g,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witnessed open disk to obtain the unary gap $g$ and the boundary
+ledger $\ContR(z,g,r)$. Transport this ledger along $r\hsame\emp$, producing
+$\ContR(z,g,\emp)$. Empty-result inversion for continuation identifies both
+the point endpoint and the gap endpoint with $\emp$, while the original ledger
+and unary gap witness remain part of the displayed boundary data.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_empty\_radius\_boundary}
+
 \section{Holomorphic predicate}
 
 \begin{definition}[Holomorphic on disk seed predicate]
@@ -73,6 +174,16 @@ The $\HolomorphicUp$ seed carries the following proof obligations before it can 
   \item Cauchy-bound obligation: local upper bounds for $|f|$ on smaller disks must yield unary bounds for the iterated derivatives at the center.
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.HolomorphicUp.IteratedCplxDiff}
+
+\begin{lemma}[Iterated complex differentiability preserves unary seed histories]
+\label{lem:iterated-cplx-diff-unary-of-seed}
+If an iterated complex-differentiability chain starts from a unary seed history and each successor stage is recorded by a unary continuation step, then every selected iterate is unary.
+\end{lemma}
+\begin{proof}
+Induct on the iteration index. At zero, transport the unary seed along the displayed \(\hsame\) endpoint. At a successor index, unpack the previous iterate, the unary step, and the continuation witness; the induction hypothesis gives the previous iterate as unary, and unary continuation closure gives the selected successor history.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_unary\_of\_seed}
 
 \section{The seed fields}
 

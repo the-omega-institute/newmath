@@ -50,6 +50,14 @@ theorem NatMul_left_unary {d q n : BHist} : NatMul d q n -> UnaryHistory d := by
   | zero hd => exact hd
   | succ _ _ ih => exact ih
 
+theorem NatMul_right_unary {d q n : BHist} : NatMul d q n -> UnaryHistory q := by
+  intro mul
+  induction mul with
+  | zero _hd =>
+      exact unary_empty
+  | succ _prev _step ih =>
+      exact unary_e1_closed ih
+
 theorem NatMul_result_unary {d q n : BHist} :
     UnaryHistory d -> NatMul d q n -> UnaryHistory n := by
   intro hd mul
@@ -196,10 +204,155 @@ def NatPrime (p : BHist) : Prop :=
     ∀ d : BHist, UnaryHistory d -> NatDivides d p ->
       hsame d (BHist.e1 BHist.Empty) ∨ hsame d p
 
+theorem NatPrime_first_pair :
+    NatPrime (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+      NatPrime (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) := by
+  have emptyFactor_result_empty :
+      ∀ {q n : BHist}, NatMul BHist.Empty q n -> hsame n BHist.Empty := by
+    intro q n mul
+    induction mul with
+    | zero _ =>
+        rfl
+    | succ _ step ih =>
+        have emptyResult : hsame _ BHist.Empty := ih
+        cases emptyResult
+        exact cont_left_unit_result step
+  have largeDivisor_not_two :
+      ∀ {d q : BHist}, NatMul (BHist.e1 (BHist.e1 (BHist.e1 d))) q
+        (BHist.e1 (BHist.e1 BHist.Empty)) -> False := by
+    intro d q mul
+    cases mul with
+    | succ _ step =>
+        cases step
+  have two_not_divides_three :
+      ∀ {q : BHist}, NatMul (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 q)
+        (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) -> False := by
+    intro q mul
+    cases mul with
+    | succ prev step =>
+        cases prev with
+        | zero _ =>
+            cases step
+        | succ _ prevStep =>
+            cases prevStep
+            cases step
+  have largeDivisor_not_three :
+      ∀ {d q : BHist}, NatMul (BHist.e1 (BHist.e1 (BHist.e1 (BHist.e1 d)))) q
+        (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) -> False := by
+    intro d q mul
+    cases mul with
+    | succ _ step =>
+        cases step
+  constructor
+  · constructor
+    · exact unary_e1_closed (unary_e1_closed unary_empty)
+    · constructor
+      · exact ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty,
+          (fun empty => by cases empty), cont_intro rfl⟩
+      · intro d hd divides
+        cases d with
+        | Empty =>
+            cases divides with
+            | intro q qData =>
+                have zeroResult :
+                    hsame (BHist.e1 (BHist.e1 BHist.Empty)) BHist.Empty :=
+                  emptyFactor_result_empty qData.right
+                exact False.elim (not_hsame_e1_empty zeroResult)
+        | e0 d =>
+            cases hd
+        | e1 d =>
+            cases d with
+            | Empty =>
+                exact Or.inl rfl
+            | e0 d =>
+                cases hd
+            | e1 d =>
+                cases d with
+                | Empty =>
+                    exact Or.inr rfl
+                | e0 d =>
+                    cases hd
+                | e1 d =>
+                    cases divides with
+                    | intro q qData =>
+                        exact False.elim (largeDivisor_not_two qData.right)
+  · constructor
+    · exact unary_e1_closed (unary_e1_closed (unary_e1_closed unary_empty))
+    · constructor
+      · exact ⟨BHist.e1 (BHist.e1 BHist.Empty),
+          unary_e1_closed (unary_e1_closed unary_empty),
+          (fun empty => by cases empty), cont_intro rfl⟩
+      · intro d hd divides
+        cases d with
+        | Empty =>
+            cases divides with
+            | intro q qData =>
+                have zeroResult :
+                    hsame (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) BHist.Empty :=
+                  emptyFactor_result_empty qData.right
+                exact False.elim (not_hsame_e1_empty zeroResult)
+        | e0 d =>
+            cases hd
+        | e1 d =>
+            cases d with
+            | Empty =>
+                exact Or.inl rfl
+            | e0 d =>
+                cases hd
+            | e1 d =>
+                cases d with
+                | Empty =>
+                    cases divides with
+                    | intro q qData =>
+                        cases q with
+                        | Empty =>
+                            cases qData.right
+                        | e0 q =>
+                            cases qData.left
+                        | e1 q =>
+                            exact False.elim (two_not_divides_three qData.right)
+                | e0 d =>
+                    cases hd
+                | e1 d =>
+                    cases d with
+                    | Empty =>
+                        exact Or.inr rfl
+                    | e0 d =>
+                        cases hd
+                    | e1 d =>
+                        cases divides with
+                        | intro q qData =>
+                            exact False.elim (largeDivisor_not_three qData.right)
+
 inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)
   | succ {n m m' : BHist} : NatFact n m -> NatMul (BHist.e1 n) m m' ->
       NatFact (BHist.e1 n) m'
+
+theorem NatFact_result_not_empty {n m : BHist} :
+    NatFact n m -> hsame m BHist.Empty -> False := by
+  intro fact
+  induction fact with
+  | zero =>
+      intro resultEmpty
+      exact not_hsame_e1_empty resultEmpty
+  | succ _prevFact mul ih =>
+      intro resultEmpty
+      cases resultEmpty
+      have previousEmpty : hsame _ BHist.Empty :=
+        Iff.mp
+          (NatMul_nonempty_multiplicand_empty_result_iff
+            (NatMul_left_unary mul) not_hsame_e1_empty)
+          mul
+      exact ih previousEmpty
+
+theorem NatFact_result_unary {n m : BHist} : NatFact n m -> UnaryHistory m := by
+  intro fact
+  induction fact with
+  | zero =>
+      exact unary_e1_closed unary_empty
+  | succ _previous mul _ih =>
+      exact NatMul_result_unary (NatMul_left_unary mul) mul
 
 theorem NatFact_total_functional {n : BHist} :
     UnaryHistory n ->

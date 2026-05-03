@@ -420,6 +420,38 @@ and tail continuation by the one-headed morphism target cases theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_source\_cases}
 
+\begin{theorem}[Category nonempty morphism endpoint cases]
+\label{thm:category-hom-carrier-nonempty-morphism-endpoint-cases}
+For \(\mathsf{CategoryHomCarrier}(source,target,morph)\), if \(morph\) is not
+\(\HSame\) to \(\emp\), then either the source is empty and the visible
+morphism is exactly the visible target tail, or all three endpoints are
+one-headed and the continuation ledger remains visible at that boundary:
+$$
+\begin{array}{l}
+\bigl(source=\emp\land
+\exists k.\;morph=\Eone(k)\land target=\Eone(k)\land
+\mathsf{UnaryHistory}(k)\bigr)
+\\
+\vee
+\bigl(\exists a,k,r.\;source=\Eone(a)\land morph=\Eone(k)\land
+target=\Eone(r)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(a),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty morphism source-case split. In the empty-source branch,
+empty-source inversion identifies \(morph\) with \(target\); the nonempty
+hypothesis excludes the empty morphism and unary generation excludes a
+zero-headed morphism, leaving the one-headed endpoint \(k\). In the one-headed
+source branch, the existing exposed continuation \(\ContR(\Eone(a),k,r)\)
+steps once to the displayed boundary
+\(\ContR(\Eone(a),\Eone(k),\Eone(r))\).
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_nonempty\_morphism\_endpoint\_cases}
+
 \begin{theorem}[Category hom-carrier one-headed endpoint morphism alignment]
 \label{thm:category-hom-carrier-e1-source-e1-target-morphism-alignment}
 For hom-carriers between the same one-headed source and one-headed target,

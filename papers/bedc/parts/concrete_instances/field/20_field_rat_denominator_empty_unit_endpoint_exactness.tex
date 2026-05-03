@@ -155,6 +155,34 @@ Theorem~\ref{thm:field-rat-denominator-continuation-external-boundary-laws}
 then yields $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator continuation right-unit visible endpoint exclusion]
+\label{thm:field-rat-denominator-continuation-right-unit-law-visible-endpoint-absurd}
+For every pair of histories $u,p:\mathsf{BHist}$, if $u$ satisfies the
+right-unit classifier law for Rat denominator continuation, then $u$ cannot be
+history-same to either visible endpoint over $p$:
+$$
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\Longrightarrow
+\bigl(\hsame(u,\Ezero(p))\to\mathsf{False}\bigr)
+\land
+\bigl(\hsame(u,\Eone(p))\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_right\_unit\_law\_visible\_endpoint\_absurd}
+\begin{proof}
+Test the law on the concrete Rat carrier $\Eone(\emp)$ and the displayed
+continuation $\Cont(\Eone(\emp),u,\Eone(\emp)\cdot u)$. The classifier result
+collapses the continuation result back to $\Eone(\emp)$, so continuation
+right-unit uniqueness gives $u\hsame\emp$. Composing either visible presentation
+of $u$ with this empty endpoint contradicts BEDC history constructor
+no-confusion for $\Ezero$ and $\Eone$.
+\end{proof}
+
 \begin{theorem}[Rat denominator continuation left-unit endpoint iff empty]
 \label{thm:field-rat-denominator-continuation-left-unit-endpoint-iff-empty}
 For every history $u:\mathsf{BHist}$, the left-unit classifier law is equivalent
@@ -186,6 +214,27 @@ classifies the displayed result as
 $\mathsf{RatHistoryClassifier}(r,d)$.
 \end{proof}
 
+\begin{theorem}[Rat denominator left-unit result is not empty]
+\label{thm:field-rat-denominator-continuation-left-unit-result-not-empty}
+For histories $u,d,r:\mathsf{BHist}$, suppose $u$ satisfies the
+Rat-denominator left-unit classifier law:
+$$
+\forall x,y:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(x)\to
+\Cont(u,x,y)\to
+\mathsf{RatHistoryClassifier}(y,x).
+$$
+If $\mathsf{RatHistoryCarrier}(d)$ and $\Cont(u,d,r)$, then
+$\hsame(r,\emp)$ implies contradiction.
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_law\_result\_not\_empty}
+\begin{proof}
+Apply the displayed left-unit classifier law to the concrete carried
+denominator $d$ and continuation $\Cont(u,d,r)$. The resulting
+$\mathsf{RatHistoryClassifier}(r,d)$ exposes a Rat carrier witness on $r$,
+and Rat carrier histories cannot be internally the same as $\emp$.
+\end{proof}
+
 \begin{theorem}[Rat denominator e1 left-unit law is impossible]
 \label{thm:field-rat-denominator-continuation-e1-left-unit-law-absurd}
 For every tail history $t:\mathsf{BHist}$, the one-headed candidate
@@ -205,6 +254,35 @@ $$
 The left-unit endpoint equivalence forces $\Eone(t)\hsame\emp$ from the
 displayed classifier law. Constructor separation for $\mathsf{BHist}$ rejects
 any equality between a one-headed history and the empty history.
+\end{proof}
+
+\begin{theorem}[Rat denominator visible left-unit law is impossible]
+\label{thm:field-rat-denominator-continuation-visible-left-unit-law-absurd}
+For every history $u:\mathsf{BHist}$, if $u$ is history-same to a visible
+zero-headed or one-headed history, then $u$ cannot satisfy the
+Rat-denominator left-unit classifier law:
+$$
+\left(
+(\exists t:\mathsf{BHist}.\; u\hsame\Ezero(t))
+\lor
+(\exists t:\mathsf{BHist}.\; u\hsame\Eone(t))
+\right)
+\to
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_visible\_left\_unit\_law\_absurd}
+\begin{proof}
+The left-unit endpoint equivalence forces $u\hsame\emp$. In the visible
+zero-headed branch, transitivity gives $\Ezero(t)\hsame\emp$, contradicting
+constructor separation. In the one-headed branch, the same argument gives
+$\Eone(t)\hsame\emp$, again impossible by constructor separation.
 \end{proof}
 
 \begin{theorem}[Rat denominator e1-probe classifier endpoint empty]

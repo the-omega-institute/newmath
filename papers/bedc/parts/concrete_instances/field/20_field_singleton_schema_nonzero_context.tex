@@ -51,6 +51,30 @@ factor witness rebuilds the forbidden singleton empty classifier for $Q$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_left\_cancel\_iff}
 
+\begin{theorem}[Singleton empty nonzero continuation left endpoint cancellation]
+\label{thm:field-singleton-empty-nonzero-continuation-left-endpoint-cancel-iff}
+For histories $P,Q,R:\mathsf{BHist}$, if $Q$ lies in the singleton empty
+carrier and $\ContR(P,Q,R)$, then the classifier-complement singleton nonzero
+predicate is unchanged from $P$ to $R$:
+$$
+\mathsf{fieldSingletonEmptyCarrier}(Q)\Rightarrow
+\ContR(P,Q,R)\Rightarrow
+\bigl(
+\mathsf{fieldSingletonEmptyNonZero}(R)
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(P)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, a forbidden classifier on $P$ combines with the
+singleton empty carrier of $Q$ and the continuation ledger to rebuild a
+forbidden classifier on $R$. Conversely, a forbidden classifier on $R$ is
+transported back through the displayed continuation; append-empty inversion
+then exposes the forbidden classifier on $P$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_left\_endpoint\_cancel\_iff}
+
 \begin{theorem}[Rat classifier singleton-empty nonzero context endpoints]
 \label{thm:rat-history-classifier-field-singleton-empty-nonzero-context-endpoints}
 For histories $L,R,h,k:\mathsf{BHist}$, any rational history classifier
@@ -74,6 +98,27 @@ identical with $R$ and $k$ in place of $L$ and $h$.
 
 \input{parts/concrete_instances/field/20_field_singleton_nonzero_append_source_or_tail}
 \input{parts/concrete_instances/field/20_field_singleton_empty_nonzero_append_split}
+
+\begin{theorem}[Singleton empty nonzero continuation cycle tail obstruction]
+\label{thm:field-singleton-empty-nonzero-continuation-cycle-tail-absurd}
+For histories $h,k,\mathit{tail},\mathit{backTail}:\mathsf{BHist}$, if
+$$
+\ContR(h,\mathit{tail},k)
+\quad\text{and}\quad
+\ContR(k,\mathit{backTail},h)
+$$
+form a continuation cycle, then
+$\mathsf{fieldSingletonEmptyNonZero}(\mathit{tail})$ is contradictory.
+\end{theorem}
+\begin{proof}
+The two continuations compose to a self-continuation of $h$. Right-unit
+uniqueness for continuation forces the composite tail to be empty, and
+empty-result inversion for append gives $\mathit{tail}\hsame\emp$. The
+singleton empty nonzero endpoint obstruction then contradicts the displayed
+nonzero witness on $\mathit{tail}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_cycle\_tail\_absurd}
+
 \begin{theorem}[Singleton empty nonzero append context cancellation]
 \label{thm:field-singleton-empty-nonzero-append-context-cancel-iff}
 For histories $L,R,Q:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
@@ -102,6 +147,29 @@ $\mathsf{fieldSingletonEmptyCarrier}(Q)$, which rebuilds the forbidden
 classifier witness for $Q$ against $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Singleton empty nonzero two-sided context semantic certificate]
+\label{thm:field-singleton-empty-nonzero-two-sided-context-semantic-namecert}
+For histories $L,R:\mathsf{BHist}$, the concrete two-sided context predicate
+$$
+h\longmapsto
+\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(L,\mathsf{append}(h,R)))
+$$
+used as source, pattern, and ledger policy with classifier $\hsame$ forms a
+semantic name certificate.
+\end{theorem}
+\begin{proof}
+The source is inhabited by choosing the visible middle history
+$\mathsf{e0}(\emp)$. If the resulting nested append were classified against
+$\emp$, empty-result inversion for the outer append and then the inner append
+would force $\mathsf{e0}(\emp)\hsame\emp$, contradicting the BEDC no-confusion
+law for visible histories. The classifier laws are the reflexive, symmetric,
+and transitive laws for $\hsame$. Carrier transport eliminates the supplied
+history-sameness proof, leaving the same concrete two-sided context predicate;
+pattern and ledger soundness are identities because the three predicates
+coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_append\_context\_semanticNameCert}
 
 \begin{theorem}[Classifier-complement singleton field schema laws]
 \label{thm:field-singleton-empty-schema-laws}

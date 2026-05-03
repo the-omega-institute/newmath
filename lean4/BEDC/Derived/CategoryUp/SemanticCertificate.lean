@@ -127,4 +127,17 @@ theorem CategoryHomCarrier_comp_result_endpoint_semanticNameCert {a b c a' c' f 
   · intro h source
     exact source
 
+theorem CategoryHomCarrier_unary_suffix_semantic_boundary {q a b f : BHist} :
+    UnaryHistory q -> CategoryHomCarrier a b f ->
+      SemanticNameCert (CategoryHomCarrier (append a q) (append b q))
+        (CategoryHomCarrier (append a q) (append b q))
+        (CategoryHomCarrier (append a q) (append b q)) hsame ∧
+        (CategoryHomCarrier (append a q) (append b q) f ↔
+          UnaryHistory q ∧ CategoryHomCarrier a b f) := by
+  intro suffixCarrier homCarrier
+  have suffixedHom : CategoryHomCarrier (append a q) (append b q) f :=
+    CategoryHomCarrier_unary_suffix_iff.mpr (And.intro suffixCarrier homCarrier)
+  exact And.intro (CategoryHomCarrier_semanticNameCert_of_hom suffixedHom)
+    CategoryHomCarrier_unary_suffix_iff
+
 end BEDC.Derived.CategoryUp

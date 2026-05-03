@@ -104,6 +104,26 @@ any comparison $r\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_continuation\_result\_not\_empty}
 
+\begin{theorem}[Rat continuation results cannot be singleton-classified]
+\label{thm:rat-history-classifier-continuation-result-field-singleton-classifier-absurd}
+For histories $d,d',e,e',r,r':\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,d')$ and
+$\mathsf{RatHistoryClassifier}(e,e')$ hold, and if
+$\Cont(d,e,r)$ and $\Cont(d',e',r')$ display the two continuation results, then
+$\mathsf{FieldSingletonClassifier}(r,r')$ is impossible.
+\end{theorem}
+\begin{proof}
+The left classifier supplies rational carrier witnesses for $d$ and $e$.
+The carrier on $e$ exposes a positive unary denominator, hence a unary history.
+Rational denominators are closed under appending a unary denominator, so
+$\mathsf{append}(d,e)$ lies in the rational history carrier. Continuation
+determinacy identifies this canonical append result with the displayed result
+$r$, transporting the rational carrier to $r$. The singleton classifier would
+also force $r\hsame\emp$, contradicting non-emptiness of rational history
+carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_continuation\_result\_FieldSingletonClassifier\_absurd}
+
 \begin{theorem}[Rat denominator continuation semigroup laws]
 \label{thm:field-rat-denominator-continuation-semigroup-laws}
 For all histories $d,e,f,de,ef,\ell,r:\mathsf{BHist}$, if

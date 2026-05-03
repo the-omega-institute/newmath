@@ -95,4 +95,17 @@ theorem ContinuousModulusWitness_right_e1_source_cases {source modulus target : 
               cases sourceEq
               exact Or.inr (Exists.intro sourceTail (And.intro rfl tailWitness))
 
+theorem ContinuousModulusWitness_e0_component_absurd {source modulus target : BHist} :
+    (ContinuousModulusWitness (BHist.e0 source) modulus target -> False) ∧
+      (ContinuousModulusWitness source (BHist.e0 modulus) target -> False) ∧
+        (ContinuousModulusWitness source modulus (BHist.e0 target) -> False) := by
+  constructor
+  · intro witness
+    exact unary_no_zero_extension witness.left
+  · constructor
+    · intro witness
+      exact unary_no_zero_extension witness.right.left
+    · intro witness
+      exact unary_no_zero_extension witness.right.right.left
+
 end BEDC.Derived.ContinuousUp

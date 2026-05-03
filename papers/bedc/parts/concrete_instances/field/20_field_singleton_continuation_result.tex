@@ -39,6 +39,31 @@ result-side singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_endpoint\_split\_iff}
 
+\begin{theorem}[Field singleton carrier continuation context empty iff]
+\label{thm:field-singleton-carrier-continuation-context-empty-iff}
+For histories $L,h,M,R,O:\mathsf{BHist}$ with
+$\ContR(L,h,M)$ and $\ContR(M,R,O)$, the final result is a singleton carrier
+exactly when the three exposed factors are singleton carriers:
+$$
+\mathsf{FieldSingletonCarrier}(O)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(L)\land
+\mathsf{FieldSingletonCarrier}(h)\land
+\mathsf{FieldSingletonCarrier}(R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the second continuation result to
+$\emp$ and invert the empty result; this gives singleton carriers for $M$
+and $R$. Transport the first continuation result from $M$ to $\emp$ and
+invert again, exposing singleton carriers for $L$ and $h$. Conversely,
+singleton carriers for $L$ and $h$ transport the first continuation result
+to the singleton carrier, and the resulting middle carrier together with the
+carrier for $R$ transports the second continuation result to the singleton
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_context\_empty\_iff}
+
 \begin{theorem}[Field singleton classifier continuation append split]
 \label{thm:field-singleton-classifier-continuation-append-split}
 For histories $L,P,Q,R,T:\mathsf{BHist}$ with $\ContR(P,Q,T)$, singleton
@@ -63,3 +88,97 @@ with the carrier of $L$ rebuilds the left appended endpoint. Both classifier
 endpoints then compare through $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_split\_iff}
+
+\begin{theorem}[Field singleton classifier continuation append context split]
+\label{thm:field-singleton-classifier-continuation-append-context-split-iff}
+For histories $L,P,Q,T,R,S:\mathsf{BHist}$ with $\ContR(P,Q,T)$,
+singleton classification of $\mathsf{append}(L,T)$ against
+$\mathsf{append}(R,S)$ is equivalent to all five exposed endpoints lying in
+the singleton carrier:
+$$
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,T),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(L)\land
+\mathsf{FieldSingletonCarrier}(P)\land
+\mathsf{FieldSingletonCarrier}(Q)\land
+\mathsf{FieldSingletonCarrier}(R)\land
+\mathsf{FieldSingletonCarrier}(S).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits both appended classifier endpoints at the empty
+history. The left split gives singleton carriers for $L$ and $T$; transporting
+the continuation result from $T$ to $\emp$ and applying empty-result inversion
+gives the carrier witnesses for $P$ and $Q$. The right split gives the carrier
+witnesses for $R$ and $S$. Conversely, the carrier witnesses for $P$ and $Q$
+make $T$ singleton through the continuation equation, so both appended
+endpoints are singleton and therefore compare through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_append\_context\_split\_iff}
+
+\begin{lemma}[Field singleton classifier continuation context empty result]
+\label{lem:field-singleton-classifier-continuation-context-empty-result}
+For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton
+carriers and
+$$
+\ContR(\mathsf{append}(L,P),\mathsf{append}(Q,R),T),
+$$
+then singleton classification of the continuation result against $\emp$ is
+equivalent to singleton classification of the exposed middle endpoints:
+$$
+\mathsf{FieldSingletonClassifier}(T,\emp)
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(P,Q).
+$$
+\end{lemma}
+\begin{proof}
+For the forward implication, transport the displayed continuation to the empty
+result and invert it. The two appended endpoints split at $\emp$, exposing
+singleton carriers for $P$ and $Q$, and the two carriers compare through
+$\emp$. Conversely, singleton carriers for $P$ and $Q$, together with the
+assumed singleton carriers for $L$ and $R$, make both appended continuation
+endpoints empty; the continuation result is therefore singleton and is
+classified with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_context\_empty\_result\_iff}
+
+\begin{theorem}[Field singleton add-mul context continuation result carrier]
+\label{thm:field-singleton-add-mul-context-continuation-result-carrier}
+For histories $L,R,a,b,c,d,out:\mathsf{BHist}$, if $L$ and $R$ are singleton
+field carrier endpoints and
+$$
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out),
+$$
+then $out$ is a singleton field carrier endpoint.
+\end{theorem}
+\begin{proof}
+The singleton add and mul endpoints both unfold to $\emp$. The carrier
+witnesses identify $L$ and $R$ with $\emp$, so both append contexts reduce to
+the empty history. Determinacy against the right-unit continuation at $\emp$
+therefore identifies $out$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
+
+\begin{theorem}[Field singleton continuation result context]
+\label{thm:field-singleton-continuation-result-context}
+For histories $L,R,P,Q,T:\mathsf{BHist}$, if $L$ and $R$ are singleton
+carriers and $\ContR(P,Q,T)$, then singleton classification of the
+two-sided context around the continuation result against $\emp$ is equivalent
+to the two exposed continuation inputs being singleton carriers:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(T,R)),\emp)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(P)\land\mathsf{FieldSingletonCarrier}(Q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, split the empty contextual endpoint twice, first
+at $L$ and then at $T$ and $R$. The resulting singleton carrier for $T$
+transports the continuation to empty result, whose inversion gives the two
+input carriers. Conversely, the two input carriers make the continuation
+result singleton; combining this carrier with the assumed carriers for $L$
+and $R$ rebuilds the displayed contextual classifier against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_context\_iff}

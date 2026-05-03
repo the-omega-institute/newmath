@@ -17,4 +17,16 @@ theorem FieldSingletonCarrier_continuation_right_endpoint_iff {P Q R : BHist} :
   · intro carrierQ
     exact FieldSingletonCarrier_continuation_closed carrierP carrierQ continuation
 
+theorem fieldSingletonEmptyNonZero_continuation_right_endpoint_cancel_iff {P Q R : BHist} :
+    Cont P Q R -> fieldSingletonEmptyCarrier Q ->
+      (fieldSingletonEmptyNonZero R <-> fieldSingletonEmptyNonZero P) := by
+  intro continuation carrierQ
+  cases continuation
+  cases carrierQ
+  constructor
+  · intro resultNonzero
+    exact resultNonzero
+  · intro sourceNonzero
+    exact sourceNonzero
+
 end BEDC.Derived.FieldUp

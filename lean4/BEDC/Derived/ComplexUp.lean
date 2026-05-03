@@ -74,6 +74,21 @@ theorem ComplexHistoryCarrier_positive_components {h : BHist} :
                               (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
                                 imagCarrier))))))
 
+theorem ComplexHistoryCarrier_not_empty {h : BHist} :
+    ComplexHistoryCarrier h -> hsame h BHist.Empty -> False := by
+  intro carrier sameEmpty
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier data =>
+              cases data with
+              | intro _imagCarrier cont =>
+                  have emptyParts :=
+                    cont_empty_result_inversion (cont_result_hsame_transport cont sameEmpty)
+                  exact RatUp.RatHistoryCarrier_not_empty realCarrier emptyParts.left
+
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
       ComplexHistoryClassifier h r := by

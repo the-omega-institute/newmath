@@ -1,0 +1,98 @@
+import BEDC.Derived.ComplexUp
+
+namespace BEDC.Derived.ComplexSeriesUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
+
+inductive ComplexPartSum (zero : BHist) (c : BHist -> BHist) : BHist -> BHist -> Prop where
+  | zero : ComplexPartSum zero c BHist.Empty zero
+  | step {n S T : BHist} :
+      ComplexPartSum zero c n S -> Cont S (c n) T -> ComplexPartSum zero c (BHist.e1 n) T
+
+theorem ComplexPartSum_index_cases {zero : BHist} {c : BHist -> BHist} {n S : BHist} :
+    ComplexPartSum zero c n S ->
+      (n = BHist.Empty ∧ hsame S zero) ∨
+        exists m P : BHist, n = BHist.e1 m ∧
+          ComplexPartSum zero c m P ∧ Cont P (c m) S := by
+  intro sum
+  cases sum with
+  | zero =>
+      exact Or.inl (And.intro rfl (hsame_refl zero))
+  | step prev stepCont =>
+      exact Or.inr (Exists.intro _ (Exists.intro _
+        (And.intro rfl (And.intro prev stepCont))))
+
+theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T : BHist} :
+    ComplexPartSum zero c n S -> ComplexPartSum zero c n T -> hsame S T := by
+  intro left
+  induction left generalizing T with
+  | zero =>
+      intro right
+      cases right with
+      | zero =>
+          exact hsame_refl zero
+  | step leftSum leftStep ih =>
+      intro right
+      cases right with
+      | step rightSum rightStep =>
+          have samePartial := ih rightSum
+          exact cont_respects_hsame samePartial (hsame_refl (c _)) leftStep rightStep
+
+inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
+    BHist -> BHist -> Prop where
+  | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
+  | step {n M T : BHist} :
+      ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
+        ComplexAbsPartSum zero modulus (BHist.e1 n) T
+
+theorem ComplexAbsPartSum_successor_result_deterministic {zero : BHist}
+    {modulus : BHist -> BHist} {n M T U : BHist} :
+    ComplexAbsPartSum zero modulus n M -> Cont M (modulus n) T ->
+      ComplexAbsPartSum zero modulus (BHist.e1 n) U -> hsame T U := by
+  have deterministic :
+      forall {n S T : BHist},
+        ComplexAbsPartSum zero modulus n S -> ComplexAbsPartSum zero modulus n T -> hsame S T := by
+    intro n S T left
+    induction left generalizing T with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact hsame_refl zero
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial (hsame_refl (modulus _)) leftStep rightStep
+  intro previous step final
+  cases final with
+  | step finalPrevious finalStep =>
+      have samePrevious := deterministic previous finalPrevious
+      exact cont_respects_hsame samePrevious (hsame_refl (modulus n)) step finalStep
+
+def ComplexTermSeqCarrier (c : BHist -> BHist) : Prop :=
+  forall n : BHist, UnaryHistory n -> ComplexHistoryCarrier (c n)
+
+theorem ComplexTermSeqCarrier_hsame_transport {c d : BHist -> BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n)) ->
+      ComplexTermSeqCarrier c -> ComplexTermSeqCarrier d := by
+  intro pointwise carrier n unaryN
+  cases carrier n unaryN with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  exact Exists.intro real
+                    (Exists.intro imag
+                      (And.intro realCarrier
+                        (And.intro imagCarrier
+                          (cont_result_hsame_transport cont (pointwise unaryN)))))
+
+end BEDC.Derived.ComplexSeriesUp

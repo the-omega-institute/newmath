@@ -513,6 +513,24 @@ def read_target_parallel(default: int) -> int:
     return max(1, min(default, HARD_MAX_PARALLEL))
 
 
+def read_lake_parallel(default: int) -> int:
+    """Read live lake-gate concurrency cap from PARALLEL_CONFIG_FILE.
+
+    Reads the optional "lean_lake" key. Falls back to `default` (the
+    startup CLI value) if the file or key is missing. Lets us scale
+    Phase B parallelism without restart so it stays in step with
+    `read_target_parallel` raising `lean`.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get("lean_lake", default))
+            return max(1, min(v, HARD_MAX_PARALLEL))
+    except Exception:
+        pass
+    return max(1, min(default, HARD_MAX_PARALLEL))
+
+
 _origin_sync_stop = threading.Event()
 
 
@@ -1250,7 +1268,9 @@ def codex_exec(
     # in $TMPDIR — usually fine, but explicit is safer when callers override.
     child_env = os.environ.copy()
     child_env.setdefault("LAKE_GATE_LOCK_DIR", str(LAKE_GATE_LOCK_DIR))
-    child_env.setdefault("LAKE_GATE_MAX_PARALLEL", str(LAKE_GATE_MAX_PARALLEL))
+    child_env.setdefault(
+        "LAKE_GATE_MAX_PARALLEL", str(read_lake_parallel(LAKE_GATE_MAX_PARALLEL))
+    )
 
     try:
         with open(prompt_file, "r", encoding="utf-8") as pf:
@@ -3182,7 +3202,11 @@ def main() -> int:
         return 1
     logger.info(f"Codex CLI: {codex_bin}")
     logger.info(f"Base branch: {BASE_BRANCH}")
-    logger.info(f"Parallelism: {args.parallel}")
+    logger.info(
+        f"Parallelism: CLI fallback={args.parallel}; "
+        f"live JSON config={PARALLEL_CONFIG_FILE.name} authoritative "
+        f"(keys: {PARALLEL_CONFIG_KEY!r}, 'lean_lake')"
+    )
     if not args.dry_run:
         previous_pid = claim_pipeline_pid()
         if previous_pid is not None and previous_pid != os.getpid():

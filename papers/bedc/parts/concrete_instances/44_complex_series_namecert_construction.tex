@@ -9,6 +9,23 @@ This chapter gives a concrete naming-certificate construction for convergent inf
 \label{def:complex-term-seq}
 A complex term sequence is a unary-indexed family \(c : \Unary \to \ComplexUp\)-history, i.e.\ a function from unary histories to complex carrier histories.
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier}
+
+\begin{lemma}[Complex term sequence carrier transport]
+\label{lem:complex-term-seq-carrier-hsame-transport}
+If two complex term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$ are
+pointwise related by $\hsame$ on every unary index, then the
+$\mathsf{ComplexTermSeqCarrier}$ predicate transports from $c$ to $d$.
+\end{lemma}
+\begin{proof}
+Fix a unary index $n$. The carrier for $c(n)$ expands to a complex-pair witness:
+rational real and imaginary component carriers together with a continuation
+ledger whose result is $c(n)$. Transport that continuation result along the
+pointwise comparison $c(n)\hsame d(n)$ while keeping the same rational
+component witnesses. The transported pair witness is exactly the complex carrier
+for $d(n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier\_hsame\_transport}
 
 \begin{definition}[Complex partial sum]
 \label{def:complex-part-sum}
@@ -18,14 +35,34 @@ For a term sequence \(c\), the complex partial-sum predicate \(\mathsf{ComplexPa
   \item if \(\mathsf{ComplexPartSum}(c, n, S_n)\) and the complex addition relation gives \(S_n + c_n = S_{n+1}\), then \(\mathsf{ComplexPartSum}(c, \Eone(n), S_{n+1})\).
 \end{enumerate}
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexPartSum}
+
+\begin{lemma}[Complex partial-sum index cases]
+\label{lem:complex-part-sum-index-cases}
+Every closed witness of $\mathsf{ComplexPartSum}(c,n,S)$ either has the zero
+index $n=\emp$ and identifies $S$ with the chosen zero history, or has a
+successor index $n=\Eone(m)$ together with a predecessor partial sum and the
+continuation step from that predecessor to $S$.
+\end{lemma}
+\begin{proof}
+Invert the closed partial-sum witness. The zero constructor gives the empty
+index and the base history. The step constructor exposes the predecessor index,
+predecessor sum, and continuation payload directly.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_index\_cases}
 
 \begin{lemma}[Partial sums are complex histories]
 \label{lem:complex-part-sum-well-defined}
-For every term sequence \(c\) and unary \(n\), there is a unique complex history \(S_n\) with \(\mathsf{ComplexPartSum}(c, n, S_n)\), up to \(\hsame\) on both real and imaginary components.
+For every term sequence \(c\) and unary \(n\), any two histories obtained from
+the closed partial-sum recursion for \(c\) at \(n\) agree up to \(\hsame\).
 \end{lemma}
 \begin{proof}
-By unary induction on \(n\), using totality and functionality of complex addition (\autoref{ch:concrete-instances-complex-namecert}).
+Induct on the first partial-sum derivation. The zero case is immediate. In the
+successor case, the second derivation has the same successor shape; the
+induction hypothesis identifies the previous sums, and determinacy of the BEDC
+continuation relation identifies the two successor sums.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_deterministic}
 
 \section{Absolute convergence}
 
@@ -33,6 +70,22 @@ By unary induction on \(n\), using totality and functionality of complex additio
 \label{def:abs-part-sum}
 For a complex term sequence \(c\), the modulus partial sum \(\mathsf{AbsPartSum}(c, n, M_n)\) is the real-history value \(M_n = \sum_{k < n} |c_k|\) computed by an explicit unary recursion taking complex modulus pointwise and summing in \(\RealUp\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum}
+
+\begin{lemma}[Absolute partial-sum successor result is deterministic]
+\label{lem:complex-abs-part-sum-successor-result-deterministic}
+If an absolute partial-sum derivation reaches $M$ at unary index $n$, and the
+next modulus continuation sends $M$ and $\mathsf{modulus}(n)$ to $T$, then every
+closed derivation of the successor absolute partial sum at $\Eone(n)$ has result
+$\hsame$ to $T$.
+\end{lemma}
+\begin{proof}
+Induct on the previous absolute partial-sum derivation to obtain determinacy at
+each index. In the successor case, the other derivation has the same successor
+shape; the induction hypothesis identifies the previous modulus sums, and
+determinacy of $\mathsf{Cont}$ identifies the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_successor\_result\_deterministic}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}

@@ -170,6 +170,33 @@ through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_operation\_context\_endpoint\_package}
 
+\begin{theorem}[Field singleton add-neg-zero context continuation classifier]
+\label{thm:field-singleton-add-neg-zero-context-continuation-classifier}
+For histories $L,R,a,b,c,d,out,out':\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$,
+if
+$$
+\mathsf{Cont}
+  (\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+   \mathsf{append}(\mathsf{FieldSingletonNeg}(c),R),out)
+$$
+and
+$$
+\mathsf{Cont}
+  (\mathsf{append}(L,\mathsf{FieldSingletonZero}),
+   \mathsf{append}(\mathsf{FieldSingletonAdd}(c,d),R),out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+The three displayed singleton operations are definitionally $\emp$. The
+carrier witnesses for $L$ and $R$ therefore normalize each continuation
+endpoint pair to the empty-empty continuation. Continuation determinacy gives
+$out=\emp$ and $out'=\emp$, and the two resulting carrier witnesses classify
+the endpoints by transitivity through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddNegZero\_context\_continuation\_classifier}
+
 \begin{theorem}[RatUp FieldUp right-nested threefold contextual boundary]
 \label{thm:ratup-fieldup-right-nested-threefold-contextual-boundary}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
@@ -331,28 +358,20 @@ $$
 hold.
 \end{theorem}
 \begin{proof}
-Invoke
-\autoref{thm:ratup-fieldup-bracketing-independent-threefold-contextual-boundary}
-once with the same concrete denominator tuple, carried histories, endpoint
-definitions, and support witness. The contextual carrier row gives, in
-particular, rejection maps for
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$.
+Apply the checked FieldUp cross-endpoint classifier boundary to the same
+carried histories $h,k,\ell$. In the concrete denominator tuple its carrier
+predicate is $\mathsf{RatDenomUnitCarrier}$, its product is
+$\mathsf{append}$, and the support input is exactly the disjunction encoded by
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$.
 
-For the $x$--$y$ crossed classifier, unpack a witness of
-$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,x),\mathsf{append}(R,y))$.
-Its source and target carrier fields include
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,x))$ and
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,y))$. Applying the
-source-carrier rejection for $\mathsf{append}(L,x)$ gives $\bot$.
-
-For the $y$--$x$ crossed classifier, unpack a witness of
-$\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,y),\mathsf{append}(R,x))$.
-Its source and target carrier fields include
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,y))$ and
-$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(R,x))$. Applying the
-source-carrier rejection for $\mathsf{append}(L,y)$ gives $\bot$.
+The endpoint definitions identify $x$ with
+$\mathsf{append}(\mathsf{append}(h,k),\ell)$ and $y$ with
+$\mathsf{append}(h,\mathsf{append}(k,\ell))$ up to $\mathsf{hsame}$. For fixed
+$L,R:\mathsf{BHist}$, the checked boundary returns the conjunction of the two
+crossed singleton-classifier rejections, which are precisely the two displayed
+exclusions.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_bracketing\_independent\_cross\_endpoint\_classifier\_boundary}
 
 \begin{theorem}[RatUp FieldUp ten-field cross-endpoint exit certificate]
 \label{thm:ratup-fieldup-ten-field-cross-endpoint-exit-certificate}

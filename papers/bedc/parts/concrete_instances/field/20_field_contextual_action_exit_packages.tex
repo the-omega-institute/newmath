@@ -1,0 +1,494 @@
+\begin{theorem}[RatUp FieldUp contextual action composition support laws]
+\label{thm:field-rat-denominator-contextual-action-composition-support-laws}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$p,q,p',q',h,l,r,l',r':\mathsf{BHist}$. Suppose
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$, and suppose
+$C_D^u(h)$, $C_D^u(l)$, $C_D^u(r)$, $C_D^u(l')$, and $C_D^u(r')$. Then the
+nested contextual action is carried:
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))).
+$$
+It is denominator-classified by the single contextual action with collected
+append contexts:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mathsf{append}(l',l),\mathsf{append}(r,r')}(h)).
+$$
+Its strict support is exactly the five visible support sites:
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r').
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-composition} to the
+empty-endpoint nested actions. Its classifier and support clauses identify the
+two-layer action with the corresponding collected action once the inner and
+outer carried contexts are available.
+
+The carrier inputs are supplied by denominator-unit carrier closure under
+$\mathsf{append}$. First close $l$ with $h$ and then with $r$; transport the
+result along the two endpoint equalities $p\hsame\emp$ and $q\hsame\emp$ to get
+the carried inner action. Close $l'$ with that carried inner action and then
+with $r'$; transport along $p'\hsame\emp$ and $q'\hsame\emp$ to get the carried
+nested action.
+
+The same append-closure rows also carry
+$\mathsf{append}(l',l)$ and $\mathsf{append}(r,r')$, so the collected single
+action is a legitimate denominator action. Carrier transport along $\hsame$
+keeps the concrete action endpoints inside $C_D^u$ throughout the comparison.
+
+For strict support, apply bilateral support exactness first to the inner action:
+its support is read as $N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)$. Apply the same
+exactness theorem to the outer action and substitute the inner readback. The
+finite disjunction reassociates to
+$N_D^u(l')\lor N_D^u(l)\lor N_D^u(h)\lor N_D^u(r)\lor N_D^u(r')$, which is the
+displayed support law.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_contextual\_action\_composition\_support\_laws}
+
+\begin{theorem}[RatUp FieldUp contextual action pair full transport package]
+\label{thm:ratup-fieldup-contextual-action-pair-full-transport-package}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$p,q,p',q',h,l,r,s,t,l',r',s',t':\mathsf{BHist}$. Suppose
+$p\hsame\emp$, $q\hsame\emp$, $p'\hsame\emp$, and $q'\hsame\emp$; suppose
+$C_D^u(h)$; suppose that $(l,r)$, $(s,t)$, $(l',r')$, and $(s',t')$ are carried
+denominator context pairs; and suppose the four component classifiers
+$R_D^u(l,s)$, $R_D^u(r,t)$, $R_D^u(l',s')$, and $R_D^u(r',t')$. Then the two
+nested contextual actions are denominator-classified and have equivalent strict
+support:
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))
+\quad\land\quad
+\bigl(N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The carried-pair hypotheses and the four component classifiers assemble the two
+context-pair classifier rows
+$\mathsf{PairClass}_D^u((l,r),(s,t))$ and
+$\mathsf{PairClass}_D^u((l',r'),(s',t'))$.
+
+Apply
+\autoref{thm:rat-denom-unit-contextual-action-pair-classifier-transport} with
+these two pair classifiers and the empty endpoint hypotheses. This gives the
+first conjunct, namely denominator classification of the two transported
+two-layer contextual actions.
+
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-support}
+with the same carried pairs, pair classifiers, core carrier row, and empty
+endpoint hypotheses. This gives the second conjunct, namely equivalence of
+strict support for the same two nested actions.
+
+The two cited conclusions have identical source data, so conjunction
+introduction gives the displayed full transport package.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
+
+\begin{theorem}[RatUp FieldUp contextual action nested pair action coherence]
+\label{thm:rat-denom-unit-contextual-action-nested-pair-action-coherence}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2:\mathsf{BHist}$. Suppose
+$C_D^u(h)$, $C_D^u(l_0)$, $C_D^u(r_0)$, $C_D^u(l_1)$, $C_D^u(r_1)$,
+$C_D^u(l_2)$, and $C_D^u(r_2)$. Then the threefold empty-endpoint action is
+carried:
+$$
+C_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+It is denominator-classified by the single collected action:
+$$
+R_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))),
+\Gamma_{\emp,\emp,\mathsf{append}(l_2,\mathsf{append}(l_1,l_0)),\mathsf{append}(\mathsf{append}(r_0,r_1),r_2)}(h)).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to the inner two empty-endpoint actions. This carries the nested action through
+the first two denominator context pairs and classifies it against the collected
+pair $(\mathsf{append}(l_1,l_0),\mathsf{append}(r_0,r_1))$.
+
+Append closure for $C_D^u$ carries
+$\mathsf{append}(l_1,l_0)$ and $\mathsf{append}(r_0,r_1)$. Apply the same
+two-layer composition support law again, now with the outer pair $(l_2,r_2)$
+and the collected inner pair. This gives the carried target action and the
+classifier to
+$\Gamma_{\emp,\emp,\mathsf{append}(l_2,\mathsf{append}(l_1,l_0)),\mathsf{append}(\mathsf{append}(r_0,r_1),r_2)}(h)$.
+
+Finally, transport the outer action along the inner classifier and compose the
+two classifier rows by transitivity of $R_D^u$. The carried row from the second
+application gives the displayed carrier statement, and the composed classifier
+is exactly the displayed denominator-classification statement.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_nested\_pair\_action\_coherence}
+
+\begin{theorem}[RatUp FieldUp contextual action three-pair reverse-order coherence]
+\label{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2:\mathsf{BHist}$. Suppose
+$C_D^u(h)$, $C_D^u(l_0)$, $C_D^u(r_0)$, $C_D^u(l_1)$, $C_D^u(r_1)$,
+$C_D^u(l_2)$, and $C_D^u(r_2)$. Then the empty-endpoint contextual actions
+obtained by applying the three carried denominator context pairs in forward
+and reverse order are denominator-classified:
+$$
+R_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))),
+\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_2,r_2}(h)))).
+$$
+Their strict-support predicates are equivalent:
+$$
+N_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))))
+\Longleftrightarrow
+N_D^u(\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_2,r_2}(h)))).
+$$
+\end{theorem}
+\begin{proof}
+First move the carried pair $(l_0,r_0)$ past $(l_1,r_1)$ while the outer
+$(l_2,r_2)$ action is fixed. Apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes} to the
+inner empty-endpoint pair, and use
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to supply the carried intermediate action needed by the outer context.
+
+Next move $(l_2,r_2)$ past $(l_0,r_0)$ across the carried middle action. The
+same two-pair commutation theorem gives the classifier for the exposed pair
+swap, and the composition support laws keep the middle contextual action inside
+$C_D^u$. Classifier transitivity composes this row with the first one.
+
+Finally move $(l_1,r_1)$ past $(l_2,r_2)$ under the outer $(l_0,r_0)$ action.
+Another application of the empty-pair commutation theorem, followed by the same
+composition support laws, gives the third classifier row. Transitivity of
+$R_D^u$ along the three displayed classifier rows yields the reverse-order
+classifier.
+
+For strict support, apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes}
+along each of the three pair swaps just described. The composition support laws
+provide the carried intermediate actions at every stage, and support transport
+along the same classifier chain repacks the three local equivalences into the
+displayed strict-support equivalence.
+\end{proof}
+
+Per-object template: traditional target order-independent denominator context
+application inside $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, empty endpoints, and $\Gamma$; carrier/context choices
+$h,l_0,r_0,l_1,r_1,l_2,r_2$ with all seven histories in $C_D^u$; stability
+obligations classifier coherence and strict-support transport; ledger the three
+carried context pairs $(l_0,r_0)$, $(l_1,r_1)$, and $(l_2,r_2)$ and their
+application order; core theorem list
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes},
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes},
+and \autoref{thm:field-rat-denominator-contextual-action-composition-support-laws};
+exactness predicate the displayed classifier plus support iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp contextual action threefold pair support transport]
+\label{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2:\mathsf{BHist}$.
+Suppose $C_D^u(h)$ and suppose each of
+$l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2$ lies in $C_D^u$. Suppose
+also that the denominator context pairs are classified componentwise:
+$R_D^u(l_i,s_i)$ and $R_D^u(r_i,t_i)$ for $i=0,1,2$. Let
+$$
+H_l:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))
+$$
+and
+$$
+H_s:=
+\Gamma_{\emp,\emp,s_2,t_2}
+(\Gamma_{\emp,\emp,s_1,t_1}(\Gamma_{\emp,\emp,s_0,t_0}(h))).
+$$
+Then strict support is invariant under replacing the three classified context
+pairs:
+$$
+N_D^u(H_l)\Longleftrightarrow N_D^u(H_s).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-threefold-normalization}
+to $H_l$. Its strict-support row reads $N_D^u(H_l)$ as the seven-term
+disjunction with context supports
+$N_D^u(l_2)$, $N_D^u(l_1)$, $N_D^u(l_0)$, $N_D^u(r_0)$, $N_D^u(r_1)$, and
+$N_D^u(r_2)$ around the shared middle term $N_D^u(h)$.
+
+Apply the same threefold normalization theorem to $H_s$. The second readback
+has the same shape, with the corresponding $s_i$ and $t_i$ support terms
+around the same middle term.
+
+The three componentwise classified context pairs give three product-support
+transports. Use
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-transport}
+for the pairs $(l_0,r_0)$ and $(s_0,t_0)$, then for $(l_1,r_1)$ and
+$(s_1,t_1)$, and then for $(l_2,r_2)$ and $(s_2,t_2)$. Opening each product
+with
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support}
+identifies the six outer support alternatives on the two sides.
+
+For the forward direction, read $N_D^u(H_l)$ through the first seven-term
+formula. Transport the selected context-support alternative through the
+corresponding classified pair, keep the shared $N_D^u(h)$ alternative fixed,
+and close the result through the second seven-term formula.
+
+The reverse direction is symmetric. Read $N_D^u(H_s)$ through the second
+formula, transport the selected context-support alternative back through the
+same three classified pairs, keep the shared middle alternative fixed, and
+repack through the first seven-term formula.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp threefold pair transported noncollapse package]
+\label{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,s_0,t_0,s_1,t_1,s_2,t_2:\mathsf{BHist}$.
+Suppose $C_D^u(h)$, suppose each of $l_0,l_1,l_2,s_0,s_1,s_2$ lies in
+$C_D^u$, and suppose each of $r_0,r_1,r_2,t_0,t_1,t_2$ lies in $C_D^u$.
+Suppose also that $R_D^u(l_i,s_i)$ and $R_D^u(r_i,t_i)$ hold for
+$i=0,1,2$. Let
+$$
+H_l:=
+\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h)))
+$$
+and
+$$
+H_s:=
+\Gamma_{\emp,\emp,s_2,t_2}
+(\Gamma_{\emp,\emp,s_1,t_1}(\Gamma_{\emp,\emp,s_0,t_0}(h))).
+$$
+If $N_D^u(H_l)$ holds, then the transported endpoint $H_s$ carries the
+following noncollapse package:
+\begin{enumerate}
+  \item $N_D^u(H_s)$;
+  \item $\mathsf{RatHistoryCarrier}(H_s)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(H_s)\to\bot$;
+  \item $H_s\hsame\emp\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both contextual carrier exclusions
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))\to\bot$ and
+  $\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))\to\bot$;
+  \item for every $r:\mathsf{BHist}$, both inverse-domain witnesses
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(r,H_s))$ and
+  $\mathsf{fieldSingletonEmptyNonZero}(\mathsf{append}(H_s,r))$;
+  \item for all $L,R:\mathsf{BHist}$, the contextual singleton-classifier
+  exclusion
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+    (\mathsf{append}(L,H_s),\mathsf{append}(R,H_s))\to\bot.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-contextual-action-threefold-pair-support-transport}
+to the displayed context data. The forward direction sends the assumed
+$N_D^u(H_l)$ witness to $N_D^u(H_s)$.
+
+Read the denominator tuple row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(z)=\mathsf{RatHistoryCarrier}(z)$ for every denominator history
+$z$, so the transported support witness gives
+$\mathsf{RatHistoryCarrier}(H_s)$.
+
+The direct empty boundary follows from
+\autoref{thm:rat-history-carrier-not-empty}. Any comparison
+$H_s\hsame\emp$ contradicts the recovered Rat carrier witness. A direct witness
+of $\mathsf{fieldSingletonEmptyCarrier}(H_s)$ unfolds to that same empty
+comparison, so it is rejected by the same boundary.
+
+Fix an arbitrary context history $r:\mathsf{BHist}$. Apply
+\autoref{thm:field-singleton-empty-append-rat-carrier-absurd} with context $r$
+and Rat carrier endpoint $H_s$ to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))$. Apply
+\autoref{thm:field-singleton-empty-append-left-rat-carrier-absurd} with the
+same two histories in the opposite append order to reject
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))$.
+
+Unfold $\mathsf{fieldSingletonEmptyNonZero}$ for the right-append endpoint as
+rejection of the singleton classifier against $\emp$. Any such classifier
+witness contains the source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(r,H_s))$, contradicting
+the right-append rejection. The left-append inverse-domain witness is identical,
+using the source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(H_s,r))$.
+
+Finally package $\mathsf{RatHistoryClassifier}(H_s,H_s)$ from the recovered Rat
+carrier witness on both sides and reflexivity of $\hsame$. For arbitrary
+$L,R:\mathsf{BHist}$, apply
+\autoref{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}.
+It rejects the displayed singleton classifier on the two contextual copies of
+$H_s$.
+\end{proof}
+
+Per-object template: traditional target transported threefold denominator
+noncollapse for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\Gamma$,
+$C_D^u$, $R_D^u$, and $N_D^u$; carrier transported endpoint $H_s$; classifier
+$R_D^u$ plus $\hsame$ boundary rows; ledger the three classified context pairs
+$(l_0,r_0)\mapsto(s_0,t_0)$, $(l_1,r_1)\mapsto(s_1,t_1)$, and
+$(l_2,r_2)\mapsto(s_2,t_2)$; core theorem
+\autoref{thm:ratup-fieldup-threefold-pair-transported-noncollapse-package};
+exactness predicate endpoint strict support, Rat carrier readback,
+singleton-empty exclusion, contextual append exclusions, inverse-domain
+witnesses, and contextual singleton-classifier obstruction; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+\input{parts/concrete_instances/field/20_field_four_context_pair_adjacent_swap_closure}
+\input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
+\input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
+
+\begin{theorem}[RatUp FieldUp canonical phase-exit proof target]
+\label{thm:ratup-fieldup-canonical-machine-checkable-exit}
+For $\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+phase-exit target is the single $\mathsf{BHist}$-anchored certificate whose
+carrier is $\mathsf{RatHistoryCarrier}$, whose classifier is
+$\mathsf{RatHistoryClassifier}$, whose denominator tuple is
+$(\mathsf{RatDenomUnitCarrier},\mathsf{RatDenomUnitClassifier},
+\mathsf{append},\emp,\mathsf{RatHistoryCarrier})$, and whose contextual action
+is $\Gamma$.
+
+Its operation rows are exactly the rows covered by
+\autoref{thm:ratup-fieldup-concrete-schema-instance},
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion},
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}, and
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}. Therefore the
+canonical phase-exit proof target is not a schematic algebra interface, but the
+concrete certificate object carried by the displayed RatUp history source.
+\end{theorem}
+\begin{proof}
+Unpack the concrete source tuple $\mathsf{RatUpFieldSource}_F$ and
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. The carrier,
+classifier, denominator tuple, and contextual action are the displayed
+$\mathsf{BHist}$ rows, so the target has one concrete source anchor.
+
+Apply \autoref{thm:ratup-fieldup-concrete-schema-instance} to identify the
+source, carrier, classifier, denominator, contextual-action, context-pair, and
+affine coordinates. Apply
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} to cover the
+operation rows, including denominator histories, context pairs, affine
+witnesses, inverse and nonzero witnesses, product exactness, and selector
+endpoint rows.
+
+Apply \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness} to package
+those rows as the Phase Algebra Hierarchy paper-certificate object. Finally
+apply \autoref{thm:ratup-fieldup-concrete-exit-object-complete} to identify this
+package with Definition~\ref{def:ratup-fieldup-concrete-exit-object}. The formal
+target therefore belongs naturally to the namespace
+\texttt{BEDC.Derived.FieldUp}.
+\end{proof}
+
+Per-object template: traditional target constructive
+$\FieldUp(\RatUp)$ phase exit; BEDC source $\mathsf{BHist}$ with $\RatUp$,
+$\CommRingUp$, denominator, contextual-action, context-pair, and affine rows;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability and exactness rows from
+\autoref{thm:ratup-fieldup-concrete-schema-instance},
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion},
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}, and
+\autoref{thm:singleton-empty-history-commring-schema-certificate}, and
+\autoref{thm:ratup-fieldup-concrete-exit-object-complete}; ledger
+$\CommRingUp$ base coordinate, denominator histories, context pairs, affine
+witnesses, inverse/nonzero witnesses, and selector endpoint rows; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit singleton context boundary]
+\label{thm:ratup-fieldup-canonical-exit-singleton-context-boundary}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the source tuple
+$\mathsf{RatUpFieldSource}_F$, and histories $L,R,h,k:\mathsf{BHist}$ with
+$\mathsf{FieldSingletonCarrier}(L)$ and $\mathsf{FieldSingletonCarrier}(R)$, the
+same canonical $\FieldUp(\RatUp)$ exit certificate includes the following
+singleton-context boundary rows over $\mathsf{BHist}$.
+
+\begin{enumerate}
+\item The contextual carrier has the semantic certificate
+$$
+\mathsf{SemanticNameCert}
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h\mapsto
+  \mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))\bigr)
+\bigl(h,k\mapsto
+  \mathsf{FieldSingletonClassifier}
+    (\mathsf{append}(L,\mathsf{append}(h,R)),
+     \mathsf{append}(L,\mathsf{append}(k,R)))\bigr).
+$$
+
+\item The contextual carrier is exact:
+$$
+\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(h).
+$$
+
+\item The contextual classifier is exact:
+$$
+\mathsf{FieldSingletonClassifier}
+  (\mathsf{append}(L,\mathsf{append}(h,R)),
+   \mathsf{append}(L,\mathsf{append}(k,R)))
+\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(h,k).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-canonical-machine-checkable-exit} to fix
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} as the concrete
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit object over
+$\mathsf{RatUpFieldSource}_F$. This identifies the singleton-context boundary as
+a row of the same canonical certificate, not as a separate schematic parameter.
+
+For the semantic certificate row, apply
+\autoref{thm:field-singleton-carrier-two-sided-context-semantic-namecert} to the
+two carrier witnesses for $L$ and $R$. Its displayed source, pattern, ledger, and
+classifier are exactly the contextual
+$\mathsf{FieldSingletonCarrier}$ and $\mathsf{FieldSingletonClassifier}$ rows
+shown above.
+
+For the two exactness rows, apply
+\autoref{thm:field-singleton-two-sided-context-exactness} to the same witnesses
+and the histories $h$ and $k$. The carrier projection gives the displayed
+equivalence for $h$, and the classifier projection gives the displayed
+equivalence for the pair $(h,k)$.
+
+Thus the canonical exit consumes concrete $\mathsf{BHist}$, $\mathsf{append}$,
+$\mathsf{FieldSingletonCarrier}$, and $\mathsf{FieldSingletonClassifier}$ rows
+from the FieldUp singleton boundary, rather than abstract operator fields.
+\end{proof}
+
+Per-object template: traditional target singleton-context boundary inside
+$\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$ with
+$\mathsf{RatUpFieldSource}_F$, $\mathsf{append}$,
+$\mathsf{FieldSingletonCarrier}$, and $\mathsf{FieldSingletonClassifier}$;
+carrier
+$h\mapsto\mathsf{FieldSingletonCarrier}(\mathsf{append}(L,\mathsf{append}(h,R)))$;
+classifier
+$(h,k)\mapsto\mathsf{FieldSingletonClassifier}
+(\mathsf{append}(L,\mathsf{append}(h,R)),
+\mathsf{append}(L,\mathsf{append}(k,R)))$; stability obligations contextual
+semantic certificate plus exact carrier and classifier cancellation; ledger
+singleton context wrappers; core theorem list
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit},
+\autoref{thm:field-singleton-carrier-two-sided-context-semantic-namecert}, and
+\autoref{thm:field-singleton-two-sided-context-exactness}; exactness predicate
+the displayed carrier and classifier equivalences; standard bridge deferred;
+status $\mathsf{ProofTarget}$.

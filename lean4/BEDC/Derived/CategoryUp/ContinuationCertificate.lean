@@ -118,6 +118,15 @@ theorem ContinuationMorphism_tail_cont_witness_iff {a b t : BHist} :
   · intro rel
     exact Exists.intro { tail := t, rel := rel } (hsame_refl t)
 
+theorem ContinuationMorphism_tail_hsame_iff {a b t : BHist}
+    (m : ContinuationMorphism a b) :
+    hsame m.tail t <-> Cont a t b := by
+  constructor
+  · intro sameTail
+    exact cont_hsame_transport (hsame_refl a) sameTail (hsame_refl b) m.rel
+  · intro rel
+    exact cont_left_cancel m.rel rel
+
 theorem CategoryHomCarrier_continuation_morphism_tail_iff {a b f : BHist} :
     CategoryHomCarrier a b f <->
       UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧
@@ -172,5 +181,16 @@ theorem ContinuationMorphism_comp_tail_semanticNameCert {a b c : BHist}
     exact source
   · intro h source
     exact source
+
+theorem ContinuationMorphism_comp_tail_unary_closed {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    UnaryHistory left.tail -> UnaryHistory right.tail ->
+      UnaryHistory (ContinuationMorphism_comp_closed left right).tail := by
+  intro leftCarrier rightCarrier
+  cases left with
+  | mk leftTail _leftRel =>
+      cases right with
+      | mk rightTail _rightRel =>
+          exact unary_append_closed leftCarrier rightCarrier
 
 end BEDC.Derived.CategoryUp

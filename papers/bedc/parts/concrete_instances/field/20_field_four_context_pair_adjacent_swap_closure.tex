@@ -1,0 +1,64 @@
+\begin{theorem}[RatUp FieldUp four context-pair adjacent-swap closure]
+\label{thm:ratup-fieldup-four-context-pair-adjacent-swap-closure}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2,l_3,r_3:\mathsf{BHist}$. Suppose $C_D^u(h)$ and
+suppose that $(l_0,r_0)$, $(l_1,r_1)$, $(l_2,r_2)$, and $(l_3,r_3)$ are
+carried denominator context pairs. Let
+$$
+H_{0123}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Let
+$$
+H_{0213}:=
+\Gamma_{\emp,\emp,l_3,r_3}
+(\Gamma_{\emp,\emp,l_1,r_1}
+(\Gamma_{\emp,\emp,l_2,r_2}
+(\Gamma_{\emp,\emp,l_0,r_0}(h)))).
+$$
+Then the middle-swap histories are denominator-classified:
+$$
+R_D^u(H_{0123},H_{0213}).
+$$
+Their strict-support readbacks agree:
+$$
+N_D^u(H_{0123})
+\Longleftrightarrow
+N_D^u(H_{0213}).
+$$
+\end{theorem}
+\begin{proof}
+First carry the action of $(l_0,r_0)$ on $h$. Apply
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+with empty endpoints and the carried pair data to keep
+$\Gamma_{\emp,\emp,l_0,r_0}(h)$ inside $C_D^u$.
+
+Next apply
+\autoref{thm:ratup-fieldup-context-pair-adjacent-swap-exit-row} over that
+carried base, using $(l_1,r_1)$ and $(l_2,r_2)$ as the adjacent pair to be
+exchanged and $(l_3,r_3)$ as the common outer pair. This gives the displayed
+classifier between $H_{0123}$ and $H_{0213}$.
+
+The contextual action pair transport rows carry the same classifier through the
+common outer context and preserve the strict-support predicate on transported
+denominator histories. Applying the support part of the adjacent-swap row, then
+reading it through the common outer transport, gives the displayed support
+equivalence.
+\end{proof}
+
+Per-object template: traditional target four-context denominator action
+coherence for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $C_D^u$,
+$R_D^u$, $\mu_D^u$, $\emp$, and $\Gamma$; carrier carried context pairs;
+classifier $R_D^u$; stability obligations carrier closure plus adjacent-swap
+transport; ledger the four carried pairs and acted denominator history; core
+theorem list
+\autoref{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence},
+\autoref{thm:ratup-fieldup-context-pair-adjacent-swap-exit-row}, and
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws};
+exactness predicate the displayed classifier and support iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.

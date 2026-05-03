@@ -41,4 +41,17 @@ theorem MetricDistanceWitness_nonempty_distance_endpoint_nonempty {x y d : BHist
   | e1 x1 =>
       exact Or.inl (fun sameX => not_hsame_e1_empty sameX)
 
+theorem MetricDistanceWitness_e0_component_absurd {x y d : BHist} :
+    (MetricDistanceWitness (BHist.e0 x) y d -> False) ∧
+      (MetricDistanceWitness x (BHist.e0 y) d -> False) ∧
+        (MetricDistanceWitness x y (BHist.e0 d) -> False) := by
+  constructor
+  · intro witness
+    exact unary_no_zero_extension witness.left
+  · constructor
+    · intro witness
+      exact unary_no_zero_extension witness.right.left
+    · intro witness
+      exact unary_no_zero_extension witness.right.right.left
+
 end BEDC.Derived.MetricUp

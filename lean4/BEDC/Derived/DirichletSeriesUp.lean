@@ -1,0 +1,61 @@
+import BEDC.Derived.ComplexSeriesUp
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.DirichletSeriesUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
+    BHist -> BHist -> Prop where
+  | zero : DirichletPartSum term s BHist.Empty BHist.Empty
+  | step {n S T : BHist} :
+      DirichletPartSum term s n S -> Cont S (term n s) T ->
+        DirichletPartSum term s (BHist.e1 n) T
+
+theorem DirichletPartSum_successor_result_deterministic
+    {term : BHist -> BHist -> BHist} {s n S T U : BHist} :
+    DirichletPartSum term s n S -> Cont S (term n s) T ->
+      DirichletPartSum term s (BHist.e1 n) U -> hsame T U := by
+  have deterministic :
+      forall {n S T : BHist},
+        DirichletPartSum term s n S -> DirichletPartSum term s n T -> hsame S T := by
+    intro n S T left
+    induction left generalizing T with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact hsame_refl BHist.Empty
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial (hsame_refl (term _ s)) leftStep rightStep
+  intro previous step final
+  cases final with
+  | step finalPrevious finalStep =>
+      have samePrevious := deterministic previous finalPrevious
+      exact cont_respects_hsame samePrevious (hsame_refl (term n s)) step finalStep
+
+theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
+    UnaryHistory n ->
+      UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by
+  intro unaryN
+  constructor
+  · exact unary_e1_closed unaryN
+  · intro sameTail
+    exact not_hsame_e1_empty sameTail
+
+theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
+    UnaryHistory n -> (hsame n BHist.Empty -> False) -> UnaryHistory tail ->
+      UnaryHistory (append n tail) ∧ (hsame (append n tail) BHist.Empty -> False) := by
+  intro unaryN nNonempty unaryTail
+  constructor
+  · exact unary_append_closed unaryN unaryTail
+  · intro appendEmpty
+    exact nNonempty (append_eq_empty_iff.mp appendEmpty).left
+
+end BEDC.Derived.DirichletSeriesUp

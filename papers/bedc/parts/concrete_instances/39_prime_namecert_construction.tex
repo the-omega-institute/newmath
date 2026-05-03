@@ -27,6 +27,18 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{lemma}[Unary multiplication right operand is unary]
+\label{lem:nat-mul-right-unary}
+Every closed witness of $\mathsf{NatMul}(d,q,n)$ carries a unary multiplier
+$q$.
+\end{lemma}
+\begin{proof}
+Induct on the $\mathsf{NatMul}$ witness. The zero constructor has multiplier
+$\emp$, and the successor constructor applies $\Eone$ to the previous unary
+multiplier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_right\_unary}
+
 \begin{lemma}[Unary multiplication is functional]
 \label{lem:nat-mul-functional}
 For each pair of unary histories \((d, q)\), there is at most one unary \(n\) with \(\mathsf{NatMul}(d, q, n)\), up to \(\hsame\).
@@ -143,6 +155,7 @@ A unary history \(p\) is prime, written \(\mathsf{NatPrime}(p)\), when:
 \begin{proof}
 For \(p = 2\), the only divisors are the unit and \(p\) itself by \autoref{def:nat-divides} and the case analysis on the quotient \(q\). The same case analysis applies to \(p = 3\), with the additional sub-case ruling out \(q = 2\) by the failure of \(\mathsf{NatMul}(2, 2, 3)\).
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_first\_pair}
 
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}
@@ -206,6 +219,29 @@ The unary factorial \(\mathsf{NatFact}(n, n!)\) is the closed inductive predicat
 \end{enumerate}
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatFact}
+
+\begin{lemma}[Unary factorial results are nonempty]
+\label{lem:nat-fact-result-not-empty}
+Every closed witness of $\mathsf{NatFact}(n,m)$ has a result $m$ distinct
+from $\emp$ up to $\hsame$.
+\end{lemma}
+\begin{proof}
+Induct on the $\mathsf{NatFact}$ witness. The zero case is the singleton
+$\Eone(\emp)$, which cannot classify as empty. In the successor case, an empty
+product result would force the previous factorial result to be empty by the
+nonempty-multiplicand empty-result inversion for $\mathsf{NatMul}$, contradicting
+the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_not\_empty}
+
+\begin{lemma}[Factorial results are unary]
+\label{lem:natfact-result-unary}
+If \(\mathsf{NatFact}(n,m)\), then \(m\) is a unary history.
+\end{lemma}
+\begin{proof}
+Induct on the factorial witness. The base constructor yields \(\Eone(\emp)\), which is unary. The successor constructor carries a multiplication witness, whose left factor is unary by multiplicand readback and whose result is unary by multiplication result closure.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_unary}
 
 \begin{lemma}[Factorial is total and functional on unary histories]
 \label{lem:fact-total}

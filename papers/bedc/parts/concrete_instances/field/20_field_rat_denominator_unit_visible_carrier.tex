@@ -53,6 +53,37 @@ absurdity theorem above.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_e0\_absurd}
 
+\begin{theorem}[Rat denominator unit carrier append one-headed result cases]
+\label{thm:rat-denom-unit-carrier-append-e1-result-cases}
+For histories \(h,k,tail:\mathsf{BHist}\), if \(h\) and \(k\) are carried by
+the empty-unit denominator carrier and their append is one-headed, then either
+the right factor is empty and the left factor accounts for the one-headed
+result, or the right factor itself is one-headed with a unary exposed tail:
+$$
+\begin{aligned}
+&\mathsf{RatDenomUnitCarrier}(h)\to
+\mathsf{RatDenomUnitCarrier}(k)\to
+\mathsf{append}(h,k)\hsame\Eone(tail)\\
+&\quad\to
+\left(k\hsame\emp\land
+  \mathsf{RatDenomUnitCarrier}(\Eone(tail))\land h\hsame\Eone(tail)\right)\\
+&\qquad{}\lor
+\exists k_0:\mathsf{BHist}.\;
+  k=\Eone(k_0)\land\mathsf{UnaryHistory}(k_0)\land
+  \mathsf{RatDenomUnitCarrier}(tail)\land\Cont(h,k_0,tail).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Read the append comparison as a continuation into a one-headed result and
+apply the continuation one-headed-result inversion. The empty-right branch
+closes the displayed one-headed carrier by denominator-unit continuation
+closure. In the headed-right branch, the carrier on \(k=\Eone(k_0)\) gives a
+unary witness for \(k_0\); visible carrier cases make \(k_0\) carried, and
+continuation closure then carries the exposed tail.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitCarrier\_append\_e1\_result\_cases}
+
 \begin{theorem}[Rat denominator unit carrier one-headed unary iff]
 \label{thm:field-rat-denom-unit-carrier-one-headed-unary-iff}
 For every tail $t:\mathsf{BHist}$, the empty-unit denominator carrier sees a

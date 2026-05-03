@@ -120,6 +120,31 @@ theorem fieldSingletonEmptyNonZero_semanticNameCert :
       exact source
   }
 
+theorem fieldSingletonEmptyNonZero_append_context_semanticNameCert {L R : BHist} :
+    SemanticNameCert (fun h : BHist => fieldSingletonEmptyNonZero (append L (append h R)))
+      (fun h : BHist => fieldSingletonEmptyNonZero (append L (append h R)))
+      (fun h : BHist => fieldSingletonEmptyNonZero (append L (append h R))) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro (BHist.e0 BHist.Empty) (by
+        intro classified
+        have outerSplit := append_eq_empty_iff.mp classified.left
+        have innerSplit := append_eq_empty_iff.mp outerSplit.right
+        exact not_hsame_e0_empty innerSplit.left)
+    · intro h _source
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same sourceH
+      cases same
+      exact sourceH
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem field_singleton_empty_schema_laws :
     (fieldSingletonEmptyCarrier BHist.Empty) ∧
       (fieldSingletonEmptyNonZero BHist.Empty -> False) ∧
