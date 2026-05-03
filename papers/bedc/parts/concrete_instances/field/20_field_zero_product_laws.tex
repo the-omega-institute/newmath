@@ -294,6 +294,24 @@ left component contradicts apart-zero of $p$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_right\_empty\_iff}
 
+\begin{theorem}[Field apart-zero append visible-headed]
+\label{thm:field-apartzero-append-visible-headed}
+For histories $p,q:\mathsf{BHist}$, appending any suffix to a visible-headed
+history is apart from zero:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(\Ezero(p),q))
+\land
+\mathsf{ApartZero}_F(\mathsf{append}(\Eone(p),q)).
+$$
+\end{theorem}
+\begin{proof}
+An empty equality for either appended history splits by empty-append
+exactness. The left component would identify $\Ezero(p)$, respectively
+$\Eone(p)$, with $\emp$. BEDC constructor separation rules out both
+identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_visible\_headed}
+
 \begin{theorem}[Field apart-zero empty-context exactness]
 \label{thm:field-apartzero-empty-context-iff}
 For histories $l,h,r:\mathsf{BHist}$ with $l\hsame\emp$ and $r\hsame\emp$,

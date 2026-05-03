@@ -123,6 +123,47 @@ theorem ContinuationMorphism_comp_e1_tail_right_cases {a b c k : BHist}
               exact Exists.intro rightTail
                 (And.intro (hsame_refl (BHist.e1 rightTail)) (cont_intro sameComposite.symm))
 
+theorem ContinuationMorphism_comp_e0_tail_left_cases {a b c k : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (sameComposite : hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e0 k))
+    (leftCarrier : UnaryHistory left.tail) :
+    (hsame left.tail BHist.Empty ∧ hsame right.tail (BHist.e0 k)) ∨
+      (∃ l : BHist, hsame left.tail (BHist.e1 l) ∧
+        Cont (BHist.e1 l) right.tail (BHist.e0 k)) := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases leftTail with
+          | Empty =>
+              left
+              exact And.intro (hsame_refl BHist.Empty)
+                ((append_empty_left rightTail).symm.trans sameComposite)
+          | e0 leftTail =>
+              exact False.elim (unary_no_zero_extension leftCarrier)
+          | e1 leftTail =>
+              right
+              exact Exists.intro leftTail
+                (And.intro (hsame_refl (BHist.e1 leftTail)) (cont_intro sameComposite.symm))
+
+theorem ContinuationMorphism_comp_e0_tail_right_cases {a b c k : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
+    (sameComposite : hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e0 k))
+    (rightCarrier : UnaryHistory right.tail) :
+    hsame right.tail BHist.Empty ∧ hsame left.tail (BHist.e0 k) := by
+  cases left with
+  | mk leftTail leftRel =>
+      cases right with
+      | mk rightTail rightRel =>
+          cases rightTail with
+          | Empty =>
+              exact And.intro (hsame_refl BHist.Empty)
+                ((append_empty_right leftTail).symm.trans sameComposite)
+          | e0 rightTail =>
+              exact False.elim (unary_no_zero_extension rightCarrier)
+          | e1 rightTail =>
+              exact False.elim (not_hsame_e1_e0 sameComposite)
+
 theorem ContinuationMorphism_comp_nonempty_e1_tail_factors {a b c k : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c)
     (sameComposite : hsame (ContinuationMorphism_comp_closed left right).tail (BHist.e1 k))

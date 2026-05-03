@@ -285,6 +285,43 @@ the exposed right tail to $\Eone(k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e1\_tail\_right\_cases}
 
+\begin{theorem}[Continuation morphism composite zero-headed tail left cases]
+\label{thm:continuation-morphism-comp-e0-tail-left-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Ezero(k)$ and the left displayed tail is unary, then either the
+left displayed tail is empty and the right displayed tail is classified by
+$\Ezero(k)$, or the left displayed tail is one-headed and forms a continuation
+witness with the right displayed tail to $\Ezero(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the left tail. The
+empty case reduces the composite tail by left-unit append. The zero-headed
+case contradicts unary classification of the left tail. In the one-headed
+case, the displayed composite equality is exactly the continuation witness
+from the exposed left tail and the right tail to $\Ezero(k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e0\_tail\_left\_cases}
+
+\begin{theorem}[Continuation morphism composite zero-headed tail right cases]
+\label{thm:continuation-morphism-comp-e0-tail-right-cases}
+For histories $a,b,c,k$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the composite displayed tail is
+classified by $\Ezero(k)$ and the right displayed tail is unary, then the right
+displayed tail is empty and the left displayed tail is classified by
+$\Ezero(k)$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and inspect the right tail. The
+empty case reduces the composite tail by right-unit append. The zero-headed
+case contradicts unary classification of the right tail. The one-headed case
+would classify a one-headed composite tail as zero-headed, contradicting BEDC
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_e0\_tail\_right\_cases}
+
 \begin{theorem}[Continuation morphism nonempty one-headed composite factors]
 \label{thm:continuation-morphism-comp-nonempty-e1-tail-factors}
 For histories $a,b,c,k$, let

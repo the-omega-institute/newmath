@@ -95,6 +95,15 @@ theorem FieldApartZero_append_right_empty_iff {p q : BHist}
   · intro pApart appendEmpty
     exact pApart (append_eq_empty_iff.mp appendEmpty).left
 
+theorem FieldApartZero_append_visible_headed {p q : BHist} :
+    FieldApartZero (append (BHist.e0 p) q) ∧
+      FieldApartZero (append (BHist.e1 p) q) := by
+  constructor
+  · intro appendEmpty
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp appendEmpty).left
+  · intro appendEmpty
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp appendEmpty).left
+
 theorem FieldApartZero_empty_context_iff {l h r : BHist} :
     hsame l BHist.Empty -> hsame r BHist.Empty ->
       (FieldApartZero (append l (append h r)) <-> FieldApartZero h) := by
