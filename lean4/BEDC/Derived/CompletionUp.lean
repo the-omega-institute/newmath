@@ -84,4 +84,25 @@ theorem CompletionMetricDistanceWitness_visible_context_e1_symmetric_tail_real_p
   exact CompletionMetricDistanceWitness_e1_symmetric_tail_real_prefix_readback
     hPrefix centralD.right.right centralE.right.right
 
+theorem CompletionMetricDistanceWitness_visible_context_e1_tail_deterministic
+    {x y : Nat -> BHist} {n : Nat} {p q d e : BHist} :
+    RealStreamPrefixClassifier x y n ->
+      MetricDistanceWitness (append p (x n)) (append (y n) q)
+        (append (append p (BHist.e1 d)) q) ->
+      MetricDistanceWitness (append p (x n)) (append (y n) q)
+        (append (append p (BHist.e1 e)) q) ->
+        UnaryHistory d ∧ UnaryHistory e ∧ hsame d e ∧ RatHistoryClassifier (x n) (y n) := by
+  intro hPrefix hDistanceD hDistanceE
+  have dData :=
+    CompletionMetricDistanceWitness_visible_context_e1_tail_real_prefix_readback
+      hPrefix hDistanceD
+  have eData :=
+    CompletionMetricDistanceWitness_visible_context_e1_tail_real_prefix_readback
+      hPrefix hDistanceE
+  have sameVisibleTail : hsame (BHist.e1 d) (BHist.e1 e) :=
+    MetricDistanceWitness_visible_context_result_deterministic hDistanceD hDistanceE
+  exact And.intro dData.left
+    (And.intro eData.left
+      (And.intro (hsame_e1_iff.mp sameVisibleTail) dData.right))
+
 end BEDC.Derived.CompletionUp

@@ -298,6 +298,40 @@ Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
 The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
 \end{proof}
 
+\begin{theorem}[Ring additive difference zero exactness]
+\label{thm:ring-additive-difference-zero-exact}
+For BEDC history addition satisfying additive associativity, commutativity,
+left zero, left inverse, and addition congruence, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+x+(-y)\hsame0 \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive difference exactness; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus the $\GroupUp$ cancellation spine
+already cited by \autoref{thm:ring-additive-two-sided-cancellation}; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the hidden signed summand; core theorem this
+theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
+exactness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. These give the removable zero and
+inverse pairs used on both sides of the equivalence.
+
+For the forward implication, add $y$ to the right of the comparison
+$x+(-y)\hsame0$. Associativity rewrites $(x+(-y))+y$ as $x+((-y)+y)$,
+commutativity and the right-inverse law collapse $(-y)+y$ to $0$, and the
+right-zero law removes that terminal zero. The right endpoint $0+y$ reduces to
+$y$ by the left-zero law, leaving $x\hsame y$.
+
+For the reverse implication, transport $x\hsame y$ through addition congruence
+against the common summand $-y$. The right side becomes $y+(-y)$, which
+Theorem~\ref{thm:ring-add-right-inverse} collapses to $0$, yielding
+$x+(-y)\hsame0$ by transitivity.
+\end{proof}
+
 \begin{theorem}[Ring multiplication zero absorption]
 \label{thm:ring-mul-zero-absorption}
 For BEDC history operations satisfying additive associativity, left zero,
