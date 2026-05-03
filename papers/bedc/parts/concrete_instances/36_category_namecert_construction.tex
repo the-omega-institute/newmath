@@ -1,6 +1,24 @@
 \input{parts/concrete_instances/category/carrier_and_hom_laws}
 \input{parts/concrete_instances/category/certificate_and_visible_cases}
 
+\begin{theorem}[Continuation morphism fixed tail iff]
+\label{thm:continuation-morphism-tail-hsame-iff}
+For histories $a,b,t:\mathsf{BHist}$ and a fixed continuation morphism
+$m:\mathsf{ContinuationMorphism}(a,b)$,
+$$
+\hsame(\mathsf{tail}(m),t)\Longleftrightarrow \ContR(a,t,b).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the relation field
+$\ContR(a,\mathsf{tail}(m),b)$ along the displayed tail comparison, with
+source and target held fixed. Conversely, if $t$ is a continuation tail from
+$a$ to $b$, then the relation field of $m$ and this new continuation share
+the same source and target, so continuation left cancellation identifies
+$\mathsf{tail}(m)$ with $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_hsame\_iff}
+
 \begin{theorem}[Category hom carrier and continuation morphism tail correspondence]
 \label{thm:category-hom-carrier-continuation-morphism-tail-correspondence}
 For histories $a,b,f:\mathsf{BHist}$, the concrete hom-carrier witness is

@@ -118,6 +118,15 @@ theorem ContinuationMorphism_tail_cont_witness_iff {a b t : BHist} :
   · intro rel
     exact Exists.intro { tail := t, rel := rel } (hsame_refl t)
 
+theorem ContinuationMorphism_tail_hsame_iff {a b t : BHist}
+    (m : ContinuationMorphism a b) :
+    hsame m.tail t <-> Cont a t b := by
+  constructor
+  · intro sameTail
+    exact cont_hsame_transport (hsame_refl a) sameTail (hsame_refl b) m.rel
+  · intro rel
+    exact cont_left_cancel m.rel rel
+
 theorem CategoryHomCarrier_continuation_morphism_tail_iff {a b f : BHist} :
     CategoryHomCarrier a b f <->
       UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧

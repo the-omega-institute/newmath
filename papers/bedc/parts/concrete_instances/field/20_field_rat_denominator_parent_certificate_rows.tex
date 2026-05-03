@@ -62,6 +62,31 @@ endpoint and conversely.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_context\_iff}
 
+\begin{theorem}[Rat denominator envelope empty-context history-sameness exactness]
+\label{thm:field-rat-denominator-unit-envelope-empty-context-hsame-iff}
+For histories $h,k:\mathsf{BHist}$, if $C_D^\ast(h)$ and $C_D^\ast(k)$,
+then the mixed empty endpoint contexts classify exactly the underlying
+history-sameness:
+$$
+R_D^\ast(\mathsf{append}(\emp,h),\mathsf{append}(k,\emp))
+\Longleftrightarrow h\hsame k.
+$$
+\end{theorem}
+\begin{proof}
+Split the two carrier hypotheses into the genuine Rat denominator branch and
+the empty endpoint branch. In the carried branch, the displayed classifier is
+transported across the left and right append-unit laws, then read back as the
+Rat denominator classifier comparison. In the empty branch, append endpoint
+readback identifies the relevant endpoint with $\emp$; mixed carried-empty
+branches contradict the strict nonempty Rat denominator carrier, while the
+double-empty branch composes the two empty endpoint equalities into
+$h\hsame k$. The reverse implication uses the same branch split: carried
+endpoints repack the Rat denominator classifier after append-unit transport,
+and empty endpoint branches either produce the empty classifier row or are
+ruled out by nonempty Rat denominator support.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldRatDenominatorUnitEnvelopeClassifier\_empty\_context\_hsame\_iff}
+
 \begin{theorem}[Rat denominator FieldUp multiplicative exactness boundary]
 \label{thm:field-rat-denominator-fieldup-multiplicative-exactness-boundary}
 The concrete instance

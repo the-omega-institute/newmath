@@ -150,6 +150,24 @@ triangle discussion.
 \end{definition}
 \leandef{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound}
 
+\begin{lemma}[Complex distance nonempty endpoint cases]
+\label{thm:cplx-dist-nonempty-distance-endpoint-cases}
+For complex histories $z,w$ and distance endpoint $d$, if
+$\mathsf{CplxDist}(z,w,d)$ holds and $d$ is not history-same to $\emp$, then
+at least one endpoint is not history-same to $\emp$:
+$$
+\neg(d\hsame\emp)\Longrightarrow \neg(z\hsame\emp)\vee\neg(w\hsame\emp).
+$$
+\end{lemma}
+\begin{proof}
+Unfold the concrete distance predicate to its two continuation branches. In
+the branch $\ContR(z,w,d)$, nonemptiness of $d$ is exactly nonemptiness of the
+append result, so append-empty inversion gives a nonempty source or a nonempty
+right endpoint. In the symmetric branch $\ContR(w,z,d)$, the same append
+nonempty readback is applied and the two alternatives are swapped.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_nonempty\_distance\_endpoint\_cases}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.

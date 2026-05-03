@@ -167,5 +167,21 @@ theorem ComplexDistance_empty_source_iff {w d : BHist} :
     exact And.intro unary_empty
       (And.intro data.left
         (And.intro dCarrier (Or.inl (Iff.mpr cont_left_unit_iff data.right))))
+theorem ComplexDistance_nonempty_distance_endpoint_cases {z w d : BHist} :
+    ComplexDistance z w d -> (hsame d BHist.Empty -> False) ->
+      (hsame z BHist.Empty -> False) \/ (hsame w BHist.Empty -> False) := by
+  intro distance distanceNonempty
+  cases distance.right.right.right with
+  | inl zw =>
+      exact Iff.mp append_nonempty_iff (fun appendEmpty => distanceNonempty (zw.trans appendEmpty))
+  | inr wz =>
+      have endpointCases :
+          (hsame w BHist.Empty -> False) \/ (hsame z BHist.Empty -> False) :=
+        Iff.mp append_nonempty_iff (fun appendEmpty => distanceNonempty (wz.trans appendEmpty))
+      cases endpointCases with
+      | inl wNonempty =>
+          exact Or.inr wNonempty
+      | inr zNonempty =>
+          exact Or.inl zNonempty
 
 end BEDC.Derived.ComplexLimitUp
