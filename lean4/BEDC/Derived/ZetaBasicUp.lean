@@ -43,6 +43,17 @@ theorem ZetaBasicPartSum_successor_result_nonempty {s n z : BHist} :
       have endpoints := cont_empty_result_inversion emptyStep
       exact not_hsame_e1_empty endpoints.right
 
+theorem ZetaBasicPartSum_positive_index_result_nonempty {s n z : BHist} :
+    DirichletPositiveIndex n -> ZetaBasicPartSum s n z ->
+      (hsame z BHist.Empty -> False) := by
+  intro positive sum sameEmpty
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro _unaryTail nEq =>
+          cases nEq
+          exact ZetaBasicPartSum_successor_result_nonempty sum sameEmpty
+
 theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
     ZetaBasicPartSum s (BHist.e1 n) z ->
       exists previous : BHist, ZetaBasicPartSum s n previous ∧ Cont previous (BHist.e1 s) z := by
