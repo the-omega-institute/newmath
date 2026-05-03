@@ -193,6 +193,7 @@ import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
 import BEDC.Derived.SubgroupUp.IntersectionConjugation
+import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.QuotientGroupUp
@@ -252,6 +253,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatDenomUnitProductNonemptyComm
 import BEDC.Derived.FieldUp.RatDenomUnitContextualProduct
 import BEDC.Derived.FieldUp.RatContinuation
+import BEDC.Derived.FieldUp.RatContinuationLeftClosed
 import BEDC.Derived.FieldUp.RatContinuationTail
 import BEDC.Derived.FieldUp.RatContinuationE1LeftUnitLawAbsurd
 import BEDC.Derived.FieldUp.RatContinuationVisibleLeftUnitLawAbsurd

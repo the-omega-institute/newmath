@@ -52,6 +52,14 @@ theorem FieldApartTailFactor_empty_endpoint_exclusion {y x : BHist} :
       have split := cont_empty_result_inversion tailCont
       exact apart split.right
 
+theorem FieldApartTailFactor_empty_endpoint_exclusion_hsame_transport {y x y' x' : BHist} :
+    FieldApartTailFactor y x -> hsame y y' -> hsame x x' -> hsame y' BHist.Empty ->
+      FieldApartZero x' -> False := by
+  intro factor sameY sameX endpoint apart
+  cases sameY
+  cases sameX
+  exact FieldApartTailFactor_empty_endpoint_exclusion factor endpoint apart
+
 theorem FieldApartTailFactor_result_closure {y x : BHist} :
     FieldApartTailFactor y x -> FieldApartZero x -> FieldApartZero y := by
   intro factor
