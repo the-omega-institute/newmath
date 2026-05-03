@@ -171,6 +171,61 @@ same exactness field of \autoref{thm:poset-prefix-classifier-exactness}. These
 fields repack into the concrete $\TotalOrderUp$ law package.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix total-order comparison partition]
+\label{thm:concrete-unary-prefix-totalorder-comparison-partition}
+For carried unary histories $h,k$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, exactly one of the three concrete branches
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k),
+\qquad
+\rho_{\mathsf{u}}(h,k),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(k,h)
+$$
+supplies the comparison branch. The middle branch is exact:
+$$
+\rho_{\mathsf{u}}(h,k)\Longleftrightarrow
+(\mathsf{PreorderPrefixLE}(h,k)\land\mathsf{PreorderPrefixLE}(k,h)).
+$$
+The strict-left and strict-right branches cannot both hold, and neither strict
+branch is compatible with $\rho_{\mathsf{u}}(h,k)$.
+
+The per-object fields are: traditional target constructive total-order branch
+partition; BEDC source $\mathsf{UnaryHistory}$, $\mathsf{PreorderPrefixLE}$, and
+$\mathsf{NatUnaryStrictPrefix}$ over $\mathsf{BHist}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; stability
+obligations branch totality and incompatibility; ledger selected comparison
+branch; core theorem this partition; exactness the same-branch equivalence;
+standard bridge deferred; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use the total unary prefix comparison of
+\autoref{thm:nat-unary-prefix-total}. For carried histories $h$ and $k$, it gives
+a unary continuation in one direction, and the unary tail is then split into
+empty and nonempty cases.
+
+If the selected tail is nonempty from $h$ to $k$, the selected branch is
+$\mathsf{NatUnaryStrictPrefix}(h,k)$. If the selected tail is nonempty from $k$
+to $h$, the selected branch is $\mathsf{NatUnaryStrictPrefix}(k,h)$.
+
+If the selected tail is empty, the continuation collapses to the same-history
+case. The carrier classifier is exactly the same-history branch, and
+\autoref{thm:poset-prefix-classifier-exactness} identifies it with the pair of
+prefix comparisons in both directions.
+
+The two strict branches are incompatible by
+\autoref{thm:nat-unary-strict-prefix-asymm}. A strict branch together with
+$\rho_{\mathsf{u}}(h,k)$ would, by
+\autoref{thm:poset-prefix-classifier-exactness}, also provide the opposite
+prefix comparison; splitting that opposite comparison yields either an empty
+tail contradicting strictness or the opposing strict branch, again ruled out by
+\autoref{thm:nat-unary-strict-prefix-asymm}. The strict-right case is symmetric.
+
+These cases give total coverage, the exact middle branch, and pairwise
+incompatibility, so the three branches form the concrete constructive
+partition.
+\end{proof}
+
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
