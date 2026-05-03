@@ -116,6 +116,34 @@ $L\hsame R$, completing the singleton classifier package.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_closed}
 
+\begin{theorem}[Field singleton classifier continuation commutativity iff]
+\label{thm:field-singleton-classifier-continuation-comm-iff}
+For histories $P,Q,L,R:\mathsf{BHist}$ with continuation ledgers
+$$
+\ContR(P,Q,L)
+\qquad\text{and}\qquad
+\ContR(Q,P,R),
+$$
+the two displayed continuation results are singleton-classified exactly when
+the two inputs are singleton-classified:
+$$
+\mathsf{FieldSingletonClassifier}(L,R)\Longleftrightarrow
+\mathsf{FieldSingletonClassifier}(P,Q).
+$$
+\end{theorem}
+\begin{proof}
+In the first implication, the left result carrier identifies $L$ with $\emp$.
+Transporting $\ContR(P,Q,L)$ to empty result and applying empty-result
+inversion identifies both $P$ and $Q$ with $\emp$, which reconstructs the
+input classifier.
+
+Conversely, the input classifier identifies both inputs with $\emp$.
+Comparing each displayed continuation with the canonical empty continuation
+identifies both $L$ and $R$ with $\emp$; transitivity through $\emp$ supplies
+$L\hsame R$ and hence the result classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_comm\_iff}
+
 \begin{theorem}[Field singleton carrier continuation closure]
 \label{thm:field-singleton-carrier-continuation-closed}
 For histories $P,Q,R:\mathsf{BHist}$, if $P$ and $Q$ are singleton field

@@ -369,6 +369,30 @@ the displayed statement.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_iff}
 
+\begin{theorem}[Continuation morphism composite target empty iff]
+\label{thm:continuation-morphism-comp-target-empty-iff}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The final target is empty exactly
+when both sources and both displayed factor tails are empty:
+$$
+\HSame(c,\emp)\Longleftrightarrow
+\HSame(a,\emp)\land\HSame(b,\emp)\land
+\HSame(\mathsf{tail}(left),\emp)\land
+\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+If $c\hsame\emp$, transport the right continuation ledger to empty target and
+apply two-stage empty-target inversion. This yields empty source, empty
+middle, and empty tails for the two displayed factors.
+
+Conversely, destruct the right continuation morphism. The empty middle and
+empty right-tail witnesses reduce its continuation ledger to the canonical
+empty continuation, forcing the target to be $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_target\_empty\_iff}
+
 \begin{theorem}[Continuation morphism composite nonempty tail rejects empty target]
 \label{thm:category-continuation-morphism-comp-tail-nonempty-target-not-empty}
 For histories $a,b,c$, let

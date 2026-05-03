@@ -17,3 +17,26 @@ to obtain $\Cont(a,\emp,c)$. Determinacy against the right-unit continuation
 $\Cont(a,\emp,a)$ identifies $c$ with $a$, hence $a\hsame c$ by symmetry.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_tail\_empty\_iff}
+
+\begin{theorem}[Continuation morphism composite source empty tail target iff]
+\label{thm:continuation-morphism-comp-source-empty-tail-target-iff}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$ be continuation morphisms. The
+source is empty exactly when the canonical composite displayed tail is the
+target:
+$$
+\hsame(a,\emp)\Longleftrightarrow
+\hsame(\mathsf{tail}(left\circ right),c).
+$$
+\end{theorem}
+\begin{proof}
+If $a\hsame\emp$, the stored composite continuation ledger has empty source.
+The left-unit result law therefore identifies the target with the composite
+tail, and symmetry gives the displayed tail-target comparison.
+
+Conversely, transport the stored composite continuation ledger along the
+tail-target comparison to obtain $\ContR(a,c,c)$. Comparing this ledger with
+the canonical left-unit continuation $\ContR(\emp,c,c)$ by right cancellation
+identifies $a$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_source\_empty\_tail\_target\_iff}
