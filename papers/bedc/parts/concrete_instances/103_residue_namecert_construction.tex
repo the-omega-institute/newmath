@@ -6,5 +6,20 @@ The residue interface $\ResidueUp$ packages the residue at an isolated singulari
 \section{Carrier definition}
 \label{sec:residue-carrier}
 
+\begin{definition}[Residue pole data]
+\label{def:residue-pole-data}
+The predicate \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) records an open-disk witness \(\mathsf{HolomorphicOpenDisk}(z_0,r,p,g)\), complex-history carriers for the integral \(I\) and residue \(\rho\), a complex-pair carrier for \(f\), and the continuation witness \(\Cont(I,\rho,f)\).
+\end{definition}
+\leandef{BEDC.Derived.ResidueUp.ResiduePoleData}
+
+\begin{theorem}[Residue pole data under \(\hsame\)]
+\label{thm:residue-pole-data-hsame-transport}
+If all seven histories in \(\mathsf{ResiduePoleData}(f,z_0,r,p,g,I,\rho)\) are transported along \(\hsame\), then the transported histories again satisfy \(\mathsf{ResiduePoleData}\), and the transported integral and residue continue to the transported function history.
+\end{theorem}
+\begin{proof}
+Transport the open-disk witness through holomorphic-disk \(\hsame\)-stability. Transport the complex carriers for \(I\), \(\rho\), and the product carrier for \(f\) through the product-history carrier stability, then transport \(\Cont(I,\rho,f)\) componentwise along the same \(\hsame\) witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ResidueUp.ResiduePoleData\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:residue-certificate}
