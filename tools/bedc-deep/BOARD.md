@@ -2180,3 +2180,29 @@ B-16 是正向: 在 concrete TokIntro 下 psame 反射 hsame; 此候选反向 ob
 
 ---
 
+### B-87 - VecSpace additive carrier projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | VecSpace additive carrier projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under VecSpaceUp(F,V), composing the vector-space-to-module fragment projection with the module-to-additive-group reduct yields an AbGroupUp(V) certificate over the same carrier and additive operations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Two-stage forgetful certificate (VecSpace -> Module -> AbGroup) targeting the actively edited 22_vecspace_namecert_construction chapter (per git status). Distinct from B-28 (CommRing -> Ring) because it transits through the module-fragment projection, exercising both the Module reduct and the AbGroup base specification rather than a single obligation drop. Provides a reusable handle for any later VecSpace theorem that needs the additive subcertificate without re-deriving it through Module each time.
+
+---
+
