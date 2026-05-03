@@ -512,3 +512,24 @@ In every case, continuation closure supplies the carried evidence for both
 append results.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_comm}
+
+\begin{theorem}[Rat denominator unit classifier append commutation congruence]
+\label{thm:rat-denom-unit-classifier-append-comm-congruence}
+If two endpoint pairs are classified by the adjoined empty-unit denominator
+classifier, then appending the source endpoints and the reversed target
+endpoints again produces a classified pair:
+$$
+\mathsf{RatDenomUnitClassifier}(h,h')\Rightarrow
+\mathsf{RatDenomUnitClassifier}(k,k')\Rightarrow
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(h,k),\mathsf{append}(k',h')).
+$$
+\end{theorem}
+\begin{proof}
+Continuation closure first classifies
+$\mathsf{append}(h,k)$ against $\mathsf{append}(h',k')$ using the canonical
+append continuations. The append-commutativity classifier applied to the two
+target carriers classifies $\mathsf{append}(h',k')$ against
+$\mathsf{append}(k',h')$. Composing the two history-same endpoint comparisons
+and keeping the carried evidence gives the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_comm\_congr}

@@ -283,6 +283,17 @@ theorem FieldSingletonCarrier_append_comm_iff {h k : BHist} :
     have split := append_eq_empty_iff.mp kh
     exact append_eq_empty_iff.mpr (And.intro split.right split.left)
 
+theorem FieldSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
+    FieldSingletonClassifier h h' -> FieldSingletonClassifier k k' ->
+      FieldSingletonClassifier (append h k) (append k' h') := by
+  intro classifiedH classifiedK
+  have leftCarrier : FieldSingletonCarrier (append h k) :=
+    append_eq_empty_iff.mpr (And.intro classifiedH.left classifiedK.left)
+  have rightCarrier : FieldSingletonCarrier (append k' h') :=
+    append_eq_empty_iff.mpr (And.intro classifiedK.right.left classifiedH.right.left)
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem FieldSingletonCarrier_append_context_empty_iff {L R h : BHist} :
     FieldSingletonCarrier L -> FieldSingletonCarrier R ->
       (FieldSingletonCarrier (append L (append h R)) ↔ FieldSingletonCarrier h) := by

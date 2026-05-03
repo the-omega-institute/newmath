@@ -61,3 +61,24 @@ $k\hsame\emp$. Reversing the two components rebuilds
 $\mathsf{append}(k,h)\hsame\emp$, and the converse is symmetric.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_append\_comm\_iff}
+
+\begin{theorem}[Field singleton classifier append commutation congruence]
+\label{thm:field-singleton-classifier-append-comm-congruence}
+For histories $h,h',k,k':\mathsf{BHist}$, two singleton classifier witnesses
+for $(h,h')$ and $(k,k')$ rebuild a classifier after commuting the appended
+endpoints:
+$$
+\mathsf{FieldSingletonClassifier}(h,h')\Rightarrow
+\mathsf{FieldSingletonClassifier}(k,k')\Rightarrow
+\mathsf{FieldSingletonClassifier}(\mathsf{append}(h,k),\mathsf{append}(k',h')).
+$$
+\end{theorem}
+\begin{proof}
+Each classifier witness contains singleton-carrier evidence for both of its
+endpoints. Empty-append inversion rebuilds a singleton carrier for
+$\mathsf{append}(h,k)$ from the source endpoints and for
+$\mathsf{append}(k',h')$ from the target endpoints. Since both appended
+histories are carried to $\emp$, transitivity through $\emp$ supplies the
+classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_comm\_congr}
