@@ -168,4 +168,29 @@ theorem ContinuousMap_empty_identity_metric_result_deterministic
     MetricDistanceWitness_hsame_result_deterministic
       (hsame_refl x) (hsame_refl y) reflected sourceWitness
 
+theorem ContinuousMap_empty_target_metric_rebased_carrier
+    {source modulus cert dist cert' : BHist} :
+    ContinuousFunctionCarrier source BHist.Empty source modulus cert ->
+      MetricDistanceWitness source BHist.Empty dist ->
+        Cont dist modulus cert' ->
+          ContinuousFunctionCarrier dist BHist.Empty dist modulus cert' := by
+  intro carrier distance certRel
+  exact
+    And.intro distance.right.right.left
+      (And.intro distance.right.right.left
+        (And.intro unary_empty
+          (And.intro carrier.right.right.right.left
+            (And.intro (cont_right_unit dist) certRel))))
+
+theorem ContinuousMap_empty_target_metric_cert_deterministic
+    {source modulus cert dist cert' : BHist} :
+    ContinuousFunctionCarrier source BHist.Empty source modulus cert ->
+      MetricDistanceWitness source BHist.Empty dist ->
+        Cont dist modulus cert' -> hsame cert cert' := by
+  intro carrier distance certRel
+  have distData := Iff.mp MetricDistanceWitness_empty_right_iff distance
+  exact
+    cont_respects_hsame (hsame_symm distData.right) (hsame_refl modulus)
+      carrier.right.right.right.right.right certRel
+
 end BEDC.Derived.ContinuousMapUp

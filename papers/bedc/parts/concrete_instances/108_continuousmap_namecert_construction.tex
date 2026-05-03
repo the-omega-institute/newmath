@@ -95,5 +95,55 @@ reflexive source endpoints then compares the two displayed distance histories.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_result\_deterministic}
 
+\begin{theorem}[ContinuousMap empty-target metric rebased carrier]
+\label{thm:continuousmap-empty-target-metric-rebased-carrier}
+For histories $source,modulus,cert,dist,cert'$, suppose
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert),
+\qquad
+\mathsf{MetricDistanceWitness}(source,\emp,dist),
+\qquad
+\ContR(dist,modulus,cert').
+$$
+Then the metric distance ledger itself supports the empty-map continuous
+function carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(dist,\emp,dist,modulus,cert').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuous-function carrier and the metric distance witness. The
+metric witness supplies unary membership of $dist$, while the continuous
+carrier supplies unary membership of $modulus$. The empty map is unary, the
+right-unit continuation gives $\ContR(dist,\emp,dist)$, and the displayed
+continuation gives the terminal certificate row.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_target\_metric\_rebased\_carrier}
+
+\begin{theorem}[ContinuousMap empty-target metric certificate determinacy]
+\label{thm:continuousmap-empty-target-metric-cert-deterministic}
+For histories $source,modulus,cert,dist,cert'$, suppose
+$$
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert),
+\qquad
+\mathsf{MetricDistanceWitness}(source,\emp,dist),
+\qquad
+\ContR(dist,modulus,cert').
+$$
+Then the original continuous-function certificate and the metric-rebased
+certificate classify together:
+$$
+\hsame(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+The empty-right metric witness identifies $dist$ with $source$ while preserving
+the unary distance ledger. The original carrier supplies the continuation
+$\ContR(source,modulus,cert)$; transporting the source side across the metric
+identification and comparing it with $\ContR(dist,modulus,cert')$ gives
+$\hsame(cert,cert')$ by continuation determinacy under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_target\_metric\_cert\_deterministic}
+
 \section{The certificate}
 \label{sec:continuousmap-certificate}

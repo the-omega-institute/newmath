@@ -142,8 +142,44 @@ theorem AdjunctionPrefix_unit_counit_composite_empty
       NatTransPrefixComponentCarrier p p a composite :=
     NatTransPrefixComponentCarrier_vert_comp_closed unitComponent counitComponent compositeRel
   have endomorphismData :=
-    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+      (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
       (p := p) (a := a) (eta := composite)).mp compositeComponent
   exact And.intro compositeComponent endomorphismData.right.right.right
+
+theorem AdjunctionPrefix_endomorphism_triangle_component_closed
+    {p a eta eps left right : BHist} :
+    NatTransPrefixComponentCarrier p p a eta ->
+      NatTransPrefixComponentCarrier p p a eps ->
+        Cont eta eps left ->
+          Cont eps eta right ->
+            NatTransPrefixComponentCarrier p p a left ∧
+              NatTransPrefixComponentCarrier p p a right ∧ hsame left right := by
+  intro etaCarrier epsCarrier leftRel rightRel
+  have etaData := Iff.mp NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+    etaCarrier
+  have epsData := Iff.mp NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+    epsCarrier
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame etaData.right.right.right epsData.right.right.right leftRel
+      (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame epsData.right.right.right etaData.right.right.right rightRel
+      (cont_right_unit BHist.Empty)
+  have leftCarrier : NatTransPrefixComponentCarrier p p a left :=
+    Iff.mpr NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+      (And.intro etaData.left
+        (And.intro etaData.right.left
+          (And.intro
+            (unary_cont_closed etaData.right.right.left epsData.right.right.left leftRel)
+            leftEmpty)))
+  have rightCarrier : NatTransPrefixComponentCarrier p p a right :=
+    Iff.mpr NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+      (And.intro etaData.left
+        (And.intro etaData.right.left
+          (And.intro
+            (unary_cont_closed epsData.right.right.left etaData.right.right.left rightRel)
+            rightEmpty)))
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
 end BEDC.Derived.AdjunctionUp

@@ -115,3 +115,34 @@ for prefix natural transformations identifies the displayed component history
 with the empty history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_unit\_counit\_composite\_empty}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle component closure]
+\label{thm:adjunction-prefix-endomorphism-triangle-component-closed}
+For histories $p,a,\eta,\varepsilon,left,right$, suppose
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta),
+\qquad
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\varepsilon),
+$$
+and suppose the two triangle composites are witnessed by
+$$
+\ContR(\eta,\varepsilon,left),
+\qquad
+\ContR(\varepsilon,\eta,right).
+$$
+Then both composites are again endomorphism components at the same prefix and
+object, and the two displayed composite histories classify together:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,left)\land
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,right)\land
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Endomorphism component exactness collapses both $\eta$ and $\varepsilon$ to the
+empty component while retaining the prefix and object carriers. The two
+continuation ledgers therefore collapse $left$ and $right$ to the empty history.
+Unary continuation closure supplies the component carriers for $left$ and
+$right$, and transitivity through the empty history gives $\hsame(left,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_endomorphism\_triangle\_component\_closed}
