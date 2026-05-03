@@ -147,6 +147,28 @@ classifier package is recovered.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commringSingletonEmptyClassifier\_mul\_context\_carrier\_iff}
 
+\begin{theorem}[CommRing singleton empty operation context carrier package]
+\label{thm:commring-singleton-empty-classifier-operation-context-carrier-package}
+For singleton empty-history CommRing histories $L$ and $R$, the three operation
+contexts
+$$
+\mathsf{append}(L,\mathsf{add}(x,y)),\quad
+\mathsf{append}(L,\mathsf{neg}(x)),\quad
+\mathsf{append}(L,\mathsf{mul}(x,y))
+$$
+are classified against $\mathsf{append}(R,out)$ precisely when $out$ lies in
+the singleton empty carrier.
+\end{theorem}
+\begin{proof}
+The add, neg, and mul endpoints of the singleton empty-history CommRing tuple
+are all definitionally $\emp$. The forward direction reads the right carrier
+field of the classifier and applies append-empty inversion to recover
+$out\hsame\emp$. Conversely, the carrier witnesses for $L$, $R$, and $out$
+rebuild both append endpoints as empty endpoints, and transitivity through
+$\emp$ supplies the classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commringSingletonEmptyClassifier\_operation\_context\_carrier\_package}
+
 \begin{theorem}[CommRing singleton classifier visible-right exclusion]
 \label{thm:commring-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, neither

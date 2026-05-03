@@ -31,6 +31,19 @@ cannot be internally the same as a one-sealed history.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_not\_empty}
 
+\begin{theorem}[Adele carrier continuation result nonempty]
+\label{thm:adele-history-carrier-cont-result-nonempty}
+If $\mathsf{AdeleHistoryCarrier}(h)$ holds, $\mathsf{Cont}(h,k,r)$ holds, and
+$r\hsame\emp$, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the continuation result along $r\hsame\emp$ to a continuation with
+empty result. The empty-result inversion theorem for $\mathsf{Cont}$ forces
+the source endpoint $h$ to be $\emp$. This contradicts the nonempty theorem
+for the adele history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_cont\_result\_nonempty}
+
 \begin{theorem}[Adele real-padic e1 real nonempty scale result package]
 \label{thm:adele-real-padic-e1-real-nonempty-scale-result-package}
 For histories $r,p,e,s:\mathsf{BHist}$, if $r$ is a rational-history carrier
