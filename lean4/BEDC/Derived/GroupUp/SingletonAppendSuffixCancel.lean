@@ -79,6 +79,20 @@ theorem GroupSingletonClassifier_append_suffix_unit_split_iff {L R p q : BHist} 
       (Q := BHist.Empty) (S := R) carrierL carrierR)
     GroupSingletonClassifier_append_unit_split_iff
 
+theorem GroupSingletonClassifier_two_sided_contextual_coverage_iff {L R L' R' Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      GroupSingletonCarrier L' -> GroupSingletonCarrier R' ->
+        (GroupSingletonClassifier (append (append L Q) L') (append (append R S) R') <->
+          GroupSingletonCarrier Q ∧ GroupSingletonCarrier S) := by
+  intro carrierL carrierR carrierL' carrierR'
+  exact Iff.trans
+    (GroupSingletonClassifier_right_context_cancel_iff (L := L') (R := R')
+      (Q := append L Q) (S := append R S) carrierL' carrierR')
+      (Iff.trans
+        (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+          (Q := Q) (S := S) carrierL carrierR)
+        (GroupSingleton_terminal_classifier_package.left Q S))
+
 theorem GroupSingletonClassifier_two_sided_contextual_carrier_coverage_iff
     {L R Lp Rp Q S : BHist} :
     GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
