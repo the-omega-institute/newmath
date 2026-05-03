@@ -48,6 +48,26 @@ continuations to the empty left-unit continuation, and transitivity of
 \end{proof}
 \leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Unit history classifier append split]
+\label{thm:unit-history-classifier-append-split}
+For histories $p,q,h:\mathsf{BHist}$, the unit classifier from the appended
+endpoint $\mathsf{append}(p,q)$ to $h$ is equivalent to all three component
+histories being empty:
+$$
+\mathsf{UnitHistoryClassifier}(\mathsf{append}(p,q),h)
+\Longleftrightarrow
+p\hsame\emp\land q\hsame\emp\land h\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the empty-endpoint characterization of the unit classifier to obtain
+$\mathsf{append}(p,q)\hsame\emp$ and $h\hsame\emp$. The append endpoint is
+empty exactly when both append factors are empty. Conversely, the two empty
+append factors rebuild the empty appended endpoint, and the empty-endpoint
+classifier characterization supplies the unit classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.UnitUp.UnitHistoryClassifier\_append\_split\_iff}
+
 \begin{theorem}[Unit history classifier visible endpoint absurd]
 \label{thm:unit-history-classifier-visible-endpoint-absurd}
 No visible endpoint can occur on either side of the unit history classifier.

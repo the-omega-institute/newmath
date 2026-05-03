@@ -61,6 +61,20 @@ theorem UnitHistoryClassifier_empty_endpoints_iff {h k : BHist} :
             exact cont_left_unit BHist.Empty
           · exact hsame_trans hEmpty (hsame_symm kEmpty)
 
+theorem UnitHistoryClassifier_append_split_iff {p q h : BHist} :
+    UnitHistoryClassifier (append p q) h ↔
+      hsame p BHist.Empty ∧ hsame q BHist.Empty ∧ hsame h BHist.Empty := by
+  constructor
+  · intro classified
+    have endpoints := UnitHistoryClassifier_empty_endpoints_iff.mp classified
+    have appendParts := append_eq_empty_iff.mp endpoints.left
+    exact And.intro appendParts.left (And.intro appendParts.right endpoints.right)
+  · intro split
+    have appendEmpty : hsame (append p q) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro split.left split.right.left)
+    exact UnitHistoryClassifier_empty_endpoints_iff.mpr
+      (And.intro appendEmpty split.right.right)
+
 theorem UnitHistoryClassifier_visible_endpoint_absurd {p q k : BHist} :
     (UnitHistoryClassifier (BHist.e0 p) k -> False) ∧
       (UnitHistoryClassifier (BHist.e1 p) k -> False) ∧
