@@ -357,6 +357,36 @@ Comparing the original component ledgers with the right-unit continuations at
 $a$ and $b$ gives $a\hsame b$ and $b\hsame c$.
 \end{proof}
 
+\begin{theorem}[Triangular cyclic hom-carriers have empty hom exactness]
+\label{thm:category-hom-carrier-triangle-cycle-empty-hom-exactness}
+If the hom-carrier ledgers
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(b,c,g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(c,a,h)
+$$
+all hold, then the empty morphism itself is displayed on each side of the
+triangle, and the adjacent endpoints collapse:
+$$
+\mathsf{CategoryHomCarrier}(a,b,\emp)\land
+\mathsf{CategoryHomCarrier}(b,c,\emp)\land
+\mathsf{CategoryHomCarrier}(c,a,\emp)\land
+\hsame(a,b)\land
+\hsame(b,c).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_triangle\_cycle\_empty\_hom\_exactness}
+\begin{proof}
+The triangular tail theorem gives $f\hsame\emp$, $g\hsame\emp$, and
+$h\hsame\emp$, together with the adjacent endpoint equalities. Hom-carrier
+transport moves the three displayed carriers across those tail equalities,
+yielding empty hom-carriers on the original triangle edges.
+\end{proof}
+
 \begin{theorem}[Visible one-step morphisms have no triangular cycle]
 \label{thm:category-hom-carrier-e1-morphism-triangle-cycle-absurd}
 If the first hom-carrier in a triangular cycle has visible one-headed morphism

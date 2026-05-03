@@ -202,6 +202,29 @@ and \(gf\).
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_tail\_comm\_closed}
 
+\begin{theorem}[Functor prefix triangular cycle empty hom exactness]
+\label{thm:functor-prefix-hom-carrier-triangle-cycle-empty-hom-exactness}
+For prefixed hom-carriers forming a triangle over the common prefix $p$,
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f),
+$$
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,c),\mathsf{append}(p,a),h),
+$$
+the empty morphism is displayed on all three prefixed edges, and the underlying
+objects satisfy $\HSame(a,b)$ and $\HSame(b,c)$.
+\end{theorem}
+\begin{proof}
+Apply category triangular empty hom exactness to the three prefixed endpoints.
+The first three conclusions are already the required prefixed empty
+hom-carriers. Cancelling the common left prefix $p$ from the two endpoint
+equalities gives the unprefixed object equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_triangle\_cycle\_empty\_hom\_exactness}
+
 \begin{theorem}[Prefix functor preserves associative hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-assoc-preserves}
 For the unary-continuation category, if \(p\) is unary and \(f,g,h\) are

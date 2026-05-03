@@ -1,0 +1,136 @@
+\begin{theorem}[RatUp FieldUp exit certificate has nontrivial carrier and support-neutral action]
+\label{thm:ratup-fieldup-exit-certificate-nontrivial-support-neutral}
+For Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} and
+$d_1:=\Eone(\emp)$, the concrete $\FieldUp(\mathsf{RatUp})$ exit certificate has
+both a nontrivial source carrier and a support-neutral contextual action.
+Specifically:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryCarrier}(d_1)$ holds;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$;
+  \item no carrier-coverage map from the $\FieldUp(\mathsf{RatUp})$ source
+  carrier to $\mathsf{fieldSingletonEmptyCarrier}$ exists;
+  \item under the hypotheses of
+  \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}, the
+  nested contextual action is carried, classified by the collected action,
+  support-neutral, and classifier-exact against the second endpoint.
+\end{enumerate}
+Equivalently, the same named certificate contains the endpoint obstruction
+$$
+\mathsf{RatHistoryCarrier}(d_1)
+$$
+with
+$$
+\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot
+$$
+and the contextual-action row
+$$
+C_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h))),
+$$
+$$
+R_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)),
+\Gamma_{p',q',\mu_D^u(l',l),\mu_D^u(r,r')}(h)),
+$$
+$$
+N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))
+\Longleftrightarrow N_D^u(h),
+$$
+and, for the second endpoint $k$ with empty external contexts,
+$$
+R_D^u(\Gamma_{s,t,\mu_D^u(l',l),\mu_D^u(r,r')}(h),
+\Gamma_{s',t',\mu_D^u(l',l),\mu_D^u(r,r')}(k))
+\Longleftrightarrow R_D^u(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The concrete certificate is fixed by
+\autoref{thm:ratup-fieldup-semantic-namecert}. It identifies
+Definition~\ref{def:concrete-ratup-fieldup-certificate-instance} as the
+paper certificate row package for the displayed $\FieldUp(\mathsf{RatUp})$
+source tuple, so the carrier, classifier, denominator tuple, and contextual
+action are the concrete rows named in the statement.
+
+The carrier obstruction comes from
+\autoref{thm:ratup-fieldup-source-non-singleton-witness}. With
+$d_1:=\Eone(\emp)$ it supplies $\mathsf{RatHistoryCarrier}(d_1)$, the map
+$\mathsf{fieldSingletonEmptyCarrier}(d_1)\to\bot$, and the contradiction
+against any carrier-coverage map into the singleton empty-history carrier.
+
+Finally apply
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate}. Under
+its carried-context and strict-support hypotheses, it supplies the nested
+carried action, the collected-action classifier comparison, strict-support
+neutrality, and classifier exactness against the second endpoint. These rows
+belong to the same certificate fixed above, so the non-singleton carrier and
+support-neutral action are simultaneous properties of the concrete exit
+certificate.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp transported support-neutrality certificate]
+\label{thm:ratup-fieldup-transported-support-neutrality-row}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose the
+hypotheses of
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate} hold for
+the context pairs $(l,r)$ and $(l',r')$. Suppose also that the transported
+context pairs $(s,t)$ and $(s',t')$ are carried and that the pair classifiers
+required by
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+compare $(l,r)$ with $(s,t)$ and $(l',r')$ with $(s',t')$. Then the transported
+nested action is carried:
+$$
+C_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))).
+$$
+Its strict support is neutral against the original denominator history:
+$$
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))
+\Longleftrightarrow
+N_D^u(h).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+to the carried context pairs and the two pair classifiers. The transported
+carrier conclusion is the second carried component, and the same theorem gives
+the strict-support equivalence between the original nested action and the
+transported nested action.
+
+Apply
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate} to the
+original context pairs $(l,r)$ and $(l',r')$. This supplies
+$N_D^u(\Gamma_{p',q',l',r'}(\Gamma_{p,q,l,r}(h)))\Longleftrightarrow N_D^u(h)$.
+
+For the forward direction, read support of the transported nested action back
+through the transport equivalence, then use the assembled support-neutrality
+row to obtain $N_D^u(h)$.
+
+For the reverse direction, use assembled support-neutrality to obtain support
+of the original nested action, then move it across the transport equivalence to
+the transported context-pair representative.
+\end{proof}
+
+Per-object template: traditional target constructive field on $\RatUp$; BEDC
+source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
+rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$ together with
+$\mathsf{RatDenomUnitClassifier}$ on denominator rows; stability obligations
+inverse apartness, zero-product exactness, denominator package closure,
+denominator-action envelope, support-neutrality, transported support-neutrality,
+context-pair action, context-pair strict-support commutation, and affine
+automorphism packaging;
+ledger rational history rows, denominator unit histories, continuation
+witnesses, contextual pairs, and apart-zero inverse witnesses; core theorem
+\autoref{thm:ratup-fieldup-semantic-certificate-assembly},
+\autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row},
+\autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
+\autoref{thm:ratup-fieldup-denominator-context-pair-unit-support-neutrality},
+and
+\autoref{thm:field-rat-denominator-context-pair-product-strict-support-commutes};
+exactness predicate row coverage for $\FieldUp(\mathsf{RatUp})$, including the
+assembled support-neutrality classifier and strict-support clauses, the
+transported support-neutrality row, the denominator unit-pair
+support-neutrality clause, the denominator-action envelope rows, and the
+context-pair strict-support commutation row; standard bridge deferred; status
+$\mathsf{ProofTarget}$.

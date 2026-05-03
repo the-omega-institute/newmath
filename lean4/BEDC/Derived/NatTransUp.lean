@@ -1,5 +1,6 @@
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.Cycle
 import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.NatTransUp
@@ -378,6 +379,32 @@ theorem NatTransPrefixComponentCarrier_tail_comm_hsame
         Cont eta theta etatheta -> Cont theta eta thetaeta -> hsame etatheta thetaeta := by
   intro left right etathetaRel thetaetaRel
   exact CategoryHomCarrier_tail_comm_hsame left.2.2.2 right.2.2.2 etathetaRel thetaetaRel
+
+theorem NatTransPrefixComponentCarrier_vert_triangle_cycle_empty_components
+    {p q r a eta theta iota : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta ->
+        NatTransPrefixComponentCarrier r p a iota ->
+          NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+            NatTransPrefixComponentCarrier q r a BHist.Empty ∧
+              NatTransPrefixComponentCarrier r p a BHist.Empty ∧ hsame p q ∧ hsame q r := by
+  intro left right back
+  have cycle :=
+    CategoryHomCarrier_triangle_cycle_empty_hom_exactness
+      left.right.right.right right.right.right.right back.right.right.right
+  exact
+    And.intro
+      (And.intro left.left
+        (And.intro left.right.left (And.intro left.right.right.left cycle.left)))
+      (And.intro
+        (And.intro right.left
+          (And.intro right.right.left (And.intro right.right.right.left cycle.right.left)))
+        (And.intro
+          (And.intro back.left
+            (And.intro back.right.left (And.intro back.right.right.left cycle.right.right.left)))
+          (And.intro
+            (append_right_cancel (k := a) cycle.right.right.right.left)
+            (append_right_cancel (k := a) cycle.right.right.right.right))))
 
 theorem NatTransPrefixIdentity_identity_component_square_closed {p a id left right : BHist} :
     UnaryHistory p -> UnaryHistory a -> Cont BHist.Empty BHist.Empty id ->

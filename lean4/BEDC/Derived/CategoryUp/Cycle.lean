@@ -116,6 +116,23 @@ theorem CategoryHomCarrier_triangle_cycle_tails_empty {a b c f g h : BHist} :
             (cont_deterministic (cont_right_unit a) left.right.right.right)
             (cont_deterministic (cont_right_unit b) right.right.right.right))))
 
+theorem CategoryHomCarrier_triangle_cycle_empty_hom_exactness {a b c f g h : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c a h ->
+      CategoryHomCarrier a b BHist.Empty ∧ CategoryHomCarrier b c BHist.Empty ∧
+        CategoryHomCarrier c a BHist.Empty ∧ hsame a b ∧ hsame b c := by
+  intro left right back
+  have cycle := CategoryHomCarrier_triangle_cycle_tails_empty left right back
+  exact
+    And.intro
+      (CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl b) cycle.left left)
+      (And.intro
+        (CategoryHomCarrier_hsame_transport (hsame_refl b) (hsame_refl c)
+          cycle.right.left right)
+        (And.intro
+          (CategoryHomCarrier_hsame_transport (hsame_refl c) (hsame_refl a)
+            cycle.right.right.left back)
+          (And.intro cycle.right.right.right.left cycle.right.right.right.right)))
+
 theorem CategoryHomCarrier_triangle_cycle_identity_carriers {a b c f g h : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> CategoryHomCarrier c a h ->
       CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧

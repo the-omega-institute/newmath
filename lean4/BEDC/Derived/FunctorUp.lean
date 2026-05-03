@@ -1,4 +1,5 @@
 import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.Cycle
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.Prefix
 
@@ -125,6 +126,24 @@ theorem FunctorPrefixHomCarrier_tail_comm_closed {p a b c f g fg gf : BHist} :
     And.intro
       (FunctorPrefixHomCarrier_comp_preserves prefixCarrier left right fgRel)
       (CategoryHomCarrier_tail_comm_hsame left right fgRel gfRel)
+
+theorem FunctorPrefixHomCarrier_triangle_cycle_empty_hom_exactness {p a b c f g h : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g ->
+        CategoryHomCarrier (append p c) (append p a) h ->
+          CategoryHomCarrier (append p a) (append p b) BHist.Empty ∧
+            CategoryHomCarrier (append p b) (append p c) BHist.Empty ∧
+              CategoryHomCarrier (append p c) (append p a) BHist.Empty ∧
+                hsame a b ∧ hsame b c := by
+  intro left right back
+  have cycle := CategoryHomCarrier_triangle_cycle_empty_hom_exactness left right back
+  exact
+    And.intro cycle.left
+      (And.intro cycle.right.left
+        (And.intro cycle.right.right.left
+          (And.intro
+            (append_left_cancel (h := p) cycle.right.right.right.left)
+            (append_left_cancel (h := p) cycle.right.right.right.right))))
 
 theorem FunctorPrefixHomCarrier_comp_assoc_preserves
     {p a b c d f g h fg gh left right : BHist} :

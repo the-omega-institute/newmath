@@ -525,6 +525,29 @@ composites.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_tail\_comm\_hsame}
 
+\begin{theorem}[NatTrans prefix component vertical triangle empty components]
+\label{thm:nattrans-prefix-component-vert-triangle-cycle-empty-components}
+For prefix components over a fixed object $a$, if components run from $p$ to
+$q$, from $q$ to $r$, and from $r$ back to $p$, then the empty component is
+displayed on all three sides and the adjacent prefixes collapse:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\emp)\land
+\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp)\land
+\HSame(p,q)\land
+\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the three component carriers to their category hom-carrier fields and
+apply triangular empty hom exactness at the endpoints
+$\mathsf{append}(p,a)$, $\mathsf{append}(q,a)$, and
+$\mathsf{append}(r,a)$. Repack the empty hom-carriers with the original unary
+prefix and object witnesses, then cancel the common right object suffix $a$ in
+the endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_triangle\_cycle\_empty\_components}
+
 \begin{theorem}[Prefix identity naturality square]
 \label{thm:nattrans-prefix-identity-naturality-square}
 For the unary-continuation category, let \(p\) be unary and let \(f\) be a
