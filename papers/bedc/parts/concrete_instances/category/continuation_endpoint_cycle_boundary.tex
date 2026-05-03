@@ -20,3 +20,23 @@ along its empty tail and comparing with the corresponding right-unit
 continuation gives the adjacent endpoint comparisons.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_boundary}
+
+\begin{theorem}[Continuation morphism endpoint cycle boundary iff]
+\label{thm:continuation-morphism-comp-endpoint-cycle-boundary-iff}
+For histories $a,b,c:\mathsf{BHist}$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The outer endpoints close exactly
+when both displayed tails are empty and both adjacent endpoint pairs collapse:
+$$
+\hsame(a,c)\Longleftrightarrow
+\hsame(\mathsf{tail}(left),\emp)\land
+\hsame(\mathsf{tail}(right),\emp)\land
+\hsame(a,b)\land\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the endpoint-cycle boundary theorem. Conversely,
+compose the adjacent endpoint comparisons $\hsame(a,b)$ and $\hsame(b,c)$ to
+obtain $\hsame(a,c)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_endpoint\_cycle\_boundary\_iff}
