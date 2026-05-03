@@ -1,0 +1,72 @@
+\begin{theorem}[Field four-factor inverse classifier exactness from apartness]
+\label{thm:field-four-factor-inverse-classifier-exact-from-apartness}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:field-four-factor-product-apartzero-exact},
+\autoref{thm:field-four-factor-product-inverse-reversal-from-apartness}, and
+\autoref{thm:field-inverse-classifier-exact-from-apartness}, let
+$\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$. For any
+$a,x,b,c,a',x',b',c':\mathsf{BHist}$ equipped with factor conversion maps for
+each of the eight factor apart-zero witnesses, pair-product conversion maps for
+$\mathsf{mul}(a,x)$, $\mathsf{mul}(b,c)$, $\mathsf{mul}(a',x')$, and
+$\mathsf{mul}(b',c')$, and fourfold product conversion maps for
+
+$$
+u:=\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{mul}(b,c))
+\quad\text{and}\quad
+u':=\mathsf{mul}(\mathsf{mul}(a',x'),\mathsf{mul}(b',c')),
+$$
+
+assume witnesses $q:\mathsf{ApartZero}_F(u)$ and
+$q':\mathsf{ApartZero}_F(u')$. Let the induced proof indices
+$p_a,p_x,p_b,p_c,p_{ax},p_{bc},p_u$ and
+$p_{a'},p_{x'},p_{b'},p_{c'},p_{a'x'},p_{b'c'},p_{u'}$ be obtained by
+\autoref{thm:field-four-factor-product-apartzero-exact} and the displayed
+conversion maps. Then
+
+$$
+u\hsame u'
+\Longleftrightarrow
+\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(c,p_c),\mathsf{inv}(b,p_b)),
+\mathsf{mul}(\mathsf{inv}(x,p_x),\mathsf{inv}(a,p_a)))
+\hsame
+\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(c',p_{c'}),\mathsf{inv}(b',p_{b'})),
+\mathsf{mul}(\mathsf{inv}(x',p_{x'}),\mathsf{inv}(a',p_{a'}))).
+$$
+\end{theorem}
+\begin{proof}
+First build the witness ledger for both fourfold products. Apply
+\autoref{thm:field-four-factor-product-apartzero-exact} to $q$ and $q'$; the
+forward implications produce the eight factor witnesses, and the reverse
+binary steps inside the same exactness proof produce the two pair-product
+witnesses on each side. The factor, pair, and fourfold conversion maps turn
+these apart-zero witnesses into the proof indices displayed in the statement.
+
+Next apply
+\autoref{thm:field-four-factor-product-inverse-reversal-from-apartness} to
+$u$ with $q$. This identifies $\mathsf{inv}(u,p_u)$ with the reversed spine
+$(c,b)(x,a)$ written in the conclusion. Apply the same theorem to $u'$ with
+$q'$ to identify $\mathsf{inv}(u',p_{u'})$ with the primed reversed spine.
+
+For the forward implication, assume $u\hsame u'$. Use
+\autoref{thm:field-inverse-classifier-exact-from-apartness} in its forward
+direction to obtain $\mathsf{inv}(u,p_u)\hsame\mathsf{inv}(u',p_{u'})$.
+Transport this equality across the two reversal equalities by symmetry and
+transitivity of $\hsame$, giving equality of the two reversed spines.
+
+For the reverse implication, assume equality of the two reversed spines.
+Transport it back across the two reversal equalities to obtain
+$\mathsf{inv}(u,p_u)\hsame\mathsf{inv}(u',p_{u'})$. The reverse direction of
+\autoref{thm:field-inverse-classifier-exact-from-apartness} then yields
+$u\hsame u'$.
+\end{proof}
+
+Per-object certificate: Traditional target: finite fourfold product inverse
+classifier exactness. BEDC source: $\FieldUp$ over $\mathsf{BHist}$ plus
+$\RingUp$ zero-apartness rows. Carrier choice: $\mathsf{BHist}$. Classifier
+choice: $\hsame$. Input ledger: the eight factor witnesses. Product ledger:
+the two pair-product witnesses and two fourfold product witnesses. Core
+theorem: \autoref{thm:field-four-factor-inverse-classifier-exact-from-apartness}.
+Dependency chain: four-factor apartness exactness, four-factor inverse
+reversal, and inverse classifier exactness. Standard bridge: deferred. Status:
+$\mathsf{ProofTarget}$.
