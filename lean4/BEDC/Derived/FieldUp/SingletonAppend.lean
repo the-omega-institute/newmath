@@ -312,4 +312,23 @@ theorem FieldSingletonClassifier_append_endpoint_split_iff {L Q R S : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem FieldSingletonClassifier_append_endpoint_empty_nonzero_absurd {L Q R S : BHist} :
+    FieldSingletonClassifier (append L Q) (append R S) ->
+      (fieldSingletonEmptyNonZero L -> False) /\
+        (fieldSingletonEmptyNonZero Q -> False) /\
+          (fieldSingletonEmptyNonZero R -> False) /\
+            (fieldSingletonEmptyNonZero S -> False) := by
+  intro classified
+  have leftSplit := append_eq_empty_iff.mp classified.left
+  have rightSplit := append_eq_empty_iff.mp classified.right.left
+  exact And.intro
+    (fun nonzeroL => fieldSingletonEmptyNonZero_empty_endpoint_absurd leftSplit.left nonzeroL)
+    (And.intro
+      (fun nonzeroQ => fieldSingletonEmptyNonZero_empty_endpoint_absurd leftSplit.right nonzeroQ)
+      (And.intro
+        (fun nonzeroR =>
+          fieldSingletonEmptyNonZero_empty_endpoint_absurd rightSplit.left nonzeroR)
+        (fun nonzeroS =>
+          fieldSingletonEmptyNonZero_empty_endpoint_absurd rightSplit.right nonzeroS)))
+
 end BEDC.Derived.FieldUp

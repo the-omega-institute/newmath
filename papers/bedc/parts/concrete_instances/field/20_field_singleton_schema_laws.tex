@@ -267,6 +267,31 @@ supplies their classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_endpoint\_split\_iff}
 
+\begin{theorem}[Field singleton classifier append endpoint empty nonzero exclusion]
+\label{thm:field-singleton-classifier-append-endpoint-empty-nonzero-absurd}
+For histories $L,Q,R,S:\mathsf{BHist}$, a singleton classifier witness for
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$ rules out empty-nonzero
+evidence at each displayed endpoint:
+$$
+\begin{aligned}
+&\mathsf{FieldSingletonClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))\\
+&\Longrightarrow
+(\mathsf{fieldSingletonEmptyNonZero}(L)\to\mathsf{False})\land
+(\mathsf{fieldSingletonEmptyNonZero}(Q)\to\mathsf{False})\\
+&\qquad\land
+(\mathsf{fieldSingletonEmptyNonZero}(R)\to\mathsf{False})\land
+(\mathsf{fieldSingletonEmptyNonZero}(S)\to\mathsf{False}).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The classifier supplies singleton-carrier witnesses for both appended
+endpoints. Empty-result inversion for append splits these into witnesses that
+$L$, $Q$, $R$, and $S$ each equal $\emp$. The concrete empty-nonzero complement
+then excludes empty-nonzero evidence at each of the four endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_endpoint\_empty\_nonzero\_absurd}
+
 \begin{theorem}[Field singleton carrier empty append context]
 \label{thm:field-singleton-carrier-append-context-empty}
 For histories $L,R,h:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
