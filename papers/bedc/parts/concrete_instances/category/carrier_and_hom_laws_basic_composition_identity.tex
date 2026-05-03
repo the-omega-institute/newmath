@@ -78,6 +78,27 @@ at $a$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_right\_tail\_fixed\_left\_identity}
 
+\begin{theorem}[Category hom carrier composite result fixed by both factors]
+\label{thm:category-hom-carrier-composite-result-fixed-both-identity}
+For the unary-continuation category, if
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,c,g)$, and $\ContR(f,g,fg)$, then
+$$
+\HSame(fg,f)\wedge\HSame(fg,g)
+\Longleftrightarrow
+\HSame(f,\emp)\wedge\HSame(g,\emp)\wedge\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies the one-sided fixed-composite identity laws to
+the two displayed comparisons. Fixing the result against $f$ forces the right
+factor tail empty and identifies $b$ with $c$; fixing it against $g$ forces the
+left factor tail empty and identifies $a$ with $b$. Conversely, when both
+factor tails are empty, the composite continuation reduces to the empty
+history, hence it is history-same to each factor tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_fixed\_both\_identity\_iff}
+
 \begin{theorem}[Category hom carrier two-sided identity law]
 \label{thm:category-hom-carrier-two-sided-identity-law}
 For the unary-continuation category, if
@@ -310,6 +331,31 @@ tail and comparing it with the canonical right-unit continuation at $a$
 identifies $a$ and $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_tail\_fixed\_left\_identity}
+
+\begin{theorem}[Continuation morphism composite tail fixed by both factors]
+\label{thm:continuation-morphism-composite-tail-fixed-both-identity}
+For continuation morphisms $left:a\to b$ and $right:b\to c$, the closed
+composite tail is fixed by both factor tails exactly when both factors are
+identity tails and both endpoint steps are history-same:
+$$
+\HSame((left\circ right).tail,left.tail)\wedge
+\HSame((left\circ right).tail,right.tail)
+\Longleftrightarrow
+\HSame(left.tail,\emp)\wedge\HSame(right.tail,\emp)\wedge
+\HSame(a,b)\wedge\HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+After destructing the two continuation-morphism records, the closed composite
+tail is the append of the two displayed factor tails. If this append is
+history-same to the left tail, right-unit uniqueness forces the right tail
+empty; if it is history-same to the right tail, left-unit uniqueness forces the
+left tail empty. Transporting the two relation fields across those empty-tail
+equalities and comparing with canonical right-unit continuations gives the two
+endpoint comparisons. The converse reduces the append tail to the empty
+history and hence to each empty factor tail.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_fixed\_both\_identity\_iff}
 
 \begin{theorem}[Category hom carrier composite middle identity result]
 \label{thm:category-hom-carrier-comp-middle-identity-result}

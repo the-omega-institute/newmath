@@ -29,6 +29,70 @@ theorem CategoryHomCarrier_comp_left_tail_fixed_right_identity {a b c f g fg : B
   exact And.intro rightTailEmpty
     (hsame_symm (cont_deterministic rightAsIdentity (cont_right_unit b)))
 
+theorem ContinuationMorphism_comp_tail_fixed_both_identity_iff {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    (hsame (ContinuationMorphism_comp_closed left right).tail left.tail ∧
+        hsame (ContinuationMorphism_comp_closed left right).tail right.tail) ↔
+      hsame left.tail BHist.Empty ∧ hsame right.tail BHist.Empty ∧
+        hsame a b ∧ hsame b c := by
+  constructor
+  · intro fixed
+    cases left with
+    | mk leftTail leftRel =>
+        cases right with
+        | mk rightTail rightRel =>
+            have leftTailEmpty : hsame leftTail BHist.Empty :=
+              cont_left_unit_unique (cont_intro fixed.right.symm)
+            have rightTailEmpty : hsame rightTail BHist.Empty :=
+              cont_right_unit_unique (cont_intro fixed.left.symm)
+            have leftAsIdentity : Cont a BHist.Empty b :=
+              cont_hsame_transport (hsame_refl a) leftTailEmpty (hsame_refl b) leftRel
+            have rightAsIdentity : Cont b BHist.Empty c :=
+              cont_hsame_transport (hsame_refl b) rightTailEmpty (hsame_refl c) rightRel
+            exact
+              And.intro leftTailEmpty
+                (And.intro rightTailEmpty
+                  (And.intro
+                    (hsame_symm (cont_deterministic leftAsIdentity (cont_right_unit a)))
+                    (hsame_symm (cont_deterministic rightAsIdentity (cont_right_unit b)))))
+  · intro data
+    cases left with
+    | mk leftTail leftRel =>
+        cases right with
+        | mk rightTail rightRel =>
+            cases data.left
+            cases data.right.left
+            exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
+theorem CategoryHomCarrier_comp_result_fixed_both_identity_iff {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      ((hsame fg f ∧ hsame fg g) ↔
+        hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a b ∧ hsame b c) := by
+  intro left right comp
+  constructor
+  · intro fixed
+    have rightTailEmpty : hsame g BHist.Empty :=
+      cont_right_unit_unique (cont_result_hsame_transport comp fixed.left)
+    have leftTailEmpty : hsame f BHist.Empty :=
+      cont_left_unit_unique (cont_result_hsame_transport comp fixed.right)
+    have leftAsIdentity : Cont a BHist.Empty b :=
+      cont_hsame_transport (hsame_refl a) leftTailEmpty (hsame_refl b)
+        left.right.right.right
+    have rightAsIdentity : Cont b BHist.Empty c :=
+      cont_hsame_transport (hsame_refl b) rightTailEmpty (hsame_refl c)
+        right.right.right.right
+    exact
+      And.intro leftTailEmpty
+        (And.intro rightTailEmpty
+          (And.intro
+            (hsame_symm (cont_deterministic leftAsIdentity (cont_right_unit a)))
+            (hsame_symm (cont_deterministic rightAsIdentity (cont_right_unit b)))))
+  · intro data
+    cases data.left
+    cases data.right.left
+    cases comp
+    exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+
 theorem CategoryHomCarrier_right_append_fixed_identity_iff {a b f g : BHist}
     (hom : CategoryHomCarrier a b f) :
     hsame (append f g) g <-> hsame f BHist.Empty /\ hsame a b := by

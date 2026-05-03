@@ -335,6 +335,27 @@ comparisons identify the two composite tails.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_parallel\_factor\_comp\_tail\_middle\_deterministic}
 
+\begin{theorem}[Continuation parallel factor tails deterministic]
+\label{thm:continuation-parallel-factor-tails-deterministic}
+For kernel continuations, if two factorizations share the same source, middle,
+and target endpoints,
+$$
+\ContR(a,f,b)\wedge\ContR(b,g,c)\wedge
+\ContR(a,f',b)\wedge\ContR(b,g',c),
+$$
+then the two left factor tails and the two right factor tails are determined:
+$$
+\HSame(f,f')\wedge\HSame(g,g').
+$$
+\end{theorem}
+\begin{proof}
+The first and third continuations have the same source endpoint and result
+endpoint, so left cancellation identifies $f$ and $f'$. The second and fourth
+continuations have the same middle endpoint and target endpoint, so the same
+cancellation identifies $g$ and $g'$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_parallel\_factor\_tails\_deterministic}
+
 \begin{theorem}[Continuation morphism same-left-tail factorization determinacy]
 \label{thm:continuation-morphism-comp-same-left-tail-factorization-deterministic}
 For continuation morphisms

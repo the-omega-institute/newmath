@@ -270,4 +270,10 @@ theorem cont_suffix_iff {a b f p : BHist} :
     cases base
     exact append_assoc a f p
 
+theorem cont_parallel_factor_tails_deterministic {a b c f f' g g' : BHist} :
+    Cont a f b -> Cont b g c -> Cont a f' b -> Cont b g' c ->
+      hsame f f' ∧ hsame g g' := by
+  intro left right left' right'
+  exact And.intro (cont_left_cancel left left') (cont_left_cancel right right')
+
 end BEDC.FKernel.Cont
