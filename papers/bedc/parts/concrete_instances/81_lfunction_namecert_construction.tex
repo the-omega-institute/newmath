@@ -21,5 +21,22 @@ witness showing that $\mathsf{BHist.e1}(n)$ is positive.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_positive\_index}
 
+\begin{theorem}[L-function Dirichlet partial-sum successor previous uniqueness]
+\label{thm:lfunction-dirichlet-part-sum-successor-previous-unique}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, a closed witness
+$\mathsf{DirichletPartSum}(term,s,\mathsf{BHist.e1}(n),S)$ exposes a previous
+partial sum $P$ such that
+$\mathsf{DirichletPartSum}(term,s,n,P)$, $\mathsf{Cont}(P,term(n,s),S)$, and
+every other closed partial sum at index $n$ is $\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+Invert the successor partial-sum witness. Its predecessor gives the previous
+partial sum and continuation into $S$. Positivity of the successor index
+recovers unaryness of $n$, and unary-index determinacy identifies every other
+predecessor partial sum with the exposed one.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_successor\_previous\_unique}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

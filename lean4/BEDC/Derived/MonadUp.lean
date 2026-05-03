@@ -26,4 +26,14 @@ theorem MonadAdjunctionEndomorphism_triangle_results_empty
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty rightEmpty
 
+theorem MonadAdjunctionEndomorphism_triangle_composite_empty
+    {p a unit counit left right composite : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right -> Cont left right composite ->
+      hsame composite BHist.Empty := by
+  intro carrier compositeRel
+  have triangleEmpty :=
+    MonadAdjunctionEndomorphism_triangle_results_empty carrier
+  exact cont_respects_hsame triangleEmpty.left triangleEmpty.right compositeRel
+    (cont_right_unit BHist.Empty)
+
 end BEDC.Derived.MonadUp

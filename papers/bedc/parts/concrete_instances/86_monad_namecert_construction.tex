@@ -24,5 +24,19 @@ in the unit-counit order and then in the counit-unit order.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_results\_empty}
 
+\begin{theorem}[Monad adjunction endomorphism triangle composite is empty]
+\label{thm:monad-adjunction-endomorphism-triangle-composite-empty}
+For histories $p,a,unit,counit,left,right,composite:\mathsf{BHist}$, suppose
+$\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ holds and
+$\mathsf{Cont}(left,right,composite)$ holds. Then
+$\hsame(composite,\emp)$.
+\end{theorem}
+\begin{proof}
+The endomorphism triangle theorem identifies both triangle legs with $\emp$.
+Transport the displayed continuation against those two endpoint identifications
+and compare it with the empty right-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_triangle\_composite\_empty}
+
 \section{The certificate}
 \label{sec:monad-certificate}
