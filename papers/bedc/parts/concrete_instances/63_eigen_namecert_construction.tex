@@ -6,5 +6,30 @@ The eigen-pair interface $\EigenUp$ packages an eigenvalue / eigenvector pair $(
 \section{Carrier definition}
 \label{sec:eigen-carrier}
 
+\begin{definition}[Eigen singleton carrier]
+\label{def:eigen-singleton-carrier}
+For histories $f,\lambda,v,pair:\mathsf{BHist}$, the singleton eigen carrier
+requires $f$ and $v$ to be singleton linear-map histories, $\lambda$ to be a
+singleton commutative-ring history, and $pair$ to be the BEDC continuation
+endpoint of $\lambda$ followed by $v$.
+\end{definition}
+\leandef{BEDC.Derived.EigenUp.EigenSingletonCarrier}
+
+\begin{theorem}[Eigen singleton carrier pair emptiness]
+\label{thm:eigen-singleton-carrier-pair-empty}
+For histories $f,\lambda,v,pair:\mathsf{BHist}$, the eigen singleton carrier
+is equivalent to the three singleton component carriers together with
+$\hsame(pair,\emp)$.
+\end{theorem}
+\begin{proof}
+Unfold the eigen carrier. In the forward direction, the scalar and vector
+component carriers identify $\lambda$ and $v$ with $\emp$, so
+$\mathsf{append}(\lambda,v)$ is empty by the BEDC append-empty inversion, and
+the stored continuation transports this emptiness to $pair$. In the reverse
+direction, the same append-empty fact reconstructs the continuation endpoint
+from the given $\hsame(pair,\emp)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_pair\_empty\_iff}
+
 \section{The certificate}
 \label{sec:eigen-certificate}
