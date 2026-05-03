@@ -105,6 +105,27 @@ that comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyContradictoryCarrier\_namecert\_absurd}
 
+\begin{theorem}[Empty contradictory carrier semantic certificate absurdity]
+\label{thm:empty-contradictory-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger
+policies all ask a single history to be both the empty history and the
+one-extension of the empty history:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid h\hsame\emp\land h\hsame\Eone(\emp)\},
+\{h\mid h\hsame\emp\land h\hsame\Eone(\emp)\},
+\{h\mid h\hsame\emp\land h\hsame\Eone(\emp)\},\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness for the contradictory
+carrier. Its two endpoint equations compose by symmetry and transitivity of
+$\hsame$ to give $\emp\hsame\Eone(\emp)$, contradicting BEDC history
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyContradictoryCarrier\_semantic\_namecert\_absurd}
+
 \begin{theorem}[Empty visible contradictory carrier name certificate absurdity]
 \label{thm:empty-visible-contradictory-carrier-namecert-absurd}
 There is no name certificate whose carrier asks a single history to classify
