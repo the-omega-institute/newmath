@@ -56,3 +56,40 @@ $\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:magma-certificate}
+
+\begin{theorem}[Concrete unary-history MagmaUp semantic certificate]
+\label{thm:concrete-unary-history-magma-semantic-certificate}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$, let
+$\mathsf{mul}_U(h,k):=\mathsf{append}(h,k)$, and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+The tuple with source, pattern, and ledger all equal to $U$, classifier
+$R_U$, and operation $\mathsf{mul}_U$ is the concrete $\MagmaUp$ semantic
+naming certificate over $\mathsf{BHist}$. Its certificate fields are: carrier
+inhabitation by $\emp$; classifier reflexivity, symmetry, transitivity, and
+carrier transport; operation closure; operation congruence; ledger append
+provenance through $\Cont$; exactness
+$$
+R_U(h,k)\Longleftrightarrow U(h)\land U(k)\land\hsame(h,k);
+$$
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The carrier field is supplied by the empty unary history. Reflexivity,
+symmetry, and transitivity of $R_U$ are obtained by unpacking the two endpoint
+carrier witnesses and applying the corresponding $\hsame$ equivalence laws.
+Carrier transport follows from unary transport along $\hsame$, with the
+transported endpoint witness repacked together with the unchanged classifier
+witness.
+
+The operation fields are the concrete laws of
+Theorem~\ref{thm:concrete-unary-history-magma-laws}, whose checked Lean target
+is
+\texttt{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_laws}.
+Closure is the unary append-closure component, congruence is the append
+classifier-transport component, and the ledger row is the canonical
+continuation witness $\Cont(h,k,\mathsf{append}(h,k))$. Exactness is the
+definition of $R_U$, so the displayed predicate is both the public classifier
+and the certificate's endpoint criterion.
+\end{proof}
