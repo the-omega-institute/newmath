@@ -210,6 +210,27 @@ rules out any equality from that left tail to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_cases}
 
+\begin{theorem}[Continuation morphism composite tail nonempty equivalence]
+\label{thm:continuation-morphism-comp-tail-nonempty-iff}
+For histories $a,b,c$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. The closed composite tail is not
+internally empty exactly when at least one displayed factor tail is not
+internally empty:
+$$
+\neg\HSame(\mathsf{tail}(left\circ right),\emp)
+\Longleftrightarrow
+\neg\HSame(\mathsf{tail}(left),\emp)\vee
+\neg\HSame(\mathsf{tail}(right),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records. The composite tail is the append
+of the displayed factor tails, so the append nonempty factor equivalence gives
+the displayed statement.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_nonempty\_iff}
+
 \begin{theorem}[Continuation morphism composite unary tails reject zero-headed result]
 \label{thm:category-continuation-morphism-comp-unary-tail-e0-absurd}
 For histories $a,b,c,z$, let

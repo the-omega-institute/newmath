@@ -161,6 +161,25 @@ It is a relation, not a primitive function.
 \leanvariant{BEDC.FKernel.Cont.cont\_e1\_result\_iff}
 \leanvariant{BEDC.FKernel.Cont.cont\_respects\_hsame}
 
+\begin{theorem}[Append nonempty factor equivalence]
+\label{thm:append-nonempty-iff}
+For histories $h$ and $k$, the appended history is not internally empty
+exactly when at least one factor is not internally empty:
+$$
+\neg\HSame(\mathsf{append}(h,k),\emp)
+\Longleftrightarrow
+\neg\HSame(h,\emp)\vee\neg\HSame(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits on the left factor. If it is empty, the append
+left-unit law reduces the obstruction to the right factor; visible left
+constructors are separated from $\emp$. Conversely, an empty appended result
+is inverted into empty witnesses for both factors, contradicting either
+nonempty disjunct.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_nonempty\_iff}
+
 \begin{lemma}[Continuation respects a matching right extension step]
 \label{lem:cont-ext-right-step}
 If $\ContR(h,k,r)$, $\ExtR(m,k,k')$, and $\ExtR(m,r,r')$, then

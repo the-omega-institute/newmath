@@ -309,6 +309,11 @@ def ContinuationMorphism_comp_closed {a b c : BHist} (left : ContinuationMorphis
               rel := by
                 cases leftRel
                 exact rightRel.trans (append_assoc a leftTail rightTail) }
+theorem ContinuationMorphism_comp_tail_nonempty_iff {a b c : BHist}
+    (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
+    ((hsame (ContinuationMorphism_comp_closed left right).tail BHist.Empty -> False) <->
+      (hsame left.tail BHist.Empty -> False) ∨ (hsame right.tail BHist.Empty -> False)) := by
+  cases left; cases right; exact BEDC.FKernel.Cont.append_nonempty_iff
 theorem ContinuationMorphism_comp_tail_append_deterministic {a b c : BHist}
     (left left' : ContinuationMorphism a b) (right right' : ContinuationMorphism b c) :
     hsame (append left.tail right.tail) (append left'.tail right'.tail) := by
@@ -334,20 +339,14 @@ theorem ContinuationMorphism_identity_tail_hsame {a b : BHist}
         m.tail /\
       hsame (ContinuationMorphism_comp_closed m { tail := BHist.Empty, rel := cont_right_unit b }).tail
         m.tail := by
-  cases m with
-  | mk tail rel =>
-      constructor
-      · exact append_empty_left tail
-      · exact append_empty_right tail
+  cases m with | mk tail rel => exact And.intro (append_empty_left tail) (append_empty_right tail)
 theorem ContinuationMorphism_identity_comp_closure :
     (forall h : BHist, Nonempty (ContinuationMorphism h h)) ∧
       (forall {a b c : BHist}, ContinuationMorphism a b ->
         ContinuationMorphism b c -> Nonempty (ContinuationMorphism a c)) := by
-  constructor
-  · intro h
-    exact Nonempty.intro { tail := BHist.Empty, rel := cont_right_unit h }
-  · intro a b c left right
-    exact Nonempty.intro (ContinuationMorphism_comp_closed left right)
+  exact ⟨fun h => Nonempty.intro { tail := BHist.Empty, rel := cont_right_unit h },
+    fun {_a _b _c : BHist} left right =>
+      Nonempty.intro (ContinuationMorphism_comp_closed left right)⟩
 theorem ContinuationMorphism_comp_assoc_closed {a b c d : BHist}
     (first : ContinuationMorphism a b) (second : ContinuationMorphism b c)
     (third : ContinuationMorphism c d) :

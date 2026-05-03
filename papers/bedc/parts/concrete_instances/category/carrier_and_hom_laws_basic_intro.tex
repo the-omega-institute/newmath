@@ -493,6 +493,24 @@ nonempty disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_cases}
 
+\begin{theorem}[Category displayed composite nonempty result equivalence]
+\label{thm:category-hom-carrier-comp-result-nonempty-iff}
+For unary-continuation hom carriers $f:a\to b$ and $g:b\to c$, if
+$\ContR(f,g,fg)$, then the displayed composite result is not internally empty
+exactly when at least one displayed morphism factor is not internally empty:
+$$
+\neg\HSame(fg,\emp)
+\Longleftrightarrow
+\neg\HSame(f,\emp)\vee\neg\HSame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the displayed continuation equality, rewriting $fg$ as the append of
+$f$ and $g$. The append nonempty factor equivalence gives the displayed
+statement.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_iff}
+
 \begin{theorem}[Category hom carrier unary suffix equivalence]
 \label{thm:category-hom-carrier-unary-suffix-iff}
 For a unary suffix $q$, a displayed hom-carrier

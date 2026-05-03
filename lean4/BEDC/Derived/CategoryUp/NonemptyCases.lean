@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.CompositeEmptyTail
 
@@ -54,6 +55,14 @@ theorem CategoryHomCarrier_comp_result_nonempty_cases {a b c f g fg : BHist} :
       left
       intro fEmpty
       exact not_hsame_e1_empty fEmpty
+
+theorem CategoryHomCarrier_comp_result_nonempty_iff {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      ((hsame fg BHist.Empty -> False) <->
+        (hsame f BHist.Empty -> False) ∨ (hsame g BHist.Empty -> False)) := by
+  intro left right comp
+  cases comp
+  exact BEDC.FKernel.Cont.append_nonempty_iff
 
 theorem CategoryHomCarrier_comp_result_nonempty_target_visible {a b c f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
