@@ -68,6 +68,12 @@ LAKE_GATE_MAX_PARALLEL = 1
 # current. Removing or replacing it prevents new rounds from being dispatched;
 # current rounds finish normally and the process exits once the pool drains.
 PID_FILE = REPO_ROOT / ".pipeline.pid"
+# Dynamic parallelism: read target worker count from this JSON each dispatch
+# decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
+# pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
+PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_KEY = "lean"
+HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
@@ -471,6 +477,87 @@ def count_lean_theorems(bedc_root: Optional[Path] = None) -> int:
         text = path.read_text(encoding="utf-8", errors="replace")
         count += len(re.findall(r"^\s*(?:theorem|lemma)\s+", text, re.MULTILINE))
     return count
+
+
+def read_target_parallel(default: int) -> int:
+    """Read live target parallelism from PARALLEL_CONFIG_FILE.
+
+    Returns the value clamped to [1, HARD_MAX_PARALLEL]. Falls back to
+    `default` if file missing or unreadable. Allows tuning concurrency
+    without restarting the orchestrator.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(PARALLEL_CONFIG_KEY, default))
+            return max(1, min(v, HARD_MAX_PARALLEL))
+    except Exception:
+        pass
+    return max(1, min(default, HARD_MAX_PARALLEL))
+
+
+_origin_sync_stop = threading.Event()
+
+
+def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
+    """Background ticker: rebase local base onto origin/<base> when remote
+    is ahead.
+
+    Prevents push race storms when an external commit lands on the remote.
+    Without this, individual rounds keep failing with "Diverging branches"
+    or "Rebase left no own-round commit" until a human intervenes. Runs in
+    a daemon thread; safe to spawn once per orchestrator process.
+    """
+    while not _origin_sync_stop.wait(interval):
+        try:
+            r = subprocess.run(
+                ["git", "fetch", "origin", base_branch],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+            )
+            if r.returncode != 0:
+                continue
+            r2 = subprocess.run(
+                ["git", "rev-list", "--count",
+                 f"{base_branch}..origin/{base_branch}"],
+                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+            )
+            if r2.returncode != 0:
+                continue
+            ahead = int((r2.stdout or "0").strip() or "0")
+            if ahead == 0:
+                continue
+            logger.info(
+                f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
+                f"ahead — rebasing local"
+            )
+            with _git_lock:
+                r3 = subprocess.run(
+                    ["git", "pull", "--rebase", "--autostash",
+                     "origin", base_branch],
+                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                )
+            if r3.returncode == 0:
+                logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+            else:
+                logger.warning(
+                    f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                    f"stderr={(r3.stderr or '').strip()[:200]}"
+                )
+        except Exception as exc:
+            logger.warning(f"[origin-sync] error: {exc}")
+
+
+def start_origin_sync_ticker(base_branch: str, interval: int = 60) -> None:
+    t = threading.Thread(
+        target=origin_sync_loop,
+        args=(base_branch, interval),
+        daemon=True,
+        name="origin-sync",
+    )
+    t.start()
+    logger.info(
+        f"[origin-sync] ticker started (interval={interval}s, branch={base_branch})"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -3047,11 +3134,19 @@ def main() -> int:
 
     if args.continuous:
         # ── True rolling pipeline: as soon as one worker finishes, start the next ──
+        # Pool max is fixed at HARD_MAX_PARALLEL so target_parallel can be
+        # raised live via PARALLEL_CONFIG_FILE without a restart. Active
+        # workers are gated by `read_target_parallel(args.parallel)`.
+        start_origin_sync_ticker(BASE_BRANCH, interval=60)
+        initial_target = read_target_parallel(args.parallel)
         logger.info(f"{'='*60}")
-        logger.info(f"Rolling pipeline: {args.parallel} concurrent workers, running until stopped")
+        logger.info(
+            f"Rolling pipeline: target={initial_target} workers (config={PARALLEL_CONFIG_FILE.name}, "
+            f"hard cap={HARD_MAX_PARALLEL}), running until stopped"
+        )
         logger.info(f"{'='*60}")
 
-        with ThreadPoolExecutor(max_workers=args.parallel, thread_name_prefix="worker") as pool:
+        with ThreadPoolExecutor(max_workers=HARD_MAX_PARALLEL, thread_name_prefix="worker") as pool:
             futures: dict[Future, int] = {}
 
             # Cooldown after consecutive_failures hits the threshold: pause
@@ -3093,10 +3188,11 @@ def main() -> int:
                 futures[fut] = rn
                 logger.info(f"Dispatching R{rn} (rolling)")
 
-            # Fill the pool initially
-            for _ in range(args.parallel):
+            # Fill the pool initially up to current target (live-readable).
+            for _ in range(read_target_parallel(args.parallel)):
                 _submit_next()
 
+            last_target = read_target_parallel(args.parallel)
             while futures:
                 if not pipeline_token_is_current():
                     logger.info(f"Pipeline PID token is not current; draining {len(futures)} in-flight workers")
@@ -3121,10 +3217,20 @@ def main() -> int:
                     state.total_theorems = count_lean_theorems()
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
-                    # Immediately launch a replacement worker (will cooldown
-                    # if too many consecutive failures, then resume).
+                    # Re-read live target each completion. Top up to target;
+                    # if target dropped below current pool, simply skip
+                    # replacement and let pool shrink naturally.
                     if pipeline_token_is_current():
-                        _submit_next()
+                        target = read_target_parallel(args.parallel)
+                        if target != last_target:
+                            logger.info(
+                                f"[parallel] target changed {last_target} -> {target} "
+                                f"(in-flight={len(futures)})"
+                            )
+                            last_target = target
+                        deficit = max(0, target - len(futures))
+                        for _ in range(deficit):
+                            _submit_next()
 
     else:
         # ── Batch mode (non-continuous) ────────────────────────────────────────────
