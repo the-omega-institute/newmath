@@ -21,6 +21,18 @@ The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), 
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_complex\_carrier\_witness}
 
+\begin{theorem}[Gamma pole locus is not empty]
+\label{thm:gamma-pole-locus-not-empty}
+If \(s\) lies in the Gamma pole locus, then \(s\) cannot be \(\hsame\) to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+The pole-locus witness induces a \(\ComplexUp\) carrier for \(s\) by the
+complex-carrier witness theorem. The complex carrier is non-empty, so an
+\(\hsame(s,\emp)\) assumption contradicts that carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_not\_empty}
+
 \begin{theorem}[Gamma pole locus hsame transport witness]
 \label{thm:gamma-pole-locus-hsame-transport-witness}
 If $s\hsame t$ and $s$ lies in the Gamma pole locus, then $t$ lies in the
@@ -37,6 +49,20 @@ with that equality. The same unary $n$ then witnesses both the pole-locus
 claim for $t$ and the displayed append-history equality.
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_hsame\_transport\_witness}
+
+\begin{theorem}[Gamma pole locus witness uniqueness]
+\label{thm:gamma-pole-locus-witness-unique}
+If the same complex history \(s\) is displayed as a Gamma pole by unary
+witnesses \(n\) and \(m\), then \(n\hsame m\).
+\end{theorem}
+\begin{proof}
+The two displayed pole equalities identify the append histories
+\(\mathsf{append}(\Eone(n),\Eone(\emp))\) and
+\(\mathsf{append}(\Eone(m),\Eone(\emp))\). Cancelling the common right
+component \(\Eone(\emp)\) gives \(\Eone(n)\hsame\Eone(m)\), and constructor
+inversion gives \(n\hsame m\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_witness\_unique}
 
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}
@@ -56,6 +82,19 @@ Unpack the Gamma-domain core witness and read its \(\ComplexUp\) carrier for
 contradicts the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_not\_empty}
+
+\begin{theorem}[Gamma domain core transports exclusions]
+\label{thm:gamma-domain-core-hsame-transport-exclusions}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core, then \(t\) is excluded
+from the pole locus and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport any pole-locus witness for \(t\) back along the symmetric
+\(\hsame\)-comparison to obtain a pole-locus witness for \(s\), contradicting
+the domain-core apartness field. For the empty-history exclusion, compose
+\(s\hsame t\) with \(t\hsame\emp\) and apply the non-empty core theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_exclusions}
 
 \begin{lemma}[Apartness from the pole locus is decidable]
 \label{lem:gamma-pole-apartness-decidable}
