@@ -110,6 +110,54 @@ of the original nested action, then move it across the transport equivalence to
 the transported context-pair representative.
 \end{proof}
 
+\begin{theorem}[RatUp FieldUp iterated transported support-neutrality row]
+\label{thm:ratup-fieldup-iterated-transported-support-neutrality-row}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, suppose the
+hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row} transport
+$(l,r),(l',r')$ to $(s,t),(s',t')$. Suppose also that $(u,v)$ and $(u',v')$ are
+carried denominator context pairs and that the pair classifiers required by
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+compare $(s,t)$ with $(u,v)$ and $(s',t')$ with $(u',v')$. Then the twice
+transported nested action is carried:
+$$
+C_D^u(\Gamma_{p',q',u',v'}(\Gamma_{p,q,u,v}(h))).
+$$
+Its strict support is still neutral against the original denominator history:
+$$
+N_D^u(\Gamma_{p',q',u',v'}(\Gamma_{p,q,u,v}(h)))
+\Longleftrightarrow N_D^u(h).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row} to the comparison
+from $(l,r),(l',r')$ to $(s,t),(s',t')$. This supplies the carried nested action
+at the $(s,t),(s',t')$ representative and the strict-support equivalence
+$$
+N_D^u(\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h)))
+\Longleftrightarrow N_D^u(h).
+$$
+
+Next apply
+\autoref{thm:field-rat-denominator-contextual-action-pair-transport-carrier-support}
+to the carried context pairs $(s,t)$, $(u,v)$, $(s',t')$, and $(u',v')$. The
+carrier component gives
+$C_D^u(\Gamma_{p',q',u',v'}(\Gamma_{p,q,u,v}(h)))$, and the support component
+compares the $(s,t),(s',t')$ representative with the $(u,v),(u',v')$
+representative.
+
+For the forward direction of the displayed equivalence, read support of the
+$(u,v),(u',v')$ representative back through the second transport equivalence and
+then through the first transported support-neutrality row to obtain $N_D^u(h)$.
+
+For the reverse direction, use the first transported support-neutrality row to
+obtain support of the $(s,t),(s',t')$ representative, then move it across the
+second transport equivalence to the twice transported representative.
+\end{proof}
+
 Per-object template: traditional target constructive field on $\RatUp$; BEDC
 source $\RatUp$ plus $\CommRingUp$ and concrete denominator $\mathsf{BHist}$
 rows; carrier $\mathsf{RatHistoryCarrier}$; classifier
@@ -124,6 +172,7 @@ witnesses, contextual pairs, and apart-zero inverse witnesses; core theorem
 \autoref{thm:ratup-fieldup-semantic-certificate-assembly},
 \autoref{thm:ratup-fieldup-assembled-support-neutrality-certificate},
 \autoref{thm:ratup-fieldup-transported-support-neutrality-row},
+\autoref{thm:ratup-fieldup-iterated-transported-support-neutrality-row},
 \autoref{thm:ratup-fieldup-denominator-action-envelope-certificate-component},
 \autoref{thm:ratup-fieldup-denominator-context-pair-unit-support-neutrality},
 and
