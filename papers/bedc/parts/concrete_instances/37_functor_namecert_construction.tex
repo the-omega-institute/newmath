@@ -434,3 +434,21 @@ Then for every pair of source objects \(x,y\) and every codomain morphism candid
 \begin{proof}
 The functor carrier of \autoref{def:functor-carrier} supplies the object map \(H_0\). The category carrier of \autoref{def:category-carrier} supplies, in the codomain category \(E\), a hom-carrier classifier for each ordered pair of codomain objects. Applying that category classifier to the image pair \(H_0(x),H_0(y)\) is exactly the displayed abbreviation for \(\mathsf{FunctorHomCarrier}_{H}(x,y,-)\). The pointwise classifier discipline in \autoref{def:functor-classifier-specification} and \autoref{rem:functor-zero-axiom-note} reads classifier equality at the morphism argument \(m\), so unfolding the abbreviation gives the stated biconditional.
 \end{proof}
+
+\begin{theorem}[Functor composite preservation witnesses]
+\label{thm:functor-composite-preservation-witnesses}
+Let \(C,D,E\) be certified categories. Let \(F:C\to D\) and \(G:D\to E\) be certified \(\FunctorUp\) carriers with object maps \(F_0,G_0\) and morphism maps \(F_1,G_1\). Write \(H\) for the composite pair with
+\[
+H_0(x)=G_0(F_0(x)),
+\qquad
+H_1(u)=G_1(F_1(u)).
+\]
+Then \(H\) has identity and composition preservation witnesses under the morphism classifier of \(E\): for every object \(x\) of \(C\), \(H_1(\mathsf{id}_x)\) is classified with \(\mathsf{id}_{H_0(x)}\), and for every composable pair \(u:x\to y\), \(v:y\to z\) in \(C\), \(H_1(v\circ_C u)\) is classified with \(H_1(v)\circ_E H_1(u)\).
+\end{theorem}
+\begin{proof}
+The functor carrier of \autoref{def:functor-carrier} supplies the object and morphism maps for \(F\) and \(G\). The stability certificate in \autoref{def:functor-stability-certificate} supplies identity preservation, composition preservation, and classifier-replacement stability, all read through the codomain morphism classifier. By \autoref{thm:functor-hom-carrier-codomain-evaluation}, the hom-carrier classifier for the composite pair \(H\) is the hom-carrier classifier of \(E\) at the image endpoints \(H_0(x)\) and \(H_0(y)\).
+
+Fix an object \(x\) of \(C\). The identity field of \(F\) classifies \(F_1(\mathsf{id}_x)\) with \(\mathsf{id}_{F_0(x)}\) in \(D\). The classifier-replacement stability field of \(G\) transports that comparison through \(G_1\), giving a classifier witness in \(E\) between \(G_1(F_1(\mathsf{id}_x))\) and \(G_1(\mathsf{id}_{F_0(x)})\). The identity field of \(G\), applied at \(F_0(x)\), classifies \(G_1(\mathsf{id}_{F_0(x)})\) with \(\mathsf{id}_{G_0(F_0(x))}\). Morphism-classifier transitivity from the category stability certificate in \autoref{def:category-stability-certificate} composes the two comparisons, giving the identity witness for \(H\).
+
+Fix composable morphisms \(u:x\to y\) and \(v:y\to z\) in \(C\). The composition field of \(F\) classifies \(F_1(v\circ_C u)\) with \(F_1(v)\circ_D F_1(u)\) in \(D\). The classifier-replacement stability field of \(G\) transports this comparison through \(G_1\), giving a classifier witness in \(E\) between \(G_1(F_1(v\circ_C u))\) and \(G_1(F_1(v)\circ_D F_1(u))\). The composition field of \(G\), applied to the composable pair \(F_1(u),F_1(v)\), classifies \(G_1(F_1(v)\circ_D F_1(u))\) with \(G_1(F_1(v))\circ_E G_1(F_1(u))\). Transitivity in \(E\) gives the composition witness for \(H\), and \autoref{def:functor-ledger-policy} records these two preservation ledgers as the composite functor ledger data.
+\end{proof}
