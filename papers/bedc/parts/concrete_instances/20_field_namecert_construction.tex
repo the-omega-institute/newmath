@@ -33,6 +33,38 @@ object.
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_concrete_operation_exit_exhaustion}
 \input{parts/concrete_instances/field/20_field_bracketing_complete_classifier_exit}
 
+\begin{theorem}[RatUp FieldUp concrete exit object hierarchy exactness]
+\label{thm:ratup-fieldup-concrete-exit-object-hierarchy-exactness}
+For $\mathsf{RatUpFieldSource}_F$, the finite row package of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object} is exactly the concrete
+$\FieldUp(\RatUp)$ hierarchy exit package. Its carrier and classifier rows are
+the concrete $\mathsf{RatHistory}$ and $\mathsf{RatDenomUnit}$ rows, and its
+operation and exactness rows are precisely those certified by
+\autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion} and
+\autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-concrete-operation-exit-exhaustion}. It
+exhausts the row inventory of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}: the carrier and
+classifier anchoring rows, the $\CommRingUp$ base rows, denominator
+multiplication and unit rows, contextual and context-pair rows, affine rows,
+inverse and nonzero rows, two-sided product exactness, and same-endpoint plus
+crossed singleton-classifier noncollapse rows.
+
+Apply \autoref{thm:ratup-fieldup-algebra-hierarchy-exit-witness}. It packages
+the same concrete rows as the algebra-hierarchy exit witness for
+$\FieldUp(\RatUp)$ over $\mathsf{RatUpFieldSource}_F$, including the ten-field
+certificate, product classifier and nonzero transport, five-factor ledger,
+cross-endpoint exclusions, and bracketing-complete classifier package.
+
+Because both cited theorems use the same source tuple, $\mathsf{BHist}$ carrier,
+denominator endpoints, and operation-row inventory, the finite package defined
+in Definition~\ref{def:ratup-fieldup-concrete-exit-object} and the concrete
+$\FieldUp(\RatUp)$ hierarchy exit package have the same rows and the same
+exactness obligations.
+\end{proof}
+
 Per-object template: traditional target RatUp FieldUp algebra hierarchy paper
 package; BEDC source $\mathsf{RatUpFieldSource}_F$ over $\mathsf{BHist}$;
 carrier the concrete RatUp history rows and denominator endpoints; classifier
