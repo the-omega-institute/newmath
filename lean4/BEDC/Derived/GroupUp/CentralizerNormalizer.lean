@@ -5,6 +5,19 @@ namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
 
+protected theorem group_conjugation_empty_action_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {x : BHist} :
+    hsame (mul (mul BHist.Empty x) (inv BHist.Empty)) x := by
+  have invEmpty : hsame (inv BHist.Empty) BHist.Empty := by
+    exact hsame_trans (hsame_symm (leftId (inv BHist.Empty))) (rightInv BHist.Empty)
+  exact hsame_trans (mulCongr (leftId x) invEmpty) (rightId x)
+
 protected theorem group_normalizer_conjugation_action_composition_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -518,5 +531,29 @@ protected theorem group_centralizer_normalizer_orbit_endpoint_transport_from_emp
           hsame_trans sameConj (hsame_trans data.right.right.right (hsame_symm sameYY'))
         exact Exists.intro s
           (And.intro data.left (And.intro centralX (And.intro centralY endpoint)))
+
+theorem group_centralizer_normalizer_orbit_endpoint_transport_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y x' y' : BHist} :
+    let Centralizer := fun q : BHist => hsame (mul q a) (mul a q)
+    let Conj := fun s q : BHist => mul (mul s q) (inv s)
+    let Normalizer := fun s : BHist =>
+      (forall q : BHist, Centralizer q -> Centralizer (Conj s q)) ∧
+        (forall q : BHist, Centralizer q -> Centralizer (Conj (inv s) q))
+    let Orbit := fun p q : BHist =>
+      Exists (fun s : BHist =>
+        Normalizer s ∧ Centralizer p ∧ Centralizer q ∧ hsame (Conj s p) q)
+    Centralizer x -> Centralizer y -> Centralizer x' -> Centralizer y' ->
+      hsame x x' -> hsame y y' -> (Orbit x y <-> Orbit x' y') := by
+  exact BEDC.Derived.GroupUp.group_centralizer_normalizer_orbit_endpoint_transport_from_empty_unit_iff
+    leftId rightId mulCongr
+    (group_inverse_congruence_from_laws assocC leftId rightId mulCongr leftInv rightInv)
 
 end BEDC.Derived.GroupUp

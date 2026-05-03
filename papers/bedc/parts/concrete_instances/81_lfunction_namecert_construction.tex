@@ -137,5 +137,59 @@ continuation into $S$.
 \end{proof}
 \leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_exists}
 
+\begin{theorem}[L-function positive Dirichlet partial-sum predecessor uniqueness]
+\label{thm:lfunction-positive-index-previous-unique}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and sum
+history $S$, if
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+\mathsf{Cont}(P,term(m,s),S),
+$$
+and every other closed partial sum at the predecessor index $m$ is
+$\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+The predecessor-existence theorem exposes the visible predecessor index $m$,
+the displayed predecessor partial sum $P$, and the continuation into $S$.
+The predecessor partial-sum witness makes $m$ unary. Dirichlet unary-index
+determinacy then identifies any other closed partial sum at $m$ with the
+exposed predecessor result $P$.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_positive\_index\_previous\_unique}
+
+\begin{theorem}[L-function zero-term positive partial-sum predecessor readback]
+\label{thm:lfunction-dirichlet-partsum-zero-terms-positive-previous-readback}
+For any Dirichlet term operation $term$, parameter $s$, positive index $n$,
+and sum history $S$, suppose every unary index $m$ has zero term
+$term(m,s)\hsame\emp$. If
+$$
+\mathsf{DirichletPartSum}(term,s,n,S)
+$$
+holds and $n$ is a Dirichlet positive index, then there are histories $m$ and
+$P$ such that
+$$
+n=\mathsf{BHist.e1}(m)\land
+\mathsf{DirichletPartSum}(term,s,m,P)\land
+P\hsame S,
+$$
+and every other closed partial sum at index $m$ is $\hsame$ to $P$.
+\end{theorem}
+\begin{proof}
+Use positive-index predecessor inversion to write $n$ as
+$\mathsf{BHist.e1}(m)$ and expose the predecessor partial sum $P$ together
+with the continuation through $term(m,s)$ into $S$. The predecessor partial-sum
+witness makes $m$ unary, so the zero-term hypothesis identifies $term(m,s)$
+with $\emp$. Comparing the displayed continuation with the canonical right-unit
+continuation from $P$ gives $P\hsame S$, and unary-index determinacy gives the
+stated uniqueness of predecessor readback.
+\end{proof}
+\leanchecked{BEDC.Derived.LFunctionUp.LFunctionDirichletPartSum\_zero\_terms\_positive\_previous\_readback}
+
 \section{The certificate}
 \label{sec:lfunction-certificate}

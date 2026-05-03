@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp.ProductApartness
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.FieldUp
 
@@ -13,6 +14,22 @@ inductive FieldApartTailFactor : BHist -> BHist -> Prop where
       FieldApartTailFactor w x -> Cont w q z -> FieldApartTailFactor z x
   | exposedFactor {w q z : BHist} :
       Cont w q z -> FieldApartTailFactor z q
+
+theorem FieldApartTailFactor_empty_context_hsame_transport
+    {l l' h h' r r' u u' v v' : BHist} :
+    Cont l h u -> Cont u r v -> hsame l BHist.Empty -> hsame r BHist.Empty ->
+      hsame l l' -> hsame h h' -> hsame r r' -> hsame u u' -> hsame v v' ->
+        FieldApartTailFactor v' h' := by
+  intro leftCont rightCont leftEmpty rightEmpty sameL sameH sameR sameU sameV
+  have leftCont' : Cont l' h' u' :=
+    cont_hsame_transport sameL sameH sameU leftCont
+  have rightCont' : Cont u' r' v' :=
+    cont_hsame_transport sameU sameR sameV rightCont
+  have leftEmpty' : hsame l' BHist.Empty :=
+    hsame_trans (hsame_symm sameL) leftEmpty
+  have rightEmpty' : hsame r' BHist.Empty :=
+    hsame_trans (hsame_symm sameR) rightEmpty
+  exact FieldApartTailFactor.emptyContext leftCont' rightCont' leftEmpty' rightEmpty'
 
 theorem FieldApartTailFactor_empty_endpoint_exclusion {y x : BHist} :
     FieldApartTailFactor y x -> hsame y BHist.Empty -> FieldApartZero x -> False := by
