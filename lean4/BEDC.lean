@@ -178,6 +178,7 @@ import BEDC.Derived.FieldUp.RatDenomUnitCarrierVisibleCases
 import BEDC.Derived.FieldUp.RatDenomUnitSemantic
 import BEDC.Derived.FieldUp.RatDenomUnitEndpointAbsurd
 import BEDC.Derived.FieldUp.RatDenomUnitAppendRat
+import BEDC.Derived.FieldUp.RatDenomUnitStrictProduct
 import BEDC.Derived.FieldUp.RatDenomUnitEmptyContext
 import BEDC.Derived.FieldUp.RatContinuation
 import BEDC.Derived.FieldUp.RatContinuationE1LeftUnitLawAbsurd

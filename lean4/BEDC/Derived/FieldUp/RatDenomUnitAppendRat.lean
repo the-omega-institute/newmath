@@ -105,6 +105,14 @@ theorem RatDenomUnitCarrier_append_factor_carriers {h k : BHist} :
                       (RatHistoryCarrier_iff_positive_denominator.mpr
                         (PositiveUnaryDenominator_e1_iff_unary.mpr tailUnary))
 
+theorem RatDenomUnitCarrier_append_iff {h k : BHist} :
+    RatDenomUnitCarrier (append h k) ↔ RatDenomUnitCarrier h ∧ RatDenomUnitCarrier k := by
+  constructor
+  · intro productCarrier
+    exact RatDenomUnitCarrier_append_factor_carriers productCarrier
+  · intro factors
+    exact RatDenomUnitCarrier_continuation_closed factors.left factors.right (cont_intro rfl)
+
 theorem RatDenomUnitClassifier_append_right_factor_classifier {h h' k k' : BHist} :
     RatDenomUnitClassifier (append h k) (append h' k') -> hsame k k' ->
       RatDenomUnitClassifier h h' := by

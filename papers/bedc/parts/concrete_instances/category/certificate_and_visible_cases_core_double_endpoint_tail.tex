@@ -104,3 +104,21 @@ through the zero constructor and compare it with the record continuation by
 left cancellation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_e0\_iff}
+
+\begin{proposition}[Continuation morphism zero-headed endpoints empty-tail exactness]
+\label{prop:continuation-morphism-e0-source-e0-target-tail-empty-iff}
+For histories $a,r:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, the displayed tail is
+empty exactly when the endpoint payloads are history-same:
+$$
+\HSame(\mathsf{tail}(m),\emp)\Longleftrightarrow\HSame(a,r).
+$$
+\end{proposition}
+\begin{proof}
+Apply the zero-headed endpoint tail cases. In the forward direction, the
+empty-tail branch exposes $\HSame(a,r)$, while the zero-headed visible-tail
+branch contradicts empty/zero separation. Conversely, an endpoint payload
+comparison builds the empty-tail displayed morphism, and continuation-morphism
+tail determinacy identifies it with $m$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_empty\_iff}
