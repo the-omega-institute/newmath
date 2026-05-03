@@ -205,6 +205,31 @@ constructor separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonCarrier\_append\_visible\_tail\_absurd}
 
+\begin{theorem}[CommRing singleton classifier append context cancellation]
+\label{thm:commring-singleton-classifier-append-context-cancel}
+For singleton commutative-ring carrier contexts $L,R:\mathsf{BHist}$ and
+histories $Q,S:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\rho_{\emp}(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the two classifier carrier fields identify
+$\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$ with $\emp$. Empty-result
+inversion for append splits these into endpoint witnesses for $Q$ and $S$.
+Those two recovered carrier witnesses compose with symmetry to give
+$\hsame(Q,S)$.
+
+Conversely, if $\rho_{\emp}(Q,S)$ holds and both contexts are singleton
+carriers, empty-result construction for append gives singleton carrier
+witnesses for $\mathsf{append}(L,Q)$ and $\mathsf{append}(R,S)$. Composing
+the two append carrier witnesses with symmetry gives the classifier relation
+component between the contextual endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_cancel\_iff}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with
