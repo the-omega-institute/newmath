@@ -90,4 +90,36 @@ theorem CategoryHomCarrier_e1_target_nonempty_morphism_source_iff {source r morp
                                     · intro sameEmpty
                                       exact not_hsame_e1_empty sameEmpty
 
+theorem CategoryHomCarrier_empty_source_nonempty_morphism_shape_iff {target morph : BHist} :
+    (CategoryHomCarrier BHist.Empty target morph /\ (hsame morph BHist.Empty -> False)) <->
+      exists r : BHist, target = BHist.e1 r /\ morph = BHist.e1 r /\ UnaryHistory r := by
+  constructor
+  · intro data
+    have sourceData :=
+      (CategoryHomCarrier_empty_source_iff (b := target) (f := morph)).mp data.left
+    cases target with
+    | Empty =>
+        exact False.elim (data.right sourceData.right)
+    | e0 t =>
+        exact False.elim (unary_no_zero_extension sourceData.left)
+    | e1 r =>
+        cases sourceData.right
+        exact Exists.intro r
+          (And.intro rfl (And.intro rfl (unary_e1_inversion sourceData.left)))
+  · intro witness
+    cases witness with
+    | intro r data =>
+        cases data with
+        | intro targetEq rest =>
+            cases rest with
+            | intro morphEq tailCarrier =>
+                cases targetEq
+                cases morphEq
+                constructor
+                · exact (CategoryHomCarrier_empty_source_iff (b := BHist.e1 r)
+                    (f := BHist.e1 r)).mpr
+                    (And.intro (unary_e1_closed tailCarrier) (hsame_refl (BHist.e1 r)))
+                · intro sameEmpty
+                  exact not_hsame_e1_empty sameEmpty
+
 end BEDC.Derived.CategoryUp

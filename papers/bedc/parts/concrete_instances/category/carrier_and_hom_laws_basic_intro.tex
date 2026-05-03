@@ -125,6 +125,28 @@ continuation equivalence to rebuild \(\ContR(\emp,f,b)\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_iff}
 
+\begin{theorem}[Category empty-source nonempty morphism shape]
+\label{thm:category-empty-source-nonempty-morphism-shape}
+For histories $target,morph$, an empty-source hom-carrier with nonempty
+morphism has exactly one visible unary payload:
+$$
+\mathsf{CategoryHomCarrier}(\emp,target,morph)\wedge
+\neg\hsame(morph,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+target=\Eone(r)\wedge morph=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Empty-source hom-carrier exactness identifies $morph$ with $target$ and gives
+unary membership of $target$. The nonempty morphism premise eliminates the
+empty target case, and unary inversion eliminates the zero-headed case. Thus
+the remaining target shape is $\Eone(r)$, and sameness forces the morphism to
+be the same visible history. Conversely, a visible unary payload rebuilds the
+empty-source carrier by left-unit continuation and is not $\hsame$ to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_source\_nonempty\_morphism\_shape\_iff}
+
 \begin{theorem}[Category empty-source semantic name certificate]
 \label{thm:category-empty-source-semantic-namecert}
 Fix a unary target history \(b\). The empty-source hom-carrier

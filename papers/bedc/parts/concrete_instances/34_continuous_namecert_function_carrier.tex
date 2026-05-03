@@ -59,6 +59,27 @@ empty unary carrier and the canonical empty continuation rebuild the witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_target\_iff}
 
+\begin{theorem}[Continuous empty-source nonempty modulus shape]
+\label{thm:continuous-empty-source-nonempty-modulus-shape}
+For histories $target,modulus$, an empty-source continuous modulus witness with
+nonempty modulus has exactly one visible unary payload:
+$$
+\mathsf{ContinuousModulusWitness}(\emp,modulus,target)\wedge
+\neg\hsame(modulus,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+target=\Eone(r)\wedge modulus=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Empty-source modulus exactness identifies $modulus$ with $target$ and gives
+unary membership of $target$. Nonemptiness excludes the empty target, unary
+membership excludes zero-headed targets, and the visible case strips one
+$\Eone$ constructor to expose the unary payload. The reverse direction
+rebuilds the witness from the visible unary target and reflexive sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_source\_nonempty\_modulus\_shape\_iff}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

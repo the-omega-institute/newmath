@@ -124,6 +124,27 @@ $\hsame(c,n)$ to obtain a self-extension of $c$. Right-unit uniqueness forces
 the precision tail to be empty.
 \end{proof}
 
+\begin{theorem}[Compact empty-center nonempty precision shape]
+\label{thm:compact-empty-center-nonempty-precision-shape}
+For histories $net,\epsilon$, a compact-net witness with empty center and
+nonempty precision has exactly one visible unary payload:
+$$
+\mathsf{CompactNetWitness}(\emp,\epsilon,net)\wedge\neg\hsame(\epsilon,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+net=\Eone(r)\wedge \epsilon=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+The continuation field is $\Cont(\emp,\epsilon,net)$, so left-unit exactness
+identifies $net$ with $\epsilon$. The nonempty precision premise removes the
+empty case, and unary membership removes zero-headed precision. In the visible
+case, the precision carrier exposes the unary payload and sameness fixes the
+net to the same visible history. Conversely, the displayed visible payload
+rebuilds the compact-net witness by the left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_center\_nonempty\_precision\_shape\_iff}
+
 \begin{theorem}[Compact net witness left e1 result cases]
 \label{thm:compact-net-witness-left-e1-result-cases}
 For histories $center,precision,net$, a compact-net witness from a visible
