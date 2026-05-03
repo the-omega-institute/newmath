@@ -505,3 +505,58 @@ core theorem list \autoref{thm:subgroup-centralizer-certificate-target},
 \autoref{thm:group-centralizer-normal-in-normalizer}; exactness predicate
 normalizer action on the centralizer; standard bridge normal-subgroup input
 for quotient groups; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Subgroup normalizer orbit quotient classifier]
+\label{thm:subgroup-normalizer-orbit-quotient-classifier}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the BEDC group laws used by
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} and
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, including
+associativity, unit, multiplication-congruence, inverse-congruence, and
+two-sided inverse laws, let $Z_a$ be the centralizer carrier, let $N_a$ be the
+centralizer normalizer carrier, let
+$\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$, and let
+$x\sim_{N_a}y$ be the normalizer-orbit relation of
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For
+$x,y,z:\mathsf{BHist}$ with $Z_a(x)$, $Z_a(y)$, and $Z_a(z)$, the data of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} together with
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence} supply the
+quotient-free classifier input for $\QuotientGroupUp$:
+\begin{enumerate}
+\item the lower $\SubgroupUp$ certificate rows for $Z_a$;
+\item the upper subgroup rows for $N_a$ over the same history operation;
+\item the inclusion row $Z_a\subseteq N_a$;
+\item the forward and inverse conjugation stability of $Z_a$ under histories
+carried by $N_a$;
+\item reflexivity, symmetry, and transitivity of $\sim_{N_a}$ on carried
+histories of $Z_a$.
+\end{enumerate}
+Thus the normalizer action on the centralizer carries exactly the
+quotient-free orbit classifier required before any quotient-group carrier is
+introduced.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. Its displayed
+rows give the lower certificate for $Z_a$, the upper subgroup rows for $N_a$,
+the inclusion $Z_a\subseteq N_a$, and the two conjugation-closure rows for
+$\mathsf{Conj}_s$ and $\mathsf{Conj}_{\mathsf{inv}(s)}$.
+
+Next use
+\autoref{def:group-centralizer-normalizer-orbit-relation} to read
+$\sim_{N_a}$ as reachability by a carried normalizer history with an $\hsame$
+endpoint comparison. This keeps the classifier entirely at the history level.
+
+Finally apply
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence} to the carried
+endpoints $x$, $y$, and $z$. Its three laws give reflexivity, symmetry, and
+transitivity for the same relation $\sim_{N_a}$ on $Z_a$, so the tower rows and
+the orbit laws combine into the advertised $\QuotientGroupUp$ classifier input.
+\end{proof}
+
+Per-object template: traditional target normalizer-orbit quotient classifier;
+BEDC source $\GroupUp$ plus $\SubgroupUp$ tower; carrier $Z_a$; classifier
+$\sim_{N_a}$; stability equivalence plus conjugation closure; ledger normalizer
+witness and conjugation endpoint; exactness quotient-free orbit reachability;
+standard bridge ordinary normal-subgroup orbit quotient input; status
+$\mathsf{ProofTarget}$.
