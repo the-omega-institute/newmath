@@ -59,6 +59,20 @@ of $\mathsf{Cont}$ identifies the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_successor\_result\_deterministic}
 
+\begin{lemma}[Dirichlet partial-sum unary index is deterministic]
+\label{lem:dirichlet-part-sum-unary-index-deterministic}
+If $n$ is a unary history, then any two closed derivations of
+$\mathsf{DirichletPartSum}(\mathsf{term},s,n,-)$ have $\hsame$ results.
+\end{lemma}
+\begin{proof}
+Induct on the first Dirichlet partial-sum derivation. The empty index case
+forces the second derivation to be the base constructor. In the successor case,
+unary inversion gives the predecessor index, the induction hypothesis
+identifies the previous partial sums, and determinacy of $\mathsf{Cont}$
+identifies the successor results.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_unary\_index\_deterministic}
+
 \begin{lemma}[Dirichlet partial sums are complex histories]
 \label{lem:dir-part-sum-complex}
 For every \((a, s, N)\), there is a unique complex history \(S_N\) with \(\mathsf{DirPartSum}(a, s, N, S_N)\), up to \(\hsame\).
@@ -162,6 +176,7 @@ Two convergent Dirichlet series at the same \(s\) are classified together when t
 \label{def:dir-stability-cert}
 The stability certificate consists of \(\hsame\)-respect on coefficients and on \(s\), transport of the abscissa under \(\hsame\), and compatibility with both partial-sum and limit predicates.
 \end{definition}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_term\_hsame\_transport}
 
 \begin{definition}[Dirichlet ledger policy]
 \label{def:dir-ledger-policy}

@@ -314,6 +314,24 @@ supplies their classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_endpoint\_split\_iff}
 
+\begin{theorem}[Field singleton classifier append pair equivalence]
+\label{thm:field-singleton-classifier-append-pair}
+For histories $h,h',k,k':\mathsf{BHist}$, the singleton classifier between
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$ is equivalent to the pair
+of component classifiers
+$\mathsf{FieldSingletonClassifier}(h,h')$ and
+$\mathsf{FieldSingletonClassifier}(k,k')$.
+\end{theorem}
+\begin{proof}
+In the forward direction, empty-result inversion for the two append carriers
+splits the source and target endpoints into four singleton-carrier witnesses;
+transitivity through $\emp$ builds the two component classifiers. Conversely,
+the component classifiers give singleton-carrier witnesses for all four
+endpoints, which rebuild the two appended carriers and their comparison through
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_append\_pair\_iff}
+
 \begin{theorem}[Field singleton classifier append endpoint empty nonzero exclusion]
 \label{thm:field-singleton-classifier-append-endpoint-empty-nonzero-absurd}
 For histories $L,Q,R,S:\mathsf{BHist}$, a singleton classifier witness for

@@ -235,6 +235,22 @@ $\mathsf{RatHistoryClassifier}(r,d)$ exposes a Rat carrier witness on $r$,
 and Rat carrier histories cannot be internally the same as $\emp$.
 \end{proof}
 
+\begin{lemma}[Rat denominator left-unit results classify together]
+\label{lem:field-rat-denominator-continuation-left-unit-result-classifier}
+For histories $u,d,r,s:\mathsf{BHist}$, suppose $u$ satisfies the
+Rat-denominator left-unit classifier law. If $\mathsf{RatHistoryCarrier}(d)$,
+$\Cont(u,d,r)$, and $\Cont(u,d,s)$, then
+$\mathsf{RatHistoryClassifier}(r,s)$.
+\end{lemma}
+\begin{proof}
+Apply the left-unit classifier law to both displayed continuations. This gives
+$\mathsf{RatHistoryClassifier}(r,d)$ and
+$\mathsf{RatHistoryClassifier}(s,d)$. The carrier fields supply Rat carrier
+witnesses for $r$ and $s$, and the two $\hsame$ comparisons compose through
+$d$ to classify $r$ with $s$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_left\_unit\_result\_classifier}
+
 \begin{theorem}[Rat denominator e1 left-unit law is impossible]
 \label{thm:field-rat-denominator-continuation-e1-left-unit-law-absurd}
 For every tail history $t:\mathsf{BHist}$, the one-headed candidate

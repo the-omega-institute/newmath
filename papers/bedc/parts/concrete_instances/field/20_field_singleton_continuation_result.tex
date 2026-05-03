@@ -1,3 +1,22 @@
+\begin{theorem}[Field singleton carrier continuation visible-left exclusion]
+\label{thm:field-singleton-carrier-continuation-visible-left-absurd}
+For histories $p,Q,R:\mathsf{BHist}$, no continuation whose left input is
+headed by a visible constructor can land in the singleton field carrier:
+$$
+\bigl(\ContR(\Ezero(p),Q,R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr)
+\land
+\bigl(\ContR(\Eone(p),Q,R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport a displayed continuation result through the singleton carrier to
+$\emp$. Empty-result inversion then identifies the visible left input with
+$\emp$, contradicting BEDC history no-confusion for $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_left\_absurd}
+
 \begin{theorem}[Field singleton classifier continuation empty result iff]
 \label{thm:field-singleton-classifier-continuation-empty-result-iff}
 For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton

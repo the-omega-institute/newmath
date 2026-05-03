@@ -6,5 +6,127 @@ The subgroup interface $\SubgroupUp$ packages a subset of a group carrier closed
 \section{Carrier definition}
 \label{sec:subgroup-carrier}
 
+\begin{definition}[Centralizer SubgroupUp instance]
+\label{def:subgroup-centralizer-instance}
+Fix a BEDC history-level $\GroupUp$ source over $\mathsf{BHist}$ with
+operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and
+fixed element $a:\mathsf{BHist}$. The centralizer $\SubgroupUp$ instance uses
+the carrier $Z_a$ from \autoref{def:group-centralizer-carrier}. Its classifier
+is the restriction of $\hsame$ to that carrier: two carried histories $x$ and
+$y$ represent the same subgroup element exactly when $x\hsame y$. The
+operation, unit, and inverse are inherited from the ambient $\GroupUp$ source,
+and the ledger records the fixed element $a$ together with the commuting
+witnesses certifying membership in $Z_a$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:subgroup-certificate}
+
+\begin{theorem}[Centralizer SubgroupUp certificate target]
+\label{thm:subgroup-centralizer-certificate-target}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+associativity, left and right unit laws for $e$, multiplication congruence, and
+two-sided inverse laws, the instance of
+\autoref{def:subgroup-centralizer-instance} satisfies the $\SubgroupUp$ rows:
+\begin{enumerate}
+\item the carrier is inhabited by $e$, and $Z_a(e)$;
+\item if $Z_a(x)$ and $Z_a(y)$, then $Z_a(\mathsf{mul}(x,y))$;
+\item if $Z_a(x)$, then $Z_a(\mathsf{inv}(x))$;
+\item if $Z_a(x)$ and $x\hsame y$, then $Z_a(y)$;
+\item for every $x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow \mathsf{comm}(x,a)\hsame e.
+$$
+\end{enumerate}
+Thus the centralizer carrier is a concrete certificate target for
+$\NameCert_{\SubgroupUp}$ over the ambient history classifier.
+\end{theorem}
+\begin{proof}
+The inhabited, product-closure, inverse-closure, and commutator-fiber rows are
+the rows of \autoref{thm:group-centralizer-subgroup}. The inverse row uses the
+ambient inverse congruence from
+\autoref{thm:group-inverse-congruence-from-laws} and the reverse-product
+description of inverses from \autoref{thm:group-inverse-mul-reverse}; these
+are exactly the sources cited by the GroupUp centralizer proof.
+
+For carrier transport, unfold $Z_a$. A witness $x\hsame y$ transports
+$\mathsf{mul}(x,a)\hsame\mathsf{mul}(a,x)$ to
+$\mathsf{mul}(y,a)\hsame\mathsf{mul}(a,y)$ by multiplication congruence on the
+left and right arguments, followed by symmetry and transitivity of $\hsame$.
+Therefore the restricted classifier preserves the subgroup carrier.
+
+The exactness row is the commutator criterion from
+\autoref{thm:group-commutator-trivial-iff-commutes} applied to the ordered
+pair $(x,a)$, with the definition of $Z_a$ supplying the displayed
+orientation. Repacking these rows with the inherited operation, unit, inverse,
+and ledger gives the advertised $\SubgroupUp$ certificate target.
+\end{proof}
+
+\begin{definition}[RatUp FieldUp affine center subgroup carrier]
+\label{def:ratup-fieldup-affine-center-subgroup-carrier}
+For the concrete $\FieldUp(\RatUp)$ affine exit package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, take the
+ambient group carrier to be $\mathsf{AffAut}_F$ with classifier
+$\equiv_{\mathrm{aff}}$, multiplication $\circ_{\mathrm{aff}}$, identity
+$\mathrm{id}_F$, and inverse row $\iota_F$. The associated $\SubgroupUp$
+carrier is the affine center predicate on that same group:
+$$
+\mathsf{Carrier}_{\SubgroupUp}(Z) := \mathsf{Center}_F(Z)
+\qquad (Z:\mathsf{AffAut}_F).
+$$
+Thus membership in the subgroup certificate is exactly center membership in
+the concrete FieldUp affine automorphism group.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine center SubgroupUp instance]
+\label{thm:ratup-fieldup-affine-center-subgroup-instance}
+The carrier of
+\autoref{def:ratup-fieldup-affine-center-subgroup-carrier} instantiates the
+concrete $\SubgroupUp$ certificate fields over $\mathsf{AffAut}_F$. Namely:
+\begin{enumerate}
+\item $\mathsf{Carrier}_{\SubgroupUp}(\mathrm{id}_F)$.
+\item If $\mathsf{Carrier}_{\SubgroupUp}(Z)$ and
+$\mathsf{Carrier}_{\SubgroupUp}(W)$, then
+$\mathsf{Carrier}_{\SubgroupUp}(Z\circ_{\mathrm{aff}}W)$.
+\item If $\mathsf{Carrier}_{\SubgroupUp}(Z)$, then
+$\mathsf{Carrier}_{\SubgroupUp}(\iota_F(Z))$.
+\item If $Z\equiv_{\mathrm{aff}}W$ and
+$\mathsf{Carrier}_{\SubgroupUp}(Z)$, then
+$\mathsf{Carrier}_{\SubgroupUp}(W)$.
+\item If $\mathsf{Carrier}_{\SubgroupUp}(Z)$, then for every
+$T:\mathsf{AffAut}_F$,
+$\mathsf{Carrier}_{\SubgroupUp}(\mathrm{Inn}_T(Z))$.
+\end{enumerate}
+The same data make this $\SubgroupUp$ object normal under inner affine
+conjugation.
+\end{theorem}
+\begin{proof}
+Fix the canonical exit action and inverse package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+the ambient group operations $\circ_{\mathrm{aff}}$, $\mathrm{id}_F$,
+$\iota_F$, $\equiv_{\mathrm{aff}}$, and the inner affine conjugation row on
+$\mathsf{AffAut}_F$.
+
+By Definition~\ref{def:ratup-fieldup-affine-center-subgroup-carrier}, each
+subgroup membership assertion is exactly the corresponding
+$\mathsf{Center}_F$ assertion. Apply
+\autoref{thm:ratup-fieldup-affine-center-normal-subgroup} to obtain identity
+membership, product closure, inverse closure, classifier transport, and
+normality under $\mathrm{Inn}_T$.
+
+The classifier-transport field is compatible with the ambient ledger because
+\autoref{thm:field-affine-pointwise-classifier-operation-congruence} supplies
+operation and inverse congruence for $\equiv_{\mathrm{aff}}$. Therefore the
+five displayed clauses are precisely the concrete $\SubgroupUp$ certificate
+fields over the FieldUp affine exit package.
+\end{proof}
+
+Per-object template: traditional target normal subgroup of the affine
+automorphism group; BEDC source concrete $\FieldUp(\RatUp)$ plus $\GroupUp$;
+carrier $\mathsf{Center}_F$; classifier $\equiv_{\mathrm{aff}}$; stability
+identity, product, inverse, classifier transport, and inner conjugation; ledger
+affine operation and conjugation witnesses; core theorem list
+\autoref{thm:ratup-fieldup-affine-center-subgroup-instance} and
+\autoref{thm:ratup-fieldup-affine-center-normal-subgroup}; exactness predicate
+center membership as the $\SubgroupUp$ carrier; standard bridge ordinary
+affine center normal subgroup; status $\mathsf{ProofTarget}$.

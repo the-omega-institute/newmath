@@ -133,7 +133,6 @@ import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.ConvergenceRadiusUp
-import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.Classifier
@@ -176,6 +175,7 @@ import BEDC.Derived.FieldUp.AffineEquation
 import BEDC.Derived.FieldUp.Affine
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.SingletonAppend
+import BEDC.Derived.FieldUp.SingletonAppendPair
 import BEDC.Derived.FieldUp.SingletonRatDisjoint
 import BEDC.Derived.FieldUp.RatBoundary
 import BEDC.Derived.FieldUp.Nonzero
@@ -289,7 +289,6 @@ import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
-import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
