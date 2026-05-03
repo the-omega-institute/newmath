@@ -297,6 +297,27 @@ from classifying as zero.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_factor\_closed}
 
+\begin{theorem}[Field apart-zero left factor from non-apart tail]
+\label{thm:field-apartzero-left-factor-of-tail-not-apart}
+For histories $p,q:\mathsf{BHist}$, if $\mathsf{append}(p,q)$ is apart from
+zero and $q$ is not apart from zero, then $p$ is apart from zero:
+$$
+\mathsf{ApartZero}_F(\mathsf{append}(p,q))
+\Longrightarrow
+(\mathsf{ApartZero}_F(q)\Rightarrow\mathsf{False})
+\Longrightarrow
+\mathsf{ApartZero}_F(p).
+$$
+\end{theorem}
+\begin{proof}
+Assume $p\hsame0$. The concrete history $q$ is either empty or visibly headed.
+If it is visibly headed, it is apart from zero, contradicting the non-apart
+tail hypothesis. Hence $q\hsame0$. Empty-append introduction then gives
+$\mathsf{append}(p,q)\hsame0$, contradicting the apart-zero witness for the
+append.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_append\_left\_factor\_of\_tail\_not\_apart}
+
 \begin{theorem}[Field apart-zero append split exactness]
 \label{thm:field-apartzero-append-split-iff}
 For histories $p,q:\mathsf{BHist}$, apart-zero of an appended history is

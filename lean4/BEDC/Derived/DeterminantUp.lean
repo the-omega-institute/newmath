@@ -286,4 +286,45 @@ theorem DeterminantSingletonEndpoint_correspondence {M r : BHist} :
           append_eq_empty_iff.mpr ⟨productCarrier, hsame_refl BHist.Empty⟩
         exact ⟨detProduct, hsame_refl BHist.Empty, detProduct⟩
 
+theorem determinant_singleton_endpoint_laws :
+    let det : BHist -> BHist := fun _ => BHist.Empty
+    let Delta : BHist -> BHist -> Prop := fun M r =>
+      MatrixSingletonClassifier M MatrixSingletonOne ∧
+        CommRingSingletonClassifier r CommRingSingletonOne
+    (forall {M r : BHist},
+        Delta M r <->
+          MatrixSingletonCarrier M ∧
+            CommRingSingletonClassifier r CommRingSingletonOne) ∧
+      CommRingSingletonClassifier (det MatrixSingletonOne) CommRingSingletonOne ∧
+      (forall {M N : BHist}, MatrixSingletonClassifier M N ->
+        CommRingSingletonClassifier (det M) (det N)) ∧
+      (forall {M N : BHist}, MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+        CommRingSingletonClassifier (det (MatrixSingletonMul M N))
+          (CommRingSingletonMul (det M) (det N))) := by
+  dsimp
+  have matrixEmpty : MatrixSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have scalarEmpty : CommRingSingletonCarrier BHist.Empty :=
+    hsame_refl BHist.Empty
+  have scalarClassified :
+      CommRingSingletonClassifier BHist.Empty CommRingSingletonOne :=
+    And.intro scalarEmpty (And.intro scalarEmpty (hsame_refl BHist.Empty))
+  constructor
+  · intro M r
+    constructor
+    · intro delta
+      exact And.intro delta.left.left delta.right
+    · intro data
+      have matrixClassified :
+          MatrixSingletonClassifier M MatrixSingletonOne :=
+        And.intro data.left (And.intro matrixEmpty data.left)
+      exact And.intro matrixClassified data.right
+  · constructor
+    · exact scalarClassified
+    · constructor
+      · intro M N _classified
+        exact scalarClassified
+      · intro M N _carrierM _carrierN
+        exact scalarClassified
+
 end BEDC.Derived.DeterminantUp

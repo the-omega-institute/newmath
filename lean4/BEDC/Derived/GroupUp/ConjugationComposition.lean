@@ -61,4 +61,51 @@ theorem GroupConjugationWord_product_composition
   exact BEDC.Derived.GroupUp.group_conjugation_composition_from_empty_unit
     assocC leftId rightId mulCongr leftInv rightInv
 
+protected theorem group_conjugation_mul_composition_from_empty_unit
+    {mul : BHist -> BHist -> BHist}
+    {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {s t x : BHist} :
+    hsame (mul (mul (mul s t) x) (inv (mul s t)))
+      (mul (mul s (mul (mul t x) (inv t))) (inv s)) := by
+  have reverseInv :
+      hsame (inv (mul s t)) (mul (inv t) (inv s)) :=
+    group_inverse_mul_reverse assocC leftId rightId mulCongr leftInv rightInv s t
+  have replaceInverse :
+      hsame (mul (mul (mul s t) x) (inv (mul s t)))
+        (mul (mul (mul s t) x) (mul (inv t) (inv s))) := by
+    exact mulCongr (hsame_refl (mul (mul s t) x)) reverseInv
+  have pullFinal :
+      hsame (mul (mul (mul s t) x) (mul (inv t) (inv s)))
+        (mul (mul (mul (mul s t) x) (inv t)) (inv s)) := by
+    exact hsame_symm (assocC (mul (mul s t) x) (inv t) (inv s))
+  have reassocMiddle :
+      hsame (mul (mul (mul s t) x) (inv t))
+        (mul s (mul (mul t x) (inv t))) := by
+    have stepA :
+        hsame (mul (mul (mul s t) x) (inv t))
+          (mul (mul s t) (mul x (inv t))) := by
+      exact assocC (mul s t) x (inv t)
+    have stepB :
+        hsame (mul (mul s t) (mul x (inv t)))
+          (mul s (mul t (mul x (inv t)))) := by
+      exact assocC s t (mul x (inv t))
+    have stepC :
+        hsame (mul s (mul t (mul x (inv t))))
+          (mul s (mul (mul t x) (inv t))) := by
+      exact mulCongr (hsame_refl s) (hsame_symm (assocC t x (inv t)))
+    exact hsame_trans stepA (hsame_trans stepB stepC)
+  have alignWithFinal :
+      hsame (mul (mul (mul (mul s t) x) (inv t)) (inv s))
+        (mul (mul s (mul (mul t x) (inv t))) (inv s)) := by
+    exact mulCongr reassocMiddle (hsame_refl (inv s))
+  exact hsame_trans replaceInverse
+    (hsame_trans pullFinal alignWithFinal)
+
 end BEDC.Derived.GroupUp

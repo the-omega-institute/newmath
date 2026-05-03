@@ -160,9 +160,9 @@ import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.CentralizerNormalizer
 import BEDC.Derived.GroupUp.ConjugationEmpty
+import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContinuation
-import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.CommRingUp
