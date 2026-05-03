@@ -164,3 +164,44 @@ conjugating elements, acted element, and inverse witnesses; core theorem list
 \autoref{thm:ratup-fieldup-affine-inner-conjugation-exit}; exactness predicate
 restricted normalizer action; standard bridge ordinary normalizer action on a
 subgroup; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp canonical exit source-coordinate obstruction]
+\label{thm:ratup-fieldup-canonical-exit-source-coordinate-obstruction}
+Let $d_1:=\Eone(\emp)$. For
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}, the canonical
+$\FieldUp(\RatUp)$ exit certificate has the concrete source-coordinate witnesses
+$$
+\mathsf{RatHistoryCarrier}(d_1),
+$$
+$$
+\mathsf{RatHistoryClassifier}(d_1,d_1),
+$$
+and
+$$
+\mathsf{RatHistoryLedgerPolicy}(d_1,d_1).
+$$
+Each attempted coverage map from these carrier, classifier, or ledger
+coordinates to the singleton empty-history $\FieldUp$ boundary is contradictory.
+Equivalently, the canonical exit certificate cannot collapse to that singleton
+boundary in any of its carrier, classifier, or ledger coordinates.
+\end{theorem}
+\begin{proof}
+Invoke
+\autoref{thm:ratup-fieldup-canonical-machine-checkable-exit}. It identifies the
+canonical exit object of Definition~\ref{def:ratup-fieldup-concrete-exit-object}
+with the concrete $\mathsf{RatUpFieldSource}_F$ source, whose carrier,
+classifier, and ledger coordinates are the displayed RatUp history rows.
+
+Now apply
+\autoref{thm:ratup-fieldup-source-coordinate-coverage-obstruction} at
+$d_1=\Eone(\emp)$. That theorem supplies the three witnesses
+$\mathsf{RatHistoryCarrier}(d_1)$,
+$\mathsf{RatHistoryClassifier}(d_1,d_1)$, and
+$\mathsf{RatHistoryLedgerPolicy}(d_1,d_1)$, and rejects carrier coverage,
+classifier coverage, and ledger endpoint coverage into the singleton
+empty-history boundary.
+
+Transporting those three rejections along the canonical-exit identification
+leaves no coordinate map by which the canonical $\FieldUp(\RatUp)$ exit
+certificate can be read as the singleton empty-history $\FieldUp$ boundary.
+\end{proof}
