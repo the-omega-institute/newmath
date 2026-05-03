@@ -71,6 +71,18 @@ index, predecessor sum, and continuation payload directly.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_cases}
 
+\begin{lemma}[Dirichlet partial-sum index is unary]
+\label{lem:dirichlet-part-sum-index-unary}
+Every closed witness of $\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$
+forces the index history $n$ to be unary.
+\end{lemma}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero constructor gives the empty
+unary history, and the step constructor applies unary closure under
+$\mathsf{BHist.e1}$ to the predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_unary}
+
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
 If the Dirichlet partial-sum recursion reaches $S$ at unary index $n$, and the

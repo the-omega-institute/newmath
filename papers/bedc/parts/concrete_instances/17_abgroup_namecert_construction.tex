@@ -505,6 +505,51 @@ Finally apply group right cancellation, Theorem~\ref{thm:group-right-cancellatio
 to the common right factor $d$, yielding $\hsame(b,u)$.
 \end{proof}
 
+\begin{theorem}[AbGroup transported middle-four double cancellation]
+\label{thm:abgroup-middle-four-transported-double-cancel}
+For BEDC histories equipped with group laws, commutativity, and multiplication
+congruence under $\hsame$, if
+$$
+\hsame((a\cdot b)\cdot(c\cdot d),(a\cdot u)\cdot(c\cdot v))
+$$
+and $\hsame(d,v)$, then $\hsame(b,u)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:abgroup-middle-four-interchange} to the left endpoint
+of the supplied comparison, and apply the same theorem to the right endpoint.
+After symmetry and transitivity of $\hsame$, the comparison has common leading
+factor $a\cdot c$:
+$$
+\hsame((a\cdot c)\cdot(b\cdot d),(a\cdot c)\cdot(u\cdot v)).
+$$
+
+Use multiplication congruence with the displayed witness $\hsame(d,v)$, and
+symmetry when orienting the witness, to transport the trailing factor in the
+right tail from $v$ to $d$. This gives
+$$
+\hsame((a\cdot c)\cdot(b\cdot d),(a\cdot c)\cdot(u\cdot d)).
+$$
+
+Apply Theorem~\ref{thm:group-left-cancellation} to remove the common left
+factor $a\cdot c$. The remaining comparison is
+$$
+\hsame(b\cdot d,u\cdot d).
+$$
+
+Finally apply Theorem~\ref{thm:group-right-cancellation} to remove the common
+right factor $d$, yielding $\hsame(b,u)$.
+\end{proof}
+
+The ten-field fit is: traditional target transported abelian double
+cancellation; BEDC source $\AbGroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability obligations middle-four
+interchange, trailing-factor transport, and group cancellation; ledger the two
+paired products and the transported trailing witness; core theorem list
+Theorems~\ref{thm:abgroup-middle-four-interchange},
+\ref{thm:group-left-cancellation}, and \ref{thm:group-right-cancellation};
+exactness predicate the displayed implication; standard bridge ordinary
+abelian group cancellation; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Nonempty history append cannot be right-absorbed]
 \label{thm:abgroup-history-append-nonempty-left-ne-right}
 For every BEDC history $h$ and right tail $k$, neither

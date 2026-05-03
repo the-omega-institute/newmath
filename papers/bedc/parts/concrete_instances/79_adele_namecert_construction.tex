@@ -99,6 +99,45 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele empty scale real readback]
+\label{thm:adele-history-carrier-empty-scale-real-readback}
+Let $real,p,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier and $\mathsf{PadicPrimeScale}(p,\emp,result)$ holds, then
+$\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\mathsf{append}(real,result)\hsame real.
+$$
+\end{theorem}
+\begin{proof}
+The padic empty-result iff identifies $result$ with $\emp$ because the
+exponent is $\emp$. The adele carrier uses the displayed real component, prime,
+empty exponent, scale result, and reflexive append witness. The readback to
+$real$ follows from the identified empty scale result and append-right unit.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_empty\_scale\_real\_readback}
+
+\begin{theorem}[Adele real-stream prefix visible scale carrier]
+\label{thm:adele-real-stream-prefix-visible-scale-carrier}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible
+left stream is unary at every index. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic scale $\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),e,r)$ holds,
+then $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds and
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)).
+$$
+\end{theorem}
+\begin{proof}
+The add-left prefix projection recovers the classifier at index $n$. The
+visible real-pair readback at that prefix identifies the displayed
+$\Eone(\Eone(d))$ endpoint as a rational denominator carrier, hence as a
+constant real-history carrier. Combining that real component with the stored
+first-prime $p$-adic scale and reflexive history sameness of the displayed
+append endpoint gives the adele carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_visible\_scale\_carrier}
+
 \begin{theorem}[Real--padic empty-result split]
 \label{thm:adele-real-padic-e1-append-empty-padic-result}
 Let the two real coordinates be displayed as endpoint histories
