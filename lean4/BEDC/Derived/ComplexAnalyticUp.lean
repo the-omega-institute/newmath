@@ -107,6 +107,22 @@ theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BH
           split.right.right.left
       exact And.intro zqCarrier (ComplexHistoryCarrier_not_empty zqCarrier)
 
+theorem CplxPureImaginary_continuation_complex_carrier {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ComplexHistoryCarrier zq := by
+  intro pureImaginary qUnary zqCont
+  cases CplxPureImaginary_component_continuation_witness pureImaginary qUnary zqCont with
+  | intro imagq data =>
+      have realCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) := by
+        exact RatHistoryCarrier_iff_positive_denominator.mpr
+          (PositiveUnaryDenominator_e1_iff_unary.mpr unary_empty)
+      exact ProdHistoryCarrier_cont_intro realCarrier data.left data.right.right.left
+
+theorem CplxPureImaginary_component_continuation_complex_carrier {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ComplexHistoryCarrier zq := by
+  exact CplxPureImaginary_continuation_complex_carrier
+
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
       (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
