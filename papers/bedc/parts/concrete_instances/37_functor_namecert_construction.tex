@@ -415,3 +415,22 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:functor-zero-axiom-note}
 Avoids funext by pointwise classifier sameness for object and morphism mappings.
 \end{remark}
+
+\begin{theorem}[Functor hom-carrier codomain evaluation]
+\label{thm:functor-hom-carrier-codomain-evaluation}
+Let \(C\) and \(E\) be certified categories, and let \(H:C\to E\) be a certified functor with object map \(H_0\). Write \(\mathsf{FunctorHomCarrier}_{H}(x,y)\) for the predicate on codomain morphism candidates \(m\) abbreviated by
+\[
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\equiv
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+\]
+Then for every pair of source objects \(x,y\) and every codomain morphism candidate \(m\), the functor-indexed hom-carrier classifier at \(x,y\) evaluates to the codomain category hom-carrier classifier at the image endpoints:
+\[
+\mathsf{FunctorHomCarrier}_{H}(x,y,m)
+\quad\Longleftrightarrow\quad
+\mathsf{HomCarrier}_{E}(H_0(x),H_0(y),m).
+\]
+\end{theorem}
+\begin{proof}
+The functor carrier of \autoref{def:functor-carrier} supplies the object map \(H_0\). The category carrier of \autoref{def:category-carrier} supplies, in the codomain category \(E\), a hom-carrier classifier for each ordered pair of codomain objects. Applying that category classifier to the image pair \(H_0(x),H_0(y)\) is exactly the displayed abbreviation for \(\mathsf{FunctorHomCarrier}_{H}(x,y,-)\). The pointwise classifier discipline in \autoref{def:functor-classifier-specification} and \autoref{rem:functor-zero-axiom-note} reads classifier equality at the morphism argument \(m\), so unfolding the abbreviation gives the stated biconditional.
+\end{proof}
