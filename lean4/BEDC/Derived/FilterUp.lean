@@ -125,6 +125,20 @@ theorem FilterPrincipalSuffix_intersection_empty_point_exact
     (And.intro (hsame_refl BHist.Empty)
       (And.intro meetParts.left meetParts.right))
 
+theorem FilterPrincipalSuffix_intersection_empty_point_base_points_empty
+    {base left right meet leftPoint rightPoint meetPoint : BHist} :
+    Cont left right meet -> Cont base left leftPoint -> Cont base right rightPoint ->
+      Cont base meet meetPoint -> hsame meetPoint BHist.Empty ->
+        hsame leftPoint BHist.Empty ∧ hsame rightPoint BHist.Empty := by
+  intro leftRight baseLeft baseRight baseMeet meetPointEmpty
+  have exactness :=
+    FilterPrincipalSuffix_intersection_empty_point_exact leftRight baseMeet meetPointEmpty
+  constructor
+  · cases baseLeft
+    exact append_eq_empty_iff.mpr (And.intro exactness.left exactness.right.right.left)
+  · cases baseRight
+    exact append_eq_empty_iff.mpr (And.intro exactness.left exactness.right.right.right)
+
 theorem FilterPrincipalEmptyCarrier_semanticNameCert :
     SemanticNameCert (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
       (fun h : BHist => UnaryHistory h ∧ hsame h BHist.Empty)
