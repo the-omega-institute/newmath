@@ -6,8 +6,8 @@ The continuous-map interface $\ContinuousMapUp$ packages a function between metr
 \section{Carrier definition}
 \label{sec:continuousmap-carrier}
 
-\begin{definition}[ContinuousMap concrete carrier]
-\label{def:continuousmap-concrete-carrier}
+\begin{definition}[ContinuousMap carrier]
+\label{def:continuousmap-carrier}
 For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$,
 $\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,dist)$ is the
 conjunction of the continuous-function carrier
@@ -40,6 +40,28 @@ $\emp$ to $modulus$, hence $cert\sim modulus$. Conversely, the displayed
 unary and boundary data build the two continuation rows and the empty-distance
 metric witness directly.
 \end{proof}
+
+\begin{theorem}[ContinuousMap empty certificate exactness]
+\label{thm:continuousmap-carrier-empty-cert-exactness}
+For histories $source,map,target,modulus,dist:\mathsf{BHist}$,
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,\emp,dist)
+$$
+holds exactly when
+$$
+source \hsame \emp,\quad map \hsame \emp,\quad target \hsame \emp,\quad
+modulus \hsame \emp,\quad dist \hsame \emp .
+$$
+\end{theorem}
+\begin{proof}
+The function-carrier half gives empty source, map, target, and modulus by the
+empty-certificate theorem for $\mathsf{ContinuousFunctionCarrier}$. With source
+and target reduced to $\emp$, the metric-distance continuation is compared with
+the right unit continuation, forcing the displayed distance to be empty. The
+reverse direction reassembles the function witness and the empty distance
+witness after the five endpoint equalities are exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_cert\_iff}
 
 \section{The certificate}
 \label{sec:continuousmap-certificate}

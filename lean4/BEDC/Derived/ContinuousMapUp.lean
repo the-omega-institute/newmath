@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.MetricUp
 
 namespace BEDC.Derived.ContinuousMapUp
@@ -58,5 +59,44 @@ theorem ContinuousMapCarrier_empty_distance_exact {source map modulus cert : BHi
                             ((MetricDistanceWitness_empty_distance_iff
                               (x := source) (y := BHist.Empty)).mpr
                               (And.intro sourceEmpty (hsame_refl BHist.Empty)))
+
+theorem ContinuousMapCarrier_empty_cert_iff {source map target modulus dist : BHist} :
+    ContinuousMapCarrier source map target modulus BHist.Empty dist ↔
+      hsame source BHist.Empty ∧ hsame map BHist.Empty ∧
+        hsame target BHist.Empty ∧ hsame modulus BHist.Empty ∧ hsame dist BHist.Empty := by
+  constructor
+  · intro carrier
+    have functionData :=
+      (ContinuousFunctionCarrier_empty_cert_iff
+        (source := source) (map := map) (target := target) (modulus := modulus)).mp
+        carrier.left
+    have sourceEmpty : hsame source BHist.Empty := functionData.left
+    have targetEmpty : hsame target BHist.Empty := functionData.right.right.left
+    have distEmpty : hsame dist BHist.Empty := by
+      cases sourceEmpty
+      cases targetEmpty
+      exact cont_deterministic carrier.right.right.right.right (cont_right_unit BHist.Empty)
+    exact
+      And.intro functionData.left
+        (And.intro functionData.right.left
+          (And.intro functionData.right.right.left
+            (And.intro functionData.right.right.right distEmpty)))
+  · intro endpoints
+    cases endpoints.left
+    cases endpoints.right.left
+    cases endpoints.right.right.left
+    cases endpoints.right.right.right.left
+    cases endpoints.right.right.right.right
+    exact
+      And.intro
+        ((ContinuousFunctionCarrier_empty_cert_iff
+          (source := BHist.Empty) (map := BHist.Empty) (target := BHist.Empty)
+          (modulus := BHist.Empty)).mpr
+          (And.intro (hsame_refl BHist.Empty)
+            (And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))))
+        ((MetricDistanceWitness_empty_distance_iff
+          (x := BHist.Empty) (y := BHist.Empty)).mpr
+          (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
 end BEDC.Derived.ContinuousMapUp

@@ -8,20 +8,21 @@ The adjunction interface $\AdjunctionUp$ packages a pair of functors $F \dashv G
 
 \begin{definition}[Adjunction unit-counit carrier]
 \label{def:adjunction-unit-counit-carrier}
-For histories $p,q,a,unit,counit,composite:\mathsf{BHist}$,
-$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,composite)$ asserts
-that $unit$ is a natural-transformation prefix component from $p$ to $q$ at
-$a$, $counit$ is the corresponding component from $q$ to $p$, and
-$composite$ is their continuation composite.
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds
+when $unit$ is a natural-transformation prefix component from $p$ to $q$ at
+$a$, $counit$ is the corresponding component from $q$ to $p$, and the two
+triangle witnesses are the continuations $\mathsf{Cont}(unit,counit,left)$ and
+$\mathsf{Cont}(counit,unit,right)$.
 \end{definition}
 \leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier}
 
-\begin{theorem}[Adjunction unit-counit empty components exactness]
+\begin{theorem}[Adjunction unit-counit diagonal empty components exactness]
 \label{thm:adjunction-unit-counit-empty-components-exact}
 For histories $p,q,a,composite:\mathsf{BHist}$,
 $$
 \begin{array}{l}
-\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,composite)\\
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,composite,composite)\\
 \quad\Longleftrightarrow\quad
 \mathsf{UnaryHistory}(p)\land
 \mathsf{UnaryHistory}(q)\land
@@ -34,10 +35,40 @@ $$
 \begin{proof}
 Both displayed natural-transformation components are empty identity components.
 Their exactness theorem gives unary histories for $p,q,a$ and $p\sim q$. The
-continuation composite of the two empty components is history-same as $\emp$.
-Conversely, $p\sim q$ supplies both empty identity components, and
-$composite\sim\emp$ supplies the empty continuation composite.
+diagonal continuation result of the two empty components is history-same as
+$\emp$. Conversely, $p\sim q$ supplies both empty identity components, and
+$composite\sim\emp$ supplies both empty continuation witnesses.
 \end{proof}
+
+\begin{theorem}[Adjunction unit-counit empty component exactness]
+\label{thm:adjunction-unit-counit-empty-components-exactness}
+For histories $p,q,a,left,right:\mathsf{BHist}$,
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,\emp,\emp,left,right)
+$$
+holds exactly when $p,q,a$ are unary histories, $p \hsame q$, and both triangle
+results satisfy $left \hsame \emp$ and $right \hsame \emp$.
+\end{theorem}
+\begin{proof}
+Each empty component is read by the natural-transformation empty-identity
+theorem, yielding the unary prefix data and $p \hsame q$. The two triangle
+continuations then compare with the empty right-unit continuation. Conversely,
+the same unary data and prefix equality rebuild both empty component carriers,
+and the displayed empty triangle results rebuild the two continuations.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_iff}
+
+\begin{theorem}[Adjunction unit-counit triangle result determinism]
+\label{thm:adjunction-unit-counit-triangle-results-deterministic}
+If an adjunction unit-counit carrier displays triangle results $left$ and
+$right$, then any other continuations with the same unit-counit inputs display
+the same results up to $\hsame$.
+\end{theorem}
+\begin{proof}
+Project the two continuation witnesses from the carrier and apply continuation
+determinism separately to the left and right triangle rows.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
 
 \section{The certificate}
 \label{sec:adjunction-certificate}
