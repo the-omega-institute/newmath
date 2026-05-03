@@ -550,6 +550,46 @@ of \(\HSame\) identifies \(left\) and \(right\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_square\_closed}
 
+\begin{theorem}[Category hom carrier right-append fixed identity]
+\label{thm:category-hom-carrier-right-append-fixed-identity}
+For the unary-continuation category, if $\mathsf{CategoryHomCarrier}(a,b,f)$,
+then for every history $g:\mathsf{BHist}$,
+$$
+\HSame(\mathsf{append}(f,g),g)
+\Longleftrightarrow
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the displayed fixed append equality is a continuation
+witness $\ContR(f,g,g)$, so left-unit uniqueness forces $\HSame(f,\emp)$.
+Transporting the hom-carrier continuation relation along this empty-tail
+equality gives $\ContR(a,\emp,b)$, and comparison with the canonical right-unit
+continuation identifies $a$ and $b$. Conversely, if $f\hsame\emp$, the equality
+reduces to the kernel empty-left append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_right\_append\_fixed\_identity\_iff}
+
+\begin{theorem}[Category hom carrier left-append fixed identity]
+\label{thm:category-hom-carrier-left-append-fixed-identity}
+For the unary-continuation category, if $\mathsf{CategoryHomCarrier}(a,b,f)$,
+then for every history $g:\mathsf{BHist}$,
+$$
+\HSame(\mathsf{append}(g,f),g)
+\Longleftrightarrow
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, compare $\mathsf{append}(g,f)$ with
+$\mathsf{append}(g,\emp)$ and cancel the common left prefix, obtaining
+$\HSame(f,\emp)$. Transporting the hom-carrier continuation relation across
+this empty-tail equality gives $\ContR(a,\emp,b)$, hence $\HSame(a,b)$ by
+comparison with the canonical right-unit continuation. Conversely, if
+$f\hsame\emp$, the equality reduces to the kernel empty-right append law.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_left\_append\_fixed\_identity\_iff}
+
 \begin{theorem}[Category hom carrier two-sided identity law]
 \label{thm:category-hom-carrier-two-sided-identity-law}
 For the unary-continuation category, if

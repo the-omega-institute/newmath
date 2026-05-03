@@ -199,6 +199,7 @@ import BEDC.Derived.FieldUp.RatDenomContextPair
 import BEDC.Derived.FieldUp.ContextualActionPair
 import BEDC.Derived.FieldUp.EmptyUnitCancellation
 import BEDC.Derived.FieldUp.SingletonContinuationRightEndpoint
+import BEDC.Derived.FieldUp.RatRightAppendFixedAbsurd
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.ModuleUp

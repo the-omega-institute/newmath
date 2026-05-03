@@ -296,6 +296,23 @@ the required left-unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_no\_internal\_left\_unit}
 
+\begin{theorem}[Rat history carrier right-append fixed absurd]
+\label{thm:rat-history-carrier-right-append-fixed-absurd}
+For histories $h,g:\mathsf{BHist}$,
+$$
+\mathsf{RatHistoryCarrier}(h)\to
+\mathsf{append}(h,g)\hsame g\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The fixed append equality is a continuation witness $\Cont(h,g,g)$ after
+symmetry. The kernel left-unit uniqueness theorem for continuation then forces
+$h\hsame\emp$. This contradicts the nonempty endpoint theorem for
+$\mathsf{RatHistoryCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_right\_append\_fixed\_absurd}
+
 \begin{theorem}[Rat denominator continuation commutative-semigroup obstruction package]
 \label{thm:field-rat-denominator-continuation-commutative-semigroup-obstruction-package}
 For the concrete BEDC carrier $\mathsf{RatHistoryCarrier}$, continuation
