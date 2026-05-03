@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.3 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.4 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -264,22 +264,43 @@ A valid round produces a non-trivial Lean diff. Marker registration alone is not
 
 Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\leanvariant` markers stay; the `bedc_ci.py audit` still requires their Lean targets to resolve. But Phase C in automated rounds must not produce new variants — if a target's only effect is to be a wrapper / projection / iff-rewrite / pair-bundle / weaker form of an already-`\leanchecked` theorem, abort that target and pick something that produces a genuinely new theorem statement.
 
-## Step 5.6: HARD GATE — no same-conclusion sibling theorems in one round
+## Step 5.6: HARD GATE — duplicate theorem detection (round-internal AND tree-wide)
 
-Phase D's `phase_d_lint.py` rejects rounds where two newly-added theorems have the same conclusion text under different names (e.g. `<X>_iff` and `<X>_iff_direct`, or `<X>_kernel_iff` and `<X>QuotientClassifier_kernel_iff`). Three rounds (R1948 / R1949 / R1953) FAILed this gate in two minutes by adding `SubgroupCentralizerQuotientKernel_witness_classifier_iff` together with `SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff` and `_kernel_iff_direct` — three names, one conclusion.
+Phase D's `phase_d_lint.py` rejects rounds in two cases. Self-check both before commit:
 
-Self-check before commit:
+**(a) Round-internal**: two newly-added theorems with conclusions that are alpha-equivalent (after stripping forall binders and iff direction). Six rounds (R1948 / R1949 / R1950 / R1951 / R1953 / R1954 / R1955) FAILed in 8 minutes by re-implementing `SubgroupCentralizerQuotientKernel_witness_classifier_iff` together with `SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff` and `_kernel_iff_direct` — three names, one conclusion.
+
+**(b) Tree-wide**: a newly-added theorem whose name already exists somewhere under `lean4/BEDC/` outside this round's diff. The same set of failures was caused by codex re-defining theorems that already live in `lean4/BEDC/Derived/SubgroupUp.lean`, just placed in newly-created files like `SubgroupUp/Quotient.lean`. Lean's namespace flattening means `BEDC.Derived.SubgroupUp.<name>` resolves to ONE declaration regardless of file — duplicates would break the build.
+
+Self-check sequence:
 
 ```bash
-# After staging, list the conclusions of every new theorem this round adds.
+# 1. List every new theorem name introduced by this round's staged diff
+new_names=$(git diff --cached lean4/BEDC/ \
+  | awk '/^\+\s*(protected )?(theorem|lemma|def|abbrev) /{
+            sub(/^\+\s*(protected )?(theorem|lemma|def|abbrev)[ \t]+/,""); print $1
+         }' | sort -u)
+
+# 2. For each, check if the name ALREADY EXISTS elsewhere in lean4/BEDC/
+for n in $new_names; do
+  # Search for the SAME name in any committed (non-staged) location.
+  if git grep -nE "^\s*(protected )?(theorem|lemma|def|abbrev)\s+${n}\b" -- lean4/BEDC/ \
+     | grep -v ':+' | head -3; then
+    echo "  -> existing declaration found for $n; this round's addition is a DUPLICATE"
+  fi
+done
+
+# 3. List the conclusion types of new theorems for round-internal alpha-equivalence
 git diff --cached lean4/BEDC/ \
   | awk '/^\+theorem |^\+lemma /{flag=1; print; next} /^\+/ && flag {print} /^[^+]/{flag=0}' \
   | head -200
 ```
 
-If you see two new declarations whose **conclusion type** (after stripping forall binders and any `iff`/`<->` direction) is alpha-equivalent, KEEP only one. Drop the others by `git restore --staged <file>` and re-edit the file to delete the redundant declaration. The round commits whichever ONE new theorem you want as the canonical name.
+If a new declaration's name (case (b)) appears anywhere else under `lean4/BEDC/`, DROP this round's redefinition: `git restore --staged <file>` + re-edit to remove the redundant block.
 
-A round must not introduce both `<X>_iff` and `<X>_iff_direct`, both `<X>` and `<X>_witness`, or both `<X>` and `<X>_kernel_iff` when the second's conclusion proves the same biconditional/equation as the first. If one is a strict generalization or specialization, only the more useful one stays.
+If two new declarations (case (a)) share a conclusion under different names (e.g. `<X>_iff` vs `<X>_iff_direct`, `<X>` vs `<X>_witness`, `<X>_kernel_iff` vs `<X>QuotientClassifier_kernel_iff` when the second's conclusion proves the same biconditional/equation), KEEP only one — drop the others.
+
+The round commits whichever ONE new theorem is canonical.
 
 ## Step 6: Single combined commit
 ```bash
