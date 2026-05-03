@@ -242,6 +242,7 @@ import BEDC.Derived.FieldUp.RatRightNestedContextualBoundary
 import BEDC.Derived.FieldUp.RatBracketingCrossEndpoint
 import BEDC.Derived.FieldUp.RatBracketingSelector
 import BEDC.Derived.FieldUp.RatHistoryClassifierContextEndpoints
+import BEDC.Derived.FieldUp.RatHistoryClassifierContinuationResultSingletonAbsurd
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FpsUp

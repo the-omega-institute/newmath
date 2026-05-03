@@ -162,6 +162,19 @@ $\hsame(\mathsf{append}(z,h),\emp)$ gives $h\hsame\emp$, which contradicts
 that witness.
 \end{proof}
 
+\begin{lemma}[Difference quotient results are nonempty]
+\label{lem:cplx-diff-quot-result-nonempty}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds, then $q$ cannot be internally
+equal to the empty history.
+\end{lemma}
+\begin{proof}
+The quotient relation contains the non-zero witness on $h$ and the ledger
+$\Cont(f,h,q)$. Transporting the ledger along a hypothetical $q\hsame\emp$
+would give $\Cont(f,h,\emp)$. Empty-result inversion for continuation then
+forces $h\hsame\emp$, contradicting the non-zero witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]

@@ -207,4 +207,20 @@ theorem CplxDiffQuot_point_hsame_cont_deterministic {f z z' h q q' : BHist} :
       (hsame_refl h) (hsame_refl q') right).left
   exact CplxDiffQuot_quotient_cont_deterministic left rightAtSource
 
+theorem CplxDiffQuot_result_nonempty {f z h q : BHist} :
+    CplxDiffQuot f z h q -> hsame q BHist.Empty -> False := by
+  intro quotient resultEmpty
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier ledger =>
+                  have emptyLedger : Cont f h BHist.Empty :=
+                    cont_result_hsame_transport ledger resultEmpty
+                  have emptyParts := cont_empty_result_inversion emptyLedger
+                  exact stepNonzero emptyParts.right
+
 end BEDC.Derived.ComplexDiffUp

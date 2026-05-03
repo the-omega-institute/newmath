@@ -9,6 +9,23 @@ This chapter gives a concrete naming-certificate construction for convergent inf
 \label{def:complex-term-seq}
 A complex term sequence is a unary-indexed family \(c : \Unary \to \ComplexUp\)-history, i.e.\ a function from unary histories to complex carrier histories.
 \end{definition}
+\leandef{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier}
+
+\begin{lemma}[Complex term sequence carrier transport]
+\label{lem:complex-term-seq-carrier-hsame-transport}
+If two complex term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$ are
+pointwise related by $\hsame$ on every unary index, then the
+$\mathsf{ComplexTermSeqCarrier}$ predicate transports from $c$ to $d$.
+\end{lemma}
+\begin{proof}
+Fix a unary index $n$. The carrier for $c(n)$ expands to a complex-pair witness:
+rational real and imaginary component carriers together with a continuation
+ledger whose result is $c(n)$. Transport that continuation result along the
+pointwise comparison $c(n)\hsame d(n)$ while keeping the same rational
+component witnesses. The transported pair witness is exactly the complex carrier
+for $d(n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexTermSeqCarrier\_hsame\_transport}
 
 \begin{definition}[Complex partial sum]
 \label{def:complex-part-sum}
