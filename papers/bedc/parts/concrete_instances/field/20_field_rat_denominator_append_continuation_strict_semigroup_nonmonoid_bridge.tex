@@ -94,3 +94,81 @@ $\mathsf{RatHistoryLedgerPolicy}$; core theorem:
 \autoref{thm:field-rat-denominator-append-continuation-strict-semigroup-nonmonoid-bridge};
 exactness predicate: append and $\Cont$ endpoint bridge; standard bridge:
 deferred; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator append-continuation final-exit obstruction guard]
+\label{thm:rat-denominator-append-continuation-final-exit-obstruction-guard}
+For the concrete data of
+Definition~\ref{def:field-rat-denominator-concrete-continuation-instance} and
+the final row inventory package of
+Theorem~\ref{thm:ratup-fieldup-final-row-inventory-coverage}, the Phase
+Algebra Hierarchy consumer receives both the final selector-row inventory and
+the strict denominator guard. Explicitly, for every carried denominator
+$u:\mathsf{BHist}$ with $C_D(u)$, the append presentation gives both
+
+$$
+(\forall x:\mathsf{BHist}.\;
+C_D(x)\to R_D(\mu_D(x,u),x))\to \mathsf{False}
+$$
+
+and
+
+$$
+(\forall x:\mathsf{BHist}.\;
+C_D(x)\to R_D(\mu_D(u,x),x))\to \mathsf{False}.
+$$
+
+The relational presentation gives both
+
+$$
+(\forall x,r:\mathsf{BHist}.\;
+C_D(x)\to \Cont(x,u,r)\to R_D(r,x))\to \mathsf{False}
+$$
+
+and
+
+$$
+(\forall x,r:\mathsf{BHist}.\;
+C_D(x)\to \Cont(u,x,r)\to R_D(r,x))\to \mathsf{False}.
+$$
+
+Thus the final $\FieldUp(\RatUp)$ row inventory and the denominator obstruction
+arrive as one consumable guard: later algebra may use the selector exit rows,
+but may not read the denominator semigroup as a carried multiplication with a
+one-sided internal classifier unit.
+\end{theorem}
+\begin{proof}
+The positive inventory is supplied by
+Theorem~\ref{thm:ratup-fieldup-final-row-inventory-coverage}. It packages the
+selector inverse-domain coverage row, the selector row-stability row, the
+complete selector obstruction certificate, and the selector-chain boundary rows
+for the concrete $\FieldUp(\RatUp)$ exit object.
+
+The strict denominator rows are supplied by
+Theorem~\ref{thm:field-rat-denominator-append-continuation-strict-semigroup-nonmonoid-bridge}.
+Its append half gives closure, commutative classifier, associativity,
+congruence, ledger closure, and the two displayed denials of one-sided append
+classifier units.
+
+For the relational half, use the same bridge theorem together with the
+no-one-sided-unit rows formalized by
+$\mathsf{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_commutative\_semigroup\_obstruction\_package}$.
+Those rows deny both carried relational laws with endpoints named by $\Cont$.
+
+Combining these two cited packages gives the advertised guard. The Phase
+Algebra Hierarchy consumer may carry the final selector-row inventory forward,
+while the denominator side remains a strict commutative semigroup-with-ledger
+and not a carried monoid.
+\end{proof}
+
+Per-object template: traditional target final-exit denominator obstruction
+guard for $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$, $\Cont$,
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$,
+$\mathsf{RatHistoryLedgerPolicy}$, and the final selector rows; carrier choice:
+$C_D$; classifier choice: $R_D$; stability obligations: final selector-row
+coverage plus strict append and relational carried-unit obstruction; ledger:
+denominator multiplication provenance through
+$\mathsf{RatHistoryLedgerPolicy}$; core theorem:
+\autoref{thm:rat-denominator-append-continuation-final-exit-obstruction-guard};
+exactness predicate: shared append and $\Cont$ endpoint bridge with
+one-sided-unit denial; standard bridge: Phase Algebra Hierarchy consumer for
+$\FieldUp(\RatUp)$; status $\mathsf{ProofTarget}$.
