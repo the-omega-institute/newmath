@@ -303,6 +303,23 @@ append continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_e0\_tail\_result\_cases}
 
+\begin{theorem}[Continuation morphism right zero tail composite result is not empty]
+\label{thm:continuation-morphism-comp-right-e0-tail-result-not-empty}
+For histories $a,b,c,m$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. If the right displayed tail is
+$\hsame(\mathsf{tail}(right),\Ezero(m))$, then the closed composite tail cannot
+be internally the same as $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the two continuation morphism records and replace the right tail by its
+zero-headed presentation. The closed composite tail is then a zero-headed
+history, namely $\Ezero(\mathsf{append}(\mathsf{tail}(left),m))$. BEDC
+constructor separation rules out an internal sameness proof from this
+zero-headed history to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_right\_e0\_tail\_result\_not\_empty}
+
 \begin{theorem}[Category hom-carrier one-headed target and morphism descent]
 \label{thm:category-hom-carrier-e1-target-morphism-exactness}
 For histories $a,k,r$, a hom-carrier whose target and morphism histories are

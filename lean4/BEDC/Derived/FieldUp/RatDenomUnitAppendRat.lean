@@ -41,6 +41,19 @@ theorem RatHistoryClassifier_append_right_denom_unit_closed {h h' k k' : BHist} 
       (cont_intro rfl)
   exact And.intro carrierLeft (And.intro carrierRight sameAppend)
 
+theorem RatHistoryClassifier_append_left_denom_unit_closed {h h' k k' : BHist} :
+    RatDenomUnitClassifier h h' -> RatHistoryClassifier k k' ->
+      RatHistoryClassifier (append h k) (append h' k') := by
+  intro classifiedH classifiedK
+  have carrierLeft : RatHistoryCarrier (append h k) :=
+    RatDenomUnitCarrier_append_right_rat_closed classifiedH.left classifiedK.left
+  have carrierRight : RatHistoryCarrier (append h' k') :=
+    RatDenomUnitCarrier_append_right_rat_closed classifiedH.right.left classifiedK.right.left
+  have sameAppend : hsame (append h k) (append h' k') :=
+    cont_respects_hsame classifiedH.right.right classifiedK.right.right (cont_intro rfl)
+      (cont_intro rfl)
+  exact And.intro carrierLeft (And.intro carrierRight sameAppend)
+
 theorem RatDenomUnitCarrier_append_branch_cases {h k : BHist} :
     RatDenomUnitCarrier (append h k) ->
       (hsame h BHist.Empty ∧ hsame k BHist.Empty) ∨
@@ -115,5 +128,31 @@ theorem RatDenomUnitClassifier_append_context_cancel_iff {L R Q S : BHist} :
     cases classified.right.right
     cases suffixClassified.right.right
     exact ⟨leftCarrier, rightCarrier, hsame_refl (append Q L)⟩
+
+theorem RatDenomUnitClassifier_append_left_context_cancel_iff {L R Q S : BHist} :
+    RatDenomUnitClassifier L R ->
+      (RatDenomUnitClassifier (append L Q) (append R S) <->
+        RatDenomUnitClassifier Q S) := by
+  intro prefixClassified
+  constructor
+  · intro classified
+    have leftFactors := RatDenomUnitCarrier_append_factor_carriers classified.left
+    have rightFactors := RatDenomUnitCarrier_append_factor_carriers classified.right.left
+    have sameRightPrefix : hsame (append R S) (append L S) :=
+      congrArg (fun p => append p S) (hsame_symm prefixClassified.right.right)
+    have sameWithSharedPrefix : hsame (append L Q) (append L S) :=
+      hsame_trans classified.right.right sameRightPrefix
+    exact ⟨leftFactors.right, rightFactors.right, append_left_cancel sameWithSharedPrefix⟩
+  · intro classified
+    have leftCarrier : RatDenomUnitCarrier (append L Q) :=
+      RatDenomUnitCarrier_continuation_closed prefixClassified.left classified.left
+        (cont_intro rfl)
+    have rightCarrier : RatDenomUnitCarrier (append R S) :=
+      RatDenomUnitCarrier_continuation_closed prefixClassified.right.left classified.right.left
+        (cont_intro rfl)
+    have sameAppend : hsame (append L Q) (append R S) :=
+      cont_respects_hsame prefixClassified.right.right classified.right.right (cont_intro rfl)
+        (cont_intro rfl)
+    exact ⟨leftCarrier, rightCarrier, sameAppend⟩
 
 end BEDC.Derived.FieldUp

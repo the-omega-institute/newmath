@@ -123,6 +123,24 @@ This is the left-context companion to the right-cancellation law
 \autoref{thm:field-rat-denominator-empty-unit-right-cancellation} inside the
 concrete empty-unit denominator boundary.
 
+\begin{theorem}[Rat history classifier append left denominator unit closure]
+\label{thm:rat-history-classifier-append-left-denom-unit-closed}
+For histories $h,h',k,k':\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(h,h')$ and
+$\mathsf{RatHistoryClassifier}(k,k')$, then
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+The denominator-unit carrier on $h$ and the Rat carrier on $k$ close the left
+appended endpoint as a Rat history carrier; the same argument closes the right
+endpoint from $h'$ and $k'$. The classifier comparisons for the two factors
+are respected by the canonical append continuations, giving the required
+history sameness between the appended endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatHistoryClassifier\_append\_left\_denom\_unit\_closed}
+
 \begin{theorem}[Rat denominator unit classifier append-context cancellation]
 \label{thm:rat-denom-unit-classifier-append-context-cancel}
 For histories $L,R,Q,S:\mathsf{BHist}$, if $R_D^u(L,R)$, then appending the
@@ -144,6 +162,29 @@ two carried suffix witnesses to the two carried endpoints. The endpoint
 classifier and suffix classifier identify the two appended histories.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_context\_cancel\_iff}
+
+\begin{theorem}[Rat denominator unit classifier append left context cancellation]
+\label{thm:rat-denom-unit-classifier-append-left-context-cancel-iff}
+For histories $L,R,Q,S:\mathsf{BHist}$, if
+$\mathsf{RatDenomUnitClassifier}(L,R)$, then appending the classified prefixes
+$L$ and $R$ preserves and reflects the empty-unit denominator classifier:
+$$
+\mathsf{RatDenomUnitClassifier}(\mathsf{append}(L,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\mathsf{RatDenomUnitClassifier}(Q,S).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, factor the two appended carrier witnesses to recover
+carried witnesses for $Q$ and $S$. Transport the right displayed endpoint along
+$R\hsame L$ so both endpoints have common prefix $L$, then apply left append
+cancellation to obtain $Q\hsame S$.
+
+For the reverse direction, close the two appended endpoints by denominator-unit
+continuation closure. Continuation respect for the classified prefixes and
+classified suffixes gives the endpoint comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_append\_left\_context\_cancel\_iff}
 
 \begin{definition}[Rat denominator empty-unit bilateral multiplication context]
 \label{def:field-rat-denominator-empty-unit-bilateral-multiplication-context}
