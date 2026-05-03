@@ -1,0 +1,35 @@
+\begin{theorem}[QuotientGroup centralizer normalizer empty unit]
+\label{thm:quotientgroup-centralizer-normalizer-empty-from-empty-unit}
+For a BEDC history-level multiplication $\mathsf{mul}$ on $\mathsf{BHist}$ with
+empty left and right unit laws, multiplication congruence, and right inverse
+law, the empty history lies in the centralizer normalizer of every
+centralizer carrier $Z_a$.
+\end{theorem}
+\begin{proof}
+Let $x:\mathsf{BHist}$ satisfy $Z_a(x)$. The left-unit law applied to
+$\mathsf{inv}(\emp)$ and the right-inverse law at $\emp$ identify
+$\mathsf{inv}(\emp)$ with $\emp$. Multiplication congruence then identifies
+$$
+\mathsf{mul}(\mathsf{mul}(\emp,x),\mathsf{inv}(\emp))
+$$
+with $\mathsf{mul}(x,\emp)$, and the right-unit law identifies this endpoint
+with $x$. Transporting the centralizer equality for $x$ across this endpoint
+identification gives the required conjugation-preservation clause.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_unit}
+
+\begin{theorem}[QuotientGroup centralizer normalizer empty transport]
+\label{thm:quotientgroup-centralizer-normalizer-empty-hsame-transport}
+For the same history-level multiplication laws, if $t$ is $\hsame$ to the
+empty history and inverse respects $\hsame$, then $t$ lies in the centralizer
+normalizer of every centralizer carrier $Z_a$.
+\end{theorem}
+\begin{proof}
+The hypothesis $\emp\hsame t$ transports the conjugation word by $t$ to the
+conjugation word by $\emp$, using multiplication congruence for the two
+multiplication positions and inverse congruence for the final inverse factor.
+The preceding theorem gives centralizer preservation for the empty
+conjugation endpoint. Transporting the centralizer equality back across the
+same endpoint comparison gives the displayed normalizer witness for $t$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_hsame\_transport\_unit}

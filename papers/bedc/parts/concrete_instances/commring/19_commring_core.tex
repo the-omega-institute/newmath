@@ -125,6 +125,28 @@ commutativity field after transport.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
 
+\begin{theorem}[CommRing singleton empty multiplication context carrier]
+\label{thm:commring-singleton-empty-classifier-mul-context-carrier-iff}
+For singleton empty-history CommRing histories $L$ and $R$, the classifier
+comparison
+$$
+\rho_{\emp}(\mathsf{append}(L,\mathsf{mul}(x,y)),\mathsf{append}(R,out))
+$$
+holds exactly when $out$ lies in the singleton empty carrier.
+\end{theorem}
+\begin{proof}
+The multiplication endpoint of the singleton empty-history CommRing tuple is
+definitionally $\emp$. In the forward direction, the right carrier field of
+the classifier identifies $\mathsf{append}(R,out)$ with $\emp$, and
+append-empty inversion extracts $out\hsame\emp$.
+
+Conversely, if $out\hsame\emp$, then the carrier witnesses for $L$ and $R$
+rebuild the two append endpoints as empty endpoints by append-empty
+inversion. Transitivity through $\emp$ compares the endpoints, so the
+classifier package is recovered.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commringSingletonEmptyClassifier\_mul\_context\_carrier\_iff}
+
 \begin{theorem}[CommRing singleton classifier visible-right exclusion]
 \label{thm:commring-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, neither
