@@ -353,7 +353,6 @@ endpoint interface.
 \end{definition}
 
 \begin{theorem}[RatUp FieldUp selector-complete denominator well-formed exit slice]
-\label{thm:ratup-fieldup-selector-complete-denominator-laws}
 \label{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice}
 For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
 histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
@@ -414,6 +413,59 @@ Thus the carrier, classifier, and noncollapse rows are exactly the
 selector-indexed denominator row family used by
 Definition~\ref{def:ratup-fieldup-concrete-exit-object} over
 $\mathsf{RatUpFieldSource}_F$.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp selector-complete denominator laws]
+\label{thm:ratup-fieldup-selector-complete-denominator-laws}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all selectors
+$s,t:\mathsf{BMark}$ and all contexts $L,R:\mathsf{BHist}$, the
+selector-complete denominator instance of
+\autoref{def:ratup-fieldup-selector-complete-denominator-instance} supplies
+$C_D^u(E_s(h,k,\ell))$, $C_D^u(E_t(h,k,\ell))$,
+$R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$, and the contextual obstruction
+$$
+\mathsf{fieldSingletonEmptyClassifier}
+(\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot.
+$$
+Moreover, specializing the row to $(s,s)$ with $L=R=\emp$ gives
+$\mathsf{fieldSingletonEmptyNonZero}(E_s(h,k,\ell))$, and specializing the row
+to $(t,t)$ with $L=R=\emp$ gives
+$\mathsf{fieldSingletonEmptyNonZero}(E_t(h,k,\ell))$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice}
+to the same concrete denominator tuple, the three carrier hypotheses, the
+support witness, the selectors $s,t:\mathsf{BMark}$, and the contexts
+$L,R:\mathsf{BHist}$. This supplies the two selected carrier rows, the
+selected denominator classifier row, and the contextual singleton-empty
+obstruction.
+
+For the first nonzero clause, specialize the same well-formed row to the
+selector pair $(s,s)$ and to contexts $L=R=\emp$. If a singleton-empty witness
+for $E_s(h,k,\ell)$ were present, the empty-left append unit identifies it with
+the obstructed classifier on
+$$
+\mathsf{append}(\emp,E_s(h,k,\ell)).
+$$
+The specialized obstruction rejects that witness, and
+\autoref{def:field-singleton-empty-nonzero} repackages the rejection as
+$\mathsf{fieldSingletonEmptyNonZero}(E_s(h,k,\ell))$.
+
+For the second nonzero clause, repeat the specialization with the selector
+pair $(t,t)$ and contexts $L=R=\emp$. The empty-left append unit sends any
+singleton-empty witness for $E_t(h,k,\ell)$ to the corresponding obstructed
+classifier on
+$$
+\mathsf{append}(\emp,E_t(h,k,\ell)).
+$$
+The specialized obstruction and
+\autoref{def:field-singleton-empty-nonzero} give
+$\mathsf{fieldSingletonEmptyNonZero}(E_t(h,k,\ell))$.
 \end{proof}
 
 \begin{theorem}[RatUp FieldUp selector-complete denominator strict support package]
