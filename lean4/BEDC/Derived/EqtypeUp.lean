@@ -68,6 +68,32 @@ theorem EqtypeClassCarrier_visible_context_anchor_readback {p r anchor h core : 
     (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
   exact hsame_trans (hsame_symm sameCore) carrier
 
+theorem EqtypeClassCarrier_visible_context_cores_deterministic
+    {p r anchor left right coreLeft coreRight : BHist} :
+    EqtypeClassCarrier anchor left -> EqtypeClassCarrier anchor right ->
+      hsame (append (append p left) r) (append (append p coreLeft) r) ->
+        hsame (append (append p right) r) (append (append p coreRight) r) ->
+          hsame coreLeft coreRight := by
+  intro leftCarrier rightCarrier leftVisible rightVisible
+  have leftReadback : hsame coreLeft anchor :=
+    EqtypeClassCarrier_visible_context_anchor_readback leftCarrier leftVisible
+  have rightReadback : hsame coreRight anchor :=
+    EqtypeClassCarrier_visible_context_anchor_readback rightCarrier rightVisible
+  exact hsame_trans leftReadback (hsame_symm rightReadback)
+
+theorem EqtypeClassCarrier_visible_context_pair_deterministic
+    {p r anchor left right leftCore rightCore : BHist} :
+    EqtypeClassCarrier anchor left -> EqtypeClassCarrier anchor right ->
+      hsame (append (append p left) r) (append (append p leftCore) r) ->
+        hsame (append (append p right) r) (append (append p rightCore) r) ->
+          hsame leftCore rightCore := by
+  intro leftCarrier rightCarrier sameLeft sameRight
+  have leftCoreAnchor : hsame leftCore anchor :=
+    EqtypeClassCarrier_visible_context_anchor_readback leftCarrier sameLeft
+  have rightCoreAnchor : hsame rightCore anchor :=
+    EqtypeClassCarrier_visible_context_anchor_readback rightCarrier sameRight
+  exact hsame_trans leftCoreAnchor (hsame_symm rightCoreAnchor)
+
 theorem EqtypeClass_semanticNameCert {anchor : BHist} :
     SemanticNameCert (EqtypeClassCarrier anchor) (EqtypeClassCarrier anchor)
       (EqtypeClassCarrier anchor) hsame := by
