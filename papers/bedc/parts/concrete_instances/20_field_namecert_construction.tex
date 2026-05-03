@@ -434,13 +434,13 @@ R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))
 $$
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:ratup-fieldup-selector-complete-denominator-laws} to the
+Apply \autoref{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice} to the
 same concrete denominator tuple, carrier hypotheses, support witness, and
 selectors $s,t:\mathsf{BMark}$. Its classifier row gives
 $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$.
 
 For the left strict-support endpoint, specialize the obstruction row of
-\autoref{thm:ratup-fieldup-selector-complete-denominator-laws} to the selector
+\autoref{thm:ratup-fieldup-selector-complete-denominator-well-formed-exit-slice} to the selector
 pair $(s,s)$ and to contexts $L=R=\emp$. Assume a forbidden witness
 $\mathsf{fieldSingletonEmptyClassifier}(E_s(h,k,\ell),\emp)$. The empty-left
 append unit transports this witness to a singleton-empty classifier on
@@ -512,6 +512,47 @@ are the selected denominator endpoints inside $\mathsf{BHist}$, the carrier
 coverage, the denominator classifier coverage, and contextual noncollapse over
 the source-aligned denominator coordinate, so no schematic $\mathsf{mul}$,
 $\mathsf{add}$, or $\mathsf{neg}$ operator parameter is introduced.
+\end{proof}
+
+\begin{theorem}[RatUp FieldUp carrier-aware selector-complete concrete instance]
+\label{thm:ratup-fieldup-carrier-aware-selector-complete-concrete-instance}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for every pair of selectors
+$s,t:\mathsf{BMark}$ and every pair of contexts $L,R:\mathsf{BHist}$, the
+selector-complete denominator instance supplies all carrier-aware rows
+\begin{enumerate}
+  \item $C_D^u(E_s(h,k,\ell))$;
+  \item $C_D^u(E_t(h,k,\ell))$;
+  \item $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$;
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}
+  (\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot.
+  $$
+\end{enumerate}
+Together these rows form a concrete carrier-aware $\FieldUp(\RatUp)$ exit row
+over $\mathsf{RatUpFieldSource}_F$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ratup-fieldup-bracketing-selector-exit-subpackage} to the
+concrete denominator tuple, the carrier hypotheses on $h,k,\ell$, and the
+support witness $\mathsf{ThreeSupp}_D^u(h,k,\ell)$. For the chosen
+$s,t:\mathsf{BMark}$ and contexts $L,R:\mathsf{BHist}$, it supplies the two
+selected-endpoint carrier rows, the denominator-classifier row, and the
+contextual singleton-empty obstruction.
+
+Apply \autoref{thm:ratup-fieldup-selector-complete-exit-package} to the same
+concrete tuple, carrier hypotheses, and support witness. This places the same
+selected denominator row inside the concrete $\FieldUp(\RatUp)$ exit package
+over $\mathsf{RatUpFieldSource}_F$.
+
+The selector-complete denominator instance therefore carries both endpoint
+coverage and package membership: the two selected endpoints remain in $C_D^u$,
+the selected pair lies in $R_D^u$, and every contextual singleton-empty
+classifier on the selected pair collapses to $\bot$.
 \end{proof}
 
 Per-object template: traditional target selector-complete FieldUp denominator
