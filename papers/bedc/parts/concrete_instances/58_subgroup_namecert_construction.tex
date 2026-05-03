@@ -18,6 +18,8 @@ operation, unit, and inverse are inherited from the ambient $\GroupUp$ source,
 and the ledger records the fixed element $a$ together with the commuting
 witnesses certifying membership in $Z_a$.
 \end{definition}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerClassifier}
 
 \section{The certificate}
 \label{sec:subgroup-certificate}
@@ -61,7 +63,89 @@ pair $(x,a)$, with the definition of $Z_a$ supplying the displayed
 orientation. Repacking these rows with the inherited operation, unit, inverse,
 and ledger gives the advertised $\SubgroupUp$ certificate target.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizer\_certificate\_target\_from\_empty\_unit}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_mul\_closed\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizer\_semanticNameCert}
+
+\begin{definition}[Two-centralizer intersection carrier]
+\label{def:subgroup-centralizer-intersection-carrier}
+For two fixed histories $a,b:\mathsf{BHist}$ in the same BEDC
+history-level $\GroupUp$ source, let $Z_a$ and $Z_b$ be the centralizer
+carriers of \autoref{def:group-centralizer-carrier}. Define the
+two-centralizer carrier by
+$$
+Z_{a,b}(x) :\Longleftrightarrow Z_a(x)\land Z_b(x).
+$$
+Its $\SubgroupUp$ classifier is the restriction of $\hsame$ to this
+carrier: two carried histories represent the same element exactly when their
+ambient histories satisfy $x\hsame y$.
+\end{definition}
+
+\begin{theorem}[Centralizer intersection SubgroupUp certificate]
+\label{thm:subgroup-centralizer-intersection-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, left and right unit laws, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-certificate-target}, and for fixed histories
+$a,b:\mathsf{BHist}$, the carrier $Z_{a,b}$ of
+\autoref{def:subgroup-centralizer-intersection-carrier} has the following
+$\SubgroupUp$ certificate rows:
+\begin{enumerate}
+\item $Z_{a,b}(e)$.
+\item If $Z_{a,b}(x)$ and $Z_{a,b}(y)$, then
+$Z_{a,b}(\mathsf{mul}(x,y))$.
+\item If $Z_{a,b}(x)$, then $Z_{a,b}(\mathsf{inv}(x))$.
+\item If $Z_{a,b}(x)$ and $x\hsame y$, then $Z_{a,b}(y)$.
+\item For every $x:\mathsf{BHist}$,
+$$
+Z_{a,b}(x) \Longleftrightarrow
+\mathsf{comm}(x,a)\hsame e\land \mathsf{comm}(x,b)\hsame e.
+$$
+\end{enumerate}
+Thus the simultaneous centralizer of $a$ and $b$ is a reusable
+$\SubgroupUp$ certificate target over the ambient history classifier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:subgroup-centralizer-certificate-target} twice, once to
+the fixed history $a$ and once to the fixed history $b$. The two identity
+rows give $Z_a(e)$ and $Z_b(e)$, which package directly as $Z_{a,b}(e)$ by
+\autoref{def:subgroup-centralizer-intersection-carrier}.
+
+For product closure, unpack $Z_{a,b}(x)$ and $Z_{a,b}(y)$ into their two
+centralizer components. The $a$-row gives
+$Z_a(\mathsf{mul}(x,y))$, and the $b$-row gives
+$Z_b(\mathsf{mul}(x,y))$; pairing these witnesses proves the displayed
+product row for $Z_{a,b}$.
+
+The inverse row is componentwise in the same sense. From $Z_a(x)$ obtain
+$Z_a(\mathsf{inv}(x))$, and from $Z_b(x)$ obtain
+$Z_b(\mathsf{inv}(x))$; the pair is exactly
+$Z_{a,b}(\mathsf{inv}(x))$.
+
+Carrier transport also separates into the two coordinates. Given
+$Z_{a,b}(x)$ and $x\hsame y$, use the centralizer transport row for $a$ to
+move $Z_a(x)$ to $Z_a(y)$, and use the centralizer transport row for $b$ to
+move $Z_b(x)$ to $Z_b(y)$. The restricted $\hsame$ classifier on
+$Z_{a,b}$ is therefore stable under ambient history equality.
+
+Finally, unfold the carrier definition. The commutator exactness row for
+$a$ rewrites $Z_a(x)$ as $\mathsf{comm}(x,a)\hsame e$, and the corresponding
+row for $b$ rewrites $Z_b(x)$ as $\mathsf{comm}(x,b)\hsame e$. Combining the
+two equivalences gives the advertised simultaneous commutator criterion.
+\end{proof}
+
+Per-object template: traditional target two-centralizer subgroup certificate;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
+restricted $\hsame$; stability identity, product, inverse, and carrier
+transport; ledger fixed histories $a,b$, two commutator witnesses, and
+ambient operation witnesses; core theorem list
+\autoref{thm:subgroup-centralizer-certificate-target} and
+\autoref{thm:subgroup-centralizer-intersection-certificate}; exactness
+predicate simultaneous triviality of $\mathsf{comm}(x,a)$ and
+$\mathsf{comm}(x,b)$; downstream consumer
+\autoref{thm:ratup-fieldup-affine-center-centralizer-intersection}; standard
+bridge center as an intersection of centralizers; status
+$\mathsf{ProofTarget}$.
 
 \begin{definition}[RatUp FieldUp affine center subgroup carrier]
 \label{def:ratup-fieldup-affine-center-subgroup-carrier}
@@ -233,6 +317,7 @@ $\mathsf{inv}(t)$ both preserve the centralizer carrier. Equivalently, it is the
 carrier $N_a$ of \autoref{def:group-centralizer-normalizer-carrier} with the
 abbreviation $\mathsf{Conj}$ expanded.
 \end{definition}
+\leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer}
 
 \begin{theorem}[Centralizer elements normalize the centralizer]
 \label{thm:subgroup-centralizer-self-normalizer}
@@ -268,6 +353,8 @@ $Z_a(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(t),x),
 \mathsf{inv}(\mathsf{inv}(t))))$. This is the second clause of
 $\mathsf{Norm}_{Z_a}(t)$, so both preservation directions hold.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizer\_self\_normalizer\_from\_empty\_unit}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizer\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizes}
 
 Per-object template: traditional target centralizer self-normalization; BEDC
@@ -505,6 +592,61 @@ core theorem list \autoref{thm:subgroup-centralizer-certificate-target},
 \autoref{thm:group-centralizer-normal-in-normalizer}; exactness predicate
 normalizer action on the centralizer; standard bridge normal-subgroup input
 for quotient groups; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Subgroup normalizer orbit quotient classifier]
+\label{thm:subgroup-normalizer-orbit-quotient-classifier}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the BEDC group laws used by
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} and
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, including
+associativity, unit, multiplication-congruence, inverse-congruence, and
+two-sided inverse laws, let $Z_a$ be the centralizer carrier, let $N_a$ be the
+centralizer normalizer carrier, let
+$\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s))$, and let
+$x\sim_{N_a}y$ be the normalizer-orbit relation of
+\autoref{def:group-centralizer-normalizer-orbit-relation}. For
+$x,y,z:\mathsf{BHist}$ with $Z_a(x)$, $Z_a(y)$, and $Z_a(z)$, the data of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} together with
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence} supply the
+quotient-free classifier input for $\QuotientGroupUp$:
+\begin{enumerate}
+\item the lower $\SubgroupUp$ certificate rows for $Z_a$;
+\item the upper subgroup rows for $N_a$ over the same history operation;
+\item the inclusion row $Z_a\subseteq N_a$;
+\item the forward and inverse conjugation stability of $Z_a$ under histories
+carried by $N_a$;
+\item reflexivity, symmetry, and transitivity of $\sim_{N_a}$ on carried
+histories of $Z_a$.
+\end{enumerate}
+Thus the normalizer action on the centralizer carries exactly the
+quotient-free orbit classifier required before any quotient-group carrier is
+introduced.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}. Its displayed
+rows give the lower certificate for $Z_a$, the upper subgroup rows for $N_a$,
+the inclusion $Z_a\subseteq N_a$, and the two conjugation-closure rows for
+$\mathsf{Conj}_s$ and $\mathsf{Conj}_{\mathsf{inv}(s)}$.
+
+Next use
+\autoref{def:group-centralizer-normalizer-orbit-relation} to read
+$\sim_{N_a}$ as reachability by a carried normalizer history with an $\hsame$
+endpoint comparison. This keeps the classifier entirely at the history level.
+
+Finally apply
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence} to the carried
+endpoints $x$, $y$, and $z$. Its three laws give reflexivity, symmetry, and
+transitivity for the same relation $\sim_{N_a}$ on $Z_a$, so the tower rows and
+the orbit laws combine into the advertised $\QuotientGroupUp$ classifier input.
+\end{proof}
+
+Per-object template: traditional target normalizer-orbit quotient classifier;
+BEDC source $\GroupUp$ plus $\SubgroupUp$ tower; carrier $Z_a$; classifier
+$\sim_{N_a}$; stability equivalence plus conjugation closure; ledger normalizer
+witness and conjugation endpoint; exactness quotient-free orbit reachability;
+standard bridge ordinary normal-subgroup orbit quotient input; status
+$\mathsf{ProofTarget}$.
 
 \begin{definition}[Centralizer normalizer quotient classifier]
 \label{def:centralizer-normalizer-quotient-classifier}
