@@ -60,6 +60,19 @@ theorem FuncobjPointwiseHomCarrier_comp_public_readback {p a b c f g fg : BHist}
   · intro displayed displayedCarrier
     exact baseReadback.right displayedCarrier.left
 
+theorem FuncobjPointwiseHomCarrier_comp_hsame_transport {p a b c f g fg fg' : BHist} :
+    UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame fg fg' ->
+        CategoryHomCarrier a c fg' ∧ CategoryHomCarrier (append p a) (append p c) fg' := by
+  intro prefixCarrier left right comp sameComposite
+  have carriers :=
+    (FuncobjPointwiseHomCarrier_comp_public_readback prefixCarrier left right comp).left
+  exact And.intro
+    (CategoryHomCarrier_hsame_transport (hsame_refl a) (hsame_refl c) sameComposite
+      carriers.left)
+    (CategoryHomCarrier_hsame_transport (hsame_refl (append p a)) (hsame_refl (append p c))
+      sameComposite carriers.right)
+
 theorem FuncObjLinearSingleton_continuous_map_components_empty
     {source map target modulus cert distance : BHist} :
     ContinuousMapCarrier source map target modulus cert distance ->
