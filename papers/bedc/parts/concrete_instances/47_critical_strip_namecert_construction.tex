@@ -9,13 +9,11 @@ This chapter gives a concrete naming-certificate construction for the open criti
 \label{def:in-crit-strip}
 For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{InCritStrip}(s)\) holds when both \(\mathsf{NatUnaryStrictPrefix}(\emp, \sigma)\) and \(\mathsf{NatUnaryStrictPrefix}(\sigma, \Eone(\emp))\) are decidably true on the rational representation, i.e.\ \(0 < \sigma < 1\) strictly.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.InCritStrip}
 
 \begin{lemma}[Critical strip membership decidable]
 \label{lem:in-crit-strip-decidable}
 For every complex history \(s\), \(\mathsf{InCritStrip}(s)\) is decidable: an explicit unary algorithm returns either a witness for both strict inequalities or a witness for at least one failure.
 \end{lemma}
-\leanstmt{BEDC.Derived.CritStripUp.in\_crit\_strip\_decidable}
 \begin{proof}
 Both inequalities are decidable on rational representations by the strict-prefix decidability of \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}).
 \end{proof}
@@ -24,13 +22,11 @@ Both inequalities are decidable on rational representations by the strict-prefix
 \label{def:on-crit-line}
 For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{OnCritLine}(s)\) holds when \(\hsame(\sigma, \mathsf{Half})\), where \(\mathsf{Half}\) is the rational representation of \(1/2\).
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.OnCritLine}
 
 \begin{lemma}[Critical line membership decidable]
 \label{lem:on-crit-line-decidable}
 For every complex history \(s\) with rational real component, \(\mathsf{OnCritLine}(s)\) is decidable.
 \end{lemma}
-\leanstmt{BEDC.Derived.CritStripUp.on\_crit\_line\_decidable}
 \begin{proof}
 Decidable from \(\hsame\)-decidability on rational representations of unary histories (\autoref{ch:concrete-instances-rat-namecert}).
 \end{proof}
@@ -41,13 +37,11 @@ Decidable from \(\hsame\)-decidability on rational representations of unary hist
 \label{def:compact-sub-strip}
 For unary \(\epsilon\) (with \(\epsilon < 1/2\)) and unary \(T\), the compact sub-strip predicate \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) holds when \(\epsilon \leq \sigma \leq 1 - \epsilon\) (rational comparisons) and \(|t| \leq T\) (modulus comparison on the imaginary part).
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CompactSubStrip}
 
 \begin{lemma}[Compact sub-strip decidable]
 \label{lem:compact-sub-strip-decidable}
 For every \((\epsilon, T, s)\), \(\mathsf{CompactSubStrip}(\epsilon, T, s)\) is decidable; the decision procedure returns either witnesses for all three bounds or an explicit failed-bound witness.
 \end{lemma}
-\leanstmt{BEDC.Derived.CritStripUp.compact\_sub\_strip\_decidable}
 \begin{proof}
 Each bound is a decidable rational comparison.
 \end{proof}
@@ -56,7 +50,6 @@ Each bound is a decidable rational comparison.
 \label{thm:boundary-excluded}
 For every complex history \(s\) with \(\hsame(\sigma, \emp)\) or \(\hsame(\sigma, \Eone(\emp))\), \(\neg \mathsf{InCritStrip}(s)\). Both edges \(\Re(s) = 0\) and \(\Re(s) = 1\) are explicitly excluded by the strict-inequality witnesses.
 \end{theorem}
-\leanstmt{BEDC.Derived.CritStripUp.boundary\_excluded}
 \begin{proof}
 Direct: the strict-prefix relations require non-equality witnesses.
 \end{proof}
@@ -67,7 +60,6 @@ Direct: the strict-prefix relations require non-equality witnesses.
 \label{lem:strip-hsame-respect}
 If \(\mathsf{InCritStrip}(s)\) and \(\hsame\) holds on both real components of \(s\) and \(s'\), then \(\mathsf{InCritStrip}(s')\). The same holds for \(\mathsf{OnCritLine}\) and \(\mathsf{CompactSubStrip}\).
 \end{lemma}
-\leanstmt{BEDC.Derived.CritStripUp.strip\_hsame\_respect}
 \begin{proof}
 Each defining inequality is closed under \(\hsame\) by transport along the rational representations.
 \end{proof}
@@ -78,37 +70,31 @@ Each defining inequality is closed under \(\hsame\) by transport along the ratio
 \label{def:crit-strip-source-spec}
 The source specification on complex history \(s\) carries the constraint \(\mathsf{InCritStrip}(s)\) or its complement at the boundary.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CritStripSourceSpec}
 
 \begin{definition}[Critical strip pattern specification]
 \label{def:crit-strip-pattern-spec}
 The pattern is the conjunction of the two strict-prefix inequalities on the rational representation.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CritStripPatternSpec}
 
 \begin{definition}[Critical strip classifier specification]
 \label{def:crit-strip-classifier-spec}
 Two strip-membership witnesses are classified together when they agree under \(\hsame\) on both real and imaginary components.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CritStripClassifierSpec}
 
 \begin{definition}[Critical strip stability certificate]
 \label{def:crit-strip-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{InCritStrip}\), \(\mathsf{OnCritLine}\), and \(\mathsf{CompactSubStrip}\); transport of all three under \(\hsame\) on each component.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CritStripStabilityCert}
 
 \begin{definition}[Critical strip ledger policy]
 \label{def:crit-strip-ledger-policy}
 The ledger policy records: (i) decidability of strip and critical-line membership, (ii) decidability of compact sub-strip predicate, (iii) boundary exclusion witnesses, (iv) closure under \(\hsame\) on inputs.
 \end{definition}
-\leandef{BEDC.Derived.CritStripUp.CritStripLedgerPolicy}
 
 \begin{theorem}[Concrete \(\CritStripUp\) naming certificate]
 \label{thm:crit-strip-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the critical-strip interface \(\CritStripUp\).
 \end{theorem}
-\leanstmt{BEDC.Derived.CritStripUp.crit\_strip\_namecert}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -117,7 +103,6 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:crit-strip-semantic-namecert}
 The concrete certificate of \autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
-\leanstmt{BEDC.Derived.CritStripUp.crit\_strip\_semantic\_namecert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

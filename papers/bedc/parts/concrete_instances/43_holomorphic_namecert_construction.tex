@@ -9,13 +9,11 @@ This chapter gives a concrete naming-certificate construction for holomorphic fu
 \label{def:open-disk}
 For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the open-disk predicate \(\mathsf{OpenDisk}(z_0, r, z)\) holds when the rational representation of the modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). The witness is an explicit unary gap function.
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.OpenDisk}
 
 \begin{lemma}[Open disk carriers are unary]
 \label{lem:open-disk-unary-witness}
 For every \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap modulus \(\mathsf{Gap}(z_0, r, z)\) is a unary history giving an explicit positive distance from \(z\) to the boundary of the disk.
 \end{lemma}
-\leanstmt{BEDC.Derived.HolomorphicUp.open\_disk\_unary\_witness}
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
 \end{proof}
@@ -26,13 +24,11 @@ The strict-prefix witness immediately gives the gap as the difference history.
 \label{def:holo-on-disk}
 For function \(f : \ComplexUp \to \ComplexUp\), center \(z_0\), and unary radius \(r\), the holomorphic predicate \(\mathsf{HoloOnDisk}(f, z_0, r)\) holds when there is a uniform modulus function \(\delta : \Unary \times \Unary \to \Unary\) such that for every point \(z\) with \(\mathsf{OpenDisk}(z_0, r, z)\) and every unary precision \(k\), \(f\) is complex-differentiable at \(z\) with modulus \(\delta(k, \mathsf{Gap}(z_0, r, z))\).
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloOnDisk}
 
 \begin{theorem}[Uniform modulus]
 \label{thm:holo-uniform-modulus}
 For each \(f, z_0, r\) with \(\mathsf{HoloOnDisk}(f, z_0, r)\), the uniform modulus \(\delta\) is unique up to pointwise refinement, and is computable as an explicit unary function of the inputs.
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_uniform\_modulus}
 \begin{proof}[Sketch]
 Take the pointwise minimum of any two candidate moduli; well-defined as a unary function.
 \end{proof}
@@ -43,13 +39,11 @@ Take the pointwise minimum of any two candidate moduli; well-defined as a unary 
 \label{def:iterated-cplx-diff}
 For \(f\) holomorphic on \(\mathsf{OpenDisk}(z_0, r)\), the iterated derivative \(\mathsf{IteratedCplxDiff}(f, z_0, n, f^{(n)})\) is defined by an explicit unary recursion: \(f^{(0)} = f\); \(f^{(n+1)}\) is the complex derivative of \(f^{(n)}\) at \(z_0\) (which exists because \(f^{(n)}\) inherits holomorphicity by closure of \(\HolomorphicUp\) under differentiation).
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.IteratedCplxDiff}
 
 \begin{theorem}[Power-series witness]
 \label{thm:holo-power-series-witness}
 Every holomorphic \(f\) on \(\mathsf{OpenDisk}(z_0, r)\) admits an explicit power-series representation \(\sum_{n=0}^{\infty} a_n (z - z_0)^n\) with coefficients \(a_n = f^{(n)}(z_0) / n!\) (computed via \(\mathsf{IteratedCplxDiff}\)) and convergence radius \(R \geq r\) (cite \autoref{ch:concrete-instances-convergence-radius-namecert}).
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_power\_series\_witness}
 \begin{proof}[Sketch]
 The Taylor remainder bound is given explicitly via the contour-integral form of Cauchy's theorem (\autoref{ch:concrete-instances-contour-integral}); the remainder tends to zero with explicit modulus on \(\mathsf{OpenDisk}(z_0, r')\) for any \(r' < r\).
 \end{proof}
@@ -60,7 +54,6 @@ The Taylor remainder bound is given explicitly via the contour-integral form of 
 \label{lem:holo-sum}
 If \(\mathsf{HoloOnDisk}(f, z_0, r)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\), then \(\mathsf{HoloOnDisk}(f + g, z_0, r)\) with explicit modulus pasting.
 \end{lemma}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_sum}
 \begin{proof}
 Pointwise sum of complex-differentiable functions; modulus is the pointwise minimum.
 \end{proof}
@@ -69,7 +62,6 @@ Pointwise sum of complex-differentiable functions; modulus is the pointwise mini
 \label{lem:holo-product}
 If \(\mathsf{HoloOnDisk}(f, z_0, r)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\), then \(\mathsf{HoloOnDisk}(f \cdot g, z_0, r)\) with explicit Leibniz modulus.
 \end{lemma}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_product}
 \begin{proof}
 Leibniz rule pointwise; modulus inflated by an explicit local-supremum bound on \(|f|\) and \(|g|\).
 \end{proof}
@@ -78,7 +70,6 @@ Leibniz rule pointwise; modulus inflated by an explicit local-supremum bound on 
 \label{lem:holo-composition}
 If \(\mathsf{HoloOnDisk}(f, w_0, s)\) and \(\mathsf{HoloOnDisk}(g, z_0, r)\) and the image of \(g\) on \(\mathsf{OpenDisk}(z_0, r)\) is contained in \(\mathsf{OpenDisk}(w_0, s)\) with explicit witness, then \(\mathsf{HoloOnDisk}(f \circ g, z_0, r)\) with explicit chain-rule modulus.
 \end{lemma}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_composition}
 \begin{proof}[Sketch]
 Composition of two complex-differentiable functions with the chain-rule modulus; image-containment witness is preserved on smaller disks.
 \end{proof}
@@ -89,7 +80,6 @@ Composition of two complex-differentiable functions with the chain-rule modulus;
 \label{thm:identity-theorem-constructive}
 Let \(f, g\) be holomorphic on \(\mathsf{OpenDisk}(z_0, r)\). If there exists an explicit sequence of points \((z_n)_n\) clustering at \(z_0\) with quantitative density bound (i.e.\ \(|z_n - z_0| \leq 2^{-n}\) and \(z_n \neq z_0\)) on which \(f(z_n) = g(z_n)\) (decidable equality on rational components), then \(f\) and \(g\) agree on a smaller \(\mathsf{OpenDisk}(z_0, r')\) for some explicit \(r' < r\).
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.identity\_theorem\_constructive}
 \begin{proof}[Sketch]
 The Taylor coefficients of \(f - g\) all vanish at \(z_0\) by induction on \(n\) using the cluster sequence; therefore \(f = g\) on the convergence disk of the Taylor series, which has radius \(\geq r'\).
 \end{proof}
@@ -98,7 +88,6 @@ The Taylor coefficients of \(f - g\) all vanish at \(z_0\) by induction on \(n\)
 \label{thm:cauchy-estimates}
 Let \(f\) be holomorphic on \(\mathsf{OpenDisk}(z_0, r)\) and let \(M(r')\) be an explicit unary upper bound on \(|f|\) over \(\overline{\mathsf{OpenDisk}}(z_0, r')\) for any \(r' < r\). Then for every unary \(n\), \(|f^{(n)}(z_0)| \leq n! \cdot M(r') / r'^n\).
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.cauchy\_estimates}
 \begin{proof}[Sketch]
 Standard contour-integral derivation of the Cauchy formula bounds (\autoref{ch:concrete-instances-contour-integral}).
 \end{proof}
@@ -109,37 +98,31 @@ Standard contour-integral derivation of the Cauchy formula bounds (\autoref{ch:c
 \label{def:holo-source-spec}
 The source specification on \((f, z_0, r)\) carries the constraint \(\mathsf{HoloOnDisk}(f, z_0, r)\).
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloSourceSpec}
 
 \begin{definition}[Holomorphic pattern specification]
 \label{def:holo-pattern-spec}
 The pattern is the uniform-modulus complex-differentiability predicate over the open disk.
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloPatternSpec}
 
 \begin{definition}[Holomorphic classifier specification]
 \label{def:holo-classifier-spec}
 Two holomorphic-on-disk witnesses are classified together when they restrict to \(\hsame\)-equivalent pointwise functions on the disk's interior.
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloClassifierSpec}
 
 \begin{definition}[Holomorphic stability certificate]
 \label{def:holo-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{HoloOnDisk}\) on the input function and on the disk parameters, transport of moduli under \(\hsame\), and compatibility with the iterated-derivative recursion.
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloStabilityCert}
 
 \begin{definition}[Holomorphic ledger policy]
 \label{def:holo-ledger-policy}
 The ledger policy records: (i) closure under sum, product, and composition (with image-containment witness); (ii) uniform-limit closure with explicit modulus inheritance; (iii) Taylor power-series representation; (iv) Cauchy estimates and identity theorem.
 \end{definition}
-\leandef{BEDC.Derived.HolomorphicUp.HoloLedgerPolicy}
 
 \begin{theorem}[Concrete \(\HolomorphicUp\) naming certificate]
 \label{thm:holo-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the holomorphic interface \(\HolomorphicUp\).
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_namecert}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -148,7 +131,6 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:holo-semantic-namecert}
 The concrete certificate of \autoref{thm:holo-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
-\leanstmt{BEDC.Derived.HolomorphicUp.holo\_semantic\_namecert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

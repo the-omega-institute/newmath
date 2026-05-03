@@ -14,13 +14,11 @@ A piecewise-linear contour \(\gamma\) is a finite list \([z_0, z_1, \ldots, z_k]
 \end{enumerate}
 The total length is the sum of the segment lengths \(|z_{i+1} - z_i|\), each computed via the metric carrier of \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}).
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.PLContour}
 
 \begin{lemma}[Piecewise-linear contour well-formedness]
 \label{lem:pl-contour-well-formed}
 For every \(\mathsf{PLContour}(\gamma)\), the total length is a non-negative rational history, and the list of endpoints has length at least 2 with each endpoint classified by \(\ComplexUp\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.pl\_contour\_well\_formed}
 \begin{proof}
 By induction on the closed generation of \(\mathsf{PLContour}\). The base case provides two endpoints and one segment with non-negative length by the metric properties of \(\ComplexUp\). The step preserves both invariants because extension appends one further endpoint and one further non-negative segment length.
 \end{proof}
@@ -29,7 +27,6 @@ By induction on the closed generation of \(\mathsf{PLContour}\). The base case p
 \label{lem:pl-contour-concat}
 If \(\mathsf{PLContour}([z_0, \ldots, z_j])\) and \(\mathsf{PLContour}([w_0, \ldots, w_k])\) and \(\hsame(z_j, w_0)\), then \(\mathsf{PLContour}([z_0, \ldots, z_j, w_1, \ldots, w_k])\) and the total length of the concatenation equals the sum of the two component lengths.
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.pl\_contour\_concat}
 \begin{proof}
 By induction on the second contour, using the extension constructor of \(\mathsf{PLContour}\) at each step. Length additivity follows by direct computation.
 \end{proof}
@@ -44,13 +41,11 @@ For a function \(f\) classified by \(\ContinuousFunctionUp\) on a domain contain
 \]
 The closed inductive carrier indexes both the segment and the subdivision step.
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.RiemannSum}
 
 \begin{lemma}[Riemann sum is a well-defined complex history]
 \label{lem:riemann-sum-complex}
 For every \(\mathsf{PLContour}(\gamma)\), continuous \(f\) on a domain containing \(\gamma\), unary \(n\), and sampling choice \(S_n\), the value \(\mathsf{RiemannSum}(f, \gamma, n, S_n)\) is classified by \(\ComplexUp\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.riemann\_sum\_complex}
 \begin{proof}
 By induction on the length of the contour list. The base case is a single sum of \(n\) products of complex histories, each well-defined by the multiplicative closure of \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}). The step adds one further segment's contribution to a previously well-defined complex history; closure under finite sums of \(\ComplexUp\) preserves the classification.
 \end{proof}
@@ -64,13 +59,11 @@ For a function \(f\) classified by \(\HolomorphicUp\) on a neighbourhood contain
 \bigl| \mathsf{RiemannSum}(f, \gamma, n, S_n) - I \bigr| \leq 2^{-k}.
 \]
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContInt}
 
 \begin{lemma}[Existence of the contour integral on holomorphic inputs]
 \label{lem:cont-int-exists}
 For every \(\mathsf{PLContour}(\gamma)\) and every \(f\) classified by \(\HolomorphicUp\) on an open neighbourhood of (the image of) \(\gamma\), there exists a complex history \(I\) with \(\mathsf{ContInt}(f, \gamma, I)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_exists}
 \begin{proof}[Sketch]
 The holomorphicity classifier of \(f\) on the neighbourhood provides an explicit local modulus of continuity. Combining this with the bounded total length of \(\gamma\) (\autoref{lem:pl-contour-well-formed}) yields a uniform Cauchy modulus on the Riemann-sum sequence indexed by \(n\); its limit \(I\) is constructed as a complex history by the Cauchy completeness of \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}).
 \end{proof}
@@ -79,7 +72,6 @@ The holomorphicity classifier of \(f\) on the neighbourhood provides an explicit
 \label{thm:cont-int-unique}
 If \(\mathsf{ContInt}(f, \gamma, I_1)\) and \(\mathsf{ContInt}(f, \gamma, I_2)\), then \(\hsame(I_1, I_2)\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_unique}
 \begin{proof}
 For each unary \(k\), the Riemann sum at precision \(\max(N_1(k+1), N_2(k+1))\) is within \(2^{-(k+1)}\) of both \(I_1\) and \(I_2\), so \(|I_1 - I_2| \leq 2^{-k}\) for every \(k\). Hence \(|I_1 - I_2|\) is the zero history, and \(\hsame(I_1, I_2)\) follows from the metric reflection of \(\ComplexUp\).
 \end{proof}
@@ -90,7 +82,6 @@ For each unary \(k\), the Riemann sum at precision \(\max(N_1(k+1), N_2(k+1))\) 
 \label{lem:cont-int-linear}
 If \(\mathsf{ContInt}(f, \gamma, I_f)\) and \(\mathsf{ContInt}(g, \gamma, I_g)\) and \(a, b\) are complex histories, then \(\mathsf{ContInt}(a f + b g, \gamma, a I_f + b I_g)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_linear}
 \begin{proof}
 Riemann sums are linear in the integrand, and the bound on \(|aI_f + bI_g - \mathsf{RiemannSum}(af + bg, \gamma, n, S_n)|\) follows by the triangle inequality from the bounds on the two component Riemann sums.
 \end{proof}
@@ -99,7 +90,6 @@ Riemann sums are linear in the integrand, and the bound on \(|aI_f + bI_g - \mat
 \label{lem:cont-int-concat}
 If \(\gamma\) is the concatenation of \(\gamma_1\) and \(\gamma_2\) (with shared endpoint via \autoref{lem:pl-contour-concat}) and \(\mathsf{ContInt}(f, \gamma_1, I_1)\) and \(\mathsf{ContInt}(f, \gamma_2, I_2)\), then \(\mathsf{ContInt}(f, \gamma, I_1 + I_2)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_concat}
 \begin{proof}
 A Riemann sum on the concatenated contour is the sum of the Riemann sums on the two component contours; pass to the joint modulus \(\max(N_1(k+1), N_2(k+1))\).
 \end{proof}
@@ -108,7 +98,6 @@ A Riemann sum on the concatenated contour is the sum of the Riemann sums on the 
 \label{lem:cont-int-reversal}
 Let \(\gamma^- = [z_k, z_{k-1}, \ldots, z_0]\) be the reverse of \(\gamma = [z_0, \ldots, z_k]\). If \(\mathsf{ContInt}(f, \gamma, I)\), then \(\mathsf{ContInt}(f, \gamma^-, -I)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_reversal}
 \begin{proof}
 Each Riemann-sum segment \(f(\xi_{i,j}) \cdot (z_{i+1} - z_i)/n\) flips sign under reversal because \(z_{i+1} - z_i\) is replaced by \(z_i - z_{i+1}\). The modulus is unchanged.
 \end{proof}
@@ -117,7 +106,6 @@ Each Riemann-sum segment \(f(\xi_{i,j}) \cdot (z_{i+1} - z_i)/n\) flips sign und
 \label{lem:cont-int-reparameterization}
 If \(\gamma'\) is obtained from \(\gamma\) by inserting one additional intermediate endpoint along an existing segment (a piecewise-linear refinement), then \(\mathsf{ContInt}(f, \gamma, I)\) iff \(\mathsf{ContInt}(f, \gamma', I)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cont\_int\_reparameterization}
 \begin{proof}
 Refinement decomposes a single segment's Riemann contribution into a sum over the two refined sub-segments; this leaves both the limit \(I\) and the modulus unchanged up to an additive constant in \(k\).
 \end{proof}
@@ -128,7 +116,6 @@ Refinement decomposes a single segment's Riemann contribution into a sum over th
 \label{thm:cauchy-triangle}
 If \(\gamma\) is a closed piecewise-linear contour bounding a triangle inside the holomorphic domain of \(f\), then \(\mathsf{ContInt}(f, \gamma, 0)\), where \(0\) denotes the zero complex history.
 \end{theorem}
-\leanstmt{BEDC.Derived.ContourUp.cauchy\_triangle}
 \begin{proof}[Sketch]
 The standard Goursat-style nested-triangle subdivision argument: bisect the triangle into four congruent sub-triangles, observe that the sum of the four sub-integrals equals the original integral (cancellations along shared edges by \autoref{lem:cont-int-reversal}), pick the largest sub-integral and iterate. Holomorphicity provides the bound that the integral over the \(n\)-th nested triangle decays like \(4^{-n} \cdot \text{(perimeter)}^2\), forcing the limit to be zero.
 \end{proof}
@@ -137,7 +124,6 @@ The standard Goursat-style nested-triangle subdivision argument: bisect the tria
 \label{lem:cauchy-polygon}
 For any closed piecewise-linear \(\gamma\) bounding a region triangulated by finitely many triangles inside the holomorphic domain of \(f\), \(\mathsf{ContInt}(f, \gamma, 0)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ContourUp.cauchy\_polygon}
 \begin{proof}
 Apply \autoref{thm:cauchy-triangle} to each triangle in the triangulation. The sum of the triangle integrals equals the integral over the boundary of the polygon by \autoref{lem:cont-int-concat} and \autoref{lem:cont-int-reversal}; the interior edges cancel pairwise.
 \end{proof}
@@ -150,7 +136,6 @@ Let \(z_0\) be a complex history, \(r\) a positive rational history, and \(\gamm
 \]
 holds, with explicit modulus computed from the rational approximation of \(\pi\) provided by \(\RealUp\) (\autoref{ch:concrete-instances-real-namecert}).
 \end{theorem}
-\leanstmt{BEDC.Derived.ContourUp.cauchy\_integral\_formula}
 \begin{proof}[Sketch]
 By Cauchy's theorem on triangulated regions, the integral over \(\gamma\) equals the integral over a small piecewise-linear circle approximation around \(z_0\) (the difference contour bounds a triangulated annulus). On the small approximation, the integrand is approximately \(f(z_0)/(z - z_0)\), whose contour integral is \(2\pi i \cdot f(z_0)\) by direct computation on the rational endpoints. The explicit modulus combines the holomorphicity modulus with the rational-\(\pi\) approximation modulus.
 \end{proof}
@@ -161,19 +146,16 @@ By Cauchy's theorem on triangulated regions, the integral over \(\gamma\) equals
 \label{def:cont-int-input-spec}
 The input specification of the contour-integral operation is the pair \((f, \gamma)\) where \(f\) is classified by \(\HolomorphicUp\) on an open neighbourhood and \(\gamma\) is classified by \(\mathsf{PLContour}\) inside that neighbourhood.
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContIntInputSpec}
 
 \begin{definition}[Contour-integral output specification]
 \label{def:cont-int-output-spec}
 The output specification is a single complex history \(I\) classified by \(\ComplexUp\), uniquely determined up to \(\hsame\) by \autoref{thm:cont-int-unique}.
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContIntOutputSpec}
 
 \begin{definition}[Contour-integral classifier]
 \label{def:cont-int-classifier}
 The classifier of the operation is \(\hsame\) on the output complex history. Two outputs are classified together iff they are \(\hsame\)-equal.
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContIntClassifier}
 
 \begin{definition}[Contour-integral operation laws]
 \label{def:cont-int-operation-laws}
@@ -185,7 +167,6 @@ The operation laws of the contour-integral operation collect:
   \item invariance under piecewise-linear reparameterization (\autoref{lem:cont-int-reparameterization}).
 \end{enumerate}
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContIntOperationLaws}
 
 \begin{definition}[Contour-integral ledger policy]
 \label{def:cont-int-ledger-policy}
@@ -195,13 +176,11 @@ The ledger policy records:
   \item Cauchy integral formula composition (\autoref{thm:cauchy-integral-formula}): point evaluation factors through a rational-approximated circle integral.
 \end{enumerate}
 \end{definition}
-\leandef{BEDC.Derived.ContourUp.ContIntLedgerPolicy}
 
 \begin{theorem}[Concrete contour-integral operation certificate]
 \label{thm:contour-integral-operation}
 The data \((\mathsf{ContIntInputSpec}, \mathsf{ContIntOutputSpec}, \hsame, \mathsf{ContIntOperationLaws}, \mathsf{ContIntLedgerPolicy})\) of \autoref{def:cont-int-input-spec}--\autoref{def:cont-int-ledger-policy} forms an operation certificate over \(\Hist\) for contour integration on \(\HolomorphicUp\). The operation is total on its input specification (\autoref{lem:cont-int-exists}), uniquely determined up to \(\hsame\) (\autoref{thm:cont-int-unique}), and closed under the four operation laws.
 \end{theorem}
-\leanstmt{BEDC.Derived.ContourUp.contour\_integral\_operation}
 \begin{proof}[Sketch]
 Totality is \autoref{lem:cont-int-exists}. Uniqueness is \autoref{thm:cont-int-unique}. The operation laws are \autoref{lem:cont-int-linear}, \autoref{lem:cont-int-concat}, \autoref{lem:cont-int-reversal}, and \autoref{lem:cont-int-reparameterization}. The ledger policy fields are \autoref{thm:cauchy-triangle}, \autoref{lem:cauchy-polygon}, and \autoref{thm:cauchy-integral-formula}. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the operation's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -210,7 +189,6 @@ Totality is \autoref{lem:cont-int-exists}. Uniqueness is \autoref{thm:cont-int-u
 \label{thm:contour-integral-semantic}
 The concrete operation certificate of \autoref{thm:contour-integral-operation} satisfies the semantic operation-certificate schema: the input and output specifications are \(\Hist\)-predicates, the classifier is a restriction of \(\hsame\), and every operation law is given by an explicit constructive proof. The operation is functorial in its input pair under \(\hsame\): if \(\hsame(f, f')\) (in the sense of pointwise classifier on the holomorphic carrier) and \(\hsame(\gamma, \gamma')\) (in the sense of endpoint-wise classifier on \(\mathsf{PLContour}\)), then the resulting integrals are \(\hsame\)-equal.
 \end{theorem}
-\leanstmt{BEDC.Derived.ContourUp.contour\_integral\_semantic}
 \begin{proof}[Sketch]
 Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\HolomorphicUp\) and \(\ComplexUp\) classifiers.
 \end{proof}

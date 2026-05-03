@@ -9,13 +9,11 @@ This chapter gives a concrete naming-certificate construction for the predicate 
 \label{def:zeta-val}
 For complex history \(s\) with \(\neg \hsame(s, \Eone(\emp))\) (i.e.\ \(s \neq 1\)), the predicate \(\mathsf{ZetaVal}(s, z)\) holds when \(z\) is the unique complex history obtained by evaluating the analytically continued \(\zeta\) at \(s\) (cite \autoref{ch:concrete-instances-zeta-continuation}).
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaVal}
 
 \begin{lemma}[\(\zeta\)-value well-defined]
 \label{lem:zeta-val-well-defined}
 For every \(s\) with \(s \neq 1\), \(\mathsf{ZetaVal}(s, z)\) determines a unique complex history \(z\) up to \(\hsame\) on both real components.
 \end{lemma}
-\leanstmt{BEDC.Derived.ZetaZerosUp.zeta\_val\_well\_defined}
 \begin{proof}
 Direct uniqueness from the analytic continuation operation of \(\ZetaContUp\).
 \end{proof}
@@ -24,7 +22,6 @@ Direct uniqueness from the analytic continuation operation of \(\ZetaContUp\).
 \label{def:zeta-zero}
 The predicate \(\mathsf{ZetaZero}(s)\) holds when there exists \(z\) with \(\mathsf{ZetaVal}(s, z)\) and \(\hsame\) holds on both real components of \(z\) and the zero complex history.
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZero}
 
 \begin{remark}[Decidability gap]
 \label{rem:zero-decidability-gap}
@@ -37,7 +34,6 @@ The predicate \(\mathsf{ZetaVal}(s, z)\) for fixed \(s\) is decidable to within 
 \label{thm:trivial-zero-witness}
 For every unary \(n \geq \Eone(\emp)\), the negative even integer \(s = -2n\) (encoded as a complex history with rational real part \(-2n\) and imaginary part empty) satisfies \(\mathsf{ZetaZero}(s)\). The witness comes from the functional equation \(\zeta(s) = 2^s \pi^{s-1} \sin(\pi s / 2) \Gamma(1 - s) \zeta(1 - s)\), where \(\sin(\pi s / 2) = 0\) at even \(s \leq -2\) (\autoref{ch:concrete-instances-zeta-continuation}).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.trivial\_zero\_witness}
 \begin{proof}[Sketch]
 At \(s = -2n\) with \(n \geq 1\), \(\sin(\pi s / 2) = \sin(-n \pi) = 0\) constructively (rational multiple of \(\pi\) with even integer multiplier). The other functional-equation factors are non-zero and finite at \(s = -2n\) (Gamma function value at a positive integer). Hence \(\zeta(-2n) = 0\) constructively.
 \end{proof}
@@ -48,13 +44,11 @@ At \(s = -2n\) with \(n \geq 1\), \(\sin(\pi s / 2) = \sin(-n \pi) = 0\) constru
 \label{def:nontrivial-zero}
 The predicate \(\mathsf{NontrivialZero}(s)\) holds when both \(\mathsf{ZetaZero}(s)\) and \(\mathsf{InCritStrip}(s)\) (\autoref{ch:concrete-instances-critical-strip-namecert}).
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.NontrivialZero}
 
 \begin{theorem}[Non-trivial zeros lie in the strip]
 \label{thm:nontrivial-zero-in-strip}
 For every \(s\) with \(\mathsf{NontrivialZero}(s)\), \(\mathsf{InCritStrip}(s)\) holds by definition. Conversely, the non-vanishing of \(\zeta\) for \(\Re(s) \geq 1\) (\autoref{ch:concrete-instances-zeta-basic-namecert}) and the trivial-zero classification at \(\Re(s) \leq 0\) bracket the location of any non-trivial zero strictly inside \(0 < \Re(s) < 1\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.nontrivial\_zero\_in\_strip}
 \begin{proof}[Sketch]
 \(\zeta\)'s non-vanishing on \(\Re(s) > 1\) gives the right boundary; the functional equation reduces \(\Re(s) \leq 0\) to \(\Re(s) \geq 1\); the explicit trivial-zero witnesses cover the negative even integers exactly.
 \end{proof}
@@ -65,7 +59,6 @@ For every \(s\) with \(\mathsf{NontrivialZero}(s)\), \(\mathsf{InCritStrip}(s)\)
 \label{thm:conjugate-symmetric}
 If \(\mathsf{ZetaZero}(s)\), then \(\mathsf{ZetaZero}(\overline{s})\), where \(\overline{s}\) is the complex history obtained by negating the imaginary component.
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.conjugate\_symmetric}
 \begin{proof}[Sketch]
 \(\zeta\) takes complex conjugates to complex conjugates, since the Dirichlet sum and analytic continuation both respect conjugation; if \(\zeta(s) = 0\), then \(\overline{\zeta(s)} = \zeta(\overline{s}) = 0\).
 \end{proof}
@@ -74,7 +67,6 @@ If \(\mathsf{ZetaZero}(s)\), then \(\mathsf{ZetaZero}(\overline{s})\), where \(\
 \label{thm:no-zero-real-part-one}
 For every \(s\) with \(\hsame(\sigma, \Eone(\emp))\) (i.e.\ \(\Re(s) = 1\)), \(\neg \mathsf{ZetaZero}(s)\). This is the classical non-vanishing of \(\zeta\) on the line \(\Re(s) = 1\), proved by an elementary trigonometric inequality (de la Vall\'ee-Poussin / Mertens) made constructive by explicit unary-history bounds.
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.no\_zero\_real\_part\_one}
 \begin{proof}[Sketch]
 The classical inequality \(3 + 4 \cos\theta + \cos 2\theta \geq 0\) translates to a constructive product-bound on \(|\zeta(\sigma)^3 \zeta(\sigma + it)^4 \zeta(\sigma + 2it)|\), which forces \(\zeta(1 + it) \neq 0\) as \(\sigma \to 1^+\) with explicit modulus.
 \end{proof}
@@ -85,37 +77,31 @@ The classical inequality \(3 + 4 \cos\theta + \cos 2\theta \geq 0\) translates t
 \label{def:zeta-zero-source-spec}
 The source specification carries the constraint \(\mathsf{ZetaZero}(s)\) plus an optional \(\mathsf{InCritStrip}(s)\) flag distinguishing trivial from non-trivial zeros.
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroSourceSpec}
 
 \begin{definition}[Zeta zero pattern specification]
 \label{def:zeta-zero-pattern-spec}
 The pattern is the joint predicate \(\mathsf{ZetaVal}(s, z) \wedge \hsame(z, \emp_{\ComplexUp})\) on complex-history pairs.
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroPatternSpec}
 
 \begin{definition}[Zeta zero classifier specification]
 \label{def:zeta-zero-classifier-spec}
 Two zero witnesses at the same \(s\) are classified together when their underlying \(\mathsf{ZetaVal}\) witnesses agree under \(\hsame\) on the zero complex history.
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroClassifierSpec}
 
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
 The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ZetaZero}\), conjugate symmetry of zeros, and the boundary exclusion witnesses (no zeros on \(\Re(s) = 1\), trivial zeros at negative even integers, no zeros on \(\Re(s) \geq 1\)).
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroStabilityCert}
 
 \begin{definition}[Zeta zero ledger policy]
 \label{def:zeta-zero-ledger-policy}
 The ledger policy records: (i) trivial zeros at \(s = -2n\) for unary \(n \geq 1\), (ii) non-trivial zeros all lie strictly inside \(\mathsf{InCritStrip}\), (iii) conjugate symmetry, (iv) the explicit zero classifier under \(\hsame\). The ledger explicitly notes that exhaustive enumeration of non-trivial zeros is not constructively decidable from finite-precision data --- that gap is what RH (\autoref{ch:capstones-riemann-hypothesis}) addresses.
 \end{definition}
-\leandef{BEDC.Derived.ZetaZerosUp.ZetaZeroLedgerPolicy}
 
 \begin{theorem}[Concrete \(\ZetaZerosUp\) naming certificate]
 \label{thm:zeta-zeros-namecert}
 The five fields above form a naming certificate over \(\Hist\) for the \(\zeta\)-zero interface \(\ZetaZerosUp\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.zeta\_zeros\_namecert}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -124,7 +110,6 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:zeta-zeros-semantic-namecert}
 The concrete certificate of \autoref{thm:zeta-zeros-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
 \end{theorem}
-\leanstmt{BEDC.Derived.ZetaZerosUp.zeta\_zeros\_semantic\_namecert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
 \end{proof}

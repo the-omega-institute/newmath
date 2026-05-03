@@ -9,19 +9,16 @@ This chapter gives a concrete naming-certificate construction for the complex-li
 \label{def:cplx-modulus}
 For a complex history \(z\) with components \((x, y)\) in \(\RatUp\)-carrier, the complex modulus \(\mathsf{CplxMod}(z, M)\) is the closed inductive predicate asserting that \(M\) is a unary-indexed \(\RealUp\)-bound history witnessing \(M^2 \geq x^2 + y^2\) under unary-history rational arithmetic. The witness is constructed by applying the rational squaring continuation to each component followed by additive composition.
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxMod}
 
 \begin{definition}[Pairwise complex distance]
 \label{def:cplx-distance}
 For complex histories \(z = (x_1, y_1)\) and \(w = (x_2, y_2)\), the distance \(\mathsf{CplxDist}(z, w, D)\) holds when \(D\) is the rational-history modulus of the difference \((x_1 - x_2, y_1 - y_2)\). Concretely, \(\mathsf{CplxDist}(z, w, D) := \mathsf{CplxMod}(z - w, D)\), where \(z - w\) is the pointwise rational subtraction continuation.
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxDist}
 
 \begin{lemma}[Complex distance is symmetric]
 \label{lem:cplx-dist-symmetric}
 For all complex histories \(z, w\) and unary-history bound \(D\), \(\mathsf{CplxDist}(z, w, D)\) iff \(\mathsf{CplxDist}(w, z, D)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxDist\_symmetric}
 \begin{proof}
 The rational-subtraction continuation produces the additive inverse on each component; squaring is invariant under negation, so the modulus witness is identical.
 \end{proof}
@@ -30,7 +27,6 @@ The rational-subtraction continuation produces the additive inverse on each comp
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxDist\_triangle}
 \begin{proof}[Sketch]
 Componentwise application of the rational-history triangle inequality from \(\RealUp\) machinery (\autoref{ch:concrete-instances-real-namecert}) to the real and imaginary parts, followed by composition under the modulus witness of \autoref{def:cplx-modulus}. The bound \(\mathsf{TriBound}\) is explicit and unary-indexed.
 \end{proof}
@@ -41,13 +37,11 @@ Componentwise application of the rational-history triangle inequality from \(\Re
 \label{def:cplx-regseq}
 A regular complex sequence is a pair \((s, N)\) consisting of a unary-indexed family \(s : \mathsf{Unary} \to \ComplexUp\)-history together with a unary modulus function \(N : \mathsf{Unary} \to \mathsf{Unary}\) such that for every unary index \(k\) and unary indices \(n, m\) with \(\mathsf{NatUnaryStrictPrefix}(N(k), n)\) (or \(\hsame(n, N(k))\)) and similarly for \(m\), the distance \(\mathsf{CplxDist}(s(n), s(m), D)\) is bounded by the unary representation of \(2^{-k}\). The predicate is written \(\mathsf{CplxRegSeq}(s, N)\).
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxRegSeq}
 
 \begin{lemma}[Regular complex sequence has regular real and imaginary projections]
 \label{lem:cplx-regseq-projects}
 If \(\mathsf{CplxRegSeq}(s, N)\) holds, then the projection sequences \(\mathsf{Re}(s)\) and \(\mathsf{Im}(s)\) are each regular \(\RatUp\)-Cauchy sequences with the same unary modulus \(N\), in the sense of \(\RegSeqRat\) from \autoref{ch:concrete-instances-real-namecert}.
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxRegSeq\_projects}
 \begin{proof}
 Each component bound is dominated by the modulus witness of \autoref{def:cplx-modulus}: if \(D^2 \geq x^2 + y^2\), then \(D \geq |x|\) and \(D \geq |y|\). The unary modulus carries through unchanged.
 \end{proof}
@@ -56,7 +50,6 @@ Each component bound is dominated by the modulus witness of \autoref{def:cplx-mo
 \label{lem:cplx-constant-regular}
 For every complex history \(z\), the constant sequence \(s(n) := z\) together with the trivial modulus \(N(k) := \emp\) satisfies \(\mathsf{CplxRegSeq}(s, N)\).
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxRegSeq\_constant}
 \begin{proof}
 The pairwise distance is the modulus of the zero history, which is \(\emp\) under \autoref{def:cplx-modulus}; trivially below \(2^{-k}\) for all \(k\).
 \end{proof}
@@ -67,13 +60,11 @@ The pairwise distance is the modulus of the zero history, which is \(\emp\) unde
 \label{def:cplx-lim}
 For a regular complex sequence \((s, N)\) and a complex history \(z\), the predicate \(\mathsf{CplxLim}(s, N, z, M)\) holds when \(M : \mathsf{Unary} \to \mathsf{Unary}\) is an explicit modulus such that for every unary index \(k\) and every unary \(n\) with \(\mathsf{NatUnaryStrictPrefix}(M(k), n)\) (or \(\hsame(n, M(k))\)), the distance \(\mathsf{CplxDist}(s(n), z, D)\) satisfies the unary representation of \(D \leq 2^{-k}\).
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLim}
 
 \begin{lemma}[Complex limit functorial under \(\hsame\) on the limit point]
 \label{lem:cplx-lim-hsame}
 If \(\mathsf{CplxLim}(s, N, z, M)\) and the components of \(z\) and \(z'\) are pairwise \(\hsame\)-equal, then \(\mathsf{CplxLim}(s, N, z', M)\) with the same modulus.
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxLim\_hsame}
 \begin{proof}
 The distance \(\mathsf{CplxDist}(s(n), z, D)\) depends on \(z\) only via its rational-history components; \(\hsame\) on each component preserves the modulus witness pointwise.
 \end{proof}
@@ -82,7 +73,6 @@ The distance \(\mathsf{CplxDist}(s(n), z, D)\) depends on \(z\) only via its rat
 \label{thm:cplx-lim-unique}
 If \(\mathsf{CplxLim}(s, N, z, M)\) and \(\mathsf{CplxLim}(s, N, z', M')\) both hold for the same regular complex sequence, then \(\hsame\) holds on the real components of \(z\) and \(z'\) and on the imaginary components.
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_unique}
 \begin{proof}[Sketch]
 From the two modulus witnesses construct the diagonal sequence \(s(\max(M(k), M'(k)))\) and bound \(\mathsf{CplxDist}(z, z', D)\) by \(2^{-k+1}\) for every \(k\) using the triangle inequality (\autoref{lem:cplx-dist-triangle}). The componentwise rational-history archimedean property then forces \(\hsame\) on each component.
 \end{proof}
@@ -93,13 +83,11 @@ From the two modulus witnesses construct the diagonal sequence \(s(\max(M(k), M'
 \label{def:cplx-pointwise-sum}
 For complex sequences \(s, t\), the pointwise sum \(s \oplus t\) is given by \((s \oplus t)(n) := s(n) + t(n)\), where \(+\) is componentwise rational-history addition continuation on \(\ComplexUp\)-carriers.
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxPointwiseSum}
 
 \begin{lemma}[Sum of regular sequences is regular with explicit modulus pasting]
 \label{lem:cplx-sum-regular}
 If \(\mathsf{CplxRegSeq}(s, N_s)\) and \(\mathsf{CplxRegSeq}(t, N_t)\), then \(\mathsf{CplxRegSeq}(s \oplus t, N')\) with \(N'(k) := \max(N_s(k+1), N_t(k+1))\) (max in unary-history strict prefix order).
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.CplxRegSeq\_sum}
 \begin{proof}
 Applying the triangle inequality to \(\mathsf{CplxDist}((s \oplus t)(n), (s \oplus t)(m), D)\) decomposes the bound into the sum of the \(s\)- and \(t\)-bounds, each at level \(k+1\), giving total \(2^{-k}\).
 \end{proof}
@@ -108,7 +96,6 @@ Applying the triangle inequality to \(\mathsf{CplxDist}((s \oplus t)(n), (s \opl
 \label{thm:cplx-lim-sum}
 If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_t)\), then \(\mathsf{CplxLim}(s \oplus t, N', z_s + z_t, M')\) with explicit pasted modulus \(M'(k) := \max(M_s(k+1), M_t(k+1))\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_sum}
 \begin{proof}[Sketch]
 Triangle inequality on \(\mathsf{CplxDist}((s \oplus t)(n), z_s + z_t, D)\): bound by the sum of the two component distances, each at level \(k+1\) by the hypothesis on \(M_s\) and \(M_t\).
 \end{proof}
@@ -117,7 +104,6 @@ Triangle inequality on \(\mathsf{CplxDist}((s \oplus t)(n), z_s + z_t, D)\): bou
 \label{thm:cplx-lim-scalar}
 For a fixed complex history \(c\) with modulus bound \(C\) (i.e.\ \(\mathsf{CplxMod}(c, C)\)), and a regular sequence with \(\mathsf{CplxLim}(s, N, z, M)\), the scaled sequence \(c \cdot s\) (componentwise rational-history multiplication) satisfies \(\mathsf{CplxLim}(c \cdot s, N, c \cdot z, M_c)\) with \(M_c(k) := M(k + \log_2(C+1))\) (where \(\log_2\) on unary histories is the standard unary discretized logarithm).
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_scalar}
 \begin{proof}[Sketch]
 The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n), c \cdot z, D)\) bounded by \(C \cdot \mathsf{CplxDist}(s(n), z, D')\); shift the modulus index by the unary discretized logarithm of \(C\) to absorb the scaling factor.
 \end{proof}
@@ -126,7 +112,6 @@ The bilinearity of complex multiplication gives \(\mathsf{CplxDist}(c \cdot s(n)
 \label{thm:cplx-lim-product}
 If \(\mathsf{CplxLim}(s, N_s, z_s, M_s)\) and \(\mathsf{CplxLim}(t, N_t, z_t, M_t)\) with both target points bounded \(\mathsf{CplxMod}(z_s, B_s)\), \(\mathsf{CplxMod}(z_t, B_t)\), then the pointwise product \(s \otimes t\) satisfies \(\mathsf{CplxLim}(s \otimes t, N', z_s \cdot z_t, M')\) with quadratic modulus \(M'(k) := \max(M_s(k + B_t + 1), M_t(k + B_s + 1))\).
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_product}
 \begin{proof}[Sketch]
 Standard \(ab - a'b' = a(b-b') + (a-a')b'\) decomposition; bound each summand using the hypotheses, with the bounds on \(z_s, z_t\) entering as the multiplicative shift on the modulus indices.
 \end{proof}
@@ -137,13 +122,11 @@ Standard \(ab - a'b' = a(b-b') + (a-a')b'\) decomposition; bound each summand us
 \label{def:cplx-cauchy}
 The Cauchy condition on \((s, N)\) is exactly the condition built into \autoref{def:cplx-regseq}: it is the same regular-sequence predicate, named separately for emphasis. We write \(\mathsf{CplxCauchy}(s, N) := \mathsf{CplxRegSeq}(s, N)\).
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxCauchy}
 
 \begin{lemma}[Diagonal extraction over real components]
 \label{lem:cplx-diagonal-extraction}
 For \(\mathsf{CplxCauchy}(s, N)\), the projection onto real components is a \(\RegSeqRat\)-Cauchy sequence (\autoref{lem:cplx-regseq-projects}) and so admits an explicit limit \(x^*\) by the real-completeness theorem of \autoref{ch:concrete-instances-real-namecert}; similarly the imaginary projection admits a limit \(y^*\). The pair \((x^*, y^*)\) is the candidate complex limit.
 \end{lemma}
-\leanstmt{BEDC.Derived.ComplexLimitUp.cplx\_diagonal\_extraction}
 \begin{proof}[Sketch]
 Apply the rational \(\RegSeqRat\) completeness construction (real completeness capstone, \autoref{ch:concrete-instances-real-namecert}) to each of the two projection sequences, yielding two real histories with explicit moduli derived from \(N\).
 \end{proof}
@@ -152,7 +135,6 @@ Apply the rational \(\RegSeqRat\) completeness construction (real completeness c
 \label{thm:cplx-cauchy-complete}
 For every Cauchy regular complex sequence \((s, N)\) there exists an explicit complex history \(z^* = (x^*, y^*)\) and an explicit modulus \(M^*\) such that \(\mathsf{CplxLim}(s, N, z^*, M^*)\). The witness \(z^*\) is unique up to \(\hsame\) on each component by \autoref{thm:cplx-lim-unique}.
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_cauchy\_complete}
 \begin{proof}[Sketch]
 Combine \autoref{lem:cplx-diagonal-extraction} with the componentwise modulus pasting from \autoref{def:cplx-modulus}: since each projection has an explicit limit modulus from real completeness, the complex distance bound follows by the modulus witness of \autoref{def:cplx-distance}.
 \end{proof}
@@ -163,19 +145,16 @@ Combine \autoref{lem:cplx-diagonal-extraction} with the componentwise modulus pa
 \label{def:cplx-lim-source-specification}
 The source specification on \(\Hist\) restricts to pairs \(((s, N), (z, M))\) such that \(\mathsf{CplxRegSeq}(s, N)\) and \(\mathsf{CplxLim}(s, N, z, M)\). The generator is the complex-limit predicate of \autoref{def:cplx-lim}.
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLimSourceSpec}
 
 \begin{definition}[Complex-limit pattern specification]
 \label{def:cplx-lim-pattern-specification}
 The pattern of \(\ComplexLimitUp\) is regular-sequence-bounded convergence: for an input regular complex sequence \((s, N)\), the pattern is the family of distances \(\mathsf{CplxDist}(s(n), z, D)\) restricted to \(n\) above the modulus threshold \(M(k)\) at each unary level \(k\).
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLimPatternSpec}
 
 \begin{definition}[Complex-limit classifier specification]
 \label{def:cplx-lim-classifier-specification}
 The classifier on complex-limit carriers is \(\hsame\) componentwise: two complex-limit witnesses classify together iff their target points agree under \(\hsame\) on both real and imaginary components.
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLimClassifierSpec}
 
 \begin{definition}[Complex-limit stability certificate]
 \label{def:cplx-lim-stability-certificate}
@@ -186,7 +165,6 @@ The stability certificate consists of:
   \item compatibility of the modulus function with \(\hsame\) on its unary inputs and outputs.
 \end{enumerate}
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLimStabilityCert}
 
 \begin{definition}[Complex-limit ledger policy]
 \label{def:cplx-lim-ledger-policy}
@@ -198,13 +176,11 @@ The ledger policy records:
   \item Cauchy completeness for regular complex sequences (\autoref{thm:cplx-cauchy-complete}).
 \end{enumerate}
 \end{definition}
-\leandef{BEDC.Derived.ComplexLimitUp.CplxLimLedgerPolicy}
 
 \begin{theorem}[Concrete \(\ComplexLimitUp\) naming certificate]
 \label{thm:complex-limit-namecert}
 The data \((\mathsf{CplxLim}, \mathsf{CplxRegSeq}, \hsame, \mathsf{CplxLimStabilityCert}, \mathsf{CplxLimLedgerPolicy})\) of \autoref{def:cplx-lim-source-specification}--\autoref{def:cplx-lim-ledger-policy} forms a naming certificate over \(\Hist\) for the complex-limit interface \(\ComplexLimitUp\). The certificate is functional (\autoref{thm:cplx-lim-unique}), closed under linear combinations and products (\autoref{thm:cplx-lim-sum}--\autoref{thm:cplx-lim-product}), and Cauchy-complete (\autoref{thm:cplx-cauchy-complete}).
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_namecert}
 \begin{proof}[Sketch]
 The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). Functionality is \autoref{thm:cplx-lim-unique}. Linear-combination closure is \autoref{thm:cplx-lim-sum} and \autoref{thm:cplx-lim-scalar}; product closure is \autoref{thm:cplx-lim-product}. Cauchy completeness is \autoref{thm:cplx-cauchy-complete}. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so its Lean targets fall under the project's axiom-purity gate.
 \end{proof}
@@ -213,7 +189,6 @@ The five fields satisfy the closure laws of the naming-certificate framework (\a
 \label{thm:complex-limit-semantic-namecert}
 The concrete certificate of \autoref{thm:complex-limit-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier is a \(\Hist\)-predicate, the classifier is a restriction of \(\hsame\) to complex-history components, and every closure law is given by an explicit constructive proof with explicit modulus pasting.
 \end{theorem}
-\leanstmt{BEDC.Derived.ComplexLimitUp.complex\_limit\_semantic\_namecert}
 \begin{proof}[Sketch]
 Direct verification of the four \(\NameCert\) field types using the constructions of this chapter. The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
 \end{proof}
