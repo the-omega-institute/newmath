@@ -79,6 +79,28 @@ theorem DerivativeMetricQuotient_hsame_transport
                                   (And.intro metricWitness'
                                     (And.intro diffLedger' metricLedger')))
 
+theorem DerivativeMetricQuotient_distance_result_nonempty {f z h q dist : BHist} :
+    DerivativeMetricQuotient f z h q dist -> hsame dist BHist.Empty -> False := by
+  intro quotient sameDist
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro _quotientCarrier rest =>
+                  cases rest with
+                  | intro _diffLedger rest =>
+                      cases rest with
+                      | intro _stepCarrier rest =>
+                          cases rest with
+                          | intro _distCarrier metricLedger =>
+                              have emptyLedger : Cont h q BHist.Empty :=
+                                cont_result_hsame_transport metricLedger sameDist
+                              have endpoints := cont_empty_result_inversion emptyLedger
+                              exact stepNonzero endpoints.left
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by
@@ -101,5 +123,36 @@ theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
                               (And.intro stepUnary.left
                                 (And.intro stepUnary.right.left
                                   (And.intro stepUnary.right.right (classifier quotient)))))
+
+theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      (hsame q BHist.Empty -> False) ∧ (hsame dist BHist.Empty -> False) := by
+  intro quotient
+  cases quotient with
+  | intro functionCarrier rest =>
+      cases rest with
+      | intro pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro quotientCarrier rest =>
+                  cases rest with
+                  | intro diffLedger rest =>
+                      cases rest with
+                      | intro stepCarrier rest =>
+                          cases rest with
+                          | intro distCarrier metricLedger =>
+                              have complexQuotient : CplxDiffQuot f z h q :=
+                                And.intro functionCarrier
+                                  (And.intro pointCarrier
+                                    (And.intro stepNonzero
+                                      (And.intro quotientCarrier diffLedger)))
+                              constructor
+                              · exact CplxDiffQuot_result_nonempty complexQuotient
+                              · intro distEmpty
+                                have emptyMetricLedger : Cont h q BHist.Empty :=
+                                  cont_result_hsame_transport metricLedger distEmpty
+                                have endpoints := cont_empty_result_inversion emptyMetricLedger
+                                exact stepNonzero endpoints.left
 
 end BEDC.Derived.DerivativeUp
