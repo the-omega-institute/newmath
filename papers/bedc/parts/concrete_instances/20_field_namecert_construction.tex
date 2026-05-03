@@ -46,3 +46,57 @@
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_semantic_support_rows}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_exit_support_rows}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_semantic_exit_rows}
+\input{parts/concrete_instances/field/20_field_ratup_fieldup_nondegenerate_semantic_exit}
+
+\begin{theorem}[RatUp FieldUp transported strict-support non-singleton endpoint]
+\label{thm:ratup-fieldup-transported-strict-support-non-singleton}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the
+contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$x:=\Gamma_{p',q',s',t'}(\Gamma_{p,q,s,t}(h))$. Under the hypotheses of
+\autoref{thm:ratup-fieldup-transported-support-neutrality-row}, suppose also
+that $N_D^u(h)$ holds. Then the concrete $\FieldUp(\mathsf{RatUp})$ exit
+certificate contains all of the following endpoint data:
+\begin{enumerate}
+  \item $C_D^u(x)$;
+  \item $N_D^u(x)$;
+  \item $\mathsf{RatHistoryCarrier}(x)$;
+  \item $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+\end{enumerate}
+Thus the transported strict-support endpoint of the
+$\FieldUp(\mathsf{RatUp})$ exit certificate cannot collapse into the singleton
+empty-history field carrier.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-exit-transported-support-nondegenerate} at the same
+transported endpoint. It gives the carried endpoint clause $C_D^u(x)$ and the
+strict-support equivalence
+$$
+N_D^u(x)\Longleftrightarrow N_D^u(h).
+$$
+
+Use the reverse direction of this equivalence with the displayed witness
+$N_D^u(h)$. This produces the transported strict-support witness $N_D^u(x)$.
+
+Now read the denominator tuple row from
+\autoref{thm:field-rat-denominator-fieldup-contextual-multiplicative-boundary}.
+There $N_D^u(y)=\mathsf{RatHistoryCarrier}(y)$ for every denominator history
+$y$, so the transported support witness gives $\mathsf{RatHistoryCarrier}(x)$.
+
+Finally apply
+\autoref{thm:field-singleton-schema-disjoint-from-rat-history-carrier} to
+$x$. Any witness of $\mathsf{fieldSingletonEmptyCarrier}(x)$, together with the
+Rat history carrier witness just obtained, yields contradiction. This is the
+displayed map $\mathsf{fieldSingletonEmptyCarrier}(x)\to\bot$.
+\end{proof}
+
+Per-object template: traditional target constructive $\FieldUp$ exit separation;
+BEDC source $\mathsf{RatUpFieldSource}_F$, contextual action $\Gamma$, and
+strict support $N_D^u$; carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability obligations transported support
+neutrality plus Rat/singleton separation; ledger contextual-pair action and
+denominator support; core theorem
+\autoref{thm:ratup-fieldup-transported-strict-support-non-singleton}; exactness
+predicate transported strict-support non-collapse; standard bridge deferred;
+status $\mathsf{ProofTarget}$.
