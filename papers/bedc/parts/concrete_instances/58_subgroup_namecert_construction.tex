@@ -6,5 +6,58 @@ The subgroup interface $\SubgroupUp$ packages a subset of a group carrier closed
 \section{Carrier definition}
 \label{sec:subgroup-carrier}
 
+\begin{definition}[Centralizer SubgroupUp instance]
+\label{def:subgroup-centralizer-instance}
+Fix a BEDC history-level $\GroupUp$ source over $\mathsf{BHist}$ with
+operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and
+fixed element $a:\mathsf{BHist}$. The centralizer $\SubgroupUp$ instance uses
+the carrier $Z_a$ from \autoref{def:group-centralizer-carrier}. Its classifier
+is the restriction of $\hsame$ to that carrier: two carried histories $x$ and
+$y$ represent the same subgroup element exactly when $x\hsame y$. The
+operation, unit, and inverse are inherited from the ambient $\GroupUp$ source,
+and the ledger records the fixed element $a$ together with the commuting
+witnesses certifying membership in $Z_a$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:subgroup-certificate}
+
+\begin{theorem}[Centralizer SubgroupUp certificate target]
+\label{thm:subgroup-centralizer-certificate-target}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+associativity, left and right unit laws for $e$, multiplication congruence, and
+two-sided inverse laws, the instance of
+\autoref{def:subgroup-centralizer-instance} satisfies the $\SubgroupUp$ rows:
+\begin{enumerate}
+\item the carrier is inhabited by $e$, and $Z_a(e)$;
+\item if $Z_a(x)$ and $Z_a(y)$, then $Z_a(\mathsf{mul}(x,y))$;
+\item if $Z_a(x)$, then $Z_a(\mathsf{inv}(x))$;
+\item if $Z_a(x)$ and $x\hsame y$, then $Z_a(y)$;
+\item for every $x:\mathsf{BHist}$,
+$$
+Z_a(x) \Longleftrightarrow \mathsf{comm}(x,a)\hsame e.
+$$
+\end{enumerate}
+Thus the centralizer carrier is a concrete certificate target for
+$\NameCert_{\SubgroupUp}$ over the ambient history classifier.
+\end{theorem}
+\begin{proof}
+The inhabited, product-closure, inverse-closure, and commutator-fiber rows are
+the rows of \autoref{thm:group-centralizer-subgroup}. The inverse row uses the
+ambient inverse congruence from
+\autoref{thm:group-inverse-congruence-from-laws} and the reverse-product
+description of inverses from \autoref{thm:group-inverse-mul-reverse}; these
+are exactly the sources cited by the GroupUp centralizer proof.
+
+For carrier transport, unfold $Z_a$. A witness $x\hsame y$ transports
+$\mathsf{mul}(x,a)\hsame\mathsf{mul}(a,x)$ to
+$\mathsf{mul}(y,a)\hsame\mathsf{mul}(a,y)$ by multiplication congruence on the
+left and right arguments, followed by symmetry and transitivity of $\hsame$.
+Therefore the restricted classifier preserves the subgroup carrier.
+
+The exactness row is the commutator criterion from
+\autoref{thm:group-commutator-trivial-iff-commutes} applied to the ordered
+pair $(x,a)$, with the definition of $Z_a$ supplying the displayed
+orientation. Repacking these rows with the inherited operation, unit, inverse,
+and ledger gives the advertised $\SubgroupUp$ certificate target.
+\end{proof}
