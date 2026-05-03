@@ -606,4 +606,60 @@ theorem RatDenomContextPair_unit_support_neutrality {h : BHist} :
       (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) carrierH carrierEmpty carrierEmpty
       notRatEmpty notRatEmpty
 
+theorem RatDenomUnitContextualAction_empty_pair_commutes {h l r l' r' : BHist} :
+    RatDenomUnitCarrier h -> RatDenomUnitCarrier l -> RatDenomUnitCarrier r ->
+      RatDenomUnitCarrier l' -> RatDenomUnitCarrier r' ->
+        RatDenomUnitClassifier
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l' r'
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l r h))
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l r
+            (RatDenomUnitContextualAction BHist.Empty BHist.Empty l' r' h)) := by
+  intro carrierH carrierL carrierR carrierL' carrierR'
+  have leftLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) carrierH carrierL carrierR carrierL' carrierR'
+  have rightLaws :=
+    field_rat_denominator_contextual_action_composition_support_laws
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+      (hsame_refl BHist.Empty) carrierH carrierL' carrierR' carrierL carrierR
+  have classifiedLeftProduct :
+      RatDenomUnitClassifier (append l' l) (append l l') :=
+    RatDenomUnitClassifier_append_comm carrierL' carrierL
+  have classifiedRightProduct :
+      RatDenomUnitClassifier (append r r') (append r' r) :=
+    RatDenomUnitClassifier_append_comm carrierR carrierR'
+  have classifiedH : RatDenomUnitClassifier h h :=
+    ⟨carrierH, carrierH, hsame_refl h⟩
+  have classifiedLeftCore :
+      RatDenomUnitClassifier (append (append l' l) h) (append (append l l') h) :=
+    RatDenomUnitClassifier_continuation_closed classifiedLeftProduct classifiedH
+      (cont_intro rfl) (cont_intro rfl)
+  have classifiedCollected :
+      RatDenomUnitClassifier
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty (append l' l)
+          (append r r') h)
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty (append l l')
+          (append r' r) h) := by
+    have core :
+        RatDenomUnitClassifier
+          (append (append (append l' l) h) (append r r'))
+          (append (append (append l l') h) (append r' r)) :=
+      RatDenomUnitClassifier_continuation_closed classifiedLeftCore classifiedRightProduct
+        (cont_intro rfl) (cont_intro rfl)
+    exact
+      (RatDenomUnitClassifier_empty_context_iff (hsame_refl BHist.Empty)
+        (hsame_refl BHist.Empty) (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)).mpr
+        core
+  have sameNested :
+      hsame
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l' r'
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l r h))
+        (RatDenomUnitContextualAction BHist.Empty BHist.Empty l r
+          (RatDenomUnitContextualAction BHist.Empty BHist.Empty l' r' h)) :=
+    hsame_trans leftLaws.right.left.right.right
+      (hsame_trans classifiedCollected.right.right
+         (hsame_symm rightLaws.right.left.right.right))
+  exact ⟨leftLaws.left, rightLaws.left, sameNested⟩
+
 end BEDC.Derived.FieldUp
