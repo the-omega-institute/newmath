@@ -1,6 +1,50 @@
 \input{parts/concrete_instances/commring/19_commring_core}
 \input{parts/concrete_instances/commring/19_commring_algebraic_consequences}
 
+\begin{theorem}[CommRing zero linear factor gives product zero and equal squares]
+\label{thm:commring-zero-linear-factor-product-zero-and-equal-squares}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)\land
+\bigl(a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The commutative-ring source first derives right distributivity from left
+distributivity by \autoref{thm:commring-right-distrib-from-left}. Together with
+the displayed ring fields, this supplies the two-sided distributive input needed
+by \autoref{thm:ring-zero-classifier-factor-absorption}.
+
+If the chosen zero linear factor is $a+b$, apply
+\autoref{thm:ring-zero-classifier-factor-absorption} with $x=a+b$ and
+$y=a+(-b)$. The left-product conclusion gives
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+If the chosen zero linear factor is $a+(-b)$, apply the same theorem with
+$x=a+(-b)$ and $y=a+b$. The right-product conclusion gives the same oriented
+product-zero statement $(a+b)\cdot(a+(-b))\hsame0$.
+
+In either case, the product-zero conjunct is now available. The forward
+direction of \autoref{thm:commring-difference-of-squares-zero-exact} sends that
+witness to $a\cdot a\hsame b\cdot b$, and the two conclusions form the displayed
+conjunction.
+\end{proof}
+
+The ten-field fit is: traditional target zero linear factor with retained
+product witness; BEDC source $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$;
+carrier $\mathsf{BHist}$; classifier $\hsame$; stability from zero absorption,
+distributivity, congruence, and difference-of-squares exactness; ledger the
+chosen zero factor and product-zero witness; core theorem this block; exactness
+the displayed conjunction; standard bridge ordinary commutative-ring factor
+argument; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing zero linear factor forces equal squares]
 \label{thm:commring-zero-linear-factor-equal-squares}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
