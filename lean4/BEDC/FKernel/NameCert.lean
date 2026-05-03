@@ -107,6 +107,20 @@ theorem semanticNameCert_classifier_left_confluence_transport
     BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedKH classifiedHR
   exact semanticNameCert_pattern_ledger_transport cert classifiedKR sourceK
 
+theorem semanticNameCert_classifier_right_confluence_transport
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec)
+    {h k r : BHist} :
+    ClassifierSpec h r -> ClassifierSpec k r ->
+      SourceSpec h -> PatternSpec k ∧ LedgerPolicy k := by
+  intro classifiedHR classifiedKR sourceH
+  have classifiedRK : ClassifierSpec r k :=
+    BEDC.FKernel.NameCert.NameCert.equiv_symm cert.core classifiedKR
+  have classifiedHK : ClassifierSpec h k :=
+    BEDC.FKernel.NameCert.NameCert.equiv_trans cert.core classifiedHR classifiedRK
+  exact semanticNameCert_pattern_ledger_transport cert classifiedHK sourceH
+
 theorem NameCert_iff_semantic_fields
     {Carrier : BHist -> Prop}
     {Equiv : BHist -> BHist -> Prop} :

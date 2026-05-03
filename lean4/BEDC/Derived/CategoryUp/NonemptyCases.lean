@@ -5,6 +5,7 @@ namespace BEDC.Derived.CategoryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem ContinuationMorphism_comp_tail_nonempty_cases {a b c : BHist}
     (left : ContinuationMorphism a b) (right : ContinuationMorphism b c) :
@@ -53,5 +54,33 @@ theorem CategoryHomCarrier_comp_result_nonempty_cases {a b c f g fg : BHist} :
       left
       intro fEmpty
       exact not_hsame_e1_empty fEmpty
+
+theorem CategoryHomCarrier_comp_result_nonempty_target_visible {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      (hsame fg BHist.Empty -> False) ->
+        ∃ k r : BHist, fg = BHist.e1 k ∧ c = BHist.e1 r ∧
+          UnaryHistory k ∧ UnaryHistory r ∧ Cont a (BHist.e1 k) (BHist.e1 r) := by
+  intro left right comp resultNonempty
+  have composite : CategoryHomCarrier a c fg :=
+    CategoryHomCarrier_comp_closed left right comp
+  cases fg with
+  | Empty =>
+      exact False.elim (resultNonempty (hsame_refl BHist.Empty))
+  | e0 k =>
+      exact False.elim (unary_no_zero_extension composite.right.right.left)
+  | e1 k =>
+      cases c with
+      | Empty =>
+          cases composite.right.right.right
+      | e0 r =>
+          cases composite.right.right.right
+      | e1 r =>
+          exact Exists.intro k
+            (Exists.intro r
+              (And.intro rfl
+                (And.intro rfl
+                  (And.intro (unary_e1_inversion composite.right.right.left)
+                    (And.intro (unary_e1_inversion composite.right.left)
+                      composite.right.right.right)))))
 
 end BEDC.Derived.CategoryUp

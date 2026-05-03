@@ -143,6 +143,29 @@ theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     exact middle.trans (append_assoc a f g)
   exact (cont_mutual_extension_right_tail_absurd.right composite back)
 
+theorem cont_triangle_cycle_tails_empty {a b c f g h : BHist} :
+    Cont a f b -> Cont b g c -> Cont c h a ->
+      hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame h BHist.Empty ∧
+        hsame a b ∧ hsame b c := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  have cycleTails :
+      hsame (append f g) BHist.Empty ∧ hsame h BHist.Empty :=
+    cont_mutual_extension_tails_empty composite back
+  have emptyParts : f = BHist.Empty ∧ g = BHist.Empty :=
+    append_eq_empty_iff.mp cycleTails.left
+  cases emptyParts.left
+  cases emptyParts.right
+  exact
+    And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty)
+        (And.intro cycleTails.right
+          (And.intro
+            (cont_deterministic (cont_right_unit a) left)
+            (cont_deterministic (cont_right_unit b) middle))))
+
 theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
     Cont a b r -> Cont a' d r' -> hsame a a' -> hsame r r' -> hsame b d := by
   intro left right sameContext sameResult

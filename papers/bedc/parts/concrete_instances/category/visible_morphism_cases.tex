@@ -120,6 +120,35 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_not\_empty}
 
+\begin{theorem}[Category hom-carrier nonempty composite target visible]
+\label{thm:category-hom-carrier-comp-result-nonempty-target-visible}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then $fg$
+and the target object $c$ are both one-headed, and the composite continuation
+ledger is visible at that boundary:
+$$
+\exists k,r.\;
+fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land \mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure turns the two hom-carriers and the displayed composite
+ledger into a hom-carrier from $a$ to $c$ over $fg$. The composite morphism is
+unary. The empty case contradicts the nonempty hypothesis, and the zero-headed
+case contradicts unary generation. In the one-headed case, the target cannot
+be empty or zero-headed because the continuation ledger has one-headed result
+shape; the remaining target case exposes $c=\Eone(r)$ and carries the original
+continuation witness at the visible boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
+
 \begin{theorem}[Continuation morphism composite visible tails result cases]
 \label{thm:continuation-morphism-comp-visible-tails-result-cases}
 For histories $a,b,c,l,m$, let

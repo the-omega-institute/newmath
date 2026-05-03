@@ -281,6 +281,32 @@ forbidden by right-tail mutual-extension cancellation.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_right\_visible\_tail\_absurd}
 
+\begin{theorem}[Triangular continuation cycle has empty tails]
+\label{thm:continuation-triangle-cycle-tails-empty}
+If
+$$
+\ContR(a,f,b),\qquad
+\ContR(b,g,c),\qquad
+\ContR(c,h,a)
+$$
+all hold, then all three continuation tails are empty and the adjacent
+endpoints collapse:
+$$
+\HSame(f,\emp)\land \HSame(g,\emp)\land \HSame(h,\emp)\land
+\HSame(a,b)\land \HSame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+Compose the first two continuations into
+$\ContR(a,\mathsf{append}(f,g),c)$. This composite and the return continuation
+$\ContR(c,h,a)$ form a mutual continuation cycle, so the composite tail and
+the return tail are empty. Empty-append inversion splits the composite tail
+into $f\hsame\emp$ and $g\hsame\emp$. Comparing the first two continuation
+ledgers with right-unit continuations at $a$ and $b$ gives the adjacent
+endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_triangle\_cycle\_tails\_empty}
+
 \begin{theorem}[Associativity up to history-sameness]
 \label{thm:continuation-associativity-up-to-hsame-proof-standing}
 Suppose

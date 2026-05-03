@@ -77,6 +77,21 @@ pattern-ledger transport applies to the source witness at $k$.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_left\_confluence\_transport}
 
+\begin{theorem}[Semantic NameCert classifier right-confluence transport]
+\label{thm:semantic-name-cert-classifier-right-confluence-transport}
+If a semantic naming certificate classifies $h$ and $k$ with a shared right
+endpoint $r$, then a source witness at $h$ transports the pattern condition
+and ledger policy to $k$.
+\end{theorem}
+\begin{proof}
+Use symmetry from the core naming certificate to reverse the classifier
+judgment from $k$ to $r$, giving a classifier judgment from $r$ to $k$. Then
+use transitivity with the classifier judgment from $h$ to $r$. This gives a
+classifier judgment from $h$ to $k$, so pattern-ledger transport applies to
+the source witness at $h$.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_right\_confluence\_transport}
+
 \begin{theorem}[Carrier self semantic lifting]
 \label{thm:namecert-carrier-self-semantic-lifting}
 Let $C : \mathsf{BHist}\to\mathsf{Prop}$ and
