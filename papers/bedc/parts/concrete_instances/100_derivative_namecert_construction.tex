@@ -81,6 +81,26 @@ $h\hsame\emp$, contradicting the complex nonzero step field.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_distance\_nonempty}
 
+\begin{theorem}[Derivative metric quotient result deterministic]
+\label{thm:derivative-metric-quotient-result-deterministic}
+For histories $f,z,h,q,q',dist,dist':\mathsf{BHist}$, two derivative metric
+quotient witnesses with the same function, point, and step determine the same
+quotient and displayed metric-distance result up to $\hsame$. The four
+continuation ledgers
+$$
+\Cont(f,h,q),\qquad \Cont(f,h,q'),\qquad \Cont(h,q,dist),\qquad
+\Cont(h,q',dist')
+$$
+are exposed together with $q\hsame q'$ and $dist\hsame dist'$.
+\end{theorem}
+\begin{proof}
+Destructure the two derivative metric quotient witnesses. Determinism of
+$\Cont(f,h,\cdot)$ identifies the two quotient histories. Transport the second
+metric ledger along that quotient equality, then apply determinism of
+$\Cont(h,q,\cdot)$ to identify the displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_result\_deterministic}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
