@@ -1,0 +1,67 @@
+\section{Normalizer action on the centralizer}
+\label{sec:group-normalizer-action-on-centralizer}
+
+\begin{theorem}[Group centralizer normalizer conjugation automorphism]
+\label{thm:group-centralizer-normalizer-conjugation-automorphism}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-subgroup}, let $Z_a$ be the
+centralizer carrier of \autoref{def:group-centralizer-carrier}, let $N_a$ be
+the normalizer carrier of \autoref{def:group-centralizer-normalizer-carrier},
+and write
+$$
+\mathsf{Conj}_s(x):=
+\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $N_a(s)$ holds, then conjugation by $s$ restricts to $Z_a$ and is
+classifier-bijective on that carrier:
+\begin{enumerate}
+\item If $Z_a(x)$, then $Z_a(\mathsf{Conj}_s(x))$.
+\item For every $y:\mathsf{BHist}$ with $Z_a(y)$, the witness
+$x:=\mathsf{Conj}_{\mathsf{inv}(s)}(y)$ satisfies $Z_a(x)$ and
+$\hsame(\mathsf{Conj}_s(x),y)$.
+\item For all $x,y:\mathsf{BHist}$ with $Z_a(x)$ and $Z_a(y)$,
+$$
+\hsame(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))
+\Longleftrightarrow
+\hsame(x,y).
+$$
+\end{enumerate}
+The ten-field fit is: traditional target centralizer normalizer action; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier $\hsame$;
+stability obligations normalizer preservation, inverse-conjugation witness,
+and conjugation classifier exactness; ledger conjugating element, inverse
+word, and centralizer membership witnesses; core theorem list
+\autoref{thm:group-centralizer-normalizer-subgroup},
+\autoref{thm:group-conjugation-classifier-exactness}, and
+\autoref{thm:group-inverse-mul-reverse}; exactness predicate conjugation is a
+classifier automorphism of $Z_a$; standard bridge ordinary normalizer action
+on a subgroup; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The restriction row is the first clause of $N_a(s)$. Starting from
+$Z_a(x)$, that clause returns $Z_a(\mathsf{Conj}_s(x))$ directly.
+
+For the classifier-surjectivity row, let $y$ satisfy $Z_a(y)$ and set
+$x:=\mathsf{Conj}_{\mathsf{inv}(s)}(y)$. The second clause of $N_a(s)$ gives
+$Z_a(x)$ from $Z_a(y)$.
+
+It remains to compare the returned element with $y$. Expanding the two
+conjugation words gives a product whose outer factors are $s$ and
+$\mathsf{inv}(s)$, with the inverse word
+$\mathsf{inv}(\mathsf{inv}(s))$ in the middle. Associativity moves the
+parentheses, the two-sided inverse laws reduce the adjacent inverse products
+to $e$, and the unit laws reduce the remaining word to $y$. The inverse-word
+calculation is the same group calculation recorded by
+\autoref{thm:group-inverse-mul-reverse}.
+
+For classifier exactness, apply
+\autoref{thm:group-conjugation-classifier-exactness} to the conjugating word
+$s$. Its preservation direction gives
+$\hsame(x,y)\Rightarrow
+\hsame(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))$, and its reflection direction
+gives the converse implication. Restricting the inputs to $Z_a(x)$ and
+$Z_a(y)$ therefore makes conjugation by $s$ a classifier automorphism of the
+centralizer carrier.
+\end{proof}
