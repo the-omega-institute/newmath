@@ -200,6 +200,7 @@ import BEDC.Derived.FieldUp.RatContinuationAppendComm
 import BEDC.Derived.FieldUp.RatContinuationCommutative
 import BEDC.Derived.FieldUp.RatDenominatorUnitEnvelopeContinuation
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelope
+import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeBilateralContext
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeNormalForm
 import BEDC.Derived.FieldUp.DenominatorUnitEnvelopeProductStrictSupport
 import BEDC.Derived.FieldUp.ProductRightEquation

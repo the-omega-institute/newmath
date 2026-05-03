@@ -67,6 +67,33 @@ the branch is oriented from $z$ to $w$ or from $w$ to $z$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_hsame\_transport\_with\_relation}
 
+\begin{lemma}[Complex distance empty boundary]
+\label{lem:cplx-distance-empty-boundary}
+For all complex histories \(z,w\), the empty complex distance
+\(\mathsf{CplxDist}(z,w,\emp)\) is equivalent to unary carrier evidence for
+both endpoints together with \(z\hsame\emp\) and \(w\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Unpack the two possible continuation ledgers inside the distance witness. In
+either order, a continuation with empty result forces both inputs to be
+\(\emp\). Conversely, empty endpoints and unary carrier evidence rebuild the
+empty-left continuation at \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_iff}
+
+\begin{lemma}[Complex distance empty left endpoint]
+\label{lem:cplx-distance-empty-left-endpoint}
+For every complex history \(w\) and distance history \(d\),
+\(\mathsf{CplxDist}(\emp,w,d)\) is equivalent to unary carrier evidence for
+\(w\) together with \(d\hsame w\).
+\end{lemma}
+\begin{proof}
+The forward direction splits the distance continuation into the empty-left and
+empty-right cases, both of which identify the result with \(w\). The reverse
+direction transports \(d\) to \(w\) and uses the empty-left continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_empty\_left\_endpoint\_iff}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.

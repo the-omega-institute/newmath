@@ -81,4 +81,40 @@ theorem ComplexDistance_hsame_transport_with_relation {z z' w w' d d' : BHist} :
         exact Or.inr (cont_result_hsame_transport right sameD))
   exact And.intro (And.intro zUnary (And.intro wUnary (And.intro dUnary relation))) relation
 
+theorem ComplexDistance_empty_iff {z w : BHist} :
+    ComplexDistance z w BHist.Empty ↔
+      UnaryHistory z ∧ UnaryHistory w ∧ hsame z BHist.Empty ∧ hsame w BHist.Empty := by
+  constructor
+  · intro distance
+    cases distance.right.right.right with
+    | inl zw =>
+        have endpoints := cont_empty_result_inversion zw
+        exact And.intro distance.left
+          (And.intro distance.right.left (And.intro endpoints.left endpoints.right))
+    | inr wz =>
+        have endpoints := cont_empty_result_inversion wz
+        exact And.intro distance.left
+          (And.intro distance.right.left (And.intro endpoints.right endpoints.left))
+  · intro endpoints
+    cases endpoints.right.right.left
+    cases endpoints.right.right.right
+    exact And.intro endpoints.left
+      (And.intro endpoints.right.left
+        (And.intro unary_empty (Or.inl (cont_left_unit BHist.Empty))))
+
+theorem ComplexDistance_empty_left_endpoint_iff {w d : BHist} :
+    ComplexDistance BHist.Empty w d ↔ UnaryHistory w ∧ hsame d w := by
+  constructor
+  · intro distance
+    cases distance.right.right.right with
+    | inl ew =>
+        exact And.intro distance.right.left (cont_left_unit_result ew)
+    | inr we =>
+        exact And.intro distance.right.left (cont_right_unit_iff.mp we)
+  · intro data
+    cases data.right
+    exact And.intro unary_empty
+      (And.intro data.left
+        (And.intro data.left (Or.inl (cont_left_unit w))))
+
 end BEDC.Derived.ComplexLimitUp
