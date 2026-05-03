@@ -497,3 +497,64 @@ denominator continuation witness; \textbf{core theorem}:
 exactly through the empty-unit boundary; \textbf{standard bridge}: ordinary
 positive-denominator multiplication with an adjoined empty unit; \textbf{status}:
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Rat denominator external-unit FieldUp concrete instance unlock]
+\label{thm:field-rat-denominator-external-unit-concrete-instance-unlock}
+The concrete $\mathsf{BHist}$ tuple
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast,N_D^\ast)$, with
+$\mu_D^\ast(h,k):=\mathsf{append}(h,k)$, $e_D^\ast:=\emp$, and strict support
+$$
+N_D^\ast(h)\Longleftrightarrow\mathsf{RatHistoryCarrier}(h),
+$$
+supplies the external-unit denominator instance required by the
+$\FieldUp(\mathsf{RatUp})$ multiplicative schema. Concretely, the tuple carries:
+\begin{enumerate}
+\item commutative monoid laws for
+$(C_D^\ast,R_D^\ast,\mu_D^\ast,e_D^\ast)$;
+
+\item strict-support transport along $R_D^\ast$ and exact product support for
+$\mu_D^\ast$;
+
+\item support-unit no-confusion at the external endpoint $e_D^\ast$;
+
+\item the exact $\FieldUp(\mathsf{RatUp})$ external-unit denominator boundary;
+
+\item the cancellative commutative monoid package;
+
+\item right cancellation for a common carried denominator factor;
+
+\item the multiplicative subcertificate that repacks the denominator-side fields
+needed by the $\FieldUp(\mathsf{RatUp})$ exit criterion.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The underlying monoid part is the concrete external-unit envelope of
+\autoref{thm:field-rat-denominator-unit-envelope-commutative-monoid-laws}. It
+fixes the displayed carrier, classifier, append multiplication, and empty unit,
+and it includes commutativity at the endpoint classifier.
+
+The strict-support fields are those of
+\autoref{thm:field-rat-denominator-unit-envelope-strict-support-laws}. They
+transport $N_D^\ast$ across $R_D^\ast$ and compute product support through
+$\mu_D^\ast$ exactly. The support-unit obstruction is supplied next by
+\autoref{thm:field-rat-denominator-unit-envelope-support-unit-noconfusion}.
+
+The FieldUp denominator boundary is then the exact external-unit boundary of
+\autoref{thm:field-rat-denominator-unit-envelope-exact-field-boundary}. This
+packages the support transport, product-support exactness, and exact
+cancellation boundary for strict carried factors.
+
+The cancellative algebraic layer is supplied by
+\autoref{thm:field-rat-denominator-empty-unit-cancellative-commutative-monoid-package},
+and the concrete right-cancellation row is
+\autoref{thm:field-rat-denominator-empty-unit-right-cancellation}. These rows
+provide the ordinary cancellative commutative monoid package and the common
+right-factor cancellation required by the denominator side.
+
+Finally,
+\autoref{thm:field-rat-denominator-empty-unit-field-multiplicative-subcertificate}
+repackages the monoid laws, strict support, unit field, and cancellation fields
+as the multiplicative subcertificate. Hence the displayed $\mathsf{BHist}$
+tuple supplies the concrete external-unit denominator instance for
+$\FieldUp(\mathsf{RatUp})$.
+\end{proof}
