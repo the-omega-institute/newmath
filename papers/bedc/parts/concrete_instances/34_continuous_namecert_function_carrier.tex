@@ -123,6 +123,36 @@ two right-unit continuations rebuild the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_cert\_iff}
 
+\begin{theorem}[Continuous function carrier graph-modulus readback]
+\label{thm:continuous-function-carrier-graph-modulus-cont-readback}
+For histories $source,map,target,modulus,cert$, every continuous-function
+carrier directly exposes its graph continuation ledger, its
+modulus-certificate continuation ledger, and the two corresponding one-step
+modulus witnesses:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\ContR(source,map,target)\land
+\ContR(target,modulus,cert)
+\\
+\land\;
+\mathsf{ContinuousModulusWitness}(source,map,target)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuous-function carrier into unary data for $source$, $target$,
+$map$, and $modulus$, together with the two continuation ledgers. The graph
+ledger and the first three unary fields form
+$\mathsf{ContinuousModulusWitness}(source,map,target)$. Unary closure along
+the target-modulus ledger supplies the carrier for $cert$, and this packages
+the second witness
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_graph\_modulus\_cont\_readback}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

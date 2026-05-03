@@ -175,6 +175,43 @@ continuation witness at the visible boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_target\_visible}
 
+\begin{theorem}[Category nonempty composite source-target cases]
+\label{thm:category-hom-carrier-comp-result-nonempty-source-target-cases}
+For the unary-continuation category, suppose
+$$
+\mathsf{CategoryHomCarrier}(a,b,f),\qquad
+\mathsf{CategoryHomCarrier}(b,c,g),\qquad
+\ContR(f,g,fg).
+$$
+If the displayed composite morphism $fg$ is not internally empty, then either
+the source object is empty and the visible target boundary is carried directly,
+or the source object is itself one-headed and the whole visible source,
+composite, and target boundary is displayed:
+$$
+\begin{array}{l}
+\bigl(\HSame(a,\emp)\land
+\exists k,r.\;fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(k)\land\mathsf{UnaryHistory}(r)\land
+\ContR(a,\Eone(k),\Eone(r))\bigr)
+\\
+\vee
+\bigl(\exists s,k,r.\;a=\Eone(s)\land fg=\Eone(k)\land c=\Eone(r)\land
+\mathsf{UnaryHistory}(s)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(r)\land
+\ContR(\Eone(s),\Eone(k),\Eone(r))\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the nonempty target-visible theorem to the displayed composite.
+This gives one-headed presentations of $fg$ and $c$ together with the
+continuation ledger at that visible target boundary. Inspect the source object
+$a$. The empty case gives the first disjunct. The zero-headed case contradicts
+the unary source field of the left hom-carrier. The one-headed case exposes the
+source tail and reuses the same visible continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_result\_nonempty\_source\_target\_cases}
+
 \begin{theorem}[Category nonempty result visible hom readback]
 \label{thm:category-comp-nonempty-result-visible-hom-readback}
 For the unary-continuation category, suppose

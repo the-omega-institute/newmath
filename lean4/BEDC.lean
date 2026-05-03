@@ -255,6 +255,7 @@ import BEDC.Derived.ContinuousUp.EmptyTarget
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.CompModulusChain
 import BEDC.Derived.ContinuousUp.EndpointCycle
+import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
@@ -311,6 +312,7 @@ import BEDC.Derived.CategoryUp.VisibleTailResult
 import BEDC.Derived.CategoryUp.RightVisibleTailEmpty
 import BEDC.Derived.CategoryUp.NonemptyCases
 import BEDC.Derived.CategoryUp.NonemptyResultVisibleHomReadback
+import BEDC.Derived.CategoryUp.CompResultNonemptySourceTargetCases
 import BEDC.Derived.CategoryUp.RightTailFactorization
 import BEDC.Derived.CategoryUp.LeftTailFixedIdentity
 import BEDC.Derived.CategoryUp.RightTailFixedIdentity

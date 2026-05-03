@@ -267,6 +267,30 @@ $\hsame(t,\Eone(d_x)\cdot d_y)$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_tail}
 
+\begin{theorem}[SOne e-one components unit tail readback]
+\label{thm:s1-history-carrier-e1-components-unit-tail-readback}
+For histories $d_x,d_y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+coordinates and point ledger are all one-headed exposes the two rational
+coordinate tails, identifies the equation endpoint with the circle unit
+history, and reads the point tail as the displayed continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),e,\Eone(t))
+\Longrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\hsame(e,\mathsf{SOneUnitHistory})\land
+\ContR(\Eone(d_x),d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+The e-one component tail theorem supplies the two rational coordinate carriers
+and the equality $t\hsame \Eone(d_x)\cdot d_y$. The equation-unit readback
+identifies $e$ with $\mathsf{SOneUnitHistory}$. Reading the displayed tail
+equality as a BEDC continuation gives $\ContR(\Eone(d_x),d_y,t)$, and these
+four fields form the claimed package.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_unit\_tail\_readback}
+
 \begin{theorem}[SOne history carrier y e-one point shape]
 \label{thm:sone-history-carrier-y-e1-point-shape}
 For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness

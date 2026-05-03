@@ -408,4 +408,16 @@ theorem SOneHistoryCarrier_e1_components_tail {dx dy equation t : BHist} :
     (And.intro dyCarrier
       (SOneHistoryCarrier_y_e1_point_tail_hsame carrier (hsame_refl (BHist.e1 dy))))
 
+theorem SOneHistoryCarrier_e1_components_unit_tail_readback {dx dy equation t : BHist} :
+    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) equation (BHist.e1 t) ->
+      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧ hsame equation SOneUnitHistory ∧
+        Cont (BHist.e1 dx) dy t := by
+  intro carrier
+  have components := SOneHistoryCarrier_e1_components_tail carrier
+  have equationSame : hsame equation SOneUnitHistory :=
+    SOneHistoryCarrier_equation_unit carrier
+  exact And.intro components.left
+    (And.intro components.right.left
+      (And.intro equationSame (cont_intro components.right.right)))
+
 end BEDC.Derived.S1Up
