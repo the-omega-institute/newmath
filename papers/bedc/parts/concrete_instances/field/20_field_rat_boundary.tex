@@ -96,6 +96,47 @@ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyCarrier\_append\_left\_ratHistoryCarrier\_absurd}
 
+\begin{theorem}[Singleton append classifier excludes RatUp classifier endpoints]
+\label{thm:field-singleton-empty-classifier-append-rat-classifier-absurd}
+For all histories $L,R,h,k:\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(h,k)$ holds and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,h),\mathsf{append}(R,k))
+$$
+holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton classifier contains
+$\mathsf{fieldSingletonEmptyCarrier}(\mathsf{append}(L,h))$, hence the equality
+$\mathsf{append}(L,h)=\emp$. The kernel append-empty inversion theorem splits
+this equality and gives $h\hsame\emp$.
+
+The RatUp classifier endpoint nonemptiness theorem rejects
+$h\hsame\emp$ for any displayed $\mathsf{RatHistoryClassifier}(h,k)$, yielding
+the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_RatHistoryClassifier\_absurd}
+
+\begin{theorem}[Singleton append classifier excludes RatUp ledger endpoints]
+\label{thm:field-singleton-empty-classifier-append-rat-ledger-absurd}
+For all histories $L,R,\rho,v:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
+$$
+\mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,\rho),\mathsf{append}(R,v))
+$$
+holds, then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+The singleton classifier contains the raw endpoint equality
+$\mathsf{append}(L,\rho)=\emp$. Kernel append-empty inversion gives
+$\rho\hsame\emp$.
+
+The RatUp ledger endpoint boundary theorem states that a displayed
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ rejects $\rho\hsame\emp$. Applying
+that raw endpoint obstruction gives the contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyClassifier\_append\_RatHistoryLedgerPolicy\_absurd}
+
 Traditional target terminal singleton field boundary; BEDC source singleton
 $\mathsf{BHist}$ $\FieldUp$ schema plus RatUp history carrier; carrier choices
 $A_{\emp}$ and $\mathsf{RatHistoryCarrier}$; classifier choices $\rho_{\emp}$
