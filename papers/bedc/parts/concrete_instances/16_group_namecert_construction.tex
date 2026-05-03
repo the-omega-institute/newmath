@@ -162,6 +162,7 @@ results $\Ezero(r)$ and $\Eone(r)$ for continuations from $P$ through $Q$.
 \end{proof}
 \input{parts/concrete_instances/group/16_group_centralizer_transport}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer}
+\input{parts/concrete_instances/group/16_group_centralizer_normalizer_orbit_classifier}
 \input{parts/concrete_instances/group/16_group_centralizer_normalizer_automorphism}
 \input{parts/concrete_instances/group/16_group_certificate_tail}
 
@@ -296,6 +297,42 @@ $\hsame(\mathsf{Conj}_e(x),x)$.
 Together with the center-to-centralizer carrier fact for $x$, the supplied
 $Z_a(y)$, and the assumed $\hsame(x,y)$, these data package the orbit witness
 for $x\sim_{N_a}y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_center\_normalizer\_orbit\_collapse\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group center normalizer orbit fiber determinacy]
+\label{thm:group-center-normalizer-orbit-fiber-determinacy}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+hypotheses and notation $\mathsf{Z}(G)$, $Z_a$, $N_a$, $\mathsf{Conj}_s$, and
+$\sim_{N_a}$ as in
+\autoref{thm:group-center-normalizer-orbit-collapse}, every
+$x,y,z:\mathsf{BHist}$ satisfies
+$$
+\mathsf{Z}(G)(x)\land Z_a(y)\land Z_a(z)\land x\sim_{N_a}y\land
+x\sim_{N_a}z
+\Longrightarrow
+\hsame(y,z).
+$$
+The per-object template names the traditional target central-orbit fiber
+determinacy; BEDC source $\GroupUp$ over $\mathsf{BHist}$ plus the normalizer
+orbit relation; carrier $Z_a$ with central anchor $\mathsf{Z}(G)$; classifier
+$\hsame$; stability from orbit collapse and the symmetry and transitivity laws
+for $\hsame$; ledger the two normalizer witnesses over the same central anchor;
+core theorem list \autoref{thm:group-center-normalizer-orbit-collapse} and the
+$\hsame$ equivalence laws; exactness predicate the displayed implication; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Start from the five displayed assumptions. Apply
+\autoref{thm:group-center-normalizer-orbit-collapse} to the first orbit witness
+$x\sim_{N_a}y$, using the centrality of $x$ and the carrier fact $Z_a(y)$, to
+obtain $\hsame(x,y)$. Apply the same collapse theorem to the second orbit
+witness $x\sim_{N_a}z$, using the same centrality of $x$ and the carrier fact
+$Z_a(z)$, to obtain $\hsame(x,z)$.
+
+The first comparison reverses by symmetry of $\hsame$, giving $\hsame(y,x)$.
+Transitivity of $\hsame$ then composes $\hsame(y,x)$ with $\hsame(x,z)$ and
+produces the required classifier equality $\hsame(y,z)$.
 \end{proof}
 
 \section{Singleton continuation endpoint equivalence}

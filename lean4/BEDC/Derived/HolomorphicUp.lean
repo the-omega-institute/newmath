@@ -250,6 +250,38 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
 
+theorem HolomorphicOpenDiskWitnessed_boundary_hsame_transport
+    {center center' radius radius' point point' : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> hsame center center' ->
+      hsame radius radius' -> hsame point point' ->
+        HolomorphicOpenDiskWitnessed center' radius' point' ∧
+          ∃ gap : BHist, UnaryHistory gap ∧ Cont point' gap radius' := by
+  intro disk sameCenter sameRadius samePoint
+  cases disk with
+  | intro centerUnary diskRest =>
+      cases diskRest with
+      | intro radiusUnary diskRest =>
+          cases diskRest with
+          | intro pointUnary gapWitness =>
+              cases gapWitness with
+              | intro gap gapData =>
+                  cases gapData with
+                  | intro gapUnary pointGap =>
+                      have centerUnary' : UnaryHistory center' :=
+                        unary_transport centerUnary sameCenter
+                      have radiusUnary' : UnaryHistory radius' :=
+                        unary_transport radiusUnary sameRadius
+                      have pointUnary' : UnaryHistory point' :=
+                        unary_transport pointUnary samePoint
+                      have pointGap' : Cont point' gap radius' :=
+                        cont_hsame_transport samePoint (hsame_refl gap) sameRadius pointGap
+                      exact And.intro
+                        (And.intro centerUnary'
+                          (And.intro radiusUnary'
+                            (And.intro pointUnary'
+                              (Exists.intro gap (And.intro gapUnary pointGap')))))
+                        (Exists.intro gap (And.intro gapUnary pointGap'))
+
 def OpenDiskGap (z0 r z gap : BHist) : Prop :=
   ComplexHistoryCarrier z0 ∧ UnaryHistory r ∧ ComplexHistoryCarrier z ∧ Cont z gap r
 
