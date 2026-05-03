@@ -637,3 +637,61 @@ conjugating factor and inverse witness; core theorem list
 \autoref{thm:ratup-fieldup-affine-automorphism-action-certificate}; exactness
 predicate centralizer membership transported by inner affine action; standard
 bridge ordinary centralizer conjugation; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp affine centralizer inner transport]
+\label{thm:ratup-fieldup-affine-centralizer-inner-transport}
+For Definition~\ref{def:ratup-fieldup-concrete-exit-object}, let
+$A,B,T:\mathsf{AffAut}_F$ be certified affine automorphisms in the concrete
+$\FieldUp(\RatUp)$ exit object. Let $\mathsf{Cent}_F$ be the centralizer
+predicate from \autoref{def:ratup-fieldup-affine-centralizer}, and define
+$$
+\mathrm{Inn}_T(X)=T\circ_{\mathrm{aff}}X\circ_{\mathrm{aff}}\iota_F(T).
+$$
+If $\mathsf{Cent}_F(A;B)$, then
+$$
+\mathsf{Cent}_F(\mathrm{Inn}_T(A);\mathrm{Inn}_T(B)).
+$$
+\end{theorem}
+\begin{proof}
+Fix the canonical affine exit package of
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}. This fixes
+$\mathsf{AffAut}_F$, $\circ_{\mathrm{aff}}$, $\iota_F(-)$, and
+$\equiv_{\mathrm{aff}}$ for the concrete $\FieldUp(\RatUp)$ exit rows.
+
+Expand the hypothesis $\mathsf{Cent}_F(A;B)$ using
+\autoref{def:ratup-fieldup-affine-centralizer}. It is the classifier equality
+$$
+A\circ_{\mathrm{aff}}B\equiv_{\mathrm{aff}}B\circ_{\mathrm{aff}}A.
+$$
+
+Apply the classifier-congruence clause of
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} with conjugating
+factor $T$. The preceding equality transports to
+$$
+\mathrm{Inn}_T(A\circ_{\mathrm{aff}}B)
+\equiv_{\mathrm{aff}}
+\mathrm{Inn}_T(B\circ_{\mathrm{aff}}A).
+$$
+
+Apply the product-preservation clause of the same theorem to both sides. It
+identifies the left side with
+$\mathrm{Inn}_T(A)\circ_{\mathrm{aff}}\mathrm{Inn}_T(B)$ and the right side
+with $\mathrm{Inn}_T(B)\circ_{\mathrm{aff}}\mathrm{Inn}_T(A)$.
+
+Symmetry and transitivity of $\equiv_{\mathrm{aff}}$ from the affine action
+certificate combine these two product comparisons with the transported
+equality. The resulting classifier equality is precisely the definition of
+$\mathsf{Cent}_F(\mathrm{Inn}_T(A);\mathrm{Inn}_T(B))$.
+\end{proof}
+
+Per-object template: traditional target affine centralizer conjugation
+transport; BEDC source concrete $\FieldUp(\RatUp)$ exit rows plus
+$\mathsf{AffAut}_F$; carrier certified affine automorphisms; classifier
+$\equiv_{\mathrm{aff}}$; stability obligations inner-action classifier
+congruence and product preservation; ledger conjugating automorphism and
+inverse witness; core theorem list
+\autoref{thm:ratup-fieldup-affine-inner-conjugation-exit} and
+\autoref{thm:ratup-fieldup-affine-centralizer-fixed-point-criterion};
+exactness predicate centralizer membership transported by inner conjugation;
+standard bridge ordinary group centralizer conjugacy; status
+$\mathsf{ProofTarget}$.
