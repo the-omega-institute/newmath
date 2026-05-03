@@ -114,6 +114,41 @@ comparison between the two appended endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_cancel\_iff}
 
+\begin{theorem}[Group singleton classifier right-context cancellation]
+\label{thm:group-singleton-classifier-right-context-cancel}
+For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed right contexts are in
+the singleton group carrier $A_{\emp}$, then appending those contexts as
+suffixes preserves and reflects the singleton classifier:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+R_{\emp}(\mathsf{append}(Q,L),\mathsf{append}(S,R))
+\Longleftrightarrow
+R_{\emp}(Q,S)
+\bigr).
+$$
+The ten-field fit names the traditional target as terminal-group cancellation
+by a classified suffix; the BEDC source as the concrete singleton $\GroupUp$
+carrier; carrier $A_{\emp}$; classifier $R_{\emp}$; stability as singleton
+carrier transport and \texttt{append\_eq\_empty\_iff}; ledger the hidden
+singleton suffix endpoints; core theorem list
+Theorem~\ref{thm:group-singleton-classifier-append-context-cancel} and
+\texttt{append\_eq\_empty\_iff}; exactness predicate the displayed iff;
+standard bridge cancellation in the terminal group; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+In the forward direction, singleton classification of the two appended
+histories and empty-result inversion for append split the suffix endpoints.
+The resulting singleton witnesses for $Q$ and $S$, together with transitivity
+through $\emp$, package $R_{\emp}(Q,S)$.
+
+Conversely, combine $R_{\emp}(Q,S)$ with the carrier witnesses for $L$ and
+$R$. Empty-result construction for append gives singleton witnesses for
+$\mathsf{append}(Q,L)$ and $\mathsf{append}(S,R)$, and transitivity through
+$\emp$ gives their classifier comparison.
+\end{proof}
+
 \begin{theorem}[Group singleton classifier product-unit split]
 \label{thm:group-singleton-classifier-product-unit-split}
 For histories $p,q:\mathsf{BHist}$, the concrete singleton group classifier
@@ -227,4 +262,3 @@ rebuild $R_{\emp}(P,Q)$.
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
-
