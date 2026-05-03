@@ -1,4 +1,5 @@
 import BEDC.Derived.DirichletSeriesUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.LFunctionUp
 
@@ -84,6 +85,23 @@ theorem LFunctionDirichletPartSum_successor_zero_term_previous_result_same
       exact Exists.intro _
         (And.intro previous (hsame_symm sameResult))
 
+theorem LFunctionDirichletPartSum_successor_zero_term_result_iff
+    {term : BHist -> BHist -> BHist} {s n T : BHist} :
+    hsame (term n s) BHist.Empty ->
+      (DirichletPartSum term s (BHist.e1 n) T ↔
+        exists P : BHist, DirichletPartSum term s n P ∧ hsame P T) := by
+  intro termEmpty
+  constructor
+  · intro sum
+    exact LFunctionDirichletPartSum_successor_zero_term_previous_result_same sum termEmpty
+  · intro previousResult
+    cases previousResult with
+    | intro P data =>
+        have stepContinuation : Cont P (term n s) T :=
+          cont_hsame_transport (hsame_refl P) (hsame_symm termEmpty) data.right
+            (cont_right_unit P)
+        exact DirichletPartSum.step data.left stepContinuation
+
 theorem LFunctionDirichletPartSum_zero_terms_result_empty
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty) ->
@@ -142,6 +160,22 @@ theorem LFunctionDirichletPartSum_positive_index_previous_unique
                     (fun T other =>
                       DirichletPartSum_unary_index_deterministic unaryM
                         data.right.left other)))))
+
+theorem LFunctionDirichletPartSum_visible_previous_decomposition_deterministic
+    {term : BHist -> BHist -> BHist} {s n S m P m' P' : BHist}
+    (left : n = BHist.e1 m ∧ DirichletPartSum term s m P ∧ Cont P (term m s) S)
+    (right : n = BHist.e1 m' ∧ DirichletPartSum term s m' P' ∧ Cont P' (term m' s) S) :
+    m = m' ∧ hsame P P' := by
+  cases left with
+  | intro leftEq leftRest =>
+      cases right with
+      | intro rightEq rightRest =>
+          cases leftEq
+          cases rightEq
+          have unaryM : UnaryHistory m := DirichletPartSum_index_unary leftRest.left
+          constructor
+          · rfl
+          · exact DirichletPartSum_unary_index_deterministic unaryM leftRest.left rightRest.left
 
 theorem LFunctionDirichletPartSum_zero_terms_positive_previous_readback
     {term : BHist -> BHist -> BHist} {s n S : BHist} :
