@@ -507,4 +507,19 @@ theorem RatDenomUnitContextualAction_pair_classifier_transport
       (hsame_trans classifiedCollected.right.right (hsame_symm rightLaws.right.left.right.right))
   exact ⟨leftLaws.left, rightLaws.left, sameNested⟩
 
+theorem RatDenomUnitContextualAction_pair_transport_classifier
+    {p q p' q' h l r s t l' r' s' t' : BHist} :
+    hsame p BHist.Empty -> hsame q BHist.Empty -> hsame p' BHist.Empty ->
+      hsame q' BHist.Empty -> RatDenomUnitCarrier h ->
+        RatDenomUnitClassifier l s -> RatDenomUnitClassifier r t ->
+          RatDenomUnitClassifier l' s' -> RatDenomUnitClassifier r' t' ->
+            RatDenomUnitClassifier
+              (RatDenomUnitContextualAction p' q' l' r'
+                (RatDenomUnitContextualAction p q l r h))
+              (RatDenomUnitContextualAction p' q' s' t'
+                (RatDenomUnitContextualAction p q s t h)) := by
+  intro sameP sameQ sameP' sameQ' carrierH classifiedL classifiedR classifiedL' classifiedR'
+  exact RatDenomUnitContextualAction_pair_classifier_transport sameP sameQ sameP' sameQ'
+    carrierH classifiedL classifiedR classifiedL' classifiedR'
+
 end BEDC.Derived.FieldUp
