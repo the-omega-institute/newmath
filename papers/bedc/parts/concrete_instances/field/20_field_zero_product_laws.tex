@@ -182,6 +182,22 @@ When this predicate is the nonzero index, inverse formation is indexed
 directly by apart-zero witnesses.
 \end{definition}
 
+\begin{theorem}[Field apart-zero semantic name certificate]
+\label{thm:field-apart-zero-semantic-namecert}
+The apart-zero predicate $\mathsf{ApartZero}_F(h)=(h\hsame0\to\bot)$, used as
+source, pattern, and ledger policy with classifier $\hsame$, forms a semantic
+name certificate.
+\end{theorem}
+\begin{proof}
+The history $\Ezero(\emp)$ is apart from zero by constructor separation, so the
+source carrier is inhabited. The classifier fields are the reflexivity,
+symmetry, and transitivity laws of $\hsame$. Carrier preservation is
+contrapositive transport: if $h\hsame k$ and $h$ is apart from zero, then any
+$k\hsame0$ composes to $h\hsame0$, contradiction. Pattern and ledger soundness
+are immediate because all three policies are the same apart-zero predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_semanticNameCert}
+
 \begin{theorem}[Field apart-zero append factor closure]
 \label{thm:field-apartzero-append-factor-closed}
 For histories $p,q:\mathsf{BHist}$, if either $p$ or $q$ is apart from zero,

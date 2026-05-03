@@ -50,6 +50,33 @@ canonical continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_cases}
 
+\begin{theorem}[Category visible composite result target cases]
+\label{thm:category-visible-composite-result-target-cases}
+For histories $a,b,c,l,m,fg$, if
+$$
+\mathsf{CategoryHomCarrier}(a,b,\Eone(l)),\qquad
+\mathsf{CategoryHomCarrier}(b,c,\Eone(m)),\qquad
+\ContR(\Eone(l),\Eone(m),fg),
+$$
+then there exist histories $k,r,s$ such that
+$$
+\begin{aligned}
+fg=\Eone(k)\land b=\Eone(r)\land c=\Eone(s)\land
+\mathsf{CategoryHomCarrier}(a,r,l)\land
+\mathsf{CategoryHomCarrier}(\Eone(r),s,m)\land
+\mathsf{CategoryHomCarrier}(a,\Eone(s),\Eone(k)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The visible composite result theorem exposes $fg=\Eone(k)$ and the composite
+hom-carrier from $a$ to $c$ with morphism $\Eone(k)$. Applying one-headed
+morphism target cases to the two visible factors exposes $b=\Eone(r)$ and
+$c=\Eone(s)$, with the descended factor hom-carriers. Substituting the target
+equalities gives the displayed target-specific composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_comp\_visible\_morphisms\_result\_target\_cases}
+
 \begin{theorem}[Continuation morphism composite visible tails result cases]
 \label{thm:continuation-morphism-comp-visible-tails-result-cases}
 For histories $a,b,c,l,m$, let

@@ -5,9 +5,37 @@ namespace BEDC.Derived.FieldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 
 def FieldApartZero (a : BHist) : Prop :=
   hsame a BHist.Empty -> False
+
+theorem FieldApartZero_semanticNameCert :
+    SemanticNameCert FieldApartZero FieldApartZero FieldApartZero hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro (BHist.e0 BHist.Empty)
+        (fun sameEmpty => not_hsame_e0_empty sameEmpty)
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier kEmpty
+        exact carrier (hsame_trans same kEmpty)
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 theorem FieldApartZero_append_factor_closed {p q : BHist} :
     FieldApartZero p ∨ FieldApartZero q -> FieldApartZero (append p q) := by

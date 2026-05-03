@@ -394,6 +394,41 @@ theorem CategoryHomCarrier_comp_visible_morphisms_result_cases {a b c l m fg : B
       (And.intro (cont_intro rfl)
         (CategoryHomCarrier_comp_closed left right (cont_intro rfl))))
 
+theorem CategoryHomCarrier_comp_visible_morphisms_result_target_cases {a b c l m fg : BHist} :
+    CategoryHomCarrier a b (BHist.e1 l) -> CategoryHomCarrier b c (BHist.e1 m) ->
+      Cont (BHist.e1 l) (BHist.e1 m) fg ->
+        ∃ k r s : BHist, fg = BHist.e1 k ∧ b = BHist.e1 r ∧ c = BHist.e1 s ∧
+          CategoryHomCarrier a r l ∧ CategoryHomCarrier (BHist.e1 r) s m ∧
+            CategoryHomCarrier a (BHist.e1 s) (BHist.e1 k) := by
+  intro left right comp
+  have resultCases := CategoryHomCarrier_comp_visible_morphisms_result_cases left right comp
+  have leftCases := CategoryHomCarrier_e1_morphism_target_cases left
+  have rightCases := CategoryHomCarrier_e1_morphism_target_cases right
+  cases resultCases with
+  | intro k resultData =>
+      cases resultData with
+      | intro fgEq resultRest =>
+          cases resultRest with
+          | intro _tailComp resultCarrier =>
+              cases leftCases with
+              | intro r leftData =>
+                  cases leftData with
+                  | intro bEq leftTail =>
+                      cases rightCases with
+                      | intro s rightData =>
+                          cases rightData with
+                          | intro cEq rightTail =>
+                              cases bEq
+                              cases cEq
+                              exact Exists.intro k
+                                (Exists.intro r
+                                  (Exists.intro s
+                                    (And.intro fgEq
+                                      (And.intro rfl
+                                        (And.intro rfl
+                                          (And.intro leftTail
+                                            (And.intro rightTail resultCarrier)))))))
+
 theorem CategoryHomCarrier_comp_nonempty_e1_morphism_factors {a b c f g k : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g (BHist.e1 k) ->
       (hsame f BHist.Empty -> False) -> (hsame g BHist.Empty -> False) ->
