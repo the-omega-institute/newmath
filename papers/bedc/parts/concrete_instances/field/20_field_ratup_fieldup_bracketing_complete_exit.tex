@@ -157,3 +157,60 @@ These four cases exhaust the generated $\mathsf{BMark}$ selector pairs, so the
 selector-indexed classifier witness is impossible for arbitrary
 $s,t:\mathsf{BMark}$ and arbitrary contexts $L,R:\mathsf{BHist}$.
 \end{proof}
+
+\begin{theorem}[RatUp FieldUp bracketing selector denominator classifier coverage]
+\label{thm:ratup-fieldup-bracketing-selector-denominator-classifier-coverage}
+For the concrete denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and
+histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
+\autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all selectors
+$s,t:\mathsf{BMark}$,
+$$
+R_D^u(E_s(h,k,\ell),E_t(h,k,\ell)).
+$$
+\end{theorem}
+\begin{proof}
+Set $x:=\mu_D^u(\mu_D^u(h,k),\ell)$ and
+$y:=\mu_D^u(h,\mu_D^u(k,\ell))$. Apply
+\autoref{thm:ratup-fieldup-bracketing-complete-classifier-exit-certificate}
+to the same denominator tuple, carrier hypotheses, endpoint definitions, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. This supplies $C_D^u(x)$,
+$C_D^u(y)$, and the endpoint row $R_D^u(x,y)$.
+
+The concrete denominator classifier is the classifier row of the denominator
+name certificate. Its stability obligations give carrier-relative reflexivity
+and symmetry. Thus $C_D^u(x)$ gives $R_D^u(x,x)$, $C_D^u(y)$ gives
+$R_D^u(y,y)$, and symmetry converts $R_D^u(x,y)$ into $R_D^u(y,x)$.
+
+Use $\mathsf{BMark\_generated\_cases}$ on $s$ and again on $t$. There are four
+closed selector pairs.
+
+\begin{enumerate}
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b0}$, then the selected
+  endpoints are $x$ and $x$. The reflexive row $R_D^u(x,x)$ gives the claim.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b1}$, then the selected
+  endpoints are $y$ and $y$. The reflexive row $R_D^u(y,y)$ gives the claim.
+
+  \item If $s=\mathsf{BMark.b0}$ and $t=\mathsf{BMark.b1}$, then the selected
+  endpoints are $x$ and $y$. The bracketing-complete endpoint row $R_D^u(x,y)$
+  gives the claim.
+
+  \item If $s=\mathsf{BMark.b1}$ and $t=\mathsf{BMark.b0}$, then the selected
+  endpoints are $y$ and $x$. The symmetric endpoint row $R_D^u(y,x)$ gives the
+  claim.
+\end{enumerate}
+
+These cases exhaust the generated $\mathsf{BMark}$ selector interface, so every
+selected endpoint pair is classified internally by $R_D^u$.
+\end{proof}
+
+Per-object template: traditional target selector-indexed bracketing classifier
+coverage for $\FieldUp(\mathsf{RatUp})$; BEDC source $\mathsf{BHist}$,
+$\mathsf{BMark}$, $\mu_D^u$, $R_D^u$, and $\mathsf{ThreeSupp}_D^u$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligations reflexivity, symmetry, and
+bracketing-complete endpoint coverage; ledger the selected endpoint pair
+$(s,t)$; exactness predicate total denominator-classifier coverage over
+generated selector pairs; standard bridge deferred; status
+$\mathsf{ProofTarget}$.
