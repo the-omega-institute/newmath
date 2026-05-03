@@ -1,3 +1,22 @@
 \input{parts/concrete_instances/category/certificate_and_visible_cases_core_certificate}
 \input{parts/concrete_instances/category/certificate_and_visible_cases_core_single_endpoint_tail}
 \input{parts/concrete_instances/category/certificate_and_visible_cases_core_double_endpoint_tail}
+\section{The certificate}
+
+\begin{theorem}[Continuation morphism one-headed endpoints empty-tail exactness]
+\label{thm:continuation-morphism-e1-source-e1-target-tail-empty-iff}
+For histories $a,r:\mathsf{BHist}$ and
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$, the displayed tail is
+empty exactly when the endpoint payloads are history-same:
+$$
+\HSame(\mathsf{tail}(m),\emp)\Longleftrightarrow\HSame(a,r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the one-headed endpoint tail cases. The
+visible one-tail branch contradicts empty-tail separation, leaving the
+empty-tail branch and hence $\HSame(a,r)$. Conversely, use the endpoint payload
+comparison to form the empty-tail continuation morphism and compare it with
+$m$ by tail determinacy.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_empty\_iff}

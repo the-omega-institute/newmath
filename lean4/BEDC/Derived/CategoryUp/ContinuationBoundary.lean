@@ -426,4 +426,24 @@ theorem ContinuationMorphism_e1_source_e1_target_tail_e1_iff {a r k : BHist}
   · intro continuation
     exact cont_left_cancel m.rel (cont_step_one continuation)
 
+theorem ContinuationMorphism_e1_source_e1_target_tail_empty_iff {a r : BHist}
+    (m : ContinuationMorphism (BHist.e1 a) (BHist.e1 r)) :
+    hsame m.tail BHist.Empty ↔ hsame a r := by
+  constructor
+  · intro tailEmpty
+    cases ContinuationMorphism_e1_source_e1_target_tail_cases m with
+    | inl emptyCase =>
+        exact emptyCase.right
+    | inr visibleCase =>
+        cases visibleCase with
+        | intro k exposed =>
+            exact False.elim (not_hsame_emp_e1 (hsame_trans (hsame_symm tailEmpty) exposed.left))
+  · intro sameEndpoint
+    let displayed : ContinuationMorphism (BHist.e1 a) (BHist.e1 r) :=
+      { tail := BHist.Empty
+        rel := by
+          cases sameEndpoint
+          exact cont_right_unit (BHist.e1 a) }
+    exact ContinuationMorphism_tail_deterministic m displayed
+
 end BEDC.Derived.CategoryUp
