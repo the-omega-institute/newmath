@@ -71,4 +71,15 @@ theorem GammaPoleLocus_witness_unique {s n m : BHist} :
     hsame_trans (hsame_symm left.right) right.right
   exact hsame_e1_iff.mp (append_right_cancel (k := BHist.e1 BHist.Empty) sameAnchors)
 
+theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
+    hsame s t -> GammaDomainCore s apart ->
+      (GammaPoleLocus t -> False) ∧ (hsame t BHist.Empty -> False) := by
+  intro sameST domain
+  constructor
+  · intro poleT
+    have transported := GammaPoleLocus_hsame_transport_witness (hsame_symm sameST) poleT
+    exact domain.right.right transported.left
+  · intro sameEmptyT
+    exact GammaDomainCore_not_empty domain (hsame_trans sameST sameEmptyT)
+
 end BEDC.Derived.GammaUp

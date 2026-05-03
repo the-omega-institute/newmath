@@ -64,6 +64,21 @@ constructor inversion gives \(\theta\hsame\phi\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_witness\_unique}
 
+\begin{theorem}[Pure-imaginary component determinacy]
+\label{thm:cplx-pure-imaginary-component-deterministic}
+If two pure-imaginary witnesses present the same complex history $z$ through
+unary parameters $\theta$ and $\theta'$, then the explicit component pairs
+$(\Eone(\emp),\Eone(\theta))$ and $(\Eone(\emp),\Eone(\theta'))$ are
+$\hsame$-equal, and $\theta\hsame\theta'$.
+\end{theorem}
+\begin{proof}
+Unpack both pure-imaginary witnesses and compose the two $\hsame$ comparisons
+through the shared history $z$. Cancelling the common real component
+$\Eone(\emp)$ leaves $\Eone(\theta)\hsame\Eone(\theta')$, and constructor
+inversion for $\Eone$ reads back $\theta\hsame\theta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_deterministic}
+
 \begin{lemma}[Complex exponential is well-defined up to \(\ComplexClassifier\)]
 \label{lem:cplx-exp-well-defined}
 For every complex history \(z\), the predicate \(\mathsf{CplxExp}(z, w)\) determines \(w\) uniquely up to \(\ComplexClassifier\). Moreover, if \(\hsame(z, z')\), then \(\mathsf{CplxExp}(z, w)\) iff \(\mathsf{CplxExp}(z', w)\).

@@ -63,4 +63,14 @@ theorem ZetaZeroSourceSpec_zero_anchor_unique {s t : BHist} :
   exact And.intro (hsame_trans sourceS.right (hsame_symm sourceT.right))
     (And.intro sourceS.right sourceT.right)
 
+theorem ZetaZeroSourceSpec_pair_classifier {s t : BHist} :
+    ZetaZeroSourceSpec s -> ZetaZeroSourceSpec t ->
+      ComplexHistoryClassifier s t ∧
+        hsame s (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+          hsame t (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) := by
+  intro sourceS sourceT
+  have sameST : hsame s t := hsame_trans sourceS.right (hsame_symm sourceT.right)
+  exact And.intro (And.intro sourceS.left (And.intro sourceT.left sameST))
+    (And.intro sourceS.right sourceT.right)
+
 end BEDC.Derived.ZetaZerosUp

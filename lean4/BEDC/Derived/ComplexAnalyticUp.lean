@@ -33,6 +33,19 @@ theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BH
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
+theorem CplxPureImaginary_component_deterministic {theta theta' z : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary theta' z ->
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 theta')) ∧ hsame theta theta' := by
+  intro left right
+  have sameComponents :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 theta')) :=
+    hsame_trans (hsame_symm left.right) right.right
+  have sameImaginaryE1 : hsame (BHist.e1 theta) (BHist.e1 theta') :=
+    append_left_cancel (h := BHist.e1 BHist.Empty) sameComponents
+  exact And.intro sameComponents (hsame_e1_iff.mp sameImaginaryE1)
+
 theorem CplxPureImaginary_complex_carrier_witness {theta z : BHist} :
     CplxPureImaginary theta z ->
       UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) ∧
