@@ -387,3 +387,23 @@ By \autoref{def:module-stability-certificate}, the first stability component of 
 
 Finally, \autoref{def:module-ledger-policy} records scalar and module ledgers for scalar-action expressions. Removing entries whose provenance uses scalar multiplication leaves the additive module ledger. This is the group-expression provenance and commutativity-use ledger of \autoref{def:abgroup-ledger-policy}. The retained carrier, source, pattern, classifier, stability, and ledger data therefore satisfy the obligations named in \autoref{def:abgroup-certificate-obligations}, with the same additive operation, zero, inverse, and classifier carried by the original module certificate.
 \end{proof}
+
+\begin{proposition}[Module forgets to Ring certificate]
+\label{prop:module-forgets-ring-certificate}
+Let $M$ carry a $\ModuleUp(R,M)$ certificate whose scalar source is a certified $\RingUp(R)$. If the additive carrier $M$, vector addition, vector zero, vector negation, scalar action $\odot:R\times M\to M$, and the action-shaped stability and ledger rows are omitted from the exported package, the retained scalar carrier, source, ring pattern, classifier, ring stability fields, and ring ledger form a $\RingUp(R)$ certificate. The operations $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the scalar classifier on $R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:module-certificate-obligations}, a module certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\ModuleUp$. The scalar projection keeps exactly the components whose operations and endpoint claims live only on the scalar carrier $R$.
+
+By \autoref{def:module-carrier}, a module carrier consists of a scalar ring $R$, an additive abelian group $M$, and scalar multiplication $R\times M\to M$. Deleting the additive carrier and scalar action leaves the scalar ring carrier with its addition, zero, additive inverse, multiplication, one, and scalar carrier classifier. These are the carrier data required by \autoref{def:ring-carrier}.
+
+By \autoref{def:module-source-specification}, the source side of the module certificate is a certified $\RingUp(R)$ together with a certified $\AbGroupUp(M)$ sharing the scalar action. Suppressing the additive source and the action-sharing datum leaves the certified $\RingUp(R)$ source. Unpacking it through \autoref{def:ring-source-specification} gives the additive $\AbGroupUp$ and multiplicative $\MonoidUp$ data on the same scalar carrier and classifier.
+
+The classifier retained by the projection is the scalar-ring classifier from that certified source. The module classifier of \autoref{def:module-classifier-specification} belongs to the module carrier $M$ and is not exported in this projection; the retained scalar classifier is already the carrier sameness relation required by \autoref{def:ring-classifier-specification}. No classifier transport or replacement is introduced.
+
+The retained expression language is the ring expression language of the certified scalar source: $0_R$, $1_R$, $+_R$, $(-)_R$, and $\cdot_R$. This is exactly the pattern of \autoref{def:ring-pattern-specification}. The vector constructors and scalar-action constructor are discarded because their endpoints lie in $M$ or in the action $R\times M\to M$, not in the scalar ring.
+
+By \autoref{def:module-stability-certificate}, the module certificate contains ring laws on $R$ in addition to additive module laws and scalar-action laws. Since \autoref{def:module-source-specification} identifies the scalar side with a certified $\RingUp(R)$, unpacking the retained scalar stability through \autoref{def:ring-stability-certificate} gives additive abelian-group laws, multiplicative monoid laws, operation congruence, distributivity, and the zero multiplication rows for the scalar operations. The scalar-action rows, scalar associativity, the two action distributivity rows, and the scalar unit law all mention $\odot$ or the module carrier, so they are not obligations for $\RingUp$.
+
+Finally, the scalar ledger retained from the certified $\RingUp(R)$ source is the shared carrier ledger and ring operation tree of \autoref{def:ring-ledger-policy}. The discarded ledger entries are precisely those whose provenance uses vector operations or scalar action. Thus the retained carrier, source, pattern, classifier, stability, and ledger fields satisfy \autoref{def:ring-certificate-obligations}, with $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the scalar classifier copied from the original module certificate.
+\end{proof}
