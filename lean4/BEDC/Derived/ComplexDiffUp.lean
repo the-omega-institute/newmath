@@ -130,4 +130,18 @@ theorem CplxDiffQuot_same_result_step_deterministic {f z h h' q : BHist} :
                                   exact And.intro (cont_left_cancel leftLedger rightLedger)
                                     (And.intro leftLedger rightLedger)
 
+theorem CplxDiffQuot_step_unary {f z h q : BHist} :
+    CplxDiffQuot f z h q -> UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q := by
+  intro quotient
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro _stepNonzero rest =>
+              cases rest with
+              | intro quotientCarrier ledger =>
+                  exact And.intro (unary_cont_right_factor ledger quotientCarrier)
+                    (And.intro quotientCarrier ledger)
+
 end BEDC.Derived.ComplexDiffUp

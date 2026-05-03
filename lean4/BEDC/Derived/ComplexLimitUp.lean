@@ -205,4 +205,10 @@ theorem ComplexDistance_nonempty_distance_endpoint_cases {z w d : BHist} :
       | inr zNonempty =>
           exact Or.inl zNonempty
 
+theorem ComplexDistanceTriangleBound_unary {z w u d12 d23 : BHist} :
+    ComplexDistance z w d12 -> ComplexDistance w u d23 ->
+      UnaryHistory (ComplexDistanceTriangleBound d12 d23) := by
+  intro leftDistance rightDistance
+  exact unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
+
 end BEDC.Derived.ComplexLimitUp

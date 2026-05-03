@@ -39,6 +39,31 @@ result-side singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonClassifier\_continuation\_result\_endpoint\_split\_iff}
 
+\begin{theorem}[Field singleton carrier continuation context empty iff]
+\label{thm:field-singleton-carrier-continuation-context-empty-iff}
+For histories $L,h,M,R,O:\mathsf{BHist}$ with
+$\ContR(L,h,M)$ and $\ContR(M,R,O)$, the final result is a singleton carrier
+exactly when the three exposed factors are singleton carriers:
+$$
+\mathsf{FieldSingletonCarrier}(O)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(L)\land
+\mathsf{FieldSingletonCarrier}(h)\land
+\mathsf{FieldSingletonCarrier}(R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the second continuation result to
+$\emp$ and invert the empty result; this gives singleton carriers for $M$
+and $R$. Transport the first continuation result from $M$ to $\emp$ and
+invert again, exposing singleton carriers for $L$ and $h$. Conversely,
+singleton carriers for $L$ and $h$ transport the first continuation result
+to the singleton carrier, and the resulting middle carrier together with the
+carrier for $R$ transports the second continuation result to the singleton
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_context\_empty\_iff}
+
 \begin{theorem}[Field singleton classifier continuation append split]
 \label{thm:field-singleton-classifier-continuation-append-split}
 For histories $L,P,Q,R,T:\mathsf{BHist}$ with $\ContR(P,Q,T)$, singleton

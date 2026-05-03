@@ -150,6 +150,24 @@ triangle discussion.
 \end{definition}
 \leandef{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound}
 
+\begin{theorem}[Complex distance triangle bound unary]
+\label{thm:complex-distance-triangle-bound-unary}
+For complex histories $z,w,u$ and distance witnesses $d_{12},d_{23}$,
+if $\mathsf{ComplexDistance}(z,w,d_{12})$ and
+$\mathsf{ComplexDistance}(w,u,d_{23})$ hold, then the explicit triangle
+bound is unary:
+$$
+\mathsf{UnaryHistory}
+  (\mathsf{ComplexDistanceTriangleBound}(d_{12},d_{23})).
+$$
+\end{theorem}
+\begin{proof}
+Each complex-distance witness contains a unary carrier for its distance
+endpoint. The triangle bound is the BEDC append of the two endpoints, so
+unary append closure gives the displayed unary carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_unary}
+
 \begin{lemma}[Complex distance nonempty endpoint cases]
 \label{thm:cplx-dist-nonempty-distance-endpoint-cases}
 For complex histories $z,w$ and distance endpoint $d$, if

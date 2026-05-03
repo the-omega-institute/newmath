@@ -24,6 +24,24 @@ The resulting \(q\) is the unique complex history (up to \(\hsame\)) representin
 \end{definition}
 \leandef{BEDC.Derived.ComplexDiffUp.CplxDiffQuot}
 
+\begin{theorem}[Complex difference quotient step unary]
+\label{thm:cplx-diff-quot-step-unary}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds, then the step history $h$, the
+quotient history $q$, and the quotient continuation ledger are exposed:
+$$
+\mathsf{UnaryHistory}(h)\land
+\mathsf{UnaryHistory}(q)\land
+\ContR(f,h,q).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the concrete quotient witness. It already contains the unary quotient
+carrier and the ledger $\ContR(f,h,q)$. Since the result $q$ is unary, the
+right-factor inversion for unary continuations recovers the unary carrier of
+the step history $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_step\_unary}
+
 \begin{lemma}[Complex difference quotient is well-defined]
 \label{lem:cplx-diff-quot-well-defined}
 For each \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\) there is exactly one complex history \(q\), up to \(\hsame\), with \(\mathsf{CplxDiffQuot}(f, z, h, q)\).

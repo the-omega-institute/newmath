@@ -55,6 +55,27 @@ theorem FieldSingletonCarrier_continuation_endpoint_split_iff {P Q R : BHist} :
     exact cont_respects_hsame endpoints.left endpoints.right continuation
       (cont_right_unit BHist.Empty)
 
+theorem FieldSingletonCarrier_continuation_context_empty_iff {L h mid R out : BHist} :
+    Cont L h mid -> Cont mid R out ->
+      (FieldSingletonCarrier out <->
+        FieldSingletonCarrier L ∧ FieldSingletonCarrier h ∧ FieldSingletonCarrier R) := by
+  intro leftContinuation rightContinuation
+  constructor
+  · intro resultCarrier
+    have rightEmpty : Cont mid R BHist.Empty :=
+      cont_result_hsame_transport rightContinuation resultCarrier
+    have rightEndpoints := cont_empty_result_inversion rightEmpty
+    have leftEmpty : Cont L h BHist.Empty :=
+      cont_result_hsame_transport leftContinuation rightEndpoints.left
+    have leftEndpoints := cont_empty_result_inversion leftEmpty
+    exact And.intro leftEndpoints.left (And.intro leftEndpoints.right rightEndpoints.right)
+  · intro endpoints
+    have middleCarrier : FieldSingletonCarrier mid :=
+      cont_respects_hsame endpoints.left endpoints.right.left leftContinuation
+        (cont_right_unit BHist.Empty)
+    exact cont_respects_hsame middleCarrier endpoints.right.right rightContinuation
+      (cont_right_unit BHist.Empty)
+
 theorem FieldSingletonClassifier_continuation_result_classifier {P Q R : BHist} :
     FieldSingletonClassifier P Q -> Cont P Q R -> FieldSingletonClassifier R BHist.Empty := by
   intro classified continuation
