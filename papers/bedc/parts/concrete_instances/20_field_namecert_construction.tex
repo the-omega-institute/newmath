@@ -110,6 +110,68 @@ $N_D^u(h)$ is shared by both five-term readbacks. Repacking through the two
 composition support laws gives the displayed equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitContextualAction\_pair\_support\_transport\_iff}
+
+\begin{theorem}[RatUp FieldUp contextual action three-pair reverse-order coherence]
+\label{thm:rat-denom-unit-contextual-action-three-pair-reverse-order-coherence}
+For the concrete denominator tuple
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ and the contextual action $\Gamma$ of
+\autoref{def:ratup-fieldup-denominator-contextual-action-instance}, let
+$h,l_0,r_0,l_1,r_1,l_2,r_2:\mathsf{BHist}$. Suppose
+$C_D^u(h)$, $C_D^u(l_0)$, $C_D^u(r_0)$, $C_D^u(l_1)$, $C_D^u(r_1)$,
+$C_D^u(l_2)$, and $C_D^u(r_2)$. Then the empty-endpoint contextual actions
+obtained by applying the three carried denominator context pairs in forward
+and reverse order are denominator-classified:
+$$
+R_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))),
+\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_2,r_2}(h)))).
+$$
+Their strict-support predicates are equivalent:
+$$
+N_D^u(\Gamma_{\emp,\emp,l_2,r_2}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_0,r_0}(h))))
+\Longleftrightarrow
+N_D^u(\Gamma_{\emp,\emp,l_0,r_0}(\Gamma_{\emp,\emp,l_1,r_1}(\Gamma_{\emp,\emp,l_2,r_2}(h)))).
+$$
+\end{theorem}
+\begin{proof}
+First move the carried pair $(l_0,r_0)$ past $(l_1,r_1)$ while the outer
+$(l_2,r_2)$ action is fixed. Apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes} to the
+inner empty-endpoint pair, and use
+\autoref{thm:field-rat-denominator-contextual-action-composition-support-laws}
+to supply the carried intermediate action needed by the outer context.
+
+Next move $(l_2,r_2)$ past $(l_0,r_0)$ across the carried middle action. The
+same two-pair commutation theorem gives the classifier for the exposed pair
+swap, and the composition support laws keep the middle contextual action inside
+$C_D^u$. Classifier transitivity composes this row with the first one.
+
+Finally move $(l_1,r_1)$ past $(l_2,r_2)$ under the outer $(l_0,r_0)$ action.
+Another application of the empty-pair commutation theorem, followed by the same
+composition support laws, gives the third classifier row. Transitivity of
+$R_D^u$ along the three displayed classifier rows yields the reverse-order
+classifier.
+
+For strict support, apply
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes}
+along each of the three pair swaps just described. The composition support laws
+provide the carried intermediate actions at every stage, and support transport
+along the same classifier chain repacks the three local equivalences into the
+displayed strict-support equivalence.
+\end{proof}
+
+Per-object template: traditional target order-independent denominator context
+application inside $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\mathsf{RatDenomUnitCarrier}$, $\mathsf{RatDenomUnitClassifier}$,
+$\mathsf{append}$, empty endpoints, and $\Gamma$; carrier/context choices
+$h,l_0,r_0,l_1,r_1,l_2,r_2$ with all seven histories in $C_D^u$; stability
+obligations classifier coherence and strict-support transport; ledger the three
+carried context pairs $(l_0,r_0)$, $(l_1,r_1)$, and $(l_2,r_2)$ and their
+application order; core theorem list
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-commutes},
+\autoref{thm:rat-denom-unit-contextual-action-empty-pair-strict-support-commutes},
+and \autoref{thm:field-rat-denominator-contextual-action-composition-support-laws};
+exactness predicate the displayed classifier plus support iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
 \input{parts/concrete_instances/field/20_field_singleton_carrier_two_sided_context_semantic_namecert}
 \input{parts/concrete_instances/field/20_field_four_factor_inverse_classifier_exactness}
 
