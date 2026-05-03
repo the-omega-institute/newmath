@@ -34,7 +34,8 @@ histories $h,k,\ell:\mathsf{BHist}$ with $C_D^u(h)$, $C_D^u(k)$, and
 $C_D^u(\ell)$, let $E_s(h,k,\ell)$ be the endpoint selector of
 \autoref{def:ratup-fieldup-bracketing-endpoint-selector}. If
 $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ holds, then for all selectors
-$s,t:\mathsf{BMark}$ and every context $r:\mathsf{BHist}$, setting
+$s,t:\mathsf{BMark}$, every context $r:\mathsf{BHist}$, and all classifier
+contexts $L,R:\mathsf{BHist}$, setting
 $a:=E_s(h,k,\ell)$ and $b:=E_t(h,k,\ell)$ gives the following package:
 \begin{enumerate}
   \item
@@ -48,6 +49,10 @@ $a:=E_s(h,k,\ell)$ and $b:=E_t(h,k,\ell)$ gives the following package:
   \item
   $$
   \mathsf{RatHistoryClassifier}(a,b);
+  $$
+  \item
+  $$
+  \mathsf{fieldSingletonEmptyClassifier}(\mathsf{append}(L,a),\mathsf{append}(R,b))\to\bot;
   $$
   \item
   $$
@@ -96,6 +101,12 @@ $\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness. These give the denominator
 classifier row $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$ and the Rat classifier row
 $\mathsf{RatHistoryClassifier}(E_s(h,k,\ell),E_t(h,k,\ell))$.
 
+Apply \autoref{thm:ratup-fieldup-bracketing-choice-classifier-exclusion} to
+the same denominator tuple, the carrier witnesses, the
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$ witness, the selectors $s,t$, and the
+classifier contexts $L,R:\mathsf{BHist}$. This gives the selected-pair
+singleton-classifier exclusion.
+
 Finally apply \autoref{thm:ratup-fieldup-selector-contextual-nonzero-package} to
 the selector $s$ and the context $r:\mathsf{BHist}$. Its four rows give the two
 one-sided singleton-carrier exclusions and the two corresponding
@@ -116,5 +127,5 @@ classifier $R_D^u$ and $\mathsf{RatHistoryClassifier}$; stability obligations
 selector sameness, selector denominator coverage, selector Rat coverage, and
 contextual nonzero package rows for both selected endpoints on both context
 sides; ledger selector choices plus both context sides; exactness predicate
-selector-independent row coverage; standard bridge deferred; status
-$\mathsf{ProofTarget}$.
+selector-independent row coverage and selected-pair singleton-classifier
+exclusion; standard bridge deferred; status $\mathsf{ProofTarget}$.
