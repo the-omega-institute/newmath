@@ -268,6 +268,26 @@ distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
 
+\begin{theorem}[Regular complex sequence constant prefix closure]
+\label{lem:complex-regular-sequence-prepend-constant-closed}
+Let $q:\mathsf{BHist}$ be unary. If $(s,N)$ is a regular complex sequence,
+then the prefixed sequence $n\mapsto\mathsf{append}(q,s(n))$ is regular with
+the same modulus $N$. For any accepted pair of indices $n,m$, the BEDC distance
+witness is
+$$
+\mathsf{append}(\mathsf{append}(q,s(n)),\mathsf{append}(q,s(m))).
+$$
+\end{theorem}
+\begin{proof}
+Apply regularity of $(s,N)$ to the accepted indices and threshold
+continuations. The resulting complex-distance witness supplies unary histories
+for $s(n)$ and $s(m)$. Unary append closure with $\mathsf{UnaryHistory}(q)$
+gives unary histories for the two prefixed endpoints, and append closure again
+gives the displayed distance history. The canonical append continuation
+witness supplies the distance relation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_prepend\_constant\_closed}
+
 \begin{theorem}[Regular complex sequence endpoint transport]
 \label{thm:complex-regular-sequence-hsame-transport}
 Let \(s,t,N:\Hist\to\Hist\). If every unary index \(n\) satisfies

@@ -170,4 +170,17 @@ theorem CplxDiffQuot_step_unary {f z h q : BHist} :
                   exact And.intro (unary_cont_right_factor ledger quotientCarrier)
                     (And.intro quotientCarrier ledger)
 
+theorem CplxDiffQuot_cont_result_hsame {f z h q q' : BHist} :
+    CplxDiffQuot f z h q -> Cont f h q' -> hsame q q' := by
+  intro quotient continuation
+  cases quotient with
+  | intro _functionCarrier quotientRest =>
+      cases quotientRest with
+      | intro _pointCarrier quotientRest =>
+          cases quotientRest with
+          | intro _stepNonzero quotientRest =>
+              cases quotientRest with
+              | intro _quotientCarrier ledger =>
+                  exact cont_deterministic ledger continuation
+
 end BEDC.Derived.ComplexDiffUp

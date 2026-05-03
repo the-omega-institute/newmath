@@ -166,6 +166,21 @@ theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q 
           (And.intro rightUnary
             (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
 
+theorem ComplexRegularSequence_prepend_constant_closed {s N : BHist -> BHist} {q : BHist} :
+    UnaryHistory q -> ComplexRegularSequence s N ->
+      ComplexRegularSequence (fun n : BHist => append q (s n)) N := by
+  intro unaryQ regular
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regular k n m unaryK unaryN unaryM contN contM with
+  | intro d distance =>
+      have leftUnary : UnaryHistory (append q (s n)) := unary_append_closed unaryQ distance.left
+      have rightUnary : UnaryHistory (append q (s m)) :=
+        unary_append_closed unaryQ distance.right.left
+      exact Exists.intro (append (append q (s n)) (append q (s m)))
+        (And.intro leftUnary
+          (And.intro rightUnary
+            (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
+
 theorem ComplexDistance_empty_source_iff {w d : BHist} :
     ComplexDistance BHist.Empty w d ↔ UnaryHistory w ∧ hsame d w := by
   constructor

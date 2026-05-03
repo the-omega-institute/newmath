@@ -43,3 +43,22 @@ $R$ against $\emp$ splits by empty append inversion, and the selected endpoint
 nonzero witness rejects the matching empty component.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_endpoint\_split\_iff}
+
+\begin{lemma}[Singleton empty nonzero continuation right endpoint cancellation]
+\label{lem:field-singleton-empty-nonzero-continuation-right-endpoint-cancel}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, if the right
+endpoint $Q$ is a singleton-empty carrier, then the classifier-complement
+singleton empty nonzero predicate on the continuation result is exactly the
+predicate on the source endpoint:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(R)
+\Longleftrightarrow
+\mathsf{fieldSingletonEmptyNonZero}(P).
+$$
+\end{lemma}
+\begin{proof}
+The continuation ledger gives $R=\mathsf{append}(P,Q)$. The singleton-empty
+carrier on $Q$ identifies the right endpoint with $\emp$, so the append
+endpoint reduces to $P$ and the two classifier-complement predicates coincide.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_continuation\_right\_endpoint\_cancel\_iff}

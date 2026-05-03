@@ -79,6 +79,18 @@ as the displayed continuation witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_same\_result\_step\_deterministic}
 
+\begin{lemma}[Difference quotient result agrees with any matching continuation]
+\label{lem:cplx-diff-quot-cont-result-hsame}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the same source and step also
+continue to $q'$, then $\hsame(q,q')$.
+\end{lemma}
+\begin{proof}
+Eliminate the concrete difference-quotient package to expose its continuation
+ledger $\ContR(f,h,q)$. Determinism of BEDC continuation against the supplied
+ledger $\ContR(f,h,q')$ gives $\hsame(q,q')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_cont\_result\_hsame}
+
 \begin{lemma}[Compatibility of the difference quotient with \(\hsame\)]
 \label{lem:cplx-diff-quot-hsame}
 If \(\mathsf{CplxDiffQuot}(f, z, h, q)\) and \(\hsame(f,f')\), \(\hsame(z,z')\), \(\hsame(h,h')\), and \(\hsame(q,q')\), then \(\mathsf{CplxDiffQuot}(f', z', h', q')\). The transported target also exposes the unary point carrier, the transported non-zero witness on \(h'\), and the quotient ledger \(\Cont(f',h',q')\).
