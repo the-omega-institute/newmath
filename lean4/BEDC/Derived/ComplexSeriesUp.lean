@@ -68,6 +68,28 @@ theorem ComplexPartSum_successor_term_hsame_deterministic {zero zero' : BHist}
       have samePrevious := cross previous finalPrevious
       exact cont_respects_hsame samePrevious sameTerm step finalStep
 
+theorem ComplexPartSum_term_hsame_transport {zero zero' : BHist} {c d : BHist -> BHist}
+    (zeroSame : hsame zero zero')
+    (termSame : forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n))
+    {n S : BHist} :
+    UnaryHistory n -> ComplexPartSum zero c n S ->
+      exists T : BHist, ComplexPartSum zero' d n T /\ hsame S T := by
+  intro unaryN sum
+  induction sum with
+  | zero =>
+      exact Exists.intro zero' (And.intro ComplexPartSum.zero zeroSame)
+  | step previous stepContinuation ih =>
+      have unaryPrevious : UnaryHistory _ := unary_e1_inversion unaryN
+      have transportedPrevious := ih unaryPrevious
+      cases transportedPrevious with
+      | intro previous' previousData =>
+          have resultSame :
+              hsame _ (append previous' (d _)) :=
+            cont_respects_hsame previousData.right (termSame unaryPrevious) stepContinuation
+              (cont_intro rfl)
+          exact Exists.intro (append previous' (d _))
+            (And.intro (ComplexPartSum.step previousData.left (cont_intro rfl)) resultSame)
+
 inductive ComplexAbsPartSum (zero : BHist) (modulus : BHist -> BHist) :
     BHist -> BHist -> Prop where
   | zero : ComplexAbsPartSum zero modulus BHist.Empty zero
