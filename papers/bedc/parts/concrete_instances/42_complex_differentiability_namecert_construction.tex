@@ -312,6 +312,23 @@ Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus compari
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_hsame\_transport\_witness}
 
+\begin{lemma}[Full $\hsame$-transport of pointwise differentiability]
+\label{lem:cplx-diff-at-full-hsame-transport}
+If $\mathsf{CplxDiffAt}(f,z,f')$, $\hsame(f,g)$, $\hsame(z,w)$,
+and $\hsame(f',g')$, then $\mathsf{CplxDiffAt}(g,w,g')$. The transported
+statement also exposes a difference-quotient witness $h,q$, its continuation
+ledger $\Cont(g,h,q)$, and $q\hsame g'$.
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{CplxDiffAt}(f,z,f')$ into the unary carriers, complex
+derivative carrier, displayed quotient witness, and classifier. Transport the
+function carrier, point carrier, derivative carrier, and displayed quotient
+along the three $\hsame$ identifications. For any quotient at the target
+slots, transport it back to the source slots, apply the source classifier, and
+compose with $f'\hsame g'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_full\_hsame\_transport\_witness}
+
 \section{Closure laws for complex differentiability}
 
 \begin{lemma}[Sum rule]
