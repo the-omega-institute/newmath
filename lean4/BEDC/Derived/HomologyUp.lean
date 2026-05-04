@@ -400,6 +400,24 @@ theorem HomologyBoundaryCarrier_append_nonempty_cycle_preimage {d : BHist -> BHi
       | intro v vData =>
           exact Or.inr (Exists.intro v (And.intro vData.left (And.intro cycleK vData.right)))
 
+theorem HomologyBoundaryCarrier_cont_nonempty_cycle_preimage {d : BHist -> BHist}
+    (d_squared_zero : forall u : BHist, hsame (d (d u)) BHist.Empty)
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      (hsame r BHist.Empty -> False) ->
+        (Exists (fun u : BHist =>
+          hsame h (d u) ∧ HomologyCycleCarrier d h ∧
+            (hsame (d u) BHist.Empty -> False))) ∨
+          (Exists (fun v : BHist =>
+            hsame k (d v) ∧ HomologyCycleCarrier d k ∧
+              (hsame (d v) BHist.Empty -> False))) := by
+  intro boundaryH boundaryK continuation resultNonempty
+  have appendNonempty : hsame (append h k) BHist.Empty -> False := by
+    intro appendEmpty
+    exact resultNonempty (hsame_trans continuation appendEmpty)
+  exact HomologyBoundaryCarrier_append_nonempty_cycle_preimage d_squared_zero boundaryH boundaryK
+    appendNonempty
+
 theorem HomologyBoundaryCarrier_cycle_of_d_squared_zero {d : BHist -> BHist}
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
     (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
