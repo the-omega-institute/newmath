@@ -252,6 +252,25 @@ induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_nonempty\_forward}
 
+\begin{theorem}[Compact finite refinement chain compact nonempty forward]
+\label{thm:compact-finite-refinement-chain-compact-nonempty-forward}
+If a compact finite refinement chain starts from a compact ledger apart from
+$\emp$, then its final compact ledger is apart from $\emp$:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+\land ((compact\hsame\emp)\to\bot)
+\Longrightarrow
+((finalCompact\hsame\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the refinement chain. The base case is the starting compact
+apartness predicate. In a step, a collapse of the final compact ledger to
+$\emp$ makes the appended prior compact ledger empty, and empty-append
+inversion gives the contradiction by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_compact\_nonempty\_forward}
+
 \begin{theorem}[Compact finite refinement chain continuation witness]
 \label{thm:compact-finite-refinement-chain-continuation-witness}
 If

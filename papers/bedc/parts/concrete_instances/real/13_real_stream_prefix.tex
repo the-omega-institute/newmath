@@ -123,6 +123,29 @@ which is the classified prefix through $m+n$. Apply the induction hypothesis to
 this exposed prefix to obtain the classified prefix through $n$.
 \end{proof}
 
+\begin{theorem}[Real stream prefix truncated unary context closure]
+\label{thm:real-stream-prefix-truncated-unary-context-closed}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if a prefix through
+$m+n$ is classified, then after descending to the prefix through $n$, matching
+unary prefix and tail contexts may be placed around every displayed endpoint:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x',y',n),
+$$
+where $x'(i)=\mathsf{append}(p_X(i),\mathsf{append}(x(i),t_X(i)))$ and
+$y'(i)=\mathsf{append}(p_Y(i),\mathsf{append}(y(i),t_Y(i)))$, with
+$p_X(i)$ and $t_X(i)$ unary and with $p_X(i)\hsame p_Y(i)$ and
+$t_X(i)\hsame t_Y(i)$ for every index $i$.
+\end{theorem}
+\begin{proof}
+Induct on $m$ to restrict the source prefix from $m+n$ to $n$. The base case is
+definitional, and the successor case projects the left component of the
+recursive prefix witness. Apply the stream-prefix unary-context closure theorem
+to the truncated prefix and the pointwise matching unary contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_unary\_context\_closed}
+
 \begin{theorem}[Real stream prefix truncated e1 pair readback]
 \label{thm:real-stream-prefix-truncated-e1-pair-readback}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if the finite prefix

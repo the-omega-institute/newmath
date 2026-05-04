@@ -1,0 +1,55 @@
+\begin{theorem}[Group singleton conjugated commutator orbit invariance]
+\label{thm:group-singleton-conjugated-commutator-orbit-invariance}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, define
+$$
+\mathsf{Conj}_s(z):=\mathsf{mul}(\mathsf{mul}(s,z),\mathsf{inv}(s))
+$$
+and use $\mathsf{Comm}_{\emp}$ as in
+\autoref{thm:group-singleton-commutator-terminal-collapse}. If
+$A_{\emp}(s)$, $A_{\emp}(x)$, and $A_{\emp}(y)$, then
+$$
+\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))
+\sim_{N_{\emp}}
+\mathsf{Comm}_{\emp}(x,y)
+\land
+\mathsf{Comm}_{\emp}(x,y)
+\sim_{N_{\emp}}
+\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)).
+$$
+The ten-field fit is: traditional target terminal commutator conjugation on
+normalizer orbits; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier the normalizer orbit relation
+exact against $R_{\emp}$; stability from conjugated commutator classifier
+invariance and terminal classifier exactness; ledger the conjugator and two
+commutator inputs; core theorem this block; exactness the displayed bidirectional
+orbit relation; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-conjugated-commutator-invariance} to
+$s$, $x$, and $y$. It gives the classifier
+$$
+R_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)),
+\mathsf{Comm}_{\emp}(x,y))
+$$
+and the two classifiers against $\emp$.
+
+The terminal classifier package turns those endpoint classifiers into carrier
+facts. Concretely, Theorem~\ref{thm:group-singleton-terminal-classifier-package}
+applied to each commutator endpoint and $\emp$ yields
+$A_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)))$ and
+$A_{\emp}(\mathsf{Comm}_{\emp}(x,y))$.
+
+Use the classifier-to-orbit direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} with these two
+carrier facts. The displayed $R_{\emp}$ row becomes
+$\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))\sim_{N_{\emp}}
+\mathsf{Comm}_{\emp}(x,y)$.
+
+For the reverse orientation, apply classifier symmetry from
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} to the same
+$R_{\emp}$ row. Orbit exactness then converts the symmetric classifier into
+$\mathsf{Comm}_{\emp}(x,y)\sim_{N_{\emp}}
+\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))$.
+\end{proof}
