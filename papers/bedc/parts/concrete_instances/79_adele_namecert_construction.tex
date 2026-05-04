@@ -237,6 +237,23 @@ fixed real component gives the displayed real-prime readback.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_scale\_real\_prime\_readback}
 
+\begin{theorem}[Adele unit-left scale continuation readback]
+\label{thm:adele-unit-left-scale-cont-readback}
+Let $real,p,q,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier, $q$ is unary, and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),result)$ holds,
+then $\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\exists e.\,\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,result).
+$$
+\end{theorem}
+\begin{proof}
+The adele carrier uses the displayed real component, prime base, appended
+unit-left exponent, and scale result. The continuation readback is exactly the
+unit-left prime-scale append factorization applied to the unary right exponent.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_left\_scale\_cont\_readback}
+
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}
 Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible

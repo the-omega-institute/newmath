@@ -74,6 +74,20 @@ Induct on the factorial witness. The base constructor yields \(\Eone(\emp)\), wh
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_unary}
 
+\begin{theorem}[Factorial results have positive shape]
+\label{thm:natfact-result-positive-shape}
+If \(\mathsf{NatFact}(n,m)\), then there is a unary tail \(t\) such that
+\(\hsame(m,\Eone(t))\).
+\end{theorem}
+\begin{proof}
+Combine factorial result nonemptiness with factorial result unary closure.
+Case analysis on the generated history \(m\) eliminates the empty case by
+nonemptiness and the \(\Ezero\) case by unary inversion. The remaining
+\(\Eone(t)\) case exposes the tail \(t\), and unary inversion supplies the
+tail carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_positive\_shape}
+
 \begin{lemma}[Factorial is total and functional on unary histories]
 \label{lem:fact-total}
 For every unary \(n\), there is exactly one unary \(m\) with \(\mathsf{NatFact}(n, m)\).
