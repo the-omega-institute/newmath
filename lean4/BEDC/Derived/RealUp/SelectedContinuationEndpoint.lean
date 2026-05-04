@@ -7,6 +7,18 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
+theorem RealStreamClassifier_selected_continuation_rat_classifier
+    {x y : Nat -> BHist} {n : Nat} {q xq yq : BHist} :
+    RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
+      RatHistoryClassifier xq yq := by
+  intro classified qUnary contX contY
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have continued :
+      RatHistoryClassifier (append (x n) q) (append (y n) q) :=
+    RatHistoryClassifier_append_unary_denominator_closed pointClassified qUnary
+      (hsame_refl q)
+  exact RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
+
 theorem RealStreamClassifier_selected_continuation_e0_endpoint_absurd
     {x y : Nat -> BHist} {n : Nat} {q xq yq zx zy : BHist} :
     RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->

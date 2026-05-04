@@ -44,6 +44,31 @@ $\mathsf{RealStreamClassifier}(o_X,o_Y)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_closed}
 
+\begin{theorem}[Real stream classifier selected continuation rational classifier]
+\label{thm:real-stream-classifier-selected-continuation-rat-classifier}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, and continuation outputs $xq,yq$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(xq,yq).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Rational unary-denominator closure
+extends this classifier along the shared unary suffix $q$, using reflexive
+suffix sameness. The two displayed continuation witnesses identify the closed
+append endpoints with $xq$ and $yq$, and rational classifier transport along
+these endpoint displays gives the stated classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_rat\_classifier}
+
 \begin{theorem}[Real stream classifier selected continuation e-one pair readback]
 \label{thm:real-stream-classifier-selected-continuation-e1-pair-readback}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
