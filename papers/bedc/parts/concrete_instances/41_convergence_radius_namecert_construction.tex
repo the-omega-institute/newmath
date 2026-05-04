@@ -269,6 +269,22 @@ constant witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_append\_unary\_coeff\_closed}
 
+\begin{lemma}[Geometric bound prepend-unary coefficient closure]
+\label{thm:geom-bound-prepend-unary-coeff-closed}
+If $q$ is unary and $\mathsf{GeomBound}(a,r,K)$ holds, then prepending $q$ to
+every coefficient preserves the same radius and constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(q,a_n),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{GeomBound}(a,r,K)$ into its unary radius witness, unary constant
+witness, and coefficient carrier family. Apply complex-history carrier
+prepend-unary closure pointwise to each coefficient and keep the same radius
+and constant witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_prepend\_unary\_coeff\_closed}
+
 \begin{theorem}[Convergence radius append-unary coefficient closure]
 \label{thm:conv-rad-append-unary-coeff-closed}
 If $\mathsf{ConvRad}(a,R)$ holds and $q$ is unary, then appending $q$ to every
@@ -291,6 +307,25 @@ arbitrary and the witness function is unchanged, the displayed predicate is
 $\mathsf{ConvRad}(\lambda n.\mathsf{append}(a_n,q),R)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_append\_unary\_coeff\_closed}
+
+\begin{theorem}[Convergence radius prepend-unary coefficient closure]
+\label{thm:conv-rad-prepend-unary-coeff-closed}
+If $\mathsf{ConvRad}(a,R)$ holds and $q$ is unary, then prepending $q$ to every
+coefficient preserves the same convergence radius:
+$$
+\mathsf{ConvRad}(\lambda n.\mathsf{append}(q,a_n),R).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ConvRad}(a,R)$ and keep its constant-witness function $K$ as the
+candidate witness for the prepended coefficient family. For any admitted row
+$r$ with continuation ledger $\ContR(r,K(r),R)$, the original witness gives
+$\mathsf{GeomBound}(a,r,K(r))$. Apply
+\autoref{thm:geom-bound-prepend-unary-coeff-closed} with the unary prefix $q$,
+and leave the radius witness, the continuation row, and the constant witness
+unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_prepend\_unary\_coeff\_closed}
 
 \begin{lemma}[Differentiation preserves radius]
 \label{lem:diff-preserves-radius}
