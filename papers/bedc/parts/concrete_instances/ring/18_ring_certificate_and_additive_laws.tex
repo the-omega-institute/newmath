@@ -1,0 +1,185 @@
+\section{The certificate}
+
+\begin{definition}[Ring source specification]
+\label{def:ring-source-specification}
+The source is an additive \(\AbGroupUp\) and multiplicative \(\MonoidUp\) on the same carrier and classifier.
+\end{definition}
+
+\begin{definition}[Ring pattern specification]
+\label{def:ring-pattern-specification}
+The pattern is expression formation from \(0,1,+,-,\cdot\).
+\end{definition}
+
+\begin{definition}[Ring classifier specification]
+\label{def:ring-classifier-specification}
+The classifier is the shared carrier sameness relation, congruent for both operations.
+\end{definition}
+
+\begin{definition}[Ring stability certificate]
+\label{def:ring-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item additive abelian-group laws
+  \item multiplicative monoid laws
+  \item addition and multiplication congruence
+  \item left distributivity
+  \item right distributivity
+  \item zero multiplication laws derived or supplied constructively
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.RingUp.ring\_stability\_certificate\_fields}
+
+\begin{theorem}[Ring additive right inverse]
+\label{thm:ring-add-right-inverse}
+For BEDC history addition, additive commutativity and the supplied left inverse
+law imply the matching right inverse law \(x+(-x)\hsame0\).
+\end{theorem}
+\begin{proof}
+Commute \(x+(-x)\) to \((-x)+x\), then apply the left inverse law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_inverse}
+
+\begin{theorem}[Ring additive inverse of zero]
+\label{thm:ring-neg-zero}
+For BEDC history addition, additive commutativity, the left-zero law, and the
+left inverse law imply \(\hsame(-0,0)\).
+\end{theorem}
+\begin{proof}
+Chain \(-0\) backward through the left-zero equation \(0+(-0)\hsame -0\),
+commute \(0+(-0)\) to \((-0)+0\), and apply the left inverse law at \(0\).
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_neg\_zero}
+
+\begin{theorem}[Ring duplicate addition collapses to zero]
+\label{thm:ring-add-duplicate-eq-zero}
+For BEDC history addition, if an element is the same as its duplicate sum
+\(a+a\), then the element is the same as zero.
+\end{theorem}
+\begin{proof}
+Add the left inverse of \(a\) on the left, reassociate to bring
+\((-a)+a\) together, collapse that pair to zero, and use the left-zero law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_eq\_zero}
+
+\begin{theorem}[Ring additive duplicate zero exactness]
+\label{thm:ring-add-duplicate-zero-iff}
+For BEDC history addition satisfying additive associativity, left zero, left
+inverse, and addition congruence, every history $a$ satisfies
+$$
+a\hsame a+a \Longleftrightarrow a\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is exactly the duplicate-addition collapse: apply
+\autoref{thm:ring-add-duplicate-eq-zero} to the hypothesis $a\hsame a+a$.
+
+For the reverse implication, use symmetry of $a\hsame0$ to transport the left
+summand from $a$ to $0$, and use the hypothesis itself to transport the right
+summand from $a$ to $0$ by addition congruence. The resulting comparison
+$a+a\hsame0+0$ reduces by the left-zero law to $0$, and transitivity with the
+original hypothesis gives $a\hsame a+a$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_empty\_iff}
+
+\begin{theorem}[Ring additive right zero]
+\label{thm:ring-add-right-zero}
+For BEDC history addition, additive commutativity and the supplied left-zero
+law imply the matching right-zero law $x+0\hsame x$.
+\end{theorem}
+\begin{proof}
+Commute $x+0$ to $0+x$, then apply the left-zero law.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_zero}
+
+\begin{theorem}[Ring additive two-sided cancellation]
+\label{thm:ring-additive-two-sided-cancellation}
+For BEDC history addition satisfying additive associativity, commutativity,
+left-zero, left-inverse, and addition congruence, every
+$a,b,c:\mathsf{BHist}$ satisfies both cancellation implications:
+$$
+a+c\hsame b+c \Longrightarrow a\hsame b
+$$
+and
+$$
+c+a\hsame c+b \Longrightarrow a\hsame b.
+$$
+The ten-field fit is: traditional target additive cancellation in a ring; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus $\GroupUp$ cancellation; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the common addend; core theorem this theorem;
+exactness predicate the two displayed implications; standard bridge ordinary
+ring additive cancellation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. Together with associativity,
+commutativity, left zero, left inverse, and addition congruence, these are the
+group-cancellation hypotheses for the additive operation.
+
+For the first implication, read addition as the group operation and apply
+Theorem~\ref{thm:group-right-cancellation} to the common right summand $c$.
+The hypothesis $a+c\hsame b+c$ then yields $a\hsame b$.
+
+For the second implication, apply
+Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
+The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_additive\_two\_sided\_cancellation}
+
+\begin{theorem}[Ring negative of sum]
+\label{thm:ring-neg-add}
+For BEDC history addition and negation satisfying additive associativity,
+commutativity, left zero, left inverse, and addition congruence, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\hsame(\mathsf{neg}(\mathsf{add}(a,b)),
+\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))).
+$$
+The ten-field fit is: traditional target additive inverse of a sum in a ring;
+BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from additive congruence and additive
+cancellation; ledger the two addends $a,b$ and the inverse witnesses
+$\mathsf{neg}(\mathsf{add}(a,b))$ and
+$\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))$; core theorem this theorem;
+exactness the displayed equality; downstream consumer CommRing signed-product
+normalization and FieldUp denominator inverse normalization; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The common element to cancel is $\mathsf{add}(a,b)$. By
+Theorem~\ref{thm:ring-add-right-inverse}, the endpoint
+$\mathsf{neg}(\mathsf{add}(a,b))$ is a right inverse of this common element.
+
+It remains to see that
+$\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))$ is also a right inverse of
+$\mathsf{add}(a,b)$. Reassociate the sum
+$(a+b)+((-a)+(-b))$, commute the middle terms so that $b+(-b)$ and
+$a+(-a)$ appear as adjacent pairs, collapse those pairs using the right
+inverse and left inverse rows, and remove the resulting zeros by the left and
+right zero laws.
+
+Both endpoints therefore give the same sum with the common left factor
+$\mathsf{add}(a,b)$. Apply
+Theorem~\ref{thm:ring-additive-two-sided-cancellation} to cancel that factor
+and obtain the displayed $\hsame$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_neg\_add}
+
+\begin{theorem}[Ring additive difference zero exactness]
+\label{thm:ring-additive-difference-zero-exact}
+For BEDC history addition satisfying additive associativity, commutativity,
+left zero, left inverse, and addition congruence, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+x+(-y)\hsame0 \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive difference exactness; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus the $\GroupUp$ cancellation spine
+already cited by \autoref{thm:ring-additive-two-sided-cancellation}; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the hidden signed summand; core theorem this
+theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
+exactness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RingUp.ring\_additive\_difference\_zero\_exact}
