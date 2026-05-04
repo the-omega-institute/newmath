@@ -128,6 +128,23 @@ theorem AutomorphicAdeleGraph_visible_context_result_hsame_transport
   exact And.intro visibleGraph'
     (AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier visibleGraph')
 
+theorem AutomorphicAdeleGraph_visible_context_value_hsame_transport
+    {p q domain value value' graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value' ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        hsame value value' ->
+          Cont (append p domain) (append value' q) (append (append p graph) q) ∧
+            (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier' visibleGraph sameValue
+  have sameVisibleValue : hsame (append value q) (append value' q) :=
+    congrArg (fun h => append h q) sameValue
+  have visibleGraph' :
+      Cont (append p domain) (append value' q) (append (append p graph) q) :=
+    cont_hsame_transport (hsame_refl (append p domain)) sameVisibleValue
+      (hsame_refl (append (append p graph) q)) visibleGraph
+  exact And.intro visibleGraph'
+    (AutomorphicAdeleGraph_visible_context_nonempty domainCarrier valueCarrier' visibleGraph')
+
 theorem AutomorphicAdeleGraph_visible_context_core_readback {p q domain value graph core : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
       Cont (append p domain) (append value q) (append (append p graph) q) ->

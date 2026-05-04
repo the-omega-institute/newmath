@@ -55,6 +55,34 @@ The certificate fit has ten fields:
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[Matrix singleton power]
+\label{def:matrix-singleton-pow}
+For histories $M$ and $e$, $\mathsf{MatrixSingletonPow}(M,e)$ is the concrete
+power ledger obtained by recursion over the exponent history: the empty
+exponent returns $I_M$, a one-headed exponent multiplies the previous ledger
+by $M$, and the zero-headed branch returns the singleton zero endpoint.
+\end{definition}
+\leandef{BEDC.Derived.MatrixUp.MatrixSingletonPow}
+
+\begin{theorem}[Matrix singleton power carrier closure]
+\label{thm:matrix-singleton-pow-carrier-closed}
+If $M$ is carried by the singleton matrix carrier and $e$ is unary, then the
+power ledger is again carried by the singleton matrix carrier:
+$$
+A_{\emp}(M)\land \Unary(e)
+\quad\Longrightarrow\quad
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Proceed by induction on the unary exponent. The empty exponent returns
+$I_M=\emp$, hence is carried by $A_{\emp}$. In the one-headed case, the
+induction hypothesis carries the previous power ledger, while the hypothesis
+carries $M$; the displayed multiplication is append, so append empty-result
+exactness carries the product ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
+
 \begin{theorem}[Matrix singleton classifier append split empty]
 \label{thm:matrix-singleton-classifier-append-split-empty}
 For $M,N,h:\mathsf{BHist}$,
