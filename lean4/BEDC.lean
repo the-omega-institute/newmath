@@ -145,6 +145,7 @@ import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexUp.SemanticCertificate
 import BEDC.Derived.ComplexUp.ComponentContextPositive
+import BEDC.Derived.ComplexUp.RawLedgerE0
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -228,6 +229,7 @@ import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PrimeUp.PrimeShape
+import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
