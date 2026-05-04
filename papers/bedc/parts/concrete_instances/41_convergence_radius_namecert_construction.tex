@@ -70,6 +70,29 @@ separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
 
+\begin{theorem}[Geometric bound visible constant endpoint package]
+\label{thm:geom-bound-visible-constant-endpoint-package}
+For coefficients $a$, radius history $r$, result history $R$, and tail
+history $tail$, if
+$$
+\mathsf{GeomBound}(a,r,\Eone(tail))
+\qquad\text{and}\qquad
+\ContR(r,\Eone(tail),R),
+$$
+then $tail$ is unary and the continuation result is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The geometric-bound witness contains the unary carrier for the visible constant
+endpoint $\Eone(tail)$, so unary inversion gives the payload carrier for
+$tail$. If the continuation result were empty, empty-result inversion would
+identify the visible constant endpoint $\Eone(tail)$ with $\emp$,
+contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_constant\_endpoint\_package}
+
 \begin{theorem}[Geometric bound radius semantic naming certificate]
 \label{thm:geom-bound-radius-semantic-namecert}
 For fixed coefficients \(a\) and unary bound constant \(K\), any witness of \(\mathsf{GeomBound}(a,r,K)\) yields a semantic naming certificate whose carrier, pattern, and ledger are the same radius-indexed geometric-bound predicate and whose classifier is \(\hsame\) on the displayed radius.

@@ -220,6 +220,21 @@ theorem DirichletPartSum_nonempty_index_positive {term : BHist -> BHist -> BHist
   | intro t data =>
       exact Exists.intro t (And.intro data.right data.left)
 
+theorem DirichletPartSum_positive_index_predecessor {term : BHist -> BHist -> BHist}
+    {s n S : BHist} :
+    DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+      exists m P : BHist, n = BHist.e1 m ∧ UnaryHistory m ∧
+        DirichletPartSum term s m P ∧ Cont P (term m s) S := by
+  intro sum positiveN
+  cases sum with
+  | zero =>
+      exact False.elim (DirichletPositiveIndex_nonempty positiveN (hsame_refl BHist.Empty))
+  | step previous stepCont =>
+      exact Exists.intro _ (Exists.intro _
+        (And.intro rfl
+          (And.intro (DirichletPartSum_index_unary previous)
+            (And.intro previous stepCont))))
+
 theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
     DirichletPositiveIndex m -> UnaryHistory n -> DirichletPositiveIndex (append m n) := by
   intro positiveM unaryN

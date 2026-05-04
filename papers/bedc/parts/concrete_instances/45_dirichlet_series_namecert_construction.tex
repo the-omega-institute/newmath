@@ -122,6 +122,27 @@ exactly the positive Dirichlet index witness.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_nonempty\_index\_positive}
 
+\begin{theorem}[Dirichlet partial-sum positive index exposes predecessor]
+\label{thm:dirichlet-part-sum-positive-index-predecessor}
+Every closed witness of \(\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)\)
+whose index is a positive Dirichlet index exposes histories \(m\) and \(P\)
+such that
+$$
+n=\Eone(m)\land
+\mathsf{UnaryHistory}(m)\land
+\mathsf{DirichletPartSum}(\mathsf{term},s,m,P)\land
+\ContR(P,\mathsf{term}(m,s),S).
+$$
+\end{theorem}
+\begin{proof}
+Case-split the closed partial-sum witness. The zero constructor is
+incompatible with a positive Dirichlet index, since positive indices are
+nonempty. The successor constructor directly exposes the predecessor index,
+its unary carrier, the predecessor partial-sum witness, and the continuation
+ledger into \(S\).
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_positive\_index\_predecessor}
+
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
 If the Dirichlet partial-sum recursion reaches $S$ at unary index $n$, and the
