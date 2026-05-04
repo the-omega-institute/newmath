@@ -202,6 +202,22 @@ identifies the successor results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_unary\_index\_deterministic}
 
+\begin{lemma}[Absolute partial sums exist uniquely]
+\label{lem:complex-abs-part-sum-exists-unique}
+For every chosen zero history, modulus family, and unary index \(n\), there is
+a history \(M\) satisfying \(\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)\),
+and every other closed absolute partial sum at \(n\) is \(\hsame\)-equal to
+\(M\).
+\end{lemma}
+\begin{proof}
+Unary induction on \(n\) constructs the empty-index absolute partial sum from
+the zero constructor. At a successor index, the induction hypothesis supplies a
+predecessor sum, and the canonical BEDC continuation appends the current
+modulus history. Unary-index determinacy identifies every competing closed
+absolute partial sum at the same index.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_exists\_unique}
+
 \begin{theorem}[Absolute partial-sum results are unary]
 \label{thm:complex-abs-part-sum-result-unary}
 If the chosen zero history is unary and every modulus history
@@ -318,6 +334,23 @@ modulus terms. Determinacy of the BEDC continuation relation identifies the
 successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_deterministic}
+
+\begin{lemma}[Absolute partial sums transport across modulus equivalence]
+\label{lem:complex-abs-partsum-modulus-hsame-transport}
+If two zero histories are related by $\hsame$ and two modulus functions are
+pointwise related by $\hsame$ on unary indices, then every unary-indexed
+absolute partial-sum witness over the first modulus function transports to a
+closed absolute partial-sum witness over the second modulus function with
+$\hsame$ result.
+\end{lemma}
+\begin{proof}
+Induct on the absolute partial-sum witness. The empty constructor transports
+by the zero-history comparison. In the successor constructor, unary inversion
+exposes the predecessor index, the induction hypothesis transports the
+predecessor sum, and continuation respect for $\hsame$ transports the final
+modulus continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_transport}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}
