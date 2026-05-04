@@ -405,6 +405,68 @@ $\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$. Therefore any witness of either
 excluded branch yields $\mathsf{False}$.
 \end{proof}
 
+\begin{theorem}[Concrete unary successor strict branch under left context]
+\label{thm:concrete-unary-prefix-totalorder-successor-left-context-strict}
+For carried unary histories $p,h$ in $\mathsf{Carrier}_{\mathsf{u}}$, both
+contextual endpoints
+$$
+\mathsf{append}(p,h)
+\qquad
+\text{and}
+\qquad
+\mathsf{append}(p,\Eone(h))
+$$
+are carried by $\mathsf{Carrier}_{\mathsf{u}}$, and the contextual successor
+pair satisfies
+$$
+\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h))).
+$$
+Moreover,
+$$
+\rho_{\mathsf{u}}(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h)))
+\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,\Eone(h)),\mathsf{append}(p,h))
+\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target context-stable one-step successor
+separation; BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, $\mathsf{NatUnaryStrictPrefix}$, and
+$\mathsf{PreorderPrefixLE}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; ledger left context $p$ plus tail
+$\Eone(\emp)$; core theorem this contextual successor strict-branch law;
+exactness the exclusion of same and reverse-strict branches; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unary closure of $\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$ under
+append gives the carried endpoint $\mathsf{append}(p,h)$. Unary closure of $h$
+under $\Eone$ first gives $\Eone(h)$, and append closure with the same left
+context $p$ gives the carried endpoint $\mathsf{append}(p,\Eone(h))$.
+
+Apply \autoref{lem:nat-unary-strict-prefix-one-step} to the unary witness for
+$h$, obtaining the strict successor tail $\Eone(\emp)$ from $h$ to $\Eone(h)$.
+Continuation associativity transports this same nonempty tail through the left
+context $p$, producing the displayed
+$\mathsf{NatUnaryStrictPrefix}$ witness between the contextual endpoints.
+
+Instantiate
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} at
+$\mathsf{append}(p,h)$ and $\mathsf{append}(p,\Eone(h))$. Its incompatibility
+clauses exclude coexistence of the selected strict-left contextual branch with
+the same branch
+$\rho_{\mathsf{u}}(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h)))$ and with
+the reverse strict branch
+$\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,\Eone(h)),\mathsf{append}(p,h))$. Therefore either excluded
+branch yields $\mathsf{False}$.
+\end{proof}
+
 \begin{theorem}[Concrete unary strict branch transitivity]
 \label{thm:totalorder-strict-branch-transitivity}
 For carried unary histories $h,k,l$ in $\mathsf{Carrier}_{\mathsf{u}}$,
