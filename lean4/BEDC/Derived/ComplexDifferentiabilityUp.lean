@@ -89,6 +89,19 @@ theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
                       (hsame_refl (BHist.e1 q)) sameRightLeft rightQuot).left
                   exact CplxDiffQuot_visible_step_same_result_absurd leftQuot rightAtLeft
 
+theorem CplxDiffAt_derivative_visible_context_readback {p r f z fp core : BHist} :
+    CplxDiffAt f z fp ->
+      hsame (append (append p fp) r) (append (append p core) r) ->
+        hsame fp core ∧ ComplexHistoryCarrier core := by
+  intro diff sameVisible
+  have sameNested : hsame (append p (append fp r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p fp r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame fp core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore
+    (BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameCore diff.right.right.left)
+
 theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f f' -> hsame z z' -> hsame fp gp ->
       CplxDiffAt f' z' gp ∧

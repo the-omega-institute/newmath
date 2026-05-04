@@ -327,6 +327,21 @@ $\Eone$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_visible\_step\_branches\_absurd}
 
+\begin{theorem}[Pointwise derivative visible-context readback]
+\label{thm:cplx-diff-at-derivative-visible-context-readback}
+If $\mathsf{CplxDiffAt}(f,z,f')$ holds and the displayed derivative candidate
+is equal inside a common left and right append context to the same context
+around $core$, then $f'\hsame core$. The readback core is also a complex
+history carrier.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $f'\hsame core$. The
+$\mathsf{CplxDiffAt}$ record stores the complex-history carrier for $f'$, and
+carrier transport along the recovered $\hsame$ gives the carrier for $core$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_derivative\_visible\_context\_readback}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
