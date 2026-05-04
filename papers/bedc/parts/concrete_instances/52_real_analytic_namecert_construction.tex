@@ -24,9 +24,32 @@ Pair adjacent terms after index \(N(k)\); each pair has magnitude bounded by the
 $\mathsf{Pi}$ is a $\RealUp$-history candidate only together with a supplied limit witness from the Phase Real and Completion obligations, applied to the $\RegSeqRat$ Cauchy data of \autoref{lem:real-analytic-leibniz-cauchy} for the rescaled sequence $(4 S_n)_n$. The local data of this chapter is the $\RegSeqRat$ name and its explicit modulus inherited from the alternating-series bound.
 \end{definition}
 
-\begin{remark}
-The Leibniz series is the simplest constructive presentation; faster-converging series (Machin, Chudnovsky) define the same \(\RealUp\)-history up to \(\RegSeqRat\)-classifier equivalence, with smaller explicit moduli. Only the existence of \emph{some} explicit modulus is required by the certificate.
-\end{remark}
+\begin{theorem}[Series variant equivalence boundary]
+\label{thm:real-analytic-series-variant-equivalence-boundary}
+Let $p_1$ and $p_2$ be two explicit $\pi$ stream presentations, such as the
+Leibniz rescaling and a faster Machin or Chudnovsky presentation. A conclusion
+$\mathsf{RealClassifier}(r_1,r_2)$ is available for their $\RealUp$ histories
+only under supplied rows: both $p_1$ and $p_2$ satisfy the relevant
+$\RegSeqRat$ carrier obligations, a $\RegSeqRat$ classifier witness relates the
+two stream names, both streams have supplied $\RealUp$ limit witnesses with
+targets $r_1$ and $r_2$, and the supplied $\RealUp$ limit-uniqueness row
+transports the stream classifier to the real-history classifier.
+\end{theorem}
+\begin{proof}
+Use the supplied $\RegSeqRat$ classifier witness first. The two
+carrier-obligation rows make this witness a relation between legitimate regular
+rational stream names, so it is eligible for transport by the real-completion
+interface.
+
+Apply the two supplied $\RealUp$ limit witnesses next. They place $p_1$ and
+$p_2$ in the real-history carrier as $r_1$ and $r_2$, without adding any
+independent equality claim between the analytic presentations.
+
+Finally invoke the supplied limit-uniqueness row. Its transport clause takes the
+$\RegSeqRat$ classifier witness between the source streams and the two limit
+witnesses, and returns the displayed conclusion
+$\mathsf{RealClassifier}(r_1,r_2)$.
+\end{proof}
 
 \section{Constructive exponential}
 \label{sec:real-analytic-exp}
@@ -35,6 +58,18 @@ The Leibniz series is the simplest constructive presentation; faster-converging 
 \label{def:real-analytic-exp-part}
 For \(\RealUp\)-history \(x\) and unary index \(n\), the predicate \(\mathsf{ExpPart}(x, n, S_n)\) holds when \(S_n\) is the partial sum \(\sum_{k=0}^{n} x^k / k!\) computed by unary recursion: powers \(x^k\) via iterated \(\RealUp\) multiplication, factorials \(k!\) via the unary factorial of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}), and division as \(\RealUp\)-multiplicative inverse against the positive unary denominator.
 \end{definition}
+
+\begin{lemma}[Real-analytic complex partial-sum indices are unary]
+\label{lem:real-analytic-complex-part-sum-index-unary}
+For the real-analytic series interface, every closed complex partial-sum
+witness has unary index.
+\end{lemma}
+\begin{proof}
+Induct on the closed complex partial-sum witness. The zero constructor has the
+empty index, and the successor constructor applies the unary successor closure
+to the predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_index\_unary}
 
 \begin{theorem}[Real-analytic complex partial-sum results are unary]
 \label{thm:real-analytic-complex-part-sum-result-unary}
@@ -81,6 +116,41 @@ the unary summand, and unary continuation closure supplies the successor
 result.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_index\_result\_unary}
+
+\begin{theorem}[Real-analytic pointwise complex partial-sum target unaryness]
+\label{thm:real-analytic-complex-part-sum-pointwise-result-unary-transport}
+For two complex term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$, suppose
+the chosen zero histories are $\hsame$, the source zero history is unary, each
+$c(m)$ is unary on unary indices, and $c(m)\hsame d(m)$ at every unary index.
+If $n$ is unary and closed partial-sum witnesses compute results $S$ for
+$(zero,c)$ and $T$ for $(zero',d)$ at $n$, then $T$ is unary.
+\end{theorem}
+\begin{proof}
+The source partial-sum unary theorem gives unaryness of $S$. Pointwise
+$\hsame$ determinacy for complex partial sums identifies $S$ and $T$ under
+$\hsame$, using the zero comparison, the pointwise term comparison, and the
+unary index witness. Unary history closure under $\hsame$ gives unaryness of
+$T$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_pointwise\_result\_unary\_transport}
+
+\begin{theorem}[Real-analytic pointwise absolute partial-sum target unaryness]
+\label{thm:real-analytic-complex-abs-part-sum-pointwise-result-unary-transport}
+For two modulus families $\mathsf{modulus},\mathsf{modulus}':
+\mathsf{BHist}\to\mathsf{BHist}$, suppose the chosen zero histories are
+$\hsame$, the source zero history is unary, each source modulus value is unary
+on unary indices, and the two modulus families are pointwise $\hsame$ on unary
+indices. If $n$ is unary and closed absolute partial-sum witnesses compute
+results $M$ and $T$ at $n$, then $T$ is unary.
+\end{theorem}
+\begin{proof}
+The source absolute partial-sum unary theorem gives unaryness of $M$.
+Pointwise $\hsame$ determinacy for absolute partial sums identifies $M$ and
+$T$ under $\hsame$, using the zero comparison, the pointwise modulus
+comparison, and the unary index witness. Unary history closure under $\hsame$
+gives unaryness of $T$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_pointwise\_result\_unary\_transport}
 
 \begin{lemma}[Exponential Cauchy modulus on bounded inputs]
 \label{lem:real-analytic-exp-cauchy}
