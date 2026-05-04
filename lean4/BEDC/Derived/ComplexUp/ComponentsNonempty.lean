@@ -25,6 +25,31 @@ theorem ComplexHistoryCarrier_components_nonempty {h : BHist} :
                       (And.intro realCarrier
                         (And.intro imagCarrier
                           (And.intro cont
+                        (And.intro
+                          (RatUp.RatHistoryCarrier_not_empty realCarrier)
+                          (RatUp.RatHistoryCarrier_not_empty imagCarrier))))))
+
+theorem ComplexHistoryCarrier_e1_tail_components_nonempty {tail : BHist} :
+    ComplexHistoryCarrier (BHist.e1 tail) ->
+      ∃ real imagTail : BHist,
+        RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier (BHist.e1 imagTail) ∧
+          Cont real imagTail tail ∧ (hsame real BHist.Empty -> False) ∧
+            (hsame (BHist.e1 imagTail) BHist.Empty -> False) := by
+  intro carrier
+  have components := ComplexHistoryCarrier_e1_tail_components carrier
+  cases components with
+  | intro real rest =>
+      cases rest with
+      | intro imagTail data =>
+          cases data with
+          | intro realCarrier data =>
+              cases data with
+              | intro imagCarrier tailCont =>
+                  exact Exists.intro real
+                    (Exists.intro imagTail
+                      (And.intro realCarrier
+                        (And.intro imagCarrier
+                          (And.intro tailCont
                             (And.intro
                               (RatUp.RatHistoryCarrier_not_empty realCarrier)
                               (RatUp.RatHistoryCarrier_not_empty imagCarrier))))))
