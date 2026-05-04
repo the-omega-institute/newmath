@@ -13,6 +13,7 @@ import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Cont.Assoc
 import BEDC.FKernel.Cont.AssocSpine
 import BEDC.FKernel.Cont.Step
+import BEDC.FKernel.Cont.TaggedResult
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Cont.Pattern
 import BEDC.FKernel.Cont.VisibleLeft
@@ -53,6 +54,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
@@ -257,6 +259,7 @@ import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.GroupUp.InverseEmpty
 import BEDC.Derived.SubgroupUp
+import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
