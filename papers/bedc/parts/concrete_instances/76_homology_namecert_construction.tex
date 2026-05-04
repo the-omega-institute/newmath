@@ -82,6 +82,26 @@ $\mathsf{append}(\mathsf{Empty},\mathsf{Empty})=\mathsf{Empty}$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_closed}
 
+\begin{theorem}[Homology cycle carrier append visible differential absurd]
+\label{thm:homology-cycle-carrier-append-visible-differential-absurd}
+Assume the differential respects BEDC continuation append. If $Z_d(h)$ and
+$Z_d(k)$, then the differential of the appended cycle cannot be history-same
+to a visible zero-headed or one-headed endpoint:
+$$
+\neg\hsame(d(\mathsf{append}(h,k)),\mathsf{e0}(tail))
+\qquad\text{and}\qquad
+\neg\hsame(d(\mathsf{append}(h,k)),\mathsf{e1}(tail)).
+$$
+\end{theorem}
+\begin{proof}
+The homology cycle append closure theorem gives
+$\hsame(d(\mathsf{append}(h,k)),\mathsf{Empty})$. A displayed zero-headed or
+one-headed comparison transports this empty endpoint to the visible
+constructor endpoint, contradicting BEDC constructor separation from
+$\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_visible\_differential\_absurd}
+
 \begin{theorem}[Homology cycle carrier append components]
 \label{thm:homology-cycle-carrier-append-components}
 Assume the differential respects BEDC continuation append:
@@ -188,6 +208,25 @@ that appended history with $\mathsf{append}(d(u),d(v))$, and the differential
 append law identifies this with $d(\mathsf{append}(u,v))$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage\_append}
+
+\begin{theorem}[Homology boundary carrier continuation preimage append $\hsame$ transport]
+\label{thm:homology-boundary-carrier-cont-preimage-append-hsame-transport}
+Assume the differential respects BEDC continuation append. If $B_d(h)$,
+$B_d(k)$, $\ContR(h,k,r)$, and $r\hsame r'$, then the same BEDC preimages
+$u$ and $v$ witness the transported endpoint:
+$$
+\hsame(h,d(u))\land
+\hsame(k,d(v))\land
+\hsame(r',d(\mathsf{append}(u,v))).
+$$
+\end{theorem}
+\begin{proof}
+The continuation preimage-append theorem supplies witnesses $u$ and $v$ for
+the endpoint $r$. Composing that endpoint comparison with the symmetry of
+$r\hsame r'$ transports the displayed differential image to $r'$ while keeping
+the two boundary witness comparisons unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage\_append\_hsame\_transport}
 
 \begin{theorem}[Homology boundary carrier continuation nonempty preimage append]
 \label{thm:homology-boundary-carrier-cont-nonempty-preimage-append}
