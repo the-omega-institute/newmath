@@ -136,6 +136,23 @@ step.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
 
+\begin{theorem}[Matrix singleton positive-exponent empty continuation base carrier]
+\label{thm:matrix-singleton-pow-positive-exponent-empty-continuation-base-carrier}
+If \(e\) is unary and not history-same as \(\emp\), and a continuation from
+\(\mathsf{MatrixSingletonPow}(M,e)\) has result history-same to \(\emp\), then
+the base matrix \(M\) lies in the singleton matrix carrier:
+$$
+A_{\emp}(M).
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result to the concrete empty endpoint and invert
+the empty-result continuation. This carries the power ledger itself by
+\(A_{\emp}\). The nonempty unary power carrier exactness theorem then reads
+the carriedness of the base matrix \(M\) back from the carried power ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_empty\_continuation\_base\_carrier}
+
 \begin{theorem}[Matrix singleton power append positive suffix continuation readback]
 \label{thm:matrix-singleton-pow-append-positive-suffix-cont-readback}
 If $suffix$ is unary and not history-same as $\emp$, then the power ledger
@@ -254,6 +271,18 @@ endpoint into a singleton carrier witness for the visible base, contradicting
 constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_visible\_base\_continuation\_empty\_result\_absurd}
+
+\begin{theorem}[Matrix singleton power nonempty-base empty-result exclusion]
+\label{thm:matrix-singleton-pow-nonempty-base-continuation-result-absurd}
+For unary nonempty exponent $e$, if the base matrix $M$ is not singleton-carried, then
+$$
+\ContR(\mathsf{MatrixSingletonPow}(M,e),y,r)\land r\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result to $\emp$ and invert the empty continuation. The source carrier for $\mathsf{MatrixSingletonPow}(M,e)$ transfers through positive-unary power exactness to a singleton carrier witness for $M$, contradicting the base non-carrier hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_nonempty\_base\_continuation\_result\_absurd}
 
 \begin{theorem}[Matrix singleton power append exponent classifier]
 \label{thm:matrix-singleton-pow-append-exponent-classifier}

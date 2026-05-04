@@ -3909,3 +3909,77 @@ def:three-axioms-replacement-propext names hsame/psame transport as the BEDC rep
 
 ---
 
+### B-153 - Term-stratum meta-closure drops per-index witness structure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Term-stratum meta-closure drops per-index witness structure |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the meta-closure schema of \autoref{def:three-axioms-meta-closure-operation} read at the term stratum, the input data carries a per-index witness family i \mapsto w_i as constructor data, but the output term f : I \to \bigsqcup A_i exposes only f i \in A_i as a property and does not expose the per-index recipe binding i \mapsto w_i.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Belongs in capstones/three_axioms_one_closure.tex. The chapter currently states the meta-closure schema (def:three-axioms-meta-closure-operation) and gives Choice as a term-stratum example (ex:three-axioms-choice) but does not pin down what specifically is lost. This proposition is a single concrete implication-form claim about constructor data dropped at the term stratum, expressible as a `\begin{theorem|lemma}` site with a clear Lean-side obligation about destructured non-exposure of the witness family. No BOARD entry covers meta-closure / three-axioms territory; no paper label of the form thm:/lem:/cor:three-axioms-* appears in coverage. Stepping-stone scope.
+
+---
+
+
+### B-154 - Type-stratum meta-closure drops the equivalence derivation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Type-stratum meta-closure drops the equivalence derivation |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under the meta-closure schema read at the type stratum, the input data carries a kernel-level derivation tree witnessing a \sim_R b under reflexivity / symmetry / transitivity, but the output identification [a] = [b] in A/R exposes only equality at the type level and does not expose the witnessing R-derivation.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Companion to the term-stratum proposition, sited in the same capstones chapter. ex:three-axioms-quot-sound states the schematic move at the type stratum but no lemma pins the dropped derivation tree. The companion def:three-axioms-replacement-quot (NameCert + psame transport) only makes sense as a contrast once the loss is named. Concrete single-implication form, no BOARD overlap, no matching paper label, in scope for capstones. Distinct from candidate 1 because Quot.sound's input data is a derivation tree rather than a per-index witness family — the dropped structure has different shape and so warrants its own loop.
+
+---
+
+
+### B-155 - Proposition-stratum meta-closure drops the implication direction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Proposition-stratum meta-closure drops the implication direction |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the meta-closure schema read at the proposition stratum, the input data is a pair of distinct implications (\pi_1 : P \to Q, \pi_2 : Q \to P) with their internal proof structures, but the output identification P = Q exposes neither which direction was used at any subsequent application site nor the internal structure of \pi_1 or \pi_2.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Third stratum-specific loss proposition, sited in capstones/three_axioms_one_closure.tex. ex:three-axioms-propext schematizes propext as proposition-stratum meta-closure but no lemma names what propext drops. The replacement def:three-axioms-replacement-propext parameterizes kernel constructions over the implication pair — that move is only motivated once the directional + structural loss is on record. Concrete single-implication claim, distinct from candidates 1 and 2 because the dropped structure is a directed pair of implications rather than a witness family or derivation tree. No BOARD overlap, no matching paper label.
+
+---
+

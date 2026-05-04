@@ -478,14 +478,14 @@ theorem LinearMapSingletonEval_context_continuation_visible_context_absurd
       LinearMapSingletonClassifier r h -> False) ∧
       (Cont (append (BHist.e1 p) (LinearMapSingletonEval f x)) y r ->
         LinearMapSingletonClassifier r h -> False) := by
-  exact And.intro
-    (fun continuation classified =>
-      not_hsame_e0_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
-        continuation).mp classified).left)
-    (fun continuation classified =>
-      not_hsame_e1_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
-        continuation).mp classified).left)
-
+  exact ⟨fun continuation classified => not_hsame_e0_empty ((LinearMapSingletonEval_context_continuation_classifier_iff continuation).mp classified).left,
+    fun continuation classified => not_hsame_e1_empty ((LinearMapSingletonEval_context_continuation_classifier_iff continuation).mp classified).left⟩
+theorem LinearMapSingletonEval_context_nonempty_endpoint_continuation_result_absurd {p f x y r : BHist} :
+    ((LinearMapSingletonCarrier p -> False) ∨ (LinearMapSingletonCarrier y -> False)) -> Cont (append p (LinearMapSingletonEval f x)) y r -> hsame r BHist.Empty -> False := by
+  intro nonemptyEndpoint continuation resultEmpty
+  have endpoints := cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)
+  have contextParts := append_eq_empty_iff.mp endpoints.left
+  cases nonemptyEndpoint with | inl nonemptyP => exact nonemptyP contextParts.left | inr nonemptyY => exact nonemptyY endpoints.right
 theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
     {f x y r p : BHist} :
     Cont (LinearMapSingletonEval f x) y r ->

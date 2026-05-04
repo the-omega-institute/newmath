@@ -90,6 +90,27 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness prefixed result determinacy]
+\label{thm:compact-net-witness-prefixed-result-deterministic}
+If two compact-net witnesses share the same prefixed center and precision,
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n)
+\quad\text{and}\quad
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n'),
+$$
+then the unprefixed net results are history-same:
+$$
+\hsame(n,n').
+$$
+\end{theorem}
+\begin{proof}
+The two compact-net witnesses contain continuation ledgers with the same source
+$p\cdot c$ and precision $\epsilon$. Continuation determinacy identifies the
+two prefixed results $p\cdot n$ and $p\cdot n'$, and left cancellation removes
+the common prefix $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_result\_deterministic}
+
 \begin{theorem}[Compact net witness empty net exactness]
 \label{thm:compact-net-witness-empty-net-iff}
 For histories $c$ and $\epsilon$, a compact-net witness with empty net is
@@ -190,6 +211,27 @@ recovered tail, and the recovered tail witness is the required compact-net
 witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_e1\_precision\_tail}
+
+\begin{theorem}[Compact net witness right e1 result iff]
+\label{thm:compact-net-witness-right-e1-result-iff}
+For histories $center,precision,net$, visible precision and visible result
+are equivalent to the tail compact-net witness:
+$$
+\mathsf{CompactNetWitness}(center,\Eone(precision),\Eone(net))
+\Longleftrightarrow
+\mathsf{CompactNetWitness}(center,precision,net).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the compact-net witness. Unary inversion
+removes the visible constructor from the precision and net carriers, and
+right-step inversion removes it from the continuation ledger.
+
+For the reverse direction, unary closure rebuilds the visible precision and
+net carriers, while the one-step continuation rule lifts the tail ledger to
+the visible result.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_right\_e1\_result\_iff}
 
 \begin{theorem}[Compact net witness suffix exactness]
 \label{thm:compact-net-witness-suffix-iff}
