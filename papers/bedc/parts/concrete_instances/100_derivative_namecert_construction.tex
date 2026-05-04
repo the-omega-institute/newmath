@@ -115,6 +115,37 @@ quotient non-emptiness component of derivative metric quotients.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_visible\_context\_readback}
 
+\begin{theorem}[Derivative metric quotient step visible-context readback]
+\label{thm:derivative-metric-quotient-step-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the step
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $h\hsame core$. The readback core
+is unary and is not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the step and the core. This gives $h\hsame core$. The unary carrier for the
+step transports across this equality to the core. A hypothetical empty core
+transports back to an empty step, contradicting the complex-nonzero field of
+the derivative metric quotient.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_step\_visible\_context\_readback}
+
+\begin{theorem}[Derivative metric quotient function visible-context readback]
+\label{thm:derivative-metric-quotient-function-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the function
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $f\hsame core$ and the readback
+core is unary.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the function and the core. This gives $f\hsame core$. The function unary carrier
+from the derivative metric quotient then transports across the recovered
+classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_function\_visible\_context\_readback}
+
 \begin{theorem}[Derivative metric quotient distance is non-empty]
 \label{thm:derivative-metric-quotient-quotient-distance-nonempty}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then neither
