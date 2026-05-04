@@ -221,6 +221,21 @@ theorem LatticeSingletonMeetJoin_absorption_order_classifier {h k : BHist} :
     ⟨leMeetJoinToH, leHToJoinMeet, classifierMeetJoinH, classifierJoinMeetH,
       emptyCarrier, emptyCarrier⟩
 
+theorem LatticeSingletonMeetJoin_continuation_absorption_empty_classifier {h k left right : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
+      Cont (LatticeSingletonMeet h (LatticeSingletonJoin h k)) h left ->
+        Cont h (LatticeSingletonJoin h (LatticeSingletonMeet h k)) right ->
+          hsame left BHist.Empty ∧ hsame right BHist.Empty ∧
+            LatticeSingletonClassifier left right := by
+  intro carrierH _carrierK leftRel rightRel
+  have leftEmpty : hsame left BHist.Empty :=
+    hsame_trans leftRel (hsame_trans (append_empty_left h) carrierH)
+  have rightEmpty : hsame right BHist.Empty :=
+    hsame_trans rightRel (hsame_trans (append_empty_right h) carrierH)
+  exact
+    ⟨leftEmpty, rightEmpty,
+      ⟨leftEmpty, rightEmpty, hsame_trans leftEmpty (hsame_symm rightEmpty)⟩⟩
+
 theorem LatticeSingletonMeet_empty_output_greatest_lower_bound_iff {h k z : BHist} :
     LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
       hsame (LatticeSingletonMeet h k) BHist.Empty ∧
@@ -380,6 +395,21 @@ theorem LatticeSingletonLE_continuation_result_right_carriers_iff {h k r : BHist
       cases carriers.right
       rfl
     exact LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro resultEmpty carriers.right)
+
+theorem LatticeSingletonLE_continuation_result_left_right_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonLE R P <-> LatticeSingletonLE R Q) := by
+  intro continuation
+  constructor
+  · intro leftOrder
+    have carriers :
+        LatticeSingletonCarrier P ∧ LatticeSingletonCarrier Q :=
+      (LatticeSingletonLE_continuation_result_left_carriers_iff continuation).mp leftOrder
+    exact (LatticeSingletonLE_continuation_result_right_carriers_iff continuation).mpr carriers
+  · intro rightOrder
+    have carriers :
+        LatticeSingletonCarrier P ∧ LatticeSingletonCarrier Q :=
+      (LatticeSingletonLE_continuation_result_right_carriers_iff continuation).mp rightOrder
+    exact (LatticeSingletonLE_continuation_result_left_carriers_iff continuation).mpr carriers
 
 theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
     Cont P Q R -> (LatticeSingletonClassifier P Q <-> LatticeSingletonClassifier R P) := by

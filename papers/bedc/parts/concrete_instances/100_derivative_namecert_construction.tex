@@ -52,6 +52,31 @@ Reassembling these transported fields gives all stated components.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
 
+\begin{theorem}[Derivative metric quotient function prefix closure]
+\label{thm:derivative-metric-quotient-function-prefix-closed}
+For histories $p,f,z,h,q,dist:\mathsf{BHist}$, if $p$ is unary and
+$\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then the function
+and quotient histories may be prefixed together while the step and point
+remain fixed:
+$$
+\mathsf{DerivativeMetricQuotient}
+(\mathsf{append}(p,f),z,h,\mathsf{append}(p,q),
+\mathsf{append}(h,\mathsf{append}(p,q))).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the derivative metric quotient into unary carriers, the complex-nonzero
+step proof, and the two continuation ledgers. Unary closure under append gives
+the prefixed function and prefixed quotient carriers. The function ledger
+$\Cont(f,h,q)$ is transported through the shared prefix by reassociating
+$\mathsf{append}(p,\mathsf{append}(f,h))$ with
+$\mathsf{append}(\mathsf{append}(p,f),h)$. The metric distance component is
+then rebuilt canonically from the original unary step, the prefixed quotient,
+and the defining continuation
+$\Cont(h,\mathsf{append}(p,q),\mathsf{append}(h,\mathsf{append}(p,q)))$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_function\_prefix\_closed}
+
 \begin{theorem}[Derivative metric quotient distance continuation depth]
 \label{thm:derivative-metric-quotient-distance-cont-depth-add}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then its metric
