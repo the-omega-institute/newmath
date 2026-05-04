@@ -233,6 +233,57 @@ incompatibility, so the three branches form the concrete constructive
 partition.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix total-order least upper selector]
+\label{thm:totalorder-prefix-least-upper-selector}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, there
+exists a carried history $u$ in $\mathsf{Carrier}_{\mathsf{u}}$ such that
+$$
+h\le_{\mathsf{u}}u,
+\qquad
+k\le_{\mathsf{u}}u,
+$$
+and, for every carried history $r$ in $\mathsf{Carrier}_{\mathsf{u}}$,
+$$
+\bigl(h\le_{\mathsf{u}}r\land k\le_{\mathsf{u}}r\bigr)
+\Rightarrow u\le_{\mathsf{u}}r.
+$$
+
+The per-object fields are: traditional target finite unary-word
+maximum/least-upper selector; BEDC source $\mathsf{UnaryHistory}$ over
+$\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; ledger the selected
+comparison branch; core theorem this block; exactness least-upper property;
+standard bridge finite unary prefix maximum; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to the
+carried pair $h,k$. The proof splits according to the selected branch.
+
+In the strict-left branch $\mathsf{NatUnaryStrictPrefix}(h,k)$, choose $u=k$.
+Forgetting the nonempty tail gives $h\le_{\mathsf{u}}k$, while reflexivity from
+\autoref{thm:concrete-unary-prefix-preorder-laws} gives
+$k\le_{\mathsf{u}}k$. If $r$ is any common upper bound of $h$ and $k$, the
+second premise already supplies $k\le_{\mathsf{u}}r$, which is the required
+leastness clause for the selected $u$.
+
+In the same branch $\rho_{\mathsf{u}}(h,k)$, choose $u=k$. The exactness row in
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$; the displayed upper-bound clauses
+again use $h\le_{\mathsf{u}}k$ and reflexivity of $k$. For every common upper
+bound $r$, the premise $k\le_{\mathsf{u}}r$ is exactly the required comparison
+from $u$ to $r$.
+
+In the strict-right branch $\mathsf{NatUnaryStrictPrefix}(k,h)$, choose $u=h$.
+The branch supplies $k\le_{\mathsf{u}}h$ after forgetting strictness, and
+reflexivity gives $h\le_{\mathsf{u}}h$. For a common upper bound $r$, the first
+premise supplies $h\le_{\mathsf{u}}r$, so the selected $u$ is below every common
+upper bound.
+
+These three cases construct the carried selector and verify both upper-bound
+rows and the least-upper property.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix total-order branch transport]
 \label{thm:concrete-unary-prefix-totalorder-branch-transport}
 For carried unary histories $h,h',k,k'$ in
