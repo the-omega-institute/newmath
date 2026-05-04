@@ -160,7 +160,49 @@ theorem NatTransPrefixComponentClassifier_hsame_transport
       (And.intro (unary_transport classified.left sameP)
         (And.intro (unary_transport classified.right.left sameQ)
           (And.intro (unary_transport classified.right.right.left sameA)
-            (And.intro etaCarrier (And.intro thetaCarrier etaThetaSame)))))
+          (And.intro etaCarrier (And.intro thetaCarrier etaThetaSame)))))
       (And.intro etaCarrier thetaCarrier)
+
+theorem NatTransPrefixComponentClassifier_zero_headed_component_absurd
+    {p q a eta theta : BHist} :
+    NatTransPrefixComponentClassifier p q a eta theta ->
+      ((∃ w : BHist, p = BHist.e0 w) ∨ (∃ w : BHist, q = BHist.e0 w) ∨
+        (∃ w : BHist, a = BHist.e0 w) ∨ (∃ w : BHist, eta = BHist.e0 w) ∨
+          (∃ w : BHist, theta = BHist.e0 w)) -> False := by
+  intro classified zeroComponent
+  cases zeroComponent with
+  | inl prefixZero =>
+      cases prefixZero with
+      | intro w prefixEq =>
+          cases prefixEq
+          exact unary_no_zero_extension classified.left
+  | inr rest =>
+      cases rest with
+      | inl targetPrefixZero =>
+          cases targetPrefixZero with
+          | intro w targetPrefixEq =>
+              cases targetPrefixEq
+              exact unary_no_zero_extension classified.right.left
+      | inr rest =>
+          cases rest with
+          | inl objectZero =>
+              cases objectZero with
+              | intro w objectEq =>
+                  cases objectEq
+                  exact unary_no_zero_extension classified.right.right.left
+          | inr rest =>
+              cases rest with
+              | inl etaZero =>
+                  cases etaZero with
+                  | intro w etaEq =>
+                      cases etaEq
+                      exact unary_no_zero_extension
+                        classified.right.right.right.left.right.right.left
+              | inr thetaZero =>
+                  cases thetaZero with
+                  | intro w thetaEq =>
+                      cases thetaEq
+                      exact unary_no_zero_extension
+                        classified.right.right.right.right.left.right.right.left
 
 end BEDC.Derived.NatTransUp
