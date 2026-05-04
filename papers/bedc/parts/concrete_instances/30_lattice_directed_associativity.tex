@@ -178,3 +178,172 @@ $$
 x\vee(y\wedge z)\sim_C (x\vee y)\wedge z.
 $$
 \end{proof}
+
+\begin{lemma}[Join-meet lower comparison from directional bounds]
+\label{lem:lattice-join-meet-lower-comparison-from-directional-bounds}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$. Assume the inherited $\PreorderUp$ transitivity field from \autoref{def:preorder-stability-certificate} and the directional meet lower-bound, meet greatestness, join upper-bound, and join leastness fields from \autoref{def:lattice-stability-certificate}. Then for all $a,b,c\in A$,
+$$
+a\vee(b\wedge c)\le_C (a\vee b)\wedge(a\vee c).
+$$
+\end{lemma}
+\begin{proof}
+Put
+$$
+n=a\vee(b\wedge c),
+\qquad
+m=(a\vee b)\wedge(a\vee c).
+$$
+The join upper-left field gives
+$$
+a\le_C a\vee b.
+$$
+The meet lower-left field gives
+$$
+b\wedge c\le_C b,
+$$
+and the join upper-right field gives
+$$
+b\le_C a\vee b.
+$$
+By transitivity,
+$$
+b\wedge c\le_C a\vee b.
+$$
+Join leastness with upper target $a\vee b$ gives
+$$
+n\le_C a\vee b.
+$$
+Similarly, the join upper-left field gives
+$$
+a\le_C a\vee c.
+$$
+The meet lower-right field gives
+$$
+b\wedge c\le_C c,
+$$
+and the join upper-right field gives
+$$
+c\le_C a\vee c.
+$$
+By transitivity,
+$$
+b\wedge c\le_C a\vee c.
+$$
+Join leastness with upper target $a\vee c$ gives
+$$
+n\le_C a\vee c.
+$$
+Meet greatestness applied to the two bounds $n\le_C a\vee b$ and $n\le_C a\vee c$ gives
+$$
+n\le_C m.
+$$
+Substituting the displayed definitions of $m$ and $n$ gives the claimed comparison.
+\end{proof}
+
+\begin{theorem}[Meet distributivity gives join distributivity]
+\label{thm:lattice-meet-distributivity-gives-join-distributivity}
+Let $A$ be a $\LatticeUp$ carrier with order $\le_C$ and classifier $\sim_C$. Assume the classifier symmetry and transitivity fields from \autoref{def:lean-carrier-naming-certificate}, the inherited $\PreorderUp$ reflexivity and transitivity fields from \autoref{def:preorder-stability-certificate}, the inherited $\POSetUp$ antisymmetry field from \autoref{def:poset-stability-certificate}, and the directional meet and join bound-characterization fields from \autoref{def:lattice-stability-certificate}. Assume also the meet and join classifier-congruence rows from \autoref{def:lattice-classifier-specification}, and suppose the distributive law
+$$
+u\wedge(v\vee w)\sim_C (u\wedge v)\vee(u\wedge w)
+$$
+holds for all $u,v,w\in A$. Then for all $a,b,c\in A$,
+$$
+a\vee(b\wedge c)\le_C (a\vee b)\wedge(a\vee c)
+\qquad\text{and}\qquad
+a\vee(b\wedge c)\sim_C (a\vee b)\wedge(a\vee c).
+$$
+\end{theorem}
+\begin{proof}
+The first conclusion is \autoref{lem:lattice-join-meet-lower-comparison-from-directional-bounds}.
+
+Put
+$$
+d=(a\vee b)\wedge(a\vee c),
+\qquad
+n=a\vee(b\wedge c).
+$$
+The assumed distributive law with $u=a\vee b$, $v=a$, and $w=c$ gives
+$$
+d\sim_C ((a\vee b)\wedge a)\vee((a\vee b)\wedge c).
+$$
+By \autoref{thm:lattice-opposite-absorption-from-directional-bounds}, applied with $x=a$ and $y=b$,
+$$
+(a\vee b)\wedge a\sim_C a.
+$$
+By \autoref{thm:lattice-commutativity-from-directional-bounds}, applied to the meet operands $a\vee b$ and $c$,
+$$
+(a\vee b)\wedge c\sim_C c\wedge(a\vee b).
+$$
+The assumed distributive law with $u=c$, $v=a$, and $w=b$ gives
+$$
+c\wedge(a\vee b)\sim_C (c\wedge a)\vee(c\wedge b).
+$$
+Classifier transitivity composes the last two comparisons into
+$$
+(a\vee b)\wedge c\sim_C (c\wedge a)\vee(c\wedge b).
+$$
+Join classifier congruence gives
+$$
+((a\vee b)\wedge a)\vee((a\vee b)\wedge c)
+\sim_C
+ a\vee((c\wedge a)\vee(c\wedge b)).
+$$
+Put
+$$
+p=a\vee((c\wedge a)\vee(c\wedge b)),
+\qquad
+q=a\vee(c\wedge b).
+$$
+To compare $p$ and $q$, first note that the join upper-left field gives $a\le_C q$. The meet lower-right field gives $c\wedge a\le_C a$, so transitivity gives $c\wedge a\le_C q$. The join upper-right field gives $c\wedge b\le_C q$. Join leastness gives
+$$
+(c\wedge a)\vee(c\wedge b)\le_C q,
+$$
+and another application of join leastness gives
+$$
+p\le_C q.
+$$
+Conversely, the join upper-left field gives $a\le_C p$. The join upper-right field gives
+$$
+(c\wedge a)\vee(c\wedge b)\le_C p,
+$$
+and the join upper-right field applied to the inner join gives
+$$
+c\wedge b\le_C (c\wedge a)\vee(c\wedge b).
+$$
+By transitivity, $c\wedge b\le_C p$. Join leastness gives
+$$
+q\le_C p.
+$$
+The antisymmetry field from \autoref{def:poset-stability-certificate} applied to $p\le_C q$ and $q\le_C p$ yields
+$$
+p\sim_C q.
+$$
+By \autoref{lem:lattice-join-absorption-from-bounds}, applied with $x=a$ and $y=a$,
+$$
+a\vee(a\wedge a)\sim_C a.
+$$
+Classifier symmetry and transitivity applied to this comparison give
+$$
+a\sim_C a.
+$$
+By \autoref{thm:lattice-commutativity-from-directional-bounds}, applied to the meet operands $c$ and $b$,
+$$
+c\wedge b\sim_C b\wedge c.
+$$
+Join classifier congruence gives
+$$
+q\sim_C n.
+$$
+Classifier transitivity composes the displayed classifier comparisons into
+$$
+d\sim_C n.
+$$
+Classifier symmetry reverses this comparison, giving
+$$
+n\sim_C d.
+$$
+Substituting the displayed definitions of $d$ and $n$ gives
+$$
+a\vee(b\wedge c)\sim_C (a\vee b)\wedge(a\vee c).
+$$
+\end{proof}

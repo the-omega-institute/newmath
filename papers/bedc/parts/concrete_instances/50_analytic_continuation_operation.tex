@@ -102,3 +102,61 @@ The concrete certificate of \autoref{thm:analytic-continuation-operation} satisf
 \begin{proof}[Sketch]
 Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\HolomorphicUp\) classifier.
 \end{proof}
+
+\begin{lemma}[Domain compatibility is symmetric]
+\label{lem:dom-compat-symmetric}
+If $\mathsf{DomCompat}(D_1,D_2,U)$ holds, then $\mathsf{DomCompat}(D_2,D_1,U)$ holds for the same overlap region $U$.
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:dom-compat}. The displayed witness consists of an open disk $\mathsf{OpenDisk}(z_c,r_c)$ contained in $D_1\cap D_2$ and a quantitative sequence in $U$ clustering at $z_c$ with the stated unary bound. The same center, radius, open-disk witness, overlap region, sequence, and density estimates witness compatibility in the reversed order. Only the containment record changes: membership in $D_1\cap D_2$ is transported to membership in $D_2\cap D_1$ by commutativity of intersection.
+\end{proof}
+
+\begin{theorem}[Analytic continuation symmetry]
+\label{thm:ana-cont-symmetric}
+For any overlap region $U$,
+$$
+\mathsf{DomCompat}(D_1,D_2,U)\land\mathsf{AnaCont}(f,D_1,g,D_2,h)
+\Longrightarrow
+\mathsf{DomCompat}(D_2,D_1,U)\land\mathsf{AnaCont}(g,D_2,f,D_1,h).
+$$
+\end{theorem}
+\begin{proof}
+The first conclusion is \autoref{lem:dom-compat-symmetric}. For the continuation conclusion, unfold \autoref{def:ana-cont}. The holomorphic carrier for $h$ is unchanged because $D_1\cup D_2$ and $D_2\cup D_1$ are the same domain by commutativity of union. The restriction of $h$ to $D_2$ is the second restriction clause of the given continuation witness, and becomes the first restriction clause after the swap. The restriction of $h$ to $D_1$ is the first restriction clause of the given witness, and becomes the second restriction clause after the swap. On the common overlap $U$, the given pointwise agreement of $f$ with $g$ transports to pointwise agreement of $g$ with $f$ by symmetry of the classifier $\hsame$. These are exactly the three clauses required for $\mathsf{AnaCont}(g,D_2,f,D_1,h)$ under the reversed compatibility witness.
+\end{proof}
+
+\begin{theorem}[Analytic continuation triple-chain associativity]
+\label{thm:ana-cont-triple-chain-associativity}
+Let $D_1,D_2,D_3$ be open domains of $\ComplexUp$. Suppose
+$$
+\mathsf{AnaCont}(f_1,D_1,f_2,D_2,h_{12})\land
+\mathsf{AnaCont}(f_2,D_2,f_3,D_3,h_{23})\land
+\mathsf{AnaCont}(h_{12},D_1\cup D_2,f_3,D_3,h_{(12)3}).
+$$
+Then there is a holomorphic carrier $h_{1(23)}$ such that
+$$
+\mathsf{AnaCont}(f_1,D_1,h_{23},D_2\cup D_3,h_{1(23)})
+$$
+and
+$$
+\hsame(h_{(12)3},h_{1(23)})
+$$
+pointwise on $D_1\cup D_2\cup D_3$.
+\end{theorem}
+\begin{proof}
+Unpack the three continuation witnesses using \autoref{def:ana-cont}. The first witness says that $h_{12}$ restricts to $f_1$ on $D_1$ and to $f_2$ on $D_2$. The second says that $h_{23}$ restricts to $f_2$ on $D_2$ and to $f_3$ on $D_3$. The third says that $h_{(12)3}$ restricts to $h_{12}$ on $D_1\cup D_2$ and to $f_3$ on $D_3$.
+
+The domain-compatibility witness for $D_1$ with $D_2\cup D_3$ is obtained from the first overlap witness. Its open disk, center, radius, and cluster sequence are unchanged; the containment clause is transported from $U_{12}\subseteq D_1\cap D_2$ to $U_{12}\subseteq D_1\cap(D_2\cup D_3)$ by the canonical inclusion $D_2\subseteq D_2\cup D_3$. This is exactly the data required by \autoref{def:dom-compat}, equivalently by the topological form in \autoref{def:cplx-topo-domain-compat}.
+
+Apply \autoref{thm:chain-continuation} to the first two links, with the union parenthesized as $D_1\cup(D_2\cup D_3)$. This gives a holomorphic carrier $h_{1(23)}$ whose restrictions are $f_1$ on $D_1$ and $h_{23}$ on $D_2\cup D_3$, hence
+$$
+\mathsf{AnaCont}(f_1,D_1,h_{23},D_2\cup D_3,h_{1(23)}).
+$$
+
+It remains to identify this carrier with the left-grouped carrier. The same restriction clauses show that $h_{(12)3}$ is also a continuation of $f_1$ against $h_{23}$ over $D_1$ and $D_2\cup D_3$. On $D_1$, $h_{(12)3}$ restricts to $h_{12}$ and $h_{12}$ restricts to $f_1$. On $D_2$, both $h_{(12)3}$ and $h_{23}$ restrict to $f_2$: the former through $h_{12}$, the latter by the second continuation witness. On $D_3$, both restrict to $f_3$. Transitivity and symmetry of the classifier $\hsame$ combine these pointwise restriction witnesses. The overlap agreement is the inherited $D_1$-$D_2$ agreement, transported along $D_2\subseteq D_2\cup D_3$.
+
+Thus $h_{(12)3}$ and $h_{1(23)}$ are two witnesses for the same predicate
+$$
+\mathsf{AnaCont}(f_1,D_1,h_{23},D_2\cup D_3,-).
+$$
+By uniqueness of analytic continuation, \autoref{thm:ana-cont-unique}, they are classified by $\hsame$ pointwise on $D_1\cup(D_2\cup D_3)$. Transporting along associativity of union identifies this domain with $D_1\cup D_2\cup D_3$.
+\end{proof}

@@ -39,3 +39,62 @@ continuation $\ContR(m,r,o)$ is therefore the desired direct continuation
 $\ContR(l,r,o)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice}
+
+\begin{theorem}[Metric visible-context empty-distance witness splice]
+\label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
+For histories $p,q,x,y,l,r,m,o$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and unary endpoint evidence for $l$ and $r$ hold. If
+$\ContR(l,x,m)$ and $\ContR(m,r,o)$ hold, then the spliced continuation is a
+metric distance witness:
+$$
+\mathsf{MetricDistanceWitness}(l,r,o).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance continuation splice supplies
+$\ContR(l,r,o)$. Together with the unary endpoint hypotheses, unary
+continuation closure gives the unary carrier for $o$. These three fields are
+exactly the concrete metric distance witness from $l$ to $r$ with output $o$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_witness\_splice}
+
+\begin{theorem}[Metric visible-context empty-distance continuation witness depth package]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-witness-depth}
+For histories $p,q,x,y,l,r,m,o:\mathsf{BHist}$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+holds together with $\mathsf{UnaryHistory}(l)$, $\mathsf{UnaryHistory}(r)$,
+$\ContR(l,x,m)$, and $\ContR(m,r,o)$. Then the direct continuation carries a
+metric witness whose depth is induced by the two visible endpoints:
+$$
+\mathsf{MetricDistanceWitness}(l,r,o)\wedge
+\mathsf{MetricDistanceDepth}(o)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-context empty-distance continuation splice to the distance
+witness and the two continuation ledgers. This gives the direct continuation
+$\ContR(l,r,o)$.
+
+The unary carriers for $l$ and $r$ then close the continuation under the metric
+distance witness constructor, so the direct continuation packages as
+$\mathsf{MetricDistanceWitness}(l,r,o)$.
+
+Finally, metric witness depth additivity applied to this witness gives
+$\mathsf{MetricDistanceDepth}(o)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r)$. Pairing the
+witness with that displayed equation is the required conjunction.
+\end{proof}
+
+The ten-field fit is: traditional target visible-context zero-distance splice;
+BEDC source $\mathsf{MetricDistanceWitness}$ plus $\ContR$; carrier
+$\mathsf{MetricDistanceWitness}$; classifier $\hsame$; stability obligations
+the two unary carriers and the two continuation ledgers; ledger the hidden
+empty central distance; core theorem this package; exactness the displayed
+witness-plus-depth conjunction; standard bridge deferred; and status
+$\mathsf{ProofTarget}$.
