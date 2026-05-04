@@ -4247,3 +4247,110 @@ Chapter 65 has 9 labeled theorems plus 2 definitions (verified by grep: 9 `\begi
 
 ---
 
+### B-166 - Double opposite functor certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite functor certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If F is a FunctorUp certificate over CategoryUp source and target, then the certificate data obtained by applying the opposite-functor construction twice is componentwise identical to the original F (object map, morphism map, classifier rows, preservation witnesses).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+The paper already proves the category-level analogue at thm:double-opposite-category-certificate-data-identity (36_category_namecert_construction.tex:352) and defines the opposite-functor certificate at def:opposite-functor-certificate-data plus thm:opposite-functor-certificate (functor/certificate_obligations.tex:271,290). The functor-level double-opposite identity is the immediate sibling of the certified category-level theorem; it has nothing to invent and goes by two unfoldings of the same definitional swap, like the category proof. It belongs in concrete_instances/functor and lifts the chapter from definition-only into the involution row of the established hierarchy. No existing BOARD entry covers double-opposite for functor (B-11 is composition closure, not involution).
+
+---
+
+
+### B-167 - Double opposite natural transformation certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite natural transformation certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If alpha:F=>G is a NatTransUp certificate, then the certificate data obtained by applying the opposite-natural-transformation construction twice yields component family and naturality rows componentwise identical to alpha.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The opposite natural transformation is already certified at def:opposite-nattrans-certificate-data and thm:opposite-natural-transformation-certificate (nattrans/vertical_and_opposite_extras.tex:23,37). The double-opposite identity completes a three-tier series begun at the category level (thm:double-opposite-category-certificate-data-identity); together with the functor candidate above it closes the involution row across CategoryUp / FunctorUp / NatTransUp. Distinct from B-14 (which is naturality preservation under vertical composition, not involution). The proof structure is two unfoldings of the same data swap, rather than a new constructive definition, which makes the loop low-risk and clearly in scope of concrete_instances/nattrans.
+
+---
+
+### B-168 - Polynomial evaluation respects the polynomial classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation respects the polynomial classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CommRingUp(R) setup with a polynomial-evaluation operation Eval_alpha at a point alpha:R, PolySame_R(p,q) implies Eval_alpha,R(p) ~_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+All existing polynomial BOARD entries (B-09, B-21, B-22, B-30, B-31) and the chapter 25 paper coverage operate purely on the coefficient-list side: trim, normalize, raw add/multiply, zero-tail invariance. None of them carry the polynomial classifier through to a value in R. This is the natural representative-stability theorem for any evaluation map: classifier-equal coefficient lists must produce ring-classifier-equal values under any well-defined Eval. It is the one-line implication form, sits cleanly in concrete_instances/25, and unblocks any later theorem that wants to reason about polynomial roots, identities, or specializations through the certificate. It is also a prerequisite for candidate 2 (multiplicativity of Eval), giving it independent value as a foundation rather than redundancy.
+
+---
+
+
+### B-169 - Polynomial evaluation is multiplicative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation is multiplicative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CommRingUp(R) setup with polynomial multiplication PolyMul_R and evaluation Eval_alpha at a point alpha:R, Eval_alpha,R(PolyMul_R(p,q)) ~_R Eval_alpha,R(p) *_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+The multiplicativity-of-evaluation law is the canonical compatibility theorem between Cauchy convolution on coefficient lists and ring multiplication on values. None of the existing BOARD polynomial entries cover this — B-09 stays at normalize/add/multiply commutation on the list side, and B-22/B-30/B-31 deal with zero-tail/trim. Paper coverage shows no eval-multiplicative label. It is a single classifier-level implication, sits in concrete_instances/25, and is the kind of structural law downstream targets (factor theorem, root counting, resultants) would expect. Novelty is slightly lower than candidate 1 because the two are in the same evaluation cluster, but the proof obligations are genuinely distinct — multiplicativity needs finite-sum manipulation through ring distributivity, which the classifier-respect theorem does not.
+
+---
+
