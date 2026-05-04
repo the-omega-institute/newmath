@@ -122,6 +122,43 @@ witness with the two singleton carrier witnesses for $h$ and $k$ to obtain
 $\rho_{\emp}(h,k)$.
 \end{proof}
 
+\begin{theorem}[Singleton empty preorder terminal comparison package]
+\label{thm:preorder-singleton-empty-terminal-comparison-package}
+For histories $h,k:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton empty preorder instance, the restricted comparison package is pinned
+to the terminal endpoint:
+$$
+A_{\emp}(h)\land A_{\emp}(k)
+\Longrightarrow
+h\le_{\emp}k\land k\le_{\emp}h\land \rho_{\emp}(h,k).
+$$
+Its ten-field fit is the following: the traditional target is the one-point
+preorder; the BEDC source is $\mathsf{BHist}$ with singleton carrier
+$A_{\emp}$; the carrier is $A_{\emp}$; the classifier is $\rho_{\emp}$;
+stability is supplied by singleton endpoint transport and
+\autoref{thm:preorder-prefix-le-of-hsame}; the ledger records the two endpoint
+witnesses; the core theorem is the displayed terminal comparison package;
+exactness is terminal comparison on carried endpoints; the standard bridge is
+the one-point preorder; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding the singleton carrier
+witnesses identifies both histories with the endpoint $\emp$, giving
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Compose the first witness with the symmetry of the second to obtain
+$h\hsame k$, and compose the second witness with the symmetry of the first to
+obtain $k\hsame h$.
+
+Apply \autoref{thm:preorder-prefix-le-of-hsame} to these two $\hsame$ witnesses.
+The first application gives $h\le_{\emp}k$, and the second gives
+$k\le_{\emp}h$.
+
+Finally, package $\rho_{\emp}(h,k)$ from the two carrier witnesses together
+with the composed witness $h\hsame k$. The two comparisons and this classifier
+witness are exactly the displayed terminal comparison package.
+\end{proof}
+
 \begin{theorem}[Singleton empty $\PreorderUp$ naming certificate]
 \label{thm:singleton-empty-preorder-namecert}
 The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
