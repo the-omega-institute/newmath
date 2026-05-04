@@ -270,6 +270,7 @@ canonical continuation from \(z\) to \(z\).
 \label{def:cplx-lim}
 For a regular complex sequence \((s, N)\) and a complex history \(z\), the predicate \(\mathsf{CplxLim}(s, N, z, M)\) holds when \(M : \mathsf{Unary} \to \mathsf{Unary}\) is an explicit modulus such that for every unary index \(k\) and every unary \(n\) with \(\mathsf{NatUnaryStrictPrefix}(M(k), n)\) (or \(\hsame(n, M(k))\)), the distance \(\mathsf{CplxDist}(s(n), z, D)\) satisfies the unary representation of \(D \leq 2^{-k}\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexLimit}
 
 \begin{lemma}[Complex limit functorial under \(\hsame\) on the limit point]
 \label{lem:cplx-lim-hsame}
@@ -278,6 +279,7 @@ If \(\mathsf{CplxLim}(s, N, z, M)\) and the components of \(z\) and \(z'\) are p
 \begin{proof}
 The distance \(\mathsf{CplxDist}(s(n), z, D)\) depends on \(z\) only via its rational-history components; \(\hsame\) on each component preserves the modulus witness pointwise.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_hsame\_transport}
 
 \begin{theorem}[Uniqueness of complex limit]
 \label{thm:cplx-lim-unique}

@@ -137,6 +137,7 @@ import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
+import BEDC.Derived.ComplexDifferentiabilityUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexSeriesUp
