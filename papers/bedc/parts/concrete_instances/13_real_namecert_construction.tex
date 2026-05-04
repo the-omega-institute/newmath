@@ -1,2 +1,27 @@
 \input{parts/concrete_instances/real/13_real_constant_core.tex}
 \input{parts/concrete_instances/real/13_real_stream_prefix.tex}
+
+\begin{theorem}[Real stream classifier selected e-one pair readback]
+\label{thm:real-stream-classifier-selected-e1-pair-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x(n),\Eone(a)),\quad
+\hsame(y(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-prefix} to the stream classifier at
+the selected index $n$. This produces the finite-prefix classifier witness
+needed at that index.
+
+Apply \autoref{thm:real-stream-prefix-e1-pair-readback} to that prefix witness
+and to the two displayed e-one endpoint equalities. The readback theorem returns
+the two unary tail witnesses and the internal sameness relation
+$\hsame(a,b)$.
+\end{proof}

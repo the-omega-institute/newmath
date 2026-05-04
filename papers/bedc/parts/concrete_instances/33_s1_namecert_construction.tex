@@ -291,6 +291,30 @@ four fields form the claimed package.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_unit\_tail\_readback}
 
+\begin{theorem}[SOne e-one components unit equation classifier]
+\label{thm:s1-e1-components-unit-equation-classifier}
+For histories $d_x,d_y,e,t$, a concrete $\SOneUp$ history-carrier witness whose
+coordinates, equation endpoint, and point ledger are one-headed exposes the two
+rational coordinate tails, the rational classifier from the equation tail to the
+unit tail, and the displayed point continuation:
+$$
+\mathsf{SOneHistoryCarrier}(\Eone(d_x),\Eone(d_y),\Eone(e),\Eone(t))
+\Longrightarrow
+\mathsf{RatHistoryCarrier}(d_x)\land
+\mathsf{RatHistoryCarrier}(d_y)\land
+\mathsf{RatHistoryClassifier}(e,\Eone(\emp))\land
+\ContR(\Eone(d_x),d_y,t).
+$$
+\end{theorem}
+\begin{proof}
+The unit-tail readback supplies the two rational coordinate carriers and the
+displayed point continuation. The stored real-constant classifier on the
+one-headed equation endpoint has target $\mathsf{SOneUnitHistory}=\Eone(\Eone(\emp))$,
+so the real-constant e-one exactness theorem reads it as the rational classifier
+between the equation tail and $\Eone(\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_e1\_components\_unit\_equation\_classifier}
+
 \begin{theorem}[SOne history carrier y e-one point shape]
 \label{thm:sone-history-carrier-y-e1-point-shape}
 For histories $x,y,e,p,d_y$, if a concrete $\SOneUp$ history-carrier witness
