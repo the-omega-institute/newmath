@@ -13,6 +13,91 @@ def RatStreamNameClassifier (s t : BHist -> BHist) : Prop :=
   RatStreamNameCarrier s ∧ RatStreamNameCarrier t ∧
     forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
 
+def RatConstStream (d : BHist) : BHist -> BHist
+  | BHist.Empty => d
+  | BHist.e0 _ => d
+  | BHist.e1 _ => d
+
+theorem RatConstStream_empty_point_exactness {h k : BHist} :
+    (RatStreamNameCarrier (RatConstStream h) ↔
+      RatHistoryCarrier (RatConstStream h BHist.Empty)) ∧
+      (RatStreamNameClassifier (RatConstStream h) (RatConstStream k) ↔
+        RatHistoryClassifier (RatConstStream h BHist.Empty) (RatConstStream k BHist.Empty)) := by
+  constructor
+  · constructor
+    · intro carrier
+      exact carrier BHist.Empty unary_empty
+    · intro pointCarrier
+      intro n _nUnary
+      cases n with
+      | Empty =>
+          exact pointCarrier
+      | e0 tail =>
+          exact pointCarrier
+      | e1 tail =>
+          exact pointCarrier
+  · constructor
+    · intro classified
+      exact classified.right.right BHist.Empty unary_empty
+    · intro pointClassified
+      have carrierH : RatStreamNameCarrier (RatConstStream h) := by
+        intro n _nUnary
+        cases n with
+        | Empty =>
+            exact pointClassified.left
+        | e0 tail =>
+            exact pointClassified.left
+        | e1 tail =>
+            exact pointClassified.left
+      have carrierK : RatStreamNameCarrier (RatConstStream k) := by
+        intro n _nUnary
+        cases n with
+        | Empty =>
+            exact pointClassified.right.left
+        | e0 tail =>
+            exact pointClassified.right.left
+        | e1 tail =>
+            exact pointClassified.right.left
+      exact And.intro carrierH
+        (And.intro carrierK
+          (fun n _nUnary =>
+            match n with
+            | BHist.Empty => pointClassified
+            | BHist.e0 _ => pointClassified
+            | BHist.e1 _ => pointClassified))
+
+theorem RatStreamName_reindexing_and_map_stability {s t r F : BHist -> BHist}
+    (rUnary : forall n : BHist, UnaryHistory n -> UnaryHistory (r n))
+    (mapCarrier : forall h : BHist, RatHistoryCarrier h -> RatHistoryCarrier (F h))
+    (mapClassifier : forall h k : BHist, RatHistoryClassifier h k ->
+      RatHistoryClassifier (F h) (F k)) :
+    (RatStreamNameCarrier s -> RatStreamNameCarrier (fun n => s (r n))) ∧
+      (RatStreamNameClassifier s t ->
+        RatStreamNameClassifier (fun n => s (r n)) (fun n => t (r n))) ∧
+        (RatStreamNameCarrier s -> RatStreamNameCarrier (fun n => F (s n))) ∧
+          (RatStreamNameClassifier s t ->
+            RatStreamNameClassifier (fun n => F (s n)) (fun n => F (t n))) := by
+  constructor
+  · intro carrierS n nUnary
+    exact carrierS (r n) (rUnary n nUnary)
+  · constructor
+    · intro classified
+      exact And.intro
+        (fun n nUnary => classified.left (r n) (rUnary n nUnary))
+        (And.intro
+          (fun n nUnary => classified.right.left (r n) (rUnary n nUnary))
+          (fun n nUnary => classified.right.right (r n) (rUnary n nUnary)))
+    · constructor
+      · intro carrierS n nUnary
+        exact mapCarrier (s n) (carrierS n nUnary)
+      · intro classified
+        exact And.intro
+          (fun n nUnary => mapCarrier (s n) (classified.left n nUnary))
+          (And.intro
+            (fun n nUnary => mapCarrier (t n) (classified.right.left n nUnary))
+            (fun n nUnary => mapClassifier (s n) (t n)
+              (classified.right.right n nUnary)))
+
 theorem RatStreamName_certificate_fields {s t u s' t' : BHist -> BHist} :
     RatStreamNameCarrier s ->
       RatStreamNameClassifier s t ->
@@ -90,5 +175,47 @@ theorem RatStreamName_reindexing_composition_law {s t : BHist -> BHist}
           exact classified.right.left (q (r n)) (compositeUnary n nUnary)
         · intro n nUnary
           exact classified.right.right (q (r n)) (compositeUnary n nUnary)
+
+theorem RatStreamName_constant_point_exactness {h k : BHist} :
+    hsame (RatConstStream h BHist.Empty) h ∧ hsame (RatConstStream k BHist.Empty) k ∧
+      ((RatStreamNameCarrier (RatConstStream h) ↔ RatHistoryCarrier h) ∧
+        (RatStreamNameClassifier (RatConstStream h) (RatConstStream k) ↔
+          RatHistoryClassifier h k)) := by
+  have carrierH :
+      RatStreamNameCarrier (RatConstStream h) ↔ RatHistoryCarrier h := by
+    constructor
+    · intro streamCarrier
+      exact streamCarrier BHist.Empty unary_empty
+    · intro ratCarrier n _nUnary
+      cases n with
+      | Empty => exact ratCarrier
+      | e0 _ => exact ratCarrier
+      | e1 _ => exact ratCarrier
+  have carrierK :
+      RatStreamNameCarrier (RatConstStream k) ↔ RatHistoryCarrier k := by
+    constructor
+    · intro streamCarrier
+      exact streamCarrier BHist.Empty unary_empty
+    · intro ratCarrier n _nUnary
+      cases n with
+      | Empty => exact ratCarrier
+      | e0 _ => exact ratCarrier
+      | e1 _ => exact ratCarrier
+  have classifierHK :
+      RatStreamNameClassifier (RatConstStream h) (RatConstStream k) ↔
+        RatHistoryClassifier h k := by
+    constructor
+    · intro streamClassifier
+      exact streamClassifier.right.right BHist.Empty unary_empty
+    · intro ratClassifier
+      exact And.intro (Iff.mpr carrierH ratClassifier.left)
+        (And.intro (Iff.mpr carrierK ratClassifier.right.left)
+          (fun n _nUnary => by
+            cases n with
+            | Empty => exact ratClassifier
+            | e0 _ => exact ratClassifier
+            | e1 _ => exact ratClassifier))
+  exact And.intro (hsame_refl h)
+    (And.intro (hsame_refl k) (And.intro carrierH classifierHK))
 
 end BEDC.Derived.StreamNameUp
