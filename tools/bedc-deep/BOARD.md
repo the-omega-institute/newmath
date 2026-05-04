@@ -3983,3 +3983,80 @@ Third stratum-specific loss proposition, sited in capstones/three_axioms_one_clo
 
 ---
 
+### B-156 - Tensor product singleton factor source-target swap
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product singleton factor source-target swap |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For histories l, r, t with TensorProductSingletonFactor(l, r, t), then TensorProductSingletonFactor(r, l, t) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65_tensorproduct has 9 theorem labels but ZERO BOARD entries (verified: grep -i 'tensor' tools/bedc-deep/BOARD.md returns no hits). The chapter is entirely about TensorProductSingletonCarrier and TensorProductSingletonFactor, with thm:tensorproduct-singleton-factor-hsame-transport (65_tensorproduct:138-150) handling componentwise hsame transport but no theorem stating the basic source-target swap symmetry of the bilinear factor — a textbook tensor-product symmetry that lives one step away from the existing transport theorem. Closes immediately because the singleton-factor predicate forces l, r, t all to be empty, making Cont(l,r,t) and Cont(r,l,t) both reduce to Cont(emp,emp,emp). This is the missing 'flip' theorem that any later non-singleton tensor-symmetry argument depends on.
+
+---
+
+
+### B-157 - L-function Dirichlet partial-sum result hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | L-function Dirichlet partial-sum result hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For Dirichlet term operation term, parameter s, index n, and histories S, S' with DirichletPartSum(term, s, n, S) and S ~ S', then DirichletPartSum(term, s, n, S').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/81_lfunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/45_dirichlet_series_namecert_construction.tex`
+
+Rationale:
+Chapter 81_lfunction has 11 theorem labels but ZERO BOARD entries (verified via grep). All eleven theorems concern the inductive structure of DirichletPartSum at the successor index (positive-index, previous-unique, deterministic, zero-term-stable, etc.), but there is no transport theorem for hsame on the sum result S itself. Without this, every later certificate that wants to rebuild a DirichletPartSum after an hsame substitution has to recurse on the constructor — exactly the gap that chapters 11_list and 13_real already filled with explicit transport theorems. Closes by induction on the partial-sum constructor, transporting the continuation result field at the step case.
+
+---
+
+
+### B-158 - EqType class carrier hsame transport along the anchor
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EqType class carrier hsame transport along the anchor |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For histories anchor, anchor', h with EqtypeClassCarrier anchored at anchor holding for h and anchor ~ anchor', the EqtypeClassCarrier anchored at anchor' holds for h.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/109_eqtype_namecert_construction.tex`
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+Chapter 109_eqtype has 12 theorem labels but ZERO BOARD entries (verified via grep). Existing theorems are e0/e1 anchor-tail readbacks, anchor pair determinism, visible-context absurdity, and the terminal SemanticNameCert (thm:eqtype-identity-semantic-namecert). Transport of the EqtypeClassCarrier under hsame on the *anchor* (rather than on h) is the dual to the anchor-pair-deterministic theorem and is the precise lemma a downstream psame transport at the type stratum (capstones B-151 NameCert psame-transport replaces Quot.sound use) would invoke. Single-implication, closes by composing the carrier comparison with the anchor's hsame witness via classifier transitivity.
+
+---
+
