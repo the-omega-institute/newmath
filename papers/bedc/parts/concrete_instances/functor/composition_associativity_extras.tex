@@ -353,6 +353,29 @@ exactness reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_source\_components\_iff}
 
+\begin{theorem}[Prefix functor visible composite target component cases]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-target-component-e1-cases}
+For prefixed hom-carriers from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$ and from $\mathsf{append}(p,b)$ to
+$\mathsf{append}(p,c)$, if the composite continuation displays the visible
+result $\Eone(k)$, then either the prefix component or the target-tail
+component is itself one-headed:
+$$
+\exists p_0.\ p=\Eone(p_0)\land\mathsf{UnaryHistory}(p_0)
+\quad\vee\quad
+\exists c_0.\ c=\Eone(c_0)\land\mathsf{UnaryHistory}(c_0).
+$$
+\end{theorem}
+\begin{proof}
+The nonempty composite target visibility theorem displays
+$\mathsf{append}(p,c)$ as $\Eone(r)$. Hence this append target is not
+history-same to $\emp$. BEDC append non-emptiness splits this into nonempty
+$p$ or nonempty $c$, and unary append factorization supplies the corresponding
+unary carrier. Unary nonempty decomposition then reads back the visible
+one-headed component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_target\_component\_e1\_cases}
+
 \begin{theorem}[Prefix functor one-headed morphism-target component exactness]
 \label{thm:functor-prefix-hom-carrier-e1-morphism-target-components-iff}
 For histories $p,a,k,r$, a hom-carrier from the prefixed source

@@ -185,6 +185,23 @@ theorem MetricDistanceWitness_triangle_depth_zero_collapse {x y z dxy dyz dxyz :
       (And.intro yEmpty
         (And.intro zEmpty (And.intro dxyEmpty dyzEmpty))))
 
+theorem MetricDistanceWitness_triangle_left_distance_empty_collapse {x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame dxyz z ∧ hsame dyz z := by
+  intro xy yz xyz dxyEmpty
+  cases dxyEmpty
+  have xyEndpoints : hsame x BHist.Empty ∧ hsame y BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := x) (y := y)).mp xy
+  have dxyzExact : hsame dxyz z :=
+    (MetricDistanceWitness_empty_left_iff (y := z) (d := dxyz)).mp xyz |>.right
+  have dyzExact : hsame dyz z := by
+    cases xyEndpoints.right
+    exact (MetricDistanceWitness_empty_left_iff (y := z) (d := dyz)).mp yz |>.right
+  exact And.intro xyEndpoints.left
+    (And.intro xyEndpoints.right (And.intro dxyzExact dyzExact))
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
