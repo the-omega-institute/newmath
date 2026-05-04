@@ -353,6 +353,28 @@ Induct on the iteration index. At zero, transport the unary seed along the displ
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_unary\_of\_seed}
 
+\begin{theorem}[Iterated complex differentiability transports unary readback]
+\label{thm:iterated-cplx-diff-hsame-transport-unary-readback}
+If the seed endpoint and selected iterate of an iterated complex-differentiability chain are each replaced by \(\hsame\)-equivalent histories, then the whole chain has the corresponding transported endpoint, and unary readback from the transported seed still proves the transported selected iterate unary.
+\end{theorem}
+\begin{proof}
+Induct on the iteration index. At zero, compose the seed comparison, the displayed endpoint comparison, and the chain's zero endpoint. At a successor stage, transport the predecessor chain by the induction hypothesis and move the successor continuation witness across the endpoint comparison by continuation \(\hsame\)-stability. Unary readback then applies to the transported chain.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_hsame\_transport\_unary\_readback}
+
+\begin{theorem}[Strict iterated complex differentiability preserves unary seed histories]
+\label{thm:iterated-strict-cplxdiff-unary-of-seed}
+If a strict iterated complex-differentiability chain starts from a unary seed
+history, then every selected strict iterate is unary.
+\end{theorem}
+\begin{proof}
+Induct on the iteration index. The zero case transports unary membership along
+the seed classifier. At a successor index, unpack the predecessor, strict unary
+step, and continuation witness; the induction hypothesis gives the predecessor
+as unary, and unary continuation closure gives the successor.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_unary\_of\_seed}
+
 \begin{lemma}[Strict iterated complex differentiability exposes a strict prefix]
 \label{lem:iterated-strict-cplx-diff-strict-prefix}
 If a strict iterated complex-differentiability chain starts from a unary seed
@@ -367,6 +389,15 @@ prefix from the seed to the previous iterate, and strict-prefix transitivity
 composes it with the displayed nonempty continuation tail.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_strict\_prefix}
+
+\begin{theorem}[Strict iterated complex differentiability transports strict prefix readback]
+\label{thm:iterated-strict-cplx-diff-hsame-transport-strict-prefix}
+If a nonempty strict iterated complex-differentiability chain has \(\hsame\)-equivalent seed and target endpoints, then the strict chain transports to those endpoints, and a unary transported seed exposes a strict unary prefix into the transported target.
+\end{theorem}
+\begin{proof}
+Induct over the successor count of the strict chain. The first successor composes the seed endpoint comparison with the zero-stage endpoint and transports the displayed nonempty unary continuation. The successor case applies the induction hypothesis to the previous iterate and transports the final continuation step. The strict-prefix readback theorem then applies to the transported strict chain.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_hsame\_transport\_strict\_prefix}
 
 \section{The seed fields}
 

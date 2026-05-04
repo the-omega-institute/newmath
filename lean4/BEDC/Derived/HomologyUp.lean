@@ -268,6 +268,29 @@ theorem HomologyCycleCarrier_append_components_iff {d : BHist -> BHist}
   · intro cycles
     exact HomologyCycleCarrier_append_closed dAppend cycles.left cycles.right
 
+theorem HomologyBoundaryCarrier_cont_cycle_closed {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      HomologyCycleCarrier d r := by
+  intro boundaryH boundaryK continuation
+  have boundaryR : HomologyBoundaryCarrier d r :=
+    HomologyBoundaryCarrier_append_hsame_transport dAppend boundaryH boundaryK
+      (hsame_symm continuation)
+  exact HomologyBoundaryCarrier_cycle_closed dSquaredZero boundaryR
+
+theorem HomologyBoundaryCarrier_cont_cycle_components {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d r -> Cont h k r ->
+      HomologyCycleCarrier d h ∧ HomologyCycleCarrier d k := by
+  intro boundaryR continuation
+  cases continuation
+  exact Iff.mp (HomologyCycleCarrier_append_components_iff dAppend)
+    (HomologyBoundaryCarrier_cycle_closed dSquaredZero boundaryR)
+
 theorem HomologyCycleBoundary_append_cycle_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (d_squared_zero : forall u : BHist, hsame (d (d u)) BHist.Empty)
