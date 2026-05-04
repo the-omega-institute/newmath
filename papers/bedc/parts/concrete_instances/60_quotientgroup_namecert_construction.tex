@@ -301,6 +301,28 @@ $x\sim_{N_{\emp}}y$.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_normalizer\_orbit\_collapse\_iff}
 
+\begin{theorem}[QuotientGroup singleton continuation classifier]
+\label{thm:quotientgroup-singleton-classifier-continuation-classifier}
+If $\ContR(p,q,r)$, then the singleton classifier at the continuation result
+reads back exactly as singleton carriers on the two inputs and the right
+endpoint:
+$$
+\mathsf{QuotientGroupSingletonClassifier}(r,h)
+\Longleftrightarrow
+\mathsf{QuotientGroupSingletonCarrier}(p)\wedge
+\mathsf{QuotientGroupSingletonCarrier}(q)\wedge
+\mathsf{QuotientGroupSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier and classifier. A classifier witness gives
+$r\hsame\emp$, and empty-append inversion along $\ContR(p,q,r)$ splits this
+into the two input singleton carriers. Conversely, the two input carriers
+rebuild $r\hsame\emp$, and the endpoint carrier for $h$ supplies the remaining
+classifier fields.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_continuation\_classifier\_iff}
+
 \begin{theorem}[QuotientGroup singleton classifier visible endpoint exclusion]
 \label{thm:quotientgroup-singleton-classifier-visible-endpoint-absurd}
 For histories $p,q,k:\mathsf{BHist}$, no classifier edge can have a visible
@@ -354,6 +376,31 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty continuation carrier pair]
+\label{thm:quotientgroup-centralizer-coset-empty-continuation-pair}
+If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then the empty-representative
+centralizer-coset carrier of the continuation result is equivalent to the two
+endpoint carriers:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,r)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,p)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,q).
+$$
+\end{theorem}
+\begin{proof}
+Forwards, the result carrier gives $r\hsame\emp$. Transport the displayed
+continuation to an empty result and apply empty-result inversion, giving
+$p\hsame\emp$ and $q\hsame\emp$; combine each with the assumed centralizer
+witness for $\emp$.
+
+Conversely, the two endpoint carriers give $p\hsame\emp$ and $q\hsame\emp$.
+The displayed continuation is therefore determined by the empty append result,
+so $r\hsame\emp$, and the empty centralizer witness closes the result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_continuation\_pair\_iff}
+
 \begin{theorem}[Centralizer coset empty continuation classifier]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then
@@ -377,6 +424,28 @@ append endpoint for $r$, and the carrier comparison for $h$ closes the
 classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_continuation\_classifier\_iff}
+
+\begin{theorem}[Centralizer coset representative continuation classifier]
+\label{thm:quotientgroup-centralizer-coset-representative-continuation-classifier}
+If $\emp$ and $\mathsf{repr}$ centralize $a$, $\mathsf{repr}\hsame\emp$, and
+$\ContR(p,q,r)$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\mathsf{repr},r,h)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},p)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},q)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},h).
+$$
+\end{theorem}
+\begin{proof}
+First transport the representative classifier to the empty representative.
+The empty-representative continuation classifier splits the result into the
+two continuation inputs and the endpoint $h$. The comparison
+$\mathsf{repr}\hsame\emp$ transports each carrier endpoint back to
+$\mathsf{repr}$, with the representative centralizer witness supplying the
+carrier's centralizer field.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_representative\_continuation\_classifier\_iff}
 
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
@@ -678,68 +747,4 @@ and \autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation};
 exactness the two displayed iff statements; downstream consumer
 first-isomorphism-style quotient-kernel exactness; status
 $\mathsf{ProofTarget}$.
-
-\begin{theorem}[Abelian centralizer-normalizer quotient terminal projection]
-\label{thm:abelian-centralizer-normalizer-quotient-terminal-projection}
-For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
-satisfying the hypotheses of
-\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate},
-and additionally the $\AbGroupUp$ commutativity hypothesis used by
-\autoref{thm:abgroup-centralizer-commutator-collapse}, fix
-$a:\mathsf{BHist}$. For every carried endpoint $x$ of $N_a$, define the
-constant representative projection to the singleton quotient carrier by
-$$
-\pi_Q(x):=\emp .
-$$
-For any $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, the abelian
-centralizer-normalizer quotient classifier is the pullback of the singleton
-quotient classifier along this projection:
-$$
-Q_{Z_a\triangleleft N_a}(x,y)\Longleftrightarrow
-\rho_Q(\pi_Q(x),\pi_Q(y)).
-$$
-Moreover the projected product, inverse, and unit endpoints are already
-singleton-classifier related:
-$$
-\rho_Q(\pi_Q(\mathsf{mul}(x,y)),\pi_Q(x)),\quad
-\rho_Q(\pi_Q(\mathsf{inv}(x)),\pi_Q(x)),\quad
-\rho_Q(\pi_Q(e),\emp).
-$$
-\end{theorem}
-\begin{proof}
-For the displayed equivalence, the left classifier is total under the
-commutativity hypothesis by
-\autoref{thm:abelian-centralizer-normalizer-quotient-classifier-totality}.
-Thus its truth value is $\mathsf{True}$ on every carried endpoint pair.
-
-The right classifier is also inhabited on every displayed endpoint pair.
-Indeed, each projected endpoint is definitionally $\emp$, so unfolding the
-projection reduces it to $\rho_Q(\emp,\emp)$. This is the reflexive singleton
-classifier edge packaged by
-\autoref{thm:quotientgroup-singleton-semantic-namecert}, using the singleton
-carrier and classifier of Definitions~\ref{def:quotientgroup-singleton-carrier}
-and \ref{def:quotientgroup-singleton-classifier}.
-
-The product, inverse, and unit claims use the same endpoint computation. The
-semantic certificate of
-\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
-supplies the carried product, inverse, and unit endpoints in $N_a$; applying
-$\pi_Q$ sends each one to $\emp$. Hence all three displayed singleton
-classifier statements again reduce to $\rho_Q(\emp,\emp)$.
-\end{proof}
-\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_abelian\_terminal\_projection}
-
-The ten-field fit is: traditional target terminal projection from the abelian
-centralizer-normalizer quotient to the singleton quotient classifier; BEDC
-source $\GroupUp$, $\AbGroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$ over
-$\mathsf{BHist}$; carrier $N_a$ projected constantly to $Q_{\emp}$; classifiers
-$Q_{Z_a\triangleleft N_a}$ and $\rho_Q$; stability from the
-centralizer-normalizer quotient certificate and singleton classifier
-reflexivity; ledger carried endpoint pair, projected product endpoint,
-projected inverse endpoint, and projected unit endpoint; core theorem list
-\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate},
-\autoref{thm:abelian-centralizer-normalizer-quotient-classifier-totality}, and
-\autoref{thm:quotientgroup-singleton-semantic-namecert}; exactness the
-displayed pullback equivalence plus the three singleton projection edges;
-downstream consumer first-isomorphism-style terminal quotient exactness; status
-$\mathsf{ProofTarget}$.
+\input{parts/concrete_instances/quotientgroup_abelian_terminal_projection}

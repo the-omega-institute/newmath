@@ -199,7 +199,15 @@ def is_chapter_closed(chapter_text: str, name: str) -> "str | None":
 
 
 def extract_horizons() -> dict[str, dict]:
-    """Scan namecert chapters; return {name: {file_paper, deps, thms, closed_at}}."""
+    """Scan namecert chapters; return {name: {file_paper, deps, thms, closed_at, siblings}}.
+
+    Each chapter's `siblings` is a list of dicts giving the sub-fronts a
+    Lean round can attack independently. With the hub-only convention
+    (CLAUDE.md / AGENTS.md), most modern chapters have many `\\input{...}`
+    sibling files under `parts/concrete_instances/<theme>/`. Each sibling
+    becomes its own front so concurrent workers can claim different sibling
+    files of the same chapter without colliding.
+    """
     horizons: dict[str, dict] = {}
     for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
         name = normalize_name(tex.name)
@@ -212,6 +220,7 @@ def extract_horizons() -> dict[str, dict]:
         closed_at = is_chapter_closed(full_text, name)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
+        siblings = _collect_siblings(tex, name, camel, lean_file)
         horizons[name] = {
             "name": name,
             "deps": sorted(deps),
@@ -220,8 +229,79 @@ def extract_horizons() -> dict[str, dict]:
             "closed": closed_at is not None,
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
+            "siblings": siblings,
         }
     return horizons
+
+
+def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
+                        lean_file: Path) -> list[dict]:
+    """Enumerate per-sibling fronts within a chapter.
+
+    A "sibling" is a unit of paper content a Lean round can claim
+    independently. Resolution rule:
+
+    * If the parent chapter has any `\\input{...}` directives (hub-only
+      convention), each unique resolved input file is a sibling.
+    * If parent inline body contains `\\begin\\{(theorem|definition|...)\\}`
+      (legacy non-hub chapter), the parent file itself is also a sibling.
+    * If neither (rare: empty stub chapter), the parent file is the sole
+      sibling — keeps the chapter visible to the lock pool.
+
+    Each sibling carries its own `file_paper` and `thms` counts so the
+    ranker can prefer thinner siblings (closer to a fresh closure).
+    """
+    try:
+        parent_text = parent_tex.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        parent_text = ""
+    inputs = []
+    for m in INPUT_RE.finditer(parent_text):
+        rel = m.group(1).strip()
+        if not rel.endswith(".tex"):
+            rel = rel + ".tex"
+        sib_path = (PAPER_ROOT_DIR / rel).resolve()
+        if sib_path == parent_tex.resolve():
+            continue
+        inputs.append(sib_path)
+    # Parent has inline content if it carries any theorem/definition env.
+    inline_re = re.compile(
+        r"\\begin\{(theorem|lemma|definition|proposition|corollary|example)\}"
+    )
+    parent_has_inline = bool(inline_re.search(parent_text))
+
+    siblings: list[dict] = []
+    seen: set[Path] = set()
+    file_lean_str = str(lean_file.relative_to(ROOT))
+    if inputs:
+        for sib in inputs:
+            if sib in seen or not sib.exists():
+                continue
+            seen.add(sib)
+            try:
+                sib_text = _read_chapter_recursive(sib)
+            except Exception:
+                sib_text = ""
+            sib_thms = len(LEAN_MARKER_RE.findall(sib_text))
+            sib_closed = is_chapter_closed(sib_text, chapter_name) is not None
+            siblings.append({
+                "name": chapter_name,
+                "sibling_id": sib.stem,
+                "file_paper": str(sib.relative_to(ROOT)),
+                "file_lean": file_lean_str,
+                "thms": sib_thms,
+                "closed": sib_closed,
+            })
+    if parent_has_inline or not siblings:
+        siblings.append({
+            "name": chapter_name,
+            "sibling_id": parent_tex.stem,
+            "file_paper": str(parent_tex.relative_to(ROOT)),
+            "file_lean": file_lean_str,
+            "thms": len(LEAN_MARKER_RE.findall(parent_text)),
+            "closed": False,
+        })
+    return siblings
 
 
 def transitive_downstream(horizons: dict[str, dict]) -> dict[str, int]:
@@ -258,13 +338,14 @@ def deps_ready(name: str, horizons: dict[str, dict],
 
 
 def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
-    """Atomically pick the best non-locked node, record it in LOCKS_FILE, and
-    return a re-ordered top with locked nodes demoted to the bottom.
+    """Atomically pick the best non-locked sibling node, record it in
+    LOCKS_FILE, and return a re-ordered top with locked sibling nodes
+    demoted to the bottom.
 
-    Concurrent critical_path invocations serialize on flock so each one sees
-    the latest lock state — 8 simultaneous reviewers will each pick a
-    different top because each adds its choice to the lock file before the
-    next gets the lock.
+    Lock granularity is the sibling `file_paper` path (not chapter
+    `name`), so 12 concurrent workers can claim 12 different siblings of
+    the same chapter without serializing. Concurrent invocations
+    serialize on flock so each one sees the latest lock state.
     """
     # Open with O_CREAT so we can flock even if the file doesn't exist yet.
     fd = os.open(LOCKS_FILE, os.O_RDWR | os.O_CREAT, 0o644)
@@ -279,13 +360,16 @@ def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
         now = time.time()
         # Drop expired locks
         locks = {k: v for k, v in locks.items() if v > now}
-        locked_names = set(locks.keys())
-        # Partition ranked into available / locked, preserve internal order
-        available = [r for r in ranked if r["name"] not in locked_names]
-        locked = [r for r in ranked if r["name"] in locked_names]
+        locked_keys = set(locks.keys())
+        # Lock key = sibling file_paper (per-sibling granularity); fall
+        # back to chapter name for any legacy entries that lack it.
+        def _key(r: dict) -> str:
+            return r.get("file_paper") or r.get("name", "")
+        available = [r for r in ranked if _key(r) not in locked_keys]
+        locked = [r for r in ranked if _key(r) in locked_keys]
         # Claim the new top-1 (the available[0]) for this caller
         if available:
-            locks[available[0]["name"]] = now + LOCK_TTL_SECONDS
+            locks[_key(available[0])] = now + LOCK_TTL_SECONDS
         try:
             os.lseek(fd, 0, 0)
             os.ftruncate(fd, 0)
@@ -303,19 +387,22 @@ def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
 
 def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                         threshold: int) -> list[dict]:
-    """Rank OPEN horizons by transitive downstream impact.
+    """Rank OPEN sibling fronts by transitive downstream impact.
 
-    A horizon is "closed" iff its chapter has `\\closureat{<X>Up}{checkedCert
-    or bridgeCert}` somewhere in its include closure — see preamble.tex
-    `\\closureat` macro and `is_chapter_closed`. Closed horizons are
-    excluded entirely (the binary closure replaces the old
-    `thms >= SATURATION_THRESHOLD` heuristic).
+    The graph is still chapter-level for closure / dep-readiness logic
+    (a horizon's `\\closureat{<X>Up}{checkedCert|bridgeCert}` and its
+    `\\<Dep>Up` references operate at chapter granularity). The ranking
+    output is per-sibling: each chapter contributes one row PER OPEN
+    SIBLING file under it. Workers can therefore claim distinct siblings
+    of the same chapter without colliding on the cooldown lock.
 
-    Among open horizons, score is `downstream` (binary). The legacy
-    `score / (1 + thms)` denominator is preserved as a tiebreaker so that
-    among horizons with equal downstream impact, the one with fewer
-    `\\leanchecked` markers comes first (closer to a meaningful
-    closureat opportunity).
+    Score: `chapter_downstream` (kept raw so the magnet rule in
+    `phase_b.txt` still sees a 71x lead when one exists). Tiebreakers:
+    (1) prefer the chapter overall with fewer total thms; (2) within a
+    chapter, prefer the sibling with fewer thms (closer to fresh
+    coverage). This stably orders all sibling fronts of high-leverage
+    chapters above siblings of low-leverage chapters, while letting
+    concurrent workers spread across the chapter's sibling pool.
     """
     ranked: list[dict] = []
     for n, info in horizons.items():
@@ -325,17 +412,33 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
             continue
         if not deps_ready(n, horizons, threshold):
             continue
-        score = downstream[n]
-        # Tiebreaker: prefer horizons with fewer thms (closer to a fresh
-        # closureat opportunity, fewer accumulated wrappers).
-        tiebreak = downstream[n] / (1.0 + info["thms"])
-        ranked.append({
-            **info,
-            "downstream": downstream[n],
-            "score": score,
-            "tiebreak": round(tiebreak, 2),
-        })
-    ranked.sort(key=lambda r: (-r["score"], -r["tiebreak"], r["name"]))
+        chapter_down = downstream[n]
+        chapter_thms = info["thms"]
+        chapter_tiebreak = chapter_down / (1.0 + chapter_thms)
+        for sib in info.get("siblings", []):
+            if sib.get("closed"):
+                continue
+            ranked.append({
+                # Chapter-level fields (consumed by phase_b magnet rule etc.)
+                "name": n,
+                "deps": info["deps"],
+                "thms": chapter_thms,
+                "closed_at": info.get("closed_at"),
+                "closed": False,
+                "downstream": chapter_down,
+                "score": chapter_down,
+                "tiebreak": round(chapter_tiebreak, 2),
+                # Sibling-level fields (consumed by phase_b target picker
+                # and the lock pool — file_paper is unique per sibling).
+                "sibling_id": sib["sibling_id"],
+                "sibling_thms": sib["thms"],
+                "file_paper": sib["file_paper"],
+                "file_lean": sib["file_lean"],
+            })
+    ranked.sort(key=lambda r: (
+        -r["score"], -r["tiebreak"], r["name"],
+        r["sibling_thms"], r["sibling_id"],
+    ))
     return ranked
 
 
@@ -380,7 +483,8 @@ def main() -> int:
         "deps_ready_relaxed": relaxed_at is not None,
         "closed_horizons": closed_count,
         "open_horizons": open_count,
-        "top": rolled[:10],
+        "granularity": "sibling",
+        "top": rolled[:25],
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
