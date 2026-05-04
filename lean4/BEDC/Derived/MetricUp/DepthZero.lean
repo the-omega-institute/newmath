@@ -1,4 +1,4 @@
-import BEDC.Derived.MetricUp.DepthClassifier
+import BEDC.Derived.MetricUp.BoundaryExactness
 
 namespace BEDC.Derived.MetricUp
 
@@ -36,5 +36,20 @@ theorem MetricDistanceWitness_visible_context_depth_zero_collapse {p q x y d : B
       (y := y) (d := d)).mp visible
   have endpoints := MetricDistanceWitness_depth_zero_empty_endpoints visibleData.right.right depthZero
   exact And.intro (MetricDistanceDepth_zero_iff_empty.mp depthZero) endpoints
+
+theorem MetricDistanceWitness_visible_context_positive_depth_nonempty_endpoint {p q x y d :
+    BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
+      (MetricDistanceDepth d = 0 -> False) ->
+        (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) := by
+  intro visible positiveDepth
+  have visibleData :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+      (y := y) (d := d)).mp visible
+  have nonemptyDistance : hsame d BHist.Empty -> False := by
+    intro sameDistance
+    exact positiveDepth (MetricDistanceDepth_zero_iff_empty.mpr sameDistance)
+  exact MetricDistanceWitness_nonempty_distance_endpoint_nonempty visibleData.right.right
+    nonemptyDistance
 
 end BEDC.Derived.MetricUp
