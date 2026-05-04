@@ -36,8 +36,7 @@ and
 $$
 \mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')
 $$
-hold. When the displayed spine witnesses for the two public append readbacks and
-the two public reverse readbacks are chosen compatibly, one may take $s'=s$.
+hold.
 \end{theorem}
 \begin{proof}
 Unpack the append witness $\mathsf{ListPublicAppend}_A(h,k,r)$ as finite spines
@@ -66,4 +65,65 @@ Theorem~\ref{thm:list-public-append-readback-total-congruent}, applied to
 $k^{\mathrm{rev}}$ and $h^{\mathrm{rev}}$ and transported through the reverse
 functionality comparisons above, give
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$.
+\end{proof}
+
+\begin{theorem}[List public reverse append output classifier uniqueness]
+\label{thm:list-public-reverse-append-output-classifier-unique}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list reverse append output classifier uniqueness; BEDC
+source $\mathsf{BHist}$ through $\mathsf{ListSpineRep}$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability obligations public
+append congruence, public reverse functionality, and classifier transitivity;
+ledger finite spine presentation; core theorem this reverse-output uniqueness
+law; exactness via represented-spine classifier displayed exactness and public
+reverse readback functionality; standard bridge ordinary finite-list reverse
+append readback; status $\mathsf{ProofTarget}$.
+
+For histories $h,k,r,h^{\mathrm{rev}},k^{\mathrm{rev}},s,t:\mathsf{BHist}$,
+suppose
+$$
+\mathsf{ListPublicAppend}_A(h,k,r),
+\quad
+\mathsf{ListPublicReverse}_A(h,h^{\mathrm{rev}}),
+\quad
+\mathsf{ListPublicReverse}_A(k,k^{\mathrm{rev}})
+$$
+and
+$$
+\mathsf{ListPublicAppend}_A(k^{\mathrm{rev}},h^{\mathrm{rev}},s),
+\quad
+\mathsf{ListPublicReverse}_A(r,t)
+$$
+hold. Then
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,t)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-reverse-append-antimorphism} to the public
+append witness for $h,k,r$, the two public reverse witnesses for $h$ and $k$,
+and the displayed opposite public append witness for
+$k^{\mathrm{rev}},h^{\mathrm{rev}},s$. This gives a history
+$s':\mathsf{BHist}$ with $\mathsf{ListPublicReverse}_A(r,s')$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$.
+
+Clause 3 of
+Theorem~\ref{thm:list-public-reverse-readback-functional-involutive}, applied to
+the two public reverse readbacks from the same source $r$, compares $s'$ with
+$t$:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s',t).
+$$
+
+Finally compose
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$ with
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s',t)$. The needed transitivity
+is the spine-induced history classifier transitivity supplied by
+Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence} together
+with the bridge-classifier presentation in
+Definition~\ref{def:list-spine-representation}.
 \end{proof}
