@@ -191,45 +191,35 @@ theorem ComplexHistoryCarrier_component_reflexive_classifiers {h : BHist} :
                             (And.intro imagCarrier (hsame_refl imag)))
                           cont)))
 
+theorem ComplexHistoryCarrier_e0_endpoint_absurd {tail : BHist} :
+    ComplexHistoryCarrier (BHist.e0 tail) -> False := by
+  intro carrier
+  have components := ComplexHistoryCarrier_positive_components carrier
+  cases components with
+  | intro real components =>
+      cases components with
+      | intro imag data =>
+          have cont : Cont real imag (BHist.e0 tail) := data.right.right.left
+          have positiveImag : RatUp.PositiveUnaryDenominator imag := data.right.right.right.right
+          cases cont_e0_result_inversion cont with
+          | inl emptyCase =>
+              cases emptyCase.left
+              exact RatUp.PositiveUnaryDenominator_not_empty positiveImag
+                (hsame_refl BHist.Empty)
+          | inr visibleCase =>
+              cases visibleCase with
+              | intro imagTail fields =>
+                  cases fields.left
+                  exact RatUp.PositiveUnaryDenominator_e0_absurd positiveImag
+
 theorem ComplexHistoryClassifier_e0_endpoint_absurd {tail h : BHist} :
     (ComplexHistoryClassifier (BHist.e0 tail) h -> False) /\
       (ComplexHistoryClassifier h (BHist.e0 tail) -> False) := by
-  have carrierE0Absurd : ComplexHistoryCarrier (BHist.e0 tail) -> False := by
-    intro carrier
-    have components := ComplexHistoryCarrier_positive_components carrier
-    cases components with
-    | intro real rest =>
-        cases rest with
-        | intro imag data =>
-            cases data with
-            | intro _realCarrier data =>
-                cases data with
-                | intro _imagCarrier data =>
-                    cases data with
-                    | intro cont data =>
-                        cases data with
-                        | intro _positiveReal positiveImag =>
-                            have resultCases := cont_e0_result_inversion cont
-                            cases resultCases with
-                            | inl emptyCase =>
-                                cases emptyCase with
-                                | intro imagEmpty _sameReal =>
-                                    cases imagEmpty
-                                    exact RatUp.PositiveUnaryDenominator_not_empty
-                                      positiveImag (hsame_refl BHist.Empty)
-                            | inr visibleCase =>
-                                cases visibleCase with
-                                | intro imagTail fields =>
-                                    cases fields with
-                                    | intro imagVisible _tailCont =>
-                                        cases imagVisible
-                                        exact RatUp.PositiveUnaryDenominator_e0_absurd
-                                          positiveImag
   constructor
   · intro classified
-    exact carrierE0Absurd classified.left
+    exact ComplexHistoryCarrier_e0_endpoint_absurd classified.left
   · intro classified
-    exact carrierE0Absurd classified.right.left
+    exact ComplexHistoryCarrier_e0_endpoint_absurd classified.right.left
 
 theorem ComplexHistoryClassifier_e1_endpoint_components {tail h : BHist} :
     (ComplexHistoryClassifier (BHist.e1 tail) h ->
