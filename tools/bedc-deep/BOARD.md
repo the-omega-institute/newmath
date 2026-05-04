@@ -3038,3 +3038,29 @@ Sits in proof_obligations alongside B-16 (concrete token reflection) but on a di
 
 ---
 
+### B-120 - Adjunction carrier swap involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction carrier swap involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an AdjunctionUp setup with unit-counit carriers, applying the unit-counit carrier swap twice returns the original carrier ordering up to the adjunction classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Adjunctions are present in the paper only as definitions (def:adjunction-unit-counit-carrier, def:adjunction-triangle-carrier) with zero theorems attached, paralleling the functor/nattrans definition-only chapters that already justified B-11 and B-14. A swap-involution lemma is the natural first structural theorem on the unit-counit carrier and is not a notation variant of any existing BOARD entry (B-11 is functor composition closure, B-14 is nattrans composition naturality, neither touches adjunction swap). The claim is a single equation under a concrete setup, satisfying the implication-form requirement, and gives the formalization lane a concrete site to attach \leanchecked once a Lean target lands.
+
+---
+
