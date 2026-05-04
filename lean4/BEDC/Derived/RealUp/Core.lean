@@ -180,6 +180,64 @@ theorem RealConstantHistoryClassifier_invalid_endpoint_absurd :
 def RealUnaryStreamClassifier (s t : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
 
+theorem RealUnaryStreamClassifier_stability_package {s t u s' t' : BHist -> BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameCarrier u ->
+      RealUnaryStreamClassifier s t -> RealUnaryStreamClassifier t u ->
+        (forall n : BHist, UnaryHistory n -> hsame (s n) (s' n)) ->
+          (forall n : BHist, UnaryHistory n -> hsame (t n) (t' n)) ->
+            RatStreamNameClassifier s t ∧
+              RealUnaryStreamClassifier s s ∧
+                RealUnaryStreamClassifier t s ∧
+                  RealUnaryStreamClassifier s u ∧
+                    (forall n : BHist, UnaryHistory n ->
+                      RatHistoryCarrier (s n) ∧ RatHistoryCarrier (t n)) ∧
+                      RealUnaryStreamClassifier s' t' := by
+  intro carrierS carrierT _carrierU classifiedST classifiedTU sameSS' sameTT'
+  have streamST : RatStreamNameClassifier s t :=
+    And.intro carrierS (And.intro carrierT classifiedST)
+  have selfS : RealUnaryStreamClassifier s s := by
+    intro n nUnary
+    exact And.intro (carrierS n nUnary)
+      (And.intro (carrierS n nUnary) (hsame_refl (s n)))
+  have symmTS : RealUnaryStreamClassifier t s := by
+    intro n nUnary
+    exact RatHistoryClassifier_symm (classifiedST n nUnary)
+  have transSU : RealUnaryStreamClassifier s u := by
+    intro n nUnary
+    exact RatHistoryClassifier_trans (classifiedST n nUnary) (classifiedTU n nUnary)
+  have endpointCarriers :
+      forall n : BHist, UnaryHistory n -> RatHistoryCarrier (s n) ∧ RatHistoryCarrier (t n) := by
+    intro n nUnary
+    have point := classifiedST n nUnary
+    exact And.intro point.left point.right.left
+  have transportS'T' : RealUnaryStreamClassifier s' t' := by
+    intro n nUnary
+    exact RatHistoryClassifier_hsame_transport (sameSS' n nUnary) (sameTT' n nUnary)
+      (classifiedST n nUnary)
+  exact And.intro streamST
+    (And.intro selfS
+      (And.intro symmTS
+        (And.intro transSU
+          (And.intro endpointCarriers transportS'T'))))
+
+theorem RealUnaryStreamClassifier_streamName_stability_package
+    {s t u s' t' : BHist -> BHist} :
+    RatStreamNameCarrier s ->
+      RatStreamNameCarrier t ->
+        RatStreamNameCarrier u ->
+          RealUnaryStreamClassifier s t ->
+            RealUnaryStreamClassifier t u ->
+              (forall n : BHist, UnaryHistory n -> hsame (s n) (s' n)) ->
+                (forall n : BHist, UnaryHistory n -> hsame (t n) (t' n)) ->
+                  RatStreamNameClassifier s t ∧
+                    RealUnaryStreamClassifier s s ∧
+                      RealUnaryStreamClassifier t s ∧
+                        RealUnaryStreamClassifier s u ∧
+                          (forall n : BHist, UnaryHistory n ->
+                            RatHistoryCarrier (s n) ∧ RatHistoryCarrier (t n)) ∧
+                            RealUnaryStreamClassifier s' t' := by
+  exact RealUnaryStreamClassifier_stability_package
+
 theorem StreamNameReal_constant_prefix_bridge {d e : BHist} :
     (RatHistoryClassifier d e ↔ RatStreamNameClassifier (RatConstStream d) (RatConstStream e)) ∧
       (RatStreamNameClassifier (RatConstStream d) (RatConstStream e) ↔

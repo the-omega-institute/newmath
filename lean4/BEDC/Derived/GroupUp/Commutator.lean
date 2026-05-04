@@ -5,6 +5,23 @@ namespace BEDC.Derived.GroupUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+theorem GroupSingletonCommutator_terminal_collapse {x y : BHist} :
+    GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) ∧
+        GroupSingletonClassifier (append (append (append x y) BHist.Empty) BHist.Empty)
+          BHist.Empty := by
+  intro carrierX carrierY
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have productCarrier : GroupSingletonCarrier (append x y) :=
+    append_eq_empty_iff.mpr (And.intro carrierX carrierY)
+  have inverseXCarrier : GroupSingletonCarrier (append (append x y) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
+  have commutatorCarrier :
+      GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro inverseXCarrier emptyCarrier)
+  exact And.intro commutatorCarrier
+    (And.intro commutatorCarrier (And.intro emptyCarrier commutatorCarrier))
+
  theorem group_commutator_trivial_iff_commutes_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

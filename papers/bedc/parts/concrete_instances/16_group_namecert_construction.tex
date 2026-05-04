@@ -62,6 +62,55 @@ $\mathsf{Comm}_{\emp}(x,y)$ and the carrier fact for $\emp$, the terminal
 classifier row of Theorem~\ref{thm:group-singleton-terminal-classifier-package}
 packages $R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCommutator\_terminal\_collapse}
+
+\begin{theorem}[Group singleton commutator unit exactness]
+\label{thm:group-singleton-commutator-unit-exactness}
+For histories $x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, define
+$$
+\mathsf{Comm}_{\emp}(x,y):=
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(x,y),\mathsf{inv}(x)),\mathsf{inv}(y)).
+$$
+Then the commutator is classified with the unit exactly when both inputs lie in
+the singleton carrier:
+$$
+R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)
+\Longleftrightarrow A_{\emp}(x)\land A_{\emp}(y).
+$$
+The ten-field fit is: traditional target terminal-group commutator fiber
+exactness; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier $R_{\emp}$; stability from product-unit
+splitting, context cancellation, inverse closure, and terminal classifier
+exactness; ledger the two factors and two constant inverse endpoints; core
+theorem this exactness plus
+Theorem~\ref{thm:group-singleton-classifier-product-unit-split} and
+Theorem~\ref{thm:group-singleton-contextual-product-unit-split}; exactness the
+displayed iff; downstream consumers $\AbGroupUp$ and $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the concrete operations. Here $\mathsf{inv}$ is the constant endpoint
+$\emp$ and $\mathsf{mul}$ is append, so the left side is the terminal classifier
+of the nested append word
+$\mathsf{append}(\mathsf{append}(\mathsf{append}(x,y),\emp),\emp)$ against
+$\emp$.
+
+For the forward direction, project the classifier to the carried endpoint
+$\emp$. The unit endpoint is carried, so terminal classifier exactness reduces
+the hypothesis to singleton carrier membership of the nested append word.
+
+Apply Theorem~\ref{thm:group-singleton-classifier-product-unit-split} to split
+off the outer constant inverse endpoint, then apply the same product-unit split
+to remove the inner constant inverse endpoint. The remaining classifier is the
+product-unit classifier for $\mathsf{append}(x,y)$, and a final application gives
+exactly $A_{\emp}(x)\land A_{\emp}(y)$.
+
+For the reverse direction, assume $A_{\emp}(x)\land A_{\emp}(y)$.
+Theorem~\ref{thm:group-singleton-commutator-terminal-collapse} applies to these
+two carrier witnesses and gives
+$R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)$.
+\end{proof}
 
 \begin{theorem}[Group singleton commutator carrier exactness]
 \label{thm:group-singleton-commutator-carrier-exactness}
@@ -114,6 +163,7 @@ the carrier equivalence gives the displayed classifier iff.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonCommutator\_carrier\_classifier\_exactness}
 
+\input{parts/concrete_instances/group/16_group_singleton_conjugated_commutator_invariance}
 \input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
@@ -266,6 +316,7 @@ carrier equivalence from the previous paragraph and reassociating the
 conjunctions gives exactly
 $A_{\emp}(x)\land A_{\emp}(y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_coverage\_iff}
 
 \begin{definition}[Group singleton normalizer orbit relation]
 \label{def:group-singleton-normalizer-orbit-relation}
@@ -276,6 +327,7 @@ terminal normalizer orbit relation by declaring
 $x\sim_{N_{\emp}}y$ precisely when there exists $s:\mathsf{BHist}$ such that
 $N_{\emp}(s)$ and $R_{\emp}(\mathsf{Conj}_s(x),y)$.
 \end{definition}
+\leandef{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit}
 
 \begin{theorem}[Group singleton normalizer orbit exactness]
 \label{thm:group-singleton-normalizer-orbit-exactness}
@@ -360,6 +412,8 @@ $R_{\emp}(\mathsf{Conj}_{\emp}(x),y)$, and
 Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
 existential orbit witness.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_total\_coverage\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_normalizer\_orbit\_total\_coverage\_iff}
 
 \begin{theorem}[Group singleton normalizer orbit equivalence]
 \label{thm:group-singleton-normalizer-orbit-equivalence}
@@ -416,6 +470,7 @@ $$
 \mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
 $$
 \end{definition}
+\leandef{BEDC.Derived.GroupUp.GroupSingletonNormalizerAction}
 
 \begin{theorem}[Group singleton normalizer action classifier determinacy]
 \label{thm:group-singleton-normalizer-action-classifier-determinacy}
@@ -685,6 +740,8 @@ $$
 Again use the reverse direction of orbit exactness to convert that classifier
 into the displayed orbit relation.
 \end{proof}
+
+\input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
 
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
