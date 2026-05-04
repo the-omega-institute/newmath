@@ -172,6 +172,25 @@ compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_cases}
 
+\begin{theorem}[Compact net witness left e1 result e1 precision tail]
+\label{thm:compact-net-witness-left-e1-result-e1-precision-tail}
+For histories $center,precisionTail,net$, a compact-net witness whose center,
+precision, and result are all visible exposes the precision tail witness:
+$$
+\mathsf{CompactNetWitness}(\Eone(center),\Eone(precisionTail),\Eone(net))
+\Longrightarrow
+\mathsf{CompactNetWitness}(\Eone(center),precisionTail,net).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-result cases theorem. The empty-precision branch would
+identify $\Eone(precisionTail)$ with $\emp$, which constructor disjointness
+excludes. The visible branch identifies the displayed precision tail with the
+recovered tail, and the recovered tail witness is the required compact-net
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_e1\_precision\_tail}
+
 \begin{theorem}[Compact net witness suffix exactness]
 \label{thm:compact-net-witness-suffix-iff}
 For histories $p,c,\epsilon,n$, a compact-net witness with the same right
