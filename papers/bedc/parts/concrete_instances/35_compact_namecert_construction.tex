@@ -655,3 +655,60 @@ for the unary endpoints, and combine
 \input{parts/concrete_instances/compact/35_finite_refinement_common_source_determinacy.tex}
 \input{parts/concrete_instances/compact/35_prefixed_composite_refinement_determinacy.tex}
 \input{parts/concrete_instances/compact/35_refinement_chain_final_cases.tex}
+
+\begin{theorem}[Compact witness carrier located finite refinement endpoint package]
+\label{thm:compact-witness-carrier-located-finite-refinement-endpoint-package}
+Assume
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+and
+$$
+\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,
+finalLocated,finalIntermediate,finalCompact),
+$$
+and
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,finalCompact,finalFinite,
+finalCompact').
+$$
+Then one obtains
+$$
+\mathsf{CompactWitnessCarrier}(subset,finalLocated,finalFinite,finalIntermediate,
+finalCompact'),
+$$
+unary histories for $finalLocated$, $finalIntermediate$, $finalFinite$, and
+$finalCompact'$, and the endpoint classifier equivalences
+$$
+\hsame(finalLocated,finalIntermediate)\Longleftrightarrow
+\hsame(located,intermediate)
+$$
+and
+$$
+\hsame(finalFinite,finalCompact')\Longleftrightarrow
+\hsame(finite,finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+First package the refined carrier. Apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-closed}
+to the initial compact witness carrier, the located refinement chain, and the
+finite refinement chain. This gives the displayed carrier over
+$(subset,finalLocated,finalFinite,finalIntermediate,finalCompact')$.
+
+Next package the endpoint unary data. Apply
+Theorem~\ref{thm:compact-witness-carrier-located-finite-refinement-chain-final-endpoints-unary}
+to the same three inputs, yielding unary histories for $finalLocated$,
+$finalIntermediate$, $finalFinite$, and $finalCompact'$.
+
+For the located endpoint classifier, apply
+Theorem~\ref{thm:compact-located-refinement-chain-endpoint-hsame} for the
+forward direction and
+Theorem~\ref{thm:compact-located-refinement-chain-endpoint-hsame-reflects} for
+the reverse direction.
+
+For the finite endpoint classifier, apply
+Theorem~\ref{thm:compact-finite-refinement-chain-endpoint-hsame-iff} to the
+finite refinement chain. The refined carrier, unary endpoint witnesses, and the
+two displayed equivalences form the requested package.
+\end{proof}
