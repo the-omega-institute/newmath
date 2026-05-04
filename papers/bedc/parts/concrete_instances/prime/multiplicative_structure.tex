@@ -298,6 +298,29 @@ and empty-result inversion for \(\Cont\) forces \(d\hsame\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_factor\_empty\_or\_multiplier\_empty}
 
+\begin{theorem}[Unary multiplication empty result iff an input is empty]
+\label{thm:natmul-empty-result-factor-empty-or-multiplier-empty-iff}
+If \(\mathsf{NatMul}(d,q,n)\), then
+\[
+n\hsame\emp
+\Longleftrightarrow
+d\hsame\emp \vee q\hsame\emp .
+\]
+\end{theorem}
+\begin{proof}
+For the forward implication, transport the displayed result equality to the
+empty-result case and apply
+\autoref{lem:natmul-empty-result-factor-empty-or-multiplier-empty}.
+
+For the converse implication, split on the empty input. If the multiplicand is
+empty, \autoref{lem:natmul-empty-left-result-empty} identifies the product
+result with \(\emp\). If the multiplier is empty, the empty-right
+multiplication iff gives the canonical empty product for the same multiplicand;
+functionality of \(\mathsf{NatMul}\) identifies the displayed result with that
+empty product.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_iff\_factor\_empty\_or\_multiplier\_empty}
+
 \begin{theorem}[Nonempty unary multiplication factors have nonempty result]
 \label{thm:natmul-nonempty-factors-result-not-empty}
 If neither \(d\) nor \(q\) is history-same to \(\emp\), then no witness
