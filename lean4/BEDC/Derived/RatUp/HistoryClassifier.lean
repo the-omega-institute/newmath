@@ -59,6 +59,60 @@ theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHis
           exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
             RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
 
+theorem RatHistoryLedgerPolicy_saturated_denominator_shape_package
+    {rho v w zrho zv zw : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho w ∨ RatHistoryClassifier v w ∨
+        RatHistoryClassifier w rho ∨ RatHistoryClassifier w v) ->
+        UnaryHistory rho ∧ UnaryHistory v ∧ UnaryHistory w ∧
+          (hsame rho BHist.Empty -> False) ∧ (hsame v BHist.Empty -> False) ∧
+            (hsame w BHist.Empty -> False) ∧
+              (hsame rho (BHist.e0 zrho) -> False) ∧
+                (hsame v (BHist.e0 zv) -> False) ∧
+                  (hsame w (BHist.e0 zw) -> False) := by
+  intro ledger linked
+  have rhoPositive : PositiveUnaryDenominator rho :=
+    RatHistoryCarrier_iff_positive_denominator.mp ledger.left
+  have vPositive : PositiveUnaryDenominator v :=
+    RatHistoryCarrier_iff_positive_denominator.mp
+      (RatHistoryLedgerPolicy_visible_carrier ledger)
+  have wCarrier : RatHistoryCarrier w := by
+    cases linked with
+    | inl rhoW =>
+        exact rhoW.right.left
+    | inr rest =>
+        cases rest with
+        | inl vW =>
+            exact vW.right.left
+        | inr rest' =>
+            cases rest' with
+            | inl wRho =>
+                exact wRho.left
+            | inr wV =>
+                exact wV.left
+  have wPositive : PositiveUnaryDenominator w :=
+    RatHistoryCarrier_iff_positive_denominator.mp wCarrier
+  have rhoRows := PositiveUnaryDenominator_unary_and_nonempty rhoPositive
+  have vRows := PositiveUnaryDenominator_unary_and_nonempty vPositive
+  have wRows := PositiveUnaryDenominator_unary_and_nonempty wPositive
+  exact And.intro rhoRows.left
+    (And.intro vRows.left
+      (And.intro wRows.left
+        (And.intro rhoRows.right
+          (And.intro vRows.right
+            (And.intro wRows.right
+              (And.intro
+                (fun sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero rhoPositive))
+                (And.intro
+                  (fun sameZero =>
+                    PositiveUnaryDenominator_e0_absurd
+                      (PositiveUnaryDenominator_hsame_transport sameZero vPositive))
+                  (fun sameZero =>
+                    PositiveUnaryDenominator_e0_absurd
+                      (PositiveUnaryDenominator_hsame_transport sameZero wPositive)))))))))
+
 theorem RatHistoryClassifier_e0_endpoint_absurd {tail d : BHist} :
     (RatHistoryClassifier (BHist.e0 tail) d → False) ∧
       (RatHistoryClassifier d (BHist.e0 tail) → False) := by
