@@ -11,6 +11,14 @@ open BEDC.Derived.PrimeUp
 def PadicPrimeScale (p exponent result : BHist) : Prop :=
   NatPrime p ∧ NatMul p exponent result
 
+theorem PadicPrimeScale_unary_components {p exponent result : BHist} :
+    PadicPrimeScale p exponent result ->
+      UnaryHistory p /\ UnaryHistory exponent /\ UnaryHistory result := by
+  intro scale
+  exact And.intro scale.left.left
+    (And.intro (NatMul_right_unary scale.right)
+      (NatMul_result_unary scale.left.left scale.right))
+
 theorem PadicPrimeScale_total {p exponent : BHist} :
     NatPrime p -> UnaryHistory exponent ->
       ∃ result : BHist, UnaryHistory result ∧ PadicPrimeScale p exponent result := by
