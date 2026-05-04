@@ -314,6 +314,26 @@ equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_unit\_split\_iff}
 
+\begin{theorem}[Group singleton classifier append product empty split]
+\label{thm:group-singleton-classifier-append-product-empty-split}
+For histories $a,b,c,d:\mathsf{BHist}$, the singleton group classifier relates
+the two appended products exactly when each append factor is carried by the
+singleton carrier:
+$$
+R_{\emp}(\mathsf{append}(a,b),\mathsf{append}(c,d))
+\Longleftrightarrow
+A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c)\land A_{\emp}(d).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_{\emp}$. In the forward direction, the two carrier fields say both
+appended products are empty, and append empty-result inversion splits them into
+the four displayed singleton carrier witnesses. Conversely, the four witnesses
+rebuild the two empty appended products; symmetry and transitivity of $\hsame$
+package the singleton classifier relation between them.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_product\_empty\_split\_iff}
+
 \begin{theorem}[Group singleton carrier visible-head append exclusion]
 \label{thm:group-singleton-carrier-append-visible-head-absurd}
 For histories $p,q:\mathsf{BHist}$, neither

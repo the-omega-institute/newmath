@@ -25,6 +25,15 @@ theorem append_visible_left_empty_absurd {h k : BHist} :
     | e1 k =>
         exact not_hsame_e1_empty same
 
+theorem append_visible_right_empty_absurd {h k : BHist} :
+    (hsame (append h (BHist.e0 k)) BHist.Empty -> False) ∧
+      (hsame (append h (BHist.e1 k)) BHist.Empty -> False) := by
+  constructor
+  · intro same
+    exact not_hsame_e0_empty same
+  · intro same
+    exact not_hsame_e1_empty same
+
 theorem append_visible_left_same_tail_tag_separation {h0 h1 k : BHist} :
     hsame (append (BHist.e0 h0) k) (append (BHist.e1 h1) k) -> False := by
   intro same
