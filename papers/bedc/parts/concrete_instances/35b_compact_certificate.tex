@@ -235,7 +235,16 @@ reverse direction first applies prefix exactness and then reattaches the right
 suffix by suffix exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
-
+\begin{theorem}[Compact net witness visible-result context factorization]\label{thm:compact-net-witness-visible-result-context-factorizes}
+For histories $p,q,c,\epsilon,n,result$, if
+$\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,result)$ and
+$result\hsame(p\cdot n)\cdot q$, then
+$\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge\mathsf{CompactNetWitness}(c,\epsilon,n)$.
+\end{theorem}
+\begin{proof}
+Transport the result carrier and continuation ledger along the displayed $\hsame$, then apply visible-context exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_result\_context\_factorizes}
 \begin{theorem}[Compact net witness visible-context result determinacy]
 \label{thm:compact-net-witness-visible-context-result-deterministic}
 For histories $p,q,c,\epsilon,n,n'$, two visible-context compact-net witnesses
@@ -361,6 +370,15 @@ $\hsame(\Eone(t),c)$. If $c\hsame\emp$, transitivity identifies $\Eone(t)$
 with $\emp$, contradicting BEDC constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_e1\_result\_empty\_center\_absurd}
+
+\begin{theorem}[Compact visible boundary excludes empty center]
+\label{thm:compact-net-witness-visible-context-visible-result-empty-center-absurd}
+If the net in a visible-context empty-precision compact witness is $\hsame$ to either $\Ezero(t)$ or $\Eone(t)$, then the center cannot be empty.
+\end{theorem}
+\begin{proof}
+Empty-precision visible-context exactness identifies the net with the center; an empty center would identify the visible result with $\emp$, contradicting constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_visible\_result\_empty\_center\_absurd}
 
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}

@@ -74,6 +74,17 @@ theorem MatrixSingletonPow_nonempty_unary_suffix_base_carrier {M e tail : BHist}
   | e1 tail =>
       exact (append_eq_empty_iff.mp powCarrier).right
 
+theorem MatrixSingletonPow_positive_exponent_cont_readback {M exponent : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      ∃ tail : BHist, UnaryHistory tail ∧
+        Cont (MatrixSingletonPow M tail) M (MatrixSingletonPow M exponent) := by
+  intro exponentUnary exponentNonempty
+  have exponentTail := unary_history_nonempty_e1_tail exponentUnary exponentNonempty
+  cases exponentTail with
+  | intro tail data =>
+      cases data.left
+      exact ⟨tail, data.right, cont_intro rfl⟩
+
 theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))

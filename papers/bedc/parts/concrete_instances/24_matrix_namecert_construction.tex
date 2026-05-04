@@ -128,6 +128,26 @@ projects the right factor carrier $A_{\emp}(M)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_nonempty\_unary\_suffix\_base\_carrier}
 
+\begin{theorem}[Matrix singleton positive-exponent continuation readback]
+\label{thm:matrix-singleton-pow-positive-exponent-cont-readback}
+If the exponent $e$ is unary and not history-same as $\emp$, then its
+one-headed tail exposes the concrete successor continuation for the power
+ledger:
+$$
+\Unary(e)\land(\hsame(e,\emp)\to\bot)
+\quad\Longrightarrow\quad
+\exists t.\ \Unary(t)\land
+\ContR(\mathsf{MatrixSingletonPow}(M,t),M,\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty histories have a one-headed tail. In that branch the recursive
+definition of $\mathsf{MatrixSingletonPow}$ is the append product of the
+predecessor power ledger with $M$, so the continuation is the displayed append
+step.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
+
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}
 For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
