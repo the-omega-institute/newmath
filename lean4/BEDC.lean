@@ -454,6 +454,7 @@ import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.MetricUp
+import BEDC.Derived.MetricUp.PositiveDistanceShape
 import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
 import BEDC.Derived.MetricUp.DepthClassifier

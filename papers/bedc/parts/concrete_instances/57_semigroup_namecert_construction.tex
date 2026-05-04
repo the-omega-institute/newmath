@@ -212,3 +212,52 @@ leaves every magma row supplied. Hence the retained rows satisfy the
 $\MagmaUp(C)$ certificate fields over the original carrier, multiplication, and
 classifier.
 \end{proof}
+
+\begin{definition}[Opposite semigroup operation]
+\label{def:opposite-semigroup-operation}
+Let $C$ be a carrier with binary multiplication $\cdot$. The opposite multiplication on the same carrier is the binary operation $\star$ defined by
+$$
+x\star y:=y\cdot x.
+$$
+It introduces no additional carrier element and no additional classifier relation.
+\end{definition}
+
+\begin{proposition}[Opposite semigroup certificate]
+\label{prop:opposite-semigroup-certificate}
+Let $C$ be a carrier with classifier $\sim_C$ and multiplication $\cdot$. If $C$ carries a $\SemigroupUp(C)$ certificate for $\cdot$, then the same carrier and classifier carry a $\SemigroupUp(C)$ certificate for the opposite multiplication $\star$ of \autoref{def:opposite-semigroup-operation}.
+\end{proposition}
+\begin{proof}
+By \autoref{def:semigroup-certificate-fields}, the semigroup certificate consists of the carrier, source, pattern, classifier, stability, exactness, and ledger rows for carried endpoints and one binary multiplication. The carrier rows and the classifier rows are retained unchanged, since the carrier is still $C$ and the classifier is still $\sim_C$. The exactness row is also retained unchanged, because it is attached to this same public classifier.
+
+The operation source for $\star$ is the displayed definition $x\star y:=y\cdot x$. Closure follows immediately from the original multiplication closure row: if $x,y\in C$, then $y\cdot x\in C$, hence $x\star y\in C$.
+
+For congruence, assume $x\sim_C x'$ and $y\sim_C y'$. The original multiplication congruence applied to the ordered pair of witnesses $y\sim_C y'$ and $x\sim_C x'$ gives
+$$
+y\cdot x\sim_C y'\cdot x'.
+$$
+By the definition of $\star$, this is exactly
+$$
+x\star y\sim_C x'\star y'.
+$$
+Thus the opposite operation satisfies the semigroup multiplication-congruence row.
+
+For associativity, let $x,y,z\in C$. The two opposite products unfold as
+$$
+(x\star y)\star z=z\cdot (y\cdot x)
+$$
+and
+$$
+x\star (y\star z)=(z\cdot y)\cdot x.
+$$
+The original associativity row for $\cdot$, applied to the triple $(z,y,x)$, gives a classifier witness
+$$
+(z\cdot y)\cdot x\sim_C z\cdot (y\cdot x).
+$$
+The classifier symmetry row from the same certificate reverses this witness, yielding
+$$
+z\cdot (y\cdot x)\sim_C (z\cdot y)\cdot x,
+$$
+which is precisely the associativity row for $\star$ in the displayed orientation.
+
+It remains only to account for the pattern and ledger rows. A $\star$-expression tree is read as a $\cdot$-expression tree by exchanging the two children at each binary node. Leaves remain carried endpoints, and each binary node is licensed by the original multiplication source. The same tree reading transports the operation-tree provenance in the ledger. Since \autoref{def:semigroup-certificate-fields} includes no identity, inverse, left-unit, or right-unit row, there is no further handed obligation to check. These rows together form the required $\SemigroupUp(C)$ certificate for the opposite multiplication.
+\end{proof}
