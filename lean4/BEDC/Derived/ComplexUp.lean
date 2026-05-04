@@ -74,6 +74,81 @@ theorem ComplexHistoryCarrier_positive_components {h : BHist} :
                               (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
                                 imagCarrier))))))
 
+theorem ComplexHistoryClassifier_e0_endpoint_absurd {tail h : BHist} :
+    (ComplexHistoryClassifier (BHist.e0 tail) h -> False) /\
+      (ComplexHistoryClassifier h (BHist.e0 tail) -> False) := by
+  have carrierE0Absurd : ComplexHistoryCarrier (BHist.e0 tail) -> False := by
+    intro carrier
+    have components := ComplexHistoryCarrier_positive_components carrier
+    cases components with
+    | intro real rest =>
+        cases rest with
+        | intro imag data =>
+            cases data with
+            | intro _realCarrier data =>
+                cases data with
+                | intro _imagCarrier data =>
+                    cases data with
+                    | intro cont data =>
+                        cases data with
+                        | intro _positiveReal positiveImag =>
+                            have resultCases := cont_e0_result_inversion cont
+                            cases resultCases with
+                            | inl emptyCase =>
+                                cases emptyCase with
+                                | intro imagEmpty _sameReal =>
+                                    cases imagEmpty
+                                    exact RatUp.PositiveUnaryDenominator_not_empty
+                                      positiveImag (hsame_refl BHist.Empty)
+                            | inr visibleCase =>
+                                cases visibleCase with
+                                | intro imagTail fields =>
+                                    cases fields with
+                                    | intro imagVisible _tailCont =>
+                                        cases imagVisible
+                                        exact RatUp.PositiveUnaryDenominator_e0_absurd
+                                          positiveImag
+  constructor
+  · intro classified
+    exact carrierE0Absurd classified.left
+  · intro classified
+    exact carrierE0Absurd classified.right.left
+
+theorem ComplexHistoryLedgerPolicy_e0_visible_absurd {raw tail : BHist} :
+    ComplexHistoryLedgerPolicy raw (BHist.e0 tail) -> False := by
+  intro ledger
+  have carrierE0 : ComplexHistoryCarrier (BHist.e0 tail) :=
+    ComplexHistoryLedgerPolicy_visible_carrier ledger
+  have components := ComplexHistoryCarrier_positive_components carrierE0
+  cases components with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro _realCarrier data =>
+              cases data with
+              | intro _imagCarrier data =>
+                  cases data with
+                  | intro cont data =>
+                      cases data with
+                      | intro _positiveReal positiveImag =>
+                          have resultCases := cont_e0_result_inversion cont
+                          cases resultCases with
+                          | inl emptyCase =>
+                              cases emptyCase with
+                              | intro imagEmpty _sameReal =>
+                                  cases imagEmpty
+                                  exact RatUp.PositiveUnaryDenominator_not_empty
+                                    positiveImag (hsame_refl BHist.Empty)
+                          | inr visibleCase =>
+                              cases visibleCase with
+                              | intro imagTail fields =>
+                                  cases fields with
+                                  | intro imagVisible _tailCont =>
+                                      cases imagVisible
+                                      exact RatUp.PositiveUnaryDenominator_e0_absurd
+                                        positiveImag
+
 theorem ComplexHistoryCarrier_not_empty {h : BHist} :
     ComplexHistoryCarrier h -> hsame h BHist.Empty -> False := by
   intro carrier sameEmpty
