@@ -84,3 +84,44 @@ evidence for $y$, and its continuation ledger is exactly
 $d\hsame \Eone(x)\cdot y$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_result\_tail\_readback}
+
+\begin{theorem}[Metric e-one pair result tail exactness iff]
+\label{thm:metric-distance-witness-e1-pair-result-tail-exactness-iff}
+For histories $x,y,d$, a metric distance witness whose source, target, and
+result are all visibly one-headed is equivalent to unary tail data together
+with the exposed continuation ledger:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(x)\land\mathsf{UnaryHistory}(y)\land
+\hsame(d,\Eone(x)\cdot y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:metric-distance-witness-e1-pair-result-tail-readback}. It
+descends the visible target and result constructors and returns exactly the
+two unary tail carriers and the displayed continuation ledger.
+
+For the reverse direction, start from the unary tail carriers and the
+$\hsame$ ledger. Unary closure builds the source carrier
+$\mathsf{UnaryHistory}(\Eone(x))$, and the continuation ledger transports the
+append result so that $d$ is the concrete distance from $\Eone(x)$ to $y$.
+This gives the central witness
+$\mathsf{MetricDistanceWitness}(\Eone(x),y,d)$.
+
+Apply
+Theorem~\ref{thm:metric-distance-witness-left-e1-visible-target-step} to this
+central witness. The visible target constructor and the matching visible
+result constructor are restored, producing
+$\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))$.
+\end{proof}
+
+The ten-field fit is: traditional target one-headed metric tail exactness;
+BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{Cont}$, and
+$\mathsf{MetricDistanceWitness}$; carrier concrete metric distance witnesses;
+classifier $\hsame$; stability visible-constructor closure and continuation
+transport; ledger exposed tail distance; core theorem
+Theorem~\ref{thm:metric-distance-witness-e1-pair-result-tail-exactness-iff};
+exactness bidirectional tail data; standard bridge finite metric endpoint
+readback; status $\mathsf{ProofTarget}$.
