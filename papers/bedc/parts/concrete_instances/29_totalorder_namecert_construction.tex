@@ -623,6 +623,67 @@ reflection just proved to the ordered pair $(k,h)$ gives the displayed
 equivalence for $\mathsf{gt}_{\mathsf{u}}$.
 \end{proof}
 
+\begin{theorem}[Concrete unary successor strict branch under two-sided context]
+\label{thm:concrete-unary-prefix-totalorder-successor-two-sided-context-strict}
+For carried unary histories $\ell,h,r$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, set
+$$
+H:=\mathsf{append}(\ell,\mathsf{append}(h,r)),
+\qquad
+K:=\mathsf{append}(\ell,\mathsf{append}(\Eone(h),r)).
+$$
+Then $H$ and $K$ are carried by $\mathsf{Carrier}_{\mathsf{u}}$, and the
+contextual successor pair satisfies
+$$
+\mathsf{lt}_{\mathsf{u}}(H,K).
+$$
+Moreover,
+$$
+\mathsf{same}_{\mathsf{u}}(H,K)\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{gt}_{\mathsf{u}}(H,K)\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target context-stable one-step successor
+separation; BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, $\Eone$, $\mathsf{lt}_{\mathsf{u}}$,
+$\mathsf{same}_{\mathsf{u}}$, and $\mathsf{gt}_{\mathsf{u}}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; ledger common
+two-sided context $(\ell,r)$ plus tail $\Eone(\emp)$; core theorem this
+two-sided contextual successor strict-branch law; exactness the exclusion of
+same and reverse-strict branches; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-successor-strict} to the carried
+history $h$. This gives the carried successor $\Eone(h)$, the base branch
+$\mathsf{lt}_{\mathsf{u}}(h,\Eone(h))$, and the two base exclusions
+$\mathsf{same}_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}$ and
+$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}$.
+
+Instantiate
+\autoref{thm:totalorder-branch-two-sided-context-equivalence} with the carried
+quadruple $h,\Eone(h),\ell,r$. Its carrier conclusion gives that the displayed
+$H$ and $K$ are carried unary histories.
+
+Use the right-to-left direction of the strict-left branch equivalence from the
+same theorem. Transporting the base successor branch
+$\mathsf{lt}_{\mathsf{u}}(h,\Eone(h))$ through the common context
+$(\ell,r)$ gives $\mathsf{lt}_{\mathsf{u}}(H,K)$.
+
+For a same-branch witness at the contextual endpoints, use the left-to-right
+direction of the same-branch equivalence to obtain
+$\mathsf{same}_{\mathsf{u}}(h,\Eone(h))$. The base same-branch exclusion then
+returns $\mathsf{False}$.
+
+For a reverse strict-branch witness at the contextual endpoints, use the
+left-to-right direction of the strict-right branch equivalence to obtain
+$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))$. The base reverse-branch exclusion then
+returns $\mathsf{False}$.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
 \label{thm:concrete-unary-prefix-totalorder-namecert}
 The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance} supplies
