@@ -1,0 +1,63 @@
+\begin{theorem}[Real stream prefix finite-tail transported endpoint denominator package]
+\label{thm:real-stream-prefix-finite-tail-transported-endpoint-denominator-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $n,m$, and
+transported endpoint histories $u,v:\Hist$, assume
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n),
+$$
+$$
+\forall k<m,\ \mathsf{RatHistoryClassifier}(x(n+k+1),y(n+k+1)),
+$$
+$$
+\forall i,\ \mathsf{UnaryHistory}(x(i)),
+$$
+and
+$$
+\hsame(x(n+m),u),\quad \hsame(y(n+m),v).
+$$
+Then the transported finite-tail boundary carries the endpoint denominator
+package:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(u,v)\land
+\mathsf{PositiveUnaryDenominator}(u)\land
+\mathsf{PositiveUnaryDenominator}(v)\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+(\hsame(u,\emp)\to\mathsf{False})\land
+(\hsame(v,\emp)\to\mathsf{False}).
+\end{array}
+$$
+Ten-field fit: traditional target finite-tail transported RealUp boundary
+package; BEDC source RealUp stream prefixes with RatUp finite tail classifiers;
+carrier rational-observation streams and transported endpoint histories;
+classifier $\mathsf{RealStreamPrefixClassifier}$ followed by
+$\mathsf{RatHistoryClassifier}$; stability by tail extension with unary anchor,
+endpoint projection, and endpoint $\hsame$ transport; ledger base prefix length,
+tail length, selected boundary, and two endpoint transport rows; core theorem
+this finite-tail boundary package; exactness classifier, positive denominator,
+unary, and nonempty rows for $u$ and $v$; standard bridge RegSeqRat finite
+boundary observations; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First extend the classified prefix through the displayed finite tail. Apply
+\autoref{thm:real-stream-prefix-tail-extension-with-unary-anchor} to the prefix
+through $n$, the tail classifier row, and the pointwise unary anchor on $x$.
+This supplies $\mathsf{RealStreamPrefixClassifier}(x,y,n+m)$, together with the
+left unary boundary row kept in the construction.
+
+Next apply \autoref{thm:real-stream-prefix-classifier-endpoint} at the boundary
+index $n+m$. The selected endpoint classifier is
+$\mathsf{RatHistoryClassifier}(x(n+m),y(n+m))$.
+
+Transport this RatUp classifier along the two displayed $\hsame$ rows by
+\autoref{thm:rat-history-classifier-hsame-transport}. The transported classifier
+is $\mathsf{RatHistoryClassifier}(u,v)$.
+
+Finally apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+transported classifier, and then apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to the
+two positive-denominator witnesses. These readback rows provide the two
+positive denominator witnesses, the two unary endpoint witnesses, and the two
+nonempty exclusions, so the displayed package repacks directly.
+\end{proof}

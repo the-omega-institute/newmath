@@ -29,3 +29,23 @@ Now apply \autoref{thm:real-stream-prefix-classifier-endpoint} at the endpoint
 index $n+m$. The resulting projection is exactly
 $\mathsf{RatHistoryClassifier}(x(n+m),y(n+m))$.
 \end{proof}
+
+\begin{theorem}[Real stream prefix truncated endpoint common e-one tail readback]
+\label{thm:real-stream-prefix-truncated-endpoint-common-e1-tail-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+if $\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, then the endpoint at
+$n$ has a common e-one tail readback:
+$$
+\exists a,b,\ \hsame(x(n),\Eone(a))\land \hsame(y(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Truncate the displayed prefix classifier to the selected endpoint $n$ and use
+the denominator package there. Its positive unary denominator rows give unary
+endpoint witnesses and separate both selected endpoints from $\emp$, so unary
+nonempty readback exposes e-one tails $a$ and $b$. The truncated e-one pair
+readback theorem then returns the two unary tail rows and their $\hsame$
+comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_common\_e1\_tail\_readback}
