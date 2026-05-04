@@ -1,0 +1,20 @@
+\begin{theorem}[Module parity epsilon empty-result classifier]
+\label{thm:module-parity-smul-epsilon-empty-result-iff}
+For every history $m:\mathsf{BHist}$, scalar action by the parity epsilon
+history has empty output exactly when the module endpoint is not the empty
+history:
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m),\emp)
+\Longleftrightarrow
+\bigl(\hsame(m,\emp)\Longrightarrow\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. If $m=\emp$, the displayed result is
+$\Eone(\emp)$, so empty output contradicts constructor disjointness; conversely
+the right-hand side is contradicted by reflexivity of $\emp$. If $m$ is visibly
+zero-headed or one-headed, the parity action reduces to $\emp$, and the
+right-hand side follows from the corresponding visible-vs-empty no-confusion
+law.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_empty\_result\_iff}
