@@ -123,6 +123,55 @@ theorem HomologyBoundaryCarrier_append_hsame_transport {d : BHist -> BHist}
             (hsame_trans (hsame_symm sameResult)
               (hsame_trans appendWitness (hsame_symm (dAppend u v))))
 
+theorem HomologyBoundaryCarrier_cont_preimage_append {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      Exists (fun u : BHist => Exists (fun v : BHist =>
+        hsame h (d u) ∧ hsame k (d v) ∧ hsame r (d (append u v)))) := by
+  intro boundaryH boundaryK resultRel
+  cases boundaryH with
+  | intro u witnessH =>
+      cases boundaryK with
+      | intro v witnessK =>
+          have appendWitness : hsame (append h k) (append (d u) (d v)) := by
+            cases witnessH
+            cases witnessK
+            exact hsame_refl (append (d u) (d v))
+          exact Exists.intro u
+            (Exists.intro v
+              (And.intro witnessH
+                (And.intro witnessK
+                  (hsame_trans resultRel
+                    (hsame_trans appendWitness (hsame_symm (dAppend u v)))))))
+
+theorem HomologyBoundaryCarrier_cont_nonempty_preimage_append {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      (hsame r BHist.Empty -> False) ->
+        Exists (fun u : BHist => Exists (fun v : BHist =>
+          hsame h (d u) ∧ hsame k (d v) ∧
+            (hsame (d (append u v)) BHist.Empty -> False))) := by
+  intro boundaryH boundaryK resultRel resultNonempty
+  cases boundaryH with
+  | intro u witnessH =>
+      cases boundaryK with
+      | intro v witnessK =>
+          have appendWitness : hsame (append h k) (append (d u) (d v)) := by
+            cases witnessH
+            cases witnessK
+            exact hsame_refl (append (d u) (d v))
+          have resultWitness : hsame r (d (append u v)) :=
+            hsame_trans resultRel
+              (hsame_trans appendWitness (hsame_symm (dAppend u v)))
+          exact Exists.intro u
+            (Exists.intro v
+              (And.intro witnessH
+                (And.intro witnessK
+                  (fun dAppendEmpty => resultNonempty
+                    (hsame_trans resultWitness dAppendEmpty)))))
+
 theorem HomologyBoundaryCarrier_append_empty_preimages {d : BHist -> BHist} {h k : BHist} :
     HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k ->
       hsame (append h k) BHist.Empty ->

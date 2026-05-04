@@ -299,4 +299,23 @@ theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} 
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem LatticeSingletonMeetJoin_idempotent_comm_classifier {h k : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
+      LatticeSingletonClassifier (LatticeSingletonMeet h h) h ∧
+        LatticeSingletonClassifier (LatticeSingletonJoin h h) h ∧
+        LatticeSingletonClassifier (LatticeSingletonMeet h k) (LatticeSingletonMeet k h) ∧
+        LatticeSingletonClassifier (LatticeSingletonJoin h k) (LatticeSingletonJoin k h) ∧
+        hsame (LatticeSingletonMeet h k) BHist.Empty ∧
+        hsame (LatticeSingletonJoin h k) BHist.Empty := by
+  intro hCarrier _kCarrier
+  have emptyCarrier : LatticeSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have emptyToH : hsame BHist.Empty h := hsame_symm hCarrier
+  have emptyClassified : LatticeSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
+  exact
+    And.intro (And.intro emptyCarrier (And.intro hCarrier emptyToH))
+      (And.intro (And.intro emptyCarrier (And.intro hCarrier emptyToH))
+        (And.intro emptyClassified
+          (And.intro emptyClassified (And.intro emptyCarrier emptyCarrier))))
+
 end BEDC.Derived.LatticeUp
