@@ -595,19 +595,22 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-In the forward direction, the result classifier transports the continuation to
-an empty result. Empty-result inversion splits the continuation into an empty
-context append and an empty continuation input, and append empty-result
-inversion recovers the carrier witness for $p$; the target carrier comes from
-the classifier.
+In the forward direction, the result classifier transports the continuation to an empty result. Empty-result inversion splits the continuation into an empty context append and an empty continuation input, append empty-result inversion recovers the carrier witness for $p$, and the target carrier comes from the classifier.
 
-Conversely, the singleton evaluator returns $\emp$, so the carrier witness for
-$p$ makes the context append carried by $\emp$. Together with the carrier
-witness for $y$, continuation transport carries $r$ by $\emp$, and the carrier
-witness for $h$ assembles the restricted singleton classifier.
+Conversely, the singleton evaluator returns $\emp$, so the carrier witness for $p$ makes the context append carried by $\emp$. Together with the carrier witness for $y$, continuation transport carries $r$ by $\emp$, and the carrier witness for $h$ assembles the restricted singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_classifier\_iff}
-
+\begin{theorem}[Singleton evaluation nonempty endpoint empty-result exclusion]
+\label{thm:linearmap-singleton-eval-context-nonempty-endpoint-continuation-result-absurd}
+For histories $p,f,x,y,r:\mathsf{BHist}$, if either $p$ or $y$ is not singleton-carried, then
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,r)\land r\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result to $\emp$. Empty-result inversion makes both endpoints empty, and append empty-result inversion gives the singleton carrier witness for $p$; either non-carrier hypothesis is contradicted.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_nonempty\_endpoint\_continuation\_result\_absurd}
 \begin{theorem}[Singleton evaluation visible context continuation exclusion]
 \label{thm:linearmap-singleton-eval-context-continuation-visible-context-absurd}
 For histories $p,f,x,y,r,h:\mathsf{BHist}$, a singleton evaluation with a

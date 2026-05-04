@@ -204,6 +204,7 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
+import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.SemanticCertificate
@@ -443,6 +444,7 @@ import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CompactUp.LocatedEndpointPackage
 import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
+import BEDC.Derived.CompactUp.PrefixDeterminism
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate

@@ -448,7 +448,12 @@ theorem AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty
       cont_respects_hsame componentsEmpty.right componentsEmpty.left carrier.right.right.right
         (cont_right_unit BHist.Empty)
     exact And.intro leftEmpty rightEmpty
-
+theorem AdjunctionTriangleCarrier_fields_swap_iff {left right object unit counit leftLeg rightLeg : BHist} :
+    (NatTransPrefixComponentCarrier left right object unit ∧ NatTransPrefixComponentCarrier right left object counit ∧ Cont unit counit leftLeg ∧ Cont counit unit rightLeg) ↔
+      (NatTransPrefixComponentCarrier right left object counit ∧ NatTransPrefixComponentCarrier left right object unit ∧ Cont counit unit rightLeg ∧ Cont unit counit leftLeg) := by
+  constructor
+  · intro carrier; exact ⟨carrier.right.left, carrier.left, carrier.right.right.right, carrier.right.right.left⟩
+  · intro carrier; exact ⟨carrier.right.left, carrier.left, carrier.right.right.right, carrier.right.right.left⟩
 theorem AdjunctionPrefixEndomorphismTriangle_identity_exactness
     {p a f eta eps left right : BHist} :
     NatTransPrefixComponentCarrier p p a eta ->
@@ -516,18 +521,14 @@ theorem AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
   · intro data
     have unitCarrier : NatTransPrefixComponentCarrier p q a unit := by
       cases data.right.right.right.right.right.left
-      exact
-        (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q) (a := a)).mpr
-          (And.intro data.left
-            (And.intro data.right.left
-              (And.intro data.right.right.left data.right.right.right.left)))
+      exact (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q)
+        (a := a)).mpr ⟨data.left, data.right.left, data.right.right.left,
+          data.right.right.right.left⟩
     have counitCarrier : NatTransPrefixComponentCarrier q p a counit := by
       cases data.right.right.right.right.right.right.left
-      exact
-        (NatTransPrefixComponentCarrier_empty_identity_iff (p := q) (q := p) (a := a)).mpr
-          (And.intro data.right.left
-            (And.intro data.left
-              (And.intro data.right.right.left data.right.right.right.right.left)))
+      exact (NatTransPrefixComponentCarrier_empty_identity_iff (p := q) (q := p)
+        (a := a)).mpr ⟨data.right.left, data.left, data.right.right.left,
+          data.right.right.right.right.left⟩
     have leftRel : Cont unit counit left := by
       cases data.right.right.right.right.right.left
       cases data.right.right.right.right.right.right.left
@@ -538,10 +539,8 @@ theorem AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
       cases data.right.right.right.right.right.right.left
       cases data.right.right.right.right.right.right.right.right
       exact cont_right_unit BHist.Empty
-    exact
-      And.intro
-        (And.intro unitCarrier (And.intro counitCarrier (And.intro leftRel rightRel)))
-        data.right.right.right.right.right.right.right.left
+    exact ⟨⟨unitCarrier, counitCarrier, leftRel, rightRel⟩,
+      data.right.right.right.right.right.right.right.left⟩
 
 theorem AdjunctionUnitCounitCarrier_right_cycle_empty_components_iff
     {p q a unit counit left right : BHist} :
@@ -561,30 +560,23 @@ theorem AdjunctionUnitCounitCarrier_right_cycle_empty_components_iff
         (p := q) (q := p) (a := a) (unit := counit) (counit := unit)
         (left := right) (right := left)).mp
         (And.intro swappedCarrier data.right)
-    exact
-      And.intro swappedData.right.left
-        (And.intro swappedData.left
-          (And.intro swappedData.right.right.left
-            (And.intro swappedData.right.right.right.right.left
-              (And.intro swappedData.right.right.right.left
-                (And.intro swappedData.right.right.right.right.right.right.left
-                  (And.intro swappedData.right.right.right.right.right.left
-                    (And.intro swappedData.right.right.right.right.right.right.right.right
-                      swappedData.right.right.right.right.right.right.right.left)))))))
+    exact ⟨swappedData.right.left, swappedData.left, swappedData.right.right.left,
+      swappedData.right.right.right.right.left, swappedData.right.right.right.left,
+      swappedData.right.right.right.right.right.right.left,
+      swappedData.right.right.right.right.right.left,
+      swappedData.right.right.right.right.right.right.right.right,
+      swappedData.right.right.right.right.right.right.right.left⟩
   · intro data
     have swappedData :
         UnaryHistory q ∧ UnaryHistory p ∧ UnaryHistory a ∧ hsame q p ∧ hsame p q ∧
           hsame counit BHist.Empty ∧ hsame unit BHist.Empty ∧
             hsame right BHist.Empty ∧ hsame left BHist.Empty :=
-      And.intro data.right.left
-        (And.intro data.left
-          (And.intro data.right.right.left
-            (And.intro data.right.right.right.right.left
-              (And.intro data.right.right.right.left
-                (And.intro data.right.right.right.right.right.right.left
-                  (And.intro data.right.right.right.right.right.left
-                    (And.intro data.right.right.right.right.right.right.right.right
-                      data.right.right.right.right.right.right.right.left)))))))
+      ⟨data.right.left, data.left, data.right.right.left,
+        data.right.right.right.right.left, data.right.right.right.left,
+        data.right.right.right.right.right.right.left,
+        data.right.right.right.right.right.left,
+        data.right.right.right.right.right.right.right.right,
+        data.right.right.right.right.right.right.right.left⟩
     have swapped :=
       (AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
         (p := q) (q := p) (a := a) (unit := counit) (counit := unit)
@@ -604,8 +596,5 @@ theorem AdjunctionTriangleCarrier_roundtrip_empty_component_prefix_readback
   have components :=
     (AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty carrier).mp
       (And.intro leftEmpty rightEmpty)
-  exact And.intro components.left
-    (And.intro components.right
-      (AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic carrier leftEmpty rightEmpty))
-
+  exact ⟨components.left, components.right, AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic carrier leftEmpty rightEmpty⟩
 end BEDC.Derived.AdjunctionUp

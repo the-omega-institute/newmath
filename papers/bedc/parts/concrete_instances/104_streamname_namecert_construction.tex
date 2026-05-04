@@ -125,6 +125,53 @@ apply rational one-tail classifier exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameClassifier\_observation\_e1\_pair\_readback}
 
+\begin{theorem}[Rational stream-name observation shape exclusions]
+\label{thm:rat-stream-name-classifier-observation-shape-exclusions}
+For certified observation maps $s,t:\Hist\to\Hist$ and an observation history
+$n$, suppose
+$$
+\mathsf{RatStreamNameClassifier}(s,t)\quad\text{and}\quad
+\mathsf{UnaryHistory}(n).
+$$
+Then the selected observations satisfy the positive-denominator and unary
+endpoint package
+$$
+\mathsf{PositiveUnaryDenominator}(s(n))\land
+\mathsf{PositiveUnaryDenominator}(t(n))\land
+\mathsf{UnaryHistory}(s(n))\land
+\mathsf{UnaryHistory}(t(n)).
+$$
+They also satisfy the two empty-history exclusions
+$$
+(\hsame(s(n),\emp)\to\mathsf{False})\land
+(\hsame(t(n),\emp)\to\mathsf{False}),
+$$
+and for all histories $z_s,z_t:\Hist$ the two zero-headed exclusions
+$$
+(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(n),\Ezero(z_t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Read the stream-name classifier at the certified observation $(n,\nu)$, where
+$\nu:\mathsf{UnaryHistory}(n)$. Apply
+\autoref{thm:rat-history-classifier-positive-denominators} to this point
+classifier. This gives positive unary denominator witnesses for $s(n)$ and
+$t(n)$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately
+to the two positive denominator witnesses. The unary components give
+$\mathsf{UnaryHistory}(s(n))$ and $\mathsf{UnaryHistory}(t(n))$, and the
+nonempty components give the two exclusions against $\emp$.
+
+For a displayed zero-headed shape $\hsame(s(n),\Ezero(z_s))$, transport the
+positive denominator witness for $s(n)$ across that sameness by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The transported
+witness contradicts \autoref{thm:rat-positive-denominator-e0-absurd}. The
+argument for $\hsame(t(n),\Ezero(z_t))$ is identical, using the positive
+denominator witness for $t(n)$.
+\end{proof}
+
 \begin{theorem}[Rational stream-name reindexing and map stability]
 \label{thm:rat-stream-name-reindexing-and-map-stability}
 For certified observation maps $s,t,r:\Hist\to\Hist$, suppose $r$ preserves
