@@ -109,6 +109,44 @@ $\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$. Repack this recovered
 cross-addition sameness with the recovered carrier witnesses for $(p,n)$ and
 $(q,m)$ to obtain $\mathsf{IntPairClassifier}((p,n),(q,m))$.
 \end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_balanced\_append\_context\_reflection}
+
+\begin{theorem}[Integer pair classifier balanced append context exactness]
+\label{thm:int-pair-classifier-balanced-append-context-exactness}
+For $a,b,p,n,q,m:\mathsf{BHist}$, if $\mathsf{Unary}(a)$ and
+$\mathsf{Unary}(b)$, then
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,p),\mathsf{append}(n,b)),
+(\mathsf{append}(a,q),\mathsf{append}(m,b)))
+\Longleftrightarrow
+\mathsf{IntPairClassifier}((p,n),(q,m)).
+$$
+The ten-field fit is: traditional target balanced signed-pair context
+exactness; BEDC source $\mathsf{IntPairCarrier}$,
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, and
+$\hsame$; carrier difference pairs; classifier cross-addition sameness;
+stability common positive and negative unary context transport; ledger the
+removable positive unary context $a$ and removable negative unary context $b$;
+core theorem this exactness block; exactness the displayed iff; standard bridge
+ordinary quotient cancellation under simultaneous numerator and denominator
+context; downstream consumer one-sided context exactness and $\RatUp$
+numerator-denominator context cancellation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. The hypotheses
+$\mathsf{Unary}(a)$ and $\mathsf{Unary}(b)$ put the displayed classifier in the
+scope of Theorem~\ref{thm:int-pair-classifier-balanced-append-context-reflection},
+which removes the common positive and negative contexts and yields
+$\mathsf{IntPairClassifier}((p,n),(q,m))$.
+
+For the reverse direction, assume
+$\mathsf{IntPairClassifier}((p,n),(q,m))$. Applying
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context} with the same
+unary witnesses for $a$ and $b$ transports the classifier through the balanced
+append context, giving exactly the contextual classifier in the displayed
+statement.
+\end{proof}
 
 \begin{theorem}[Integer pair classifier one-sided append context exactness]
 \label{thm:int-pair-classifier-one-sided-append-context-exactness}

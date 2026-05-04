@@ -155,6 +155,56 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairClassifier}
 
+\begin{theorem}[Integer pair classifier zero representative criterion]
+\label{thm:int-pair-classifier-zero-representative-criterion}
+For all $p,n:\mathsf{BHist}$, if $\mathsf{Unary}(p)$ and
+$\mathsf{Unary}(n)$, then the ordinary zero representative detects exactly the
+zero class of the carried signed pair:
+\begin{enumerate}
+\item
+$$
+\mathsf{IntPairClassifier}((p,n),(\emp,\emp))
+\Longleftrightarrow
+\hsame(p,n);
+$$
+\item
+$$
+\mathsf{IntPairClassifier}((\emp,\emp),(p,n))
+\Longleftrightarrow
+\hsame(p,n).
+$$
+\end{enumerate}
+The ten-field fit is: target ordinary zero class of signed difference pairs;
+BEDC source $\mathsf{IntPairCarrier}$, $\mathsf{IntPairClassifier}$,
+$\mathsf{Unary}$, $\mathsf{append}$, $\emp$, and $\hsame$; carrier carried
+unary pairs; classifier cross-addition sameness; stability append unit
+transport; ledger hidden empty counter pair; exactness zero representative iff;
+downstream consumer $\mathsf{RatUp}$ numerator-zero and $\mathsf{IntUp}$
+closure; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{IntPairClassifier}$. In the first forward direction, the
+cross-addition field reads
+$\hsame(\mathsf{append}(p,\emp),\mathsf{append}(\emp,n))$; the right and left
+unit laws for $\mathsf{append}$ reduce this comparison to $\hsame(p,n)$.
+
+For the first reverse direction, the unary hypotheses give
+$\mathsf{IntPairCarrier}(p,n)$, and the empty unary witness gives
+$\mathsf{IntPairCarrier}(\emp,\emp)$. Transport the assumed $\hsame(p,n)$
+through the same two unit identifications to obtain the required
+cross-addition field.
+
+For the second orientation, unfold the classifier for
+$((\emp,\emp),(p,n))$. The cross-addition field is
+$\hsame(\mathsf{append}(\emp,n),\mathsf{append}(p,\emp))$, so the unit laws and
+symmetry of $\hsame$ identify it with $\hsame(p,n)$.
+
+The reverse direction again packages the two carrier witnesses and transports
+$\hsame(p,n)$ across the unit laws, reversing the comparison by symmetry when
+the displayed orientation requires it.
+\end{proof}
+
 \begin{theorem}[Integer pair classifier positive append context]
 \label{thm:int-pair-classifier-append-positive-context}
 If \(a,p,n,q,m:\mathsf{BHist}\), \(a\) is unary, and
