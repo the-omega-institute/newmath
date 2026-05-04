@@ -216,3 +216,36 @@ histories, so continuation determinacy for their distance ledgers identifies
 their result histories.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}
+
+\begin{definition}[Metric ball budget predicate]
+\label{def:metric-ball-budget-predicate}
+For a certified $\MetricSpaceUp$ setup on a carrier $X$ with distance $d:X\times X\to\RealUp$, write $\le_{\mathsf R}$ and $+$ for the ordered-real comparison and addition used by the Bishop real moduli in \autoref{def:metric-stability-certificate}. The closed ball-budget predicate is
+$$
+\mathsf{MetricBallBudget}_d(x,y;r) :\Longleftrightarrow d(x,y)\le_{\mathsf R} r.
+$$
+\end{definition}
+
+\begin{theorem}[Metric ball budget composition]
+\label{thm:metric-ball-budget-composition}
+Let $X$ be a carrier equipped with the $\MetricSpaceUp$ certificate obligations of \autoref{def:metric-certificate-obligations}, and let $d:X\times X\to\RealUp$ be its certified distance. For $x,y,z:X$ and budgets $r,s:\RealUp$,
+$$
+\mathsf{MetricBallBudget}_d(x,y;r)\Longrightarrow
+\mathsf{MetricBallBudget}_d(y,z;s)\Longrightarrow
+\mathsf{MetricBallBudget}_d(x,z;r+s).
+$$
+Equivalently,
+$$
+d(x,y)\le_{\mathsf R} r\Longrightarrow d(y,z)\le_{\mathsf R} s\Longrightarrow d(x,z)\le_{\mathsf R} r+s.
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:metric-ball-budget-predicate}. The two premises are the ordered-real comparisons $d(x,y)\le_{\mathsf R} r$ and $d(y,z)\le_{\mathsf R} s$. The triangle-inequality field of \autoref{def:metric-stability-certificate} gives
+$$
+d(x,z)\le_{\mathsf R} d(x,y)+d(y,z).
+$$
+The ordered-real addition comparison used by the same certificate is monotone in both inputs, so the two budget premises give
+$$
+d(x,y)+d(y,z)\le_{\mathsf R} r+s.
+$$
+Transitivity of the ordered-real comparison composes the two displayed inequalities, yielding $d(x,z)\le_{\mathsf R} r+s$. Refolding \autoref{def:metric-ball-budget-predicate} gives the closed ball-budget conclusion.
+\end{proof}
