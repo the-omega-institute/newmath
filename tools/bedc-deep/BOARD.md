@@ -4459,3 +4459,275 @@ A structural closure theorem at the SemanticNameCert record level: B-17 weakens 
 
 ---
 
+### B-174 - Module: scalar negation distributes over scalar action
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module: scalar negation distributes over scalar action |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a ModuleUp(R, M) certificate, for every carried scalar r:R and carried module element m:M, ((-r) odot_M m) sim_M -_M (r odot_M m).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Belongs in chapter 21 (Module). Standard textbook stepping stone in Hungerford ch.IV §1 (Modules) and Dummit & Foote §10.1 (Module axioms): negation of a scalar acts as additive inverse of the scalar action. Verified absent: grep across 21_module_namecert_construction.tex shows only thm:module-zero-action-annihilation (591) for 0_R odot m and r odot 0_M, and lem:module-scalar-action-additive-inverse (linearmap/module_linearmap_certificates.tex:428) for the SYMMETRIC `-_N(r odot y) sim r odot (-_N y)` (negation pulled to the module side); the negation pulled to the SCALAR side is not stated. Closes in 1-2 codex rounds: scalar distributivity over scalar addition (def:module-stability-certificate item 6) gives `(r +_R (-r)) odot m sim_M (r odot m) +_M ((-r) odot m)`; ring additive right inverse `r +_R (-r) sim_R 0_R` (thm:ring-add-right-inverse, ring/18_ring_certificate_and_additive_laws.tex:33) plus scalar-action congruence and thm:module-zero-action-annihilation give `(r +_R (-r)) odot m sim_M 0_M`; group inverse uniqueness (thm:group-left-right-inverse-uniqueness, group/namecert_construction_core/02_certificate.tex:70) closes the goal. All cited prerequisites already exist.
+
+---
+
+
+### B-175 - Module: scalar -1 acts as module additive inverse
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module: scalar -1 acts as module additive inverse |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a ModuleUp(R, M) certificate with scalar one 1_R, for every carried module element m:M, ((-1_R) odot_M m) sim_M -_M m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Belongs in chapter 21 (Module). Standard textbook stepping stone in Hungerford ch.IV §1 and Dummit & Foote §10.1: the scalar -1 is recognized as the module-side negation operator. Verified absent: grep `module.*minus-one|module-neg-one` across papers/bedc/parts returns no matches; module chapter has zero-action annihilation but not unit-action negation. Closes in 1-2 rounds using only premises already in the chapter: scalar unit law (def:module-stability-certificate item 7) gives `1_R odot m sim_M m`; scalar distributivity over scalar addition gives `(1_R +_R (-1_R)) odot m sim_M (1_R odot m) +_M ((-1_R) odot m)`; ring additive right inverse `1_R +_R (-1_R) sim_R 0_R` plus thm:module-zero-action-annihilation give the LHS sim 0_M; substituting unit law on the first summand and applying group inverse uniqueness (thm:group-left-right-inverse-uniqueness) closes. All prerequisites exist locally.
+
+---
+
+
+### B-176 - Ring: left distributivity over subtraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring: left distributivity over subtraction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a RingUp(R) certificate, for all carried a,b,c:R, (a cdot_R (b -_R c)) sim_R ((a cdot_R b) -_R (a cdot_R c)), where x -_R y abbreviates x +_R (-_R y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Belongs in chapter 18 (Ring). Standard textbook stepping stone in Hungerford ch.III §1 (Rings) and Dummit & Foote §7.1: distribution over subtraction follows immediately from distribution over addition plus the sign rule. Verified absent: grep `distribut.*subtract|distribut.*minus` across papers/bedc/parts returns NO matches; the chapter has full left distributivity (def:ring-stability-certificate) and the sign rules thm:ring-mul-neg-left-eq-neg-mul (line 238) and thm:ring-mul-neg-right-eq-neg-mul (line 260), and thm:ring-additive-difference-zero-exact (line 170) confirms `b -_R c` is sugar for `b +_R (-c)`, but no theorem extracts the subtraction-distribution corollary. Closes in 1 round: apply left distributivity to a cdot_R (b +_R (-c)) yielding (a cdot_R b) +_R (a cdot_R (-c)); apply thm:ring-mul-neg-right-eq-neg-mul to rewrite a cdot_R (-c) sim -_R (a cdot_R c); classifier transitivity finishes. The symmetric right-distributivity-over-subtraction is the obvious follow-up.
+
+---
+
+
+### B-177 - LinearMap: linear map preserves additive negation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LinearMap: linear map preserves additive negation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under VecSpaceUp(F,V) and VecSpaceUp(F,W) certificates and a carried LinearMapUp(V,W) map f, for every carried m:V, (f(-_V m)) sim_W -_W (f(m)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+Belongs in chapter 23 (LinearMap). Standard textbook stepping stone in Hungerford ch.IV §2 and Dummit & Foote §10.2 (linear transformations): every linear map sends -m to -f(m). Verified absent for ARBITRARY linear maps: grep `f\(-|negation.*linear|linear.*negation|linearmap-neg` returns no matching theorem statements. The chapter HAS thm:linearmap-zero-preservation-from-additivity (module_linearmap_certificates.tex:21) and thm:module-linearmap-pointwise-inverse-certificate (line 482, which CONSTRUCTS h(x) := -f(x) and shows h is linear — a different proposition), but the direct equality `f(-m) sim -f(m)` for arbitrary linear f is not stated. Closes in 1-2 rounds: source right-inverse `m +_V (-_V m) sim_V 0_V`; descent of f and additive-preservation row give `f(m) +_W f(-_V m) sim_W f(m +_V (-_V m)) sim_W f(0_V) sim_W 0_W` via thm:linearmap-zero-preservation-from-additivity; group inverse uniqueness closes. All prerequisites in chapter 23/group.
+
+---
+
+
+### B-178 - Polynomial: evaluation at scalar zero returns the constant term
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial: evaluation at scalar zero returns the constant term |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under RingUp(R) and the polynomial Horner evaluation of def:polynomial-horner-evaluation, for every carried scalar a:R and every coefficient list t, (Eval_{0_R, R}(cons(a, t))) sim_R a.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_absorption_from_distributivity.tex`
+
+Rationale:
+Belongs in chapter 25 (Polynomial). Standard textbook stepping stone in Hungerford ch.III §6 (Polynomial Rings) and Dummit & Foote §9.1: a polynomial evaluated at zero returns its constant term. Verified absent: grep `eval.*at.*zero|eval-zero-alpha|polynomial-eval-zero|polynomial-constant-term` across papers/bedc/parts returns NO matching theorem labels. The chapter has the Horner recursion (def:polynomial-horner-evaluation, line 27) `eval_α(cons(a, t)) := α · eval_α(t) + a` and lem:horner-evaluation-zero-tail-invariance and the additive/multiplicative homomorphism theorems but never specializes to α = 0_R. Closes in 1 round: the Horner cons clause at α = 0_R unfolds to `0_R cdot_R eval_{0_R, R}(t) +_R a`; thm:ring-mul-zero-absorption (ring/18_ring_zero_product_and_signed_square.tex:20) gives the multiplicand sim 0_R; thm:ring-add-right-zero (or ring additive left-unit row) gives 0_R +_R a sim_R a. All cited prerequisites already exist.
+
+---
+
+
+### B-179 - CommRing: square of a product equals product of squares
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CommRing: square of a product equals product of squares |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CommRingUp(R) certificate, for every carried a,b:R, ((a cdot_R b) cdot_R (a cdot_R b)) sim_R ((a cdot_R a) cdot_R (b cdot_R b)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/commring/19_commring_algebraic_consequences.tex`
+- `papers/bedc/parts/concrete_instances/commring/19_commring_core.tex`
+
+Rationale:
+Belongs in chapter 19 (CommRing). Standard textbook stepping stone in Hungerford ch.III §1 (Commutative Rings) and Dummit & Foote §7.3: in a commutative ring (ab)^2 = a^2 b^2. Verified absent: grep `commring.*sq.*prod|sq.*of.*prod|commring-sq-mul|mul-square|product.*square` returns NO matching theorem labels. The chapter HAS thm:commring-square-add-expand (square of a sum), thm:commring-square-signed-difference-expand (square of a difference), thm:commring-difference-of-squares, and thm:commring-parallelogram-square-sum, but not the square-of-product identity. Closes in 1 round: by multiplicative associativity, (ab)(ab) sim a(b(ab)); by commutativity (the multiplicative-commutativity field of commring stability certificate), b(ab) sim (ab)b; by associativity twice, this reaches a((ba)b) sim a(a(bb)) sim (aa)(bb). Uses only the multiplicative monoid and commutativity fields already in def:commring-stability-certificate.
+
+---
+
+### B-180 - Ring forgets to Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring forgets to Monoid certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R carries a RingUp(R) certificate, then dropping the additive carrier (0_R, +_R, (-)_R, distributivity rows, additive-abelian-group stability rows, and ledger entries whose provenance uses + or unary minus) yields a MonoidUp(R) certificate over R with operation mul_R, identity 1_R, and the ring's classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+The dual companion to the previous candidate. ring/18_ring_certificate_and_additive_laws.tex:19 (def:ring-stability-certificate) names multiplicative-monoid laws (associativity, identity, congruence) as ring obligations, and these are realized by the singleton-empty-history ring instance at ring/18_ring_intro_and_singletons.tex. 15_monoid_namecert_construction.tex:104 (def:monoid-stability-certificate) and 15_monoid:523 (def:monoid-certificate-obligations) are the target obligations. `grep -rn 'ring-forgets-monoid\|ring-multiplicative-carrier' papers/bedc/parts/ --include='*.tex'` returns 0 matches, so the multiplicative reduct is genuinely unstated even though all the law fields it would project are already proved (cf. prop:monoid-forgets-semigroup-certificate at 57_semigroup:158 for the proof template).
+
+---
+
+
+### B-181 - TotalOrder forgets to Lattice certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TotalOrder forgets to Lattice certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If C carries a TotalOrderUp(C) certificate, then defining x ∧ y as the trichotomy-selected lesser endpoint and x ∨ y as the trichotomy-selected greater endpoint yields a LatticeUp(C) certificate whose meet and join classifier-equal the trichotomy selectors.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_carriers_and_unary_selectors.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_unary_context_laws.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+
+Rationale:
+Unlike the simpler downward forget projections, this one runs sideways and EXHIBITS lattice meet/join from totalorder selectors. The selector machinery is already in place: 29_totalorder_namecert_carriers_and_unary_selectors.tex:237 (thm:totalorder-prefix-least-upper-selector) and 29_totalorder_namecert_unary_context_laws.tex:2 (thm:totalorder-prefix-greatest-lower-selector) exhibit GLB and LUB witnesses on the unary-prefix model. lattice/the_certificate.tex:18 (def:lattice-stability-certificate) requires only those bound-characterization rows, which the trichotomy-driven selectors directly supply (cf. lem:lattice-meet-idempotence-from-bounds at lattice/the_certificate.tex:45 — its hypothesis IS the GLB rule). `grep -rn 'totalorder-forgets-lattice\|totalorder.*lattice.*forget' papers/bedc/parts/ --include='*.tex'` returns 0 hits. This is the natural classifier-level promotion theorem missing from the order/lattice chapter chain.
+
+---
+
+
+### B-182 - Field forgets to Ring certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Field forgets to Ring certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If F carries a FieldUp(F) certificate, then composing the existing field→commring projection with the existing commring→ring projection yields a RingUp(F) certificate over the same scalar carrier, classifier, +_F, 0_F, (-)_F, mul_F, and 1_F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/field/20_field_certificate_record.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/commring/19_commring_core.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+field/20_field_certificate_record.tex:206 (thm:field-certificate-forgets-commring-certificate) and commring/19_commring_core.tex:229 (prop:commring-forgets-ring-certificate) both exist; the natural composite is the direct Field → Ring projection, but `grep -rn 'field-forgets-ring\|field-ring-projection' papers/bedc/parts/ --include='*.tex'` returns 0 hits. The corresponding two-step composite is exactly the construction used implicitly throughout 22_vecspace_namecert_construction.tex:495 (cor:vecspace-additive-carrier-projection) — the ring-side reduct of a field-side certificate. Promoting that implicit composite to a labeled corollary unblocks consumer chapters (vecspace, linearmap, polynomial) that currently re-derive the projection in prose.
+
+---
+
+
+### B-183 - AbGroup forgets to Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup forgets to Monoid certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries an AbGroupUp(C) certificate, then dropping the additive-inverse field, the commutativity field, and inverse-witness ledger entries yields a MonoidUp(C) certificate over the same carrier, classifier, addition operation, and zero element.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+prop:abgroup-forgets-group-certificate (17_abgroup:722) and prop:group-forgets-monoid-certificate (group/16_group_certificate_tail.tex:103) both exist; the direct AbGroup → Monoid projection (skipping Group) is unstated. `grep -rn 'abgroup-forgets-monoid\|abgroup-monoid-projection' papers/bedc/parts/ --include='*.tex'` returns 0 hits. This is the additive analogue of the field-forgets-ring candidate above and uses the same composite-corollary pattern. Justification for separateness: 21_module_namecert_construction.tex:553 explicitly relies on 'the additive abelian-group laws' as a single bundle but never names this bundle through the monoid certificate, and the linearmap chapter (linearmap/module_linearmap_certificates.tex:13) re-derives the additive monoid each time it needs a unit-and-associativity reduct.
+
+---
+
