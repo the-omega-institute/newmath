@@ -47,4 +47,29 @@ protected theorem SubgroupCentralizerIntersectionClassifier_inv_closed_from_empt
         assocC leftId rightId mulCongr leftInv rightInv classified.right.left)
       (invCongr classified.right.right))
 
+protected theorem SubgroupCentralizerIntersectionClassifier_hsame_transport_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a b x x' y y' : BHist} :
+    SubgroupCentralizerIntersectionClassifier mul a b x y -> hsame x x' -> hsame y y' ->
+      SubgroupCentralizerIntersectionClassifier mul a b x' y' := by
+  intro classified sameXX' sameYY'
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersection_certificate_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a) (b := b)
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerIntersectionCarrier mul a b u ->
+        hsame u v -> SubgroupCentralizerIntersectionCarrier mul a b v :=
+    certificateRows.right.right.right.right
+  have sameX'Y' : hsame x' y' :=
+    hsame_trans (hsame_symm sameXX') (hsame_trans classified.right.right sameYY')
+  exact And.intro (carrierTransport classified.left sameXX')
+    (And.intro (carrierTransport classified.right.left sameYY') sameX'Y')
+
 end BEDC.Derived.SubgroupUp

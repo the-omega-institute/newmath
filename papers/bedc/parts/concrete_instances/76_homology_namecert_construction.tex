@@ -353,6 +353,28 @@ theorem supplies the paired witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_empty\_preimages}
 
+\begin{theorem}[Homology boundary carrier continuation empty-result preimage equivalence]
+\label{thm:homology-boundary-carrier-cont-empty-result-preimages-iff}
+If $B_d(h)$ and $B_d(k)$ and $\ContR(h,k,r)$, then $r$ is history-same to
+$\mathsf{Empty}$ exactly when the two boundary witnesses can be chosen with
+empty differential endpoints:
+$$
+\hsame(r,\mathsf{Empty})
+\Longleftrightarrow
+\exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(d(u),\mathsf{Empty})\land\hsame(d(v),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the continuation empty-preimage theorem. Conversely,
+the two displayed empty differential endpoints transport through the boundary
+witnesses to give $h\hsame\mathsf{Empty}$ and $k\hsame\mathsf{Empty}$; append
+empty-result exactness makes $\mathsf{append}(h,k)$ empty, and the continuation
+ledger identifies this append endpoint with $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_empty\_result\_preimages\_iff}
+
 \begin{theorem}[Homology boundary carrier append nonempty preimage]
 \label{thm:homology-boundary-carrier-append-nonempty-preimage}
 If $B_d(h)$ and $B_d(k)$ and

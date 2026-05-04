@@ -53,6 +53,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.UnitUp
@@ -157,6 +158,8 @@ import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
 import BEDC.Derived.HolomorphicUp.CenterPointSuffixGapReadback
 import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
+import BEDC.Derived.HolomorphicUp.OpenDiskZeroHeaded
+import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -174,6 +177,7 @@ import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.DescentCertificate
@@ -274,6 +278,7 @@ import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
+import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
@@ -392,13 +397,18 @@ import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
+import BEDC.Derived.LinearMapUp.ContextContinuation
+import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
+import BEDC.Derived.LinearMapUp.ContextContinuationAppendResult
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
+import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveSuffix
+import BEDC.Derived.MatrixUp.VisibleBaseCarrier
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
@@ -556,6 +566,7 @@ import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
 import BEDC.Derived.NatTransUp.TailCommClosed
 import BEDC.Derived.NatTransUp.EmptyObject
+import BEDC.Derived.NatTransUp.EmptyComponentOpposite
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.AdjunctionUp
