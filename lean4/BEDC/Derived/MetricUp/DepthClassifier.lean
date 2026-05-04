@@ -40,6 +40,30 @@ theorem MetricDistanceDepth_positive_iff_nonempty {d : BHist} :
     | e1 d =>
         exact Nat.succ_pos (MetricDistanceDepth d)
 
+theorem MetricDistanceDepth_append_positive_iff {p d : BHist} :
+    0 < MetricDistanceDepth (append p d) ↔
+      0 < MetricDistanceDepth p ∨ 0 < MetricDistanceDepth d := by
+  constructor
+  · intro positive
+    have appendNonempty :
+        hsame (append p d) BHist.Empty -> False :=
+      (MetricDistanceDepth_positive_iff_nonempty (d := append p d)).mp positive
+    cases append_nonempty_iff.mp appendNonempty with
+    | inl pNonempty =>
+        exact Or.inl
+          ((MetricDistanceDepth_positive_iff_nonempty (d := p)).mpr pNonempty)
+    | inr dNonempty =>
+        exact Or.inr
+          ((MetricDistanceDepth_positive_iff_nonempty (d := d)).mpr dNonempty)
+  · intro positive
+    apply (MetricDistanceDepth_positive_iff_nonempty (d := append p d)).mpr
+    apply append_nonempty_iff.mpr
+    cases positive with
+    | inl pPositive =>
+        exact Or.inl ((MetricDistanceDepth_positive_iff_nonempty (d := p)).mp pPositive)
+    | inr dPositive =>
+        exact Or.inr ((MetricDistanceDepth_positive_iff_nonempty (d := d)).mp dPositive)
+
 theorem MetricDistanceDepth_positive_shape_cases {d : BHist} :
     (MetricDistanceDepth d = 0 -> False) ->
       (∃ z : BHist, d = BHist.e0 z) ∨ (∃ z : BHist, d = BHist.e1 z) := by
