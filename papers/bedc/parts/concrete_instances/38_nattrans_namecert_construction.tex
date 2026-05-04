@@ -710,3 +710,63 @@ The \(\NatTransUp\) stability certificate in \autoref{def:nattrans-stability-cer
 \]
 This is the displayed classifier witness for the composite component family.
 \end{proof}
+
+\begin{definition}[Opposite natural transformation certificate data]
+\label{def:opposite-nattrans-certificate-data}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, let $F,G:\mathcal C\to\mathcal D$ be $\FunctorUp$ certificates, and let
+$\alpha:F\Rightarrow G$ be a $\NatTransUp$ certificate with component family $\alpha_X:F_0(X)\to G_0(X)$ in $\mathcal D$. Over the
+opposite-functor certificates of \autoref{def:opposite-functor-certificate-data}, define $\alpha^{\mathrm{op}}:G^{\mathrm{op}}\Rightarrow F^{\mathrm{op}}$ by the same raw component family
+$$
+(\alpha^{\mathrm{op}})_X:=\alpha_X.
+$$
+The component is typed in $\mathcal D^{\mathrm{op}}$ because the hom-carrier of \autoref{def:opposite-category-certificate-data} reads the original
+morphism $\alpha_X:F_0(X)\to G_0(X)$ as a displayed morphism $G_0(X)\to F_0(X)$. For a displayed morphism $u:X\to Y$ in
+$\mathcal C^{\mathrm{op}}$, the naturality ledger is the classifier-symmetric form of the original naturality ledger for the same raw morphism
+$u:Y\to X$ in $\mathcal C$, with both target composites read through opposite composition.
+\end{definition}
+
+\begin{theorem}[Opposite natural transformation certificate]
+\label{thm:opposite-natural-transformation-certificate}
+If $\mathcal C$ and $\mathcal D$ satisfy the $\CategoryUp$ certificate obligations, $F,G:\mathcal C\to\mathcal D$ satisfy the $\FunctorUp$
+certificate obligations, and $\alpha:F\Rightarrow G$ satisfies the $\NatTransUp$ certificate obligations of \autoref{def:nattrans-certificate-obligations},
+then the data of \autoref{def:opposite-nattrans-certificate-data} satisfy the $\NatTransUp$ certificate obligations from $G^{\mathrm{op}}$ to
+$F^{\mathrm{op}}$ over $\mathcal C^{\mathrm{op}}$ and $\mathcal D^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:opposite-category-certificate}, the source and target opposite data are certified categories. By \autoref{thm:opposite-functor-certificate},
+$G^{\mathrm{op}}$ and $F^{\mathrm{op}}$ are certified functors with common source $\mathcal C^{\mathrm{op}}$ and common target $\mathcal D^{\mathrm{op}}$.
+This supplies the source specification required by \autoref{def:nattrans-source-specification}.
+
+For the carrier field, let $X$ be a source object. The component field of $\alpha$ gives $\alpha_X:F_0(X)\to G_0(X)$ in $\mathcal D$.
+Since the opposite hom-carrier reverses endpoints and leaves the raw morphism classifier unchanged, the same raw morphism is a component
+$(\alpha^{\mathrm{op}})_X:G^{\mathrm{op}}_0(X)\to F^{\mathrm{op}}_0(X)$ in $\mathcal D^{\mathrm{op}}$. Thus the carrier and pattern fields of
+\autoref{def:nattrans-carrier} and \autoref{def:nattrans-pattern-specification} are the original component family with the endpoints read oppositely.
+
+The classifier field is inherited componentwise. The target morphism classifier of $\mathcal D^{\mathrm{op}}$ is the target morphism classifier
+of $\mathcal D$ on the same raw component representatives, so componentwise reflexivity, transitivity, and classifier replacement are exactly the
+corresponding fields listed in \autoref{def:nattrans-classifier-specification} and \autoref{def:nattrans-stability-certificate} for $\alpha$.
+
+It remains to check naturality. Let $u:X\to Y$ be displayed in $\mathcal C^{\mathrm{op}}$. The same raw morphism is $u:Y\to X$ in
+$\mathcal C$. Naturality of $\alpha$ in $\mathcal D$ gives the target morphism-classifier comparison
+$$
+G_1(u)\circ_{\mathcal D}\alpha_Y \sim_{\mathcal D} \alpha_X\circ_{\mathcal D}F_1(u).
+$$
+Applying symmetry of the codomain morphism classifier gives
+$$
+\alpha_X\circ_{\mathcal D}F_1(u) \sim_{\mathcal D} G_1(u)\circ_{\mathcal D}\alpha_Y.
+$$
+By \autoref{def:opposite-category-certificate-data} and \autoref{def:opposite-functor-certificate-data}, these two original composites are exactly
+$$
+F^{\mathrm{op}}_1(u)\circ_{\mathcal D^{\mathrm{op}}}(\alpha^{\mathrm{op}})_X
+$$
+and
+$$
+(\alpha^{\mathrm{op}})_Y\circ_{\mathcal D^{\mathrm{op}}}G^{\mathrm{op}}_1(u),
+$$
+respectively. Since the morphism classifier is unchanged by the opposite category data, this is the required naturality square in $\mathcal D^{\mathrm{op}}$.
+
+The remaining stability and ledger clauses are inherited without changing raw data. Identity components and vertical component composites are the same raw
+component histories, with their endpoints read in the opposite target category; the naturality argument above applies to each displayed source morphism. The
+ledger policy of \autoref{def:nattrans-ledger-policy} therefore records the same functor ledgers, component morphism ledgers, and naturality derivations,
+now indexed by the two opposite-functor certificates.
+\end{proof}
