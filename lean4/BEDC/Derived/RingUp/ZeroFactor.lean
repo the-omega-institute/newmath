@@ -61,6 +61,42 @@ theorem ring_zero_classifier_signed_factor_absorption
   exact ⟨plainAbsorption.left, plainAbsorption.right,
     signedAbsorption.left, signedAbsorption.right⟩
 
+theorem ring_zero_classifier_two_sided_ideal_package {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (negCongr : forall {a b : BHist}, hsame a b -> hsame (neg a) (neg b))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) {x y z : BHist} :
+    hsame x BHist.Empty -> hsame y BHist.Empty ->
+      hsame (add x y) BHist.Empty ∧ hsame (neg x) BHist.Empty ∧
+        hsame (mul x z) BHist.Empty ∧ hsame (mul z x) BHist.Empty ∧
+          hsame (mul x y) BHist.Empty := by
+  intro xEmpty yEmpty
+  have addEmpty : hsame (add x y) BHist.Empty :=
+    hsame_trans (addCongr xEmpty yEmpty) (zeroLeft BHist.Empty)
+  have negEmpty : hsame (neg x) BHist.Empty :=
+    hsame_trans (negCongr xEmpty)
+      (ring_neg_zero (add := add) (neg := neg) (zero := BHist.Empty)
+        addComm zeroLeft negLeft)
+  have zAbsorption :=
+    ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib (x := x) (y := z) xEmpty
+  have yAbsorption :=
+    ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib (x := x) (y := y) xEmpty
+  exact And.intro addEmpty
+    (And.intro negEmpty
+      (And.intro zAbsorption.left (And.intro zAbsorption.right yAbsorption.left)))
+
 theorem ring_signed_square_zero_ideal_package {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
