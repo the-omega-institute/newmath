@@ -11,15 +11,27 @@ theorem IntPairClassifier_balanced_append_context {a b p n q m : BHist} :
       IntPairClassifier (append a p, append n b) (append a q, append m b) := by
   intro unaryA unaryB classified
   constructor
-  · exact And.intro (unary_append_closed unaryA classified.left.left)
-      (unary_append_closed classified.left.right unaryB)
+  · exact ⟨unary_append_closed unaryA classified.left.left,
+      unary_append_closed classified.left.right unaryB⟩
   · constructor
-    · exact And.intro (unary_append_closed unaryA classified.right.left.left)
-        (unary_append_closed classified.right.left.right unaryB)
-    · exact (append_assoc a p (append m b)).trans
-        ((congrArg (append a) (append_assoc p m b).symm).trans
-          ((congrArg (fun t => append a (append t b)) classified.right.right).trans
-            ((congrArg (append a) (append_assoc q n b)).trans
-              (append_assoc a q (append n b)).symm)))
+    · exact ⟨unary_append_closed unaryA classified.right.left.left,
+        unary_append_closed classified.right.left.right unaryB⟩
+    · have leftAssoc : hsame (append (append a p) (append m b))
+          (append a (append p (append m b))) :=
+        append_assoc a p (append m b)
+      have leftSuffix : hsame (append a (append p (append m b)))
+          (append a (append (append p m) b)) :=
+        congrArg (append a) (append_assoc p m b).symm
+      have middle : hsame (append a (append (append p m) b))
+          (append a (append (append q n) b)) :=
+        congrArg (fun t => append a (append t b)) classified.right.right
+      have rightSuffix : hsame (append a (append (append q n) b))
+          (append a (append q (append n b))) :=
+        congrArg (append a) (append_assoc q n b)
+      have rightAssoc : hsame (append a (append q (append n b)))
+          (append (append a q) (append n b)) :=
+        (append_assoc a q (append n b)).symm
+      exact hsame_trans leftAssoc
+        (hsame_trans leftSuffix (hsame_trans middle (hsame_trans rightSuffix rightAssoc)))
 
 end BEDC.Derived.IntUp

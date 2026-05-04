@@ -168,6 +168,7 @@ choosing the zero branch, using the two unary witnesses, reflexive endpoint
 witnesses for $\Ezero(m)$ and $\Ezero(n)$, and the given payload relation. The
 one-tag case is identical with $\Eone$ in place of $\Ezero$.
 \end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntHistoryClassifier\_visible\_branch\_exactness\_iff}
 
 \begin{theorem}[Integer history classifier signed branch determinacy]
 \label{thm:int-history-classifier-signed-branch-determinacy}
@@ -372,6 +373,53 @@ Apply Theorem~\ref{thm:int-history-classifier-same-tag-readback} to the
 $\Eone$ branch. The same unary witnesses and the reoriented payload
 $\hsame(m,n)$ are precisely its public-history criterion, giving the negative
 displayed $\Longleftrightarrow$.
+\end{proof}
+
+\begin{theorem}[Integer canonical opposite-sign zero collapse]
+\label{thm:int-canonical-opposite-sign-zero-collapse}
+For all $m,n:\mathsf{BHist}$, if $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$, then the opposite-sign canonical difference pair is
+classified only at zero:
+$$
+\mathsf{IntPairClassifier}((m,\emp),(\emp,n))
+\Longleftrightarrow
+\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is opposite-sign
+canonical integer equality. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{IntPairCarrier}$, $\mathsf{append}$,
+$\emp$, and $\hsame$. The carrier is the unary difference-pair carrier. The
+classifier is cross-addition sameness. Stability is supplied by append empty
+inversion and history empty readback. The ledger records the hidden zero
+counters. The core theorem is this zero-collapse block. Exactness is
+canonical opposite-sign collapse. The standard bridge is the ordinary fact
+that $m+n=0$ for unary naturals forces both summands to be zero. The status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $m$ and $n$ are unary. Unfold
+$\mathsf{IntPairClassifier}$ at $((m,\emp),(\emp,n))$. The carrier clauses
+come from the unary hypotheses together with the empty-counter carrier facts.
+The classifier payload is
+$$
+\hsame(\mathsf{append}(m,n),\mathsf{append}(\emp,\emp)).
+$$
+The append unit law reduces the right endpoint to $\emp$.
+
+By empty readback for $\hsame$, the payload gives
+$\mathsf{append}(m,n)=\emp$. Apply append empty inversion to obtain
+$m=\emp$ and $n=\emp$. These equalities yield
+$\hsame(m,\emp)\land\hsame(n,\emp)$ by reflexivity and transport.
+
+Conversely, assume $\hsame(m,\emp)\land\hsame(n,\emp)$ together with the
+unary hypotheses. Empty readback turns the two displayed readbacks into
+$m=\emp$ and $n=\emp$. Since $\emp$ is unary, both endpoints
+$(m,\emp)$ and $(\emp,n)$ satisfy $\mathsf{IntPairCarrier}$ after transport.
+
+It remains to build the cross-addition payload. Transport along the two empty
+equalities and the append unit laws reduces it to $\hsame(\emp,\emp)$, which
+is reflexive. Repacking the two carriers and this payload gives
+$\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$.
 \end{proof}
 
 \begin{theorem}[Integer history classifier positive append context iff]
