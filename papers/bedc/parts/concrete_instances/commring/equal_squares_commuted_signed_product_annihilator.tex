@@ -74,6 +74,43 @@ Introduce the outer conjunction and place the forward package in the left
 component and the commuted package in the right component.
 \end{proof}
 
+\begin{theorem}[CommRing equal-squares bilateral signed-product context annihilator]
+\label{thm:commring-equal-squares-bilateral-signed-product-context-annihilator}
+Under the joint hypotheses of
+\autoref{thm:commring-equal-squares-bilateral-signed-product-annihilator-package}
+and \autoref{thm:ring-mul-zero-absorption}, every $a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\forall c,d : \mathsf{BHist},\
+\left(
+((c\cdot((a+b)\cdot(a+(-b))))\cdot d)\hsame0
+\land
+((c\cdot((a+(-b))\cdot(a+b)))\cdot d)\hsame0
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the square-equality hypothesis $a\cdot a\hsame b\cdot b$.
+
+Apply
+\autoref{thm:commring-equal-squares-bilateral-signed-product-annihilator-package}
+to $Q$. Evaluating the two universal left-multiplier rows at $c$ gives
+$c\cdot((a+b)\cdot(a+(-b)))\hsame0$ and
+$c\cdot((a+(-b))\cdot(a+b))\hsame0$.
+
+For the forward signed product, multiplication congruence transports the
+first zero witness through the common right multiplier $d$, comparing
+$(c\cdot((a+b)\cdot(a+(-b))))\cdot d$ with $0\cdot d$. The corresponding
+zero-absorption row from \autoref{thm:ring-mul-zero-absorption} collapses
+$0\cdot d$ to $0$.
+
+For the commuted signed product, the same argument transports the second
+left-multiplier zero witness through $d$ and collapses the endpoint
+$0\cdot d$ by zero absorption. These two transported zero witnesses form the
+displayed conjunction.
+\end{proof}
+
 The ten-field fit is: traditional target bilateral signed-product
 annihilation in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$
 over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$;
