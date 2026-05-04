@@ -122,6 +122,109 @@ classifier can relate an $e0$-mapped spine to an $e1$-mapped spine only in the
 empty-empty case, so $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
 \end{proof}
 
+\begin{theorem}[List represented-spine mixed-tag context exactness]
+\label{thm:list-represented-spine-mixed-tag-context-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
+$p,p',x,y,s,s':\mathsf{HistSpine}$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. Then mixed visible constructor tags are classified exactly in the empty
+middle case:
+\begin{enumerate}
+  \item for histories $h_0,k_0,m_0,n_0$, if
+  $$
+  \mathsf{ListSpineRep}_A(h_0,p{++}(\mathsf{map}(e0,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(k_0,p'{++}(\mathsf{map}(e1,y){++}s'))
+  $$
+  and
+  $$
+  \mathsf{ListSpineRep}_A(m_0,\mathsf{map}(e0,x)),
+  \quad
+  \mathsf{ListSpineRep}_A(n_0,\mathsf{map}(e1,y))
+  $$
+  hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_0,k_0)
+  \Longleftrightarrow
+  x=\mathsf{nil}\land y=\mathsf{nil};
+  $$
+  \item for histories $h_1,k_1,m_1,n_1$, if
+  $$
+  \mathsf{ListSpineRep}_A(h_1,p{++}(\mathsf{map}(e1,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(k_1,p'{++}(\mathsf{map}(e0,y){++}s'))
+  $$
+  and
+  $$
+  \mathsf{ListSpineRep}_A(m_1,\mathsf{map}(e1,x)),
+  \quad
+  \mathsf{ListSpineRep}_A(n_1,\mathsf{map}(e0,y))
+  $$
+  hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_1,k_1)
+  \Longleftrightarrow
+  x=\mathsf{nil}\land y=\mathsf{nil}.
+  $$
+\end{enumerate}
+
+The ten-field fit is: traditional target finite-list mixed visible-tag
+exactness; BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from
+represented-spine coherence plus append-context cancellation; ledger visible
+$e0/e1$ tags; core theorem mixed-tag exactness; exactness by displayed-spine
+readback; standard bridge finite-spine readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the $e0/e1$ forward implication, apply
+Theorem~\ref{thm:list-represented-spine-mixed-tag-context-separation} to the
+contextual endpoints $h_0,k_0$ and the represented middle endpoints $m_0,n_0$.
+Its hypotheses are exactly the classified prefix and suffix together with the
+four represented-spine witnesses, so a public classifier on $h_0,k_0$ forces
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$.
+
+For the $e0/e1$ reverse implication, assume
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$. Rewriting the two middle spines gives
+the displayed pair $\mathsf{nil},\mathsf{nil}$, and the nil clause of
+Definition~\ref{def:list-classifier-specification} gives
+$$
+\mathsf{ListClassifierSpec}(\hsame,\mathsf{nil},\mathsf{nil}).
+$$
+
+The reverse direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} repacks
+this displayed nil classifier through the represented middle endpoints
+$m_0,n_0$. Thus
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(m_0,n_0)$ holds.
+
+Now apply the reverse direction of
+Theorem~\ref{thm:list-represented-spine-append-context-cancellation}. The
+classified prefix and suffix lift the represented middle classifier through the
+displayed context, producing
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_0,k_0)$.
+
+For the $e1/e0$ forward implication, use the symmetry supplied by
+$\NameCert(A,\hsame)$ and the finite-spine classifier symmetry to reverse the
+endpoint roles. The mixed-tag separation theorem then applies to the reversed
+context with payload spines $y,x$, forcing $y=\mathsf{nil}$ and
+$x=\mathsf{nil}$.
+
+For the $e1/e0$ reverse implication, the assumptions $x=\mathsf{nil}$ and
+$y=\mathsf{nil}$ again reduce the middle spines to the nil-nil displayed
+classifier. Represented-spine displayed exactness classifies $m_1,n_1$, and
+append-context cancellation lifts that middle classifier to the contextual
+endpoints $h_1,k_1$.
+\end{proof}
+
 \begin{theorem}[List classifier $e0$ append-context equivalence]
 \label{thm:list-classifier-hsame-map-e0-append-context-iff}
 For finite BEDC-history spines $p,p',x,y,s,s'$, suppose the prefix contexts
