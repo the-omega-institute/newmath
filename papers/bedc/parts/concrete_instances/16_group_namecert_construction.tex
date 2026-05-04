@@ -8,6 +8,46 @@
 \input{parts/concrete_instances/group/16_group_singleton_conjugated_commutator_orbit_invariance}
 \input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
+
+\begin{theorem}[Group singleton double continuation product-unit chain coverage]
+\label{thm:group-singleton-double-continuation-product-unit-chain-coverage}
+For histories $P,Q,S,T,U,V:\mathsf{BHist}$ with $\ContR(P,Q,S)$ and
+$\ContR(S,T,U)$, the concrete singleton $\GroupUp$ instance satisfies
+$$
+R_{\emp}(\mathsf{append}(U,V),\emp)\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+The ten-field fit names the traditional target terminal-group two-step
+continuation product-unit coverage; BEDC source concrete singleton $\GroupUp$
+over $\mathsf{BHist}$ plus two $\ContR$ witnesses and append; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from continuation product-unit
+coverage, continuation terminal collapse, and terminal classifier packaging;
+ledger the two continuation witnesses and suffix endpoint; exactness the
+displayed iff; downstream consumer $\QuotientGroupUp$ path compression; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-continuation-product-unit-triple-coverage}
+to the continuation witness $\ContR(S,T,U)$. This rewrites the left side as
+$$
+A_{\emp}(S)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under the
+continuation witness $\ContR(P,Q,S)$ to identify $A_{\emp}(S)$ with
+$R_{\emp}(P,Q)$. The intermediate condition becomes
+$$
+R_{\emp}(P,Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Finally, apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to rewrite
+$R_{\emp}(P,Q)$ as $A_{\emp}(P)\land A_{\emp}(Q)$. Reassociating conjunctions
+gives exactly
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
@@ -361,8 +401,8 @@ $$
 \mathsf{Conj}_a(b):=\mathsf{mul}(\mathsf{mul}(a,b),\mathsf{inv}(a)).
 $$
 If $A_{\emp}(s)$, $A_{\emp}(t)$, $A_{\emp}(u)$, and $A_{\emp}(v)$, then the
-three-edge acted normalizer path is classified exactly by the three terminal
-classifier edges:
+three acted normalizer edges with independent conjugators are classified
+exactly by the three terminal classifier edges:
 $$
 \bigl(
 \mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
@@ -372,12 +412,10 @@ $$
 \mathsf{Conj}_u(z)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
 \bigr)
 \Longleftrightarrow
-\bigl(
-R_{\emp}(x,y)\land R_{\emp}(y,z)\land R_{\emp}(z,w)
-\bigr).
+\bigl(R_{\emp}(x,y)\land R_{\emp}(y,z)\land R_{\emp}(z,w)\bigr).
 $$
-Every such acted path also compresses to the endpoint acted edge and the
-endpoint terminal classifier:
+Moreover, any such path compresses to the endpoint acted edge and the terminal
+classifier edge:
 $$
 \bigl(
 \mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
@@ -386,52 +424,45 @@ $$
 \land
 \mathsf{Conj}_u(z)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
 \bigr)
-\Longrightarrow
-\bigl(
-\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
-\land
-R_{\emp}(x,w)
-\bigr).
+\implies
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
+\land R_{\emp}(x,w)\bigr).
 $$
-The ten-field fit is: traditional target terminal three-edge normalizer path
-compression; BEDC source concrete singleton $\GroupUp$; carrier $A_{\emp}$;
-classifier $R_{\emp}$ exact against acted normalizer orbits; stability from
-two-conjugator path classification and terminal classifier packaging; ledger
-the four conjugators and the three adjacent endpoint witnesses; core theorem
-this block; exactness the displayed equivalence plus endpoint compression;
+The ten-field fit is: traditional target terminal three-step conjugation orbit
+path; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$ and the normalizer orbit relation; stability
+from adjacent two-conjugator orbit classification plus terminal classifier
+transitivity; ledger the four conjugators and three path edges; core theorem
+this block; exactness the displayed iff plus compressed endpoint edge;
 downstream consumer $\QuotientGroupUp$ path compression; status
 $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-For the forward direction of the displayed equivalence, assume the three acted
-orbit edges. Apply
-\autoref{thm:group-singleton-two-conjugator-orbit-path-classifier} to the
-first two edges, using the carrier witnesses for $s$, $t$, and $u$, to obtain
-$R_{\emp}(x,y)$ and $R_{\emp}(y,z)$.
+For the forward direction of the path equivalence, assume the three acted orbit
+edges. Apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} to the
+$(s,t,x,y)$ edge, then to the $(t,u,y,z)$ edge, and then to the $(u,v,z,w)$
+edge. The carrier witnesses for the corresponding conjugator pairs supply
+$R_{\emp}(x,y)$, $R_{\emp}(y,z)$, and $R_{\emp}(z,w)$.
 
-Apply \autoref{thm:group-singleton-two-conjugator-orbit-classifier} to the
-last edge, using the carrier witnesses for $u$ and $v$, to obtain
-$R_{\emp}(z,w)$. These three terminal classifier edges are exactly the
-right-hand side.
+For the reverse direction, assume $R_{\emp}(x,y)$, $R_{\emp}(y,z)$, and
+$R_{\emp}(z,w)$. Apply the same two-conjugator orbit classifier in the reverse
+direction to $(s,t,x,y)$, $(t,u,y,z)$, and $(u,v,z,w)$. These are precisely the
+three acted normalizer edges.
 
-For the reverse direction, assume
-$R_{\emp}(x,y)\land R_{\emp}(y,z)\land R_{\emp}(z,w)$. Apply
-\autoref{thm:group-singleton-two-conjugator-orbit-path-classifier} in the
-reverse direction to $(s,t,u,x,y,z)$, producing the first two acted edges.
-Apply \autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the
-reverse direction to $(u,v,z,w)$, producing the last acted edge.
+It remains to compress a given acted path. Use
+\autoref{thm:group-singleton-two-conjugator-orbit-path-classifier} on the first
+two acted edges to obtain $R_{\emp}(x,z)$, and use the adjacent classifier on
+the third edge to obtain $R_{\emp}(z,w)$.
 
-It remains to compress an available acted path. The equivalence just proved
-turns the three acted edges into
-$R_{\emp}(x,y)\land R_{\emp}(y,z)\land R_{\emp}(z,w)$. By the first row of
-\autoref{thm:group-singleton-terminal-classifier-package}, the first terminal
-edge supplies $A_{\emp}(x)$, and the last terminal edge supplies
-$A_{\emp}(w)$.
+Apply the terminal transitivity supplied by
+\autoref{thm:group-singleton-terminal-classifier-package}. The classifier row
+reads the two terminal edges as singleton carrier rows for $x$, $z$, and $w$,
+and repacks them as $R_{\emp}(x,w)$.
 
-Use the reverse direction of the same terminal classifier row to obtain
-$R_{\emp}(x,w)$. Finally apply
+Finally apply
 \autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the reverse
-direction to $(s,v,x,w)$, using $A_{\emp}(s)$ and $A_{\emp}(v)$, to obtain the
-compressed acted endpoint edge
-$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_v(w)$.
+direction to $(s,v,x,w)$ with the carrier witnesses for $s$ and $v$. This gives
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_v(w)$, and together with
+$R_{\emp}(x,w)$ it is the displayed compressed conclusion.
 \end{proof}
