@@ -205,4 +205,73 @@ theorem NatTransPrefixComponentClassifier_zero_headed_component_absurd
                       exact unary_no_zero_extension
                         classified.right.right.right.right.left.right.right.left
 
+theorem NatTransPrefixComponentClassifier_vert_comp_zero_headed_component_absurd
+    {p q r a eta eta' theta theta' c c' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      NatTransPrefixComponentClassifier q r a theta theta' ->
+        Cont eta theta c -> Cont eta' theta' c' ->
+          ((∃ w : BHist, p = BHist.e0 w) ∨ (∃ w : BHist, q = BHist.e0 w) ∨
+            (∃ w : BHist, r = BHist.e0 w) ∨ (∃ w : BHist, a = BHist.e0 w) ∨
+              (∃ w : BHist, eta = BHist.e0 w) ∨ (∃ w : BHist, eta' = BHist.e0 w) ∨
+                (∃ w : BHist, theta = BHist.e0 w) ∨
+                  (∃ w : BHist, theta' = BHist.e0 w) ∨
+                    (∃ w : BHist, c = BHist.e0 w) ∨
+                      (∃ w : BHist, c' = BHist.e0 w)) -> False := by
+  intro left right comp comp' zeroComponent
+  have composite : NatTransPrefixComponentClassifier p r a c c' :=
+    NatTransPrefixComponentClassifier_vert_comp_congr left right comp comp'
+  cases zeroComponent with
+  | inl pZero =>
+      exact NatTransPrefixComponentClassifier_zero_headed_component_absurd left
+        (Or.inl pZero)
+  | inr rest =>
+      cases rest with
+      | inl qZero =>
+          exact NatTransPrefixComponentClassifier_zero_headed_component_absurd left
+            (Or.inr (Or.inl qZero))
+      | inr rest =>
+          cases rest with
+          | inl rZero =>
+              exact NatTransPrefixComponentClassifier_zero_headed_component_absurd right
+                (Or.inr (Or.inl rZero))
+          | inr rest =>
+              cases rest with
+              | inl aZero =>
+                  exact NatTransPrefixComponentClassifier_zero_headed_component_absurd left
+                    (Or.inr (Or.inr (Or.inl aZero)))
+              | inr rest =>
+                  cases rest with
+                  | inl etaZero =>
+                      exact NatTransPrefixComponentClassifier_zero_headed_component_absurd left
+                        (Or.inr (Or.inr (Or.inr (Or.inl etaZero))))
+                  | inr rest =>
+                      cases rest with
+                      | inl eta'Zero =>
+                          exact NatTransPrefixComponentClassifier_zero_headed_component_absurd left
+                            (Or.inr (Or.inr (Or.inr (Or.inr eta'Zero))))
+                      | inr rest =>
+                          cases rest with
+                          | inl thetaZero =>
+                              exact NatTransPrefixComponentClassifier_zero_headed_component_absurd
+                                right (Or.inr (Or.inr (Or.inr (Or.inl thetaZero))))
+                          | inr rest =>
+                              cases rest with
+                              | inl theta'Zero =>
+                                  exact
+                                    NatTransPrefixComponentClassifier_zero_headed_component_absurd
+                                      right
+                                      (Or.inr (Or.inr (Or.inr (Or.inr theta'Zero))))
+                              | inr rest =>
+                                  cases rest with
+                                  | inl cZero =>
+                                      exact
+                                        NatTransPrefixComponentClassifier_zero_headed_component_absurd
+                                          composite
+                                          (Or.inr (Or.inr (Or.inr (Or.inl cZero))))
+                                  | inr c'Zero =>
+                                      exact
+                                        NatTransPrefixComponentClassifier_zero_headed_component_absurd
+                                          composite
+                                          (Or.inr (Or.inr (Or.inr (Or.inr c'Zero))))
+
 end BEDC.Derived.NatTransUp
