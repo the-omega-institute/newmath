@@ -54,6 +54,69 @@ classifier witnesses; exactness predicate no empty product for classified Rat
 endpoints; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit
 certificate; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[RatUp FieldUp four endpoint product nonempty]
+\label{thm:ratup-fieldup-four-endpoint-product-nonempty}
+For a BEDC history-level $\FieldUp(\RatUp)$ candidate satisfying the hypotheses
+of \autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product},
+assume the same field-operation data, the same identification of the field-zero
+endpoint with $\emp$, the same transport for
+$\mathsf{ApartZero}_F(h):=(h\hsame0\to\bot)$, and the same contradiction of
+$\mathsf{ApartZero}_F(0)$. Then for all histories
+$a,a',b,b':\mathsf{BHist}$,
+if
+$$
+\mathsf{RatHistoryClassifier}(a,a')
+\land
+\mathsf{RatHistoryClassifier}(b,b'),
+$$
+then the same concrete $\FieldUp(\RatUp)$ operation package contains all four
+nonempty product rows:
+\begin{enumerate}
+  \item $\mathsf{mul}(a,b)\hsame\emp\to\bot$;
+  \item $\mathsf{mul}(a,b')\hsame\emp\to\bot$;
+  \item $\mathsf{mul}(a',b)\hsame\emp\to\bot$;
+  \item $\mathsf{mul}(a',b')\hsame\emp\to\bot$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product} to the
+displayed classifier pair. This gives the two diagonal exclusions for
+$\mathsf{mul}(a,b)$ and $\mathsf{mul}(a',b')$, transported through the fixed
+identification of the field-zero endpoint with $\emp$.
+
+Next build the left mixed row. The first classifier supplies the endpoint
+carrier fields for $a$ and $a'$, while the second classifier supplies the
+carrier field for $b$. Reflexivity of $\hsame$ at $b$ forms the reflexive Rat
+classifier on the second endpoint pair $(b,b)$. Applying the same two-diagonal
+product theorem to $\mathsf{RatHistoryClassifier}(a,a')$ and this reflexive
+classifier gives the product exclusion for $\mathsf{mul}(a',b)$.
+
+Now build the right mixed row. Reflexivity of $\hsame$ at $a$, together with
+the endpoint carrier field supplied by the first classifier, forms the reflexive
+Rat classifier on $(a,a)$. Applying the same two-diagonal product theorem to
+this reflexive classifier and $\mathsf{RatHistoryClassifier}(b,b')$ gives the
+product exclusion for $\mathsf{mul}(a,b')$.
+
+Conjunction introduction packages the four exclusions in the displayed order.
+All four applications use the same field-operation hypotheses, the same
+zero-empty identification, the same apart-zero transport, and the same
+$\mathsf{BHist}$ carrier and classifier data.
+\end{proof}
+
+Per-object template: traditional target four-endpoint Rat-classified nonempty
+product in $\FieldUp(\RatUp)$; BEDC source $\mathsf{BHist}$,
+$\RatUp$, and $\FieldUp$; carriers $\mathsf{RatHistoryCarrier}$ and the
+endpoint carrier fields contained in $\mathsf{RatHistoryClassifier}$;
+classifiers $\mathsf{RatHistoryClassifier}$ and $\hsame$; stability obligations
+Rat endpoint nonemptiness, reflexive endpoint classification, apart-zero
+transport, and FieldUp zero-product exclusion; ledger the two classifier
+witnesses, the two reflexive classifiers, the four endpoint choices, and the
+zero-empty identification; core theorem this block; exactness predicate four
+products apart from $\emp$; downstream consumer
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-four-endpoint-unit-coverage};
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat denominator carried continuation unit obstruction]
 \label{thm:rat-denominator-carried-continuation-unit-obstruction}
 For every history $u:\mathsf{BHist}$, a carried Rat denominator cannot itself be
@@ -268,7 +331,7 @@ $\FieldUp(\RatUp)$ exit package contains, at the same time:
   \autoref{thm:ratup-fieldup-concrete-operation-table-laws};
   \item the final row inventory of
   \autoref{thm:ratup-fieldup-final-row-inventory-coverage};
-  \item the two Rat-classified product nonzero exclusions
+  \item the diagonal Rat-classified product nonzero exclusions
   $(\mathsf{mul}(a,b)\hsame0\to\bot)$ and
   $(\mathsf{mul}(a',b')\hsame0\to\bot)$ from
   \autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product};
@@ -299,12 +362,12 @@ contexts $L,R,r$. This gives the selector inverse-domain row, selector
 row-stability row, complete selector obstruction certificate, and chain-boundary
 rows inside $\mathcal E_F$.
 
-Then build the nonzero product exclusions. Apply
+Then build the diagonal product exclusions. Apply
 \autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product} to the
 two displayed Rat-classified endpoint pairs. It supplies
 $(\mathsf{mul}(a,b)\hsame0\to\bot)$ and
-$(\mathsf{mul}(a',b')\hsame0\to\bot)$ as concrete endpoint rows for the same
-history-level $\FieldUp(\RatUp)$ package.
+$(\mathsf{mul}(a',b')\hsame0\to\bot)$ as concrete diagonal endpoint rows for
+the same history-level $\FieldUp(\RatUp)$ package.
 
 Finally build the denominator-unit obstruction. Apply
 \autoref{thm:rat-denominator-carried-continuation-unit-obstruction} to the
@@ -346,7 +409,7 @@ $\FieldUp(\RatUp)$ package contains, at the same time:
   \autoref{thm:ratup-fieldup-concrete-operation-table-laws};
   \item the final row inventory of
   \autoref{thm:ratup-fieldup-final-row-inventory-coverage};
-  \item the two Rat-classified product nonzero exclusions
+  \item the diagonal Rat-classified product nonzero exclusions
   $(\mathsf{mul}(a,b)\hsame0\to\bot)$ and
   $(\mathsf{mul}(a',b')\hsame0\to\bot)$ from
   \autoref{thm:ratup-fieldup-rat-classified-factors-exclude-empty-product};
@@ -386,8 +449,8 @@ First build the operation-table, final-inventory, and nonzero rows. Apply
 the concrete source, operation table, exit object, denominator tuple, histories,
 selectors, contexts, Rat-classified endpoint pairs, and carried denominator
 $q$. This gives the assembled operation-table coverage, the concrete
-operation-table laws, the final inventory, and the two Rat-classified product
-nonzero exclusions inside the same $\mathsf{BHist}$-anchored package.
+operation-table laws, the final inventory, and the diagonal Rat-classified
+product nonzero exclusions inside the same $\mathsf{BHist}$-anchored package.
 
 Next build the strict denominator rows. Apply
 \autoref{thm:rat-denominator-append-continuation-final-exit-obstruction-guard}
@@ -409,6 +472,99 @@ $\mathsf{RatHistoryClassifier}$; carrier $C_D^u$; classifier $R_D^u$; stability
 obligations operation-table coverage plus two-sided unit obstruction; ledger
 selectors $s,t,u,v,w,z$ and contexts $L,R,r$; exactness as the concrete final
 package; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp operation-table final inventory four-endpoint unit coverage]
+\label{thm:ratup-fieldup-operation-table-final-inventory-four-endpoint-unit-coverage}
+Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, and the concrete
+exit object $\mathcal E_F$ of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Let
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ be the concrete denominator tuple, let
+$h,k,\ell:\mathsf{BHist}$ satisfy $C_D^u(h)$, $C_D^u(k)$, $C_D^u(\ell)$, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and let
+$s,t,u,v,w,z:\mathsf{BMark}$ and $L,R,r:\mathsf{BHist}$ be the chosen selectors
+and contexts. For Rat-classified endpoint pairs
+$a,a',b,b':\mathsf{BHist}$ satisfying
+$$
+\mathsf{RatHistoryClassifier}(a,a')
+\land
+\mathsf{RatHistoryClassifier}(b,b'),
+$$
+and for every carried denominator $q:\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryCarrier}(q)$, one concrete $\mathsf{BHist}$-anchored
+$\FieldUp(\RatUp)$ package contains, at the same time:
+\begin{enumerate}
+  \item the assembled certificate operation-table coverage of
+  \autoref{thm:ratup-fieldup-assembled-certificate-operation-table-coverage};
+  \item the concrete operation-table laws of
+  \autoref{thm:ratup-fieldup-concrete-operation-table-laws};
+  \item the final row inventory of
+  \autoref{thm:ratup-fieldup-final-row-inventory-coverage};
+  \item the four Rat-classified product exclusions
+  $(\mathsf{mul}(a,b)\hsame\emp\to\bot)$,
+  $(\mathsf{mul}(a,b')\hsame\emp\to\bot)$,
+  $(\mathsf{mul}(a',b)\hsame\emp\to\bot)$, and
+  $(\mathsf{mul}(a',b')\hsame\emp\to\bot)$;
+  \item the append right-unit denial at $q$,
+  $$
+  (\forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(x,q),x))\to \mathsf{False};
+  $$
+  \item the append left-unit denial at $q$,
+  $$
+  (\forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(q,x),x))\to \mathsf{False};
+  $$
+  \item the relational denial for $\Cont(x,q,r)$,
+  $$
+  (\forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(x,q,r)\to R_D(r,x))\to \mathsf{False};
+  $$
+  \item the relational denial for $\Cont(q,x,r)$,
+  $$
+  (\forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(q,x,r)\to R_D(r,x))\to \mathsf{False}.
+  $$
+\end{enumerate}
+Here $C_D,R_D,\mu_D$ are the strict-denominator presentation of
+Definition~\ref{def:field-rat-denominator-concrete-continuation-instance},
+identified there with $\mathsf{RatHistoryCarrier}$,
+$\mathsf{RatHistoryClassifier}$, and append. Thus the Phase Algebra Hierarchy
+consumer can read the operation table, final inventory rows, all four
+Rat-classified product exclusions, and both append and relational one-sided
+unit denials from one concrete $\mathsf{BHist}$ package without changing
+source, selectors, contexts, or denominator tuple.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+to the concrete source, operation table, exit object, denominator tuple,
+histories, support witness, selectors, contexts, Rat-classified endpoint pairs,
+and carried denominator $q$. This supplies the operation-table rows, final
+inventory row, diagonal product exclusions, and the four append and relational
+one-sided unit denials inside the same $\mathsf{BHist}$-anchored package.
+
+Next apply \autoref{thm:ratup-fieldup-four-endpoint-product-nonempty} to the
+same two Rat classifier witnesses. Its four endpoint rows give the two diagonal
+product exclusions already present in the two-sided package and add the mixed
+rows for $\mathsf{mul}(a,b')$ and $\mathsf{mul}(a',b)$.
+
+Finally keep the same source, operation table, exit object, denominator tuple,
+selectors, contexts, endpoint pairs, and carried denominator. Conjunction
+introduction packages the operation-table rows, final inventory, all four
+product exclusions, and the four one-sided unit denials into the concrete final
+$\FieldUp(\RatUp)$ exit package claimed.
+\end{proof}
+
+Per-object template: traditional target $\FieldUp$ final concrete four-endpoint
+exit package; BEDC source $\mathsf{BHist}$, $\Cont$,
+$\mathsf{RatHistoryCarrier}$, and $\mathsf{RatHistoryClassifier}$; carrier
+$C_D^u$; classifier $R_D^u$; stability obligations operation-table coverage,
+four-endpoint product nonemptiness, and two-sided unit obstruction; ledger
+selectors $s,t,u,v,w,z$, contexts $L,R,r$, Rat endpoint pairs, and carried
+denominator $q$; exactness as the concrete final four-endpoint package;
+downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$; status
 $\mathsf{ProofTarget}$.
 
 \begin{theorem}[RatUp FieldUp final inventory carried-external unit separation]
