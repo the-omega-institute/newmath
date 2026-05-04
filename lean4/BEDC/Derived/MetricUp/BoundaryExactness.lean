@@ -80,6 +80,24 @@ theorem MetricDistanceWitness_e0_component_absurd {x y d : BHist} :
     · intro witness
       exact unary_no_zero_extension witness.right.right.left
 
+theorem MetricDistanceWitness_empty_distance_visible_endpoint_absurd
+    {x y d tx ty : BHist} :
+    MetricDistanceWitness x y d -> hsame d BHist.Empty ->
+      (hsame x (BHist.e1 tx) -> False) ∧ (hsame y (BHist.e1 ty) -> False) := by
+  intro witness sameD
+  have emptyWitness : MetricDistanceWitness x y BHist.Empty :=
+    And.intro witness.left
+      (And.intro witness.right.left
+        (And.intro unary_empty
+          (cont_result_hsame_transport witness.right.right.right sameD)))
+  have endpoints := (MetricDistanceWitness_empty_distance_iff (x := x) (y := y)).mp
+    emptyWitness
+  constructor
+  · intro sameVisible
+    exact not_hsame_emp_e1 (hsame_trans (hsame_symm endpoints.left) sameVisible)
+  · intro sameVisible
+    exact not_hsame_emp_e1 (hsame_trans (hsame_symm endpoints.right) sameVisible)
+
 theorem MetricDistanceWitness_e1_pair_empty_distance_absurd {x y : BHist} :
     MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) BHist.Empty -> False := by
   intro witness
