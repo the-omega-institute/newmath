@@ -185,3 +185,73 @@ Assume the proposition-stratum propext closure schema. Let $P,Q:\mathsf{Prop}$ a
 
 Conversely, assume propositional extensionality. Given a proposition-stratum closure datum $b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P)$, apply propositional extensionality to $b_{P,Q}$ and set $\varepsilon_{P,Q}$ to the resulting equality $P=Q$. For any proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$, equality elimination along $\varepsilon_{P,Q}$ transports a witness of $C(P)$ to a witness of $C(Q)$, and equality elimination along the symmetric equality transports in the reverse direction. Thus propositional extensionality supplies exactly the equality token and contextual rewrite behavior required by \autoref{def:proposition-stratum-propext-closure}. The two principles therefore coincide at the proposition stratum.
 \end{proof}
+
+\begin{definition}[Primitive-recursive countable witness map]
+\label{def:countable-choice-primitive-recursive-witness-map}
+Let $A:\mathbb{N}\to\mathsf{Type}$ and let $w:\forall n:\mathbb{N},A(n)$. Put
+$$
+\Sigma A:=\bigsqcup_{k:\mathbb{N}}A(k).
+$$
+The associated \emph{primitive-recursive countable witness map} is the function
+$$
+\mathsf{cw}_{A,w}:\mathbb{N}\to\Sigma A
+$$
+defined by the primitive-recursion clauses
+$$
+\mathsf{cw}_{A,w}(0)=(0,w(0)),\qquad
+\mathsf{cw}_{A,w}(n+1)=(n+1,w(n+1)).
+$$
+Equivalently,
+$$
+\mathsf{cw}_{A,w}
+=
+\mathsf{rec}_{\mathbb{N}}
+\bigl((0,w(0))\bigr)
+\bigl(\lambda n\,r.\,(n+1,w(n+1))\bigr),
+$$
+where the step variable $r$ is ignored because the premise supplies the witness in the next fiber.
+\end{definition}
+
+\begin{theorem}[Countable choice is realized by primitive recursion]
+\label{thm:countable-choice-primitive-recursive-witness-function}
+For every family $A:\mathbb{N}\to\mathsf{Type}$ and every displayed witness family $w:\forall n:\mathbb{N},A(n)$, the map $\mathsf{cw}_{A,w}$ of \autoref{def:countable-choice-primitive-recursive-witness-map} is a fiberwise choice function:
+$$
+\forall n:\mathbb{N},\;\mathsf{cw}_{A,w}(n)\in A(n).
+$$
+Here membership uses the displayed-coproduct convention of \autoref{thm:choice-term-stratum-meta-closure}: the value lies over the $n$-fiber, and its second component inhabits that fiber. The construction uses only the $\mathbb{N}$ recursor and dependent-pair introduction, so it is an instance of \autoref{def:three-axioms-replacement-choice} and does not invoke the term-stratum choice closure of \autoref{def:term-stratum-choice-closure}.
+\end{theorem}
+
+\begin{proof}
+Induct on $n$. At $0$, the first recursion clause gives
+$$
+\mathsf{cw}_{A,w}(0)=(0,w(0)),
+$$
+whose first projection is $0$ and whose second projection is the displayed term $w(0):A(0)$. Hence $\mathsf{cw}_{A,w}(0)$ lies in the $0$-fiber.
+
+For the successor case, the second recursion clause gives
+$$
+\mathsf{cw}_{A,w}(n+1)=(n+1,w(n+1)).
+$$
+Its first projection is $n+1$, and its second projection is the displayed term $w(n+1):A(n+1)$. Thus $\mathsf{cw}_{A,w}(n+1)$ lies in the $(n+1)$-fiber. This proves the displayed universal statement. No step eliminates an unwitnessed existential: the only fiber element used at index $n$ is the constructor-level term $w(n)$, so no oracle selector or $\mathsf{Classical.choice}$ enters the construction.
+\end{proof}
+
+\begin{corollary}[Witnessed countable choice for predicates]
+\label{cor:witnessed-countable-choice-for-predicates}
+Let $B:\mathbb{N}\to\mathsf{Type}$ and let $P:\forall n:\mathbb{N},B(n)\to\mathsf{Prop}$. If
+$$
+H:\forall n:\mathbb{N},\;\bigsqcup_{x:B(n)}P(n,x)
+$$
+is a constructor-level family of existential witnesses, then there are functions
+$$
+a:\forall n:\mathbb{N},B(n),\qquad p:\forall n:\mathbb{N},P(n,a(n))
+$$
+given by dependent-pair projection from $H(n)$. The displayed-pair map
+$$
+n\mapsto (n,a(n)):\mathbb{N}\to\bigsqcup_{n:\mathbb{N}}B(n)
+$$
+is the primitive-recursive witness map of \autoref{def:countable-choice-primitive-recursive-witness-map} applied to $a$, and $p(n)$ proves the chosen value satisfies $P$ at every index.
+\end{corollary}
+
+\begin{proof}
+For each $n$, the term $H(n)$ is a displayed pair. Define $a(n)$ to be its first projection and $p(n)$ to be its second projection. Then $a(n):B(n)$ and $p(n):P(n,a(n))$ by dependent-pair elimination. Applying \autoref{thm:countable-choice-primitive-recursive-witness-function} to the family $B$ and witness function $a$ gives the displayed-pair map $n\mapsto(n,a(n))$, and the proof component $p(n)$ supplies the predicate evidence for each chosen value. Projection from a displayed pair is kernel computation, not term-stratum meta closure.
+\end{proof}
