@@ -124,6 +124,23 @@ theorem AdeleHistoryCarrier_visible_scale_result_nonempty {real p exponent resul
       Iff.mp (PadicPrimeScale_empty_result_iff_empty_exponent scale) resultEmpty
     exact not_hsame_e1_empty exponentEmpty
 
+theorem AdeleHistoryCarrier_prime_swap_scale_readback {real p q r s : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p q r -> PadicPrimeScale q p s ->
+      AdeleHistoryCarrier (append real r) ∧ AdeleHistoryCarrier (append real s) ∧
+        hsame (append real r) (append real s) := by
+  intro realCarrier left right
+  have pUnary : UnaryHistory p := left.left.left
+  have qUnary : UnaryHistory q := right.left.left
+  have scaleSame : hsame r s :=
+    PadicPrimeScale_prime_exponent_comm_hsame pUnary qUnary left right
+  constructor
+  · exact
+      ⟨real, p, q, r, realCarrier, left, hsame_refl (append real r)⟩
+  · constructor
+    · exact
+        ⟨real, q, p, s, realCarrier, right, hsame_refl (append real s)⟩
+    · exact congrArg (append real) scaleSame
+
 theorem AdeleHistoryCarrier_visible_scale_append_not_empty {real p exponent result : BHist} :
     RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
       hsame (append real result) BHist.Empty -> False := by

@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.PadicUp
@@ -20,6 +20,12 @@ theorem PadicPrimeScale_unary_components {p exponent result : BHist} :
   exact And.intro scale.left.left
     (And.intro (NatMul_right_unary scale.right)
       (NatMul_result_unary scale.left.left scale.right))
+
+theorem PadicPrimeScale_prime_exponent_comm_hsame {p q r s : BHist} :
+    UnaryHistory p -> UnaryHistory q -> PadicPrimeScale p q r -> PadicPrimeScale q p s ->
+      hsame r s := by
+  intro hp hq left right
+  exact NatMul_comm_hsame hp hq left.right right.right
 
 theorem PadicPrimeScale_total {p exponent : BHist} :
     NatPrime p -> UnaryHistory exponent ->
