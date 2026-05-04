@@ -156,6 +156,31 @@ classifier and the right-input comparison to the result classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_left\_context\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation left-unit classifier]
+\label{thm:concrete-unary-history-magma-cont-left-unit-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $\ContR(h,k,r)$, then classifying the result against the right endpoint is
+equivalent to saying that the right endpoint is unary and the left endpoint is
+the continuation left unit:
+$$
+R_U(r,k)
+\Longleftrightarrow
+U(k)\land\hsame(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the classifier exposes the carrier of $k$.
+Transporting the continuation result along $r\hsame k$ gives a continuation
+from $h$ by $k$ back to $k$, and left-unit uniqueness forces $h\hsame\emp$.
+Conversely, $\hsame(h,\emp)$ gives the unary carrier for $h$ and turns the
+continuation into the left-unit continuation, while unary closure rebuilds the
+result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_left\_unit\_classifier\_iff}
+
 \begin{theorem}[Concrete unary-history magma continuation right-unit classifier]
 \label{thm:concrete-unary-history-magma-cont-right-unit-classifier}
 Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
