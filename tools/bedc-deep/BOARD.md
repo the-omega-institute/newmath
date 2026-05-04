@@ -3406,3 +3406,57 @@ The paper introduces def:adjunction-triangle-carrier, def:adjunction-unit-counit
 
 ---
 
+### B-134 - Monad adjunction-endomorphism semantic name certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Monad adjunction-endomorphism semantic name certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a unary prefix history $p$ and unary object $a$, the predicate $M_{p,a}(unit,counit,left,right) :\Leftrightarrow \mathrm{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ carries a $\mathrm{SemanticNameCert}$ with source = pattern = ledger = $M_{p,a}$ and classifier the componentwise conjunction of $\hsame$ on $unit$, $counit$, $left$, $right$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/86_monad_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+86_monad has 11 carrier theorems (lines 9-204) about adjunction-endomorphism degenerate cases (unit, counit, triangle results all collapse to $\emp$ under same-prefix endomorphism), but `\section{The certificate}` at lines 206-208 is *literally empty*. Mirrors the exact pattern that successfully closed for Unit (93:153), Empty, Yoneda (87:178), EquivCat (88:213), and Homology (76:188) — all of which had carrier theorems followed by a single terminal `SemanticNameCert` packaging theorem. Loop has done 5 SemanticNameCert wrap-ups in adjacent chapters but never opened 86_monad — see write counts: monad=0, adjunction=2, nattrans=2.
+
+---
+
+
+### B-135 - Cohomology cocycle predicate semantic name certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Cohomology cocycle predicate semantic name certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under bilateral cocycle axis-cancel (\autoref{thm:cohomology-cocycle-bilateral-axis-cancel}) and cocycle append closure (\autoref{thm:cohomology-cocycle-append-closed}), the cocycle predicate $C_d$ carries a $\mathrm{SemanticNameCert}$ with source = pattern = ledger = $C_d$ and classifier $\hsame$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+77_cohomology has 18 cocycle theorems (axis-cancel left/right/context/bilateral, append closure, prepend axis closure, transport variants) at lines 9-280, but `\section{The certificate}` at lines 282-284 is *literally empty*. Direct dual structure to 76_homology, where the loop did produce `thm:homology-singleton-cycle-semantic-name-certificate` (line 188). Loop has touched cohomology chapter zero times despite 18 already-checked sub-theorems sitting ready for the certificate roll-up.
+
+---
+
