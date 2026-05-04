@@ -86,5 +86,52 @@ classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
 
+\begin{definition}[Concrete singleton normalizer-action group instance]
+\label{def:group-singleton-normalizer-action-instance}
+The concrete terminal normalizer action over $\mathsf{BHist}$ is the data
+whose carrier is $Carrier:=A_{\emp}$, whose classifier is
+$classifier:=R_{\emp}$, whose multiplication is $mul:=\mathsf{append}$, whose
+unit is $e:=\emp$, whose inverse is the constant operation
+$inv(h):=\emp$, and whose action map is
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+\end{definition}
+
+\begin{theorem}[Group singleton normalizer action classifier determinacy]
+\label{thm:group-singleton-normalizer-action-classifier-determinacy}
+For histories $s,x,y:\mathsf{BHist}$, if $A_{\emp}(s)$ and
+$R_{\emp}(x,y)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))\land
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+\end{theorem}
+\begin{proof}
+The classifier assumption $R_{\emp}(x,y)$ carries the singleton endpoint facts
+$A_{\emp}(x)$ and $A_{\emp}(y)$ by the forward direction of the terminal
+classifier row in
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}.
+
+Instantiate Theorem~\ref{thm:group-singleton-normalizer-action-certificate}
+at $(s,x)$ and $(s,y)$. The two instances give
+$A_{\emp}(\mathsf{Conj}_s(x))$ and
+$A_{\emp}(\mathsf{Conj}_s(y))$, so the SemanticNameCert classifier
+symmetry/transitivity rows for $R_{\emp}$ classify the two action endpoints:
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)).
+$$
+
+The $(s,x)$ instance also gives the inverse-roundtrip classifier
+$R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
+Composing this row with the input classifier $R_{\emp}(x,y)$ by the
+SemanticNameCert transitivity row for $R_{\emp}$ yields
+$$
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+
+The two displayed classifiers are exactly the required conjunction.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
