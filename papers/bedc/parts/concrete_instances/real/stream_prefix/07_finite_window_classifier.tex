@@ -144,6 +144,77 @@ exactness endpoint projection
 \autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
 finite rational observation windows; status $\mathsf{ProofTarget}$.
 
+\begin{lemma}[Unary offset bound transitivity]
+\label{lem:real-unary-offset-bound-transitivity}
+For histories $k,w,u:\Hist$,
+$$
+\mathsf{UnaryOffsetLe}(k,w)\land \mathsf{UnaryOffsetLe}(w,u)
+\Longrightarrow
+\mathsf{UnaryOffsetLe}(k,u).
+$$
+\end{lemma}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-offset-bound} in the first offset row.
+It gives $\mathsf{UnaryHistory}(k)$ and a unary tail $\tau:\Hist$ with
+$\ContR(k,\tau,w)$.
+
+Unfold the second offset row. It gives a unary tail $\sigma:\Hist$ with
+$\ContR(w,\sigma,u)$, and it also certifies the intermediate bound $w$ as a
+unary history.
+
+Apply unary append closure to the two tails to obtain
+$\mathsf{UnaryHistory}(\mathsf{append}(\tau,\sigma))$. Continuation
+associativity composes $\ContR(k,\tau,w)$ with $\ContR(w,\sigma,u)$, and
+determinacy identifies the composed endpoint with $u$.
+
+Thus $k$ has the unary tail $\mathsf{append}(\tau,\sigma)$ whose continuation
+reaches $u$, so Definition~\ref{def:real-unary-offset-bound} repacks this data
+as $\mathsf{UnaryOffsetLe}(k,u)$.
+\end{proof}
+
+\begin{theorem}[Real unary stream finite-window restriction]
+\label{thm:real-unary-stream-window-restriction}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w,u:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,u)\land
+\mathsf{UnaryOffsetLe}(w,u)
+\Longrightarrow
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} in the source
+window. Its anchor field gives $\mathsf{UnaryHistory}(a)$, and the offset
+witness $\mathsf{UnaryOffsetLe}(w,u)$ projects $\mathsf{UnaryHistory}(w)$ by
+Definition~\ref{def:real-unary-offset-bound}.
+
+Fix any offset $k$ with $\mathsf{UnaryOffsetLe}(k,w)$. Apply
+\autoref{lem:real-unary-offset-bound-transitivity} to
+$\mathsf{UnaryOffsetLe}(k,w)$ and $\mathsf{UnaryOffsetLe}(w,u)$, obtaining
+$\mathsf{UnaryOffsetLe}(k,u)$.
+
+The universal endpoint row of the source window at bound $u$ then yields
+$$
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+
+Since the anchor, restricted bound, and every endpoint row have been supplied,
+Definition~\ref{def:real-unary-stream-window-classifier} repacks them as
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
+\end{proof}
+
+The ten-field fit is: traditional target shrinkable finite observation windows
+for RealUp streams; BEDC source $\mathsf{RealUnaryStreamWindowClassifier}$ plus
+$\mathsf{UnaryOffsetLe}$ plus $\ContR$; carrier unary anchor and certified
+unary bounds; classifier the restricted finite-window predicate; stability by
+offset-bound transitivity and endpoint reuse at the larger bound; ledger
+anchor, source bound, target bound, offset, and composed tail witnesses; core
+theorem \autoref{thm:real-unary-stream-window-restriction}; exactness every
+endpoint below the restricted bound is an endpoint below the source bound;
+standard bridge RegSeqRat finite observation bounds; status
+$\mathsf{ProofTarget}$.
+
 \begin{definition}[Real stream finite window classifier]
 \label{def:real-stream-finite-window-classifier}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index $n$,
