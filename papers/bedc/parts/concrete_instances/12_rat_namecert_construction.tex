@@ -38,3 +38,39 @@ ledger witness to read back the visible endpoint $v$. The lifted classifier
 and the three positive-denominator witnesses assemble the displayed
 conjunction.
 \end{proof}
+
+\begin{theorem}[Rat ledger two-sided endpoint classifier equivalence]
+\label{thm:rat-ledger-two-sided-endpoint-classifier-equivalence}
+For histories $\rho,v,w:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then
+$$
+(\mathsf{RatHistoryClassifier}(\rho,w)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(v,w))
+\land
+(\mathsf{RatHistoryClassifier}(w,\rho)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(w,v))
+\land
+\mathsf{PositiveUnaryDenominator}(\rho)
+\land
+\mathsf{PositiveUnaryDenominator}(v).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
+ledger witness. This gives the classifier endpoint equivalence from $\rho$ and
+from $v$ toward every target history $w$.
+
+For the reversed-argument equivalence, use
+\autoref{thm:rat-history-classifier-symmetry} on both sides. A classifier
+witness from $w$ to $\rho$ becomes one from $\rho$ to $w$, crosses the endpoint
+equivalence just obtained, and is then reversed to a classifier witness from
+$w$ to $v$. The converse direction is the same argument with $v$ and $\rho$
+exchanged.
+
+Finally apply \autoref{thm:rat-ledger-raw-visible-classifier} to the ledger
+witness, obtaining $\mathsf{RatHistoryClassifier}(\rho,v)$. Applying
+\autoref{thm:rat-history-classifier-positive-denominators} to that classifier
+supplies the positive unary denominator witnesses for $\rho$ and $v$, so the
+two equivalences and the two endpoint witnesses assemble the displayed
+conjunction.
+\end{proof}
