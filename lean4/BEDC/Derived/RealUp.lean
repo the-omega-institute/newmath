@@ -95,6 +95,44 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
 
+def RealUnaryStreamClassifier (s t : BHist -> BHist) : Prop :=
+  forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
+
+theorem StreamNameReal_constant_prefix_bridge {d e : BHist} :
+    (RatHistoryClassifier d e ↔ RatStreamNameClassifier (RatConstStream d) (RatConstStream e)) ∧
+      (RatStreamNameClassifier (RatConstStream d) (RatConstStream e) ↔
+        RealUnaryStreamClassifier (RatConstStream d) (RatConstStream e)) ∧
+        (RealUnaryStreamClassifier (RatConstStream d) (RatConstStream e) ↔
+          RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
+  constructor
+  · constructor
+    · intro classified
+      exact And.intro
+        (fun _n _nUnary => classified.left)
+        (And.intro
+          (fun _n _nUnary => classified.right.left)
+          (fun _n _nUnary => classified))
+    · intro classified
+      exact classified.right.right BHist.Empty unary_empty
+  · constructor
+    · constructor
+      · intro classified
+        exact classified.right.right
+      · intro pointwise
+        have classified : RatHistoryClassifier d e := pointwise BHist.Empty unary_empty
+        exact And.intro
+          (fun _n _nUnary => classified.left)
+          (And.intro
+            (fun _n _nUnary => classified.right.left)
+            pointwise)
+    · constructor
+      · intro pointwise
+        exact RealConstantHistoryClassifier_e1_iff_rat.mpr (pointwise BHist.Empty unary_empty)
+      · intro classified
+        have point : RatHistoryClassifier d e :=
+          RealConstantHistoryClassifier_e1_iff_rat.mp classified
+        exact fun _n _nUnary => point
+
 theorem RealConstantHistoryClassifier_invalid_endpoint_absurd {h tail : BHist} :
     (RealConstantHistoryClassifier (BHist.e0 tail) h -> False) ∧
       (RealConstantHistoryClassifier h (BHist.e0 tail) -> False) ∧
@@ -124,9 +162,6 @@ def RealStreamPrefixClassifier (x y : Nat -> BHist) : Nat -> Prop :=
     (BEDC.Derived.RatUp.RatHistoryClassifier (x Nat.zero) (y Nat.zero))
     (fun n acc => And acc
       (BEDC.Derived.RatUp.RatHistoryClassifier (x (Nat.succ n)) (y (Nat.succ n))))
-
-def RealUnaryStreamClassifier (s t : BHist -> BHist) : Prop :=
-  forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
 
 theorem RealUnaryStreamClassifier_constant_streamname_bridge {d e : BHist} :
     (RatHistoryClassifier d e ↔

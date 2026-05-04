@@ -6,17 +6,15 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
+def RatConstStream (d : BHist) : BHist -> BHist :=
+  fun _n : BHist => d
+
 def RatStreamNameCarrier (s : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> RatHistoryCarrier (s n)
 
 def RatStreamNameClassifier (s t : BHist -> BHist) : Prop :=
   RatStreamNameCarrier s ∧ RatStreamNameCarrier t ∧
     forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
-
-def RatConstStream (d : BHist) : BHist -> BHist
-  | BHist.Empty => d
-  | BHist.e0 _ => d
-  | BHist.e1 _ => d
 
 theorem RatConstStream_empty_point_exactness {h k : BHist} :
     (RatStreamNameCarrier (RatConstStream h) ↔
