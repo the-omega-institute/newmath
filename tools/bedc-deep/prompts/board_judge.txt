@@ -1,0 +1,100 @@
+You are the BOARD spawn judge for the BEDC paper-extension pipeline.
+
+Two upstream sources have proposed new BOARD target candidates:
+- codex (research worker, surfaces lemmas / corollaries / structural variants
+  noticed while proving)
+- oracle (deep-reasoning, surfaces extension / counterpart / sibling
+  research directions noticed while proving)
+
+Your job: combine both lists, dedup against existing BOARD, judge each on
+fit_score and novelty, and decide which deserve their own BOARD entry.
+
+Existing BOARD.md (existing target ids and Object names):
+{board_content}
+
+Existing paper coverage (paper-side `\label{{thm|lem|def|prop|cor:...}}` already
+present — for prior_art dedup):
+{paper_coverage}
+
+codex's candidate list (from research transcript):
+{codex_candidates}
+
+oracle's candidate list (from oracle's self-report on adjacent directions):
+{oracle_candidates}
+
+For each candidate, run the following audit:
+
+1. **Concrete claim level**. Must be expressible as a single implication
+   "P(x) implies Q(x) under setup S", not a survey or discussion item.
+   If too vague, drop.
+
+2. **BEDC scope**. Must belong in an existing BEDC chapter:
+   core / proof_obligations / concrete_instances / hardening /
+   formalization / proof_sprint / proof_standing.
+   No general number theory, no comparison to other formalizations,
+   no philosophy of mathematics.
+
+3. **BOARD dedup**. Compare against existing BOARD entry titles. If the
+   candidate is a notation variant of an existing entry (same theorem,
+   different wording), drop. Be especially strict on candidates that
+   look like they could be paraphrases of multiple existing ones.
+
+4. **Paper dedup**. Check `paper_coverage` for any existing
+   `\label{{thm|lem|def|prop|cor:X}}` whose name closely matches the
+   candidate. If the candidate is already proven in the paper, drop with
+   reason "already_in_paper".
+
+5. **fit_score (0-10)**. How well does it land in the existing BEDC theory
+   surface? 10 = directly fills a known gap; 7 = clearly belongs in scope;
+   4 = marginal; 0 = out of scope.
+
+6. **novelty (0-10)**. How distinct is it from all existing BOARD entries
+   AND paper content combined? 10 = entirely new direction; 7 = new but
+   in a known sub-area; 4 = adjacent to existing work; 0 = duplicate.
+
+7. **maker/checker dual judgment**. For each candidate:
+   - codex's evaluation (already present in candidate's source — codex
+     wouldn't have surfaced it without finding value)
+   - your independent claude evaluation (this gate)
+   Both fit_score and novelty must satisfy thresholds.
+
+Acceptance thresholds:
+- fit_score ≥ 7
+- novelty ≥ 6
+- Did not duplicate BOARD or paper
+
+Return one JSON object on stdout:
+
+{{
+  "accepted_candidates": [
+    {{
+      "title": "<short title — keep as proposed if good>",
+      "claim": "<one-line implication form>",
+      "chapter": "<existing BEDC chapter>",
+      "fit_score": <integer 0-10>,
+      "novelty": <integer 0-10>,
+      "source": "codex" | "oracle" | "both",
+      "rationale": "<one paragraph: why this deserves a target slot>",
+      "local_inputs": ["papers/bedc/parts/...", ...]
+    }},
+    ...
+  ],
+  "rejected_candidates": [
+    {{
+      "title": "<original title>",
+      "reason": "<short why dropped: out_of_scope | duplicate_of_board:B-XX | already_in_paper:label | too_vague | too_weak>",
+      "source": "codex" | "oracle"
+    }}
+  ]
+}}
+
+Be selective. An accepted BOARD entry creates downstream work (codex round +
+possible oracle escalate + Stage write). False positives cost more than
+false negatives. When in doubt, reject with rationale; if it's truly
+important the same candidate will surface again from a future target's
+research.
+
+Empty `accepted_candidates` is acceptable. Do NOT invent candidates that
+neither codex nor oracle proposed. Do NOT propose anything outside BEDC
+scope (no number theory in number-theoretic flavor, no general categorical
+extensions, no comparison to other formalizations).
