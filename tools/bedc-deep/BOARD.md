@@ -3089,3 +3089,56 @@ Chapter 23 already proves id is a linear map (thm:module-linearmap-identity-cert
 
 ---
 
+### B-122 - Module faithful action characterization via annihilator
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Module faithful action characterization via annihilator |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a $\ModuleUp(R,M)$ certificate, the scalar action is faithful (distinct scalars induce classifier-distinguishable module endomorphisms) iff for every $r:R$, $(\forall m:M, r\cdot m \hsame_M 0_M) \implies r \hsame_R 0_R$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Module chapter (21_module) currently has scalar associativity/compatibility (B-08, B-19, B-23) and independence obstructions (B-20, B-24) but no theorem characterizing classifier-level faithfulness. The iff form is a clean implication-pair statable purely with existing $\hsame_R$ / $\hsame_M$ classifiers (no need to introduce ideal structure as a primitive — the annihilator can be left as the predicate body). It fills a structural gap orthogonal to all existing module BOARD entries and is a prerequisite for any later torsion-free / projective module obligations.
+
+---
+
+
+### B-123 - List length subadditivity under append
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | List length subadditivity under append |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For all unary-spine lists $\ell_1, \ell_2$ in the public list carrier, $\mathsf{length}(\mathsf{append}(\ell_1, \ell_2)) \hsame \mathsf{NatAdd}(\mathsf{length}(\ell_1), \mathsf{length}(\ell_2))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_history_semantic_fields_source_refinement.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Public framed-list length readback (def:framed-list-public-length-readback) and append are defined, and Nat additive structure (chapter 04) is in place, but there is no theorem connecting list length to NatAdd under append. The identity is foundational for any future induction on list length and bridges the list and nat naming-certificate constructions. The proof is a short induction on $\ell_1$ using empty/cons cases, which makes it a low-risk but high-utility BOARD slot. Distinct from B-100 (list left-cancellation) which addresses head-equality, not length arithmetic.
+
+---
+
