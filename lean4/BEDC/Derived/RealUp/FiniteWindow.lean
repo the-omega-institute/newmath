@@ -1,4 +1,5 @@
 import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RealUp.StreamNameTransport
 
 namespace BEDC.Derived.RealUp
 
@@ -124,5 +125,55 @@ theorem RealUnaryStreamWindowClassifier_coverage {s t : BHist -> BHist} {a w : B
     · exact wUnary
     · intro k offset
       exact classified (append a k) (unary_append_closed aUnary offset.left)
+
+theorem RealUnaryStreamWindowClassifier_streamName_transported_endpoint_shape_package
+    {s t s' t' : BHist -> BHist} {a w k u v zS zT : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        (forall n : BHist, UnaryHistory n -> hsame (s n) (s' n)) ->
+          (forall n : BHist, UnaryHistory n -> hsame (t n) (t' n)) ->
+            hsame (s' (append a k)) (BHist.e1 u) ->
+              hsame (t' (append a k)) (BHist.e1 v) ->
+                RatHistoryClassifier (s' (append a k)) (t' (append a k)) ∧
+                  PositiveUnaryDenominator (s' (append a k)) ∧
+                    PositiveUnaryDenominator (t' (append a k)) ∧
+                      UnaryHistory (s' (append a k)) ∧ UnaryHistory (t' (append a k)) ∧
+                        (hsame (s' (append a k)) BHist.Empty -> False) ∧
+                          (hsame (t' (append a k)) BHist.Empty -> False) ∧
+                            (hsame (s' (append a k)) (BHist.e0 zS) -> False) ∧
+                              (hsame (t' (append a k)) (BHist.e0 zT) -> False) ∧
+                                UnaryHistory u ∧ UnaryHistory v ∧ hsame u v := by
+  intro _carrierS _carrierT classified aUnary _wUnary offset sameS sameT sameSE1 sameTE1
+  have indexUnary : UnaryHistory (append a k) :=
+    unary_append_closed aUnary offset.left
+  have transported :
+      RatHistoryClassifier (s' (append a k)) (t' (append a k)) :=
+    RatHistoryClassifier_hsame_transport (sameS (append a k) indexUnary)
+      (sameT (append a k) indexUnary) (classified.right.right (append a k) indexUnary)
+  have displayed : RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) :=
+    RatHistoryClassifier_hsame_transport sameSE1 sameTE1 transported
+  have readback : UnaryHistory u ∧ UnaryHistory v ∧ hsame u v :=
+    RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+  have positives :
+      PositiveUnaryDenominator (s' (append a k)) ∧
+        PositiveUnaryDenominator (t' (append a k)) :=
+    RatHistoryClassifier_positive_denominators transported
+  have sRows :
+      UnaryHistory (s' (append a k)) ∧
+        (hsame (s' (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have tRows :
+      UnaryHistory (t' (append a k)) ∧
+        (hsame (t' (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact ⟨transported, positives.left, positives.right, sRows.left, tRows.left, sRows.right,
+    tRows.right,
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.left)),
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.right)),
+    readback.left, readback.right.left, readback.right.right⟩
 
 end BEDC.Derived.RealUp
