@@ -498,27 +498,19 @@ function toggleGlossary() {
 }
 
 function statusClass(node) {
-  // Schema-only takes precedence: an intentional horizon is not a missing target.
+  // Single source-of-truth: \closureat{<X>Up}{strength} declared by the
+  // author. Same signal used by lean4/scripts/critical_path.py to decide
+  // which horizons are excluded from the attack queue. Dossier and
+  // critical_path now share one judgment — no other heuristic upgrades
+  // a region to proven.
   if (node.schema_only) return "schema";
-  // Critical path: AI is targeting this region right now.
-  if (CRIT_SET.has(node.id)) return "crit";
-  // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
-  if (node.id === "kernel") return "proven";
-
-  // Trust the source-of-truth signals, no lag:
-  //   - paper markers \leanchecked / \leanstmt    = chapter completion
-  //   - namecert theorems (object-completion)     = semantic completion
-  // proven if EITHER the chapter is fully \leanchecked OR the region's
-  // namecert main theorem is proven. progress if any activity exists.
-  const checked   = node.checked          || 0;
-  const stmt      = node.stmt             || 0;
-  const ncChecked = node.namecert_checked || 0;
-  const ncStmt    = node.namecert_stmt    || 0;
-  const thms      = node.thms             || 0;
-
-  if (checked > 0 && stmt === 0)      return "proven";
-  if (ncChecked > 0 && ncStmt === 0)  return "proven";
-  if (checked > 0 || ncChecked > 0 || stmt > 0 || thms > 0) return "progress";
+  if (node.id === "kernel") return "proven";       // FKernel is closed by construction
+  if (node.closed_strength) return "proven";        // \closureat{...}{checkedCert|bridgeCert}
+  if (CRIT_SET.has(node.id)) return "crit";        // open horizon AI is attacking
+  if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
+      (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
+    return "progress";
+  }
   return "scaffold";
 }
 
