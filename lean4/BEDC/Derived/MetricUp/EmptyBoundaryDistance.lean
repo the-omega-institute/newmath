@@ -18,6 +18,16 @@ theorem MetricDistanceWitness_visible_context_empty_distance_continuation_splice
   cases leftCont
   exact rightCont
 
+theorem MetricDistanceWitness_visible_context_empty_distance_continuation_splice_hsame
+    {p q x y l r mid out out' : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      Cont l x mid -> Cont mid r out -> Cont l r out' -> hsame out out' := by
+  intro visible leftCont rightCont displayed
+  have spliced : Cont l r out :=
+    MetricDistanceWitness_visible_context_empty_distance_continuation_splice visible leftCont
+      rightCont
+  exact cont_deterministic spliced displayed
+
 theorem MetricDistanceWitness_visible_context_empty_distance_witness_splice
     {p q x y l r mid out : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
