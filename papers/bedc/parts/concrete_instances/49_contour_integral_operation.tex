@@ -203,3 +203,29 @@ The concrete operation certificate of \autoref{thm:contour-integral-operation} s
 \begin{proof}[Sketch]
 Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\HolomorphicUp\) and \(\ComplexUp\) classifiers.
 \end{proof}
+
+\begin{lemma}[Affine concatenation closure for contour integrals]
+\label{lem:cont-int-affine-concat}
+Let $\gamma = \gamma_1 \ast \gamma_2$ be the concatenation of $\gamma_1$ and $\gamma_2$, with the shared endpoint condition supplied by \autoref{lem:pl-contour-concat}. Suppose that
+$$
+\mathsf{ContInt}(f, \gamma_1, I_1^f),\quad
+\mathsf{ContInt}(f, \gamma_2, I_2^f),\quad
+\mathsf{ContInt}(g, \gamma_1, I_1^g),\quad
+\mathsf{ContInt}(g, \gamma_2, I_2^g)
+$$
+hold. If $a$ and $b$ are complex histories, then
+$$
+\mathsf{ContInt}\bigl(a f + b g, \gamma, a(I_1^f + I_2^f) + b(I_1^g + I_2^g)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+Apply \autoref{lem:cont-int-concat} to the two $f$-integrals along $\gamma_1$ and $\gamma_2$. This gives
+$$
+\mathsf{ContInt}(f, \gamma, I_1^f + I_2^f).
+$$
+Apply the same concatenation law to the two $g$-integrals, giving
+$$
+\mathsf{ContInt}(g, \gamma, I_1^g + I_2^g).
+$$
+Now apply linearity in the integrand, \autoref{lem:cont-int-linear}, to these two contour integrals on the same contour $\gamma$ with scalar histories $a$ and $b$. The resulting certified value is exactly $a(I_1^f + I_2^f) + b(I_1^g + I_2^g)$, which is the required contour integral for $a f + b g$ along $\gamma$.
+\end{proof}
