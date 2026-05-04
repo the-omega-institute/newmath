@@ -3,8 +3,6 @@
 For observation maps $s,t,s',t':\Hist\to\Hist$, histories
 $a,w,k,u,v,z_s,z_t:\Hist$, assume
 $$
-\mathsf{RatStreamNameCarrier}(s),\quad
-\mathsf{RatStreamNameCarrier}(t),\quad
 \mathsf{RatStreamNameClassifier}(s,t),
 $$
 $$
@@ -48,11 +46,13 @@ $$
 First convert the StreamNameUp classifier into the RealUp unary stream
 classifier by the reverse direction of
 \autoref{thm:real-unary-streamname-classifier-exactness}. The carrier rows for
-$s$ and $t$ are the displayed $\mathsf{RatStreamNameCarrier}$ assumptions, so
-the classifier row becomes $\mathsf{RealUnaryStreamClassifier}(s,t)$.
+$s$ and $t$ are the two fields projected from
+$\mathsf{RatStreamNameClassifier}(s,t)$, so the classifier row becomes
+$\mathsf{RealUnaryStreamClassifier}(s,t)$.
 
-Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the same
-StreamNameUp data, the anchor $a$, and the bound $w$. This gives
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the
+projected carrier rows, the same StreamNameUp classifier, the anchor $a$, and
+the bound $w$. This gives
 $\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$. Project the selected
 offset with \autoref{lem:real-unary-stream-window-endpoint-projection}, using
 $\mathsf{UnaryOffsetLe}(k,w)$, to obtain
