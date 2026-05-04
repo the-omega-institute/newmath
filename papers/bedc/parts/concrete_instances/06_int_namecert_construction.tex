@@ -522,3 +522,54 @@ $\hsame(\Eone(m'),\Ezero(n'))$ judgment, contradicting BEDC constructor
 no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntHistory\_semanticNameCert}
+
+\begin{theorem}[Integer history classifier same-tag readback]
+\label{thm:int-history-classifier-same-tag-readback}
+For all $m,n:\mathsf{BHist}$, the public integer history classifier reads back
+exactly payload equality on each visible signed tag:
+$$
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))
+\Longleftrightarrow
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n).
+$$
+The one-tag branch has the same payload criterion:
+$$
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))
+\Longleftrightarrow
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n).
+$$
+The ten-field fit is the following. The traditional target is same-sign
+equality of signed integers. The BEDC source consists of
+$\mathsf{IntHistoryCarrier}$, $\mathsf{IntHistoryClassifier}$, $\hsame$, and
+constructor no-confusion. The carrier is the same-tag unary-history carrier.
+The classifier is the displayed two-branch definition. Stability is given by
+transport along the payload $\hsame$. The ledger records the sign tag together
+with the unary magnitude. The core theorem is this same-tag readback statement.
+Exactness is the two displayed iff rows. The downstream consumer is the
+$\RatUp$ integer numerator readback. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{IntHistoryClassifier}$ at same-tag endpoints.
+
+For the zero-tag forward direction, keep the matching $\Ezero$ branch. The
+endpoint witnesses have the form $\hsame(\Ezero(m),\Ezero(m'))$ and
+$\hsame(\Ezero(n),\Ezero(n'))$, so constructor inversion reads back
+$\hsame(m,m')$ and $\hsame(n,n')$. Transitivity with the stored payload
+$\hsame(m',n')$ yields $\hsame(m,n)$, and the same branch supplies
+$\mathsf{Unary}(m)$ and $\mathsf{Unary}(n)$ after the endpoint readback. The
+opposite $\Eone$ branch would force an $\Ezero$ endpoint to be $\hsame$ to an
+$\Eone$ endpoint, contradicting constructor no-confusion.
+
+For the zero-tag reverse direction, assume
+$\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n)$. Choose the
+$\Ezero$ branch with payload witnesses $m$ and $n$, use reflexivity for the
+two visible endpoint witnesses, and use the supplied payload $\hsame(m,n)$.
+
+The one-tag forward direction is identical after replacing $\Ezero$ by
+$\Eone$. The matching branch gives endpoint inversion and payload transport;
+the mixed branch contradicts $\Eone$/$\Ezero$ no-confusion.
+
+For the one-tag reverse direction, choose the $\Eone$ branch with payload
+witnesses $m$ and $n$, reflexive visible endpoints, the two unary witnesses,
+and the supplied payload $\hsame(m,n)$.
+\end{proof}
