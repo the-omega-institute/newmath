@@ -118,7 +118,7 @@ SCHEMA_ONLY_HORIZONS: set[str] = {
     "totalorder", "preorder", "poset",
 }
 
-NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9]*)_namecert_construction\.tex$")
+NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 # `\closureat{<X>Up}{<strength>}` is the per-chapter binary closure marker
