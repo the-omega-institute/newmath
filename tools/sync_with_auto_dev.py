@@ -96,7 +96,11 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     if not files:
         return True
 
-    prompt = CONFLICT_PROMPT.format(conflicted="\n".join(f"  {f}" for f in files))
+    # Use replacement rather than str.format because CONFLICT_PROMPT contains
+    # literal LaTeX braces such as \label{...}, \input{...}, and \begin{...}.
+    prompt = CONFLICT_PROMPT.replace(
+        "{conflicted}", "\n".join(f"  {f}" for f in files),
+    )
 
     if not Path(CODEX_PATH).exists():
         print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
@@ -164,26 +168,63 @@ def merge_with_codex_fallback(target: str, label: str) -> bool:
     return True
 
 
+def push_branch(branch: str, *, set_upstream: bool = False) -> int:
+    """Push `branch` to origin. Returns rc."""
+    env = os.environ.copy()
+    env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
+    cmd = ["git", "push"]
+    if set_upstream:
+        cmd.extend(["--set-upstream", "origin", branch])
+    else:
+        cmd.extend(["origin", branch])
+    res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
+    return res.returncode
+
+
+def has_remote_branch(branch: str) -> bool:
+    res = git("ls-remote", "--exit-code", "--heads", "origin", branch,
+              check=False, capture=True)
+    return res.returncode == 0
+
+
+def has_upstream(branch: str) -> bool:
+    res = git("rev-parse", "--abbrev-ref", f"{branch}@{{upstream}}",
+              check=False, capture=True)
+    return res.returncode == 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
                         help="Skip pushing codex-auto-dev to origin")
-    parser.add_argument("--push-current", action="store_true",
-                        help="Also push the current branch back to its upstream after sync")
+    parser.add_argument("--no-push-current", action="store_true",
+                        help="Skip pushing the current (non-integration) branch to origin")
     args = parser.parse_args()
 
     original = current_branch()
+
+    # Always fetch every ref from origin so we see remote state of both the
+    # integration branch and the current branch (if it has a remote tracking
+    # counterpart).
+    git("fetch", "origin", "--prune")
+
     if original == INTEGRATION_BRANCH:
-        print(f"[sync] already on {INTEGRATION_BRANCH}; doing simple ff-pull")
-        git("fetch", "origin", INTEGRATION_BRANCH)
-        git("merge", "--ff-only", f"origin/{INTEGRATION_BRANCH}")
+        print(f"[sync] already on {INTEGRATION_BRANCH}; ff-pull + push")
+        try:
+            git("merge", "--ff-only", f"origin/{INTEGRATION_BRANCH}")
+        except RuntimeError as e:
+            # ff failed — local has diverged. Fall through to bidirectional
+            # path by checking out a temporary marker. Simpler: do a real
+            # merge and let codex resolve if needed.
+            print(f"[sync] ff-only failed; attempting full merge with codex fallback")
+            if not merge_with_codex_fallback(f"origin/{INTEGRATION_BRANCH}",
+                                             label=f"self-merge ({INTEGRATION_BRANCH})"):
+                sys.exit(2)
         if not args.no_push:
-            env = os.environ.copy()
-            env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
-            res = subprocess.run(["git", "push", "origin", INTEGRATION_BRANCH],
-                                 cwd=REPO_ROOT, env=env)
-            if res.returncode != 0:
-                sys.exit(res.returncode)
+            rc = push_branch(INTEGRATION_BRANCH)
+            if rc != 0:
+                sys.exit(rc)
+        print(f"[sync] done: {INTEGRATION_BRANCH} synchronized")
         return
 
     # Working-tree dirty: stash with -u so untracked files come along.
@@ -194,15 +235,23 @@ def main():
         stashed = True
 
     try:
-        # Step 1: fetch.
-        git("fetch", "origin", INTEGRATION_BRANCH)
+        # Step 1a: pull origin/<current> into current branch first if it has
+        # a remote counterpart. Local <current> may be behind its own origin
+        # (e.g. someone else pushed to the feature branch from another
+        # checkout) and we need that state before bidirectional merging with
+        # codex-auto-dev.
+        if has_remote_branch(original):
+            print(f"[sync] pulling origin/{original} into {original} first")
+            if not merge_with_codex_fallback(f"origin/{original}",
+                                             label=f"self-pull ({original})"):
+                sys.exit(2)
 
-        # Step 2: merge integration branch into current.
+        # Step 1b: merge integration branch into current.
         if not merge_with_codex_fallback(f"origin/{INTEGRATION_BRANCH}",
                                          label=f"pull-direction ({original} <- {INTEGRATION_BRANCH})"):
             sys.exit(2)
 
-        # Step 3: switch to integration branch and ff-pull.
+        # Step 2: switch to integration branch and ff-pull.
         print(f"[sync] switching to {INTEGRATION_BRANCH}")
         git("checkout", INTEGRATION_BRANCH)
         try:
@@ -213,42 +262,40 @@ def main():
             git("checkout", original, check=False)
             sys.exit(3)
 
-        # Step 4: merge current branch back in.
+        # Step 3: merge current branch back in.
         if not merge_with_codex_fallback(original,
                                          label=f"push-direction ({INTEGRATION_BRANCH} <- {original})"):
             git("checkout", original, check=False)
             sys.exit(4)
 
-        # Step 5: push integration branch.
+        # Step 4: push integration branch.
         if not args.no_push:
-            env = os.environ.copy()
-            env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
-            res = subprocess.run(["git", "push", "origin", INTEGRATION_BRANCH],
-                                 cwd=REPO_ROOT, env=env)
-            if res.returncode != 0:
-                print(f"[sync] push origin {INTEGRATION_BRANCH} failed (rc={res.returncode})",
+            rc = push_branch(INTEGRATION_BRANCH)
+            if rc != 0:
+                print(f"[sync] push origin {INTEGRATION_BRANCH} failed (rc={rc})",
                       file=sys.stderr)
                 git("checkout", original, check=False)
-                sys.exit(res.returncode)
+                sys.exit(rc)
 
-        # Step 6: switch back.
+        # Step 5: switch back.
         print(f"[sync] switching back to {original}")
         git("checkout", original)
 
-        # Step 7: optionally push current branch.
-        if args.push_current:
-            env = os.environ.copy()
-            env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
-            res = subprocess.run(["git", "push", "origin", original],
-                                 cwd=REPO_ROOT, env=env)
-            if res.returncode != 0:
-                sys.exit(res.returncode)
+        # Step 6: push current branch (default ON; skipped only with
+        # --no-push-current). If the branch has no upstream yet, set it.
+        if not args.no_push_current:
+            set_up = not has_upstream(original)
+            rc = push_branch(original, set_upstream=set_up)
+            if rc != 0:
+                print(f"[sync] push origin {original} failed (rc={rc})",
+                      file=sys.stderr)
+                sys.exit(rc)
     finally:
         if stashed:
             print("[sync] restoring stash")
             git("stash", "pop", check=False)
 
-    print(f"[sync] done: {original} <-> {INTEGRATION_BRANCH} synchronized")
+    print(f"[sync] done: {original} <-> {INTEGRATION_BRANCH} synchronized (both pushed)")
 
 
 if __name__ == "__main__":

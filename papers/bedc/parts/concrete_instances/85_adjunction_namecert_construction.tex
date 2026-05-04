@@ -685,3 +685,72 @@ prefix equalities. Reordering those four facts gives the stated adjunction
 cycle boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}
+
+\begin{theorem}[Adjunction triangle carrier carrier-swap symmetry]
+\label{thm:adjunction-triangle-carrier-carrier-swap-symmetry}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier is invariant under exchanging the
+two carrier sides together with the unit-counit data and the two triangle
+ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionTriangleCarrier}(right,left,object,counit,unit,rightLeg,leftLeg).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-triangle-carrier}, the left-hand carrier consists of
+four fields: the prefix component from $left$ to $right$ carried by $unit$, the
+prefix component from $right$ to $left$ carried by $counit$, the continuation
+ledger $\ContR(unit,counit,leftLeg)$, and the continuation ledger
+$\ContR(counit,unit,rightLeg)$. The right-hand carrier asks for the same four
+fields in the exchanged order: the $counit$ component, the $unit$ component,
+the second ledger, and then the first ledger. Each implication is therefore
+obtained by reordering these four conjunctive fields.
+\end{proof}
+
+\begin{theorem}[Adjunction unit-counit carrier carrier-swap symmetry]
+\label{thm:adjunction-unit-counit-carrier-swap-symmetry}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, the adjunction
+unit-counit carrier is invariant under exchanging the two prefix carriers,
+exchanging unit with counit, and exchanging the two triangle ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionUnitCounitCarrier}(q,p,a,counit,unit,right,left).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-unit-counit-carrier}, a witness of the left-hand
+carrier consists of four fields: the prefix component from $p$ to $q$ carried
+by $unit$, the prefix component from $q$ to $p$ carried by $counit$, the
+continuation ledger $\ContR(unit,counit,left)$, and the continuation ledger
+$\ContR(counit,unit,right)$. The displayed carrier with $p$ and $q$ exchanged
+asks for exactly the same four fields in the order: the $counit$ component,
+the $unit$ component, the second ledger, and the first ledger. Reordering the
+four conjunctive fields proves the forward implication, and the same
+reordering with the two sides exchanged proves the reverse implication.
+\end{proof}
+
+\begin{definition}[Adjunction unit-counit carrier-swap classifier]
+\label{def:adjunction-unit-counit-carrier-swap-classifier}
+For unit-counit displays $D=(p,q,a,u,c,l,r)$ and
+$D'=(p',q',a',u',c',l',r')$, the carrier-swap relation
+$\mathsf{AdjunctionUnitCounitCarrierSwap}(D,D')$ holds when
+$$
+p'=q\land q'=p\land a'=a\land u'=c\land c'=u\land l'=r\land r'=l.
+$$
+The display classifier $\mathsf{AdjunctionUnitCounitDisplaySame}(D,D')$ holds
+when
+$$
+p\hsame p'\land q\hsame q'\land a\hsame a'\land u\hsame u'
+\land c\hsame c'\land l\hsame l'\land r\hsame r'.
+$$
+\end{definition}
+
+
+\input{parts/concrete_instances/adjunction/carrier_swap_involutions}
