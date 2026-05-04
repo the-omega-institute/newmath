@@ -45,6 +45,22 @@ theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
   | e1 tail ih =>
       exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
 
+theorem MatrixSingletonPow_carrier_nonempty_unary_input_iff {M exponent : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      (MatrixSingletonCarrier (MatrixSingletonPow M exponent) ↔ MatrixSingletonCarrier M) := by
+  intro exponentUnary exponentNonempty
+  constructor
+  · intro powCarrier
+    cases exponent with
+    | Empty =>
+        exact False.elim (exponentNonempty (hsame_refl BHist.Empty))
+    | e0 tail =>
+        cases exponentUnary
+    | e1 tail =>
+        exact (append_eq_empty_iff.mp powCarrier).right
+  · intro carrierM
+    exact MatrixSingletonPow_carrier_closed carrierM exponentUnary
+
 theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
@@ -126,6 +142,18 @@ theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     append_eq_empty_iff.mpr (And.intro leftCarrier rightCarrier)
   exact And.intro compositeCarrier
     (And.intro productCarrier (hsame_trans compositeCarrier (hsame_symm productCarrier)))
+
+theorem MatrixSingletonPow_append_exponent_comm_classifier {M w q : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
+      MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
+        (MatrixSingletonPow M (append q w)) := by
+  intro carrierM unaryW unaryQ
+  have leftCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append w q)) :=
+    MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryW unaryQ)
+  have rightCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append q w)) :=
+    MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryQ unaryW)
+  exact And.intro leftCarrier
+    (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
 theorem MatrixSingletonPow_append_exponent_classifier_iff {M a b h : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory a -> UnaryHistory b ->

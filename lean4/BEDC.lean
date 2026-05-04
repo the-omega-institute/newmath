@@ -246,6 +246,7 @@ import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.SingletonAppend
+import BEDC.Derived.RingUp.SingletonContinuation
 import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
