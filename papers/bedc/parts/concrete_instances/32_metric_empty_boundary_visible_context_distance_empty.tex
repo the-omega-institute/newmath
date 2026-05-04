@@ -17,3 +17,21 @@ identifies $d$ with $\emp$; case analysis on that classifier gives the zero
 depth equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_distance\_empty}
+
+\begin{theorem}[Metric empty-boundary visible context append unit laws]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-append-unit-laws}
+For histories $p,q,d,l,r$, a visible-context distance witness whose central
+endpoints are both empty makes the central distance act as a left and right
+append unit:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{append}(d,r)=r\ \wedge\ \mathsf{append}(l,d)=l.
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary distance theorem identifies $d$ with $\emp$. Case analysis
+on that classifier reduces the two displayed equations to the left and right
+unit laws for finite-kernel append.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_append\_unit\_laws}
