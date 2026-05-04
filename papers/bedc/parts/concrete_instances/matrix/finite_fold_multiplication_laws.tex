@@ -158,33 +158,6 @@ ledger in \autoref{def:matrix-ledger-policy} records the same row and column
 witnesses throughout the two products, so no dimension data is changed.
 \end{proof}
 
-\begin{definition}[Finite additive scalar fold]
-\label{def:finite-additive-scalar-fold}
-For a scalar $\RingUp$ carrier $R$ with zero endpoint $0_R$ and addition
-$+_R$, the finite additive scalar fold sends the empty scalar spine to $0_R$
-and sends a nonempty spine with head $x$ and tail $xs$ to
-$x+_R\mathsf{fold}_{+,R}(xs)$.
-\end{definition}
-
-\begin{theorem}[Finite additive fold respects scalar classifier]
-\label{thm:finite-additive-fold-respects-scalar-classifier}
-Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint
-$0_R$, addition $+_R$, and finite additive fold from
-\autoref{def:finite-additive-scalar-fold}. For finite carried scalar spines
-$xs$ and $ys$, if the spines have the same finite index shape and each
-corresponding scalar entry is $\sim_R$-classified, then their finite additive
-folds are $\sim_R$-classified.
-\end{theorem}
-\begin{proof}
-Induct on the shared finite spine shape. The empty case reduces both folds to
-$0_R$, and zero self-classification supplies the comparison.
-
-In the cons case, the head scalar comparison is one hypothesis, and the
-induction hypothesis compares the folded tails. The additive congruence field
-of \autoref{def:ring-stability-certificate} combines these two comparisons,
-yielding the classifier comparison of the two folded sums.
-\end{proof}
-
 \begin{definition}[Two-index finite fold swap certificate]
 \label{def:two-index-finite-fold-swap-certificate}
 Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let $J$ and $K$ be finite index carriers, and write $\Sigma_J$ and $\Sigma_K$ for that fold applied to the finite spines enumerating $J$ and $K$. A two-index finite fold swap certificate for $(J,K)$ is the following stability field: for every pointwise carried scalar family $s:J\times K\to R$ and every pointwise classifier-compatible transpose $s^\tau:K\times J\to R$ satisfying
