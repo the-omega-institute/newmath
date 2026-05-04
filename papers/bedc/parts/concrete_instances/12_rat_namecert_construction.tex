@@ -1,7 +1,6 @@
 \input{parts/concrete_instances/12_rat_namecert_carrier}
 \input{parts/concrete_instances/12_rat_namecert_certificate}
 \input{parts/concrete_instances/12_rat_namecert_representative_stability}
-\input{parts/concrete_instances/12_rat_namecert_certificate_boundary}
 
 \begin{theorem}[Rat history ledger displayed context one-tail readback]
 \label{thm:rat-history-ledger-cont-unary-context-e1-pair-readback}
@@ -108,8 +107,24 @@ $$
 \land
 \mathsf{PositiveUnaryDenominator}(\rho)
 \land
-\mathsf{PositiveUnaryDenominator}(v).
+\mathsf{PositiveUnaryDenominator}(v)
+\land
+(\mathsf{RatHistoryClassifier}(v,w)\to
+\mathsf{PositiveUnaryDenominator}(w))
+\land
+(\mathsf{RatHistoryClassifier}(w,v)\to
+\mathsf{PositiveUnaryDenominator}(w)).
 $$
+
+Its ten-field fit is: traditional target two-sided $\RatUp$ ledger endpoint
+classifier exactness with conditional endpoint readback; BEDC source $\RatUp$
+ledger over $\mathsf{BHist}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from ledger endpoint
+equivalence, classifier symmetry, and classifier positive-denominator
+readback; ledger $\mathsf{RatHistoryLedgerPolicy}$; core theorem this block;
+exactness the two iff rows plus conditional $w$-readback; downstream consumer
+the $\RatUp$ semantic certificate boundary and $\RealUp$ rational observation
+streams; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
@@ -126,9 +141,21 @@ exchanged.
 Finally apply \autoref{thm:rat-ledger-raw-visible-classifier} to the ledger
 witness, obtaining $\mathsf{RatHistoryClassifier}(\rho,v)$. Applying
 \autoref{thm:rat-history-classifier-positive-denominators} to that classifier
-supplies the positive unary denominator witnesses for $\rho$ and $v$, so the
-two equivalences and the two endpoint witnesses assemble the displayed
-conjunction.
+supplies the positive unary denominator witnesses for $\rho$ and $v$.
+
+For the first conditional $w$-readback, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to a witness of
+$\mathsf{RatHistoryClassifier}(v,w)$ and project the right endpoint. This gives
+$\mathsf{PositiveUnaryDenominator}(w)$ under the visible-target classifier
+hypothesis.
+
+For the second conditional $w$-readback, apply the same theorem to a witness of
+$\mathsf{RatHistoryClassifier}(w,v)$ and project the left endpoint. This gives
+$\mathsf{PositiveUnaryDenominator}(w)$ under the reversed visible-endpoint
+classifier hypothesis.
+
+The two equivalences, the positive $\rho$ and $v$ endpoint witnesses, and the
+two implication rows assemble the displayed conjunction.
 \end{proof}
 
 \begin{theorem}[Rat ledger visible-target zero-extension exclusion]
