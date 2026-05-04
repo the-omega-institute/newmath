@@ -557,6 +557,26 @@ def read_target_parallel(default: int) -> int:
     return max(1, min(default, HARD_MAX_PARALLEL))
 
 
+def read_timeout(key: str, default: int, *, lo: int = 60, hi: int = 14400) -> int:
+    """Read a per-phase codex-exec timeout (seconds) from
+    PARALLEL_CONFIG_FILE. Allowed keys: `phase_b_timeout`,
+    `phase_c_timeout`. Falls back to `default` if file/key missing.
+    Clamped to [lo, hi]; default range covers 1 min to 4 hours.
+
+    Lets the operator widen Phase C from 4500s to 6000-7200s without
+    restart when codex starts hitting timeouts on high-difficulty
+    target batches (e.g. 3-of-3 difficulty=high rounds).
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(key, default))
+            return max(lo, min(v, hi))
+    except Exception:
+        pass
+    return max(lo, min(default, hi))
+
+
 def read_lake_parallel(default: int) -> int:
     """Read live lake-gate concurrency cap from PARALLEL_CONFIG_FILE.
 
@@ -2419,7 +2439,7 @@ def run_round_in_worktree(
         phase_b_raw = codex_exec(
             phase_b_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=phase_b_timeout,
+            timeout_seconds=read_timeout("phase_b_timeout", phase_b_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"R{round_num}_phaseB",
@@ -2467,7 +2487,7 @@ def run_round_in_worktree(
         phase_c_raw = codex_exec(
             phase_c_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=phase_c_timeout,
+            timeout_seconds=read_timeout("phase_c_timeout", phase_c_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"R{round_num}_phaseC",
