@@ -45,6 +45,18 @@ rational-history carrier characterization to each component to read back the
 positive unary denominator evidence, and keep the same continuation witness.
 \end{proof}
 
+\begin{theorem}[Complex carrier components are nonempty]
+\label{thm:complex-history-carrier-components-nonempty}
+Every complex history carrier exposes rational real and imaginary components
+whose component histories are not identified with $\emp$.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier into rational real and imaginary components and the
+continuation assembling them. Rational-history carrier non-emptiness rejects
+$real\hsame\emp$ and $imag\hsame\emp$ separately.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_components\_nonempty}
+
 \begin{theorem}[Complex e1-tail carrier component readback]
 \label{thm:complex-history-carrier-e1-tail-components}
 If $\mathsf{ComplexHistoryCarrier}(\Eone(tail))$ holds, then there are
@@ -377,6 +389,15 @@ continuation ledgers by $\mathsf{Cont}$ respecting $\hsame$, yielding the
 endpoint $\hsame$ field required by the complex classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_component\_classifier\_intro}
+
+\begin{theorem}[Complex component classifier target history-sameness transport]
+\label{thm:complex-classifier-component-target-hsame-transport}
+If the real and imaginary component classifiers assemble endpoints $h$ and $k$ through continuation witnesses, and $k\hsame k'$, then $h$ and $k'$ are related by $\mathsf{ComplexHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Transport the target continuation witness along the displayed endpoint history-sameness. The component classifier introduction theorem then rebuilds the complex classifier using the original component classifiers and the transported target continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_component\_target\_hsame\_transport}
 
 \begin{theorem}[Complex component classifier unary-context introduction]
 \label{thm:complex-history-classifier-component-classifier-unary-context-intro}

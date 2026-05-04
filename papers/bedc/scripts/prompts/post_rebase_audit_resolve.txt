@@ -6,9 +6,9 @@ fails `python3 lean4/scripts/bedc_ci.py audit`. The audit failure
 comes from this round's additions colliding with a sibling round
 that landed on the base branch concurrently — typical causes:
 
-  - duplicate `\label{{thm:...}}` (you added the same label name
+  - duplicate `\label{{{{thm:...}}}}` (you added the same label name
     that a sibling round just merged);
-  - duplicate `\leanchecked{{X}}` for a Lean target that a sibling
+  - duplicate `\leanchecked{{{{X}}}}` for a Lean target that a sibling
     round already registered at a different paper site;
   - an `\leanchecked` / `\leanstmt` / `\leandef` referencing a
     Lean name that no longer exists after the merge.
@@ -21,14 +21,14 @@ Remove ONLY this round's offending additions to make audit pass:
 
 1. Run `python3 lean4/scripts/bedc_ci.py audit` to see the live
    failure list.
-2. For each duplicate label: identify which `\label{{...}}`
+2. For each duplicate label: identify which `\label{{{{...}}}}`
    occurrence is the one this round added. The round's own commit
    (titled `P<round>: …`) is one parent of the most recent merge
    commit; the OTHER parent is the base branch's tip, so anything
    from there is a sibling, not yours — do NOT delete it. Use
-   `git diff HEAD@{{1}}` or `git show <round-commit>` to identify
+   `git diff HEAD@{{{{1}}}}` or `git show <round-commit>` to identify
    your delta. Delete the occurrence and the surrounding
-   `\begin{{theorem}} … \end{{theorem}}` block if the block exists
+   `\begin{{{{theorem}}}} … \end{{{{theorem}}}}` block if the block exists
    only because of this round.
 3. For each unresolved marker added by this round: delete the
    offending `\leanchecked` / `\leanstmt` / `\leandef` line.
