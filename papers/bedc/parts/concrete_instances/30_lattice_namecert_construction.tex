@@ -268,6 +268,28 @@ reflexivity at $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeet\_empty\_output\_greatest\_lower\_bound\_iff}
 
+\begin{theorem}[Singleton join least upper bound]
+\label{thm:lattice-singleton-join-least-upper-bound-empty-iff}
+For carried histories $h,k,z$ in the singleton lattice, the concrete join
+least-upper-bound comparison is exactly the pair of upper-bound comparisons
+against the two operands, together with the empty readback of the join:
+$$
+\mathsf{LatticeSingletonJoin}(h,k)\le_{\emp} z
+\Longleftrightarrow
+h\le_{\emp} z\land k\le_{\emp} z\land
+\mathsf{LatticeSingletonJoin}(h,k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The join operation is definitionally the empty history. Since $h,k,z$ are all
+carried by the singleton carrier, the singleton order comparison between any
+two of them is built from the corresponding \(\hsame\) chain through \(\emp\).
+The forward direction reconstructs the two operand upper bounds and records
+reflexivity of the join endpoint; the reverse direction uses the displayed join
+endpoint together with the carrier of \(z\) to rebuild the join bound.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonJoin\_least\_upper\_bound\_empty\_iff}
+
 \begin{theorem}[Singleton lattice append tail emptiness]
 \label{thm:lattice-singleton-le-append-tail-empty}
 For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$ and

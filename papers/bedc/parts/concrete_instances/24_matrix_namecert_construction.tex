@@ -102,6 +102,26 @@ the displayed operation results.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_classifier\_iff}
 
+\begin{theorem}[Matrix singleton add-mul continuation result iff]
+\label{thm:matrix-singleton-addmul-continuation-result-iff}
+For singleton-carrier inputs $M$ and $N$, a continuation from the displayed
+addition result to the displayed multiplication result has result $R$ exactly
+when $R$ is itself a singleton carrier:
+$$
+\ContR(M\oplus N,M\odot N,R)
+\quad\Longleftrightarrow\quad
+A_{\emp}(R).
+$$
+\end{theorem}
+\begin{proof}
+The two displayed operations both unfold to the same append spine
+$\mathsf{append}(M,N)$. The singleton witnesses for $M$ and $N$ collapse that
+spine to $\emp$. The forward direction compares the displayed continuation
+with the right-unit continuation at $\emp$; the reverse direction transports
+the result carrier back to that same empty continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_result\_iff}
+
 \begin{theorem}[Matrix singleton classifier visible right append exclusion]
 \label{thm:matrix-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, a singleton matrix classifier witness

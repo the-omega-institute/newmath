@@ -135,6 +135,32 @@ right triangle results.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_triangles\_empty}
 
+\begin{theorem}[Adjunction unit-counit endomorphism empty components iff]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-empty-components-iff}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, the endomorphism
+adjunction unit-counit carrier is equivalent to unary data for $p$, $a$,
+$unit$, and $counit$, together with empty unit, counit, left triangle, and
+right triangle components:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+$$
+\Longleftrightarrow
+\Unary(p)\wedge\Unary(a)\wedge\Unary(unit)\wedge\Unary(counit)
+\wedge\hsame(unit,\emp)\wedge\hsame(counit,\emp)
+\wedge\hsame(left,\emp)\wedge\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction decomposes the two endomorphism natural-transformation
+components, yielding the unary witnesses and the empty unit and counit
+witnesses. The triangle-empty theorem supplies the two displayed triangle
+results. Conversely, empty unit and counit components rebuild the two
+endomorphism natural-transformation carriers, and the empty triangle witnesses
+rebuild the two continuation legs.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_empty\_components\_iff}
+
 \begin{theorem}[Adjunction unit-counit endomorphism total collapse]
 \label{thm:adjunction-unit-counit-endomorphism-total-collapse}
 For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
