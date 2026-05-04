@@ -58,6 +58,29 @@ theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
   exact And.intro resultCarrier
     (And.intro resultCarrier (hsame_refl (MatrixSingletonMul (MatrixSingletonPow M exponent) M)))
 
+theorem MatrixSingletonPow_successor_endpoint_exactness {M exponent : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) ∧
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+          (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
+          MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+            (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
+  intro carrierM exponentUnary
+  have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M exponent) :=
+    MatrixSingletonPow_carrier_closed carrierM exponentUnary
+  have succCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) :=
+    append_eq_empty_iff.mpr (And.intro powCarrier carrierM)
+  have leftClassified := MatrixSingletonPow_succ_classifier carrierM exponentUnary
+  have rightProductCarrier : MatrixSingletonCarrier
+      (MatrixSingletonMul M (MatrixSingletonPow M exponent)) :=
+    append_eq_empty_iff.mpr (And.intro carrierM powCarrier)
+  have rightClassified :
+      MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+        (MatrixSingletonMul M (MatrixSingletonPow M exponent)) :=
+    And.intro succCarrier
+      (And.intro rightProductCarrier (hsame_trans succCarrier (hsame_symm rightProductCarrier)))
+  exact And.intro succCarrier (And.intro leftClassified rightClassified)
+
 theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       Cont (MatrixSingletonPow M exponent) M r ->
