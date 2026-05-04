@@ -67,4 +67,28 @@ theorem GroupSingletonClassifier_normalizer_orbit_source_exact_iff {x y : BHist}
           (And.intro classified.right.left
             (hsame_trans actionCarrier (hsame_symm classified.right.left)))))
 
+theorem GroupSingletonClassifier_normalizer_orbit_total_coverage_iff {x y : BHist} :
+    ((Exists (fun s : BHist =>
+        GroupSingletonCarrier s ∧
+          GroupSingletonClassifier (append (append s x) BHist.Empty) y)) <->
+      GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  constructor
+  · intro orbit
+    cases orbit with
+    | intro s witness =>
+        have actionSplit := append_eq_empty_iff.mp witness.right.left
+        have innerSplit := append_eq_empty_iff.mp actionSplit.left
+        exact And.intro innerSplit.right witness.right.right.left
+  · intro carriers
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have emptyX : GroupSingletonCarrier (append BHist.Empty x) :=
+      append_eq_empty_iff.mpr (And.intro emptyCarrier carriers.left)
+    have actionCarrier : GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro emptyX emptyCarrier)
+    exact Exists.intro BHist.Empty
+      (And.intro emptyCarrier
+        (And.intro actionCarrier
+          (And.intro carriers.right
+            (hsame_trans actionCarrier (hsame_symm carriers.right)))))
+
 end BEDC.Derived.GroupUp
