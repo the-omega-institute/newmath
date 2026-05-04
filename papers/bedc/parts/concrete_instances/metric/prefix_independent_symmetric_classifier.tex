@@ -66,3 +66,33 @@ the displayed conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_symmetric\_zero\_depth\_collapse}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_collapse}
+
+\begin{theorem}[Metric prefix-independent symmetric zero-depth continuation splice]
+\label{thm:metric-prefix-independent-symmetric-zero-depth-continuation-splice}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,r,mid,out$, symmetric
+visible-context distance witnesses with independent contexts and zero-depth
+forward distance make any continuation through the reverse central distance
+splice across the empty boundary:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\to
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\to
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\to
+\\
+\ContR(l,d_{yx},mid)\to
+\ContR(mid,r,out)\to
+\ContR(l,r,out).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The symmetric zero-depth collapse theorem gives
+$\mathsf{MetricDistanceDepth}(d_{yx})=0$. The depth-zero classifier theorem
+converts this to $\hsame(d_{yx},\emp)$. Case analysis reduces the left
+continuation to the right-unit case, identifying $mid$ with $l$, and the
+remaining continuation is exactly the displayed splice result.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_continuation\_splice}
