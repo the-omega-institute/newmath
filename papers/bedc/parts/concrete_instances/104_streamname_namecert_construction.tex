@@ -490,6 +490,48 @@ observation, the two stream endpoints again reduce to $d$ and $e$, so the same
 point classifier repacks into the stream-name classifier.
 \end{proof}
 
+\begin{theorem}[Rational constant stream empty-observation exactness]
+\label{thm:rat-const-stream-empty-point-exactness}
+For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
+constant streams are equivalent to their RatUp point data at the empty unary
+observation:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_h)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(\mathsf{RatConstStream}_h(\emp))
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_h,
+\mathsf{RatConstStream}_k)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{RatConstStream}_h(\emp),
+\mathsf{RatConstStream}_k(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatConstStream}$. In the
+forward carrier direction, read the pointwise carrier witness at the empty
+unary observation $\emp$, obtaining the RatUp carrier at
+$\mathsf{RatConstStream}_h(\emp)$.
+
+In the reverse carrier direction, fix an arbitrary certified unary
+observation. A constant stream has the same value there as at $\emp$, so the
+empty-observation carrier rebuilds the required pointwise carrier witness.
+
+For the classifier equivalence, unfold $\mathsf{RatStreamNameClassifier}$ and
+the two constant streams. The forward direction reads the pointwise classifier
+witness at $\emp$.
+
+In the reverse direction, the empty-observation classifier contains the endpoint
+carrier data and the point classifier between
+$\mathsf{RatConstStream}_h(\emp)$ and $\mathsf{RatConstStream}_k(\emp)$. At
+every certified unary observation, the two constant endpoints again evaluate as
+they do at $\emp$, so the same RatUp classifier repacks into the stream-name
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatConstStream\_empty\_point\_exactness}
+
 \begin{theorem}[Rational stream-name constant point exactness]
 \label{thm:rat-stream-name-constant-point-exactness}
 For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
@@ -521,7 +563,6 @@ arbitrary observation index $n$; since the endpoint stream values are $h$ and
 $k$, the supplied $\mathsf{RatHistoryClassifier}(h,k)$ witness is exactly the
 required pointwise classifier at that observation.
 \end{proof}
-\leanchecked{BEDC.Derived.StreamNameUp.RatConstStream\_empty\_point\_exactness}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_point\_exactness}
 
 \begin{theorem}[Rational stream-name public certificate]
