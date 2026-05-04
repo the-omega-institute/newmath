@@ -50,4 +50,24 @@ theorem RealConstantHistoryClassifier_append_common_tail_cancel {d e tail : BHis
     Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
   exact append_right_cancel (k := tail) rational.right.right
 
+theorem RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b : BHist} :
+    RealStreamClassifier x y ->
+      (forall i : Nat, UnaryHistory (pX i)) ->
+        (forall i : Nat, UnaryHistory (tX i)) ->
+          (forall i : Nat, hsame (pX i) (pY i)) ->
+            (forall i : Nat, hsame (tX i) (tY i)) ->
+              (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+                (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                  (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                    (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                      hsame (oX n) (BHist.e1 a) -> hsame (oY n) (BHist.e1 b) ->
+                        UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified prefixX tailX samePrefix sameTail contPX contOX contPY contOY sameLeft
+    sameRight
+  have contextClassified : RealStreamClassifier oX oY :=
+    RealStreamClassifier_unary_denominator_context_closed classified prefixX tailX samePrefix
+      sameTail contPX contOX contPY contOY
+  exact RealStreamClassifier_selected_e1_pair_readback contextClassified sameLeft sameRight
+
 end BEDC.Derived.RealUp

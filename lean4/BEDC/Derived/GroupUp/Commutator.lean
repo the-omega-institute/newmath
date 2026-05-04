@@ -22,7 +22,7 @@ theorem GroupSingletonCommutator_terminal_collapse {x y : BHist} :
   exact And.intro commutatorCarrier
     (And.intro commutatorCarrier (And.intro emptyCarrier commutatorCarrier))
 
- theorem group_commutator_trivial_iff_commutes_from_empty_unit
+theorem group_commutator_trivial_iff_commutes_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
@@ -80,11 +80,46 @@ protected theorem group_conjugation_fixed_point_commutation_iff_from_empty_unit
         (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b))
     exact hsame_trans transported collapse
 
+theorem GroupSingletonClassifier_append_commutator_terminal_exactness_iff {x y : BHist} :
+    (GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) <->
+      GroupSingletonCarrier x ∧ GroupSingletonCarrier y) ∧
+      (GroupSingletonClassifier (append (append (append x y) BHist.Empty) BHist.Empty)
+        BHist.Empty <-> GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  constructor
+  · constructor
+    · intro carrier
+      have outerSplit := append_eq_empty_iff.mp carrier
+      have middleSplit := append_eq_empty_iff.mp outerSplit.left
+      exact append_eq_empty_iff.mp middleSplit.left
+    · intro carriers
+      have productCarrier : GroupSingletonCarrier (append x y) :=
+        append_eq_empty_iff.mpr carriers
+      have terminalCarrier : GroupSingletonCarrier (append (append x y) BHist.Empty) :=
+        append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
+      exact append_eq_empty_iff.mpr (And.intro terminalCarrier emptyCarrier)
+  · constructor
+    · intro classified
+      have outerSplit := append_eq_empty_iff.mp classified.left
+      have middleSplit := append_eq_empty_iff.mp outerSplit.left
+      exact append_eq_empty_iff.mp middleSplit.left
+    · intro carriers
+      have productCarrier : GroupSingletonCarrier (append x y) :=
+        append_eq_empty_iff.mpr carriers
+      have terminalCarrier : GroupSingletonCarrier (append (append x y) BHist.Empty) :=
+        append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
+      have commutatorCarrier :
+          GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) :=
+        append_eq_empty_iff.mpr (And.intro terminalCarrier emptyCarrier)
+      exact And.intro commutatorCarrier
+        (And.intro emptyCarrier commutatorCarrier)
+
 theorem GroupSingletonCommutator_carrier_classifier_exactness {x y : BHist} :
     let comm : BHist := append (append (append x y) BHist.Empty) BHist.Empty
     (GroupSingletonCarrier comm <-> GroupSingletonCarrier x ∧ GroupSingletonCarrier y) ∧
       (GroupSingletonClassifier comm BHist.Empty <->
         GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  dsimp
   constructor
   · constructor
     · intro carrierComm
