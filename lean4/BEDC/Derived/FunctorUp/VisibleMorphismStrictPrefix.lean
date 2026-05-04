@@ -19,4 +19,20 @@ theorem FunctorPrefixHomCarrier_e1_visible_morphism_endpoint_hsame_absurd {p a r
         NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
           data.left data.right.left data.right.right sameEndpoint
 
+theorem FunctorPrefixHomCarrier_e1_visible_morphism_unique_strict_boundary {p a r k k' :
+    BHist} :
+    CategoryHomCarrier (append p (BHist.e1 a)) (append p (BHist.e1 r)) (BHist.e1 k) ->
+      CategoryHomCarrier (append p (BHist.e1 a)) (append p (BHist.e1 r)) (BHist.e1 k') ->
+        (k = BHist.Empty -> False) -> hsame k k' ∧
+          NatUnaryStrictPrefix (BHist.e1 a) r ∧ (hsame (BHist.e1 a) r -> False) := by
+  intro leftCarrier rightCarrier tailNonempty
+  have sameVisible : hsame (BHist.e1 k) (BHist.e1 k') :=
+    CategoryHomCarrier_morphism_deterministic leftCarrier rightCarrier
+  have sameTail : hsame k k' := hsame_e1_iff.mp sameVisible
+  have strictPrefix : NatUnaryStrictPrefix (BHist.e1 a) r :=
+    FunctorPrefixHomCarrier_e1_visible_morphism_strict_prefix leftCarrier tailNonempty
+  have endpointAbsurd : hsame (BHist.e1 a) r -> False :=
+    FunctorPrefixHomCarrier_e1_visible_morphism_endpoint_hsame_absurd leftCarrier tailNonempty
+  exact And.intro sameTail (And.intro strictPrefix endpointAbsurd)
+
 end BEDC.Derived.FunctorUp
