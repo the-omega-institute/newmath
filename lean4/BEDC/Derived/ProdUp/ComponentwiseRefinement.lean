@@ -1,10 +1,12 @@
 import BEDC.Derived.ProdUp.PairRepresentation
+import BEDC.Derived.SingletonSource
 
 namespace BEDC.Derived.ProdUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.Derived.SingletonSource
 
 theorem ProdComponentHistoryClassifier_source_refinement
     {Left Right Left' Right' : BHist → Prop}
@@ -437,5 +439,55 @@ theorem ProdComponentHistoryClassifier_semantic_name_certificate
       intro _h carrier
       exact carrier
   }
+
+theorem ProdComponentHistoryClassifier_singleton_endpoint_exactness
+    {l0 r0 h k : BHist} :
+    ProdComponentHistoryClassifier (SingletonHistorySource l0) (SingletonHistorySource r0)
+      hsame hsame h k ↔ hsame h (append l0 r0) ∧ hsame k (append l0 r0) := by
+  constructor
+  · intro classifier
+    cases classifier with
+    | intro lh restLH =>
+        cases restLH with
+        | intro rh restRH =>
+            cases restRH with
+            | intro lk restLK =>
+                cases restLK with
+                | intro rk data =>
+                    cases data with
+                    | intro leftH rest =>
+                        cases rest with
+                        | intro rightH rest =>
+                            cases rest with
+                            | intro contH rest =>
+                                cases rest with
+                                | intro leftK rest =>
+                                    cases rest with
+                                    | intro rightK rest =>
+                                        cases rest with
+                                        | intro contK _componentRel =>
+                                            constructor
+                                            · exact cont_respects_hsame leftH rightH contH
+                                                (cont_intro (h := l0) (k := r0) rfl)
+                                            · exact cont_respects_hsame leftK rightK contK
+                                                (cont_intro (h := l0) (k := r0) rfl)
+  · intro endpoints
+    exact Exists.intro l0
+      (Exists.intro r0
+        (Exists.intro l0
+          (Exists.intro r0
+            (And.intro (hsame_refl l0)
+              (And.intro (hsame_refl r0)
+                (And.intro
+                  (cont_result_hsame_transport
+                    (cont_intro (h := l0) (k := r0) rfl)
+                    (hsame_symm endpoints.left))
+                  (And.intro (hsame_refl l0)
+                    (And.intro (hsame_refl r0)
+                      (And.intro
+                        (cont_result_hsame_transport
+                          (cont_intro (h := l0) (k := r0) rfl)
+                          (hsame_symm endpoints.right))
+                        (And.intro (hsame_refl l0) (hsame_refl r0)))))))))))
 
 end BEDC.Derived.ProdUp

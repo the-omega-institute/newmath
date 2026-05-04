@@ -3,7 +3,6 @@ Finite kernel imports are kept separate from derived interface imports.
 The kernel boundary is `BEDC.FKernel.*` plus `BEDC.BaseReflection.*`;
 `BEDC.Derived.*` modules are licensed objects built over that boundary.
 -/
-
 /- Finite kernel. -/
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
@@ -48,7 +47,6 @@ import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
-
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
@@ -56,6 +54,7 @@ import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.BalancedContext
+import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.UnitUp
@@ -131,6 +130,7 @@ import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
+import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
@@ -141,6 +141,7 @@ import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
+import BEDC.Derived.ComplexUp.SemanticCertificate
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -175,10 +176,13 @@ import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
+import BEDC.Derived.ListUp.EmptyBoundedSource
+import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
+import BEDC.Derived.ListUp.NilEndpointInversion
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.MapShape
@@ -186,10 +190,12 @@ import BEDC.Derived.ListUp.PublicReverse
 import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.ListUp.SourceRefinement
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
+import BEDC.Derived.ListUp.SingletonSource
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -201,6 +207,7 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
 import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
@@ -211,6 +218,7 @@ import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
+import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
@@ -218,6 +226,7 @@ import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
+import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge

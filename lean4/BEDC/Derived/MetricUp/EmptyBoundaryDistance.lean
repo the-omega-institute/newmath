@@ -21,6 +21,18 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_distance_empty {p q
   · cases boundary.right
     rfl
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_append_unit_laws
+    {p q d l r : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) -> append d r = r ∧ append l d = l := by
+  intro visible
+  have distanceEmpty :
+      hsame d BHist.Empty :=
+    (MetricDistanceWitness_empty_boundary_visible_context_distance_empty
+      (p := p) (q := q) (d := d) visible).left
+  cases distanceEmpty
+  exact And.intro (append_empty_left r) (append_empty_right l)
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_left_unit_result
     {p q d r out : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)

@@ -216,3 +216,41 @@ disjunction: either the left central endpoint is not history-same to $\emp$, or
 the right central endpoint is not history-same to $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_positive\_depth\_nonempty\_endpoint}
+
+\begin{theorem}[Metric visible-context positive central depth e-one endpoint cases]
+\label{thm:metric-distance-witness-visible-context-positive-depth-e1-endpoint-cases}
+For histories $p,q,x,y,d:\mathsf{BHist}$, positive central distance depth in a
+visible MetricUp ledger exposes an e-one constructor at one central endpoint
+with a unary tail:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\to\\
+\qquad
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)\to\\
+\qquad
+\bigl(\exists x_0,\ x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0)\bigr)
+\vee
+\bigl(\exists y_0,\ y=\Eone(y_0)\land\mathsf{UnaryHistory}(y_0)\bigr).
+\end{array}
+$$
+Here the BEDC source is $\mathsf{MetricDistanceWitness}$, the carrier objects
+are $\mathsf{UnaryHistory}$ histories, the classifier is $\hsame$, and the
+obligation is constructor readback under visible prefix and suffix ledgers.
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to remove the prefix $p$ and suffix $q$ from
+the displayed ledger. This recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+Next convert positive central depth into the nonempty-distance input required
+by the constructor readback theorem. If $d\hsame\emp$ held, then
+\autoref{thm:metric-distance-depth-zero-iff-empty} would give
+$\mathsf{MetricDistanceDepth}(d)=0$, contradicting the positive-depth
+hypothesis.
+
+Apply
+\autoref{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases} to
+the recovered central witness and this nonempty-distance contradiction. The
+result is exactly the displayed disjunction of e-one endpoint witnesses with
+unary tails.
+\end{proof}
