@@ -142,6 +142,7 @@ import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexUp.SemanticCertificate
+import BEDC.Derived.ComplexUp.ComponentContextPositive
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -178,7 +179,10 @@ import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
 import BEDC.Derived.ListUp.SpineRep
+import BEDC.Derived.ListUp.SpineCoherence
+import BEDC.Derived.ListUp.SpineBridge
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.FramedEndpointCons
 import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
@@ -197,6 +201,7 @@ import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
+import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -224,17 +229,20 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
+import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
 import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.SelectedTransportReadback
+import BEDC.Derived.RealUp.UnaryDenominatorContextShape
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
@@ -455,6 +463,7 @@ import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
+import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
@@ -559,11 +568,13 @@ import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.CategoryUp.TailCommCongr
 import BEDC.Derived.CategoryUp.RightE1TailTargetCases
+import BEDC.Derived.CategoryUp.ContinuationTailShape
 import BEDC.Derived.CategoryUp.CompTargetEmptyIff
 import BEDC.Derived.CategoryUp.CompSourceEmptyTailTargetIff
 import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
+import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
@@ -580,6 +591,7 @@ import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.FunctorUp.CompNonemptyResultTargetVisible
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
+import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
