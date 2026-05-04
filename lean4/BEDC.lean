@@ -259,6 +259,7 @@ import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.GroupUp.InverseEmpty
 import BEDC.Derived.SubgroupUp
+import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
