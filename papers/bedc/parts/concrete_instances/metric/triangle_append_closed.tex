@@ -336,6 +336,52 @@ nonempty $x$ or $y$ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_endpoint\_nonempty}
 
+\begin{theorem}[Metric triangle nonempty spine iff nonempty distance]
+\label{thm:metric-distance-witness-triangle-nonempty-spine-iff-nonempty-distance}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, the same three triangle distance
+witnesses identify nonemptiness of the final triangle distance exactly with
+nonemptiness of at least one point of the triangle spine:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\bigl(d_{xyz}\hsame\emp\to\mathsf{False}\bigr)
+\Longleftrightarrow
+\\
+\bigl((x\hsame\emp\to\mathsf{False})\vee
+(y\hsame\emp\to\mathsf{False})\vee
+(z\hsame\emp\to\mathsf{False})\vee
+(d_{xy}\hsame\emp\to\mathsf{False})\vee
+(d_{yz}\hsame\emp\to\mathsf{False})\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty} to
+the three triangle witnesses and the displayed nonempty-distance hypothesis.
+The resulting endpoint disjunction is injected into the five-way spine
+disjunction by choosing the corresponding $x$, $y$, or $z$ summand.
+
+For the reverse direction, assume the five-way spine disjunction and suppose
+$d_{xyz}\hsame\emp$. By
+\autoref{thm:metric-distance-depth-zero-iff-empty}, this gives
+$\mathsf{MetricDistanceDepth}(d_{xyz})=0$. Applying
+\autoref{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine} to
+the three triangle witnesses then yields
+$\hsame(x,\emp)$, $\hsame(y,\emp)$, $\hsame(z,\emp)$, $\hsame(d_{xy},\emp)$,
+and $\hsame(d_{yz},\emp)$.
+
+Case-analyze the five-way spine disjunction. In each case, the selected
+nonempty spine component is a function from the corresponding empty classifier
+to $\mathsf{False}$, so applying it to the matching classifier from the
+empty-spine conjunction gives the desired contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_spine\_iff\_nonempty\_distance}
+
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
 If $p$ and $q$ are supplied as unary visible contexts, distance witnesses from
