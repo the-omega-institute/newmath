@@ -447,6 +447,107 @@ source, and carrier support; exactness the combined guarded action-inverse exit
 boundary; downstream consumer Phase Algebra Hierarchy exit criterion; status
 $\mathsf{ProofTarget}$.
 
+\begin{definition}[RatUp FieldUp phase-exit record]
+\label{def:ratup-fieldup-phase-exit-record}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u_0,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryClassifier}(x,x')$ and
+$\mathsf{RatHistoryClassifier}(y,y')$, a carried denominator
+$q:\mathsf{BHist}$ with $\mathsf{RatHistoryCarrier}(q)$, apart-zero context
+data $L_0,R_0,\tau:\mathsf{BHist}$ with
+$p:\mathsf{FieldApartZero}(L_0)$, histories $a,b,u,d:\mathsf{BHist}$, the
+contextual action $\Gamma$, the affine source $\mathsf{AffAut}_F$, and BEDC
+history operations $add$, $mul$, $neg$, and $zero$ satisfying the CommRing
+hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. Also fix a
+guard hypothesis
+$$
+H:\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr).
+$$
+
+The record predicate $\mathsf{RatUpFieldPhaseExit}(\mathcal E_F)$ means that
+the fixed source, exit object, denominator tuple, contextual action, affine
+source, histories, carrier witnesses, selectors, contexts, support witness,
+Rat-classified endpoint pairs, carried denominator, apart-zero guard data,
+guard hypothesis, and inverse/action rows jointly satisfy the following four
+components:
+\begin{enumerate}
+  \item the chapter row coverage of
+  \autoref{thm:ratup-fieldup-chapter-certificate-row-coverage};
+  \item the full algebra hierarchy exit package of
+  \autoref{thm:ratup-fieldup-full-algebra-hierarchy-exit-package};
+  \item the guarded full package of
+  \autoref{thm:ratup-fieldup-guarded-full-algebra-hierarchy-exit-package};
+  \item the guarded canonical action-inverse package of
+  \autoref{thm:ratup-fieldup-guarded-canonical-action-inverse-exit-package}.
+\end{enumerate}
+Thus the predicate is a named conjunction over the single
+$\mathsf{BHist}$ source, the carrier $\mathsf{RatHistoryCarrier}$, the
+denominator carrier $C_D^u$, the classifiers $\mathsf{RatHistoryClassifier}$,
+$R_D^u$, and $\hsame$, the apart-zero guard, and the affine action/inverse
+support.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp canonical phase-exit record]
+\label{thm:ratup-fieldup-canonical-phase-exit-record}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u_0,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryClassifier}(x,x')$ and
+$\mathsf{RatHistoryClassifier}(y,y')$, a carried denominator
+$q:\mathsf{BHist}$ with $\mathsf{RatHistoryCarrier}(q)$, apart-zero context
+data $L_0,R_0,\tau:\mathsf{BHist}$ with
+$p:\mathsf{FieldApartZero}(L_0)$, histories $a,b,u,d:\mathsf{BHist}$, the
+contextual action $\Gamma$, the affine source $\mathsf{AffAut}_F$, and the same
+BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the CommRing
+hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$$
+H:\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr),
+$$
+then the concrete exit object $\mathcal E_F$ satisfies
+$\mathsf{RatUpFieldPhaseExit}(\mathcal E_F)$ for the displayed data and guard
+hypothesis.
+\end{theorem}
+\begin{proof}
+Unfold the record predicate of
+Definition~\ref{def:ratup-fieldup-phase-exit-record}. The first component is
+the chapter row coverage supplied by
+\autoref{thm:ratup-fieldup-chapter-certificate-row-coverage} for the fixed
+$\mathsf{RatUpFieldSource}_F$ and exit object $\mathcal E_F$.
+
+The second component is obtained by instantiating
+\autoref{thm:ratup-fieldup-full-algebra-hierarchy-exit-package} with the
+displayed denominator tuple, histories $h,k,\ell$, carrier witnesses, selectors,
+contexts, support witness, Rat-classified endpoint pairs, carried denominator
+$q$, and apart-zero data $L_0,R_0,\tau,p$.
+
+The third component is obtained by applying
+\autoref{thm:ratup-fieldup-guarded-full-algebra-hierarchy-exit-package} to the
+same source, exit object, denominator tuple, affine source, contextual action,
+CommRing operations, histories $a,b,u,d$, and guard hypothesis $H$.
+
+The fourth component is exactly
+\autoref{thm:ratup-fieldup-guarded-canonical-action-inverse-exit-package}
+instantiated with the same displayed data. Conjunction introduction packages the
+four components into the named phase-exit record, and no carrier, classifier,
+selector, denominator tuple, contextual action, affine source, apart-zero datum,
+or inverse/action row is replaced.
+\end{proof}
+
 \begin{theorem}[RatUp FieldUp guarded action-inverse external-unit separation]
 \label{thm:ratup-fieldup-guarded-action-inverse-external-unit-separation}
 For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
