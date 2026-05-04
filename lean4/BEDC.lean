@@ -3,7 +3,6 @@ Finite kernel imports are kept separate from derived interface imports.
 The kernel boundary is `BEDC.FKernel.*` plus `BEDC.BaseReflection.*`;
 `BEDC.Derived.*` modules are licensed objects built over that boundary.
 -/
-
 /- Finite kernel. -/
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Hist
@@ -48,7 +47,6 @@ import BEDC.FKernel.NameCert.Descent
 import BEDC.FKernel.NameCert.StabilityMode
 import BEDC.FKernel.Unary
 import BEDC.BaseReflection
-
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
@@ -178,6 +176,8 @@ import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
+import BEDC.Derived.ListUp.EmptyBoundedSource
+import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
@@ -189,6 +189,7 @@ import BEDC.Derived.ListUp.PublicReverse
 import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.ListUp.SourceRefinement
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
@@ -205,6 +206,7 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
 import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
