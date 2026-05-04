@@ -11,6 +11,42 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Real stream window classifier hsame transport]
+\label{thm:real-stream-window-classifier-hsame-transport}
+For rational-observation streams $x,y,x',y':\mathbb{N}\to\Hist$, an anchor
+index $n$, and a radius $m$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$. If every bounded offset
+$k\le m$ carries both endpoint rows
+$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$, then
+$\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier and fix an arbitrary offset $k\le m$. The
+source window hypothesis supplies the endpoint classifier
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+The offset transport hypothesis gives the two rows
+$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$ at the same bounded
+observation. Apply
+\autoref{thm:rat-history-classifier-hsame-transport} to the source rational
+classifier and these endpoint rows.
+
+The result is
+$\mathsf{RatHistoryClassifier}(x'(n+k),y'(n+k))$. Since the offset was
+arbitrary under the bound $k\le m$, these transported endpoint classifiers
+repack into $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window stability
+for RealUp names; BEDC source RealUp windows plus RatUp endpoint classifier
+transport; carrier bounded rational-observation windows; classifier
+$\mathsf{RealStreamWindowClassifier}$; stability endpoint hsame transport;
+ledger anchor, radius, offset, and two endpoint transports; core theorem
+\autoref{thm:real-stream-window-classifier-hsame-transport}; exactness
+preservation of the bounded classifier; standard bridge finite prefix
+stability for regular rational observation names; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream prefix-window exactness at zero]
 \label{thm:real-stream-prefix-window-exactness-at-zero}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every finite

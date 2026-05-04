@@ -4944,3 +4944,110 @@ Concrete derived theorem at the same granularity as B-07 (lattice idempotence/ab
 
 ---
 
+### B-192 - Polynomial raw addition commutativity from scalar additive commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial raw addition commutativity from scalar additive commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a RingUp scalar carrier with classifier $\sim_R$, addition $+$, and additive abelian-group fields, for all finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$, $\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{radd}_R(q,p))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Concrete instance / chapter 25 polynomial. Review category 4 (missing companion result). Chapter 25:5 says 'Polynomial addition and multiplication are derived operations governed by the ring's certificate fields' but no theorem states that radd commutes; the chapter has trim compatibility (thm:polynomial-raw-add-two-sided-trim-compatibility, line 685), zero-tail invariance (prop:polynomial-raw-add-right-zero-tail-invariance, line 716), and even Horner additivity (lem:horner-evaluation-raw-additive), yet grep for 'PolySame.*radd.*radd' returns only directional trim/zero-tail forms — never the symmetric input swap. Distinct from B-09 (normalize commutes with add+mul on inputs), B-30 (two-sided trim compatibility), and B-31 (right zero-tail). Required prerequisites all exist: RingUp additive commutativity is a stability field (def:ring-stability-certificate, item 1, abelian-group laws), addition congruence is a stability field, the radd recursion is fixed in def:polynomial-raw-add-comparison-data, ListClassifierSpec transitivity is in 11_list_namecert_construction. Closeable in 1-2 rounds via simultaneous induction on the cons-cons / nil-cons / cons-nil / nil-nil branches of the radd recursion, applying additive commutativity in the cons-cons head case and the additive zero laws in the boundary cases.
+
+---
+
+
+### B-193 - Polynomial raw addition associativity from scalar additive associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial raw addition associativity from scalar additive associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a RingUp scalar carrier with classifier $\sim_R$, additive abelian-group fields, and addition congruence, for all finite coefficient spines $p,q,r:\mathsf{ListCarrier}(R)$, $\mathsf{PolySame}_R(\mathsf{radd}_R(\mathsf{radd}_R(p,q),r),\mathsf{radd}_R(p,\mathsf{radd}_R(q,r)))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Concrete instance / chapter 25 polynomial. Review category 4 (missing companion). The chapter introduces radd to express the abelian-group law of polynomial addition, and Horner evaluation is shown additive (thm:polynomial-evaluation-additive-homomorphism), yet associativity of radd itself is never stated — grep 'radd.*assoc|polynomial.*assoc' returns no hit in chapter 25 and in the polynomial subdirectory. The companion to B-09/B-30/B-31, which develop normalize-trim compatibility, is the underlying associativity from which those compatibilities are usually derived; without it the chapter relies on an implicit appeal. Required prerequisites all present: ring additive associativity is in def:ring-stability-certificate item 1 (abelian-group laws), addition congruence is item 3, list classifier transitivity is in 11_list_namecert. Closeable in 1-2 rounds via outer induction on $p$ following the radd recursion, with the cons-cons-cons head case using additive associativity once and addition congruence on the tail induction step.
+
+---
+
+
+### B-194 - Polynomial raw multiplication commutativity from CommRing scalar commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial raw multiplication commutativity from CommRing scalar commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a CommRingUp scalar carrier with classifier $\sim_R$ and multiplicative commutativity field, for all finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$, $\mathsf{PolySame}_R(\mathsf{rmul}_R(p,q),\mathsf{rmul}_R(q,p))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+
+Rationale:
+Concrete instance / chapter 25 polynomial. Review category 4 (missing companion). The chapter defines the raw Cauchy product rmul_R (def:polynomial-raw-cauchy-product, line 199), proves multiplicative Horner homomorphism (thm:polynomial-evaluation-multiplicative-homomorphism, line 321), and the introduction text on line 4 states polynomial multiplication is governed by the ring's certificate fields. But no theorem states symbolic commutativity of rmul itself — grep 'rmul.*comm|polynomial.*mult.*comm' returns 0 hits. Distinct from B-22 (zero-tail invariance for multiplication, a one-sided length-extension invariant) and from B-09 (which conjoins normalize-commutes-with-mul, an input-normalization claim). Required prerequisites all present: CommRingUp multiplicative commutativity is in def:commring-stability-certificate (used in lem:horner-evaluation-raw-scalar-product, line 245), rscale_R and shift_R recursion in def:polynomial-raw-cauchy-product, raw additivity is the proven lem:horner-evaluation-raw-additive. Closeable in 2-3 rounds via outer induction on the left input through the rscale-shift-radd recursion, then a paired inner induction over the right input swapping coefficient orders by scalar commutativity, with the shift-coefficient interaction unfolded through the right distributive field.
+
+---
+
+
+### B-195 - Bundle append membership commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Bundle append membership commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For probe $p$ and bundles $\Pi,\Theta$, $p\in\BAppend(\Pi,\Theta)\Longleftrightarrow p\in\BAppend(\Theta,\Pi)$.
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+- `lean4/BEDC/FKernel/Bundle.lean`
+
+Rationale:
+Core / probe_bundles. Review category 7 (composite consequence). Chapter 05/01_bundle_grammar has thm:bundle-append-membership (line 249, $p\in\BAppend(\Pi,\Theta)\iff p\in\Pi\lor p\in\Theta$, \leanchecked) and thm:bundle-ask-policy-append-comm (line 396, BundleAskPolicy under append swap, \leanchecked) but the simpler theorem stating the membership predicate itself is symmetric under append swap is absent — grep 'bundleAppend.*comm|append.*membership.*comm' returns 0 dedicated theorems. The companion to BundleAskPolicy commutation, at the membership layer, is the missing piece: BundleAskPolicy commutation pulls back along the membership commutation but currently has to rebuild via two append-membership applications inline. Required infrastructure all proven and \leanchecked. Closeable in 1 round via thm:bundle-append-membership applied to both directions and disjunction commutativity.
+
+---
+
