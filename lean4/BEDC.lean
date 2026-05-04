@@ -234,6 +234,7 @@ import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
