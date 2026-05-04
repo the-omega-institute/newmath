@@ -121,6 +121,23 @@ theorem RingSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem RingSingletonClassifier_append_split_empty {p q h : BHist} :
+    RingSingletonClassifier (append p q) h ↔
+      RingSingletonCarrier p ∧ RingSingletonCarrier q ∧ RingSingletonCarrier h := by
+  constructor
+  · intro classified
+    have split := append_eq_empty_iff.mp classified.left
+    exact And.intro split.left (And.intro split.right classified.right.left)
+  · intro data
+    cases data with
+    | intro carrierP rest =>
+        cases rest with
+        | intro carrierQ carrierH =>
+            have appendCarrier : RingSingletonCarrier (append p q) :=
+              append_eq_empty_iff.mpr (And.intro carrierP carrierQ)
+            exact And.intro appendCarrier
+              (And.intro carrierH (hsame_trans appendCarrier (hsame_symm carrierH)))
+
 theorem concrete_singleton_history_ring_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=

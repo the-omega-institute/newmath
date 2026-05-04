@@ -88,6 +88,20 @@ constructor separation of the visible step from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_construct}
 
+\begin{theorem}[Complex visible-step quotient results are nonempty]
+\label{thm:cplx-diff-quot-visible-step-results-nonempty}
+If $f,z,out_0,out_1$ are unary histories and the visible step ledgers
+$\Cont(f,\Ezero(p),out_0)$ and $\Cont(f,\Eone(q),out_1)$ are present, then
+neither visible-step quotient result is $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Use the visible-step construction to build both complex difference quotient
+records. Each record has a constructor-separated nonzero step and a
+continuation ledger, so the quotient result nonempty theorem applies to
+$out_0$ and to $out_1$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_results\_nonempty}
+
 \begin{lemma}[Complex difference quotient is well-defined]
 \label{lem:cplx-diff-quot-well-defined}
 For each \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\) there is exactly one complex history \(q\), up to \(\hsame\), with \(\mathsf{CplxDiffQuot}(f, z, h, q)\).
