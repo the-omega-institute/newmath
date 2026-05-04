@@ -86,6 +86,41 @@ closure gives the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_result\_unary}
 
+\begin{theorem}[Real-analytic pointwise complex partial-sum target unaryness]
+\label{thm:real-analytic-complex-part-sum-pointwise-result-unary-transport}
+For two complex term families $c,d:\mathsf{BHist}\to\mathsf{BHist}$, suppose
+the chosen zero histories are $\hsame$, the source zero history is unary, each
+$c(m)$ is unary on unary indices, and $c(m)\hsame d(m)$ at every unary index.
+If $n$ is unary and closed partial-sum witnesses compute results $S$ for
+$(zero,c)$ and $T$ for $(zero',d)$ at $n$, then $T$ is unary.
+\end{theorem}
+\begin{proof}
+The source partial-sum unary theorem gives unaryness of $S$. Pointwise
+$\hsame$ determinacy for complex partial sums identifies $S$ and $T$ under
+$\hsame$, using the zero comparison, the pointwise term comparison, and the
+unary index witness. Unary history closure under $\hsame$ gives unaryness of
+$T$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_pointwise\_result\_unary\_transport}
+
+\begin{theorem}[Real-analytic pointwise absolute partial-sum target unaryness]
+\label{thm:real-analytic-complex-abs-part-sum-pointwise-result-unary-transport}
+For two modulus families $\mathsf{modulus},\mathsf{modulus}':
+\mathsf{BHist}\to\mathsf{BHist}$, suppose the chosen zero histories are
+$\hsame$, the source zero history is unary, each source modulus value is unary
+on unary indices, and the two modulus families are pointwise $\hsame$ on unary
+indices. If $n$ is unary and closed absolute partial-sum witnesses compute
+results $M$ and $T$ at $n$, then $T$ is unary.
+\end{theorem}
+\begin{proof}
+The source absolute partial-sum unary theorem gives unaryness of $M$.
+Pointwise $\hsame$ determinacy for absolute partial sums identifies $M$ and
+$T$ under $\hsame$, using the zero comparison, the pointwise modulus
+comparison, and the unary index witness. Unary history closure under $\hsame$
+gives unaryness of $T$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_pointwise\_result\_unary\_transport}
+
 \begin{lemma}[Exponential Cauchy modulus on bounded inputs]
 \label{lem:real-analytic-exp-cauchy}
 For every \(\RealUp\)-history \(x\) with \(|x| \leq B\) (explicit unary upper bound \(B\)), the partial sums \(\mathsf{ExpPart}(x, n, S_n)\) form a \(\RegSeqRat\)-Cauchy sequence with explicit modulus \(N(k) := 2 B + k\): for all \(m, n \geq N(k)\), \(|S_m - S_n| < 2^{-k}\).
