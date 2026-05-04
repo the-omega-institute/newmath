@@ -1,9 +1,11 @@
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.NatTransUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.Derived.CategoryUp
 
 theorem NatTransPrefixComponentCarrier_empty_component_opposite_closed {p q a eta : BHist} :
     NatTransPrefixComponentCarrier p q a eta -> hsame eta BHist.Empty ->
@@ -31,5 +33,18 @@ theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_opposite_closed
   exact
     NatTransPrefixComponentCarrier_empty_component_opposite_closed
       closed (hsame_refl BHist.Empty)
+
+theorem NatTransPrefixComponentCarrier_vert_comp_empty_result_prefixes_hsame
+    {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta BHist.Empty ->
+        hsame p q ∧ hsame q r := by
+  intro left right comp
+  have base :=
+    (CategoryHomCarrier_empty_composite_iff left.right.right.right right.right.right.right).mp comp
+  exact
+    And.intro
+      (append_right_cancel (k := a) base.right.right.left)
+      (append_right_cancel (k := a) base.right.right.right)
 
 end BEDC.Derived.NatTransUp

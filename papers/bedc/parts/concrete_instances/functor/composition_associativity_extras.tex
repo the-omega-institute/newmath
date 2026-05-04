@@ -609,3 +609,23 @@ that carrier with the displayed target $\mathsf{append}(p,d)$, and cancellation
 of the common left prefix $p$ gives $\hsame(c,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_target\_object\_deterministic}
+
+\begin{theorem}[Functor prefix triangle cycle empty components]
+\label{thm:functor-prefix-triangle-cycle-empty-components}
+For histories $p,q,r,a,f,g,h$, if prefixed hom-carriers form a triangle
+$$
+\mathsf{append}(p,a)\xrightarrow{f}\mathsf{append}(q,a)
+\xrightarrow{g}\mathsf{append}(r,a)
+\xrightarrow{h}\mathsf{append}(p,a),
+$$
+then all three displayed hom-carriers also hold with empty morphism, and the
+three adjacent prefixes collapse as $\hsame(p,q)$ and $\hsame(q,r)$.
+\end{theorem}
+\begin{proof}
+Apply category hom-carrier triangle-cycle empty exactness to the three
+prefixed hom-carriers. The category theorem gives empty morphisms on all three
+edges and identifies the prefixed adjacent endpoints. Cancelling the common
+right suffix $a$ from those two endpoint equalities gives the stated prefix
+equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_prefix\_triangle\_cycle\_empty\_components}
