@@ -165,6 +165,8 @@ import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.ListUp.DescentCertificate
+import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp

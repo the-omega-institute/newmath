@@ -141,6 +141,32 @@ theorem ComplexHistoryCarrier_e1_tail_components {tail : BHist} :
                                 (Exists.intro imagTail
                                   (And.intro realCarrier (And.intro imagCarrier tailCont)))
 
+theorem ComplexHistoryCarrier_e1_tail_positive_components {tail : BHist} :
+    ComplexHistoryCarrier (BHist.e1 tail) ->
+      exists real imagTail : BHist,
+        RatUp.RatHistoryCarrier real /\ RatUp.RatHistoryCarrier (BHist.e1 imagTail) /\
+          Cont real imagTail tail /\ RatUp.PositiveUnaryDenominator real /\
+            RatUp.PositiveUnaryDenominator (BHist.e1 imagTail) := by
+  intro carrier
+  cases ComplexHistoryCarrier_e1_tail_components carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imagTail data =>
+          cases data with
+          | intro realCarrier data =>
+              cases data with
+              | intro imagCarrier tailCont =>
+                  exact Exists.intro real
+                    (Exists.intro imagTail
+                      (And.intro realCarrier
+                        (And.intro imagCarrier
+                          (And.intro tailCont
+                            (And.intro
+                              (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
+                                realCarrier)
+                              (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
+                                imagCarrier))))))
+
 theorem ComplexHistoryCarrier_component_reflexive_classifiers {h : BHist} :
     ComplexHistoryCarrier h ->
       exists real : BHist, exists imag : BHist,
