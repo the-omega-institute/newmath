@@ -336,3 +336,90 @@ Quantifying over carried $x$ packages these comparisons as the two $\LinearMapUp
 \begin{proof}
 Unpack the package in \autoref{def:module-linearmap-certificate-package}. It supplies output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation. Unpack the two module certificates through \autoref{def:module-certificate-obligations}; the source module supplies carried $0_M$, additive closure of $x+_M u$, and scalar-action closure of $r\odot_M x$, while the target module supplies additive congruence, scalar-action congruence, and classifier equivalence by \autoref{def:module-stability-certificate}, \autoref{def:abgroup-stability-certificate}, and \autoref{def:lean-carrier-naming-certificate}. For target-classifier transport, choose an image witness $x$ for $\mathsf{Im}_f(y)$, so $x$ is carried in $M$ and $f(x)\sim_N y$. Composing this comparison with $y\sim_N y'$ by \autoref{thm:namecert-equivalence-transitivity} gives $f(x)\sim_N y'$. The same source witness $x$ proves $\mathsf{Im}_f(y')$. For zero, the zero row of the linear-map certificate gives $f(0_M)\sim_N0_N$. Since $0_M$ is carried by the additive part of the source module, $x=0_M$ is an image witness for $0_N$. For addition, assume $\mathsf{Im}_f(y)$ and $\mathsf{Im}_f(z)$. Choose carried source witnesses $x,u:M$ with $f(x)\sim_N y$ and $f(u)\sim_N z$. Carrier transport in the target classifier makes $y$ and $z$ carried in $N$. Source additive closure makes $x+_M u$ carried in $M$. The additive preservation row gives $f(x+_M u)\sim_N f(x)+_N f(u)$. Target additive congruence transports the two image comparisons to $f(x)+_N f(u)\sim_N y+_N z$. Transitivity of $\sim_N$ composes the two comparisons, so the carried source endpoint $x+_M u$ witnesses $\mathsf{Im}_f(y+_N z)$. For scalar action, let $r$ be a carried scalar and assume $\mathsf{Im}_f(y)$. Choose a carried source witness $x:M$ with $f(x)\sim_N y$. Source scalar-action closure makes $r\odot_M x$ carried in $M$. Scalar compatibility gives $f(r\odot_M x)\sim_N r\odot_N f(x)$. Target scalar-action congruence, using classifier reflexivity on the carried scalar $r$ and the image comparison $f(x)\sim_N y$, gives $r\odot_N f(x)\sim_N r\odot_N y$. Transitivity gives $f(r\odot_M x)\sim_N r\odot_N y$, so $r\odot_M x$ is an image witness for $r\odot_N y$. The ledger is assembled from the source witnesses, the linearity rows of the $\mathsf{LinearMapCert}_R$ package, the target operation-congruence rows, and the classifier-transitivity ledger governed by \autoref{def:linearmap-ledger-policy}. No equality of functions is used; all comparisons are pointwise target-classifier comparisons as in \autoref{def:linearmap-classifier-specification}.
 \end{proof}
+
+\begin{theorem}[Module LinearMap pointwise sum certificate]
+\label{thm:module-linearmap-pointwise-sum-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, and $\odot_M$ and $\odot_N$ for scalar action. For functions $f,g:M\to N$, define $h:M\to N$ by
+$$
+h(x):=f(x)+_N g(x).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;g),
+$$
+then
+$$
+\mathsf{LinearMapCert}_R(M,N;h).
+$$
+The ten-field fit is: traditional target pointwise addition of ordinary $R$-linear maps; BEDC source the two displayed $\mathsf{LinearMapCert}_R$ packages over common $\ModuleUp$ certificates; carrier the pointwise-sum function $h$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, and zero preservation from the module and abelian-group rows; ledger the two input function identifiers, their linearity rows, and the target additive, middle-four, distributive, zero, and classifier ledgers; core theorem this block; exactness predicate the displayed certificate; standard bridge the usual closure of $\operatorname{Hom}_R(M,N)$ under pointwise addition; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two input certificates by \autoref{def:module-linearmap-certificate-package}. They supply output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation for $f$ and for $g$. Unpack the module certificates through \autoref{def:module-certificate-obligations}. The target module supplies additive closure, additive congruence, scalar-action closure, scalar-action congruence, scalar distributivity over module addition, and the additive abelian-group laws retained by \autoref{prop:module-forgets-abgroup-certificate}. Classifier symmetry and transitivity are supplied by the carrier certificate in \autoref{def:lean-carrier-naming-certificate} and composed by \autoref{thm:namecert-equivalence-transitivity}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ and $g$ makes $f(x)$ and $g(x)$ carried in $N$. Additive closure in the target module makes $f(x)+_N g(x)$ carried, so $h(x)$ is carried in $N$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives $f(x)\sim_N f(y)$, and descent for $g$ gives $g(x)\sim_N g(y)$. Target additive congruence transports these two comparisons to
+$$
+f(x)+_N g(x)\sim_N f(y)+_N g(y),
+$$
+which is $h(x)\sim_N h(y)$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Source additive closure makes $x+_M y$ carried. The additive rows for $f$ and $g$ give
+$$
+f(x+_M y)\sim_N f(x)+_N f(y)
+\qquad\text{and}\qquad
+g(x+_M y)\sim_N g(x)+_N g(y).
+$$
+Target additive congruence therefore gives
+$$
+h(x+_M y)\sim_N (f(x)+_N f(y))+_N(g(x)+_N g(y)).
+$$
+By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of $N$ is an $\AbGroupUp(N)$ certificate with the same $+_N$ and $\sim_N$. Applying the middle-four law of \autoref{thm:abgroup-middle-four-interchange} in additive notation gives
+$$
+(f(x)+_N f(y))+_N(g(x)+_N g(y))
+\sim_N
+(f(x)+_N g(x))+_N(f(y)+_N g(y)).
+$$
+Transitivity composes the last two displayed comparisons and yields
+$$
+h(x+_M y)\sim_N h(x)+_N h(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Source scalar-action closure makes $r\odot_M x$ carried. The scalar rows for $f$ and $g$ give
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x)
+\qquad\text{and}\qquad
+g(r\odot_M x)\sim_N r\odot_N g(x).
+$$
+Target additive congruence gives
+$$
+h(r\odot_M x)\sim_N (r\odot_N f(x))+_N(r\odot_N g(x)).
+$$
+The scalar distributivity row of \autoref{def:module-stability-certificate}, read in the target module and oriented by classifier symmetry, gives
+$$
+(r\odot_N f(x))+_N(r\odot_N g(x))\sim_N r\odot_N(f(x)+_N g(x)).
+$$
+Transitivity yields
+$$
+h(r\odot_M x)\sim_N r\odot_N h(x).
+$$
+
+For zero preservation, the source zero endpoint is carried by the additive data. The zero rows for $f$ and $g$ give
+$$
+f(0_M)\sim_N0_N
+\qquad\text{and}\qquad
+g(0_M)\sim_N0_N.
+$$
+Target additive congruence gives
+$$
+h(0_M)\sim_N0_N+_N0_N.
+$$
+The additive unit law in the target abelian-group certificate classifies $0_N+_N0_N$ with $0_N$, and transitivity gives
+$$
+h(0_M)\sim_N0_N.
+$$
+
+The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the preceding descent row is its required pointwise respect. The ledger records the function identifier $h$, the two input function identifiers, the pointwise addition ledger for each output, the additive congruence and middle-four ledgers for the additivity row, the scalar-distributivity ledger for the scalar row, and the zero-plus-unit ledger for the zero row, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
+\end{proof}
