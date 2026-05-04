@@ -91,6 +91,40 @@ theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
     RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary sameTail
   exact RatHistoryLedgerPolicy_prepend_unary_denominator_closed appended prefRawUnary samePref
 
+theorem RatHistoryLedgerPolicy_unary_context_zero_extension_endpoint_exclusion
+    {raw visible prefRaw prefVisible tailRaw tailVisible z z' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
+        (hsame (append prefRaw (append raw tailRaw)) (BHist.e0 z) -> False) ∧
+          (hsame (append prefVisible (append visible tailVisible)) (BHist.e0 z') ->
+            False) := by
+  intro ledger prefRawUnary samePref tailRawUnary sameTail
+  have contextLedger :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed ledger prefRawUnary samePref
+      tailRawUnary sameTail
+  have contextClassifier :
+      RatHistoryClassifier (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_raw_visible_classifier contextLedger
+  constructor
+  · intro sameRawZero
+    have displayed :
+        RatHistoryClassifier (BHist.e0 z)
+          (append prefVisible (append visible tailVisible)) :=
+      RatHistoryClassifier_hsame_transport sameRawZero
+        (hsame_refl (append prefVisible (append visible tailVisible))) contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := append prefVisible (append visible tailVisible))).left displayed
+  · intro sameVisibleZero
+    have displayed :
+        RatHistoryClassifier (append prefRaw (append raw tailRaw)) (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport
+        (hsame_refl (append prefRaw (append raw tailRaw))) sameVisibleZero contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := append prefRaw (append raw tailRaw))).right displayed
+
 theorem RatHistoryClassifier_unary_denominator_context_positive_denominators
     {d e prefD prefE tailD tailE : BHist} :
     RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
