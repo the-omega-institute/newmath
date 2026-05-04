@@ -1,6 +1,7 @@
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.ComplexAnalyticUp
 
@@ -115,6 +116,18 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
           (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
+
+theorem CplxPureImaginary_suffix_component_tail_witness {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ∃ imagq : BHist,
+        RatHistoryCarrier imagq ∧ hsame imagq (BHist.e1 (append theta q)) ∧
+          Cont (BHist.e1 BHist.Empty) imagq zq ∧ PositiveUnaryDenominator imagq := by
+  intro pureImaginary qUnary zqCont
+  cases CplxPureImaginary_component_continuation_witness pureImaginary qUnary zqCont with
+  | intro imagq data =>
+      have sameTail : hsame imagq (BHist.e1 (append theta q)) :=
+        data.right.left.trans (unary_append_e1_left (h := q) (k := theta) qUnary)
+      exact ⟨imagq, data.left, sameTail, data.right.right.left, data.right.right.right⟩
 
 theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->

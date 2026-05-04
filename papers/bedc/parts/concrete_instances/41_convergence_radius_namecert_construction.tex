@@ -26,6 +26,23 @@ series carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_origin\_coefficient\_transport}
 
+\begin{lemma}[Power series carrier append-unary closure]
+\label{thm:power-series-carrier-append-unary-closed}
+If $(a,z_0)$ is a power series carrier and $q$ is unary, then appending $q$ to
+the origin and to every coefficient gives another power series carrier:
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(a_n,q),\mathsf{append}(z_0,q)).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the power-series carrier into the unary origin, coefficient-wise
+complex-history carrier, and complex-history origin carrier. Unary histories
+are closed under append, and complex-history carriers are closed under append
+of a unary suffix; apply the latter pointwise to every coefficient and once to
+the origin.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_append\_unary\_closed}
+
 \begin{definition}[Partial sum at a point]
 \label{def:part-sum-power-series}
 For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
@@ -154,6 +171,33 @@ continuation ledgers, while the coefficient carrier clause is unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_constant\_continuation\_closed}
 
+\begin{theorem}[Geometric bound continuation visible radius endpoint package]
+\label{thm:geom-bound-continuation-visible-radius-endpoint-package}
+For coefficients $a$, radius histories $r,R$, constant histories $K,K'$,
+unary perturbations $dr,dK$, and visible tail $tail$, if
+$$
+\mathsf{GeomBound}(a,r,K),\qquad
+\mathsf{UnaryHistory}(dr),\qquad
+\mathsf{UnaryHistory}(dK),
+$$
+and
+$$
+\ContR(r,dr,\Eone(tail)),\qquad
+\ContR(K,dK,K'),\qquad
+\ContR(\Eone(tail),K',R),
+$$
+then the visible tail is unary and the final endpoint is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+First apply radius and constant continuation closure to transport the geometric
+bound from $(r,K)$ to $(\Eone(tail),K')$. The visible-radius endpoint package
+then gives unary readback for $tail$ and excludes an empty final endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_continuation\_visible\_radius\_endpoint\_package}
+
 \begin{lemma}[Geometric majorant inside the disk]
 \label{lem:geom-bound-majorant}
 If \(\mathsf{GeomBound}(a, r, K)\) holds and \(z\) satisfies \(|z - z_0| \leq r' < r\) (decidable strict inequality on rational representations), then the partial sums of \(a\) at \(z\) form a regular complex Cauchy sequence with explicit modulus \(N(k) = \lceil k / \log_2(r/r') \rceil\) computed as a unary function of the precision.
@@ -184,6 +228,28 @@ admitted radius row, apply
 bound and the carrier of \(z_0\).
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_witness}
+
+\begin{lemma}[Convergence radius append-unary power-series witness]
+\label{thm:convrad-power-series-carrier-append-unary-witness}
+If $\mathsf{ConvRad}(a,R)$ holds, $z_0$ is a complex history, and $q$ is unary,
+then the convergence-radius witness function $K$ can be chosen so that every
+admitted radius row simultaneously gives
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(a_n,q),\mathsf{append}(z_0,q))
+$$
+and
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(a_n,q),r,K(r)).
+$$
+\end{lemma}
+\begin{proof}
+Choose the witness function supplied by
+\autoref{lem:conv-rad-power-series-carrier-witness}. For each admitted radius
+row, apply append-unary closure to the supplied power-series carrier and
+apply geometric-bound append-unary coefficient closure to the supplied
+geometric bound. The same $K$ remains the witness function.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_append\_unary\_witness}
 
 \begin{theorem}[Convergence radius visible radius witness endpoint package]
 \label{thm:convrad-visible-radius-witness-endpoint-package}

@@ -27,6 +27,15 @@ theorem PowerSeriesCarrier_origin_coefficient_transport {a b : Nat -> BHist} {z0
     (And.intro targetOrigin
       (And.intro (fun n => (coeffClassified n).right.left) targetOriginComplex))
 
+theorem PowerSeriesCarrier_append_unary_closed {a : Nat -> BHist} {z0 q : BHist} :
+    PowerSeriesCarrier a z0 -> UnaryHistory q ->
+      PowerSeriesCarrier (fun n : Nat => append (a n) q) (append z0 q) := by
+  intro carrier qUnary
+  exact And.intro (unary_append_closed carrier.left qUnary)
+    (And.intro
+      (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (carrier.right.left n) qUnary)
+      (ComplexHistoryCarrier_append_unary_closed carrier.right.right qUnary))
+
 def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
   UnaryHistory R ∧ ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r ->
     Cont r (K r) R -> GeomBound a r (K r)
@@ -223,6 +232,22 @@ theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
             have bound : GeomBound a r (K r) := boundAt radiusUnary contRadius
             exact And.intro (GeomBound_powerSeriesCarrier bound centerCarrier).left bound)
 
+theorem ConvRad_powerSeriesCarrier_append_unary_witness
+    {a : Nat -> BHist} {R z0 q : BHist} :
+    ConvRad a R -> ComplexHistoryCarrier z0 -> UnaryHistory q ->
+      ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+        PowerSeriesCarrier (fun n : Nat => append (a n) q) (append z0 q) ∧
+          GeomBound (fun n : Nat => append (a n) q) r (K r) := by
+  intro radius centerCarrier qUnary
+  cases ConvRad_powerSeriesCarrier_witness radius centerCarrier with
+  | intro K witnessAt =>
+      exact Exists.intro K (by
+        intro r radiusUnary contRadius
+        have source := witnessAt radiusUnary contRadius
+        exact And.intro
+          (PowerSeriesCarrier_append_unary_closed source.left qUnary)
+          (GeomBound_append_unary_coeff_closed source.right qUnary))
+
 theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
     {r K dr dK R K' : BHist} :
     GeomBound a r K -> UnaryHistory dr -> UnaryHistory dK -> Cont r dr R -> Cont K dK K' ->
@@ -231,6 +256,17 @@ theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
   exact And.intro (unary_cont_closed bound.left radiusStep radiusContinuation)
     (And.intro (unary_cont_closed bound.right.left constantStep constantContinuation)
       bound.right.right)
+
+theorem GeomBound_continuation_visible_radius_endpoint_package {a : Nat -> BHist}
+    {r K dr dK K' R tail : BHist} :
+    GeomBound a r K -> UnaryHistory dr -> UnaryHistory dK ->
+      Cont r dr (BHist.e1 tail) -> Cont K dK K' -> Cont (BHist.e1 tail) K' R ->
+        UnaryHistory tail ∧ (hsame R BHist.Empty -> False) := by
+  intro bound radiusStep constantStep radiusContinuation constantContinuation visibleContinuation
+  have visibleBound : GeomBound a (BHist.e1 tail) K' :=
+    GeomBound_radius_constant_continuation_closed bound radiusStep constantStep
+      radiusContinuation constantContinuation
+  exact GeomBound_visible_radius_endpoint_package visibleBound visibleContinuation
 
 theorem ConvRad_visible_radius_witness_endpoint_package {a : Nat -> BHist} {R tail : BHist} :
     ConvRad a R -> UnaryHistory (BHist.e1 tail) ->
