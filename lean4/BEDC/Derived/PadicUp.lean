@@ -390,6 +390,18 @@ theorem PadicPrimeScale_append_unit_right_predecessor_unique {p w r : BHist} :
             (fun other otherScale =>
               NatMul_functional scale.left.left data.left.right otherScale.right)))
 
+theorem PadicPrimeScale_append_unit_right_result_hsame {p w n r : BHist} :
+    UnaryHistory w -> PadicPrimeScale p w n ->
+      PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r ->
+        hsame r (append n p) := by
+  intro unaryW leftScale rightScale
+  have predecessor :=
+    PadicPrimeScale_append_unit_right_predecessor_unique unaryW rightScale
+  cases predecessor with
+  | intro pred data =>
+      have samePredN : hsame pred n := data.right.right n leftScale
+      exact cont_respects_hsame samePredN (hsame_refl p) data.right.left (cont_intro rfl)
+
 theorem PadicPrimeScale_append_unit_left_factorization_iff {p q r : BHist} :
     UnaryHistory q ->
       (PadicPrimeScale p (append (BHist.e1 BHist.Empty) q) r <->
