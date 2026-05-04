@@ -169,6 +169,27 @@ that history-sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_empty\_classified}
 
+\begin{theorem}[Singleton lattice continuation absorption has empty classifier]
+\label{thm:lattice-singleton-meet-join-continuation-absorption-empty-classifier}
+Let $h,k$ be singleton-carried histories. If $left$ is a BEDC continuation
+output of $\mathsf{meet}(h,\mathsf{join}(h,k))$ followed by $h$, and $right$
+is a BEDC continuation output of $h$ followed by
+$\mathsf{join}(h,\mathsf{meet}(h,k))$, then both outputs are empty and are
+classified by the singleton classifier:
+$$
+\hsame(left,\emp)\wedge \hsame(right,\emp)\wedge \rho_{\emp}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The concrete singleton meet and join both return $\emp$. The left
+continuation is therefore $\mathsf{append}(\emp,h)$, which reduces to $h$,
+and the right continuation is $\mathsf{append}(h,\emp)$, which also reduces
+to $h$. The carrier witness for $h$ identifies each result with $\emp$.
+Those two endpoint witnesses, together with transitivity through $\emp$,
+assemble the singleton classifier between the two continuation outputs.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_continuation\_absorption\_empty\_classifier}
+
 \begin{theorem}[Singleton lattice meet-join idempotent commutative classifier]
 \label{thm:lattice-singleton-meet-join-idempotent-comm-classifier}
 For carried singleton endpoints $h,k$, meet and join are classified with the

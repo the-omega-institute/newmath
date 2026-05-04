@@ -146,6 +146,28 @@ append-closure theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_components\_iff}
 
+\begin{theorem}[Homology cycle carrier append differential nonempty component split]
+\label{thm:homology-cycle-carrier-append-differential-nonempty-component-split}
+Assume the differential respects BEDC continuation append. If the differential
+of an appended history is not empty,
+$$
+\hsame(d(\mathsf{append}(h,k)),\mathsf{Empty})\to\bot,
+$$
+then at least one component is not a cycle:
+$$
+(Z_d(h)\to\bot)\vee(Z_d(k)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed nonemptiness along the append law for $d$ to obtain
+nonemptiness of $\mathsf{append}(d(h),d(k))$. BEDC append nonemptiness then
+separates this obstruction into a nonempty $d(h)$ component or a nonempty
+$d(k)$ component. Since $Z_d(h)$ and $Z_d(k)$ mean exactly that the
+corresponding differential is empty, the selected obstruction negates the
+matching cycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_differential\_nonempty\_component\_split}
+
 \begin{theorem}[Homology boundary carrier append closure]
 \label{thm:homology-boundary-carrier-append-closed}
 Assume the differential respects BEDC continuation append:

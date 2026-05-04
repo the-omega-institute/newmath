@@ -380,6 +380,22 @@ theorem HomologyCycleCarrier_append_components_iff {d : BHist -> BHist}
   · intro cycles
     exact HomologyCycleCarrier_append_closed dAppend cycles.left cycles.right
 
+theorem HomologyCycleCarrier_append_differential_nonempty_component_split {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k : BHist} :
+    (hsame (d (append h k)) BHist.Empty -> False) ->
+      (HomologyCycleCarrier d h -> False) ∨ (HomologyCycleCarrier d k -> False) := by
+  intro differentialNonempty
+  have appendedDifferentialNonempty : hsame (append (d h) (d k)) BHist.Empty -> False := by
+    intro appendedEmpty
+    exact differentialNonempty (hsame_trans (dAppend h k) appendedEmpty)
+  have componentNonempty := append_nonempty_iff.mp appendedDifferentialNonempty
+  cases componentNonempty with
+  | inl leftNonempty =>
+      exact Or.inl (fun cycleH => leftNonempty cycleH)
+  | inr rightNonempty =>
+      exact Or.inr (fun cycleK => rightNonempty cycleK)
+
 theorem HomologyBoundaryCarrier_cont_cycle_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
