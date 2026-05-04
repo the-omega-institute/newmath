@@ -123,6 +123,30 @@ which is the classified prefix through $m+n$. Apply the induction hypothesis to
 this exposed prefix to obtain the classified prefix through $n$.
 \end{proof}
 
+\begin{theorem}[Real stream prefix truncated e1 pair readback]
+\label{thm:real-stream-prefix-truncated-e1-pair-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if the finite prefix
+through $m+n$ is classified and the selected endpoint at $n$ is displayed as
+one-headed on both sides,
+$$
+\hsame(x(n),\Eone(d))
+\quad\text{and}\quad
+\hsame(y(n),\Eone(e)),
+$$
+then both tails are unary and internally same:
+$$
+\mathsf{UnaryHistory}(d)\wedge \mathsf{UnaryHistory}(e)\wedge \hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+First descend the recursive prefix classifier from $m+n$ to $n$ by induction on
+$m$. The base case is definitional. In the successor case, the prefix witness
+at $(m+1)+n$ exposes the witness at $m+n$ as its left component. After the
+classified prefix at $n$ is obtained, apply the e1 pair readback theorem at the
+selected endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_e1\_pair\_readback}
+
 \begin{lemma}[Real stream prefix previous classifier with unary anchor]
 \label{lem:real-stream-prefix-previous-with-unary}
 For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then every successor finite-prefix classifier contains both the previous prefix classifier and the unary anchor at the previous left endpoint:
