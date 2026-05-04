@@ -374,3 +374,37 @@ Substitute these coordinate identities in the carrier of $D_0$; by
 The same coordinate identities turn the seven reflexive $\hsame$ witnesses on
 $D_0$ into the componentwise display classifier between $D_0$ and $D_2$.
 \end{proof}
+
+\begin{theorem}[Adjunction triangle carrier-swap involution]
+\label{thm:adjunction-triangle-carrier-swap-involution}
+Let $D_i=(p_i,q_i,a_i,u_i,c_i,l_i,r_i)$ for $i=0,1,2$ be adjunction triangle displays. If
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(p_0,q_0,a_0,u_0,c_0,l_0,r_0)\\
+{}\land \mathsf{AdjunctionUnitCounitCarrierSwap}(D_0,D_1)
+\land \mathsf{AdjunctionUnitCounitCarrierSwap}(D_1,D_2),
+\end{array}
+$$
+then the twice-swapped display is again carried and is componentwise classifier-same to the original display:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(p_2,q_2,a_2,u_2,c_2,l_2,r_2)\\
+{}\land \mathsf{AdjunctionUnitCounitDisplaySame}(D_0,D_2).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unfold the first carrier-swap relation in \autoref{def:adjunction-unit-counit-carrier-swap-classifier}. It gives
+$$
+p_1=q_0\land q_1=p_0\land a_1=a_0\land u_1=c_0\land c_1=u_0\land l_1=r_0\land r_1=l_0.
+$$
+Unfold the second carrier-swap relation in the same definition. It gives
+$$
+p_2=q_1\land q_2=p_1\land a_2=a_1\land u_2=c_1\land c_2=u_1\land l_2=r_1\land r_2=l_1.
+$$
+Substituting the first row into the second row yields
+$$
+p_2=p_0\land q_2=q_0\land a_2=a_0\land u_2=u_0\land c_2=c_0\land l_2=l_0\land r_2=r_0.
+$$
+Substitute these coordinate identities in the carrier of $D_0$. By \autoref{def:adjunction-triangle-carrier}, the same two prefix-component fields and the same two continuation ledgers are exactly the carrier fields for $D_2$. The same coordinate identities also turn the seven reflexive $\hsame$ witnesses on the coordinates of $D_0$ into $\mathsf{AdjunctionUnitCounitDisplaySame}(D_0,D_2)$.
+\end{proof}
