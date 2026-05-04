@@ -1,7 +1,6 @@
 \input{parts/concrete_instances/12_rat_namecert_carrier}
 \input{parts/concrete_instances/12_rat_namecert_certificate}
 \input{parts/concrete_instances/12_rat_namecert_representative_stability}
-\input{parts/concrete_instances/12_rat_namecert_certificate_boundary}
 
 \begin{theorem}[Rat history ledger displayed context one-tail readback]
 \label{thm:rat-history-ledger-cont-unary-context-e1-pair-readback}
@@ -129,6 +128,86 @@ witness, obtaining $\mathsf{RatHistoryClassifier}(\rho,v)$. Applying
 supplies the positive unary denominator witnesses for $\rho$ and $v$, so the
 two equivalences and the two endpoint witnesses assemble the displayed
 conjunction.
+\end{proof}
+
+\begin{theorem}[Rat ledger classifier saturation package]
+\label{thm:rat-ledger-classifier-saturation-package}
+For histories $\rho,v,w:\mathsf{BHist}$, assume
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and at least one of
+$\mathsf{RatHistoryClassifier}(\rho,w)$,
+$\mathsf{RatHistoryClassifier}(v,w)$,
+$\mathsf{RatHistoryClassifier}(w,\rho)$, or
+$\mathsf{RatHistoryClassifier}(w,v)$. Then
+$$
+\mathsf{RatHistoryClassifier}(\rho,w)
+\land
+\mathsf{RatHistoryClassifier}(v,w)
+\land
+\mathsf{RatHistoryClassifier}(w,\rho)
+\land
+\mathsf{RatHistoryClassifier}(w,v)
+\land
+\mathsf{PositiveUnaryDenominator}(\rho)
+\land
+\mathsf{PositiveUnaryDenominator}(v)
+\land
+\mathsf{PositiveUnaryDenominator}(w).
+$$
+
+Its ten-field fit is: traditional target ledger-saturated rational classifier
+endpoint package; BEDC source $\RatUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from classifier symmetry/transitivity and ledger endpoint
+equivalence; ledger $\mathsf{RatHistoryLedgerPolicy}$; core theorem this block;
+exactness the four-orientation saturated package; downstream consumer the
+$\RatUp$ semantic certificate boundary and $\FieldUp(\RatUp)$ denominator-unit
+rows; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-ledger-two-sided-endpoint-classifier-equivalence} to the
+ledger witness. This gives the forward endpoint equivalence
+$\mathsf{RatHistoryClassifier}(\rho,w)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(v,w)$, the reversed endpoint equivalence
+$\mathsf{RatHistoryClassifier}(w,\rho)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(w,v)$.
+
+For the ledger endpoint denominators, apply
+\autoref{thm:rat-ledger-raw-visible-classifier} to the ledger witness and then
+\autoref{thm:rat-history-classifier-positive-denominators} to the obtained
+$\mathsf{RatHistoryClassifier}(\rho,v)$. This supplies positive unary
+denominator witnesses for $\rho$ and $v$.
+
+It remains to turn the supplied orientation into a single classifier involving
+$w$ and one ledger endpoint. If the supplied classifier is
+$\mathsf{RatHistoryClassifier}(\rho,w)$, transport it across the forward
+endpoint equivalence to obtain $\mathsf{RatHistoryClassifier}(v,w)$, and apply
+\autoref{thm:rat-history-classifier-symmetry} to obtain both reversed
+orientations.
+
+If the supplied classifier is $\mathsf{RatHistoryClassifier}(v,w)$, transport
+it back across the same endpoint equivalence to obtain
+$\mathsf{RatHistoryClassifier}(\rho,w)$, and again apply
+\autoref{thm:rat-history-classifier-symmetry} to obtain the two reversed
+orientations.
+
+If the supplied classifier is $\mathsf{RatHistoryClassifier}(w,\rho)$,
+transport it across the reversed endpoint equivalence to obtain
+$\mathsf{RatHistoryClassifier}(w,v)$, and apply
+\autoref{thm:rat-history-classifier-symmetry} to obtain the two forward
+orientations.
+
+If the supplied classifier is $\mathsf{RatHistoryClassifier}(w,v)$, transport
+it back across the reversed endpoint equivalence to obtain
+$\mathsf{RatHistoryClassifier}(w,\rho)$, and apply
+\autoref{thm:rat-history-classifier-symmetry} to obtain the two forward
+orientations.
+
+In every case one of the assembled classifiers has $w$ as an endpoint. Apply
+\autoref{thm:rat-history-classifier-positive-denominators} to that classifier
+to obtain $\mathsf{PositiveUnaryDenominator}(w)$, keeping the ledger endpoint
+witnesses for $\rho$ and $v$. The four classifiers and three positive unary
+denominator witnesses assemble the displayed package.
 \end{proof}
 
 \begin{theorem}[Rat ledger visible-target zero-extension exclusion]
