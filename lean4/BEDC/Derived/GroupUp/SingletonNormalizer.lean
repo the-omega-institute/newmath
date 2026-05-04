@@ -67,4 +67,45 @@ theorem GroupSingletonClassifier_normalizer_orbit_source_exact_iff {x y : BHist}
           (And.intro classified.right.left
             (hsame_trans actionCarrier (hsame_symm classified.right.left)))))
 
+theorem GroupSingletonClassifier_conjugation_coverage_iff {s x y : BHist} :
+    GroupSingletonCarrier s ->
+      (let Conj := fun u z : BHist => append (append u z) BHist.Empty
+       GroupSingletonClassifier (Conj s x) y <->
+         GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  intro carrierS
+  dsimp
+  constructor
+  · intro classified
+    have actionSplit := append_eq_empty_iff.mp classified.left
+    have innerSplit := append_eq_empty_iff.mp actionSplit.left
+    exact And.intro innerSplit.right classified.right.left
+  · intro carriers
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have innerCarrier : GroupSingletonCarrier (append s x) :=
+      append_eq_empty_iff.mpr (And.intro carrierS carriers.left)
+    have actionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro innerCarrier emptyCarrier)
+    exact And.intro actionCarrier
+      (And.intro carriers.right (hsame_trans actionCarrier (hsame_symm carriers.right)))
+
+theorem GroupSingletonNormalizerOrbit_total_coverage_iff {x y : BHist} :
+    (let Conj := fun s z : BHist => append (append s z) BHist.Empty
+     let Normalizer := fun s : BHist => GroupSingletonCarrier s
+     let Orbit := fun p q : BHist =>
+       Exists (fun s : BHist => Normalizer s ∧ GroupSingletonClassifier (Conj s p) q)
+     Orbit x y <-> GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  dsimp
+  constructor
+  · intro orbit
+    cases orbit with
+    | intro s witness =>
+        exact (GroupSingletonClassifier_conjugation_coverage_iff witness.left).mp witness.right
+  · intro carriers
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have classified :
+        GroupSingletonClassifier (append (append BHist.Empty x) BHist.Empty) y :=
+      (GroupSingletonClassifier_conjugation_coverage_iff (s := BHist.Empty) emptyCarrier).mpr
+        carriers
+    exact Exists.intro BHist.Empty (And.intro emptyCarrier classified)
+
 end BEDC.Derived.GroupUp
