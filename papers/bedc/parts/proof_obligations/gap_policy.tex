@@ -147,3 +147,48 @@ $$
 $$
 These two memberships lie over the same target-domain source $\tau(h')$. Applying \autoref{thm:gap-separation-from-memberships} to $\GapPol(\Pi,D)$ and the displayed memberships gives $\psame(p,q)$. The $\PkgPol(\Pi)$ premise fixes the package-token interface whose visible tokens are compared; the pullback introduces no separate comparison relation.
 \end{proof}
+
+\begin{theorem}[Pulled-back gap policy preserves coverage and separation]
+\label{thm:pulled-back-gap-policy-preserves-coverage-and-separation}
+Assume $\GapPol(\Pi,D)$. Let $\tau:D'\to D$ be equipped with the source preservation and ledger classifier preservation clauses of \autoref{def:classifier-preserving-pullback-ledger}. Then the pulled-back membership predicate ${\InGapSig}^{\tau}(\Pi,D',D,p,h')$ satisfies the coverage and separation obligations over $D'$:
+\begin{enumerate}
+  \item for every source history $h'$,
+  $$
+    \InDom(D',h')\Longrightarrow\exists p,\;{\InGapSig}^{\tau}(\Pi,D',D,p,h');
+  $$
+  \item for every source history $h'$ and visible package tokens $p,q$,
+  $$
+    {\InGapSig}^{\tau}(\Pi,D',D,p,h')
+    \Longrightarrow
+    {\InGapSig}^{\tau}(\Pi,D',D,q,h')
+    \Longrightarrow
+    \psame(p,q).
+  $$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For coverage, fix $h'$ and assume $\InDom(D',h')$. The source preservation clause of \autoref{def:classifier-preserving-pullback-ledger} gives $\InDom(D,\tau(h'))$. The coverage field of $\GapPol(\Pi,D)$ in \autoref{def:gap-policy} supplies a visible package token $p$ with
+$$
+  \InGapSig(\Pi,D,p,\tau(h')).
+$$
+Using the reverse direction of the ledger classifier preservation clause with $\InDom(D',h')$ and this original membership gives
+$$
+  {\InGapSig}^{\tau}(\Pi,D',D,p,h'),
+$$
+which proves pulled-back coverage.
+
+For separation, fix $h'$, $p$, and $q$, and assume
+$$
+  {\InGapSig}^{\tau}(\Pi,D',D,p,h')
+  \quad\text{and}\quad
+  {\InGapSig}^{\tau}(\Pi,D',D,q,h').
+$$
+The forward direction of the ledger classifier preservation clause gives original gap memberships
+$$
+  \InGapSig(\Pi,D,p,\tau(h'))
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,\tau(h')).
+$$
+Applying \autoref{thm:gap-separation-from-memberships} to $\GapPol(\Pi,D)$ and these two memberships gives $\psame(p,q)$.
+\end{proof}
