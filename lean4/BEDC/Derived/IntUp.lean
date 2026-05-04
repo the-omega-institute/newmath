@@ -68,6 +68,15 @@ def IntClassifierSpec
     BEDC.Derived.IntUp.IntCarrier y.1 y.2 ∧
       BEDC.FKernel.Mark.msame x.1 y.1 ∧ BEDC.FKernel.Hist.hsame x.2 y.2
 
+def IntPairCarrier (p n : BEDC.FKernel.Hist.BHist) : Prop :=
+  BEDC.FKernel.Unary.UnaryHistory p ∧ BEDC.FKernel.Unary.UnaryHistory n
+
+def IntPairClassifier
+    (x y : BEDC.FKernel.Hist.BHist × BEDC.FKernel.Hist.BHist) : Prop :=
+  IntPairCarrier x.1 x.2 ∧ IntPairCarrier y.1 y.2 ∧
+    BEDC.FKernel.Hist.hsame (BEDC.FKernel.Cont.append x.1 y.2)
+      (BEDC.FKernel.Cont.append y.1 x.2)
+
 theorem IntClassifierSpec_refl {sign : BEDC.FKernel.Mark.BMark}
     {h : BEDC.FKernel.Hist.BHist} :
     IntCarrier sign h -> IntClassifierSpec (sign, h) (sign, h) := by
@@ -466,5 +475,102 @@ theorem IntClassifierSpec_cancel_append_context_same_sign
                 · constructor
                   · exact BEDC.FKernel.Mark.msame_refl s
                   · exact sameMagnitude
+
+theorem IntPairClassifier_equivalence_fields :
+    (∀ {p n : BEDC.FKernel.Hist.BHist}, IntPairCarrier p n ->
+      BEDC.FKernel.Unary.UnaryHistory p ∧ BEDC.FKernel.Unary.UnaryHistory n) ∧
+    (∀ {p n q m : BEDC.FKernel.Hist.BHist}, IntPairClassifier (p, n) (q, m) ->
+      BEDC.FKernel.Hist.hsame (BEDC.FKernel.Cont.append p m)
+        (BEDC.FKernel.Cont.append q n)) ∧
+    (∀ {p n : BEDC.FKernel.Hist.BHist}, IntPairCarrier p n ->
+      IntPairClassifier (p, n) (p, n)) ∧
+    (∀ {x y : BEDC.FKernel.Hist.BHist × BEDC.FKernel.Hist.BHist},
+      IntPairClassifier x y -> IntPairClassifier y x) ∧
+    (∀ {x y z : BEDC.FKernel.Hist.BHist × BEDC.FKernel.Hist.BHist},
+      IntPairClassifier x y -> IntPairClassifier y z -> IntPairClassifier x z) ∧
+    (∀ {p n q m p' n' q' m' : BEDC.FKernel.Hist.BHist},
+      IntPairClassifier (p, n) (q, m) ->
+        BEDC.FKernel.Hist.hsame p p' -> BEDC.FKernel.Hist.hsame n n' ->
+        BEDC.FKernel.Hist.hsame q q' -> BEDC.FKernel.Hist.hsame m m' ->
+        IntPairCarrier p' n' -> IntPairCarrier q' m' ->
+          IntPairClassifier (p', n') (q', m')) := by
+  constructor
+  · intro p n carrier
+    exact carrier
+  · constructor
+    · intro p n q m classified
+      exact classified.right.right
+    · constructor
+      · intro p n carrier
+        exact ⟨carrier, carrier, BEDC.FKernel.Hist.hsame_refl (BEDC.FKernel.Cont.append p n)⟩
+      · constructor
+        · intro x y classified
+          exact ⟨classified.right.left, classified.left,
+            BEDC.FKernel.Hist.hsame_symm classified.right.right⟩
+        · constructor
+          · intro x y z xy yz
+            cases x with
+            | mk p n =>
+                cases y with
+                | mk q m =>
+                    cases z with
+                    | mk r o =>
+                        have pUnary : BEDC.FKernel.Unary.UnaryHistory p := xy.left.left
+                        have nUnary : BEDC.FKernel.Unary.UnaryHistory n := xy.left.right
+                        have mUnary : BEDC.FKernel.Unary.UnaryHistory m := xy.right.left.right
+                        have oUnary : BEDC.FKernel.Unary.UnaryHistory o := yz.right.left.right
+                        have leftSwap : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append p o) m)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append p m) o) := by
+                          exact BEDC.FKernel.Hist.hsame_trans
+                            (BEDC.FKernel.Cont.append_assoc p o m)
+                            (BEDC.FKernel.Hist.hsame_trans
+                              (congrArg (BEDC.FKernel.Cont.append p)
+                                (BEDC.FKernel.Unary.unary_append_comm oUnary mUnary))
+                              (BEDC.FKernel.Hist.hsame_symm
+                                (BEDC.FKernel.Cont.append_assoc p m o)))
+                        have xyWithO : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append p m) o)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append q n) o) :=
+                          congrArg (fun t => BEDC.FKernel.Cont.append t o) xy.right.right
+                        have middleSwap : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append q n) o)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append q o) n) := by
+                          exact BEDC.FKernel.Hist.hsame_trans
+                            (BEDC.FKernel.Cont.append_assoc q n o)
+                            (BEDC.FKernel.Hist.hsame_trans
+                              (congrArg (BEDC.FKernel.Cont.append q)
+                                (BEDC.FKernel.Unary.unary_append_comm nUnary oUnary))
+                              (BEDC.FKernel.Hist.hsame_symm
+                                (BEDC.FKernel.Cont.append_assoc q o n)))
+                        have yzWithN : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append q o) n)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append r m) n) :=
+                          congrArg (fun t => BEDC.FKernel.Cont.append t n) yz.right.right
+                        have rightSwap : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append r m) n)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append r n) m) := by
+                          exact BEDC.FKernel.Hist.hsame_trans
+                            (BEDC.FKernel.Cont.append_assoc r m n)
+                            (BEDC.FKernel.Hist.hsame_trans
+                              (congrArg (BEDC.FKernel.Cont.append r)
+                                (BEDC.FKernel.Unary.unary_append_comm mUnary nUnary))
+                              (BEDC.FKernel.Hist.hsame_symm
+                                (BEDC.FKernel.Cont.append_assoc r n m)))
+                        have commonSuffix : BEDC.FKernel.Hist.hsame
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append p o) m)
+                            (BEDC.FKernel.Cont.append (BEDC.FKernel.Cont.append r n) m) :=
+                          BEDC.FKernel.Hist.hsame_trans leftSwap
+                            (BEDC.FKernel.Hist.hsame_trans xyWithO
+                              (BEDC.FKernel.Hist.hsame_trans middleSwap
+                                (BEDC.FKernel.Hist.hsame_trans yzWithN rightSwap)))
+                        exact ⟨xy.left, yz.right.left,
+                          BEDC.FKernel.Cont.append_right_cancel commonSuffix⟩
+          · intro p n q m p' n' q' m' classified pp' nn' qq' mm' carrierP' carrierQ'
+            cases pp'
+            cases nn'
+            cases qq'
+            cases mm'
+            exact ⟨carrierP', carrierQ', classified.right.right⟩
 
 end BEDC.Derived.IntUp

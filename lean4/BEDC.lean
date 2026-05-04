@@ -53,6 +53,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp

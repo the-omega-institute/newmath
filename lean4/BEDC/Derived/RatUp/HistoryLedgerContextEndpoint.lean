@@ -68,4 +68,20 @@ theorem RatHistoryLedgerPolicy_cont_unary_context_e0_endpoint_absurd
     exact PositiveUnaryDenominator_e0_absurd
       (PositiveUnaryDenominator_hsame_transport sameVisibleZero positives.right)
 
+theorem RatHistoryLedgerPolicy_cont_unary_context_empty_endpoint_absurd
+    {raw visible prefRaw prefVisible tailRaw tailVisible midRaw midVisible outRaw outVisible :
+      BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      UnaryHistory tailRaw -> hsame tailRaw tailVisible -> Cont prefRaw raw midRaw ->
+        Cont midRaw tailRaw outRaw -> Cont prefVisible visible midVisible ->
+          Cont midVisible tailVisible outVisible ->
+            (hsame outRaw BHist.Empty -> False) ∧ (hsame outVisible BHist.Empty -> False) := by
+  intro ledger prefUnary samePref tailUnary sameTail prefRawCont outRawCont prefVisibleCont
+    outVisibleCont
+  have positives : PositiveUnaryDenominator outRaw ∧ PositiveUnaryDenominator outVisible :=
+    RatHistoryLedgerPolicy_cont_unary_context_positive_denominators ledger prefUnary samePref
+      tailUnary sameTail prefRawCont outRawCont prefVisibleCont outVisibleCont
+  exact And.intro (PositiveUnaryDenominator_not_empty positives.left)
+    (PositiveUnaryDenominator_not_empty positives.right)
+
 end BEDC.Derived.RatUp
