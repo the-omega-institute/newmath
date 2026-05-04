@@ -557,3 +557,48 @@ laws plus zero-factor absorption; ledger selected empty linear factor and
 signed-product annihilator row; core theorem this block; exactness product-zero
 plus universal two-sided annihilation; standard bridge one-element commutative
 ring; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing singleton empty square and signed-product annihilator package]
+\label{thm:commring-singleton-empty-square-signed-product-package}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, every pair
+$a,b:\mathsf{BHist}$ carried by $A_{\emp}$ satisfies
+$$
+\bigl(a\cdot a\hsame b\cdot b\bigr)
+\land
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)
+\land
+\forall c:\mathsf{BHist},\
+\left(
+(((a+b)\cdot(a+(-b)))\cdot c\hsame0)
+\land
+(c\cdot((a+b)\cdot(a+(-b)))\hsame0)
+\right),
+$$
+where $+$, $\cdot$, $-$, and $0$ are the displayed singleton operations.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:commring-singleton-empty-square-exact-package} to the selected
+histories $a,b$. This yields the signed-product zero row together with the
+square-equality row for the singleton empty-history CommRing tuple.
+
+Apply
+Theorem~\ref{thm:commring-singleton-empty-signed-product-annihilator-package} to
+the same selected histories. This yields the same signed-product zero row and
+the universal two-sided annihilator row for that signed product.
+
+Introduce the displayed triple conjunction. Use the square row from the
+square-exact package as the first component, use either signed-product zero row
+as the second component, and use the universal annihilator row from the
+signed-product annihilator package as the final component.
+\end{proof}
+
+The ten-field fit is: traditional target one-element commutative-ring package
+combining singleton square exactness with signed-product annihilation; BEDC
+source singleton empty-history $\CommRingUp$; carrier $A_{\emp}$; classifier
+$\rho_{\emp}$; stability from the singleton square-exact and signed-product
+annihilator packages; ledger the equal-square row, signed-product zero row, and
+universal two-sided annihilator row; core theorem this block; exactness the
+displayed three-part certificate; downstream use by $\FieldUp$ quadratic and
+zero-factor exit packages; status $\mathsf{ProofTarget}$.

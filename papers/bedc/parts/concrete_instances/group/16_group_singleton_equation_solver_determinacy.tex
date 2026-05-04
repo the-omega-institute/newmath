@@ -1,0 +1,71 @@
+\section{Concrete singleton equation solver determinacy}
+\label{sec:group-singleton-equation-solver-determinacy}
+
+\begin{theorem}[Group singleton equation solver determinacy]
+\label{thm:group-singleton-equation-solver-determinacy}
+In the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, with carrier
+$A_{\emp}$, classifier $R_{\emp}$, multiplication
+$\mathsf{mul}:=\mathsf{append}$, unit $\emp$, and inverse
+$\mathsf{inv}(h):=\emp$, let $a,b,c,d,x,y:\mathsf{BHist}$. If
+$A_{\emp}(a)$, $A_{\emp}(b)$, $A_{\emp}(c)$, $A_{\emp}(d)$, $A_{\emp}(x)$,
+and $A_{\emp}(y)$, then the concrete solver is deterministic in the following
+same-target forms:
+\begin{enumerate}
+  \item If $R_{\emp}(\mathsf{mul}(a,x),b)$ and
+  $R_{\emp}(\mathsf{mul}(a,y),b)$, then $R_{\emp}(x,y)$.
+
+  \item If $R_{\emp}(\mathsf{mul}(x,a),b)$ and
+  $R_{\emp}(\mathsf{mul}(y,a),b)$, then $R_{\emp}(x,y)$.
+
+  \item If $R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,x),c),d)$ and
+  $R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,y),c),d)$, then $R_{\emp}(x,y)$.
+\end{enumerate}
+The ten-field fit is: traditional target terminal-group solution determinacy;
+BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from concrete solver exactness plus
+classifier symmetry and transitivity; ledger hidden equation target and
+contexts; core theorem list
+Theorem~\ref{thm:group-singleton-equation-cancellation-concrete-solver} plus
+the classifier equivalence fields; exactness same-target solution determinacy;
+downstream consumers $\QuotientGroupUp$ and $\FieldUp$ algebra-reduct packages;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:group-singleton-equation-cancellation-concrete-solver} gives
+the three concrete rows for the same carrier, classifier, multiplication, unit,
+and inverse. The concrete classifier fields supply symmetry and transitivity on
+$R_{\emp}$ whenever the displayed endpoints are in $A_{\emp}$.
+
+\begin{enumerate}
+  \item For the left-multiplication row, apply the forward direction of the
+  concrete solver to $R_{\emp}(\mathsf{mul}(a,x),b)$. This transports $x$ to
+  the endpoint $\mathsf{mul}(\mathsf{inv}(a),b)$.
+
+  Apply the same forward direction to $R_{\emp}(\mathsf{mul}(a,y),b)$. Now
+  $y$ is transported to the same solved endpoint. Use classifier symmetry on the
+  second solved comparison, then classifier transitivity through the common
+  endpoint to obtain $R_{\emp}(x,y)$.
+
+  \item For the right-multiplication row, apply the forward direction of the
+  concrete solver to both assumptions. The two transported comparisons classify
+  $x$ and $y$ by the common endpoint
+  $\mathsf{mul}(b,\mathsf{inv}(a))$.
+
+  Symmetry on the solved comparison for $y$, followed by transitivity through
+  that common endpoint, gives $R_{\emp}(x,y)$.
+
+  \item For the two-sided row, first use symmetry on
+  $R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,y),c),d)$. Transitivity with
+  $R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,x),c),d)$ through the common target
+  $d$ gives
+  $$
+  R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,x),c),
+  \mathsf{mul}(\mathsf{mul}(a,y),c)).
+  $$
+
+  Apply the two-sided cancellation row of
+  Theorem~\ref{thm:group-singleton-equation-cancellation-concrete-solver} to
+  this classifier. The result is $R_{\emp}(x,y)$.
+\end{enumerate}
+\end{proof}
