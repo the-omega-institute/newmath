@@ -1,0 +1,254 @@
+\begin{definition}[Pair frame]
+\label{def:list-pair-frame}
+For histories $u,t:\mathsf{BHist}$, define $\mathsf{PairFrame}(u,t)$ by
+structural recursion on the first BEDC history:
+$$
+\begin{array}{rcl}
+\mathsf{PairFrame}(\emp,t) &=& \Ezero(t),\\
+\mathsf{PairFrame}(\Ezero(a),t) &=& \Eone(\Ezero(\mathsf{PairFrame}(a,t))),\\
+\mathsf{PairFrame}(\Eone(a),t) &=& \Eone(\Eone(\mathsf{PairFrame}(a,t))).
+\end{array}
+$$
+The outer $\Eone$ marks a nonempty first component, while the inner
+$\Ezero/\Eone$ tag records the constructor of that first component.
+\end{definition}
+\leandef{BEDC.Derived.ListUp.PairFrame}
+
+\begin{lemma}[Pair frame injectivity]
+\label{lem:list-pair-frame-injectivity}
+For histories $u,u',t,t':\mathsf{BHist}$, if
+$$
+\hsame(\mathsf{PairFrame}(u,t),\mathsf{PairFrame}(u',t')),
+$$
+then $\hsame(u,u')\land\hsame(t,t')$.
+\end{lemma}
+\begin{proof}
+Proceed by structural induction and case analysis on $u$ and $u'$. The mixed
+$\emp/\Ezero$ and $\emp/\Eone$ cases contradict BEDC constructor no-confusion
+because $\mathsf{PairFrame}(\emp,t)$ begins with $\Ezero$, while the nonempty
+cases begin with $\Eone$. The mixed $\Ezero/\Eone$ cases contradict
+no-confusion after inverting the outer $\Eone$ and comparing the inner tags. In
+the matching $\emp/\emp$ case, constructor inversion gives $\hsame(t,t')$. In
+the matching $\Ezero/\Ezero$ and $\Eone/\Eone$ cases, invert the outer
+$\Eone$, then the matching inner tag, and apply the induction hypothesis to the
+recursive pair-frame equality. Combining the exposed recursive head equality
+with the constructor equality gives $\hsame(u,u')$, and the induction
+hypothesis also gives $\hsame(t,t')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_hsame\_injective}
+
+\begin{theorem}[Pair frame empty head iff]
+\label{thm:list-pair-frame-empty-head-iff}
+For histories $u,t:\mathsf{BHist}$, the pair frame has the empty-head boundary
+exactly when the head itself is empty:
+$$
+\hsame(\mathsf{PairFrame}(u,t),\Ezero(t))
+\Longleftrightarrow
+\hsame(u,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Case-split the head $u$. In the empty case the pair-frame definition is
+$\Ezero(t)$, so the displayed classifier is reflexive. In the zero-headed and
+one-headed cases the pair frame begins with $\Eone$, contradicting
+$\Eone/\Ezero$ no-confusion. Conversely, a classifier $\hsame(u,\emp)$
+substitutes the empty head into the pair-frame definition.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_empty\_head\_iff}
+
+\begin{definition}[Framed list endpoint]
+\label{def:framed-list-endpoint}
+For finite BEDC-history spines, define the framed endpoint by recursion on the
+spine:
+$$
+\begin{array}{rcl}
+\mathsf{FramedListEndpoint}(\mathsf{nil}) &=& \Ezero(\emp),\\
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)) &=&
+\Eone(\mathsf{PairFrame}(a,\mathsf{FramedListEndpoint}(xs))).
+\end{array}
+$$
+\end{definition}
+\leandef{BEDC.Derived.ListUp.FramedListEndpoint}
+
+\begin{theorem}[Framed list endpoint no-confusion and cons inversion]
+\label{thm:framed-list-endpoint-no-confusion-cons-inversion}
+The ten-field fit is: traditional target finite-list endpoint readback; BEDC
+source $\mathsf{BHist}$ with $\hsame$; carrier framed finite spines; classifier
+endpoint $\hsame$; stability obligations nil/cons separation and cons inversion;
+ledger constructor frame; core theorem this block; exactness framed endpoint
+exposes list shape; standard bridge finite spines; status
+$\mathsf{ProofTarget}$. For all histories $a,b:\mathsf{BHist}$ and finite
+spines $xs,ys$,
+$$
+\neg\hsame(\mathsf{FramedListEndpoint}(\mathsf{nil}),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs))),
+$$
+$$
+\neg\hsame(\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)),
+\mathsf{FramedListEndpoint}(\mathsf{nil})),
+$$
+and
+$$
+\hsame(\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(b,ys)))
+$$
+implies both $\hsame(a,b)$ and
+$\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
+\end{theorem}
+\begin{proof}
+The nil endpoint has outer constructor $\Ezero$, while every cons endpoint has
+outer constructor $\Eone$, so the two mixed cases contradict BEDC history
+no-confusion in the $\Ezero/\Eone$ and $\Eone/\Ezero$ directions. For the
+cons-cons clause, invert the outer $\Eone$ equality and obtain equality of the
+two displayed pair frames. Lemma~\ref{lem:list-pair-frame-injectivity} applies:
+its proof is an induction on the first frame argument, with constructor
+no-confusion separating the empty and tagged nonempty cases and with recursive
+inversion exposing the first and second frame arguments. The two projections of
+that lemma give $\hsame(a,b)$ and
+$\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_no\_confusion\_cons\_inversion}
+
+\begin{lemma}[Pair frame congruence]
+\label{lem:list-pair-frame-congruence}
+For histories $u,u',t,t':\mathsf{BHist}$, if $\hsame(u,u')$ and
+$\hsame(t,t')$, then
+$$
+\hsame(\mathsf{PairFrame}(u,t),\mathsf{PairFrame}(u',t')).
+$$
+\end{lemma}
+\begin{proof}
+Proceed by induction on the displayed witness $\hsame(u,u')$. In the empty
+case, the goal is the congruence of $\Ezero$ applied to $\hsame(t,t')$. In the
+$\Ezero$ case, apply the induction hypothesis to the inner pair frame and then
+apply congruence for the two visible constructors $\Ezero$ and $\Eone$. The
+$\Eone$ case is identical except that the inner tag is $\Eone$. Thus the frame
+recursion is stable in the first argument, and the terminal empty branch carries
+the second-argument $\hsame$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_congruence}
+
+\begin{theorem}[Framed list endpoint classifier exactness]
+\label{thm:framed-list-endpoint-classifier-exactness}
+For finite BEDC-history spines $xs,ys$,
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\hsame,xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+For the left-to-right direction, argue by induction on the first spine and
+case analysis on the second. The nil-nil case gives the nil constructor of
+$\mathsf{ListClassifierSpec}$. The mixed nil-cons and cons-nil cases contradict
+Theorem~\ref{thm:framed-list-endpoint-no-confusion-cons-inversion}. In the
+cons-cons case, the same theorem exposes $\hsame$ between the heads and
+$\hsame$ between the framed tail endpoints; apply the induction hypothesis to
+the tail equality and then use the cons constructor of
+$\mathsf{ListClassifierSpec}(\hsame,-,-)$.
+
+For the right-to-left direction, induct on the displayed
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$ witness. The nil branch is
+reflexivity of the framed nil endpoint. In the cons branch, the head witness and
+the induction hypothesis give congruent arguments for
+$\mathsf{PairFrame}$ by Lemma~\ref{lem:list-pair-frame-congruence}; one final
+$\Eone$ congruence yields equality of the framed cons endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_classifier\_exactness}
+
+\begin{theorem}[Framed list endpoint length preservation]
+\label{thm:framed-list-endpoint-length-preservation}
+The ten-field fit is: traditional target finite-list framed endpoint readback;
+BEDC source $\mathsf{BHist}$; carrier finite spines; classifier endpoint
+$\hsame$; stability endpoint exactness; ledger visible framed endpoint; core
+theorem length preservation; exactness via $\mathsf{ListClassifierSpec}$;
+standard bridge finite spines; status $\mathsf{ProofTarget}$. For finite
+BEDC-history spines $xs,ys$, if
+$$
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys))
+$$
+holds, then
+$$
+\ell(xs)=\ell(ys).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:framed-list-endpoint-classifier-exactness} from left to
+right to convert the displayed endpoint equality into
+$\mathsf{ListClassifierSpec}(\hsame,xs,ys)$. Then apply
+Theorem~\ref{thm:list-classifier-length-eq} to obtain equality of the finite
+spine lengths.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListEndpoint\_length\_preservation}
+
+\begin{definition}[Framed list-spine representation]
+\label{def:framed-list-spine-representation}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. Define
+$\mathsf{FramedListSpineRep}_A(h,xs)$ to mean that every entry of the finite
+spine $xs$ satisfies $A$ and that
+$$
+\hsame(h,\mathsf{FramedListEndpoint}(xs)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.ListUp.FramedListSpineRep}
+
+\begin{theorem}[Framed list-spine representation hsame transport]
+\label{thm:framed-list-spine-rep-hsame-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$\mathsf{FramedListSpineRep}_A(h,xs)$ holds and $\hsame(h,h')$ holds, then
+$\mathsf{FramedListSpineRep}_A(h',xs)$ holds.
+\end{theorem}
+\begin{proof}
+The entrywise source predicate over $xs$ is unchanged. The endpoint witness for
+$h'$ is obtained by composing $\hsame(h',h)$, the symmetry of the displayed
+$\hsame(h,h')$, with the stored witness
+$\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
+
+\begin{theorem}[Framed list-spine cons endpoint injectivity]
+\label{thm:list-spine-rep-cons-endpoint-injective}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))$ and
+$\mathsf{FramedListSpineRep}_A(k,\mathsf{cons}(b,ys))$ hold, and
+$\hsame(h,k)$ holds, then the two framed cons endpoints are $\hsame$, and their
+head payloads and tail endpoints are separately $\hsame$:
+$$
+\hsame(\Eone(\mathsf{PairFrame}(a,\mathsf{FramedListEndpoint}(xs))),
+\Eone(\mathsf{PairFrame}(b,\mathsf{FramedListEndpoint}(ys))))
+$$
+and
+$$
+\hsame(a,b)\land
+\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+Compose the stored endpoint witness for the first representation, the displayed
+$\hsame(h,k)$ witness, and the stored endpoint witness for the second
+representation. This gives $\hsame$ between the two cons endpoints. Applying
+\autoref{thm:framed-list-endpoint-no-confusion-cons-inversion} to that cons-cons
+endpoint equality exposes both the head equality $\hsame(a,b)$ and the tail
+endpoint equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_cons\_endpoint\_injective}
+
+\begin{theorem}[Framed list-spine nil-cons no-confusion]
+\label{thm:framed-list-spine-rep-nil-cons-no-confusion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. No
+single history can be represented both by the framed nil spine and by a framed
+cons spine:
+$$
+\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})\to
+\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two framed representations and compose their endpoint classifiers
+through symmetry and transitivity of $\hsame$. This gives
+$\hsame(\mathsf{FramedListEndpoint}(\mathsf{nil}),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)))$, which contradicts the
+framed endpoint nil-cons no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_nil\_cons\_no\_confusion}
