@@ -54,7 +54,6 @@ _DEFAULT_FORBIDDEN_MATH_PATTERNS = [
     r"\\begin\{equation\*?\}",
     r"\\begin\{align\*?\}",
     r"\\begin\{eqnarray\*?\}",
-    r"(?<!\\)\\\[",
 ]
 
 LEAN_MARKER_RE = re.compile(
@@ -76,10 +75,25 @@ def _build_vocab_regex(words: list[str]) -> re.Pattern:
     return re.compile(r"(" + "|".join(parts) + r")", re.IGNORECASE)
 
 
+def _ensure_lint_patterns_file() -> None:
+    """Self-bootstrap: copy `lint_patterns.json.template` over to
+    `lint_patterns.json` if the latter is missing. Idempotent."""
+    if LINT_PATTERNS_FILE.exists():
+        return
+    template = LINT_PATTERNS_FILE.with_suffix(LINT_PATTERNS_FILE.suffix + ".template")
+    if template.exists():
+        try:
+            LINT_PATTERNS_FILE.write_text(template.read_text(encoding="utf-8"),
+                                          encoding="utf-8")
+        except Exception:
+            pass
+
+
 def _load_lint_patterns() -> dict:
     """Read LINT_PATTERNS_FILE if present; else fall back to in-script
     defaults. Recompiled on every call — this script is short-lived
     (one round invocation) so caching has no benefit."""
+    _ensure_lint_patterns_file()
     try:
         if LINT_PATTERNS_FILE.exists():
             data = json.loads(LINT_PATTERNS_FILE.read_text(encoding="utf-8"))

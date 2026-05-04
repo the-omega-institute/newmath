@@ -172,6 +172,27 @@ the displayed continuation by $M$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_cont\_readback}
 
+\begin{theorem}[Matrix singleton power append positive suffix classifier readback]
+\label{thm:matrix-singleton-pow-append-positive-suffix-classifier-readback}
+If $M$ is carried by the singleton matrix carrier, $pref$ and $suffix$ are
+unary, and $suffix$ is not history-same as $\emp$, then the append-positive
+suffix readback supplies a unary tail whose successor multiplication classifies
+the original appended power ledger:
+$$
+\exists tail.\ \Unary(tail)\land
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,suffix)),
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,tail)),M)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The positive-suffix readback exposes a unary tail and the continuation from
+$\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,tail))$ by $M$ to the
+original appended power ledger. Carrier closure gives the source power carrier,
+and append empty-result exactness carries the displayed multiplication endpoint.
+The continuation equation gives the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_classifier\_readback}
+
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}
 For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
