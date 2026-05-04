@@ -7,6 +7,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
+open BEDC.Derived.StreamNameUp
 
 theorem RealStreamClassifier_transport_selected_e1_pair_readback
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
@@ -97,6 +98,66 @@ theorem RealConstantHistoryClassifier_append_e1_tail_denominator_package
                     (And.intro leftNotE0
                       (And.intro rightNotE0 rational.right.right))))))))))
 
+theorem RealConstant_appended_tail_bridge_denominator_package
+    {d e tailD tailE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    (RatHistoryClassifier D E ->
+        RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+          PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+            UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+              (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+                (hsame E (BHist.e0 zE) -> False) ∧ hsame D E) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+          PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+            UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+              (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+                (hsame E (BHist.e0 zE) -> False) ∧ hsame D E) ∧
+      (RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+          PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+            UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+              (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+                (hsame E (BHist.e0 zE) -> False) ∧ hsame D E) ∧
+      (RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) ->
+        RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+          PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+            UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+              (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+                (hsame E (BHist.e0 zE) -> False) ∧ hsame D E) := by
+  dsimp
+  let D := append d (BHist.e1 tailD)
+  let E := append e (BHist.e1 tailE)
+  have fromReal :
+      RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) ->
+        RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+          PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+            UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+              (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+                (hsame E (BHist.e0 zE) -> False) ∧ hsame D E := by
+    intro classified
+    exact RealConstantHistoryClassifier_append_e1_tail_denominator_package
+      (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
+      classified
+  constructor
+  · intro classified
+    exact fromReal (RealConstantHistoryClassifier_e1_iff_rat.mpr classified)
+  · constructor
+    · intro classified
+      have atEmpty := classified.right.right BHist.Empty unary_empty
+      change RatHistoryClassifier D E at atEmpty
+      exact fromReal (RealConstantHistoryClassifier_e1_iff_rat.mpr atEmpty)
+    · constructor
+      · intro classified
+        have atEmpty := classified BHist.Empty unary_empty
+        change RatHistoryClassifier D E at atEmpty
+        exact fromReal (RealConstantHistoryClassifier_e1_iff_rat.mpr atEmpty)
+      · intro classified
+        exact fromReal classified
+
 theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
     {left d e tailD tailE : BHist} :
     RealConstantHistoryClassifier (BHist.e1 (append left (append d (BHist.e1 tailD))))
@@ -135,6 +196,24 @@ theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
       (And.intro rightFactors.right
         (And.intro readback.right.left
           (And.intro readback.right.right.right.left sameDE))))
+
+theorem RealConstantHistoryClassifier_append_e1_matched_tail_head_readback
+    {d e tailD tailE : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 (append d (BHist.e1 tailD)))
+      (BHist.e1 (append e (BHist.e1 tailE))) ->
+      hsame tailD tailE ->
+        UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+          hsame d e := by
+  intro classified sameTail
+  have readback :=
+    RealConstantHistoryClassifier_append_e1_tail_unary_readback classified
+  cases sameTail
+  have sameDE : hsame d e :=
+    append_right_cancel (k := BHist.e1 tailD) readback.right.right.right.right
+  exact And.intro readback.left
+    (And.intro readback.right.left
+      (And.intro readback.right.right.left
+        (And.intro readback.right.right.right.left sameDE)))
 
 theorem RealStreamClassifier_selected_append_e1_tail_hsame_cancel
     {x y : Nat -> BHist} {n : Nat} {d e tailD tailE : BHist} :
