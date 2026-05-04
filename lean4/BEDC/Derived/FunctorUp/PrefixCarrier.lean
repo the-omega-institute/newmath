@@ -29,6 +29,12 @@ protected theorem PrefixFunctorCarrier_from_unary_prefix {p : BHist} :
   · intro _a _b _c _f _g _fg left right comp
     exact FunctorPrefixHomCarrier_comp_preserves prefixCarrier left right comp
 
+theorem PrefixFunctorCarrier_hsame_transport_with_unary {p q : BHist} :
+    PrefixFunctorCarrier p -> hsame p q -> PrefixFunctorCarrier q ∧ UnaryHistory q := by
+  intro prefixCarrier samePrefix
+  cases samePrefix
+  exact And.intro prefixCarrier prefixCarrier.prefix_unary
+
 theorem PrefixFunctorCarrier_comp_public_readback {p a b c f g fg : BHist} :
     PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
       Cont f g fg ->
@@ -42,6 +48,18 @@ theorem PrefixFunctorCarrier_comp_public_readback {p a b c f g fg : BHist} :
     And.intro compositeCarrier
       (fun displayedCarrier =>
         CategoryHomCarrier_morphism_deterministic compositeCarrier displayedCarrier)
+
+theorem PrefixFunctorCarrier_hom_public_readback {p a b f : BHist} :
+    PrefixFunctorCarrier p ->
+      CategoryHomCarrier a b f ->
+        CategoryHomCarrier (append p a) (append p b) f ∧
+          (∀ {displayed : BHist},
+            CategoryHomCarrier (append p a) (append p b) displayed -> hsame f displayed) := by
+  intro prefixCarrier homCarrier
+  have displayedCarrier : CategoryHomCarrier (append p a) (append p b) f :=
+    prefixCarrier.hom_preserves homCarrier
+  exact And.intro displayedCarrier
+    (fun displayed => CategoryHomCarrier_morphism_deterministic displayedCarrier displayed)
 
 theorem PrefixFunctorCarrier_comp_assoc_public_readback
     {p a b c d f g h fg gh left right : BHist} :

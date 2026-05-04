@@ -76,6 +76,33 @@ theorem MetricDistanceWitness_left_e1_result_iff {x y d : BHist} :
                       (And.intro (unary_e1_closed tailWitness.right.right.left)
                         (cont_step_one tailWitness.right.right.right)))
 
+theorem MetricDistanceWitness_left_e1_result_empty_target_iff {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ->
+      (hsame y BHist.Empty ↔ UnaryHistory x ∧ hsame x d) := by
+  intro witness
+  constructor
+  · intro sameTargetEmpty
+    cases y with
+    | Empty =>
+        have data := MetricDistanceWitness_left_e1_empty_target_exactness witness
+        exact And.intro data.left (hsame_symm data.right)
+    | e0 y0 =>
+        exact False.elim (not_hsame_e0_empty sameTargetEmpty)
+    | e1 y1 =>
+        exact False.elim (not_hsame_e1_empty sameTargetEmpty)
+  · intro data
+    cases y with
+    | Empty =>
+        exact hsame_refl BHist.Empty
+    | e0 y0 =>
+        exact False.elim (unary_no_zero_extension witness.right.left)
+    | e1 y1 =>
+        have sameResult : hsame (BHist.e1 d) (BHist.e1 x) :=
+          hsame_e1_congr (hsame_symm data.right)
+        have cycle : Cont (BHist.e1 x) (BHist.e1 y1) (BHist.e1 x) :=
+          cont_result_hsame_transport witness.right.right.right sameResult
+        exact False.elim (not_hsame_e1_empty (cont_right_unit_unique cycle))
+
 theorem MetricDistanceWitness_left_e1_result_hsame_source {x x' y d : BHist} :
     MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame x x' ->
       (y = BHist.Empty ∧ UnaryHistory x' ∧ hsame x' d) ∨
@@ -220,6 +247,31 @@ theorem MetricDistanceWitness_left_e1_source_step {x y d : BHist} :
           ((congrArg BHist.e1 witness.right.right.right).trans
             (unary_append_e1_left (h := y) (k := x) witness.right.left).symm))))
 
+theorem MetricDistanceWitness_left_e1_source_iff {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ↔
+      MetricDistanceWitness x y d := by
+  constructor
+  · intro witness
+    cases y with
+    | Empty =>
+        exact (MetricDistanceWitness_empty_right_iff (x := x) (d := d)).mpr
+          (MetricDistanceWitness_left_e1_empty_target_exactness witness)
+    | e0 y0 =>
+        exact False.elim (unary_no_zero_extension witness.right.left)
+    | e1 y1 =>
+        have xCarrier : UnaryHistory x := unary_e1_inversion witness.left
+        have yCarrier : UnaryHistory y1 := unary_e1_inversion witness.right.left
+        have dCarrier : UnaryHistory d := unary_e1_inversion witness.right.right.left
+        have tailResult : hsame d (append (BHist.e1 x) y1) :=
+          hsame_e1_iff.mp witness.right.right.right
+        exact And.intro xCarrier
+          (And.intro witness.right.left
+            (And.intro dCarrier
+              (cont_intro
+                (tailResult.trans (unary_append_e1_left (h := y1) (k := x) yCarrier)))))
+  · intro witness
+    exact MetricDistanceWitness_left_e1_source_step witness
+
 theorem MetricDistanceWitness_left_e1_source_result_iff {x y d : BHist} :
     MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ↔ MetricDistanceWitness x y d := by
   constructor
@@ -257,5 +309,20 @@ theorem MetricDistanceWitness_left_e1_visible_target_result_shape {x y d : BHist
                   | intro targetEq tailWitness =>
                       cases targetEq
                       exact Exists.intro k (And.intro sameResult tailWitness)
+
+theorem MetricDistanceWitness_left_e1_visible_target_result_tail_hsame_exact
+    {x y d k : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) d ->
+      hsame d (BHist.e1 k) -> MetricDistanceWitness (BHist.e1 x) y k := by
+  intro witness sameResult
+  have shape := MetricDistanceWitness_left_e1_visible_target_result_shape witness
+  cases shape with
+  | intro k0 data =>
+      cases data with
+      | intro sameD tailWitness =>
+          have sameTail : hsame k0 k :=
+            hsame_e1_iff.mp (hsame_trans (hsame_symm sameD) sameResult)
+          cases sameTail
+          exact tailWitness
 
 end BEDC.Derived.MetricUp

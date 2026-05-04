@@ -14,6 +14,19 @@ composition preservation theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
 
+\begin{theorem}[Prefix functor carrier hsame transport with unary readback]
+\label{thm:prefix-functor-carrier-hsame-transport-with-unary}
+For prefix histories $p,q$, a prefix functor carrier at $p$ transports along
+$p\hsame q$ to a prefix functor carrier at $q$, and the transported endpoint
+also exposes $\mathsf{UnaryHistory}(q)$.
+\end{theorem}
+\begin{proof}
+Case-analyze the displayed history-sameness $p\hsame q$. In the reflexive
+case the original prefix functor carrier is already a carrier at $q$, and its
+stored prefix-unary field gives the unary readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hsame\_transport\_with\_unary}
+
 \begin{theorem}[Functor prefix hom-carrier preserves]
 \label{thm:functor-prefix-hom-carrier-preserves}
 For a unary prefix $p$, any category hom-carrier from $a$ to $b$ transports to
@@ -91,6 +104,22 @@ prefixed composite. Public readback follows by category hom-carrier morphism
 determinacy at the same prefixed endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Prefix functor carrier hom public readback]
+\label{thm:prefix-functor-carrier-hom-public-readback}
+For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
+\(b\), then \(f\) is displayed as a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,b)\). Moreover, any displayed
+hom-carrier between those same prefixed endpoints has morphism history
+\(\HSame\) to \(f\).
+\end{theorem}
+\begin{proof}
+The hom-preservation field of the prefix functor carrier gives the prefixed
+hom-carrier with the same morphism history. Category hom-carrier morphism
+determinacy at the same prefixed endpoints compares every displayed carrier
+with that preserved morphism.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hom\_public\_readback}
 
 \begin{theorem}[Prefix functor carrier associative composition public readback]
 \label{thm:prefix-functor-carrier-comp-assoc-public-readback}

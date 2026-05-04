@@ -59,6 +59,26 @@ disjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_positive\_depth}
 
+\begin{theorem}[Metric positive distance e-one shape]
+\label{thm:metric-distance-witness-positive-distance-e1-shape}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and the structural depth of
+$d$ is not zero, then $d$ is visibly one-headed with a unary tail:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False})\to
+\exists tail,\ d=\Eone(tail)\wedge\mathsf{UnaryHistory}(tail).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the metric distance witness to obtain the unary carrier for the
+distance history $d$. Case analysis on $d$ rules out $\emp$ by the positive
+depth hypothesis and rules out an $\Ezero$ head by unary-history inversion.
+The remaining $\Eone$ case exposes its tail, and one-step unary inversion gives
+the unary tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_positive\_distance\_e1\_shape}
+
 \begin{theorem}[Metric nonempty distance endpoint e-one cases]
 \label{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases}
 For histories $x,y,d:\mathsf{BHist}$, if
@@ -201,3 +221,22 @@ $\hsame(d,x)$. Case analysis on that classifier identifies the two histories,
 and the metric-depth equality follows by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_distance\_source}
+
+\begin{theorem}[Metric left-boundary visible-context distance target]
+\label{thm:metric-distance-witness-left-boundary-visible-context-distance-target}
+For histories $p,q,y,d$, a visible-context distance witness whose central left
+endpoint is empty identifies the central distance with the target and aligns
+their structural depths:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(d,y)\land
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Apply left-boundary visible-context exactness to peel the visible prefix and
+suffix. The central empty-left witness gives $\hsame(d,y)$. Case analysis on
+that classifier reduces the displayed depth equation to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_boundary\_visible\_context\_distance\_target}

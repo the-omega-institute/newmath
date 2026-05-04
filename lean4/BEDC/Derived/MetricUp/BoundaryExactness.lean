@@ -132,4 +132,16 @@ theorem MetricDistanceWitness_right_boundary_visible_context_distance_source {p 
   · cases boundary.right.right.right
     rfl
 
+theorem MetricDistanceWitness_left_boundary_visible_context_distance_target {p q y d : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append y q) (append (append p d) q) ->
+      hsame d y ∧ MetricDistanceDepth d = MetricDistanceDepth y := by
+  intro visible
+  have boundary :=
+    (MetricDistanceWitness_left_boundary_visible_context_iff
+      (p := p) (q := q) (y := y) (d := d)).mp visible
+  constructor
+  · exact boundary.right.right.right
+  · cases boundary.right.right.right
+    rfl
+
 end BEDC.Derived.MetricUp
