@@ -168,6 +168,8 @@ $A_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$. The same
 classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_normalizer\_append\_empty\_action\_certificate}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingleton\_normalizer\_action\_certificate}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerAction\_certificate}
 
 \begin{theorem}[Group singleton conjugation classifier coverage]
@@ -308,26 +310,25 @@ existential orbit witness.
 
 \begin{theorem}[Group singleton normalizer orbit equivalence]
 \label{thm:group-singleton-normalizer-orbit-equivalence}
-For histories $x,y,z:\mathsf{BHist}$ with $A_{\emp}(x)$, $A_{\emp}(y)$, and
-$A_{\emp}(z)$, the terminal normalizer orbit relation of
-Definition~\ref{def:group-singleton-normalizer-orbit-relation} has the
-following classifier fields on $A_{\emp}$:
+For histories $x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton history group, the terminal normalizer orbit relation of
+Definition~\ref{def:group-singleton-normalizer-orbit-relation} is reflexive,
+symmetric, and transitive on the carried endpoints:
 \begin{enumerate}
 \item $x\sim_{N_{\emp}}x$.
 \item If $x\sim_{N_{\emp}}y$, then $y\sim_{N_{\emp}}x$.
 \item If $x\sim_{N_{\emp}}y$ and $y\sim_{N_{\emp}}z$, then
 $x\sim_{N_{\emp}}z$.
 \end{enumerate}
-The ten-field fit is: traditional target terminal orbit equivalence; BEDC
-source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
-$A_{\emp}$; classifier $\sim_{N_{\emp}}$; ledger endpoints $x,y,z$ plus the
-orbit witnesses supplied by
-Definition~\ref{def:group-singleton-normalizer-orbit-relation}; exactness by
-the displayed reflexivity, symmetry, and transitivity laws; stability from
-Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} and the
-reflexivity, symmetry, and transitivity rows of
-Theorem~\ref{thm:group-singleton-terminal-classifier-package}; downstream
-consumer $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+The ten-field fit is: traditional target terminal normalizer orbit
+equivalence; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier the orbit relation compared with $R_{\emp}$;
+stability from Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness}
+plus the SemanticNameCert reflexivity, symmetry, and transitivity rows for
+$R_{\emp}$ in Theorem~\ref{thm:group-singleton-terminal-classifier-package};
+ledger the conjugator endpoint carried by each orbit witness; core theorem this
+block; exactness the displayed orbit equivalence laws; downstream consumer
+$\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For reflexivity, use the reflexivity row of
@@ -527,6 +528,51 @@ For the reverse classifier, use the symmetry row of the same terminal classifier
 package on the displayed forward classifier. This yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
 \mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer action product-coherent orbit law]
+\label{thm:group-singleton-normalizer-action-product-coherent-orbit-law}
+For histories $s,t,x:\mathsf{BHist}$ in the concrete singleton history group
+instance, write
+$$
+\mathsf{Conj}_u(y):=\mathsf{mul}(\mathsf{mul}(u,y),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, and $A_{\emp}(x)$, then
+$$
+\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)
+\land
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)).
+$$
+The ten-field fit names the traditional target as terminal normalizer action
+composition on orbits; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $\sim_{N_{\emp}}$; stability
+from orbit exactness and product-coherent classifier collapse; ledger the two
+conjugators, product conjugator, and acted endpoint; core theorem this block;
+exactness the displayed orbit-level product law; downstream consumer
+$\QuotientGroupUp$ action composition; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:group-singleton-normalizer-action-composition-collapse} to
+$s$, $t$, and $x$. Its carrier rows place
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$ and
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$ in $A_{\emp}$.
+
+Next apply
+Theorem~\ref{thm:group-singleton-normalizer-action-product-coherent-orbit-collapse}.
+This gives the two terminal classifier rows between the nested conjugation
+endpoint and the product-conjugator endpoint.
+
+Finally use Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} in the
+classifier-to-orbit direction twice. The first use turns the forward
+$R_{\emp}$ row into
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$, and the second use turns the reverse
+$R_{\emp}$ row into
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
+\mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
 \end{proof}
 
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
