@@ -78,6 +78,14 @@ theorem RealConstantHistoryClassifier_endpoint_transport {h h' k k' : BHist} :
                   exact ⟨d, e, hsame_trans (hsame_symm sameH) sameHD,
                     hsame_trans (hsame_symm sameK) sameKE, ratClassifier⟩
 
+theorem RealConstantHistoryClassifier_e1_tail_readback {h k d e : BHist} :
+    RealConstantHistoryClassifier h k -> hsame h (BHist.e1 d) -> hsame k (BHist.e1 e) ->
+      RatHistoryClassifier d e := by
+  intro classified sameH sameK
+  have displayed : RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) :=
+    RealConstantHistoryClassifier_endpoint_transport sameH sameK classified
+  exact Iff.mp RealConstantHistoryClassifier_e1_iff_rat displayed
+
 theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
     RealConstantHistoryClassifier h k → RealConstantHistoryCarrier h ∧
       RealConstantHistoryCarrier k := by
