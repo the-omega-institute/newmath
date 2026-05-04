@@ -6,6 +6,20 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.SubgroupUp
 
+theorem CentralizerCosetCarrier_empty_representative_transport_iff
+    {mul : BHist -> BHist -> BHist} {a repr h : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty)
+    (reprCentral : SubgroupCentralizerCarrier mul a repr) :
+    hsame repr BHist.Empty ->
+      (CentralizerCosetCarrier mul a repr h <->
+        CentralizerCosetCarrier mul a BHist.Empty h) := by
+  intro reprEmpty
+  constructor
+  · intro carrier
+    exact And.intro emptyCentral (hsame_trans carrier.right reprEmpty)
+  · intro carrier
+    exact And.intro reprCentral (hsame_trans carrier.right (hsame_symm reprEmpty))
+
 theorem CentralizerCosetCarrier_empty_continuation_pair_iff
     {mul : BHist -> BHist -> BHist} {a p q r : BHist}
     (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty) :

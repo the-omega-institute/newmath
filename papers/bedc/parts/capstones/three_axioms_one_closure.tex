@@ -77,3 +77,111 @@ The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4
 \label{rem:three-axioms-siblings}
 The chapter's unification theorem (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:capstones-reasoning-by-contradiction-boundary}): all three identify a different face of the same refusal of meta closure. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
 \end{remark}
+
+\begin{definition}[Term-stratum choice closure]
+\label{def:term-stratum-choice-closure}
+Fix an index carrier $I$, an ambient term carrier $U$, and a family of positive fiber predicates $A_i \subseteq U$. The \emph{term-stratum choice closure schema} is the following instance of \autoref{def:three-axioms-meta-closure-operation}: from an accepted family of positive existentials
+$$
+H:\forall i \in I,\; \exists x:U,\; x \in A_i
+$$
+with no displayed constructor-level selection of such terms, introduce a term $o_H:I\to U$ and membership evidence $o_H(i)\in A_i$ for each $i$. The term $o_H(i)$ is then available as an oracle input to later term-level constructions.
+\end{definition}
+
+\begin{theorem}[Choice is term-stratum meta closure]
+\label{thm:choice-term-stratum-meta-closure}
+For arbitrary indexed families $A_i$, the term-stratum choice closure schema of \autoref{def:term-stratum-choice-closure} is equivalent to the axiom-of-choice principle of \autoref{ex:three-axioms-choice}:
+$$
+\left(\forall i \in I,\; \exists x_i,\; x_i \in A_i\right)
+\Longrightarrow
+\exists f:I\to\bigsqcup_{i\in I} A_i,\; \forall i\in I,\; f(i)\in A_i.
+$$
+Here $f(i)\in A_i$ abbreviates that the value of $f$ lies over the $i$-fiber of the displayed coproduct.
+\end{theorem}
+
+\begin{proof}
+Assume the term-stratum choice closure schema. Given $H:\forall i\in I,\exists x_i, x_i\in A_i$, the schema supplies an oracle term $o_H:I\to U$ with evidence $o_H(i)\in A_i$ for every $i$. Define $f(i)=(i,o_H(i))$ as an element of the displayed coproduct $\bigsqcup_{i\in I}A_i$. The fiber evidence supplied with $o_H$ proves $f(i)\in A_i$ for each $i$, so $f$ is the choice function required by the displayed axiom-of-choice principle.
+
+Conversely, assume the displayed axiom-of-choice principle. Given a term-stratum closure datum $H:\forall i\in I,\exists x_i,x_i\in A_i$, apply choice to the family $A_i$. It produces a function $f:I\to\bigsqcup_{i\in I}A_i$ with $f(i)\in A_i$ for every $i$. Let $o_H(i)$ be the component of $f(i)$ in the $i$-fiber. The accompanying fiber proof is exactly the evidence required to use $o_H(i)$ as the accepted value of the existential at $i$. Any later term-level construction that consumes the accepted existential can therefore be fed $o_H(i)$ and its membership evidence. For a single positive term-existential, take $I$ to be the singleton carrier; for an indexed family, keep the given $I$. Thus the axiom-of-choice principle realizes exactly the term-stratum instance of \autoref{def:three-axioms-meta-closure-operation}, and the two principles are equivalent.
+\end{proof}
+
+\begin{definition}[Quotient representative package]
+\label{def:quotient-representative-package}
+Let $A$ be a type and let $R$ be an equivalence relation on $A$. A \emph{quotient representative package} for $(A,R)$ is a triple $(Q,\pi,\rho)$ with
+$$
+Q:\mathsf{Type},\qquad \pi:A\to Q,\qquad \rho:Q\to A,
+$$
+such that
+$$
+\forall a\,b:A,\; R(a,b)\Longrightarrow \pi(a)=\pi(b),
+$$
+$$
+\forall u:Q,\; \pi(\rho(u))=u,
+$$
+and
+$$
+\forall a:A,\; R(\rho(\pi(a)),a).
+$$
+Write $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$ for this conjunction. The second displayed condition says that $\rho$ is a section of $\pi$; the third says that the selected representative of the class of $a$ remains in the $R$-class of $a$.
+\end{definition}
+
+\begin{lemma}[Quotient representative packages are exact]
+\label{lem:quotient-representative-package-exact}
+Let $R$ be an equivalence relation on $A$. If $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$ holds, then for all $a,b:A$,
+$$
+\pi(a)=\pi(b)\Longleftrightarrow R(a,b).
+$$
+\end{lemma}
+
+\begin{proof}
+The reverse implication is the soundness field of $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$. For the forward implication, assume $e:\pi(a)=\pi(b)$. Representative adequacy gives $R(\rho(\pi(a)),a)$ and $R(\rho(\pi(b)),b)$. Transport the second witness along congruence of $\rho$ applied to $e$, obtaining $R(\rho(\pi(a)),b)$. Symmetry of the first witness gives $R(a,\rho(\pi(a)))$, and transitivity with the transported second witness gives $R(a,b)$.
+\end{proof}
+
+\begin{definition}[Type-stratum quotient closure]
+\label{def:type-stratum-quotient-closure}
+For a type $A$ and an equivalence relation $R$ on $A$, the \emph{type-stratum quotient closure schema} is the following instance of \autoref{def:three-axioms-meta-closure-operation}: from the positive existential
+$$
+\exists Q:\mathsf{Type},\;\exists \pi:A\to Q,\;\exists \rho:Q\to A,\;\mathsf{QRep}_{A,R}(Q,\pi,\rho)
+$$
+with no displayed constructor-level witness for $Q$, $\pi$, or $\rho$, introduce such a triple as accepted type-level data. The accepted type is read as $A/R$, and the accepted selector is available as an oracle input to later type-level constructions.
+\end{definition}
+
+\begin{theorem}[Quot-soundness as type-stratum meta closure]
+\label{thm:quot-sound-type-stratum-meta-closure}
+At the schema level, the type-stratum quotient closure schema of \autoref{def:type-stratum-quotient-closure} is equivalent to the quotient-representative $\Quot$-soundness principle of \autoref{ex:three-axioms-quot-sound}: for every type $A$ and equivalence relation $R$ on $A$, accepting one supplies exactly a type $A/R$ with a section $A/R\to A$ choosing a canonical representative, and accepting the other supplies exactly the accepted type-level witness required by \autoref{def:three-axioms-meta-closure-operation}.
+\end{theorem}
+
+\begin{proof}
+Assume the type-stratum quotient closure schema. Given $A$ and $R$, instantiate the positive existential in \autoref{def:type-stratum-quotient-closure}. The schema supplies $Q$, $\pi$, and $\rho$ satisfying $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$. By \autoref{lem:quotient-representative-package-exact}, equality in $Q$ is exactly the classifier $R$ on representatives, so $Q$ is read as the quotient type $A/R$. The section and representative-adequacy fields make $\rho$ the canonical-representative selector. This is precisely the quotient-representative $\Quot$-soundness principle stated in \autoref{ex:three-axioms-quot-sound}.
+
+Conversely, assume the quotient-representative $\Quot$-soundness principle of \autoref{ex:three-axioms-quot-sound}. For any equivalence relation $R$ on $A$, that principle supplies a quotient type $A/R$ together with a section $A/R\to A$ choosing a representative for each class. Let $Q$ be that type, let $\pi:A\to Q$ be the quotient projection, and let $\rho:Q\to A$ be the representative section. The quotient soundness clause gives $R(a,b)\Longrightarrow \pi(a)=\pi(b)$; the section clause gives $\pi(\rho(u))=u$; and the representative clause gives $R(\rho(\pi(a)),a)$. Hence $\mathsf{QRep}_{A,R}(Q,\pi,\rho)$ holds, which is exactly the existential datum accepted by the type-stratum closure schema.
+
+The two directions only rename the same accepted data: a quotient type, a projection, and a representative selector. Thus the type-stratum instance of meta closure and the quotient-representative $\Quot$-soundness principle are the same schematic move. The BEDC replacement in \autoref{def:three-axioms-replacement-quot} refuses the selector $\rho$ and keeps classifier-respecting $\psame$-transport instead.
+\end{proof}
+
+\begin{definition}[Proposition-stratum propext closure]
+\label{def:proposition-stratum-propext-closure}
+For propositions $P,Q:\mathsf{Prop}$, a \emph{proposition-stratum closure datum} is a bidirectional implication
+$$
+b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P).
+$$
+The \emph{proposition-stratum propext closure schema} is the following instance of \autoref{def:three-axioms-meta-closure-operation}: from such a datum, with no displayed constructor-level inhabitant of the identity proposition $P=Q$, accept the identity proposition as inhabited by supplying an equality token
+$$
+\varepsilon_{P,Q}:P=Q.
+$$
+The token is then available as input to later proposition-stratum constructions by rewrite transport in every proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$.
+\end{definition}
+
+\begin{theorem}[Propext is proposition-stratum meta closure]
+\label{thm:propext-proposition-stratum-meta-closure}
+The proposition-stratum propext closure schema of \autoref{def:proposition-stratum-propext-closure} is equivalent to the propositional extensionality principle of \autoref{ex:three-axioms-propext}:
+$$
+\forall P,Q:\mathsf{Prop},\; (P\Leftrightarrow Q)\Rightarrow P=Q.
+$$
+Under this equivalence, the accepted oracle value in \autoref{def:three-axioms-meta-closure-operation} is exactly the equality token $\varepsilon_{P,Q}$.
+\end{theorem}
+
+\begin{proof}
+Assume the proposition-stratum propext closure schema. Let $P,Q:\mathsf{Prop}$ and let $h:P\Leftrightarrow Q$. The datum $h$ is precisely a pair of implications $P\Rightarrow Q$ and $Q\Rightarrow P$. Applying the schema to this datum supplies an equality token $\varepsilon_{P,Q}:P=Q$. This is the conclusion of propositional extensionality.
+
+Conversely, assume propositional extensionality. Given a proposition-stratum closure datum $b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P)$, apply propositional extensionality to $b_{P,Q}$ and set $\varepsilon_{P,Q}$ to the resulting equality $P=Q$. For any proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$, equality elimination along $\varepsilon_{P,Q}$ transports a witness of $C(P)$ to a witness of $C(Q)$, and equality elimination along the symmetric equality transports in the reverse direction. Thus propositional extensionality supplies exactly the equality token and contextual rewrite behavior required by \autoref{def:proposition-stratum-propext-closure}. The two principles therefore coincide at the proposition stratum.
+\end{proof}
