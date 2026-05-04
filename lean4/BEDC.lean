@@ -179,6 +179,8 @@ import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
 import BEDC.Derived.ListUp.SpineRep
+import BEDC.Derived.ListUp.SpineCoherence
+import BEDC.Derived.ListUp.SpineBridge
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.FramedEndpointCons
 import BEDC.Derived.ListUp.SpineNoConfusion
@@ -199,6 +201,7 @@ import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
+import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -226,11 +229,13 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
+import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
 import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.SelectedTransportReadback
+import BEDC.Derived.RealUp.UnaryDenominatorContextShape
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.SemanticCertificate
