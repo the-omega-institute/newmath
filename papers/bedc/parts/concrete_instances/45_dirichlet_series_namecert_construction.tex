@@ -135,6 +135,23 @@ exactly the positive Dirichlet index witness.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_nonempty\_index\_positive}
 
+\begin{theorem}[Dirichlet positive-index partial-sum result is nonempty]
+\label{thm:dirichlet-part-sum-positive-index-result-nonempty}
+Assume every unary-indexed Dirichlet term $\mathsf{term}(m,s)$ is not
+\(\hsame\)-empty. If a closed partial-sum witness
+\(\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)\) has a positive Dirichlet
+index \(n\), then \(S\) is not \(\hsame\)-empty.
+\end{theorem}
+\begin{proof}
+Unpack the positive-index witness as \(n=\Eone(t)\) with \(t\) unary. Inverting
+the matching partial-sum derivation exposes the predecessor sum and the final
+continuation step from the predecessor to \(\mathsf{term}(t,s)\). If the result
+were empty, continuation result transport and empty-result inversion would make
+\(\mathsf{term}(t,s)\) empty, contradicting the term nonemptiness hypothesis at
+the unary tail \(t\).
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_positive\_index\_result\_nonempty}
+
 \begin{theorem}[Dirichlet partial-sum positive index exposes predecessor]
 \label{thm:dirichlet-part-sum-positive-index-predecessor}
 Every closed witness of \(\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)\)
@@ -170,6 +187,26 @@ shape; the induction hypothesis identifies the previous sums, and determinacy
 of $\mathsf{Cont}$ identifies the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_successor\_result\_deterministic}
+
+\begin{theorem}[Dirichlet partial-sum successor result is nonempty]
+\label{thm:dirichlet-part-sum-successor-result-nonempty}
+Assume every unary-indexed Dirichlet term is not \(\hsame\)-empty. Then any
+closed successor partial sum
+\(\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{BHist.e1}(n),S)\)
+has nonempty result:
+$$
+\hsame(S,\emp)\to\bot.
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_successor\_result\_nonempty}
+\begin{proof}
+Invert the successor partial-sum witness. If the successor result were empty,
+transport the displayed continuation step to an empty result and apply
+\(\mathsf{cont\_empty\_result\_inversion}\). The current term is then
+\(\hsame\)-empty, while the predecessor partial-sum witness proves its index is
+unary by \(\mathsf{DirichletPartSum}\) index closure, contradicting the
+term-nonempty hypothesis.
+\end{proof}
 
 \begin{lemma}[Dirichlet partial-sum unary index is deterministic]
 \label{lem:dirichlet-part-sum-unary-index-deterministic}

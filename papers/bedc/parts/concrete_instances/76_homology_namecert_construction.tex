@@ -52,16 +52,17 @@ $\hsame(d(u),\mathsf{Empty})$.
 
 \begin{theorem}[Homology boundary carrier cycle closure]
 \label{thm:homology-boundary-carrier-cycle-closed}
-Assume the BEDC chain differential is square-zero:
+Assume the BEDC chain differential is square-zero at every history:
 $$
-\hsame(d(d(u)),\mathsf{Empty}).
+\forall u:\mathsf{BHist},\ \hsame(d(d(u)),\mathsf{Empty}).
 $$
 Every boundary history is a cycle history: if $B_d(h)$, then $Z_d(h)$.
 \end{theorem}
 \begin{proof}
 Choose a boundary witness $u$ with $\hsame(h,d(u))$. Transporting the cycle
 test along this witness reduces the claim to the displayed square-zero law at
-$u$.
+the chosen boundary preimage, which is supplied by feeding that preimage to the
+displayed universal square-zero law.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_closed}
 
@@ -83,6 +84,7 @@ Apply the same carrier-closure theorem to the boundary witness at $k$. The
 existing classifier row $\hsame(h,k)$ is preserved unchanged, so the three
 pieces repack as the cycle classifier row between the same endpoints.
 \end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_classifier\_refinement}
 
 \begin{theorem}[Homology cycle carrier append closure]
 \label{thm:homology-cycle-carrier-append-closed}
