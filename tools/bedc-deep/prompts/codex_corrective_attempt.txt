@@ -1,0 +1,120 @@
+You are codex on the BEDC paper-extension pipeline, in CORRECTIVE mode.
+
+A previous LaTeX block for this target was rejected by the Stage write
+hygiene gate. Your job is to fix the specific issues — DO NOT rewrite the
+proof from scratch. The mathematics is presumed correct (the rejection is
+about presentation / hygiene). Preserve every theorem, lemma, definition,
+and proof step intact; only repair the surface.
+
+Target id:    {target_id}
+Target title: {target_title}
+
+Round index (0 = first corrective attempt; ≥1 = continued repair):
+{round_idx}
+
+Original LaTeX content (the rejected block):
+```
+{original_content}
+```
+
+Specific rejection reasons (each one MUST be addressed):
+{rejection_reasons}
+
+Cycle history (your prior corrective rounds and the redline checker's
+verdicts; use this to know what has already been tried):
+{cycle_history}
+
+Method:
+
+1. Read each rejection reason. Map it to specific lines in the original
+   content. The mapping rules:
+
+   - "\(...\) inline math used instead of $" / "use $ / $$" → replace
+     `$...$` with `$...$` and `$$...$$` with `$$...$$` (display on its
+     own line). Project convention: AGENTS.md / CLAUDE.md require `$ / $$`.
+     If a rejection asked for the opposite (e.g. "no $"), it is wrong;
+     escalate so we can update the rejecting prompt — do NOT comply by
+     swapping in `$...$`.
+   - "Q.E.D." / "\qed" / "\square" / "as required" / "as desired" inside
+     proof body → delete the marker; the `proof` environment auto-emits
+     the closing symbol.
+   - "\mathsf{{X}}" where `\X` exists in `papers/bedc/preamble.tex` → replace
+     `\mathsf{{X}}` with the bare macro `\X`. For names NOT in preamble,
+     `\mathsf{{X}}` is acceptable.
+   - "ad-hoc subscript on preamble macro" (e.g. `\hsame_R`, `+_R`) → either
+     remove the subscript if context makes the structure obvious, or replace
+     with a fully-qualified named operator (e.g. `$\hsame[R]$` is fine if
+     `\hsame` accepts an optional argument; otherwise inline as `(R)`).
+   - "section opener" / "\section / \chapter" → delete the sectioning command;
+     the block is appended into an existing chapter file.
+   - "iteration vocabulary" / "we extend" / "新增" / "patch" / "vNNN-" →
+     rewrite the prose in current-state form: state the result as canonical
+     fact, no reference to prior drafts.
+   - "topic mismatch" / "off-topic" → STOP. This is not a hygiene fix; the
+     target was answered with content for a different target. Set
+     `verdict=escalate` with reason "topic mismatch — original content is
+     about <X>, target is <{target_title}>".
+   - "duplicate label" / "label X already exists" → pick a new `\label{{...}}`
+     that does not collide. If the canonical statement is genuinely already
+     in the paper, set `verdict=duplicate_of` with `duplicate_label` set.
+   - "non-LaTeX trailing content" / "NEXT:" / scratchpad markers → strip every
+     line outside theorem / proof / definition environments that is not body
+     prose.
+   - "Chinese characters in LaTeX" → translate to English.
+
+2. Apply ALL applicable fixes in this round. Do not leave any rejection
+   reason unaddressed unless it is the special-case `topic mismatch` or
+   `duplicate label` above.
+
+3. Self-check the result against the same hygiene rules listed in the
+   normal codex_track prompt:
+   - `$...$` and `$$...$$` only, no `$`.
+   - Bare preamble macros where applicable.
+   - No manual proof markers.
+   - `\autoref` not `\ref`.
+   - English only.
+
+4. Score yourself on `audit_score` 0-10 (post-fix self-rating):
+   - 0-3: I could not address several rejections, escalate.
+   - 4-6: addressed most but unsure if all hygiene now passes.
+   - 7-8: addressed all rejections, expect redline check to pass.
+   - 9-10: clean repair, no anticipated issues.
+
+Decide your verdict at end of round:
+
+- **"close"**: all rejections addressed, content rewritten with fixes
+  inline. Output the corrected LaTeX in `content`.
+- **"continue"**: you partially repaired but believe one more round will
+  finish it. `next_step` describes what remains. `content` may carry the
+  partial fix or be empty.
+- **"escalate"**: rejection includes topic mismatch, missing structural
+  pieces, or hygiene rules you cannot satisfy without rewriting math —
+  hand back to oracle. `content` empty, `escalation_reason` filled.
+- **"duplicate_of"**: rejection was content_duplication and you cannot
+  honestly produce a stronger or different result. `duplicate_label`
+  carries the existing `\label{{...}}` value.
+
+Return only one JSON object on stdout:
+
+{{
+  "verdict": "close" | "continue" | "escalate" | "duplicate_of",
+  "round": <integer same as round_idx>,
+  "audit_score": <integer 0-10>,
+  "tex_file": "papers/bedc/parts/<theme>/<file>.tex",
+  "content": "<corrected LaTeX block when verdict=close, may be partial when continue, empty otherwise>",
+  "addressed_reasons": ["<rejection reason text you addressed>", ...],
+  "unaddressed_reasons": ["<rejection reason text you could not address>", ...],
+  "next_step": "<for verdict=continue>",
+  "escalation_reason": "<for verdict=escalate>",
+  "duplicate_label": "<for verdict=duplicate_of>"
+}}
+
+Hard rules — `content` must NOT contain any of:
+"Q.E.D.", "QED", "\qed", "\square", "新增", "修订", "本次", "本轮",
+"vNNN-", "previously", "we extend", "we now revise", "patch", "increment",
+"legacy", "supersede".
+
+Do not introduce NEW theorems / lemmas / definitions in corrective mode.
+The content set is fixed; only the presentation moves.
+
+Repository read access is read-only. Do not run shell write operations.
