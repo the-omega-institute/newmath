@@ -4,6 +4,7 @@ namespace BEDC.Derived.RatUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 def PositiveUnaryDenominator (den : BHist) : Prop :=
   ∃ tail : BHist, hsame den (BHist.e1 tail) ∧ UnaryHistory tail
@@ -104,6 +105,26 @@ theorem PositiveUnaryDenominator_append_e1_tail_iff_unary_append {d tail : BHist
     exact (PositiveUnaryDenominator_unary_and_nonempty positive).left
   · intro compositeUnary
     exact PositiveUnaryDenominator_e1_iff_unary.mpr compositeUnary
+theorem PositiveUnaryDenominator_append_unary_left_iff {left right : BHist} :
+    UnaryHistory left ->
+      (PositiveUnaryDenominator (append left right) ↔
+        (hsame right BHist.Empty ∧ PositiveUnaryDenominator left) ∨
+          PositiveUnaryDenominator right) := by
+  intro leftUnary
+  constructor
+  · intro positive
+    cases right with
+    | Empty => exact Or.inl ⟨hsame_refl BHist.Empty, positive⟩
+    | e0 right => exact False.elim (PositiveUnaryDenominator_e0_absurd positive)
+    | e1 right =>
+        have appendUnary : UnaryHistory (append left right) :=
+          PositiveUnaryDenominator_e1_iff_unary.mp positive
+        exact Or.inr (PositiveUnaryDenominator_e1_iff_unary.mpr
+          (unary_append_right_factor appendUnary))
+  · intro positive
+    cases positive with
+    | inl leftData => cases leftData.left; exact leftData.right
+    | inr rightPositive => exact PositiveUnaryDenominator_append_unary_prefix leftUnary rightPositive
 def RatSourceSpec (normalized : BMark → BHist → BHist → Prop) (sign : BMark)
     (num den : BHist) : Prop :=
   BEDC.Derived.IntUp.IntCarrier sign num ∧ PositiveUnaryDenominator den ∧
@@ -247,7 +268,6 @@ theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible → RatHistoryCarrier visible := by
   intro ledger
   exact RatHistoryCarrier_hsame_transport ledger.right ledger.left
-
 theorem RatHistoryLedgerPolicy_hsame_transport {raw raw' visible visible' : BHist} :
     RatHistoryLedgerPolicy raw visible -> hsame raw raw' -> hsame visible visible' ->
       RatHistoryLedgerPolicy raw' visible' := by
@@ -257,12 +277,10 @@ theorem RatHistoryLedgerPolicy_hsame_transport {raw raw' visible visible' : BHis
       constructor
       · exact RatHistoryCarrier_hsame_transport sameRaw rawCarrier
       · exact hsame_trans (hsame_trans (hsame_symm sameRaw) sameRawVisible) sameVisible
-
 theorem RatHistoryLedgerPolicy_raw_visible_classifier {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible -> RatHistoryClassifier raw visible := by
   intro ledger
   exact ⟨ledger.left, RatHistoryLedgerPolicy_visible_carrier ledger, ledger.right⟩
-
 theorem RatHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     RatHistoryLedgerPolicy raw visible -> RatHistoryClassifier visible t -> RatHistoryClassifier raw t := by
   intro ledger classified
@@ -289,7 +307,6 @@ theorem rat_history_semantic_name_certificate :
     exact source
   · intro h source
     exact source
-
 theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Prop}
     {sign : BMark} {num den : BHist} :
     RatSourceSpec normalized sign num den -> RatCarrier sign num den := by
@@ -309,7 +326,6 @@ theorem RatSourceSpec_to_RatCarrier {normalized : BMark -> BHist -> BHist -> Pro
                     · intro sameEmpty
                       exact not_hsame_e1_empty
                         (hsame_trans (hsame_symm sameDen) sameEmpty)
-
 theorem RatCarrier_hsame_transport {s t : BMark} {n n' d d' : BHist} :
     RatCarrier s n d -> msame s t -> hsame n n' -> hsame d d' -> RatCarrier t n' d' := by
   intro carrier sameSign sameNumerator sameDenominator
@@ -324,7 +340,6 @@ theorem RatCarrier_hsame_transport {s t : BMark} {n n' d d' : BHist} :
             · exact unary_transport denominatorUnary sameDenominator
             · intro sameEmpty
               exact denominatorNonempty (hsame_trans sameDenominator sameEmpty)
-
 def RatClassifierSpec
     (s1 : BEDC.FKernel.Mark.BMark) (n1 d1 : BEDC.FKernel.Hist.BHist)
     (s2 : BEDC.FKernel.Mark.BMark) (n2 d2 : BEDC.FKernel.Hist.BHist) : Prop :=
@@ -333,7 +348,6 @@ def RatClassifierSpec
       BEDC.FKernel.Mark.msame s1 s2 ∧
         BEDC.FKernel.Hist.hsame n1 n2 ∧
           BEDC.FKernel.Hist.hsame d1 d2
-
 theorem RatClassifierSpec_refl {s : BEDC.FKernel.Mark.BMark}
     {n d : BEDC.FKernel.Hist.BHist} :
     RatCarrier s n d -> RatClassifierSpec s n d s n d := by
@@ -347,7 +361,6 @@ theorem RatClassifierSpec_refl {s : BEDC.FKernel.Mark.BMark}
       · constructor
         · exact BEDC.FKernel.Hist.hsame_refl n
         · exact BEDC.FKernel.Hist.hsame_refl d
-
 theorem RatClassifierSpec_positive_denominators {s1 s2 : BEDC.FKernel.Mark.BMark}
     {n1 n2 d1 d2 : BEDC.FKernel.Hist.BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 ->
@@ -360,7 +373,6 @@ theorem RatClassifierSpec_positive_denominators {s1 s2 : BEDC.FKernel.Mark.BMark
           constructor
           · exact RatCarrier_positive_denominator carrier1
           · exact RatCarrier_positive_denominator carrier2
-
 theorem RatClassifierSpec_denominator_positive_transport {s1 s2 : BMark}
     {n1 n2 d1 d2 d1' d2' : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> hsame d1 d1' -> hsame d2 d2' ->
@@ -375,7 +387,6 @@ theorem RatClassifierSpec_denominator_positive_transport {s1 s2 : BMark}
               (RatCarrier_positive_denominator carrier1)
           · exact PositiveUnaryDenominator_hsame_transport sameD2
               (RatCarrier_positive_denominator carrier2)
-
 theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMark}
     {num den : BEDC.FKernel.Hist.BHist} :
     RatCarrier sign num den ↔
@@ -412,7 +423,6 @@ theorem RatCarrier_iff_positive_unary_denominator {sign : BEDC.FKernel.Mark.BMar
                   · exact unary_transport (unary_e1_closed tailUnary) (hsame_symm denSame)
                   · intro denEmpty
                     exact not_hsame_e1_empty (hsame_trans (hsame_symm denSame) denEmpty)
-
 theorem RatCarrier_append_unary_denominator_closed {sign : BEDC.FKernel.Mark.BMark}
     {numerator denominator tail : BEDC.FKernel.Hist.BHist} :
     RatCarrier sign numerator denominator -> BEDC.FKernel.Unary.UnaryHistory tail ->
@@ -422,7 +432,6 @@ theorem RatCarrier_append_unary_denominator_closed {sign : BEDC.FKernel.Mark.BMa
   | intro intCarrier positiveDenominator =>
       exact RatCarrier_of_int_positive_denominator intCarrier
         (PositiveUnaryDenominator_append_unary_tail positiveDenominator tailUnary)
-
 theorem RatHistoryCarrier_append_unary_denominator_closed {d tail : BHist} :
     RatHistoryCarrier d -> UnaryHistory tail ->
       RatHistoryCarrier (BEDC.FKernel.Cont.append d tail) := by
@@ -433,7 +442,6 @@ theorem RatHistoryCarrier_append_unary_denominator_closed {d tail : BHist} :
       | intro numerator ratCarrier =>
           exact
             ⟨sign, numerator, RatCarrier_append_unary_denominator_closed ratCarrier tailUnary⟩
-
 theorem RatCarrier_prepend_unary_denominator_closed {sign : BMark}
     {numerator denominator pref : BHist} :
     UnaryHistory pref -> RatCarrier sign numerator denominator ->
@@ -443,7 +451,6 @@ theorem RatCarrier_prepend_unary_denominator_closed {sign : BMark}
   | intro intCarrier positiveDenominator =>
       exact RatCarrier_of_int_positive_denominator intCarrier
         (PositiveUnaryDenominator_append_unary_prefix prefUnary positiveDenominator)
-
 theorem RatHistoryCarrier_prepend_unary_denominator_closed {d pref : BHist} :
     UnaryHistory pref -> RatHistoryCarrier d ->
       RatHistoryCarrier (BEDC.FKernel.Cont.append pref d) := by
@@ -455,7 +462,6 @@ theorem RatHistoryCarrier_prepend_unary_denominator_closed {d pref : BHist} :
           exact
             ⟨sign, numerator,
               RatCarrier_prepend_unary_denominator_closed prefUnary ratCarrier⟩
-
 theorem RatClassifierSpec_append_unary_denominators_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 tail1 tail2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory tail1 -> hsame tail1 tail2 ->
@@ -484,7 +490,6 @@ theorem RatClassifierSpec_append_unary_denominators_closed {s1 s2 : BMark}
                     cases sameTail
                     exact hsame_refl (BEDC.FKernel.Cont.append d1 tail1)
                   exact ⟨carrier1App, carrier2App, sameSign, sameNumerator, denominatorAppSame⟩
-
 theorem RatClassifierSpec_prepend_unary_denominators_closed {s1 s2 : BMark}
     {n1 n2 d1 d2 pref1 pref2 : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> UnaryHistory pref1 -> hsame pref1 pref2 ->
@@ -514,7 +519,6 @@ theorem RatClassifierSpec_prepend_unary_denominators_closed {s1 s2 : BMark}
                     exact hsame_refl (BEDC.FKernel.Cont.append pref1 d1)
                   exact
                     ⟨carrier1Pre, carrier2Pre, sameSign, sameNumerator, denominatorPreSame⟩
-
 theorem RatClassifierSpec_trans
     {s1 s2 s3 : BEDC.FKernel.Mark.BMark}
     {n1 n2 n3 d1 d2 d3 : BEDC.FKernel.Hist.BHist} :
@@ -547,7 +551,6 @@ theorem RatClassifierSpec_trans
                                       · constructor
                                         · exact BEDC.FKernel.Hist.hsame_trans numerator12 numerator23
                                         · exact BEDC.FKernel.Hist.hsame_trans denominator12 denominator23
-
 theorem RatClassifierSpec_symm
     {s1 s2 : BEDC.FKernel.Mark.BMark} {n1 n2 d1 d2 : BEDC.FKernel.Hist.BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 ->
@@ -570,7 +573,6 @@ theorem RatClassifierSpec_symm
                       · constructor
                         · exact BEDC.FKernel.Hist.hsame_symm sameNumerator
                         · exact BEDC.FKernel.Hist.hsame_symm sameDenominator
-
 theorem RatClassifierSpec_component_transport {s1 s2 t1 t2 : BMark}
     {n1 n2 n1' n2' d1 d2 d1' d2' : BHist} :
     RatClassifierSpec s1 n1 d1 s2 n2 d2 -> msame s1 t1 -> msame s2 t2 ->
@@ -596,5 +598,4 @@ theorem RatClassifierSpec_component_transport {s1 s2 t1 t2 : BMark}
                             sameN2
                         · exact hsame_trans (hsame_trans (hsame_symm sameD1) sameDenominator)
                             sameD2
-
 end BEDC.Derived.RatUp

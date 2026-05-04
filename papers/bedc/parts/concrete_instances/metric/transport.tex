@@ -43,6 +43,35 @@ identifies the two sources.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_source\_deterministic}
 
+\begin{theorem}[Metric distance witness visible-context hsame source determinacy]
+\label{thm:metric-distance-witness-visible-context-hsame-source-deterministic}
+For histories $p,q,p',q',x,x',y,y',d,d':\mathsf{BHist}$, if the visible
+targets and visible distances have the same central target and distance under
+$\hsame$, then the central sources are determined:
+$$
+\begin{array}{l}
+\hsame(y,y')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot x',y'\cdot q',(p'\cdot d')\cdot q')
+\Longrightarrow
+\hsame(x,x').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to both
+visible-context witnesses. This exposes central witnesses
+$\mathsf{MetricDistanceWitness}(x,y,d)$ and
+$\mathsf{MetricDistanceWitness}(x',y',d')$. The supplied $\hsame$ relations
+on $y,y'$ and $d,d'$ then fit
+\autoref{thm:metric-distance-witness-hsame-source-deterministic}, whose source
+component is the displayed $\hsame(x,x')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_hsame\_source\_deterministic}
+
 \begin{theorem}[Metric distance witness visible-context semantic name certificate]
 \label{thm:metric-distance-witness-visible-context-semantic-namecert}
 For unary visible contexts $p,q$ and unary central endpoints $x,y$, the
