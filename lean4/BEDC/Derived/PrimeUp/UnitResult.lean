@@ -39,6 +39,16 @@ theorem NatMul_unit_result_factors_unit {d q : BHist} :
                   exact And.intro (hsame_refl (BHist.e1 BHist.Empty))
                     (hsame_refl (BHist.e1 BHist.Empty))
 
+theorem NatMul_unit_right_iff {d n : BHist} :
+    UnaryHistory d -> (NatMul d (BHist.e1 BHist.Empty) n ↔ hsame n d) := by
+  intro hd
+  constructor
+  · intro mul
+    exact NatMul_unit_right_hsame mul
+  · intro same
+    cases same
+    exact NatMul.succ (NatMul.zero hd) (cont_left_unit d)
+
 theorem NatDivides_unit_right_iff {d : BHist} :
     NatDivides d (BHist.e1 BHist.Empty) ↔ hsame d (BHist.e1 BHist.Empty) := by
   constructor

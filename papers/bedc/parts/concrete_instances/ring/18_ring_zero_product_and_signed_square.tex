@@ -479,3 +479,45 @@ For stability, \autoref{def:ring-stability-certificate} lists additive abelian-g
 
 Finally, \autoref{def:ring-ledger-policy} records the shared carrier ledger and the operation tree for ring expressions. Removing ledger entries whose provenance uses a dropped additive constructor leaves carrier witnesses, the identity endpoint, and multiplication trees for monoid expressions. This is the ledger policy of \autoref{def:monoid-ledger-policy}. Hence the retained data satisfy the obligations named in \autoref{def:monoid-certificate-obligations}, with $R$, $\cdot_R$, $1_R$, and $\sim_R$ copied from the original $\RingUp(R)$ certificate.
 \end{proof}
+
+\begin{theorem}[Ring right distributivity over subtraction]
+\label{thm:ring-right-distributivity-over-subtraction}
+Let $R$ carry a history-level $\RingUp$ certificate with classifier $\sim_R$,
+addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Write
+$x-_R y$ for $x+_R(-_R y)$. For every carried triple $a,b,c$,
+$$
+(a-_R b)\cdot_R c\sim_R(a\cdot_R c)-_R(b\cdot_R c).
+$$
+The ten-field fit is: traditional target right distributivity over subtraction;
+BEDC source $\RingUp$ over the carried endpoints of $R$; carrier the ring
+carrier; classifier $\sim_R$; stability from the addition congruence and right
+distributivity fields of \autoref{def:ring-stability-certificate}; ledger the
+three endpoints and the hidden negative summand; core theorem this theorem;
+exactness the displayed subtraction law; standard bridge ordinary ring
+distribution over differences; downstream consumer polynomial and module
+linear-expression normalization; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By the difference abbreviation, the left side is
+$(a+_R(-_R b))\cdot_R c$. Right distributivity gives
+$$
+(a+_R(-_R b))\cdot_R c
+\sim_R
+(a\cdot_R c)+_R((-_R b)\cdot_R c).
+$$
+The left-negative product theorem
+\autoref{thm:ring-mul-neg-left-eq-neg-mul}, read in this certificate, gives
+$$
+(-_R b)\cdot_R c\sim_R-_R(b\cdot_R c).
+$$
+Addition congruence transports this comparison in the right summand while the
+left summand $a\cdot_R c$ is held fixed. Hence
+$$
+(a\cdot_R c)+_R((-_R b)\cdot_R c)
+\sim_R
+(a\cdot_R c)+_R(-_R(b\cdot_R c)).
+$$
+The final expression is $(a\cdot_R c)-_R(b\cdot_R c)$ by the same difference
+abbreviation. Transitivity of $\sim_R$ composes the distributivity comparison
+with the transported sign comparison and yields the displayed law.
+\end{proof}

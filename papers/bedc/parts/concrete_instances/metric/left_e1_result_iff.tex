@@ -22,6 +22,29 @@ the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}
 
+\begin{theorem}[Metric distance witness left e1 result empty target iff]
+\label{thm:metric-distance-witness-left-e1-result-empty-target-iff}
+For histories $x,y,d$, a metric distance witness from $\Eone(x)$ to target
+$y$ with visible result $\Eone(d)$ identifies $y$ with the empty history
+exactly when the exposed source tail is unary and agrees with the result tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\bigl(\hsame(y,\emp)\Longleftrightarrow
+\mathsf{UnaryHistory}(x)\land\hsame(x,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Split the target shape. The empty target branch is the right-unit continuation
+case and reads back the unary source tail and the tail equality. The \(e0\)
+target contradicts the unary target carrier. The visible target branch cannot
+also have \(x\hsame d\): transporting the result to \(\Eone(x)\) would make
+\(\Cont(\Eone(x),\Eone(y_1),\Eone(x))\), so right-unit uniqueness would
+identify \(\Eone(y_1)\) with \(\emp\), contradicting constructor
+disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_empty\_target\_iff}
+
 \begin{theorem}[Metric distance witness left e1 result hsame source]
 \label{thm:metric-distance-witness-left-e1-result-hsame-source}
 For histories $x,x',y,d$, a distance witness from $\Eone(x)$ to a visible
