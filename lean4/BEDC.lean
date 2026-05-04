@@ -283,6 +283,7 @@ import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
+import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.EmptyUnitConjugation

@@ -37,4 +37,21 @@ theorem MetricDistanceWitness_visible_context_hsame_source_deterministic
       rightCentral.2.2
   exact sourceData.2.2
 
+theorem MetricDistanceWitness_visible_context_prefix_independent_endpoint_hsame_result_deterministic
+    {p q p' q' x x' y y' d e : BHist} :
+    hsame x x' -> hsame y y' ->
+      MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
+        MetricDistanceWitness (append p' x') (append y' q') (append (append p' e) q') ->
+          hsame d e := by
+  intro sameX sameY left right
+  have leftCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := d)).mp left
+  have rightCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p') (q := q') (x := x') (y := y')
+      (d := e)).mp right
+  exact
+    MetricDistanceWitness_hsame_result_deterministic sameX sameY leftCentral.2.2
+      rightCentral.2.2
+
 end BEDC.Derived.MetricUp
