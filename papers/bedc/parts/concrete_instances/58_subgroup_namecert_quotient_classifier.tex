@@ -472,6 +472,45 @@ ledger left representative, right representative, and centralizer endpoint
 factors; downstream consumer $\QuotientGroupUp$; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Centralizer quotient-kernel centralizer endpoint invariance]
+\label{thm:subgroup-centralizer-quotient-kernel-centralizer-endpoint-invariance}
+Under the same BEDC history-level $\GroupUp$ laws, if $Z_a(c)$ and $Z_a(d)$,
+then
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,c),\mathsf{mul}(y,d))
+\Longleftrightarrow Q_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the direction from the original endpoints to the translated endpoints,
+apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-two-sided-centralizer-endpoint-mul-closed}
+with the endpoint factors $c$ and $d$.
+
+For the direction from the translated endpoints back to the original
+endpoints, use inverse closure for $Z_a$ from
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} to obtain
+$Z_a(\mathsf{inv}(c))$ and $Z_a(\mathsf{inv}(d))$. Apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-two-sided-centralizer-endpoint-mul-closed}
+to the translated quotient-kernel relation with these inverse factors.
+
+The resulting relation has endpoints
+$\mathsf{mul}(\mathsf{mul}(x,c),\mathsf{inv}(c))$ and
+$\mathsf{mul}(\mathsf{mul}(y,d),\mathsf{inv}(d))$. Associativity, the
+two-sided inverse laws, the unit laws, and multiplication congruence compare
+these histories with $x$ and $y$ up to $\hsame$. The transport theorem
+\autoref{thm:subgroup-centralizer-quotient-kernel-hsame-transport} then moves
+the quotient-kernel witness back to $Q_{Z_a\triangleleft N_a}(x,y)$.
+\end{proof}
+
+Per-object template: traditional target representative independence in a
+normal-subgroup quotient; BEDC source $\GroupUp$ plus $\SubgroupUp$ over
+$\mathsf{BHist}$; carrier $N_a$; classifier $Q_{Z_a\triangleleft N_a}$;
+stability endpoint-factor invariance; ledger lower-centralizer factors and
+inverse factors; core theorem this equivalence plus the one-way endpoint rows
+and quotient-kernel transport; exactness representative choice does not change
+the quotient-kernel classifier; downstream consumer $\QuotientGroupUp$.
+
 \begin{theorem}[Centralizer normalizer quotient-kernel transitivity]
 \label{thm:subgroup-centralizer-quotient-kernel-transitivity}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
