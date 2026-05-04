@@ -197,3 +197,53 @@ the component family. Since source, pattern, and ledger are the same predicate,
 the soundness rows are direct projections.
 \end{proof}
 \leanchecked{BEDC.Derived.YonedaUp.YonedaRepresentable\_empty\_component\_family\_semanticNameCert}
+
+\paragraph{Capstone.}
+
+\begin{theorem}[Prefix Yoneda embedding is fully faithful on empty components]
+\label{thm:yoneda-prefix-empty-component-full-faithfulness}
+For unary histories $p$ and $q$, the empty representable component family of
+the prefix Yoneda construction is equivalent to prefix identity:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\Bigr)
+\quad\Longleftrightarrow\quad
+\HSame(p,q).
+$$
+Moreover, if displayed histories $\eta$ and $\theta$ both occur as component
+families from $p$ to $q$ over all unary objects, then their displayed histories
+are identical in the BEDC history classifier:
+$$
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\Bigr)
+\wedge
+\Bigl(\forall a,\ \mathsf{UnaryHistory}(a)\Rightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\theta)\Bigr)
+\Rightarrow \HSame(\eta,\theta).
+$$
+Thus the semantic family $Y_p$ classifies a unary target $q$ exactly by
+$\HSame(p,q)$; on the empty-component skeleton this is the full and faithful
+prefix embedding of $\CategoryUp$ through the certified $\FunctorUp$ and
+$\NatTransUp$ interfaces.
+\end{theorem}
+\begin{proof}
+For the equivalence, apply
+\autoref{thm:yoneda-representable-empty-component-family-iff}. The forward
+direction projects the exposed $\HSame(p,q)$ field from the unary-prefix
+package. The reverse direction combines the ambient unary hypotheses on $p$ and
+$q$ with $\HSame(p,q)$ and repacks them through the same characterization.
+
+For displayed family uniqueness, apply
+\autoref{thm:yoneda-representable-component-family-displayed-deterministic} to
+the two supplied component families. This is the faithfulness clause: once the
+source and target prefixes are fixed, the object-indexed displayed component
+history is determined up to $\HSame$.
+
+The fullness clause is the empty-component existence half of the first
+paragraph. The functorial source of the construction is the semantic prefix
+certificate of \autoref{thm:functor-prefix-semantic-namecert}; the natural
+transformation classifier is supplied by
+\autoref{thm:nattrans-prefix-component-classifier-semantic-namecert}. Together
+with the semantic family certificate above, these identify $Y_p(q)$ with prefix
+identity and leave no additional displayed component choice.
+\end{proof}

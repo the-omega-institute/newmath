@@ -111,6 +111,68 @@ $0\cdot d$ by zero absorption. These two transported zero witnesses form the
 displayed conjunction.
 \end{proof}
 
+\begin{theorem}[CommRing equal-squares bilateral signed-product two-sided context annihilator]
+\label{thm:commring-equal-squares-bilateral-signed-product-two-sided-context-annihilator}
+Under the joint hypotheses of
+\autoref{thm:commring-equal-squares-bilateral-signed-product-annihilator-package}
+and \autoref{thm:ring-mul-zero-absorption}, every
+$a,b,c,d : \mathsf{BHist}$ satisfies the following implication. Writing
+$P=(a+b)\cdot(a+(-b))$ and $Q=(a+(-b))\cdot(a+b)$,
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\left(
+\begin{array}{l}
+(P\cdot c)\cdot d\hsame0
+\land
+d\cdot(P\cdot c)\hsame0
+\land
+(c\cdot P)\cdot d\hsame0
+\land
+d\cdot(c\cdot P)\hsame0
+\\
+{}\land
+(Q\cdot c)\cdot d\hsame0
+\land
+d\cdot(Q\cdot c)\hsame0
+\land
+(c\cdot Q)\cdot d\hsame0
+\land
+d\cdot(c\cdot Q)\hsame0
+\end{array}
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $S$ be the square-equality witness $a\cdot a\hsame b\cdot b$. Apply
+\autoref{thm:commring-equal-squares-bilateral-signed-product-annihilator-package}
+to $S$. The forward package supplies the universal two-sided rows for $P$,
+and the commuted package supplies the universal two-sided rows for $Q$.
+
+Specializing those universal rows at $c$ gives four zero factors:
+$P\cdot c\hsame0$, $c\cdot P\hsame0$, $Q\cdot c\hsame0$, and
+$c\cdot Q\hsame0$.
+
+Apply the two rows of \autoref{thm:ring-mul-zero-absorption} to each of these
+four zero factors with multiplier $d$. The right-context row gives
+$(P\cdot c)\cdot d\hsame0$, $(c\cdot P)\cdot d\hsame0$,
+$(Q\cdot c)\cdot d\hsame0$, and $(c\cdot Q)\cdot d\hsame0$; the
+left-context row gives $d\cdot(P\cdot c)\hsame0$, $d\cdot(c\cdot P)\hsame0$,
+$d\cdot(Q\cdot c)\hsame0$, and $d\cdot(c\cdot Q)\hsame0$. These eight
+witnesses are exactly the displayed context rows.
+\end{proof}
+
+The ten-field fit for this theorem is: traditional target full two-sided
+visible-context annihilation in a commutative ring; BEDC source $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from bilateral signed-product annihilation and zero
+absorption; ledger square equality plus the two visible context histories;
+core theorem
+\autoref{thm:commring-equal-squares-bilateral-signed-product-two-sided-context-annihilator};
+exactness the eight displayed context rows; downstream use by $\FieldUp$
+zero-product obstruction and localization boundary; status
+$\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target bilateral signed-product
 annihilation in a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$
 over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$;
