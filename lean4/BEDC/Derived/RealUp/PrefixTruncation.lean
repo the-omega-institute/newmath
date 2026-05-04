@@ -26,6 +26,42 @@ theorem RealStreamPrefixClassifier_truncated_e1_pair_readback {x y : Nat -> BHis
         exact classified
       exact ih stepClassified.left sameLeft sameRight
 
+theorem RealStreamPrefixClassifier_truncated_endpoint_denominator_package
+    {x y : Nat -> BHist} {m n : Nat} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      RatHistoryClassifier (x n) (y n) ∧
+        PositiveUnaryDenominator (x n) ∧
+          PositiveUnaryDenominator (y n) ∧
+            UnaryHistory (x n) ∧
+              UnaryHistory (y n) ∧
+                (hsame (x n) BHist.Empty -> False) ∧
+                  (hsame (y n) BHist.Empty -> False) := by
+  intro classified
+  have prefixAtN : RealStreamPrefixClassifier x y n := by
+    induction m with
+    | zero =>
+        simp only [Nat.zero_add] at classified
+        exact classified
+    | succ m ih =>
+        have stepClassified : RealStreamPrefixClassifier x y (Nat.succ (m + n)) := by
+          simp only [Nat.succ_add] at classified
+          exact classified
+        exact ih stepClassified.left
+  have endpointClassified : RatHistoryClassifier (x n) (y n) :=
+    RealStreamPrefixClassifier_endpoint n prefixAtN
+  have positiveRows :
+      PositiveUnaryDenominator (x n) ∧ PositiveUnaryDenominator (y n) :=
+    RatHistoryClassifier_positive_denominators endpointClassified
+  have leftRows : UnaryHistory (x n) ∧ (hsame (x n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.left
+  have rightRows : UnaryHistory (y n) ∧ (hsame (y n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.right
+  exact And.intro endpointClassified
+    (And.intro positiveRows.left
+      (And.intro positiveRows.right
+        (And.intro leftRows.left
+          (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
+
 theorem RealStreamPrefixClassifier_truncated_cont_endpoint_context_closed
     {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat} :
     RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
