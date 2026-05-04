@@ -559,4 +559,26 @@ theorem ComplexHistoryClassifier_component_classifier_intro
     cont_respects_hsame realClassifier.right.right imagClassifier.right.right contH contK
   exact And.intro carrierH (And.intro carrierK sameHK)
 
+theorem ComplexHistoryLedgerPolicy_component_classifier_extension
+    {raw visible real imag real' imag' target : BHist} :
+    ComplexHistoryLedgerPolicy raw visible ->
+      RatUp.RatHistoryClassifier real real' -> RatUp.RatHistoryClassifier imag imag' ->
+        Cont real imag visible -> Cont real' imag' target ->
+          ComplexHistoryClassifier raw target := by
+  intro ledger realClass imagClass visibleCont targetCont
+  have visibleTarget : ComplexHistoryClassifier visible target :=
+    ComplexHistoryClassifier_component_classifier_intro realClass imagClass visibleCont targetCont
+  exact ComplexHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+
+theorem ComplexHistoryClassifier_component_classifier_unary_context_intro
+    {p p' real imag real' imag' h k q q' : BHist} :
+    UnaryHistory p -> hsame p p' -> RatUp.RatHistoryClassifier real real' ->
+      RatUp.RatHistoryClassifier imag imag' -> Cont real imag h -> Cont real' imag' k ->
+        UnaryHistory q -> hsame q q' ->
+          ComplexHistoryClassifier (append p (append h q)) (append p' (append k q')) := by
+  intro pUnary sameP realClass imagClass contH contK qUnary sameQ
+  have baseClass : ComplexHistoryClassifier h k :=
+    ComplexHistoryClassifier_component_classifier_intro realClass imagClass contH contK
+  exact ComplexHistoryClassifier_unary_context_closed pUnary sameP baseClass qUnary sameQ
+
 end BEDC.Derived.ComplexUp

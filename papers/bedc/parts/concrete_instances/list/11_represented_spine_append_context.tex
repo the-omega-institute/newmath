@@ -122,6 +122,29 @@ classifier can relate an $e0$-mapped spine to an $e1$-mapped spine only in the
 empty-empty case, so $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
 \end{proof}
 
+\begin{theorem}[List classifier $e0$ append-context equivalence]
+\label{thm:list-classifier-hsame-map-e0-append-context-iff}
+For finite BEDC-history spines $p,p',x,y,s,s'$, suppose the prefix contexts
+$p,p'$ are structurally classified by $\hsame$ and the suffix contexts $s,s'$
+are structurally classified by $\hsame$. Then
+$$
+\mathsf{ListClassifierSpec}(\hsame,
+  p{++}(\mathsf{map}(e0,x){++}s),
+  p'{++}(\mathsf{map}(e0,y){++}s'))
+\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\hsame,x,y).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, append-context cancellation removes the classified
+prefixes and suffixes, leaving the $e0$-mapped middle classifier. The $e0$
+map-inversion theorem reflects it to the untagged middle classifier. In the
+reverse direction, $e0$ map stability lifts the middle classifier to the tagged
+middle spines, and append-context rebuilding restores the classified prefix and
+suffix contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_append\_context\_iff}
+
 \begin{theorem}[List represented-spine same-tag context exactness]
 \label{thm:list-represented-spine-same-tag-context-exactness}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let

@@ -289,6 +289,22 @@ endpoint $\hsame$ field required by the complex classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_component\_classifier\_intro}
 
+\begin{theorem}[Complex component classifier unary-context introduction]
+\label{thm:complex-history-classifier-component-classifier-unary-context-intro}
+If the real components are related by $\mathsf{RatHistoryClassifier}$, the
+imaginary components are related by $\mathsf{RatHistoryClassifier}$, the two
+middle endpoints are assembled by continuation witnesses, and classified unary
+prefix and suffix contexts surround those endpoints, then the wrapped endpoints
+are related by $\mathsf{ComplexHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+First build the middle complex classifier from the real component classifier,
+the imaginary component classifier, and the two continuation witnesses. Then
+apply unary-context closure to transport that classifier through the classified
+prefix and suffix contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_component\_classifier\_unary\_context\_intro}
+
 \begin{definition}[Complex stability certificate]
 \label{def:complex-stability-certificate}
 The stability certificate consists of:
@@ -378,6 +394,21 @@ carrier form the endpoint data, and transitivity of \(\hsame\) composes the
 two links.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_classifier\_extension}
+
+\begin{theorem}[Complex ledger component classifier extension]
+\label{thm:complex-ledger-component-classifier-extension}
+If a complex ledger relates a raw endpoint to a visible endpoint, the visible
+endpoint and a target endpoint are assembled from component histories whose
+real and imaginary components are classified by $\mathsf{RatHistoryClassifier}$,
+then the raw endpoint is classified with the target endpoint.
+\end{theorem}
+\begin{proof}
+The component classifiers and continuation witnesses build a visible-target
+complex classifier. Ledger classifier extension composes the stored
+raw-visible ledger link with this visible-target classifier, yielding the
+raw-target complex classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_component\_classifier\_extension}
 
 \begin{theorem}[Concrete \(\ComplexUp\) naming certificate]
 \label{thm:concrete-complex-namecert}
