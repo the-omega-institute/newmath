@@ -228,6 +228,25 @@ theorem ComplexHistoryClassifier_unary_context_closed {p p' h k q q' : BHist} :
             rfl
           exact And.intro contextCarrierH (And.intro contextCarrierK sameContext)
 
+theorem ComplexHistoryClassifier_unary_context_positive_components {p p' h k q q' : BHist} :
+    UnaryHistory p -> hsame p p' -> ComplexHistoryClassifier h k -> UnaryHistory q ->
+      hsame q q' ->
+        ∃ hr hi kr ki : BHist,
+          RatUp.RatHistoryCarrier hr ∧ RatUp.RatHistoryCarrier hi ∧
+            RatUp.RatHistoryCarrier kr ∧ RatUp.RatHistoryCarrier ki ∧
+              Cont hr hi (append p (append h q)) ∧
+                Cont kr ki (append p' (append k q')) ∧
+                  hsame (append p (append h q)) (append p' (append k q')) ∧
+                    RatUp.PositiveUnaryDenominator hr ∧
+                      RatUp.PositiveUnaryDenominator hi ∧
+                        RatUp.PositiveUnaryDenominator kr ∧
+                          RatUp.PositiveUnaryDenominator ki := by
+  intro pUnary sameP classified qUnary sameQ
+  have contextClassified :
+      ComplexHistoryClassifier (append p (append h q)) (append p' (append k q')) :=
+    ComplexHistoryClassifier_unary_context_closed pUnary sameP classified qUnary sameQ
+  exact ComplexHistoryClassifier_positive_components contextClassified
+
 theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->
       ComplexHistoryClassifier raw t := by
