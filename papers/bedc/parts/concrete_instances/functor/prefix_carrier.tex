@@ -13,3 +13,19 @@ preservation theorem, the prefix reflection theorem, and the prefixed
 composition preservation theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
+
+\begin{theorem}[Prefix functor carrier composition public readback]
+\label{thm:prefix-functor-carrier-comp-public-readback}
+For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and
+\(\ContR(f,g,fg)\), then \(fg\) is displayed as a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\). Moreover, any displayed
+hom-carrier between the same prefixed endpoints has morphism history
+\(\HSame\) to \(fg\).
+\end{theorem}
+\begin{proof}
+The composition-preservation field of the prefix functor carrier closes the
+prefixed composite. Public readback follows by category hom-carrier morphism
+determinacy at the same prefixed endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
