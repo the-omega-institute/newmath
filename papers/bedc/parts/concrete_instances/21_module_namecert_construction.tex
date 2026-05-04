@@ -555,3 +555,53 @@ r\sim_R s.
 $$
 Therefore $\mathsf{FaithAct}_{R,M}$ holds, and the two conditions are equivalent.
 \end{proof}
+
+\begin{theorem}[Module LinearMap kernel sub-module closure]
+\label{thm:module-linearmap-kernel-submodule-closure}
+Let $R$ carry a $\RingUp(R)$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, and $\odot_M$ and $\odot_N$ for scalar action. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, define the kernel predicate on carried source endpoints by
+$$
+\mathsf{Ker}_f(x)\Longleftrightarrow f(x)\sim_N0_N.
+$$
+Then this predicate is closed under source module addition, closed under scalar action, and contains source zero:
+$$
+\begin{gathered}
+x,y\text{ carried and }\mathsf{Ker}_f(x)\land\mathsf{Ker}_f(y)\Longrightarrow x+_M y\text{ carried and }\mathsf{Ker}_f(x+_M y),\\
+r\text{ carried and }x\text{ carried and }\mathsf{Ker}_f(x)\Longrightarrow r\odot_M x\text{ carried and }\mathsf{Ker}_f(r\odot_M x),\\
+0_M\text{ is carried and }\mathsf{Ker}_f(0_M).
+\end{gathered}
+$$
+The ten-field fit is: traditional target the ordinary kernel sub-module of a linear map; BEDC source the displayed $\mathsf{LinearMapCert}_R(M,N;f)$ package over two $\ModuleUp$ certificates; carrier the source module carrier restricted by $\mathsf{Ker}_f$; classifier the inherited source module classifier; stability addition closure, scalar-action closure, and zero membership; ledger the additive, scalar, zero, codomain congruence, and codomain zero-action rows; core theorem this block; exactness predicate the three displayed closure clauses; standard bridge the usual kernel of an $R$-linear map; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{LinearMapCert}_R(M,N;f)$ using \autoref{def:module-linearmap-certificate-package}. It supplies output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation. The two module certificates supply the module operation closures and congruence rows through \autoref{def:module-certificate-obligations}, \autoref{def:module-classifier-specification}, and \autoref{def:module-stability-certificate}; classifier compositions use \autoref{thm:namecert-equivalence-transitivity}.
+
+For addition, let $x$ and $y$ be carried in $M$ and assume $f(x)\sim_N0_N$ and $f(y)\sim_N0_N$. Additive closure in the source module makes $x+_M y$ carried. The additive row of the linear-map certificate gives
+$$
+f(x+_M y)\sim_N f(x)+_N f(y).
+$$
+Output closure makes $f(x)$ and $f(y)$ carried in $N$. Additive congruence in the codomain module transports the two kernel hypotheses to
+$$
+f(x)+_N f(y)\sim_N0_N+_N0_N.
+$$
+The additive unit law in the codomain additive group gives $0_N+_N0_N\sim_N0_N$. Transitivity of $\sim_N$ composes these comparisons, yielding $f(x+_M y)\sim_N0_N$.
+
+For scalar action, let $r$ be a carried scalar and let $x$ be carried in $M$ with $f(x)\sim_N0_N$. Scalar-action closure in the source module makes $r\odot_M x$ carried. The scalar row gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Scalar-action congruence in $N$, using classifier reflexivity for $r$ from \autoref{def:lean-carrier-naming-certificate} and the kernel hypothesis for $x$, gives
+$$
+r\odot_N f(x)\sim_N r\odot_N0_N.
+$$
+The second annihilation clause of \autoref{thm:module-zero-action-annihilation} gives $r\odot_N0_N\sim_N0_N$. Transitivity therefore gives $f(r\odot_M x)\sim_N0_N$.
+
+For zero, the additive carrier data of the source module carry $0_M$, and the zero-preservation row of \autoref{def:module-linearmap-certificate-package} is exactly
+$$
+f(0_M)\sim_N0_N.
+$$
+Thus $\mathsf{Ker}_f(0_M)$ holds. The three clauses are precisely the advertised sub-module carrier closure properties inside the source module $M$.
+\end{proof}
