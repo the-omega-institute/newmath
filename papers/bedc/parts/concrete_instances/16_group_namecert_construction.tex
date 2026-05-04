@@ -48,6 +48,62 @@ $$
 A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
 $$
 \end{proof}
+
+\begin{theorem}[Group singleton double continuation product-unit visible exclusion]
+\label{thm:group-singleton-double-continuation-product-unit-visible-exclusion}
+For histories $P,Q,S,T,U,V,r:\mathsf{BHist}$ with $\ContR(P,Q,S)$ and
+$\ContR(S,T,U)$, if
+$$
+R_{\emp}(\mathsf{append}(U,V),\emp)
+$$
+holds, then the concrete singleton $\GroupUp$ instance excludes visible results
+for both continuation witnesses:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The ten-field template names the traditional target terminal-group two-step
+continuation visibility guard; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ with two $\ContR$ witnesses and append; carrier $A_{\emp}$;
+classifier $R_{\emp}$; stability from double continuation product-unit coverage,
+terminal classifier packaging, and continuation terminal collapse; ledger the
+two continuation witnesses, suffix endpoint, and visible result endpoint; core
+theorem this block; exactness the four displayed contradictions; downstream
+consumer $\QuotientGroupUp$ path compression and subgroup visibility guards; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:group-singleton-double-continuation-product-unit-chain-coverage} to
+the two continuation witnesses and the product-unit classifier. The forward
+direction gives
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Keep the first two carrier components. Use the reverse direction of the first
+row of \autoref{thm:group-singleton-terminal-classifier-package} to repack
+$A_{\emp}(P)\land A_{\emp}(Q)$ as $R_{\emp}(P,Q)$.
+
+Apply the visible-result part of
+\autoref{thm:group-singleton-continuation-terminal-collapse} under
+$\ContR(P,Q,S)$. The repacked input classifier excludes
+$\ContR(P,Q,\Ezero(r))$ and $\ContR(P,Q,\Eone(r))$, and the same collapse
+identifies the terminal condition $A_{\emp}(S)$.
+
+Combine this $A_{\emp}(S)$ with the retained factor $A_{\emp}(T)$. The reverse
+direction of the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} repacks
+$A_{\emp}(S)\land A_{\emp}(T)$ as $R_{\emp}(S,T)$.
+
+Apply the visible-result part of
+\autoref{thm:group-singleton-continuation-terminal-collapse} under
+$\ContR(S,T,U)$. The repacked second input classifier excludes
+$\ContR(S,T,\Ezero(r))$ and $\ContR(S,T,\Eone(r))$, giving the four displayed
+contradictions.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
@@ -105,6 +161,8 @@ $\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
 classifiers with $h$ as the right factor, so the right factor is the displayed
 singleton-unit conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_inverse\_field\_collapse}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_collapses\_to\_singleton}
 
 \begin{theorem}[Unary append inverse field iff singleton collapse]
 \label{thm:unary-append-inverse-field-iff-singleton-collapse}
@@ -149,9 +207,14 @@ $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For the forward direction, assume the displayed conjunction of inverse-field
-laws. Its right-inverse conjunct is exactly the hypothesis of
-\autoref{thm:unary-append-inverse-field-collapses-to-singleton}, so that
-theorem gives the displayed singleton-unit collapse.
+laws and fix a unary history $h$. The right-inverse conjunct gives
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)$.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classifier. The forward direction decomposes it into the two factor
+classifiers, and the left factor is exactly the displayed singleton-unit
+conclusion for $h$.
 
 For the reverse direction, assume singleton-unit collapse and fix a unary
 history $h$. The collapse hypothesis gives
@@ -171,6 +234,40 @@ classifiers in the opposite order. Applying the reverse direction of
 $i(h)$, $h$ classifies $\mathsf{append}(i(h),h)$ as $\emp$, completing the
 two-sided inverse-field laws.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_append\_inverse\_field\_singleton\_collapse\_iff}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_singleton\_collapse\_iff}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_iff\_singleton\_collapse}
+
+\begin{theorem}[Unary append singleton collapse obstruction]
+\label{thm:unary-append-singleton-collapse-obstruction}
+The full unary-history append classifier cannot classify every unary history
+as the singleton unit:
+$$
+\left(
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)
+\right)
+\Rightarrow \mathsf{False}.
+$$
+The ten-field fit is: traditional target obstruction to collapsing the full
+unary append carrier to the unit; BEDC source $\mathsf{UnaryHistory}$; carrier
+$\mathsf{UnaryHistory}$; classifier
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; stability from the
+concrete classifier fields; ledger the visible unary endpoint $\Eone(\emp)$;
+exactness the contradiction; downstream consumer the inverse-field obstruction;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume the displayed singleton-unit collapse. The concrete history
+$\Eone(\emp)$ is unary, so the collapse hypothesis classifies
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+Unfolding the classifier exposes the internal witness
+$\Eone(\emp)\hsame\emp$, contradicting the BEDC history no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_append\_singleton\_collapse\_obstruction}
 
 \begin{theorem}[Full unary append left-inverse obstruction]
 \label{thm:full-unary-append-left-inverse-obstruction}
@@ -201,7 +298,7 @@ and $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
 \begin{proof}
 Assume such an operation $\mathsf{inv}$ and its displayed left-inverse field.
 The left-inverse half of
-\autoref{thm:unary-append-inverse-field-collapses-to-singleton} applies to the
+\autoref{thm:unary-append-inverse-field-iff-singleton-collapse} applies to the
 classifier component of that field and gives singleton-unit collapse:
 $$
 \forall h:\mathsf{BHist},\
@@ -228,6 +325,8 @@ different outer constructors. Hence the left-inverse field yields
 $\mathsf{False}$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.FullUnaryAppendLeftInverse\_obstruction}
+\leanchecked{BEDC.Derived.GroupUp.UnaryHistory\_append\_left\_inverse\_obstruction}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_left\_inverse\_field\_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
@@ -591,4 +690,89 @@ Finally apply
 direction to $(s,v,x,w)$ with the carrier witnesses for $s$ and $v$. This gives
 $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_v(w)$, and together with
 $R_{\emp}(x,w)$ it is the displayed compressed conclusion.
+\end{proof}
+
+\begin{theorem}[Group singleton four-conjugator orbit path compression]
+\label{thm:group-singleton-four-conjugator-orbit-path-compression}
+For histories $s,t,u,v,r,x,y,z,w,q:\mathsf{BHist}$ in the concrete singleton
+history group, write
+$$
+\mathsf{Conj}_a(b):=\mathsf{mul}(\mathsf{mul}(a,b),\mathsf{inv}(a)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, $A_{\emp}(u)$, $A_{\emp}(v)$, and
+$A_{\emp}(r)$, then the four acted normalizer edges with independent
+conjugators are classified exactly by the four terminal classifier edges:
+$$
+\bigl(
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\land
+\mathsf{Conj}_t(y)\sim_{N_{\emp}}\mathsf{Conj}_u(z)
+\land
+\mathsf{Conj}_u(z)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
+\land
+\mathsf{Conj}_v(w)\sim_{N_{\emp}}\mathsf{Conj}_r(q)
+\bigr)
+\Longleftrightarrow
+\bigl(
+R_{\emp}(x,y)\land R_{\emp}(y,z)\land R_{\emp}(z,w)\land R_{\emp}(w,q)
+\bigr).
+$$
+Moreover, any such path compresses to the endpoint acted edge and the terminal
+classifier edge:
+$$
+\bigl(
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\land
+\mathsf{Conj}_t(y)\sim_{N_{\emp}}\mathsf{Conj}_u(z)
+\land
+\mathsf{Conj}_u(z)\sim_{N_{\emp}}\mathsf{Conj}_v(w)
+\land
+\mathsf{Conj}_v(w)\sim_{N_{\emp}}\mathsf{Conj}_r(q)
+\bigr)
+\implies
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_r(q)
+\land R_{\emp}(x,q)\bigr).
+$$
+The ten-field fit is: traditional target terminal four-step conjugation orbit
+path; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifiers $R_{\emp}$ and the normalizer orbit relation; stability
+from the existing two- and three-conjugator classifiers plus terminal
+classifier transitivity; ledger the five conjugators and four path edges; core
+theorem this block; exactness the displayed iff plus compressed endpoint edge;
+downstream consumer $\QuotientGroupUp$ path compression; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction of the path equivalence, assume the four acted orbit
+edges. Apply
+\autoref{thm:group-singleton-three-conjugator-orbit-path-compression} to the
+first three acted edges, using the carrier witnesses for $s$, $t$, $u$, and
+$v$. This gives $R_{\emp}(x,y)$, $R_{\emp}(y,z)$, $R_{\emp}(z,w)$, and the
+compressed terminal edge $R_{\emp}(x,w)$.
+
+Apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} to the fourth
+acted edge $(v,r,w,q)$, using the carrier witnesses for $v$ and $r$, to obtain
+$R_{\emp}(w,q)$. Together with the three terminal edges already obtained, this
+is the right-hand side of the displayed equivalence.
+
+For the reverse direction, assume $R_{\emp}(x,y)$, $R_{\emp}(y,z)$,
+$R_{\emp}(z,w)$, and $R_{\emp}(w,q)$. Apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the reverse
+direction to $(s,t,x,y)$, $(t,u,y,z)$, $(u,v,z,w)$, and $(v,r,w,q)$. These are
+precisely the four acted normalizer edges.
+
+It remains to compress a given acted path. The first paragraph supplies
+$R_{\emp}(x,w)$ from the first three acted edges, and the fourth acted edge
+supplies $R_{\emp}(w,q)$ by the two-conjugator classifier.
+
+Apply the terminal transitivity supplied by
+\autoref{thm:group-singleton-terminal-classifier-package}. The two terminal
+edges $R_{\emp}(x,w)$ and $R_{\emp}(w,q)$ compose to $R_{\emp}(x,q)$.
+
+Finally apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the reverse
+direction to $(s,r,x,q)$ with the carrier witnesses for $s$ and $r$. This gives
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_r(q)$, and together with
+$R_{\emp}(x,q)$ it is the displayed compressed conclusion.
 \end{proof}
