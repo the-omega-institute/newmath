@@ -760,27 +760,7 @@ transitivity of $R_B$, and the paired typed witness rebuilds the product
 classifier.
 \end{proof}
 
-\begin{theorem}[Product classifier symmetry from source symmetry]
-\label{thm:prod-classifier-symm-from-source-symmetry}
-Let $R_A : A \to A \to \mathsf{Prop}$ and
-$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations. If
-$$
-\forall a\,a'.\; R_A(a,a')\to R_A(a',a)
-$$
-and
-$$
-\forall b\,b'.\; R_B(b,b')\to R_B(b',b)
-$$
-hold, then for product carriers $x$ and $y$,
-$\mathsf{ProdClassifierSpec}(R_A,R_B,x,y)$ implies
-$\mathsf{ProdClassifierSpec}(R_A,R_B,y,x)$.
-\end{theorem}
-\begin{proof}
-Invert the product classifier witness into its two coordinate witnesses.
-Apply source symmetry for $R_A$ to the first coordinate and source symmetry for
-$R_B$ to the second coordinate, then rebuild the product classifier with the
-same constructor in the opposite order.
-\end{proof}
+\input{parts/concrete_instances/09_prod_typed_classifier_tail.tex}
 
 \begin{theorem}[Product classifier symmetry from source certificates]
 \label{thm:prod-classifier-symm-from-namecert}

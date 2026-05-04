@@ -74,6 +74,40 @@ theorem ComplexHistoryCarrier_positive_components {h : BHist} :
                               (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
                                 imagCarrier))))))
 
+theorem ComplexHistoryLedgerPolicy_positive_components {raw visible : BHist} :
+    ComplexHistoryLedgerPolicy raw visible ->
+      exists real : BHist, exists imag : BHist,
+        RatUp.RatHistoryCarrier real /\ RatUp.RatHistoryCarrier imag /\
+          Cont real imag raw /\ hsame raw visible /\ ComplexHistoryCarrier visible /\
+            RatUp.PositiveUnaryDenominator real /\ RatUp.PositiveUnaryDenominator imag := by
+  intro ledger
+  cases ledger with
+  | intro rawCarrier sameRawVisible =>
+      have rawComponents := ComplexHistoryCarrier_positive_components rawCarrier
+      have visibleCarrier : ComplexHistoryCarrier visible :=
+        ComplexHistoryLedgerPolicy_visible_carrier
+          (And.intro rawCarrier sameRawVisible)
+      cases rawComponents with
+      | intro real rest =>
+          cases rest with
+          | intro imag data =>
+              cases data with
+              | intro realCarrier data =>
+                  cases data with
+                  | intro imagCarrier data =>
+                      cases data with
+                      | intro rawCont positive =>
+                          cases positive with
+                          | intro positiveReal positiveImag =>
+                              exact Exists.intro real
+                                (Exists.intro imag
+                                  (And.intro realCarrier
+                                    (And.intro imagCarrier
+                                      (And.intro rawCont
+                                        (And.intro sameRawVisible
+                                          (And.intro visibleCarrier
+                                            (And.intro positiveReal positiveImag)))))))
+
 theorem ComplexHistoryCarrier_component_reflexive_classifiers {h : BHist} :
     ComplexHistoryCarrier h ->
       exists real : BHist, exists imag : BHist,
