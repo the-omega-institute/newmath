@@ -42,4 +42,35 @@ theorem NatDivides_nonempty_result_boundary {d n : BHist} :
                         exact nNonempty step
                       · exact cont_intro (step.trans (unary_append_comm predUnary dUnary))
 
+theorem NatDivides_antisymmetry_hsame {d e : BHist} :
+    UnaryHistory d -> UnaryHistory e -> NatDivides d e -> NatDivides e d -> hsame d e := by
+  intro dUnary eUnary dividesDE dividesED
+  cases d with
+  | Empty =>
+      exact hsame_symm (NatDivides_empty_left_result_empty dividesDE)
+  | e0 _ =>
+      cases dUnary
+  | e1 dTail =>
+      cases e with
+      | Empty =>
+          exact NatDivides_empty_left_result_empty dividesED
+      | e0 _ =>
+          cases eUnary
+      | e1 eTail =>
+          have dNonempty : hsame (BHist.e1 dTail) BHist.Empty -> False := by
+            intro same
+            exact not_hsame_e1_empty same
+          have eNonempty : hsame (BHist.e1 eTail) BHist.Empty -> False := by
+            intro same
+            exact not_hsame_e1_empty same
+          cases NatDivides_nonempty_result_boundary dividesDE eUnary eNonempty with
+          | inl sameDE =>
+              exact sameDE
+          | inr strictDE =>
+              cases NatDivides_nonempty_result_boundary dividesED dUnary dNonempty with
+              | inl sameED =>
+                  exact hsame_symm sameED
+              | inr strictED =>
+                  exact False.elim (NatUnaryStrictPrefix_asymm strictDE strictED)
+
 end BEDC.Derived.PrimeUp
