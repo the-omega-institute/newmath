@@ -492,4 +492,18 @@ theorem AdeleHistoryCarrier_unit_left_scale_cont_readback {real p q result : BHi
       hsame_refl (append real result)⟩
     factorization
 
+theorem AdeleHistoryCarrier_unit_right_scale_cont_readback {real p w result : BHist} :
+    RealConstantHistoryCarrier real -> UnaryHistory w ->
+      PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) result ->
+        AdeleHistoryCarrier (append real result) ∧
+          ∃ n : BHist, PadicPrimeScale p w n ∧ Cont n p result := by
+  intro realCarrier unaryW scale
+  have factorization :=
+    Iff.mp (PadicPrimeScale_append_unit_right_factorization_iff (p := p) (w := w)
+      (r := result) unaryW) scale
+  exact And.intro
+    ⟨real, p, append w (BHist.e1 BHist.Empty), result, realCarrier, scale,
+      hsame_refl (append real result)⟩
+    factorization
+
 end BEDC.Derived.AdeleUp

@@ -319,6 +319,40 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Automorphic adele graph carrier hsame transport]
+\label{thm:automorphic-adele-graph-carrier-hsame-transport}
+If $\mathsf{AutomorphicAdeleGraphCarrier}(g)$ and $g\hsame g'$, then
+$\mathsf{AutomorphicAdeleGraphCarrier}(g')$.
+\end{theorem}
+\begin{proof}
+Unpack the graph-carrier witness for $g$ into histories
+$domain,value:\mathsf{BHist}$, adele endpoint witnesses for both histories, and
+a continuation witness $\Cont(domain,value,g)$.
+
+Apply continuation-result $\hsame$ transport along $g\hsame g'$. This keeps the
+hidden domain and value histories fixed and yields a transported continuation
+witness $\Cont(domain,value,g')$.
+
+Repack the same adele endpoint witnesses together with the transported
+continuation ledger. The resulting witness is exactly
+$\mathsf{AutomorphicAdeleGraphCarrier}(g')$.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: automorphic graph carrier transport.
+  \item BEDC source: $\AdeleUp$ together with $\Cont$ over histories.
+  \item Carrier: $\mathsf{AutomorphicAdeleGraphCarrier}$.
+  \item Classifier: $\hsame$ on $\mathsf{BHist}$.
+  \item Stability obligation:
+  \autoref{thm:automorphic-adele-graph-carrier-hsame-transport}.
+  \item Ledger: the hidden domain, value, and continuation witnesses.
+  \item Core theorem:
+  \autoref{thm:automorphic-adele-graph-carrier-hsame-transport}.
+  \item Exactness: continuation-result transport.
+  \item Standard bridge: adelic graph presentation.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+
 \begin{theorem}[Automorphic adele graph semantic name certificate]
 \label{thm:automorphic-adele-graph-semantic-namecert}
 The automorphic adele graph carrier, used as source predicate, pattern
@@ -336,10 +370,10 @@ $\hsame$. Since the source, pattern, and ledger policies are the same graph
 carrier predicate, their inclusion obligations are identity maps on the same
 witness package.
 
-For carrier transport, unpack a graph-carrier witness into hidden adele
-endpoints $domain,value$ and a continuation witness $\Cont(domain,value,g)$.
-Continuation-result $\hsame$ transport moves that same hidden ledger from $g$
-to any $\hsame$-equal endpoint, and the adele endpoint witnesses are unchanged.
+For carrier transport, apply
+\autoref{thm:automorphic-adele-graph-carrier-hsame-transport}. The theorem
+supplies the reusable movement of a graph-carrier witness across $\hsame$, so
+the certificate uses it as its shared source, pattern, and ledger transport.
 \end{proof}
 
 \begin{enumerate}

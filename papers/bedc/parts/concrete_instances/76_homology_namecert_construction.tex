@@ -423,6 +423,30 @@ preimage.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_nonempty\_cycle\_preimage}
 
+\begin{theorem}[Homology boundary carrier continuation nonempty cycle preimage]
+\label{thm:homology-boundary-carrier-cont-nonempty-cycle-preimage}
+Assume the differential is square-zero. If $B_d(h)$ and $B_d(k)$, if
+$\ContR(h,k,r)$, and if $r$ is not history-same to $\mathsf{Empty}$, then at
+least one side has a boundary preimage with a nonempty differential endpoint,
+and that side is a cycle:
+$$
+\begin{aligned}
+&\left(\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land Z_d(h)\land\neg\hsame(d(u),\mathsf{Empty})\right)\\
+&\quad{}\lor
+\left(\exists v:\mathsf{BHist},\
+\hsame(k,d(v))\land Z_d(k)\land\neg\hsame(d(v),\mathsf{Empty})\right).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The continuation equation transports nonemptiness of $r$ to nonemptiness of
+$\mathsf{append}(h,k)$. The append nonempty cycle-preimage theorem then
+separates the witness to the left boundary preimage or to the right boundary
+preimage, carrying the corresponding cycle evidence supplied by square-zero.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_nonempty\_cycle\_preimage}
+
 \begin{theorem}[Homology boundary carrier continuation cycle components]
 \label{thm:homology-boundary-cont-cycle-components}
 Assume the differential respects BEDC continuation append and is square-zero.
@@ -593,3 +617,4 @@ endpoint carrier witness already stored in the classifier. The semantic
 pattern and ledger fields are the source witness itself.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}
+\closureat{\HomologyUp}{\checkedCertStr}
