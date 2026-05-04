@@ -130,4 +130,37 @@ theorem NatTransPrefixComponentClassifier_equivalence_fields {p q a : BHist} :
             (And.intro carrier.right.left (And.intro carrier.right.right.left movedHom)))
           movedHom
 
+theorem NatTransPrefixComponentClassifier_hsame_transport
+    {p p' q q' a a' eta eta' theta theta' : BHist} :
+    hsame p p' -> hsame q q' -> hsame a a' -> hsame eta eta' -> hsame theta theta' ->
+      NatTransPrefixComponentClassifier p q a eta theta ->
+        NatTransPrefixComponentClassifier p' q' a' eta' theta' ∧
+          CategoryHomCarrier (append p' a') (append q' a') eta' ∧
+            CategoryHomCarrier (append p' a') (append q' a') theta' := by
+  intro sameP sameQ sameA sameEta sameTheta classified
+  have sourceSame : hsame (append p a) (append p' a') := by
+    cases sameP
+    cases sameA
+    exact hsame_refl (append p a)
+  have targetSame : hsame (append q a) (append q' a') := by
+    cases sameQ
+    cases sameA
+    exact hsame_refl (append q a)
+  have etaCarrier : CategoryHomCarrier (append p' a') (append q' a') eta' :=
+    CategoryHomCarrier_hsame_transport sourceSame targetSame sameEta
+      classified.right.right.right.left
+  have thetaCarrier : CategoryHomCarrier (append p' a') (append q' a') theta' :=
+    CategoryHomCarrier_hsame_transport sourceSame targetSame sameTheta
+      classified.right.right.right.right.left
+  have etaThetaSame : hsame eta' theta' :=
+    hsame_trans (hsame_symm sameEta)
+      (hsame_trans classified.right.right.right.right.right sameTheta)
+  exact
+    And.intro
+      (And.intro (unary_transport classified.left sameP)
+        (And.intro (unary_transport classified.right.left sameQ)
+          (And.intro (unary_transport classified.right.right.left sameA)
+            (And.intro etaCarrier (And.intro thetaCarrier etaThetaSame)))))
+      (And.intro etaCarrier thetaCarrier)
+
 end BEDC.Derived.NatTransUp
