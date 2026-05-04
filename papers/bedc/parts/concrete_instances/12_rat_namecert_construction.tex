@@ -1,2 +1,40 @@
 \input{parts/concrete_instances/12_rat_namecert_carrier}
 \input{parts/concrete_instances/12_rat_namecert_certificate}
+
+\begin{theorem}[Rat ledger visible-target lift with positive endpoints]
+\label{thm:rat-ledger-visible-target-lift-positive-endpoints}
+For histories $\rho,v,w:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryClassifier}(v,w)$ hold, then
+$$
+\mathsf{RatHistoryClassifier}(\rho,w)
+\land \mathsf{PositiveUnaryDenominator}(\rho)
+\land \mathsf{PositiveUnaryDenominator}(v)
+\land \mathsf{PositiveUnaryDenominator}(w).
+$$
+
+Its ten-field fit is: traditional target ledger-stable rational target
+readback; BEDC source $\RatUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability visible-target classification lifted through the ledger; ledger
+$\mathsf{RatHistoryLedgerPolicy}$; core theorem this block; exactness the
+displayed lifted classifier plus positive endpoint readback; downstream
+consumer the $\RatUp$ semantic certificate boundary; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-ledger-classifier-extension} to the ledger witness and
+the visible-target classifier. This lifts the classifier from the visible
+endpoint $v$ to the raw endpoint $\rho$, giving
+$\mathsf{RatHistoryClassifier}(\rho,w)$.
+
+Next apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+lifted classifier. This supplies positive unary denominator witnesses for
+$\rho$ and $w$.
+
+Finally apply
+\autoref{thm:rat-ledger-visible-positive-denominator-readback} to the original
+ledger witness to read back the visible endpoint $v$. The lifted classifier
+and the three positive-denominator witnesses assemble the displayed
+conjunction.
+\end{proof}
