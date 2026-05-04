@@ -201,6 +201,17 @@ theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
     (And.intro (unary_cont_closed bound.right.left constantStep constantContinuation)
       bound.right.right)
 
+theorem GeomBound_continuation_visible_radius_endpoint_package {a : Nat -> BHist}
+    {r K dr dK K' R tail : BHist} :
+    GeomBound a r K -> UnaryHistory dr -> UnaryHistory dK ->
+      Cont r dr (BHist.e1 tail) -> Cont K dK K' -> Cont (BHist.e1 tail) K' R ->
+        UnaryHistory tail ∧ (hsame R BHist.Empty -> False) := by
+  intro bound radiusStep constantStep radiusContinuation constantContinuation visibleContinuation
+  have visibleBound : GeomBound a (BHist.e1 tail) K' :=
+    GeomBound_radius_constant_continuation_closed bound radiusStep constantStep
+      radiusContinuation constantContinuation
+  exact GeomBound_visible_radius_endpoint_package visibleBound visibleContinuation
+
 theorem ConvRad_visible_radius_witness_endpoint_package {a : Nat -> BHist} {R tail : BHist} :
     ConvRad a R -> UnaryHistory (BHist.e1 tail) ->
       ∃ K : BHist -> BHist, Cont (BHist.e1 tail) (K (BHist.e1 tail)) R ->
