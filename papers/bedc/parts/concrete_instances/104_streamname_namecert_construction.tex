@@ -279,6 +279,70 @@ $k$, the supplied $\mathsf{RatHistoryClassifier}(h,k)$ witness is exactly the
 required pointwise classifier at that observation.
 \end{proof}
 
+\begin{theorem}[Rational stream-name public certificate]
+\label{thm:rat-stream-name-public-certificate}
+The carrier $\mathsf{RatStreamNameCarrier}$ and classifier
+$\mathsf{RatStreamNameClassifier}$, read over unary $\mathsf{BHist}$
+observations and RatUp point carriers and classifiers, supply the public
+$\StreamNameUp$ certificate with the following ten fields:
+\begin{enumerate}
+  \item the traditional target is the certified countable rational-observation
+  name interface;
+  \item the BEDC source is $\RatUp$ over $\mathsf{BHist}$;
+  \item the carrier row is $\mathsf{RatStreamNameCarrier}$;
+  \item the classifier row is $\mathsf{RatStreamNameClassifier}$;
+  \item reflexivity, symmetry, transitivity, endpoint-carrier recovery, and
+  history-sameness transport are the rows of
+  \autoref{thm:rat-stream-name-certificate-fields};
+  \item reindexing stability and mapped-stream stability are the two clauses of
+  \autoref{thm:rat-stream-name-reindexing-and-map-stability};
+  \item composed reindexing stability is
+  \autoref{thm:rat-stream-name-reindexing-composition-law};
+  \item inhabited constant streams are supplied by
+  \autoref{thm:rat-stream-name-constant-witness};
+  \item constant reindexing classification is
+  \autoref{thm:rat-stream-name-constant-reindexing-classifier};
+  \item constant-point exactness, with finite unary observation data in the
+  ledger and exactness pointwise over the $\RatUp$ classifier, is
+  \autoref{thm:rat-stream-name-constant-point-exactness}.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the two public rows. The carrier row is the predicate assigning to each
+stream $s:\Hist\to\Hist$ the pointwise requirement
+$\mathsf{RatHistoryCarrier}(s(n))$ at every certified unary observation
+$n:\mathsf{BHist}$, and the classifier row assigns to each pair of streams the
+pointwise RatUp classifier between their two observed histories.
+
+The equivalence-relation and transport rows are exactly the five clauses of
+\autoref{thm:rat-stream-name-certificate-fields}. They read a stream
+certificate at an arbitrary unary observation and apply the corresponding
+RatUp point theorem, so no global stream data other than the two unfolded rows
+is introduced.
+
+The structural action rows come from
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} and
+\autoref{thm:rat-stream-name-reindexing-composition-law}. The first theorem
+handles a single certified observation reindexer and a RatUp-preserving history
+map; the second repacks two unary-preserving reindexers into their composite and
+then applies the same pointwise classifier and carrier reading.
+
+The inhabited and constant-name rows are supplied by
+\autoref{thm:rat-stream-name-constant-witness} and
+\autoref{thm:rat-stream-name-constant-reindexing-classifier}. The witness row
+uses a RatUp history carrier as the seed for a constant stream, while the
+reindexing row observes that every reindexed constant stream still has the same
+endpoint seed at each certified unary observation.
+
+Finally,
+\autoref{thm:rat-stream-name-constant-point-exactness} identifies the constant
+stream carrier and classifier with the underlying RatUp carrier and classifier.
+Thus the ledger consists of finite unary observation data together with the
+pointwise RatUp witnesses, and the exactness field is pointwise over the RatUp
+classifier. These ten rows are precisely the public $\StreamNameUp$ certificate
+assembled from the named component theorems.
+\end{proof}
+
 The certificate template has ten fields: traditional target certified
 countable rational-observation names; BEDC source $\RatUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{RatStreamNameCarrier}$; classifier
