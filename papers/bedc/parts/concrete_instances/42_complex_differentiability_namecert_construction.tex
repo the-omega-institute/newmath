@@ -310,6 +310,22 @@ identifies the displayed quotient result with the derivative candidate.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
 
+\begin{theorem}[Differentiability witness has a nonzero quotient result]
+\label{thm:cplx-diff-at-witness-nonzero-result}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then there are histories \(h\) and
+\(q\) such that \(\mathsf{CplxDiffQuot}(f,z,h,q)\) holds, the continuation
+ledger \(\ContR(f,h,q)\) is displayed, both \(h\) and \(q\) are nonzero, and
+\(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Extract the displayed quotient witness from pointwise differentiability. The
+quotient package supplies the nonzero witness for \(h\) and the continuation
+ledger. Quotient result non-emptiness turns that same package into the nonzero
+witness for \(q\), while the classifier field identifies \(q\) with the
+displayed derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_result}
+
 \begin{theorem}[Pointwise differentiability rejects visible step branches]
 \label{thm:cplx-diff-at-visible-step-branches-absurd}
 If $\mathsf{CplxDiffAt}(f,z,f')$ holds, then two quotient witnesses at the
