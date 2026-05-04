@@ -302,6 +302,23 @@ successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_deterministic}
 
+\begin{lemma}[Absolute partial sums transport across modulus equivalence]
+\label{lem:complex-abs-partsum-modulus-hsame-transport}
+If two zero histories are related by $\hsame$ and two modulus functions are
+pointwise related by $\hsame$ on unary indices, then every unary-indexed
+absolute partial-sum witness over the first modulus function transports to a
+closed absolute partial-sum witness over the second modulus function with
+$\hsame$ result.
+\end{lemma}
+\begin{proof}
+Induct on the absolute partial-sum witness. The empty constructor transports
+by the zero-history comparison. In the successor constructor, unary inversion
+exposes the predecessor index, the induction hypothesis transports the
+predecessor sum, and continuation respect for $\hsame$ transports the final
+modulus continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_transport}
+
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}
 A complex series \(c\) converges absolutely with bound \(M\) and modulus \(N : \Unary \to \Unary\), written \(\mathsf{AbsConv}(c, M, N)\), when:
