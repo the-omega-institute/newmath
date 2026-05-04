@@ -24,9 +24,32 @@ Pair adjacent terms after index \(N(k)\); each pair has magnitude bounded by the
 $\mathsf{Pi}$ is a $\RealUp$-history candidate only together with a supplied limit witness from the Phase Real and Completion obligations, applied to the $\RegSeqRat$ Cauchy data of \autoref{lem:real-analytic-leibniz-cauchy} for the rescaled sequence $(4 S_n)_n$. The local data of this chapter is the $\RegSeqRat$ name and its explicit modulus inherited from the alternating-series bound.
 \end{definition}
 
-\begin{remark}
-The Leibniz series is the simplest constructive presentation; faster-converging series (Machin, Chudnovsky) define the same \(\RealUp\)-history up to \(\RegSeqRat\)-classifier equivalence, with smaller explicit moduli. Only the existence of \emph{some} explicit modulus is required by the certificate.
-\end{remark}
+\begin{theorem}[Series variant equivalence boundary]
+\label{thm:real-analytic-series-variant-equivalence-boundary}
+Let $p_1$ and $p_2$ be two explicit $\pi$ stream presentations, such as the
+Leibniz rescaling and a faster Machin or Chudnovsky presentation. A conclusion
+$\mathsf{RealClassifier}(r_1,r_2)$ is available for their $\RealUp$ histories
+only under supplied rows: both $p_1$ and $p_2$ satisfy the relevant
+$\RegSeqRat$ carrier obligations, a $\RegSeqRat$ classifier witness relates the
+two stream names, both streams have supplied $\RealUp$ limit witnesses with
+targets $r_1$ and $r_2$, and the supplied $\RealUp$ limit-uniqueness row
+transports the stream classifier to the real-history classifier.
+\end{theorem}
+\begin{proof}
+Use the supplied $\RegSeqRat$ classifier witness first. The two
+carrier-obligation rows make this witness a relation between legitimate regular
+rational stream names, so it is eligible for transport by the real-completion
+interface.
+
+Apply the two supplied $\RealUp$ limit witnesses next. They place $p_1$ and
+$p_2$ in the real-history carrier as $r_1$ and $r_2$, without adding any
+independent equality claim between the analytic presentations.
+
+Finally invoke the supplied limit-uniqueness row. Its transport clause takes the
+$\RegSeqRat$ classifier witness between the source streams and the two limit
+witnesses, and returns the displayed conclusion
+$\mathsf{RealClassifier}(r_1,r_2)$.
+\end{proof}
 
 \section{Constructive exponential}
 \label{sec:real-analytic-exp}
