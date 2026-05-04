@@ -181,27 +181,29 @@ theorem AdjunctionUnitCounitCarrier_endomorphism_total_collapse
     And.intro components.left
       (And.intro components.right (And.intro triangles.left triangles.right))
 
+theorem AdjunctionUnitCounitAlternating_empty_components_closed {unit counit depth : BHist} :
+    hsame unit BHist.Empty -> hsame counit BHist.Empty -> UnaryHistory depth ->
+      hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty := by
+  intro unitEmpty counitEmpty depthUnary
+  induction depth generalizing unit counit with
+  | Empty =>
+      exact hsame_refl BHist.Empty
+  | e0 tail _ih =>
+      cases depthUnary
+  | e1 tail ih =>
+      have tailEmpty := ih counitEmpty unitEmpty depthUnary
+      cases unitEmpty
+      exact (append_empty_left (AdjunctionUnitCounitAlternating counit BHist.Empty tail)).trans
+        tailEmpty
+
 theorem AdjunctionUnitCounitAlternating_endomorphism_empty
     {p a unit counit left right depth : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right -> UnaryHistory depth ->
       hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty := by
   intro carrier depthUnary
   have boundaryEmpty := AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty carrier
-  have alternatingEmpty :
-      forall {u c depth : BHist}, hsame u BHist.Empty -> hsame c BHist.Empty ->
-        UnaryHistory depth -> hsame (AdjunctionUnitCounitAlternating u c depth) BHist.Empty := by
-    intro u c depth uEmpty cEmpty depthCarrier
-    induction depth generalizing u c with
-    | Empty =>
-        exact hsame_refl BHist.Empty
-    | e0 tail _ih =>
-        cases depthCarrier
-    | e1 tail ih =>
-        have tailEmpty := ih cEmpty uEmpty depthCarrier
-        cases uEmpty
-        exact (append_empty_left (AdjunctionUnitCounitAlternating c BHist.Empty tail)).trans
-          tailEmpty
-  exact alternatingEmpty boundaryEmpty.left boundaryEmpty.right depthUnary
+  exact AdjunctionUnitCounitAlternating_empty_components_closed boundaryEmpty.left
+    boundaryEmpty.right depthUnary
 
 theorem AdjunctionUnitCounitAlternating_unary {unit counit depth : BHist} :
     UnaryHistory unit -> UnaryHistory counit -> UnaryHistory depth ->

@@ -83,6 +83,50 @@ exactness carries the product ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
 
+\begin{theorem}[Matrix singleton power append exponent classifier]
+\label{thm:matrix-singleton-pow-append-exponent-classifier}
+If $M$ is carried by the singleton matrix carrier and $w,q$ are unary
+histories, then the power ledger over the appended exponent is classified with
+the product of the two factor power ledgers:
+$$
+A_{\emp}(M)\land\Unary(w)\land\Unary(q)
+\quad\Longrightarrow\quad
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(w,q)),
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,w),
+\mathsf{MatrixSingletonPow}(M,q))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Append closure makes $\mathsf{append}(w,q)$ unary, so power carrier closure
+carries the left ledger. The same closure carries each factor ledger; append
+empty-result exactness then carries their displayed product. Since both
+endpoints are carried by $A_{\emp}$, transitivity through $\emp$ supplies the
+classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_classifier}
+
+\begin{theorem}[Matrix singleton power append exponent classifier iff]
+\label{thm:matrix-singleton-pow-append-exponent-classifier-iff}
+If $M$ is carried by the singleton matrix carrier and $a,b$ are unary
+histories, then the classifier of the append-exponent power ledger against
+$h$ is exactly the singleton carrier condition on $h$:
+$$
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonPow}(M,\mathsf{append}(a,b)),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unary closure under append makes $\mathsf{append}(a,b)$ a unary exponent. The
+power carrier theorem therefore carries
+$\mathsf{MatrixSingletonPow}(M,\mathsf{append}(a,b))$. The forward direction
+reads the right carrier field from the classifier. In the reverse direction,
+that carried power endpoint and the carrier witness for $h$ assemble the
+restricted singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_classifier\_iff}
+
 \begin{theorem}[Matrix singleton power successor endpoint exactness]
 \label{thm:matrix-singleton-pow-successor-endpoint-exactness}
 For histories $M,e:\mathsf{BHist}$, if $A_{\emp}(M)$ and $\Unary(e)$, then
