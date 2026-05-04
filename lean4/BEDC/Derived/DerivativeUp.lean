@@ -168,6 +168,17 @@ theorem DerivativeMetricQuotient_distance_cont_depth_add {f z h q dist : BHist} 
                               exact And.intro metricLedger
                                 (MetricDistanceWitness_depth_add witness)
 
+theorem DerivativeMetricQuotient_empty_function_step_readback {z h q dist : BHist} :
+    DerivativeMetricQuotient BHist.Empty z h q dist ->
+      hsame q h ∧ Cont h q dist ∧ hsame dist (append h h) := by
+  intro quotient
+  have functionLedger : Cont BHist.Empty h q := quotient.right.right.right.right.left
+  have sameQH : hsame q h := cont_left_unit_result functionLedger
+  have metricLedger : Cont h q dist := quotient.right.right.right.right.right.right.right
+  have sameDistHQ : hsame dist (append h q) := metricLedger
+  have sameHQHH : hsame (append h q) (append h h) := congrArg (append h) sameQH
+  exact And.intro sameQH (And.intro metricLedger (hsame_trans sameDistHQ sameHQHH))
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by
@@ -209,6 +220,31 @@ theorem DerivativeCplxDiffAt_derivative_nonempty {f z fp : BHist} :
                           have quotientEmpty : hsame q BHist.Empty :=
                             hsame_trans (classifier quotient) derivativeEmpty
                           exact CplxDiffQuot_result_nonempty quotient quotientEmpty
+
+theorem DerivativeCplxDiffAt_empty_function_step_readback {z fp : BHist} :
+    CplxDiffAt BHist.Empty z fp ->
+      ∃ h : BHist, CplxNonZero h ∧ UnaryHistory h ∧ hsame fp h := by
+  intro derivative
+  cases derivative with
+  | intro _functionCarrier derivativeRest =>
+      cases derivativeRest with
+      | intro _pointCarrier derivativeRest =>
+          cases derivativeRest with
+          | intro _derivativeCarrier derivativeRest =>
+              cases derivativeRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have stepData := CplxDiffQuot_step_unary quotient
+                          have ledger : Cont BHist.Empty h q := stepData.right.right
+                          have sameQH : hsame q h := cont_left_unit_result ledger
+                          have sameFpH : hsame fp h :=
+                            hsame_trans (hsame_symm (classifier quotient)) sameQH
+                          exact Exists.intro h
+                            (And.intro quotient.right.right.left
+                              (And.intro stepData.left sameFpH))
 
 theorem DerivativeMetricQuotient_quotient_distance_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist ->
