@@ -1,0 +1,173 @@
+\section{The certificate}
+\label{sec:adjunction-certificate}
+
+\begin{theorem}[Adjunction prefix unit-counit empty composite]
+\label{thm:adjunction-prefix-unit-counit-composite-empty}
+For histories $p,q,a,\eta,\varepsilon,composite:\mathsf{BHist}$, if
+$\eta$ is a prefix natural-transformation component from $p$ to $q$ at $a$,
+$\varepsilon$ is a prefix component from $q$ back to $p$ at $a$, and
+$\ContR(\eta,\varepsilon,composite)$, then the composite is an endomorphism
+component over $p$ and is $\hsame$ to $\emp$.
+\end{theorem}
+\begin{proof}
+Vertical composition closure turns the unit and counit prefix components into
+a prefix component from $p$ to $p$ at $a$. The endomorphism-component readback
+for prefix natural transformations identifies the displayed component history
+with the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_unit\_counit\_composite\_empty}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle component closure]
+\label{thm:adjunction-prefix-endomorphism-triangle-component-closed}
+For histories $p,a,\eta,\varepsilon,left,right$, suppose
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\eta),
+\qquad
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,\varepsilon),
+$$
+and suppose the two triangle composites are witnessed by
+$$
+\ContR(\eta,\varepsilon,left),
+\qquad
+\ContR(\varepsilon,\eta,right).
+$$
+Then both composites are again endomorphism components at the same prefix and
+object, and the two displayed composite histories classify together:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,left)\land
+\mathsf{NatTransPrefixComponentCarrier}(p,p,a,right)\land
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Endomorphism component exactness collapses both $\eta$ and $\varepsilon$ to the
+empty component while retaining the prefix and object carriers. The two
+continuation ledgers therefore collapse $left$ and $right$ to the empty history.
+Unary continuation closure supplies the component carriers for $left$ and
+$right$, and transitivity through the empty history gives $\hsame(left,right)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefix\_endomorphism\_triangle\_component\_closed}
+
+\begin{theorem}[Adjunction prefix endomorphism triangle identity exactness]
+\label{thm:adjunction-prefix-endomorphism-triangle-identity-exactness}
+For histories $p,a,f,\eta,\epsilon,left,right:\mathsf{BHist}$, assume
+$\eta$ and $\epsilon$ are prefix natural-transformation components from
+$p$ to $p$ at $a$, and assume $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to itself. If
+$$
+\mathsf{Cont}(\eta,f,left)
+$$
+and
+$$
+\mathsf{Cont}(f,\epsilon,right)
+$$
+hold, then both triangle composites are exactly the displayed endomorphism:
+$$
+\hsame(left,f)\land\hsame(right,f).
+$$
+\end{theorem}
+\begin{proof}
+The prefix-component endomorphism exactness theorem identifies both
+$\eta$ and $\epsilon$ with the empty component. Transport the two displayed
+continuations across these endpoint equalities. The left composite is then a
+left-unit continuation, and the right composite is a right-unit continuation,
+so the two unit laws identify the results with $f$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixEndomorphismTriangle\_identity\_exactness}
+
+\begin{theorem}[Adjunction prefix component empty cycle]
+\label{thm:adjunction-prefix-component-cycle-empty-prefix-same}
+For prefix components over a common object $a$, let $\eta$ run from $p$ to
+$q$ and let $\theta$ run from $q$ back to $p$. If
+$$
+\ContR(\eta,\theta,composite)
+\quad\text{and}\quad
+\HSame(composite,\emp),
+$$
+then both prefixes agree in both directions and both component histories are
+empty:
+$$
+\HSame(p,q)\land\HSame(q,p)\land\HSame(\eta,\emp)\land\HSame(\theta,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed component cycle to an empty continuation result. The
+empty vertical-composite exactness theorem for NatTrans prefix components then
+identifies both component histories with $\emp$ and extracts the two adjacent
+prefix equalities. Reordering those four facts gives the stated adjunction
+cycle boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}
+
+\begin{theorem}[Adjunction triangle carrier carrier-swap symmetry]
+\label{thm:adjunction-triangle-carrier-carrier-swap-symmetry}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier is invariant under exchanging the
+two carrier sides together with the unit-counit data and the two triangle
+ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionTriangleCarrier}(right,left,object,counit,unit,rightLeg,leftLeg).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-triangle-carrier}, the left-hand carrier consists of
+four fields: the prefix component from $left$ to $right$ carried by $unit$, the
+prefix component from $right$ to $left$ carried by $counit$, the continuation
+ledger $\ContR(unit,counit,leftLeg)$, and the continuation ledger
+$\ContR(counit,unit,rightLeg)$. The right-hand carrier asks for the same four
+fields in the exchanged order: the $counit$ component, the $unit$ component,
+the second ledger, and then the first ledger. Each implication is therefore
+obtained by reordering these four conjunctive fields.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_carrier\_swap\_iff}
+\leanvariant{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_fields\_swap\_iff}
+
+\begin{theorem}[Adjunction unit-counit carrier carrier-swap symmetry]
+\label{thm:adjunction-unit-counit-carrier-swap-symmetry}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, the adjunction
+unit-counit carrier is invariant under exchanging the two prefix carriers,
+exchanging unit with counit, and exchanging the two triangle ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionUnitCounitCarrier}(q,p,a,counit,unit,right,left).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-unit-counit-carrier}, a witness of the left-hand
+carrier consists of four fields: the prefix component from $p$ to $q$ carried
+by $unit$, the prefix component from $q$ to $p$ carried by $counit$, the
+continuation ledger $\ContR(unit,counit,left)$, and the continuation ledger
+$\ContR(counit,unit,right)$. The displayed carrier with $p$ and $q$ exchanged
+asks for exactly the same four fields in the order: the $counit$ component,
+the $unit$ component, the second ledger, and the first ledger. Reordering the
+four conjunctive fields proves the forward implication, and the same
+reordering with the two sides exchanged proves the reverse implication.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_carrier\_swap\_iff}
+
+\begin{definition}[Adjunction unit-counit carrier-swap classifier]
+\label{def:adjunction-unit-counit-carrier-swap-classifier}
+For unit-counit displays $D=(p,q,a,u,c,l,r)$ and
+$D'=(p',q',a',u',c',l',r')$, the carrier-swap relation
+$\mathsf{AdjunctionUnitCounitCarrierSwap}(D,D')$ holds when
+$$
+p'=q\land q'=p\land a'=a\land u'=c\land c'=u\land l'=r\land r'=l.
+$$
+The display classifier $\mathsf{AdjunctionUnitCounitDisplaySame}(D,D')$ holds
+when
+$$
+p\hsame p'\land q\hsame q'\land a\hsame a'\land u\hsame u'
+\land c\hsame c'\land l\hsame l'\land r\hsame r'.
+$$
+\end{definition}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrierSwap}
+\leandef{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitDisplaySame}
+
+\input{parts/concrete_instances/adjunction/carrier_swap_involutions}

@@ -1,0 +1,26 @@
+\begin{theorem}[Matrix singleton power visible-base carrier exactness]
+\label{thm:matrix-singleton-pow-visible-base-carrier-iff}
+For any history $m$ and exponent $e$, a singleton power with visible base
+$\Ezero(m)$ or $\Eone(m)$ is carried exactly in the empty-exponent or zero-head
+exponent cases:
+$$
+\begin{aligned}
+A_{\emp}(\mathsf{MatrixSingletonPow}(\Ezero(m),e))
+&\Longleftrightarrow
+e\hsame\emp\ \lor\ \exists t.\ e=\Ezero(t),\\
+A_{\emp}(\mathsf{MatrixSingletonPow}(\Eone(m),e))
+&\Longleftrightarrow
+e\hsame\emp\ \lor\ \exists t.\ e=\Ezero(t).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Split on the exponent. For $\emp$, the power is the singleton identity
+endpoint, hence carried. For $\Ezero(t)$, the recursive power is the singleton
+zero endpoint, hence carried. For $\Eone(t)$, the power is an append product
+whose right factor is the visible base; append empty-result inversion would
+force that visible base to be history-same to $\emp$, contradicting BEDC
+constructor separation. The reverse implication is immediate in the two
+carried exponent cases, and impossible in the one-headed exponent case.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_visible\_base\_carrier\_iff}

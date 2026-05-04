@@ -72,6 +72,34 @@ component is the displayed $\hsame(x,x')$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_hsame\_source\_deterministic}
 
+\begin{theorem}[Metric distance witness prefix-independent endpoint-hsame result determinacy]
+\label{thm:metric-distance-witness-visible-context-prefix-independent-endpoint-hsame-result-deterministic}
+For histories $p,q,p',q',x,x',y,y',d,e:\mathsf{BHist}$, if the central
+endpoints classify by $\hsame$ while the visible prefixes and suffixes may
+differ, then the exposed central distance results classify together:
+$$
+\begin{array}{l}
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot x',y'\cdot q',(p'\cdot e)\cdot q')
+\Longrightarrow
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both metric witnesses. This removes the
+prefix and suffix contexts and exposes central witnesses
+$\mathsf{MetricDistanceWitness}(x,y,d)$ and
+$\mathsf{MetricDistanceWitness}(x',y',e)$. The supplied endpoint
+classifications then fit the endpoint-hsame result determinacy theorem, giving
+the displayed $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_endpoint\_hsame\_result\_deterministic}
+
 \begin{theorem}[Metric distance witness visible-context semantic name certificate]
 \label{thm:metric-distance-witness-visible-context-semantic-namecert}
 For unary visible contexts $p,q$ and unary central endpoints $x,y$, the

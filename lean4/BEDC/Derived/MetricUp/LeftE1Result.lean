@@ -134,4 +134,13 @@ theorem MetricDistanceWitness_e1_pair_result_tail_readback {x y d : BHist} :
   exact And.intro (unary_e1_inversion tailWitness.left)
     (And.intro tailWitness.right.left tailWitness.right.right.right)
 
+theorem MetricDistanceWitness_left_e1_visible_target_step {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y d ->
+      MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) (BHist.e1 d) := by
+  intro witness
+  exact And.intro witness.left
+    (And.intro (unary_e1_closed witness.right.left)
+      (And.intro (unary_e1_closed witness.right.right.left)
+        (cont_step_one witness.right.right.right)))
+
 end BEDC.Derived.MetricUp
