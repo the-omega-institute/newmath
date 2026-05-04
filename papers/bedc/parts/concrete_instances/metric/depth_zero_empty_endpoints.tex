@@ -109,6 +109,27 @@ the depth-zero classifier theorem gives $\hsame(d,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric empty-boundary visible-context continuation left unit]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-left-unit-result}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+and a continuation out of the central distance identify the continuation result
+with its right input:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(d,r,out)
+\to
+\hsame(out,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-boundary visible-context exactness to read back
+$\hsame(d,\emp)$. Case analysis on this classifier reduces the continuation to
+an empty-left continuation, whose result is the right input by the left-unit
+law for $\ContR$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_result}
+
 \begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
 \label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
