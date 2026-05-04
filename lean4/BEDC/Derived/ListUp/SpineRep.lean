@@ -28,4 +28,15 @@ theorem ListSpineRep_cons_hsame_transport {A : BHist -> Prop} {h h' a t p : BHis
   intro head tail spine endpoint sameEndpoint
   exact ListSpineRep.cons head tail spine (hsame_trans (hsame_symm sameEndpoint) endpoint)
 
+theorem ListSpineRep_cons_endpoint_shape {A : BHist -> Prop} {h a : BHist}
+    {xs : ListCarrier BHist} :
+    ListSpineRep A h (a :: xs) ->
+      ∃ t p : BHist, A a ∧ ListSpineRep A t xs ∧ Cont a t p ∧
+        hsame h (BHist.e1 p) := by
+  intro rep
+  cases rep with
+  | cons head tail ledger endpoint =>
+      exact Exists.intro _ (Exists.intro _ (And.intro head
+        (And.intro tail (And.intro ledger endpoint))))
+
 end BEDC.Derived.ListUp

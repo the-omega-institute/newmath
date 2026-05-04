@@ -220,3 +220,54 @@ unit laws and componentwise transport to replace
 $\mathsf{append}(\emp,p)$ and $\mathsf{append}(\emp,q)$ by $p$ and $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_one\_sided\_append\_context\_exactness}
+
+\begin{theorem}[Integer pair classifier iterated balanced append context exactness]
+\label{thm:int-pair-classifier-iterated-balanced-append-context-exactness}
+For $a,b,c,d,p,n,q,m:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, $\mathsf{Unary}(c)$, and $\mathsf{Unary}(d)$, then
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,\mathsf{append}(c,p)),
+\mathsf{append}(\mathsf{append}(n,d),b)),
+(\mathsf{append}(a,\mathsf{append}(c,q)),
+\mathsf{append}(\mathsf{append}(m,d),b)))
+\Longleftrightarrow
+\mathsf{IntPairClassifier}((p,n),(q,m)).
+$$
+The ten-field fit is: traditional target stacked signed-pair quotient context
+exactness; BEDC source $\mathsf{IntPairClassifier}$, $\mathsf{Unary}$,
+$\mathsf{append}$, checked balanced preservation, and checked balanced
+reflection; carrier difference pairs; classifier cross-addition sameness;
+stability stacked positive and negative unary context transport; ledger the two
+positive unary contexts $a,c$ and the two negative unary contexts $d,b$; core
+theorem this stacked exactness block; exactness the displayed iff; standard
+bridge ordinary quotient cancellation for two balanced signed-pair context
+layers; downstream consumer dyadic-rational mantissa and denominator context
+normalization; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the displayed contextual classifier. Regard
+it as a balanced context with outer positive context $a$, outer negative
+context $b$, and inner endpoints
+$((\mathsf{append}(c,p),\mathsf{append}(n,d)),
+(\mathsf{append}(c,q),\mathsf{append}(m,d)))$. Apply
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context-reflection} to
+remove the outer contexts and yield the inner contextual classifier.
+
+The inner classifier is itself in balanced-context shape with positive context
+$c$ and negative context $d$. Applying
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context-reflection}
+again cancels this second layer and gives
+$\mathsf{IntPairClassifier}((p,n),(q,m))$.
+
+For the reverse direction, assume
+$\mathsf{IntPairClassifier}((p,n),(q,m))$. Apply
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context} with contexts
+$c$ and $d$ to transport the classifier to
+$((\mathsf{append}(c,p),\mathsf{append}(n,d)),
+(\mathsf{append}(c,q),\mathsf{append}(m,d)))$.
+
+Applying Theorem~\ref{thm:int-pair-classifier-balanced-append-context} once
+more with contexts $a$ and $b$ adds the outer layer, producing exactly the
+stacked contextual classifier displayed in the statement.
+\end{proof}

@@ -86,6 +86,32 @@ $d_{xy}$ and $z$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_cont\_middle\_closed}
 
+\begin{theorem}[Metric distance witness visible-context triangle continuation middle closure]
+\label{thm:metric-distance-witness-visible-context-triangle-cont-middle-closed}
+For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, a visible-context witness for
+the left triangle edge, a central witness from $y$ to $z$, and a continuation
+ledger from $d_{xy}$ by $z$ close the central middle-composite distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\ContR(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,d_{yz},d_{xyz}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+visible-context witness. This recovers the central edge witness
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$. The recovered edge witness, the
+given $y$-to-$z$ witness, and the displayed continuation ledger are exactly the
+inputs of \autoref{thm:metric-distance-witness-triangle-cont-middle-closed},
+which returns the displayed middle-composite distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_triangle\_cont\_middle\_closed}
+
 \begin{theorem}[Metric distance witness triangle middle result determinacy]
 \label{thm:metric-distance-witness-triangle-cont-middle-result-deterministic}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz},displayed$, if the witnesses from

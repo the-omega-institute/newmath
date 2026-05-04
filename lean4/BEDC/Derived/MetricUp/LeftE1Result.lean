@@ -76,6 +76,14 @@ theorem MetricDistanceWitness_left_e1_result_iff {x y d : BHist} :
                       (And.intro (unary_e1_closed tailWitness.right.right.left)
                         (cont_step_one tailWitness.right.right.right)))
 
+theorem MetricDistanceWitness_left_e1_result_hsame_source {x x' y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame x x' ->
+      (y = BHist.Empty ∧ UnaryHistory x' ∧ hsame x' d) ∨
+        (∃ y1 : BHist, y = BHist.e1 y1 ∧ MetricDistanceWitness (BHist.e1 x') y1 d) := by
+  intro witness sameSource
+  cases sameSource
+  exact MetricDistanceWitness_left_e1_result_cases witness
+
 theorem MetricDistanceWitness_left_e1_result_hsame_target {x y y' d : BHist} :
     MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame y y' ->
       (y' = BHist.Empty ∧ UnaryHistory x ∧ hsame x d) ∨
@@ -234,6 +242,21 @@ theorem MetricDistanceWitness_left_e1_source_iff {x y d : BHist} :
             (And.intro dCarrier
               (cont_intro
                 (tailResult.trans (unary_append_e1_left (h := y1) (k := x) yCarrier)))))
+  · intro witness
+    exact MetricDistanceWitness_left_e1_source_step witness
+
+theorem MetricDistanceWitness_left_e1_source_result_iff {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ↔ MetricDistanceWitness x y d := by
+  constructor
+  · intro witness
+    have tailEq :
+        d = append x y :=
+      BHist.e1.inj
+        (witness.right.right.right.trans
+          (unary_append_e1_left (h := y) (k := x) witness.right.left))
+    exact And.intro (unary_e1_inversion witness.left)
+      (And.intro witness.right.left
+        (And.intro (unary_e1_inversion witness.right.right.left) tailEq))
   · intro witness
     exact MetricDistanceWitness_left_e1_source_step witness
 

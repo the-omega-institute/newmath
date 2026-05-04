@@ -31,6 +31,22 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_assoc\_displayed\_deterministic}
 
+\begin{theorem}[Prefix functor associative empty result components]
+\label{thm:functor-prefix-hom-carrier-comp-assoc-empty-result-components}
+For the unary-continuation category, if \(p\) is unary and the unprefixed
+hom-carriers \(f,g,h\) compose with associated results \(left\) and \(right\),
+then a displayed empty hom-carrier from \(\mathsf{append}(p,a)\) to
+\(\mathsf{append}(p,d)\) forces both associated composite histories to be
+\(\hsame\) to \(\emp\), and forces \(a\hsame d\).
+\end{theorem}
+\begin{proof}
+Use prefix displayed associative determinacy with the displayed empty
+hom-carrier to compare both bracketed composites with \(\emp\). Prefix empty
+identity exactness cancels the common prefix in the same displayed empty
+hom-carrier and reads back \(a\hsame d\).
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_assoc\_empty\_result\_components}
+
 \begin{theorem}[Prefix functor unary suffix preserves associative hom composition]
 \label{thm:functor-prefix-hom-carrier-unary-suffix-assoc-preserves}
 For the unary-continuation category, if $p$ and $q$ are unary and $f,g,h$ are
@@ -217,6 +233,29 @@ $\ContR(\emp,\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_empty\_composite\_iff}
 
+\begin{theorem}[Prefix functor one-headed empty composite middle endpoint]
+\label{thm:functor-prefix-hom-carrier-e1-endpoint-empty-composite-middle-hsame}
+For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,\Eone(a))$ to $b$, $g$ is a hom-carrier from $b$ to
+$\mathsf{append}(p,\Eone(c))$, and their composite is empty, then the shared
+middle endpoint is classified with both visible prefixed endpoints:
+$$
+\ContR(f,g,\emp)
+\Longrightarrow
+\hsame(b,\mathsf{append}(p,\Eone(a)))\wedge
+\hsame(b,\mathsf{append}(p,\Eone(c))).
+$$
+\end{theorem}
+\begin{proof}
+The one-headed empty-composite exactness theorem gives
+$\hsame(f,\emp)$ and $\hsame(g,\emp)$. Transport the two hom-carriers along
+these morphism classifiers so that both displayed morphisms are empty. Category
+empty-identity exactness then reads the left leg as equality of its source and
+middle endpoint, and the right leg as equality of the middle endpoint and its
+target.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_empty\_composite\_middle\_hsame}
+
 \begin{theorem}[Prefix functor empty-target component exactness]
 \label{thm:functor-prefix-hom-carrier-empty-target-components-iff}
 For histories $p,a,f$, a hom-carrier from the prefixed source
@@ -237,6 +276,26 @@ reduces the hom-carrier to the empty source, empty target, empty morphism
 case.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
+
+\begin{theorem}[Prefix functor empty-target source morphism swap]
+\label{thm:functor-prefix-hom-carrier-empty-target-source-morphism-swap}
+For histories $p,a,f$, a hom-carrier from the prefixed source
+$\mathsf{append}(p,a)$ into the empty target is unchanged when the displayed
+source and morphism fields are exchanged:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\emp,f)
+\Longleftrightarrow
+\mathsf{CategoryHomCarrier}(f,\emp,\mathsf{append}(p,a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-target exactness at the prefixed source. The hom-carrier
+is exactly the pair
+$\hsame(\mathsf{append}(p,a),\emp)\wedge\hsame(f,\emp)$. Swapping those two
+boundary classifiers gives the exchanged empty-target hom-carrier, and the
+reverse implication swaps them back.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_source\_morphism\_swap\_iff}
 
 \begin{theorem}[Prefix functor empty-source component exactness]
 \label{thm:functor-prefix-hom-carrier-empty-source-components}
