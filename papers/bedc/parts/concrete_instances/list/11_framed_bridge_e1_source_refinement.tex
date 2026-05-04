@@ -1,0 +1,28 @@
+\begin{theorem}[Framed list bridge one-left source refinement]
+\label{thm:framed-list-bridge-e1-left-source-refinement}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers and
+let $\sim_A,\sim_B$ be source classifiers. Assume source refinement preserves
+carrier membership and head classification:
+$$
+\forall x:\mathsf{BHist}.\; A(x)\to B(x),
+\qquad
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\to x\sim_B y.
+$$
+Then every framed bridge from the displayed one-headed endpoint $\Eone(t)$ to
+$k$ over $(A,\sim_A)$ refines to a framed bridge over $(B,\sim_B)$:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(\Eone(t),k)
+\to
+\mathsf{FramedListBridgeClassifier}_{B,\sim_B}(\Eone(t),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the framed bridge into finite spines $xs,ys$, two
+$\mathsf{FramedListSpineRep}$ witnesses, and a finite-spine classifier. The
+carrier inclusion transports every entry field in both spine representations
+without changing the displayed endpoints. Induction on the finite-spine
+classifier transports each head relation through the classifier inclusion and
+rebuilds the tail classifier. Repacking the same two spines gives the refined
+bridge at the visible one-left endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_e1\_left\_source\_refinement}
