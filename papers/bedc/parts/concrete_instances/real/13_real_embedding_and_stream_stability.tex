@@ -577,6 +577,51 @@ $\mathsf{RealUnaryStreamClassifier}(s',t')$.
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_stability\_package}
 
+\begin{theorem}[Real unary stream-name classifier exactness]
+\label{thm:real-unary-streamname-classifier-exactness}
+For observation maps $s,t:\Hist\to\Hist$, if
+$$
+\mathsf{RatStreamNameCarrier}(s)
+\quad\text{and}\quad
+\mathsf{RatStreamNameCarrier}(t),
+$$
+then the Real unary classifier and the StreamNameUp classifier identify the same
+BEDC relation:
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)
+\Longleftrightarrow
+\mathsf{RatStreamNameClassifier}(s,t).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. Both classifier
+names then expose the same pointwise assertion: for every certified unary
+observation $n$, the histories $s(n)$ and $t(n)$ are related by
+$\mathsf{RatHistoryClassifier}$.
+
+For the forward direction, combine the two displayed carrier hypotheses with
+the pointwise Real unary classifier row. Repack those rows under the
+StreamNameUp classifier name.
+
+For the reverse direction, project the pointwise classifier field from
+$\mathsf{RatStreamNameClassifier}(s,t)$ at each certified unary observation.
+The resulting pointwise RatUp classifier is exactly the Real unary classifier
+row.
+\end{proof}
+
+Fit. Traditional target: classifier exactness for certified countable rational
+observations. BEDC source: $\StreamNameUp+\RealUp$ over $\mathsf{BHist}$.
+Carrier: $\mathsf{RatStreamNameCarrier}$. Classifier pair:
+$\mathsf{RealUnaryStreamClassifier}$ and
+$\mathsf{RatStreamNameClassifier}$. Stability: the existing carrier rows in
+\autoref{thm:real-unary-streamname-stability-package}. Ledger: the unary
+observation witness. Core theorem:
+\autoref{thm:real-unary-streamname-classifier-exactness}. Exactness: the
+displayed if-and-only-if. Standard bridge: pointwise rational stream equality.
+Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp transported selected endpoint shape package]
 \label{thm:real-unary-streamname-transported-selected-endpoint-shape-package}
 For unary observation maps $s,t,s',t':\Hist\to\Hist$, a certified observation

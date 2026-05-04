@@ -52,6 +52,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.CanonicalReadback
 import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.OneSidedContext
@@ -289,6 +290,7 @@ import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
 import BEDC.Derived.SubgroupUp.IntersectionConjugation
 import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
+import BEDC.Derived.SubgroupUp.IntersectionNormalizer
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.SubgroupUp.QuotientKernelEndpoint
@@ -464,6 +466,7 @@ import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
 import BEDC.Derived.MetricUp.AppendCommPackage
+import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
