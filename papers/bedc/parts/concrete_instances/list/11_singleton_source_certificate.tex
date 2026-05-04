@@ -385,6 +385,75 @@ $\mathsf{ListSpineRep}_A$ facts. The final carrier conjunction follows from
 Theorem~\ref{thm:list-spine-representation-coverage}.
 \end{proof}
 
+\begin{theorem}[Hsame-bounded list source public-object constructor audit]
+\label{thm:list-hsame-bounded-source-public-object-constructor-audit}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\hsame)$ and
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, then the public-object semantic
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)$ witness exposes endpoint
+spine ledgers for $h$ and $k$:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+\to
+\left(
+\begin{array}{l}
+(\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+\land\\
+(\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+\end{array}
+\right).
+$$
+The same classifier is exactly the nil-nil or cons-cons constructor
+disjunction:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+\Longleftrightarrow
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\hsame(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(t,u)
+\end{array}
+\right).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Define the needed
+$\mathsf{ListSourceHsameCompatible}(A,\hsame)$ witness by taking a source-head
+comparison $\hsame(a,b)$ and returning that same $\hsame(a,b)$ datum.
+
+Apply
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+with $\mathsf{Rel}:=\hsame$, the displayed source certificate, the
+hsame-bounded source hypothesis, and this compatibility witness.
+
+Its first projection is the displayed
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})$. Its second projection gives
+the endpoint spine ledgers for every classifier witness, and its third
+projection is the displayed nil-nil or cons-cons constructor equivalence with
+head relation $\hsame(a,b)$ and recursive tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(t,u)$.
+\end{proof}
+
 \begin{theorem}[List singleton source unframed certificate]
 \label{thm:list-singleton-source-public-object-certificate}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
