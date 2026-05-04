@@ -90,6 +90,27 @@ to the unary prefix and the original compact-net witness.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
 
+\begin{theorem}[Compact net witness prefixed result determinacy]
+\label{thm:compact-net-witness-prefixed-result-deterministic}
+If two compact-net witnesses share the same prefixed center and precision,
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n)
+\quad\text{and}\quad
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n'),
+$$
+then the unprefixed net results are history-same:
+$$
+\hsame(n,n').
+$$
+\end{theorem}
+\begin{proof}
+The two compact-net witnesses contain continuation ledgers with the same source
+$p\cdot c$ and precision $\epsilon$. Continuation determinacy identifies the
+two prefixed results $p\cdot n$ and $p\cdot n'$, and left cancellation removes
+the common prefix $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_result\_deterministic}
+
 \begin{theorem}[Compact net witness empty net exactness]
 \label{thm:compact-net-witness-empty-net-iff}
 For histories $c$ and $\epsilon$, a compact-net witness with empty net is
