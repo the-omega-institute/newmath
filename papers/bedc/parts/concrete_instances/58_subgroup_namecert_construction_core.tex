@@ -515,6 +515,42 @@ $\mathsf{Norm}_{Z_a}(t)$, so both preservation directions hold.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizer\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizes}
 
+\begin{theorem}[Centralizer intersection simultaneous self-normalizer]
+\label{thm:subgroup-centralizer-intersection-simultaneous-self-normalizer}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence, and
+two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-certificate-target}, fix
+$a,b:\mathsf{BHist}$ and let $Z_{a,b}$ be the two-centralizer carrier of
+\autoref{def:subgroup-centralizer-intersection-carrier}. If
+$Z_{a,b}(t)$, then
+$$
+\mathsf{Norm}_{Z_a}(t)\land\mathsf{Norm}_{Z_b}(t).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the intersection carrier. The witness $Z_{a,b}(t)$ is exactly a pair
+consisting of $Z_a(t)$ and $Z_b(t)$, with both component centralizers using the
+same ambient $\GroupUp$ laws and the same restricted $\hsame$ classifier.
+
+Apply \autoref{thm:subgroup-centralizer-self-normalizer} first with fixed
+history $a$ and component witness $Z_a(t)$. This gives
+$\mathsf{Norm}_{Z_a}(t)$.
+
+Apply \autoref{thm:subgroup-centralizer-self-normalizer} again with fixed
+history $b$ and component witness $Z_b(t)$. Pair the two resulting normalizer
+witnesses to obtain the displayed simultaneous conclusion.
+\end{proof}
+
+Per-object template: traditional target simultaneous normalizer membership for
+an intersection of centralizers; BEDC source $\GroupUp$ plus $\SubgroupUp$;
+carrier $Z_{a,b}$; classifier restricted $\hsame$; stability inherited from
+the two centralizer certificates; ledger fixed histories $a,b$ and two
+self-normalizer witnesses; core theorem
+\autoref{thm:subgroup-centralizer-intersection-simultaneous-self-normalizer};
+exactness the paired normalizer conclusion; downstream consumer quotient-ready
+normalizer towers; status $\mathsf{ProofTarget}$.
+
 \begin{lemma}[Centralizer normalizer kernel classifier reflexivity]
 \label{lem:subgroup-centralizer-normalizer-kernel-classifier-refl}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying

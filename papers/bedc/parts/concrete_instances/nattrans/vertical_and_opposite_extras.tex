@@ -78,3 +78,60 @@ component histories, with their endpoints read in the opposite target category; 
 ledger policy of \autoref{def:nattrans-ledger-policy} therefore records the same functor ledgers, component morphism ledgers, and naturality derivations,
 now indexed by the two opposite-functor certificates.
 \end{proof}
+
+\begin{theorem}[Double opposite natural transformation certificate data identity]
+\label{thm:double-opposite-nattrans-certificate-data-identity}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates satisfying the category certificate obligations, let $F,G:\mathcal C\to\mathcal D$ be $\FunctorUp$ certificates satisfying the obligations of \autoref{def:functor-certificate-obligations}, and let $\alpha:F\Rightarrow G$ be a $\NatTransUp$ certificate satisfying the obligations of \autoref{def:nattrans-certificate-obligations}. Write $\alpha_X:F_0(X)\to G_0(X)$ for its component family, and write its naturality row at a displayed morphism $f:X\to Y$ in $\mathcal C$ as
+$$
+G_1(f)\circ_{\mathcal D}\alpha_X
+\sim_{\mathcal D}
+\alpha_Y\circ_{\mathcal D}F_1(f).
+$$
+Let
+$$
+\alpha^{\mathrm{opop}}=(\alpha^{\mathrm{op}})^{\mathrm{op}}
+$$
+be obtained by applying \autoref{def:opposite-nattrans-certificate-data} twice, with the double-opposite source and target categories identified by \autoref{thm:double-opposite-category-certificate-data-identity} and the double-opposite source and target functors identified by \autoref{thm:double-opposite-functor-certificate-data-identity}. Then $\alpha^{\mathrm{opop}}:F^{\mathrm{opop}}\Rightarrow G^{\mathrm{opop}}$ satisfies the $\NatTransUp$ certificate obligations, and its component family and naturality rows are componentwise identical to those of $\alpha$:
+$$
+(\alpha^{\mathrm{opop}})_X=\alpha_X,
+$$
+and, for every displayed $f:X\to Y$ in $\mathcal C$, the displayed naturality row of $\alpha^{\mathrm{opop}}$ is the same target-classifier comparison
+$$
+G_1(f)\circ_{\mathcal D}\alpha_X
+\sim_{\mathcal D}
+\alpha_Y\circ_{\mathcal D}F_1(f).
+$$
+The component classifier, stability, and ledger rows that refer only to these component and naturality data are the corresponding rows of $\alpha$ under the same double-opposite identifications.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:opposite-natural-transformation-certificate} to $\alpha$. This supplies a certified natural transformation
+$$
+\alpha^{\mathrm{op}}:G^{\mathrm{op}}\Rightarrow F^{\mathrm{op}}
+$$
+over $\mathcal C^{\mathrm{op}}$ and $\mathcal D^{\mathrm{op}}$. Applying the same theorem to $\alpha^{\mathrm{op}}$ supplies a certified natural transformation
+$$
+\alpha^{\mathrm{opop}}:F^{\mathrm{opop}}\Rightarrow G^{\mathrm{opop}}
+$$
+over $\mathcal C^{\mathrm{opop}}$ and $\mathcal D^{\mathrm{opop}}$. The source specification is the original one after the identifications supplied by \autoref{thm:double-opposite-category-certificate-data-identity} and \autoref{thm:double-opposite-functor-certificate-data-identity}.
+
+For components, one unfolding of \autoref{def:opposite-nattrans-certificate-data} gives $(\alpha^{\mathrm{op}})_X=\alpha_X$. A second unfolding gives
+$$
+(\alpha^{\mathrm{opop}})_X=(\alpha^{\mathrm{op}})_X=\alpha_X.
+$$
+The endpoint typing is restored because the double-opposite category data restore the hom-carrier endpoints and the double-opposite functor data restore $F_0$ and $G_0$.
+
+For naturality, let $f:X\to Y$ be displayed in $\mathcal C$. In the second opposite construction the same raw morphism is read as $f:Y\to X$ in $\mathcal C^{\mathrm{op}}$. The naturality row of $\alpha^{\mathrm{op}}$ at that opposite morphism is, when read back through the first opposite target category,
+$$
+\alpha_Y\circ_{\mathcal D}F_1(f)
+\sim_{\mathcal D}
+G_1(f)\circ_{\mathcal D}\alpha_X,
+$$
+which is the classifier-symmetric form of the original naturality row for $\alpha$ at $f$. The second opposite construction takes the classifier-symmetric form of this row and reads both target composites through $\mathcal D^{\mathrm{opop}}$. By \autoref{thm:double-opposite-category-certificate-data-identity}, the target morphism classifier and composition relation of $\mathcal D^{\mathrm{opop}}$ are the original ones of $\mathcal D$; by \autoref{thm:double-opposite-functor-certificate-data-identity}, the functor morphism maps are again $F_1$ and $G_1$. Hence the displayed row is exactly
+$$
+G_1(f)\circ_{\mathcal D}\alpha_X
+\sim_{\mathcal D}
+\alpha_Y\circ_{\mathcal D}F_1(f).
+$$
+
+The classifier specification of \autoref{def:nattrans-classifier-specification} is componentwise by the target morphism classifier, and that classifier is unchanged after the two opposite readings. The stability fields of \autoref{def:nattrans-stability-certificate} use the same component transports, naturality rows, identity components, and vertical composites after the endpoint order has been swapped twice. The ledger policy of \autoref{def:nattrans-ledger-policy} therefore records the original functor ledgers, component ledgers, and naturality derivations under the restored source and target data.
+\end{proof}

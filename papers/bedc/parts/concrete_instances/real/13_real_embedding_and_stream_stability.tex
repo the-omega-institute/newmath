@@ -191,6 +191,29 @@ $\mathsf{UnaryHistory}(x(n))$, $\mathsf{UnaryHistory}(y(n))$, and the two
 nonemptiness implications, so the seven displayed rows repack directly.
 \end{proof}
 
+\begin{theorem}[Real stream prefix truncated endpoint e-zero absurdity]
+\label{thm:real-stream-prefix-truncated-endpoint-e0-absurd}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, indices $m,n$, and
+histories $z_X,z_Y:\Hist$, if
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n),
+$$
+then the selected truncated endpoints cannot be internally same as zero-headed
+endpoints:
+$$
+(\hsame(x(n),\Ezero(z_X))\to\mathsf{False})
+\land
+(\hsame(y(n),\Ezero(z_Y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply the truncated endpoint denominator package to obtain positive unary
+denominator witnesses for $x(n)$ and $y(n)$. Transport each positive denominator
+witness across the displayed zero-headed endpoint comparison, and use the
+RatUp positive-denominator zero-headed exclusion on each side.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_e0\_absurd}
+
 Fit. Traditional target: finite-prefix denominator readback for RealUp streams.
 BEDC source: RealUp prefix classifier plus RatUp denominator certificate.
 Carrier: rational-observation streams. Classifier:
