@@ -82,6 +82,26 @@ $\mathsf{append}(\mathsf{Empty},\mathsf{Empty})=\mathsf{Empty}$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_closed}
 
+\begin{theorem}[Homology cycle carrier append visible differential absurd]
+\label{thm:homology-cycle-carrier-append-visible-differential-absurd}
+Assume the differential respects BEDC continuation append. If $Z_d(h)$ and
+$Z_d(k)$, then the differential of the appended cycle cannot be history-same
+to a visible zero-headed or one-headed endpoint:
+$$
+\neg\hsame(d(\mathsf{append}(h,k)),\mathsf{e0}(tail))
+\qquad\text{and}\qquad
+\neg\hsame(d(\mathsf{append}(h,k)),\mathsf{e1}(tail)).
+$$
+\end{theorem}
+\begin{proof}
+The homology cycle append closure theorem gives
+$\hsame(d(\mathsf{append}(h,k)),\mathsf{Empty})$. A displayed zero-headed or
+one-headed comparison transports this empty endpoint to the visible
+constructor endpoint, contradicting BEDC constructor separation from
+$\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_visible\_differential\_absurd}
+
 \begin{theorem}[Homology cycle carrier append components]
 \label{thm:homology-cycle-carrier-append-components}
 Assume the differential respects BEDC continuation append:

@@ -88,6 +88,21 @@ theorem HomologyCycleCarrier_append_closed {d : BHist -> BHist}
     have dkEmpty : d k = BHist.Empty := hsame_empty_iff.mp cycleK
     exact append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
 
+theorem HomologyCycleCarrier_append_visible_differential_absurd {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k tail : BHist} :
+    HomologyCycleCarrier d h -> HomologyCycleCarrier d k ->
+      (hsame (d (append h k)) (BHist.e0 tail) -> False) ∧
+        (hsame (d (append h k)) (BHist.e1 tail) -> False) := by
+  intro cycleH cycleK
+  have cycleAppend : HomologyCycleCarrier d (append h k) :=
+    HomologyCycleCarrier_append_closed dAppend cycleH cycleK
+  constructor
+  · intro visible
+    exact not_hsame_e0_empty (hsame_trans (hsame_symm visible) cycleAppend)
+  · intro visible
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm visible) cycleAppend)
+
 theorem HomologyBoundaryCarrier_append_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     {h k : BHist} :
