@@ -3250,3 +3250,56 @@ Lands in concrete_instances/58_subgroup_namecert_construction.tex which currentl
 
 ---
 
+### B-128 - TotalOrder finite maximum element existence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite maximum element existence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a concrete TotalOrderUp setup, every nonempty finite list of carrier elements admits an index whose entry is above every entry of the list under the order classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Chapter 29 (concrete totalorder) currently has only definition-level content (def:concrete-singleton-history-totalorder-instance, def:concrete-unary-prefix-totalorder-instance, def:concrete-unary-prefix-totalorder-successor-package) and no labeled theorem stating finite-list operational consequences of the trichotomy/antisymmetry fields. Finite-max existence is the canonical first operational theorem at a totalorder certificate: it consumes only trichotomy and reflexivity, exercises the carrier classifier on a list spine, and produces an index witness usable downstream by sorting/selection certificates. Distinct from B-13 (which reduces classifier fields via trichotomy) and from B-25/B-26 (which target lattice meet/join laws, not totalorder finite-list operations).
+
+---
+
+
+### B-129 - TotalOrder finite minimum classifier uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite minimum classifier uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a concrete TotalOrderUp setup, any two minimum witnesses of the same nonempty finite carrier list are classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Parallels B-29 (lattice GLB/LUB uniqueness from directional certificates) but in the totalorder + finite-list setting rather than the lattice + binary-meet/join setting: the witness shape is an index of a finite list satisfying a universal lower-bound predicate, and the proof uses trichotomy + antisymmetry rather than directional bound fields. With B-13 occupying the trichotomy-reduction site and the candidate-1 existence theorem occupying the production site, this uniqueness theorem closes the standard existence/uniqueness pair at the totalorder finite-list interface and gives downstream selection/sort interfaces a classifier-stable readback. Borderline novelty against B-29 due to the shared antisymmetry-uniqueness pattern, but the chapter, setup, and witness type all differ.
+
+---
+
