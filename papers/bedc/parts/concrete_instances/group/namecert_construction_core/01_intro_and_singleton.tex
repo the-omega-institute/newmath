@@ -117,6 +117,31 @@ The $\GroupUp$ schema is instantiated by this concrete $\mathsf{BHist}$ carrier,
 append operation, empty unit, and constant inverse, so certificate rows in this
 chapter are BHist-anchored rather than abstract operator fields.
 
+\begin{theorem}[Group singleton carrier append context empty]
+\label{thm:group-singleton-carrier-append-context-empty}
+For histories $L,R,h:\mathsf{BHist}$, if $L$ and $R$ lie in the singleton
+group carrier $A_{\emp}$, then a two-sided append context lies in the same
+singleton carrier exactly when the middle history does:
+$$
+A_{\emp}(L)\Rightarrow A_{\emp}(R)\Rightarrow
+\bigl(
+A_{\emp}(\mathsf{append}(L,\mathsf{append}(h,R)))
+\Longleftrightarrow A_{\emp}(h)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unfold singleton carrier membership as equality to
+$\emp$ up to $\hsame$. Empty-result inversion for append first splits off the
+left context $L$, then splits the inner append, exposing the middle carrier
+witness $A_{\emp}(h)$.
+
+Conversely, combine the carrier witnesses for $h$ and $R$ to rebuild the inner
+append as a singleton carrier, then combine that result with the carrier
+witness for $L$ to rebuild the displayed two-sided append context.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_context\_empty\_iff}
+
 \begin{theorem}[Group singleton classifier append context cancellation]
 \label{thm:group-singleton-classifier-append-context-cancel}
 For histories $L,R,Q,S:\mathsf{BHist}$, if the displayed left contexts are in

@@ -32,6 +32,14 @@ theorem cont_result_hsame_iff {a f r s : BHist} :
   · intro sameResult
     exact cont_result_hsame_transport continuation (hsame_symm sameResult)
 
+theorem cont_factorization_result_hsame_iff {a b c m r s : BHist} :
+    Cont a b m -> Cont m c r -> (Cont a (append b c) s <-> hsame s r) := by
+  intro left right
+  have canonical : Cont a (append b c) r := by
+    cases left
+    exact right.trans (append_assoc a b c)
+  exact cont_result_hsame_iff canonical
+
 theorem cont_factorization_middle_hsame_iff {a b c f g bprime : BHist} :
     Cont a f b -> Cont b g c ->
       (Cont a f bprime ∧ Cont bprime g c <-> hsame bprime b) := by
