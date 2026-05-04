@@ -415,6 +415,66 @@ $\hsame(m,n)$ are precisely its public-history criterion, giving the negative
 displayed $\Longleftrightarrow$.
 \end{proof}
 
+\begin{theorem}[Integer contextual canonical difference-pair/history bridge]
+\label{thm:int-contextual-canonical-pair-history-bridge}
+For $a,m,n:\mathsf{BHist}$ with $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, the positive-context canonical
+difference pair reads back exactly to the zero-tag public signed-history
+classifier:
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),
+(\mathsf{append}(a,n),\emp))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
+$$
+The negative-context canonical difference pair reads back exactly to the
+one-tag public signed-history classifier:
+$$
+\mathsf{IntPairClassifier}((\emp,\mathsf{append}(m,a)),
+(\emp,\mathsf{append}(n,a)))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+$$
+The ten-field fit is the following. The traditional target is contextual
+signed-unary integer readback. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{IntHistoryClassifier}$,
+$\mathsf{Unary}$, $\mathsf{append}$, $\emp$, $\Ezero$, and $\Eone$. The
+carrier is canonical difference pairs and public signed histories. The
+classifier is pair cross-addition plus the public same-tag classifier.
+Stability is one-sided context exactness. The ledger records the hidden common
+unary context. The core theorem is this bridge. Exactness is the two displayed
+iff rows. The standard bridge is ordinary cancellation of equal signed unary
+shifts. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the zero-tag row, apply
+Theorem~\ref{thm:int-pair-classifier-one-sided-append-context-exactness} to
+the common positive context $a$ with canonical endpoints
+$((m,\emp),(n,\emp))$. The hypothesis $\mathsf{Unary}(a)$ supplies the context
+witness for this exactness step. The positive-counter clause strips or
+introduces the shared left append context, yielding an equivalence with
+$\mathsf{IntPairClassifier}((m,\emp),(n,\emp))$.
+
+Apply Theorem~\ref{thm:int-canonical-difference-pair-history-bridge} to the
+positive canonical pair. The assumptions $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$ supply its endpoint hypotheses, so composition of the two
+equivalences gives the displayed zero-tag readback.
+
+For the one-tag row, apply
+Theorem~\ref{thm:int-pair-classifier-one-sided-append-context-exactness} to
+the common negative context $a$ with canonical endpoints
+$((\emp,m),(\emp,n))$. The hypothesis $\mathsf{Unary}(a)$ supplies the context
+witness for this exactness step. The negative-counter clause strips or
+introduces the shared right append context, yielding an equivalence with
+$\mathsf{IntPairClassifier}((\emp,m),(\emp,n))$.
+
+Apply Theorem~\ref{thm:int-canonical-difference-pair-history-bridge} to the
+negative canonical pair. The same unary endpoint hypotheses identify this
+canonical classifier with
+$\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))$, completing the second
+displayed equivalence.
+\end{proof}
+
 \begin{theorem}[Integer canonical same-sign pair readback]
 \label{thm:int-canonical-same-sign-pair-readback}
 For all $m,n:\mathsf{BHist}$, the canonical positive difference-pair
