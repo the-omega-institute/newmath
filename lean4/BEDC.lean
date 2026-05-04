@@ -190,6 +190,7 @@ import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.NilEndpointInversion
 import BEDC.Derived.ListUp.Length
+import BEDC.Derived.ListUp.UnaryLength
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.MapShape
 import BEDC.Derived.ListUp.PublicReverse
@@ -595,6 +596,7 @@ import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.FunctorUp.CompNonemptyResultTargetVisible
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.AssocEmptyResult
+import BEDC.Derived.FunctorUp.AssocReflects
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp

@@ -669,6 +669,35 @@ chain through $\emp$ supplies the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_continuation\_empty\_result\_iff}
 
+\begin{theorem}[CommRing singleton continuation carrier split]
+\label{thm:commring-singleton-continuation-carrier-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+commutative-ring carrier on the continuation result splits exactly over the two
+input histories:
+$$
+\mathsf{CommRingSingletonCarrier}(R)
+\quad\Longleftrightarrow\quad
+\mathsf{CommRingSingletonCarrier}(P)\land
+\mathsf{CommRingSingletonCarrier}(Q).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, read
+$\mathsf{CommRingSingletonCarrier}(R)$ as $\hsame(R,\emp)$. Apply the reverse
+direction of
+Theorem~\ref{thm:commring-singleton-classifier-continuation-empty-result} to
+obtain $\mathsf{CommRingSingletonClassifier}(P,Q)$, and then unpack its two
+endpoint carrier witnesses.
+
+For the converse implication, assume carrier witnesses for $P$ and $Q$. These
+are witnesses of $\hsame(P,\emp)$ and $\hsame(Q,\emp)$, so symmetry and
+transitivity through $\emp$ package
+$\mathsf{CommRingSingletonClassifier}(P,Q)$. Apply the forward direction of
+Theorem~\ref{thm:commring-singleton-classifier-continuation-empty-result} to get
+$\hsame(R,\emp)$, which is exactly
+$\mathsf{CommRingSingletonCarrier}(R)$.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with
