@@ -13,16 +13,30 @@ format:
 ```{=html}
 <style>
   body { background: #fbfbfa; }
-  main.content { padding-top: 1rem !important; padding-bottom: 0 !important; max-width: 100% !important; }
+  /* Lock the Quarto wrapper to viewport height (minus 62px navbar) so
+     the map shell can fit on a 13" laptop without forcing scroll.
+     Wrapper paddings and Quarto's default page footer are zeroed. */
+  #quarto-content {
+    height: calc(100vh - 62px) !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  main.content {
+    padding: 0 !important; margin: 0 !important;
+    max-width: 100% !important; height: 100%;
+  }
+  .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
 
   .map-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-columns: minmax(0, 1fr) 180px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
-    height: calc(100vh - 60px);
-    min-height: 760px;
+    /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
+       the shell just fills its parent. min-height is a tablet floor. */
+    height: 100%;
+    min-height: 540px;
     gap: 0;
     background: #fbfbfa;
     border: 1px solid #e0e0e0;
@@ -604,13 +618,14 @@ function renderCy() {
     ],
     layout: {
       name: "dagre",
+      // BEDC dependency is a DAG; LR shows primitives (left) → derived
+      // (right). nodeSep tuned tight, rankSep wide so the natural shape
+      // matches the wide viewport (.map-shell extends to full height
+      // via calc(100vh - 30px) so 108 nodes can breathe vertically).
       rankDir: "LR",
-      // Wider rank spacing + tighter node spacing -> bigger labels under fit:true.
-      // The geometry is tuned so that the graph's natural size matches a typical
-      // viewport at fit ratio close to 1.0.
-      nodeSep: 36,
-      rankSep: 96,
-      edgeSep: 14,
+      nodeSep: 22,
+      rankSep: 150,
+      edgeSep: 10,
       ranker: "network-simplex",
       padding: 16,
       fit: true,
