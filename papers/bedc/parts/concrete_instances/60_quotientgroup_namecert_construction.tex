@@ -252,6 +252,54 @@ soundness clauses are direct projections of the source witness.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingleton\_semanticNameCert}
 
+\begin{theorem}[QuotientGroup singleton normalizer orbit classifier collapse]
+\label{thm:quotientgroup-singleton-normalizer-orbit-classifier-collapse}
+For histories $x,y:\mathsf{BHist}$, in the concrete singleton history group
+instance of
+Definition~\ref{def:concrete-singleton-history-group-instance} and the
+singleton $\QuotientGroupUp$ classifier of
+Definition~\ref{def:quotientgroup-singleton-classifier},
+$$
+x\sim_{N_{\emp}}y \Longleftrightarrow \rho_Q(x,y).
+$$
+The ten-field fit is: traditional target the quotient of the terminal group by
+its terminal normalizer action; BEDC source concrete singleton $\GroupUp$ plus
+singleton $\QuotientGroupUp$; carrier $Q_{\emp}=A_{\emp}$ by
+Definitions~\ref{def:list-singleton-history-source},
+\ref{def:concrete-singleton-history-group-instance}, and
+\ref{def:quotientgroup-singleton-carrier}; classifier $\rho_Q$ compared with
+$\sim_{N_{\emp}}$; stability from
+\autoref{thm:group-singleton-normalizer-orbit-total-coverage},
+\autoref{thm:quotientgroup-singleton-semantic-namecert}, and symmetry and
+transitivity for $\hsame$; ledger the hidden conjugator endpoint; core theorem
+this block; exactness the displayed iff; downstream consumer
+first-isomorphism-style quotient-kernel exactness; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:group-singleton-normalizer-orbit-total-coverage}. It identifies
+the terminal normalizer orbit relation with
+$A_{\emp}(x)\land A_{\emp}(y)$. By
+Definitions~\ref{def:list-singleton-history-source},
+\ref{def:concrete-singleton-history-group-instance}, and
+\ref{def:quotientgroup-singleton-carrier}, this is the same endpoint data as
+$Q_{\emp}(x)\land Q_{\emp}(y)$.
+
+For the forward direction, the orbit witness therefore supplies
+$Q_{\emp}(x)$ and $Q_{\emp}(y)$. Unfold
+Definition~\ref{def:quotientgroup-singleton-classifier}. The two carrier
+fields remain, and the final $\hsame(x,y)$ component is obtained by composing
+the singleton identifications $x\hsame\emp$ and $y\hsame\emp$, using symmetry
+on the second and then transitivity.
+
+Conversely, a $\rho_Q(x,y)$ witness contains the two endpoint carrier fields.
+Under the same carrier identification these are
+$A_{\emp}(x)$ and $A_{\emp}(y)$, so the reverse direction of
+\autoref{thm:group-singleton-normalizer-orbit-total-coverage} yields
+$x\sim_{N_{\emp}}y$.
+\end{proof}
+
 \begin{theorem}[QuotientGroup singleton classifier visible endpoint exclusion]
 \label{thm:quotientgroup-singleton-classifier-visible-endpoint-absurd}
 For histories $p,q,k:\mathsf{BHist}$, no classifier edge can have a visible
@@ -446,6 +494,7 @@ rows of
 \autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup},
 now read on a carrier whose every BEDC history lies in the identity fiber.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_abelian\_identity\_fiber\_total}
 
 \begin{theorem}[Abelian centralizer-normalizer quotient classifier totality]
 \label{thm:abelian-centralizer-normalizer-quotient-classifier-totality}
@@ -499,4 +548,68 @@ endpoint pair, relative-kernel word, and centralizer witness; core theorem list
 and \autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation};
 exactness the two displayed iff statements; downstream consumer
 first-isomorphism-style quotient-kernel exactness; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Abelian centralizer-normalizer quotient terminal projection]
+\label{thm:abelian-centralizer-normalizer-quotient-terminal-projection}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate},
+and additionally the $\AbGroupUp$ commutativity hypothesis used by
+\autoref{thm:abgroup-centralizer-commutator-collapse}, fix
+$a:\mathsf{BHist}$. For every carried endpoint $x$ of $N_a$, define the
+constant representative projection to the singleton quotient carrier by
+$$
+\pi_Q(x):=\emp .
+$$
+For any $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, the abelian
+centralizer-normalizer quotient classifier is the pullback of the singleton
+quotient classifier along this projection:
+$$
+Q_{Z_a\triangleleft N_a}(x,y)\Longleftrightarrow
+\rho_Q(\pi_Q(x),\pi_Q(y)).
+$$
+Moreover the projected product, inverse, and unit endpoints are already
+singleton-classifier related:
+$$
+\rho_Q(\pi_Q(\mathsf{mul}(x,y)),\pi_Q(x)),\quad
+\rho_Q(\pi_Q(\mathsf{inv}(x)),\pi_Q(x)),\quad
+\rho_Q(\pi_Q(e),\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the displayed equivalence, the left classifier is total under the
+commutativity hypothesis by
+\autoref{thm:abelian-centralizer-normalizer-quotient-classifier-totality}.
+Thus its truth value is $\mathsf{True}$ on every carried endpoint pair.
+
+The right classifier is also inhabited on every displayed endpoint pair.
+Indeed, each projected endpoint is definitionally $\emp$, so unfolding the
+projection reduces it to $\rho_Q(\emp,\emp)$. This is the reflexive singleton
+classifier edge packaged by
+\autoref{thm:quotientgroup-singleton-semantic-namecert}, using the singleton
+carrier and classifier of Definitions~\ref{def:quotientgroup-singleton-carrier}
+and \ref{def:quotientgroup-singleton-classifier}.
+
+The product, inverse, and unit claims use the same endpoint computation. The
+semantic certificate of
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
+supplies the carried product, inverse, and unit endpoints in $N_a$; applying
+$\pi_Q$ sends each one to $\emp$. Hence all three displayed singleton
+classifier statements again reduce to $\rho_Q(\emp,\emp)$.
+\end{proof}
+
+The ten-field fit is: traditional target terminal projection from the abelian
+centralizer-normalizer quotient to the singleton quotient classifier; BEDC
+source $\GroupUp$, $\AbGroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$ over
+$\mathsf{BHist}$; carrier $N_a$ projected constantly to $Q_{\emp}$; classifiers
+$Q_{Z_a\triangleleft N_a}$ and $\rho_Q$; stability from the
+centralizer-normalizer quotient certificate and singleton classifier
+reflexivity; ledger carried endpoint pair, projected product endpoint,
+projected inverse endpoint, and projected unit endpoint; core theorem list
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate},
+\autoref{thm:abelian-centralizer-normalizer-quotient-classifier-totality}, and
+\autoref{thm:quotientgroup-singleton-semantic-namecert}; exactness the
+displayed pullback equivalence plus the three singleton projection edges;
+downstream consumer first-isomorphism-style terminal quotient exactness; status
 $\mathsf{ProofTarget}$.

@@ -3,6 +3,7 @@ import BEDC.Derived.SubgroupUp
 namespace BEDC.Derived.SubgroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 protected theorem SubgroupCentralizerNormalizer_certificate_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
@@ -76,5 +77,45 @@ protected theorem SubgroupCentralizerNormalizer_certificate_from_empty_unit
     (And.intro (BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer_mul_closed_from_empty_unit
       assocC leftId rightId mulCongr leftInv rightInv)
       (And.intro invClosed (And.intro normalizerTransport includeCentralizer)))
+
+protected theorem SubgroupCentralizerNormalizer_pair_certificate_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a : BHist} :
+    SemanticNameCert (SubgroupCentralizerCarrier mul a) (SubgroupCentralizerCarrier mul a)
+        (SubgroupCentralizerCarrier mul a) (SubgroupCentralizerClassifier mul a) ∧
+      SubgroupCentralizerNormalizer mul inv a BHist.Empty ∧
+        (forall {s t : BHist}, SubgroupCentralizerNormalizer mul inv a s ->
+          SubgroupCentralizerNormalizer mul inv a t ->
+            SubgroupCentralizerNormalizer mul inv a (mul s t)) ∧
+        (forall {s : BHist}, SubgroupCentralizerNormalizer mul inv a s ->
+          SubgroupCentralizerNormalizer mul inv a (inv s)) ∧
+        (forall {s : BHist}, SubgroupCentralizerCarrier mul a s ->
+          SubgroupCentralizerNormalizer mul inv a s) ∧
+        (forall {s x : BHist}, SubgroupCentralizerNormalizer mul inv a s ->
+          SubgroupCentralizerCarrier mul a x ->
+            SubgroupCentralizerCarrier mul a (mul (mul s x) (inv s)) ∧
+              SubgroupCentralizerCarrier mul a
+                (mul (mul (inv s) x) (inv (inv s)))) := by
+  have centralizerRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have normalizerRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer_certificate_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  exact And.intro centralizerRows.left
+    (And.intro normalizerRows.left
+      (And.intro normalizerRows.right.left
+        (And.intro normalizerRows.right.right.left
+          (And.intro normalizerRows.right.right.right.right
+            (by
+              intro s x normalizesS centralX
+              exact And.intro (normalizesS.left x centralX) (normalizesS.right x centralX))))))
 
 end BEDC.Derived.SubgroupUp

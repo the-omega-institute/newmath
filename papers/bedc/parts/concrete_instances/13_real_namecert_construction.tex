@@ -1,6 +1,55 @@
 \input{parts/concrete_instances/real/13_real_constant_core.tex}
 \input{parts/concrete_instances/real/13_real_stream_prefix.tex}
 
+\begin{theorem}[Real stream classifier finite-prefix stability package]
+\label{thm:real-stream-classifier-finite-prefix-stability-package}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$ and prefix index
+$n$, if
+$$
+\forall i,\ \mathsf{RatHistoryCarrier}(x(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{RealStreamClassifier}(y,z),
+$$
+then
+$$
+\mathsf{RealStreamPrefixClassifier}(x,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(y,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(x,z,n)
+\land
+\mathsf{RatHistoryClassifier}(x(n),z(n)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-prefix} to
+$\mathsf{RealStreamClassifier}(x,y)$ at the selected prefix index $n$, and
+apply the same theorem to $\mathsf{RealStreamClassifier}(y,z)$ at $n$. These
+give the two finite-prefix classifier witnesses for $x$ with $y$ and for $y$
+with $z$.
+
+Use \autoref{thm:real-stream-prefix-classifier-refl} with the displayed
+rational-history carrier row for $x$ to obtain
+$\mathsf{RealStreamPrefixClassifier}(x,x,n)$. Apply
+\autoref{thm:real-stream-prefix-classifier-symm} to the $x,y$ prefix witness
+to obtain $\mathsf{RealStreamPrefixClassifier}(y,x,n)$.
+
+Compose the $x,y$ and $y,z$ prefix witnesses by
+\autoref{thm:real-stream-prefix-classifier-trans}, yielding
+$\mathsf{RealStreamPrefixClassifier}(x,z,n)$. Finally apply
+\autoref{thm:real-stream-prefix-classifier-endpoint} to this composite prefix
+to recover $\mathsf{RatHistoryClassifier}(x(n),z(n))$.
+\end{proof}
+
+Fit. Traditional target: finite-prefix stability for RealUp streams. BEDC
+source: RatUp plus RealUp stream prefixes. Carrier: rational-observation
+streams. Classifier: $\mathsf{RealStreamClassifier}$ and
+$\mathsf{RealStreamPrefixClassifier}$. Stability: prefix reflexivity, symmetry,
+transitivity, and endpoint projection. Ledger: the selected prefix index $n$.
+Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-package}.
+Exactness: the displayed four-part conjunction. Standard bridge: finite
+rational prefix agreement. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
 For certified unary-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
@@ -205,6 +254,47 @@ RatHistoryClassifier; stability prefix hsame transport and RatUp one-tail
 exactness; ledger selected index and two e-one seals; core theorem this block;
 exactness the displayed conjunction; standard bridge rational equality read from
 equal transported real observations; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier transported selected positive denominator package]
+\label{thm:real-stream-classifier-transported-selected-positive-denominator-package}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and every
+selected observation index $n$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(x'(n),y'(n))\land
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-transport-with-endpoint-readback}
+to the two pointwise $\hsame$ hypotheses and the source stream classifier. The
+endpoint field of that package gives
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$ at the selected index $n$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to this
+selected endpoint classifier. It exposes
+$\mathsf{PositiveUnaryDenominator}(x'(n))$ and
+$\mathsf{PositiveUnaryDenominator}(y'(n))$.
+
+Package the endpoint classifier with the two positive-denominator witnesses.
+The result is exactly the displayed transported selected denominator readback
+conjunction.
+\end{proof}
+
+Fit: traditional target selected positive denominator readback for transported
+RealUp rational observations; BEDC source RealUp plus RatUp; carrier
+rational-observation streams; classifier RealStreamClassifier and
+RatHistoryClassifier; stability prefix hsame transport plus RatUp denominator
+exposure; ledger selected observation index and transported endpoint displays;
+core theorem this block; exactness the displayed conjunction; standard bridge
+positivity of rational denominators inside equal transported real observations;
+status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real stream classifier unary denominator context closure]
 \label{thm:real-stream-classifier-unary-denominator-context-closed}

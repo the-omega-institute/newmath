@@ -63,6 +63,56 @@ classifier row of Theorem~\ref{thm:group-singleton-terminal-classifier-package}
 packages $R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)$.
 \end{proof}
 
+\begin{theorem}[Group singleton commutator carrier exactness]
+\label{thm:group-singleton-commutator-carrier-exactness}
+For histories $x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, with
+$\mathsf{Comm}_{\emp}$ defined as in
+\autoref{thm:group-singleton-commutator-terminal-collapse}, the commutator
+carrier and terminal classifier are exactly the two input carrier conditions:
+$$
+A_{\emp}(\mathsf{Comm}_{\emp}(x,y))
+\Longleftrightarrow A_{\emp}(x)\land A_{\emp}(y).
+$$
+Moreover,
+$$
+R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)
+\Longleftrightarrow A_{\emp}(x)\land A_{\emp}(y).
+$$
+The ten-field fit is: traditional target terminal-group commutator fiber
+exactness; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier $R_{\emp}$; stability append-empty split plus
+terminal classifier exactness; ledger the two factors and constant inverse
+endpoints; core theorem this exactness plus
+\autoref{thm:group-singleton-commutator-terminal-collapse}; exactness the
+displayed iff; downstream consumers $\AbGroupUp$ and $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the concrete singleton group operations. The multiplication is
+$\mathsf{append}$ and the inverse endpoint is constant, so
+$\mathsf{inv}(x)=\emp$ and $\mathsf{inv}(y)=\emp$. Thus the commutator carrier
+condition is the singleton-empty condition on the append product whose two right
+factors are empty endpoints.
+
+For the forward carrier direction, append-empty inversion first removes the
+outer empty inverse endpoint, then removes the inner empty inverse endpoint, and
+finally applies the singleton append-empty split to the remaining product
+$\mathsf{append}(x,y)$. This yields $A_{\emp}(x)$ and $A_{\emp}(y)$.
+
+For the reverse carrier direction, the supplied witnesses for $x$ and $y$
+rebuild $A_{\emp}(\mathsf{append}(x,y))$ by the singleton append-empty split.
+The reflexive empty witnesses for the two constant inverse endpoints then
+rebuild the full commutator carrier by append-empty construction.
+
+It remains to read the classifier against the terminal endpoint. The first row
+of \autoref{thm:group-singleton-terminal-classifier-package} identifies
+$R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)$ with
+$A_{\emp}(\mathsf{Comm}_{\emp}(x,y))\land A_{\emp}(\emp)$, and
+$A_{\emp}(\emp)$ is reflexive. Composing this terminal classifier exactness with
+the carrier equivalence gives the displayed classifier iff.
+\end{proof}
+
 \input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
@@ -268,6 +318,7 @@ $R_{\emp}(\mathsf{Conj}_{\emp}(x),y)$, so
 Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
 orbit witness and proves $x\sim_{N_{\emp}}y$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_normalizer\_orbit\_source\_exact\_iff}
 
 \begin{theorem}[Group singleton normalizer orbit total coverage]
 \label{thm:group-singleton-normalizer-orbit-total-coverage}
@@ -401,6 +452,7 @@ $$
 
 The two displayed classifiers are exactly the required conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_action\_determinacy}
 
 \begin{theorem}[Group singleton normalizer orbit action invariance]
 \label{thm:group-singleton-normalizer-orbit-action-invariance}
@@ -576,6 +628,121 @@ $\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
 $R_{\emp}$ row into
 $\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
 \mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer orbit action law package]
+\label{thm:group-singleton-normalizer-orbit-action-law-package}
+For histories $s,t,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, if $A_{\emp}(s)$, $A_{\emp}(t)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and
+$x\sim_{N_{\emp}}y$, then:
+\begin{enumerate}
+\item $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)$.
+\item
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))\sim_{N_{\emp}}y$.
+\item
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$.
+\end{enumerate}
+The ten-field fit names the traditional target as a concrete terminal
+normalizer orbit action law package; the BEDC source as the concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier the
+normalizer orbit relation exact against $R_{\emp}$; stability from orbit
+exactness, classifier determinacy, and product-coherent orbit collapse; ledger
+the two conjugating singleton endpoints, the acted-on singleton endpoint, and
+the orbit witness; core theorem this block; exactness predicate the three
+displayed orbit action laws; downstream consumer $\QuotientGroupUp$; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First convert the input orbit witness into the concrete classifier. Since $x$
+and $y$ lie in $A_{\emp}$, the forward direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} gives
+$R_{\emp}(x,y)$.
+
+For the first law, apply
+Theorem~\ref{thm:group-singleton-normalizer-orbit-action-invariance} directly
+to $s$, $x$, and $y$. Its hypotheses are exactly $A_{\emp}(s)$,
+$A_{\emp}(x)$, $A_{\emp}(y)$, and the given orbit relation.
+
+For the inverse-roundtrip law, apply
+Theorem~\ref{thm:group-singleton-normalizer-action-classifier-determinacy} with
+the conjugating endpoint $s$ and the classifier row $R_{\emp}(x,y)$. The second
+row gives
+$$
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+The reverse direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} repacks this
+classifier as
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))\sim_{N_{\emp}}y$.
+
+For the product law, apply
+Theorem~\ref{thm:group-singleton-normalizer-action-product-coherent-orbit-collapse}
+to $s$, $t$, and $x$. Its forward classifier row is
+$$
+R_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)),
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)).
+$$
+Again use the reverse direction of orbit exactness to convert that classifier
+into the displayed orbit relation.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer action orbit identity]
+\label{thm:group-singleton-normalizer-action-orbit-identity-iff}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, write
+$$
+\mathsf{Conj}_s(z):=\mathsf{mul}(\mathsf{mul}(s,z),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(x)$, and $A_{\emp}(y)$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}y \Longleftrightarrow
+x\sim_{N_{\emp}}y.
+$$
+The ten-field fit names the traditional target as terminal normalizer quotient
+identity action; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier the normalizer orbit relation
+exact against $R_{\emp}$; stability from the singleton normalizer action
+certificate, orbit exactness, and the terminal classifier symmetry and
+transitivity rows; ledger the conjugating singleton endpoint and the two orbit
+endpoints; core theorem this block; exactness the displayed orbit identity iff;
+downstream consumer the singleton $\QuotientGroupUp$ action classifier; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate} to $s$ and $x$.
+It gives both $A_{\emp}(\mathsf{Conj}_s(x))$ and the classifier row
+$R_{\emp}(\mathsf{Conj}_s(x),x)$.
+
+For the forward direction, assume
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}y$. Orbit exactness, applied at
+$(\mathsf{Conj}_s(x),y)$ with the carrier rows just named and $A_{\emp}(y)$,
+converts this orbit edge into
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y).
+$$
+
+Use the symmetry row for the terminal classifier to turn
+$R_{\emp}(\mathsf{Conj}_s(x),x)$ into
+$R_{\emp}(x,\mathsf{Conj}_s(x))$. Transitivity with the displayed classifier
+gives $R_{\emp}(x,y)$, and the reverse direction of orbit exactness repacks this
+as $x\sim_{N_{\emp}}y$.
+
+For the reverse direction, assume $x\sim_{N_{\emp}}y$. Orbit exactness at
+$(x,y)$ turns this orbit edge into $R_{\emp}(x,y)$.
+
+Compose the certificate classifier $R_{\emp}(\mathsf{Conj}_s(x),x)$ with
+$R_{\emp}(x,y)$ by terminal classifier transitivity. The result is
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y).
+$$
+
+Finally use orbit exactness in the classifier-to-orbit direction at
+$(\mathsf{Conj}_s(x),y)$. The carrier input is
+$A_{\emp}(\mathsf{Conj}_s(x))$ from the action certificate together with
+$A_{\emp}(y)$, so the displayed classifier becomes
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}y$.
 \end{proof}
 
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
