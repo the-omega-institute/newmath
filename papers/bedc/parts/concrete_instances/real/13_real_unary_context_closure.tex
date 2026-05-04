@@ -389,6 +389,78 @@ the five displayed conclusions are exactly the collected endpoint data.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_full\_endpoint\_package}
 
+\begin{theorem}[Real stream classifier iterated unary context selected full endpoint package]
+\label{thm:real-stream-classifier-iterated-unary-context-selected-full-endpoint-package}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,u_X,u_Y,q_X,q_Y,s_X,s_Y,v_X,v_Y,o_X,o_Y:
+\mathbb{N}\to\Hist$, a selected index $n$, histories $a,b:\Hist$, and
+zero-extension tests $z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamClassifier}(x,y)$. Assume also that for every observation
+index $k$ the first context layer satisfies
+$$
+\mathsf{UnaryHistory}(p_X(k)),\quad \mathsf{UnaryHistory}(t_X(k)),\quad
+\hsame(p_X(k),p_Y(k)),\quad \hsame(t_X(k),t_Y(k)),
+$$
+$$
+\mathsf{Cont}(p_X(k),x(k),m_X(k)),\quad
+\mathsf{Cont}(m_X(k),t_X(k),u_X(k)),
+$$
+$$
+\mathsf{Cont}(p_Y(k),y(k),m_Y(k)),\quad
+\mathsf{Cont}(m_Y(k),t_Y(k),u_Y(k)),
+$$
+and that for every observation index $k$ the second context layer satisfies
+$$
+\mathsf{UnaryHistory}(q_X(k)),\quad \mathsf{UnaryHistory}(s_X(k)),\quad
+\hsame(q_X(k),q_Y(k)),\quad \hsame(s_X(k),s_Y(k)),
+$$
+$$
+\mathsf{Cont}(q_X(k),u_X(k),v_X(k)),\quad
+\mathsf{Cont}(v_X(k),s_X(k),o_X(k)),
+$$
+$$
+\mathsf{Cont}(q_Y(k),u_Y(k),v_Y(k)),\quad
+\mathsf{Cont}(v_Y(k),s_Y(k),o_Y(k)).
+$$
+If the selected second-layer outputs satisfy
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad \hsame(o_Y(n),\Eone(b)),
+$$
+then the selected contextual endpoints carry all of the following data:
+\begin{enumerate}
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n))$;
+\item $\mathsf{UnaryHistory}(o_X(n))\land \mathsf{UnaryHistory}(o_Y(n))$;
+\item $(\hsame(o_X(n),\emp)\to\mathsf{False})\land
+(\hsame(o_Y(n),\emp)\to\mathsf{False})$;
+\item $(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed} to the
+given RealUp stream classifier and the first-layer unary context and
+continuation rows. This produces $\mathsf{RealStreamClassifier}(u_X,u_Y)$.
+
+Next apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-full-endpoint-package}
+to this intermediate stream classifier, using the second-layer unary context
+and continuation rows, the selected one-extension seals, and the two
+zero-extension tests. The resulting five rows are exactly the displayed
+endpoint package for $o_X(n)$ and $o_Y(n)$.
+\end{proof}
+
+Fit: traditional target RealUp iterated contextual endpoint readback; BEDC
+source RealUp streams plus RatUp classifier plus $\mathsf{Cont}$; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$;
+stability consecutive unary context closure; ledger two context layers and
+selected e-one seals; core theorem
+\autoref{thm:real-stream-classifier-iterated-unary-context-selected-full-endpoint-package};
+exactness the displayed endpoint package; standard bridge RegSeqRat iterated
+observation readback; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier unary denominator context selected classifier full endpoint package]
 \label{thm:real-stream-classifier-unary-denominator-context-selected-classifier-full-endpoint-package}
 For rational-observation streams

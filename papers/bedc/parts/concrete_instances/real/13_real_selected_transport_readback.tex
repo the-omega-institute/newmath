@@ -139,6 +139,64 @@ exactness; ledger selected index and two e-one seals; core theorem this block;
 exactness the displayed conjunction; standard bridge rational equality read from
 equal transported real observations; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier transported selected e-one tail determinacy]
+\label{thm:real-stream-classifier-transported-selected-e1-tail-determinacy}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+index $n$, and histories $a,a',b,b':\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+If the transported selected endpoints satisfy the four e-one displays
+$$
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(x'(n),\Eone(a')),\quad
+\hsame(y'(n),\Eone(b)),\quad
+\hsame(y'(n),\Eone(b')),
+$$
+then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(b,b')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a',b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+to the displays $\hsame(x'(n),\Eone(a))$ and
+$\hsame(y'(n),\Eone(b))$. This supplies $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same transported pair readback theorem again to the displays
+$\hsame(x'(n),\Eone(a'))$ and $\hsame(y'(n),\Eone(b'))$. This supplies
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$.
+
+For the $x'$-tail comparison, compose the first selected endpoint display with
+the symmetry of the second display. The resulting
+$\hsame(\Eone(a),\Eone(a'))$ is inverted by
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_iff}$, giving $\hsame(a,a')$.
+
+The same composition and e-one inversion applied to the two $y'$ endpoint
+displays gives $\hsame(b,b')$. Package these same-side comparisons with the two
+cross-tail rows from transported pair readback.
+\end{proof}
+
+Fit: traditional target canonical selected transported rational observation
+tails; BEDC source RealUp streams, RatUp e-one readback, and FKernel e-one
+no-confusion; carrier rational-observation streams; classifier
+$\mathsf{RealStreamClassifier}$; stability pointwise $\hsame$ transport plus
+e-one inversion; ledger selected index and four e-one seals; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-e1-tail-determinacy};
+exactness unique tails for transported selected endpoints; standard bridge
+RegSeqRat selected denominator tails; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier transported selected positive denominator package]
 \label{thm:real-stream-classifier-transported-selected-positive-denominator-package}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and every
@@ -613,3 +671,30 @@ and zero-extension package; standard bridge finite-prefix selected endpoint
 readback for transported RealUp rational observations; status
 $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_transported\_selected\_full\_shape\_readback\_package}
+
+\begin{theorem}[Real stream selected appended e-one tail cancellation]
+\label{thm:real-stream-classifier-selected-append-e1-tail-hsame-cancel}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, index $n$, and
+histories $d,e,tail_D,tail_E$, if the selected stream endpoints display as
+appended e-one tails, then tail equality cancels the displayed tails and
+recovers the denominator head comparison:
+$$
+\begin{array}{l}
+\mathsf{RealStreamClassifier}(x,y)\Longrightarrow
+\hsame(x(n),\Eone(d\cdot\Eone(tail_D)))\Longrightarrow\\
+\qquad
+\hsame(y(n),\Eone(e\cdot\Eone(tail_E)))\Longrightarrow
+\hsame(tail_D,tail_E)\Longrightarrow
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Evaluate the stream classifier at the selected index to obtain the RatUp
+history classifier for $x(n)$ and $y(n)$. Transport this classifier across the
+two displayed e-one endpoint comparisons. RatUp e-one tail readback gives the
+comparison between $d\cdot\Eone(tail_D)$ and $e\cdot\Eone(tail_E)$. The tail
+comparison identifies the e-one suffixes, and BEDC append right cancellation
+leaves exactly $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_append\_e1\_tail\_hsame\_cancel}

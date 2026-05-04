@@ -619,7 +619,7 @@ Finally, the scalar ledger retained from the certified $\RingUp(R)$ source is th
 \end{proof}
 
 \begin{lemma}[Additive duplicate cancellation to zero]
-\label{lem:module-additive-duplicate-cancel-zero}
+\label{thm:module-additive-duplicate-cancel-empty}
 Let $M$ be an additive carrier with classifier $\sim_M$, addition $+_M$, and zero $0_M$. Assume the right-zero row $x+_M0_M\sim_M x$ and additive left cancellation: from $a+_M b\sim_M a+_M c$ one may conclude $b\sim_M c$. If $x\sim_M x+_M x$, then $x\sim_M0_M$.
 \end{lemma}
 \begin{proof}
@@ -629,6 +629,7 @@ x+_M0_M\sim_M x+_M x.
 $$
 Additive left cancellation removes the common left summand $x$ and yields $0_M\sim_M x$. Symmetry of the classifier gives $x\sim_M0_M$.
 \end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleAdditive\_duplicate\_cancel\_empty}
 
 \begin{theorem}[Module zero-action annihilation]
 \label{thm:module-zero-action-annihilation}
@@ -648,7 +649,7 @@ The scalar zero row $0_R+_R0_R\sim_R0_R$, classifier reflexivity on the carried 
 $$
 (0_R+_R0_R)\odot m\sim_M a.
 $$
-Symmetry and transitivity of $\sim_M$ therefore give $a\sim_M a+_M a$. Applying \autoref{lem:module-additive-duplicate-cancel-zero} in the additive carrier $M$ gives $0_R\odot m\sim_M0_M$.
+Symmetry and transitivity of $\sim_M$ therefore give $a\sim_M a+_M a$. Applying \autoref{thm:module-additive-duplicate-cancel-empty} in the additive carrier $M$ gives $0_R\odot m\sim_M0_M$.
 
 Let $b=r\odot0_M$. The module zero row gives $0_M+_M0_M\sim_M0_M$. Scalar-action congruence, using reflexivity on the carried scalar $r$, gives
 $$
@@ -658,7 +659,7 @@ Scalar distributivity over module addition gives
 $$
 r\odot(0_M+_M0_M)\sim_M b+_M b.
 $$
-Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{lem:module-additive-duplicate-cancel-zero} gives $r\odot0_M\sim_M0_M$.
+Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{thm:module-additive-duplicate-cancel-empty} gives $r\odot0_M\sim_M0_M$.
 \end{proof}
 
 \begin{definition}[Classifier-faithful scalar action and action annihilator]

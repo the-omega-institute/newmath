@@ -78,4 +78,47 @@ theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_source_visible
                               (And.intro data.right.right.right.right.right.left
                                 data.right.right.right.right.right.right))))))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_source_target_cases
+    {p q r a eta theta k : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta (BHist.e1 k) ->
+        (hsame (append p a) BHist.Empty ∧
+          ∃ t : BHist, append r a = BHist.e1 t ∧ UnaryHistory k ∧ UnaryHistory t ∧
+            Cont (append p a) (BHist.e1 k) (BHist.e1 t)) ∨
+          (∃ s t : BHist, append p a = BHist.e1 s ∧ append r a = BHist.e1 t ∧
+            UnaryHistory s ∧ UnaryHistory k ∧ UnaryHistory t ∧
+              Cont (BHist.e1 s) (BHist.e1 k) (BHist.e1 t)) := by
+  intro left right comp
+  have casesData :=
+    CategoryHomCarrier_comp_result_nonempty_source_target_cases
+      left.right.right.right right.right.right.right comp
+      (fun sameEmpty => not_hsame_e1_empty sameEmpty)
+  cases casesData with
+  | inl emptySource =>
+      cases emptySource.right with
+      | intro k' targetData =>
+          cases targetData with
+          | intro t data =>
+              cases data.left
+              left
+              exact And.intro emptySource.left
+                (Exists.intro t data.right)
+  | inr visibleSource =>
+      cases visibleSource with
+      | intro s sourceData =>
+          cases sourceData with
+          | intro k' targetData =>
+              cases targetData with
+              | intro t data =>
+                  cases data.right.left
+                  right
+                  exact Exists.intro s
+                    (Exists.intro t
+                      (And.intro data.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right.left
+                              (And.intro data.right.right.right.right.right.left
+                                data.right.right.right.right.right.right))))))
+
 end BEDC.Derived.NatTransUp

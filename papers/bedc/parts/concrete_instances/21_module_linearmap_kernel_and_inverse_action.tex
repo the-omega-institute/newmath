@@ -140,3 +140,52 @@ The inclusion statement is definitional. A restricted comparison contains its un
 
 It remains to identify the exactness row. By \autoref{def:module-linearmap-kernel-predicate}, a kernel witness is precisely source-carrier evidence together with the zero-fiber comparison $f(x)\sim_N0_N$. The descent row from \autoref{def:module-linearmap-certificate-package}, composed with \autoref{thm:namecert-equivalence-transitivity} in the target module classifier, is the compatibility used when this zero-fiber comparison is transported along source comparisons. Thus the restricted classifier, inclusion reflection, operation closure, and zero-fiber exactness sit in one certificate package.
 \end{proof}
+
+\begin{theorem}[Module singleton scalar-action kernel exactness]
+\label{thm:module-singleton-smul-kernel-exactness}
+For the concrete singleton empty-history module of
+\autoref{sec:module-concrete-singleton-instance}, fix the terminal scalar
+$\emp$ and define the scalar-action zero-fiber predicate
+$$
+K(h):\Longleftrightarrow A_{\emp}(h)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp).
+$$
+Then, for every history $h:\mathsf{BHist}$,
+$$
+K(h)\Longleftrightarrow A_{\emp}(h),
+$$
+and, for all histories $h,k:\mathsf{BHist}$, the restricted classifier on two
+kernel endpoints is exactly the singleton classifier row:
+$$
+K(h)\land K(k)\land \rho_{\emp}(h,k)\Longleftrightarrow\rho_{\emp}(h,k).
+$$
+The ten-field fit is: traditional target terminal module kernel; BEDC source
+$\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier $A_{\emp}$;
+classifier $\rho_{\emp}$ restricted to $K$; stability inherited from singleton
+classifier transport and scalar-action laws; ledger the terminal scalar
+$\emp$ and the zero-fiber witness; core theorem this block; exactness
+$K(h)$ agrees with $A_{\emp}(h)$; standard bridge the kernel of the terminal
+endomorphism; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the displayed predicate $K$. The forward direction projects the first
+component, so a zero-fiber witness immediately gives $A_{\emp}(h)$.
+
+For the reverse direction, assume $A_{\emp}(h)$. The scalar action
+$\mathsf{ModuleSingletonSmul}(\emp,h)$ is definitionally the empty history.
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} packages the
+empty endpoint comparison as $\rho_{\emp}(h,\emp)$, and
+Theorem~\ref{thm:module-singleton-smul-classifier-readback-iff} reads this
+classification through the singleton scalar action. This supplies
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp)$, which repacks with
+the given carrier witness as $K(h)$.
+
+It remains to compare the restricted classifier. One direction is projection:
+from $K(h)\land K(k)\land \rho_{\emp}(h,k)$ retain the third component.
+
+Conversely, assume $\rho_{\emp}(h,k)$. By
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}, both endpoints
+lie in the singleton carrier $A_{\emp}$. Applying the first part to these two
+carrier witnesses gives $K(h)$ and $K(k)$, so the restricted classifier repacks
+as $K(h)\land K(k)\land \rho_{\emp}(h,k)$.
+\end{proof}
