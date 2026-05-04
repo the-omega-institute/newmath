@@ -365,3 +365,21 @@ cocycle predicate to $r$.
 
 \section{The certificate}
 \label{sec:cohomology-certificate}
+
+\begin{theorem}[Cohomology cocycle semantic name certificate]
+\label{thm:cohomology-cocycle-semantic-namecert}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. The
+cocycle predicate $h\mapsto d(h)\hsame\emp$, used simultaneously as source,
+pattern, and ledger policy, forms a semantic naming certificate whose
+classifier compares histories by $d(h)\hsame d(k)$.
+\end{theorem}
+\begin{proof}
+Append preservation at $\emp,\emp$ identifies $d(\emp)$ with
+$\mathsf{append}(d(\emp),d(\emp))$. BEDC right-unit exactness for append
+therefore forces $d(\emp)\hsame\emp$, giving the carrier witness. The
+classifier fields are reflexivity, symmetry, and transitivity of $\hsame$ on
+the displayed differential histories. Carrier transport composes the symmetric
+classifier witness with the source cocycle predicate, and the pattern and
+ledger policies are the same cocycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_semanticNameCert}

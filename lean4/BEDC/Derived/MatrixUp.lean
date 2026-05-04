@@ -83,6 +83,15 @@ theorem MatrixSingletonPow_succ_endpoint_exactness {M exponent : BHist} :
     (And.intro firstClassified
       (And.intro firstClassified.left (And.intro reversedCarrier reversedSame)))
 
+theorem MatrixSingletonPow_successor_endpoint_exactness {M exponent : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) ∧
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+          (MatrixSingletonMul (MatrixSingletonPow M exponent) M) ∧
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+          (MatrixSingletonMul M (MatrixSingletonPow M exponent)) := by
+  exact MatrixSingletonPow_succ_endpoint_exactness
+
 theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       Cont (MatrixSingletonPow M exponent) M r ->

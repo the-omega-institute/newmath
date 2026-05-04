@@ -354,14 +354,14 @@ $\forall n,\ \hsame(x(n),x'(n))$ and
 $\forall n,\ \hsame(y(n),y'(n))$, then
 $$
 \mathsf{RealStreamClassifier}(x,y)
-\Longrightarrow
+\Longleftrightarrow
 \mathsf{RealStreamClassifier}(x',y').
 $$
 \end{theorem}
 \begin{proof}
-Assume $\mathsf{RealStreamClassifier}(x,y)$. By the forward direction of
-\autoref{thm:real-stream-finite-prefix-exactness}, every finite prefix
-$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
+For the forward direction, assume $\mathsf{RealStreamClassifier}(x,y)$. By the
+forward direction of \autoref{thm:real-stream-finite-prefix-exactness}, every
+finite prefix $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
 
 For each prefix index $n$, apply
 \autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
@@ -372,6 +372,20 @@ Since the transported prefix witness is available for every $n$, the reverse
 direction of \autoref{thm:real-stream-finite-prefix-exactness} reassembles
 these finite-prefix witnesses into
 $\mathsf{RealStreamClassifier}(x',y')$.
+
+For the reverse direction, assume $\mathsf{RealStreamClassifier}(x',y')$. The
+same finite-prefix exactness theorem gives
+$\mathsf{RealStreamPrefixClassifier}(x',y',n)$ for every $n$.
+
+For each prefix index $n$, use the symmetry of the pointwise $\hsame$
+witnesses to obtain $\hsame(x'(n),x(n))$ and $\hsame(y'(n),y(n))$. Applying
+\autoref{thm:real-stream-prefix-classifier-hsame-transport} with these
+symmetric witnesses transports the prefix classifier from $(x',y')$ back to
+$(x,y)$.
+
+The reverse direction of \autoref{thm:real-stream-finite-prefix-exactness}
+then reassembles the transported finite-prefix witnesses into
+$\mathsf{RealStreamClassifier}(x,y)$.
 \end{proof}
 
 \begin{theorem}[Real stream transport with endpoint readback]
@@ -390,7 +404,8 @@ following readback package:
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-First apply \autoref{thm:real-stream-classifier-hsame-transport} to the two
+First take the forward implication from
+\autoref{thm:real-stream-classifier-hsame-transport} and apply it to the two
 pointwise $\hsame$ hypotheses and the original stream classifier. This gives
 $\mathsf{RealStreamClassifier}(x',y')$.
 
