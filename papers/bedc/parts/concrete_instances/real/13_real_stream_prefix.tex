@@ -494,6 +494,32 @@ denominators from the transported rational-history classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_positive\_denominators}
 
+\begin{theorem}[Real stream classifier selected continuation zero-endpoint exclusion]
+\label{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then neither selected continuation output can be displayed as a zero-headed
+endpoint:
+$$
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+The selected continuation positive-denominator theorem gives positive unary
+denominator witnesses for $xq$ and $yq$. Transport either witness along a
+displayed zero-headed endpoint comparison and apply positive denominator
+zero-endpoint absurdity.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
