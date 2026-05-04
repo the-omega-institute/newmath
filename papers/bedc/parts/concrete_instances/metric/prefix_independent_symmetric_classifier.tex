@@ -22,3 +22,45 @@ $\mathsf{MetricDistanceWitness}(y,x,d_{yx})$. The central symmetric classifier
 then gives $\hsame(d_{xy},d_{yx})$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_symmetric\_classifier}
+
+\begin{theorem}[Metric distance witness prefix-independent symmetric zero-depth collapse]
+\label{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-collapse}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx}$, symmetric visible-context
+distance witnesses with independent contexts and a zero-depth forward distance
+collapse the two central distances and both central endpoints:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\Longrightarrow
+\\
+\hsame(d_{xy},d_{yx})\land
+\mathsf{MetricDistanceDepth}(d_{yx})=0\land
+\hsame(x,\emp)\land\hsame(y,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:metric-distance-witness-visible-context-prefix-independent-symmetric-classifier}
+to the two visible-context witnesses. This gives
+$\hsame(d_{xy},d_{yx})$.
+
+Apply
+\autoref{thm:metric-distance-witness-visible-context-depth-zero-collapse} to
+the first visible-context witness and the zero-depth hypothesis for $d_{xy}$.
+This gives the empty endpoint classifiers $\hsame(x,\emp)$ and
+$\hsame(y,\emp)$.
+
+Finally peel the second visible-context witness with
+\autoref{thm:metric-distance-witness-visible-context-iff}. The recovered
+central witness $\mathsf{MetricDistanceWitness}(y,x,d_{yx})$, together with the
+two empty endpoint classifiers in reversed order, is the input required by
+\autoref{thm:metric-distance-witness-empty-endpoints-depth-zero}; hence
+$\mathsf{MetricDistanceDepth}(d_{yx})=0$. Combining these three pieces gives
+the displayed conjunction.
+\end{proof}
