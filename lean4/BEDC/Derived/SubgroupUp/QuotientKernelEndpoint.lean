@@ -55,4 +55,44 @@ protected theorem SubgroupCentralizerQuotientKernel_left_endpoint_right_centrali
   exact And.intro normalizesXC
     (And.intro kernel.right.left (carrierTransport productCentral displayedKernel))
 
+protected theorem SubgroupCentralizerQuotientKernel_right_endpoint_right_centralizer_mul_closed_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y c : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y ->
+      SubgroupCentralizerCarrier mul a c ->
+        SubgroupCentralizerQuotientKernel mul inv a x (mul y c) := by
+  intro kernel centralC
+  have certificateRows :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizer_certificate_target_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have mulClosed :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u ->
+        SubgroupCentralizerCarrier mul a v -> SubgroupCentralizerCarrier mul a (mul u v) :=
+    certificateRows.right.right.left
+  have carrierTransport :
+      forall {u v : BHist}, SubgroupCentralizerCarrier mul a u -> hsame u v ->
+        SubgroupCentralizerCarrier mul a v :=
+    certificateRows.right.right.right.right
+  have normalizesC : SubgroupCentralizerNormalizer mul inv a c :=
+    SubgroupCentralizerCarrier_self_normalizes
+      assocC leftId rightId mulCongr leftInv rightInv centralC
+  have normalizesYC : SubgroupCentralizerNormalizer mul inv a (mul y c) :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizer_mul_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv kernel.right.left normalizesC
+  have productCentral :
+      SubgroupCentralizerCarrier mul a (mul (mul (inv x) y) c) :=
+    mulClosed kernel.right.right centralC
+  have displayedKernel :
+      hsame (mul (mul (inv x) y) c) (mul (inv x) (mul y c)) :=
+    assocC (inv x) y c
+  exact And.intro kernel.left
+    (And.intro normalizesYC (carrierTransport productCentral displayedKernel))
+
 end BEDC.Derived.SubgroupUp
