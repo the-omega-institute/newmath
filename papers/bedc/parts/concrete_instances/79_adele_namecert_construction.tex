@@ -112,6 +112,25 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele e1 real append carrier is nonempty]
+\label{thm:adele-history-carrier-e1-real-append-nonempty}
+For histories $realTail,p,exponent,result:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(\mathsf{e1}(realTail))$ and
+$\mathsf{PadicPrimeScale}(p,exponent,result)$ hold, then the appended real-padic
+history is an adele-history carrier and cannot be history-same as $\emp$:
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\mathsf{e1}(realTail),result))\land
+(\hsame(\mathsf{append}(\mathsf{e1}(realTail),result),\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use the displayed one-sealed real component, $p$, $exponent$, and $result$ as
+the four witnesses for the adele carrier. If the append were empty, append-empty
+exactness would force $\mathsf{e1}(realTail)\hsame\emp$, contradicting BEDC
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_e1\_real\_append\_nonempty}
+
 \begin{theorem}[Adele visible scale append is not empty]
 \label{thm:adele-visible-scale-append-not-empty}
 For histories $r,p,e,s:\mathsf{BHist}$, if
