@@ -146,6 +146,51 @@ $\mathsf{RatHistoryLedgerPolicy}(left,right)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_continuation\_common\_context\_ledger\_closure}
 
+\begin{theorem}[Rat history classifier continuation unary context positive denominators]
+\label{thm:rat-history-classifier-cont-unary-context-positive-denominators}
+For histories $d,e,p_d,p_e,t_d,t_e,md,me,out_d,out_e:\mathsf{BHist}$, if
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, $p_d$ and $t_d$ are unary,
+$p_d\hsame p_e$ and $t_d\hsame t_e$, and the two-step continuation displays
+place those contexts around $d$ and $e$, then both displayed outputs are
+positive unary denominators:
+$$
+\mathsf{PositiveUnaryDenominator}(out_d)\land
+\mathsf{PositiveUnaryDenominator}(out_e).
+$$
+\end{theorem}
+\begin{proof}
+Apply rational-history classifier unary-denominator context closure to obtain
+the classifier on the canonical associated endpoints
+$\mathsf{append}(p_d,\mathsf{append}(d,t_d))$ and
+$\mathsf{append}(p_e,\mathsf{append}(e,t_e))$. The continuation witnesses and
+associativity of $\mathsf{append}$ identify these canonical endpoints with
+$out_d$ and $out_e$. Transport the classifier to the displayed outputs and
+read the two positive-denominator witnesses from the transported classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_cont\_unary\_context\_positive\_denominators}
+
+\begin{theorem}[Rat history ledger continuation unary context positive denominators]
+\label{thm:rat-history-ledger-policy-cont-unary-context-positive-denominators}
+For histories $\rho,v,p_\rho,p_v,t_\rho,t_v,m_\rho,m_v,out_\rho,out_v:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, $p_\rho$ and $t_\rho$ are
+unary, $p_\rho\hsame p_v$ and $t_\rho\hsame t_v$, and the two-step continuation
+displays place those contexts around the raw and visible histories, then both
+displayed outputs are positive unary denominators:
+$$
+\mathsf{PositiveUnaryDenominator}(out_\rho)\land
+\mathsf{PositiveUnaryDenominator}(out_v).
+$$
+\end{theorem}
+\begin{proof}
+First close the rational ledger under the matching unary prefix and tail
+contexts. The two continuation chains identify the canonical associated
+endpoints with the displayed outputs by associativity of $\mathsf{append}$.
+Transport the closed ledger to those displayed outputs. Its raw carrier gives
+the first positive-denominator witness, and its transported visible carrier
+gives the second.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_positive\_denominators}
+
 \begin{theorem}[Rat denominator continuation common-context exactness package]
 \label{thm:field-rat-denominator-continuation-common-context-exactness-package}
 For all histories $p,q,d,e,pd,pe,left,right:\mathsf{BHist}$, if

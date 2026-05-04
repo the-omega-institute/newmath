@@ -4,6 +4,7 @@ namespace BEDC.Derived.RatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
 theorem PositiveUnaryDenominator_append_unary_context {pref den tail : BHist} :
@@ -62,5 +63,74 @@ theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
         (BEDC.FKernel.Cont.append visible tailVisible) :=
     RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary sameTail
   exact RatHistoryLedgerPolicy_prepend_unary_denominator_closed appended prefRawUnary samePref
+
+theorem RatHistoryClassifier_unary_denominator_context_positive_denominators
+    {d e prefD prefE tailD tailE : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        PositiveUnaryDenominator (append prefD (append d tailD)) ∧
+          PositiveUnaryDenominator (append prefE (append e tailE)) := by
+  intro classified prefUnary samePref tailUnary sameTail
+  have contextClassified :
+      RatHistoryClassifier (append prefD (append d tailD))
+        (append prefE (append e tailE)) :=
+    RatHistoryClassifier_unary_denominator_context_closed classified prefUnary samePref
+      tailUnary sameTail
+  exact RatHistoryClassifier_positive_denominators contextClassified
+
+theorem RatHistoryClassifier_cont_unary_context_positive_denominators
+    {d e prefD prefE tailD tailE midD midE outD outE : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> UnaryHistory tailD ->
+      hsame prefD prefE -> hsame tailD tailE -> Cont prefD d midD ->
+        Cont midD tailD outD -> Cont prefE e midE -> Cont midE tailE outE ->
+          PositiveUnaryDenominator outD ∧ PositiveUnaryDenominator outE := by
+  intro classified prefUnary tailUnary samePref sameTail prefDCont outDCont prefECont
+    outECont
+  have contextClassified :
+      RatHistoryClassifier (append prefD (append d tailD))
+        (append prefE (append e tailE)) :=
+    RatHistoryClassifier_unary_denominator_context_closed classified prefUnary samePref
+      tailUnary sameTail
+  have sameOutD : hsame (append prefD (append d tailD)) outD := by
+    have outEq : outD = append (append prefD d) tailD :=
+      Eq.trans outDCont (congrArg (fun h : BHist => append h tailD) prefDCont)
+    exact hsame_trans (hsame_symm (append_assoc prefD d tailD)) outEq.symm
+  have sameOutE : hsame (append prefE (append e tailE)) outE := by
+    have outEq : outE = append (append prefE e) tailE :=
+      Eq.trans outECont (congrArg (fun h : BHist => append h tailE) prefECont)
+    exact hsame_trans (hsame_symm (append_assoc prefE e tailE)) outEq.symm
+  exact RatHistoryClassifier_positive_denominators
+    (RatHistoryClassifier_hsame_transport sameOutD sameOutE contextClassified)
+
+theorem RatHistoryLedgerPolicy_cont_unary_context_positive_denominators
+    {raw visible prefRaw prefVisible tailRaw tailVisible midRaw midVisible
+      outRaw outVisible : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      UnaryHistory tailRaw -> hsame tailRaw tailVisible -> Cont prefRaw raw midRaw ->
+        Cont midRaw tailRaw outRaw -> Cont prefVisible visible midVisible ->
+          Cont midVisible tailVisible outVisible ->
+            PositiveUnaryDenominator outRaw ∧ PositiveUnaryDenominator outVisible := by
+  intro ledger prefUnary samePref tailUnary sameTail prefRawCont outRawCont prefVisibleCont
+    outVisibleCont
+  have contextLedger :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed ledger prefUnary samePref
+      tailUnary sameTail
+  have sameOutRaw : hsame (append prefRaw (append raw tailRaw)) outRaw := by
+    have outEq : outRaw = append (append prefRaw raw) tailRaw :=
+      Eq.trans outRawCont (congrArg (fun h : BHist => append h tailRaw) prefRawCont)
+    exact hsame_trans (hsame_symm (append_assoc prefRaw raw tailRaw)) outEq.symm
+  have sameOutVisible : hsame (append prefVisible (append visible tailVisible)) outVisible := by
+    have outEq : outVisible = append (append prefVisible visible) tailVisible :=
+      Eq.trans outVisibleCont
+        (congrArg (fun h : BHist => append h tailVisible) prefVisibleCont)
+    exact hsame_trans (hsame_symm (append_assoc prefVisible visible tailVisible)) outEq.symm
+  have displayedLedger : RatHistoryLedgerPolicy outRaw outVisible :=
+    RatHistoryLedgerPolicy_hsame_transport contextLedger sameOutRaw sameOutVisible
+  constructor
+  · exact RatHistoryCarrier_iff_positive_denominator.mp displayedLedger.left
+  · exact RatHistoryCarrier_iff_positive_denominator.mp
+      (RatHistoryLedgerPolicy_visible_carrier displayedLedger)
 
 end BEDC.Derived.RatUp
