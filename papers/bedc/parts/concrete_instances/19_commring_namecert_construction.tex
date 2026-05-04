@@ -67,6 +67,7 @@ In the $(a+(-b))\hsame0$ branch, specialize the universal row at $c=a+b$ and
 take its right component. The oriented product is
 $(a+b)\cdot(a+(-b))$, giving the required zero classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_signed\_product\_zero}
 
 \begin{theorem}[CommRing zero linear factor commuted signed product zero]
 \label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
@@ -261,11 +262,11 @@ chosen zero factor and product-zero witness; core theorem this block; exactness
 equality of squares; standard bridge ordinary commutative-ring factor argument;
 status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[CommRing zero linear factor exact package]
-\label{thm:commring-zero-linear-factor-exact-package}
+\begin{theorem}[CommRing zero linear factor exact package with right distributivity]
+\label{thm:commring-zero-linear-factor-exact-package-with-right-distrib}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
 $\RingUp$ additive abelian-group laws, addition and multiplication congruence,
-left distributivity, the $\RingUp$ negative-product laws, and the
+left and right distributivity, the $\RingUp$ negative-product laws, and the
 $\CommRingUp$ multiplicative commutativity field used in
 \autoref{thm:commring-difference-of-squares-zero-exact}, every
 $a,b : \mathsf{BHist}$ satisfies
@@ -286,6 +287,31 @@ square equality is $a\cdot a\hsame b\cdot b$, and pairing it with the
 signed product-zero witness gives the displayed conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_exact\_package}
+
+\begin{theorem}[CommRing zero linear factor exact package]
+\label{thm:commring-zero-linear-factor-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:commring-right-distrib-from-left} to recover right
+distributivity from left distributivity, multiplicative commutativity, and
+additive congruence.
+
+Apply
+\autoref{thm:commring-zero-linear-factor-exact-package-with-right-distrib} with
+this right distributivity field and the remaining stated hypotheses. The
+result is the displayed conjunction for the chosen zero linear factor.
+\end{proof}
 
 The ten-field fit is: traditional target zero linear factor exact package in a
 commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over

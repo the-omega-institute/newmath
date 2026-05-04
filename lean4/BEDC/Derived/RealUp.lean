@@ -478,6 +478,20 @@ theorem RealStreamClassifier_selected_continuation_e1_pair_readback
     RatHistoryClassifier_hsame_transport sameX sameY transported
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
 
+theorem RealStreamClassifier_selected_continuation_positive_denominators
+    {x y : Nat -> BHist} {n : Nat} {q xq yq : BHist} :
+    RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
+      PositiveUnaryDenominator xq ∧ PositiveUnaryDenominator yq := by
+  intro classified qUnary contX contY
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have continued :
+      RatHistoryClassifier (append (x n) q) (append (y n) q) :=
+    RatHistoryClassifier_append_unary_denominator_closed pointClassified qUnary
+      (hsame_refl q)
+  have transported : RatHistoryClassifier xq yq :=
+    RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
+  exact RatHistoryClassifier_positive_denominators transported
+
 theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat -> BHist}
     {n : Nat} :
     RealStreamClassifier x y ->
@@ -547,6 +561,27 @@ theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
       (And.intro positiveRows.right
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
+
+theorem RealStreamClassifier_transport_selected_e0_endpoint_absurd
+    {x x' y y' : Nat -> BHist} {n : Nat} {zx zy : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          (hsame (x' n) (BHist.e0 zx) -> False) ∧
+            (hsame (y' n) (BHist.e0 zy) -> False) := by
+  intro sameX sameY classified
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) (classified n)
+  have positives :
+      PositiveUnaryDenominator (x' n) ∧ PositiveUnaryDenominator (y' n) :=
+    RatHistoryClassifier_positive_denominators transported
+  constructor
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.left)
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
 
 theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :

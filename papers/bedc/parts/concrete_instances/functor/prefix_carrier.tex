@@ -35,3 +35,22 @@ carrier along endpoint sameness, and category empty-identity exactness
 reconstructs the hom-carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_source\_iff}
+
+\begin{theorem}[Prefix functor empty morphism endpoint exactness]
+\label{thm:functor-prefix-hom-carrier-morphism-empty-endpoint-iff}
+For histories $p,a,b,f$, a prefixed hom-carrier has empty morphism history
+exactly when the unprefixed endpoints agree:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\Longrightarrow
+\bigl(\HSame(f,\emp)\Longleftrightarrow\HSame(a,b)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The underlying category hom-carrier identifies empty morphisms with equality
+of the prefixed endpoints. Left cancellation for generated-history append
+removes the common prefix. Conversely, endpoint equality of $a$ and $b$
+lifts through the shared prefix and the category endpoint theorem identifies
+the morphism with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_morphism\_empty\_endpoint\_iff}
