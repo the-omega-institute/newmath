@@ -45,4 +45,37 @@ theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_target_visible
                       (And.intro data.right.right.right.right.left
                         (And.intro data.right.right.right.right.right.left sourceRel)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_nonempty_result_source_visible
+    {p q r a eta theta k : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta (BHist.e1 k) ->
+        (hsame (append p a) BHist.Empty -> False) ->
+          ∃ s t : BHist, append p a = BHist.e1 s ∧ append r a = BHist.e1 t ∧
+            UnaryHistory s ∧ UnaryHistory k ∧ UnaryHistory t ∧
+              Cont (BHist.e1 s) (BHist.e1 k) (BHist.e1 t) := by
+  intro left right comp sourceNonempty
+  have casesData :=
+    CategoryHomCarrier_comp_result_nonempty_source_target_cases
+      left.right.right.right right.right.right.right comp
+      (fun sameEmpty => not_hsame_e1_empty sameEmpty)
+  cases casesData with
+  | inl emptySource =>
+      exact False.elim (sourceNonempty emptySource.left)
+  | inr visibleSource =>
+      cases visibleSource with
+      | intro s dataS =>
+          cases dataS with
+          | intro k1 dataK =>
+              cases dataK with
+              | intro t data =>
+                  cases data.right.left
+                  exact Exists.intro s
+                    (Exists.intro t
+                      (And.intro data.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right.left
+                              (And.intro data.right.right.right.right.right.left
+                                data.right.right.right.right.right.right))))))
+
 end BEDC.Derived.NatTransUp

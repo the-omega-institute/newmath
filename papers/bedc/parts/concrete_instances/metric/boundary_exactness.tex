@@ -59,6 +59,26 @@ disjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_positive\_depth}
 
+\begin{theorem}[Metric positive distance e-one shape]
+\label{thm:metric-distance-witness-positive-distance-e1-shape}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and the structural depth of
+$d$ is not zero, then $d$ is visibly one-headed with a unary tail:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False})\to
+\exists tail,\ d=\Eone(tail)\wedge\mathsf{UnaryHistory}(tail).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the metric distance witness to obtain the unary carrier for the
+distance history $d$. Case analysis on $d$ rules out $\emp$ by the positive
+depth hypothesis and rules out an $\Ezero$ head by unary-history inversion.
+The remaining $\Eone$ case exposes its tail, and one-step unary inversion gives
+the unary tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_positive\_distance\_e1\_shape}
+
 \begin{theorem}[Metric nonempty distance endpoint e-one cases]
 \label{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases}
 For histories $x,y,d:\mathsf{BHist}$, if
