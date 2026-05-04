@@ -356,6 +356,29 @@ given continuation determines the empty composite result.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_result\_empty\_iff}
 
+\begin{theorem}[NatTrans prefix component vertical composite nonempty target visibility]
+\label{thm:nattrans-prefix-component-vert-comp-nonempty-result-target-visible}
+For prefix components over a common object $a$, if $\eta$ goes from $p$
+to $q$, $\theta$ goes from $q$ to $r$, and their vertical composite
+displays the visible result $\Eone(k)$, then the target component endpoint is
+visible:
+$$
+\exists s.\ \mathsf{append}(r,a)=\Eone(s)\wedge
+\mathsf{UnaryHistory}(k)\wedge\mathsf{UnaryHistory}(s)\wedge
+\ContR(\mathsf{append}(p,a),\Eone(k),\Eone(s)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both natural-transformation components to their underlying category
+hom-carriers. Category source-target case analysis for the nonempty composite
+result gives either an empty source endpoint with a displayed target, or a
+visible source endpoint with the same displayed target. In the visible-source
+branch, source endpoint transport converts the continuation ledger back to
+$\mathsf{append}(p,a)$; in both branches the result equality identifies the
+visible composite payload with $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_target\_visible}
+
 \begin{theorem}[NatTrans one-headed prefix empty vertical composite exactness]
 \label{thm:nattrans-prefix-component-e1-prefix-empty-vert-comp-iff}
 For prefix components over a common object $a$, if $\eta$ is a component from

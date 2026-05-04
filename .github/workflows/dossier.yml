@@ -1,0 +1,108 @@
+name: Deploy BEDC Dossier
+
+on:
+  push:
+    branches: [feature/dossier, dev, main]
+    paths:
+      - 'docs/dossier/**'
+      - 'papers/bedc/**'
+      - 'lean4/**'
+      - 'tools/build_dossier_status.py'
+      - '.github/workflows/dossier.yml'
+      - '.github/workflows/reusable-pdf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build_pdf:
+    name: Build main.pdf
+    uses: ./.github/workflows/reusable-pdf.yml
+    with:
+      upload_artifact: true
+      artifact_name: dossier-pdf
+      artifact_retention_days: 7
+    secrets: inherit
+
+  build_dossier:
+    name: Render dossier
+    needs: build_pdf
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.37"
+
+      - name: Download PDF artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: dossier-pdf
+          path: pdf-artifact
+
+      - name: Stage PDF with UTC timestamp
+        id: stage_pdf
+        run: |
+          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
+          pdf_name="bedc_${ts}.pdf"
+          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
+          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
+          if [ -z "$pdf_file" ]; then
+            echo "No PDF found in artifact" >&2
+            ls -la pdf-artifact || true
+            exit 1
+          fi
+          cp "$pdf_file" "docs/dossier/${pdf_name}"
+          ls -lh "docs/dossier/${pdf_name}"
+          # Rewrite literal `bedc.pdf` references in source files so the
+          # rendered site links to the timestamped filename.
+          sed -i "s|bedc\.pdf|${pdf_name}|g" \
+            docs/dossier/_quarto.yml \
+            docs/dossier/index.qmd \
+            docs/dossier/index.zh-CN.qmd
+
+      - name: Build dossier visualization data
+        run: python3 tools/build_dossier_status.py
+
+      - name: Glossary completeness gate
+        run: python3 tools/check_glossary.py
+
+      - name: Render dossier
+        run: quarto render docs/dossier/
+
+      - name: Verify PDF reached _site
+        run: |
+          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
+          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
+            echo "PDF missing from _site after render; copying as fallback"
+            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
+          fi
+          ls -lh "docs/dossier/_site/${pdf_name}"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/dossier/_site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build_dossier
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

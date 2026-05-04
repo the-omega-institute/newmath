@@ -91,3 +91,25 @@ empty data builds the empty composite continuation; continuation determinacy
 compares that empty result with the displayed composite result $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_result\_empty\_iff}
+
+\begin{theorem}[Prefix hom composite empty-middle inversion]
+\label{thm:functor-prefix-hom-comp-empty-middle-inversion}
+For histories $p,a,c,f,g,fg$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$
+to $\mathsf{append}(p,c)$, and $\ContR(f,g,fg)$, then
+$$
+\hsame(p,\emp)\wedge\hsame(a,\emp)\wedge\hsame(f,\emp)\wedge
+\hsame(g,\mathsf{append}(p,c))\wedge
+\mathsf{CategoryHomCarrier}(\emp,\mathsf{append}(p,c),fg)\wedge
+\hsame(fg,\mathsf{append}(p,c)).
+$$
+\end{theorem}
+\begin{proof}
+Empty-target component exactness splits the left hom-carrier into emptiness of
+the prefix, source tail, and morphism. Empty-source component exactness reads
+the right morphism as the prefixed target. With $f=\emp$, the displayed
+continuation identifies $fg$ with $g$, so $fg$ also reads back as
+$\mathsf{append}(p,c)$; category empty-source exactness rebuilds the final
+hom-carrier for $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_inversion}
