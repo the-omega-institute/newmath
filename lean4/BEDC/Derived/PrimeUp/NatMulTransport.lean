@@ -83,6 +83,23 @@ theorem NatMul_append_multiplier_right_factor {d w q n e r : BHist} :
         cont_left_cancel displayed displayed'
       exact (NatMul_result_hsame_transport eData.right (hsame_symm sameFactor)).right
 
+theorem NatMul_append_multiplier_left_factor {d w q n e r : BHist} :
+    UnaryHistory d -> UnaryHistory w -> NatMul d q e -> NatMul d (append w q) r ->
+      Cont n e r -> NatMul d w n := by
+  intro dUnary wUnary right combined displayed
+  have leftTotal := NatMul_total dUnary wUnary
+  cases leftTotal with
+  | intro n' nData =>
+      have composed : NatMul d (append w q) (append n' e) :=
+        NatMul_append_cont nData.right right (cont_intro rfl)
+      have sameResult : hsame r (append n' e) :=
+        NatMul_functional dUnary combined composed
+      have displayed' : Cont n' e r :=
+        cont_result_hsame_transport (cont_intro rfl) (hsame_symm sameResult)
+      have sameFactor : hsame n n' :=
+        cont_right_cancel displayed displayed'
+      exact (NatMul_result_hsame_transport nData.right (hsame_symm sameFactor)).right
+
 theorem NatDivides_divisor_hsame_transport {d d' n : BHist} :
     NatDivides d n -> hsame d d' -> UnaryHistory d' ∧ NatDivides d' n := by
   intro divides sameD

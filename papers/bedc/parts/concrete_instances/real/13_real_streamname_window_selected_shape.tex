@@ -119,6 +119,7 @@ $\mathsf{UnaryHistory}(u)$, $\mathsf{UnaryHistory}(v)$, and $\hsame(u,v)$.
 Together with the denominator package rows, these are exactly the displayed
 finite-window selected shape package.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_shape\_package}
 
 Fit. Traditional target: selected finite-window rational readback for RealUp
 StreamNameUp classifiers. BEDC source: $\StreamNameUp+\RealUp+\RatUp$ over
@@ -131,3 +132,76 @@ offset, selected endpoint displays, and zero-head tests. Core theorem:
 Exactness: selected source RatUp classifier, displayed RatUp one-tail classifier,
 denominator, unary, nonempty, and zero-headed exclusion rows. Standard bridge:
 finite rational observation windows. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary StreamNameUp finite-window selected full endpoint package]
+\label{thm:real-unary-streamname-finite-window-selected-full-endpoint-package}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k,u,v,z_s,z_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega),
+$$
+and the displayed selected window endpoints
+$$
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u)),
+\quad
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v)).
+$$
+Then the selected endpoints carry the full finite-window endpoint package:
+$$
+\begin{array}{l}
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
+\mathsf{RatHistoryClassifier}(s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t(\mathsf{append}(\alpha,k)))\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the two
+carrier rows, the StreamNameUp classifier, and the unary anchor and bound. This
+produces $\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$.
+
+Apply \autoref{lem:real-unary-stream-window-endpoint-projection} to that window
+classifier and the displayed offset witness $\mathsf{UnaryOffsetLe}(k,\omega)$.
+This gives the selected source classifier
+$$
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k))).
+$$
+
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-shape-package} to the
+same hypotheses. It supplies the transported $\Eone$ classifier, the unary tail
+readback, the two positive-denominator rows, the two unary endpoint rows, the
+nonempty exclusions, and the zero-head exclusions.
+
+Combining the window classifier, the projected selected classifier, and the
+selected shape package gives exactly the displayed full endpoint package.
+\end{proof}
+
+Fit. Traditional target: RealUp finite-window selected full endpoint readback.
+BEDC source: $\StreamNameUp+\RealUp+\RatUp$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: $\hsame$ endpoint
+transport with positive-denominator transport. Ledger: carrier, classifier,
+unary anchor, unary bound, selected offset, endpoint displays, and zero-head
+tests. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-full-endpoint-package}.
+Exactness: selected classifier plus the displayed endpoint package. Standard
+bridge: downstream finite rational observation windows. Status:
+$\mathsf{ProofTarget}$.

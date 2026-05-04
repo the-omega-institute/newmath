@@ -6,6 +6,18 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+theorem MetricDistanceWitness_visible_context_empty_distance_continuation_splice
+    {p q x y l r mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      Cont l x mid -> Cont mid r out -> Cont l r out := by
+  intro visible leftCont rightCont
+  have endpoints :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x) (y := y)).mp visible
+  cases endpoints.right.right.left
+  cases leftCont
+  exact rightCont
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_distance_empty {p q d : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
       (append (append p d) q) -> hsame d BHist.Empty ∧ MetricDistanceDepth d = 0 := by
@@ -108,5 +120,18 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_depth_
     And.intro lCarrier
       (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
   exact MetricDistanceWitness_depth_add witness
+
+theorem MetricDistanceWitness_empty_boundary_visible_context_witness_splice
+    {p q d l r mid out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l d mid -> Cont mid r out ->
+        MetricDistanceWitness l r out := by
+  intro visible lCarrier rCarrier leftCont rightCont
+  have spliced : Cont l r out :=
+    MetricDistanceWitness_empty_boundary_visible_context_continuation_splice visible leftCont
+      rightCont
+  exact And.intro lCarrier
+    (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
 
 end BEDC.Derived.MetricUp
