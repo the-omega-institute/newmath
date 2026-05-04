@@ -148,6 +148,7 @@ import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedStrict
+import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -508,6 +509,7 @@ import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
+import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
@@ -518,6 +520,7 @@ import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.NatTransUp.IdentitySquare
 import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
+import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp

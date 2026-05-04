@@ -1,3 +1,24 @@
+\begin{theorem}[NatTrans prefix component empty object exactness]
+\label{thm:nattrans-prefix-empty-object}
+For histories $p,q,\eta$, a prefix component over the empty object is exactly
+unary source and target prefixes together with the unprefixed category
+hom-carrier from $p$ to $q$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,\emp,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge
+\mathsf{CategoryHomCarrier}(p,q,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier at the empty object. The two endpoints are
+$\mathsf{append}(p,\emp)$ and $\mathsf{append}(q,\emp)$, which reduce to $p$
+and $q$ by the right unit law for append. Category hom-carrier transport across
+those endpoint equalities gives the unprefixed carrier, and the converse
+transports it back while packaging the empty object carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_object\_iff}
+
 \begin{theorem}[NatTrans prefix component right identity empty result]
 \label{thm:nattrans-prefix-component-right-identity-empty-result}
 For a prefix component $\eta$ from $p$ to $q$ at $a$, if $right$ is obtained
