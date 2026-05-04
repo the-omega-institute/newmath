@@ -71,4 +71,25 @@ theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_continuati
   cases leftCont
   exact rightCont
 
+theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_distance_continuation_result
+    {p q p' q' x y dxy dyx l mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 -> Cont l dxy mid -> Cont mid dyx out ->
+          hsame out l := by
+  intro forward reverse depthZero leftCont rightCont
+  have collapse :=
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
+      (p := p) (q := q) (p' := p') (q' := q') (x := x) (y := y)
+      (dxy := dxy) (dyx := dyx) forward reverse depthZero
+  have leftEmpty : hsame dxy BHist.Empty :=
+    MetricDistanceDepth_zero_iff_empty.mp depthZero
+  have rightEmpty : hsame dyx BHist.Empty :=
+    MetricDistanceDepth_zero_iff_empty.mp collapse.right.left
+  cases leftEmpty
+  cases rightEmpty
+  cases leftCont
+  cases rightCont
+  rfl
+
 end BEDC.Derived.MetricUp
