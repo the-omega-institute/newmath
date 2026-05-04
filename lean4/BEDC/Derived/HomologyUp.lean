@@ -343,6 +343,30 @@ theorem HomologyBoundaryCarrier_cont_empty_preimages {d : BHist -> BHist} {h k r
     exact resultEmpty
   exact HomologyBoundaryCarrier_append_empty_preimages boundaryH boundaryK appendEmpty
 
+theorem HomologyBoundaryCarrier_cont_empty_result_preimages_iff
+    {d : BHist -> BHist} {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      (hsame r BHist.Empty ↔
+        Exists (fun u : BHist => Exists (fun v : BHist =>
+          hsame h (d u) ∧ hsame k (d v) ∧
+            hsame (d u) BHist.Empty ∧ hsame (d v) BHist.Empty))) := by
+  intro boundaryH boundaryK continuation
+  constructor
+  · intro resultEmpty
+    exact HomologyBoundaryCarrier_cont_empty_preimages boundaryH boundaryK continuation resultEmpty
+  · intro preimages
+    cases preimages with
+    | intro u uData =>
+        cases uData with
+        | intro v vData =>
+            have hEmpty : hsame h BHist.Empty :=
+              hsame_trans vData.left vData.right.right.left
+            have kEmpty : hsame k BHist.Empty :=
+              hsame_trans vData.right.left vData.right.right.right
+            have appendEmpty : hsame (append h k) BHist.Empty :=
+              append_eq_empty_iff.mpr (And.intro hEmpty kEmpty)
+            exact hsame_trans continuation appendEmpty
+
 theorem HomologyBoundaryCarrier_append_nonempty_preimage {d : BHist -> BHist} {h k : BHist} :
     HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k ->
       (hsame (append h k) BHist.Empty -> False) ->

@@ -14,6 +14,18 @@ $$
 $$
 \end{definition}
 
+\begin{definition}[CommRing strict two-sided zero-divisor data]
+\label{def:commring-strict-zero-divisor-data}
+For the same BEDC history-level $\CommRingUp$ operation tuple, the strict
+two-sided zero-divisor predicate is
+$$
+\mathsf{StrictZD}_R(x):=
+\mathsf{ApartZero}_R(x)\land
+\exists c:\mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0\land c\cdot x\hsame0.
+$$
+\end{definition}
+
 \begin{theorem}[CommRing zero-divisor product closure]
 \label{thm:commring-zero-divisor-product-closure}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
@@ -79,6 +91,60 @@ $a\cdot b$ is apart from zero, apply
 \autoref{thm:commring-zero-divisor-product-closure} to $H$ and that apartness
 proof.
 \end{proof}
+
+\begin{theorem}[CommRing strict zero-divisor product closure]
+\label{thm:commring-strict-zero-divisor-product-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{StrictZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{StrictZD}_R(a)$. The strict witness supplies
+$c:\mathsf{BHist}$ together with $\mathsf{ApartZero}_R(c)$,
+$a\cdot c\hsame0$, and $c\cdot a\hsame0$. Let $P$ be the given proof that
+$a\cdot b$ is apart from zero.
+
+The left annihilation row for the product is the same chain as in
+\autoref{thm:commring-zero-divisor-product-closure}. Multiplicative
+associativity rewrites $(a\cdot b)\cdot c$ to $a\cdot(b\cdot c)$,
+commutativity rewrites $b\cdot c$ to $c\cdot b$, and congruence transports the
+comparison under left multiplication by $a$.
+
+Associativity in the other direction identifies $a\cdot(c\cdot b)$ with
+$(a\cdot c)\cdot b$. The zero-classifier factor absorption theorem then sends
+$a\cdot c\hsame0$ to $(a\cdot c)\cdot b\hsame0$, so transitivity gives
+$$
+(a\cdot b)\cdot c\hsame0.
+$$
+
+For the right annihilation row, apply the $\CommRingUp$ multiplicative
+commutativity field to the two histories $(a\cdot b)\cdot c$ and
+$c\cdot(a\cdot b)$. Transport the displayed zero classifier across this
+comparison to obtain
+$$
+c\cdot(a\cdot b)\hsame0.
+$$
+
+Package $P$, the same apart-zero witness $c$, its apartness proof, and the two
+displayed annihilation rows. These are exactly the components of
+$\mathsf{StrictZD}_R(a\cdot b)$.
+\end{proof}
+
+The ten-field fit is: traditional target strict zero-divisor closure in a
+commutative ring; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from associativity,
+commutativity, congruence, and zero absorption; ledger the apartness witness
+plus both annihilator orientations; core theorem
+\autoref{thm:commring-strict-zero-divisor-product-closure}; exactness the
+two-sided annihilator witness; standard bridge ordinary commutative-ring
+zero-divisor closure; status $\mathsf{ProofTarget}$.
 
 \begin{definition}[CommRing subring-inclusion name certificate]
 \label{def:commring-subring-inclusion-name-certificate}

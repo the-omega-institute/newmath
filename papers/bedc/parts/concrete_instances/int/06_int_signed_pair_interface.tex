@@ -454,3 +454,36 @@ $a\hsame b$, together with the supplied endpoint carriers and reflexivity of
 $\msame(s,s)$, gives the integer classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}
+
+\begin{theorem}[Integer classifier same-sign common context iff]
+\label{thm:int-classifier-same-sign-common-context-iff}
+For a fixed sign $s:\mathsf{BMark}$, suppose that $left$, $right$,
+$a$, and $b$ are all carried by $\mathsf{IntCarrier}(s,-)$. Then common
+same-sign append context is exact for the integer classifier:
+$$
+\mathsf{IntClassifierSpec}
+\bigl((s,\mathsf{append}(left,\mathsf{append}(a,right))),
+(s,\mathsf{append}(left,\mathsf{append}(b,right)))\bigr)
+\Longleftrightarrow
+\mathsf{IntClassifierSpec}((s,a),(s,b)).
+$$
+The ten-field fit is: traditional target common-context exactness for signed
+unary integers; BEDC source $\mathsf{IntCarrier}$,
+$\mathsf{IntClassifierSpec}$, and $\mathsf{append}$; carrier same-sign unary
+representatives; classifier $\mathsf{IntClassifierSpec}$;
+stability/common-context exactness; ledger left and right context histories;
+core theorem this iff; exactness preservation plus reflection; standard
+bridge ordinary cancellation under equal integer context; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. Apply
+Theorem~\ref{thm:int-classifier-cancel-append-context-same-sign} with the
+given endpoint carrier witnesses for $a$ and $b$ to cancel the common left
+and right unary histories.
+
+For the reverse direction, assume $\mathsf{IntClassifierSpec}((s,a),(s,b))$.
+Apply Theorem~\ref{thm:int-classifier-append-context-same-sign} with the
+given carrier witnesses for $left$ and $right$ to append the same unary
+context on both sides.
+\end{proof}

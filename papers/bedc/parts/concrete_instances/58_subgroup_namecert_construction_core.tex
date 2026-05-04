@@ -208,6 +208,46 @@ $Z_{a,b}$ for both conjugates.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier\_self\_conjugation\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer intersection classifier self-conjugation closure]
+\label{thm:subgroup-centralizer-intersection-classifier-self-conjugation-closed}
+Under the same BEDC history-level $\GroupUp$ laws, if $Z_{a,b}(t)$ and the
+restricted classifier on $Z_{a,b}$ relates $x$ to $y$, then it also relates
+their conjugates by $t$:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,y)
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,
+  \mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t)),
+  \mathsf{mul}(\mathsf{mul}(t,y),\mathsf{inv}(t))).
+$$
+\end{theorem}
+\begin{proof}
+The carrier self-conjugation theorem sends the $x$ endpoint and the $y$
+endpoint separately into the two-centralizer intersection carrier. The stored
+comparison $x\hsame y$ is transported through the two multiplication slots by
+multiplication congruence, giving the classifier row for the two conjugates.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_self\_conjugation\_closed\_from\_empty\_unit}
+
+\begin{theorem}[Centralizer intersection classifier history transport]
+\label{thm:subgroup-centralizer-intersection-classifier-hsame-transport}
+Under the same BEDC history-level $\GroupUp$ laws, the restricted classifier on
+$Z_{a,b}$ is stable under endpoint $\hsame$ transport:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,y)
+\land x\hsame x'\land y\hsame y'
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x',y').
+$$
+\end{theorem}
+\begin{proof}
+The intersection certificate supplies carrier transport for $Z_{a,b}$, so the
+two endpoint carrier rows move from $x,y$ to $x',y'$. The classifier comparison
+is the composite $x'\hsame x\hsame y\hsame y'$, using symmetry and transitivity
+of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_hsame\_transport\_from\_empty\_unit}
+
 Per-object template: traditional target two-centralizer subgroup certificate;
 BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
 restricted $\hsame$; stability identity, product, inverse, and carrier
