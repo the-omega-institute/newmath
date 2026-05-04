@@ -115,6 +115,22 @@ displayed gap by left cancellation yields the classifier
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_deterministic}
 
+\begin{theorem}[Open disk radius extension gap determinacy]
+\label{thm:open-disk-radius-extension-gap-deterministic}
+If $\mathsf{OpenDisk}(z_0,r,z)$ holds, $g$, $e$, and $g'$ are unary,
+$\ContR(g,z,r)$, $\ContR(r,e,r')$, and $\ContR(g',z,r')$, then
+$$
+\hsame(g\cdot e,g').
+$$
+\end{theorem}
+\begin{proof}
+The open-disk carrier supplies the unary point history $z$. Compose
+$\ContR(g,z,r)$ with $\ContR(r,e,r')$ and commute the unary histories $z$ and
+$e$ inside append to obtain $\ContR(g\cdot e,z,r')$. Left cancellation against
+the displayed ledger $\ContR(g',z,r')$ yields $\hsame(g\cdot e,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_gap\_deterministic}
+
 \begin{theorem}[Holomorphic open disk gap-point commutation]
 \label{thm:holomorphic-open-disk-gap-point-comm}
 If $\mathsf{HolomorphicOpenDisk}(z_0,r,z,g)$, then the radius is classified by
@@ -348,6 +364,25 @@ rewrites the composite boundary ledger to
 \(\ContR(g\cdot e,z,r')\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_closed}
+
+\begin{theorem}[Open disk radius extension gap public readback]
+\label{thm:open-disk-radius-extension-gap-public-readback}
+If \(\mathsf{OpenDisk}(z_0,r,z)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then \(\mathsf{OpenDisk}(z_0,r',z)\). Moreover, every
+displayed unary gap \(g'\) with \(\ContR(g',z,r')\) is the public display of
+some original gap \(g\) with \(\ContR(g,z,r)\), continued by \(e\):
+$$
+g\cdot e \hsame g'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the original open disk to a unary boundary gap \(g\) with
+\(\ContR(g,z,r)\). The radius extension closure constructs the continued gap
+\(g\cdot e\) and its ledger \(\ContR(g\cdot e,z,r')\). Comparing this ledger
+with the displayed ledger \(\ContR(g',z,r')\) by right cancellation gives
+\(g\cdot e\hsame g'\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_gap\_public\_readback}
 
 \begin{theorem}[Open disk empty-radius boundary]
 \label{thm:open-disk-empty-radius-boundary}

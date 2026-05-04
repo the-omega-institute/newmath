@@ -23,11 +23,11 @@ The first command that errors is what you need to fix.
 ## Common failure categories and recovery moves
 
 ### `bedc_ci.py audit` failure (drift / label / marker)
-- "duplicate paper labels" — a `\label{thm:...}` you added now collides
+- "duplicate paper labels" — a `\label{{thm:...}}` you added now collides
   with a sibling-merged label. Delete this round's `\label` occurrence
-  and the surrounding `\begin{theorem}…\end{theorem}` block if the block
+  and the surrounding `\begin{{theorem}}…\end{{theorem}}` block if the block
   exists only because of this round.
-- "unresolved Lean markers" — a `\leanchecked{X}` (or stmt/def variant)
+- "unresolved Lean markers" — a `\leanchecked{{X}}` (or stmt/def variant)
   references a Lean name that doesn't exist anywhere under
   `lean4/BEDC/`. Drop the marker.
 - "case-collision" — git index has two paths differing only by case.
@@ -74,7 +74,7 @@ The first command that errors is what you need to fix.
 4. Re-run the gate that was failing. If it passes, you're done.
 5. Do NOT push. Do NOT touch other worktrees. Do NOT delete this worktree.
 6. Print a one-line summary on stdout: e.g.
-   `RECOVERED: drift audit — dropped duplicate \label{thm:foo}`.
+   `RECOVERED: drift audit — dropped duplicate \label{{thm:foo}}`.
 
 ## When to give up
 
