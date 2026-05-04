@@ -65,13 +65,27 @@ nohup python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py \
 disown
 ```
 
-Immediately after launching, confirm both processes are alive and re-parented:
+### Verify restart success (two-step, never skip)
+
+After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
+
+**Step 1 — process check:**
 
 ```bash
 ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep
 ```
 
-`PPID` should be `1` (init) — that's the proof that nohup detached cleanly. If `PPID` is your shell's PID, the disown didn't take and a session exit will SIGHUP the orchestrator.
+Both processes must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If a process is missing entirely, the script crashed before it ever wrote a log line — go read the orchestrator.log tail to see the import / argparse error.
+
+**Step 2 — progress check:**
+
+```bash
+sleep 8 && tail -3 /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log; echo '---'; tail -3 /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log
+```
+
+Both logs should show recent timestamps (within the last ~10s) and `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` lines — proof that the orchestrators dispatched at least one round and aren't stuck at startup. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
+
+Only after BOTH steps pass — processes alive with PPID=1 AND logs advancing past startup — should you optionally arm a persistent `tail -F` for ongoing observation (see "Monitor" section below). The persistent monitor is for steady-state observation, never for verifying that startup succeeded.
 
 `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under high parallelism: bump to 3600 / 4500. These are CLI-only — restart required to change.
 
@@ -380,7 +394,7 @@ NOT necessary (do not restart):
 - A `.pipeline_parallel.json` edit (paper / lean / lean_lake concurrency). Re-read on every dispatch.
 - A single round failure or a transient `ff update of codex-auto-dev failed: Diverging branches can't be fast-forwarded` race during merge push retry — self-recovers within 1-2 seconds via the orchestrator's fetch+merge+push retry loop.
 
-When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Verify with `ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep` that the new processes have `PPID 1`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
+When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Run the two-step check from "Verify restart success" — `ps` for `PPID=1`, then a one-shot `tail -3` on each log to confirm log lines are advancing. Persistent `tail -F` does NOT count as restart verification; it blocks forever if the orchestrator died at startup and never notifies. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
 
 Still NOT in autonomous scope (always ask):
 
