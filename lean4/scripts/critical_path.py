@@ -127,7 +127,7 @@ LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 # chapter's recursive include closure. Critical_path excludes closed
 # chapters from `top` so codex rounds focus on still-open horizons.
 CLOSUREAT_RE = re.compile(
-    r"\\closureat\{[^}]*?\b([A-Z][A-Za-z]*)Up\b[^}]*\}\{[^}]*\\?(\w+)Str\b[^}]*\}"
+    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
 )
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
 CLOSED_STRENGTHS = {"checkedCert", "bridgeCert"}
