@@ -121,6 +121,24 @@ theorem CategoryHomCarrier_comp_result_empty_identity_carriers {a b c f g fg : B
     cont_result_hsame_transport comp resultEmpty
   exact CategoryHomCarrier_empty_composite_identity_carriers left right emptyComp
 
+theorem CategoryHomCarrier_comp_result_empty_edge_identity_carriers {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame fg BHist.Empty ->
+        CategoryHomCarrier a b BHist.Empty ∧ CategoryHomCarrier b c BHist.Empty ∧
+          CategoryHomCarrier a a BHist.Empty ∧ CategoryHomCarrier b b BHist.Empty ∧
+            CategoryHomCarrier c c BHist.Empty := by
+  intro left right comp resultEmpty
+  have emptyComp : Cont f g BHist.Empty :=
+    cont_result_hsame_transport comp resultEmpty
+  have edgeCarriers :=
+    Iff.mp (CategoryHomCarrier_empty_composite_identity_factors_iff left right) emptyComp
+  have identityCarriers :=
+    CategoryHomCarrier_empty_composite_identity_carriers left right emptyComp
+  exact And.intro edgeCarriers.left
+    (And.intro edgeCarriers.right
+      (And.intro identityCarriers.left
+        (And.intro identityCarriers.right.left identityCarriers.right.right)))
+
 theorem CategoryHomCarrier_empty_target_comp_boundary_inversion {a b f g fg : BHist} :
     CategoryHomCarrier a b f -> CategoryHomCarrier b BHist.Empty g -> Cont f g fg ->
       hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame f BHist.Empty ∧

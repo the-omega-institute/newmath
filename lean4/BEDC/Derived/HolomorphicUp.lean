@@ -449,6 +449,41 @@ theorem IteratedCplxDiff_unary_of_seed {seed h : BHist} {n : Nat} :
           | intro step data =>
               exact unary_cont_closed (ih data.left) data.right.left data.right.right
 
+def IteratedStrictCplxDiff (seed : BHist) : Nat -> BHist -> Prop :=
+  Nat.rec
+    (fun h : BHist => hsame seed h)
+    (fun _ prior h =>
+      ∃ previous : BHist, ∃ step : BHist,
+        prior previous ∧ UnaryHistory step ∧ (step = BHist.Empty -> False) ∧
+          Cont previous step h)
+
+theorem IteratedStrictCplxDiff_strict_prefix {seed h : BHist} {n : Nat} :
+    UnaryHistory seed -> IteratedStrictCplxDiff seed (Nat.succ n) h ->
+      NatUnaryStrictPrefix seed h := by
+  intro seedUnary diff
+  induction n generalizing h with
+  | zero =>
+      cases diff with
+      | intro previous rest =>
+          cases rest with
+          | intro step data =>
+              exact
+                NatUnaryStrictPrefix_cont_hsame_transport data.right.left
+                  data.right.right.left data.right.right.right (hsame_symm data.left)
+                  (hsame_refl h)
+  | succ n ih =>
+      cases diff with
+      | intro previous rest =>
+          cases rest with
+          | intro step data =>
+              have previousStrict : NatUnaryStrictPrefix seed previous :=
+                ih data.left
+              have stepStrict : NatUnaryStrictPrefix previous h :=
+                Exists.intro step data.right
+              cases NatUnaryStrictPrefix_trans_composite_tail previousStrict stepStrict with
+              | intro _tail joined =>
+                  exact joined.right.right.right
+
 def OpenDisk (z0 r z : BHist) : Prop :=
   ComplexHistoryCarrier z0 ∧ UnaryHistory r ∧ ComplexHistoryCarrier z ∧
     ∃ gap : BHist, UnaryHistory gap ∧ Cont gap z r
