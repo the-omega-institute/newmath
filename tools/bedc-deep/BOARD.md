@@ -3460,3 +3460,28 @@ Rationale:
 
 ---
 
+### B-136 - TotalOrder finite maximum classifier uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite maximum classifier uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under TotalOrderUp(C), any two finite-maximum witnesses of the same nonempty finite carried spine are classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+Lands cleanly in chapter 29 (totalorder namecert), which currently has only definitions plus B-13 (trichotomy classifier reduction). Finite-max uniqueness is a distinct, foundational total-order theorem — it is the antisymmetric upper-bound uniqueness applied to a finite spine, not the trichotomy reduction of B-13 nor the general lattice GLB/LUB uniqueness of B-29 (different setup: totalorder finite spine vs lattice directional bounds). It fills a real gap on the totalorder side and is naturally expressible as a single implication. Risk is low-medium because the proof reduces to antisymmetry on a finite enumeration.
+
+---
+

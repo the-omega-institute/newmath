@@ -199,3 +199,55 @@ The displayed morphism $F_1(g)$, the composite display $d$, and the classifier
 comparison with $i_{F_0(a)}$ form the split-monomorphism witness for $F_1(f)$
 in $\mathcal D$.
 \end{proof}
+
+\begin{definition}[Split epimorphism in a certified category]
+\label{def:category-split-epimorphism}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ is a split epimorphism when there are a displayed morphism
+$g:b\to a$, a target identity display $i_b:b\to b$, and a composite display
+$c:b\to b$ such that $\mathsf{HomCarrier}_{\mathcal C}(a,b,f)$,
+$\mathsf{HomCarrier}_{\mathcal C}(b,a,g)$, $i_b$ is the identity witness at
+$b$, $\mathsf{Comp}_{\mathcal C}(g,f,c)$ records $f\circ_{\mathcal C} g$, and
+$c\sim_{\mathcal C} i_b$ in the morphism classifier at $(b,b)$. The morphism
+$g$ is a right-inverse witness for $f$.
+\end{definition}
+
+\begin{theorem}[Functor preserves split epimorphisms]
+\label{thm:functor-preserves-split-epimorphism}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ is a split epimorphism in
+$\mathcal C$ with right-inverse witness $g:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ is a split epimorphism in $\mathcal D$ with
+right-inverse witness $F_1(g):F_0(b)\to F_0(a)$.
+\end{theorem}
+\begin{proof}
+Unpack the source split-epimorphism data from
+\autoref{def:category-split-epimorphism}. Thus $f$ and $g$ are displayed
+hom-carriers in $\mathcal C$, $i_b$ is the chosen identity display at $b$, and
+there is a composite display $c$ with $\mathsf{Comp}_{\mathcal C}(g,f,c)$ and
+$c\sim_{\mathcal C} i_b$.
+
+The hom-carrier landing field of the functor carrier sends $f$ and $g$ to
+hom-carriers $F_1(f):F_0(a)\to F_0(b)$ and
+$F_1(g):F_0(b)\to F_0(a)$ in $\mathcal D$. Apply the composition preservation
+field of \autoref{def:functor-stability-certificate} to the source composite
+ledger $\mathsf{Comp}_{\mathcal C}(g,f,c)$. It supplies a codomain composite
+display $d$ with
+$$
+\mathsf{Comp}_{\mathcal D}(F_1(g),F_1(f),d)
+$$
+and a morphism-classifier comparison between $d$ and $F_1(c)$.
+
+The morphism-classifier stability field for $F$ transports the source
+comparison $c\sim_{\mathcal C} i_b$ to a codomain comparison
+$F_1(c)\sim_{\mathcal D}F_1(i_b)$. Identity preservation for $F$ identifies
+$F_1(i_b)$ with the identity display $i_{F_0(b)}$ of $\mathcal D$. Symmetry and
+transitivity of the codomain morphism classifier, supplied by the $\CategoryUp$
+stability laws, compose these comparisons to obtain
+$d\sim_{\mathcal D} i_{F_0(b)}$.
+
+The displayed morphism $F_1(g)$, the composite display $d$, the codomain target
+identity display $i_{F_0(b)}$, and the classifier comparison with
+$i_{F_0(b)}$ form the split-epimorphism witness for $F_1(f)$ in $\mathcal D$.
+\end{proof}
