@@ -290,6 +290,31 @@ theorem RealStreamPrefixClassifier_hsame_transport {x x' y y' : Nat -> BHist}
         (BEDC.Derived.RatUp.RatHistoryClassifier_hsame_transport
           (sameX (Nat.succ n)) (sameY (Nat.succ n)) classified.right)
 
+theorem RealStreamPrefixClassifier_unary_context_closed
+    {x y prefX prefY tailX tailY : Nat -> BHist} :
+    (forall i : Nat, UnaryHistory (prefX i)) ->
+      (forall i : Nat, hsame (prefX i) (prefY i)) ->
+        (forall i : Nat, UnaryHistory (tailX i)) ->
+          (forall i : Nat, hsame (tailX i) (tailY i)) ->
+            forall n : Nat, RealStreamPrefixClassifier x y n ->
+              RealStreamPrefixClassifier
+                (fun i => BEDC.FKernel.Cont.append (prefX i)
+                  (BEDC.FKernel.Cont.append (x i) (tailX i)))
+                (fun i => BEDC.FKernel.Cont.append (prefY i)
+                  (BEDC.FKernel.Cont.append (y i) (tailY i))) n := by
+  intro prefUnary prefSame tailUnary tailSame n
+  induction n with
+  | zero =>
+      intro classified
+      exact RatHistoryClassifier_unary_denominator_context_closed classified
+        (prefUnary Nat.zero) (prefSame Nat.zero) (tailUnary Nat.zero) (tailSame Nat.zero)
+  | succ n ih =>
+      intro classified
+      exact And.intro (ih classified.left)
+        (RatHistoryClassifier_unary_denominator_context_closed classified.right
+          (prefUnary (Nat.succ n)) (prefSame (Nat.succ n))
+          (tailUnary (Nat.succ n)) (tailSame (Nat.succ n)))
+
 theorem RealStreamPrefixClassifier_symm {x y : Nat -> BHist} :
     forall n : Nat, RealStreamPrefixClassifier x y n ->
       RealStreamPrefixClassifier y x n := by
