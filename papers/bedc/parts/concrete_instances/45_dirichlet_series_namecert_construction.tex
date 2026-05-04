@@ -225,15 +225,50 @@ the supplied nonempty index witness.
 
 \begin{definition}[Abscissa of absolute convergence]
 \label{def:abs-conv-abscissa}
-For coefficient sequence \(a\), the abscissa of absolute convergence \(\mathsf{AbsConvAbscissa}(a, \sigma_a)\) is the predicate that \(\sigma_a\) is a real-history with the property: for every unary precision \(k\) and every complex \(s\) with the rational representation of \(\Re(s) - \sigma_a \geq 2^{-k}\), the modulus partial sums of the Dirichlet series at \(s\) are uniformly bounded above by an explicit constant.
+For coefficient sequence $a$, the abscissa of absolute convergence
+$\mathsf{AbsConvAbscissa}(a,\sigma_a)$ is the located boundary predicate on a
+real-history $\sigma_a$ with two clauses.
+
+The right clause says that for every unary precision $k$ and every complex $s$,
+if a BEDC real-history witness supplies the rational comparison
+$\Re(s)-\sigma_a\geq 2^{-k}$, then the modulus partial sums of the Dirichlet
+series at $s$ are uniformly bounded above by an explicit constant.
+
+The left clause says that for every unary precision $k$, every rational probe
+$q$, and every BEDC real-history witness supplying the rational comparison
+$\sigma_a-q\geq 2^{-k}$, the modulus partial sums at the probe point with real
+part $q$ fail to admit any such uniform bound. All uses of order in the
+predicate are therefore supplied by displayed real-history comparison witnesses,
+not inferred from distinctness of candidates.
 \end{definition}
 
 \begin{theorem}[Abscissa is unique]
 \label{thm:abs-conv-abscissa-unique}
-If \(\mathsf{AbsConvAbscissa}(a, \sigma_a)\) and \(\mathsf{AbsConvAbscissa}(a, \sigma_a')\), then \(\hsame(\sigma_a, \sigma_a')\) on the rational representation of the real-history.
+If $\mathsf{AbsConvAbscissa}(a,\sigma_a)$ and
+$\mathsf{AbsConvAbscissa}(a,\sigma_a')$, then
+$\hsame(\sigma_a,\sigma_a')$ on the rational representation of the
+real-history.
 \end{theorem}
 \begin{proof}[Sketch]
-Suppose distinct. Pick a rational \(\sigma\) strictly between them. The bound holds from one side and fails from the other; contradiction.
+It is enough to rule out every explicit rational gap between the two
+real-histories. Suppose a unary precision $k$ and BEDC comparison witnesses
+exhibit the oriented gap
+
+$$
+\sigma_a' + 2^{-k} \leq q \leq \sigma_a - 2^{-k}.
+$$
+
+Apply the right clause for $\sigma_a'$ to the probe point with real part $q$.
+The right comparison witness gives a uniform bound for the corresponding
+modulus partial sums.
+
+Apply the left clause for $\sigma_a$ to the same $q$ and the displayed gap
+witness. It says that no such uniform bound exists. This contradiction excludes
+the oriented gap from $\sigma_a'$ to $\sigma_a$.
+
+The reverse orientation is identical with $\sigma_a$ and $\sigma_a'$ exchanged.
+Thus every BEDC rational-history separation witness is impossible, which is
+exactly $\hsame(\sigma_a,\sigma_a')$.
 \end{proof}
 
 \section{Convergence and holomorphicity in the half-plane}
