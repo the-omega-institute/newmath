@@ -130,6 +130,33 @@ unit, counit, left, and right rebuild the two continuation ledgers and retain
 the displayed left-cycle empty witness.
 \end{proof}
 
+\begin{theorem}[Adjunction right-cycle empty component exactness]
+\label{thm:adjunction-unit-counit-right-cycle-empty-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+an adjunction unit-counit carrier whose right triangle result is empty is
+equivalent to unary prefix data, two-way prefix equality, and all four
+unit, counit, left-triangle, and right-triangle histories being empty:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \hsame(right,\emp)\\[2pt]
+\Longleftrightarrow
+\Unary(p)\land\Unary(q)\land\Unary(a)\land
+\hsame(p,q)\land\hsame(q,p)\land
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Exchange the unit and counit component rows and read the right triangle as the
+left triangle of the exchanged carrier. The left-cycle exactness theorem
+extracts the unary witnesses, the two prefix equalities, and the empty
+component histories. Reassembling the component rows in the original order
+gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_right\_cycle\_empty\_components\_iff}
+
 \begin{theorem}[Adjunction unit-counit triangle result determinism]
 \label{thm:adjunction-unit-counit-triangle-results-deterministic}
 If an adjunction unit-counit carrier displays triangle results $left$ and

@@ -143,6 +143,48 @@ Use the roadmap ten-field template for the prefix endofunctor target.
 \end{enumerate}
 \end{proof}
 
+\begin{theorem}[Semantic $\FunctorUp$ prefix certificate]
+\label{thm:functor-prefix-semantic-namecert}
+For every unary history $p$, the source, pattern, classifier, stability, and
+ledger data of
+Definitions~\ref{def:functor-source-specification}--\ref{def:functor-ledger-policy},
+together with \autoref{thm:functor-prefix-concrete-certificate}, form a
+semantic naming certificate for the prefix endofunctor interface $\FunctorUp$
+over the unary-continuation $\CategoryUp$. The carrier is
+$\mathsf{PrefixFunctorCarrier}(p)$; the object component sends $a$ to
+$\mathsf{append}(p,a)$; the hom component sends each displayed morphism history
+to itself; the classifier is pointwise $\hsame$ on object histories and hom
+histories; and the ledger records the fixed prefix $p$ together with the
+identity map on displayed morphism histories.
+\end{theorem}
+\begin{proof}
+Start from the concrete certificate of
+\autoref{thm:functor-prefix-concrete-certificate}. Its carrier field is
+$\mathsf{PrefixFunctorCarrier}(p)$, supplied by
+\autoref{thm:prefix-functor-carrier-from-unary-prefix}, so the semantic carrier
+row is the same object-level package rather than a separate witness.
+
+The classifier row is pointwise. Object images are compared by $\hsame$ after
+the prefix operation, and hom images are compared by $\hsame$ on the displayed
+hom histories because the morphism map is the identity map. The source and
+pattern rows are therefore exactly the source, pattern, and classifier
+specifications already listed for $\FunctorUp$.
+
+The stability rows are the checked preservation clauses consumed by the
+concrete certificate: identity preservation from
+\autoref{thm:functor-prefix-hom-carrier-identity-closed}, composition
+preservation from
+\autoref{thm:functor-prefix-hom-carrier-comp-preserves}, $\hsame$ transport
+from \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, and public
+readback from \autoref{thm:prefix-functor-carrier-comp-public-readback}.
+
+Finally, the ledger row contains no hidden quotient data. It records the unary
+prefix $p$ on objects and records that morphism histories are read through the
+identity map. These rows are precisely the ten-field certificate data, so they
+assemble as the semantic naming certificate for the prefix $\FunctorUp$
+interface over $\CategoryUp$.
+\end{proof}
+
 \begin{theorem}[Prefix functor two-sided identity law]
 \label{thm:functor-prefix-hom-carrier-two-sided-identity-law}
 For histories $p,a,b,f,left,right$, suppose $p$ is unary, $f$ is a
