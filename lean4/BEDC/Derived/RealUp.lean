@@ -8,6 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 open BEDC.Derived.StreamNameUp
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.StreamNameUp
 
@@ -80,6 +81,14 @@ theorem RealConstantHistoryClassifier_endpoint_transport {h h' k k' : BHist} :
                   exact ⟨d, e, hsame_trans (hsame_symm sameH) sameHD,
                     hsame_trans (hsame_symm sameK) sameKE, ratClassifier⟩
 
+theorem RealConstantHistoryClassifier_e1_tail_readback {h k d e : BHist} :
+    RealConstantHistoryClassifier h k -> hsame h (BHist.e1 d) -> hsame k (BHist.e1 e) ->
+      RatHistoryClassifier d e := by
+  intro classified sameH sameK
+  have displayed : RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) :=
+    RealConstantHistoryClassifier_endpoint_transport sameH sameK classified
+  exact Iff.mp RealConstantHistoryClassifier_e1_iff_rat displayed
+
 theorem RealConstantHistoryClassifier_e1_pair_readback {h k d e : BHist} :
     RealConstantHistoryClassifier h k -> hsame h (BHist.e1 (BHist.e1 d)) ->
       hsame k (BHist.e1 (BHist.e1 e)) ->
@@ -108,6 +117,18 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   constructor
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
+
+theorem RealConstantHistoryClassifier_append_unary_tail_closed {d e tail : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) -> UnaryHistory tail ->
+      RealConstantHistoryClassifier (BHist.e1 (append d tail))
+        (BHist.e1 (append e tail)) := by
+  intro realClassifier tailUnary
+  have ratClassifier : RatHistoryClassifier d e :=
+    RealConstantHistoryClassifier_e1_iff_rat.mp realClassifier
+  have appendedClassifier : RatHistoryClassifier (append d tail) (append e tail) :=
+    RatHistoryClassifier_append_unary_denominator_closed ratClassifier tailUnary
+      (hsame_refl tail)
+  exact RealConstantHistoryClassifier_e1_iff_rat.mpr appendedClassifier
 
 theorem RealConstantHistoryClassifier_cont_unary_denominator_context_closed
     {d e prefD prefE tailD tailE pd pe outD outE : BHist} :
