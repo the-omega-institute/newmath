@@ -265,6 +265,19 @@ theorem IntClassifierSpec_endpoint_sign_cases
                     (Or.inr (And.intro oneCase.left (sameSign.symm.trans oneCase.left)))
                     (And.intro oneCase.right carrierY.right)
 
+theorem IntClassifierSpec_cross_sign_exclusion :
+    (forall h k : BEDC.FKernel.Hist.BHist,
+      IntClassifierSpec (BEDC.FKernel.Mark.BMark.b0, h) (BEDC.FKernel.Mark.BMark.b1, k) ->
+        False) ∧
+      (forall h k : BEDC.FKernel.Hist.BHist,
+        IntClassifierSpec (BEDC.FKernel.Mark.BMark.b1, h) (BEDC.FKernel.Mark.BMark.b0, k) ->
+          False) := by
+  constructor
+  · intro h k classified
+    exact BEDC.FKernel.Mark.not_msame_b0_b1 classified.right.right.left
+  · intro h k classified
+    exact BEDC.FKernel.Mark.not_msame_b1_b0 classified.right.right.left
+
 theorem IntClassifierSpec_append_comm_same_sign {sign : BEDC.FKernel.Mark.BMark}
     {h k : BEDC.FKernel.Hist.BHist} :
     IntCarrier sign h -> IntCarrier sign k ->
@@ -286,6 +299,46 @@ theorem IntClassifierSpec_append_comm_same_sign {sign : BEDC.FKernel.Mark.BMark}
             · constructor
               · exact BEDC.FKernel.Mark.msame_refl sign
               · exact BEDC.FKernel.Unary.unary_append_comm hUnary kUnary
+
+theorem IntClassifierSpec_append_context_swap_same_sign
+    {s : BEDC.FKernel.Mark.BMark} {left right a : BEDC.FKernel.Hist.BHist} :
+    IntCarrier s left -> IntCarrier s right -> IntCarrier s a ->
+      IntClassifierSpec
+        (s, BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append a right))
+        (s, BEDC.FKernel.Cont.append right (BEDC.FKernel.Cont.append a left)) := by
+  intro leftCarrier rightCarrier aCarrier
+  cases leftCarrier with
+  | intro signCases leftUnary =>
+      cases rightCarrier with
+      | intro _ rightUnary =>
+          cases aCarrier with
+          | intro _ aUnary =>
+              have leftContextUnary : BEDC.FKernel.Unary.UnaryHistory
+                  (BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append a right)) :=
+                BEDC.FKernel.Unary.unary_append_closed leftUnary
+                  (BEDC.FKernel.Unary.unary_append_closed aUnary rightUnary)
+              have rightContextUnary : BEDC.FKernel.Unary.UnaryHistory
+                  (BEDC.FKernel.Cont.append right (BEDC.FKernel.Cont.append a left)) :=
+                BEDC.FKernel.Unary.unary_append_closed rightUnary
+                  (BEDC.FKernel.Unary.unary_append_closed aUnary leftUnary)
+              have sameContext : BEDC.FKernel.Hist.hsame
+                  (BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append a right))
+                  (BEDC.FKernel.Cont.append right (BEDC.FKernel.Cont.append a left)) := by
+                exact (congrArg (BEDC.FKernel.Cont.append left)
+                    (BEDC.FKernel.Unary.unary_append_comm aUnary rightUnary)).trans
+                  ((BEDC.FKernel.Cont.append_assoc left right a).symm.trans
+                    ((congrArg (fun x => BEDC.FKernel.Cont.append x a)
+                      (BEDC.FKernel.Unary.unary_append_comm leftUnary rightUnary)).trans
+                        ((BEDC.FKernel.Cont.append_assoc right left a).trans
+                          (congrArg (BEDC.FKernel.Cont.append right)
+                            (BEDC.FKernel.Unary.unary_append_comm leftUnary aUnary)))))
+              constructor
+              · exact And.intro signCases leftContextUnary
+              · constructor
+                · exact And.intro signCases rightContextUnary
+                · constructor
+                  · exact BEDC.FKernel.Mark.msame_refl s
+                  · exact sameContext
 
 theorem IntClassifierSpec_append_context_same_sign
     {s : BEDC.FKernel.Mark.BMark} {left right a b : BEDC.FKernel.Hist.BHist} :
