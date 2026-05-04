@@ -158,6 +158,59 @@ Audit method (execute thoroughly — many tool calls expected):
    candidate is NOT open — drop it. If you find only a remark or definition,
    it may still be open (proceed).
 
+3b. **Capstone sketch hunt** — equally important to the textbook-curriculum
+    angle. Scan every `papers/bedc/parts/capstones/*.tex` for theorems whose
+    proof environment is `\begin{{proof}}[Sketch]` rather than a full proof.
+    These are headline philosophical / foundational claims (irreducibility
+    of distinction, two-loops, three-axioms unification, halting-as-limit,
+    reasoning-by-contradiction-boundary, real-completeness, type-checking-
+    as-classifier, compilation-as-namecert-morphism, reflection-and-limits).
+    Each sketch typically decomposes into 2-4 stepping-stone lemmas whose
+    conjunction is the full proof.
+
+    For each Sketch-only theorem you find, propose ONE stepping-stone
+    lemma (not the full theorem itself — the theorem is already there;
+    only its full proof is missing). Pick the most foundational lemma in
+    the proof's dependency tree first — the one that other lemmas in the
+    same sketch will reference.
+
+    Worked example (already seeded as B-147..B-152):
+      `thm:three-axioms-unification` has Sketch proof at
+      `capstones/three_axioms_one_closure.tex:37`. The Sketch decomposes
+      into three stratum-specific instantiation lemmas:
+        - "Choice as term-stratum instance of the meta-closure schema"
+        - "Quot.sound as type-stratum instance of the meta-closure schema"
+        - "Propext as proposition-stratum instance of the meta-closure schema"
+      All three reference only chapter-local definitions and examples
+      that already exist (`def:three-axioms-meta-closure-operation`,
+      `ex:three-axioms-choice/quot-sound/propext`), so each closes in
+      1-3 codex rounds. Once all three are added, the unification theorem's
+      Sketch can be replaced with a structured proof citing each.
+
+    Capstones with sketch-only proofs as of writing (use `grep -c "Sketch"`
+    to confirm currency):
+      - reflection_and_limits.tex (5 sketches — irreducibility of form,
+        definition-classifier correspondence, inductive types as classifier
+        closures, internal CIC interpretation, BEDC self-description)
+      - halting_as_form_of_distinction_limit.tex (3)
+      - reasoning_by_contradiction_boundary.tex (2)
+      - real_completeness.tex (3)
+      - type_checking_as_classifier_membership.tex (3)
+      - compilation_as_namecert_morphism.tex (3)
+      - compact_uniform_continuity.tex (1)
+      - three_axioms_one_closure.tex (2 — already seeded B-147..B-152)
+
+    Constraints on sketch-hunt candidates:
+      - The headline theorem itself MUST already be `\begin{{theorem}}` /
+        `\begin{{proposition}}` with a `\label{{...}}` in the chapter.
+        Don't re-state it. Propose its missing component lemma.
+      - The component lemma should reference only objects defined in the
+        same capstone or in the foundational chapters it `\autoref`s.
+        Verify via Grep before proposing.
+      - Mark these candidates with `chapter: "capstones"` and cite the
+        parent theorem's `\label` in the rationale so writeback knows
+        where to land them.
+
 4. Reject candidates that are:
    - Internal symmetry gaps (those belong to `theory_probe`).
    - Pure renamings or notation variants of existing theorems.
