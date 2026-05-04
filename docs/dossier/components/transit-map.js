@@ -411,6 +411,115 @@ function buildSvg(visibleNodes, collapsedChains, layout, recordsByName) {
 }
 
 // ---------------------------------------------------------------------------
+// Paper-marker click handler and popover
+// ---------------------------------------------------------------------------
+
+function attachPaperMarkerClick(container, hoverData, opts) {
+  const { paperPdfUrl = '', onPaperMarkerClick = null } = opts || {};
+
+  const svgEl = container.querySelector('svg.tm-svg');
+  if (!svgEl) return;
+
+  let popover = null;
+
+  function dismissPopover() {
+    if (popover && popover.parentNode) {
+      popover.parentNode.removeChild(popover);
+      popover = null;
+    }
+  }
+
+  function openPdfUrl(url, site) {
+    if (onPaperMarkerClick) {
+      onPaperMarkerClick(url, site);
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  }
+
+  svgEl.querySelectorAll('.tm-station').forEach(el => {
+    const id    = el.getAttribute('data-id');
+    const entry = hoverData.find(h => h.id === id);
+    if (!entry) return;
+
+    const rec = entry.record;
+    if (!rec.paper_marker_sites || rec.paper_marker_sites.length === 0) return;
+
+    el.addEventListener('click', (evt) => {
+      evt.stopPropagation();
+      dismissPopover();
+
+      const sites = rec.paper_marker_sites;
+
+      if (sites.length === 1) {
+        const site = sites[0];
+        const anchor = site.pdf_anchor ? `#${site.pdf_anchor}` : '';
+        const url = paperPdfUrl ? `${paperPdfUrl}${anchor}` : '#';
+        openPdfUrl(url, site);
+      } else {
+        const svgRect = svgEl.getBoundingClientRect();
+        const cRect = container.getBoundingClientRect();
+        const px = entry.x + (svgRect.left - cRect.left) + 20;
+        const py = entry.y + (svgRect.top - cRect.top) - 10;
+
+        popover = document.createElement('div');
+        popover.className = 'tm-paper-marker-popover';
+        popover.style.cssText = [
+          'position:absolute',
+          'background:#fff',
+          'border:1px solid #999',
+          'border-radius:4px',
+          'padding:8px 10px',
+          'font-family:monospace',
+          'font-size:0.78em',
+          'max-width:380px',
+          'z-index:200',
+          'box-shadow:0 4px 12px rgba(0,0,0,0.15)',
+          'line-height:1.6',
+        ].join(';');
+
+        let html = `<div style="font-weight:bold;color:#333;margin-bottom:6px;">Paper Markers</div>`;
+        for (const site of sites) {
+          const anchor = site.pdf_anchor ? `#${site.pdf_anchor}` : '';
+          const url = paperPdfUrl ? `${paperPdfUrl}${anchor}` : '#';
+          html += `<div style="margin:4px 0;"><a href="#" data-url="${escapeHtml(url)}" ` +
+            `data-site-json="${escapeHtml(JSON.stringify(site))}" ` +
+            `style="color:#5a86b3;text-decoration:none;cursor:pointer">` +
+            `${escapeHtml(site.tex_file)}:${escapeHtml(site.label)}</a></div>`;
+        }
+
+        popover.innerHTML = html;
+        popover.style.left = `${px}px`;
+        popover.style.top = `${py}px`;
+        container.appendChild(popover);
+
+        popover.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            const url = link.getAttribute('data-url');
+            const siteJson = link.getAttribute('data-site-json');
+            let site;
+            try {
+              site = JSON.parse(siteJson);
+            } catch (e) {
+              site = {};
+            }
+            openPdfUrl(url, site);
+            dismissPopover();
+          });
+        });
+      }
+    });
+  });
+
+  document.addEventListener('click', (evt) => {
+    if (popover && !popover.contains(evt.target) && !svgEl.contains(evt.target)) {
+      dismissPopover();
+    }
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Hover panel
 // ---------------------------------------------------------------------------
 
@@ -506,7 +615,7 @@ function attachHoverPanel(container, hoverData, glossary, renderStatement, opts)
 // ---------------------------------------------------------------------------
 
 function _renderMap({ record, recordsByName, container, glossary, renderStmt,
-                      paperPdfUrl, githubBlobBase, dagre, knownClosure }) {
+                      paperPdfUrl, githubBlobBase, dagre, knownClosure, onPaperMarkerClick }) {
   const trustDiv = document.createElement('div');
   trustDiv.className  = 'tm-trust-wrapper';
   trustDiv.style.cssText = 'position:sticky;top:0;z-index:10;';
@@ -528,6 +637,7 @@ function _renderMap({ record, recordsByName, container, glossary, renderStmt,
   container.appendChild(svgWrapper);
 
   attachHoverPanel(container, hoverData, glossary, renderStmt, { paperPdfUrl, githubBlobBase });
+  attachPaperMarkerClick(container, hoverData, { paperPdfUrl, onPaperMarkerClick });
 }
 
 // ---------------------------------------------------------------------------
@@ -546,6 +656,7 @@ function _renderMap({ record, recordsByName, container, glossary, renderStmt,
  * @param {Object} [args.opts]
  * @param {string}   [args.opts.paperPdfUrl]
  * @param {string}   [args.opts.githubBlobBase]
+ * @param {Function} [args.opts.onPaperMarkerClick] callback(url, site) — called when paper marker clicked; if absent, defaults to window.open
  * @param {number}   [args.opts.maxNodesBeforeCytoscapeSuggestion=80]
  * @param {Object}   [args.opts.dagre]
  * @returns {{ stationCount: number, lineCount: number, didSuggestCytoscape: boolean }}
@@ -563,6 +674,7 @@ export function renderTransitMap(args) {
   const {
     paperPdfUrl = '',
     githubBlobBase = '',
+    onPaperMarkerClick = null,
     maxNodesBeforeCytoscapeSuggestion = 80,
     dagre = null,
   } = opts;
@@ -582,7 +694,7 @@ export function renderTransitMap(args) {
     ].join(';');
     banner.textContent =
       `This claim has ${knownClosure.size} upstream nodes — the transit map view may be ` +
-      `hard to read. Consider switching to ‘full graph’ view for a different layout.`;
+      `hard to read. Consider switching to 'full graph' view for a different layout.`;
 
     const btn = document.createElement('button');
     btn.textContent    = 'Render anyway';
@@ -593,14 +705,14 @@ export function renderTransitMap(args) {
     btn.addEventListener('click', () => {
       container.innerHTML = '';
       _renderMap({ record, recordsByName, container, glossary, renderStmt,
-                   paperPdfUrl, githubBlobBase, dagre, knownClosure });
+                   paperPdfUrl, githubBlobBase, dagre, knownClosure, onPaperMarkerClick });
     });
 
     return { stationCount: knownClosure.size, lineCount: 0, didSuggestCytoscape: true };
   }
 
   _renderMap({ record, recordsByName, container, glossary, renderStmt,
-               paperPdfUrl, githubBlobBase, dagre, knownClosure });
+               paperPdfUrl, githubBlobBase, dagre, knownClosure, onPaperMarkerClick });
 
   const svgEl       = container.querySelector('svg.tm-svg');
   const stationCount = svgEl ? svgEl.querySelectorAll('.tm-station').length : 0;

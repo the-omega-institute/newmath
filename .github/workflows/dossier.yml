@@ -75,11 +75,41 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
+      - name: Build theorem graph + search index
+        run: python3 tools/build_theorem_graph.py
+
+      - name: KaTeX coverage diagnostic (warn-only)
+        run: python3 tools/check_katex_coverage.py
+
       - name: Glossary completeness gate
         run: python3 tools/check_glossary.py
 
       - name: Render dossier
         run: quarto render docs/dossier/
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install npm deps
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: SC headline pre-deploy gate (Playwright)
+        run: |
+          # Serve _site on localhost:8765 in background
+          (cd docs/dossier/_site && python3 -m http.server 8765) &
+          SERVER_PID=$!
+          sleep 2
+          # Run e2e test (failure = workflow fail = no deploy)
+          npx playwright test
+          PLAYWRIGHT_EXIT=$?
+          # Cleanup
+          kill $SERVER_PID 2>/dev/null || true
+          exit $PLAYWRIGHT_EXIT
 
       - name: Verify PDF reached _site
         run: |

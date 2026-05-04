@@ -303,4 +303,85 @@ describe('renderTransitMap', () => {
     const rounded = [...rects].some(r => r.getAttribute('rx') === '16');
     expect(rounded).toBe(true);
   });
+
+  it('paper-marker click with single site calls onPaperMarkerClick with correct URL', () => {
+    const site = { tex_file: 'papers/bedc/foo.tex', label: 'thm:foo', pdf_anchor: 'thm.foo', marker_kind: 'leanchecked' };
+    const rec = makeRecord({
+      name: 'SingleSite.Foo',
+      kind: 'theorem',
+      paper_marker_sites: [site],
+      dependencies: [],
+    });
+    const map = makeMap([rec]);
+
+    const openCalls = [];
+    const onPaperMarkerClick = (url, s) => {
+      openCalls.push({ url, site: s });
+    };
+
+    renderTransitMap({
+      record: rec, recordsByName: map, container,
+      opts: { dagre: STUB_DAGRE, paperPdfUrl: 'bedc.pdf', onPaperMarkerClick },
+    });
+
+    const svgEl = container.querySelector('svg');
+    expect(svgEl).not.toBeNull();
+    const station = svgEl.querySelector('[data-id="SingleSite.Foo"]');
+    expect(station).not.toBeNull();
+
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    station.dispatchEvent(clickEvent);
+
+    expect(openCalls).toHaveLength(1);
+    expect(openCalls[0].url).toBe('bedc.pdf#thm.foo');
+    expect(openCalls[0].site).toEqual(site);
+  });
+
+  it('paper-marker click with multiple sites renders popover listing all sites', () => {
+    const site1 = { tex_file: 'papers/bedc/foo.tex', label: 'thm:foo', pdf_anchor: 'thm.foo', marker_kind: 'leanchecked' };
+    const site2 = { tex_file: 'papers/bedc/bar.tex', label: 'thm:bar', pdf_anchor: 'thm.bar', marker_kind: 'leanvariant' };
+    const rec = makeRecord({
+      name: 'MultiSite.Baz',
+      kind: 'theorem',
+      paper_marker_sites: [site1, site2],
+      dependencies: [],
+    });
+    const map = makeMap([rec]);
+
+    const openCalls = [];
+    const onPaperMarkerClick = (url, s) => {
+      openCalls.push({ url, site: s });
+    };
+
+    renderTransitMap({
+      record: rec, recordsByName: map, container,
+      opts: { dagre: STUB_DAGRE, paperPdfUrl: 'bedc.pdf', onPaperMarkerClick },
+    });
+
+    const svgEl = container.querySelector('svg');
+    const station = svgEl.querySelector('[data-id="MultiSite.Baz"]');
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    station.dispatchEvent(clickEvent);
+
+    const popover = container.querySelector('.tm-paper-marker-popover');
+    expect(popover).not.toBeNull();
+    expect(popover.textContent).toContain('Paper Markers');
+    expect(popover.textContent).toContain('papers/bedc/foo.tex:thm:foo');
+    expect(popover.textContent).toContain('papers/bedc/bar.tex:thm:bar');
+
+    const links = popover.querySelectorAll('a');
+    expect(links.length).toBe(2);
+    expect(links[0].textContent).toContain('foo.tex:thm:foo');
+    expect(links[1].textContent).toContain('bar.tex:thm:bar');
+
+    const linkClickEvent = new MouseEvent('click', { bubbles: true });
+    links[0].dispatchEvent(linkClickEvent);
+
+    expect(openCalls).toHaveLength(1);
+    expect(openCalls[0].url).toBe('bedc.pdf#thm.foo');
+    expect(openCalls[0].site).toEqual(site1);
+
+    const stillThere = container.querySelector('.tm-paper-marker-popover');
+    expect(stillThere).toBeNull();
+  });
 });

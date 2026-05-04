@@ -37,6 +37,19 @@ format:
     #cy { height: 540px; }
     #detail { max-height: 480px; overflow-y: auto; }
   }
+  @media (max-width: 768px) {
+    #cy { display: none; }
+    #cy-override-container { display: none !important; }
+    #transit-map-container svg { width: 100% !important; height: auto !important; max-height: 60vh; }
+    #thm-list-panel { width: 100vw; left: 0; right: 0; }
+    #thm-search-dropdown { width: 100% !important; left: 0; right: 0; max-height: 50vh; overflow-y: auto; }
+    #transit-overlay { width: 100vw; height: 100vh; left: 0; top: 0; }
+    .to-view-toggle { display: none; }
+    .region-picker, #thm-search-input { width: 100%; box-sizing: border-box; }
+    .map-header { flex-wrap: wrap; gap: 0.5rem; }
+    .mobile-only { display: block; padding: 1rem; font-family: monospace; color: #666; }
+  }
+  .mobile-only { display: none; }
 
   .map-header {
     grid-area: header;
@@ -292,6 +305,9 @@ format:
   </div>
 
   <div id="cy"></div>
+  <div id="cy-fallback" class="mobile-only" hidden>
+    Regional map hidden on mobile. Use the search box or region picker dropdown to navigate.
+  </div>
 
   <div id="detail">
     <div id="detail-content">
@@ -1001,7 +1017,7 @@ function openThmList(regionId) {
       const markers = markerCount > 0
         ? `<span class="tlp-markers">${markerCount} paper marker${markerCount !== 1 ? "s" : ""}</span>`
         : "";
-      return `<div class="tlp-row" onclick="openTransitMap(${JSON.stringify(r.name)})">` +
+      return `<div class="tlp-row" onclick="openTransitMap('${r.name.replace(/'/g, "\\'")}')">` +
         `<span class="tlp-name">${r.name}</span>` +
         `<span class="tlp-badge ${bc}">${r.status}</span>` +
         markers +
@@ -1187,6 +1203,10 @@ async function loadSearchIndex() {
 (async () => {
   try {
     await loadData();
+    // Expose module-scoped state on window for e2e test access
+    window.RECORDS_BY_NAME = RECORDS_BY_NAME;
+    window.openThmList = openThmList;
+    window.openTransitMap = openTransitMap;
     renderAll();
     window.addEventListener("resize", renderSpark);
     await loadSearchIndex();
