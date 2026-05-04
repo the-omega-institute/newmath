@@ -117,6 +117,21 @@ The radius comparison descends by $e1$ strict-prefix inversion.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_e1\_gap\_radius\_inversion}
 
+\begin{theorem}[Open disk carrier witnessed components]
+\label{thm:holo-open-disk-carrier-witnessed-components}
+If \(\mathsf{HolomorphicOpenDiskCarrier}(z_0,r,z)\), then \(z_0\), \(r\), and
+\(z\) are unary histories and there is a unary boundary gap \(g\) with
+\(\ContR(z,g,r)\). The same data repackages as
+\(\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)\).
+\end{theorem}
+\begin{proof}
+The complex carrier exposes unary histories for the center and point. The
+rational radius carrier gives a positive unary denominator, hence a unary
+radius. The carrier's displayed gap and boundary ledger then supply the
+witnessed open disk.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskCarrier\_witnessed\_components}
+
 \begin{theorem}[Open disk radius continuation gap witness]
 \label{thm:holo-open-disk-radius-extension-gap-witness}
 If \(z\) lies in the unary open disk with center \(z_0\) and radius \(r\), and
@@ -148,6 +163,43 @@ carriers are unchanged, and the continued radius is unary by continuation
 closure.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
+
+\begin{theorem}[Open disk carrier radius extension witnessed]
+\label{thm:holo-open-disk-carrier-radius-extension-witnessed}
+If \(\mathsf{HolomorphicOpenDiskCarrier}(z_0,r,z)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then
+\(\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r',z)\). Moreover, the original
+boundary gap factors through a unary continued gap \(g'\) with
+\(\ContR(g,e,g')\) and \(\ContR(z,g',r')\).
+\end{theorem}
+\begin{proof}
+First extract the witnessed open disk from the carrier components. Radius
+continuation closure gives the witnessed disk at \(r'\), while the radius
+continuation gap theorem exposes the original gap and its continued ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskCarrier\_radius\_extension\_witnessed}
+
+\begin{theorem}[Witnessed open disk zero-headed component impossibility]
+\label{thm:holomorphic-open-disk-witnessed-zero-headed-component-absurd}
+For histories \(z_0,r,z\), a witnessed unary open disk has no zero-headed
+center, radius, or point component:
+$$
+\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)
+\Longrightarrow
+\left(\exists w,\ z_0=\Ezero(w)\right)\lor
+\left(\exists w,\ r=\Ezero(w)\right)\lor
+\left(\exists w,\ z=\Ezero(w)\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witnessed disk into unary center, radius, point, and boundary-gap
+witnesses. In each displayed zero-headed branch, substituting the equality
+turns the corresponding unary witness into a unary zero-extension, contradicting
+unary zero-extension separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_zero\_headed\_component\_absurd}
 
 \begin{lemma}[Witnessed open-disk boundary transport]
 \label{lem:holo-open-disk-witnessed-boundary-hsame-transport}
