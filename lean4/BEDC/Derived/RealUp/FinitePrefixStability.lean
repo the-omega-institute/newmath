@@ -1,4 +1,5 @@
 import BEDC.Derived.RealUp
+import BEDC.Derived.RealUp.PrefixTailExtension
 
 namespace BEDC.Derived.RealUp
 
