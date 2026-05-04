@@ -177,6 +177,32 @@ theorem PadicNatMul_append_exponent_decomposition {d w q r : BHist} :
                       (Exists.intro (append e d)
                         (And.intro rightData.left (And.intro rightStep joined)))
 
+theorem PadicPrimeScale_append_factorization_iff {p w q r : BHist}
+    (unaryW : UnaryHistory w) (unaryQ : UnaryHistory q) :
+    PadicPrimeScale p (append w q) r <->
+      Exists (fun n : BHist => Exists (fun e : BHist =>
+        PadicPrimeScale p w n ∧ PadicPrimeScale p q e ∧ Cont n e r)) := by
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicNatMul_append_exponent_decomposition scale.left.left unaryW unaryQ scale.right
+    cases decomposed with
+    | intro n leftData =>
+        cases leftData with
+        | intro e rightData =>
+            exact Exists.intro n
+              (Exists.intro e
+                (And.intro (And.intro scale.left rightData.left)
+                  (And.intro (And.intro scale.left rightData.right.left)
+                    rightData.right.right)))
+  · intro factors
+    cases factors with
+    | intro n leftData =>
+        cases leftData with
+        | intro e rightData =>
+            exact PadicPrimeScale_append_cont_closure rightData.left rightData.right.left
+              rightData.right.right
+
 theorem PadicPrimeScale_append_exponent_decomposition {p w q r : BHist} :
     UnaryHistory w -> UnaryHistory q -> PadicPrimeScale p (append w q) r ->
       ∃ n : BHist, ∃ e : BHist,
