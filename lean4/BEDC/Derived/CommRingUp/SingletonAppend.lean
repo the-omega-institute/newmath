@@ -227,4 +227,21 @@ theorem CommRingSingletonClassifier_append_assoc_carrier_iff {a b c : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem commringSingletonEmpty_square_signed_product_annihilator_package {a b : BHist} :
+    commringSingletonEmptyCarrier a -> commringSingletonEmptyCarrier b ->
+      hsame (commringSingletonEmptyMul a a) (commringSingletonEmptyMul b b) ∧
+        hsame (commringSingletonEmptyMul (commringSingletonEmptyAdd a b)
+          (commringSingletonEmptyAdd a (commringSingletonEmptyNeg b))) BHist.Empty ∧
+        forall c : BHist,
+          hsame (commringSingletonEmptyMul
+            (commringSingletonEmptyMul (commringSingletonEmptyAdd a b)
+              (commringSingletonEmptyAdd a (commringSingletonEmptyNeg b))) c) BHist.Empty ∧
+          hsame (commringSingletonEmptyMul c
+            (commringSingletonEmptyMul (commringSingletonEmptyAdd a b)
+              (commringSingletonEmptyAdd a (commringSingletonEmptyNeg b)))) BHist.Empty := by
+  intro _carrierA _carrierB
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro (hsame_refl BHist.Empty)
+      (fun _c => And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+
 end BEDC.Derived.CommRingUp
