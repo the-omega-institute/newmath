@@ -143,4 +143,14 @@ theorem MetricDistanceWitness_left_e1_visible_target_step {x y d : BHist} :
       (And.intro (unary_e1_closed witness.right.right.left)
         (cont_step_one witness.right.right.right)))
 
+theorem MetricDistanceWitness_left_e1_source_step {x y d : BHist} :
+    MetricDistanceWitness x y d -> MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) := by
+  intro witness
+  exact And.intro (unary_e1_closed witness.left)
+    (And.intro witness.right.left
+      (And.intro (unary_e1_closed witness.right.right.left)
+        (cont_intro
+          ((congrArg BHist.e1 witness.right.right.right).trans
+            (unary_append_e1_left (h := y) (k := x) witness.right.left).symm))))
+
 end BEDC.Derived.MetricUp
