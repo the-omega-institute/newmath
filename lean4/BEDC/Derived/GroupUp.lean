@@ -2,9 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.MonoidUp
 namespace BEDC.Derived.GroupUp
-open BEDC.FKernel.Hist
-open BEDC.FKernel.Cont
-open BEDC.FKernel.NameCert
+open BEDC.FKernel.Hist BEDC.FKernel.Cont BEDC.FKernel.NameCert
 theorem concrete_singleton_history_group_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=
@@ -108,9 +106,25 @@ theorem GroupSingletonClassifier_append_unit_split_iff {p q : BHist} :
   · intro classified
     exact append_eq_empty_iff.mp classified.left
   · intro split
-    have appendCarrier : GroupSingletonCarrier (append p q) := append_eq_empty_iff.mpr split
-    exact And.intro appendCarrier
-      (And.intro (hsame_refl BHist.Empty) appendCarrier)
+    exact And.intro (append_eq_empty_iff.mpr split)
+      (And.intro (hsame_refl BHist.Empty) (append_eq_empty_iff.mpr split))
+theorem GroupSingletonClassifier_conjugation_fixed_carrier_iff {a x : BHist} :
+    GroupSingletonCarrier a -> (GroupSingletonClassifier (append (append a x) BHist.Empty) x <-> GroupSingletonCarrier x) := by
+  intro carrierA
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp (append_eq_empty_iff.mp classified.left).left).right
+  · intro carrierX
+    let actionCarrier : GroupSingletonCarrier (append (append a x) BHist.Empty) := append_eq_empty_iff.mpr (And.intro (append_eq_empty_iff.mpr (And.intro carrierA carrierX)) (hsame_refl BHist.Empty))
+    exact And.intro actionCarrier (And.intro carrierX (hsame_trans actionCarrier (hsame_symm carrierX)))
+theorem GroupSingletonClassifier_conjugation_terminal_collapse_iff {s x : BHist} :
+    GroupSingletonCarrier s -> (GroupSingletonClassifier (append (append s x) (GroupSingletonInv s)) BHist.Empty <-> GroupSingletonCarrier x) := by
+  intro carrierS
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp (GroupSingletonClassifier_append_unit_split_iff.mp classified).left).right
+  · intro carrierX
+    exact GroupSingletonClassifier_append_unit_split_iff.mpr (And.intro (append_eq_empty_iff.mpr (And.intro carrierS carrierX)) (hsame_refl BHist.Empty))
 theorem GroupSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     (GroupSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
       (GroupSingletonCarrier (append p (BHist.e1 q)) -> False) := by
@@ -133,21 +147,13 @@ theorem GroupSingletonClassifier_normalizer_append_empty_action_certificate {s x
   have actionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
     append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
   have inverseActionCarrier : GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) :=
-    append_eq_empty_iff.mpr
-      (And.intro (append_eq_empty_iff.mpr (And.intro emptyCarrier carrierX)) emptyCarrier)
-  have nestedCore : GroupSingletonCarrier
-      (append BHist.Empty (append (append s x) BHist.Empty)) :=
-    append_eq_empty_iff.mpr (And.intro emptyCarrier actionCarrier)
+    append_eq_empty_iff.mpr (And.intro
+      (append_eq_empty_iff.mpr (And.intro emptyCarrier carrierX)) emptyCarrier)
   have nestedCarrier : GroupSingletonCarrier
       (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) :=
-    append_eq_empty_iff.mpr (And.intro nestedCore emptyCarrier)
-  exact And.intro actionCarrier
-    (And.intro inverseActionCarrier
-      (And.intro
-        (And.intro actionCarrier
-          (And.intro carrierX (hsame_trans actionCarrier (hsame_symm carrierX))))
-        (And.intro nestedCarrier
-          (And.intro carrierX (hsame_trans nestedCarrier (hsame_symm carrierX))))))
+    append_eq_empty_iff.mpr (And.intro
+      (append_eq_empty_iff.mpr (And.intro emptyCarrier actionCarrier)) emptyCarrier)
+  exact ⟨actionCarrier, inverseActionCarrier, ⟨⟨actionCarrier, carrierX, hsame_trans actionCarrier (hsame_symm carrierX)⟩, ⟨nestedCarrier, carrierX, hsame_trans nestedCarrier (hsame_symm carrierX)⟩⟩⟩
 theorem GroupSingletonHistory_laws :
     SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
         GroupSingletonClassifier ∧
