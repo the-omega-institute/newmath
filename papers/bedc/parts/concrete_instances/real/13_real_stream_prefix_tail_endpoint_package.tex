@@ -1,0 +1,31 @@
+\begin{theorem}[Real stream prefix tail endpoint projection]
+\label{thm:real-stream-prefix-tail-endpoint-projection}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+if the prefix through $n$ is classified and every endpoint along the finite
+tail of length $m$ is rational-history classified, then the selected tail
+endpoint is rational-history classified:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\bigl(\forall k,\ 1\le k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))\bigr)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+m),y(n+m)).
+$$
+Ten-field fit: traditional target finite RealUp prefix endpoint readback; BEDC
+source RealUp stream prefixes over RatUp point classifiers; carrier
+rational-observation streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$; stability by tail extension and endpoint
+projection; ledger initial prefix length, tail length, and selected endpoint;
+core theorem this projection; exactness selected endpoint classification;
+standard bridge RegSeqRat finite observation readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-classifier-tail-extension} to the
+classified prefix through $n$ and the finite tail endpoint hypothesis. This
+gives $\mathsf{RealStreamPrefixClassifier}(x,y,n+m)$.
+
+Now apply \autoref{thm:real-stream-prefix-classifier-endpoint} at the endpoint
+index $n+m$. The resulting projection is exactly
+$\mathsf{RatHistoryClassifier}(x(n+m),y(n+m))$.
+\end{proof}
