@@ -116,6 +116,25 @@ two rational histories and uses reflexivity at both seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real classifier unary-tail closure]
+\label{thm:real-constant-history-classifier-append-unary-tail-closed}
+For all histories $d,e$ and unary history $t$,
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))
+\Longrightarrow
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot t),\Eone(e\cdot t)).
+$$
+\end{theorem}
+\begin{proof}
+Read the two sealed constant-real endpoints back through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat} as a rational
+history classifier between $d$ and $e$. The rational classifier is closed under
+appending the same unary denominator tail to both exposed histories, and the
+same e-one bridge repacks the appended rational classifier as a constant-real
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_unary\_tail\_closed}
+
 \begin{theorem}[Constant real classifier double-seal readback]
 \label{thm:real-constant-history-classifier-e1-pair-readback}
 If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
