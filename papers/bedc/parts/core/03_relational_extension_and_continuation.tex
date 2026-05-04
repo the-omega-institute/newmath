@@ -172,26 +172,23 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-The forward direction splits on the left factor. If it is empty, the append
-left-unit law reduces the obstruction to the right factor; visible left
-constructors are separated from $\emp$. Conversely, an empty appended result
-is inverted into empty witnesses for both factors, contradicting either
-nonempty disjunct.
+The forward direction splits on the left factor: the empty branch reduces the
+obstruction to the right factor, while visible left constructors are separated
+from $\emp$. Conversely, empty-result inversion contradicts either nonempty
+disjunct.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_nonempty\_iff}
 
 \begin{theorem}[Append visible-left empty exclusion]
 \label{thm:append-visible-left-empty-absurd}
-For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible
-left endpoint cannot produce an internally empty history:
-$$
-\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot,
-\qquad
-\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot.
-$$
+For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible left endpoint cannot produce an internally empty history:
+both $\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot$ and $\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot$ hold.
 \end{theorem}
 \begin{proof}
-Split on the right tail $k$. If it is empty, the visible left endpoint remains the outer constructor. If it is visible, append exposes that right-tail constructor as the outer constructor. In every branch, constructor separation from $\emp$ rules out the displayed history sameness.
+Split on the right tail $k$. If it is empty, the visible left endpoint remains
+the outer constructor. If it is visible, append exposes that right-tail
+constructor as the outer constructor. In every branch, constructor separation
+from $\emp$ rules out the displayed history sameness.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_empty\_absurd}
 
@@ -205,7 +202,10 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Induct on the common right tail $k$. The empty case is direct zero/one constructor no-confusion. In each visible tail step, both appended histories gain the same outer constructor; constructor injectivity peels that shared outer layer and the induction hypothesis applies to the shorter tail.
+Induct on the common right tail $k$. The empty case is direct zero/one
+constructor no-confusion. In each visible tail step, both appended histories
+gain the same outer constructor; constructor injectivity peels that shared
+outer layer and the induction hypothesis applies to the shorter tail.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tail\_tag\_separation}
 

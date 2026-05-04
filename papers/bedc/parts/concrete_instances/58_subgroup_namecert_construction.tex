@@ -2,6 +2,125 @@
 \input{parts/concrete_instances/58_subgroup_namecert_construction_quotient_empty}
 \input{parts/concrete_instances/58_subgroup_namecert_quotient_classifier}
 
+\begin{theorem}[Centralizer quotient classifier kernel equivalence]
+\label{thm:subgroup-centralizer-quotient-classifier-kernel-iff}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+Q^{\mathrm{std}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the standard quotient classifier. The
+endpoint clauses give $N_a(x)$ and $N_a(y)$, and the quotient witness gives a
+centralizer element whose right multiplication carries $x$ to $y$.
+
+It remains to expose the relative kernel word. Multiply the endpoint
+comparison on the left by $\mathsf{inv}(x)$; associativity, the left inverse
+law, the unit law, and multiplication congruence identify the witness with
+$\mathsf{mul}(\mathsf{inv}(x),y)$ up to $\hsame$. Carrier transport for $Z_a$
+then moves centralizer membership to the displayed kernel carrier.
+
+For the reverse direction, start from the relative kernel classifier. Its
+endpoint clauses are already the two normalizer clauses needed by the standard
+quotient classifier.
+
+Choose the quotient witness $z:=\mathsf{mul}(\mathsf{inv}(x),y)$. Associativity
+and the right inverse law identify $\mathsf{mul}(x,z)$ with $y$ up to
+$\hsame$, so the kernel clause supplies the carried centralizer witness and
+the classifier repacks.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientClassifier\_kernel\_iff}
+
+\begin{theorem}[Centralizer quotient-kernel witness classifier equivalence]
+\label{thm:subgroup-centralizer-quotient-kernel-witness-classifier-iff}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+Q^{\mathrm{wit}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y).
+$$
+Here $Q^{\mathrm{wit}}$ presents the quotient by a right witness $z$ with
+$Z_a(z)$ and $\hsame(y,\mathsf{mul}(x,z))$.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the right-witness classifier. Left-multiply
+the endpoint comparison by $\mathsf{inv}(x)$ and reassociate; the left inverse
+and unit laws reduce the exposed word to the witness $z$.
+
+Carrier transport for $Z_a$ moves $Z_a(z)$ across that comparison, producing
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$. Together with the two endpoint
+normalizer clauses this is the relative kernel classifier.
+
+Conversely, take the relative kernel word itself as the right witness.
+Associativity, the right inverse law, and the unit law identify
+$y$ with $\mathsf{mul}(x,\mathsf{mul}(\mathsf{inv}(x),y))$ up to $\hsame$,
+so the same kernel carrier repacks as the witness classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_witness\_classifier\_iff}
+
+\begin{theorem}[Centralizer right coset classifier quotient-kernel equivalence]
+\label{thm:subgroup-centralizer-right-coset-classifier-quotient-kernel-iff}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication starts with a right-coset witness. The group
+left-multiplication equation over the empty unit turns its endpoint comparison
+into the equality of the witness with the relative kernel word.
+
+Carrier transport for $Z_a$ then transfers centralizer membership from the
+witness to $\mathsf{mul}(\mathsf{inv}(x),y)$, while the endpoint normalizer
+clauses are unchanged.
+
+For the reverse implication, choose
+$z:=\mathsf{mul}(\mathsf{inv}(x),y)$. The same left-multiplication equation,
+read backwards, gives the coset endpoint comparison, and the kernel carrier is
+exactly the required $Z_a(z)$ witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
+
+\begin{theorem}[Centralizer right quotient classifier kernel equivalence]
+\label{thm:subgroup-centralizer-right-quotient-classifier-kernel-iff}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+Q^{\mathrm{right}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the right quotient witness and expose
+$\mathsf{mul}(\mathsf{inv}(x),y)$ by multiplying the endpoint comparison on
+the left. Associativity, left inverse, unit, and multiplication congruence
+identify the exposed word with the carried witness.
+
+Carrier transport converts that witness membership into the kernel carrier,
+and the two endpoint normalizer clauses pass through unchanged.
+
+For the reverse direction, use the kernel word as the right quotient witness.
+Reassociation followed by the right inverse and unit laws gives the endpoint
+comparison required by the right quotient classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_kernel\_iff}
+
 \begin{theorem}[Centralizer normalizer quotient classifiers coincide]
 \label{thm:subgroup-centralizer-normalizer-quotient-classifiers-coincide}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
@@ -10,52 +129,70 @@ carrier-transport, and two-sided inverse laws as in
 \autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
 $x,y:\mathsf{BHist}$ satisfies
 $$
-Q_{Z_a\leq N_a}(x,y)\Longleftrightarrow
-Q_{Z_a\triangleleft N_a}(x,y).
+Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y).
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, unpack
-$Q_{Z_a\leq N_a}(x,y)$. The endpoint clauses give $N_a(x)$ and $N_a(y)$, and
-the right-witness clause gives a history $z$ with $Z_a(z)$ and
-$\hsame(y,\mathsf{mul}(x,z))$.
+This is the canonical coincidence row for the centralizer-normalizer quotient
+site. It reads the right-coset classifier and the relative-kernel classifier
+as two presentations of the same normalizer quotient relation.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_coincide}
 
-It remains to produce the kernel word for
-$Q_{Z_a\triangleleft N_a}(x,y)$. Multiply the endpoint comparison on the left
-by $\mathsf{inv}(x)$. Associativity, the left inverse law, the unit law, and
-multiplication congruence identify
-$\mathsf{mul}(\mathsf{inv}(x),y)$ with $z$ up to $\hsame$. The carrier
-transport row for $Z_a$ from
-\autoref{thm:subgroup-centralizer-normalizer-tower-certificate} moves the
-witness $Z_a(z)$ to the displayed relative kernel word.
+\begin{theorem}[Centralizer quotient presentation equivalence package]
+\label{thm:subgroup-centralizer-quotient-presentation-equivalence-package}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x,y:\mathsf{BHist}$ has a quotient presentation independent of the chosen
+centralizer-normalizer classifier. The standard quotient classifier
+$Q^{\mathrm{std}}_{Z_a\leq N_a}(x,y)$, the right-witness classifier
+$Q^{\mathrm{wit}}_{Z_a\leq N_a}(x,y)$, the right-coset classifier
+$Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,y)$, and the relative-kernel classifier
+$Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y)$ are mutually pinned by the
+three displayed equivalence rows
+$$
+Q^{\mathrm{std}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y),
+$$
+$$
+Q^{\mathrm{wit}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y),
+$$
+$$
+Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,y),
+$$
+and the derived equivalence between the right-witness and right-coset
+presentations obtained through the shared quotient-kernel classifier.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:subgroup-centralizer-quotient-classifier-kernel-iff}
+to identify the standard classifier with the relative-kernel classifier.
+Apply Theorem~\ref{thm:subgroup-centralizer-quotient-kernel-witness-classifier-iff}
+to identify the right-witness classifier with the same kernel classifier.
 
-For the reverse direction, unpack
-$Q_{Z_a\triangleleft N_a}(x,y)$. The endpoint clauses already give the
-$N_a(x)$ and $N_a(y)$ clauses needed by $Q_{Z_a\leq N_a}(x,y)$, and the kernel
-clause gives $Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$.
+Apply Theorem~\ref{thm:subgroup-centralizer-right-coset-classifier-quotient-kernel-iff}
+to identify the right-coset classifier with that kernel classifier. Apply
+Theorem~\ref{thm:subgroup-centralizer-right-quotient-classifier-kernel-iff}
+for the parallel right quotient presentation.
 
-Choose the right witness
-$z:=\mathsf{mul}(\mathsf{inv}(x),y)$. Associativity, the left inverse law, the
-unit law, and multiplication congruence identify
-$\mathsf{mul}(x,z)$ with $y$ up to $\hsame$, so the kernel clause supplies the
-required $Z_a(z)$ witness and the endpoint comparison repacks the
-coset-witness classifier.
+The right-witness/right-coset equivalence is obtained by composing the
+right-witness-to-kernel implication with the kernel-to-right-coset implication,
+and conversely composing the right-coset-to-kernel implication with the
+kernel-to-right-witness implication. Thus all four presentations classify the
+same pairs $(x,y)$ in the normalizer carrier $N_a$.
 
-The ten-field fit is the ordinary quotient coset/kernel classifier
-equivalence for the centralizer-normalizer tower: the BEDC source is
-$\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$; the carrier is $N_a$; the
-classifier is either displayed predicate; stability comes from the tower
-certificate, inverse laws, unit laws, multiplication congruence, and carrier
-transport; the ledger records the right witness and the relative-kernel word;
-the core theorem is this statement; exactness is the displayed equivalence;
-the downstream consumer is $\QuotientGroupUp$; and the status is
+The ten-field fit is: traditional target quotient presentation independence;
+BEDC source $\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$; carrier
+$N_a$; classifier the shared quotient-kernel relation; stability the checked
+equivalence rows above; ledger right witness, coset witness, and relative
+kernel word; core theorem this package; exactness mutual presentation
+equivalence; downstream consumer $\QuotientGroupUp$; status
 $\mathsf{ProofTarget}$.
 \end{proof}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_kernel\_iff}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier\_coincide}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientClassifier\_kernel\_iff}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_witness\_classifier\_iff}
-\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
 
 \begin{theorem}[Centralizer normalizer right quotient classifier transitivity]
 \label{thm:subgroup-centralizer-right-quotient-classifier-trans}
