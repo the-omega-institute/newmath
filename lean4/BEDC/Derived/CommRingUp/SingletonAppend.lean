@@ -195,6 +195,21 @@ theorem CommRingSingletonClassifier_append_left_carrier_iff {h k out : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem CommRingSingletonClassifier_append_right_carrier_iff {h k out : BHist} :
+    CommRingSingletonClassifier out (append h k) <->
+      CommRingSingletonCarrier out ∧ CommRingSingletonCarrier h ∧
+        CommRingSingletonCarrier k := by
+  constructor
+  · intro classified
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro classified.left (And.intro rightSplit.left rightSplit.right)
+  · intro carriers
+    have leftCarrier : CommRingSingletonCarrier out := carriers.left
+    have rightCarrier : CommRingSingletonCarrier (append h k) :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.left carriers.right.right)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem CommRingSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
     CommRingSingletonClassifier (append h k) (append h' k') ->
       CommRingSingletonClassifier (append k h) (append k' h') := by

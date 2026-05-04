@@ -30,4 +30,19 @@ theorem ListClassifierSpec_case_exactness
       · intro a xs classifier
         cases classifier
 
+theorem ListClassifierSpec_hsame_e1_cons_tail_transport
+    {x y : BEDC.FKernel.Hist.BHist} {xs ys zs : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame xs zs ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame
+        (BEDC.FKernel.Hist.BHist.e1 x :: xs) (BEDC.FKernel.Hist.BHist.e1 y :: ys) ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (BEDC.FKernel.Hist.BHist.e1 x :: zs) (BEDC.FKernel.Hist.BHist.e1 y :: ys) := by
+  intro sourceTail classifier
+  cases classifier with
+  | intro headSame tailSame =>
+      constructor
+      · exact headSame
+      · exact ListClassifierSpec_hsame_trans
+          (ListClassifierSpec_hsame_symm sourceTail) tailSame
+
 end BEDC.Derived.ListUp
