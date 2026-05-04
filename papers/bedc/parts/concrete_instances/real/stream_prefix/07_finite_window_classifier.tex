@@ -99,3 +99,55 @@ Since the chosen offset was arbitrary under the window bound, these endpoint
 classifiers assemble exactly into
 $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
 \end{proof}
+
+\begin{theorem}[Real stream window selected full shape readback package]
+\label{thm:real-stream-window-selected-full-shape-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index
+$n$, a radius $m$, a bounded offset $k$ with $k\le m$, and histories
+$a,b,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$,
+$\hsame(x(n+k),\Eone(a))$, and $\hsame(y(n+k),\Eone(b))$. Then the selected
+endpoints at $n+k$ carry the following package:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+k))\land
+\mathsf{PositiveUnaryDenominator}(y(n+k))$;
+\item $\mathsf{UnaryHistory}(x(n+k))\land
+\mathsf{UnaryHistory}(y(n+k))\land
+(\hsame(x(n+k),\emp)\to\mathsf{False})\land
+(\hsame(y(n+k),\emp)\to\mathsf{False})$;
+\item $(\hsame(x(n+k),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y(n+k),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier at the selected offset. The bound $k\le m$
+turns the window hypothesis into
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+Transport this rational classifier across the two displayed one-seal endpoint
+comparisons by \autoref{thm:rat-history-classifier-hsame-transport}. The
+transported classifier is
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$, and
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} reads back the two
+unary tails together with $\hsame(a,b)$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+original endpoint classifier. This gives positive unary denominator witnesses
+for $x(n+k)$ and $y(n+k)$, and
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} converts those
+witnesses into unary and nonempty endpoint rows.
+
+For the left zero-extension test, transport
+$\mathsf{PositiveUnaryDenominator}(x(n+k))$ along the proposed comparison
+$\hsame(x(n+k),\Ezero(z_X))$ by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The resulting
+positive denominator on $\Ezero(z_X)$ contradicts
+\autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the right zero-extension test, repeat the same transport from $y(n+k)$ to
+$\Ezero(z_Y)$. The positive-denominator zero-head absurdity theorem gives the
+second contradiction, completing the listed package.
+\end{proof}
