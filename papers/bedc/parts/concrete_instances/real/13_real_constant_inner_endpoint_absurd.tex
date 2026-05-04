@@ -1,0 +1,21 @@
+\begin{theorem}[Real constant classifier inner e-zero endpoint absurd]
+\label{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}
+For histories $tail,d:\mathsf{BHist}$, the constant real-history classifier
+excludes an $\Ezero$ rational endpoint even when it is sealed by the outer
+constant-real $\Eone$ constructor:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\Ezero(tail)),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. The resulting
+rational classifier has an $\Ezero$ endpoint on one side, so the RatUp endpoint
+exclusion applies in the corresponding orientation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}

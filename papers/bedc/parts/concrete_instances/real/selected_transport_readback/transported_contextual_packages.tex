@@ -410,6 +410,27 @@ readback for transported RealUp rational observations; status
 $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_transported\_selected\_full\_shape\_readback\_package}
 
+\begin{theorem}[Real stream transported selected endpoint common e-one tail readback]
+\label{thm:real-stream-classifier-transport-selected-endpoint-common-e1-tail-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and index $n$,
+if $x$ and $y$ are pointwise transported to $x'$ and $y'$ and
+$\mathsf{RealStreamClassifier}(x,y)$ holds, then the transported selected
+endpoints have common e-one tail readback:
+$$
+\exists a,b,\ \hsame(x'(n),\Eone(a))\land \hsame(y'(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+The selected positive unary nonempty package exposes one-headed endpoint
+witnesses for $x(n)$ and $y(n)$. Transport the two displayed endpoint seals
+along the pointwise $\hsame$ rows to obtain the corresponding seals for
+$x'(n)$ and $y'(n)$. The selected e-one pair readback theorem supplies the two
+unary tail rows and their common $\hsame$ comparison, giving the displayed
+existential package.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_endpoint\_common\_e1\_tail\_readback}
+
 \begin{theorem}[Real stream selected appended e-one tail cancellation]
 \label{thm:real-stream-classifier-selected-append-e1-tail-hsame-cancel}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, index $n$, and

@@ -232,6 +232,7 @@ import BEDC.Derived.PrimeUp.PrimeShape
 import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FiniteWindow
@@ -489,6 +490,7 @@ import BEDC.Derived.ContinuousUp.CompositeEndpointTransport
 import BEDC.Derived.ContinuousUp.EndpointCycle
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.ContinuousMapUp
+import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.Suffix
