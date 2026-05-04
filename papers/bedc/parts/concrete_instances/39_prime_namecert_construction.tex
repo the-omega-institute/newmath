@@ -294,6 +294,32 @@ Induct on the trial-division witness. The unit constructor gives \(\mathsf{Unary
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unary}
 
+\begin{theorem}[Trial-division bounds have positive shape]
+\label{thm:trial-div-bound-positive-shape}
+If \(\mathsf{TrialDiv}(b,n)\), then there is a unary tail \(t\) such that
+\(b\hsame\Eone(t)\).
+\end{theorem}
+\begin{proof}
+Inspect the trial-division witness. The unit constructor has
+\(b=\Eone(\emp)\). In the step constructor, the continuation
+\(\Cont(b,\Eone(\emp),b')\) exposes \(b'\) as \(\Eone(b)\), and the previous
+trial-division witness supplies unary closure of the tail by
+\autoref{thm:trial-div-bound-unary}.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_positive\_shape}
+
+\begin{theorem}[Trial-division bounds are not empty]
+\label{thm:trial-div-bound-not-empty}
+If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:trial-div-bound-positive-shape} to write
+\(b\hsame\Eone(t)\) for a unary tail \(t\). An additional endpoint
+\(b\hsame\emp\) would identify \(\Eone(t)\) with \(\emp\), contradicting the
+history no-confusion principle.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_not\_empty}
+
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}
 For every unary history \(n\), the proposition \(\mathsf{NatPrime}(n)\) is decidable: there is an explicit unary algorithm that returns either a proof of \(\mathsf{NatPrime}(n)\) or an explicit non-trivial divisor of \(n\).
