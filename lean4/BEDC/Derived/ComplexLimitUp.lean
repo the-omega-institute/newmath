@@ -273,6 +273,25 @@ theorem ComplexLimit_constant {z : BHist} :
             (And.intro zUnary
               (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl)))))))
 
+theorem ComplexLimit_eventually_constant_closed {s N M : BHist -> BHist} {z : BHist} :
+    ComplexRegularSequence s N -> ComplexHistoryCarrier z ->
+      (forall {k n : BHist}, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
+        hsame (s n) z) ->
+        ComplexLimit s N z M := by
+  intro regular carrierZ eventuallyConstant
+  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+  exact And.intro regular
+    (And.intro carrierZ
+      (fun k n unaryK unaryN controlled =>
+        let constantDistance : ComplexDistance z z (append z z) :=
+          And.intro zUnary
+            (And.intro zUnary
+              (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl))))
+        Exists.intro (append z z)
+          (ComplexDistance_hsame_transport_with_relation
+            (hsame_symm (eventuallyConstant unaryK unaryN controlled))
+            (hsame_refl z) (hsame_refl (append z z)) constantDistance).left))
+
 theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
       ComplexRegularSequence s N -> ComplexRegularSequence t N := by
