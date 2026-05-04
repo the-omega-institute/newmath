@@ -1,0 +1,28 @@
+\begin{theorem}[Singleton evaluation context continuation append-result carrier exactness]
+\label{thm:linearmap-singleton-eval-context-continuation-append-result-carrier-iff}
+For histories $p,f,x,y,q,r:\mathsf{BHist}$, if the context $p$ is carried by
+the singleton linear-map carrier and
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,
+  \mathsf{append}(q,r)),
+$$
+then the continuation input $y$ is singleton-carried exactly when both append
+result components are singleton-carried:
+$$
+\mathsf{LinearMapSingletonCarrier}(y)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(q)\land
+\mathsf{LinearMapSingletonCarrier}(r).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the carried context $p$ carries the
+left continuation endpoint. If $y$ is carried, continuation determinacy against
+the empty unit carries $\mathsf{append}(q,r)$, and append empty-result
+inversion splits this into carriers for $q$ and $r$.
+
+Conversely, carriers for $q$ and $r$ carry the displayed append result. Moving
+the continuation result to $\emp$ and inverting the empty continuation exposes
+$y\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_append\_result\_carrier\_iff}
