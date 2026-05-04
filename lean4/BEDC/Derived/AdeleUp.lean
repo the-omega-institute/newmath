@@ -309,4 +309,16 @@ theorem AdeleHistoryCarrier_empty_scale_real_readback {real p result : BHist} :
         hsame_refl (append real result)⟩
   · exact hsame_trans (congrArg (append real) resultEmpty) (append_empty_right real)
 
+theorem AdeleHistoryCarrier_unit_scale_real_prime_readback {real p result : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 BHist.Empty) result ->
+      AdeleHistoryCarrier (append real result) ∧ hsame (append real result) (append real p) := by
+  intro realCarrier scale
+  have resultPrime : hsame result p :=
+    PadicPrimeScale_unit_exponent_result_prime_hsame scale
+  constructor
+  · exact
+      ⟨real, p, BHist.e1 BHist.Empty, result, realCarrier, scale,
+        hsame_refl (append real result)⟩
+  · exact congrArg (append real) resultPrime
+
 end BEDC.Derived.AdeleUp

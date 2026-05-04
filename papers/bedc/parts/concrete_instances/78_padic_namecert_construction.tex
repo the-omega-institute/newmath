@@ -131,6 +131,23 @@ predecessor histories.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_predecessor\_unique}
 
+\begin{theorem}[Prime scale unit exponent reads back to the prime]
+\label{thm:padic-prime-scale-unit-exponent-result-prime}
+If $\mathsf{PadicPrimeScale}(p,\Eone(\emp),result)$ holds, then the scale
+result is history-same to the prime base:
+$$
+result\hsame p.
+$$
+\end{theorem}
+\begin{proof}
+Successor-exponent inversion extracts a predecessor result over the empty
+exponent and a continuation from that predecessor through $p$ to $result$.
+Empty-result exactness for prime scales identifies the predecessor with
+$\emp$. Comparing the displayed continuation with the left-unit continuation
+for $p$ identifies $result$ with $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_result\_prime\_hsame}
+
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}
 If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),

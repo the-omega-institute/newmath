@@ -149,6 +149,17 @@ theorem PadicPrimeScale_succ_exponent_predecessor_unique {p q r : BHist} :
               (fun m otherScale =>
                 NatMul_functional scale.left.left data.left.right otherScale.right)))
 
+theorem PadicPrimeScale_unit_exponent_result_prime_hsame {p result : BHist} :
+    PadicPrimeScale p (BHist.e1 BHist.Empty) result -> hsame result p := by
+  intro scale
+  have inversion := PadicPrimeScale_succ_exponent_inversion scale
+  cases inversion with
+  | intro n data =>
+      have nEmpty : hsame n BHist.Empty :=
+        Iff.mpr (PadicPrimeScale_empty_result_iff_empty_exponent data.left)
+          (hsame_refl BHist.Empty)
+      exact cont_respects_hsame nEmpty (hsame_refl p) data.right (cont_left_unit p)
+
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r := by
