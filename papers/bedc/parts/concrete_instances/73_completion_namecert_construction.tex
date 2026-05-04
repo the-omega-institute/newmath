@@ -104,6 +104,29 @@ supplies the rational endpoint classifier at the selected index.
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_empty\_distance\_real\_prefix\_readback}
 
+\begin{theorem}[Completion visible-context empty-distance transport]
+\label{thm:completion-visible-context-empty-distance-hsame-transport}
+Let $x,x',y,y'$ be real stream representatives such that
+$x_m\hsame x'_m$ and $y_m\hsame y'_m$ for every index $m$. If the real stream
+prefix classifier holds for $x,y$ at $n$ and a visible-context metric distance
+witness from $x_n$ to $y_n$ has central empty distance, then the transported
+prefix classifier holds for $x',y'$ at $n$, the corresponding visible-context
+empty-distance witness holds for $x'_n,y'_n$, the visible prefix and suffix are
+unary, both transported central endpoints classify as $\emp$, and the rational
+endpoint classifier holds between $x'_n$ and $y'_n$.
+\end{theorem}
+\begin{proof}
+Apply empty-distance visible-context exactness to the original witness. This
+recovers unary evidence for the visible prefix and suffix and empty endpoint
+classifiers for $x_n$ and $y_n$. Transport the real stream prefix classifier
+along the pointwise $\hsame$ hypotheses, transport the two endpoint empty
+classifiers by symmetry and transitivity of $\hsame$, and rebuild the
+visible-context empty-distance witness from the transported data. The
+transported real prefix classifier supplies the rational endpoint classifier at
+the selected index.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_empty\_distance\_hsame\_transport}
+
 \begin{theorem}[Completion visible-context symmetric tail readback]
 \label{thm:completion-visible-context-symmetric-tail-readback}
 Let $x$ and $y$ be real stream representatives and let $n$ be a prefix

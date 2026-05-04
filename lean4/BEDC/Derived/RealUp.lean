@@ -7,6 +7,7 @@ namespace BEDC.Derived.RealUp
 open BEDC.FKernel.Hist
 open BEDC.Derived.RatUp
 open BEDC.Derived.StreamNameUp
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.StreamNameUp
 
@@ -94,6 +95,18 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   constructor
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
+
+theorem RealConstantHistoryClassifier_append_unary_tail_closed {d e tail : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) -> UnaryHistory tail ->
+      RealConstantHistoryClassifier (BHist.e1 (append d tail))
+        (BHist.e1 (append e tail)) := by
+  intro realClassifier tailUnary
+  have ratClassifier : RatHistoryClassifier d e :=
+    RealConstantHistoryClassifier_e1_iff_rat.mp realClassifier
+  have appendedClassifier : RatHistoryClassifier (append d tail) (append e tail) :=
+    RatHistoryClassifier_append_unary_denominator_closed ratClassifier tailUnary
+      (hsame_refl tail)
+  exact RealConstantHistoryClassifier_e1_iff_rat.mpr appendedClassifier
 
 def RealUnaryStreamClassifier (s t : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
