@@ -378,6 +378,29 @@ ledger identity representative and right witness; exactness predicate identity
 fiber equals lower carrier; downstream consumer $\QuotientGroupUp$; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Centralizer right quotient diagonal carrier exactness]
+\label{thm:subgroup-centralizer-right-quotient-diagonal-carrier-exactness}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\leq N_a}(x,x)\Longleftrightarrow N_a(x).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the right quotient classifier at the diagonal.
+Its endpoint clauses assert that both displayed endpoints lie in the upper
+carrier $N_a$. Since both endpoints are the same history $x$, projecting either
+endpoint clause gives $N_a(x)$.
+
+For the reverse direction, assume $N_a(x)$. The reflexivity row of
+\autoref{thm:centralizer-normalizer-quotient-classifier-laws} applies to this
+upper-carrier witness and gives the diagonal classifier instance
+$Q_{Z_a\leq N_a}(x,x)$.
+\end{proof}
+
 \begin{theorem}[Centralizer quotient identity-fiber bridge package]
 \label{thm:subgroup-centralizer-quotient-identity-fiber-bridge-package}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
