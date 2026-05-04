@@ -323,3 +323,34 @@ histories, so continuation determinacy for their distance ledgers identifies
 their result histories.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness triangle append context endpoint determinacy]
+\label{thm:metric-distance-witness-triangle-append-context-endpoint-determinacy}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then the
+canonical contextual triangle result $(p\cdot d_{xyz})\cdot q$ determines both
+exposed endpoints:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x',d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longrightarrow \HSame(x,x'),
+\\
+\mathsf{MetricDistanceWitness}(p\cdot x,e\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longrightarrow \HSame(d_{yz},e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append context closure first constructs the canonical contextual
+witness
+$\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q)$
+from the three triangle witnesses and the unary context hypotheses.
+
+For the displayed witness with source $p\cdot x'$ and target $d_{yz}\cdot q$,
+visible-context source determinacy compares it with the canonical contextual
+witness and recovers $\hsame(x,x')$ at the exposed source.
+
+For the displayed witness with source $p\cdot x$ and target $e\cdot q$,
+visible-context target determinacy compares it with the same canonical
+contextual witness and recovers $\hsame(d_{yz},e)$ at the exposed middle target.
+\end{proof}

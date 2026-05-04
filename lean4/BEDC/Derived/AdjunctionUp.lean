@@ -254,6 +254,22 @@ theorem AdjunctionUnitCounitAlternating_positive_depth_cont_readback {unit couni
       cases data.left
       exact ⟨tail, data.right, cont_intro rfl⟩
 
+theorem AdjunctionUnitCounitAlternating_positive_depth_unit_empty_readback
+    {unit counit depth : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      hsame unit BHist.Empty ->
+        ∃ tail : BHist, UnaryHistory tail ∧
+          hsame (AdjunctionUnitCounitAlternating unit counit depth)
+            (AdjunctionUnitCounitAlternating counit unit tail) := by
+  intro depthUnary depthNonempty unitEmpty
+  have readback :=
+    AdjunctionUnitCounitAlternating_positive_depth_cont_readback
+      (unit := unit) (counit := counit) depthUnary depthNonempty
+  cases readback with
+  | intro tail data =>
+      cases unitEmpty
+      exact ⟨tail, data.left, cont_left_unit_result data.right⟩
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔
@@ -497,5 +513,57 @@ theorem AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
       And.intro
         (And.intro unitCarrier (And.intro counitCarrier (And.intro leftRel rightRel)))
         data.right.right.right.right.right.right.right.left
+
+theorem AdjunctionUnitCounitCarrier_right_cycle_empty_components_iff
+    {p q a unit counit left right : BHist} :
+    (AdjunctionUnitCounitCarrier p q a unit counit left right ∧ hsame right BHist.Empty) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q ∧ hsame q p ∧
+        hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty := by
+  constructor
+  · intro data
+    have swappedCarrier :
+        AdjunctionUnitCounitCarrier q p a counit unit right left :=
+      And.intro data.left.right.left
+        (And.intro data.left.left
+          (And.intro data.left.right.right.right data.left.right.right.left))
+    have swappedData :=
+      (AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
+        (p := q) (q := p) (a := a) (unit := counit) (counit := unit)
+        (left := right) (right := left)).mp
+        (And.intro swappedCarrier data.right)
+    exact
+      And.intro swappedData.right.left
+        (And.intro swappedData.left
+          (And.intro swappedData.right.right.left
+            (And.intro swappedData.right.right.right.right.left
+              (And.intro swappedData.right.right.right.left
+                (And.intro swappedData.right.right.right.right.right.right.left
+                  (And.intro swappedData.right.right.right.right.right.left
+                    (And.intro swappedData.right.right.right.right.right.right.right.right
+                      swappedData.right.right.right.right.right.right.right.left)))))))
+  · intro data
+    have swappedData :
+        UnaryHistory q ∧ UnaryHistory p ∧ UnaryHistory a ∧ hsame q p ∧ hsame p q ∧
+          hsame counit BHist.Empty ∧ hsame unit BHist.Empty ∧
+            hsame right BHist.Empty ∧ hsame left BHist.Empty :=
+      And.intro data.right.left
+        (And.intro data.left
+          (And.intro data.right.right.left
+            (And.intro data.right.right.right.right.left
+              (And.intro data.right.right.right.left
+                (And.intro data.right.right.right.right.right.right.left
+                  (And.intro data.right.right.right.right.right.left
+                    (And.intro data.right.right.right.right.right.right.right.right
+                      data.right.right.right.right.right.right.right.left)))))))
+    have swapped :=
+      (AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
+        (p := q) (q := p) (a := a) (unit := counit) (counit := unit)
+        (left := right) (right := left)).mpr swappedData
+    have carrier : AdjunctionUnitCounitCarrier p q a unit counit left right :=
+      And.intro swapped.left.right.left
+        (And.intro swapped.left.left
+          (And.intro swapped.left.right.right.right swapped.left.right.right.left))
+    exact And.intro carrier swapped.right
 
 end BEDC.Derived.AdjunctionUp
