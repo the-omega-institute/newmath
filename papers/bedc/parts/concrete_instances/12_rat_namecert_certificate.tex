@@ -201,6 +201,37 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_endpoints\_not\_empty}
 
+\begin{theorem}[Rat history classifier zero-extension endpoint exclusion]
+\label{thm:rat-history-classifier-zero-extension-endpoint-exclusion}
+For histories $t,d:\mathsf{BHist}$, zero-extension cannot appear as either
+endpoint of the rational history classifier:
+$$
+(\mathsf{RatHistoryClassifier}(\Ezero(t),d)\to\mathsf{False})\land
+(\mathsf{RatHistoryClassifier}(d,\Ezero(t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis. Its first positive-denominator witness belongs to $\Ezero(t)$, so
+\autoref{thm:rat-positive-denominator-e0-absurd} gives the contradiction.
+
+For the right endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis again. Its second positive-denominator witness belongs to
+$\Ezero(t)$, and
+\autoref{thm:rat-positive-denominator-e0-absurd} rules out that endpoint.
+\end{proof}
+
+The ten-field fit is: traditional target rational-denominator branch
+exclusion; BEDC source $\mathsf{BHist}$ and
+$\mathsf{RatHistoryClassifier}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from
+positive-denominator readback; ledger the rejected zero head; core theorem
+this block; exactness the two displayed contradictions; standard bridge
+positive denominators are never zero-headed unary histories; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
 If denominator histories $d$ and $e$ are related by the rational history
