@@ -109,6 +109,18 @@ theorem CplxDiffQuot_result_not_empty {f z h q : BHist} :
                   have emptyParts := cont_empty_result_inversion emptyLedger
                   exact stepNonzero emptyParts.right
 
+theorem CplxDiffQuot_visible_step_results_nonempty {f z p q out0 out1 : BHist} :
+    UnaryHistory f -> UnaryHistory z -> UnaryHistory out0 -> UnaryHistory out1 ->
+      Cont f (BHist.e0 p) out0 -> Cont f (BHist.e1 q) out1 ->
+        (hsame out0 BHist.Empty -> False) ∧ (hsame out1 BHist.Empty -> False) := by
+  intro functionCarrier pointCarrier out0Carrier out1Carrier cont0 cont1
+  have quotients :=
+    CplxDiffQuot_visible_step_construct functionCarrier pointCarrier out0Carrier out1Carrier
+      cont0 cont1
+  exact And.intro
+    (CplxDiffQuot_result_not_empty quotients.left)
+    (CplxDiffQuot_result_not_empty quotients.right)
+
 theorem CplxDiffQuotAppendClassifier_append_target_not_empty {f : BHist -> BHist}
     {z h q : BHist} :
     CplxDiffQuotAppendClassifier f z h q -> hsame (append z h) BHist.Empty -> False := by
