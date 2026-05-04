@@ -337,3 +337,41 @@ This defines the displayed map $\Phi[P\leadsto Q]:Q\to X$. The dual construction
 
 No step asks for an equality proof $\varepsilon_{P,Q}:P=Q$. The proposition symbol is never rewritten inside an arbitrary context; the construction only composes ordinary proof functions. The stronger operation described in \autoref{def:proposition-stratum-propext-closure} would manufacture an equality token and then transport through every proposition-valued context. The construction above is the effective replacement promised by \autoref{def:three-axioms-replacement-propext}: it keeps $P$ and $Q$ distinct and moves only displayed proof inputs along the supplied bidirectional implication.
 \end{proof}
+
+\begin{definition}[Presented term-stratum witness family]
+\label{def:term-stratum-presented-witness-family}
+Fix an index carrier $I$, an ambient term carrier $U$, and positive fiber predicates $A_i \subseteq U$. For each $i\in I$, let $R_i$ be a carrier of constructor recipes and let $\epsilon_i:R_i\to U$ be the evaluation map from recipes to terms. A \emph{presented term-stratum witness family} over $(A_i)_{i\in I}$ is data
+$$
+r:\forall i\in I,\;R_i,
+\qquad
+\rho:\forall i\in I,\;\epsilon_i(r(i))\in A_i.
+$$
+Its \emph{exposed choice output} is the pair $\Phi(r,\rho)=(f_r,\mu_r)$ defined by
+$$
+f_r:I\to\bigsqcup_{i\in I}A_i,
+\qquad
+f_r(i)=(i,\epsilon_i(r(i))),
+$$
+with fiber evidence $\mu_r(i)=\rho(i)$. Thus the source presentation records the recipe binding $i\mapsto r(i)$ as constructor-level data, while the exposed output records only the evaluated fiber term and its membership evidence.
+\end{definition}
+
+\begin{proposition}[Term-stratum meta closure drops per-index witness recipes]
+\label{prop:term-stratum-meta-closure-drops-witness-family}
+In the setting of \autoref{def:term-stratum-presented-witness-family}, let $(r,\rho)$ and $(r',\rho')$ be presented witness families, possibly with different recipe carriers and evaluation maps. If their evaluated terms agree pointwise,
+$$
+\forall i\in I,\;\epsilon_i(r(i))=\epsilon'_i(r'(i)),
+$$
+then the underlying $U$-components of their exposed choice outputs agree pointwise. Consequently, when the term-stratum meta-closure interface of \autoref{def:term-stratum-choice-closure} or the choice conclusion of \autoref{ex:three-axioms-choice} is used as the only subsequent input, the available data are only $f$ and the fiber evidence $f(i)\in A_i$. The per-index recipe binding $i\mapsto r(i)$ is not a destructurable component of that output.
+\end{proposition}
+
+\begin{proof}
+Unfold the exposed output map $\Phi$ of \autoref{def:term-stratum-presented-witness-family}. For each index $i\in I$, the underlying $U$-component of $f_r(i)$ is $\epsilon_i(r(i))$, and the underlying $U$-component of $f_{r'}(i)$ is $\epsilon'_i(r'(i))$. The displayed pointwise equality therefore gives equality of the exposed term components at every index.
+
+Now inspect the term-stratum closure interface. By \autoref{def:term-stratum-choice-closure} and its equivalence with choice in \autoref{thm:choice-term-stratum-meta-closure}, the closure output has the form
+$$
+f:I\to\bigsqcup_{i\in I}A_i,
+\qquad
+\mu:\forall i\in I,\;f(i)\in A_i.
+$$
+Dependent elimination of this output projects only $f$ and $\mu$. Neither projection has type $R_i$, neither returns a recipe $r(i)$, and neither records an equality tying the accepted output to a displayed constructor presentation. To recover $r(i)$ from the closure output one would need extra data, for example a selector from exposed fiber terms back into $R_i$ whose evaluation gives that term. Such a selector is not part of \autoref{def:term-stratum-choice-closure}, \autoref{ex:three-axioms-choice}, or the displayed choice-output type. Hence the term-stratum meta-closure step is precisely the passage from a possible constructor presentation to the exposed term-and-membership interface, and that passage drops the per-index witness recipe structure unless the original presentation is supplied as a separate input.
+\end{proof}
