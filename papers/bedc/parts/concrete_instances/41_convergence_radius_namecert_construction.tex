@@ -70,6 +70,29 @@ separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
 
+\begin{theorem}[Geometric bound visible constant endpoint package]
+\label{thm:geom-bound-visible-constant-endpoint-package}
+For coefficients $a$, radius history $r$, result history $R$, and tail
+history $tail$, if
+$$
+\mathsf{GeomBound}(a,r,\Eone(tail))
+\qquad\text{and}\qquad
+\ContR(r,\Eone(tail),R),
+$$
+then $tail$ is unary and the continuation result is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The geometric-bound witness contains the unary carrier for the visible constant
+endpoint $\Eone(tail)$, so unary inversion gives the payload carrier for
+$tail$. If the continuation result were empty, empty-result inversion would
+identify the visible constant endpoint $\Eone(tail)$ with $\emp$,
+contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_constant\_endpoint\_package}
+
 \begin{theorem}[Geometric bound radius semantic naming certificate]
 \label{thm:geom-bound-radius-semantic-namecert}
 For fixed coefficients \(a\) and unary bound constant \(K\), any witness of \(\mathsf{GeomBound}(a,r,K)\) yields a semantic naming certificate whose carrier, pattern, and ledger are the same radius-indexed geometric-bound predicate and whose classifier is \(\hsame\) on the displayed radius.
@@ -367,22 +390,55 @@ The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ConvRad}\)
 
 \begin{definition}[Convergence radius ledger policy]
 \label{def:conv-rad-ledger-policy}
-The ledger policy records: (i) term-by-term differentiation preserving radius, (ii) Cauchy product taking minimum, (iii) absolute convergence inside the open disk, and (iv) Cauchy-Hadamard limsup characterization.
+The ledger policy records the analytic obligations for term-by-term
+differentiation, Cauchy product, absolute convergence inside the open disk, and
+the Cauchy-Hadamard limsup characterization.
 \end{definition}
 
-\begin{theorem}[Concrete \(\ConvergenceRadiusUp\) naming certificate]
+\begin{theorem}[Concrete $\ConvergenceRadiusUp$ certificate-obligation package]
 \label{thm:conv-rad-namecert}
-The five fields above form a naming certificate over \(\Hist\) for the convergence radius interface \(\ConvergenceRadiusUp\).
+The convergence-radius construction supplies a concrete certificate-obligation
+package over $\Hist$ for $\ConvergenceRadiusUp$. Its checked rows are the
+$\mathsf{ConvRad}$ carrier, $\hsame$ classifier, radius transport, coefficient
+classifier transport, extraction of power-series carrier data from geometric
+bounds, the convergence-radius power-series carrier witness, and append-unary
+coefficient closure. The analytic ledger laws of
+\autoref{def:conv-rad-ledger-policy} remain policy obligations for this
+interface.
 \end{theorem}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+The carrier and classifier are the displayed $\mathsf{ConvRad}$ predicate and
+$\hsame$ on radius histories.
+
+The checked transport rows are
+\autoref{lem:conv-rad-radius-transport} and
+\autoref{lem:conv-rad-radius-coefficient-classifier-transport}. The carrier
+witness rows are \autoref{lem:geom-bound-power-series-carrier} and
+\autoref{lem:conv-rad-power-series-carrier-witness}. The checked closure row is
+\autoref{thm:conv-rad-append-unary-coeff-closed}.
+
+These rows give the concrete proof obligations available to the semantic
+certificate target. The differentiation, Cauchy-product, absolute-convergence,
+and Cauchy-Hadamard rows are ledger-policy obligations in this chapter, not
+premises of the checked semantic NameCert target.
 \end{proof}
 
-\begin{theorem}[Semantic \(\ConvergenceRadiusUp\) naming certificate]
+\begin{theorem}[Semantic $\ConvergenceRadiusUp$ naming certificate]
 \label{thm:conv-rad-semantic-namecert}
-The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier, pattern, and ledger are the convergence-radius predicate for a fixed coefficient family, the classifier is \(\hsame\) on the radius, and every closure law is given by an explicit constructive proof.
+The concrete package of \autoref{thm:conv-rad-namecert} supplies the checked
+semantic naming-certificate schema of $\NameCert$
+(\autoref{ch:core-typed-naming-certificates}) exactly for the
+$\mathsf{ConvRad}$ carrier, the $\hsame$ radius classifier, radius transport,
+coefficient classifier transport, the power-series carrier witness, and
+append-unary coefficient closure.
 \end{theorem}
 \begin{proof}[Sketch]
-The witnessed radius inhabits the carrier. The equivalence fields are the finite-kernel \(\hsame\) laws. Carrier transport uses radius transport together with unary transport of the displayed radius.
+The witnessed radius inhabits the $\mathsf{ConvRad}$ carrier. The equivalence
+fields are the finite-kernel $\hsame$ laws.
+
+Carrier transport is the radius-transport row, with unary transport of the
+displayed radius. Coefficient-family transport uses the checked classifier
+transport row, while the carrier witness and append-unary closure are supplied
+by their corresponding checked rows in this chapter.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}

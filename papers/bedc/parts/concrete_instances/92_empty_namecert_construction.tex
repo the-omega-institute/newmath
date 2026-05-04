@@ -180,6 +180,29 @@ out every zero-headed versus one-headed comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.EmptyUp.EmptyVisiblePairCarrier\_namecert\_absurd}
 
+\begin{theorem}[Empty visible pair carrier semantic certificate absurdity]
+\label{thm:empty-visible-pair-carrier-semantic-namecert-absurd}
+There is no semantic name certificate whose source, pattern, and ledger
+policies all ask a single history to classify both to a zero-headed visible
+endpoint and to a one-headed visible endpoint:
+$$
+\mathsf{SemanticNameCert}
+(\{h\mid h\hsame\Ezero(left)\land h\hsame\Eone(right)\},
+\{h\mid h\hsame\Ezero(left)\land h\hsame\Eone(right)\},
+\{h\mid h\hsame\Ezero(left)\land h\hsame\Eone(right)\},
+\hsame)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The semantic certificate supplies a ledger witness. The ledger policy is the
+same visible-pair carrier, so the witness compares one history with both
+$\Ezero(left)$ and $\Eone(right)$. Reversing the zero comparison and composing
+with the one comparison gives $\Ezero(left)\hsame\Eone(right)$, which is
+excluded by BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.EmptyUp.EmptyVisiblePairCarrier\_semantic\_namecert\_absurd}
+
 \begin{theorem}[Empty visible contradictory carrier semantic certificate absurdity]
 \label{thm:empty-visible-contradictory-carrier-semantic-namecert-absurd}
 There is no semantic name certificate whose source, pattern, and ledger policies
