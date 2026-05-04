@@ -61,6 +61,24 @@ theorem FramedListPublicLength_constructor_endpoint_readback {A : BHist → Prop
                       (rep.left a (List.Mem.head tail))
                       (And.intro rep tailPublic)))
 
+theorem FramedListPublicLength_successor_empty_absurd {A : BHist -> Prop}
+    {h : BHist} {n : Nat} :
+    FramedListPublicLength A h (Nat.succ n) -> hsame h (BHist.e0 BHist.Empty) ->
+      False := by
+  intro publicLength sameEmpty
+  have readback :=
+    FramedListPublicLength_constructor_endpoint_readback
+      (A := A) (h := h) (n := n) |>.right publicLength
+  cases readback with
+  | intro a rest =>
+      cases rest with
+      | intro xs data =>
+          have sameCons : hsame (FramedListEndpoint (a :: xs)) (FramedListEndpoint []) :=
+            hsame_trans (hsame_symm data.right.left.right) sameEmpty
+          exact
+            (FramedListEndpoint_no_confusion_cons_inversion
+              (a := a) (b := a) (xs := xs) (ys := xs)).right.left sameCons
+
 theorem FramedListHistoryCarrier_public_length_shape_exhaustion {A : BHist → Prop}
     {h : BHist} :
     FramedListHistoryCarrier A h →

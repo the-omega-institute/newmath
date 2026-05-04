@@ -554,6 +554,34 @@ $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_closed}
 
+\begin{theorem}[ContinuousMap empty distance composition closure]
+\label{thm:continuousmap-empty-distance-comp-closed}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG:\mathsf{BHist}$,
+assume the two continuous-map carriers have empty distance ledgers:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,\emp),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,\emp),
+\end{array}
+$$
+and assume the continuation ledgers for graph composition, modulus
+composition, and final certificate formation. Then $source$, $mid$, and
+$target$ are all $\hsame$ to $\emp$, and the composite carrier also has empty
+distance ledger:
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the empty-distance metric readback to the two input carriers. The first
+carrier identifies $source$ and $mid$ with $\emp$, while the second identifies
+$mid$ and $target$ with $\emp$. Composition closure supplies the composite
+continuous-function carrier. The empty endpoint comparisons repackage the
+metric-distance witness for the composite as the empty distance ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_comp\_closed}
+
 \begin{theorem}[ContinuousMap carrier composition distance determinacy]
 \label{thm:continuousmap-carrier-comp-distance-deterministic}
 For histories

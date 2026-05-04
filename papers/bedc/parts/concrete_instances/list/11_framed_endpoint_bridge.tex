@@ -449,6 +449,29 @@ and $xs$ are the required constructor witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListPublicLength\_constructor\_endpoint\_readback}
 
+\begin{theorem}[Framed list public length successor empty absurd]
+\label{thm:framed-list-public-length-successor-empty-absurd}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If a
+history $h$ has successor framed public length, then $h$ cannot also be the
+empty framed endpoint:
+$$
+\mathsf{FramedListPublicLength}_A(h,n+1)
+\Longrightarrow
+\hsame(h,\mathsf{FramedListEndpoint}(\mathsf{nil}))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply constructor readback to the successor public-length witness. It exposes
+a head $a$ and tail spine $xs$ with a displayed representation of $h$ by the
+cons endpoint $\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs))$. Composing
+this endpoint display with the assumed empty-frame display gives an internal
+sameness between a cons framed endpoint and the nil framed endpoint. Framed
+endpoint no-confusion for nil versus cons eliminates this case.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListPublicLength\_successor\_empty\_absurd}
+
 \begin{theorem}[Framed list bridge classifier displayed-spine exactness]
 \label{thm:framed-list-bridge-classifier-displayed-spine-exactness}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
