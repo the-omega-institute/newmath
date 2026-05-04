@@ -27,6 +27,21 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{lemma}[Unary multiplication exponent-result cases]
+\label{lem:nat-mul-exponent-result-cases}
+Every witness of \(\mathsf{NatMul}(d,q,n)\) is either the empty exponent
+case, with \(q\hsame\emp\) and \(n\hsame\emp\), or a successor exponent case:
+there are histories \(q_0\) and \(n_0\) such that
+\(q=\Eone(q_0)\), \(\mathsf{NatMul}(d,q_0,n_0)\), and
+\(\Cont(n_0,d,n)\).
+\end{lemma}
+\begin{proof}
+Invert the closed multiplication witness. The zero constructor gives the
+empty exponent and empty result. The successor constructor exposes exactly the
+predecessor exponent, predecessor product, and final continuation payload.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_exponent\_result\_cases}
+
 \begin{lemma}[Empty left unary multiplication has empty result]
 \label{lem:natmul-empty-left-result-empty}
 If \(\mathsf{NatMul}(\emp,q,n)\), then \(n\hsame\emp\).
@@ -187,6 +202,22 @@ functionality to identify the continuation result with \(\emp\).
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatDivides}
+
+\begin{lemma}[Divisibility result cases]
+\label{lem:nat-divides-result-cases}
+Every witness of \(\mathsf{NatDivides}(d,n)\) is either an empty-result
+witness, with \(n\hsame\emp\) and \(d\) unary, or a successor-product witness:
+there is a predecessor \(n_0\) with \(\mathsf{NatDivides}(d,n_0)\) and
+\(\Cont(n_0,d,n)\).
+\end{lemma}
+\begin{proof}
+Unpack the explicit quotient in the divisibility witness. If its
+\(\mathsf{NatMul}\) witness is zero, the result is empty and the multiplicand
+field gives unary \(d\). If it is a successor witness, unary inversion on the
+quotient supplies a unary predecessor quotient, and the predecessor
+multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
 
 \begin{lemma}[Empty left divisibility has empty result]
 \label{lem:natdivides-empty-left-result-empty}

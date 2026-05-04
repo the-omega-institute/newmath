@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.NatMulCases
 
 namespace BEDC.Derived.PadicUp
 
@@ -60,6 +60,24 @@ theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
   cases inversion with
   | intro n data =>
       exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
+
+theorem PadicPrimeScale_exponent_result_cases {p exponent result : BHist} :
+    PadicPrimeScale p exponent result ->
+      (hsame exponent BHist.Empty ∧ hsame result BHist.Empty) ∨
+        ∃ tail pred : BHist,
+          exponent = BHist.e1 tail ∧ PadicPrimeScale p tail pred ∧ Cont pred p result := by
+  intro scale
+  have mulCases := NatMul_exponent_result_cases scale.right
+  cases mulCases with
+  | inl emptyCase =>
+      exact Or.inl emptyCase
+  | inr succCase =>
+      cases succCase with
+      | intro tail tailData =>
+          cases tailData with
+          | intro pred data =>
+              exact Or.inr ⟨tail, pred, data.left, ⟨scale.left, data.right.left⟩,
+                data.right.right⟩
 
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->

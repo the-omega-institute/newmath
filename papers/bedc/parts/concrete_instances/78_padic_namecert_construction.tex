@@ -70,6 +70,22 @@ prime-scale witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_inversion}
 
+\begin{lemma}[Prime scale exponent-result cases]
+\label{lem:padic-prime-scale-exponent-result-cases}
+Every \(\mathsf{PadicPrimeScale}(p,e,r)\) witness is either the empty exponent
+case, with \(e\hsame\emp\) and \(r\hsame\emp\), or a successor exponent case:
+there are histories \(e_0\) and \(r_0\) such that
+\(e=\Eone(e_0)\), \(\mathsf{PadicPrimeScale}(p,e_0,r_0)\), and
+\(\Cont(r_0,p,r)\).
+\end{lemma}
+\begin{proof}
+Apply the exponent-result case split for the underlying
+\(\mathsf{NatMul}(p,e,r)\) field. In the successor branch, the same prime
+witness for \(p\) packages the predecessor multiplication witness as a
+predecessor prime-scale witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_exponent\_result\_cases}
+
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}
 If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
