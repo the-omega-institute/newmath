@@ -5,6 +5,7 @@ namespace BEDC.Derived.MetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 
 theorem MetricDistanceWitness_visible_context_prefix_independent_symmetric_classifier
     {p q p' q' x y dxy dyx : BHist} :
@@ -42,5 +43,14 @@ theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
   exact
     And.intro sameDistance
       (And.intro reverseDepth (And.intro forwardCollapse.2.1 forwardCollapse.2.2))
+
+theorem MetricDistanceWitness_visible_context_prefix_independent_symmetric_zero_depth_collapse
+    {p q p' q' x y dxy dyx : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 ->
+          hsame dxy dyx ∧ MetricDistanceDepth dyx = 0 ∧ hsame x BHist.Empty ∧
+            hsame y BHist.Empty := by
+  exact MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
 
 end BEDC.Derived.MetricUp
