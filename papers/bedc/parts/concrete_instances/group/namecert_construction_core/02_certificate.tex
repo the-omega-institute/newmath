@@ -118,6 +118,29 @@ and forward at $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_inverse\_cancel\_from\_laws}
 
+\begin{theorem}[Group inverse empty iff]
+\label{thm:group-inverse-empty-iff}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with
+associativity, left and right identity laws for $\emp$, multiplication
+congruence, and two-sided inverse laws, every history $x:\mathsf{BHist}$
+satisfies
+$$
+\hsame(x^{-1},\emp)\Longleftrightarrow\hsame(x,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, \autoref{thm:group-inverse-identity} identifies
+$\emp^{-1}$ with $\emp$. The displayed witness $\hsame(x^{-1},\emp)$ therefore
+transports to $\hsame(x^{-1},\emp^{-1})$, and
+\autoref{thm:group-inverse-cancel-from-laws} cancels inverses to obtain
+$\hsame(x,\emp)$.
+
+For the reverse direction, apply \autoref{thm:group-inverse-congruence-from-laws}
+to $\hsame(x,\emp)$, obtaining $\hsame(x^{-1},\emp^{-1})$, then finish again
+with \autoref{thm:group-inverse-identity}.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_inverse\_empty\_iff}
+
 \begin{theorem}[Group multiplication by a right inverse cancels]
 \label{thm:group-mul-right-inverse-cancel}
 For a history-level group operation with associativity, right identity,

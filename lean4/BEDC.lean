@@ -216,6 +216,7 @@ import BEDC.Derived.GroupUp.EquationCancellationSolver
 import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
 import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
+import BEDC.Derived.GroupUp.InverseEmpty
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
@@ -230,6 +231,7 @@ import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.Cancellation
+import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
