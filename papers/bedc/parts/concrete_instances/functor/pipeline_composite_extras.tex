@@ -205,3 +205,90 @@ $$
 $$
 This gives the displayed biconditional chain.
 \end{proof}
+
+\begin{theorem}[Functor composition associativity classifier law]
+\label{thm:functor-composition-associativity-classifier-law}
+Let $\mathcal C,\mathcal D,\mathcal E,\mathcal L$ be certified
+$\CategoryUp$ packages satisfying \autoref{def:category-certificate-obligations}.
+Let $F:\mathcal C\to\mathcal D$, $G:\mathcal D\to\mathcal E$, and
+$H:\mathcal E\to\mathcal L$ be certified $\FunctorUp$ carriers satisfying
+\autoref{def:functor-certificate-obligations}, with object maps
+$F_0,G_0,H_0$ and morphism maps $F_1,G_1,H_1$. Write
+$$
+A=(H\circ G)\circ F,
+\qquad
+B=H\circ(G\circ F).
+$$
+Then $A$ and $B$ are certified $\FunctorUp$ carriers from $\mathcal C$ to
+$\mathcal L$, and they are classified together by the $\FunctorUp$ classifier.
+Explicitly, for every source object $x$,
+$$
+A_0(x)\sim_{\mathcal O_{\mathcal L}}B_0(x).
+$$
+For every displayed source morphism $u:a\to b$,
+$$
+A_1(u)\sim_{\mathcal H_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))))}B_1(u).
+$$
+Moreover, the functor-indexed hom-carrier classifiers agree pointwise: for
+every pair of source objects $a,b$ and every codomain morphism candidate $m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{FunctorHomCarrier}_{B}(a,b,m).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to $F$ and $G$
+to obtain the preservation witnesses for $G\circ F$, and apply the same theorem
+to $G$ and $H$ to obtain the preservation witnesses for $H\circ G$. Applying
+it again to $F$ with $H\circ G$ gives the preservation witnesses for
+$A=(H\circ G)\circ F$, and applying it to $G\circ F$ with $H$ gives the
+preservation witnesses for $B=H\circ(G\circ F)$. Together with the source,
+pattern, classifier, and ledger rows of \autoref{def:functor-certificate-obligations},
+these are certified $\FunctorUp$ carriers from $\mathcal C$ to $\mathcal L$.
+
+Unfold the composite object maps. For every object $x$ of $\mathcal C$,
+$$
+A_0(x)=(H\circ G)_0(F_0(x))=H_0(G_0(F_0(x))),
+$$
+and
+$$
+B_0(x)=H_0((G\circ F)_0(x))=H_0(G_0(F_0(x))).
+$$
+The two object images are the same displayed object of $\mathcal L$, so object
+classifier reflexivity from \autoref{def:category-stability-certificate} gives
+$A_0(x)\sim_{\mathcal O_{\mathcal L}}B_0(x)$.
+
+The morphism maps unfold in the same way. For every displayed source morphism
+$u:a\to b$,
+$$
+A_1(u)=(H\circ G)_1(F_1(u))=H_1(G_1(F_1(u))),
+$$
+and
+$$
+B_1(u)=H_1((G\circ F)_1(u))=H_1(G_1(F_1(u))).
+$$
+Morphism-classifier reflexivity in the endpoint-indexed hom classifier of
+$\mathcal L$ gives the displayed morphism comparison. By the pointwise
+classifier specification of \autoref{def:functor-classifier-specification},
+these object and morphism comparisons are exactly the $\FunctorUp$ classifier
+witness between $A$ and $B$.
+
+It remains to read the hom-carrier classifiers. Applying
+\autoref{thm:functor-composite-hom-carrier-classifier} to the composite of
+$F$ with $H\circ G$ gives, for every $a,b,m$,
+$$
+\mathsf{FunctorHomCarrier}_{A}(a,b,m)
+\Longleftrightarrow
+\mathsf{HomCarrier}_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))),m).
+$$
+Applying the same theorem to the composite of $G\circ F$ with $H$ gives
+$$
+\mathsf{FunctorHomCarrier}_{B}(a,b,m)
+\Longleftrightarrow
+\mathsf{HomCarrier}_{\mathcal L}(H_0(G_0(F_0(a))),H_0(G_0(F_0(b))),m).
+$$
+Both functor-indexed hom-carrier predicates therefore reduce to the same
+codomain hom-carrier classifier, and transitivity of the biconditional gives
+the pointwise equivalence.
+\end{proof}
