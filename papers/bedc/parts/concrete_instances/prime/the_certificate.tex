@@ -110,6 +110,7 @@ Let $d$ and $e$ be unary histories, and let $d'$ be any history with $d\hsame d'
 \begin{proof}
 Unpack \autoref{def:nat-divides}. Choose a unary quotient $q$ with $\mathsf{NatMul}(d,q,e)$. By \autoref{lem:nat-mul-multiplicand-hsame-transport}, the same quotient satisfies $\mathsf{NatMul}(d',q,e)$. Since the quotient witness itself remains unary, the existential clause in \autoref{def:nat-divides} gives $\mathsf{NatDivides}(d',e)$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_divisor\_hsame\_transport}
 
 \begin{lemma}[Unary multiplication transports along the result]
 \label{lem:nat-mul-result-hsame-transport}
@@ -120,6 +121,7 @@ Case-analyze the closed witness for $\mathsf{NatMul}(d,q,n)$ from \autoref{def:n
 
 In the successor case, the witness consists of a predecessor product $\mathsf{NatMul}(d,q_0,n_0)$ and a continuation $\Cont(n_0,d,n_1)$. The result hypothesis is $n_1\hsame n'$. Apply \autoref{thm:cont-hsame-transport} to this continuation, using reflexivity from \autoref{thm:history-sameness-equivalence} on $n_0$ and $d$ and the displayed result sameness. This yields $\Cont(n_0,d,n')$, and the successor constructor of \autoref{def:nat-multiplication} gives $\mathsf{NatMul}(d,\Eone(q_0),n')$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_hsame\_transport}
 
 \begin{theorem}[Divisibility transports along dividend history-sameness]
 \label{thm:nat-divides-dividend-hsame-transport}
