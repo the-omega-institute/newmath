@@ -1,4 +1,4 @@
-import BEDC.Derived.CategoryUp
+import BEDC.Derived.CategoryUp.EmptyComposite
 
 namespace BEDC.Derived.CategoryUp
 
@@ -54,6 +54,26 @@ theorem CategoryHomCarrier_empty_target_chain_inversion {a b f g : BHist} :
     CategoryHomCarrier_hsame_transport (hsame_refl a) rightEmpty.left (hsame_refl f) left
   have leftEmpty := CategoryHomCarrier_empty_target_iff.mp transportedLeft
   exact ⟨leftEmpty.left, rightEmpty.left, leftEmpty.right, rightEmpty.right⟩
+
+theorem CategoryHomCarrier_comp_empty_target_boundary {a b c f g fg : BHist} :
+    CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
+      hsame c BHist.Empty ->
+        hsame a BHist.Empty ∧ hsame b BHist.Empty ∧ hsame c BHist.Empty ∧
+          hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame fg BHist.Empty := by
+  intro left right comp targetEmpty
+  have rightEmpty : CategoryHomCarrier b BHist.Empty g :=
+    CategoryHomCarrier_hsame_transport (hsame_refl b) targetEmpty (hsame_refl g) right
+  have rightParts := CategoryHomCarrier_empty_target_iff.mp rightEmpty
+  have leftEmptyCarrier : CategoryHomCarrier a BHist.Empty f :=
+    CategoryHomCarrier_hsame_transport (hsame_refl a) rightParts.left (hsame_refl f) left
+  have leftParts := CategoryHomCarrier_empty_target_iff.mp leftEmptyCarrier
+  have compositeEmpty : hsame fg BHist.Empty := by
+    cases leftParts.right
+    cases rightParts.right
+    cases comp
+    rfl
+  exact ⟨leftParts.left, rightParts.left, targetEmpty, leftParts.right, rightParts.right,
+    compositeEmpty⟩
 
 theorem ContinuationMorphism_visible_source_empty_target_absurd {a : BHist} :
     (ContinuationMorphism (BHist.e0 a) BHist.Empty -> False) ∧
