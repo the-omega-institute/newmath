@@ -1,8 +1,10 @@
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.Length
 
 namespace BEDC.Derived.ListUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 def FramedListPublicLength (A : BHist → Prop) (h : BHist) (n : Nat) : Prop :=
   ∃ xs : ListCarrier BHist, FramedListSpineRep A h xs ∧ xs.length = n
@@ -100,5 +102,31 @@ theorem FramedListPublicLength_well_defined {A : BHist → Prop}
                                     (And.intro _repH (And.intro repK _classified))))
                             exact Exists.intro ys
                               (And.intro repK (Eq.trans (Eq.symm sameLength) lengthX0))
+
+theorem FramedListBridgeClassifier_public_length_total {A : BHist → Prop}
+    {Rel : BHist → BHist → Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} :
+    FramedListBridgeClassifier A Rel h k →
+      (FramedListHistoryCarrier A h ∧ FramedListHistoryCarrier A k) ∧
+        ∃ n : Nat, FramedListPublicLength A h n ∧ FramedListPublicLength A k n := by
+  intro bridge
+  have carriers :
+      FramedListHistoryCarrier A h ∧ FramedListHistoryCarrier A k :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.left bridge
+  cases bridge with
+  | intro xs bridgeTail =>
+      cases bridgeTail with
+      | intro ys bridgeData =>
+          cases bridgeData with
+          | intro repH bridgeRest =>
+              cases bridgeRest with
+              | intro repK classified =>
+                  have sameLength : xs.length = ys.length :=
+                    ListClassifierSpec_length_eq classified
+                  exact And.intro carriers
+                    (Exists.intro xs.length
+                      (And.intro
+                        (Exists.intro xs (And.intro repH rfl))
+                        (Exists.intro ys (And.intro repK sameLength.symm))))
 
 end BEDC.Derived.ListUp

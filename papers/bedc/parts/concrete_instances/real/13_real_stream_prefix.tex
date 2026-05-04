@@ -153,6 +153,45 @@ recursive prefix display, obtaining
 $\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$.
 \end{proof}
 
+\begin{theorem}[Real stream prefix classifier tail extension]
+\label{thm:real-stream-prefix-classifier-tail-extension}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+an already classified prefix through $n$ extends across any finite tail whose
+endpoints are classified:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\bigl(\forall k,\ 1\le k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))\bigr)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n+m).
+$$
+Ten-field fit: traditional target finite prefix continuation from certified
+endpoints; BEDC source RealUp stream prefixes over RatUp history classifiers;
+carrier rational-observation streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$; stability inherited from each endpoint
+classifier and recursive prefix pairing; ledger initial prefix length, tail
+length, and endpoint offsets; core theorem this tail continuation principle;
+exactness the displayed implication; standard bridge finite prefix recursion;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the target prefix is the given prefix through $n$,
+since $n+0=n$, and no tail endpoint is required.
+
+For the successor step, assume the principle for tail length $m$ and suppose
+the prefix through $n$ is classified together with endpoint classifiers for
+all offsets $1\le k\le m+1$. Restrict the endpoint assumption to offsets
+$1\le k\le m$ and apply the induction hypothesis. This gives
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+m)$.
+
+It remains to add the final endpoint. Taking $k=m+1$ in the endpoint assumption
+gives $\mathsf{RatHistoryClassifier}(x(n+m+1),y(n+m+1))$ after the usual
+successor arithmetic. Apply the reverse direction of
+\autoref{lem:real-stream-prefix-successor-inversion} to the classified prefix
+through $n+m$ and this endpoint classifier, obtaining the classified prefix
+through $n+m+1$, which is the prefix through $n+(m+1)$.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier truncation]
 \label{thm:real-stream-prefix-classifier-truncation}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
@@ -538,6 +577,50 @@ zero-endpoint absurdity.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Real stream classifier selected continuation endpoint boundary package]
+\label{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then the selected continuation endpoints carry the boundary package
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq)\land\\
+\mathsf{UnaryHistory}(xq)\land
+\mathsf{UnaryHistory}(yq)\land\\
+(\hsame(xq,\emp)\to\mathsf{False})\land
+(\hsame(yq,\emp)\to\mathsf{False})\land\\
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-positive-denominators}
+to the selected stream classifier, the shared unary suffix, and the two
+continuation displays. This gives positive unary denominator witnesses for
+$xq$ and $yq$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two denominator witnesses. These two applications give
+$\mathsf{UnaryHistory}(xq)$, $\mathsf{UnaryHistory}(yq)$, and the two
+empty-endpoint exclusions.
+
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+to the same selected continuation data. This gives the two zero-headed endpoint
+exclusions. Package the denominator, unary, empty-endpoint, and zero-endpoint
+rows in the displayed order.
+\end{proof}
+
 \begin{theorem}[Real stream classifier selected continuation full shape package]
 \label{thm:real-stream-classifier-selected-continuation-full-shape-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
@@ -578,19 +661,10 @@ outputs, and the two displayed e-one tails. This reads back
 $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
 
 Apply
-\autoref{thm:real-stream-classifier-selected-continuation-positive-denominators}
-to the same selected continuation data. This gives positive unary denominator
-witnesses for $xq$ and $yq$.
-
-Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
-the two positive denominator witnesses. The two applications give
-$\mathsf{UnaryHistory}(xq)$, $\mathsf{UnaryHistory}(yq)$, and the two
-empty-endpoint exclusions.
-
-Apply
-\autoref{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
-to the selected continuation data and the two zero-headed endpoint tests. This
-gives the $xq$ and $yq$ zero-endpoint contradictions.
+\autoref{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+to the same selected continuation data. This supplies both positive denominator
+rows, both unary endpoint rows, both empty-endpoint exclusions, and both
+zero-headed endpoint exclusions.
 
 Package the e-one tail readback, the positive denominator witnesses, the unary
 endpoint rows, the empty-endpoint exclusions, and the zero-endpoint exclusions.
