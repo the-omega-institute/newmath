@@ -88,6 +88,24 @@ theorem GammaPoleLocus_witness_unique {s n m : BHist} :
     hsame_trans (hsame_symm left.right) right.right
   exact hsame_e1_iff.mp (append_right_cancel (k := BHist.e1 BHist.Empty) sameAnchors)
 
+theorem GammaPoleLocus_suffix_source_witness_deterministic {s t q sq : BHist} :
+    GammaPoleLocus s -> GammaPoleLocus t -> Cont s q sq -> Cont t q sq ->
+      hsame s t ∧ exists n m : BHist, UnaryHistory n ∧ UnaryHistory m ∧ hsame n m := by
+  intro poleS poleT sCont tCont
+  have sameST : hsame s t := cont_right_cancel sCont tCont
+  cases poleS with
+  | intro n leftData =>
+      cases GammaPoleLocus_hsame_transport_witness (hsame_symm sameST) poleT with
+      | intro _poleS' transported =>
+          cases transported with
+          | intro m rightData =>
+              exact And.intro sameST
+                (Exists.intro n
+                  (Exists.intro m
+                    (And.intro leftData.left
+                      (And.intro rightData.left
+                        (GammaPoleLocus_witness_unique leftData rightData)))))
+
 theorem GammaDomainCore_hsame_transport_exclusions {s t apart : BHist} :
     hsame s t -> GammaDomainCore s apart ->
       (GammaPoleLocus t -> False) ∧ (hsame t BHist.Empty -> False) := by

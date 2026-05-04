@@ -234,6 +234,23 @@ closure gives the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_unary}
 
+\begin{lemma}[Absolute partial-sum result is nonempty from nonempty terms]
+\label{lem:complex-abs-part-sum-result-nonempty-of-nonempty-terms}
+If the chosen zero history is not history-same to \(\emp\), and every modulus
+term \(\mathsf{modulus}(m)\) at a unary index is not history-same to \(\emp\),
+then no closed \(\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)\)
+witness can have \(M\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Induct on the absolute partial-sum witness. The base constructor reduces to
+the nonempty zero assumption. In the successor case, empty-result inversion for
+the continuation into \(M\) forces the current modulus term to be empty. A
+local induction on the predecessor partial-sum witness supplies unaryness of
+that predecessor index, contradicting the pointwise nonempty modulus
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_nonempty\_of\_nonempty\_terms}
+
 \begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
 \label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
 If two chosen zero histories agree under $\hsame$, and two modulus families

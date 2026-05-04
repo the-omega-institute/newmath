@@ -171,6 +171,15 @@ theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     hsame_trans (hsame_symm left.right) right.right
   exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
 
+theorem CplxPureImaginary_suffix_source_deterministic {theta phi z w q zq : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary phi w -> Cont z q zq ->
+      Cont w q zq -> hsame theta phi := by
+  intro pureTheta purePhi zCont wCont
+  have sameZW : hsame z w := cont_right_cancel zCont wCont
+  have purePhiAtZ : CplxPureImaginary phi z :=
+    (CplxPureImaginary_hsame_transport_witness (hsame_symm sameZW) purePhi).left
+  exact CplxPureImaginary_witness_unique pureTheta purePhiAtZ
+
 theorem CplxPureImaginary_suffix_tail_deterministic {theta phi z w q q' zq wq : BHist} :
     CplxPureImaginary theta z -> CplxPureImaginary phi w -> hsame theta phi ->
       Cont z q zq -> Cont w q' wq -> hsame zq wq -> hsame q q' := by

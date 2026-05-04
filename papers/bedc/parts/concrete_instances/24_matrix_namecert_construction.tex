@@ -83,6 +83,48 @@ exactness carries the product ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
 
+\begin{theorem}[Matrix singleton power successor classifier]
+\label{thm:matrix-singleton-pow-succ-classifier}
+For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
+carrier and $e$ is unary, then the one-headed power ledger is classified
+against the displayed successor multiplication:
+$$
+A_{\emp}(M)\land\Unary(e)
+\quad\Longrightarrow\quad
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\Eone(e)),
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,e),M)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The one-headed power branch unfolds to the displayed multiplication endpoint.
+The carrier closure theorem carries the predecessor power ledger, and the
+input hypothesis carries $M$. Since multiplication is append, append
+empty-result exactness carries the displayed multiplication endpoint, and
+reflexivity of $\hsame$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_succ\_classifier}
+
+\begin{theorem}[Matrix singleton power successor continuation classifier]
+\label{thm:matrix-singleton-pow-succ-continuation-classifier}
+For histories $M,e,r:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
+carrier, $e$ is unary, and
+$$
+\ContR(\mathsf{MatrixSingletonPow}(M,e),M,r),
+$$
+then the one-headed power ledger is classified against $r$:
+$$
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\Eone(e)),r\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Carrier closure carries the predecessor power ledger. Together with the carrier
+of $M$, append empty-result exactness carries the one-headed power endpoint.
+The displayed continuation identifies $r$ with the same append endpoint, so
+$r$ is carried by the singleton matrix carrier and is $\hsame$ to the
+one-headed power ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_succ\_continuation\_classifier}
+
 \begin{theorem}[Matrix singleton power append exponent classifier]
 \label{thm:matrix-singleton-pow-append-exponent-classifier}
 If $M$ is carried by the singleton matrix carrier and $w,q$ are unary

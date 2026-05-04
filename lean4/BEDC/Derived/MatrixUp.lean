@@ -45,6 +45,36 @@ theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
   | e1 tail ih =>
       exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
 
+theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
+        (MatrixSingletonMul (MatrixSingletonPow M exponent) M) := by
+  intro carrierM exponentUnary
+  have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M exponent) :=
+    MatrixSingletonPow_carrier_closed carrierM exponentUnary
+  have resultCarrier : MatrixSingletonCarrier
+      (MatrixSingletonMul (MatrixSingletonPow M exponent) M) :=
+    append_eq_empty_iff.mpr (And.intro powCarrier carrierM)
+  exact And.intro resultCarrier
+    (And.intro resultCarrier (hsame_refl (MatrixSingletonMul (MatrixSingletonPow M exponent) M)))
+
+theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      Cont (MatrixSingletonPow M exponent) M r ->
+        MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent)) r := by
+  intro carrierM exponentUnary continuation
+  have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M exponent) :=
+    MatrixSingletonPow_carrier_closed carrierM exponentUnary
+  have succCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (BHist.e1 exponent)) :=
+    append_eq_empty_iff.mpr (And.intro powCarrier carrierM)
+  have resultCarrier : MatrixSingletonCarrier r := by
+    cases continuation
+    exact succCarrier
+  have sameResult : hsame (MatrixSingletonPow M (BHist.e1 exponent)) r := by
+    cases continuation
+    rfl
+  exact And.intro succCarrier (And.intro resultCarrier sameResult)
+
 theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
       MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
