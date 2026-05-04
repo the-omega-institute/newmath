@@ -3,8 +3,6 @@
 For observation maps $s,t:\Hist\to\Hist$ and histories
 $\alpha,\omega,k,z_s,z_t:\Hist$, assume
 $$
-\mathsf{RatStreamNameCarrier}(s),\quad
-\mathsf{RatStreamNameCarrier}(t),\quad
 \mathsf{RatStreamNameClassifier}(s,t),
 $$
 $$
@@ -30,8 +28,9 @@ $$
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the two
-carrier rows, the StreamNameUp classifier, and the unary anchor and bound. This
-gives $\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$.
+carrier fields projected from $\mathsf{RatStreamNameClassifier}(s,t)$, the
+StreamNameUp classifier, and the unary anchor and bound. This gives
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$.
 
 Project this window classifier at the selected offset $k$ by
 \autoref{lem:real-unary-stream-window-endpoint-projection}. The offset witness
@@ -65,8 +64,6 @@ second zero-head exclusion, and all rows together form the displayed package.
 For observation maps $s,t:\Hist\to\Hist$ and histories
 $\alpha,\omega,k,u,v,z_s,z_t:\Hist$, assume
 $$
-\mathsf{RatStreamNameCarrier}(s),\quad
-\mathsf{RatStreamNameCarrier}(t),\quad
 \mathsf{RatStreamNameClassifier}(s,t),
 $$
 $$
@@ -102,10 +99,11 @@ $$
 \begin{proof}
 Apply
 \autoref{thm:real-unary-streamname-finite-window-selected-denominator-package}
-to the two carrier rows, the StreamNameUp classifier, the unary anchor and
-bound, the selected offset, and the two zero-head tests. This supplies the
-selected RatUp classifier, the positive-denominator rows, the unary endpoint
-rows, the nonempty exclusions, and the two zero-head exclusions.
+to the StreamNameUp classifier, the unary anchor and bound, the selected
+offset, and the two zero-head tests. Inside that package, the carrier rows are
+the two fields projected from $\mathsf{RatStreamNameClassifier}(s,t)$. This
+supplies the selected RatUp classifier, the positive-denominator rows, the
+unary endpoint rows, the nonempty exclusions, and the two zero-head exclusions.
 
 The selected RatUp classifier is the first row of the selected shape package.
 Transport the selected RatUp classifier across the two displayed $\Eone$
