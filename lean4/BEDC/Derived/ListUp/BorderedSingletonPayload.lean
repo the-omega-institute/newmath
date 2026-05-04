@@ -2,6 +2,24 @@ import BEDC.Derived.ListUp.FramedEndpoint
 
 namespace BEDC.Derived.ListUp
 
+open BEDC.FKernel.Hist
+
+theorem ListClassifierSpec_hsame_bordered_singleton_payload_readback
+    {pref pref' suffix suffix' : ListCarrier BHist} {x y : BHist} :
+    ListClassifierSpec hsame pref pref' ->
+      ListClassifierSpec hsame suffix suffix' ->
+        ListClassifierSpec hsame
+          (List.append (List.append pref [x]) suffix)
+          (List.append (List.append pref' [y]) suffix') ->
+          hsame x y := by
+  intro prefixSame suffixSame framedSame
+  have withoutSuffix :
+      ListClassifierSpec hsame (List.append pref [x]) (List.append pref' [y]) :=
+    ListClassifierSpec_append_right_cancel_with_hsame_suffix suffixSame framedSame
+  have singletonSame : ListClassifierSpec hsame [x] [y] :=
+    ListClassifierSpec_hsame_append_left_cancel_classified prefixSame withoutSuffix
+  exact ListClassifierSpec_hsame_singleton_iff.mp singletonSame
+
 theorem ListClassifierSpec_hsame_bordered_e1_singleton_payload_readback
     {pref pref' suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist}
     {x y : BEDC.FKernel.Hist.BHist} :
