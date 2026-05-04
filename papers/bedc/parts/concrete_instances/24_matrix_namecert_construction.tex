@@ -540,3 +540,131 @@ pointwise matrix classifier gives both displayed matrix identity laws. The
 ledger in \autoref{def:matrix-ledger-policy} records the same row and column
 witnesses throughout the two products, so no dimension data is changed.
 \end{proof}
+
+\begin{definition}[Two-index finite fold swap certificate]
+\label{def:two-index-finite-fold-swap-certificate}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold from \autoref{def:finite-additive-scalar-fold}. Let $J$ and $K$ be finite index carriers, and write $\Sigma_J$ and $\Sigma_K$ for that fold applied to the finite spines enumerating $J$ and $K$. A two-index finite fold swap certificate for $(J,K)$ is the following stability field: for every pointwise carried scalar family $s:J\times K\to R$ and every pointwise classifier-compatible transpose $s^\tau:K\times J\to R$ satisfying
+$$
+s^\tau(k,j)\sim_R s(j,k)
+$$
+for all $j:J$ and $k:K$, the two iterated folds are scalar-classified:
+$$
+\Sigma_J(j\mapsto \Sigma_K(k\mapsto s(j,k)))
+\sim_R
+\Sigma_K(k\mapsto \Sigma_J(j\mapsto s^\tau(k,j))).
+$$
+\end{definition}
+
+\begin{lemma}[Scalar product distributes across finite additive folds]
+\label{lem:scalar-product-distributes-across-finite-additive-folds}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive fold from \autoref{def:finite-additive-scalar-fold}. Assume the ring stability fields of \autoref{def:ring-stability-certificate}: additive congruence, multiplication congruence, left and right distributivity, and zero multiplication laws. For every carried scalar $c$ and every finite carried scalar spine $xs$, let $xs\cdot_R c$ denote the spine obtained by multiplying each entry of $xs$ on the right by $c$, and let $c\cdot_R xs$ denote the spine obtained by multiplying each entry on the left by $c$. Then
+$$
+\mathsf{fold}_{+,R}(xs)\cdot_R c
+\sim_R
+\mathsf{fold}_{+,R}(xs\cdot_R c)
+$$
+and
+$$
+c\cdot_R\mathsf{fold}_{+,R}(xs)
+\sim_R
+\mathsf{fold}_{+,R}(c\cdot_R xs).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $xs$. In the nil case, \autoref{def:finite-additive-scalar-fold} identifies the fold with $0_R$. The right and left zero multiplication laws from \autoref{def:ring-stability-certificate} identify $0_R\cdot_R c$ and $c\cdot_R0_R$ with $0_R$, which is the fold of the corresponding empty product spine.
+
+In the cons case, write $xs=\mathsf{cons}(a,xs')$. For right multiplication, the fold equation gives $(a+_R\mathsf{fold}_{+,R}(xs'))\cdot_R c$. Right distributivity identifies this scalar with
+$$
+(a\cdot_R c)+_R(\mathsf{fold}_{+,R}(xs')\cdot_R c).
+$$
+The induction hypothesis identifies the second summand with $\mathsf{fold}_{+,R}(xs'\cdot_R c)$. Additive congruence then gives
+$$
+(a\cdot_R c)+_R\mathsf{fold}_{+,R}(xs'\cdot_R c),
+$$
+which is the cons fold of $xs\cdot_R c$.
+
+The left multiplication proof is the same induction with left distributivity applied to $c\cdot_R(a+_R\mathsf{fold}_{+,R}(xs'))$. It yields
+$$
+(c\cdot_R a)+_R(c\cdot_R\mathsf{fold}_{+,R}(xs')),
+$$
+then uses the induction hypothesis and additive congruence to identify the result with the cons fold of $c\cdot_R xs$.
+\end{proof}
+
+\begin{theorem}[Matrix multiplication associativity from finite folds]
+\label{thm:matrix-multiplication-associativity-finite-folds}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, addition $+_R$, multiplication $\cdot_R$, zero endpoint $0_R$, and finite additive fold from \autoref{def:finite-additive-scalar-fold}. Let $n,m,p,q:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B:\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R,
+\qquad
+C:\mathsf{Fin}(p)\times\mathsf{Fin}(q)\to R
+$$
+be carried matrices. Assume matrix multiplication is the finite-fold operation
+$$
+(X\cdot Y)_{u,w}:=\Sigma_V(v\mapsto X_{u,v}\cdot_RY_{v,w})
+$$
+for the matching inner finite index carrier $V$, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar ring stability fields of \autoref{def:ring-stability-certificate}, the fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier}, and the two-index finite fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} for $\mathsf{Fin}(p)$ and $\mathsf{Fin}(m)$. Then the two matched products are carried and
+$$
+(A\cdot B)\cdot C\sim_{\mathrm{Mat}}A\cdot(B\cdot C).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication closure item of \autoref{def:matrix-stability-certificate} carries $A\cdot B$ and $B\cdot C$, and then carries the two outer products $(A\cdot B)\cdot C$ and $A\cdot(B\cdot C)$. By \autoref{def:matrix-classifier-specification}, it remains to prove the scalar classifier comparison at each entry.
+
+Fix $i:\mathsf{Fin}(n)$ and $l:\mathsf{Fin}(q)$, and set
+$$
+t(b,a):=A_{i,a}\cdot_R(B_{a,b}\cdot_R C_{b,l})
+$$
+for $a:\mathsf{Fin}(m)$ and $b:\mathsf{Fin}(p)$. Expanding the left-associated matrix product gives
+$$
+((A\cdot B)\cdot C)_{i,l}
+\sim_R
+\Sigma_{b:\mathsf{Fin}(p)}((A\cdot B)_{i,b}\cdot_R C_{b,l}).
+$$
+For each fixed $b$, expanding $(A\cdot B)_{i,b}$ and applying the right-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} gives
+$$
+(A\cdot B)_{i,b}\cdot_R C_{b,l}
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}((A_{i,a}\cdot_R B_{a,b})\cdot_R C_{b,l}).
+$$
+Scalar associativity from the multiplicative monoid part of \autoref{def:ring-stability-certificate} gives a pointwise comparison
+$$
+(A_{i,a}\cdot_R B_{a,b})\cdot_R C_{b,l}
+\sim_R
+A_{i,a}\cdot_R(B_{a,b}\cdot_R C_{b,l}).
+$$
+The finite-fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier} lifts these pointwise comparisons through the inner and outer folds. Hence
+$$
+((A\cdot B)\cdot C)_{i,l}
+\sim_R
+\Sigma_{b:\mathsf{Fin}(p)}\Sigma_{a:\mathsf{Fin}(m)}t(b,a).
+$$
+
+Expanding the right-associated matrix product gives
+$$
+(A\cdot(B\cdot C))_{i,l}
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}(A_{i,a}\cdot_R(B\cdot C)_{a,l}).
+$$
+For each fixed $a$, expanding $(B\cdot C)_{a,l}$ and applying the left-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} gives
+$$
+A_{i,a}\cdot_R(B\cdot C)_{a,l}
+\sim_R
+\Sigma_{b:\mathsf{Fin}(p)}A_{i,a}\cdot_R(B_{a,b}\cdot_R C_{b,l}).
+$$
+Again \autoref{thm:finite-additive-fold-respects-scalar-classifier} lifts the pointwise comparisons through the finite folds, so
+$$
+(A\cdot(B\cdot C))_{i,l}
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}\Sigma_{b:\mathsf{Fin}(p)}t(b,a).
+$$
+
+Apply the fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} to the family $t$ and its transpose $t^\tau(a,b):=t(b,a)$. This gives
+$$
+\Sigma_{b:\mathsf{Fin}(p)}\Sigma_{a:\mathsf{Fin}(m)}t(b,a)
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}\Sigma_{b:\mathsf{Fin}(p)}t(b,a).
+$$
+Classifier transitivity composes the left expansion, this fold swap comparison, and the symmetry of the right expansion. Thus every entry of $(A\cdot B)\cdot C$ is scalar-classified with the corresponding entry of $A\cdot(B\cdot C)$. The pointwise matrix classifier of \autoref{def:matrix-classifier-specification} gives the displayed matrix classification, and the unchanged dimension witnesses are recorded by the ledger policy of \autoref{def:matrix-ledger-policy}.
+\end{proof}
