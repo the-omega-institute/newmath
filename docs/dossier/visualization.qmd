@@ -198,6 +198,42 @@ format:
   #thm-list-panel .tlp-badge.def-only{ background: #f4f4f4; color: #555; }
   #thm-list-panel .tlp-markers { font-size: 0.72rem; color: #aaa; }
 
+  /* Search box + dropdown */
+  #thm-search-input {
+    font-family: ui-monospace, monospace;
+    font-size: 0.86rem;
+    padding: 0.28rem 0.5rem;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    min-width: 240px;
+    background: white;
+  }
+  #thm-search-input:focus { outline: 2px solid #2c3e50; outline-offset: -1px; }
+  #thm-search-wrapper { position: relative; display: inline-block; }
+  #thm-search-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    min-width: 420px;
+    max-height: 320px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    z-index: 900;
+    font-family: ui-monospace, monospace;
+    font-size: 0.82rem;
+  }
+  .search-result { padding: 4px 8px; cursor: pointer; border-bottom: 1px solid #eee; }
+  .search-result:hover { background: #f4f7fc; }
+  .search-result:last-child { border-bottom: none; }
+  .search-result .sr-region { color: #888; font-size: 0.78em; }
+  .search-result .sr-name { margin-left: 0.5em; color: #2c3e50; }
+  .search-result .sr-status { float: right; font-size: 0.72em; color: #999; }
+  .search-more { padding: 4px 8px; color: #888; font-size: 0.78em; font-style: italic; }
+
   /* Transit-map overlay */
   #transit-overlay {
     display: none;
@@ -216,6 +252,24 @@ format:
   }
   #transit-overlay .to-back:hover { background: #f0f0f0; }
   #transit-map-container { padding: 1rem 1.2rem; }
+  #cy-override-container { display: none; width: 100%; height: 600px; }
+
+  .to-view-toggle { display: flex; gap: 0; }
+  .to-view-toggle button {
+    font-family: monospace;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 0.85em;
+  }
+  .to-view-toggle button:first-child { border-radius: 3px 0 0 3px; }
+  .to-view-toggle button:last-child  { border-radius: 0 3px 3px 0; border-left: none; }
+  .to-view-toggle button.active {
+    background: #2c3e50;
+    color: white;
+    border-color: #2c3e50;
+  }
 </style>
 
 <div class="map-shell">
@@ -225,6 +279,11 @@ format:
     <select id="region-picker" class="region-picker" onchange="onPickerChange(this.value)">
       <option value="" data-i18n="picker_default">-- jump to region --</option>
     </select>
+    <div id="thm-search-wrapper">
+      <input type="text" id="thm-search-input" placeholder="search theorem…"
+             autocomplete="off" spellcheck="false">
+      <div id="thm-search-dropdown"></div>
+    </div>
     <div class="lang-toggle">
       <span data-i18n="lang_label" style="margin-right:0.4rem;">Language:</span>
       <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
@@ -289,8 +348,13 @@ format:
   <div class="to-header">
     <button class="to-back" onclick="closeTransitMap()">&#8592; Back</button>
     <h2 id="to-title"></h2>
+    <div class="to-view-toggle">
+      <button id="to-toggle-transit" class="active" onclick="setTransitMapView('transit')">transit</button>
+      <button id="to-toggle-full" onclick="setTransitMapView('full graph')">full graph</button>
+    </div>
   </div>
   <div id="transit-map-container"></div>
+  <div id="cy-override-container"></div>
 </div>
 
 <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"
@@ -312,8 +376,12 @@ format:
 <script type="module">
   import { renderStatement } from "./components/lean_to_katex.js";
   import { renderTransitMap, renderTrustSummary } from "./components/transit-map.js";
+  import { searchIndex } from "./components/search.js";
+  import { renderCytoscapeNeighborhood, computeNeighborhood } from "./components/cytoscape_override.js";
   window.LeanToKaTeX = { renderStatement };
   window.TransitMap = { renderTransitMap, renderTrustSummary };
+  window.Search = { searchIndex };
+  window.CytoscapeOverride = { renderCytoscapeNeighborhood, computeNeighborhood };
 </script>
 
 <script>
@@ -953,15 +1021,55 @@ function closeThmList() {
 // Transit-map overlay
 // ---------------------------------------------------------------------------
 
+let TM_VIEW_MODE = 'transit';
+let TM_CURRENT_RECORD = null;
+
+function setTransitMapView(mode) {
+  TM_VIEW_MODE = mode;
+  document.getElementById('to-toggle-transit').classList.toggle('active', mode === 'transit');
+  document.getElementById('to-toggle-full').classList.toggle('active', mode === 'full graph');
+  const transitContainer = document.getElementById('transit-map-container');
+  const cyContainer = document.getElementById('cy-override-container');
+  if (mode === 'transit') {
+    transitContainer.style.display = 'block';
+    cyContainer.style.display = 'none';
+  } else {
+    transitContainer.style.display = 'none';
+    cyContainer.style.display = 'block';
+    if (window.CytoscapeOverride && TM_CURRENT_RECORD) {
+      window.CytoscapeOverride.renderCytoscapeNeighborhood({
+        record: TM_CURRENT_RECORD,
+        recordsByName: RECORDS_BY_NAME,
+        container: cyContainer,
+        cytoscape: window.cytoscape,
+        opts: {
+          depth: 2,
+          onNodeClick: (name) => openTransitMap(name),
+        },
+      });
+    }
+  }
+}
+
 function openTransitMap(recordName) {
   if (!RECORDS_BY_NAME) return;
   const record = RECORDS_BY_NAME.get(recordName);
   if (!record) return;
 
+  TM_CURRENT_RECORD = record;
+  TM_VIEW_MODE = 'transit';
+  document.getElementById('to-toggle-transit').classList.add('active');
+  document.getElementById('to-toggle-full').classList.remove('active');
+
   document.getElementById("to-title").textContent = record.name;
 
   const container = document.getElementById("transit-map-container");
   container.innerHTML = "";
+  container.style.display = '';
+
+  const cyContainer = document.getElementById("cy-override-container");
+  cyContainer.style.display = 'none';
+  cyContainer.innerHTML = '';
 
   const overlay = document.getElementById("transit-overlay");
   overlay.style.display = "block";
@@ -993,6 +1101,87 @@ function openTransitMap(recordName) {
 function closeTransitMap() {
   document.getElementById("transit-overlay").style.display = "none";
   document.getElementById("transit-map-container").innerHTML = "";
+  document.getElementById("cy-override-container").innerHTML = "";
+  document.getElementById("cy-override-container").style.display = 'none';
+  TM_CURRENT_RECORD = null;
+  TM_VIEW_MODE = 'transit';
+  document.getElementById('to-toggle-transit').classList.add('active');
+  document.getElementById('to-toggle-full').classList.remove('active');
+}
+
+// ---------------------------------------------------------------------------
+// Search box
+// ---------------------------------------------------------------------------
+
+let THEOREM_SEARCH_INDEX = null;
+let SEARCH_DEBOUNCE = null;
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function doSearch(query) {
+  const dropdown = document.getElementById("thm-search-dropdown");
+  if (!dropdown) return;
+  if (!window.Search || !THEOREM_SEARCH_INDEX) { dropdown.style.display = "none"; return; }
+  const { ranked, total } = window.Search.searchIndex(query, THEOREM_SEARCH_INDEX);
+  if (ranked.length === 0) { dropdown.style.display = "none"; return; }
+  let html = ranked.map(r =>
+    `<div class="search-result" data-name="${escapeHtml(r.name)}">` +
+    `<span class="sr-region">${escapeHtml(r.region)}</span>` +
+    `<span class="sr-name">${escapeHtml(r.name)}</span>` +
+    `<span class="sr-status">${escapeHtml(r.status)}</span>` +
+    `</div>`
+  ).join("");
+  if (total > ranked.length) {
+    html += `<div class="search-more">+ ${total - ranked.length} more</div>`;
+  }
+  dropdown.innerHTML = html;
+  dropdown.style.display = "block";
+  dropdown.addEventListener("click", function handleClick(evt) {
+    const row = evt.target.closest(".search-result");
+    if (!row) return;
+    const name = row.getAttribute("data-name");
+    dropdown.style.display = "none";
+    const inp = document.getElementById("thm-search-input");
+    if (inp) inp.value = "";
+    dropdown.removeEventListener("click", handleClick);
+    openTransitMap(name);
+  }, { once: true });
+}
+
+function attachSearchHandlers() {
+  const input = document.getElementById("thm-search-input");
+  const dropdown = document.getElementById("thm-search-dropdown");
+  if (!input || !dropdown) return;
+
+  input.addEventListener("input", () => {
+    clearTimeout(SEARCH_DEBOUNCE);
+    SEARCH_DEBOUNCE = setTimeout(() => doSearch(input.value), 150);
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { dropdown.style.display = "none"; input.blur(); }
+    if (e.key === "Enter") {
+      const first = dropdown.querySelector(".search-result");
+      if (first) first.click();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#thm-search-wrapper")) {
+      dropdown.style.display = "none";
+    }
+  });
+}
+
+async function loadSearchIndex() {
+  try {
+    THEOREM_SEARCH_INDEX = await fetch("data/theorem_search_index.json")
+      .then(r => r.json())
+      .catch(() => null);
+  } catch { /* ignore */ }
+  attachSearchHandlers();
 }
 
 (async () => {
@@ -1000,6 +1189,7 @@ function closeTransitMap() {
     await loadData();
     renderAll();
     window.addEventListener("resize", renderSpark);
+    await loadSearchIndex();
   } catch (e) {
     document.getElementById("cy").innerHTML =
       `<div style="padding:2rem;color:red;">Error loading data: ${e.message}</div>`;
