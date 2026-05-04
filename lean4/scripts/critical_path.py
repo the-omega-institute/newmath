@@ -128,6 +128,7 @@ LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 # chapters from `top` so codex rounds focus on still-open horizons.
 CLOSUREAT_RE = re.compile(
     r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
+    r"(?:\[\s*([^\]]+?)\s*\])?"
 )
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
 CLOSED_STRENGTHS = {"checkedCert", "bridgeCert"}
@@ -192,9 +193,22 @@ def is_chapter_closed(chapter_text: str, name: str) -> "str | None":
     for m in CLOSUREAT_RE.finditer(chapter_text):
         if m.group(1).lower() != target_lower:
             continue
-        strength = m.group(2)  # e.g. "checkedCert" / "bridgeCert"
+        strength = m.group(2)
         if strength in CLOSED_STRENGTHS:
             return strength
+    return None
+
+
+def chapter_closure_grounding(chapter_text: str, name: str) -> "str | None":
+    """If chapter declares `\\closureat{<Name>Up}{...}[<lean.target>]`, return
+    the grounding theorem with `\\_` resolved to `_`. Else None."""
+    target_lower = name.lower()
+    for m in CLOSUREAT_RE.finditer(chapter_text):
+        if m.group(1).lower() != target_lower:
+            continue
+        grounding = m.group(3)
+        if grounding:
+            return grounding.replace("\\_", "_").strip()
     return None
 
 
@@ -210,6 +224,7 @@ def extract_horizons() -> dict[str, dict]:
         deps.discard(name)
         thms = len(LEAN_MARKER_RE.findall(full_text))
         closed_at = is_chapter_closed(full_text, name)
+        grounding = chapter_closure_grounding(full_text, name)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         horizons[name] = {
@@ -218,6 +233,7 @@ def extract_horizons() -> dict[str, dict]:
             "thms": thms,
             "closed_at": closed_at,           # None | "checkedCert" | "bridgeCert"
             "closed": closed_at is not None,
+            "closure_grounding": grounding,   # None | "BEDC.<...>"
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
         }

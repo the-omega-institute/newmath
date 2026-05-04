@@ -111,12 +111,13 @@ NAMECERT_TARGET_RE = re.compile(
     r"\}"
 )
 
-# Author-declared chapter closure: `\closureat{<X>Up}{\<strength>Str}`
-# preamble macro. The same source-of-truth used by critical_path.py to
-# decide which horizons are closed. This is the single shared signal
-# for "is this region proven" across dossier + critical-path.
+# Author-declared chapter closure: `\closureat{<X>Up}{\<strength>Str}[<lean.target>]`
+# preamble macro. Same source-of-truth used by critical_path.py. The optional
+# third argument names the canonical Lean theorem grounding the closure —
+# tools read it directly instead of regex-guessing the closure-shape.
 CLOSUREAT_RE = re.compile(
     r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
+    r"(?:\[\s*([^\]]+?)\s*\])?"
 )
 
 # FKernel namespaces that own a region's namecert (the region lives in
@@ -559,12 +560,13 @@ def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     return level
 
 
-def collect_closure_per_region() -> dict[str, str]:
-    """Scan paper for `\\closureat{<X>Up}{\\<strength>Str}` macros — the
-    same author-declared closure signal used by `lean4/scripts/critical_path.py`.
-    Returns {region_id: 'checkedCert' | 'bridgeCert'}.
+def collect_closure_per_region() -> dict[str, dict]:
+    """Scan paper for `\\closureat{<X>Up}{\\<strength>Str}[<grounding>]`
+    macros — the same author-declared closure signal used by
+    `lean4/scripts/critical_path.py`. Returns
+    {region_id: {'strength': str, 'grounding': str|None}}.
     """
-    out: dict[str, str] = {}
+    out: dict[str, dict] = {}
     paper_root = ROOT / "papers" / "bedc" / "parts"
     for tex in paper_root.rglob("*.tex"):
         try:
@@ -574,11 +576,19 @@ def collect_closure_per_region() -> dict[str, str]:
         for m in CLOSUREAT_RE.finditer(text):
             region = canonical(m.group(1).lower())
             strength = m.group(2)
+            grounding = m.group(3)
+            if grounding:
+                grounding = grounding.replace("\\_", "_").strip()
             if region:
-                # Promote checkedCert over bridgeCert if both encountered.
                 prev = out.get(region)
-                if prev != "checkedCert":
-                    out[region] = strength
+                # Promote checkedCert over bridgeCert; keep first grounding seen.
+                if prev is None:
+                    out[region] = {"strength": strength, "grounding": grounding}
+                else:
+                    if prev["strength"] != "checkedCert" and strength == "checkedCert":
+                        prev["strength"] = strength
+                    if prev.get("grounding") is None and grounding:
+                        prev["grounding"] = grounding
     return out
 
 
@@ -632,8 +642,9 @@ def build_dependency_graph() -> dict:
             "schema_only": nid in schema_set,
             # Author-declared chapter closure (the single source-of-truth
             # shared with critical_path.py). null until the author writes
-            # \closureat{<X>Up}{checkedCert|bridgeCert} in the chapter.
-            "closed_strength": closure_per_region.get(nid),
+            # \closureat{<X>Up}{checkedCert|bridgeCert}[grounding] in the chapter.
+            "closed_strength": (closure_per_region.get(nid) or {}).get("strength"),
+            "closure_grounding": (closure_per_region.get(nid) or {}).get("grounding"),
             # Namecert-theorem-grounded data (kept for the detail panel,
             # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,

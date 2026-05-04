@@ -438,6 +438,39 @@ def detect_case_collision_paths() -> list[dict[str, object]]:
     ]
 
 
+CLOSUREAT_RE = re.compile(
+    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
+    r"(?:\[\s*([^\]]+?)\s*\])?"
+)
+
+
+def collect_closureat_groundings(part_root: Path) -> list[dict]:
+    """Walk every paper part and return one dict per `\\closureat` site:
+    {file, line, region, strength, grounding | None}. Used by audit to
+    require grounding on every closure declaration and to verify the
+    grounded Lean target actually exists.
+    """
+    out: list[dict] = []
+    for tex in part_root.rglob("*.tex"):
+        try:
+            text = tex.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in CLOSUREAT_RE.finditer(text):
+            line = text.count("\n", 0, m.start()) + 1
+            grounding = m.group(3)
+            if grounding:
+                grounding = grounding.replace("\\_", "_").strip()
+            out.append({
+                "file": str(tex.relative_to(part_root.parent.parent.parent)),
+                "line": line,
+                "region": m.group(1),
+                "strength": m.group(2),
+                "grounding": grounding,
+            })
+    return out
+
+
 def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
@@ -459,6 +492,13 @@ def audit_payload() -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
 
+    closureats = collect_closureat_groundings(PAPER_PARTS_ROOT)
+    closureats_missing_grounding = [c for c in closureats if not c["grounding"]]
+    closureats_bad_grounding = [
+        c for c in closureats
+        if c["grounding"] and c["grounding"] not in symbols
+    ]
+
     return {
         "forbidden_constructs": forbidden,
         "forbidden_construct_count": len(forbidden),
@@ -467,6 +507,11 @@ def audit_payload() -> dict[str, object]:
         "missing_marker_targets_count": len(missing_marker_targets),
         "case_collisions": case_collisions,
         "case_collisions_count": len(case_collisions),
+        "closureats_total": len(closureats),
+        "closureats_missing_grounding": closureats_missing_grounding,
+        "closureats_missing_grounding_count": len(closureats_missing_grounding),
+        "closureats_bad_grounding": closureats_bad_grounding,
+        "closureats_bad_grounding_count": len(closureats_bad_grounding),
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
 
@@ -588,12 +633,36 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "`git update-index --force-remove <wrong-case-path>`; "
                 "also remove the duplicate import / reference."
             )
+        if payload["closureats_missing_grounding"]:
+            print(
+                "[bedc-ci] \\closureat without grounding: "
+                f"{payload['closureats_missing_grounding_count']}"
+            )
+            for item in payload["closureats_missing_grounding"][:50]:
+                print(f"  {item['file']}:{item['line']}  region={item['region']}")
+            print(
+                "[bedc-ci] resolution: extend each \\closureat with the canonical "
+                "Lean theorem ID — "
+                "`\\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]`."
+            )
+        if payload["closureats_bad_grounding"]:
+            print(
+                "[bedc-ci] \\closureat grounding refers to nonexistent Lean target: "
+                f"{payload['closureats_bad_grounding_count']}"
+            )
+            for item in payload["closureats_bad_grounding"][:50]:
+                print(
+                    f"  {item['file']}:{item['line']}  region={item['region']}  "
+                    f"grounding={item['grounding']}"
+                )
 
     failures = (
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_count"]
+        + payload["closureats_missing_grounding_count"]
+        + payload["closureats_bad_grounding_count"]
     )
     return 0 if failures == 0 else 1
 
