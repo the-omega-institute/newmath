@@ -251,3 +251,57 @@ The displayed morphism $F_1(g)$, the composite display $d$, the codomain target
 identity display $i_{F_0(b)}$, and the classifier comparison with
 $i_{F_0(b)}$ form the split-epimorphism witness for $F_1(f)$ in $\mathcal D$.
 \end{proof}
+
+\begin{definition}[Split isomorphism witness pair]
+\label{def:category-split-isomorphism-witness-pair}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ carries a split isomorphism witness pair when it carries a
+split-monomorphism witness in the sense of
+\autoref{def:category-split-monomorphism} with left-inverse witness
+$g_L:b\to a$ and a split-epimorphism witness in the sense of
+\autoref{def:category-split-epimorphism} with right-inverse witness
+$g_R:b\to a$. Thus the package stores the two oriented composite certificates
+$$
+g_L\circ_{\mathcal C} f\sim_{\mathcal C}\mathsf{id}_a,
+\qquad
+f\circ_{\mathcal C} g_R\sim_{\mathcal C}\mathsf{id}_b.
+$$
+The two inverse-side witnesses are part of the data; no equality between
+$g_L$ and $g_R$ is required by this package.
+\end{definition}
+
+\begin{theorem}[Functor preserves split isomorphism witness pairs]
+\label{thm:functor-preserves-split-isomorphism-witness-pair}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ carries a split isomorphism
+witness pair in $\mathcal C$ with left-inverse witness $g_L:b\to a$ and
+right-inverse witness $g_R:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ carries a split isomorphism witness pair in
+$\mathcal D$ whose left-inverse witness is $F_1(g_L)$ and whose right-inverse
+witness is $F_1(g_R)$.
+\end{theorem}
+\begin{proof}
+Unpack the witness pair by
+\autoref{def:category-split-isomorphism-witness-pair}. Its left-oriented field
+is a split-monomorphism witness for $f$ with left-inverse witness $g_L$, and
+its right-oriented field is a split-epimorphism witness for $f$ with
+right-inverse witness $g_R$.
+
+Apply \autoref{thm:functor-preserves-split-monomorphism} to the left-oriented
+field. This gives a split-monomorphism witness in $\mathcal D$ for
+$F_1(f):F_0(a)\to F_0(b)$, with left-inverse witness
+$F_1(g_L):F_0(b)\to F_0(a)$. Its codomain composite certificate is classified
+with the identity display at $F_0(a)$.
+
+Apply \autoref{thm:functor-preserves-split-epimorphism} to the right-oriented
+field. This gives a split-epimorphism witness in $\mathcal D$ for the same
+forward morphism $F_1(f):F_0(a)\to F_0(b)$, with right-inverse witness
+$F_1(g_R):F_0(b)\to F_0(a)$. Its codomain composite certificate is classified
+with the identity display at $F_0(b)$.
+
+The two transported fields have the same displayed forward morphism and the
+same image endpoints. Packing them by
+\autoref{def:category-split-isomorphism-witness-pair} gives the required split
+isomorphism witness pair in $\mathcal D$.
+\end{proof}
