@@ -121,6 +121,20 @@ directly into the displayed endpoint-pair statement.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_positive\_components}
 
+\begin{theorem}[Complex classifier excludes an \(e0\) endpoint]
+\label{thm:complex-history-classifier-e0-endpoint-absurd}
+No complex history classifier can have an \(e0\)-headed history as either
+endpoint.
+\end{theorem}
+\begin{proof}
+Read the \(e0\)-headed endpoint as a complex carrier and expose its rational
+real and imaginary components. The continuation result ending in \(e0\) either
+makes the imaginary component empty or makes it itself \(e0\)-headed. Both
+cases contradict the positive unary denominator witness attached to the
+imaginary rational component.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Complex history classifier transitivity]
 \label{thm:complex-history-classifier-transitivity}
 If a complex history classifier relates \(h\) to \(k\), and also relates
@@ -236,6 +250,18 @@ and a continuation witness. Transport the continuation result across the
 stored raw-visible \(\hsame\) link and rebuild the rational-pair carrier at
 the visible endpoint.
 \end{proof}
+
+\begin{theorem}[Complex ledger excludes an \(e0\)-visible endpoint]
+\label{thm:complex-ledger-e0-visible-absurd}
+No complex ledger policy can expose an \(e0\)-headed visible endpoint.
+\end{theorem}
+\begin{proof}
+The visible-carrier theorem transports the raw rational-pair carrier to the
+visible endpoint. Exposing the visible endpoint's rational components and
+inverting the continuation result gives the same two impossible imaginary
+denominator cases: empty or \(e0\)-headed.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_e0\_visible\_absurd}
 
 \begin{theorem}[Complex ledger raw-visible classifier]
 \label{thm:complex-ledger-raw-visible-classifier}
