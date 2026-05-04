@@ -252,3 +252,107 @@ named concrete certificates, while the append and relational denominator laws
 remain the checked packages of
 \autoref{thm:field-rat-denominator-append-concrete-instance-laws} and
 \autoref{thm:field-rat-denominator-concrete-continuation-instance-laws}.
+
+\begin{definition}[Concrete Rat denominator strict semigroup interface]
+\label{def:field-rat-denominator-strict-semigroup-interface}
+The denominator multiplication interface carried by the concrete
+$\FieldUp(\mathsf{RatUp})$ continuation data is the triple
+
+$$
+C_D(h):=\mathsf{RatHistoryCarrier}(h),
+$$
+
+$$
+R_D(h,k):=\mathsf{RatHistoryClassifier}(h,k),
+$$
+
+and
+
+$$
+\mu_D(h,k):=\mathsf{append}(h,k).
+$$
+
+It is a strict denominator semigroup interface: the operation is the canonical
+append endpoint, the classifier is the Rat denominator history classifier, and
+the carried endpoints are exactly the Rat denominator histories. The interface
+has no carried unit endpoint. The empty history is only an external classifier
+endpoint, and no $u:\mathsf{BHist}$ with $C_D(u)$ can act as a one-sided unit
+for the carried denominator multiplication.
+\end{definition}
+
+\begin{theorem}[Rat denominator carried unit obstruction package]
+\label{thm:field-rat-denominator-carried-unit-obstruction-package}
+For the concrete strict denominator semigroup interface of
+\autoref{def:field-rat-denominator-strict-semigroup-interface}, every
+$u:\mathsf{BHist}$ with $C_D(u)$ satisfies the following four impossibility
+rows:
+\begin{enumerate}
+  \item the functional right-unit family
+
+  $$
+  \forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(x,u),x)
+  $$
+
+  implies $\mathsf{False}$;
+
+  \item the functional left-unit family
+
+  $$
+  \forall x:\mathsf{BHist}.\;
+  C_D(x)\to R_D(\mu_D(u,x),x)
+  $$
+
+  implies $\mathsf{False}$;
+
+  \item the relational right-unit family
+
+  $$
+  \forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(x,u,r)\to R_D(r,x)
+  $$
+
+  implies $\mathsf{False}$;
+
+  \item the relational left-unit family
+
+  $$
+  \forall x,r:\mathsf{BHist}.\;
+  C_D(x)\to \Cont(u,x,r)\to R_D(r,x)
+  $$
+
+  implies $\mathsf{False}$.
+\end{enumerate}
+
+The ten-field template represented by this certificate is: traditional target
+strict denominator semigroup support; BEDC source $\mathsf{BHist}$ with
+$\Cont$, $\mathsf{RatHistoryCarrier}$, and
+$\mathsf{RatHistoryClassifier}$; carrier $C_D$; classifier $R_D$; stability
+append/$\Cont$ endpoint bridge plus classifier transitivity; ledger
+$\mathsf{RatHistoryLedgerPolicy}$; core theorem this package; exactness the
+four impossibility rows; standard bridge strict non-unital denominator
+multiplication; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Fix $u:\mathsf{BHist}$ with $C_D(u)$.
+
+For the two functional rows, clause 6 of
+\autoref{thm:field-rat-denominator-append-concrete-instance-laws} states that a
+carried history cannot satisfy either one-sided append classifier-unit law.
+Applying that clause to $u$ and the displayed functional right-unit or left-unit
+family yields $\mathsf{False}$.
+
+For the two relational rows, clause 6 of
+\autoref{thm:field-rat-denominator-concrete-continuation-instance-laws} gives
+the same contradiction for a carried history satisfying either one-sided
+$\Cont$-based classifier-unit law. Applying it to the displayed relational
+right-unit or left-unit family yields $\mathsf{False}$.
+
+Finally,
+\autoref{thm:field-rat-denominator-append-relational-unit-law-equivalence}
+records that the append presentation and the relational continuation
+presentation express the same one-sided carried-unit boundary. The right-unit
+equivalence links the first and third rows, and the left-unit equivalence links
+the second and fourth rows, so the four contradictions are one certificate-level
+obstruction for the concrete denominator interface.
+\end{proof}

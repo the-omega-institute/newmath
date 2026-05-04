@@ -82,8 +82,17 @@ theorem MetricDistanceWitness_right_e1_result_iff {x y d : BHist} :
     exact MetricDistanceWitness_right_e1_result_exactness witness
   · intro witness
     exact And.intro witness.left
-      (And.intro (unary_e1_closed witness.right.left)
-        (And.intro (unary_e1_closed witness.right.right.left)
-          (cont_step_one witness.right.right.right)))
+        (And.intro (unary_e1_closed witness.right.left)
+          (And.intro (unary_e1_closed witness.right.right.left)
+            (cont_step_one witness.right.right.right)))
+
+theorem MetricDistanceWitness_e1_pair_result_tail_readback {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) (BHist.e1 d) ->
+      UnaryHistory x ∧ UnaryHistory y ∧ hsame d (append (BHist.e1 x) y) := by
+  intro witness
+  have tailWitness : MetricDistanceWitness (BHist.e1 x) y d :=
+    Iff.mp MetricDistanceWitness_right_e1_result_iff witness
+  exact And.intro (unary_e1_inversion tailWitness.left)
+    (And.intro tailWitness.right.left tailWitness.right.right.right)
 
 end BEDC.Derived.MetricUp
