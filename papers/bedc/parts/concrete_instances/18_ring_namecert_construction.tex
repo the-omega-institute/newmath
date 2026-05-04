@@ -711,6 +711,40 @@ collapses $-(-(xy))$ to $xy$ under the same additive reading.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_neg\_eq\_mul}
 
+\begin{theorem}[Ring equal-factor signed difference annihilation]
+\label{thm:ring-equal-factor-signed-difference-annihilation}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$x\hsame y$, then every $z:\mathsf{BHist}$ satisfies
+$$
+\hsame((x+(-y))z,0)\land \hsame(z(x+(-y)),0)\land
+\hsame((-(x+(-y)))z,0)\land \hsame(z(-(x+(-y))),0).
+$$
+The ten-field fit is: traditional target signed annihilation of an
+equal-factor difference; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive difference
+exactness, zero-factor absorption, and signed zero-factor absorption; ledger
+the equality witness, the hidden difference, the sign, and the multiplier;
+core theorem this theorem; exactness the four displayed zero-classifier rows;
+downstream consumer $\FieldUp$ denominator inverse and zero-product packages;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Set $d:=x+(-y)$. Apply the reverse direction of
+\autoref{thm:ring-additive-difference-zero-exact} to the witness $x\hsame y$;
+this gives $d\hsame0$.
+
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} to $d$ and
+multiplier $z$. This gives the two unsigned products $\hsame(dz,0)$ and
+$\hsame(zd,0)$.
+
+Apply \autoref{thm:ring-zero-classifier-signed-factor-absorption} to the same
+zero-classified factor and multiplier. Its first two conjuncts give
+$\hsame((-d)z,0)$ and $\hsame(z(-d),0)$. Substituting $d=x+(-y)$ packages the
+four displayed zero-classifier rows.
+\end{proof}
+
 \begin{theorem}[Ring signed square zero ideal package]
 \label{thm:ring-signed-square-zero-ideal-package}
 For BEDC history ring operations satisfying additive associativity,
