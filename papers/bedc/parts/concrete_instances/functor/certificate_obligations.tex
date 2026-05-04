@@ -147,3 +147,55 @@ field applies with the endpoint order swapped. The ledger policy of
 same preservation witnesses, read through the two opposite-category
 certificates.
 \end{proof}
+
+\begin{definition}[Split monomorphism in a certified category]
+\label{def:category-split-monomorphism}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ is a split monomorphism when there are a displayed morphism
+$g:b\to a$, a source identity display $i_a:a\to a$, and a composite display
+$c:a\to a$ such that $\mathsf{HomCarrier}_{\mathcal C}(a,b,f)$,
+$\mathsf{HomCarrier}_{\mathcal C}(b,a,g)$, $i_a$ is the identity witness at
+$a$, $\mathsf{Comp}_{\mathcal C}(f,g,c)$ records $g\circ_{\mathcal C} f$,
+and $c\sim_{\mathcal C} i_a$ in the morphism classifier at $(a,a)$. The
+morphism $g$ is a left-inverse witness for $f$.
+\end{definition}
+
+\begin{theorem}[Functor preserves split monomorphisms]
+\label{thm:functor-preserves-split-monomorphism}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ is a split monomorphism in
+$\mathcal C$ with left-inverse witness $g:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ is a split monomorphism in $\mathcal D$ with
+left-inverse witness $F_1(g):F_0(b)\to F_0(a)$.
+\end{theorem}
+\begin{proof}
+Unpack the source split-monomorphism data from
+\autoref{def:category-split-monomorphism}. Thus $f$ and $g$ are displayed
+hom-carriers in $\mathcal C$, $i_a$ is the chosen identity display at $a$, and
+there is a composite display $c$ with $\mathsf{Comp}_{\mathcal C}(f,g,c)$ and
+$c\sim_{\mathcal C} i_a$.
+
+The hom-carrier landing field of the functor carrier sends $f$ and $g$ to
+hom-carriers $F_1(f):F_0(a)\to F_0(b)$ and
+$F_1(g):F_0(b)\to F_0(a)$ in $\mathcal D$. Apply the composition preservation
+field of \autoref{def:functor-stability-certificate} to the source composite
+ledger $\mathsf{Comp}_{\mathcal C}(f,g,c)$. It supplies a codomain composite
+display $d$ with
+$$
+\mathsf{Comp}_{\mathcal D}(F_1(f),F_1(g),d)
+$$
+and a morphism-classifier comparison between $d$ and $F_1(c)$.
+
+The morphism-classifier stability field for $F$ transports the source
+comparison $c\sim_{\mathcal C} i_a$ to a codomain comparison
+$F_1(c)\sim_{\mathcal D}F_1(i_a)$. Identity preservation for $F$ identifies
+$F_1(i_a)$ with the identity display $i_{F_0(a)}$ of $\mathcal D$. Symmetry
+and transitivity of the codomain morphism classifier, supplied by the
+$\CategoryUp$ stability laws, compose these comparisons to obtain
+$d\sim_{\mathcal D} i_{F_0(a)}$.
+
+The displayed morphism $F_1(g)$, the composite display $d$, and the classifier
+comparison with $i_{F_0(a)}$ form the split-monomorphism witness for $F_1(f)$
+in $\mathcal D$.
+\end{proof}
