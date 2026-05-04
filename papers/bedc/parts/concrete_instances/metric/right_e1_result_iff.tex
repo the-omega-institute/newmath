@@ -41,6 +41,29 @@ continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_iff}
 
+\begin{theorem}[Metric distance witness right e1 result hsame source]
+\label{thm:metric-distance-witness-right-e1-result-hsame-source}
+For histories $x,x',y,d$, a distance witness whose right endpoint and result
+both carry one visible constructor has the same empty-or-visible source
+readback after source transport:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land\hsame(x,x')
+\Longrightarrow
+\bigl(x'=\emp\land\mathsf{UnaryHistory}(y)\land\hsame(d,y)\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x'=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y,d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right one-headed source case split before transport. In the empty
+branch, empty $\hsame$ inversion identifies $x'$ with $\emp$. In the visible
+branch, visible $\hsame$ inversion exposes the transported tail, and unary and
+continuation transport rebuild the descended metric witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_source}
+
 \begin{theorem}[Metric e-one pair result tail readback]
 \label{thm:metric-distance-witness-e1-pair-result-tail-readback}
 For histories $x,y,d$, a metric distance witness whose source, target, and

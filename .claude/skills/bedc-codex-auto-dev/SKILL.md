@@ -135,6 +135,23 @@ Memory floor is the binding constraint, not CPU — each codex-exec child is ~50
 
 Monitors `tail -F` the log files the detached orchestrators write to. They are pure observers — killing, swapping, or re-launching a Monitor never touches the orchestrator process.
 
+### Token-saving monitor mode (default)
+
+Operate in **token-saving** mode by default. Each Monitor event resolves to **one short Chinese sentence** (≤25 字), no diagnostics commands, no log quotes, no tables. The recovery consumer + Phase D lints + closure machinery handle issues automatically, so an event arriving in your transcript is mostly informational — your job is to acknowledge that you saw it and that automation took over, not to investigate.
+
+Concrete rules for token-saving replies:
+
+1. **Recurring patterns (`Round FAILED` + ticket queued, `Merge failed —` + recovery picked up, `SHALLOW GROWTH` + ticket queued)**: one sentence — `R2364 SHALLOW GROWTH 抓住 dup → recovery 已接管` style. Don't quote the offending names, don't speculate. Stop there.
+2. **First occurrence of a new pattern (not seen this session)**: still one sentence, but flag it — `首次见到 X，观察 1-2 例后再决定要不要加 gate`. Then drop it.
+3. **`[recovery] RECOVERED` / `[recovery] unrecoverable`**: one sentence. RECOVERED is positive; unrecoverable means the worktree was marked dead and the operator may need to look at the dead/ folder later — but not now.
+4. **`closure_mark` / `deps_ready_relaxed`**: ack as positive signal in one sentence.
+5. **`[sync] codex could not resolve` / `push origin … failed`**: this is real — escalate with one sentence describing what to do (`sync daemon 调 codex 解冲突失败，等下一轮 600s 后重试 / 或手动 sync_with_auto_dev.py`).
+6. **3 events of the same kind in one tick**: one combined sentence covering all three (`R2364/R2365/R2367 都 dup-ticket→recovery，pattern 一致`). Don't reply per-event.
+7. **No actionable events in a tick**: zero output is fine.
+8. **Verbose mode override**: only switch to long-form when (a) the user asks `详细分析` / `深入看看` / `report` / `调查 ...`, (b) a self-check `/loop` tick fires, or (c) the same novel pattern repeats ≥3 times in 30 min — then briefly pull stats and propose a prompt edit.
+
+Token-saving replies do NOT spawn shell commands unless you actually need data to decide whether action is warranted (rule 5 / rule 8). For the default ack-only path, reply with text alone.
+
 Default to a single **active error watch** that tails BOTH log files at once and emits only actionable signals. SUCCESS / Phase transitions / audit-OK / PDF-OK / routine ff-race events are silenced; the recovery consumer + closure machinery handle most issues automatically, so events that DO arrive are ones you can act on (edit a prompt, edit `critical_path.py`, edit `.pipeline_parallel.json`, queue a manual recovery ticket).
 
 ```bash

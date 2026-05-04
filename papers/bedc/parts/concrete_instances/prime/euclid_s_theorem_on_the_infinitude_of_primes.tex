@@ -48,6 +48,23 @@ the induction hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_not\_empty}
 
+\begin{lemma}[Factorial successor results have positive shape]
+\label{thm:natfact-successor-result-positive-shape}
+If $\mathsf{NatFact}(\Eone(n),m)$, then the factorial result has one-headed
+shape:
+$$
+\exists t,\ \hsame(m,\Eone(t))\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{lemma}
+\begin{proof}
+Successor inversion exposes a predecessor factorial value $m_0$ and a
+multiplication witness $\mathsf{NatMul}(\Eone(n),m_0,m)$. Factorial
+non-emptiness rules out $m_0\hsame\emp$, and $\Eone(n)$ is not history-same to
+$\emp$. The positive-shape theorem for multiplication with a nonempty
+multiplier therefore gives the displayed one-headed result.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_result\_positive\_shape}
+
 \begin{lemma}[Factorial results are unary]
 \label{lem:natfact-result-unary}
 If \(\mathsf{NatFact}(n,m)\), then \(m\) is a unary history.
@@ -56,6 +73,20 @@ If \(\mathsf{NatFact}(n,m)\), then \(m\) is a unary history.
 Induct on the factorial witness. The base constructor yields \(\Eone(\emp)\), which is unary. The successor constructor carries a multiplication witness, whose left factor is unary by multiplicand readback and whose result is unary by multiplication result closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_unary}
+
+\begin{theorem}[Factorial results have positive shape]
+\label{thm:natfact-result-positive-shape}
+If \(\mathsf{NatFact}(n,m)\), then there is a unary tail \(t\) such that
+\(\hsame(m,\Eone(t))\).
+\end{theorem}
+\begin{proof}
+Combine factorial result nonemptiness with factorial result unary closure.
+Case analysis on the generated history \(m\) eliminates the empty case by
+nonemptiness and the \(\Ezero\) case by unary inversion. The remaining
+\(\Eone(t)\) case exposes the tail \(t\), and unary inversion supplies the
+tail carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_result\_positive\_shape}
 
 \begin{lemma}[Factorial is total and functional on unary histories]
 \label{lem:fact-total}
@@ -81,4 +112,3 @@ There exists an explicit total unary function \(\mathsf{NatNextPrime} : \mathsf{
 \begin{proof}[Sketch]
 Given \(n\), compute the unary factorial \(m = n!\) by \autoref{lem:fact-total}, then form \(m' = m + 1\). By \autoref{lem:fact-plus-one-coprime}, every prime divisor of \(m'\) exceeds \(n\). The primality test of \autoref{thm:prime-decidable} either finds \(m'\) itself prime (return it) or returns an explicit non-trivial divisor; in the latter case, recursing on the divisor's prime factor (also exceeding \(n\)) terminates in a prime by well-foundedness of \(\mathsf{NatUnaryStrictPrefix}\). The function is total because the search is bounded.
 \end{proof}
-
