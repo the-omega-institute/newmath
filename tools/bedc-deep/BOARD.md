@@ -3707,3 +3707,55 @@ Belongs in chapter 17 (concrete-instances/abgroup). Hungerford "Algebra" Ch.II Â
 
 ---
 
+### B-145 - Double opposite category certificate is data-equal to original
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double opposite category certificate is data-equal to original |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a CategoryUp certificate C satisfies the obligations of def:opposite-category-certificate-data, then iterating the opposite construction twice yields a CategoryUp certificate whose object carrier, object classifier, hom-carrier predicate, morphism classifier, identity witnesses, and composition relation are componentwise identical to those of C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+
+Rationale:
+Definition `def:opposite-category-certificate-data` is at 36_category_namecert_construction.tex:223-242, and `thm:opposite-category-certificate` proves the construction yields a valid CategoryUp at 36_category_namecert_construction.tex:245-318. There is NO theorem stating the construction is involutive (C^op^op = C). Grep `"opposite.*opposite|double.*opposite|opop|involution|reverse.*reverse"` over all of papers/bedc/parts/concrete_instances/ returned only references to `inverse involution` (a different concept inside chapters 17 abgroup, 58 subgroup, 20 field), `nattrans/vertical_and_opposite_extras.tex` (different chapter, only proving the single opposite construction), `adjunction-unit-counit-carrier-swap-involution` at 85_adjunction:342-376 (about coordinate-swap, not opposite-opposite), and a filename `category/certificate_and_visible_cases_core_double_endpoint_tail` (`double endpoint tail` is unrelated). The natural BEDC proof is unfolding twice: opposite swaps endpoints in HomCarrier and arguments in Comp; doing it twice yields identity on every field. The same gap exists in `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:67-149` (def+thm for opposite functor) and `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex:22-79` (def+thm for opposite nattrans), but the category-level statement is foundational and is the cleanest of the three to formalize first.
+
+---
+
+
+### B-146 - Double opposite functor certificate is data-equal to original
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double opposite functor certificate is data-equal to original |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If F:C->D is a FunctorUp certificate satisfying the obligations of def:functor-certificate-obligations and def:opposite-functor-certificate-data is applied twice, the resulting functor F^op^op:C^op^op->D^op^op has object map, morphism map, and stability fields componentwise identical to F (modulo the C^op^op = C identity at the source/target level).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Definition `def:opposite-functor-certificate-data` at functor/certificate_obligations.tex:67-84 sets F^op object map = F_0 and morphism map = F_1, only the hom-carrier endpoints are read through opposite category convention. Theorem `thm:opposite-functor-certificate` at functor/certificate_obligations.tex:86-149 verifies the construction is valid. Grep `double|involution|second.*opposite` in functor/ returned no matches. Iterating the construction twice should restore F since the object/morphism maps are unchanged by each opposite step. This is an independent target from the category-level double opposite (different Lean theorem on FunctorUp.lean) and depends on the category-level result for endpoint reasoning.
+
+---
+
