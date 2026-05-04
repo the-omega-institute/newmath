@@ -95,6 +95,20 @@ theorem GroupSingletonClassifier_continuation_endpoint_equivalence_iff {P Q R : 
   · intro classifiedRQ
     exact leftIff.mp (rightIff.mpr classifiedRQ)
 
+theorem GroupSingletonClassifier_continuation_terminal_collapse {P Q R r : BHist} :
+    Cont P Q R ->
+      (GroupSingletonClassifier P Q <-> GroupSingletonClassifier R P) ∧
+        (GroupSingletonClassifier P Q <-> GroupSingletonClassifier R Q) ∧
+          (GroupSingletonClassifier P Q <-> GroupSingletonCarrier R) ∧
+            (GroupSingletonClassifier P Q ->
+              (Cont P Q (BHist.e0 r) -> False) ∧ (Cont P Q (BHist.e1 r) -> False)) := by
+  intro continuation
+  exact And.intro (GroupSingletonClassifier_continuation_result_left_iff continuation)
+    (And.intro (GroupSingletonClassifier_continuation_result_right_iff continuation)
+      (And.intro (GroupSingletonClassifier_continuation_result_carrier_iff continuation)
+        (fun classified =>
+          GroupSingletonClassifier_continuation_visible_result_absurd classified)))
+
 theorem GroupSingletonClassifier_contextual_continuation_endpoint_equivalence_iff
     {L R L' R' P Q S : BHist} :
     GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier L' ->
