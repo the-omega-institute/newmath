@@ -381,6 +381,7 @@ reverse direction, the same theorem unseals the e-one classifier as the RatUp
 point classifier, and the constant observation maps reuse it at every certified
 unary observation.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantStream\_reindexed\_streamName\_bridge}
 
 The reindexed constant-stream certificate fit has ten fields: traditional target
 constant rational real names under observation reindexing; BEDC source RatUp
@@ -493,6 +494,33 @@ endpoint transport; ledger hidden rational seed plus unary observation; core
 theorem \autoref{thm:real-constant-rational-embedding-certificate}; exactness
 the carrier and classifier chains; standard bridge ordinary rational constants;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Reindexed constant rational stream carriers bridge StreamNameUp and RealUp]
+\label{thm:real-constant-stream-carrier-reindexed-streamname-bridge}
+For every history $d:\Hist$ and any observation map $r:\Hist\to\Hist$, the
+RatUp point carrier, the StreamNameUp carrier of the reindexed constant stream,
+and the RealUp constant real-history carrier at the e-one seal are equivalent:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r).
+$$
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier} and
+$\mathsf{RatConstStream}$. A carrier of $d$ supplies the carrier at every
+certified unary observation because the reindexed constant stream still returns
+the seed $d$. Conversely, reading the stream carrier at $\emp$ recovers the
+RatUp carrier of $d$. Composing this row with
+\autoref{thm:real-constant-history-carrier-e1-iff-rat} gives the e-one RealUp
+carrier row.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantStreamCarrier\_reindexed\_streamName\_bridge}
 
 \begin{theorem}[Reindexed constant rational embedding certificate]
 \label{thm:real-reindexed-constant-rational-embedding-certificate}
