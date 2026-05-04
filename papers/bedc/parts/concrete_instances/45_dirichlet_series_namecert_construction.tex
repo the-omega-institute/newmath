@@ -94,6 +94,22 @@ $\mathsf{BHist.e1}$ to the predecessor index.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_unary}
 
+\begin{theorem}[Dirichlet partial-sum results are unary]
+\label{thm:dirichlet-part-sum-result-unary}
+If every Dirichlet term history $\mathsf{term}(m,s)$ is unary whenever $m$
+is unary, then every closed
+$\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$ witness has unary result
+$S$.
+\end{theorem}
+\begin{proof}
+Induct on the closed Dirichlet partial-sum witness. The zero constructor gives
+the empty unary history. In the successor case, the predecessor result is unary
+by induction, the predecessor index is unary by
+$\mathsf{DirichletPartSum}$ index closure, and unary continuation closure
+gives the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_result\_unary}
+
 \begin{theorem}[Dirichlet partial-sum nonempty index is positive]
 \label{thm:dirichlet-part-sum-nonempty-index-positive}
 Every closed witness of \(\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)\)

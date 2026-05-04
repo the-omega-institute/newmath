@@ -202,6 +202,22 @@ identifies the successor results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_unary\_index\_deterministic}
 
+\begin{theorem}[Absolute partial-sum results are unary]
+\label{thm:complex-abs-part-sum-result-unary}
+If the chosen zero history is unary and every modulus history
+$\mathsf{modulus}(m)$ is unary whenever $m$ is unary, then every closed
+$\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)$ witness has unary
+result $M$.
+\end{theorem}
+\begin{proof}
+Induct on the absolute partial-sum witness. The base result is the supplied
+unary zero history. For a successor step, an inner induction on the predecessor
+absolute partial-sum witness gives unaryness of the predecessor index; the
+modulus hypothesis makes the appended modulus unary, and unary continuation
+closure gives the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_unary}
+
 \begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
 \label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
 If two chosen zero histories agree under $\hsame$, and two modulus families
