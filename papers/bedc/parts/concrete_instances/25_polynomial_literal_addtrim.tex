@@ -560,3 +560,71 @@ $$
 $$
 Unfolding $\mathsf{PolySame}_R$ from \autoref{def:polynomial-raw-add-comparison-data} turns this normalized structural classifier into the displayed polynomial classifier comparison.
 \end{proof}
+
+\begin{theorem}[Polynomial raw multiplication commutativity from scalar commutativity]
+\label{thm:polynomial-raw-multiplication-commutativity-from-commring-scalars}
+Let $R$ carry a $\CommRingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$, canonical trim $\mathsf{trim}_R$, and the raw operations $\mathsf{radd}_R$, $\mathsf{rscale}_R$, $\mathsf{shift}_R$, and $\mathsf{rmul}_R$ from \autoref{def:polynomial-raw-add-comparison-data} and \autoref{def:polynomial-raw-cauchy-product}. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(\mathsf{rmul}_R(p,q),\mathsf{rmul}_R(q,p)).
+$$
+\end{theorem}
+\begin{proof}
+Read the scalar source as a $\RingUp(R)$ source by \autoref{prop:commring-forgets-ring-certificate}. The retained rows used below are the $\NameCert$ reflexivity, symmetry, and transitivity fields, the additive abelian-group laws and addition congruence from \autoref{def:ring-stability-certificate}, multiplication congruence, and the multiplicative commutativity row from \autoref{def:commring-stability-certificate}.
+
+First record the finite-spine consequences of the existing raw-addition package. The relation $\mathsf{PolySame}_R$ is reflexive, symmetric, and transitive after unfolding \autoref{def:polynomial-raw-add-comparison-data}; this is exactly structural list-classifier reflexivity, \autoref{thm:list-classifier-symm-from-namecert}, and \autoref{thm:list-classifier-transitivity} applied to the two trimmed representatives.
+
+Raw addition is compatible with $\mathsf{PolySame}_R$ in both inputs. Indeed, \autoref{thm:polynomial-raw-add-two-sided-trim-compatibility} reduces both raw sums to sums of their trimmed inputs. The two displayed trimmed-input classifiers give a structural classifier between the two trimmed raw sums by induction on the two list-classifier witnesses in \autoref{def:list-classifier-specification}; the exposed heads are handled by addition congruence, with $0_R\sim_R0_R$ in the padding branches. Transitivity and symmetry of $\mathsf{PolySame}_R$ compose these three comparisons.
+
+The shift operation preserves $\mathsf{PolySame}_R$. If $\mathsf{PolySame}_R(x,y)$ holds, write the trim decompositions supplied by \autoref{def:polynomial-stability-certificate} as $x=x_0{++}z$ and $y=y_0{++}w$, with $\mathsf{ListClassifierSpec}(\sim_R,x_0,y_0)$ and zero remainders $z,w$. Then
+$$
+\mathsf{shift}_R(x)=(\mathsf{cons}(0_R,x_0)){++}z,
+\qquad
+\mathsf{shift}_R(y)=(\mathsf{cons}(0_R,y_0)){++}w.
+$$
+The cons classifier built from $0_R\sim_R0_R$ and the classifier on $x_0,y_0$, followed by \autoref{lem:trim-invariance-common-classified-spine-zero-remainders}, gives $\mathsf{PolySame}_R(\mathsf{shift}_R(x),\mathsf{shift}_R(y))$. The same argument, with $0_R$ replaced by classified heads $h\sim_Rh'$, shows that $h\sim_Rh'$ and $\mathsf{PolySame}_R(t,t')$ imply
+$$
+\mathsf{PolySame}_R(\mathsf{cons}(h,t),\mathsf{cons}(h',t')).
+$$
+
+Zero remainders are closed under raw addition: induct on the two zero-remainder witnesses from \autoref{def:classified-zero-remainder-spine}. In the cons-cons branch, addition congruence sends $a+b$ to $0_R+0_R$, and the additive left-zero law reduces that endpoint to $0_R$; the cons-nil and nil-cons branches use the additive right-zero and left-zero laws. Hence $\mathsf{rmul}_R(s,\mathsf{nil})$ is a zero remainder for every finite spine $s$, by induction on $s$ using \autoref{def:polynomial-raw-cauchy-product}: the cons step combines $\mathsf{rscale}_R(a,\mathsf{nil})=\mathsf{nil}$, the zero-remainder closure of $\mathsf{shift}_R$, and raw-addition closure. Applying \autoref{lem:trim-invariance-common-classified-spine-zero-remainders} with common spine $\mathsf{nil}$ gives
+$$
+\mathsf{PolySame}_R(\mathsf{nil},\mathsf{rmul}_R(s,\mathsf{nil})).
+$$
+
+The key auxiliary recursion is right-cons expansion: for every scalar coefficient $a$ and finite spines $x,q$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(q,\mathsf{cons}(a,x)),
+\mathsf{radd}_R(\mathsf{rscale}_R(a,q),\mathsf{shift}_R(\mathsf{rmul}_R(q,x)))\bigr).
+$$
+Induct on $q$. If $q=\mathsf{nil}$, the left side is $\mathsf{nil}$ and the right side is a raw sum of zero-remainder spines, so the zero-remainder comparison above applies. For the cons step write $q=\mathsf{cons}(b,y)$. Unfolding \autoref{def:polynomial-raw-cauchy-product} and the cons-cons branch of \autoref{def:polynomial-raw-add-comparison-data}, the two heads are $b\cdot a+0_R$ and $a\cdot b+0_R$; multiplicative commutativity and addition congruence classify them. The two tails are
+$$
+\mathsf{radd}_R(\mathsf{rscale}_R(b,x),\mathsf{rmul}_R(y,\mathsf{cons}(a,x)))
+$$
+and
+$$
+\mathsf{radd}_R(\mathsf{rscale}_R(a,y),\mathsf{radd}_R(\mathsf{rscale}_R(b,x),\mathsf{shift}_R(\mathsf{rmul}_R(y,x)))).
+$$
+The induction hypothesis and raw-addition compatibility compare the first tail with
+$$
+\mathsf{radd}_R(\mathsf{rscale}_R(b,x),\mathsf{radd}_R(\mathsf{rscale}_R(a,y),\mathsf{shift}_R(\mathsf{rmul}_R(y,x)))).
+$$
+Raw-addition associativity from \autoref{thm:polynomial-raw-addition-associativity} and raw-addition commutativity from \autoref{thm:polynomial-raw-add-commutativity-from-scalar-additive-commutativity}, transported through raw-addition compatibility, move the first two summands past each other and give the second tail. The cons preservation fact then proves the cons step.
+
+Now induct on $p$. If $p=\mathsf{nil}$, then $\mathsf{rmul}_R(\mathsf{nil},q)=\mathsf{nil}$ by \autoref{def:polynomial-raw-cauchy-product}, while $\mathsf{rmul}_R(q,\mathsf{nil})$ is a zero remainder by the preceding paragraph; hence the displayed $\mathsf{PolySame}_R$ holds.
+
+For the cons step write $p=\mathsf{cons}(a,x)$ and assume
+$$
+\mathsf{PolySame}_R(\mathsf{rmul}_R(x,q),\mathsf{rmul}_R(q,x)).
+$$
+Unfolding the left raw product gives
+$$
+\mathsf{rmul}_R(\mathsf{cons}(a,x),q)=
+\mathsf{radd}_R(\mathsf{rscale}_R(a,q),\mathsf{shift}_R(\mathsf{rmul}_R(x,q))).
+$$
+Shift preservation and raw-addition compatibility transport the induction hypothesis to
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{rmul}_R(\mathsf{cons}(a,x),q),
+\mathsf{radd}_R(\mathsf{rscale}_R(a,q),\mathsf{shift}_R(\mathsf{rmul}_R(q,x)))\bigr).
+$$
+Right-cons expansion applied to $q,a,x$ gives the same middle endpoint classified with $\mathsf{rmul}_R(q,\mathsf{cons}(a,x))$. Symmetry and transitivity of $\mathsf{PolySame}_R$ compose the two comparisons, completing the induction.
+\end{proof}

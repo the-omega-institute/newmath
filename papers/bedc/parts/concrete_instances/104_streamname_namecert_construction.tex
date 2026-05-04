@@ -181,6 +181,71 @@ argument for $\hsame(t(n),\Ezero(z_t))$ is identical, using the positive
 denominator witness for $t(n)$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name transported observation shape exclusions]
+\label{thm:rat-stream-name-classifier-transported-observation-shape-exclusions}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$ and an observation
+history $n$, suppose
+$$
+\mathsf{RatStreamNameClassifier}(s,t)\quad\text{and}\quad
+\mathsf{UnaryHistory}(n),
+$$
+and suppose the selected endpoints are related pointwise by transport rows
+$$
+\forall k,\ \mathsf{UnaryHistory}(k)\to\hsame(s(k),s'(k)),
+\quad
+\forall k,\ \mathsf{UnaryHistory}(k)\to\hsame(t(k),t'(k)).
+$$
+Then the transported selected observations satisfy the positive-denominator and
+unary endpoint package
+$$
+\mathsf{PositiveUnaryDenominator}(s'(n))\land
+\mathsf{PositiveUnaryDenominator}(t'(n))\land
+\mathsf{UnaryHistory}(s'(n))\land
+\mathsf{UnaryHistory}(t'(n)).
+$$
+They also satisfy the two empty-history exclusions
+$$
+(\hsame(s'(n),\emp)\to\mathsf{False})\land
+(\hsame(t'(n),\emp)\to\mathsf{False}),
+$$
+and for all histories $z_s,z_t:\Hist$ the two zero-headed exclusions
+$$
+(\hsame(s'(n),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t'(n),\Ezero(z_t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Read the stream-name classifier at the certified observation $(n,\nu)$, where
+$\nu:\mathsf{UnaryHistory}(n)$. This gives the point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-hsame-transport} to this classifier
+and to the two pointwise transport rows evaluated at $n$. The result is the
+transported selected classifier
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+transported selected classifier. Then apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to the
+two positive-denominator witnesses. These rows give the displayed positive
+denominators, unary endpoint witnesses, and exclusions against $\emp$.
+
+It remains to exclude zero-headed displays. If $\hsame(s'(n),\Ezero(z_s))$
+holds, transport $\mathsf{PositiveUnaryDenominator}(s'(n))$ along that sameness
+by \autoref{thm:rat-positive-unary-denominator-hsame-transport}, then contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}. The same argument applied to
+$t'(n)$ and $z_t$ gives the second zero-headed exclusion.
+\end{proof}
+
+Fit. Traditional target: transported selected rational-stream observation.
+BEDC source: $\RatUp+\StreamNameUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$. Stability: pointwise $\hsame$ transport.
+Ledger: the selected observation and two transport rows. Core theorem:
+\autoref{thm:rat-stream-name-classifier-transported-observation-shape-exclusions}.
+Exactness: the displayed shape package. Standard bridge: pointwise rational
+stream equality under observation transport. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rational stream-name reindexing and map stability]
 \label{thm:rat-stream-name-reindexing-and-map-stability}
 For certified observation maps $s,t,r:\Hist\to\Hist$, suppose $r$ preserves
