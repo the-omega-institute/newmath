@@ -379,6 +379,28 @@ apart-zero witness rejects the corresponding endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_continuation\_endpoint\_split\_iff}
 
+\begin{theorem}[Field apart-zero mutual continuation cycle tails absurd]
+\label{thm:field-apartzero-mutual-continuation-cycle-tails-absurd}
+For a mutual continuation cycle $\ContR(h,leftTail,k)$ and
+$\ContR(k,rightTail,h)$, neither cycle tail can be field-apart from zero.
+\end{theorem}
+\begin{proof}
+Continuation cycle cancellation reads both tails as $\emp$. Each
+$\mathsf{ApartZero}_F$ witness is exactly a rejection of that empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_mutual\_continuation\_cycle\_tails\_absurd}
+
+\begin{theorem}[Field apart-zero triangle continuation cycle tails absurd]
+\label{thm:field-apartzero-triangle-continuation-cycle-tails-absurd}
+For a triangle continuation cycle, the three displayed tails cannot be
+field-apart from zero.
+\end{theorem}
+\begin{proof}
+Triangle cycle cancellation identifies all three tails with $\emp$. The
+corresponding apart-zero witness rejects each empty-tail conclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_triangle\_continuation\_cycle\_tails\_absurd}
+
 \begin{theorem}[Field apart-zero two-step continuation split]
 \label{thm:field-apartzero-two-step-continuation-split}
 For histories $l,h,r,u,v:\mathsf{BHist}$ with $\ContR(l,h,u)$ and
