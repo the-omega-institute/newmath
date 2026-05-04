@@ -20,3 +20,70 @@ each positive denominator as unary evidence for its head and tail, and the
 remaining classifier field is the displayed endpoint $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}
+
+\begin{theorem}[Real constant appended e-one tail rational-stream bridge readback]
+\label{thm:real-constant-appended-tail-rational-stream-bridge-readback}
+For histories $d,e,tail_D,tail_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the four bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let
+$$
+R=\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(D,E).
+$$
+Then the bridge rows are linked by
+$$
+(A\Longleftrightarrow B)\land(B\Longleftrightarrow U)\land
+(U\Longleftrightarrow C),
+$$
+and every row reads back the same appended-tail denominator package:
+$$
+(A\Longrightarrow R)\land(B\Longrightarrow R)\land
+(U\Longrightarrow R)\land(C\Longrightarrow R).
+$$
+\end{theorem}
+\begin{proof}
+Instantiate \autoref{thm:real-constant-independent-reindexed-stream-bridge}
+with the histories $D$ and $E$ and the observation maps $r$ and $q$. The three
+resulting equivalences are exactly the displayed links $A\Longleftrightarrow B$,
+$B\Longleftrightarrow U$, and $U\Longleftrightarrow C$.
+
+The direct readback from $C$ is
+\autoref{thm:real-constant-history-classifier-append-e1-tail-unary-readback},
+applied to the decompositions $D=d\cdot\Eone(tail_D)$ and
+$E=e\cdot\Eone(tail_E)$.
+
+For the remaining rows, transport along the instantiated bridge until the
+constant real-history row $C$ is reached. The row $U$ uses the final bridge
+equivalence, the row $B$ uses the second and final equivalences, and the row
+$A$ uses all three equivalences. The same readback theorem then yields the
+single conclusion $R$ in each case.
+\end{proof}
+
+The bridge-readback certificate fit has ten fields: traditional target faithful
+constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
+plus RealUp; carrier the appended-tail rational histories $D,E$ and the
+independently reindexed constant streams; classifier rows $A,B,U,C$; stability
+from constant streams ignoring $r$ and $q$; ledger the appended e-one
+denominator tails $tail_D,tail_E$ together with heads $d,e$; core theorem
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback};
+exactness recovery of $R$ from any bridge classifier row; standard bridge the
+usual faithful rational embedding into real names; status $\mathsf{ProofTarget}$.
