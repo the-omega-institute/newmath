@@ -26,6 +26,28 @@ direction. The singleton classifier witness reads back exactly the payload
 relation $\hsame(x,y)$.
 \end{proof}
 
+\begin{theorem}[List classifier bordered zero-headed singleton payload readback]
+\label{thm:list-classifier-bordered-e0-singleton-payload-readback}
+For finite BEDC-history lists $p$, $p'$, $s$, and $s'$ and histories $x$ and
+$y$, if
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,s,s'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,p{++}(\Ezero(x)::\mathsf{nil}){++}s,
+p'{++}(\Ezero(y)::\mathsf{nil}){++}s')
+$$
+hold, then $\hsame(x,y)$.
+\end{theorem}
+\begin{proof}
+Cancel the classified suffixes from the bordered classifier, then cancel the
+classified prefixes. The remaining singleton classifier identifies
+$\Ezero(x)$ with $\Ezero(y)$, and zero-headed constructor exactness reads back
+the payload relation $\hsame(x,y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_bordered\_e0\_singleton\_payload\_readback}
+
 \begin{theorem}[List classifier bordered one-headed singleton payload readback]
 \label{thm:list-classifier-bordered-e1-singleton-payload-readback}
 For finite BEDC-history lists $p$, $p'$, $s$, and $s'$ and histories $x$ and
