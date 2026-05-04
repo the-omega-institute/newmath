@@ -205,6 +205,24 @@ transport the supplied equality $xa\hsame b$ through multiplication congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
 
+\begin{theorem}[Group right-multiplication equation solution uniqueness]
+\label{thm:group-right-mul-equation-solution-unique-from-empty-unit}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same right-multiplication equation
+$$
+xa\hsame b
+\qquad\text{and}\qquad
+ya\hsame b,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations.
+Both solutions are classified by the same normal form $ba^{-1}$. Symmetry on
+the second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution\_unique\_from\_empty\_unit}
+
 \begin{theorem}[Group left-multiplication equation exactness]
 \label{thm:group-left-mul-equation-exactness}
 For a history-level group operation with associativity, left identity,
@@ -326,6 +344,48 @@ $a^{-1}(b c^{-1})$.
 
 Use symmetry on the second solved comparison and transitivity of $\hsame$ to
 conclude $x\hsame y$.
+\end{proof}
+
+\begin{theorem}[Group two-sided multiplication equation target-stable uniqueness]
+\label{thm:group-two-sided-mul-equation-target-stable-unique}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with unit
+$\emp$, associativity, left and right identity laws, multiplication congruence,
+and two-sided inverse laws, if
+$$
+\hsame((a x)c,b),
+\qquad
+\hsame((a y)c,d),
+\qquad
+\hsame(b,d),
+$$
+then $x\hsame y$.
+The ten-field fit is: traditional target target-stable two-sided group
+equation uniqueness; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from two-sided equation
+exactness, target transport by multiplication congruence, symmetry, and
+transitivity; ledger left factor, right factor, two targets, and inverse
+witnesses; core theorem list
+\autoref{thm:group-two-sided-mul-equation-exactness} plus multiplication
+congruence; exactness predicate target-stable solution uniqueness; standard
+bridge ordinary group equation uniqueness under equal right-hand sides; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the first
+displayed equation. The first solution is classified by the normal form
+$a^{-1}(b c^{-1})$.
+
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the second
+displayed equation. The second solution is classified by the normal form
+$a^{-1}(d c^{-1})$.
+
+Multiplication congruence transports $\hsame(b,d)$ by right multiplication with
+the reflexive inverse $c^{-1}$, giving $\hsame(b c^{-1},d c^{-1})$. Transport
+that comparison by left multiplication with $a^{-1}$ to identify
+$a^{-1}(b c^{-1})$ and $a^{-1}(d c^{-1})$.
+
+Use symmetry on the solved comparison for $y$ and transitivity of $\hsame$ along
+the two normal-form comparisons to conclude $x\hsame y$.
 \end{proof}
 
 \begin{theorem}[Group conjugation equation exactness]
