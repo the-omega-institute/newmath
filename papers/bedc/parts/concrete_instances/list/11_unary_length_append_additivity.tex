@@ -78,3 +78,56 @@ In the cons case, write $xs=\mathsf{cons}(a,xs_0)$ and let $L_0=\mathsf{ListUnar
 
 Finally assume $\mathsf{NatAdd}(L_x,L_y,w)$. Together with the reversed append-aligned witness just proved, \autoref{thm:unary-cont-comm} compares the two unary continuation results and gives $\hsame(w,L_{xy})$. Symmetry of $\hsame$ gives $\hsame(L_{xy},w)$.
 \end{proof}
+
+\begin{theorem}[Public list unary length is associative under append]
+\label{thm:list-unary-length-append-associativity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For histories
+$h_x,h_y,h_z,h_{xy},h_{(xy)z},h_{yz},h_{x(yz)}:\mathsf{BHist}$ and finite spines
+$xs,ys,zs:\mathsf{HistSpine}$, assume
+$$
+\mathsf{ListSpineRep}_A(h_x,xs),\quad
+\mathsf{ListSpineRep}_A(h_y,ys),\quad
+\mathsf{ListSpineRep}_A(h_z,zs),
+$$
+$$
+\mathsf{ListSpineRep}_A(h_{xy},xs{++}ys),\quad
+\mathsf{ListSpineRep}_A(h_{(xy)z},(xs{++}ys){++}zs),
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(h_{yz},ys{++}zs),\quad
+\mathsf{ListSpineRep}_A(h_{x(yz)},xs{++}(ys{++}zs)).
+$$
+Set
+$$
+L_x=\mathsf{ListUnaryLength}(xs),\quad
+L_y=\mathsf{ListUnaryLength}(ys),\quad
+L_z=\mathsf{ListUnaryLength}(zs),
+$$
+$$
+L_{xy}=\mathsf{ListUnaryLength}(xs{++}ys),\quad
+L_{yz}=\mathsf{ListUnaryLength}(ys{++}zs),
+$$
+and
+$$
+L_{(xy)z}=\mathsf{ListUnaryLength}((xs{++}ys){++}zs),\quad
+L_{x(yz)}=\mathsf{ListUnaryLength}(xs{++}(ys{++}zs)).
+$$
+Then
+$$
+\hsame(L_{(xy)z},L_{x(yz)}).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:list-unary-length-append-additivity} to the witnesses for $xs$, $ys$, and $xs{++}ys$, obtaining
+$\mathsf{NatAdd}(L_y,L_x,L_{xy})$. Apply the same theorem to the witnesses for $xs{++}ys$, $zs$, and $(xs{++}ys){++}zs$, obtaining
+$\mathsf{NatAdd}(L_z,L_{xy},L_{(xy)z})$.
+
+Apply \autoref{thm:list-unary-length-append-additivity} to the witnesses for $ys$, $zs$, and $ys{++}zs$, obtaining
+$\mathsf{NatAdd}(L_z,L_y,L_{yz})$. Apply it once more to the witnesses for $xs$, $ys{++}zs$, and $xs{++}(ys{++}zs)$, obtaining
+$\mathsf{NatAdd}(L_{yz},L_x,L_{x(yz)})$.
+
+Unfolding \autoref{def:unary-natadd-relation}, these four witnesses are unary continuations for the two parenthesized length composites. The associativity theorem for unary continuation, \autoref{lem:unary-continuation-associativity}, compares the continuation first through $L_{xy}$ with the continuation first through $L_{yz}$.
+
+The displayed additivity witnesses identify the left parenthesized endpoint with $L_{(xy)z}$ and the right parenthesized endpoint with $L_{x(yz)}$. Symmetry and transitivity of $\hsame$ compose those endpoint comparisons with the associativity comparison, yielding $\hsame(L_{(xy)z},L_{x(yz)})$.
+\end{proof}
