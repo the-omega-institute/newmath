@@ -151,6 +151,50 @@ def request_build(sha: str) -> None:
         _build_request = sha
         _build_cv.notify()
 
+
+# ---------------------------------------------------------------------------
+# Recovery queue (file-backed, single-consumer)
+#
+# When a worker's `merge_worktree_to_base` exhausts its specific recovery
+# handlers and is about to give up, it calls `request_recovery(wt)` to
+# enqueue a JSON ticket and notify the recovery consumer thread. The
+# consumer (`_recovery_loop`) processes one ticket at a time: it spawns
+# codex inside the stuck worktree with the generic
+# `prompts/round_fallback_resolve.txt` so codex can investigate, fix,
+# and exit. The consumer then re-runs `merge_worktree_to_base`; on
+# success the round merges as if nothing happened, on failure the ticket
+# is moved to `dead/` and the worktree is removed.
+#
+# Ticket files survive orchestrator restarts (the consumer scans the
+# queue dir on startup and resumes work). New failure patterns can be
+# handled by editing the prompt — no orchestrator code change needed.
+RECOVERY_QUEUE_DIR = REPO_ROOT / ".worktrees" / ".recovery_queue"
+RECOVERY_DEAD_DIR = RECOVERY_QUEUE_DIR / "dead"
+_recovery_cv = threading.Condition()
+_recovery_stop = threading.Event()
+
+
+def request_recovery(wt: "WorktreeInfo") -> None:
+    """Producer: enqueue a recovery ticket for this stuck round. Caller
+    must have left the worktree on disk (do NOT remove it before queuing)."""
+    try:
+        RECOVERY_QUEUE_DIR.mkdir(parents=True, exist_ok=True)
+        ticket = {
+            "worktree": str(wt.path),
+            "branch": wt.branch,
+            "round_number": wt.round_number,
+            "base_sha": wt.base_sha,
+            "formalization_base_sha": getattr(wt, "formalization_base_sha", ""),
+            "queued_at": datetime.now(timezone.utc).isoformat(),
+        }
+        ticket_path = RECOVERY_QUEUE_DIR / f"R{wt.round_number}_{int(time.time())}.json"
+        ticket_path.write_text(json.dumps(ticket, indent=2))
+        logger.info(f"[recovery] queued {ticket_path.name} for {wt.branch}")
+        with _recovery_cv:
+            _recovery_cv.notify()
+    except Exception as exc:
+        logger.error(f"[recovery] failed to queue ticket for {wt.branch}: {exc}")
+
 # In-memory dedup of in-flight target IDs across parallel rounds.
 # Phase B selects targets concurrently and can pick the same paper (same
 # lean_name / paper_label) in two worktrees; the second one wastes a Phase C
@@ -2447,7 +2491,8 @@ def run_round_in_worktree(
             logger.info(f"[{tag}] Merging to {BASE_BRANCH}...")
             merged = merge_worktree_to_base(wt, model=model)
             if not merged:
-                logger.error(f"[{tag}] Merge failed — keeping worktree for manual resolution")
+                logger.error(f"[{tag}] Merge failed — queuing recovery, worktree retained")
+                request_recovery(wt)
                 _save_round_log(round_num, phase_b, phase_c, new_commits, False)
                 return False, round_num, new_commits
             logger.info(f"[{tag}] SUCCESS: merged {len(new_commits)} commit(s) to {BASE_BRANCH}")
@@ -2472,11 +2517,28 @@ def run_round_in_worktree(
             logger.info(f"[{tag}] Round SUCCESS: {len(new_commits)} commit(s)")
         else:
             logger.warning(f"[{tag}] Round FAILED")
+            # Catch-all: any FAILED round that produced real commits goes
+            # to the recovery queue. The merge-failure path at the top of
+            # this function already queues; this catches Phase D lint
+            # failures, build failures, audit failures, etc. that happen
+            # before the merge step.
+            if wt and new_commits and not dry_run:
+                request_recovery(wt)
 
         return success and bool(new_commits or dry_run), round_num, new_commits
 
     except Exception as exc:
         logger.error(f"[{tag}] Exception: {exc}", exc_info=True)
+        # Worker crashed mid-flight. If we got far enough that the worktree
+        # has commits, queue it for recovery rather than dropping work.
+        try:
+            if wt and not dry_run:
+                # `new_commits` may be unbound if the crash is early; check.
+                local_new = locals().get("new_commits") or []
+                if local_new:
+                    request_recovery(wt)
+        except Exception:
+            pass
         return False, round_num, []
 
     finally:
@@ -2943,6 +3005,166 @@ def _builder_attempt_fix(sha: str, build_log: Path, max_attempts: int) -> bool:
     return False
 
 
+def _force_remove_worktree(wt_path: Path) -> None:
+    """Best-effort: remove a git worktree + its directory. Used by the
+    recovery consumer after a ticket is dispositioned (recovered or dead).
+    The orchestrator's main worker pool no longer touches this worktree
+    once a recovery ticket was filed, so no race."""
+    try:
+        run_cmd(["git", "worktree", "remove", "--force", str(wt_path)],
+                cwd=REPO_ROOT, timeout=60)
+    except Exception:
+        pass
+    if wt_path.exists():
+        try:
+            shutil.rmtree(wt_path, ignore_errors=True)
+        except Exception:
+            pass
+
+
+def _run_recovery_codex(wt: "WorktreeInfo", *,
+                         model: Optional[str] = None,
+                         timeout: int = 2400) -> bool:
+    """Invoke codex inside a stuck round's worktree to fix whatever broke.
+    Returns True iff codex left the worktree clean, on the round branch,
+    and still carrying the round's own commit. Caller is expected to
+    re-run `merge_worktree_to_base` to verify the gate now passes."""
+    prompt = _load_prompt("round_fallback_resolve").format(
+        round_number=wt.round_number,
+        branch=wt.branch,
+        base_branch=BASE_BRANCH,
+        worktree=str(wt.path),
+    )
+    codex_exec(
+        prompt,
+        work_dir=wt.path,
+        timeout_seconds=timeout,
+        model=model,
+        log_tag=f"R{wt.round_number}_recovery",
+    )
+    head_branch = run_cmd(
+        ["git", "branch", "--show-current"], cwd=wt.path, timeout=10
+    ).stdout.strip()
+    if head_branch != wt.branch:
+        logger.warning(
+            f"[recovery] {wt.branch}: codex left branch={head_branch!r}, expected {wt.branch!r}"
+        )
+        return False
+    status = run_cmd(
+        ["git", "status", "--porcelain"], cwd=wt.path, timeout=10
+    ).stdout.strip()
+    if status:
+        logger.warning(
+            f"[recovery] {wt.branch}: dirty tree after codex: {status[:200]!r}"
+        )
+        return False
+    own = run_cmd(
+        ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
+        cwd=wt.path, timeout=15,
+    ).stdout
+    own_prefix = f"R{wt.round_number}:"
+    if not any(own_prefix in l for l in own.splitlines()):
+        logger.info(
+            f"[recovery] {wt.branch}: codex chose to drop the round (no own-round commit)"
+        )
+        return False
+    return True
+
+
+def _recovery_loop(poll_seconds: float = 30.0,
+                   model: Optional[str] = None) -> None:
+    """Single-consumer loop. Polls RECOVERY_QUEUE_DIR for tickets, processes
+    one at a time. For each ticket: invoke codex in the stuck worktree;
+    on success retry the merge via `merge_worktree_to_base`; on failure
+    move the ticket to `dead/` and force-remove the worktree."""
+    logger.info(f"[recovery] started (poll={poll_seconds}s)")
+    RECOVERY_QUEUE_DIR.mkdir(parents=True, exist_ok=True)
+    RECOVERY_DEAD_DIR.mkdir(parents=True, exist_ok=True)
+    while not _recovery_stop.is_set():
+        try:
+            tickets = sorted(
+                p for p in RECOVERY_QUEUE_DIR.iterdir()
+                if p.is_file() and p.suffix == ".json" and p.name.startswith("R")
+            )
+        except Exception:
+            tickets = []
+        if not tickets:
+            with _recovery_cv:
+                _recovery_cv.wait(timeout=poll_seconds)
+            continue
+        ticket_path = tickets[0]
+        try:
+            t = json.loads(ticket_path.read_text())
+        except Exception as exc:
+            logger.warning(f"[recovery] bad ticket {ticket_path.name}: {exc}")
+            try:
+                ticket_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+            continue
+        wt_path = Path(t["worktree"])
+        if not wt_path.exists():
+            logger.info(f"[recovery] worktree gone for {ticket_path.name}, dropping ticket")
+            try:
+                ticket_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+            continue
+        wt = WorktreeInfo(
+            path=wt_path,
+            branch=t["branch"],
+            round_number=int(t["round_number"]),
+            base_sha=t.get("base_sha", ""),
+            formalization_base_sha=t.get("formalization_base_sha", ""),
+        )
+        logger.info(f"[recovery] picking up {wt.branch}")
+        codex_ok = False
+        try:
+            codex_ok = _run_recovery_codex(wt, model=model)
+        except Exception as exc:
+            logger.error(f"[recovery] {wt.branch} codex crashed: {exc}")
+        merged = False
+        if codex_ok:
+            logger.info(f"[recovery] {wt.branch} codex done; retrying merge_worktree_to_base")
+            try:
+                merged = merge_worktree_to_base(wt, model=model)
+            except Exception as exc:
+                logger.error(f"[recovery] {wt.branch} retry merge crashed: {exc}")
+        if merged:
+            logger.info(f"[recovery] {wt.branch} RECOVERED and merged")
+            try:
+                ticket_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+            _force_remove_worktree(wt_path)
+            try:
+                run_cmd(["git", "branch", "-D", wt.branch], cwd=REPO_ROOT, timeout=10)
+            except Exception:
+                pass
+            try:
+                new_tip = run_cmd(["git", "rev-parse", BASE_BRANCH],
+                                  cwd=REPO_ROOT, timeout=10).stdout.strip()
+                if new_tip:
+                    request_build(new_tip)
+            except Exception:
+                pass
+            continue
+        logger.error(f"[recovery] {wt.branch} unrecoverable; marking dead")
+        try:
+            ticket_path.rename(RECOVERY_DEAD_DIR / ticket_path.name)
+        except Exception:
+            try:
+                ticket_path.unlink(missing_ok=True)
+            except Exception:
+                pass
+        _force_remove_worktree(wt_path)
+        try:
+            run_cmd(["git", "branch", "-D", wt.branch], cwd=REPO_ROOT, timeout=10)
+        except Exception:
+            pass
+    logger.info("[recovery] stopped")
+
+
 def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
     """Single-consumer loop. Blocks on `_build_cv` for a new SHA request,
     runs `lake build` in BUILDER_WORKTREE (separate from REPO_ROOT so that
@@ -3274,6 +3496,24 @@ def main() -> int:
             name="builder",
         )
         builder_t.start()
+
+    # ── Background recovery consumer ────────────────────────────────────
+    # When a worker's merge_worktree_to_base exhausts its specific recovery
+    # paths (audit / merge-conflict resolvers), it calls request_recovery(wt)
+    # to retain the worktree and queue a JSON ticket. This single-consumer
+    # thread picks tickets oldest-first, invokes codex inside the stuck
+    # worktree with prompts/round_fallback_resolve.txt, retries the merge
+    # on success, and marks the ticket dead + removes the worktree on
+    # failure. New failure patterns can be handled by editing the prompt
+    # — no orchestrator code change.
+    if not args.dry_run:
+        recovery_t = threading.Thread(
+            target=_recovery_loop,
+            kwargs={"poll_seconds": 30.0, "model": None},
+            daemon=True,
+            name="recovery",
+        )
+        recovery_t.start()
 
     total_succeeded = 0
     total_failed = 0

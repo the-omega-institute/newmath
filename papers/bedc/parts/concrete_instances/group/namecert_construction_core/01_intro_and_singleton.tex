@@ -342,6 +342,30 @@ separation for generated histories rules out both cases.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_tail\_absurd}
 
+\begin{theorem}[Group singleton classifier append commuted factors]
+\label{thm:group-singleton-classifier-append-comm-congr}
+For histories $h,h_2,k,k_2:\mathsf{BHist}$, if the singleton group classifier
+relates the two appended endpoints
+$$
+R_{\emp}(\mathsf{append}(h,k),\mathsf{append}(h_2,k_2)),
+$$
+then it also relates the endpoints with the two append factors exchanged:
+$$
+R_{\emp}(\mathsf{append}(k,h),\mathsf{append}(k_2,h_2)).
+$$
+\end{theorem}
+\begin{proof}
+The classifier gives singleton carrier witnesses for
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h_2,k_2)$. Empty-result inversion
+for append splits each witness into singleton carrier witnesses for the two
+factors. Exchanging the factors and applying empty-result construction rebuilds
+singleton carrier witnesses for $\mathsf{append}(k,h)$ and
+$\mathsf{append}(k_2,h_2)$. Since both rebuilt endpoints are classified through
+$\emp$, transitivity and symmetry of $\hsame$ package the displayed singleton
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_comm\_congr}
+
 \begin{theorem}[Group singleton classifier continuation visible result exclusion]
 \label{thm:group-singleton-classifier-continuation-visible-result-absurd}
 For histories $P,Q,r:\mathsf{BHist}$, if the singleton group classifier relates

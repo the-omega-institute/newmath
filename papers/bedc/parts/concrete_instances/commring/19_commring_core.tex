@@ -226,6 +226,29 @@ component is $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 
+\begin{theorem}[CommRing singleton negation empty endpoint]
+\label{thm:commring-singleton-neg-empty-endpoint}
+For histories $h,t:\mathsf{BHist}$ with $A_{\emp}(h)$,
+$$
+\rho_{\emp}(\mathsf{CommRingSingletonNeg}(h),t)
+\Longleftrightarrow
+A_{\emp}(t)\land
+\hsame(\mathsf{CommRingSingletonNeg}(h),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The singleton commutative-ring negation endpoint is definitionally $\emp$.
+Unfolding the carrier-aware classifier gives the forward direction directly:
+the right carrier field is $A_{\emp}(t)$ and the left carrier field is the
+empty endpoint for $\mathsf{CommRingSingletonNeg}(h)$.
+
+For the converse, the same two endpoint facts are the left and right carrier
+fields. Symmetry of $\hsame$ compares $t$ back to $\emp$, and transitivity
+through the negation endpoint supplies the relation component of
+$\rho_{\emp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_neg\_empty\_endpoint\_iff}
+
 \begin{theorem}[CommRing singleton empty multiplication context carrier]
 \label{thm:commring-singleton-empty-classifier-mul-context-carrier-iff}
 For singleton empty-history CommRing histories $L$ and $R$, the classifier
@@ -466,6 +489,7 @@ builds the carrier witness for $\mathsf{append}(a,\mathsf{append}(b,c))$. Since
 both bracketed endpoints are classified through $\emp$, symmetry and
 transitivity of $\hsame$ package the displayed singleton classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_assoc\_carrier\_iff}
 
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
