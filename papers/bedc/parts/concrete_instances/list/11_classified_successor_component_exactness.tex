@@ -74,3 +74,80 @@ $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$. Combining this
 classifier witness with the two public successor length witnesses gives the
 left-hand side.
 \end{proof}
+
+\begin{theorem}[List classified successor component unique existence]
+\label{thm:list-classified-successor-component-unique-existence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. For histories $h,k$ and every
+finite length value $n$, suppose
+$$
+\begin{array}{l}
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)\land\\
+\mathsf{ListPublicLength}_A(h,n+1)\land
+\mathsf{ListPublicLength}_A(k,n+1).
+\end{array}
+$$
+Then there exist histories $a,b,t,u,p,q$ such that
+$$
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\mathsf{ListPublicLength}_A(t,n)\land
+\mathsf{ListPublicLength}_A(u,n)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land\\
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+a\sim_A b\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)
+\end{array}
+$$
+and, for every other six-tuple $a',b',t',u',p',q'$ satisfying
+$$
+\begin{array}{l}
+A(a')\land A(b')\land
+\mathsf{ListHistoryCarrier}_A(t')\land
+\mathsf{ListHistoryCarrier}_A(u')\land\\
+\mathsf{ListPublicLength}_A(t',n)\land
+\mathsf{ListPublicLength}_A(u',n)\land\\
+\ContR(a',t',p')\land \ContR(b',u',q')\land\\
+\hsame(h,\Eone(p'))\land \hsame(k,\Eone(q'))\land\\
+a'\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t',u'),
+\end{array}
+$$
+one has
+$$
+a\sim_A a'\land b\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u').
+$$
+The ten-field fit is: traditional target finite-list classified successor
+unique existence; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+cons-boundary coherence and source $\NameCert$; ledger common successor length;
+core theorem unique existence for the classified successor component; exactness
+existence plus witness-choice determinacy; standard bridge finite spines;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply the forward direction of
+Theorem~\ref{thm:list-classified-successor-component-exactness} to the
+displayed classifier witness and the two public successor length witnesses.
+This supplies a six-tuple $a,b,t,u,p,q$ satisfying the classified successor
+component package.
+
+It remains to show that this witness is independent of the chosen component
+readback. Let $a',b',t',u',p',q'$ be any other six-tuple satisfying the same
+component package for $h,k,n$. Apply
+Theorem~\ref{thm:list-classified-successor-component-readback-determinacy} to
+the displayed package for $a,b,t,u,p,q$ and the displayed package for
+$a',b',t',u',p',q'$.
+
+The determinacy theorem gives $a\sim_A a'$, $b\sim_A b'$,
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')$, and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u')$ in the required order.
+Repack the witness package together with this universal comparison clause.
+\end{proof}
