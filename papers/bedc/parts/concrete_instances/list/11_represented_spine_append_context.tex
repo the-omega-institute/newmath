@@ -63,12 +63,77 @@ represented contextual endpoints $h$ and $k$ repacks the displayed contextual
 classifier as $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
 \end{proof}
 
+\begin{theorem}[List classifier mixed-tag append-context exactness]
+\label{thm:list-classifier-mixed-tag-append-context-exactness}
+For finite BEDC-history spines $p,p',x,y,s,s'$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. Then mixed visible constructor tags are classified by the finite-spine
+classifier exactly in the empty middle case:
+\begin{enumerate}
+  \item
+  $$
+  \mathsf{ListClassifierSpec}(\hsame,
+    p{++}(\mathsf{map}(e0,x){++}s),
+    p'{++}(\mathsf{map}(e1,y){++}s'))
+  \Longleftrightarrow
+  x=\mathsf{nil}\land y=\mathsf{nil};
+  $$
+  \item
+  $$
+  \mathsf{ListClassifierSpec}(\hsame,
+    p{++}(\mathsf{map}(e1,x){++}s),
+    p'{++}(\mathsf{map}(e0,y){++}s'))
+  \Longleftrightarrow
+  x=\mathsf{nil}\land y=\mathsf{nil}.
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the $e0/e1$ forward implication, apply
+Theorem~\ref{thm:list-classifier-BHist-append-context-iff} with the classified
+prefixes and suffixes. This cancels the displayed context and leaves
+$$
+\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e0,x),\mathsf{map}(e1,y)).
+$$
+Theorem~\ref{thm:list-classifier-mixed-tag-empty} then forces
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$.
+
+For the $e0/e1$ reverse implication, assume
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$. The mapped middle spines are both
+$\mathsf{nil}$, so the nil clause of
+Definition~\ref{def:list-classifier-specification} gives the displayed nil
+classifier. The reverse direction of
+Theorem~\ref{thm:list-classifier-BHist-append-context-iff} rebuilds the
+classified prefix and suffix context.
+
+For the $e1/e0$ forward implication, first cancel the displayed prefix and
+suffix context by Theorem~\ref{thm:list-classifier-BHist-append-context-iff}.
+Apply Theorem~\ref{thm:list-classifier-hsame-symm} to reverse the resulting
+middle classifier, obtaining
+$$
+\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e0,y),\mathsf{map}(e1,x)).
+$$
+Theorem~\ref{thm:list-classifier-mixed-tag-empty} gives
+$y=\mathsf{nil}$ and $x=\mathsf{nil}$, hence the required conjunction.
+
+For the $e1/e0$ reverse implication, the assumptions again make both mapped
+middle spines $\mathsf{nil}$. Use the nil classifier and rebuild the displayed
+context by the reverse direction of
+Theorem~\ref{thm:list-classifier-BHist-append-context-iff}.
+\end{proof}
+
 \begin{theorem}[List represented-spine mixed-tag context separation]
 \label{thm:list-represented-spine-mixed-tag-context-separation}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
 $\mathsf{cert}:\NameCert(A,\hsame)$, and assume
 $\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
-$p,p',x,y,s,s':\mathsf{HistSpine}$ and histories $h,k,m,n$, suppose
+$p,p',x,y,s,s':\mathsf{HistSpine}$ and histories $h,k$, suppose
 $$
 \mathsf{ListClassifierSpec}(\hsame,p,p')
 $$
@@ -81,12 +146,6 @@ $$
 \mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e0,x){++}s)),
 \quad
 \mathsf{ListSpineRep}_A(k,p'{++}(\mathsf{map}(e1,y){++}s')),
-$$
-and
-$$
-\mathsf{ListSpineRep}_A(m,\mathsf{map}(e0,x)),
-\quad
-\mathsf{ListSpineRep}_A(n,\mathsf{map}(e1,y))
 $$
 hold, and if
 $$
@@ -104,22 +163,19 @@ context separation; exactness by displayed-spine classifier exactness; standard
 bridge finite-spine readback; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:list-represented-spine-append-context-cancellation} with
-middle spines $\mathsf{map}(e0,x)$ and $\mathsf{map}(e1,y)$. The classified
-prefix and suffix hypotheses, the four represented-spine witnesses, and the
-public classifier on $h,k$ transfer the classifier to the represented middle
-histories $m,n$.
-
-Next apply
-Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} to the
-middle representations of $m$ and $n$. This reads the public middle classifier as
+Apply Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness}
+to the represented contextual endpoints $h$ and $k$. The public classifier
+therefore reads as
 $$
-\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e0,x),\mathsf{map}(e1,y)).
+\mathsf{ListClassifierSpec}(\hsame,
+  p{++}(\mathsf{map}(e0,x){++}s),
+  p'{++}(\mathsf{map}(e1,y){++}s')).
 $$
 
-Finally apply Theorem~\ref{thm:list-classifier-mixed-tag-empty}. The displayed
-classifier can relate an $e0$-mapped spine to an $e1$-mapped spine only in the
-empty-empty case, so $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
+Now apply
+Theorem~\ref{thm:list-classifier-mixed-tag-append-context-exactness}. Its
+$e0/e1$ forward implication uses the classified prefix and suffix hypotheses to
+force $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
 \end{proof}
 
 \begin{theorem}[List represented-spine mixed-tag context exactness]
@@ -138,17 +194,11 @@ $$
 hold. Then mixed visible constructor tags are classified exactly in the empty
 middle case:
 \begin{enumerate}
-  \item for histories $h_0,k_0,m_0,n_0$, if
+  \item for histories $h_0,k_0$, if
   $$
   \mathsf{ListSpineRep}_A(h_0,p{++}(\mathsf{map}(e0,x){++}s)),
   \quad
   \mathsf{ListSpineRep}_A(k_0,p'{++}(\mathsf{map}(e1,y){++}s'))
-  $$
-  and
-  $$
-  \mathsf{ListSpineRep}_A(m_0,\mathsf{map}(e0,x)),
-  \quad
-  \mathsf{ListSpineRep}_A(n_0,\mathsf{map}(e1,y))
   $$
   hold, then
   $$
@@ -156,17 +206,11 @@ middle case:
   \Longleftrightarrow
   x=\mathsf{nil}\land y=\mathsf{nil};
   $$
-  \item for histories $h_1,k_1,m_1,n_1$, if
+  \item for histories $h_1,k_1$, if
   $$
   \mathsf{ListSpineRep}_A(h_1,p{++}(\mathsf{map}(e1,x){++}s)),
   \quad
   \mathsf{ListSpineRep}_A(k_1,p'{++}(\mathsf{map}(e0,y){++}s'))
-  $$
-  and
-  $$
-  \mathsf{ListSpineRep}_A(m_1,\mathsf{map}(e1,x)),
-  \quad
-  \mathsf{ListSpineRep}_A(n_1,\mathsf{map}(e0,y))
   $$
   hold, then
   $$
@@ -186,43 +230,37 @@ readback; standard bridge finite-spine readback; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For the $e0/e1$ forward implication, apply
-Theorem~\ref{thm:list-represented-spine-mixed-tag-context-separation} to the
-contextual endpoints $h_0,k_0$ and the represented middle endpoints $m_0,n_0$.
-Its hypotheses are exactly the classified prefix and suffix together with the
-four represented-spine witnesses, so a public classifier on $h_0,k_0$ forces
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} to the
+represented contextual endpoints $h_0,k_0$. The public classifier becomes the
+displayed contextual classifier, and the $e0/e1$ forward implication of
+Theorem~\ref{thm:list-classifier-mixed-tag-append-context-exactness} forces
 $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
 
 For the $e0/e1$ reverse implication, assume
-$x=\mathsf{nil}$ and $y=\mathsf{nil}$. Rewriting the two middle spines gives
-the displayed pair $\mathsf{nil},\mathsf{nil}$, and the nil clause of
-Definition~\ref{def:list-classifier-specification} gives
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$. The $e0/e1$ reverse implication of
+Theorem~\ref{thm:list-classifier-mixed-tag-append-context-exactness} gives
 $$
-\mathsf{ListClassifierSpec}(\hsame,\mathsf{nil},\mathsf{nil}).
+\mathsf{ListClassifierSpec}(\hsame,
+  p{++}(\mathsf{map}(e0,x){++}s),
+  p'{++}(\mathsf{map}(e1,y){++}s')).
 $$
 
 The reverse direction of
 Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} repacks
-this displayed nil classifier through the represented middle endpoints
-$m_0,n_0$. Thus
-$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(m_0,n_0)$ holds.
-
-Now apply the reverse direction of
-Theorem~\ref{thm:list-represented-spine-append-context-cancellation}. The
-classified prefix and suffix lift the represented middle classifier through the
-displayed context, producing
+the displayed contextual classifier through the represented endpoints, producing
 $\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_0,k_0)$.
 
-For the $e1/e0$ forward implication, use the symmetry supplied by
-$\NameCert(A,\hsame)$ and the finite-spine classifier symmetry to reverse the
-endpoint roles. The mixed-tag separation theorem then applies to the reversed
-context with payload spines $y,x$, forcing $y=\mathsf{nil}$ and
-$x=\mathsf{nil}$.
+For the $e1/e0$ forward implication, displayed exactness turns a public
+classifier on $h_1,k_1$ into the corresponding contextual finite-spine
+classifier. The $e1/e0$ forward implication of
+Theorem~\ref{thm:list-classifier-mixed-tag-append-context-exactness} then gives
+$x=\mathsf{nil}$ and $y=\mathsf{nil}$.
 
 For the $e1/e0$ reverse implication, the assumptions $x=\mathsf{nil}$ and
-$y=\mathsf{nil}$ again reduce the middle spines to the nil-nil displayed
-classifier. Represented-spine displayed exactness classifies $m_1,n_1$, and
-append-context cancellation lifts that middle classifier to the contextual
-endpoints $h_1,k_1$.
+$y=\mathsf{nil}$ feed the $e1/e0$ reverse implication of
+Theorem~\ref{thm:list-classifier-mixed-tag-append-context-exactness}. The
+resulting displayed contextual classifier is repacked by represented-spine
+displayed exactness for the represented endpoints $h_1,k_1$.
 \end{proof}
 
 \begin{theorem}[List classifier $e0$ append-context equivalence]
