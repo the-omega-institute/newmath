@@ -55,4 +55,19 @@ theorem CompactNetWitness_left_e1_result_e1_precision_tail {center precisionTail
               cases precisionEq
               exact tailWitness
 
+theorem CompactNetWitness_right_e1_result_iff {center precision net : BHist} :
+    CompactNetWitness center (BHist.e1 precision) (BHist.e1 net) ↔
+      CompactNetWitness center precision net := by
+  constructor
+  · intro witness
+    exact And.intro witness.left
+      (And.intro (unary_e1_inversion witness.right.left)
+        (And.intro (unary_e1_inversion witness.right.right.left)
+          (cont_step_rules_inversion_pair.right witness.right.right.right)))
+  · intro witness
+    exact And.intro witness.left
+      (And.intro (unary_e1_closed witness.right.left)
+        (And.intro (unary_e1_closed witness.right.right.left)
+          (cont_step_one witness.right.right.right)))
+
 end BEDC.Derived.CompactUp

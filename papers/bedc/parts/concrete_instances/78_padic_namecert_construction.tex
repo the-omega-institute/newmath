@@ -330,6 +330,27 @@ with the left scale and the displayed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_factorization\_iff}
 
+\begin{theorem}[Prime scale append unit right predecessor uniqueness]
+\label{thm:padic-prime-scale-append-unit-right-predecessor-unique}
+For unary $w$, every prime scale over
+$\mathsf{append}(w,\Eone(\emp))$ exposes a predecessor scale
+$\mathsf{PadicPrimeScale}(p,w,n)$ and a continuation $\ContR(n,p,r)$, and
+the predecessor is unique up to $\hsame$ among prime-scale results over $w$:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),r)
+\Longrightarrow
+\exists n.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land\ContR(n,p,r)\land
+\forall other.\ \mathsf{PadicPrimeScale}(p,w,other)\Rightarrow n\hsame other.
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-right factorization extracts the predecessor scale and the
+continuation by the prime base. Uniqueness is the functional property of the
+underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,w,n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_predecessor\_unique}
+
 \begin{theorem}[Prime scale append unit left factorization]
 \label{thm:padic-prime-scale-append-unit-left-factorization}
 For unary $q$, a prime scale over $\mathsf{append}(\Eone(\emp),q)$ is exactly a
@@ -540,3 +561,5 @@ the given prime witness is exactly
 $\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)$ by
 \autoref{def:padic-prime-scale}.
 \end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_prime}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_result\_prime}
