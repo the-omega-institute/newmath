@@ -286,3 +286,37 @@ $(b,a)$. Therefore the carrier, source, pattern, classifier, stability, and
 ledger rows all satisfy the $\RingUp(C)$ certificate obligations for the
 opposite ring data.
 \end{proof}
+
+\begin{theorem}[Ring negation classifier exactness]
+\label{thm:ring-negation-classifier-exactness}
+For BEDC history addition and negation satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, and additive
+inverse congruence, every $x,y:\mathsf{BHist}$ satisfies
+$$
+-x\hsame -y \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive inverse injectivity in a
+ring; BEDC source $\RingUp$ over $\mathsf{BHist}$ with the additive
+$\GroupUp$ cancellation spine cited by
+\autoref{thm:ring-additive-difference-zero-exact}; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from addition congruence and additive inverse
+congruence; ledger the two negated endpoints; core theorem this theorem;
+exactness the displayed iff; standard bridge ordinary ring additive inverse
+injectivity; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $-x\hsame -y$. By classifier symmetry, $-y\hsame -x$.
+Addition congruence, with reflexivity on the left summand $x$, transports this
+to
+$$
+x+(-y)\hsame x+(-x).
+$$
+The right-inverse law of \autoref{thm:ring-add-right-inverse} gives
+$x+(-x)\hsame0$, so transitivity gives $x+(-y)\hsame0$. The forward direction
+of \autoref{thm:ring-additive-difference-zero-exact} then yields
+$x\hsame y$.
+
+Conversely, assume $x\hsame y$. The additive inverse congruence field
+transports this classifier witness directly across negation, giving
+$-x\hsame -y$.
+\end{proof}
