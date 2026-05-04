@@ -24,15 +24,43 @@ A \emph{located finite $\varepsilon$-net} for a metric carrier $X$ is a finite l
 \section{The kernel construction}
 \label{sec:compact-uniform-continuity-construction}
 
+\begin{lemma}[Subordinate finite modulus cover]
+\label{lem:compact-uniform-subordinate-modulus-cover}
+Let $X$ be a compact metric carrier and let $f \colon X \to Y$ have pointwise modulus $\delta_f$. For every rational tolerance $\varepsilon > 0$, the compact certificate supplies a finite nonempty family
+$$
+(x_1,\rho_1), \ldots, (x_n,\rho_n)
+$$
+such that each $\rho_i$ is positive, $\rho_i \le \delta_f(x_i,\varepsilon/3)$, and every $x \in X$ has an index $i$ with $d_X(x,x_i) < \rho_i/2$.
+\end{lemma}
+
+\begin{proof}[Certificate reading]
+Apply compactness to the located positive-radius family whose member at $x$ is the pointwise-modulus ball of radius $\delta_f(x,\varepsilon/3)$. The finite-cover certificate returns centers and radii already subordinate to those balls, so the inequalities $\rho_i \le \delta_f(x_i,\varepsilon/3)$ are part of the returned data.
+
+The located half-radius clause is the cover witness used by the kernel construction below: for each input point $x$, it chooses one of the named centers with $d_X(x,x_i) < \rho_i/2$. No scale depending on $\delta_f^{\mathrm{u}}(\varepsilon)$ is used to obtain this family.
+\end{proof}
+
 \begin{theorem}[Continuous on compact yields uniform modulus]
 \label{thm:compact-uniform-continuity}
 Let $X$ be a metric carrier with a compact naming certificate $\NameCert_X$ and let $f \colon X \to Y$ be witnessed by a continuous naming certificate $\NameCert_f$ over $X$. Then the kernel produces a uniform modulus $\delta_f^{\mathrm{u}}$ for $f$, expressible as
-$$ \delta_f^{\mathrm{u}}(\varepsilon) \;=\; \min_{1 \le i \le n} \delta_f\!\left(x_i, \tfrac{\varepsilon}{2}\right) \,/\, 2, $$
-where $[x_1, \ldots, x_n]$ is the located finite $(\delta_f^{\mathrm{u}}(\varepsilon))$-net supplied by $\NameCert_X$ at the matching scale, and $\delta_f$ is the pointwise modulus of \autoref{def:compact-uniform-pointwise-modulus}.
+$$
+\delta_f^{\mathrm{u}}(\varepsilon) \;=\; \min_{1 \le i \le n} \rho_i/2,
+$$
+where $(x_1,\rho_1), \ldots, (x_n,\rho_n)$ is the finite subordinate family supplied by \autoref{lem:compact-uniform-subordinate-modulus-cover} for $\varepsilon$, and $\delta_f$ is the pointwise modulus of \autoref{def:compact-uniform-pointwise-modulus}.
 \end{theorem}
 
 \begin{proof}[Sketch]
-Fix $\varepsilon > 0$. By \autoref{def:compact-uniform-finite-net}, $\NameCert_X$ produces a finite net $[x_1, \ldots, x_n]$. Each $x_i$ supplies a pointwise modulus $\delta_i = \delta_f(x_i, \varepsilon/2)$. The list $[\delta_1, \ldots, \delta_n]$ is finite, so its minimum $\delta^{\star} = \min_i \delta_i$ is a positive rational, computed by primitive recursion on the list. Set $\delta_f^{\mathrm{u}}(\varepsilon) = \delta^{\star} / 2$ and refine the net to scale $\delta_f^{\mathrm{u}}(\varepsilon)$. Given $x, x' \in X$ with $d_X(x, x') < \delta_f^{\mathrm{u}}(\varepsilon)$, the located property gives an index $i$ with $d_X(x, x_i) < \delta_f^{\mathrm{u}}(\varepsilon) \le \delta_i$. Then $d_X(x', x_i) \le d_X(x', x) + d_X(x, x_i) < 2 \delta_f^{\mathrm{u}}(\varepsilon) \le \delta_i$, so the pointwise modulus at $x_i$ applies to both $x$ and $x'$, yielding $d_Y(f\,x, f\,x_i) < \varepsilon/2$ and $d_Y(f\,x', f\,x_i) < \varepsilon/2$. The triangle inequality on $Y$ gives $d_Y(f\,x, f\,x') < \varepsilon$. The whole construction is primitive recursion on the finite net length and arithmetic on $\mathbb{Q}$; no excluded middle, no choice principle, no equivalence-class identification.
+Fix $\varepsilon > 0$. Invoke \autoref{lem:compact-uniform-subordinate-modulus-cover} to obtain a finite nonempty family $(x_i,\rho_i)_{i=1}^n$ with $\rho_i \le \delta_f(x_i,\varepsilon/3)$ and the half-radius covering property. Since the list is finite and all $\rho_i$ are positive, primitive recursion computes the positive rational
+$$
+\delta_f^{\mathrm{u}}(\varepsilon)=\min_i \rho_i/2.
+$$
+
+Let $x,x' \in X$ satisfy $d_X(x,x') < \delta_f^{\mathrm{u}}(\varepsilon)$. The subordinate cover gives an index $i$ with $d_X(x,x_i) < \rho_i/2$. Because $\delta_f^{\mathrm{u}}(\varepsilon) \le \rho_i/2$, the triangle inequality gives
+$$
+d_X(x',x_i) \le d_X(x',x)+d_X(x,x_i) < \rho_i.
+$$
+Also $d_X(x,x_i) < \rho_i/2 < \rho_i$.
+
+The bound $\rho_i \le \delta_f(x_i,\varepsilon/3)$ lets the pointwise modulus at $x_i$ apply to both $x$ and $x'$. Hence $d_Y(f\,x_i,f\,x) < \varepsilon/3$ and $d_Y(f\,x_i,f\,x') < \varepsilon/3$. The triangle inequality on $Y$ gives $d_Y(f\,x,f\,x') < \varepsilon$. The construction uses only the finite subordinate cover, primitive recursion on its length, and rational arithmetic.
 \end{proof}
 
 \section{Axiom-purity of the uniform-modulus construction}

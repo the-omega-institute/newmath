@@ -205,6 +205,19 @@ theorem AdjunctionUnitCounitAlternating_endomorphism_empty
   exact AdjunctionUnitCounitAlternating_empty_components_closed boundaryEmpty.left
     boundaryEmpty.right depthUnary
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_total_alternating_collapse
+    {p a unit counit left right depth : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right -> UnaryHistory depth ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left BHist.Empty ∧
+        hsame right BHist.Empty ∧
+          hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty := by
+  intro carrier depthUnary
+  have total := AdjunctionUnitCounitCarrier_endomorphism_total_collapse carrier
+  have alternating := AdjunctionUnitCounitAlternating_endomorphism_empty carrier depthUnary
+  exact And.intro total.left
+    (And.intro total.right.left
+      (And.intro total.right.right.left (And.intro total.right.right.right alternating)))
+
 theorem AdjunctionUnitCounitAlternating_unary {unit counit depth : BHist} :
     UnaryHistory unit -> UnaryHistory counit -> UnaryHistory depth ->
       UnaryHistory (AdjunctionUnitCounitAlternating unit counit depth) := by
@@ -228,6 +241,18 @@ theorem AdjunctionUnitCounitAlternating_result_nonempty_of_positive_depth_unit_n
   | intro tail data =>
       cases data.left
       exact (Iff.mpr append_nonempty_iff (Or.inl unitNonempty)) resultEmpty
+
+theorem AdjunctionUnitCounitAlternating_positive_depth_cont_readback {unit counit depth : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      ∃ tail : BHist, UnaryHistory tail ∧
+        Cont unit (AdjunctionUnitCounitAlternating counit unit tail)
+          (AdjunctionUnitCounitAlternating unit counit depth) := by
+  intro depthUnary depthNonempty
+  have depthTail := unary_history_nonempty_e1_tail depthUnary depthNonempty
+  cases depthTail with
+  | intro tail data =>
+      cases data.left
+      exact ⟨tail, data.right, cont_intro rfl⟩
 
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
