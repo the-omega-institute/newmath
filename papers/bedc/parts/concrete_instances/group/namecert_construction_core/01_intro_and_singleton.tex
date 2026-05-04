@@ -453,6 +453,40 @@ $R_{\emp}(P,Q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_carrier\_iff}
 
+\begin{theorem}[Group singleton inverse-continuation roundtrip carrier exactness]
+\label{thm:group-singleton-inverse-continuation-roundtrip-carrier-exactness}
+For histories $x,r,s:\mathsf{BHist}$, if $r$ is a continuation result of the
+singleton inverse of $x$ followed by $x$, and $s$ is a continuation result of
+$r$ followed by the same singleton inverse, then the terminal carrier condition
+on the final result is exactly the terminal carrier condition on the original
+history:
+$$
+\ContR(\mathsf{GroupSingletonInv}(x),x,r)\Rightarrow
+\ContR(r,\mathsf{GroupSingletonInv}(x),s)\Rightarrow
+\bigl(A_{\emp}(s)\Longleftrightarrow A_{\emp}(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-inv-continuation-left-unit-iff} to the
+first continuation. This reads the left-unit inverse product back as
+$R_{\emp}(r,\emp)\Longleftrightarrow A_{\emp}(x)$.
+
+The first row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}, applied to
+$r$ and $\emp$, converts $R_{\emp}(r,\emp)$ into the carrier condition
+$A_{\emp}(r)$, since $A_{\emp}(\emp)$ is the reflexive terminal endpoint.
+Thus $A_{\emp}(r)\Longleftrightarrow A_{\emp}(x)$.
+
+Apply Theorem~\ref{thm:group-singleton-continuation-result-carrier-exactness}
+to the second continuation. It identifies $A_{\emp}(s)$ with
+$R_{\emp}(r,\mathsf{GroupSingletonInv}(x))$.
+
+The terminal classifier package and the constant inverse closure row of
+Theorem~\ref{thm:group-singleton-history-semantic-namecert} identify this
+last classifier with $A_{\emp}(r)$. Composing the two carrier equivalences
+gives $A_{\emp}(s)\Longleftrightarrow A_{\emp}(x)$.
+\end{proof}
+
 The per-object certificate data are: traditional target terminal-group
 continuation-result coverage; BEDC source concrete singleton $\GroupUp$ over
 $\mathsf{BHist}$ and $\ContR$; carrier $A_{\emp}$; classifier $R_{\emp}$;
