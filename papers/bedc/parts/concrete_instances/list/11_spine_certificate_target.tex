@@ -21,6 +21,7 @@ $$
 $$
 Thus $\mathsf{ListClassifierSpec}$ remains the finite-spine classifier, $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}$ names the BEDC-history bridge through finite spines, and $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$ is the certificate classifier whose endpoints are BEDC histories. The recursive classifier $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{S,\sim_S}$ from Definition~\ref{def:list-history-classifier} is a paper-side generator for carrier and endpoint reasoning.
 \end{definition}
+\leandef{BEDC.Derived.ListUp.ListSpineRep}
 
 \begin{theorem}[List spine nil-cons no-confusion]\label{thm:list-spine-rep-nil-cons-no-confusion}
 For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, history $h$, source history $a$, and tail spine $xs:\mathsf{HistSpine}$, $\mathsf{ListSpineRep}_A(h,\mathsf{nil})$ and $\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ are contradictory.
@@ -28,6 +29,7 @@ For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, histor
 \begin{proof}
 Unpack the nil representation to obtain $\hsame(h,\emp)$. Unpack the cons representation to obtain an endpoint witness $\hsame(h,\Eone(p))$ for some continuation package $p$. Compose the symmetry of the nil endpoint with the cons endpoint to get $\hsame(\emp,\Eone(p))$, then close by BEDC history constructor no-confusion between the empty history and a one-step endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_nil\_cons\_no\_confusion}
 
 \begin{theorem}[List spine representation exactness]
 \label{thm:list-spine-representation-exactness}
