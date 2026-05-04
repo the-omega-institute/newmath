@@ -443,3 +443,64 @@ zero-headed tests, and appended-tail displays; core theorem
 \autoref{thm:real-stream-classifier-unary-denominator-context-selected-classifier-appended-tail-package};
 exactness classifier-plus-shape-plus-tail package; standard bridge RegSeqRat
 selected endpoint classifier readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier unary denominator context selected e-one tail determinacy]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-determinacy}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, and histories $a,a',b,b':\Hist$, assume
+$\mathsf{RealStreamClassifier}(x,y)$ and the pointwise unary-context plus
+continuation hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. If the
+selected contextual outputs satisfy the four e-one displays
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_X(n),\Eone(a')),\quad
+\hsame(o_Y(n),\Eone(b)),\quad
+\hsame(o_Y(n),\Eone(b')),
+$$
+then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(b,b')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a',b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-e1-pair-readback}
+to the displays $\hsame(o_X(n),\Eone(a))$ and
+$\hsame(o_Y(n),\Eone(b))$. This supplies
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same readback theorem again to the displays
+$\hsame(o_X(n),\Eone(a'))$ and $\hsame(o_Y(n),\Eone(b'))$. This supplies
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$.
+
+For the $X$-tail comparison, compose the first display of $o_X(n)$ with the
+symmetry of the second display. The resulting
+$\hsame(\Eone(a),\Eone(a'))$ is inverted by the history constructor
+characterization, equivalently
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_inversion\_iff}$, to get
+$\hsame(a,a')$.
+
+The same composition and e-one inversion applied to the two displays of
+$o_Y(n)$ gives $\hsame(b,b')$. Package these two tail comparisons with the
+two readback rows.
+\end{proof}
+
+Fit: traditional target RealUp contextual endpoint tail determinacy; BEDC
+source RealUp streams, RatUp classifier, $\mathsf{Cont}$, unary contexts, and
+selected e-one displays; carrier rational-observation streams; classifier
+$\mathsf{RealStreamClassifier}$ and selected endpoint displays; stability
+context closure and selected continuation transport; ledger selected index,
+contexts, continuation outputs, and paired e-one seals; core theorem
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-e1-tail-determinacy};
+exactness canonical selected denominator tails; standard bridge RegSeqRat and
+dyadic selected-tail consumers; status $\mathsf{ProofTarget}$.
