@@ -88,6 +88,22 @@ theorem EigenComponentSingletonCarrier_singleton_append {map scalar vector pair 
                         (And.intro vectorCarrier
                           (cont_intro (congrArg (append map) scalarVectorCont)))))))
 
+theorem EigenComponentSingletonCarrier_cont_result_transport {map scalar vector pair full full' :
+    BHist} :
+    EigenComponentSingletonCarrier map scalar vector pair -> DeterminantSingletonCarrier scalar ->
+      Cont map pair full -> hsame full full' -> EigenSingletonCarrier full' := by
+  intro componentCarrier scalarCarrier mapPair sameFull
+  cases componentCarrier with
+  | intro mapCarrier rest =>
+      cases rest with
+      | intro _scalarCommCarrier rest =>
+          cases rest with
+          | intro vectorCarrier scalarVectorCont =>
+              have mapScalarVector : Cont map (append scalar vector) full :=
+                cont_intro (mapPair.trans (congrArg (append map) scalarVectorCont))
+              exact EigenSingletonCarrier_cont_result_transport mapCarrier scalarCarrier
+                vectorCarrier mapScalarVector sameFull
+
 theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
     EigenSingletonCarrier pair ↔ hsame pair BHist.Empty := by
   constructor

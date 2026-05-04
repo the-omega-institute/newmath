@@ -147,6 +147,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
