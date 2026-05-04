@@ -20,4 +20,21 @@ theorem RingSingletonClassifier_cont_result_empty_iff {h k p r : BHist} :
       cases pEmpty
       exact cont_right_unit BHist.Empty)
 
+theorem RingSingletonClassifier_mul_continuation_classifier_iff {x y z r h : BHist} :
+    Cont (RingSingletonMul x y) z r ->
+      (RingSingletonClassifier r h ↔ RingSingletonCarrier z ∧ RingSingletonCarrier h) := by
+  intro continuation
+  constructor
+  · intro classified
+    have emptyContinuation : Cont (RingSingletonMul x y) z BHist.Empty :=
+      cont_result_hsame_transport continuation classified.left
+    exact And.intro (cont_empty_result_inversion emptyContinuation).right classified.right.left
+  · intro carriers
+    have resultEmpty : RingSingletonCarrier r :=
+      cont_deterministic continuation (by
+        cases carriers.left
+        exact cont_right_unit (RingSingletonMul x y))
+    exact And.intro resultEmpty
+      (And.intro carriers.right (hsame_trans resultEmpty (hsame_symm carriers.right)))
+
 end BEDC.Derived.RingUp

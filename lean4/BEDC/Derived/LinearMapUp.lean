@@ -333,6 +333,16 @@ theorem LinearMapSingletonClassifier_continuation_left_closed {P P' Q left : BHi
   have emptyCarrier : LinearMapSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
   exact And.intro leftEmpty (And.intro leftEmpty (And.intro emptyCarrier leftEmpty))
 
+theorem LinearMapSingletonClassifier_continuation_pair_factors_iff {p q r s t u : BHist} :
+    Cont p q r -> Cont s t u ->
+      (LinearMapSingletonClassifier r u ↔
+        LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q ∧
+          LinearMapSingletonCarrier s ∧ LinearMapSingletonCarrier t) := by
+  intro leftContinuation rightContinuation
+  cases leftContinuation
+  cases rightContinuation
+  exact LinearMapSingletonClassifier_append_pair_carrier_iff
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))

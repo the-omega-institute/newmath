@@ -294,6 +294,29 @@ symmetry on the right endpoint to close $\lambda_{\emp}(L,R)$.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_closed}
 
+\begin{theorem}[Singleton linear-map continuation pair factors]
+\label{thm:linearmap-singleton-classifier-continuation-pair-factors}
+For histories $p,q,r,s,t,u:\mathsf{BHist}$, if
+$$
+\ContR(p,q,r)
+\qquad\text{and}\qquad
+\ContR(s,t,u),
+$$
+then
+$$
+\lambda_{\emp}(r,u)
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(s)\wedge L_{\emp}(t).
+$$
+\end{theorem}
+\begin{proof}
+Read both continuation ledgers as append endpoints. The singleton linear-map
+classifier between those endpoints is exactly the append-pair classifier
+exactness theorem, which splits the two empty append endpoints into the four
+displayed singleton carrier factors and rebuilds the classifier from them.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_pair\_factors\_iff}
+
 \begin{theorem}[Singleton linear-map left continuation closure]
 \label{thm:linearmap-singleton-classifier-continuation-left-closed}
 For histories $P,P',Q,L:\mathsf{BHist}$, if $\lambda_{\emp}(P,P')$,

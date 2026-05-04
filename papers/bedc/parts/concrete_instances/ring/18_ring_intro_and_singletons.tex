@@ -285,5 +285,22 @@ Transporting an empty result into the continuation and inverting empty concatena
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_cont\_result\_empty\_iff}
 
+\begin{theorem}[Ring singleton multiplication continuation classifier]
+\label{thm:ring-singleton-classifier-mul-continuation-classifier}
+If $\Cont(\mathsf{RingSingletonMul}(x,y),z,r)$, then
+$$
+C_{\emp}(r,h)\Longleftrightarrow A_{\emp}(z)\wedge A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton multiplication endpoint is $\emp$. In the forward direction,
+transport the classified empty result into the continuation and invert the
+empty continuation to obtain $z\hsame\emp$; the right classifier carrier gives
+$h\hsame\emp$. Conversely, $z\hsame\emp$ compares the continuation result with
+the right-unit continuation at $\mathsf{RingSingletonMul}(x,y)$, so $r$ is
+empty and classifies against $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_mul\_continuation\_classifier\_iff}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
