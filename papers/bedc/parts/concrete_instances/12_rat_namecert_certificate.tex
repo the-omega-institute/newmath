@@ -489,6 +489,44 @@ two contextual ledger witnesses. Its conclusion is exactly the displayed
 classifier between the two contextual visible denominator endpoints.
 \end{proof}
 
+\begin{theorem}[Rat ledger shared-raw context one-tail readback]
+\label{thm:rat-history-ledger-shared-raw-context-e1-pair-readback}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes
+$p,p_v,p_{v'}$ satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, and the two
+contextual visible endpoints display as one-extension histories,
+$$
+\hsame(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),\Eone(a))
+\quad\text{and}\quad
+\hsame(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),\Eone(b)),
+$$
+then the displayed tails are unary and internally the same:
+$$
+\mathsf{Unary}(a)\land \mathsf{Unary}(b)\land\hsame(a,b).
+$$
+
+Its ten-field fit is: traditional target shared-denominator visible-tail
+determinacy; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier positive
+unary denominators; classifier $\mathsf{RatHistoryClassifier}$; stability from
+unary context closure and classifier transport; ledger the shared raw
+denominator plus two visible contexts; core theorem this block; exactness the
+displayed tail readback; standard bridge normalized denominator readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} with the
+two ledger witnesses and the matching raw-to-visible unary contexts. This gives
+the rational history classifier between the two contextual visible endpoints.
+
+Then apply
+\autoref{thm:rat-history-classifier-unary-context-e1-pair-readback} to that
+classifier and to the two displayed one-extension witnesses. The readback
+conclusion is exactly $\mathsf{Unary}(a)\land \mathsf{Unary}(b)\land
+\hsame(a,b)$.
+\end{proof}
+
 \begin{theorem}[Rat ledger classifier extension]
 \label{thm:rat-ledger-classifier-extension}
 If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
