@@ -11,6 +11,37 @@ theorem group_centralizer_empty_unit_mem {mul : BHist -> BHist -> BHist}
     hsame (mul BHist.Empty a) (mul a BHist.Empty) := by
   exact hsame_trans (leftId a) (hsame_symm (rightId a))
 
+theorem group_centralizer_fixed_element_empty_context_transport_iff
+    {mul : BHist -> BHist -> BHist}
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a b x : BHist} :
+    hsame a b ->
+      (hsame (mul x a) (mul a x) <-> hsame (mul x b) (mul b x)) ∧
+        (hsame (mul (mul x a) BHist.Empty) (mul (mul a x) BHist.Empty) <->
+          hsame (mul (mul x b) BHist.Empty) (mul (mul b x) BHist.Empty)) := by
+  intro sameAB
+  constructor
+  · constructor
+    · intro centralA
+      exact hsame_trans (mulCongr (hsame_refl x) (hsame_symm sameAB))
+        (hsame_trans centralA (mulCongr sameAB (hsame_refl x)))
+    · intro centralB
+      exact hsame_trans (mulCongr (hsame_refl x) sameAB)
+        (hsame_trans centralB (mulCongr (hsame_symm sameAB) (hsame_refl x)))
+  · constructor
+    · intro centralA
+      exact hsame_trans
+        (mulCongr (mulCongr (hsame_refl x) (hsame_symm sameAB)) (hsame_refl BHist.Empty))
+        (hsame_trans centralA
+          (mulCongr (mulCongr sameAB (hsame_refl x)) (hsame_refl BHist.Empty)))
+    · intro centralB
+      exact hsame_trans
+        (mulCongr (mulCongr (hsame_refl x) sameAB) (hsame_refl BHist.Empty))
+        (hsame_trans centralB
+          (mulCongr (mulCongr (hsame_symm sameAB) (hsame_refl x))
+            (hsame_refl BHist.Empty)))
+
 protected theorem group_centralizer_inv_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
