@@ -641,27 +641,29 @@ continuation commutativity identifies the forward and reversed component
 composites.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_tail\_comm\_hsame}
+\begin{theorem}[NatTrans prefix component vertical cycle empty components]
+\label{thm:nattrans-prefix-component-vert-cycle-empty-components}
+For prefix components over a fixed object $a$, if components run from $p$ to $q$
+and from $q$ back to $p$, then the empty component is displayed in both
+directions and $\HSame(p,q)$.
+\end{theorem}
+\begin{proof}
+Unpack both component carriers to their category hom-carrier fields and apply
+the two-way endpoint cycle theorem. Repack the empty hom-carriers with the
+original unary witnesses, then cancel the common right suffix $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_cycle\_empty\_components}
 
 \begin{theorem}[NatTrans prefix component vertical triangle empty components]
 \label{thm:nattrans-prefix-component-vert-triangle-cycle-empty-components}
 For prefix components over a fixed object $a$, if components run from $p$ to
 $q$, from $q$ to $r$, and from $r$ back to $p$, then the empty component is
-displayed on all three sides and the adjacent prefixes collapse:
-$$
-\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)\land
-\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\emp)\land
-\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp)\land
-\HSame(p,q)\land
-\HSame(q,r).
-$$
+displayed on all three sides and the adjacent prefixes collapse.
 \end{theorem}
 \begin{proof}
 Unpack the three component carriers to their category hom-carrier fields and
-apply triangular empty hom exactness at the endpoints
-$\mathsf{append}(p,a)$, $\mathsf{append}(q,a)$, and
-$\mathsf{append}(r,a)$. Repack the empty hom-carriers with the original unary
-prefix and object witnesses, then cancel the common right object suffix $a$ in
-the endpoint equalities.
+apply triangular empty hom exactness at the appended endpoints. Repack the empty
+hom-carriers with the original unary witnesses, then cancel the common suffix.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_triangle\_cycle\_empty\_components}
 
