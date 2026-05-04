@@ -656,6 +656,28 @@ along the displayed word identity give the required congruence row.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_classifier\_laws}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_empty\_unit}
 
+\begin{theorem}[Centralizer quotient-kernel diagonal carrier exactness]
+\label{thm:subgroup-centralizer-quotient-kernel-diagonal-carrier-exactness}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies
+$$
+Q_{Z_a\triangleleft N_a}(x,x)\Longleftrightarrow N_a(x).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}. A
+witness for $Q_{Z_a\triangleleft N_a}(x,x)$ contains both endpoint carrier
+clauses in $N_a$, so projecting either endpoint gives $N_a(x)$.
+
+For the reverse direction, assume $N_a(x)$. Apply the reflexivity row of
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence} to
+obtain $Q_{Z_a\triangleleft N_a}(x,x)$.
+\end{proof}
+
 Per-object template: traditional target quotient classifier for the
 normal-subgroup tower $Z_a\leq N_a$; BEDC source $\GroupUp$ over
 $\mathsf{BHist}$ plus $\SubgroupUp$; lower carrier $Z_a$; upper carrier
@@ -666,6 +688,8 @@ quotient operation transport; ledger left representative, right
 representative, product representatives, relative kernel witness, conjugated
 kernel witness, and transported product witness; core theorem list
 \autoref{thm:subgroup-centralizer-normalizer-tower-certificate},
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence},
+\autoref{thm:subgroup-centralizer-quotient-kernel-diagonal-carrier-exactness},
 \autoref{thm:group-inverse-mul-reverse}, and the ambient $\GroupUp$ laws;
 exactness predicate relative displacement in $Z_a$ inside $N_a$; downstream
 object $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
