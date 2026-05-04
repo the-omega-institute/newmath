@@ -232,6 +232,28 @@ endpoint witnesses just obtained, package the pair as
 $\rho_{\emp}(n,n')$.
 \end{proof}
 
+\begin{theorem}[Module singleton empty-action output determinacy]
+\label{thm:module-singleton-smul-empty-action-outputs-deterministic}
+For histories $r,m,n,n':\mathsf{BHist}$, if the empty scalar action classifies
+$n$ and the empty module input action classifies $n'$, then the two outputs are
+classified together:
+$$
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,m),n)
+\wedge
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,\emp),n')
+\Longrightarrow
+\rho_{\emp}(n,n').
+$$
+\end{theorem}
+\begin{proof}
+Read both classifier hypotheses through
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}. The first gives
+$n\hsame\emp$ and the second gives $n'\hsame\emp$. Repack these two endpoint
+witnesses with the same endpoint exactness theorem to obtain
+$\rho_{\emp}(n,n')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_empty\_action\_outputs\_deterministic}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple

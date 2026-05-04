@@ -1,0 +1,22 @@
+\begin{theorem}[Singleton linear-map continuation append-pair classifier]
+\label{thm:linearmap-singleton-classifier-continuation-append-pair-classifier-iff}
+For histories $p,q,r,s,h,t:\mathsf{BHist}$, if
+$\ContR(\mathsf{append}(p,q),\mathsf{append}(r,s),h)$, then
+$$
+\lambda_{\emp}(h,t)
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(r)\wedge
+L_{\emp}(s)\wedge L_{\emp}(t).
+$$
+\end{theorem}
+\begin{proof}
+The continuation displays $h$ as the append of the two appended endpoints.
+The forward direction reads the left carrier field of the classifier and
+splits that empty append once for the two displayed endpoints, then once more
+inside each endpoint to expose the four source carrier witnesses; the target
+carrier field supplies $t$. Conversely, the four source carrier witnesses
+rebuild both displayed endpoints as empty histories, then rebuild their
+continuation result as empty, and symmetry on the target carrier completes the
+singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_append\_pair\_classifier\_iff}
