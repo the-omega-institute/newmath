@@ -180,6 +180,7 @@ import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
 import BEDC.Derived.ListUp.SpineRep
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.FramedEndpointCons
 import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
