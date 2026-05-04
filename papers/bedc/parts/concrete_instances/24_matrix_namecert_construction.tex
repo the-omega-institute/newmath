@@ -107,6 +107,47 @@ power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
 
+\begin{theorem}[Matrix singleton power nonempty unary suffix base carrier]
+\label{thm:matrix-singleton-pow-nonempty-unary-suffix-base-carrier}
+If $tail$ is unary and not history-same as $\emp$, then a singleton carrier
+witness for the power ledger over $\mathsf{append}(e,tail)$ recovers the base
+matrix carrier:
+$$
+\Unary(tail)\land(\hsame(tail,\emp)\to\bot)\land
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(e,tail)))
+\quad\Longrightarrow\quad
+A_{\emp}(M).
+$$
+\end{theorem}
+\begin{proof}
+The unary, nonempty suffix cannot be $\emp$ and cannot start with $\Ezero$.
+Thus it has the form $\Eone(t)$, so the appended exponent also exposes a
+one-headed power branch. In that branch the power ledger is the append product
+of the previous power ledger and $M$, and append empty-result inversion
+projects the right factor carrier $A_{\emp}(M)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_nonempty\_unary\_suffix\_base\_carrier}
+
+\begin{theorem}[Matrix singleton positive-exponent continuation readback]
+\label{thm:matrix-singleton-pow-positive-exponent-cont-readback}
+If the exponent $e$ is unary and not history-same as $\emp$, then its
+one-headed tail exposes the concrete successor continuation for the power
+ledger:
+$$
+\Unary(e)\land(\hsame(e,\emp)\to\bot)
+\quad\Longrightarrow\quad
+\exists t.\ \Unary(t)\land
+\ContR(\mathsf{MatrixSingletonPow}(M,t),M,\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty histories have a one-headed tail. In that branch the recursive
+definition of $\mathsf{MatrixSingletonPow}$ is the append product of the
+predecessor power ledger with $M$, so the continuation is the displayed append
+step.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
+
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}
 For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix

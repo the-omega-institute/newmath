@@ -135,6 +135,7 @@ import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -149,6 +150,7 @@ import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
 import BEDC.Derived.HolomorphicUp.IteratedTransport
+import BEDC.Derived.HolomorphicUp.IteratedComposition
 import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
 import BEDC.Derived.ComplexTopologyUp
@@ -241,6 +243,7 @@ import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.QuotientGroupUp
+import BEDC.Derived.QuotientGroupUp.Continuation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
@@ -257,6 +260,7 @@ import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.SingletonAppend
+import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.FieldUp
@@ -513,6 +517,7 @@ import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
+import BEDC.Derived.FunctorUp.NonemptyTargetComponent
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.NatTransUp

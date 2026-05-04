@@ -61,6 +61,30 @@ theorem MatrixSingletonPow_carrier_nonempty_unary_input_iff {M exponent : BHist}
   · intro carrierM
     exact MatrixSingletonPow_carrier_closed carrierM exponentUnary
 
+theorem MatrixSingletonPow_nonempty_unary_suffix_base_carrier {M e tail : BHist} :
+    UnaryHistory tail -> (hsame tail BHist.Empty -> False) ->
+      MatrixSingletonCarrier (MatrixSingletonPow M (append e tail)) ->
+        MatrixSingletonCarrier M := by
+  intro tailUnary tailNonempty powCarrier
+  cases tail with
+  | Empty =>
+      exact False.elim (tailNonempty (hsame_refl BHist.Empty))
+  | e0 tail =>
+      cases tailUnary
+  | e1 tail =>
+      exact (append_eq_empty_iff.mp powCarrier).right
+
+theorem MatrixSingletonPow_positive_exponent_cont_readback {M exponent : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      ∃ tail : BHist, UnaryHistory tail ∧
+        Cont (MatrixSingletonPow M tail) M (MatrixSingletonPow M exponent) := by
+  intro exponentUnary exponentNonempty
+  have exponentTail := unary_history_nonempty_e1_tail exponentUnary exponentNonempty
+  cases exponentTail with
+  | intro tail data =>
+      cases data.left
+      exact ⟨tail, data.right, cont_intro rfl⟩
+
 theorem MatrixSingletonPow_succ_classifier {M exponent : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory exponent ->
       MatrixSingletonClassifier (MatrixSingletonPow M (BHist.e1 exponent))
