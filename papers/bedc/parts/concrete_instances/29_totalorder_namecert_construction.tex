@@ -284,6 +284,57 @@ These three cases construct the carried selector and verify both upper-bound
 rows and the least-upper property.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix total-order greatest lower selector]
+\label{thm:totalorder-prefix-greatest-lower-selector}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, there
+exists a carried history $l$ in $\mathsf{Carrier}_{\mathsf{u}}$ such that
+$$
+l\le_{\mathsf{u}}h,
+\qquad
+l\le_{\mathsf{u}}k,
+$$
+and, for every carried history $r$ in $\mathsf{Carrier}_{\mathsf{u}}$,
+$$
+\bigl(r\le_{\mathsf{u}}h\land r\le_{\mathsf{u}}k\bigr)
+\Rightarrow r\le_{\mathsf{u}}l.
+$$
+
+The per-object fields are: traditional target finite unary-word
+minimum/greatest-lower selector; BEDC source $\mathsf{UnaryHistory}$ over
+$\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; ledger selected comparison
+branch; core theorem this block; exactness greatest-lower property; downstream
+consumer $\LatticeUp$ meet and unary interval certificates; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to the
+carried pair $h,k$. The proof splits according to the selected branch.
+
+In the strict-left branch $\mathsf{NatUnaryStrictPrefix}(h,k)$, choose $l=h$.
+Reflexivity from \autoref{thm:concrete-unary-prefix-preorder-laws} gives
+$h\le_{\mathsf{u}}h$, and forgetting the nonempty tail gives
+$h\le_{\mathsf{u}}k$. If $r$ is any common lower bound of $h$ and $k$, the
+first premise already supplies $r\le_{\mathsf{u}}h$, which is the required
+greatestness clause for the selected $l$.
+
+In the same branch $\rho_{\mathsf{u}}(h,k)$, choose $l=h$. The exactness row in
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$; the displayed lower-bound clauses
+use reflexivity of $h$ and the comparison $h\le_{\mathsf{u}}k$. For every
+common lower bound $r$, the premise $r\le_{\mathsf{u}}h$ is exactly the
+required comparison from $r$ to $l$.
+
+In the strict-right branch $\mathsf{NatUnaryStrictPrefix}(k,h)$, choose $l=k$.
+Forgetting strictness gives $k\le_{\mathsf{u}}h$, and reflexivity gives
+$k\le_{\mathsf{u}}k$. For a common lower bound $r$, the second premise supplies
+$r\le_{\mathsf{u}}k$, so every common lower bound lies below the selected $l$.
+
+These three cases construct the carried selector and verify both lower-bound
+rows and the greatest-lower property.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix total-order branch transport]
 \label{thm:concrete-unary-prefix-totalorder-branch-transport}
 For carried unary histories $h,h',k,k'$ in
