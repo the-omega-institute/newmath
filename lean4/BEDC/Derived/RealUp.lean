@@ -478,6 +478,20 @@ theorem RealStreamClassifier_selected_continuation_e1_pair_readback
     RatHistoryClassifier_hsame_transport sameX sameY transported
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
 
+theorem RealStreamClassifier_selected_continuation_positive_denominators
+    {x y : Nat -> BHist} {n : Nat} {q xq yq : BHist} :
+    RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
+      PositiveUnaryDenominator xq ∧ PositiveUnaryDenominator yq := by
+  intro classified qUnary contX contY
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have continued :
+      RatHistoryClassifier (append (x n) q) (append (y n) q) :=
+    RatHistoryClassifier_append_unary_denominator_closed pointClassified qUnary
+      (hsame_refl q)
+  have transported : RatHistoryClassifier xq yq :=
+    RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
+  exact RatHistoryClassifier_positive_denominators transported
+
 theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat -> BHist}
     {n : Nat} :
     RealStreamClassifier x y ->

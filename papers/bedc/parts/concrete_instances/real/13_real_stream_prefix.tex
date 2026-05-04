@@ -394,6 +394,32 @@ sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_hsame\_e1\_pair\_readback}
 
+\begin{theorem}[Real stream classifier selected continuation positive denominators]
+\label{thm:real-stream-classifier-selected-continuation-positive-denominators}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, and continuation outputs $xq,yq$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then
+$$
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Close this rational classifier
+under the common unary suffix $q$, using reflexive suffix sameness. The two
+continuation displays identify the closed endpoints with $xq$ and $yq$.
+Transport the closed classifier across those displays and read the two positive
+denominators from the transported rational-history classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_positive\_denominators}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
