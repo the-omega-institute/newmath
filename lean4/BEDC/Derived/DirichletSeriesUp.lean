@@ -167,6 +167,19 @@ theorem DirichletPartSum_index_unary {term : BHist -> BHist -> BHist} {s n S : B
   | step _ _ ih =>
       exact unary_e1_closed ih
 
+theorem DirichletPartSum_successor_result_nonempty {term : BHist -> BHist -> BHist}
+    {s n S : BHist} :
+    (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty -> False) ->
+      DirichletPartSum term s (BHist.e1 n) S -> hsame S BHist.Empty -> False := by
+  intro termNonempty sum resultEmpty
+  cases sum with
+  | step previous stepContinuation =>
+      have emptyStep : Cont _ _ BHist.Empty :=
+        cont_result_hsame_transport stepContinuation resultEmpty
+      have emptyTerm : hsame (term n s) BHist.Empty :=
+        (cont_empty_result_inversion emptyStep).right
+      exact termNonempty (DirichletPartSum_index_unary previous) emptyTerm
+
 theorem DirichletPartSum_result_unary {term : BHist -> BHist -> BHist} {s n S : BHist}
     (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m s)) :
     DirichletPartSum term s n S -> UnaryHistory S := by

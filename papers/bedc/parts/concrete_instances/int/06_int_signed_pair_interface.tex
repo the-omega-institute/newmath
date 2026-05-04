@@ -119,6 +119,25 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairClassifier}
 
+\begin{theorem}[Integer pair classifier positive append context]
+\label{thm:int-pair-classifier-append-positive-context}
+If \(a,p,n,q,m:\mathsf{BHist}\), \(a\) is unary, and
+\(\mathsf{IntPairClassifier}((p,n),(q,m))\), then
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,p),n),(\mathsf{append}(a,q),m)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_append\_positive\_context}
+\begin{proof}
+Unpack the classifier into the two unary-pair carriers and the
+cross-addition comparison
+\(\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)\). Unary append closure puts
+\(\mathsf{append}(a,p)\) and \(\mathsf{append}(a,q)\) back in the carried
+positive counters. Prefix the cross-addition comparison by \(a\) and reassociate
+both sides by \(\mathsf{append\_assoc}\), yielding the displayed contextual
+classifier.
+\end{proof}
+
 \begin{theorem}[Integer difference-pair classifier equivalence fields]
 \label{thm:intup-difference-pair-classifier-equivalence-fields}
 On carried unary pairs, $\mathsf{IntPairClassifier}$ supplies the expected
@@ -435,4 +454,3 @@ $a\hsame b$, together with the supplied endpoint carriers and reflexivity of
 $\msame(s,s)$, gives the integer classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}
-
