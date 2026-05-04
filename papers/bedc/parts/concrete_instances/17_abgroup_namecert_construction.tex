@@ -469,6 +469,39 @@ two endpoint witnesses. Apply
 \autoref{thm:abgroup-centralizer-normalizer-orbit-collapse} in its reverse
 direction to package the required orbit witness $x\sim_{N_a}y$.
 \end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_total\_collapse\_from\_empty\_unit}
+
+\begin{theorem}[AbGroup total centralizer normalizer orbit fiber determinacy]
+\label{thm:abgroup-centralizer-normalizer-orbit-total-fiber-determinacy}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the
+$\GroupUp$ associativity, unit, multiplication-congruence, inverse-congruence,
+and two-sided inverse laws, plus $\AbGroupUp$ commutativity under $\hsame$, fix
+$a:\mathsf{BHist}$. Let $Z_a$, $N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be
+the centralizer, normalizer, action, and orbit relation from the existing
+centralizer-normalizer definitions. For all histories $x,y,z:\mathsf{BHist}$,
+$$
+x\sim_{N_a}y\land x\sim_{N_a}z \Longrightarrow \hsame(y,z).
+$$
+The ten-field fit is: traditional target abelian normalizer-orbit fiber
+determinacy over the whole carrier; BEDC source $\AbGroupUp$ plus the
+$\GroupUp$ normalizer orbit relation; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from total orbit collapse plus symmetry and transitivity
+of $\hsame$; ledger the two normalizer witnesses over one anchor; core theorem
+list \autoref{thm:abgroup-total-centralizer-normalizer-orbit-collapse} and the
+$\hsame$ equivalence laws; exactness predicate same-anchor orbit fibers
+collapse to one classifier class; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:abgroup-total-centralizer-normalizer-orbit-collapse} to the
+first orbit witness $x\sim_{N_a}y$ to obtain $\hsame(x,y)$. Apply the same
+collapse theorem to the second orbit witness $x\sim_{N_a}z$ to obtain
+$\hsame(x,z)$.
+
+The first comparison reverses by symmetry of $\hsame$, giving $\hsame(y,x)$.
+Transitivity of $\hsame$ composes $\hsame(y,x)$ with $\hsame(x,z)$ and yields
+the required classifier equality $\hsame(y,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_total\_fiber\_determinacy\_from\_empty\_unit}
 
 \begin{theorem}[AbGroup centralizer normalizer orbit fiber determinacy]
 \label{thm:abgroup-centralizer-normalizer-orbit-fiber-determinacy}
