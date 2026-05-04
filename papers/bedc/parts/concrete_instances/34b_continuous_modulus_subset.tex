@@ -1,0 +1,13 @@
+\begin{proposition}[Uniform modulus restriction along subset containment]
+\label{prop:uniform-modulus-restriction-subset-containment}
+Let \(Y\) and \(Z\) be certified \(\MetricSpaceUp\) objects with the metric data of \autoref{def:metric-carrier}. Let \(T\) and \(U\) be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, and let \(i:U\subseteq T\) be a certified inclusion. For a graph witness \(f:T\to Z\), let \(f\!\restriction_U\) be the same graph relation read with the source classifier restricted along \(i\). If a unary precision ledger \(\delta\) satisfies the modulus-validity field of \autoref{def:continuous-stability-certificate} for \(f\) over \(T\), then the same \(\delta\) satisfies that modulus-validity field for \(f\!\restriction_U\) over \(U\).
+\end{proposition}
+\begin{proof}
+Fix a target precision request and two source histories admitted by \(U\). The certified inclusion sends their source-membership ledgers to membership ledgers for \(T\):
+\[
+u_j\in U\Longrightarrow i(\nu_j)\in T\qquad(j=0,1).
+\]
+The graph relation, codomain classifier ledger, unary precision ledger, and modulus ledger are the same ledgers as in the witness over \(T\), as specified by \autoref{def:continuous-pattern-specification} and \autoref{def:continuous-ledger-policy}. Apply the modulus-validity field over \(T\) to the two transported source memberships. It returns the codomain metric conclusion at the requested target precision for the two graph outputs. The metric judgments are well formed and stable under classifier replacement by \autoref{def:metric-classifier-specification} and \autoref{def:metric-stability-certificate}.
+
+The restricted witness over \(U\) asks for exactly the same codomain conclusion, with only the source-admission hypotheses narrowed from \(T\) to \(U\). The totality and single-valuedness clauses from \autoref{def:continuous-carrier} license the same graph outputs, while no precision or modulus ledger is changed.
+\end{proof}

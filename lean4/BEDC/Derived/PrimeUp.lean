@@ -463,29 +463,29 @@ inductive NatFact : BHist -> BHist -> Prop where
   | succ {n m m' : BHist} : NatFact n m -> NatMul (BHist.e1 n) m m' ->
       NatFact (BHist.e1 n) m'
 
+theorem NatFact_input_unary {n m : BHist} : NatFact n m -> UnaryHistory n := by
+  intro fact
+  induction fact with | zero => exact unary_empty | succ _prev _mul ih => exact unary_e1_closed ih
+theorem NatFact_successor_inversion {n m' : BHist} :
+    NatFact (BHist.e1 n) m' -> exists m : BHist, NatFact n m ∧ NatMul (BHist.e1 n) m m' := by
+  intro fact
+  cases fact with | succ prev mul => exact ⟨_, prev, mul⟩
+
 theorem NatFact_result_not_empty {n m : BHist} :
     NatFact n m -> hsame m BHist.Empty -> False := by
   intro fact
   induction fact with
-  | zero =>
-      intro resultEmpty
-      exact not_hsame_e1_empty resultEmpty
+  | zero => exact fun resultEmpty => not_hsame_e1_empty resultEmpty
   | succ _prevFact mul ih =>
       intro resultEmpty
       cases resultEmpty
-      have previousEmpty : hsame _ BHist.Empty :=
-        Iff.mp
-          (NatMul_nonempty_multiplicand_empty_result_iff
-            (NatMul_left_unary mul) not_hsame_e1_empty)
-          mul
-      exact ih previousEmpty
+      exact ih (Iff.mp
+        (NatMul_nonempty_multiplicand_empty_result_iff (NatMul_left_unary mul) not_hsame_e1_empty)
+        mul)
 
 theorem NatFact_result_unary {n m : BHist} : NatFact n m -> UnaryHistory m := by
   intro fact
-  induction fact with
-  | zero =>
-      exact unary_e1_closed unary_empty
-  | succ _previous mul _ih =>
+  induction fact with | zero => exact unary_e1_closed unary_empty | succ _previous mul _ih =>
       exact NatMul_result_unary (NatMul_left_unary mul) mul
 
 theorem NatFact_total_functional {n : BHist} :

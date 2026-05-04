@@ -285,6 +285,51 @@ final continuation row.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_succ\_right\_exponent\_factorization\_iff}
 
+\begin{theorem}[Prime scale append successor left factorization]
+\label{thm:padic-prime-scale-append-succ-left-factorization}
+For unary histories $w$ and $q$, a prime scale over
+$\mathsf{append}(\Eone(w),q)$ is exactly a predecessor left prime-scale result
+over $w$, a one-step continuation by the prime base, a right prime-scale
+result over $q$, and the final continuation from the successor left result:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(w),q),r)
+\Longleftrightarrow
+\exists n,e,s.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\ContR(n,p,s)\land
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\ContR(s,e,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply append-exponent decomposition to the scale over
+$\mathsf{append}(\Eone(w),q)$. The left factor is then inverted by the
+successor-exponent factorization theorem, producing the predecessor scale over
+$w$ and the continuation by $p$. Conversely, rebuild the left successor scale
+from that predecessor row and apply append continuation closure with the
+right scale and final continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_succ\_left\_exponent\_factorization\_iff}
+
+\begin{theorem}[Prime scale append unit right factorization]
+\label{thm:padic-prime-scale-append-unit-right-factorization}
+For unary $w$, a prime scale over $\mathsf{append}(w,\Eone(\emp))$ is exactly a
+left prime-scale result over $w$ followed by continuation with the prime base:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),r)
+\Longleftrightarrow
+\exists n.\,\mathsf{PadicPrimeScale}(p,w,n)\land\ContR(n,p,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction decomposes the appended exponent and then applies the unit
+exponent readback theorem, replacing the right factor result by the prime base.
+Conversely, the empty exponent scale gives the unit successor scale by the
+successor factorization theorem, and append continuation closure combines it
+with the left scale and the displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_factorization\_iff}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of

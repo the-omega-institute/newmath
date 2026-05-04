@@ -316,6 +316,19 @@ theorem AdeleRealStreamPrefix_long_prefix_visible_scale_result_nonempty {x y : N
     AdeleHistoryCarrier_visible_scale_result_nonempty realCarrier scale
   exact And.intro prefixAtN visibleScale
 
+theorem AdeleRealStreamPrefix_long_prefix_visible_scale_cont_result_nonempty {x y : Nat -> BHist}
+    {n m : Nat} {denTail imagTail exponent result k out : BHist} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      hsame (x n) (BHist.e1 (BHist.e1 denTail)) -> hsame (y n) (BHist.e1 imagTail) ->
+        PadicPrimeScale (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 exponent) result ->
+          Cont (append (BHist.e1 (BHist.e1 denTail)) result) k out ->
+            hsame out BHist.Empty -> False := by
+  intro classified sameReal sameImag scale continuation outEmpty
+  have visibleScale :=
+    AdeleRealStreamPrefix_long_prefix_visible_scale_result_nonempty
+      classified sameReal sameImag scale
+  exact AdeleHistoryCarrier_cont_result_nonempty visibleScale.right.left continuation outEmpty
+
 theorem AdeleRealStreamPrefix_long_prefix_visible_scale_append_not_empty {x y : Nat -> BHist}
     {n m : Nat} {denTail imagTail exponent result : BHist} :
     RealStreamPrefixClassifier x y (m + n) ->

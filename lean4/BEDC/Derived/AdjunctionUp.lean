@@ -286,6 +286,19 @@ theorem AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty
         cont_result_hsame_transport data.right resultEmpty
       exact (cont_empty_result_inversion emptyContinuation).left
 
+theorem AdjunctionUnitCounitAlternating_positive_depth_visible_unit_continuation_empty_result_absurd {unit counit depth y r : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      (Cont (AdjunctionUnitCounitAlternating (BHist.e0 unit) counit depth) y r -> hsame r BHist.Empty -> False) ∧
+      (Cont (AdjunctionUnitCounitAlternating (BHist.e1 unit) counit depth) y r -> hsame r BHist.Empty -> False) := by
+  intro depthUnary depthNonempty
+  exact And.intro
+    (fun continuation resultEmpty => not_hsame_e0_empty
+      (AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty depthUnary depthNonempty
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+    (fun continuation resultEmpty => not_hsame_e1_empty
+      (AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty depthUnary depthNonempty
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔
@@ -581,5 +594,18 @@ theorem AdjunctionUnitCounitCarrier_right_cycle_empty_components_iff
         (And.intro swapped.left.left
           (And.intro swapped.left.right.right.right swapped.left.right.right.left))
     exact And.intro carrier swapped.right
+
+theorem AdjunctionTriangleCarrier_roundtrip_empty_component_prefix_readback
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      hsame leftLeg BHist.Empty -> hsame rightLeg BHist.Empty ->
+        hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left right := by
+  intro carrier leftEmpty rightEmpty
+  have components :=
+    (AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty carrier).mp
+      (And.intro leftEmpty rightEmpty)
+  exact And.intro components.left
+    (And.intro components.right
+      (AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic carrier leftEmpty rightEmpty))
 
 end BEDC.Derived.AdjunctionUp
