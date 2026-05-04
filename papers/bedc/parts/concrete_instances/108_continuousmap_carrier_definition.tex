@@ -323,6 +323,55 @@ $\hsame(distance',
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_prefix\_canonical\_distance\_deterministic}
 
+\begin{theorem}[ContinuousMap prefixed carrier canonical distance exactness]
+\label{thm:continuousmap-prefix-canonical-distance-exactness}
+For histories
+$p,source,map,target,modulus,cert,distance,distance':\mathsf{BHist}$, if
+$\mathsf{UnaryHistory}(p)$ and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$,
+then the prefixed continuous-map carrier is equivalent to the displayed
+canonical prefixed distance classifier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),distance')\\
+\Longleftrightarrow
+\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-determinacy} to the
+unary prefix, the original carrier, and the displayed prefixed carrier. This
+identifies $distance'$ with the canonical prefixed source-target ledger.
+
+Conversely, first build the canonical prefixed carrier by applying
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+$\mathsf{UnaryHistory}(p)$ and the original continuous-map carrier. Project
+its continuous-function half.
+
+Now apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-exactness} in the
+reverse direction to that continuous-function half and the displayed
+classifier
+$\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target)))$.
+This repacks the prefixed continuous-function data with the arbitrary
+displayed distance ledger $distance'$.
+
+The ten-field fit is: traditional target prefixed continuous-map distance
+normalization; BEDC source $\mathsf{ContinuousMapCarrier}$,
+$\mathsf{ContinuousFunctionCarrier}$, $\mathsf{MetricDistanceWitness}$, and
+$\ContR$; carrier $\mathsf{ContinuousMapCarrier}$; classifier $\hsame$;
+stability from prefix closure, distance determinacy, and canonical distance
+exactness; ledger the hidden prefixed distance history; core theorem this iff;
+exactness the displayed iff; downstream use compact-continuous map endpoint
+and composition normalization; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
 \label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
 For histories $source$, $target$, $modulus$, and $cert$, if
