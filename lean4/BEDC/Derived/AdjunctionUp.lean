@@ -582,4 +582,17 @@ theorem AdjunctionUnitCounitCarrier_right_cycle_empty_components_iff
           (And.intro swapped.left.right.right.right swapped.left.right.right.left))
     exact And.intro carrier swapped.right
 
+theorem AdjunctionTriangleCarrier_roundtrip_empty_component_prefix_readback
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      hsame leftLeg BHist.Empty -> hsame rightLeg BHist.Empty ->
+        hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left right := by
+  intro carrier leftEmpty rightEmpty
+  have components :=
+    (AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty carrier).mp
+      (And.intro leftEmpty rightEmpty)
+  exact And.intro components.left
+    (And.intro components.right
+      (AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic carrier leftEmpty rightEmpty))
+
 end BEDC.Derived.AdjunctionUp
