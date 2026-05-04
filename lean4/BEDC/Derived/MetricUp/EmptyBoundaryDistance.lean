@@ -30,6 +30,18 @@ theorem MetricDistanceWitness_visible_context_empty_distance_witness_splice
   exact And.intro lCarrier
     (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
 
+theorem MetricDistanceWitness_visible_context_empty_distance_continuation_witness_depth
+    {p q x y l r mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l x mid -> Cont mid r out ->
+        MetricDistanceWitness l r out ∧
+          MetricDistanceDepth out = MetricDistanceDepth l + MetricDistanceDepth r := by
+  intro visible lCarrier rCarrier leftCont rightCont
+  have witness : MetricDistanceWitness l r out :=
+    MetricDistanceWitness_visible_context_empty_distance_witness_splice visible lCarrier rCarrier
+      leftCont rightCont
+  exact And.intro witness (MetricDistanceWitness_depth_add witness)
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_distance_empty {p q d : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
       (append (append p d) q) -> hsame d BHist.Empty ∧ MetricDistanceDepth d = 0 := by

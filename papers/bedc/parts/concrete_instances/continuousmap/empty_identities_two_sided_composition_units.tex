@@ -1,13 +1,13 @@
-\begin{theorem}[ContinuousMap empty identities are two-sided composition units]
-\label{thm:continuousmap-empty-identities-two-sided-composition-units}
+\begin{theorem}[ContinuousMap empty identity carriers]
+\label{thm:continuousmap-empty-identity-carriers}
 For histories
-$source,target,map,modulus,cert,distance,displayed_L,displayed_R:\mathsf{BHist}$,
+$source,target,map,modulus,cert,distance:\mathsf{BHist}$,
 assume
 $$
 \mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
 $$
 Then the empty-map identities at the source and target are continuous-map
-carriers, and they are two-sided units for composition:
+carriers:
 \begin{enumerate}
 \item the source identity carrier is
 $$
@@ -20,6 +20,37 @@ $$
 \mathsf{ContinuousMapCarrier}
 (target,\emp,target,\emp,target,\mathsf{append}(target,target));
 $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the continuous-function carrier from the given
+$\mathsf{ContinuousMapCarrier}$. Its fields supply unary endpoint data and the
+certificate continuation $\ContR(target,modulus,cert)$.
+
+For the source identity, use the unary source field and the left-unit
+continuation $\ContR(source,\emp,source)$ to form
+$\mathsf{ContinuousModulusWitness}(source,\emp,source)$. Apply
+Theorem~\ref{thm:continuous-function-carrier-empty-map-identity}, then package
+the canonical distance by
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff}.
+
+For the target identity, the same construction uses the unary target field and
+the left-unit continuation $\ContR(target,\emp,target)$. The empty-map identity
+theorem builds the continuous-function carrier at $target$, and canonical
+distance packaging gives the displayed target identity carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_identities\_closed}
+
+\begin{theorem}[ContinuousMap empty identities are two-sided composition units]
+\label{thm:continuousmap-empty-identities-two-sided-composition-units}
+For histories
+$source,target,map,modulus,cert,distance,displayed_L,displayed_R:\mathsf{BHist}$,
+assume
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+Then the empty-map identities are two-sided units for composition:
+\begin{enumerate}
 
 \item composing the source identity on the left with the displayed carrier,
 using
@@ -56,21 +87,9 @@ $$
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-Project the continuous-function carrier from the given
-$\mathsf{ContinuousMapCarrier}$. Its fields supply unary endpoint data and the
-certificate continuation $\ContR(target,modulus,cert)$.
-
-For the source identity, use the unary source field and the left-unit
-continuation $\ContR(source,\emp,source)$ to form
-$\mathsf{ContinuousModulusWitness}(source,\emp,source)$. Apply
-Theorem~\ref{thm:continuous-function-carrier-empty-map-identity}, then package
-the canonical distance by
-Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff}.
-
-For the target identity, the same construction uses the unary target field and
-the left-unit continuation $\ContR(target,\emp,target)$. The empty-map identity
-theorem builds the continuous-function carrier at $target$, and canonical
-distance packaging gives the displayed target identity carrier.
+Apply Theorem~\ref{thm:continuousmap-empty-identity-carriers} to the displayed
+carrier. This supplies the source and target empty identity carriers used as the
+unit factors.
 
 Now apply Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the source
 identity carrier and the displayed carrier, with the BEDC left-unit laws
@@ -89,7 +108,6 @@ composite presentation. Comparing any displayed left or right unit-composite
 distance with the corresponding canonical composite identifies it by $\hsame$
 with $\mathsf{append}(source,target)$.
 \end{proof}
-\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_identities\_closed}
 
 \begin{theorem}[ContinuousMap identity carrier distance determinacy]
 \label{thm:continuousmap-identity-carrier-distance-determinacy}
@@ -116,7 +134,7 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:continuousmap-empty-identities-two-sided-composition-units}
+Apply Theorem~\ref{thm:continuousmap-empty-identity-carriers}
 to the given continuous-map carrier. Project its source-identity row to obtain
 the canonical carrier
 $\mathsf{ContinuousMapCarrier}(source,\emp,source,\emp,source,\mathsf{append}(source,source))$.
