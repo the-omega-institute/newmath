@@ -86,6 +86,27 @@ the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
 
+\begin{theorem}[Real stream prefix classifier truncation]
+\label{thm:real-stream-prefix-classifier-truncation}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+any prefix classifier through $m+n$ restricts to the prefix classifier through
+$n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the source prefix is already the target prefix, since
+$0+n=n$.
+
+At a successor $m+1$, the recursive definition of
+$\mathsf{RealStreamPrefixClassifier}(x,y,(m+1)+n)$ exposes its left component,
+which is the classified prefix through $m+n$. Apply the induction hypothesis to
+this exposed prefix to obtain the classified prefix through $n$.
+\end{proof}
+
 \begin{lemma}[Real stream prefix previous classifier with unary anchor]
 \label{lem:real-stream-prefix-previous-with-unary}
 For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then every successor finite-prefix classifier contains both the previous prefix classifier and the unary anchor at the previous left endpoint:
