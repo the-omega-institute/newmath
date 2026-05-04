@@ -74,6 +74,30 @@ theorem ComplexHistoryCarrier_positive_components {h : BHist} :
                               (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
                                 imagCarrier))))))
 
+theorem ComplexHistoryCarrier_component_reflexive_classifiers {h : BHist} :
+    ComplexHistoryCarrier h ->
+      exists real : BHist, exists imag : BHist,
+        And (RatUp.RatHistoryClassifier real real)
+          (And (RatUp.RatHistoryClassifier imag imag) (Cont real imag h)) := by
+  intro carrier
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  exact Exists.intro real
+                    (Exists.intro imag
+                      (And.intro
+                        (And.intro realCarrier
+                          (And.intro realCarrier (hsame_refl real)))
+                        (And.intro
+                          (And.intro imagCarrier
+                            (And.intro imagCarrier (hsame_refl imag)))
+                          cont)))
+
 theorem ComplexHistoryClassifier_e0_endpoint_absurd {tail h : BHist} :
     (ComplexHistoryClassifier (BHist.e0 tail) h -> False) /\
       (ComplexHistoryClassifier h (BHist.e0 tail) -> False) := by
@@ -163,6 +187,16 @@ theorem ComplexHistoryCarrier_not_empty {h : BHist} :
                   have emptyParts :=
                     cont_empty_result_inversion (cont_result_hsame_transport cont sameEmpty)
                   exact RatUp.RatHistoryCarrier_not_empty realCarrier emptyParts.left
+
+theorem ComplexHistoryClassifier_empty_endpoint_absurd {h k : BHist} :
+    ComplexHistoryClassifier h k ->
+      And (hsame h BHist.Empty -> False) (hsame k BHist.Empty -> False) := by
+  intro classified
+  constructor
+  · intro leftEmpty
+    exact ComplexHistoryCarrier_not_empty classified.left leftEmpty
+  · intro rightEmpty
+    exact ComplexHistoryCarrier_not_empty classified.right.left rightEmpty
 
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
