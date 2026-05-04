@@ -183,3 +183,140 @@ theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
 exactness; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \leanchecked{BEDC.Derived.RingUp.ring\_additive\_difference\_zero\_exact}
+
+\begin{definition}[Opposite ring certificate data]
+\label{def:opposite-ring-certificate-data}
+Let $C$ carry a $\RingUp(C)$ certificate with classifier $\sim_C$, addition
+$+_C$, zero $0_C$, additive inverse operation $-_C$, multiplication $\cdot_C$,
+and multiplicative identity $1_C$. Define the reversed multiplication by
+$$
+a\cdot_C^{\mathrm{op}} b:=b\cdot_C a.
+$$
+The opposite ring data $C^{\mathrm{op}}$ have the same carrier $C$, the same
+classifier $\sim_C$, the same addition $+_C$, the same zero $0_C$, the same
+additive inverse operation $-_C$, the same multiplicative identity $1_C$, and
+multiplication $\cdot_C^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite ring certificate]
+\label{thm:opposite-ring-certificate}
+If the displayed data on $C$ satisfy the $\RingUp(C)$ certificate obligations,
+then the data of \autoref{def:opposite-ring-certificate-data} also satisfy the
+$\RingUp(C)$ certificate obligations. Thus the same carrier, additive
+structure, multiplicative identity, and classifier carry a ring certificate with
+multiplication $\cdot_C^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+Unpack the $\RingUp(C)$ obligations through
+\autoref{def:ring-certificate-obligations}. The carrier row is unchanged by
+\autoref{def:ring-carrier}. The carrier-and-classifier core is the same
+$\NameCert$ data, so classifier reflexivity, symmetry, transitivity, and
+carrier transport are copied from \autoref{def:lean-carrier-naming-certificate}.
+
+The additive source required by \autoref{def:ring-source-specification} is
+unchanged: the $\AbGroupUp$ carrier uses the same $+_C$, $0_C$, $-_C$, and
+$\sim_C$, with the same additive stability and ledger rows. It remains to read
+the multiplicative source as a $\MonoidUp$ certificate for
+$\cdot_C^{\mathrm{op}}$. Closure follows from the original multiplication
+closure applied to the ordered pair $(b,a)$. The opposite left identity row is
+$$
+1_C\cdot_C^{\mathrm{op}}a=a\cdot_C1_C\sim_C a,
+$$
+which is the original right identity row. The opposite right identity row is
+$$
+a\cdot_C^{\mathrm{op}}1_C=1_C\cdot_Ca\sim_C a,
+$$
+which is the original left identity row. For associativity, the two opposite
+bracketings unfold to
+$$
+(a\cdot_C^{\mathrm{op}}b)\cdot_C^{\mathrm{op}}c
+=c\cdot_C(b\cdot_Ca),
+\qquad
+ a\cdot_C^{\mathrm{op}}(b\cdot_C^{\mathrm{op}}c)
+=(c\cdot_Cb)\cdot_Ca.
+$$
+The associativity-under-classifier row in
+\autoref{def:monoid-stability-certificate}, applied to the original
+multiplication at the triple $(c,b,a)$, supplies
+$$
+(c\cdot_Cb)\cdot_Ca\sim_C c\cdot_C(b\cdot_Ca).
+$$
+Classifier symmetry gives the orientation
+$c\cdot_C(b\cdot_Ca)\sim_C(c\cdot_Cb)\cdot_Ca$ needed to compare the two
+unfolded opposite bracketings. Multiplication congruence for
+$\cdot_C^{\mathrm{op}}$ is the original multiplication congruence with the two
+input comparisons supplied in exchanged order. These are precisely the monoid
+stability rows of \autoref{def:monoid-stability-certificate}, hence the
+multiplicative source satisfies \autoref{def:monoid-certificate-obligations}.
+
+The pattern row of \autoref{def:ring-pattern-specification} is unchanged except
+that the multiplication node is interpreted by $\cdot_C^{\mathrm{op}}$. The
+classifier row of \autoref{def:ring-classifier-specification} is unchanged for
+addition, and the preceding paragraph supplies congruence for the reversed
+multiplication.
+
+For left distributivity in the opposite data, unfold the reversed product and
+use original right distributivity:
+$$
+a\cdot_C^{\mathrm{op}}(b+_C c)
+=(b+_C c)\cdot_C a
+\sim_C
+(b\cdot_C a)+_C(c\cdot_C a)
+=(a\cdot_C^{\mathrm{op}}b)+_C(a\cdot_C^{\mathrm{op}}c).
+$$
+For right distributivity in the opposite data, unfold the reversed product and
+use original left distributivity:
+$$
+(a+_C b)\cdot_C^{\mathrm{op}}c
+=c\cdot_C(a+_C b)
+\sim_C
+(c\cdot_C a)+_C(c\cdot_C b)
+=(a\cdot_C^{\mathrm{op}}c)+_C(b\cdot_C^{\mathrm{op}}c).
+$$
+The two zero multiplication rows are exchanged in the same way:
+$0_C\cdot_C^{\mathrm{op}}a=a\cdot_C0_C$ is the original right-zero row, and
+$a\cdot_C^{\mathrm{op}}0_C=0_C\cdot_Ca$ is the original left-zero row.
+Together with the copied additive laws and congruence rows, these are exactly
+the stability fields listed in \autoref{def:ring-stability-certificate}.
+
+Finally, the ledger policy of \autoref{def:ring-ledger-policy} uses the same
+carrier witnesses and the same additive operation trees. A multiplication node
+with opposite inputs $(a,b)$ records the original multiplication ledger for
+$(b,a)$. Therefore the carrier, source, pattern, classifier, stability, and
+ledger rows all satisfy the $\RingUp(C)$ certificate obligations for the
+opposite ring data.
+\end{proof}
+
+\begin{theorem}[Ring negation classifier exactness]
+\label{thm:ring-negation-classifier-exactness}
+For BEDC history addition and negation satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, and additive
+inverse congruence, every $x,y:\mathsf{BHist}$ satisfies
+$$
+-x\hsame -y \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive inverse injectivity in a
+ring; BEDC source $\RingUp$ over $\mathsf{BHist}$ with the additive
+$\GroupUp$ cancellation spine cited by
+\autoref{thm:ring-additive-difference-zero-exact}; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from addition congruence and additive inverse
+congruence; ledger the two negated endpoints; core theorem this theorem;
+exactness the displayed iff; standard bridge ordinary ring additive inverse
+injectivity; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $-x\hsame -y$. By classifier symmetry, $-y\hsame -x$.
+Addition congruence, with reflexivity on the left summand $x$, transports this
+to
+$$
+x+(-y)\hsame x+(-x).
+$$
+The right-inverse law of \autoref{thm:ring-add-right-inverse} gives
+$x+(-x)\hsame0$, so transitivity gives $x+(-y)\hsame0$. The forward direction
+of \autoref{thm:ring-additive-difference-zero-exact} then yields
+$x\hsame y$.
+
+Conversely, assume $x\hsame y$. The additive inverse congruence field
+transports this classifier witness directly across negation, giving
+$-x\hsame -y$.
+\end{proof}
