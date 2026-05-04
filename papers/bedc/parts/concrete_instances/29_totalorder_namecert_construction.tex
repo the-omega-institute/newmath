@@ -446,6 +446,70 @@ implications are therefore precisely the transitivity fields for
 $\mathsf{lt}_{\mathsf{u}}$ and $\mathsf{gt}_{\mathsf{u}}$.
 \end{proof}
 
+\begin{theorem}[Concrete unary total-order branch context equivalence]
+\label{thm:totalorder-branch-two-sided-context-equivalence}
+Let $h,k,\ell,r$ be unary histories in
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$, and set
+$$
+H:=\mathsf{append}(\ell,\mathsf{append}(h,r)),
+\qquad
+K:=\mathsf{append}(\ell,\mathsf{append}(k,r)).
+$$
+Then $H$ and $K$ are carried unary histories, and the three comparison branches
+of \autoref{def:concrete-unary-prefix-totalorder-instance} are invariant under
+this common two-sided unary context:
+\begin{enumerate}
+  \item $\mathsf{lt}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{lt}_{\mathsf{u}}(h,k)$.
+  \item $\mathsf{same}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{same}_{\mathsf{u}}(h,k)$.
+  \item $\mathsf{gt}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{gt}_{\mathsf{u}}(h,k)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unary closure under append first gives
+$\mathsf{UnaryHistory}(\mathsf{append}(h,r))$ and
+$\mathsf{UnaryHistory}(\mathsf{append}(k,r))$. Applying the same closure once
+more with the unary left context $\ell$ gives the carrier facts for $H$ and $K$.
+
+For the same branch, unfold
+$\mathsf{same}_{\mathsf{u}}:=\rho_{\mathsf{u}}$. By
+\autoref{thm:poset-prefix-classifier-exactness}, the classifier on carried
+unary histories is equivalent to the pair of opposing prefix comparisons.
+Apply \autoref{thm:preorder-prefix-append-both-context-iff} to the comparison
+$H\le_{\mathsf{u}}K$ and again to $K\le_{\mathsf{u}}H$; the two applications
+identify the contextual pair of prefix comparisons exactly with
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$. A second use of
+\autoref{thm:poset-prefix-classifier-exactness} repacks these comparisons as
+$\rho_{\mathsf{u}}(h,k)$.
+
+For the strict-left branch, unfold
+$\mathsf{lt}_{\mathsf{u}}$ as
+$\mathsf{NatUnaryStrictPrefix}$. In the forward direction from
+$\mathsf{NatUnaryStrictPrefix}(h,k)$, unpack the nonempty unary tail from $h$ to
+$k$. Right-context preservation composes this tail past $r$ by continuation
+associativity and unary-tail commutativity; left-context preservation then
+places $\ell$ outside both endpoints. The tail remains the same nonempty unary
+tail, so the result is $\mathsf{NatUnaryStrictPrefix}(H,K)$.
+
+For the reverse strict-left direction, unpack the nonempty unary tail from $H$
+to $K$. Its underlying prefix comparison cancels through
+\autoref{thm:preorder-prefix-cancel-both-context}, leaving a prefix comparison
+from $h$ to $k$. If the recovered central tail were empty, append-empty
+exactness would collapse $h$ and $k$, hence also $H$ and $K$ after the common
+unary context. Comparing that collapse with the original strict contextual tail
+would force the original tail empty, contradicting its strictness. Thus the
+central prefix tail is nonempty and gives
+$\mathsf{NatUnaryStrictPrefix}(h,k)$.
+
+The strict-right branch is the same argument with endpoints reversed, since
+$\mathsf{gt}_{\mathsf{u}}(x,y)$ unfolds to
+$\mathsf{NatUnaryStrictPrefix}(y,x)$. Applying the strict-left preservation and
+reflection just proved to the ordered pair $(k,h)$ gives the displayed
+equivalence for $\mathsf{gt}_{\mathsf{u}}$.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
 \label{thm:concrete-unary-prefix-totalorder-namecert}
 The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance} supplies
