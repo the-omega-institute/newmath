@@ -322,6 +322,18 @@ theorem RatHistoryLedgerPolicy_e1_tail_classifier_saturation {rho v t : BHist} :
             exact PositiveUnaryDenominator_e1_iff_unary.mp
               (RatHistoryClassifier_positive_denominators classified).left
 
+theorem RatHistoryLedgerPolicy_one_tail_classifier_saturation {rho v t : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho (BHist.e1 t) <->
+        RatHistoryClassifier v (BHist.e1 t)) ∧
+        (RatHistoryClassifier (BHist.e1 t) rho <->
+          RatHistoryClassifier (BHist.e1 t) v) ∧
+          PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+            (RatHistoryClassifier v (BHist.e1 t) -> UnaryHistory t) ∧
+              (RatHistoryClassifier (BHist.e1 t) v -> UnaryHistory t) := by
+  intro ledger
+  exact RatHistoryLedgerPolicy_e1_tail_classifier_saturation ledger
+
 theorem RatHistoryLedgerPolicy_classifier_saturation_unary_package {rho v w : BHist} :
     RatHistoryLedgerPolicy rho v ->
       (RatHistoryClassifier rho w ∨ RatHistoryClassifier v w ∨

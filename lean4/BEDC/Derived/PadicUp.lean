@@ -67,6 +67,39 @@ theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
   intro left right continuation
   exact And.intro left.left (NatMul_append_cont left.right right.right continuation)
 
+theorem PadicNatMul_append_exponent_decomposition {d w q r : BHist} :
+    UnaryHistory d -> UnaryHistory w -> UnaryHistory q -> NatMul d (append w q) r ->
+      ∃ n : BHist, ∃ e : BHist, NatMul d w n ∧ NatMul d q e ∧ Cont n e r := by
+  intro unaryD unaryW unaryQ mul
+  induction q generalizing r with
+  | Empty =>
+      exact
+        Exists.intro r
+          (Exists.intro BHist.Empty
+            (And.intro mul (And.intro (NatMul.zero unaryD) (cont_right_unit r))))
+  | e0 tail _ih =>
+      cases unaryQ
+  | e1 tail ih =>
+      have tailUnary : UnaryHistory tail := unaryQ
+      have split := NatMul_succ_inversion mul
+      cases split with
+      | intro part partData =>
+          have decomposed := ih tailUnary partData.left
+          cases decomposed with
+          | intro n leftData =>
+              cases leftData with
+              | intro e rightData =>
+                  have rightStep : NatMul d (BHist.e1 tail) (append e d) :=
+                    NatMul.succ rightData.right.left (cont_intro rfl)
+                  have joined : Cont n (append e d) r := by
+                    cases rightData.right.right
+                    cases partData.right
+                    exact cont_intro (append_assoc n e d)
+                  exact
+                    Exists.intro n
+                      (Exists.intro (append e d)
+                        (And.intro rightData.left (And.intro rightStep joined)))
+
 theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r' -> hsame r r' := by
@@ -130,6 +163,25 @@ theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail 
         (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
         resultEmpty
     exact not_hsame_e1_empty emptyParts.left
+
+theorem PadicPrimeScale_append_visible_right_exponent_result_nonempty {p w n e r tail : BHist} :
+    (PadicPrimeScale p w n -> PadicPrimeScale p (BHist.e0 tail) e -> Cont n e r ->
+      hsame r BHist.Empty -> False) ∧
+    (PadicPrimeScale p w n -> PadicPrimeScale p (BHist.e1 tail) e -> Cont n e r ->
+      hsame r BHist.Empty -> False) := by
+  constructor
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e0_empty emptyParts.right
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e1_empty emptyParts.right
 
 theorem PadicPrimeScale_visible_exponent_result_nonempty {p result tail : BHist} :
     (PadicPrimeScale p (BHist.e0 tail) result -> hsame result BHist.Empty -> False) ∧

@@ -84,4 +84,59 @@ theorem CompactLocatedRefinementChain_continuation_witness
                                           (And.intro locatedFinal
                                             (And.intro intermediateFinal compactRel)))
 
+theorem CompactLocatedRefinementChain_final_compact_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact
+      finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+        CompactLocatedRefinementChain finite located intermediate compact finalLocated
+          finalIntermediate finalCompact' ->
+          hsame finalCompact finalCompact' := by
+  intro initialCompact leftChain rightChain
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases leftData with
+      | intro _leftExtraCarrier leftRels =>
+          cases leftRels with
+          | intro _leftLocatedRel leftRest =>
+              cases leftRest with
+              | intro _leftIntermediateRel leftFinalRel =>
+                  cases rightWitness with
+                  | intro rightExtra rightData =>
+                      cases rightData with
+                      | intro _rightExtraCarrier rightRels =>
+                          cases rightRels with
+                          | intro _rightLocatedRel rightRest =>
+                              cases rightRest with
+                              | intro _rightIntermediateRel rightFinalRel =>
+                                  exact cont_deterministic leftFinalRel rightFinalRel
+
+theorem CompactFiniteRefinementChain_common_source_final_finite_deterministic
+    {finite compact finalFinite finalCompact finalFinite' finalCompact' : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      CompactFiniteRefinementChain finite compact finalFinite' finalCompact' ->
+        hsame finalFinite finalFinite' ->
+          (∃ extra : BHist,
+            UnaryHistory extra ∧ Cont finite extra finalFinite ∧ Cont compact extra finalCompact) ∧
+            hsame finalCompact finalCompact' := by
+  intro leftChain rightChain sameFinite
+  have leftWitness := CompactFiniteRefinementChain_continuation_witness leftChain
+  have rightWitness := CompactFiniteRefinementChain_continuation_witness rightChain
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameFinite
+            exact cont_left_cancel leftData.right.left rightData.right.left
+          have sameCompact : hsame finalCompact finalCompact' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.right rightData.right.right
+          exact And.intro (Exists.intro leftExtra leftData) sameCompact
+
 end BEDC.Derived.CompactUp
