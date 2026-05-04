@@ -299,6 +299,55 @@ core theorem this block; exactness the displayed conjunction; standard bridge
 positivity of rational denominators inside equal transported real observations;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier transported selected e-one denominator package]
+\label{thm:real-stream-classifier-transported-selected-e1-denominator-package}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)\land
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n)).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-full-readback-package}
+under the two pointwise transport rows, the source RealUp stream classifier, and
+the two selected e-one seals. This gives the endpoint classifier
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$ together with the unary tail
+readback
+$\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
+
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-positive-denominator-package}
+under the same two pointwise transport rows and the same source RealUp stream
+classifier. This gives the selected transported endpoint classifier together
+with the positive-denominator witnesses for $x'(n)$ and $y'(n)$.
+
+Keep the endpoint classifier and unary-tail readback from the e-one package, and
+keep the two denominator witnesses from the denominator package. Combining these
+conjuncts gives exactly the displayed selected transported rational observation
+package.
+\end{proof}
+
+Fit: traditional target selected transported rational observation package for
+RealUp; BEDC source RatUp plus StreamNameUp-shaped RealUp streams; carrier
+rational-observation streams; classifiers RealStreamClassifier and
+RatHistoryClassifier; stability transported prefix readback plus
+positive-denominator exposure; ledger selected observation index, two transport
+rows, and two e-one seals; core theorem this block; exactness the displayed
+conjunction; downstream use by the RealUp dyadic embedding certificate; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier unary denominator context closure]
 \label{thm:real-stream-classifier-unary-denominator-context-closed}
 For rational-observation streams
