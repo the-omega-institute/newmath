@@ -84,6 +84,31 @@ theorem commring_zero_linear_factor_commuted_signed_product_zero
   | inr minusBranch =>
       exact (minusBranch.right (add a b)).left
 
+theorem commring_zero_linear_factor_signed_product_zero
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b : BHist} :
+    (hsame (add a b) BHist.Empty ∨ hsame (add a (neg b)) BHist.Empty) ->
+      hsame (mul (add a b) (add a (neg b))) BHist.Empty := by
+  intro zeroFactor
+  have branches :=
+    commring_zero_linear_factor_annihilator_branch addAssoc zeroLeft negLeft addCongr
+      mulComm mulCongr leftDistrib (a := a) (b := b) zeroFactor
+  cases branches with
+  | inl plusBranch =>
+      exact (plusBranch.right (add a (neg b))).left
+  | inr minusBranch =>
+      exact (minusBranch.right (add a b)).right
+
 theorem commring_zero_linear_factor_equal_squares {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
