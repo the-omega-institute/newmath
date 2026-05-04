@@ -157,3 +157,31 @@ Conversely, assume the quotient-representative $\Quot$-soundness principle of \a
 
 The two directions only rename the same accepted data: a quotient type, a projection, and a representative selector. Thus the type-stratum instance of meta closure and the quotient-representative $\Quot$-soundness principle are the same schematic move. The BEDC replacement in \autoref{def:three-axioms-replacement-quot} refuses the selector $\rho$ and keeps classifier-respecting $\psame$-transport instead.
 \end{proof}
+
+\begin{definition}[Proposition-stratum propext closure]
+\label{def:proposition-stratum-propext-closure}
+For propositions $P,Q:\mathsf{Prop}$, a \emph{proposition-stratum closure datum} is a bidirectional implication
+$$
+b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P).
+$$
+The \emph{proposition-stratum propext closure schema} is the following instance of \autoref{def:three-axioms-meta-closure-operation}: from such a datum, with no displayed constructor-level inhabitant of the identity proposition $P=Q$, accept the identity proposition as inhabited by supplying an equality token
+$$
+\varepsilon_{P,Q}:P=Q.
+$$
+The token is then available as input to later proposition-stratum constructions by rewrite transport in every proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$.
+\end{definition}
+
+\begin{theorem}[Propext is proposition-stratum meta closure]
+\label{thm:propext-proposition-stratum-meta-closure}
+The proposition-stratum propext closure schema of \autoref{def:proposition-stratum-propext-closure} is equivalent to the propositional extensionality principle of \autoref{ex:three-axioms-propext}:
+$$
+\forall P,Q:\mathsf{Prop},\; (P\Leftrightarrow Q)\Rightarrow P=Q.
+$$
+Under this equivalence, the accepted oracle value in \autoref{def:three-axioms-meta-closure-operation} is exactly the equality token $\varepsilon_{P,Q}$.
+\end{theorem}
+
+\begin{proof}
+Assume the proposition-stratum propext closure schema. Let $P,Q:\mathsf{Prop}$ and let $h:P\Leftrightarrow Q$. The datum $h$ is precisely a pair of implications $P\Rightarrow Q$ and $Q\Rightarrow P$. Applying the schema to this datum supplies an equality token $\varepsilon_{P,Q}:P=Q$. This is the conclusion of propositional extensionality.
+
+Conversely, assume propositional extensionality. Given a proposition-stratum closure datum $b_{P,Q}:(P\Rightarrow Q)\land(Q\Rightarrow P)$, apply propositional extensionality to $b_{P,Q}$ and set $\varepsilon_{P,Q}$ to the resulting equality $P=Q$. For any proposition-valued context $C:\mathsf{Prop}\to\mathsf{Prop}$, equality elimination along $\varepsilon_{P,Q}$ transports a witness of $C(P)$ to a witness of $C(Q)$, and equality elimination along the symmetric equality transports in the reverse direction. Thus propositional extensionality supplies exactly the equality token and contextual rewrite behavior required by \autoref{def:proposition-stratum-propext-closure}. The two principles therefore coincide at the proposition stratum.
+\end{proof}
