@@ -40,6 +40,27 @@ $\ContR(l,r,o)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice}
 
+\begin{theorem}[Metric visible-context empty-distance witness splice]
+\label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
+For histories $p,q,x,y,l,r,m,o$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and unary endpoint evidence for $l$ and $r$ hold. If
+$\ContR(l,x,m)$ and $\ContR(m,r,o)$ hold, then the spliced continuation is a
+metric distance witness:
+$$
+\mathsf{MetricDistanceWitness}(l,r,o).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance continuation splice supplies
+$\ContR(l,r,o)$. Together with the unary endpoint hypotheses, unary
+continuation closure gives the unary carrier for $o$. These three fields are
+exactly the concrete metric distance witness from $l$ to $r$ with output $o$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_witness\_splice}
+
 \begin{theorem}[Metric visible-context empty-distance continuation witness depth package]
 \label{thm:metric-distance-witness-visible-context-empty-distance-continuation-witness-depth}
 For histories $p,q,x,y,l,r,m,o:\mathsf{BHist}$, suppose

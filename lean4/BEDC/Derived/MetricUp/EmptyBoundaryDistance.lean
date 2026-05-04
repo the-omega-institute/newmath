@@ -18,6 +18,18 @@ theorem MetricDistanceWitness_visible_context_empty_distance_continuation_splice
   cases leftCont
   exact rightCont
 
+theorem MetricDistanceWitness_visible_context_empty_distance_witness_splice
+    {p q x y l r mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p BHist.Empty) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l x mid -> Cont mid r out ->
+        MetricDistanceWitness l r out := by
+  intro visible lCarrier rCarrier leftCont rightCont
+  have spliced : Cont l r out :=
+    MetricDistanceWitness_visible_context_empty_distance_continuation_splice visible leftCont
+      rightCont
+  exact And.intro lCarrier
+    (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
+
 theorem MetricDistanceWitness_empty_boundary_visible_context_distance_empty {p q d : BHist} :
     MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
       (append (append p d) q) -> hsame d BHist.Empty ∧ MetricDistanceDepth d = 0 := by
@@ -56,6 +68,21 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_left_u
       (p := p) (q := q) (d := d) visible).left
   cases distanceEmpty
   exact cont_left_unit_result continuation
+
+theorem MetricDistanceWitness_empty_boundary_visible_context_left_unit_witness
+    {p q d r out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) -> UnaryHistory r -> Cont d r out ->
+        MetricDistanceWitness BHist.Empty r out := by
+  intro visible rCarrier continuation
+  have distanceEmpty :
+      hsame d BHist.Empty :=
+    (MetricDistanceWitness_empty_boundary_visible_context_distance_empty
+      (p := p) (q := q) (d := d) visible).left
+  cases distanceEmpty
+  exact And.intro unary_empty
+    (And.intro rCarrier
+      (And.intro (unary_cont_closed unary_empty rCarrier continuation) continuation))
 
 theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_left_unit_iff
     {p q d r out : BHist} :

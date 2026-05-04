@@ -190,6 +190,51 @@ identifications and applies the one-sided append equality theorems above.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_eq\_iff\_empty}
 
+\begin{theorem}[Metric visible-context zero depth iff empty components]
+\label{thm:metric-distance-depth-visible-context-zero-iff}
+For histories $p,q,d$, the full visible-context ledger has structural metric
+depth zero exactly when the prefix, central distance, and suffix are all empty:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)=0
+\Longleftrightarrow
+\hsame(p,\emp)\land\hsame(d,\emp)\land\hsame(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The zero-depth classifier first identifies the whole visible ledger with
+$\emp$. BEDC append-empty inversion splits the outer append into
+$(p\cdot d)\hsame\emp$ and $q\hsame\emp$, and a second inversion splits
+$p\cdot d$. Conversely, substituting the three empty components makes the
+displayed depth definition evaluate to zero.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_zero\_iff}
+
+\begin{theorem}[Metric visible-context total zero components]
+\label{thm:metric-distance-witness-visible-context-total-zero-components}
+For histories $p,q,x,y,d$, a visible-context distance witness whose full result
+ledger has structural depth zero exposes empty prefix, source, target, suffix,
+and central distance components:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)\to\\
+\qquad
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)=0\to\\
+\qquad
+\hsame(p,\emp)\land\hsame(x,\emp)\land\hsame(y,\emp)\land
+\hsame(q,\emp)\land\hsame(d,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Zero depth classifies the full result ledger with $\emp$, and two
+append-empty inversions expose the empty prefix, central distance, and suffix.
+Transport the witness continuation along the same empty result classifier.
+The empty-result continuation inversion then classifies the visible source
+$p\cdot x$ and target $y\cdot q$ with $\emp$, and append-empty inversion splits
+these endpoint histories into their displayed components.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_total\_zero\_components}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
