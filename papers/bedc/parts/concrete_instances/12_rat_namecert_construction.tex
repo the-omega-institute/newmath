@@ -1,7 +1,35 @@
 \input{parts/concrete_instances/12_rat_namecert_carrier}
 \input{parts/concrete_instances/12_rat_namecert_certificate}
 \input{parts/concrete_instances/12_rat_namecert_representative_stability}
-\input{parts/concrete_instances/12_rat_namecert_certificate_boundary}
+
+\begin{theorem}[Rat history semantic name certificate]
+\label{thm:rat-history-semantic-name-certificate}
+The Rat history carrier with its history classifier supplies the semantic name
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{RatHistoryCarrier},
+\mathsf{RatHistoryCarrier},\mathsf{RatHistoryCarrier},
+\mathsf{RatHistoryClassifier}).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.rat\_history\_semantic\_name\_certificate}
+\begin{proof}
+The carrier is inhabited by the one-extension of the empty denominator tail.
+This is the positive unary denominator witness used by the checked core.
+
+For the core certificate relation, reflexivity is the self-classifier supplied
+by carrier membership and $\hsame$ reflexivity. Symmetry reverses the
+$\hsame$ component of a classifier witness. Transitivity composes the two
+$\hsame$ components and uses carrier transport along $\hsame$ to recover the
+right endpoint carrier. The same carrier transport gives respect of the
+carrier under a classifier edge.
+
+The semantic source, pattern, and ledger rows are all
+$\mathsf{RatHistoryCarrier}$. Hence the source-to-pattern and source-to-ledger
+clauses are identity rows: each source witness is reused unchanged as the
+pattern witness and as the ledger witness. These are exactly the rows assembled
+by the Lean theorem.
+\end{proof}
 
 \begin{theorem}[Rat history ledger displayed context one-tail readback]
 \label{thm:rat-history-ledger-cont-unary-context-e1-pair-readback}
