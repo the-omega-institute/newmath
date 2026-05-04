@@ -226,6 +226,37 @@ component is $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 
+\begin{proposition}[CommRing forgets to Ring certificate]
+\label{prop:commring-forgets-ring-certificate}
+Let $R$ carry a $\CommRingUp(R)$ certificate. If the multiplication-commutativity
+row and its commutative-ring-specific ledger entries are omitted from the
+exported package, the retained carrier, source, ring pattern, classifier, ring
+stability fields, and ring ledger form a $\RingUp(R)$ certificate. The
+operations $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the carrier classifier
+on $R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:commring-certificate-obligations}, a commutative-ring
+certificate supplies the same carrier operations as a ring certificate,
+together with the extra multiplication-commutativity requirement. Removing only
+that extra row leaves the carrier data of \autoref{def:ring-carrier}: zero,
+one, addition, additive inverse, multiplication, and the same carrier
+classifier.
+
+The source, pattern, classifier, stability, and ledger rows retained by this
+projection are exactly the ring rows. The source still contains the additive
+abelian-group and multiplicative monoid data required by
+\autoref{def:ring-source-specification}; the pattern still generates the ring
+expression language; and the stability rows still contain the ring
+congruence, distributivity, zero-multiplication, and unit laws listed in
+\autoref{def:ring-stability-certificate}.
+
+The discarded entries are precisely those whose only role is to witness or
+record multiplication commutativity. Therefore the retained rows satisfy
+\autoref{def:ring-certificate-obligations} with the same operations and
+classifier carried by the original $\CommRingUp$ certificate.
+\end{proof}
+
 \begin{theorem}[CommRing singleton negation empty endpoint]
 \label{thm:commring-singleton-neg-empty-endpoint}
 For histories $h,t:\mathsf{BHist}$ with $A_{\emp}(h)$,
