@@ -323,4 +323,52 @@ theorem CplxDiffAt_derivative_unique {f z fp gp : BHist} :
                                             (Exists.intro h
                                               (Exists.intro q (And.intro quotient quotientCont)))
 
+theorem CplxDiffAt_hsame_transport_witness {f z z' fp gp : BHist} :
+    CplxDiffAt f z fp -> hsame z z' -> hsame fp gp ->
+      CplxDiffAt f z' gp ∧
+        ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z' h q ∧ Cont f h q ∧ hsame q gp := by
+  intro diff sameZ sameFpGp
+  cases diff with
+  | intro functionCarrier diffRest =>
+      cases diffRest with
+      | intro pointCarrier diffRest =>
+          cases diffRest with
+          | intro derivativeCarrier diffRest =>
+              cases diffRest with
+              | intro witness classifier =>
+                  cases witness with
+                  | intro h witnessRest =>
+                      cases witnessRest with
+                      | intro q quotient =>
+                          have pointCarrier' : UnaryHistory z' :=
+                            unary_transport pointCarrier sameZ
+                          have derivativeCarrier' : ComplexHistoryCarrier gp :=
+                            BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameFpGp
+                              derivativeCarrier
+                          have sameQGp : hsame q gp :=
+                            hsame_trans (classifier quotient) sameFpGp
+                          have transported :=
+                            CplxDiffQuot_hsame_transport (hsame_refl f) sameZ (hsame_refl h)
+                              sameQGp quotient
+                          have quotient' : CplxDiffQuot f z' h gp := transported.left
+                          have continuation' : Cont f h gp := transported.right.right.right
+                          have diff' : CplxDiffAt f z' gp := by
+                            exact And.intro functionCarrier
+                              (And.intro pointCarrier'
+                                (And.intro derivativeCarrier'
+                                  (And.intro
+                                    (Exists.intro h (Exists.intro gp quotient'))
+                                    (by
+                                      intro h' q' quotientAtTarget
+                                      have quotientAtSource : CplxDiffQuot f z h' q' :=
+                                        (CplxDiffQuot_hsame_transport (hsame_refl f)
+                                          (hsame_symm sameZ) (hsame_refl h') (hsame_refl q')
+                                          quotientAtTarget).left
+                                      exact hsame_trans (classifier quotientAtSource) sameFpGp))))
+                          exact And.intro diff'
+                            (Exists.intro h
+                              (Exists.intro gp
+                                (And.intro quotient'
+                                  (And.intro continuation' (hsame_refl gp)))))
+
 end BEDC.Derived.ComplexDiffUp
