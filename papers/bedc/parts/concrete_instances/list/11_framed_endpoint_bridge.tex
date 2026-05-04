@@ -790,37 +790,4 @@ are the carrier itself, their soundness fields are identity implications.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_semantic\_name\_certificate}
 
-\begin{corollary}[Framed finite-spine paper certificate for hsame]
-\label{cor:framed-list-carrier-certificate-hsame}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
-$\mathsf{cert}:\NameCert(A,\hsame)$. Define the framed carrier by
-$$
-\mathsf{FramedListHistoryCarrier}_A(h)
-\quad\Longleftrightarrow\quad
-\exists xs:\mathsf{HistSpine}.\;\mathsf{FramedListSpineRep}_A(h,xs),
-$$
-and define the hsame framed bridge classifier by
-$$
-\mathsf{FramedListBridgeClassifier}_{A,\hsame}(h,k)
-\quad\Longleftrightarrow\quad
-\exists xs\,ys.\;
-\mathsf{FramedListSpineRep}_A(h,xs)\land
-\mathsf{FramedListSpineRep}_A(k,ys)\land
-\mathsf{ListClassifierSpec}(\hsame,xs,ys).
-$$
-With pattern and ledger predicates both given by
-$\mathsf{FramedListHistoryCarrier}_A$, these fields form the paper certificate
-target
-$$
-\mathsf{SemanticNameCert}(\mathsf{FramedListHistoryCarrier}_A,
-\mathsf{FramedListHistoryCarrier}_A,
-\mathsf{FramedListHistoryCarrier}_A,
-\mathsf{FramedListBridgeClassifier}_{A,\hsame}).
-$$
-\end{corollary}
-\begin{proof}
-Apply Corollary~\ref{cor:framed-list-carrier-certificate} with
-source classifier $\hsame$. The compatibility premise is exactly
-Theorem~\ref{thm:list-source-hsame-compatible-hsame}, and the remaining source
-certificate input is the displayed $\mathsf{cert}:\NameCert(A,\hsame)$.
-\end{proof}
+\input{parts/concrete_instances/list/framed_list_carrier_certificate_hsame.tex}
