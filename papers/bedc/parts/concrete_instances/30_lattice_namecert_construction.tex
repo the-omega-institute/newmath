@@ -294,6 +294,45 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_right\_iff}
 
+\begin{theorem}[Singleton lattice classifier continuation empty result exactness]
+\label{thm:lattice-singleton-classifier-continuation-empty-result}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+lattice classifier relates the two inputs exactly when the continuation result
+is empty:
+$$
+\mathsf{LatticeSingletonClassifier}(P,Q)
+\Longleftrightarrow
+R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the two singleton carrier endpoints from the input
+classifier; since $R$ is the append continuation of $P$ and $Q$, append-empty
+construction gives $R\hsame\emp$. Conversely, result emptiness inverts the
+append continuation into singleton carrier witnesses for both inputs, and the
+empty-endpoint characterization reconstructs the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_empty\_result\_iff}
+
+\begin{theorem}[Singleton lattice classifier continuation result-left-right equivalence]
+\label{thm:lattice-singleton-classifier-continuation-result-left-right}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, classifying the
+continuation result against the left input is equivalent to classifying it
+against the right input:
+$$
+\mathsf{LatticeSingletonClassifier}(R,P)
+\Longleftrightarrow
+\mathsf{LatticeSingletonClassifier}(R,Q).
+$$
+\end{theorem}
+\begin{proof}
+The result-left classifier theorem identifies the left comparison with the
+input classifier on $P$ and $Q$. The result-right classifier theorem identifies
+the right comparison with the same input classifier. Composing those two
+characterizations gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_right\_iff}
+
 \begin{theorem}[Singleton lattice result-left order carriers]
 \label{thm:lattice-singleton-le-continuation-result-left-carriers}
 For histories $h,k,r:\mathsf{BHist}$ with $\ContR(h,k,r)$, the restricted
