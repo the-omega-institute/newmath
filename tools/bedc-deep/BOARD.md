@@ -5362,3 +5362,135 @@ The commring chapter defines commring-subring-inclusion-name-certificate, but no
 
 ---
 
+### B-208 - Opposite preorder certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Opposite preorder certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If (C, sim_C, le_C) satisfies the PreorderUp certificate obligations, then the data (C, sim_C, le_C^op) with a le_C^op b := b le_C a also satisfies the PreorderUp certificate obligations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+Belongs in the Preorder chapter (`27_preorder_namecert_construction.tex`). Textbook-standard order theory (Davey-Priestley ch.1 'Order theory and lattices': every preorder has a dual). Proof template already used 7 times in the manuscript: monoid (`thm:opposite-monoid-certificate` at `15_monoid_namecert_construction.tex:550`), semigroup (`prop:opposite-semigroup-certificate` at `57_semigroup_namecert_construction.tex:226`), group (`thm:opposite-group-certificate` at `group/16_group_certificate_tail.tex:132`), ring (`thm:opposite-ring-certificate` at `ring/18_ring_certificate_and_additive_laws.tex:202`), category, functor, nattrans. Verified absent: grep for `opposite-preorder` returns 0 labeled theorems anywhere under `papers/bedc/parts/`. All proof obligations exist: preorder reflexivity/transitivity rows in `def:preorder-stability-certificate`, classifier symmetry in the carrier classifier core. Closes in 1-2 rounds because the proof is a literal 5-field projection: pattern stays 'comparison expression formation', classifier unchanged, stability fields just exchange the two arguments of transitivity.
+
+---
+
+
+### B-209 - Opposite poset certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Opposite poset certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If (C, sim_C, le_C) satisfies the PosetUp certificate obligations, then the data (C, sim_C, le_C^op) with a le_C^op b := b le_C a also satisfies the PosetUp certificate obligations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+Belongs in the Poset chapter (`28_poset_namecert_construction.tex`). Textbook-standard: every poset has a dual poset (Davey-Priestley ch.1; Stanley EC1 §3.1). Proof template is the same opposite-X-certificate template used 7 times (see Opposite preorder rationale for sites). Verified absent: grep for `opposite-poset` / `dual-poset` in `papers/bedc/parts/concrete_instances/` returns 0 labeled theorems; the only 'opposite' content in poset-related chapters is `thm:lattice-opposite-absorption-from-directional-bounds` which is a partial absorption-orientation swap, not the full dual poset. Closes in 1-2 rounds: extends the preorder-opposite proof with one extra paragraph showing antisymmetry is symmetric in its two comparison witnesses (if a le b and b le a then sim, and the same holds with arguments swapped). All needed fields are in `def:poset-stability-certificate` (line 21+ of `28_poset_namecert_construction.tex`).
+
+---
+
+
+### B-210 - Opposite lattice certificate (full duality)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Opposite lattice certificate (full duality) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If (C, sim_C, le_C, meet_C, join_C) satisfies the LatticeUp certificate obligations, then the data (C, sim_C, le_C^op, join_C, meet_C) with le^op reversed and meet/join swapped also satisfies the LatticeUp certificate obligations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+Belongs in the Lattice chapter (`lattice/the_certificate.tex`). Textbook-standard duality (Birkhoff Lattice Theory ch.I §6 'Duality principle'; Davey-Priestley §1.18). Proof template same as opposite-monoid. The board's B-27 ('Lattice opposite absorption from directional bounds') is the partial absorption-only orientation swap; the full duality theorem is distinct because it transports the entire LatticeUp certificate (le, meet, join, all stability fields) and depends on the proposed Opposite poset certificate above. Verified absent: `grep 'opposite-lattice'` in `papers/bedc/parts/concrete_instances/` returns only `lattice-opposite-absorption-from-directional-bounds`, which is the four absorption orientations, not the dual lattice as a whole. Closes in 2-3 rounds: meet upper-bound rows of the dual become the original join lower-bound rows (greatest lower bound under reversed order = least upper bound under original); each of the six bound-characterization fields in `def:lattice-stability-certificate:21-28` swaps. All needed lemmas exist (`lem:lattice-meet-idempotence-from-bounds`, etc.).
+
+---
+
+
+### B-211 - FPS addition commutativity from scalar additive commutativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS addition commutativity from scalar additive commutativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under FormalPowerSeriesUp(R) over a scalar ring R whose additive operation +_R is commutative, the FPS addition F oplus G is classifier-equal to G oplus F: for every unary index n, (F oplus G)_n sim_R (G oplus F)_n, hence F oplus G sim_fps G oplus F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+
+Rationale:
+Belongs in the FPS chapter (`26_fps_namecert_construction.tex`). Textbook-standard (Niven Zuckerman Montgomery ch.II 'Formal power series form a commutative ring'; Wilf generatingfunctionology §2.2). The polynomial chapter has the exact direct analog: `thm:polynomial-raw-add-commutativity-from-scalar-additive-commutativity` at `25_polynomial_literal_addtrim.tex:475`. The FPS chapter has only `thm:fps-cauchy-product-classifier-congruence` at line 339; no addition-commutativity theorem. Verified absent: `grep 'fps.*add.*comm\|fps-addition-commutativity'` returns 0 labeled theorems. Closes in 1-2 rounds: the FPS addition is defined pointwise, so commutativity is exactly the pointwise scalar additive commutativity row of `def:ring-stability-certificate`; the FPS classifier is the pointwise classifier of `def:fps-classifier-specification`, and the proof uniformly quantifies over n. No new infrastructure; the polynomial proof at `25_polynomial_literal_addtrim.tex:475` is the line-by-line template.
+
+---
+
+
+### B-212 - FPS Cauchy product commutativity from CommRing scalars
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FPS Cauchy product commutativity from CommRing scalars |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under FormalPowerSeriesUp(R) where R carries a CommRingUp certificate, for every unary index n the n-th coefficient of F odot G is classifier-equal to the n-th coefficient of G odot F, hence F odot G sim_fps G odot F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+
+Rationale:
+Belongs in the FPS chapter (`26_fps_namecert_construction.tex`). Textbook-standard: for commutative scalars, the Cauchy product on formal power series is commutative (Wilf generatingfunctionology §2.2; Niven-Zuckerman-Montgomery ch.II). The polynomial chapter has the direct analog: `thm:polynomial-raw-multiplication-commutativity-from-commring-scalars` at `25_polynomial_literal_addtrim.tex:565`. Verified absent: grep for `fps.*cauchy.*comm\|fps-cauchy-product-commut` returns 0 labeled theorems; FPS chapter has only the congruence theorem. Closes in 1-2 rounds: the Cauchy product `(F odot G)_n = fold_+ (CauchySp_n(F,G))` from `def:fps-cauchy-coefficient-spine` is symmetric in F and G when scalar multiplication commutes, since the spine `Split(n) = {(i,j) : i+j=n}` is symmetric under (i,j) -> (j,i). All needed lemmas exist: `thm:finite-additive-fold-congruence-coefficient-lists` at `25_polynomial_namecert_construction.tex:513`, `prop:commring-forgets-ring-certificate` at `commring/19_commring_core.tex:231`.
+
+---
+
