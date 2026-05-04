@@ -169,6 +169,21 @@ theorem LinearMapSingletonEval_append_input_classifier_iff {f x y h : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro carrierH (hsame_symm carrierH))
 
+theorem LinearMapSingletonEval_append_context_classifier_iff {p f x h : BHist} :
+    LinearMapSingletonClassifier (append p (LinearMapSingletonEval f x)) h ↔
+      LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier h := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    exact And.intro leftSplit.left classified.right.left
+  · intro carriers
+    have evalCarrier : LinearMapSingletonCarrier (LinearMapSingletonEval f x) :=
+      hsame_refl BHist.Empty
+    have appendCarrier : LinearMapSingletonCarrier (append p (LinearMapSingletonEval f x)) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left evalCarrier)
+    exact And.intro appendCarrier
+      (And.intro carriers.right (hsame_trans appendCarrier (hsame_symm carriers.right)))
+
 theorem LinearMapSingleton_laws :
     SemanticNameCert LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonClassifier ∧
       LinearMapSingletonCarrier BHist.Empty ∧
