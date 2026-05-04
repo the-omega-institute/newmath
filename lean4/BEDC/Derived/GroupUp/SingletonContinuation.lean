@@ -84,6 +84,16 @@ theorem GroupSingletonClassifier_continuation_result_carrier_iff {P Q R : BHist}
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem GroupSingletonCarrier_continuation_endpoint_split_iff {P Q R : BHist} :
+    Cont P Q R -> (GroupSingletonCarrier R <-> GroupSingletonCarrier P /\ GroupSingletonCarrier Q) := by
+  intro continuation
+  constructor
+  · intro carrierR
+    exact cont_empty_result_inversion (cont_result_hsame_transport continuation carrierR)
+  · intro endpoints
+    exact cont_respects_hsame endpoints.left endpoints.right continuation
+      (cont_right_unit BHist.Empty)
+
 theorem GroupSingletonClassifier_continuation_endpoint_equivalence_iff {P Q R : BHist} :
     Cont P Q R -> (GroupSingletonClassifier R P <-> GroupSingletonClassifier R Q) := by
   intro continuation
