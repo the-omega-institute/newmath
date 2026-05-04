@@ -39,6 +39,72 @@ identifies the distance result with $\emp$, contradicting the assumed
 nonempty distance.
 \end{proof}
 
+\begin{theorem}[Metric nonempty distance endpoint positive depth]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-positive-depth}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and $d$ is not history-same as
+$\emp$, then at least one endpoint has positive structural metric depth:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to
+\bigl(0<\mathsf{MetricDistanceDepth}(x)
+\vee 0<\mathsf{MetricDistanceDepth}(y)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty-distance endpoint theorem to obtain a nonempty endpoint.
+The positive-depth classifier for metric histories converts that endpoint
+nonemptiness into positive structural depth on the corresponding side of the
+disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_positive\_depth}
+
+\begin{theorem}[Metric nonempty distance endpoint e-one cases]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and the distance endpoint is not
+history-same as $\emp$, then at least one endpoint is visibly one-headed with a
+unary tail:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to\\
+\qquad
+\bigl(\exists x_0,\ x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0)\bigr)
+\vee
+\bigl(\exists y_0,\ y=\Eone(y_0)\land\mathsf{UnaryHistory}(y_0)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the endpoint non-emptiness theorem to the metric witness and the
+nonempty distance assumption. On whichever side is nonempty, use the endpoint's
+unary-history carrier from the metric witness and apply unary nonempty
+one-tail readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_e1\_cases}
+
+\begin{theorem}[Metric empty-source nonempty distance target e-one cases]
+\label{thm:metric-distance-witness-empty-source-nonempty-distance-target-e1-cases}
+For histories $target,dist:\mathsf{BHist}$, if a concrete metric distance
+witness starts at the empty source and its distance endpoint is not
+history-same as $\emp$, then the target endpoint is visibly one-headed with a
+unary tail:
+$$
+\mathsf{MetricDistanceWitness}(\emp,target,dist)\to
+(dist\hsame\emp\to\mathsf{False})\to
+\exists targetTail,\ target=\Eone(targetTail)\land
+\mathsf{UnaryHistory}(targetTail).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty-distance endpoint e-one cases theorem. The source-side
+visible branch would identify $\emp$ with a one-headed history, which is
+impossible by constructor disjointness. The remaining branch is exactly the
+target e-one readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_nonempty\_distance\_target\_e1\_cases}
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
@@ -61,6 +127,48 @@ are generated only from $\emp$ by $\Eone$, so each displayed $\Ezero$ component
 contradicts unary no-zero-extension.
 \end{proof}
 
+\begin{theorem}[Metric empty distance visible endpoint impossibility]
+\label{thm:metric-distance-witness-empty-distance-visible-endpoint-absurd}
+For histories $x,y,d,tx,ty$, if a metric distance witness has a result
+history-same as $\emp$, then neither endpoint can be history-same as a visible
+one-headed history:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\hsame(d,\emp)\to\\
+\qquad
+\bigl(\hsame(x,\Eone(tx))\to\mathsf{False}\bigr)\land
+\bigl(\hsame(y,\Eone(ty))\to\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result of the metric witness along the displayed
+distance classifier, obtaining an empty-distance witness over the same
+endpoints. Empty-distance exactness identifies both endpoints with $\emp$.
+Composing either endpoint comparison with a visible one-headed classifier
+contradicts the empty/e-one no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_visible\_endpoint\_absurd}
+
+\begin{theorem}[Metric empty-distance composite endpoint collapse]
+\label{thm:metric-distance-witness-empty-distance-composite-endpoint-collapse}
+For histories $x,y,z,d_{xy},d_{yz}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ and
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$ both have distance histories
+classified as $\emp$, then all three endpoints classify together:
+$$
+d_{xy}\hsame\emp\to d_{yz}\hsame\emp\to
+\HSame(x,y)\wedge\HSame(y,z)\wedge\HSame(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Transport each distance witness to the empty-distance case. Empty-distance
+exactness identifies the corresponding endpoint pair with $\emp$, and
+transitivity through $\emp$ gives the three endpoint comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_composite\_endpoint\_collapse}
+
 \begin{theorem}[Metric e1-pair empty-distance impossibility]
 \label{thm:metric-distance-witness-e1-pair-empty-distance-absurd}
 For histories $x,y:\mathsf{BHist}$,
@@ -74,3 +182,22 @@ Apply empty-distance exactness to the displayed metric witness. It forces the
 left endpoint $\Eone(x)$ to be history-same as $\emp$, contradicting the
 disjointness of visible one-headed histories from the empty history.
 \end{proof}
+
+\begin{theorem}[Metric right-boundary visible context distance source]
+\label{thm:metric-distance-witness-right-boundary-visible-context-distance-source}
+For histories $p,q,x,d:\mathsf{BHist}$, a visible-context distance witness with
+empty central right endpoint identifies the central distance with the visible
+source and gives the same structural depth:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(d,x)\land
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(x).
+$$
+\end{theorem}
+\begin{proof}
+Right-boundary visible-context exactness extracts the central classifier
+$\hsame(d,x)$. Case analysis on that classifier identifies the two histories,
+and the metric-depth equality follows by reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_distance\_source}

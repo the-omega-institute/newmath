@@ -104,6 +104,15 @@ theorem EqtypeClassCarrier_visible_context_pair_deterministic
     EqtypeClassCarrier_visible_context_anchor_readback rightCarrier sameRight
   exact hsame_trans leftCoreAnchor (hsame_symm rightCoreAnchor)
 
+theorem EqtypeClassCarrier_visible_context_e0_anchor_e1_tail_absurd
+    {p r anchor h tail : BHist} :
+    EqtypeClassCarrier (BHist.e0 anchor) h ->
+      hsame (append (append p h) r) (append (append p (BHist.e1 tail)) r) -> False := by
+  intro carrier sameVisible
+  have mixed : hsame (BHist.e1 tail) (BHist.e0 anchor) :=
+    EqtypeClassCarrier_visible_context_anchor_readback carrier sameVisible
+  exact not_hsame_e1_e0 mixed
+
 theorem EqtypeClass_semanticNameCert {anchor : BHist} :
     SemanticNameCert (EqtypeClassCarrier anchor) (EqtypeClassCarrier anchor)
       (EqtypeClassCarrier anchor) hsame := by

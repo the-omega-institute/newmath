@@ -74,6 +74,21 @@ into a unary zero-extension, contradicting unary zero-extension separation.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_zero\_headed\_component\_absurd}
 
+\begin{theorem}[Open disk zero-headed component impossibility]
+\label{thm:open-disk-zero-headed-component-absurd}
+For histories \(z_0,r,z:\mathsf{BHist}\), an existential open-disk witness
+\(\mathsf{OpenDisk}(z_0,r,z)\) has no zero-headed center, radius, or point
+component.
+\end{theorem}
+\begin{proof}
+Unpack the existential open disk into the complex center carrier, unary radius,
+complex point carrier, and its boundary gap witness. A zero-headed radius
+contradicts unary zero-extension separation. A zero-headed center or point
+forms a reflexive complex-history classifier with a zero-headed endpoint,
+contradicting complex component endpoint separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Open-disk transport along \(\hsame\)]
 \label{lem:holomorphic-open-disk-hsame-transport}
 If \(\mathsf{OpenDisk}(z_0,r,z,g)\) and each of \(z_0,r,z,g\) is replaced by an \(\hsame\)-equivalent history, then the transported tuple is again an open-disk witness. The transported witness exposes the unary carriers of the four target histories and the transported ledger \(\Cont(z',g',r')\).
@@ -114,6 +129,40 @@ displayed gap by left cancellation yields the classifier
 \(\hsame(g\cdot e,g')\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_deterministic}
+
+\begin{theorem}[Holomorphic open disk radius extension rejects zero-headed enlarged gap]
+\label{thm:holomorphic-open-disk-radius-extension-gap-zero-headed-absurd}
+If \(\mathsf{HolomorphicOpenDisk}(z_0,r,z,g)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then the enlarged gap \(g\cdot e\) cannot be displayed as a
+zero-headed history:
+$$
+g\cdot e=\Ezero(w)\quad\Longrightarrow\quad \bot.
+$$
+\end{theorem}
+\begin{proof}
+The radius enlargement lemma constructs
+\(\mathsf{HolomorphicOpenDisk}(z_0,r',z,g\cdot e)\). Its gap field gives
+\(\mathsf{UnaryHistory}(g\cdot e)\). Transport that unary witness along the
+displayed equality \(g\cdot e=\Ezero(w)\), obtaining a unary zero-headed
+history, which contradicts BEDC unary zero-headed separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_zero\_headed\_absurd}
+
+\begin{theorem}[Open disk radius extension gap determinacy]
+\label{thm:open-disk-radius-extension-gap-deterministic}
+If $\mathsf{OpenDisk}(z_0,r,z)$ holds, $g$, $e$, and $g'$ are unary,
+$\ContR(g,z,r)$, $\ContR(r,e,r')$, and $\ContR(g',z,r')$, then
+$$
+\hsame(g\cdot e,g').
+$$
+\end{theorem}
+\begin{proof}
+The open-disk carrier supplies the unary point history $z$. Compose
+$\ContR(g,z,r)$ with $\ContR(r,e,r')$ and commute the unary histories $z$ and
+$e$ inside append to obtain $\ContR(g\cdot e,z,r')$. Left cancellation against
+the displayed ledger $\ContR(g',z,r')$ yields $\hsame(g\cdot e,g')$.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_gap\_deterministic}
 
 \begin{theorem}[Holomorphic open disk gap-point commutation]
 \label{thm:holomorphic-open-disk-gap-point-comm}
@@ -349,6 +398,25 @@ rewrites the composite boundary ledger to
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_closed}
 
+\begin{theorem}[Open disk radius extension gap public readback]
+\label{thm:open-disk-radius-extension-gap-public-readback}
+If \(\mathsf{OpenDisk}(z_0,r,z)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then \(\mathsf{OpenDisk}(z_0,r',z)\). Moreover, every
+displayed unary gap \(g'\) with \(\ContR(g',z,r')\) is the public display of
+some original gap \(g\) with \(\ContR(g,z,r)\), continued by \(e\):
+$$
+g\cdot e \hsame g'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the original open disk to a unary boundary gap \(g\) with
+\(\ContR(g,z,r)\). The radius extension closure constructs the continued gap
+\(g\cdot e\) and its ledger \(\ContR(g\cdot e,z,r')\). Comparing this ledger
+with the displayed ledger \(\ContR(g',z,r')\) by right cancellation gives
+\(g\cdot e\hsame g'\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_gap\_public\_readback}
+
 \begin{theorem}[Open disk empty-radius boundary]
 \label{thm:open-disk-empty-radius-boundary}
 If $\mathsf{OpenDisk}(z_0,\emp,z)$ holds, then the displayed point is the
@@ -444,6 +512,23 @@ continuation closure.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_add\_closed\_unary\_readback}
 
+\begin{theorem}[Strict iterated complex differentiability is closed under additive concatenation]
+\label{thm:iterated-strict-cplx-diff-add-closed-strict-readback}
+If a strict iterated complex-differentiability chain carries a seed to a middle
+history in \(n\) stages, and a second strict chain carries that middle history
+to a target history in \(m\) stages, then their concatenation carries the seed
+to the target in \(n+m\) strict stages. Unary readback from the seed still
+proves the target history unary.
+\end{theorem}
+\begin{proof}
+Induct on \(m\). At \(m=0\), the second chain is an \(\hsame\) endpoint, so
+transport the first strict chain to the target and reuse strict unary readback.
+At a successor stage, apply the induction hypothesis to the predecessor
+endpoint, append the displayed nonempty unary continuation step, and close the
+target by unary continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_add\_closed\_strict\_readback}
+
 \begin{theorem}[Strict iterated complex differentiability preserves unary seed histories]
 \label{thm:iterated-strict-cplxdiff-unary-of-seed}
 If a strict iterated complex-differentiability chain starts from a unary seed
@@ -536,6 +621,22 @@ forces that tail to be empty, contradicting strictness.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_endpoint\_hsame\_absurd}
 
+\begin{theorem}[Strict iterated complex differentiability transports unary readback]
+\label{thm:iterated-strict-cplx-diff-hsame-transport-unary-readback}
+If a strict iterated complex-differentiability chain has \(\hsame\)-equivalent
+seed and selected endpoints, then the strict chain transports to those
+endpoints. Consequently, a unary transported seed still reads back unary
+membership of the transported selected endpoint.
+\end{theorem}
+\begin{proof}
+Induct over the iteration index. At zero, compose the seed comparison with
+the displayed zero endpoint and the target comparison. At a successor index,
+transport the predecessor chain by the induction hypothesis and transport the
+final continuation step across the target endpoint comparison. Unary readback
+then applies to the transported strict chain.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_hsame\_transport\_unary\_readback}
+
 \begin{theorem}[Strict iterated complex differentiability transports strict prefix readback]
 \label{thm:iterated-strict-cplx-diff-hsame-transport-strict-prefix}
 If a nonempty strict iterated complex-differentiability chain has \(\hsame\)-equivalent seed and target endpoints, then the strict chain transports to those endpoints, and a unary transported seed exposes a strict unary prefix into the transported target.
@@ -544,6 +645,23 @@ If a nonempty strict iterated complex-differentiability chain has \(\hsame\)-equ
 Induct over the successor count of the strict chain. The first successor composes the seed endpoint comparison with the zero-stage endpoint and transports the displayed nonempty unary continuation. The successor case applies the induction hypothesis to the previous iterate and transports the final continuation step. The strict-prefix readback theorem then applies to the transported strict chain.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_hsame\_transport\_strict\_prefix}
+
+\begin{theorem}[Strict iterated complex differentiability is closed under additive concatenation]
+\label{thm:iterated-strict-cplx-diff-add-closed-strict-prefix-readback}
+If a strict iterated complex-differentiability chain carries a seed to a
+middle history in \(n\) stages, and a second strict chain carries that middle
+history to a target history in at least one stage, then their concatenation is
+a strict chain from the seed to the target in \(n+m+1\) stages. Unary readback
+from the seed exposes a strict unary prefix into the target.
+\end{theorem}
+\begin{proof}
+Induct over the positive right-hand chain. In the first stage, transport the
+left chain to the predecessor endpoint of the displayed strict continuation
+and append that continuation. In the successor case, apply the induction
+hypothesis to the previous endpoint and append the final strict continuation.
+The strict-prefix readback theorem applies to the concatenated nonempty chain.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_add\_closed\_strict\_prefix\_readback}
 
 \section{The seed fields}
 

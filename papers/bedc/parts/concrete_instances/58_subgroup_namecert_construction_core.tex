@@ -208,6 +208,46 @@ $Z_{a,b}$ for both conjugates.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier\_self\_conjugation\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer intersection classifier self-conjugation closure]
+\label{thm:subgroup-centralizer-intersection-classifier-self-conjugation-closed}
+Under the same BEDC history-level $\GroupUp$ laws, if $Z_{a,b}(t)$ and the
+restricted classifier on $Z_{a,b}$ relates $x$ to $y$, then it also relates
+their conjugates by $t$:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,y)
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,
+  \mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t)),
+  \mathsf{mul}(\mathsf{mul}(t,y),\mathsf{inv}(t))).
+$$
+\end{theorem}
+\begin{proof}
+The carrier self-conjugation theorem sends the $x$ endpoint and the $y$
+endpoint separately into the two-centralizer intersection carrier. The stored
+comparison $x\hsame y$ is transported through the two multiplication slots by
+multiplication congruence, giving the classifier row for the two conjugates.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_self\_conjugation\_closed\_from\_empty\_unit}
+
+\begin{theorem}[Centralizer intersection classifier history transport]
+\label{thm:subgroup-centralizer-intersection-classifier-hsame-transport}
+Under the same BEDC history-level $\GroupUp$ laws, the restricted classifier on
+$Z_{a,b}$ is stable under endpoint $\hsame$ transport:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,y)
+\land x\hsame x'\land y\hsame y'
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x',y').
+$$
+\end{theorem}
+\begin{proof}
+The intersection certificate supplies carrier transport for $Z_{a,b}$, so the
+two endpoint carrier rows move from $x,y$ to $x',y'$. The classifier comparison
+is the composite $x'\hsame x\hsame y\hsame y'$, using symmetry and transitivity
+of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_hsame\_transport\_from\_empty\_unit}
+
 Per-object template: traditional target two-centralizer subgroup certificate;
 BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_{a,b}$; classifier
 restricted $\hsame$; stability identity, product, inverse, and carrier
@@ -371,6 +411,73 @@ predicate normalizer membership as preservation-reflection of $C_F(A)$;
 standard bridge ordinary normalizer subgroup and center action; status
 $\mathsf{ProofTarget}$.
 
+\begin{definition}[RatUp FieldUp affine center-normalizer SubgroupUp pair]
+\label{def:ratup-fieldup-affine-center-normalizer-subgroupup-pair}
+For the concrete $\FieldUp(\RatUp)$ affine exit object of
+\autoref{def:ratup-fieldup-concrete-exit-object} and a fixed certified affine
+automorphism $A:\mathsf{AffAut}_F$, take the lower $\SubgroupUp$ carrier to be
+$\mathsf{Center}_F$, the upper $\SubgroupUp$ carrier to be $N_F(C_F(A))$, the
+classifier to be $\equiv_{\mathrm{aff}}$, the operation to be
+$\circ_{\mathrm{aff}}$, the identity to be $\mathrm{id}_F$, and the inverse row
+to be $\iota_F$. The action row is the restricted normalizer action
+$\mathrm{Act}_Z$ on the centralizer carrier $C_F(A)$.
+
+The certificate ledger records the affine exit package, the center subgroup
+witnesses, the normalizer preservation and reflection witnesses for $C_F(A)$,
+and the pointwise restricted action witness. Thus the object is a single
+center-normalizer pair certificate rather than a separate lower subgroup row,
+upper subgroup row, inclusion row, and action row.
+\end{definition}
+
+\begin{theorem}[RatUp FieldUp affine center-normalizer SubgroupUp pair certificate]
+\label{thm:ratup-fieldup-affine-center-normalizer-subgroupup-pair-certificate}
+The pair of
+\autoref{def:ratup-fieldup-affine-center-normalizer-subgroupup-pair} supplies
+the concrete center-normalizer $\SubgroupUp$ certificate consumed by quotient
+and subgroup-action layers. For the fixed certified $A:\mathsf{AffAut}_F$:
+\begin{enumerate}
+\item the lower carrier $\mathsf{Center}_F$ has the center $\SubgroupUp$
+certificate of
+\autoref{thm:ratup-fieldup-affine-center-subgroup-instance};
+\item the upper carrier $N_F(C_F(A))$ has the normalizer $\SubgroupUp$
+certificate of
+\autoref{thm:ratup-fieldup-affine-normalizer-subgroupup-inclusion-action};
+\item if $\mathsf{Center}_F(Z)$, then $N_F(C_F(A))(Z)$;
+\item if $C_F(A)(X)$ and $\mathsf{Center}_F(Z)$, then
+$\mathrm{Act}_Z(X)\equiv_{\mathrm{aff}}X$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The lower certificate is exactly the carrier and stability package of
+\autoref{def:ratup-fieldup-affine-center-subgroup-carrier}. Apply
+\autoref{thm:ratup-fieldup-affine-center-subgroup-instance} to obtain the
+identity, product, inverse, classifier-transport, and inner-conjugation rows for
+$\mathsf{Center}_F$.
+
+The upper certificate is exactly the carrier and stability package of
+\autoref{def:ratup-fieldup-affine-normalizer-subgroupup-carrier}. Apply
+\autoref{thm:ratup-fieldup-affine-normalizer-subgroupup-inclusion-action} to
+obtain the normalizer identity, product, inverse, and classifier-transport
+rows, together with the displayed inclusion and action rows.
+
+Finally apply
+\autoref{thm:ratup-fieldup-affine-center-normalizes-centralizers}. Its concrete
+FieldUp action identity gives $N_F(C_F(A))(Z)$ from $\mathsf{Center}_F(Z)$ and
+gives $\mathrm{Act}_Z(X)\equiv_{\mathrm{aff}}X$ for every
+$X:\mathsf{AffAut}_F$ carried by $C_F(A)$. Repacking these rows with the ledger
+of \autoref{def:ratup-fieldup-affine-center-normalizer-subgroupup-pair} gives
+the advertised pair certificate.
+\end{proof}
+
+Per-object template: traditional target center-normalizer pair in an affine
+automorphism group; BEDC source $\RatUp$, $\FieldUp$, $\GroupUp$, and
+$\SubgroupUp$; carriers $\mathsf{Center}_F$ and $N_F(C_F(A))$; classifier
+$\equiv_{\mathrm{aff}}$; stability subgroup rows plus inclusion and action
+identity; ledger affine exit package, center witnesses, normalizer preservation
+and reflection witnesses, and action witness; exactness center inclusion and
+pointwise identity action; downstream consumer quotientgroup and subgroup-action
+certificates; status $\mathsf{ProofTarget}$.
+
 \begin{definition}[Centralizer normalizer witness]
 \label{def:subgroup-centralizer-normalizer-witness}
 For the centralizer carrier $Z_a$ from
@@ -474,6 +581,43 @@ $\mathsf{Norm}_{Z_a}(t)$, so both preservation directions hold.
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizer\_self\_normalizer\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizer\_from\_empty\_unit}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_self\_normalizes}
+
+\begin{theorem}[Centralizer intersection simultaneous self-normalizer]
+\label{thm:subgroup-centralizer-intersection-simultaneous-self-normalizer}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence, and
+two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-certificate-target}, fix
+$a,b:\mathsf{BHist}$ and let $Z_{a,b}$ be the two-centralizer carrier of
+\autoref{def:subgroup-centralizer-intersection-carrier}. If
+$Z_{a,b}(t)$, then
+$$
+\mathsf{Norm}_{Z_a}(t)\land\mathsf{Norm}_{Z_b}(t).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the intersection carrier. The witness $Z_{a,b}(t)$ is exactly a pair
+consisting of $Z_a(t)$ and $Z_b(t)$, with both component centralizers using the
+same ambient $\GroupUp$ laws and the same restricted $\hsame$ classifier.
+
+Apply \autoref{thm:subgroup-centralizer-self-normalizer} first with fixed
+history $a$ and component witness $Z_a(t)$. This gives
+$\mathsf{Norm}_{Z_a}(t)$.
+
+Apply \autoref{thm:subgroup-centralizer-self-normalizer} again with fixed
+history $b$ and component witness $Z_b(t)$. Pair the two resulting normalizer
+witnesses to obtain the displayed simultaneous conclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionCarrier\_simultaneous\_self\_normalizer\_from\_empty\_unit}
+
+Per-object template: traditional target simultaneous normalizer membership for
+an intersection of centralizers; BEDC source $\GroupUp$ plus $\SubgroupUp$;
+carrier $Z_{a,b}$; classifier restricted $\hsame$; stability inherited from
+the two centralizer certificates; ledger fixed histories $a,b$ and two
+self-normalizer witnesses; core theorem
+\autoref{thm:subgroup-centralizer-intersection-simultaneous-self-normalizer};
+exactness the paired normalizer conclusion; downstream consumer quotient-ready
+normalizer towers; status $\mathsf{ProofTarget}$.
 
 \begin{lemma}[Centralizer normalizer kernel classifier reflexivity]
 \label{lem:subgroup-centralizer-normalizer-kernel-classifier-refl}

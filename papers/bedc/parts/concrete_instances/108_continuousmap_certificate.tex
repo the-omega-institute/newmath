@@ -1,0 +1,254 @@
+\section{The certificate}
+\label{sec:continuousmap-certificate}
+
+\input{parts/concrete_instances/continuousmap/empty_identities_two_sided_composition_units}
+
+\begin{theorem}[ContinuousMap composite graph depth addition]
+\label{thm:continuousmap-comp-graph-depth-add}
+For histories $source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG$,
+assume the two continuous-function carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,mapF,mid,modF,certF),\\
+\mathsf{ContinuousFunctionCarrier}(mid,mapG,target,modG,certG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG),
+$$
+then the composite graph has metric depth
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapFG).
+$$
+\end{theorem}
+\begin{proof}
+Composition closure for continuous-function carriers builds the composite
+carrier from the two displayed carriers and the continuation ledgers. Its graph
+fields are exactly a metric distance witness with endpoints $source$, $mapFG$,
+and $target$.
+
+Metric-distance depth addition for that witness gives the displayed equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}
+
+\begin{theorem}[ContinuousMap carrier composition closure]
+\label{thm:continuousmap-carrier-comp-closed}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the composite is again a continuous-map carrier with the canonical
+source-target distance ledger:
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target)).
+$$
+\end{theorem}
+\begin{proof}
+Project the continuous-function halves from the two
+$\mathsf{ContinuousMapCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} to those halves and
+the three continuation ledgers. This produces the composite
+$\mathsf{ContinuousFunctionCarrier}(source,mapFG,target,modFG,certFG)$.
+
+Now package the canonical distance ledger. Apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff} in the reverse
+direction to the composite continuous-function carrier, yielding the displayed
+$\mathsf{ContinuousMapCarrier}$ with distance
+$\mathsf{append}(source,target)$.
+
+The ten-field fit is: traditional target composition of uniformly continuous
+maps, BEDC source $\mathsf{ContinuousMapCarrier}$ plus $\ContR$, carrier
+$\mathsf{ContinuousMapCarrier}$, classifier $\hsame$, stability from
+continuous-function composition and canonical metric ledger packaging, ledger
+the hidden canonical distance, core theorem this closure, exactness
+canonical-distance carrier iff, standard bridge deferred, and status
+$\mathsf{ProofTarget}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_closed}
+
+\begin{theorem}[ContinuousMap empty distance composition closure]
+\label{thm:continuousmap-empty-distance-comp-closed}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG:\mathsf{BHist}$,
+assume the two continuous-map carriers have empty distance ledgers:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,\emp),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,\emp),
+\end{array}
+$$
+and assume the continuation ledgers for graph composition, modulus
+composition, and final certificate formation. Then $source$, $mid$, and
+$target$ are all $\hsame$ to $\emp$, and the composite carrier also has empty
+distance ledger:
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply the empty-distance metric readback to the two input carriers. The first
+carrier identifies $source$ and $mid$ with $\emp$, while the second identifies
+$mid$ and $target$ with $\emp$. Composition closure supplies the composite
+continuous-function carrier. The empty endpoint comparisons repackage the
+metric-distance witness for the composite as the empty distance ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_comp\_closed}
+
+\begin{theorem}[ContinuousMap empty-distance empty-graph composition certificate readback]
+\label{thm:continuousmap-empty-distance-empty-graph-comp-certificate-readback}
+For histories
+$source,mid,target,mapF,mapG,modF,modG,modFG,certF,certG,certFG:\mathsf{BHist}$,
+assume the two continuous-map carriers have empty distance ledgers:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,\emp),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,\emp),
+\end{array}
+$$
+and assume
+$$
+\ContR(mapF,mapG,\emp),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then $source$, $mid$, and $target$ are all $\hsame$ to $\emp$, and the final
+composition certificate is a unary history satisfying
+$$
+\mathsf{UnaryHistory}(certFG)\qquad\hbox{and}\qquad certFG\hsame modFG.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuousmap-empty-distance-comp-closed} with the empty
+composite graph. This gives the three empty endpoint readbacks and a composite
+continuous-map carrier
+$\mathsf{ContinuousMapCarrier}(source,\emp,target,modFG,certFG,\emp)$.
+The empty-map, empty-distance certificate readback theorem then identifies
+$certFG$ as unary and $\hsame$ to $modFG$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_empty\_graph\_comp\_certificate\_readback}
+
+\begin{theorem}[ContinuousMap carrier composition distance determinacy]
+\label{thm:continuousmap-carrier-comp-distance-deterministic}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG),
+$$
+and a displayed composite carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed).
+$$
+Then the displayed composite distance is the canonical source-target ledger:
+$$
+\hsame(displayed,\mathsf{append}(source,target)).
+$$
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} applied to the two input
+carriers and the three continuation ledgers builds the canonical composite
+carrier
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target)).
+$$
+
+Compare the displayed composite carrier with this canonical carrier by
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}, with the
+same source, map, target, modulus, and certificate histories on both sides.
+The distance component of that determinacy conclusion gives
+$\hsame(displayed,\mathsf{append}(source,target))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_distance\_deterministic}
+
+\begin{theorem}[ContinuousMap composition canonical certificate package]
+\label{thm:continuousmap-composition-canonical-certificate-package}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the composition data determine the canonical certificate package:
+\begin{enumerate}
+\item the composite carrier closes over the canonical source-target distance
+ledger,
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target));
+$$
+
+\item every displayed composite carrier with the same visible fields has that
+canonical distance ledger, namely if
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed),
+$$
+then
+$$
+\hsame(displayed,\mathsf{append}(source,target));
+$$
+
+\item the composite graph obeys metric-depth accounting,
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapFG).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the carrier row, apply
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the two input carriers
+and the three continuation ledgers. This gives the displayed
+$\mathsf{ContinuousMapCarrier}$ with distance
+$\mathsf{append}(source,target)$.
+
+For distance uniqueness, suppose a displayed composite carrier with the same
+source, map, target, modulus, and certificate histories is given. Compare the
+displayed carrier with the canonical carrier just obtained by
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}. The
+distance component gives $\hsame(displayed,\mathsf{append}(source,target))$.
+
+For metric-depth accounting, project the continuous-function halves from the
+two input $\mathsf{ContinuousMapCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuousmap-comp-graph-depth-add} to those halves and the
+same three continuation ledgers, producing the stated equality for
+$\mathsf{MetricDistanceDepth}$.
+\end{proof}

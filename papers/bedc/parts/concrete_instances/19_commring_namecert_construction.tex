@@ -160,6 +160,7 @@ witness gives both $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
 $c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal row with the original
 signed product-zero witness to obtain the displayed package.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_signed\_product\_annihilator\_package}
 
 \begin{theorem}[CommRing equal-squares signed-product annihilator]
 \label{thm:commring-equal-squares-signed-product-annihilator}
@@ -198,6 +199,7 @@ The two components are $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
 $c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal two-sided absorption
 row with the signed product-zero witness from the equal-squares route.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_signed\_product\_annihilator}
 
 \begin{theorem}[CommRing equal-squares bilateral signed-product zero]
 \label{thm:commring-equal-squares-bilateral-signed-product-zero}
@@ -225,6 +227,26 @@ signed-product zero witness by transitivity of $\hsame$.
 
 The two oriented zero-product witnesses form the required conjunction.
 \end{proof}
+
+\begin{theorem}[CommRing equal-squares commuted signed factor zero]
+\label{thm:commring-equal-squares-commuted-signed-factor-zero}
+Under the hypotheses of
+\autoref{thm:commring-equal-squares-signed-factor-zero}, every square equality
+also annihilates the commuted signed product:
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+(a+(-b))\cdot(a+b)\hsame0 .
+$$
+\end{theorem}
+\begin{proof}
+Apply multiplicative commutativity to identify
+$(a+(-b))\cdot(a+b)$ with $(a+b)\cdot(a+(-b))$, then compose with
+\autoref{thm:commring-equal-squares-signed-factor-zero}.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_equal\_squares\_commuted\_signed\_factor\_zero}
+
+\input{parts/concrete_instances/commring/equal_squares_commuted_signed_product_annihilator}
 
 The ten-field fit is: traditional target equal squares yields a bilateral
 signed-product zero certificate in a commutative ring; BEDC source $\RingUp$
@@ -765,3 +787,4 @@ zero-factor absorption; ledger carried inputs, two square endpoints, and
 arbitrary multiplier; core theorem this block; exactness square endpoints are
 two-sided zero annihilators; downstream consumer $\FieldUp$ square-apartness and
 zero-product exits; status $\mathsf{ProofTarget}$.
+\input{parts/concrete_instances/commring/19_commring_zero_divisor_and_inclusion}

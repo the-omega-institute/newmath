@@ -316,6 +316,30 @@ theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_readback
       (And.intro boundaries.right.left
         (And.intro certData.left (hsame_symm certData.right)))
 
+theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_exactness
+    {source target modulus cert : BHist} :
+    ContinuousMapCarrier source BHist.Empty target modulus cert BHist.Empty ↔
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        UnaryHistory cert ∧ hsame cert modulus := by
+  constructor
+  · intro carrier
+    exact ContinuousMapCarrier_empty_map_empty_distance_certificate_readback carrier
+  · intro data
+    have witness : ContinuousModulusWitness BHist.Empty modulus cert :=
+      (ContinuousModulusWitness_empty_source_iff (modulus := modulus) (target := cert)).mpr
+        (And.intro data.right.right.left (hsame_symm data.right.right.right))
+    exact
+      (ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
+        (source := source) (target := target) (modulus := modulus) (cert := cert)).mpr
+        (And.intro data.left (And.intro data.right.left witness))
+
+theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_iff
+    {source target modulus cert : BHist} :
+    ContinuousMapCarrier source BHist.Empty target modulus cert BHist.Empty ↔
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        UnaryHistory cert ∧ hsame cert modulus :=
+  ContinuousMapCarrier_empty_map_empty_distance_certificate_exactness
+
 theorem ContinuousMapCarrier_prefix_canonical_distance_closed
     {p source map target modulus cert distance : BHist} :
     UnaryHistory p -> ContinuousMapCarrier source map target modulus cert distance ->
@@ -365,6 +389,109 @@ theorem ContinuousMapFunctionCarrier_metric_graph_exactness
     ContinuousFunctionCarrier_graph_modulus_cont_readback functionCarrier
   exact And.intro readback.left (cont_deterministic metricWitness.right.right.right readback.left)
 
+theorem ContinuousMapCarrier_empty_identities_closed
+    {source map target modulus cert distance : BHist} :
+    ContinuousMapCarrier source map target modulus cert distance ->
+      ContinuousMapCarrier source BHist.Empty source BHist.Empty source
+          (append source source) ∧
+        ContinuousMapCarrier target BHist.Empty target BHist.Empty target
+          (append target target) := by
+  intro carrier
+  have sourceCarrier : UnaryHistory source := carrier.left.left
+  have targetCarrier : UnaryHistory target := carrier.left.right.left
+  have sourceModulus :
+      ContinuousModulusWitness source BHist.Empty source :=
+    And.intro sourceCarrier
+      (And.intro unary_empty (And.intro sourceCarrier (cont_right_unit source)))
+  have targetModulus :
+      ContinuousModulusWitness target BHist.Empty target :=
+    And.intro targetCarrier
+      (And.intro unary_empty (And.intro targetCarrier (cont_right_unit target)))
+  have sourceFunction :
+      ContinuousFunctionCarrier source BHist.Empty source BHist.Empty source :=
+    ContinuousFunctionCarrier_empty_map_identity sourceModulus
+  have targetFunction :
+      ContinuousFunctionCarrier target BHist.Empty target BHist.Empty target :=
+    ContinuousFunctionCarrier_empty_map_identity targetModulus
+  exact
+    And.intro
+      (ContinuousMapCarrier_canonical_distance_iff.mpr sourceFunction)
+      (ContinuousMapCarrier_canonical_distance_iff.mpr targetFunction)
+
+theorem ContinuousMapCarrier_comp_closed
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG distF distG :
+      BHist} :
+    ContinuousMapCarrier source mapF mid modF certF distF ->
+      ContinuousMapCarrier mid mapG target modG certG distG ->
+        Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont target modFG certFG ->
+          ContinuousMapCarrier source mapFG target modFG certFG (append source target) := by
+  intro first second graphRel modulusRel certRel
+  have composite :
+      ContinuousFunctionCarrier source mapFG target modFG certFG :=
+    ContinuousFunctionCarrier_comp_closed first.left second.left graphRel modulusRel certRel
+  exact ContinuousMapCarrier_canonical_distance_iff.mpr composite
+
+theorem ContinuousMapCarrier_empty_distance_comp_closed
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
+    ContinuousMapCarrier source mapF mid modF certF BHist.Empty ->
+      ContinuousMapCarrier mid mapG target modG certG BHist.Empty ->
+        Cont mapF mapG mapFG ->
+          Cont modF modG modFG ->
+            Cont target modFG certFG ->
+              hsame source BHist.Empty ∧ hsame mid BHist.Empty ∧ hsame target BHist.Empty ∧
+                ContinuousMapCarrier source mapFG target modFG certFG BHist.Empty := by
+  intro first second graphRel modulusRel certRel
+  have firstEndpoints :
+      hsame source BHist.Empty ∧ hsame mid BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := source) (y := mid)).mp first.right
+  have secondEndpoints :
+      hsame mid BHist.Empty ∧ hsame target BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := mid) (y := target)).mp second.right
+  have canonical :
+      ContinuousMapCarrier source mapFG target modFG certFG (append source target) :=
+    ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel
+  have emptyDistance :
+      MetricDistanceWitness source target BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := source) (y := target)).mpr
+      (And.intro firstEndpoints.left secondEndpoints.right)
+  exact And.intro firstEndpoints.left
+    (And.intro firstEndpoints.right
+      (And.intro secondEndpoints.right (And.intro canonical.left emptyDistance)))
+
+theorem ContinuousMapCarrier_empty_distance_empty_graph_comp_certificate_readback
+    {source mid target mapF mapG modF modG modFG certF certG certFG : BHist} :
+    ContinuousMapCarrier source mapF mid modF certF BHist.Empty ->
+      ContinuousMapCarrier mid mapG target modG certG BHist.Empty ->
+        Cont mapF mapG BHist.Empty -> Cont modF modG modFG -> Cont target modFG certFG ->
+          hsame source BHist.Empty ∧ hsame mid BHist.Empty ∧ hsame target BHist.Empty ∧
+            UnaryHistory certFG ∧ hsame certFG modFG := by
+  intro first second graphRel modulusRel certRel
+  have composite :=
+    ContinuousMapCarrier_empty_distance_comp_closed first second graphRel modulusRel certRel
+  have certReadback :
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        UnaryHistory certFG ∧ hsame certFG modFG :=
+    ContinuousMapCarrier_empty_map_empty_distance_certificate_readback composite.right.right.right
+  exact
+    And.intro composite.left
+      (And.intro composite.right.left
+        (And.intro composite.right.right.left certReadback.right.right))
+
+theorem ContinuousMapCarrier_comp_distance_deterministic
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG distF distG dist :
+      BHist} :
+    ContinuousMapCarrier source mapF mid modF certF distF ->
+      ContinuousMapCarrier mid mapG target modG certG distG ->
+        Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont target modFG certFG ->
+          ContinuousMapCarrier source mapFG target modFG certFG dist ->
+            hsame dist (append source target) := by
+  intro first second graphRel modulusRel certRel displayed
+  have canonical :
+      ContinuousMapCarrier source mapFG target modFG certFG (append source target) :=
+    ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel
+  exact
+    (ContinuousMapCarrier_target_cert_distance_deterministic displayed canonical).right.right.left
+
 theorem ContinuousMap_comp_graph_depth_add
     {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
     ContinuousFunctionCarrier source mapF mid modF certF ->
@@ -390,5 +517,61 @@ theorem ContinuousMap_comp_graph_depth_add
                           And.intro sourceCarrier
                             (And.intro mapCarrier (And.intro targetCarrier graph))
   exact MetricDistanceWitness_depth_add graphWitness
+
+theorem ContinuousMapCarrier_composition_associative_canonical_package
+    {source mid1 mid2 target mapF mapG mapH mapFG mapGH mapL mapR modF modG modH modFG modGH
+      modL modR certF certG certH certFG certGH certL certR distF distG distH displayedL
+      displayedR : BHist} :
+    ContinuousMapCarrier source mapF mid1 modF certF distF ->
+      ContinuousMapCarrier mid1 mapG mid2 modG certG distG ->
+        ContinuousMapCarrier mid2 mapH target modH certH distH ->
+          Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont mid2 modFG certFG ->
+            Cont mapFG mapH mapL -> Cont modFG modH modL -> Cont target modL certL ->
+              Cont mapG mapH mapGH -> Cont modG modH modGH -> Cont target modGH certGH ->
+                Cont mapF mapGH mapR -> Cont modF modGH modR -> Cont target modR certR ->
+                  ContinuousMapCarrier source mapL target modL certL (append source target) ∧
+                    ContinuousMapCarrier source mapR target modR certR (append source target) ∧
+                      hsame mapL mapR ∧ hsame modL modR ∧
+                        (ContinuousMapCarrier source mapL target modL certL displayedL ->
+                          hsame displayedL (append source target)) ∧
+                          (ContinuousMapCarrier source mapR target modR certR displayedR ->
+                            hsame displayedR (append source target)) := by
+  intro carrierF carrierG carrierH graphFG modulusFG certFGRel graphL modulusL certLRel
+    graphGH modulusGH certGHRel graphR modulusR certRRel
+  have carrierFG :
+      ContinuousMapCarrier source mapFG mid2 modFG certFG (append source mid2) :=
+    ContinuousMapCarrier_comp_closed carrierF carrierG graphFG modulusFG certFGRel
+  have carrierGH :
+      ContinuousMapCarrier mid1 mapGH target modGH certGH (append mid1 target) :=
+    ContinuousMapCarrier_comp_closed carrierG carrierH graphGH modulusGH certGHRel
+  have carrierL :
+      ContinuousMapCarrier source mapL target modL certL (append source target) :=
+    ContinuousMapCarrier_comp_closed carrierFG carrierH graphL modulusL certLRel
+  have carrierR :
+      ContinuousMapCarrier source mapR target modR certR (append source target) :=
+    ContinuousMapCarrier_comp_closed carrierF carrierGH graphR modulusR certRRel
+  have graphSame : hsame mapL mapR :=
+    cont_assoc_unique graphFG graphGH graphL graphR
+  have modulusSame : hsame modL modR :=
+    cont_assoc_unique modulusFG modulusGH modulusL modulusR
+  have displayedLeft :
+      ContinuousMapCarrier source mapL target modL certL displayedL ->
+        hsame displayedL (append source target) := by
+    intro displayed
+    exact
+      ContinuousMapCarrier_comp_distance_deterministic carrierFG carrierH graphL modulusL certLRel
+        displayed
+  have displayedRight :
+      ContinuousMapCarrier source mapR target modR certR displayedR ->
+        hsame displayedR (append source target) := by
+    intro displayed
+    exact
+      ContinuousMapCarrier_comp_distance_deterministic carrierF carrierGH graphR modulusR certRRel
+        displayed
+  exact
+    And.intro carrierL
+      (And.intro carrierR
+        (And.intro graphSame
+          (And.intro modulusSame (And.intro displayedLeft displayedRight))))
 
 end BEDC.Derived.ContinuousMapUp

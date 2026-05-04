@@ -1,5 +1,6 @@
 import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
+import BEDC.Derived.MetricUp.HsameDeterminism
 
 namespace BEDC.Derived.MetricUp
 
@@ -61,6 +62,19 @@ theorem MetricDistanceWitness_triangle_cont_middle_closed {x y z dxy dyz dxyz : 
           cases xyzRel
           exact cont_intro (append_assoc x y z))))
 
+theorem MetricDistanceWitness_visible_context_triangle_cont_middle_closed
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
+        MetricDistanceWitness x dyz dxyz := by
+  intro visible yz middleContinuation
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_cont_middle_closed visibleData.right.right yz
+    middleContinuation
+
 theorem MetricDistanceWitness_triangle_cont_middle_result_deterministic
     {x y z dxy dyz dxyz displayed : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
@@ -96,6 +110,38 @@ theorem MetricDistanceWitness_triangle_append_context_result_deterministic
       MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
     MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
   exact cont_deterministic displayedWitness.right.right.right canonical.right.right.right
+
+theorem MetricDistanceWitness_triangle_append_context_source_deterministic
+    {p q x x' y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceWitness (append p x') (append dyz q) (append (append p dxyz) q) ->
+          hsame x x' := by
+  intro pCarrier qCarrier xy yz xyz displayedWitness
+  have canonical :
+      MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+    MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+  exact MetricDistanceWitness_visible_context_hsame_source_deterministic (hsame_refl dyz)
+    (hsame_refl dxyz) canonical displayedWitness
+
+theorem MetricDistanceWitness_triangle_append_context_endpoint_deterministic
+    {p q x x' y z dxy dyz dxyz e : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceWitness (append p x') (append dyz q) (append (append p dxyz) q) ->
+          hsame x x') /\
+        (MetricDistanceWitness (append p x) (append e q) (append (append p dxyz) q) ->
+          hsame dyz e) := by
+  intro pCarrier qCarrier xy yz xyz
+  constructor
+  · intro displayed
+    exact MetricDistanceWitness_triangle_append_context_source_deterministic
+      pCarrier qCarrier xy yz xyz displayed
+  · intro displayed
+    have canonical :
+        MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+      MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+    exact MetricDistanceWitness_visible_context_target_deterministic canonical displayed
 
 theorem MetricDistanceWitness_triangle_append_depth_add {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
@@ -139,6 +185,50 @@ theorem MetricDistanceWitness_triangle_depth_zero_collapse {x y z dxy dyz dxyz :
       (And.intro yEmpty
         (And.intro zEmpty (And.intro dxyEmpty dyzEmpty))))
 
+theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceDepth dxyz = 0 ->
+          hsame dxyz (append x dyz) ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty ∧
+            hsame z BHist.Empty ∧ hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty := by
+  intro visible yz xyz depthZero
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_depth_zero_collapse visibleData.right.right yz xyz
+    depthZero
+
+theorem MetricDistanceWitness_triangle_depth_zero_iff_empty_spine {x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceDepth dxyz = 0 ↔
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty) := by
+  intro xy yz xyz
+  constructor
+  · intro depthZero
+    exact (MetricDistanceWitness_triangle_depth_zero_collapse xy yz xyz depthZero).right
+  · intro emptySpine
+    exact MetricDistanceWitness_empty_endpoints_depth_zero xyz emptySpine.right.right.right.left
+      emptySpine.right.right.left
+
+theorem MetricDistanceWitness_visible_context_triangle_depth_zero_iff_empty_spine
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceDepth dxyz = 0 ↔
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty) := by
+  intro visible yz xyz
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_depth_zero_iff_empty_spine visibleData.right.right yz xyz
+
 theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
       MetricDistanceWitness dxy z dxyz -> (hsame dxyz BHist.Empty -> False) ->
@@ -158,5 +248,51 @@ theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz
           exact Or.inr (Or.inl nonemptyY)
   | inr nonemptyZ =>
       exact Or.inr (Or.inr nonemptyZ)
+
+theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz ->
+        ((hsame dxyz BHist.Empty -> False) ↔
+          (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
+            (hsame z BHist.Empty -> False) ∨ (hsame dxy BHist.Empty -> False) ∨
+              (hsame dyz BHist.Empty -> False)) := by
+  intro xy yz xyz
+  constructor
+  · intro nonemptyDistance
+    have endpoints :=
+      MetricDistanceWitness_triangle_nonempty_endpoint_nonempty xy yz xyz nonemptyDistance
+    cases endpoints with
+    | inl nonemptyX =>
+        exact Or.inl nonemptyX
+    | inr endpointRest =>
+        cases endpointRest with
+        | inl nonemptyY =>
+            exact Or.inr (Or.inl nonemptyY)
+        | inr nonemptyZ =>
+            exact Or.inr (Or.inr (Or.inl nonemptyZ))
+  · intro nonemptySpine
+    intro emptyDistance
+    have depthZero : MetricDistanceDepth dxyz = 0 :=
+      MetricDistanceDepth_zero_iff_empty.mpr emptyDistance
+    have emptySpine :=
+      (MetricDistanceWitness_triangle_depth_zero_iff_empty_spine xy yz xyz).mp depthZero
+    cases nonemptySpine with
+    | inl nonemptyX =>
+        exact nonemptyX emptySpine.left
+    | inr spineRest =>
+        cases spineRest with
+        | inl nonemptyY =>
+            exact nonemptyY emptySpine.right.left
+        | inr spineRest =>
+            cases spineRest with
+            | inl nonemptyZ =>
+                exact nonemptyZ emptySpine.right.right.left
+            | inr spineRest =>
+                cases spineRest with
+                | inl nonemptyDxy =>
+                    exact nonemptyDxy emptySpine.right.right.right.left
+                | inr nonemptyDyz =>
+                    exact nonemptyDyz emptySpine.right.right.right.right
 
 end BEDC.Derived.MetricUp

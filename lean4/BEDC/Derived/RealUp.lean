@@ -2,20 +2,21 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RealUp.ConstantCarrierContext
+import BEDC.Derived.RealUp.CommonHeadCancel
 import BEDC.Derived.RealUp.PrefixTruncation
+import BEDC.Derived.RealUp.SelectedContextualEndpoint
+import BEDC.Derived.RealUp.FinitePrefixEndpointPackage
 import BEDC.Derived.RealUp.ConstantStreamBridge
 import BEDC.Derived.RealUp.ConstantStream
 import BEDC.Derived.RealUp.StreamReadback
 import BEDC.Derived.RealUp.Readback
-
 namespace BEDC.Derived.RealUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 open BEDC.Derived.StreamNameUp
-
 theorem RealIndependentReindexedConstant_rational_embedding_certificate {d e : BHist}
     {r q : BHist -> BHist} :
     ((RatHistoryCarrier d ↔
@@ -98,7 +99,6 @@ theorem RealIndependentReindexedConstant_rational_embedding_certificate {d e : B
   exact And.intro leftCarrier
     (And.intro rightCarrier
       (And.intro streamClassifierIff (And.intro streamUnaryIff unaryRealIff)))
-
 theorem RealStreamClassifier_unary_denominator_context_closed
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} :
     RealStreamClassifier x y ->
@@ -129,7 +129,6 @@ theorem RealStreamClassifier_unary_denominator_context_closed
     exact (append_assoc (pY n) (y n) (tY n)).symm.trans
       ((congrArg (fun h => append h (tY n)) prefEq).symm.trans outEq.symm)
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY contextClassifier
-
 theorem RealConstantHistoryClassifier_append_common_tail_cancel {d e tail : BHist} :
     RealConstantHistoryClassifier (BHist.e1 (append d tail)) (BHist.e1 (append e tail)) ->
       hsame d e := by
@@ -138,7 +137,6 @@ theorem RealConstantHistoryClassifier_append_common_tail_cancel {d e tail : BHis
       RatHistoryClassifier (append d tail) (append e tail) :=
     Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
   exact append_right_cancel (k := tail) rational.right.right
-
 theorem RealConstantStream_independent_reindexed_streamName_bridge {d e : BHist}
     {r q : BHist -> BHist} :
     (RatHistoryClassifier d e ↔
@@ -374,7 +372,6 @@ theorem RealConstantStream_independent_reindexed_streamName_bridge {d e : BHist}
               simp only [RatConstStream]
               exact ratClassifier
   exact And.intro ratStreamIff (And.intro streamUnaryIff unaryRealIff)
-
 theorem RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b : BHist} :
     RealStreamClassifier x y ->
@@ -394,7 +391,6 @@ theorem RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback
     RealStreamClassifier_unary_denominator_context_closed classified prefixX tailX samePrefix
       sameTail contPX contOX contPY contOY
   exact RealStreamClassifier_selected_e1_pair_readback contextClassified sameLeft sameRight
-
 theorem RealStreamClassifier_unary_context_closed
     {x y prefX prefY tailX tailY : Nat -> BHist} :
     (forall i : Nat, UnaryHistory (prefX i)) ->
@@ -408,7 +404,6 @@ theorem RealStreamClassifier_unary_context_closed
   intro prefUnary prefSame tailUnary tailSame classified i
   exact RatHistoryClassifier_unary_denominator_context_closed (classified i)
     (prefUnary i) (prefSame i) (tailUnary i) (tailSame i)
-
 theorem RealStreamClassifier_unary_denominator_context_e1_pair_readback
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b : BHist} :
     RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) ->
@@ -426,7 +421,6 @@ theorem RealStreamClassifier_unary_denominator_context_e1_pair_readback
     RealStreamClassifier_unary_denominator_context_closed classified prefixX tailX samePrefix
       sameTail contPX contOX contPY contOY
   exact RealStreamClassifier_selected_e1_pair_readback contextClassified sameX sameY
-
 theorem RealStreamClassifier_unary_denominator_context_selected_shape_package
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {zx zy : BHist} :
     RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) ->
@@ -460,7 +454,14 @@ theorem RealStreamClassifier_unary_denominator_context_selected_shape_package
             (fun sameZero =>
               PositiveUnaryDenominator_e0_absurd
                 (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))
-
+theorem RealStreamClassifier_unary_denominator_context_selected_full_endpoint_package {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b zX zY : BHist} : RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) -> (forall i : Nat, UnaryHistory (tX i)) -> (forall i : Nat, hsame (pX i) (pY i)) -> (forall i : Nat, hsame (tX i) (tY i)) -> (forall i : Nat, Cont (pX i) (x i) (mX i)) -> (forall i : Nat, Cont (mX i) (tX i) (oX i)) -> (forall i : Nat, Cont (pY i) (y i) (mY i)) -> (forall i : Nat, Cont (mY i) (tY i) (oY i)) -> hsame (oX n) (BHist.e1 a) -> hsame (oY n) (BHist.e1 b) -> PositiveUnaryDenominator (oX n) /\ PositiveUnaryDenominator (oY n) /\ UnaryHistory (oX n) /\ UnaryHistory (oY n) /\ (hsame (oX n) BHist.Empty -> False) /\ (hsame (oY n) BHist.Empty -> False) /\ (hsame (oX n) (BHist.e0 zX) -> False) /\ (hsame (oY n) (BHist.e0 zY) -> False) /\ UnaryHistory a /\ UnaryHistory b /\ hsame a b := by
+  intro classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameOX sameOY
+  have positives := RealStreamClassifier_unary_denominator_context_selected_positive_denominators (n := n) classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have shape := RealStreamClassifier_unary_denominator_context_selected_shape_package (n := n) (zx := zX) (zy := zY) classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have tails := RealStreamClassifier_unary_denominator_context_e1_pair_readback (n := n) classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameOX sameOY
+  exact ⟨positives.left, positives.right, shape.left, shape.right.left, shape.right.right.left,
+    shape.right.right.right.left, shape.right.right.right.right.left,
+    shape.right.right.right.right.right, tails.left, tails.right.left, tails.right.right⟩
 theorem RealStreamClassifier_selected_continuation_e1_pair_readback
     {x y : Nat -> BHist} {n : Nat} {q xq yq a b : BHist} :
     RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
@@ -477,7 +478,6 @@ theorem RealStreamClassifier_selected_continuation_e1_pair_readback
   have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
     RatHistoryClassifier_hsame_transport sameX sameY transported
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
-
 theorem RealStreamClassifier_selected_continuation_positive_denominators
     {x y : Nat -> BHist} {n : Nat} {q xq yq : BHist} :
     RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
@@ -491,7 +491,6 @@ theorem RealStreamClassifier_selected_continuation_positive_denominators
   have transported : RatHistoryClassifier xq yq :=
     RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
   exact RatHistoryClassifier_positive_denominators transported
-
 theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat -> BHist}
     {n : Nat} :
     RealStreamClassifier x y ->
@@ -509,7 +508,6 @@ theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat
         (And.intro xData.left
           (And.intro yData.left
             (And.intro xData.right yData.right))))
-
 theorem RealStreamPrefixClassifier_truncated_unary_context_closed
     {x y prefX prefY tailX tailY : Nat -> BHist} :
     (forall i : Nat, UnaryHistory (prefX i)) ->
@@ -533,7 +531,6 @@ theorem RealStreamPrefixClassifier_truncated_unary_context_closed
         exact ih stepClassified.left
   exact RealStreamPrefixClassifier_unary_context_closed prefUnary prefSame tailUnary tailSame n
     truncated
-
 theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
     {x x' y y' : Nat -> BHist} {n : Nat} :
     (forall i : Nat, hsame (x i) (x' i)) ->
@@ -561,7 +558,6 @@ theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
       (And.intro positiveRows.right
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
-
 theorem RealStreamClassifier_transport_selected_e0_endpoint_absurd
     {x x' y y' : Nat -> BHist} {n : Nat} {zx zy : BHist} :
     (forall i : Nat, hsame (x i) (x' i)) ->
@@ -582,7 +578,6 @@ theorem RealStreamClassifier_transport_selected_e0_endpoint_absurd
   · intro sameZero
     exact PositiveUnaryDenominator_e0_absurd
       (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
-
 theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
     (forall i : Nat, hsame (x i) (x' i)) ->
@@ -595,5 +590,11 @@ theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     RealStreamClassifier_transported_selected_e1_rat_classifier_readback sameX sameY classified
       sameLeft sameRight
   exact And.intro displayed (RatHistoryClassifier_e1_tail_unary_iff.mp displayed)
-
+theorem RealStreamPrefixClassifier_truncated_endpoint_e0_absurd {x y : Nat -> BHist}
+    {m n : Nat} {zx zy : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> (hsame (x n) (BHist.e0 zx) -> False) ∧
+      (hsame (y n) (BHist.e0 zy) -> False) := by
+  intro h
+  have p := RealStreamPrefixClassifier_truncated_endpoint_denominator_package (m := m) (n := n) h
+  exact ⟨fun s => PositiveUnaryDenominator_e0_absurd (PositiveUnaryDenominator_hsame_transport s p.right.left), fun s => PositiveUnaryDenominator_e0_absurd (PositiveUnaryDenominator_hsame_transport s p.right.right.left)⟩
 end BEDC.Derived.RealUp

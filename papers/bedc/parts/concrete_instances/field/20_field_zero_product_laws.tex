@@ -379,6 +379,57 @@ apart-zero witness rejects the corresponding endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_continuation\_endpoint\_split\_iff}
 
+\begin{theorem}[Field apart-zero mutual continuation cycle tails absurd]
+\label{thm:field-apartzero-mutual-continuation-cycle-tails-absurd}
+For a mutual continuation cycle $\ContR(h,leftTail,k)$ and
+$\ContR(k,rightTail,h)$, neither cycle tail can be field-apart from zero.
+\end{theorem}
+\begin{proof}
+Continuation cycle cancellation reads both tails as $\emp$. Each
+$\mathsf{ApartZero}_F$ witness is exactly a rejection of that empty endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_mutual\_continuation\_cycle\_tails\_absurd}
+
+\begin{theorem}[Field apart-zero triangle continuation cycle tails absurd]
+\label{thm:field-apartzero-triangle-continuation-cycle-tails-absurd}
+For a triangle continuation cycle, the three displayed tails cannot be
+field-apart from zero.
+\end{theorem}
+\begin{proof}
+Triangle cycle cancellation identifies all three tails with $\emp$. The
+corresponding apart-zero witness rejects each empty-tail conclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldApartZero\_triangle\_continuation\_cycle\_tails\_absurd}
+
+\begin{theorem}[Field apart-zero two-step continuation split]
+\label{thm:field-apartzero-two-step-continuation-split}
+For histories $l,h,r,u,v:\mathsf{BHist}$ with $\ContR(l,h,u)$ and
+$\ContR(u,r,v)$, apartness from zero of the final continuation result is
+exactly apartness from zero in one of the three displayed factors:
+$$
+\mathsf{ApartZero}_F(v)
+\Longleftrightarrow
+(\mathsf{ApartZero}_F(l)\lor\mathsf{ApartZero}_F(h))
+\lor\mathsf{ApartZero}_F(r).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:field-apartzero-continuation-endpoint-split} to the continuation
+$\ContR(u,r,v)$. The resulting left branch gives $\mathsf{ApartZero}_F(u)$;
+applying the same theorem to $\ContR(l,h,u)$ splits that branch into
+$\mathsf{ApartZero}_F(l)$ or $\mathsf{ApartZero}_F(h)$. The right branch is
+already $\mathsf{ApartZero}_F(r)$, so the displayed disjunction follows.
+
+For the reverse direction, split the displayed disjunction. If the left
+summand holds, apply
+\autoref{thm:field-apartzero-continuation-endpoint-split} to $\ContR(l,h,u)$
+to obtain $\mathsf{ApartZero}_F(u)$, then apply the same theorem to
+$\ContR(u,r,v)$ to obtain $\mathsf{ApartZero}_F(v)$. If the right summand
+holds, the second continuation split directly transports
+$\mathsf{ApartZero}_F(r)$ to $\mathsf{ApartZero}_F(v)$.
+\end{proof}
+
 \begin{theorem}[Field apart-zero factors excluded by singleton continuation result]
 \label{thm:field-apartzero-continuation-singleton-result-factor-absurd}
 For histories $P,Q,R,endpoint:\mathsf{BHist}$, if $\ContR(P,Q,R)$ and the

@@ -1,0 +1,231 @@
+\section{Public reverse and append}
+\label{sec:list-public-reverse-append-antimorphism}
+
+\begin{theorem}[List public reverse turns append into opposite append]
+\label{thm:list-public-reverse-append-antimorphism}
+Per-object template: traditional target finite-list reverse anti-homomorphism;
+BEDC source $\mathsf{BHist}$ through $\mathsf{ListSpineRep}$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability obligations public
+append congruence plus public reverse functionality; ledger finite spine
+presentation; core theorem this opposite-append law; exactness via
+represented-spine classifier displayed exactness; standard bridge ordinary
+finite-list $reverse(xs{++}ys)=reverse(ys){++}reverse(xs)$; status
+$\mathsf{ProofTarget}$.
+
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. For histories
+$h,k,r,h^{\mathrm{rev}},k^{\mathrm{rev}},s:\mathsf{BHist}$, suppose
+$$
+\mathsf{ListPublicAppend}_A(h,k,r),
+\quad
+\mathsf{ListPublicReverse}_A(h,h^{\mathrm{rev}}),
+\quad
+\mathsf{ListPublicReverse}_A(k,k^{\mathrm{rev}})
+$$
+and
+$$
+\mathsf{ListPublicAppend}_A(k^{\mathrm{rev}},h^{\mathrm{rev}},s)
+$$
+hold. Then there exists a history $s':\mathsf{BHist}$ such that
+$$
+\mathsf{ListPublicReverse}_A(r,s')
+$$
+and
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Unpack the append witness $\mathsf{ListPublicAppend}_A(h,k,r)$ as finite spines
+$xs,ys$ with $h$ represented by $xs$, $k$ represented by $ys$, and $r$
+represented by $xs{++}ys$.
+
+Unpack the two reverse witnesses. The public reverse of $h$ supplies a
+displayed representation of $h^{\mathrm{rev}}$ by $\mathsf{reverse}(xs)$ up to
+the source classifier, and the public reverse of $k$ supplies a displayed
+representation of $k^{\mathrm{rev}}$ by $\mathsf{reverse}(ys)$ up to the same
+classifier. These comparisons use the functionality clause of
+Theorem~\ref{thm:list-public-reverse-readback-functional-involutive} together
+with represented-spine classifier displayed exactness.
+
+Use the finite-spine identity
+$$
+\mathsf{reverse}(xs{++}ys)=\mathsf{reverse}(ys){++}\mathsf{reverse}(xs).
+$$
+The representation of $r$ by $xs{++}ys$ therefore repacks as a public reverse
+witness from $r$ to an endpoint $s'$ represented by
+$\mathsf{reverse}(ys){++}\mathsf{reverse}(xs)$.
+
+Finally compare the given opposite-append output $s$ with the repacked endpoint
+$s'$. The public append congruence and same-input functionality clauses of
+Theorem~\ref{thm:list-public-append-readback-total-congruent}, applied to
+$k^{\mathrm{rev}}$ and $h^{\mathrm{rev}}$ and transported through the reverse
+functionality comparisons above, give
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$.
+\end{proof}
+
+\begin{theorem}[List classifier e1-map reverse append antimorphism]
+\label{thm:list-classifier-map-e1-reverse-append-antimorphism}
+For BEDC history lists $xs,ys,xs^{\mathrm{rev}},ys^{\mathrm{rev}}$, if
+$xs^{\mathrm{rev}}$ classifies $reverse(xs)$ and $ys^{\mathrm{rev}}$
+classifies $reverse(ys)$ under $\hsame$, then the $\Eone$-mapped reverse of
+$xs{++}ys$ classifies the $\Eone$-mapped opposite append
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$.
+\end{theorem}
+\begin{proof}
+Use the finite-list identity
+$reverse(xs{++}ys)=reverse(ys){++}reverse(xs)$. Symmetry of the two classifier
+hypotheses gives classifiers from $reverse(ys)$ to $ys^{\mathrm{rev}}$ and
+from $reverse(xs)$ to $xs^{\mathrm{rev}}$; append congruence combines them into
+a classifier from $reverse(ys){++}reverse(xs)$ to
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$. Transport along the finite-list
+identity and apply the $\Eone$ map classifier theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_reverse\_append\_antimorphism}
+
+\begin{theorem}[List classifier e0-map reverse append antimorphism]
+\label{thm:list-classifier-map-e0-reverse-append-antimorphism}
+For BEDC history lists $xs,ys,xs^{\mathrm{rev}},ys^{\mathrm{rev}}$, if
+$xs^{\mathrm{rev}}$ classifies $reverse(xs)$ and $ys^{\mathrm{rev}}$
+classifies $reverse(ys)$ under $\hsame$, then the $\Ezero$-mapped reverse of
+$xs{++}ys$ classifies the $\Ezero$-mapped opposite append
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$.
+\end{theorem}
+\begin{proof}
+Use the finite-list identity
+$reverse(xs{++}ys)=reverse(ys){++}reverse(xs)$. Symmetry of the two classifier
+hypotheses gives classifiers from $reverse(ys)$ to $ys^{\mathrm{rev}}$ and
+from $reverse(xs)$ to $xs^{\mathrm{rev}}$; append congruence combines them into
+a classifier from $reverse(ys){++}reverse(xs)$ to
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$. Transport along the finite-list
+identity and apply the $\Ezero$ map classifier theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_reverse\_append\_antimorphism}
+
+\begin{theorem}[List public reverse append output classifier uniqueness]
+\label{thm:list-public-reverse-append-output-classifier-unique}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list reverse append output classifier uniqueness; BEDC
+source $\mathsf{BHist}$ through $\mathsf{ListSpineRep}$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability obligations public
+append congruence, public reverse functionality, and classifier transitivity;
+ledger finite spine presentation; core theorem this reverse-output uniqueness
+law; exactness via represented-spine classifier displayed exactness and public
+reverse readback functionality; standard bridge ordinary finite-list reverse
+append readback; status $\mathsf{ProofTarget}$.
+
+For histories $h,k,r,h^{\mathrm{rev}},k^{\mathrm{rev}},s,t:\mathsf{BHist}$,
+suppose
+$$
+\mathsf{ListPublicAppend}_A(h,k,r),
+\quad
+\mathsf{ListPublicReverse}_A(h,h^{\mathrm{rev}}),
+\quad
+\mathsf{ListPublicReverse}_A(k,k^{\mathrm{rev}})
+$$
+and
+$$
+\mathsf{ListPublicAppend}_A(k^{\mathrm{rev}},h^{\mathrm{rev}},s),
+\quad
+\mathsf{ListPublicReverse}_A(r,t)
+$$
+hold. Then
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,t)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-reverse-append-antimorphism} to the public
+append witness for $h,k,r$, the two public reverse witnesses for $h$ and $k$,
+and the displayed opposite public append witness for
+$k^{\mathrm{rev}},h^{\mathrm{rev}},s$. This gives a history
+$s':\mathsf{BHist}$ with $\mathsf{ListPublicReverse}_A(r,s')$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$.
+
+Clause 3 of
+Theorem~\ref{thm:list-public-reverse-readback-functional-involutive}, applied to
+the two public reverse readbacks from the same source $r$, compares $s'$ with
+$t$:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s',t).
+$$
+
+Finally compose
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$ with
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s',t)$. The needed transitivity
+is the spine-induced history classifier transitivity supplied by
+Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence} together
+with the bridge-classifier presentation in
+Definition~\ref{def:list-spine-representation}.
+\end{proof}
+
+\begin{theorem}[List public reverse append length ledger coherence]
+\label{thm:list-public-reverse-append-length-ledger-coherence}
+The ten-field fit is: traditional target finite-list reverse append law with a
+public length ledger; BEDC source $\mathsf{BHist}$ through
+$\mathsf{ListSpineRep}$; carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability obligations public
+append congruence, public reverse functionality, classifier transitivity, and
+public length transport; ledger the finite public length value $n$; core
+theorem this reverse-append endpoint and length coherence package; exactness via
+represented-spine classifier displayed exactness, public reverse length
+preservation, and public length classifier transport; standard bridge ordinary
+finite-list reverse append with length preservation; status
+$\mathsf{ProofTarget}$.
+
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. For histories
+$h,k,r,h^{\mathrm{rev}},k^{\mathrm{rev}},s,t:\mathsf{BHist}$ and a finite
+length value $n$, suppose
+$$
+\mathsf{ListPublicAppend}_A(h,k,r),
+\quad
+\mathsf{ListPublicReverse}_A(h,h^{\mathrm{rev}}),
+\quad
+\mathsf{ListPublicReverse}_A(k,k^{\mathrm{rev}})
+$$
+and
+$$
+\mathsf{ListPublicAppend}_A(k^{\mathrm{rev}},h^{\mathrm{rev}},s),
+\quad
+\mathsf{ListPublicReverse}_A(r,t),
+\quad
+\mathsf{ListPublicLength}_A(r,n)
+$$
+hold. Then
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,t)\land
+\mathsf{ListPublicLength}_A(s,n)\land
+\mathsf{ListPublicLength}_A(t,n)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:list-public-reverse-append-output-classifier-unique} to the
+public append witness for $h,k,r$, the two public reverse witnesses for $h$ and
+$k$, the displayed opposite public append witness for
+$k^{\mathrm{rev}},h^{\mathrm{rev}},s$, and the public reverse witness from $r$
+to $t$. This gives
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,t)$.
+
+Next apply Theorem~\ref{thm:list-public-reverse-length-preservation} to
+$\mathsf{ListPublicReverse}_A(r,t)$ and the displayed ledger witness
+$\mathsf{ListPublicLength}_A(r,n)$. The forward length-preservation clause gives
+$\mathsf{ListPublicLength}_A(t,n)$.
+
+Finally apply Theorem~\ref{thm:list-public-length-classifier-transport} to the
+classifier witness between $s$ and $t$. Using the reverse transport direction
+with the length witness at $t$ yields $\mathsf{ListPublicLength}_A(s,n)$.
+Combining the classifier witness and the two endpoint length witnesses gives
+the required conjunction.
+\end{proof}
+\closureat{\ListUp}{\checkedCertStr}[BEDC.Derived.ListUp.FramedListBridgeClassifier\_semantic\_name\_certificate]

@@ -55,6 +55,46 @@ The two transported conclusions form the required conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_zero\_classifier\_factor\_absorption}
 
+\begin{theorem}[Ring zero-classifier two-sided ideal package]
+\label{thm:ring-zero-classifier-two-sided-ideal-package}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$ and $\hsame(y,0)$, then
+$$
+\hsame(x+y,0)\land \hsame(-x,0)\land
+\forall z:\mathsf{BHist},\ \hsame(x\cdot z,0)\land
+\hsame(z\cdot x,0)\land\hsame(x\cdot y,0).
+$$
+The ten-field fit is: traditional target zero-classifier two-sided ideal
+closure package; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from addition congruence,
+additive inverse congruence, multiplication congruence, and both distributive
+laws; ledger the two zero-classifier witnesses and an arbitrary multiplier;
+core theorem this theorem; exactness the displayed addition, negation, and
+two-sided multiplication closure; downstream consumer $\FieldUp$ zero-product
+exits, $\QuotientRingUp$ kernels, and $\IdealUp$ certificates; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First close the zero classifier under addition. Addition congruence transports
+$x+y$ along $\hsame(x,0)$ and $\hsame(y,0)$ to compare it with $0+0$, and the
+left-zero law reduces $0+0$ to $0$. Transitivity gives $\hsame(x+y,0)$.
+
+Next close the classifier under additive inverse. Additive inverse congruence
+transports $\hsame(x,0)$ to a comparison between $-x$ and $-0$, while
+\autoref{thm:ring-neg-zero} identifies $-0$ with $0$. Transitivity gives
+$\hsame(-x,0)$.
+
+Finally fix $z:\mathsf{BHist}$. Apply
+\autoref{thm:ring-zero-classifier-factor-absorption} to the factor $x$ and
+multiplier $z$ to obtain $\hsame(x\cdot z,0)$ and $\hsame(z\cdot x,0)$. Apply
+the same theorem with factor $x$ and multiplier $y$ to obtain
+$\hsame(x\cdot y,0)$, and package these conclusions with the additive and
+negative closure witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_zero\_classifier\_two\_sided\_ideal\_package}
+
 \begin{theorem}[Ring zero-classifier square annihilator package]
 \label{thm:ring-zero-classifier-square-annihilator-package}
 For BEDC history ring operations satisfying additive associativity, left zero,
@@ -239,6 +279,38 @@ comes from \autoref{thm:ring-add-right-zero}.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
 
+\begin{theorem}[Ring zero-classifier negated product annihilation]
+\label{thm:ring-zero-classifier-negated-product-annihilation}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame(-(xy),0)\land \hsame(-(yx),0).
+$$
+The ten-field fit is: traditional target negated zero-product annihilation;
+BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from signed zero-factor absorption and
+negative-product identification; ledger the zero-factor witness and the hidden
+product endpoint; core theorem this theorem; exactness the displayed
+conjunction; downstream consumer $\FieldUp$ denominator inverse normalization
+and zero-product exits; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ring-zero-classifier-signed-factor-absorption} to the
+zero-classified factor $x$ and multiplier $y$. Its first two components give
+the signed zero-product rows $\hsame((-x)y,0)$ and $\hsame(y(-x),0)$.
+
+Apply \autoref{thm:ring-mul-neg-left-eq-neg-mul} to identify $(-x)y$ with
+$-(xy)$. Apply \autoref{thm:ring-mul-neg-right-eq-neg-mul} with the ordered
+pair $(y,x)$ to identify $y(-x)$ with $-(yx)$.
+
+Use symmetry for the two endpoint identifications where necessary, and then
+transitivity of $\hsame$ with the two signed zero-product rows. This gives
+$\hsame(-(xy),0)$ and $\hsame(-(yx),0)$, which are exactly the displayed
+conjunction.
+\end{proof}
+
 \begin{theorem}[Ring double-negative product]
 \label{thm:ring-mul-neg-neg-eq-mul}
 For BEDC history ring operations satisfying additive associativity,
@@ -345,3 +417,65 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\RingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{theorem}[Ring left distributivity over subtraction]
+\label{thm:ring-left-distributivity-over-subtraction}
+Let $R$ carry a history-level $\RingUp$ certificate with classifier $\sim_R$,
+addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Write
+$x-_R y$ for $x+_R(-_R y)$. For every carried triple $a,b,c$,
+$$
+a\cdot_R(b-_R c)\sim_R(a\cdot_R b)-_R(a\cdot_R c).
+$$
+The ten-field fit is: traditional target left distributivity over subtraction;
+BEDC source $\RingUp$ over the carried endpoints of $R$; carrier the ring
+carrier; classifier $\sim_R$; stability from the addition congruence and left
+distributivity fields of \autoref{def:ring-stability-certificate}; ledger the
+three endpoints and the hidden negative summand; core theorem this theorem;
+exactness the displayed subtraction law; standard bridge ordinary ring
+distribution over differences; downstream consumer polynomial and module
+linear-expression normalization; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By the difference abbreviation, the left side is
+$a\cdot_R(b+_R(-_R c))$. Left distributivity gives
+$$
+a\cdot_R(b+_R(-_R c))
+\sim_R
+(a\cdot_R b)+_R(a\cdot_R(-_R c)).
+$$
+The right-negative product theorem
+\autoref{thm:ring-mul-neg-right-eq-neg-mul}, read in this certificate, gives
+$$
+a\cdot_R(-_R c)\sim_R-_R(a\cdot_R c).
+$$
+Addition congruence transports this comparison in the right summand while the
+left summand $a\cdot_R b$ is held fixed. Hence
+$$
+(a\cdot_R b)+_R(a\cdot_R(-_R c))
+\sim_R
+(a\cdot_R b)+_R(-_R(a\cdot_R c)).
+$$
+The final expression is $(a\cdot_R b)-_R(a\cdot_R c)$ by the same difference
+abbreviation. Transitivity of $\sim_R$ composes the distributivity comparison
+with the transported sign comparison and yields the displayed law.
+\end{proof}
+
+\begin{proposition}[Ring forgets to Monoid certificate]
+\label{prop:ring-forgets-monoid-certificate}
+Let $R$ carry a $\RingUp(R)$ certificate with carrier classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $(-)_R$, multiplication $\cdot_R$, and identity $1_R$. If the additive operations $0_R$, $+_R$, and $(-)_R$, the additive abelian-group stability rows, both distributive rows, the zero-multiplication rows, and every ledger entry whose operation-tree provenance uses a dropped additive constructor are omitted, then the retained carrier, source, monoid pattern, classifier, monoid stability fields, and multiplicative ledger form a $\MonoidUp(R)$ certificate. The carrier $R$, multiplication $\cdot_R$, identity $1_R$, and classifier $\sim_R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:ring-certificate-obligations}, the given certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\RingUp(R)$. The retained package keeps exactly the rows whose endpoint claims and expression provenance use only the carrier classifier, multiplication, and the multiplicative identity.
+
+By \autoref{def:ring-carrier}, a ring carrier consists of a carrier with classifier, addition, zero, additive inverse, multiplication, one, and ring law fields. Removing the additive coordinates leaves the same carrier $R$, the same classifier $\sim_R$, the same multiplication $\cdot_R:R\times R\to R$, and the same identity $1_R$. These are precisely the carrier data listed in \autoref{def:monoid-carrier}.
+
+By \autoref{def:ring-source-specification}, the source side of a ring is an additive $\AbGroupUp$ and a multiplicative $\MonoidUp$ on the same carrier and classifier. Suppressing the additive source leaves the certified multiplicative source over $R$, $\cdot_R$, $1_R$, and $\sim_R$. This is the source required by \autoref{def:monoid-source-specification}.
+
+By \autoref{def:ring-pattern-specification}, ring expressions are formed from $0$, $1$, $+$, unary minus, and multiplication. Restricting to expressions containing no additive constructor leaves expression formation from $1_R$, carried endpoints, and binary multiplication, exactly the monoid pattern of \autoref{def:monoid-pattern-specification}.
+
+By \autoref{def:ring-classifier-specification}, the ring classifier is the shared carrier sameness relation, congruent for both operations. Retaining the relation $\sim_R$ and its multiplication-congruence row gives the classifier required by \autoref{def:monoid-classifier-specification}. The addition-congruence row mentions the omitted operation and is not a monoid obligation.
+
+For stability, \autoref{def:ring-stability-certificate} lists additive abelian-group laws, multiplicative monoid laws, operation congruence, left distributivity, right distributivity, and zero multiplication laws. The multiplicative monoid laws give associativity and the left and right identity laws for $1_R$ under $\sim_R$; the retained multiplication-congruence row gives congruence in both arguments. The carrier-classifier rows are unchanged by the projection, so reflexivity and transitivity remain available. Together these are exactly the rows listed in \autoref{def:monoid-stability-certificate}. The omitted additive, distributive, and zero-multiplication rows mention $0_R$, $+_R$, or $(-)_R$, so they have no corresponding $\MonoidUp$ obligation.
+
+Finally, \autoref{def:ring-ledger-policy} records the shared carrier ledger and the operation tree for ring expressions. Removing ledger entries whose provenance uses a dropped additive constructor leaves carrier witnesses, the identity endpoint, and multiplication trees for monoid expressions. This is the ledger policy of \autoref{def:monoid-ledger-policy}. Hence the retained data satisfy the obligations named in \autoref{def:monoid-certificate-obligations}, with $R$, $\cdot_R$, $1_R$, and $\sim_R$ copied from the original $\RingUp(R)$ certificate.
+\end{proof}

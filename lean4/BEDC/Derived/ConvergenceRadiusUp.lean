@@ -322,4 +322,16 @@ theorem ConvRad_visible_radius_witness_endpoint_package {a : Nat -> BHist} {R ta
               boundAt visibleRadius continuation
             exact GeomBound_visible_radius_endpoint_package bound continuation)
 
+theorem ConvRad_classifier_visible_radius_witness_endpoint_package
+    {a b : Nat -> BHist} {R R' tail : BHist} :
+    hsame R R' -> UnaryHistory R' -> (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
+      ConvRad a R -> UnaryHistory (BHist.e1 tail) ->
+        ∃ K : BHist -> BHist, Cont (BHist.e1 tail) (K (BHist.e1 tail)) R' ->
+          UnaryHistory tail ∧ (hsame R' BHist.Empty -> False) := by
+  intro sameRadius targetUnary coeffClassified radius visibleRadius
+  have transported :
+      UnaryHistory R' ∧ ConvRad b R' :=
+    ConvRad_radius_coefficient_classifier_transport sameRadius targetUnary coeffClassified radius
+  exact ConvRad_visible_radius_witness_endpoint_package transported.right visibleRadius
+
 end BEDC.Derived.ConvergenceRadiusUp

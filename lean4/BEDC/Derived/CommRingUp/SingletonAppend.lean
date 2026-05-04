@@ -62,6 +62,101 @@ theorem concrete_singleton_history_commring_laws :
               exact And.intro (hsame_refl BHist.Empty)
                 (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
+theorem concrete_singleton_history_commring_full_schema_laws :
+    let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
+    let Classifier : BHist -> BHist -> Prop :=
+      fun h k => Carrier h ∧ Carrier k ∧ hsame h k
+    let add : BHist -> BHist -> BHist := append
+    let neg : BHist -> BHist := fun _ => BHist.Empty
+    let zero : BHist := BHist.Empty
+    let mul : BHist -> BHist -> BHist := append
+    let one : BHist := BHist.Empty
+    Carrier zero ∧ Carrier one ∧
+      (∀ {x y : BHist}, Carrier x -> Carrier y -> Carrier (add x y)) ∧
+      (∀ {x : BHist}, Carrier x -> Carrier (neg x)) ∧
+      (∀ {x y : BHist}, Carrier x -> Carrier y -> Carrier (mul x y)) ∧
+      (∀ {x : BHist}, Carrier x -> Classifier (add zero x) x) ∧
+      (∀ {x : BHist}, Carrier x -> Classifier (add x zero) x) ∧
+      (∀ {x y z : BHist}, Carrier x -> Carrier y -> Carrier z ->
+        Classifier (mul x (add y z)) (add (mul x y) (mul x z))) ∧
+      (∀ {x y z : BHist}, Carrier x -> Carrier y -> Carrier z ->
+        Classifier (mul (add x y) z) (add (mul x z) (mul y z))) ∧
+      (∀ {x y : BHist}, Carrier x -> Carrier y -> Classifier (mul x y) (mul y x)) ∧
+      (∀ {x x' y y' : BHist}, Classifier x x' -> Classifier y y' ->
+        Classifier (mul x y) (mul y x) ∧
+          Classifier (mul x' y') (mul y' x') ∧ Classifier (mul x y) (mul x' y')) := by
+  dsimp
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · exact hsame_refl BHist.Empty
+    · constructor
+      · intro x y carrierX carrierY
+        cases carrierX
+        cases carrierY
+        rfl
+      · constructor
+        · intro x _carrierX
+          exact hsame_refl BHist.Empty
+        · constructor
+          · intro x y carrierX carrierY
+            cases carrierX
+            cases carrierY
+            rfl
+          · constructor
+            · intro x carrierX
+              cases carrierX
+              exact And.intro (hsame_refl BHist.Empty)
+                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · constructor
+              · intro x carrierX
+                cases carrierX
+                exact And.intro (hsame_refl BHist.Empty)
+                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+              · constructor
+                · intro x y z carrierX carrierY carrierZ
+                  cases carrierX
+                  cases carrierY
+                  cases carrierZ
+                  exact And.intro (hsame_refl BHist.Empty)
+                    (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                · constructor
+                  · intro x y z carrierX carrierY carrierZ
+                    cases carrierX
+                    cases carrierY
+                    cases carrierZ
+                    exact And.intro (hsame_refl BHist.Empty)
+                      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                  · constructor
+                    · intro x y carrierX carrierY
+                      cases carrierX
+                      cases carrierY
+                      exact And.intro (hsame_refl BHist.Empty)
+                        (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                    · intro x x' y y' sameX sameY
+                      have xCarrier : hsame x BHist.Empty := sameX.left
+                      have x'Carrier : hsame x' BHist.Empty := sameX.right.left
+                      have yCarrier : hsame y BHist.Empty := sameY.left
+                      have y'Carrier : hsame y' BHist.Empty := sameY.right.left
+                      have xyCarrier : hsame (append x y) BHist.Empty :=
+                        append_eq_empty_iff.mpr (And.intro xCarrier yCarrier)
+                      have yxCarrier : hsame (append y x) BHist.Empty :=
+                        append_eq_empty_iff.mpr (And.intro yCarrier xCarrier)
+                      have x'y'Carrier : hsame (append x' y') BHist.Empty :=
+                        append_eq_empty_iff.mpr (And.intro x'Carrier y'Carrier)
+                      have y'x'Carrier : hsame (append y' x') BHist.Empty :=
+                        append_eq_empty_iff.mpr (And.intro y'Carrier x'Carrier)
+                      exact And.intro
+                        (And.intro xyCarrier
+                          (And.intro yxCarrier
+                            (hsame_trans xyCarrier (hsame_symm yxCarrier))))
+                        (And.intro
+                          (And.intro x'y'Carrier
+                            (And.intro y'x'Carrier
+                              (hsame_trans x'y'Carrier (hsame_symm y'x'Carrier))))
+                          (And.intro xyCarrier
+                            (And.intro x'y'Carrier
+                              (hsame_trans xyCarrier (hsame_symm x'y'Carrier)))))
 theorem CommRingSingletonCarrier_append_visible_head_absurd {h k : BHist} :
     (CommRingSingletonCarrier (append (BHist.e0 h) k) -> False) ∧
       (CommRingSingletonCarrier (append (BHist.e1 h) k) -> False) := by
@@ -180,6 +275,36 @@ theorem CommRingSingletonClassifier_append_context_carrier_split {L R Q S : BHis
   exact And.intro leftSplit.left
     (And.intro leftSplit.right (And.intro rightSplit.left rightSplit.right))
 
+theorem CommRingSingletonClassifier_append_left_carrier_iff {h k out : BHist} :
+    CommRingSingletonClassifier (append h k) out <->
+      CommRingSingletonCarrier h ∧ CommRingSingletonCarrier k ∧
+        CommRingSingletonCarrier out := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    exact And.intro leftSplit.left (And.intro leftSplit.right classified.right.left)
+  · intro carriers
+    have leftCarrier : CommRingSingletonCarrier (append h k) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left carriers.right.left)
+    have rightCarrier : CommRingSingletonCarrier out := carriers.right.right
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem CommRingSingletonClassifier_append_right_carrier_iff {h k out : BHist} :
+    CommRingSingletonClassifier out (append h k) <->
+      CommRingSingletonCarrier out ∧ CommRingSingletonCarrier h ∧
+        CommRingSingletonCarrier k := by
+  constructor
+  · intro classified
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro classified.left (And.intro rightSplit.left rightSplit.right)
+  · intro carriers
+    have leftCarrier : CommRingSingletonCarrier out := carriers.left
+    have rightCarrier : CommRingSingletonCarrier (append h k) :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.left carriers.right.right)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 theorem CommRingSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
     CommRingSingletonClassifier (append h k) (append h' k') ->
       CommRingSingletonClassifier (append k h) (append k' h') := by
@@ -243,5 +368,33 @@ theorem commringSingletonEmpty_square_signed_product_annihilator_package {a b : 
   exact And.intro (hsame_refl BHist.Empty)
     (And.intro (hsame_refl BHist.Empty)
       (fun _c => And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+
+theorem CommRingSingletonClassifier_append_commutativity_compatible {x x' y y' : BHist} :
+    CommRingSingletonClassifier x x' ->
+      CommRingSingletonClassifier y y' ->
+        CommRingSingletonClassifier (append x y) (append y x) ∧
+          CommRingSingletonClassifier (append x' y') (append y' x') ∧
+            CommRingSingletonClassifier (append x y) (append x' y') := by
+  intro sameX sameY
+  have xCarrier : CommRingSingletonCarrier x := sameX.left
+  have x'Carrier : CommRingSingletonCarrier x' := sameX.right.left
+  have yCarrier : CommRingSingletonCarrier y := sameY.left
+  have y'Carrier : CommRingSingletonCarrier y' := sameY.right.left
+  have xyCarrier : CommRingSingletonCarrier (append x y) :=
+    append_eq_empty_iff.mpr (And.intro xCarrier yCarrier)
+  have yxCarrier : CommRingSingletonCarrier (append y x) :=
+    append_eq_empty_iff.mpr (And.intro yCarrier xCarrier)
+  have x'y'Carrier : CommRingSingletonCarrier (append x' y') :=
+    append_eq_empty_iff.mpr (And.intro x'Carrier y'Carrier)
+  have y'x'Carrier : CommRingSingletonCarrier (append y' x') :=
+    append_eq_empty_iff.mpr (And.intro y'Carrier x'Carrier)
+  exact And.intro
+    (And.intro xyCarrier
+      (And.intro yxCarrier (hsame_trans xyCarrier (hsame_symm yxCarrier))))
+    (And.intro
+      (And.intro x'y'Carrier
+        (And.intro y'x'Carrier (hsame_trans x'y'Carrier (hsame_symm y'x'Carrier))))
+      (And.intro xyCarrier
+        (And.intro x'y'Carrier (hsame_trans xyCarrier (hsame_symm x'y'Carrier)))))
 
 end BEDC.Derived.CommRingUp

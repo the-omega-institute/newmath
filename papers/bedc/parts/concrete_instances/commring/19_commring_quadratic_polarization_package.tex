@@ -44,13 +44,69 @@ This gives the signed-square zero exactness iff. Introduce conjunctions in the
 displayed order, using the parallelogram identity first, the two extraction
 identities next, and the exactness iff as the final component.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_quadratic\_polarization\_package}
+
+\begin{theorem}[CommRing quadratic zero-polarization exit package]
+\label{thm:commring-quadratic-zero-polarization-exit-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of
+\autoref{thm:commring-quadratic-polarization-package} and
+\autoref{thm:commring-signed-square-zero-diagonal-extraction-package}, every
+$a,b : \mathsf{BHist}$ with
+$(a+(-b))\cdot(a+(-b))\hsame0$ carries the concrete exit package
+$$
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b))
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-polarization-package} to the shared
+hypotheses and the selected histories $a,b$. This gives the parallelogram
+identity, the two cross-term extraction identities, and the signed-square zero
+exactness component.
+
+Apply
+\autoref{thm:commring-signed-square-zero-diagonal-extraction-package} to the same
+data together with $(a+(-b))\cdot(a+(-b))\hsame0$. Its two components give the
+positive diagonal equality and the diagonal inverse extraction. Introduce the
+conjunction in the same order as the statement: the four unconditional
+polarization components first, followed by the two diagonal equalities supplied
+by the signed-square zero diagonal-extraction package.
+\end{proof}
 
 The ten-field fit is: traditional target a commutative-ring quadratic
 polarization interface; BEDC source $\RingUp$ plus $\CommRingUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
 the shared distributivity, congruence, commutativity, and negative-product
 laws; ledger the parallelogram square-sum, two cross-term extractions, and
-signed-square zero exactness witnesses; core theorem this block; exactness the
-displayed conjunction; standard bridge ordinary quadratic polarization in a
-commutative ring; downstream use $\FieldUp$ quadratic normalization and
-equal-square/zero-product reasoning; status $\mathsf{ProofTarget}$.
+signed-square zero exactness witnesses together with the positive and inverse
+diagonal equalities; core theorem this block; exactness the displayed
+conjunction; standard bridge ordinary quadratic polarization in a commutative
+ring; downstream use $\FieldUp$ quadratic normalization and equal-square/zero-product
+reasoning; status $\mathsf{ProofTarget}$.

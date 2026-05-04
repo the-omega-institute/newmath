@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.7 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.9 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -172,6 +172,22 @@ After `lake build` passes:
 3. Keep the paper in current-state form only: no version markers, no `vNNN-`, no "increment", no "patch", no "frozen" vocabulary.
 
 4. For targets with `paper_block_status: "discovery"`: the paper does not yet have a block for this claim, so you must INSERT a new block into the existing chapter file given by `paper_target_chapter`. Insert a `\begin{theorem}[<short title>]\label{thm:<concept>}` (or `\begin{definition}` / `\begin{lemma}` / `\begin{corollary}` as appropriate) at a thematically correct location within an existing section of that chapter, write a brief `\begin{proof}...\end{proof}` sketch, and place the marker on the next line after `\end{...}`. Do NOT create a new chapter file. Do NOT modify any other chapter's existing content.
+
+   **HARD GATE — label uniqueness check before insertion.** Before writing the new `\label{thm:<concept>}` line, run:
+
+   ```bash
+   git -C ${REPO_ROOT:-$(git rev-parse --show-toplevel)} grep -n -E "\\\\label\\{thm:<concept>\\}" -- 'papers/bedc/parts/'
+   ```
+
+   If the grep returns ANY hit, the label already exists somewhere in the paper tree (likely added by a concurrent in-flight round in a different sibling file). DO NOT insert another copy with this label — the post-rebase audit will reject the round as `duplicate paper labels` and trigger recovery. Two valid moves:
+
+   (a) Drop this paper insertion entirely from the round and rely on the existing label as the registration site. Add the marker (`\leanchecked{X}` etc.) immediately after the existing `\end{theorem}` of the existing block — that file becomes the primary site. The Lean side of this target still proceeds as planned.
+
+   (b) Pick a different `\label{thm:<distinct-concept>}` slug that grep returns 0 hits for, and insert your block at that distinct label. This is only acceptable if the new theorem is genuinely about a different statement (e.g. result-left vs result-right variant); copy-paste with a renamed label is forbidden (still `\leanvariant`-class).
+
+   Same rule applies to `\label{def:...}` / `\label{lem:...}` / `\label{prop:...}` / `\label{cor:...}` insertions.
+
+   **HARD GATE — do not create a new sibling .tex file when an existing sibling already covers the topic.** Before creating `papers/bedc/parts/concrete_instances/<theme>/<new-slug>.tex`, list the directory and read every existing sibling's first 30 lines. If any existing sibling's `\section` / `\begin{theorem}` text overlaps semantically with your target (e.g. `associative_composition_canonical_package.tex` already exists when your target is "composition associative canonical package"), append your new block to that existing sibling instead of creating a near-duplicate sibling file. Recovery after a duplicate-sibling collision drops the entire round.
 
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 

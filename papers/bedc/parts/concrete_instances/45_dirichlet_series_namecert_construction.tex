@@ -67,6 +67,19 @@ successor witness, so \(n\) itself is a positive Dirichlet index.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_right\_cases}
 
+\begin{theorem}[Positive Dirichlet index append iff]
+\label{thm:dirichlet-positive-index-append-iff}
+If $m$ and $n$ are unary histories, then $\mathsf{append}(m,n)$ is a positive
+Dirichlet index exactly when $m$ is positive or $n$ is positive.
+\end{theorem}
+\begin{proof}
+The forward implication is the append right case split. Conversely, positivity
+in the left component is closed under appending a unary right component, and
+positivity in the right component is closed under prepending a unary left
+component.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_append\_iff}
+
 \begin{lemma}[Dirichlet term well-defined]
 \label{lem:dir-term-well-defined}
 For every \((a, n, s)\) with positive unary \(n\) and complex history \(s\), \(\mathsf{DirTerm}(a, n, s, t_n)\) determines a unique complex history \(t_n\) up to \(\hsame\).
@@ -172,6 +185,25 @@ its unary carrier, the predecessor partial-sum witness, and the continuation
 ledger into \(S\).
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_positive\_index\_predecessor}
+
+\begin{theorem}[Dirichlet append-successor partial-sum predecessor]
+\label{thm:dirichlet-part-sum-append-successor-predecessor}
+Every closed witness of
+$\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,\Eone(n)),S)$
+exposes a predecessor partial sum at $\mathsf{append}(m,n)$:
+$$
+\exists P:\mathsf{BHist},\
+\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,n),P)\land
+\Cont(P,\mathsf{term}(\mathsf{append}(m,n),s),S).
+$$
+\end{theorem}
+\begin{proof}
+By the definition of history append, $\mathsf{append}(m,\Eone(n))$ is the
+successor history $\Eone(\mathsf{append}(m,n))$. Inverting the closed
+partial-sum witness therefore exposes the predecessor sum at
+$\mathsf{append}(m,n)$ and the continuation step into $S$.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_append\_successor\_predecessor}
 
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}

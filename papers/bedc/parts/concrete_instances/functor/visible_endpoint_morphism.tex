@@ -41,3 +41,37 @@ $r$. The endpoint $\hsame$ comparison would force this tail to be empty by
 strict-prefix endpoint cancellation, contradicting the displayed nonemptiness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_endpoint\_hsame\_absurd}
+
+\begin{theorem}[Prefix functor visible morphism unique strict boundary]
+\label{thm:functor-prefix-visible-morphism-unique-strict-boundary}
+For histories $p,a,r,k,k'$, two prefixed visible morphisms between the same
+one-headed endpoints have the same visible payload, and any nonempty first
+payload exposes the strict endpoint boundary:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k))
+\Longrightarrow
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k'))
+\Longrightarrow
+k\neq\emp
+\Longrightarrow
+\hsame(k,k')\wedge\mathsf{NatUnaryStrictPrefix}(\Eone(a),r)\wedge
+(\hsame(\Eone(a),r)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Apply category morphism determinacy to the two displayed hom-carriers. This
+gives $\hsame(\Eone(k),\Eone(k'))$, and one-headed no-confusion descends it to
+$\hsame(k,k')$.
+
+Apply the strict-prefix readback theorem to the first displayed carrier and
+the nonempty witness for $k$. This supplies
+$\mathsf{NatUnaryStrictPrefix}(\Eone(a),r)$.
+
+Finally, apply the endpoint contradiction theorem to the same carrier and
+nonempty witness. It gives the implication
+$\hsame(\Eone(a),r)\to\bot$, and the three facts assemble the displayed
+conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_unique\_strict\_boundary}

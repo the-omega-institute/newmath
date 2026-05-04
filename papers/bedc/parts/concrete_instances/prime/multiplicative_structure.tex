@@ -79,6 +79,23 @@ closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_positive\_shape}
 
+\begin{theorem}[Nonempty multiplier multiplication has positive result shape]
+\label{thm:natmul-nonempty-multiplier-result-positive-shape}
+If $\mathsf{NatMul}(d,q,n)$, $q$ is not history-same to $\emp$, and $d$ is not
+history-same to $\emp$, then the result has one-headed shape:
+$$
+\exists t,\ \hsame(n,\Eone(t))\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication witness carries a unary classifier for $q$. The empty case
+contradicts the displayed non-emptiness, and the zero-headed case contradicts
+unary exactness. Hence $q=\Eone(q_0)$, and
+\autoref{thm:natmul-succ-result-positive-shape} applies to the same
+multiplication witness and the nonempty multiplicand.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplier\_result\_positive\_shape}
+
 \begin{theorem}[Successor multiplication empty result exactness]
 \label{thm:nat-mul-succ-result-empty-left-empty-iff}
 If $\mathsf{NatMul}(d,\Eone(q),n)$, then the result is empty exactly when the
@@ -203,6 +220,24 @@ By constructor inversion on the closed relation \(\mathsf{NatMul}\): its
 multiplier argument is generated only by \(\emp\) and \(\Eone\)-successor cases.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_e0\_multiplier\_absurd}
+
+\begin{theorem}[Empty multiplier exactness for unary multiplication]
+\label{thm:natmul-empty-right-iff}
+For all histories $d,n$,
+$$
+\mathsf{NatMul}(d,\emp,n)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(d)\land \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction inverts the closed $\mathsf{NatMul}$ witness. The only
+constructor with empty multiplier is the empty-multiplier row, which records
+the unary field for $d$ and returns the empty result. Conversely, if $d$ is
+unary and $n\hsame\emp$, identify the endpoint with $\emp$ and apply the
+empty-multiplier constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_right\_iff}
 
 \begin{theorem}[Nonempty multiplicand and empty multiplication result]
 \label{thm:natmul-nonempty-multiplicand-empty-result-iff}
@@ -357,6 +392,19 @@ gives $\mathsf{NatDivides}(\Eone(\emp),n)$ for every unary $n$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_left\_iff}
 
+\begin{theorem}[Unit-right divisibility exactness]
+\label{thm:nat-divides-unit-right-iff}
+For any history $d$, $\mathsf{NatDivides}(d,\Eone(\emp))$ holds exactly when
+$d\hsame\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+In the forward direction, unpack the quotient witness and apply unit-result
+multiplication factor exactness: both factors of a product equal to
+\(\Eone(\emp)\) are the unary unit. Conversely, identify \(d\) with the unary
+unit and use reflexive divisibility for the unit history.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_right\_iff}
+
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
 For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
@@ -376,6 +424,21 @@ If \(\mathsf{NatDivides}(d, e)\) and \(\mathsf{NatDivides}(e, n)\), then \(\math
 From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(q_2\) with \(\mathsf{NatMul}(e, q_2, n)\), the composite quotient is \(q_1 \cdot q_2\), itself constructed as a unary history by \autoref{lem:nat-mul-total}.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
+
+\begin{lemma}[Divisibility is closed under displayed continuation]
+\label{thm:nat-divides-cont-closed}
+If $\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$ hold, and
+$\Cont(x,y,z)$ displays $z$ as the continuation of the two divisible histories,
+then $\mathsf{NatDivides}(d,z)$ holds.
+\end{lemma}
+\begin{proof}
+Unpack the two quotient witnesses, say $qx$ and $qy$. Their multiplication
+witnesses have results $x$ and $y$. The quotient for $z$ is
+$\mathsf{append}(qx,qy)$; unary append closure makes it an admissible quotient,
+and append-continuation multiplication closure combines the two multiplication
+witnesses over the displayed $\Cont(x,y,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_closed}
 
 \begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
 \label{lem:natdivides-result-boundary}
@@ -411,4 +474,3 @@ In the successor case, the product is obtained by appending one more copy of \(a
 
 It remains when the final appended copy is the first place where the divisor can occur. The \(\mathsf{NatMul}\) result and functionality facts identify the last continuation with the factor \(a\) up to \(\hsame\). Applying the defining divisor alternative in \(\mathsf{NatPrime}(p)\) to this non-trivial divisor yields either the unit case, which is incompatible with the prime's strict-greater field, or \(\hsame\)-equality with \(a\). This gives \(\mathsf{NatDivides}(p,a)\), completing the induction.
 \end{proof}
-

@@ -16,4 +16,11 @@ theorem CategoryHomCarrier_empty_morphism_endpoint_induction {P : BHist -> Prop}
     exact sourceValue
   exact And.intro sourceValue targetValue
 
+theorem CategoryHomCarrier_morphism_induction {a b : BHist} {P : BHist -> Prop} :
+    P BHist.Empty ->
+      (forall f : BHist, UnaryHistory f -> P f -> P (BHist.e1 f)) ->
+      forall {f : BHist}, CategoryHomCarrier a b f -> P f := by
+  intro base step f homCarrier
+  exact unary_history_induction base step f homCarrier.right.right.left
+
 end BEDC.Derived.CategoryUp

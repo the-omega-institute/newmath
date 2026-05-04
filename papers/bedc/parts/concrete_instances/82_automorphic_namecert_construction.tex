@@ -306,3 +306,89 @@ continuation, and apply adelic graph non-emptiness to that central ledger.
 
 \section{The certificate}
 \label{sec:automorphic-certificate}
+
+\begin{definition}[Automorphic adele graph carrier]
+\label{def:automorphic-adele-graph-carrier}
+For a history $g$, the predicate
+$\mathsf{AutomorphicAdeleGraphCarrier}(g)$ holds exactly when there are
+histories $domain,value:\mathsf{BHist}$ such that
+$$
+\mathsf{AdeleHistoryCarrier}(domain)\land
+\mathsf{AdeleHistoryCarrier}(value)\land
+\Cont(domain,value,g).
+$$
+\end{definition}
+
+\begin{theorem}[Automorphic adele graph carrier hsame transport]
+\label{thm:automorphic-adele-graph-carrier-hsame-transport}
+If $\mathsf{AutomorphicAdeleGraphCarrier}(g)$ and $g\hsame g'$, then
+$\mathsf{AutomorphicAdeleGraphCarrier}(g')$.
+\end{theorem}
+\begin{proof}
+Unpack the graph-carrier witness for $g$ into histories
+$domain,value:\mathsf{BHist}$, adele endpoint witnesses for both histories, and
+a continuation witness $\Cont(domain,value,g)$.
+
+Apply continuation-result $\hsame$ transport along $g\hsame g'$. This keeps the
+hidden domain and value histories fixed and yields a transported continuation
+witness $\Cont(domain,value,g')$.
+
+Repack the same adele endpoint witnesses together with the transported
+continuation ledger. The resulting witness is exactly
+$\mathsf{AutomorphicAdeleGraphCarrier}(g')$.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: automorphic graph carrier transport.
+  \item BEDC source: $\AdeleUp$ together with $\Cont$ over histories.
+  \item Carrier: $\mathsf{AutomorphicAdeleGraphCarrier}$.
+  \item Classifier: $\hsame$ on $\mathsf{BHist}$.
+  \item Stability obligation:
+  \autoref{thm:automorphic-adele-graph-carrier-hsame-transport}.
+  \item Ledger: the hidden domain, value, and continuation witnesses.
+  \item Core theorem:
+  \autoref{thm:automorphic-adele-graph-carrier-hsame-transport}.
+  \item Exactness: continuation-result transport.
+  \item Standard bridge: adelic graph presentation.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+
+\begin{theorem}[Automorphic adele graph semantic name certificate]
+\label{thm:automorphic-adele-graph-semantic-namecert}
+The automorphic adele graph carrier, used as source predicate, pattern
+predicate, and ledger policy, forms a $\mathsf{SemanticNameCert}$ with
+classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:adele-history-carrier-semantic-namecert} to obtain an
+inhabited adele history carrier. Use the same adele endpoint as the domain and
+value endpoint, and apply the BEDC continuation constructor to obtain a graph
+endpoint.
+
+The classifier laws are the reflexivity, symmetry, and transitivity laws for
+$\hsame$. Since the source, pattern, and ledger policies are the same graph
+carrier predicate, their inclusion obligations are identity maps on the same
+witness package.
+
+For carrier transport, apply
+\autoref{thm:automorphic-adele-graph-carrier-hsame-transport}. The theorem
+supplies the reusable movement of a graph-carrier witness across $\hsame$, so
+the certificate uses it as its shared source, pattern, and ledger transport.
+\end{proof}
+
+\begin{enumerate}
+  \item Traditional target: automorphic graph names.
+  \item BEDC source: $\AdeleUp$ together with $\Cont$ over histories.
+  \item Carrier: the predicate
+  $\mathsf{AutomorphicAdeleGraphCarrier}(g)$ displayed above.
+  \item Classifier: $\hsame$ on $\mathsf{BHist}$.
+  \item Stability: the $\hsame$ equivalence laws and continuation-result
+  transport for graph endpoints.
+  \item Ledger: the hidden domain and value adele endpoints together with the
+  continuation witness.
+  \item Core theorem: \autoref{thm:automorphic-adele-graph-semantic-namecert}.
+  \item Exactness: graph endpoint generation by $\Cont$ from carried adele
+  domain and value endpoints.
+  \item Standard bridge: adelic graph presentation.
+  \item Status: $\mathsf{ProofTarget}$.
+\end{enumerate}

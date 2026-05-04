@@ -126,6 +126,45 @@ theorem CplxDiffAt_derivative_visible_context_readback {p r f z fp core : BHist}
   exact And.intro sameCore
     (BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameCore diff.right.right.left)
 
+theorem CplxDiffAt_derivative_visible_context_nonempty_readback {p r f z fp core : BHist} :
+    CplxDiffAt f z fp ->
+      hsame (append (append p fp) r) (append (append p core) r) ->
+        hsame fp core ∧ ComplexHistoryCarrier core ∧ (hsame core BHist.Empty -> False) := by
+  intro diff sameVisible
+  have readback := CplxDiffAt_derivative_visible_context_readback diff sameVisible
+  cases CplxDiffAt_witness_nonzero_result diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro _quotient rest =>
+              cases rest with
+              | intro _ledger rest =>
+                  cases rest with
+                  | intro _stepNonzero rest =>
+                      cases rest with
+                      | intro quotientNonzero sameQFp =>
+                          exact And.intro readback.left
+                            (And.intro readback.right
+                              (fun coreEmpty =>
+                                quotientNonzero
+                                  (hsame_trans sameQFp
+                                    (hsame_trans readback.left coreEmpty))))
+
+theorem CplxDiffAt_quotient_result_visible_context_derivative_readback
+    {p r f z fp h q core : BHist} :
+    CplxDiffAt f z fp -> CplxDiffQuot f z h q ->
+      hsame (append (append p q) r) (append (append p core) r) ->
+        hsame fp core ∧ ComplexHistoryCarrier core ∧ (hsame core BHist.Empty -> False) := by
+  intro diff quotient sameVisible
+  have quotientReadback := CplxDiffQuot_result_visible_context_readback quotient sameVisible
+  have sameQFp : hsame q fp := diff.right.right.right.right quotient
+  have sameFpCore : hsame fp core :=
+    hsame_trans (hsame_symm sameQFp) quotientReadback.left
+  have coreCarrier : ComplexHistoryCarrier core :=
+    BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameFpCore diff.right.right.left
+  exact And.intro sameFpCore (And.intro coreCarrier quotientReadback.right)
+
 theorem CplxDiffAt_empty_function_derivative_nonzero {z fp : BHist} :
     CplxDiffAt BHist.Empty z fp -> CplxNonZero fp := by
   intro diff quotientEmpty

@@ -39,6 +39,46 @@ theorem ModuleSingletonClassifier_empty_endpoints_iff {h k : BHist} :
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem ModuleSingletonClassifier_hsame_endpoint_transport {h k h' k' : BHist} :
+    ModuleSingletonClassifier h k -> hsame h h' -> hsame k k' ->
+      ModuleSingletonClassifier h' k' ∧ hsame h' BHist.Empty ∧ hsame k' BHist.Empty := by
+  intro classified sameH sameK
+  have endpointH : hsame h' BHist.Empty :=
+    hsame_trans (hsame_symm sameH) classified.left
+  have endpointK : hsame k' BHist.Empty :=
+    hsame_trans (hsame_symm sameK) classified.right.left
+  have transported : ModuleSingletonClassifier h' k' :=
+    Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro endpointH endpointK)
+  exact And.intro transported (And.intro endpointH endpointK)
+
+theorem ModuleSingletonSmul_empty_action_outputs_deterministic {r m n n' : BHist} :
+    ModuleSingletonClassifier (ModuleSingletonSmul BHist.Empty m) n ->
+      ModuleSingletonClassifier (ModuleSingletonSmul r BHist.Empty) n' ->
+        ModuleSingletonClassifier n n' := by
+  intro leftClassified rightClassified
+  have leftEndpoints :
+      hsame (ModuleSingletonSmul BHist.Empty m) BHist.Empty ∧ hsame n BHist.Empty :=
+    Iff.mp ModuleSingletonClassifier_empty_endpoints_iff leftClassified
+  have rightEndpoints :
+      hsame (ModuleSingletonSmul r BHist.Empty) BHist.Empty ∧ hsame n' BHist.Empty :=
+    Iff.mp ModuleSingletonClassifier_empty_endpoints_iff rightClassified
+  exact Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+    (And.intro leftEndpoints.right rightEndpoints.right)
+
+theorem ModuleSingletonSmul_nonfaithful_visible_scalar :
+    (∀ {m : BHist}, ModuleSingletonCarrier m ->
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul (BHist.e1 BHist.Empty) m)
+        (ModuleSingletonSmul BHist.Empty m)) ∧
+      (ModuleSingletonClassifier (BHist.e1 BHist.Empty) BHist.Empty -> False) := by
+  constructor
+  · intro m _carrierM
+    exact Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · intro classified
+    exact not_hsame_e1_empty classified.left
+
 theorem ModuleSingletonSmul_classifier_readback_iff {r m n : BHist} :
     ModuleSingletonCarrier m ->
       hsame (ModuleSingletonSmul r m) BHist.Empty /\
@@ -75,6 +115,24 @@ theorem ModuleSingletonSmul_graph_empty_exact_iff {r m n : BHist} :
         Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
           (And.intro (hsame_refl BHist.Empty) carriers.right.right)
       exact And.intro carriers.left (And.intro carriers.right.left classified)
+
+theorem ModuleSingletonSmul_graph_output_determinacy {r m n n' : BHist} :
+    (ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n) ->
+    (ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n') ->
+      ModuleSingletonClassifier n n' ∧ hsame (ModuleSingletonSmul r m) BHist.Empty := by
+  intro graph graph'
+  have graphExact := ModuleSingletonSmul_graph_empty_exact_iff (r := r) (m := m) (n := n)
+  have graphExact' := ModuleSingletonSmul_graph_empty_exact_iff (r := r) (m := m) (n := n')
+  have carriers : ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n :=
+    Iff.mp graphExact.right graph
+  have carriers' : ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n' :=
+    Iff.mp graphExact'.right graph'
+  have outputClassified : ModuleSingletonClassifier n n' :=
+    Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro carriers.right.right carriers'.right.right)
+  exact And.intro outputClassified graphExact.left
 
 theorem ModuleSingletonSmul_image_empty_endpoint_iff {h : BHist} :
     (Exists (fun r : BHist => Exists (fun m : BHist =>
@@ -173,6 +231,39 @@ theorem ModuleSingletonSmul_image_semanticNameCert :
     ledger_sound := by
       intro _h carrier
       exact carrier
+  }
+
+theorem ModuleSingletonSmul_output_fiber_semanticNameCert {r m n : BHist} :
+    ModuleSingletonCarrier r -> ModuleSingletonCarrier m ->
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n ->
+        SemanticNameCert
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          ModuleSingletonClassifier := by
+  intro _carrierR _carrierM classified
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro n classified
+      equiv_refl := by
+        intro out source
+        exact singleton_empty_history_module_laws.left.core.equiv_refl source.right.left
+      equiv_symm := by
+        intro out out' same
+        exact singleton_empty_history_module_laws.left.core.equiv_symm same
+      equiv_trans := by
+        intro out out' out'' same same'
+        exact singleton_empty_history_module_laws.left.core.equiv_trans same same'
+      carrier_respects_equiv := by
+        intro out out' same source
+        exact singleton_empty_history_module_laws.left.core.equiv_trans source same
+    }
+    pattern_sound := by
+      intro _out source
+      exact source
+    ledger_sound := by
+      intro _out source
+      exact source
   }
 
 theorem singleton_empty_history_module_action_fields :
@@ -350,5 +441,32 @@ theorem ModuleSingleton_scalar_action_laws :
             · constructor
               · exact carrierM
               · exact hsame_symm carrierM
+
+theorem ModuleSingletonSmul_scalar_representative_transport_compatibility
+    {r r' s s' m m' : BHist} :
+    ModuleSingletonClassifier r r' ->
+      ModuleSingletonClassifier s s' ->
+        ModuleSingletonClassifier m m' ->
+          hsame (ModuleSingletonSmul r (ModuleSingletonSmul s m)) BHist.Empty ∧
+            ModuleSingletonClassifier (ModuleSingletonSmul r (ModuleSingletonSmul s m))
+              (ModuleSingletonSmul (ModuleSingletonMul r' s') m') := by
+  intro sameR sameS sameM
+  have smulSM :
+      ModuleSingletonClassifier (ModuleSingletonSmul s m) (ModuleSingletonSmul s' m') :=
+    ModuleSingleton_scalar_action_laws.right.left sameS sameM
+  have nestedClassified :
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul r (ModuleSingletonSmul s m))
+        (ModuleSingletonSmul r' (ModuleSingletonSmul s' m')) :=
+    ModuleSingleton_scalar_action_laws.right.left sameR smulSM
+  have reassocClassified :
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul r' (ModuleSingletonSmul s' m'))
+        (ModuleSingletonSmul (ModuleSingletonMul r' s') m') :=
+    singleton_empty_history_module_laws.left.core.equiv_symm
+      (ModuleSingleton_scalar_action_laws.right.right.left r' s' m')
+  exact And.intro (hsame_refl BHist.Empty)
+    (singleton_empty_history_module_laws.left.core.equiv_trans
+      nestedClassified reassocClassified)
 
 end BEDC.Derived.ModuleUp

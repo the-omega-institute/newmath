@@ -169,3 +169,98 @@ histories, contexts, selectors, and carrier witnesses; core theorem this block;
 exactness the displayed paired phase-exit and final-inventory boundary;
 downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit criterion;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp certificate record absorbs phase-exit boundary]
+\label{thm:ratup-fieldup-certificate-record-absorbs-phase-exit-boundary}
+Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, and the concrete
+exit object $\mathcal E_F$ of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Let
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ be the concrete denominator tuple, let
+$h,k,\ell:\mathsf{BHist}$ satisfy $C_D^u(h)$, $C_D^u(k)$, $C_D^u(\ell)$, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and let
+$s,t,\upsilon,v,w,z:\mathsf{BMark}$ and $L,R,r:\mathsf{BHist}$ be the selected
+selectors and contexts. For Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$$
+\mathsf{RatHistoryClassifier}(x,x')
+\land
+\mathsf{RatHistoryClassifier}(y,y'),
+$$
+for a carried denominator $q:\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryCarrier}(q)$, fix apart-zero context data
+$L_0,R_0,\tau:\mathsf{BHist}$ with $p:\mathsf{FieldApartZero}(L_0)$, phase
+guard histories $\alpha,\beta:\mathsf{BHist}$, the contextual action
+$\Gamma$, the affine source $\mathsf{AffAut}_F$, and the same BEDC history
+operations $add$, $mul$, $neg$, and $zero$ satisfying the CommRing hypotheses
+used by \autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$$
+H:\bigl((\alpha+\beta)\hsame0 \lor (\alpha+(-\beta))\hsame0\bigr),
+$$
+and histories $u,d:\mathsf{BHist}$ satisfy $U_D(u)$ and
+$\mathsf{RatHistoryCarrier}(d)$, then the certificate-obligation record of
+Definition~\ref{def:field-certificate-obligations} contains one concrete
+$\FieldUp(\RatUp)$ phase-exit boundary consisting of:
+\begin{enumerate}
+  \item the phase-exit record certificate boundary of
+  \autoref{thm:ratup-fieldup-phase-exit-record-certificate-boundary} for the
+  displayed source, operation table, exit object, denominator tuple, histories,
+  selectors, contexts, endpoint pairs, carried denominator, apart-zero data,
+  guard hypothesis, contextual action, affine source, operations, and
+  external-unit witness;
+  \item the final row inventory absorbed by
+  \autoref{thm:ratup-fieldup-record-absorbs-final-row-inventory} for the same
+  denominator tuple, histories, carrier witnesses, selectors, contexts, and
+  support witness;
+  \item the carried-external classifier separation supplied by
+  \autoref{thm:ratup-fieldup-phase-exit-record-final-inventory-separation} for
+  the same source, operation table, exit object, denominator tuple, histories,
+  selectors, contexts, endpoint pairs, carried denominator, apart-zero data,
+  guard hypothesis, contextual action, affine source, operations,
+  external-unit witness, and carried denominator endpoint.
+\end{enumerate}
+These three row families are read as one certificate-record obligation over the
+displayed $\mathsf{BHist}$ source, with no source, tuple, selector, context,
+endpoint, guard, operation, external-unit witness, or carried endpoint
+reindexed.
+\end{theorem}
+\begin{proof}
+Instantiate
+\autoref{thm:ratup-fieldup-record-absorbs-final-row-inventory} with the
+displayed denominator tuple, histories $h,k,\ell$, carrier witnesses, selectors
+$s,t,\upsilon,v,w,z$, contexts $L,R,r$, and the support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. This places the complete final row
+inventory in the certificate-obligation record.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-phase-exit-record-final-inventory-separation} with
+the same concrete source, operation table, exit object, denominator tuple,
+histories, selectors, contexts, Rat endpoint pairs, carried denominator,
+apart-zero data, phase guard histories, contextual action, affine source,
+operations, guard hypothesis, external-unit witness, and carried denominator
+endpoint. Project its phase-exit boundary row and its carried-external
+classifier separation row.
+
+The projected boundary row contains
+\autoref{thm:ratup-fieldup-phase-exit-record-certificate-boundary} at the same
+indices, while the absorbed inventory row is already stored in the certificate
+record. Conjunction introduction repacks the boundary, the absorbed inventory,
+and the carried-external separation as one concrete certificate-record
+obligation. No source, tuple, selector, context, endpoint, guard, witness, or
+operation is reindexed.
+\end{proof}
+
+Per-object template: traditional target rational field phase-exit boundary as
+certificate-record obligation; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
+$\RatUp$, $\CommRingUp$, and $\FieldUp$; carriers
+$\mathsf{RatHistoryCarrier}$, $C_D^u$, $U_D$, and $\mathsf{AffAut}_F$;
+classifiers $\mathsf{RatHistoryClassifier}$, $R_D^u$, $\hsame$, and affine
+classifier; stability obligations phase-exit record certificate boundary,
+record-absorbed final row inventory, and carried-external classifier
+separation; ledger denominator tuple, operation table, external-unit endpoint,
+carried denominator endpoint, guard witness, contextual action, affine source,
+histories, contexts, selectors, and carrier witnesses; core theorem this
+block; exactness the displayed certificate-record phase-exit boundary;
+downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$ exit criterion;
+status $\mathsf{ProofTarget}$.
+\closureat{\FieldUp}{\checkedCertStr}[BEDC.Derived.FieldUp.FieldApartZero\_semanticNameCert]
