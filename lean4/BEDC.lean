@@ -200,6 +200,7 @@ import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.CancellationIff
 import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonAppendComm
 import BEDC.Derived.GroupUp.SingletonAppendContextEmpty
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
