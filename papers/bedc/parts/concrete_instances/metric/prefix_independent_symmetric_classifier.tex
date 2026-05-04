@@ -136,6 +136,37 @@ remaining continuation is exactly the displayed splice result.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_continuation\_splice}
 
+\begin{theorem}[Metric prefix-independent symmetric zero-depth witness splice]
+\label{thm:metric-prefix-independent-symmetric-zero-depth-witness-splice}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,r,mid,out$, symmetric
+visible-context distance witnesses with independent contexts and zero-depth
+forward distance turn any unary continuation through the reverse central
+distance into a metric distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\to
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\to
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\to
+\\
+\mathsf{UnaryHistory}(l)\to \mathsf{UnaryHistory}(r)\to
+\ContR(l,d_{yx},mid)\to \ContR(mid,r,out)\to
+\mathsf{MetricDistanceWitness}(l,r,out).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The continuation-splice theorem gives \(\ContR(l,r,out)\) from the two
+visible-context witnesses, the zero-depth row, and the two displayed
+continuation ledgers through \(d_{yx}\). The supplied unary histories for
+\(l\) and \(r\), together with unary continuation closure, give the unary
+carrier row for \(out\). These three carrier rows and the spliced continuation
+are exactly the metric distance witness package.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_witness\_splice}
+
 \begin{theorem}[Metric symmetric zero-depth distance continuation result]
 \label{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-distance-continuation-result}
 For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,mid,out$, symmetric
