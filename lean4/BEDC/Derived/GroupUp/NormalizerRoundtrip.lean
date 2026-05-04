@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Commutator
 
 namespace BEDC.Derived.GroupUp
 
@@ -127,6 +128,49 @@ protected theorem group_normalizer_inv_closed_from_empty_unit {mul : BHist -> BH
     have invInvS : hsame (inv (inv s)) s :=
       group_left_inverse_involutive assocC leftId rightId mulCongr leftInv s
     exact centralizerTransport (hsame_symm (conjCongrLeft invInvS)) (normS.left y centralY)
+
+protected theorem group_centralizer_normalizer_action_automorphism_kernel_exactness_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s x : BHist} :
+    let Centralizer := fun y : BHist => hsame (mul y a) (mul a y)
+    let Conj := fun u y : BHist => mul (mul u y) (inv u)
+    let Normalizer := fun u : BHist =>
+      (forall y : BHist, Centralizer y -> Centralizer (Conj u y)) ∧
+        (forall y : BHist, Centralizer y -> Centralizer (Conj (inv u) y))
+    Normalizer s -> Centralizer x ->
+      (Centralizer (Conj s x) ∧ Centralizer (Conj (inv s) x)) ∧
+        hsame (Conj (inv s) (Conj s x)) x ∧
+          hsame (Conj s (Conj (inv s) x)) x ∧
+            ((forall y : BHist, Centralizer y -> hsame (Conj s y) y) <->
+              (forall y : BHist, Centralizer y -> hsame (mul s y) (mul y s))) := by
+  dsimp
+  intro normalizesS centralX
+  have roundtrip :=
+    BEDC.Derived.GroupUp.group_normalizer_conjugation_inverse_roundtrip_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv
+      (a := a) (s := s) (x := x) normalizesS centralX
+  have fixedPointIff :
+      (forall y : BHist, hsame (mul y a) (mul a y) ->
+        hsame (mul (mul s y) (inv s)) y) <->
+      (forall y : BHist, hsame (mul y a) (mul a y) ->
+        hsame (mul s y) (mul y s)) := by
+    constructor
+    · intro fixed y centralY
+      exact (BEDC.Derived.GroupUp.group_conjugation_fixed_point_commutation_iff_from_empty_unit
+        assocC rightId mulCongr leftInv rightInv).mp (fixed y centralY)
+    · intro commutes y centralY
+      exact (BEDC.Derived.GroupUp.group_conjugation_fixed_point_commutation_iff_from_empty_unit
+        assocC rightId mulCongr leftInv rightInv).mpr (commutes y centralY)
+  exact And.intro (And.intro roundtrip.left roundtrip.right.left)
+    (And.intro roundtrip.right.right.left
+      (And.intro roundtrip.right.right.right fixedPointIff))
 
 protected theorem group_normalizer_inverse_hsame_transport_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
