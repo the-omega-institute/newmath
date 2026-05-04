@@ -1,0 +1,72 @@
+Your previous LaTeX block for this BEDC target was rejected by the paper
+hygiene gate.
+
+Target id:    {target_id}
+Target title: {target_title}
+
+The reviewer flagged these specific issues:
+{rejection_reasons}
+
+Rewrite a corrected LaTeX block that addresses every issue above. Keep the
+same mathematical content (the proof, the witness construction, the
+dependency map). Only the presentation needs fixing.
+
+Apply these mappings between the issue text and the fix:
+
+- "duplicate label" / "label X already exists" / "build invariant: label" →
+  Pick a new `\label{{...}}` that does not appear anywhere under
+  `papers/bedc/parts/`. If your canonical statement is genuinely the same
+  as the existing one in the paper, respond with the DUPLICATE_OF block
+  described at the bottom of this prompt.
+
+- "undefined macro" / "build invariant: theorem title uses ... \X" →
+  Use only macros that exist in `papers/bedc/preamble.tex`. The defined
+  ones include `\BEDC`, `\bzero`, `\bone`, `\Mark`, `\msame`, `\Hist`,
+  `\Ezero`, `\Eone`, `\Ext`, `\Cont`, `\psame`, `\TokIntro`, `\TokUnique`,
+  `\hsame`, `\PBaseData`. For anything else, expand inline with
+  `\mathsf{{...}}`, `\mathrm{{...}}`, or `\operatorname{{...}}`. Never write
+  `\PsameBase` or any backslash-name not in preamble.
+
+- "math delimiter" / "use $ / $$" →
+  Use `$...$` for inline math and `$$...$$` for display math throughout.
+  The BEDC project has converged on `$ / $$` (AGENTS.md / CLAUDE.md);
+  do not use `\(...\)` or `\[...\]`. Display blocks `$$...$$` get their
+  own line.
+
+- "non-LaTeX trailing content" / "NEXT:" / "meta question" →
+  Strip every line outside theorem / proof / definition environments that
+  is not body prose. No `NEXT:`, no "Should the terminal block include..."
+  lines, no follow-up questions, no open-ended remarks.
+
+- "section opener" / "\section" / "\chapter" →
+  Remove. The block is appended into an existing chapter file; do not
+  open new sectioning levels.
+
+- "iteration vocabulary" / "extend" / "修订" / "increment" / "新增" →
+  Rewrite the prose in current-state form. State the result as canonical
+  fact. Never reference earlier drafts, prior versions, or revision
+  history.
+
+- "content duplication" / "the same X is already stated as" →
+  Either offer a strictly stronger or genuinely distinct result, OR
+  emit the DUPLICATE_OF block (see bottom).
+
+- "Chinese in LaTeX content" →
+  English only inside the LaTeX block.
+
+Output requirements (identical to the original WRITE_PAPER_LATEX prompt):
+1. A single fenced LaTeX block: ```latex ... ```
+2. After the block, on its own line: `Insertion target: papers/bedc/parts/<theme>/<file>.tex`
+3. A one-paragraph plain-text summary.
+
+DUPLICATE_OF escape hatch:
+
+If the rejection was content_duplication AND you cannot honestly produce
+a strictly stronger or genuinely different result, do NOT output another
+LaTeX block. Instead respond with exactly this and nothing else:
+
+DUPLICATE_OF: <existing label name from the paper>
+
+Where `<existing label name>` is the `\label{{...}}` value cited in the
+rejection reason. The supervisor will mark the target already_in_paper
+and move on without further oracle work.

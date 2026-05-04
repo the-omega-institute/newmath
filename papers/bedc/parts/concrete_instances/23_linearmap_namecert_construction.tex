@@ -560,6 +560,24 @@ witness for $h$ assembles the restricted singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_classifier\_iff}
 
+\begin{theorem}[Singleton evaluation visible context continuation exclusion]
+\label{thm:linearmap-singleton-eval-context-continuation-visible-context-absurd}
+For histories $p,f,x,y,r,h:\mathsf{BHist}$, a singleton evaluation with a
+visible context prefix cannot have a classified continuation result:
+$$
+\ContR(\mathsf{append}(\Ezero(p),\mathsf{LinearMapSingletonEval}(f,x)),y,r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr),
+$$
+and the same statement holds with $\Eone(p)$ in place of $\Ezero(p)$.
+\end{theorem}
+\begin{proof}
+The context-continuation classifier readback says any such classifier forces
+the visible context prefix to lie in the singleton carrier. That carrier is
+$\hsame$ to $\emp$, contradicting constructor separation for the visible head.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_visible\_context\_absurd}
+
 \begin{theorem}[Singleton evaluation continuation append target carrier]
 \label{thm:linearmap-singleton-eval-continuation-append-target-carrier}
 For histories $f,x,y,p,q:\mathsf{BHist}$, if
