@@ -33,6 +33,20 @@ In the other comparison direction, $x$ is the continuation of $z$ by a $d$-multi
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_prefix\_cancellation}
 
+\begin{theorem}[Divisible continuation left factor]
+\label{thm:nat-divides-cont-left-factor}
+Let $d$, $x$, $y$, and $z$ be unary histories with $d\not\hsame\emp$. If
+$\mathsf{NatDivides}(d,y)$, $\mathsf{NatDivides}(d,z)$, and $\Cont(x,y,z)$,
+then $\mathsf{NatDivides}(d,x)$.
+\end{theorem}
+\begin{proof}
+The unary continuation ledger may be read in the opposite endpoint order by
+unary append commutativity, giving $\Cont(y,x,z)$. Applying divisible prefix
+cancellation to this commuted continuation removes the already-divisible
+factor $y$ from the divisible result $z$, leaving divisibility of $x$ by $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_left\_factor}
+
 \begin{lemma}[Least prime multiple period]
 \label{lem:prime-least-multiple-period}
 Let $p$ and $a$ be unary histories with $\mathsf{NatPrime}(p)$ and $\neg\mathsf{NatDivides}(p,a)$. Among the nonempty unary histories $t$ for which there is a product $m_t$ with $\mathsf{NatMul}(a,t,m_t)$ and $\mathsf{NatDivides}(p,m_t)$, a strict-prefix least such $t$ exists, and every such least $t$ satisfies $t\hsame p$.

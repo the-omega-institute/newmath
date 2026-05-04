@@ -18,6 +18,26 @@ $\mathsf{UnaryHistory}(d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_e1\_distance\_target\_exactness}
 
+\begin{theorem}[Metric distance witness empty-target visible-distance source exactness]
+\label{thm:metric-distance-witness-empty-target-e1-distance-source-exactness}
+For histories $source,d$, a concrete distance witness into the empty target
+whose distance ledger is visibly one-headed identifies the source with that
+same one-headed ledger and exposes unary evidence for the ledger tail:
+$$
+\mathsf{MetricDistanceWitness}(source,\emp,\Eone(d))
+\Longrightarrow
+source=\Eone(d)\land\mathsf{UnaryHistory}(d).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-right exactness to obtain unary evidence for $source$ and the
+classifier $\hsame(\Eone(d),source)$. One-constructor inversion on this
+classifier presents $source$ as $\Eone(d)$ up to the exposed tail equality.
+Substitution into the unary source witness and unary one-step inversion give
+$\mathsf{UnaryHistory}(d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_target\_e1\_distance\_source\_exactness}
+
 \begin{theorem}[Metric nonempty distance has a nonempty endpoint]
 \label{thm:metric-distance-witness-nonempty-distance-endpoint-nonempty}
 For histories $x,y,d:\mathsf{BHist}$, if

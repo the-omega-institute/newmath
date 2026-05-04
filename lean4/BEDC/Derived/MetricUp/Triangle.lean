@@ -249,6 +249,26 @@ theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz
   | inr nonemptyZ =>
       exact Or.inr (Or.inr nonemptyZ)
 
+theorem MetricDistanceWitness_triangle_nonempty_spine_e1_endpoint_cases
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> (hsame dxyz BHist.Empty -> False) ->
+        (∃ x0 : BHist, x = BHist.e1 x0 ∧ UnaryHistory x0) ∨
+          (∃ y0 : BHist, y = BHist.e1 y0 ∧ UnaryHistory y0) ∨
+            (∃ z0 : BHist, z = BHist.e1 z0 ∧ UnaryHistory z0) := by
+  intro xy yz xyz nonemptyDxyz
+  have endpoints :=
+    MetricDistanceWitness_triangle_nonempty_endpoint_nonempty xy yz xyz nonemptyDxyz
+  cases endpoints with
+  | inl nonemptyX =>
+      exact Or.inl (unary_history_nonempty_e1_tail xy.left nonemptyX)
+  | inr endpointRest =>
+      cases endpointRest with
+      | inl nonemptyY =>
+          exact Or.inr (Or.inl (unary_history_nonempty_e1_tail yz.left nonemptyY))
+      | inr nonemptyZ =>
+          exact Or.inr (Or.inr (unary_history_nonempty_e1_tail yz.right.left nonemptyZ))
+
 theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
     {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
