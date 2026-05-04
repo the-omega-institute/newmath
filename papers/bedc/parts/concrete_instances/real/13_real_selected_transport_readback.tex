@@ -247,10 +247,10 @@ history witness and the empty-boundary contradiction for that endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_positive\_unary\_nonempty\_package}
 
-\begin{theorem}[Real stream classifier transported selected e-one denominator package]
-\label{thm:real-stream-classifier-transported-selected-e1-denominator-package}
+\begin{theorem}[Real stream classifier transported selected full shape readback package]
+\label{thm:real-stream-classifier-transported-selected-full-shape-readback-package}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
-observation index $n$, and histories $a,b:\Hist$, if
+observation index $n$, and histories $a,b,z_X,z_Y:\Hist$, if
 $$
 \forall i,\ \hsame(x(i),x'(i)),\quad
 \forall i,\ \hsame(y(i),y'(i)),\quad
@@ -260,10 +260,18 @@ $$
 $$
 then
 $$
+\begin{array}{l}
 \mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
-\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)\land\\
 \mathsf{PositiveUnaryDenominator}(x'(n))\land
-\mathsf{PositiveUnaryDenominator}(y'(n)).
+\mathsf{PositiveUnaryDenominator}(y'(n))\land
+\mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\land\\
+(\hsame(x'(n),\emp)\to\mathsf{False})\land
+(\hsame(y'(n),\emp)\to\mathsf{False})\land\\
+(\hsame(x'(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_Y))\to\mathsf{False}).
+\end{array}
 $$
 \end{theorem}
 \begin{proof}
@@ -276,22 +284,36 @@ readback
 $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
 
 Apply
-\autoref{thm:real-stream-classifier-transported-selected-positive-denominator-package}
+\autoref{thm:real-stream-classifier-transport-selected-positive-unary-nonempty-package}
 under the same two pointwise transport rows and the same source RealUp stream
-classifier. This gives the selected transported endpoint classifier together
-with the positive-denominator witnesses for $x'(n)$ and $y'(n)$.
+classifier. This gives the selected transported endpoint classifier, the
+positive-denominator witnesses for $x'(n)$ and $y'(n)$, the unary-history rows,
+and the two nonempty exclusions.
 
-Keep the endpoint classifier and unary-tail readback from the e-one package, and
-keep the two denominator witnesses from the denominator package. Combining these
-conjuncts gives exactly the displayed selected transported rational observation
+It remains to exclude displayed zero-extensions. Suppose
+$\hsame(x'(n),\Ezero(z_X))$ holds. Transport
+$\mathsf{PositiveUnaryDenominator}(x'(n))$ along this comparison by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, and contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}.
+
+The $y'$ endpoint is identical: transport
+$\mathsf{PositiveUnaryDenominator}(y'(n))$ along
+$\hsame(y'(n),\Ezero(z_Y))$ and apply the same zero-extension exclusion.
+
+Package the e-one classifier row, the unary-tail readback, the positive endpoint
+rows, the unary and nonempty endpoint rows, and the two zero-extension
+contradictions. The result is exactly the displayed selected full shape readback
 package.
 \end{proof}
 
-Fit: traditional target selected transported rational observation package for
+Fit: traditional target selected transported endpoint-shape readback package for
 RealUp; BEDC source RatUp plus StreamNameUp-shaped RealUp streams; carrier
 rational-observation streams; classifiers RealStreamClassifier and
-RatHistoryClassifier; stability transported prefix readback plus
-positive-denominator exposure; ledger selected observation index, two transport
-rows, and two e-one seals; core theorem this block; exactness the displayed
-conjunction; downstream use by the RealUp dyadic embedding certificate; status
-$\mathsf{ProofTarget}$.
+RatHistoryClassifier; stability transported prefix readback,
+positive-denominator exposure, positive denominator hsame transport, and
+zero-extension exclusion; ledger selected observation index, two transport rows,
+two e-one seals, and two zero-extension tests; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-full-shape-readback-package};
+exactness the displayed classifier, tail, positive-denominator, unary, nonempty,
+and zero-extension package; downstream use by the RealUp dyadic embedding
+certificate; status $\mathsf{ProofTarget}$.

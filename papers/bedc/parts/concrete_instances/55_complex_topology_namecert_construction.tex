@@ -47,6 +47,24 @@ the original gap ledger after the common unary suffix.
 \label{def:cplx-topo-closed-disk}
 \(\mathsf{ClosedDisk}(z_0, r, z)\) holds when \(|z - z_0| \leq r\) on rational representations, decidable by non-strict prefix comparison.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyClosedDiskGap}
+
+\begin{lemma}[Closed-disk gap transport along \(\hsame\)]
+\label{lem:cplx-topo-closed-disk-gap-hsame-transport}
+If a complex-topology closed-disk gap witness is transported by the complex
+history classifier at its center and point, and by $\hsame$ at its radius and
+gap histories, then the transported tuple is a closed-disk gap witness. Its
+boundary evidence is transported as either a continuation ledger or boundary
+$\hsame$.
+\end{lemma}
+\begin{proof}
+Unpack the closed-disk gap witness. The complex classifiers provide the target
+complex carriers for the center and point. Unary transport moves the radius and
+gap carriers. In the strict-boundary branch, continuation transport moves
+$\Cont(z,g,r)$ to $\Cont(z',g',r')$; in the boundary-equality branch,
+transitivity of $\hsame$ carries $z'\hsame r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyClosedDiskGap\_hsame\_transport}
 
 \begin{theorem}[Open-disk gap modulus]
 \label{thm:cplx-topo-gap-modulus}
