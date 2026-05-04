@@ -1,0 +1,65 @@
+\begin{definition}[Real stream finite window classifier]
+\label{def:real-stream-finite-window-classifier}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index $n$,
+and a zero-based window radius $m$, the finite window classifier is the bounded
+pointwise rational-history classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+\Longleftrightarrow
+\forall k,\ k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
+$$
+\end{definition}
+
+\begin{theorem}[Real stream prefix-window exactness at zero]
+\label{thm:real-stream-prefix-window-exactness-at-zero}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every finite
+offset $m$,
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,0,m).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the recursive prefix classifier is exactly the
+rational-history classifier at observation $0$, and the window condition has
+only the offset $k=0$.
+
+For the successor step, use
+\autoref{lem:real-stream-prefix-successor-inversion} to split a prefix through
+$m+1$ into the prefix through $m$ and the rational-history classifier at the new
+endpoint. The induction hypothesis converts the shorter prefix into the window
+condition through offset $m$.
+
+Given any $k\le m+1$, split constructively between $k\le m$ and $k=m+1$. The
+first case is handled by the shorter window; the endpoint case is exactly the
+successor rational-history classifier.
+
+Conversely, assume the window condition through $m+1$. Its restriction to
+offsets $k\le m$ gives the zero-based window through $m$, hence by induction the
+prefix through $m$. Taking $k=m+1$ gives the endpoint classifier, and the reverse
+direction of successor inversion pairs these two witnesses into the prefix
+through $m+1$.
+\end{proof}
+
+\begin{theorem}[Real stream classifier finite-window coverage]
+\label{thm:real-stream-classifier-finite-window-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+every pointwise stream classifier covers the finite observation window anchored
+at $n$ with radius $m$:
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,n,m).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{RealStreamClassifier}(x,y)$ and fix an offset $k\le m$. The
+stream classifier is pointwise, so evaluating it at the observation index $n+k$
+gives $\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+Since the chosen offset was arbitrary under the window bound, these endpoint
+classifiers assemble exactly into
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
+\end{proof}
