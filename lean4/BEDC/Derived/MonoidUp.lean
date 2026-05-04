@@ -428,6 +428,26 @@ theorem unary_append_monoid_left_factor_empty_iff {h k : BHist} :
         (BEDC.FKernel.Cont.append_empty_right h)
     exact And.intro (unary_append_closed unaryH unaryK) (And.intro unaryH sameAppend)
 
+theorem unary_append_monoid_right_factor_empty_iff {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      (MonoidHistoryClassifier UnaryHistory (append h k) k <->
+        MonoidHistoryClassifier UnaryHistory h BHist.Empty) := by
+  intro unaryH unaryK
+  constructor
+  · intro classified
+    have sameHead : hsame h BHist.Empty := by
+      exact append_right_cancel (k := k) (hsame_trans classified.right.right
+        (hsame_symm (BEDC.FKernel.Cont.append_empty_left k)))
+    exact And.intro unaryH (And.intro unary_empty sameHead)
+  · intro classified
+    have sameAppend : hsame (append h k) k := by
+      exact hsame_trans
+        (by
+          cases classified.right.right
+          exact hsame_refl (append BHist.Empty k))
+        (BEDC.FKernel.Cont.append_empty_left k)
+    exact And.intro (unary_append_closed unaryH unaryK) (And.intro unaryK sameAppend)
+
 theorem unary_append_monoid_commutative_classifier {a b : BHist} :
     UnaryHistory a -> UnaryHistory b ->
       MonoidHistoryClassifier UnaryHistory (append a b) (append b a) := by

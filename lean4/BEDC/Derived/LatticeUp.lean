@@ -242,6 +242,21 @@ theorem LatticeSingletonLE_append_tail_empty_iff {h tail : BHist} :
     exact And.intro appendCarrier (And.intro carrierH
       ((PreorderPrefixLE_append_tail_backforces_empty_iff tailUnary).mpr tailEmpty))
 
+theorem LatticeSingletonClassifier_append_tail_empty_iff {h tail : BHist} :
+    LatticeSingletonCarrier h ->
+      (LatticeSingletonClassifier (append h tail) h ↔ hsame tail BHist.Empty) := by
+  intro carrierH
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp classified.left).right
+  · intro tailEmpty
+    have appendCarrier : LatticeSingletonCarrier (append h tail) :=
+      append_eq_empty_iff.mpr (And.intro carrierH tailEmpty)
+    have appendSameH : hsame (append h tail) h := by
+      cases tailEmpty
+      exact append_empty_right h
+    exact And.intro appendCarrier (And.intro carrierH appendSameH)
+
 theorem LatticeSingletonLE_append_tail_upper_empty_iff {h tail : BHist} :
     LatticeSingletonCarrier h -> UnaryHistory tail ->
       (LatticeSingletonLE h (append h tail) ↔ hsame tail BHist.Empty) := by
@@ -312,6 +327,20 @@ theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} 
     have endpoints := cont_empty_result_inversion emptyContinuation
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
+
+theorem LatticeSingletonLE_continuation_empty_result_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonLE P Q <-> hsame R BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro leData
+    cases continuation
+    exact append_eq_empty_iff.mpr (And.intro leData.left leData.right.left)
+  · intro resultEmpty
+    cases continuation
+    have endpoints := append_eq_empty_iff.mp resultEmpty
+    exact And.intro endpoints.left
+      (And.intro endpoints.right
+        (PreorderPrefixLE_of_hsame (hsame_trans endpoints.left (hsame_symm endpoints.right))))
 
 theorem LatticeSingletonMeetJoin_idempotent_comm_classifier {h k : BHist} :
     LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->

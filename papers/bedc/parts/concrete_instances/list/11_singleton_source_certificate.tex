@@ -300,6 +300,108 @@ classifier witness, and the displayed nil-nil or cons-cons constructor
 equivalence.
 \end{proof}
 
+\begin{theorem}[Hsame-compatible bounded list source finite-data exit package]
+\label{thm:list-hsame-compatible-bounded-source-finite-data-exit-package}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the
+$\ListUp$ public object carries the following finite-data exit fields.
+\begin{enumerate}
+  \item
+  The semantic certificate
+  $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+  \mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})$.
+  \item
+  Public length is total and unique on $\mathsf{ListHistoryCarrier}_A$.
+  \item
+  Classified endpoints have a common public length, and any two endpoint
+  length readbacks are equal.
+  \item
+  $\mathsf{ListPublicLength}_A(h,0)$ holds exactly when
+  $\hsame(h,\emp)$ holds.
+  \item
+  Every nonempty carrier history has a cons readback
+  $a,t,p:\mathsf{BHist}$ with $A(a)$,
+  $\mathsf{ListHistoryCarrier}_A(t)$, $\ContR(a,t,p)$,
+  $\hsame(h,\Eone(p))$, and no zero public length for $h$.
+  \item
+  For every history $h$ and finite length value $n$,
+  $$
+  \mathsf{ListPublicLength}_A(h,n+1)
+  \quad\Longleftrightarrow\quad
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+  \mathsf{ListPublicLength}_A(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+  \item
+  Every classifier witness exposes finite endpoint spines:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+  \to
+  \left(
+  \begin{array}{l}
+  (\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+  \land
+  (\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+  \end{array}
+  \right).
+  $$
+  \item
+  The classifier is exactly the nil-nil or cons-cons constructor audit:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+  \Longleftrightarrow
+  \begin{array}{l}
+  (\hsame(h,\emp)\land \hsame(k,\emp))\\
+  \lor\\
+  \exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land A(b)\land \mathsf{ListHistoryCarrier}_A(t)\land
+  \mathsf{ListHistoryCarrier}_A(u)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \mathsf{Rel}(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)
+  \end{array}
+  \right).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} supplies
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$ from the bounded-source and
+source-compatibility hypotheses.
+
+Use the forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} to convert
+this spine coherence witness into
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$.
+
+Apply Theorem~\ref{thm:list-public-object-certificate-with-length-readback} to
+$\mathsf{cert}$ and the cons-boundary coherence witness. This gives the
+semantic certificate, public-length totality and uniqueness, the common
+classified endpoint length, and endpoint length equality. Apply
+Theorem~\ref{thm:list-public-zero-length-and-nonempty-readback} with the same
+coherence witness to obtain the zero-length characterization and the nonempty
+cons readback.
+
+Theorem~\ref{thm:list-public-successor-length-constructor-exactness} supplies
+the successor length constructor equivalence. Finally,
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+supplies the endpoint spine ledgers and the nil-nil or cons-cons constructor
+audit with head relation $\mathsf{Rel}(a,b)$.
+\end{proof}
+
 \begin{corollary}[Hsame-bounded list source unframed certificate]
 \label{thm:list-hsame-bounded-source-public-object-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
