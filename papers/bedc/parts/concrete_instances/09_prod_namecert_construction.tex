@@ -647,6 +647,31 @@ the envelope and componentwise $\hsame$ classifiers, stability by
 $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$, ledger through displayed
 pair representations, and status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Product history classifier displayed component hsame exactness]
+\label{thm:prod-history-classifier-displayed-component-hsame-iff}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. If
+$L(l)$, $R(r)$, $\Cont(l,r,h)$, $L(l')$, $R(r')$, and
+$\Cont(l',r',k)$ hold, then
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\hsame(l,l')\wedge\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the displayed component data are
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$. The product history classifier supplies
+the endpoint link $\hsame(h,k)$, so pair-representation coherence transports
+the endpoint link back to the two component links. For the reverse direction,
+the two component links are pushed through the two continuation witnesses by
+continuation respect for $\hsame$, producing $\hsame(h,k)$. The displayed
+component data rebuild the two endpoint product carriers, and these three
+fields are exactly $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_displayed\_component\_hsame\_iff}
+
 \begin{theorem}[Product componentwise history classifier displayed exactness]
 \label{thm:prod-component-history-classifier-displayed-exactness}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let

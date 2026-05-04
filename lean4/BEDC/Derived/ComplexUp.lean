@@ -164,6 +164,18 @@ theorem ComplexHistoryCarrier_not_empty {h : BHist} :
                     cont_empty_result_inversion (cont_result_hsame_transport cont sameEmpty)
                   exact RatUp.RatHistoryCarrier_not_empty realCarrier emptyParts.left
 
+theorem ComplexHistoryClassifier_nonempty_endpoints {h k : BHist} :
+    ComplexHistoryClassifier h k ->
+      (hsame h BHist.Empty -> False) ∧ (hsame k BHist.Empty -> False) := by
+  intro classified
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK _sameHK =>
+          constructor
+          · exact ComplexHistoryCarrier_not_empty carrierH
+          · exact ComplexHistoryCarrier_not_empty carrierK
+
 theorem ComplexHistoryClassifier_trans {h k r : BHist} :
     ComplexHistoryClassifier h k -> ComplexHistoryClassifier k r ->
       ComplexHistoryClassifier h r := by
