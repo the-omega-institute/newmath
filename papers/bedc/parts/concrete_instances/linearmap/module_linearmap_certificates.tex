@@ -423,3 +423,144 @@ $$
 
 The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the preceding descent row is its required pointwise respect. The ledger records the function identifier $h$, the two input function identifiers, the pointwise addition ledger for each output, the additive congruence and middle-four ledgers for the additivity row, the scalar-distributivity ledger for the scalar row, and the zero-plus-unit ledger for the zero row, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
 \end{proof}
+
+\begin{lemma}[Module scalar action preserves additive inverse]
+\label{lem:module-scalar-action-additive-inverse}
+Let $R$ carry a $\RingUp$ certificate, and let $N$ carry a $\ModuleUp(R,N)$ certificate. Write $\sim_N$ for the module classifier, $+_N$ for module addition, $0_N$ for module zero, $-_N$ for additive inverse, and $\odot_N$ for scalar action. For every carried scalar $r:R$ and carried endpoint $y:N$,
+$$
+-_N(r\odot_N y)\sim_N r\odot_N(-_N y).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the module certificate through \autoref{def:module-certificate-obligations}. The additive reduct of the target module is an $\AbGroupUp(N)$ certificate by \autoref{prop:module-forgets-abgroup-certificate}, and its group reduct is obtained by \autoref{prop:abgroup-forgets-group-certificate}. These reducts keep the same addition, zero, additive inverse, and classifier. Thus inverse closure, inverse congruence, the inverse laws, additive congruence, and additive left cancellation are available through \autoref{def:abgroup-stability-certificate}, \autoref{def:group-stability-certificate}, and \autoref{thm:group-left-cancellation}.
+
+Let
+$$
+a:=r\odot_N y,
+\qquad
+b:=r\odot_N(-_N y).
+$$
+Scalar-action closure makes $a$ carried, inverse closure makes $-_N y$ carried, and scalar-action closure again makes $b$ carried. The additive right-inverse row for $a$ gives
+$$
+a+_N(-_N a)\sim_N0_N.
+$$
+The additive right-inverse row for $y$ gives
+$$
+y+_N(-_N y)\sim_N0_N.
+$$
+Scalar-action congruence, using classifier reflexivity on the carried scalar $r$, transports this to
+$$
+r\odot_N(y+_N(-_N y))\sim_N r\odot_N0_N.
+$$
+The zero-action annihilation theorem \autoref{thm:module-zero-action-annihilation} gives
+$$
+r\odot_N0_N\sim_N0_N.
+$$
+Transitivity therefore gives
+$$
+r\odot_N(y+_N(-_N y))\sim_N0_N.
+$$
+Scalar distributivity over module addition from \autoref{def:module-stability-certificate} gives
+$$
+r\odot_N(y+_N(-_N y))\sim_N (r\odot_N y)+_N(r\odot_N(-_N y)).
+$$
+Using classifier symmetry and transitivity, this yields
+$$
+a+_N b\sim_N0_N.
+$$
+Composing this comparison with the symmetry of $a+_N(-_N a)\sim_N0_N$ gives
+$$
+a+_N b\sim_N a+_N(-_N a).
+$$
+Additive left cancellation in the retained group reduct removes the common left summand $a$, giving $b\sim_N-_N a$. Classifier symmetry gives
+$$
+-_N a\sim_N b.
+$$
+Substituting the definitions of $a$ and $b$ is exactly the displayed scalar-action inverse law.
+\end{proof}
+
+\begin{theorem}[Module LinearMap pointwise inverse certificate]
+\label{thm:module-linearmap-pointwise-inverse-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for module addition, $0_M$ and $0_N$ for module zero, $-_N$ for the target additive inverse, and $\odot_M$ and $\odot_N$ for scalar action. For a function $f:M\to N$, define $h:M\to N$ by
+$$
+h(x):=-_N f(x).
+$$
+If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, then
+$$
+\mathsf{LinearMapCert}_R(M,N;h)
+$$
+holds.
+The ten-field fit is: traditional target pointwise additive inverse of an ordinary $R$-linear map; BEDC source the displayed $\mathsf{LinearMapCert}_R(M,N;f)$ package over common $\ModuleUp$ certificates; carrier the pointwise inverse function $h$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, and zero preservation from the target additive group and module action rows; ledger the input function identifier, the target inverse ledger, the inverse-congruence ledger, the inverse-of-sum ledger, and the scalar-action inverse ledger; core theorem this block; exactness predicate the displayed certificate; standard bridge closure of $\operatorname{Hom}_R(M,N)$ under pointwise additive inverse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{LinearMapCert}_R(M,N;f)$ using \autoref{def:module-linearmap-certificate-package}. It supplies output closure, source-classifier descent, additive preservation, scalar compatibility, and zero preservation for $f$. Unpack the two module certificates through \autoref{def:module-certificate-obligations}. The target module supplies additive inverse closure, additive congruence, scalar-action congruence, scalar distributivity over module addition, and the additive abelian-group laws retained by \autoref{prop:module-forgets-abgroup-certificate}. Classifier symmetry and transitivity are supplied by the naming-certificate core in \autoref{def:lean-carrier-naming-certificate} and composed by \autoref{thm:namecert-equivalence-transitivity}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ makes $f(x)$ carried in $N$. Additive inverse closure in the target additive group makes $-_N f(x)$ carried, so $h(x)$ is carried in $N$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives
+$$
+f(x)\sim_N f(y).
+$$
+The inverse-congruence row in the target additive group gives
+$$
+-_N f(x)\sim_N-_N f(y),
+$$
+which is $h(x)\sim_Nh(y)$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Source additive closure makes $x+_M y$ carried. The additive row for $f$ gives
+$$
+f(x+_M y)\sim_N f(x)+_N f(y).
+$$
+Inverse congruence transports this comparison to
+$$
+h(x+_M y)\sim_N-_N(f(x)+_N f(y)).
+$$
+By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of $N$ is an $\AbGroupUp(N)$ certificate with the same $+_N$, $-_N$, and $\sim_N$. Applying \autoref{thm:abgroup-inverse-mul} in additive notation gives
+$$
+-_N(f(x)+_N f(y))\sim_N(-_N f(x))+_N(-_N f(y)).
+$$
+Transitivity yields
+$$
+h(x+_M y)\sim_N h(x)+_N h(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Source scalar-action closure makes $r\odot_M x$ carried. The scalar row for $f$ gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Inverse congruence gives
+$$
+h(r\odot_M x)\sim_N-_N(r\odot_N f(x)).
+$$
+The output-closure row for $f$ makes $f(x)$ carried in $N$, so \autoref{lem:module-scalar-action-additive-inverse} applies in the target module and gives
+$$
+-_N(r\odot_N f(x))\sim_N r\odot_N(-_N f(x)).
+$$
+Transitivity gives
+$$
+h(r\odot_M x)\sim_N r\odot_N h(x).
+$$
+
+For zero preservation, the zero row of $f$ gives
+$$
+f(0_M)\sim_N0_N.
+$$
+Inverse congruence gives
+$$
+h(0_M)\sim_N-_N0_N.
+$$
+The additive group reduct identifies the inverse of the additive identity with the identity by \autoref{thm:group-inverse-identity}, so
+$$
+-_N0_N\sim_N0_N.
+$$
+Transitivity gives
+$$
+h(0_M)\sim_N0_N.
+$$
+
+The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the descent row above is the required pointwise respect. The ledger records the function identifier $h$, the input function identifier for $f$, the target inverse operation at each output, the inverse-congruence ledgers for descent, additivity, scalar compatibility, and zero, the inverse-of-sum ledger from \autoref{thm:abgroup-inverse-mul}, and the scalar-action inverse ledger from \autoref{lem:module-scalar-action-additive-inverse}, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
+\end{proof}
