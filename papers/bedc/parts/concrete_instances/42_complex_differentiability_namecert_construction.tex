@@ -139,6 +139,24 @@ as the displayed continuation witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_same\_result\_step\_deterministic}
 
+\begin{theorem}[Visible complex quotient steps cannot share a result]
+\label{thm:cplx-diff-quot-visible-step-same-result-absurd}
+If
+$$
+\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out)
+\qquad\text{and}\qquad
+\mathsf{CplxDiffQuot}(f,z,\Eone(q),out)
+$$
+hold with the same function, point, and result histories, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+Shared-result step determinacy identifies the two step histories. The resulting
+$\Ezero(p)\hsame\Eone(q)$ contradicts constructor separation for
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_same\_result\_absurd}
+
 \begin{lemma}[Difference quotient result agrees with any matching continuation]
 \label{lem:cplx-diff-quot-cont-result-hsame}
 If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the same source and step also
@@ -261,6 +279,7 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\), \(\hsame(z, z')\), and \(\hsame(f', g')\),
 \begin{proof}
 Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus comparison's stability under \(\hsame\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_hsame\_transport\_witness}
 
 \section{Closure laws for complex differentiability}
 

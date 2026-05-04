@@ -124,4 +124,20 @@ theorem inBundle_member_split {PName : Type} {p : PName} :
                   cases tailEq
                   exact Exists.intro (ProbeBundle.Bcons q left) (Exists.intro right rfl)
 
+theorem inBundle_member_split_iff {PName : Type} {p : PName}
+    {bundle : ProbeBundle PName} :
+    InBundle p bundle <->
+      exists left : ProbeBundle PName, exists right : ProbeBundle PName,
+        bundle = bundleAppend left (ProbeBundle.Bcons p right) := by
+  constructor
+  · intro member
+    exact inBundle_member_split member
+  · intro split
+    cases split with
+    | intro left splitRight =>
+        cases splitRight with
+        | intro right bundleEq =>
+            cases bundleEq
+            exact inBundle_bundleAppend_iff.mpr (Or.inr (Or.inl rfl))
+
 end BEDC.FKernel.Bundle

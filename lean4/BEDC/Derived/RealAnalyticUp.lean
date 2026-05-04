@@ -7,6 +7,16 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexSeriesUp
 
+theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHist}
+    {n S : BHist} :
+    ComplexPartSum zero c n S -> UnaryHistory n := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact unary_empty
+  | step _ _ ih =>
+      exact unary_e1_closed ih
+
 theorem RealAnalyticComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist}
     {n S : BHist}
     (zeroUnary : UnaryHistory zero)
@@ -17,15 +27,8 @@ theorem RealAnalyticComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHi
   | zero =>
       exact zeroUnary
   | step previous stepContinuation ih =>
-      have indexUnary :
-          forall {m P : BHist}, ComplexPartSum zero c m P -> UnaryHistory m := by
-        intro m P previousSum
-        induction previousSum with
-        | zero =>
-            exact unary_empty
-        | step _ _ inner =>
-            exact unary_e1_closed inner
-      exact unary_cont_closed ih (termUnary (indexUnary previous)) stepContinuation
+      exact unary_cont_closed ih (termUnary (RealAnalyticComplexPartSum_index_unary previous))
+        stepContinuation
 
 theorem RealAnalyticComplexPartSum_pointwise_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}
