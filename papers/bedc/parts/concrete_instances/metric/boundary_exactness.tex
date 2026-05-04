@@ -106,6 +106,30 @@ are generated only from $\emp$ by $\Eone$, so each displayed $\Ezero$ component
 contradicts unary no-zero-extension.
 \end{proof}
 
+\begin{theorem}[Metric empty distance visible endpoint impossibility]
+\label{thm:metric-distance-witness-empty-distance-visible-endpoint-absurd}
+For histories $x,y,d,tx,ty$, if a metric distance witness has a result
+history-same as $\emp$, then neither endpoint can be history-same as a visible
+one-headed history:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+\hsame(d,\emp)\to\\
+\qquad
+\bigl(\hsame(x,\Eone(tx))\to\mathsf{False}\bigr)\land
+\bigl(\hsame(y,\Eone(ty))\to\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result of the metric witness along the displayed
+distance classifier, obtaining an empty-distance witness over the same
+endpoints. Empty-distance exactness identifies both endpoints with $\emp$.
+Composing either endpoint comparison with a visible one-headed classifier
+contradicts the empty/e-one no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_visible\_endpoint\_absurd}
+
 \begin{theorem}[Metric e1-pair empty-distance impossibility]
 \label{thm:metric-distance-witness-e1-pair-empty-distance-absurd}
 For histories $x,y:\mathsf{BHist}$,
