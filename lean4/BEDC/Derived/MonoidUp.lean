@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
@@ -261,6 +262,38 @@ theorem unary_append_monoid_identity_empty_iff {e : BHist} :
       cases classified.right.right
       exact And.intro (unary_append_closed unaryH unary_empty)
         (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h))
+
+theorem unary_append_unit_product_factor_exactness {h k : BHist} :
+    MonoidHistoryClassifier UnaryHistory (append h k) BHist.Empty <->
+      MonoidHistoryClassifier UnaryHistory h BHist.Empty ∧
+        MonoidHistoryClassifier UnaryHistory k BHist.Empty := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.right.right
+    cases emptyParts.left
+    cases emptyParts.right
+    have emptyClassified : MonoidHistoryClassifier UnaryHistory BHist.Empty BHist.Empty :=
+      And.intro unary_empty (And.intro unary_empty (hsame_refl BHist.Empty))
+    exact And.intro emptyClassified emptyClassified
+  · intro classified
+    have appendEmpty : hsame (append h k) BHist.Empty :=
+      append_eq_empty_iff.mpr
+        (And.intro classified.left.right.right classified.right.right.right)
+    exact And.intro (unary_append_closed classified.left.left classified.right.left)
+      (And.intro unary_empty appendEmpty)
+
+theorem unary_append_monoid_idempotent_empty_iff {e : BHist} :
+    UnaryHistory e ->
+      (MonoidHistoryClassifier UnaryHistory (append e e) e <->
+        MonoidHistoryClassifier UnaryHistory e BHist.Empty) := by
+  intro unaryE
+  constructor
+  · intro classified
+    exact And.intro unaryE
+      (And.intro unary_empty (append_right_unit_iff.mp classified.right.right))
+  · intro classified
+    cases classified.right.right
+    exact And.intro unary_empty (And.intro unary_empty (hsame_refl BHist.Empty))
 
 theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->
