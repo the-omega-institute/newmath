@@ -238,6 +238,30 @@ classifier relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_comm}
 
+\begin{theorem}[Ring singleton classifier append associativity carrier exactness]
+\label{thm:ring-singleton-classifier-append-assoc-carrier-iff}
+For histories $a,b,c:\mathsf{BHist}$, the singleton ring classifier relates
+the two append bracketings exactly when all three factors are singleton
+carriers:
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(a,b),c),
+\mathsf{append}(a,\mathsf{append}(b,c)))
+\Longleftrightarrow
+A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left carrier field from the classifier.
+Nested empty-result inversion for append first splits
+$\mathsf{append}(\mathsf{append}(a,b),c)$ into the left bracketing and $c$,
+then splits the left bracketing into $a$ and $b$.
+
+Conversely, the three carrier witnesses rebuild singleton carrier witnesses
+for both append bracketings. Since both endpoints are classified through
+$\emp$, transitivity and symmetry of $\hsame$ give the classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_assoc\_carrier\_iff}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
