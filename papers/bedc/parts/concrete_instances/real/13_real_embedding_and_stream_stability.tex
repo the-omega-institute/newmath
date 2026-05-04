@@ -556,6 +556,45 @@ observation witness. Core theorem:
 displayed if-and-only-if. Standard bridge: pointwise rational stream equality.
 Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary StreamNameUp finite-window coverage]
+\label{thm:real-unary-streamname-finite-window-coverage}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$, if
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),\quad
+\mathsf{UnaryHistory}(a),\quad
+\mathsf{UnaryHistory}(w),
+$$
+then the certified StreamNameUp classifier supplies the finite RealUp
+observation window:
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w).
+$$
+\end{theorem}
+\begin{proof}
+Use the reverse direction of
+\autoref{thm:real-unary-streamname-classifier-exactness} with the two carrier
+rows. The StreamNameUp classifier hypothesis therefore gives
+$\mathsf{RealUnaryStreamClassifier}(s,t)$.
+
+The remaining hypotheses are exactly the unary anchor and unary bound required
+by \autoref{thm:real-unary-stream-window-coverage}. Applying that coverage
+theorem to $s$, $t$, $a$, and $w$ yields
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
+\end{proof}
+
+Fit. Traditional target: finite windows for certified countable rational
+observations. BEDC source: StreamNameUp plus RealUp unary stream classifier.
+Carrier: observation maps over $\mathsf{BHist}$. Classifier:
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: inherited from
+\autoref{thm:real-unary-streamname-classifier-exactness} and
+\autoref{thm:real-unary-stream-window-coverage}. Ledger: anchor, bound, and
+bounded offset. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-coverage}. Exactness: bounded
+pointwise RatUp classification. Standard bridge: finite rational observation
+windows. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp transported selected endpoint shape package]
 \label{thm:real-unary-streamname-transported-selected-endpoint-shape-package}
 For unary observation maps $s,t,s',t':\Hist\to\Hist$, a certified observation
