@@ -446,6 +446,33 @@ theorem LatticeSingletonClassifier_continuation_result_right_iff {P Q R : BHist}
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem LatticeSingletonClassifier_continuation_empty_result_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonClassifier P Q ↔ hsame R BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro classified
+    cases continuation
+    exact append_eq_empty_iff.mpr (And.intro classified.left classified.right.left)
+  · intro resultEmpty
+    cases continuation
+    have endpoints := append_eq_empty_iff.mp resultEmpty
+    exact LatticeSingletonClassifier_empty_endpoints_iff.mpr endpoints
+
+theorem LatticeSingletonClassifier_continuation_result_left_right_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonClassifier R P ↔ LatticeSingletonClassifier R Q) := by
+  intro continuation
+  constructor
+  · intro leftClassified
+    have inputClassified :
+        LatticeSingletonClassifier P Q :=
+      (LatticeSingletonClassifier_continuation_result_left_iff continuation).mpr leftClassified
+    exact (LatticeSingletonClassifier_continuation_result_right_iff continuation).mp inputClassified
+  · intro rightClassified
+    have inputClassified :
+        LatticeSingletonClassifier P Q :=
+      (LatticeSingletonClassifier_continuation_result_right_iff continuation).mpr rightClassified
+    exact (LatticeSingletonClassifier_continuation_result_left_iff continuation).mp inputClassified
+
 theorem LatticeSingletonLE_continuation_empty_result_iff {P Q R : BHist} :
     Cont P Q R -> (LatticeSingletonLE P Q <-> hsame R BHist.Empty) := by
   intro continuation

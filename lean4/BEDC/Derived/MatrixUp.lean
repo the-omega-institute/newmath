@@ -173,6 +173,19 @@ theorem MatrixSingletonPow_visible_base_succ_continuation_empty_result_absurd
     have sourceParts := append_eq_empty_iff.mp sourceEmpty
     exact not_hsame_e1_empty sourceParts.right
 
+theorem MatrixSingletonPow_positive_exponent_visible_base_continuation_empty_result_absurd {m exponent y r : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      (Cont (MatrixSingletonPow (BHist.e0 m) exponent) y r -> hsame r BHist.Empty -> False) ∧
+      (Cont (MatrixSingletonPow (BHist.e1 m) exponent) y r -> hsame r BHist.Empty -> False) := by
+  intro exponentUnary exponentNonempty
+  exact And.intro
+    (fun continuation resultEmpty => not_hsame_e0_empty
+      ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+    (fun continuation resultEmpty => not_hsame_e1_empty
+      ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+
 theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
       MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
@@ -188,6 +201,27 @@ theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
       MatrixSingletonCarrier
         (MatrixSingletonMul (MatrixSingletonPow M w) (MatrixSingletonPow M q)) :=
     append_eq_empty_iff.mpr (And.intro leftCarrier rightCarrier)
+  exact And.intro compositeCarrier
+    (And.intro productCarrier (hsame_trans compositeCarrier (hsame_symm productCarrier)))
+
+theorem MatrixSingletonPow_append_succ_right_exponent_classifier {M w q : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
+      MatrixSingletonClassifier (MatrixSingletonPow M (append w (BHist.e1 q)))
+        (MatrixSingletonMul (MatrixSingletonPow M w)
+          (MatrixSingletonMul (MatrixSingletonPow M q) M)) := by
+  intro carrierM unaryW unaryQ
+  have compositeCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append w (BHist.e1 q))) :=
+    MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryW (unary_e1_closed unaryQ))
+  have leftCarrier : MatrixSingletonCarrier (MatrixSingletonPow M w) :=
+    MatrixSingletonPow_carrier_closed carrierM unaryW
+  have rightPowCarrier : MatrixSingletonCarrier (MatrixSingletonPow M q) :=
+    MatrixSingletonPow_carrier_closed carrierM unaryQ
+  have rightMulCarrier : MatrixSingletonCarrier (MatrixSingletonMul (MatrixSingletonPow M q) M) :=
+    append_eq_empty_iff.mpr (And.intro rightPowCarrier carrierM)
+  have productCarrier : MatrixSingletonCarrier
+      (MatrixSingletonMul (MatrixSingletonPow M w)
+        (MatrixSingletonMul (MatrixSingletonPow M q) M)) :=
+    append_eq_empty_iff.mpr (And.intro leftCarrier rightMulCarrier)
   exact And.intro compositeCarrier
     (And.intro productCarrier (hsame_trans compositeCarrier (hsame_symm productCarrier)))
 
