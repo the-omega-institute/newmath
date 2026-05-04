@@ -145,6 +145,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
