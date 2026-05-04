@@ -142,6 +142,7 @@ import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexUp.SemanticCertificate
+import BEDC.Derived.ComplexUp.ComponentContextPositive
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -564,6 +565,7 @@ import BEDC.Derived.CategoryUp.CompSourceEmptyTailTargetIff
 import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
+import BEDC.Derived.CategoryUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
@@ -580,6 +582,7 @@ import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.FunctorUp.CompNonemptyResultTargetVisible
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
+import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
