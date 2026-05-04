@@ -287,6 +287,24 @@ relation is the canonical append continuation from the suffixed left endpoint
 to the suffixed right endpoint.
 \end{proof}
 
+\begin{theorem}[Complex distance unary append commutation package]
+\label{thm:complex-distance-unary-append-comm-package}
+For unary histories $z$ and $q$, the two appended endpoints $q\cdot z$ and
+$z\cdot q$ carry the canonical complex-distance witness
+$(q\cdot z)\cdot(z\cdot q)$, and the endpoints are $\hsame$:
+$$
+\mathsf{ComplexDistance}(q\cdot z,z\cdot q,(q\cdot z)\cdot(z\cdot q))
+\land \hsame(q\cdot z,z\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure gives unary carriers for $q\cdot z$, $z\cdot q$, and
+their displayed composite distance. The complex-distance relation uses the
+canonical continuation from the left endpoint to the right endpoint, while
+unary append commutativity supplies the endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_unary\_append\_comm\_package}
+
 \begin{theorem}[Regular complex sequence constant suffix closure]
 \label{thm:complex-regular-sequence-append-constant-closed}
 Let \(q:\mathsf{BHist}\) be unary. If \((s,N)\) is a regular complex sequence,
