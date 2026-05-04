@@ -58,9 +58,10 @@ $$
 \rho_{\emp}(h,k):=
 A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-For carried histories, define the restricted order by
+Define the carrier-guarded restricted order by
 $$
-h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+h\le_{\emp}k:=
+A_{\emp}(h)\land A_{\emp}(k)\land \mathsf{PreorderPrefixLE}(h,k).
 $$
 The concrete POSet package is the fixed $\mathsf{BHist}$ tuple
 $(A_{\emp},\rho_{\emp},\le_{\emp})$.
@@ -73,8 +74,8 @@ For the concrete package of
 inhabited by $\emp$, carrier membership transports along $\hsame$, and
 $\le_{\emp}$ has preorder reflexivity, transitivity, and endpoint congruence
 inherited from the singleton empty preorder laws. The package also satisfies
-antisymmetry under $\rho_{\emp}$. For carried histories $h,k:\mathsf{BHist}$,
-the classifier is exact:
+antisymmetry under $\rho_{\emp}$. For all histories $h,k:\mathsf{BHist}$, the
+classifier is exact:
 $$
 \rho_{\emp}(h,k)\Longleftrightarrow
 (h\le_{\emp}k\land k\le_{\emp}h).
@@ -88,20 +89,22 @@ transitive, and endpoint-congruent behavior of $\le_{\emp}$ is the restricted
 $\mathsf{PreorderPrefixLE}$ package on the singleton source.
 
 For antisymmetry, suppose $h$ and $k$ are carried and that
-$h\le_{\emp}k$ and $k\le_{\emp}h$. The two comparisons are
-$\mathsf{PreorderPrefixLE}$ witnesses, so
+$h\le_{\emp}k$ and $k\le_{\emp}h$. Project the opposing
+$\mathsf{PreorderPrefixLE}$ witnesses from the guarded comparisons, so
 $\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ gives $\hsame(h,k)$. Pair this
 with the carrier witnesses for $h$ and $k$ to obtain $\rho_{\emp}(h,k)$.
 
 For exactness, first assume $\rho_{\emp}(h,k)$. The classifier supplies the
 two carrier witnesses and the endpoint witness $\hsame(h,k)$. Apply
 $\mathsf{PreorderPrefixLE\_of\_hsame}$ to this witness and to its symmetric
-orientation to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
+orientation, then repack the two carrier witnesses with the resulting prefix
+comparisons to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
 
-Conversely, assume the two comparisons for carried histories. The singleton
-carrier unpacks both endpoints through $\emp$, and antisymmetry for
-$\mathsf{PreorderPrefixLE}$ supplies $\hsame(h,k)$. Recombine that endpoint
-witness with the two carrier witnesses to get $\rho_{\emp}(h,k)$.
+Conversely, assume the two guarded comparisons. Project the carrier witnesses
+and the opposing prefix witnesses from them. Apply
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ to the prefix witnesses to recover
+$\hsame(h,k)$, and recombine this endpoint witness with the carrier witnesses
+to get $\rho_{\emp}(h,k)$.
 \end{proof}
 
 \begin{theorem}[Singleton empty POSet terminal interval collapse]
