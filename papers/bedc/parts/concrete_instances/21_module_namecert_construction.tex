@@ -278,6 +278,31 @@ $\rho_{\emp}(n,n')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_empty\_action\_outputs\_deterministic}
 
+\begin{theorem}[Module singleton visible scalar nonfaithfulness]
+\label{thm:module-singleton-smul-nonfaithful-visible-scalar}
+For the concrete singleton scalar action, every carried module endpoint sees
+the visible scalar $\Eone(\emp)$ and the empty scalar $\emp$ as producing the
+same empty action endpoint:
+$$
+A_{\emp}(m)\Longrightarrow
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\Eone(\emp),m),
+\mathsf{ModuleSingletonSmul}(\emp,m)).
+$$
+Nevertheless the visible scalar itself is not classified with the empty scalar:
+$$
+\rho_{\emp}(\Eone(\emp),\emp)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Both scalar-action endpoints reduce definitionally to $\emp$, so classifier
+endpoint exactness packages the two empty endpoints for the first assertion.
+For the second assertion, the left carrier field of
+$\rho_{\emp}(\Eone(\emp),\emp)$ would give
+$\hsame(\Eone(\emp),\emp)$, contradicting the BEDC constructor
+no-confusion theorem for a visible one-step history and the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_nonfaithful\_visible\_scalar}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple
@@ -772,3 +797,26 @@ f(0_M)\sim_N0_N.
 $$
 Thus $\mathsf{Ker}_f(0_M)$ holds. The three clauses are precisely the advertised sub-module carrier closure properties inside the source module $M$.
 \end{proof}
+
+\begin{lemma}[Module scalar additive inverse acts by action inverse]\label{lem:module-scalar-additive-inverse-action}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $+_R$ and $0_R$ for scalar addition and scalar zero, $+_M$ and $0_M$ for module addition and module zero, $-_R$ and $-_M$ for the two additive inverse operations, and $\odot_M$ for scalar action. For every carried scalar $r:R$ and carried module endpoint $m:M$, $(-_R r)\odot_M m\sim_M -_M(r\odot_M m)$.
+\end{lemma}
+\begin{proof}
+Unpack the module certificate through \autoref{def:module-certificate-obligations}. The scalar source is a certified $\RingUp(R)$ by \autoref{def:module-source-specification}, and the module additive reduct is an $\AbGroupUp(M)$ certificate by \autoref{prop:module-forgets-abgroup-certificate}. Its group reduct is obtained by \autoref{prop:abgroup-forgets-group-certificate}, keeping the same addition, zero, inverse operation, and classifier. Thus scalar additive inverse closure, module additive inverse closure, additive congruence, additive commutativity, and the two inverse rows are available through \autoref{def:ring-stability-certificate}, \autoref{def:abgroup-stability-certificate}, and \autoref{def:group-stability-certificate}. Classifier reflexivity, symmetry, and transitivity are supplied by \autoref{def:lean-carrier-naming-certificate}, with transitive composition as in \autoref{thm:namecert-equivalence-transitivity}.
+Let $x:=r\odot_M m$ and $y:=(-_R r)\odot_M m$. Scalar-action closure carries both $x$ and $y$. The scalar additive right-inverse theorem \autoref{thm:ring-add-right-inverse}, read in the certified scalar source, gives $r+_R(-_R r)\sim_R0_R$.
+Scalar-action congruence from \autoref{def:module-stability-certificate}, using classifier reflexivity on the carried module endpoint $m$, transports this scalar comparison to $(r+_R(-_R r))\odot_M m\sim_M0_R\odot_M m$. The zero-action annihilation theorem \autoref{thm:module-zero-action-annihilation} gives $0_R\odot_M m\sim_M0_M$, hence $(r+_R(-_R r))\odot_M m\sim_M0_M$.
+Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives $(r+_R(-_R r))\odot_M m\sim_M x+_M y$. By symmetry and transitivity, $x+_M y\sim_M0_M$. Additive commutativity in the retained $\AbGroupUp(M)$ certificate changes the order of the two summands, so $y+_M x\sim_M0_M$.
+The module additive right-inverse row for the carried endpoint $x$ gives $x+_M(-_M x)\sim_M0_M$. Apply \autoref{thm:group-left-right-inverse-uniqueness} in the retained additive group of $M$, with operation $+_M$, identity $0_M$, base element $x$, left inverse witness $y$, and right inverse witness $-_M x$. This yields $y\sim_M-_M x$.
+Substituting the definitions of $x$ and $y$ gives $(-_R r)\odot_M m\sim_M -_M(r\odot_M m)$.
+\end{proof}
+\begin{theorem}[Module scalar minus one is additive inverse]\label{thm:module-minus-one-scalar-action-additive-inverse}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_M$ for the module classifier, $1_R$ for the scalar one, $-_R$ and $-_M$ for the scalar and module additive inverse operations, and $\odot_M$ for scalar action. For every carried module endpoint $m:M$, $(-_R1_R)\odot_M m\sim_M-_M m$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{lem:module-scalar-additive-inverse-action} with $r=1_R$. This gives $(-_R1_R)\odot_M m\sim_M-_M(1_R\odot_M m)$.
+The scalar unit row in \autoref{def:module-stability-certificate} gives $1_R\odot_M m\sim_M m$.
+The inverse-congruence row in the retained additive group of $M$, obtained from \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}, transports this comparison to $-_M(1_R\odot_M m)\sim_M-_M m$.
+Transitivity of $\sim_M$ composes the two comparisons and yields $(-_R1_R)\odot_M m\sim_M-_M m$.
+\end{proof}
+
+\begin{theorem}[Module scalar negation action inverse]\label{thm:module-scalar-negation-action-inverse} Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $+_R$ and $0_R$ for scalar addition and scalar zero, $-_R$ for scalar additive inverse, $+_M$ and $0_M$ for module addition and module zero, $-_M$ for module additive inverse, and $\odot_M$ for scalar action. For every carried scalar $r:R$ and carried module endpoint $m:M$, $(-_R r)\odot_M m\sim_M -_M(r\odot_M m)$.\end{theorem} \begin{proof} Unpack the module certificate through \autoref{def:module-certificate-obligations}. The scalar source is a certified $\RingUp(R)$ by \autoref{def:module-source-specification}, and the additive module source is a certified $\AbGroupUp(M)$ with the same addition, zero, additive inverse, and classifier by \autoref{prop:module-forgets-abgroup-certificate}. Hence scalar inverse closure, scalar-action closure, scalar-action congruence, scalar distributivity over scalar addition, the module additive inverse laws, and the additive group reduct needed for \autoref{thm:group-left-right-inverse-uniqueness} are available. Let $a:=r\odot_M m$ and $b:=(-_R r)\odot_M m$. Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives $(r+_R(-_R r))\odot_M m\sim_M a+_M b$. The scalar additive right-inverse theorem \autoref{thm:ring-add-right-inverse}, read in the scalar $\RingUp(R)$ source, gives $r+_R(-_R r)\sim_R0_R$. Scalar-action congruence, using this scalar comparison and classifier reflexivity on the carried endpoint $m$, gives $(r+_R(-_R r))\odot_M m\sim_M0_R\odot_M m$. By \autoref{thm:module-zero-action-annihilation}, $0_R\odot_M m\sim_M0_M$. Transitivity of $\sim_M$ therefore gives $(r+_R(-_R r))\odot_M m\sim_M0_M$, and composing with the symmetry of the distributivity comparison yields $a+_M b\sim_M0_M$. Thus $b$ is a right inverse witness for $a$ in the additive group of $M$. The module additive left-inverse row gives $(-_M a)+_M a\sim_M0_M$. Apply \autoref{thm:group-left-right-inverse-uniqueness} in the additive group reduct of $M$ with $x=a$, $y=-_M a$, and $z=b$. The left-inverse display and the right-inverse display identify the two inverse witnesses, so $-_M a\sim_M b$. Symmetry of the classifier gives $b\sim_M-_M a$, and substituting the definitions of $a$ and $b$ is exactly $(-_R r)\odot_M m\sim_M -_M(r\odot_M m)$.\end{proof}
