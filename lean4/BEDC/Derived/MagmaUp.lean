@@ -125,6 +125,19 @@ theorem concrete_unary_history_magma_classifier_append_factors_iff {h h' k k' : 
     exact And.intro leftCarrier
       (And.intro rightCarrier factors.right.right.right.right)
 
+theorem concrete_unary_history_magma_cont_result_classifier_factors_iff
+    {h h' k k' r r' : BHist} :
+    Cont h k r -> Cont h' k' r' ->
+      (let Carrier : BHist -> Prop := UnaryHistory
+       let Classifier : BHist -> BHist -> Prop :=
+        fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+       Classifier r r' ↔
+        Carrier h ∧ Carrier k ∧ Carrier h' ∧ Carrier k' ∧ hsame r r') := by
+  intro left right
+  cases left
+  cases right
+  exact concrete_unary_history_magma_classifier_append_factors_iff
+
 theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
     {left middle middle' right : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory

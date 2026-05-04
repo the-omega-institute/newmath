@@ -86,6 +86,27 @@ displayed endpoint $\hsame$ proof repackages the concrete classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_factors\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation result classifier factors]
+\label{thm:concrete-unary-history-magma-cont-result-classifier-factors}
+For histories $h,h',k,k',r,r':\mathsf{BHist}$, if
+$\Cont(h,k,r)$ and $\Cont(h',k',r')$, then the concrete unary-history magma
+classifier relates the two continuation results exactly when all four source
+factors are unary and the two results are history-same:
+$$
+R_U(r,r')
+\Longleftrightarrow
+U(h)\land U(k)\land U(h')\land U(k')\land\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two continuation witnesses. The results become the displayed
+append endpoints $\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$. The
+append-factor classifier exactness theorem then supplies the four unary factor
+witnesses in the forward direction and rebuilds the result classifier from the
+four witnesses and the endpoint $\hsame$ proof in the reverse direction.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_classifier\_factors\_iff}
+
 \begin{theorem}[Concrete unary-history magma classifier middle-context cancellation]
 \label{thm:concrete-unary-history-magma-classifier-append-middle-cancel}
 Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
