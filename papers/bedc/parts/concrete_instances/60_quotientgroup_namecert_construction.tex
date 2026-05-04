@@ -334,6 +334,26 @@ respect follows from the carried right endpoint stored in the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCoset\_semanticNameCert}
 
+\begin{theorem}[Centralizer coset empty representative classifier transport]
+\label{thm:quotientgroup-centralizer-coset-empty-representative-transport}
+If the representative $\mathsf{repr}$ and the empty history both centralize
+$a$, and $\mathsf{repr}\hsame\emp$, then the centralizer-coset classifier for
+$\mathsf{repr}$ agrees with the centralizer-coset classifier for $\emp$:
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\mathsf{repr},h,k)
+\Longleftrightarrow
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two coset classifiers. Each endpoint carrier consists of the chosen
+representative's centralizer witness and an endpoint comparison with that
+representative. The comparison $\mathsf{repr}\hsame\emp$ converts the two
+endpoint comparisons in either direction, while the corresponding centralizer
+witness supplies the carrier field for the chosen representative.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
+
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$

@@ -132,6 +132,31 @@ through the two fixed append contexts.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_middle\_cancel\_iff}
 
+\begin{theorem}[Concrete unary-history magma classifier rotated middle cancellation]
+\label{thm:concrete-unary-history-magma-classifier-append-rotated-middle-cancel}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $U(l)$ and $U(r)$, then the concrete magma classifier also cancels a common
+context when the right endpoint is bracketed as a left append followed by the
+right context:
+$$
+R_U(\mathsf{append}(l,\mathsf{append}(m,r)),
+    \mathsf{append}(\mathsf{append}(l,m'),r))
+\Longleftrightarrow
+U(m)\land U(m')\land \hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Append associativity identifies the rotated right endpoint with the nested
+right endpoint used by middle-context cancellation. The forward direction
+transports the classifier to that nested bracketing and applies the
+middle-cancellation theorem. Conversely, the nested classifier supplied by
+middle cancellation is transported back across associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_rotated\_middle\_cancel\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and

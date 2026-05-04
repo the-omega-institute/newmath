@@ -154,6 +154,26 @@ result to the successor right product.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicNatMul\_append\_exponent\_decomposition}
 
+\begin{theorem}[Prime scale append factorization]
+\label{thm:padic-prime-scale-append-factorization}
+For unary exponent histories $w,q$, a prime scale over the appended exponent
+is exactly a pair of prime-scale factor results linked by continuation:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)
+\Longleftrightarrow
+\exists n,e.\ \mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(n,e,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction applies append-exponent decomposition to the
+$\mathsf{NatMul}$ field of the scale witness and reattaches the common prime
+field to both factor multiplications. The reverse direction is precisely
+prime-scale append continuation closure applied to the two factor scales and
+their continuation row.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factorization\_iff}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
