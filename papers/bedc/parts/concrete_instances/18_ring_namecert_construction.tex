@@ -138,6 +138,29 @@ two singleton endpoint witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonEmptyHistory\_laws}
 
+\begin{theorem}[Ring singleton negation empty endpoint]
+\label{thm:ring-singleton-neg-empty-endpoint}
+For histories $h,t:\mathsf{BHist}$ with $A_{\emp}(h)$,
+$$
+\rho_{\emp}(\mathsf{RingSingletonNeg}(h),t)
+\Longleftrightarrow
+A_{\emp}(t)\land
+\hsame(\mathsf{RingSingletonNeg}(h),\emp).
+$$
+\end{theorem}
+\begin{proof}
+The singleton ring negation endpoint is definitionally $\emp$. In the forward
+direction, unfold $\rho_{\emp}$ and read off the right carrier witness for
+$t$ together with the left endpoint witness for
+$\mathsf{RingSingletonNeg}(h)$.
+
+Conversely, the displayed pair supplies the two carrier endpoints. Symmetry of
+$\hsame$ turns the right carrier endpoint into an endpoint comparison back
+from $\emp$ to $t$, and transitivity with the left endpoint witness packages
+the classifier relation required by $\rho_{\emp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_neg\_empty\_endpoint\_iff}
+
 \begin{theorem}[Ring singleton classifier visible-right exclusion]
 \label{thm:ring-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, neither
