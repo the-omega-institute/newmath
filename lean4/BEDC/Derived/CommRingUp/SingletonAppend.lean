@@ -259,4 +259,32 @@ theorem commringSingletonEmpty_square_signed_product_annihilator_package {a b : 
     (And.intro (hsame_refl BHist.Empty)
       (fun _c => And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
 
+theorem CommRingSingletonClassifier_append_commutativity_compatible {x x' y y' : BHist} :
+    CommRingSingletonClassifier x x' ->
+      CommRingSingletonClassifier y y' ->
+        CommRingSingletonClassifier (append x y) (append y x) ∧
+          CommRingSingletonClassifier (append x' y') (append y' x') ∧
+            CommRingSingletonClassifier (append x y) (append x' y') := by
+  intro sameX sameY
+  have xCarrier : CommRingSingletonCarrier x := sameX.left
+  have x'Carrier : CommRingSingletonCarrier x' := sameX.right.left
+  have yCarrier : CommRingSingletonCarrier y := sameY.left
+  have y'Carrier : CommRingSingletonCarrier y' := sameY.right.left
+  have xyCarrier : CommRingSingletonCarrier (append x y) :=
+    append_eq_empty_iff.mpr (And.intro xCarrier yCarrier)
+  have yxCarrier : CommRingSingletonCarrier (append y x) :=
+    append_eq_empty_iff.mpr (And.intro yCarrier xCarrier)
+  have x'y'Carrier : CommRingSingletonCarrier (append x' y') :=
+    append_eq_empty_iff.mpr (And.intro x'Carrier y'Carrier)
+  have y'x'Carrier : CommRingSingletonCarrier (append y' x') :=
+    append_eq_empty_iff.mpr (And.intro y'Carrier x'Carrier)
+  exact And.intro
+    (And.intro xyCarrier
+      (And.intro yxCarrier (hsame_trans xyCarrier (hsame_symm yxCarrier))))
+    (And.intro
+      (And.intro x'y'Carrier
+        (And.intro y'x'Carrier (hsame_trans x'y'Carrier (hsame_symm y'x'Carrier))))
+      (And.intro xyCarrier
+        (And.intro x'y'Carrier (hsame_trans xyCarrier (hsame_symm x'y'Carrier)))))
+
 end BEDC.Derived.CommRingUp
