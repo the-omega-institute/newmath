@@ -738,6 +738,46 @@ transported ledger. Its conclusion is the displayed classifier endpoint
 equivalence for every target history $w$.
 \end{proof}
 
+\begin{theorem}[Rat history ledger displayed context zero-extension endpoint exclusion]
+\label{thm:rat-history-ledger-cont-unary-context-zero-extension-endpoint-exclusion}
+Let $\rho,v,p_\rho,p_v,t_\rho,t_v,m_\rho,m_v,out_\rho,out_v,z,z':\mathsf{BHist}$.
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, $p_\rho,p_v$ are unary
+prefixes with $\hsame(p_\rho,p_v)$, $t_\rho,t_v$ are unary tails with
+$\hsame(t_\rho,t_v)$, and the continuation witnesses
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$, $\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ display the contextual raw and visible
+endpoints, then
+$$
+(\hsame(out_\rho,\Ezero(z))\to\mathsf{False})\land
+(\hsame(out_v,\Ezero(z'))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+First close the ledger under the matching unary context and transport the
+positive-denominator witnesses through the two-step continuation displays. This
+gives $\mathsf{PositiveUnaryDenominator}(out_\rho)$ and
+$\mathsf{PositiveUnaryDenominator}(out_v)$.
+
+For the raw endpoint, transport the positive-denominator witness across the
+assumed $\hsame(out_\rho,\Ezero(z))$. The resulting positive denominator at
+$\Ezero(z)$ contradicts \autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the visible endpoint, use the same transport across
+$\hsame(out_v,\Ezero(z'))$. Applying the zero-head absurdity theorem to the
+transported witness gives the second contradiction.
+\end{proof}
+
+Its ten-field fit is: traditional target displayed rational-denominator branch
+exclusion; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$ plus
+$\mathsf{Cont}$; carrier positive unary denominators; classifier
+$\mathsf{RatHistoryClassifier}$; stability from ledger context closure,
+continuation display transport, and positive-denominator transport; ledger the
+raw/visible denominator contexts and continuation middles; core theorem this
+block; exactness the two displayed contradictions; downstream consumer
+$\mathsf{FieldUp}(\mathsf{RatUp})$ denominator continuation and $\mathsf{RealUp}$
+stream-prefix readback; status $\mathsf{ProofTarget}$.
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).
