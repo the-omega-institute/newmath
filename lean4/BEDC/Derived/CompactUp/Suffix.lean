@@ -168,4 +168,28 @@ theorem CompactNetWitness_common_composite_result_prefix_deterministic
     cont_right_cancel left.right.right.right right.right.right.right
   exact append_right_cancel (k := center) samePrefixedCenter
 
+theorem CompactNetWitness_visible_result_context_factorizes
+    {p q center precision net result : BHist} :
+    CompactNetWitness (append p center) (append precision q) result ->
+      hsame result (append (append p net) q) ->
+        UnaryHistory p ∧ UnaryHistory q ∧ CompactNetWitness center precision net := by
+  intro witness sameResult
+  cases witness with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro precisionCarrier rest =>
+          cases rest with
+          | intro resultCarrier resultRel =>
+              have netCarrier : UnaryHistory (append (append p net) q) :=
+                unary_transport resultCarrier sameResult
+              have visibleWitness :
+                  CompactNetWitness (append p center) (append precision q)
+                    (append (append p net) q) :=
+                And.intro centerCarrier
+                  (And.intro precisionCarrier
+                    (And.intro netCarrier (cont_result_hsame_transport resultRel sameResult)))
+              exact
+                (CompactNetWitness_visible_context_iff (p := p) (q := q)
+                  (center := center) (precision := precision) (net := net)).mp visibleWitness
+
 end BEDC.Derived.CompactUp
