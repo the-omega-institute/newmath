@@ -137,4 +137,14 @@ theorem NatDivides_prefix_cancellation {d x y z : BHist} :
                     (cont_intro rfl) shiftedDivides
                     (And.intro (unary_e1_inversion qData.left) previous)
 
+theorem NatDivides_cont_left_factor {d x y z : BHist} :
+    UnaryHistory d -> (hsame d BHist.Empty -> False) -> UnaryHistory x -> UnaryHistory y ->
+      UnaryHistory z -> NatDivides d y -> NatDivides d z -> Cont x y z ->
+        NatDivides d x := by
+  intro dUnary dNonempty xUnary yUnary zUnary dividesY dividesZ xyCont
+  have yxCont : Cont y x z := by
+    exact cont_intro (xyCont.trans (unary_append_comm xUnary yUnary))
+  exact NatDivides_prefix_cancellation dUnary dNonempty yUnary xUnary zUnary yxCont
+    dividesY dividesZ
+
 end BEDC.Derived.PrimeUp
