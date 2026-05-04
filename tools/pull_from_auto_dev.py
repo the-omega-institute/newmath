@@ -1,24 +1,37 @@
 #!/usr/bin/env python3
-"""One-way pull from `origin/auto-dev` into the local working branch
-(`bedc-claim-packet-pipeline` by default). Keeps our pipeline branch up
-to date with the loning-side `auto-dev` mirror without ever pushing
-back: `auto-dev` is the upstream contract, our branch is downstream.
+"""Bidirectional sync between our pipeline branch
+(`bedc-claim-packet-pipeline`) and the shared integration branch
+(`auto-dev`). Mirrors loning's `sync_with_auto_dev.py` pattern but
+anchored on our branch in place of `codex-auto-dev`, so our pipeline
+participates as a peer alongside loning's.
 
-Flow:
+Topology:
+
+    loning's pipeline output  →  codex-auto-dev  ↕  auto-dev  ↕  bedc-claim-packet-pipeline  ←  our pipeline output
+
+  loning runs `tools/sync_with_auto_dev.py` to converge the left edge
+  (`codex-auto-dev ↔ auto-dev`). This script converges the right edge
+  (`auto-dev ↔ bedc-claim-packet-pipeline`). After both daemons tick,
+  every branch holds the same content (modulo merge-commit direction),
+  so any third party can read or write through `auto-dev` and reach all
+  pipelines.
+
+Flow per tick:
+
   1. `git fetch origin --prune`
-  2. stash dirty WT (`git stash -u`) if present
-  3. checkout target branch (default: bedc-claim-packet-pipeline)
-  4. ff-pull origin/<target> first so we are in sync with our own remote
-  5. `git merge --no-ff --no-edit origin/auto-dev` into target
-  6. on conflict: invoke codex once with the same conflict prompt loning
-     uses; codex resolves + commits or we abort
-  7. push target back to origin (so other workers / dashboards see it)
-  8. restore stash, checkout original branch
+  2. stash dirty WT if any
+  3. on `bedc-claim-packet-pipeline`:
+       a. ff-pull origin/<target>
+       b. `git merge --no-ff --no-edit origin/auto-dev`
+       c. push origin/<target>
+  4. on `auto-dev`:
+       a. ff-pull origin/auto-dev (handles loning's recent pushes)
+       b. `git merge --no-ff --no-edit bedc-claim-packet-pipeline`
+       c. push origin/auto-dev
+  5. checkout original branch, restore stash
 
-This is the one-way counterpart to `tools/sync_with_auto_dev.py` (which
-loning runs to keep `codex-auto-dev <-> auto-dev` converged). We do NOT
-touch `auto-dev` or `codex-auto-dev` here — those branches are loning's
-to publish to. Our only job is to pull their content in.
+Conflicts on either side fall back to codex CLI with the same prompt
+loning uses; codex resolves + commits or we abort that direction.
 """
 
 from __future__ import annotations
@@ -32,8 +45,8 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-UPSTREAM_BRANCH = "auto-dev"
-DEFAULT_TARGET = "bedc-claim-packet-pipeline"
+SHARED_BRANCH = "auto-dev"                         # shared integration branch
+LOCAL_BRANCH = "bedc-claim-packet-pipeline"        # our pipeline branch
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
@@ -97,10 +110,10 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     )
 
     if not Path(CODEX_PATH).exists():
-        print(f"[pull] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
+        print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
         return False
 
-    print(f"[pull] {len(files)} file(s) in conflict; invoking codex (cwd={work_dir})")
+    print(f"[sync] {len(files)} file(s) in conflict; invoking codex (cwd={work_dir})")
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as pf:
         pf.write(prompt)
         prompt_file = pf.name
@@ -119,40 +132,40 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         os.unlink(prompt_file)
 
     if res.returncode != 0:
-        print(f"[pull] codex exec returned rc={res.returncode}", file=sys.stderr)
+        print(f"[sync] codex exec returned rc={res.returncode}", file=sys.stderr)
         return False
 
     if conflicted_files():
-        print(f"[pull] codex left unresolved conflicts: {conflicted_files()}", file=sys.stderr)
+        print(f"[sync] codex left unresolved conflicts: {conflicted_files()}", file=sys.stderr)
         return False
     if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-        print("[pull] codex resolved conflicts but did not commit; committing now")
+        print("[sync] codex resolved conflicts but did not commit; committing now")
         git("commit", "--no-edit")
     return True
 
 
 def merge_with_codex_fallback(target_ref: str, label: str) -> bool:
-    print(f"[pull] {label}: merging {target_ref}...")
+    print(f"[sync] {label}: merging {target_ref}...")
     res = git("merge", "--no-ff", "--no-edit", target_ref, check=False, capture=True)
     if res.returncode == 0:
-        print(f"[pull] {label}: merge clean")
+        print(f"[sync] {label}: merge clean")
         return True
 
     out = (res.stdout or "") + (res.stderr or "")
     if "Already up to date" in out or "already up to date" in out:
-        print(f"[pull] {label}: already up to date")
+        print(f"[sync] {label}: already up to date")
         return True
 
     if not conflicted_files():
-        print(f"[pull] {label}: merge failed without conflicts:\n{out}", file=sys.stderr)
+        print(f"[sync] {label}: merge failed without conflicts:\n{out}", file=sys.stderr)
         return False
 
     if not call_codex_to_resolve(REPO_ROOT):
-        print(f"[pull] {label}: codex could not resolve; aborting merge", file=sys.stderr)
+        print(f"[sync] {label}: codex could not resolve; aborting merge", file=sys.stderr)
         git("merge", "--abort", check=False)
         return False
 
-    print(f"[pull] {label}: codex resolved conflicts and committed")
+    print(f"[sync] {label}: codex resolved conflicts and committed")
     return True
 
 
@@ -172,73 +185,110 @@ def has_remote_branch(branch: str) -> bool:
     return res.returncode == 0
 
 
+def has_local_branch(branch: str) -> bool:
+    res = git("rev-parse", "--verify", "--quiet", f"refs/heads/{branch}",
+              check=False, capture=True)
+    return res.returncode == 0
+
+
+def ensure_local_tracks_origin(branch: str) -> bool:
+    """Make sure `branch` exists locally and is fast-forwarded to origin/<branch>.
+    Returns True on success."""
+    if not has_remote_branch(branch):
+        print(f"[sync] origin/{branch} missing — cannot sync", file=sys.stderr)
+        return False
+    if has_local_branch(branch):
+        git("checkout", branch)
+        res = git("merge", "--ff-only", f"origin/{branch}", check=False, capture=True)
+        if res.returncode != 0:
+            out = (res.stdout or "") + (res.stderr or "")
+            if "Already up to date" not in out and "already up to date" not in out:
+                print(f"[sync] {branch} cannot ff origin/{branch} (diverged); "
+                      "leaving as-is — bidirectional merge will reconcile",
+                      file=sys.stderr)
+        return True
+    git("checkout", "-b", branch, f"origin/{branch}")
+    return True
+
+
+def sync_one_direction(target: str, source_ref: str, *, no_push: bool) -> bool:
+    """Checkout `target`, merge `source_ref` into it, push origin/<target>."""
+    if not ensure_local_tracks_origin(target):
+        return False
+    label = f"{target} <- {source_ref}"
+    if not merge_with_codex_fallback(source_ref, label=label):
+        return False
+    if no_push:
+        return True
+    rc = push_branch(target)
+    if rc != 0:
+        print(f"[sync] push origin {target} failed (rc={rc})", file=sys.stderr)
+        return False
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--target", default=DEFAULT_TARGET,
-                        help=f"branch to merge into (default: {DEFAULT_TARGET})")
-    parser.add_argument("--upstream", default=UPSTREAM_BRANCH,
-                        help=f"upstream branch to pull from (default: {UPSTREAM_BRANCH})")
+    parser.add_argument("--local", default=LOCAL_BRANCH,
+                        help=f"our pipeline branch (default: {LOCAL_BRANCH})")
+    parser.add_argument("--shared", default=SHARED_BRANCH,
+                        help=f"shared integration branch (default: {SHARED_BRANCH})")
     parser.add_argument("--no-push", action="store_true",
-                        help="merge locally only; don't push the target back to origin")
-    parser.add_argument("--no-self-pull", action="store_true",
-                        help="skip the ff-pull from origin/<target> before merging upstream")
+                        help="merge both directions locally; don't push to origin")
+    parser.add_argument("--pull-only", action="store_true",
+                        help="only run shared→local; skip the push direction")
     args = parser.parse_args()
 
     original = current_branch()
 
     git("fetch", "origin", "--prune")
 
-    if not has_remote_branch(args.upstream):
-        print(f"[pull] origin/{args.upstream} missing — abort", file=sys.stderr)
+    if not has_remote_branch(args.shared):
+        print(f"[sync] origin/{args.shared} missing — abort", file=sys.stderr)
         sys.exit(2)
-    if not has_remote_branch(args.target):
-        print(f"[pull] origin/{args.target} missing — abort", file=sys.stderr)
+    if not has_remote_branch(args.local):
+        print(f"[sync] origin/{args.local} missing — abort", file=sys.stderr)
         sys.exit(2)
 
     stashed = False
     if working_tree_dirty():
-        print("[pull] working tree dirty; stashing with -u")
-        git("stash", "push", "-u", "-m", f"pull_from_auto_dev autostash {os.getpid()}")
+        print("[sync] working tree dirty; stashing with -u")
+        git("stash", "push", "-u", "-m", f"sync_auto_dev autostash {os.getpid()}")
         stashed = True
 
     success = True
     try:
-        if current_branch() != args.target:
-            print(f"[pull] switching to {args.target}")
-            git("checkout", args.target)
-
-        if not args.no_self_pull:
-            print(f"[pull] ff-pulling origin/{args.target} first")
-            res = git("merge", "--ff-only", f"origin/{args.target}",
-                      check=False, capture=True)
-            if res.returncode != 0:
-                out = (res.stdout or "") + (res.stderr or "")
-                if "Already up to date" not in out and "already up to date" not in out:
-                    print(f"[pull] {args.target} cannot ff origin/{args.target} (diverged); "
-                          "leaving as-is and continuing", file=sys.stderr)
-
-        label = f"{args.target} <- origin/{args.upstream}"
-        if not merge_with_codex_fallback(f"origin/{args.upstream}", label=label):
+        # Step 1: pull — local <- origin/shared
+        # Brings loning's pipeline output (and any third-party content
+        # already mirrored to auto-dev) into our pipeline branch.
+        if not sync_one_direction(args.local, f"origin/{args.shared}",
+                                  no_push=args.no_push):
             success = False
             return
 
-        if not args.no_push:
-            rc = push_branch(args.target)
-            if rc != 0:
-                print(f"[pull] push origin {args.target} failed (rc={rc})", file=sys.stderr)
-                success = False
+        if args.pull_only:
+            return
+
+        # Step 2: push — shared <- local
+        # Mirrors our pipeline's commits onto auto-dev so loning's sync
+        # daemon picks them up into codex-auto-dev, and any third party
+        # watching auto-dev sees our content.
+        if not sync_one_direction(args.shared, args.local,
+                                  no_push=args.no_push):
+            success = False
+            return
     finally:
         if original != current_branch():
-            print(f"[pull] switching back to {original}")
+            print(f"[sync] switching back to {original}")
             git("checkout", original, check=False)
         if stashed:
-            print("[pull] restoring stash")
+            print("[sync] restoring stash")
             git("stash", "pop", check=False)
 
     if not success:
         sys.exit(2)
-    print(f"[pull] done: {args.target} now contains origin/{args.upstream}"
-          + ("" if args.no_push else " (pushed)"))
+    suffix = " (no-push)" if args.no_push else (" (pull-only)" if args.pull_only else " (pushed both)")
+    print(f"[sync] done: {args.local} <-> {args.shared} converged" + suffix)
 
 
 if __name__ == "__main__":
