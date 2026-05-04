@@ -52,6 +52,23 @@ equation to the empty reflexive case.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}
 
+\begin{theorem}[Metric distance positive depth iff nonempty]
+\label{thm:metric-distance-depth-positive-iff-nonempty}
+For a history $d$, positive structural metric distance depth is equivalent to
+not being history-same as $\emp$:
+$$
+0<\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+(d\hsame\emp\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty case has depth zero and cannot satisfy the
+nonempty predicate. A zero-headed or one-headed history has successor depth,
+and constructor separation rules out history-sameness with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
