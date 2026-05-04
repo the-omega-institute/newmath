@@ -227,6 +227,7 @@ import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PrimeUp.PrimeShape
+import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
