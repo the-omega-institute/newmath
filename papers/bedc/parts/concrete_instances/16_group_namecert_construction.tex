@@ -229,6 +229,51 @@ Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
 orbit witness and proves $x\sim_{N_{\emp}}y$.
 \end{proof}
 
+\begin{theorem}[Group singleton normalizer orbit equivalence]
+\label{thm:group-singleton-normalizer-orbit-equivalence}
+For histories $x,y,z:\mathsf{BHist}$ with $A_{\emp}(x)$, $A_{\emp}(y)$, and
+$A_{\emp}(z)$, the terminal normalizer orbit relation of
+Definition~\ref{def:group-singleton-normalizer-orbit-relation} has the
+following classifier fields on $A_{\emp}$:
+\begin{enumerate}
+\item $x\sim_{N_{\emp}}x$.
+\item If $x\sim_{N_{\emp}}y$, then $y\sim_{N_{\emp}}x$.
+\item If $x\sim_{N_{\emp}}y$ and $y\sim_{N_{\emp}}z$, then
+$x\sim_{N_{\emp}}z$.
+\end{enumerate}
+The ten-field fit is: traditional target terminal orbit equivalence; BEDC
+source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $\sim_{N_{\emp}}$; ledger endpoints $x,y,z$ plus the
+orbit witnesses supplied by
+Definition~\ref{def:group-singleton-normalizer-orbit-relation}; exactness by
+the displayed reflexivity, symmetry, and transitivity laws; stability from
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} and the
+reflexivity, symmetry, and transitivity rows of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}; downstream
+consumer $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For reflexivity, use the reflexivity row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} on
+$A_{\emp}(x)$ to obtain $R_{\emp}(x,x)$. The reverse direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness}, applied at
+$(x,x)$, transports this classifier fact to $x\sim_{N_{\emp}}x$.
+
+For symmetry, assume $x\sim_{N_{\emp}}y$. The forward direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness}, applied at
+$(x,y)$, gives $R_{\emp}(x,y)$. The symmetry row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} gives
+$R_{\emp}(y,x)$, and the reverse direction of orbit exactness at $(y,x)$ gives
+$y\sim_{N_{\emp}}x$.
+
+For transitivity, assume $x\sim_{N_{\emp}}y$ and $y\sim_{N_{\emp}}z$. Orbit
+exactness sends these two orbit classifiers to $R_{\emp}(x,y)$ and
+$R_{\emp}(y,z)$. The transitivity row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} gives
+$R_{\emp}(x,z)$, and the reverse direction of orbit exactness at $(x,z)$ gives
+$x\sim_{N_{\emp}}z$.
+\end{proof}
+
 \begin{definition}[Concrete singleton normalizer-action group instance]
 \label{def:group-singleton-normalizer-action-instance}
 The concrete terminal normalizer action over $\mathsf{BHist}$ is the data
@@ -274,6 +319,46 @@ R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
 $$
 
 The two displayed classifiers are exactly the required conjunction.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer orbit action invariance]
+\label{thm:group-singleton-normalizer-orbit-action-invariance}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, if $A_{\emp}(s)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and
+$x\sim_{N_{\emp}}y$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y).
+$$
+The ten-field fit is: traditional target normalizer action descending to the
+terminal orbit quotient; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier the normalizer orbit relation
+exact against $R_{\emp}$; stability from
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness},
+Theorem~\ref{thm:group-singleton-normalizer-action-classifier-determinacy}, and
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}; ledger the
+conjugating endpoint and orbit witness; core theorem this block; exactness the
+displayed orbit preservation; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Start with the given orbit witness $x\sim_{N_{\emp}}y$. Since $x$ and $y$ are
+in $A_{\emp}$, Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness}
+turns that witness into the terminal classifier row $R_{\emp}(x,y)$.
+
+Apply
+Theorem~\ref{thm:group-singleton-normalizer-action-classifier-determinacy} with
+the conjugating endpoint $s$. The hypothesis $A_{\emp}(s)$ transports
+$R_{\emp}(x,y)$ to
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)).
+$$
+
+It remains to use orbit exactness in the reverse direction. The terminal
+classifier package supplies the carrier rows for the two acted endpoints from
+the displayed $R_{\emp}$ row, and then
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} repacks that
+classifier row as
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)$.
 \end{proof}
 
 \begin{theorem}[Group singleton normalizer action composition collapse]
