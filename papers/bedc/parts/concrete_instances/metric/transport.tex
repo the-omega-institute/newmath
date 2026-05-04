@@ -43,6 +43,30 @@ identifies the two sources.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_source\_deterministic}
 
+\begin{theorem}[Metric distance witness hsame target determinacy]
+\label{thm:metric-distance-witness-hsame-target-deterministic}
+For histories $x,x',y,y',d,d':\mathsf{BHist}$, if the source and distance
+ledgers classify by $\hsame$ and the two concrete metric distance witnesses
+hold,
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x',y',d'),
+$$
+then the witnesses expose both continuation fields and determine the target:
+$$
+\ContR(x,y,d)\land \ContR(x',y',d')\land \hsame(y,y').
+$$
+\end{theorem}
+\begin{proof}
+Project the continuation fields from the two metric distance witnesses. After
+case-reducing the source and distance $\hsame$ witnesses, the continuations
+share the same left context and result. Continuation left cancellation then
+identifies the two targets.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_target\_deterministic}
+
 \begin{theorem}[Metric distance witness visible-context hsame source determinacy]
 \label{thm:metric-distance-witness-visible-context-hsame-source-deterministic}
 For histories $p,q,p',q',x,x',y,y',d,d':\mathsf{BHist}$, if the visible
