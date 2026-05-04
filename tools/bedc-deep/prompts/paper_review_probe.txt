@@ -30,8 +30,8 @@ Existing BOARD (skip everything semantically equivalent):
 A genuine open target must satisfy ALL:
 1. Concrete proposition expressible as a single implication
    "P(x) implies Q(x) under setup S".
-2. NOT already stated as `\begin{{theorem|lemma|proposition|corollary}}`
-   with `\label{{...}}` anywhere under `papers/bedc/parts/`.
+2. NOT already stated as `\begin{{{{theorem|lemma|proposition|corollary}}}}`
+   with `\label{{{{...}}}}` anywhere under `papers/bedc/parts/`.
 3. NOT already covered by `\leanchecked` / `\leanvariant` / `\leansorryd` /
    `\leandef` / `\leanstmt` macros.
 4. Within an existing chapter directory.
@@ -57,7 +57,7 @@ theory growth.
    delete.)
 4. **Missing companion result**. A claim made informally but not stated
    as a theorem; a proof obligation that the Lean side already satisfies
-   (`\leanchecked` exists) but the paper has no `\leanchecked{X}` marker;
+   (`\leanchecked` exists) but the paper has no `\leanchecked{{X}}` marker;
    a concrete instance for an abstract construction that is asserted to
    exist but is not exhibited.
 5. **Unclear / imprecise statement**. A theorem whose hypotheses must be
@@ -112,24 +112,24 @@ suggestions, items that only rename without strengthening.
 
 6. Output a single JSON object on stdout, no prose, no markdown fences:
 
-{{
+{{{{
   "candidates": [
-    {{
+    {{{{
       "title": "<short, ≤80 chars>",
       "concrete_claim": "<single-sentence implication form>",
       "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
       "fit_score": <0-10 integer>,
       "novelty": <0-10 integer>,
       "rationale": "<paragraph: which chapter, which review category (1-9 above), specific evidence (file:line) showing the gap, why 1-3 round closeable from existing infrastructure>"
-    }}
+    }}}}
   ],
   "rejected": [
-    {{
+    {{{{
       "concept": "<short title>",
       "reason": "<which existing label / BOARD entry covers it, with file:line>"
-    }}
+    }}}}
   ]
-}}
+}}}}
 
 Constraints:
 - Each `local_inputs` path MUST exist.
