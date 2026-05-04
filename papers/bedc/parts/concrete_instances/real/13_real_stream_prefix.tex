@@ -102,37 +102,36 @@ the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
 
-\begin{theorem}[Real stream prefix initial-segment coverage]
-\label{thm:real-stream-prefix-initial-segment-coverage}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and a prefix length
-$n$, the prefix witness covers exactly the finite initial segment through $n$:
+\begin{lemma}[Real stream prefix successor inversion]
+\label{lem:real-stream-prefix-successor-inversion}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every prefix
+length $n$:
 $$
-\mathsf{RealStreamPrefixClassifier}(x,y,n)
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
 \Longleftrightarrow
-\forall k\le n,\ \mathsf{RatHistoryClassifier}(x(k),y(k)).
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\mathsf{RatHistoryClassifier}(x(n+1),y(n+1)).
 $$
-Per-object certificate: traditional target finite initial segment of a rational
-observation stream; BEDC source RealUp prefix classifier over RatUp point
-classifiers; carrier the bounded index set up to $n$; classifier pointwise
-$\mathsf{RatHistoryClassifier}$; stability inherited from prefix hsame
-transport; ledger the finite bound and selected index; core theorem this block;
-exactness the displayed iff; standard bridge finite prefix of a rational
-sequence; status $\mathsf{ProofTarget}$.
-\end{theorem}
+Ten-field fit: traditional target finite prefix successor inversion; BEDC source
+RealUp prefix classifier over RatUp point classifiers; carrier
+rational-observation streams; classifier $\mathsf{RealStreamPrefixClassifier}$;
+stability inherited from hsame transport and endpoint projection; ledger prefix
+length and endpoint observation; core theorem this lemma; exactness the
+displayed iff; standard bridge finite prefix recursion; status
+$\mathsf{ProofTarget}$.
+\end{lemma}
 \begin{proof}
-Induct on $n$. At $0$, the recursive base classifier is exactly the
-rational-history classifier at index $0$, and the bounded family has only that
-index.
+Unfold the recursive definition of
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$. In the forward direction, the
+successor prefix witness is a pair; project its left component to obtain
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and its right component to obtain
+the endpoint classifier
+$\mathsf{RatHistoryClassifier}(x(n+1),y(n+1))$.
 
-For the successor step in the left-to-right direction, split the prefix witness
-through $n+1$ into its previous-prefix witness and its endpoint classifier. If
-$k\le n$, apply the induction hypothesis to the previous-prefix witness. If
-$k=n+1$, use the endpoint classifier.
-
-Conversely, assume the bounded family through $n+1$. The induction hypothesis
-builds the previous-prefix witness from the restriction to indices $k\le n$.
-The endpoint classifier is the bounded-family instance at $k=n+1$, and these
-two components form the successor prefix witness.
+Conversely, assume the previous prefix witness and the endpoint rational-history
+classifier. Pair these two witnesses by the successor constructor of the
+recursive prefix display, obtaining
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$.
 \end{proof}
 
 \begin{theorem}[Real stream prefix classifier truncation]
