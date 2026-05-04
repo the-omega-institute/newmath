@@ -14,6 +14,44 @@ composition preservation theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
 
+\begin{theorem}[Prefix functor carrier composition public readback]
+\label{thm:prefix-functor-carrier-comp-public-readback}
+For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and
+\(\ContR(f,g,fg)\), then \(fg\) is displayed as a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\). Moreover, any displayed
+hom-carrier between the same prefixed endpoints has morphism history
+\(\HSame\) to \(fg\).
+\end{theorem}
+\begin{proof}
+The composition-preservation field of the prefix functor carrier closes the
+prefixed composite. Public readback follows by category hom-carrier morphism
+determinacy at the same prefixed endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Prefix functor empty morphism source exactness]
+\label{thm:functor-prefix-empty-morphism-source}
+For histories $p,a,source$, the empty history is a category hom-carrier from
+$source$ to $\mathsf{append}(p,a)$ exactly when $p$ and $a$ are unary and
+$source$ is history-same to that prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(p,a),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(source,\mathsf{append}(p,a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-identity exactness to the displayed empty morphism. The
+target unary witness splits through append into unary witnesses for $p$ and
+$a$, while the same exactness theorem gives the endpoint sameness. Conversely,
+append closure rebuilds the target carrier, unary transport gives the source
+carrier along endpoint sameness, and category empty-identity exactness
+reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_source\_iff}
+
 \begin{theorem}[Prefix functor empty morphism endpoint exactness]
 \label{thm:functor-prefix-hom-carrier-morphism-empty-endpoint-iff}
 For histories $p,a,b,f$, a prefixed hom-carrier has empty morphism history
