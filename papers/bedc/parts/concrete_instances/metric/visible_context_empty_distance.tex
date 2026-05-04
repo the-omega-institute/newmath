@@ -40,6 +40,27 @@ $\ContR(l,r,o)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice}
 
+\begin{theorem}[Metric visible-context empty-distance continuation splice determinacy]
+\label{thm:metric-distance-witness-visible-context-empty-distance-continuation-splice-hsame}
+For histories $p,q,x,y,l,r,m,o,o'$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+and continuations $\ContR(l,x,m)$, $\ContR(m,r,o)$, and $\ContR(l,r,o')$
+hold. Then the spliced result is determined by the displayed direct
+continuation:
+$$
+\hsame(o,o').
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-distance continuation splice turns the first two
+continuations into $\ContR(l,r,o)$. BEDC continuation determinacy compares this
+spliced continuation with the displayed continuation $\ContR(l,r,o')$, giving
+$\hsame(o,o')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_splice\_hsame}
+
 \begin{theorem}[Metric visible-context empty-distance witness splice]
 \label{thm:metric-distance-witness-visible-context-empty-distance-witness-splice}
 For histories $p,q,x,y,l,r,m,o$, suppose
@@ -90,6 +111,7 @@ $\mathsf{MetricDistanceDepth}(o)=
 \mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r)$. Pairing the
 witness with that displayed equation is the required conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_witness\_depth}
 
 The ten-field fit is: traditional target visible-context zero-distance splice;
 BEDC source $\mathsf{MetricDistanceWitness}$ plus $\ContR$; carrier
