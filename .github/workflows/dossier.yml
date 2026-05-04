@@ -107,6 +107,12 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
+    # GitHub Pages environments can only be deployed from branch refs.
+    # PR events run with `refs/pull/N/merge`, which the environment's
+    # branch protection rules cannot whitelist (wildcards don't cross
+    # `/`). Skip the deploy step on PR events; the build check still
+    # runs so reviewers see render/audit failures pre-merge.
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
