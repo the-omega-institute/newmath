@@ -84,4 +84,36 @@ theorem CompactLocatedRefinementChain_continuation_witness
                                           (And.intro locatedFinal
                                             (And.intro intermediateFinal compactRel)))
 
+theorem CompactLocatedRefinementChain_final_compact_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact
+      finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+        CompactLocatedRefinementChain finite located intermediate compact finalLocated
+          finalIntermediate finalCompact' ->
+          hsame finalCompact finalCompact' := by
+  intro initialCompact leftChain rightChain
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases leftData with
+      | intro _leftExtraCarrier leftRels =>
+          cases leftRels with
+          | intro _leftLocatedRel leftRest =>
+              cases leftRest with
+              | intro _leftIntermediateRel leftFinalRel =>
+                  cases rightWitness with
+                  | intro rightExtra rightData =>
+                      cases rightData with
+                      | intro _rightExtraCarrier rightRels =>
+                          cases rightRels with
+                          | intro _rightLocatedRel rightRest =>
+                              cases rightRest with
+                              | intro _rightIntermediateRel rightFinalRel =>
+                                  exact cont_deterministic leftFinalRel rightFinalRel
+
 end BEDC.Derived.CompactUp
