@@ -289,6 +289,71 @@ Thus all three comparison branches are preserved and reflected under concrete
 classifier replacement.
 \end{proof}
 
+\begin{definition}[Concrete unary successor comparison package]
+\label{def:concrete-unary-prefix-totalorder-successor-package}
+For a carried unary history $h$ in $\mathsf{Carrier}_{\mathsf{u}}$, the concrete
+successor comparison package is the pair
+$(h,\Eone(h))$ over the carrier $\mathsf{Carrier}_{\mathsf{u}}$, classifier
+$\rho_{\mathsf{u}}$, and order $\le_{\mathsf{u}}$ from
+\autoref{def:concrete-unary-prefix-totalorder-instance}. Its selected comparison
+tail is the visible one-step ledger element $\Eone(\emp)$, so the branch data are
+fixed as
+$$
+\mathsf{NatUnaryStrictPrefix}(h,\Eone(h)),
+\qquad
+\rho_{\mathsf{u}}(h,\Eone(h)),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(\Eone(h),h).
+$$
+The package records the first branch as the selected concrete successor branch
+and retains the other two branches as explicit exclusion targets.
+\end{definition}
+
+\begin{theorem}[Concrete unary successor total-order strict branch]
+\label{thm:concrete-unary-prefix-totalorder-successor-strict}
+For every $h$ with $\mathsf{Carrier}_{\mathsf{u}}(h)$, the successor target
+$\Eone(h)$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ and the concrete
+successor comparison package of
+\autoref{def:concrete-unary-prefix-totalorder-successor-package} satisfies
+$$
+\mathsf{NatUnaryStrictPrefix}(h,\Eone(h)).
+$$
+Moreover,
+$$
+\rho_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target one-step successor separation; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{NatUnaryStrictPrefix}$, and $\mathsf{PreorderPrefixLE}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; ledger tail
+$\Eone(\emp)$; core theorem this successor strict-branch law; exactness the
+exclusion of same and reverse-strict branches; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unary closure of $\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$ under the
+$\Eone$ constructor gives the carried target $\Eone(h)$.
+
+Apply \autoref{lem:nat-unary-strict-prefix-one-step} to the unary witness for
+$h$. The selected tail is $\Eone(\emp)$, so this produces
+$\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$ for the concrete successor pair.
+
+Now instantiate
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} at
+$h$ and $\Eone(h)$. Its incompatibility clause says that the selected strict-left
+branch cannot coexist with the same branch
+$\rho_{\mathsf{u}}(h,\Eone(h))$.
+
+The same partition also excludes coexistence of the selected strict-left branch
+with the strict-right branch
+$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$. Therefore any witness of either
+excluded branch yields $\mathsf{False}$.
+\end{proof}
+
 \begin{theorem}[Concrete unary strict branch transitivity]
 \label{thm:totalorder-strict-branch-transitivity}
 For carried unary histories $h,k,l$ in $\mathsf{Carrier}_{\mathsf{u}}$,
