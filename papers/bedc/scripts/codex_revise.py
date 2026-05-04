@@ -1140,7 +1140,7 @@ def request_recovery(wt: WorktreeInfo) -> None:
             "branch": wt.branch,
             "round_number": wt.round_number,
             "base_sha": wt.base_sha,
-            "queued_at": datetime.now(timezone.utc).isoformat(),
+            "queued_at": datetime.utcnow().isoformat() + "Z",
         }
         ticket_path = RECOVERY_QUEUE_DIR / f"P{wt.round_number}_{int(time.time())}.json"
         ticket_path.write_text(json.dumps(ticket, indent=2))
@@ -2059,6 +2059,9 @@ def run_round_in_worktree(
             if not merged:
                 logger.error(f"[{tag}] Merge failed — queuing recovery, worktree retained")
                 request_recovery(wt)
+                # Flip local success so the finally block leaves the worktree
+                # on disk for the recovery consumer.
+                success = False
                 _save_round_log(round_num, review, revise, new_commits, False)
                 return False, round_num, new_commits
             logger.info(f"[{tag}] SUCCESS: merged {len(new_commits)} commit(s)")
