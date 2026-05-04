@@ -217,6 +217,18 @@ theorem AdjunctionUnitCounitAlternating_unary {unit counit depth : BHist} :
   | e1 tail ih =>
       exact unary_append_closed unitUnary (ih counitUnary unitUnary depthUnary)
 
+theorem AdjunctionUnitCounitAlternating_result_nonempty_of_positive_depth_unit_nonempty
+    {unit counit depth : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      (hsame unit BHist.Empty -> False) ->
+        hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty -> False := by
+  intro depthUnary depthNonempty unitNonempty resultEmpty
+  have depthTail := unary_history_nonempty_e1_tail depthUnary depthNonempty
+  cases depthTail with
+  | intro tail data =>
+      cases data.left
+      exact (Iff.mpr append_nonempty_iff (Or.inl unitNonempty)) resultEmpty
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔

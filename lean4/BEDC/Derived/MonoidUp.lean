@@ -282,6 +282,15 @@ theorem unary_append_unit_product_factor_exactness {h k : BHist} :
     exact And.intro (unary_append_closed classified.left.left classified.right.left)
       (And.intro unary_empty appendEmpty)
 
+protected theorem unary_append_monoid_left_inverse_field_collapses_to_singleton
+    (inv : BHist -> BHist) :
+    (forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory (append (inv h) h) BHist.Empty) ->
+      (forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory h BHist.Empty) := by
+  intro leftInv h unaryH
+  exact (unary_append_unit_product_factor_exactness.mp (leftInv h unaryH)).right
+
 theorem MonoidHistoryClassifier_unary_append_inverse_field_singleton_collapse_iff
     (inv : BHist -> BHist)
     (invUnary : forall h : BHist, UnaryHistory h -> UnaryHistory (inv h)) :
@@ -331,6 +340,27 @@ theorem unary_append_monoid_right_inverse_law_absurd
       MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty :=
     (unary_append_unit_product_factor_exactness.mp classifiedProduct).left
   exact not_hsame_e1_empty classifiedOne.right.right
+
+theorem unary_append_monoid_one_sided_inverse_law_absurd
+    (inv : BHist -> BHist) :
+    ((forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) -> False) ∧
+      ((forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append (inv h) h) BHist.Empty) -> False) := by
+  constructor
+  · intro rightInv
+    exact unary_append_monoid_right_inverse_law_absurd inv rightInv
+  · intro leftInv
+    have unaryOne : UnaryHistory (BHist.e1 BHist.Empty) :=
+      unary_e1_closed unary_empty
+    have classifiedProduct :
+        MonoidHistoryClassifier UnaryHistory
+          (append (inv (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)) BHist.Empty :=
+      leftInv (BHist.e1 BHist.Empty) unaryOne
+    have classifiedOne :
+        MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty :=
+      (unary_append_unit_product_factor_exactness.mp classifiedProduct).right
+    exact not_hsame_e1_empty classifiedOne.right.right
 
 theorem unary_append_monoid_idempotent_empty_iff {e : BHist} :
     UnaryHistory e ->
