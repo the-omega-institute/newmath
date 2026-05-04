@@ -367,6 +367,20 @@ theorem LinearMapSingletonEval_continuation_classifier_iff {f x y r h : BHist} :
         (And.intro carriers.right
           (hsame_trans rEmpty (hsame_symm carriers.right)))
 
+theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
+    {f x y r p : BHist} :
+    Cont (LinearMapSingletonEval f x) y r ->
+      (LinearMapSingletonClassifier r (BHist.e0 p) -> False) ∧
+        (LinearMapSingletonClassifier r (BHist.e1 p) -> False) := by
+  intro evalCont
+  constructor
+  · intro classified
+    have readback := (LinearMapSingletonEval_continuation_classifier_iff evalCont).mp classified
+    exact not_hsame_e0_empty readback.right
+  · intro classified
+    have readback := (LinearMapSingletonEval_continuation_classifier_iff evalCont).mp classified
+    exact not_hsame_e1_empty readback.right
+
 theorem LinearMapSingletonEval_continuation_append_target_carrier_iff {f x y p q : BHist} :
     Cont (LinearMapSingletonEval f x) y (append p q) ->
       (LinearMapSingletonCarrier y ↔

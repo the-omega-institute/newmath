@@ -99,6 +99,50 @@ Record the two category ledgers and the preservation witnesses.
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FunctorUp\).
 \end{definition}
 
+\begin{theorem}[Concrete prefix functor certificate]
+\label{thm:functor-prefix-concrete-certificate}
+For every unary history $p$, the object assignment
+$a\mapsto \mathsf{append}(p,a)$ and morphism assignment $f\mapsto f$ form a
+concrete $\FunctorUp$ certificate on the unary-continuation $\CategoryUp$
+carrier. The carrier field $\mathsf{PrefixFunctorCarrier}(p)$ is supplied by
+\autoref{thm:prefix-functor-carrier-from-unary-prefix}; identity preservation
+is supplied by \autoref{thm:functor-prefix-hom-carrier-identity-closed};
+composition preservation is supplied by
+\autoref{thm:functor-prefix-hom-carrier-comp-preserves}; source-target
+classifier transport is supplied by
+\autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}; and public
+readback is supplied by
+\autoref{thm:prefix-functor-carrier-comp-public-readback}.
+\end{theorem}
+\begin{proof}
+Use the roadmap ten-field template for the prefix endofunctor target.
+\begin{enumerate}
+  \item The traditional target is the prefix endofunctor on the unary
+  continuation category, and the BEDC source is the checked
+  unary-continuation $\CategoryUp$ carrier.
+  \item The carrier choice is $\mathsf{PrefixFunctorCarrier}(p)$. Apply
+  \autoref{thm:prefix-functor-carrier-from-unary-prefix} to the unary history
+  $p$ to obtain this field.
+  \item The classifier choice is pointwise: objects are compared by the
+  unary-continuation object classifier, and morphisms are compared by the
+  displayed hom-carrier classifier. No quotient or external equality is added.
+  \item The stability fields are identity preservation, composition
+  preservation, and source-target classifier transport. Apply
+  \autoref{thm:functor-prefix-hom-carrier-identity-closed},
+  \autoref{thm:functor-prefix-hom-carrier-comp-preserves}, and
+  \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, respectively.
+  \item The ledger records that the morphism map is the identity map on
+  displayed morphism histories, while the object ledger stores only the fixed
+  unary prefix $p$.
+  \item The core theorem list and exactness predicate are the displayed
+  carrier, identity, composition, transport, and readback clauses. The standard
+  bridge is the public comparison of the prefixed composite with the original
+  composite, supplied by
+  \autoref{thm:prefix-functor-carrier-comp-public-readback}. The resulting
+  status is a concrete paper certificate for $\FunctorUp$.
+\end{enumerate}
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
