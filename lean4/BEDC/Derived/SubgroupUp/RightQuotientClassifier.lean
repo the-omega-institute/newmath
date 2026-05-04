@@ -168,4 +168,38 @@ theorem SubgroupCentralizerRightQuotientClassifier_mul_compatible_from_empty_uni
             (And.intro normalizesYV
               (Exists.intro r (And.intro rCentral sameProduct)))
 
+protected theorem SubgroupCentralizerQuotientKernel_mul_compatible_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y u v : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y ->
+      SubgroupCentralizerQuotientKernel mul inv a u v ->
+        SubgroupCentralizerQuotientKernel mul inv a (mul x u) (mul y v) := by
+  intro leftKernel rightKernel
+  have kernelClassifierXY :
+      SubgroupCentralizerRightQuotientClassifier mul inv a x y <->
+        SubgroupCentralizerQuotientKernel mul inv a x y :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier_kernel_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have kernelClassifierUV :
+      SubgroupCentralizerRightQuotientClassifier mul inv a u v <->
+        SubgroupCentralizerQuotientKernel mul inv a u v :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier_kernel_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  have kernelClassifierProduct :
+      SubgroupCentralizerRightQuotientClassifier mul inv a (mul x u) (mul y v) <->
+        SubgroupCentralizerQuotientKernel mul inv a (mul x u) (mul y v) :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier_kernel_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+  exact Iff.mp kernelClassifierProduct
+    (SubgroupCentralizerRightQuotientClassifier_mul_compatible_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv
+      (Iff.mpr kernelClassifierXY leftKernel) (Iff.mpr kernelClassifierUV rightKernel))
+
 end BEDC.Derived.SubgroupUp

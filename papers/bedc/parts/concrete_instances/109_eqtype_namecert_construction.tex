@@ -103,6 +103,27 @@ with the carrier comparison $h\hsame anchor$, so $core\hsame anchor$.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_anchor\_readback}
 
+\begin{theorem}[EqType visible-context e0 anchor e1 tail absurdity]
+\label{thm:eqtype-class-carrier-visible-context-e0-anchor-e1-tail-absurd}
+For BEDC histories $p$, $r$, $anchor$, $h$, and $tail$, if $h$ belongs to the
+equality-type class anchored at $\Ezero(anchor)$, then the display of $h$ inside
+a common visible context cannot agree with the corresponding display of
+$\Eone(tail)$:
+$$
+\mathsf{EqtypeClassCarrier}(\Ezero(anchor),h)
+\Longrightarrow
+\hsame((p\cdot h)\cdot r,(p\cdot\Eone(tail))\cdot r)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Visible-context anchor readback identifies the displayed core
+$\Eone(tail)$ with the zero-headed anchor $\Ezero(anchor)$. BEDC history
+constructor separation rules out this $\Eone/\Ezero$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_e0\_anchor\_e1\_tail\_absurd}
+
 \begin{theorem}[EqType visible-context empty anchor visible core absurdity]
 \label{thm:eqtype-visible-context-empty-anchor-visible-core-absurd}
 For BEDC histories $p$, $r$, $h$, $core$, and $tail$, if $h$ belongs to the
