@@ -188,6 +188,50 @@ two carrier witnesses reassembles
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
 \end{proof}
 
+\begin{theorem}[Prefix sandwich collapse for concrete POSet]
+\label{thm:poset-prefix-sandwich-collapse}
+For carrier histories $h,k,r$ in $\mathsf{PreorderCarrier}$, suppose that
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$,
+$\mathsf{PreorderPrefixLE}(h,k)$, and $\mathsf{PreorderPrefixLE}(k,r)$ hold.
+Then both
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$ hold.
+
+The per-object fields are as follows: the traditional target is interval
+sandwich collapse in a partial order; the BEDC source is
+$\mathsf{UnaryHistory}$ with $\mathsf{PreorderPrefixLE}$; the carrier is
+$\mathsf{PreorderCarrier}$; the classifier is
+$\mathsf{PreorderCarrierClassifierSpec}$; the stability obligations are
+transitivity and antisymmetry/exactness; the ledger records the two comparison
+chains $h\le k\le r$ and $r\le h$; the core theorem is this sandwich collapse;
+the exactness component is classifier-fiber collapse; the standard bridge is
+the finite unary prefix order; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$. It
+provides carrier data for $h$ and $r$ together with $\hsame(h,r)$. By symmetry
+and \autoref{thm:preorder-prefix-le-of-hsame}, obtain the reverse comparison
+$\mathsf{PreorderPrefixLE}(r,h)$.
+
+Compose the displayed comparison $\mathsf{PreorderPrefixLE}(k,r)$ with
+$\mathsf{PreorderPrefixLE}(r,h)$ by
+\autoref{thm:preorder-prefix-transitivity}; this gives
+$\mathsf{PreorderPrefixLE}(k,h)$.
+
+Together with the assumed $\mathsf{PreorderPrefixLE}(h,k)$,
+\autoref{thm:poset-prefix-classifier-exactness} returns
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
+
+For the second endpoint, compose
+$\mathsf{PreorderPrefixLE}(r,h)$ with the displayed comparison
+$\mathsf{PreorderPrefixLE}(h,k)$ to get $\mathsf{PreorderPrefixLE}(r,k)$.
+
+The assumed $\mathsf{PreorderPrefixLE}(k,r)$ and
+\autoref{thm:poset-prefix-classifier-exactness} yield
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$.
+\end{proof}
+
 Thus \autoref{thm:poset-prefix-classifier-exactness} supplies the exactness
 predicate named in item 9 of
 \autoref{def:concrete-unary-prefix-poset-instance}.
