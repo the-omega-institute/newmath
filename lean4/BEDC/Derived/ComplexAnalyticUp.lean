@@ -76,6 +76,12 @@ theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
         hsame_trans (hsame_symm sameZZ') sameZ
       exact And.intro (And.intro thetaUnary sameZ') sameZ'
 
+theorem CplxPureImaginary_empty_absurd {theta : BHist} :
+    CplxPureImaginary theta BHist.Empty -> False := by
+  intro pureImaginary
+  exact ComplexHistoryCarrier_not_empty
+    (CplxPureImaginary_complex_carrier_witness pureImaginary).right.right (hsame_refl BHist.Empty)
+
 theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ∃ imagq : BHist,

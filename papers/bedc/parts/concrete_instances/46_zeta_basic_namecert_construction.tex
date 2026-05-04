@@ -77,6 +77,20 @@ by the unit term, which unfolds to \(\Eone(s)\).
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_step\_inversion}
 
+\begin{theorem}[Unit Dirichlet empty-source successor result shape]
+\label{thm:zeta-basic-part-sum-empty-source-successor-result-shape}
+If $\mathsf{ZetaBasicPartSum}(\emp,\Eone(n),z)$ holds, then there is a
+previous partial sum $p$ such that
+$\mathsf{ZetaBasicPartSum}(\emp,n,p)$ holds and $z\hsame\Eone(p)$.
+\end{theorem}
+\begin{proof}
+Invert the successor part-sum witness. At empty source the unit term unfolds to
+$\Eone(\emp)$, so the exposed continuation has result
+$p\cdot\Eone(\emp)$. The append right-unit law rewrites this result as
+$\Eone(p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_empty\_source\_successor\_result\_shape}
+
 \begin{theorem}[Unit Dirichlet successor source transport step]
 \label{thm:zeta-basic-part-sum-successor-source-transport-step}
 If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,

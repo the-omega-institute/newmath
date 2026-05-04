@@ -51,4 +51,26 @@ theorem GroupSingletonNormalizerAction_certificate {s x : BHist} :
       · exact And.intro (hsame_refl BHist.Empty)
           (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 
+theorem GroupSingletonNormalizerOrbit_coverage_iff {x y : BHist} :
+    (Exists (fun s : BHist => GroupSingletonCarrier s ∧
+      GroupSingletonClassifier (append (append s x) BHist.Empty) y)) <->
+        GroupSingletonCarrier x ∧ GroupSingletonCarrier y := by
+  constructor
+  · intro orbit
+    cases orbit with
+    | intro s witness =>
+        have actionSplit := append_eq_empty_iff.mp witness.right.left
+        have innerSplit := append_eq_empty_iff.mp actionSplit.left
+        exact And.intro innerSplit.right witness.right.right.left
+  · intro endpoints
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have emptyX : GroupSingletonCarrier (append BHist.Empty x) :=
+      append_eq_empty_iff.mpr (And.intro emptyCarrier endpoints.left)
+    have actionCarrier : GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro emptyX emptyCarrier)
+    exact Exists.intro BHist.Empty
+      (And.intro emptyCarrier
+        (And.intro actionCarrier
+          (And.intro endpoints.right (hsame_trans actionCarrier (hsame_symm endpoints.right)))))
+
 end BEDC.Derived.GroupUp
