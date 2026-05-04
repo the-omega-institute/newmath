@@ -219,6 +219,30 @@ field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric triangle left distance empty collapse]
+\label{thm:metric-distance-witness-triangle-left-distance-empty-collapse}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the left distance in a
+metric triangle is history-same to $\emp$, then its endpoints collapse and the
+remaining two displayed distances are exactly the right endpoint:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow\\
+\hsame(d_{xy},\emp)\Longrightarrow
+\hsame(x,\emp)\land\hsame(y,\emp)\land
+\hsame(d_{xyz},z)\land\hsame(d_{yz},z).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Empty-distance exactness for the witness from $x$ to $y$ gives
+$x\hsame\emp$ and $y\hsame\emp$. With $d_{xy}$ collapsed, empty-left exactness
+for the outer witness gives $d_{xyz}\hsame z$. Collapsing $y$ in the second
+witness and applying the same empty-left exactness gives $d_{yz}\hsame z$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_left\_distance\_empty\_collapse}
+
 \begin{theorem}[Metric triangle depth-zero iff empty spine]
 \label{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three concrete metric distance

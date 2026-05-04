@@ -11,9 +11,12 @@ open BEDC.Derived.StreamNameUp
 def RealUnaryOffsetLe (k w : BHist) : Prop :=
   UnaryHistory k ∧ ∃ tau : BHist, UnaryHistory tau ∧ Cont k tau w
 
+def UnaryOffsetLe (k w : BHist) : Prop :=
+  RealUnaryOffsetLe k w
+
 def RealUnaryStreamWindowClassifier (s t : BHist -> BHist) (a w : BHist) : Prop :=
   UnaryHistory a ∧ UnaryHistory w ∧
-    forall k : BHist, RealUnaryOffsetLe k w ->
+    forall k : BHist, UnaryOffsetLe k w ->
       RatHistoryClassifier (s (append a k)) (t (append a k))
 
 theorem RatStreamNameClassifier_real_unary_window_coverage {s t : BHist -> BHist}
@@ -64,5 +67,16 @@ theorem RealStreamWindowClassifier_selected_full_shape_readback_package
     (fun sameZero =>
       PositiveUnaryDenominator_e0_absurd
         (PositiveUnaryDenominator_hsame_transport sameZero positives.right))⟩
+
+theorem RealUnaryStreamWindowClassifier_coverage {s t : BHist -> BHist} {a w : BHist} :
+    RealUnaryStreamClassifier s t -> UnaryHistory a -> UnaryHistory w ->
+      RealUnaryStreamWindowClassifier s t a w := by
+  intro classified aUnary wUnary
+  constructor
+  · exact aUnary
+  · constructor
+    · exact wUnary
+    · intro k offset
+      exact classified (append a k) (unary_append_closed aUnary offset.left)
 
 end BEDC.Derived.RealUp

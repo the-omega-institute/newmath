@@ -181,6 +181,65 @@ argument for $\hsame(t(n),\Ezero(z_t))$ is identical, using the positive
 denominator witness for $t(n)$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name observation full endpoint package]
+\label{thm:rat-stream-name-observation-full-endpoint-package}
+For certified observation maps $s,t:\Hist\to\Hist$, an observation history $n$,
+and histories $a,b:\Hist$, suppose
+$$
+\mathsf{RatStreamNameClassifier}(s,t)\quad\text{and}\quad
+\mathsf{UnaryHistory}(n),
+$$
+and suppose the selected observations are displayed as one-extension endpoints
+$$
+\hsame(s(n),\Eone(a))\quad\text{and}\quad
+\hsame(t(n),\Eone(b)).
+$$
+Then the following selected-observation endpoint package holds:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+  \item $\mathsf{PositiveUnaryDenominator}(s(n))\land
+  \mathsf{PositiveUnaryDenominator}(t(n))$.
+  \item $\mathsf{UnaryHistory}(s(n))\land\mathsf{UnaryHistory}(t(n))$.
+  \item $(\hsame(s(n),\emp)\to\mathsf{False})\land
+  (\hsame(t(n),\emp)\to\mathsf{False})$.
+  \item For all histories $z_s,z_t:\Hist$,
+  $(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+  (\hsame(t(n),\Ezero(z_t))\to\mathsf{False})$.
+  \item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land
+  \hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:rat-stream-name-classifier} at the certified observation
+$(n,\nu)$, where $\nu:\mathsf{UnaryHistory}(n)$. The pointwise row gives
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-stream-name-classifier-observation-shape-exclusions} to
+the same stream classifier and unary observation. This supplies the two positive
+unary denominator rows, the unary-history rows for the selected observations,
+the empty-history exclusions, and the zero-headed exclusions for arbitrary
+$z_s,z_t$.
+
+Apply \autoref{thm:rat-stream-name-classifier-observation-e1-pair-readback} to
+the stream classifier, the unary observation, and the two displayed
+one-extension endpoint rows. This gives
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+
+The point classifier, the shape rows, and the one-tail readback rows are exactly
+the listed endpoint package.
+\end{proof}
+
+Fit. Traditional target: selected rational-stream observation endpoint package.
+BEDC source: $\RatUp+\StreamNameUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$. Stability: pointwise $\hsame$ endpoint
+display at the selected unary observation. Ledger: the selected observation, the
+two one-extension displays, and arbitrary zero-headed probes. Core theorem:
+\autoref{thm:rat-stream-name-observation-full-endpoint-package}. Exactness:
+rational point classifier, endpoint shape exclusions, and one-tail equality
+readback. Standard bridge: $\RealUp$ contextual endpoint certificates consume
+this selected-observation package. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rational stream-name transported observation shape exclusions]
 \label{thm:rat-stream-name-classifier-transported-observation-shape-exclusions}
 For certified observation maps $s,t,s',t':\Hist\to\Hist$ and an observation
