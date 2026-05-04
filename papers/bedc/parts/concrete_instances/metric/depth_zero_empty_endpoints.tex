@@ -126,6 +126,30 @@ equal to $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_eq\_iff\_empty}
 
+\begin{theorem}[Metric distance depth visible-context equality emptiness]
+\label{thm:metric-distance-depth-visible-context-eq-iff-empty}
+For histories $p,q,d$, adding visible context on both sides preserves the
+central structural metric distance depth exactly when both visible contexts are
+empty:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)
+=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp)\land\hsame(q,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Expand structural depth over the two append contexts. The resulting natural
+number equation has the form
+$\bigl(\mathsf{depth}(p)+\mathsf{depth}(d)\bigr)+\mathsf{depth}(q)
+=\mathsf{depth}(d)$, so associativity and commutativity of addition reduce it
+to a zero-sum constraint on the two context depths. Then
+\autoref{thm:metric-distance-depth-zero-iff-empty} identifies both contexts
+with $\emp$. The reverse direction substitutes the two empty-context
+identifications and applies the one-sided append equality theorems above.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_eq\_iff\_empty}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central

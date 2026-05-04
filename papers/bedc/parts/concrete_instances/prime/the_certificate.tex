@@ -123,6 +123,24 @@ In the successor case, the witness consists of a predecessor product $\mathsf{Na
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_result\_hsame\_transport}
 
+\begin{lemma}[Unary multiplication append multiplier totality]
+\label{lem:nat-mul-append-multiplier-total}
+Let $d,w,n,q$ be histories. If $\mathsf{NatMul}(d,w,n)$ and $q$ is unary, then
+there is a unary result $r$ with
+$$
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r).
+$$
+\end{lemma}
+\begin{proof}
+Read the unary multiplicand from the existing multiplication witness. Totality
+of unary multiplication supplies a unary product $e$ for the appended
+multiplier tail $q$. The continuation from $n$ to $e$ gives the displayed result
+$r=\mathsf{append}(n,e)$, and append-continuation closure for
+$\mathsf{NatMul}$ combines the two multiplication witnesses into the product
+over $\mathsf{append}(w,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_total}
+
 \begin{theorem}[Divisibility transports along dividend history-sameness]
 \label{thm:nat-divides-dividend-hsame-transport}
 Let $d$ and $e$ be unary histories, and let $e'$ be a history with $e\hsame e'$. If $\mathsf{NatDivides}(d,e)$, then $\mathsf{NatDivides}(d,e')$.
