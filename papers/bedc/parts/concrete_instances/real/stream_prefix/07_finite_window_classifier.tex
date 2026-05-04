@@ -92,6 +92,72 @@ exactness endpoint projection
 \autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
 finite rational observation windows; status $\mathsf{ProofTarget}$.
 
+\begin{definition}[Real stream finite window classifier]
+\label{def:real-stream-finite-window-classifier}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index $n$,
+and a zero-based window radius $m$, the finite window classifier is the bounded
+pointwise rational-history classifier
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+\Longleftrightarrow
+\forall k,\ k\le m\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
+$$
+\end{definition}
+
+\begin{theorem}[Real stream classifier finite-window coverage]
+\label{thm:real-stream-classifier-finite-window-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
+every pointwise stream classifier covers the finite observation window anchored
+at $n$ with radius $m$:
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,n,m).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{RealStreamClassifier}(x,y)$ and fix an offset $k\le m$. The
+stream classifier is pointwise, so evaluating it at the observation index $n+k$
+gives $\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+Since the chosen offset was arbitrary under the window bound, these endpoint
+classifiers assemble exactly into
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
+\end{proof}
+
+\begin{theorem}[Real stream classifier zero-window exactness]
+\label{thm:real-stream-classifier-zero-window-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longleftrightarrow
+\forall n,\ \mathsf{RealStreamWindowClassifier}(x,y,n,0).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{RealStreamClassifier}(x,y)$. For
+each anchor $n$, apply
+\autoref{thm:real-stream-classifier-finite-window-coverage} with radius $0$.
+This gives $\mathsf{RealStreamWindowClassifier}(x,y,n,0)$ for every anchor.
+
+For the reverse direction, assume every zero-radius window is classified and
+fix an observation index $n$. Unfold the window at anchor $n$ and radius $0$.
+Taking offset $k=0$ uses $0\le 0$ and the identity $n+0=n$, so the window row
+returns $\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+
+Since $n$ was arbitrary, these rational-history rows repack as the pointwise
+stream classifier $\mathsf{RealStreamClassifier}(x,y)$.
+\end{proof}
+
+The ten-field fit is: traditional target pointwise equality of countable real
+names; BEDC source RealUp stream classifier plus RatUp endpoint classifier;
+carrier rational-observation streams; classifier all zero-radius windows;
+stability inherited from finite-window stability; ledger anchor index and zero
+offset; core theorem this exactness; exactness all pointwise observations iff
+all zero windows; standard bridge finite observation equality of regular
+rational names; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream finite-window stability package]
 \label{thm:real-stream-window-classifier-stability-package}
 For rational-observation streams $x,x',y,y',z:\mathbb{N}\to\Hist$ and indices
