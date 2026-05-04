@@ -1,3 +1,95 @@
+\begin{theorem}[Singleton linear map composition associativity empty classifier]
+\label{thm:linearmap-singleton-comp-assoc-empty-classifier}
+For singleton linear map codes $f,g,h$, if each code lies in
+$L_{\emp}$, then both associations of the composite code classify with
+$\emp$, and the two associated composite codes classify with each other:
+$$
+\lambda_{\emp}(\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f)),\emp)
+\land
+\lambda_{\emp}(\mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f),\emp)
+\land
+\lambda_{\emp}(\mathsf{comp}_{\emp}(h,\mathsf{comp}_{\emp}(g,f)),
+  \mathsf{comp}_{\emp}(\mathsf{comp}_{\emp}(h,g),f)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton composition code is definitionally $\emp$ for every pair of
+inputs. Therefore both associated composites reduce to $\emp$, and each
+displayed classifier is the reflexive singleton map-code classifier at the
+empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingleton\_comp\_assoc\_empty\_classifier}
+
+\begin{theorem}[Singleton linear-map classifier append left cancellation]
+\label{thm:singleton-linearmap-classifier-append-left-cancel}
+For all $P,Q,R:\mathsf{BHist}$, if $L_{\emp}(P)$, then
+$$
+\lambda_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(P,R))
+\Longleftrightarrow
+\lambda_{\emp}(Q,R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the singleton classifier. The carrier
+clauses say that both appended histories are classified with $\emp$.
+Applying the empty-append inversion to each carrier clause gives
+$Q\hsame\emp$ and $R\hsame\emp$. These two endpoint witnesses compose, with
+symmetry on the right one, to give $Q\hsame R$.
+
+For the reverse direction, the hypothesis $L_{\emp}(P)$ identifies the left
+prefix with $\emp$. The two appended histories therefore reduce through the
+left-empty continuation law to $Q$ and $R$. The carrier clauses and classifier
+comparison supplied by $\lambda_{\emp}(Q,R)$ transport along those reductions
+to rebuild the prefixed singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_left\_cancel\_iff}
+
+\begin{theorem}[Singleton linear-map classifier append right cancellation]
+\label{thm:linearmap-singleton-classifier-append-right-cancel-iff}
+For all $P,Q,R:\mathsf{BHist}$, if $L_{\emp}(P)$, then
+$$
+\lambda_{\emp}(\mathsf{append}(Q,P),\mathsf{append}(R,P))
+\Longleftrightarrow
+\lambda_{\emp}(Q,R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the singleton classifier. The carrier
+clauses classify both right-suffixed histories with $\emp$. Empty-append
+inversion splits these clauses and gives $Q\hsame\emp$ and $R\hsame\emp$.
+Composing the first endpoint witness with the symmetry of the second gives
+$Q\hsame R$, which closes $\lambda_{\emp}(Q,R)$.
+
+Conversely, the hypothesis $L_{\emp}(P)$ supplies the certified empty suffix.
+Together with the two carrier fields of $\lambda_{\emp}(Q,R)$, empty-append
+composition classifies both $\mathsf{append}(Q,P)$ and
+$\mathsf{append}(R,P)$ with $\emp$. These two endpoint witnesses compose
+through symmetry to rebuild the right-suffixed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_right\_cancel\_iff}
+
+\begin{theorem}[Singleton linear-map classifier append two-sided cancellation]
+\label{thm:linearmap-singleton-classifier-append-two-sided-cancel}
+For all $P,Q,R,S:\mathsf{BHist}$, if $L_{\emp}(P)$ and $L_{\emp}(S)$, then
+$$
+\lambda_{\emp}(\mathsf{append}(P,Q),\mathsf{append}(R,S))
+\Longleftrightarrow
+\lambda_{\emp}(Q,R).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold the singleton classifier. The two carrier
+clauses classify $\mathsf{append}(P,Q)$ and $\mathsf{append}(R,S)$ with
+$\emp$. Empty-append inversion gives $Q\hsame\emp$ and $R\hsame\emp$, and
+these endpoint witnesses compose to close $\lambda_{\emp}(Q,R)$.
+
+Conversely, $L_{\emp}(P)$ and $L_{\emp}(S)$ combine with the carrier fields of
+$\lambda_{\emp}(Q,R)$ to classify the two appended histories with $\emp$.
+The two resulting endpoint witnesses compose, with symmetry on the right, to
+rebuild the two-sided appended classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_append\_two\_sided\_cancel\_iff}
+
 \begin{theorem}[Singleton evaluation append-input classifier readback]
 \label{thm:linearmap-singleton-eval-append-input-classifier}
 For histories $f,x,y,h$, classifying the singleton evaluation of an appended
@@ -267,47 +359,5 @@ claims imply $\bot$.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_target\_classifier\_absurd}
 
-\begin{theorem}[Singleton evaluation continuation visible input exclusion]
-\label{thm:linearmap-singleton-eval-continuation-visible-input-exclusion}
-For histories $f,x,p,r,h:\mathsf{BHist}$, each visible continuation input
-prevents a singleton-classified continuation result:
-$$
-\ContR(\mathsf{LinearMapSingletonEval}(f,x),\Ezero(p),r)
-\Longrightarrow
-\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr),
-$$
-and
-$$
-\ContR(\mathsf{LinearMapSingletonEval}(f,x),\Eone(p),r)
-\Longrightarrow
-\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr).
-$$
-The ten-field fit is: traditional target terminal linear-map continuation
-input exclusion; BEDC source $\mathsf{BHist}$, $\ContR$, and the singleton
-evaluator; carrier $\mathsf{LinearMapSingletonCarrier}$; classifier
-$\mathsf{LinearMapSingletonClassifier}$; stability from continuation
-classifier readback plus constructor separation; ledger continuation input
-endpoint; core theorem this block; exactness visible-input impossibility;
-standard bridge terminal linear hom; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:linearmap-singleton-eval-continuation-classifier} to
-the first displayed continuation with continuation input $\Ezero(p)$. A
-classifier witness for $r$ against $h$ then forces
-$\mathsf{LinearMapSingletonCarrier}(\Ezero(p))$.
-
-Apply the same continuation classifier readback to the second displayed
-continuation with continuation input $\Eone(p)$. A classifier witness for $r$
-against $h$ forces $\mathsf{LinearMapSingletonCarrier}(\Eone(p))$.
-
-Unfolding the singleton carrier turns each carrier witness into a
-history-sameness proof from the visible continuation input to $\emp$.
-Constructor no-confusion for $\Ezero$ and $\Eone$ contradicts those histories
-being empty, so each visible continuation input case implies $\bot$.
-\end{proof}
-\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_input\_classifier\_absurd}
-\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_input\_absurd}
-
-The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
-carrier and singleton action, so later Lean work can target BHist-anchored
-linear-map laws instead of only abstract function fields.
+\input{parts/concrete_instances/linearmap/singleton_eval_continuation_visible_input_exclusion.tex}
+\input{parts/concrete_instances/linearmap/concrete_singleton_eval_visible_input}
