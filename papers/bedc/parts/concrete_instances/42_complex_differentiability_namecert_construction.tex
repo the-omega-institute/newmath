@@ -278,6 +278,22 @@ For a complex-valued function-history \(f\), a complex history \(z\), and a cand
 \end{definition}
 \leandef{BEDC.Derived.ComplexDiffUp.CplxDiffAt}
 
+\begin{lemma}[Differentiability witness exposes a nonzero step]
+\label{lem:cplx-diff-at-witness-step-nonzero}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then some displayed quotient
+witness has a nonzero step \(h\), a quotient result \(q\), the quotient
+relation \(\mathsf{CplxDiffQuot}(f,z,h,q)\), the continuation ledger
+\(\ContR(f,h,q)\), and \(q\hsame f'\).
+\end{lemma}
+\begin{proof}
+Unpack the pointwise differentiability record. Its witness field supplies
+\(h\), \(q\), and the concrete quotient package. Unpacking that package exposes
+the stored nonzero proof for \(h\) and the continuation ledger. The classifier
+field of \(\mathsf{CplxDiffAt}\) identifies the displayed quotient result with
+the derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_step\_nonzero}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
