@@ -1,4 +1,4 @@
-import BEDC.Derived.RingUp
+import BEDC.Derived.RingUp.Cancellation
 
 namespace BEDC.Derived.RingUp
 open BEDC.FKernel.Hist
@@ -60,5 +60,27 @@ theorem ring_zero_classifier_signed_factor_absorption
       leftDistrib rightDistrib (x := neg x) (y := neg y) negEmpty
   exact ⟨plainAbsorption.left, plainAbsorption.right,
     signedAbsorption.left, signedAbsorption.right⟩
+
+theorem ring_equal_factor_difference_annihilation {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z))) {x y z : BHist} :
+    hsame x y -> hsame (mul (add x (neg y)) z) BHist.Empty ∧
+      hsame (mul z (add x (neg y))) BHist.Empty := by
+  intro sameXY
+  have differenceZero : hsame (add x (neg y)) BHist.Empty :=
+    (ring_additive_difference_zero_exact addAssoc addComm zeroLeft negLeft addCongr).mpr sameXY
+  exact ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+    leftDistrib rightDistrib (x := add x (neg y)) (y := z) differenceZero
 
 end BEDC.Derived.RingUp

@@ -410,3 +410,89 @@ obligations operation-table coverage plus two-sided unit obstruction; ledger
 selectors $s,t,u,v,w,z$ and contexts $L,R,r$; exactness as the concrete final
 package; downstream consumer Phase Algebra Hierarchy $\FieldUp(\RatUp)$; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp final inventory carried-external unit separation]
+\label{thm:ratup-fieldup-final-inventory-carried-external-unit-separation}
+Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, and the concrete
+exit object $\mathcal E_F$ of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Let
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ be the concrete denominator tuple, let
+$h,k,\ell:\mathsf{BHist}$ satisfy $C_D^u(h)$, $C_D^u(k)$, $C_D^u(\ell)$, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and let
+$s,t,\upsilon,v,w,z:\mathsf{BMark}$ and $L,R,r:\mathsf{BHist}$ be the chosen
+selectors and contexts. For Rat-classified endpoint pairs
+$a,a',b,b':\mathsf{BHist}$ satisfying
+$$
+\mathsf{RatHistoryClassifier}(a,a')
+\land
+\mathsf{RatHistoryClassifier}(b,b'),
+$$
+for every carried denominator $q:\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryCarrier}(q)$, and for histories
+$u,d:\mathsf{BHist}$ satisfying $U_D(u)$ and
+$\mathsf{RatHistoryCarrier}(d)$, one concrete $\mathsf{BHist}$-anchored
+$\FieldUp(\RatUp)$ final-inventory boundary contains, at the same time:
+\begin{enumerate}
+  \item the operation-table final inventory rows and two-sided unit coverage
+  rows of
+  \autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+  for the displayed source, table, exit object, tuple, histories, selectors,
+  contexts, endpoint pairs, and carried denominator $q$;
+  \item the carried-external classifier separation row
+  $$
+  \bigl(
+  \mathsf{RatHistoryClassifier}(u,d)\lor
+  \mathsf{RatHistoryClassifier}(d,u)
+  \bigr)\to\mathsf{False}
+  $$
+  supplied by
+  \autoref{thm:field-rat-denominator-external-unit-classifier-disjointness}
+  from $U_D(u)$.
+\end{enumerate}
+Thus the same concrete final exit object $\mathcal E_F$ records both the
+complete operation-table final inventory consumed by the Phase Algebra
+Hierarchy and the classifier separation between an external denominator unit
+and a carried Rat denominator.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+to the concrete source, operation table, exit object, denominator tuple,
+histories $h,k,\ell$, support witness, selectors $s,t,\upsilon,v,w,z$,
+contexts $L,R,r$, Rat-classified endpoint pairs, and the carried denominator
+$q$. This supplies the operation-table coverage rows, concrete operation-table
+laws, final row inventory, Rat-classified nonzero exclusions, and both append
+and relational one-sided unit denials inside $\mathcal E_F$.
+
+Next apply
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness} to
+the histories $u,d$ and the displayed witness $U_D(u)$. The resulting
+implication rules out both possible Rat-classifier orientations
+$\mathsf{RatHistoryClassifier}(u,d)$ and
+$\mathsf{RatHistoryClassifier}(d,u)$. The carrier witness
+$\mathsf{RatHistoryCarrier}(d)$ identifies the second endpoint as one of the
+carried denominator objects governed by the final-inventory boundary.
+
+Finally keep the same source, table, exit object, denominator tuple, selectors,
+contexts, endpoint pairs, carried denominator, external-unit witness, and
+carried-denominator witness. Conjunction introduction packages the
+two-sided final inventory rows and the carried-external classifier separation
+row as one concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ boundary.
+\end{proof}
+
+Per-object template: traditional target final $\FieldUp(\RatUp)$
+carried-external unit boundary; BEDC source $\mathsf{BHist}$, $\mathsf{BMark}$,
+$\Cont$, and $\mathsf{RatUpFieldSource}_F$; carrier
+$\mathsf{RatHistoryCarrier}$ and $C_D^u$; classifier
+$\mathsf{RatHistoryClassifier}$ and $R_D^u$; stability obligations
+operation-table final inventory, two-sided unit obstruction, and
+carried-external classifier separation; ledger selectors
+$s,t,\upsilon,v,w,z$, contexts $L,R,r$, carried denominator $q$, external unit
+$u$, and carried denominator endpoint $d$; core theorem list
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+and
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness};
+exactness predicate final inventory plus external-unit classifier
+disjointness; standard bridge Phase Algebra Hierarchy $\FieldUp(\RatUp)$;
+status $\mathsf{ProofTarget}$.
