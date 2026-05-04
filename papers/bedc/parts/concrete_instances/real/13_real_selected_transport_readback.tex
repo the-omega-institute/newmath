@@ -139,6 +139,64 @@ exactness; ledger selected index and two e-one seals; core theorem this block;
 exactness the displayed conjunction; standard bridge rational equality read from
 equal transported real observations; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier transported selected e-one tail determinacy]
+\label{thm:real-stream-classifier-transported-selected-e1-tail-determinacy}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+index $n$, and histories $a,a',b,b':\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+If the transported selected endpoints satisfy the four e-one displays
+$$
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(x'(n),\Eone(a')),\quad
+\hsame(y'(n),\Eone(b)),\quad
+\hsame(y'(n),\Eone(b')),
+$$
+then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(b,b')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a',b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+to the displays $\hsame(x'(n),\Eone(a))$ and
+$\hsame(y'(n),\Eone(b))$. This supplies $\mathsf{UnaryHistory}(a)$,
+$\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same transported pair readback theorem again to the displays
+$\hsame(x'(n),\Eone(a'))$ and $\hsame(y'(n),\Eone(b'))$. This supplies
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$.
+
+For the $x'$-tail comparison, compose the first selected endpoint display with
+the symmetry of the second display. The resulting
+$\hsame(\Eone(a),\Eone(a'))$ is inverted by
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_iff}$, giving $\hsame(a,a')$.
+
+The same composition and e-one inversion applied to the two $y'$ endpoint
+displays gives $\hsame(b,b')$. Package these same-side comparisons with the two
+cross-tail rows from transported pair readback.
+\end{proof}
+
+Fit: traditional target canonical selected transported rational observation
+tails; BEDC source RealUp streams, RatUp e-one readback, and FKernel e-one
+no-confusion; carrier rational-observation streams; classifier
+$\mathsf{RealStreamClassifier}$; stability pointwise $\hsame$ transport plus
+e-one inversion; ledger selected index and four e-one seals; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-e1-tail-determinacy};
+exactness unique tails for transported selected endpoints; standard bridge
+RegSeqRat selected denominator tails; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier transported selected positive denominator package]
 \label{thm:real-stream-classifier-transported-selected-positive-denominator-package}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and every
@@ -306,6 +364,43 @@ exactness the existential package of one-headed endpoints, unary tails, and
 tail sameness; standard bridge rational equality read from the common unary tail;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier transported selected endpoint common e-one tail readback]
+\label{thm:real-stream-classifier-transported-selected-endpoint-common-e1-tail-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and a selected
+index $n$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+then
+$$
+\exists a,b,\ \hsame(x'(n),\Eone(a))\land\hsame(y'(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transport-selected-positive-unary-nonempty-package}
+at the selected index under the two pointwise transport rows and the source
+RealUp stream classifier. This gives unary-history rows and nonempty exclusions
+for both transported endpoints $x'(n)$ and $y'(n)$.
+
+For $x'(n)$, apply \autoref{thm:unary-history-nonempty-e1-tail} to obtain a tail
+$a$ and the displayed one-head row. For $y'(n)$, apply the same theorem to obtain
+a tail $b$ and its displayed one-head row. In each case, the displayed row gives
+the required $\hsame$ comparison with the corresponding e-one history by
+reflexivity.
+
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback} to the
+two selected transported e-one rows. The readback theorem recovers
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Package $a$ and $b$ as the existential witnesses together with the two endpoint
+comparisons, the two unary-tail witnesses, and the common-tail comparison.
+\end{proof}
+
 \begin{theorem}[Real stream classifier transported selected full shape readback package]
 \label{thm:real-stream-classifier-transported-selected-full-shape-readback-package}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
@@ -447,6 +542,152 @@ tests; core theorem
 \autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package};
 exactness the six-row endpoint package; standard bridge transported RegSeqRat
 selected contextual observation readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier transported contextual displayed e-one classifier package]
+\label{thm:real-stream-classifier-transported-contextual-displayed-e1-classifier-package}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, and histories $a,b,z_X,z_Y:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also the selected transported context rows
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+the four selected continuation rows
+$$
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad
+\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+and the two one-headed endpoint seals
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad \hsame(o_Y(n),\Eone(b)).
+$$
+Then the transported selected contextual endpoints and their displayed e-one
+readbacks carry all of the following data:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$.
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+\item $\mathsf{UnaryHistory}(a)$ and $\mathsf{UnaryHistory}(b)$.
+\item $\hsame(a,b)$.
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))$ and
+$\mathsf{PositiveUnaryDenominator}(o_Y(n))$.
+\item $\mathsf{UnaryHistory}(o_X(n))$ and $\mathsf{UnaryHistory}(o_Y(n))$.
+\item $\hsame(o_X(n),\emp)\to\mathsf{False}$ and
+$\hsame(o_Y(n),\emp)\to\mathsf{False}$.
+\item $\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False}$ and
+$\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
+under the displayed pointwise transport rows, selected context rows,
+continuation rows, and one-headed endpoint seals. This returns the classifier
+for $o_X(n)$ and $o_Y(n)$, the positive-denominator rows, the endpoint unary
+rows, the two nonempty exclusions, the two zero-headed exclusions, and the tail
+readback
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+
+Now transport the first classifier row across the two displayed e-one seals by
+\autoref{thm:rat-history-classifier-hsame-transport}. The source classifier is
+$\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$, and the endpoint comparisons are
+$\hsame(o_X(n),\Eone(a))$ and $\hsame(o_Y(n),\Eone(b))$; the transported row is
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Finally project the three tail readback components from the returned
+conjunction and repack them with the transported displayed e-one classifier and
+the remaining endpoint rows already supplied by
+\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}.
+\end{proof}
+
+\begin{theorem}[Real stream classifier transported contextual e-one tail determinacy]
+\label{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, and histories $a,a',b,b':\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also the selected transported context rows
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+the four selected continuation rows
+$$
+\mathsf{Cont}(p_X(n),x'(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad
+\mathsf{Cont}(p_Y(n),y'(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+and the four e-one displays
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_X(n),\Eone(a')),\quad
+\hsame(o_Y(n),\Eone(b)),\quad
+\hsame(o_Y(n),\Eone(b')).
+$$
+Then all of the following data hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(a)$;
+\item $\mathsf{UnaryHistory}(a')$;
+\item $\mathsf{UnaryHistory}(b)$;
+\item $\mathsf{UnaryHistory}(b')$;
+\item $\hsame(a,a')$;
+\item $\hsame(b,b')$;
+\item $\hsame(a,b)$;
+\item $\hsame(a',b')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-contextual-full-endpoint-package}
+to the displays $\hsame(o_X(n),\Eone(a))$ and
+$\hsame(o_Y(n),\Eone(b))$. Its tail row supplies
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply the same transported contextual endpoint package to the displays
+$\hsame(o_X(n),\Eone(a'))$ and $\hsame(o_Y(n),\Eone(b'))$. This gives
+$\mathsf{UnaryHistory}(a')$, $\mathsf{UnaryHistory}(b')$, and
+$\hsame(a',b')$.
+
+For the $X$-tail comparison, compose the first display of $o_X(n)$ with the
+symmetry of the second display. The resulting
+$\hsame(\Eone(a),\Eone(a'))$ is inverted by
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_inversion\_iff}$ to obtain
+$\hsame(a,a')$.
+
+The same composition and e-one inversion applied to the two displays of
+$o_Y(n)$ gives $\hsame(b,b')$. Package these two internal tail comparisons
+with the two endpoint-package tail rows.
+\end{proof}
+
+Fit: traditional target transported contextual RealUp selected-tail
+determinacy; BEDC source RealUp streams, RatUp point classifiers,
+$\mathsf{Cont}$, and FKernel history sameness; carrier rational-observation
+streams; classifier $\mathsf{RealStreamClassifier}$ with selected contextual
+endpoint displays; stability pointwise representative transport and context
+closure; ledger selected index, two transport rows, context continuations, and
+four e-one displays; core theorem
+\autoref{thm:real-stream-classifier-transported-contextual-e1-tail-determinacy};
+exactness canonical e-one tails under transported contexts; standard bridge
+RegSeqRat and dyadic selected endpoint readback; status
+$\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real stream prefix transported selected full shape readback package]
 \label{thm:real-stream-prefix-transported-selected-full-shape-readback-package}
