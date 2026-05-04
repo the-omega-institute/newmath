@@ -58,6 +58,48 @@ both $\emp$ and are related by $R_{\emp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_laws}
 
+\begin{theorem}[Concrete singleton history CommRingUp full schema laws]
+\label{thm:concrete-singleton-history-commring-full-schema-laws}
+For the concrete singleton history commutative ring instance of
+Definition~\ref{def:concrete-singleton-history-commring-instance}, the tuple
+$(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+the full $\CommRingUp$ law package: all $\RingUp$ laws from
+Theorem~\ref{thm:concrete-singleton-history-ring-laws}, multiplicative
+commutativity from
+Theorem~\ref{thm:concrete-singleton-history-commring-laws}, and stability of
+the commutativity row under $R_{\emp}$-classified replacement of carried
+inputs. Its certificate fit has ten fields: traditional target the
+one-element commutative ring; BEDC source $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability obligations the $\RingUp$
+package plus commutativity compatibility; ledger append-operation provenance;
+core theorem Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws};
+exactness singleton endpoint classification; standard bridge the terminal
+commutative ring; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The $\RingUp$ part is exactly
+Theorem~\ref{thm:concrete-singleton-history-ring-laws} for the displayed
+append-operation tuple. It supplies the additive abelian-group laws,
+multiplicative monoid laws, addition and multiplication congruence, and the
+two distributive laws over $A_{\emp}$ and $R_{\emp}$.
+
+The commutativity row is exactly
+Theorem~\ref{thm:concrete-singleton-history-commring-laws}, read at the same
+append multiplication. For carried inputs $x$ and $y$, the singleton endpoint
+witnesses identify both products $\mathsf{mul}(x,y)$ and
+$\mathsf{mul}(y,x)$ with $\emp$, so the displayed row is an
+$R_{\emp}$-classification.
+
+For compatibility of that row, suppose the two carried inputs are replaced by
+$R_{\emp}$-classified inputs. Multiplication congruence from the $\RingUp$
+package transports $\mathsf{mul}(x,y)$ to the replacement product, and the
+same congruence transports $\mathsf{mul}(y,x)$ to the reversed replacement
+product. Compose these transported relations with the commutativity row by
+symmetry and transitivity of $\hsame$; the carrier fields are preserved by the
+same singleton endpoint classification, so the commutativity row remains
+$R_{\emp}$-classified after replacement.
+\end{proof}
+
 \section{Concrete singleton empty-history commutative ring instance}
 \label{sec:commring-concrete-singleton-instance}
 
