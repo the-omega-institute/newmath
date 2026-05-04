@@ -132,6 +132,7 @@ $A_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)))$. The same
 classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerAction\_certificate}
 
 \begin{theorem}[Group singleton conjugation classifier coverage]
 \label{thm:group-singleton-conjugation-classifier-coverage}
@@ -320,6 +321,50 @@ It remains to read the terminal classifier. The first row of
 Theorem~\ref{thm:group-singleton-terminal-classifier-package} classifies any two
 singleton endpoints. Apply it to the nested endpoint and $x$, then to the
 product-conjugator endpoint and $x$, using the carrier facts already displayed.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer action product-coherent orbit collapse]
+\label{thm:group-singleton-normalizer-action-product-coherent-orbit-collapse}
+For histories $s,t,x:\mathsf{BHist}$ in the concrete singleton history group
+instance, write
+$$
+\mathsf{Conj}_u(y):=\mathsf{mul}(\mathsf{mul}(u,y),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, and $A_{\emp}(x)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)),
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x))
+$$
+and
+$$
+R_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x))).
+$$
+The fit names the traditional target as product-coherent terminal normalizer
+action; the BEDC source as the concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $R_{\emp}$; stability from
+Theorem~\ref{thm:group-singleton-normalizer-action-composition-collapse};
+ledger the nested action endpoint and the product-conjugator endpoint; core
+theorem this block; exactness predicate mutual singleton classification of the
+two endpoints; downstream consumer $\QuotientGroupUp$ orbit collapse; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-normalizer-action-composition-collapse}
+to $s$, $t$, and $x$. Its carrier rows place both
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$ and
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$ in $A_{\emp}$.
+
+The terminal classifier exactness row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} classifies any two
+singleton endpoints. Applied to those two carrier facts, it gives
+$R_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)),
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x))$.
+
+For the reverse classifier, use the symmetry row of the same terminal classifier
+package on the displayed forward classifier. This yields
+$R_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
 \end{proof}
 
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
