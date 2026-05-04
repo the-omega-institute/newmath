@@ -5676,3 +5676,29 @@ Chapter 60 (concrete_instances/quotientgroup/). Review category 1 (Closure under
 
 ---
 
+### B-220 - Double opposite POSet data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite POSet data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a POSet name-certificate setup with an opposite-data construction op(.), op(op(D)) equals D componentwise on carrier, classifier, ordering relation, and antisymmetry ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+
+Rationale:
+Concrete single-implication theorem expressible as 'op(op(D)) = D componentwise' on the POSet certificate data tuple. Fits cleanly into the existing concrete_instances/28_poset_namecert_construction.tex surface, which currently has no opposite-construction theorem. Distinct from the lattice-direction entries B-25/B-26/B-27/B-29 (those concern bound-derived laws of meet/join, not order duality). No paper label matches: existing poset coverage is only the singleton-empty and unary-prefix instances. The theorem is small but foundational because it underpins later lattice-duality material (meet/join exchange under op) that B-25–B-29 implicitly assume; making the involution explicit at the POSet layer is the right place to anchor that duality.
+
+---
+
