@@ -76,6 +76,14 @@ theorem MetricDistanceWitness_left_e1_result_iff {x y d : BHist} :
                       (And.intro (unary_e1_closed tailWitness.right.right.left)
                         (cont_step_one tailWitness.right.right.right)))
 
+theorem MetricDistanceWitness_left_e1_result_hsame_source {x x' y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame x x' ->
+      (y = BHist.Empty ∧ UnaryHistory x' ∧ hsame x' d) ∨
+        (∃ y1 : BHist, y = BHist.e1 y1 ∧ MetricDistanceWitness (BHist.e1 x') y1 d) := by
+  intro witness sameSource
+  cases sameSource
+  exact MetricDistanceWitness_left_e1_result_cases witness
+
 theorem MetricDistanceWitness_left_e1_result_hsame_target {x y y' d : BHist} :
     MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame y y' ->
       (y' = BHist.Empty ∧ UnaryHistory x ∧ hsame x d) ∨

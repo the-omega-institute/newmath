@@ -233,6 +233,29 @@ $\ContR(\emp,\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_empty\_composite\_iff}
 
+\begin{theorem}[Prefix functor one-headed empty composite middle endpoint]
+\label{thm:functor-prefix-hom-carrier-e1-endpoint-empty-composite-middle-hsame}
+For histories $p,a,b,c,f,g$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,\Eone(a))$ to $b$, $g$ is a hom-carrier from $b$ to
+$\mathsf{append}(p,\Eone(c))$, and their composite is empty, then the shared
+middle endpoint is classified with both visible prefixed endpoints:
+$$
+\ContR(f,g,\emp)
+\Longrightarrow
+\hsame(b,\mathsf{append}(p,\Eone(a)))\wedge
+\hsame(b,\mathsf{append}(p,\Eone(c))).
+$$
+\end{theorem}
+\begin{proof}
+The one-headed empty-composite exactness theorem gives
+$\hsame(f,\emp)$ and $\hsame(g,\emp)$. Transport the two hom-carriers along
+these morphism classifiers so that both displayed morphisms are empty. Category
+empty-identity exactness then reads the left leg as equality of its source and
+middle endpoint, and the right leg as equality of the middle endpoint and its
+target.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_endpoint\_empty\_composite\_middle\_hsame}
+
 \begin{theorem}[Prefix functor empty-target component exactness]
 \label{thm:functor-prefix-hom-carrier-empty-target-components-iff}
 For histories $p,a,f$, a hom-carrier from the prefixed source

@@ -40,6 +40,20 @@ theorem MetricDistanceDepth_positive_iff_nonempty {d : BHist} :
     | e1 d =>
         exact Nat.succ_pos (MetricDistanceDepth d)
 
+theorem MetricDistanceDepth_positive_shape_cases {d : BHist} :
+    (MetricDistanceDepth d = 0 -> False) ->
+      (∃ z : BHist, d = BHist.e0 z) ∨ (∃ z : BHist, d = BHist.e1 z) := by
+  intro positiveDepth
+  cases d with
+  | Empty =>
+      exact False.elim (positiveDepth rfl)
+  | e0 d =>
+      left
+      exact Exists.intro d rfl
+  | e1 d =>
+      right
+      exact Exists.intro d rfl
+
 theorem MetricDistanceDepth_append_left_eq_iff_empty {p d : BHist} :
     MetricDistanceDepth (append p d) = MetricDistanceDepth d ↔ hsame p BHist.Empty := by
   induction d generalizing p with

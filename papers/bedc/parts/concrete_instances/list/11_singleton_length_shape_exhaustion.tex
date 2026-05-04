@@ -157,21 +157,22 @@ $$
 \end{array}
 \right)
 \quad\Longleftrightarrow\quad
-\left(\hsame(h,\emp)\land \hsame(k,\emp)\right).
+\left(\hsame(h,\Ezero(\emp))\land \hsame(k,\Ezero(\emp))\right).
 $$
 \end{theorem}
 \begin{proof}
 For the forward direction, start from the classifier witness and the two
 zero public-length witnesses. The zero-length characterization in
 Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package} turns the
-$h$-side witness into $\hsame(h,\emp)$ and the $k$-side witness into
-$\hsame(k,\emp)$.
+$h$-side witness into $\hsame(h,\Ezero(\emp))$ and the $k$-side witness into
+$\hsame(k,\Ezero(\emp))$.
 
 The two endpoint comparisons are exactly the displayed empty endpoint
 conjunction. The classifier witness is used only to keep the statement tied to
 classified singleton-source endpoints.
 
-For the reverse direction, assume $\hsame(h,\emp)\land\hsame(k,\emp)$. Apply the
+For the reverse direction, assume
+$\hsame(h,\Ezero(\emp))\land\hsame(k,\Ezero(\emp))$. Apply the
 reverse zero-length characterization from
 Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package} to obtain
 $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ and
@@ -184,6 +185,7 @@ two empty endpoint comparisons are precisely the nil-nil data. Together with the
 two reconstructed zero public-length witnesses, this gives the left-hand
 condition.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_singleton\_zero\_public\_length\_iff\_empty}
 
 \begin{theorem}[List singleton source classified successor length inversion]
 \label{thm:list-singleton-source-classified-successor-length-inversion}
