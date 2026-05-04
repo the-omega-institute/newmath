@@ -171,6 +171,17 @@ theorem CohomologyCocycle_append_left_e1_boundary_empty_absurd
     (append_eq_empty_iff.mp split).left
   exact not_hsame_e1_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
 
+theorem CohomologyCocycle_append_right_e1_boundary_empty_absurd
+    {d : BHist -> BHist} {h k tail : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d k) (BHist.e1 tail) -> hsame (d (append h k)) BHist.Empty -> False := by
+  intro rightVisible appendCycle
+  have split : hsame (append (d h) (d k)) BHist.Empty :=
+    hsame_trans (hsame_symm (dAppend h k)) appendCycle
+  have rightEmpty : hsame (d k) BHist.Empty :=
+    (append_eq_empty_iff.mp split).right
+  exact not_hsame_e1_empty (hsame_trans (hsame_symm rightVisible) rightEmpty)
+
 theorem CohomologyCocycle_left_shift_append_empty_iff {d : BHist -> BHist}
     {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
@@ -304,6 +315,31 @@ theorem CohomologyCocycle_continuation_context_cancel {d : BHist -> BHist}
   have contextCycle : hsame (d (append left (append h right))) BHist.Empty :=
     hsame_trans (dCongr sameContext) cycle
   exact CohomologyCocycle_axis_context_cancel dAppend contextCycle
+
+theorem CohomologyCocycle_continuation_context_empty_iff {d : BHist -> BHist}
+    {left h mid right r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    Cont left h mid -> Cont mid right r ->
+      (hsame (d r) BHist.Empty <->
+        hsame (d left) BHist.Empty /\ hsame (d h) BHist.Empty /\
+          hsame (d right) BHist.Empty) := by
+  intro leftCont rightCont
+  cases leftCont
+  cases rightCont
+  constructor
+  · intro cycle
+    have outerSplit :
+        hsame (d (append left h)) BHist.Empty /\ hsame (d right) BHist.Empty :=
+      (CohomologyCocycle_append_empty_iff (d := d) (h := append left h) (k := right)
+        dAppend).mp cycle
+    have leftSplit : hsame (d left) BHist.Empty /\ hsame (d h) BHist.Empty :=
+      (CohomologyCocycle_append_empty_iff (d := d) (h := left) (k := h) dAppend).mp
+        outerSplit.left
+    exact And.intro leftSplit.left (And.intro leftSplit.right outerSplit.right)
+  · intro cycles
+    have leftCycle : hsame (d (append left h)) BHist.Empty :=
+      CohomologyCocycle_append_core_closed dAppend cycles.left cycles.right.left
+    exact CohomologyCocycle_append_core_closed dAppend leftCycle cycles.right.right
 
 theorem CohomologyCocycle_mixed_axis_append_hsame_transport {d : BHist -> BHist}
     {axis h k r : BHist}
