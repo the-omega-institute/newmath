@@ -243,6 +243,7 @@ import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.QuotientGroupUp
+import BEDC.Derived.QuotientGroupUp.Continuation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
@@ -516,6 +517,7 @@ import BEDC.Derived.FunctorUp.FamilyReadback
 import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
+import BEDC.Derived.FunctorUp.NonemptyTargetComponent
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.NatTransUp
