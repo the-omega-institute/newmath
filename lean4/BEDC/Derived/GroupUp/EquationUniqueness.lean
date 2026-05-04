@@ -20,6 +20,22 @@ protected theorem group_left_mul_equation_solution_unique_from_empty_unit
     group_left_mul_equation_solution assocC leftId mulCongr leftInv hy
   exact hsame_trans sx (hsame_symm sy)
 
+protected theorem group_right_mul_equation_solution_unique_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {x y a b : BHist} :
+    hsame (mul x a) b -> hsame (mul y a) b -> hsame x y := by
+  intro hx hy
+  have sx : hsame x (mul b (inv a)) :=
+    group_right_mul_equation_solution assocC rightId mulCongr rightInv hx
+  have sy : hsame y (mul b (inv a)) :=
+    group_right_mul_equation_solution assocC rightId mulCongr rightInv hy
+  exact hsame_trans sx (hsame_symm sy)
+
 protected theorem group_conjugation_equation_solution_unique_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

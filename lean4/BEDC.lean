@@ -170,6 +170,7 @@ import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.SemanticCertificate
 import BEDC.Derived.RealUp.ReindexedStreamName
@@ -192,9 +193,11 @@ import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
+import BEDC.Derived.GroupUp.SingletonNormalizer
 import BEDC.Derived.GroupUp.ContextualContinuationProductUnit
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
+import BEDC.Derived.GroupUp.SingletonNormalizerAction
 import BEDC.Derived.GroupUp.NormalizerAction
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
