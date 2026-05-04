@@ -66,6 +66,42 @@ the displayed component field transports along the supplied
 $\eta\hsame\eta'$ witness, yielding the carrier for $\eta'$.
 \end{proof}
 
+\begin{theorem}[NatTrans prefix component classifier vertical composition congruence]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-congruence}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, if
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$,
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$,
+$\ContR(\eta,\theta,c)$, and $\ContR(\eta',\theta',c')$, then
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The first gives component carriers for
+$\eta$ and $\eta'$ from prefix $p$ to prefix $q$ at $a$, together with
+$\eta\hsame\eta'$. The second gives component carriers for $\theta$ and
+$\theta'$ from prefix $q$ to prefix $r$ at $a$, together with
+$\theta\hsame\theta'$.
+
+Apply
+Theorem~\ref{thm:nattrans-prefix-component-carrier-vert-comp-closed} to the
+carriers for $\eta$ and $\theta$ and the witness $\ContR(\eta,\theta,c)$.
+This gives a component carrier for $c$ from prefix $p$ to prefix $r$ at $a$.
+Apply the same closure theorem to $\eta'$, $\theta'$, and
+$\ContR(\eta',\theta',c')$ to obtain the matching carrier for $c'$.
+
+It remains to identify the two composite histories. The finite-kernel
+continuation $\hsame$-congruence theorem transports the continuation witness
+for $\eta$ and $\theta$ across $\eta\hsame\eta'$ and
+$\theta\hsame\theta'$, and continuation result determinacy compares the
+transported composite with the displayed witness for $c'$. Hence
+$c\hsame c'$.
+
+Repack the carrier for $c$, the carrier for $c'$, and the resulting
+$c\hsame c'$ witness into
+$\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
+\end{proof}
+
 \begin{definition}[NatTrans stability certificate]
 \label{def:nattrans-stability-certificate}
 The stability certificate consists of:
