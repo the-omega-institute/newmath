@@ -14,6 +14,20 @@ result of \(p\) by the exponent \(e\).
 \end{definition}
 \leandef{BEDC.Derived.PadicUp.PadicPrimeScale}
 
+\begin{theorem}[Prime scale unary components]
+\label{thm:padic-prime-scale-unary-components}
+If \(\mathsf{PadicPrimeScale}(p,e,r)\), then the prime base \(p\), exponent
+\(e\), and result \(r\) are all unary histories.
+\end{theorem}
+\begin{proof}
+The scale predicate consists of a \(\mathsf{NatPrime}(p)\) witness and a
+\(\mathsf{NatMul}(p,e,r)\) witness. The prime witness supplies the unary
+carrier field for \(p\). The unary multiplication witness supplies the unary
+field for \(e\), and together with the unary field for \(p\), supplies the
+unary field for the result \(r\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unary\_components}
+
 \begin{theorem}[Prime scale totality]
 \label{thm:padic-prime-scale-total}
 If \(p\) is a \(\PrimeUp\)-prime and \(e\) is a unary history, then some unary
@@ -86,6 +100,22 @@ predecessor prime-scale witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_exponent\_result\_cases}
 
+\begin{theorem}[Prime scale successor predecessor uniqueness]
+\label{thm:padic-prime-scale-succ-exponent-predecessor-unique}
+If $\mathsf{PadicPrimeScale}(p,\Eone(q),r)$, then there is a predecessor
+result $n$ with $\mathsf{PadicPrimeScale}(p,q,n)$ and $\Cont(n,p,r)$, and
+every other predecessor scale over $q$ is history-same to $n$.
+\end{theorem}
+\begin{proof}
+Successor-exponent inversion supplies the predecessor result $n$, its
+prime-scale witness over $q$, and the continuation witness into $r$. Any
+competing predecessor scale over the same base $p$ and exponent $q$ has a
+second $\mathsf{NatMul}(p,q,-)$ field. Unary multiplication functionality,
+using the unary carrier field of the prime witness, identifies the two
+predecessor histories.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_predecessor\_unique}
+
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}
 If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
@@ -99,6 +129,30 @@ closure for \(\mathsf{NatMul}\), applied to the supplied continuation witness,
 gives the scale witness for the appended exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_closure}
+
+\begin{theorem}[Padic natural multiplication append exponent decomposition]
+\label{thm:padic-natmul-append-exponent-decomposition}
+For unary histories $d,w,q$, any multiplication witness over the appended
+exponent decomposes into multiplication witnesses over the two exponent
+factors and a continuation between their results:
+$$
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r)
+\quad\Longrightarrow\quad
+\exists n,e.\ \mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land\ContR(n,e,r).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the unary right exponent $q$. For the empty exponent, take the left
+result to be the displayed result $r$ and the right result to be $\emp$. In the
+one-headed case, successor inversion for $\mathsf{NatMul}$ extracts the
+previous product over $\mathsf{append}(w,q)$ and the final continuation by
+$d$. The induction hypothesis decomposes the previous product into left and
+right results; composing its continuation with the final continuation and
+using append associativity gives the required continuation from the left
+result to the successor right product.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicNatMul\_append\_exponent\_decomposition}
 
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}

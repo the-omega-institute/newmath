@@ -242,6 +242,19 @@ use the empty quotient and the zero constructor of $\mathsf{NatMul}$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_right\_iff}
 
+\begin{theorem}[Unit-left divisibility is unary carrier]
+\label{thm:natdivides-unit-left-iff}
+For any history $n$, $\mathsf{NatDivides}(\Eone(\emp),n)$ holds exactly when
+$n$ is a unary history.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the quotient witness $q$. Multiplication by
+the unit identifies the result with $q$, and unaryness transports across that
+endpoint identification. Conversely, the unit-divisibility half of reflexivity
+gives $\mathsf{NatDivides}(\Eone(\emp),n)$ for every unary $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_left\_iff}
+
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
 For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
@@ -337,6 +350,7 @@ is impossible.
 \begin{proof}
 The unit fails the strict greater-than condition \(\mathsf{NatGT}(\Eone(\emp), \Eone(\emp))\) by the irreflexivity of \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}).
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_unit\_absurd}
 
 \section{Effective primality testing}
 

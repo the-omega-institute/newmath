@@ -55,6 +55,34 @@ The certificate fit has ten fields:
 \end{enumerate}
 \end{definition}
 
+\begin{definition}[Matrix singleton power]
+\label{def:matrix-singleton-pow}
+For histories $M$ and $e$, $\mathsf{MatrixSingletonPow}(M,e)$ is the concrete
+power ledger obtained by recursion over the exponent history: the empty
+exponent returns $I_M$, a one-headed exponent multiplies the previous ledger
+by $M$, and the zero-headed branch returns the singleton zero endpoint.
+\end{definition}
+\leandef{BEDC.Derived.MatrixUp.MatrixSingletonPow}
+
+\begin{theorem}[Matrix singleton power carrier closure]
+\label{thm:matrix-singleton-pow-carrier-closed}
+If $M$ is carried by the singleton matrix carrier and $e$ is unary, then the
+power ledger is again carried by the singleton matrix carrier:
+$$
+A_{\emp}(M)\land \Unary(e)
+\quad\Longrightarrow\quad
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Proceed by induction on the unary exponent. The empty exponent returns
+$I_M=\emp$, hence is carried by $A_{\emp}$. In the one-headed case, the
+induction hypothesis carries the previous power ledger, while the hypothesis
+carries $M$; the displayed multiplication is append, so append empty-result
+exactness carries the product ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
+
 \begin{theorem}[Matrix singleton classifier append split empty]
 \label{thm:matrix-singleton-classifier-append-split-empty}
 For $M,N,h:\mathsf{BHist}$,
@@ -121,6 +149,30 @@ with the right-unit continuation at $\emp$; the reverse direction transports
 the result carrier back to that same empty continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_result\_iff}
+
+\begin{theorem}[Matrix singleton add-mul continuation empty-result factors]
+\label{thm:matrix-singleton-addmul-continuation-empty-result-factors}
+For histories $M,N,R:\mathsf{BHist}$, if
+$\ContR(M\oplus N,M\odot N,R)$, then the displayed continuation result is
+empty exactly when both matrix inputs are empty:
+$$
+R\hsame\emp
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed continuation along
+$R\hsame\emp$ and invert the empty continuation result. The source factor is
+$M\oplus N$, which unfolds to $\mathsf{append}(M,N)$, so append empty-result
+inversion gives $M\hsame\emp$ and $N\hsame\emp$.
+
+Conversely, the two input endpoint witnesses collapse both displayed
+operations to the empty history. Continuation determinacy compares the given
+continuation with the BEDC right-unit continuation at $\emp$, identifying the
+result with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_empty\_result\_factors\_iff}
 
 \begin{theorem}[Matrix singleton classifier visible right append exclusion]
 \label{thm:matrix-singleton-classifier-append-visible-right-absurd}
@@ -393,6 +445,25 @@ history witnesses, and the classifier is rebuilt from those two carrier
 components and $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
+
+\begin{theorem}[Matrix singleton visible continuation result exclusion]
+\label{thm:matrix-singleton-carrier-continuation-visible-result-absurd}
+Let $M,N:\mathsf{BHist}$ be carried by the singleton matrix carrier
+$A_{\emp}$. Then a continuation \(\ContR(M,N,-)\) cannot have a visible
+\(\mathsf{e0}\)-headed or \(\mathsf{e1}\)-headed result:
+$$
+\ContR(M,N,\mathsf{e0}(r))\to\bot
+\qquad\text{and}\qquad
+\ContR(M,N,\mathsf{e1}(r))\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The carrier witnesses identify both inputs with \(\emp\). With those
+identifications, any continuation result must be the BEDC append endpoint
+\(\mathsf{append}(\emp,\emp)=\emp\). A visible-headed result cannot be that
+empty endpoint, so both visible cases are impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_visible\_result\_absurd}
 
 \section{The certificate}
 
