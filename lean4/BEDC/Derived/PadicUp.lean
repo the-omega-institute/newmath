@@ -131,6 +131,25 @@ theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail 
         resultEmpty
     exact not_hsame_e1_empty emptyParts.left
 
+theorem PadicPrimeScale_append_visible_right_exponent_result_nonempty {p w n e r tail : BHist} :
+    (PadicPrimeScale p w n -> PadicPrimeScale p (BHist.e0 tail) e -> Cont n e r ->
+      hsame r BHist.Empty -> False) ∧
+    (PadicPrimeScale p w n -> PadicPrimeScale p (BHist.e1 tail) e -> Cont n e r ->
+      hsame r BHist.Empty -> False) := by
+  constructor
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e0_empty emptyParts.right
+  · intro left right continuation resultEmpty
+    have emptyParts :=
+      Iff.mp
+        (PadicPrimeScale_append_empty_result_empty_factors_iff left right continuation)
+        resultEmpty
+    exact not_hsame_e1_empty emptyParts.right
+
 theorem PadicPrimeScale_visible_exponent_result_nonempty {p result tail : BHist} :
     (PadicPrimeScale p (BHist.e0 tail) result -> hsame result BHist.Empty -> False) ∧
       (PadicPrimeScale p (BHist.e1 tail) result -> hsame result BHist.Empty -> False) := by

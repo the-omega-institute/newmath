@@ -294,6 +294,20 @@ symmetry on the right endpoint to close $\lambda_{\emp}(L,R)$.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_closed}
 
+\begin{theorem}[Singleton linear-map left continuation closure]
+\label{thm:linearmap-singleton-classifier-continuation-left-closed}
+For histories $P,P',Q,L:\mathsf{BHist}$, if $\lambda_{\emp}(P,P')$,
+$L_{\emp}(Q)$, and $\ContR(P,Q,L)$, then $L_{\emp}(L)$ and
+$\lambda_{\emp}(L,\emp)$.
+\end{theorem}
+\begin{proof}
+The classifier witness identifies $P$ with $\emp$, while the singleton carrier
+identifies $Q$ with $\emp$. Transporting the continuation ledger to
+$\ContR(\emp,\emp,\emp)$ gives $L\hsame\emp$, which is the desired singleton
+carrier and the left endpoint of the classifier against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_left\_closed}
+
 \begin{theorem}[Singleton linear map composition associativity empty classifier]
 \label{thm:linearmap-singleton-comp-assoc-empty-classifier}
 For singleton linear map codes $f,g,h$, if each code lies in
@@ -431,6 +445,27 @@ $h$. Conversely, singleton witnesses for $y$ and $h$ identify $r$ with
 $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
+
+\begin{theorem}[Singleton evaluation visible target classifier exclusion]
+\label{thm:linearmap-singleton-eval-visible-target-classifier-absurd}
+For histories $f,x,p:\mathsf{BHist}$, the singleton evaluator cannot classify
+against either visible target endpoint:
+$$
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(f,x),\Ezero(p))\Longrightarrow\bot,
+\qquad
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(f,x),\Eone(p))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, but the classifier still requires its
+right endpoint to lie in the singleton carrier. Thus a classifier witness
+against $\Ezero(p)$ or $\Eone(p)$ would force that visible endpoint to be
+history-same to $\emp$. Constructor no-confusion for the two visible
+constructors closes both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_visible\_target\_classifier\_absurd}
 
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored

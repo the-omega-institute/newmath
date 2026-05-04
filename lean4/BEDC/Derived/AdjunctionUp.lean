@@ -290,6 +290,29 @@ theorem AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic
   exact hsame_trans leftPrefixData.right.right.right
     (hsame_trans rightPrefixData.right.right.right leftPrefixData.right.right.right)
 
+theorem AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      ((hsame leftLeg BHist.Empty ∧ hsame rightLeg BHist.Empty) ↔
+        (hsame unit BHist.Empty ∧ hsame counit BHist.Empty)) := by
+  intro carrier
+  constructor
+  · intro legsEmpty
+    have componentEmpty : unit = BHist.Empty ∧ counit = BHist.Empty := by
+      cases legsEmpty.left
+      exact cont_empty_result_inversion carrier.right.right.left
+    cases componentEmpty.left
+    cases componentEmpty.right
+    exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  · intro componentsEmpty
+    have leftEmpty : hsame leftLeg BHist.Empty :=
+      cont_respects_hsame componentsEmpty.left componentsEmpty.right carrier.right.right.left
+        (cont_right_unit BHist.Empty)
+    have rightEmpty : hsame rightLeg BHist.Empty :=
+      cont_respects_hsame componentsEmpty.right componentsEmpty.left carrier.right.right.right
+        (cont_right_unit BHist.Empty)
+    exact And.intro leftEmpty rightEmpty
+
 theorem AdjunctionPrefixEndomorphismTriangle_identity_exactness
     {p a f eta eps left right : BHist} :
     NatTransPrefixComponentCarrier p p a eta ->
