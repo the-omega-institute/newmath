@@ -81,9 +81,6 @@ PARALLEL_CONFIG_KEY = "paper"
 HARD_MAX_PARALLEL = 50
 
 
-LINT_PATTERNS_FILE = SCRIPT_DIR / "lint_patterns.json"
-
-
 
 
 def _load_prompt(name: str) -> str:
@@ -2197,10 +2194,6 @@ def main() -> int:
         ensure_runtime_from_template(
             PARALLEL_CONFIG_FILE,
             PARALLEL_CONFIG_FILE.with_suffix(PARALLEL_CONFIG_FILE.suffix + ".template"),
-        )
-        ensure_runtime_from_template(
-            LINT_PATTERNS_FILE,
-            LINT_PATTERNS_FILE.with_suffix(LINT_PATTERNS_FILE.suffix + ".template"),
         )
         start_origin_sync_ticker(BASE_BRANCH, interval=60)
 
