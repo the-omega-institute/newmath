@@ -133,4 +133,48 @@ theorem RatHistoryLedgerPolicy_cont_unary_context_positive_denominators
   · exact RatHistoryCarrier_iff_positive_denominator.mp
       (RatHistoryLedgerPolicy_visible_carrier displayedLedger)
 
+theorem RatHistoryLedgerPolicy_shared_raw_context_visible_classifier
+    {raw visible visible' prefRaw prefVisible prefVisible' tailRaw tailVisible
+      tailVisible' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      UnaryHistory prefRaw -> hsame prefRaw prefVisible -> hsame prefRaw prefVisible' ->
+        UnaryHistory tailRaw -> hsame tailRaw tailVisible -> hsame tailRaw tailVisible' ->
+          RatHistoryClassifier (append prefVisible (append visible tailVisible))
+            (append prefVisible' (append visible' tailVisible')) := by
+  intro leftLedger rightLedger prefRawUnary samePrefVisible samePrefVisible' tailRawUnary
+    sameTailVisible sameTailVisible'
+  have leftContext :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed leftLedger prefRawUnary
+      samePrefVisible tailRawUnary sameTailVisible
+  have rightContext :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible' (append visible' tailVisible')) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed rightLedger prefRawUnary
+      samePrefVisible' tailRawUnary sameTailVisible'
+  exact RatHistoryLedgerPolicy_shared_raw_visible_classifier leftContext rightContext
+
+theorem RatHistoryLedgerPolicy_shared_raw_context_e1_pair_readback
+    {raw visible visible' prefRaw prefVisible prefVisible' tailRaw tailVisible tailVisible'
+      leftTail rightTail : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      UnaryHistory prefRaw -> hsame prefRaw prefVisible -> hsame prefRaw prefVisible' ->
+        UnaryHistory tailRaw -> hsame tailRaw tailVisible -> hsame tailRaw tailVisible' ->
+          hsame (append prefVisible (append visible tailVisible)) (BHist.e1 leftTail) ->
+            hsame (append prefVisible' (append visible' tailVisible')) (BHist.e1 rightTail) ->
+              UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail := by
+  intro leftLedger rightLedger prefRawUnary samePrefVisible samePrefVisible' tailRawUnary
+    sameTailVisible sameTailVisible' sameLeft sameRight
+  have contextClassifier :
+      RatHistoryClassifier (append prefVisible (append visible tailVisible))
+        (append prefVisible' (append visible' tailVisible')) :=
+    RatHistoryLedgerPolicy_shared_raw_context_visible_classifier leftLedger rightLedger
+      prefRawUnary samePrefVisible samePrefVisible' tailRawUnary sameTailVisible
+      sameTailVisible'
+  have displayed :
+      RatHistoryClassifier (BHist.e1 leftTail) (BHist.e1 rightTail) :=
+    RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassifier
+  exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
 end BEDC.Derived.RatUp

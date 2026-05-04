@@ -206,6 +206,7 @@ import BEDC.Derived.GroupUp.ContextualContinuationProductUnit
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.SingletonNormalizerAction
+import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.GroupUp.NormalizerAction
 import BEDC.Derived.GroupUp.EquationCancellationSolver
 import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit

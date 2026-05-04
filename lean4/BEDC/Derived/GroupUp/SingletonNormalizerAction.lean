@@ -56,4 +56,17 @@ theorem MonoidHistoryClassifier_unary_append_unit_product_factor_exactness {h k 
         (append_eq_empty_iff.mpr
           (And.intro factors.left.right.right factors.right.right.right)))
 
+theorem MonoidHistoryClassifier_unary_append_inverse_obstruction {inv : BHist -> BHist} :
+    (forall h : BHist, UnaryHistory h ->
+      UnaryHistory (inv h) ∧
+        MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) ->
+      False := by
+  intro inverseLaw
+  have inverseAtOne := inverseLaw (BHist.e1 BHist.Empty) (unary_e1_closed unary_empty)
+  have factors :
+      MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty ∧
+        MonoidHistoryClassifier UnaryHistory (inv (BHist.e1 BHist.Empty)) BHist.Empty :=
+    MonoidHistoryClassifier_unary_append_unit_product_factor_exactness.mp inverseAtOne.right
+  exact not_hsame_e1_empty factors.left.right.right
+
 end BEDC.Derived.GroupUp
