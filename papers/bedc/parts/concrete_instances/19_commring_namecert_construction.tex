@@ -732,3 +732,67 @@ $a\cdot b$ is apart from zero, apply
 \autoref{thm:commring-zero-divisor-product-closure} to $H$ and that apartness
 proof.
 \end{proof}
+
+\begin{definition}[CommRing subring-inclusion name certificate]
+\label{def:commring-subring-inclusion-name-certificate}
+Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $C_S,\sim_S$ and $C_T,\sim_T$, and write their operations as $0_S,1_S,+_S,-_S,\cdot_S$ and $0_T,1_T,+_T,-_T,\cdot_T$. For a history map $\iota:\mathsf{BHist}\to\mathsf{BHist}$, define the target image carrier
+$$
+\mathsf{Im}_{\iota}(y)\Longleftrightarrow \exists x:\mathsf{BHist},\ C_S(x)\land \iota(x)\sim_T y.
+$$
+Define the target-image classifier by
+$$
+y\sim_{\iota} z\Longleftrightarrow \mathsf{Im}_{\iota}(y)\land\mathsf{Im}_{\iota}(z)\land y\sim_T z.
+$$
+A subring-inclusion name certificate for $\iota$ over $T$ is the naming certificate of \autoref{def:typed-naming-certificate} with source $\mathsf{Im}_{\iota}$, classifier $\sim_{\iota}$, stability rows inherited from the target $\CommRingUp$ package, and ledger rows recording the carrier reflection, classifier reflection, and operation-preservation data for $0$, $1$, $+$, and $\cdot$. Its stability component includes target-carrier inclusion, classifier transport, closure under $0_T$, $1_T$, $+_T$, $-_T$, and $\cdot_T$, and the inherited additive, multiplicative, distributive, congruence, and commutativity laws under $\sim_{\iota}$.
+\end{definition}
+
+\begin{theorem}[CommRing carrier reflection gives subring inclusion]
+\label{thm:commring-carrier-reflection-subring-inclusion-certificate}
+Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}, with notation as in \autoref{def:commring-subring-inclusion-name-certificate}. Let $\iota:\mathsf{BHist}\to\mathsf{BHist}$ satisfy the following rows:
+\begin{enumerate}
+  \item Carrier reflection: $C_S(x)\Longrightarrow C_T(\iota(x))$ and $C_T(\iota(x))\Longrightarrow C_S(x)$ for every $x$.
+  \item Classifier reflection on carried source endpoints:
+$$
+C_S(x)\land C_S(y)\Longrightarrow \bigl(x\sim_S y\Longleftrightarrow \iota(x)\sim_T\iota(y)\bigr).
+$$
+  \item Constant preservation: $\iota(0_S)\sim_T0_T$ and $\iota(1_S)\sim_T1_T$.
+  \item Operation preservation for carried inputs:
+$$
+\iota(x+_S y)\sim_T\iota(x)+_T\iota(y)\qquad\text{and}\qquad \iota(x\cdot_S y)\sim_T\iota(x)\cdot_T\iota(y).
+$$
+\end{enumerate}
+Then the image carrier $\mathsf{Im}_{\iota}$ and classifier $\sim_{\iota}$ of \autoref{def:commring-subring-inclusion-name-certificate} form a subring-inclusion name certificate over the target package $T$.
+\end{theorem}
+\begin{proof}
+The target classifier is a carrier naming certificate by \autoref{def:lean-carrier-naming-certificate}. Hence it supplies reflexivity, symmetry, transitivity, and carrier transport for $\sim_T$. If $\mathsf{Im}_{\iota}(y)$ is witnessed by a carried source endpoint $x$ with $\iota(x)\sim_T y$, carrier preservation gives $C_T(\iota(x))$, and target carrier transport gives $C_T(y)$. If also $y\sim_T y'$, transitivity gives $\iota(x)\sim_T y'$, so the same source witness proves $\mathsf{Im}_{\iota}(y')$.
+The restricted classifier $\sim_{\iota}$ is a $\NameCert$ on $\mathsf{Im}_{\iota}$. Inhabitedness is witnessed by $0_T$: the source certificate carries $0_S$, and the constant row gives $\iota(0_S)\sim_T0_T$. Reflexivity, symmetry, and transitivity are the corresponding target classifier fields, with the image endpoints retained in the first two components of the definition of $\sim_{\iota}$. Carrier transport for $\mathsf{Im}_{\iota}$ is immediate from the right image component of a $\sim_{\iota}$ witness.
+The constants are carried by the image for the same reason. The zero row uses $0_S$ and $\iota(0_S)\sim_T0_T$; the unit row uses $1_S$ and $\iota(1_S)\sim_T1_T$.
+For addition closure, choose image witnesses $x,u$ for $y,z$, so $C_S(x)$, $C_S(u)$, $\iota(x)\sim_T y$, and $\iota(u)\sim_T z$. Source additive closure, part of the $\RingUp$ component in \autoref{def:ring-stability-certificate}, gives $C_S(x+_S u)$. Operation preservation gives
+$$
+\iota(x+_S u)\sim_T\iota(x)+_T\iota(u).
+$$
+Target additive congruence transports the two image comparisons to
+$$
+\iota(x)+_T\iota(u)\sim_T y+_T z.
+$$
+Transitivity gives $\iota(x+_S u)\sim_T y+_T z$, so $x+_S u$ witnesses $\mathsf{Im}_{\iota}(y+_T z)$. Multiplication closure is identical, using source multiplicative closure, target multiplication congruence, and the product-preservation row.
+It remains to record closure under target additive inverse. Let $x$ witness $\mathsf{Im}_{\iota}(y)$. Source inverse closure gives $C_S(-_S x)$. The source left-inverse row gives $(-_S x)+_S x\sim_S0_S$, and classifier preservation sends this to
+$$
+\iota((-_S x)+_S x)\sim_T\iota(0_S).
+$$
+Additive operation preservation and zero preservation turn this into
+$$
+\iota(-_S x)+_T\iota(x)\sim_T0_T.
+$$
+Using target additive congruence with $\iota(x)\sim_T y$ gives
+$$
+\iota(-_S x)+_T y\sim_T0_T.
+$$
+The target right-inverse row from \autoref{thm:ring-add-right-inverse} gives $y+_T(-_T y)\sim_T0_T$. With target additive associativity, left zero, the right-zero row from \autoref{thm:ring-add-right-zero}, and target addition congruence, \autoref{thm:group-left-right-inverse-uniqueness} identifies the two inverse witnesses:
+$$
+\iota(-_S x)\sim_T -_T y.
+$$
+Thus $-_S x$ witnesses $\mathsf{Im}_{\iota}(-_T y)$. The additive inverse row is derived from $+$ and $0$ preservation, so no separate preservation assumption for $-_S$ is required.
+All remaining $\CommRingUp$ laws restrict from $T$. Associativity, commutativity of addition, additive inverse laws, multiplicative unit and associativity, distributivity, multiplication congruence, and multiplicative commutativity are target stability rows from \autoref{def:commring-stability-certificate}; their endpoints stay inside $\mathsf{Im}_{\iota}$ by the closure rows just proved, and their classifier comparisons are exactly the third component of $\sim_{\iota}$. The reverse carrier and classifier reflection implications are recorded as the exactness part of the inclusion ledger, showing that the target image does not identify carried source endpoints beyond $\sim_S$.
+These rows supply the source, classifier, stability, and ledger components required by \autoref{def:commring-subring-inclusion-name-certificate}, hence they induce the advertised subring-inclusion name certificate over $T$.
+\end{proof}
