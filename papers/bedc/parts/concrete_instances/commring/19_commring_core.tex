@@ -325,6 +325,44 @@ $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_visible\_prefix\_absurd}
 
+\begin{theorem}[CommRing singleton classifier visible boundary package]
+\label{thm:commring-singleton-classifier-visible-boundary-package}
+For histories $h,p,q:\mathsf{BHist}$, the singleton commutative-ring classifier
+has the two-sided visible append boundary exclusion
+$$
+(\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e0}(q)))\to\bot)
+\land
+(\rho_{\emp}(h,\mathsf{append}(p,\mathsf{e1}(q)))\to\bot)
+\land
+(\rho_{\emp}(\mathsf{append}(\mathsf{e0}(p),q),h)\to\bot)
+\land
+(\rho_{\emp}(\mathsf{append}(\mathsf{e1}(p),q),h)\to\bot).
+$$
+The ten-field fit is: traditional target singleton classifier no-confusion for
+visible append boundaries; BEDC source singleton $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability from
+the two checked classifier exclusions; ledger the visible prefix/tail
+constructor; core theorem this block; exactness the four displayed
+impossibility clauses; downstream consumer singleton CommRing certificate
+boundary and $\FieldUp$ terminal-object no-confusion; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The two right-endpoint clauses are exactly the two branches of
+\autoref{thm:commring-singleton-classifier-append-visible-right-absurd}. They
+exclude classifier witnesses whose second endpoint is an append ending in
+$\mathsf{e0}(q)$ or $\mathsf{e1}(q)$.
+
+The two left-endpoint clauses are exactly the two branches of
+\autoref{thm:commring-singleton-classifier-append-visible-prefix-absurd}. They
+exclude classifier witnesses whose first endpoint is an append beginning with
+$\mathsf{e0}(p)$ or $\mathsf{e1}(p)$.
+
+Repack these four one-sided implications in the displayed order. No additional
+constructor analysis is needed beyond the checked visible-right and
+visible-prefix exclusions.
+\end{proof}
+
 \begin{theorem}[CommRing singleton carrier visible exclusion]
 \label{thm:commring-singleton-carrier-visible-absurd}
 For every history $p:\mathsf{BHist}$, neither $\mathsf{e0}(p)$ nor
