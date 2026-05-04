@@ -164,6 +164,48 @@ $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_selected\_e1\_pair\_readback}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e1\_pair\_readback}
 
+\begin{theorem}[Real stream classifier transported selected e-one full readback package]
+\label{thm:real-stream-classifier-transported-selected-e1-full-readback-package}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-rat-classifier-readback}
+under the displayed transport, classifier, and e-one seal hypotheses. This gives
+the first conjunct
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+under the same hypotheses. This gives
+$\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
+
+Package the endpoint classifier together with the unary-tail readback triple.
+The resulting conjunction is exactly the selected transported e-one readback
+package displayed in the statement.
+\end{proof}
+
+Fit: traditional target selected sealed rational endpoint package for RealUp
+streams; BEDC source RatUp plus RealUp finite-prefix exactness; carrier
+rational-observation streams; classifier RealStreamClassifier and
+RatHistoryClassifier; stability prefix hsame transport and RatUp one-tail
+exactness; ledger selected index and two e-one seals; core theorem this block;
+exactness the displayed conjunction; standard bridge rational equality read from
+equal transported real observations; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier unary denominator context closure]
 \label{thm:real-stream-classifier-unary-denominator-context-closed}
 For rational-observation streams

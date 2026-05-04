@@ -1,3 +1,6 @@
+import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.StreamNameUp
 import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RealUp.PrefixTruncation
 import BEDC.Derived.RealUp.ConstantStreamBridge
