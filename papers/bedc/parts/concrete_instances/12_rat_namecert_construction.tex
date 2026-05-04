@@ -187,6 +187,64 @@ The two equivalences, the positive $\rho$ and $v$ endpoint witnesses, and the
 two implication rows assemble the displayed conjunction.
 \end{proof}
 
+\begin{theorem}[Rat ledger one-tail classifier saturation]
+\label{thm:rat-ledger-one-tail-classifier-saturation}
+For histories $\rho,v,t:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then
+$$
+(\mathsf{RatHistoryClassifier}(\rho,\Eone(t))\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(v,\Eone(t)))
+\land
+(\mathsf{RatHistoryClassifier}(\Eone(t),\rho)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\Eone(t),v))
+\land
+\mathsf{PositiveUnaryDenominator}(\rho)
+\land
+\mathsf{PositiveUnaryDenominator}(v)
+\land
+(\mathsf{RatHistoryClassifier}(v,\Eone(t))\to
+\mathsf{Unary}(t))
+\land
+(\mathsf{RatHistoryClassifier}(\Eone(t),v)\to
+\mathsf{Unary}(t)).
+$$
+
+Its ten-field fit is: traditional target rational ledger one-tail readback;
+BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from ledger endpoint classifier equivalence and one-extension
+denominator readback; ledger raw-visible denominator edge; core theorem this
+block; exactness the two displayed iff rows plus tail readback; downstream
+consumers $\FieldUp(\RatUp)$ denominator rows and $\RealUp$ rational
+observation streams; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-ledger-two-sided-endpoint-classifier-equivalence} with
+$w=\Eone(t)$. Project the forward one-tail classifier row, the reversed
+one-tail classifier row, and the positive-denominator witnesses for $\rho$ and
+$v$.
+
+For the visible target orientation, assume
+$\mathsf{RatHistoryClassifier}(v,\Eone(t))$. The same two-sided endpoint
+package gives $\mathsf{PositiveUnaryDenominator}(\Eone(t))$ under this
+hypothesis.
+
+Apply
+\autoref{thm:rat-positive-unary-denominator-eone-iff-unary} to the conditional
+positive denominator for $\Eone(t)$. This reads back the tail witness
+$\mathsf{Unary}(t)$.
+
+For the visible source orientation, assume
+$\mathsf{RatHistoryClassifier}(\Eone(t),v)$. Project the opposite conditional
+positive-denominator row from the same endpoint package and apply
+\autoref{thm:rat-positive-unary-denominator-eone-iff-unary} again to obtain
+$\mathsf{Unary}(t)$.
+
+The two classifier equivalences, the two endpoint denominator witnesses, and
+the two one-tail readback implications assemble the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[Rat ledger bidirectional target-positive endpoint package]
 \label{thm:rat-ledger-bidirectional-target-positive-endpoint-package}
 For histories $\rho,v,w:\mathsf{BHist}$, if

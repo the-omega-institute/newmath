@@ -195,6 +195,16 @@ theorem NatDivides_empty_left_result_empty {n : BHist} :
   | intro _ qData =>
       exact NatMul_empty_left_result_empty qData.right
 
+theorem NatDivides_empty_right_iff {d : BHist} :
+    NatDivides d BHist.Empty ↔ UnaryHistory d := by
+  constructor
+  · intro divides
+    cases divides with
+    | intro _ qData =>
+        exact NatMul_left_unary qData.right
+  · intro hd
+    exact ⟨BHist.Empty, unary_empty, NatMul.zero hd⟩
+
 theorem NatDivides_reflexive_pair {n : BHist} :
     UnaryHistory n ->
       NatDivides (BHist.e1 BHist.Empty) n ∧ NatDivides n n := by
@@ -396,6 +406,14 @@ theorem NatPrime_NatMul_succ_result_not_empty {p q n : BHist} :
   intro prime mul resultEmpty
   have multiplicandEmpty := NatMul_succ_result_empty_left_empty mul resultEmpty
   cases multiplicandEmpty
+  exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
+
+theorem NatPrime_divisor_empty_absurd {p d : BHist} :
+    NatPrime p -> NatDivides d p -> hsame d BHist.Empty -> False := by
+  intro prime divides dEmpty
+  cases dEmpty
+  have pEmpty : hsame p BHist.Empty := NatDivides_empty_left_result_empty divides
+  cases pEmpty
   exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
 
 theorem NatMul_first_prime_unit_result :
