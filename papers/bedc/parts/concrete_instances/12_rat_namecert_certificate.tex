@@ -68,6 +68,22 @@ denominator histories.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_denominator\_positive\_transport}
 
+\begin{theorem}[Rat positive denominator append factor or tail]
+\label{thm:rat-positive-denominator-append-factor-or-tail}
+If the append of two denominator histories carries a positive unary denominator
+witness, then either the left factor already carries such a witness or the
+right tail carries one.
+\end{theorem}
+\begin{proof}
+Inspect the right tail. The empty case leaves the displayed append equal to the
+left factor. A zero-headed tail contradicts the positive one-headed
+denominator witness. For a one-headed tail, the positive witness exposes unary
+membership of the appended core, and unary append factor recovery gives unary
+membership of the right core, hence a positive denominator witness for the
+tail.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_factor\_or\_tail}
+
 \begin{theorem}[Rat classifier denominator append closure]
 \label{thm:rat-classifier-append-unary-denominators-closed}
 If two rational representatives are classified the same, then appending
@@ -114,6 +130,20 @@ and numerator witnesses are unchanged, while the denominator endpoint relation
 is obtained by the two concrete unary-context closure steps.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominator\_context\_closed}
+
+\begin{theorem}[Rat classifier append unary prefix denominator split]
+\label{thm:rat-classifier-spec-append-unary-prefix-denominator-split}
+If two rational representatives are classified after matching unary prefixes
+are prepended to their denominators, then each displayed denominator side has a
+positive unary witness either in its prefix or in its remaining denominator.
+\end{theorem}
+\begin{proof}
+The classifier exposes positive unary denominator witnesses for the two
+prefixed denominators. Transport unary membership across the prefix
+\(\hsame\)-link, then split each prefixed denominator by the positive unary
+left-split theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_prefix\_denominator\_split}
 
 \begin{theorem}[Rat classifier transitivity]
 \label{thm:rat-classifier-transitivity}
@@ -222,6 +252,7 @@ hypothesis again. Its second positive-denominator witness belongs to
 $\Ezero(t)$, and
 \autoref{thm:rat-positive-denominator-e0-absurd} rules out that endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_e0\_endpoint\_absurd}
 
 The ten-field fit is: traditional target rational-denominator branch
 exclusion; BEDC source $\mathsf{BHist}$ and
@@ -231,6 +262,7 @@ positive-denominator readback; ledger the rejected zero head; core theorem
 this block; exactness the two displayed contradictions; standard bridge
 positive denominators are never zero-headed unary histories; status
 $\mathsf{ProofTarget}$.
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_zero\_extension\_endpoint\_exclusion}
 
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
@@ -336,6 +368,49 @@ to the original classifier and the matching unary contexts. Then apply
 contextual classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_positive\_denominators}
+
+\begin{theorem}[Rat history classifier unary context zero-extension endpoint exclusion]
+\label{thm:rat-history-classifier-unary-context-zero-extension-endpoint-exclusion}
+Let $d,e,p_d,p_e,t_d,t_e,z,z':\mathsf{BHist}$. If
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, $p_d,p_e$ are unary prefixes with
+$\hsame(p_d,p_e)$, and $t_d,t_e$ are unary tails with $\hsame(t_d,t_e)$, then
+the two contextual denominator endpoints cannot be internally the same as
+zero-extension histories:
+$$
+(\hsame(\mathsf{append}(p_d,\mathsf{append}(d,t_d)),\Ezero(z))\to
+\mathsf{False})\land
+(\hsame(\mathsf{append}(p_e,\mathsf{append}(e,t_e)),\Ezero(z'))\to
+\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-positive-denominators}
+to the displayed classifier, the matching unary prefix context, and the
+matching unary tail context. This produces positive unary denominator witnesses
+for $\mathsf{append}(p_d,\mathsf{append}(d,t_d))$ and
+$\mathsf{append}(p_e,\mathsf{append}(e,t_e))$.
+
+For the left endpoint, transport the positive unary denominator witness across
+the displayed $\hsame$ link from
+$\mathsf{append}(p_d,\mathsf{append}(d,t_d))$ to $\Ezero(z)$. Then apply
+\autoref{thm:rat-positive-denominator-e0-absurd} to rule out that
+zero-extension endpoint.
+
+For the right endpoint, repeat the same transport across the displayed
+$\hsame$ link from $\mathsf{append}(p_e,\mathsf{append}(e,t_e))$ to
+$\Ezero(z')$. The positive-denominator zero-head absurdity theorem gives the
+second contradiction.
+\end{proof}
+
+The ten-field fit is: traditional target contextual positive-rational branch
+exclusion; BEDC source $\mathsf{RatHistoryClassifier}$ over $\mathsf{BHist}$;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability from unary context closure and
+positive-denominator transport; ledger the hidden prefix and tail contexts;
+core theorem this block; exactness the two contradictions; downstream consumer
+$\mathsf{FieldUp}(\mathsf{RatUp})$ denominator continuation and
+$\mathsf{RealUp}$ stream-prefix readback; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Rat history classifier context one-tail pair readback]
 \label{thm:rat-history-classifier-unary-context-e1-pair-readback}
@@ -520,6 +595,40 @@ two contextual ledger witnesses. Its conclusion is exactly the displayed
 classifier between the two contextual visible denominator endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_contextual\_visible\_classifier}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_context\_visible\_classifier}
+
+\begin{theorem}[Rat ledger shared-raw contextual visible endpoint equivalence]
+\label{thm:rat-history-ledger-shared-raw-context-visible-endpoint-equivalence}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes $p,p_v,p_{v'}$
+satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, and unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, then every
+target history $w$ sees the same classifier fiber over the two contextual
+visible denominator endpoints:
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),w)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),w).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} to the
+two ledger witnesses and the matching unary prefix and tail hypotheses. This
+gives the classifier edge from
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$ to
+$\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'}))$.
+
+For the forward direction, assume the left contextual visible endpoint is
+classified with $w$. Reverse the contextual endpoint edge by rational classifier
+symmetry, then compose it with the left-endpoint-to-$w$ classifier by
+transitivity. The result is the right-endpoint-to-$w$ classifier.
+
+For the reverse direction, assume the right contextual visible endpoint is
+classified with $w$. Compose the contextual endpoint edge itself with the
+right-endpoint-to-$w$ classifier by transitivity. The result is the
+left-endpoint-to-$w$ classifier.
+\end{proof}
 
 \begin{theorem}[Rat ledger shared-raw context one-tail readback]
 \label{thm:rat-history-ledger-shared-raw-context-e1-pair-readback}
@@ -558,6 +667,7 @@ classifier and to the two displayed one-extension witnesses. The readback
 conclusion is exactly $\mathsf{Unary}(a)\land \mathsf{Unary}(b)\land
 \hsame(a,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_context\_e1\_pair\_readback}
 
 \begin{theorem}[Rat ledger classifier extension]
 \label{thm:rat-ledger-classifier-extension}
@@ -586,6 +696,44 @@ The ledger supplies the raw-visible rational classifier. For the raw-to-visible
 direction, reverse that classifier by symmetry and compose it with the
 raw-target classifier by transitivity. The visible-to-raw direction is the
 ledger classifier extension theorem.
+\end{proof}
+
+\begin{theorem}[Rat history ledger displayed context classifier endpoint equivalence]
+\label{thm:rat-history-ledger-cont-unary-context-classifier-endpoint-equivalence}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuation witnesses
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the two contextual endpoints, then
+every target history $w$ is classified from the displayed raw endpoint exactly
+when it is classified from the displayed visible endpoint:
+$$
+\mathsf{RatHistoryClassifier}(out_\rho,w)\leftrightarrow
+\mathsf{RatHistoryClassifier}(out_v,w).
+$$
+\end{theorem}
+\begin{proof}
+First close the ledger under the matching unary denominator context. Apply
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to the original
+ledger, the prefix match, and the tail match. This gives a ledger between
+$\mathsf{append}(p_\rho,\mathsf{append}(\rho,t_\rho))$ and
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$.
+
+The four continuation witnesses identify the displayed endpoints with those
+normalized append endpoints. Associativity of $\mathsf{append}$ turns the
+two-step displays through $m_\rho$ and $m_v$ into $\hsame$ links from
+$out_\rho$ and $out_v$ to the corresponding normalized contextual histories.
+
+Transport the contextual ledger across these two endpoint identifications by
+\autoref{thm:rat-ledger-hsame-transport}. The transported ledger now relates
+$out_\rho$ and $out_v$ directly.
+
+Finally apply
+\autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
+transported ledger. Its conclusion is the displayed classifier endpoint
+equivalence for every target history $w$.
 \end{proof}
 
 \begin{definition}[\(\RatUp\) certificate obligations]
