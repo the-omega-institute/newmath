@@ -53,6 +53,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -165,6 +166,8 @@ import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.ListUp.DescentCertificate
+import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
