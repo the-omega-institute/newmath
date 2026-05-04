@@ -434,3 +434,85 @@ $\msame(s,s)$, gives the integer classifier.
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}
 
 \section{The certificate}
+
+\begin{definition}[Integer history carrier]
+\label{def:intup-history-carrier}
+The public BEDC-history carrier for $\IntUp$ packages the signed unary
+representative into the visible history tag:
+$$
+\mathsf{IntHistoryCarrier}(h)
+:=
+\bigl(\exists m:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\hsame(h,\Ezero(m))\bigr)
+\lor
+\bigl(\exists m:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\hsame(h,\Eone(m))\bigr).
+$$
+The $\Ezero$ branch and the $\Eone$ branch encode the two signed unary
+presentations as actual BEDC histories.
+\end{definition}
+
+\begin{definition}[Integer history classifier]
+\label{def:intup-history-classifier}
+The public classifier relates exactly same-tag signed unary histories:
+$$
+\mathsf{IntHistoryClassifier}(h,k)
+:=
+\bigl(\exists m,n:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land
+\hsame(h,\Ezero(m))\land\hsame(k,\Ezero(n))\land\hsame(m,n)\bigr)
+\lor
+\bigl(\exists m,n:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land
+\hsame(h,\Eone(m))\land\hsame(k,\Eone(n))\land\hsame(m,n)\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Concrete IntUp history semantic certificate]
+\label{thm:concrete-int-history-semantic-namecert}
+The integer history carrier and classifier form the public semantic naming
+certificate for the concrete signed unary history presentation:
+$$
+\mathsf{SemanticNameCert}(
+\mathsf{IntHistoryCarrier},
+\mathsf{IntHistoryCarrier},
+\mathsf{IntHistoryCarrier},
+\mathsf{IntHistoryClassifier}).
+$$
+Moreover the classifier excludes mixed visible tags:
+$$
+\forall m,n:\mathsf{BHist},\quad
+\mathsf{Unary}(m)\to\mathsf{Unary}(n)\to
+\bigl(\mathsf{IntHistoryClassifier}(\Ezero(m),\Eone(n))\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{IntHistoryClassifier}(\Eone(m),\Ezero(n))\to\mathsf{False}\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For inhabitance, choose the zero-tagged empty magnitude
+$\Ezero(\emp)$. The unary base witness gives $\mathsf{Unary}(\emp)$, and
+reflexivity of $\hsame$ gives the visible endpoint witness.
+
+For reflexivity, split the carrier witness for $h$. In the $\Ezero$ branch,
+reuse the same magnitude on both endpoints and use reflexivity of $\hsame$ for
+the payload comparison. The $\Eone$ branch is identical with the one-tagged
+constructor.
+
+For symmetry, unpack the classifier branch. The two endpoint carrier witnesses
+are kept in the same visible tag, and symmetry of $\hsame$ reverses the payload
+comparison. Transitivity composes two same-tag classifier witnesses by composing
+their payload $\hsame$ links through the shared middle payload.
+
+For carrier transport, suppose $\mathsf{IntHistoryCarrier}(h)$ and
+$\mathsf{IntHistoryClassifier}(h,k)$. In a same-tag branch, compose the
+classifier endpoint witness for $k$ with the stored unary payload witness, then
+repack the corresponding $\Ezero$ or $\Eone$ carrier branch.
+
+The semantic pattern and ledger fields are the carrier itself, so both
+soundness obligations are identity implications from a transported carrier
+witness. Mixed visible tags are impossible because any mixed classifier branch
+would compose the visible endpoint witnesses into an
+$\hsame(\Ezero(m'),\Eone(n'))$ or
+$\hsame(\Eone(m'),\Ezero(n'))$ judgment, contradicting BEDC constructor
+no-confusion.
+\end{proof}
