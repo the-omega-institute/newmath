@@ -15,6 +15,7 @@ import fcntl
 import json
 import os
 import re
+import subprocess
 import time
 from collections import deque
 from datetime import datetime, timezone
@@ -30,7 +31,37 @@ DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 # best non-locked node and writes it to LOCKS_FILE so the next concurrent
 # invocation skips it. Locks expire after LOCK_TTL_SECONDS so when a round
 # finishes (or stalls) the anchor naturally re-enters the candidate pool.
-LOCKS_FILE = Path(__file__).resolve().parent / ".critical_path_locks.json"
+#
+# IMPORTANT: codex Phase B runs this script from inside per-round git
+# worktrees (cwd=.worktrees/round_R<N>/...), so a path like
+# `Path(__file__).parent / ".critical_path_locks.json"` resolves to a
+# DIFFERENT file in each worktree's checkout — every concurrent worker
+# would write its own lock that no sibling can see, defeating the cooldown.
+# Anchor the file in the shared `.git` common dir instead: linked worktrees
+# all share the main repo's `.git/` (returned by `git rev-parse
+# --git-common-dir`), so one lock file is visible to every worker.
+def _resolve_locks_file() -> Path:
+    fallback = Path(__file__).resolve().parent / ".critical_path_locks.json"
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=str(Path(__file__).resolve().parent),
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=5,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return fallback
+    if not out:
+        return fallback
+    common = Path(out)
+    if not common.is_absolute():
+        common = (Path(__file__).resolve().parent / common).resolve()
+    return common / "bedc-critical-path-locks.json"
+
+
+LOCKS_FILE = _resolve_locks_file()
 LOCK_TTL_SECONDS = 1500  # 25 min — matches typical paper round duration
 
 # Lower bound for "node is implemented enough that its dependents may proceed".

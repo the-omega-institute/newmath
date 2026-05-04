@@ -180,6 +180,7 @@ identifies the transported product with $0$. The left inverse law identifies
 the same product with $1$, so transitivity gives $1\hsame 0$, contradicting
 $\omega$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_apart\_empty\_from\_one\_apartness}
 
 \begin{theorem}[Field inverse of an indexed nonzero inverse]
 \label{thm:field-inverse-involutive-nonzero-from-apartness}
@@ -216,6 +217,7 @@ identified, which is the stated equality. A candidate collapse of the double
 inverse to $\emp$ transports along the symmetric equality to a collapse
 $a\hsame\emp$, and this contradicts the nonzero-empty separation for $p_a$.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_inverse\_involutive\_nonzero\_from\_apartness}
 
 \begin{theorem}[Field inverse is a certified automorphism of the nonzero domain]
 \label{thm:field-inverse-nonzero-domain-automorphism}
@@ -283,3 +285,40 @@ inverse law at $a$ gives the right inverse equality for the same middle
 element. The uniqueness chain identifies the two outer endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_apartzero\_inverse\_involutive}
+
+\begin{theorem}[Field apart-zero inverse classifier automorphism]
+\label{thm:field-apartzero-inverse-classifier-automorphism}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with
+apart-zero indexed inverse $\mathsf{inv}(a,p)$, suppose multiplication is
+associative, has left and right unit laws, respects $\hsame$, and has left and
+right inverse laws for every apart-zero witness. If an inverse-apartness row
+sends every apart-zero input to an apart-zero inverse, then every
+$a,b:\mathsf{BHist}$ and witnesses $p_a:(a\hsame\emp)\to\bot$ and
+$p_b:(b\hsame\emp)\to\bot$ satisfy
+$$
+a\hsame b \Longleftrightarrow
+\mathsf{inv}(a,p_a)\hsame\mathsf{inv}(b,p_b),
+$$
+and, for $p_{\mathsf{inv}}$ supplied by inverse-apartness,
+$$
+\mathsf{inv}(\mathsf{inv}(a,p_a),p_{\mathsf{inv}})\hsame a.
+$$
+Per object, the traditional target is inverse as an involutive automorphism of
+nonzero field elements; the BEDC source is $\FieldUp$ over $\mathsf{BHist}$;
+the carrier is apart-zero histories; the classifier is $\hsame$; the stability
+rows are exactness, inverse-apartness, and involution; the ledger records the
+proof indices; the downstream consumer is the $\FieldUp(\mathsf{RatUp})$
+inverse and affine exit ledgers; the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For classifier preservation and reflection, apply
+\autoref{thm:field-apart-zero-inverse-classifier-exact-from-apartness} to the
+two displayed apart-zero witnesses. Its two directions give exactly the
+equivalence between $a\hsame b$ and equality of the indexed inverse images.
+
+For the involution row, use the inverse-apartness hypothesis to obtain
+$p_{\mathsf{inv}}$ for $\mathsf{inv}(a,p_a)$, then apply
+\autoref{thm:field-apartzero-inverse-involutive}. The conclusion is the second
+displayed equality, so the package contains both classifier exactness and
+double-inverse closure on the concrete apart-zero domain.
+\end{proof}

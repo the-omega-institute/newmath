@@ -1,0 +1,103 @@
+\section{Concrete singleton equation solver}
+\label{sec:group-singleton-equation-solver}
+
+\begin{theorem}[Group singleton equation-cancellation concrete solver]
+\label{thm:group-singleton-equation-cancellation-concrete-solver}
+\label{thm:group-singleton-left-equation-exact}
+\label{thm:group-singleton-right-equation-exact}
+\label{thm:group-singleton-two-sided-cancel}
+In the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, with carrier
+$A_{\emp}$, classifier $R_{\emp}$, multiplication
+$\mathsf{mul}:=\mathsf{append}$, unit $\emp$, and inverse
+$\mathsf{inv}(h):=\emp$, the concrete data supply the following
+carrier-aware solver rows for histories $a,b,c,d,x:\mathsf{BHist}$:
+\begin{enumerate}
+  \item If $A_{\emp}(a)$, $A_{\emp}(x)$, and $A_{\emp}(b)$, then
+  $$
+  R_{\emp}(\mathsf{mul}(a,x),b)
+  \Longleftrightarrow
+  R_{\emp}(x,\mathsf{mul}(\mathsf{inv}(a),b)).
+  $$
+
+  \item If $A_{\emp}(a)$, $A_{\emp}(x)$, and $A_{\emp}(b)$, then
+  $$
+  R_{\emp}(\mathsf{mul}(x,a),b)
+  \Longleftrightarrow
+  R_{\emp}(x,\mathsf{mul}(b,\mathsf{inv}(a))).
+  $$
+
+  \item If $A_{\emp}(a)$, $A_{\emp}(b)$, $A_{\emp}(c)$, and
+  $A_{\emp}(d)$, then
+  $$
+  R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,b),c),
+  \mathsf{mul}(\mathsf{mul}(a,d),c))
+  \Longrightarrow R_{\emp}(b,d).
+  $$
+\end{enumerate}
+The ten-field fit is: traditional target terminal-group equation solving;
+BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from concrete group laws plus
+generic left and right equation exactness and two-sided cancellation; ledger
+equation factors and inverse endpoints; core theorem list
+Theorem~\ref{thm:concrete-singleton-history-group-laws},
+Theorem~\ref{thm:group-left-mul-equation-exactness},
+Theorem~\ref{thm:group-right-mul-equation-exactness}, and
+Theorem~\ref{thm:group-two-sided-cancellation}; exactness the three displayed
+rows; downstream consumers $\QuotientGroupUp$ and $\FieldUp$ algebra-reduct
+packages; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:concrete-singleton-history-group-laws} supplies the concrete
+group rows for the same carrier, classifier, multiplication, unit, and inverse.
+In particular, it gives multiplication closure, inverse closure, associativity,
+multiplication congruence, and the two inverse laws needed by the generic
+equation and cancellation theorems.
+
+\begin{enumerate}
+  \item For the left-multiplication row, closure places
+  $\mathsf{mul}(a,x)$ and $\mathsf{mul}(\mathsf{inv}(a),b)$ in $A_{\emp}$.
+  Unpacking $R_{\emp}(\mathsf{mul}(a,x),b)$ exposes the $\hsame$ component
+  $\mathsf{mul}(a,x)\hsame b$.
+
+  Apply Theorem~\ref{thm:group-left-mul-equation-exactness} to this component.
+  The forward direction gives
+  $\hsame(x,\mathsf{mul}(\mathsf{inv}(a),b))$, which repacks with the carrier
+  rows as $R_{\emp}(x,\mathsf{mul}(\mathsf{inv}(a),b))$.
+
+  For the reverse direction, start from the unpacked component
+  $\hsame(x,\mathsf{mul}(\mathsf{inv}(a),b))$. The backward direction of
+  Theorem~\ref{thm:group-left-mul-equation-exactness} gives
+  $\mathsf{mul}(a,x)\hsame b$, and the same endpoint carrier rows repack it as
+  $R_{\emp}(\mathsf{mul}(a,x),b)$.
+
+  \item For the right-multiplication row, closure places
+  $\mathsf{mul}(x,a)$ and $\mathsf{mul}(b,\mathsf{inv}(a))$ in $A_{\emp}$.
+  Unpacking the classifier exposes the corresponding $\hsame$ equation.
+
+  Apply Theorem~\ref{thm:group-right-mul-equation-exactness}. Its forward
+  direction transports $\mathsf{mul}(x,a)\hsame b$ to
+  $\hsame(x,\mathsf{mul}(b,\mathsf{inv}(a)))$, and carrier closure repacks the
+  right-hand classifier.
+
+  In the reverse direction, the same theorem transports the unpacked
+  $\hsame(x,\mathsf{mul}(b,\mathsf{inv}(a)))$ component back to
+  $\mathsf{mul}(x,a)\hsame b$. Endpoint carrier closure repacks the left-hand
+  classifier.
+
+  \item For the two-sided cancellation row, repeated multiplication closure
+  places both displayed products in $A_{\emp}$. Unpacking the assumed
+  classifier gives the $\hsame$ component between those two products.
+
+  Apply Theorem~\ref{thm:group-two-sided-cancellation} to the $\hsame$
+  component. The result is $\hsame(b,d)$, and the original carrier hypotheses
+  $A_{\emp}(b)$ and $A_{\emp}(d)$ repack it as $R_{\emp}(b,d)$.
+\end{enumerate}
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_left\_equation\_exact\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_right\_equation\_exact\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_two\_sided\_cancel}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_equation\_solver}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_equation\_cancellation\_concrete\_solver}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_equation\_cancellation\_solver}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_equation\_cancellation\_solver}

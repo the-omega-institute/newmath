@@ -637,14 +637,16 @@ selector-complete denominator instance supplies all carrier-aware rows
   \item $C_D^u(E_s(h,k,\ell))$;
   \item $C_D^u(E_t(h,k,\ell))$;
   \item $R_D^u(E_s(h,k,\ell),E_t(h,k,\ell))$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(E_s(h,k,\ell))$;
+  \item $\mathsf{fieldSingletonEmptyNonZero}(E_t(h,k,\ell))$;
   \item
   $$
   \mathsf{fieldSingletonEmptyClassifier}
   (\mathsf{append}(L,E_s(h,k,\ell)),\mathsf{append}(R,E_t(h,k,\ell)))\to\bot.
   $$
 \end{enumerate}
-Together these rows form a concrete carrier-aware $\FieldUp(\RatUp)$ exit row
-over $\mathsf{RatUpFieldSource}_F$.
+Together these rows form a concrete carrier-aware and inverse-domain
+$\FieldUp(\RatUp)$ exit row over $\mathsf{RatUpFieldSource}_F$.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:ratup-fieldup-bracketing-selector-exit-subpackage} to the
@@ -654,6 +656,13 @@ $s,t:\mathsf{BMark}$ and contexts $L,R:\mathsf{BHist}$, it supplies the two
 selected-endpoint carrier rows, the denominator-classifier row, and the
 contextual singleton-empty obstruction.
 
+Apply
+\autoref{thm:ratup-fieldup-selector-complete-denominator-strict-support-package}
+to the same concrete tuple, carrier hypotheses, support witness, and selector
+pair. Its strict-support endpoint package supplies
+$\mathsf{fieldSingletonEmptyNonZero}(E_s(h,k,\ell))$ and
+$\mathsf{fieldSingletonEmptyNonZero}(E_t(h,k,\ell))$.
+
 Apply \autoref{thm:ratup-fieldup-selector-complete-exit-package} to the same
 concrete tuple, carrier hypotheses, and support witness. This places the same
 selected denominator row inside the concrete $\FieldUp(\RatUp)$ exit package
@@ -661,7 +670,7 @@ over $\mathsf{RatUpFieldSource}_F$.
 
 The selector-complete denominator instance therefore carries both endpoint
 coverage and package membership: the two selected endpoints remain in $C_D^u$,
-the selected pair lies in $R_D^u$, and every contextual singleton-empty
+the selected pair lies in $R_D^u$, both selected endpoints satisfy the
+singleton-empty nonzero condition, and every contextual singleton-empty
 classifier on the selected pair collapses to $\bot$.
 \end{proof}
-

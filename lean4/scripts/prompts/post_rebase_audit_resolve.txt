@@ -1,10 +1,11 @@
-You are recovering a BEDC Lean formalization worktree after rebase.
+You are recovering a BEDC Lean formalization worktree after merging
+BASE_BRANCH back into the round branch.
 
-The rebase succeeded (no merge conflicts), and `lake build` plus
+The merge succeeded (no merge conflicts), and `lake build` plus
 `tools/check-axioms.py` passed, but
 `python3 lean4/scripts/bedc_ci.py audit` is now reporting failures
-on the rebased tree. The cause is usually a sibling round (paper
-or Lean) that merged onto BASE_BRANCH while this worktree was
+on the merged tree. The cause is usually a sibling round (paper
+or Lean) that landed on BASE_BRANCH while this worktree was
 working — your additions and theirs collided.
 
 Typical causes:
@@ -12,7 +13,7 @@ Typical causes:
   - duplicate `\leanchecked{{X}}` for a Lean target that a
     sibling already registered at a different paper site;
   - `\leanchecked` / `\leanstmt` / `\leandef` pointing at a
-    Lean name that, after rebase, no longer exists in
+    Lean name that, after the merge, no longer exists in
     `lean4/BEDC/` (the sibling round renamed or deleted it).
 
 ## Audit output (tail)
@@ -25,7 +26,10 @@ Remove ONLY this round's (R{round_number}) offending additions:
    list of duplicate labels / unresolved markers / forbidden
    constructs.
 2. Use `git diff HEAD@{{1}}` (or `git show HEAD`) to identify the
-   lines this round added in `papers/bedc/parts/`.
+   lines this round added in `papers/bedc/parts/`. The round's own
+   commit (titled `R{round_number}: …`) is one parent of the most
+   recent merge commit; the OTHER parent is BASE_BRANCH's tip, so
+   anything from there is a sibling, not yours — do not delete it.
 3. For each duplicate label this round added: delete the line
    and, if the surrounding `\begin{{theorem}}…\end{{theorem}}`
    block exists only because of this round, delete the block too.
@@ -39,10 +43,10 @@ Remove ONLY this round's (R{round_number}) offending additions:
    becomes empty after the cleanup, that is acceptable — keep
    the Lean-side commits and let the pipeline merge what
    remains.
-7. Once everything passes, `git add papers/bedc` and `git commit
-   --amend --no-edit` so the round's commit retains the same
-   identity, just with the colliding additions stripped out.
-   Do NOT git push.
+7. Once everything passes, `git add papers/bedc` and create a
+   small follow-up commit (or amend the merge commit with
+   `git commit --amend --no-edit`) so the round's history retains
+   the strip-out without breaking the merge. Do NOT git push.
 
 If the only valid recovery is to drop the round entirely, run
-`git reset HEAD~1` and exit cleanly.
+`git reset --merge HEAD~` and exit cleanly.

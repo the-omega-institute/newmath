@@ -509,6 +509,42 @@ to the displayed one-sided law.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_normal\_form}
 
+\begin{theorem}[Rat denominator external unit uniqueness and carrier separation]
+\label{thm:field-rat-denominator-external-unit-unique-separated-normal-form}
+For histories $u,v:\mathsf{BHist}$, write $R(w)$ for the right
+classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,w,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+and write $L(w)$ for the left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(w,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d).
+$$
+If $R(u)\lor L(u)$ and $R(v)\lor L(v)$, then $u\hsame v$,
+$\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$, and
+$\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Assume the two endpoint disjunction witnesses. Apply
+\autoref{thm:field-rat-denominator-external-unit-endpoint-disjunction-unique}
+to these witnesses to obtain $u\hsame v$.
+
+For $u$, use the carried-exclusion clause of
+\autoref{thm:field-rat-denominator-external-unit-normal-form}. Composing that
+clause with the assumed witness $R(u)\lor L(u)$ yields
+$\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$.
+
+The same argument at $v$, now using the assumed witness $R(v)\lor L(v)$, yields
+$\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$. The three conclusions are
+therefore available as a single consumable boundary row.
+\end{proof}
+
 \textbf{Traditional target}: external denominator unit normal form;
 \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
 $\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}: Rat
@@ -543,3 +579,95 @@ and
 \textbf{exactness predicate}: right and left unit endpoint laws are each
 equivalent to external emptiness;
 \textbf{standard bridge}: deferred; \textbf{status}: $\mathsf{ProofTarget}$.
+
+\begin{definition}[Rat denominator external-unit predicate]
+\label{def:field-rat-denominator-external-unit-predicate}
+For a history $u:\mathsf{BHist}$, let $U_D(u)$ denote the proposition
+$$
+U_D(u)
+:\Longleftrightarrow
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,u,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right)
+\lor
+\left(
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(u,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Rat denominator external-unit classifier disjointness]
+\label{thm:field-rat-denominator-external-unit-classifier-disjointness}
+For all histories $u,d:\mathsf{BHist}$,
+$$
+U_D(u)\to
+\bigl(
+\mathsf{RatHistoryClassifier}(u,d)\lor
+\mathsf{RatHistoryClassifier}(d,u)
+\bigr)\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $U_D(u)$. A witness for this predicate is exactly one of the two
+one-sided denominator classifier-unit laws displayed in
+\autoref{thm:field-rat-denominator-external-unit-normal-form}. That normal
+form turns either alternative into the endpoint equality $u\hsame\emp$.
+
+It remains to compare this endpoint equality with the displayed classifier
+branch. If $\mathsf{RatHistoryClassifier}(u,d)$ holds, project its left
+endpoint witness. This gives $\mathsf{RatHistoryCarrier}(u)$, and
+\autoref{thm:rat-history-carrier-not-empty} contradicts it together with
+$u\hsame\emp$.
+
+If $\mathsf{RatHistoryClassifier}(d,u)$ holds, project its right endpoint
+witness. This again gives $\mathsf{RatHistoryCarrier}(u)$, so the same carrier
+nonemptiness theorem contradicts the endpoint equality. Hence no external
+unit selected by the concrete denominator unit predicate can occur as either
+endpoint of a Rat denominator classifier edge.
+\end{proof}
+
+\begin{theorem}[Rat denominator external-unit predicate boundary package]
+\label{thm:field-rat-denominator-external-unit-predicate-boundary-package}
+For histories $u,v,d:\mathsf{BHist}$, if $U_D(u)$ and $U_D(v)$, then the
+following four boundary clauses hold:
+\begin{enumerate}
+\item $u\hsame v$;
+\item $\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$;
+\item $\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$;
+\item
+$\bigl(\mathsf{RatHistoryClassifier}(u,d)\lor
+\mathsf{RatHistoryClassifier}(d,u)\bigr)\to\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $U_D(u)$ and $U_D(v)$ only to expose the two endpoint-unit
+disjunction witnesses. Apply
+\autoref{thm:field-rat-denominator-external-unit-unique-separated-normal-form}
+to these two witnesses. This gives the uniqueness clause $u\hsame v$ and the
+two carrier-exclusion clauses for $u$ and $v$.
+
+It remains to rule out classifier edges touching the chosen external unit.
+Apply
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness} to
+the original witness $U_D(u)$. The resulting implication is exactly the
+displayed Rat-classifier disjointness row for the pair $(u,d)$.
+\end{proof}
+
+\textbf{Traditional target}: external unit classifier separation for the
+concrete Rat denominator fragment; \textbf{BEDC source}:
+$\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
+\textbf{carrier}: Rat denominators; \textbf{classifier}: Rat history
+classifier; \textbf{stability obligation}: endpoint-unit normal form plus
+carrier nonemptiness; \textbf{ledger}: the chosen one-sided unit law and
+classifier endpoint; \textbf{core theorem}:
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness};
+\textbf{exactness predicate}: classifier-disjointness from Rat denominator
+endpoints; \textbf{standard bridge}: deferred; \textbf{status}:
+$\mathsf{ProofTarget}$.

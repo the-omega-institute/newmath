@@ -157,6 +157,17 @@ theorem FieldApartZero_append_split_iff {p q : BHist} :
   · intro split
     exact FieldApartZero_append_factor_closed split
 
+theorem FieldApartZero_append_right_factor_of_head_not_apart {p q : BHist} :
+    FieldApartZero (append p q) -> (FieldApartZero p -> False) -> FieldApartZero q := by
+  intro appendApart headNotApart
+  have splitApart : FieldApartZero p ∨ FieldApartZero q :=
+    Iff.mp FieldApartZero_append_split_iff appendApart
+  cases splitApart with
+  | inl headApart =>
+      exact False.elim (headNotApart headApart)
+  | inr tailApart =>
+      exact tailApart
+
 theorem FieldApartZero_continuation_endpoint_split_iff {p q r : BHist} :
     Cont p q r -> (FieldApartZero r <-> FieldApartZero p ∨ FieldApartZero q) := by
   intro continuation
@@ -237,6 +248,38 @@ theorem FieldApartZero_append_visible_headed {p q : BHist} :
   · intro appendEmpty
     exact not_hsame_e1_empty (append_eq_empty_iff.mp appendEmpty).left
 
+theorem FieldApartZero_nested_continuation_visible_left_result {tail h r u v : BHist} :
+    (Cont (BHist.e0 tail) h u -> Cont u r v -> FieldApartZero v) ∧
+      (Cont (BHist.e1 tail) h u -> Cont u r v -> FieldApartZero v) := by
+  constructor
+  · intro leftCont resultCont resultEmpty
+    cases leftCont
+    cases resultCont
+    have outerEmpty := append_eq_empty_iff.mp resultEmpty
+    have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
+    exact not_hsame_e0_empty innerEmpty.left
+  · intro leftCont resultCont resultEmpty
+    cases leftCont
+    cases resultCont
+    have outerEmpty := append_eq_empty_iff.mp resultEmpty
+    have innerEmpty := append_eq_empty_iff.mp outerEmpty.left
+    exact not_hsame_e1_empty innerEmpty.left
+
+theorem FieldApartZero_nested_continuation_visible_right_result {l h tail u v : BHist} :
+    (Cont l h u -> Cont u (BHist.e0 tail) v -> FieldApartZero v) ∧
+      (Cont l h u -> Cont u (BHist.e1 tail) v -> FieldApartZero v) := by
+  constructor
+  · intro _leftCont rightCont resultEmpty
+    cases rightCont
+    have tailEmpty : hsame (BHist.e0 tail) BHist.Empty :=
+      (append_eq_empty_iff.mp resultEmpty).right
+    exact not_hsame_e0_empty tailEmpty
+  · intro _leftCont rightCont resultEmpty
+    cases rightCont
+    have tailEmpty : hsame (BHist.e1 tail) BHist.Empty :=
+      (append_eq_empty_iff.mp resultEmpty).right
+    exact not_hsame_e1_empty tailEmpty
+
 theorem FieldApartZero_empty_context_iff {l h r : BHist} :
     hsame l BHist.Empty -> hsame r BHist.Empty ->
       (FieldApartZero (append l (append h r)) <-> FieldApartZero h) := by
@@ -250,6 +293,58 @@ theorem FieldApartZero_empty_context_iff {l h r : BHist} :
     have outerSplit := append_eq_empty_iff.mp contextEmpty
     have innerSplit := append_eq_empty_iff.mp outerSplit.right
     exact hApart innerSplit.left
+
+theorem FieldApartZero_nested_continuation_factor_split_iff {l h r u v q w : BHist} :
+    Cont l h u -> Cont u r v -> Cont v q w ->
+      hsame l BHist.Empty -> hsame r BHist.Empty ->
+        (FieldApartZero w <-> FieldApartZero h ∨ FieldApartZero q) := by
+  intro leftContinuation rightContinuation tailContinuation leftEmpty rightEmpty
+  cases leftContinuation
+  cases rightContinuation
+  cases tailContinuation
+  have middleSame : hsame (append (append l h) r) h := by
+    cases leftEmpty
+    cases rightEmpty
+    exact hsame_trans (append_empty_right (append BHist.Empty h)) (append_empty_left h)
+  have resultIff :=
+    FieldApartZero_append_hsame_congr_iff middleSame (hsame_refl q)
+  constructor
+  · intro apartResult
+    exact Iff.mp FieldApartZero_append_split_iff (Iff.mp resultIff apartResult)
+  · intro factorApart
+    exact Iff.mpr resultIff (Iff.mpr FieldApartZero_append_split_iff factorApart)
+
+theorem FieldApartZero_nested_continuation_empty_context_iff {l h r u v : BHist} :
+    Cont l h u -> Cont u r v -> hsame l BHist.Empty -> hsame r BHist.Empty ->
+      (FieldApartZero v <-> FieldApartZero h) := by
+  intro leftCont rightCont leftEmpty rightEmpty
+  cases leftCont
+  cases rightCont
+  have contextIff := FieldApartZero_empty_context_iff (l := l) (h := h) (r := r)
+    leftEmpty rightEmpty
+  constructor
+  · intro nestedApart
+    exact Iff.mp contextIff
+      (FieldApartZero_empty_hsame_transport (append_assoc l h r) nestedApart)
+  · intro coreApart
+    exact FieldApartZero_empty_hsame_transport (hsame_symm (append_assoc l h r))
+      (Iff.mpr contextIff coreApart)
+
+theorem FieldApartZero_nested_continuation_singleton_result_factor_absurd
+    {l h r u v q w endpoint : BHist} :
+    Cont l h u -> Cont u r v -> Cont v q w -> hsame l BHist.Empty ->
+      hsame r BHist.Empty -> FieldSingletonClassifier w endpoint ->
+        (FieldApartZero h -> False) ∧ (FieldApartZero q -> False) := by
+  intro leftCont rightCont tailCont leftEmpty rightEmpty classified
+  have nestedIff :=
+    FieldApartZero_nested_continuation_empty_context_iff leftCont rightCont leftEmpty rightEmpty
+  have tailAbsurd :=
+    FieldApartZero_continuation_singleton_result_factor_absurd tailCont classified
+  constructor
+  · intro apartH
+    exact tailAbsurd.left (Iff.mpr nestedIff apartH)
+  · intro apartQ
+    exact tailAbsurd.right apartQ
 
 theorem field_apartzero_inverse_involutive {mul : BHist -> BHist -> BHist} {one : BHist}
     {inv : (a : BHist) -> (hsame a BHist.Empty -> False) -> BHist}

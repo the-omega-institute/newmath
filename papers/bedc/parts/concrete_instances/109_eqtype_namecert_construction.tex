@@ -6,5 +6,151 @@ The equality-type interface $\EqUp$ packages the constructive identity type over
 \section{Carrier definition}
 \label{sec:eqtype-carrier}
 
+\begin{theorem}[EqType e1 anchor tail readback]
+\label{thm:eqtype-class-carrier-e1-anchor-tail-readback}
+For BEDC histories $anchor$, $tail$, and $h$, if $h$ belongs to the equality-type
+class anchored at $\Eone(anchor)$ and $h\hsame\Eone(tail)$, then
+$tail\hsame anchor$.
+\end{theorem}
+\begin{proof}
+The class predicate is the transparent history-sameness class. Compose the class
+comparison with the reverse of the displayed comparison to obtain
+$\Eone(tail)\hsame\Eone(anchor)$, then invert the e1 constructor under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e1\_anchor\_tail\_readback}
+
+\begin{theorem}[EqType e0 anchor tail readback]
+\label{thm:eqtype-class-carrier-e0-anchor-tail-readback}
+For BEDC histories $anchor$, $tail$, and $h$, if $h$ belongs to the equality-type
+class anchored at $\Ezero(anchor)$ and $h\hsame\Ezero(tail)$, then
+$tail\hsame anchor$.
+\end{theorem}
+\begin{proof}
+The class predicate is the transparent history-sameness class. Compose the class
+comparison with the reverse of the displayed comparison to obtain
+$\Ezero(tail)\hsame\Ezero(anchor)$, then invert the e0 constructor under
+$\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e0\_anchor\_tail\_readback}
+
+\begin{theorem}[EqType e0 anchor pair determinism]
+\label{thm:eqtype-class-carrier-e0-anchor-pair-deterministic}
+For BEDC histories $anchor$, $left$, and $right$, if both $left$ and $right$
+belong to the equality-type class anchored at $\Ezero(anchor)$, then
+$left\hsame right$.
+\end{theorem}
+\begin{proof}
+Both carrier witnesses are concrete comparisons with the same anchor
+$\Ezero(anchor)$. Compose the first comparison with the reverse of the second
+comparison to obtain $left\hsame right$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e0\_anchor\_pair\_deterministic}
+
+\begin{theorem}[EqType e0 anchor e1 tail absurdity]
+\label{thm:eqtype-class-carrier-e0-anchor-e1-tail-absurd}
+For BEDC histories $anchor$, $tail$, and $h$, if $h$ belongs to the equality-type
+class anchored at $\Ezero(anchor)$ and $h\hsame\Eone(tail)$, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+The carrier comparison identifies $h$ with $\Ezero(anchor)$. Composing it with
+the reverse of the displayed comparison gives
+$\Eone(tail)\hsame\Ezero(anchor)$, which is impossible by constructor
+separation for history sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e0\_anchor\_e1\_tail\_absurd}
+
+\begin{theorem}[EqType e1 anchor e0 tail absurdity]
+\label{thm:eqtype-class-carrier-e1-anchor-e0-tail-absurd}
+For BEDC histories $anchor$, $tail$, and $h$, if $h$ belongs to the equality-type
+class anchored at $\Eone(anchor)$ and $h\hsame\Ezero(tail)$, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+The carrier comparison identifies $h$ with $\Eone(anchor)$. Composing it with
+the reverse of the displayed comparison gives
+$\Ezero(tail)\hsame\Eone(anchor)$, which is impossible by constructor
+separation for history sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_e1\_anchor\_e0\_tail\_absurd}
+
+\begin{theorem}[EqType empty anchor visible absurdity]
+\label{thm:eqtype-class-carrier-empty-anchor-visible-absurd}
+For BEDC histories $tail$ and $h$, if $h$ belongs to the equality-type class
+anchored at $\emp$, then $h$ cannot also classify to either visible endpoint
+$\Ezero(tail)$ or $\Eone(tail)$.
+\end{theorem}
+\begin{proof}
+The class predicate unfolds to $h\hsame\emp$. Compose its reverse with the
+displayed visible comparison. The zero-headed branch gives
+$\emp\hsame\Ezero(tail)$, and the one-headed branch gives
+$\emp\hsame\Eone(tail)$. Constructor separation for histories rules out both
+comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_empty\_anchor\_visible\_absurd}
+
+\begin{theorem}[EqType visible-context anchor readback]
+\label{thm:eqtype-class-carrier-visible-context-anchor-readback}
+For BEDC histories $anchor$, $h$, and $core$, if $h$ belongs to the
+equality-type class anchored at $anchor$ and the display of $h$ inside a common
+left and right append context agrees with the corresponding display of $core$,
+then $core\hsame anchor$.
+\end{theorem}
+\begin{proof}
+Reassociate the two displays into a common-context form and cancel the common
+prefix and suffix, obtaining $h\hsame core$. Symmetry composes this readback
+with the carrier comparison $h\hsame anchor$, so $core\hsame anchor$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_anchor\_readback}
+
+\begin{theorem}[EqType visible-context core determinism]
+\label{thm:eqtype-class-carrier-visible-context-cores-deterministic}
+For BEDC histories $p$, $r$, $anchor$, $left$, $right$, $coreLeft$, and
+$coreRight$, if both $left$ and $right$ belong to the equality-type class
+anchored at $anchor$, and the common visible context displays $left$ as
+$coreLeft$ and $right$ as $coreRight$, then $coreLeft\hsame coreRight$.
+\end{theorem}
+\begin{proof}
+Apply visible-context anchor readback to both displays. This identifies each
+displayed core with the shared anchor. Composing the left readback with the
+reverse of the right readback gives the core comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_cores\_deterministic}
+
+\begin{theorem}[EqType visible-context pair determinacy]
+\label{thm:eqtype-class-carrier-visible-context-pair-deterministic}
+For BEDC histories $p$, $r$, $anchor$, $left$, $right$, $leftCore$, and
+$rightCore$, suppose $left$ and $right$ both belong to the equality-type class
+anchored at $anchor$. If the display of $left$ inside the common context $p,r$
+agrees with the corresponding display of $leftCore$, and the display of
+$right$ inside the same common context agrees with the display of $rightCore$,
+then $leftCore\hsame rightCore$.
+\end{theorem}
+\begin{proof}
+Apply visible-context anchor readback to the left comparison to obtain
+$leftCore\hsame anchor$. Apply the same readback to the right comparison to
+obtain $rightCore\hsame anchor$. The first comparison and the reverse of the
+second compose by transitivity of $\hsame$, giving
+$leftCore\hsame rightCore$.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClassCarrier\_visible\_context\_pair\_deterministic}
+
 \section{The certificate}
 \label{sec:eqtype-certificate}
+
+\begin{theorem}[EqType identity semantic name certificate]
+\label{thm:eqtype-identity-semantic-namecert}
+The identity classifier on histories forms a semantic name certificate when
+source, pattern, and ledger are all the self-identity predicate:
+$$
+\mathsf{SemanticNameCert}
+(\lambda h.\ h\hsame h,\lambda h.\ h\hsame h,\lambda h.\ h\hsame h,\hsame).
+$$
+\end{theorem}
+\begin{proof}
+The empty history supplies inhabitation. Reflexivity, symmetry, transitivity,
+and carrier transport are exactly the corresponding closure laws of $\hsame$.
+The pattern and ledger maps are the identity maps on the self-identity
+predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeIdentity\_semanticNameCert}

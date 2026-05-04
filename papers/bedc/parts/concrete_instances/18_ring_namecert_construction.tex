@@ -168,6 +168,36 @@ $\mathsf{BHist}$ rules out both alternatives.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_visible\_left\_absurd}
 
+\begin{theorem}[Ring singleton classifier append split empty]
+\label{thm:ring-singleton-classifier-append-split-empty}
+For histories $p,q,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h)
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q)\land A_{\emp}(h).
+$$
+This certificate has the following ten-field fit: the traditional target is
+singleton ring endpoint exactness; the BEDC source is the concrete singleton
+$\RingUp$ over $\mathsf{BHist}$; the carrier is $A_{\emp}$; the classifier is
+$\rho_{\emp}$; stability comes from empty-result inversion and $\hsame$
+transport; the ledger records append-factor endpoints; the core theorem is the
+displayed split; exactness is the displayed equivalence; the standard bridge is
+terminal ring endpoint equality; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton ring classifier. For the forward direction, the left
+carrier field identifies $\mathsf{append}(p,q)$ with $\emp$. Empty-result
+inversion for append splits this endpoint into the two factor witnesses
+$A_{\emp}(p)$ and $A_{\emp}(q)$, while the right carrier field gives
+$A_{\emp}(h)$.
+
+For the reverse direction, the two factor witnesses rebuild the empty appended
+endpoint. Together with the witness $A_{\emp}(h)$, transitivity through $\emp$
+supplies the required classifier comparison between
+$\mathsf{append}(p,q)$ and $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_split\_empty}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
@@ -234,6 +264,26 @@ Add the left inverse of \(a\) on the left, reassociate to bring
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_eq\_zero}
 
+\begin{theorem}[Ring additive duplicate zero exactness]
+\label{thm:ring-add-duplicate-zero-iff}
+For BEDC history addition satisfying additive associativity, left zero, left
+inverse, and addition congruence, every history $a$ satisfies
+$$
+a\hsame a+a \Longleftrightarrow a\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is exactly the duplicate-addition collapse: apply
+\autoref{thm:ring-add-duplicate-eq-zero} to the hypothesis $a\hsame a+a$.
+
+For the reverse implication, use symmetry of $a\hsame0$ to transport the left
+summand from $a$ to $0$, and use the hypothesis itself to transport the right
+summand from $a$ to $0$ by addition congruence. The resulting comparison
+$a+a\hsame0+0$ reduces by the left-zero law to $0$, and transitivity with the
+original hypothesis gives $a\hsame a+a$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_add\_duplicate\_empty\_iff}
+
 \begin{theorem}[Ring additive right zero]
 \label{thm:ring-add-right-zero}
 For BEDC history addition, additive commutativity and the supplied left-zero
@@ -243,6 +293,76 @@ law imply the matching right-zero law $x+0\hsame x$.
 Commute $x+0$ to $0+x$, then apply the left-zero law.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_add\_right\_zero}
+
+\begin{theorem}[Ring additive two-sided cancellation]
+\label{thm:ring-additive-two-sided-cancellation}
+For BEDC history addition satisfying additive associativity, commutativity,
+left-zero, left-inverse, and addition congruence, every
+$a,b,c:\mathsf{BHist}$ satisfies both cancellation implications:
+$$
+a+c\hsame b+c \Longrightarrow a\hsame b
+$$
+and
+$$
+c+a\hsame c+b \Longrightarrow a\hsame b.
+$$
+The ten-field fit is: traditional target additive cancellation in a ring; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus $\GroupUp$ cancellation; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the common addend; core theorem this theorem;
+exactness predicate the two displayed implications; standard bridge ordinary
+ring additive cancellation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. Together with associativity,
+commutativity, left zero, left inverse, and addition congruence, these are the
+group-cancellation hypotheses for the additive operation.
+
+For the first implication, read addition as the group operation and apply
+Theorem~\ref{thm:group-right-cancellation} to the common right summand $c$.
+The hypothesis $a+c\hsame b+c$ then yields $a\hsame b$.
+
+For the second implication, apply
+Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
+The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_additive\_two\_sided\_cancellation}
+
+\begin{theorem}[Ring additive difference zero exactness]
+\label{thm:ring-additive-difference-zero-exact}
+For BEDC history addition satisfying additive associativity, commutativity,
+left zero, left inverse, and addition congruence, every
+$x,y:\mathsf{BHist}$ satisfies
+$$
+x+(-y)\hsame0 \Longleftrightarrow x\hsame y.
+$$
+The ten-field fit is: traditional target additive difference exactness; BEDC
+source $\RingUp$ over $\mathsf{BHist}$ plus the $\GroupUp$ cancellation spine
+already cited by \autoref{thm:ring-additive-two-sided-cancellation}; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws and
+addition congruence; ledger the hidden signed summand; core theorem this
+theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
+exactness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First derive the additive right-zero law from
+Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
+Theorem~\ref{thm:ring-add-right-inverse}. These give the removable zero and
+inverse pairs used on both sides of the equivalence.
+
+For the forward implication, add $y$ to the right of the comparison
+$x+(-y)\hsame0$. Associativity rewrites $(x+(-y))+y$ as $x+((-y)+y)$,
+commutativity and the right-inverse law collapse $(-y)+y$ to $0$, and the
+right-zero law removes that terminal zero. The right endpoint $0+y$ reduces to
+$y$ by the left-zero law, leaving $x\hsame y$.
+
+For the reverse implication, transport $x\hsame y$ through addition congruence
+against the common summand $-y$. The right side becomes $y+(-y)$, which
+Theorem~\ref{thm:ring-add-right-inverse} collapses to $0$, yielding
+$x+(-y)\hsame0$ by transitivity.
+\end{proof}
 
 \begin{theorem}[Ring multiplication zero absorption]
 \label{thm:ring-mul-zero-absorption}
@@ -256,6 +376,93 @@ First cancel a duplicated summand \(a\hsame a+a\) by adding the left inverse,
 reassociating, and using the left-zero law. Then apply distributivity to
 \(x\cdot(0+0)\) and \((0+0)\cdot x\), transport along \(0+0\hsame0\), and use
 the duplicate-cancellation step on the two resulting products.
+\end{proof}
+
+\begin{theorem}[Ring zero-classifier factor absorption]
+\label{thm:ring-zero-classifier-factor-absorption}
+For BEDC history operations satisfying additive associativity, left zero, left
+inverse, addition congruence, multiplication congruence, and both distributive
+laws, if $\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame(x\cdot y,0)\land \hsame(y\cdot x,0).
+$$
+\end{theorem}
+\begin{proof}
+Invoke \autoref{thm:ring-mul-zero-absorption} to obtain the two literal
+zero-factor absorptions. For the left product, multiplication congruence
+transports the left factor along $\hsame(x,0)$, comparing $x\cdot y$ with
+$0\cdot y$. Transitivity with the left zero-factor absorption gives
+$\hsame(x\cdot y,0)$, using symmetry if the congruence step is read in the
+opposite direction.
+
+For the right product, multiplication congruence transports the right factor
+along the same classifier witness, comparing $y\cdot x$ with $y\cdot0$.
+Transitivity with the right zero-factor absorption gives $\hsame(y\cdot x,0)$,
+again using symmetry when the displayed comparison is oriented oppositely.
+The two transported conclusions form the required conjunction.
+\end{proof}
+
+\begin{theorem}[Ring equal-factor difference annihilation]
+\label{thm:ring-equal-factor-difference-annihilation}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, and both distributive laws, if $x\hsame y$, then every
+$z:\mathsf{BHist}$ satisfies
+$$
+\hsame((x+(-y))\cdot z,0)\land \hsame(z\cdot(x+(-y)),0).
+$$
+The ten-field fit is: traditional target ordinary ring difference
+annihilation; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from additive group laws,
+addition congruence, multiplication congruence, and both distributive laws;
+ledger the equal-factor witness and the multiplier; core theorem this theorem;
+exactness additive difference zero exactness feeding zero-factor absorption;
+standard bridge ordinary ring equal-factor difference annihilation; downstream
+use FieldUp and RatUp zero-product reasoning; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply the reverse direction of
+\autoref{thm:ring-additive-difference-zero-exact} to the classifier witness
+$x\hsame y$. This turns the displayed difference into a zero-classified factor,
+namely $x+(-y)\hsame0$.
+
+Now apply \autoref{thm:ring-zero-classifier-factor-absorption} with factor
+$x+(-y)$ and multiplier $z$. The left component gives
+$\hsame((x+(-y))\cdot z,0)$, and the right component gives
+$\hsame(z\cdot(x+(-y)),0)$; these two components are exactly the displayed
+conjunction.
+\end{proof}
+
+\begin{theorem}[Ring zero-classifier signed factor absorption]
+\label{thm:ring-zero-classifier-signed-factor-absorption}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame((-x)y,0)\land \hsame(y(-x),0)\land
+\hsame((-x)(-y),0)\land \hsame((-y)(-x),0).
+$$
+The ten-field fit is: traditional target signed zero-factor absorption in a
+ring; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability obligations additive inverse congruence, zero
+classifier absorption, and both distributive laws; ledger the zero-classifier
+witness and signed multiplier; core theorem this theorem.
+\end{theorem}
+\begin{proof}
+First transport the zero-classifier witness through additive inverse. Additive
+inverse congruence sends $\hsame(x,0)$ to a comparison between $-x$ and $-0$,
+and \autoref{thm:ring-neg-zero} identifies $-0$ with $0$. Transitivity gives
+$\hsame(-x,0)$.
+
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} with factor $-x$ and
+multiplier $y$. This yields the two absorptions $\hsame((-x)y,0)$ and
+$\hsame(y(-x),0)$.
+
+Apply the same absorption theorem again with factor $-x$ and multiplier $-y$.
+Its left and right conclusions are precisely $\hsame((-x)(-y),0)$ and
+$\hsame((-y)(-x),0)$, and the four conclusions package into the stated
+conjunction.
 \end{proof}
 
 \begin{theorem}[Ring left-negative product sum vanishes]

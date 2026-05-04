@@ -1,4 +1,5 @@
-import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonContinuation
 
 namespace BEDC.Derived.GroupUp
 
@@ -22,5 +23,171 @@ theorem GroupSingletonClassifier_append_suffix_cancel_iff {P R Q S : BHist} :
       append_eq_empty_iff.mpr (And.intro classified.right.left carrierS)
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
+theorem GroupSingleton_terminal_classifier_package :
+    (forall h k : BHist, GroupSingletonClassifier h k <->
+      GroupSingletonCarrier h /\ GroupSingletonCarrier k) /\
+      (forall p q : BHist, GroupSingletonCarrier (append p q) <->
+        GroupSingletonCarrier p /\ GroupSingletonCarrier q) /\
+      (forall h : BHist, GroupSingletonCarrier h ->
+        GroupSingletonCarrier BHist.Empty /\
+          GroupSingletonClassifier BHist.Empty h /\
+            GroupSingletonClassifier h BHist.Empty) := by
+  constructor
+  · intro h k
+    constructor
+    · intro classified
+      exact And.intro classified.left classified.right.left
+    · intro carriers
+      exact And.intro carriers.left
+        (And.intro carriers.right (hsame_trans carriers.left (hsame_symm carriers.right)))
+  · constructor
+    · intro p q
+      constructor
+      · intro carrier
+        exact append_eq_empty_iff.mp carrier
+      · intro carriers
+        exact append_eq_empty_iff.mpr carriers
+    · intro h carrier
+      have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+      constructor
+      · exact emptyCarrier
+      · constructor
+        · exact And.intro emptyCarrier (And.intro carrier (hsame_symm carrier))
+        · exact And.intro carrier (And.intro emptyCarrier carrier)
+
+theorem GroupSingletonClassifier_suffix_context_product_unit_split_iff {L R p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append (append p q) L) (append BHist.Empty R) <->
+        GroupSingletonCarrier p /\ GroupSingletonCarrier q) := by
+  intro carrierL carrierR
+  have cancel :=
+    GroupSingletonClassifier_right_context_cancel_iff (L := L) (R := R) (Q := append p q)
+      (S := BHist.Empty) carrierL carrierR
+  constructor
+  · intro classified
+    exact GroupSingletonClassifier_append_unit_split_iff.mp (cancel.mp classified)
+  · intro carriers
+    exact cancel.mpr (GroupSingletonClassifier_append_unit_split_iff.mpr carriers)
+
+theorem GroupSingletonClassifier_append_suffix_unit_split_iff {L R p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append (append p q) L) (append BHist.Empty R) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR
+  exact Iff.trans
+    (GroupSingletonClassifier_append_suffix_cancel_iff (P := append p q) (R := L)
+      (Q := BHist.Empty) (S := R) carrierL carrierR)
+    GroupSingletonClassifier_append_unit_split_iff
+
+theorem GroupSingletonClassifier_two_sided_contextual_coverage_iff {L R L' R' Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      GroupSingletonCarrier L' -> GroupSingletonCarrier R' ->
+        (GroupSingletonClassifier (append (append L Q) L') (append (append R S) R') <->
+          GroupSingletonCarrier Q ∧ GroupSingletonCarrier S) := by
+  intro carrierL carrierR carrierL' carrierR'
+  exact Iff.trans
+    (GroupSingletonClassifier_right_context_cancel_iff (L := L') (R := R')
+      (Q := append L Q) (S := append R S) carrierL' carrierR')
+      (Iff.trans
+        (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+          (Q := Q) (S := S) carrierL carrierR)
+        (GroupSingleton_terminal_classifier_package.left Q S))
+
+theorem GroupSingletonClassifier_two_sided_contextual_carrier_coverage_iff
+    {L R Lp Rp Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      (GroupSingletonClassifier (append (append L Q) Lp) (append (append R S) Rp) <->
+        GroupSingletonCarrier Q ∧ GroupSingletonCarrier S) := by
+  intro carrierL carrierR carrierLp carrierRp
+  have suffixCancel :=
+    GroupSingletonClassifier_append_suffix_cancel_iff (P := append L Q) (R := Lp)
+      (Q := append R S) (S := Rp) carrierLp carrierRp
+  have prefixCancel :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := Q) (S := S) carrierL carrierR
+  exact Iff.trans suffixCancel
+    (Iff.trans prefixCancel (GroupSingleton_terminal_classifier_package.left Q S))
+
+theorem GroupSingletonClassifier_two_sided_contextual_product_unit_split_iff
+    {L R Lp Rp p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      (GroupSingletonClassifier (append (append L (append p q)) Lp)
+          (append (append R BHist.Empty) Rp) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR carrierLp carrierRp
+  have contextual :=
+    GroupSingletonClassifier_two_sided_contextual_coverage_iff (L := L) (R := R)
+      (L' := Lp) (R' := Rp) (Q := append p q) (S := BHist.Empty)
+      carrierL carrierR carrierLp carrierRp
+  constructor
+  · intro classified
+    have carriers := contextual.mp classified
+    exact append_eq_empty_iff.mp carriers.left
+  · intro carriers
+    have productCarrier : GroupSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr carriers
+    exact contextual.mpr (And.intro productCarrier (hsame_refl BHist.Empty))
+
+theorem GroupSingletonClassifier_two_sided_contextual_visible_middle_absurd
+    {L R Lp Rp p q M : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      (GroupSingletonClassifier (append (append L (BHist.e0 p)) Lp)
+          (append (append R M) Rp) -> False) ∧
+      (GroupSingletonClassifier (append (append L (BHist.e1 p)) Lp)
+          (append (append R M) Rp) -> False) ∧
+      (GroupSingletonClassifier (append (append L M) Lp)
+          (append (append R (BHist.e0 q)) Rp) -> False) ∧
+      (GroupSingletonClassifier (append (append L M) Lp)
+          (append (append R (BHist.e1 q)) Rp) -> False) := by
+  intro carrierL carrierR carrierLp carrierRp
+  have visible :=
+    GroupSingletonClassifier_append_context_visible_middle_absurd (L := L) (R := R)
+      (p := p) (q := q) (S := M) carrierL carrierR
+  constructor
+  · intro classified
+    have reduced :=
+      (GroupSingletonClassifier_right_context_cancel_iff (L := Lp) (R := Rp)
+        (Q := append L (BHist.e0 p)) (S := append R M) carrierLp carrierRp).mp
+        classified
+    exact visible.left reduced
+  · constructor
+    · intro classified
+      have reduced :=
+        (GroupSingletonClassifier_right_context_cancel_iff (L := Lp) (R := Rp)
+          (Q := append L (BHist.e1 p)) (S := append R M) carrierLp carrierRp).mp
+          classified
+      exact visible.right.left reduced
+    · constructor
+      · intro classified
+        have reduced :=
+          (GroupSingletonClassifier_right_context_cancel_iff (L := Lp) (R := Rp)
+            (Q := append L M) (S := append R (BHist.e0 q)) carrierLp carrierRp).mp
+            classified
+        exact visible.right.right.left reduced
+      · intro classified
+        have reduced :=
+          (GroupSingletonClassifier_right_context_cancel_iff (L := Lp) (R := Rp)
+            (Q := append L M) (S := append R (BHist.e1 q)) carrierLp carrierRp).mp
+            classified
+        exact visible.right.right.right reduced
+
+theorem GroupSingletonClassifier_contextual_continuation_visible_result_absurd
+    {L R Lp Rp P Q r : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      GroupSingletonClassifier (append (append L P) Lp) (append (append R Q) Rp) ->
+        (Cont P Q (BHist.e0 r) -> False) ∧ (Cont P Q (BHist.e1 r) -> False) := by
+  intro carrierL carrierR carrierLp carrierRp classified
+  have suffixReduced : GroupSingletonClassifier (append L P) (append R Q) :=
+    (GroupSingletonClassifier_right_context_cancel_iff (L := Lp) (R := Rp)
+      (Q := append L P) (S := append R Q) carrierLp carrierRp).mp classified
+  have reduced : GroupSingletonClassifier P Q :=
+    (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := P) (S := Q) carrierL carrierR).mp suffixReduced
+  exact GroupSingletonClassifier_continuation_visible_result_absurd reduced
 
 end BEDC.Derived.GroupUp

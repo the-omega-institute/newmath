@@ -10,10 +10,38 @@ This chapter gives a concrete naming-certificate construction for the complex to
 \label{def:cplx-topo-open-disk}
 For complex history \(z_0\), unary radius \(r\), and complex history \(z\), the open-disk membership predicate \(\mathsf{OpenDisk}(z_0, r, z)\) holds when the rational representation of the complex modulus \(|z - z_0|\) is strictly less than \(r\) under \(\mathsf{NatUnaryStrictPrefix}\). The witness is an explicit unary gap \(\mathsf{Gap}(z_0, r, z) > \emp\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap}
+
+\begin{theorem}[Open-disk gap determinacy]
+\label{thm:cplx-topo-open-disk-gap-deterministic}
+If a complex-topology open-disk gap witness exposes $\Cont(z,g,r)$ and another
+boundary ledger exposes $\Cont(z,g',r)$ with the same point and radius, then
+$g\hsame g'$.
+\end{theorem}
+\begin{proof}
+Unpack the concrete open-disk gap witness to recover its boundary continuation
+ledger. Continuation left cancellation against the alternative ledger compares
+the two gap histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_gap\_deterministic}
 
 \begin{remark}[Compatibility with the inline definition]
 This definition coincides with the inline \texttt{BEDC.Derived.HolomorphicUp.OpenDisk} of \autoref{ch:concrete-instances-holomorphic-namecert} up to namespace; promoting it to \(\ComplexTopologyUp\) lets downstream chapters cite a single canonical home.
 \end{remark}
+
+\begin{theorem}[Open-disk point-radius suffix closure]
+\label{thm:cplx-topo-open-disk-point-radius-suffix}
+If \(\mathsf{OpenDisk}(z_0,r,z)\) holds and a unary suffix \(extra\) continues
+both \(r\) to \(r'\) and \(z\) to \(z'\), then
+\(\mathsf{OpenDisk}(z_0,r',z')\) holds. The same gap witness continues \(z'\)
+to \(r'\), while its original ledger continues \(z\) to \(r\).
+\end{theorem}
+\begin{proof}
+Unpack the witnessed open disk. Unary closure gives the shifted radius, complex
+history closure gives the shifted point, and associativity of \(\Cont\) rewrites
+the original gap ledger after the common unary suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDisk\_point\_radius\_suffix\_closed}
 
 \begin{definition}[Closed disk]
 \label{def:cplx-topo-closed-disk}
@@ -27,6 +55,95 @@ For every triple \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap 
 \begin{proof}
 Compute \(\mathsf{Gap}(z_0, r, z) := r \ominus |z - z_0|\) using \(\RealUp\) truncated subtraction. The strict inequality of \autoref{def:cplx-topo-open-disk} guarantees the result is non-empty unary.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDisk\_gap\_modulus}
+
+\begin{lemma}[Open-disk gap transport along \(\hsame\)]
+\label{lem:cplx-topo-open-disk-gap-hsame-transport}
+If a complex-topology open-disk gap witness is transported by the complex
+history classifier at its center and point, and by \(\hsame\) at its radius
+and gap histories, then the transported tuple is again an open-disk gap
+witness and exposes the transported boundary ledger.
+\end{lemma}
+\begin{proof}
+Unpack the open-disk gap witness. The complex classifiers provide the target
+complex carriers for the center and point. Unary transport moves the radius
+and gap carriers along \(\hsame\), and continuation transport moves
+\(\Cont(z,g,r)\) to \(\Cont(z',g',r')\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_hsame\_transport}
+
+\begin{theorem}[Open-disk gap radius extension]
+\label{thm:cplx-topo-open-disk-gap-radius-extension}
+If a complex-topology open-disk gap witness has radius \(r\), point \(z\),
+gap \(g\), and \(z\cdot g=r\), then any common unary extension \(extra\) of
+the radius and gap gives a new witness with radius \(r'\), gap \(g'\), and
+\(\Cont(z,g',r')\).
+\end{theorem}
+\begin{proof}
+Unpack the open-disk gap witness. Unary continuation closure gives the
+extended radius and gap carriers. The boundary ledger follows by eliminating
+the two continuation witnesses and reassociating the original point--gap
+continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_radius\_extension\_closed}
+
+\begin{theorem}[Open-disk gap radius is non-empty]
+\label{thm:cplx-topo-open-disk-gap-radius-not-empty}
+If a complex-topology open-disk gap witness has radius \(r\), then
+\(r\) cannot be \(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Transport the point--gap continuation ledger along a hypothetical
+\(\hsame(r,\emp)\). Empty-result inversion for continuation forces the point
+history to be empty, contradicting the complex carrier carried by the open-disk
+gap witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_radius\_not\_empty}
+
+\begin{theorem}[Open-disk empty gap identifies radius and point]
+\label{thm:cplx-topo-open-disk-gap-empty-gap-radius-point}
+If a complex-topology open-disk gap witness has gap \(g\) with
+\(g\hsame\emp\), then its radius and point histories are \(\hsame\).
+\end{theorem}
+\begin{proof}
+Unpack the gap witness to obtain the boundary ledger \(\Cont(z,g,r)\).
+Transport this continuation along \(g\hsame\emp\), keeping the point and radius
+endpoints fixed. The right-unit characterization of \(\Cont\) then identifies
+the radius with the point.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_empty\_gap\_radius\_point}
+
+\begin{theorem}[Open-disk gap unary suffix transport]
+\label{thm:cplx-topo-open-disk-gap-unary-suffix-transport}
+If a complex-topology open-disk gap witness has boundary ledger
+\(\Cont(z,g,r)\), and a unary suffix \(q\) continues both \(z\) to \(zq\)
+and \(r\) to \(rq\), then the shifted point \(zq\) and shifted radius \(rq\)
+form another open-disk gap witness with the same center and gap, and expose
+\(\Cont(zq,g,rq)\).
+\end{theorem}
+\begin{proof}
+Unpack the witness. The point carrier is closed under unary suffix
+continuation, the radius carrier is closed under unary continuation, and the
+boundary ledger follows by reassociating \(\Cont\) after commuting the unary
+gap and suffix histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_unary\_suffix\_transport}
+
+\begin{theorem}[Open-disk gap center-point unary suffix transport]
+\label{thm:cplx-topo-open-disk-gap-center-point-unary-suffix-transport}
+If a complex-topology open-disk gap witness has center \(z_0\), point \(z\),
+radius \(r\), and boundary ledger \(\Cont(z,g,r)\), and a unary suffix \(q\)
+continues \(z_0\), \(z\), and \(r\) to \(z_{0q}\), \(z_q\), and \(r_q\), then
+\((z_{0q},r_q,z_q,g)\) is again an open-disk gap witness and exposes
+\(\Cont(z_q,g,r_q)\).
+\end{theorem}
+\begin{proof}
+The preceding unary suffix theorem shifts the point and radius while retaining
+the gap ledger. Complex carrier closure under the same unary suffix shifts the
+center carrier from \(z_0\) to \(z_{0q}\), so the transported center, shifted
+radius, shifted point, and original gap repack the open-disk gap witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_center\_point\_unary\_suffix\_transport}
 
 \section{Open sets and finite intersections}
 \label{sec:cplx-topo-open-sets}

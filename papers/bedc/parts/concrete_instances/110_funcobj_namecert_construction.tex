@@ -6,5 +6,216 @@ The function-object interface $\FuncUp$ packages the carrier of functions $A \to
 \section{Carrier definition}
 \label{sec:funcobj-carrier}
 
+\begin{theorem}[Function object linear singleton continuous-map components are empty]
+\label{thm:funcobj-linear-singleton-continuous-map-components-empty}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then
+$$
+\hsame(target,\emp)\land\hsame(cert,\emp)\land\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The singleton carrier identifies $source$, $map$, and $modulus$ with $\emp$.
+The continuous-map graph continuation compares with the right-unit
+continuation at $\emp$, forcing $target\hsame\emp$. The certificate
+continuation then compares against the same empty right unit, forcing
+$cert\hsame\emp$. Finally, the metric-distance continuation from $source$ to
+$target$ compares against the empty right unit after both endpoints have been
+identified with $\emp$, so $distance\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_components\_empty}
+
+\begin{theorem}[Function object linear singleton continuous-map graphs are empty]
+\label{thm:funcobj-linear-singleton-continuous-map-empty-graphs}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then the displayed graph, certificate, and distance continuations can
+be read over the empty components:
+$$
+\mathsf{Cont}(source,map,\emp)\land
+\mathsf{Cont}(\emp,modulus,cert)\land
+\mathsf{Cont}(source,\emp,distance).
+$$
+\end{theorem}
+\begin{proof}
+The component-empty theorem identifies $target$, $cert$, and $distance$ with
+$\emp$. Transport the continuous-map graph continuation across
+$target\hsame\emp$. Transport the certificate continuation across
+$target\hsame\emp$ on the source side, and transport the metric-distance
+continuation across $target\hsame\emp$ on the right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_graphs}
+
+\begin{theorem}[Function object linear singleton continuous-map empty components iff]
+\label{thm:funcobj-linear-singleton-continuous-map-empty-components-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$, if
+the source, map, and modulus histories lie in the linear-map singleton
+carrier, then
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longleftrightarrow
+\hsame(target,\emp)\land\hsame(cert,\emp)\land\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the component-empty theorem for linear singleton
+continuous maps. Conversely, the three singleton carrier assumptions identify
+$source$, $map$, and $modulus$ with $\emp$, while the displayed component
+equalities identify $target$, $cert$, and $distance$ with $\emp$. The
+continuous-function carrier and metric-distance witness are then assembled
+from unary emptiness and the empty right-unit continuation rows.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_empty\_components\_iff}
+
+\begin{theorem}[Function object linear singleton continuous-map target graph empty iff]
+\label{thm:funcobj-linear-singleton-continuous-map-target-graph-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source and map histories lie in the linear-map singleton carrier. Then
+the empty graph continuation is equivalent to the target endpoint being empty:
+$$
+\mathsf{Cont}(source,map,\emp)\Longleftrightarrow\hsame(target,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The continuous-map carrier contains the graph continuation
+$\mathsf{Cont}(source,map,target)$. In the forward direction, the singleton
+carrier identifies $source$ and $map$ with $\emp$, so this graph continuation
+compares with the right-unit continuation at $\emp$ and forces
+$target\hsame\emp$. Conversely, if $target\hsame\emp$, transport the graph
+continuation result along this history comparison to obtain
+$\mathsf{Cont}(source,map,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_target\_graph\_empty\_iff}
+
+\begin{theorem}[Function object linear singleton continuous-map cert graph empty iff]
+\label{thm:funcobj-linear-singleton-continuous-map-cert-graph-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the target and modulus histories lie in the linear-map singleton carrier.
+Then the empty certificate graph is equivalent to the certificate being empty:
+$$
+\mathsf{Cont}(target,modulus,\emp)\Longleftrightarrow\hsame(cert,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The continuous-map carrier contains the certificate continuation
+$\mathsf{Cont}(target,modulus,cert)$. The forward direction compares it with
+the displayed empty certificate graph by continuation determinism. Conversely,
+if $cert\hsame\emp$, transport the result of the certificate continuation to
+obtain $\mathsf{Cont}(target,modulus,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_cert\_graph\_empty\_iff}
+
+\begin{theorem}[Function object linear singleton continuous-map distance graph empty iff]
+\label{thm:funcobj-linear-singleton-continuous-map-distance-graph-empty-iff}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$
+holds. Then the empty distance graph is equivalent to the distance endpoint
+being empty:
+$$
+\mathsf{Cont}(source,target,\emp)\Longleftrightarrow\hsame(distance,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The continuous-map carrier contains the distance continuation
+$\mathsf{Cont}(source,target,distance)$. The forward direction compares this
+witness with the displayed empty distance graph by continuation determinism.
+Conversely, if $distance\hsame\emp$, transport the continuation result to
+obtain $\mathsf{Cont}(source,target,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_distance\_graph\_empty\_iff}
+
+\begin{lemma}[Function object linear singleton continuous-map distance graph empty]
+\label{lem:funcobj-linear-singleton-continuous-map-distance-graph-empty}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+suppose
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$ holds
+and the source, map, and modulus histories lie in the linear-map singleton
+carrier. Then
+$$
+\mathsf{Cont}(source,target,\emp).
+$$
+\end{lemma}
+\begin{proof}
+The component-empty theorem identifies the distance witness with $\emp$. The
+continuous-map carrier contains the metric-distance continuation
+$\mathsf{Cont}(source,target,distance)$, and result transport along
+$distance\hsame\emp$ gives the displayed empty distance graph.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncObjLinearSingleton\_continuous\_map\_distance\_graph\_empty}
+
 \section{The certificate}
 \label{sec:funcobj-certificate}
+
+\begin{theorem}[Function-object pointwise hom carrier semantic certificate]
+\label{thm:funcobj-pointwise-hom-carrier-semantic-namecert}
+For a unary prefix $p$ and a categorical hom carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$, the pointwise function-object carrier
+$$
+\mathsf{CategoryHomCarrier}(a,b,t)\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),t)
+$$
+has a semantic naming certificate with source, pattern, and ledger predicates
+all equal to this carrier and classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The witness is the original hom history $f$. Prefix preservation for the
+unary-continuation category supplies the prefixed hom carrier at the same
+history. The classifier laws are reflexivity, symmetry, and transitivity of
+$\hsame$. Transport along a classifier proof keeps the endpoints fixed and
+moves both the base and prefixed hom-carrier conjuncts across the displayed
+history comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_semanticNameCert}
+
+\begin{theorem}[Function-object pointwise hom carrier composition readback]
+\label{thm:funcobj-pointwise-hom-carrier-composition-readback}
+For a unary prefix $p$, categorical hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$, and a continuation
+$\Cont(f,g,fg)$, the composite history $fg$ carries both the base composite
+hom carrier and the pointwise prefixed composite hom carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg)\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),fg).
+$$
+Moreover, every displayed history carrying both of these composite carrier
+fields is $\hsame$ to $fg$.
+\end{theorem}
+\begin{proof}
+The base composite is supplied by the categorical composition readback theorem.
+Prefix preservation transports that base composite through the unary prefix
+$p$, giving the pointwise prefixed carrier at the same history $fg$. If a
+displayed history carries both fields, the base field alone is enough for the
+categorical readback uniqueness proof, which identifies the displayed history
+with $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Function-object pointwise hom carrier composite transport]
+\label{thm:funcobj-pointwise-hom-carrier-comp-hsame-transport}
+For a unary prefix $p$, categorical hom carriers
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$\mathsf{CategoryHomCarrier}(b,c,g)$, a continuation $\Cont(f,g,fg)$, and a
+history comparison $fg\hsame fg'$, the transported composite history $fg'$
+carries both the base composite hom carrier and the pointwise prefixed
+composite hom carrier:
+$$
+\mathsf{CategoryHomCarrier}(a,c,fg')\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,c),fg').
+$$
+\end{theorem}
+\begin{proof}
+First read back the base and prefixed composite carriers at $fg$ from the
+pointwise composition theorem. Then transport each carrier along
+$fg\hsame fg'$, keeping the source and target endpoints fixed by reflexive
+history sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.FuncobjUp.FuncobjPointwiseHomCarrier\_comp\_hsame\_transport}

@@ -68,6 +68,33 @@ $d_{xy}$ and $z$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_cont\_middle\_closed}
 
+\begin{theorem}[Metric distance witness triangle middle result determinacy]
+\label{thm:metric-distance-witness-triangle-cont-middle-result-deterministic}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz},displayed$, if the witnesses from
+$x$ to $y$ and from $y$ to $z$ are given, and
+$\ContR(d_{xy},z,d_{xyz})$ displays the middle composite, then any distance
+witness from $x$ to $d_{yz}$ has the same result:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\ContR(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,d_{yz},displayed)\Longrightarrow
+\hsame(d_{xyz},displayed).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle continuation middle closure constructs the canonical witness
+$\mathsf{MetricDistanceWitness}(x,d_{yz},d_{xyz})$ from the two edge witnesses
+and the displayed middle continuation. The displayed witness has the same
+source and target histories as this canonical witness, so continuation
+determinacy applied to their distance ledgers identifies the two result
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_cont\_middle\_result\_deterministic}
+
 \begin{theorem}[Metric distance witness triangle append depth add]
 \label{thm:metric-distance-witness-triangle-append-depth-add}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three triangle distance witnesses
@@ -195,6 +222,30 @@ Visible-context closure then appends the unary contexts $p$ and $q$ on the
 outside.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_closed}
+
+\begin{theorem}[Metric distance witness visible-context triangle append closure]
+\label{thm:metric-distance-witness-visible-context-triangle-append-closed}
+If the distance witness from $x$ to $y$ is displayed through visible contexts
+$p,q$, and the two remaining triangle witnesses are present, then the triangle
+append result is unchanged at the central layer:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,p\cdot d_{xy}\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})
+\Longrightarrow
+\HSame(d_{xyz},x\cdot d_{yz}).
+$$
+\end{theorem}
+\begin{proof}
+Visible-context exactness recovers the central distance witness
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ from the displayed contextual
+witness. The ordinary triangle append closure applied to this recovered witness
+and the two remaining triangle witnesses gives
+$d_{xyz}\hsame x\cdot d_{yz}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_triangle\_append\_closed}
 
 \begin{theorem}[Metric distance witness triangle append context result determinacy]
 \label{thm:metric-distance-witness-triangle-append-context-result-deterministic}

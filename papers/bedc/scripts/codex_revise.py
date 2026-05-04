@@ -490,27 +490,34 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 continue
             logger.info(
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
-                f"ahead — rebasing local"
+                f"ahead — merging into local"
             )
             with _git_lock:
                 r3 = subprocess.run(
-                    ["git", "pull", "--rebase", "--autostash",
+                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
                      "origin", base_branch],
                     cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
                 )
                 if r3.returncode == 0:
-                    logger.info(f"[origin-sync] rebased local onto origin/{base_branch}")
+                    logger.info(f"[origin-sync] merged origin/{base_branch} into local")
                 else:
                     logger.warning(
-                        f"[origin-sync] rebase failed (returncode={r3.returncode}); "
+                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
                         f"stderr={(r3.stderr or '').strip()[:200]}"
                     )
-                    # Abort any in-flight rebase to leave main repo clean —
-                    # otherwise worker pushes hit "rebase in progress" forever.
+                    # Abort any in-flight merge / leftover rebase to leave the
+                    # main repo clean — otherwise worker pushes hit
+                    # "merge in progress" / "rebase in progress" forever.
+                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+                        logger.warning("[origin-sync] mid-merge detected, aborting")
+                        subprocess.run(
+                            ["git", "merge", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
                     rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
                     rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
                     if rebase_merge.exists() or rebase_apply.exists():
-                        logger.warning("[origin-sync] mid-rebase detected, aborting")
+                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
                         subprocess.run(
                             ["git", "rebase", "--abort"],
                             cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
@@ -819,13 +826,15 @@ def _push_base_into_peer(*, model: Optional[str] = None) -> bool:
             if attempt == 2:
                 logger.warning(f"[peer-sync] reverse push failed: {p.stderr.strip()[:200]}")
                 return False
-            logger.info(f"[peer-sync] reverse push rejected; rebasing on new origin tip and retrying")
+            logger.info(f"[peer-sync] reverse push rejected; merging new origin tip and retrying")
             run_cmd(["git", "fetch", "origin", PEER_BRANCH], cwd=wt_path, timeout=300)
-            r = run_cmd(["git", "rebase", f"origin/{PEER_BRANCH}"],
-                        cwd=wt_path, timeout=180)
+            r = run_cmd(
+                ["git", "merge", "--no-ff", "--no-edit", f"origin/{PEER_BRANCH}"],
+                cwd=wt_path, timeout=180,
+            )
             if r.returncode != 0:
-                logger.warning(f"[peer-sync] reverse rebase failed: {r.stderr.strip()[:200]}")
-                run_cmd(["git", "rebase", "--abort"], cwd=wt_path, timeout=10)
+                logger.warning(f"[peer-sync] reverse merge failed: {r.stderr.strip()[:200]}")
+                run_cmd(["git", "merge", "--abort"], cwd=wt_path, timeout=10)
                 return False
         return False
     finally:
@@ -1041,15 +1050,18 @@ def _codex_resolve_conflicts(wt_path: Path, *, model: Optional[str] = None,
         base_branch=BASE_BRANCH,
     )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
-    still = run_cmd(["git", "status"], cwd=wt_path)
-    if "rebase in progress" in still.stdout.lower():
-        logger.warning("Codex did not complete rebase, aborting")
-        run_cmd(["git", "rebase", "--abort"], cwd=wt_path)
+    # Merge resolution incomplete iff MERGE_HEAD still exists.
+    merge_in_progress = run_cmd(
+        ["git", "rev-parse", "--verify", "-q", "MERGE_HEAD"], cwd=wt_path
+    ).returncode == 0
+    if merge_in_progress:
+        logger.warning("Codex did not complete merge, aborting")
+        run_cmd(["git", "merge", "--abort"], cwd=wt_path)
         return False
     remaining = run_cmd(["git", "diff", "--name-only", "--diff-filter=U"], cwd=wt_path)
     if remaining.stdout.strip():
         logger.warning(f"Codex left unresolved conflicts: {remaining.stdout.strip()}")
-        run_cmd(["git", "rebase", "--abort"], cwd=wt_path)
+        run_cmd(["git", "merge", "--abort"], cwd=wt_path)
         return False
     return True
 
@@ -1102,7 +1114,13 @@ def _ff_local_branch_to(target: str) -> tuple[bool, str]:
 
 
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
-    """Rebase the worktree branch onto BASE_BRANCH, ff-update locally, push."""
+    """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
+
+    Round commits are preserved verbatim under a merge commit; conflict
+    surface is a single-shot reconcile, not an N-commit replay. Eliminates
+    the "Diverging branches" and "no own-round commit" failure modes that
+    rebase + codex resolution kept producing.
+    """
     with _git_lock:
         logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
@@ -1114,37 +1132,40 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
             if not ok:
                 logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
-            rebase = run_cmd(["git", "rebase", BASE_BRANCH], cwd=wt.path, timeout=180)
-            if rebase.returncode != 0:
-                logger.warning(f"Rebase conflict (attempt {attempt}); invoking codex")
+            merge = run_cmd(
+                ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                cwd=wt.path, timeout=180,
+            )
+            if merge.returncode != 0:
+                logger.warning(f"Merge conflict (attempt {attempt}); invoking codex")
                 if not _codex_resolve_conflicts(wt.path, model=model):
-                    run_cmd(["git", "rebase", "--abort"], cwd=wt.path)
+                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
                     return False
-            rebased_new = run_cmd(
+            merged_new = run_cmd(
                 ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
                 cwd=wt.path, timeout=30,
             )
-            rebased_lines = [
-                l.strip() for l in rebased_new.stdout.splitlines() if l.strip()
+            merged_lines = [
+                l.strip() for l in merged_new.stdout.splitlines() if l.strip()
             ]
             own_prefix = f"P{wt.round_number}:"
-            if not any(own_prefix in l for l in rebased_lines):
+            if not any(own_prefix in l for l in merged_lines):
                 logger.error(
-                    f"[P{wt.round_number}] Rebase left no own-round commit "
+                    f"[P{wt.round_number}] Merge left no own-round commit "
                     f"unique to {BASE_BRANCH}; refusing to report merge success"
                 )
                 return False
 
-            # Post-rebase audit: drift / duplicate-label / forbidden-construct
-            # detection. If a sibling P-round merged a colliding label or
-            # marker into BASE_BRANCH while this worktree was working, the
+            # Post-merge audit: drift / duplicate-label / forbidden-construct
+            # detection. If a sibling P-round landed a colliding label or
+            # marker on BASE_BRANCH while this worktree was working, the
             # combined tree is now invalid even though each side individually
-            # passed. Re-run the audit on the rebased worktree and let codex
+            # passed. Re-run the audit on the merged worktree and let codex
             # try to resolve before giving up.
             ok, audit_msg = run_drift_audit(wt)
             if not ok:
                 logger.warning(
-                    f"[P{wt.round_number}] Post-rebase drift audit FAILED — "
+                    f"[P{wt.round_number}] Post-merge drift audit FAILED — "
                     "asking codex to resolve before merge"
                 )
                 for ln in audit_msg.splitlines()[-20:]:
@@ -1153,7 +1174,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     wt.path, audit_msg, model=model
                 ):
                     logger.error(
-                        f"[P{wt.round_number}] Could not resolve post-rebase "
+                        f"[P{wt.round_number}] Could not resolve post-merge "
                         "audit failure; refusing to merge"
                     )
                     return False
@@ -1166,7 +1187,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                     for ln in audit_msg.splitlines()[-10:]:
                         logger.error(f"  audit: {ln}")
                     return False
-                logger.info(f"[P{wt.round_number}] Post-rebase audit recovered")
+                logger.info(f"[P{wt.round_number}] Post-merge audit recovered")
             wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
             ok, msg = _ff_local_branch_to(wt_tip)
             if not ok:

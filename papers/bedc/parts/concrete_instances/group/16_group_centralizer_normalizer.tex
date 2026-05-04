@@ -194,6 +194,7 @@ The same argument with $\mathsf{inv}(s)$ as the first centralizer element and
 $s$ as the final one proves the conjugation clause for $\mathsf{inv}(s)$.
 These two preservation clauses are exactly $N_a(s)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_subgroup\_from\_empty\_unit}
 
 \begin{theorem}[Centralizer normal in its normalizer]
 \label{thm:group-centralizer-normal-in-normalizer}
@@ -246,6 +247,7 @@ conjugation row. Thus centralizer membership is closed under conjugation by
 normalizer elements and by their inverse conjugation words, with the closure
 stable under the ambient history classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normal\_in\_normalizer\_from\_empty\_unit}
 
 \begin{theorem}[Group centralizer normalizer action automorphism and kernel exactness]
 \label{thm:group-centralizer-normalizer-action-automorphism-kernel-exactness}
@@ -325,6 +327,7 @@ Quantifying that equivalence over all elements of $Z_a$ gives the displayed
 kernel clause. No additional carrier is introduced: the kernel predicate is
 the pointwise fixed-action predicate for the restricted normalizer action.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_action\_automorphism\_kernel\_exactness\_from\_empty\_unit}
 
 \begin{theorem}[Group centralizer normalizer conjugation action]
 \label{thm:group-centralizer-normalizer-conjugation-action}
@@ -442,6 +445,7 @@ row again gives the comparison with $x$. Multiplication congruence and
 inverse congruence supply the classifier transport at each product
 replacement.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_action\_inverse\_from\_empty\_unit}
 
 \section{Centralizer normalizer orbit relation}
 \label{sec:group-centralizer-normalizer-orbit}
@@ -532,6 +536,38 @@ $\mathsf{mul}(t,s)$ witnesses $x\sim_{N_a}z$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_orbit\_equivalence\_from\_empty\_unit}
 
+\begin{theorem}[Group centralizer normalizer orbit hsame lift]
+\label{thm:group-centralizer-normalizer-orbit-hsame-lift}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
+associativity, left and right identity laws for $e$, multiplication
+congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-orbit-equivalence}, fix
+$a:\mathsf{BHist}$. Let $Z_a$, $N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be
+as in \autoref{def:group-centralizer-normalizer-orbit-relation}. For carried
+centralizer histories $x,y:\mathsf{BHist}$,
+$$
+Z_a(x)\land Z_a(y)\land \hsame(x,y)\Longrightarrow x\sim_{N_a}y.
+$$
+The ten-field fit is: traditional target identity-conjugator orbit lift; BEDC
+source $\GroupUp$ over $\mathsf{BHist}$; carrier $Z_a$; classifier
+$\sim_{N_a}$; stability by endpoint transport from the identity orbit witness;
+ledger identity conjugator $e$ and the two centralizer endpoints; core theorem
+list \autoref{thm:group-centralizer-normalizer-orbit-equivalence} and
+normalizer-orbit endpoint transport; exactness
+predicate $\hsame$ implies normalizer-orbit reachability on carried endpoints;
+standard bridge ordinary orbit relation contains classifier equality; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The equivalence theorem supplies the reflexive orbit witness
+$x\sim_{N_a}x$ on the centralizer carrier. Endpoint transport for the same
+orbit relation keeps the source endpoint fixed and moves the target endpoint
+from $x$ to $y$ along the given $\hsame(x,y)$ comparison. The carried
+endpoint witnesses $Z_a(x)$ and $Z_a(y)$ provide the transport hypotheses, so
+the transported witness is exactly $x\sim_{N_a}y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_normalizer\_orbit\_hsame\_lift\_from\_empty\_unit}
+
 \begin{definition}[Group center carrier]
 \label{def:group-center-carrier}
 Fix a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$.
@@ -609,3 +645,4 @@ with the particular history $a$, hence it is in $Z_a$. The last row of
 \autoref{thm:group-centralizer-normalizer-subgroup} then places it in
 $N_a$ for the same $a$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_center\_normal\_subgroup\_from\_empty\_unit}

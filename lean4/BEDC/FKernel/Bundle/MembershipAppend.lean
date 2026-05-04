@@ -103,4 +103,41 @@ theorem inBundle_bundleAppend_four_iff {PName : Type} {p : PName}
                     (inBundle_bundleAppend_iff.mpr
                       (Or.inr (inBundle_bundleAppend_iff.mpr (Or.inr inD)))))
 
+theorem inBundle_member_split {PName : Type} {p : PName} :
+    forall {bundle : ProbeBundle PName}, InBundle p bundle ->
+      exists left : ProbeBundle PName, exists right : ProbeBundle PName,
+        bundle = bundleAppend left (ProbeBundle.Bcons p right) := by
+  intro bundle member
+  induction bundle with
+  | Bnil =>
+      exact False.elim member
+  | Bcons q tail ih =>
+      cases member with
+      | inl headSame =>
+          cases headSame
+          exact Exists.intro ProbeBundle.Bnil (Exists.intro tail rfl)
+      | inr tailMember =>
+          cases ih tailMember with
+          | intro left splitRest =>
+              cases splitRest with
+              | intro right tailEq =>
+                  cases tailEq
+                  exact Exists.intro (ProbeBundle.Bcons q left) (Exists.intro right rfl)
+
+theorem inBundle_member_split_iff {PName : Type} {p : PName}
+    {bundle : ProbeBundle PName} :
+    InBundle p bundle <->
+      exists left : ProbeBundle PName, exists right : ProbeBundle PName,
+        bundle = bundleAppend left (ProbeBundle.Bcons p right) := by
+  constructor
+  · intro member
+    exact inBundle_member_split member
+  · intro split
+    cases split with
+    | intro left splitRight =>
+        cases splitRight with
+        | intro right bundleEq =>
+            cases bundleEq
+            exact inBundle_bundleAppend_iff.mpr (Or.inr (Or.inl rfl))
+
 end BEDC.FKernel.Bundle

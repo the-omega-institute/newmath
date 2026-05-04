@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.2 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.4 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -118,7 +118,7 @@ git switch lean4-codex-auto-dev
 git push
 ```
 
-If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, rebase, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
+If you believe the base is stale, stop and leave the round uncommitted. The outer `codex_formalize.py` process owns all base-branch synchronization, merge, and push operations. Phase C only edits files in the current worktree, verifies them, stages the intended files, and creates one local commit on the current round branch.
 
 ## Hard Constraints
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
@@ -184,7 +184,7 @@ python3 tools/check-axioms.py
 ```
 
 ## Step 5: Do not sync remote before commit
-Do not fetch, pull, merge, rebase against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
+Do not fetch, pull, merge against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
 
 If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
 
@@ -240,7 +240,7 @@ git diff --cached -- papers/bedc/ \
     done
 ```
 
-Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the rebased base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
+Any DUPLICATE line means this round is about to introduce a `\\label{}` that is already present in `papers/bedc/parts/` on the current worktree. Even if the merged base branch does not yet have this label, a sibling paper round could land it before this round merges, and the combined audit would fail. Fix one of:
 
 1. Drop the offending paper insertion entirely from this round and let the paper pipeline own that block; the round still keeps its Lean additions.
 2. Rename the `\\label{}` to something that genuinely encodes new content (not a `_v2`, `_alt`, `_under`, `_again` suffix — those are version-narrative and disallowed). Update any internal `\\autoref{}` consumers in the same patch.
@@ -263,6 +263,44 @@ If the staged changes show ZERO insertions in `lean4/BEDC/` (i.e., the round onl
 A valid round produces a non-trivial Lean diff. Marker registration alone is not formalization.
 
 Also do NOT add new `\leanvariant` markers in this round. The 760+ existing `\leanvariant` markers stay; the `bedc_ci.py audit` still requires their Lean targets to resolve. But Phase C in automated rounds must not produce new variants — if a target's only effect is to be a wrapper / projection / iff-rewrite / pair-bundle / weaker form of an already-`\leanchecked` theorem, abort that target and pick something that produces a genuinely new theorem statement.
+
+## Step 5.6: HARD GATE — duplicate theorem detection (round-internal AND tree-wide)
+
+Phase D's `phase_d_lint.py` rejects rounds in two cases. Self-check both before commit:
+
+**(a) Round-internal**: two newly-added theorems with conclusions that are alpha-equivalent (after stripping forall binders and iff direction). Six rounds (R1948 / R1949 / R1950 / R1951 / R1953 / R1954 / R1955) FAILed in 8 minutes by re-implementing `SubgroupCentralizerQuotientKernel_witness_classifier_iff` together with `SubgroupCentralizerNormalizerQuotientClassifier_kernel_iff` and `_kernel_iff_direct` — three names, one conclusion.
+
+**(b) Tree-wide**: a newly-added theorem whose name already exists somewhere under `lean4/BEDC/` outside this round's diff. The same set of failures was caused by codex re-defining theorems that already live in `lean4/BEDC/Derived/SubgroupUp.lean`, just placed in newly-created files like `SubgroupUp/Quotient.lean`. Lean's namespace flattening means `BEDC.Derived.SubgroupUp.<name>` resolves to ONE declaration regardless of file — duplicates would break the build.
+
+Self-check sequence:
+
+```bash
+# 1. List every new theorem name introduced by this round's staged diff
+new_names=$(git diff --cached lean4/BEDC/ \
+  | awk '/^\+\s*(protected )?(theorem|lemma|def|abbrev) /{
+            sub(/^\+\s*(protected )?(theorem|lemma|def|abbrev)[ \t]+/,""); print $1
+         }' | sort -u)
+
+# 2. For each, check if the name ALREADY EXISTS elsewhere in lean4/BEDC/
+for n in $new_names; do
+  # Search for the SAME name in any committed (non-staged) location.
+  if git grep -nE "^\s*(protected )?(theorem|lemma|def|abbrev)\s+${n}\b" -- lean4/BEDC/ \
+     | grep -v ':+' | head -3; then
+    echo "  -> existing declaration found for $n; this round's addition is a DUPLICATE"
+  fi
+done
+
+# 3. List the conclusion types of new theorems for round-internal alpha-equivalence
+git diff --cached lean4/BEDC/ \
+  | awk '/^\+theorem |^\+lemma /{flag=1; print; next} /^\+/ && flag {print} /^[^+]/{flag=0}' \
+  | head -200
+```
+
+If a new declaration's name (case (b)) appears anywhere else under `lean4/BEDC/`, DROP this round's redefinition: `git restore --staged <file>` + re-edit to remove the redundant block.
+
+If two new declarations (case (a)) share a conclusion under different names (e.g. `<X>_iff` vs `<X>_iff_direct`, `<X>` vs `<X>_witness`, `<X>_kernel_iff` vs `<X>QuotientClassifier_kernel_iff` when the second's conclusion proves the same biconditional/equation), KEEP only one — drop the others.
+
+The round commits whichever ONE new theorem is canonical.
 
 ## Step 6: Single combined commit
 ```bash

@@ -42,4 +42,50 @@ theorem GroupSingletonCarrier_append_visible_head_absurd {p q : BHist} :
   · intro carrier
     exact not_hsame_e1_empty (append_eq_empty_iff.mp carrier).left
 
+theorem GroupSingletonClassifier_append_context_unit_split_iff {L R p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append L (append p q)) (append R BHist.Empty) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR
+  have contextIff :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R) (Q := append p q)
+      (S := BHist.Empty) carrierL carrierR
+  constructor
+  · intro classified
+    exact Iff.mp GroupSingletonClassifier_append_unit_split_iff
+      (Iff.mp contextIff classified)
+  · intro split
+    exact Iff.mpr contextIff (Iff.mpr GroupSingletonClassifier_append_unit_split_iff split)
+
+theorem GroupSingletonClassifier_append_context_visible_middle_absurd {L R p q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R ->
+      (GroupSingletonClassifier (append L (BHist.e0 p)) (append R S) -> False) ∧
+      (GroupSingletonClassifier (append L (BHist.e1 p)) (append R S) -> False) ∧
+      (GroupSingletonClassifier (append L S) (append R (BHist.e0 q)) -> False) ∧
+      (GroupSingletonClassifier (append L S) (append R (BHist.e1 q)) -> False) := by
+  intro carrierL carrierR
+  constructor
+  · intro classified
+    have reduced :=
+      (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+        (Q := BHist.e0 p) (S := S) carrierL carrierR).mp classified
+    exact not_hsame_e0_empty reduced.left
+  · constructor
+    · intro classified
+      have reduced :=
+        (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+          (Q := BHist.e1 p) (S := S) carrierL carrierR).mp classified
+      exact not_hsame_e1_empty reduced.left
+    · constructor
+      · intro classified
+        have reduced :=
+          (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+            (Q := S) (S := BHist.e0 q) carrierL carrierR).mp classified
+        exact not_hsame_e0_empty reduced.right.left
+      · intro classified
+        have reduced :=
+          (GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+            (Q := S) (S := BHist.e1 q) carrierL carrierR).mp classified
+        exact not_hsame_e1_empty reduced.right.left
+
 end BEDC.Derived.GroupUp

@@ -66,6 +66,48 @@ nonzero witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_product\_nonzero\_of\_nonzero\_factors}
 
+\begin{theorem}[Field binary product nonzero iff factors]
+\label{thm:field-binary-product-nonzero-iff-factors}
+For a BEDC history-level $\FieldUp$ candidate under the hypotheses of
+\autoref{thm:field-product-nonzero-excludes-zero-factors} and
+\autoref{thm:field-product-nonzero-of-nonzero-factors}, assume also the
+same constructive bridge family: for every $t:\mathsf{BHist}$, an instance
+$$
+\alpha_t:\bigl(t\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(t).
+$$
+Then every $a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(\mathsf{mul}(a,b)) \Longleftrightarrow
+\bigl(\mathsf{NonZero}_F(a)\land\mathsf{NonZero}_F(b)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, let
+$p_{ab}:\mathsf{NonZero}_F(\mathsf{mul}(a,b))$. Apply
+\autoref{thm:field-product-nonzero-excludes-zero-factors} to obtain
+$a\hsame0\to\bot$ and $b\hsame0\to\bot$. Applying $\alpha_a$ and
+$\alpha_b$ gives $\mathsf{NonZero}_F(a)$ and $\mathsf{NonZero}_F(b)$.
+
+For the reverse direction, let
+$p_a:\mathsf{NonZero}_F(a)$ and $p_b:\mathsf{NonZero}_F(b)$. Apply
+\autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_a$ and
+$p_b$, using the same bridge family at $\mathsf{mul}(a,b)$, to obtain
+$\mathsf{NonZero}_F(\mathsf{mul}(a,b))$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.field\_binary\_product\_nonzero\_iff\_factors}
+
+Per-object certificate: Traditional target: binary product nonzero
+exactness. BEDC source: $\FieldUp$ plus the constructive zero-apartness
+bridge. Carrier choice: $\mathsf{BHist}$. Classifier choice:
+$\mathsf{NonZero}_F$. Stability obligations: zero-factor exclusion and
+nonzero-product construction. Ledger: factors $a,b$ and product
+$\mathsf{mul}(a,b)$. Core theorem list:
+Theorem~\ref{thm:field-binary-product-nonzero-iff-factors}. Exactness
+predicate: binary nonzero product exactly matches the pair of factor
+nonzero classifiers. Standard bridge: the concrete
+$\FieldUp(\RatUp)$ product classifier/nonzero exit package. Status:
+ProofTarget.
+
 Per-object certificate: Traditional target: certified nonzero product
 prevents zero factors. BEDC source: $\FieldUp$ plus $\RingUp$ zero
 absorption. Carrier choice: $\mathsf{BHist}$. Classifier choice:

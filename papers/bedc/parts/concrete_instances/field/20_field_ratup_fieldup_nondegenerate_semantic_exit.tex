@@ -170,10 +170,15 @@ same comparison to obtain a singleton-empty carrier witness for $d_1$, and
 contradict the rejection map from
 \autoref{thm:ratup-fieldup-nondegenerate-semantic-exit}.
 
-It remains to obtain the nonzero-complement clause. A failure of
-$\mathsf{fieldSingletonEmptyNonZero}(w)$ would build the forbidden singleton
-empty classifier from the carried singleton-empty witness, so the established
-rejection map for $w$ closes the complement.
+It remains to obtain the nonzero clause. Unfold
+$\mathsf{fieldSingletonEmptyNonZero}(w)$ as the function type
+$$
+\mathsf{fieldSingletonEmptyClassifier}(w,\emp)\to\bot.
+$$
+
+Given a classifier witness for $(w,\emp)$, take its source-carrier component
+$\mathsf{fieldSingletonEmptyCarrier}(w)$. Applying the rejection map for $w$
+constructed in the preceding paragraph gives the required contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.ratup\_fieldup\_empty\_context\_nondegenerate\_witness}
 

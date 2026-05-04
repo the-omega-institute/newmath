@@ -86,6 +86,17 @@ theorem NatMul_succ_inversion {d q n' : BHist} :
   | succ prev step =>
       exact ⟨_, prev, step⟩
 
+theorem NatMul_empty_left_result_empty {q n : BHist} :
+    NatMul BHist.Empty q n -> hsame n BHist.Empty := by
+  intro mul
+  induction mul with
+  | zero _ =>
+      rfl
+  | succ _ step ih =>
+      have emptyResult : hsame _ BHist.Empty := ih
+      cases emptyResult
+      exact cont_left_unit_result step
+
 theorem NatMul_unit_left_hsame {q n : BHist} :
     UnaryHistory q -> NatMul (BHist.e1 BHist.Empty) q n -> hsame n q := by
   intro hq hmul
@@ -97,6 +108,15 @@ theorem NatMul_unit_left_hsame {q n : BHist} :
       have prevSame := ih tailUnary
       cases prevSame
       exact cont_deterministic step (cont_intro rfl)
+
+theorem NatMul_unit_right_hsame {d n : BHist} :
+    NatMul d (BHist.e1 BHist.Empty) n -> hsame n d := by
+  intro hmul
+  cases hmul with
+  | succ previous step =>
+      cases previous with
+      | zero _hd =>
+          exact step.trans (append_empty_left d)
 
 theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
     NatMul d (BHist.e0 q) n -> False := by
@@ -146,6 +166,13 @@ theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
 
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
+
+theorem NatDivides_empty_left_result_empty {n : BHist} :
+    NatDivides BHist.Empty n -> hsame n BHist.Empty := by
+  intro divides
+  cases divides with
+  | intro _ qData =>
+      exact NatMul_empty_left_result_empty qData.right
 
 theorem NatDivides_reflexive_pair {n : BHist} :
     UnaryHistory n ->
@@ -234,14 +261,8 @@ theorem NatPrime_first_pair :
       NatPrime (BHist.e1 (BHist.e1 (BHist.e1 BHist.Empty))) := by
   have emptyFactor_result_empty :
       ∀ {q n : BHist}, NatMul BHist.Empty q n -> hsame n BHist.Empty := by
-    intro q n mul
-    induction mul with
-    | zero _ =>
-        rfl
-    | succ _ step ih =>
-        have emptyResult : hsame _ BHist.Empty := ih
-        cases emptyResult
-        exact cont_left_unit_result step
+    intro _ _ mul
+    exact NatMul_empty_left_result_empty mul
   have largeDivisor_not_two :
       ∀ {d q : BHist}, NatMul (BHist.e1 (BHist.e1 (BHist.e1 d))) q
         (BHist.e1 (BHist.e1 BHist.Empty)) -> False := by
@@ -356,6 +377,13 @@ theorem NatPrime_NatMul_succ_result_not_empty {p q n : BHist} :
   cases multiplicandEmpty
   exact NatUnaryStrictPrefix_empty_right_absurd prime.right.left
 
+theorem NatMul_first_prime_unit_result :
+    NatMul (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
+      (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  have primeTwo : NatPrime (BHist.e1 (BHist.e1 BHist.Empty)) := NatPrime_first_pair.left
+  exact NatMul.succ (NatMul.zero primeTwo.left)
+    (cont_left_unit (BHist.e1 (BHist.e1 BHist.Empty)))
+
 inductive NatFact : BHist -> BHist -> Prop where
   | zero : NatFact BHist.Empty (BHist.e1 BHist.Empty)
   | succ {n m m' : BHist} : NatFact n m -> NatMul (BHist.e1 n) m m' ->
@@ -456,5 +484,22 @@ theorem TrialDiv_bound_unary {b n : BHist} : TrialDiv b n -> UnaryHistory b := b
       exact unary_e1_closed unary_empty
   | step _trial _screen stepCont ih =>
       exact unary_cont_closed ih (unary_e1_closed unary_empty) stepCont
+
+theorem TrialDiv_bound_positive_shape {b n : BHist} :
+    TrialDiv b n -> exists tail : BHist, hsame b (BHist.e1 tail) ∧ UnaryHistory tail := by
+  intro trial
+  cases trial with
+  | unit _hn =>
+      exact ⟨BHist.Empty, hsame_refl (BHist.e1 BHist.Empty), unary_empty⟩
+  | step previous _screen stepCont =>
+      exact ⟨_, stepCont, TrialDiv_bound_unary previous⟩
+
+theorem TrialDiv_bound_not_empty {b n : BHist} :
+    TrialDiv b n -> hsame b BHist.Empty -> False := by
+  intro trial emptyBound
+  have shape := TrialDiv_bound_positive_shape trial
+  cases shape with
+  | intro tail data =>
+      exact not_hsame_e1_empty (hsame_trans (hsame_symm data.left) emptyBound)
 
 end BEDC.Derived.PrimeUp

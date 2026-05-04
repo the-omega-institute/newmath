@@ -88,6 +88,20 @@ constructor separation of the visible step from \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_construct}
 
+\begin{theorem}[Complex visible-step quotient results are nonempty]
+\label{thm:cplx-diff-quot-visible-step-results-nonempty}
+If $f,z,out_0,out_1$ are unary histories and the visible step ledgers
+$\Cont(f,\Ezero(p),out_0)$ and $\Cont(f,\Eone(q),out_1)$ are present, then
+neither visible-step quotient result is $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Use the visible-step construction to build both complex difference quotient
+records. Each record has a constructor-separated nonzero step and a
+continuation ledger, so the quotient result nonempty theorem applies to
+$out_0$ and to $out_1$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_results\_nonempty}
+
 \begin{lemma}[Complex difference quotient is well-defined]
 \label{lem:cplx-diff-quot-well-defined}
 For each \((f, z, h)\) with \(\mathsf{CplxNonZero}(h)\) there is exactly one complex history \(q\), up to \(\hsame\), with \(\mathsf{CplxDiffQuot}(f, z, h, q)\).
@@ -124,6 +138,24 @@ therefore identifies the two step histories. The two ledger fields are retained
 as the displayed continuation witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_same\_result\_step\_deterministic}
+
+\begin{theorem}[Visible complex quotient steps cannot share a result]
+\label{thm:cplx-diff-quot-visible-step-same-result-absurd}
+If
+$$
+\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out)
+\qquad\text{and}\qquad
+\mathsf{CplxDiffQuot}(f,z,\Eone(q),out)
+$$
+hold with the same function, point, and result histories, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+Shared-result step determinacy identifies the two step histories. The resulting
+$\Ezero(p)\hsame\Eone(q)$ contradicts constructor separation for
+$\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_visible\_step\_same\_result\_absurd}
 
 \begin{lemma}[Difference quotient result agrees with any matching continuation]
 \label{lem:cplx-diff-quot-cont-result-hsame}
@@ -208,6 +240,21 @@ forces $h\hsame\emp$, contradicting the non-zero witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_nonempty}
 
+\begin{theorem}[Complex difference quotient result visible-context readback]
+\label{thm:cplx-diff-quot-result-visible-context-readback}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the displayed quotient result is
+equal inside a common left and right append context to the same context around
+$core$, then $q\hsame core$. The readback core is also not
+$\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $q\hsame core$. A hypothetical
+$core\hsame\emp$ transports to $q\hsame\emp$, contradicting the checked
+non-emptiness theorem for complex difference quotient results.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_visible\_context\_readback}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]
@@ -232,6 +279,7 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\), \(\hsame(z, z')\), and \(\hsame(f', g')\),
 \begin{proof}
 Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus comparison's stability under \(\hsame\).
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_hsame\_transport\_witness}
 
 \section{Closure laws for complex differentiability}
 

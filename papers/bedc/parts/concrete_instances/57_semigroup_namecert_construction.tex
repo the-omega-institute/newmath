@@ -50,6 +50,48 @@ are then fed to \texttt{BEDC.FKernel.Cont.cont\_assoc\_hsame}. The result is
 the endpoint $\hsame$ proof between the two parenthesizations, and the carrier
 witnesses already built above package it as $R_U$.
 \end{proof}
+\leanchecked{BEDC.Derived.SemigroupUp.concrete\_unary\_history\_semigroup\_cont\_assoc\_classifier}
+
+\begin{theorem}[Concrete unary-history semigroup fourfold coherence]
+\label{thm:concrete-unary-history-semigroup-fourfold-coherence}
+For unary histories $h,k,l,m:\mathsf{BHist}$, the left-nested and
+right-nested fourfold products are classified by $R_U$:
+$$
+R_U(\mathsf{mul}_U(\mathsf{mul}_U(\mathsf{mul}_U(h,k),l),m),
+\mathsf{mul}_U(h,\mathsf{mul}_U(k,\mathsf{mul}_U(l,m)))).
+$$
+The ten-field per-object fit is: traditional target fourfold semigroup
+associativity coherence; BEDC source $\mathsf{BHist}$ restricted to
+$\mathsf{UnaryHistory}$; carrier $\mathsf{UnaryHistory}$; classifier
+carrier-aware $\hsame$; stability from unary append closure, the checked ternary
+semigroup law, and classifier transitivity; ledger the two fourfold append
+trees; core theorem
+\autoref{thm:concrete-unary-history-semigroup-fourfold-coherence}; exactness
+endpoint classification by $R_U$; standard bridge free unary append semigroup;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First use unary append closure to keep all intermediate products in the carrier.
+In particular, $\mathsf{mul}_U(l,m)$, $\mathsf{mul}_U(h,k)$,
+$\mathsf{mul}_U(\mathsf{mul}_U(h,k),l)$, and the outer products on both sides
+are again unary histories.
+
+Apply \autoref{thm:concrete-unary-history-semigroup-laws} to
+$(\mathsf{mul}_U(h,k),l,m)$. This classifies the left-nested product with the
+middle bracketing
+$$
+\mathsf{mul}_U(\mathsf{mul}_U(h,k),\mathsf{mul}_U(l,m)).
+$$
+
+Apply \autoref{thm:concrete-unary-history-semigroup-laws} again to
+$(h,k,\mathsf{mul}_U(l,m))$. This classifies the same middle bracketing with
+the right-nested product.
+
+Finally compose the two classifier witnesses using
+\autoref{lem:concrete-unary-history-magma-classifier-stability}. Its
+transitivity component gives the displayed $R_U$ classification between the two
+fourfold append trees.
+\end{proof}
 
 The ten-field per-object fit is: traditional target semigroup; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
@@ -62,3 +104,47 @@ $\mathsf{ProofTarget}$.
 
 \section{The certificate}
 \label{sec:semigroup-certificate}
+
+\begin{theorem}[Concrete unary-history SemigroupUp semantic certificate]
+\label{thm:concrete-unary-history-semigroup-semantic-certificate}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$, let
+$\mathsf{mul}_U(h,k):=\mathsf{append}(h,k)$, and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+The tuple with source, pattern, and ledger all equal to $U$, classifier
+$R_U$, and multiplication $\mathsf{mul}_U$ is the concrete $\SemigroupUp$
+semantic naming certificate over $\mathsf{BHist}$. Its certificate fields are:
+carrier inhabitation by $\emp$; classifier reflexivity, symmetry,
+transitivity, and carrier transport; multiplication closure; multiplication
+congruence; associativity; ledger append provenance through $\Cont$; and
+exactness
+$$
+R_U(h,k)\Longleftrightarrow U(h)\land U(k)\land\hsame(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The carrier field is supplied by $\emp$, which is a unary history. The
+classifier fields are the four stability components of
+\autoref{lem:concrete-unary-history-magma-classifier-stability}: reflexivity on
+carrier points, symmetry, transitivity, and the two endpoint carrier
+projections stored in each $R_U(h,k)$ witness.
+
+The multiplication closure and multiplication congruence fields are inherited
+from \autoref{thm:concrete-unary-history-magma-laws}, applied to the same
+carrier $U$, multiplication $\mathsf{append}$, and classifier $R_U$. The ledger
+row is the canonical append provenance
+$\Cont(h,k,\mathsf{append}(h,k))$ for the displayed multiplication.
+
+Associativity is the additional semigroup law in
+\autoref{thm:concrete-unary-history-semigroup-laws}. Its checked Lean source,
+\texttt{BEDC.Derived.SemigroupUp.concrete\_unary\_history\_semigroup\_cont\_assoc\_classifier},
+packages the two parenthesized append products as carrier-aware $R_U$-equivalent
+endpoints.
+
+Finally, exactness is definitional: the public classifier $R_U$ is precisely the
+triple consisting of the two unary carrier witnesses and the endpoint
+$\hsame$ proof. Thus the displayed biconditional is the certificate's endpoint
+criterion, with no extra cases beyond the concrete unary-history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.SemigroupUp.ConcreteUnaryHistorySemigroup\_semanticNameCert}
