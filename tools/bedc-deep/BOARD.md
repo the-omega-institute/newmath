@@ -3064,3 +3064,28 @@ Adjunctions are present in the paper only as definitions (def:adjunction-unit-co
 
 ---
 
+### B-121 - LinearMap identity unit laws
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap identity unit laws |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If LinearMapCert_R(M,N;f) holds, then id_N ∘ f and f ∘ id_M carry LinearMap certificates and are related to f by the pointwise LinearMap classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 23 already proves id is a linear map (thm:module-linearmap-identity-certificate) and composition is a linear map (thm:module-linearmap-composition-certificate, thm:linmap-composition-classifier-congruence), but the explicit categorical unit laws id_N ∘ f ∼ f and f ∘ id_M ∼ f under the pointwise LinearMap classifier are not stated. This completes the categorical-unit fragment of the LinearMap certificate algebra in a way parallel to B-11 (functor composition closure) and B-14 (nattrans composition naturality), and is a clean follow-up to the identity and composition certificates already in the chapter. Proof reduces to point evaluation plus classifier reflexivity, but the standalone statement is currently absent. Borderline novelty because it is a thin corollary of existing theorems, but it fills a precise categorical-law gap.
+
+---
+
