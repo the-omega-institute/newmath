@@ -68,6 +68,24 @@ Allowed split pattern:
 
 If the target includes a line-cap split, perform the split before applying any new theorem/prose content, then apply the content in the appropriate child file. If the target is only a split with no substantive theorem/definition/proof/certificate change, it is INVALID; skip the round rather than committing file movement.
 
+## Hub recognition rule
+
+A `.tex` file may already be a HUB — i.e. previously split, with all substantive content moved into child files referenced by `\input`. Detect it on `paper_files[0]` before editing:
+
+```bash
+f=<paper_files[0]>
+total=$(grep -cEv '^\s*$|^\s*%' "$f")
+inputs=$(grep -cE '^\s*\\input\{' "$f")
+own=$(grep -cE '\\(chapter|section|begin\{(theorem|definition|proposition|lemma|corollary|proof)\})' "$f")
+```
+
+If `total <= 30` AND `inputs * 100 >= total * 80` AND `own == 0`, the file is a HUB and you MUST NOT append theorem / definition / proof / certificate content to it. Two valid moves:
+
+1. Pick the relevant `\input`-ed child file (one of the paths the hub references) and edit that child instead. The original target's chapter / section / theorem labels remain intact because they live in the child.
+2. If no existing child fits the new content, create a new sibling child under the same hub-subdirectory (e.g. `papers/bedc/parts/concrete_instances/prod/<new-child>.tex`), put the new content there, and append a single `\input{...}` line to the parent hub in alphabetical / numeric order.
+
+Appending substantive content directly to a hub will be reverted within a few rounds by a "keep paper sites singular" cleanup commit, wasting your round's codex-exec budget. Phase REVIEW should already have rejected such targets — if you see a hub as `paper_files[0]` for a non-split content target, treat it as a Phase REVIEW miss and abort the round per Step 0 rather than committing the broken edit.
+
 ## Step 0.7: Proof-prose readability (HARD GATE)
 
 When the target adds or rewrites a `\begin{proof}…\end{proof}` block, the prose MUST be paragraph-segmented for readability. A monolithic 8–15-line wall of text running through "Apply Theorem X. Apply Theorem Y. Apply Theorem Z. ..." is rejected even if it builds.
