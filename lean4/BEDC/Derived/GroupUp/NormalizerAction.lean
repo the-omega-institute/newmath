@@ -122,6 +122,23 @@ theorem GroupSingletonNormalizerOrbit_action_identity_iff {s x y : BHist} :
   · intro _sourceOrbit
     exact (GroupSingletonNormalizerOrbit_action_single_fiber_iff carrierS carrierX).mpr carrierY
 
+theorem GroupSingletonNormalizerOrbit_action_invariance {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      GroupSingletonNormalizerOrbit x y ->
+        GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+          (append (append s y) BHist.Empty) := by
+  intro carrierS _carrierX _carrierY orbit
+  have endpoints := GroupSingletonNormalizerOrbit_coverage_iff.mp orbit
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have actionXCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS endpoints.left)) emptyCarrier)
+  have actionYCarrier : GroupSingletonCarrier (append (append s y) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS endpoints.right)) emptyCarrier)
+  exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
+    (And.intro actionXCarrier actionYCarrier)
+
 theorem GroupSingletonNormalizerAction_composition_collapse {s t x : BHist} :
     GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
       GroupSingletonCarrier (append (append t x) BHist.Empty) ∧
@@ -153,9 +170,9 @@ theorem GroupSingletonNormalizerAction_composition_collapse {s t x : BHist} :
   exact And.intro actionTCarrier
     (And.intro nestedCarrier
       (And.intro composedCarrier
-        (And.intro
-          (And.intro nestedCarrier
-            (And.intro carrierX (hsame_trans nestedCarrier (hsame_symm carrierX))))
+          (And.intro
+            (And.intro nestedCarrier
+              (And.intro carrierX (hsame_trans nestedCarrier (hsame_symm carrierX))))
           (And.intro composedCarrier
             (And.intro carrierX (hsame_trans composedCarrier (hsame_symm carrierX)))))))
 
