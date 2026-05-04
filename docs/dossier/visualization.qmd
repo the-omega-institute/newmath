@@ -7,7 +7,10 @@ format:
     page-layout: full
     include-in-header:
       text: |
-        <link rel="stylesheet" href="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.css">
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+              integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib"
+              crossorigin="anonymous">
 ---
 
 ```{=html}
@@ -159,6 +162,60 @@ format:
   }
   #spark { flex: 1; height: 28px; }
   .map-footer .meta { white-space: nowrap; }
+
+  /* Theorem-list panel (shown after region-click) */
+  #thm-list-panel {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fbfbfa; z-index: 500; overflow-y: auto;
+    font-family: ui-monospace, monospace;
+  }
+  #thm-list-panel .tlp-header {
+    position: sticky; top: 0; background: #fff; border-bottom: 1px solid #e0e0e0;
+    padding: 0.75rem 1.2rem; display: flex; align-items: center; gap: 1rem; z-index: 10;
+  }
+  #thm-list-panel .tlp-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+  #thm-list-panel .tlp-back {
+    border: 1px solid #ccc; background: white; padding: 0.25rem 0.7rem;
+    cursor: pointer; font-family: inherit; font-size: 0.88rem; border-radius: 3px;
+  }
+  #thm-list-panel .tlp-back:hover { background: #f0f0f0; }
+  #thm-list-panel .tlp-count { font-size: 0.84rem; color: #888; }
+  #thm-list-panel .tlp-body { padding: 0.8rem 1.2rem; }
+  #thm-list-panel .tlp-row {
+    padding: 0.45rem 0.7rem; margin-bottom: 0.3rem;
+    border: 1px solid #e8e8e8; background: #fff; border-radius: 3px;
+    cursor: pointer; display: flex; align-items: baseline; gap: 0.6rem;
+  }
+  #thm-list-panel .tlp-row:hover { background: #f4f7fc; border-color: #b0c4de; }
+  #thm-list-panel .tlp-name { font-size: 0.82rem; flex: 1; word-break: break-all; }
+  #thm-list-panel .tlp-badge {
+    font-size: 0.72rem; padding: 0.05rem 0.35rem; border-radius: 3px;
+    white-space: nowrap;
+  }
+  #thm-list-panel .tlp-badge.checked { background: #e9f7ef; color: #1e7c43; }
+  #thm-list-panel .tlp-badge.stmt    { background: #eaf3fb; color: #1f5d8a; }
+  #thm-list-panel .tlp-badge.def-only{ background: #f4f4f4; color: #555; }
+  #thm-list-panel .tlp-markers { font-size: 0.72rem; color: #aaa; }
+
+  /* Transit-map overlay */
+  #transit-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fbfbfa; z-index: 600; overflow-y: auto;
+    font-family: ui-monospace, monospace;
+  }
+  #transit-overlay .to-header {
+    position: sticky; top: 0; background: #fff; border-bottom: 1px solid #e0e0e0;
+    padding: 0.75rem 1.2rem; display: flex; align-items: center; gap: 1rem; z-index: 10;
+  }
+  #transit-overlay .to-header h2 { margin: 0; font-size: 1rem; font-weight: 600; flex: 1; word-break: break-all; }
+  #transit-overlay .to-back {
+    border: 1px solid #ccc; background: white; padding: 0.25rem 0.7rem;
+    cursor: pointer; font-family: inherit; font-size: 0.88rem; border-radius: 3px;
+  }
+  #transit-overlay .to-back:hover { background: #f0f0f0; }
+  #transit-map-container { padding: 1rem 1.2rem; }
 </style>
 
 <div class="map-shell">
@@ -217,9 +274,47 @@ format:
   </div>
 </div>
 
-<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
-<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
-<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+<!-- Theorem-list panel: shown when a region node is clicked -->
+<div id="thm-list-panel">
+  <div class="tlp-header">
+    <button class="tlp-back" onclick="closeThmList()">&#8592; Back</button>
+    <h2 id="tlp-title"></h2>
+    <span class="tlp-count" id="tlp-count"></span>
+  </div>
+  <div class="tlp-body" id="tlp-body"></div>
+</div>
+
+<!-- Transit-map overlay: shown when a theorem row is clicked -->
+<div id="transit-overlay">
+  <div class="to-header">
+    <button class="to-back" onclick="closeTransitMap()">&#8592; Back</button>
+    <h2 id="to-title"></h2>
+  </div>
+  <div id="transit-map-container"></div>
+</div>
+
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"
+        integrity="sha384-IWROdLKRsN1UuJywMlWl7/blXQ8GEooN2n7dzTxfEPd7ybYIKCUJ2Ol/1Gpf3YV4"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"
+        integrity="sha384-2IH3T69EIKYC4c+RXZifZRvaH5SRUdacJW7j6HtE5rQbvLhKKdawxq6vpIzJ7j9M"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"
+        integrity="sha384-u69h9ebXeSjlg6q/rb1zKTRAGu/h8deCl0409xpS/QJctMKnc4M9Fzkm01VOQdeF"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+        integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+        crossorigin="anonymous"></script>
+<script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+        integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
+        crossorigin="anonymous"></script>
+<script type="module">
+  import { renderStatement } from "./components/lean_to_katex.js";
+  import { renderTransitMap, renderTrustSummary } from "./components/transit-map.js";
+  window.LeanToKaTeX = { renderStatement };
+  window.TransitMap = { renderTransitMap, renderTrustSummary };
+</script>
 
 <script>
 const I18N = {
@@ -312,16 +407,26 @@ const I18N = {
 let LANG = "en";
 let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
 let CRIT_SET = new Set();
+let THEOREM_GRAPH = null, KATEX_GLOSSARY = null;
+let RECORDS_BY_NAME = null;
 
 async function loadData() {
   const v = "?v=" + Date.now();
-  const [s, g, d] = await Promise.all([
+  const [s, g, d, tg, kg] = await Promise.all([
     fetch("data/status.json" + v, { cache: "no-store" }).then(r => r.json()),
     fetch("data/glossary.json" + v, { cache: "no-store" }).then(r => r.json()),
     fetch("data/dependency.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/theorem_graph.json" + v, { cache: "no-store" }).then(r => r.json()).catch(() => null),
+    fetch("data_source/katex_glossary.json" + v, { cache: "no-store" }).then(r => r.json()).catch(() => null),
   ]);
   STATUS = s; GLOSSARY = g; DEPS = d;
   CRIT_SET = new Set((STATUS.critical_path || []).map(c => c.name));
+  if (tg) {
+    THEOREM_GRAPH = tg;
+    const records = tg.theorems || tg.records || [];
+    RECORDS_BY_NAME = new Map(records.map(r => [r.name, r]));
+  }
+  KATEX_GLOSSARY = kg || {};
 }
 
 function t(key) { return I18N[LANG][key] || key; }
@@ -739,6 +844,9 @@ function showNodeDetail(id) {
   }
 
   document.getElementById("detail-content").innerHTML = html;
+
+  // Open theorem-list panel if theorem_graph data is available
+  if (THEOREM_GRAPH) openThmList(id);
 }
 
 function renderCritList() {
@@ -793,6 +901,98 @@ function setLang(lang) {
   // refresh glossary if open
   const pane = document.getElementById("glossary-pane");
   if (pane && pane.classList.contains("open")) renderGlossary();
+}
+
+// ---------------------------------------------------------------------------
+// Theorem-list panel
+// ---------------------------------------------------------------------------
+
+function statusBadgeClass(status) {
+  if (status === "checked") return "checked";
+  if (status === "stmt")    return "stmt";
+  return "def-only";
+}
+
+function openThmList(regionId) {
+  if (!THEOREM_GRAPH) return;
+  const records = THEOREM_GRAPH.theorems || THEOREM_GRAPH.records || [];
+  const regionRecords = records.filter(r => r.region === regionId);
+
+  const g = GLOSSARY[regionId];
+  const regionLabel = g ? g[LANG].label : regionId;
+  document.getElementById("tlp-title").textContent = regionLabel;
+  document.getElementById("tlp-count").textContent = `${regionRecords.length} declarations`;
+
+  const body = document.getElementById("tlp-body");
+  if (!regionRecords.length) {
+    body.innerHTML = `<div style="color:#aaa;padding:1rem;">No declarations in this region.</div>`;
+  } else {
+    const rows = regionRecords.map(r => {
+      const bc = statusBadgeClass(r.status);
+      const markerCount = (r.paper_marker_sites || []).length;
+      const markers = markerCount > 0
+        ? `<span class="tlp-markers">${markerCount} paper marker${markerCount !== 1 ? "s" : ""}</span>`
+        : "";
+      return `<div class="tlp-row" onclick="openTransitMap(${JSON.stringify(r.name)})">` +
+        `<span class="tlp-name">${r.name}</span>` +
+        `<span class="tlp-badge ${bc}">${r.status}</span>` +
+        markers +
+        `</div>`;
+    });
+    body.innerHTML = rows.join("");
+  }
+
+  document.getElementById("thm-list-panel").style.display = "block";
+}
+
+function closeThmList() {
+  document.getElementById("thm-list-panel").style.display = "none";
+}
+
+// ---------------------------------------------------------------------------
+// Transit-map overlay
+// ---------------------------------------------------------------------------
+
+function openTransitMap(recordName) {
+  if (!RECORDS_BY_NAME) return;
+  const record = RECORDS_BY_NAME.get(recordName);
+  if (!record) return;
+
+  document.getElementById("to-title").textContent = record.name;
+
+  const container = document.getElementById("transit-map-container");
+  container.innerHTML = "";
+
+  const overlay = document.getElementById("transit-overlay");
+  overlay.style.display = "block";
+
+  function doRender() {
+    if (window.TransitMap && window.TransitMap.renderTransitMap) {
+      window.TransitMap.renderTransitMap({
+        record,
+        recordsByName: RECORDS_BY_NAME,
+        container,
+        glossary: KATEX_GLOSSARY,
+        renderStatement: window.LeanToKaTeX ? window.LeanToKaTeX.renderStatement : null,
+        opts: {
+          dagre: window.dagre || null,
+          githubBlobBase: "https://github.com/the-omega-institute/newmath/blob/main/",
+          paperPdfUrl: "bedc.pdf",
+        },
+      });
+    } else {
+      container.innerHTML =
+        `<div style="padding:1rem;font-family:monospace;color:#888;">` +
+        `Loading transit-map module…</div>`;
+      setTimeout(doRender, 150);
+    }
+  }
+  doRender();
+}
+
+function closeTransitMap() {
+  document.getElementById("transit-overlay").style.display = "none";
+  document.getElementById("transit-map-container").innerHTML = "";
 }
 
 (async () => {
