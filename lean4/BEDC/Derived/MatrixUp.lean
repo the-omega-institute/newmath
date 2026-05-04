@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MatrixUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 def MatrixSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -24,6 +26,24 @@ def MatrixSingletonAdd (M N : BHist) : BHist :=
 
 def MatrixSingletonMul (M N : BHist) : BHist :=
   append M N
+
+def MatrixSingletonPow (M exponent : BHist) : BHist :=
+  match exponent with
+  | BHist.Empty => MatrixSingletonOne
+  | BHist.e0 _ => MatrixSingletonZero
+  | BHist.e1 tail => MatrixSingletonMul (MatrixSingletonPow M tail) M
+
+theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      MatrixSingletonCarrier (MatrixSingletonPow M exponent) := by
+  intro carrierM exponentUnary
+  induction exponent with
+  | Empty =>
+      exact hsame_refl BHist.Empty
+  | e0 tail _ih =>
+      exact hsame_refl BHist.Empty
+  | e1 tail ih =>
+      exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
 
 theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
     MatrixSingletonClassifier (append M N) h ↔
