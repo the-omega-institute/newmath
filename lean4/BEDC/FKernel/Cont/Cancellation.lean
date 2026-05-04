@@ -251,6 +251,24 @@ theorem cont_composite_tail_iff {a b c f g t : BHist} :
   · intro direct
     exact cont_composite_tail_unique left right direct
 
+theorem cont_composite_endpoint_empty_tails_iff {a b c f g : BHist} :
+    Cont a f b -> Cont b g c ->
+      (hsame c a <-> hsame f BHist.Empty ∧ hsame g BHist.Empty) := by
+  intro left right
+  constructor
+  · intro sameEndpoint
+    have composite : Cont a (append f g) c := by
+      cases left
+      exact right.trans (append_assoc a f g)
+    have cycle : Cont a (append f g) a :=
+      cont_result_hsame_transport composite sameEndpoint
+    exact append_eq_empty_iff.mp (cont_right_unit_unique cycle)
+  · intro tails
+    cases tails.left
+    cases tails.right
+    exact hsame_trans (cont_deterministic right (cont_right_unit b))
+      (cont_deterministic left (cont_right_unit a))
+
 theorem cont_nested_empty_result_inversion {a b c f g : BHist} :
     Cont a f b -> Cont b g c -> hsame c BHist.Empty ->
       hsame a BHist.Empty ∧ hsame f BHist.Empty ∧ hsame b BHist.Empty ∧

@@ -116,6 +116,25 @@ two rational histories and uses reflexivity at both seals.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real classifier unary-tail closure]
+\label{thm:real-constant-history-classifier-append-unary-tail-closed}
+For all histories $d,e$ and unary history $t$,
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))
+\Longrightarrow
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot t),\Eone(e\cdot t)).
+$$
+\end{theorem}
+\begin{proof}
+Read the two sealed constant-real endpoints back through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat} as a rational
+history classifier between $d$ and $e$. The rational classifier is closed under
+appending the same unary denominator tail to both exposed histories, and the
+same e-one bridge repacks the appended rational classifier as a constant-real
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_unary\_tail\_closed}
+
 \begin{theorem}[Constant real classifier double-seal readback]
 \label{thm:real-constant-history-classifier-e1-pair-readback}
 If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
@@ -162,6 +181,25 @@ $\hsame$ move the displayed endpoint equalities from $h,k$ to $h',k'$, while
 the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
+
+\begin{theorem}[Constant real classifier e-one tail readback]
+\label{thm:real-constant-history-classifier-e1-tail-readback}
+If a constant real classifier is displayed at two visible rational seals, then
+the displayed tails carry the rational history classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)\Longrightarrow
+\hsame(h,\Eone(d))\Longrightarrow
+\hsame(k,\Eone(e))\Longrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Transport the classifier along the two displayed endpoint equalities to obtain
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$. The e-one seal
+readback theorem for constant real classifiers then exposes the rational
+classifier on the two tails.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_tail\_readback}
 
 \begin{theorem}[Constant real classifier unary denominator context closure]
 \label{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}
