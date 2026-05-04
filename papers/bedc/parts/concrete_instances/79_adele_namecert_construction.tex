@@ -274,6 +274,23 @@ unit-left prime-scale append factorization applied to the unary right exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_left\_scale\_cont\_readback}
 
+\begin{theorem}[Adele unit-right scale continuation readback]
+\label{thm:adele-history-carrier-unit-right-scale-cont-readback}
+Let $real,p,w,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier, $w$ is unary, and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),result)$ holds,
+then $\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\exists n.\,\mathsf{PadicPrimeScale}(p,w,n)\land\ContR(n,p,result).
+$$
+\end{theorem}
+\begin{proof}
+The adele carrier uses the displayed real component, prime base, appended
+unit-right exponent, and scale result. The continuation readback is exactly the
+unit-right prime-scale append factorization applied to the unary left exponent.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_right\_scale\_cont\_readback}
+
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}
 Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible

@@ -67,8 +67,34 @@ theorem ContinuousModulusChain_empty_second_witness {source first second target 
                           exact
                             And.intro sourceCarrier
                               (And.intro firstCarrier
+                              (And.intro targetCarrier
+                                (cont_result_hsame_transport firstRel
+                                  (hsame_symm sameTargetMiddle))))
+
+theorem ContinuousModulusChain_empty_first_witness {source first second target : BHist} :
+    ContinuousModulusChain source first second target -> hsame first BHist.Empty ->
+      ContinuousModulusWitness source second target := by
+  intro chain firstEmpty
+  cases chain with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro _firstCarrier rest =>
+          cases rest with
+          | intro secondCarrier rest =>
+              cases rest with
+              | intro targetCarrier witness =>
+                  cases witness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          have sameMiddleSource : hsame middle source :=
+                            cont_respects_hsame (hsame_refl source) firstEmpty firstRel
+                              (cont_right_unit source)
+                          exact
+                            And.intro sourceCarrier
+                              (And.intro secondCarrier
                                 (And.intro targetCarrier
-                                  (cont_result_hsame_transport firstRel
-                                    (hsame_symm sameTargetMiddle))))
+                                  (cont_hsame_transport sameMiddleSource
+                                    (hsame_refl second) (hsame_refl target) secondRel)))
 
 end BEDC.Derived.ContinuousUp
