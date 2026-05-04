@@ -262,6 +262,26 @@ theorem LatticeSingletonMeet_greatest_lower_bound_empty_iff {h k z : BHist} :
       (And.intro bounds.right.right
         (PreorderPrefixLE_of_hsame (hsame_trans zCarrier (hsame_symm bounds.right.right))))
 
+theorem LatticeSingletonJoin_least_upper_bound_empty_iff {h k z : BHist} :
+    LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
+      (LatticeSingletonLE (LatticeSingletonJoin h k) z ↔
+        LatticeSingletonLE h z ∧ LatticeSingletonLE k z ∧
+          hsame (LatticeSingletonJoin h k) BHist.Empty) := by
+  intro hCarrier kCarrier zCarrier
+  constructor
+  · intro _joinBound
+    have sameHZ : hsame h z := hsame_trans hCarrier (hsame_symm zCarrier)
+    have sameKZ : hsame k z := hsame_trans kCarrier (hsame_symm zCarrier)
+    constructor
+    · exact And.intro hCarrier (And.intro zCarrier (PreorderPrefixLE_of_hsame sameHZ))
+    · constructor
+      · exact And.intro kCarrier (And.intro zCarrier (PreorderPrefixLE_of_hsame sameKZ))
+      · exact hsame_refl BHist.Empty
+  · intro bounds
+    exact And.intro bounds.right.right
+      (And.intro zCarrier
+        (PreorderPrefixLE_of_hsame (hsame_trans bounds.right.right (hsame_symm zCarrier))))
+
 theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
     Cont P Q R -> (LatticeSingletonClassifier P Q <-> LatticeSingletonClassifier R P) := by
   intro continuation
