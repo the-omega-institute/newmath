@@ -248,6 +248,23 @@ theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
         (ComplexDistance_hsame_transport_with_relation
           (pointwise unaryN) (pointwise unaryM) (hsame_refl d) distance).left
 
+theorem ComplexLimit_sequence_hsame_transport {s t N M : BHist -> BHist} {z : BHist} :
+    (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
+      ComplexLimit s N z M -> ComplexLimit t N z M := by
+  intro pointwise limit
+  cases limit with
+  | intro regular rest =>
+      cases rest with
+      | intro carrierZ modulus =>
+          exact And.intro (ComplexRegularSequence_hsame_transport pointwise regular)
+            (And.intro carrierZ
+              (fun k n unaryK unaryN controlled =>
+                match modulus k n unaryK unaryN controlled with
+                | Exists.intro d distance =>
+                    Exists.intro d
+                      (ComplexDistance_hsame_transport_with_relation
+                        (pointwise unaryN) (hsame_refl z) (hsame_refl d) distance).left))
+
 theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q : BHist} :
     UnaryHistory q -> ComplexRegularSequence s N ->
       ComplexRegularSequence (fun n : BHist => append (s n) q) N := by
@@ -262,6 +279,22 @@ theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q 
         (And.intro leftUnary
           (And.intro rightUnary
             (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
+
+theorem ComplexLimit_append_constant_closed {s N M : BHist -> BHist} {z q : BHist} :
+    UnaryHistory q -> ComplexLimit s N z M ->
+      ComplexLimit (fun n : BHist => append (s n) q) N (append z q) M := by
+  intro unaryQ limit
+  cases limit with
+  | intro regular rest =>
+      cases rest with
+      | intro carrierZ modulus =>
+          exact And.intro (ComplexRegularSequence_append_constant_closed unaryQ regular)
+            (And.intro (ComplexHistoryCarrier_append_unary_closed carrierZ unaryQ)
+              (fun k n unaryK unaryN controlled =>
+                match modulus k n unaryK unaryN controlled with
+                | Exists.intro d distance =>
+                    Exists.intro (append (append (s n) q) (append z q))
+                      (ComplexDistance_append_constant_closed unaryQ distance)))
 
 theorem ComplexRegularSequence_append_constant_result_deterministic {s N : BHist -> BHist}
     {q k n m d' : BHist} :

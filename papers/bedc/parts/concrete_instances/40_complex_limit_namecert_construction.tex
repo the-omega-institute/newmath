@@ -418,6 +418,22 @@ distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
 
+\begin{theorem}[Complex limit constant suffix closure]
+\label{thm:complex-limit-append-constant-closed}
+Let $q:\mathsf{BHist}$ be unary. If $\mathsf{CplxLim}(s,N,z,M)$ holds, then
+the suffixed sequence $n\mapsto\mathsf{append}(s(n),q)$ has complex limit
+$\mathsf{append}(z,q)$ with the same regularity modulus $N$ and limit modulus
+$M$.
+\end{theorem}
+\begin{proof}
+Regularity is transported by the regular-sequence constant suffix closure. The
+limit carrier is closed by complex-history unary suffix closure. For every
+accepted modulus index, the original limit witness gives a complex distance
+from $s(n)$ to $z$; applying constant suffix closure to that distance gives the
+canonical distance from $\mathsf{append}(s(n),q)$ to $\mathsf{append}(z,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_append\_constant\_closed}
+
 \begin{theorem}[Regular complex sequence constant suffix result determinacy]
 \label{thm:complex-regular-sequence-append-constant-result-deterministic}
 Let \(q:\mathsf{BHist}\) be unary and let \((s,N)\) be a regular complex
@@ -469,6 +485,21 @@ same distance witness \(d\), transport the two complex-distance endpoints along
 the pointwise \(\hsame\) comparisons, and keep \(d\) fixed by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_hsame\_transport}
+
+\begin{theorem}[Complex limit sequence endpoint transport]
+\label{thm:complex-limit-sequence-hsame-transport}
+Let $s,t,N,M:\Hist\to\Hist$. If every unary index $n$ satisfies
+$\hsame(s(n),t(n))$, then $\mathsf{CplxLim}(s,N,z,M)$ implies
+$\mathsf{CplxLim}(t,N,z,M)$.
+\end{theorem}
+\begin{proof}
+The regular part is transported pointwise by the regular-sequence endpoint
+transport theorem. The displayed complex-history carrier for $z$ is unchanged.
+For each accepted limit-modulus index, reuse the original distance witness and
+transport its sequence endpoint from $s(n)$ to $t(n)$ along the supplied
+$\hsame$ comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_sequence\_hsame\_transport}
 
 \begin{definition}[Pointwise sum of complex sequences]
 \label{def:cplx-pointwise-sum}
