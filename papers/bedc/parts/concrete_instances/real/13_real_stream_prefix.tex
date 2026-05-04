@@ -519,6 +519,50 @@ zero-endpoint absurdity.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Real stream classifier selected continuation endpoint boundary package]
+\label{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then the selected continuation endpoints carry the boundary package
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq)\land\\
+\mathsf{UnaryHistory}(xq)\land
+\mathsf{UnaryHistory}(yq)\land\\
+(\hsame(xq,\emp)\to\mathsf{False})\land
+(\hsame(yq,\emp)\to\mathsf{False})\land\\
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-positive-denominators}
+to the selected stream classifier, the shared unary suffix, and the two
+continuation displays. This gives positive unary denominator witnesses for
+$xq$ and $yq$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two denominator witnesses. These two applications give
+$\mathsf{UnaryHistory}(xq)$, $\mathsf{UnaryHistory}(yq)$, and the two
+empty-endpoint exclusions.
+
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+to the same selected continuation data. This gives the two zero-headed endpoint
+exclusions. Package the denominator, unary, empty-endpoint, and zero-endpoint
+rows in the displayed order.
+\end{proof}
+
 \begin{theorem}[Real stream classifier selected continuation full shape package]
 \label{thm:real-stream-classifier-selected-continuation-full-shape-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
@@ -559,19 +603,10 @@ outputs, and the two displayed e-one tails. This reads back
 $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
 
 Apply
-\autoref{thm:real-stream-classifier-selected-continuation-positive-denominators}
-to the same selected continuation data. This gives positive unary denominator
-witnesses for $xq$ and $yq$.
-
-Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
-the two positive denominator witnesses. The two applications give
-$\mathsf{UnaryHistory}(xq)$, $\mathsf{UnaryHistory}(yq)$, and the two
-empty-endpoint exclusions.
-
-Apply
-\autoref{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
-to the selected continuation data and the two zero-headed endpoint tests. This
-gives the $xq$ and $yq$ zero-endpoint contradictions.
+\autoref{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+to the same selected continuation data. This supplies both positive denominator
+rows, both unary endpoint rows, both empty-endpoint exclusions, and both
+zero-headed endpoint exclusions.
 
 Package the e-one tail readback, the positive denominator witnesses, the unary
 endpoint rows, the empty-endpoint exclusions, and the zero-endpoint exclusions.
