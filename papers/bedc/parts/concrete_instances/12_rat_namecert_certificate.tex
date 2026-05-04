@@ -526,6 +526,29 @@ and the matching tails. Then apply rat ledger prepend unary denominator closure
 to the resulting ledger and the matching prefixes.
 \end{proof}
 
+\begin{theorem}[Rat ledger unary context zero-extension endpoint exclusion]
+\label{thm:rat-ledger-unary-context-zero-extension-endpoint-exclusion}
+Let $\rho,v,p,p',t,t',z,z':\mathsf{BHist}$. If
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, $p,p'$ are matched unary
+prefixes with $\hsame(p,p')$, and $t,t'$ are matched unary tails with
+$\hsame(t,t')$, then the contextual raw and visible ledger endpoints cannot be
+zero-extension endpoints:
+$$
+(\hsame(\mathsf{append}(p,\mathsf{append}(\rho,t)),\Ezero(z))\to
+\mathsf{False})\land
+(\hsame(\mathsf{append}(p',\mathsf{append}(v,t')),\Ezero(z'))\to
+\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply rat ledger unary denominator context closure to obtain the contextual
+ledger. The raw-visible classifier theorem turns that ledger into a rational
+history classifier between the contextual raw and visible endpoints. Transport
+this classifier across a displayed zero-extension equality on either endpoint,
+then use rational history classifier zero-extension endpoint exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_unary\_context\_zero\_extension\_endpoint\_exclusion}
+
 \begin{theorem}[Rat ledger history-sameness transport]
 \label{thm:rat-ledger-hsame-transport}
 If a rational ledger relates raw and visible histories, then transporting the
