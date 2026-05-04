@@ -29,4 +29,71 @@ theorem FunctorPrefixHomCarrier_comp_family_public_readback {a b c f g fg displa
     CategoryHomCarrier_comp_closed leftEmpty rightEmpty comp
   exact CategoryHomCarrier_morphism_deterministic compositeEmpty displayedEmpty
 
+inductive RawFunctorSourceHom : BHist -> BHist -> BHist -> Prop
+  | id_zero : RawFunctorSourceHom BHist.Empty BHist.Empty BHist.Empty
+  | id_one :
+      RawFunctorSourceHom (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)
+        (BHist.e1 BHist.Empty)
+  | arrow :
+      RawFunctorSourceHom BHist.Empty (BHist.e1 BHist.Empty)
+        (BHist.e1 (BHist.e1 BHist.Empty))
+
+inductive RawFunctorTargetHom : BHist -> BHist -> BHist -> Prop
+  | id_zero : RawFunctorTargetHom BHist.Empty BHist.Empty BHist.Empty
+  | id_one :
+      RawFunctorTargetHom (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)
+        (BHist.e1 BHist.Empty)
+  | reverse_arrow :
+      RawFunctorTargetHom (BHist.e1 BHist.Empty) BHist.Empty
+        (BHist.e1 (BHist.e1 BHist.Empty))
+
+def RawFunctorObjectMap : BHist -> BHist
+  | BHist.Empty => BHist.Empty
+  | BHist.e0 h => BHist.e0 h
+  | BHist.e1 h => BHist.e1 h
+
+def RawFunctorMorphismMap : BHist -> BHist
+  | BHist.Empty => BHist.Empty
+  | BHist.e0 h => BHist.e0 h
+  | BHist.e1 h => BHist.e1 h
+
+def RawFunctorIdentityPreserving (objectMap morphismMap : BHist -> BHist) : Prop :=
+  hsame (objectMap BHist.Empty) BHist.Empty ∧
+    hsame (objectMap (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ∧
+      hsame (morphismMap BHist.Empty) BHist.Empty ∧
+        hsame (morphismMap (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
+
+def RawFunctorCompositionPreserving (morphismMap : BHist -> BHist) : Prop :=
+  hsame (morphismMap BHist.Empty) BHist.Empty ∧
+    hsame (morphismMap (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty) ∧
+      hsame (morphismMap (BHist.e1 (BHist.e1 BHist.Empty)))
+        (BHist.e1 (BHist.e1 BHist.Empty))
+
+theorem RawFunctorHomCarrier_landing_obstruction :
+    RawFunctorSourceHom BHist.Empty (BHist.e1 BHist.Empty)
+      (BHist.e1 (BHist.e1 BHist.Empty)) /\
+      RawFunctorIdentityPreserving RawFunctorObjectMap RawFunctorMorphismMap /\
+        RawFunctorCompositionPreserving RawFunctorMorphismMap /\
+          (RawFunctorTargetHom (RawFunctorObjectMap BHist.Empty)
+            (RawFunctorObjectMap (BHist.e1 BHist.Empty))
+            (RawFunctorMorphismMap (BHist.e1 (BHist.e1 BHist.Empty))) -> False) := by
+  constructor
+  · exact RawFunctorSourceHom.arrow
+  · constructor
+    · constructor
+      · exact hsame_refl BHist.Empty
+      · constructor
+        · exact hsame_refl (BHist.e1 BHist.Empty)
+        · constructor
+          · exact hsame_refl BHist.Empty
+          · exact hsame_refl (BHist.e1 BHist.Empty)
+    · constructor
+      · constructor
+        · exact hsame_refl BHist.Empty
+        · constructor
+          · exact hsame_refl (BHist.e1 BHist.Empty)
+          · exact hsame_refl (BHist.e1 (BHist.e1 BHist.Empty))
+      · intro landing
+        cases landing
+
 end BEDC.Derived.FunctorUp

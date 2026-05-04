@@ -295,6 +295,22 @@ case.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_target\_components\_iff}
 
+\begin{theorem}[Prefix functor one-headed empty-target impossibility]
+\label{thm:functor-prefix-hom-carrier-e1-prefix-empty-target-absurd}
+For histories $p,a,f$, no hom-carrier can run from
+$\mathsf{append}(\Eone(p),a)$ into the empty target:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(\Eone(p),a),\emp,f)
+\to \mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply the empty-target component exactness theorem just above with prefix
+$\Eone(p)$. It reads back $\hsame(\Eone(p),\emp)$, contradicting the closed
+constructor separation for one-headed histories.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_prefix\_empty\_target\_absurd}
+
 \begin{theorem}[Prefix functor empty-target source morphism swap]
 \label{thm:functor-prefix-hom-carrier-empty-target-source-morphism-swap}
 For histories $p,a,f$, a hom-carrier from the prefixed source

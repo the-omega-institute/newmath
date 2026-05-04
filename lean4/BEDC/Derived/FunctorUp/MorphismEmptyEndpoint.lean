@@ -53,4 +53,12 @@ theorem FunctorPrefixHomCarrier_empty_target_source_morphism_swap_iff {p a f : B
     exact (CategoryHomCarrier_empty_target_iff (a := append p a) (f := f)).mpr
       (And.intro data.right data.left)
 
+theorem FunctorPrefixHomCarrier_e1_prefix_empty_target_absurd {p a f : BHist} :
+    CategoryHomCarrier (append (BHist.e1 p) a) BHist.Empty f -> False := by
+  intro homCarrier
+  have components :=
+    (FunctorPrefixHomCarrier_empty_target_components_iff (p := BHist.e1 p) (a := a) (f := f)).mp
+      homCarrier
+  exact not_hsame_e1_empty components.left
+
 end BEDC.Derived.FunctorUp
