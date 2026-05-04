@@ -105,3 +105,45 @@ The concrete signature Globalize instance is presented only as a policy-supporte
 \end{corollary}
 \leanchecked{BEDC.FKernel.Gap.active\_reading\_policy\_dependencies}
 \leanvariant{BEDC.FKernel.Gap.active\_reading\_policy\_dependency\_fields}
+
+\begin{definition}[Classifier-preserving pullback ledger]
+\label{def:classifier-preserving-pullback-ledger}
+Let $D'$ and $D$ be source-domain names and let $\tau$ be a BEDC history operation written $\tau:D'\to D$. A classifier-preserving pullback ledger for $\tau$ over $\Pi$ consists of a pulled-back membership predicate ${\InGapSig}^{\tau}(\Pi,D',D,p,h')$ with the following clauses:
+\begin{enumerate}
+  \item source preservation: for every $h'$,
+  $$
+    \InDom(D',h')\Longrightarrow\InDom(D,\tau(h'));
+  $$
+  \item ledger classifier preservation: for every visible package token $p$ and source $h'$,
+  $$
+    {\InGapSig}^{\tau}(\Pi,D',D,p,h')
+    \Longleftrightarrow
+    \InDom(D',h')\;\text{and}\;\InGapSig(\Pi,D,p,\tau(h')).
+  $$
+\end{enumerate}
+The classifier in the second clause is the package-gap ledger classifier in the sense of \autoref{def:typed-naming-certificate}: the visible token $p$ remains a token of the original bundle $\Pi$, and the pullback changes the source coordinate.
+\end{definition}
+
+\begin{theorem}[Package-token pullback separation]
+\label{thm:package-token-pullback-separation}
+Assume $\PkgPol(\Pi)$ and $\GapPol(\Pi,D)$. Let $\tau:D'\to D$ be equipped with a classifier-preserving pullback ledger over $\Pi$. If two pulled-back gap ledgers meet on the same $D'$-source,
+$$
+  {\InGapSig}^{\tau}(\Pi,D',D,p,h')
+  \quad\text{and}\quad
+  {\InGapSig}^{\tau}(\Pi,D',D,q,h'),
+$$
+then the visible package tokens are package-same in the original package interface of $\Pi$:
+$$
+  \psame(p,q).
+$$
+\end{theorem}
+
+\begin{proof}
+Unpack the two pulled-back memberships by the ledger classifier preservation clause of \autoref{def:classifier-preserving-pullback-ledger}. They give original ledger memberships
+$$
+  \InGapSig(\Pi,D,p,\tau(h'))
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,\tau(h')).
+$$
+These two memberships lie over the same target-domain source $\tau(h')$. Applying \autoref{thm:gap-separation-from-memberships} to $\GapPol(\Pi,D)$ and the displayed memberships gives $\psame(p,q)$. The $\PkgPol(\Pi)$ premise fixes the package-token interface whose visible tokens are compared; the pullback introduces no separate comparison relation.
+\end{proof}
