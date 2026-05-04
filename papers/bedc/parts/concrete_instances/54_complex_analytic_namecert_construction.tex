@@ -112,6 +112,17 @@ The real component \(\Eone(\emp)\) and imaginary component \(\Eone(\theta)\) bot
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_complex\_carrier\_witness}
 
+\begin{theorem}[Pure-imaginary empty endpoint contradiction]
+\label{thm:cplx-pure-imaginary-empty-absurd}
+No pure-imaginary source can be displayed at the empty history endpoint.
+\end{theorem}
+\begin{proof}
+The pure-imaginary witness supplies a \(\ComplexUp\) carrier for the endpoint.
+At \(z=\emp\), this contradicts the non-empty boundary theorem for complex
+history carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_empty\_absurd}
+
 \begin{theorem}[Pure-imaginary hsame transport witness]
 \label{thm:cplx-pure-imaginary-hsame-transport}
 If \(z\hsame z'\) and \(z\) is the pure-imaginary source determined by
@@ -157,6 +168,27 @@ the \(\ComplexUp\) carrier for \(zq\). Complex carrier non-emptiness then rules
 out \(zq\hsame\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_complex\_carrier}
+
+\begin{theorem}[Pure-imaginary suffix continuation classifier]
+\label{thm:cplx-pure-imaginary-suffix-continuation-classifier}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) and
+\(\mathsf{CplxPureImaginary}(\phi,w)\) hold with \(\theta\hsame\phi\). If
+unary suffixes \(q,q'\) satisfy \(q\hsame q'\), \(q\) continues \(z\) to
+\(zq\), and \(q'\) continues \(w\) to \(wq\), then
+\(\mathsf{ComplexHistoryClassifier}(zq,wq)\).
+\end{theorem}
+\begin{proof}
+Split both suffix continuations through their imaginary components. The real
+component on both sides is the fixed rational carrier \(\Eone(\emp)\), so it
+classifies to itself. The imaginary base components
+\(\Eone(\theta)\) and \(\Eone(\phi)\) classify by rational one-tail exactness
+from the unary witnesses and \(\theta\hsame\phi\). Close that imaginary
+classifier under the matched suffixes \(q\) and \(q'\), then transport it to
+the displayed split imaginary outputs. The component classifier introduction
+theorem combines the real and imaginary component classifiers through the two
+continuation ledgers, yielding the complex endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_classifier}
 
 \begin{theorem}[Pure-imaginary continuation has complex carrier]
 \label{thm:cplx-pure-imaginary-continuation-complex-carrier}

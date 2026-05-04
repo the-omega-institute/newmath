@@ -591,6 +591,20 @@ append context.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_closed}
 
+\begin{theorem}[Rat history classifier unary denominator context positive denominators]
+\label{thm:rat-history-classifier-unary-denominator-context-positive-denominators}
+If a rational history classifier is closed under matching unary denominator
+prefixes and tails, then the two contextual denominator endpoints have positive
+unary denominator witnesses.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed}
+to the original classifier and the matching unary contexts. Then apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the resulting
+contextual classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_positive\_denominators}
+
 \begin{theorem}[Rat history classifier context one-tail pair readback]
 \label{thm:rat-history-classifier-unary-context-e1-pair-readback}
 If a rational history classifier is closed under matching unary denominator prefixes and tails, and the resulting left and right endpoints display as one-extension histories, then the displayed tails are unary and internally the same.
@@ -599,6 +613,19 @@ If a rational history classifier is closed under matching unary denominator pref
 Apply rational history classifier unary denominator context closure to the original classified denominators and the matching unary contexts. Transport the closed classifier across the two displayed endpoint sameness witnesses, then use rational one-tail classifier exactness to read back the two unary tails and their $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_context\_e1\_pair\_readback}
+
+\begin{theorem}[Rat history classifier continuation context one-tail pair readback]
+\label{thm:rat-history-classifier-cont-unary-context-e1-pair-readback}
+If the matching unary denominator context is presented by continuation
+displays and the two outputs are one-extension histories, then their tails are
+unary and internally the same.
+\end{theorem}
+\begin{proof}
+Use the two continuation displays and append associativity to identify the
+outputs with the normal context endpoints, then apply
+\autoref{thm:rat-history-classifier-unary-context-e1-pair-readback}.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_cont\_unary\_context\_e1\_pair\_readback}
 
 \begin{definition}[Rat stability certificate]
 \label{def:rat-stability-certificate}

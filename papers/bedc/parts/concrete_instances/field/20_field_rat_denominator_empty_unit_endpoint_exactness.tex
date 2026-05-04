@@ -509,6 +509,42 @@ to the displayed one-sided law.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.field\_rat\_denominator\_external\_unit\_normal\_form}
 
+\begin{theorem}[Rat denominator external unit uniqueness and carrier separation]
+\label{thm:field-rat-denominator-external-unit-unique-separated-normal-form}
+For histories $u,v:\mathsf{BHist}$, write $R(w)$ for the right
+classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(d,w,r)\to
+\mathsf{RatHistoryClassifier}(r,d)
+$$
+and write $L(w)$ for the left classifier-unit law
+$$
+\forall d,r:\mathsf{BHist}.\;
+\mathsf{RatHistoryCarrier}(d)\to
+\Cont(w,d,r)\to
+\mathsf{RatHistoryClassifier}(r,d).
+$$
+If $R(u)\lor L(u)$ and $R(v)\lor L(v)$, then $u\hsame v$,
+$\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$, and
+$\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Assume the two endpoint disjunction witnesses. Apply
+\autoref{thm:field-rat-denominator-external-unit-endpoint-disjunction-unique}
+to these witnesses to obtain $u\hsame v$.
+
+For $u$, use the carried-exclusion clause of
+\autoref{thm:field-rat-denominator-external-unit-normal-form}. Composing that
+clause with the assumed witness $R(u)\lor L(u)$ yields
+$\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$.
+
+The same argument at $v$, now using the assumed witness $R(v)\lor L(v)$, yields
+$\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$. The three conclusions are
+therefore available as a single consumable boundary row.
+\end{proof}
+
 \textbf{Traditional target}: external denominator unit normal form;
 \textbf{BEDC source}: $\mathsf{RatHistoryCarrier}$,
 $\mathsf{RatHistoryClassifier}$, and $\Cont$; \textbf{carrier}: Rat
