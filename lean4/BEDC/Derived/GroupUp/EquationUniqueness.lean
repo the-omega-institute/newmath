@@ -83,4 +83,50 @@ protected theorem group_two_sided_mul_equation_exact_from_empty_unit_iff
     exact (group_right_mul_equation_exact_from_empty_unit assocC rightId mulCongr
       leftInv rightInv).mpr solveLeft
 
+protected theorem group_two_sided_mul_equation_solution_unique_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y b c : BHist} :
+    hsame (mul (mul a x) c) b -> hsame (mul (mul a y) c) b -> hsame x y := by
+  intro hx hy
+  have sx : hsame x (mul (inv a) (mul b (inv c))) :=
+    (BEDC.Derived.GroupUp.group_two_sided_mul_equation_exact_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv).mp hx
+  have sy : hsame y (mul (inv a) (mul b (inv c))) :=
+    (BEDC.Derived.GroupUp.group_two_sided_mul_equation_exact_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv).mp hy
+  exact hsame_trans sx (hsame_symm sy)
+
+protected theorem group_two_sided_mul_equation_target_stable_unique_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y b c d : BHist} :
+    hsame (mul (mul a x) c) b -> hsame (mul (mul a y) c) d -> hsame b d ->
+      hsame x y := by
+  intro hx hy sameTargets
+  have sx : hsame x (mul (inv a) (mul b (inv c))) :=
+    (BEDC.Derived.GroupUp.group_two_sided_mul_equation_exact_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv).mp hx
+  have sy : hsame y (mul (inv a) (mul d (inv c))) :=
+    (BEDC.Derived.GroupUp.group_two_sided_mul_equation_exact_from_empty_unit_iff
+      assocC leftId rightId mulCongr leftInv rightInv).mp hy
+  have sameRightTargets : hsame (mul b (inv c)) (mul d (inv c)) :=
+    mulCongr sameTargets (hsame_refl (inv c))
+  have sameNormalForms :
+      hsame (mul (inv a) (mul b (inv c))) (mul (inv a) (mul d (inv c))) :=
+    mulCongr (hsame_refl (inv a)) sameRightTargets
+  exact hsame_trans sx (hsame_trans sameNormalForms (hsame_symm sy))
+
 end BEDC.Derived.GroupUp

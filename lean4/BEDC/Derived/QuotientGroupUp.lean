@@ -2,12 +2,14 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.AbGroupUp
+import BEDC.Derived.GroupUp.NormalizerAction
 
 namespace BEDC.Derived.QuotientGroupUp
 
 open BEDC.FKernel.Hist
 open BEDC.Derived.SubgroupUp
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 
 theorem QuotientGroupCentralizerNormalizer_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
@@ -121,6 +123,24 @@ theorem QuotientGroupSingletonClassifier_visible_endpoint_absurd {p q k : BHist}
         exact not_hsame_e0_empty classified.right.left
       · intro classified
         exact not_hsame_e1_empty classified.right.left
+
+theorem QuotientGroupSingletonClassifier_normalizer_orbit_collapse_iff {x y : BHist} :
+    (Exists (fun s : BHist => BEDC.Derived.GroupUp.GroupSingletonCarrier s ∧
+      BEDC.Derived.GroupUp.GroupSingletonClassifier (append (append s x) BHist.Empty) y)) <->
+        QuotientGroupSingletonClassifier x y := by
+  have orbitCoverage :
+      (Exists (fun s : BHist => BEDC.Derived.GroupUp.GroupSingletonCarrier s ∧
+        BEDC.Derived.GroupUp.GroupSingletonClassifier (append (append s x) BHist.Empty) y)) <->
+          BEDC.Derived.GroupUp.GroupSingletonCarrier x ∧
+            BEDC.Derived.GroupUp.GroupSingletonCarrier y :=
+    BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit_coverage_iff
+  constructor
+  · intro orbit
+    have endpoints := Iff.mp orbitCoverage orbit
+    exact And.intro endpoints.left
+      (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
+  · intro classified
+    exact Iff.mpr orbitCoverage (And.intro classified.left classified.right.left)
 
 def CentralizerCosetCarrier (mul : BHist -> BHist -> BHist) (a repr h : BHist) : Prop :=
   SubgroupCentralizerCarrier mul a repr ∧ hsame h repr
