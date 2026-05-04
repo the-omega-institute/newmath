@@ -91,6 +91,7 @@ The stability certificate \(\mathsf{AddStabilityCert}\) consists of:
   \item continuation preserves unary histories;
   \item unary continuation unit;
   \item unary continuation associativity;
+  \item unary continuation commutativity, by Theorem~\ref{thm:unary-cont-comm};
   \item continuation determinacy up to \(\HSame\).
 \end{enumerate}
 \end{definition}
@@ -125,10 +126,11 @@ forms a valid naming certificate for the derived interface \(\AddUp\).
 \leanchecked{BEDC.FKernel.Unary.add\_up\_name\_certificate\_exists}
 \leanvariant{BEDC.FKernel.Unary.add\_up\_name\_certificate}
 \begin{proof}
-The source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. Stability is justified by the three unary continuation lemmas and continuation determinacy. The ledger policy records the exact continuation witness rather than erasing it. Thus the naming protocol is satisfied.
+The source, pattern, classifier, stability, and ledger fields are supplied by the preceding definitions. Stability is justified by unary closure, unit, associativity, commutativity via Theorem~\ref{thm:unary-cont-comm}, and continuation determinacy. The ledger policy records the exact continuation witness rather than erasing it. Thus the naming protocol is satisfied.
 \end{proof}
 
-\begin{corollary}[\(\AddUp\) is licensed by continuation]
-The additive interface \(\AddUp\) is licensed by unary continuation. It is not a primitive operation of the finite kernel.
+\begin{corollary}[\(\AddUp\) is licensed by commutative continuation]
+The additive interface \(\AddUp\) is licensed by commutative unary continuation. It is not a primitive operation of the finite kernel.
 \end{corollary}
 \leanchecked{BEDC.FKernel.Unary.add\_up\_licensed\_not\_primitive}
+\closureat{\AddUp}{\checkedCertStr}

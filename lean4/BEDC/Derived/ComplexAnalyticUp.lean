@@ -171,4 +171,18 @@ theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     hsame_trans (hsame_symm left.right) right.right
   exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
 
+theorem CplxPureImaginary_suffix_tail_deterministic {theta phi z w q q' zq wq : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary phi w -> hsame theta phi ->
+      Cont z q zq -> Cont w q' wq -> hsame zq wq -> hsame q q' := by
+  intro pureTheta purePhi sameThetaPhi zCont wCont sameResult
+  have sameAnchors :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+    cases sameThetaPhi
+    rfl
+  have sameZW : hsame z w :=
+    hsame_trans pureTheta.right (hsame_trans sameAnchors (hsame_symm purePhi.right))
+  cases sameZW
+  exact append_left_cancel (h := z) (zCont.symm.trans (sameResult.trans wCont))
+
 end BEDC.Derived.ComplexAnalyticUp
