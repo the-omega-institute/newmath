@@ -333,6 +333,26 @@ $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
 fields of the package.
 \end{proof}
 
+\begin{theorem}[Real stream classifier hsame one-tail pair readback]
+\label{thm:real-stream-classifier-hsame-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$. If
+$\mathsf{RealStreamClassifier}(x,y)$ and the transported endpoints satisfy
+$\hsame(x'(n),\Eone(a))$ and $\hsame(y'(n),\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Evaluate the pointwise stream classifier at the selected index $n$. Transport
+the resulting rational-history classifier along the two pointwise $\hsame$
+maps, then transport again to the displayed one-extension endpoints. Rational
+one-tail classifier exactness exposes the two unary tails and their internal
+sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_hsame\_e1\_pair\_readback}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
@@ -356,6 +376,25 @@ If a classified finite rational-observation prefix displays its selected left an
 Split on the selected observation index. At zero, use the base rational-history classifier; at a successor, use the right endpoint of the prefix classifier. Transport the selected classifier to the displayed one-extension endpoints, then apply rational one-tail classifier exactness.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream prefix classifier hsame one-tail pair readback]
+\label{thm:real-stream-prefix-classifier-hsame-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and the transported endpoints
+satisfy $\hsame(x'(n),\Eone(a))$ and $\hsame(y'(n),\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+First transport the finite prefix classifier from $(x,y)$ to $(x',y')$ using
+the pointwise $\hsame$ hypotheses. The transported prefix has displayed
+one-extension endpoints at index $n$, so the one-tail pair readback theorem
+returns the two unary tail witnesses and $\hsame(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_e1\_pair\_readback}
 
 \begin{definition}[Real stability certificate]
 \label{def:real-stability-certificate}
