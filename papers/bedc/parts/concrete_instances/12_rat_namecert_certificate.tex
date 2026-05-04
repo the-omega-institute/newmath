@@ -518,6 +518,44 @@ raw-target classifier by transitivity. The visible-to-raw direction is the
 ledger classifier extension theorem.
 \end{proof}
 
+\begin{theorem}[Rat history ledger displayed context classifier endpoint equivalence]
+\label{thm:rat-history-ledger-cont-unary-context-classifier-endpoint-equivalence}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuation witnesses
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the two contextual endpoints, then
+every target history $w$ is classified from the displayed raw endpoint exactly
+when it is classified from the displayed visible endpoint:
+$$
+\mathsf{RatHistoryClassifier}(out_\rho,w)\leftrightarrow
+\mathsf{RatHistoryClassifier}(out_v,w).
+$$
+\end{theorem}
+\begin{proof}
+First close the ledger under the matching unary denominator context. Apply
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to the original
+ledger, the prefix match, and the tail match. This gives a ledger between
+$\mathsf{append}(p_\rho,\mathsf{append}(\rho,t_\rho))$ and
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$.
+
+The four continuation witnesses identify the displayed endpoints with those
+normalized append endpoints. Associativity of $\mathsf{append}$ turns the
+two-step displays through $m_\rho$ and $m_v$ into $\hsame$ links from
+$out_\rho$ and $out_v$ to the corresponding normalized contextual histories.
+
+Transport the contextual ledger across these two endpoint identifications by
+\autoref{thm:rat-ledger-hsame-transport}. The transported ledger now relates
+$out_\rho$ and $out_v$ directly.
+
+Finally apply
+\autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
+transported ledger. Its conclusion is the displayed classifier endpoint
+equivalence for every target history $w$.
+\end{proof}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).
