@@ -481,6 +481,37 @@ The two transported conclusions form the required conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_zero\_classifier\_factor\_absorption}
 
+\begin{theorem}[Ring zero-classifier square annihilator package]
+\label{thm:ring-zero-classifier-square-annihilator-package}
+For BEDC history ring operations satisfying additive associativity, left zero,
+left inverse, addition congruence, multiplication congruence, and both
+distributive laws, if $\hsame(x,0)$, then
+$$
+\hsame(x\cdot x,0)\land
+\forall c:\mathsf{BHist},\ \hsame((x\cdot x)\cdot c,0)\land
+\hsame(c\cdot(x\cdot x),0).
+$$
+The ten-field fit is: traditional target square-zero annihilator package; BEDC
+source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from multiplication congruence and zero-classifier factor
+absorption; ledger the original zero-factor witness, the square-zero witness,
+and the universal multiplier row; core theorem this theorem; exactness the
+displayed package; downstream consumer $\FieldUp$ square-apartness and
+zero-product exit packages; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} with factor $x$ and
+multiplier $x$. Its left component gives the square-zero classifier witness
+$\hsame(x\cdot x,0)$.
+
+Now fix an arbitrary multiplier $c:\mathsf{BHist}$. Apply
+\autoref{thm:ring-zero-classifier-factor-absorption} again, this time with
+factor $x\cdot x$ and multiplier $c$, using the square-zero witness from the
+first step. The two components give $\hsame((x\cdot x)\cdot c,0)$ and
+$\hsame(c\cdot(x\cdot x),0)$, and packaging them with the square-zero witness
+is exactly the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[Ring equal-factor difference annihilation]
 \label{thm:ring-equal-factor-difference-annihilation}
 For BEDC history ring operations satisfying additive associativity,
