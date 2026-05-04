@@ -1,0 +1,69 @@
+\begin{theorem}[Group singleton triple continuation product-unit coverage and visibility]
+\label{thm:group-singleton-triple-continuation-product-unit-coverage-and-visibility}
+For histories $P,Q,S,T,U,V,W,X,r:\mathsf{BHist}$ with $\ContR(P,Q,S)$,
+$\ContR(S,T,U)$, and $\ContR(U,V,W)$, the concrete singleton $\GroupUp$
+instance satisfies
+$$
+R_{\emp}(\mathsf{append}(W,X),\emp)\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V)\land
+A_{\emp}(X).
+$$
+Under the left-hand classifier, all three continuation witnesses exclude
+visible results:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(U,V,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(U,V,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The ten-field fit names the traditional target terminal-group three-step
+continuation product-unit coverage with visibility guard; BEDC source concrete
+singleton $\GroupUp$ over $\mathsf{BHist}$ plus three $\ContR$ witnesses and
+append; carrier $A_{\emp}$; classifier $R_{\emp}$; stability from product-unit
+continuation coverage, terminal collapse, and terminal classifier packaging;
+ledger the three continuation witnesses, suffix endpoint, and visible result
+endpoint; exactness the displayed iff and six contradictions; downstream
+consumer $\QuotientGroupUp$ path compression; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-continuation-product-unit-triple-coverage}
+to the third continuation witness $\ContR(U,V,W)$. This rewrites the left-hand
+classifier as
+$$
+A_{\emp}(U)\land A_{\emp}(V)\land A_{\emp}(X).
+$$
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under
+$\ContR(S,T,U)$ to identify $A_{\emp}(U)$ with $R_{\emp}(S,T)$. Then apply the
+first row of \autoref{thm:group-singleton-terminal-classifier-package} to
+rewrite that classifier as $A_{\emp}(S)\land A_{\emp}(T)$. The condition is
+now
+$$
+A_{\emp}(S)\land A_{\emp}(T)\land A_{\emp}(V)\land A_{\emp}(X).
+$$
+
+Apply \autoref{thm:group-singleton-continuation-terminal-collapse} again, this
+time under $\ContR(P,Q,S)$, to identify $A_{\emp}(S)$ with $R_{\emp}(P,Q)$.
+The first row of \autoref{thm:group-singleton-terminal-classifier-package}
+replaces $R_{\emp}(P,Q)$ by $A_{\emp}(P)\land A_{\emp}(Q)$, yielding the
+displayed five-factor classifier.
+
+For visibility, assume the left-hand classifier. The forward direction just
+constructed supplies the carrier factors for $P,Q,T,V,X$, and the two terminal
+collapse steps also supply the hidden endpoint carriers $A_{\emp}(S)$ and
+$A_{\emp}(U)$.
+
+Repack $A_{\emp}(P)\land A_{\emp}(Q)$, $A_{\emp}(S)\land A_{\emp}(T)$, and
+$A_{\emp}(U)\land A_{\emp}(V)$ into the adjacent endpoint classifiers
+$R_{\emp}(P,Q)$, $R_{\emp}(S,T)$, and $R_{\emp}(U,V)$ by the reverse direction
+of the terminal classifier package.
+
+Apply the visible-result clause of
+\autoref{thm:group-singleton-continuation-terminal-collapse} at each boundary.
+The three repacked classifiers respectively rule out visible results for
+$\ContR(P,Q,-)$, $\ContR(S,T,-)$, and $\ContR(U,V,-)$, which gives the six
+displayed implications.
+\end{proof}
