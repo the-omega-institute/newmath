@@ -307,6 +307,25 @@ results, giving the classifier relation between \(zq\) and \(wq\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_continuation\_closed}
 
+\begin{theorem}[Complex history classifier unary continuation empty endpoint absurdity]
+\label{thm:complex-history-classifier-unary-continuation-empty-endpoint-absurd}
+If \(\mathsf{ComplexHistoryClassifier}(h,k)\), \(q\) is unary,
+\(q\hsame q'\), \(\Cont(h,q,zq)\), and \(\Cont(k,q',wq)\), then neither
+continued endpoint can be internally same as the empty history:
+$$
+(\hsame(zq,\emp)\to\mathsf{False})
+\land
+(\hsame(wq,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+First close the classifier under the two displayed unary continuations. The
+continued classifier relates \(zq\) and \(wq\). Applying complex classifier
+empty-endpoint exclusion to that continued classifier gives both displayed
+absurdity clauses.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_continuation\_empty\_endpoint\_absurd}
+
 \begin{theorem}[Complex history classifier unary continuation positive components]
 \label{thm:complex-history-classifier-unary-continuation-positive-components}
 If \(\mathsf{ComplexHistoryClassifier}(h,k)\), \(q\) is unary,

@@ -3,6 +3,7 @@ import BEDC.Derived.ListUp.FramedEndpoint
 namespace BEDC.Derived.ListUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 def FramedListPublicLength (A : BHist → Prop) (h : BHist) (n : Nat) : Prop :=
   ∃ xs : ListCarrier BHist, FramedListSpineRep A h xs ∧ xs.length = n
@@ -100,5 +101,94 @@ theorem FramedListPublicLength_well_defined {A : BHist → Prop}
                                     (And.intro _repH (And.intro repK _classified))))
                             exact Exists.intro ys
                               (And.intro repK (Eq.trans (Eq.symm sameLength) lengthX0))
+
+theorem FramedListBridgeClassifier_successor_component_exactness_iff
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    (FramedListBridgeClassifier A Rel h k ∧ FramedListPublicLength A h (Nat.succ n) ∧
+      FramedListPublicLength A k (Nat.succ n)) ↔
+      ∃ a b : BHist, ∃ xs ys : ListCarrier BHist,
+        A a ∧ A b ∧ FramedListSpineRep A h (a :: xs) ∧
+          FramedListSpineRep A k (b :: ys) ∧
+            FramedListPublicLength A (FramedListEndpoint xs) n ∧
+              FramedListPublicLength A (FramedListEndpoint ys) n ∧ Rel a b ∧
+                FramedListBridgeClassifier A Rel (FramedListEndpoint xs)
+                  (FramedListEndpoint ys) := by
+  constructor
+  · intro data
+    have readH := FramedListPublicLength_constructor_endpoint_readback.right data.right.left
+    have readK := FramedListPublicLength_constructor_endpoint_readback.right data.right.right
+    cases readH with
+    | intro a tailH =>
+        cases tailH with
+        | intro xs packH =>
+            cases readK with
+            | intro b tailK =>
+                cases tailK with
+                | intro ys packK =>
+                    have split :=
+                      ((FramedListBridgeClassifier_constructor_exactness cert compat).right.right.right
+                        packH.right.left packK.right.left).mp data.left
+                    have tailRepH : FramedListSpineRep A (FramedListEndpoint xs) xs := by
+                      constructor
+                      · intro z memZ
+                        exact packH.right.left.left z (List.Mem.tail a memZ)
+                      · exact hsame_refl (FramedListEndpoint xs)
+                    have tailRepK : FramedListSpineRep A (FramedListEndpoint ys) ys := by
+                      constructor
+                      · intro z memZ
+                        exact packK.right.left.left z (List.Mem.tail b memZ)
+                      · exact hsame_refl (FramedListEndpoint ys)
+                    have tailBridge :
+                        FramedListBridgeClassifier A Rel (FramedListEndpoint xs)
+                          (FramedListEndpoint ys) :=
+                      (FramedListBridgeClassifier_displayed_spine_exactness cert compat
+                        tailRepH tailRepK).mpr split.right
+                    exact ⟨a, b, xs, ys, packH.left, packK.left, packH.right.left,
+                      packK.right.left, packH.right.right, packK.right.right,
+                        split.left, tailBridge⟩
+  · intro data
+    cases data with
+    | intro a rest =>
+        cases rest with
+        | intro b rest =>
+            cases rest with
+            | intro xs rest =>
+                cases rest with
+                | intro ys pack =>
+                    have tailRepH : FramedListSpineRep A (FramedListEndpoint xs) xs := by
+                      constructor
+                      · intro z memZ
+                        exact pack.right.right.left.left z (List.Mem.tail a memZ)
+                      · exact hsame_refl (FramedListEndpoint xs)
+                    have tailRepK : FramedListSpineRep A (FramedListEndpoint ys) ys := by
+                      constructor
+                      · intro z memZ
+                        exact pack.right.right.right.left.left z (List.Mem.tail b memZ)
+                      · exact hsame_refl (FramedListEndpoint ys)
+                    have tailClassified : ListClassifierSpec Rel xs ys :=
+                      (FramedListBridgeClassifier_displayed_spine_exactness cert compat
+                        tailRepH tailRepK).mp pack.right.right.right.right.right.right.right
+                    have bridge : FramedListBridgeClassifier A Rel h k :=
+                      ((FramedListBridgeClassifier_constructor_exactness cert compat).right.right.right
+                        pack.right.right.left pack.right.right.right.left).mpr
+                        ⟨pack.right.right.right.right.right.right.left, tailClassified⟩
+                    have publicH : FramedListPublicLength A h (Nat.succ n) := by
+                      cases pack.right.right.right.right.left with
+                      | intro xs0 tailPublic =>
+                          have sameLength := FramedListSpineRep_length_determinism compat
+                            tailRepH tailPublic.left
+                          exact ⟨a :: xs,
+                            pack.right.right.left,
+                              congrArg Nat.succ (Eq.trans sameLength tailPublic.right)⟩
+                    have publicK : FramedListPublicLength A k (Nat.succ n) := by
+                      cases pack.right.right.right.right.right.left with
+                      | intro ys0 tailPublic =>
+                          have sameLength := FramedListSpineRep_length_determinism compat
+                            tailRepK tailPublic.left
+                          exact ⟨b :: ys,
+                            pack.right.right.right.left,
+                              congrArg Nat.succ (Eq.trans sameLength tailPublic.right)⟩
+                    exact ⟨bridge, publicH, publicK⟩
 
 end BEDC.Derived.ListUp
