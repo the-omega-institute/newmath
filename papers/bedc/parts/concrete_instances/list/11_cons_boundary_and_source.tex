@@ -639,3 +639,61 @@ induction, transport the finite-spine classifier entry by entry using the
 classifier inclusion, and rebuild the bridge witness with those transported
 components.
 \end{proof}
+
+\begin{definition}[Unary NatAdd relation]
+\label{def:unary-natadd-relation}
+For histories $u,v,w:\mathsf{BHist}$, write
+$$
+\mathsf{NatAdd}(u,v,w)
+\quad\Longleftrightarrow\quad
+\UnaryCont(u,v,w).
+$$
+This is the unary-continuation additive relation of \autoref{def:unary-continuation-result} and \autoref{def:additive-pattern-specification}.
+\end{definition}
+
+\begin{definition}[List unary length token]
+\label{def:list-unary-length-token}
+For finite BEDC-history spines, define the unary length token by recursion:
+$$
+\begin{array}{rcl}
+\mathsf{ListUnaryLength}(\mathsf{nil}) &=& \emp,\\
+\mathsf{ListUnaryLength}(\mathsf{cons}(a,xs)) &=& \Eone(\mathsf{ListUnaryLength}(xs)).
+\end{array}
+$$
+This is the unary-history counterpart of the finite-spine value $\ell(xs)$ used in \autoref{def:list-public-length-readback}; it records the same constructor count as a $\NatUp$ token.
+\end{definition}
+
+\begin{theorem}[Public list unary length additivity under append]
+\label{thm:list-unary-length-append-additivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For histories $h,k,r:\mathsf{BHist}$ and finite spines $xs,ys:\mathsf{HistSpine}$, assume
+$$
+\mathsf{ListSpineRep}_A(h,xs),\qquad
+\mathsf{ListSpineRep}_A(k,ys),\qquad
+\mathsf{ListSpineRep}_A(r,xs{++}ys).
+$$
+Set
+$$
+L_x=\mathsf{ListUnaryLength}(xs),\qquad
+L_y=\mathsf{ListUnaryLength}(ys),\qquad
+L_{xy}=\mathsf{ListUnaryLength}(xs{++}ys).
+$$
+Then
+$$
+\mathsf{NatAdd}(L_y,L_x,L_{xy})
+$$
+and for every $w:\mathsf{BHist}$,
+$$
+\mathsf{NatAdd}(L_x,L_y,w)\Longrightarrow \hsame(L_{xy},w).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:list-spine-representation}, the three representation witnesses say that the public endpoints use the displayed finite spines and that the append endpoint uses the spine append $xs{++}ys$. The proof of the additive length claim depends on the spines alone.
+
+A preliminary induction on a finite spine $zs$ gives $\Unary(\mathsf{ListUnaryLength}(zs))$. The nil case is the base unary generator from \autoref{def:unary-history-judgment}; the cons case applies \autoref{lem:unary-closure-under-one-extension} to the induction hypothesis.
+
+Now induct on $xs$ to prove $\mathsf{NatAdd}(L_y,L_x,L_{xy})$. In the nil case, $L_x=\emp$ and $L_{xy}=L_y$. The preliminary unary induction gives $\Unary(L_y)$, and the right-unit clause of \autoref{thm:continuation-unit-laws-spine} gives $\ContR(L_y,\emp,L_y)$. Unfolding \autoref{def:unary-natadd-relation} gives $\mathsf{NatAdd}(L_y,\emp,L_y)$.
+
+In the cons case, write $xs=\mathsf{cons}(a,xs_0)$ and let $L_0=\mathsf{ListUnaryLength}(xs_0)$ and $T=\mathsf{ListUnaryLength}(xs_0{++}ys)$. The induction hypothesis gives $\mathsf{NatAdd}(L_y,L_0,T)$, hence $\ContR(L_y,L_0,T)$ after unfolding \autoref{def:unary-natadd-relation}. The one-step rule in \autoref{def:continuation-relation} gives $\ContR(L_y,\Eone(L_0),\Eone(T))$. The preliminary unary induction and \autoref{lem:unary-closure-under-one-extension} supply the two unary input witnesses, so this is exactly $\mathsf{NatAdd}(L_y,L_x,L_{xy})$ by the recursive clauses of \autoref{def:list-unary-length-token}.
+
+Finally assume $\mathsf{NatAdd}(L_x,L_y,w)$. Together with the reversed append-aligned witness just proved, \autoref{thm:unary-cont-comm} compares the two unary continuation results and gives $\hsame(w,L_{xy})$. Symmetry of $\hsame$ gives $\hsame(L_{xy},w)$.
+\end{proof}
