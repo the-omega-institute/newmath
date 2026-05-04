@@ -453,4 +453,39 @@ theorem QuotientGroupCentralizerNormalizer_abelian_classifier_totality
     · intro _truth
       exact classifierXY
 
+theorem QuotientGroupCentralizerNormalizer_abelian_terminal_projection
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x ->
+      SubgroupCentralizerNormalizer mul inv a y ->
+        (SubgroupCentralizerQuotientKernel mul inv a x y <->
+          QuotientGroupSingletonClassifier BHist.Empty BHist.Empty) ∧
+          QuotientGroupSingletonClassifier BHist.Empty BHist.Empty := by
+  intro normalizesX normalizesY
+  have singleton :
+      QuotientGroupSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have kernelXY : SubgroupCentralizerQuotientKernel mul inv a x y := by
+    have centralKernel : SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+      (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
+        assocC leftId rightId commC mulCongr leftInv rightInv
+        (a := a) (x := mul (inv x) y)).left
+    exact And.intro normalizesX (And.intro normalizesY centralKernel)
+  constructor
+  · constructor
+    · intro _kernel
+      exact singleton
+    · intro _classified
+      exact kernelXY
+  · exact singleton
+
 end BEDC.Derived.QuotientGroupUp

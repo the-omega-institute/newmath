@@ -447,6 +447,43 @@ centralizer carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_identity\_fiber\_subgroup\_package}
 
+\begin{theorem}[Centralizer-normalizer quotient identity fiber normality]
+\label{thm:quotientgroup-centralizer-normalizer-identity-fiber-normal}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same hypotheses as
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}, define
+the quotient identity fiber carrier by
+$$
+K_Q(t) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},t).
+$$
+If $N_a(x)$ and $K_Q(k)$, then the identity fiber is carried through both
+normal-kernel conjugation words:
+\begin{enumerate}
+\item $K_Q(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$.
+\item $K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}
+to identify the displayed fiber with the centralizer carrier. From $K_Q(k)$
+the forward direction gives $Z_a(k)$.
+
+For the forward conjugation word, use the first normalizer row contained in
+$N_a(x)$. It carries $Z_a(k)$ to
+$Z_a(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$. The reverse direction
+of the same identity-fiber equivalence then repacks this witness as
+$K_Q(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$.
+
+For the inverse conjugation word, use the second normalizer row contained in
+$N_a(x)$. It carries $Z_a(k)$ to
+$Z_a(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$. Applying the reverse
+direction of the identity-fiber equivalence again gives
+$K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$. Thus the kernel
+identity fiber inherits the conjugation stability already present in the
+centralizer-normalizer tower.
+\end{proof}
+
 Per-object template: traditional target identity fiber of a quotient group;
 BEDC source $\GroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$ over
 $\mathsf{BHist}$; carrier $K_Q$; classifier inherited from
@@ -600,6 +637,7 @@ supplies the carried product, inverse, and unit endpoints in $N_a$; applying
 $\pi_Q$ sends each one to $\emp$. Hence all three displayed singleton
 classifier statements again reduce to $\rho_Q(\emp,\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_abelian\_terminal\_projection}
 
 The ten-field fit is: traditional target terminal projection from the abelian
 centralizer-normalizer quotient to the singleton quotient classifier; BEDC
