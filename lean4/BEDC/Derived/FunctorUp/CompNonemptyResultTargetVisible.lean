@@ -84,4 +84,21 @@ theorem FunctorPrefixHomCarrier_comp_nonempty_result_source_target_cases
                               (And.intro data.right.right.right.right.right.left
                                 data.right.right.right.right.right.right))))))
 
+theorem FunctorPrefixHomCarrier_comp_nonempty_result_source_visible
+    {p a b c f g k : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g (BHist.e1 k) ->
+        (hsame (append p a) BHist.Empty -> False) ->
+          ∃ s r : BHist, append p a = BHist.e1 s ∧ append p c = BHist.e1 r ∧
+            UnaryHistory s ∧ UnaryHistory k ∧ UnaryHistory r ∧
+              Cont (BHist.e1 s) (BHist.e1 k) (BHist.e1 r) := by
+  intro left right comp sourceNonempty
+  have casesData :=
+    FunctorPrefixHomCarrier_comp_nonempty_result_source_target_cases left right comp
+  cases casesData with
+  | inl emptySource =>
+      exact False.elim (sourceNonempty emptySource.left)
+  | inr visibleSource =>
+      exact visibleSource
+
 end BEDC.Derived.FunctorUp

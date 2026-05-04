@@ -272,6 +272,41 @@ history witness, and the constructor equality $y(n)=\Eone(y_t)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_endpoint\_e1\_shapes}
 
+\begin{theorem}[Real stream classifier selected endpoint common e-one tail readback]
+\label{thm:real-stream-classifier-selected-endpoint-common-e1-tail-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and a selected
+index $n$, if $\mathsf{RealStreamClassifier}(x,y)$ holds, then
+$$
+\exists a,b,\ \hsame(x(n),\Eone(a))\land\hsame(y(n),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-selected-endpoint-e1-shapes} at the
+selected index. This gives a tail $a$ for the $x$ endpoint and a tail $b$ for the
+$y$ endpoint, together with the two displayed e-one rows
+$\hsame(x(n),\Eone(a))$ and $\hsame(y(n),\Eone(b))$ and the two unary-tail
+witnesses.
+
+Apply \autoref{thm:real-stream-classifier-selected-e1-pair-readback} to the same
+stream classifier and to those two displayed rows. The readback theorem returns
+the shared-tail row $\hsame(a,b)$ while preserving the unary-history evidence for
+both tails.
+
+Package the two tails as the existential witnesses and combine the two displayed
+endpoint rows, the two unary-tail witnesses, and the common-tail row.
+\end{proof}
+
+Fit: traditional target selected rational observation readback for RealUp streams;
+BEDC source RatUp plus RealUp; carrier rational-observation streams; classifier
+RealStreamClassifier with selected RatHistoryClassifier readback; stability
+selected endpoint e-one coverage and e-one pair readback; ledger selected
+observation index and the two endpoint histories; core theorem
+\autoref{thm:real-stream-classifier-selected-endpoint-common-e1-tail-readback};
+exactness the existential package of one-headed endpoints, unary tails, and
+tail sameness; standard bridge rational equality read from the common unary tail;
+status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real stream classifier transported selected full shape readback package]
 \label{thm:real-stream-classifier-transported-selected-full-shape-readback-package}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
