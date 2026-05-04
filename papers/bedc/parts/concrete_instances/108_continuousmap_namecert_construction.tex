@@ -16,6 +16,26 @@ metric distance witness $\mathsf{MetricDistanceWitness}(source,target,dist)$.
 \end{definition}
 \leandef{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier}
 
+\begin{theorem}[ContinuousMap canonical distance carrier]
+\label{thm:continuousmap-carrier-canonical-distance-iff}
+For histories $source,map,target,modulus,cert:\mathsf{BHist}$, the carrier
+with canonical distance ledger $\mathsf{append}(source,target)$ is exactly
+the underlying continuous-function carrier:
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map,target,modulus,cert,\mathsf{append}(source,target))
+\Longleftrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_canonical\_distance\_iff}
+\begin{proof}
+The forward direction projects the function-carrier component. Conversely, the
+function carrier supplies unary source and target histories; unary append
+closure and the reflexive continuation equation build the canonical metric
+distance witness.
+\end{proof}
+
 \begin{theorem}[ContinuousMap carrier empty distance exactness]
 \label{thm:continuousmap-carrier-empty-distance-exact}
 For histories $source,map,modulus,cert:\mathsf{BHist}$,
@@ -200,6 +220,31 @@ distance witness over the two empty endpoints. Their conjunction is exactly the
 concrete continuous-map carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_boundaries\_iff}
+
+\begin{theorem}[ContinuousMap prefix canonical distance closure]
+\label{thm:continuousmap-carrier-prefix-canonical-distance-closed}
+For histories $p,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+if $p$ is unary and
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$
+holds, then the prefixed endpoints carry the same map and modulus with the
+prefixed certificate and canonical prefixed distance:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),\\
+\qquad \mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_prefix\_canonical\_distance\_closed}
+\begin{proof}
+Prefix closure for the continuous-function carrier gives the prefixed function
+half. The metric half is built canonically: the prefixed source and target are
+unary by unary append closure, their appended distance is unary by another
+append-closure step, and the distance continuation is the defining append
+equation.
+\end{proof}
 
 \begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
 \label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
