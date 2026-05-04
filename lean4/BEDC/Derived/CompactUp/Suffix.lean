@@ -146,4 +146,13 @@ theorem CompactNetWitness_visible_context_center_deterministic
   have rightWitness : CompactNetWitness center' precision net := rightData.right.right
   exact cont_right_cancel leftWitness.right.right.right rightWitness.right.right.right
 
+theorem CompactNetWitness_common_composite_result_prefix_deterministic
+    {p p' center composite out : BHist} :
+    CompactNetWitness (append p center) composite out ->
+      CompactNetWitness (append p' center) composite out -> hsame p p' := by
+  intro left right
+  have samePrefixedCenter : hsame (append p center) (append p' center) :=
+    cont_right_cancel left.right.right.right right.right.right.right
+  exact append_right_cancel (k := center) samePrefixedCenter
+
 end BEDC.Derived.CompactUp
