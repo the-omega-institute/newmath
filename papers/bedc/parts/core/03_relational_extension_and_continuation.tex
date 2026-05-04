@@ -709,6 +709,18 @@ Continuation admits cancellation on both sides:
 For the first clause, use right-suffix cancellation after transporting the result by $\hsame$. The second clause is left-context cancellation: compare the two derivations with the same left history, peel the shared left context, and conclude that the right histories are equal up to $\hsame$. For the third clause, associate the two continuations so both sides expose the same outer context $c$ over the inner continuations from $a$; the common outer context cancels against the result-sameness, and the remaining left-context cancellation yields $\hsame(b,d)$.
 \end{proof}
 
+\begin{theorem}[Continuation cancellation with history-same right context]
+\label{thm:cont-cancel-hsame-right-context}
+For histories $a,a',b,b',r,r':\mathsf{BHist}$, if $\ContR(a,b,r)$,
+$\ContR(a',b',r')$, $\hsame(b,b')$, and $\hsame(r,r')$, then $\hsame(a,a')$.
+\end{theorem}
+\begin{proof}
+Transport the second right context and result along the two $\hsame$ witnesses.
+The continuations now share right context and result, so right cancellation
+identifies the two sources.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_cancel\_hsame\_right\_context}
+
 \begin{theorem}[Self-extension by a visible tail is impossible]
 \label{thm:cont-self-extension-tail-absurd}
 For any histories $h$ and $t$, neither $\ContR(h,\Ezero(t),h)$ nor

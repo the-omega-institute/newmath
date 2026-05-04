@@ -232,6 +232,13 @@ theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
   cases sameResult
   exact cont_left_cancel left right
 
+theorem cont_cancel_hsame_right_context {a a' b b' r r' : BHist} :
+    Cont a b r -> Cont a' b' r' -> hsame b b' -> hsame r r' -> hsame a a' := by
+  intro left right sameContext sameResult
+  cases sameContext
+  cases sameResult
+  exact cont_right_cancel left right
+
 theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
   intro left right direct

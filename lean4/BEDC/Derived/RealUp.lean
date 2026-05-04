@@ -41,4 +41,22 @@ theorem RealStreamClassifier_unary_denominator_context_closed
       ((contOY n).trans (congrArg (fun r => append r (tY n)) (contPY n))).symm
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY pointContext
 
+theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat -> BHist}
+    {n : Nat} :
+    RealStreamClassifier x y ->
+      PositiveUnaryDenominator (x n) ∧ PositiveUnaryDenominator (y n) ∧
+        UnaryHistory (x n) ∧ UnaryHistory (y n) ∧
+          (hsame (x n) BHist.Empty -> False) ∧
+            (hsame (y n) BHist.Empty -> False) := by
+  intro classified
+  have positiveEndpoints := RatHistoryClassifier_positive_denominators (classified n)
+  have xData := PositiveUnaryDenominator_unary_and_nonempty positiveEndpoints.left
+  have yData := PositiveUnaryDenominator_unary_and_nonempty positiveEndpoints.right
+  exact
+    And.intro positiveEndpoints.left
+      (And.intro positiveEndpoints.right
+        (And.intro xData.left
+          (And.intro yData.left
+            (And.intro xData.right yData.right))))
+
 end BEDC.Derived.RealUp
