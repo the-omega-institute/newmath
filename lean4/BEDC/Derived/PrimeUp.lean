@@ -139,6 +139,27 @@ theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
     cases qEmpty
     exact NatMul.zero hd
 
+theorem NatMul_empty_result_factor_empty_or_multiplier_empty {d q : BHist} :
+    NatMul d q BHist.Empty -> hsame d BHist.Empty ∨ hsame q BHist.Empty := by
+  intro mul
+  cases mul with
+  | zero _hd =>
+      exact Or.inr (hsame_refl BHist.Empty)
+  | succ _prev step =>
+      exact Or.inl (cont_empty_result_inversion step).right
+
+theorem NatMul_nonempty_factors_result_not_empty {d q n : BHist} :
+    (hsame d BHist.Empty -> False) -> (hsame q BHist.Empty -> False) ->
+      NatMul d q n -> hsame n BHist.Empty -> False := by
+  intro dNonempty qNonempty mul resultEmpty
+  cases resultEmpty
+  have emptyFactor := NatMul_empty_result_factor_empty_or_multiplier_empty mul
+  cases emptyFactor with
+  | inl dEmpty =>
+      exact dNonempty dEmpty
+  | inr qEmpty =>
+      exact qNonempty qEmpty
+
 theorem NatMul_append_cont_empty_result_empty_factors_iff {d w q n e r : BHist} :
     UnaryHistory d -> (hsame d BHist.Empty -> False) ->
       NatMul d w n -> NatMul d q e -> Cont n e r ->
@@ -493,6 +514,27 @@ theorem TrialDiv_bound_positive_shape {b n : BHist} :
       exact ⟨BHist.Empty, hsame_refl (BHist.e1 BHist.Empty), unary_empty⟩
   | step previous _screen stepCont =>
       exact ⟨_, stepCont, TrialDiv_bound_unary previous⟩
+
+theorem TrialDiv_bound_unit_prefix_or_self {b n : BHist} :
+    TrialDiv b n ->
+      NatUnaryStrictPrefix (BHist.e1 BHist.Empty) b ∨ hsame b (BHist.e1 BHist.Empty) := by
+  intro trial
+  induction trial with
+  | unit _hn =>
+      exact Or.inr (hsame_refl (BHist.e1 BHist.Empty))
+  | step previous _screen stepCont ih =>
+      have stepStrict : NatUnaryStrictPrefix _ _ :=
+        ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty, (fun empty => by cases empty),
+          stepCont⟩
+      cases ih with
+      | inl previousStrict =>
+          cases NatUnaryStrictPrefix_trans_composite_tail previousStrict stepStrict with
+          | intro _ composite =>
+              exact Or.inl composite.right.right.right
+      | inr previousUnit =>
+          exact Or.inl
+            (NatUnaryStrictPrefix_cont_hsame_transport (unary_e1_closed unary_empty)
+              (fun empty => by cases empty) stepCont previousUnit (hsame_refl _))
 
 theorem TrialDiv_bound_not_empty {b n : BHist} :
     TrialDiv b n -> hsame b BHist.Empty -> False := by
