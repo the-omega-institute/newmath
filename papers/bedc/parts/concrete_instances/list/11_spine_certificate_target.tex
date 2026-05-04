@@ -31,6 +31,27 @@ Unpack the nil representation to obtain $\hsame(h,\emp)$. Unpack the cons repres
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListSpineRep\_nil\_cons\_no\_confusion}
 
+\begin{lemma}[List spine cons hsame transport]
+\label{lem:list-spine-rep-cons-hsame-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
+$A(a)$ holds, the tail history $t$ represents a finite spine $xs$, the
+continuation $\ContR(a,t,p)$ holds, and $h$ exposes the cons endpoint
+$\Eone(p)$, then every $h'$ with $\hsame(h,h')$ represents the cons spine:
+$$
+A(a)\to \mathsf{ListSpineRep}_A(t,xs)\to \ContR(a,t,p)\to
+\hsame(h,\Eone(p))\to\hsame(h,h')\to
+\mathsf{ListSpineRep}_A(h',\mathsf{cons}(a,xs)).
+$$
+\end{lemma}
+\begin{proof}
+Use the cons constructor of Definition~\ref{def:list-spine-representation}.
+The head source witness, tail representation, and continuation witness are
+unchanged. The endpoint witness for $h'$ is obtained by composing
+$\hsame(h',h)$, the symmetry of the displayed endpoint transport, with the
+stored cons endpoint witness $\hsame(h,\Eone(p))$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_cons\_hsame\_transport}
+
 \begin{theorem}[List spine cons endpoint shape]
 \label{thm:list-spine-rep-cons-endpoint-shape}
 For every source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, history $h$,

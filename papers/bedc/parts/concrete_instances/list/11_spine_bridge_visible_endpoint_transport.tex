@@ -1,0 +1,21 @@
+\begin{theorem}[List spine bridge visible endpoint transport]
+\label{thm:list-spine-bridge-visible-endpoint-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Visible endpoint transport holds for the framed
+list bridge classifier:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(\Eone(h),\Eone(k))
+\to \hsame(h,h')\to \hsame(k,k')\to
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(\Eone(h'),\Eone(k')).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the bridge witness into finite spines, framed representations of the two
+visible endpoints, and the finite-spine classifier witness. Apply visible
+history congruence to the endpoint equalities $\hsame(h,h')$ and
+$\hsame(k,k')$, then transport the two framed spine representations along the
+resulting endpoint equalities. The finite-spine classifier witness is unchanged,
+so the same spines rebuild the bridge classifier at the transported visible
+endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_e1\_endpoint\_hsame\_transport}
