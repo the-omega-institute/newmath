@@ -1,6 +1,55 @@
 \input{parts/concrete_instances/real/13_real_constant_core.tex}
 \input{parts/concrete_instances/real/13_real_stream_prefix.tex}
 
+\begin{theorem}[Real stream classifier finite-prefix stability package]
+\label{thm:real-stream-classifier-finite-prefix-stability-package}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$ and prefix index
+$n$, if
+$$
+\forall i,\ \mathsf{RatHistoryCarrier}(x(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{RealStreamClassifier}(y,z),
+$$
+then
+$$
+\mathsf{RealStreamPrefixClassifier}(x,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(y,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(x,z,n)
+\land
+\mathsf{RatHistoryClassifier}(x(n),z(n)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-classifier-prefix} to
+$\mathsf{RealStreamClassifier}(x,y)$ at the selected prefix index $n$, and
+apply the same theorem to $\mathsf{RealStreamClassifier}(y,z)$ at $n$. These
+give the two finite-prefix classifier witnesses for $x$ with $y$ and for $y$
+with $z$.
+
+Use \autoref{thm:real-stream-prefix-classifier-refl} with the displayed
+rational-history carrier row for $x$ to obtain
+$\mathsf{RealStreamPrefixClassifier}(x,x,n)$. Apply
+\autoref{thm:real-stream-prefix-classifier-symm} to the $x,y$ prefix witness
+to obtain $\mathsf{RealStreamPrefixClassifier}(y,x,n)$.
+
+Compose the $x,y$ and $y,z$ prefix witnesses by
+\autoref{thm:real-stream-prefix-classifier-trans}, yielding
+$\mathsf{RealStreamPrefixClassifier}(x,z,n)$. Finally apply
+\autoref{thm:real-stream-prefix-classifier-endpoint} to this composite prefix
+to recover $\mathsf{RatHistoryClassifier}(x(n),z(n))$.
+\end{proof}
+
+Fit. Traditional target: finite-prefix stability for RealUp streams. BEDC
+source: RatUp plus RealUp stream prefixes. Carrier: rational-observation
+streams. Classifier: $\mathsf{RealStreamClassifier}$ and
+$\mathsf{RealStreamPrefixClassifier}$. Stability: prefix reflexivity, symmetry,
+transitivity, and endpoint projection. Ledger: the selected prefix index $n$.
+Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-package}.
+Exactness: the displayed four-part conjunction. Standard bridge: finite
+rational prefix agreement. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
 For certified unary-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
@@ -64,6 +113,8 @@ witnesses from $s,t$ to $s',t'$. Repacking the transported point classifier
 over all certified unary observations gives
 $\mathsf{RealUnaryStreamClassifier}(s',t')$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_stability\_package}
 
 \begin{theorem}[Real stream classifier selected e-one pair readback]
 \label{thm:real-stream-classifier-selected-e1-pair-readback}
@@ -292,6 +343,7 @@ Transport the point classifier along these endpoint identifications.
 Since $n$ was arbitrary, repack the transported pointwise witnesses as
 $\mathsf{RealStreamClassifier}(o_X,o_Y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_closed}
 
 Fit: traditional target streamwise rational-denominator context stability; BEDC
 source RealUp streams plus RatUp classifier plus $\mathsf{Cont}$; carrier
