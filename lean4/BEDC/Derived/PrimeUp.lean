@@ -109,6 +109,15 @@ theorem NatMul_unit_left_hsame {q n : BHist} :
       cases prevSame
       exact cont_deterministic step (cont_intro rfl)
 
+theorem NatMul_unit_right_hsame {d n : BHist} :
+    NatMul d (BHist.e1 BHist.Empty) n -> hsame n d := by
+  intro hmul
+  cases hmul with
+  | succ previous step =>
+      cases previous with
+      | zero _hd =>
+          exact step.trans (append_empty_left d)
+
 theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
     NatMul d (BHist.e0 q) n -> False := by
   intro mul

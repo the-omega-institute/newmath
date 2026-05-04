@@ -113,6 +113,7 @@ witnesses from $s,t$ to $s',t'$. Repacking the transported point classifier
 over all certified unary observations gives
 $\mathsf{RealUnaryStreamClassifier}(s',t')$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_stability\_package}
 
 \begin{theorem}[Real stream classifier selected e-one pair readback]
@@ -174,6 +175,7 @@ endpoint classifier along $\hsame(x'(n),\Eone(a))$ and
 $\hsame(y'(n),\Eone(b))$, producing
 $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_selected\_e1\_rat\_classifier\_readback}
 
 Fit: traditional target selected rational endpoint readback for RealUp streams;
 BEDC source RatUp plus RealUp; carrier rational-observation streams; classifier
@@ -352,3 +354,46 @@ context witnesses with continuation outputs; core theorem
 exactness pointwise $\mathsf{RealStreamClassifier}$ preservation; standard
 bridge denominator/context stability of rational real names; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier unary denominator context selected one-tail pair readback]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-e1-pair-readback}
+Under the hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}, if the
+selected outputs $o_X(n)$ and $o_Y(n)$ are one-extension histories, then the
+displayed tails are unary and internally the same.
+\end{theorem}
+\begin{proof}
+First apply streamwise unary denominator context closure to obtain
+$\mathsf{RealStreamClassifier}(o_X,o_Y)$. Then apply selected one-tail pair
+readback at the chosen index $n$ to the two displayed endpoint witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream classifier unary denominator context selected positive denominators]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-positive-denominators}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$ and a selected
+index $n$, assume
+$$
+\mathsf{RealStreamClassifier}(x,y),
+$$
+and for every observation index the unary contexts, context comparisons, and
+continuation displays satisfy the hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. Then
+$$
+\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n)).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index $n$, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Apply the rational unary
+denominator context closure to the two unary contexts and their $\hsame$
+comparisons. The continuation displays identify the normalized contextual
+endpoints with $o_X(n)$ and $o_Y(n)$ by associativity of continuation append.
+
+Transport the rational classifier to these displayed outputs and apply
+\autoref{thm:rat-history-classifier-positive-denominators}. This yields the two
+positive-denominator witnesses in the displayed conclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_positive\_denominators}

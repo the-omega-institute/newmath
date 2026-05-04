@@ -135,6 +135,23 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_unary\_tail\_closed}
 
+\begin{theorem}[Constant real classifier common-tail cancellation]
+\label{thm:real-constant-history-classifier-append-common-tail-cancel}
+For all histories $d,e,t$,
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot t),\Eone(e\cdot t))
+\Longrightarrow d\hsame e.
+$$
+\end{theorem}
+\begin{proof}
+Read the sealed constant-real classifier through
+\autoref{thm:real-constant-history-classifier-e1-iff-rat} as a rational
+history classifier on the two appended rational endpoints. Its endpoint
+$\hsame$ field identifies $d\cdot t$ with $e\cdot t$, and right cancellation
+of the common BEDC history tail $t$ exposes $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_tail\_cancel}
+
 \begin{theorem}[Constant real classifier double-seal readback]
 \label{thm:real-constant-history-classifier-e1-pair-readback}
 If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
