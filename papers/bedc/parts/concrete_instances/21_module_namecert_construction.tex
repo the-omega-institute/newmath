@@ -578,6 +578,25 @@ Thus all listed fields except scalar associativity hold in a finite equality-cla
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParityAction\_scalar\_associativity\_counterexample}
 
+\begin{theorem}[Module parity action associativity forces empty visible one]
+\label{thm:module-parity-action-scalar-associativity-forces-empty-visible-one}
+If a global scalar-associativity law holds for the concrete parity action, then
+the visible scalar one classifies with the empty history:
+$$
+\bigl(\forall r,s,m.\; (rs)\star m\hsame r\star(s\star m)\bigr)
+\Longrightarrow
+\mathsf{ModuleParityOne}\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply the displayed global law at $r=s=\mathsf{ModuleParityEps}$ and
+$m=\mathsf{ModuleParityOne}$. The concrete counterexample identifies the left
+associated value with $\emp$ and the right associated value with
+$\mathsf{ModuleParityOne}$. Transitivity and symmetry of $\hsame$ therefore
+classify $\mathsf{ModuleParityOne}$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParityAction\_scalar\_associativity\_forces\_empty\_visible\_one}
+
 \begin{proposition}[Module forgets to AbGroup certificate]
 \label{prop:module-forgets-abgroup-certificate}
 Let $R$ carry a $\RingUp(R)$ certificate and let $M$ carry a $\ModuleUp(R,M)$ certificate. If the scalar-ring package, the scalar action $\odot:R\times M\to M$, and the scalar-action stability rows are omitted from the exported package, the retained carrier, source, additive pattern, classifier, additive stability fields, and additive ledger form an $\AbGroupUp(M)$ certificate. The carrier, addition, zero, additive inverse, and classifier of $M$ are unchanged.
@@ -767,4 +786,5 @@ $$
 Therefore $\mathsf{FaithAct}_{R,M}$ holds, and the two conditions are equivalent.
 \end{proof}
 
+\input{parts/concrete_instances/21_module_parity_action_boundary}
 \input{parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action}

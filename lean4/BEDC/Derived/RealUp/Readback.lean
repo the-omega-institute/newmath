@@ -42,6 +42,61 @@ theorem RealConstantHistoryClassifier_append_e1_tail_unary_readback
     (And.intro leftUnary.right
       (And.intro rightUnary.left (And.intro rightUnary.right rational.right.right)))
 
+theorem RealConstantHistoryClassifier_append_e1_tail_denominator_package
+    {d e tailD tailE zD zE : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 (append d (BHist.e1 tailD)))
+      (BHist.e1 (append e (BHist.e1 tailE))) ->
+      RatHistoryClassifier (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) ∧
+        PositiveUnaryDenominator (append d (BHist.e1 tailD)) ∧
+          PositiveUnaryDenominator (append e (BHist.e1 tailE)) ∧ UnaryHistory d ∧
+            UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+              (hsame (append d (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                (hsame (append e (BHist.e1 tailE)) BHist.Empty -> False) ∧
+                  (hsame (append d (BHist.e1 tailD)) (BHist.e0 zD) -> False) ∧
+                    (hsame (append e (BHist.e1 tailE)) (BHist.e0 zE) -> False) ∧
+                      hsame (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) := by
+  intro classified
+  have rational :
+      RatHistoryClassifier (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) :=
+    RealConstantHistoryClassifier_e1_iff_rat.mp classified
+  have positives :
+      PositiveUnaryDenominator (append d (BHist.e1 tailD)) ∧
+        PositiveUnaryDenominator (append e (BHist.e1 tailE)) :=
+    RatHistoryClassifier_positive_denominators rational
+  have leftUnary :
+      UnaryHistory d ∧ UnaryHistory tailD :=
+    PositiveUnaryDenominator_append_e1_right_iff.mp positives.left
+  have rightUnary :
+      UnaryHistory e ∧ UnaryHistory tailE :=
+    PositiveUnaryDenominator_append_e1_right_iff.mp positives.right
+  have leftNotEmpty :
+      hsame (append d (BHist.e1 tailD)) BHist.Empty -> False :=
+    PositiveUnaryDenominator_not_empty positives.left
+  have rightNotEmpty :
+      hsame (append e (BHist.e1 tailE)) BHist.Empty -> False :=
+    PositiveUnaryDenominator_not_empty positives.right
+  have leftNotE0 :
+      hsame (append d (BHist.e1 tailD)) (BHist.e0 zD) -> False := by
+    intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.left)
+  have rightNotE0 :
+      hsame (append e (BHist.e1 tailE)) (BHist.e0 zE) -> False := by
+    intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
+  exact And.intro rational
+    (And.intro positives.left
+      (And.intro positives.right
+        (And.intro leftUnary.left
+          (And.intro leftUnary.right
+            (And.intro rightUnary.left
+              (And.intro rightUnary.right
+                (And.intro leftNotEmpty
+                  (And.intro rightNotEmpty
+                    (And.intro leftNotE0
+                      (And.intro rightNotE0 rational.right.right))))))))))
+
 theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
     {left d e tailD tailE : BHist} :
     RealConstantHistoryClassifier (BHist.e1 (append left (append d (BHist.e1 tailD))))
