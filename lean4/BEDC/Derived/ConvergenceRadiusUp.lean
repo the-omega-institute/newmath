@@ -83,6 +83,18 @@ theorem GeomBound_visible_radius_endpoint_package {a : Nat -> BHist} {K R tail :
     have emptyParts := cont_empty_result_inversion emptyContinuation
     exact not_hsame_e1_empty emptyParts.left
 
+theorem GeomBound_visible_constant_endpoint_package {a : Nat -> BHist} {r R tail : BHist} :
+    GeomBound a r (BHist.e1 tail) -> Cont r (BHist.e1 tail) R ->
+      UnaryHistory tail ∧ (hsame R BHist.Empty -> False) := by
+  intro bound continuation
+  constructor
+  · exact unary_e1_inversion bound.right.left
+  · intro resultEmpty
+    have emptyContinuation : Cont r (BHist.e1 tail) BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have emptyParts := cont_empty_result_inversion emptyContinuation
+    exact not_hsame_e1_empty emptyParts.right
+
 theorem ConvRad_semanticNameCert {a : Nat -> BHist} {R : BHist} (radius : ConvRad a R) :
     SemanticNameCert (ConvRad a) (ConvRad a) (ConvRad a) hsame := by
   constructor
