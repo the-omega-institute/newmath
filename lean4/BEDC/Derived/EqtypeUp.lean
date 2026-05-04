@@ -68,6 +68,16 @@ theorem EqtypeClassCarrier_visible_context_anchor_readback {p r anchor h core : 
     (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
   exact hsame_trans (hsame_symm sameCore) carrier
 
+theorem EqtypeClassCarrier_visible_context_empty_anchor_visible_core_absurd
+    {p r h core tail : BHist} :
+    EqtypeClassCarrier BHist.Empty h ->
+      hsame (append (append p h) r) (append (append p core) r) ->
+        (hsame core (BHist.e0 tail) ∨ hsame core (BHist.e1 tail)) -> False := by
+  intro carrier sameVisible visibleCore
+  have coreCarrier : EqtypeClassCarrier BHist.Empty core :=
+    EqtypeClassCarrier_visible_context_anchor_readback carrier sameVisible
+  exact EqtypeClassCarrier_empty_anchor_visible_absurd coreCarrier visibleCore
+
 theorem EqtypeClassCarrier_visible_context_cores_deterministic
     {p r anchor left right coreLeft coreRight : BHist} :
     EqtypeClassCarrier anchor left -> EqtypeClassCarrier anchor right ->
