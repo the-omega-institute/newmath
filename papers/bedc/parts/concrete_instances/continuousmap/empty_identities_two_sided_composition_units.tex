@@ -90,3 +90,56 @@ distance with the corresponding canonical composite identifies it by $\hsame$
 with $\mathsf{append}(source,target)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_identities\_closed}
+
+\begin{theorem}[ContinuousMap identity carrier distance determinacy]
+\label{thm:continuousmap-identity-carrier-distance-determinacy}
+For histories
+$source,map,target,modulus,cert,distance,displayedSource,displayedTarget:\mathsf{BHist}$,
+assume
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance).
+$$
+If the displayed source and target identity carriers are
+$$
+\mathsf{ContinuousMapCarrier}
+(source,\emp,source,\emp,source,displayedSource)
+$$
+and
+$$
+\mathsf{ContinuousMapCarrier}
+(target,\emp,target,\emp,target,displayedTarget),
+$$
+then their hidden distance ledgers are the canonical self-distance ledgers:
+$$
+\hsame(displayedSource,\mathsf{append}(source,source))\land
+\hsame(displayedTarget,\mathsf{append}(target,target)).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuousmap-empty-identities-two-sided-composition-units}
+to the given continuous-map carrier. Project its source-identity row to obtain
+the canonical carrier
+$\mathsf{ContinuousMapCarrier}(source,\emp,source,\emp,source,\mathsf{append}(source,source))$.
+Project its target-identity row to obtain
+$\mathsf{ContinuousMapCarrier}(target,\emp,target,\emp,target,\mathsf{append}(target,target))$.
+
+Compare the displayed source identity carrier with the canonical source identity
+carrier by Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}.
+The two carriers have the same source, graph map, and modulus ledgers, so the
+distance component of the comparison gives
+$\hsame(displayedSource,\mathsf{append}(source,source))$.
+
+Compare the displayed target identity carrier with the canonical target identity
+carrier in the same way. Projecting the distance component gives
+$\hsame(displayedTarget,\mathsf{append}(target,target))$, and pairing the two
+classifiers gives the displayed conjunction.
+
+The ten-field fit is: traditional target identity maps with stable self-distance
+ledgers; BEDC source $\mathsf{BHist}$ with $\ContR$ and $\hsame$; carrier
+$\mathsf{ContinuousMapCarrier}$; classifier $\hsame$; stability obligation
+identity-carrier distance determinacy; ledger the self-distance ledger
+$\mathsf{append}(source,source)$ or $\mathsf{append}(target,target)$; core theorem
+this identity-carrier comparison; exactness the displayed conjunction; standard
+bridge deferred; downstream consumer $\CategoryUp$ identity-morphism
+normalization.
+\end{proof}
