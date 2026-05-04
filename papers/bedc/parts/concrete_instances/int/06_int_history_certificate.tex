@@ -80,6 +80,41 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntHistoryClassifier}
 
+\begin{theorem}[Integer history classifier carrier endpoints]
+\label{thm:int-history-classifier-carrier-endpoints}
+For all histories $h,k:\mathsf{BHist}$, classifier evidence exposes both
+endpoints as public signed-history carriers:
+$$
+\forall h,k:\mathsf{BHist},\quad
+\mathsf{IntHistoryClassifier}(h,k)\to
+\mathsf{IntHistoryCarrier}(h)\land\mathsf{IntHistoryCarrier}(k).
+$$
+The ten-field fit is: traditional target domain coverage for signed-unary
+integer equality; BEDC source $\mathsf{IntHistoryCarrier}$,
+$\mathsf{IntHistoryClassifier}$, $\mathsf{BHist}$, $\hsame$, $\Ezero$, and
+$\Eone$; carrier the public signed-history carrier; classifier the two-branch
+public classifier; stability extraction of admitted endpoints from classifier
+evidence; ledger visible sign tag plus unary payload; core theorem this
+carrier-endpoint block; exactness classifier domain coverage; standard bridge
+equality only relates admitted signed representatives; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Split the classifier witness into its two visible signed branches.
+
+In the zero branch, expose payloads $m,n:\mathsf{BHist}$, the unary witnesses
+for $m$ and $n$, and the endpoint witnesses $\hsame(h,\Ezero(m))$ and
+$\hsame(k,\Ezero(n))$. The carrier witness for $h$ is the zero-tag
+$\mathsf{IntHistoryCarrier}$ branch with payload $m$, its unary witness, and
+the displayed endpoint witness. The carrier witness for $k$ is packed in the
+same way using payload $n$.
+
+In the one branch, expose the corresponding payloads, unary witnesses, and
+endpoint witnesses $\hsame(h,\Eone(m))$ and $\hsame(k,\Eone(n))$. Packing the
+one-tag carrier branch for $h$ and for $k$ gives the two conjuncts required by
+the statement.
+\end{proof}
+
 \begin{theorem}[Integer history classifier mixed visible-tag exclusion]
 \label{thm:int-history-classifier-mixed-visible-tag-exclusion}
 For all $m,n:\mathsf{BHist}$, the public integer-history classifier excludes
