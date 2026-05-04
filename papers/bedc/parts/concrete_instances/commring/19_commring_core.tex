@@ -490,6 +490,27 @@ give the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
 
+\begin{theorem}[CommRing singleton classifier append commutation carrier exactness]
+\label{thm:commring-singleton-classifier-append-comm-carrier-iff}
+For histories $h,k:\mathsf{BHist}$, the singleton commutative-ring classifier
+relates the two appended endpoints with exchanged factors exactly when both
+factors are singleton carriers:
+$$
+\rho_{\emp}(\mathsf{append}(h,k),\mathsf{append}(k,h))
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the source carrier field from the classifier
+and applies empty-result inversion to the appended endpoint. Conversely, the
+two factor carrier witnesses rebuild singleton carrier witnesses for both
+appended orders by empty-result construction. The rebuilt endpoints are both
+classified through $\emp$, so transitivity and symmetry of $\hsame$ give the
+classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_carrier\_iff}
+
 \begin{theorem}[CommRing singleton classifier append associativity carrier exactness]
 \label{thm:commring-singleton-classifier-append-assoc-carrier-iff}
 For histories $a,b,c:\mathsf{BHist}$,

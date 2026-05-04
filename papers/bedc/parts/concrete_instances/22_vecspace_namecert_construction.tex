@@ -214,6 +214,26 @@ classifier comparison $\emp\hsame t$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_classifier\_empty\_iff}
 
+\begin{theorem}[VecSpace singleton scalar action image pullback]
+\label{thm:vecspace-singleton-smul-image-pullback}
+For all histories $r,m,n:\mathsf{BHist}$, if $m\hsame\emp$, then
+$$
+\mathsf{VecSpaceSingletonClassifier}
+  (\mathsf{VecSpaceSingletonSmul}(r,m),n)
+\Longleftrightarrow
+\mathsf{VecSpaceSingletonClassifier}(m,n).
+$$
+\end{theorem}
+\begin{proof}
+The scalar-action image endpoint is definitionally $\emp$. In the forward
+direction, the target classifier gives the carrier of $n$ and the comparison
+$\emp\hsame n$; composing the assumed $m\hsame\emp$ with this comparison gives
+$m\hsame n$. In the reverse direction, the target carrier contained in
+$\mathsf{VecSpaceSingletonClassifier}(m,n)$ and symmetry classify the empty
+scalar-action endpoint against $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_image\_pullback\_iff}
+
 \begin{theorem}[VecSpace singleton scalar action target deterministic]
 \label{thm:vecspace-singleton-smul-target-deterministic}
 For all histories $r,s,m,n,x,y:\mathsf{BHist}$, if
