@@ -548,6 +548,7 @@ Theorem~\ref{thm:group-singleton-history-semantic-namecert} identify this
 last classifier with $A_{\emp}(r)$. Composing the two carrier equivalences
 gives $A_{\emp}(s)\Longleftrightarrow A_{\emp}(x)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_inverse\_continuation\_roundtrip\_iff}
 
 The per-object certificate data are: traditional target terminal-group
 continuation-result coverage; BEDC source concrete singleton $\GroupUp$ over
@@ -561,3 +562,26 @@ terminal-group product result; and status $\mathsf{ProofTarget}$.
 The $\GroupUp$ schema is instantiated by this concrete $BHist$ carrier and
 operations, so subsequent formalization can prove $BHist$-anchored group laws
 instead of relying only on an abstract operator schema.
+
+\begin{theorem}[Group singleton inverse-continuation roundtrip source exactness]
+\label{thm:group-singleton-inverse-continuation-roundtrip-source-iff}
+For histories $x,r,s:\mathsf{BHist}$, if $r$ is a continuation result of
+$\mathsf{GroupSingletonInv}(x)$ followed by $x$, and $s$ is a continuation
+result of $r$ followed by $\mathsf{GroupSingletonInv}(x)$, then classifying the
+final result against the original source is exactly the singleton carrier
+condition on the original source:
+$$
+\ContR(\mathsf{GroupSingletonInv}(x),x,r)\Rightarrow
+\ContR(r,\mathsf{GroupSingletonInv}(x),s)\Rightarrow
+\bigl(R_{\emp}(s,x)\Longleftrightarrow A_{\emp}(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the right endpoint carrier from
+$R_{\emp}(s,x)$. Conversely, apply
+\autoref{thm:group-singleton-inverse-continuation-roundtrip-carrier-exactness}
+to transport the carrier condition on $x$ back to a carrier condition on $s$.
+The two carrier witnesses compose through $\hsame$ symmetry and transitivity to
+rebuild $R_{\emp}(s,x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_inverse\_continuation\_roundtrip\_source\_iff}

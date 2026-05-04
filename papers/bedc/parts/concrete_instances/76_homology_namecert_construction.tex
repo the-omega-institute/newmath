@@ -18,6 +18,38 @@ $$
 \leandef{BEDC.Derived.HomologyUp.HomologyCycleCarrier}
 \leandef{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier}
 
+\begin{theorem}[Homology boundary carrier nonempty preimage]
+\label{thm:homology-boundary-carrier-nonempty-preimage}
+If $B_d(h)$ and $h$ is not history-same to $\mathsf{Empty}$, then some
+boundary preimage $u$ has a nonempty differential endpoint:
+$$
+\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land \neg\hsame(d(u),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+Choose the boundary witness $u$ with $\hsame(h,d(u))$. If $d(u)$ were
+history-same to $\mathsf{Empty}$, transitivity of $\hsame$ would make $h$
+history-same to $\mathsf{Empty}$, contradicting the nonempty hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_nonempty\_preimage}
+
+\begin{theorem}[Homology boundary carrier empty preimage]
+\label{thm:homology-boundary-carrier-empty-preimage}
+If $B_d(h)$ and $h\hsame\mathsf{Empty}$, then some boundary preimage $u$
+has an empty differential endpoint:
+$$
+\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(d(u),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+Choose the boundary witness $u$ with $\hsame(h,d(u))$. Symmetry of that
+witness followed by the displayed empty endpoint comparison gives
+$\hsame(d(u),\mathsf{Empty})$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_empty\_preimage}
+
 \begin{theorem}[Homology boundary carrier cycle closure]
 \label{thm:homology-boundary-carrier-cycle-closed}
 Assume the BEDC chain differential is square-zero:

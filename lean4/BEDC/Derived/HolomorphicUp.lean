@@ -227,6 +227,76 @@ def HolomorphicOpenDiskWitnessed (center radius point : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧
     ∃ gap : BHist, UnaryHistory gap ∧ Cont point gap radius
 
+theorem HolomorphicOpenDiskCarrier_witnessed_components {center radius point : BHist} :
+    HolomorphicOpenDiskCarrier center radius point ->
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧
+        ∃ gap : BHist, UnaryHistory gap ∧ Cont point gap radius ∧
+          HolomorphicOpenDiskWitnessed center radius point := by
+  intro carrier
+  cases carrier with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier gapWitness =>
+              have centerUnary : UnaryHistory center :=
+                ComplexHistoryCarrier_unary centerCarrier
+              have radiusPositive : RatUp.PositiveUnaryDenominator radius :=
+                RatUp.RatHistoryCarrier_iff_positive_denominator.mp radiusCarrier
+              have radiusUnary : UnaryHistory radius :=
+                (RatUp.PositiveUnaryDenominator_unary_and_nonempty radiusPositive).left
+              have pointUnary : UnaryHistory point :=
+                ComplexHistoryCarrier_unary pointCarrier
+              cases gapWitness with
+              | intro gap gapData =>
+                  cases gapData with
+                  | intro gapUnary gapRest =>
+                      cases gapRest with
+                      | intro _gapPrefix pointGap =>
+                          exact And.intro centerUnary
+                            (And.intro radiusUnary
+                              (And.intro pointUnary
+                                (Exists.intro gap
+                                  (And.intro gapUnary
+                                    (And.intro pointGap
+                                      (And.intro centerUnary
+                                        (And.intro radiusUnary
+                                          (And.intro pointUnary
+                                            (Exists.intro gap
+                                              (And.intro gapUnary pointGap))))))))))
+
+theorem HolomorphicOpenDiskWitnessed_zero_headed_component_absurd {center radius point :
+    BHist} :
+    HolomorphicOpenDiskWitnessed center radius point ->
+      ((∃ z : BHist, center = BHist.e0 z) ∨
+        (∃ z : BHist, radius = BHist.e0 z) ∨
+          (∃ z : BHist, point = BHist.e0 z)) -> False := by
+  intro disk zeroComponent
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier _gapWitness =>
+              cases zeroComponent with
+              | inl centerZero =>
+                  cases centerZero with
+                  | intro z centerEq =>
+                      cases centerEq
+                      exact unary_no_zero_extension centerCarrier
+              | inr rest =>
+                  cases rest with
+                  | inl radiusZero =>
+                      cases radiusZero with
+                      | intro z radiusEq =>
+                          cases radiusEq
+                          exact unary_no_zero_extension radiusCarrier
+                  | inr pointZero =>
+                      cases pointZero with
+                      | intro z pointEq =>
+                          cases pointEq
+                          exact unary_no_zero_extension pointCarrier
+
 theorem HolomorphicOpenDisk_radius_extension_gap_witness
     {center point radius extra radius' : BHist} :
     HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory extra ->
@@ -289,6 +359,34 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                           (And.intro pointUnary
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
+
+theorem HolomorphicOpenDiskCarrier_radius_extension_witnessed
+    {center point radius extra radius' : BHist} :
+    HolomorphicOpenDiskCarrier center radius point -> UnaryHistory extra ->
+      Cont radius extra radius' ->
+        HolomorphicOpenDiskWitnessed center radius' point ∧
+          ∃ gap : BHist, ∃ extendedGap : BHist,
+            UnaryHistory gap ∧ UnaryHistory extendedGap ∧ Cont point gap radius ∧
+              Cont gap extra extendedGap ∧ Cont point extendedGap radius' := by
+  intro carrier extraUnary radiusExtension
+  have components := HolomorphicOpenDiskCarrier_witnessed_components carrier
+  cases components with
+  | intro _centerUnary componentsRest =>
+      cases componentsRest with
+      | intro _radiusUnary componentsRest =>
+          cases componentsRest with
+          | intro _pointUnary gapWitness =>
+              cases gapWitness with
+              | intro _gap gapData =>
+                  cases gapData with
+                  | intro _gapUnary gapRest =>
+                      cases gapRest with
+                      | intro _pointGap witnessed =>
+                          exact And.intro
+                            (HolomorphicOpenDisk_radius_continuation_extend witnessed
+                              extraUnary radiusExtension)
+                            (HolomorphicOpenDisk_radius_extension_gap_witness witnessed
+                              extraUnary radiusExtension)
 
 theorem HolomorphicOpenDiskWitnessed_boundary_hsame_transport
     {center center' radius radius' point point' : BHist} :
@@ -454,5 +552,11 @@ theorem HolomorphicOpenDiskWitnessed_center_point_unary_suffix_transport
               (And.intro shiftedDisk.right.left
                 (And.intro shiftedDisk.right.right.left shiftedGap)))
             shiftedGap
+
+theorem HolomorphicOpenDisk_gap_point_comm {center radius point gap : BHist} :
+    HolomorphicOpenDisk center radius point gap -> hsame radius (append gap point) := by
+  intro disk
+  exact hsame_trans disk.right.right.right.right
+    (unary_append_comm_hsame disk.right.right.left disk.right.right.right.left)
 
 end BEDC.Derived.HolomorphicUp

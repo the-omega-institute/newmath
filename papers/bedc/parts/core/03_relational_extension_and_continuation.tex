@@ -185,8 +185,10 @@ For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible left e
 both $\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot$ and $\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot$ hold.
 \end{theorem}
 \begin{proof}
-Split on the right tail $k$. The empty branch leaves the visible left endpoint as the outer constructor, and each visible branch exposes the right-tail constructor as the outer constructor.
-Constructor separation from $\emp$ rules out every branch.
+Split on the right tail $k$. If it is empty, the visible left endpoint remains
+the outer constructor. If it is visible, append exposes that right-tail
+constructor as the outer constructor. In every branch, constructor separation
+from $\emp$ rules out the displayed history sameness.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_empty\_absurd}
 
@@ -210,10 +212,20 @@ $$
 \end{theorem}
 \begin{proof}
 Induct on the common right tail $k$. The empty case is direct zero/one
-constructor no-confusion. In each visible step, constructor injectivity peels
-the shared outer layer and the induction hypothesis applies to the shorter tail.
+constructor no-confusion. In each visible tail step, both appended histories
+gain the same outer constructor; constructor injectivity peels that shared
+outer layer and the induction hypothesis applies to the shorter tail.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tail\_tag\_separation}
+
+\begin{theorem}[Append visible-left same-tag tail cancellation]
+\label{thm:append-visible-left-same-tag-tail-cancel}
+For histories $h_0,h_1,k:\mathsf{BHist}$, common right-tail append cancellation identifies the payloads of equal zero-headed visible-left endpoints, and likewise for equal one-headed visible-left endpoints.
+\end{theorem}
+\begin{proof}
+Apply append right-cancellation to the common tail, then use constructor injectivity for the matching \(\Ezero\) or \(\Eone\) head.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tag\_tail\_cancel}
 
 \begin{lemma}[Continuation respects a matching right extension step]
 \label{lem:cont-ext-right-step}
@@ -222,9 +234,7 @@ $\ContR(h,k',r')$.
 \end{lemma}
 \leanchecked{BEDC.FKernel.Cont.cont\_ext\_right\_step}
 \begin{proof}
-Case split on the extension of $k$ by $m$. In the $\Ezero$ branch, the matching
-extension of $r$ is also the zero branch, and the zero continuation step
-applies. The $\Eone$ branch is analogous.
+Case split on the extension of $k$ by $m$. In the $\Ezero$ branch, the matching extension of $r$ is also the zero branch, and the zero continuation step applies. The $\Eone$ branch is analogous.
 \end{proof}
 
 \begin{theorem}[Extension as singleton continuation]
@@ -657,10 +667,7 @@ a\hsame b
 $$
 \end{theorem}
 \begin{proof}
-Transport the right context along $P\hsame Q$. The forward direction is right
-append cancellation for the common suffix. Conversely, after the endpoints
-$a$ and $b$ are identified, the two appended histories are definitionally the
-same.
+Transport the right context along $P\hsame Q$. The forward direction is right append cancellation for the common suffix. Conversely, after the endpoints $a$ and $b$ are identified, the two appended histories are definitionally the same.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_hsame\_right\_context\_cancel\_iff}
 
