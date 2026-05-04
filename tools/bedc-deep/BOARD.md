@@ -4354,3 +4354,29 @@ The multiplicativity-of-evaluation law is the canonical compatibility theorem be
 
 ---
 
+### B-170 - Functor composition associativity classifier law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor composition associativity classifier law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a FunctorUp setup, for certified functors F, G, H, the composites (H∘G)∘F and H∘(G∘F) are classifier-equal pointwise on objects and on hom-carriers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The functor chapter (37) is currently definition-only with no theorems, and B-11 only covers hom-carrier closure under a single composition step, not associativity across triple composition. Functor associativity is a foundational structural law that any FunctorUp certificate must support before NatTrans-level theorems (B-14) can compose along functor changes. The claim is a clean single-implication statement under a known setup, fits squarely in concrete_instances, and is not paraphrased by any current BOARD card or paper label. Different mechanism from B-11 (closure under one composition vs. two triple-composition associates classifying equally), so it spawns its own proof obligation rather than duplicating existing work.
+
+---
+
