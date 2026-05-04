@@ -479,3 +479,25 @@ Fix a unary precision $k$ and a unary index $n$ satisfying the threshold clause 
 
 Apply $\mathsf{CplxRegSeq}(s,N_{\mathrm{const}})$ at the indices $n$ and $m$. This gives a distance witness $D$ such that $\mathsf{CplxDist}(s(n),s(m),D)$ satisfies the unary representation of $D\leq 2^{-k}$. By the definition of the constant sequence, $s(m)=s(\emp)=z$. Therefore the same witness $D$ is exactly the distance estimate from $s(n)$ to $z$ required in \autoref{def:cplx-lim}. Since $k$ and $n$ were arbitrary, $M_{\mathrm{const}}$ is a valid complex-limit modulus for the constant sequence.
 \end{proof}
+
+\begin{theorem}[Eventually constant complex sequence has constant limit]
+\label{thm:cplx-eventually-constant-sequence-constant-limit}
+Let $s:\Unary\to\ComplexUp$ be a complex sequence, let $N,M:\Unary\to\Unary$ be unary moduli, and let $z$ be a complex history. Suppose $\mathsf{CplxRegSeq}(s,N)$ and suppose that $s$ is pointwise history-same to $z$ above $M$:
+$$
+\forall k,n:\Unary,\
+\bigl(\mathsf{NatUnaryStrictPrefix}(M(k),n)\lor\hsame(n,M(k))\bigr)
+\Longrightarrow
+\hsame(s(n),z).
+$$
+Then
+$$
+\mathsf{CplxLim}(s,N,z,M).
+$$
+\end{theorem}
+\begin{proof}
+Fix a unary precision $k$ and a unary index $n$ satisfying the threshold clause in \autoref{def:cplx-lim} for $M(k)$. Put $c(u):=z$ for the constant sequence. The empty threshold used in \autoref{thm:cplx-constant-sequence-constant-limit} accepts every unary index: if $n\hsame\emp$ this is the non-strict branch, and otherwise the tail $n$ with the left-unit continuation $\ContR(\emp,n,n)$ gives $\mathsf{NatUnaryStrictPrefix}(\emp,n)$ by \autoref{def:nat-unary-strict-prefix}. Hence the constant-limit theorem supplies a distance witness $D$ from $c(n)=z$ to $z$ satisfying the unary estimate $D\leq 2^{-k}$.
+
+The above-$M$ hypothesis gives $\hsame(s(n),z)$, hence $\hsame(s(n),c(n))$. Apply \autoref{thm:complex-distance-hsame-transport-with-relation} to the distance witness for $c(n)$ and $z$, using reflexivity of $\hsame$ on the limit endpoint and on $D$. The transported witness has endpoints $s(n)$ and $z$, and the same distance history $D$, so the estimate $D\leq 2^{-k}$ is unchanged.
+
+Since $k$ and $n$ were arbitrary among the accepted indices, these witnesses are exactly the convergence pattern required by \autoref{def:cplx-lim}. The hypothesis $\mathsf{CplxRegSeq}(s,N)$ supplies the regular-sequence side of the predicate, so $\mathsf{CplxLim}(s,N,z,M)$ holds.
+\end{proof}
