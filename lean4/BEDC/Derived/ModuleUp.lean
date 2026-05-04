@@ -513,4 +513,12 @@ theorem ModuleParityAction_scalar_associativity_counterexample :
     · intro same
       exact not_hsame_emp_e1 same
 
+theorem ModuleAdditive_duplicate_cancel_empty {add : BHist -> BHist -> BHist} {x : BHist}
+    (right_empty : hsame (add x BHist.Empty) x)
+    (left_cancel : forall {a b c : BHist}, hsame (add a b) (add a c) -> hsame b c)
+    (duplicate : hsame x (add x x)) : hsame x BHist.Empty := by
+  have aligned : hsame (add x x) (add x BHist.Empty) :=
+    hsame_trans (hsame_symm duplicate) (hsame_symm right_empty)
+  exact left_cancel aligned
+
 end BEDC.Derived.ModuleUp

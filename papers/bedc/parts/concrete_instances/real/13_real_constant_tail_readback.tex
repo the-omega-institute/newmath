@@ -20,3 +20,47 @@ each positive denominator as unary evidence for its head and tail, and the
 remaining classifier field is the displayed endpoint $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}
+
+\begin{theorem}[Real constant classifier appended e-one matched-tail head readback]
+\label{thm:real-constant-classifier-appended-e1-matched-tail-head-readback}
+For histories $d,e,tail_D,tail_E$, if
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Eone(tail_D)),
+  \Eone(e\cdot\Eone(tail_E)))\land
+\hsame(tail_D,tail_E),
+$$
+then
+$$
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-history-classifier-append-e1-tail-unary-readback}
+to the displayed classifier. This gives the four unary rows for $d$,
+$tail_D$, $e$, and $tail_E$, together with endpoint equality
+$\hsame(d\cdot\Eone(tail_D),e\cdot\Eone(tail_E))$.
+
+The assumed tail agreement $\hsame(tail_D,tail_E)$ transports through the
+e-one constructor and right append congruence. Hence the right endpoint may be
+read with the same displayed tail as the left endpoint:
+$\hsame(e\cdot\Eone(tail_E),e\cdot\Eone(tail_D))$.
+
+Endpoint transport therefore presents a constant-real classifier of
+$\Eone(d\cdot\Eone(tail_D))$ against $\Eone(e\cdot\Eone(tail_D))$. Apply
+\autoref{thm:real-constant-history-classifier-append-common-tail-cancel} with
+common tail $\Eone(tail_D)$ to obtain $\hsame(d,e)$, and combine this with the
+four unary rows already read back.
+\end{proof}
+
+The ten-field fit is: traditional target finite denominator-tail agreement
+readback for RealUp constants; BEDC source RealUp constant classifiers plus
+RatUp positive-denominator readback; carrier BEDC histories; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability by endpoint transport,
+e-one congruence, append congruence, and common-tail cancellation; ledger
+displayed denominator heads and displayed e-one tails; core theorem
+\autoref{thm:real-constant-classifier-appended-e1-matched-tail-head-readback};
+exactness the displayed five-row conjunction; standard bridge finite
+RegSeqRat denominator-tail readback; status $\mathsf{ProofTarget}$.

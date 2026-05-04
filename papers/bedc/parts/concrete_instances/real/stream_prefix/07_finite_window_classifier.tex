@@ -177,6 +177,55 @@ reaches $u$, so Definition~\ref{def:real-unary-offset-bound} repacks this data
 as $\mathsf{UnaryOffsetLe}(k,u)$.
 \end{proof}
 
+\begin{lemma}[Unary offset bound reflexivity]
+\label{lem:real-unary-offset-bound-reflexivity}
+For every history $w:\Hist$,
+$$
+\mathsf{UnaryHistory}(w)\Longrightarrow\mathsf{UnaryOffsetLe}(w,w).
+$$
+\end{lemma}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-offset-bound}. The displayed hypothesis
+supplies the required unary witness for the left endpoint $w$.
+
+Choose the tail $\emp$. Unary emptiness gives $\mathsf{UnaryHistory}(\emp)$,
+and the right-unit continuation law witnesses $\ContR(w,\emp,w)$. These three
+pieces repack as $\mathsf{UnaryOffsetLe}(w,w)$.
+\end{proof}
+
+\begin{theorem}[Real unary stream finite-window endpoint at bound]
+\label{thm:real-unary-stream-window-endpoint-at-bound}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,w)),t(\mathsf{append}(a,w))).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} only far
+enough to read the stored bound field $\mathsf{UnaryHistory}(w)$.
+
+Apply \autoref{lem:real-unary-offset-bound-reflexivity} to this bound field.
+This gives the explicit witness $\mathsf{UnaryOffsetLe}(w,w)$ required for
+endpoint projection.
+
+Now apply \autoref{lem:real-unary-stream-window-endpoint-projection} with
+$k=w$. The projected endpoint is exactly the boundary observation
+$\mathsf{append}(a,w)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation boundary readback;
+BEDC source $\mathsf{RealUnaryStreamWindowClassifier}$ plus
+$\mathsf{UnaryOffsetLe}$; carrier $\mathsf{BHist}$ observation maps;
+classifier boundary endpoint RatUp classifier; stability inherited from unary
+append closure and endpoint projection; ledger the boundary offset $w$ and the
+empty continuation tail; core theorem
+\autoref{thm:real-unary-stream-window-endpoint-at-bound}; exactness the bound
+is itself a certified finite-window offset; standard bridge RegSeqRat finite
+boundary observation; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary stream finite-window restriction]
 \label{thm:real-unary-stream-window-restriction}
 For observation maps $s,t:\Hist\to\Hist$ and histories $a,w,u:\Hist$,
