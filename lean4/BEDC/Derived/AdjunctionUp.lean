@@ -229,6 +229,18 @@ theorem AdjunctionUnitCounitAlternating_result_nonempty_of_positive_depth_unit_n
       cases data.left
       exact (Iff.mpr append_nonempty_iff (Or.inl unitNonempty)) resultEmpty
 
+theorem AdjunctionUnitCounitAlternating_positive_depth_cont_readback {unit counit depth : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      ∃ tail : BHist, UnaryHistory tail ∧
+        Cont unit (AdjunctionUnitCounitAlternating counit unit tail)
+          (AdjunctionUnitCounitAlternating unit counit depth) := by
+  intro depthUnary depthNonempty
+  have depthTail := unary_history_nonempty_e1_tail depthUnary depthNonempty
+  cases depthTail with
+  | intro tail data =>
+      cases data.left
+      exact ⟨tail, data.right, cont_intro rfl⟩
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔
