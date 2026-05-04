@@ -694,3 +694,63 @@ Reflexivity gives $\mathrm{id}_M(0_M)\sim_M0_M$.
 
 It remains only to record the certificate data. The function identifier is $\mathrm{id}_M$. The additive, scalar, and zero rows above use the existing module operation ledgers together with classifier reflexivity, and the descent row uses the input classifier witness itself. This is exactly the ledger policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations}, yielding $\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)$.
 \end{proof}
+
+\begin{theorem}[Module LinearMap composition associativity certificate]
+\label{thm:module-linearmap-composition-associativity-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$, $N$, $P$, and $Q$ carry $\ModuleUp(R,M)$, $\ModuleUp(R,N)$, $\ModuleUp(R,P)$, and $\ModuleUp(R,Q)$ certificates over the same scalar source. Write $\sim_Q$ for the module classifier of $Q$. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f),\qquad
+\mathsf{LinearMapCert}_R(N,P;g),\qquad
+\mathsf{LinearMapCert}_R(P,Q;k),
+$$
+then both associated triple composites carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,Q;(k\circ g)\circ f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,Q;k\circ(g\circ f)),
+$$
+and they are related by the pointwise $\LinearMapUp(M,Q)$ classifier:
+$$
+(k\circ g)\circ f\sim_{\LinearMapUp(M,Q)}k\circ(g\circ f).
+$$
+Equivalently, for every carried $x:M$,
+$$
+((k\circ g)\circ f)(x)\sim_Q(k\circ(g\circ f))(x).
+$$
+The ten-field fit is: traditional target associativity of composition of $R$-linear maps; BEDC source the three displayed $\mathsf{LinearMapCert}_R$ packages over a common scalar source; carrier the two composite function-with-law packages; classifier the pointwise $Q$-classifier from \autoref{def:linearmap-classifier-specification}; stability composition closure and endpoint reflexivity; ledger the two binary composition ledgers and the $Q$-endpoint reflexivity ledger; core theorem this block; exactness predicate the displayed pointwise comparison; standard bridge the usual associativity of function composition read pointwise; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-composition-certificate} to the certificates for $f$ and $g$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,P;g\circ f).
+$$
+Applying the same theorem to this composite and to $k$ gives
+$$
+\mathsf{LinearMapCert}_R(M,Q;k\circ(g\circ f)).
+$$
+
+In the other association, apply \autoref{thm:module-linearmap-composition-certificate} first to $g$ and $k$, giving
+$$
+\mathsf{LinearMapCert}_R(N,Q;k\circ g).
+$$
+Applying the same theorem to $f$ and this composite gives
+$$
+\mathsf{LinearMapCert}_R(M,Q;(k\circ g)\circ f).
+$$
+These are exactly the two certificate clauses required by \autoref{def:module-linearmap-certificate-package} and the composition-closure item of \autoref{def:linearmap-stability-certificate}.
+
+It remains to compare the two certified composites. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,Q)$ classifier is pointwise comparison in the codomain classifier. Let $x$ be a carried endpoint of $M$. The output-closure rows in \autoref{def:module-linearmap-certificate-package} give carried endpoints $f(x)$ in $N$, $g(f(x))$ in $P$, and $k(g(f(x)))$ in $Q$. Both associated composites evaluate to this same codomain endpoint:
+$$
+((k\circ g)\circ f)(x)=k(g(f(x)))=(k\circ(g\circ f))(x).
+$$
+The module classifier on $Q$ is the carrier classifier of \autoref{def:module-classifier-specification}. Its reflexivity row, supplied by the naming-certificate core in \autoref{def:lean-carrier-naming-certificate}, classifies the carried endpoint $k(g(f(x)))$ with itself. Hence
+$$
+((k\circ g)\circ f)(x)\sim_Q(k\circ(g\circ f))(x).
+$$
+
+Since the carried input $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these endpoint comparisons as
+$$
+(k\circ g)\circ f\sim_{\LinearMapUp(M,Q)}k\circ(g\circ f).
+$$
+The ledger field is formed from the two binary composition ledgers governed by \autoref{def:linearmap-ledger-policy}, together with the codomain reflexivity ledger at each point of $Q$.
+\end{proof}
