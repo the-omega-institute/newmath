@@ -431,3 +431,61 @@ $$
 $$
 Classifier transitivity composes these two comparisons, and substituting $x=\mathsf{cons}(a,t)$ gives the displayed formula.
 \end{proof}
+
+\begin{lemma}[Polynomial raw addition structural swap]
+\label{lem:polynomial-raw-add-structural-swap}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$. Assume scalar additive commutativity:
+$$
+a+b\sim_R b+a
+$$
+for all scalar coefficients $a,b$. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{radd}_R(p,q),\mathsf{radd}_R(q,p)).
+$$
+\end{lemma}
+\begin{proof}
+Induct simultaneously on the two finite coefficient spines, following the four recursion clauses of $\mathsf{radd}_R$ in \autoref{def:polynomial-raw-add-comparison-data}. The target classifier is the finite-spine structural classifier of \autoref{def:list-classifier-specification}, with matching constructors isolated by \autoref{thm:list-classifier-case-exactness}.
+
+In the nil-nil case, both raw additions are $\mathsf{nil}$, so the nil clause of $\mathsf{ListClassifierSpec}$ gives the claim.
+
+In the cons-nil case, write $p=\mathsf{cons}(a,p')$ and $q=\mathsf{nil}$. The recursion gives
+$$
+\mathsf{radd}_R(p,q)=\mathsf{cons}(a+0_R,\mathsf{radd}_R(p',\mathsf{nil}))
+$$
+and
+$$
+\mathsf{radd}_R(q,p)=\mathsf{cons}(0_R+a,\mathsf{radd}_R(\mathsf{nil},p')).
+$$
+Scalar additive commutativity gives $a+0_R\sim_R0_R+a$. The induction hypothesis applied to $p'$ and $\mathsf{nil}$ gives the tail classifier
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{radd}_R(p',\mathsf{nil}),\mathsf{radd}_R(\mathsf{nil},p')).
+$$
+The cons clause of $\mathsf{ListClassifierSpec}$ combines the head comparison and this tail comparison.
+
+In the nil-cons case, write $p=\mathsf{nil}$ and $q=\mathsf{cons}(b,q')$. The recursion gives heads $0_R+b$ and $b+0_R$. Scalar additive commutativity gives $0_R+b\sim_Rb+0_R$, and the induction hypothesis at $\mathsf{nil}$ and $q'$ supplies the tail classifier. The cons clause rebuilds the displayed list-classifier witness.
+
+In the cons-cons case, write $p=\mathsf{cons}(a,p')$ and $q=\mathsf{cons}(b,q')$. The recursion exposes heads $a+b$ and $b+a$, related by scalar additive commutativity. The induction hypothesis supplies
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{radd}_R(p',q'),\mathsf{radd}_R(q',p')).
+$$
+The cons clause combines the head and tail witnesses, giving the structural classifier for the two raw sums.
+\end{proof}
+
+\begin{theorem}[Polynomial raw addition commutativity from scalar additive commutativity]
+\label{thm:polynomial-raw-add-commutativity-from-scalar-additive-commutativity}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Use the additive abelian-group and classifier fields retained in \autoref{def:ring-stability-certificate}: zero self-classification, classifier transitivity, additive congruence, additive zero laws, and scalar additive commutativity. For a commutative-ring scalar source, \autoref{prop:commring-forgets-ring-certificate} keeps these data unchanged. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{radd}_R(q,p)).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{lem:polynomial-raw-add-structural-swap} to $p$ and $q$ using the scalar additive commutativity row from \autoref{def:ring-stability-certificate}. This gives
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{radd}_R(p,q),\mathsf{radd}_R(q,p)).
+$$
+The nil finite spine is a zero remainder by the nil clause of \autoref{def:classified-zero-remainder-spine}. Apply \autoref{lem:trim-invariance-common-classified-spine-zero-remainders} with common classified spines $\mathsf{radd}_R(p,q)$ and $\mathsf{radd}_R(q,p)$, and with both zero remainders equal to $\mathsf{nil}$. Finite-spine append by $\mathsf{nil}$ leaves each spine unchanged, so the lemma yields
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(\mathsf{radd}_R(p,q)),\mathsf{trim}_R(\mathsf{radd}_R(q,p))).
+$$
+Unfolding $\mathsf{PolySame}_R$ from \autoref{def:polynomial-raw-add-comparison-data}, this is exactly the displayed polynomial raw classifier comparison.
+\end{proof}
