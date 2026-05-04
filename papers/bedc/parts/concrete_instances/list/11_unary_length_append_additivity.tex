@@ -127,6 +127,63 @@ $\hsame(\mathsf{ListUnaryLength}(p),u)$. Repack $p$ and its representation at
 $h$ as $\mathsf{ListPublicUnaryLength}_A(h,u)$.
 \end{proof}
 
+\begin{theorem}[List public append unary-length classifier congruence]
+\label{thm:list-public-append-unary-length-classifier-congruence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. For histories
+$h,h',k,k',r,r',u,v,w:\mathsf{BHist}$, assume
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,h'),\qquad
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(k,k'),
+$$
+$$
+\mathsf{ListPublicAppend}_A(h,k,r),\qquad
+\mathsf{ListPublicAppend}_A(h',k',r'),
+$$
+and
+$$
+\mathsf{ListPublicUnaryLength}_A(h,u),\qquad
+\mathsf{ListPublicUnaryLength}_A(k,v),\qquad
+\mathsf{ListPublicUnaryLength}_A(r,w)
+$$
+hold. Then
+$$
+\mathsf{ListPublicUnaryLength}_A(h',u)\land
+\mathsf{ListPublicUnaryLength}_A(k',v)\land
+\mathsf{ListPublicUnaryLength}_A(r',w).
+$$
+The ten-field fit is: traditional target finite-list append stability for unary
+length tokens; BEDC source $\mathsf{BHist}$ through $\mathsf{ListSpineRep}$;
+carrier $\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from append
+congruence and unary-length classifier transport; ledger public unary length
+tokens; core theorem this composite; exactness via public append and public
+unary length readback; standard bridge ordinary finite-list append length
+invariance; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-unary-length-classifier-transport} to the
+classifier witness from $h$ to $h'$ and the public unary length token at $h$.
+Its forward transport clause gives $\mathsf{ListPublicUnaryLength}_A(h',u)$.
+
+Apply the same theorem to the classifier witness from $k$ to $k'$ and the
+public unary length token at $k$. The forward transport clause gives
+$\mathsf{ListPublicUnaryLength}_A(k',v)$.
+
+Next apply the second clause of
+Theorem~\ref{thm:list-public-append-readback-total-congruent} to the two
+endpoint classifier witnesses and the two public append readbacks. This gives
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(r,r').
+$$
+
+Apply Theorem~\ref{thm:list-public-unary-length-classifier-transport} once more
+to this output classifier and the public unary length token at $r$. Its forward
+transport clause gives $\mathsf{ListPublicUnaryLength}_A(r',w)$, and the three
+transported witnesses form the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[Public list unary length additivity under append]
 \label{thm:list-unary-length-append-additivity}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For histories $h,k,r:\mathsf{BHist}$ and finite spines $xs,ys:\mathsf{HistSpine}$, assume
