@@ -29,4 +29,18 @@ protected theorem PrefixFunctorCarrier_from_unary_prefix {p : BHist} :
   · intro _a _b _c _f _g _fg left right comp
     exact FunctorPrefixHomCarrier_comp_preserves prefixCarrier left right comp
 
+theorem PrefixFunctorCarrier_comp_public_readback {p a b c f g fg : BHist} :
+    PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
+      Cont f g fg ->
+        CategoryHomCarrier (append p a) (append p c) fg ∧
+          (∀ {displayed : BHist},
+            CategoryHomCarrier (append p a) (append p c) displayed -> hsame fg displayed) := by
+  intro prefixCarrier left right comp
+  have compositeCarrier : CategoryHomCarrier (append p a) (append p c) fg :=
+    prefixCarrier.comp_preserves left right comp
+  exact
+    And.intro compositeCarrier
+      (fun displayedCarrier =>
+        CategoryHomCarrier_morphism_deterministic compositeCarrier displayedCarrier)
+
 end BEDC.Derived.FunctorUp
