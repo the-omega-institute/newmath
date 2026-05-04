@@ -3142,3 +3142,111 @@ Public framed-list length readback (def:framed-list-public-length-readback) and 
 
 ---
 
+### B-124 - Euclid's lemma: prime divides product implies prime divides factor
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Euclid's lemma: prime divides product implies prime divides factor |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under PrimeUp setup, if NatPrime(p) and NatDivides(p, q) where NatMul(a, b, q), then NatDivides(p, a) or NatDivides(p, b).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/PrimeUp.lean`
+
+Rationale:
+Lands directly in concrete_instances/39_prime_namecert_construction.tex where the chapter already invokes 'Standard Euclid's-lemma argument' inside thm:ftoa-uniqueness and lists the lemma in def:prime-ledger-policy without giving it a labeled theorem. All prerequisites (NatDivides reflexivity/transitivity, prime-decidable, NatMul shape inversions) are in place. No existing BOARD entry covers prime divisibility distribution over products, and the paper_coverage list shows no `lem:euclid-lemma` or equivalent. Fills a concrete dependency gap that the FTOA chain already silently uses.
+
+---
+
+
+### B-125 - LinearMap kernel is a sub-module of the source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap kernel is a sub-module of the source |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under LinearMapCert_R(M, N; f), the predicate Ker(f, x) := (f(x) ~_N 0_N) on carried x:M is closed under module addition, scalar action, and contains 0_M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+- `lean4/BEDC/Derived/ModuleUp.lean`
+
+Rationale:
+Belongs in concrete_instances/23_linearmap_namecert_construction.tex. Existing chapter has thm:linearmap-zero-preservation-from-additivity and the additivity/scalar/zero rows of def:linearmap-stability-certificate but no labeled theorem stating the fiber over 0 forms a sub-module carrier. No BOARD entry currently addresses LinearMap kernel/image structure. The chapter's existing additivity, scalar-compatibility, and zero-preservation rows compose directly via M-classifier transitivity to give the three closure clauses — clean, scope-appropriate target.
+
+---
+
+
+### B-126 - LinearMap image is a sub-module of the target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap image is a sub-module of the target |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under LinearMapCert_R(M, N; f), the predicate Im(f, y) := (∃ carried x:M, f(x) ~_N y) on N is closed under module addition, scalar action, and contains 0_N.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+
+Rationale:
+Parallel target to the kernel candidate, but on the codomain side. No paper_coverage label matches image/sub-module on linearmap, and no BOARD entry covers it. The witness composition uses M-side additive/scalar closure (def:module-stability-certificate) plus the f-row additivity and scalar-compatibility rows to produce N-side image closure, with zero-preservation giving 0_N ∈ Im(f). Distinct enough from the kernel target because the construction path is existential-witness composition rather than fiber-equation closure.
+
+---
+
+
+### B-127 - Subgroup intersection is a subgroup
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Subgroup intersection is a subgroup |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If H_1 and H_2 are SubgroupCert(G)-carriers of an ambient GroupUp(G), then their pointwise intersection H_1 ∩ H_2 is also a SubgroupCert(G)-carrier (closed under multiplication, inverse, contains identity).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_centralizer_normalizer.tex`
+
+Rationale:
+Lands in concrete_instances/58_subgroup_namecert_construction.tex which currently has only 3 theorems, all centralizer-specific. No BOARD entry covers general subgroup-closure constructions, and no paper_coverage label matches. The proof is conjunction-of-closure-clauses on each axiom; surrounding centralizer/normalizer machinery (thm:group-center-normal-subgroup) confirms the apparatus is ready. Useful as a foundational subgroup-construction theorem that will be reused by later subgroup targets.
+
+---
+
