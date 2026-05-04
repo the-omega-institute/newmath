@@ -67,6 +67,45 @@ the displayed conjunction.
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_prefix\_independent\_symmetric\_zero\_depth\_collapse}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_collapse}
 
+\begin{theorem}[Metric prefix-independent symmetric zero-depth reverse empty-boundary]
+\label{thm:metric-prefix-independent-symmetric-zero-depth-reverse-empty-boundary}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx}$, symmetric visible-context
+distance witnesses with independent contexts and a zero-depth forward distance
+also package the reverse context as its own empty-boundary distance witness:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(p'\cdot\emp,\emp\cdot q',
+(p'\cdot\emp)\cdot q').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Peel the reverse visible-context witness with
+\autoref{thm:metric-distance-witness-visible-context-iff}. This recovers the
+unary context data for $p'$ and $q'$ together with the central reverse witness
+$\mathsf{MetricDistanceWitness}(y,x,d_{yx})$.
+
+Apply
+\autoref{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-collapse}
+to the two displayed visible-context witnesses and the zero-depth forward
+distance. The resulting endpoint classifiers include $\hsame(y,\emp)$ and
+$\hsame(x,\emp)$.
+
+Finally use
+\autoref{thm:metric-distance-witness-visible-context-empty-distance-iff} in the
+reverse context. The recovered carriers for $p'$ and $q'$, together with the
+empty endpoint classifiers in reverse order, rebuild exactly
+$\mathsf{MetricDistanceWitness}(p'\cdot\emp,\emp\cdot q',(p'\cdot\emp)\cdot q')$.
+\end{proof}
+
 \begin{theorem}[Metric prefix-independent symmetric zero-depth continuation splice]
 \label{thm:metric-prefix-independent-symmetric-zero-depth-continuation-splice}
 For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,r,mid,out$, symmetric

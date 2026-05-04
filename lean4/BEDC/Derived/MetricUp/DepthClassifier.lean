@@ -227,4 +227,39 @@ theorem MetricDistanceDepth_visible_context_eq_iff_empty {p q d : BHist} :
         (p := BHist.Empty) (d := append BHist.Empty d)).mpr rfl).trans
         ((MetricDistanceDepth_append_left_eq_iff_empty (p := BHist.Empty) (d := d)).mpr rfl)
 
+theorem MetricDistanceDepth_visible_context_zero_iff {p q d : BHist} :
+    MetricDistanceDepth (append (append p d) q) = 0 ↔
+      hsame p BHist.Empty ∧ hsame d BHist.Empty ∧ hsame q BHist.Empty := by
+  constructor
+  · intro depthZero
+    have emptyVisible : hsame (append (append p d) q) BHist.Empty :=
+      MetricDistanceDepth_zero_iff_empty.mp depthZero
+    have outer := append_eq_empty_iff.mp emptyVisible
+    have inner := append_eq_empty_iff.mp outer.left
+    exact And.intro inner.left (And.intro inner.right outer.right)
+  · intro parts
+    cases parts.left
+    cases parts.right.left
+    cases parts.right.right
+    rfl
+
+theorem MetricDistanceWitness_visible_context_total_zero_components {p q x y d : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p d) q) ->
+      MetricDistanceDepth (append (append p d) q) = 0 ->
+        hsame p BHist.Empty ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty ∧
+          hsame q BHist.Empty ∧ hsame d BHist.Empty := by
+  intro witness totalZero
+  have resultEmpty : hsame (append (append p d) q) BHist.Empty :=
+    MetricDistanceDepth_zero_iff_empty.mp totalZero
+  have resultParts := append_eq_empty_iff.mp resultEmpty
+  have centralParts := append_eq_empty_iff.mp resultParts.left
+  have emptyCont : Cont (append p x) (append y q) BHist.Empty :=
+    cont_result_hsame_transport witness.right.right.right resultEmpty
+  have endpointParts := cont_empty_result_inversion emptyCont
+  have sourceParts := append_eq_empty_iff.mp endpointParts.left
+  have targetParts := append_eq_empty_iff.mp endpointParts.right
+  exact And.intro sourceParts.left
+    (And.intro sourceParts.right
+      (And.intro targetParts.left (And.intro targetParts.right centralParts.right)))
+
 end BEDC.Derived.MetricUp
