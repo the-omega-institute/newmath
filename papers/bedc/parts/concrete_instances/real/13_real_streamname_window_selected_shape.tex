@@ -131,6 +131,67 @@ Exactness: selected source RatUp classifier, displayed RatUp one-tail classifier
 denominator, unary, nonempty, and zero-headed exclusion rows. Standard bridge:
 finite rational observation windows. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary StreamNameUp finite-window selected common e-one tail readback]
+\label{thm:real-unary-streamname-finite-window-selected-common-e1-tail-readback}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k:\Hist$, assume
+$$
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega).
+$$
+Then the selected endpoints admit common one-headed unary readback:
+$$
+\exists u,v:\Hist,\
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-unary-streamname-finite-window-selected-denominator-package}
+to the StreamNameUp classifier, the unary anchor and bound, the selected
+offset, and arbitrary zero-head tests. This supplies the selected RatUp
+classifier, the positive-denominator rows, the unary endpoint rows, and the
+nonempty endpoint exclusions.
+
+Use \autoref{thm:unary-history-nonempty-e1-tail} separately on the two selected
+endpoints. The left endpoint yields a tail $u$ with
+$\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))$ and
+$\mathsf{UnaryHistory}(u)$. The right endpoint yields a tail $v$ with
+$\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))$ and
+$\mathsf{UnaryHistory}(v)$.
+
+Transport the selected RatUp classifier across these two displayed endpoint
+rows by \autoref{thm:rat-history-classifier-hsame-transport}. The transported
+classifier is $\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))$.
+
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
+direction to the transported classifier. This reads back the common tail row
+$\hsame(u,v)$. Package $u$ and $v$ with the two displayed endpoint rows, the
+two unary-tail rows, and the common-tail row.
+\end{proof}
+
+Fit. Traditional target: selected finite-window RealUp endpoint witness
+readback without displayed endpoint assumptions. BEDC source:
+$\StreamNameUp+\RealUp+\RatUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through selected
+$\mathsf{RatHistoryClassifier}$. Stability: $\hsame$ endpoint transport from
+selected endpoints to e-one displays. Ledger: anchor, bound, selected offset,
+positive denominator rows, unary endpoint rows, and nonempty exclusions. Core
+theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-common-e1-tail-readback}.
+Exactness: existential one-headed endpoints with unary tails and common tail
+comparison. Standard bridge: finite rational observation windows. Status:
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp finite-window selected full endpoint package]
 \label{thm:real-unary-streamname-finite-window-selected-full-endpoint-package}
 For observation maps $s,t:\Hist\to\Hist$ and histories
