@@ -581,6 +581,27 @@ For another middle $b$, inverting $\ContR(a,f,b)$ identifies $b$ with
 $\mathsf{append}(a,f)$.
 \end{proof}
 
+\begin{theorem}[Continuation factorization result history-sameness iff]
+\label{thm:cont-factorization-result-hsame-iff}
+If
+$$
+\ContR(a,b,m),\qquad \ContR(m,c,r),
+$$
+then for every direct result $s$ through the appended tail,
+$$
+\ContR(a,\mathsf{append}(b,c),s)
+\Longleftrightarrow
+\HSame(s,r).
+$$
+\end{theorem}
+\begin{proof}
+The two displayed continuation witnesses compose to a direct continuation
+from $a$ by $\mathsf{append}(b,c)$ to $r$, using append associativity. The
+result history-sameness characterization for a fixed continuation then
+identifies exactly the direct results $s$ with $\HSame(s,r)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_factorization\_result\_hsame\_iff}
+
 \begin{theorem}[Continuation factorization middle exactness]
 \label{thm:cont-factorization-middle-hsame-iff}
 If
