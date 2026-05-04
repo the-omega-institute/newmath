@@ -102,3 +102,24 @@ The concrete certificate of \autoref{thm:analytic-continuation-operation} satisf
 \begin{proof}[Sketch]
 Direct verification of the schema fields using the constructions of this chapter and the \(\hsame\)-respect of the underlying \(\HolomorphicUp\) classifier.
 \end{proof}
+
+\begin{lemma}[Domain compatibility is symmetric]
+\label{lem:dom-compat-symmetric}
+If $\mathsf{DomCompat}(D_1,D_2,U)$ holds, then $\mathsf{DomCompat}(D_2,D_1,U)$ holds for the same overlap region $U$.
+\end{lemma}
+\begin{proof}
+Unpack \autoref{def:dom-compat}. The displayed witness consists of an open disk $\mathsf{OpenDisk}(z_c,r_c)$ contained in $D_1\cap D_2$ and a quantitative sequence in $U$ clustering at $z_c$ with the stated unary bound. The same center, radius, open-disk witness, overlap region, sequence, and density estimates witness compatibility in the reversed order. Only the containment record changes: membership in $D_1\cap D_2$ is transported to membership in $D_2\cap D_1$ by commutativity of intersection.
+\end{proof}
+
+\begin{theorem}[Analytic continuation symmetry]
+\label{thm:ana-cont-symmetric}
+For any overlap region $U$,
+$$
+\mathsf{DomCompat}(D_1,D_2,U)\land\mathsf{AnaCont}(f,D_1,g,D_2,h)
+\Longrightarrow
+\mathsf{DomCompat}(D_2,D_1,U)\land\mathsf{AnaCont}(g,D_2,f,D_1,h).
+$$
+\end{theorem}
+\begin{proof}
+The first conclusion is \autoref{lem:dom-compat-symmetric}. For the continuation conclusion, unfold \autoref{def:ana-cont}. The holomorphic carrier for $h$ is unchanged because $D_1\cup D_2$ and $D_2\cup D_1$ are the same domain by commutativity of union. The restriction of $h$ to $D_2$ is the second restriction clause of the given continuation witness, and becomes the first restriction clause after the swap. The restriction of $h$ to $D_1$ is the first restriction clause of the given witness, and becomes the second restriction clause after the swap. On the common overlap $U$, the given pointwise agreement of $f$ with $g$ transports to pointwise agreement of $g$ with $f$ by symmetry of the classifier $\hsame$. These are exactly the three clauses required for $\mathsf{AnaCont}(g,D_2,f,D_1,h)$ under the reversed compatibility witness.
+\end{proof}
