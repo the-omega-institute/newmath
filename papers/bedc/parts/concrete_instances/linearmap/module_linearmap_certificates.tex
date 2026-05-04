@@ -564,3 +564,50 @@ $$
 
 The pointwise classifier for maps $M\to N$ is exactly \autoref{def:linearmap-classifier-specification}; the descent row above is the required pointwise respect. The ledger records the function identifier $h$, the input function identifier for $f$, the target inverse operation at each output, the inverse-congruence ledgers for descent, additivity, scalar compatibility, and zero, the inverse-of-sum ledger from \autoref{thm:abgroup-inverse-mul}, and the scalar-action inverse ledger from \autoref{lem:module-scalar-action-additive-inverse}, matching \autoref{def:linearmap-ledger-policy}. Hence the carrier, source, pattern, classifier, stability, and ledger obligations of \autoref{def:linearmap-certificate-obligations} are satisfied for $h$.
 \end{proof}
+
+\begin{theorem}[LinearMap additive inverse preservation]
+\label{thm:linearmap-additive-inverse-preservation}
+Let $F$ carry a $\FieldUp(F)$ certificate, and let $V$ and $W$ carry $\VecSpaceUp(F,V)$ and $\VecSpaceUp(F,W)$ certificates. Write $+_V$, $0_V$, $-_V$, and $\sim_V$ for the source vector addition, zero, additive inverse, and classifier, and write $+_W$, $0_W$, $-_W$, and $\sim_W$ for the codomain additive operation, zero, additive inverse, and classifier. Let $f:V\to W$ be a carried $\LinearMapUp(V,W)$ map. Then every carried source point $m:V$ satisfies
+$$
+f(-_V m)\sim_W-_W f(m).
+$$
+The ten-field fit is: traditional target ordinary linear maps preserve additive negation; BEDC source $\LinearMapUp(V,W)$ over the two vector-space certificates; carrier the codomain vector carrier; classifier $\sim_W$; stability from additivity, zero preservation, source inverse descent, and codomain inverse uniqueness; ledger the source right-inverse witness, additive-preservation row, zero-preservation row, codomain inverse witness, and uniqueness comparison; core theorem this block; exactness predicate $f(-_V m)\sim_W-_W f(m)$; standard bridge additive inverse preservation for linear maps; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By \autoref{prop:vecspace-module-fragment-projection}, each vector-space certificate has a module reduct with the same vector addition, zero, additive inverse, and classifier. By \autoref{prop:module-forgets-abgroup-certificate} and \autoref{prop:abgroup-forgets-group-certificate}, the source and codomain additive data may be read as group data with those same operations and classifiers.
+
+Fix a carried source point $m:V$. Source inverse closure makes $-_V m$ carried, and the source right-inverse row gives
+$$
+m+_V(-_V m)\sim_V0_V.
+$$
+This source comparison is available for evaluation by the semantic transport of \autoref{thm:semantic-namecert-pattern-ledger-transport}. The function-with-law data of \autoref{def:linearmap-carrier} supply output closure, additive preservation, and the evaluation descent used through \autoref{thm:descent-certificate-respects}. Descent transports the source inverse comparison to
+$$
+f(m+_V(-_V m))\sim_W f(0_V).
+$$
+The additive row of $f$ at the carried pair $m,-_V m$ gives
+$$
+f(m+_V(-_V m))\sim_W f(m)+_W f(-_V m).
+$$
+The zero-preservation theorem \autoref{thm:linearmap-zero-preservation-from-additivity}, applied to the same additive row, gives
+$$
+f(0_V)\sim_W0_W.
+$$
+Classifier symmetry from \autoref{def:lean-carrier-naming-certificate} and transitivity from \autoref{thm:namecert-equivalence-transitivity} compose the last three comparisons into
+$$
+f(m)+_W f(-_V m)\sim_W0_W.
+$$
+
+Output closure makes $f(m)$ and $f(-_V m)$ carried in $W$, and codomain inverse closure makes $-_W f(m)$ carried. The codomain left-inverse row gives
+$$
+(-_W f(m))+_W f(m)\sim_W0_W.
+$$
+Apply \autoref{thm:group-left-right-inverse-uniqueness} in the codomain additive group reduct with $x=f(m)$, $y=-_W f(m)$, and $z=f(-_V m)$. The two displayed inverse witnesses give
+$$
+-_W f(m)\sim_W f(-_V m).
+$$
+One final classifier symmetry gives
+$$
+f(-_V m)\sim_W-_W f(m).
+$$
+The ledger entries are the source inverse comparison, the evaluation descent witness, the additive row, the zero-preservation row, the codomain inverse row, and the inverse-uniqueness comparison required by \autoref{def:linearmap-ledger-policy}.
+\end{proof}
