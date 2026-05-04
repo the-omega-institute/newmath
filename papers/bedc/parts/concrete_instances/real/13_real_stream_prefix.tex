@@ -147,6 +147,24 @@ selected endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_e1\_pair\_readback}
 
+\begin{theorem}[Real stream prefix truncated continuation endpoint context closure]
+\label{thm:real-stream-prefix-truncated-cont-endpoint-context-closed}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a classified prefix
+through $m+n$ supplies the rational classifier at endpoint $n$. If the selected
+left and right endpoints are then continued through unary prefix and tail
+contexts, with matching $\hsame$ contexts on the two sides, the two displayed
+continuation results remain rational-history classified.
+\end{theorem}
+\begin{proof}
+Induct on $m$ to descend the recursive prefix classifier from $m+n$ to $n$.
+Project the rational-history classifier at endpoint $n$. Apply rational-history
+classifier unary-denominator context closure to the selected endpoint and the
+two unary context pairs. The continuation witnesses identify the displayed
+outputs with the corresponding appended contexts, and associativity of
+$\mathsf{append}$ supplies the final endpoint transports.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_cont\_endpoint\_context\_closed}
+
 \begin{lemma}[Real stream prefix previous classifier with unary anchor]
 \label{lem:real-stream-prefix-previous-with-unary}
 For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then every successor finite-prefix classifier contains both the previous prefix classifier and the unary anchor at the previous left endpoint:
