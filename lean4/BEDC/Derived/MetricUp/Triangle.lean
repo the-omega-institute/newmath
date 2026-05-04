@@ -172,6 +172,21 @@ theorem MetricDistanceWitness_triangle_depth_zero_collapse {x y z dxy dyz dxyz :
       (And.intro yEmpty
         (And.intro zEmpty (And.intro dxyEmpty dyzEmpty))))
 
+theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceDepth dxyz = 0 ->
+          hsame dxyz (append x dyz) ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty ∧
+            hsame z BHist.Empty ∧ hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty := by
+  intro visible yz xyz depthZero
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_depth_zero_collapse visibleData.right.right yz xyz
+    depthZero
+
 theorem MetricDistanceWitness_triangle_depth_zero_iff_empty_spine {x y z dxy dyz dxyz :
     BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
@@ -186,6 +201,20 @@ theorem MetricDistanceWitness_triangle_depth_zero_iff_empty_spine {x y z dxy dyz
   · intro emptySpine
     exact MetricDistanceWitness_empty_endpoints_depth_zero xyz emptySpine.right.right.right.left
       emptySpine.right.right.left
+
+theorem MetricDistanceWitness_visible_context_triangle_depth_zero_iff_empty_spine
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceDepth dxyz = 0 ↔
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty) := by
+  intro visible yz xyz
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_depth_zero_iff_empty_spine visibleData.right.right yz xyz
 
 theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
