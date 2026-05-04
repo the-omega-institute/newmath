@@ -362,19 +362,21 @@ and the supplied payload $\hsame(m,n)$.
 
 \begin{theorem}[Integer canonical difference-pair/history bridge]
 \label{thm:int-canonical-difference-pair-history-bridge}
-For all unary histories $m,n:\mathsf{BHist}$, the canonical same-sign
-difference pairs read back exactly to the corresponding public signed-history
-classifier branches:
+For all $m,n:\mathsf{BHist}$, if $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$, then the canonical same-sign difference pairs read back
+exactly to the corresponding public signed-history classifier branches:
 $$
+\bigl(
 \mathsf{IntPairClassifier}((m,\emp),(n,\emp))
 \Longleftrightarrow
-\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
-$$
-The negative canonical representatives satisfy the parallel one-tag bridge:
-$$
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))
+\bigr)
+\land
+\bigl(
 \mathsf{IntPairClassifier}((\emp,m),(\emp,n))
 \Longleftrightarrow
-\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))
+\bigr).
 $$
 The ten-field fit is the following. The traditional target is canonical signed
 unary integers. The BEDC source consists of $\mathsf{IntPairClassifier}$,
@@ -388,7 +390,8 @@ the two iff clauses. The downstream consumer is the $\RatUp$ numerator
 readback and $\IntUp$ closure. The status is $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Assume first that $m$ and $n$ are unary. For the positive canonical pair,
+Assume $\mathsf{Unary}(m)$ and $\mathsf{Unary}(n)$. For the positive canonical
+pair,
 unfold $\mathsf{IntPairClassifier}$ at $((m,\emp),(n,\emp))$. The carrier
 clauses reduce to the unary witnesses for $m$, $n$, and the two empty counters.
 The classifier payload is
@@ -410,6 +413,66 @@ Apply Theorem~\ref{thm:int-history-classifier-same-tag-readback} to the
 $\Eone$ branch. The same unary witnesses and the reoriented payload
 $\hsame(m,n)$ are precisely its public-history criterion, giving the negative
 displayed $\Longleftrightarrow$.
+\end{proof}
+
+\begin{theorem}[Integer contextual canonical difference-pair/history bridge]
+\label{thm:int-contextual-canonical-pair-history-bridge}
+For $a,m,n:\mathsf{BHist}$ with $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, the positive-context canonical
+difference pair reads back exactly to the zero-tag public signed-history
+classifier:
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),
+(\mathsf{append}(a,n),\emp))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
+$$
+The negative-context canonical difference pair reads back exactly to the
+one-tag public signed-history classifier:
+$$
+\mathsf{IntPairClassifier}((\emp,\mathsf{append}(m,a)),
+(\emp,\mathsf{append}(n,a)))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+$$
+The ten-field fit is the following. The traditional target is contextual
+signed-unary integer readback. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{IntHistoryClassifier}$,
+$\mathsf{Unary}$, $\mathsf{append}$, $\emp$, $\Ezero$, and $\Eone$. The
+carrier is canonical difference pairs and public signed histories. The
+classifier is pair cross-addition plus the public same-tag classifier.
+Stability is one-sided context exactness. The ledger records the hidden common
+unary context. The core theorem is this bridge. Exactness is the two displayed
+iff rows. The standard bridge is ordinary cancellation of equal signed unary
+shifts. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the zero-tag row, apply
+Theorem~\ref{thm:int-pair-classifier-one-sided-append-context-exactness} to
+the common positive context $a$ with canonical endpoints
+$((m,\emp),(n,\emp))$. The hypothesis $\mathsf{Unary}(a)$ supplies the context
+witness for this exactness step. The positive-counter clause strips or
+introduces the shared left append context, yielding an equivalence with
+$\mathsf{IntPairClassifier}((m,\emp),(n,\emp))$.
+
+Apply Theorem~\ref{thm:int-canonical-difference-pair-history-bridge} to the
+positive canonical pair. The assumptions $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$ supply its endpoint hypotheses, so composition of the two
+equivalences gives the displayed zero-tag readback.
+
+For the one-tag row, apply
+Theorem~\ref{thm:int-pair-classifier-one-sided-append-context-exactness} to
+the common negative context $a$ with canonical endpoints
+$((\emp,m),(\emp,n))$. The hypothesis $\mathsf{Unary}(a)$ supplies the context
+witness for this exactness step. The negative-counter clause strips or
+introduces the shared right append context, yielding an equivalence with
+$\mathsf{IntPairClassifier}((\emp,m),(\emp,n))$.
+
+Apply Theorem~\ref{thm:int-canonical-difference-pair-history-bridge} to the
+negative canonical pair. The same unary endpoint hypotheses identify this
+canonical classifier with
+$\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))$, completing the second
+displayed equivalence.
 \end{proof}
 
 \begin{theorem}[Integer canonical same-sign pair readback]
@@ -438,6 +501,7 @@ counter. The core theorem is this direct readback. Exactness is the two
 displayed iff rows. The downstream consumer is the $\RatUp$ numerator
 readback. The status is $\mathsf{ProofTarget}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_canonical\_same\_sign\_readback\_iff}
 \begin{proof}
 Unfold $\mathsf{IntPairClassifier}$ at the positive canonical endpoints
 $((m,\emp),(n,\emp))$.
@@ -524,6 +588,141 @@ It remains to build the cross-addition payload. Transport along the two empty
 equalities and the append unit laws reduces it to $\hsame(\emp,\emp)$, which
 is reflexive. Repacking the two carriers and this payload gives
 $\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$.
+\end{proof}
+
+\begin{theorem}[Integer zero sign-refined boundary]
+\label{thm:int-zero-sign-refined-boundary}
+The difference-pair zero classifier and the visible history classifier expose
+different interfaces at zero. The pair-zero class is classified:
+$$
+\mathsf{IntPairClassifier}((\emp,\emp),(\emp,\emp)).
+$$
+At the same time, the signed-history classifier rejects the two mixed visible
+zero displays:
+$$
+\bigl(\mathsf{IntHistoryClassifier}(\Ezero(\emp),\Eone(\emp))\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{IntHistoryClassifier}(\Eone(\emp),\Ezero(\emp))\to\mathsf{False}\bigr).
+$$
+Consequently, a classifier-reflecting bridge from difference pairs to signed
+histories must either remain inside one visible branch or choose a canonical
+zero branch before reflecting the pair-zero class.
+\end{theorem}
+\begin{proof}
+The empty history is unary, so the pair $(\emp,\emp)$ satisfies
+$\mathsf{IntPairCarrier}(\emp,\emp)$. Apply the reflexivity component of
+\autoref{thm:intup-difference-pair-classifier-equivalence-fields} to this
+carrier witness. This gives
+$\mathsf{IntPairClassifier}((\emp,\emp),(\emp,\emp))$.
+
+For the signed-history clauses, instantiate
+\autoref{thm:int-history-classifier-mixed-visible-tag-exclusion} with
+$m=\emp$ and $n=\emp$. The two conjuncts are exactly the exclusions for
+$\mathsf{IntHistoryClassifier}(\Ezero(\emp),\Eone(\emp))$ and
+$\mathsf{IntHistoryClassifier}(\Eone(\emp),\Ezero(\emp))$.
+
+These two facts describe distinct public interfaces. The pair quotient records
+the integer zero class, while the history certificate keeps the visible sign
+tag in the endpoint shape unless a bridge explicitly selects a same-branch
+zero representative.
+\end{proof}
+
+\begin{theorem}[Integer balanced contextual opposite-sign zero collapse]
+\label{thm:int-balanced-contextual-opposite-sign-zero-collapse}
+For all $a,b,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, $\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then
+the balanced contextual opposite-sign pair collapses exactly at the two zero
+counters:
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,m),\mathsf{append}(\emp,b)),
+(\mathsf{append}(a,\emp),\mathsf{append}(n,b)))
+\Longleftrightarrow
+\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is contextual
+opposite-sign integer zero collapse. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, $\emp$,
+balanced context exactness, and canonical opposite-sign zero collapse. The
+carrier is carried by unary difference pairs. The classifier is
+cross-addition sameness. Stability is removal of the shared positive and
+negative contexts. The ledger records hidden common contexts $a,b$ together
+with zero counters. The core theorem is this balanced contextual zero-collapse
+block. Exactness is the displayed iff. The standard bridge is ordinary
+cancellation of equal added contexts before the fact that a unary sum is zero
+only when both summands are zero. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. Apply
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness} with
+$p=m$, $n=\emp$, $q=\emp$, and $m=n$. The unary hypotheses for $a$ and $b$
+remove the balanced positive and negative contexts and reduce the classifier to
+$$
+\mathsf{IntPairClassifier}((m,\emp),(\emp,n)).
+$$
+
+Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse}, applied with the
+unary hypotheses for $m$ and $n$, converts this canonical opposite-sign
+classifier into $\hsame(m,\emp)\land\hsame(n,\emp)$.
+
+For the reverse direction, assume
+$\hsame(m,\emp)\land\hsame(n,\emp)$. The canonical
+opposite-sign zero-collapse theorem first gives
+$\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$ from the unary hypotheses for
+$m$ and $n$.
+
+Apply Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness}
+again with $p=m$, $n=\emp$, $q=\emp$, and $m=n$. Reading this equivalence in
+the reverse direction, the unary hypotheses for $a$ and $b$ transport the
+canonical classifier into the displayed balanced contextual classifier.
+\end{proof}
+
+\begin{theorem}[Integer contextual opposite-sign zero collapse]
+\label{thm:int-contextual-opposite-sign-zero-collapse}
+For all $a,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then the visible-context
+opposite-sign canonical pair collapses exactly at the shared zero context and
+zero payloads:
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),(\emp,\mathsf{append}(n,a)))
+\Longleftrightarrow
+\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is contextual
+opposite-sign signed-unary zero detection. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, $\emp$, and
+$\hsame$. The carrier is unary difference pairs. The classifier is
+cross-addition sameness. Stability is append-empty inversion. The ledger
+records the shared context together with the two payloads. The core theorem is
+this contextual zero-collapse block. Exactness is the displayed iff. The
+standard bridge is the ordinary fact that $a+m+n+a=0$ for unary summands forces
+all displayed summands to be zero. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first the three unary hypotheses and the displayed classifier. Unary
+append closure makes $\mathsf{append}(a,m)$ and $\mathsf{append}(n,a)$ unary, so
+Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse} applies to the
+canonical pair built from these two appended counters.
+
+The forward half of that theorem gives
+$\hsame(\mathsf{append}(a,m),\emp)$ and
+$\hsame(\mathsf{append}(n,a),\emp)$. Empty readback converts these into two
+empty append equations, and append-empty inversion yields
+$a=\emp$, $m=\emp$, and $n=\emp$ after reading the shared context from both
+equations. Transport along these empty equations gives
+$\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp)$.
+
+Conversely, assume
+$\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp)$. Empty readback turns the
+three readbacks into empty equations for $a$, $m$, and $n$. The append unit laws
+therefore identify both contextual counters
+$\mathsf{append}(a,m)$ and $\mathsf{append}(n,a)$ with $\emp$.
+
+The reverse half of Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse}
+now applies to these two unary appended counters. Its required empty readbacks
+are obtained by the preceding transport to $\emp$, and the resulting canonical
+classifier is exactly
+$\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),(\emp,\mathsf{append}(n,a)))$.
 \end{proof}
 
 \begin{theorem}[Integer history classifier positive append context iff]

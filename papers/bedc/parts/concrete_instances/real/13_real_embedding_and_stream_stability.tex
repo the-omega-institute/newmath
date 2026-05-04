@@ -143,6 +143,40 @@ denominator readback gives unary membership together with exclusion of
 \(\emp\).
 \end{proof}
 
+\begin{theorem}[Real stream finite-prefix transported endpoint denominator package]
+\label{thm:real-stream-classifier-finite-prefix-transported-endpoint-denominator-package}
+For rational-observation streams \(x,x',y,z,z':\mathbb{N}\to\Hist\) and index
+\(n\), suppose
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{RealStreamClassifier}(y,z),\quad
+\hsame(x(n),x'(n)),\quad
+\hsame(z(n),z'(n)).
+$$
+Then the transported selected endpoints carry the denominator package:
+$$
+\begin{gathered}
+\mathsf{RatHistoryClassifier}(x'(n),z'(n))
+\land\mathsf{PositiveUnaryDenominator}(x'(n))
+\land\mathsf{PositiveUnaryDenominator}(z'(n))\\
+\land\mathsf{UnaryHistory}(x'(n))
+\land\mathsf{UnaryHistory}(z'(n))
+\land(\hsame(x'(n),\emp)\to\mathsf{False})
+\land(\hsame(z'(n),\emp)\to\mathsf{False}).
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Compose the two real stream classifiers pointwise. At the selected index this
+gives \(\mathsf{RatHistoryClassifier}(x(n),z(n))\). Transport that rational
+history classifier along the displayed \(\hsame\) rows to obtain
+\(\mathsf{RatHistoryClassifier}(x'(n),z'(n))\). RatUp positive-denominator
+readback then gives the two positive denominator witnesses, and each positive
+denominator witness gives unary membership together with exclusion of
+\(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_transported\_endpoint\_denominator\_package}
+
 \begin{theorem}[Real stream prefix truncation endpoint denominator package]
 \label{thm:real-stream-prefix-truncated-positive-denominator-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if
@@ -543,6 +577,51 @@ $\mathsf{RealUnaryStreamClassifier}(s',t')$.
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_streamName\_stability\_package}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_stability\_package}
 
+\begin{theorem}[Real unary stream-name classifier exactness]
+\label{thm:real-unary-streamname-classifier-exactness}
+For observation maps $s,t:\Hist\to\Hist$, if
+$$
+\mathsf{RatStreamNameCarrier}(s)
+\quad\text{and}\quad
+\mathsf{RatStreamNameCarrier}(t),
+$$
+then the Real unary classifier and the StreamNameUp classifier identify the same
+BEDC relation:
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)
+\Longleftrightarrow
+\mathsf{RatStreamNameClassifier}(s,t).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. Both classifier
+names then expose the same pointwise assertion: for every certified unary
+observation $n$, the histories $s(n)$ and $t(n)$ are related by
+$\mathsf{RatHistoryClassifier}$.
+
+For the forward direction, combine the two displayed carrier hypotheses with
+the pointwise Real unary classifier row. Repack those rows under the
+StreamNameUp classifier name.
+
+For the reverse direction, project the pointwise classifier field from
+$\mathsf{RatStreamNameClassifier}(s,t)$ at each certified unary observation.
+The resulting pointwise RatUp classifier is exactly the Real unary classifier
+row.
+\end{proof}
+
+Fit. Traditional target: classifier exactness for certified countable rational
+observations. BEDC source: $\StreamNameUp+\RealUp$ over $\mathsf{BHist}$.
+Carrier: $\mathsf{RatStreamNameCarrier}$. Classifier pair:
+$\mathsf{RealUnaryStreamClassifier}$ and
+$\mathsf{RatStreamNameClassifier}$. Stability: the existing carrier rows in
+\autoref{thm:real-unary-streamname-stability-package}. Ledger: the unary
+observation witness. Core theorem:
+\autoref{thm:real-unary-streamname-classifier-exactness}. Exactness: the
+displayed if-and-only-if. Standard bridge: pointwise rational stream equality.
+Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp transported selected endpoint shape package]
 \label{thm:real-unary-streamname-transported-selected-endpoint-shape-package}
 For unary observation maps $s,t,s',t':\Hist\to\Hist$, a certified observation
@@ -610,6 +689,7 @@ $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$. Apply
 to read back $\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and
 $\hsame(a,b)$, then package all displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_transported\_selected\_endpoint\_shape\_package}
 
 Fit. Traditional target: selected unary stream observation readback. BEDC source:
 RealUp unary streams plus RatUp classifier. Carrier: unary-indexed rational

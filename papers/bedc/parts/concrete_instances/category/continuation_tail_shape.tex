@@ -1,0 +1,19 @@
+\begin{theorem}[Continuation morphism nonempty tail shape cases]
+\label{thm:continuation-morphism-tail-nonempty-shape-cases}
+For histories $a,b:\mathsf{BHist}$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(a,b)$, a displayed tail that is not internally
+empty must be visible in one of the two history constructors:
+$$
+\bigl(\hsame(\mathsf{tail}(m),\emp)\to\mathsf{False}\bigr)
+\Longrightarrow
+\bigl(\exists t:\mathsf{BHist}.\;\mathsf{tail}(m)=\Ezero(t)\bigr)\vee
+\bigl(\exists t:\mathsf{BHist}.\;\mathsf{tail}(m)=\Eone(t)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuation morphism only to expose its displayed tail, then
+case-analyze that history. The empty branch contradicts the nonempty
+hypothesis by reflexivity of $\hsame$ at $\emp$. The zero-headed and one-headed
+branches return the corresponding visible payload.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_nonempty\_shape\_cases}

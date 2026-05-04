@@ -32,8 +32,25 @@ theorem CommRingLeftZeroDivisor_strict_of_mul_comm {mul : BHist -> BHist -> BHis
   | intro c witness =>
       exact And.intro leftZD.left
         (Exists.intro c
-          (And.intro witness.left
-            (And.intro witness.right (hsame_trans (mulComm c x) witness.right))))
+            (And.intro witness.left
+              (And.intro witness.right (hsame_trans (mulComm c x) witness.right))))
+
+theorem CommRingLeftZeroDivisor_strict_expansion_iff_of_mul_comm
+    {mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
+    CommRingLeftZeroDivisor mul x <->
+      ((hsame x BHist.Empty -> False) ∧
+        Exists (fun c : BHist =>
+          (hsame c BHist.Empty -> False) ∧ hsame (mul x c) BHist.Empty ∧
+            hsame (mul c x) BHist.Empty)) := by
+  constructor
+  · intro leftZD
+    exact CommRingLeftZeroDivisor_strict_of_mul_comm mulComm leftZD
+  · intro strictZD
+    cases strictZD.right with
+    | intro c witness =>
+        exact And.intro strictZD.left
+          (Exists.intro c (And.intro witness.left witness.right.left))
 
 theorem CommRingLeftZeroDivisor_strictZeroDivisor_of_mul_comm_iff
     {mul : BHist -> BHist -> BHist}
