@@ -1,10 +1,12 @@
 import BEDC.FKernel.Unary
+import BEDC.Derived.ComplexUp
 
 namespace BEDC.Derived.ComplexLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexUp
 
 def ComplexDistance (z w d : BHist) : Prop :=
   UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d ∧ (Cont z w d ∨ Cont w z d)
@@ -26,6 +28,16 @@ theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
   intro unaryQ distance
   have leftUnary : UnaryHistory (append z q) := unary_append_closed distance.left unaryQ
   have rightUnary : UnaryHistory (append w q) := unary_append_closed distance.right.left unaryQ
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
+
+theorem ComplexDistance_prepend_constant_closed {z w d q : BHist} :
+    UnaryHistory q -> ComplexDistance z w d ->
+      ComplexDistance (append q z) (append q w) (append (append q z) (append q w)) := by
+  intro unaryQ distance
+  have leftUnary : UnaryHistory (append q z) := unary_append_closed unaryQ distance.left
+  have rightUnary : UnaryHistory (append q w) := unary_append_closed unaryQ distance.right.left
   exact And.intro leftUnary
     (And.intro rightUnary
       (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
@@ -162,6 +174,29 @@ def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
   forall k n m : BHist, UnaryHistory k -> UnaryHistory n -> UnaryHistory m ->
     Cont (N k) n n -> Cont (N k) m m ->
       exists d : BHist, ComplexDistance (s n) (s m) d
+
+def ComplexLimit (s N : BHist -> BHist) (z : BHist) (M : BHist -> BHist) : Prop :=
+  ComplexRegularSequence s N ∧ ComplexHistoryCarrier z ∧
+    forall k n : BHist, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
+      exists d : BHist, ComplexDistance (s n) z d
+
+theorem ComplexLimit_hsame_transport {s N M : BHist -> BHist} {z z' : BHist} :
+    hsame z z' -> ComplexLimit s N z M -> ComplexLimit s N z' M := by
+  intro sameZ limit
+  cases limit with
+  | intro regular limitRest =>
+      cases limitRest with
+      | intro carrierZ modulus =>
+          have carrierZ' : ComplexHistoryCarrier z' :=
+            ComplexHistoryLedgerPolicy_visible_carrier (And.intro carrierZ sameZ)
+          exact And.intro regular
+            (And.intro carrierZ'
+              (fun k n unaryK unaryN controlled =>
+                match modulus k n unaryK unaryN controlled with
+                | Exists.intro d distance =>
+                    Exists.intro d
+                      (ComplexDistance_hsame_transport_with_relation
+                        (hsame_refl (s n)) sameZ (hsame_refl d) distance).left))
 
 theorem ComplexRegularSequence_constant {z : BHist} :
     UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
