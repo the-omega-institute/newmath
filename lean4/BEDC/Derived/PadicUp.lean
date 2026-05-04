@@ -1,9 +1,11 @@
 import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.PadicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 open BEDC.Derived.PrimeUp
@@ -27,6 +29,41 @@ theorem PadicPrimeScale_total {p exponent : BHist} :
   cases product with
   | intro result data =>
       exact ⟨result, data.left, And.intro prime data.right⟩
+
+theorem PadicPrimeScale_result_semanticNameCert {p exponent : BHist} :
+    NatPrime p -> UnaryHistory exponent ->
+      SemanticNameCert (fun result : BHist => PadicPrimeScale p exponent result)
+        (fun result : BHist => PadicPrimeScale p exponent result)
+        (fun result : BHist => PadicPrimeScale p exponent result) hsame := by
+  intro prime exponentUnary
+  have total := PadicPrimeScale_total prime exponentUnary
+  exact {
+    core := {
+      carrier_inhabited := by
+        cases total with
+        | intro result data =>
+            exact Exists.intro result data.right
+      equiv_refl := by
+        intro result _scale
+        exact hsame_refl result
+      equiv_symm := by
+        intro result other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro result other final sameRO sameOF
+        exact hsame_trans sameRO sameOF
+      carrier_respects_equiv := by
+        intro result other same scale
+        cases same
+        exact scale
+    }
+    pattern_sound := by
+      intro result source
+      exact source
+    ledger_sound := by
+      intro result source
+      exact source
+  }
 
 theorem PadicPrimeScale_exists_unique {p exponent : BHist} :
     NatPrime p -> UnaryHistory exponent ->
@@ -139,6 +176,23 @@ theorem PadicNatMul_append_exponent_decomposition {d w q r : BHist} :
                     Exists.intro n
                       (Exists.intro (append e d)
                         (And.intro rightData.left (And.intro rightStep joined)))
+
+theorem PadicPrimeScale_append_exponent_decomposition {p w q r : BHist} :
+    UnaryHistory w -> UnaryHistory q -> PadicPrimeScale p (append w q) r ->
+      ∃ n : BHist, ∃ e : BHist,
+        PadicPrimeScale p w n ∧ PadicPrimeScale p q e ∧ Cont n e r := by
+  intro unaryW unaryQ scale
+  have decomposed :=
+    PadicNatMul_append_exponent_decomposition scale.left.left unaryW unaryQ scale.right
+  cases decomposed with
+  | intro n nData =>
+      cases nData with
+      | intro e eData =>
+          exact
+            Exists.intro n
+              (Exists.intro e
+                (And.intro (And.intro scale.left eData.left)
+                  (And.intro (And.intro scale.left eData.right.left) eData.right.right)))
 
 theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
