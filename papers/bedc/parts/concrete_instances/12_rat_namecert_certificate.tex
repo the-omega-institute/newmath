@@ -735,6 +735,44 @@ transported ledger. Its conclusion is the displayed classifier endpoint
 equivalence for every target history $w$.
 \end{proof}
 
+\begin{theorem}[Rat history ledger displayed context positive denominators]
+\label{thm:rat-history-ledger-cont-unary-context-positive-denominators}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuations
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the contextual endpoints, then
+$$
+\mathsf{PositiveUnaryDenominator}(out_\rho)\land
+\mathsf{PositiveUnaryDenominator}(out_v).
+$$
+\end{theorem}
+\begin{proof}
+Close the ledger under matching unary denominator context by applying
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to the original
+ledger, the prefix match, and the tail match. This gives a ledger between the
+two normalized histories
+$\mathsf{append}(p_\rho,\mathsf{append}(\rho,t_\rho))$ and
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$.
+
+The four continuation witnesses identify $out_\rho$ and $out_v$ with the
+two displayed two-step continuations through $m_\rho$ and $m_v$. Associativity
+of $\mathsf{append}$ turns those two displays into $\hsame$ links from the
+normalized contextual histories to the displayed outputs.
+
+Transport the contextual ledger across these two endpoint identifications by
+\autoref{thm:rat-ledger-hsame-transport}. The resulting ledger relates
+$out_\rho$ and $out_v$ directly.
+
+Finally read the raw and visible carrier witnesses from the displayed ledger.
+The carrier equivalence for rational histories gives
+$\mathsf{PositiveUnaryDenominator}(out_\rho)$, and the visible-carrier
+projection gives $\mathsf{PositiveUnaryDenominator}(out_v)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_positive\_denominators}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).
