@@ -309,6 +309,15 @@ theorem LinearMapSingletonClassifier_continuation_closed {P P' Q Q' left right :
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem LinearMapSingletonClassifier_continuation_left_closed {P P' Q left : BHist} :
+    LinearMapSingletonClassifier P P' -> LinearMapSingletonCarrier Q -> Cont P Q left ->
+      LinearMapSingletonCarrier left ∧ LinearMapSingletonClassifier left BHist.Empty := by
+  intro classifiedP carrierQ leftContinuation
+  have leftEmpty : LinearMapSingletonCarrier left :=
+    cont_respects_hsame classifiedP.left carrierQ leftContinuation (cont_right_unit BHist.Empty)
+  have emptyCarrier : LinearMapSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro leftEmpty (And.intro leftEmpty (And.intro emptyCarrier leftEmpty))
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))
