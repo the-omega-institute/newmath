@@ -1,0 +1,59 @@
+\section{Difference-pair context stability}
+\label{sec:int-difference-pair-balanced-context-stability}
+
+The difference-pair presentation of $\IntUp$ must remain stable when both
+representatives receive the same positive unary context and the same negative
+unary context. This is the signed-pair form of ordinary quotient stability for
+the relation $(p,n)\sim(q,m)$ given by cross-addition sameness.
+
+\begin{theorem}[Integer pair classifier balanced append context]
+\label{thm:int-pair-classifier-balanced-append-context}
+For $a,b,p,n,q,m:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, and
+$\mathsf{IntPairClassifier}((p,n),(q,m))$, then
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,p),\mathsf{append}(n,b)),
+(\mathsf{append}(a,q),\mathsf{append}(m,b))).
+$$
+The ten-field fit is: traditional target signed-pair integer quotient
+stability under adding the same positive and negative contexts; BEDC source
+$\mathsf{IntPairCarrier}$, $\mathsf{IntPairClassifier}$, $\mathsf{Unary}$,
+$\mathsf{append}$, and $\hsame$; carrier difference pairs; classifier
+cross-addition sameness; stability balanced context extension; ledger the added
+positive and negative unary contexts; core theorem this block; exactness
+preservation of the quotient classifier; standard bridge ordinary $(p,n)\sim
+(q,m)$ stability under $(p+a,n+b)$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two difference-pair carrier witnesses
+and the cross-addition comparison
+$\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$. The carrier witnesses give
+unary evidence for $p$, $n$, $q$, and $m$.
+
+Unary append closure with the unary contexts $a$ and $b$ supplies all four
+endpoint carrier components:
+$\mathsf{append}(a,p)$, $\mathsf{append}(n,b)$,
+$\mathsf{append}(a,q)$, and $\mathsf{append}(m,b)$.
+
+For the cross-addition component, reassociate the left endpoint by
+$\mathsf{append\_assoc}$:
+$$
+\mathsf{append}(\mathsf{append}(a,p),\mathsf{append}(m,b))
+\hsame
+\mathsf{append}(a,\mathsf{append}(\mathsf{append}(p,m),b)).
+$$
+
+The right endpoint reassociates in the same way:
+$$
+\mathsf{append}(\mathsf{append}(a,q),\mathsf{append}(n,b))
+\hsame
+\mathsf{append}(a,\mathsf{append}(\mathsf{append}(q,n),b)).
+$$
+
+Transport the original comparison through the common left prefix $a$ and the
+common right suffix $b$. Transitivity of $\hsame$ with the two reassociation
+steps gives the required cross-addition sameness, and together with the four
+unary endpoint components this repacks exactly as the displayed
+$\mathsf{IntPairClassifier}$.
+\end{proof}

@@ -322,6 +322,58 @@ witnesses $m$ and $n$, reflexive visible endpoints, the two unary witnesses,
 and the supplied payload $\hsame(m,n)$.
 \end{proof}
 
+\begin{theorem}[Integer canonical difference-pair/history bridge]
+\label{thm:int-canonical-difference-pair-history-bridge}
+For all unary histories $m,n:\mathsf{BHist}$, the canonical same-sign
+difference pairs read back exactly to the corresponding public signed-history
+classifier branches:
+$$
+\mathsf{IntPairClassifier}((m,\emp),(n,\emp))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
+$$
+The negative canonical representatives satisfy the parallel one-tag bridge:
+$$
+\mathsf{IntPairClassifier}((\emp,m),(\emp,n))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+$$
+The ten-field fit is the following. The traditional target is canonical signed
+unary integers. The BEDC source consists of $\mathsf{IntPairClassifier}$,
+$\mathsf{IntHistoryClassifier}$, $\mathsf{BHist}$, $\hsame$,
+$\mathsf{append}$, $\Ezero$, and $\Eone$. The carrier is
+$\mathsf{IntPairCarrier}$ together with $\mathsf{IntHistoryCarrier}$. The
+classifier is the displayed same-sign bridge. Stability is inherited from the
+append unit laws and same-tag readback. The ledger records the hidden empty
+counter and the visible sign tag. The core theorem is this bridge. Exactness is
+the two iff clauses. The downstream consumer is the $\RatUp$ numerator
+readback and $\IntUp$ closure. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first that $m$ and $n$ are unary. For the positive canonical pair,
+unfold $\mathsf{IntPairClassifier}$ at $((m,\emp),(n,\emp))$. The carrier
+clauses reduce to the unary witnesses for $m$, $n$, and the two empty counters.
+The classifier payload is
+$\hsame(\mathsf{append}(m,\emp),\mathsf{append}(n,\emp))$, and the right
+append unit laws identify this with $\hsame(m,n)$.
+
+Apply Theorem~\ref{thm:int-history-classifier-same-tag-readback} to the
+$\Ezero$ branch. Its readback criterion is exactly the same pair of unary
+witnesses together with $\hsame(m,n)$, so the positive displayed
+$\Longleftrightarrow$ follows.
+
+For the negative canonical pair, unfold $\mathsf{IntPairClassifier}$ at
+$((\emp,m),(\emp,n))$. The cross-addition payload is
+$\hsame(\mathsf{append}(\emp,n),\mathsf{append}(\emp,m))$. The left append unit
+laws reduce this to $\hsame(n,m)$, and symmetry of $\hsame$ changes the
+orientation to $\hsame(m,n)$.
+
+Apply Theorem~\ref{thm:int-history-classifier-same-tag-readback} to the
+$\Eone$ branch. The same unary witnesses and the reoriented payload
+$\hsame(m,n)$ are precisely its public-history criterion, giving the negative
+displayed $\Longleftrightarrow$.
+\end{proof}
+
 \begin{theorem}[Integer history classifier hsame transport]
 \label{thm:int-history-classifier-hsame-transport}
 For all $h,k,h',k':\mathsf{BHist}$, the public integer history classifier is
