@@ -1,0 +1,200 @@
+\begin{theorem}[Integer balanced contextual opposite-sign zero collapse]
+\label{thm:int-balanced-contextual-opposite-sign-zero-collapse}
+For all $a,b,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, $\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then
+the balanced contextual opposite-sign pair collapses exactly at the two zero
+counters:
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,m),\mathsf{append}(\emp,b)),
+(\mathsf{append}(a,\emp),\mathsf{append}(n,b)))
+\Longleftrightarrow
+\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is contextual
+opposite-sign integer zero collapse. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, $\emp$,
+balanced context exactness, and canonical opposite-sign zero collapse. The
+carrier is carried by unary difference pairs. The classifier is
+cross-addition sameness. Stability is removal of the shared positive and
+negative contexts. The ledger records hidden common contexts $a,b$ together
+with zero counters. The core theorem is this balanced contextual zero-collapse
+block. Exactness is the displayed iff. The standard bridge is ordinary
+cancellation of equal added contexts before the fact that a unary sum is zero
+only when both summands are zero. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. Apply
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness} with
+$p=m$, $n=\emp$, $q=\emp$, and $m=n$. The unary hypotheses for $a$ and $b$
+remove the balanced positive and negative contexts and reduce the classifier to
+$$
+\mathsf{IntPairClassifier}((m,\emp),(\emp,n)).
+$$
+
+Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse}, applied with the
+unary hypotheses for $m$ and $n$, converts this canonical opposite-sign
+classifier into $\hsame(m,\emp)\land\hsame(n,\emp)$.
+
+For the reverse direction, assume
+$\hsame(m,\emp)\land\hsame(n,\emp)$. The canonical
+opposite-sign zero-collapse theorem first gives
+$\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$ from the unary hypotheses for
+$m$ and $n$.
+
+Apply Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness}
+again with $p=m$, $n=\emp$, $q=\emp$, and $m=n$. Reading this equivalence in
+the reverse direction, the unary hypotheses for $a$ and $b$ transport the
+canonical classifier into the displayed balanced contextual classifier.
+\end{proof}
+
+\begin{theorem}[Integer contextual opposite-sign zero collapse]
+\label{thm:int-contextual-opposite-sign-zero-collapse}
+For all $a,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then the visible-context
+opposite-sign canonical pair collapses exactly at the shared zero context and
+zero payloads:
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),(\emp,\mathsf{append}(n,a)))
+\Longleftrightarrow
+\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is contextual
+opposite-sign signed-unary zero detection. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, $\emp$, and
+$\hsame$. The carrier is unary difference pairs. The classifier is
+cross-addition sameness. Stability is append-empty inversion. The ledger
+records the shared context together with the two payloads. The core theorem is
+this contextual zero-collapse block. Exactness is the displayed iff. The
+standard bridge is the ordinary fact that $a+m+n+a=0$ for unary summands forces
+all displayed summands to be zero. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first the three unary hypotheses and the displayed classifier. Unary
+append closure makes $\mathsf{append}(a,m)$ and $\mathsf{append}(n,a)$ unary, so
+Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse} applies to the
+canonical pair built from these two appended counters.
+
+The forward half of that theorem gives
+$\hsame(\mathsf{append}(a,m),\emp)$ and
+$\hsame(\mathsf{append}(n,a),\emp)$. Empty readback converts these into two
+empty append equations, and append-empty inversion yields
+$a=\emp$, $m=\emp$, and $n=\emp$ after reading the shared context from both
+equations. Transport along these empty equations gives
+$\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp)$.
+
+Conversely, assume
+$\hsame(a,\emp)\land\hsame(m,\emp)\land\hsame(n,\emp)$. Empty readback turns the
+three readbacks into empty equations for $a$, $m$, and $n$. The append unit laws
+therefore identify both contextual counters
+$\mathsf{append}(a,m)$ and $\mathsf{append}(n,a)$ with $\emp$.
+
+The reverse half of Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse}
+now applies to these two unary appended counters. Its required empty readbacks
+are obtained by the preceding transport to $\emp$, and the resulting canonical
+classifier is exactly
+$\mathsf{IntPairClassifier}((\mathsf{append}(a,m),\emp),(\emp,\mathsf{append}(n,a)))$.
+\end{proof}
+
+\begin{theorem}[Integer history classifier positive append context iff]
+\label{thm:int-history-classifier-positive-append-context-iff}
+For all $a,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then the public same-sign
+integer history classifier is invariant under adding the same visible unary
+prefix to both magnitudes:
+$$
+\mathsf{IntHistoryClassifier}(\Ezero(\mathsf{append}(a,m)),\Ezero(\mathsf{append}(a,n)))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
+$$
+The one-tag branch satisfies the parallel context law:
+$$
+\mathsf{IntHistoryClassifier}(\Eone(\mathsf{append}(a,m)),\Eone(\mathsf{append}(a,n)))
+\Longleftrightarrow
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+$$
+The ten-field fit is the following. The traditional target is signed-integer
+equality under a common unary magnitude context. The BEDC source consists of
+$\mathsf{IntHistoryClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$,
+$\hsame$, and append cancellation. The carrier is the public signed-history
+carrier. The classifier is the same-tag public classifier. Stability is common
+unary prefix invariance. The ledger records the common visible unary prefix.
+The core theorem is this iff statement. Exactness is preservation and
+reflection of same-tag classifier equality. The standard bridge is ordinary
+signed unary equality under equal magnitude shifts. The status is
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:int-history-classifier-same-tag-readback} to the
+$\Ezero$ endpoints. With the unary closure of
+$\mathsf{append}(a,m)$ and $\mathsf{append}(a,n)$, the left side reads back to
+$\hsame(\mathsf{append}(a,m),\mathsf{append}(a,n))$ together with the two
+unary payload witnesses. The right side reads back to
+$\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n)$.
+
+For the zero-tag reverse direction, use congruence of $\mathsf{append}(a,-)$
+on $\hsame(m,n)$ and unary append closure for the two payloads. Repacking by
+the same-tag readback theorem gives the classifier on
+$\Ezero(\mathsf{append}(a,m))$ and $\Ezero(\mathsf{append}(a,n))$.
+
+For the zero-tag forward direction, read back the left classifier to obtain
+$\hsame(\mathsf{append}(a,m),\mathsf{append}(a,n))$. Left append cancellation
+under the common unary prefix $a$ recovers $\hsame(m,n)$, and the original
+unary assumptions supply the two payload witnesses. Repacking by same-tag
+readback gives $\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))$.
+
+The one-tag branch repeats the same two moves after replacing $\Ezero$ by
+$\Eone$. The readback criterion is unchanged on payloads, so append congruence
+proves the reverse implication, and left append cancellation proves the
+forward implication before repacking the public classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntHistoryClassifier\_positive\_append\_context\_iff}
+
+\begin{theorem}[Integer history classifier hsame transport]
+\label{thm:int-history-classifier-hsame-transport}
+For all $h,k,h',k':\mathsf{BHist}$, the public integer history classifier is
+stable under replacement of both endpoints by $\hsame$-equal representatives:
+$$
+\hsame(h,h')\to
+\hsame(k,k')\to
+\mathsf{IntHistoryClassifier}(h,k)\to
+\mathsf{IntHistoryClassifier}(h',k').
+$$
+The ten-field fit is the following. The traditional target is signed-integer
+equality stable under representative replacement. The BEDC source consists of
+$\mathsf{BHist}$, $\hsame$, $\Ezero$, $\Eone$, and
+$\mathsf{IntHistoryClassifier}$. The carrier is
+$\mathsf{IntHistoryCarrier}$. The classifier is the two-branch public
+classifier. The stability endpoint is $\hsame$ transport. The ledger records
+the visible sign tag together with the unary payload. The core theorem is this
+transport statement. Exactness preservation is preservation of the classifier
+under representative replacement. The standard bridge is replacement of
+signed-unary representatives. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the classifier witness for $\mathsf{IntHistoryClassifier}(h,k)$ and
+split its visible signed branch.
+
+In the zero-tag branch, keep the unary payload witnesses $m,n$, the payload
+comparison $\hsame(m,n)$, and the stored mixed-tag exclusion. Compose the old
+endpoint witness $\hsame(h,\Ezero(m))$ with the symmetry of $\hsame(h,h')$ to
+obtain $\hsame(h',\Ezero(m))$. The same composition with $\hsame(k,k')$ gives
+$\hsame(k',\Ezero(n))$.
+
+It remains to rebuild the branch exclusion at the transported endpoints. Given
+a hypothetical one-tag witness from $h'$ and $k'$, compose it back through
+$\hsame(h,h')$ and $\hsame(k,k')$ to obtain the corresponding one-tag witness
+from $h$ and $k$. The stored zero-branch exclusion then rules it out, so the
+zero-tag classifier branch repacks at $h'$ and $k'$.
+
+In the one-tag branch, keep the same unary payload data and payload
+comparison. The supplied endpoint transports compose with the old witnesses to
+produce $\hsame(h',\Eone(m))$ and $\hsame(k',\Eone(n))$.
+
+For the transported exclusion, any zero-tag witness at $h'$ and $k'$ composes
+back to a zero-tag witness at $h$ and $k$. The stored one-branch exclusion
+rules it out, and the one-tag classifier branch repacks with the original
+payload witnesses.
+\end{proof}
+
+\closureat{\IntUp}{\checkedCertStr}
