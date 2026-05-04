@@ -81,6 +81,44 @@ reflexive one-extension sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_e1\_iff\_unary}
 
+\begin{theorem}[Left one-extension append positive denominator equivalence]
+\label{thm:rat-positive-denominator-append-eone-left-exact}
+For histories $h,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(\Eone(h),t))
+$$
+holds exactly when both $h$ and $t$ are unary histories.
+\end{theorem}
+\begin{proof}
+If the appended history has a positive unary denominator witness, then it is a
+unary history. Unary append factorization recovers unary membership of the
+left factor and of the tail; one-extension inversion turns unary membership of
+$\Eone(h)$ into unary membership of $h$.
+
+Conversely, unary membership of $h$ makes $\Eone(h)$ a positive unary
+denominator, and positive denominators are closed under appending a unary
+tail.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_left\_iff}
+
+\begin{theorem}[Right one-extension append positive denominator equivalence]
+\label{thm:rat-positive-denominator-append-eone-right-exact}
+For histories $h,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(h,\Eone(t)))
+$$
+holds exactly when both $h$ and $t$ are unary histories.
+\end{theorem}
+\begin{proof}
+The right one-extension unfolds the appended denominator as
+$\Eone(\mathsf{append}(h,t))$. The one-extension positive-denominator
+equivalence reads this as unary membership of $\mathsf{append}(h,t)$, and
+unary append factorization is exactly the conjunction of unary membership of
+$h$ and $t$. The reverse direction rebuilds the unary append and applies
+the one-extension positive-denominator equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_right\_iff}
+
 \begin{theorem}[Zero-extension cannot be a positive denominator]
 \label{thm:rat-positive-denominator-e0-absurd}
 A zero-extension history has no positive unary denominator witness.
@@ -218,6 +256,24 @@ displayed $\Eone$ witness with append compatibility gives the required
 positive witness for $\mathsf{append}(u,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
+
+\begin{theorem}[Positive unary denominator append unary left iff]
+\label{thm:positive-unary-denominator-append-unary-left-iff}
+If $u$ is unary, then a continued denominator
+$\mathsf{append}(u,r)$ has a positive unary denominator witness exactly when
+either $r$ is internally empty and $u$ already has such a witness, or $r$
+itself has such a witness.
+\end{theorem}
+\begin{proof}
+Case-split on the right history $r$. The empty case reduces the continuation
+to $u$. A zero-extension case is impossible because no zero-extension is a
+positive denominator. In the one-extension case, one-constructor readback gives
+unary membership of the continued tail, and unary append factorization recovers
+the right tail witness. Conversely, the empty-right alternative reduces by
+endpoint equality, while a positive witness on $r$ is preserved by unary
+prefix closure.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_left\_iff}
 
 \begin{theorem}[Positive unary denominator append unary left split]
 \label{thm:positive-unary-denominator-append-unary-left-split}

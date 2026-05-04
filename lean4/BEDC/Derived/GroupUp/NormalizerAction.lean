@@ -312,4 +312,37 @@ theorem GroupSingletonNormalizerAction_composition_collapse {s t x : BHist} :
           (And.intro composedCarrier
             (And.intro carrierX (hsame_trans composedCarrier (hsame_symm carrierX)))))))
 
+theorem GroupSingletonNormalizerAction_product_coherent_orbit_collapse {s t x : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
+      GroupSingletonClassifier
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty)
+        (append (append (append s t) x) BHist.Empty) ∧
+      GroupSingletonClassifier
+        (append (append (append s t) x) BHist.Empty)
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty) := by
+  intro carrierS carrierT carrierX
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have txCarrier : GroupSingletonCarrier (append t x) :=
+    append_eq_empty_iff.mpr (And.intro carrierT carrierX)
+  have actionTCarrier : GroupSingletonCarrier (append (append t x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro txCarrier emptyCarrier)
+  have nestedInnerCarrier :
+      GroupSingletonCarrier (append s (append (append t x) BHist.Empty)) :=
+    append_eq_empty_iff.mpr (And.intro carrierS actionTCarrier)
+  have nestedCarrier :
+      GroupSingletonCarrier
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro nestedInnerCarrier emptyCarrier)
+  have stCarrier : GroupSingletonCarrier (append s t) :=
+    append_eq_empty_iff.mpr (And.intro carrierS carrierT)
+  have stxCarrier : GroupSingletonCarrier (append (append s t) x) :=
+    append_eq_empty_iff.mpr (And.intro stCarrier carrierX)
+  have composedCarrier : GroupSingletonCarrier (append (append (append s t) x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro stxCarrier emptyCarrier)
+  constructor
+  · exact And.intro nestedCarrier
+      (And.intro composedCarrier (hsame_trans nestedCarrier (hsame_symm composedCarrier)))
+  · exact And.intro composedCarrier
+      (And.intro nestedCarrier (hsame_trans composedCarrier (hsame_symm nestedCarrier)))
+
 end BEDC.Derived.GroupUp
