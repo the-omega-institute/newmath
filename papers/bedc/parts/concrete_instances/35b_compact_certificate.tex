@@ -277,6 +277,27 @@ continuation cancellation identifies the two central center histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_center\_deterministic}
 
+\begin{theorem}[Compact net witness common composite result prefix determinacy]
+\label{thm:compact-net-witness-common-composite-result-prefix-deterministic}
+For histories $p,p',c,\theta,out$, if two compact-net witnesses share the same
+composite precision and result while their centers differ only by the visible
+left prefix before the same $c$, then the two visible prefixes are $\hsame$:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,out)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p'\cdot c,\theta,out)
+\Longrightarrow
+p\hsame p'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two compact-net witnesses. Their continuation ledgers have the same
+precision $\theta$ and the same result $out$, so right cancellation identifies
+$p\cdot c$ with $p'\cdot c$. Cancelling the common suffix $c$ gives
+$p\hsame p'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_common\_composite\_result\_prefix\_deterministic}
+
 \begin{theorem}[Compact net witness empty-precision visible-context exactness]
 \label{thm:compact-net-witness-empty-precision-visible-context-iff}
 For histories $p,q,c,n$, a visible-context compact-net witness with empty
