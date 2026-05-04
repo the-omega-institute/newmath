@@ -377,3 +377,55 @@ identity, inclusion, left-unit endpoint transport, and $Z_a$ carrier transport;
 ledger identity representative and right witness; exactness predicate identity
 fiber equals lower carrier; downstream consumer $\QuotientGroupUp$; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Centralizer quotient identity-fiber bridge package]
+\label{thm:subgroup-centralizer-quotient-identity-fiber-bridge-package}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, carrier-transport,
+and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ satisfies the following two identity-fiber packages.
+\begin{enumerate}
+\item The quotient-kernel identity fibers agree on the two sides of the unit:
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{e},x)
+\Longleftrightarrow Q_{Z_a\triangleleft N_a}(x,\mathsf{e}),
+$$
+and both displayed sides are equivalent to $Z_a(x)$.
+\item The right-witness quotient identity fibers agree on the two sides of the
+unit:
+$$
+Q_{Z_a\leq N_a}(\mathsf{e},x)
+\Longleftrightarrow Q_{Z_a\leq N_a}(x,\mathsf{e}),
+$$
+and both displayed sides are equivalent to $Z_a(x)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the quotient-kernel package, apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-empty-fiber} to identify
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$ with $Z_a(x)$. Apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-empty-right-fiber} to
+identify $Q_{Z_a\triangleleft N_a}(x,\mathsf{e})$ with the same centralizer
+carrier. Composing the two identity-fiber equivalences gives the two-sided
+unit bridge, and the two cited equivalences record the exactness clauses.
+
+For the right-witness quotient package, apply
+\autoref{thm:subgroup-centralizer-normalizer-coset-classifier-identity-fiber}
+to identify $Q_{Z_a\leq N_a}(\mathsf{e},x)$ with $Z_a(x)$. Then apply
+\autoref{thm:subgroup-centralizer-right-quotient-classifier-kernel-iff} at
+the endpoint pair $(x,\mathsf{e})$ and use
+\autoref{thm:subgroup-centralizer-quotient-kernel-empty-right-fiber} to
+identify $Q_{Z_a\leq N_a}(x,\mathsf{e})$ with $Z_a(x)$. Composing these
+equivalences gives the right-witness two-sided unit bridge, with the same
+centralizer exactness on both sides.
+\end{proof}
+
+Per-object template: traditional target two-sided identity coset fiber; BEDC
+source $\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$; carrier $N_a$;
+classifier the quotient-kernel and right-witness quotient relations; stability
+unit, inverse, transport, and kernel equivalence rows; ledger identity
+representative side; core theorem
+\autoref{thm:subgroup-centralizer-quotient-identity-fiber-bridge-package};
+exactness identity fiber equals $Z_a$; downstream consumer
+$\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
