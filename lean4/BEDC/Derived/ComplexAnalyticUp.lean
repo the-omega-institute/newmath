@@ -1,5 +1,6 @@
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.ComplexAnalyticUp
 
@@ -106,6 +107,36 @@ theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BH
         ComplexAnalytic_component_continuation_complex_carrier realCarrier split.left
           split.right.right.left
       exact And.intro zqCarrier (ComplexHistoryCarrier_not_empty zqCarrier)
+
+theorem CplxPureImaginary_suffix_continuation_classifier {theta phi z w q q' zq wq : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary phi w -> hsame theta phi ->
+      UnaryHistory q -> hsame q q' -> Cont z q zq -> Cont w q' wq ->
+        ComplexHistoryClassifier zq wq := by
+  intro pureTheta purePhi sameThetaPhi qUnary sameQQ' contZ contW
+  cases CplxPureImaginary_component_continuation_witness pureTheta qUnary contZ with
+  | intro imagq leftData =>
+      have qUnary' : UnaryHistory q' := unary_transport qUnary sameQQ'
+      cases CplxPureImaginary_component_continuation_witness purePhi qUnary' contW with
+      | intro imagq' rightData =>
+          have thetaUnary : UnaryHistory theta := pureTheta.left
+          have phiUnary : UnaryHistory phi := purePhi.left
+          have realClassifier :
+              RatHistoryClassifier (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty) :=
+            RatHistoryClassifier_e1_tail_unary_iff.mpr
+              ⟨unary_empty, unary_empty, hsame_refl BHist.Empty⟩
+          have baseImagClassifier :
+              RatHistoryClassifier (BHist.e1 theta) (BHist.e1 phi) :=
+            RatHistoryClassifier_e1_tail_unary_iff.mpr
+              ⟨thetaUnary, phiUnary, sameThetaPhi⟩
+          have continuedImagClassifier :
+              RatHistoryClassifier (append (BHist.e1 theta) q) (append (BHist.e1 phi) q') :=
+            RatHistoryClassifier_append_unary_denominator_closed baseImagClassifier qUnary
+              sameQQ'
+          have imagClassifier : RatHistoryClassifier imagq imagq' :=
+            RatHistoryClassifier_hsame_transport leftData.right.left.symm
+              rightData.right.left.symm continuedImagClassifier
+          exact ComplexHistoryClassifier_component_classifier_intro realClassifier imagClassifier
+            leftData.right.right.left rightData.right.right.left
 
 theorem CplxPureImaginary_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->

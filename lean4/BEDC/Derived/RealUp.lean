@@ -41,4 +41,21 @@ theorem RealStreamClassifier_unary_denominator_context_closed
       ((contOY n).trans (congrArg (fun r => append r (tY n)) (contPY n))).symm
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY pointContext
 
+theorem RealStreamClassifier_selected_continuation_e1_pair_readback
+    {x y : Nat -> BHist} {n : Nat} {q xq yq a b : BHist} :
+    RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
+      hsame xq (BHist.e1 a) -> hsame yq (BHist.e1 b) ->
+        UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified qUnary contX contY sameX sameY
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have continued :
+      RatHistoryClassifier (append (x n) q) (append (y n) q) :=
+    RatHistoryClassifier_append_unary_denominator_closed pointClassified qUnary
+      (hsame_refl q)
+  have transported : RatHistoryClassifier xq yq :=
+    RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport sameX sameY transported
+  exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
 end BEDC.Derived.RealUp

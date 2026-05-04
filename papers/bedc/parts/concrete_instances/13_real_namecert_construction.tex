@@ -345,6 +345,38 @@ $\mathsf{RealStreamClassifier}(o_X,o_Y)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_closed}
 
+\begin{theorem}[Real stream classifier selected continuation e-one pair readback]
+\label{thm:real-stream-classifier-selected-continuation-e1-pair-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and histories
+$a,b:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+and
+$$
+\hsame(xq,\Eone(a)),\quad \hsame(yq,\Eone(b)),
+$$
+then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Close this rational classifier
+under the shared unary suffix $q$ by rational unary-denominator continuation
+closure, using reflexive sameness of the suffix on the two sides. The two
+continuation displays identify the closed endpoints with $xq$ and $yq$.
+Transport the closed rational classifier across those displays and then across
+the two e-one endpoint seals. Rational one-tail classifier exactness reads back
+the unary tails and their $\hsame$ relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e1\_pair\_readback}
+
 Fit: traditional target streamwise rational-denominator context stability; BEDC
 source RealUp streams plus RatUp classifier plus $\mathsf{Cont}$; carrier
 rational-observation streams; classifier $\mathsf{RealStreamClassifier}$;
