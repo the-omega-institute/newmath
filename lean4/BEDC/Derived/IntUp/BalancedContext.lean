@@ -1,0 +1,25 @@
+import BEDC.Derived.IntUp
+
+namespace BEDC.Derived.IntUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem IntPairClassifier_balanced_append_context {a b p n q m : BHist} :
+    UnaryHistory a -> UnaryHistory b -> IntPairClassifier (p, n) (q, m) ->
+      IntPairClassifier (append a p, append n b) (append a q, append m b) := by
+  intro unaryA unaryB classified
+  constructor
+  · exact And.intro (unary_append_closed unaryA classified.left.left)
+      (unary_append_closed classified.left.right unaryB)
+  · constructor
+    · exact And.intro (unary_append_closed unaryA classified.right.left.left)
+        (unary_append_closed classified.right.left.right unaryB)
+    · exact (append_assoc a p (append m b)).trans
+        ((congrArg (append a) (append_assoc p m b).symm).trans
+          ((congrArg (fun t => append a (append t b)) classified.right.right).trans
+            ((congrArg (append a) (append_assoc q n b)).trans
+              (append_assoc a q (append n b)).symm)))
+
+end BEDC.Derived.IntUp

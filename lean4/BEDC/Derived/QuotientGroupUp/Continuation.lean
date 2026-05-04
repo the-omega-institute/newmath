@@ -31,6 +31,36 @@ theorem CentralizerCosetCarrier_empty_continuation_pair_iff
       cont_deterministic continuation transported
     exact And.intro emptyCentral resultEmpty
 
+theorem CentralizerCosetCarrier_representative_continuation_pair_iff
+    {mul : BHist -> BHist -> BHist} {a repr p q r : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty)
+    (reprCentral : SubgroupCentralizerCarrier mul a repr) :
+    hsame repr BHist.Empty -> Cont p q r ->
+      (CentralizerCosetCarrier mul a repr r <->
+        CentralizerCosetCarrier mul a repr p ∧
+          CentralizerCosetCarrier mul a repr q) := by
+  intro reprEmpty continuation
+  have emptyPair :=
+    CentralizerCosetCarrier_empty_continuation_pair_iff
+      (mul := mul) (a := a) (p := p) (q := q) (r := r) emptyCentral continuation
+  constructor
+  · intro resultCarrier
+    have emptyResult : CentralizerCosetCarrier mul a BHist.Empty r :=
+      And.intro emptyCentral (hsame_trans resultCarrier.right reprEmpty)
+    have emptyEndpoints := Iff.mp emptyPair emptyResult
+    exact And.intro
+      (And.intro reprCentral (hsame_trans emptyEndpoints.left.right (hsame_symm reprEmpty)))
+      (And.intro reprCentral
+        (hsame_trans emptyEndpoints.right.right (hsame_symm reprEmpty)))
+  · intro endpointCarriers
+    have emptyEndpoints :
+        CentralizerCosetCarrier mul a BHist.Empty p ∧
+          CentralizerCosetCarrier mul a BHist.Empty q :=
+      And.intro (And.intro emptyCentral (hsame_trans endpointCarriers.left.right reprEmpty))
+        (And.intro emptyCentral (hsame_trans endpointCarriers.right.right reprEmpty))
+    have emptyResult := Iff.mpr emptyPair emptyEndpoints
+    exact And.intro reprCentral (hsame_trans emptyResult.right (hsame_symm reprEmpty))
+
 theorem CentralizerCosetClassifier_empty_continuation_classifier_iff
     {mul : BHist -> BHist -> BHist} {a p q r h : BHist}
     (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty) :

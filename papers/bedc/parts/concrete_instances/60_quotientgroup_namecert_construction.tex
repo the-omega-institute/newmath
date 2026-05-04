@@ -401,6 +401,29 @@ so $r\hsame\emp$, and the empty centralizer witness closes the result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_continuation\_pair\_iff}
 
+\begin{theorem}[Centralizer coset representative continuation carrier pair]
+\label{thm:quotientgroup-centralizer-coset-representative-continuation-pair}
+If $\emp$ and $\mathsf{repr}$ centralize $a$,
+$\mathsf{repr}\hsame\emp$, and $\ContR(p,q,r)$, then
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},r)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},p)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},q).
+$$
+\end{theorem}
+\begin{proof}
+Use $\mathsf{repr}\hsame\emp$ to transport the result carrier to the
+empty-representative carrier. The empty-representative continuation pair theorem
+splits it into the two endpoint carriers. Transport the two endpoint
+comparisons back across $\mathsf{repr}\hsame\emp$, using the representative
+centralizer witness for the centralizer field. The converse repeats the same
+transport in the other direction before applying the empty-representative pair
+theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_representative\_continuation\_pair\_iff}
+
 \begin{theorem}[Centralizer coset empty continuation classifier]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then

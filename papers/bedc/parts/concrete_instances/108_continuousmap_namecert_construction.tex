@@ -461,3 +461,34 @@ canonical-distance carrier iff, standard bridge deferred, and status
 $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_closed}
+
+\begin{theorem}[ContinuousMap carrier composite distance determinacy]
+\label{thm:continuousmap-carrier-comp-distance-deterministic}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,dist:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),
+\qquad
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+$$
+the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG),
+$$
+and a displayed composite carrier
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,dist).
+$$
+Then $dist\hsame\mathsf{append}(source,target)$.
+\end{theorem}
+\begin{proof}
+The composition closure theorem builds the canonical composite carrier whose
+distance component is $\mathsf{append}(source,target)$. Apply the
+target--certificate--distance determinacy theorem to the displayed composite
+carrier and this canonical carrier. The distance component of the resulting
+comparison is exactly $dist\hsame\mathsf{append}(source,target)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_comp\_distance\_deterministic}
