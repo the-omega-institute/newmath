@@ -96,7 +96,13 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     if not files:
         return True
 
-    prompt = CONFLICT_PROMPT.format(conflicted="\n".join(f"  {f}" for f in files))
+    # Use .replace, not .format. CONFLICT_PROMPT contains literal LaTeX
+    # braces (\label{...} / \input{...} / \\begin{...}) that .format would
+    # interpret as positional placeholders → IndexError. Reported upstream;
+    # this patch is local until loning's copy is fixed.
+    prompt = CONFLICT_PROMPT.replace(
+        "{conflicted}", "\n".join(f"  {f}" for f in files),
+    )
 
     if not Path(CODEX_PATH).exists():
         print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
