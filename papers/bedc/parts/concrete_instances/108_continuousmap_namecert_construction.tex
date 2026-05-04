@@ -412,3 +412,49 @@ metric distance witness with endpoints $source$, $mapFG$, and $target$.
 Metric-distance depth addition for that witness gives the displayed equality.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}
+
+\begin{theorem}[ContinuousMap carrier composition closure]
+\label{thm:continuousmap-carrier-comp-closed}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the composite is again a continuous-map carrier with the canonical
+source-target distance ledger:
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target)).
+$$
+\end{theorem}
+\begin{proof}
+Project the continuous-function halves from the two
+$\mathsf{ContinuousMapCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuous-function-carrier-comp-closed} to those halves and
+the three continuation ledgers. This produces the composite
+$\mathsf{ContinuousFunctionCarrier}(source,mapFG,target,modFG,certFG)$.
+
+Now package the canonical distance ledger. Apply
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff} in the reverse
+direction to the composite continuous-function carrier, yielding the displayed
+$\mathsf{ContinuousMapCarrier}$ with distance
+$\mathsf{append}(source,target)$.
+
+The ten-field fit is: traditional target composition of uniformly continuous
+maps, BEDC source $\mathsf{ContinuousMapCarrier}$ plus $\ContR$, carrier
+$\mathsf{ContinuousMapCarrier}$, classifier $\hsame$, stability from
+continuous-function composition and canonical metric ledger packaging, ledger
+the hidden canonical distance, core theorem this closure, exactness
+canonical-distance carrier iff, standard bridge deferred, and status
+$\mathsf{ProofTarget}$.
+\end{proof}
