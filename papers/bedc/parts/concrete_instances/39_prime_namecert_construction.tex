@@ -199,6 +199,18 @@ exactness identifies the result \(n\) with \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_result\_empty}
 
+\begin{lemma}[Empty right divisibility is unary carrier]
+\label{thm:natdivides-empty-right-iff}
+For any history $d$, $\mathsf{NatDivides}(d,\emp)$ holds exactly when $d$ is a
+unary history.
+\end{lemma}
+\begin{proof}
+In the forward direction, unpack the quotient witness; its multiplication
+field carries the unary multiplicand field for $d$. In the reverse direction,
+use the empty quotient and the zero constructor of $\mathsf{NatMul}$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_right\_iff}
+
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
 For every unary \(n\), \(\mathsf{NatDivides}(\Eone(\emp), n)\) and \(\mathsf{NatDivides}(n, n)\).
@@ -274,6 +286,18 @@ After this identification, the strict-prefix field in the prime predicate
 would be a strict unary prefix into \(\emp\), which is impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_succ\_result\_not\_empty}
+
+\begin{theorem}[Prime has no empty divisor]
+\label{thm:natprime-divisor-empty-absurd}
+If $p$ is prime, $d$ divides $p$, and $d\hsame\emp$, then false.
+\end{theorem}
+\begin{proof}
+Transport the divisor to the empty-left case. Empty-left divisibility forces
+$p\hsame\emp$. Under that endpoint identification, the strict greater-than
+field of the prime predicate becomes a strict unary prefix into $\emp$, which
+is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
 
 \begin{lemma}[Non-primality of the unit]
 \label{lem:unit-not-prime}

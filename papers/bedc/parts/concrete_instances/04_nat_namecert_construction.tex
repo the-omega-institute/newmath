@@ -83,6 +83,20 @@ $\emp$ and $\mathsf{Cont}(h,t,k)$.
 \end{definition}
 \leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
 
+\begin{theorem}[Unary prefix trichotomy into sameness or strict prefix]
+\label{thm:nat-unary-prefix-trichotomy-hsame-strict}
+If $h$ and $k$ are unary histories, then either $h\hsame k$, or $h$ is a
+strict unary prefix of $k$, or $k$ is a strict unary prefix of $h$.
+\end{theorem}
+\begin{proof}
+Apply unary prefix totality to obtain a unary continuation tail in one
+direction. If the tail is $\emp$, the continuation is the right-unit
+continuation and the endpoints are history-same. A zero-headed tail contradicts
+unary generation. A one-headed tail is nonempty, so the same continuation
+witness gives the corresponding strict unary prefix branch.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_trichotomy\_hsame\_strict}
+
 \begin{lemma}[Strict unary prefix one-step]
 \label{lem:nat-unary-strict-prefix-one-step}
 If \(h\) is unary, then \(h\) is a strict unary prefix of \(\Eone(h)\).
@@ -137,6 +151,19 @@ If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\), then \(h\) is a strict
 Unpack the strict witness tail. The empty tail contradicts strictness, and an \(\Ezero\)-headed tail contradicts unary generation. For an \(\Eone(t)\) tail, invert the result boundary of the continuation and commute the visible \(\Eone\) across the unary tail \(t\), yielding the strict witness \(\Eone(t)\) from \(h\) to \(k\).
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_inversion}
+
+\begin{theorem}[Strict unary prefix one-boundary congruence]
+\label{thm:nat-unary-strict-prefix-e1-congr}
+If $h$ is a strict unary prefix of $k$, then $\Eone(h)$ is a strict unary
+prefix of $\Eone(k)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_e1\_congr}
+\begin{proof}
+Unpack the nonempty unary tail witnessing the strict prefix from $h$ to
+$k$. The same tail remains unary and nonempty. Commuting append across the
+visible $\Eone$ boundary re-expresses the continuation as one from
+$\Eone(h)$ to $\Eone(k)$.
+\end{proof}
 
 \begin{theorem}[Strict unary prefix zero-boundary inversion]
 \label{thm:nat-unary-strict-prefix-e0-inversion}

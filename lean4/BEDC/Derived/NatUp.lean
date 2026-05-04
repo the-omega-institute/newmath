@@ -79,6 +79,21 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_e1_congr {h k : BHist} :
+    NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              exact
+                ⟨tail, tailUnary, tailNonempty,
+                  cont_intro
+                    ((congrArg BHist.e1 tailCont).trans
+                      (unary_append_e1_left (h := tail) (k := h) tailUnary).symm)⟩
+
 theorem NatUnaryStrictPrefix_e0_inversion {h k : BHist} :
     NatUnaryStrictPrefix (BHist.e0 h) (BHist.e0 k) -> NatUnaryStrictPrefix h k := by
   intro strict
@@ -197,6 +212,43 @@ theorem NatUnaryPrefix_total {h k : BHist} :
                         exact hsame_e1_congr tailCont.symm
                       exact Or.inr
                         ⟨tail, tailUnary, cont_result_hsame_transport base same⟩
+
+theorem NatUnaryPrefix_trichotomy_hsame_strict {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      hsame h k ∨ NatUnaryStrictPrefix h k ∨ NatUnaryStrictPrefix k h := by
+  intro uh uk
+  have total := NatUnaryPrefix_total uh uk
+  cases total with
+  | inl left =>
+      cases left with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              cases tail with
+              | Empty =>
+                  have same : hsame k h := cont_deterministic tailCont (cont_right_unit h)
+                  exact Or.inl (hsame_symm same)
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  exact Or.inr
+                    (Or.inl
+                      ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩)
+  | inr right =>
+      cases right with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              cases tail with
+              | Empty =>
+                  have same : hsame h k := cont_deterministic tailCont (cont_right_unit k)
+                  exact Or.inl same
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  exact Or.inr
+                    (Or.inr
+                      ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩)
 
 theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
