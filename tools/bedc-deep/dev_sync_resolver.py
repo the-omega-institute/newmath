@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""dev_sync_resolver — auto-merge origin/dev with claude-driven conflict resolution.
+"""dev_sync_resolver — auto-merge UPSTREAM_REF with claude-driven conflict resolution.
+
+UPSTREAM_REF is currently `origin/codex-auto-dev` (was `origin/dev` until
+the codex_formalize integration branch became the trunk to track).
+Switch the constant at module top to point elsewhere if the pipeline
+needs to follow a different lane.
 
 Replaces the supervisor's bare `git_sync_dev` (which aborted on any conflict)
 with a flow that:
 
   1. Acquire paper_writes lock so Stage 2 append never races with the merge
-  2. fetch origin/dev
-  3. attempt git merge --no-edit origin/dev
+  2. fetch UPSTREAM_REF
+  3. attempt git merge --no-edit UPSTREAM_REF
      ├─ ff success → commit + push
      └─ conflict:
         a. capture conflict files + hunks
@@ -360,7 +365,7 @@ class SyncResult:
 
 
 def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> SyncResult:
-    """Fetch + merge origin/dev with claude-driven conflict resolution.
+    """Fetch + merge UPSTREAM_REF with claude-driven conflict resolution.
 
     This is the supervisor's main hook. Locks paper_writes to keep Stage 2
     consistent throughout merge + validate + commit + push.
