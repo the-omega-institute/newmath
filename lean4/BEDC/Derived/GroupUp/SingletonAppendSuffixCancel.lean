@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonContinuation
 
 namespace BEDC.Derived.GroupUp
 
@@ -108,5 +109,35 @@ theorem GroupSingletonClassifier_two_sided_contextual_carrier_coverage_iff
       (Q := Q) (S := S) carrierL carrierR
   exact Iff.trans suffixCancel
     (Iff.trans prefixCancel (GroupSingleton_terminal_classifier_package.left Q S))
+
+theorem GroupSingletonClassifier_two_sided_contextual_continuation_product_unit_coverage_iff
+    {L0 R0 L1 R1 P Q S T : BHist} :
+    GroupSingletonCarrier L0 -> GroupSingletonCarrier R0 ->
+      GroupSingletonCarrier L1 -> GroupSingletonCarrier R1 -> Cont P Q S ->
+        (GroupSingletonClassifier (append (append L0 (append S T)) L1)
+          (append (append R0 BHist.Empty) R1) <->
+            GroupSingletonCarrier P ∧ GroupSingletonCarrier Q ∧ GroupSingletonCarrier T) := by
+  intro carrierL0 carrierR0 carrierL1 carrierR1 continuation
+  have contextualIff :=
+    GroupSingletonClassifier_two_sided_contextual_coverage_iff (L := L0) (R := R0)
+      (L' := L1) (R' := R1) (Q := append S T) (S := BHist.Empty)
+      carrierL0 carrierR0 carrierL1 carrierR1
+  have splitIff := GroupSingleton_terminal_classifier_package.right.left S T
+  have continuationIff := GroupSingletonClassifier_continuation_result_carrier_iff continuation
+  have terminalIff := GroupSingleton_terminal_classifier_package.left P Q
+  constructor
+  · intro classified
+    have contextual := contextualIff.mp classified
+    have split := splitIff.mp contextual.left
+    have classifiedPQ : GroupSingletonClassifier P Q := continuationIff.mpr split.left
+    have carriersPQ := terminalIff.mp classifiedPQ
+    exact And.intro carriersPQ.left (And.intro carriersPQ.right split.right)
+  · intro carriers
+    have classifiedPQ : GroupSingletonClassifier P Q :=
+      terminalIff.mpr (And.intro carriers.left carriers.right.left)
+    have carrierS : GroupSingletonCarrier S := continuationIff.mp classifiedPQ
+    have carrierST : GroupSingletonCarrier (append S T) :=
+      splitIff.mpr (And.intro carrierS carriers.right.right)
+    exact contextualIff.mpr (And.intro carrierST (hsame_refl BHist.Empty))
 
 end BEDC.Derived.GroupUp
