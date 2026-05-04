@@ -96,6 +96,40 @@ theorem MetricDistanceDepth_append_left_eq_iff_empty {p d : BHist} :
       · intro sameEmpty
         exact congrArg Nat.succ (ih.mpr sameEmpty)
 
+theorem MetricDistanceDepth_append_left_cancel {p d e : BHist} :
+    MetricDistanceDepth (append p d) = MetricDistanceDepth (append p e) ->
+      MetricDistanceDepth d = MetricDistanceDepth e := by
+  intro sameDepth
+  have depthAppend :
+      ∀ x y : BHist, MetricDistanceDepth (append x y) =
+        MetricDistanceDepth x + MetricDistanceDepth y := by
+    intro x y
+    induction y with
+    | Empty =>
+        rfl
+    | e0 y ih =>
+        exact congrArg Nat.succ ih
+    | e1 y ih =>
+        exact congrArg Nat.succ ih
+  have addLeftCancel :
+      ∀ a b c : Nat, a + b = a + c -> b = c := by
+    intro a
+    induction a with
+    | zero =>
+        intro b c same
+        exact (Nat.zero_add b).symm.trans (same.trans (Nat.zero_add c))
+    | succ a ih =>
+        intro b c same
+        have normalized : Nat.succ (a + b) = Nat.succ (a + c) :=
+          (Nat.succ_add a b).symm.trans (same.trans (Nat.succ_add a c))
+        exact ih b c (Nat.succ.inj normalized)
+  have expanded :
+      MetricDistanceDepth p + MetricDistanceDepth d =
+        MetricDistanceDepth p + MetricDistanceDepth e :=
+    (depthAppend p d).symm.trans (sameDepth.trans (depthAppend p e))
+  exact addLeftCancel (MetricDistanceDepth p) (MetricDistanceDepth d) (MetricDistanceDepth e)
+    expanded
+
 theorem MetricDistanceDepth_append_right_eq_iff_empty {p d : BHist} :
     MetricDistanceDepth (append d p) = MetricDistanceDepth d ↔ hsame p BHist.Empty := by
   have depthAppend :
