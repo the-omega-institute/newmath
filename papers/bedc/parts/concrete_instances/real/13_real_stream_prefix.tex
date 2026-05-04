@@ -262,6 +262,39 @@ these finite-prefix witnesses into
 $\mathsf{RealStreamClassifier}(x',y')$.
 \end{proof}
 
+\begin{theorem}[Real stream transport with endpoint readback]
+\label{thm:real-stream-classifier-transport-with-endpoint-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$, assume
+$\forall n,\ \hsame(y(n),y'(n))$, and assume
+$\mathsf{RealStreamClassifier}(x,y)$. Then the transported streams carry the
+following readback package:
+\begin{enumerate}
+  \item $\mathsf{RealStreamClassifier}(x',y')$;
+  \item for every $n$,
+  $\mathsf{RealStreamPrefixClassifier}(x',y',n)$;
+  \item for every $n$,
+  $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-stream-classifier-hsame-transport} to the two
+pointwise $\hsame$ hypotheses and the original stream classifier. This gives
+$\mathsf{RealStreamClassifier}(x',y')$.
+
+Next use the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness} on the transported stream
+classifier. The result is
+$\mathsf{RealStreamPrefixClassifier}(x',y',n)$ for every finite prefix index
+$n$.
+
+Finally fix an index $n$ and apply
+\autoref{thm:real-stream-prefix-classifier-endpoint} to the transported prefix
+witness at that index. This recovers the endpoint
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
+fields of the package.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
