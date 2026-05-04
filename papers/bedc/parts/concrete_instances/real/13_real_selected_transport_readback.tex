@@ -776,29 +776,4 @@ readback for transported RealUp rational observations; status
 $\mathsf{ProofTarget}$.
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_transported\_selected\_full\_shape\_readback\_package}
 
-\begin{theorem}[Real stream selected appended e-one tail cancellation]
-\label{thm:real-stream-classifier-selected-append-e1-tail-hsame-cancel}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$, index $n$, and
-histories $d,e,tail_D,tail_E$, if the selected stream endpoints display as
-appended e-one tails, then tail equality cancels the displayed tails and
-recovers the denominator head comparison:
-$$
-\begin{array}{l}
-\mathsf{RealStreamClassifier}(x,y)\Longrightarrow
-\hsame(x(n),\Eone(d\cdot\Eone(tail_D)))\Longrightarrow\\
-\qquad
-\hsame(y(n),\Eone(e\cdot\Eone(tail_E)))\Longrightarrow
-\hsame(tail_D,tail_E)\Longrightarrow
-\hsame(d,e).
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-Evaluate the stream classifier at the selected index to obtain the RatUp
-history classifier for $x(n)$ and $y(n)$. Transport this classifier across the
-two displayed e-one endpoint comparisons. RatUp e-one tail readback gives the
-comparison between $d\cdot\Eone(tail_D)$ and $e\cdot\Eone(tail_E)$. The tail
-comparison identifies the e-one suffixes, and BEDC append right cancellation
-leaves exactly $\hsame(d,e)$.
-\end{proof}
-\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_append\_e1\_tail\_hsame\_cancel}
+\input{parts/concrete_instances/real/13_real_selected_append_e1_tail_cancellation.tex}
