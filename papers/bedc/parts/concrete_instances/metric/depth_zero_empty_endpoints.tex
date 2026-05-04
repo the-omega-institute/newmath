@@ -91,3 +91,32 @@ depth-zero endpoint theorem gives $\hsame(x,\emp)$ and $\hsame(y,\emp)$, while
 the depth-zero classifier theorem gives $\hsame(d,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_zero\_collapse}
+
+\begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
+\label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
+For histories $p,q,x,y,d$, a visible-context distance witness whose central
+distance has positive structural depth exposes a nonempty central endpoint:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\to
+\bigl((\hsame(x,\emp)\to\mathsf{False})
+\vee(\hsame(y,\emp)\to\mathsf{False})\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to peel away the displayed prefix $p$ and
+suffix $q$, obtaining the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+
+It remains to convert positive structural depth into nonempty-distance input.
+If $\hsame(d,\emp)$ held, the depth-zero classifier theorem would give
+$\mathsf{MetricDistanceDepth}(d)=0$, contradicting the positive-depth
+hypothesis.
+
+Apply the nonempty-distance endpoint theorem to the central witness and this
+derived nonempty-distance contradiction. The result is exactly the displayed
+disjunction: either the left central endpoint is not history-same to $\emp$, or
+the right central endpoint is not history-same to $\emp$.
+\end{proof}
