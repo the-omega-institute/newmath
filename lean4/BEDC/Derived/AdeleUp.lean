@@ -92,6 +92,14 @@ theorem AdeleHistoryCarrier_cont_result_nonempty {h k r : BHist} :
   cases endpoints.left
   exact AdeleHistoryCarrier_not_empty carrier (hsame_refl BHist.Empty)
 
+theorem AdeleHistoryCarrier_cont_right_result_nonempty {h k r : BHist} :
+    AdeleHistoryCarrier k -> Cont h k r -> hsame r BHist.Empty -> False := by
+  intro carrier continuation resultEmpty
+  have emptyContinuation : Cont h k BHist.Empty :=
+    cont_result_hsame_transport continuation resultEmpty
+  have endpoints := cont_empty_result_inversion emptyContinuation
+  exact AdeleHistoryCarrier_not_empty carrier endpoints.right
+
 theorem AdeleRealStreamPrefix_visible_scale_carrier {x y : Nat -> BHist} {n m : Nat}
     {denTail imagTail exponent result : BHist} :
     (forall i : Nat, UnaryHistory (x i)) -> RealStreamPrefixClassifier x y (m + n) ->
