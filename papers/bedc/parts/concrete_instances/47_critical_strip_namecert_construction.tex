@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for \(\CritStripUp\)}
 \label{ch:concrete-instances-critical-strip-namecert}
 
-This chapter gives a concrete naming-certificate construction for the open critical strip \(0 < \Re(s) < 1\) and its critical line \(\Re(s) = 1/2\) as predicates on \(\ComplexUp\)-history. The strip is a region of \(\ComplexUp\) --- the analogue of \(\mathsf{OpenDisk}\) for a vertical strip --- together with explicit witnesses for compact sub-strips and a decidable membership in the critical line. The chapter is intentionally short: it just sets up the predicates used by \(\ZetaContUp\) (\autoref{ch:concrete-instances-zeta-continuation}) and \(\ZetaZerosUp\) (\autoref{ch:concrete-instances-zeta-zeros-namecert}). The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter records the finite-unary obstruction boundary for $\CritStripUp$ as predicates on $\ComplexUp$-history. The nominal strip predicate is written with strict unary prefix witnesses between $\emp$ and $\Eone(\emp)$, so the finite carrier exposes an empty open interval rather than a nonempty analytic critical strip. The chapter isolates that obstruction before $\ZetaContUp$ (\autoref{ch:concrete-instances-zeta-continuation}) and $\ZetaZerosUp$ (\autoref{ch:concrete-instances-zeta-zeros-namecert}) consume any strip-shaped interface. The construction is fully constructive and uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so the certificate's Lean targets fall under the project's axiom-purity gate.
 
 \section{The strip and critical-line predicates}
 
@@ -9,6 +9,19 @@ This chapter gives a concrete naming-certificate construction for the open criti
 \label{def:in-crit-strip}
 For complex history \(s\) with rational real component \(\sigma\), the predicate \(\mathsf{InCritStrip}(s)\) holds when both \(\mathsf{NatUnaryStrictPrefix}(\emp, \sigma)\) and \(\mathsf{NatUnaryStrictPrefix}(\sigma, \Eone(\emp))\) are decidably true on the rational representation, i.e.\ \(0 < \sigma < 1\) strictly.
 \end{definition}
+\leandef{BEDC.Derived.CritStripUp.InCritStrip}
+
+\begin{definition}[Critical strip open interval]
+\label{def:crit-strip-open-interval}
+For a rational real-component history $\sigma$, the open-interval core of the
+critical strip is the pair of strict unary prefix witnesses
+$$
+\mathsf{NatUnaryStrictPrefix}(\emp,\sigma)
+\quad\text{and}\quad
+\mathsf{NatUnaryStrictPrefix}(\sigma,\Eone(\emp)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripOpenInterval}
 
 \begin{lemma}[Critical strip membership decidable]
 \label{lem:in-crit-strip-decidable}
@@ -53,16 +66,106 @@ For every complex history \(s\) with \(\hsame(\sigma, \emp)\) or \(\hsame(\sigma
 \begin{proof}
 Direct: the strict-prefix relations require non-equality witnesses.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.InCritStrip\_boundary\_excluded}
+
+\begin{theorem}[Critical strip open interval unary boundary exclusion]
+\label{thm:crit-strip-open-interval-unary-boundary-exclusion}
+If $\sigma$ lies in the strict unary open interval between $\emp$ and
+$\Eone(\emp)$, then $\sigma$ is unary and is internally same to neither
+boundary.
+\end{theorem}
+\begin{proof}
+The lower strict-prefix witness is a continuation from $\emp$ to $\sigma$ by a
+nonempty unary tail; the empty left-unit law transports that tail's unary
+structure to $\sigma$. If $\sigma\hsame\emp$, the lower strict-prefix witness
+would have empty right endpoint, contradicting strictness. If
+$\sigma\hsame\Eone(\emp)$, the upper strict-prefix witness becomes a strict
+self-prefix at $\Eone(\emp)$, contradicting asymmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_unary\_boundary\_exclusion}
+
+\begin{theorem}[Critical strip empty-to-unit open interval absurdity]
+\label{thm:crit-strip-open-interval-empty-unit-absurd}
+There is no unary history strictly between the empty endpoint and the one-step
+unit endpoint:
+$$
+\mathsf{NatUnaryStrictPrefix}(\emp,\sigma)\wedge
+\mathsf{NatUnaryStrictPrefix}(\sigma,\Eone(\emp))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The lower strict-prefix witness transports unary structure from $\emp$ to
+$\sigma$. Split the unary history $\sigma$. If it is empty, the lower
+strict-prefix witness has empty right endpoint, impossible by strictness. If it
+is one-headed, the upper strict-prefix witness descends through the one-head
+constructor to a strict prefix into $\emp$, again impossible by strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripOpenInterval\_empty\_unit\_absurd}
+
+\begin{definition}[Critical strip complex carrier]
+\label{def:crit-strip-complex-carrier}
+A complex strip history $s$ with rational components $\sigma,\tau$ is carried
+when $\sigma$ and $\tau$ are rational histories, $\Cont(\sigma,\tau,s)$
+assembles the complex endpoint, and $\sigma$ lies in the strict critical
+strip.
+\end{definition}
+\leandef{BEDC.Derived.CritStripUp.CritStripComplexCarrier}
+
+\begin{theorem}[Critical strip complex carrier nonemptiness]
+\label{thm:crit-strip-complex-carrier-not-empty}
+If $s$ is carried by the critical-strip complex carrier, then
+$s\hsame\emp$ is impossible.
+\end{theorem}
+\begin{proof}
+Transport the stored continuation endpoint along $s\hsame\emp$. The empty
+result inversion for $\Cont$ identifies both rational components with
+$\emp$, contradicting the nonempty denominator witness contained in the real
+rational carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_not\_empty}
+
+\begin{theorem}[Critical strip component boundary exclusion]
+\label{thm:crit-strip-complex-carrier-component-boundary-exclusion}
+If \(\mathsf{CritStripComplexCarrier}(s,\sigma,\tau)\), then
+\(\sigma\) is not \(\hsame\)-equal to either boundary \(\emp\) or
+\(\Eone(\emp)\), \(\tau\) is not \(\hsame\)-equal to \(\emp\), and \(s\) is
+not \(\hsame\)-equal to \(\emp\).
+\end{theorem}
+\begin{proof}
+The strip field supplies the two boundary exclusions for \(\sigma\). The
+rational carrier for \(\tau\) contains a positive unary denominator, excluding
+the empty history. The complex endpoint exclusion is the nonemptiness theorem
+for the assembled carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_component\_boundary\_exclusion}
+
+\begin{theorem}[Critical strip complex carrier is empty]
+\label{thm:crit-strip-complex-carrier-empty}
+If $\mathsf{CritStripComplexCarrier}(s,\sigma,\tau)$, then $\bot$.
+\end{theorem}
+\begin{proof}
+Unpack the carrier fields. Its strip field gives the strict unary interval
+witnesses for $\sigma$ between $\emp$ and $\Eone(\emp)$.
+
+Apply \autoref{thm:crit-strip-open-interval-empty-unit-absurd} to those two
+strict-prefix witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_strict\_interval\_absurd}
 
 \section{Closure laws}
 
 \begin{lemma}[Strip respects \(\hsame\)]
 \label{lem:strip-hsame-respect}
-If \(\mathsf{InCritStrip}(s)\) and \(\hsame\) holds on both real components of \(s\) and \(s'\), then \(\mathsf{InCritStrip}(s')\). The same holds for \(\mathsf{OnCritLine}\) and \(\mathsf{CompactSubStrip}\).
+If \(\mathsf{InCritStrip}(\sigma)\) and \(\sigma\hsame\sigma'\), then
+\(\mathsf{InCritStrip}(\sigma')\), and \(\sigma'\) is internally same to
+neither boundary \(\emp\) nor \(\Eone(\emp)\).
 \end{lemma}
 \begin{proof}
-Each defining inequality is closed under \(\hsame\) by transport along the rational representations.
+Transport the lower and upper strict-prefix witnesses along \(\hsame\), then
+apply boundary exclusion at the transported strip point.
 \end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.InCritStrip\_hsame\_transport\_boundary\_exclusion}
 
 \section{The certificate}
 
@@ -91,18 +194,31 @@ The stability certificate consists of \(\hsame\)-respect of \(\mathsf{InCritStri
 The ledger policy records: (i) decidability of strip and critical-line membership, (ii) decidability of compact sub-strip predicate, (iii) boundary exclusion witnesses, (iv) closure under \(\hsame\) on inputs.
 \end{definition}
 
-\begin{theorem}[Concrete \(\CritStripUp\) naming certificate]
+\begin{theorem}[Concrete $\CritStripUp$ obstruction-boundary certificate]
 \label{thm:crit-strip-namecert}
-The five fields above form a naming certificate over \(\Hist\) for the critical-strip interface \(\CritStripUp\).
+The five fields above form the finite-unary obstruction-boundary certificate
+over $\Hist$ for the critical-strip interface $\CritStripUp$. The certificate
+records the strict-prefix boundary laws and the emptiness of the finite unary
+complex carrier; it does not certify a nonempty analytic open strip.
 \end{theorem}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+The five fields satisfy the closure laws of the naming-certificate framework
+(\autoref{ch:core-typed-naming-certificates}) after the strip field is read as
+the finite-unary boundary object. The empty-carrier theorem above supplies the
+obstruction side of the certificate. The certificate uses no
+$\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no
+$\mathsf{propext}$, so the certificate's Lean targets fall under the project's
+axiom-purity gate.
 \end{proof}
 
-\begin{theorem}[Semantic \(\CritStripUp\) naming certificate]
+\begin{theorem}[Semantic $\CritStripUp$ obstruction-boundary certificate]
 \label{thm:crit-strip-semantic-namecert}
-The concrete certificate of \autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}).
+The concrete obstruction-boundary certificate of
+\autoref{thm:crit-strip-namecert} satisfies the semantic naming-certificate
+schema of $\NameCert$ (\autoref{ch:core-typed-naming-certificates}) for the
+finite-unary $\CritStripUp$ boundary.
 \end{theorem}
 \begin{proof}[Sketch]
-Direct verification of the four \(\NameCert\) field types using the constructions of this chapter.
+Direct verification of the four $\NameCert$ field types using the boundary
+constructions and the empty-carrier theorem of this chapter.
 \end{proof}

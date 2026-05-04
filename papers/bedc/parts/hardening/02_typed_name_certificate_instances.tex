@@ -106,6 +106,20 @@ pattern-ledger transport theorem applies to the source witness at \(r\).
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_reverse\_chain\_transport}
 
+\begin{theorem}[Semantic NameCert classifier diamond transport]
+\label{thm:semantic-namecert-classifier-diamond-transport}
+If a semantic naming certificate classifies $a$ with $b$, classifies $a$ with
+$c$, and classifies $b$ with $d$, then a source witness at $c$ transports the
+pattern condition and ledger policy to $d$.
+\end{theorem}
+\begin{proof}
+Use symmetry to reverse the classifier judgment from $a$ to $c$. Transitivity
+then carries $c$ to $b$ through $a$, and another transitivity step carries
+$c$ to $d$ through $b$. The pattern-ledger transport theorem applies to this
+composite classifier judgment and the source witness at $c$.
+\end{proof}
+\leanchecked{BEDC.FKernel.NameCert.semanticNameCert\_classifier\_diamond\_transport}
+
 \begin{theorem}[Carrier self semantic lifting]
 \label{thm:namecert-carrier-self-semantic-lifting}
 Let $C : \mathsf{BHist}\to\mathsf{Prop}$ and
@@ -127,6 +141,22 @@ certificate, and both semantic soundness fields are filled by the identity
 implication from a carrier witness of $C(h)$ to the same proposition $C(h)$.
 \end{proof}
 \leanchecked{BEDC.FKernel.NameCert.NameCert\_carrier\_self\_semantic\_lifting}
+
+\begin{theorem}[Eqtype class semantic NameCert]
+\label{thm:eqtype-class-semantic-namecert}
+For any BEDC history anchor $a$, the anchor class
+$h\mapsto \hsame(h,a)$ is a semantic naming certificate when the source,
+pattern, and ledger predicates are this same class and the classifier is
+$\hsame$.
+\end{theorem}
+\begin{proof}
+The anchor itself inhabits the class by reflexivity of $\hsame$. Reflexivity,
+symmetry, and transitivity of $\hsame$ supply the core classifier laws.
+Carrier transport reverses the classifier comparison and composes it with the
+displayed anchor comparison. The pattern and ledger fields are the identity
+implications over the same anchor class.
+\end{proof}
+\leanchecked{BEDC.Derived.EqtypeUp.EqtypeClass\_semanticNameCert}
 
 \section{Unary repetition as \texorpdfstring{\(\NatUp\)}{Nat-up} seed}
 

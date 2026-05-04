@@ -12,16 +12,27 @@ A piecewise-linear contour \(\gamma\) is a finite list \([z_0, z_1, \ldots, z_k]
   \item \(\mathsf{PLContour}([z_0, z_1])\) for any pair of complex histories (the singleton segment);
   \item if \(\mathsf{PLContour}([z_0, \ldots, z_k])\) and \(z_{k+1}\) is a complex history, then \(\mathsf{PLContour}([z_0, \ldots, z_k, z_{k+1}])\) (extension by one further segment).
 \end{enumerate}
-The total length is the sum of the segment lengths \(|z_{i+1} - z_i|\), each computed via the metric carrier of \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}).
+The single-segment BEDC carrier records two complex-history endpoints \(z_0,z_1\) and the continuation witness \(\Cont(z_0,z_1,\gamma)\). The total length is the sum of the segment lengths \(|z_{i+1} - z_i|\), each computed via the metric carrier of \(\ComplexUp\) (\autoref{ch:concrete-instances-complex-namecert}).
 \end{definition}
+\leandef{BEDC.Derived.ContourIntegralUp.PLContourSegment}
 
 \begin{lemma}[Piecewise-linear contour well-formedness]
 \label{lem:pl-contour-well-formed}
-For every \(\mathsf{PLContour}(\gamma)\), the total length is a non-negative rational history, and the list of endpoints has length at least 2 with each endpoint classified by \(\ComplexUp\).
+For every BEDC single-segment \(\mathsf{PLContourSegment}(\gamma)\), there are complex-history endpoints \(z_0,z_1\) with \(\Cont(z_0,z_1,\gamma)\), and the contour history \(\gamma\) is unary.
 \end{lemma}
 \begin{proof}
-By induction on the closed generation of \(\mathsf{PLContour}\). The base case provides two endpoints and one segment with non-negative length by the metric properties of \(\ComplexUp\). The step preserves both invariants because extension appends one further endpoint and one further non-negative segment length.
+Destructure the segment witness. The endpoint carrier fields give \(z_0\) and \(z_1\) as complex histories. Each complex history is unary, and the continuation witness closes unary histories under \(\Cont\), so \(\gamma\) is unary.
 \end{proof}
+\leanchecked{BEDC.Derived.ContourIntegralUp.PLContourSegment\_unary\_result}
+
+\begin{lemma}[Piecewise-linear segment \(\hsame\)-transport]
+\label{lem:pl-contour-segment-hsame-transport}
+If \(\mathsf{PLContourSegment}(\gamma)\) and \(\hsame(\gamma,\gamma')\), then \(\mathsf{PLContourSegment}(\gamma')\), and \(\gamma'\) is unary.
+\end{lemma}
+\begin{proof}
+Keep the same endpoints \(z_0,z_1\) and transport the continuation result from \(\gamma\) to \(\gamma'\) along \(\hsame(\gamma,\gamma')\). Unary closure for \(\gamma'\) follows from the same endpoint carriers and the transported continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ContourIntegralUp.PLContourSegment\_hsame\_transport}
 
 \begin{lemma}[Concatenation of piecewise-linear contours]
 \label{lem:pl-contour-concat}

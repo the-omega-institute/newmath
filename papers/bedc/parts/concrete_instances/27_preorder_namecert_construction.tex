@@ -80,12 +80,13 @@ $$
 \rho_{\emp}(h,k):=
 A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-For carried histories, define the restricted order by
+Define the carrier-guarded restricted order by
 $$
-h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+h\le_{\emp}^{\mathrm{sg}}k:=
+A_{\emp}(h)\land A_{\emp}(k)\land \mathsf{PreorderPrefixLE}(h,k).
 $$
 The concrete preorder package is the fixed $\mathsf{BHist}$ tuple
-$(A_{\emp},\rho_{\emp},\le_{\emp})$.
+$(A_{\emp},\rho_{\emp},\le_{\emp}^{\mathrm{sg}})$.
 \end{definition}
 
 \begin{theorem}[Singleton empty preorder laws]
@@ -93,10 +94,11 @@ $(A_{\emp},\rho_{\emp},\le_{\emp})$.
 For the concrete package of
 \autoref{def:concrete-singleton-empty-preorder-instance}, the carrier is
 inhabited by $\emp$, carrier membership transports along $\hsame$,
-$\le_{\emp}$ is reflexive on carried histories and transitive, and
-$\le_{\emp}$ is congruent under $\rho_{\emp}$ in both endpoints. Moreover, for
-carried histories $h,k:\mathsf{BHist}$, opposing comparisons
-$h\le_{\emp}k$ and $k\le_{\emp}h$ collapse to $\rho_{\emp}(h,k)$.
+$\le_{\emp}^{\mathrm{sg}}$ is reflexive on carried histories and transitive,
+and $\le_{\emp}^{\mathrm{sg}}$ is congruent under $\rho_{\emp}$ in both
+endpoints. Moreover,
+\autoref{thm:singleton-preorder-guarded-prefix-exactness} gives the exact
+classifier row for all histories.
 \end{theorem}
 \begin{proof}
 The singleton source supplies the inhabitance witness $A_{\emp}(\emp)$.
@@ -106,20 +108,122 @@ recorded for the singleton history source.
 
 Reflexivity follows by applying
 $\mathsf{PreorderPrefixLE\_of\_hsame}$ to the reflexive witness
-$\hsame(h,h)$ for each carried history $h$. Transitivity is
-$\mathsf{PreorderPrefixLE\_trans}$ applied to the two displayed prefix
-comparisons.
+$\hsame(h,h)$ for each carried history $h$, then pairing the prefix witness
+with the two copies of the carrier witness for $h$. Transitivity projects the
+two guarded comparisons to their prefix witnesses and applies
+$\mathsf{PreorderPrefixLE\_trans}$; the endpoint carrier witnesses are carried
+by the first and second guarded comparisons.
 
 For congruence, unfold $\rho_{\emp}$ at the source and target endpoints. The
 classifier fields provide the carrier witnesses and the $\hsame$ witnesses
 needed to move each endpoint. The prefix stability certificate for
 $\mathsf{PreorderPrefixLE}$ then transports the comparison in the left endpoint
-and in the right endpoint.
+and in the right endpoint, after which the transported endpoint carriers are
+repacked into the guarded comparison.
 
-For the collapse clause, opposing comparisons give
-$\hsame(h,k)$ by $\mathsf{PreorderPrefixLE\_antisymm\_hsame}$. Pair this
-witness with the two singleton carrier witnesses for $h$ and $k$ to obtain
-$\rho_{\emp}(h,k)$.
+The exact classifier row is
+\autoref{thm:singleton-preorder-guarded-prefix-exactness}.
+\end{proof}
+
+\begin{theorem}[Singleton guarded prefix preorder exactness]
+\label{thm:singleton-preorder-guarded-prefix-exactness}
+For all histories $h,k:\mathsf{BHist}$ in the concrete singleton empty
+preorder instance,
+$$
+\rho_{\emp}(h,k)
+\Longleftrightarrow
+(h\le_{\emp}^{\mathrm{sg}}k\land k\le_{\emp}^{\mathrm{sg}}h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unfold $\rho_{\emp}(h,k)$. The classifier witness
+contains the two carrier witnesses and the history-sameness witness
+$\hsame(h,k)$. Apply \autoref{thm:preorder-prefix-le-of-hsame} to
+$\hsame(h,k)$ to obtain the prefix comparison from $h$ to $k$.
+
+Apply the same theorem to the symmetric history-sameness witness to obtain the
+prefix comparison from $k$ to $h$. Pair each prefix comparison with the two
+carrier witnesses in the appropriate order; this gives the two guarded
+comparisons.
+
+For the reverse direction, project the carrier witnesses from either guarded
+comparison. Project the prefix witnesses from both guarded comparisons and
+apply \autoref{thm:preorder-prefix-le-antisymm-hsame} to recover
+$\hsame(h,k)$.
+
+Finally, combine the carrier witnesses with this history-sameness witness.
+This is exactly the restricted classifier $\rho_{\emp}(h,k)$.
+\end{proof}
+
+\begin{theorem}[Singleton empty preorder terminal comparison package]
+\label{thm:preorder-singleton-empty-terminal-comparison-package}
+For histories $h,k:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton empty preorder instance, the restricted comparison package is pinned
+to the terminal endpoint:
+$$
+A_{\emp}(h)\land A_{\emp}(k)
+\Longrightarrow
+h\le_{\emp}^{\mathrm{sg}}k\land k\le_{\emp}^{\mathrm{sg}}h\land
+\rho_{\emp}(h,k).
+$$
+Its ten-field fit is the following: the traditional target is the one-point
+preorder; the BEDC source is $\mathsf{BHist}$ with singleton carrier
+$A_{\emp}$; the carrier is $A_{\emp}$; the classifier is $\rho_{\emp}$;
+stability is supplied by singleton endpoint transport and
+\autoref{thm:preorder-prefix-le-of-hsame}; the ledger records the two endpoint
+witnesses; the core theorem is the displayed terminal comparison package;
+exactness is guarded prefix exactness; the standard bridge is the one-point
+preorder; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(h)$ and $A_{\emp}(k)$. Unfolding the singleton carrier
+witnesses identifies both histories with the endpoint $\emp$, giving
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Compose the first witness with the symmetry of the second to obtain
+$h\hsame k$, and compose the second witness with the symmetry of the first to
+obtain $k\hsame h$.
+
+Apply \autoref{thm:preorder-prefix-le-of-hsame} to these two $\hsame$ witnesses.
+The first application gives the prefix part of
+$h\le_{\emp}^{\mathrm{sg}}k$, and the second gives the prefix part of
+$k\le_{\emp}^{\mathrm{sg}}h$.
+
+Finally, package $\rho_{\emp}(h,k)$ from the two carrier witnesses together
+with the composed witness $h\hsame k$. Repack the two carrier witnesses with
+the two prefix witnesses to obtain the guarded comparisons; these comparisons
+and the classifier witness are exactly the displayed terminal comparison
+package.
+\end{proof}
+
+\begin{theorem}[Singleton empty $\PreorderUp$ naming certificate]
+\label{thm:singleton-empty-preorder-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp}^{\mathrm{sg}})$ of
+\autoref{def:concrete-singleton-empty-preorder-instance} supplies the source,
+pattern, classifier, stability, ledger, and singleton exactness rows for a
+concrete $\PreorderUp$ certificate over $A_{\emp}$, $\rho_{\emp}$, and
+$\le_{\emp}^{\mathrm{sg}}$. The exactness row is
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow
+(h\le_{\emp}^{\mathrm{sg}}k\land k\le_{\emp}^{\mathrm{sg}}h).
+$$
+\end{theorem}
+\begin{proof}
+The carrier row is the singleton $\mathsf{BHist}$ source $A_{\emp}$, and
+\autoref{thm:singleton-empty-preorder-laws} supplies its inhabitance by $\emp$
+together with transport along $\hsame$. The pattern row is the restricted
+comparison judgment $h\le_{\emp}^{\mathrm{sg}}k$, and the classifier row is
+$\rho_{\emp}$.
+
+The same law package gives the stability rows: reflexivity of
+$\le_{\emp}^{\mathrm{sg}}$ on carried histories, transitivity, and endpoint
+congruence for the classifier. The ledger row is
+\autoref{def:preorder-ledger-policy}, which packages the two carried endpoints
+and the restricted comparison witness.
+
+\autoref{thm:singleton-preorder-guarded-prefix-exactness} gives the displayed
+two-sided exactness statement for all histories. That theorem is exactly the
+singleton exactness row of the concrete $\PreorderUp$ certificate.
 \end{proof}
 
 This singleton package gives a concrete $\mathsf{BHist}$ source for the

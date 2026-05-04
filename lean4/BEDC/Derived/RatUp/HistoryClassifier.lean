@@ -3,6 +3,7 @@ import BEDC.Derived.RatUp
 namespace BEDC.Derived.RatUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
 theorem RatHistoryCarrier_e0_absurd {tail : BEDC.FKernel.Hist.BHist} :
@@ -57,6 +58,17 @@ theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHis
       | intro carrierE _sameDE =>
           exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
             RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
+
+theorem RatHistoryClassifier_e0_endpoint_absurd {tail d : BHist} :
+    (RatHistoryClassifier (BHist.e0 tail) d → False) ∧
+      (RatHistoryClassifier d (BHist.e0 tail) → False) := by
+  constructor
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryClassifier_positive_denominators classified).left
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryClassifier_positive_denominators classified).right
 
 theorem RatHistoryClassifier_endpoints_not_empty {d e : BHist} :
     RatHistoryClassifier d e →
@@ -179,6 +191,28 @@ theorem RatHistoryClassifier_unary_context_e1_pair_readback
   have displayed :=
     RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassifier
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RatHistoryClassifier_cont_unary_context_e1_pair_readback
+    {d e prefD prefE tailD tailE midD midE outD outE leftTail rightTail : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE -> Cont prefD d midD ->
+        Cont midD tailD outD -> Cont prefE e midE -> Cont midE tailE outE ->
+          hsame outD (BHist.e1 leftTail) -> hsame outE (BHist.e1 rightTail) ->
+            UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail := by
+  intro classifier prefUnary prefSame tailUnary tailSame prefDCont outDCont prefECont
+    outECont sameLeft sameRight
+  have sameLeftNormal :
+      hsame (append prefD (append d tailD)) (BHist.e1 leftTail) := by
+    exact (append_assoc prefD d tailD).symm.trans
+      ((outDCont.trans (congrArg (fun r => append r tailD) prefDCont)).symm.trans
+        sameLeft)
+  have sameRightNormal :
+      hsame (append prefE (append e tailE)) (BHist.e1 rightTail) := by
+    exact (append_assoc prefE e tailE).symm.trans
+      ((outECont.trans (congrArg (fun r => append r tailE) prefECont)).symm.trans
+        sameRight)
+  exact RatHistoryClassifier_unary_context_e1_pair_readback classifier prefUnary prefSame
+    tailUnary tailSame sameLeftNormal sameRightNormal
 
 theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist} :
     RatHistoryLedgerPolicy rho v ->

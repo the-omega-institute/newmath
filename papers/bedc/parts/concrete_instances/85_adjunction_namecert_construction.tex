@@ -97,6 +97,44 @@ determinism separately to the left and right triangle rows.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
 
+\begin{theorem}[Adjunction unit-counit endomorphism boundary emptiness]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then both boundary components are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Both displayed boundary components are prefix natural-transformation
+endomorphism components over the same prefix $p$ and object $a$. The component
+exactness readback identifies the unit component with $\emp$ and then identifies
+the counit component with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_unit\_counit\_empty}
+
+\begin{theorem}[Adjunction unit-counit endomorphism triangle emptiness]
+\label{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then both triangle legs are empty:
+$$
+\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The endomorphism boundary theorem first identifies both $unit$ and $counit$
+with $\emp$. Continuation transport carries the two displayed triangle
+continuations to the right-unit continuation at $\emp$, yielding empty left and
+right triangle results.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_triangles\_empty}
+
 \begin{definition}[Adjunction triangle carrier]
 \label{def:adjunction-triangle-carrier}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and

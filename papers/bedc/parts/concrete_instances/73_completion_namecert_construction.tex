@@ -6,5 +6,229 @@ The completion interface $\CompletionUp$ packages the universal regular-Cauchy c
 \section{Carrier definition}
 \label{sec:completion-carrier}
 
+\begin{theorem}[Completion metric distance visible-tail readback]\label{thm:completion-metric-distance-e1-tail-real-prefix-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index. If the
+real stream prefix classifier holds at $n$ and the metric distance witness between
+$x_n$ and $y_n$ has visible result $\Eone(t)$, then the visible tail $t$ is unary and
+the rational endpoint classifier holds between $x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+The metric distance witness contains a unary witness for its visible result; inversion
+of unary histories through $\Eone$ gives unary membership of $t$. The real stream
+prefix classifier supplies the rational endpoint classifier at the selected index.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_real\_prefix\_readback}
+
+\begin{theorem}[Completion empty-distance real-prefix readback]
+\label{thm:completion-empty-distance-real-prefix-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index. If the
+real stream prefix classifier holds at $n$ and the metric distance witness between
+$x_n$ and $y_n$ has empty result, then both selected endpoints classify as $\emp$
+and the rational endpoint classifier holds between $x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+The empty-distance exactness theorem for metric distance witnesses reads back
+the two endpoint classifiers against $\emp$. The real stream prefix classifier
+supplies the rational endpoint classifier at the selected index.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_empty\_distance\_real\_prefix\_readback}
+
+\begin{theorem}[Completion visible-tail transport]
+\label{thm:completion-metric-distance-witness-e1-tail-hsame-transport}
+Let $x,x',y,y'$ be real stream representatives and let $n$ be a prefix
+index. If every endpoint of $x$ is $\hsame$-equal to the corresponding
+endpoint of $x'$ and every endpoint of $y$ is $\hsame$-equal to the
+corresponding endpoint of $y'$, then a real prefix classifier and a metric
+distance witness from $x_n$ to $y_n$ with visible result $\Eone(t)$ transport
+to the primed streams. The transported witness still reads back unary
+membership of $t$ and the rational endpoint classifier between $x'_n$ and
+$y'_n$.
+\end{theorem}
+\begin{proof}
+Transport the finite real prefix classifier endpointwise. Transport the metric
+distance continuation ledger along the endpoint equalities while keeping the
+visible result fixed, and transport the unary endpoint carriers contained in
+the witness. The visible-tail readback theorem applied to the transported
+prefix and witness gives the unary tail and rational endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_hsame\_transport}
+
+\begin{theorem}[Completion metric distance visible-tail determinacy]
+\label{thm:completion-metric-distance-witness-e1-result-tail-deterministic}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index. If the
+real stream prefix classifier holds at $n$ and two metric distance witnesses between
+$x_n$ and $y_n$ have visible results $\Eone(d)$ and $\Eone(e)$, then $d$ and $e$ are
+unary, their tails are $\hsame$-equal, and the rational endpoint classifier holds
+between $x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+Apply the visible-tail readback to each distance witness to obtain unary evidence
+for both tails and the rational endpoint classifier. The metric distance result
+determinacy theorem compares the two visible results over the same endpoints; e1
+inversion for $\hsame$ descends this comparison to $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_result\_tail\_deterministic}
+
+\begin{theorem}[Completion symmetric visible-tail readback]
+\label{thm:completion-metric-distance-witness-e1-symmetric-tail-real-prefix-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index. If the
+real stream prefix classifier holds at $n$, a metric distance witness from $x_n$ to
+$y_n$ has visible result $\Eone(d)$, and a metric distance witness from $y_n$ to
+$x_n$ has visible result $\Eone(e)$, then $d$ and $e$ are unary, $d\hsame e$, and the
+rational endpoint classifier holds between $y_n$ and $x_n$.
+\end{theorem}
+\begin{proof}
+Symmetry of the real stream prefix classifier gives the rational endpoint classifier
+in the reversed direction. Visible-tail readback applies to both witnesses. The
+symmetric metric distance classifier compares the two visible result histories, and
+e1 inversion for $\hsame$ descends the comparison to the tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_symmetric\_tail\_real\_prefix\_readback}
+
+\begin{theorem}[Completion metric distance visible-context tail readback]
+\label{thm:completion-metric-distance-visible-context-e1-tail-real-prefix-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$ and a visible
+context displays the metric distance witness with central result $\Eone(t)$,
+then $t$ is unary and the rational endpoint classifier holds between
+$x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+Apply visible-context cancellation for metric distance witnesses to recover
+the central witness. Its $\Eone(t)$ distance carrier inverts to unary
+membership of $t$, and the real stream prefix classifier supplies the
+rational endpoint classifier at $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_tail\_real\_prefix\_readback}
+
+\begin{theorem}[Completion visible-context tail transport]
+\label{thm:completion-metric-distance-visible-context-e1-tail-hsame-transport}
+Let $x,x'$ and $y,y'$ be pointwise history-same real stream representatives.
+If the real stream prefix classifier holds for $x,y$ at $n$ and a visible
+context displays a metric distance witness with central result $\Eone(t)$,
+then the transported representatives $x',y'$ have the same prefix classifier,
+the same visible-context metric witness, unary tail evidence for $t$, and the
+rational endpoint classifier at $n$.
+\end{theorem}
+\begin{proof}
+Cancel the visible prefix and suffix to recover the central metric witness.
+Pointwise $\hsame$ transports the real prefix classifier and the central
+continuation ledger. Rebuild the visible-context witness from the transported
+central witness, then apply visible-context tail readback to recover the unary
+tail and the transported rational endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_tail\_hsame\_transport}
+
+\begin{theorem}[Completion visible-context empty distance real-prefix readback]
+\label{thm:completion-metric-distance-visible-context-empty-distance-real-prefix-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$ and a visible
+context displays the metric distance witness with central empty distance,
+then the visible prefix and suffix are unary, both central endpoints classify
+as $\emp$, and the rational endpoint classifier holds between $x_n$ and
+$y_n$.
+\end{theorem}
+\begin{proof}
+Apply visible-context empty-distance exactness for metric distance witnesses.
+This reads back unary evidence for the displayed prefix and suffix together
+with the two empty endpoint classifiers. The real stream prefix classifier
+supplies the rational endpoint classifier at the selected index.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_empty\_distance\_real\_prefix\_readback}
+
+\begin{theorem}[Completion visible-context empty-distance transport]
+\label{thm:completion-visible-context-empty-distance-hsame-transport}
+Let $x,x',y,y'$ be real stream representatives such that
+$x_m\hsame x'_m$ and $y_m\hsame y'_m$ for every index $m$. If the real stream
+prefix classifier holds for $x,y$ at $n$ and a visible-context metric distance
+witness from $x_n$ to $y_n$ has central empty distance, then the transported
+prefix classifier holds for $x',y'$ at $n$, the corresponding visible-context
+empty-distance witness holds for $x'_n,y'_n$, the visible prefix and suffix are
+unary, both transported central endpoints classify as $\emp$, and the rational
+endpoint classifier holds between $x'_n$ and $y'_n$.
+\end{theorem}
+\begin{proof}
+Apply empty-distance visible-context exactness to the original witness. This
+recovers unary evidence for the visible prefix and suffix and empty endpoint
+classifiers for $x_n$ and $y_n$. Transport the real stream prefix classifier
+along the pointwise $\hsame$ hypotheses, transport the two endpoint empty
+classifiers by symmetry and transitivity of $\hsame$, and rebuild the
+visible-context empty-distance witness from the transported data. The
+transported real prefix classifier supplies the rational endpoint classifier at
+the selected index.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_empty\_distance\_hsame\_transport}
+
+\begin{theorem}[Completion visible-context symmetric tail readback]
+\label{thm:completion-visible-context-symmetric-tail-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$, a visible-context
+metric distance witness from $x_n$ to $y_n$ has central result $\Eone(d)$,
+and a visible-context metric distance witness from $y_n$ to $x_n$ has central
+result $\Eone(e)$, then $d$ and $e$ are unary, $d\hsame e$, and the rational
+endpoint classifier holds between $y_n$ and $x_n$.
+\end{theorem}
+\begin{proof}
+Apply visible-context exactness to both displayed distance witnesses. This
+recovers the two central metric distance witnesses with visible results
+$\Eone(d)$ and $\Eone(e)$. The symmetric visible-tail readback theorem then
+extracts both unary tails, compares them by $\hsame$, and reads back the
+reversed rational endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_symmetric\_tail\_real\_prefix\_readback}
+
+\begin{theorem}[Completion metric distance visible-context tail determinacy]
+\label{thm:completion-metric-distance-visible-context-e1-tail-deterministic}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$ and two visible
+contexts display metric distance witnesses with central results $\Eone(d)$
+and $\Eone(e)$, then $d$ and $e$ are unary, $d\hsame e$, and the rational
+endpoint classifier holds between $x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+Apply visible-context tail readback to both displayed witnesses to obtain
+unary membership for each tail and the rational endpoint classifier. Visible
+metric result determinacy compares the two displayed central $\Eone$ results,
+and $\Eone$ inversion for $\hsame$ descends the comparison to $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_tail\_deterministic}
+
+\begin{theorem}[Completion prefix-independent visible-context tail determinacy]
+\label{thm:completion-metric-distance-visible-context-e1-prefix-independent-tail-deterministic}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$ and two visible
+contexts, possibly with different left and right context histories, display
+metric distance witnesses with central results $\Eone(d)$ and $\Eone(e)$,
+then $d$ and $e$ are unary, $d\hsame e$, and the rational endpoint classifier
+holds between $x_n$ and $y_n$.
+\end{theorem}
+\begin{proof}
+Visible-context tail readback applies to both displayed witnesses and supplies
+the two unary tail witnesses together with the rational endpoint classifier.
+Prefix-independent metric result determinacy compares the displayed central
+$\Eone$ results across the two contexts. Inverting $\Eone$ under $\hsame$
+descends the comparison to $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_prefix\_independent\_tail\_deterministic}
+
+\begin{theorem}[Completion prefix-independent visible-context symmetric tail readback]
+\label{thm:completion-metric-distance-visible-context-e1-prefix-independent-symmetric-tail-readback}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix
+index. If the real stream prefix classifier holds at $n$, a visible-context
+metric distance witness from $x_n$ to $y_n$ has central result $\Eone(d)$,
+and an independently contextualized visible metric distance witness from
+$y_n$ to $x_n$ has central result $\Eone(e)$, then $d$ and $e$ are unary,
+$d\hsame e$, and the rational endpoint classifier holds between $y_n$ and
+$x_n$.
+\end{theorem}
+\begin{proof}
+Visible-context tail readback applies to the first displayed witness, while
+symmetry of the real stream prefix classifier supplies the readback direction
+for the second witness. The prefix-independent symmetric metric classifier
+compares the two displayed $\Eone$ results, and $\Eone$ inversion for
+$\hsame$ descends the comparison to the tails.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_visible\_context\_e1\_prefix\_independent\_symmetric\_tail\_readback}
+
 \section{The certificate}
 \label{sec:completion-certificate}

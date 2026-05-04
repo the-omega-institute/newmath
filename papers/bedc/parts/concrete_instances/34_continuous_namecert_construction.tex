@@ -75,6 +75,22 @@ Together with the two unary endpoint fields, this reassembles the witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_empty\_modulus\_iff}
 
+\begin{theorem}[Continuous modulus witness endpoint cycle modulus empty]
+\label{thm:continuous-modulus-witness-endpoint-cycle-modulus-empty}
+For histories $source,modulus,target$, a one-step continuous modulus witness
+whose source and target are history-same has empty modulus:
+$$
+\mathsf{ContinuousModulusWitness}(source,modulus,target)
+\Longrightarrow \hsame(source,target)\Longrightarrow \hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The witness contains the continuation ledger
+$\Cont(source,modulus,target)$. Transport that ledger across the endpoint
+cycle to get a self-extension of $source$, and apply right-unit uniqueness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusWitness\_endpoint\_cycle\_modulus\_empty}
+
 \begin{theorem}[Continuous function carrier composition closure]
 \label{thm:continuous-function-carrier-comp-closed}
 If $f$ carries a source history to a middle history with modulus $modF$, and

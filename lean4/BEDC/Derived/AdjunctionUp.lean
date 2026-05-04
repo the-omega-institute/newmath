@@ -135,6 +135,34 @@ theorem AdjunctionUnitCounitCarrier_triangle_results_deterministic
       (cont_deterministic carrier.right.right.left leftRel)
       (cont_deterministic carrier.right.right.right rightRel)
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty := by
+  intro carrier
+  have unitEmpty : hsame unit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.left).right.right.right
+  have counitEmpty : hsame counit BHist.Empty :=
+    (NatTransPrefixComponentCarrier_endomorphism_component_empty_iff.mp
+      carrier.right.left).right.right.right
+  exact And.intro unitEmpty counitEmpty
+
+theorem AdjunctionUnitCounitCarrier_endomorphism_triangles_empty
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro carrier
+  have boundaryEmpty :=
+    AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty carrier
+  have leftEmpty : hsame left BHist.Empty :=
+    cont_respects_hsame boundaryEmpty.left boundaryEmpty.right carrier.right.right.left
+      (cont_right_unit BHist.Empty)
+  have rightEmpty : hsame right BHist.Empty :=
+    cont_respects_hsame boundaryEmpty.right boundaryEmpty.left carrier.right.right.right
+      (cont_right_unit BHist.Empty)
+  exact And.intro leftEmpty rightEmpty
+
 theorem AdjunctionPrefix_unit_counit_composite_empty
     {p q a eta eps composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->

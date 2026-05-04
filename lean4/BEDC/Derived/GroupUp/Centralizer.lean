@@ -4,6 +4,44 @@ namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
 
+theorem group_centralizer_empty_unit_mem {mul : BHist -> BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    {a : BHist} :
+    hsame (mul BHist.Empty a) (mul a BHist.Empty) := by
+  exact hsame_trans (leftId a) (hsame_symm (rightId a))
+
+theorem group_centralizer_fixed_element_empty_context_transport_iff
+    {mul : BHist -> BHist -> BHist}
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a b x : BHist} :
+    hsame a b ->
+      (hsame (mul x a) (mul a x) <-> hsame (mul x b) (mul b x)) ∧
+        (hsame (mul (mul x a) BHist.Empty) (mul (mul a x) BHist.Empty) <->
+          hsame (mul (mul x b) BHist.Empty) (mul (mul b x) BHist.Empty)) := by
+  intro sameAB
+  constructor
+  · constructor
+    · intro centralA
+      exact hsame_trans (mulCongr (hsame_refl x) (hsame_symm sameAB))
+        (hsame_trans centralA (mulCongr sameAB (hsame_refl x)))
+    · intro centralB
+      exact hsame_trans (mulCongr (hsame_refl x) sameAB)
+        (hsame_trans centralB (mulCongr (hsame_symm sameAB) (hsame_refl x)))
+  · constructor
+    · intro centralA
+      exact hsame_trans
+        (mulCongr (mulCongr (hsame_refl x) (hsame_symm sameAB)) (hsame_refl BHist.Empty))
+        (hsame_trans centralA
+          (mulCongr (mulCongr sameAB (hsame_refl x)) (hsame_refl BHist.Empty)))
+    · intro centralB
+      exact hsame_trans
+        (mulCongr (mulCongr (hsame_refl x) sameAB) (hsame_refl BHist.Empty))
+        (hsame_trans centralB
+          (mulCongr (mulCongr (hsame_symm sameAB) (hsame_refl x))
+            (hsame_refl BHist.Empty)))
+
 protected theorem group_centralizer_inv_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -64,5 +102,19 @@ theorem group_centralizer_mul_closed_empty_context {mul : BHist -> BHist -> BHis
       (hsame_trans transportY
         (hsame_trans reassocXY (hsame_trans transportX rightAssoc)))
   exact mulCongr productClosed (hsame_refl BHist.Empty)
+
+protected theorem group_centralizer_mul_closed_from_empty_unit {mul : BHist -> BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    {a x y : BHist} :
+    hsame (mul x a) (mul a x) -> hsame (mul y a) (mul a y) ->
+      hsame (mul (mul x y) a) (mul a (mul x y)) := by
+  intro commuteX commuteY
+  have wrapped :=
+    group_centralizer_mul_closed_empty_context (mul := mul) assocC mulCongr commuteX commuteY
+  exact hsame_trans (hsame_symm (rightId (mul (mul x y) a)))
+    (hsame_trans wrapped (rightId (mul a (mul x y))))
 
 end BEDC.Derived.GroupUp

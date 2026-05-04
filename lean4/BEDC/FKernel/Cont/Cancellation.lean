@@ -32,6 +32,14 @@ theorem cont_result_hsame_iff {a f r s : BHist} :
   · intro sameResult
     exact cont_result_hsame_transport continuation (hsame_symm sameResult)
 
+theorem cont_factorization_result_hsame_iff {a b c m r s : BHist} :
+    Cont a b m -> Cont m c r -> (Cont a (append b c) s <-> hsame s r) := by
+  intro left right
+  have canonical : Cont a (append b c) r := by
+    cases left
+    exact right.trans (append_assoc a b c)
+  exact cont_result_hsame_iff canonical
+
 theorem cont_factorization_middle_hsame_iff {a b c f g bprime : BHist} :
     Cont a f b -> Cont b g c ->
       (Cont a f bprime ∧ Cont bprime g c <-> hsame bprime b) := by
@@ -107,6 +115,23 @@ theorem cont_self_extension_tail_absurd {h tail : BHist} :
   · intro hcont
     exact not_hsame_e1_empty (cont_right_unit_unique hcont)
 
+theorem cont_nested_visible_middle_result_absurd {l tail r u v : BHist} :
+    (Cont l (BHist.e0 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) ∧
+      (Cont l (BHist.e1 tail) u -> Cont u r v -> hsame v BHist.Empty -> False) := by
+  constructor
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e0 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e0_empty (append_eq_empty_iff.mp middleEmpty).right
+  · intro middle outer resultEmpty
+    have outerEmpty : hsame (append u r) BHist.Empty :=
+      outer.symm.trans resultEmpty
+    have middleEmpty : hsame (append l (BHist.e1 tail)) BHist.Empty :=
+      middle.symm.trans (append_eq_empty_iff.mp outerEmpty).left
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp middleEmpty).right
+
 theorem cont_mutual_extension_left_tail_absurd {h k leftTail rightTail : BHist} :
     (Cont h (BHist.e0 leftTail) k -> Cont k rightTail h -> False) ∧
       (Cont h (BHist.e1 leftTail) k -> Cont k rightTail h -> False) := by
@@ -177,6 +202,14 @@ theorem cont_triangle_cycle_right_visible_tail_absurd {a b c f g k : BHist} :
     exact middle.trans (append_assoc a f g)
   exact (cont_mutual_extension_right_tail_absurd.right composite back)
 
+theorem cont_triangle_cycle_right_zero_tail_absurd {a b c f g k : BHist} :
+    Cont a f b -> Cont b g c -> Cont c (BHist.e0 k) a -> False := by
+  intro left middle back
+  have composite : Cont a (append f g) c := by
+    cases left
+    exact middle.trans (append_assoc a f g)
+  exact (cont_mutual_extension_right_tail_absurd.left composite back)
+
 theorem cont_triangle_cycle_tails_empty {a b c f g h : BHist} :
     Cont a f b -> Cont b g c -> Cont c h a ->
       hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame h BHist.Empty ∧
@@ -207,6 +240,13 @@ theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
   cases sameResult
   exact cont_left_cancel left right
 
+theorem cont_cancel_hsame_right_context {a a' b b' r r' : BHist} :
+    Cont a b r -> Cont a' b' r' -> hsame b b' -> hsame r r' -> hsame a a' := by
+  intro left right sameContext sameResult
+  cases sameContext
+  cases sameResult
+  exact cont_right_cancel left right
+
 theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
   intro left right direct
@@ -225,6 +265,39 @@ theorem cont_composite_tail_iff {a b c f g t : BHist} :
     exact right.trans (append_assoc a f g)
   · intro direct
     exact cont_composite_tail_unique left right direct
+
+theorem cont_composite_endpoint_empty_tails_iff {a b c f g : BHist} :
+    Cont a f b -> Cont b g c ->
+      (hsame c a <-> hsame f BHist.Empty ∧ hsame g BHist.Empty) := by
+  intro left right
+  constructor
+  · intro sameEndpoint
+    have composite : Cont a (append f g) c := by
+      cases left
+      exact right.trans (append_assoc a f g)
+    have cycle : Cont a (append f g) a :=
+      cont_result_hsame_transport composite sameEndpoint
+    exact append_eq_empty_iff.mp (cont_right_unit_unique cycle)
+  · intro tails
+    cases tails.left
+    cases tails.right
+    exact hsame_trans (cont_deterministic right (cont_right_unit b))
+      (cont_deterministic left (cont_right_unit a))
+
+theorem cont_nested_empty_result_inversion {a b c f g : BHist} :
+    Cont a f b -> Cont b g c -> hsame c BHist.Empty ->
+      hsame a BHist.Empty ∧ hsame f BHist.Empty ∧ hsame b BHist.Empty ∧
+        hsame g BHist.Empty := by
+  intro first second resultEmpty
+  have secondToEmpty : Cont b g BHist.Empty :=
+    cont_result_hsame_transport second resultEmpty
+  have secondParts := cont_empty_result_inversion secondToEmpty
+  cases secondParts.left
+  have firstToEmpty : Cont a f BHist.Empty := first
+  have firstParts := cont_empty_result_inversion firstToEmpty
+  exact And.intro firstParts.left
+    (And.intro firstParts.right
+      (And.intro (hsame_refl BHist.Empty) secondParts.right))
 
 theorem cont_composite_left_factor {a b c f g fg : BHist} :
     Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
@@ -284,6 +357,24 @@ theorem cont_suffix_iff {a b f p : BHist} :
     apply cont_intro
     cases base
     exact append_assoc a f p
+
+theorem cont_hsame_common_context_iff {L R P Q a b f : BHist} :
+    hsame L R -> hsame P Q ->
+      (Cont (append L a) (append f P) (append (append R b) Q) ↔ Cont a f b) := by
+  intro sameLR samePQ
+  cases sameLR
+  cases samePQ
+  constructor
+  · intro contextual
+    have withoutSuffix : Cont (append L a) f (append L b) :=
+      (cont_suffix_iff (a := append L a) (b := append L b) (f := f) (p := P)).mp
+        contextual
+    exact (cont_prefix_iff (p := L) (a := a) (b := b) (f := f)).mp withoutSuffix
+  · intro base
+    have withPrefix : Cont (append L a) f (append L b) :=
+      (cont_prefix_iff (p := L) (a := a) (b := b) (f := f)).mpr base
+    exact (cont_suffix_iff (a := append L a) (b := append L b) (f := f) (p := P)).mpr
+      withPrefix
 
 theorem cont_parallel_factor_tails_deterministic {a b c f f' g g' : BHist} :
     Cont a f b -> Cont b g c -> Cont a f' b -> Cont b g' c ->

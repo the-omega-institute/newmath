@@ -6,5 +6,199 @@ The homology interface $\HomologyUp$ packages a chain complex over an abelian-gr
 \section{Carrier definition}
 \label{sec:homology-carrier}
 
+The cycle carrier of a BEDC chain differential $d:\mathsf{BHist}\to
+\mathsf{BHist}$ is the kernel predicate
+$$
+Z_d(h) :\Longleftrightarrow \hsame(d(h),\mathsf{Empty}).
+$$
+The boundary carrier is the image predicate
+$$
+B_d(h) :\Longleftrightarrow \exists u:\mathsf{BHist},\ \hsame(h,d(u)).
+$$
+\leandef{BEDC.Derived.HomologyUp.HomologyCycleCarrier}
+\leandef{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier}
+
+\begin{theorem}[Homology boundary carrier cycle closure]
+\label{thm:homology-boundary-carrier-cycle-closed}
+Assume the BEDC chain differential is square-zero:
+$$
+\hsame(d(d(u)),\mathsf{Empty}).
+$$
+Every boundary history is a cycle history: if $B_d(h)$, then $Z_d(h)$.
+\end{theorem}
+\begin{proof}
+Choose a boundary witness $u$ with $\hsame(h,d(u))$. Transporting the cycle
+test along this witness reduces the claim to the displayed square-zero law at
+$u$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_closed}
+
+\begin{theorem}[Homology cycle carrier append closure]
+\label{thm:homology-cycle-carrier-append-closed}
+Assume the differential respects BEDC continuation append:
+$$
+\hsame(d(\mathsf{append}(u,v)),\mathsf{append}(d(u),d(v))).
+$$
+If $Z_d(h)$ and $Z_d(k)$, then
+$Z_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+The append law transports the displayed differential to
+$\mathsf{append}(d(h),d(k))$. The two cycle hypotheses identify both
+endpoints with $\mathsf{Empty}$, and the BEDC append kernel has
+$\mathsf{append}(\mathsf{Empty},\mathsf{Empty})=\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_closed}
+
+\begin{theorem}[Homology boundary carrier append closure]
+\label{thm:homology-boundary-carrier-append-closed}
+Assume the differential respects BEDC continuation append:
+$$
+\hsame(d(\mathsf{append}(u,v)),\mathsf{append}(d(u),d(v))).
+$$
+If $B_d(h)$ and $B_d(k)$, then
+$B_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ with $\hsame(h,d(u))$ and
+$\hsame(k,d(v))$. The BEDC witness for the appended boundary is
+$\mathsf{append}(u,v)$. Endpoint congruence carries
+$\mathsf{append}(h,k)$ to $\mathsf{append}(d(u),d(v))$, and the differential
+append law identifies that history with $d(\mathsf{append}(u,v))$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_closed}
+
+\begin{theorem}[Homology boundary carrier append hsame transport]
+\label{thm:homology-boundary-carrier-append-hsame-transport}
+Assume the differential respects BEDC continuation append. If $B_d(h)$ and
+$B_d(k)$ and $\hsame(\mathsf{append}(h,k),r)$, then $B_d(r)$.
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ for $h$ and $k$. Their appended BEDC
+preimage $\mathsf{append}(u,v)$ maps, by the differential append law, to the
+same endpoint as $\mathsf{append}(d(u),d(v))$. The two boundary endpoint
+comparisons identify $\mathsf{append}(h,k)$ with this value, and the final
+$\hsame$ comparison transports the image witness to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
+
+\begin{theorem}[Homology boundary carrier cycle from square-zero differential]
+\label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
+Assume the differential respects $\hsame$ and satisfies the square-zero
+condition
+$$
+\hsame(d(d(u)),\mathsf{Empty})
+$$
+for every $u:\mathsf{BHist}$. If $B_d(h)$, then $Z_d(h)$.
+\end{theorem}
+\begin{proof}
+Choose a boundary witness $u$ with $\hsame(h,d(u))$. Congruence for the
+differential transports this witness to
+$\hsame(d(h),d(d(u)))$. The square-zero row identifies $d(d(u))$ with
+$\mathsf{Empty}$, and transitivity of $\hsame$ gives the cycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_of\_d\_squared\_zero}
+
+\begin{theorem}[Homology cycle carrier append hsame transport]
+\label{thm:homology-cycle-carrier-append-hsame-transport}
+Assume the differential respects BEDC continuation append and is congruent
+for $\hsame$. If $Z_d(h)$, $Z_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The append-closure theorem gives
+$Z_d(\mathsf{append}(h,k))$. Congruence for the differential transports the
+endpoint comparison to an $\hsame$ comparison between
+$d(\mathsf{append}(h,k))$ and $d(r)$. Symmetry of that comparison, followed
+by the cycle row for the append, proves that $d(r)$ is $\hsame$ to
+$\mathsf{Empty}$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_hsame\_transport}
+
+\begin{theorem}[Homology cycle-boundary append cycle closure]
+\label{thm:homology-cycle-boundary-append-cycle-closed}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $Z_d(h)$ and $B_d(k)$, then $Z_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+The square-zero law turns the boundary hypothesis on $k$ into a cycle
+hypothesis. The ordinary cycle append closure then applies to the two cycle
+histories $h$ and $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_cycle\_closed}
+
+\begin{theorem}[Homology boundary-cycle append cycle closure]
+\label{thm:homology-boundary-cycle-append-cycle-closed}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $B_d(h)$ and $Z_d(k)$, then $Z_d(\mathsf{append}(h,k))$.
+\end{theorem}
+\begin{proof}
+The square-zero law turns the boundary hypothesis on $h$ into a cycle
+hypothesis. The ordinary cycle append closure then applies to the two cycle
+histories $h$ and $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCycle\_append\_cycle\_closed}
+
+\begin{theorem}[Homology boundary-cycle append hsame transport]
+\label{thm:homology-boundary-cycle-append-hsame-transport}
+Assume the differential respects BEDC continuation append, is square-zero,
+and respects $\hsame$. If $B_d(h)$, $Z_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The boundary-cycle append closure theorem gives a cycle at
+$\mathsf{append}(h,k)$. Differential congruence transports the final endpoint
+comparison to $d(r)$, and symmetry followed by transitivity gives
+$\hsame(d(r),\mathsf{Empty})$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCycle\_append\_hsame\_transport}
+
+\begin{theorem}[Homology cycle-boundary append hsame transport]
+\label{thm:homology-cycle-boundary-append-hsame-transport}
+Assume the differential respects BEDC continuation append, is square-zero, and
+respects $\hsame$. If $Z_d(h)$, $B_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The square-zero row turns the boundary hypothesis on $k$ into a cycle
+hypothesis. Cycle-boundary append closure therefore gives a cycle at
+$\mathsf{append}(h,k)$. Differential congruence transports the final endpoint
+comparison to $d(r)$, and symmetry followed by transitivity gives
+$\hsame(d(r),\mathsf{Empty})$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_hsame\_transport}
+
+\begin{theorem}[Homology cycle-boundary append cycle hsame transport]
+\label{thm:homology-cycle-boundary-append-cycle-hsame-transport}
+Assume the differential respects BEDC continuation append, is congruent for
+$\hsame$, and is square-zero. If $Z_d(h)$, $B_d(k)$, and
+$\hsame(\mathsf{append}(h,k),r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+The square-zero and congruence laws turn the boundary hypothesis on $k$ into
+a cycle hypothesis. The append endpoint transport theorem then applies to
+the cycle histories $h$ and $k$ and transports the resulting cycle predicate
+across the displayed endpoint comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleBoundary\_append\_cycle\_hsame\_transport}
+
 \section{The certificate}
 \label{sec:homology-certificate}
+
+\begin{theorem}[Homology singleton cycle semantic name certificate]
+\label{thm:homology-singleton-cycle-semantic-namecert}
+Let the singleton cycle carrier contain exactly the BEDC histories
+$h\hsame\mathsf{BHist.Empty}$. Let its classifier require both endpoints to
+lie in that carrier and require $h\hsame k$. This classifier is a semantic
+naming certificate for the carrier used simultaneously as source, pattern,
+and ledger policy.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\mathsf{BHist.Empty}$ through reflexivity of
+$\hsame$. Classifier reflexivity, symmetry, and transitivity are obtained by
+unpacking the two endpoint-carrier witnesses and composing the underlying
+$\hsame$ proofs. Carrier transport along a classifier edge is the right
+endpoint carrier witness already stored in the classifier. The semantic
+pattern and ledger fields are the source witness itself.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologySingletonCycle\_semanticNameCert}

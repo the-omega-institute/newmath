@@ -121,6 +121,23 @@ theorem RingSingletonClassifier_append_visible_left_absurd {p q h : BHist} :
     have emptyParts := append_eq_empty_iff.mp classified.left
     cases emptyParts.right
 
+theorem RingSingletonClassifier_append_split_empty {p q h : BHist} :
+    RingSingletonClassifier (append p q) h ↔
+      RingSingletonCarrier p ∧ RingSingletonCarrier q ∧ RingSingletonCarrier h := by
+  constructor
+  · intro classified
+    have split := append_eq_empty_iff.mp classified.left
+    exact And.intro split.left (And.intro split.right classified.right.left)
+  · intro data
+    cases data with
+    | intro carrierP rest =>
+        cases rest with
+        | intro carrierQ carrierH =>
+            have appendCarrier : RingSingletonCarrier (append p q) :=
+              append_eq_empty_iff.mpr (And.intro carrierP carrierQ)
+            exact And.intro appendCarrier
+              (And.intro carrierH (hsame_trans appendCarrier (hsame_symm carrierH)))
+
 theorem concrete_singleton_history_ring_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=
@@ -218,6 +235,25 @@ theorem ring_add_duplicate_eq_zero {add : BHist -> BHist -> BHist}
   have zeroToA : hsame zero a := by
     exact hsame_trans (hsame_symm (negLeft a)) negToA
   exact hsame_symm zeroToA
+
+theorem ring_add_duplicate_empty_iff {add : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    {a : BHist} :
+    hsame a (add a a) <-> hsame a BHist.Empty := by
+  constructor
+  · intro duplicate
+    exact ring_add_duplicate_eq_zero addAssoc zeroLeft negLeft addCongr a duplicate
+  · intro aEmpty
+    have duplicateEmpty : hsame (add a a) (add BHist.Empty BHist.Empty) :=
+      addCongr aEmpty aEmpty
+    have emptySum : hsame (add a a) BHist.Empty :=
+      hsame_trans duplicateEmpty (zeroLeft BHist.Empty)
+    exact hsame_trans aEmpty (hsame_symm emptySum)
 
 theorem ring_add_right_zero {add : BHist -> BHist -> BHist} {zero : BHist}
     (addComm : forall x y : BHist, hsame (add x y) (add y x))

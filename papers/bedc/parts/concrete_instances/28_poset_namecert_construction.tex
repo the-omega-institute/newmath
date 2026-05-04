@@ -58,9 +58,10 @@ $$
 \rho_{\emp}(h,k):=
 A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
 $$
-For carried histories, define the restricted order by
+Define the carrier-guarded restricted order by
 $$
-h\le_{\emp}k:=\mathsf{PreorderPrefixLE}(h,k).
+h\le_{\emp}k:=
+A_{\emp}(h)\land A_{\emp}(k)\land \mathsf{PreorderPrefixLE}(h,k).
 $$
 The concrete POSet package is the fixed $\mathsf{BHist}$ tuple
 $(A_{\emp},\rho_{\emp},\le_{\emp})$.
@@ -73,8 +74,8 @@ For the concrete package of
 inhabited by $\emp$, carrier membership transports along $\hsame$, and
 $\le_{\emp}$ has preorder reflexivity, transitivity, and endpoint congruence
 inherited from the singleton empty preorder laws. The package also satisfies
-antisymmetry under $\rho_{\emp}$. For carried histories $h,k:\mathsf{BHist}$,
-the classifier is exact:
+antisymmetry under $\rho_{\emp}$. For all histories $h,k:\mathsf{BHist}$, the
+classifier is exact:
 $$
 \rho_{\emp}(h,k)\Longleftrightarrow
 (h\le_{\emp}k\land k\le_{\emp}h).
@@ -88,24 +89,92 @@ transitive, and endpoint-congruent behavior of $\le_{\emp}$ is the restricted
 $\mathsf{PreorderPrefixLE}$ package on the singleton source.
 
 For antisymmetry, suppose $h$ and $k$ are carried and that
-$h\le_{\emp}k$ and $k\le_{\emp}h$. The two comparisons are
-$\mathsf{PreorderPrefixLE}$ witnesses, so
+$h\le_{\emp}k$ and $k\le_{\emp}h$. Project the opposing
+$\mathsf{PreorderPrefixLE}$ witnesses from the guarded comparisons, so
 $\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ gives $\hsame(h,k)$. Pair this
 with the carrier witnesses for $h$ and $k$ to obtain $\rho_{\emp}(h,k)$.
 
 For exactness, first assume $\rho_{\emp}(h,k)$. The classifier supplies the
 two carrier witnesses and the endpoint witness $\hsame(h,k)$. Apply
 $\mathsf{PreorderPrefixLE\_of\_hsame}$ to this witness and to its symmetric
-orientation to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
+orientation, then repack the two carrier witnesses with the resulting prefix
+comparisons to obtain $h\le_{\emp}k$ and $k\le_{\emp}h$.
 
-Conversely, assume the two comparisons for carried histories. The singleton
-carrier unpacks both endpoints through $\emp$, and antisymmetry for
-$\mathsf{PreorderPrefixLE}$ supplies $\hsame(h,k)$. Recombine that endpoint
-witness with the two carrier witnesses to get $\rho_{\emp}(h,k)$.
+Conversely, assume the two guarded comparisons. Project the carrier witnesses
+and the opposing prefix witnesses from them. Apply
+$\mathsf{PreorderPrefixLE\_antisymm\_hsame}$ to the prefix witnesses to recover
+$\hsame(h,k)$, and recombine this endpoint witness with the carrier witnesses
+to get $\rho_{\emp}(h,k)$.
+\end{proof}
+
+\begin{theorem}[Singleton empty POSet terminal interval collapse]
+\label{thm:poset-singleton-empty-terminal-interval-collapse}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h,k,r:\mathsf{BHist}$ be carried by $A_{\emp}$. If the displayed terminal
+chain supplies $h\le_{\emp}k$ and $k\le_{\emp}r$, then all three endpoints
+collapse inside the singleton interval:
+$$
+\rho_{\emp}(h,k)\land \rho_{\emp}(k,r)\land \rho_{\emp}(h,r)\land
+h\le_{\emp}r\land r\le_{\emp}h.
+$$
+The ten-field fit is: traditional target one-point partial order interval
+collapse; BEDC source singleton $\mathsf{BHist}$; carrier $A_{\emp}$;
+classifier $\rho_{\emp}$; relation $\le_{\emp}$; stability from singleton
+transport, preorder transitivity, and POSet antisymmetry; ledger the two chain
+comparisons plus carried endpoints; core theorem this block; exactness
+terminal classifier collapse; standard bridge one-point poset; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier $A_{\emp}$. Each carried endpoint transports
+through the empty history $\emp$, so the endpoint classifier witnesses
+$\rho_{\emp}(h,k)$, $\rho_{\emp}(k,r)$, and $\rho_{\emp}(h,r)$ are obtained by
+pairing the two relevant carrier witnesses with the corresponding
+$\hsame$ endpoint comparison.
+
+The comparison $h\le_{\emp}r$ is inherited from preorder transitivity for the
+restricted prefix relation: compose the displayed witnesses
+$h\le_{\emp}k$ and $k\le_{\emp}r$.
+
+For the reverse comparison, the same singleton endpoint comparison identifies
+$r$ with $h$ inside $A_{\emp}$. Apply the exactness direction of
+\autoref{thm:singleton-empty-poset-laws} to the classifier witness
+$\rho_{\emp}(h,r)$, then read off $r\le_{\emp}h$ from the opposing comparison.
+The five displayed conjuncts therefore repack the terminal interval collapse.
 \end{proof}
 
 This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
 machine checking.
+
+\begin{theorem}[Concrete singleton empty $\POSetUp$ naming certificate]
+\label{thm:concrete-singleton-empty-poset-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-poset-instance} supplies the source,
+pattern, classifier, stability, ledger, and exactness rows for a concrete
+$\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. On carried histories,
+the exactness row is
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The source row is the singleton history source $A_{\emp}$ anchored at $\emp$,
+and the classifier row is the restricted carrier classifier $\rho_{\emp}$ from
+\autoref{def:concrete-singleton-empty-poset-instance}. The pattern row is the
+restricted prefix comparison $h\le_{\emp}k$ on carried histories.
+
+The preorder, antisymmetry, and stability rows are exactly the concrete law
+package of \autoref{thm:singleton-empty-poset-laws}. Its preorder fields give
+reflexivity, transitivity, and endpoint congruence for the restricted prefix
+relation, while its antisymmetry field collapses opposing comparisons to
+$\rho_{\emp}$.
+
+The ledger records the two comparison witnesses used by antisymmetry,
+$h\le_{\emp}k$ and $k\le_{\emp}h$, together with the carried endpoints. The
+displayed equivalence is the exactness row supplied by the same law package, so
+the concrete tuple repacks as the public $\NameCert$ for $\POSetUp$.
+\end{proof}
 
 \section{The certificate}
 
@@ -157,6 +226,55 @@ $h$ and $k$. By \autoref{thm:poset-prefix-antisymmetry}, the opposing
 comparisons collapse to $\hsame(h,k)$. Combining this equality content with the
 two carrier witnesses reassembles
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
+\end{proof}
+
+\begin{theorem}[Prefix interval classifier collapse for concrete POSet]
+\label{thm:poset-prefix-interval-classifier-collapse}
+For carrier histories $h,k,r$ in $\mathsf{PreorderCarrier}$, if
+$\mathsf{PreorderPrefixLE}(h,k)$, $\mathsf{PreorderPrefixLE}(k,r)$, and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$ hold,
+then both
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$ hold.
+
+The per-object fields are as follows: the traditional target is interval
+collapse for order-convex consumers; the BEDC source is the unary
+$\mathsf{BHist}$ prefix order; the carrier is $\mathsf{PreorderCarrier}$; the
+classifier is $\mathsf{PreorderCarrierClassifierSpec}$; stability comes from
+prefix transitivity and antisymmetry; the ledger records the chains
+$h\le k\le r$ and $r\le h\le k$; the core theorem is this interval classifier
+collapse; exactness is inherited from
+\autoref{thm:poset-prefix-classifier-exactness}; the standard bridge is the
+finite unary prefix order; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint classifier
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$. It
+provides carrier data for $h$ and $r$ together with $\hsame(h,r)$. The displayed
+comparison $\mathsf{PreorderPrefixLE}(h,k)$ and
+\autoref{thm:preorder-prefix-preserves-carrier} give the carrier witness for
+$k$.
+
+Symmetry of $\hsame(h,r)$ and \autoref{thm:preorder-prefix-le-of-hsame} give
+$\mathsf{PreorderPrefixLE}(r,h)$. Compose this with
+$\mathsf{PreorderPrefixLE}(k,r)$ by
+\autoref{thm:preorder-prefix-transitivity} to obtain
+$\mathsf{PreorderPrefixLE}(k,h)$. Now
+\autoref{thm:poset-prefix-antisymmetry} applies to
+$\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,h)$, yielding
+$\hsame(h,k)$.
+
+For the right subinterval, compose
+$\mathsf{PreorderPrefixLE}(r,h)$ with the displayed comparison
+$\mathsf{PreorderPrefixLE}(h,k)$ to get $\mathsf{PreorderPrefixLE}(r,k)$.
+$\mathsf{PreorderPrefixLE}(k,r)$ is already available, so
+\autoref{thm:poset-prefix-antisymmetry} gives $\hsame(k,r)$.
+
+Finally repackage the two classifier witnesses. Combine the carrier witnesses
+for $h$ and $k$ with $\hsame(h,k)$ to obtain
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$, and
+combine the carrier witnesses for $k$ and $r$ with $\hsame(k,r)$ to obtain
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$.
 \end{proof}
 
 Thus \autoref{thm:poset-prefix-classifier-exactness} supplies the exactness

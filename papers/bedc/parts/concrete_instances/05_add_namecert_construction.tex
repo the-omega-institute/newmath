@@ -13,6 +13,32 @@ If \(\mathsf{Unary}(h)\), \(\mathsf{Unary}(k)\), and \(\ContR(h,k,r)\), then \(\
 By induction on the generated proof of \(\ContR(h,k,r)\). In the empty case, \(r=k\), hence \(\mathsf{Unary}(r)\) follows from the second premise. In the \(\Eone\)-continuation case, use the induction hypothesis on the subcontinuation and then apply unary closure under \(\Eone\). The \(\Ezero\)-continuation case makes the second input history have shape \(\Ezero(k_0)\), contradicting the premise \(\mathsf{Unary}(k)\) by unary no-zero-extension.
 \end{proof}
 
+\begin{lemma}[Unary continuation has no zero result]
+\label{lem:unary-cont-e0-result-absurd}
+If $h$ and $k$ are unary histories, then no continuation
+$\ContR(h,k,\Ezero(z))$ can exist.
+\end{lemma}
+\begin{proof}
+Unary continuation closure sends the two unary inputs and the displayed
+continuation to a unary result. But a result of shape $\Ezero(z)$ contradicts
+the unary no-zero-extension principle.
+\end{proof}
+\leanchecked{BEDC.FKernel.Unary.unary\_cont\_e0\_result\_absurd}
+
+\begin{lemma}[Unary continuation one-result cases]
+\label{lem:unary-cont-e1-result-cases}
+If $h$ and $k$ are unary histories and $\ContR(h,k,\Eone(r))$, then either
+$k=\emp$ and $h\hsame\Eone(r)$, or $k=\Eone(k_0)$ for a unary tail $k_0$ and
+$\ContR(h,k_0,r)$.
+\end{lemma}
+\begin{proof}
+Apply the continuation one-result inversion. In the empty branch, keep the
+displayed empty right input and result comparison. In the visible-tail branch,
+the equality $k=\Eone(k_0)$ transports the unary witness for $k$ to the tail
+witness for $k_0$, leaving the tail continuation $\ContR(h,k_0,r)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Unary.unary\_cont\_e1\_result\_cases}
+
 \begin{lemma}[Unary continuation unit]
 \label{lem:unary-continuation-unit}
 For every unary history \(h\), continuation by the empty history and continuation from the empty history produce unary histories internally same to the expected unary source.

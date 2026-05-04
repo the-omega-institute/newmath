@@ -17,6 +17,25 @@ $\emp$, contradicting BEDC history no-confusion for $\Ezero$ or $\Eone$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_left\_absurd}
 
+\begin{theorem}[Field singleton carrier continuation visible-right exclusion]
+\label{thm:field-singleton-carrier-continuation-visible-right-absurd}
+For histories $P,q,R:\mathsf{BHist}$, no continuation whose right input is
+headed by a visible constructor can land in the singleton field carrier:
+$$
+\bigl(\ContR(P,\Ezero(q),R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr)
+\land
+\bigl(\ContR(P,\Eone(q),R)\Rightarrow
+  \mathsf{FieldSingletonCarrier}(R)\Rightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation result through the singleton carrier to
+$\emp$. Empty-result inversion then identifies the visible right input with
+$\emp$, contradicting BEDC history no-confusion for $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonCarrier\_continuation\_visible\_right\_absurd}
+
 \begin{theorem}[Field singleton classifier continuation empty result iff]
 \label{thm:field-singleton-classifier-continuation-empty-result-iff}
 For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
@@ -201,6 +220,31 @@ therefore identifies $out$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_carrier}
 
+\begin{theorem}[Field singleton add-mul context continuation result iff]
+\label{thm:field-singleton-addmul-context-continuation-result-iff}
+For histories $L,R,a,b,c,d,out:\mathsf{BHist}$, if $L$ and $R$ are singleton
+field carrier endpoints, then the add-mul contextual continuation exists
+exactly for singleton field carrier results:
+$$
+\mathsf{FieldSingletonCarrier}(L)\Rightarrow
+\mathsf{FieldSingletonCarrier}(R)\Rightarrow
+\bigl(
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonAdd}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonMul}(c,d),R),out)
+\Longleftrightarrow
+\mathsf{FieldSingletonCarrier}(out)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the add-mul contextual carrier closure. Conversely,
+the singleton add and mul endpoints unfold to $\emp$, and the carrier
+witnesses for $L$ and $R$ reduce both contextual inputs to $\emp$. Transport
+the right-unit continuation at $\emp$ along the supplied carrier witness for
+$out$ to obtain the displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_result\_iff}
+
 \begin{theorem}[Field singleton add-mul context continuation classifier]
 \label{thm:field-singleton-add-mul-context-continuation-classifier}
 For histories
@@ -224,6 +268,32 @@ results are each $\hsame$ to $\emp$, so transitivity and symmetry of $\hsame$
 assemble the singleton classifier between the results.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.FieldSingletonAddMul\_context\_continuation\_classifier}
+
+\begin{theorem}[Field singleton mul-inv context continuation classifier]
+\label{thm:field-singleton-mul-inv-context-continuation-classifier}
+For histories $L,R,L',R',a,b,c,d,out,out':\mathsf{BHist}$, suppose the four
+context endpoints are singleton field carriers, and suppose
+$p:\mathsf{FieldSingletonNonZero}(c)$ and
+$q:\mathsf{FieldSingletonNonZero}(d)$. If the two contextual continuations
+$$
+\ContR(\mathsf{append}(L,\mathsf{FieldSingletonMul}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonInv}(c,p),R),out)
+$$
+and
+$$
+\ContR(\mathsf{append}(L',\mathsf{FieldSingletonMul}(a,b)),
+  \mathsf{append}(\mathsf{FieldSingletonInv}(d,q),R'),out')
+$$
+hold, then $\mathsf{FieldSingletonClassifier}(out,out')$.
+\end{theorem}
+\begin{proof}
+The singleton multiplication and proof-indexed inverse endpoints both unfold
+to $\emp$. The carrier witnesses identify each contextual endpoint with
+$\emp$, so continuation determinacy against the right-unit continuation gives
+singleton carrier witnesses for both results. These two carrier witnesses
+compose through $\emp$ to assemble the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.FieldSingletonMulInv\_context\_continuation\_classifier}
 
 \begin{theorem}[Field singleton continuation result context]
 \label{thm:field-singleton-continuation-result-context}

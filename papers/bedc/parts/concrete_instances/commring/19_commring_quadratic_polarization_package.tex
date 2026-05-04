@@ -1,0 +1,56 @@
+\section{CommRing quadratic polarization package}
+\label{sec:commring-quadratic-polarization-package}
+
+\begin{theorem}[CommRing quadratic polarization package]
+\label{thm:commring-quadratic-polarization-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of
+\autoref{thm:commring-parallelogram-square-sum},
+\autoref{thm:commring-square-cross-term-extraction-pair}, and
+\autoref{thm:commring-signed-square-zero-exact}, every
+$a,b : \mathsf{BHist}$ carries the concrete quadratic-polarization package
+$$
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-parallelogram-square-sum} to the shared hypotheses
+and the selected histories $a,b$. This gives the parallelogram square-sum
+identity. Apply
+\autoref{thm:commring-square-cross-term-extraction-pair} to the same data; its
+two components give the positive and signed cross-term extraction identities.
+
+Apply \autoref{thm:commring-signed-square-zero-exact} to the same histories.
+This gives the signed-square zero exactness iff. Introduce conjunctions in the
+displayed order, using the parallelogram identity first, the two extraction
+identities next, and the exactness iff as the final component.
+\end{proof}
+
+The ten-field fit is: traditional target a commutative-ring quadratic
+polarization interface; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+the shared distributivity, congruence, commutativity, and negative-product
+laws; ledger the parallelogram square-sum, two cross-term extractions, and
+signed-square zero exactness witnesses; core theorem this block; exactness the
+displayed conjunction; standard bridge ordinary quadratic polarization in a
+commutative ring; downstream use $\FieldUp$ quadratic normalization and
+equal-square/zero-product reasoning; status $\mathsf{ProofTarget}$.

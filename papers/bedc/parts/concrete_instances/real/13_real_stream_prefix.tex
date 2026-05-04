@@ -1,0 +1,468 @@
+\begin{theorem}[Real stream classifier prefix closure]
+\label{thm:real-stream-classifier-prefix}
+If rational-observation streams are pointwise related by the rational history classifier, then every finite observation prefix is related by the recursively accumulated prefix classifier.
+\end{theorem}
+\begin{proof}
+Induct on the selected prefix length. The base case is the pointwise classifier at zero. The successor case pairs the induction hypothesis for the shorter prefix with the pointwise classifier at the successor observation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_prefix}
+
+\begin{theorem}[Real stream prefix classifier hsame transport]
+\label{thm:real-stream-prefix-classifier-hsame-transport}
+If two rational-observation streams are related pointwise by $\hsame$ on both
+sides, then every classified finite prefix transports to the pointwise-related
+streams.
+\end{theorem}
+\begin{proof}
+Induct on the prefix length. The base observation is rational classifier
+transport at index $0$. At a successor index, the induction hypothesis
+transports the shorter prefix and rational classifier transport handles the
+successor observation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
+
+\begin{theorem}[Real stream prefix unary context closure]
+\label{thm:real-stream-prefix-unary-context-closed}
+If every prefix-side context and every tail-side context is unary pointwise, and
+the two displayed context streams are pointwise $\hsame$ on each side, then any
+classified finite real-stream prefix remains classified after each endpoint is
+wrapped by the corresponding unary prefix and tail contexts.
+\end{theorem}
+\begin{proof}
+Induct on the finite prefix length. At the base observation, apply rational
+history classifier unary-context closure to the endpoint classifier and the
+four pointwise context hypotheses at index $0$. At a successor index, keep the
+inductively transported shorter prefix and apply the same rational
+unary-context closure theorem to the successor endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_unary\_context\_closed}
+
+\begin{theorem}[Real stream prefix classifier reflexivity]
+\label{thm:real-stream-prefix-classifier-refl}
+For every rational-observation stream $x:\mathbb{N}\to\Hist$, if
+$\mathsf{RatHistoryCarrier}(x(i))$ for every observation index $i$, then
+$\mathsf{RealStreamPrefixClassifier}(x,x,n)$ for every prefix index $n$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the carrier witness for $x(0)$ supplies the rational
+history classifier for the endpoint, with $\hsame$ reflexivity providing the
+identity transport on both sides.
+
+At a successor index, pair the induction hypothesis for the shorter prefix with
+the same rational classifier construction at the new endpoint $n+1$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_refl}
+
+\begin{theorem}[Real stream prefix classifier symmetry]
+\label{thm:real-stream-prefix-classifier-symm}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RealStreamPrefixClassifier}(y,x,n)$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, apply rational-history classifier symmetry to the base
+endpoint classifier.
+
+At a successor index, reverse the shorter prefix by the induction hypothesis and
+reverse the displayed successor endpoint by rational-history classifier
+symmetry.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_symm}
+
+\begin{theorem}[Real stream prefix classifier endpoint projection]
+\label{thm:real-stream-prefix-classifier-endpoint}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$, then
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+\end{theorem}
+\begin{proof}
+Split on $n$. At $0$, the prefix witness is exactly the selected rational-history
+classifier.
+
+At a successor index, the recursive prefix witness is a pair; its right
+component is the rational-history classifier at the selected endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_endpoint}
+
+\begin{theorem}[Real stream prefix classifier base of successor]
+\label{thm:real-stream-prefix-classifier-base-of-successor}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every nonempty
+classified finite prefix contains the base observation classifier:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,0).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the successor prefix is the pair of the base classifier
+and the first successor endpoint classifier, so project its left component. At
+a further successor, recursively descend through the left prefix component until
+the base observation classifier is exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
+
+\begin{theorem}[Real stream prefix classifier truncation]
+\label{thm:real-stream-prefix-classifier-truncation}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+any prefix classifier through $m+n$ restricts to the prefix classifier through
+$n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the source prefix is already the target prefix, since
+$0+n=n$.
+
+At a successor $m+1$, the recursive definition of
+$\mathsf{RealStreamPrefixClassifier}(x,y,(m+1)+n)$ exposes its left component,
+which is the classified prefix through $m+n$. Apply the induction hypothesis to
+this exposed prefix to obtain the classified prefix through $n$.
+\end{proof}
+
+\begin{theorem}[Real stream prefix truncated unary context closure]
+\label{thm:real-stream-prefix-truncated-unary-context-closed}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if a prefix through
+$m+n$ is classified, then after descending to the prefix through $n$, matching
+unary prefix and tail contexts may be placed around every displayed endpoint:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x',y',n),
+$$
+where $x'(i)=\mathsf{append}(p_X(i),\mathsf{append}(x(i),t_X(i)))$ and
+$y'(i)=\mathsf{append}(p_Y(i),\mathsf{append}(y(i),t_Y(i)))$, with
+$p_X(i)$ and $t_X(i)$ unary and with $p_X(i)\hsame p_Y(i)$ and
+$t_X(i)\hsame t_Y(i)$ for every index $i$.
+\end{theorem}
+\begin{proof}
+Induct on $m$ to restrict the source prefix from $m+n$ to $n$. The base case is
+definitional, and the successor case projects the left component of the
+recursive prefix witness. Apply the stream-prefix unary-context closure theorem
+to the truncated prefix and the pointwise matching unary contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_unary\_context\_closed}
+
+\begin{theorem}[Real stream prefix truncated e1 pair readback]
+\label{thm:real-stream-prefix-truncated-e1-pair-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if the finite prefix
+through $m+n$ is classified and the selected endpoint at $n$ is displayed as
+one-headed on both sides,
+$$
+\hsame(x(n),\Eone(d))
+\quad\text{and}\quad
+\hsame(y(n),\Eone(e)),
+$$
+then both tails are unary and internally same:
+$$
+\mathsf{UnaryHistory}(d)\wedge \mathsf{UnaryHistory}(e)\wedge \hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+First descend the recursive prefix classifier from $m+n$ to $n$ by induction on
+$m$. The base case is definitional. In the successor case, the prefix witness
+at $(m+1)+n$ exposes the witness at $m+n$ as its left component. After the
+classified prefix at $n$ is obtained, apply the e1 pair readback theorem at the
+selected endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream prefix truncated continuation endpoint context closure]
+\label{thm:real-stream-prefix-truncated-cont-endpoint-context-closed}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a classified prefix
+through $m+n$ supplies the rational classifier at endpoint $n$. If the selected
+left and right endpoints are then continued through unary prefix and tail
+contexts, with matching $\hsame$ contexts on the two sides, the two displayed
+continuation results remain rational-history classified.
+\end{theorem}
+\begin{proof}
+Induct on $m$ to descend the recursive prefix classifier from $m+n$ to $n$.
+Project the rational-history classifier at endpoint $n$. Apply rational-history
+classifier unary-denominator context closure to the selected endpoint and the
+two unary context pairs. The continuation witnesses identify the displayed
+outputs with the corresponding appended contexts, and associativity of
+$\mathsf{append}$ supplies the final endpoint transports.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_cont\_endpoint\_context\_closed}
+
+\begin{lemma}[Real stream prefix previous classifier with unary anchor]
+\label{lem:real-stream-prefix-previous-with-unary}
+For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then every successor finite-prefix classifier contains both the previous prefix classifier and the unary anchor at the previous left endpoint:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n+1)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(x(n)).
+$$
+\end{lemma}
+\begin{proof}
+The recursive successor prefix is a pair whose left component is the previous prefix classifier. The unary side condition supplies \(\mathsf{UnaryHistory}(x(n))\) at the same previous endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_previous\_with\_unary}
+
+\begin{theorem}[Real stream prefix add-left previous classifier with unary anchor]
+\label{thm:real-stream-prefix-add-left-previous-with-unary}
+For rational-observation streams \(x,y:\mathbb{N}\to\Hist\), if every left observation \(x(i)\) is unary, then any prefix classified through \(m+n\) descends to the prefix classified through \(n\), while retaining the unary anchor at \(x(n)\):
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(x(n)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(m\). At \(m=0\), the displayed prefix is the target prefix and the unary side condition supplies the endpoint anchor. At a successor \(m+1\), apply \autoref{lem:real-stream-prefix-previous-with-unary} to peel one recursive prefix layer, then apply the induction hypothesis to the exposed prefix through \(m+n\).
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_previous\_with\_unary}
+
+\begin{lemma}[Real stream prefix add-left previous classifier with right unary anchor]
+\label{lem:real-stream-prefix-add-left-previous-with-right-unary}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if every right observation $y(i)$ is unary, then any prefix classified through $m+n$ descends to the prefix classified through $n$, while retaining the unary anchor at $y(n)$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(y(n)).
+$$
+\end{lemma}
+\begin{proof}
+Apply symmetry of the finite-prefix classifier to read the prefix as a classifier from $y$ to $x$. Then apply the add-left previous theorem with unary anchors on the left stream $y$. The recovered prefix is finally symmetrized back to a classifier from $x$ to $y$, while the unary endpoint anchor remains $y(n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_previous\_with\_right\_unary}
+
+\begin{theorem}[Real stream finite-prefix exactness]
+\label{thm:real-stream-finite-prefix-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\quad\Longleftrightarrow\quad
+\forall n,\ \mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:real-stream-classifier-prefix}. The pointwise stream classifier
+supplies exactly the rational-history classifier needed at each endpoint of the
+recursive prefix construction.
+
+For the reverse direction, assume every finite prefix is classified and fix an
+observation index $n$. Apply the hypothesis at $n$, then use
+\autoref{thm:real-stream-prefix-classifier-endpoint} to recover
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Since $n$ was arbitrary, these
+endpoint classifiers are precisely $\mathsf{RealStreamClassifier}(x,y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_exactness}
+
+\begin{theorem}[Real stream classifier symmetry]
+\label{thm:real-stream-classifier-symmetry}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$, then
+$\mathsf{RealStreamClassifier}(y,x)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The stream classifier supplies the rational-history
+classifier at that index, and rational-history classifier symmetry reverses it.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_symm}
+
+\begin{theorem}[Real stream classifier transitivity]
+\label{thm:real-stream-classifier-transitivity}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamClassifier}(x,y)$ and
+$\mathsf{RealStreamClassifier}(y,z)$, then
+$\mathsf{RealStreamClassifier}(x,z)$.
+\end{theorem}
+\begin{proof}
+Fix an observation index. The two stream classifiers give the two
+rational-history classifier witnesses at that index, and rational-history
+classifier transitivity composes them.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_trans}
+
+\begin{theorem}[Real stream classifier certificate fields]
+\label{thm:real-stream-classifier-certificate-fields}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, the pointwise
+stream classifier supplies the following stability certificate fields:
+\begin{enumerate}
+  \item if $\forall n,\ \mathsf{RatHistoryCarrier}(x(n))$, then
+  $\mathsf{RealStreamClassifier}(x,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then for every $n$ both
+  $\mathsf{RatHistoryCarrier}(x(n))$ and $\mathsf{RatHistoryCarrier}(y(n))$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$, then
+  $\mathsf{RealStreamClassifier}(y,x)$;
+  \item if $\mathsf{RealStreamClassifier}(x,y)$ and
+  $\mathsf{RealStreamClassifier}(y,z)$, then
+  $\mathsf{RealStreamClassifier}(x,z)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For reflexivity, fix the stream $x$ and its pointwise rational-history carrier
+witness. Apply \autoref{thm:real-stream-prefix-classifier-refl} at every finite
+prefix. The reverse direction of
+\autoref{thm:real-stream-finite-prefix-exactness} then repacks these prefix
+witnesses as $\mathsf{RealStreamClassifier}(x,x)$.
+
+For endpoint carrier readback, unfold the pointwise stream classifier and fix an
+index $n$. The classifier at $n$ is a $\mathsf{RatHistoryClassifier}(x(n),y(n))$
+witness, and unpacking the rational-history classifier gives both endpoint
+carrier facts.
+
+The symmetry field is exactly
+\autoref{thm:real-stream-classifier-symmetry}. The transitivity field is exactly
+\autoref{thm:real-stream-classifier-transitivity}. These four clauses are
+therefore available as the certificate-level stability package for the stream
+classifier.
+\end{proof}
+
+\begin{theorem}[Real stream classifier hsame transport]
+\label{thm:real-stream-classifier-hsame-transport}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, if
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$, then
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longrightarrow
+\mathsf{RealStreamClassifier}(x',y').
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{RealStreamClassifier}(x,y)$. By the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness}, every finite prefix
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
+
+For each prefix index $n$, apply
+\autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
+pointwise $\hsame$ hypotheses. This transports the prefix classifier from
+$(x,y)$ to $(x',y')$ at the same index.
+
+Since the transported prefix witness is available for every $n$, the reverse
+direction of \autoref{thm:real-stream-finite-prefix-exactness} reassembles
+these finite-prefix witnesses into
+$\mathsf{RealStreamClassifier}(x',y')$.
+\end{proof}
+
+\begin{theorem}[Real stream transport with endpoint readback]
+\label{thm:real-stream-classifier-transport-with-endpoint-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$, assume
+$\forall n,\ \hsame(y(n),y'(n))$, and assume
+$\mathsf{RealStreamClassifier}(x,y)$. Then the transported streams carry the
+following readback package:
+\begin{enumerate}
+  \item $\mathsf{RealStreamClassifier}(x',y')$;
+  \item for every $n$,
+  $\mathsf{RealStreamPrefixClassifier}(x',y',n)$;
+  \item for every $n$,
+  $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-stream-classifier-hsame-transport} to the two
+pointwise $\hsame$ hypotheses and the original stream classifier. This gives
+$\mathsf{RealStreamClassifier}(x',y')$.
+
+Next use the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness} on the transported stream
+classifier. The result is
+$\mathsf{RealStreamPrefixClassifier}(x',y',n)$ for every finite prefix index
+$n$.
+
+Finally fix an index $n$ and apply
+\autoref{thm:real-stream-prefix-classifier-endpoint} to the transported prefix
+witness at that index. This recovers the endpoint
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
+fields of the package.
+\end{proof}
+
+\begin{theorem}[Real stream classifier hsame one-tail pair readback]
+\label{thm:real-stream-classifier-hsame-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$. If
+$\mathsf{RealStreamClassifier}(x,y)$ and the transported endpoints satisfy
+$\hsame(x'(n),\Eone(a))$ and $\hsame(y'(n),\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Evaluate the pointwise stream classifier at the selected index $n$. Transport
+the resulting rational-history classifier along the two pointwise $\hsame$
+maps, then transport again to the displayed one-extension endpoints. Rational
+one-tail classifier exactness exposes the two unary tails and their internal
+sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_hsame\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream prefix classifier transitivity]
+\label{thm:real-stream-prefix-classifier-trans}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
+prefix classifier relates $x$ to $y$ through index $n$ and relates $y$
+to $z$ through the same index, then it relates $x$ to $z$ through
+index $n$.
+\end{theorem}
+\begin{proof}
+Induct on the prefix index. At zero, use rational history classifier
+transitivity. At a successor index, combine the induction hypothesis for the
+shorter prefix with rational history classifier transitivity at the new
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_trans}
+
+\begin{theorem}[Real stream prefix one-tail pair readback]
+\label{thm:real-stream-prefix-e1-pair-readback}
+If a classified finite rational-observation prefix displays its selected left and right endpoints as one-extension histories, then the displayed tails are unary and internally the same.
+\end{theorem}
+\begin{proof}
+Split on the selected observation index. At zero, use the base rational-history classifier; at a successor, use the right endpoint of the prefix classifier. Transport the selected classifier to the displayed one-extension endpoints, then apply rational one-tail classifier exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream prefix classifier hsame one-tail pair readback]
+\label{thm:real-stream-prefix-classifier-hsame-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ and the transported endpoints
+satisfy $\hsame(x'(n),\Eone(a))$ and $\hsame(y'(n),\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+First transport the finite prefix classifier from $(x,y)$ to $(x',y')$ using
+the pointwise $\hsame$ hypotheses. The transported prefix has displayed
+one-extension endpoints at index $n$, so the one-tail pair readback theorem
+returns the two unary tail witnesses and $\hsame(a,b)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_e1\_pair\_readback}
+
+\begin{definition}[Real stability certificate]
+\label{def:real-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item pointwise stream stability inherited from $\StreamNameUp$
+  \item transport of the $\RegSeqRat$ regularity witness along stream classification
+  \item classifier reflexivity, symmetry, and transitivity by dyadic tolerance comparison
+  \item compatibility of constant dyadic embedding with the closeness classifier
+  \item closure of real operations only when supplied as certified $\RegSeqRat$ transformations
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Real ledger policy]
+\label{def:real-ledger-policy}
+Record finite stream observations, dyadic comparison witnesses, regularity certificates, and classifier comparison certificates when sameness is used.
+\end{definition}
+
+\begin{definition}[RealUp certificate obligations]
+\label{def:real-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the required fields for using the interface name $\RealUp$.
+\end{definition}
+
+\paragraph{Primitive boundary.}
+$\RealUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:real-zero-axiom-note}
+The interface avoids quotient machinery. It does not use $\mathsf{Quot.sound}$; sameness is carried by dyadic comparison certificates and the $\RegSeqRat$ classifier.
+\end{remark}

@@ -285,6 +285,29 @@ For the first equivalence, the forward direction is Theorem~\ref{thm:samesig-bun
 \end{proof}
 \leanchecked{BEDC.FKernel.Sig.sameSig\_bundleAppend\_residual\_iff}
 
+\begin{theorem}[Signature-sameness common-context residual under bundle append]
+\label{thm:samesig-bundleappend-common-context-iff}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$, $\mathsf{BundleAskPolicy}(\Omega,D)$,
+$h,k\in D$, $\sameSig_\Pi(h,k)$, and $\sameSig_\Omega(h,k)$. Then
+$$
+\sameSig_{\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))}(h,k)
+\Longleftrightarrow
+\sameSig_\Theta(h,k).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, cancel the known left component $\Pi$ from the outer
+append using the residual equivalence, leaving
+$\sameSig_{\mathsf{BAppend}(\Theta,\Omega)}(h,k)$. Then cancel the known right
+component $\Omega$ using the right residual equivalence, yielding
+$\sameSig_\Theta(h,k)$.
+
+For the reverse direction, first append the supplied middle witness with the
+known right witness $\sameSig_\Omega(h,k)$, then append the known left witness
+$\sameSig_\Pi(h,k)$ to rebuild the full common-context signature-sameness row.
+\end{proof}
+\leanchecked{BEDC.FKernel.Sig.sameSig\_bundleAppend\_common\_context\_iff}
+
 \begin{theorem}[Cons tail signatures from result-sameness]
 \label{thm:signature-cons-tail-hsame-from-result-hsame}
 If two derivations of \(\Sig(\Bcons(\pi,\Pi),h,r,\Delta)\) and

@@ -6,5 +6,230 @@ The categorical-equivalence interface $\EquivCatUp$ packages a pair of functors 
 \section{Carrier definition}
 \label{sec:equivcat-carrier}
 
+\begin{theorem}[Empty roundtrip identity components]
+\label{thm:equivcat-adjunction-empty-roundtrip-identity-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, if an
+adjunction unit-counit carrier has both displayed roundtrip results
+$left$ and $right$ classifier-equal to $\emp$, then the unit and counit
+components are the empty identity components:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The empty left roundtrip continuation forces both $unit$ and $counit$ to be
+$\emp$. The empty right roundtrip gives the same collapse in the opposite
+order. After these endpoint inversions, the component fields of the
+adjunction unit-counit carrier are exactly the two empty identity components.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_identity\_components}
+
+\begin{theorem}[Equivalence empty roundtrip prefix determinacy]
+\label{thm:equivcat-empty-roundtrip-prefix-determinacy}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds
+and $left\hsame\emp$ and $right\hsame\emp$, then
+$$
+p\hsame q,\qquad
+unit\hsame\emp,\qquad
+counit\hsame\emp,
+$$
+and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\quad\text{and}\quad
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:equivcat-adjunction-empty-roundtrip-identity-components}
+to the adjunction unit-counit carrier and the two empty displayed triangle
+results. This gives the two empty natural-transformation prefix components
+from $p$ to $q$ and from $q$ back to $p$ at the object history $a$.
+
+The NatTrans empty-identity exactness theorem applied to the first empty
+component extracts the prefix classifier equality $p\hsame q$.
+
+The stored triangle continuations in the adjunction unit-counit carrier have
+results $left$ and $right$. Empty-result inversion for the displayed
+continuations, together with $left\hsame\emp$ and $right\hsame\emp$, collapses
+the unit and counit histories to $unit\hsame\emp$ and $counit\hsame\emp$.
+Collecting these conclusions gives the stated determinacy package.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_prefix\_determinacy}
+
+\begin{theorem}[Equivalence empty roundtrip zero-source exclusion]
+\label{thm:equivcat-adjunction-empty-roundtrip-zero-source-absurd}
+For histories $tail,q,a,unit,counit,left,right:\mathsf{BHist}$, no
+adjunction unit-counit carrier can start its first prefix source with
+$\Ezero(tail)$ while both displayed roundtrip results classify to $\emp$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (\Ezero(tail),q,a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem extracts the displayed empty natural
+transformation prefix component out of the zero-headed source. The
+zero-headed component exclusion for natural transformations contradicts this
+component by exposing the visible zero constructor at the source head.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_zero\_source\_absurd}
+
+\begin{theorem}[Equivalence empty roundtrip zero-target exclusion]
+\label{thm:equivcat-adjunction-empty-roundtrip-zero-target-absurd}
+For histories $p,tail,a,unit,counit,left,right:\mathsf{BHist}$, no
+adjunction unit-counit carrier can place a zero-headed prefix at its first
+target while both displayed roundtrip results classify to $\emp$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (p,\Ezero(tail),a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem extracts the reverse empty natural
+transformation prefix component. In that reverse component, the zero-headed
+target of the adjunction becomes the displayed source prefix. The NatTrans
+zero-headed component exclusion then contradicts the visible $\Ezero$
+constructor at that source head.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_zero\_target\_absurd}
+
+\begin{theorem}[Equivalence empty roundtrip $\Eone$ source target exactness]
+\label{thm:equivcat-adjunction-empty-roundtrip-e1-source-target-eq}
+For histories $tail,q,a,unit,counit,left,right:\mathsf{BHist}$, if an
+adjunction unit-counit carrier starts at the unary source prefix
+$\Eone(tail)$ and both displayed roundtrip results classify to $\emp$, then
+the first target prefix is exactly $\Eone(tail)$:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}
+  (\Eone(tail),q,a,unit,counit,left,right)
+\Rightarrow left\hsame\emp
+\Rightarrow right\hsame\emp
+\Rightarrow q=\Eone(tail).
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip component theorem exposes the displayed empty
+natural-transformation component from $\Eone(tail)$ to $q$. The NatTrans
+empty-component inversion for an $\Eone$ source reads back the component data:
+the tail is unary, the object history is unary, and the displayed target
+prefix is exactly $\Eone(tail)$. The last field is the required equality.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_e1\_source\_target\_eq}
+
+\begin{theorem}[EquivCat empty roundtrip $\Eone$ prefix tail determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-e1-prefix-tail-hsame}
+For histories
+$sourceTail,targetTail,a,unit,counit,left,right:\mathsf{BHist}$, if an
+adjunction unit-counit carrier is displayed from $\Eone(sourceTail)$ to
+$\Eone(targetTail)$ and both roundtrip results classify to $\emp$, then
+$$
+sourceTail\hsame targetTail.
+$$
+\end{theorem}
+\begin{proof}
+The empty roundtrip prefix determinacy theorem identifies the full prefixes
+$\Eone(sourceTail)$ and $\Eone(targetTail)$ by $\hsame$. Inverting the
+one-headed constructor under $\hsame$ reads this back to
+$sourceTail\hsame targetTail$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_e1\_prefix\_tail\_hsame}
+
+\begin{theorem}[EquivCat empty roundtrip target-prefix determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-target-prefix-deterministic}
+For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+$left\hsame\emp$ and $right\hsame\emp$, and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,r,a,\emp)
+$$
+is also displayed, then $q\hsame r$.
+\end{theorem}
+\begin{proof}
+The empty roundtrip identity-components theorem extracts the reverse empty
+component
+$$
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\emp)
+$$
+from the adjunction carrier and the two empty displayed roundtrips. Composing
+that empty component with the displayed empty component from $p$ to $r$ by
+NatTrans empty-identity prefix transitivity identifies the target prefix
+$q$ with $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_target\_prefix\_deterministic}
+
+\begin{theorem}[EquivCat empty roundtrip unit-counit equivalence]
+\label{thm:equivcat-adjunction-empty-roundtrip-unit-counit-empty-iff}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+then the two displayed roundtrip results classify to $\emp$ exactly when the
+unit and counit components classify to $\emp$:
+$$
+left\hsame\emp\ \wedge\ right\hsame\emp
+\quad\Longleftrightarrow\quad
+unit\hsame\emp\ \wedge\ counit\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the unit-counit part of the empty roundtrip prefix
+determinacy theorem. Conversely, after the unit and counit are identified with
+$\emp$, the stored triangle continuations have the same source and suffix as
+the right-unit continuation at $\emp$; continuation determinism identifies
+both displayed roundtrip results with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_unit\_counit\_empty\_iff}
+
+\begin{theorem}[EquivCat empty roundtrip source-prefix determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-source-prefix-deterministic}
+For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
+$\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)$ holds,
+$left\hsame\emp$ and $right\hsame\emp$, and
+$$
+\mathsf{NatTransPrefixComponentCarrier}(r,q,a,\emp)
+$$
+is also displayed, then $p\hsame r$.
+\end{theorem}
+\begin{proof}
+The empty roundtrip identity-components theorem extracts the reverse empty
+component from $q$ to $p$. Compose the displayed empty component from $r$ to
+$q$ with that reverse component by NatTrans empty-identity prefix
+transitivity; this gives $r\hsame p$. Symmetry of $\hsame$ gives the stated
+source-prefix equality.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_source\_prefix\_deterministic}
+
 \section{The certificate}
 \label{sec:equivcat-certificate}
+
+\begin{theorem}[Equivalence cycle identity carrier semantic certificate]
+\label{thm:equivcat-cycle-identity-carrier-semantic-namecert}
+For BEDC categorical hom carriers
+$left:\mathsf{CategoryHomCarrier}(a,b,f)$ and
+$right:\mathsf{CategoryHomCarrier}(b,a,g)$, the carrier of displayed cycle
+identities
+$$
+\mathsf{CategoryHomCarrier}(a,b,t)\wedge
+\mathsf{CategoryHomCarrier}(b,a,g)\wedge
+t\hsame\emp\wedge g\hsame\emp
+$$
+has a semantic naming certificate with classifier $\hsame$.
+\end{theorem}
+\begin{proof}
+The cycle-tail theorem for categorical hom carriers identifies both cycle
+tails with the empty history. Transporting $left$ along the displayed tail
+comparison gives the witness at $\emp$, while $right$ supplies the fixed
+reverse carrier. The classifier laws are the finite-kernel equivalence laws
+for $\hsame$. Carrier transport keeps the endpoints fixed, transports the
+first hom carrier along the classifier, and composes the inverse classifier
+with the stored empty-tail proof.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatCycleIdentityCarrier\_semanticNameCert}

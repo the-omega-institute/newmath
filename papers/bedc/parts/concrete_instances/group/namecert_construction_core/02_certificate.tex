@@ -205,6 +205,24 @@ transport the supplied equality $xa\hsame b$ through multiplication congruence.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution}
 
+\begin{theorem}[Group right-multiplication equation solution uniqueness]
+\label{thm:group-right-mul-equation-solution-unique-from-empty-unit}
+For a BEDC history-level group operation whose unit is $\emp$, if $x$ and $y$
+both solve the same right-multiplication equation
+$$
+xa\hsame b
+\qquad\text{and}\qquad
+ya\hsame b,
+$$
+then $x\hsame y$.
+\end{theorem}
+\begin{proof}
+Apply the right-multiplication solution theorem to both displayed equations.
+Both solutions are classified by the same normal form $ba^{-1}$. Symmetry on
+the second classification and transitivity of $\hsame$ identify $x$ and $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_equation\_solution\_unique\_from\_empty\_unit}
+
 \begin{theorem}[Group left-multiplication equation exactness]
 \label{thm:group-left-mul-equation-exactness}
 For a history-level group operation with associativity, left identity,
@@ -292,6 +310,7 @@ $\hsame(x,a^{-1}(b c^{-1}))$. This recovers $\hsame(a x,b c^{-1})$.
 Finally apply \autoref{thm:group-right-mul-equation-exactness} backward with
 right factor $c$. The recovered equation becomes $\hsame((a x)c,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_two\_sided\_mul\_equation\_exact\_from\_empty\_unit\_iff}
 
 \begin{theorem}[Group two-sided multiplication equation solution uniqueness]
 \label{thm:group-two-sided-mul-equation-solution-unique}
@@ -326,6 +345,50 @@ $a^{-1}(b c^{-1})$.
 Use symmetry on the second solved comparison and transitivity of $\hsame$ to
 conclude $x\hsame y$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_two\_sided\_mul\_equation\_solution\_unique\_from\_empty\_unit}
+
+\begin{theorem}[Group two-sided multiplication equation target-stable uniqueness]
+\label{thm:group-two-sided-mul-equation-target-stable-unique}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with unit
+$\emp$, associativity, left and right identity laws, multiplication congruence,
+and two-sided inverse laws, if
+$$
+\hsame((a x)c,b),
+\qquad
+\hsame((a y)c,d),
+\qquad
+\hsame(b,d),
+$$
+then $x\hsame y$.
+The ten-field fit is: traditional target target-stable two-sided group
+equation uniqueness; BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from two-sided equation
+exactness, target transport by multiplication congruence, symmetry, and
+transitivity; ledger left factor, right factor, two targets, and inverse
+witnesses; core theorem list
+\autoref{thm:group-two-sided-mul-equation-exactness} plus multiplication
+congruence; exactness predicate target-stable solution uniqueness; standard
+bridge ordinary group equation uniqueness under equal right-hand sides; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the first
+displayed equation. The first solution is classified by the normal form
+$a^{-1}(b c^{-1})$.
+
+Apply \autoref{thm:group-two-sided-mul-equation-exactness} to the second
+displayed equation. The second solution is classified by the normal form
+$a^{-1}(d c^{-1})$.
+
+Multiplication congruence transports $\hsame(b,d)$ by right multiplication with
+the reflexive inverse $c^{-1}$, giving $\hsame(b c^{-1},d c^{-1})$. Transport
+that comparison by left multiplication with $a^{-1}$ to identify
+$a^{-1}(b c^{-1})$ and $a^{-1}(d c^{-1})$.
+
+Use symmetry on the solved comparison for $y$ and transitivity of $\hsame$ along
+the two normal-form comparisons to conclude $x\hsame y$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_two\_sided\_mul\_equation\_target\_stable\_unique\_from\_empty\_unit}
 
 \begin{theorem}[Group conjugation equation exactness]
 \label{thm:group-conjugation-equation-exactness}
@@ -362,6 +425,23 @@ $(b a)a^{-1}$ to $b(aa^{-1})$, collapse $aa^{-1}$ by the right inverse law,
 and finish with the right identity on $b$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_exact\_from\_empty\_unit\_iff}
+
+\begin{theorem}[Group conjugation empty action]
+\label{thm:group-conjugation-empty-action}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with left and
+right empty-unit laws, multiplication congruence, and the right inverse law,
+the empty conjugating history acts as the identity:
+$$
+\hsame((\emp x)\emp^{-1},x).
+$$
+\end{theorem}
+\begin{proof}
+The right inverse law for $\emp$ and the left empty-unit law identify
+$\emp^{-1}$ with $\emp$. Multiplication congruence transports this comparison
+and the comparison $\emp x\hsame x$ through the outer product, after which the
+right empty-unit law collapses $x\emp$ to $x$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_empty\_action\_from\_empty\_unit}
 
 \begin{theorem}[Group conjugation preserves the empty unit exactly]
 \label{thm:group-conjugation-empty-exact}
@@ -421,6 +501,27 @@ factors are classified by the same normal form $(a^{-1}b)a$. Symmetry on the
 second classification and transitivity of $\hsame$ identify $x$ and $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_solution\_unique\_from\_empty\_unit}
+
+\begin{theorem}[Group singleton conjugation equation solver]
+\label{thm:group-singleton-conjugation-equation-solver}
+For singleton histories $a,x,b:\mathsf{BHist}$, the singleton classifier
+solves the displayed conjugation equation exactly when the middle history is
+classified against the corresponding empty-left normal form:
+$$
+\mathsf{GroupSingletonClassifier}((a x)\emp,b)
+\Longleftrightarrow
+\mathsf{GroupSingletonClassifier}(x,(\emp b)a).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits the carrier of $(a x)\emp$ through the append-empty
+readback, extracting singleton carriers for $a$, $x$, and the terminal empty
+factor. It then rebuilds the carrier of $(\emp b)a$ from the empty factor,
+$b$, and $a$, and repacks the singleton classifier by transitivity of
+$\hsame$. The reverse direction performs the same carrier split on
+$(\emp b)a$ and rebuilds $(a x)\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_equation\_solver\_iff}
 
 \begin{theorem}[Group commutator detects commutation]
 \label{thm:group-commutator-trivial-iff-commutes}
@@ -562,6 +663,29 @@ yields $x^{-1}a\hsame ax^{-1}$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_inv\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Group centralizer multiplication closure from empty unit]
+\label{thm:group-centralizer-mul-closed-from-empty-unit}
+For a BEDC history-level group operation $\mathsf{mul}$ over $\mathsf{BHist}$
+with associativity, right empty-unit law, and multiplication congruence, the
+centralizer carrier of \autoref{def:group-centralizer-carrier} is closed under
+multiplication:
+$$
+\hsame(\mathsf{mul}(x,a),\mathsf{mul}(a,x))
+\Rightarrow
+\hsame(\mathsf{mul}(y,a),\mathsf{mul}(a,y))
+\Rightarrow
+\hsame(\mathsf{mul}(\mathsf{mul}(x,y),a),
+\mathsf{mul}(a,\mathsf{mul}(x,y))).
+$$
+\end{theorem}
+\begin{proof}
+The empty-context multiplication closure compares the two target products
+after multiplying both by $\emp$ on the right. The concrete right empty-unit
+law identifies each right-extended product with its unextended endpoint, and
+transitivity removes the empty context from the comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_mul\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Group centralizer subgroup and commutator fiber]
 \label{thm:group-centralizer-subgroup}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
@@ -594,6 +718,7 @@ group centralizers; status $\mathsf{ProofTarget}$.
 The unit belongs to $Z_a$ because the left and right identity laws identify
 $ea$ and $ae$ with the same history $a$. Symmetry and transitivity of
 $\hsame$ close the comparison.
+\leanchecked{BEDC.Derived.GroupUp.group\_centralizer\_empty\_unit\_mem}
 
 For product closure, start from witnesses $xa\hsame ax$ and $ya\hsame ay$.
 Associativity rewrites $(xy)a$ as $x(ya)$; multiplication congruence transports

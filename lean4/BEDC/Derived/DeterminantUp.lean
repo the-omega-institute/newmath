@@ -327,4 +327,20 @@ theorem determinant_singleton_endpoint_laws :
       · intro M N _carrierM _carrierN
         exact scalarClassified
 
+theorem DeterminantSingletonDet_append_pair_scalar_classifier_iff {M N r : BHist} :
+    CommRingSingletonClassifier (DeterminantSingletonDet (append M N)) r ↔
+      MatrixSingletonCarrier M ∧ MatrixSingletonCarrier N ∧ CommRingSingletonCarrier r := by
+  constructor
+  · intro classified
+    have detParts := append_eq_empty_iff.mp classified.left
+    have pairParts := append_eq_empty_iff.mp detParts.left
+    exact And.intro pairParts.left (And.intro pairParts.right classified.right.left)
+  · intro data
+    have pairEmpty : hsame (append M N) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro data.left data.right.left)
+    have detEmpty : hsame (DeterminantSingletonDet (append M N)) BHist.Empty :=
+      append_eq_empty_iff.mpr (And.intro pairEmpty (hsame_refl BHist.Empty))
+    exact And.intro detEmpty
+      (And.intro data.right.right (hsame_trans detEmpty (hsame_symm data.right.right)))
+
 end BEDC.Derived.DeterminantUp

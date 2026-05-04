@@ -19,6 +19,18 @@ theorem MetricDistanceWitness_triangle_append_closed {x y z dxy dyz dxyz : BHist
   cases xyzRel
   exact append_assoc x y z
 
+theorem MetricDistanceWitness_visible_context_triangle_append_closed {p q x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        hsame dxyz (append x dyz) := by
+  intro visible yz xyz
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_append_closed visibleData.right.right yz xyz
+
 theorem MetricDistanceWitness_composite_endpoint_hsame_append_result
     {x x' y y' z z' dxy dxyz : BHist} :
     hsame x x' -> hsame y y' -> hsame z z' ->
@@ -48,6 +60,15 @@ theorem MetricDistanceWitness_triangle_cont_middle_closed {x y z dxy dyz dxyz : 
           cases yzRel
           cases xyzRel
           exact cont_intro (append_assoc x y z))))
+
+theorem MetricDistanceWitness_triangle_cont_middle_result_deterministic
+    {x y z dxy dyz dxyz displayed : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
+      MetricDistanceWitness x dyz displayed -> hsame dxyz displayed := by
+  intro xy yz middleContinuation displayedWitness
+  have canonical : MetricDistanceWitness x dyz dxyz :=
+    MetricDistanceWitness_triangle_cont_middle_closed xy yz middleContinuation
+  exact cont_deterministic canonical.right.right.right displayedWitness.right.right.right
 
 theorem MetricDistanceWitness_triangle_append_context_closed {p q x y z dxy dyz dxyz : BHist} :
     UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->

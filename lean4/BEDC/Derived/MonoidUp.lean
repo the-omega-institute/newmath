@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.Commutativity
 import BEDC.FKernel.Unary.History
@@ -261,6 +262,72 @@ theorem unary_append_monoid_identity_empty_iff {e : BHist} :
       cases classified.right.right
       exact And.intro (unary_append_closed unaryH unary_empty)
         (And.intro unaryH (BEDC.FKernel.Cont.append_empty_right h))
+
+theorem unary_append_unit_product_factor_exactness {h k : BHist} :
+    MonoidHistoryClassifier UnaryHistory (append h k) BHist.Empty <->
+      MonoidHistoryClassifier UnaryHistory h BHist.Empty ∧
+        MonoidHistoryClassifier UnaryHistory k BHist.Empty := by
+  constructor
+  · intro classified
+    have emptyParts := append_eq_empty_iff.mp classified.right.right
+    cases emptyParts.left
+    cases emptyParts.right
+    have emptyClassified : MonoidHistoryClassifier UnaryHistory BHist.Empty BHist.Empty :=
+      And.intro unary_empty (And.intro unary_empty (hsame_refl BHist.Empty))
+    exact And.intro emptyClassified emptyClassified
+  · intro classified
+    have appendEmpty : hsame (append h k) BHist.Empty :=
+      append_eq_empty_iff.mpr
+        (And.intro classified.left.right.right classified.right.right.right)
+    exact And.intro (unary_append_closed classified.left.left classified.right.left)
+      (And.intro unary_empty appendEmpty)
+
+theorem MonoidHistoryClassifier_unary_append_inverse_field_singleton_collapse_iff
+    (inv : BHist -> BHist)
+    (invUnary : forall h : BHist, UnaryHistory h -> UnaryHistory (inv h)) :
+    (((forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) ∧
+      (forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append (inv h) h) BHist.Empty)) <->
+      (forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory h BHist.Empty)) := by
+  constructor
+  · intro inverseLaws h unaryH
+    exact (unary_append_unit_product_factor_exactness.mp (inverseLaws.left h unaryH)).left
+  · intro singletonCollapse
+    constructor
+    · intro h unaryH
+      exact unary_append_unit_product_factor_exactness.mpr
+        (And.intro (singletonCollapse h unaryH)
+          (singletonCollapse (inv h) (invUnary h unaryH)))
+    · intro h unaryH
+      exact unary_append_unit_product_factor_exactness.mpr
+        (And.intro (singletonCollapse (inv h) (invUnary h unaryH))
+          (singletonCollapse h unaryH))
+
+theorem MonoidHistoryClassifier_unary_append_singleton_collapse_obstruction :
+    (forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory h BHist.Empty) -> False := by
+  intro singletonCollapse
+  have unaryOne : UnaryHistory (BHist.e1 BHist.Empty) :=
+    unary_e1_closed unary_empty
+  have classifiedOne :
+      MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty :=
+    singletonCollapse (BHist.e1 BHist.Empty) unaryOne
+  exact not_hsame_e1_empty classifiedOne.right.right
+
+theorem unary_append_monoid_idempotent_empty_iff {e : BHist} :
+    UnaryHistory e ->
+      (MonoidHistoryClassifier UnaryHistory (append e e) e <->
+        MonoidHistoryClassifier UnaryHistory e BHist.Empty) := by
+  intro unaryE
+  constructor
+  · intro classified
+    exact And.intro unaryE
+      (And.intro unary_empty (append_right_unit_iff.mp classified.right.right))
+  · intro classified
+    cases classified.right.right
+    exact And.intro unary_empty (And.intro unary_empty (hsame_refl BHist.Empty))
 
 theorem unary_append_monoid_classifier_context_congr {left right a b : BHist} :
     UnaryHistory left -> UnaryHistory right -> MonoidHistoryClassifier UnaryHistory a b ->

@@ -10,11 +10,133 @@ This chapter gives a concrete naming-certificate construction for the constructi
 \label{def:gamma-pole-locus}
 The pole-locus predicate \(\mathsf{GammaPole}(s)\) on \(\ComplexUp\)-history holds when there exists a unary natural \(n\) with \(\hsame(s, -n)\), where \(-n\) is the explicit signed-integer encoding of \autoref{ch:concrete-instances-int-namecert}. Equivalently, the imaginary part of \(s\) equals \(\emp\) and the real part is a non-positive integer.
 \end{definition}
+\leandef{BEDC.Derived.GammaUp.GammaPoleLocus}
+
+\begin{theorem}[Gamma pole locus has complex carrier witness]
+\label{thm:gamma-pole-locus-complex-carrier}
+If \(s\) lies in the Gamma pole locus through a unary witness \(n\), then the same witness presents \(s\) as \(\hsame\) to the complex history with real component \(\Eone(n)\) and imaginary component \(\Eone(\emp)\), and \(s\) is carried by \(\ComplexUp\).
+\end{theorem}
+\begin{proof}
+The unary witness \(n\) gives a positive rational denominator for \(\Eone(n)\), while \(\emp\) gives the positive rational denominator for \(\Eone(\emp)\). The product carrier forms the corresponding complex history, and the pole-locus \(\hsame\) witness transports that carrier back to \(s\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_complex\_carrier\_witness}
+
+\begin{theorem}[Gamma pole locus is not empty]
+\label{thm:gamma-pole-locus-not-empty}
+If \(s\) lies in the Gamma pole locus, then \(s\) cannot be \(\hsame\) to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+The pole-locus witness induces a \(\ComplexUp\) carrier for \(s\) by the
+complex-carrier witness theorem. The complex carrier is non-empty, so an
+\(\hsame(s,\emp)\) assumption contradicts that carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_not\_empty}
+
+\begin{theorem}[Gamma pole locus is stable under unary append as a complex carrier]
+\label{thm:gamma-pole-locus-append-unary-complex-carrier}
+If $s$ lies in the Gamma pole locus and $q$ is unary, then
+$\mathsf{append}(s,q)$ is carried by $\ComplexUp$ and cannot be $\hsame$ to
+$\emp$.
+\end{theorem}
+\begin{proof}
+The pole-locus witness gives a $\ComplexUp$ carrier for $s$. Complex carriers
+are closed under unary append, so $\mathsf{append}(s,q)$ is again a complex
+carrier. The complex-carrier non-emptiness theorem excludes any comparison of
+that appended history with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_append\_unary\_complex\_carrier}
+
+\begin{theorem}[Gamma pole locus hsame transport witness]
+\label{thm:gamma-pole-locus-hsame-transport-witness}
+If $s\hsame t$ and $s$ lies in the Gamma pole locus, then $t$ lies in the
+same pole locus. Moreover, the transported pole claim exposes a concrete unary
+witness $n$ with
+$$
+t\hsame \mathsf{append}(\Eone(n),\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+The pole-locus witness for $s$ supplies a unary history $n$ and an equality
+from $s$ to the explicit append history. Compose the symmetry of $s\hsame t$
+with that equality. The same unary $n$ then witnesses both the pole-locus
+claim for $t$ and the displayed append-history equality.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_hsame\_transport\_witness}
+
+\begin{theorem}[Gamma pole locus witness uniqueness]
+\label{thm:gamma-pole-locus-witness-unique}
+If the same complex history \(s\) is displayed as a Gamma pole by unary
+witnesses \(n\) and \(m\), then \(n\hsame m\).
+\end{theorem}
+\begin{proof}
+The two displayed pole equalities identify the append histories
+\(\mathsf{append}(\Eone(n),\Eone(\emp))\) and
+\(\mathsf{append}(\Eone(m),\Eone(\emp))\). Cancelling the common right
+component \(\Eone(\emp)\) gives \(\Eone(n)\hsame\Eone(m)\), and constructor
+inversion gives \(n\hsame m\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_witness\_unique}
 
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}
 \(\mathsf{GammaDom}(s)\) holds when \(\mathsf{ComplexUp}(s)\) and \(\neg \mathsf{GammaPole}(s)\). The negation is constructive: \(\mathsf{GammaDom}(s)\) is witnessed by an explicit apartness datum \((k, w)\) where \(k\) is a unary precision and \(w\) is a strict-prefix witness showing that the distance from \(s\) to the closest non-positive integer exceeds \(2^{-k}\).
 \end{definition}
+\leandef{BEDC.Derived.GammaUp.GammaDomainCore}
+
+\begin{theorem}[Gamma domain core is non-empty]
+\label{thm:gamma-domain-core-not-empty}
+If a Gamma-domain core witness carries \(s\) as a complex history and records
+constructive apartness from the pole locus, then \(s\) cannot be \(\hsame\) to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+Unpack the Gamma-domain core witness and read its \(\ComplexUp\) carrier for
+\(s\). The complex carrier is non-empty, so any \(\hsame(s,\emp)\) assumption
+contradicts the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_not\_empty}
+
+\begin{theorem}[Gamma domain core transports exclusions]
+\label{thm:gamma-domain-core-hsame-transport-exclusions}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core, then \(t\) is excluded
+from the pole locus and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport any pole-locus witness for \(t\) back along the symmetric
+\(\hsame\)-comparison to obtain a pole-locus witness for \(s\), contradicting
+the domain-core apartness field. For the empty-history exclusion, compose
+\(s\hsame t\) with \(t\hsame\emp\) and apply the non-empty core theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_exclusions}
+
+\begin{theorem}[Gamma domain core hsame transport]
+\label{thm:gamma-domain-core-hsame-transport}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core with apartness datum
+\(apart\), then \(t\) is in the Gamma-domain core with the same apartness datum,
+and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport the complex-history carrier of \(s\) along \(s\hsame t\). The unary
+apartness datum is unchanged. The pole-locus and empty-history exclusions are
+the two exclusion clauses transported by the preceding theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport}
+
+\begin{theorem}[Gamma domain core hsame transport nonempty]
+\label{thm:gamma-domain-core-hsame-transport-not-empty}
+If \(s\hsame t\) and \(s\) is in the Gamma-domain core, then \(t\) is in the
+same domain core and \(t\hsame\emp\) is impossible.
+\end{theorem}
+\begin{proof}
+Transport the \(\ComplexUp\) carrier from \(s\) to \(t\). A pole-locus witness
+for \(t\) transports back along the symmetric \(\hsame\)-comparison to a
+pole-locus witness for \(s\), contradicting the apartness field of the original
+domain witness. Together with the unchanged unary apartness datum, these fields
+rebuild the domain core for \(t\), and the non-empty theorem excludes
+\(t\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaDomainCore\_hsame\_transport\_not\_empty}
 
 \begin{lemma}[Apartness from the pole locus is decidable]
 \label{lem:gamma-pole-apartness-decidable}
@@ -96,15 +218,30 @@ Compare the Weierstrass partial products of \(\Gamma(s+1)\) and \(s \cdot \Gamma
 Specialize \autoref{def:gamma-weierstrass-part} at \(s = 1\): the product becomes \(\frac{1}{1} \prod_{n=1}^{N} (1 + 1/n) (1 + 1/n)^{-1} = 1\) telescopically. The limit is \(1\) by direct unfolding.
 \end{proof}
 
-\section{Reflection formula at integer poles (statement)}
+\section{Reflection formula boundary certificate}
 \label{sec:gamma-reflection}
 
-\begin{theorem}[Reflection formula on the Gamma domain]
+\begin{theorem}[Reflection formula boundary certificate]
 \label{thm:gamma-reflection}
-For \(s\) with \(\mathsf{GammaDom}(s)\) and \(\mathsf{GammaDom}(\Eone(\emp) - s)\), the product \(\Gamma(s) \Gamma(1 - s)\) equals \(\pi / \sin(\pi s)\) up to \(\ComplexClassifier\), where \(\pi\) is from \autoref{def:real-analytic-pi} and \(\sin\) is the constructive complex sine extending \autoref{def:real-analytic-sin-cos}.
+For $s$ with $\mathsf{GammaDom}(s)$ and $\mathsf{GammaDom}(\Eone(\emp) - s)$, a BEDC derivation of the classifier target
+$$
+\mathsf{ComplexClassifier}\!\left(\Gamma(s)\Gamma(\Eone(\emp)-s), \mathsf{Pi} / \mathsf{CplxSin}(\mathsf{Pi}\cdot s)\right)
+$$
+at the Gamma boundary carries the following certificate data:
+\begin{enumerate}
+  \item a Weierstrass-product witness for the $\Gamma(s)$ factor from \autoref{def:gamma-weierstrass-part};
+  \item a Weierstrass-product witness for the $\Gamma(\Eone(\emp)-s)$ factor from \autoref{def:gamma-weierstrass-part};
+  \item a common unary Cauchy modulus controlling both Gamma factors, obtained from \autoref{lem:gamma-weierstrass-cauchy};
+  \item a complex-sine product witness from $\ComplexAnalyticUp$ (\autoref{sec:cplx-analytic-trig});
+  \item an apartness witness showing that $\mathsf{CplxSin}(\mathsf{Pi}\cdot s)$ is a valid denominator on the displayed domain.
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-Combine \autoref{thm:gamma-recurrence} with the Weierstrass product for \(\sin\): \(\sin(\pi s) = \pi s \prod_{n \geq 1} (1 - s^2/n^2)\). The product representation of \(\Gamma(s) \Gamma(1-s)\) telescopes against the \(\sin\) product; details are deferred to a subsequent chapter, where the reflection formula is the principal application supporting the zeta functional equation in \autoref{ch:concrete-instances-zeta-continuation}.
+The two Gamma factors are already supplied by the closed Gamma construction: unfold \autoref{def:gamma} at $s$ and at $\Eone(\emp)-s$, then read off the partial products of \autoref{def:gamma-weierstrass-part}. Apply \autoref{lem:gamma-weierstrass-cauchy} to each domain witness and take the larger unary bound as the common modulus.
+
+The boundary also records the shift compatibility needed by any telescoping argument, namely \autoref{thm:gamma-recurrence}, together with the complex sine construction of \autoref{sec:cplx-analytic-trig}. The denominator side is not accepted without an explicit apartness witness for $\mathsf{CplxSin}(\mathsf{Pi}\cdot s)$ on the chosen domain point.
+
+These data are the certificate boundary consumed by downstream zeta arguments. The classifier equality displayed in the statement is a target for a BEDC derivation carrying those witnesses, not an equality asserted by this Gamma certificate alone.
 \end{proof}
 
 \section{Certificate target}
@@ -117,7 +254,7 @@ The tuple \((\mathsf{GammaDom}, \mathsf{Gamma}, \mathsf{Factorial})\), with sour
   \item \textbf{Source}: \(\ComplexUp\)-histories with explicit apartness witnesses against the negative-integer pole locus \(\mathsf{GammaPole}\).
   \item \textbf{Carrier}: \(\mathsf{GammaDom}\) is the closed inductive predicate of \autoref{def:gamma-domain}; \(\mathsf{Gamma}(s, z)\) is the closed inductive predicate of \autoref{def:gamma}.
   \item \textbf{Classifier}: limit-uniqueness up to \(\ComplexClassifier\) inherited from \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}).
-  \item \textbf{Stability obligations}: factorial bridge at positive integers (\autoref{thm:gamma-positive-integer}), Weierstrass Cauchy modulus (\autoref{lem:gamma-weierstrass-cauchy}), holomorphicity (\autoref{thm:gamma-holomorphic}), recurrence (\autoref{thm:gamma-recurrence}), \(\Gamma(1) = 1\) (\autoref{thm:gamma-at-one}), reflection formula (\autoref{thm:gamma-reflection}).
+  \item \textbf{Stability obligations}: factorial bridge at positive integers (\autoref{thm:gamma-positive-integer}), Weierstrass Cauchy modulus (\autoref{lem:gamma-weierstrass-cauchy}), holomorphicity (\autoref{thm:gamma-holomorphic}), recurrence (\autoref{thm:gamma-recurrence}), \(\Gamma(1) = 1\) (\autoref{thm:gamma-at-one}), reflection boundary certificate (\autoref{thm:gamma-reflection}).
   \item \textbf{Ledger}: explicit apartness precision \(k_0\) for every domain witness; explicit Cauchy modulus \(N\) for every Weierstrass evaluation; the unary factorial table for integer points.
   \item \textbf{Exactness predicate}: \(\mathsf{Gamma}(s, z)\) holds exactly for \(s \in \mathsf{GammaDom}\), with \(z\) determined uniquely up to \(\ComplexClassifier\).
   \item \textbf{Standard bridge}: when classical complex Gamma is supplied externally (Euler integral or Bohr-Mollerup characterisation), the \(\ComplexClassifier\)-equivalence with the constructive Weierstrass-product limit is recorded as the bridge slot.
@@ -135,5 +272,5 @@ The pole-locus apartness of \autoref{def:gamma-domain} together with the Weierst
 
 \begin{remark}[Schema-only horizon discharge]
 \label{rem:gamma-schema-horizon-discharge}
-This chapter discharges the schema-only-horizon flag set in \autoref{ch:concrete-instances-zeta-continuation} for the constructive Gamma function: the present Weierstrass-product construction supplies the witness types and explicit moduli that the zeta functional equation requires. Future closure of the Gamma reflection formula (\autoref{thm:gamma-reflection}) at the \texttt{\textbackslash leanchecked} level will fully retire the schema flag.
+This chapter exports the constructive Gamma witness types, the Weierstrass-product carriers, and the explicit unary moduli consumed by the zeta functional-equation chapter \autoref{ch:concrete-instances-zeta-continuation}.
 \end{remark}

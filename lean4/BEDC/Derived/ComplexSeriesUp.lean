@@ -41,6 +41,41 @@ theorem ComplexPartSum_deterministic {zero : BHist} {c : BHist -> BHist} {n S T 
           have samePartial := ih rightSum
           exact cont_respects_hsame samePartial (hsame_refl (c _)) leftStep rightStep
 
+theorem ComplexPartSum_visible_previous_decomposition_deterministic
+    {zero : BHist} {c : BHist -> BHist} {n S m P m' P' : BHist}
+    (left : n = BHist.e1 m ∧ ComplexPartSum zero c m P ∧ Cont P (c m) S)
+    (right : n = BHist.e1 m' ∧ ComplexPartSum zero c m' P' ∧ Cont P' (c m') S) :
+    m = m' ∧ hsame P P' := by
+  cases left with
+  | intro leftEq leftRest =>
+      cases right with
+      | intro rightEq rightRest =>
+          cases leftEq
+          cases rightEq
+          constructor
+          · rfl
+          · exact ComplexPartSum_deterministic leftRest.left rightRest.left
+
+theorem ComplexPartSum_exists_unique {zero : BHist} {c : BHist -> BHist} {n : BHist} :
+    UnaryHistory n -> exists S : BHist, ComplexPartSum zero c n S ∧
+      forall T : BHist, ComplexPartSum zero c n T -> hsame S T := by
+  intro unaryN
+  refine (unary_history_induction
+    (P := fun index => exists S : BHist, ComplexPartSum zero c index S ∧
+      forall T : BHist, ComplexPartSum zero c index T -> hsame S T)
+    ?base ?step n unaryN)
+  · exact Exists.intro zero
+      (And.intro ComplexPartSum.zero
+        (fun T other => ComplexPartSum_deterministic ComplexPartSum.zero other))
+  · intro m _unaryM previous
+    cases previous with
+    | intro S data =>
+        have current : ComplexPartSum zero c (BHist.e1 m) (append S (c m)) :=
+          ComplexPartSum.step data.left (cont_intro rfl)
+        exact Exists.intro (append S (c m))
+          (And.intro current
+            (fun T other => ComplexPartSum_deterministic current other))
+
 theorem ComplexPartSum_successor_term_hsame_deterministic {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T U : BHist} :
     hsame zero zero' -> (forall {m : BHist}, hsame (c m) (d m)) ->
@@ -229,6 +264,26 @@ theorem ComplexAbsPartSum_unary_index_deterministic {zero : BHist}
       | step rightSum rightStep =>
           have samePartial := ih unaryPrev rightSum
           exact cont_respects_hsame samePartial (hsame_refl (modulus _)) leftStep rightStep
+
+theorem ComplexAbsPartSum_result_unary {zero : BHist} {modulus : BHist -> BHist}
+    {n M : BHist}
+    (zeroUnary : UnaryHistory zero)
+    (modulusUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (modulus m)) :
+    ComplexAbsPartSum zero modulus n M -> UnaryHistory M := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact zeroUnary
+  | step previous stepContinuation ih =>
+      have indexUnary :
+          forall {m P : BHist}, ComplexAbsPartSum zero modulus m P -> UnaryHistory m := by
+        intro m P previousSum
+        induction previousSum with
+        | zero =>
+            exact unary_empty
+        | step _ _ inner =>
+            exact unary_e1_closed inner
+      exact unary_cont_closed ih (modulusUnary (indexUnary previous)) stepContinuation
 
 theorem ComplexAbsPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
     {modulus modulus' : BHist -> BHist} {n M T : BHist} :
