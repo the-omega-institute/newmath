@@ -161,6 +161,24 @@ the counit component with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_unit\_counit\_empty}
 
+\begin{theorem}[Adjunction unit-counit alternating unary]
+\label{thm:adjunction-unit-counit-alternating-unary}
+If $unit$, $counit$, and $depth$ are unary histories, then the alternating
+unit-counit ledger
+$$
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth)
+$$
+is unary.
+\end{theorem}
+\begin{proof}
+Induct on the unary depth. The empty depth yields the empty ledger. A
+zero-headed depth is impossible for a unary history. In the one-headed case,
+the recursive tail is unary by the induction hypothesis with $unit$ and
+$counit$ exchanged, and unary append closure combines it with the unary
+front component.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
+
 \begin{theorem}[Adjunction unit-counit alternating endomorphism empty]
 \label{thm:adjunction-unit-counit-alternating-endomorphism-empty}
 For histories $p,a,unit,counit,left,right,depth:\mathsf{BHist}$, if
