@@ -28,6 +28,52 @@ theorem RatStreamNameClassifier_real_unary_window_coverage {s t : BHist -> BHist
     fun k offset => classified.right.right (append a k)
       (unary_append_closed aUnary offset.left)⟩
 
+theorem RealUnaryStreamWindowClassifier_selected_shape_package
+    {s t : BHist -> BHist} {a w k u v zS zT : BHist} :
+    RatStreamNameCarrier s -> RatStreamNameCarrier t -> RatStreamNameClassifier s t ->
+      UnaryHistory a -> UnaryHistory w -> UnaryOffsetLe k w ->
+        hsame (s (append a k)) (BHist.e1 u) ->
+          hsame (t (append a k)) (BHist.e1 v) ->
+            RatHistoryClassifier (s (append a k)) (t (append a k)) ∧
+              RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) ∧ UnaryHistory u ∧
+                UnaryHistory v ∧ hsame u v ∧
+                  PositiveUnaryDenominator (s (append a k)) ∧
+                    PositiveUnaryDenominator (t (append a k)) ∧
+                      UnaryHistory (s (append a k)) ∧
+                        UnaryHistory (t (append a k)) ∧
+                          (hsame (s (append a k)) BHist.Empty -> False) ∧
+                            (hsame (t (append a k)) BHist.Empty -> False) ∧
+                              (hsame (s (append a k)) (BHist.e0 zS) -> False) ∧
+                                (hsame (t (append a k)) (BHist.e0 zT) -> False) := by
+  intro carrierS carrierT classified aUnary wUnary offset sameS sameT
+  have windowed : RealUnaryStreamWindowClassifier s t a w :=
+    RatStreamNameClassifier_real_unary_window_coverage carrierS carrierT classified aUnary wUnary
+  have selected : RatHistoryClassifier (s (append a k)) (t (append a k)) :=
+    windowed.right.right k offset
+  have displayed : RatHistoryClassifier (BHist.e1 u) (BHist.e1 v) :=
+    RatHistoryClassifier_hsame_transport sameS sameT selected
+  have readback : UnaryHistory u ∧ UnaryHistory v ∧ hsame u v :=
+    RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+  have positives :
+      PositiveUnaryDenominator (s (append a k)) ∧
+        PositiveUnaryDenominator (t (append a k)) :=
+    RatHistoryClassifier_positive_denominators selected
+  have leftRows :
+      UnaryHistory (s (append a k)) ∧ (hsame (s (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows :
+      UnaryHistory (t (append a k)) ∧ (hsame (t (append a k)) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact ⟨selected, displayed, readback.left, readback.right.left, readback.right.right,
+    positives.left, positives.right, leftRows.left, rightRows.left, leftRows.right,
+    rightRows.right,
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.left)),
+    (fun sameZero =>
+      PositiveUnaryDenominator_e0_absurd
+        (PositiveUnaryDenominator_hsame_transport sameZero positives.right))⟩
+
 def RealStreamWindowClassifier (x y : Nat -> BHist) (n m : Nat) : Prop :=
   forall k : Nat, k <= m -> RatHistoryClassifier (x (n + k)) (y (n + k))
 
