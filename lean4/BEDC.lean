@@ -168,6 +168,7 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
