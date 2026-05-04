@@ -22,6 +22,42 @@ theorem ComplexDistanceTriangleBound_unary_of_distances {z w u d12 d23 : BHist} 
     unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
   exact And.intro boundUnary (And.intro leftDistance.left rightDistance.right.left)
 
+theorem ComplexDistanceTriangleBound_empty_endpoints {z w u d12 d23 : BHist} :
+    ComplexDistance z w d12 -> ComplexDistance w u d23 ->
+      hsame (ComplexDistanceTriangleBound d12 d23) BHist.Empty ->
+        hsame z BHist.Empty ∧ hsame w BHist.Empty ∧ hsame u BHist.Empty := by
+  intro leftDistance rightDistance boundEmpty
+  have distanceEmpty := append_eq_empty_iff.mp boundEmpty
+  cases distanceEmpty.left
+  cases distanceEmpty.right
+  have leftEndpoints : hsame z BHist.Empty ∧ hsame w BHist.Empty := by
+    cases leftDistance with
+    | intro _zCarrier rest =>
+        cases rest with
+        | intro _wCarrier rest =>
+            cases rest with
+            | intro _dCarrier rel =>
+                cases rel with
+                | inl zw =>
+                    exact cont_empty_result_inversion zw
+                | inr wz =>
+                    have endpoints := cont_empty_result_inversion wz
+                    exact And.intro endpoints.right endpoints.left
+  have rightEndpoints : hsame w BHist.Empty ∧ hsame u BHist.Empty := by
+    cases rightDistance with
+    | intro _wCarrier rest =>
+        cases rest with
+        | intro _uCarrier rest =>
+            cases rest with
+            | intro _dCarrier rel =>
+                cases rel with
+                | inl wu =>
+                    exact cont_empty_result_inversion wu
+                | inr uw =>
+                    have endpoints := cont_empty_result_inversion uw
+                    exact And.intro endpoints.right endpoints.left
+  exact And.intro leftEndpoints.left (And.intro leftEndpoints.right rightEndpoints.right)
+
 theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     UnaryHistory q -> ComplexDistance z w d ->
       ComplexDistance (append z q) (append w q) (append (append z q) (append w q)) := by
