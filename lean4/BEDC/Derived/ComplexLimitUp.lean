@@ -265,4 +265,17 @@ theorem ComplexDistanceTriangleBound_unary {z w u d12 d23 : BHist} :
   intro leftDistance rightDistance
   exact unary_append_closed leftDistance.right.right.left rightDistance.right.right.left
 
+theorem ComplexDistance_unary_append_comm_package {z q : BHist} :
+    UnaryHistory z -> UnaryHistory q ->
+      ComplexDistance (append q z) (append z q) (append (append q z) (append z q)) ∧
+        hsame (append q z) (append z q) := by
+  intro zCarrier qCarrier
+  have leftCarrier : UnaryHistory (append q z) := unary_append_closed qCarrier zCarrier
+  have rightCarrier : UnaryHistory (append z q) := unary_append_closed zCarrier qCarrier
+  exact And.intro
+    (And.intro leftCarrier
+      (And.intro rightCarrier
+        (And.intro (unary_append_closed leftCarrier rightCarrier) (Or.inl (cont_intro rfl)))))
+    (unary_append_comm_hsame qCarrier zCarrier)
+
 end BEDC.Derived.ComplexLimitUp
