@@ -32,4 +32,16 @@ theorem FunctorPrefixHomCarrier_comp_empty_middle_inversion {p a c f g fg : BHis
               (And.intro targetCarrier sameCompositeTarget))
             sameCompositeTarget))))
 
+theorem FunctorPrefixHomCarrier_comp_empty_middle_target_deterministic
+    {p a c f g fg target : BHist} :
+    CategoryHomCarrier (append p a) BHist.Empty f ->
+      CategoryHomCarrier BHist.Empty (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier BHist.Empty target fg -> hsame target (append p c) := by
+  intro left right comp displayed
+  have inverted :=
+    FunctorPrefixHomCarrier_comp_empty_middle_inversion
+      (p := p) (a := a) (c := c) (f := f) (g := g) (fg := fg) left right comp
+  exact hsame_symm (CategoryHomCarrier_target_deterministic inverted.right.right.right.right.left
+    displayed)
+
 end BEDC.Derived.FunctorUp
