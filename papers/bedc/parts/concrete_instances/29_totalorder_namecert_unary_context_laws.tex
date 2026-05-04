@@ -1,0 +1,455 @@
+\begin{theorem}[Concrete unary prefix total-order greatest lower selector]
+\label{thm:totalorder-prefix-greatest-lower-selector}
+For carried unary histories $h,k$ in $\mathsf{Carrier}_{\mathsf{u}}$, there
+exists a carried history $l$ in $\mathsf{Carrier}_{\mathsf{u}}$ such that
+$$
+l\le_{\mathsf{u}}h,
+\qquad
+l\le_{\mathsf{u}}k,
+$$
+and, for every carried history $r$ in $\mathsf{Carrier}_{\mathsf{u}}$,
+$$
+\bigl(r\le_{\mathsf{u}}h\land r\le_{\mathsf{u}}k\bigr)
+\Rightarrow r\le_{\mathsf{u}}l.
+$$
+
+The per-object fields are: traditional target finite unary-word
+minimum/greatest-lower selector; BEDC source $\mathsf{UnaryHistory}$ over
+$\mathsf{BHist}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier
+$\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; ledger selected comparison
+branch; core theorem this block; exactness greatest-lower property; downstream
+consumer $\LatticeUp$ meet and unary interval certificates; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to the
+carried pair $h,k$. The proof splits according to the selected branch.
+
+In the strict-left branch $\mathsf{NatUnaryStrictPrefix}(h,k)$, choose $l=h$.
+Reflexivity from \autoref{thm:concrete-unary-prefix-preorder-laws} gives
+$h\le_{\mathsf{u}}h$, and forgetting the nonempty tail gives
+$h\le_{\mathsf{u}}k$. If $r$ is any common lower bound of $h$ and $k$, the
+first premise already supplies $r\le_{\mathsf{u}}h$, which is the required
+greatestness clause for the selected $l$.
+
+In the same branch $\rho_{\mathsf{u}}(h,k)$, choose $l=h$. The exactness row in
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$; the displayed lower-bound clauses
+use reflexivity of $h$ and the comparison $h\le_{\mathsf{u}}k$. For every
+common lower bound $r$, the premise $r\le_{\mathsf{u}}h$ is exactly the
+required comparison from $r$ to $l$.
+
+In the strict-right branch $\mathsf{NatUnaryStrictPrefix}(k,h)$, choose $l=k$.
+Forgetting strictness gives $k\le_{\mathsf{u}}h$, and reflexivity gives
+$k\le_{\mathsf{u}}k$. For a common lower bound $r$, the second premise supplies
+$r\le_{\mathsf{u}}k$, so every common lower bound lies below the selected $l$.
+
+These three cases construct the carried selector and verify both lower-bound
+rows and the greatest-lower property.
+\end{proof}
+
+\begin{theorem}[Concrete unary prefix total-order branch transport]
+\label{thm:concrete-unary-prefix-totalorder-branch-transport}
+For carried unary histories $h,h',k,k'$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, suppose
+$\rho_{\mathsf{u}}(h,h')$ and $\rho_{\mathsf{u}}(k,k')$. Then classifier
+replacement transports the three concrete comparison branches exactly:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)\Longleftrightarrow
+\mathsf{NatUnaryStrictPrefix}(h',k'),
+$$
+$$
+\rho_{\mathsf{u}}(h,k)\Longleftrightarrow\rho_{\mathsf{u}}(h',k'),
+$$
+$$
+\mathsf{NatUnaryStrictPrefix}(k,h)\Longleftrightarrow
+\mathsf{NatUnaryStrictPrefix}(k',h').
+$$
+The per-object fields are: traditional target constructive total-order branch
+transport; BEDC source $\mathsf{UnaryHistory}$ plus
+$\mathsf{NatUnaryStrictPrefix}$ and $\rho_{\mathsf{u}}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; stability
+obligation comparison transport; ledger endpoint replacement witnesses; core
+theorem this block; exactness the three displayed iff rows; standard bridge
+finite unary word total order; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The witness
+$\rho_{\mathsf{u}}(h,h')$ gives the endpoint comparison $\hsame(h,h')$, and
+$\rho_{\mathsf{u}}(k,k')$ gives $\hsame(k,k')$.
+
+For the strict-left row, the forward direction applies
+\autoref{thm:nat-unary-strict-prefix-cont-hsame-transport} to the strict
+witness from $h$ to $k$ with endpoint witnesses $\hsame(h,h')$ and
+$\hsame(k,k')$.
+
+The reverse direction uses the same transport theorem with the symmetric
+endpoint witnesses $\hsame(h',h)$ and $\hsame(k',k)$.
+
+For the classifier row, compose the endpoint comparison $\hsame(h,h')$, the
+middle comparison extracted from $\rho_{\mathsf{u}}(h,k)$, and the symmetric
+form of $\hsame(k,k')$. This gives $\hsame(h',k')$, which repackages with the
+transported carrier witnesses as $\rho_{\mathsf{u}}(h',k')$.
+
+The reverse classifier direction is the same composition with the two endpoint
+replacement witnesses reversed. Symmetry and transitivity of the carrier
+classifier recover $\rho_{\mathsf{u}}(h,k)$.
+
+For the strict-right row, read the strict witness as a strict unary prefix from
+$k$ to $h$. Apply the strict-prefix transport theorem with endpoints
+$\hsame(k,k')$ and $\hsame(h,h')$.
+
+The reverse strict-right direction again uses the symmetric endpoint witnesses.
+Thus all three comparison branches are preserved and reflected under concrete
+classifier replacement.
+\end{proof}
+
+\begin{definition}[Concrete unary successor comparison package]
+\label{def:concrete-unary-prefix-totalorder-successor-package}
+For a carried unary history $h$ in $\mathsf{Carrier}_{\mathsf{u}}$, the concrete
+successor comparison package is the pair
+$(h,\Eone(h))$ over the carrier $\mathsf{Carrier}_{\mathsf{u}}$, classifier
+$\rho_{\mathsf{u}}$, and order $\le_{\mathsf{u}}$ from
+\autoref{def:concrete-unary-prefix-totalorder-instance}. Its selected comparison
+tail is the visible one-step ledger element $\Eone(\emp)$, so the branch data are
+fixed as
+$$
+\mathsf{NatUnaryStrictPrefix}(h,\Eone(h)),
+\qquad
+\rho_{\mathsf{u}}(h,\Eone(h)),
+\qquad
+\mathsf{NatUnaryStrictPrefix}(\Eone(h),h).
+$$
+The package records the first branch as the selected concrete successor branch
+and retains the other two branches as explicit exclusion targets.
+\end{definition}
+
+\begin{theorem}[Concrete unary successor total-order strict branch]
+\label{thm:concrete-unary-prefix-totalorder-successor-strict}
+For every $h$ with $\mathsf{Carrier}_{\mathsf{u}}(h)$, the successor target
+$\Eone(h)$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ and the concrete
+successor comparison package of
+\autoref{def:concrete-unary-prefix-totalorder-successor-package} satisfies
+$$
+\mathsf{NatUnaryStrictPrefix}(h,\Eone(h)).
+$$
+Moreover,
+$$
+\rho_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target one-step successor separation; BEDC
+source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{NatUnaryStrictPrefix}$, and $\mathsf{PreorderPrefixLE}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; ledger tail
+$\Eone(\emp)$; core theorem this successor strict-branch law; exactness the
+exclusion of same and reverse-strict branches; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unary closure of $\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$ under the
+$\Eone$ constructor gives the carried target $\Eone(h)$.
+
+Apply \autoref{lem:nat-unary-strict-prefix-one-step} to the unary witness for
+$h$. The selected tail is $\Eone(\emp)$, so this produces
+$\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$ for the concrete successor pair.
+
+Now instantiate
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} at
+$h$ and $\Eone(h)$. Its incompatibility clause says that the selected strict-left
+branch cannot coexist with the same branch
+$\rho_{\mathsf{u}}(h,\Eone(h))$.
+
+The same partition also excludes coexistence of the selected strict-left branch
+with the strict-right branch
+$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$. Therefore any witness of either
+excluded branch yields $\mathsf{False}$.
+\end{proof}
+
+\begin{theorem}[Concrete unary successor strict branch under left context]
+\label{thm:concrete-unary-prefix-totalorder-successor-left-context-strict}
+For carried unary histories $p,h$ in $\mathsf{Carrier}_{\mathsf{u}}$, both
+contextual endpoints
+$$
+\mathsf{append}(p,h)
+\qquad
+\text{and}
+\qquad
+\mathsf{append}(p,\Eone(h))
+$$
+are carried by $\mathsf{Carrier}_{\mathsf{u}}$, and the contextual successor
+pair satisfies
+$$
+\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h))).
+$$
+Moreover,
+$$
+\rho_{\mathsf{u}}(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h)))
+\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,\Eone(h)),\mathsf{append}(p,h))
+\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target context-stable one-step successor
+separation; BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, $\mathsf{NatUnaryStrictPrefix}$, and
+$\mathsf{PreorderPrefixLE}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; ledger left context $p$ plus tail
+$\Eone(\emp)$; core theorem this contextual successor strict-branch law;
+exactness the exclusion of same and reverse-strict branches; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unary closure of $\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$ under
+append gives the carried endpoint $\mathsf{append}(p,h)$. Unary closure of $h$
+under $\Eone$ first gives $\Eone(h)$, and append closure with the same left
+context $p$ gives the carried endpoint $\mathsf{append}(p,\Eone(h))$.
+
+Apply \autoref{lem:nat-unary-strict-prefix-one-step} to the unary witness for
+$h$, obtaining the strict successor tail $\Eone(\emp)$ from $h$ to $\Eone(h)$.
+Continuation associativity transports this same nonempty tail through the left
+context $p$, producing the displayed
+$\mathsf{NatUnaryStrictPrefix}$ witness between the contextual endpoints.
+
+Instantiate
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} at
+$\mathsf{append}(p,h)$ and $\mathsf{append}(p,\Eone(h))$. Its incompatibility
+clauses exclude coexistence of the selected strict-left contextual branch with
+the same branch
+$\rho_{\mathsf{u}}(\mathsf{append}(p,h),\mathsf{append}(p,\Eone(h)))$ and with
+the reverse strict branch
+$\mathsf{NatUnaryStrictPrefix}
+(\mathsf{append}(p,\Eone(h)),\mathsf{append}(p,h))$. Therefore either excluded
+branch yields $\mathsf{False}$.
+\end{proof}
+
+\begin{theorem}[Concrete unary strict branch transitivity]
+\label{thm:totalorder-strict-branch-transitivity}
+For carried unary histories $h,k,l$ in $\mathsf{Carrier}_{\mathsf{u}}$,
+strict-left comparison is transitive:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)\land
+\mathsf{NatUnaryStrictPrefix}(k,l)
+\to
+\mathsf{NatUnaryStrictPrefix}(h,l).
+$$
+The strict-right branch is transitive in the same concrete carrier:
+$$
+\mathsf{NatUnaryStrictPrefix}(k,h)\land
+\mathsf{NatUnaryStrictPrefix}(l,k)
+\to
+\mathsf{NatUnaryStrictPrefix}(l,h).
+$$
+Consequently $\mathsf{lt}_{\mathsf{u}}$ and $\mathsf{gt}_{\mathsf{u}}$ are
+transitive on the concrete unary prefix $\TotalOrderUp$ instance.
+\end{theorem}
+\begin{proof}
+Unfold the strict-left branch of
+\autoref{def:concrete-unary-prefix-totalorder-instance}. The two hypotheses are
+exactly a strict unary prefix from $h$ to $k$ and a strict unary prefix from $k$
+to $l$. Apply
+\autoref{thm:nat-unary-strict-prefix-trans-composite-tail}; its composite tail
+witness gives $\mathsf{NatUnaryStrictPrefix}(h,l)$.
+
+For strict-right comparison, unfold
+$\mathsf{gt}_{\mathsf{u}}(x,y):=\mathsf{NatUnaryStrictPrefix}(y,x)$. The
+hypotheses become strict unary prefixes from $l$ to $k$ and from $k$ to $h$.
+Applying the same composite-tail transitivity theorem yields
+$\mathsf{NatUnaryStrictPrefix}(l,h)$.
+
+The carrier witnesses for $h$, $k$, and $l$ are not consumed by the strict-prefix
+composition itself; they keep the conclusion inside the concrete
+$\mathsf{Carrier}_{\mathsf{u}}$ total-order package. The two displayed
+implications are therefore precisely the transitivity fields for
+$\mathsf{lt}_{\mathsf{u}}$ and $\mathsf{gt}_{\mathsf{u}}$.
+\end{proof}
+
+\begin{theorem}[Concrete unary total-order branch context equivalence]
+\label{thm:totalorder-branch-two-sided-context-equivalence}
+Let $h,k,\ell,r$ be unary histories in
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$, and set
+$$
+H:=\mathsf{append}(\ell,\mathsf{append}(h,r)),
+\qquad
+K:=\mathsf{append}(\ell,\mathsf{append}(k,r)).
+$$
+Then $H$ and $K$ are carried unary histories, and the three comparison branches
+of \autoref{def:concrete-unary-prefix-totalorder-instance} are invariant under
+this common two-sided unary context:
+\begin{enumerate}
+  \item $\mathsf{lt}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{lt}_{\mathsf{u}}(h,k)$.
+  \item $\mathsf{same}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{same}_{\mathsf{u}}(h,k)$.
+  \item $\mathsf{gt}_{\mathsf{u}}(H,K)\Longleftrightarrow
+  \mathsf{gt}_{\mathsf{u}}(h,k)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unary closure under append first gives
+$\mathsf{UnaryHistory}(\mathsf{append}(h,r))$ and
+$\mathsf{UnaryHistory}(\mathsf{append}(k,r))$. Applying the same closure once
+more with the unary left context $\ell$ gives the carrier facts for $H$ and $K$.
+
+For the same branch, unfold
+$\mathsf{same}_{\mathsf{u}}:=\rho_{\mathsf{u}}$. By
+\autoref{thm:poset-prefix-classifier-exactness}, the classifier on carried
+unary histories is equivalent to the pair of opposing prefix comparisons.
+Apply \autoref{thm:preorder-prefix-append-both-context-iff} to the comparison
+$H\le_{\mathsf{u}}K$ and again to $K\le_{\mathsf{u}}H$; the two applications
+identify the contextual pair of prefix comparisons exactly with
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$. A second use of
+\autoref{thm:poset-prefix-classifier-exactness} repacks these comparisons as
+$\rho_{\mathsf{u}}(h,k)$.
+
+For the strict-left branch, unfold
+$\mathsf{lt}_{\mathsf{u}}$ as
+$\mathsf{NatUnaryStrictPrefix}$. In the forward direction from
+$\mathsf{NatUnaryStrictPrefix}(h,k)$, unpack the nonempty unary tail from $h$ to
+$k$. Right-context preservation composes this tail past $r$ by continuation
+associativity and unary-tail commutativity; left-context preservation then
+places $\ell$ outside both endpoints. The tail remains the same nonempty unary
+tail, so the result is $\mathsf{NatUnaryStrictPrefix}(H,K)$.
+
+For the reverse strict-left direction, unpack the nonempty unary tail from $H$
+to $K$. Its underlying prefix comparison cancels through
+\autoref{thm:preorder-prefix-cancel-both-context}, leaving a prefix comparison
+from $h$ to $k$. If the recovered central tail were empty, append-empty
+exactness would collapse $h$ and $k$, hence also $H$ and $K$ after the common
+unary context. Comparing that collapse with the original strict contextual tail
+would force the original tail empty, contradicting its strictness. Thus the
+central prefix tail is nonempty and gives
+$\mathsf{NatUnaryStrictPrefix}(h,k)$.
+
+The strict-right branch is the same argument with endpoints reversed, since
+$\mathsf{gt}_{\mathsf{u}}(x,y)$ unfolds to
+$\mathsf{NatUnaryStrictPrefix}(y,x)$. Applying the strict-left preservation and
+reflection just proved to the ordered pair $(k,h)$ gives the displayed
+equivalence for $\mathsf{gt}_{\mathsf{u}}$.
+\end{proof}
+
+\begin{theorem}[Concrete unary successor strict branch under two-sided context]
+\label{thm:totalorder-successor-two-sided-context-strict}
+Let $\ell,h,r$ be carried unary histories in
+$\mathsf{Carrier}_{\mathsf{u}}$, and set
+$$
+H:=\mathsf{append}(\ell,\mathsf{append}(h,r)),
+\qquad
+K:=\mathsf{append}(\ell,\mathsf{append}(\Eone(h),r)).
+$$
+Then $H$ and $K$ are carried by $\mathsf{Carrier}_{\mathsf{u}}$, and the
+contextual successor pair satisfies
+$$
+\mathsf{NatUnaryStrictPrefix}(H,K).
+$$
+Moreover,
+$$
+\rho_{\mathsf{u}}(H,K)\to\mathsf{False}
+\qquad
+\text{and}
+\qquad
+\mathsf{NatUnaryStrictPrefix}(K,H)\to\mathsf{False}.
+$$
+
+The per-object fields are: traditional target one-step successor separation
+stable under two-sided unary contexts; BEDC source $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\mathsf{append}$, $\Eone$, and
+$\mathsf{NatUnaryStrictPrefix}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
+classifier $\rho_{\mathsf{u}}$; ledger left context $\ell$, right context $r$,
+and visible tail $\Eone(\emp)$; core theorem this block; exactness the two
+excluded non-selected branches; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:concrete-unary-prefix-totalorder-successor-strict} to the carried
+history $h$. This gives the carried successor $\Eone(h)$, the base strict
+branch $\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$, and the two base exclusions
+for $\rho_{\mathsf{u}}(h,\Eone(h))$ and
+$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$.
+
+Apply
+\autoref{thm:totalorder-branch-two-sided-context-equivalence} with
+$k=\Eone(h)$ and the common contexts $\ell$ and $r$. Its carrier row gives the
+displayed carrier facts for $H$ and $K$.
+
+The strict-left equivalence transports the base branch
+$\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$ to
+$\mathsf{NatUnaryStrictPrefix}(H,K)$.
+
+For the same-branch exclusion, a witness of $\rho_{\mathsf{u}}(H,K)$ is a
+witness of $\mathsf{same}_{\mathsf{u}}(H,K)$. The same-branch equivalence sends
+it back to $\mathsf{same}_{\mathsf{u}}(h,\Eone(h))$, hence to
+$\rho_{\mathsf{u}}(h,\Eone(h))$, which is excluded by the base successor
+strict-branch theorem.
+
+For the reverse strict branch, unfold
+$\mathsf{gt}_{\mathsf{u}}(H,K)$ as $\mathsf{NatUnaryStrictPrefix}(K,H)$. The
+strict-right equivalence sends any such witness back to
+$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))$, namely
+$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$, and the base successor
+strict-branch theorem excludes it.
+\end{proof}
+
+\begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
+\label{thm:concrete-unary-prefix-totalorder-namecert}
+The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance} supplies
+the source, pattern, classifier, stability, ledger, and exactness rows for a
+$\NameCert$ licensing $\TotalOrderUp$ over
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$, classifier
+$\rho_{\mathsf{u}}$, order $\le_{\mathsf{u}}$, and comparison branches
+$\mathsf{NatUnaryStrictPrefix}(h,k)$, $\rho_{\mathsf{u}}(h,k)$, and
+$\mathsf{NatUnaryStrictPrefix}(k,h)$.
+\end{theorem}
+\begin{proof}
+The source and inherited order rows are the certified unary-prefix $\POSetUp$
+package. Apply \autoref{thm:concrete-unary-prefix-poset-namecert}; it supplies
+the $\mathsf{BHist}$ source, prefix pattern, classifier, stability, ledger, and
+exactness rows used by the total-order carrier.
+
+The classifier and exactness rows are fixed by
+\autoref{thm:poset-prefix-classifier-exactness}: on carried unary histories,
+$\rho_{\mathsf{u}}(h,k)$ is equivalent to the two opposing prefix comparisons
+$h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$.
+
+The stability row is the concrete total-order law package of
+\autoref{thm:concrete-unary-prefix-totalorder-laws}. It supplies the
+strict-to-apartness obligations, relation stability, constructive total
+comparison, comparison stability, and strict-comparison transitivity for the
+three displayed branches. The strict-comparison transitivity component is the
+concrete branch law of \autoref{thm:totalorder-strict-branch-transitivity}, and
+comparison stability is the branch transport theorem of
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport}.
+
+The ledger row is the selected branch certificate. By
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, each pair
+of carried unary histories chooses exactly one of the strict-left, same, and
+strict-right branches, and the same branch is the exact classifier branch.
+
+Repack these rows as the public $\NameCert$: the source is
+$\mathsf{UnaryHistory}$, the pattern is the three-way unary-prefix comparison,
+the classifier is $\rho_{\mathsf{u}}$, the stability data are the cited law
+fields, the ledger is the selected comparison branch, and exactness is the
+middle-branch equivalence.
+\end{proof}
+
+The per-object template is: traditional target concrete unary constructive
+total order; BEDC source unary $\mathsf{BHist}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}=\mathsf{UnaryHistory}$; classifier
+$\rho_{\mathsf{u}}$; order $\le_{\mathsf{u}}$; pattern strict-left,
+same, and strict-right unary-prefix comparison; stability obligations from
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}; ledger the selected
+comparison branch certificate; exactness same branch iff opposing prefix
+comparisons; status $\mathsf{ProofTarget}$.
+
+The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
+carrier and explicit comparison data, giving later Lean formalization a
+$\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
