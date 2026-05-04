@@ -39,6 +39,7 @@
 \input{parts/concrete_instances/field/20_field_selector_obstruction_chain_exit_packages}
 \input{parts/concrete_instances/field/20_field_two_step_algebra_hierarchy_exit_certificate}
 \input{parts/concrete_instances/field/20_field_final_inventory_packages}
+\input{parts/concrete_instances/field/20_field_selector_independent_exit_package}
 \input{parts/concrete_instances/field/20_field_ratup_fieldup_final_inventory_and_nonzero_exit}
 
 \begin{theorem}[RatUp FieldUp chapter certificate row coverage]
@@ -310,3 +311,78 @@ linear factor, signed-product orientations, square equality, external-unit law,
 and classifier endpoint; core theorem this block; exactness predicate the
 paired guard rows; downstream consumer Phase Algebra Hierarchy exit criterion;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp guarded full algebra hierarchy exit package]
+\label{thm:ratup-fieldup-guarded-full-algebra-hierarchy-exit-package}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u_0,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryClassifier}(x,x')$ and
+$\mathsf{RatHistoryClassifier}(y,y')$, a carried denominator
+$q:\mathsf{BHist}$ with $\mathsf{RatHistoryCarrier}(q)$, apart-zero context
+data $L_0,R_0,t:\mathsf{BHist}$ with
+$p:\mathsf{FieldApartZero}(L_0)$, a certified affine automorphism
+$A:\mathsf{AffAut}_F$, histories $a,b,u,d:\mathsf{BHist}$, the contextual
+action $\Gamma$, the affine source $\mathsf{AffAut}_F$, and the same BEDC
+history operations $add$, $mul$, $neg$, and $zero$ satisfying the CommRing
+hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$$
+H:\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr),
+$$
+then the one concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ exit package
+$\mathcal E_F$ simultaneously supplies:
+\begin{enumerate}
+  \item the full algebra hierarchy exit rows of
+  \autoref{thm:ratup-fieldup-full-algebra-hierarchy-exit-package};
+  \item the bilateral zero-factor guard row and external-unit classifier
+  separation guard row of
+  \autoref{thm:ratup-fieldup-bilateral-zero-factor-external-unit-guard-package}.
+\end{enumerate}
+The two components are read over the same concrete source
+$\mathsf{RatUpFieldSource}_F$, the same exit object $\mathcal E_F$, the same
+denominator tuple, contextual action, affine source, histories, carrier
+witnesses, selectors, contexts, support witness, Rat-classified endpoint pairs,
+carried denominator, apart-zero context, affine automorphism, and guard data.
+\end{theorem}
+\begin{proof}
+First instantiate
+\autoref{thm:ratup-fieldup-full-algebra-hierarchy-exit-package} with the
+displayed source, exit object, denominator tuple, histories $h,k,\ell$, carrier
+witnesses, selectors, contexts, support witness, Rat-classified endpoint pairs,
+carried denominator $q$, apart-zero data $L_0,R_0,t,p$, and affine automorphism
+$A$. This yields the full algebra hierarchy exit rows over the fixed
+$\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ package $\mathcal E_F$.
+
+Next instantiate
+\autoref{thm:ratup-fieldup-bilateral-zero-factor-external-unit-guard-package}
+with the shared exit object $\mathcal E_F$, the same denominator tuple,
+contextual action $\Gamma$, affine source $\mathsf{AffAut}_F$, BEDC history
+operations, histories $a,b,u,d$, and zero-linear-factor witness $H$. This yields
+the bilateral zero-factor guard row and the external-unit classifier separation
+guard row without changing the concrete exit object.
+
+Finally introduce the conjunction of these two instantiated outputs. The Phase
+Algebra Hierarchy exit criterion therefore consumes one guarded
+$\FieldUp(\RatUp)$ boundary whose full-exit rows and guard rows are anchored by
+the same concrete $\mathsf{BHist}$ object.
+\end{proof}
+
+Per-object template: traditional target guarded rational field phase-exit
+package; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, $\FieldUp$, and
+$\SubgroupUp$; carriers $\mathsf{RatHistoryCarrier}$, $C_D^u$, and $U_D$;
+classifiers $\mathsf{RatHistoryClassifier}$, $R_D^u$, $\hsame$, and the affine
+classifier; stability obligations full algebra hierarchy exit rows, bilateral
+zero-factor guard row, and external-unit classifier separation guard row;
+ledger denominator tuple, histories, carrier witnesses, selectors, contexts,
+support witness, endpoint pairs, carried denominator, apart-zero context,
+affine automorphism, contextual action, zero-linear-factor witness, and
+external-unit endpoint; exactness the combined exit-plus-guard boundary;
+downstream consumer Phase Algebra Hierarchy exit criterion; status
+$\mathsf{ProofTarget}$.
