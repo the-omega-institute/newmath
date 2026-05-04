@@ -746,10 +746,12 @@ and the displayed selected endpoints
 $$
 \hsame(s'(n),\Eone(a)),\quad \hsame(t'(n),\Eone(b)).
 $$
-Then the selected endpoints obtained from the StreamNameUp classifier carry the
-full RatUp denominator and one-tail shape package:
+Then pointwise transport carries the StreamNameUp classifier to the transported
+maps, and the selected endpoints obtained from that classifier carry the full
+RatUp denominator and one-tail shape package:
 $$
 \begin{array}{l}
+\mathsf{RatStreamNameClassifier}(s',t')\land\\
 \mathsf{RatHistoryClassifier}(s'(n),t'(n))\land
 \mathsf{PositiveUnaryDenominator}(s'(n))\land
 \mathsf{PositiveUnaryDenominator}(t'(n))\land\\
@@ -771,11 +773,17 @@ First convert the StreamNameUp classifier into the Real unary classifier. Apply
 fields projected from $\mathsf{RatStreamNameClassifier}(s,t)$, then use the
 reverse implication on the same classifier row.
 
+Next apply \autoref{thm:real-unary-streamname-transported-classifier} to the
+same two carrier fields, the converted Real unary classifier, and the two
+pointwise transport rows. This gives
+$\mathsf{RatStreamNameClassifier}(s',t')$.
+
 Now apply
 \autoref{thm:real-unary-streamname-transported-selected-endpoint-shape-package}
 to that Real unary classifier, the selected certified observation $n$, the two
 pointwise transport rows, and the two displayed $\Eone$ endpoint comparisons.
-The conclusion is exactly the displayed selected endpoint package.
+The conclusion is exactly the displayed selected endpoint package. Repack it
+with the transported StreamNameUp classifier row.
 \end{proof}
 
 Fit. Traditional target: selected unary stream observation readback from a
@@ -785,8 +793,9 @@ $\mathsf{RatStreamNameClassifier}$ transported through
 $\mathsf{RealUnaryStreamClassifier}$. Ledger: selected unary observation and
 endpoint displays. Core theorem:
 \autoref{thm:real-unary-streamname-classifier-selected-endpoint-shape-package}.
-Exactness: displayed endpoint package. Standard bridge: pointwise rational
-stream observation readback. Status: $\mathsf{ProofTarget}$.
+Exactness: transported StreamNameUp classifier and displayed selected endpoint
+package. Standard bridge: pointwise rational stream observation readback.
+Status: $\mathsf{ProofTarget}$.
 
 Fit. Traditional target: selected unary stream observation readback. BEDC source:
 RealUp unary streams plus RatUp classifier. Carrier: unary-indexed rational

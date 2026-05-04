@@ -176,4 +176,37 @@ theorem RealUnaryStreamWindowClassifier_streamName_transported_endpoint_shape_pa
         (PositiveUnaryDenominator_hsame_transport sameZero positives.right)),
     readback.left, readback.right.left, readback.right.right⟩
 
+theorem RealUnaryStreamWindowClassifier_restriction_with_offset_witness
+    {s t : BHist -> BHist} {a w u : BHist} :
+    RealUnaryStreamWindowClassifier s t a u -> UnaryOffsetLe w u ->
+      RealUnaryStreamWindowClassifier s t a w ∧
+        ∃ tau : BHist, UnaryHistory tau ∧ Cont w tau u := by
+  intro window offset
+  constructor
+  · constructor
+    · exact window.left
+    · constructor
+      · exact offset.left
+      · intro k kOffset
+        have lifted : UnaryOffsetLe k u := by
+          cases kOffset with
+          | intro kUnary kTail =>
+              cases kTail with
+              | intro tau tauData =>
+                  cases tauData with
+                  | intro tauUnary kTauCont =>
+                      cases offset with
+                      | intro _wUnary wTail =>
+                          cases wTail with
+                          | intro sigma sigmaData =>
+                              cases sigmaData with
+                              | intro sigmaUnary wSigmaCont =>
+                                  exact ⟨kUnary, ⟨append tau sigma,
+                                    unary_append_closed tauUnary sigmaUnary, by
+                                      cases kTauCont
+                                      cases wSigmaCont
+                                      exact append_assoc k tau sigma⟩⟩
+        exact window.right.right k lifted
+  · exact offset.right
+
 end BEDC.Derived.RealUp
