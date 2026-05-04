@@ -48,6 +48,26 @@ carry the tail metric witness to the displayed target tail.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_hsame\_target}
 
+\begin{theorem}[Metric distance witness left e1 result tail determinism]
+\label{thm:metric-distance-witness-left-e1-result-tail-deterministic}
+For histories $x,y,d,d'$, two visible-result distance witnesses with the same
+visible left endpoint and target determine the same result tail:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d'))
+\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two distance witnesses only to their continuation ledgers. BEDC
+continuation determinacy gives
+$\hsame(\Eone(d),\Eone(d'))$ for the two visible results. One-constructor
+inversion for $\Eone$ then descends this classifier to $\hsame(d,d')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_tail\_deterministic}
+
 \begin{theorem}[Metric distance witness left e1 result shape]
 \label{thm:metric-distance-witness-left-e1-result-shape}
 For histories $x,y,d$, every distance witness from $\Eone(x)$ has a visible
