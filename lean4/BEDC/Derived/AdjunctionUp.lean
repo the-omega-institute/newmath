@@ -203,6 +203,18 @@ theorem AdjunctionUnitCounitAlternating_endomorphism_empty
           tailEmpty
   exact alternatingEmpty boundaryEmpty.left boundaryEmpty.right depthUnary
 
+theorem AdjunctionUnitCounitAlternating_unary {unit counit depth : BHist} :
+    UnaryHistory unit -> UnaryHistory counit -> UnaryHistory depth ->
+      UnaryHistory (AdjunctionUnitCounitAlternating unit counit depth) := by
+  intro unitUnary counitUnary depthUnary
+  induction depth generalizing unit counit with
+  | Empty =>
+      exact unary_empty
+  | e0 tail _ih =>
+      cases depthUnary
+  | e1 tail ih =>
+      exact unary_append_closed unitUnary (ih counitUnary unitUnary depthUnary)
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔

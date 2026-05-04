@@ -43,6 +43,30 @@ right-unit continuation at $\emp$, identifying $right$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_identity\_empty\_result\_iff}
 
+\begin{theorem}[NatTrans prefix component left identity empty result]
+\label{thm:nattrans-prefix-component-left-identity-empty-result}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, if $left$ is obtained
+by composing the empty left identity before $\eta$, then $left$ is empty
+exactly when $\eta$ is empty and the two prefixes agree:
+$$
+\HSame(left,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\land \HSame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Left-identity closure identifies $left$ with $\eta$ and transports the
+prefix-component carrier to $left$. If $left$ is empty, this transported
+carrier becomes an empty prefix component, so the empty-identity exactness
+theorem gives $\HSame(p,q)$; the same left-identity comparison gives
+$\HSame(\eta,\emp)$.
+
+Conversely, if $\eta$ is empty, the displayed continuation has empty left tail
+and empty source component. The BEDC left-unit result identifies $left$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_left\_identity\_empty\_result\_iff}
+
 \begin{theorem}[NatTrans prefix component empty component prefix exactness]
 \label{thm:nattrans-prefix-component-carrier-component-empty-prefix-iff}
 For a prefix component $\eta$ from $p$ to $q$ at $a$, the component history is
