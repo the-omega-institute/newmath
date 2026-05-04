@@ -774,33 +774,6 @@ that intermediate carrier and the $mid_2 \to target$ carrier, using the
 ledgers ending at $certL$. This gives the left composite carrier with distance
 $\mathsf{append}(source,target)$.
 
-Build the right bracketing symmetrically. Apply
-Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the
-$mid_1 \to mid_2$ and $mid_2 \to target$ carriers, using the ledgers ending at
-$certGH$. Then compose the $source \to mid_1$ carrier with that intermediate
-carrier using the ledgers ending at $certR$. This gives the right composite
-carrier with the same displayed distance ledger
-$\mathsf{append}(source,target)$.
-
-For the graph-map row, apply continuation associativity up to history
-sameness, Theorem~\ref{thm:continuation-associativity-up-to-hsame}, to
-$\ContR(mapF,mapG,mapFG)$, $\ContR(mapFG,mapH,mapL)$,
-$\ContR(mapG,mapH,mapGH)$, and $\ContR(mapF,mapGH,mapR)$. This is the paper
-form of the checked kernel theorem
-\texttt{continuation\_associativity\_up\_to\_hsame}; uniqueness of the
-associative continuation endpoint is also recorded by
-\texttt{cont\_assoc\_unique}.
-
-For the modulus row, use the same continuation-associativity argument on
-$\ContR(modF,modG,modFG)$, $\ContR(modFG,modH,modL)$,
-$\ContR(modG,modH,modGH)$, and $\ContR(modF,modGH,modR)$. The resulting
-classifier row is $\hsame(modL,modR)$.
-
-Finally apply
-Theorem~\ref{thm:continuousmap-carrier-comp-distance-deterministic} to the
-left two-step composition data for any displayed left-bracketed carrier, and
-apply the same theorem to the right two-step composition data for any
-displayed right-bracketed carrier. The two applications give the two displayed
-distance-determinacy clauses.
+\input{parts/concrete_instances/108_continuousmap_associative_package_proof_tail.tex}
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_composition\_associative\_canonical\_package}
