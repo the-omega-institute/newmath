@@ -1,22 +1,6 @@
 \section{RatUp continuation closure for the FieldUp boundary}
 \label{sec:field-rat-continuation-closure}
 
-\begin{theorem}[Field positive denominator append split]
-\label{thm:field-positive-denominator-append-split}
-If the appended denominator $\mathsf{append}(h,k)$ has a positive unary
-denominator witness, then either $h$ already has a positive unary denominator
-witness or $k$ has one.
-\end{theorem}
-\begin{proof}
-Split on the right factor $k$. If $k=\emp$, the appended denominator is $h$,
-so the witness is on the left. If $k=\Ezero(t)$, the appended denominator has
-zero-extension shape, contradicting zero-constructor separation for positive
-denominators. If $k=\Eone(t)$, the positive-denominator equivalence exposes
-that $\mathsf{append}(h,t)$ is unary. Unary append factorization gives unary
-membership of $t$, and hence a positive denominator witness for $\Eone(t)$.
-\end{proof}
-\leanchecked{BEDC.Derived.FieldUp.field\_positive\_denominator\_append\_split}
-
 \begin{theorem}[Rat history carrier append split]
 \label{thm:rat-history-carrier-append-split}
 If the appended denominator $\mathsf{append}(h,k)$ lies in the rational history
@@ -24,10 +8,10 @@ carrier, then either $h$ or $k$ lies in the rational history carrier.
 \end{theorem}
 \begin{proof}
 Convert the appended rational history carrier to a positive unary denominator
-witness by the rational carrier equivalence. The field positive-denominator
-append split places that witness on $h$ or on $k$; converting the selected
-positive-denominator branch back through the same equivalence gives the
-corresponding rational history carrier.
+witness by the rational carrier equivalence. The positive-denominator append
+factor-or-tail theorem places that witness on $h$ or on $k$; converting the
+selected positive-denominator branch back through the same equivalence gives
+the corresponding rational history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatHistoryCarrier\_append\_split}
 

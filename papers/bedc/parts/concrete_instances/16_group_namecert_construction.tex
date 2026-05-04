@@ -105,6 +105,121 @@ $\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
 classifiers with $h$ as the right factor, so the right factor is the displayed
 singleton-unit conclusion.
 \end{proof}
+
+\begin{theorem}[Unary append inverse field iff singleton collapse]
+\label{thm:unary-append-inverse-field-iff-singleton-collapse}
+For every operation $i:\mathsf{BHist}\to\mathsf{BHist}$ satisfying unary
+preservation
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow\mathsf{UnaryHistory}(i(h)),
+$$
+the two-sided inverse-field laws under
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ are equivalent to
+singleton-unit collapse:
+$$
+\begin{array}{c}
+\left(
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)
+\right)\\
+\land\\
+\left(
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(i(h),h),\emp)
+\right)
+\end{array}
+\Longleftrightarrow
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
+$$
+The ten-field fit is: traditional target exact obstruction to a full unary
+append group; BEDC source $\mathsf{UnaryHistory}$, $\mathsf{append}$, and
+$\mathsf{MonoidHistoryClassifier}$; carrier $\mathsf{UnaryHistory}$;
+classifier $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;
+stability from unit-product factor exactness and unary preservation; ledger
+the inverse candidate; core theorem this block; exactness the displayed iff;
+downstream consumer $\GroupUp$ and $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the displayed conjunction of inverse-field
+laws. Its right-inverse conjunct is exactly the hypothesis of
+\autoref{thm:unary-append-inverse-field-collapses-to-singleton}, so that
+theorem gives the displayed singleton-unit collapse.
+
+For the reverse direction, assume singleton-unit collapse and fix a unary
+history $h$. The collapse hypothesis gives
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)$. Unary
+preservation gives $\mathsf{UnaryHistory}(i(h))$, and applying the same
+collapse hypothesis to $i(h)$ gives
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(i(h),\emp)$.
+
+Apply the reverse direction of
+\autoref{thm:unary-append-unit-product-factor-exactness} to these two factor
+classifiers. This produces the right inverse-field classifier for
+$\mathsf{append}(h,i(h))$.
+
+The left inverse-field classifier is obtained from the same two factor
+classifiers in the opposite order. Applying the reverse direction of
+\autoref{thm:unary-append-unit-product-factor-exactness} to the pair
+$i(h)$, $h$ classifies $\mathsf{append}(i(h),h)$ as $\emp$, completing the
+two-sided inverse-field laws.
+\end{proof}
+
+\begin{theorem}[Full unary append left-inverse obstruction]
+\label{thm:full-unary-append-left-inverse-obstruction}
+For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, if the
+full unary-history append carrier carries the left-inverse field
+$$
+\begin{array}{l}
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow{}\\
+\qquad
+\mathsf{UnaryHistory}(\mathsf{inv}(h))\land{}\\
+\qquad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(h),h),\emp),
+\end{array}
+$$
+then $\mathsf{False}$.
+
+The ten-field fit names the traditional target as the two-sided obstruction to
+a full unary-history group; BEDC source $\mathsf{UnaryHistory}$; carrier
+$\mathsf{UnaryHistory}$; classifier
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; stability from
+unit-product factor exactness; ledger the proposed left-inverse field;
+exactness the contradiction; downstream consumer the $\GroupUp$ carrier
+selection; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume such an operation $\mathsf{inv}$ and its displayed left-inverse field.
+Specialize the field at $h=\Eone(\emp)$, a concrete unary history. This gives
+the classified product
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(\Eone(\emp)),\Eone(\emp)),\emp).
+$$
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classified product. The forward direction decomposes the append product into
+the two unit-classified factors, and the right factor is
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+
+Unfold the classifier from \autoref{def:concrete-history-monoid-instance}. The
+displayed classifier contains the internal history-sameness witness
+$\Eone(\emp)\hsame\emp$. This contradicts
+\autoref{thm:history-no-confusion}, because an $\Eone$-history and $\emp$ have
+different outer constructors. Hence the left-inverse field yields
+$\mathsf{False}$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
@@ -147,6 +262,8 @@ $$
 \Longleftrightarrow R_{\emp}(x,y).
 $$
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_conjugator\_pair\_classifier\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_two\_conjugator\_classifier\_iff}
 
 \begin{theorem}[Group singleton normalizer orbit action chain]
 \label{thm:group-singleton-normalizer-orbit-action-chain}

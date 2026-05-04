@@ -59,4 +59,46 @@ theorem GroupSingletonClassifier_two_sided_cancel {a b c d : BHist} :
     append_left_cancel (h := a) sameLeftProducts
   exact And.intro carrierB (And.intro carrierD sameMiddle)
 
+theorem GroupSingletonClassifier_equation_solver_determinacy {a b c d x y : BHist} :
+    GroupSingletonCarrier a -> GroupSingletonCarrier b -> GroupSingletonCarrier c ->
+    GroupSingletonCarrier d -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      ((GroupSingletonClassifier (append a x) b ->
+          GroupSingletonClassifier (append a y) b -> GroupSingletonClassifier x y) ∧
+        (GroupSingletonClassifier (append x a) b ->
+          GroupSingletonClassifier (append y a) b -> GroupSingletonClassifier x y) ∧
+        (GroupSingletonClassifier (append (append a x) c) d ->
+          GroupSingletonClassifier (append (append a y) c) d ->
+            GroupSingletonClassifier x y)) := by
+  intro carrierA carrierB carrierC _carrierD carrierX carrierY
+  constructor
+  · intro classifiedX classifiedY
+    have solvedX : GroupSingletonClassifier x (append (GroupSingletonInv a) b) :=
+      (GroupSingletonClassifier_left_equation_exact_iff carrierA carrierX carrierB).mp
+        classifiedX
+    have solvedY : GroupSingletonClassifier y (append (GroupSingletonInv a) b) :=
+      (GroupSingletonClassifier_left_equation_exact_iff carrierA carrierY carrierB).mp
+        classifiedY
+    exact And.intro carrierX
+      (And.intro carrierY (hsame_trans solvedX.right.right (hsame_symm solvedY.right.right)))
+  · constructor
+    · intro classifiedX classifiedY
+      have solvedX : GroupSingletonClassifier x (append b (GroupSingletonInv a)) :=
+        (GroupSingletonClassifier_right_equation_exact_iff carrierA carrierX carrierB).mp
+          classifiedX
+      have solvedY : GroupSingletonClassifier y (append b (GroupSingletonInv a)) :=
+        (GroupSingletonClassifier_right_equation_exact_iff carrierA carrierY carrierB).mp
+          classifiedY
+      exact And.intro carrierX
+        (And.intro carrierY
+          (hsame_trans solvedX.right.right (hsame_symm solvedY.right.right)))
+    · intro classifiedX classifiedY
+      have sameProducts :
+          hsame (append (append a x) c) (append (append a y) c) :=
+        hsame_trans classifiedX.right.right (hsame_symm classifiedY.right.right)
+      have productClassifier :
+          GroupSingletonClassifier (append (append a x) c) (append (append a y) c) :=
+        And.intro classifiedX.left (And.intro classifiedY.left sameProducts)
+      exact GroupSingletonClassifier_two_sided_cancel carrierA carrierX carrierC carrierY
+        productClassifier
+
 end BEDC.Derived.GroupUp

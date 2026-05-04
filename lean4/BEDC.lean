@@ -165,6 +165,7 @@ import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.StreamNameUp
@@ -205,6 +206,7 @@ import BEDC.Derived.GroupUp.ContextualContinuationProductUnit
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.SingletonNormalizerAction
+import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.GroupUp.NormalizerAction
 import BEDC.Derived.GroupUp.EquationCancellationSolver
 import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
