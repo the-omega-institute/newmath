@@ -206,33 +206,6 @@ $\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
 
-\begin{theorem}[Framed list-spine cons endpoint injectivity]
-\label{thm:list-spine-rep-cons-endpoint-injective}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If
-$\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))$ and
-$\mathsf{FramedListSpineRep}_A(k,\mathsf{cons}(b,ys))$ hold, and
-$\hsame(h,k)$ holds, then the two framed cons endpoints are $\hsame$, and their
-head payloads and tail endpoints are separately $\hsame$:
-$$
-\hsame(\Eone(\mathsf{PairFrame}(a,\mathsf{FramedListEndpoint}(xs))),
-\Eone(\mathsf{PairFrame}(b,\mathsf{FramedListEndpoint}(ys))))
-$$
-and
-$$
-\hsame(a,b)\land
-\hsame(\mathsf{FramedListEndpoint}(xs),\mathsf{FramedListEndpoint}(ys)).
-$$
-\end{theorem}
-\begin{proof}
-Compose the stored endpoint witness for the first representation, the displayed
-$\hsame(h,k)$ witness, and the stored endpoint witness for the second
-representation. This gives $\hsame$ between the two cons endpoints. Applying
-\autoref{thm:framed-list-endpoint-no-confusion-cons-inversion} to that cons-cons
-endpoint equality exposes both the head equality $\hsame(a,b)$ and the tail
-endpoint equality.
-\end{proof}
-\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_cons\_endpoint\_injective}
-
 \begin{theorem}[Framed list-spine nil-cons no-confusion]
 \label{thm:framed-list-spine-rep-nil-cons-no-confusion}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. No
