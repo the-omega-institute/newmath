@@ -193,6 +193,40 @@ field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric distance witness visible-context triangle depth-zero collapse]
+\label{thm:metric-distance-witness-visible-context-triangle-depth-zero-collapse}
+For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, if the first triangle edge
+is displayed through visible source and target ledgers and the final triangle
+distance has structural depth zero, then the triangle append equality holds
+and every central endpoint and intermediate distance collapses to $\emp$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,p\cdot d_{xy}\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\Longrightarrow
+\\
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+contextual first edge. This recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ while leaving the two remaining
+triangle witnesses unchanged.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-depth-zero-collapse} to the
+central witness, the witness from $y$ to $z$, the witness from $d_{xy}$ to $z$,
+and the depth-zero hypothesis. The resulting conjunction is exactly the stated
+visible-context collapse conclusion.
+\end{proof}
+
 \begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
 \label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
