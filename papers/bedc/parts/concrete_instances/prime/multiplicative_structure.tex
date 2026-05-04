@@ -189,6 +189,26 @@ append of $d$, which identifies the result with $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}
 
+\begin{lemma}[Unit right multiplication iff]
+\label{lem:nat-mul-unit-right-iff}
+For every unary history $d$, multiplication on the right by the unit history
+returns exactly the multiplicand up to history-sameness:
+$$
+\mathsf{UnaryHistory}(d)
+\Longrightarrow
+\bigl(\mathsf{NatMul}(d,\Eone(\emp),n)\Longleftrightarrow \hsame(n,d)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+The forward direction is
+\autoref{lem:natmul-unit-right-hsame}. For the reverse direction, reduce along
+the displayed history-sameness. The zero multiplication constructor gives
+$\mathsf{NatMul}(d,\emp,\emp)$ from the unary carrier, and the successor
+constructor appends $d$ to the empty product using the left-unit continuation
+law.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_iff}
+
 \begin{theorem}[Unit multiplication result forces unit factors]
 \label{thm:natmul-unit-result-factors-unit}
 If a unary multiplication witness returns the unit history, then both the
