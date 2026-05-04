@@ -76,4 +76,12 @@ theorem MetricDistanceWitness_left_e1_result_tail_deterministic {x y d d' : BHis
     cont_deterministic left.2.2.2 right.2.2.2
   exact hsame_e1_iff.mp visibleSame
 
+theorem MetricDistanceWitness_right_e1_result_tail_deterministic {x y d d' : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ->
+      MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d') -> hsame d d' := by
+  intro left right
+  have visibleSame : hsame (BHist.e1 d) (BHist.e1 d') :=
+    cont_deterministic left.2.2.2 right.2.2.2
+  exact hsame_e1_iff.mp visibleSame
+
 end BEDC.Derived.MetricUp
