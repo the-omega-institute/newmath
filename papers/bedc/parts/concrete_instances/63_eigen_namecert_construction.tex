@@ -33,6 +33,62 @@ continuation endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_singleton\_append}
 
+\begin{theorem}[Eigen component singleton carrier continuation result transport]
+\label{thm:eigen-component-singleton-carrier-cont-result-transport}
+For histories \(m,\lambda,v,pair,full,full':\mathsf{BHist}\), suppose the
+component singleton eigen carrier holds for \((m,\lambda,v,pair)\),
+\(\lambda\) carries the determinant singleton scalar certificate,
+\(\Cont(m,pair,full)\), and \(full\hsame full'\). Then \(full'\) lies in the
+eigen singleton carrier.
+\end{theorem}
+\begin{proof}
+Unpack the component carrier to expose the linear-map carriers for \(m\) and
+\(v\) and the scalar-vector continuation \(\Cont(\lambda,v,pair)\). Compose
+this continuation with \(\Cont(m,pair,full)\) to rewrite the endpoint as
+\(\Cont(m,\mathsf{append}(\lambda,v),full)\). The determinant singleton carrier
+for \(\lambda\) and the final \(\hsame\)-transport place \(full'\) in the
+eigen singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_cont\_result\_transport}
+
+\begin{theorem}[Eigen component singleton carrier pair determinacy]
+\label{thm:eigen-component-singleton-carrier-pair-deterministic}
+For histories $f,\lambda,v,pair,pair':\mathsf{BHist}$, two component
+singleton eigen carriers over the same $(f,\lambda,v)$ determine the same
+scalar-vector endpoint $\hsame(pair,pair')$. Both stored continuation ledgers
+$\Cont(\lambda,v,pair)$ and $\Cont(\lambda,v,pair')$ remain available.
+\end{theorem}
+\begin{proof}
+Unpack both component singleton carriers. They contain the two BEDC
+continuation ledgers with the same source $\lambda$ and tail $v$. The
+kernel determinacy theorem for continuation endpoints identifies their
+results, and the two ledgers are retained directly from the carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_pair\_deterministic}
+
+\begin{theorem}[Eigen component singleton carrier append classifier]
+\label{thm:eigen-component-singleton-carrier-append-classifier}
+For histories $m,m',\lambda,\lambda',v,v',pair,pair':\mathsf{BHist}$, suppose
+the component singleton eigen carriers hold for $(m,\lambda,v,pair)$ and
+$(m',\lambda',v',pair')$, both scalar components carry determinant singleton
+certificates, and the three displayed components satisfy
+$m\hsame m'$, $\lambda\hsame\lambda'$, and $v\hsame v'$. Then the append
+endpoints $\mathsf{append}(m,pair)$ and $\mathsf{append}(m',pair')$ are
+classified by the eigen singleton classifier.
+\end{theorem}
+\begin{proof}
+The component carriers and determinant singleton scalar certificates give the
+two eigen singleton carrier endpoints by
+\autoref{thm:eigen-component-singleton-carrier-singleton-append}. Unpacking the
+component carriers exposes the two BEDC continuations
+$\Cont(\lambda,v,pair)$ and $\Cont(\lambda',v',pair')$. Continuation respects
+the scalar and vector history equalities, so $pair\hsame pair'$. Applying the
+same continuation-respect principle to the map equality and these pair
+endpoints identifies $\mathsf{append}(m,pair)$ with
+$\mathsf{append}(m',pair')$, closing the restricted classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_append\_classifier}
+
 \begin{theorem}[Eigen singleton carrier pair emptiness]
 \label{thm:eigen-singleton-carrier-pair-empty}
 For histories $f,\lambda,v,pair:\mathsf{BHist}$, the component singleton
@@ -89,6 +145,24 @@ witness components to be $\emp$ and use the displayed $p\hsame\emp$ witness
 as the empty continuation result.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_empty\_iff}
+
+\begin{theorem}[Eigen singleton continuation sources empty]
+\label{thm:eigen-singleton-carrier-cont-sources-empty}
+For BEDC histories $map$, $payload$, and $pair$, if $pair$ lies in the eigen
+singleton carrier and $\Cont(map,payload,pair)$, then both continuation sources
+are empty:
+$$
+\mathsf{EigenSingletonCarrier}(pair)\land \Cont(map,payload,pair)
+\Longrightarrow map\hsame\emp\ \wedge\ payload\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The carrier-empty equivalence identifies $pair$ with $\emp$. The continuation
+payload identifies $pair$ with $\mathsf{append}(map,payload)$, hence the
+append endpoint is empty. BEDC append-empty inversion splits this endpoint into
+the two empty source comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_cont\_sources\_empty}
 
 \begin{theorem}[Eigen singleton carrier append-context empty iff]
 \label{thm:eigen-singleton-carrier-append-context-empty-iff}

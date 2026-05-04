@@ -254,6 +254,22 @@ theorem AdjunctionUnitCounitAlternating_positive_depth_cont_readback {unit couni
       cases data.left
       exact ⟨tail, data.right, cont_intro rfl⟩
 
+theorem AdjunctionUnitCounitAlternating_positive_depth_unit_empty_readback
+    {unit counit depth : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      hsame unit BHist.Empty ->
+        ∃ tail : BHist, UnaryHistory tail ∧
+          hsame (AdjunctionUnitCounitAlternating unit counit depth)
+            (AdjunctionUnitCounitAlternating counit unit tail) := by
+  intro depthUnary depthNonempty unitEmpty
+  have readback :=
+    AdjunctionUnitCounitAlternating_positive_depth_cont_readback
+      (unit := unit) (counit := counit) depthUnary depthNonempty
+  cases readback with
+  | intro tail data =>
+      cases unitEmpty
+      exact ⟨tail, data.left, cont_left_unit_result data.right⟩
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔
