@@ -590,6 +590,56 @@ is reflexive. Repacking the two carriers and this payload gives
 $\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$.
 \end{proof}
 
+\begin{theorem}[Integer balanced contextual opposite-sign zero collapse]
+\label{thm:int-balanced-contextual-opposite-sign-zero-collapse}
+For all $a,b,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, $\mathsf{Unary}(m)$, and $\mathsf{Unary}(n)$, then
+the balanced contextual opposite-sign pair collapses exactly at the two zero
+counters:
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,m),\mathsf{append}(\emp,b)),
+(\mathsf{append}(a,\emp),\mathsf{append}(n,b)))
+\Longleftrightarrow
+\hsame(m,\emp)\land\hsame(n,\emp).
+$$
+The ten-field fit is the following. The traditional target is contextual
+opposite-sign integer zero collapse. The BEDC source consists of
+$\mathsf{IntPairClassifier}$, $\mathsf{Unary}$, $\mathsf{append}$, $\emp$,
+balanced context exactness, and canonical opposite-sign zero collapse. The
+carrier is carried by unary difference pairs. The classifier is
+cross-addition sameness. Stability is removal of the shared positive and
+negative contexts. The ledger records hidden common contexts $a,b$ together
+with zero counters. The core theorem is this balanced contextual zero-collapse
+block. Exactness is the displayed iff. The standard bridge is ordinary
+cancellation of equal added contexts before the fact that a unary sum is zero
+only when both summands are zero. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the contextual classifier. Apply
+Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness} with
+$p=m$, $n=\emp$, $q=\emp$, and $m=n$. The unary hypotheses for $a$ and $b$
+remove the balanced positive and negative contexts and reduce the classifier to
+$$
+\mathsf{IntPairClassifier}((m,\emp),(\emp,n)).
+$$
+
+Theorem~\ref{thm:int-canonical-opposite-sign-zero-collapse}, applied with the
+unary hypotheses for $m$ and $n$, converts this canonical opposite-sign
+classifier into $\hsame(m,\emp)\land\hsame(n,\emp)$.
+
+For the reverse direction, assume
+$\hsame(m,\emp)\land\hsame(n,\emp)$. The canonical
+opposite-sign zero-collapse theorem first gives
+$\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$ from the unary hypotheses for
+$m$ and $n$.
+
+Apply Theorem~\ref{thm:int-pair-classifier-balanced-append-context-exactness}
+again with $p=m$, $n=\emp$, $q=\emp$, and $m=n$. Reading this equivalence in
+the reverse direction, the unary hypotheses for $a$ and $b$ transport the
+canonical classifier into the displayed balanced contextual classifier.
+\end{proof}
+
 \begin{theorem}[Integer history classifier positive append context iff]
 \label{thm:int-history-classifier-positive-append-context-iff}
 For all $a,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
