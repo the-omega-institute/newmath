@@ -4354,3 +4354,83 @@ The multiplicativity-of-evaluation law is the canonical compatibility theorem be
 
 ---
 
+### B-170 - Functor composition associativity classifier law
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor composition associativity classifier law |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a FunctorUp setup, for certified functors F, G, H, the composites (H∘G)∘F and H∘(G∘F) are classifier-equal pointwise on objects and on hom-carriers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The functor chapter (37) is currently definition-only with no theorems, and B-11 only covers hom-carrier closure under a single composition step, not associativity across triple composition. Functor associativity is a foundational structural law that any FunctorUp certificate must support before NatTrans-level theorems (B-14) can compose along functor changes. The claim is a clean single-implication statement under a known setup, fits squarely in concrete_instances, and is not paraphrased by any current BOARD card or paper label. Different mechanism from B-11 (closure under one composition vs. two triple-composition associates classifying equally), so it spawns its own proof obligation rather than duplicating existing work.
+
+---
+
+### B-171 - LinearMap pointwise inverse is a LinearMap
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap pointwise inverse is a LinearMap |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If LinearMapCert_R(M, N; f) holds for a module homomorphism f: M -> N, then the pointwise additive inverse x |-> -_N f(x) carries LinearMapCert_R(M, N; -f).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+This is a concrete sibling closure theorem on the LinearMap certificate. The current branch is actively editing module_linearmap_certificates.tex, indicating LinearMap is a live working surface, but no BOARD entry covers pointwise additive-inverse closure (B-08, B-19, B-20, B-23, B-24 are all about scalar action / module compatibility rather than about the LinearMap-of-modules level). It is a needed lemma for any AbGroupUp construction on Hom_R(M, N) and stands alone as a single-implication, classifier-respecting closure obligation that the LinearMap chapter does not yet prove explicitly.
+
+---
+
+
+### B-172 - Hom_R(M,N) carries AbGroup certificate via pointwise structure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Hom_R(M,N) carries AbGroup certificate via pointwise structure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under LinearMapCert_R(M, N; -) for module homomorphisms, the pointwise zero, pointwise sum, pointwise inverse, associativity, commutativity, and unit rows assemble into an AbGroupUp certificate on Hom_R(M, N).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+
+Rationale:
+This is a structural extension theorem: the Hom-set of R-linear maps inherits an abelian-group certificate built from per-pointwise data. No existing BOARD entry constructs a higher-level AbGroupUp on a function space; the surrounding entries B-08/B-19/B-20/B-23/B-24 stay inside Module/Ring scalar-action territory, while B-11/B-14 stay inside Functor/NatTrans hom-carrier territory. Building AbGroup on Hom_R(M, N) is the natural next theorem after the pointwise-inverse closure and is a prerequisite for any later Hom-as-Module or tensor-Hom adjunction work that the active linearmap/tensorproduct edits will need.
+
+---
+

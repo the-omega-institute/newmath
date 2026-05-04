@@ -176,9 +176,11 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.MapShape
 import BEDC.Derived.ListUp.PublicReverse
 import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
@@ -291,6 +293,7 @@ import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
+import BEDC.Derived.CommRingUp.SingletonStrictZeroDivisor
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
