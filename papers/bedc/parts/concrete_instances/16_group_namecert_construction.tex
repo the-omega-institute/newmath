@@ -685,5 +685,63 @@ Again use the reverse direction of orbit exactness to convert that classifier
 into the displayed orbit relation.
 \end{proof}
 
+\begin{theorem}[Group singleton normalizer action orbit identity]
+\label{thm:group-singleton-normalizer-action-orbit-identity-iff}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, write
+$$
+\mathsf{Conj}_s(z):=\mathsf{mul}(\mathsf{mul}(s,z),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(x)$, and $A_{\emp}(y)$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}y \Longleftrightarrow
+x\sim_{N_{\emp}}y.
+$$
+The ten-field fit names the traditional target as terminal normalizer quotient
+identity action; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier the normalizer orbit relation
+exact against $R_{\emp}$; stability from the singleton normalizer action
+certificate, orbit exactness, and the terminal classifier symmetry and
+transitivity rows; ledger the conjugating singleton endpoint and the two orbit
+endpoints; core theorem this block; exactness the displayed orbit identity iff;
+downstream consumer the singleton $\QuotientGroupUp$ action classifier; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate} to $s$ and $x$.
+It gives both $A_{\emp}(\mathsf{Conj}_s(x))$ and the classifier row
+$R_{\emp}(\mathsf{Conj}_s(x),x)$.
+
+For the forward direction, assume
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}y$. Orbit exactness, applied at
+$(\mathsf{Conj}_s(x),y)$ with the carrier rows just named and $A_{\emp}(y)$,
+converts this orbit edge into
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y).
+$$
+
+Use the symmetry row for the terminal classifier to turn
+$R_{\emp}(\mathsf{Conj}_s(x),x)$ into
+$R_{\emp}(x,\mathsf{Conj}_s(x))$. Transitivity with the displayed classifier
+gives $R_{\emp}(x,y)$, and the reverse direction of orbit exactness repacks this
+as $x\sim_{N_{\emp}}y$.
+
+For the reverse direction, assume $x\sim_{N_{\emp}}y$. Orbit exactness at
+$(x,y)$ turns this orbit edge into $R_{\emp}(x,y)$.
+
+Compose the certificate classifier $R_{\emp}(\mathsf{Conj}_s(x),x)$ with
+$R_{\emp}(x,y)$ by terminal classifier transitivity. The result is
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y).
+$$
+
+Finally use orbit exactness in the classifier-to-orbit direction at
+$(\mathsf{Conj}_s(x),y)$. The carrier input is
+$A_{\emp}(\mathsf{Conj}_s(x))$ from the action certificate together with
+$A_{\emp}(y)$, so the displayed classifier becomes
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}y$.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
