@@ -646,3 +646,102 @@ with the particular history $a$, hence it is in $Z_a$. The last row of
 $N_a$ for the same $a$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_center\_normal\_subgroup\_from\_empty\_unit}
+
+\begin{theorem}[Group normalizer quotient conjugation well-defined]
+\label{thm:group-normalizer-quotient-conjugation-well-defined}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ with the
+same associativity, left and right identity laws for $e$, multiplication
+congruence, inverse congruence, and two-sided inverse laws as in
+\autoref{thm:group-centralizer-normalizer-action-automorphism-kernel-exactness},
+let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a carried subgroup predicate. Define
+$$
+\mathsf{Conj}_u(s):=\mathsf{mul}(\mathsf{mul}(u,s),\mathsf{inv}(u)),
+$$
+$$
+C_G(S)(c):\Longleftrightarrow
+\forall s:\mathsf{BHist},\ S(s)\Rightarrow
+\hsame(\mathsf{mul}(c,s),\mathsf{mul}(s,c)),
+$$
+and
+$$
+N_G(S)(u):\Longleftrightarrow
+\bigl(\forall s:\mathsf{BHist},\ S(s)\Rightarrow S(\mathsf{Conj}_u(s))\bigr)
+\land
+\bigl(\forall s:\mathsf{BHist},\ S(s)\Rightarrow
+S(\mathsf{Conj}_{\mathsf{inv}(u)}(s))\bigr).
+$$
+If $N_G(S)(n)$ and $N_G(S)(n')$, then the quotient-kernel clause for
+$N_G(S)/C_G(S)$ is exactly equality of the restricted conjugation actions:
+$$
+C_G(S)(\mathsf{mul}(\mathsf{inv}(n),n'))
+\Longleftrightarrow
+\forall s:\mathsf{BHist},\ S(s)\Rightarrow
+\hsame(\mathsf{Conj}_n(s),\mathsf{Conj}_{n'}(s)).
+$$
+The ten-field fit is: traditional target normalizer quotient conjugation
+well-definedness; BEDC source $\GroupUp$ over $\mathsf{BHist}$ with a carried
+$\SubgroupUp$ predicate $S$; carrier $N_G(S)$; classifier the quotient-kernel
+clause by $C_G(S)$; stability from conjugation composition and conjugation
+classifier exactness; ledger the two normalizer representatives, the relative
+kernel word, and the acted subgroup element; core theorem list
+\autoref{thm:group-conjugation-composition},
+\autoref{thm:group-conjugation-classifier-exactness}, and
+\autoref{thm:group-inverse-mul-reverse}; exactness predicate representatives
+act equally on $S$ if and only if their relative displacement centralizes $S$;
+downstream consumer $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The endpoint hypotheses $N_G(S)(n)$ and $N_G(S)(n')$ make both conjugation
+maps restrict to the carrier $S$. Thus, for any $s$ with $S(s)$, the displayed
+pointwise comparison is a classifier comparison between two carried endpoints
+of the same subgroup predicate.
+
+Set
+$$
+c:=\mathsf{mul}(\mathsf{inv}(n),n').
+$$
+The group laws give $\hsame(\mathsf{mul}(n,c),n')$: reassociate
+$\mathsf{mul}(n,\mathsf{mul}(\mathsf{inv}(n),n'))$ to
+$\mathsf{mul}(\mathsf{mul}(n,\mathsf{inv}(n)),n')$, reduce the adjacent
+inverse product to $e$, and then use the left unit law. Multiplication
+congruence and inverse congruence therefore transport the parameter of the
+conjugation word from $n'$ to $\mathsf{mul}(n,c)$.
+
+Assume first $C_G(S)(c)$ and fix $s$ with $S(s)$. The centralizer clause gives
+$\hsame(\mathsf{mul}(c,s),\mathsf{mul}(s,c))$. Multiplying this comparison on
+the right by $\mathsf{inv}(c)$ and reducing the product
+$\mathsf{mul}(c,\mathsf{inv}(c))$ by the inverse and unit laws gives
+$$
+\hsame(\mathsf{Conj}_c(s),s).
+$$
+By \autoref{thm:group-conjugation-composition}, conjugation by
+$\mathsf{mul}(n,c)$ is the composite of conjugation by $c$ followed by
+conjugation by $n$. Hence
+$\mathsf{Conj}_{n'}(s)$ is $\hsame$-equal to
+$\mathsf{Conj}_n(\mathsf{Conj}_c(s))$. Transporting
+$\hsame(\mathsf{Conj}_c(s),s)$ through the outer conjugation word by
+multiplication congruence gives
+$\hsame(\mathsf{Conj}_{n'}(s),\mathsf{Conj}_n(s))$, and symmetry gives the
+displayed pointwise action equality.
+
+Conversely assume the pointwise action equality and fix $s$ with $S(s)$. The
+same parameter calculation and \autoref{thm:group-conjugation-composition}
+identify $\mathsf{Conj}_{n'}(s)$ with
+$\mathsf{Conj}_n(\mathsf{Conj}_c(s))$. Combining this with the pointwise
+hypothesis gives
+$$
+\hsame(\mathsf{Conj}_n(s),\mathsf{Conj}_n(\mathsf{Conj}_c(s))).
+$$
+The reflection direction of
+\autoref{thm:group-conjugation-classifier-exactness}, applied to the
+conjugating parameter $n$, yields $\hsame(s,\mathsf{Conj}_c(s))$. After
+symmetry, multiply this comparison on the right by $c$. Associativity reduces
+$\mathsf{mul}(\mathsf{Conj}_c(s),c)$ to $\mathsf{mul}(c,s)$, because the
+middle product $\mathsf{mul}(\mathsf{inv}(c),c)$ collapses to $e$ and the
+unit laws remove $e$. The transported comparison is exactly
+$$
+\hsame(\mathsf{mul}(c,s),\mathsf{mul}(s,c)).
+$$
+Since $s$ was arbitrary under $S(s)$, this proves $C_G(S)(c)$, namely
+$C_G(S)(\mathsf{mul}(\mathsf{inv}(n),n'))$.
+\end{proof}
