@@ -1,4 +1,5 @@
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.Length
 
 namespace BEDC.Derived.ListUp
 
@@ -190,5 +191,31 @@ theorem FramedListBridgeClassifier_successor_component_exactness_iff
                             pack.right.right.right.left,
                               congrArg Nat.succ (Eq.trans sameLength tailPublic.right)⟩
                     exact ⟨bridge, publicH, publicK⟩
+
+theorem FramedListBridgeClassifier_public_length_total {A : BHist → Prop}
+    {Rel : BHist → BHist → Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} :
+    FramedListBridgeClassifier A Rel h k →
+      (FramedListHistoryCarrier A h ∧ FramedListHistoryCarrier A k) ∧
+        ∃ n : Nat, FramedListPublicLength A h n ∧ FramedListPublicLength A k n := by
+  intro bridge
+  have carriers :
+      FramedListHistoryCarrier A h ∧ FramedListHistoryCarrier A k :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.left bridge
+  cases bridge with
+  | intro xs bridgeTail =>
+      cases bridgeTail with
+      | intro ys bridgeData =>
+          cases bridgeData with
+          | intro repH bridgeRest =>
+              cases bridgeRest with
+              | intro repK classified =>
+                  have sameLength : xs.length = ys.length :=
+                    ListClassifierSpec_length_eq classified
+                  exact And.intro carriers
+                    (Exists.intro xs.length
+                       (And.intro
+                         (Exists.intro xs (And.intro repH rfl))
+                         (Exists.intro ys (And.intro repK sameLength.symm))))
 
 end BEDC.Derived.ListUp

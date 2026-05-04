@@ -1,0 +1,33 @@
+\begin{theorem}[Zero-headed continuation result up to history-sameness]
+\label{thm:cont-result-hsame-e0-cases}
+For histories $h,k,r,z:\mathsf{BHist}$, if $\ContR(h,k,r)$ and
+$\hsame(r,\Ezero(z))$, then
+$$
+(k=\emp\land \hsame(h,\Ezero(z)))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Ezero(k_0)\land \ContR(h,k_0,z)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_e0\_cases}
+\begin{proof}
+Transport the continuation result along the displayed history-sameness to obtain
+$\ContR(h,k,\Ezero(z))$. The zero-headed result characterization then gives
+exactly the two alternatives.
+\end{proof}
+
+\begin{theorem}[One-headed continuation result up to history-sameness]
+\label{thm:cont-result-hsame-e1-cases}
+For histories $h,k,r,z:\mathsf{BHist}$, if $\ContR(h,k,r)$ and
+$\hsame(r,\Eone(z))$, then
+$$
+(k=\emp\land \hsame(h,\Eone(z)))
+\lor
+(\exists k_0:\mathsf{BHist}.\; k=\Eone(k_0)\land \ContR(h,k_0,z)).
+$$
+\end{theorem}
+\leanchecked{BEDC.FKernel.Cont.cont\_result\_hsame\_e1\_cases}
+\begin{proof}
+Transport the continuation result along the displayed history-sameness to obtain
+$\ContR(h,k,\Eone(z))$. The one-headed result characterization then gives
+exactly the two alternatives.
+\end{proof}

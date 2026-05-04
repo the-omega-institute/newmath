@@ -23,3 +23,120 @@ The displayed inequality follows because the left side is $\mathsf{nil}$ while t
 For classifier comparison, unfold $\mathsf{PolySame}_R$. The first argument trims again to $\mathsf{nil}$. The second argument is $[a+b]$, and the hypothesis $(a+b)\sim_R0_R$ sends its singleton coefficient to the trailing-zero branch, so its trim is also $\mathsf{nil}$. The nil-nil clause of $\mathsf{ListClassifierSpec}$ gives the displayed $\mathsf{PolySame}_R$ witness.
 The integer specialization uses the standard integer facts $1\ne0$, $-1\ne0$, and $1+(-1)=0$; \autoref{prop:commring-forgets-ring-certificate} keeps the ring operations and classifier when the commutative-ring source is read through $\RingUp$.
 \end{proof}
+
+\begin{definition}[Polynomial Horner evaluation]
+\label{def:polynomial-horner-evaluation}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and raw addition $\mathsf{radd}_R$ from \autoref{def:polynomial-raw-add-comparison-data}. For a carried scalar point $\alpha$, define the Horner evaluation on finite coefficient spines from \autoref{def:list-carrier} by recursion
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{nil}):=0_R.
+$$
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x)):=a+\alpha\cdot\mathsf{eval}_{\alpha,R}(x).
+$$
+Define the normalized polynomial evaluation by
+$$
+\mathsf{Eval}_{\alpha,R}(x):=\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(x)).
+$$
+Define the normalized polynomial sum by
+$$
+\mathsf{PolyAdd}_R(x,y):=\mathsf{trim}_R(\mathsf{radd}_R(\mathsf{trim}_R(x),\mathsf{trim}_R(y))).
+$$
+On a normalized representative from \autoref{def:polynomial-carrier}, $\mathsf{Eval}_{\alpha,R}$ is the Horner evaluation itself, by trim idempotence from \autoref{def:polynomial-stability-certificate}.
+\end{definition}
+
+\begin{lemma}[Horner evaluation ignores classified zero tails]
+\label{lem:horner-evaluation-zero-tail-invariance}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $x,t:\mathsf{ListCarrier}(R)$, if $\mathsf{ZeroRem}_R(t)$ holds in the sense of \autoref{def:classified-zero-remainder-spine}, then
+$$
+\mathsf{eval}_{\alpha,R}(x{++}t)\sim_R\mathsf{eval}_{\alpha,R}(x).
+$$
+Consequently, for every finite coefficient spine $x$,
+$$
+\mathsf{Eval}_{\alpha,R}(x)\sim_R\mathsf{eval}_{\alpha,R}(x).
+$$
+\end{lemma}
+\begin{proof}
+First prove the endpoint claim $\mathsf{eval}_{\alpha,R}(t)\sim_R0_R$ for every classified zero tail $t$. Induct on the displayed $\mathsf{ZeroRem}_R(t)$ witness. The nil clause is the defining equation $\mathsf{eval}_{\alpha,R}(\mathsf{nil})=0_R$ together with zero self-classification from \autoref{def:ring-stability-certificate}. In the cons clause, write $t=\mathsf{cons}(a,t^\prime)$. The constructor gives $a\sim_R0_R$ and the induction hypothesis gives $\mathsf{eval}_{\alpha,R}(t^\prime)\sim_R0_R$. Multiplication congruence and the zero-multiplication row in \autoref{def:ring-stability-certificate} classify $\alpha\cdot\mathsf{eval}_{\alpha,R}(t^\prime)$ with $0_R$. Addition congruence then classifies $a+\alpha\cdot\mathsf{eval}_{\alpha,R}(t^\prime)$ with $0_R+0_R$, and the additive left-zero law reduces the latter endpoint to $0_R$.
+
+For the displayed tail-invariance statement, induct on $x$. The nil case is the endpoint claim just proved. In the cons case, write $x=\mathsf{cons}(a,x^\prime)$. The induction hypothesis gives $\mathsf{eval}_{\alpha,R}(x^\prime{++}t)\sim_R\mathsf{eval}_{\alpha,R}(x^\prime)$. Multiplication congruence transports this comparison through left multiplication by $\alpha$, and addition congruence with source reflexivity on $a$ gives
+$$
+a+\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime{++}t)\sim_Ra+\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime).
+$$
+The two Horner recursion equations identify these endpoints with $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x^\prime{++}t))$ and $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x^\prime))$.
+
+For the consequence, the trailing-zero removal clause in \autoref{def:polynomial-stability-certificate} presents each raw spine $x$ as $\mathsf{trim}_R(x){++}t$ with $\mathsf{ZeroRem}_R(t)$. Applying the first part gives $\mathsf{eval}_{\alpha,R}(x)\sim_R\mathsf{Eval}_{\alpha,R}(x)$, and symmetry of the scalar classifier reverses the displayed comparison.
+\end{proof}
+
+\begin{lemma}[Horner evaluation respects raw polynomial addition]
+\label{lem:horner-evaluation-raw-additive}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $x,y:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{radd}_R(x,y))\sim_R
+\mathsf{eval}_{\alpha,R}(x)+\mathsf{eval}_{\alpha,R}(y).
+$$
+\end{lemma}
+\begin{proof}
+Perform induction on the two finite spines, following the four recursion clauses for $\mathsf{radd}_R$ in \autoref{def:polynomial-raw-add-comparison-data}.
+
+The nil-nil case compares $0_R$ with $0_R+0_R$, so it is exactly the additive left-zero law, read with symmetry when needed.
+
+In the cons-nil case, write $x=\mathsf{cons}(a,x^\prime)$. The raw-addition recursion exposes the head $a+0_R$ and the tail $\mathsf{radd}_R(x^\prime,\mathsf{nil})$. The induction hypothesis classifies the tail evaluation with $\mathsf{eval}_{\alpha,R}(x^\prime)+0_R$, and \autoref{thm:ring-add-right-zero} reduces that endpoint to $\mathsf{eval}_{\alpha,R}(x^\prime)$. Multiplication congruence transports the tail comparison through left multiplication by $\alpha$. Additive congruence and the additive right-zero law reduce the exposed head $a+0_R$ to $a$, and the target endpoint $(\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x^\prime)))+0_R$ to $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x^\prime))$.
+
+The nil-cons case is symmetric. The raw head is $0_R+b$, which reduces to $b$ by the additive left-zero law, and the outer target $0_R+\mathsf{eval}_{\alpha,R}(\mathsf{cons}(b,y^\prime))$ reduces by the same law. The tail comparison is transported through multiplication by $\alpha$ exactly as in the cons-nil case.
+
+In the cons-cons case, write $x=\mathsf{cons}(a,x^\prime)$ and $y=\mathsf{cons}(b,y^\prime)$. The induction hypothesis gives
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{radd}_R(x^\prime,y^\prime))\sim_R
+\mathsf{eval}_{\alpha,R}(x^\prime)+\mathsf{eval}_{\alpha,R}(y^\prime).
+$$
+Multiplication congruence transports this through left multiplication by $\alpha$, and left distributivity from \autoref{def:ring-stability-certificate} classifies
+$$
+\alpha\cdot(\mathsf{eval}_{\alpha,R}(x^\prime)+\mathsf{eval}_{\alpha,R}(y^\prime))
+$$
+with
+$$
+\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime)+\alpha\cdot\mathsf{eval}_{\alpha,R}(y^\prime).
+$$
+Addition congruence therefore transports the Horner endpoint for $\mathsf{radd}_R(x,y)$ to
+$$
+(a+b)+(\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime)+\alpha\cdot\mathsf{eval}_{\alpha,R}(y^\prime)).
+$$
+Apply \autoref{thm:abgroup-middle-four-interchange} to the additive abelian-group operation, with the four additive blocks $a$, $b$, $\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime)$, and $\alpha\cdot\mathsf{eval}_{\alpha,R}(y^\prime)$. This classifies the last endpoint with
+$$
+(a+\alpha\cdot\mathsf{eval}_{\alpha,R}(x^\prime))+(b+\alpha\cdot\mathsf{eval}_{\alpha,R}(y^\prime)),
+$$
+which is exactly $\mathsf{eval}_{\alpha,R}(x)+\mathsf{eval}_{\alpha,R}(y)$ by the Horner recursion.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation is additive]
+\label{thm:polynomial-evaluation-additive-homomorphism}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{PolyAdd}_R(p,q))\sim_R
+\mathsf{Eval}_{\alpha,R}(p)+\mathsf{Eval}_{\alpha,R}(q).
+$$
+If $p$ and $q$ are normalized representatives in the polynomial carrier, the same assertion is the carrier formula
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{PolyAdd}_R(p,q))\sim_R
+\mathsf{eval}_{\alpha,R}(p)+\mathsf{eval}_{\alpha,R}(q).
+$$
+\end{theorem}
+\begin{proof}
+Put $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$. By \autoref{def:polynomial-horner-evaluation},
+$$
+\mathsf{PolyAdd}_R(p,q)=\mathsf{trim}_R(\mathsf{radd}_R(p_0,q_0)).
+$$
+Trim idempotence from \autoref{def:polynomial-stability-certificate} identifies $\mathsf{Eval}_{\alpha,R}(\mathsf{PolyAdd}_R(p,q))$ with $\mathsf{Eval}_{\alpha,R}(\mathsf{radd}_R(p_0,q_0))$. Applying \autoref{lem:horner-evaluation-zero-tail-invariance} gives
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{radd}_R(p_0,q_0))\sim_R
+\mathsf{eval}_{\alpha,R}(\mathsf{radd}_R(p_0,q_0)).
+$$
+By \autoref{lem:horner-evaluation-raw-additive},
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{radd}_R(p_0,q_0))\sim_R
+\mathsf{eval}_{\alpha,R}(p_0)+\mathsf{eval}_{\alpha,R}(q_0).
+$$
+The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)+\mathsf{Eval}_{\alpha,R}(q)$ by the definition of $p_0$, $q_0$, and normalized evaluation. Classifier transitivity composes the displayed comparisons.
+
+If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$, and $\mathsf{Eval}_{\alpha,R}$ on each displayed representative is the unnormalized Horner evaluation. Substituting these equalities gives the carrier formula.
+\end{proof}
