@@ -363,3 +363,58 @@ $\mathsf{RatHistoryClassifier}(\rho,\Ezero(z'))$. The right branch of
 \autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} rules
 out that classifier, giving the second contradiction.
 \end{proof}
+
+\begin{theorem}[Rat ledger saturated denominator-shape package]
+\label{thm:rat-ledger-saturated-denominator-shape-package}
+For histories $\rho,v,w,z_\rho,z_v,z_w:\mathsf{BHist}$, assume
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and at least one of
+$\mathsf{RatHistoryClassifier}(\rho,w)$,
+$\mathsf{RatHistoryClassifier}(v,w)$,
+$\mathsf{RatHistoryClassifier}(w,\rho)$, or
+$\mathsf{RatHistoryClassifier}(w,v)$. Then
+all of the following hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(\rho)$, $\mathsf{UnaryHistory}(v)$, and
+$\mathsf{UnaryHistory}(w)$;
+\item $\hsame(\rho,\emp)\to\mathsf{False}$,
+$\hsame(v,\emp)\to\mathsf{False}$, and
+$\hsame(w,\emp)\to\mathsf{False}$;
+\item $\hsame(\rho,\Ezero(z_\rho))\to\mathsf{False}$,
+$\hsame(v,\Ezero(z_v))\to\mathsf{False}$, and
+$\hsame(w,\Ezero(z_w))\to\mathsf{False}$.
+\end{enumerate}
+
+Its ten-field fit is: traditional target saturated rational denominator-shape
+readback; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from ledger endpoint equivalence, classifier symmetry/transitivity,
+positive unary denominator readback, and zero-extension exclusion; ledger the
+raw-visible denominator edge; core theorem this block; exactness the three
+endpoint shape package; downstream consumers $\FieldUp(\RatUp)$
+denominator-unit rows and $\RealUp$ stream-prefix readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rat-ledger-classifier-saturation-package} to the
+ledger witness and the supplied classifier orientation. This gives the four
+saturated classifier orientations together with
+$\mathsf{PositiveUnaryDenominator}(\rho)$,
+$\mathsf{PositiveUnaryDenominator}(v)$, and
+$\mathsf{PositiveUnaryDenominator}(w)$.
+
+Project the three positive denominator witnesses. For each endpoint, apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty}; the unary component
+gives the displayed $\mathsf{UnaryHistory}$ row, and the nonempty component gives
+the corresponding contradiction from $\hsame(-,\emp)$.
+
+It remains to exclude zero-extension presentations. Suppose
+$\hsame(\rho,\Ezero(z_\rho))$ holds. Transport
+$\mathsf{PositiveUnaryDenominator}(\rho)$ along this equality and contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}.
+
+The visible endpoint $v$ is identical: transport
+$\mathsf{PositiveUnaryDenominator}(v)$ along $\hsame(v,\Ezero(z_v))$ and apply
+\autoref{thm:rat-positive-denominator-e0-absurd}. For $w$, transport
+$\mathsf{PositiveUnaryDenominator}(w)$ along $\hsame(w,\Ezero(z_w))$ and apply
+the same zero-extension exclusion.
+\end{proof}

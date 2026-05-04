@@ -54,6 +54,24 @@ disjointness of $\mathsf{e1}$ from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_visible\_headed}
 
+\begin{theorem}[Singleton empty nonzero visible cases]
+\label{thm:field-singleton-empty-nonzero-visible-cases}
+Every history in the classifier-complement singleton nonzero predicate is
+visible-headed:
+$$
+\mathsf{fieldSingletonEmptyNonZero}(h)\Rightarrow
+\bigl(\exists t.\;h=\mathsf{e0}(t)\bigr)\lor
+\bigl(\exists t.\;h=\mathsf{e1}(t)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Split on the concrete $\mathsf{BHist}$ constructor of $h$. In the empty case,
+the reflexive singleton-empty classifier contradicts the nonzero predicate. The
+$\mathsf{e0}$ and $\mathsf{e1}$ cases directly return their visible tail
+witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.fieldSingletonEmptyNonZero\_visible\_cases}
+
 \begin{theorem}[Singleton empty nonzero visible append-right exclusion]
 \label{thm:field-singleton-empty-nonzero-append-visible-right}
 For histories $p,q:\mathsf{BHist}$, appending a visible right component gives
