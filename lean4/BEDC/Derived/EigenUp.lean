@@ -142,6 +142,41 @@ theorem EigenSingletonCarrier_append_context_empty_iff {L R h : BHist} :
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
 
+theorem EigenComponentSingletonCarrier_append_classifier
+    {map map' scalar scalar' vector vector' pair pair' : BHist} :
+    EigenComponentSingletonCarrier map scalar vector pair ->
+      EigenComponentSingletonCarrier map' scalar' vector' pair' ->
+        DeterminantSingletonCarrier scalar ->
+          DeterminantSingletonCarrier scalar' ->
+            hsame map map' ->
+              hsame scalar scalar' ->
+                hsame vector vector' ->
+                  EigenSingletonClassifier (append map pair) (append map' pair') := by
+  intro componentCarrier componentCarrier' scalarCarrier scalarCarrier'
+  intro sameMap sameScalar sameVector
+  have leftCarrier : EigenSingletonCarrier (append map pair) :=
+    EigenComponentSingletonCarrier_singleton_append componentCarrier scalarCarrier
+  have rightCarrier : EigenSingletonCarrier (append map' pair') :=
+    EigenComponentSingletonCarrier_singleton_append componentCarrier' scalarCarrier'
+  cases componentCarrier with
+  | intro _mapCarrier rest =>
+      cases rest with
+      | intro _scalarCommCarrier rest =>
+          cases rest with
+          | intro _vectorCarrier scalarVectorCont =>
+              cases componentCarrier' with
+              | intro _mapCarrier' rest' =>
+                  cases rest' with
+                  | intro _scalarCommCarrier' rest' =>
+                      cases rest' with
+                      | intro _vectorCarrier' scalarVectorCont' =>
+                          have samePair : hsame pair pair' :=
+                            cont_respects_hsame sameScalar sameVector
+                              scalarVectorCont scalarVectorCont'
+                          have sameEndpoint : hsame (append map pair) (append map' pair') :=
+                            cont_respects_hsame sameMap samePair (cont_intro rfl) (cont_intro rfl)
+                          exact And.intro leftCarrier (And.intro rightCarrier sameEndpoint)
+
 theorem EigenSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     EigenSingletonClassifier (append L h) (append k R) ↔
       hsame L BHist.Empty ∧ EigenSingletonClassifier h k ∧ hsame R BHist.Empty := by

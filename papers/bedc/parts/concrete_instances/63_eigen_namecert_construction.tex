@@ -33,6 +33,29 @@ continuation endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_singleton\_append}
 
+\begin{theorem}[Eigen component singleton carrier append classifier]
+\label{thm:eigen-component-singleton-carrier-append-classifier}
+For histories $m,m',\lambda,\lambda',v,v',pair,pair':\mathsf{BHist}$, suppose
+the component singleton eigen carriers hold for $(m,\lambda,v,pair)$ and
+$(m',\lambda',v',pair')$, both scalar components carry determinant singleton
+certificates, and the three displayed components satisfy
+$m\hsame m'$, $\lambda\hsame\lambda'$, and $v\hsame v'$. Then the append
+endpoints $\mathsf{append}(m,pair)$ and $\mathsf{append}(m',pair')$ are
+classified by the eigen singleton classifier.
+\end{theorem}
+\begin{proof}
+The component carriers and determinant singleton scalar certificates give the
+two eigen singleton carrier endpoints by
+\autoref{thm:eigen-component-singleton-carrier-singleton-append}. Unpacking the
+component carriers exposes the two BEDC continuations
+$\Cont(\lambda,v,pair)$ and $\Cont(\lambda',v',pair')$. Continuation respects
+the scalar and vector history equalities, so $pair\hsame pair'$. Applying the
+same continuation-respect principle to the map equality and these pair
+endpoints identifies $\mathsf{append}(m,pair)$ with
+$\mathsf{append}(m',pair')$, closing the restricted classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_append\_classifier}
+
 \begin{theorem}[Eigen singleton carrier pair emptiness]
 \label{thm:eigen-singleton-carrier-pair-empty}
 For histories $f,\lambda,v,pair:\mathsf{BHist}$, the component singleton
