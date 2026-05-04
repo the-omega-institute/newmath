@@ -343,6 +343,19 @@ theorem DerivativeMetricQuotient_step_visible_context_readback
     (And.intro coreCarrier
       (fun coreEmpty => quotient.right.right.left (hsame_trans sameCore coreEmpty)))
 
+theorem DerivativeMetricQuotient_point_visible_context_readback
+    {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p z) r) (append (append p core) r) ->
+        hsame z core ∧ UnaryHistory core := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append z r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p z r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame z core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore (unary_transport quotient.right.left sameCore)
+
 theorem DerivativeMetricQuotient_function_visible_context_readback
     {p r f z h q dist core : BHist} :
     DerivativeMetricQuotient f z h q dist ->

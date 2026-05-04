@@ -41,8 +41,32 @@ theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
                                           exact Exists.intro h
                                             (Exists.intro q
                                               (And.intro stepNonzero
-                                                (And.intro rebuilt
-                                                  (And.intro ledger (classifier rebuilt)))))
+                                                  (And.intro rebuilt
+                                                    (And.intro ledger (classifier rebuilt)))))
+
+theorem CplxDiffAt_witness_nonzero_unary_step {f z fp : BHist} :
+    CplxDiffAt f z fp -> ∃ h : BHist, ∃ q : BHist,
+      CplxNonZero h ∧ UnaryHistory h ∧ UnaryHistory q ∧ CplxDiffQuot f z h q ∧
+        Cont f h q ∧ hsame q fp := by
+  intro diff
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro quotient rest =>
+                  cases rest with
+                  | intro ledger quotientClass =>
+                      have unaryReadback := CplxDiffQuot_step_unary quotient
+                      exact Exists.intro h
+                        (Exists.intro q
+                          (And.intro stepNonzero
+                            (And.intro unaryReadback.left
+                              (And.intro unaryReadback.right.left
+                                (And.intro quotient
+                                  (And.intro ledger quotientClass))))))
 
 theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f f' -> hsame z z' -> hsame fp gp ->

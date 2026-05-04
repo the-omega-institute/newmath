@@ -84,6 +84,21 @@ prime-scale witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_inversion}
 
+\begin{theorem}[Prime scale successor exponent factorization]
+\label{thm:padic-prime-scale-succ-exponent-factorization}
+A successor-exponent prime scale $\mathsf{PadicPrimeScale}(p,\Eone(q),r)$
+holds exactly when some predecessor result $n$ carries
+$\mathsf{PadicPrimeScale}(p,q,n)$ and a continuation $\Cont(n,p,r)$.
+\end{theorem}
+\begin{proof}
+The forward direction is successor-exponent inversion. Conversely, the
+predecessor scale gives the prime field and a concrete
+$\mathsf{NatMul}(p,q,n)$ witness; the successor constructor for
+$\mathsf{NatMul}$, applied to $\Cont(n,p,r)$, rebuilds the scale over
+$\Eone(q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_factorization\_iff}
+
 \begin{lemma}[Prime scale exponent-result cases]
 \label{lem:padic-prime-scale-exponent-result-cases}
 Every \(\mathsf{PadicPrimeScale}(p,e,r)\) witness is either the empty exponent
