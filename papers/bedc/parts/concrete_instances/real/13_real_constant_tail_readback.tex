@@ -53,3 +53,156 @@ suffixes, so BEDC append right cancellation removes the shared suffix; append
 left cancellation then removes the common head and yields $\hsame(d,e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_head\_e1\_tail\_readback}
+\begin{theorem}[Real constant classifier appended e-one matched-tail head readback]
+\label{thm:real-constant-classifier-appended-e1-matched-tail-head-readback}
+For histories $d,e,tail_D,tail_E$, if
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Eone(tail_D)),
+  \Eone(e\cdot\Eone(tail_E)))\land
+\hsame(tail_D,tail_E),
+$$
+then
+$$
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-constant-history-classifier-append-e1-tail-unary-readback}
+to the displayed classifier. This gives the four unary rows for $d$,
+$tail_D$, $e$, and $tail_E$, together with endpoint equality
+$\hsame(d\cdot\Eone(tail_D),e\cdot\Eone(tail_E))$.
+
+The assumed tail agreement $\hsame(tail_D,tail_E)$ transports through the
+e-one constructor and right append congruence. Hence the right endpoint may be
+read with the same displayed tail as the left endpoint:
+$\hsame(e\cdot\Eone(tail_E),e\cdot\Eone(tail_D))$.
+
+Endpoint transport therefore presents a constant-real classifier of
+$\Eone(d\cdot\Eone(tail_D))$ against $\Eone(e\cdot\Eone(tail_D))$. Apply
+\autoref{thm:real-constant-history-classifier-append-common-tail-cancel} with
+common tail $\Eone(tail_D)$ to obtain $\hsame(d,e)$, and combine this with the
+four unary rows already read back.
+\end{proof}
+
+The ten-field fit is: traditional target finite denominator-tail agreement
+readback for RealUp constants; BEDC source RealUp constant classifiers plus
+RatUp positive-denominator readback; carrier BEDC histories; classifier
+$\mathsf{RealConstantHistoryClassifier}$; stability by endpoint transport,
+e-one congruence, append congruence, and common-tail cancellation; ledger
+displayed denominator heads and displayed e-one tails; core theorem
+\autoref{thm:real-constant-classifier-appended-e1-matched-tail-head-readback};
+exactness the displayed five-row conjunction; standard bridge finite
+RegSeqRat denominator-tail readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real constant classifier appended e-one tail denominator package]
+\label{thm:real-constant-history-classifier-append-e1-tail-denominator-package}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\mathsf{BHist}$, write
+$D=d\cdot\Eone(tail_D)$ and $E=e\cdot\Eone(tail_E)$. If
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)),
+$$
+then the appended rational denominators satisfy the following package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(D,E)$;
+  \item $\mathsf{PositiveUnaryDenominator}(D)$ and
+  $\mathsf{PositiveUnaryDenominator}(E)$;
+  \item $\mathsf{UnaryHistory}(d)$, $\mathsf{UnaryHistory}(tail_D)$,
+  $\mathsf{UnaryHistory}(e)$, and $\mathsf{UnaryHistory}(tail_E)$;
+  \item $D\hsame\emp\Longrightarrow\bot$ and
+  $E\hsame\emp\Longrightarrow\bot$;
+  \item $D\hsame\Ezero(z_D)\Longrightarrow\bot$ and
+  $E\hsame\Ezero(z_E)\Longrightarrow\bot$;
+  \item $D\hsame E$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to the
+displayed constant RealUp classifier. This exposes the underlying
+$\mathsf{RatHistoryClassifier}(D,E)$ and keeps its classifier field available
+for the final $D\hsame E$ row.
+
+Next apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+rational classifier. The result supplies positive unary denominator witnesses
+for both appended tails. Applying
+\autoref{thm:rat-positive-denominator-append-eone-right-exact} to each
+witness decomposes the two appended e-one denominators into the four unary
+factor rows.
+
+Finally apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} to
+the two positive-denominator witnesses to obtain the two exclusions against
+$\emp$. If either appended denominator were history-same to a zero-extension,
+transport the corresponding positive-denominator witness along that sameness
+and contradict \autoref{thm:rat-positive-denominator-e0-absurd}. The hsame row
+is the rational classifier endpoint field, equivalently the checked unary
+readback theorem above.
+\end{proof}
+
+\begin{theorem}[Real constant appended e-one tail rational-stream bridge readback]
+\label{thm:real-constant-appended-tail-rational-stream-bridge-readback}
+For histories $d,e,tail_D,tail_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the four bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let
+$$
+R=\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(D,E).
+$$
+Then the bridge rows are linked by
+$$
+(A\Longleftrightarrow B)\land(B\Longleftrightarrow U)\land
+(U\Longleftrightarrow C),
+$$
+and every row reads back the same appended-tail denominator package:
+$$
+(A\Longrightarrow R)\land(B\Longrightarrow R)\land
+(U\Longrightarrow R)\land(C\Longrightarrow R).
+$$
+\end{theorem}
+\begin{proof}
+Instantiate \autoref{thm:real-constant-independent-reindexed-stream-bridge}
+with the histories $D$ and $E$ and the observation maps $r$ and $q$. The three
+resulting equivalences are exactly the displayed links $A\Longleftrightarrow B$,
+$B\Longleftrightarrow U$, and $U\Longleftrightarrow C$.
+
+The direct readback from $C$ is
+\autoref{thm:real-constant-history-classifier-append-e1-tail-unary-readback},
+applied to the decompositions $D=d\cdot\Eone(tail_D)$ and
+$E=e\cdot\Eone(tail_E)$.
+
+For the remaining rows, transport along the instantiated bridge until the
+constant real-history row $C$ is reached. The row $U$ uses the final bridge
+equivalence, the row $B$ uses the second and final equivalences, and the row
+$A$ uses all three equivalences. The same readback theorem then yields the
+single conclusion $R$ in each case.
+\end{proof}
+
+The bridge-readback certificate fit has ten fields: traditional target faithful
+constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
+plus RealUp; carrier the appended-tail rational histories $D,E$ and the
+independently reindexed constant streams; classifier rows $A,B,U,C$; stability
+from constant streams ignoring $r$ and $q$; ledger the appended e-one
+denominator tails $tail_D,tail_E$ together with heads $d,e$; core theorem
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback};
+exactness recovery of $R$ from any bridge classifier row; standard bridge the
+usual faithful rational embedding into real names; status $\mathsf{ProofTarget}$.

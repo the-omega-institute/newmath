@@ -23,6 +23,39 @@ visible continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_source\_visible}
 
+\begin{theorem}[NatTrans prefix component vertical composite source-target cases]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-nonempty-result-source-target-cases}
+For prefix components over a common object $a$, if $\eta$ goes from $p$ to
+$q$, $\theta$ goes from $q$ to $r$, and their vertical composite displays
+$\Eone(k)$, then either the source endpoint $\mathsf{append}(p,a)$ is
+history-same to $\emp$ and the target endpoint is visible, or both source and
+target endpoints are visible:
+$$
+\begin{aligned}
+&\bigl(\HSame(\mathsf{append}(p,a),\emp)\land
+\exists t.\ \mathsf{append}(r,a)=\Eone(t)\land
+\mathsf{UnaryHistory}(k)\land\mathsf{UnaryHistory}(t)\land
+\ContR(\mathsf{append}(p,a),\Eone(k),\Eone(t))\bigr)
+\\
+&\quad{}\lor
+\bigl(\exists s,t.\ \mathsf{append}(p,a)=\Eone(s)\land
+\mathsf{append}(r,a)=\Eone(t)\land
+\mathsf{UnaryHistory}(s)\land\mathsf{UnaryHistory}(k)\land
+\mathsf{UnaryHistory}(t)\land
+\ContR(\Eone(s),\Eone(k),\Eone(t))\bigr).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Unpack both prefix components to category hom-carriers and apply the
+category-level source-target case analysis for a nonempty composite result.
+The empty-source branch gives the source endpoint comparison and the visible
+target payload; the visible-source branch gives the visible source payload,
+the same visible result payload, the visible target payload, and the displayed
+continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_source\_target\_cases}
+
 \begin{theorem}[NatTrans vertical composition naturality]
 \label{thm:nattrans-vertical-composition-naturality}
 Let \(F\), \(G\), and \(H\) be certified \(\FunctorUp\) carriers with the same certified source category and target category. Let \(\alpha:F\Rightarrow G\) and \(\beta:G\Rightarrow H\) be admitted \(\NatTransUp\) carriers. For every source morphism \(f:C\to C'\), the vertical component family \((\beta\circ\alpha)_X=\beta_X\circ\alpha_X\) satisfies the target morphism-classifier naturality square
