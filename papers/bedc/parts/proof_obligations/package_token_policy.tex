@@ -466,3 +466,48 @@ The same equivalence holds with \(\psame_{\Pi}^{\mathrm{base}}\) in place of \(\
 \begin{proof}
 By \autoref{lem:canonical-implies-unique}, the concrete canonical implementation and its no-confusion rule give \(\TokUnique(\Pi)\). For the forward implication, apply \autoref{thm:package-reflection-token-unique} to this token-uniqueness witness, the two displayed token-introduction premises, and \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\). For the reverse implication, apply \autoref{lem:psame-sound} to the same token-introduction premises and the assumed \(\hsame(s,t)\). The formulation with \(\psame_{\Pi}^{\mathrm{base}}\) follows from its identification with \(\psame_{\Pi}^{\mathrm{sig}}\) in \autoref{def:base-psame}. No use is made of \(\PkgTokPol(\Pi)\).
 \end{proof}
+
+\begin{theorem}[Signature append residual exactness under known token component]
+\label{thm:signature-append-residual-known-token-component}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$, $\mathsf{BundleAskPolicy}(\Theta,D)$,
+$\PkgPol(\mathsf{BAppend}(\Pi,\Theta))$,
+$\PkgTokPol(\mathsf{BAppend}(\Pi,\Theta))$, and $\PkgTokPol(\Pi)$.
+Let $h$ and $k$ be source histories with
+$$
+\InDom(D,h),\qquad \InDom(D,k).
+$$
+Suppose the appended interface has generated signatures and introduced package tokens
+$$
+\Sig(\mathsf{BAppend}(\Pi,\Theta),h,a,\Lambda_h),\qquad
+\Sig(\mathsf{BAppend}(\Pi,\Theta),k,b,\Lambda_k),
+$$
+$$
+\TokIntro(\mathsf{BAppend}(\Pi,\Theta),a,P_h),\qquad
+\TokIntro(\mathsf{BAppend}(\Pi,\Theta),b,P_k),\qquad
+\psame_{\mathsf{BAppend}(\Pi,\Theta)}(P_h,P_k).
+$$
+Suppose also that the known $\Pi$ component has generated signatures and introduced package tokens
+$$
+\Sig(\Pi,h,s,\Delta_h),\qquad
+\Sig(\Pi,k,t,\Delta_k),
+$$
+$$
+\TokIntro(\Pi,s,p_h),\qquad
+\TokIntro(\Pi,t,p_k),\qquad
+\psame_{\Pi}(p_h,p_k).
+$$
+Then
+$$
+\sameSig_{\Theta}(h,k).
+$$
+\end{theorem}
+
+\begin{proof}
+The public package policy supplies the appended package interface in which the displayed package tokens live. The comparison facts used below are the introduced-token reflection clauses of $\PkgTokPol$ from \autoref{def:package-token-policy}.
+
+By \autoref{thm:psame-iff-hsame} for $\mathsf{BAppend}(\Pi,\Theta)$, the appended token-introduction premises and the appended package-sameness premise give $\hsame(a,b)$. The two appended signature judgments and this result sameness form $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ by \autoref{def:signature-sameness}.
+
+Applying \autoref{thm:psame-iff-hsame} again for $\Pi$ to the component token-introduction premises and the $\Pi$ package-sameness premise gives $\hsame(s,t)$, hence $\sameSig_{\Pi}(h,k)$.
+
+The first residual equivalence in \autoref{thm:samesig-bundle-append-residual-iff} applies with the bundle-local policy on $\Pi$, the two domain witnesses, and the known $\Pi$ signature-sameness. Its forward direction sends $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ to $\sameSig_{\Theta}(h,k)$.
+\end{proof}
