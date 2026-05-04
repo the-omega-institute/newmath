@@ -100,6 +100,14 @@ theorem NatMul_append_multiplier_left_factor {d w q n e r : BHist} :
         cont_right_cancel displayed displayed'
       exact (NatMul_result_hsame_transport nData.right (hsame_symm sameFactor)).right
 
+theorem NatMul_append_multiplier_result_deterministic {d w q n e r z : BHist} :
+    UnaryHistory d -> NatMul d w n -> NatMul d q e -> NatMul d (append w q) r ->
+      Cont n e z -> hsame r z := by
+  intro dUnary left right combined displayed
+  have composed : NatMul d (append w q) z :=
+    NatMul_append_cont left right displayed
+  exact NatMul_functional dUnary combined composed
+
 theorem NatDivides_divisor_hsame_transport {d d' n : BHist} :
     NatDivides d n -> hsame d d' -> UnaryHistory d' ∧ NatDivides d' n := by
   intro divides sameD
