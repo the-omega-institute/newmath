@@ -170,4 +170,22 @@ theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
       rfl
     exact And.intro leftResultCarrier (And.intro rightResultCarrier sameResult)
 
+theorem concrete_unary_history_magma_cont_common_context_classifier_iff
+    {left left' middle middle' right right' r r' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier left left' -> Classifier right right' ->
+      Cont left (append middle right) r ->
+        Cont left' (append middle' right') r' ->
+          (Classifier r r' ↔ Carrier middle ∧ Carrier middle' ∧ hsame middle middle') := by
+  dsimp
+  intro leftClassified rightClassified leftCont rightCont
+  cases leftClassified.right.right
+  cases rightClassified.right.right
+  cases leftCont
+  cases rightCont
+  exact concrete_unary_history_magma_classifier_append_middle_cancel_iff
+    leftClassified.left rightClassified.left
+
 end BEDC.Derived.MagmaUp
