@@ -61,6 +61,41 @@ theorem FramedListPublicLength_constructor_endpoint_readback {A : BHist → Prop
                       (rep.left a (List.Mem.head tail))
                       (And.intro rep tailPublic)))
 
+theorem FramedListHistoryCarrier_public_length_shape_exhaustion {A : BHist → Prop}
+    {h : BHist} :
+    FramedListHistoryCarrier A h →
+      (FramedListPublicLength A h 0 ∧ hsame h (BHist.e0 BHist.Empty)) ∨
+        ∃ a : BHist, ∃ xs : ListCarrier BHist,
+          A a ∧ FramedListSpineRep A h (a :: xs) ∧
+            FramedListPublicLength A (FramedListEndpoint xs) xs.length ∧
+              hsame h (BHist.e1 (PairFrame a (FramedListEndpoint xs))) := by
+  intro carrier
+  cases carrier with
+  | intro xs rep =>
+      cases xs with
+      | nil =>
+          exact Or.inl
+            (And.intro
+              (Exists.intro []
+                (And.intro rep rfl))
+              rep.right)
+      | cons a xs =>
+          have sourceA : A a :=
+            rep.left a (List.Mem.head xs)
+          have tailRep : FramedListSpineRep A (FramedListEndpoint xs) xs := by
+            constructor
+            · intro z memZ
+              exact rep.left z (List.Mem.tail a memZ)
+            · exact hsame_refl (FramedListEndpoint xs)
+          have tailPublic : FramedListPublicLength A (FramedListEndpoint xs) xs.length :=
+            Exists.intro xs (And.intro tailRep rfl)
+          exact Or.inr
+            (Exists.intro a
+              (Exists.intro xs
+                (And.intro sourceA
+                  (And.intro rep
+                    (And.intro tailPublic rep.right)))))
+
 theorem FramedListPublicLength_well_defined {A : BHist → Prop}
     {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel) :
     (∀ {h : BHist} {n m : Nat},
@@ -102,6 +137,125 @@ theorem FramedListPublicLength_well_defined {A : BHist → Prop}
                                     (And.intro _repH (And.intro repK _classified))))
                             exact Exists.intro ys
                               (And.intro repK (Eq.trans (Eq.symm sameLength) lengthX0))
+
+theorem FramedListBridgeClassifier_public_successor_component_exactness
+    {A : BHist → Prop} {Rel : BHist → BHist → Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    (FramedListBridgeClassifier A Rel h k ∧
+      FramedListPublicLength A h (Nat.succ n) ∧
+      FramedListPublicLength A k (Nat.succ n)) ↔
+      ∃ a b : BHist, ∃ xs ys : ListCarrier BHist,
+        A a ∧ A b ∧ FramedListSpineRep A h (a :: xs) ∧
+        FramedListSpineRep A k (b :: ys) ∧
+        FramedListPublicLength A (FramedListEndpoint xs) n ∧
+        FramedListPublicLength A (FramedListEndpoint ys) n ∧
+        Rel a b ∧ ListClassifierSpec Rel xs ys := by
+  constructor
+  · intro publicBridge
+    have readH :=
+      (FramedListPublicLength_constructor_endpoint_readback
+        (A := A) (h := h) (n := n)).right publicBridge.right.left
+    have readK :=
+      (FramedListPublicLength_constructor_endpoint_readback
+        (A := A) (h := k) (n := n)).right publicBridge.right.right
+    cases readH with
+    | intro a readHTail =>
+        cases readHTail with
+        | intro xs readHData =>
+            cases readHData with
+            | intro sourceA readHRest =>
+                cases readHRest with
+                | intro repH tailPublicH =>
+                    cases readK with
+                    | intro b readKTail =>
+                        cases readKTail with
+                        | intro ys readKData =>
+                            cases readKData with
+                            | intro sourceB readKRest =>
+                                cases readKRest with
+                                | intro repK tailPublicK =>
+                                    have componentClassified :
+                                        Rel a b ∧ ListClassifierSpec Rel xs ys :=
+                                      (FramedListBridgeClassifier_constructor_exactness
+                                        cert compat).right.right.right repH repK |>.mp
+                                        publicBridge.left
+                                    exact Exists.intro a
+                                      (Exists.intro b
+                                        (Exists.intro xs
+                                          (Exists.intro ys
+                                            (And.intro sourceA
+                                              (And.intro sourceB
+                                                (And.intro repH
+                                                  (And.intro repK
+                                                    (And.intro tailPublicH
+                                                      (And.intro tailPublicK
+                                                        componentClassified)))))))))
+  · intro componentData
+    cases componentData with
+    | intro a restA =>
+        cases restA with
+        | intro b restB =>
+            cases restB with
+            | intro xs restXS =>
+                cases restXS with
+                | intro ys data =>
+                    cases data with
+                    | intro sourceA data =>
+                        cases data with
+                        | intro sourceB data =>
+                            cases data with
+                            | intro repH data =>
+                                cases data with
+                                | intro repK data =>
+                                    cases data with
+                                    | intro tailPublicH data =>
+                                        cases data with
+                                        | intro tailPublicK componentClassified =>
+                                            have bridge : FramedListBridgeClassifier A Rel h k :=
+                                              (FramedListBridgeClassifier_constructor_exactness
+                                                cert compat).right.right.right repH repK |>.mpr
+                                                componentClassified
+                                            have tailEntriesH :
+                                                ∀ z : BHist, z ∈ xs → A z := by
+                                              intro z mem
+                                              exact repH.left z (List.Mem.tail a mem)
+                                            have canonicalTailPublicH :
+                                                FramedListPublicLength A
+                                                  (FramedListEndpoint xs) xs.length :=
+                                              Exists.intro xs
+                                                (And.intro
+                                                  (And.intro tailEntriesH
+                                                    (hsame_refl (FramedListEndpoint xs)))
+                                                  rfl)
+                                            have tailLengthH : xs.length = n :=
+                                              (FramedListPublicLength_well_defined
+                                                (A := A) (Rel := Rel) compat).left
+                                                canonicalTailPublicH tailPublicH
+                                            have publicH :
+                                                FramedListPublicLength A h (Nat.succ n) :=
+                                              Exists.intro (a :: xs)
+                                                (And.intro repH (congrArg Nat.succ tailLengthH))
+                                            have tailEntriesK :
+                                                ∀ z : BHist, z ∈ ys → A z := by
+                                              intro z mem
+                                              exact repK.left z (List.Mem.tail b mem)
+                                            have canonicalTailPublicK :
+                                                FramedListPublicLength A
+                                                  (FramedListEndpoint ys) ys.length :=
+                                              Exists.intro ys
+                                                (And.intro
+                                                  (And.intro tailEntriesK
+                                                    (hsame_refl (FramedListEndpoint ys)))
+                                                  rfl)
+                                            have tailLengthK : ys.length = n :=
+                                              (FramedListPublicLength_well_defined
+                                                (A := A) (Rel := Rel) compat).left
+                                                canonicalTailPublicK tailPublicK
+                                            have publicK :
+                                                FramedListPublicLength A k (Nat.succ n) :=
+                                              Exists.intro (b :: ys)
+                                                (And.intro repK (congrArg Nat.succ tailLengthK))
+                                            exact And.intro bridge (And.intro publicH publicK)
 
 theorem FramedListBridgeClassifier_successor_component_exactness_iff
     {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
@@ -214,8 +368,54 @@ theorem FramedListBridgeClassifier_public_length_total {A : BHist → Prop}
                     ListClassifierSpec_length_eq classified
                   exact And.intro carriers
                     (Exists.intro xs.length
-                       (And.intro
-                         (Exists.intro xs (And.intro repH rfl))
-                         (Exists.intro ys (And.intro repK sameLength.symm))))
+                        (And.intro
+                          (Exists.intro xs (And.intro repH rfl))
+                          (Exists.intro ys (And.intro repK sameLength.symm))))
+
+theorem FramedListPublicLength_bridge_transport_pair {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} :
+    FramedListBridgeClassifier A Rel h k ->
+      (∀ {n : Nat}, FramedListPublicLength A h n -> FramedListPublicLength A k n) ∧
+        (∀ {n : Nat}, FramedListPublicLength A k n -> FramedListPublicLength A h n) := by
+  intro bridge
+  have wellDefined := FramedListPublicLength_well_defined (A := A) (Rel := Rel) compat
+  have symmetry :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.right.left bridge
+  constructor
+  · intro n publicH
+    exact wellDefined.right bridge publicH
+  · intro n publicK
+    exact wellDefined.right symmetry publicK
+
+theorem FramedListBridgeClassifier_public_length_transport {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    FramedListBridgeClassifier A Rel h k ->
+      (FramedListPublicLength A h n -> FramedListPublicLength A k n) /\
+        (FramedListPublicLength A k n -> FramedListPublicLength A h n) := by
+  intro bridge
+  have reverseBridge : FramedListBridgeClassifier A Rel k h :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.right.left bridge
+  constructor
+  · exact (FramedListPublicLength_well_defined compat).right bridge
+  · exact (FramedListPublicLength_well_defined compat).right reverseBridge
+
+theorem FramedListPublicLength_classifier_transport {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    FramedListBridgeClassifier A Rel h k ->
+      (FramedListPublicLength A h n -> FramedListPublicLength A k n) ∧
+        (FramedListPublicLength A k n -> FramedListPublicLength A h n) := by
+  intro bridge
+  have forward :
+      FramedListPublicLength A h n -> FramedListPublicLength A k n :=
+    (FramedListPublicLength_well_defined compat).right bridge
+  have bridgeSymm : FramedListBridgeClassifier A Rel k h :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.right.left bridge
+  have backward :
+      FramedListPublicLength A k n -> FramedListPublicLength A h n :=
+    (FramedListPublicLength_well_defined compat).right bridgeSymm
+  exact And.intro forward backward
 
 end BEDC.Derived.ListUp

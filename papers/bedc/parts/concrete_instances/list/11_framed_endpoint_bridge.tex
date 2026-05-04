@@ -37,6 +37,25 @@ hypothesis also gives $\hsame(t,t')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.PairFrame\_hsame\_injective}
 
+\begin{theorem}[Pair frame empty head iff]
+\label{thm:list-pair-frame-empty-head-iff}
+For histories $u,t:\mathsf{BHist}$, the pair frame has the empty-head boundary
+exactly when the head itself is empty:
+$$
+\hsame(\mathsf{PairFrame}(u,t),\Ezero(t))
+\Longleftrightarrow
+\hsame(u,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Case-split the head $u$. In the empty case the pair-frame definition is
+$\Ezero(t)$, so the displayed classifier is reflexive. In the zero-headed and
+one-headed cases the pair frame begins with $\Eone$, contradicting
+$\Eone/\Ezero$ no-confusion. Conversely, a classifier $\hsame(u,\emp)$
+substitutes the empty head into the pair-frame definition.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.PairFrame\_empty\_head\_iff}
+
 \begin{definition}[Framed list endpoint]
 \label{def:framed-list-endpoint}
 For finite BEDC-history spines, define the framed endpoint by recursion on the

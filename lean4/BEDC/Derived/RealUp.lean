@@ -5,14 +5,13 @@ import BEDC.Derived.RealUp.Core
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.CommonHeadCancel
 import BEDC.Derived.RealUp.PrefixTruncation
+import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.FinitePrefixEndpointPackage
 import BEDC.Derived.RealUp.ConstantStreamBridge
 import BEDC.Derived.RealUp.ConstantStream
 import BEDC.Derived.RealUp.StreamReadback
 import BEDC.Derived.RealUp.Readback
-
 namespace BEDC.Derived.RealUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
