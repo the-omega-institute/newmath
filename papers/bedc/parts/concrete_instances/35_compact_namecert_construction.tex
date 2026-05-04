@@ -388,6 +388,42 @@ the displayed final endpoint unary witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_finite\_refinement\_chain\_endpoints\_unary}
 
+\begin{theorem}[Compact witness carrier finite refinement endpoint package]
+\label{thm:compact-witness-carrier-finite-refinement-endpoint-package}
+If
+
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)
+$$
+
+and
+
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+$$
+
+hold, then both final endpoints are unary and the endpoint classifier relation is
+reflected exactly:
+
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(finalFinite)\land\mathsf{UnaryHistory}(finalCompact)
+\\
+\land\
+(\hsame(finalFinite,finalCompact)\Longleftrightarrow\hsame(finite,compact)).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:compact-witness-carrier-finite-refinement-chain-endpoints-unary}
+to the compact witness carrier and the finite refinement chain. This gives the
+unary witnesses for the final finite-net and compactness endpoints.
+
+Apply Theorem~\ref{thm:compact-finite-refinement-chain-endpoint-hsame-iff} to
+the same finite refinement chain. It gives the displayed classifier equivalence,
+and conjoining it with the endpoint unary witnesses gives the package.
+\end{proof}
+
 \begin{theorem}[Compact witness carrier iterated finite refinement closure]
 \label{thm:compact-witness-carrier-iterated-finite-refinement-closed}
 For histories $subset$, $located$, $finite$, $extra_0$, $extra_1$,
