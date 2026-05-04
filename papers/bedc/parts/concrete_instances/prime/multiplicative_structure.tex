@@ -425,6 +425,21 @@ From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
 
+\begin{lemma}[Divisibility is closed under displayed continuation]
+\label{thm:nat-divides-cont-closed}
+If $\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$ hold, and
+$\Cont(x,y,z)$ displays $z$ as the continuation of the two divisible histories,
+then $\mathsf{NatDivides}(d,z)$ holds.
+\end{lemma}
+\begin{proof}
+Unpack the two quotient witnesses, say $qx$ and $qy$. Their multiplication
+witnesses have results $x$ and $y$. The quotient for $z$ is
+$\mathsf{append}(qx,qy)$; unary append closure makes it an admissible quotient,
+and append-continuation multiplication closure combines the two multiplication
+witnesses over the displayed $\Cont(x,y,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_cont\_closed}
+
 \begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
 \label{lem:natdivides-result-boundary}
 If $\mathsf{NatDivides}(d,n)$, $n$ is unary, and $n\not\hsame\emp$, then

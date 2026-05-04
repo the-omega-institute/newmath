@@ -1,0 +1,30 @@
+\begin{definition}[Empty-bounded hsame list source]
+\label{def:list-hsame-empty-bounded-source}
+For a BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, define
+$\mathsf{ListHsameEmptyBoundedSource}(A)$ by
+$$
+\mathsf{ListHsameEmptyBoundedSource}(A)
+\Longleftrightarrow
+\forall a:\mathsf{BHist}.\; A(a)\to\hsame(a,\emp).
+$$
+\end{definition}
+\leandef{BEDC.Derived.ListUp.ListHsameEmptyBoundedSource}
+
+\begin{theorem}[Empty-bounded equal-length list classifier]
+\label{thm:list-hsame-empty-bounded-source-equal-length-classifier}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ satisfy
+$\mathsf{ListHsameEmptyBoundedSource}(A)$. If every entry of finite spines
+$xs$ and $ys$ lies in $A$, and $\ell(xs)=\ell(ys)$, then
+$$
+\mathsf{ListClassifierSpec}(\hsame,xs,ys)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Induct on $xs$ and case-analyze $ys$. The mixed nil/cons cases contradict the
+displayed length equality. In the cons/cons case, the two head entries are both
+history-same to $\emp$, hence history-same to each other by symmetry and
+transitivity. The successor length equality gives equal tail lengths, and the
+induction hypothesis classifies the two tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListHsameEmptyBoundedSource\_equal\_length\_classifier}
