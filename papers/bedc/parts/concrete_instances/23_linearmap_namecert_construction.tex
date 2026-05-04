@@ -406,6 +406,32 @@ singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_input\_classifier\_iff}
 
+\begin{theorem}[Singleton evaluation continuation classifier]
+\label{thm:linearmap-singleton-eval-continuation-classifier}
+For histories $f,x,y,r,h:\mathsf{BHist}$, if
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,r),
+$$
+then classifying the continuation result $r$ against $h$ is equivalent to
+the two exposed endpoints $y$ and $h$ lying in the singleton carrier:
+$$
+\mathsf{LinearMapSingletonClassifier}(r,h)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(y)\land
+\mathsf{LinearMapSingletonCarrier}(h).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_classifier\_iff}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the continuation ledger displays
+$r$ as $\mathsf{append}(\emp,y)$. In the forward direction, the classifier
+field $r\hsame\emp$ and the left-unit append equation identify $y$ with
+$\emp$, while the right classifier carrier gives the singleton witness for
+$h$. Conversely, singleton witnesses for $y$ and $h$ identify $r$ with
+$\emp$ through the same continuation ledger and left-unit append equation,
+and the two singleton carrier witnesses assemble the restricted classifier.
+\end{proof}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.

@@ -323,4 +323,24 @@ theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
   exact And.intro emptyClassifier (And.intro emptyClassifier emptyClassifier)
 
+theorem LinearMapSingletonEval_continuation_classifier_iff {f x y r h : BHist} :
+    Cont (LinearMapSingletonEval f x) y r ->
+      (LinearMapSingletonClassifier r h ↔
+        LinearMapSingletonCarrier y ∧ LinearMapSingletonCarrier h) := by
+  intro evalCont
+  constructor
+  · intro classified
+    have rEmpty : hsame r BHist.Empty := classified.left
+    have yEmpty : LinearMapSingletonCarrier y :=
+      hsame_trans (hsame_symm (append_empty_left y))
+        (hsame_trans (hsame_symm evalCont) rEmpty)
+    exact And.intro yEmpty classified.right.left
+  · intro carriers
+    have rEmpty : LinearMapSingletonCarrier r :=
+      hsame_trans evalCont (hsame_trans (append_empty_left y) carriers.left)
+    exact
+      And.intro rEmpty
+        (And.intro carriers.right
+          (hsame_trans rEmpty (hsame_symm carriers.right)))
+
 end BEDC.Derived.LinearMapUp
