@@ -301,6 +301,28 @@ $x\sim_{N_{\emp}}y$.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_normalizer\_orbit\_collapse\_iff}
 
+\begin{theorem}[QuotientGroup singleton continuation classifier]
+\label{thm:quotientgroup-singleton-classifier-continuation-classifier}
+If $\ContR(p,q,r)$, then the singleton classifier at the continuation result
+reads back exactly as singleton carriers on the two inputs and the right
+endpoint:
+$$
+\mathsf{QuotientGroupSingletonClassifier}(r,h)
+\Longleftrightarrow
+\mathsf{QuotientGroupSingletonCarrier}(p)\wedge
+\mathsf{QuotientGroupSingletonCarrier}(q)\wedge
+\mathsf{QuotientGroupSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier and classifier. A classifier witness gives
+$r\hsame\emp$, and empty-append inversion along $\ContR(p,q,r)$ splits this
+into the two input singleton carriers. Conversely, the two input carriers
+rebuild $r\hsame\emp$, and the endpoint carrier for $h$ supplies the remaining
+classifier fields.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier\_continuation\_classifier\_iff}
+
 \begin{theorem}[QuotientGroup singleton classifier visible endpoint exclusion]
 \label{thm:quotientgroup-singleton-classifier-visible-endpoint-absurd}
 For histories $p,q,k:\mathsf{BHist}$, no classifier edge can have a visible
@@ -402,6 +424,28 @@ append endpoint for $r$, and the carrier comparison for $h$ closes the
 classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_continuation\_classifier\_iff}
+
+\begin{theorem}[Centralizer coset representative continuation classifier]
+\label{thm:quotientgroup-centralizer-coset-representative-continuation-classifier}
+If $\emp$ and $\mathsf{repr}$ centralize $a$, $\mathsf{repr}\hsame\emp$, and
+$\ContR(p,q,r)$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\mathsf{repr},r,h)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},p)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},q)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},h).
+$$
+\end{theorem}
+\begin{proof}
+First transport the representative classifier to the empty representative.
+The empty-representative continuation classifier splits the result into the
+two continuation inputs and the endpoint $h$. The comparison
+$\mathsf{repr}\hsame\emp$ transports each carrier endpoint back to
+$\mathsf{repr}$, with the representative centralizer witness supplying the
+carrier's centralizer field.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_representative\_continuation\_classifier\_iff}
 
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}

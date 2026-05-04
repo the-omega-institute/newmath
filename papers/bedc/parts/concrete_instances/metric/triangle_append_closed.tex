@@ -232,6 +232,7 @@ $\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$, together with
 $\hsame(d_{xy},\emp)$ and $\hsame(z,\emp)$, to obtain
 $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_iff\_empty\_spine}
 
 Fit: traditional target triangle degeneracy criterion; BEDC source $BHist$
 metric distance witnesses; carrier the three witnessed edges; classifier
@@ -369,6 +370,36 @@ histories, so continuation determinacy for their distance ledgers identifies
 their result histories.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness triangle append context source determinacy]
+\label{thm:metric-distance-witness-triangle-append-context-source-deterministic}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then
+any displayed witness with the canonical contextual result and target
+$d_{yz}\cdot q$ determines the exposed source:
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceWitness}(p\cdot x',d_{yz}\cdot q,
+(p\cdot d_{xyz})\cdot q)
+\Longrightarrow
+\HSame(x,x').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append context closure constructs the canonical contextual witness
+from $p\cdot x$ to $d_{yz}\cdot q$ with result $(p\cdot d_{xyz})\cdot q$.
+Visible-context source determinacy then compares this canonical witness with
+the displayed witness, using the shared target $d_{yz}\cdot q$ and shared
+central distance $d_{xyz}$, and recovers $\hsame(x,x')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_source\_deterministic}
 
 \begin{theorem}[Metric distance witness triangle append context endpoint determinacy]
 \label{thm:metric-distance-witness-triangle-append-context-endpoint-determinacy}

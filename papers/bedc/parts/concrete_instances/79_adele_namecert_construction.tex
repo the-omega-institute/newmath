@@ -274,6 +274,23 @@ unit-left prime-scale append factorization applied to the unary right exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_left\_scale\_cont\_readback}
 
+\begin{theorem}[Adele unit-right scale continuation readback]
+\label{thm:adele-history-carrier-unit-right-scale-cont-readback}
+Let $real,p,w,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier, $w$ is unary, and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),result)$ holds,
+then $\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\exists n.\,\mathsf{PadicPrimeScale}(p,w,n)\land\ContR(n,p,result).
+$$
+\end{theorem}
+\begin{proof}
+The adele carrier uses the displayed real component, prime base, appended
+unit-right exponent, and scale result. The continuation readback is exactly the
+unit-right prime-scale append factorization applied to the unary left exponent.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_right\_scale\_cont\_readback}
+
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}
 Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives whose visible
@@ -338,6 +355,33 @@ the non-real component of the adele carrier, and reflexive history sameness
 identifies the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_padic\_scale\_carrier}
+
+\begin{theorem}[Adele long-prefix visible unit-scale readback]
+\label{thm:adele-long-prefix-visible-unit-scale-readback}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the displayed $p$-adic unit scale
+$\mathsf{PadicPrimeScale}(p,\Eone(\emp),r)$ holds, then
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds,
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)),
+$$
+and the appended adele endpoint reads back to the displayed prime endpoint:
+$$
+\mathsf{append}(\Eone(\Eone(d)),r)
+\hsame
+\mathsf{append}(\Eone(\Eone(d)),p).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the finite-prefix classifier to descend from $m+n$ to
+$n$. The visible endpoints at index $n$ recover a unary denominator tail, hence
+$\Eone(d)$ is a rational-history carrier and $\Eone(\Eone(d))$ is a constant
+real-history carrier. The unit-exponent prime-scale readback identifies
+$r$ with $p$, and applying the fixed real append context gives the displayed
+adele endpoint readback.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_unit\_scale\_readback}
 
 \begin{theorem}[Adele long-prefix visible scale result is not empty]
 \label{thm:adele-real-stream-prefix-long-prefix-visible-scale-result-nonempty}
