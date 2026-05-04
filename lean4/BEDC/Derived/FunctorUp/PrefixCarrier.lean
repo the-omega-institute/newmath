@@ -43,4 +43,14 @@ theorem PrefixFunctorCarrier_comp_public_readback {p a b c f g fg : BHist} :
       (fun displayedCarrier =>
         CategoryHomCarrier_morphism_deterministic compositeCarrier displayedCarrier)
 
+theorem PrefixFunctorCarrier_identity_public_readback {p a displayed : BHist} :
+    PrefixFunctorCarrier p -> UnaryHistory a ->
+      CategoryHomCarrier (append p a) (append p a) displayed -> hsame displayed BHist.Empty := by
+  intro prefixCarrier sourceCarrier displayedCarrier
+  have identityCarrier :
+      CategoryHomCarrier (append p a) (append p a) BHist.Empty :=
+    FunctorPrefixHomCarrier_identity_closed prefixCarrier.prefix_unary sourceCarrier
+      (cont_right_unit BHist.Empty)
+  exact CategoryHomCarrier_morphism_deterministic displayedCarrier identityCarrier
+
 end BEDC.Derived.FunctorUp
