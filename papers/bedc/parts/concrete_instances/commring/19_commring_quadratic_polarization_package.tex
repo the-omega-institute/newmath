@@ -255,3 +255,80 @@ with the two absorption rows obtained for the arbitrary multiplier $c$. Since
 $c$ was arbitrary, these rows give the universal two-sided annihilator clause,
 and the displayed package follows in the stated order.
 \end{proof}
+
+\begin{theorem}[CommRing quadratic positive-diagonal annihilator package]
+\label{thm:commring-quadratic-positive-diagonal-annihilator-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of
+\autoref{thm:commring-quadratic-positive-diagonal-exit-package},
+\autoref{thm:commring-quadratic-zero-polarization-annihilator-package}, and
+\autoref{thm:ring-mul-zero-absorption}, every $a,b : \mathsf{BHist}$ with
+$a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b$ carries the concrete
+positive-diagonal annihilator package
+$$
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Bigr)
+\land
+\Bigl(
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+\forall c : \mathsf{BHist},\
+(((a+(-b))\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+(-b))\cdot(a+(-b)))\hsame0)
+\Bigr).
+$$
+The ten-field fit is: traditional target positive-diagonal quadratic
+annihilator interface; BEDC source $\RingUp$ plus $\CommRingUp$ over
+$\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+the positive diagonal exit package, zero-polarization annihilator package, and
+zero multiplication absorption; ledger the positive diagonal witness, recovered
+signed-square zero witness, inverse diagonal row, and universal two-sided
+annihilator row; core theorem this theorem; exactness the displayed eight-row
+package; standard bridge ordinary positive-diagonal quadratic annihilation in a
+commutative ring; downstream use $\FieldUp$ quadratic normalization and
+zero-factor exit packages; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-positive-diagonal-exit-package} to the
+selected histories $a,b$ and the displayed positive diagonal equality. This
+supplies the four polarization rows, the recovered signed-square zero witness,
+and the inverse diagonal ledger row.
+
+Apply \autoref{thm:commring-quadratic-zero-polarization-annihilator-package} to
+the same histories and the recovered signed-square zero witness. Its package
+contains the positive diagonal row and the universal two-sided annihilator row.
+
+Conjoin the rows in the displayed order: the four polarization rows first, the
+recovered signed-square zero row next, then the positive diagonal row, the
+inverse diagonal ledger row, and finally the universal two-sided annihilator
+row.
+\end{proof}
