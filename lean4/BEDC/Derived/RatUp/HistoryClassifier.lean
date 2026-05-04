@@ -390,6 +390,26 @@ theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visibl
     (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier leftLedger))
     (RatHistoryLedgerPolicy_raw_visible_classifier rightLedger)
 
+theorem RatHistoryLedgerPolicy_shared_visible_e0_endpoint_absurd
+    {raw visible visible' z z' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      (hsame visible (BHist.e0 z) -> False) ∧
+        (hsame visible' (BHist.e0 z') -> False) := by
+  intro leftLedger rightLedger
+  have classified : RatHistoryClassifier visible visible' :=
+    RatHistoryLedgerPolicy_shared_raw_visible_classifier leftLedger rightLedger
+  constructor
+  · intro sameZero
+    have displayed : RatHistoryClassifier (BHist.e0 z) visible' :=
+      RatHistoryClassifier_hsame_transport sameZero (hsame_refl visible') classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := visible')).left displayed
+  · intro sameZero
+    have displayed : RatHistoryClassifier visible (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport (hsame_refl visible) sameZero classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := visible)).right displayed
+
 theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
     {raw visible tail : BHist} :
     RatHistoryLedgerPolicy raw visible → hsame visible (BHist.e1 tail) → UnaryHistory tail := by
@@ -418,6 +438,38 @@ theorem RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion
       RatHistoryClassifier_hsame_transport (hsame_refl rho) sameTargetZero rawTarget
     exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z') (d := rho)).right
       displayed
+
+theorem RatHistoryLedgerPolicy_visible_target_e1_pair_readback {rho v w a b : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w -> hsame rho (BHist.e1 a) ->
+      hsame w (BHist.e1 b) -> UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro ledger visibleTarget sameRaw sameTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport sameRaw sameTarget rawTarget
+  exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RatHistoryLedgerPolicy_visible_target_positive_nonempty_package {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w ∧
+        (hsame rho BHist.Empty -> False) ∧ (hsame v BHist.Empty -> False) ∧
+          (hsame w BHist.Empty -> False) := by
+  intro ledger visibleTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  have rawPositives :
+      PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators rawTarget
+  have visiblePositives :
+      PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators visibleTarget
+  have rhoRows := PositiveUnaryDenominator_unary_and_nonempty rawPositives.left
+  have vRows := PositiveUnaryDenominator_unary_and_nonempty visiblePositives.left
+  have wRows := PositiveUnaryDenominator_unary_and_nonempty rawPositives.right
+  exact And.intro rawPositives.left
+    (And.intro visiblePositives.left
+      (And.intro rawPositives.right
+        (And.intro rhoRows.right (And.intro vRows.right wRows.right))))
 
 theorem RatHistoryLedgerPolicy_visible_target_e0_endpoint_absurd {rho v w z z' : BHist} :
     RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
