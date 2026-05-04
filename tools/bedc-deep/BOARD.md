@@ -3759,3 +3759,153 @@ Definition `def:opposite-functor-certificate-data` at functor/certificate_obliga
 
 ---
 
+### B-147 - Choice as term-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Choice as term-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the term stratum, the schematic move 'accept an unwitnessed positive existential and use the accepted value as oracle' is equivalent to AC: ∀i∈I,∃x_i∈A_i ⇒ ∃f:I→⊔A_i with f(i)∈A_i.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Directly fills a known Sketch-proof gap in thm:three-axioms-unification (capstones/three_axioms_one_closure.tex). The infrastructure (def:three-axioms-meta-closure-operation, ex:three-axioms-choice) already exists and the equivalence is currently stated only informally. This is the term-stratum component of a triad with #2 and #3 supporting the unification theorem; once all three exist the Sketch can be replaced with a structured proof. No BOARD entry, no theorem-level paper label covers this. Stepping-stone scope.
+
+---
+
+
+### B-148 - Quot.sound as type-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Quot.sound as type-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the type stratum, the schematic move is equivalent to Quot-soundness: from an equivalence R on A, conclude there exists a type A/R with a section A/R→A choosing a canonical representative.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Type-stratum sister of #1; supports the Sketch proof of thm:three-axioms-unification. ex:three-axioms-quot-sound states the equivalence informally; this lemma formalizes it. Connects to def:three-axioms-replacement-quot which uses NameCert/psame-transport as the BEDC replacement, making this the lemma that justifies the replacement at the schema level. No BOARD or paper duplicate. Distinct from #5 which proves the structural soundness of the replacement, not the equivalence schema-side.
+
+---
+
+
+### B-149 - Propext as proposition-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Propext as proposition-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the proposition stratum, the schematic move is equivalent to propext: from P⇔Q conclude P=Q at the proposition level.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Proposition-stratum third of the equivalence triad behind thm:three-axioms-unification's Sketch proof. ex:three-axioms-propext states the schema informally; formalizing the proposition-level instantiation closes the third gap and makes the unification proof structured rather than sketched. No paper-level theorem label covers this. Belongs in capstones alongside #1 and #2.
+
+---
+
+
+### B-150 - Countable choice constructs explicit witness function from N-indexed family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Countable choice constructs explicit witness function from N-indexed family |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Given a family A:N→Type with w:∀n,A(n), there is an explicit f:N→⊔A(n) defined by primitive recursion satisfying f(n)∈A(n), without invoking Classical.choice.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+def:three-axioms-replacement-choice names countable choice as the BEDC replacement for term-stratum meta closure but only states it definitionally — the explicit recursive construction is missing. This is the term-stratum component of thm:three-axioms-replacements-suffice's currently-Sketch proof. Distinct from #1 which proves the equivalence schema; this proves the constructive replacement is realizable. Closes quickly because primitive recursion is already kernel-level.
+
+---
+
+
+### B-151 - NameCert psame-transport replaces Quot.sound use
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NameCert psame-transport replaces Quot.sound use |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any classifier-respecting operation φ:A→B and a,a' with a∼A a', φ(a)∼B φ(a') — without invoking Quot.sound to identify a and a' at the type level.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+def:three-axioms-replacement-quot declares NameCert + psame-transport as the BEDC replacement for type-stratum meta closure but the structural soundness lemma showing this replacement preserves the classifier-respecting operations Quot.sound enables is missing. Type-stratum component of thm:three-axioms-replacements-suffice's Sketch. Slightly lower novelty than oracle's 8 because generic psame-transport machinery exists in core (ch:core-typed-naming-certificates), but the capstones-specific replacement-soundness framing is new and distinct from generic transport. Distinct from #2 (equivalence schema) and from existing core transport lemmas.
+
+---
+
+
+### B-152 - hsame transport bypasses propext at the proposition level
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | hsame transport bypasses propext at the proposition level |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any kernel construction Φ consuming a proposition P, and propositions P,Q with P⇔Q (equivalently an hsame-transport between P and Q), there is a parameterized form Φ[P→Q] consuming Q via the bidirectional implication, without invoking propext.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+def:three-axioms-replacement-propext names hsame/psame transport as the BEDC replacement for proposition-stratum meta closure but no structural lemma states the replacement is sound. Proposition-stratum third of thm:three-axioms-replacements-suffice's Sketch components, completing the triad with #4 (term) and #5 (type). After all three land, the chapter's claim that BEDC's certified content is closed under the three replacements becomes a structured proof.
+
+---
+
