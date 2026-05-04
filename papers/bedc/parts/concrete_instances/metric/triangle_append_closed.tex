@@ -274,6 +274,44 @@ and the depth-zero hypothesis. The resulting conjunction is exactly the stated
 visible-context collapse conclusion.
 \end{proof}
 
+\begin{theorem}[Metric distance witness visible-context triangle depth-zero iff empty spine]
+\label{thm:metric-distance-witness-visible-context-triangle-depth-zero-iff-empty-spine}
+For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, visible source and target
+ledgers around the first edge preserve the exact zero-depth triangle criterion:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,p\cdot d_{xy}\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\mathsf{MetricDistanceDepth}(d_{xyz})=0
+\Longleftrightarrow
+\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+contextual first edge. This recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, so the three hypotheses now have
+the same shape as the central triangle criterion.
+
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine} to the
+central witness, the witness from $y$ to $z$, and the witness from $d_{xy}$ to
+$z$. The forward half turns the displayed zero-depth equation into the five
+empty-spine classifiers.
+
+For the reverse direction, use the same central iff theorem with the recovered
+central witness and the two unchanged triangle witnesses. Its reverse half turns
+the five displayed empty-spine classifiers into
+$\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+\end{proof}
+
 \begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
 \label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
@@ -297,6 +335,51 @@ exactness theorem to $\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, yielding a
 nonempty $x$ or $y$ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_endpoint\_nonempty}
+
+\begin{theorem}[Metric triangle nonempty spine iff nonempty distance]
+\label{thm:metric-distance-witness-triangle-nonempty-spine-iff-nonempty-distance}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, the same three triangle distance
+witnesses identify nonemptiness of the final triangle distance exactly with
+nonemptiness of at least one point of the triangle spine:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\bigl(d_{xyz}\hsame\emp\to\mathsf{False}\bigr)
+\Longleftrightarrow
+\\
+\bigl((x\hsame\emp\to\mathsf{False})\vee
+(y\hsame\emp\to\mathsf{False})\vee
+(z\hsame\emp\to\mathsf{False})\vee
+(d_{xy}\hsame\emp\to\mathsf{False})\vee
+(d_{yz}\hsame\emp\to\mathsf{False})\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty} to
+the three triangle witnesses and the displayed nonempty-distance hypothesis.
+The resulting endpoint disjunction is injected into the five-way spine
+disjunction by choosing the corresponding $x$, $y$, or $z$ summand.
+
+For the reverse direction, assume the five-way spine disjunction and suppose
+$d_{xyz}\hsame\emp$. By
+\autoref{thm:metric-distance-depth-zero-iff-empty}, this gives
+$\mathsf{MetricDistanceDepth}(d_{xyz})=0$. Applying
+\autoref{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine} to
+the three triangle witnesses then yields
+$\hsame(x,\emp)$, $\hsame(y,\emp)$, $\hsame(z,\emp)$, $\hsame(d_{xy},\emp)$,
+and $\hsame(d_{yz},\emp)$.
+
+Case-analyze the five-way spine disjunction. In each case, the selected
+nonempty spine component is a function from the corresponding empty classifier
+to $\mathsf{False}$, so applying it to the matching classifier from the
+empty-spine conjunction gives the desired contradiction.
+\end{proof}
 
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
@@ -432,6 +515,54 @@ visible-context target determinacy compares it with the same canonical
 contextual witness and recovers $\hsame(d_{yz},e)$ at the exposed middle target.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_endpoint\_deterministic}
+
+\begin{theorem}[Metric distance witness triangle append context endpoint iff]
+\label{thm:metric-distance-witness-triangle-append-context-endpoint-iff}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then
+the canonical contextual triangle result classifies exactly the exposed source
+and middle target:
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\Bigl(
+\mathsf{MetricDistanceWitness}(p\cdot x',e\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longleftrightarrow
+\hsame(x,x')\land\hsame(d_{yz},e)
+\Bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-append-context-endpoint-determinacy}
+to the displayed witness after visible-context exactness has placed it in the
+canonical contextual form. The source projection gives $\hsame(x,x')$, while
+the target projection gives $\hsame(d_{yz},e)$; together these are the two
+components of the displayed conjunction.
+
+For the reverse direction, assume $\hsame(x,x')$ and $\hsame(d_{yz},e)$.
+Apply \autoref{thm:metric-distance-witness-triangle-append-context-closed} to
+the two unary contexts and the three triangle witnesses. This gives the
+canonical witness
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q).
+$$
+
+Append congruence transports $\hsame(x,x')$ to
+$\hsame(p\cdot x,p\cdot x')$ and transports $\hsame(d_{yz},e)$ to
+$\hsame(d_{yz}\cdot q,e\cdot q)$. Unary transport preserves the endpoint
+carriers across these classifiers, and
+\autoref{thm:metric-distance-witness-cont-hsame-transport} transports the
+continuation ledger while keeping the contextual result fixed. Repacking the
+transported carriers with this ledger gives the displayed witness
+$\mathsf{MetricDistanceWitness}(p\cdot x',e\cdot q,(p\cdot d_{xyz})\cdot q)$.
+\end{proof}
 
 \begin{definition}[Metric ball budget predicate]
 \label{def:metric-ball-budget-predicate}

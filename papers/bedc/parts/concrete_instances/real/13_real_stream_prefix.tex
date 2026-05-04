@@ -84,6 +84,25 @@ component is the rational-history classifier at the selected endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_endpoint}
 
+\begin{theorem}[Real stream classifier finite prefix unary stability package]
+\label{thm:real-stream-classifier-finite-prefix-unary-stability-package}
+For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$ and an index $n$,
+if every $x(i)$ has rational carrier, $x$ is stream-classified with $y$, and
+$y$ is stream-classified with $z$, then the finite prefix at $n$ carries the
+reflexive $x$ prefix, the reversed $y$-to-$x$ prefix, the transitive
+$x$-to-$z$ prefix, the selected rational endpoint classifier, and unary
+carriers for $x(n)$ and $z(n)$.
+\end{theorem}
+\begin{proof}
+The pointwise carrier assumption gives finite-prefix reflexivity for $x$.
+Symmetry of the $x$--$y$ stream classifier gives the finite prefix from $y$ to
+$x$, and transitivity of the two stream classifiers gives the finite prefix
+from $x$ to $z$. Project the endpoint classifier at $n$ from this transitive
+prefix. Its positive rational denominators read back unary carriers for both
+selected endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_unary\_stability\_package}
+
 \begin{theorem}[Real stream prefix classifier base of successor]
 \label{thm:real-stream-prefix-classifier-base-of-successor}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every nonempty
