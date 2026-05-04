@@ -271,6 +271,29 @@ empty-multiplier constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_right\_iff}
 
+\begin{theorem}[Empty multiplicand exactness for unary multiplication]
+\label{thm:natmul-empty-left-iff}
+For all histories $q,n$,
+$$
+\mathsf{NatMul}(\emp,q,n)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(q)\land \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, every closed multiplication witness carries a unary
+multiplier, and empty-left multiplication has empty result by induction over
+the witness.
+
+Conversely, identify the displayed result with $\emp$ and induct on the unary
+history $q$. The empty case is the zero constructor for
+$\mathsf{NatMul}(\emp,\emp,\emp)$. A zero-headed unary case is impossible. In
+the $\Eone$ case, apply the induction hypothesis to the tail and then append
+one empty block using the successor constructor together with
+$\Cont(\emp,\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_left\_iff}
+
 \begin{theorem}[Nonempty multiplicand and empty multiplication result]
 \label{thm:natmul-nonempty-multiplicand-empty-result-iff}
 For every unary multiplicand $d$ with $d\not\hsame\emp$, the empty-result
@@ -367,6 +390,24 @@ left-cancel it against $\ContR(n,e,r)$, and transport the product for $q$ from
 $e'$ to $e$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_right\_factor}
+
+\begin{lemma}[Append multiplier left factor readback]
+\label{lem:nat-mul-append-multiplier-left-factor}
+Let $d$ and $w$ be unary histories. If $\mathsf{NatMul}(d,q,e)$ and
+$\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ hold, and if $\ContR(n,e,r)$
+displays $n$ as the left factor of the result continuation, then
+$\mathsf{NatMul}(d,w,n)$.
+\end{lemma}
+\begin{proof}
+Use totality of unary multiplication to build a product $n'$ for $d$ and $w$.
+Append-continuation closure combines this product with the supplied product for
+$q$, producing a product for $\mathsf{append}(w,q)$ with result
+$\mathsf{append}(n',e)$. Functionality of $\mathsf{NatMul}$ identifies that
+result with the displayed $r$. Transport the continuation
+$\ContR(n',e,\mathsf{append}(n',e))$ across this result equality, right-cancel
+it against $\ContR(n,e,r)$, and transport the product for $w$ from $n'$ to $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_left\_factor}
 
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}

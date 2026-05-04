@@ -289,6 +289,34 @@ the desired $\ContR(l,r,out)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice}
 
+\begin{theorem}[Metric empty-boundary visible-context witness splice]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-witness-splice}
+For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
+witness upgrades a two-step continuation through the central distance into a
+metric distance witness for the visible endpoints:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\mathsf{UnaryHistory}(l)\to
+\mathsf{UnaryHistory}(r)\to\\
+\qquad
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\mathsf{MetricDistanceWitness}(l,r,out).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary continuation-splice theorem gives the concrete continuation
+$\ContR(l,r,out)$ from the visible-context witness and the two displayed
+continuation rows. Together with the displayed unary carriers for $l$ and $r$,
+the BEDC unary-continuation closure theorem supplies $\mathsf{UnaryHistory}(out)$.
+These four rows are precisely the fields of
+$\mathsf{MetricDistanceWitness}(l,r,out)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_witness\_splice}
+
 \begin{theorem}[Metric empty-boundary continuation splice determinacy]
 \label{thm:metric-empty-boundary-visible-context-continuation-splice-hsame}
 For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
