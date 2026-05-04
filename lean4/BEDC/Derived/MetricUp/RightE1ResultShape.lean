@@ -100,6 +100,14 @@ theorem MetricDistanceWitness_right_e1_result_hsame_source {x x' y d : BHist} :
                                 (And.intro tailWitness.right.left
                                   (And.intro tailWitness.right.right.left sourceCont)))))
 
+theorem MetricDistanceWitness_right_e1_result_e0_absurd {x y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e0 d) -> False := by
+  intro witness
+  have shape := MetricDistanceWitness_right_e1_result_shape witness
+  cases shape with
+  | intro k data =>
+      exact not_hsame_e0_e1 data.left
+
 theorem MetricDistanceWitness_right_e1_result_hsame_target {x y y' d : BHist} :
     MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) -> hsame y y' ->
       (x = BHist.Empty ∧ UnaryHistory y' ∧ hsame d y') ∨
