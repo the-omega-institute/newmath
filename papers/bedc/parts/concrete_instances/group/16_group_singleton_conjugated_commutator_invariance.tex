@@ -1,0 +1,51 @@
+\begin{theorem}[Group singleton conjugated commutator invariance]
+\label{thm:group-singleton-conjugated-commutator-invariance}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, define
+$$
+\mathsf{Conj}_s(z):=\mathsf{mul}(\mathsf{mul}(s,z),\mathsf{inv}(s))
+$$
+and use $\mathsf{Comm}_{\emp}$ as in
+\autoref{thm:group-singleton-commutator-terminal-collapse}. If
+$A_{\emp}(s)$, $A_{\emp}(x)$, and $A_{\emp}(y)$, then
+$$
+R_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)),
+\mathsf{Comm}_{\emp}(x,y)),
+$$
+and both commutator endpoints classify against $\emp$:
+$$
+R_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)),\emp)
+\land R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp).
+$$
+The ten-field fit is: traditional target terminal commutator conjugation
+invariance; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier $R_{\emp}$; stability from action closure,
+commutator closure, and terminal classifier exactness; ledger the conjugator
+plus two commutator inputs; core theorem this composite invariance; exactness
+the displayed concrete commutator classifier; downstream consumers $\AbGroupUp$
+and $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-normalizer-action-certificate} to
+$(s,x)$ and again to $(s,y)$. These two instances put
+$\mathsf{Conj}_s(x)$ and $\mathsf{Conj}_s(y)$ in the singleton carrier
+$A_{\emp}$.
+
+Next apply Theorem~\ref{thm:group-singleton-commutator-terminal-collapse} to
+the original pair $(x,y)$. It gives the carrier fact for
+$\mathsf{Comm}_{\emp}(x,y)$ and the classifier
+$R_{\emp}(\mathsf{Comm}_{\emp}(x,y),\emp)$.
+
+Apply the same commutator-collapse theorem to the conjugated pair
+$(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))$. The action-carrier facts just built
+supply its hypotheses, so the theorem gives both
+$A_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)))$ and
+$R_{\emp}(\mathsf{Comm}_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)),\emp)$.
+
+Finally use the terminal classifier row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} on the two
+commutator carrier facts. It classifies the conjugated commutator endpoint
+against the original commutator endpoint by $R_{\emp}$, while the two
+commutator-collapse applications provide the two classifiers against $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCommutator\_conjugated\_invariance}

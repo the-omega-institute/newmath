@@ -180,6 +180,42 @@ supplying the endpoint carrier fields.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_identity\_empty\_iff}
 
+\begin{theorem}[Unary append monoid idempotent iff empty]
+\label{thm:unary-append-monoid-idempotent-empty-iff}
+For every unary history $e$, the concrete unary append monoid classifies the
+duplicated append factor as $e$ exactly when $e$ is classified with $\emp$:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(e,e),e)
+\quad\text{if and only if}\quad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp).
+$$
+Here the BEDC source is $\mathsf{BHist}$ with the carrier
+$\mathsf{UnaryHistory}$ and operation $\mathsf{append}$; the classifier is
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$. The ledger records
+the duplicated factor $e$ and the empty right unit, stability is supplied by
+common-context congruence and cancellation, exactness is the displayed iff, and
+the usual finite unary-word monoid is the standard bridge.
+\end{theorem}
+\begin{proof}
+For the forward direction, rewrite the right endpoint $e$ as
+$\mathsf{append}(e,\emp)$ by the empty right-unit law. The hypothesis then
+classifies two histories with common left context $e$ and common right context
+$\emp$, with middle endpoints $e$ and $\emp$. Apply
+Theorem~\ref{thm:unary-append-monoid-classifier-cancel-context} to obtain
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp)$.
+
+For the reverse direction, start from the classifier witness
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(e,\emp)$. Apply
+Theorem~\ref{thm:unary-append-monoid-classifier-append-context} with left
+context $e$ and right context $\emp$ to classify the contextual pair
+$\mathsf{append}(e,\mathsf{append}(e,\emp))$ and
+$\mathsf{append}(e,\mathsf{append}(\emp,\emp))$. The empty right-unit and
+left-unit laws identify these endpoints with $\mathsf{append}(e,e)$ and $e$,
+giving the displayed classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_idempotent\_empty\_iff}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.

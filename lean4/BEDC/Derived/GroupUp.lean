@@ -1,13 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.MonoidUp
-
 namespace BEDC.Derived.GroupUp
-
-open BEDC.FKernel.Hist
-open BEDC.FKernel.Cont
-open BEDC.FKernel.NameCert
-
+open BEDC.FKernel.Hist BEDC.FKernel.Cont BEDC.FKernel.NameCert
 theorem concrete_singleton_history_group_laws :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty
     let Classifier : BHist -> BHist -> Prop :=
@@ -31,71 +26,55 @@ theorem concrete_singleton_history_group_laws :
   constructor
   · exact hsame_refl BHist.Empty
   · constructor
-    · intro h k carrierH carrierK
-      cases carrierH
-      cases carrierK
+    · intro h k carrierH carrierK; cases carrierH; cases carrierK
       exact hsame_refl BHist.Empty
     · constructor
-      · intro h _
-        exact hsame_refl BHist.Empty
+      · intro h _; exact hsame_refl BHist.Empty
       · constructor
-        · intro h carrierH
-          cases carrierH
-          exact And.intro (hsame_refl BHist.Empty)
+        · intro h carrierH; cases carrierH; exact And.intro (hsame_refl BHist.Empty)
             (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
         · constructor
-          · intro h carrierH
-            cases carrierH
-            exact And.intro (hsame_refl BHist.Empty)
+          · intro h carrierH; cases carrierH; exact And.intro (hsame_refl BHist.Empty)
               (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
           · constructor
-            · intro a b c carrierA carrierB carrierC
-              cases carrierA
-              cases carrierB
-              cases carrierC
-              exact And.intro (hsame_refl BHist.Empty)
-                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · intro a b c carrierA carrierB carrierC; cases carrierA; cases carrierB; cases carrierC
+              exact And.intro (hsame_refl BHist.Empty) (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
             · constructor
               · intro h k h' k' sameH sameK
-                cases sameH.left
-                cases sameH.right.left
-                cases sameK.left
-                cases sameK.right.left
-                exact And.intro (hsame_refl BHist.Empty)
-                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                cases sameH.left; cases sameH.right.left; cases sameK.left; cases sameK.right.left
+                exact And.intro (hsame_refl BHist.Empty) (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
               · constructor
                 · intro h k _
                   exact And.intro (hsame_refl BHist.Empty)
                     (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
                 · constructor
-                  · intro h carrierH
-                    cases carrierH
+                  · intro h carrierH; cases carrierH
                     exact And.intro (hsame_refl BHist.Empty)
                       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
-                  · intro h carrierH
-                    cases carrierH
+                  · intro h carrierH; cases carrierH
                     exact And.intro (hsame_refl BHist.Empty)
                       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
-
 def GroupSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
-
 def GroupSingletonClassifier (h k : BHist) : Prop :=
   GroupSingletonCarrier h ∧ GroupSingletonCarrier k ∧ hsame h k
-
 def GroupSingletonMul (x y : BHist) : BHist :=
   append x y
-
 def GroupSingletonInv (_x : BHist) : BHist :=
   BHist.Empty
-
 def GroupSingletonUnit : BHist :=
   BHist.Empty
-
+theorem GroupSingletonClassifier_inverse_fiber_empty_endpoint_iff {x y : BHist} :
+    GroupSingletonClassifier (GroupSingletonInv x) y ↔
+      GroupSingletonCarrier y ∧ hsame (GroupSingletonInv x) BHist.Empty := by
+  constructor
+  · intro classified; exact And.intro classified.right.left classified.left
+  · intro endpoint
+    exact And.intro endpoint.right
+      (And.intro endpoint.left (hsame_trans endpoint.right (hsame_symm endpoint.left)))
 theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     GroupSingletonCarrier L -> GroupSingletonCarrier R ->
-      (GroupSingletonClassifier (append L Q) (append R S) <->
-        GroupSingletonClassifier Q S) := by
+      (GroupSingletonClassifier (append L Q) (append R S) <-> GroupSingletonClassifier Q S) := by
   intro carrierL carrierR
   constructor
   · intro classified
@@ -110,18 +89,35 @@ theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
       append_eq_empty_iff.mpr (And.intro carrierR classified.right.left)
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
-
 theorem GroupSingletonClassifier_append_unit_split_iff {p q : BHist} :
-    GroupSingletonClassifier (append p q) BHist.Empty <->
-      GroupSingletonCarrier p ∧ GroupSingletonCarrier q := by
+    GroupSingletonClassifier (append p q) BHist.Empty <-> GroupSingletonCarrier p ∧
+      GroupSingletonCarrier q := by
   constructor
   · intro classified
     exact append_eq_empty_iff.mp classified.left
   · intro split
-    have appendCarrier : GroupSingletonCarrier (append p q) := append_eq_empty_iff.mpr split
-    exact And.intro appendCarrier
-      (And.intro (hsame_refl BHist.Empty) appendCarrier)
-
+    exact And.intro (append_eq_empty_iff.mpr split)
+      (And.intro (hsame_refl BHist.Empty) (append_eq_empty_iff.mpr split))
+theorem GroupSingletonClassifier_conjugation_fixed_carrier_iff {a x : BHist} :
+    GroupSingletonCarrier a ->
+      (GroupSingletonClassifier (append (append a x) BHist.Empty) x <-> GroupSingletonCarrier x) := by
+  intro carrierA
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp (append_eq_empty_iff.mp classified.left).left).right
+  · intro carrierX
+    let actionCarrier : GroupSingletonCarrier (append (append a x) BHist.Empty) := append_eq_empty_iff.mpr (And.intro (append_eq_empty_iff.mpr (And.intro carrierA carrierX)) (hsame_refl BHist.Empty))
+    exact And.intro actionCarrier (And.intro carrierX (hsame_trans actionCarrier (hsame_symm carrierX)))
+theorem GroupSingletonClassifier_conjugation_terminal_collapse_iff {s x : BHist} :
+    GroupSingletonCarrier s ->
+      (GroupSingletonClassifier (append (append s x) (GroupSingletonInv s)) BHist.Empty <->
+        GroupSingletonCarrier x) := by
+  intro carrierS
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp (GroupSingletonClassifier_append_unit_split_iff.mp classified).left).right
+  · intro carrierX
+    exact GroupSingletonClassifier_append_unit_split_iff.mpr (And.intro (append_eq_empty_iff.mpr (And.intro carrierS carrierX)) (hsame_refl BHist.Empty))
 theorem GroupSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     (GroupSingletonCarrier (append p (BHist.e0 q)) -> False) ∧
       (GroupSingletonCarrier (append p (BHist.e1 q)) -> False) := by
@@ -130,7 +126,27 @@ theorem GroupSingletonCarrier_append_visible_tail_absurd {p q : BHist} :
     exact not_hsame_e0_empty (append_eq_empty_iff.mp carrier).right
   · intro carrier
     exact not_hsame_e1_empty (append_eq_empty_iff.mp carrier).right
-
+theorem GroupSingletonClassifier_normalizer_append_empty_action_certificate {s x : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x ->
+      GroupSingletonCarrier (append (append s x) BHist.Empty) ∧
+      GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) ∧
+      GroupSingletonClassifier (append (append s x) BHist.Empty) x ∧
+      GroupSingletonClassifier
+        (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) x := by
+  intro carrierS carrierX
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have productCarrier : GroupSingletonCarrier (append s x) :=
+    append_eq_empty_iff.mpr (And.intro carrierS carrierX)
+  have actionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
+  have inverseActionCarrier : GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro
+      (append_eq_empty_iff.mpr (And.intro emptyCarrier carrierX)) emptyCarrier)
+  have nestedCarrier : GroupSingletonCarrier
+      (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro
+      (append_eq_empty_iff.mpr (And.intro emptyCarrier actionCarrier)) emptyCarrier)
+  exact ⟨actionCarrier, inverseActionCarrier, ⟨⟨actionCarrier, carrierX, hsame_trans actionCarrier (hsame_symm carrierX)⟩, ⟨nestedCarrier, carrierX, hsame_trans nestedCarrier (hsame_symm carrierX)⟩⟩⟩
 theorem GroupSingletonHistory_laws :
     SemanticNameCert GroupSingletonCarrier GroupSingletonCarrier GroupSingletonCarrier
         GroupSingletonClassifier ∧
@@ -200,7 +216,6 @@ theorem GroupSingletonHistory_laws :
             · intro x carrierX
               cases carrierX
               exact emptyClassified
-
 theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -244,14 +259,12 @@ theorem group_stability_certificate_fields {mul : BHist → BHist → BHist} {e 
         exact leftInv x
       · intro x
         exact rightInv x
-
 theorem group_inverse_identity {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (rightId : forall x : BHist, hsame (mul x e) x)
     (leftInv : forall x : BHist, hsame (mul (inv x) x) e) :
     hsame (inv e) e := by
   exact hsame_trans (hsame_symm (rightId (inv e))) (leftInv e)
-
 theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -267,7 +280,6 @@ theorem group_left_inverse_involutive {mul : BHist → BHist → BHist} {e : BHi
       (mulCongr (hsame_refl (inv (inv x))) (hsame_symm (leftInv x)))
       (hsame_trans (hsame_symm (assocC (inv (inv x)) (inv x) x))
         (hsame_trans (mulCongr (leftInv (inv x)) (hsame_refl x)) (leftId x))))
-
 theorem group_right_inverse_involutive {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -285,7 +297,6 @@ theorem group_right_inverse_involutive {mul : BHist → BHist → BHist} {e : BH
         (hsame_trans
           (mulCongr (hsame_refl x) (rightInv (inv x)))
           (rightId x))))
-
 theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e : BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : ∀ x, hsame (mul e x) x)
@@ -300,7 +311,6 @@ theorem group_left_right_inverse_uniqueness {mul : BHist → BHist → BHist} {e
       (mulCongr (hsame_refl y) (hsame_symm right))
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr left (hsame_refl z)) (leftId z))))
-
 theorem group_inverse_congruence_from_laws {mul : BHist → BHist → BHist} {e : BHist}
     {inv : BHist → BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -317,7 +327,6 @@ theorem group_inverse_congruence_from_laws {mul : BHist → BHist → BHist} {e 
       (hsame_symm (mulCongr (hsame_refl (inv x)) same))
       (leftInv x))
     (rightInv y)
-
 theorem group_inverse_mul_reverse {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -340,7 +349,6 @@ theorem group_inverse_mul_reverse {mul : BHist -> BHist -> BHist} {e : BHist}
   exact group_left_right_inverse_uniqueness assocC leftId rightId mulCongr
     (leftInv (mul x y))
     reverseRight
-
 theorem group_inverse_cancel_from_laws {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -360,7 +368,6 @@ theorem group_inverse_cancel_from_laws {mul : BHist -> BHist -> BHist} {e : BHis
     (hsame_symm (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv x))
     (hsame_trans sameDouble
       (group_left_inverse_involutive assocC leftId rightId mulCongr leftInv y))
-
 theorem group_mul_right_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -372,7 +379,6 @@ theorem group_mul_right_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHis
   intro a b
   exact hsame_trans (assocC a b (inv b))
     (hsame_trans (mulCongr (hsame_refl a) (rightInv b)) (rightId a))
-
 theorem group_mul_left_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -384,7 +390,6 @@ theorem group_mul_left_inverse_cancel {mul : BHist -> BHist -> BHist} {e : BHist
   intro a b
   exact hsame_trans (hsame_symm (assocC (inv a) a b))
     (hsame_trans (mulCongr (leftInv a) (hsame_refl b)) (leftId b))
-
 theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -400,7 +405,6 @@ theorem group_left_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
         (hsame_trans (mulCongr (hsame_refl (inv a)) sameProducts)
           (hsame_trans (hsame_symm (assocC (inv a) a c))
             (hsame_trans (mulCongr (leftInv a) (hsame_refl c)) (leftId c))))))
-
 theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -414,7 +418,6 @@ theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BH
     (hsame_trans (mulCongr (hsame_symm (leftInv a)) (hsame_refl x))
       (hsame_trans (assocC (inv a) a x)
         (mulCongr (hsame_refl (inv a)) sameProduct)))
-
  theorem group_left_mul_equation_exact_from_empty_unit {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -437,7 +440,6 @@ theorem group_left_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BH
     have cancelHead : hsame (mul (mul a (inv a)) b) (mul BHist.Empty b) := by
       exact mulCongr (rightInv a) (hsame_refl b)
     exact hsame_trans replaceX (hsame_trans reassoc (hsame_trans cancelHead (leftId b)))
-
 theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -451,7 +453,6 @@ theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : B
     (hsame_trans (mulCongr (hsame_refl x) (hsame_symm (rightInv a)))
       (hsame_trans (hsame_symm (assocC x a (inv a)))
         (mulCongr sameProduct (hsame_refl (inv a)))))
-
  theorem group_right_mul_equation_exact_from_empty_unit {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -474,7 +475,6 @@ theorem group_right_mul_equation_solution {mul : BHist -> BHist -> BHist} {e : B
     have cancelTail : hsame (mul b (mul (inv a) a)) (mul b BHist.Empty) := by
       exact mulCongr (hsame_refl b) (leftInv a)
     exact hsame_trans replaceX (hsame_trans reassoc (hsame_trans cancelTail (rightId b)))
-
 theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -487,7 +487,6 @@ theorem group_left_absorb_right_factor_unit {mul : BHist -> BHist -> BHist} {e :
   intro absorb
   exact group_left_cancel assocC leftId mulCongr leftInv
     (hsame_trans absorb (hsame_symm (rightId a)))
-
 theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -503,7 +502,6 @@ theorem group_right_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
         (hsame_trans (mulCongr sameProducts (hsame_refl (inv a)))
           (hsame_trans (assocC c a (inv a))
             (hsame_trans (mulCongr (hsame_refl c) (rightInv a)) (rightId c))))))
-
 theorem group_right_absorb_left_factor_unit {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -516,7 +514,6 @@ theorem group_right_absorb_left_factor_unit {mul : BHist -> BHist -> BHist} {e :
   intro absorb
   exact group_right_cancel assocC rightId mulCongr rightInv
     (hsame_trans absorb (hsame_symm (leftId a)))
-
 theorem group_two_sided_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -531,7 +528,6 @@ theorem group_two_sided_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
   have sameLeftProducts : hsame (mul a b) (mul a d) :=
     group_right_cancel assocC rightId mulCongr rightInv sameProducts
   exact group_left_cancel assocC leftId mulCongr leftInv sameLeftProducts
-
 theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : BHist}
     (assocC : ∀ x y z, hsame (mul (mul x y) z) (mul x (mul y z)))
     (leftId : ∀ x, hsame (mul e x) x)
@@ -545,7 +541,6 @@ theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : B
     (hsame_trans (mulCongr (hsame_refl y) (hsame_symm rightInv))
       (hsame_trans (hsame_symm (assocC y x z))
         (hsame_trans (mulCongr leftInv (hsame_refl z)) (leftId z))))
-
  theorem group_conjugation_equation_exact_from_empty_unit_iff {mul : BHist -> BHist -> BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -595,5 +590,10 @@ theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : B
     exact hsame_trans (mulCongr sameLeftProduct (hsame_refl (inv a)))
       (hsame_trans (assocC b a (inv a))
         (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b)))
-
+theorem GroupSingletonNormalizerOrbit_equivalence {x y z : BHist} :
+    GroupSingletonCarrier x -> (let Orbit := fun p q : BHist => Exists (fun s : BHist => GroupSingletonCarrier s ∧ GroupSingletonClassifier (append (append s p) BHist.Empty) q); Orbit x x ∧ (Orbit x y -> Orbit y x) ∧ (Orbit x y -> Orbit y z -> Orbit x z)) := by
+  intro carrierX; cases carrierX
+  exact ⟨⟨BHist.Empty, rfl, rfl, rfl, rfl⟩,
+    (fun orbitXY => by cases orbitXY with | intro s witness => cases witness.right.right.left; exact ⟨BHist.Empty, rfl, rfl, rfl, rfl⟩),
+    (fun _ orbitYZ => by cases orbitYZ with | intro s witness => cases witness.right.right.left; exact ⟨BHist.Empty, rfl, rfl, rfl, rfl⟩)⟩
 end BEDC.Derived.GroupUp

@@ -237,6 +237,29 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_mutual\_extension\_tails\_empty}
 
+\begin{theorem}[Composite endpoint empty tails iff]
+\label{thm:cont-composite-endpoint-empty-tails-iff}
+For histories $a,b,c,f,g:\mathsf{BHist}$, if
+$$
+\ContR(a,f,b)\qquad\text{and}\qquad \ContR(b,g,c),
+$$
+then the composite endpoints close exactly when the two exposed tails are empty:
+$$
+\HSame(c,a)\Longleftrightarrow \HSame(f,\emp)\land\HSame(g,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Compose the two continuation ledgers into
+$\ContR(a,\mathsf{append}(f,g),c)$. If $c\hsame a$, transport the result to
+obtain a cycle $\ContR(a,\mathsf{append}(f,g),a)$; right-unit uniqueness and
+empty-append inversion identify $f$ and $g$ with $\emp$.
+
+Conversely, if both exposed tails are empty, the first continuation reduces
+$b$ to $a$ and the second reduces $c$ to $b$ by determinacy against right-unit
+continuations. Transitivity gives $c\hsame a$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_composite\_endpoint\_empty\_tails\_iff}
+
 \begin{theorem}[Nested continuation with visible middle cannot end empty]
 \label{thm:cont-nested-visible-middle-result-absurd}
 For histories $l,tail,r,u,v:\mathsf{BHist}$, neither branch
@@ -259,6 +282,26 @@ inversion identifies the headed constructor with $\emp$, contradicting
 history constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.cont\_nested\_visible\_middle\_result\_absurd}
+
+\begin{theorem}[Nested continuation empty-result inversion]
+\label{thm:cont-nested-empty-result-inversion}
+For histories $a,b,c,f,g:\mathsf{BHist}$, if
+$$
+\ContR(a,f,b),\qquad \ContR(b,g,c),\qquad c\hsame\emp,
+$$
+then all exposed endpoints and tails of the nested continuation are empty:
+$$
+a\hsame\emp,\qquad f\hsame\emp,\qquad b\hsame\emp,\qquad g\hsame\emp .
+$$
+\end{theorem}
+\begin{proof}
+Transport the outer continuation result along $c\hsame\emp$ and apply
+empty-result inversion to $\ContR(b,g,\emp)$, identifying $b$ and $g$ with
+$\emp$. With the middle endpoint identified as empty, apply the same
+empty-result inversion to the inner continuation $\ContR(a,f,b)$ to identify
+$a$ and $f$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_nested\_empty\_result\_inversion}
 
 \begin{theorem}[Mutual continuation forbids visible right tails]
 \label{thm:cont-mutual-extension-right-tail-absurd}
@@ -537,6 +580,27 @@ tail composite $\ContR(f,g,fg)$, and the displayed composite $\ContR(a,fg,c)$.
 For another middle $b$, inverting $\ContR(a,f,b)$ identifies $b$ with
 $\mathsf{append}(a,f)$.
 \end{proof}
+
+\begin{theorem}[Continuation factorization result history-sameness iff]
+\label{thm:cont-factorization-result-hsame-iff}
+If
+$$
+\ContR(a,b,m),\qquad \ContR(m,c,r),
+$$
+then for every direct result $s$ through the appended tail,
+$$
+\ContR(a,\mathsf{append}(b,c),s)
+\Longleftrightarrow
+\HSame(s,r).
+$$
+\end{theorem}
+\begin{proof}
+The two displayed continuation witnesses compose to a direct continuation
+from $a$ by $\mathsf{append}(b,c)$ to $r$, using append associativity. The
+result history-sameness characterization for a fixed continuation then
+identifies exactly the direct results $s$ with $\HSame(s,r)$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_factorization\_result\_hsame\_iff}
 
 \begin{theorem}[Continuation factorization middle exactness]
 \label{thm:cont-factorization-middle-hsame-iff}

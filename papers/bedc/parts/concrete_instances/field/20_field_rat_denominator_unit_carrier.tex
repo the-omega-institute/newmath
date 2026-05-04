@@ -18,6 +18,62 @@ because source, pattern, and ledger are all the same carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_semanticNameCert}
 
+\begin{theorem}[Rat denominator unit mixed append Rat closure package]
+\label{thm:rat-denom-unit-mixed-append-rat-closure-package}
+For histories $h,h',k,k':\mathsf{BHist}$, denominator-unit endpoints may be
+appended to genuine Rat endpoints on either side without leaving the Rat
+carrier or Rat classifier:
+\begin{enumerate}
+\item If $\mathsf{RatHistoryCarrier}(h)$ and
+$\mathsf{RatDenomUnitCarrier}(k)$, then
+$$
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+
+\item If $\mathsf{RatDenomUnitCarrier}(h)$ and
+$\mathsf{RatHistoryCarrier}(k)$, then
+$$
+\mathsf{RatHistoryCarrier}(\mathsf{append}(h,k)).
+$$
+
+\item If $\mathsf{RatHistoryClassifier}(h,h')$ and
+$\mathsf{RatDenomUnitClassifier}(k,k')$, then
+$$
+\mathsf{RatHistoryClassifier}
+  (\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+
+\item If $\mathsf{RatDenomUnitClassifier}(h,h')$ and
+$\mathsf{RatHistoryClassifier}(k,k')$, then
+$$
+\mathsf{RatHistoryClassifier}
+  (\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the right denominator-unit carrier row, split the
+$\mathsf{RatDenomUnitCarrier}(k)$ witness. In the empty branch, the right
+append unit law identifies $\mathsf{append}(h,k)$ with $h$, so the original
+$\mathsf{RatHistoryCarrier}(h)$ transports to the result. In the genuine Rat
+branch, Rat denominator continuation closure applies directly to the two Rat
+carriers and the canonical append continuation.
+
+For the left denominator-unit carrier row, split the
+$\mathsf{RatDenomUnitCarrier}(h)$ witness. In the empty branch, the left append
+unit law identifies $\mathsf{append}(h,k)$ with $k$, so the original
+$\mathsf{RatHistoryCarrier}(k)$ transports to the result. In the genuine Rat
+branch, the same Rat denominator continuation closure applies to the two Rat
+carriers and the canonical append continuation.
+
+For the classifier rows, first apply the corresponding carrier rows to the two
+endpoints. The remaining $\hsame$ field is obtained by
+$\mathsf{cont\_respects\_hsame}$ from the two input classifier comparisons and
+the canonical append continuations on the left and right endpoints. The two Rat
+carrier witnesses and this transported $\hsame$ comparison assemble the
+advertised $\mathsf{RatHistoryClassifier}$ outputs.
+\end{proof}
+
 \begin{theorem}[Rat denominator unit classifier append left factor classifier]
 \label{thm:rat-denom-unit-classifier-append-left-factor-classifier}
 For histories $h,h',k,k':\mathsf{BHist}$, if

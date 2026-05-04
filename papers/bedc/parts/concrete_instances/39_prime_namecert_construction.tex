@@ -102,6 +102,19 @@ Induct on the concrete multiplication derivation for $q$. The zero case is immed
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}
 
+\begin{lemma}[Unit right multiplication reads back the multiplicand]
+\label{lem:natmul-unit-right-hsame}
+For every history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then
+$\hsame(n,d)$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness at multiplier $\Eone(\emp)$. Its
+predecessor multiplier is $\emp$, so the predecessor product is the zero
+constructor result $\emp$. The final continuation is therefore the empty-left
+append of $d$, which identifies the result with $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}
+
 \begin{lemma}[\(\Ezero\)-multiplier exclusion]
 \label{thm:natmul-e0-multiplier-absurd}
 No unary multiplication witness has an \(\Ezero\)-headed multiplier:
@@ -280,6 +293,32 @@ If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is a unary history.
 Induct on the trial-division witness. The unit constructor gives \(\mathsf{Unary}(\Eone(\emp))\). The step constructor extends the previous unary bound by the unary unit through \(\Cont\), so unary closure under continuation gives the next bound.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unary}
+
+\begin{theorem}[Trial-division bounds have positive shape]
+\label{thm:trial-div-bound-positive-shape}
+If \(\mathsf{TrialDiv}(b,n)\), then there is a unary tail \(t\) such that
+\(b\hsame\Eone(t)\).
+\end{theorem}
+\begin{proof}
+Inspect the trial-division witness. The unit constructor has
+\(b=\Eone(\emp)\). In the step constructor, the continuation
+\(\Cont(b,\Eone(\emp),b')\) exposes \(b'\) as \(\Eone(b)\), and the previous
+trial-division witness supplies unary closure of the tail by
+\autoref{thm:trial-div-bound-unary}.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_positive\_shape}
+
+\begin{theorem}[Trial-division bounds are not empty]
+\label{thm:trial-div-bound-not-empty}
+If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:trial-div-bound-positive-shape} to write
+\(b\hsame\Eone(t)\) for a unary tail \(t\). An additional endpoint
+\(b\hsame\emp\) would identify \(\Eone(t)\) with \(\emp\), contradicting the
+history no-confusion principle.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_not\_empty}
 
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}

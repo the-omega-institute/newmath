@@ -1,0 +1,91 @@
+import BEDC.Derived.GroupUp
+
+namespace BEDC.Derived.GroupUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+open BEDC.Derived.MonoidUp
+
+theorem GroupSingletonNormalizer_action_certificate {s x : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x ->
+      let Conj : BHist -> BHist := fun y => append (append s y) BHist.Empty
+      let InvConj : BHist -> BHist := fun y => append (append BHist.Empty y) BHist.Empty
+      GroupSingletonCarrier (Conj x) ∧ GroupSingletonCarrier (InvConj x) ∧
+        GroupSingletonClassifier (Conj x) x ∧
+          GroupSingletonClassifier (InvConj (Conj x)) x := by
+  intro carrierS carrierX
+  dsimp
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have conjCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS carrierX)) emptyCarrier)
+  have invConjCarrier : GroupSingletonCarrier (append (append BHist.Empty x) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro emptyCarrier carrierX)) emptyCarrier)
+  have invAfterConjCarrier :
+      GroupSingletonCarrier (append (append BHist.Empty (append (append s x) BHist.Empty))
+        BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro emptyCarrier conjCarrier)) emptyCarrier)
+  constructor
+  · exact conjCarrier
+  · constructor
+    · exact invConjCarrier
+    · constructor
+      · exact And.intro conjCarrier
+          (And.intro carrierX (hsame_trans conjCarrier (hsame_symm carrierX)))
+      · exact And.intro invAfterConjCarrier
+          (And.intro carrierX (hsame_trans invAfterConjCarrier (hsame_symm carrierX)))
+
+theorem MonoidHistoryClassifier_unary_append_unit_product_factor_exactness {h k : BHist} :
+    MonoidHistoryClassifier UnaryHistory (append h k) BHist.Empty <->
+      MonoidHistoryClassifier UnaryHistory h BHist.Empty ∧
+        MonoidHistoryClassifier UnaryHistory k BHist.Empty := by
+  constructor
+  · intro classified
+    have emptySplit := append_eq_empty_iff.mp classified.right.right
+    constructor
+    · exact And.intro (unary_append_left_factor classified.left)
+        (And.intro unary_empty emptySplit.left)
+    · exact And.intro (unary_append_right_factor classified.left)
+        (And.intro unary_empty emptySplit.right)
+  · intro factors
+    exact And.intro (unary_append_closed factors.left.left factors.right.left)
+      (And.intro unary_empty
+        (append_eq_empty_iff.mpr
+          (And.intro factors.left.right.right factors.right.right.right)))
+
+theorem MonoidHistoryClassifier_unary_append_inverse_obstruction {inv : BHist -> BHist} :
+    (forall h : BHist, UnaryHistory h ->
+      UnaryHistory (inv h) ∧
+        MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) ->
+      False := by
+  intro inverseLaw
+  have inverseAtOne := inverseLaw (BHist.e1 BHist.Empty) (unary_e1_closed unary_empty)
+  have factors :
+      MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty ∧
+        MonoidHistoryClassifier UnaryHistory (inv (BHist.e1 BHist.Empty)) BHist.Empty :=
+    MonoidHistoryClassifier_unary_append_unit_product_factor_exactness.mp inverseAtOne.right
+  exact not_hsame_e1_empty factors.left.right.right
+
+theorem MonoidHistoryClassifier_unary_append_inverse_field_collapse {inv : BHist -> BHist} :
+    ((forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) ->
+        forall h : BHist, UnaryHistory h ->
+          MonoidHistoryClassifier UnaryHistory h BHist.Empty) ∧
+      ((forall h : BHist, UnaryHistory h ->
+        MonoidHistoryClassifier UnaryHistory (append (inv h) h) BHist.Empty) ->
+          forall h : BHist, UnaryHistory h ->
+            MonoidHistoryClassifier UnaryHistory h BHist.Empty) := by
+  constructor
+  · intro rightInverse h unaryH
+    exact
+      (MonoidHistoryClassifier_unary_append_unit_product_factor_exactness.mp
+        (rightInverse h unaryH)).left
+  · intro leftInverse h unaryH
+    exact
+      (MonoidHistoryClassifier_unary_append_unit_product_factor_exactness.mp
+        (leftInverse h unaryH)).right
+
+end BEDC.Derived.GroupUp

@@ -52,6 +52,25 @@ Reassembling these transported fields gives all stated components.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
 
+\begin{theorem}[Derivative metric quotient distance continuation depth]
+\label{thm:derivative-metric-quotient-distance-cont-depth-add}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then its metric
+distance ledger exposes $\Cont(h,q,dist)$, and the displayed metric-distance
+depth is the sum of the step depth and quotient depth:
+$$
+\mathsf{MetricDistanceDepth}(dist)
+=
+\mathsf{MetricDistanceDepth}(h)+\mathsf{MetricDistanceDepth}(q).
+$$
+\end{theorem}
+\begin{proof}
+Destructure the derivative metric quotient into its two continuation ledgers
+and unary carriers. The fields for $h$, $q$, $dist$, and $\Cont(h,q,dist)$
+form the concrete metric-distance witness, whose checked depth-add theorem
+computes the displayed distance depth.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_cont\_depth\_add}
+
 \begin{theorem}[Derivative metric quotient distance result is nonempty]
 \label{thm:derivative-metric-quotient-distance-result-nonempty}
 For histories $f,z,h,q,dist:\mathsf{BHist}$, a derivative metric quotient
@@ -152,6 +171,24 @@ then apply continuation determinism to identify the displayed distance
 histories.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_same\_quotient\_step\_distance\_deterministic}
+
+\begin{theorem}[Visible derivative quotient steps cannot share a quotient]
+\label{thm:derivative-metric-quotient-visible-step-same-quotient-absurd}
+If
+$$
+\mathsf{DerivativeMetricQuotient}(f,z,\Ezero(p),out,dist_0)
+\qquad\text{and}\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Eone(q),out,dist_1)
+$$
+hold with the same function, point, and quotient histories, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+Same-quotient step and distance determinacy identifies the two visible step
+histories. The equality $\Ezero(p)\hsame\Eone(q)$ contradicts constructor
+separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_same\_quotient\_absurd}
 
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}

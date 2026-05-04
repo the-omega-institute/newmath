@@ -74,6 +74,81 @@ theorem ComplexHistoryCarrier_positive_components {h : BHist} :
                               (RatUp.RatHistoryCarrier_iff_positive_denominator.mp
                                 imagCarrier))))))
 
+theorem ComplexHistoryClassifier_e0_endpoint_absurd {tail h : BHist} :
+    (ComplexHistoryClassifier (BHist.e0 tail) h -> False) /\
+      (ComplexHistoryClassifier h (BHist.e0 tail) -> False) := by
+  have carrierE0Absurd : ComplexHistoryCarrier (BHist.e0 tail) -> False := by
+    intro carrier
+    have components := ComplexHistoryCarrier_positive_components carrier
+    cases components with
+    | intro real rest =>
+        cases rest with
+        | intro imag data =>
+            cases data with
+            | intro _realCarrier data =>
+                cases data with
+                | intro _imagCarrier data =>
+                    cases data with
+                    | intro cont data =>
+                        cases data with
+                        | intro _positiveReal positiveImag =>
+                            have resultCases := cont_e0_result_inversion cont
+                            cases resultCases with
+                            | inl emptyCase =>
+                                cases emptyCase with
+                                | intro imagEmpty _sameReal =>
+                                    cases imagEmpty
+                                    exact RatUp.PositiveUnaryDenominator_not_empty
+                                      positiveImag (hsame_refl BHist.Empty)
+                            | inr visibleCase =>
+                                cases visibleCase with
+                                | intro imagTail fields =>
+                                    cases fields with
+                                    | intro imagVisible _tailCont =>
+                                        cases imagVisible
+                                        exact RatUp.PositiveUnaryDenominator_e0_absurd
+                                          positiveImag
+  constructor
+  · intro classified
+    exact carrierE0Absurd classified.left
+  · intro classified
+    exact carrierE0Absurd classified.right.left
+
+theorem ComplexHistoryLedgerPolicy_e0_visible_absurd {raw tail : BHist} :
+    ComplexHistoryLedgerPolicy raw (BHist.e0 tail) -> False := by
+  intro ledger
+  have carrierE0 : ComplexHistoryCarrier (BHist.e0 tail) :=
+    ComplexHistoryLedgerPolicy_visible_carrier ledger
+  have components := ComplexHistoryCarrier_positive_components carrierE0
+  cases components with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro _realCarrier data =>
+              cases data with
+              | intro _imagCarrier data =>
+                  cases data with
+                  | intro cont data =>
+                      cases data with
+                      | intro _positiveReal positiveImag =>
+                          have resultCases := cont_e0_result_inversion cont
+                          cases resultCases with
+                          | inl emptyCase =>
+                              cases emptyCase with
+                              | intro imagEmpty _sameReal =>
+                                  cases imagEmpty
+                                  exact RatUp.PositiveUnaryDenominator_not_empty
+                                    positiveImag (hsame_refl BHist.Empty)
+                          | inr visibleCase =>
+                              cases visibleCase with
+                              | intro imagTail fields =>
+                                  cases fields with
+                                  | intro imagVisible _tailCont =>
+                                      cases imagVisible
+                                      exact RatUp.PositiveUnaryDenominator_e0_absurd
+                                        positiveImag
+
 theorem ComplexHistoryCarrier_not_empty {h : BHist} :
     ComplexHistoryCarrier h -> hsame h BHist.Empty -> False := by
   intro carrier sameEmpty
@@ -198,6 +273,54 @@ theorem ComplexHistoryCarrier_append_unary_closed {h q : BHist} :
                           (cont_intro
                             ((congrArg (fun visible => append visible q) cont).trans
                               (append_assoc real imag q))))))
+
+theorem ComplexHistoryClassifier_unary_context_closed {p p' h k q q' : BHist} :
+    UnaryHistory p -> hsame p p' -> ComplexHistoryClassifier h k ->
+      UnaryHistory q -> hsame q q' ->
+        ComplexHistoryClassifier
+          (BEDC.FKernel.Cont.append p (BEDC.FKernel.Cont.append h q))
+          (BEDC.FKernel.Cont.append p' (BEDC.FKernel.Cont.append k q')) := by
+  intro pUnary sameP classified qUnary sameQ
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          have pUnary' : UnaryHistory p' := unary_transport pUnary sameP
+          have qUnary' : UnaryHistory q' := unary_transport qUnary sameQ
+          have tailCarrierH : ComplexHistoryCarrier (append h q) :=
+            ComplexHistoryCarrier_append_unary_closed carrierH qUnary
+          have tailCarrierK : ComplexHistoryCarrier (append k q') :=
+            ComplexHistoryCarrier_append_unary_closed carrierK qUnary'
+          have contextCarrierH : ComplexHistoryCarrier (append p (append h q)) :=
+            ComplexHistoryCarrier_prepend_unary_closed pUnary tailCarrierH
+          have contextCarrierK : ComplexHistoryCarrier (append p' (append k q')) :=
+            ComplexHistoryCarrier_prepend_unary_closed pUnary' tailCarrierK
+          have sameContext :
+              hsame (append p (append h q)) (append p' (append k q')) := by
+            cases sameP
+            cases sameHK
+            cases sameQ
+            rfl
+          exact And.intro contextCarrierH (And.intro contextCarrierK sameContext)
+
+theorem ComplexHistoryClassifier_unary_context_positive_components {p p' h k q q' : BHist} :
+    UnaryHistory p -> hsame p p' -> ComplexHistoryClassifier h k -> UnaryHistory q ->
+      hsame q q' ->
+        ∃ hr hi kr ki : BHist,
+          RatUp.RatHistoryCarrier hr ∧ RatUp.RatHistoryCarrier hi ∧
+            RatUp.RatHistoryCarrier kr ∧ RatUp.RatHistoryCarrier ki ∧
+              Cont hr hi (append p (append h q)) ∧
+                Cont kr ki (append p' (append k q')) ∧
+                  hsame (append p (append h q)) (append p' (append k q')) ∧
+                    RatUp.PositiveUnaryDenominator hr ∧
+                      RatUp.PositiveUnaryDenominator hi ∧
+                        RatUp.PositiveUnaryDenominator kr ∧
+                          RatUp.PositiveUnaryDenominator ki := by
+  intro pUnary sameP classified qUnary sameQ
+  have contextClassified :
+      ComplexHistoryClassifier (append p (append h q)) (append p' (append k q')) :=
+    ComplexHistoryClassifier_unary_context_closed pUnary sameP classified qUnary sameQ
+  exact ComplexHistoryClassifier_positive_components contextClassified
 
 theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->

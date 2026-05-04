@@ -1,0 +1,84 @@
+\section{Unary append inverse obstruction}
+\label{sec:group-unary-append-inverse-obstruction}
+
+\begin{theorem}[Unary append unit-product factor exactness]
+\label{thm:unary-append-unit-product-factor-exactness}
+For histories $h,k:\mathsf{BHist}$, the concrete unary-history append product
+is classified as the monoid unit exactly when both factors are classified as
+the unit:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,k),\emp)
+\Longleftrightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)
+\land
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(k,\emp).
+$$
+Equivalently, the append operation in the full unary monoid cannot supply a
+non-singleton inverse pair for the concrete singleton $\GroupUp$ instance.
+\end{theorem}
+\begin{proof}
+Unfold the classifier from
+\autoref{def:concrete-history-monoid-instance}. The forward direction gives
+the unary carrier witnesses for $\mathsf{append}(h,k)$ and $\emp$ together
+with $\hsame(\mathsf{append}(h,k),\emp)$. Apply the BEDC kernel theorem
+\texttt{append\_eq\_empty\_iff} to this empty-result comparison; it splits the
+append endpoint into $h\hsame\emp$ and $k\hsame\emp$. Repacking these two
+singleton endpoint witnesses with the unary carrier data gives the two
+displayed monoid-classifier factors.
+
+For the reverse direction, assume the two displayed classifier factors. Their
+carrier fields give $\mathsf{UnaryHistory}(h)$ and $\mathsf{UnaryHistory}(k)$,
+while their sameness fields identify both histories with $\emp$. Unary closure
+of append from \autoref{thm:concrete-history-monoid-laws} supplies
+$\mathsf{UnaryHistory}(\mathsf{append}(h,k))$, and the constructor direction
+of \texttt{append\_eq\_empty\_iff} rebuilds
+$\hsame(\mathsf{append}(h,k),\emp)$. Together with
+$\mathsf{UnaryHistory}(\emp)$, these fields repack the displayed
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,k),\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_unit\_product\_factor\_exactness}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_unit\_product\_factor\_exactness}
+
+\begin{theorem}[Full unary append inverse obstruction]
+\label{thm:full-unary-append-inverse-obstruction}
+There is no total inverse operation on the full unary-history append carrier:
+for every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, if
+$$
+\begin{array}{l}
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow{}\\
+\qquad
+\mathsf{UnaryHistory}(\mathsf{inv}(h))\land{}\\
+\qquad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,\mathsf{inv}(h)),\emp),
+\end{array}
+$$
+then $\mathsf{False}$.
+\end{theorem}
+\begin{proof}
+Assume such an operation $\mathsf{inv}$ and its displayed total inverse law.
+The history $\Eone(\emp)$ is a concrete nonempty unary history, so the law
+applies to $h=\Eone(\emp)$ and gives the unit-product classifier for
+$\mathsf{append}(\Eone(\emp),\mathsf{inv}(\Eone(\emp)))$.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to that
+classifier. The left factor of the resulting conjunction gives
+
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+
+Unfold \autoref{def:concrete-history-monoid-instance}: the classifier contains
+the endpoint carrier witnesses together with an internal history-sameness
+witness $\Eone(\emp)\hsame\emp$. This is impossible by
+\autoref{thm:history-no-confusion}, since an $\Eone$-history and $\emp$ have
+different outer constructors. Hence the assumed total inverse law yields
+$\mathsf{False}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_obstruction}
+\leanchecked{BEDC.Derived.GroupUp.FullUnaryAppendInverse\_obstruction}
+\leanchecked{BEDC.Derived.GroupUp.UnaryHistory\_append\_inverse\_obstruction}
+\leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_inverse\_obstruction}

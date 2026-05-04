@@ -32,6 +32,32 @@ component back from the empty appended history, giving $d(h)\hsame\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_left\_cancel}
 
+\begin{theorem}[Cohomology cocycle axis context cancel]
+\label{thm:cohomology-cocycle-axis-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+the two-sided shifted history $left\cdot(h\cdot right)$ is a $d$-cocycle,
+then $h$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Apply left-axis cancellation to the outer context. This recovers the
+right-axis shifted cocycle for $h\cdot right$. Applying right-axis
+cancellation to that shifted cocycle gives $d(h)\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_cancel}
+
+\begin{theorem}[Cohomology cocycle bilateral axis cancel]
+\label{thm:cohomology-cocycle-axis-bilateral-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+the doubly shifted history $(leftAxis\cdot h)\cdot rightAxis$ is a
+$d$-cocycle, then $h$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Right-axis cancellation removes the trailing $rightAxis$ from the displayed
+cocycle and yields a cocycle on $leftAxis\cdot h$. Left-axis cancellation then
+removes the leading $leftAxis$ and gives the core cocycle condition on $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_bilateral\_cancel}
+
 \begin{theorem}[Cohomology cocycle append closure]
 \label{thm:cohomology-cocycle-append-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
@@ -81,6 +107,20 @@ transitivity of $\hsame$ carries the cocycle predicate to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_hsame\_transport}
 
+\begin{theorem}[Cohomology cocycle mixed-axis append hsame transport]
+\label{thm:cohomology-cocycle-mixed-axis-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$. If $h\cdot axis$ and $axis\cdot k$ are
+$d$-cocycles, and if $h\cdot k\hsame r$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Right-axis cancellation extracts the core cocycle for $h$, and left-axis
+cancellation extracts the core cocycle for $k$. Core append closure then gives
+the cocycle for $h\cdot k$. Congruence for $d$ transports this cocycle across
+the displayed $\hsame$ comparison to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_mixed\_axis\_append\_hsame\_transport}
+
 \begin{theorem}[Cohomology cocycle core append closure]
 \label{thm:cohomology-cocycle-append-core-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
@@ -93,6 +133,33 @@ $d(k)$. Append-empty introduction makes $d(h)\cdot d(k)$ empty. Append
 preservation transports this empty result back to $d(h\cdot k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_closed}
+
+\begin{theorem}[Cohomology cocycle continuation hsame transport]
+\label{thm:cohomology-cocycle-continuation-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$. If $\Cont(h,k,r)$, the histories $h$ and $k$ are
+$d$-cocycles, and $\hsame(r,s)$, then $s$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Continuation identifies $r$ with $h\cdot k$. Core append closure gives
+$d(h\cdot k)\hsame\emp$ from the two endpoint cocycle hypotheses. The
+$\hsame(r,s)$ comparison is transported through $d$, and symmetry plus
+transitivity carries the cocycle witness to $s$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_hsame\_transport}
+
+\begin{theorem}[Cohomology cocycle core append hsame transport]
+\label{thm:cohomology-cocycle-core-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+respect $\hsame$ on histories. If $h$ and $k$ are core $d$-cocycles and
+$\hsame(h\cdot k,r)$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Core append closure first gives $d(h\cdot k)\hsame\emp$. The displayed
+endpoint comparison transports through $d$, and symmetry followed by
+transitivity carries the cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_core\_append\_hsame\_transport}
 
 \begin{theorem}[Cohomology cocycle append empty equivalence]
 \label{thm:cohomology-cocycle-append-empty-iff}
@@ -114,6 +181,56 @@ cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
 
+\begin{theorem}[Cohomology cocycle left-shift append empty equivalence]
+\label{thm:cohomology-cocycle-left-shift-append-empty-iff}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For
+histories $axis,h,k:\mathsf{BHist}$, the left-shifted appended history
+$axis\cdot(h\cdot k)$ is a $d$-cocycle exactly when the axis and both tail
+components are $d$-cocycles:
+$$
+d(axis\cdot(h\cdot k))\hsame\emp
+\quad\Longleftrightarrow\quad
+d(axis)\hsame\emp\ \wedge\ d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Apply append-empty equivalence to split the left axis from the tail
+$h\cdot k$. Apply the same equivalence again to split the tail into $h$ and
+$k$. The converse first rebuilds the tail cocycle and then rebuilds the
+left-shifted cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_left\_shift\_append\_empty\_iff}
+
+\begin{theorem}[Cohomology cocycle core append transport]
+\label{thm:cohomology-cocycle-append-core-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$. If $h$ and $k$ are core $d$-cocycles and
+$h\cdot k\hsame r$, then $r$ is also a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Core append closure gives $d(h\cdot k)\hsame\emp$. Congruence for $d$
+transports the comparison $h\cdot k\hsame r$ to the differential histories,
+and symmetry plus transitivity carries the cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_core\_hsame\_transport}
+
+\begin{theorem}[Cohomology cocycle axis context append closure]
+\label{thm:cohomology-cocycle-axis-context-append-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
+let $left$ and $right$ be $d$-cocycles. If the two-sided shifted histories
+$left\cdot(h\cdot right)$ and $left\cdot(k\cdot right)$ are $d$-cocycles,
+then the two-sided shifted append $left\cdot((h\cdot k)\cdot right)$ is also
+a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Two-sided context cancellation applied to the two hypotheses gives core
+cocycles for $h$ and $k$. Core append closure makes $h\cdot k$ a core
+cocycle. Append preservation with the right context, then with the left
+context, combines these three cocycle rows into the displayed two-sided
+shifted cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_append\_closed}
+
 \begin{theorem}[Cohomology cocycle left-shift append closure]
 \label{thm:cohomology-cocycle-left-shift-append-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
@@ -129,6 +246,38 @@ empty axis differential with this core cocycle and yields the displayed
 left-shifted cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_left\_shift\_append\_closed}
+
+\begin{theorem}[Cohomology cocycle left-shift append hsame transport]
+\label{thm:cohomology-cocycle-left-shift-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$, and let the fixed cohomology axis satisfy
+$d(axis)\hsame\emp$. If the shifted histories $axis\cdot h$ and
+$axis\cdot k$ are $d$-cocycles and
+$\hsame(axis\cdot(h\cdot k),r)$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+The left-shift append closure theorem gives the cocycle predicate for
+$axis\cdot(h\cdot k)$. Congruence for $d$ transports the displayed endpoint
+comparison to the differential histories, and symmetry followed by
+transitivity of $\hsame$ carries the cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_left\_shift\_append\_hsame\_transport}
+
+\begin{theorem}[Cohomology cocycle prepend hsame transport]
+\label{thm:cohomology-cocycle-prepend-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$, and let the fixed cohomology axis satisfy
+$d(axis)\hsame\emp$. If the shifted histories $axis\cdot h$ and
+$axis\cdot k$ are $d$-cocycles and
+$\hsame(axis\cdot(h\cdot k),r)$, then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+The left-shift append closure theorem gives the cocycle predicate for
+$axis\cdot(h\cdot k)$. Congruence for $d$ transports the endpoint comparison
+to differentials, and symmetry plus transitivity of $\hsame$ carries the
+cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_prepend\_hsame\_transport}
 
 \section{The certificate}
 \label{sec:cohomology-certificate}

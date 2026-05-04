@@ -212,6 +212,60 @@ assumed nonempty predicate. The reverse direction uses symmetry of the same
 $\hsame$ comparison.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier left-nonempty Rat exactness]
+\label{thm:rat-denom-unit-classifier-rat-classifier-left-nonempty-iff}
+For histories $h,k:\mathsf{BHist}$, a denominator-unit classifier witness
+identifies the native Rat denominator classifier with nonemptiness of the
+left endpoint:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+\left(
+\mathsf{RatHistoryClassifier}(h,k)
+\Longleftrightarrow
+(h\hsame\emp\Rightarrow\mathsf{False})
+\right).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication uses the endpoint nonemptiness forced by
+$\mathsf{RatHistoryClassifier}$. Conversely, denominator-unit classification
+transports left nonemptiness to the right endpoint, and the nonempty
+classifier theorem upgrades the two denominator-unit carriers to the native
+Rat classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_rat\_classifier\_left\_nonempty\_iff}
+
+\begin{theorem}[Rat denominator unit classifier either-nonempty Rat exactness]
+\label{thm:rat-denom-unit-classifier-either-nonempty-rat-exactness}
+For histories $h,k:\mathsf{BHist}$, a denominator-unit classifier witness
+identifies the native Rat denominator classifier with nonemptiness of either
+endpoint:
+$$
+\mathsf{RatDenomUnitClassifier}(h,k)\Rightarrow
+\left(
+\mathsf{RatHistoryClassifier}(h,k)
+\Longleftrightarrow
+\bigl((h\hsame\emp\Rightarrow\mathsf{False})\lor
+(k\hsame\emp\Rightarrow\mathsf{False})\bigr)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, apply
+\autoref{thm:rat-denom-unit-classifier-rat-classifier-left-nonempty-iff}.
+The resulting left endpoint nonemptiness gives the displayed disjunction.
+
+For the reverse implication, split the disjunction. In the left-endpoint case,
+apply
+\autoref{thm:rat-denom-unit-classifier-rat-classifier-left-nonempty-iff}
+directly.
+
+In the right-endpoint case, first use
+\autoref{thm:rat-denom-unit-classifier-nonempty-endpoint-iff} to transport
+right nonemptiness to left nonemptiness. The left-nonempty Rat exactness theorem
+then supplies $\mathsf{RatHistoryClassifier}(h,k)$.
+\end{proof}
+
 \begin{theorem}[Rat denominator unit classifier Rat-history exactness]
 \label{thm:rat-denom-unit-classifier-rat-history-exact}
 For histories $h,k:\mathsf{BHist}$, the native Rat denominator classifier is

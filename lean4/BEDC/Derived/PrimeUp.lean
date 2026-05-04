@@ -109,6 +109,15 @@ theorem NatMul_unit_left_hsame {q n : BHist} :
       cases prevSame
       exact cont_deterministic step (cont_intro rfl)
 
+theorem NatMul_unit_right_hsame {d n : BHist} :
+    NatMul d (BHist.e1 BHist.Empty) n -> hsame n d := by
+  intro hmul
+  cases hmul with
+  | succ previous step =>
+      cases previous with
+      | zero _hd =>
+          exact step.trans (append_empty_left d)
+
 theorem NatMul_e0_multiplier_absurd {d q n : BHist} :
     NatMul d (BHist.e0 q) n -> False := by
   intro mul
@@ -475,5 +484,22 @@ theorem TrialDiv_bound_unary {b n : BHist} : TrialDiv b n -> UnaryHistory b := b
       exact unary_e1_closed unary_empty
   | step _trial _screen stepCont ih =>
       exact unary_cont_closed ih (unary_e1_closed unary_empty) stepCont
+
+theorem TrialDiv_bound_positive_shape {b n : BHist} :
+    TrialDiv b n -> exists tail : BHist, hsame b (BHist.e1 tail) ∧ UnaryHistory tail := by
+  intro trial
+  cases trial with
+  | unit _hn =>
+      exact ⟨BHist.Empty, hsame_refl (BHist.e1 BHist.Empty), unary_empty⟩
+  | step previous _screen stepCont =>
+      exact ⟨_, stepCont, TrialDiv_bound_unary previous⟩
+
+theorem TrialDiv_bound_not_empty {b n : BHist} :
+    TrialDiv b n -> hsame b BHist.Empty -> False := by
+  intro trial emptyBound
+  have shape := TrialDiv_bound_positive_shape trial
+  cases shape with
+  | intro tail data =>
+      exact not_hsame_e1_empty (hsame_trans (hsame_symm data.left) emptyBound)
 
 end BEDC.Derived.PrimeUp

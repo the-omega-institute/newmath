@@ -51,6 +51,19 @@ separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_result\_nonempty}
 
+\begin{theorem}[Unit Dirichlet positive-index part sums are nonempty]
+\label{thm:zeta-basic-part-sum-positive-index-result-nonempty}
+If \(n\) is a positive Dirichlet index and
+\(\mathsf{ZetaBasicPartSum}(s,n,z)\) holds, then \(z\) is not \(\hsame\)
+to \(\emp\).
+\end{theorem}
+\begin{proof}
+The positive-index witness exposes \(n=\Eone(t)\) for a unary tail \(t\).
+After substituting this visible successor shape, the successor nonempty
+theorem applies to the displayed partial-sum witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_positive\_index\_result\_nonempty}
+
 \begin{theorem}[Unit Dirichlet successor part-sum step inversion]
 \label{thm:zeta-basic-part-sum-successor-step-inversion}
 If \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds, then there is a
@@ -63,6 +76,20 @@ The step constructor exposes the predecessor partial sum and its continuation
 by the unit term, which unfolds to \(\Eone(s)\).
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_step\_inversion}
+
+\begin{theorem}[Unit Dirichlet empty-source successor result shape]
+\label{thm:zeta-basic-part-sum-empty-source-successor-result-shape}
+If $\mathsf{ZetaBasicPartSum}(\emp,\Eone(n),z)$ holds, then there is a
+previous partial sum $p$ such that
+$\mathsf{ZetaBasicPartSum}(\emp,n,p)$ holds and $z\hsame\Eone(p)$.
+\end{theorem}
+\begin{proof}
+Invert the successor part-sum witness. At empty source the unit term unfolds to
+$\Eone(\emp)$, so the exposed continuation has result
+$p\cdot\Eone(\emp)$. The append right-unit law rewrites this result as
+$\Eone(p)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_empty\_source\_successor\_result\_shape}
 
 \begin{theorem}[Unit Dirichlet successor source transport step]
 \label{thm:zeta-basic-part-sum-successor-source-transport-step}
@@ -79,6 +106,59 @@ visible unit continuation step at \(t\), and use continuation congruence to
 compare its result with the original successor sum.
 \end{proof}
 \leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_step}
+
+\begin{theorem}[Unit Dirichlet successor previous-sum determinism]
+\label{thm:zeta-basic-part-sum-successor-source-hsame-previous-deterministic}
+If $s\hsame t$ and both sources carry successor-index unit partial sums
+at the same predecessor index $n$,
+$$
+\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)
+\quad\text{and}\quad
+\mathsf{ZetaBasicPartSum}(t,\Eone(n),u),
+$$
+then their predecessor sums can be chosen as histories $p,q$ with
+\(\mathsf{ZetaBasicPartSum}(s,n,p)\), \(\mathsf{ZetaBasicPartSum}(t,n,q)\),
+$p\hsame q$, the two visible unit continuation steps
+\(\ContR(p,\Eone(s),z)\), \(\ContR(q,\Eone(t),u)\), and $z\hsame u$.
+\end{theorem}
+\begin{proof}
+Invert both successor partial-sum witnesses. The predecessor index is unary
+by the index theorem, so termwise source transport compares the two
+predecessor sums. The visible unit terms compare by $s\hsame t$, and
+continuation congruence compares the two successor results.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_previous\_deterministic}
+
+\begin{theorem}[Unit Dirichlet successor source transport result nonempty]
+\label{thm:zeta-basic-part-sum-successor-source-transport-result-nonempty}
+If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,
+then there are histories \(p\) and \(u\) such that
+\(\mathsf{ZetaBasicPartSum}(t,n,p)\), \(\ContR(p,\Eone(t),u)\),
+\(z\hsame u\), and \(u\) is not \(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Apply the source-transport step theorem to obtain the transported predecessor
+partial sum and the rebuilt visible-unit continuation at source \(t\). This
+continuation is a successor \(\mathsf{ZetaBasicPartSum}\) witness at source
+\(t\), so successor result nonemptiness rules out \(u\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_hsame\_transport\_result\_nonempty}
+
+\begin{theorem}[Unit Dirichlet successor source transport preserves nonempty result]
+\label{thm:zeta-basic-part-sum-successor-source-result-nonempty-transport}
+If \(s\hsame t\) and \(\mathsf{ZetaBasicPartSum}(s,\Eone(n),z)\) holds,
+then there is a transported successor partial sum \(u\) at source \(t\) such
+that \(\mathsf{ZetaBasicPartSum}(t,\Eone(n),u)\), \(z\hsame u\), and \(u\)
+is not \(\hsame\) to \(\emp\).
+\end{theorem}
+\begin{proof}
+Use successor source transport to obtain the transported predecessor sum and
+its visible unit continuation at \(t\). Rebuild the successor
+\(\mathsf{ZetaBasicPartSum}\) witness from that continuation step, retain the
+  result comparison with \(z\), and apply successor-result nonemptiness to the
+rebuilt target sum.
+\end{proof}
+\leanchecked{BEDC.Derived.ZetaBasicUp.ZetaBasicPartSum\_successor\_source\_result\_nonempty\_transport}
 
 \begin{lemma}[Zeta basic well-defined for \(\Re(s) > 1\)]
 \label{lem:zeta-basic-well-defined}

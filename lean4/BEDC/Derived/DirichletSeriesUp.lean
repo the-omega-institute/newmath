@@ -167,6 +167,17 @@ theorem DirichletPartSum_index_unary {term : BHist -> BHist -> BHist} {s n S : B
   | step _ _ ih =>
       exact unary_e1_closed ih
 
+theorem DirichletPartSum_result_unary {term : BHist -> BHist -> BHist} {s n S : BHist}
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (term m s)) :
+    DirichletPartSum term s n S -> UnaryHistory S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact unary_empty
+  | step previous stepContinuation ih =>
+      have unaryPreviousIndex : UnaryHistory _ := DirichletPartSum_index_unary previous
+      exact unary_cont_closed ih (termUnary unaryPreviousIndex) stepContinuation
+
 theorem DirichletSeriesIndex_e1_tail_nonempty {n : BHist} :
     UnaryHistory n ->
       UnaryHistory (BHist.e1 n) ∧ (hsame (BHist.e1 n) BHist.Empty -> False) := by
@@ -187,6 +198,16 @@ theorem DirichletSeriesIndex_append_unary_tail_nonempty {n tail : BHist} :
 
 def DirichletPositiveIndex (n : BHist) : Prop :=
   exists tail : BHist, UnaryHistory tail /\ n = BHist.e1 tail
+
+theorem DirichletPositiveIndex_nonempty {n : BHist} :
+    DirichletPositiveIndex n -> (hsame n BHist.Empty -> False) := by
+  intro positiveN sameEmpty
+  cases positiveN with
+  | intro tail data =>
+      cases data with
+      | intro _unaryTail nEq =>
+          cases nEq
+          exact not_hsame_e1_empty sameEmpty
 
 theorem DirichletPartSum_nonempty_index_positive {term : BHist -> BHist -> BHist}
     {s n S : BHist} :

@@ -203,4 +203,22 @@ theorem bundleAppend_three_split_unique_fixed_lengths {PName : Type}
       | intro sameB sameC =>
           exact ⟨sameA, sameB, sameC⟩
 
+theorem inBundle_member_split_unique_fixed_prefix_length {PName : Type} {p q : PName}
+    {bundle left right left' right' : ProbeBundle PName} :
+    bundle = bundleAppend left (ProbeBundle.Bcons p right) ->
+      bundle = bundleAppend left' (ProbeBundle.Bcons q right') ->
+        bundleLength left = bundleLength left' -> left = left' ∧ p = q ∧ right = right' := by
+  intro split split' prefixLength
+  have appendSame :
+      bundleAppend left (ProbeBundle.Bcons p right) =
+        bundleAppend left' (ProbeBundle.Bcons q right') :=
+    Eq.trans split.symm split'
+  have unique :=
+    bundleAppend_split_unique_fixed_length appendSame prefixLength
+  cases unique with
+  | intro sameLeft sameSuffix =>
+      have sameHead : p = q := (ProbeBundle.Bcons.inj sameSuffix).left
+      have sameRight : right = right' := (ProbeBundle.Bcons.inj sameSuffix).right
+      exact ⟨sameLeft, sameHead, sameRight⟩
+
 end BEDC.FKernel.Bundle

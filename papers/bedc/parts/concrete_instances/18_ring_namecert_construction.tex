@@ -168,6 +168,36 @@ $\mathsf{BHist}$ rules out both alternatives.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_visible\_left\_absurd}
 
+\begin{theorem}[Ring singleton classifier append split empty]
+\label{thm:ring-singleton-classifier-append-split-empty}
+For histories $p,q,h:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(p,q),h)
+\Longleftrightarrow
+A_{\emp}(p)\land A_{\emp}(q)\land A_{\emp}(h).
+$$
+This certificate has the following ten-field fit: the traditional target is
+singleton ring endpoint exactness; the BEDC source is the concrete singleton
+$\RingUp$ over $\mathsf{BHist}$; the carrier is $A_{\emp}$; the classifier is
+$\rho_{\emp}$; stability comes from empty-result inversion and $\hsame$
+transport; the ledger records append-factor endpoints; the core theorem is the
+displayed split; exactness is the displayed equivalence; the standard bridge is
+terminal ring endpoint equality; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton ring classifier. For the forward direction, the left
+carrier field identifies $\mathsf{append}(p,q)$ with $\emp$. Empty-result
+inversion for append splits this endpoint into the two factor witnesses
+$A_{\emp}(p)$ and $A_{\emp}(q)$, while the right carrier field gives
+$A_{\emp}(h)$.
+
+For the reverse direction, the two factor witnesses rebuild the empty appended
+endpoint. Together with the witness $A_{\emp}(h)$, transitivity through $\emp$
+supplies the required classifier comparison between
+$\mathsf{append}(p,q)$ and $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_split\_empty}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
@@ -298,6 +328,7 @@ For the second implication, apply
 Theorem~\ref{thm:group-left-cancellation} to the common left summand $c$.
 The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
 \end{proof}
+\leanchecked{BEDC.Derived.RingUp.ring\_additive\_two\_sided\_cancellation}
 
 \begin{theorem}[Ring additive difference zero exactness]
 \label{thm:ring-additive-difference-zero-exact}

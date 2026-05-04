@@ -58,6 +58,100 @@ both $\emp$ and are related by $R_{\emp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.concrete\_singleton\_history\_commring\_laws}
 
+\begin{theorem}[Concrete singleton history CommRingUp full schema laws]
+\label{thm:concrete-singleton-history-commring-full-schema-laws}
+For the concrete singleton history commutative ring instance of
+Definition~\ref{def:concrete-singleton-history-commring-instance}, the tuple
+$(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+the full $\CommRingUp$ law package: all $\RingUp$ laws from
+Theorem~\ref{thm:concrete-singleton-history-ring-laws}, multiplicative
+commutativity from
+Theorem~\ref{thm:concrete-singleton-history-commring-laws}, and stability of
+the commutativity row under $R_{\emp}$-classified replacement of carried
+inputs. Its certificate fit has ten fields: traditional target the
+one-element commutative ring; BEDC source $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability obligations the $\RingUp$
+package plus commutativity compatibility; ledger append-operation provenance;
+core theorem Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws};
+exactness singleton endpoint classification; standard bridge the terminal
+commutative ring; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The $\RingUp$ part is exactly
+Theorem~\ref{thm:concrete-singleton-history-ring-laws} for the displayed
+append-operation tuple. It supplies the additive abelian-group laws,
+multiplicative monoid laws, addition and multiplication congruence, and the
+two distributive laws over $A_{\emp}$ and $R_{\emp}$.
+
+The commutativity row is exactly
+Theorem~\ref{thm:concrete-singleton-history-commring-laws}, read at the same
+append multiplication. For carried inputs $x$ and $y$, the singleton endpoint
+witnesses identify both products $\mathsf{mul}(x,y)$ and
+$\mathsf{mul}(y,x)$ with $\emp$, so the displayed row is an
+$R_{\emp}$-classification.
+
+For compatibility of that row, suppose the two carried inputs are replaced by
+$R_{\emp}$-classified inputs. Multiplication congruence from the $\RingUp$
+package transports $\mathsf{mul}(x,y)$ to the replacement product, and the
+same congruence transports $\mathsf{mul}(y,x)$ to the reversed replacement
+product. Compose these transported relations with the commutativity row by
+symmetry and transitivity of $\hsame$; the carrier fields are preserved by the
+same singleton endpoint classification, so the commutativity row remains
+$R_{\emp}$-classified after replacement.
+\end{proof}
+
+\begin{theorem}[Concrete singleton history CommRingUp certificate boundary]
+\label{thm:concrete-singleton-history-commring-certificate-boundary}
+For the concrete tuple of
+Definition~\ref{def:concrete-singleton-history-commring-instance}, the
+carrier-aware classifier $R_{\emp}$ supplies the
+$\mathsf{SemanticNameCert}$ rows. Together with
+Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws}, these
+rows supply the concrete $\CommRingUp$ certificate boundary over
+$\mathsf{BHist}$ with the following ten fields:
+\begin{enumerate}
+  \item traditional target: the terminal commutative ring;
+  \item BEDC source: the history carrier $\mathsf{BHist}$ with source
+  $A_{\emp}$;
+  \item carrier: $A_{\emp}$;
+  \item classifier: $R_{\emp}$;
+  \item stability obligations: the $\RingUp$ package plus multiplicative
+  commutativity compatibility;
+  \item ledger: append-operation provenance for addition and multiplication,
+  constant-operation provenance for negation, and empty-history provenance for
+  $0$ and $1$;
+  \item core theorem:
+  Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws};
+  \item exactness: singleton endpoint classification by $A_{\emp}$ and
+  $\hsame$;
+  \item standard bridge: the ordinary terminal commutative ring;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-terminal-classifier-package} to the
+singleton history carrier $A_{\emp}$ and classifier $R_{\emp}$. It supplies
+reflexivity, symmetry, transitivity, and carrier transport for the
+carrier-aware semantic naming certificate.
+
+The operation endpoints are exactly the endpoints displayed in
+Definition~\ref{def:concrete-singleton-history-commring-instance}: append for
+addition and multiplication, the constant endpoint $\emp$ for negation, and
+$\emp$ for both distinguished constants. Thus the BEDC source, carrier,
+classifier, ledger, and exactness rows are the concrete rows named in the
+definition.
+
+The law rows are supplied by
+Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws}. That
+theorem packages the additive, multiplicative, distributive, congruence, and
+multiplicative-commutativity rows over the same tuple.
+
+Combining the SemanticNameCert rows with the law package gives the displayed
+ten-field $\CommRingUp$ certificate boundary. The terminal commutative ring is
+the standard bridge, and the boundary is recorded with status
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{Concrete singleton empty-history commutative ring instance}
 \label{sec:commring-concrete-singleton-instance}
 
@@ -99,31 +193,38 @@ The concrete commutative-ring certificate has the following ten fields:
 
 \begin{theorem}[Singleton empty-history commutative ring laws]
 \label{thm:singleton-empty-history-commring-laws}
-The tuple
-$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
-all singleton empty-history ring laws from
-Theorem~\ref{thm:singleton-empty-history-ring-laws}, together with
-multiplicative commutativity and the compatibility fields for multiplication
-commutativity under $\rho_{\emp}$.
+The singleton empty-history commutative-ring tuple supplies a concrete
+$\mathsf{SemanticNameCert}$ for the carrier $A_{\emp}$ and classifier
+$\rho_{\emp}$. Its operation rows include the displayed constant
+$\mathsf{add}$, $\mathsf{neg}$, and $\mathsf{mul}$ endpoints, multiplicative
+commutativity, both distributive laws, and the left unit row for
+$1$ under $\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
+The carrier-aware classifier $\rho_{\emp}$ is a semantic naming certificate.
+Carrier inhabitance is witnessed by $\emp$. Reflexivity uses the given carrier
+witness and $\hsame(h,h)$; symmetry swaps the endpoint carrier witnesses and
+uses symmetry of $\hsame$; transitivity composes the $\hsame$ components and
+keeps the outer carrier witnesses. Carrier transport is the right endpoint
+carrier field of the classifier.
+
+The concrete $\mathsf{add}$, $\mathsf{neg}$, and $\mathsf{mul}$ endpoint rows
+close because all three displayed operations are constant at $\emp$. The two
+carrier witnesses are therefore singleton witnesses for $\emp$, and the
+relation component is reflexive $\hsame(\emp,\emp)$.
+
 The ring-law part is exactly Theorem~\ref{thm:singleton-empty-history-ring-laws}
 applied to the displayed singleton empty-history operation tuple. This supplies
 carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
-operation congruence, both distributive laws, and zero multiplication laws.
+operation congruence, both distributive laws, the unit laws, and zero
+multiplication laws.
 
 For multiplicative commutativity, both $\mathsf{mul}(x,y)$ and
 $\mathsf{mul}(y,x)$ are definitionally $\emp$. The two endpoint witnesses for
 $\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
 component is $\hsame(\emp,\emp)$.
-
-For compatibility, the multiplication operation is constant on the singleton
-carrier. Replacing inputs by $\rho_{\emp}$-related inputs does not change either
-product endpoint: every source and target product is still $\emp$. Hence the
-same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
-commutativity field after transport.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
+\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 
 \begin{theorem}[CommRing singleton empty multiplication context carrier]
 \label{thm:commring-singleton-empty-classifier-mul-context-carrier-iff}
@@ -327,6 +428,44 @@ therefore classified through $\emp$, so transitivity and symmetry of $\hsame$
 give the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
+
+\begin{theorem}[CommRing singleton classifier append associativity carrier exactness]
+\label{thm:commring-singleton-classifier-append-assoc-carrier-iff}
+For histories $a,b,c:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(a,b),c),
+\mathsf{append}(a,\mathsf{append}(b,c)))
+\Longleftrightarrow
+A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c).
+$$
+The ten-field fit is: traditional target singleton commutative-ring bracketing
+exactness; BEDC source $\mathsf{BHist}$ with the singleton $\CommRingUp$ tuple;
+carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability from nested append
+empty-result inversion and singleton classifier packaging; ledger the three
+append factors and the two bracketings; core theorem this block; exactness the
+displayed iff; standard bridge one-element commutative-ring bracketing; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+In the forward direction, project the source carrier field from the classifier.
+This gives the carrier witness for
+$\mathsf{append}(\mathsf{append}(a,b),c)$. Empty-result inversion for append
+splits it into carrier witnesses for $\mathsf{append}(a,b)$ and $c$.
+
+Apply empty-result inversion again to the witness for
+$\mathsf{append}(a,b)$. The resulting two carrier witnesses, together with the
+witness for $c$, give $A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c)$ by
+conjunction introduction.
+
+Conversely, assume carrier witnesses for $a$, $b$, and $c$. Empty-result
+construction first builds a carrier witness for $\mathsf{append}(a,b)$, and then
+one for $\mathsf{append}(\mathsf{append}(a,b),c)$.
+
+The same construction applied to $b$ and $c$, followed by the witness for $a$,
+builds the carrier witness for $\mathsf{append}(a,\mathsf{append}(b,c))$. Since
+both bracketed endpoints are classified through $\emp$, symmetry and
+transitivity of $\hsame$ package the displayed singleton classifier.
+\end{proof}
 
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}

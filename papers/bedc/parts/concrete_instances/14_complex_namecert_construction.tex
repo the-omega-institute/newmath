@@ -121,6 +121,20 @@ directly into the displayed endpoint-pair statement.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_positive\_components}
 
+\begin{theorem}[Complex classifier excludes an \(e0\) endpoint]
+\label{thm:complex-history-classifier-e0-endpoint-absurd}
+No complex history classifier can have an \(e0\)-headed history as either
+endpoint.
+\end{theorem}
+\begin{proof}
+Read the \(e0\)-headed endpoint as a complex carrier and expose its rational
+real and imaginary components. The continuation result ending in \(e0\) either
+makes the imaginary component empty or makes it itself \(e0\)-headed. Both
+cases contradict the positive unary denominator witness attached to the
+imaginary rational component.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Complex history classifier transitivity]
 \label{thm:complex-history-classifier-transitivity}
 If a complex history classifier relates \(h\) to \(k\), and also relates
@@ -143,6 +157,47 @@ If $\mathsf{ComplexHistoryClassifier}(h,k)$, then $\mathsf{ComplexHistoryClassif
 Unfold the classifier as the product history classifier over two $\mathsf{RatHistoryCarrier}$ endpoints. The endpoint carrier witnesses are swapped, and the stored $\hsame(h,k)$ witness is reversed by symmetry to obtain $\hsame(k,h)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_symm}
+
+\begin{theorem}[Complex history classifier unary context closure]
+\label{thm:complex-history-classifier-unary-context-closed}
+If \(p\) and \(q\) are unary context histories, \(p\hsame p'\),
+\(q\hsame q'\), and \(\mathsf{ComplexHistoryClassifier}(h,k)\), then the
+context-wrapped endpoints
+\(\mathsf{append}(p,\mathsf{append}(h,q))\) and
+\(\mathsf{append}(p',\mathsf{append}(k,q'))\) are again related by the complex
+history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the complex classifier into carrier witnesses for \(h\) and \(k\)
+together with the endpoint \(\hsame\) link. Right unary context closure carries
+both endpoint carriers through the tail contexts, after transporting unary
+evidence across \(q\hsame q'\). Left unary context closure then carries those
+results through the prefix contexts, after transporting unary evidence across
+\(p\hsame p'\). The three \(\hsame\) links identify the two fully wrapped
+histories, giving the classifier endpoint relation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_closed}
+
+\begin{theorem}[Complex history classifier unary context positive components]
+\label{thm:complex-history-classifier-unary-context-positive-components}
+If \(p\) and \(q\) are unary context histories, \(p\hsame p'\),
+\(q\hsame q'\), and \(\mathsf{ComplexHistoryClassifier}(h,k)\), then the
+context-wrapped endpoints
+\(\mathsf{append}(p,\mathsf{append}(h,q))\) and
+\(\mathsf{append}(p',\mathsf{append}(k,q'))\) expose real and imaginary
+rational-history components for both endpoints, the two continuation ledgers,
+the wrapped endpoint \(\hsame\) witness, and positive unary denominator
+evidence for all four rational components.
+\end{theorem}
+\begin{proof}
+Apply unary context closure to the source complex classifier and the matched
+prefix and suffix contexts. This gives a complex classifier between the two
+wrapped endpoints. Apply complex classifier positive-component readback to that
+wrapped classifier. The readback exposes the four rational component carriers,
+the two continuation ledgers assembling the wrapped endpoints, the endpoint
+\(\hsame\) witness, and the four positive-denominator witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_positive\_components}
 
 \begin{theorem}[Complex component classifier introduction]
 \label{thm:complex-history-classifier-component-classifier-intro}
@@ -195,6 +250,18 @@ and a continuation witness. Transport the continuation result across the
 stored raw-visible \(\hsame\) link and rebuild the rational-pair carrier at
 the visible endpoint.
 \end{proof}
+
+\begin{theorem}[Complex ledger excludes an \(e0\)-visible endpoint]
+\label{thm:complex-ledger-e0-visible-absurd}
+No complex ledger policy can expose an \(e0\)-headed visible endpoint.
+\end{theorem}
+\begin{proof}
+The visible-carrier theorem transports the raw rational-pair carrier to the
+visible endpoint. Exposing the visible endpoint's rational components and
+inverting the continuation result gives the same two impossible imaginary
+denominator cases: empty or \(e0\)-headed.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_e0\_visible\_absurd}
 
 \begin{theorem}[Complex ledger raw-visible classifier]
 \label{thm:complex-ledger-raw-visible-classifier}

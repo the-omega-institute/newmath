@@ -18,6 +18,17 @@ by Dirichlet terms.
 \end{definition}
 \leandef{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex}
 
+\begin{theorem}[Positive Dirichlet index is nonempty]
+\label{thm:dirichlet-positive-index-nonempty}
+If \(n\) is a Dirichlet positive index, then \(n\) is not \(\hsame\)-empty.
+\end{theorem}
+\begin{proof}
+Unpack the positive-index witness \(n=\Eone(t)\). The visible-successor
+constructor is separated from \(\emp\), so the displayed history cannot be
+\(\hsame\)-empty.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPositiveIndex\_nonempty}
+
 \begin{lemma}[Positive Dirichlet index is append closed]
 \label{lem:dirichlet-positive-index-append-unary-closed}
 If \(m\) is a Dirichlet positive index and \(n\) is unary, then
@@ -82,6 +93,22 @@ unary history, and the step constructor applies unary closure under
 $\mathsf{BHist.e1}$ to the predecessor index.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_index\_unary}
+
+\begin{theorem}[Dirichlet partial-sum results are unary]
+\label{thm:dirichlet-part-sum-result-unary}
+If every Dirichlet term history $\mathsf{term}(m,s)$ is unary whenever $m$
+is unary, then every closed
+$\mathsf{DirichletPartSum}(\mathsf{term},s,n,S)$ witness has unary result
+$S$.
+\end{theorem}
+\begin{proof}
+Induct on the closed Dirichlet partial-sum witness. The zero constructor gives
+the empty unary history. In the successor case, the predecessor result is unary
+by induction, the predecessor index is unary by
+$\mathsf{DirichletPartSum}$ index closure, and unary continuation closure
+gives the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_result\_unary}
 
 \begin{theorem}[Dirichlet partial-sum nonempty index is positive]
 \label{thm:dirichlet-part-sum-nonempty-index-positive}

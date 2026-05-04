@@ -32,6 +32,14 @@ theorem cont_result_hsame_iff {a f r s : BHist} :
   · intro sameResult
     exact cont_result_hsame_transport continuation (hsame_symm sameResult)
 
+theorem cont_factorization_result_hsame_iff {a b c m r s : BHist} :
+    Cont a b m -> Cont m c r -> (Cont a (append b c) s <-> hsame s r) := by
+  intro left right
+  have canonical : Cont a (append b c) r := by
+    cases left
+    exact right.trans (append_assoc a b c)
+  exact cont_result_hsame_iff canonical
+
 theorem cont_factorization_middle_hsame_iff {a b c f g bprime : BHist} :
     Cont a f b -> Cont b g c ->
       (Cont a f bprime ∧ Cont bprime g c <-> hsame bprime b) := by
@@ -232,6 +240,13 @@ theorem cont_cancel_hsame_left_context {a a' b d r r' : BHist} :
   cases sameResult
   exact cont_left_cancel left right
 
+theorem cont_cancel_hsame_right_context {a a' b b' r r' : BHist} :
+    Cont a b r -> Cont a' b' r' -> hsame b b' -> hsame r r' -> hsame a a' := by
+  intro left right sameContext sameResult
+  cases sameContext
+  cases sameResult
+  exact cont_right_cancel left right
+
 theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
   intro left right direct
@@ -250,6 +265,39 @@ theorem cont_composite_tail_iff {a b c f g t : BHist} :
     exact right.trans (append_assoc a f g)
   · intro direct
     exact cont_composite_tail_unique left right direct
+
+theorem cont_composite_endpoint_empty_tails_iff {a b c f g : BHist} :
+    Cont a f b -> Cont b g c ->
+      (hsame c a <-> hsame f BHist.Empty ∧ hsame g BHist.Empty) := by
+  intro left right
+  constructor
+  · intro sameEndpoint
+    have composite : Cont a (append f g) c := by
+      cases left
+      exact right.trans (append_assoc a f g)
+    have cycle : Cont a (append f g) a :=
+      cont_result_hsame_transport composite sameEndpoint
+    exact append_eq_empty_iff.mp (cont_right_unit_unique cycle)
+  · intro tails
+    cases tails.left
+    cases tails.right
+    exact hsame_trans (cont_deterministic right (cont_right_unit b))
+      (cont_deterministic left (cont_right_unit a))
+
+theorem cont_nested_empty_result_inversion {a b c f g : BHist} :
+    Cont a f b -> Cont b g c -> hsame c BHist.Empty ->
+      hsame a BHist.Empty ∧ hsame f BHist.Empty ∧ hsame b BHist.Empty ∧
+        hsame g BHist.Empty := by
+  intro first second resultEmpty
+  have secondToEmpty : Cont b g BHist.Empty :=
+    cont_result_hsame_transport second resultEmpty
+  have secondParts := cont_empty_result_inversion secondToEmpty
+  cases secondParts.left
+  have firstToEmpty : Cont a f BHist.Empty := first
+  have firstParts := cont_empty_result_inversion firstToEmpty
+  exact And.intro firstParts.left
+    (And.intro firstParts.right
+      (And.intro (hsame_refl BHist.Empty) secondParts.right))
 
 theorem cont_composite_left_factor {a b c f g fg : BHist} :
     Cont b g c -> Cont f g fg -> Cont a fg c -> Cont a f b := by
