@@ -253,18 +253,26 @@ For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and a selected
 index $n$, if $\mathsf{RealStreamClassifier}(x,y)$ holds, then both selected
 endpoints are visibly one-headed with unary tails:
 $$
-\bigl(\exists x_t,\ x(n)=\Eone(x_t)\land\mathsf{UnaryHistory}(x_t)\bigr)
+\bigl(\exists x_t,\ \hsame(x(n),\Eone(x_t))\land\mathsf{UnaryHistory}(x_t)\bigr)
 \land
-\bigl(\exists y_t,\ y(n)=\Eone(y_t)\land\mathsf{UnaryHistory}(y_t)\bigr).
+\bigl(\exists y_t,\ \hsame(y(n),\Eone(y_t))\land\mathsf{UnaryHistory}(y_t)\bigr).
 $$
 \end{theorem}
 \begin{proof}
 Apply selected positive unary nonempty readback at the chosen index. The
 package supplies unary-history evidence and empty-boundary exclusion for both
-selected endpoints. Unary nonempty one-tail readback converts each selected
-endpoint into its displayed one-headed form.
+selected endpoints.
+
+For the $x$ endpoint, unary nonempty one-tail readback chooses a tail $x_t$
+with $\mathsf{UnaryHistory}(x_t)$ and identifies the selected endpoint with
+$\Eone(x_t)$ at the host level. Convert that identification into the BEDC
+comparison witness by $\hsame$ reflexivity and transport, and pair it with the
+unary-tail witness.
+
+The $y$ endpoint is treated in the same way, producing a tail $y_t$, its unary
+history witness, and the BEDC comparison witness
+$\hsame(y(n),\Eone(y_t))$.
 \end{proof}
-\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_endpoint\_e1\_shapes}
 
 \begin{theorem}[Real stream classifier transported selected full shape readback package]
 \label{thm:real-stream-classifier-transported-selected-full-shape-readback-package}
