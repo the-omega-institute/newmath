@@ -208,6 +208,7 @@ import BEDC.Derived.GroupUp.SingletonNormalizerAction
 import BEDC.Derived.GroupUp.NormalizerAction
 import BEDC.Derived.GroupUp.EquationCancellationSolver
 import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
+import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
