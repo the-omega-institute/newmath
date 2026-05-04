@@ -4731,3 +4731,29 @@ prop:abgroup-forgets-group-certificate (17_abgroup:722) and prop:group-forgets-m
 
 ---
 
+### B-184 - Opposite ring carries a Ring certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Opposite ring carries a Ring certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If C carries a RingUp(C) certificate with addition +, multiplication ·, additive identity 0, multiplicative identity 1, additive inverse −, and classifier ~_C, then defining ·^op by a ·^op b := b · a and reusing all other data yields a RingUp(C) certificate with the same carrier C, addition +, additive identity 0, multiplicative identity 1, additive inverse −, classifier ~_C, and reversed multiplication ·^op.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_intro_and_singletons.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+
+Rationale:
+An opposite-ring construction is a canonical algebraic invariant that mirrors the well-developed opposite-functor and opposite-category constructions in the same project: `Opposite functor certificate` exists at functor/certificate_obligations.tex:326 and `Double opposite functor certificate data identity` at functor/certificate_obligations.tex:641; analogously `Double opposite category certificate data identity` exists at 36_category_namecert_construction.tex:352. Yet no opposite-ring construction exists: grep `opposite.*ring|ring.*opposite|R\^op|opp.*ring` across parts/ returns zero matches (only category/functor/nattrans hits and 'integer canonical opposite-sign' which is unrelated). The construction reuses the AbGroup additive structure unchanged and reverses multiplication, with associativity (b·a)·c = b·(a·c) → c·(b·a) = (c·b)·a being symmetric, and distributivity reversing direction (left↔right). Additionally a CommRing→CommRing^op = CommRing identity follows immediately and would parallel the double-opposite identity for functors and categories. The ring intro (ring/18_ring_intro_and_singletons.tex:4) emphasizes ring is licensed by AbGroup+Monoid+distributivity, all of which transport cleanly under multiplication reversal.
+
+---
+
