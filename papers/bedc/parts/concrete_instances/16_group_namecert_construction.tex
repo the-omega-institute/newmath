@@ -240,3 +240,69 @@ this source edge. It gives
 $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, which is the acted
 transitive edge.
 \end{proof}
+
+\begin{theorem}[Group singleton two-conjugator orbit path classifier]
+\label{thm:group-singleton-two-conjugator-orbit-path-classifier}
+For histories $s,t,u,x,y,z:\mathsf{BHist}$ in the concrete singleton history
+group, write
+$$
+\mathsf{Conj}_v(w):=\mathsf{mul}(\mathsf{mul}(v,w),\mathsf{inv}(v)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, and $A_{\emp}(u)$, then the two-edge acted
+normalizer path with independent conjugators is classified exactly by the two
+terminal classifier edges:
+$$
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\land
+\mathsf{Conj}_t(y)\sim_{N_{\emp}}\mathsf{Conj}_u(z)\bigr)
+\Longleftrightarrow
+\bigl(R_{\emp}(x,y)\land R_{\emp}(y,z)\bigr).
+$$
+Moreover, any such path has the compressed acted edge and the terminal
+classifier edge:
+$$
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\land
+\mathsf{Conj}_t(y)\sim_{N_{\emp}}\mathsf{Conj}_u(z)\bigr)
+\implies
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_u(z)
+\land R_{\emp}(x,z)\bigr).
+$$
+The ten-field fit is: traditional target terminal two-step conjugation orbit
+path; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$ and the normalizer orbit relation; stability
+from two-conjugator orbit classification plus terminal classifier transitivity;
+ledger the three conjugators and two path edges; core theorem this block;
+exactness the displayed iff plus composite edge; downstream consumer
+$\QuotientGroupUp$ path compression; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction of the path equivalence, assume the two acted orbit
+edges. Apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} to the
+$(s,t,x,y)$ edge, using the carrier witnesses for $s$ and $t$, to obtain
+$R_{\emp}(x,y)$.
+
+Apply the same classifier to the $(t,u,y,z)$ edge, using the carrier witnesses
+for $t$ and $u$, to obtain $R_{\emp}(y,z)$. These two outputs are exactly the
+right-hand side of the displayed equivalence.
+
+For the reverse direction, assume $R_{\emp}(x,y)$ and $R_{\emp}(y,z)$. Apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the reverse
+direction to $(s,t,x,y)$, and then to $(t,u,y,z)$. The two results are precisely
+the acted path edges.
+
+It remains to compress a given acted path. The forward direction just proved
+turns the path into $R_{\emp}(x,y)$ and $R_{\emp}(y,z)$.
+
+Use the terminal transitivity supplied by
+\autoref{thm:group-singleton-terminal-classifier-package}: the classifier row
+reads the two terminal edges as singleton carrier rows for $x$, $y$, and $z$,
+and repacks them as $R_{\emp}(x,z)$.
+
+Finally apply
+\autoref{thm:group-singleton-two-conjugator-orbit-classifier} in the reverse
+direction to $(s,u,x,z)$ with the carrier witnesses for $s$ and $u$. This gives
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_u(z)$, and together with
+$R_{\emp}(x,z)$ it is the displayed compressed conclusion.
+\end{proof}
