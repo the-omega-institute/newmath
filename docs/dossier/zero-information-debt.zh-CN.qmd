@@ -1,0 +1,122 @@
+---
+title: "零信息债"
+subtitle: "BEDC 的姿态是会计, 不是对称 — 隐含假设漏看了哪一层"
+author: "The Omega Institute"
+date: 2026-05-03
+lang: zh-Hans
+description: "陶哲轩的『隐含假设』审视的是一层. BEDC 还审视另外两层: meta-closure 公理账本, 以及 observer / protocol 一等公民层. 对的词不是『对称』, 是『可逆会计』."
+---
+
+```{=html}
+<div class="lang-switch"><a href="zero-information-debt.qmd">English</a></div>
+```
+
+## 这篇要做的取景
+
+陶哲轩在 PFR 猜想和 Maynard 素数间隔的 Lean / mathlib 形式化里反复记录到一件事: 一个对人类读者看起来无懈可击的成稿证明, Lean 检验跑下来会拒绝里面的若干步. 定义被默默展开, "by symmetry" 实际上是两个并不对称的 case 的简写, 节与节之间常数被悄悄丢掉. Lean 把它们逼回视野. 陶称这些为 *隐含假设*. 这个 framing 对, 它产出的审计是真的. 它也只有一层深.
+
+BEDC 在它下面还有两层. 隐含假设审视的是 mathlib 之上的 paper-level 漏洞——而 mathlib 把 `Classical.choice`、`Quot.sound`、`propext` 当作 substrate 自由使用, 这三件事根本不进入审视. BEDC 在 gate 上拒掉这三 (`bedc_ci.py axiom-purity --strict`); 另外, 它把数学事实的 *观察者* —— asking、probe bundle、package、certificate 的 classifier —— 做成内核里的一等 inductive 对象, 而不是证明之外的非正式注解.
+
+这篇说清楚: 这两层多出来的审计是什么, 它们为什么不是陶审视那一层的更精细版本, 以及为什么对 BEDC 姿态最直觉的几个词 ("完美对称"、"信息守恒"、"可逆") 一半对一半误导. 对的 framing 是会计, 不是对称.
+
+## 三层, 不是一层
+
+| 层次 | 谁审视 | 具体形状 |
+|---|---|---|
+| paper-level gap | 陶哲轩、blueprint 工作流 | 跳步、定义默默展开、常数丢失、"对称地" 但其实不对称 |
+| meta-closure 公理 | BEDC、Bishop、Brouwer、Martin-Löf 直觉主义 | `Classical.choice` / `Quot.sound` / `propext` 作为 substrate 接受 |
+| observer / protocol 一等公民 | BEDC | `AskSetup`、`ProbeBundle`、`SigRel`、`Package`、`NameCert` 作为内核 inductive 数据 |
+
+第一行是陶的 PFR 形式化暴露的东西. 一份成稿证明被发现局部不严, 而读者的善意补完掩盖了这种不严. 修法是机械的: 把缺的步骤写出来. 修后的证明依不依赖 `Classical.em` 不在审视范围; mathlib 自由提供.
+
+第二行是 BEDC `axiom-purity` gate 暴露的东西. 即便每个 paper-level 漏洞都补好, 一条 Lean 定理仍然可能传递依赖 `Classical.choice`. 跑 `#print axioms`, substrate 就出现了. BEDC 在项目层把这种依赖定义为 invariant 拒掉: 562 条定理, 全部传递无公理, 没一条调 `Classical.choice` / `Quot.sound` / `propext`. 这一层的清理不是"补更多步骤". 是 "重建支撑该步骤的概念, 让它一开始就不需要这条公理"——用 naming certificate 替商类型, 用显式 decidability 替经典 case 分析, 用显式 `psame` / `hsame` transport 替外延同一化.
+
+第三行是别的形式化项目都没审视的层. BEDC 的 `FKernel` 把 asking event 本身做成对象: `AskSetup` 携带"在什么协议下做出某个区分", `ProbeBundle` 携带构造出来的 probe 见证, `SigRel` 携带"按什么关系匹配 signature", `NameCert` 携带 classifier-aware 的命名证书. 这些都不是辅助注解. 它们在内核里编译, 参与 `\leanchecked` 标注. 不论读者关不关心 "测量哲学", 内核结构上无法谈一个数学对象而不展示给它命名的协议.
+
+这三层不是相互精化. 它们是独立的审计, 各自付各自的成本.
+
+## 三个公理是同一笔会计动作
+
+在 meta-closure 这一层, 章节 `papers/bedc/parts/capstones/three_axioms_one_closure.tex` 给出统一观察: choice、`Quot.sound`、`propext` 不是三个独立承诺. 它们是同一个 schematic 动作在三个语法层的表达.
+
+> **Meta-closure schema.** 给定语法层 $S \in \{\text{term}, \text{type}, \text{proposition}\}$ 上的一个正存在 statement, 且无 constructor 见证, 提供一个 $S$ 的值彷佛见证已给, 并把它喂给后续内核构造.
+
+- **Choice** 在 term 层. 由 $\forall i \in I,\ \exists x_i \in A_i$ 推出 $\exists f : I \to \bigsqcup A_i$ 满足 $f\,i \in A_i$. 函数 $f$ 是 oracle 数据; 它的 body 不是从存在见证构造出来的.
+- **`Quot.sound`** 在 type 层. 由 $A$ 上的等价关系 $R$ 推出 $A / R$ 存在并带 section $A / R \to A$ 提供 canonical 代表. section 是类型层 oracle 数据.
+- **`propext`** 在 proposition 层. 由 $P \Leftrightarrow Q$ 推出 $P = Q$. 等式是命题层 oracle 数据, 因为 $P, Q$ 之间的全部关系只是双向蕴含.
+
+`axiom-purity --strict` gate 一致地拒掉这三. 经过这个 unification 读, gate 不是三次独立拒绝; 是 meta-closure 在三层上的一次拒绝. 三公理服务的应用内容——$\mathbb{N}$ 上 indexed 族的 choice、等价类 transport、双向蕴含命题的同一化——分别由 countable / dependent / finite 递归、certificate 上的 `psame`-respecting transport、显式 `hsame`-mediated 改写来代替. 这些替代物本身是闭 inductive carrier 上的内核构造; 它们用书写来付钱.
+
+## "信息守恒" 实际在说什么
+
+对这个姿态最自然的简写是 *信息守恒*. 简写在 Curry-Howard 这层上对, 值得认真对待.
+
+一个构造性证明就是一个 program. program 的输出数据完全由输入数据决定. 推导里没有信息被创造. `Classical.choice` 是经典违反: 由 $\exists x.\,P(x)$ 提取一个名字 $x$, 但 $x$ 是谁的信息不在输入里, 也不是从输入构造的. choice 公理 *把见证作为接受存在的副作用创造出来*. `axiom-purity --strict` 的守恒读法因此是: 任何证明步骤都不许创造内核无法追溯到 inductive constructor 的信息.
+
+Riemann 假设 capstone (`papers/bedc/parts/capstones/riemann_hypothesis.tex`) 反方向展示同一原理. BEDC 内部对 RH 的构造性证明, 由 Curry-Howard 必须提供一个函数 $\Phi$, 把临界带里每个零点 $s$ 送到一个 $\Re(s) = 1/2$ 的显式 `hsame` 见证. capstone 列出 $\Phi$ 应当暴露的 witness types: 模函数 $\mu_s : \mathbb{N} \to \mathbb{N}$、近界函数 $\beta : \mathbb{N} \to \mathbb{Q}^{>0}$、构造性零计数 $N : \mathbb{N} \to \mathbb{N}$ 在显式误差项内匹配 Riemann–von Mangoldt、可判定的平凡零分类器、临界带零集到临界线投影的 `psame`-同构. 经典反证给一个 bit; 构造性证明给五个 view, 因为它们是 *同一份* 信息在不同投影下的呈现. 它们都不是推导里加上去的; 它们都已经在 $\Phi$ 里, 而守恒 gate 是逼它们被显式呈现的那把闸.
+
+所以信息守恒是第二层审计的对的一句话描述. 第一层审计 (陶的隐含假设) 也是某种守恒, 但在另一个 scale 上——它守恒的是 *paper proof*, 即没有步骤被省略. 第二层审计守恒的是 *substrate*: 没有东西从 meta-closure 被创造出来.
+
+## 为什么 "对称" 是错的词
+
+要克制把这个叫 *完美对称* 的诱惑. `propext`, 三公理之一, 本身就是一次对称化动作: 它强迫 $P, Q$ 这两个不同命题之间的非对称——作为内核数据是不同的, 即便双向蕴含——消失. `Quot.sound` 在 type 层做对应动作, collapse 两个等价 carrier 元素之间的非对称. 两者都是 *暴力对称化*: 用来区分两者的剩余结构被丢掉.
+
+BEDC 拒绝两者. 这个拒绝不是反对称; 是反暴力对称化. 内核保持 `P` 和 `Q` 作为不同 inductive 对象, 暴露 `hsame`-transport 让每个 classifier-respecting 运算穿过双向蕴含. 内核保持两个 `psame`-等价的 carrier 元素物理上分离, 提供 `psame`-respecting transport 而不是 collapse 它们.
+
+对的物理类比不是完美对称的真空. 是规范理论: 物理观测量在规范变换下不变, 但不同规范选择仍然是 *场配置的不同描述*; 它们不被 collapse 成一个. `propext` 会 collapse 它们. BEDC 跟规范不变的物理表述一样, 让观测量穿过等价而不同一化背后的选择.
+
+对的一句话描述因此是 *保留身份的等价*, 不是 *对称*. 对称是性质; 保留身份是让那个性质成立而不丢数据的纪律.
+
+## 可逆性, 按层切片
+
+剩下的直觉——这个姿态是关于 *可逆性* 的——需要切片.
+
+| 领域 | 可逆 ↔ 对称 关系 |
+|---|---|
+| Hamilton 力学 | T-对称 ↔ 可逆, 几乎等价 (Liouville、Landauer) |
+| 信息论 | 可逆计算 ↔ 无信息丢失, 严格等价 |
+| 范畴论 | 同构 = 一对 morphism 加 round-trip 恒等; 跟"对称" (群作用的不变量) 不是一回事 |
+| 群论 | 每个群元素都可逆; 对称是更强的结构条件, 不是单元素的性质 |
+
+BEDC 的 `psame` / `hsame` transport 在范畴论那一行. 它是 *可逆* 的——transport 双向跑, round-trip 是恒等——但不是群论意义的对称. 没有一个作用群, 它的不变量是 BEDC 定理. 有的是, 一族两两同构 (`psame`、`hsame`、certificate transport), 信息沿着它们流动而不损失.
+
+最近的物理类比因此不是对称, 是 Bennett–Fredkin 意义的 *可逆计算*: 每一步内核动作都可以 unroll, 每个输入都可以从输出加该步数据恢复, 每个做出的区分也是可恢复的区分. 这正是 `axiom-purity --strict` 强制的 gate, 因为被禁的三公理恰是抹掉可恢复性的三种步骤. `Classical.choice` 不可逆 (它提供的见证没有源). `Quot.sound` 不可逆 (canonical 代表无法追到 constructor). `propext` 不可逆 (P 和 Q 的等式除双向蕴含外没有 proof-theoretic 源).
+
+所以 *可逆性* 比 *对称* 更接近事实, 但它住在范畴论和信息论那两层, 不是群论那层.
+
+## 会计师的 framing
+
+把三个观察合起来, BEDC 姿态读作:
+
+> **零信息债 + 可逆 transport. 每一步内核动作有出处. 等价对象保持各自的身份; 只让运算穿过.**
+
+合身的隐喻是会计. 陶的审计是 paper-proof 层的会计——每个步骤是否出现在 paper 的账本里. BEDC 的 axiom-purity gate 是 substrate 层的会计——每个步骤是否出现在内核账本里, 不调用账外的 meta-closure. BEDC 的 observer-as-object 纪律是 protocol 层的会计——每个被命名的区分是否同时携带命名它的 asking.
+
+三层会计, 不是一种对称. 第一是 *漏洞补缺*; 第二是 *substrate 纯度*; 第三是 *protocol 显式化*. 第一已被陶和 blueprint 社区严格表述. 第二是构造主义传统 (Brouwer、Bishop、Martin-Löf 直觉主义) 经 `axiom-purity --strict` 操作化. 第三是 BEDC 自己的贡献, 据我们所知在形式数学里没有别的对应物.
+
+## 实际怎么用
+
+对一个考虑是否采纳 BEDC 纪律的形式数学项目, 操作上的后果是清晰的.
+
+1. **只审 paper-level 漏洞是必要的, 但不是项目唯一的账本.** 一条定理可以 paper-严而 substrate-漏. 跑 `#print axioms`, 看传递依赖.
+2. **三公理的替代物是具体的, 不是手势.** Countable / dependent / finite 递归在 BEDC 需要 choice 的 case 替 choice. `NameCert` + `psame`-transport 替商类型 soundness. `hsame`-mediated 改写替 `propext`. 替代物用证明长度付钱; 省下 substrate 的重量.
+3. **把观察者当内核数据是结构决定, 不是风格决定.** 一旦 `AskSetup` 和 `ProbeBundle` 是 inductive, 每条定理都要指明做该命名区分时所用的协议. 这不是事后能加的注解; 必须从一开始就在内核.
+4. **对的修辞是会计, 不是对称.** 说 "BEDC 更对称" 误描了姿态, 招来错的反对意见. 说 "BEDC 用书写付清 meta-closure 的债" 才是它实际在做的事.
+
+```{=html}
+<span class="role-tag discovery">💡 发现</span>
+```
+
+发现是: "隐含假设" 是三层审计中的一层. 陶的 framing 关闭了人类读者习惯一直留开的一层. 构造主义传统关闭了 substrate 一直留开的一层. BEDC 的 protocol 层关闭了形式数学其余部分还留开的一层. 三者中没有一者可化归为另一者, 三者并集是 BEDC 内核之所以以它接受的依赖说出它说的话的原因.
+
+## 接下来读哪里
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>区分作为根基 →</strong><br/>为什么 <code>e0</code> / <code>e1</code> 比集合、类型、范畴更原始 — 以及 BEDC substrate 拒绝预设什么.</a>
+  <a href="schema-only-as-evidence.zh-CN.qmd"><strong>Schema-only 作为证据 →</strong><br/>16 个编译不通过的章节告诉我们什么, 以及失败本身携带的信息为什么补完之后会被抹掉.</a>
+  <a href="index.zh-CN.qmd"><strong>← 回到主故事</strong><br/>BEDC: 1837 个定理, 0 公理, mathlib-free — AI 驱动有限内核形式化的案例.</a>
+</div>
+```
+
+— *The Omega Institute*
