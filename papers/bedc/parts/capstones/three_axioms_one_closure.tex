@@ -77,3 +77,29 @@ The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4
 \label{rem:three-axioms-siblings}
 The chapter's unification theorem (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:capstones-reasoning-by-contradiction-boundary}): all three identify a different face of the same refusal of meta closure. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
 \end{remark}
+
+\begin{definition}[Term-stratum choice closure]
+\label{def:term-stratum-choice-closure}
+Fix an index carrier $I$, an ambient term carrier $U$, and a family of positive fiber predicates $A_i \subseteq U$. The \emph{term-stratum choice closure schema} is the following instance of \autoref{def:three-axioms-meta-closure-operation}: from an accepted family of positive existentials
+$$
+H:\forall i \in I,\; \exists x:U,\; x \in A_i
+$$
+with no displayed constructor-level selection of such terms, introduce a term $o_H:I\to U$ and membership evidence $o_H(i)\in A_i$ for each $i$. The term $o_H(i)$ is then available as an oracle input to later term-level constructions.
+\end{definition}
+
+\begin{theorem}[Choice is term-stratum meta closure]
+\label{thm:choice-term-stratum-meta-closure}
+For arbitrary indexed families $A_i$, the term-stratum choice closure schema of \autoref{def:term-stratum-choice-closure} is equivalent to the axiom-of-choice principle of \autoref{ex:three-axioms-choice}:
+$$
+\left(\forall i \in I,\; \exists x_i,\; x_i \in A_i\right)
+\Longrightarrow
+\exists f:I\to\bigsqcup_{i\in I} A_i,\; \forall i\in I,\; f(i)\in A_i.
+$$
+Here $f(i)\in A_i$ abbreviates that the value of $f$ lies over the $i$-fiber of the displayed coproduct.
+\end{theorem}
+
+\begin{proof}
+Assume the term-stratum choice closure schema. Given $H:\forall i\in I,\exists x_i, x_i\in A_i$, the schema supplies an oracle term $o_H:I\to U$ with evidence $o_H(i)\in A_i$ for every $i$. Define $f(i)=(i,o_H(i))$ as an element of the displayed coproduct $\bigsqcup_{i\in I}A_i$. The fiber evidence supplied with $o_H$ proves $f(i)\in A_i$ for each $i$, so $f$ is the choice function required by the displayed axiom-of-choice principle.
+
+Conversely, assume the displayed axiom-of-choice principle. Given a term-stratum closure datum $H:\forall i\in I,\exists x_i,x_i\in A_i$, apply choice to the family $A_i$. It produces a function $f:I\to\bigsqcup_{i\in I}A_i$ with $f(i)\in A_i$ for every $i$. Let $o_H(i)$ be the component of $f(i)$ in the $i$-fiber. The accompanying fiber proof is exactly the evidence required to use $o_H(i)$ as the accepted value of the existential at $i$. Any later term-level construction that consumes the accepted existential can therefore be fed $o_H(i)$ and its membership evidence. For a single positive term-existential, take $I$ to be the singleton carrier; for an indexed family, keep the given $I$. Thus the axiom-of-choice principle realizes exactly the term-stratum instance of \autoref{def:three-axioms-meta-closure-operation}, and the two principles are equivalent.
+\end{proof}
