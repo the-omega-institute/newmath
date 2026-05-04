@@ -316,6 +316,22 @@ theorem MonoidHistoryClassifier_unary_append_singleton_collapse_obstruction :
     singletonCollapse (BHist.e1 BHist.Empty) unaryOne
   exact not_hsame_e1_empty classifiedOne.right.right
 
+theorem unary_append_monoid_right_inverse_law_absurd
+    (inv : BHist -> BHist)
+    (rightInv : forall h : BHist, UnaryHistory h ->
+      MonoidHistoryClassifier UnaryHistory (append h (inv h)) BHist.Empty) :
+    False := by
+  have unaryOne : UnaryHistory (BHist.e1 BHist.Empty) :=
+    unary_e1_closed unary_empty
+  have classifiedProduct :
+      MonoidHistoryClassifier UnaryHistory
+        (append (BHist.e1 BHist.Empty) (inv (BHist.e1 BHist.Empty))) BHist.Empty :=
+    rightInv (BHist.e1 BHist.Empty) unaryOne
+  have classifiedOne :
+      MonoidHistoryClassifier UnaryHistory (BHist.e1 BHist.Empty) BHist.Empty :=
+    (unary_append_unit_product_factor_exactness.mp classifiedProduct).left
+  exact not_hsame_e1_empty classifiedOne.right.right
+
 theorem unary_append_monoid_idempotent_empty_iff {e : BHist} :
     UnaryHistory e ->
       (MonoidHistoryClassifier UnaryHistory (append e e) e <->

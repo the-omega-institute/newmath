@@ -393,21 +393,19 @@ stability from ledger endpoint equivalence, classifier symmetry/transitivity,
 positive unary denominator readback, and zero-extension exclusion; ledger the
 raw-visible denominator edge; core theorem this block; exactness the three
 endpoint shape package; downstream consumers $\FieldUp(\RatUp)$
-denominator-unit rows and $\RealUp$ stream-prefix readback; status
-$\mathsf{ProofTarget}$.
+denominator-unit rows and $\RealUp$ stream-prefix readback.
 \end{theorem}
 \begin{proof}
-First apply \autoref{thm:rat-ledger-classifier-saturation-package} to the
-ledger witness and the supplied classifier orientation. This gives the four
-saturated classifier orientations together with
-$\mathsf{PositiveUnaryDenominator}(\rho)$,
-$\mathsf{PositiveUnaryDenominator}(v)$, and
-$\mathsf{PositiveUnaryDenominator}(w)$.
+Unpack the ledger witness. Its raw carrier gives
+$\mathsf{PositiveUnaryDenominator}(\rho)$, and visible-carrier transport gives
+$\mathsf{PositiveUnaryDenominator}(v)$. Case-split on the supplied classifier
+orientation; in each branch the classifier contains a carrier witness for
+$w$, which gives $\mathsf{PositiveUnaryDenominator}(w)$.
 
-Project the three positive denominator witnesses. For each endpoint, apply
+For each endpoint, apply
 \autoref{thm:positive-unary-denominator-unary-and-nonempty}; the unary component
-gives the displayed $\mathsf{UnaryHistory}$ row, and the nonempty component gives
-the corresponding contradiction from $\hsame(-,\emp)$.
+gives the displayed $\mathsf{UnaryHistory}$ row, and the nonempty component
+gives the corresponding contradiction from $\hsame(-,\emp)$.
 
 It remains to exclude zero-extension presentations. Suppose
 $\hsame(\rho,\Ezero(z_\rho))$ holds. Transport
@@ -420,3 +418,4 @@ $\mathsf{PositiveUnaryDenominator}(v)$ along $\hsame(v,\Ezero(z_v))$ and apply
 $\mathsf{PositiveUnaryDenominator}(w)$ along $\hsame(w,\Ezero(z_w))$ and apply
 the same zero-extension exclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_saturated\_denominator\_shape\_package}
