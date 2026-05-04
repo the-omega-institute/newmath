@@ -249,6 +249,31 @@ the two boundary witness comparisons unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage\_append\_hsame\_transport}
 
+\begin{theorem}[Homology boundary continuation cycle-preimage package]
+\label{thm:homology-boundary-continuation-cycle-preimage-package}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $B_d(h)$, $B_d(k)$, and $\ContR(h,k,r)$, then
+$$
+Z_d(r)\land \exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(r,d(\mathsf{append}(u,v))).
+$$
+\end{theorem}
+\begin{proof}
+The cycle component is exactly
+\autoref{thm:homology-boundary-cont-cycle-closed}: boundary continuation first
+produces a boundary carrier for $r$, and square-zero turns that carrier into
+$Z_d(r)$.
+
+The preimage component is supplied by
+\autoref{thm:homology-boundary-carrier-cont-preimage-append}. It gives BEDC
+histories $u$ and $v$ whose differential images match $h$ and $k$, and whose
+appended differential image matches the continuation result $r$.
+
+Conjoining these two conclusions gives the displayed cycle-preimage certificate
+for the same continuation result.
+\end{proof}
+
 \begin{theorem}[Homology boundary carrier continuation nonempty preimage append]
 \label{thm:homology-boundary-carrier-cont-nonempty-preimage-append}
 Assume the differential respects BEDC continuation append. If $B_d(h)$,
