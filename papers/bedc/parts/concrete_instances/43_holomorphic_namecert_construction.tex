@@ -342,6 +342,7 @@ The $\HolomorphicUp$ seed carries the following proof obligations before it can 
 \end{enumerate}
 \end{definition}
 \leandef{BEDC.Derived.HolomorphicUp.IteratedCplxDiff}
+\leandef{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff}
 
 \begin{lemma}[Iterated complex differentiability preserves unary seed histories]
 \label{lem:iterated-cplx-diff-unary-of-seed}
@@ -351,6 +352,34 @@ If an iterated complex-differentiability chain starts from a unary seed history 
 Induct on the iteration index. At zero, transport the unary seed along the displayed \(\hsame\) endpoint. At a successor index, unpack the previous iterate, the unary step, and the continuation witness; the induction hypothesis gives the previous iterate as unary, and unary continuation closure gives the selected successor history.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_unary\_of\_seed}
+
+\begin{theorem}[Strict iterated complex differentiability preserves unary seed histories]
+\label{thm:iterated-strict-cplxdiff-unary-of-seed}
+If a strict iterated complex-differentiability chain starts from a unary seed
+history, then every selected strict iterate is unary.
+\end{theorem}
+\begin{proof}
+Induct on the iteration index. The zero case transports unary membership along
+the seed classifier. At a successor index, unpack the predecessor, strict unary
+step, and continuation witness; the induction hypothesis gives the predecessor
+as unary, and unary continuation closure gives the successor.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_unary\_of\_seed}
+
+\begin{lemma}[Strict iterated complex differentiability exposes a strict prefix]
+\label{lem:iterated-strict-cplx-diff-strict-prefix}
+If a strict iterated complex-differentiability chain starts from a unary seed
+history and advances by at least one nonempty unary continuation step, then the
+seed is a strict unary prefix of the selected iterate.
+\end{lemma}
+\begin{proof}
+Induct on the number of remaining successor stages. The first successor
+unpacks a nonempty unary step and transports its source along the seed
+classifier. At a later successor, the induction hypothesis gives a strict
+prefix from the seed to the previous iterate, and strict-prefix transitivity
+composes it with the displayed nonempty continuation tail.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_strict\_prefix}
 
 \section{The seed fields}
 
