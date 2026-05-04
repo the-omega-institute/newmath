@@ -134,6 +134,31 @@ theorem MetricDistanceWitness_e1_pair_result_tail_readback {x y d : BHist} :
   exact And.intro (unary_e1_inversion tailWitness.left)
     (And.intro tailWitness.right.left tailWitness.right.right.right)
 
+theorem MetricDistanceWitness_e1_pair_result_tail_exactness_iff {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) (BHist.e1 d) ↔
+      UnaryHistory x ∧ UnaryHistory y ∧ hsame d (append (BHist.e1 x) y) := by
+  constructor
+  · intro witness
+    exact MetricDistanceWitness_e1_pair_result_tail_readback witness
+  · intro data
+    cases data with
+    | intro xCarrier rest =>
+        cases rest with
+        | intro yCarrier sameDistance =>
+            have central :
+                MetricDistanceWitness (BHist.e1 x) y d :=
+              And.intro (unary_e1_closed xCarrier)
+                (And.intro yCarrier
+                  (And.intro
+                    (unary_transport
+                      (unary_append_closed (unary_e1_closed xCarrier) yCarrier)
+                      (hsame_symm sameDistance))
+                    (cont_intro sameDistance)))
+            exact And.intro central.left
+              (And.intro (unary_e1_closed central.right.left)
+                (And.intro (unary_e1_closed central.right.right.left)
+                  (cont_step_one central.right.right.right)))
+
 theorem MetricDistanceWitness_left_e1_visible_target_step {x y d : BHist} :
     MetricDistanceWitness (BHist.e1 x) y d ->
       MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) (BHist.e1 d) := by
