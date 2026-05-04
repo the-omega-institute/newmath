@@ -399,4 +399,22 @@ theorem unary_append_monoid_commutative_classifier {a b : BHist} :
   have commData := unary_append_comm_with_closed_results unaryA unaryB
   exact And.intro commData.right.left (And.intro commData.right.right commData.left)
 
+theorem unary_append_monoid_classifier_context_swap {left right a : BHist} :
+    UnaryHistory left -> UnaryHistory right -> UnaryHistory a ->
+      MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append right (append a left)) := by
+  intro unaryLeft unaryRight unaryA
+  have leftContext : UnaryHistory (append left (append a right)) :=
+    unary_append_closed unaryLeft (unary_append_closed unaryA unaryRight)
+  have rightContext : UnaryHistory (append right (append a left)) :=
+    unary_append_closed unaryRight (unary_append_closed unaryA unaryLeft)
+  have sameContext :
+      hsame (append left (append a right)) (append right (append a left)) := by
+    exact (congrArg (append left) (unary_append_comm unaryA unaryRight)).trans
+      ((append_assoc left right a).symm.trans
+        ((congrArg (fun x => append x a) (unary_append_comm unaryLeft unaryRight)).trans
+          ((append_assoc right left a).trans
+            (congrArg (append right) (unary_append_comm unaryLeft unaryA)))))
+  exact And.intro leftContext (And.intro rightContext sameContext)
+
 end BEDC.Derived.MonoidUp
