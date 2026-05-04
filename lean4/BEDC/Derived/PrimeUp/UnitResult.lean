@@ -39,4 +39,15 @@ theorem NatMul_unit_result_factors_unit {d q : BHist} :
                   exact And.intro (hsame_refl (BHist.e1 BHist.Empty))
                     (hsame_refl (BHist.e1 BHist.Empty))
 
+theorem NatDivides_unit_right_iff {d : BHist} :
+    NatDivides d (BHist.e1 BHist.Empty) ↔ hsame d (BHist.e1 BHist.Empty) := by
+  constructor
+  · intro divides
+    cases divides with
+    | intro q qData =>
+        exact (NatMul_unit_result_factors_unit qData.right).left
+  · intro sameUnit
+    cases sameUnit
+    exact (NatDivides_reflexive_pair (unary_e1_closed unary_empty)).right
+
 end BEDC.Derived.PrimeUp

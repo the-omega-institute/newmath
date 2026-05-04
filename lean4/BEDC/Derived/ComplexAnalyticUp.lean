@@ -142,6 +142,20 @@ theorem CplxPureImaginary_suffix_component_tail_witness {theta z q zq : BHist} :
         data.right.left.trans (unary_append_e1_left (h := q) (k := theta) qUnary)
       exact ⟨imagq, data.left, sameTail, data.right.right.left, data.right.right.right⟩
 
+theorem CplxPureImaginary_suffix_parameter_readback {theta psi z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      CplxPureImaginary psi zq -> hsame psi (append theta q) := by
+  intro pureTheta qUnary zqCont purePsi
+  cases CplxPureImaginary_suffix_component_tail_witness pureTheta qUnary zqCont with
+  | intro imagq data =>
+      have displayedCont :
+          Cont (BHist.e1 BHist.Empty) imagq
+            (append (BHist.e1 BHist.Empty) (BHist.e1 psi)) :=
+        cont_result_hsame_transport data.right.right.left purePsi.right
+      have sameImaginaryDisplay : hsame (BHist.e1 psi) imagq :=
+        append_left_cancel (h := BHist.e1 BHist.Empty) displayedCont
+      exact hsame_e1_iff.mp (hsame_trans sameImaginaryDisplay data.right.left)
+
 theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ComplexHistoryCarrier zq ∧ (hsame zq BHist.Empty -> False) := by
