@@ -67,6 +67,20 @@ theorem MetricDistanceWitness_nonempty_distance_endpoint_e1_cases {x y d : BHist
   | inr yNonempty =>
       exact Or.inr (unary_history_nonempty_e1_tail witness.right.left yNonempty)
 
+theorem MetricDistanceWitness_empty_source_nonempty_distance_target_e1_cases {target dist : BHist} :
+    MetricDistanceWitness BHist.Empty target dist -> (hsame dist BHist.Empty -> False) ->
+      ∃ targetTail : BHist, target = BHist.e1 targetTail ∧ UnaryHistory targetTail := by
+  intro witness nonemptyDistance
+  have endpointCases :=
+    MetricDistanceWitness_nonempty_distance_endpoint_e1_cases witness nonemptyDistance
+  cases endpointCases with
+  | inl sourceCase =>
+      cases sourceCase with
+      | intro sourceTail sourceData =>
+          cases sourceData.left
+  | inr targetCase =>
+      exact targetCase
+
 theorem MetricDistanceWitness_e0_component_absurd {x y d : BHist} :
     (MetricDistanceWitness (BHist.e0 x) y d -> False) ∧
       (MetricDistanceWitness x (BHist.e0 y) d -> False) ∧

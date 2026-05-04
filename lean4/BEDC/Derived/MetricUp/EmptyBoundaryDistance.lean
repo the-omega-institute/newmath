@@ -69,4 +69,18 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_right_
   cases distanceEmpty
   exact cont_right_unit_iff
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_splice
+    {p q d l r mid out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) →
+        Cont l d mid → Cont mid r out → Cont l r out := by
+  intro visible leftCont rightCont
+  have distanceEmpty :
+      hsame d BHist.Empty :=
+    (MetricDistanceWitness_empty_boundary_visible_context_distance_empty
+      (p := p) (q := q) (d := d) visible).left
+  cases distanceEmpty
+  cases leftCont
+  exact rightCont
+
 end BEDC.Derived.MetricUp

@@ -4434,3 +4434,28 @@ This is a structural extension theorem: the Hom-set of R-linear maps inherits an
 
 ---
 
+### B-173 - SemanticNameCert fiber-product closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | SemanticNameCert fiber-product closure |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a common source S, if SemanticNameCert S P1 L1 C1 and SemanticNameCert S P2 L2 C2 hold, then the conjunction predicates P1∧P2 and L1∧L2 form a SemanticNameCert for the meet/product classifier C1∧C2.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+A structural closure theorem at the SemanticNameCert record level: B-17 weakens an existing presentation, but no existing BOARD entry or paper label combines two certificates over a shared source into a meet/product certificate. Grep over `paper_coverage` finds no thm matching fiber/conjunction/combine-cert/meet-cert at the certificate layer (the only `fiber` hits are concrete group/quotient/field theorems unrelated to this construction). It would supply a reusable bridge for any later product, intersection, or multi-obligation certificate.
+
+---
+
