@@ -167,4 +167,41 @@ theorem RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
     fun sameZero => PositiveUnaryDenominator_e0_absurd
       (PositiveUnaryDenominator_hsame_transport sameZero package.right.right.left)⟩
 
+theorem RealStreamPrefixClassifier_contextual_full_endpoint_package
+    {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat}
+    {a b zX zY : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
+      UnaryHistory (tailX n) -> hsame (prefX n) (prefY n) ->
+        hsame (tailX n) (tailY n) -> Cont (prefX n) (x n) (midX n) ->
+          Cont (midX n) (tailX n) (outX n) -> Cont (prefY n) (y n) (midY n) ->
+            Cont (midY n) (tailY n) (outY n) -> hsame (outX n) (BHist.e1 a) ->
+              hsame (outY n) (BHist.e1 b) ->
+                RatHistoryClassifier (outX n) (outY n) ∧
+                  PositiveUnaryDenominator (outX n) ∧ PositiveUnaryDenominator (outY n) ∧
+                    UnaryHistory (outX n) ∧ UnaryHistory (outY n) ∧
+                      (hsame (outX n) BHist.Empty -> False) ∧
+                        (hsame (outY n) BHist.Empty -> False) ∧
+                          (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                            (hsame (outY n) (BHist.e0 zY) -> False) ∧
+                              UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont
+    outYCont sameOutX sameOutY
+  have package := RealStreamPrefixClassifier_contextual_e1_denominator_package
+    (leftTail := a) (rightTail := b) classified prefUnary tailUnary prefSame tailSame
+    prefCont outXCont prefYCont outYCont
+  have zeroAbsurd := RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
+    (zX := zX) (zY := zY) classified prefUnary tailUnary prefSame tailSame prefCont
+    outXCont prefYCont outYCont
+  have readback : UnaryHistory a ∧ UnaryHistory b ∧ hsame a b :=
+    package.right.right.right.right.right.right.right sameOutX sameOutY
+  exact And.intro package.left
+    (And.intro package.right.left
+      (And.intro package.right.right.left
+        (And.intro package.right.right.right.left
+          (And.intro package.right.right.right.right.left
+            (And.intro package.right.right.right.right.right.left
+              (And.intro package.right.right.right.right.right.right.left
+                (And.intro zeroAbsurd.left
+                  (And.intro zeroAbsurd.right readback))))))))
+
 end BEDC.Derived.RealUp
