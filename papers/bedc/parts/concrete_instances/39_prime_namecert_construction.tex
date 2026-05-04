@@ -605,6 +605,30 @@ The unary factorial \(\mathsf{NatFact}(n, n!)\) is the closed inductive predicat
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatFact}
 
+\begin{lemma}[Unary factorial inputs are unary]
+\label{lem:natfact-input-unary}
+Every closed witness of $\mathsf{NatFact}(n,m)$ has a unary input $n$.
+\end{lemma}
+\begin{proof}
+Induct on the $\mathsf{NatFact}$ witness. The zero constructor has input
+$\emp$, which is unary. The successor constructor changes the input from $n$
+to $\Eone(n)$, so unary closure under $\Eone$ applied to the induction
+hypothesis gives the result.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_input\_unary}
+
+\begin{lemma}[Unary factorial successor inversion]
+\label{lem:natfact-successor-inversion}
+If $\mathsf{NatFact}(\Eone(n),m')$, then there is an $m$ such that
+$\mathsf{NatFact}(n,m)$ and $\mathsf{NatMul}(\Eone(n),m,m')$.
+\end{lemma}
+\begin{proof}
+Invert the closed factorial witness. The zero constructor has empty input and
+therefore cannot produce an $\Eone$ input. The successor constructor exposes
+exactly the predecessor factorial witness and the multiplication witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatFact\_successor\_inversion}
+
 \begin{lemma}[Unary factorial results are nonempty]
 \label{lem:nat-fact-result-not-empty}
 Every closed witness of $\mathsf{NatFact}(n,m)$ has a result $m$ distinct
