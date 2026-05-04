@@ -233,6 +233,62 @@ incompatibility, so the three branches form the concrete constructive
 partition.
 \end{proof}
 
+\begin{theorem}[Concrete unary prefix total-order branch transport]
+\label{thm:concrete-unary-prefix-totalorder-branch-transport}
+For carried unary histories $h,h',k,k'$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, suppose
+$\rho_{\mathsf{u}}(h,h')$ and $\rho_{\mathsf{u}}(k,k')$. Then classifier
+replacement transports the three concrete comparison branches exactly:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)\Longleftrightarrow
+\mathsf{NatUnaryStrictPrefix}(h',k'),
+$$
+$$
+\rho_{\mathsf{u}}(h,k)\Longleftrightarrow\rho_{\mathsf{u}}(h',k'),
+$$
+$$
+\mathsf{NatUnaryStrictPrefix}(k,h)\Longleftrightarrow
+\mathsf{NatUnaryStrictPrefix}(k',h').
+$$
+The per-object fields are: traditional target constructive total-order branch
+transport; BEDC source $\mathsf{UnaryHistory}$ plus
+$\mathsf{NatUnaryStrictPrefix}$ and $\rho_{\mathsf{u}}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; stability
+obligation comparison transport; ledger endpoint replacement witnesses; core
+theorem this block; exactness the three displayed iff rows; standard bridge
+finite unary word total order; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The witness
+$\rho_{\mathsf{u}}(h,h')$ gives the endpoint comparison $\hsame(h,h')$, and
+$\rho_{\mathsf{u}}(k,k')$ gives $\hsame(k,k')$.
+
+For the strict-left row, the forward direction applies
+\autoref{thm:nat-unary-strict-prefix-cont-hsame-transport} to the strict
+witness from $h$ to $k$ with endpoint witnesses $\hsame(h,h')$ and
+$\hsame(k,k')$.
+
+The reverse direction uses the same transport theorem with the symmetric
+endpoint witnesses $\hsame(h',h)$ and $\hsame(k',k)$.
+
+For the classifier row, compose the endpoint comparison $\hsame(h,h')$, the
+middle comparison extracted from $\rho_{\mathsf{u}}(h,k)$, and the symmetric
+form of $\hsame(k,k')$. This gives $\hsame(h',k')$, which repackages with the
+transported carrier witnesses as $\rho_{\mathsf{u}}(h',k')$.
+
+The reverse classifier direction is the same composition with the two endpoint
+replacement witnesses reversed. Symmetry and transitivity of the carrier
+classifier recover $\rho_{\mathsf{u}}(h,k)$.
+
+For the strict-right row, read the strict witness as a strict unary prefix from
+$k$ to $h$. Apply the strict-prefix transport theorem with endpoints
+$\hsame(k,k')$ and $\hsame(h,h')$.
+
+The reverse strict-right direction again uses the symmetric endpoint witnesses.
+Thus all three comparison branches are preserved and reflected under concrete
+classifier replacement.
+\end{proof}
+
 \begin{definition}[Concrete unary successor comparison package]
 \label{def:concrete-unary-prefix-totalorder-successor-package}
 For a carried unary history $h$ in $\mathsf{Carrier}_{\mathsf{u}}$, the concrete
@@ -429,7 +485,9 @@ The stability row is the concrete total-order law package of
 strict-to-apartness obligations, relation stability, constructive total
 comparison, comparison stability, and strict-comparison transitivity for the
 three displayed branches. The strict-comparison transitivity component is the
-concrete branch law of \autoref{thm:totalorder-strict-branch-transitivity}.
+concrete branch law of \autoref{thm:totalorder-strict-branch-transitivity}, and
+comparison stability is the branch transport theorem of
+\autoref{thm:concrete-unary-prefix-totalorder-branch-transport}.
 
 The ledger row is the selected branch certificate. By
 \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, each pair
