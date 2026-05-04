@@ -364,6 +364,35 @@ nonempty $x$ or $y$ endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_endpoint\_nonempty}
 
+\begin{theorem}[Metric triangle nonempty spine one-headed endpoint cases]
+\label{thm:metric-distance-witness-triangle-nonempty-spine-e1-endpoint-cases}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
+witnesses hold and the final triangle distance is not history-same as $\emp$,
+then at least one triangle endpoint is visibly one-headed with a unary tail:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+(d_{xyz}\hsame\emp\to\mathsf{False})\Longrightarrow
+\\
+\bigl(\exists x_0,\ x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0)\bigr)
+\vee
+\bigl(\exists y_0,\ y=\Eone(y_0)\land\mathsf{UnaryHistory}(y_0)\bigr)
+\vee
+\bigl(\exists z_0,\ z=\Eone(z_0)\land\mathsf{UnaryHistory}(z_0)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty endpoint theorem for metric triangles. In each endpoint
+case, the corresponding unary carrier is a field of one of the triangle
+distance witnesses. Unary nonempty one-tail readback turns that nonempty
+carrier into the displayed $\Eone$ endpoint with a unary tail.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_spine\_e1\_endpoint\_cases}
+
 \begin{theorem}[Metric triangle nonempty spine iff nonempty distance]
 \label{thm:metric-distance-witness-triangle-nonempty-spine-iff-nonempty-distance}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, the same three triangle distance

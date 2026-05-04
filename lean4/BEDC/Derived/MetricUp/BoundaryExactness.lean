@@ -22,6 +22,21 @@ theorem MetricDistanceWitness_empty_source_e1_distance_target_exactness {target 
           cases targetEq
           exact And.intro rfl (unary_e1_inversion boundary.left)
 
+theorem MetricDistanceWitness_empty_target_e1_distance_source_exactness {source d : BHist} :
+    MetricDistanceWitness source BHist.Empty (BHist.e1 d) ->
+      source = BHist.e1 d ∧ UnaryHistory d := by
+  intro witness
+  have boundary :=
+    (MetricDistanceWitness_empty_right_iff (x := source) (d := BHist.e1 d)).mp witness
+  have sourceShape := hsame_e1_inversion boundary.right
+  cases sourceShape with
+  | intro k data =>
+      cases data with
+      | intro sourceEq sameDK =>
+          cases sameDK
+          cases sourceEq
+          exact And.intro rfl (unary_e1_inversion boundary.left)
+
 theorem MetricDistanceWitness_nonempty_distance_endpoint_nonempty {x y d : BHist} :
     MetricDistanceWitness x y d -> (hsame d BHist.Empty -> False) ->
       (hsame x BHist.Empty -> False) \/ (hsame y BHist.Empty -> False) := by

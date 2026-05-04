@@ -228,6 +228,75 @@ $$
 $$
 \end{definition}
 
+\begin{theorem}[Real stream window classifier hsame transport]
+\label{thm:real-stream-window-classifier-hsame-transport}
+For rational-observation streams $x,y,x',y':\mathbb{N}\to\Hist$, an anchor
+index $n$, and a radius $m$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$. If every bounded offset
+$k\le m$ carries both endpoint rows
+$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$, then
+$\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier and fix an arbitrary offset $k\le m$. The
+source window hypothesis supplies the endpoint classifier
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+The offset transport hypothesis gives the two rows
+$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$ at the same bounded
+observation. Apply
+\autoref{thm:rat-history-classifier-hsame-transport} to the source rational
+classifier and these endpoint rows.
+
+The result is
+$\mathsf{RatHistoryClassifier}(x'(n+k),y'(n+k))$. Since the offset was
+arbitrary under the bound $k\le m$, these transported endpoint classifiers
+repack into $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window stability
+for RealUp names; BEDC source RealUp windows plus RatUp endpoint classifier
+transport; carrier bounded rational-observation windows; classifier
+$\mathsf{RealStreamWindowClassifier}$; stability endpoint hsame transport;
+ledger anchor, radius, offset, and two endpoint transports; core theorem
+\autoref{thm:real-stream-window-classifier-hsame-transport}; exactness
+preservation of the bounded classifier; standard bridge finite prefix
+stability for regular rational observation names; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream prefix-window exactness at zero]
+\label{thm:real-stream-prefix-window-exactness-at-zero}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every finite
+offset $m$,
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m)
+\Longleftrightarrow
+\mathsf{RealStreamWindowClassifier}(x,y,0,m).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the recursive prefix classifier is exactly the
+rational-history classifier at observation $0$, and the window condition has
+only the offset $k=0$.
+
+For the successor step, use
+\autoref{lem:real-stream-prefix-successor-inversion} to split a prefix through
+$m+1$ into the prefix through $m$ and the rational-history classifier at the new
+endpoint. The induction hypothesis converts the shorter prefix into the window
+condition through offset $m$.
+
+Given any $k\le m+1$, split constructively between $k\le m$ and $k=m+1$. The
+first case is handled by the shorter window; the endpoint case is exactly the
+successor rational-history classifier.
+
+Conversely, assume the window condition through $m+1$. Its restriction to
+offsets $k\le m$ gives the zero-based window through $m$, hence by induction the
+prefix through $m$. Taking $k=m+1$ gives the endpoint classifier, and the reverse
+direction of successor inversion pairs these two witnesses into the prefix
+through $m+1$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_finite\_window\_zero\_exactness}
+
 \begin{theorem}[Real stream classifier finite-window coverage]
 \label{thm:real-stream-classifier-finite-window-coverage}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
