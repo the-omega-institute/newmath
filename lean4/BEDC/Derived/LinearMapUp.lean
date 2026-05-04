@@ -343,6 +343,54 @@ theorem LinearMapSingletonClassifier_continuation_pair_factors_iff {p q r s t u 
   cases rightContinuation
   exact LinearMapSingletonClassifier_append_pair_carrier_iff
 
+theorem LinearMapSingletonClassifier_continuation_append_source_classifier_iff {p q r h t : BHist} :
+    Cont (append p q) r h ->
+      (LinearMapSingletonClassifier h t ↔
+        LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q ∧
+          LinearMapSingletonCarrier r ∧ LinearMapSingletonCarrier t) := by
+  intro continuation
+  constructor
+  · intro classified
+    cases continuation
+    have sourceParts := append_eq_empty_iff.mp classified.left
+    have prefixParts := append_eq_empty_iff.mp sourceParts.left
+    exact And.intro prefixParts.left
+      (And.intro prefixParts.right (And.intro sourceParts.right classified.right.left))
+  · intro carriers
+    cases continuation
+    have prefixCarrier : LinearMapSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left carriers.right.left)
+    have sourceCarrier : LinearMapSingletonCarrier (append (append p q) r) :=
+      append_eq_empty_iff.mpr (And.intro prefixCarrier carriers.right.right.left)
+    exact
+      And.intro sourceCarrier
+        (And.intro carriers.right.right.right
+          (hsame_trans sourceCarrier (hsame_symm carriers.right.right.right)))
+
+theorem LinearMapSingletonClassifier_continuation_append_target_classifier_iff {p q r h t : BHist} :
+    Cont p (append q r) h ->
+      (LinearMapSingletonClassifier h t ↔
+        LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q ∧
+          LinearMapSingletonCarrier r ∧ LinearMapSingletonCarrier t) := by
+  intro continuation
+  constructor
+  · intro classified
+    cases continuation
+    have sourceParts := append_eq_empty_iff.mp classified.left
+    have targetParts := append_eq_empty_iff.mp sourceParts.right
+    exact And.intro sourceParts.left
+      (And.intro targetParts.left (And.intro targetParts.right classified.right.left))
+  · intro carriers
+    cases continuation
+    have targetCarrier : LinearMapSingletonCarrier (append q r) :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.left carriers.right.right.left)
+    have sourceCarrier : LinearMapSingletonCarrier (append p (append q r)) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left targetCarrier)
+    exact
+      And.intro sourceCarrier
+        (And.intro carriers.right.right.right
+          (hsame_trans sourceCarrier (hsame_symm carriers.right.right.right)))
+
 theorem LinearMapSingletonClassifier_continuation_right_closed {P Q Q' right : BHist} :
     LinearMapSingletonCarrier P -> LinearMapSingletonClassifier Q Q' -> Cont P Q right ->
       LinearMapSingletonCarrier right ∧ LinearMapSingletonClassifier right BHist.Empty := by

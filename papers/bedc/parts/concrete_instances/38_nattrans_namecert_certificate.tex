@@ -67,6 +67,27 @@ the displayed component field transports along the supplied
 $\eta\hsame\eta'$ witness, yielding the carrier for $\eta'$.
 \end{proof}
 
+\begin{theorem}[NatTrans prefix component classifier semantic name certificate]
+\label{thm:nattrans-prefix-component-classifier-semantic-namecert}
+If the empty component inhabits
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)$, then the displayed
+component carrier, used simultaneously as source, pattern, and ledger policy,
+together with
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ forms a semantic name
+certificate.
+\end{theorem}
+\begin{proof}
+The empty component gives the carrier witness. Reflexivity, symmetry, and
+transitivity are obtained by unpacking the fixed prefix and object fields and
+using reflexivity, symmetry, and transitivity of $\hsame$ on displayed
+components. Carrier transport follows from the classifier's second carried
+$\mathsf{CategoryHomCarrier}$ endpoint over
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$. Since source, pattern, and
+ledger are the same concrete component carrier, the two semantic soundness maps
+are identity projections.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
+
 \begin{theorem}[NatTrans prefix component classifier vertical composition congruence]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-congruence}
 For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, if
