@@ -23,6 +23,22 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
 
+\begin{theorem}[Metric distance witness right e1 result e0 absurd]
+\label{thm:metric-distance-witness-right-e1-result-e0-absurd}
+For histories $x,y,d$, no concrete metric distance witness can have a visibly
+one-headed right endpoint while its distance result is visibly zero-headed:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Ezero(d))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right e-one result shape theorem to the witness. It exposes a tail
+$k$ with $\hsame(\Ezero(d),\Eone(k))$. Constructor no-confusion for generated
+history sameness rejects this zero-headed versus one-headed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_e0\_absurd}
+
 \begin{theorem}[Metric distance witness right e1 result tail exactness]
 \label{thm:metric-distance-witness-right-e1-result-tail-hsame-exact}
 For histories $x,y,d,k$, if a distance witness has a visibly one-headed right
