@@ -601,68 +601,64 @@ conjugation words; ledger relative-kernel witness; exactness predicate
 $K_Q(x)\Longleftrightarrow Z_a(x)$; downstream consumer first-isomorphism-style
 $\QuotientGroupUp$ kernel exactness; status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Centralizer-normalizer quotient-kernel exactness]
-\label{thm:quotientgroup-centralizer-normalizer-quotient-kernel-exactness}
+\begin{theorem}[Centralizer-normalizer relative-kernel fiber exactness]
+\label{thm:quotientgroup-centralizer-normalizer-relative-kernel-fiber-exactness}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
 the same hypotheses as
-\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}, define
-the quotient identity fiber carrier by
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate} and
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence},
+define
 $$
 K_Q(t) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},t).
 $$
-For histories $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, both
-representative quotient classifiers are exact over the same relative-kernel
-word:
-\begin{enumerate}
-\item $Q_{Z_a\triangleleft N_a}(x,y) \Longleftrightarrow
-K_Q(\mathsf{mul}(\mathsf{inv}(x),y))$.
-\item $Q_{Z_a\leq N_a}(x,y) \Longleftrightarrow
-K_Q(\mathsf{mul}(\mathsf{inv}(x),y))$.
-\item The carrier $K_Q$ carries identity, product, inverse, $\hsame$
-transport, and both normalizer conjugation rows:
-\begin{enumerate}
-\item $K_Q(\mathsf{e})$.
-\item If $K_Q(r)$ and $K_Q(s)$, then $K_Q(\mathsf{mul}(r,s))$.
-\item If $K_Q(r)$, then $K_Q(\mathsf{inv}(r))$.
-\item If $K_Q(r)$ and $r\hsame s$, then $K_Q(s)$.
-\item If $N_a(u)$ and $K_Q(k)$, then
-$K_Q(\mathsf{mul}(\mathsf{mul}(u,k),\mathsf{inv}(u)))$.
-\item If $N_a(u)$ and $K_Q(k)$, then
-$K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),k),u))$.
-\end{enumerate}
-\end{enumerate}
-The ten-field fit is: traditional target first-isomorphism-style
-quotient-kernel exactness; BEDC source $\GroupUp$, $\SubgroupUp$, and
-$\QuotientGroupUp$ over $\mathsf{BHist}$; carrier $K_Q$; classifiers
-$Q_{Z_a\triangleleft N_a}$ and $Q_{Z_a\leq N_a}$; stability from the
-centralizer-normalizer identity-fiber and normal-kernel certificate rows;
-ledger relative-kernel word $\mathsf{mul}(\mathsf{inv}(x),y)$; core theorem
-this block; exactness the two displayed iff statements; downstream consumer
-ordinary quotient-kernel classification; status $\mathsf{ProofTarget}$.
+For histories $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, set
+$$
+w=\mathsf{mul}(\mathsf{inv}(x),y).
+$$
+Then the relative-kernel word, identity fiber, and quotient classifiers are
+exactly linked by
+$$
+Q_{Z_a\triangleleft N_a}(x,y)
+\Longleftrightarrow K_Q(w)
+\Longleftrightarrow Z_a(w)
+$$
+and
+$$
+Q_{Z_a\leq N_a}(x,y)\Longleftrightarrow K_Q(w).
+$$
+Per-object template: traditional target first-isomorphism kernel exactness;
+BEDC source $\GroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$; carrier $N_a$
+plus identity fiber $K_Q$; classifiers the two quotient representatives
+$Q_{Z_a\triangleleft N_a}$ and $Q_{Z_a\leq N_a}$; stability from the semantic
+certificate, the identity-fiber subgroup package, and orbit-kernel equivalence;
+ledger the relative-kernel word $w$; core theorem this block; exactness the
+displayed iff chain; downstream consumer first-isomorphism-style
+quotient-kernel exactness; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Unfold the displayed definition of $K_Q$. Apply
-\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup} to
-identify $K_Q(w)$ with $Z_a(w)$ for every history $w$.
+Unfold the relative-kernel classifier
+$Q_{Z_a\triangleleft N_a}$ at the carried endpoint pair $(x,y)$. The endpoint
+hypotheses are already $N_a(x)$ and $N_a(y)$, so the only non-carrier datum is
+the centralizer witness for
+$w=\mathsf{mul}(\mathsf{inv}(x),y)$.
 
-For the relative-kernel classifier, expand
-\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}. Under
-the carried endpoint hypotheses $N_a(x)$ and $N_a(y)$, the classifier
-$Q_{Z_a\triangleleft N_a}(x,y)$ is exactly the endpoint pair together with
-$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$. Transporting across the identity-fiber
-equivalence gives the first displayed iff.
+Next apply
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}.
+Its final row identifies the displayed identity fiber with the centralizer
+carrier:
+$$
+K_Q(w)\Longleftrightarrow Z_a(w).
+$$
 
-For the coset classifier, use
-\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence} at
-the same representatives. Its classifier equivalence converts
-$Q_{Z_a\leq N_a}(x,y)$ to $Q_{Z_a\triangleleft N_a}(x,y)$, and the first
-displayed iff then identifies both with
-$K_Q(\mathsf{mul}(\mathsf{inv}(x),y))$.
+Combining this row with the unfolded relative-kernel classifier gives the first
+displayed iff chain.
 
-Finally apply
-\autoref{thm:quotientgroup-centralizer-normalizer-kernel-certificate}. Its
-identity, product, inverse, $\hsame$-transport, forward conjugation, and inverse
-conjugation rows are exactly the six closure rows listed for $K_Q$.
+Finally transport the same endpoint pair across
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}.
+The carried hypotheses $N_a(x)$ and $N_a(y)$ are unchanged, and the equivalence
+between $Q_{Z_a\leq N_a}(x,y)$ and $Q_{Z_a\triangleleft N_a}(x,y)$ converts the
+first chain into
+$Q_{Z_a\leq N_a}(x,y)\Longleftrightarrow K_Q(w)$.
 \end{proof}
 
 \paragraph{Capstone}

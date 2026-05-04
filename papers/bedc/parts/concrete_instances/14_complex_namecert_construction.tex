@@ -528,6 +528,23 @@ denominator cases: empty or \(e0\)-headed.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_e0\_visible\_absurd}
 
+\begin{theorem}[Complex ledger excludes an \(e0\)-raw endpoint]
+\label{thm:complex-history-ledger-policy-e0-raw-absurd}
+No complex ledger policy can use an \(e0\)-headed raw endpoint:
+$$
+\mathsf{ComplexHistoryLedgerPolicy}(\Ezero(tail),visible)
+\Longrightarrow \mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+The raw endpoint carrier stored in the ledger exposes rational real and
+imaginary components and a continuation assembling them into \(\Ezero(tail)\).
+Continuation \(e0\)-result inversion says that the imaginary component is
+empty or \(e0\)-headed. Both cases contradict the positive unary denominator
+evidence carried by the imaginary rational component.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryLedgerPolicy\_e0\_raw\_absurd}
+
 \begin{theorem}[Complex ledger raw-visible classifier]
 \label{thm:complex-ledger-raw-visible-classifier}
 If a complex ledger relates a raw complex history to a visible history, then
