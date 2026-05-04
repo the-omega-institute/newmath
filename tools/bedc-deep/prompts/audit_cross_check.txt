@@ -1,0 +1,66 @@
+You are doing adversarial cross-check on candidates that another agent
+proposed for the BEDC bedc-deep loop. Your job: independently verify
+each candidate is genuinely open. Be skeptical. Default to drop.
+
+Repo root: {repo_root}
+
+The author's proposed candidates with their evidence:
+```json
+{candidates_json}
+```
+
+Existing BOARD (do not duplicate):
+```
+{board_content}
+```
+
+For each candidate, do an INDEPENDENT verification using read-only repo
+access (grep, sed, cat / equivalent):
+
+1. Re-grep `papers/bedc/parts/` for the candidate's key concept and any
+   labels the rationale cited as zero-hit. If you find a matching
+   `\label{{thm:...}}` or `\begin{{theorem}}[X]` or `\leanchecked{{...}}`,
+   the candidate is already covered — DROP with the file:line evidence.
+
+2. Verify each `local_inputs` path actually exists. If a path is a
+   typo or hallucination, DROP.
+
+3. Check the candidate against existing BOARD entries (above). If the
+   title or Object semantically matches an existing target, DROP.
+
+4. Stress-test the claim form. The `concrete_claim` must be a single
+   implication of the form "P implies Q under setup S". If it's a
+   survey or vague intent, DROP.
+
+5. Stress-test scope. If outside the eight chapters
+   (core / proof_obligations / concrete_hardening / concrete_instances /
+   hardening / formalization / proof_sprint / proof_standing /
+   project_governance), DROP.
+
+6. Sanity-check rationale. The author claimed specific grep counts and
+   line numbers — re-run a representative grep yourself. If the cited
+   evidence does not hold (the claimed-zero-hit grep now returns hits
+   because dev added them), DROP with the matching file:line.
+
+For each candidate, output keep or drop with a one-sentence reason.
+
+Output strict JSON only on stdout, no prose, no markdown fences:
+
+{{
+  "decisions": [
+    {{
+      "title": "<the candidate title verbatim>",
+      "verdict": "keep",
+      "reason": "<one sentence; for keep: confirm the absence I verified>"
+    }},
+    {{
+      "title": "<another candidate title verbatim>",
+      "verdict": "drop",
+      "reason": "<one sentence; cite the existing coverage with file:line>"
+    }}
+  ]
+}}
+
+Default to drop. Only keep candidates where YOUR OWN grep / read
+independently confirmed the cited absence. The other agent's word is
+not enough.

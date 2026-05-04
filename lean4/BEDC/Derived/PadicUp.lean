@@ -331,6 +331,33 @@ theorem PadicPrimeScale_append_succ_left_exponent_factorization_iff {p w q r : B
                 exact PadicPrimeScale_append_cont_closure leftScale stepData.right.right.left
                   stepData.right.right.right
 
+theorem PadicPrimeScale_append_unit_right_factorization_iff {p w r : BHist} :
+    UnaryHistory w ->
+      (PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r <->
+        ∃ n : BHist, PadicPrimeScale p w n ∧ Cont n p r) := by
+  intro unaryW
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicPrimeScale_append_exponent_decomposition unaryW (unary_e1_closed unary_empty) scale
+    cases decomposed with
+    | intro n nData =>
+        cases nData with
+        | intro e eData =>
+            have sameE : hsame e p :=
+              PadicPrimeScale_unit_exponent_result_prime_hsame eData.right.left
+            cases sameE
+            exact Exists.intro n (And.intro eData.left eData.right.right)
+  · intro factors
+    cases factors with
+    | intro n data =>
+        have emptyScale : PadicPrimeScale p BHist.Empty BHist.Empty :=
+          And.intro data.left.left (NatMul.zero data.left.left.left)
+        have unitScale : PadicPrimeScale p (BHist.e1 BHist.Empty) p :=
+          Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
+            (Exists.intro BHist.Empty (And.intro emptyScale (cont_left_unit p)))
+        exact PadicPrimeScale_append_cont_closure data.left unitScale data.right
+
 theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r' -> hsame r r' := by

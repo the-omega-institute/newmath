@@ -234,6 +234,38 @@ direction rebuilds the contextual classifier by unary append closure.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_common\_context\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma nested continuation common-context classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-common-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,l',m,m',r,r',lm,lm',a,a':\mathsf{BHist}$, if
+$R_U(l,l')$ and $R_U(r,r')$, and if the two results are obtained through
+nested continuations
+$$
+\ContR(l,m,lm),\quad \ContR(lm,r,a),\quad
+\ContR(l',m',lm'),\quad \ContR(lm',r',a'),
+$$
+then the result classifier exposes exactly the middle classifier:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(m)\land U(m')\land\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+The context classifiers identify the two left contexts and the two right
+contexts while retaining their unary carrier witnesses. Eliminating the nested
+continuation witnesses presents the two results as left-associated append
+contexts. Associativity transports those endpoints to the common middle-context
+form, where the concrete magma middle-cancellation theorem cancels the fixed
+unary left and right contexts. The reverse direction rebuilds the two
+left-associated results by transporting the same classifier back across
+associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_common\_context\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
