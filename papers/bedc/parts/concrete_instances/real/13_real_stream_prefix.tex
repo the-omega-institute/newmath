@@ -192,6 +192,35 @@ through $n+m$ and this endpoint classifier, obtaining the classified prefix
 through $n+m+1$, which is the prefix through $n+(m+1)$.
 \end{proof}
 
+\begin{theorem}[Real stream prefix tail extension with unary anchor]
+\label{thm:real-stream-prefix-tail-extension-with-unary-anchor}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a classified prefix
+through $n$ extends across a classified finite tail of length $m$, and the
+left endpoint at the new boundary retains its unary anchor:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)
+\Longrightarrow
+\Bigl(\forall k<m,
+\mathsf{RatHistoryClassifier}(x(n+k+1),y(n+k+1))\Bigr)
+\Longrightarrow
+\Bigl(\forall i,\ \mathsf{UnaryHistory}(x(i))\Bigr)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n+m)\land
+\mathsf{UnaryHistory}(x(n+m)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. The empty tail is the given prefix through $n$, with the unary
+side condition supplying the endpoint anchor at $x(n)$. For a successor tail,
+restrict the pointwise tail classifier to the shorter tail, apply the induction
+hypothesis to obtain the prefix through $n+m$, and append the final rational
+endpoint classifier at $x(n+m+1),y(n+m+1)$. The unary side condition supplies
+the new left endpoint anchor.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_tail\_extension\_with\_unary\_anchor}
+
+\input{parts/concrete_instances/real/13_real_stream_prefix_tail_endpoint_package}
+
 \begin{theorem}[Real stream prefix classifier truncation]
 \label{thm:real-stream-prefix-classifier-truncation}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,

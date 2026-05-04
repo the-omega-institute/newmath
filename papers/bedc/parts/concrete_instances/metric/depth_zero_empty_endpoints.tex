@@ -106,6 +106,26 @@ identified with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_eq\_iff\_empty}
 
+\begin{theorem}[Metric distance depth append-right equality emptiness]
+\label{thm:metric-distance-depth-append-right-eq-iff-empty}
+For histories $p$ and $d$, appending $p$ on the right preserves structural
+metric distance depth exactly when $p$ is the empty history:
+$$
+\mathsf{MetricDistanceDepth}(d\cdot p)=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The structural depth of a right append decomposes as the depth of $d$ plus the
+depth of $p$. If the appended depth equals the original depth, cancellation by
+\(\mathbb{N}\)-addition forces the depth of $p$ to be zero, hence
+\autoref{thm:metric-distance-depth-zero-iff-empty} identifies $p$ with
+$\emp$. Conversely, substituting $p=\emp$ makes the right append definitionally
+equal to $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_right\_eq\_iff\_empty}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
@@ -272,3 +292,4 @@ the recovered central witness and this nonempty-distance contradiction. The
 result is exactly the displayed disjunction of e-one endpoint witnesses with
 unary tails.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_positive\_depth\_e1\_endpoint\_cases}

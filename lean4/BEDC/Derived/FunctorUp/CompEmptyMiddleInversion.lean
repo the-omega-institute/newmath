@@ -44,4 +44,35 @@ theorem FunctorPrefixHomCarrier_comp_empty_middle_target_deterministic
   exact hsame_symm (CategoryHomCarrier_target_deterministic inverted.right.right.right.right.left
     displayed)
 
+theorem FunctorPrefixHomCarrier_e1_endpoint_empty_composite_middle_hsame
+    {p a b c f g : BHist} :
+    CategoryHomCarrier (append p (BHist.e1 a)) b f ->
+      CategoryHomCarrier b (append p (BHist.e1 c)) g ->
+        Cont f g BHist.Empty ->
+          hsame b (append p (BHist.e1 a)) ∧ hsame b (append p (BHist.e1 c)) := by
+  intro left right comp
+  have emptyData :=
+    (FunctorPrefixHomCarrier_e1_endpoint_empty_composite_iff (p := p) (a := a)
+      (b := b) (c := c) (f := f) (g := g) left right).mp comp
+  have leftEmpty : CategoryHomCarrier (append p (BHist.e1 a)) b BHist.Empty :=
+    CategoryHomCarrier_hsame_transport (hsame_refl (append p (BHist.e1 a)))
+      (hsame_refl b) emptyData.left left
+  have rightEmpty : CategoryHomCarrier b (append p (BHist.e1 c)) BHist.Empty :=
+    CategoryHomCarrier_hsame_transport (hsame_refl b)
+      (hsame_refl (append p (BHist.e1 c))) emptyData.right.left right
+  exact And.intro
+    (hsame_symm (CategoryHomCarrier_empty_identity_iff.mp leftEmpty).right.right)
+    (CategoryHomCarrier_empty_identity_iff.mp rightEmpty).right.right
+
+theorem FunctorPrefixHomCarrier_comp_empty_middle_source_deterministic
+    {p a c f g fg source : BHist} :
+    CategoryHomCarrier (append p a) BHist.Empty f ->
+      CategoryHomCarrier BHist.Empty (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier source (append p c) fg -> hsame source BHist.Empty := by
+  intro left right comp displayed
+  have inverted :=
+    FunctorPrefixHomCarrier_comp_empty_middle_inversion
+      (p := p) (a := a) (c := c) (f := f) (g := g) (fg := fg) left right comp
+  exact CategoryHomCarrier_source_deterministic displayed inverted.right.right.right.right.left
+
 end BEDC.Derived.FunctorUp

@@ -15,4 +15,13 @@ theorem RealConstantHistoryClassifier_append_common_head_cancel {head d e : BHis
     Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
   exact append_left_cancel (h := head) rational.right.right
 
+theorem RealConstantHistoryClassifier_append_common_context_cancel {left right d e : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 (append left (append d right)))
+      (BHist.e1 (append left (append e right))) ->
+        hsame d e := by
+  intro classified
+  have withoutLeft : hsame (append d right) (append e right) :=
+    RealConstantHistoryClassifier_append_common_head_cancel (head := left) classified
+  exact append_right_cancel (k := right) withoutLeft
+
 end BEDC.Derived.RealUp
