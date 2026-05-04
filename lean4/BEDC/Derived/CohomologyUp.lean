@@ -1,9 +1,45 @@
-import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CohomologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+theorem CohomologyCocycle_semanticNameCert {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h k : BHist => hsame (d h) (d k)) := by
+  have emptyCycle : hsame (d BHist.Empty) BHist.Empty := by
+    have idempotent : append (d BHist.Empty) (d BHist.Empty) = d BHist.Empty :=
+      hsame_symm (dAppend BHist.Empty BHist.Empty)
+    exact append_right_unit_iff.mp idempotent
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCycle
+      equiv_refl := by
+        intro h _cycle
+        exact hsame_refl (d h)
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same source
+        exact hsame_trans (hsame_symm same) source
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem CohomologyCocycle_axis_right_cancel {d : BHist -> BHist} {axis h : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
@@ -134,6 +170,17 @@ theorem CohomologyCocycle_append_left_e1_boundary_empty_absurd
   have leftEmpty : hsame (d h) BHist.Empty :=
     (append_eq_empty_iff.mp split).left
   exact not_hsame_e1_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
+
+theorem CohomologyCocycle_append_right_e1_boundary_empty_absurd
+    {d : BHist -> BHist} {h k tail : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d k) (BHist.e1 tail) -> hsame (d (append h k)) BHist.Empty -> False := by
+  intro rightVisible appendCycle
+  have split : hsame (append (d h) (d k)) BHist.Empty :=
+    hsame_trans (hsame_symm (dAppend h k)) appendCycle
+  have rightEmpty : hsame (d k) BHist.Empty :=
+    (append_eq_empty_iff.mp split).right
+  exact not_hsame_e1_empty (hsame_trans (hsame_symm rightVisible) rightEmpty)
 
 theorem CohomologyCocycle_left_shift_append_empty_iff {d : BHist -> BHist}
     {axis h k : BHist}

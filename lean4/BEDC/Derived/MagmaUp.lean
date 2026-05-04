@@ -170,4 +170,66 @@ theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
       rfl
     exact And.intro leftResultCarrier (And.intro rightResultCarrier sameResult)
 
+theorem concrete_unary_history_magma_classifier_append_rotated_middle_cancel_iff
+    {left middle middle' right : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Carrier left -> Carrier right ->
+      (Classifier (append left (append middle right)) (append (append left middle') right) <->
+        Carrier middle ∧ Carrier middle' ∧ hsame middle middle') := by
+  dsimp
+  intro leftCarrier rightCarrier
+  constructor
+  · intro classified
+    have unrotatedClassified :
+        (let Carrier : BHist -> Prop := UnaryHistory
+         let Classifier : BHist -> BHist -> Prop :=
+          fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+         Classifier (append left (append middle right))
+          (append left (append middle' right))) := by
+      dsimp
+      have rightCarrier' : UnaryHistory (append left (append middle' right)) := by
+        exact (append_assoc left middle' right) ▸ classified.right.left
+      have sameRight :
+          hsame (append left (append middle right)) (append left (append middle' right)) := by
+        exact (append_assoc left middle' right) ▸ classified.right.right
+      exact And.intro classified.left (And.intro rightCarrier' sameRight)
+    exact Iff.mp
+      (concrete_unary_history_magma_classifier_append_middle_cancel_iff
+        (left := left) (middle := middle) (middle' := middle') (right := right)
+        leftCarrier rightCarrier)
+      unrotatedClassified
+  · intro core
+    have unrotatedClassified :=
+      Iff.mpr
+        (concrete_unary_history_magma_classifier_append_middle_cancel_iff
+          (left := left) (middle := middle) (middle' := middle') (right := right)
+          leftCarrier rightCarrier)
+        core
+    have rotatedCarrier : UnaryHistory (append (append left middle') right) := by
+      exact Eq.symm (append_assoc left middle' right) ▸ unrotatedClassified.right.left
+    have sameRotated :
+        hsame (append left (append middle right)) (append (append left middle') right) := by
+      exact Eq.symm (append_assoc left middle' right) ▸ unrotatedClassified.right.right
+    exact And.intro unrotatedClassified.left (And.intro rotatedCarrier sameRotated)
+
+theorem concrete_unary_history_magma_cont_common_context_classifier_iff
+    {left left' middle middle' right right' r r' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier left left' -> Classifier right right' ->
+      Cont left (append middle right) r ->
+        Cont left' (append middle' right') r' ->
+          (Classifier r r' ↔ Carrier middle ∧ Carrier middle' ∧ hsame middle middle') := by
+  dsimp
+  intro leftClassified rightClassified leftCont rightCont
+  cases leftClassified.right.right
+  cases rightClassified.right.right
+  cases leftCont
+  cases rightCont
+  exact concrete_unary_history_magma_classifier_append_middle_cancel_iff
+    leftClassified.left rightClassified.left
+
 end BEDC.Derived.MagmaUp

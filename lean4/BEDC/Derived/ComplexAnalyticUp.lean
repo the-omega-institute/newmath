@@ -92,6 +92,13 @@ theorem CplxPureImaginary_empty_absurd {theta : BHist} :
   exact ComplexHistoryCarrier_not_empty
     (CplxPureImaginary_complex_carrier_witness pureImaginary).right.right (hsame_refl BHist.Empty)
 
+theorem CplxPureImaginary_empty_continuation_absurd {theta z q : BHist} :
+    CplxPureImaginary theta z -> Cont z q BHist.Empty -> False := by
+  intro pureImaginary emptyCont
+  have sourceEmpty : hsame z BHist.Empty := (append_eq_empty_iff.mp emptyCont.symm).left
+  exact CplxPureImaginary_empty_absurd
+    (CplxPureImaginary_hsame_transport_witness sourceEmpty pureImaginary).left
+
 theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ∃ imagq : BHist,
