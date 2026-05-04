@@ -22,6 +22,30 @@ the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}
 
+\begin{theorem}[Metric distance witness left e1 result hsame source]
+\label{thm:metric-distance-witness-left-e1-result-hsame-source}
+For histories $x,x',y,d$, a distance witness from $\Eone(x)$ to a visible
+result keeps the same empty-or-visible alternative after transporting the
+displayed source payload along $\hsame(x,x')$:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\hsame(x,x')
+\Longrightarrow
+\bigl(y=\emp\land\mathsf{UnaryHistory}(x')\land\hsame(x',d)\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x'),y_1,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the source $\hsame$ witness. The transported payload is then
+definitionally the original payload, and the established visible-result split
+gives the displayed empty target or visible target branch.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_hsame\_source}
+
 \begin{theorem}[Metric distance witness left e1 result hsame target]
 \label{thm:metric-distance-witness-left-e1-result-hsame-target}
 For histories $x,y,y',d$, a distance witness from a visible left endpoint to a

@@ -329,6 +329,22 @@ def cmd_curriculum(args: argparse.Namespace) -> int:
     )
 
 
+def cmd_paper_review(args: argparse.Namespace) -> int:
+    """Paper-review probe — referee-perspective audit of the paper for
+    senior-reviewer-grade revision targets (logical gaps, missing
+    companions, composite consequences, constructor inversions,
+    generalisations). Adapts loning's phase_review.txt approach but
+    routes through our judge gate so candidates land on BOARD only after
+    the same dedup / fit / novelty thresholds the other probes use.
+    """
+    return _run_two_stage(
+        args,
+        "paper_review",
+        "paper_review_probe.txt",
+        board_content=_board_text(),
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC auto-discovery: codex generates, claude gates")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -353,6 +369,13 @@ def main() -> int:
     p_cur2.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
     p_cur2.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
     p_cur2.set_defaults(func=cmd_curriculum)
+
+    p_pr = sub.add_parser("paper_review", help="Editorial-referee audit: senior-review-grade revision targets (gaps, missing companions, generalisations)")
+    p_pr.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
+    p_pr.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
+    p_pr.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_pr.add_argument("--no-dev-sync", action="store_true", help="Skip merging upstream integration branch before scan")
+    p_pr.set_defaults(func=cmd_paper_review)
 
     args = parser.parse_args()
     return args.func(args)

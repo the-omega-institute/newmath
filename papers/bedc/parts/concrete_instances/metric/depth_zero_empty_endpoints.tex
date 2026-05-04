@@ -69,6 +69,24 @@ and constructor separation rules out history-sameness with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
 
+\begin{theorem}[Metric distance positive depth shape cases]
+\label{thm:metric-distance-depth-positive-shape-cases}
+For a history $d$, positive structural metric distance depth exposes one of
+the two visible history constructors:
+$$
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\Longrightarrow
+\bigl(\exists z:\mathsf{BHist}.\;d=\Ezero(z)\bigr)\vee
+\bigl(\exists z:\mathsf{BHist}.\;d=\Eone(z)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty branch contradicts the displayed positive-depth
+hypothesis because the structural depth of $\emp$ is zero. The two visible
+branches return the exposed payload under $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_shape\_cases}
+
 \begin{theorem}[Metric distance depth append-left equality emptiness]
 \label{thm:metric-distance-depth-append-left-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the left preserves structural
@@ -206,6 +224,28 @@ so its unit law identifies $mid$ with $l$. The right continuation is therefore
 the desired $\ContR(l,r,out)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice}
+
+\begin{theorem}[Metric empty-boundary continuation splice determinacy]
+\label{thm:metric-empty-boundary-visible-context-continuation-splice-hsame}
+For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
+distance witness makes the spliced continuation result match any displayed
+direct continuation result:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\ContR(l,r,out')\to
+\hsame(out,out').
+$$
+\end{theorem}
+\begin{proof}
+The continuation-splice theorem supplies \(\ContR(l,r,out)\) from the
+empty-boundary visible-context witness and the two displayed continuation
+rows. BEDC continuation determinacy compares this spliced continuation with
+the displayed \(\ContR(l,r,out')\), giving \(\hsame(out,out')\).
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice\_hsame}
 
 \begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
 \label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
