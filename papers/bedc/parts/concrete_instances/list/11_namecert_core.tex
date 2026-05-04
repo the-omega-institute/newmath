@@ -218,6 +218,33 @@ Unfold the cons-cons classifier clause and read off its source-head and
 recursive-tail components.
 \end{proof}
 
+\begin{theorem}[Bool-sourced list classifier cons mark readback]
+\label{thm:list-bool-classifier-cons-mark-readback}
+For histories $h,k:\mathsf{BHist}$ and finite spines $xs,ys$, if
+$\mathsf{ListClassifierSpec}(\mathsf{BoolHistoryClassifier},h::xs,k::ys)$
+holds, then
+$$
+(\exists v,w:\mathsf{BMark}.\;
+\hsame(h,\mathsf{BoolEndpoint}(v)) \land
+\hsame(k,\mathsf{BoolEndpoint}(w)) \land
+\msame(v,w))
+\land
+\mathsf{ListClassifierSpec}(\mathsf{BoolHistoryClassifier},xs,ys).
+$$
+\end{theorem}
+\begin{proof}
+Invert the cons clause of $\mathsf{ListClassifierSpec}$ to obtain the head
+classifier $\mathsf{BoolHistoryClassifier}(h,k)$ and the recursive tail
+classifier $\mathsf{ListClassifierSpec}(\mathsf{BoolHistoryClassifier},xs,ys)$.
+
+Apply Theorem~\ref{thm:bool-history-classifier-mark-readback-exactness} to
+the head classifier. The forward direction supplies endpoints $v,w$ with the
+two $\hsame$ readbacks and $\msame(v,w)$.
+
+Package these endpoint readbacks, mark sameness, and the tail classifier into
+the displayed conjunction.
+\end{proof}
+
 \begin{theorem}[History list classifier singleton equivalence]
 \label{thm:list-classifier-hsame-singleton-iff}
 For BEDC history singleton lists, structural classification by \(\hsame\) is
