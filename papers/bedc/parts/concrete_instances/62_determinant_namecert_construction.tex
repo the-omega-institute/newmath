@@ -145,6 +145,27 @@ empty determinant endpoint classifies with the carried scalar endpoint $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonDet\_append\_pair\_scalar\_classifier\_iff}
 
+\begin{theorem}[Determinant visible matrix scalar classifier exclusion]
+\label{thm:determinant-singleton-det-visible-matrix-scalar-classifier-absurd}
+For histories $M,r:\mathsf{BHist}$, neither visible matrix endpoint can feed
+the singleton determinant readback into a scalar classifier:
+$$
+\mathsf{CommRingSingletonClassifier}
+(\mathsf{DeterminantSingletonDet}(\Ezero(M)),r)\Longrightarrow\bot,
+\qquad
+\mathsf{CommRingSingletonClassifier}
+(\mathsf{DeterminantSingletonDet}(\Eone(M)),r)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the singleton determinant readback as append with the empty suffix and
+read the left carrier field of the scalar classifier. The field forces the
+visible determinant endpoint to be history-same to $\emp$. Constructor
+no-confusion for $\Ezero$ and $\Eone$ contradicts these two possible carrier
+clauses.
+\end{proof}
+\leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonDet\_visible\_matrix\_scalar\_classifier\_absurd}
+
 \section{The certificate}
 \label{sec:determinant-certificate}
 

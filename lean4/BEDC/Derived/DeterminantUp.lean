@@ -343,4 +343,13 @@ theorem DeterminantSingletonDet_append_pair_scalar_classifier_iff {M N r : BHist
     exact And.intro detEmpty
       (And.intro data.right.right (hsame_trans detEmpty (hsame_symm data.right.right)))
 
+theorem DeterminantSingletonDet_visible_matrix_scalar_classifier_absurd {M r : BHist} :
+    (CommRingSingletonClassifier (DeterminantSingletonDet (BHist.e0 M)) r -> False) ∧
+      (CommRingSingletonClassifier (DeterminantSingletonDet (BHist.e1 M)) r -> False) := by
+  constructor
+  · intro classified
+    exact not_hsame_e0_empty classified.left
+  · intro classified
+    exact not_hsame_e1_empty classified.left
+
 end BEDC.Derived.DeterminantUp

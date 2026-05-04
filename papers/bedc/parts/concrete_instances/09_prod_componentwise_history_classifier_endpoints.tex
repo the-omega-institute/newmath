@@ -84,6 +84,45 @@ representation to rebuild $\mathsf{ProdHistoryCarrier}(L,R,k)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_endpoint\_carriers}
 
+\begin{theorem}[Product componentwise classifier empty-source exclusion]
+\label{thm:prod-component-history-classifier-empty-source-exclusion}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. If
+$$
+(\forall l:\mathsf{BHist}.\;\neg L(l))
+\lor
+(\forall r:\mathsf{BHist}.\;\neg R(r)),
+$$
+then for all histories $h,k:\mathsf{BHist}$,
+$$
+\neg\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k).
+$$
+The ten-field fit is: traditional ordered-product impossibility boundary; BEDC
+source $\mathsf{BHist}$ with $\Cont$; carrier through
+$\mathsf{ProdPairRep}$; classifier
+$\mathsf{ProdComponentHistoryClassifier}$; ledger displayed pair
+representation; core theorem empty-source exclusion; exactness no public
+product classification without both source witnesses; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume the displayed empty-source disjunction and fix histories $h,k$ together
+with a componentwise classifier witness. Invert that witness to obtain
+component histories $l_h,r_h,l_k,r_k$ and displayed pair representations for
+both endpoints.
+
+The first representation
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ exposes the source witnesses
+$L(l_h)$ and $R(r_h)$ carried by the displayed product endpoint. If the left
+source is empty, applying $\forall l.\;\neg L(l)$ to $l_h$ contradicts
+$L(l_h)$.
+
+If the right source is empty instead, applying $\forall r.\;\neg R(r)$ to
+$r_h$ contradicts $R(r_h)$. Thus either side of the empty-source disjunction
+rules out the assumed public componentwise classification.
+\end{proof}
+
 \begin{theorem}[Product history classifier hsame component cancellation]
 \label{thm:prod-history-classifier-hsame-component-cancellation}
 For source predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and histories
