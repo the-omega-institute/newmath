@@ -1,0 +1,44 @@
+\section{List map shape}
+\label{sec:list-map-shape}
+
+\begin{theorem}[History list classifier reflects one-sided $e1$ shape]
+\label{thm:list-classifier-map-e1-left-shape}
+For BEDC history lists $xs$ and $ys$, if
+$$
+\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(\Eone,xs),ys)
+$$
+holds, then there is a BEDC history list $zs$ such that
+$$
+ys=\mathsf{map}(\Eone,zs)
+\quad\text{and}\quad
+\mathsf{ListClassifierSpec}(\hsame,xs,zs)
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Induct on $xs$. The nil case can classify only against nil, so choose
+$zs=\mathsf{nil}$. In the cons case, the classifier forces $ys$ to be a cons
+list. Invert the head witness with the $e1$ history-shape inversion theorem to
+write the head of $ys$ as an $e1$-tagged history and recover the source-head
+$\hsame$ witness. The induction hypothesis shapes the tail and supplies the
+tail classifier; consing the recovered head onto that tail gives the displayed
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_left\_shape}
+
+\begin{theorem}[History list classifier separates $e1$ from $e0$ mapped tags]
+\label{thm:list-classifier-map-e1-map-e0-empty}
+For BEDC history lists $xs$ and $ys$, if
+$$
+\mathsf{ListClassifierSpec}
+  (\hsame,\mathsf{map}(\Eone,xs),\mathsf{map}(\Ezero,ys))
+$$
+holds, then $xs=\mathsf{nil}$ and $ys=\mathsf{nil}$.
+\end{theorem}
+\begin{proof}
+Case-split both lists. The nil-nil case is immediate. Nil-cons and cons-nil
+cases contradict the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In
+the cons-cons case, the head witness would relate an $e1$-tagged history to an
+$e0$-tagged history, contradicting BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_map\_e0\_empty}
