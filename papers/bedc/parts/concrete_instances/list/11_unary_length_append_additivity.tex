@@ -21,6 +21,29 @@ $$
 This is the unary-history counterpart of the finite-spine value $\ell(xs)$ used in \autoref{def:list-public-length-readback}; it records the same constructor count as a $\NatUp$ token.
 \end{definition}
 
+\begin{theorem}[List classifier preserves unary length token]
+\label{thm:list-classifier-unary-length-token-hsame}
+Let $\sim_A:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source classifier and let $xs,ys:\mathsf{HistSpine}$ be finite BEDC-history spines. If
+$$
+\mathsf{ListClassifierSpec}(\sim_A,xs,ys)
+$$
+holds, then
+$$
+\hsame(\mathsf{ListUnaryLength}(xs),\mathsf{ListUnaryLength}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite-spine classifier witness.
+
+In the nil-nil case, both spines are $\mathsf{nil}$, so both unary length tokens reduce to $\emp$. Reflexivity of $\hsame$ closes the empty-token comparison.
+
+In the cons-cons case, write the spines as $\mathsf{cons}(a,xs_0)$ and $\mathsf{cons}(b,ys_0)$. The classifier witness contains the source head comparison $a\sim_A b$ and the tail classifier $\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$; the induction hypothesis gives
+$$
+\hsame(\mathsf{ListUnaryLength}(xs_0),\mathsf{ListUnaryLength}(ys_0)).
+$$
+The recursive clause of \autoref{def:list-unary-length-token} turns the two outer length tokens into one-extensions of those tail tokens. Applying the $\Eone$-congruence direction of \autoref{cor:eone-constructor-inversion} gives the required $\hsame$ comparison for the two cons spines.
+\end{proof}
+
 \begin{theorem}[Public list unary length additivity under append]
 \label{thm:list-unary-length-append-additivity}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For histories $h,k,r:\mathsf{BHist}$ and finite spines $xs,ys:\mathsf{HistSpine}$, assume
