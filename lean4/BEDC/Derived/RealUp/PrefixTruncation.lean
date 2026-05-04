@@ -62,6 +62,33 @@ theorem RealStreamPrefixClassifier_truncated_endpoint_denominator_package
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
 
+theorem RealStreamPrefixClassifier_truncated_endpoint_common_e1_tail_readback
+    {x y : Nat -> BHist} {m n : Nat} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      exists a b : BHist, hsame (x n) (BHist.e1 a) ∧ hsame (y n) (BHist.e1 b) ∧
+        UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro classified
+  have package :=
+    RealStreamPrefixClassifier_truncated_endpoint_denominator_package classified
+  have leftShape :=
+    unary_history_nonempty_e1_tail package.right.right.right.left
+      package.right.right.right.right.right.left
+  have rightShape :=
+    unary_history_nonempty_e1_tail package.right.right.right.right.left
+      package.right.right.right.right.right.right
+  cases leftShape with
+  | intro a aShape =>
+      cases rightShape with
+      | intro b bShape =>
+          have tails :=
+            RealStreamPrefixClassifier_truncated_e1_pair_readback classified aShape.left
+              bShape.left
+          exact Exists.intro a
+            (Exists.intro b
+              (And.intro aShape.left
+                (And.intro bShape.left
+                  (And.intro tails.left (And.intro tails.right.left tails.right.right)))))
+
 theorem RealStreamPrefixClassifier_truncated_cont_endpoint_context_closed
     {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat} :
     RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
