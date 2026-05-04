@@ -197,3 +197,31 @@ $t\hsame t$. Its conclusion is exactly the swapped predicate
 $\mathsf{TensorProductSingletonFactor}(r,l,t)$, and its continuation component
 is $\Cont(r,l,t)$.
 \end{proof}
+
+\begin{theorem}[Tensor product singleton factor swap symmetry]
+\label{thm:tensorproduct-singleton-factor-swap-symmetry}
+For histories $l,r,t:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+$$
+holds, then
+$$
+\mathsf{TensorProductSingletonFactor}(r,l,t)
+$$
+holds. The resulting factor includes the continuation witness $\Cont(r,l,t)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The factor consists of
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and $\Cont(l,r,t)$. By
+\autoref{def:singleton-empty-history-module-instance} and
+\autoref{def:list-singleton-history-source}, the two factor carrier witnesses
+are endpoint comparisons $l\hsame\emp$ and $r\hsame\emp$. Transitivity of
+$\hsame$ gives $l\hsame r$ by composing $l\hsame\emp$ with the symmetry of
+$r\hsame\emp$, and similarly gives $r\hsame l$.
+
+Apply \autoref{thm:tensorproduct-singleton-factor-hsame-transport} to the
+original factor with endpoint comparisons $l\hsame r$, $r\hsame l$, and the
+reflexive comparison $t\hsame t$. The transported conclusion is
+$\mathsf{TensorProductSingletonFactor}(r,l,t)$, and the retained continuation
+component is $\Cont(r,l,t)$.
+\end{proof}

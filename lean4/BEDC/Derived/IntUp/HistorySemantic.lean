@@ -193,10 +193,110 @@ theorem IntHistoryClassifier_visible_branch_exactness_iff
                 (And.intro
                   (BEDC.FKernel.Hist.hsame_refl
                     (BEDC.FKernel.Hist.BHist.e1 m))
+                (And.intro
+                  (BEDC.FKernel.Hist.hsame_refl
+                    (BEDC.FKernel.Hist.BHist.e1 n))
+                  sameMN))))))
+
+theorem IntHistoryClassifier_same_tag_readback_iff
+    {m n : BEDC.FKernel.Hist.BHist} :
+    (IntHistoryClassifier (BEDC.FKernel.Hist.BHist.e0 m)
+        (BEDC.FKernel.Hist.BHist.e0 n) <->
+      BEDC.FKernel.Unary.UnaryHistory m ∧
+        BEDC.FKernel.Unary.UnaryHistory n ∧ BEDC.FKernel.Hist.hsame m n) ∧
+    (IntHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 m)
+        (BEDC.FKernel.Hist.BHist.e1 n) <->
+      BEDC.FKernel.Unary.UnaryHistory m ∧
+        BEDC.FKernel.Unary.UnaryHistory n ∧ BEDC.FKernel.Hist.hsame m n) := by
+  constructor
+  · constructor
+    · intro classified
+      cases classified with
+      | inl zero =>
+          cases zero with
+          | intro p rest =>
+              cases rest with
+              | intro q data =>
+                  have sameMP : BEDC.FKernel.Hist.hsame m p :=
+                    Iff.mp BEDC.FKernel.Hist.hsame_e0_iff data.right.right.left
+                  have sameNQ : BEDC.FKernel.Hist.hsame n q :=
+                    Iff.mp BEDC.FKernel.Hist.hsame_e0_iff
+                      data.right.right.right.left
+                  have unaryM : BEDC.FKernel.Unary.UnaryHistory m :=
+                    BEDC.FKernel.Unary.unary_transport data.left
+                      (BEDC.FKernel.Hist.hsame_symm sameMP)
+                  have unaryN : BEDC.FKernel.Unary.UnaryHistory n :=
+                    BEDC.FKernel.Unary.unary_transport data.right.left
+                      (BEDC.FKernel.Hist.hsame_symm sameNQ)
+                  have sameMN : BEDC.FKernel.Hist.hsame m n :=
+                    BEDC.FKernel.Hist.hsame_trans sameMP
+                      (BEDC.FKernel.Hist.hsame_trans data.right.right.right.right
+                        (BEDC.FKernel.Hist.hsame_symm sameNQ))
+                  exact And.intro unaryM (And.intro unaryN sameMN)
+      | inr one =>
+          cases one with
+          | intro _p rest =>
+              cases rest with
+              | intro _q data =>
+                  exact False.elim
+                    (BEDC.FKernel.Hist.not_hsame_e0_e1 data.right.right.left)
+    · intro data
+      exact Or.inl
+        (Exists.intro m
+          (Exists.intro n
+            (And.intro data.left
+              (And.intro data.right.left
+                (And.intro
+                  (BEDC.FKernel.Hist.hsame_refl
+                    (BEDC.FKernel.Hist.BHist.e0 m))
+                  (And.intro
+                    (BEDC.FKernel.Hist.hsame_refl
+                      (BEDC.FKernel.Hist.BHist.e0 n))
+                    data.right.right))))))
+  · constructor
+    · intro classified
+      cases classified with
+      | inl zero =>
+          cases zero with
+          | intro _p rest =>
+              cases rest with
+              | intro _q data =>
+                  exact False.elim
+                    (BEDC.FKernel.Hist.not_hsame_e1_e0 data.right.right.left)
+      | inr one =>
+          cases one with
+          | intro p rest =>
+              cases rest with
+              | intro q data =>
+                  have sameMP : BEDC.FKernel.Hist.hsame m p :=
+                    Iff.mp BEDC.FKernel.Hist.hsame_e1_iff data.right.right.left
+                  have sameNQ : BEDC.FKernel.Hist.hsame n q :=
+                    Iff.mp BEDC.FKernel.Hist.hsame_e1_iff
+                      data.right.right.right.left
+                  have unaryM : BEDC.FKernel.Unary.UnaryHistory m :=
+                    BEDC.FKernel.Unary.unary_transport data.left
+                      (BEDC.FKernel.Hist.hsame_symm sameMP)
+                  have unaryN : BEDC.FKernel.Unary.UnaryHistory n :=
+                    BEDC.FKernel.Unary.unary_transport data.right.left
+                      (BEDC.FKernel.Hist.hsame_symm sameNQ)
+                  have sameMN : BEDC.FKernel.Hist.hsame m n :=
+                    BEDC.FKernel.Hist.hsame_trans sameMP
+                      (BEDC.FKernel.Hist.hsame_trans data.right.right.right.right
+                        (BEDC.FKernel.Hist.hsame_symm sameNQ))
+                  exact And.intro unaryM (And.intro unaryN sameMN)
+    · intro data
+      exact Or.inr
+        (Exists.intro m
+          (Exists.intro n
+            (And.intro data.left
+              (And.intro data.right.left
+                (And.intro
+                  (BEDC.FKernel.Hist.hsame_refl
+                    (BEDC.FKernel.Hist.BHist.e1 m))
                   (And.intro
                     (BEDC.FKernel.Hist.hsame_refl
                       (BEDC.FKernel.Hist.BHist.e1 n))
-                    sameMN))))))
+                    data.right.right))))))
 
 theorem IntHistory_semanticNameCert :
     BEDC.FKernel.NameCert.SemanticNameCert IntHistoryCarrier IntHistoryCarrier
