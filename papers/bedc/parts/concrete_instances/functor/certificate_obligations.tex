@@ -16,6 +16,31 @@ determinacy compares the resulting composite carrier with the displayed carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_family\_public\_readback}
 
+\begin{theorem}[Functor prefix hom-carrier composite zero-headed component impossibility]
+\label{thm:functor-prefix-hom-carrier-comp-zero-headed-component-absurd}
+For histories $p,a,b,c,f,g,fg$, two prefixed hom-carriers composing over the
+middle object $b$ cannot have any zero-headed prefix, object, factor morphism,
+or composite morphism component:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g)
+\land
+\ContR(f,g,fg)
+\Longrightarrow
+\mathsf{False}
+$$
+whenever one of $p,a,b,c,f,g,fg$ is displayed as \(\Ezero(w)\).
+\end{theorem}
+\begin{proof}
+Close the two hom-carriers under composition to obtain the carrier for
+$fg$. The zero-headed prefix, source, middle, and left morphism cases reduce to
+the left factor exclusion; the target and right morphism cases reduce to the
+right factor exclusion; the composite morphism case reduces to the closed
+composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_zero\_headed\_component\_absurd}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]

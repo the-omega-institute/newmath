@@ -477,6 +477,24 @@ $R_{\emp}(P,Q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_carrier\_iff}
 
+\begin{theorem}[Group singleton carrier continuation endpoint split]
+\label{thm:group-singleton-carrier-continuation-endpoint-split}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the continuation
+result lies in the singleton carrier exactly when both continuation endpoints
+lie in the singleton carrier:
+$$
+A_{\emp}(R)\Longleftrightarrow A_{\emp}(P)\land A_{\emp}(Q).
+$$
+\end{theorem}
+\begin{proof}
+If $A_{\emp}(R)$ holds, transport the displayed continuation result to $\emp$
+and apply empty-result inversion for continuation to recover the two endpoint
+carrier witnesses. Conversely, if both endpoint carriers hold, compare the
+displayed continuation with the right-unit continuation at $\emp$; continuation
+respect for $\hsame$ transports the result into the singleton carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_continuation\_endpoint\_split\_iff}
+
 \begin{theorem}[Group singleton inverse-continuation roundtrip carrier exactness]
 \label{thm:group-singleton-inverse-continuation-roundtrip-carrier-exactness}
 For histories $x,r,s:\mathsf{BHist}$, if $r$ is a continuation result of the

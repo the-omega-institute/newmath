@@ -264,4 +264,10 @@ theorem RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion
     exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z') (d := rho)).right
       displayed
 
+theorem RatHistoryLedgerPolicy_visible_target_e0_endpoint_absurd {rho v w z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      (hsame rho (BHist.e0 z) -> False) ∧ (hsame w (BHist.e0 z') -> False) := by
+  intro ledger classified
+  exact RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion ledger classified
+
 end BEDC.Derived.RatUp

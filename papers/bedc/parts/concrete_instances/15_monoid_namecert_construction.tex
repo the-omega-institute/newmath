@@ -344,6 +344,47 @@ is common-context congruence using unary append closure on both endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_context\_iff}
 
+\begin{theorem}[Unary append monoid left factor empty iff]
+\label{thm:unary-append-monoid-left-factor-empty-iff}
+For unary histories $h,k:\mathsf{BHist}$, classifying the appended history
+$\mathsf{append}(h,k)$ with its left factor $h$ is equivalent to classifying
+the right factor $k$ with $\emp$:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\mathsf{append}(h,k),h)
+\Longleftrightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(k,\emp).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, rewrite the right endpoint as
+$\mathsf{append}(h,\emp)$ by the append right-unit law and cancel the common
+left factor $h$. Conversely, a classifier witness for $k$ against $\emp$
+rewrites the appended endpoint to $\mathsf{append}(h,\emp)$, and the append
+right-unit law identifies this with $h$. Unary append closure supplies the
+source carrier endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_left\_factor\_empty\_iff}
+
+\begin{theorem}[Unary append monoid classifier swaps unary context]
+\label{thm:unary-append-monoid-classifier-context-swap}
+For unary histories $left$, $right$, and $a$, the concrete monoid
+classifier identifies the two histories obtained by moving the two unary
+contexts around the middle payload:
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+\bigl(\mathsf{append}(left,\mathsf{append}(a,right)),
+\mathsf{append}(right,\mathsf{append}(a,left))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure supplies the endpoint carrier witnesses. Associativity
+first exposes the two context factors, unary append commutativity swaps
+$a$ with $right$, swaps $left$ with $right$, and finally swaps
+$left$ with $a$ inside the right context. The resulting equality is the
+$\hsame$ component of the monoid classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_classifier\_context\_swap}
+
 \begin{definition}[Monoid ledger policy]
 \label{def:monoid-ledger-policy}
 Record the carrier witnesses and operation tree behind each monoid expression.

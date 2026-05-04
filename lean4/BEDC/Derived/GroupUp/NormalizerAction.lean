@@ -369,4 +369,40 @@ theorem GroupSingletonNormalizerOrbit_product_coherent_action_law {s t x : BHist
   · exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
       (And.intro composedSource nestedSource)
 
+theorem GroupSingletonNormalizerOrbit_action_law_package {s t x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
+      GroupSingletonCarrier y -> GroupSingletonNormalizerOrbit x y ->
+        GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+            (append (append s y) BHist.Empty) ∧
+          GroupSingletonNormalizerOrbit
+            (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) y ∧
+            GroupSingletonNormalizerOrbit
+              (append (append s (append (append t x) BHist.Empty)) BHist.Empty)
+              (append (append (append s t) x) BHist.Empty) := by
+  intro carrierS carrierT carrierX carrierY orbit
+  have invariant :
+      GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+        (append (append s y) BHist.Empty) :=
+    GroupSingletonNormalizerOrbit_action_invariance carrierS carrierX carrierY orbit
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have sourceProductCarrier : GroupSingletonCarrier (append s x) :=
+    append_eq_empty_iff.mpr (And.intro carrierS carrierX)
+  have sourceActionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro sourceProductCarrier emptyCarrier)
+  have roundtripProductCarrier :
+      GroupSingletonCarrier (append BHist.Empty (append (append s x) BHist.Empty)) :=
+    append_eq_empty_iff.mpr (And.intro emptyCarrier sourceActionCarrier)
+  have roundtripCarrier :
+      GroupSingletonCarrier
+        (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro roundtripProductCarrier emptyCarrier)
+  have roundtripOrbit :
+      GroupSingletonNormalizerOrbit
+        (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) y :=
+    GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro roundtripCarrier carrierY)
+  have productLaw :=
+    (GroupSingletonNormalizerOrbit_product_coherent_action_law carrierS carrierT carrierX).left
+  exact And.intro invariant (And.intro roundtripOrbit productLaw)
+
 end BEDC.Derived.GroupUp

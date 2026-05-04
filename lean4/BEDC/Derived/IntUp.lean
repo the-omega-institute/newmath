@@ -287,4 +287,71 @@ theorem IntClassifierSpec_append_comm_same_sign {sign : BEDC.FKernel.Mark.BMark}
               · exact BEDC.FKernel.Mark.msame_refl sign
               · exact BEDC.FKernel.Unary.unary_append_comm hUnary kUnary
 
+theorem IntClassifierSpec_append_context_same_sign
+    {s : BEDC.FKernel.Mark.BMark} {left right a b : BEDC.FKernel.Hist.BHist} :
+    IntCarrier s left -> IntCarrier s right ->
+      IntClassifierSpec (s, a) (s, b) ->
+        IntClassifierSpec
+          (s, BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append a right))
+          (s, BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append b right)) := by
+  intro leftCarrier rightCarrier classified
+  cases leftCarrier with
+  | intro signCases leftUnary =>
+      cases rightCarrier with
+      | intro _ rightUnary =>
+          cases classified with
+          | intro carrierA classifiedRest =>
+              cases classifiedRest with
+              | intro carrierB sameData =>
+                  cases carrierA with
+                  | intro _ unaryA =>
+                      cases carrierB with
+                      | intro _ unaryB =>
+                          cases sameData with
+                          | intro _ sameMagnitude =>
+                              constructor
+                              · constructor
+                                · exact signCases
+                                · exact BEDC.FKernel.Unary.unary_append_closed leftUnary
+                                    (BEDC.FKernel.Unary.unary_append_closed unaryA rightUnary)
+                              · constructor
+                                · constructor
+                                  · exact signCases
+                                  · exact BEDC.FKernel.Unary.unary_append_closed leftUnary
+                                      (BEDC.FKernel.Unary.unary_append_closed unaryB rightUnary)
+                                · constructor
+                                  · exact BEDC.FKernel.Mark.msame_refl s
+                                  · cases sameMagnitude
+                                    exact BEDC.FKernel.Hist.hsame_refl
+                                      (BEDC.FKernel.Cont.append left
+                                        (BEDC.FKernel.Cont.append a right))
+
+theorem IntClassifierSpec_cancel_append_context_same_sign
+    {s : BEDC.FKernel.Mark.BMark} {left right a b : BEDC.FKernel.Hist.BHist} :
+    IntCarrier s a -> IntCarrier s b ->
+      IntClassifierSpec
+        (s, BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append a right))
+        (s, BEDC.FKernel.Cont.append left (BEDC.FKernel.Cont.append b right)) ->
+          IntClassifierSpec (s, a) (s, b) := by
+  intro carrierA carrierB contextual
+  cases contextual with
+  | intro _ contextualRest =>
+      cases contextualRest with
+      | intro _ sameData =>
+          cases sameData with
+          | intro _ sameContext =>
+              have sameTail :
+                  BEDC.FKernel.Hist.hsame (BEDC.FKernel.Cont.append a right)
+                    (BEDC.FKernel.Cont.append b right) := by
+                exact BEDC.FKernel.Cont.append_left_cancel (h := left) sameContext
+              have sameMagnitude : BEDC.FKernel.Hist.hsame a b := by
+                exact BEDC.FKernel.Cont.append_right_cancel (k := right) sameTail
+              constructor
+              · exact carrierA
+              · constructor
+                · exact carrierB
+                · constructor
+                  · exact BEDC.FKernel.Mark.msame_refl s
+                  · exact sameMagnitude
+
 end BEDC.Derived.IntUp
