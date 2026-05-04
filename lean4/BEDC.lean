@@ -215,6 +215,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
