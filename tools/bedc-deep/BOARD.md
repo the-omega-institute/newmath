@@ -5494,3 +5494,185 @@ Belongs in the FPS chapter (`26_fps_namecert_construction.tex`). Textbook-standa
 
 ---
 
+### B-213 - Ring forgets to AbGroup certificate (additive)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring forgets to AbGroup certificate (additive) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If R carries a RingUp(R) certificate, then dropping the multiplicative-monoid package, the multiplication operation, the multiplicative one, the multiplicative monoid stability rows, the distributivity rows, and the zero-multiplication rows leaves a retained carrier, source, additive pattern, classifier, additive stability fields, and additive ledger that form an AbGroupUp(R) certificate over the same carrier and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Ring source spec at ring/18_ring_certificate_and_additive_laws.tex:3-6 explicitly says 'additive AbGroupUp + multiplicative MonoidUp on the same carrier'. The multiplicative side has an explicit forgetful proposition `Ring forgets to Monoid certificate` at ring/18_ring_zero_product_and_signed_square.tex:463 (prop:ring-forgets-monoid-certificate), but the dual additive forgetful proposition does not exist. Grep `ring-forgets-abgroup` and `Ring forgets.*AbGroup` across papers/bedc/parts/ returns 0 hits. The proof is structurally analogous to `prop:abgroup-forgets-group-certificate` (17_abgroup:721) and `prop:module-forgets-abgroup-certificate` (21_module:581): drop the multiplicative coordinates, retain the additive ones, and verify obligation-by-obligation against def:abgroup-certificate-obligations. Existing Module->AbGroup proof at 21_module:583-600 supplies the template. The gap is genuine because the chain Ring->AbGroup is currently invoked only implicitly via Module->AbGroup composed with some module instance, which a Ring user does not have.
+
+---
+
+
+### B-214 - Lattice meet-join distributive duality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice meet-join distributive duality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If A carries a LatticeUp(A) certificate with classifier symmetry, transitivity, both meet and join classifier-congruence rows, the inherited POSet antisymmetry field, and the directional meet and join bound-characterization fields, and if the meet-distributes-over-join law a wedge (b vee c) sim_C (a wedge b) vee (a wedge c) holds for all a,b,c in A, then the dual law a vee (b wedge c) sim_C (a vee b) wedge (a vee c) holds for all a,b,c in A.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+
+Rationale:
+30_lattice_directed_associativity.tex:127 has thm:lattice-distributivity-implies-modular-law: assuming meet-distributes-over-join, the modular law follows. But the classical 'distributive duality' (meet-distributive iff join-distributive in any lattice) is genuinely missing. Grep `distributive` across papers/bedc/parts/concrete_instances/lattice/ and 30_lattice*.tex returns only the modular-law theorem (line 127) plus the orienting paragraph in 30_lattice_namecert_construction.tex:4 listing 'idempotence, commutativity, associativity, and absorption' as derived from bound characterizations -- distributivity is not in that list and is treated only as a hypothesis when needed. The proof can be assembled from existing tools in the chapter: thm:lattice-commutativity-from-directional-bounds (lattice/the_certificate.tex:193, B-25, already proven), the absorption laws (lattice/the_certificate.tex:168 and 254, B-07/B-27, already proven), and bound greatestness/leastness, all of which are already lifted to theorems. The gap is genuine and high-value because it converts the existing one-sided distributivity hypothesis into a self-dual property usable in either form.
+
+---
+
+
+### B-215 - Polynomial multiplication associativity over CommRing scalars
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial multiplication associativity over CommRing scalars |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If R carries a CommRingUp(R) certificate, read as a RingUp(R) certificate by prop:commring-forgets-ring-certificate, with classifier sim_R, zero 0_R, addition +, multiplication dot, raw Cauchy product rmul_R from def:polynomial-raw-cauchy-product, normalization trim_R from def:polynomial-stability-certificate, and PolyMul_R from def:polynomial-multiplication-on-coefficient-spines, then for all finite coefficient spines p,q,r:ListCarrier(R), PolySame_R(PolyMul_R(PolyMul_R(p,q),r), PolyMul_R(p,PolyMul_R(q,r))) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_literal_addtrim.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+25_polynomial_literal_addtrim.tex defines PolyMul_R at line 221 (PolyMul_R(x,y) := trim_R(rmul_R(trim_R(x), trim_R(y)))). It also has thm:polynomial-raw-addition-associativity (line 539) for addition and thm:polynomial-raw-multiplication-commutativity-from-commring-scalars (line 565) for raw multiplication commutativity. Multiplication associativity is conspicuously absent. Grep `polynomial.*multiplication.*assoc`, `PolyMul.*assoc`, `thm:polynomial.*assoc`, and `rmul.*rmul` across papers/bedc/parts/ returns only the addition-associativity theorem (line 539) and commutativity occurrence at line 568 -- no associativity over rmul or PolyMul. The proof requires Cauchy convolution associativity sum_{i+j=n} (sum_{a+b=i} p_a q_b) r_j = sum_{a+j+l=n} p_a q_b r_l = sum_{a+k=n} p_a (sum_{b+l=k} q_b r_l), which uses double-finite-fold reindexing similar to the matrix associativity proof at matrix/finite_fold_multiplication_laws.tex:210, plus trim-multiplication compatibility lemmas already in the chapter. The gap is genuine: the polynomial certificate cannot honestly claim ring-of-polynomials structure without it, and the existing zero-tail invariance (B-22) and trim invariance (B-21) lemmas on the board are the natural prerequisites.
+
+---
+
+### B-216 - Analytic continuation predicate is symmetric in its two domains
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Analytic continuation predicate is symmetric in its two domains |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If \mathsf{AnaCont}(f, D_1, g, D_2, h) holds with \mathsf{DomCompat}(D_1, D_2, U), then \mathsf{AnaCont}(g, D_2, f, D_1, h) holds (under the symmetric \mathsf{DomCompat}(D_2, D_1, U)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/50_analytic_continuation_operation.tex`
+- `papers/bedc/parts/concrete_instances/43_holomorphic_namecert_construction.tex`
+
+Rationale:
+Chapter 50 (concrete_instances/50_analytic_continuation_operation.tex). Review category 4 (Missing companion). Definition def:ana-cont (line ~30) phrases the predicate symmetrically — clauses 1 and 2 swap the roles of (f, D_1) and (g, D_2), and clause 3 is symmetric in U. The chapter proves uniqueness (thm:ana-cont-unique:34) and 2-chain composition (thm:chain-continuation:44) but never names the trivial symmetry. A senior referee would flag that the operation laws section is incomplete without it and that thm:chain-continuation implicitly relies on swap symmetry through DomCompat. Closes in 1 round: definition unfolding plus DomCompat symmetry of overlap region U.
+
+---
+
+
+### B-217 - Analytic continuation triple-chain associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Analytic continuation triple-chain associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If \mathsf{AnaCont}(f_1, D_1, f_2, D_2, h_{12}), \mathsf{AnaCont}(f_2, D_2, f_3, D_3, h_{23}), and \mathsf{AnaCont}(h_{12}, D_1\cup D_2, f_3, D_3, h_{(12)3}) all hold, then \mathsf{AnaCont}(f_1, D_1, h_{23}, D_2\cup D_3, h_{1(23)}) is witnessed and \hsame(h_{(12)3}, h_{1(23)}) on D_1\cup D_2\cup D_3.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/50_analytic_continuation_operation.tex`
+- `papers/bedc/parts/concrete_instances/43_holomorphic_namecert_construction.tex`
+
+Rationale:
+Chapter 50. Review category 7 (Composite consequence). The chapter labels thm:chain-continuation (line 44) for the 2-chain case but the 1→2→3 reassociation identity — a referee's first follow-up question after seeing 2-chain composition — is missing. Local prerequisites are exactly thm:ana-cont-unique:34 and two applications of thm:chain-continuation:44 plus union-set commutativity. Closes in 2 rounds (build the (12)3 witness, build the 1(23) witness, identify by uniqueness). Distinct from B-15: real history-sameness limit transport in core/concrete is about Bishop reals, not holomorphic chain associativity.
+
+---
+
+
+### B-218 - Contour integral closure under combined affine-concatenation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Contour integral closure under combined affine-concatenation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If \gamma=\gamma_1\ast\gamma_2 (sharing endpoint per lem:pl-contour-concat) and \mathsf{ContInt}(f, \gamma_1, I_1^f), \mathsf{ContInt}(f, \gamma_2, I_2^f), \mathsf{ContInt}(g, \gamma_1, I_1^g), \mathsf{ContInt}(g, \gamma_2, I_2^g) all hold, then for any complex histories a, b, \mathsf{ContInt}(a f + b g, \gamma, a(I_1^f + I_2^f) + b(I_1^g + I_2^g)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/49_contour_integral_operation.tex`
+
+Rationale:
+Chapter 49 (concrete_instances/49_contour_integral_operation.tex). Review category 7 (Composite consequence). The chapter labels lem:cont-int-linear:93 (linearity in integrand only), lem:cont-int-concat:101 (concat for fixed integrand), lem:cont-int-reversal:109, and lem:cont-int-reparameterization:117 separately, but the combined affine-on-integrand-and-concat-on-contour closure is not stated. This composite is what one wants for the standard partition-and-bound argument inside Cauchy proofs (thm:cauchy-triangle:127, thm:cauchy-integral-formula:143) and is currently re-derived ad hoc. Closes in 1 round by chaining lem:cont-int-linear and lem:cont-int-concat.
+
+---
+
+
+### B-219 - Centralizer-coset multiplication closure under representative product
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Centralizer-coset multiplication closure under representative product |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If centralizer-coset carrier \mathsf{CentralizerCosetCarrier}(\mathsf{mul}, a, x, h_1) and \mathsf{CentralizerCosetCarrier}(\mathsf{mul}, a, y, h_2) hold (for representatives x, y centralizing a), then \mathsf{CentralizerCosetCarrier}(\mathsf{mul}, a, \mathsf{mul}(x,y), \mathsf{mul}(h_1, h_2)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/quotientgroup/concrete_namecert_carrier.tex`
+- `papers/bedc/parts/concrete_instances/quotientgroup/concrete_namecert_certificate.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+
+Rationale:
+Chapter 60 (concrete_instances/quotientgroup/). Review category 1 (Closure under composition). The chapter labels many transport theorems — thm:quotientgroup-centralizer-normalizer-empty-representative-transport:96, thm:quotientgroup-centralizer-coset-empty-representative-transport:127, thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence:119 — but never states that two coset memberships compose to a coset of the product of representatives. Without this closure, the chapter's quotient is only a set, not a group: a senior referee's first question is 'is the operation well-defined on cosets?'. Closes in 2-3 rounds using mul congruence (group chapter), centralizer-product centralizer (group/16_group_centralizer_normalizer.tex line 59 already has GroupConjugationWord_product_composition leanchecked), and \hsame transport on mul.
+
+---
+
