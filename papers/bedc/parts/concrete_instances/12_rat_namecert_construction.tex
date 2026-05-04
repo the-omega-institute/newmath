@@ -29,6 +29,7 @@ clauses are identity rows: each source witness is reused unchanged as the
 pattern witness and as the ledger witness. These are exactly the rows assembled
 by the Lean theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.rat\_history\_semantic\_name\_certificate}
 
 \begin{theorem}[Rat history ledger displayed context one-tail readback]
 \label{thm:rat-history-ledger-cont-unary-context-e1-pair-readback}
@@ -244,6 +245,8 @@ $\mathsf{Unary}(t)$.
 The two classifier equivalences, the two endpoint denominator witnesses, and
 the two one-tail readback implications assemble the displayed conjunction.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_e1\_tail\_classifier\_saturation}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_one\_tail\_classifier\_saturation}
 
 \begin{theorem}[Rat ledger bidirectional target-positive endpoint package]
 \label{thm:rat-ledger-bidirectional-target-positive-endpoint-package}
@@ -304,8 +307,8 @@ $\mathsf{RatHistoryClassifier}(v,w)$ case is exactly the positivity package just
 constructed, so the second implication follows.
 \end{proof}
 
-\begin{theorem}[Rat ledger classifier saturation package]
-\label{thm:rat-ledger-classifier-saturation-package}
+\begin{theorem}[Rat ledger classifier saturation unary package]
+\label{thm:rat-ledger-classifier-saturation-unary-package}
 For histories $\rho,v,w:\mathsf{BHist}$, assume
 $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and at least one of
 $\mathsf{RatHistoryClassifier}(\rho,w)$,
@@ -325,7 +328,13 @@ $$
 \land
 \mathsf{PositiveUnaryDenominator}(v)
 \land
-\mathsf{PositiveUnaryDenominator}(w).
+\mathsf{PositiveUnaryDenominator}(w)
+\land
+\mathsf{UnaryHistory}(\rho)
+\land
+\mathsf{UnaryHistory}(v)
+\land
+\mathsf{UnaryHistory}(w).
 $$
 
 Its ten-field fit is: traditional target ledger-saturated rational classifier
@@ -333,9 +342,9 @@ endpoint package; BEDC source $\RatUp$ over $\mathsf{BHist}$; carrier
 $\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
 stability from classifier symmetry/transitivity and ledger endpoint
 equivalence; ledger $\mathsf{RatHistoryLedgerPolicy}$; core theorem this block;
-exactness the four-orientation saturated package; downstream consumer the
-$\RatUp$ semantic certificate boundary and $\FieldUp(\RatUp)$ denominator-unit
-rows; status $\mathsf{ProofTarget}$.
+exactness the four-orientation saturated package plus unary endpoint readback;
+downstream consumer the $\RatUp$ semantic certificate boundary and
+$\FieldUp(\RatUp)$ denominator-unit rows; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 First apply
@@ -380,9 +389,13 @@ orientations.
 In every case one of the assembled classifiers has $w$ as an endpoint. Apply
 \autoref{thm:rat-history-classifier-positive-denominators} to that classifier
 to obtain $\mathsf{PositiveUnaryDenominator}(w)$, keeping the ledger endpoint
-witnesses for $\rho$ and $v$. The four classifiers and three positive unary
-denominator witnesses assemble the displayed package.
+witnesses for $\rho$ and $v$. Apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} to each of the
+three positive denominator witnesses and project the unary row. The four
+classifiers, three positive unary denominator witnesses, and three unary
+endpoint rows assemble the displayed package.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_classifier\_saturation\_unary\_package}
 
 \begin{theorem}[Rat ledger visible-target zero-extension exclusion]
 \label{thm:rat-ledger-visible-target-zero-extension-exclusion}

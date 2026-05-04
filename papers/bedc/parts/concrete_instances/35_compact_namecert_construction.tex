@@ -679,6 +679,14 @@ and the step compactness continuation gives the final compact endpoint ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_continuation\_witness}
 
+\begin{theorem}[Compact located refinement chain final compact determinacy]\label{thm:compact-located-refinement-chain-final-compact-deterministic}
+If two compact located refinement chains share the same starting compactness ledger and the same final located and intermediate endpoints, then their final compact endpoints are $\hsame$-equal.
+\end{theorem}
+\begin{proof}
+Apply the continuation witness theorem to both chains using the same starting compactness ledger. Both witnesses end in $\Cont(finalIntermediate,finite,-)$, so continuation determinism identifies the final compact endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_final\_compact\_deterministic}
+
 \begin{theorem}[Compact located refinement chain empty final reflects empty initial]
 \label{thm:compact-located-refinement-chain-empty-final-reflects-empty-initial}
 If a compact located refinement chain has empty final locatedness and intermediate ledgers, then its initial locatedness and intermediate ledgers are empty.
@@ -788,4 +796,5 @@ conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_finite\_refinement\_chain\_final\_endpoints\_unary}
 
+\input{parts/concrete_instances/compact/35_finite_refinement_common_source_determinacy.tex}
 \input{parts/concrete_instances/compact/35_prefixed_composite_refinement_determinacy.tex}
