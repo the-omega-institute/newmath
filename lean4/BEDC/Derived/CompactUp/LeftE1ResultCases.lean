@@ -39,4 +39,20 @@ theorem CompactNetWitness_left_e1_result_cases {center precision net : BHist} :
                                   (And.intro (unary_e1_inversion precisionCarrier)
                                     (And.intro (unary_e1_inversion netCarrier) tailRel)))))
 
+theorem CompactNetWitness_left_e1_result_e1_precision_tail {center precisionTail net : BHist} :
+    CompactNetWitness (BHist.e1 center) (BHist.e1 precisionTail) (BHist.e1 net) ->
+      CompactNetWitness (BHist.e1 center) precisionTail net := by
+  intro witness
+  have resultCases := CompactNetWitness_left_e1_result_cases witness
+  cases resultCases with
+  | inl emptyCase =>
+      cases emptyCase.left
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro recoveredTail tailData =>
+          cases tailData with
+          | intro precisionEq tailWitness =>
+              cases precisionEq
+              exact tailWitness
+
 end BEDC.Derived.CompactUp
