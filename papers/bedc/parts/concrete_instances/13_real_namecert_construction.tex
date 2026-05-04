@@ -160,6 +160,7 @@ Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
 direction. The one-tail exactness theorem returns
 $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_e1\_pair\_readback}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_selected\_e1\_pair\_readback}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e1\_pair\_readback}
 
@@ -204,3 +205,58 @@ RatHistoryClassifier; stability prefix hsame transport and RatUp one-tail
 exactness; ledger selected index and two e-one seals; core theorem this block;
 exactness the displayed conjunction; standard bridge rational equality read from
 equal transported real observations; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier unary denominator context closure]
+\label{thm:real-stream-classifier-unary-denominator-context-closed}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),
+$$
+and for every observation index $n$ the contexts and continuation outputs
+satisfy
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad \mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad \hsame(t_X(n),t_Y(n)),
+$$
+$$
+\mathsf{Cont}(p_X(n),x(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+$$
+$$
+\mathsf{Cont}(p_Y(n),y(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+then
+$$
+\mathsf{RealStreamClassifier}(o_X,o_Y).
+$$
+\end{theorem}
+\begin{proof}
+Fix an observation index $n$. The stream classifier supplies
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$ at that index.
+
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+this point classifier, the two unary-context hypotheses on $p_X(n)$ and
+$t_X(n)$, and the two displayed context comparisons
+$\hsame(p_X(n),p_Y(n))$ and $\hsame(t_X(n),t_Y(n))$. This gives the rational
+history classifier on the associativity-normal context endpoints.
+
+The four continuation witnesses identify those normal endpoints with $o_X(n)$
+and $o_Y(n)$, using associativity of append as in
+\autoref{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}.
+Transport the point classifier along these endpoint identifications.
+
+Since $n$ was arbitrary, repack the transported pointwise witnesses as
+$\mathsf{RealStreamClassifier}(o_X,o_Y)$.
+\end{proof}
+
+Fit: traditional target streamwise rational-denominator context stability; BEDC
+source RealUp streams plus RatUp classifier plus $\mathsf{Cont}$; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$;
+stability pointwise unary context closure; ledger pointwise prefix and tail
+context witnesses with continuation outputs; core theorem
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed};
+exactness pointwise $\mathsf{RealStreamClassifier}$ preservation; standard
+bridge denominator/context stability of rational real names; status
+$\mathsf{ProofTarget}$.
