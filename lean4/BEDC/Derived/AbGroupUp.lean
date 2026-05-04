@@ -372,6 +372,64 @@ theorem abgroup_mul_balanced_cancel {mul : BHist -> BHist -> BHist} {e : BHist}
   exact BEDC.Derived.GroupUp.group_left_cancel assocC leftId mulCongr leftInv
     (hsame_trans sameBalanced (commC c a))
 
+protected theorem abgroup_mul_middle_four_double_cancel_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a b c d u : BHist} :
+    hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul u d)) ->
+      hsame b u := by
+  intro sameProducts
+  have middle :
+      hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+    exact abgroup_mul_middle_four assocC commC mulCongr a b c d
+  have sameTails :
+      hsame (mul (mul a c) (mul b d)) (mul (mul a c) (mul u d)) :=
+    hsame_trans (hsame_symm middle) sameProducts
+  have cancelLeft : hsame (mul b d) (mul u d) := by
+    exact BEDC.Derived.GroupUp.group_left_cancel assocC leftId mulCongr leftInv
+      sameTails
+  exact BEDC.Derived.GroupUp.group_right_cancel assocC rightId mulCongr rightInv
+    cancelLeft
+
+protected theorem abgroup_mul_middle_four_transported_double_cancel_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a b c d u v : BHist} :
+    hsame (mul (mul a b) (mul c d)) (mul (mul a u) (mul c v)) ->
+      hsame d v -> hsame b u := by
+  intro sameProducts sameDV
+  have middleLeft :
+      hsame (mul (mul a b) (mul c d)) (mul (mul a c) (mul b d)) := by
+    exact abgroup_mul_middle_four assocC commC mulCongr a b c d
+  have middleRight :
+      hsame (mul (mul a u) (mul c v)) (mul (mul a c) (mul u v)) := by
+    exact abgroup_mul_middle_four assocC commC mulCongr a u c v
+  have sameAligned :
+      hsame (mul (mul a c) (mul b d)) (mul (mul a c) (mul u v)) :=
+    hsame_trans (hsame_symm middleLeft) (hsame_trans sameProducts middleRight)
+  have sameTransported :
+      hsame (mul (mul a c) (mul u v)) (mul (mul a c) (mul u d)) := by
+    exact mulCongr (hsame_refl (mul a c)) (mulCongr (hsame_refl u) (hsame_symm sameDV))
+  have sameTails : hsame (mul b d) (mul u d) := by
+    exact BEDC.Derived.GroupUp.group_left_cancel assocC leftId mulCongr leftInv
+      (hsame_trans sameAligned sameTransported)
+  exact BEDC.Derived.GroupUp.group_right_cancel assocC rightId mulCongr rightInv
+    sameTails
+
 theorem history_append_nonempty_left_ne_right :
     (forall {h k : BHist}, append (BHist.e0 h) k = k -> False) ∧
       (forall {h k : BHist}, append (BHist.e1 h) k = k -> False) := by
