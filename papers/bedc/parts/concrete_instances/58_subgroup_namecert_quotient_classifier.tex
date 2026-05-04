@@ -361,6 +361,28 @@ $\hsame$-transport row moves the stored kernel witness across this comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_hsame\_transport}
 
+\begin{theorem}[Centralizer quotient-kernel left endpoint right centralizer multiplication]
+\label{thm:subgroup-centralizer-quotient-kernel-left-endpoint-right-centralizer-mul-closed}
+Under the same BEDC history-level $\GroupUp$ laws, if
+$Q_{Z_a\triangleleft N_a}(x,y)$ and $Z_a(c)$, then
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,c),y).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint $\mathsf{mul}(x,c)$ lies in $N_a$ because $x$ is already carried
+by $N_a$, every centralizer element is carried by $N_a$, and the normalizer is
+closed under multiplication. For the kernel word, inverse closure gives
+$Z_a(\mathsf{inv}(c))$, while the original quotient-kernel hypothesis gives
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$. Product closure for $Z_a$ therefore
+gives
+$Z_a(\mathsf{mul}(\mathsf{inv}(c),\mathsf{mul}(\mathsf{inv}(x),y)))$.
+Associativity and inverse-of-product reversal identify this history with
+$\mathsf{mul}(\mathsf{inv}(\mathsf{mul}(x,c)),y)$ up to $\hsame$, and the
+centralizer carrier transport row gives the displayed kernel clause.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_left\_endpoint\_right\_centralizer\_mul\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer normalizer quotient-kernel transitivity]
 \label{thm:subgroup-centralizer-quotient-kernel-transitivity}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
@@ -441,6 +463,30 @@ involution followed by carrier transport gives the displayed
 $Z_a(\mathsf{mul}(\mathsf{inv}(y),x))$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_from\_empty\_unit}
+
+\begin{theorem}[Append centralizer quotient-kernel unary word]
+\label{thm:subgroup-centralizer-quotient-kernel-append-e1-unit-kernel-unary}
+Let the centralizer quotient-kernel relation be instantiated with the concrete
+BEDC append operation and centralizer seed $\Eone(\emp)$. For any history
+endomap $\mathsf{inv}$ and histories $x,y$, the kernel relation forces the
+relative append word to be unary:
+$$
+Q_{\Eone(\emp)}^{\mathsf{append},\mathsf{inv}}(x,y)
+\Longrightarrow
+\mathsf{UnaryHistory}(\mathsf{append}(\mathsf{inv}(x),y)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the quotient-kernel row and write
+$w=\mathsf{append}(\mathsf{inv}(x),y)$. The centralizer carrier says
+$\mathsf{append}(w,\Eone(\emp))\hsame
+\mathsf{append}(\Eone(\emp),w)$. Induct on the concrete word $w$. The empty
+case is the unary generator. A zero-headed word puts an $\Eone$ head on the
+left and an $\Ezero$ head on the right, contradicting constructor separation.
+A one-headed word descends by $\Eone$ injectivity to the same statement for the
+tail, and the induction hypothesis supplies unary evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_append\_e1\_unit\_kernel\_unary}
 
 \begin{theorem}[Centralizer quotient-kernel multiplication compatibility]
 \label{thm:subgroup-centralizer-quotient-kernel-mul-compatible}
