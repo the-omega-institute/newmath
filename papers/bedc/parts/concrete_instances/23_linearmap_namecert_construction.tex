@@ -554,3 +554,94 @@ $$
 $$
 Because $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} identifies this pointwise comparison with the $\LinearMapUp(U,W)$ classifier relation between the two composites. The ledger is the composition row recorded by \autoref{def:linearmap-ledger-policy}, with the two input map ledgers and the codomain pointwise comparison ledger as its witnesses.
 \end{proof}
+
+\begin{definition}[Module LinearMap certificate package]
+\label{def:module-linearmap-certificate-package}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_M$ and $\sim_N$ for the module classifiers, $+_M$ and $+_N$ for vector addition, $0_M$ and $0_N$ for vector zero, and $\odot_M$ and $\odot_N$ for scalar action. A package
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+for a function $f:M\to N$ consists of:
+\begin{enumerate}
+  \item output closure: every carried $x:M$ has carried output $f(x):N$;
+  \item source-classifier descent: $x\sim_M y$ implies $f(x)\sim_N f(y)$;
+  \item additive preservation: $f(x+_M y)\sim_N f(x)+_N f(y)$ for carried $x,y:M$;
+  \item scalar compatibility: $f(r\odot_M x)\sim_N r\odot_N f(x)$ for carried scalars $r:R$ and carried $x:M$;
+  \item zero preservation: $f(0_M)\sim_N0_N$;
+  \item ledger data recording the function identifier, the two linearity rows, the zero row, and the codomain pointwise comparison ledgers.
+\end{enumerate}
+This is the module fragment of the linear-map carrier in \autoref{def:linearmap-carrier}, with its pointwise classifier read as in \autoref{def:linearmap-classifier-specification} and its stability rows read against \autoref{def:module-stability-certificate}.
+\end{definition}
+
+\begin{theorem}[Module LinearMap composition certificate]
+\label{thm:module-linearmap-composition-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$, $N$, and $P$ carry $\ModuleUp(R,M)$, $\ModuleUp(R,N)$, and $\ModuleUp(R,P)$ certificates over the same scalar source. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(N,P;g),
+$$
+then the composite function $(g\circ f)(x):=g(f(x))$ carries a certificate
+$$
+\mathsf{LinearMapCert}_R(M,P;g\circ f).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two input certificates according to \autoref{def:module-linearmap-certificate-package}. The source data for the composite are the same scalar certificate $R$ together with the endpoint modules $M$ and $P$, which are among the module certificate obligations of \autoref{def:module-certificate-obligations}.
+
+For output closure, let $x$ be carried in $M$. Output closure for $f$ gives that $f(x)$ is carried in $N$, and output closure for $g$ gives that $g(f(x))$ is carried in $P$.
+
+For source-classifier descent, assume $x\sim_M y$. Descent for $f$ gives
+$$
+f(x)\sim_N f(y).
+$$
+Descent for $g$ transports this comparison to
+$$
+g(f(x))\sim_P g(f(y)),
+$$
+which is the descent row for $g\circ f$.
+
+For additivity, let $x$ and $y$ be carried in $M$. Additive closure in the $M$ module makes $x+_M y$ carried. The additive row of $f$ gives
+$$
+f(x+_M y)\sim_N f(x)+_N f(y).
+$$
+Descent for $g$ sends this comparison to
+$$
+g(f(x+_M y))\sim_P g(f(x)+_N f(y)).
+$$
+The outputs $f(x)$ and $f(y)$ are carried in $N$, so the additive row of $g$ gives
+$$
+g(f(x)+_N f(y))\sim_P g(f(x))+_P g(f(y)).
+$$
+Classifier transitivity from \autoref{thm:namecert-equivalence-transitivity} composes the last two displayed comparisons and gives the additive row for $g\circ f$.
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Scalar-action closure in the $M$ module makes $r\odot_M x$ carried. The scalar row of $f$ gives
+$$
+f(r\odot_M x)\sim_N r\odot_N f(x).
+$$
+Descent for $g$ transports this to
+$$
+g(f(r\odot_M x))\sim_P g(r\odot_N f(x)).
+$$
+Since $f(x)$ is carried in $N$, the scalar row of $g$ gives
+$$
+g(r\odot_N f(x))\sim_P r\odot_P g(f(x)).
+$$
+Transitivity of the $P$ classifier gives scalar compatibility for the composite.
+
+For zero preservation, the zero row of $f$ gives
+$$
+f(0_M)\sim_N0_N.
+$$
+Descent for $g$ gives
+$$
+g(f(0_M))\sim_P g(0_N),
+$$
+and the zero row of $g$ gives
+$$
+g(0_N)\sim_P0_P.
+$$
+Transitivity of the $P$ classifier gives $(g\circ f)(0_M)\sim_P0_P$.
+
+The pointwise classifier for maps $M\to P$ is exactly the relation specified in \autoref{def:linearmap-classifier-specification}. The rows above are the output-closure, descent, additivity, scalar-compatibility, zero-preservation, and composition-closure entries of \autoref{def:linearmap-stability-certificate} read over the module carriers of \autoref{def:module-carrier}. The ledger is the composite record formed from the two input function identifiers and their linearity, zero, and pointwise comparison ledgers, matching the policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations} for $g\circ f$.
+\end{proof}
