@@ -251,6 +251,38 @@ assembles the displayed four-fold conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_collapse}
 
+\begin{theorem}[Adjunction unit-counit endomorphism total alternating collapse]
+\label{thm:adjunction-unit-counit-endomorphism-total-alternating-collapse}
+For histories $p,a,unit,counit,left,right,depth:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)
+$$
+and $\mathsf{UnaryHistory}(depth)$, then the endomorphism boundary,
+triangle, and alternating ledger all collapse to the empty history:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp)\land
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+to the displayed carrier. This gives the two boundary witnesses
+$\hsame(unit,\emp)$ and $\hsame(counit,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+to the same carrier. This gives the two triangle-leg witnesses
+$\hsame(left,\emp)$ and $\hsame(right,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-alternating-endomorphism-empty}
+to the displayed carrier and the unary-depth witness. This gives the
+alternating-ledger witness
+$\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)$.
+
+The five witnesses assemble the displayed conjunction, giving the total
+endomorphism collapse including the alternating ledger.
+\end{proof}
+
 \begin{definition}[Adjunction triangle carrier]
 \label{def:adjunction-triangle-carrier}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
