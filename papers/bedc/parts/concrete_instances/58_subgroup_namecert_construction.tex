@@ -452,3 +452,54 @@ representative side; core theorem
 \autoref{thm:subgroup-centralizer-quotient-identity-fiber-bridge-package};
 exactness identity fiber equals $Z_a$; downstream consumer
 $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Centralizer quotient diagonal presentation package]
+\label{thm:subgroup-centralizer-quotient-diagonal-presentations}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence,
+carrier-transport, and two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, every
+$x:\mathsf{BHist}$ with $N_a(x)$ satisfies the four diagonal quotient
+classifiers
+$$
+Q^{\mathrm{std}}_{Z_a\leq N_a}(x,x),\qquad
+Q^{\mathrm{wit}}_{Z_a\leq N_a}(x,x),\qquad
+Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,x),\qquad
+Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,x).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{lem:subgroup-centralizer-normalizer-kernel-classifier-refl} to the
+normalizer endpoint $N_a(x)$. This gives the diagonal relative-kernel
+classifier $Q^{\mathrm{ker}}_{Z_a\triangleleft N_a}(x,x)$.
+
+Next transport the same diagonal relation through
+\autoref{thm:subgroup-centralizer-quotient-classifier-kernel-iff}. Reading
+the equivalence from the kernel side yields
+$Q^{\mathrm{std}}_{Z_a\leq N_a}(x,x)$.
+
+Apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-witness-classifier-iff} at
+the same endpoint pair. The kernel-to-witness direction gives
+$Q^{\mathrm{wit}}_{Z_a\leq N_a}(x,x)$.
+
+Finally apply
+\autoref{thm:subgroup-centralizer-right-coset-classifier-quotient-kernel-iff}
+to obtain $Q^{\mathrm{cos}}_{Z_a\leq N_a}(x,x)$. The parallel
+\autoref{thm:subgroup-centralizer-right-quotient-classifier-kernel-iff}
+records that the public right quotient presentation is classified by the same
+diagonal kernel word, so the displayed standard, witness, coset, and kernel
+presentations share one reflexive source.
+\end{proof}
+
+Per-object template: traditional target diagonal quotient presentation
+package; BEDC source $\GroupUp$ plus $\SubgroupUp$ over $\mathsf{BHist}$;
+carrier $N_a$; classifier the standard, right-witness, right-coset, and
+relative-kernel quotient relations; stability carrier transport,
+multiplication congruence, unit, inverse, and quotient-kernel equivalence
+rows; ledger diagonal endpoint $x=x$ and empty relative kernel word; core
+theorem
+\autoref{thm:subgroup-centralizer-quotient-diagonal-presentations};
+exactness every normalizer endpoint carries all four diagonal classifiers;
+downstream consumer $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
