@@ -80,6 +80,47 @@ theorem DerivativeMetricQuotient_hsame_transport
                                   (And.intro metricWitness'
                                     (And.intro diffLedger' metricLedger')))
 
+theorem DerivativeMetricQuotient_function_prefix_closed {p f z h q dist : BHist} :
+    UnaryHistory p -> DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient (append p f) z h (append p q) (append h (append p q)) := by
+  intro prefixCarrier quotient
+  cases quotient with
+  | intro functionCarrier rest =>
+      cases rest with
+      | intro pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro quotientCarrier rest =>
+                  cases rest with
+                  | intro functionLedger rest =>
+                      cases rest with
+                      | intro stepCarrier rest =>
+                          cases rest with
+                          | intro _distanceCarrier _metricLedger =>
+                              have prefixedFunctionCarrier : UnaryHistory (append p f) :=
+                                unary_append_closed prefixCarrier functionCarrier
+                              have prefixedQuotientCarrier : UnaryHistory (append p q) :=
+                                unary_append_closed prefixCarrier quotientCarrier
+                              have prefixedFunctionLedger :
+                                  Cont (append p f) h (append p q) := by
+                                apply cont_intro
+                                exact
+                                  (congrArg (append p) functionLedger).trans
+                                    (append_assoc p f h).symm
+                              have prefixedDistanceCarrier :
+                                  UnaryHistory (append h (append p q)) :=
+                                unary_append_closed stepCarrier prefixedQuotientCarrier
+                              exact
+                                And.intro prefixedFunctionCarrier
+                                  (And.intro pointCarrier
+                                    (And.intro stepNonzero
+                                      (And.intro prefixedQuotientCarrier
+                                        (And.intro prefixedFunctionLedger
+                                          (And.intro stepCarrier
+                                            (And.intro prefixedDistanceCarrier
+                                              (cont_intro rfl)))))))
+
 theorem DerivativeMetricQuotient_distance_result_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist -> hsame dist BHist.Empty -> False := by
   intro quotient sameDist
