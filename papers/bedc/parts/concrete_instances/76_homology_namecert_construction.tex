@@ -65,6 +65,25 @@ $u$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cycle\_closed}
 
+\begin{theorem}[Homology boundary classifier refines cycle classifier]
+\label{thm:homology-boundary-classifier-refines-cycle-classifier}
+Assume the BEDC chain differential is square-zero at every history:
+$$
+\forall u:\mathsf{BHist},\ \hsame(d(d(u)),\mathsf{Empty}).
+$$
+If $B_d(h)$, $B_d(k)$, and $\hsame(h,k)$, then $Z_d(h)$, $Z_d(k)$, and
+$\hsame(h,k)$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:homology-boundary-carrier-cycle-closed} to the boundary
+witness at $h$, using the displayed square-zero law at the chosen preimage.
+This produces the cycle endpoint $Z_d(h)$.
+
+Apply the same carrier-closure theorem to the boundary witness at $k$. The
+existing classifier row $\hsame(h,k)$ is preserved unchanged, so the three
+pieces repack as the cycle classifier row between the same endpoints.
+\end{proof}
+
 \begin{theorem}[Homology cycle carrier append closure]
 \label{thm:homology-cycle-carrier-append-closed}
 Assume the differential respects BEDC continuation append:

@@ -219,6 +219,29 @@ theorem ComplexAbsPartSum_modulus_hsame_deterministic {zero : BHist}
           have sameModulus := pointwise (index_unary leftSum)
           exact cont_respects_hsame samePartial sameModulus leftStep rightStep
 
+theorem ComplexAbsPartSum_modulus_hsame_transport {zero zero' : BHist}
+    {modulus modulus' : BHist -> BHist}
+    (zeroSame : hsame zero zero')
+    (modulusSame : forall {n : BHist}, UnaryHistory n -> hsame (modulus n) (modulus' n))
+    {n M : BHist} :
+    UnaryHistory n -> ComplexAbsPartSum zero modulus n M ->
+      exists T : BHist, ComplexAbsPartSum zero' modulus' n T /\ hsame M T := by
+  intro unaryN sum
+  induction sum with
+  | zero =>
+      exact Exists.intro zero' (And.intro ComplexAbsPartSum.zero zeroSame)
+  | step previous stepContinuation ih =>
+      have unaryPrevious : UnaryHistory _ := unary_e1_inversion unaryN
+      have transportedPrevious := ih unaryPrevious
+      cases transportedPrevious with
+      | intro previous' previousData =>
+          have resultSame :
+              hsame _ (append previous' (modulus' _)) :=
+            cont_respects_hsame previousData.right (modulusSame unaryPrevious)
+              stepContinuation (cont_intro rfl)
+          exact Exists.intro (append previous' (modulus' _))
+            (And.intro (ComplexAbsPartSum.step previousData.left (cont_intro rfl)) resultSame)
+
 theorem ComplexPartSum_term_hsame_deterministic {zero : BHist} {c d : BHist -> BHist}
     {n S T : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (c m) (d m)) ->

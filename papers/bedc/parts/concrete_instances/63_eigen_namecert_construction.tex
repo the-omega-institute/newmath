@@ -135,6 +135,19 @@ equivalence backwards.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_append\_context\_empty\_iff}
 
+\begin{theorem}[Eigen singleton carrier continuation left-unit result]
+\label{thm:eigen-singleton-carrier-cont-left-unit-result}
+For histories $pair,q,result:\mathsf{BHist}$, if $pair$ lies in the eigen
+singleton carrier and $\Cont(pair,q,result)$, then $result\hsame q$.
+\end{theorem}
+\begin{proof}
+The eigen singleton carrier empty equivalence identifies $pair$ with $\emp$.
+After this source readback, the displayed continuation has empty source, so
+the BEDC left-unit result theorem for $\Cont$ reads the endpoint back to the
+tail $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_cont\_left\_unit\_result}
+
 \section{The certificate}
 \label{sec:eigen-certificate}
 
@@ -166,6 +179,20 @@ rebuild the left and right contextual carriers, and both contextual endpoints
 are history-same because each is empty.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonClassifier\_append\_context\_empty\_iff}
+
+\begin{theorem}[Eigen singleton classifier continuation results hsame]
+\label{thm:eigen-singleton-classifier-continuation-results-hsame}
+For histories $h,k,q,q',r,r':\mathsf{BHist}$, if
+$\mathsf{EigenSingletonClassifier}(h,k)$, $q\hsame q'$,
+$\Cont(h,q,r)$, and $\Cont(k,q',r')$, then $r\hsame r'$.
+\end{theorem}
+\begin{proof}
+The classifier exposes eigen singleton carrier witnesses for both sources.
+The carrier continuation left-unit result reads $r$ back to $q$ and $r'$ back
+to $q'$. Composing these two readbacks with the supplied tail equality
+$q\hsame q'$ gives the endpoint equality $r\hsame r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonClassifier\_continuation\_results\_hsame}
 
 \begin{theorem}[Eigen singleton semantic name certificate]
 \label{thm:eigen-singleton-semantic-namecert}

@@ -1,10 +1,12 @@
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AdeleUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.PadicUp
 open BEDC.Derived.RatUp
@@ -59,6 +61,55 @@ theorem AdeleHistoryCarrier_first_prime_unit_scale {realTail : BHist} :
       Iff.mpr RealConstantHistoryCarrier_e1_iff_rat ratCarrier,
       PadicPrimeScale_first_prime_unit_exponent_result,
       hsame_refl (append (BHist.e1 realTail) (BHist.e1 (BHist.e1 BHist.Empty)))⟩
+
+theorem AdeleHistoryCarrier_semanticNameCert :
+    SemanticNameCert AdeleHistoryCarrier AdeleHistoryCarrier AdeleHistoryCarrier hsame := by
+  have positiveDenominator : PositiveUnaryDenominator (BHist.e1 BHist.Empty) :=
+    Iff.mpr PositiveUnaryDenominator_e1_iff_unary unary_empty
+  have rationalCarrier : RatHistoryCarrier (BHist.e1 BHist.Empty) :=
+    Iff.mpr RatHistoryCarrier_iff_positive_denominator positiveDenominator
+  have carrierWitness :
+      AdeleHistoryCarrier
+        (append (BHist.e1 (BHist.e1 BHist.Empty))
+          (BHist.e1 (BHist.e1 BHist.Empty))) :=
+    AdeleHistoryCarrier_first_prime_unit_scale rationalCarrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro
+          (append (BHist.e1 (BHist.e1 BHist.Empty))
+            (BHist.e1 (BHist.e1 BHist.Empty)))
+          carrierWitness
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        cases carrier with
+        | intro real rest =>
+            cases rest with
+            | intro p rest =>
+                cases rest with
+                | intro exponent rest =>
+                    cases rest with
+                    | intro result data =>
+                        exact
+                          ⟨real, p, exponent, result, data.left, data.right.left,
+                            hsame_trans (hsame_symm same) data.right.right⟩
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem AdeleHistoryCarrier_visible_scale_result_nonempty {real p exponent result : BHist} :
     RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->

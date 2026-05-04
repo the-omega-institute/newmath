@@ -139,6 +139,13 @@ theorem EigenSingletonCarrier_append_context_empty_iff {L R h : BHist} :
       append_eq_empty_iff.mpr (And.intro data.left innerEmpty)
     exact EigenSingletonCarrier_empty_iff.mpr contextualEmpty
 
+theorem EigenSingletonCarrier_cont_left_unit_result {pair q result : BHist} :
+    EigenSingletonCarrier pair -> Cont pair q result -> hsame result q := by
+  intro carrier continuation
+  have pairEmpty : hsame pair BHist.Empty := EigenSingletonCarrier_empty_iff.mp carrier
+  cases pairEmpty
+  exact cont_left_unit_result continuation
+
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
 
@@ -205,6 +212,16 @@ theorem EigenSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     exact And.intro (EigenSingletonCarrier_empty_iff.mpr leftEmpty)
       (And.intro (EigenSingletonCarrier_empty_iff.mpr rightEmpty)
         (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
+theorem EigenSingletonClassifier_continuation_results_hsame {h k q q' r r' : BHist} :
+    EigenSingletonClassifier h k -> hsame q q' -> Cont h q r -> Cont k q' r' ->
+      hsame r r' := by
+  intro classified sameTail leftContinuation rightContinuation
+  have leftResult : hsame r q :=
+    EigenSingletonCarrier_cont_left_unit_result classified.left leftContinuation
+  have rightResult : hsame r' q' :=
+    EigenSingletonCarrier_cont_left_unit_result classified.right.left rightContinuation
+  exact hsame_trans leftResult (hsame_trans sameTail (hsame_symm rightResult))
 
 theorem eigen_singleton_semantic_name_certificate :
     SemanticNameCert EigenSingletonCarrier EigenSingletonCarrier EigenSingletonCarrier
