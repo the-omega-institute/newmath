@@ -65,6 +65,55 @@ $\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
 classifiers with $h$ as the right factor, so the right factor is the displayed
 singleton-unit conclusion.
 \end{proof}
+
+\begin{theorem}[Full unary append left-inverse obstruction]
+\label{thm:full-unary-append-left-inverse-obstruction}
+For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, if the
+full unary-history append carrier carries the left-inverse field
+$$
+\begin{array}{l}
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow{}\\
+\qquad
+\mathsf{UnaryHistory}(\mathsf{inv}(h))\land{}\\
+\qquad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(h),h),\emp),
+\end{array}
+$$
+then $\mathsf{False}$.
+
+The ten-field fit names the traditional target as the two-sided obstruction to
+a full unary-history group; BEDC source $\mathsf{UnaryHistory}$; carrier
+$\mathsf{UnaryHistory}$; classifier
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; stability from
+unit-product factor exactness; ledger the proposed left-inverse field;
+exactness the contradiction; downstream consumer the $\GroupUp$ carrier
+selection; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume such an operation $\mathsf{inv}$ and its displayed left-inverse field.
+Specialize the field at $h=\Eone(\emp)$, a concrete unary history. This gives
+the classified product
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(\Eone(\emp)),\Eone(\emp)),\emp).
+$$
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classified product. The forward direction decomposes the append product into
+the two unit-classified factors, and the right factor is
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+
+Unfold the classifier from \autoref{def:concrete-history-monoid-instance}. The
+displayed classifier contains the internal history-sameness witness
+$\Eone(\emp)\hsame\emp$. This contradicts
+\autoref{thm:history-no-confusion}, because an $\Eone$-history and $\emp$ have
+different outer constructors. Hence the left-inverse field yields
+$\mathsf{False}$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
