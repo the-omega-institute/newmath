@@ -754,3 +754,37 @@ $$
 $$
 The ledger field is formed from the two binary composition ledgers governed by \autoref{def:linearmap-ledger-policy}, together with the codomain reflexivity ledger at each point of $Q$.
 \end{proof}
+
+\begin{theorem}[Module LinearMap identity unit laws]
+\label{thm:module-linearmap-identity-unit-laws}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$, and let $\mathrm{id}_M$ and $\mathrm{id}_N$ be the identity functions. If
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, then the two unit composites carry certificates
+$$
+\mathsf{LinearMapCert}_R(M,N;\mathrm{id}_N\circ f)\qquad\text{and}\qquad\mathsf{LinearMapCert}_R(M,N;f\circ\mathrm{id}_M),
+$$
+and both are related to $f$ by the pointwise $\LinearMapUp(M,N)$ classifier:
+$$
+\mathrm{id}_N\circ f\sim_{\LinearMapUp(M,N)}f\qquad\text{and}\qquad f\circ\mathrm{id}_M\sim_{\LinearMapUp(M,N)}f.
+$$
+Equivalently, for every carried $x:M$,
+$$
+\mathrm{id}_N(f(x))\sim_N f(x)\qquad\text{and}\qquad f(\mathrm{id}_M(x))\sim_N f(x).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-identity-certificate} to $M$ and to $N$, obtaining $\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)$ and $\mathsf{LinearMapCert}_R(N,N;\mathrm{id}_N)$.
+By \autoref{thm:module-linearmap-composition-certificate}, first with $f$ and $\mathrm{id}_N$ and then with $\mathrm{id}_M$ and $f$, the two composites carry certificates:
+$$
+\mathsf{LinearMapCert}_R(M,N;\mathrm{id}_N\circ f)\qquad\text{and}\qquad\mathsf{LinearMapCert}_R(M,N;f\circ\mathrm{id}_M).
+$$
+It remains to compare these carried maps. By \autoref{def:linearmap-classifier-specification}, this is pointwise comparison in the codomain classifier. Fix a carried $x:M$.
+The output-closure row of \autoref{def:module-linearmap-certificate-package} for $f$ makes $f(x)$ carried in $N$.
+Since $\mathrm{id}_N(f(x))=f(x)$ and $f(\mathrm{id}_M(x))=f(x)$, classifier reflexivity for the module classifier of $N$, supplied by \autoref{def:module-classifier-specification} and \autoref{def:lean-carrier-naming-certificate}, gives
+$$
+\mathrm{id}_N(f(x))\sim_N f(x)\qquad\text{and}\qquad f(\mathrm{id}_M(x))\sim_N f(x).
+$$
+Quantifying over carried $x$ packages these comparisons as the two $\LinearMapUp(M,N)$ classifier relations. The ledger is the identity and composition ledger required by \autoref{def:linearmap-ledger-policy}.
+\end{proof}
