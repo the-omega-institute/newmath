@@ -135,6 +135,17 @@ theorem CohomologyCocycle_append_left_e1_boundary_empty_absurd
     (append_eq_empty_iff.mp split).left
   exact not_hsame_e1_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
 
+theorem CohomologyCocycle_append_right_e1_boundary_empty_absurd
+    {d : BHist -> BHist} {h k tail : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    hsame (d k) (BHist.e1 tail) -> hsame (d (append h k)) BHist.Empty -> False := by
+  intro rightVisible appendCycle
+  have split : hsame (append (d h) (d k)) BHist.Empty :=
+    hsame_trans (hsame_symm (dAppend h k)) appendCycle
+  have rightEmpty : hsame (d k) BHist.Empty :=
+    (append_eq_empty_iff.mp split).right
+  exact not_hsame_e1_empty (hsame_trans (hsame_symm rightVisible) rightEmpty)
+
 theorem CohomologyCocycle_left_shift_append_empty_iff {d : BHist -> BHist}
     {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
