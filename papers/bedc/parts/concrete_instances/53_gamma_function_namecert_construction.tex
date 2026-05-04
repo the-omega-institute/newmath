@@ -78,6 +78,20 @@ inversion gives \(n\hsame m\).
 \end{proof}
 \leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_witness\_unique}
 
+\begin{theorem}[Gamma pole locus suffix source and witness determinacy]
+\label{thm:gamma-pole-locus-suffix-source-witness-deterministic}
+If $s$ and $t$ lie in the Gamma pole locus and the same suffix $q$ continues
+both histories to the same endpoint $sq$, then $s\hsame t$. Moreover, the two
+pole displays expose unary witnesses $n$ and $m$ with $n\hsame m$.
+\end{theorem}
+\begin{proof}
+Continuation right cancellation on the two ledgers gives $s\hsame t$. Transport
+the pole-locus witness for $t$ back to the source $s$, then apply Gamma
+pole-locus witness uniqueness against the original witness for $s$. The two
+unary witnesses and their equality form the displayed witness package.
+\end{proof}
+\leanchecked{BEDC.Derived.GammaUp.GammaPoleLocus\_suffix\_source\_witness\_deterministic}
+
 \begin{definition}[Gamma domain]
 \label{def:gamma-domain}
 \(\mathsf{GammaDom}(s)\) holds when \(\mathsf{ComplexUp}(s)\) and \(\neg \mathsf{GammaPole}(s)\). The negation is constructive: \(\mathsf{GammaDom}(s)\) is witnessed by an explicit apartness datum \((k, w)\) where \(k\) is a unary precision and \(w\) is a strict-prefix witness showing that the distance from \(s\) to the closest non-positive integer exceeds \(2^{-k}\).
