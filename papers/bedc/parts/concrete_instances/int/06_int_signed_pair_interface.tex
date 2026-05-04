@@ -105,6 +105,21 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairCarrier}
 
+\begin{theorem}[Integer pair carrier pair induction]
+\label{thm:int-pair-carrier-pair-induction}
+For any predicate \(P\) on two histories, if \(P(\emp,\emp)\) holds and
+\(P\) is preserved by one-step unary extension of either counter while the
+other counter remains unary, then \(P(p,n)\) holds for every carried integer
+difference pair \(\mathsf{IntPairCarrier}(p,n)\).
+\end{theorem}
+\begin{proof}
+Unfold \(\mathsf{IntPairCarrier}\) into its positive and negative unary
+counter witnesses. Run unary-history induction over the positive counter; its
+base case is unary-history induction over the negative counter, and the two
+step cases are exactly the two supplied one-step closure rules.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntPairCarrier\_pair\_induction}
+
 \begin{definition}[Integer difference-pair classifier]
 \label{def:intup-difference-pair-classifier}
 Two carried unary pairs classify together when their cross-additions are
