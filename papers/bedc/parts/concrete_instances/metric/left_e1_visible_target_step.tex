@@ -17,6 +17,27 @@ $\Eone(y)$ and result $\Eone(d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_step}
 
+\begin{theorem}[Metric distance witness left e1 visible target result shape]
+\label{thm:metric-distance-witness-left-e1-visible-target-result-shape}
+For histories $x,y,d$, any distance witness from $\Eone(x)$ to $\Eone(y)$ has
+a visible result tail, and that tail is again the distance witness from
+$\Eone(x)$ to $y$:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),d)
+\Longrightarrow
+\exists k.\;
+\hsame(d,\Eone(k))\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply the left visible-result shape split to the displayed witness. The
+empty-target branch would identify $\Eone(y)$ with $\emp$, contradicting
+constructor no-confusion. The remaining visible branch supplies the result
+tail $k$ and the descended witness with target $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_result\_shape}
+
 \begin{theorem}[Metric distance witness left e1 source step]
 \label{thm:metric-distance-witness-left-e1-source-step}
 For histories $x,y,d$, a distance witness from $x$ to $y$ with result $d$

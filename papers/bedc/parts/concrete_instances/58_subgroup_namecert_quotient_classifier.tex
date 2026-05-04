@@ -301,6 +301,43 @@ centralizer kernel.
 \end{definition}
 \leandef{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel}
 
+\begin{theorem}[Centralizer right coset classifier quotient-kernel equivalence]
+\label{thm:subgroup-centralizer-right-coset-quotient-kernel-iff}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the same associativity, unit, multiplication-congruence, and
+two-sided inverse laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the concrete
+right-coset classifier of
+\autoref{def:centralizer-normalizer-quotient-classifier} coincides with the
+quotient-kernel relation of
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}:
+$$
+Q_{Z_a\leq N_a}(x,y)\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the right-coset witness. The endpoint
+clauses already give $N_a(x)$ and $N_a(y)$, and the witness gives some
+$z:\mathsf{BHist}$ with $Z_a(z)$ and
+$\hsame(y,\mathsf{mul}(x,z))$.
+
+Left-multiply the endpoint comparison by $\mathsf{inv}(x)$ and reassociate.
+The left inverse and unit laws identify the resulting word with $z$ up to
+$\hsame$. Multiplication congruence and the centralizer carrier-transport row
+then move $Z_a(z)$ to
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, which is the quotient-kernel clause.
+
+For the reverse direction, assume the quotient-kernel relation. Take the
+kernel word $z:=\mathsf{mul}(\mathsf{inv}(x),y)$ as the right-coset witness.
+
+Associativity, the inverse law, the unit law, and multiplication congruence
+transport $\mathsf{mul}(x,\mathsf{mul}(\mathsf{inv}(x),y))$ back to $y$ up
+to $\hsame$. The kernel carrier is exactly $Z_a(z)$, so the same word repacks
+the right-coset classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightCosetClassifier\_quotientKernel\_iff}
+
 \begin{theorem}[Centralizer normalizer quotient-kernel identity fiber]
 \label{thm:subgroup-centralizer-normalizer-quotient-kernel-identity-fiber}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying

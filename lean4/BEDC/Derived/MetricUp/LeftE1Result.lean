@@ -153,4 +153,27 @@ theorem MetricDistanceWitness_left_e1_source_step {x y d : BHist} :
           ((congrArg BHist.e1 witness.right.right.right).trans
             (unary_append_e1_left (h := y) (k := x) witness.right.left).symm))))
 
+theorem MetricDistanceWitness_left_e1_visible_target_result_shape {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) d ->
+      ∃ k : BHist, hsame d (BHist.e1 k) ∧
+        MetricDistanceWitness (BHist.e1 x) y k := by
+  intro witness
+  have resultShape := MetricDistanceWitness_left_e1_result_shape witness
+  cases resultShape with
+  | intro k resultData =>
+      cases resultData with
+      | intro sameResult branches =>
+          cases branches with
+          | inl emptyBranch =>
+              cases emptyBranch with
+              | intro targetEmpty _data =>
+                  cases targetEmpty
+          | inr visibleBranch =>
+              cases visibleBranch with
+              | intro y1 visibleData =>
+                  cases visibleData with
+                  | intro targetEq tailWitness =>
+                      cases targetEq
+                      exact Exists.intro k (And.intro sameResult tailWitness)
+
 end BEDC.Derived.MetricUp
