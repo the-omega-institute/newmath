@@ -108,6 +108,39 @@ theorem ComplexHistoryLedgerPolicy_positive_components {raw visible : BHist} :
                                           (And.intro visibleCarrier
                                             (And.intro positiveReal positiveImag)))))))
 
+theorem ComplexHistoryCarrier_e1_tail_components {tail : BHist} :
+    ComplexHistoryCarrier (BHist.e1 tail) ->
+      ∃ real imagTail : BHist,
+        RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier (BHist.e1 imagTail) ∧
+          Cont real imagTail tail := by
+  intro carrier
+  cases carrier with
+  | intro real rest =>
+      cases rest with
+      | intro imag data =>
+          cases data with
+          | intro realCarrier rest =>
+              cases rest with
+              | intro imagCarrier cont =>
+                  have resultCases := cont_e1_result_inversion cont
+                  cases resultCases with
+                  | inl emptyCase =>
+                      cases emptyCase with
+                      | intro imagEmpty _sameReal =>
+                          cases imagEmpty
+                          exact False.elim
+                            (RatUp.RatHistoryCarrier_not_empty imagCarrier
+                              (hsame_refl BHist.Empty))
+                  | inr visibleCase =>
+                      cases visibleCase with
+                      | intro imagTail fields =>
+                          cases fields with
+                          | intro imagVisible tailCont =>
+                              cases imagVisible
+                              exact Exists.intro real
+                                (Exists.intro imagTail
+                                  (And.intro realCarrier (And.intro imagCarrier tailCont)))
+
 theorem ComplexHistoryCarrier_component_reflexive_classifiers {h : BHist} :
     ComplexHistoryCarrier h ->
       exists real : BHist, exists imag : BHist,
@@ -171,6 +204,21 @@ theorem ComplexHistoryClassifier_e0_endpoint_absurd {tail h : BHist} :
     exact carrierE0Absurd classified.left
   · intro classified
     exact carrierE0Absurd classified.right.left
+
+theorem ComplexHistoryClassifier_e1_endpoint_components {tail h : BHist} :
+    (ComplexHistoryClassifier (BHist.e1 tail) h ->
+      ∃ real imagTail : BHist,
+        RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier (BHist.e1 imagTail) ∧
+          Cont real imagTail tail) ∧
+      (ComplexHistoryClassifier h (BHist.e1 tail) ->
+        ∃ real imagTail : BHist,
+          RatUp.RatHistoryCarrier real ∧ RatUp.RatHistoryCarrier (BHist.e1 imagTail) ∧
+            Cont real imagTail tail) := by
+  constructor
+  · intro classified
+    exact ComplexHistoryCarrier_e1_tail_components classified.left
+  · intro classified
+    exact ComplexHistoryCarrier_e1_tail_components classified.right.left
 
 theorem ComplexHistoryLedgerPolicy_e0_visible_absurd {raw tail : BHist} :
     ComplexHistoryLedgerPolicy raw (BHist.e0 tail) -> False := by
