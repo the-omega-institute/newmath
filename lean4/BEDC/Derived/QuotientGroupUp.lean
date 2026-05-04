@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.SubgroupUp
+import BEDC.Derived.AbGroupUp
 
 namespace BEDC.Derived.QuotientGroupUp
 
@@ -354,5 +355,28 @@ theorem QuotientGroupCentralizerNormalizer_identity_fiber_subgroup_package
       (rows.right.right.right.right (Iff.mp (fiber x) kernelX) sameXY)
   exact And.intro emptyKQ
     (And.intro mulClosed (And.intro invClosed (And.intro hsameClosed fiber)))
+
+theorem QuotientGroupCentralizerNormalizer_abelian_identity_fiber_total
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a : BHist} :
+    let KQ := fun x : BHist => SubgroupCentralizerQuotientKernel mul inv a BHist.Empty x
+    forall x : BHist, KQ x := by
+  dsimp
+  have package :=
+    QuotientGroupCentralizerNormalizer_identity_fiber_subgroup_package
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  intro x
+  have centralX : SubgroupCentralizerCarrier mul a x :=
+    (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
+      assocC leftId rightId commC mulCongr leftInv rightInv (a := a) (x := x)).left
+  exact Iff.mpr (package.right.right.right.right x) centralX
 
 end BEDC.Derived.QuotientGroupUp
