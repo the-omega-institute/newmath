@@ -164,6 +164,27 @@ histories, giving the classifier endpoint relation.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_closed}
 
+\begin{theorem}[Complex history classifier unary context positive components]
+\label{thm:complex-history-classifier-unary-context-positive-components}
+If \(p\) and \(q\) are unary context histories, \(p\hsame p'\),
+\(q\hsame q'\), and \(\mathsf{ComplexHistoryClassifier}(h,k)\), then the
+context-wrapped endpoints
+\(\mathsf{append}(p,\mathsf{append}(h,q))\) and
+\(\mathsf{append}(p',\mathsf{append}(k,q'))\) expose real and imaginary
+rational-history components for both endpoints, the two continuation ledgers,
+the wrapped endpoint \(\hsame\) witness, and positive unary denominator
+evidence for all four rational components.
+\end{theorem}
+\begin{proof}
+Apply unary context closure to the source complex classifier and the matched
+prefix and suffix contexts. This gives a complex classifier between the two
+wrapped endpoints. Apply complex classifier positive-component readback to that
+wrapped classifier. The readback exposes the four rational component carriers,
+the two continuation ledgers assembling the wrapped endpoints, the endpoint
+\(\hsame\) witness, and the four positive-denominator witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_positive\_components}
+
 \begin{theorem}[Complex component classifier introduction]
 \label{thm:complex-history-classifier-component-classifier-intro}
 If the real components are related by $\mathsf{RatHistoryClassifier}$, the
