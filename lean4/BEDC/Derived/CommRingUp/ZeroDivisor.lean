@@ -8,9 +8,32 @@ open BEDC.FKernel.Hist
 def CommRingApartZero (x : BHist) : Prop :=
   hsame x BHist.Empty -> False
 
+theorem CommRingApartZero_visible_pair {h : BHist} :
+    CommRingApartZero (BHist.e0 h) ∧ CommRingApartZero (BHist.e1 h) := by
+  constructor
+  · intro same
+    exact not_hsame_e0_empty same
+  · intro same
+    exact not_hsame_e1_empty same
+
 def CommRingLeftZeroDivisor (mul : BHist -> BHist -> BHist) (x : BHist) : Prop :=
   CommRingApartZero x ∧
     Exists (fun c : BHist => CommRingApartZero c ∧ hsame (mul x c) BHist.Empty)
+
+theorem CommRingLeftZeroDivisor_strict_of_mul_comm {mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
+    CommRingLeftZeroDivisor mul x ->
+      CommRingApartZero x ∧
+        Exists (fun c : BHist =>
+          CommRingApartZero c ∧ hsame (mul x c) BHist.Empty ∧
+            hsame (mul c x) BHist.Empty) := by
+  intro leftZD
+  cases leftZD.right with
+  | intro c witness =>
+      exact And.intro leftZD.left
+        (Exists.intro c
+          (And.intro witness.left
+            (And.intro witness.right (hsame_trans (mulComm c x) witness.right))))
 
 theorem CommRingLeftZeroDivisor_product_closed {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
