@@ -55,6 +55,45 @@ The two transported conclusions form the required conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_zero\_classifier\_factor\_absorption}
 
+\begin{theorem}[Ring zero-classifier two-sided ideal package]
+\label{thm:ring-zero-classifier-two-sided-ideal-package}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$ and $\hsame(y,0)$, then
+$$
+\hsame(x+y,0)\land \hsame(-x,0)\land
+\forall z:\mathsf{BHist},\ \hsame(x\cdot z,0)\land
+\hsame(z\cdot x,0)\land\hsame(x\cdot y,0).
+$$
+The ten-field fit is: traditional target zero-classifier two-sided ideal
+closure package; BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability from addition congruence,
+additive inverse congruence, multiplication congruence, and both distributive
+laws; ledger the two zero-classifier witnesses and an arbitrary multiplier;
+core theorem this theorem; exactness the displayed addition, negation, and
+two-sided multiplication closure; downstream consumer $\FieldUp$ zero-product
+exits, $\QuotientRingUp$ kernels, and $\IdealUp$ certificates; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First close the zero classifier under addition. Addition congruence transports
+$x+y$ along $\hsame(x,0)$ and $\hsame(y,0)$ to compare it with $0+0$, and the
+left-zero law reduces $0+0$ to $0$. Transitivity gives $\hsame(x+y,0)$.
+
+Next close the classifier under additive inverse. Additive inverse congruence
+transports $\hsame(x,0)$ to a comparison between $-x$ and $-0$, while
+\autoref{thm:ring-neg-zero} identifies $-0$ with $0$. Transitivity gives
+$\hsame(-x,0)$.
+
+Finally fix $z:\mathsf{BHist}$. Apply
+\autoref{thm:ring-zero-classifier-factor-absorption} to the factor $x$ and
+multiplier $z$ to obtain $\hsame(x\cdot z,0)$ and $\hsame(z\cdot x,0)$. Apply
+the same theorem with factor $x$ and multiplier $y$ to obtain
+$\hsame(x\cdot y,0)$, and package these conclusions with the additive and
+negative closure witnesses.
+\end{proof}
+
 \begin{theorem}[Ring zero-classifier square annihilator package]
 \label{thm:ring-zero-classifier-square-annihilator-package}
 For BEDC history ring operations satisfying additive associativity, left zero,
