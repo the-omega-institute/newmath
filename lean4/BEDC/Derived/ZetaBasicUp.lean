@@ -63,6 +63,18 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
 
+theorem ZetaBasicPartSum_empty_source_successor_result_shape {n z : BHist} :
+    ZetaBasicPartSum BHist.Empty (BHist.e1 n) z ->
+      exists previous : BHist,
+        ZetaBasicPartSum BHist.Empty n previous ∧ hsame z (BHist.e1 previous) := by
+  intro sum
+  have inverted := ZetaBasicPartSum_successor_step_inversion sum
+  cases inverted with
+  | intro previous previousData =>
+      exact Exists.intro previous
+        (And.intro previousData.left
+          (previousData.right.trans (congrArg BHist.e1 (append_empty_right previous))))
+
 theorem ZetaBasicPartSum_successor_source_hsame_transport_step {s t n z : BHist} :
     hsame s t -> ZetaBasicPartSum s (BHist.e1 n) z ->
       exists previous transported : BHist, ZetaBasicPartSum t n previous ∧
