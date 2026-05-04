@@ -45,4 +45,25 @@ theorem NatTransPrefixComponentCarrier_vert_comp_right_identity_empty_result_iff
     cases data.left
     exact cont_deterministic rightRel (cont_right_unit BHist.Empty)
 
+theorem NatTransPrefixComponentCarrier_vert_comp_left_identity_empty_result_iff
+    {p q a eta left : BHist} :
+    NatTransPrefixComponentCarrier p q a eta -> Cont BHist.Empty eta left ->
+      (hsame left BHist.Empty ↔ hsame eta BHist.Empty ∧ hsame p q) := by
+  intro component leftRel
+  have closed :=
+    NatTransPrefixComponentCarrier_vert_comp_left_identity_closed component leftRel
+  constructor
+  · intro leftEmpty
+    have etaEmpty : hsame eta BHist.Empty :=
+      hsame_trans (hsame_symm closed.right) leftEmpty
+    have emptyComponent : NatTransPrefixComponentCarrier p q a BHist.Empty := by
+      cases leftEmpty
+      exact closed.left
+    have identityData :=
+      Iff.mp NatTransPrefixComponentCarrier_empty_identity_iff emptyComponent
+    exact And.intro etaEmpty identityData.right.right.right
+  · intro data
+    cases data.left
+    exact cont_left_unit_result leftRel
+
 end BEDC.Derived.NatTransUp
