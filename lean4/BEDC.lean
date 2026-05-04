@@ -495,6 +495,7 @@ import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyVertComp
+import BEDC.Derived.NatTransUp.E1ObjectEmptyComponent
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
 import BEDC.Derived.NatTransUp.EmptyComponentSemantic
 import BEDC.Derived.NatTransUp.FamilyReadback

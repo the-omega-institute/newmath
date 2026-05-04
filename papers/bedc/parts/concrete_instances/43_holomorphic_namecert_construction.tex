@@ -149,6 +149,28 @@ closure.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_continuation\_extend}
 
+\begin{theorem}[Witnessed open disk zero-headed component impossibility]
+\label{thm:holomorphic-open-disk-witnessed-zero-headed-component-absurd}
+For histories \(z_0,r,z\), a witnessed unary open disk has no zero-headed
+center, radius, or point component:
+$$
+\mathsf{HolomorphicOpenDiskWitnessed}(z_0,r,z)
+\Longrightarrow
+\left(\exists w,\ z_0=\Ezero(w)\right)\lor
+\left(\exists w,\ r=\Ezero(w)\right)\lor
+\left(\exists w,\ z=\Ezero(w)\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witnessed disk into unary center, radius, point, and boundary-gap
+witnesses. In each displayed zero-headed branch, substituting the equality
+turns the corresponding unary witness into a unary zero-extension, contradicting
+unary zero-extension separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskWitnessed\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Witnessed open-disk boundary transport]
 \label{lem:holo-open-disk-witnessed-boundary-hsame-transport}
 If a witnessed unary open disk is transported along \(\hsame\) in its center,
