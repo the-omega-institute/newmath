@@ -96,3 +96,34 @@ continuation to the right-unit case, identifying $mid$ with $l$, and the
 remaining continuation is exactly the displayed splice result.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_continuation\_splice}
+
+\begin{theorem}[Metric symmetric zero-depth distance continuation result]
+\label{thm:metric-distance-witness-prefix-independent-symmetric-zero-depth-distance-continuation-result}
+For histories $p,q,p',q',x,y,d_{xy},d_{yx},l,mid,out$, symmetric
+visible-context distance witnesses with independent contexts and zero-depth
+forward distance make any two-step continuation through the two central
+distances return to the original left endpoint:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\to
+\mathsf{MetricDistanceWitness}(p'\cdot y,x\cdot q',(p'\cdot d_{yx})\cdot q')
+\to
+\mathsf{MetricDistanceDepth}(d_{xy})=0
+\to
+\\
+\ContR(l,d_{xy},mid)\to
+\ContR(mid,d_{yx},out)\to
+\hsame(out,l).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The forward zero-depth hypothesis converts $d_{xy}$ to the empty history by
+the depth-zero classifier theorem. The symmetric zero-depth collapse theorem
+also gives zero depth for $d_{yx}$, hence $d_{yx}\hsame\emp$. Case analysis on
+these two empty-distance classifiers reduces both continuations to right-unit
+continuations, first identifying $mid$ with $l$ and then $out$ with $mid$.
+Transitivity gives the displayed $\hsame(out,l)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_prefix\_independent\_symmetric\_zero\_depth\_distance\_continuation\_result}
