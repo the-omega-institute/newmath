@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonContinuation
 
 namespace BEDC.Derived.GroupUp
 
