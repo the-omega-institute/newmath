@@ -53,6 +53,19 @@ theorem ModuleSingletonSmul_empty_action_outputs_deterministic {r m n n' : BHist
   exact Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
     (And.intro leftEndpoints.right rightEndpoints.right)
 
+theorem ModuleSingletonSmul_nonfaithful_visible_scalar :
+    (∀ {m : BHist}, ModuleSingletonCarrier m ->
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul (BHist.e1 BHist.Empty) m)
+        (ModuleSingletonSmul BHist.Empty m)) ∧
+      (ModuleSingletonClassifier (BHist.e1 BHist.Empty) BHist.Empty -> False) := by
+  constructor
+  · intro m _carrierM
+    exact Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  · intro classified
+    exact not_hsame_e1_empty classified.left
+
 theorem ModuleSingletonSmul_classifier_readback_iff {r m n : BHist} :
     ModuleSingletonCarrier m ->
       hsame (ModuleSingletonSmul r m) BHist.Empty /\
