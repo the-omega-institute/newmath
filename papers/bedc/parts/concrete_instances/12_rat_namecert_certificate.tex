@@ -201,6 +201,37 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_endpoints\_not\_empty}
 
+\begin{theorem}[Rat history classifier zero-extension endpoint exclusion]
+\label{thm:rat-history-classifier-zero-extension-endpoint-exclusion}
+For histories $t,d:\mathsf{BHist}$, zero-extension cannot appear as either
+endpoint of the rational history classifier:
+$$
+(\mathsf{RatHistoryClassifier}(\Ezero(t),d)\to\mathsf{False})\land
+(\mathsf{RatHistoryClassifier}(d,\Ezero(t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis. Its first positive-denominator witness belongs to $\Ezero(t)$, so
+\autoref{thm:rat-positive-denominator-e0-absurd} gives the contradiction.
+
+For the right endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis again. Its second positive-denominator witness belongs to
+$\Ezero(t)$, and
+\autoref{thm:rat-positive-denominator-e0-absurd} rules out that endpoint.
+\end{proof}
+
+The ten-field fit is: traditional target rational-denominator branch
+exclusion; BEDC source $\mathsf{BHist}$ and
+$\mathsf{RatHistoryClassifier}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from
+positive-denominator readback; ledger the rejected zero head; core theorem
+this block; exactness the two displayed contradictions; standard bridge
+positive denominators are never zero-headed unary histories; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
 If denominator histories $d$ and $e$ are related by the rational history
@@ -487,6 +518,44 @@ Finally apply
 \autoref{thm:rat-history-ledger-policy-shared-raw-visible-classifier} to those
 two contextual ledger witnesses. Its conclusion is exactly the displayed
 classifier between the two contextual visible denominator endpoints.
+\end{proof}
+
+\begin{theorem}[Rat ledger shared-raw context one-tail readback]
+\label{thm:rat-history-ledger-shared-raw-context-e1-pair-readback}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes
+$p,p_v,p_{v'}$ satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, and the two
+contextual visible endpoints display as one-extension histories,
+$$
+\hsame(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),\Eone(a))
+\quad\text{and}\quad
+\hsame(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),\Eone(b)),
+$$
+then the displayed tails are unary and internally the same:
+$$
+\mathsf{Unary}(a)\land \mathsf{Unary}(b)\land\hsame(a,b).
+$$
+
+Its ten-field fit is: traditional target shared-denominator visible-tail
+determinacy; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier positive
+unary denominators; classifier $\mathsf{RatHistoryClassifier}$; stability from
+unary context closure and classifier transport; ledger the shared raw
+denominator plus two visible contexts; core theorem this block; exactness the
+displayed tail readback; standard bridge normalized denominator readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} with the
+two ledger witnesses and the matching raw-to-visible unary contexts. This gives
+the rational history classifier between the two contextual visible endpoints.
+
+Then apply
+\autoref{thm:rat-history-classifier-unary-context-e1-pair-readback} to that
+classifier and to the two displayed one-extension witnesses. The readback
+conclusion is exactly $\mathsf{Unary}(a)\land \mathsf{Unary}(b)\land
+\hsame(a,b)$.
 \end{proof}
 
 \begin{theorem}[Rat ledger classifier extension]
