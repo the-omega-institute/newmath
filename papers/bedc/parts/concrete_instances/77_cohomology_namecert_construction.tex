@@ -181,6 +181,23 @@ cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
 
+\begin{theorem}[Cohomology visible left boundary excludes appended cycle]
+\label{thm:cohomology-cocycle-append-left-e1-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$d(h)$ has visible boundary $\Eone(t)$, then the appended history $h\cdot k$
+cannot be a $d$-cocycle:
+$$
+d(h)\hsame\Eone(t)\Longrightarrow d(h\cdot k)\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Append preservation transports the appended cocycle to
+$\mathsf{append}(d(h),d(k))\hsame\emp$. Append-empty inversion then forces
+$d(h)\hsame\emp$. Together with the visible boundary hypothesis this identifies
+$\Eone(t)$ with $\emp$, contradicting BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_left\_e1\_boundary\_empty\_absurd}
+
 \begin{theorem}[Cohomology cocycle left-shift append empty equivalence]
 \label{thm:cohomology-cocycle-left-shift-append-empty-iff}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For

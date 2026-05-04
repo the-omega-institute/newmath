@@ -242,6 +242,20 @@ theorem LatticeSingletonLE_append_tail_empty_iff {h tail : BHist} :
     exact And.intro appendCarrier (And.intro carrierH
       ((PreorderPrefixLE_append_tail_backforces_empty_iff tailUnary).mpr tailEmpty))
 
+theorem LatticeSingletonLE_append_tail_upper_empty_iff {h tail : BHist} :
+    LatticeSingletonCarrier h -> UnaryHistory tail ->
+      (LatticeSingletonLE h (append h tail) ↔ hsame tail BHist.Empty) := by
+  intro carrierH tailUnary
+  constructor
+  · intro leData
+    exact (append_eq_empty_iff.mp leData.right.left).right
+  · intro tailEmpty
+    have appendCarrier : LatticeSingletonCarrier (append h tail) := by
+      cases tailEmpty
+      exact carrierH
+    exact And.intro carrierH
+      (And.intro appendCarrier (PreorderPrefixLE_append_tail tailUnary))
+
 theorem LatticeSingletonMeet_greatest_lower_bound_empty_iff {h k z : BHist} :
     LatticeSingletonCarrier h -> LatticeSingletonCarrier k -> LatticeSingletonCarrier z ->
       (LatticeSingletonLE z (LatticeSingletonMeet h k) ↔
