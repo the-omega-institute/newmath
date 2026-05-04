@@ -68,6 +68,22 @@ denominator histories.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_denominator\_positive\_transport}
 
+\begin{theorem}[Rat positive denominator append factor or tail]
+\label{thm:rat-positive-denominator-append-factor-or-tail}
+If the append of two denominator histories carries a positive unary denominator
+witness, then either the left factor already carries such a witness or the
+right tail carries one.
+\end{theorem}
+\begin{proof}
+Inspect the right tail. The empty case leaves the displayed append equal to the
+left factor. A zero-headed tail contradicts the positive one-headed
+denominator witness. For a one-headed tail, the positive witness exposes unary
+membership of the appended core, and unary append factor recovery gives unary
+membership of the right core, hence a positive denominator witness for the
+tail.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_factor\_or\_tail}
+
 \begin{theorem}[Rat classifier denominator append closure]
 \label{thm:rat-classifier-append-unary-denominators-closed}
 If two rational representatives are classified the same, then appending
