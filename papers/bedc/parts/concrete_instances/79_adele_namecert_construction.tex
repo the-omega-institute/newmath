@@ -274,6 +274,28 @@ unit-left prime-scale append factorization applied to the unary right exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_left\_scale\_cont\_readback}
 
+\begin{theorem}[Adele unit-left scale append readback]
+\label{thm:adele-history-carrier-unit-left-scale-append-readback}
+Let $real,p,q,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier, $q$ is unary, and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),result)$ holds,
+then $\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\exists e.\,
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\mathsf{append}(real,result)\hsame
+\mathsf{append}(real,\mathsf{append}(p,e)).
+$$
+\end{theorem}
+\begin{proof}
+The adele carrier uses the displayed real component, prime base, appended
+unit-left exponent, and scale result. The unit-left prime-scale factorization
+extracts a right-factor result $e$ with $\ContR(p,e,result)$; reading that
+continuation as the append endpoint and applying the fixed real append context
+gives the displayed real-padic readback.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_left\_scale\_append\_readback}
+
 \begin{theorem}[Adele unit-right scale continuation readback]
 \label{thm:adele-history-carrier-unit-right-scale-cont-readback}
 Let $real,p,w,result:\mathsf{BHist}$. If $real$ is a constant real-history

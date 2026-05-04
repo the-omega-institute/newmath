@@ -370,6 +370,28 @@ right scale by append continuation closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_factorization\_iff}
 
+\begin{theorem}[Prime scale append unit left predecessor uniqueness]
+\label{thm:padic-prime-scale-append-unit-left-predecessor-unique}
+For unary $q$, every prime scale over
+$\mathsf{append}(\Eone(\emp),q)$ exposes a right-factor scale
+$\mathsf{PadicPrimeScale}(p,q,e)$ and a continuation $\ContR(p,e,r)$, and
+the right-factor result is unique up to $\hsame$ among prime-scale results over
+$q$:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Longrightarrow
+\exists e.\,
+\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,r)\land
+\forall other.\ \mathsf{PadicPrimeScale}(p,q,other)\Rightarrow e\hsame other.
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-left factorization extracts the right-factor scale and the
+continuation from the prime base. Uniqueness is the functional property of the
+underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,q,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_predecessor\_unique}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
