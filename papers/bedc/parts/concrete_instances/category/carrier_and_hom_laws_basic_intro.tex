@@ -743,6 +743,21 @@ visible suffix $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_context\_iff}
 
+\begin{theorem}[Category hom carrier unary prefix commutation transport]
+\label{thm:category-hom-carrier-unary-prefix-comm-transport}
+For unary histories $p$ and $q$, any hom-carrier displayed between
+$\mathsf{append}(p,\mathsf{append}(q,a))$ and
+$\mathsf{append}(p,\mathsf{append}(q,b))$ transports to a hom-carrier displayed
+between $\mathsf{append}(q,\mathsf{append}(p,a))$ and
+$\mathsf{append}(q,\mathsf{append}(p,b))$ with the same morphism history.
+\end{theorem}
+\begin{proof}
+Apply unary prefix exactness twice to reflect the displayed carrier to the
+central hom-carrier. Reapply the same exactness theorem first with prefix $p$
+and then with prefix $q$.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_unary\_prefix\_comm\_transport}
+
 \begin{theorem}[Category hom carrier unary context composition public readback]
 \label{thm:category-hom-carrier-unary-context-comp-public-readback}
 For composable category hom-carriers $f,g$, unary histories $p,q$, and a
