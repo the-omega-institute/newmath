@@ -3983,3 +3983,374 @@ Third stratum-specific loss proposition, sited in capstones/three_axioms_one_clo
 
 ---
 
+### B-156 - Tensor product singleton factor source-target swap
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product singleton factor source-target swap |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For histories l, r, t with TensorProductSingletonFactor(l, r, t), then TensorProductSingletonFactor(r, l, t) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65_tensorproduct has 9 theorem labels but ZERO BOARD entries (verified: grep -i 'tensor' tools/bedc-deep/BOARD.md returns no hits). The chapter is entirely about TensorProductSingletonCarrier and TensorProductSingletonFactor, with thm:tensorproduct-singleton-factor-hsame-transport (65_tensorproduct:138-150) handling componentwise hsame transport but no theorem stating the basic source-target swap symmetry of the bilinear factor — a textbook tensor-product symmetry that lives one step away from the existing transport theorem. Closes immediately because the singleton-factor predicate forces l, r, t all to be empty, making Cont(l,r,t) and Cont(r,l,t) both reduce to Cont(emp,emp,emp). This is the missing 'flip' theorem that any later non-singleton tensor-symmetry argument depends on.
+
+---
+
+
+### B-157 - L-function Dirichlet partial-sum result hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | L-function Dirichlet partial-sum result hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For Dirichlet term operation term, parameter s, index n, and histories S, S' with DirichletPartSum(term, s, n, S) and S ~ S', then DirichletPartSum(term, s, n, S').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/81_lfunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/45_dirichlet_series_namecert_construction.tex`
+
+Rationale:
+Chapter 81_lfunction has 11 theorem labels but ZERO BOARD entries (verified via grep). All eleven theorems concern the inductive structure of DirichletPartSum at the successor index (positive-index, previous-unique, deterministic, zero-term-stable, etc.), but there is no transport theorem for hsame on the sum result S itself. Without this, every later certificate that wants to rebuild a DirichletPartSum after an hsame substitution has to recurse on the constructor — exactly the gap that chapters 11_list and 13_real already filled with explicit transport theorems. Closes by induction on the partial-sum constructor, transporting the continuation result field at the step case.
+
+---
+
+
+### B-158 - EqType class carrier hsame transport along the anchor
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EqType class carrier hsame transport along the anchor |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For histories anchor, anchor', h with EqtypeClassCarrier anchored at anchor holding for h and anchor ~ anchor', the EqtypeClassCarrier anchored at anchor' holds for h.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/109_eqtype_namecert_construction.tex`
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+Chapter 109_eqtype has 12 theorem labels but ZERO BOARD entries (verified via grep). Existing theorems are e0/e1 anchor-tail readbacks, anchor pair determinism, visible-context absurdity, and the terminal SemanticNameCert (thm:eqtype-identity-semantic-namecert). Transport of the EqtypeClassCarrier under hsame on the *anchor* (rather than on h) is the dual to the anchor-pair-deterministic theorem and is the precise lemma a downstream psame transport at the type stratum (capstones B-151 NameCert psame-transport replaces Quot.sound use) would invoke. Single-implication, closes by composing the carrier comparison with the anchor's hsame witness via classifier transitivity.
+
+---
+
+### B-159 - Functor composition identity unit laws
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor composition identity unit laws |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a FunctorUp setup, for any certified functor F : C -> D, the composites F . 1_C and 1_D . F classify pointwise with F under the FunctorUp classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapter 37 (Functor namecert construction) is 100% definition-only, as flagged by B-11's rationale. B-11 covers composition closure (G . F carries the composed hom-carrier classifier), but no existing BOARD entry or paper label addresses the identity unit laws on either side. The paper already has def:identity-functor-certificate-data, so the identity functor is defined but its unit laws against arbitrary certified functors are not stated. This is the natural sibling theorem to B-11: together they form the minimal categorical-coherence package for the functor certificate (associativity + identity), and it is expressible as a clean implication on the FunctorUp classifier without leaving BEDC scope.
+
+---
+
+### B-160 - Monoid forgets to Semigroup certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Monoid forgets to Semigroup certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If MonoidUp(C) holds, then dropping the left- and right-identity stability fields yields a SemigroupUp(C) certificate over the same carrier, multiplication, and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/57_semigroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex`
+
+Rationale:
+The board carries the entire forgetful chain B-28 (CommRing→Ring), B-53 (AbGroup→Group), B-67 (VecSpace→Module), B-68 (Lattice→Poset), B-69 (Module→AbGroup), B-71 (Field→CommRing), B-72 (Ring→AbGroup), B-73 (Module→Ring), B-74 (POSet→Preorder), B-75 (TotalOrder→POSet), B-76 (Group→Monoid). The next link Group→Monoid lands at prop:group-forgets-monoid-certificate (concrete_instances/group/16_group_certificate_tail.tex:103), but the chain stops there. MonoidUp stability fields at 15_monoid_namecert_construction.tex:89-99 list six items (reflexivity, transitivity, associativity, left identity, right identity, multiplication congruence); SemigroupUp's semantic certificate at 57_semigroup_namecert_construction.tex:117-124 lists exactly the same fields minus the two identity laws. Grep `'monoid.*forgets.*semigroup\|forgets.*semigroup'` over papers/bedc/parts/ returns 0 matches and grep on BOARD.md returns 0 matches. This is the next missing rung of the algebraic-ladder forget chain that B-76's rationale (line 1908 of BOARD.md) explicitly names as the canonical pattern.
+
+---
+
+
+### B-161 - Semigroup forgets to Magma certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Semigroup forgets to Magma certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If SemigroupUp(C) holds, then dropping the associativity stability field yields a MagmaUp(C) certificate over the same carrier, multiplication, and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/57_semigroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/56_magma_namecert_construction.tex`
+
+Rationale:
+Bottom rung of the same forgetful chain. SemigroupUp's semantic-certificate field list at 57_semigroup_namecert_construction.tex:117-124 reads: classifier reflexivity/symmetry/transitivity, multiplication closure, multiplication congruence, associativity, ledger. Magma chapter intro at 56_magma_namecert_construction.tex:4 says "MagmaUp packages a carrier endowed with a single binary operation, with no associativity, identity, or inverse demands" — i.e. exactly the SemigroupUp field list minus associativity. Grep `'semigroup.*forgets\|forgets.*magma'` across papers/bedc/parts/ returns 0 hits. B-78 (auto-spawned 'Concrete unary-history magma classifier carrier-aware reflexivity') touches 56_magma but at the carrier-reflexivity level, not the certificate projection. Distinct from B-76 (Group→Monoid) by being two layers lower in the algebraic ladder. Closes the algebraic-ladder forget chain at its terminal end, which the rationale of B-78 (BOARD.md:1966) flags as a deliberate blindspot.
+
+---
+
+
+### B-162 - Matrix multiplication left-distributes over matrix addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matrix multiplication left-distributes over matrix addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under MatrixUp over a RingUp scalar source, for matrices A:n×m and B,C:m×p of compatible dimensions, A·(B+C) is matrix-classifier equal to A·B + A·C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Matrix stability certificate at concrete_instances/matrix/the_certificate.tex:18-29 lists 'addition closure by scalar addition' (item 4) and 'multiplication closure by finite scalar sums and products' (item 5), but distributivity at the matrix level is only described as a *consequence* in 24_matrix_namecert_construction.tex:4 ('Matrix addition and multiplication are derived operations governed by the ring's certificate fields'), never proved. The board entries for matrix are B-84 (identity unit), B-97 (associativity from finite folds), B-102 (multiplication classifier congruence), B-140 (det multiplicative). Grep of `'matrix.*distrib\|distrib.*matrix'` across BOARD.md returns 0 matches; grep of `'\\label{thm:.*matrix.*distrib'` across papers/bedc/parts/ returns 0 hits. The supporting lemma already exists: matrix/finite_fold_multiplication_laws.tex:175 lem:scalar-product-distributes-across-finite-additive-folds, which proves the *scalar-times-fold* version that this matrix-level theorem invokes pointwise at each (i,j). The chapter is actively missing the standalone matrix-level distributivity theorem that 18_ring_namecert_construction.tex's 'left/right distributivity' fields explicitly enable. Single-implication, fits the 'concrete_instances' chapter, and serves as a prerequisite for B-08 / B-23 module-action and tensor-product theorems already on the board.
+
+---
+
+
+### B-163 - Matrix multiplication right-distributes over matrix addition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Matrix multiplication right-distributes over matrix addition |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under MatrixUp over a RingUp scalar source, for matrices A,B:n×m and C:m×p of compatible dimensions, (A+B)·C is matrix-classifier equal to A·C + B·C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/matrix/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/matrix/finite_fold_multiplication_laws.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Companion theorem to the left-distributivity candidate above; in BEDC the two directions need separate fold-rearrangement proofs because the fold over the contraction index sits on different sides of the scalar product. Matrix stability certificate at concrete_instances/matrix/the_certificate.tex:18-29 enumerates closure obligations but, like for the left direction, never lifts right-distributivity to a labeled theorem. Grep `'\\label{thm:.*matrix.*right.*distrib\|matrix.*right.*distribut'` returns 0 hits across papers/bedc/parts/. The dual finite-fold lemma at matrix/finite_fold_multiplication_laws.tex:203 ('left distributivity applied to c · (a + fold(xs'))') is invoked for matrix-multiplication associativity (B-97) but never for the right-distributivity claim itself. Distinct from candidate 3 because the fold-pivot is the contracted index of A vs B, requiring a different rearrangement of `lem:scalar-product-distributes-across-finite-additive-folds`. Slightly lower novelty than the left direction since it shares the supporting machinery; lands in concrete_instances cleanly.
+
+---
+
+
+### B-164 - LinearMap pointwise sum is a LinearMap
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LinearMap pointwise sum is a LinearMap |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If LinearMapCert_R(M, N; f) and LinearMapCert_R(M, N; g) both hold, then LinearMapCert_R(M, N; h) holds for the pointwise sum function h(x) := f(x) +_N g(x).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+LinearMap stability certificate at concrete_instances/linearmap/the_certificate.tex:18-29 enumerates six fields: pointwise classifier reflexivity, transitivity, zero preservation, additivity preservation, scalar-compatibility, identity/composition closure. There is NO closure clause for *pointwise sum* of two linear maps — the field list stops at composition. Existing LinearMap board entries — B-82 (zero from additivity), B-83/B-96 (composition certificate), B-109 (identity certificate), B-110 (composition associativity), B-121 (identity unit laws), B-125 (kernel submodule), B-126 (image submodule) — all live inside the chapter but none of them lift the Hom-set to an abelian group. Grep `'\\label{thm:.*linearmap.*sum\|hom.*group.*structure'` over papers/bedc/parts/ returns 0 matches; grep `'pointwise sum'` of LinearMap on BOARD.md returns 0 matches. This is the foundational closure that turns Hom_R(M, N) into an AbGroupUp under pointwise addition and is a strict prerequisite for any later 'category of R-modules is enriched in AbGroupUp' construction. Concrete single-implication form, fits concrete_instances, distinct from B-110/B-121 which are about composition algebra rather than additive closure of Hom.
+
+---
+
+
+### B-165 - Tensor product singleton factor swap symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Tensor product singleton factor swap symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If TensorProductSingletonFactor(l, r, t) holds for histories l, r, t, then TensorProductSingletonFactor(r, l, t) also holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/65_tensorproduct_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 65 has 9 labeled theorems plus 2 definitions (verified by grep: 9 `\begin{theorem}` + def:tensorproduct-singleton-carrier at line 9, def:tensorproduct-singleton-factor at line 110). All 9 theorems are about singleton-carrier characterizations (empty-iff, empty-endpoint-iff, result-empty continuation, suffix carrier, prefix carrier, factor witness, hsame transport, semantic name certificate). No theorem swaps the left/right factor arguments. Grep `'tensor.*swap\|tensor.*symm\|tensor.*commut'` over papers/bedc/parts/ returns 0 matches; grep over BOARD.md returns 0 matches. The chapter intro at 65_tensorproduct_namecert_construction.tex:4 frames TensorProductUp as 'universal bilinear factorization', and bilinearity in the symmetric tensor case includes the swap that this theorem makes explicit. Single implication, lands in concrete_instances chapter 65. Lower fit than the matrix and forget candidates because singleton-carrier swap is mathematically trivial under the empty-history collapse, but it is still a missing labeled theorem and would license downstream symmetric-tensor / exterior-power theorems to refer to a swap symmetry by autoref instead of unfolding the factor predicate again.
+
+---
+
+### B-166 - Double opposite functor certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite functor certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If F is a FunctorUp certificate over CategoryUp source and target, then the certificate data obtained by applying the opposite-functor construction twice is componentwise identical to the original F (object map, morphism map, classifier rows, preservation witnesses).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+The paper already proves the category-level analogue at thm:double-opposite-category-certificate-data-identity (36_category_namecert_construction.tex:352) and defines the opposite-functor certificate at def:opposite-functor-certificate-data plus thm:opposite-functor-certificate (functor/certificate_obligations.tex:271,290). The functor-level double-opposite identity is the immediate sibling of the certified category-level theorem; it has nothing to invent and goes by two unfoldings of the same definitional swap, like the category proof. It belongs in concrete_instances/functor and lifts the chapter from definition-only into the involution row of the established hierarchy. No existing BOARD entry covers double-opposite for functor (B-11 is composition closure, not involution).
+
+---
+
+
+### B-167 - Double opposite natural transformation certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite natural transformation certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If alpha:F=>G is a NatTransUp certificate, then the certificate data obtained by applying the opposite-natural-transformation construction twice yields component family and naturality rows componentwise identical to alpha.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The opposite natural transformation is already certified at def:opposite-nattrans-certificate-data and thm:opposite-natural-transformation-certificate (nattrans/vertical_and_opposite_extras.tex:23,37). The double-opposite identity completes a three-tier series begun at the category level (thm:double-opposite-category-certificate-data-identity); together with the functor candidate above it closes the involution row across CategoryUp / FunctorUp / NatTransUp. Distinct from B-14 (which is naturality preservation under vertical composition, not involution). The proof structure is two unfoldings of the same data swap, rather than a new constructive definition, which makes the loop low-risk and clearly in scope of concrete_instances/nattrans.
+
+---
+
+### B-168 - Polynomial evaluation respects the polynomial classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation respects the polynomial classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CommRingUp(R) setup with a polynomial-evaluation operation Eval_alpha at a point alpha:R, PolySame_R(p,q) implies Eval_alpha,R(p) ~_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+All existing polynomial BOARD entries (B-09, B-21, B-22, B-30, B-31) and the chapter 25 paper coverage operate purely on the coefficient-list side: trim, normalize, raw add/multiply, zero-tail invariance. None of them carry the polynomial classifier through to a value in R. This is the natural representative-stability theorem for any evaluation map: classifier-equal coefficient lists must produce ring-classifier-equal values under any well-defined Eval. It is the one-line implication form, sits cleanly in concrete_instances/25, and unblocks any later theorem that wants to reason about polynomial roots, identities, or specializations through the certificate. It is also a prerequisite for candidate 2 (multiplicativity of Eval), giving it independent value as a foundation rather than redundancy.
+
+---
+
+
+### B-169 - Polynomial evaluation is multiplicative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation is multiplicative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CommRingUp(R) setup with polynomial multiplication PolyMul_R and evaluation Eval_alpha at a point alpha:R, Eval_alpha,R(PolyMul_R(p,q)) ~_R Eval_alpha,R(p) *_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+The multiplicativity-of-evaluation law is the canonical compatibility theorem between Cauchy convolution on coefficient lists and ring multiplication on values. None of the existing BOARD polynomial entries cover this — B-09 stays at normalize/add/multiply commutation on the list side, and B-22/B-30/B-31 deal with zero-tail/trim. Paper coverage shows no eval-multiplicative label. It is a single classifier-level implication, sits in concrete_instances/25, and is the kind of structural law downstream targets (factor theorem, root counting, resultants) would expect. Novelty is slightly lower than candidate 1 because the two are in the same evaluation cluster, but the proof obligations are genuinely distinct — multiplicativity needs finite-sum manipulation through ring distributivity, which the classifier-respect theorem does not.
+
+---
+
