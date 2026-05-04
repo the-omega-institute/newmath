@@ -1,4 +1,5 @@
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.FunctorUp
@@ -37,6 +38,32 @@ theorem FunctorPrefixHomCarrier_comp_result_semanticNameCert {p a b c f g fg : B
   · intro h source
     exact source
   · intro h source
+    exact source
+
+theorem PrefixFunctorCarrier_semanticNameCert {p : BHist} (prefixCarrier : UnaryHistory p) :
+    SemanticNameCert (fun q : BHist => PrefixFunctorCarrier q ∧ hsame q p)
+      (fun q : BHist => PrefixFunctorCarrier q ∧ hsame q p)
+      (fun q : BHist => PrefixFunctorCarrier q ∧ hsame q p) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro p
+        (And.intro
+          (BEDC.Derived.FunctorUp.PrefixFunctorCarrier_from_unary_prefix prefixCarrier)
+          (hsame_refl p))
+    · intro q _carrier
+      exact hsame_refl q
+    · intro q r same
+      exact hsame_symm same
+    · intro q r s sameQR sameRS
+      exact hsame_trans sameQR sameRS
+    · intro q r same carrier
+      constructor
+      · cases same
+        exact carrier.left
+      · exact hsame_trans (hsame_symm same) carrier.right
+  · intro q source
+    exact source
+  · intro q source
     exact source
 
 end BEDC.Derived.FunctorUp
