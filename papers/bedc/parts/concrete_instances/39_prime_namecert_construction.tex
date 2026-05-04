@@ -203,6 +203,16 @@ For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d,
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatDivides}
 
+\begin{theorem}[Divisibility result unary carrier]
+\label{thm:nat-divides-result-unary}
+If $\mathsf{NatDivides}(d,n)$ holds, then $n$ is a unary history.
+\end{theorem}
+\begin{proof}
+Unpack the quotient witness. The multiplication witness exposes unary $d$,
+and multiplication result closure then proves the result history $n$ unary.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_unary}
+
 \begin{lemma}[Divisibility result cases]
 \label{lem:nat-divides-result-cases}
 Every witness of \(\mathsf{NatDivides}(d,n)\) is either an empty-result

@@ -6,6 +6,26 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+theorem CompactFiniteRefinementChain_final_cases
+    {finite compact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      (hsame finalFinite finite /\ hsame finalCompact compact) \/
+        exists currentFinite currentCompact extra : BHist,
+          CompactFiniteRefinementChain finite compact currentFinite currentCompact /\
+            UnaryHistory extra /\ Cont currentFinite extra finalFinite /\
+              Cont currentCompact extra finalCompact := by
+  intro chain
+  cases chain with
+  | base =>
+      exact Or.inl (And.intro (hsame_refl finite) (hsame_refl compact))
+  | step prior extraCarrier finiteRel compactRel =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (Exists.intro _
+              (And.intro prior
+                (And.intro extraCarrier (And.intro finiteRel compactRel))))))
+
 theorem CompactFiniteRefinementChain_continuation_witness
     {finite compact finalFinite finalCompact : BHist} :
     CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
@@ -40,6 +60,34 @@ theorem CompactFiniteRefinementChain_continuation_witness
                                       (unary_cont_closed priorExtraCarrier extraCarrier
                                         priorCombined)
                                       (And.intro finiteFinal compactFinal))
+
+theorem CompactLocatedRefinementChain_final_cases
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact ->
+      (hsame finalLocated located /\ hsame finalIntermediate intermediate /\
+          hsame finalCompact compact) \/
+        exists currentLocated currentIntermediate currentCompact extra : BHist,
+          CompactLocatedRefinementChain finite located intermediate compact currentLocated
+              currentIntermediate currentCompact /\
+            UnaryHistory extra /\ Cont currentLocated extra finalLocated /\
+              Cont currentIntermediate extra finalIntermediate /\
+                Cont finalIntermediate finite finalCompact := by
+  intro chain
+  cases chain with
+  | base =>
+      exact Or.inl
+        (And.intro (hsame_refl located)
+          (And.intro (hsame_refl intermediate) (hsame_refl compact)))
+  | step prior extraCarrier locatedRel intermediateRel compactRel =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (Exists.intro _
+              (Exists.intro _
+                (And.intro prior
+                  (And.intro extraCarrier
+                    (And.intro locatedRel (And.intro intermediateRel compactRel))))))))
 
 theorem CompactLocatedRefinementChain_continuation_witness
     {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
