@@ -28,3 +28,44 @@ have the same source and result, and another left-cancellation step yields
 $\hsame(\eta,\eta')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_refinement\_deterministic}
+
+\begin{theorem}[Compact finite refinement flattening]
+\label{thm:compact-finite-refinement-flattening}
+Let $subset$, $located$, $finite$, $intermediate$, $compact$, $midFinite$,
+$midCompact$, $finalFinite$, and $finalCompact$ be histories. Assume a compact
+witness carrier
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+an outer finite refinement chain
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,midFinite,midCompact),
+$$
+and a second finite refinement chain over the terminal finite-refinement pair
+$$
+\mathsf{CompactFiniteRefinementChain}(midFinite,midCompact,finalFinite,finalCompact).
+$$
+Then the two finite-refinement layers flatten to a single finite refinement
+chain with the same source:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact).
+$$
+Moreover the flattened endpoint keeps the original subset, locatedness, and
+intermediate classifier data:
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finalFinite,intermediate,finalCompact).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\autoref{thm:compact-finite-refinement-chain-transitivity} to
+the two displayed finite refinement chains. This gives the single chain from
+$(finite,compact)$ to $(finalFinite,finalCompact)$, so the source pair is the
+original source pair from the carrier.
+
+Apply Theorem~\autoref{thm:compact-witness-carrier-finite-refinement-chain-closed}
+to the original compact witness carrier and this flattened chain. The closure
+theorem changes only the finite-net and compactness ledgers. Its conclusion has
+exactly the same $subset$, $located$, and $intermediate$ arguments, so every
+locatedness classification witnessed by the original carrier is the same
+classification at the flattened endpoint.
+\end{proof}
