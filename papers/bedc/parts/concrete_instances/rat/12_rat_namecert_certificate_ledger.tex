@@ -139,6 +139,27 @@ second raw-visible classifier by rational classifier transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_visible\_classifier}
 
+\begin{theorem}[Rat ledger shared visible zero-extension exclusion]
+\label{thm:rat-ledger-shared-visible-zero-extension-exclusion}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, then neither visible
+denominator endpoint can be displayed as a zero-extension endpoint:
+$$
+(\hsame(v,\Ezero(z))\to\mathsf{False})\land
+(\hsame(v',\Ezero(z'))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Use the shared-raw visible classifier to obtain
+$\mathsf{RatHistoryClassifier}(v,v')$. If $v$ is displayed as $\Ezero(z)$,
+transport the left endpoint of this classifier to obtain a rational classifier
+with zero-extension source, which contradicts rational classifier
+zero-extension endpoint exclusion. The visible endpoint $v'$ is identical:
+transport the right endpoint to $\Ezero(z')$ and apply the right branch of the
+same exclusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_visible\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Rat ledger shared-raw contextual visible classifier]
 \label{thm:rat-history-ledger-shared-raw-context-visible-classifier}
 If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
@@ -349,6 +370,62 @@ $\mathsf{PositiveUnaryDenominator}(out_\rho)$, and the visible-carrier
 projection gives $\mathsf{PositiveUnaryDenominator}(out_v)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_positive\_denominators}
+
+\begin{theorem}[Rat ledger displayed context zero-endpoint exclusion]
+\label{thm:rat-history-ledger-cont-unary-context-e0-endpoint-absurd}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuations
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the contextual endpoints, then neither
+displayed endpoint can be a zero-extension endpoint:
+$$
+(\hsame(out_\rho,\Ezero(z_\rho))\to\mathsf{False})\land
+(\hsame(out_v,\Ezero(z_v))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-cont-unary-context-positive-denominators} to
+the displayed contextual ledger data. This gives positive unary denominator
+witnesses for both $out_\rho$ and $out_v$.
+
+If $out_\rho$ is displayed as $\Ezero(z_\rho)$, transport the positive
+denominator witness along that $\hsame$ link and contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}. The visible endpoint
+$out_v$ is identical: transport its positive denominator witness along
+$\hsame(out_v,\Ezero(z_v))$ and use the same zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Rat ledger displayed context empty-endpoint exclusion]
+\label{thm:rat-ledger-cont-unary-context-empty-endpoint-absurd}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuations
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the contextual endpoints, then neither
+displayed endpoint can be internally the empty history:
+$$
+(\hsame(out_\rho,\emp)\to\mathsf{False})\land
+(\hsame(out_v,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-cont-unary-context-positive-denominators} to
+the displayed contextual ledger data. This gives positive unary denominator
+witnesses for both $out_\rho$ and $out_v$.
+
+A positive unary denominator is never internally the empty endpoint. Applying
+that nonempty denominator theorem to each of the two positive witnesses gives
+the two displayed contradictions.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_empty\_endpoint\_absurd}
 
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}

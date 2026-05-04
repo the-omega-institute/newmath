@@ -14,6 +14,90 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
+open BEDC.Derived.StreamNameUp
+
+theorem RealIndependentReindexedConstant_rational_embedding_certificate {d e : BHist}
+    {r q : BHist -> BHist} :
+    ((RatHistoryCarrier d ↔
+      RatStreamNameCarrier (fun n : BHist => RatConstStream d (r n))) ∧
+      (RatStreamNameCarrier (fun n : BHist => RatConstStream d (r n)) ↔
+        RealConstantHistoryCarrier (BHist.e1 d))) ∧
+      ((RatHistoryCarrier e ↔
+        RatStreamNameCarrier (fun n : BHist => RatConstStream e (q n))) ∧
+        (RatStreamNameCarrier (fun n : BHist => RatConstStream e (q n)) ↔
+          RealConstantHistoryCarrier (BHist.e1 e))) ∧
+        ((RatHistoryClassifier d e ↔
+          RatStreamNameClassifier
+            (fun n : BHist => RatConstStream d (r n))
+            (fun n : BHist => RatConstStream e (q n))) ∧
+          (RatStreamNameClassifier
+            (fun n : BHist => RatConstStream d (r n))
+            (fun n : BHist => RatConstStream e (q n)) ↔
+              RealUnaryStreamClassifier
+                (fun n : BHist => RatConstStream d (r n))
+                (fun n : BHist => RatConstStream e (q n))) ∧
+            (RealUnaryStreamClassifier
+              (fun n : BHist => RatConstStream d (r n))
+              (fun n : BHist => RatConstStream e (q n)) ↔
+                RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e))) := by
+  have leftCarrier :=
+    RealConstantStreamCarrier_reindexed_streamName_bridge (d := d) (r := r)
+  have rightCarrier :=
+    RealConstantStreamCarrier_reindexed_streamName_bridge (d := e) (r := q)
+  have streamClassifierIff :
+      RatHistoryClassifier d e ↔
+        RatStreamNameClassifier
+          (fun n : BHist => RatConstStream d (r n))
+          (fun n : BHist => RatConstStream e (q n)) := by
+    constructor
+    · intro ratClassifier
+      constructor
+      · exact Iff.mp leftCarrier.left ratClassifier.left
+      · constructor
+        · exact Iff.mp rightCarrier.left ratClassifier.right.left
+        · intro n _nUnary
+          change RatHistoryClassifier d e
+          exact ratClassifier
+    · intro streamClassifier
+      have atEmpty := streamClassifier.right.right BHist.Empty unary_empty
+      change RatHistoryClassifier d e at atEmpty
+      exact atEmpty
+  have streamUnaryIff :
+      RatStreamNameClassifier
+        (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔
+          RealUnaryStreamClassifier
+            (fun n : BHist => RatConstStream d (r n))
+            (fun n : BHist => RatConstStream e (q n)) := by
+    constructor
+    · intro streamClassifier
+      exact streamClassifier.right.right
+    · intro unaryClassifier
+      constructor
+      · intro n nUnary
+        exact (unaryClassifier n nUnary).left
+      · constructor
+        · intro n nUnary
+          exact (unaryClassifier n nUnary).right.left
+        · exact unaryClassifier
+  have unaryRealIff :
+      RealUnaryStreamClassifier
+        (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔
+          RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) := by
+    constructor
+    · intro unaryClassifier
+      have atEmpty := unaryClassifier BHist.Empty unary_empty
+      change RatHistoryClassifier d e at atEmpty
+      exact Iff.mpr RealConstantHistoryClassifier_e1_iff_rat atEmpty
+    · intro realClassifier n _nUnary
+      have ratClassifier : RatHistoryClassifier d e :=
+        Iff.mp RealConstantHistoryClassifier_e1_iff_rat realClassifier
+      change RatHistoryClassifier d e
+      exact ratClassifier
+  exact And.intro leftCarrier
+    (And.intro rightCarrier
+      (And.intro streamClassifierIff (And.intro streamUnaryIff unaryRealIff)))
 
 theorem RealStreamClassifier_unary_denominator_context_closed
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} :
@@ -54,6 +138,242 @@ theorem RealConstantHistoryClassifier_append_common_tail_cancel {d e tail : BHis
       RatHistoryClassifier (append d tail) (append e tail) :=
     Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
   exact append_right_cancel (k := tail) rational.right.right
+
+theorem RealConstantStream_independent_reindexed_streamName_bridge {d e : BHist}
+    {r q : BHist -> BHist} :
+    (RatHistoryClassifier d e ↔
+      RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n))) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔
+          RealUnaryStreamClassifier (fun n : BHist => RatConstStream d (r n))
+            (fun n : BHist => RatConstStream e (q n))) ∧
+        (RealUnaryStreamClassifier (fun n : BHist => RatConstStream d (r n))
+          (fun n : BHist => RatConstStream e (q n)) ↔
+            RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
+  have carrierD :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream d (r n)) ↔
+        RatHistoryCarrier d :=
+    (RealConstantStreamCarrier_reindexed_streamName_bridge (d := d) (r := r)).left.symm
+  have carrierE :
+      RatStreamNameCarrier (fun n : BHist => RatConstStream e (q n)) ↔
+        RatHistoryCarrier e :=
+    (RealConstantStreamCarrier_reindexed_streamName_bridge (d := e) (r := q)).left.symm
+  have streamClassifierIff :
+      RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔ RatHistoryClassifier d e := by
+    constructor
+    · intro streamClassifier
+      have atEmpty := streamClassifier.right.right BHist.Empty unary_empty
+      cases hR : r BHist.Empty with
+      | Empty =>
+          cases hQ : q BHist.Empty with
+          | Empty =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e0 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e1 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+      | e0 _ =>
+          cases hQ : q BHist.Empty with
+          | Empty =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e0 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e1 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+      | e1 _ =>
+          cases hQ : q BHist.Empty with
+          | Empty =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e0 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+          | e1 _ =>
+              simp only [RatConstStream] at atEmpty
+              exact atEmpty
+    · intro ratClassifier
+      exact And.intro (Iff.mpr carrierD ratClassifier.left)
+        (And.intro (Iff.mpr carrierE ratClassifier.right.left)
+          (fun n _nUnary => by
+            cases hR : r n with
+            | Empty =>
+                cases hQ : q n with
+                | Empty =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e0 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e1 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+            | e0 _ =>
+                cases hQ : q n with
+                | Empty =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e0 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e1 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+            | e1 _ =>
+                cases hQ : q n with
+                | Empty =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e0 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier
+                | e1 _ =>
+                    simp only [RatConstStream]
+                    exact ratClassifier))
+  have ratStreamIff :
+      RatHistoryClassifier d e ↔
+        RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+          (fun n : BHist => RatConstStream e (q n)) := by
+    constructor
+    · intro ratClassifier
+      exact Iff.mpr streamClassifierIff ratClassifier
+    · intro streamClassifier
+      exact Iff.mp streamClassifierIff streamClassifier
+  have streamUnaryIff :
+      RatStreamNameClassifier (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔
+          RealUnaryStreamClassifier (fun n : BHist => RatConstStream d (r n))
+            (fun n : BHist => RatConstStream e (q n)) := by
+    constructor
+    · intro streamClassifier
+      exact streamClassifier.right.right
+    · intro unaryClassifier
+      have ratClassifier : RatHistoryClassifier d e := by
+        have atEmpty := unaryClassifier BHist.Empty unary_empty
+        cases hR : r BHist.Empty with
+        | Empty =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+        | e0 _ =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+        | e1 _ =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+      exact And.intro (Iff.mpr carrierD ratClassifier.left)
+        (And.intro (Iff.mpr carrierE ratClassifier.right.left) unaryClassifier)
+  have unaryRealIff :
+      RealUnaryStreamClassifier (fun n : BHist => RatConstStream d (r n))
+        (fun n : BHist => RatConstStream e (q n)) ↔
+          RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) := by
+    constructor
+    · intro unaryClassifier
+      have ratClassifier : RatHistoryClassifier d e := by
+        have atEmpty := unaryClassifier BHist.Empty unary_empty
+        cases hR : r BHist.Empty with
+        | Empty =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+        | e0 _ =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+        | e1 _ =>
+            cases hQ : q BHist.Empty with
+            | Empty =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e0 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+            | e1 _ =>
+                simp only [RatConstStream] at atEmpty
+                exact atEmpty
+      exact Iff.mpr RealConstantHistoryClassifier_e1_iff_rat ratClassifier
+    · intro realClassifier n _nUnary
+      have ratClassifier : RatHistoryClassifier d e :=
+        Iff.mp RealConstantHistoryClassifier_e1_iff_rat realClassifier
+      cases hR : r n with
+      | Empty =>
+          cases hQ : q n with
+          | Empty =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e0 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e1 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+      | e0 _ =>
+          cases hQ : q n with
+          | Empty =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e0 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e1 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+      | e1 _ =>
+          cases hQ : q n with
+          | Empty =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e0 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+          | e1 _ =>
+              simp only [RatConstStream]
+              exact ratClassifier
+  exact And.intro ratStreamIff (And.intro streamUnaryIff unaryRealIff)
 
 theorem RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b : BHist} :
@@ -107,6 +427,40 @@ theorem RealStreamClassifier_unary_denominator_context_e1_pair_readback
       sameTail contPX contOX contPY contOY
   exact RealStreamClassifier_selected_e1_pair_readback contextClassified sameX sameY
 
+theorem RealStreamClassifier_unary_denominator_context_selected_shape_package
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {zx zy : BHist} :
+    RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) ->
+      (forall i : Nat, UnaryHistory (tX i)) ->
+        (forall i : Nat, hsame (pX i) (pY i)) ->
+          (forall i : Nat, hsame (tX i) (tY i)) ->
+            (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+              (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                  (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                    UnaryHistory (oX n) ∧ UnaryHistory (oY n) ∧
+                      (hsame (oX n) BHist.Empty -> False) ∧
+                        (hsame (oY n) BHist.Empty -> False) ∧
+                          (hsame (oX n) (BHist.e0 zx) -> False) ∧
+                            (hsame (oY n) (BHist.e0 zy) -> False) := by
+  intro classified prefixX tailX samePrefix sameTail contPX contOX contPY contOY
+  have contextClassified : RealStreamClassifier oX oY :=
+    RealStreamClassifier_unary_denominator_context_closed classified prefixX tailX samePrefix
+      sameTail contPX contOX contPY contOY
+  have positives := RatHistoryClassifier_positive_denominators (contextClassified n)
+  have leftRows := PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows := PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact And.intro leftRows.left
+    (And.intro rightRows.left
+      (And.intro leftRows.right
+        (And.intro rightRows.right
+          (And.intro
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.left))
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))
+
 theorem RealStreamClassifier_selected_continuation_e1_pair_readback
     {x y : Nat -> BHist} {n : Nat} {q xq yq a b : BHist} :
     RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
@@ -123,6 +477,20 @@ theorem RealStreamClassifier_selected_continuation_e1_pair_readback
   have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
     RatHistoryClassifier_hsame_transport sameX sameY transported
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RealStreamClassifier_selected_continuation_positive_denominators
+    {x y : Nat -> BHist} {n : Nat} {q xq yq : BHist} :
+    RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->
+      PositiveUnaryDenominator xq ∧ PositiveUnaryDenominator yq := by
+  intro classified qUnary contX contY
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have continued :
+      RatHistoryClassifier (append (x n) q) (append (y n) q) :=
+    RatHistoryClassifier_append_unary_denominator_closed pointClassified qUnary
+      (hsame_refl q)
+  have transported : RatHistoryClassifier xq yq :=
+    RatHistoryClassifier_hsame_transport contX.symm contY.symm continued
+  exact RatHistoryClassifier_positive_denominators transported
 
 theorem RealStreamClassifier_selected_positive_unary_nonempty_package {x y : Nat -> BHist}
     {n : Nat} :
@@ -193,6 +561,27 @@ theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
       (And.intro positiveRows.right
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
+
+theorem RealStreamClassifier_transport_selected_e0_endpoint_absurd
+    {x x' y y' : Nat -> BHist} {n : Nat} {zx zy : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          (hsame (x' n) (BHist.e0 zx) -> False) ∧
+            (hsame (y' n) (BHist.e0 zy) -> False) := by
+  intro sameX sameY classified
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) (classified n)
+  have positives :
+      PositiveUnaryDenominator (x' n) ∧ PositiveUnaryDenominator (y' n) :=
+    RatHistoryClassifier_positive_denominators transported
+  constructor
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.left)
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
 
 theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :

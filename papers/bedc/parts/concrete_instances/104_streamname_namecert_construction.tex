@@ -329,6 +329,46 @@ $\mathsf{RatHistoryClassifier}(d,e)$ is already the required pointwise
 classifier.
 \end{proof}
 
+\begin{theorem}[Rational stream-name independently reindexed constant point exactness]
+\label{thm:rat-stream-name-independent-reindexed-constant-point-exactness}
+For histories $d,e:\Hist$ and observation maps $r,q:\Hist\to\Hist$, the
+pointwise stream-name carrier and classifier of independently reindexed
+constant streams recover exactly the RatUp history data:
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\Longleftrightarrow
+\mathsf{RatHistoryCarrier}(d)
+$$
+and
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{RatConstStream}$ and $\mathsf{RatStreamNameCarrier}$. In the
+forward carrier direction, read the stream carrier at the empty observation
+$\emp$; the reindexed constant stream evaluates to the seed history $d$ there.
+
+In the reverse carrier direction, fix an arbitrary certified unary observation.
+The composite $\mathsf{RatConstStream}_d\circ r$ still evaluates to $d$, so the
+seed carrier $\mathsf{RatHistoryCarrier}(d)$ supplies the pointwise stream
+carrier witness.
+
+For the classifier equivalence, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameClassifier}$. In the forward direction, read the stream
+classifier at $\emp$; both independently reindexed constant streams ignore their
+observation maps and return the endpoint histories $d$ and $e$.
+
+In the reverse direction, the supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ already contains the endpoint carrier data
+and the point classifier between $d$ and $e$. At every certified unary
+observation, the two stream endpoints again reduce to $d$ and $e$, so the same
+point classifier repacks into the stream-name classifier.
+\end{proof}
+
 \begin{theorem}[Rational stream-name constant point exactness]
 \label{thm:rat-stream-name-constant-point-exactness}
 For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
@@ -386,9 +426,11 @@ $\StreamNameUp$ certificate with the following ten fields:
   \autoref{thm:rat-stream-name-constant-witness};
   \item constant reindexing classification is
   \autoref{thm:rat-stream-name-constant-reindexing-classifier};
-  \item constant-point exactness, with finite unary observation data in the
-  ledger and exactness pointwise over the $\RatUp$ classifier, is
-  \autoref{thm:rat-stream-name-constant-point-exactness}.
+  \item constant-point and independently reindexed constant-point exactness,
+  with finite unary observation data in the ledger and exactness pointwise over
+  the $\RatUp$ classifier, are
+  \autoref{thm:rat-stream-name-constant-point-exactness} and
+  \autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -420,11 +462,14 @@ endpoint seed at each certified unary observation.
 
 Finally,
 \autoref{thm:rat-stream-name-constant-point-exactness} identifies the constant
-stream carrier and classifier with the underlying RatUp carrier and classifier.
-Thus the ledger consists of finite unary observation data together with the
-pointwise RatUp witnesses, and the exactness field is pointwise over the RatUp
-classifier. These ten rows are precisely the public $\StreamNameUp$ certificate
-assembled from the named component theorems.
+stream carrier and classifier with the underlying RatUp carrier and classifier,
+and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}
+gives the same exactness after independent observation reindexing on the two
+constant endpoints. Thus the ledger consists of finite unary observation data
+together with the pointwise RatUp witnesses, and the exactness field is
+pointwise over the RatUp classifier. These ten rows are precisely the public
+$\StreamNameUp$ certificate assembled from the named component theorems.
 \end{proof}
 
 The certificate template has ten fields: traditional target certified
@@ -440,14 +485,18 @@ witness from \autoref{thm:rat-stream-name-constant-witness},
 constant reindexing classification from
 \autoref{thm:rat-stream-name-constant-reindexing-classifier}, and
 constant-point exactness from
-\autoref{thm:rat-stream-name-constant-point-exactness}; ledger finite
-observation index plus pointwise rational witnesses, and for a constant stream
-the hidden constant seed together with the observation index; core theorems
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+ledger finite observation index plus pointwise rational witnesses, and for a
+constant stream the hidden constant seed together with the observation index;
+core theorems
 \autoref{thm:rat-stream-name-certificate-fields} and
 \autoref{thm:rat-stream-name-reindexing-and-map-stability} and
 \autoref{thm:rat-stream-name-reindexing-composition-law} and
 \autoref{thm:rat-stream-name-constant-witness} and
 \autoref{thm:rat-stream-name-constant-reindexing-classifier} and
-\autoref{thm:rat-stream-name-constant-point-exactness}; exactness pointwise over
-the RatUp classifier; standard bridge ordinary rational streams; status
+\autoref{thm:rat-stream-name-constant-point-exactness} and
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness};
+exactness pointwise over the RatUp classifier; standard bridge ordinary
+rational streams; status
 $\mathsf{ProofTarget}$.

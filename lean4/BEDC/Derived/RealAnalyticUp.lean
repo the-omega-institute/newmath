@@ -17,19 +17,6 @@ theorem RealAnalyticComplexPartSum_index_unary {zero : BHist} {c : BHist -> BHis
   | step _ _ ih =>
       exact unary_e1_closed ih
 
-theorem RealAnalyticComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist}
-    {n S : BHist}
-    (zeroUnary : UnaryHistory zero)
-    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (c m)) :
-    ComplexPartSum zero c n S -> UnaryHistory S := by
-  intro sum
-  induction sum with
-  | zero =>
-      exact zeroUnary
-  | step previous stepContinuation ih =>
-      exact unary_cont_closed ih (termUnary (RealAnalyticComplexPartSum_index_unary previous))
-        stepContinuation
-
 theorem RealAnalyticComplexPartSum_pointwise_result_unary_transport {zero zero' : BHist}
     {c d : BHist -> BHist} {n S T : BHist}
     (zeroUnary : UnaryHistory zero)
@@ -40,7 +27,7 @@ theorem RealAnalyticComplexPartSum_pointwise_result_unary_transport {zero zero' 
       UnaryHistory T := by
   intro unaryN source target
   have sourceUnary : UnaryHistory S :=
-    RealAnalyticComplexPartSum_result_unary zeroUnary termUnary source
+    ComplexPartSum_result_unary zeroUnary termUnary source
   have sameResult : hsame S T :=
     ComplexPartSum_pointwise_hsame_deterministic sameZero termSame unaryN source target
   exact unary_transport sourceUnary sameResult

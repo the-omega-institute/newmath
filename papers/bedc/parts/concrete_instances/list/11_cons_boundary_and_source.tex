@@ -463,6 +463,57 @@ $\mathsf{ListPublicLength}_A(t,n)$. Together with $A(a)$, $\ContR(a,t,p)$, and
 $\hsame(h,\Eone(p))$, these data are the required existential witnesses.
 \end{proof}
 
+\begin{theorem}[List public successor length constructor exactness]
+\label{thm:list-public-successor-length-constructor-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. For every history $h$ and every
+finite length value $n$,
+$$
+\mathsf{ListPublicLength}_A(h,n+1)
+\quad\Longleftrightarrow\quad
+\exists a\,t\,p:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListPublicLength}_A(t,n)\land\\
+\ContR(a,t,p)\land \hsame(h,\Eone(p))
+\end{array}
+\right).
+$$
+The ten-field fit is: traditional target finite-list public successor
+constructor law; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier protected by source $\NameCert$ and
+cons-boundary coherence; ledger $\mathsf{ListPublicLength}_A$; core theorem
+constructor readback in both directions; exactness by finite-spine cons
+formation; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:list-public-successor-length-cons-readback}. This exposes the
+head history, tail history, continuation boundary, predecessor public length,
+and endpoint presentation required by the right-hand side.
+
+For the reverse direction, assume histories $a,t,p$ with $A(a)$,
+$\mathsf{ListHistoryCarrier}_A(t)$, $\mathsf{ListPublicLength}_A(t,n)$,
+$\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$.
+
+Unfold Definition~\ref{def:list-public-length-readback} for the tail public
+length. This gives a finite spine $xs$ with
+$\mathsf{ListSpineRep}_A(t,xs)$ and $\ell(xs)=n$.
+
+Use the cons constructor for $\mathsf{ListSpineRep}_A$ with the displayed
+source membership $A(a)$, the tail representation, the continuation witness,
+and the endpoint presentation. It gives
+$\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$.
+
+The represented cons spine has length $\ell(xs)+1$, so the displayed tail
+length identifies it with $n+1$. Repack this cons representation and length
+identity through Definition~\ref{def:list-public-length-readback}, obtaining
+$\mathsf{ListPublicLength}_A(h,n+1)$.
+\end{proof}
+
 \begin{theorem}[List classified successor length cons readback]
 \label{thm:list-classified-successor-length-cons-readback}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
@@ -572,6 +623,72 @@ $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)$. Repack these with the
 two readback packages to obtain the displayed existential witnesses.
 \end{proof}
 
+\begin{theorem}[List classified successor component readback determinacy]
+\label{thm:list-classified-successor-component-readback-determinacy}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. For histories
+$h,k,a,b,t,u,p,q,a',b',t',u',p',q'$ and every finite length value $n$, suppose
+the two six-tuples $(a,b,t,u,p,q)$ and $(a',b',t',u',p',q')$ both satisfy the
+classified successor component package for the same $h,k,n$:
+$$
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\mathsf{ListPublicLength}_A(t,n)\land
+\mathsf{ListPublicLength}_A(u,n)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land\\
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+a\sim_A b\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)
+\end{array}
+$$
+and
+$$
+\begin{array}{l}
+A(a')\land A(b')\land
+\mathsf{ListHistoryCarrier}_A(t')\land
+\mathsf{ListHistoryCarrier}_A(u')\land\\
+\mathsf{ListPublicLength}_A(t',n)\land
+\mathsf{ListPublicLength}_A(u',n)\land\\
+\ContR(a',t',p')\land \ContR(b',u',q')\land\\
+\hsame(h,\Eone(p'))\land \hsame(k,\Eone(q'))\land\\
+a'\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t',u')
+\end{array}
+$$
+hold. Then
+$$
+a\sim_A a'\land b\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u').
+$$
+The ten-field fit is: traditional target finite-list classified successor
+component readback; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+cons-boundary coherence; ledger same public successor endpoints $h,k$ with
+common predecessor length $n$; core theorem witness-choice determinacy;
+exactness by public cons endpoint readback; standard bridge finite spines;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-cons-readback-deterministic} to the two
+$h$-side cons presentations. The first package supplies $A(a)$,
+$\mathsf{ListHistoryCarrier}_A(t)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$; the second supplies the corresponding data for
+$a',t',p'$. The conclusion gives $a\sim_A a'$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')$.
+
+Apply the same theorem to the two $k$-side cons presentations. The first
+package supplies $A(b)$, $\mathsf{ListHistoryCarrier}_A(u)$,
+$\ContR(b,u,q)$, and $\hsame(k,\Eone(q))$; the second supplies the
+corresponding data for $b',u',q'$. The conclusion gives $b\sim_A b'$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u')$. Repack the four
+conclusions in the displayed order.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
@@ -640,60 +757,4 @@ classifier inclusion, and rebuild the bridge witness with those transported
 components.
 \end{proof}
 
-\begin{definition}[Unary NatAdd relation]
-\label{def:unary-natadd-relation}
-For histories $u,v,w:\mathsf{BHist}$, write
-$$
-\mathsf{NatAdd}(u,v,w)
-\quad\Longleftrightarrow\quad
-\UnaryCont(u,v,w).
-$$
-This is the unary-continuation additive relation of \autoref{def:unary-continuation-result} and \autoref{def:additive-pattern-specification}.
-\end{definition}
-
-\begin{definition}[List unary length token]
-\label{def:list-unary-length-token}
-For finite BEDC-history spines, define the unary length token by recursion:
-$$
-\begin{array}{rcl}
-\mathsf{ListUnaryLength}(\mathsf{nil}) &=& \emp,\\
-\mathsf{ListUnaryLength}(\mathsf{cons}(a,xs)) &=& \Eone(\mathsf{ListUnaryLength}(xs)).
-\end{array}
-$$
-This is the unary-history counterpart of the finite-spine value $\ell(xs)$ used in \autoref{def:list-public-length-readback}; it records the same constructor count as a $\NatUp$ token.
-\end{definition}
-
-\begin{theorem}[Public list unary length additivity under append]
-\label{thm:list-unary-length-append-additivity}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For histories $h,k,r:\mathsf{BHist}$ and finite spines $xs,ys:\mathsf{HistSpine}$, assume
-$$
-\mathsf{ListSpineRep}_A(h,xs),\qquad
-\mathsf{ListSpineRep}_A(k,ys),\qquad
-\mathsf{ListSpineRep}_A(r,xs{++}ys).
-$$
-Set
-$$
-L_x=\mathsf{ListUnaryLength}(xs),\qquad
-L_y=\mathsf{ListUnaryLength}(ys),\qquad
-L_{xy}=\mathsf{ListUnaryLength}(xs{++}ys).
-$$
-Then
-$$
-\mathsf{NatAdd}(L_y,L_x,L_{xy})
-$$
-and for every $w:\mathsf{BHist}$,
-$$
-\mathsf{NatAdd}(L_x,L_y,w)\Longrightarrow \hsame(L_{xy},w).
-$$
-\end{theorem}
-\begin{proof}
-By \autoref{def:list-spine-representation}, the three representation witnesses say that the public endpoints use the displayed finite spines and that the append endpoint uses the spine append $xs{++}ys$. The proof of the additive length claim depends on the spines alone.
-
-A preliminary induction on a finite spine $zs$ gives $\Unary(\mathsf{ListUnaryLength}(zs))$. The nil case is the base unary generator from \autoref{def:unary-history-judgment}; the cons case applies \autoref{lem:unary-closure-under-one-extension} to the induction hypothesis.
-
-Now induct on $xs$ to prove $\mathsf{NatAdd}(L_y,L_x,L_{xy})$. In the nil case, $L_x=\emp$ and $L_{xy}=L_y$. The preliminary unary induction gives $\Unary(L_y)$, and the right-unit clause of \autoref{thm:continuation-unit-laws-spine} gives $\ContR(L_y,\emp,L_y)$. Unfolding \autoref{def:unary-natadd-relation} gives $\mathsf{NatAdd}(L_y,\emp,L_y)$.
-
-In the cons case, write $xs=\mathsf{cons}(a,xs_0)$ and let $L_0=\mathsf{ListUnaryLength}(xs_0)$ and $T=\mathsf{ListUnaryLength}(xs_0{++}ys)$. The induction hypothesis gives $\mathsf{NatAdd}(L_y,L_0,T)$, hence $\ContR(L_y,L_0,T)$ after unfolding \autoref{def:unary-natadd-relation}. The one-step rule in \autoref{def:continuation-relation} gives $\ContR(L_y,\Eone(L_0),\Eone(T))$. The preliminary unary induction and \autoref{lem:unary-closure-under-one-extension} supply the two unary input witnesses, so this is exactly $\mathsf{NatAdd}(L_y,L_x,L_{xy})$ by the recursive clauses of \autoref{def:list-unary-length-token}.
-
-Finally assume $\mathsf{NatAdd}(L_x,L_y,w)$. Together with the reversed append-aligned witness just proved, \autoref{thm:unary-cont-comm} compares the two unary continuation results and gives $\hsame(w,L_{xy})$. Symmetry of $\hsame$ gives $\hsame(L_{xy},w)$.
-\end{proof}
+\input{parts/concrete_instances/list/11_unary_length_append_additivity}

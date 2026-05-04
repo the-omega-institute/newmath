@@ -1,6 +1,7 @@
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.ComplexAnalyticUp
 
@@ -33,6 +34,15 @@ theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BH
 
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+
+theorem CplxPureImaginary_e1_tail_iff {theta tail : BHist} :
+    CplxPureImaginary theta (BHist.e1 tail) <->
+      UnaryHistory theta /\ hsame tail (append (BHist.e1 BHist.Empty) theta) := by
+  constructor
+  · intro pureImaginary
+    exact And.intro pureImaginary.left (hsame_e1_iff.mp pureImaginary.right)
+  · intro tailData
+    exact And.intro tailData.left (hsame_e1_congr tailData.right)
 
 theorem CplxPureImaginary_component_deterministic {theta theta' z : BHist} :
     CplxPureImaginary theta z -> CplxPureImaginary theta' z ->
@@ -77,11 +87,31 @@ theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
         hsame_trans (hsame_symm sameZZ') sameZ
       exact And.intro (And.intro thetaUnary sameZ') sameZ'
 
+theorem CplxPureImaginary_phase_stability_witness {theta phi z : BHist} :
+    CplxPureImaginary theta z -> hsame theta phi ->
+      CplxPureImaginary phi z ∧ UnaryHistory phi ∧
+        hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+  intro pureImaginary sameThetaPhi
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have phiUnary : UnaryHistory phi := unary_transport thetaUnary sameThetaPhi
+      have sameZPhi : hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+        cases sameThetaPhi
+        exact sameZ
+      exact And.intro (And.intro phiUnary sameZPhi) (And.intro phiUnary sameZPhi)
+
 theorem CplxPureImaginary_empty_absurd {theta : BHist} :
     CplxPureImaginary theta BHist.Empty -> False := by
   intro pureImaginary
   exact ComplexHistoryCarrier_not_empty
     (CplxPureImaginary_complex_carrier_witness pureImaginary).right.right (hsame_refl BHist.Empty)
+
+theorem CplxPureImaginary_empty_continuation_absurd {theta z q : BHist} :
+    CplxPureImaginary theta z -> Cont z q BHist.Empty -> False := by
+  intro pureImaginary emptyCont
+  have sourceEmpty : hsame z BHist.Empty := (append_eq_empty_iff.mp emptyCont.symm).left
+  exact CplxPureImaginary_empty_absurd
+    (CplxPureImaginary_hsame_transport_witness sourceEmpty pureImaginary).left
 
 theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
@@ -99,6 +129,18 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
           (PositiveUnaryDenominator_e1_iff_unary.mpr thetaUnary)
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
+
+theorem CplxPureImaginary_suffix_component_tail_witness {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ∃ imagq : BHist,
+        RatHistoryCarrier imagq ∧ hsame imagq (BHist.e1 (append theta q)) ∧
+          Cont (BHist.e1 BHist.Empty) imagq zq ∧ PositiveUnaryDenominator imagq := by
+  intro pureImaginary qUnary zqCont
+  cases CplxPureImaginary_component_continuation_witness pureImaginary qUnary zqCont with
+  | intro imagq data =>
+      have sameTail : hsame imagq (BHist.e1 (append theta q)) :=
+        data.right.left.trans (unary_append_e1_left (h := q) (k := theta) qUnary)
+      exact ⟨imagq, data.left, sameTail, data.right.right.left, data.right.right.right⟩
 
 theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
@@ -160,6 +202,13 @@ theorem CplxPureImaginary_component_continuation_complex_carrier {theta z q zq :
       ComplexHistoryCarrier zq := by
   exact CplxPureImaginary_continuation_complex_carrier
 
+theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q (BHist.e0 tail) -> False := by
+  intro pureImaginary qUnary zqCont
+  have resultCarrier : ComplexHistoryCarrier (BHist.e0 tail) :=
+    CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
+  exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
+
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
       (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
@@ -170,5 +219,28 @@ theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
         (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) :=
     hsame_trans (hsame_symm left.right) right.right
   exact hsame_e1_iff.mp (append_left_cancel (h := BHist.e1 BHist.Empty) sameAnchors)
+
+theorem CplxPureImaginary_suffix_source_deterministic {theta phi z w q zq : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary phi w -> Cont z q zq ->
+      Cont w q zq -> hsame theta phi := by
+  intro pureTheta purePhi zCont wCont
+  have sameZW : hsame z w := cont_right_cancel zCont wCont
+  have purePhiAtZ : CplxPureImaginary phi z :=
+    (CplxPureImaginary_hsame_transport_witness (hsame_symm sameZW) purePhi).left
+  exact CplxPureImaginary_witness_unique pureTheta purePhiAtZ
+
+theorem CplxPureImaginary_suffix_tail_deterministic {theta phi z w q q' zq wq : BHist} :
+    CplxPureImaginary theta z -> CplxPureImaginary phi w -> hsame theta phi ->
+      Cont z q zq -> Cont w q' wq -> hsame zq wq -> hsame q q' := by
+  intro pureTheta purePhi sameThetaPhi zCont wCont sameResult
+  have sameAnchors :
+      hsame (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
+        (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+    cases sameThetaPhi
+    rfl
+  have sameZW : hsame z w :=
+    hsame_trans pureTheta.right (hsame_trans sameAnchors (hsame_symm purePhi.right))
+  cases sameZW
+  exact append_left_cancel (h := z) (zCont.symm.trans (sameResult.trans wCont))
 
 end BEDC.Derived.ComplexAnalyticUp

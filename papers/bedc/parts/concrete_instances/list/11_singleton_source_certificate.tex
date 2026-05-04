@@ -300,6 +300,108 @@ classifier witness, and the displayed nil-nil or cons-cons constructor
 equivalence.
 \end{proof}
 
+\begin{theorem}[Hsame-compatible bounded list source finite-data exit package]
+\label{thm:list-hsame-compatible-bounded-source-finite-data-exit-package}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$, let $\mathsf{Rel}$ be a source
+classifier on $\mathsf{BHist}$, and let $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\mathsf{Rel})$,
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, and
+$\mathsf{ListSourceHsameCompatible}(A,\mathsf{Rel})$ hold, then the
+$\ListUp$ public object carries the following finite-data exit fields.
+\begin{enumerate}
+  \item
+  The semantic certificate
+  $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+  \mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}})$.
+  \item
+  Public length is total and unique on $\mathsf{ListHistoryCarrier}_A$.
+  \item
+  Classified endpoints have a common public length, and any two endpoint
+  length readbacks are equal.
+  \item
+  $\mathsf{ListPublicLength}_A(h,0)$ holds exactly when
+  $\hsame(h,\emp)$ holds.
+  \item
+  Every nonempty carrier history has a cons readback
+  $a,t,p:\mathsf{BHist}$ with $A(a)$,
+  $\mathsf{ListHistoryCarrier}_A(t)$, $\ContR(a,t,p)$,
+  $\hsame(h,\Eone(p))$, and no zero public length for $h$.
+  \item
+  For every history $h$ and finite length value $n$,
+  $$
+  \mathsf{ListPublicLength}_A(h,n+1)
+  \quad\Longleftrightarrow\quad
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+  \mathsf{ListPublicLength}_A(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+  \item
+  Every classifier witness exposes finite endpoint spines:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+  \to
+  \left(
+  \begin{array}{l}
+  (\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+  \land
+  (\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+  \end{array}
+  \right).
+  $$
+  \item
+  The classifier is exactly the nil-nil or cons-cons constructor audit:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(h,k)
+  \Longleftrightarrow
+  \begin{array}{l}
+  (\hsame(h,\emp)\land \hsame(k,\emp))\\
+  \lor\\
+  \exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A(a)\land A(b)\land \mathsf{ListHistoryCarrier}_A(t)\land
+  \mathsf{ListHistoryCarrier}_A(u)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \mathsf{Rel}(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A,\mathsf{Rel}}(t,u)
+  \end{array}
+  \right).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-spine-coherence} supplies
+$\mathsf{ListSpineRepCoherent}_{A,\mathsf{Rel}}$ from the bounded-source and
+source-compatibility hypotheses.
+
+Use the forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} to convert
+this spine coherence witness into
+$\mathsf{ListConsBoundaryCoherent}_{A,\mathsf{Rel}}$.
+
+Apply Theorem~\ref{thm:list-public-object-certificate-with-length-readback} to
+$\mathsf{cert}$ and the cons-boundary coherence witness. This gives the
+semantic certificate, public-length totality and uniqueness, the common
+classified endpoint length, and endpoint length equality. Apply
+Theorem~\ref{thm:list-public-zero-length-and-nonempty-readback} with the same
+coherence witness to obtain the zero-length characterization and the nonempty
+cons readback.
+
+Theorem~\ref{thm:list-public-successor-length-constructor-exactness} supplies
+the successor length constructor equivalence. Finally,
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+supplies the endpoint spine ledgers and the nil-nil or cons-cons constructor
+audit with head relation $\mathsf{Rel}(a,b)$.
+\end{proof}
+
 \begin{corollary}[Hsame-bounded list source unframed certificate]
 \label{thm:list-hsame-bounded-source-public-object-certificate}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
@@ -385,6 +487,75 @@ $\mathsf{ListSpineRep}_A$ facts. The final carrier conjunction follows from
 Theorem~\ref{thm:list-spine-representation-coverage}.
 \end{proof}
 
+\begin{theorem}[Hsame-bounded list source public-object constructor audit]
+\label{thm:list-hsame-bounded-source-public-object-constructor-audit}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ and $a_0:\mathsf{BHist}$. If
+$\mathsf{cert}:\NameCert(A,\hsame)$ and
+$\mathsf{ListHsameBoundedSource}(A,a_0)$, then the public-object semantic
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,
+\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})
+$$
+holds. Moreover, for all histories $h,k:\mathsf{BHist}$, every
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)$ witness exposes endpoint
+spine ledgers for $h$ and $k$:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+\to
+\left(
+\begin{array}{l}
+(\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs))\\
+\land\\
+(\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(k,ys))
+\end{array}
+\right).
+$$
+The same classifier is exactly the nil-nil or cons-cons constructor
+disjunction:
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+\Longleftrightarrow
+\begin{array}{l}
+(\hsame(h,\emp)\land \hsame(k,\emp))\\
+\lor\\
+\exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\hsame(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(t,u)
+\end{array}
+\right).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Define the needed
+$\mathsf{ListSourceHsameCompatible}(A,\hsame)$ witness by taking a source-head
+comparison $\hsame(a,b)$ and returning that same $\hsame(a,b)$ datum.
+
+Apply
+Theorem~\ref{thm:list-hsame-compatible-bounded-source-public-object-constructor-audit}
+with $\mathsf{Rel}:=\hsame$, the displayed source certificate, the
+hsame-bounded source hypothesis, and this compatibility witness.
+
+Its first projection is the displayed
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,
+\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame})$. Its second projection gives
+the endpoint spine ledgers for every classifier witness, and its third
+projection is the displayed nil-nil or cons-cons constructor equivalence with
+head relation $\hsame(a,b)$ and recursive tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(t,u)$.
+\end{proof}
+
 \begin{theorem}[List singleton source unframed certificate]
 \label{thm:list-singleton-source-public-object-certificate}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
@@ -413,4 +584,215 @@ $\NameCert(A_{a_0},\hsame)$, and
 Theorem~\ref{thm:list-singleton-source-spine-coherence} supplies
 $\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$. Apply
 Theorem~\ref{thm:concrete-list-namecert} directly with these two inputs.
+\end{proof}
+
+\begin{theorem}[List singleton source finite-data certificate package]
+\label{thm:list-singleton-source-finite-data-certificate-package}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. The
+singleton-source $\ListUp$ package contains the following concrete public
+certificate data:
+\begin{enumerate}
+  \item
+  $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_{A_{a_0}},
+  \mathsf{ListHistoryPattern}_{A_{a_0}},
+  \mathsf{ListHistoryLedger}_{A_{a_0}},
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame})$.
+  \item
+  $\forall h.\;\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)\to
+  \exists n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)$.
+  \item
+  $\forall h\,n\,m.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,m)\to n=m$.
+  \item
+  $\forall h\,k.\;
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\to
+  \exists n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,n)$.
+  \item
+  $\forall h\,k\,n\,m.\;
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,m)\to n=m$.
+  \item
+  For every history $h$, $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ holds if
+  and only if $\hsame(h,\emp)$ holds.
+  \item
+  For every history $h$, if $\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)$ and
+  $\neg\hsame(h,\emp)$ hold, then
+  $$
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \ContR(a,t,p)\land\\
+  \hsame(h,\Eone(p))\land\\
+  \forall n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to n\neq 0
+  \end{array}
+  \right).
+  $$
+  \item
+  For every history $h$ and finite length value $n$,
+  $$
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)
+  \quad\Longleftrightarrow\quad
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:singleton-history-source-namecert} supplies
+$\NameCert(A_{a_0},\hsame)$. Theorem~\ref{thm:list-singleton-source-spine-coherence}
+supplies $\mathsf{ListSpineRepCoherent}_{A_{a_0},\hsame}$ for the same
+singleton source.
+
+Use the forward implication of
+Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} to convert
+this spine coherence witness into
+$\mathsf{ListConsBoundaryCoherent}_{A_{a_0},\hsame}$.
+
+Apply Theorem~\ref{thm:list-public-object-certificate-with-length-readback} to
+$\NameCert(A_{a_0},\hsame)$ and the cons-boundary coherence witness. Its five
+components are exactly the displayed semantic certificate, totality and
+uniqueness of $\mathsf{ListPublicLength}_{A_{a_0}}$, the common public length
+for classified endpoints, and equality of endpoint readbacks.
+
+Apply Theorem~\ref{thm:list-public-zero-length-and-nonempty-readback} with the
+same cons-boundary coherence witness. This gives the zero-length
+characterization and the nonempty cons readback clause.
+
+Finally apply
+Theorem~\ref{thm:list-public-successor-length-constructor-exactness} to the
+source certificate and the cons-boundary coherence witness. The resulting
+successor law is the last displayed item.
+\end{proof}
+
+\begin{theorem}[List singleton source finite-data exit with constructor audit]
+\label{thm:list-singleton-source-finite-data-exit-constructor-audit}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. The
+singleton-source $\ListUp$ finite-data exit object contains the following
+concrete public certificate data:
+\begin{enumerate}
+  \item
+  $\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_{A_{a_0}},
+  \mathsf{ListHistoryPattern}_{A_{a_0}},
+  \mathsf{ListHistoryLedger}_{A_{a_0}},
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame})$.
+  \item
+  $\forall h.\;\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)\to
+  \exists n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)$.
+  \item
+  $\forall h\,n\,m.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,m)\to n=m$.
+  \item
+  $\forall h\,k.\;
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\to
+  \exists n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,n)$.
+  \item
+  $\forall h\,k\,n\,m.\;
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,m)\to n=m$.
+  \item
+  For every history $h$, $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ holds if
+  and only if $\hsame(h,\emp)$ holds.
+  \item
+  For every history $h$, if $\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)$ and
+  $\neg\hsame(h,\emp)$ hold, then
+  $$
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \ContR(a,t,p)\land\\
+  \hsame(h,\Eone(p))\land\\
+  \forall n.\;\mathsf{ListPublicLength}_{A_{a_0}}(h,n)\to n\neq 0
+  \end{array}
+  \right).
+  $$
+  \item
+  For every history $h$ and finite length value $n$,
+  $$
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)
+  \quad\Longleftrightarrow\quad
+  \exists a\,t\,p:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+  \item
+  For all histories $h,k:\mathsf{BHist}$, every classifier witness has finite
+  spine ledgers at both endpoints:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)
+  \to
+  \left(
+  \begin{array}{l}
+  (\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_{A_{a_0}}(h,xs))\\
+  \land\\
+  (\exists ys:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_{A_{a_0}}(k,ys))
+  \end{array}
+  \right).
+  $$
+  \item
+  For all histories $h,k:\mathsf{BHist}$, the classifier is exactly the nil-nil
+  or cons-cons constructor disjunction:
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)
+  \Longleftrightarrow
+  \begin{array}{l}
+  (\hsame(h,\emp)\land \hsame(k,\emp))\\
+  \lor\\
+  \exists a\,b\,t\,u\,p\,q:\mathsf{BHist}.\;
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land A_{a_0}(b)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \hsame(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)
+  \end{array}
+  \right).
+  \end{array}
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+supplies the semantic certificate, public-length totality and uniqueness,
+common endpoint length, endpoint readback equality, zero-length
+characterization, nonempty readback, and successor constructor law.
+
+The singleton source definition gives
+$\mathsf{ListHsameBoundedSource}(A_{a_0},a_0)$: from
+$A_{a_0}(a)$, unfold Definition~\ref{def:list-singleton-history-source} to get
+$\hsame(a,a_0)$.
+
+Theorem~\ref{thm:singleton-history-source-namecert} supplies
+$\NameCert(A_{a_0},\hsame)$. Apply
+Theorem~\ref{thm:list-hsame-bounded-source-public-object-constructor-audit}
+with $A:=A_{a_0}$ and the displayed hsame-bounded source witness. Its endpoint
+projection gives the finite spine ledgers for every
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$ witness, and its
+constructor projection gives the displayed nil-nil or cons-cons equivalence
+specialized to $A_{a_0}$ and $\hsame$.
+
+Combining the fields from the finite-data certificate package with these two
+projections yields the ten displayed components of the singleton-source
+finite-data exit object.
 \end{proof}

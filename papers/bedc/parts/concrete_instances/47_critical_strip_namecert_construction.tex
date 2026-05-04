@@ -167,6 +167,23 @@ apply boundary exclusion at the transported strip point.
 \end{proof}
 \leanchecked{BEDC.Derived.CritStripUp.InCritStrip\_hsame\_transport\_boundary\_exclusion}
 
+\begin{theorem}[Critical strip complex carrier respects \(\hsame\)]
+\label{thm:crit-strip-complex-carrier-hsame-transport}
+If \(s\hsame s'\), \(\sigma\hsame\sigma'\), \(\tau\hsame\tau'\), and
+\(\mathsf{CritStripComplexCarrier}(s,\sigma,\tau)\), then
+\(\mathsf{CritStripComplexCarrier}(s',\sigma',\tau')\), the continuation
+\(\Cont(\sigma',\tau',s')\) holds, and the strict interval obstruction gives
+\(\bot\).
+\end{theorem}
+\begin{proof}
+Transport the two rational carrier fields along the component equalities,
+transport the strict-strip field along \(\sigma\hsame\sigma'\), and transport
+the stored continuation ledger along all three endpoint equalities. These
+fields rebuild the carried complex strip package at the primed endpoint, where
+the strict interval obstruction applies.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripComplexCarrier\_hsame\_transport}
+
 \section{The certificate}
 
 \begin{definition}[Critical strip source specification]
@@ -210,6 +227,24 @@ $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no
 $\mathsf{propext}$, so the certificate's Lean targets fall under the project's
 axiom-purity gate.
 \end{proof}
+
+\begin{theorem}[Critical strip empty boundary semantic certificate]
+\label{thm:crit-strip-empty-boundary-semantic-namecert}
+The boundary carrier
+$$
+h \mapsto h\hsame\emp \wedge \neg\mathsf{InCritStrip}(h)
+$$
+forms a semantic naming certificate with the same source, pattern, and ledger
+predicate, and with $\hsame$ as classifier.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $\emp$. Boundary exclusion supplies the
+non-membership field, and $\hsame$ reflexivity, symmetry, and transitivity give
+the classifier laws. Carrier transport composes the source classifier with the
+stored equality to $\emp$, then applies boundary exclusion at the transported
+history.
+\end{proof}
+\leanchecked{BEDC.Derived.CritStripUp.CritStripEmptyBoundary\_semanticNameCert}
 
 \begin{theorem}[Semantic $\CritStripUp$ obstruction-boundary certificate]
 \label{thm:crit-strip-semantic-namecert}

@@ -1,3 +1,4 @@
+import BEDC.FKernel.NameCert
 import BEDC.Derived.NatUp
 import BEDC.Derived.RatUp
 
@@ -5,6 +6,7 @@ namespace BEDC.Derived.CritStripUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 open BEDC.Derived.RatUp
@@ -110,6 +112,29 @@ theorem CritStripComplexCarrier_strict_interval_absurd {s sigma tau : BHist} :
   exact And.intro interval
     (CritStripOpenInterval_empty_unit_absurd interval.left interval.right)
 
+theorem CritStripComplexCarrier_hsame_transport {s s' sigma sigma' tau tau' : BHist} :
+    hsame s s' -> hsame sigma sigma' -> hsame tau tau' ->
+      CritStripComplexCarrier s sigma tau ->
+        CritStripComplexCarrier s' sigma' tau' ∧ Cont sigma' tau' s' ∧ False := by
+  intro sameS sameSigma sameTau carrier
+  have sigmaCarrier : RatHistoryCarrier sigma' :=
+    RatHistoryCarrier_hsame_transport sameSigma carrier.left
+  have tauCarrier : RatHistoryCarrier tau' :=
+    RatHistoryCarrier_hsame_transport sameTau carrier.right.left
+  have transportedStrip :=
+    InCritStrip_hsame_transport_boundary_exclusion carrier.right.right.right sameSigma
+  have transportedCont : Cont sigma' tau' s' := by
+    cases sameS
+    cases sameSigma
+    cases sameTau
+    exact carrier.right.right.left
+  have transportedCarrier : CritStripComplexCarrier s' sigma' tau' :=
+    And.intro sigmaCarrier
+      (And.intro tauCarrier (And.intro transportedCont transportedStrip.left))
+  exact And.intro transportedCarrier
+    (And.intro transportedCont
+      (CritStripComplexCarrier_strict_interval_absurd transportedCarrier).right)
+
 theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHist} :
     CritStripComplexCarrier s sigma tau ->
       (hsame sigma BHist.Empty -> False) ∧
@@ -122,5 +147,32 @@ theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHis
       (And.intro
         (RatHistoryCarrier_not_empty carrier.right.left)
         (CritStripComplexCarrier_not_empty carrier)))
+
+theorem CritStripEmptyBoundary_semanticNameCert :
+    SemanticNameCert
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (fun strip => (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty)))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      have sameEmpty : hsame k BHist.Empty :=
+        hsame_trans (hsame_symm same) carrier.left
+      exact And.intro sameEmpty
+        (fun strip => (InCritStrip_boundary_excluded strip).left sameEmpty)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
 
 end BEDC.Derived.CritStripUp

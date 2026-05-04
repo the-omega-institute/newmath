@@ -17,4 +17,22 @@ theorem GroupSingletonCarrier_append_context_empty_iff {L R h : BHist} :
     exact append_eq_empty_iff.mpr
       (And.intro carrierL (append_eq_empty_iff.mpr (And.intro carrierH carrierR)))
 
+theorem GroupSingletonClassifier_append_product_empty_split_iff {a b c d : BHist} :
+    GroupSingletonClassifier (append a b) (append c d) ↔
+      GroupSingletonCarrier a ∧ GroupSingletonCarrier b ∧
+        GroupSingletonCarrier c ∧ GroupSingletonCarrier d := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    have rightSplit := append_eq_empty_iff.mp classified.right.left
+    exact And.intro leftSplit.left
+      (And.intro leftSplit.right (And.intro rightSplit.left rightSplit.right))
+  · intro split
+    have leftCarrier : GroupSingletonCarrier (append a b) :=
+      append_eq_empty_iff.mpr (And.intro split.left split.right.left)
+    have rightCarrier : GroupSingletonCarrier (append c d) :=
+      append_eq_empty_iff.mpr (And.intro split.right.right.left split.right.right.right)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 end BEDC.Derived.GroupUp

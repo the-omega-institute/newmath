@@ -96,10 +96,8 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     if not files:
         return True
 
-    # Use .replace, not .format. CONFLICT_PROMPT contains literal LaTeX
-    # braces (\label{...} / \input{...} / \\begin{...}) that .format would
-    # interpret as positional placeholders → IndexError. Reported upstream;
-    # this patch is local until loning's copy is fixed.
+    # Use replacement rather than str.format because CONFLICT_PROMPT contains
+    # literal LaTeX braces such as \label{...}, \input{...}, and \begin{...}.
     prompt = CONFLICT_PROMPT.replace(
         "{conflicted}", "\n".join(f"  {f}" for f in files),
     )

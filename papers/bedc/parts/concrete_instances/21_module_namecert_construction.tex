@@ -87,6 +87,151 @@ reverse direction.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_classifier\_readback\_iff}
 
+\begin{theorem}[Module singleton scalar action image carrier exactness]
+\label{thm:module-singleton-smul-image-carrier-exact}
+For the concrete singleton $\ModuleUp$ instance, let
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{ModuleSingletonSmul}(r,m).
+$$
+Then the scalar-action image pattern is exactly the singleton carrier:
+$$
+P(h)\quad\Longleftrightarrow\quad A_{\emp}(h).
+$$
+The ten-field fit is: traditional target the one-element module action image;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from
+Theorems~\ref{thm:module-singleton-classifier-empty-endpoints} and
+\ref{thm:module-singleton-smul-classifier-readback-iff}; ledger scalar-action
+witnesses; core theorem this block; exactness the displayed iff; standard
+bridge the terminal module; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack a witness
+$r,m:\mathsf{BHist}$ with $A_{\emp}(m)$ and
+$h\hsame\mathsf{ModuleSingletonSmul}(r,m)$. The scalar action endpoint is
+definitionally $\emp$, so this comparison composes to $h\hsame\emp$. By the
+singleton carrier definition, that endpoint comparison is precisely
+$A_{\emp}(h)$.
+
+For the reverse direction, assume $A_{\emp}(h)$. Choose $r=\emp$ and $m=h$.
+The module witness is the given carrier evidence, and
+$\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally $\emp$. The same
+singleton carrier witness compares $h$ with this empty scalar-action endpoint,
+so the chosen pair lies in the image pattern.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_empty\_endpoint\_iff}
+
+\begin{theorem}[Module singleton scalar action image semantic certificate]
+\label{thm:module-singleton-smul-image-semantic-name-cert}
+For the concrete singleton $\ModuleUp$ instance, the source carrier $A_{\emp}$,
+the scalar-action image pattern
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{ModuleSingletonSmul}(r,m),
+$$
+the ledger carrier $A_{\emp}$, and the singleton classifier $\rho_{\emp}$ form a
+$\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The certificate core is the singleton module classifier from
+Theorem~\ref{thm:module-singleton-scalar-action-laws}. Its carrier is
+$A_{\emp}$, its classifier is $\rho_{\emp}$, and its stability fields give the
+reflexive, symmetric, transitive, and carrier-transport clauses required by the
+semantic certificate.
+
+For pattern soundness, assume $A_{\emp}(h)$. Choose the scalar and module
+witnesses $r=\emp$ and $m=h$. The module witness is the given carrier evidence,
+and $\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally the empty history, so
+the same singleton evidence supplies $h\hsame\mathsf{ModuleSingletonSmul}(r,m)$.
+
+Ledger soundness is the identity map on the singleton carrier $A_{\emp}$, with
+classification read by the same $\rho_{\emp}$ endpoint relation.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert}
+
+\begin{theorem}[Module singleton scalar action graph exactness]
+\label{thm:module-singleton-smul-graph-exact}
+For histories $r,m,n:\mathsf{BHist}$, define the concrete scalar-action graph
+predicate
+$$
+G(r,m,n)\;:\Longleftrightarrow\;
+A_{\emp}(r)\land A_{\emp}(m)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n).
+$$
+Then this graph is exactly the singleton carrier on scalar input, module input,
+and classified output:
+$$
+G(r,m,n)\quad\Longleftrightarrow\quad
+A_{\emp}(r)\land A_{\emp}(m)\land A_{\emp}(n).
+$$
+The ten-field fit is: traditional target the terminal module action graph;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from
+Theorems~\ref{thm:module-singleton-classifier-empty-endpoints},
+\ref{thm:module-singleton-smul-classifier-readback-iff}, and
+\ref{thm:module-singleton-scalar-action-laws}; ledger scalar endpoint, module
+endpoint, and classified result endpoint; core theorem this block; exactness
+the displayed iff; downstream consumer the $\ModuleUp$ action-row certificate;
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ModuleSingletonSmul}$ as the constant empty-history action.
+The only nontrivial classifier read in the graph is therefore
+$\rho_{\emp}(\emp,n)$.
+
+For the forward direction, unpack $G(r,m,n)$. The first two projections are
+already the scalar endpoint witness $A_{\emp}(r)$ and the module endpoint
+witness $A_{\emp}(m)$. The classifier projection, together with
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}, reads
+$\rho_{\emp}(\emp,n)$ as the two empty endpoint witnesses; the second one is
+precisely the singleton carrier witness for $n$.
+
+For the reverse direction, assume
+$A_{\emp}(r)\land A_{\emp}(m)\land A_{\emp}(n)$. Reuse the scalar and module
+carrier witnesses unchanged. Since
+$\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally $\emp$,
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} and the
+singleton carrier witness for $n$ give
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n)$, which repacks the graph
+predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_graph\_empty\_exact\_iff}
+
+\begin{theorem}[Module singleton scalar action graph output determinacy]
+\label{thm:module-singleton-smul-graph-output-determinacy}
+For histories $r,m,n,n':\mathsf{BHist}$, define the concrete scalar-action
+graph predicate
+$$
+G(r,m,n)\;:\Longleftrightarrow\;
+A_{\emp}(r)\land A_{\emp}(m)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n).
+$$
+Then any two outputs of the same scalar and module inputs are classified
+equivalent:
+$$
+G(r,m,n)\land G(r,m,n')\quad\Longrightarrow\quad \rho_{\emp}(n,n').
+$$
+The ten-field fit is: traditional target terminal module action determinacy;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$, $A_{\emp}$,
+and $\rho_{\emp}$; carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability
+from graph exactness and classifier endpoint exactness; ledger scalar, module,
+and output endpoint witnesses; core theorem this block; exactness output
+uniqueness up to classifier; downstream consumer the $\ModuleUp$ action-row
+certificate; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $G(r,m,n)\land G(r,m,n')$. Apply
+Theorem~\ref{thm:module-singleton-smul-graph-exact} to the first graph witness
+to obtain the output endpoint witness $A_{\emp}(n)$. Apply the same theorem to
+the second graph witness to obtain $A_{\emp}(n')$.
+
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} identifies
+$\rho_{\emp}$ with pairs of singleton empty-history endpoints. Using the two
+endpoint witnesses just obtained, package the pair as
+$\rho_{\emp}(n,n')$.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple

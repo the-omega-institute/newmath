@@ -214,6 +214,26 @@ classifier comparison $\emp\hsame t$.
 \end{proof}
 \leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_classifier\_empty\_iff}
 
+\begin{theorem}[VecSpace singleton scalar action image pullback]
+\label{thm:vecspace-singleton-smul-image-pullback}
+For all histories $r,m,n:\mathsf{BHist}$, if $m\hsame\emp$, then
+$$
+\mathsf{VecSpaceSingletonClassifier}
+  (\mathsf{VecSpaceSingletonSmul}(r,m),n)
+\Longleftrightarrow
+\mathsf{VecSpaceSingletonClassifier}(m,n).
+$$
+\end{theorem}
+\begin{proof}
+The scalar-action image endpoint is definitionally $\emp$. In the forward
+direction, the target classifier gives the carrier of $n$ and the comparison
+$\emp\hsame n$; composing the assumed $m\hsame\emp$ with this comparison gives
+$m\hsame n$. In the reverse direction, the target carrier contained in
+$\mathsf{VecSpaceSingletonClassifier}(m,n)$ and symmetry classify the empty
+scalar-action endpoint against $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.VecSpaceUp.VecSpaceSingletonSmul\_image\_pullback\_iff}
+
 \begin{theorem}[VecSpace singleton scalar action target deterministic]
 \label{thm:vecspace-singleton-smul-target-deterministic}
 For all histories $r,s,m,n,x,y:\mathsf{BHist}$, if
@@ -450,7 +470,6 @@ For the ledger, \autoref{def:vecspace-ledger-policy} records the module ledgers 
 
 Thus the retained carrier, source, pattern, classifier, stability, and ledger fields are exactly the obligations named in \autoref{def:module-certificate-obligations}. Since every retained operation and classifier is copied from the original $\VecSpaceUp(F,V)$ certificate, the resulting $\ModuleUp(R,V)$ certificate has the same carrier, action, classifier, stability rows, and ledger outside the omitted inverse-specific data.
 \end{proof}
-
 \begin{proposition}[VecSpace module-fragment projection]
 \label{prop:vecspace-module-fragment-projection}
 Let $F$ carry a $\FieldUp(F)$ certificate. Let $F_{\mathsf{Ring}}$ be the scalar certificate obtained from it by first taking the commutative-ring reduct and then the ring reduct. Let $V$ carry a $\VecSpaceUp(F,V)$ certificate with vector carrier $C_V$, vector classifier $\sim_V$, additive operations $+_V$, $0_V$, $-_V$, and scalar action $\odot:F\times V\to V$. If the apartness predicate, proof-indexed scalar inverse operation, inverse-indexed stability rows, and inverse-witness ledger rows are omitted, the retained fields form a $\ModuleUp(F_{\mathsf{Ring}},V)$ certificate. The vector carrier $C_V$, vector classifier $\sim_V$, vector addition, vector zero, vector negation, scalar action $\odot$, scalar addition, scalar zero, scalar negation, scalar multiplication, scalar one, exactness predicate, and non-inverse ledger rows are unchanged.
@@ -482,3 +501,4 @@ Now apply \autoref{prop:module-forgets-abgroup-certificate} to that $\ModuleUp(F
 
 By \autoref{def:abgroup-certificate-obligations}, those retained fields are the obligations for an $\AbGroupUp(V)$ certificate. The first projection did not alter the vector-side additive data, and the second projection explicitly keeps the additive carrier data of the module certificate. Therefore the final $\AbGroupUp(V)$ certificate is over the same carrier $C_V$ with the same classifier $\sim_V$, addition $+_V$, zero $0_V$, and additive inverse $(-)_V$ carried by the original vector-space certificate.
 \end{proof}
+\closureat{\VecSpaceUp}{\checkedCertStr}

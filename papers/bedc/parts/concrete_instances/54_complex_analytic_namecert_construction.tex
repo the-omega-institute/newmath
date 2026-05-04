@@ -50,6 +50,27 @@ The predicate \(\mathsf{CplxPureImaginary}(\theta,z)\) holds when \(\theta\) is 
 \end{definition}
 \leandef{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary}
 
+\begin{theorem}[Pure-imaginary e1 tail iff]
+\label{thm:cplx-pure-imaginary-e1-tail-iff}
+For histories $\theta$ and $tail$, a pure-imaginary witness at the visible
+endpoint $\Eone(tail)$ is exactly a unary witness for $\theta$ together with
+the tail comparison against the component append:
+$$
+\mathsf{CplxPureImaginary}(\theta,\Eone(tail))
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(\theta)\wedge
+\hsame(tail,\mathsf{append}(\Eone(\emp),\theta)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the pure-imaginary predicate at the visible endpoint. The displayed
+append with imaginary component $\Eone(\theta)$ is itself an $\Eone$-history,
+so constructor inversion reads the endpoint comparison back to the tail.
+The converse applies $\Eone$ congruence to the tail comparison and repacks the
+unary witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_e1\_tail\_iff}
+
 \begin{theorem}[Pure-imaginary witness uniqueness]
 \label{thm:cplx-pure-imaginary-witness-unique}
 If the same complex history \(z\) is displayed as pure-imaginary by unary
@@ -123,6 +144,19 @@ history carriers.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_empty\_absurd}
 
+\begin{theorem}[Pure-imaginary empty continuation contradiction]
+\label{thm:cplx-pure-imaginary-empty-continuation-absurd}
+If $\mathsf{CplxPureImaginary}(\theta,z)$ holds and $\Cont(z,q,\emp)$, then
+False follows.
+\end{theorem}
+\begin{proof}
+The empty continuation endpoint splits by BEDC append-empty inversion, so the
+source $z$ is $\hsame$-equal to $\emp$. Transporting the pure-imaginary witness
+along this source equality gives a pure-imaginary witness at $\emp$, which is
+impossible by the empty endpoint contradiction theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_empty\_continuation\_absurd}
+
 \begin{theorem}[Pure-imaginary hsame transport witness]
 \label{thm:cplx-pure-imaginary-hsame-transport}
 If \(z\hsame z'\) and \(z\) is the pure-imaginary source determined by
@@ -136,6 +170,30 @@ comparison with the symmetry of \(z\hsame z'\). The same unary carrier and the
 composed comparison rebuild the transported pure-imaginary witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_hsame\_transport\_witness}
+
+\begin{theorem}[Pure-imaginary phase witness stability]
+\label{thm:cplx-pure-imaginary-phase-stability}
+For histories $\theta,\phi,z:\mathsf{BHist}$, if
+$\mathsf{CplxPureImaginary}(\theta,z)$ and $\theta\hsame\phi$, then
+$\mathsf{CplxPureImaginary}(\phi,z)$.
+\end{theorem}
+\begin{proof}
+Unpack the pure-imaginary witness for $\theta$ into the unary carrier of
+$\theta$ and the comparison from $z$ to the component history
+$\mathsf{append}(\Eone(\emp),\Eone(\theta))$.
+
+Transport the unary carrier along $\theta\hsame\phi$. Constructor congruence
+gives $\Eone(\theta)\hsame\Eone(\phi)$, while the real component
+$\Eone(\emp)$ is unchanged. Applying append congruence to the fixed real
+component and the transported imaginary component gives the comparison between
+the two component-pair histories.
+
+Compose that comparison with the original comparison from $z$ to
+$\mathsf{append}(\Eone(\emp),\Eone(\theta))$. The transported unary carrier
+and the composed comparison repack the pure-imaginary witness for
+$\mathsf{CplxPureImaginary}(\phi,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_phase\_stability\_witness}
 
 \begin{theorem}[Pure-imaginary component continuation witness]
 \label{thm:cplx-pure-imaginary-component-continuation-witness}
@@ -152,6 +210,25 @@ so the component continuation theorem splits the suffix through the imaginary
 component and returns the positive-denominator witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_witness}
+
+\begin{theorem}[Pure-imaginary suffix component tail witness]
+\label{thm:cplx-pure-imaginary-suffix-component-tail-witness}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then there is an intermediate imaginary component
+\(imagq\) which is a rational history carrier, is \(\hsame\)-equal to
+\(\Eone(\mathsf{append}(\theta,q))\), continues \(\Eone(\emp)\) to \(zq\),
+and has a positive unary denominator.
+\end{theorem}
+\begin{proof}
+Apply the pure-imaginary component continuation witness to obtain the
+intermediate imaginary component. Its continuation from \(\Eone(\theta)\) by
+the unary suffix \(q\) identifies it with
+\(\mathsf{append}(\Eone(\theta),q)\), and unary append readback identifies this
+history with \(\Eone(\mathsf{append}(\theta,q))\). The rational carrier,
+continuation ledger from \(\Eone(\emp)\), and positive-denominator witness are
+the corresponding fields of the component witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_component\_tail\_witness}
 
 \begin{theorem}[Pure-imaginary suffix continuation complex carrier]
 \label{thm:cplx-pure-imaginary-suffix-continuation-complex-carrier}
@@ -190,6 +267,33 @@ continuation ledgers, yielding the complex endpoint classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_classifier}
 
+\begin{theorem}[Pure-imaginary suffix tail deterministic]
+\label{thm:cplx-pure-imaginary-suffix-tail-deterministic}
+Let $\mathsf{CplxPureImaginary}(\theta,z)$ and
+$\mathsf{CplxPureImaginary}(\phi,w)$ hold with $\theta\hsame\phi$. If
+$\Cont(z,q,zq)$, $\Cont(w,q',wq)$, and $zq\hsame wq$, then $q\hsame q'$.
+\end{theorem}
+\begin{proof}
+The two pure-imaginary witnesses identify \(z\) and \(w\) with the same
+anchored component pair. With the sources and results identified, continuation
+left cancellation determines the suffix histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_tail\_deterministic}
+
+\begin{theorem}[Pure-imaginary suffix source deterministic]
+\label{thm:cplx-pure-imaginary-suffix-source-deterministic}
+Let $\mathsf{CplxPureImaginary}(\theta,z)$ and
+$\mathsf{CplxPureImaginary}(\phi,w)$ hold. If the same suffix $q$ continues
+$z$ and $w$ to the same endpoint $zq$, then $\theta\hsame\phi$.
+\end{theorem}
+\begin{proof}
+Continuation right cancellation identifies the two sources $z$ and $w$ under
+the shared suffix and endpoint. Transport the pure-imaginary witness for
+$\phi$ from $w$ to $z$, then apply pure-imaginary witness uniqueness at the
+common source.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_source\_deterministic}
+
 \begin{theorem}[Pure-imaginary continuation has complex carrier]
 \label{thm:cplx-pure-imaginary-continuation-complex-carrier}
 If \(z\) is the pure-imaginary source determined by \(\theta\), a unary suffix
@@ -218,6 +322,18 @@ from that real component and the continued imaginary component to $zq$ forms
 the product-history carrier defining a complex history.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_complex\_carrier}
+
+\begin{theorem}[Pure-imaginary continuation excludes e0 result]
+\label{thm:cplx-pure-imaginary-continuation-e0-result-absurd}
+Let $\mathsf{CplxPureImaginary}(\theta,z)$ hold, and let a unary suffix $q$
+continue $z$ to $\Ezero(t)$. This is impossible.
+\end{theorem}
+\begin{proof}
+Continuation preserves the \(\ComplexUp\) carrier. Reading a complex carrier
+back to unary history would make $\Ezero(t)$ unary, contradicting unary
+constructor exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_continuation\_e0\_result\_absurd}
 
 \section{Complex logarithm with principal branch}
 \label{sec:cplx-analytic-log}

@@ -172,6 +172,27 @@ theorem CentralizerCoset_semanticNameCert {mul : BHist -> BHist -> BHist} {a rep
   · intro h carrier
     exact carrier
 
+theorem CentralizerCosetClassifier_empty_representative_transport_iff
+    {mul : BHist -> BHist -> BHist} {a repr h k : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty)
+    (reprCentral : SubgroupCentralizerCarrier mul a repr) :
+    hsame repr BHist.Empty ->
+      (CentralizerCosetClassifier mul a repr h k <->
+        CentralizerCosetClassifier mul a BHist.Empty h k) := by
+  intro reprEmpty
+  constructor
+  · intro classified
+    exact And.intro (And.intro emptyCentral (hsame_trans classified.left.right reprEmpty))
+      (And.intro
+        (And.intro emptyCentral (hsame_trans classified.right.left.right reprEmpty))
+        classified.right.right)
+  · intro classified
+    exact And.intro
+      (And.intro reprCentral (hsame_trans classified.left.right (hsame_symm reprEmpty)))
+      (And.intro
+        (And.intro reprCentral
+          (hsame_trans classified.right.left.right (hsame_symm reprEmpty)))
+        classified.right.right)
 theorem QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -376,6 +397,94 @@ theorem QuotientGroupCentralizerNormalizer_identity_fiber_subgroup_package
   exact And.intro emptyKQ
     (And.intro mulClosed (And.intro invClosed (And.intro hsameClosed fiber)))
 
+theorem QuotientGroupCentralizerNormalizer_identity_fiber_normal
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x k : BHist} :
+    let KQ := fun t : BHist => SubgroupCentralizerQuotientKernel mul inv a BHist.Empty t
+    SubgroupCentralizerNormalizer mul inv a x -> KQ k ->
+      KQ (mul (mul x k) (inv x)) ∧ KQ (mul (mul (inv x) k) x) := by
+  dsimp
+  intro normalizesX kernelK
+  have package :=
+    QuotientGroupCentralizerNormalizer_identity_fiber_subgroup_package
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have fiber :
+      forall t : BHist,
+        SubgroupCentralizerQuotientKernel mul inv a BHist.Empty t <->
+          SubgroupCentralizerCarrier mul a t :=
+    package.right.right.right.right
+  have kernelTransport :
+      forall {u v : BHist},
+        SubgroupCentralizerQuotientKernel mul inv a BHist.Empty u -> hsame u v ->
+          SubgroupCentralizerQuotientKernel mul inv a BHist.Empty v :=
+    package.right.right.right.left
+  have centralK : SubgroupCentralizerCarrier mul a k :=
+    Iff.mp (fiber k) kernelK
+  have leftCentral : SubgroupCentralizerCarrier mul a (mul (mul x k) (inv x)) :=
+    normalizesX.left k centralK
+  have rightCentralWithDoubleInverse :
+      SubgroupCentralizerCarrier mul a (mul (mul (inv x) k) (inv (inv x))) :=
+    normalizesX.right k centralK
+  have invInvSameX : hsame (inv (inv x)) x :=
+    BEDC.Derived.GroupUp.group_left_inverse_involutive assocC leftId rightId mulCongr
+      leftInv x
+  have rightKernelWithDoubleInverse :
+      SubgroupCentralizerQuotientKernel mul inv a BHist.Empty
+        (mul (mul (inv x) k) (inv (inv x))) :=
+    Iff.mpr (fiber (mul (mul (inv x) k) (inv (inv x)))) rightCentralWithDoubleInverse
+  have rightKernel :
+      SubgroupCentralizerQuotientKernel mul inv a BHist.Empty (mul (mul (inv x) k) x) :=
+    kernelTransport rightKernelWithDoubleInverse
+      (mulCongr (hsame_refl (mul (inv x) k)) invInvSameX)
+  exact And.intro (Iff.mpr (fiber (mul (mul x k) (inv x))) leftCentral)
+    rightKernel
+
+theorem QuotientGroupCentralizerNormalizer_kernel_certificate
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a : BHist} :
+    let KQ := fun t : BHist => SubgroupCentralizerQuotientKernel mul inv a BHist.Empty t
+    KQ BHist.Empty ∧ (forall {x y : BHist}, KQ x -> KQ y -> KQ (mul x y)) ∧
+      (forall {x : BHist}, KQ x -> KQ (inv x)) ∧
+        (forall {x y : BHist}, KQ x -> hsame x y -> KQ y) ∧
+          (forall {x k : BHist}, SubgroupCentralizerNormalizer mul inv a x -> KQ k ->
+            KQ (mul (mul x k) (inv x))) ∧
+          (forall {x k : BHist}, SubgroupCentralizerNormalizer mul inv a x -> KQ k ->
+            KQ (mul (mul (inv x) k) x)) := by
+  dsimp
+  have package :=
+    QuotientGroupCentralizerNormalizer_identity_fiber_subgroup_package
+      assocC leftId rightId mulCongr leftInv rightInv (a := a)
+  have normalRows :
+      forall {x k : BHist}, SubgroupCentralizerNormalizer mul inv a x ->
+        SubgroupCentralizerQuotientKernel mul inv a BHist.Empty k ->
+          SubgroupCentralizerQuotientKernel mul inv a BHist.Empty (mul (mul x k) (inv x)) ∧
+            SubgroupCentralizerQuotientKernel mul inv a BHist.Empty
+              (mul (mul (inv x) k) x) := by
+    intro x k normalizesX kernelK
+    exact QuotientGroupCentralizerNormalizer_identity_fiber_normal
+      assocC leftId rightId mulCongr leftInv rightInv normalizesX kernelK
+  exact And.intro package.left
+    (And.intro package.right.left
+      (And.intro package.right.right.left
+        (And.intro package.right.right.right.left
+          (And.intro
+            (fun {x k} normalizesX kernelK => (normalRows normalizesX kernelK).left)
+            (fun {x k} normalizesX kernelK => (normalRows normalizesX kernelK).right)))))
+
 theorem QuotientGroupCentralizerNormalizer_abelian_identity_fiber_total
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
@@ -398,5 +507,94 @@ theorem QuotientGroupCentralizerNormalizer_abelian_identity_fiber_total
     (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
       assocC leftId rightId commC mulCongr leftInv rightInv (a := a) (x := x)).left
   exact Iff.mpr (package.right.right.right.right x) centralX
+
+theorem QuotientGroupCentralizerNormalizer_abelian_classifier_totality
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x -> SubgroupCentralizerNormalizer mul inv a y ->
+      let QuotientClassifier := fun p q : BHist =>
+        SubgroupCentralizerNormalizer mul inv a p ∧
+          SubgroupCentralizerNormalizer mul inv a q ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧ hsame q (mul p z))
+      (SubgroupCentralizerQuotientKernel mul inv a x y <-> True) ∧
+        (QuotientClassifier x y <-> True) := by
+  intro normalizerX normalizerY
+  dsimp
+  have kernelCentral :
+      SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+    (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
+      assocC leftId rightId commC mulCongr leftInv rightInv
+      (a := a) (x := mul (inv x) y)).left
+  have kernelXY :
+      SubgroupCentralizerQuotientKernel mul inv a x y :=
+    And.intro normalizerX (And.intro normalizerY kernelCentral)
+  have classifierKernel :
+      (SubgroupCentralizerNormalizer mul inv a x ∧
+          SubgroupCentralizerNormalizer mul inv a y ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧
+              hsame y (mul x z))) <->
+        SubgroupCentralizerQuotientKernel mul inv a x y :=
+    QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
+      assocC leftId mulCongr leftInv
+  have classifierXY :
+      SubgroupCentralizerNormalizer mul inv a x ∧
+          SubgroupCentralizerNormalizer mul inv a y ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧
+              hsame y (mul x z)) :=
+    Iff.mpr classifierKernel kernelXY
+  constructor
+  · constructor
+    · intro _kernel
+      constructor
+    · intro _truth
+      exact kernelXY
+  · constructor
+    · intro _classified
+      constructor
+    · intro _truth
+      exact classifierXY
+
+theorem QuotientGroupCentralizerNormalizer_abelian_terminal_projection
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x ->
+      SubgroupCentralizerNormalizer mul inv a y ->
+        (SubgroupCentralizerQuotientKernel mul inv a x y <->
+          QuotientGroupSingletonClassifier BHist.Empty BHist.Empty) ∧
+          QuotientGroupSingletonClassifier BHist.Empty BHist.Empty := by
+  intro normalizesX normalizesY
+  have singleton :
+      QuotientGroupSingletonClassifier BHist.Empty BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty)
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have kernelXY : SubgroupCentralizerQuotientKernel mul inv a x y := by
+    have centralKernel : SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+      (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
+        assocC leftId rightId commC mulCongr leftInv rightInv
+        (a := a) (x := mul (inv x) y)).left
+    exact And.intro normalizesX (And.intro normalizesY centralKernel)
+  constructor
+  · constructor
+    · intro _kernel
+      exact singleton
+    · intro _classified
+      exact kernelXY
+  · exact singleton
 
 end BEDC.Derived.QuotientGroupUp

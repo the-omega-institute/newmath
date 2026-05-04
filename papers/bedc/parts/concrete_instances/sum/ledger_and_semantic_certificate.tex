@@ -238,6 +238,37 @@ $\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ also holds.
 \end{definition}
 \leandef{BEDC.Derived.SumUp.SumHistoryLedgerChain}
 
+\begin{theorem}[Sum ledger chain transitivity]
+\label{thm:sum-ledger-chain-transitivity}
+Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
+$\rho,m,z:\mathsf{BHist}$ be histories. If
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,m)$ and
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(m,z)$ hold, then
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,z)$ holds. The ten-field fit is:
+traditional target finite tagged-sum ledger provenance composition; BEDC source
+$\mathsf{BHist}$ with tagged sum carrier; carrier $\mathsf{SumHistoryCarrier}$;
+classifier supplied downstream by
+Theorem~\ref{thm:sum-ledger-chain-classifier-composition}; ledger
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}$; core theorem finite-chain
+composition; exactness concatenated raw-to-visible provenance; standard bridge
+tagged sum ledger audit composition; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the first displayed
+$\mathsf{SumHistoryLedgerChain}_{Left,Right}(\rho,m)$ witness.
+
+In the one-ledger case, the displayed
+$\mathsf{SumHistoryLedgerPolicy}(Left,Right,\rho,m)$ is the first finite ledger
+step. Rebuild the target chain by the cons constructor, using that ledger step
+as the head and the second displayed chain from $m$ to $z$ as the tail.
+
+In the cons case, the first chain consists of a head ledger from $\rho$ to an
+intermediate history and a tail chain from that intermediate history to $m$.
+Apply the induction hypothesis to compose the tail chain with the second
+displayed chain from $m$ to $z$, then rebuild the full chain by the cons
+constructor with the original head ledger.
+\end{proof}
+
 \begin{theorem}[Sum ledger chain classifier composition]
 \label{thm:sum-ledger-chain-classifier-composition}
 \label{thm:sum-history-ledger-chain-classifier-composition}
@@ -666,3 +697,5 @@ same predicate $\mathsf{SumHistoryCarrier}(Left,Right)$.
 \label{cor:sum-licensed-not-primitive}
 $\SumUp$ is licensed as a derived disjoint sum, not as a primitive coproduct.
 \end{corollary}
+
+\closureat{\SumUp}{\checkedCertStr}

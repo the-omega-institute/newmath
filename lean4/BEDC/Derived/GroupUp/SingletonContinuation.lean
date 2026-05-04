@@ -84,6 +84,52 @@ theorem GroupSingletonClassifier_continuation_result_carrier_iff {P Q R : BHist}
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem GroupSingletonCarrier_continuation_endpoint_split_iff {P Q R : BHist} :
+    Cont P Q R -> (GroupSingletonCarrier R <-> GroupSingletonCarrier P /\ GroupSingletonCarrier Q) := by
+  intro continuation
+  constructor
+  · intro carrierR
+    exact cont_empty_result_inversion (cont_result_hsame_transport continuation carrierR)
+  · intro endpoints
+    exact cont_respects_hsame endpoints.left endpoints.right continuation
+      (cont_right_unit BHist.Empty)
+
+theorem GroupSingletonCarrier_inverse_continuation_roundtrip_iff {x r s : BHist} :
+    Cont (GroupSingletonInv x) x r ->
+      Cont r (GroupSingletonInv x) s ->
+        (GroupSingletonCarrier s <-> GroupSingletonCarrier x) := by
+  intro firstContinuation secondContinuation
+  have firstIff := GroupSingletonInv_continuation_left_unit_iff firstContinuation
+  have secondIff := GroupSingletonCarrier_continuation_endpoint_split_iff secondContinuation
+  constructor
+  · intro carrierS
+    have split := secondIff.mp carrierS
+    have classifiedR : GroupSingletonClassifier r BHist.Empty :=
+      And.intro split.left
+        (And.intro (hsame_refl BHist.Empty) split.left)
+    exact firstIff.mp classifiedR
+  · intro carrierX
+    have classifiedR : GroupSingletonClassifier r BHist.Empty :=
+      firstIff.mpr carrierX
+    have inverseCarrier : GroupSingletonCarrier (GroupSingletonInv x) :=
+      hsame_refl BHist.Empty
+    exact secondIff.mpr (And.intro classifiedR.left inverseCarrier)
+
+theorem GroupSingletonClassifier_inverse_continuation_roundtrip_source_iff {x r s : BHist} :
+    Cont (GroupSingletonInv x) x r ->
+      Cont r (GroupSingletonInv x) s ->
+        (GroupSingletonClassifier s x <-> GroupSingletonCarrier x) := by
+  intro firstContinuation secondContinuation
+  have roundtrip :=
+    GroupSingletonCarrier_inverse_continuation_roundtrip_iff firstContinuation secondContinuation
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro carrierX
+    have carrierS := roundtrip.mpr carrierX
+    exact And.intro carrierS
+      (And.intro carrierX (hsame_trans carrierS (hsame_symm carrierX)))
+
 theorem GroupSingletonClassifier_continuation_endpoint_equivalence_iff {P Q R : BHist} :
     Cont P Q R -> (GroupSingletonClassifier R P <-> GroupSingletonClassifier R Q) := by
   intro continuation

@@ -122,6 +122,35 @@ characterization above, and the endpoint sameness field is converted by
 constructor injectivity for $\Eone$.
 \end{proof}
 
+\begin{theorem}[Rat denominator unit classifier displayed context one-tail readback]
+\label{thm:rat-denom-unit-classifier-cont-context-e1-pair-readback}
+Let $d,e,p_d,p_e,t_d,t_e,m_d,m_e,out_d,out_e,a,b:\mathsf{BHist}$. If
+$\mathsf{RatDenomUnitClassifier}(d,e)$,
+$\mathsf{RatDenomUnitClassifier}(p_d,p_e)$, and
+$\mathsf{RatDenomUnitClassifier}(t_d,t_e)$ hold, and the displayed
+continuations
+$\mathsf{Cont}(p_d,d,m_d)$, $\mathsf{Cont}(m_d,t_d,out_d)$,
+$\mathsf{Cont}(p_e,e,m_e)$, and $\mathsf{Cont}(m_e,t_e,out_e)$ expose
+contextual endpoints satisfying $\hsame(out_d,\Eone(a))$ and
+$\hsame(out_e,\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Compose the prefix classifier with the core denominator-unit classifier through
+the first pair of continuations, then compose the resulting middle classifier
+with the tail classifier through the second pair. This gives a
+$\mathsf{RatDenomUnitClassifier}(out_d,out_e)$ witness.
+
+Transport that classifier along the endpoint displays
+$\hsame(out_d,\Eone(a))$ and $\hsame(out_e,\Eone(b))$. The result is a
+classifier between $\Eone(a)$ and $\Eone(b)$. Apply
+\autoref{thm:rat-denom-unit-classifier-e1-tail-iff} in the forward direction
+to read back the two unary tail witnesses and their $\hsame$ link.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_cont\_context\_e1\_pair\_readback}
+
 \begin{theorem}[Rat denominator unit classifier visible cases iff]
 \label{thm:rat-denom-unit-classifier-visible-cases-iff}
 For histories $h,k:\mathsf{BHist}$, the empty-unit denominator classifier is

@@ -52,6 +52,31 @@ Reassembling these transported fields gives all stated components.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
 
+\begin{theorem}[Derivative metric quotient function prefix closure]
+\label{thm:derivative-metric-quotient-function-prefix-closed}
+For histories $p,f,z,h,q,dist:\mathsf{BHist}$, if $p$ is unary and
+$\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then the function
+and quotient histories may be prefixed together while the step and point
+remain fixed:
+$$
+\mathsf{DerivativeMetricQuotient}
+(\mathsf{append}(p,f),z,h,\mathsf{append}(p,q),
+\mathsf{append}(h,\mathsf{append}(p,q))).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the derivative metric quotient into unary carriers, the complex-nonzero
+step proof, and the two continuation ledgers. Unary closure under append gives
+the prefixed function and prefixed quotient carriers. The function ledger
+$\Cont(f,h,q)$ is transported through the shared prefix by reassociating
+$\mathsf{append}(p,\mathsf{append}(f,h))$ with
+$\mathsf{append}(\mathsf{append}(p,f),h)$. The metric distance component is
+then rebuilt canonically from the original unary step, the prefixed quotient,
+and the defining continuation
+$\Cont(h,\mathsf{append}(p,q),\mathsf{append}(h,\mathsf{append}(p,q)))$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_function\_prefix\_closed}
+
 \begin{theorem}[Derivative metric quotient distance continuation depth]
 \label{thm:derivative-metric-quotient-distance-cont-depth-add}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then its metric
@@ -115,6 +140,52 @@ quotient non-emptiness component of derivative metric quotients.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_quotient\_visible\_context\_readback}
 
+\begin{theorem}[Derivative metric quotient point visible-context readback]
+\label{thm:derivative-metric-quotient-point-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the point
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $z\hsame core$ and the readback
+core is unary.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the point and the core. This gives $z\hsame core$. The point unary carrier from
+the derivative metric quotient then transports across the recovered classifier
+equality.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_point\_visible\_context\_readback}
+
+\begin{theorem}[Derivative metric quotient step visible-context readback]
+\label{thm:derivative-metric-quotient-step-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the step
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $h\hsame core$. The readback core
+is unary and is not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the step and the core. This gives $h\hsame core$. The unary carrier for the
+step transports across this equality to the core. A hypothetical empty core
+transports back to an empty step, contradicting the complex-nonzero field of
+the derivative metric quotient.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_step\_visible\_context\_readback}
+
+\begin{theorem}[Derivative metric quotient function visible-context readback]
+\label{thm:derivative-metric-quotient-function-visible-context-readback}
+If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds and the function
+history is displayed inside a common visible left and right append context
+equal to the same context around $core$, then $f\hsame core$ and the readback
+core is unary.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays and cancel the common append contexts around
+the function and the core. This gives $f\hsame core$. The function unary carrier
+from the derivative metric quotient then transports across the recovered
+classifier equality.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_function\_visible\_context\_readback}
+
 \begin{theorem}[Derivative metric quotient distance is non-empty]
 \label{thm:derivative-metric-quotient-quotient-distance-nonempty}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then neither
@@ -149,6 +220,31 @@ metric ledger along that quotient equality, then apply determinism of
 $\Cont(h,q,\cdot)$ to identify the displayed distance histories.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_result\_deterministic}
+
+\begin{theorem}[Derivative metric quotient hsame-step result determinacy]
+\label{thm:derivative-metric-quotient-hsame-step-result-deterministic}
+For histories $f,z,h,h',q,q',dist,dist':\mathsf{BHist}$, if
+$h\hsame h'$ and
+$$
+\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)
+\qquad\text{and}\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,h',q',dist')
+$$
+hold, then $q\hsame q'$ and $dist\hsame dist'$. The exposed continuation
+ledgers are
+$$
+\Cont(f,h,q),\qquad \Cont(f,h',q'),\qquad \Cont(h,q,dist),\qquad
+\Cont(h',q',dist').
+$$
+\end{theorem}
+\begin{proof}
+Destructure the two derivative metric quotient witnesses. Transport the second
+function continuation ledger along $h\hsame h'$ and apply continuation
+determinism to identify $q$ with $q'$. Then transport the second metric
+continuation ledger along both the step equality and the quotient equality, and
+apply continuation determinism again to identify $dist$ with $dist'$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_step\_result\_deterministic}
 
 \begin{theorem}[Derivative same-quotient step and distance determinacy]
 \label{thm:derivative-metric-quotient-same-quotient-step-distance-deterministic}
@@ -189,6 +285,26 @@ histories. The equality $\Ezero(p)\hsame\Eone(q)$ contradicts constructor
 separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_same\_quotient\_absurd}
+
+\begin{theorem}[Visible derivative quotient steps cannot share hsame quotients]
+\label{thm:derivative-metric-quotient-visible-step-hsame-quotient-absurd}
+If
+$$
+out\hsame out',
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Ezero(p),out,dist_0),
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Eone(q),out',dist_1),
+$$
+then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the second derivative metric quotient along the quotient classifier
+so that both witnesses have quotient $out$. The same-quotient visible-step
+separation theorem then identifies $\Ezero(p)$ with $\Eone(q)$, contradicting
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_hsame\_quotient\_absurd}
 
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}

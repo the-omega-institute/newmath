@@ -19,6 +19,24 @@ for the denominator-unit carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Rat denominator unit classifier continuation zero-headed endpoint separation]
+\label{thm:rat-denom-unit-classifier-continuation-e0-endpoint-absurd}
+For classified denominator-unit pairs $(h,h')$ and $(k,k')$, if
+$\Cont(h,k,r)$ and $\Cont(h',k',r')$, then neither continuation result can be
+displayed as a zero-headed endpoint:
+$$
+(\hsame(r,\Ezero(t))\to\mathsf{False})\land
+(\hsame(r',\Ezero(t'))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier fields from the two classifier witnesses. Denominator-unit
+carrier closure under continuation gives carrier witnesses for $r$ and $r'$.
+Transport each carrier witness along a displayed zero-headed endpoint
+comparison and apply carrier zero-headed absurdity.
+\end{proof}
+\leanchecked{BEDC.Derived.FieldUp.RatDenomUnitClassifier\_continuation\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Rat denominator unit classifier one-headed empty endpoint separation]
 \label{thm:rat-denom-unit-classifier-e1-empty-absurd}
 For every history $d:\mathsf{BHist}$, the adjoined-unit classifier cannot

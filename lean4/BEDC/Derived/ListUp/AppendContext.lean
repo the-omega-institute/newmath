@@ -41,6 +41,88 @@ theorem ListClassifierSpec_hsame_append_context_iff
     exact ListClassifierSpec_append_hsame prefixClass
       (ListClassifierSpec_append_hsame coreClass suffixClass)
 
+theorem ListClassifierSpec_hsame_map_e0_append_context_iff
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+        (ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (pref ++ ((xs.map BEDC.FKernel.Hist.BHist.e0) ++ suffix))
+          (pref' ++ ((ys.map BEDC.FKernel.Hist.BHist.e0) ++ suffix')) <->
+            ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys) := by
+  intro prefixClass suffixClass
+  constructor
+  · intro contextClass
+    have mappedClass :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (xs.map BEDC.FKernel.Hist.BHist.e0) (ys.map BEDC.FKernel.Hist.BHist.e0) :=
+      (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mp contextClass
+    exact ListClassifierSpec_hsame_map_e0_inversion mappedClass
+  · intro coreClass
+    exact (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mpr
+      (ListClassifierSpec_hsame_map_e0 coreClass)
+
+theorem ListClassifierSpec_hsame_map_e1_append_context_iff
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+        (ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (pref ++ ((xs.map BEDC.FKernel.Hist.BHist.e1) ++ suffix))
+          (pref' ++ ((ys.map BEDC.FKernel.Hist.BHist.e1) ++ suffix')) <->
+            ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys) := by
+  intro prefixClass suffixClass
+  constructor
+  · intro contextClass
+    have mappedClass :
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (xs.map BEDC.FKernel.Hist.BHist.e1) (ys.map BEDC.FKernel.Hist.BHist.e1) :=
+      (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mp contextClass
+    exact ListClassifierSpec_hsame_map_e1_inversion mappedClass
+  · intro coreClass
+    exact (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mpr
+      (ListClassifierSpec_hsame_map_e1 coreClass)
+
+theorem ListClassifierSpec_hsame_mixed_tag_append_context_empty_iff
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+        (ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (pref ++ ((xs.map BEDC.FKernel.Hist.BHist.e0) ++ suffix))
+          (pref' ++ ((ys.map BEDC.FKernel.Hist.BHist.e1) ++ suffix')) <->
+            xs = [] ∧ ys = []) ∧
+          (ListClassifierSpec BEDC.FKernel.Hist.hsame
+            (pref ++ ((xs.map BEDC.FKernel.Hist.BHist.e1) ++ suffix))
+            (pref' ++ ((ys.map BEDC.FKernel.Hist.BHist.e0) ++ suffix')) <->
+              xs = [] ∧ ys = []) := by
+  intro prefixClass suffixClass
+  constructor
+  · constructor
+    · intro contextClass
+      exact ListClassifierSpec_hsame_map_e0_map_e1_empty
+        ((ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mp contextClass)
+    · intro empty
+      cases empty with
+      | intro xsEmpty ysEmpty =>
+          cases xsEmpty
+          cases ysEmpty
+          exact (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mpr
+            (by constructor)
+  · constructor
+    · intro contextClass
+      have mixedSymm :
+          ListClassifierSpec BEDC.FKernel.Hist.hsame
+            (ys.map BEDC.FKernel.Hist.BHist.e0) (xs.map BEDC.FKernel.Hist.BHist.e1) :=
+        ListClassifierSpec_hsame_symm
+          ((ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mp contextClass)
+      have emptyYX := ListClassifierSpec_hsame_map_e0_map_e1_empty mixedSymm
+      exact ⟨emptyYX.right, emptyYX.left⟩
+    · intro empty
+      cases empty with
+      | intro xsEmpty ysEmpty =>
+          cases xsEmpty
+          cases ysEmpty
+          exact (ListClassifierSpec_hsame_append_context_iff prefixClass suffixClass).mpr
+            (by constructor)
+
 theorem ListClassifierSpec_BHist_append {sameA : BEDC.FKernel.Hist.BHist -> BEDC.FKernel.Hist.BHist -> Prop}
     {xs ys zs ws : ListCarrier BEDC.FKernel.Hist.BHist} :
     ListClassifierSpec sameA xs ys ->
@@ -201,5 +283,18 @@ theorem ListClassifierSpec_BHist_append_context_iff
   · intro coreClass
     exact ListClassifierSpec_BHist_append prefixClass
       (ListClassifierSpec_BHist_append coreClass suffixClass)
+
+theorem ListClassifierSpec_hsame_append_boundary_cancel
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (List.append (List.append pref xs) suffix) (List.append (List.append pref' ys) suffix') ->
+          ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro prefixClass suffixClass boundaryClass
+  have coreWithPrefix :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (pref ++ xs) (pref' ++ ys) :=
+    ListClassifierSpec_append_right_cancel_with_hsame_suffix suffixClass boundaryClass
+  exact ListClassifierSpec_hsame_append_left_cancel_classified prefixClass coreWithPrefix
 
 end BEDC.Derived.ListUp

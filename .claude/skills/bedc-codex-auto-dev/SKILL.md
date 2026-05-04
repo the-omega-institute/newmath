@@ -8,6 +8,16 @@ allowed-tools: Bash, Monitor
 
 Use this skill when the user asks to run both BEDC Codex pipelines together, to use `codex-auto-dev`, or to monitor paper and Lean automation on one shared branch.
 
+## Path convention
+
+All shell commands in this skill use `$REPO` as the repo root. Set it once per shell session before running any commands:
+
+```bash
+export REPO="$(git rev-parse --show-toplevel)"
+```
+
+Every subsequent `python3 $REPO/...` / `tail $REPO/...` / `mkdir $REPO/...` then resolves correctly regardless of the user's current working directory or machine layout.
+
 ## Branch
 
 Always use:
@@ -29,8 +39,8 @@ ps -axo pid,ppid,pgid,stat,etime,command | grep -E 'codex_revise.py|codex_formal
 Then check both pipeline statuses:
 
 ```bash
-python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --base-branch codex-auto-dev --status
-python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --status
+python3 $REPO/papers/bedc/scripts/codex_revise.py --base-branch codex-auto-dev --status
+python3 $REPO/lean4/scripts/codex_formalize.py --base-branch codex-auto-dev --status
 ```
 
 If either pipeline is already running on `codex-auto-dev`, do not start a duplicate. Report what is already running and monitor it instead.
@@ -44,34 +54,64 @@ Use the `Bash` tool. Do **not** also pass `run_in_background: true` — `nohup �
 Paper:
 
 ```bash
-mkdir -p /Users/chronoai/newmath/papers/bedc/scripts/logs && \
+mkdir -p $REPO/papers/bedc/scripts/logs && \
 nohup bash -c '
-  python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
+  python3 $REPO/papers/bedc/scripts/codex_revise.py \
     --base-branch codex-auto-dev --resume && \
-  python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py \
+  python3 $REPO/papers/bedc/scripts/codex_revise.py \
     --base-branch codex-auto-dev --continuous --peer-sync-interval 0
-' >> /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log 2>&1 &
+' >> $REPO/papers/bedc/scripts/logs/orchestrator.log 2>&1 &
 disown
 ```
 
 Lean:
 
 ```bash
-mkdir -p /Users/chronoai/newmath/lean4/scripts/logs && \
-nohup python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py \
+mkdir -p $REPO/lean4/scripts/logs && \
+nohup python3 $REPO/lean4/scripts/codex_formalize.py \
   --base-branch codex-auto-dev --continuous \
   --phase-b-timeout 3600 --phase-c-timeout 4500 \
-  >> /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log 2>&1 &
+  >> $REPO/lean4/scripts/logs/orchestrator.log 2>&1 &
 disown
 ```
 
-Immediately after launching, confirm both processes are alive and re-parented:
+Branch sync daemon (third default-launched component):
 
 ```bash
-ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep
+mkdir -p $REPO/scripts/logs && \
+nohup bash -c '
+  while true; do
+    python3 $REPO/tools/sync_with_auto_dev.py 2>&1 \
+      | sed "s/^/[sync] /"
+    sleep 600
+  done
+' >> $REPO/scripts/logs/sync_daemon.log 2>&1 &
+disown
 ```
 
-`PPID` should be `1` (init) — that's the proof that nohup detached cleanly. If `PPID` is your shell's PID, the disown didn't take and a session exit will SIGHUP the orchestrator.
+The sync daemon runs `tools/sync_with_auto_dev.py` every 10 min (600s). Purpose: the two orchestrators only sync inside their own worktrees — they never push commits made directly on the main checkout (e.g. SKILL.md / prompt edits / hub splits done in this session). Without the daemon, those commits sit local until you remember to push. With the daemon, they get bidirectionally merged + pushed within 10 min. On conflict, the script invokes codex inside the worktree to resolve. When the main checkout is already on `codex-auto-dev` and clean (the typical case), the script degrades to a `git fetch + ff-only pull + push` — cheap, no merge commit churn.
+
+### Verify restart success (two-step, never skip)
+
+After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
+
+**Step 1 — process check:**
+
+```bash
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' | grep -v grep
+```
+
+All three processes (paper orchestrator, lean orchestrator, sync daemon) must appear with `PPID=1` (init). If `PPID` is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
+
+**Step 2 — progress check:**
+
+```bash
+sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log
+```
+
+Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] done: ... synchronized` or `[sync] already on codex-auto-dev` for the daemon. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
+
+Only after BOTH steps pass — processes alive with PPID=1 AND logs advancing past startup — should you optionally arm a persistent `tail -F` for ongoing observation (see "Monitor" section below). The persistent monitor is for steady-state observation, never for verifying that startup succeeded.
 
 `--phase-b-timeout` and `--phase-c-timeout` defaults (2700 / 3600) are too tight under high parallelism: bump to 3600 / 4500. These are CLI-only — restart required to change.
 
@@ -95,25 +135,36 @@ Memory floor is the binding constraint, not CPU — each codex-exec child is ~50
 
 Monitors `tail -F` the log files the detached orchestrators write to. They are pure observers — killing, swapping, or re-launching a Monitor never touches the orchestrator process.
 
-Default to a **terse** filter that emits ~1 line per round (only actionable signals). Phase transitions, audit-OK, PDF-OK, and routine merge-into messages are noise — drop them.
-
-Paper monitor (terse):
+Default to a single **active error watch** that tails BOTH log files at once and emits only actionable signals. SUCCESS / Phase transitions / audit-OK / PDF-OK / routine ff-race events are silenced; the recovery consumer + closure machinery handle most issues automatically, so events that DO arrive are ones you can act on (edit a prompt, edit `critical_path.py`, edit `.pipeline_parallel.json`, queue a manual recovery ticket).
 
 ```bash
-tail -F /Users/chronoai/newmath/papers/bedc/scripts/logs/orchestrator.log \
-  | grep -E --line-buffered 'Round SUCCESS|Round FAIL|Merge failed|3 consecutive failures|Push rejected|ff update of .*failed|Codex did not complete|cooldown|Traceback|Exception|\bERROR\b'
+tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
+       $REPO/lean4/scripts/logs/orchestrator.log \
+       $REPO/scripts/logs/sync_daemon.log \
+  | grep -E --line-buffered \
+      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)'
 ```
 
-Lean monitor (terse):
+Use `persistent: true`. Describe as `BEDC active error watch`.
 
-```bash
-tail -F /Users/chronoai/newmath/lean4/scripts/logs/orchestrator.log \
-  | grep -E --line-buffered 'Round SUCCESS|Round FAIL|Merge failed|3 consecutive failures|Push rejected|ff update of .*failed|Codex did not complete|cooldown|Traceback|Exception|\bERROR\b|builder.*FAIL'
-```
+What each pattern means and the cheapest fix:
 
-Use `persistent: true` for both. Describe them as `BEDC paper pipeline (terse)` / `BEDC lean pipeline (terse)`.
+| Pattern | Meaning | Fix without restart |
+|---|---|---|
+| `Round FAILED` | Worker FAILed; if commits exist, recovery queue auto-takes |
+| `Merge failed —` | merge_worktree_to_base exhausted retries; recovery queue auto-takes |
+| `3 consecutive failures` | Cooldown; usually paper-led horizon thresholds shifting — wait or lower `deps_ready_threshold` in `.pipeline_parallel.json` |
+| `Codex did not complete` / `could not resolve` | Codex resolver gave up; recovery queue picks it up next |
+| `[recovery] queued/picking/...` | Recovery consumer activity; positive signal that catch-all is working |
+| `Pre-merge hard gate failed: <gate>` | Specific gate failed (lake build / audit / axiom-purity / phase_d_lint) — recovery consumer attempts codex fix |
+| `STALE MARKER` | Paper marker references missing Lean target — codex prompt issue or paper-side cleanup needed |
+| `SHALLOW GROWTH` | Phase D lint detected duplicate / parameter-echo / mechanical-arity — prompt rule issue |
+| `Phase B failed: no targets extracted` | critical_path empty top OR codex couldn't pick — check `deps_ready_relaxed` or lower threshold |
+| `deps_ready_relaxed: True` | critical_path auto-relaxed `deps_ready_threshold` because strict yielded empty — informational |
+| `closure_mark` | Paper review proposed a `\closureat` for a chapter — positive signal that closure machinery is working |
+| `memory_guard.*PAUSE` | Lean orchestrator paused workers due to memory pressure — drop `lean_lake` or `lean` in `.pipeline_parallel.json` |
 
-If you need verbose per-phase visibility for a debugging session, swap the filter to a wider one, e.g. `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|P[0-9]+'` (paper) or the same with `R[0-9]+` (lean). Don't leave the verbose filter on long-running monitors — it produces 20+ events/min during steady state and burns transcript tokens.
+If you need verbose per-phase visibility for a debugging session, swap the filter to `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|[PR][0-9]+'`. Don't leave the verbose filter on a long-running monitor — it produces 20+ events/min during steady state and burns transcript tokens.
 
 Because Monitor no longer holds the orchestrator, you can freely change the `grep` filter, kill the Monitor, or re-launch it with a different filter without affecting any in-flight round.
 
@@ -160,8 +211,8 @@ If the user prefers a single autonomous tick rather than recurring, they can als
 For an orderly stop, run:
 
 ```bash
-python3 /Users/chronoai/newmath/papers/bedc/scripts/codex_revise.py --stop
-python3 /Users/chronoai/newmath/lean4/scripts/codex_formalize.py --stop
+python3 $REPO/papers/bedc/scripts/codex_revise.py --stop
+python3 $REPO/lean4/scripts/codex_formalize.py --stop
 ```
 
 Then confirm remaining processes with the preflight process check. If orphaned child process groups remain, terminate only the specific matching process groups after verifying their command lines.
@@ -211,9 +262,11 @@ Edit-and-go (no pipeline restart needed; next round picks up the change):
 | `papers/bedc/scripts/prompts/conflict_resolve.txt` | Paper codex-side conflict resolver |
 | `papers/bedc/scripts/prompts/post_rebase_audit_resolve.txt` | Paper codex-side audit recovery (legacy filename) |
 | `lean4/NAMING.md` | Naming and decomposition discipline (referenced by phase prompts) |
-| `lean4/scripts/critical_path.py` | Critical-path top-N discovery + per-call rolling cooldown (lock at `<repo>/.git/bedc-critical-path-locks.json`, shared across worktrees since 2026-05-04 commit `3af7dd36d`) |
+| `lean4/scripts/critical_path.py` | Critical-path top-N discovery + per-call rolling cooldown + closureat-aware ranking (binary closed/open via `\closureat`, adaptive `deps_ready_threshold` 5→1 fallback) |
 | `lean4/scripts/phase_d_lint.py` | Mechanical post-merge lints (called via subprocess from `run_phase_d_lints`) |
 | `lean4/scripts/bedc_ci.py` audit / `--shape-saturation` | Drift + saturation + case-collision reports (called via subprocess) |
+| `papers/bedc/preamble.tex` (`\closureat` macro) | Per-chapter closure marker; next pdflatex picks up. critical_path greps for `\closureat\{<X>Up\}\{<strength>Str\}` |
+| `<repo>/.pipeline_parallel.json` | Live concurrency knobs `paper` / `lean` / `lean_lake` + `deps_ready_threshold` (default 5; clamp [1,20]). Read on every dispatch and on every critical_path call |
 
 Restart-required (the long-running Python process loaded these at startup):
 
@@ -226,15 +279,36 @@ Restart-required (the long-running Python process loaded these at startup):
 
 When you bump a phase-prompt version, edit BOTH files of that side together (`phase_b.txt` + `phase_c.txt`, or `phase_review.txt` + `phase_revise.txt`); the `## Prompts version` line gets mirrored into every commit body as `prompts: vN.M` so the trail is reconstructable.
 
+### Recovery queue (catch-all worker recovery)
+
+When any worker exits unsuccessfully with content commits in its worktree (merge-fail / pre-merge gate fail / Phase D lint fail / exception), `request_recovery(wt)` writes a JSON ticket to `.worktrees/.recovery_queue/` (lean) or `.worktrees/.paper_recovery_queue/` (paper) and notifies the **recovery consumer** thread. The consumer is a single-thread daemon spawned next to the existing builder/origin-sync threads in `main()`:
+
+1. Picks oldest ticket (alphabetical sort by `R<N>_<ts>.json` / `P<N>_<ts>.json`).
+2. Spawns codex inside the stuck worktree with `prompts/round_fallback_resolve.txt` — generic recovery instructions covering lake build / audit / merge conflict / stale marker / sync-merge-only / dirty tree.
+3. On success retries `merge_worktree_to_base`. If that succeeds, the round merges as if nothing went wrong.
+4. On failure moves ticket to `dead/` and force-removes the worktree + branch.
+
+**Why this matters**: today's two pre-recovery cycles (R1948-R1955 SubgroupUp split spree, R2152/R2166/R2170 lake-build-after-cleanup) each required identical handling — codex investigates, drops the conflicting addition, retry merge. Wiring the catch-all into the main loop replaced ~20 lines of manual `git worktree remove` / cherry-pick rescue per session. Future failure patterns are handled by editing `prompts/round_fallback_resolve.txt` — no orchestrator code change needed.
+
+Tickets persist on disk so the consumer resumes on orchestrator restart. Manual queueing is supported: drop a JSON file with the right shape into the queue dir and the consumer will pick it up on its next poll (30s).
+
+### Closure marker (`\closureat`) and binary closed/open
+
+A horizon is binarily CLOSED iff its chapter carries `\closureat{<X>Up}{<strength>Str}` (where `<strength>` ∈ `checkedCert` / `bridgeCert`) somewhere in its include closure. The macro lives in `papers/bedc/preamble.tex` and renders a visible `Theory closed: AcceptGate(NameCert_<X>Up)(<strength>)` line in the PDF. `critical_path.py` greps for it (regex `\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}`) and excludes closed chapters from `top` so codex stops attacking them.
+
+Paper rounds add the marker via `kind = "closure_mark"` (phase_review.txt v2.6+). The reviewer scans `top` for chapters whose every NameCert clause is `\leanchecked` to a real Lean target; one-line revise round adds `\closureat{<X>Up}{\checkedCertStr}` at the chapter end. **Closure proposals always rank ahead of new theory_extension targets for the same chapter** — closing is the highest-leverage way to retire a horizon and free Phase B for fresh fronts.
+
+The first chapter closed today: `BoolUp` (paper P1859, 2026-05-04). Track progress with `python3 lean4/scripts/critical_path.py | jq '.closed_horizons, .open_horizons'`.
+
 ### Critical-path mechanism
 
-`lean4/scripts/critical_path.py` ranks every horizon `<X>Up` chapter under `papers/bedc/parts/concrete_instances/`:
+`lean4/scripts/critical_path.py` ranks every horizon `<X>Up` chapter under `papers/bedc/parts/concrete_instances/`. Sort key:
 
 ```
-score = transitive_downstream_horizons / (1 + thms)
+(-downstream, -downstream/(1+thms), name)
 ```
 
-after excluding nodes that are saturated (`thms >= SATURATION_THRESHOLD`, currently 10) or whose declared dependencies have `< DEPS_READY_THRESHOLD` (currently 5) implementations. The top-3 entries are the next fronts the library should attack.
+after excluding (a) nodes binarily CLOSED (chapter has `\closureat{<X>Up}{\checkedCertStr|\bridgeCertStr}`); (b) nodes whose declared deps have `< deps_ready_threshold` implementations (default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 when strict yields empty top, emitting `deps_ready_relaxed: true`); (c) `SCHEMA_ONLY_HORIZONS` (chapters whose paper schema is parametric — currently `totalorder`, `preorder`, `poset`). The top-3 entries are the next fronts the library should attack. JSON output also includes `closed_horizons={checkedCert: N, bridgeCert: M}` and `open_horizons` for at-a-glance progress.
 
 Phase B HARD GATE: at least 1 of 3 selected targets must come from `top[0..2]`. The fallback "if technically blocked, use top[3..]" is mechanised — a node counts as blocked only when all three of (a) the chapter's paper schema has < 3 `\begin{definition}` blocks, (b) implementation needs an inductive / import that does not yet exist anywhere under `lean4/BEDC/`, (c) `critical_path.py` reports `deps_ready = false` (always false for nodes IN `top` by construction). A single-condition rationalisation is invalid.
 
@@ -347,7 +421,7 @@ NOT necessary (do not restart):
 - A `.pipeline_parallel.json` edit (paper / lean / lean_lake concurrency). Re-read on every dispatch.
 - A single round failure or a transient `ff update of codex-auto-dev failed: Diverging branches can't be fast-forwarded` race during merge push retry — self-recovers within 1-2 seconds via the orchestrator's fetch+merge+push retry loop.
 
-When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Verify with `ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py' | grep -v grep` that the new processes have `PPID 1`. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
+When restart IS necessary, prefer the orderly path: commit + push the change first, then `python3 …codex_revise.py --stop` and `python3 …codex_formalize.py --stop`, wait for drain, then relaunch via the **background start commands above** (nohup + disown — never via a Monitor). Run the two-step check from "Verify restart success" — `ps` for `PPID=1`, then a one-shot `tail -3` on each log to confirm log lines are advancing. Persistent `tail -F` does NOT count as restart verification; it blocks forever if the orchestrator died at startup and never notifies. In-flight worktrees survive on disk; paper resumes via `--resume`, lean's `--continuous` re-dispatches.
 
 Still NOT in autonomous scope (always ask):
 
@@ -365,6 +439,11 @@ Concrete autonomous-action examples this skill has handled:
 - 2026-05-04 commit `3af7dd36d`: shared critical-path lock. Anchored `LOCKS_FILE` to `git rev-parse --git-common-dir` so all worktrees see one lock at `<repo>/.git/bedc-critical-path-locks.json`. Eliminated the dedup pile-up where 10+ rounds picked identical top-1.
 - 2026-05-04 commit `35da139d5`: rebase → merge. Replaced `git rebase BASE` with `git merge --no-ff --no-edit BASE` in both orchestrators' `merge_worktree_to_base`. Eliminated the "Diverging branches" / "no own-round commit" / "Codex did not complete rebase" round-FAIL modes — observed 0 hard FAILs in the 30-min window after restart vs ~5 hard FAILs in the equivalent window before.
 - 2026-05-04 commit `8c156773c`: phase_revise v2.4 dropped Step 5 "Re-sync with remote before commit" (the `_git_lock`-serialised pipeline guarantees origin doesn't move during a revise; Step 5's merge-commit was pure noise). Paper rounds went from 3 commits/round to 2.
+- 2026-05-04 commit `9247e53d6`: critical_path adaptive `deps_ready_threshold` — JSON-tunable + auto-relax 5→1 when strict yields empty. Eliminates the wedged-empty-top failure mode (1.5h × 22 cooldowns burned earlier in the day because `field` had `commring=4 < 5`).
+- 2026-05-04 commit `d621801d6`: catch-all recovery queue + consumer thread on both pipelines. Any worker FAIL with content commits → ticket → background codex investigates + retries merge → SUCCESS or marks dead. Replaces ~20 lines of manual `git worktree remove` / cherry-pick rescue per session.
+- 2026-05-04 commit `6d9b6c1b7`: `\closureat` binary closure end-to-end. preamble macro + phase_review v2.6 / phase_revise v2.6 `closure_mark` target kind + critical_path closure-aware ranking (drops the heuristic `thms >= 10` cap in favor of explicit AcceptGate certification). First chapter closed: BoolUp (P1859, same day).
+- 2026-05-04 commit `8099c89de`: fix CLOSUREAT_RE greedy bug — first-pass regex captured `t` instead of `checkedCert` because `[^}]*\\?(\w+)Str` was greedy past the leading backslash. Tighter regex `\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}` is whitespace-tolerant + accepts both `\BoolUp` and `BoolUp`.
+- 2026-05-04 commit `574fb6863`: NAME_RE accept underscores so `46_zeta_basic_namecert_construction.tex` resolves to canonical `zeta_basic` instead of literal-filename horizon (had been polluting `top` with malformed entries like `file_lean=46ZetaBasicNamecertConstruction.texUp.lean`).
 
 ### Harness design principles
 
@@ -378,9 +457,9 @@ When the workflow keeps surfacing the same issue, the gate lives at the wrong le
 When a gate fires unexpectedly (false positive), run it offline against the failed commit before tightening or relaxing it:
 
 ```bash
-git -C /Users/chronoai/newmath worktree add /tmp/test <commit>
+git -C $REPO worktree add /tmp/test <commit>
 python3 lean4/scripts/phase_d_lint.py --worktree /tmp/test --base-branch <commit>^
-git -C /Users/chronoai/newmath worktree remove /tmp/test
+git -C $REPO worktree remove /tmp/test
 ```
 
 False-positive cost is real: rejecting a legitimate Lean round wastes ~10 min of codex work + lake build, and the same pattern may recur. Prefer narrower (more context-aware) checks over looser thresholds. Concrete narrowing patterns: conclusion-aware regex (parameter-echo only fires when conclusion *also* has forall-hsame), strip-and-rescan (after dropping `hsame` and bare `BHist`, look for any other anchor), exists-anywhere lookup (stale-marker check searches all of `lean4/BEDC/`, not just this round's diff).
@@ -429,22 +508,22 @@ Concrete evolution traces from this codebase:
 
 Quality:
 ```bash
-git -C /Users/chronoai/newmath log --oneline codex-auto-dev | head -20
-python3 /Users/chronoai/newmath/lean4/scripts/bedc_ci.py audit
-python3 /Users/chronoai/newmath/lean4/scripts/bedc_ci.py audit --shape-saturation
-python3 /Users/chronoai/newmath/lean4/scripts/critical_path.py | jq '.top[:5]'
+git -C $REPO log --oneline codex-auto-dev | head -20
+python3 $REPO/lean4/scripts/bedc_ci.py audit
+python3 $REPO/lean4/scripts/bedc_ci.py audit --shape-saturation
+python3 $REPO/lean4/scripts/critical_path.py | jq '.top[:5]'
 ```
 
 Merge:
 ```bash
 ps -axo pid,etime,command | grep -E 'codex_revise|codex_formalize' | grep -v grep
-git -C /Users/chronoai/newmath worktree list
-git -C /Users/chronoai/newmath status --short  # MUST be empty while rounds are merging
+git -C $REPO worktree list
+git -C $REPO status --short  # MUST be empty while rounds are merging
 ```
 
 Phase D dry-run on a worktree (predict what the lint will say without merging):
 ```bash
-python3 /Users/chronoai/newmath/lean4/scripts/phase_d_lint.py \
-  --worktree /Users/chronoai/newmath/.worktrees/round_R<N> \
+python3 $REPO/lean4/scripts/phase_d_lint.py \
+  --worktree $REPO/.worktrees/round_R<N> \
   --base-branch codex-auto-dev
 ```

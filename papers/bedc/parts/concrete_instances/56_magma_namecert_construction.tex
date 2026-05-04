@@ -46,6 +46,250 @@ is the classifier equality required by $R_U$.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_laws}
 
+\begin{theorem}[Concrete unary-history magma continuation result unary exactness]
+\label{thm:concrete-unary-history-magma-cont-result-unary}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$, then the
+continuation result is unary exactly when both continuation inputs are unary:
+$$
+\Unary(r)\Longleftrightarrow \Unary(h)\land\Unary(k).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_unary\_iff}
+\begin{proof}
+The continuation ledger identifies $r$ with $\mathsf{append}(h,k)$. The
+unary append factor theorem says precisely that
+$\Unary(h)\land\Unary(k)$ is equivalent to
+$\Unary(\mathsf{append}(h,k))$. Transporting along the continuation equality
+gives the displayed result-side exactness.
+\end{proof}
+
+\begin{theorem}[Concrete unary-history magma classifier append factors]
+\label{thm:concrete-unary-history-magma-classifier-append-factors}
+For histories $h,h',k,k':\mathsf{BHist}$, the concrete unary-history magma
+classifier relates the two appended endpoints exactly when all four factors
+are unary histories and the two appended endpoints are history-same:
+$$
+R_U(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longleftrightarrow
+U(h)\land U(k)\land U(h')\land U(k')
+\land
+\hsame(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_U$. The forward direction gives unary carrier witnesses for the two
+appended endpoints. Apply unary append factor exactness to each carrier
+witness, obtaining the unary witnesses for $h,k,h',k'$, and retain the
+classifier's endpoint $\hsame$ component. Conversely, the four unary factor
+witnesses close both appended endpoints under unary append closure, and the
+displayed endpoint $\hsame$ proof repackages the concrete classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_factors\_iff}
+
+\begin{theorem}[Concrete unary-history magma classifier append-empty endpoints]
+\label{thm:concrete-unary-history-magma-classifier-append-empty-endpoints}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $h,k:\mathsf{BHist}$, the concrete unary-history magma
+classifier relates $\mathsf{append}(h,k)$ to $\emp$ exactly when both append
+endpoints are empty:
+$$
+R_U(\mathsf{append}(h,k),\emp)
+\Longleftrightarrow
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_U$. The forward direction reads
+$\mathsf{append}(h,k)\hsame\emp$ from the classifier and applies append-empty
+exactness to recover $h\hsame\emp$ and $k\hsame\emp$. Conversely, the two empty
+endpoints make the append endpoint unary and history-same to $\emp$, while
+$\emp$ itself is unary.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_empty\_endpoints\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation result classifier factors]
+\label{thm:concrete-unary-history-magma-cont-result-classifier-factors}
+For histories $h,h',k,k',r,r':\mathsf{BHist}$, if
+$\Cont(h,k,r)$ and $\Cont(h',k',r')$, then the concrete unary-history magma
+classifier relates the two continuation results exactly when all four source
+factors are unary and the two results are history-same:
+$$
+R_U(r,r')
+\Longleftrightarrow
+U(h)\land U(k)\land U(h')\land U(k')\land\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two continuation witnesses. The results become the displayed
+append endpoints $\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$. The
+append-factor classifier exactness theorem then supplies the four unary factor
+witnesses in the forward direction and rebuilds the result classifier from the
+four witnesses and the endpoint $\hsame$ proof in the reverse direction.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_classifier\_factors\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation left-context classifier]
+\label{thm:concrete-unary-history-magma-cont-left-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $R_U(l,l')$, $\ContR(l,r,a)$, and $\ContR(l',r',a')$, then the concrete
+magma classifier relates the two continuation results exactly when the two
+right inputs are unary and history-same:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(r)\land U(r')\land\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unary exactness for each continuation recovers the
+two right-input carriers from the result carriers. The classifier equality
+between results cancels the shared classified left context, giving
+$r\hsame r'$. Conversely, unary closure for the two continuations supplies the
+result carriers, and continuation respect for $\hsame$ transports the left
+classifier and the right-input comparison to the result classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_left\_context\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation right-context classifier]
+\label{thm:concrete-unary-history-magma-right-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $R_U(r,r')$, $\ContR(l,r,a)$, and $\ContR(l',r',a')$, then the concrete
+magma classifier relates the two continuation results exactly when the two
+left inputs are unary and history-same:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(l)\land U(l')\land\hsame(l,l').
+$$
+\end{theorem}
+\begin{proof}
+Unary exactness for the two continuations reads the left-input carriers back
+from the result carriers. The result classifier equality cancels the shared
+classified right context, giving $l\hsame l'$. The reverse direction uses unary
+continuation closure for the two result carriers and continuation respect for
+$\hsame$ across the classified left and right inputs.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_context\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma classifier middle-context cancellation]
+\label{thm:concrete-unary-history-magma-classifier-append-middle-cancel}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $U(l)$ and $U(r)$, then the common append context cancels from the concrete
+magma classifier:
+$$
+R_U(\mathsf{append}(l,\mathsf{append}(m,r)),
+    \mathsf{append}(l,\mathsf{append}(m',r)))
+\Longleftrightarrow
+U(m)\land U(m')\land \hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+The forward direction first applies unary append-factor exactness to the two
+classified contextual endpoints, exposing unary witnesses for the two middle
+histories. The classifier equality then cancels the common left append context
+and the common right append context, yielding $\hsame(m,m')$. Conversely, unary
+closure rebuilds both contextual endpoints, and the middle equality transports
+through the two fixed append contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_middle\_cancel\_iff}
+
+\begin{theorem}[Concrete unary-history magma classifier rotated middle cancellation]
+\label{thm:concrete-unary-history-magma-classifier-append-rotated-middle-cancel}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $U(l)$ and $U(r)$, then the concrete magma classifier also cancels a common
+context when the right endpoint is bracketed as a left append followed by the
+right context:
+$$
+R_U(\mathsf{append}(l,\mathsf{append}(m,r)),
+    \mathsf{append}(\mathsf{append}(l,m'),r))
+\Longleftrightarrow
+U(m)\land U(m')\land \hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+Append associativity identifies the rotated right endpoint with the nested
+right endpoint used by middle-context cancellation. The forward direction
+transports the classifier to that nested bracketing and applies the
+middle-cancellation theorem. Conversely, the nested classifier supplied by
+middle cancellation is transported back across associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_rotated\_middle\_cancel\_iff}
+
+\begin{theorem}[Concrete unary-history magma continuation common-context classifier]
+\label{thm:concrete-unary-history-magma-cont-common-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,l',m,m',r,r',a,a':\mathsf{BHist}$, if
+$R_U(l,l')$ and $R_U(r,r')$, then continuations through the two classified
+contexts expose exactly the middle classifier:
+$$
+\ContR(l,\mathsf{append}(m,r),a)\land
+\ContR(l',\mathsf{append}(m',r'),a')
+\Longrightarrow
+\bigl(R_U(a,a')\Longleftrightarrow
+  U(m)\land U(m')\land\hsame(m,m')\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The context classifiers identify the left contexts and the right contexts
+while carrying all four endpoints as unary histories. Eliminating the two
+continuation witnesses turns the results into the two displayed append
+contexts. The middle-context cancellation theorem then cancels the common
+unary left context and common unary right context, giving exactly the two
+middle carrier witnesses and the middle $\hsame$ comparison; the reverse
+direction rebuilds the contextual classifier by unary append closure.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_common\_context\_classifier\_iff}
+
+\begin{theorem}[Concrete unary-history magma nested continuation common-context classifier]
+\label{thm:concrete-unary-history-magma-cont-nested-common-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,l',m,m',r,r',lm,lm',a,a':\mathsf{BHist}$, if
+$R_U(l,l')$ and $R_U(r,r')$, and if the two results are obtained through
+nested continuations
+$$
+\ContR(l,m,lm),\quad \ContR(lm,r,a),\quad
+\ContR(l',m',lm'),\quad \ContR(lm',r',a'),
+$$
+then the result classifier exposes exactly the middle classifier:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(m)\land U(m')\land\hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+The context classifiers identify the two left contexts and the two right
+contexts while retaining their unary carrier witnesses. Eliminating the nested
+continuation witnesses presents the two results as left-associated append
+contexts. Associativity transports those endpoints to the common middle-context
+form, where the concrete magma middle-cancellation theorem cancels the fixed
+unary left and right contexts. The reverse direction rebuilds the two
+left-associated results by transporting the same classifier back across
+associativity.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_nested\_common\_context\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and

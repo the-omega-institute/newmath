@@ -1,3 +1,18 @@
+\begin{theorem}[Functor prefix hom-carrier composite middle-prefix determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-middle-prefix-deterministic}
+For histories $p,q,a,b,c,f,g,fg$, suppose $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a category
+hom-carrier from $\mathsf{append}(q,b)$ to $\mathsf{append}(p,c)$, and
+$\ContR(f,g,fg)$ holds. If $fg$ is displayed as a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,c)$, then $\hsame(p,q)$.
+\end{theorem}
+\begin{proof}
+Category hom-carrier composite middle-object determinacy identifies
+$\mathsf{append}(p,b)$ with $\mathsf{append}(q,b)$. Cancelling the common right
+suffix $b$ gives $\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_middle\_prefix\_deterministic}
+
 \begin{theorem}[Functor prefix hom-carrier composition family public readback]
 \label{thm:functor-prefix-hom-carrier-comp-family-public-readback}
 For histories $a,b,c,f,g,fg,displayed$, suppose every unary prefix $p$ carries
@@ -15,6 +30,83 @@ The two factor carriers close under category composition, and morphism
 determinacy compares the resulting composite carrier with the displayed carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_family\_public\_readback}
+
+\begin{theorem}[Functor prefix hom-carrier composite zero-headed component impossibility]
+\label{thm:functor-prefix-hom-carrier-comp-zero-headed-component-absurd}
+For histories $p,a,b,c,f,g,fg$, two prefixed hom-carriers composing over the
+middle object $b$ cannot have any zero-headed prefix, object, factor morphism,
+or composite morphism component:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\land
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g)
+\land
+\ContR(f,g,fg)
+\Longrightarrow
+\mathsf{False}
+$$
+whenever one of $p,a,b,c,f,g,fg$ is displayed as \(\Ezero(w)\).
+\end{theorem}
+\begin{proof}
+Close the two hom-carriers under composition to obtain the carrier for
+$fg$. The zero-headed prefix, source, middle, and left morphism cases reduce to
+the left factor exclusion; the target and right morphism cases reduce to the
+right factor exclusion; the composite morphism case reduces to the closed
+composite carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_zero\_headed\_component\_absurd}
+
+\begin{theorem}[Functor prefix composite nonempty target component split]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-target-component-split}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if $\ContR(f,g,fg)$ and $fg$ is not empty, then the displayed target
+$\mathsf{append}(p,c)$ has a nonempty component:
+$$
+(\hsame(p,\emp)\to\bot)\vee(\hsame(c,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The category composite nonempty-target obstruction applies to the two
+prefixed hom-carriers and their continuation composite, giving
+$\hsame(\mathsf{append}(p,c),\emp)\to\bot$. BEDC append nonemptiness then
+separates the prefixed target into a nonempty prefix component or a nonempty
+target-tail component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_target\_component\_split}
+
+\begin{theorem}[Functor prefix hom-carrier nonempty composite target visibility]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-target-visible}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if the composite continuation displays the visible result $\Eone(k)$, then
+the prefixed target is visible:
+$$
+\exists r.\ \mathsf{append}(p,c)=\Eone(r)\wedge
+\mathsf{UnaryHistory}(k)\wedge\mathsf{UnaryHistory}(r)\wedge
+\ContR(\mathsf{append}(p,a),\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category source-target case analysis for nonempty composite results to
+the two prefixed hom-carriers. The empty-source branch already displays the
+target endpoint. In the visible-source branch, the source endpoint equality
+transports the displayed continuation back to $\mathsf{append}(p,a)$, while
+the result equality identifies the composite payload with $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_target\_visible}
 
 \section{The certificate}
 
@@ -38,8 +130,11 @@ The classifier relates functors pointwise on object images and morphism images u
 The stability certificate consists of:
 \begin{enumerate}
   \item pointwise object-map classifier reflexivity
+  \item pointwise object-map classifier symmetry
+  \item pointwise object-map classifier transitivity
   \item pointwise morphism-map classifier reflexivity
-  \item pointwise transitivity
+  \item pointwise morphism-map classifier symmetry
+  \item pointwise morphism-map classifier transitivity
   \item identity preservation
   \item composition preservation
   \item stability under source and target classifier replacement
@@ -55,6 +150,120 @@ Record the two category ledgers and the preservation witnesses.
 \label{def:functor-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\FunctorUp\).
 \end{definition}
+
+\begin{theorem}[Concrete prefix functor certificate]
+\label{thm:functor-prefix-concrete-certificate}
+For every unary history $p$, the object assignment
+$a\mapsto \mathsf{append}(p,a)$ and morphism assignment $f\mapsto f$ form a
+concrete $\FunctorUp$ certificate on the unary-continuation $\CategoryUp$
+carrier. The carrier field $\mathsf{PrefixFunctorCarrier}(p)$ is supplied by
+\autoref{thm:prefix-functor-carrier-from-unary-prefix}; identity preservation
+is supplied by \autoref{thm:functor-prefix-hom-carrier-identity-closed};
+composition preservation is supplied by
+\autoref{thm:functor-prefix-hom-carrier-comp-preserves}; source-target
+classifier transport is supplied by
+\autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}; and public
+readback is supplied by
+\autoref{thm:prefix-functor-carrier-comp-public-readback}.
+\end{theorem}
+\begin{proof}
+Use the roadmap ten-field template for the prefix endofunctor target.
+\begin{enumerate}
+  \item The traditional target is the prefix endofunctor on the unary
+  continuation category, and the BEDC source is the checked
+  unary-continuation $\CategoryUp$ carrier.
+  \item The carrier choice is $\mathsf{PrefixFunctorCarrier}(p)$. Apply
+  \autoref{thm:prefix-functor-carrier-from-unary-prefix} to the unary history
+  $p$ to obtain this field.
+  \item The classifier choice is pointwise: objects are compared by the
+  unary-continuation object classifier, and morphisms are compared by the
+  displayed hom-carrier classifier. No quotient or external equality is added.
+  \item The stability fields are identity preservation, composition
+  preservation, and source-target classifier transport. Apply
+  \autoref{thm:functor-prefix-hom-carrier-identity-closed},
+  \autoref{thm:functor-prefix-hom-carrier-comp-preserves}, and
+  \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, respectively.
+  \item The ledger records that the morphism map is the identity map on
+  displayed morphism histories, while the object ledger stores only the fixed
+  unary prefix $p$.
+  \item The core theorem list and exactness predicate are the displayed
+  carrier, identity, composition, transport, and readback clauses. The standard
+  bridge is the public comparison of the prefixed composite with the original
+  composite, supplied by
+  \autoref{thm:prefix-functor-carrier-comp-public-readback}. The resulting
+  status is a concrete paper certificate for $\FunctorUp$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Semantic $\FunctorUp$ prefix certificate]
+\label{thm:functor-prefix-semantic-namecert}
+For every unary history $p$, the source, pattern, classifier, stability, and
+ledger data of
+Definitions~\ref{def:functor-source-specification}--\ref{def:functor-ledger-policy},
+together with \autoref{thm:functor-prefix-concrete-certificate}, form a
+semantic naming certificate for the prefix endofunctor interface $\FunctorUp$
+over the unary-continuation $\CategoryUp$. The carrier is
+$\mathsf{PrefixFunctorCarrier}(p)$; the object component sends $a$ to
+$\mathsf{append}(p,a)$; the hom component sends each displayed morphism history
+to itself; the classifier is pointwise $\hsame$ on object histories and hom
+histories; and the ledger records the fixed prefix $p$ together with the
+identity map on displayed morphism histories.
+\end{theorem}
+\begin{proof}
+Start from the concrete certificate of
+\autoref{thm:functor-prefix-concrete-certificate}. Its carrier field is
+$\mathsf{PrefixFunctorCarrier}(p)$, supplied by
+\autoref{thm:prefix-functor-carrier-from-unary-prefix}, so the semantic carrier
+row is the same object-level package rather than a separate witness.
+
+The classifier row is pointwise. Object images are compared by $\hsame$ after
+the prefix operation, and hom images are compared by $\hsame$ on the displayed
+hom histories because the morphism map is the identity map. The source and
+pattern rows are therefore exactly the source, pattern, and classifier
+specifications already listed for $\FunctorUp$.
+
+The stability rows are the checked preservation clauses consumed by the
+concrete certificate: identity preservation from
+\autoref{thm:functor-prefix-hom-carrier-identity-closed}, composition
+preservation from
+\autoref{thm:functor-prefix-hom-carrier-comp-preserves}, $\hsame$ transport
+from \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, and public
+readback from \autoref{thm:prefix-functor-carrier-comp-public-readback}.
+
+Finally, the ledger row contains no hidden quotient data. It records the unary
+prefix $p$ on objects and records that morphism histories are read through the
+identity map. These rows are precisely the ten-field certificate data, so they
+assemble as the semantic naming certificate for the prefix $\FunctorUp$
+interface over $\CategoryUp$.
+\end{proof}
+
+\begin{theorem}[Prefix functor two-sided identity law]
+\label{thm:functor-prefix-hom-carrier-two-sided-identity-law}
+For histories $p,a,b,f,left,right$, suppose $p$ is unary, $f$ is a
+category hom-carrier from $a$ to $b$, $\ContR(\emp,f,left)$ holds, and
+$\ContR(f,\emp,right)$ holds. Then
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),left)
+\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),right)
+\wedge
+\HSame(left,f)\wedge\HSame(right,f)\wedge\HSame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+First transport the displayed hom-carrier for $f$ across the unary prefix.
+Apply \autoref{thm:functor-prefix-hom-carrier-preserves} to the unary witness
+for $p$ and to the carrier from $a$ to $b$. This gives $f$ as a hom-carrier
+from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$.
+
+Next apply \autoref{thm:category-hom-carrier-two-sided-identity-law} to this
+prefixed carrier and to the two continuation ledgers
+$\ContR(\emp,f,left)$ and $\ContR(f,\emp,right)$.
+
+Project the resulting conjunction. The first two projections are the prefixed
+carrier conclusions for $left$ and $right$; the remaining projections are
+$\HSame(left,f)$, $\HSame(right,f)$, and $\HSame(left,right)$.
+\end{proof}
 
 \paragraph{Primitive boundary.}
 \(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

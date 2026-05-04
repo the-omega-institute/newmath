@@ -30,6 +30,23 @@ theorem CompletionMetricDistanceWitness_empty_distance_real_prefix_readback
   exact And.intro endpoints.left
     (And.intro endpoints.right (RealStreamPrefixClassifier_endpoint n hPrefix))
 
+theorem CompletionMetricDistanceWitness_e1_tail_empty_distance_absurd
+    {x y : Nat -> BHist} {n : Nat} {tail : BHist} :
+    RealStreamPrefixClassifier x y n ->
+      MetricDistanceWitness (x n) (y n) (BHist.e1 tail) ->
+        RatHistoryClassifier (x n) (y n) ∧
+          (MetricDistanceWitness (x n) (y n) BHist.Empty -> False) := by
+  intro hPrefix e1Distance
+  have readback :=
+    CompletionMetricDistanceWitness_e1_tail_real_prefix_readback hPrefix e1Distance
+  constructor
+  · exact readback.right
+  · intro emptyDistance
+    have sameDistance : hsame (BHist.e1 tail) BHist.Empty :=
+      MetricDistanceWitness_hsame_result_deterministic
+        (hsame_refl (x n)) (hsame_refl (y n)) e1Distance emptyDistance
+    exact not_hsame_e1_empty sameDistance
+
 theorem CompletionMetricDistanceWitness_e1_tail_hsame_transport
     {x x' y y' : Nat -> BHist} {n : Nat} {tail : BHist}
     (sameX : forall m : Nat, hsame (x m) (x' m))

@@ -150,6 +150,35 @@ pointwise comparison of the current terms.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_pointwise\_hsame\_deterministic}
 
+\begin{lemma}[Complex partial-sum result nonempty from nonempty terms]
+\label{lem:complex-part-sum-result-nonempty-of-nonempty-terms}
+If the chosen zero history is apart from $\emp$, and every unary-indexed term
+$c(m)$ is apart from $\emp$, then no closed
+$\mathsf{ComplexPartSum}(zero,c,n,S)$ witness can have $S\hsame\emp$.
+\end{lemma}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero case is the supplied
+apartness of the chosen zero history. In the successor case, transport the
+final empty equality across the displayed continuation
+$\Cont(S,c(m),T)$, invert the empty result, and use the unary index extracted
+from the predecessor partial-sum chain to contradict the apartness of $c(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_result\_nonempty\_of\_nonempty\_terms}
+
+\begin{theorem}[Complex partial-sum results are unary]
+\label{thm:complex-part-sum-result-unary}
+If the chosen zero history is unary and each term history is unary on unary
+indices, then every closed complex partial-sum witness has unary result.
+\end{theorem}
+\begin{proof}
+Induct on the closed complex partial-sum witness. The base is the supplied
+unary zero history. In the successor case, an inner induction on the
+predecessor partial-sum witness supplies unaryness of the predecessor index,
+the term hypothesis supplies unaryness of the next term, and unary continuation
+closure gives the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_result\_unary}
+
 \section{Absolute convergence}
 
 \begin{definition}[Modulus partial sum]
@@ -202,6 +231,22 @@ identifies the successor results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_unary\_index\_deterministic}
 
+\begin{lemma}[Absolute partial sums exist uniquely]
+\label{lem:complex-abs-part-sum-exists-unique}
+For every chosen zero history, modulus family, and unary index \(n\), there is
+a history \(M\) satisfying \(\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)\),
+and every other closed absolute partial sum at \(n\) is \(\hsame\)-equal to
+\(M\).
+\end{lemma}
+\begin{proof}
+Unary induction on \(n\) constructs the empty-index absolute partial sum from
+the zero constructor. At a successor index, the induction hypothesis supplies a
+predecessor sum, and the canonical BEDC continuation appends the current
+modulus history. Unary-index determinacy identifies every competing closed
+absolute partial sum at the same index.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_exists\_unique}
+
 \begin{theorem}[Absolute partial-sum results are unary]
 \label{thm:complex-abs-part-sum-result-unary}
 If the chosen zero history is unary and every modulus history
@@ -217,6 +262,23 @@ modulus hypothesis makes the appended modulus unary, and unary continuation
 closure gives the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_unary}
+
+\begin{lemma}[Absolute partial-sum result is nonempty from nonempty terms]
+\label{lem:complex-abs-part-sum-result-nonempty-of-nonempty-terms}
+If the chosen zero history is not history-same to \(\emp\), and every modulus
+term \(\mathsf{modulus}(m)\) at a unary index is not history-same to \(\emp\),
+then no closed \(\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)\)
+witness can have \(M\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Induct on the absolute partial-sum witness. The base constructor reduces to
+the nonempty zero assumption. In the successor case, empty-result inversion for
+the continuation into \(M\) forces the current modulus term to be empty. A
+local induction on the predecessor partial-sum witness supplies unaryness of
+that predecessor index, contradicting the pointwise nonempty modulus
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_nonempty\_of\_nonempty\_terms}
 
 \begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
 \label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
@@ -301,6 +363,23 @@ modulus terms. Determinacy of the BEDC continuation relation identifies the
 successor sums.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_deterministic}
+
+\begin{lemma}[Absolute partial sums transport across modulus equivalence]
+\label{lem:complex-abs-partsum-modulus-hsame-transport}
+If two zero histories are related by $\hsame$ and two modulus functions are
+pointwise related by $\hsame$ on unary indices, then every unary-indexed
+absolute partial-sum witness over the first modulus function transports to a
+closed absolute partial-sum witness over the second modulus function with
+$\hsame$ result.
+\end{lemma}
+\begin{proof}
+Induct on the absolute partial-sum witness. The empty constructor transports
+by the zero-history comparison. In the successor constructor, unary inversion
+exposes the predecessor index, the induction hypothesis transports the
+predecessor sum, and continuation respect for $\hsame$ transports the final
+modulus continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_modulus\_hsame\_transport}
 
 \begin{definition}[Absolute convergence]
 \label{def:abs-conv}

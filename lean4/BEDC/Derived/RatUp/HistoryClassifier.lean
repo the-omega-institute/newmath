@@ -59,6 +59,60 @@ theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHis
           exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
             RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
 
+theorem RatHistoryLedgerPolicy_saturated_denominator_shape_package
+    {rho v w zrho zv zw : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho w ∨ RatHistoryClassifier v w ∨
+        RatHistoryClassifier w rho ∨ RatHistoryClassifier w v) ->
+        UnaryHistory rho ∧ UnaryHistory v ∧ UnaryHistory w ∧
+          (hsame rho BHist.Empty -> False) ∧ (hsame v BHist.Empty -> False) ∧
+            (hsame w BHist.Empty -> False) ∧
+              (hsame rho (BHist.e0 zrho) -> False) ∧
+                (hsame v (BHist.e0 zv) -> False) ∧
+                  (hsame w (BHist.e0 zw) -> False) := by
+  intro ledger linked
+  have rhoPositive : PositiveUnaryDenominator rho :=
+    RatHistoryCarrier_iff_positive_denominator.mp ledger.left
+  have vPositive : PositiveUnaryDenominator v :=
+    RatHistoryCarrier_iff_positive_denominator.mp
+      (RatHistoryLedgerPolicy_visible_carrier ledger)
+  have wCarrier : RatHistoryCarrier w := by
+    cases linked with
+    | inl rhoW =>
+        exact rhoW.right.left
+    | inr rest =>
+        cases rest with
+        | inl vW =>
+            exact vW.right.left
+        | inr rest' =>
+            cases rest' with
+            | inl wRho =>
+                exact wRho.left
+            | inr wV =>
+                exact wV.left
+  have wPositive : PositiveUnaryDenominator w :=
+    RatHistoryCarrier_iff_positive_denominator.mp wCarrier
+  have rhoRows := PositiveUnaryDenominator_unary_and_nonempty rhoPositive
+  have vRows := PositiveUnaryDenominator_unary_and_nonempty vPositive
+  have wRows := PositiveUnaryDenominator_unary_and_nonempty wPositive
+  exact And.intro rhoRows.left
+    (And.intro vRows.left
+      (And.intro wRows.left
+        (And.intro rhoRows.right
+          (And.intro vRows.right
+            (And.intro wRows.right
+              (And.intro
+                (fun sameZero =>
+                  PositiveUnaryDenominator_e0_absurd
+                    (PositiveUnaryDenominator_hsame_transport sameZero rhoPositive))
+                (And.intro
+                  (fun sameZero =>
+                    PositiveUnaryDenominator_e0_absurd
+                      (PositiveUnaryDenominator_hsame_transport sameZero vPositive))
+                  (fun sameZero =>
+                    PositiveUnaryDenominator_e0_absurd
+                      (PositiveUnaryDenominator_hsame_transport sameZero wPositive)))))))))
+
 theorem RatHistoryClassifier_e0_endpoint_absurd {tail d : BHist} :
     (RatHistoryClassifier (BHist.e0 tail) d → False) ∧
       (RatHistoryClassifier d (BHist.e0 tail) → False) := by
@@ -226,6 +280,107 @@ theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist}
   · intro classified
     exact RatHistoryLedgerPolicy_classifier_extension ledger classified
 
+theorem RatHistoryLedgerPolicy_e1_tail_classifier_saturation {rho v t : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho (BHist.e1 t) <-> RatHistoryClassifier v (BHist.e1 t)) ∧
+        (RatHistoryClassifier (BHist.e1 t) rho <-> RatHistoryClassifier (BHist.e1 t) v) ∧
+          PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+            (RatHistoryClassifier v (BHist.e1 t) -> UnaryHistory t) ∧
+              (RatHistoryClassifier (BHist.e1 t) v -> UnaryHistory t) := by
+  intro ledger
+  have forwardFiber :
+      RatHistoryClassifier rho (BHist.e1 t) <-> RatHistoryClassifier v (BHist.e1 t) :=
+    RatHistoryLedgerPolicy_classifier_endpoint_equivalence ledger
+  have reversedFiber :
+      RatHistoryClassifier (BHist.e1 t) rho <-> RatHistoryClassifier (BHist.e1 t) v := by
+    constructor
+    · intro classified
+      have rawForward : RatHistoryClassifier rho (BHist.e1 t) :=
+        RatHistoryClassifier_symm classified
+      exact RatHistoryClassifier_symm (forwardFiber.mp rawForward)
+    · intro classified
+      have visibleForward : RatHistoryClassifier v (BHist.e1 t) :=
+        RatHistoryClassifier_symm classified
+      exact RatHistoryClassifier_symm (forwardFiber.mpr visibleForward)
+  have endpointPositives :
+      PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v :=
+    RatHistoryClassifier_positive_denominators
+      (RatHistoryLedgerPolicy_raw_visible_classifier ledger)
+  constructor
+  · exact forwardFiber
+  · constructor
+    · exact reversedFiber
+    · constructor
+      · exact endpointPositives.left
+      · constructor
+        · exact endpointPositives.right
+        · constructor
+          · intro classified
+            exact PositiveUnaryDenominator_e1_iff_unary.mp
+              (RatHistoryClassifier_positive_denominators classified).right
+          · intro classified
+            exact PositiveUnaryDenominator_e1_iff_unary.mp
+              (RatHistoryClassifier_positive_denominators classified).left
+
+theorem RatHistoryLedgerPolicy_one_tail_classifier_saturation {rho v t : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho (BHist.e1 t) <->
+        RatHistoryClassifier v (BHist.e1 t)) ∧
+        (RatHistoryClassifier (BHist.e1 t) rho <->
+          RatHistoryClassifier (BHist.e1 t) v) ∧
+          PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+            (RatHistoryClassifier v (BHist.e1 t) -> UnaryHistory t) ∧
+              (RatHistoryClassifier (BHist.e1 t) v -> UnaryHistory t) := by
+  intro ledger
+  exact RatHistoryLedgerPolicy_e1_tail_classifier_saturation ledger
+
+theorem RatHistoryLedgerPolicy_classifier_saturation_unary_package {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho w ∨ RatHistoryClassifier v w ∨
+        RatHistoryClassifier w rho ∨ RatHistoryClassifier w v) ->
+        RatHistoryClassifier rho w ∧ RatHistoryClassifier v w ∧
+          RatHistoryClassifier w rho ∧ RatHistoryClassifier w v ∧
+            PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+              PositiveUnaryDenominator w ∧ UnaryHistory rho ∧ UnaryHistory v ∧
+                UnaryHistory w := by
+  intro ledger linked
+  have forwardFiber :
+      RatHistoryClassifier rho w <-> RatHistoryClassifier v w :=
+    RatHistoryLedgerPolicy_classifier_endpoint_equivalence ledger
+  have endpointClassifiers :
+      RatHistoryClassifier rho w ∧ RatHistoryClassifier v w ∧
+        RatHistoryClassifier w rho ∧ RatHistoryClassifier w v := by
+    cases linked with
+    | inl rhoW =>
+        have vW : RatHistoryClassifier v w := forwardFiber.mp rhoW
+        exact ⟨rhoW, vW, RatHistoryClassifier_symm rhoW, RatHistoryClassifier_symm vW⟩
+    | inr rest =>
+        cases rest with
+        | inl vW =>
+            have rhoW : RatHistoryClassifier rho w := forwardFiber.mpr vW
+            exact ⟨rhoW, vW, RatHistoryClassifier_symm rhoW, RatHistoryClassifier_symm vW⟩
+        | inr rest' =>
+            cases rest' with
+            | inl wRho =>
+                have rhoW : RatHistoryClassifier rho w := RatHistoryClassifier_symm wRho
+                have vW : RatHistoryClassifier v w := forwardFiber.mp rhoW
+                exact ⟨rhoW, vW, wRho, RatHistoryClassifier_symm vW⟩
+            | inr wV =>
+                have vW : RatHistoryClassifier v w := RatHistoryClassifier_symm wV
+                have rhoW : RatHistoryClassifier rho w := forwardFiber.mpr vW
+                exact ⟨rhoW, vW, RatHistoryClassifier_symm rhoW, wV⟩
+  have rhoW : RatHistoryClassifier rho w := endpointClassifiers.left
+  have vW : RatHistoryClassifier v w := endpointClassifiers.right.left
+  have rhoPositives : PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators rhoW
+  have vPositives : PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators vW
+  exact ⟨rhoW, vW, endpointClassifiers.right.right.left,
+    endpointClassifiers.right.right.right, rhoPositives.left, vPositives.left,
+      rhoPositives.right, (PositiveUnaryDenominator_unary_and_nonempty rhoPositives.left).left,
+        (PositiveUnaryDenominator_unary_and_nonempty vPositives.left).left,
+          (PositiveUnaryDenominator_unary_and_nonempty rhoPositives.right).left⟩
+
 theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visible' : BHist} :
     RatHistoryLedgerPolicy raw visible ->
       RatHistoryLedgerPolicy raw visible' ->
@@ -234,6 +389,26 @@ theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visibl
   exact RatHistoryClassifier_trans
     (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier leftLedger))
     (RatHistoryLedgerPolicy_raw_visible_classifier rightLedger)
+
+theorem RatHistoryLedgerPolicy_shared_visible_e0_endpoint_absurd
+    {raw visible visible' z z' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      (hsame visible (BHist.e0 z) -> False) ∧
+        (hsame visible' (BHist.e0 z') -> False) := by
+  intro leftLedger rightLedger
+  have classified : RatHistoryClassifier visible visible' :=
+    RatHistoryLedgerPolicy_shared_raw_visible_classifier leftLedger rightLedger
+  constructor
+  · intro sameZero
+    have displayed : RatHistoryClassifier (BHist.e0 z) visible' :=
+      RatHistoryClassifier_hsame_transport sameZero (hsame_refl visible') classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := visible')).left displayed
+  · intro sameZero
+    have displayed : RatHistoryClassifier visible (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport (hsame_refl visible) sameZero classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := visible)).right displayed
 
 theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
     {raw visible tail : BHist} :
@@ -244,5 +419,62 @@ theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
   have displayedCarrier : RatHistoryCarrier (BHist.e1 tail) :=
     RatHistoryCarrier_hsame_transport sameVisible visibleCarrier
   exact RatHistoryCarrier_e1_tail_unary_iff.mp displayedCarrier
+
+theorem RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion
+    {rho v w z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      (hsame rho (BHist.e0 z) -> False) ∧ (hsame w (BHist.e0 z') -> False) := by
+  intro ledger visibleTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  constructor
+  · intro sameRawZero
+    have displayed : RatHistoryClassifier (BHist.e0 z) w :=
+      RatHistoryClassifier_hsame_transport sameRawZero (hsame_refl w) rawTarget
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z) (d := w)).left
+      displayed
+  · intro sameTargetZero
+    have displayed : RatHistoryClassifier rho (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport (hsame_refl rho) sameTargetZero rawTarget
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z') (d := rho)).right
+      displayed
+
+theorem RatHistoryLedgerPolicy_visible_target_e1_pair_readback {rho v w a b : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w -> hsame rho (BHist.e1 a) ->
+      hsame w (BHist.e1 b) -> UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro ledger visibleTarget sameRaw sameTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport sameRaw sameTarget rawTarget
+  exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RatHistoryLedgerPolicy_visible_target_positive_nonempty_package {rho v w : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w ∧
+        (hsame rho BHist.Empty -> False) ∧ (hsame v BHist.Empty -> False) ∧
+          (hsame w BHist.Empty -> False) := by
+  intro ledger visibleTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  have rawPositives :
+      PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators rawTarget
+  have visiblePositives :
+      PositiveUnaryDenominator v ∧ PositiveUnaryDenominator w :=
+    RatHistoryClassifier_positive_denominators visibleTarget
+  have rhoRows := PositiveUnaryDenominator_unary_and_nonempty rawPositives.left
+  have vRows := PositiveUnaryDenominator_unary_and_nonempty visiblePositives.left
+  have wRows := PositiveUnaryDenominator_unary_and_nonempty rawPositives.right
+  exact And.intro rawPositives.left
+    (And.intro visiblePositives.left
+      (And.intro rawPositives.right
+        (And.intro rhoRows.right (And.intro vRows.right wRows.right))))
+
+theorem RatHistoryLedgerPolicy_visible_target_e0_endpoint_absurd {rho v w z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      (hsame rho (BHist.e0 z) -> False) ∧ (hsame w (BHist.e0 z') -> False) := by
+  intro ledger classified
+  exact RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion ledger classified
 
 end BEDC.Derived.RatUp

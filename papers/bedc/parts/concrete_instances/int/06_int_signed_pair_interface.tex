@@ -1,0 +1,456 @@
+\chapter{A Concrete Naming Certificate for \(\IntUp\)}
+\label{ch:concrete-instances-int-namecert}
+
+The integer interface \(\IntUp\) is licensed by signed unary histories: a sign component together with a unary magnitude under continuation discipline. It is not a primitive operation of the finite kernel. The construction follows the 5-field NameCert template established by \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-add-namecert}, with the carrier extended by a sign indicator and the stability fields adjusted for sign-aware continuation.
+
+\section{Carrier definition}
+
+\begin{definition}[Signed unary integer carrier]
+\label{def:intup-carrier}
+The carrier predicate for \(\IntUp\) uses an existing mark as the sign component and an existing unary history as the magnitude component:
+$$
+  \mathsf{IntCarrier}(s,h)
+  :=
+  (s=\bzero \lor s=\bone)\land \mathsf{Unary}(h).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntCarrier}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_cases}
+\leanvariant{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
+\begin{proof}
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
+\end{proof}
+
+\begin{theorem}[Signed carrier transports along mark sameness]
+\label{thm:int-carrier-sign-msame-transport}
+If \(\mathsf{IntCarrier}(s,h)\) and \(\msame(s,s')\), then
+\(\mathsf{IntCarrier}(s',h)\).
+\end{theorem}
+\begin{proof}
+The sign-sameness witness identifies the two finite-kernel sign marks. After
+that identification, the original signed unary carrier witness has the required
+transported sign.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_msame\_transport}
+
+\begin{theorem}[Signed carrier transports along history sameness]
+\label{thm:int-carrier-transport-hsame-magnitude}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) and \(\hsame(h,k)\), then \(\mathsf{IntCarrier}(s,k)\).
+\end{theorem}
+\begin{proof}
+The carrier splits into the sign clause and the unary magnitude clause. The sign clause is unchanged, while the unary-history witness is transported along \(\hsame(h,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_transport\_hsame\_magnitude}
+
+\begin{theorem}[Integer magnitude transport along history sameness]
+\label{prop:intup-magnitude-hsame-transport}
+For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) holds and \(h\) is internally the same history as \(k\), then \(\mathsf{IntCarrier}(s,k)\) holds.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_magnitude\_hsame\_transport}
+\begin{proof}
+The sign disjunction is preserved unchanged, while the unary-history component is transported across \(\hsame(h,k)\) by the finite-kernel unary transport theorem.
+\end{proof}
+
+\begin{theorem}[Integer carrier magnitude induction]
+\label{thm:int-carrier-magnitude-induction}
+For a fixed sign \(s:\mathsf{BMark}\), any predicate \(P\) on histories holds
+for every integer-carried magnitude if it holds at \(\emp\) and is preserved
+by one-step unary extension along \(\mathsf{IntCarrier}(s,-)\).
+\end{theorem}
+\begin{proof}
+Unpack \(\mathsf{IntCarrier}(s,h)\) into its sign clause and unary-history
+witness. Apply unary-history induction to the magnitude; the step rebuilds the
+integer carrier from the fixed sign clause and the current unary witness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_magnitude\_induction}
+
+\begin{definition}[Integer source specification]
+\label{def:intup-source-specification}
+The source specification for \(\IntUp\) is exactly the signed unary integer carrier:
+$$
+  \mathsf{IntSourceSpec}(s,h)
+  :=
+  \mathsf{IntCarrier}(s,h).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntSourceSpec}
+\leanchecked{BEDC.Derived.IntUp.intup\_source\_specification}
+\begin{proof}
+This is a direct definitional identification of the source specification with the carrier predicate.
+\end{proof}
+
+\begin{definition}[Integer classifier specification]
+\label{def:intup-classifier-specification}
+The classifier for two signed unary representatives requires both representatives to be in the integer carrier, their signs to be mark-same, and their magnitudes to be history-same:
+$$
+  \mathsf{IntClassifierSpec}((s,h),(t,k))
+  :=
+  \mathsf{IntCarrier}(s,h)\land
+  \mathsf{IntCarrier}(t,k)\land
+  \msame(s,t)\land
+  \hsame(h,k).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntClassifierSpec}
+
+\begin{definition}[Integer difference-pair carrier]
+\label{def:intup-difference-pair-carrier}
+The signed-pair presentation of $\IntUp$ uses two unary histories, read as a
+positive counter and a negative counter:
+$$
+  \mathsf{IntPairCarrier}(p,n)
+  :=
+  \mathsf{Unary}(p)\land\mathsf{Unary}(n).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntPairCarrier}
+
+\begin{definition}[Integer difference-pair classifier]
+\label{def:intup-difference-pair-classifier}
+Two carried unary pairs classify together when their cross-additions are
+history-same:
+$$
+  \mathsf{IntPairClassifier}((p,n),(q,m))
+  :=
+  \mathsf{IntPairCarrier}(p,n)\land
+  \mathsf{IntPairCarrier}(q,m)\land
+  \hsame(\mathsf{append}(p,m),\mathsf{append}(q,n)).
+$$
+\end{definition}
+\leandef{BEDC.Derived.IntUp.IntPairClassifier}
+
+\begin{theorem}[Integer pair classifier positive append context]
+\label{thm:int-pair-classifier-append-positive-context}
+If \(a,p,n,q,m:\mathsf{BHist}\), \(a\) is unary, and
+\(\mathsf{IntPairClassifier}((p,n),(q,m))\), then
+$$
+\mathsf{IntPairClassifier}((\mathsf{append}(a,p),n),(\mathsf{append}(a,q),m)).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_append\_positive\_context}
+\begin{proof}
+Unpack the classifier into the two unary-pair carriers and the
+cross-addition comparison
+\(\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)\). Unary append closure puts
+\(\mathsf{append}(a,p)\) and \(\mathsf{append}(a,q)\) back in the carried
+positive counters. Prefix the cross-addition comparison by \(a\) and reassociate
+both sides by \(\mathsf{append\_assoc}\), yielding the displayed contextual
+classifier.
+\end{proof}
+
+\begin{theorem}[Integer difference-pair classifier equivalence fields]
+\label{thm:intup-difference-pair-classifier-equivalence-fields}
+On carried unary pairs, $\mathsf{IntPairClassifier}$ supplies the expected
+integer quotient fields:
+\begin{enumerate}
+\item reflexivity:
+for every $\mathsf{IntPairCarrier}(p,n)$,
+$\mathsf{IntPairClassifier}((p,n),(p,n))$;
+\item symmetry:
+from $\mathsf{IntPairClassifier}((p,n),(q,m))$ one obtains
+$\mathsf{IntPairClassifier}((q,m),(p,n))$;
+\item transitivity:
+from $\mathsf{IntPairClassifier}((p,n),(q,m))$ and
+$\mathsf{IntPairClassifier}((q,m),(r,o))$ one obtains
+$\mathsf{IntPairClassifier}((p,n),(r,o))$;
+\item componentwise transport:
+if $p\hsame p'$, $n\hsame n'$, $q\hsame q'$, and $m\hsame m'$, then a
+classifier witness for $((p,n),(q,m))$ transports to one for
+$( (p',n'),(q',m') )$ whenever all four pairs are carried.
+\end{enumerate}
+The ten-field fit is: traditional target signed integers as unary difference
+pairs; BEDC source $\mathsf{Unary}$, $\hsame$, and $\mathsf{append}$;
+carrier $\mathsf{IntPairCarrier}$; classifier
+$\mathsf{IntPairClassifier}$; stability componentwise $\hsame$ transport;
+ledger the two unary counters; core theorem this block; exactness
+cross-addition classification; standard bridge the ordinary presentation of
+integers as $(p,n)$ modulo $p+m=q+n$; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_equivalence\_fields}
+\begin{proof}
+For reflexivity, unary append closure shows both cross-additions
+$\mathsf{append}(p,n)$ are unary, and reflexivity of $\hsame$ supplies the
+cross-addition equality. The two carrier witnesses are reused unchanged.
+
+For symmetry, unpack the classifier witness. The carrier witnesses swap
+positions, and symmetry of $\hsame$ reverses the cross-addition comparison
+between $\mathsf{append}(p,m)$ and $\mathsf{append}(q,n)$.
+
+For transitivity, suppose the two displayed classifier witnesses give
+$\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$ and
+$\mathsf{append}(q,o)\hsame\mathsf{append}(r,m)$. Append the missing
+contexts to both comparisons so that the shared unary factors are visible.
+
+Using $\mathsf{append\_assoc}$, unary append commutativity, and transitivity
+of $\hsame$, rewrite the composed comparison to the form
+$$
+\mathsf{append}(\mathsf{append}(p,o),m)
+\hsame
+\mathsf{append}(\mathsf{append}(r,n),m).
+$$
+
+The common suffix $m$ is carried by unary closure, so
+$\mathsf{append\_right\_cancel}$, equivalently common-context cancellation,
+removes it and yields
+$\mathsf{append}(p,o)\hsame\mathsf{append}(r,n)$. Together with the endpoint
+carrier witnesses, this is exactly
+$\mathsf{IntPairClassifier}((p,n),(r,o))$.
+
+For componentwise transport, transport unary carrier evidence along the four
+$\hsame$ links. Compatibility of $\mathsf{append}$ with $\hsame$ transports
+the cross-addition comparison from
+$\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$ to
+$\mathsf{append}(p',m')\hsame\mathsf{append}(q',n')$.
+\end{proof}
+
+\begin{theorem}[Integer classifier magnitude pair induction]
+\label{thm:int-classifier-magnitude-pair-induction}
+Any predicate \(P\) on pairs of histories holds for the two magnitudes of every
+\(\mathsf{IntClassifierSpec}\) witness if it holds at \((\emp,\emp)\) and is
+preserved by one-step unary extension on either magnitude while the other
+magnitude remains unary.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its two signed unary carrier witnesses. These give
+unary histories for both magnitudes. Run unary-history induction over the left
+magnitude; its base is supplied by a second unary-history induction over the
+right magnitude, and its step uses the left extension rule.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_magnitude\_pair\_induction}
+
+\begin{theorem}[Integer classifier endpoint sign cases]
+\label{thm:int-classifier-endpoint-sign-cases}
+If $\mathsf{IntClassifierSpec}(x,y)$, then the two endpoint signs are either
+both $\bzero$ or both $\bone$, and both endpoint magnitudes are unary:
+$$
+\bigl((x_1=\bzero\wedge y_1=\bzero)\vee
+(x_1=\bone\wedge y_1=\bone)\bigr)\wedge
+\mathsf{Unary}(x_2)\wedge\mathsf{Unary}(y_2).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two signed carrier witnesses, sign sameness,
+and magnitude sameness. The left carrier splits the left sign into the two
+finite mark cases and gives the unary witness for the left magnitude. The sign
+sameness transports the same sign case to the right endpoint, while the right
+carrier supplies the unary witness for the right magnitude.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_endpoint\_sign\_cases}
+
+\begin{theorem}[Integer classifier cross-sign exclusion]
+\label{thm:int-classifier-cross-sign-exclusion}
+For all $h,k:\mathsf{BHist}$, cross-signed endpoints cannot be classified:
+$$
+\forall h,k:\mathsf{BHist},\quad
+\bigl(\mathsf{IntClassifierSpec}((\bzero,h),(\bone,k))\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{IntClassifierSpec}((\bone,h),(\bzero,k))\to\mathsf{False}\bigr).
+$$
+The ten-field fit is: traditional target signed-integer sign separation; BEDC
+source $\mathsf{IntCarrier}$, $\mathsf{IntClassifierSpec}$, and raw mark
+no-confusion; carrier signed unary representatives; classifier
+$\mathsf{IntClassifierSpec}$; stability from existing sign and magnitude
+transport; ledger the sign mark and unary magnitude; core theorem this block;
+exactness cross-sign exclusion; standard bridge ordinary signed-integer sign
+disjointness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Project the sign-sameness component from
+\autoref{def:intup-classifier-specification}. In the first branch, a classifier
+from $(\bzero,h)$ to $(\bone,k)$ supplies $\msame(\bzero,\bone)$, which
+contradicts raw mark no-confusion in \autoref{thm:mark-no-confusion}.
+
+The second branch is the opposite orientation. A classifier from $(\bone,h)$ to
+$(\bzero,k)$ supplies $\msame(\bone,\bzero)$, and the exchanged half of
+\autoref{thm:mark-no-confusion} excludes that mark-sameness judgment.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cross\_sign\_exclusion}
+
+\begin{theorem}[Integer classifier magnitude transport]
+\label{thm:int-classifier-hsame-magnitude-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+magnitudes transport to \(h_x'\) and \(h_y'\) by \(\hsame\), then
+\(\mathsf{IntClassifierSpec}((s_x,h_x'),(s_y,h_y'))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the new magnitude links, keep the sign sameness
+unchanged, and compose the magnitude links through the original classifier
+link.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_hsame\_magnitude\_transport}
+
+\begin{theorem}[Integer classifier sign transport]
+\label{thm:int-classifier-msame-sign-transport}
+If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
+signs transport to \(s_x'\) and \(s_y'\) by \(\msame\), then
+\(\mathsf{IntClassifierSpec}((s_x',h_x),(s_y',h_y))\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two signed unary carrier witnesses,
+the sign sameness component, and the magnitude sameness component. Transport
+both carriers across the given sign links, compose the sign links through the
+original classifier link, and keep the magnitude sameness unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_msame\_sign\_transport}
+
+\begin{theorem}[Integer classifier sign and magnitude transport]
+\label{thm:int-classifier-sign-magnitude-transport}
+If $\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))$, the signs transport to
+$s_x'$ and $s_y'$ by $\msame$, and the magnitudes transport to $h_x'$ and
+$h_y'$ by $\hsame$, then
+$\mathsf{IntClassifierSpec}((s_x',h_x'),(s_y',h_y'))$.
+\end{theorem}
+\begin{proof}
+First transport the classifier along the two magnitude links, preserving the
+sign component. Then transport the resulting classifier along the two sign
+links, preserving the transported magnitude component.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_sign\_magnitude\_transport}
+
+\begin{theorem}[Integer classifier reflexivity]
+\label{thm:int-classifier-refl}
+If $\mathsf{IntCarrier}(s,h)$, then
+$\mathsf{IntClassifierSpec}((s,h),(s,h))$.
+\end{theorem}
+\begin{proof}
+Use the same signed unary carrier witness on both classifier endpoints. The sign component is related by reflexivity of $\msame$, and the magnitude component is related by reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_refl}
+
+\begin{theorem}[Integer classifier symmetry]
+\label{thm:int-classifier-symmetry}
+If \(\mathsf{IntClassifierSpec}(x,y)\), then
+\(\mathsf{IntClassifierSpec}(y,x)\).
+\end{theorem}
+\begin{proof}
+Eliminating the classifier witness exposes carrier evidence for both
+representatives, sign sameness, and magnitude sameness. The carrier evidence is
+swapped, while symmetry of \(\msame\) and \(\hsame\) reverses the two sameness
+components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_symm}
+
+\begin{theorem}[Integer classifier transitivity]
+\label{thm:int-classifier-transitivity}
+If \(\mathsf{IntClassifierSpec}(x,y)\) and
+\(\mathsf{IntClassifierSpec}(y,z)\), then
+\(\mathsf{IntClassifierSpec}(x,z)\).
+\end{theorem}
+\begin{proof}
+Eliminating the two classifier witnesses exposes the carrier evidence for the
+endpoints, together with sign sameness and magnitude sameness along both
+links. Transitivity of \(\msame\) composes the sign components, and
+transitivity of \(\hsame\) composes the magnitude components.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_trans}
+
+\begin{theorem}[Integer classifier continuation with the same sign]
+\label{thm:int-classifier-continuation-closed-same-sign}
+If two integer classifier witnesses relate \((s_x,h_x)\) to \((s_x',h_x')\)
+and \((s_y,h_y)\) to \((s_y',h_y')\), and the left signs \(s_x\) and \(s_y\)
+are mark-same, then continuation of the two left magnitudes and continuation
+of the two right magnitudes yield another integer classifier witness.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witnesses into carrier data, sign sameness, and magnitude
+sameness. Transport the second left carrier along \(\msame(s_x,s_y)\), and
+transport the second right carrier along the composed sign link
+\(s_x'\sim s_x\sim s_y\sim s_y'\). Carrier closure under same-sign continuation
+gives the two result carriers, while continuation respects the two magnitude
+\(\hsame\) links and gives the result magnitude sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_continuation\_closed\_same\_sign}
+
+\begin{theorem}[Integer classifier append commutativity with the same sign]
+\label{thm:int-classifier-append-comm-same-sign}
+For a fixed sign \(s:\mathsf{BMark}\), if \(h\) and \(k\) are both carried by
+\(\mathsf{IntCarrier}(s,-)\), then the two append magnitudes classify each
+other under the same sign:
+$$
+\mathsf{IntClassifierSpec}\bigl((s,\mathsf{append}(h,k)),
+(s,\mathsf{append}(k,h))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two integer carrier witnesses. The shared sign evidence supplies
+both endpoint carriers. Unary append closure gives the two appended magnitude
+carriers, reflexivity of \(\msame\) relates the fixed sign to itself, and
+unary append commutativity gives
+\(\mathsf{append}(h,k)\hsame\mathsf{append}(k,h)\).
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_comm\_same\_sign}
+
+\begin{theorem}[Integer classifier swaps same-sign append context]
+\label{thm:int-classifier-append-context-swap-same-sign}
+For a fixed sign \(s:\mathsf{BMark}\), if \(left\), \(right\), and \(a\) are
+all carried by \(\mathsf{IntCarrier}(s,-)\), then the classifier identifies the
+two same-sign context displays
+$$
+\mathsf{append}(left,\mathsf{append}(a,right))
+$$
+and
+$$
+\mathsf{append}(right,\mathsf{append}(a,left)).
+$$
+The ten-field fit is: traditional target signed-unary context commutativity;
+BEDC source \(\mathsf{IntCarrier}\), \(\mathsf{IntClassifierSpec}\), and
+\(\mathsf{append}\); carrier same-sign unary representatives; classifier
+\(\mathsf{IntClassifierSpec}\); stability from unary append closure and append
+associativity; ledger the two context magnitudes and the middle magnitude;
+core theorem this block; exactness same-sign context swap; standard bridge
+ordinary commutativity of finite unary context addition; status
+\(\mathsf{ProofTarget}\).
+\end{theorem}
+\begin{proof}
+Unpack the three integer carrier witnesses to obtain unary witnesses for the
+two contexts and the middle magnitude. Unary append closure supplies the two
+endpoint carrier witnesses. Reassociate the left display, commute the relevant
+unary append factors, and reassociate back to the right display. The shared
+sign is related to itself by reflexivity of \(\msame\), and the constructed
+append equality is the magnitude component of the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_context\_swap\_same\_sign}
+
+\begin{theorem}[Integer classifier appends same-sign context]
+\label{thm:int-classifier-append-context-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $left$ and $right$ are carried
+by $\mathsf{IntCarrier}(s,-)$, and
+$\mathsf{IntClassifierSpec}((s,a),(s,b))$, then the classifier identifies
+the common-context magnitudes:
+$$
+\mathsf{IntClassifierSpec}
+\bigl((s,\mathsf{append}(left,\mathsf{append}(a,right))),
+(s,\mathsf{append}(left,\mathsf{append}(b,right)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into signed carrier evidence for $a$ and
+$b$, the fixed-sign component, and the magnitude equality $a\hsame b$.
+Same-sign unary append closure builds the two contextual endpoint carriers.
+Replacing the middle magnitude along $a\hsame b$ leaves the two contextual
+append histories equal, while sign reflexivity supplies the sign classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_context\_same\_sign}
+
+\begin{theorem}[Integer classifier cancels same-sign append context]
+\label{thm:int-classifier-cancel-append-context-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $a$ and $b$ are carried by
+$\mathsf{IntCarrier}(s,-)$, and the integer classifier identifies
+the two common-context magnitudes
+$$
+\mathsf{append}(left,\mathsf{append}(a,right))
+\quad\text{and}\quad
+\mathsf{append}(left,\mathsf{append}(b,right)),
+$$
+then $\mathsf{IntClassifierSpec}((s,a),(s,b))$.
+\end{theorem}
+\begin{proof}
+The contextual classifier exposes a BEDC history equality between the two
+append histories. Left append cancellation removes the common left context, and
+right append cancellation removes the common suffix. The resulting
+$a\hsame b$, together with the supplied endpoint carriers and reflexivity of
+$\msame(s,s)$, gives the integer classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}

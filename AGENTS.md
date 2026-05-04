@@ -8,6 +8,7 @@ Cross-tool AI agent guidance (Codex / Cursor / Cline / Aider / Claude Code via C
 - LaTeX: 使用 `pdflatex` (BEDC 论文体内零中文; 顶层 README/CLAUDE/AGENTS 用中文但不进入 PDF)
 - Lean 4: `lake build`; `lean4/` 为 **mathlib-free** 形式化, 从 first principles 起步
 - 单个 `.tex` 文件不超过 800 行, 超过须拆分
+- **Hub-only 索引文件**: 任何作为 chapter / section 索引的 hub `.tex` 文件 (例如 `\input{...}` 或 `\include{...}` 集中处) 只放结构性元素: 标题宏 (`\chapter` / `\section` / 等) + `\label` + 1-2 句 orienting 段落 + 子文件 `\input{...}` 行 + 必要的状态标注 (如 `\closureat`). **不放任何 `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` 等正文环境**. 正文移入同主题子目录的 sibling `.tex` 文件, 文件名按内容 slug 命名 (`<slug>.tex`). hub 自身一般 5-15 行, 始终远低于 800 行上限
 - 二进制运算使用原生实现, 不用二进制字符串
 
 ## 语言与格式

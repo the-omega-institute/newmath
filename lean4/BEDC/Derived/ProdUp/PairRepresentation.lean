@@ -107,6 +107,23 @@ theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
     ProdPairRep_hsame_transport repK (hsame_symm sameHK)
   exact coherent repH repKAtH
 
+theorem ProdPairRep_e0_unit_coherence_absurd {Left Right : BHist -> Prop}
+    (leftEmpty : Left BHist.Empty) (leftZero : Left (BHist.e0 BHist.Empty))
+    (rightEmpty : Right BHist.Empty) (rightZero : Right (BHist.e0 BHist.Empty))
+    (coherent : ProdPairRepCoherent Left Right hsame hsame) : False := by
+  have leftUnitRep :
+      ProdPairRep Left Right (BHist.e0 BHist.Empty) BHist.Empty
+        (BHist.e0 BHist.Empty) :=
+    And.intro leftEmpty
+      (And.intro rightZero (cont_left_unit (BHist.e0 BHist.Empty)))
+  have rightUnitRep :
+      ProdPairRep Left Right (BHist.e0 BHist.Empty) (BHist.e0 BHist.Empty)
+        BHist.Empty :=
+    And.intro leftZero
+      (And.intro rightEmpty (cont_right_unit (BHist.e0 BHist.Empty)))
+  have forcedSame := coherent leftUnitRep rightUnitRep
+  exact not_hsame_emp_e0 forcedSame.left
+
 theorem ProdPairRep_classifier_bounded_coherence {Left Right : BHist -> Prop}
     {LeftEq RightEq : BHist -> BHist -> Prop}
     (leftCert : BEDC.FKernel.NameCert.NameCert Left LeftEq)

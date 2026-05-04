@@ -334,6 +334,50 @@ respect follows from the carried right endpoint stored in the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCoset\_semanticNameCert}
 
+\begin{theorem}[Centralizer coset empty representative classifier transport]
+\label{thm:quotientgroup-centralizer-coset-empty-representative-transport}
+If the representative $\mathsf{repr}$ and the empty history both centralize
+$a$, and $\mathsf{repr}\hsame\emp$, then the centralizer-coset classifier for
+$\mathsf{repr}$ agrees with the centralizer-coset classifier for $\emp$:
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\mathsf{repr},h,k)
+\Longleftrightarrow
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two coset classifiers. Each endpoint carrier consists of the chosen
+representative's centralizer witness and an endpoint comparison with that
+representative. The comparison $\mathsf{repr}\hsame\emp$ converts the two
+endpoint comparisons in either direction, while the corresponding centralizer
+witness supplies the carrier field for the chosen representative.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
+
+\begin{theorem}[Centralizer coset empty continuation classifier]
+\label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
+If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,r,h)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,p)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,q)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the empty-representative coset classifier. A classified continuation
+result gives $r\hsame\emp$; reading the continuation as an append endpoint and
+inverting empty append splits this into the two carrier comparisons for $p$
+and $q$, while the right classifier carrier supplies the comparison for $h$.
+Conversely, the two carrier comparisons for $p$ and $q$ rebuild an empty
+append endpoint for $r$, and the carrier comparison for $h$ closes the
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_continuation\_classifier\_iff}
+
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
@@ -447,14 +491,97 @@ centralizer carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_identity\_fiber\_subgroup\_package}
 
+\begin{theorem}[Centralizer-normalizer quotient identity fiber normality]
+\label{thm:quotientgroup-centralizer-normalizer-identity-fiber-normal}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same hypotheses as
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}, define
+the quotient identity fiber carrier by
+$$
+K_Q(t) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},t).
+$$
+If $N_a(x)$ and $K_Q(k)$, then the identity fiber is carried through both
+normal-kernel conjugation words:
+\begin{enumerate}
+\item $K_Q(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$.
+\item $K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}
+to identify the displayed fiber with the centralizer carrier. From $K_Q(k)$
+the forward direction gives $Z_a(k)$.
+
+For the forward conjugation word, use the first normalizer row contained in
+$N_a(x)$. It carries $Z_a(k)$ to
+$Z_a(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$. The reverse direction
+of the same identity-fiber equivalence then repacks this witness as
+$K_Q(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$.
+
+For the inverse conjugation word, use the second normalizer row contained in
+$N_a(x)$. It carries $Z_a(k)$ to
+$Z_a(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$. Applying the reverse
+direction of the identity-fiber equivalence again gives
+$K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$. Thus the kernel
+identity fiber inherits the conjugation stability already present in the
+centralizer-normalizer tower.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_identity\_fiber\_normal}
+
+\begin{theorem}[Centralizer-normalizer quotient kernel certificate]
+\label{thm:quotientgroup-centralizer-normalizer-kernel-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same hypotheses as
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}, define
+the quotient identity fiber carrier by
+$$
+K_Q(t) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},t).
+$$
+Then $K_Q$ is the concrete normal-kernel certificate for the representative
+quotient classifier $Q_{Z_a\triangleleft N_a}$:
+\begin{enumerate}
+\item $K_Q(\mathsf{e})$.
+\item If $K_Q(x)$ and $K_Q(y)$, then $K_Q(\mathsf{mul}(x,y))$.
+\item If $K_Q(x)$, then $K_Q(\mathsf{inv}(x))$.
+\item If $K_Q(x)$ and $x\hsame y$, then $K_Q(y)$.
+\item If $N_a(x)$ and $K_Q(k)$, then
+$K_Q(\mathsf{mul}(\mathsf{mul}(x,k),\mathsf{inv}(x)))$.
+\item If $N_a(x)$ and $K_Q(k)$, then
+$K_Q(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),k),x))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The subgroup rows come from
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup}.
+Its identity, product, inverse, and $\hsame$-transport clauses give the first
+four rows after unfolding the displayed definition of $K_Q$.
+
+The conjugation rows come from
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-normal}. With
+the same carrier $K_Q$ and the same carried normalizer witness $N_a(x)$, its two
+clauses give the forward and inverse conjugation words listed above.
+
+Together these rows present the identity fiber as the concrete normal kernel of
+the representative quotient classifier. The first block supplies the subgroup
+package; the second supplies conjugation stability by every carried
+normalizer element, which is the combined certificate consumed by
+first-isomorphism-style $\QuotientGroupUp$ kernel exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_kernel\_certificate}
+
 Per-object template: traditional target identity fiber of a quotient group;
 BEDC source $\GroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$ over
-$\mathsf{BHist}$; carrier $K_Q$; classifier inherited from
-$Q_{Z_a\triangleleft N_a}$ and $\hsame$; stability obligations identity,
-product, inverse, and transport; ledger relative-kernel witness; exactness
-predicate $K_Q(x)\Longleftrightarrow Z_a(x)$; downstream consumer
-first-isomorphism-style $\QuotientGroupUp$ kernel exactness; status
-$\mathsf{ProofTarget}$.
+$\mathsf{BHist}$; core theorem list
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate},
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-subgroup},
+\autoref{thm:quotientgroup-centralizer-normalizer-identity-fiber-normal}, and
+\autoref{thm:quotientgroup-centralizer-normalizer-kernel-certificate}; carrier
+$K_Q$; classifier inherited from $Q_{Z_a\triangleleft N_a}$ and $\hsame$;
+stability obligations identity, product, inverse, transport, and both
+conjugation words; ledger relative-kernel witness; exactness predicate
+$K_Q(x)\Longleftrightarrow Z_a(x)$; downstream consumer first-isomorphism-style
+$\QuotientGroupUp$ kernel exactness; status $\mathsf{ProofTarget}$.
 
 \paragraph{Capstone}
 
@@ -537,6 +664,7 @@ at the same endpoint pair $(x,y)$. The endpoint hypotheses are unchanged, and
 the reverse direction of the displayed equivalence gives
 $Q_{Z_a\leq N_a}(x,y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_abelian\_classifier\_totality}
 
 The ten-field fit is: traditional target terminal quotient of an abelian
 centralizer-normalizer quotient; BEDC source $\GroupUp$, $\AbGroupUp$,
@@ -599,6 +727,7 @@ supplies the carried product, inverse, and unit endpoints in $N_a$; applying
 $\pi_Q$ sends each one to $\emp$. Hence all three displayed singleton
 classifier statements again reduce to $\rho_Q(\emp,\emp)$.
 \end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_abelian\_terminal\_projection}
 
 The ten-field fit is: traditional target terminal projection from the abelian
 centralizer-normalizer quotient to the singleton quotient classifier; BEDC

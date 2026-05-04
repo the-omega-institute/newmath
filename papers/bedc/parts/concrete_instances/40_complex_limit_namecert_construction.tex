@@ -210,6 +210,25 @@ nonempty readback is applied and the two alternatives are swapped.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_nonempty\_distance\_endpoint\_cases}
 
+\begin{lemma}[Complex distance endpoint nonempty distance nonempty]
+\label{thm:complex-distance-endpoint-nonempty-distance-nonempty}
+For complex histories $z,w$ and distance endpoint $d$, if
+$\mathsf{CplxDist}(z,w,d)$ holds and at least one endpoint is not
+history-same to $\emp$, then $d$ is not history-same to $\emp$:
+$$
+\neg(z\hsame\emp)\vee\neg(w\hsame\emp)
+\Longrightarrow
+\neg(d\hsame\emp).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the symmetric continuation branch inside the distance witness. If the
+distance result were $\emp$, continuation empty-result inversion would force
+both endpoints of the active branch to be $\emp$. In either branch orientation
+this contradicts the displayed nonempty endpoint alternative.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_endpoint\_nonempty\_distance\_nonempty}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.
@@ -251,6 +270,7 @@ canonical continuation from \(z\) to \(z\).
 \label{def:cplx-lim}
 For a regular complex sequence \((s, N)\) and a complex history \(z\), the predicate \(\mathsf{CplxLim}(s, N, z, M)\) holds when \(M : \mathsf{Unary} \to \mathsf{Unary}\) is an explicit modulus such that for every unary index \(k\) and every unary \(n\) with \(\mathsf{NatUnaryStrictPrefix}(M(k), n)\) (or \(\hsame(n, M(k))\)), the distance \(\mathsf{CplxDist}(s(n), z, D)\) satisfies the unary representation of \(D \leq 2^{-k}\).
 \end{definition}
+\leandef{BEDC.Derived.ComplexLimitUp.ComplexLimit}
 
 \begin{lemma}[Complex limit functorial under \(\hsame\) on the limit point]
 \label{lem:cplx-lim-hsame}
@@ -259,6 +279,22 @@ If \(\mathsf{CplxLim}(s, N, z, M)\) and the components of \(z\) and \(z'\) are p
 \begin{proof}
 The distance \(\mathsf{CplxDist}(s(n), z, D)\) depends on \(z\) only via its rational-history components; \(\hsame\) on each component preserves the modulus witness pointwise.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_hsame\_transport}
+
+\begin{theorem}[Constant complex sequence has its displayed limit]
+\label{thm:complex-limit-constant}
+If \(z\) is a complex history, then the constant sequence \(s(n):=z\) with
+the empty regularity modulus has complex limit \(z\), witnessed by the empty
+limit modulus.
+\end{theorem}
+\begin{proof}
+The complex carrier of \(z\) gives unary support for the endpoint. The regular
+part is the constant regular-sequence theorem. For every accepted observation
+index, choose the canonical BEDC distance witness \(\mathsf{append}(z,z)\);
+its unary support follows from unary append closure, and the distance relation
+is the canonical continuation from \(z\) to \(z\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexLimit\_constant}
 
 \begin{theorem}[Uniqueness of complex limit]
 \label{thm:cplx-lim-unique}
@@ -287,6 +323,79 @@ relation is the canonical append continuation from the suffixed left endpoint
 to the suffixed right endpoint.
 \end{proof}
 
+\begin{lemma}[Complex distance constant prefix closure]
+\label{lem:complex-distance-prepend-constant-closed}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds, then the prefixed endpoints admit the canonical BEDC distance witness
+$$
+\mathsf{append}(\mathsf{append}(q,z),\mathsf{append}(q,w)).
+$$
+\end{lemma}
+\begin{proof}
+Unary support for the distance endpoints gives unary histories for \(z\) and
+\(w\). Unary append closure with \(q\) gives unary support for the two prefixed
+endpoints, and append closure gives the displayed distance history. The
+continuation component is the canonical append continuation from the prefixed
+left endpoint to the prefixed right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_prepend\_constant\_closed}
+
+\begin{theorem}[Complex distance constant suffix result determinacy]
+\label{thm:complex-distance-append-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds and a displayed distance witness for the suffixed endpoints
+\(\mathsf{append}(z,q)\) and \(\mathsf{append}(w,q)\) has result \(d'\), then
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(z,q),\mathsf{append}(w,q)).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed distance witness into its two continuation orientations.
+The forward orientation is determined by the canonical append continuation.
+The reverse orientation is determined by the reverse canonical continuation,
+then unary append commutativity for the two suffixed endpoints identifies the
+reverse canonical result with the forward canonical result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_append\_constant\_result\_deterministic}
+
+\begin{theorem}[Complex distance constant prefix result determinacy]
+\label{thm:complex-distance-prepend-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds and a displayed distance witness for the prefixed endpoints
+\(\mathsf{append}(q,z)\) and \(\mathsf{append}(q,w)\) has result \(d'\), then
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(q,z),\mathsf{append}(q,w)).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed distance witness into its two continuation orientations.
+The forward orientation is determined by the canonical append continuation.
+The reverse orientation is determined by the reverse canonical continuation,
+then unary append commutativity for the two prefixed endpoints identifies the
+reverse canonical result with the forward canonical result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_prepend\_constant\_result\_deterministic}
+
+\begin{theorem}[Complex distance unary append commutation package]
+\label{thm:complex-distance-unary-append-comm-package}
+For unary histories $z$ and $q$, the two appended endpoints $q\cdot z$ and
+$z\cdot q$ carry the canonical complex-distance witness
+$(q\cdot z)\cdot(z\cdot q)$, and the endpoints are $\hsame$:
+$$
+\mathsf{ComplexDistance}(q\cdot z,z\cdot q,(q\cdot z)\cdot(z\cdot q))
+\land \hsame(q\cdot z,z\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure gives unary carriers for $q\cdot z$, $z\cdot q$, and
+their displayed composite distance. The complex-distance relation uses the
+canonical continuation from the left endpoint to the right endpoint, while
+unary append commutativity supplies the endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_unary\_append\_comm\_package}
+
 \begin{theorem}[Regular complex sequence constant suffix closure]
 \label{thm:complex-regular-sequence-append-constant-closed}
 Let \(q:\mathsf{BHist}\) be unary. If \((s,N)\) is a regular complex sequence,
@@ -308,6 +417,25 @@ distance history. The canonical continuation witness for append supplies the
 distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
+
+\begin{theorem}[Regular complex sequence constant suffix result determinacy]
+\label{thm:complex-regular-sequence-append-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary and let \((s,N)\) be a regular complex
+sequence. For accepted unary indices \(n,m\) at threshold \(k\), every displayed
+complex-distance result \(d'\) for the suffixed endpoints
+\(\mathsf{append}(s(n),q)\) and \(\mathsf{append}(s(m),q)\) satisfies
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(s(n),q),\mathsf{append}(s(m),q)).
+$$
+\end{theorem}
+\begin{proof}
+Regularity supplies a base complex-distance witness between \(s(n)\) and
+\(s(m)\). Applying the constant-suffix result determinacy theorem to that base
+witness and to the displayed suffixed distance identifies \(d'\) with the
+canonical suffixed append result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_append\_constant\_result\_deterministic}
 
 \begin{theorem}[Regular complex sequence constant prefix closure]
 \label{lem:complex-regular-sequence-prepend-constant-closed}
