@@ -1,3 +1,53 @@
+\begin{theorem}[Rat ledger shared-raw contextual zero-extension endpoint exclusion]
+\label{thm:rat-history-ledger-shared-raw-context-zero-extension-endpoint-exclusion}
+Let $\rho,v,v',p,p_v,p_{v'},t,t_v,t_{v'}:\mathsf{BHist}$. If
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, the unary prefixes
+$p,p_v,p_{v'}$ satisfy
+$$
+\hsame(p,p_v)\land \hsame(p,p_{v'}),
+$$
+and the unary tails $t,t_v,t_{v'}$ satisfy
+$$
+\hsame(t,t_v)\land \hsame(t,t_{v'}),
+$$
+then for all $z,z':\mathsf{BHist}$ both contextual visible denominator
+endpoints are excluded from zero-extension heads:
+$$
+(\hsame(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),\Ezero(z))\to\mathsf{False})
+\land
+(\hsame(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),\Ezero(z'))\to\mathsf{False}).
+$$
+
+The ten-field fit is: traditional target RatUp ledger shared-denominator
+zero-branch exclusion; BEDC source $\mathsf{BHist}$ plus
+$\mathsf{RatHistoryLedgerPolicy}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from shared raw
+denominator and context transport; ledger shared raw denominator and context
+data; core theorem this block; exactness the two contradictions; downstream
+consumers $\mathsf{RealUp}$ denominator-context readback and
+$\mathsf{FieldUp}$ denominator continuation; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} with
+the two ledger witnesses and the displayed prefix and tail $\hsame$ links. This
+gives the classifier edge between
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$ and
+$\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'}))$.
+
+For a proposed zero-extension on the first contextual visible endpoint,
+transport the first classifier endpoint along its displayed $\hsame$ link to
+$\Ezero(z)$. The transported classifier has a zero-extension left endpoint, so
+\autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} gives
+the contradiction.
+
+For a proposed zero-extension on the second contextual visible endpoint,
+transport the second classifier endpoint along its displayed $\hsame$ link to
+$\Ezero(z')$. The transported classifier has a zero-extension right endpoint,
+and the same endpoint-exclusion theorem gives the second contradiction.
+\end{proof}
+
 \begin{corollary}[\(\RatUp\) is licensed, not primitive]
 \label{cor:rat-licensed-not-primitive}
 \(\RatUp\) is licensed by normalized representatives, not by a quotient of pairs.

@@ -15,6 +15,19 @@ theorem PositiveUnaryDenominator_append_unary_context {pref den tail : BHist} :
   exact PositiveUnaryDenominator_append_unary_prefix prefUnary
     (PositiveUnaryDenominator_append_unary_tail positive tailUnary)
 
+theorem PositiveUnaryDenominator_append_unary_left_split {pref den : BHist} :
+    UnaryHistory pref -> PositiveUnaryDenominator (BEDC.FKernel.Cont.append pref den) ->
+      PositiveUnaryDenominator pref ∨ PositiveUnaryDenominator den := by
+  intro prefUnary positive
+  cases pref with
+  | Empty =>
+      exact Or.inr (PositiveUnaryDenominator_hsame_transport (append_empty_left den) positive)
+  | e0 prefTail =>
+      exact False.elim (unary_no_zero_extension prefUnary)
+  | e1 prefTail =>
+      exact Or.inl (PositiveUnaryDenominator_e1_iff_unary.mpr
+        (unary_e1_inversion prefUnary))
+
 theorem RatCarrier_unary_denominator_context_closed {sign : BMark}
     {numerator denominator pref tail : BHist} :
     UnaryHistory pref -> RatCarrier sign numerator denominator -> UnaryHistory tail ->
@@ -50,6 +63,20 @@ theorem RatClassifierSpec_append_unary_denominator_context_closed {s1 s2 : BMark
       (RatClassifierSpec_append_unary_denominators_closed classifier tail1Unary sameTail)
       pref1Unary samePref
 
+theorem RatClassifierSpec_append_unary_prefix_denominator_split {s1 s2 : BMark}
+    {n1 n2 pref1 pref2 d1 d2 : BHist} :
+    RatClassifierSpec s1 n1 (BEDC.FKernel.Cont.append pref1 d1)
+        s2 n2 (BEDC.FKernel.Cont.append pref2 d2) ->
+      UnaryHistory pref1 -> hsame pref1 pref2 ->
+        (PositiveUnaryDenominator pref1 ∨ PositiveUnaryDenominator d1) ∧
+          (PositiveUnaryDenominator pref2 ∨ PositiveUnaryDenominator d2) := by
+  intro classifier pref1Unary samePref
+  have pref2Unary : UnaryHistory pref2 := unary_transport pref1Unary samePref
+  have positiveDenominators := RatClassifierSpec_positive_denominators classifier
+  constructor
+  · exact PositiveUnaryDenominator_append_unary_left_split pref1Unary positiveDenominators.left
+  · exact PositiveUnaryDenominator_append_unary_left_split pref2Unary positiveDenominators.right
+
 theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
     {raw visible prefRaw prefVisible tailRaw tailVisible : BHist} :
     RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
@@ -63,6 +90,40 @@ theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
         (BEDC.FKernel.Cont.append visible tailVisible) :=
     RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary sameTail
   exact RatHistoryLedgerPolicy_prepend_unary_denominator_closed appended prefRawUnary samePref
+
+theorem RatHistoryLedgerPolicy_unary_context_zero_extension_endpoint_exclusion
+    {raw visible prefRaw prefVisible tailRaw tailVisible z z' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> UnaryHistory prefRaw -> hsame prefRaw prefVisible ->
+      UnaryHistory tailRaw -> hsame tailRaw tailVisible ->
+        (hsame (append prefRaw (append raw tailRaw)) (BHist.e0 z) -> False) ∧
+          (hsame (append prefVisible (append visible tailVisible)) (BHist.e0 z') ->
+            False) := by
+  intro ledger prefRawUnary samePref tailRawUnary sameTail
+  have contextLedger :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed ledger prefRawUnary samePref
+      tailRawUnary sameTail
+  have contextClassifier :
+      RatHistoryClassifier (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_raw_visible_classifier contextLedger
+  constructor
+  · intro sameRawZero
+    have displayed :
+        RatHistoryClassifier (BHist.e0 z)
+          (append prefVisible (append visible tailVisible)) :=
+      RatHistoryClassifier_hsame_transport sameRawZero
+        (hsame_refl (append prefVisible (append visible tailVisible))) contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := append prefVisible (append visible tailVisible))).left displayed
+  · intro sameVisibleZero
+    have displayed :
+        RatHistoryClassifier (append prefRaw (append raw tailRaw)) (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport
+        (hsame_refl (append prefRaw (append raw tailRaw))) sameVisibleZero contextClassifier
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := append prefRaw (append raw tailRaw))).right displayed
 
 theorem RatHistoryClassifier_unary_denominator_context_positive_denominators
     {d e prefD prefE tailD tailE : BHist} :
@@ -133,6 +194,27 @@ theorem RatHistoryLedgerPolicy_cont_unary_context_positive_denominators
   · exact RatHistoryCarrier_iff_positive_denominator.mp
       (RatHistoryLedgerPolicy_visible_carrier displayedLedger)
 
+theorem RatHistoryLedgerPolicy_shared_raw_contextual_visible_classifier
+    {raw visible visible' prefRaw prefVisible prefVisible' tailRaw tailVisible
+      tailVisible' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      UnaryHistory prefRaw -> hsame prefRaw prefVisible -> hsame prefRaw prefVisible' ->
+        UnaryHistory tailRaw -> hsame tailRaw tailVisible -> hsame tailRaw tailVisible' ->
+          RatHistoryClassifier (append prefVisible (append visible tailVisible))
+            (append prefVisible' (append visible' tailVisible')) := by
+  intro leftLedger rightLedger prefUnary samePref samePref' tailUnary sameTail sameTail'
+  have leftContextLedger :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible (append visible tailVisible)) :=
+    RatHistoryLedgerPolicy_unary_denominator_context_closed leftLedger prefUnary samePref
+      tailUnary sameTail
+  have rightContextLedger :
+      RatHistoryLedgerPolicy (append prefRaw (append raw tailRaw))
+        (append prefVisible' (append visible' tailVisible')) :=
+      RatHistoryLedgerPolicy_unary_denominator_context_closed rightLedger prefUnary samePref'
+      tailUnary sameTail'
+  exact RatHistoryLedgerPolicy_shared_raw_visible_classifier leftContextLedger rightContextLedger
+
 theorem RatHistoryLedgerPolicy_shared_raw_context_visible_classifier
     {raw visible visible' prefRaw prefVisible prefVisible' tailRaw tailVisible
       tailVisible' : BHist} :
@@ -176,5 +258,23 @@ theorem RatHistoryLedgerPolicy_shared_raw_context_e1_pair_readback
       RatHistoryClassifier (BHist.e1 leftTail) (BHist.e1 rightTail) :=
     RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassifier
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+
+theorem RatHistoryClassifier_unary_context_zero_extension_endpoint_absurd
+    {d e prefD prefE tailD tailE leftZero rightZero : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        (hsame (append prefD (append d tailD)) (BHist.e0 leftZero) -> False) ∧
+          (hsame (append prefE (append e tailE)) (BHist.e0 rightZero) -> False) := by
+  intro classified prefUnary samePref tailUnary sameTail
+  have positiveDenominators :=
+    RatHistoryClassifier_unary_denominator_context_positive_denominators classified
+      prefUnary samePref tailUnary sameTail
+  constructor
+  · intro sameLeft
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameLeft positiveDenominators.left)
+  · intro sameRight
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameRight positiveDenominators.right)
 
 end BEDC.Derived.RatUp

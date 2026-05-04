@@ -239,6 +239,18 @@ theorem RatHistoryClassifier_hsame_transport {d d' e e' : BHist} :
           exact ⟨RatHistoryCarrier_hsame_transport sameD carrierD,
             RatHistoryCarrier_hsame_transport sameE carrierE,
               hsame_trans (hsame_symm sameD) (hsame_trans sameDE sameE)⟩
+
+theorem RatHistoryClassifier_zero_extension_endpoint_exclusion {tail d : BHist} :
+    (RatHistoryClassifier (BHist.e0 tail) d -> False) ∧
+      (RatHistoryClassifier d (BHist.e0 tail) -> False) := by
+  constructor
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryCarrier_iff_positive_denominator.mp classified.left)
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryCarrier_iff_positive_denominator.mp classified.right.left)
+
 theorem RatHistoryLedgerPolicy_visible_carrier {raw visible : BHist} :
     RatHistoryLedgerPolicy raw visible → RatHistoryCarrier visible := by
   intro ledger
