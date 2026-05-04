@@ -160,6 +160,54 @@ $c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal row with the original
 signed product-zero witness to obtain the displayed package.
 \end{proof}
 
+\begin{theorem}[CommRing equal-squares signed-product annihilator]
+\label{thm:commring-equal-squares-signed-product-annihilator}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of \autoref{thm:commring-difference-of-squares-zero-exact} and the
+zero-factor absorption hypotheses of
+\autoref{thm:ring-zero-classifier-factor-absorption}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\left(
+(a+b)\cdot(a+(-b))\hsame0
+\land
+\forall c : \mathsf{BHist},\
+\left(
+((a+b)\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+b)\cdot(a+(-b)))\hsame0
+\right)
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the square-equality hypothesis $a\cdot a\hsame b\cdot b$. Apply the
+reverse direction of
+\autoref{thm:commring-difference-of-squares-zero-exact} to $Q$. This produces
+the signed product-zero witness $(a+b)\cdot(a+(-b))\hsame0$.
+
+The zero-factor absorption hypotheses give
+\autoref{thm:ring-zero-classifier-factor-absorption} for the signed product
+$x=(a+b)\cdot(a+(-b))$. For an arbitrary $c:\mathsf{BHist}$, instantiate that
+theorem at $y=c$.
+
+The two components are $((a+b)\cdot(a+(-b)))\cdot c\hsame0$ and
+$c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal two-sided absorption
+row with the signed product-zero witness from the equal-squares route.
+\end{proof}
+
+The ten-field fit is: traditional target equal squares yields the signed-product
+annihilator package in a commutative ring; BEDC source $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from difference-of-squares exactness and zero-factor
+absorption; ledger the square-equality witness, signed product-zero witness, and
+universal two-sided multiplier row; core theorem this block; exactness the same
+annihilator certificate reached from square equality; downstream consumer
+$\FieldUp$ quadratic and zero-factor exit packages; status
+$\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target signed-product annihilator package in
 a commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
