@@ -1,0 +1,43 @@
+\section{Singleton two-conjugator orbit coverage}
+\label{sec:group-singleton-two-conjugator-orbit-coverage}
+
+\begin{theorem}[Group singleton two-conjugator orbit coverage]
+\label{thm:group-singleton-two-conjugator-orbit-coverage}
+For histories $s,t,x,y:\mathsf{BHist}$ in the concrete singleton history group,
+define
+$$
+\mathsf{Conj}_u(z):=\mathsf{mul}(\mathsf{mul}(u,z),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$ and $A_{\emp}(t)$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\Longleftrightarrow A_{\emp}(x)\land A_{\emp}(y).
+$$
+The ten-field fit is: traditional target terminal two-conjugator orbit
+coverage; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier the terminal normalizer orbit relation;
+stability from action carrier coverage plus total orbit coverage; ledger the
+two conjugating endpoints and two acted endpoints; core theorem list
+\autoref{thm:group-singleton-normalizer-action-certificate} and
+\autoref{thm:group-singleton-normalizer-orbit-total-coverage}; exactness the
+displayed iff; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:group-singleton-normalizer-action-certificate} with $s$ and
+$x$, and again with $t$ and $y$. In the singleton carrier, the action carrier
+coverage identifies $A_{\emp}(\mathsf{Conj}_s(x))$ with $A_{\emp}(x)$ and
+$A_{\emp}(\mathsf{Conj}_t(y))$ with $A_{\emp}(y)$.
+
+Apply \autoref{thm:group-singleton-normalizer-orbit-total-coverage} to the pair
+$(\mathsf{Conj}_s(x),\mathsf{Conj}_t(y))$. It converts the orbit statement into
+the endpoint carrier conjunction
+$$
+A_{\emp}(\mathsf{Conj}_s(x))\land
+A_{\emp}(\mathsf{Conj}_t(y)).
+$$
+
+Substitute the two carrier identifications from the action coverage step. After
+reassociating the conjunction, the right-hand side is exactly
+$A_{\emp}(x)\land A_{\emp}(y)$.
+\end{proof}

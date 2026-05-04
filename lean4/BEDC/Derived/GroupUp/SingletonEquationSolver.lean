@@ -43,4 +43,15 @@ theorem GroupSingletonClassifier_append_equation_solver {a b c d x : BHist} :
       exact And.intro carrierB
         (And.intro carrierD (hsame_trans carrierB (hsame_symm carrierD)))
 
+theorem GroupSingletonClassifier_append_equation_cancellation_solver {a b c d x : BHist} :
+    GroupSingletonCarrier a -> GroupSingletonCarrier x -> GroupSingletonCarrier b ->
+      GroupSingletonCarrier c -> GroupSingletonCarrier d ->
+        ((GroupSingletonClassifier (append a x) b <->
+            GroupSingletonClassifier x (append BHist.Empty b)) ∧
+          (GroupSingletonClassifier (append x a) b <->
+            GroupSingletonClassifier x (append b BHist.Empty)) ∧
+          (GroupSingletonClassifier (append (append a b) c) (append (append a d) c) ->
+            GroupSingletonClassifier b d)) :=
+  GroupSingletonClassifier_append_equation_solver
+
 end BEDC.Derived.GroupUp
