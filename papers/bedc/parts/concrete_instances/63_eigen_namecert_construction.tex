@@ -90,6 +90,24 @@ as the empty continuation result.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_empty\_iff}
 
+\begin{theorem}[Eigen singleton continuation sources empty]
+\label{thm:eigen-singleton-carrier-cont-sources-empty}
+For BEDC histories $map$, $payload$, and $pair$, if $pair$ lies in the eigen
+singleton carrier and $\Cont(map,payload,pair)$, then both continuation sources
+are empty:
+$$
+\mathsf{EigenSingletonCarrier}(pair)\land \Cont(map,payload,pair)
+\Longrightarrow map\hsame\emp\ \wedge\ payload\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The carrier-empty equivalence identifies $pair$ with $\emp$. The continuation
+payload identifies $pair$ with $\mathsf{append}(map,payload)$, hence the
+append endpoint is empty. BEDC append-empty inversion splits this endpoint into
+the two empty source comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenSingletonCarrier\_cont\_sources\_empty}
+
 \begin{theorem}[Eigen singleton carrier append-context empty iff]
 \label{thm:eigen-singleton-carrier-append-context-empty-iff}
 For histories $L,R,h:\mathsf{BHist}$, the contextual eigen singleton carrier

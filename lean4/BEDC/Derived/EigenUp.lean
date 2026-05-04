@@ -119,6 +119,15 @@ theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
             (And.intro (hsame_refl BHist.Empty)
               (And.intro (hsame_refl BHist.Empty) (cont_intro pairEmpty))))))
 
+theorem EigenSingletonCarrier_cont_sources_empty {map payload pair : BHist} :
+    EigenSingletonCarrier pair -> Cont map payload pair ->
+      hsame map BHist.Empty ∧ hsame payload BHist.Empty := by
+  intro carrier contPair
+  have pairEmpty : hsame pair BHist.Empty := EigenSingletonCarrier_empty_iff.mp carrier
+  have appendEmpty : hsame (append map payload) BHist.Empty :=
+    hsame_trans (hsame_symm contPair) pairEmpty
+  exact append_eq_empty_iff.mp appendEmpty
+
 theorem EigenSingletonCarrier_append_context_empty_iff {L R h : BHist} :
     EigenSingletonCarrier (append L (append h R)) ↔
       hsame L BHist.Empty ∧ EigenSingletonCarrier h ∧ hsame R BHist.Empty := by
