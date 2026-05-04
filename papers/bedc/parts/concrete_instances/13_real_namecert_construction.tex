@@ -25,3 +25,37 @@ and to the two displayed e-one endpoint equalities. The readback theorem returns
 the two unary tail witnesses and the internal sameness relation
 $\hsame(a,b)$.
 \end{proof}
+
+\begin{theorem}[Real stream classifier transported selected e-one pair readback]
+\label{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Use the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness} on the classifier
+$\mathsf{RealStreamClassifier}(x,y)$ and select the index $n$. This produces
+the finite-prefix classifier for the original streams $x$ and $y$ at the
+selected observation.
+
+Apply \autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
+pointwise $\hsame$ transport hypotheses. The resulting finite-prefix classifier
+is now the corresponding prefix witness for the transported streams $x'$ and
+$y'$ at the same index $n$.
+
+Apply \autoref{thm:real-stream-prefix-e1-pair-readback} to the transported
+prefix witness and to the displayed e-one endpoint relations for $x'(n)$ and
+$y'(n)$. The readback theorem returns the two unary tail witnesses together with
+$\hsame(a,b)$.
+\end{proof}

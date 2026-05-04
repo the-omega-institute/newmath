@@ -40,3 +40,24 @@ carriers under $\Eone$, and lift the continuation ledger by the one-step
 continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_iff}
+
+\begin{theorem}[Metric e-one pair result tail readback]
+\label{thm:metric-distance-witness-e1-pair-result-tail-readback}
+For histories $x,y,d$, a metric distance witness whose source, target, and
+result are all visibly one-headed exposes unary source and target tails and the
+tail continuation ledger:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d))
+\Longrightarrow
+\mathsf{UnaryHistory}(x)\land\mathsf{UnaryHistory}(y)\land
+\hsame(d,\Eone(x)\cdot y).
+$$
+\end{theorem}
+\begin{proof}
+Apply right e-one result exactness to descend the target and result to
+$\mathsf{MetricDistanceWitness}(\Eone(x),y,d)$. Unary inversion on the source
+carrier gives unary evidence for $x$, the descended witness carries unary
+evidence for $y$, and its continuation ledger is exactly
+$d\hsame \Eone(x)\cdot y$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_e1\_pair\_result\_tail\_readback}
