@@ -30,6 +30,18 @@ theorem RealStreamClassifier_selected_e1_pair_readback {x y : Nat -> BHist} {n :
     RatHistoryClassifier_hsame_transport sameLeft sameRight pointClassified
   exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
 
+theorem RealStreamClassifier_transported_selected_e1_rat_classifier_readback
+    {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) -> RealStreamClassifier x y ->
+        hsame (x' n) (BHist.e1 a) -> hsame (y' n) (BHist.e1 b) ->
+          RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) := by
+  intro sameX sameY classified sameLeft sameRight
+  have pointClassified : RatHistoryClassifier (x n) (y n) := classified n
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) pointClassified
+  exact RatHistoryClassifier_hsame_transport sameLeft sameRight transported
+
 theorem RealStreamClassifier_transported_selected_e1_pair_readback
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
     (forall i : Nat, hsame (x i) (x' i)) ->

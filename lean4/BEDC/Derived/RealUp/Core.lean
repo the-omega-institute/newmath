@@ -460,6 +460,36 @@ theorem RealStreamPrefixClassifier_unary_context_closed
           (prefUnary (Nat.succ n)) (prefSame (Nat.succ n))
           (tailUnary (Nat.succ n)) (tailSame (Nat.succ n)))
 
+theorem RealStreamClassifier_unary_denominator_context_selected_positive_denominators
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} :
+    RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) ->
+      (forall i : Nat, UnaryHistory (tX i)) ->
+        (forall i : Nat, hsame (pX i) (pY i)) ->
+          (forall i : Nat, hsame (tX i) (tY i)) ->
+            (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+              (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                  (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                    PositiveUnaryDenominator (oX n) ∧ PositiveUnaryDenominator (oY n) := by
+  intro classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have contextClassified :
+      RatHistoryClassifier (append (pX n) (append (x n) (tX n)))
+        (append (pY n) (append (y n) (tY n))) :=
+    RatHistoryClassifier_unary_denominator_context_closed (classified n)
+      (pXUnary n) (sameP n) (tXUnary n) (sameT n)
+  have sameOX : hsame (append (pX n) (append (x n) (tX n))) (oX n) := by
+    exact
+      (append_assoc (pX n) (x n) (tX n)).symm.trans
+        ((congrArg (fun h : BHist => append h (tX n)) (pXCont n).symm).trans
+          (oXCont n).symm)
+  have sameOY : hsame (append (pY n) (append (y n) (tY n))) (oY n) := by
+    exact
+      (append_assoc (pY n) (y n) (tY n)).symm.trans
+        ((congrArg (fun h : BHist => append h (tY n)) (pYCont n).symm).trans
+          (oYCont n).symm)
+  exact RatHistoryClassifier_positive_denominators
+    (RatHistoryClassifier_hsame_transport sameOX sameOY contextClassified)
+
 theorem RealStreamPrefixClassifier_symm {x y : Nat -> BHist} :
     forall n : Nat, RealStreamPrefixClassifier x y n ->
       RealStreamPrefixClassifier y x n := by
