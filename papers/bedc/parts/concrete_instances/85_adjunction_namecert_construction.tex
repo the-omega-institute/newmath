@@ -85,6 +85,40 @@ and the displayed empty triangle results rebuild the two continuations.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_empty\_components\_iff}
 
+\begin{theorem}[Adjunction left-cycle empty component exactness]
+\label{thm:adjunction-unit-counit-left-cycle-empty-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+an adjunction unit-counit carrier whose left triangle result is empty is
+equivalent to unary prefix data, two-way prefix equality, and all four
+unit, counit, left-triangle, and right-triangle histories being empty:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \hsame(left,\emp)\\[2pt]
+\Longleftrightarrow
+\Unary(p)\land\Unary(q)\land\Unary(a)\land
+\hsame(p,q)\land\hsame(q,p)\land
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_left\_cycle\_empty\_components\_iff}
+\begin{proof}
+The left empty triangle turns the unit-counit continuation into an empty
+prefix-component cycle. The prefix-cycle theorem extracts $p\hsame q$,
+$q\hsame p$, and empty unit and counit component histories. Reading the unit
+component as an empty natural-transformation identity supplies the unary
+witnesses for $p$, $q$, and $a$. The right triangle continuation then
+transports across the empty counit and unit witnesses to the empty
+continuation.
+
+Conversely, the unary data and the two prefix equalities rebuild the empty
+unit and counit natural-transformation components. The empty witnesses for
+unit, counit, left, and right rebuild the two continuation ledgers and retain
+the displayed left-cycle empty witness.
+\end{proof}
+
 \begin{theorem}[Adjunction unit-counit triangle result determinism]
 \label{thm:adjunction-unit-counit-triangle-results-deterministic}
 If an adjunction unit-counit carrier displays triangle results $left$ and
@@ -221,6 +255,29 @@ component gives the reverse classifier equality, so the two displayed
 roundtrip collapses agree on the same prefix pair.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_empty\_roundtrip\_prefix\_deterministic}
+
+\begin{theorem}[Adjunction roundtrip emptiness component exactness]
+\label{thm:adjunction-triangle-roundtrip-empty-iff-components-empty}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier has both roundtrip legs $\hsame$ to
+$\emp$ exactly when its displayed $unit$ and $counit$ histories are both
+$\hsame$ to $\emp$:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+(\hsame(leftLeg,\emp)\land\hsame(rightLeg,\emp))
+\Longleftrightarrow
+(\hsame(unit,\emp)\land\hsame(counit,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, an empty left roundtrip continuation inverts the
+continuation ledger and forces both $unit$ and $counit$ to be $\emp$. For the
+reverse direction, transport the two triangle-leg continuations along the
+empty component witnesses and compare them with the empty-empty continuation
+unit law.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
 \section{The certificate}
 \label{sec:adjunction-certificate}
