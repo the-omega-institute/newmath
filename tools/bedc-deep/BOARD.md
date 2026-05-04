@@ -1992,3 +1992,1920 @@ Direct symmetric counterpart to the already-proven thm:nat-divides-divisor-hsame
 
 ---
 
+### B-80 - Module zero-action annihilation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Module zero-action annihilation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under ModuleUp(R,M) with distributivity, scalar action congruence, ring zero, and additive cancellation in M, then 0_R ⊙ m ∼M 0_M and r ⊙ 0_M ∼M 0_M for all carried r,m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Module章节缺乏零标量/零向量湮灭的派生定理。区别于 B-08 / B-19 / B-20 / B-23 / B-24 这一组围绕 scalar associativity 与代表元稳定性/独立性的 module 目标:此候选不依赖 associativity field, 而是从分配律和加法消去得到零作用. 是 LinMap 零保持 (候选 3) 与矩阵零行列运算的 prerequisite.
+
+---
+
+
+### B-81 - VecSpace module-fragment projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | VecSpace module-fragment projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under VecSpaceUp(F,V) with FieldUp(F) projected to RingUp(F), forgetting inverse-enabled scalar reasoning yields a ModuleUp(F,V) with the same carrier, scalar action, and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+VecSpace 章节明确把自身定位为 Module↑ 在 scalar source 为 Field 时的 specialization, 但 module fragment 投影未独立成定理. 与 B-28 (CommRing→Ring) 是同 pattern 的 forgetful certificate 但作用于不同 setup, 是 LinMap / Mat 章节使用 vector-space 输入时的 prerequisite, 落在 module-stack 中独立的一格.
+
+---
+
+
+### B-82 - LinearMap zero preservation from additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap zero preservation from additivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under LinMapUp(V,W) with f preserving addition and W's AbGroup additive cancellation, then f(0_V) ∼W 0_W.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+LinMap stability certificate 列了 zero preservation derived from linearity 这一字段, 但只在 singleton empty-history 实例下 instantiated, 一般 LinMap 上未证. 是 LinMap composition / identity law 与 module zero-action 的下游应用, 不与 BOARD 任何条目重复.
+
+---
+
+
+### B-83 - LinearMap composition classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap composition classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Over a common scalar source with Module/VecSpace carriers U,V,W, if f∼f′ as U→V LinMaps and g∼g′ as V→W LinMaps pointwise, then g∘f and g′∘f′ are LinMap carriers with the same pointwise classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+B-11 是 Functor composition hom-carrier 关闭, 这是 LinMap 上的 pointwise classifier congruence —— 同 pattern, 不同 theory: 一个走 categorical hom-carrier, 一个走 module-style pointwise scalar classifier. LinMap 章节当前只有 singleton composition collapse, 缺一般合成 congruence, 是 LinMap stability certificate 列出的 identity-and-composition closure 字段所要求的.
+
+---
+
+
+### B-84 - Matrix identity multiplication unit
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix identity multiplication unit |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under MatUp(n,m,R) with finite-index sum certificate, scalar 0/1 laws, and Kronecker-delta identity matrix closure, then I_n · M ∼Mat M and M · I_m ∼Mat M for every carried matrix M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Matrix 章节当前只覆盖 singleton empty-history matrix laws 与 append/continuation 精确性, 没有 identity-matrix 单位律. 是 multiplication closure 字段的极值版本, 也是 Mat↑ 接口必备的 structural theorem; 比矩阵结合律小, 主要走有限指标析取与 scalar 0/1.
+
+---
+
+
+### B-85 - FPS Cauchy product classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | FPS Cauchy product classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under FPSUp(R), if F∼FPS F′ and G∼FPS G′ coefficientwise scalar-classified, then the Cauchy product satisfies F⊙G ∼FPS F′⊙G′.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/26_fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+FPS 章节当前定理只覆盖 singleton zero-FPS 的 law package 和 classifier exactness, Cauchy product 仅作为 closure obligation 出现, 没有一般 product congruence. 区别于 B-22 (polynomial multiplication zero-tail invariance) 的 finite-list-trim 设置, 这里走形式幂级数的 coefficientwise scalar congruence, 不依赖 trim. 是 FPS↑ 的核心 operation-congruence theorem.
+
+---
+
+
+### B-86 - Equivalence-closure reflection obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Equivalence-closure reflection obstruction |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Without TokUnique or ClosureReflect, there exists a finite TokIntro/psamebase configuration where psameeq(p,q) holds but some introducing signatures s,t fail hsame(s,t), so ExactGlobalizeBase cannot extend to eq-closure exactness.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/proof_obligations/package_sameness_design.tex`
+
+Rationale:
+B-16 是正向: 在 concrete TokIntro 下 psame 反射 hsame; 此候选反向 obstruction: 显式给出 finite counterexample 证明 TokUnique / ClosureReflect 是 local-to-global exactness 的必要边界, 是 Corollary 69.6 的 counterexample counterpart. 与 paper 中现有 token-policy 引理不重复, 且支撑 package_token_policy 章节作为 boundary statement 的论证强度.
+
+---
+
+### B-87 - VecSpace additive carrier projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | VecSpace additive carrier projection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under VecSpaceUp(F,V), composing the vector-space-to-module fragment projection with the module-to-additive-group reduct yields an AbGroupUp(V) certificate over the same carrier and additive operations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Two-stage forgetful certificate (VecSpace -> Module -> AbGroup) targeting the actively edited 22_vecspace_namecert_construction chapter (per git status). Distinct from B-28 (CommRing -> Ring) because it transits through the module-fragment projection, exercising both the Module reduct and the AbGroup base specification rather than a single obligation drop. Provides a reusable handle for any later VecSpace theorem that needs the additive subcertificate without re-deriving it through Module each time.
+
+---
+
+### B-88 - NatMul right unit projection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NatMul right unit projection |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For every unary history d, if NatMul(d, Eone(emp), n), then hsame(n, d).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+39_prime_namecert_construction.tex:84-91 proves NatMul_unit_left_hsame for the LEFT unit (1·q = q). The dual right-unit theorem (d·1 = d) is missing both from the paper and from lean4/BEDC/Derived/PrimeUp.lean (greppable). Single-implication, mechanically derivable by NatMul_succ_inversion + NatMul.zero inversion + Cont(emp, d, d). This pair (with the absorption candidate above) closes the unit/zero ledger for NatMul, which the entire prime/p-adic/factorization stack downstream silently assumes.
+
+---
+
+
+### B-89 - Constant complex sequence has constant complex limit
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Constant complex sequence has constant complex limit |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For every complex history z, if the constant sequence s(n):=z and trivial modulus N(k):=emp form a regular complex sequence (lem:cplx-constant-regular), then CplxLim(s, N, z, M_const) holds with the trivial limit modulus M_const(k):=emp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_complex_namecert_construction.tex`
+
+Rationale:
+Chapter 40 (complex limit) has 15 theorems/12 definitions and is one of seven complex-analysis chapters (40-44, 52-54) that have ZERO completed targets — a major topic blindspot. 40:237-246 proves that the constant sequence is regular, but no theorem evaluates the limit of the constant sequence — the most basic CplxLim instance is missing. Single-implication, follows from CplxDist(z,z,append(z,z)) being trivially within any 2^{-k} tolerance. Closing this opens the complex-analysis chapters to the loop with the easiest possible foothold; the existing B-15 (real-history-sameness under limit transport) crashed and never produced LaTeX, so analytic-limit content remains entirely unwritten.
+
+---
+
+
+### B-90 - Geometric bound persists when radius shrinks
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Geometric bound persists when radius shrinks |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+For coefficients a, unary radius histories r, r' with NatUnaryStrictPrefix(r', r), and unary constant K, if GeomBound(a, r, K), then GeomBound(a, r', K).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Chapter 41 (convergence radius) has 8 theorems / 9 definitions, never targeted. 41:112-132 (`GeomBound_radius_constant_continuation_closed`) proves closure under generic continuation perturbations of the radius, but the natural monotone consequence — shrinking the radius preserves the bound — is not isolated as a theorem. The bound `|a_n|·r^n ≤ K` only gets easier when r decreases unarily, and Cauchy-Hadamard (41:220) and absolute-convergence-inside-disk (41:228) implicitly need radius monotonicity. Single-implication. Opens the convergence-radius chapter.
+
+---
+
+
+### B-91 - Adjunction triangle carrier swap symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Adjunction triangle carrier swap symmetry |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If AdjunctionTriangleCarrier(left, right, object, unit, counit, leftLeg, rightLeg), then AdjunctionTriangleCarrier(right, left, object, counit, unit, rightLeg, leftLeg).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Chapter 85 (adjunction) has 9 theorems but never targeted. The advanced category-theoretic chapters 83-88 are mostly empty (83 catlimit, 84 catcolimit, 86 monad, 87 yoneda, 88 equivcat are 10-line stubs — only 85 has substrate). 85:100-135 defines AdjunctionTriangleCarrier and proves empty-roundtrip determinacy, but the basic carrier-level symmetry under data-swap is missing — required for any later left/right symmetric reasoning about adjunctions. Single-implication, definitionally follows from the symmetric structure of the two prefix natural-transformation components and the two ContR ledgers. Opens the only category-theoretic chapter that has substrate beyond functor/nattrans.
+
+---
+
+
+### B-92 - Padic prime scale at unit exponent reads back the prime
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Padic prime scale at unit exponent reads back the prime |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+For every history p with NatPrime(p), PadicPrimeScale(p, Eone(emp), p) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/78_padic_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+
+Rationale:
+Chapter 78 (p-adic) has 7 theorems but is otherwise a stub between section 6 (carrier) and section 9 (certificate) — never targeted. 78:9-15 defines PadicPrimeScale and 78:123-133 proves the empty-exponent case PadicPrimeScale(p, emp, emp) (i.e., p^0 readback). The dual unit-exponent case PadicPrimeScale(p, Eone(emp), p) (i.e., p^1 readback) is missing, even though it is the next constructor of NatMul and the prerequisite of any p-adic valuation computation. Single implication, derives from NatMul.succ over NatMul.zero via Cont(emp, p, p) plus the prime witness for the carrier field. Opens the p-adic chapter at its weakest current edge.
+
+---
+
+### B-93 - Ring zero absorption from distributivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Ring zero absorption from distributivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 RingUp(R) setup 下，additive cancellation 与左右分配律推出 0_R·x ∼R 0_R 且 x·0_R ∼R 0_R。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Classical foundational ring theorem missing from BOARD and not in paper labels (no zero-absorption / annihilation theorem labels visible in the ring or abgroup definition lists). It is a clean implication "distributivity + additive cancellation ⇒ zero-times-anything" expressible at the certificate level, and serves as a prerequisite for module/matrix targets like B-08, B-23 and the proposed matrix-associativity site without overlapping any of them.
+
+---
+
+
+### B-94 - Field nonzero product rigidity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Field nonzero product rigidity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 FieldUp(F) setup 下，NonZero(x) 与 NonZero(y) 推出 NonZero(x·y)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+def:field-zero-apartness exists but the no-zero-divisor theorem is not stated. Single implication of the right shape, lives squarely in concrete_instances/field, and is the natural extension of the proposed ring zero absorption target. Distinct from the various field-rat-denominator definitions, none of which capture multiplicative rigidity at the certificate level.
+
+---
+
+
+### B-95 - Rational scaling invariance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Rational scaling invariance |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+在 RatUp setup 下，若 (n,d) admissible 且 k 被分类为非零，则 (n,d) ∼Q (k·n,k·d)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/12_rat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+Rat chapter has stability + denominator continuation definitions but no scaling-invariance theorem label. Concrete one-line implication that classifies rational representatives modulo nonzero common-factor scaling, sitting downstream of the proposed field nonzero rigidity. Not paraphrased by any existing BOARD entry, and a useful prerequisite for any later normalization or canonical-representative target.
+
+---
+
+
+### B-96 - LinearMap composition certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap composition certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+在同一 R 上的 ModuleUp(M),(N),(P) setup 下，LinearMapCert(f:M→N) 与 LinearMapCert(g:N→P) 推出 LinearMapCert(g∘f)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Linearmap chapter is definition-only at the certificate level (carrier/source/classifier/stability) and BOARD has no morphism-level closure target for modules. Map-level analogue of B-11 (functor composition) and B-14 (nattrans composition), giving the missing structural-closure theorem for the linearmap layer and a natural sibling to the module-scalar targets B-08/B-23 without duplicating them.
+
+---
+
+
+### B-97 - Matrix multiplication associativity from finite folds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix multiplication associativity from finite folds |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+在 MatrixUp over RingUp(R) setup 下，匹配维度且 finite additive scalar fold 满足重排稳定性时，(A·B)·C ∼M A·(B·C)。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+def:finite-additive-scalar-fold exists, indicating the fold infrastructure is already on paper, but no matrix theorem is on BOARD or in the paper-label set. Concrete implication tying ring distributivity + finite-fold rearrangement to matrix associativity at the classifier level. Distinct from polynomial multiplication (B-09 / B-22 / B-30) because the obligation is double-finite-sum reordering, not coefficient-tail trimming.
+
+---
+
+
+### B-98 - Metric ball budget composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Metric ball budget composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 MetricUp(X) setup 下，d(x,y)≤r 与 d(y,z)≤s 推出 d(x,z)≤r+s。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/31_interval_namecert_construction.tex`
+
+Rationale:
+Triangle-style obligation is presumably internal to the metric stability certificate, but no derived budget-composition theorem is on BOARD or surfaced as a paper label. Concrete classifier-level implication, sits in metric chapter, acts as the metric-side counterpart of B-10 (interval nested refinement) and is a genuine prerequisite for B-12 (continuous modulus composition) rather than a paraphrase of either.
+
+---
+
+
+### B-99 - Compact finite-refinement flattening
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact finite-refinement flattening |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 CompactUp(K) setup 下，若 finite refinement chain 的每个 cell 又有 finite refinement chain，则 flatten 后仍为同一 source 的 finite refinement chain 且保持 locatedness classifier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/33_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Compact chapter exposes finite-refinement-chain, located-refinement-chain, finite-net, two-step-factor definitions but no multiscale-induction theorem is on BOARD. Concrete closure statement "two layers of finite refinement collapse to one" with locatedness preservation, distinct from continuous-modulus or metric-budget targets.
+
+---
+
+
+### B-100 - List append left cancellation with public prefix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | List append left cancellation with public prefix |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 ListUp(A) setup 下，若 length(xs) 可公开读回且 xs++ys ∼L xs++zs，则 ys ∼L zs。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+Framed-list public-length readback and spine-representation are on paper as definitions, and cor:external-append-bit-tail-equality is bit-tail-specific rather than a general append cancellation. Concrete implication using public length to slice the spine and transport equality through the prefix; not duplicated by polynomial trim/zero-tail targets (B-21 / B-22 / B-30 / B-31), which are about coefficient-tail classifier behavior rather than spine-level cancellation.
+
+---
+
+
+### B-101 - Opposite category certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Opposite category certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 CategoryUp(C) setup 下，反转 hom-carrier 与 composition 得到 CategoryUp(C^op)，identity 与 object classifier 不变。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Category chapter is definition-only at the certificate level and BOARD only carries downstream functor (B-11) and nattrans (B-14) composition theorems, never a category-level structural construction. Concrete construction theorem reusing identity and associativity in the reversed direction, providing the duality scaffold under which future opposite-functor / opposite-nattrans targets become natural extensions rather than ad-hoc duplicates.
+
+---
+
+### B-102 - Matrix multiplication classifier congruence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix multiplication classifier congruence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a Mat↑ setup with shared scalar source and dimension compatibility, if A∼A′ and B∼B′ as carrier-pointwise classifier equivalences, then AB and A′B′ are Mat↑ carriers and AB∼A′B′.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Sibling of linear-map composition congruence at the matrix layer. Distinct because the proof must traverse finite-index aggregation, scalar multiplication, additive folds, and pointwise classifier ledger fields rather than function composition congruence. No existing BOARD entry covers Mat↑ and no paper label thm:matrix-* exists. Establishes a computable matrix-layer counterpart to LinMap stability.
+
+---
+
+
+### B-103 - Finite direct product module descent
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Finite direct product module descent |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Prod↑ and Module↑ certificates over a common scalar source, pointwise addition and scalar action make Prod↑(M,N) a Module↑ carrier, and componentwise classifier equivalences imply product-carrier classifier equivalence.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Prerequisite for bilinear constructions, matrix column-vector semantics, and categorical product structure on modules. Distinct from B-08 / B-19 / B-23 (which all stay within a single module carrier) — this builds a new module out of two via the product classifier, exercising compatibility between Prod↑ and the algebraic stability fields. No existing BOARD entry covers product-of-modules.
+
+---
+
+
+### B-104 - Package-token pullback separation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Package-token pullback separation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under PackagePolicy(Π), GapPolicy(Π,D), and a classifier-preserving source map τ:D′→D, if two pulled-back gap ledgers intersect on the same D′-source, then their visible package tokens are psame in the original Π.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Distinct from B-16 (concrete-term token reflection from package sameness): this candidate is about provenance stability under pullback of source domain via a classifier-preserving map, rather than reducing the abstract policy to a concrete predicate. Tests whether BEDC's provenance layer survives source-domain change exactly. Fills an explicit gap in the package_token_policy / exact_globalize obligation surface.
+
+---
+
+
+### B-105 - DescentCertificate composition for stable transformations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | DescentCertificate composition for stable transformations |
+| Layer | hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under NameCert StableTransformation and DescentCertificate setups, if T:S→R and U:R→Q each preserve the corresponding source/target classifiers, then U∘T preserves the source-to-Q classifier and carries the composite ledger policy.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+General composition closure for descent certificates of function-like interfaces — the structural skeleton that B-11 (functor composition closure) and B-14 (nattrans composition naturality) both instantiate. Proving this once would let ContinuousMap↑, Functor↑, NatTrans↑ share the same descent-composition pattern without re-proving classifier preservation per interface. Distinct from B-11 / B-14 because it is the general theorem, not a categorical specialization.
+
+---
+
+
+### B-106 - Signature append residual exactness under known token component
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Signature append residual exactness under known token component |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), PackagePolicy(BAppend(Π,Θ)), and a known Π-component package token, if two sources have psame appended package tokens and psame Π-component tokens, then their Θ-signatures are sameSigΘ.
+
+Local inputs:
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+Lifts signature append cancellation from the sameSig layer to the visible package-token layer, giving a residual exactness statement for finite-kernel globalization. No existing BOARD entry treats appended-token cancellation; the paper has bundle-append definitions but no thm/lem with this residual form. Direct downstream consumer for B-16 and the package_token_policy block.
+
+---
+
+### B-107 - Eventually constant complex sequence has constant limit
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Eventually constant complex sequence has constant limit |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a regular complex sequence $s$ is pointwise $\hsame$ to a complex history $z$ above a unary modulus $M$ (i.e. for all $n \geq M$, $s_n \hsame z$), then $\mathsf{CplxLim}(s, N, z, M)$ holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/15_complex_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+Lands directly in the existing complex-limit certificate surface (`def:cplx-lim` + classifier/pattern/source/ledger/stability fields are all present, but no proven sufficient condition exists). It supplies the simplest classifier-level entry into `\mathsf{CplxLim}` — a baseline witness construction that any later complex-analytic site (series convergence, holomorphy, Cauchy product) can call as a lemma. Distinct from B-15, which is about transporting `hsame` between two real points under a shared limit interface; here a single sequence collapses to a single classifier witness via pointwise sameness above the modulus, an existence statement rather than a transport. Concrete one-line implication, paper has no `thm:`/`lem:cplx-lim-*` label for this direction, and the modulus structure makes it a self-contained proof site.
+
+---
+
+### B-108 - Adjunction unit-counit carrier swap symmetry
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction unit-counit carrier swap symmetry |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+AdjunctionUnitCounitCarrier(p, q, a, unit, counit, left, right) implies AdjunctionUnitCounitCarrier(q, p, a, counit, unit, right, left), and vice versa.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+The paper defines `def:adjunction-unit-counit-carrier` and `def:adjunction-triangle-carrier` but no theorem records the standard left/right swap symmetry of an adjunction carrier (the involution that exchanges the role of unit/counit and the two functors). It fits the concrete_instances pattern alongside B-11 (functor composition) and B-14 (nattrans naturality), which similarly take chapters that are 100% definitions and add the first structural theorems. The claim is a single concrete biconditional, not a survey, and is distinct from every existing BOARD entry (none mention adjunctions). It is also not paraphrased by any existing BOARD entry. Risk is low-to-medium: depending on whether the carrier is pure data or carries triangle laws, the proof is either definitional unfolding or a dualization of the triangle equations — both are well-suited for a single deep-reasoning loop.
+
+---
+
+### B-109 - LinearMap identity certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap identity certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under any ModuleUp(R,M), the identity map on M satisfies LinearMapCert_R(M, M; id) with the inherited classifier and ledger policy.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Chapter 23 currently only registers six \leandef definitions (def:linearmap-carrier, def:linearmap-certificate-obligations, def:linearmap-classifier-specification, def:linearmap-ledger-policy, def:linearmap-pattern-specification, def:linearmap-source-specification) with zero theorems. The identity-carries-certificate fact is the foundational counterpart that any category-of-modules style usage needs and is not implied by any module-side BOARD entry (B-08/B-19/B-20/B-23/B-24 are all about scalar associativity or representative transport, not about specific linear maps carrying the certificate). The claim is in single-implication form: ModuleUp(R,M) implies LinearMapCert_R(M,M;id), and lives squarely in concrete_instances. The existing linearmap chapter is already on the working tree (23_linearmap_namecert_construction.tex is modified), making this a natural extension slot.
+
+---
+
+
+### B-110 - LinearMap composition associativity certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap composition associativity certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For LinearMapCert_R-certified maps f: M -> N, g: N -> P, k: P -> Q over a common scalar source, the two associations ((k . g) . f) and (k . (g . f)) are pointwise classified equal in Q's classifier and the composite carries the linearmap certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+No existing BOARD entry covers linearmap composition. B-11 is the analogous theorem at the functor level (HomCarrier composition), but linear maps live one level down on a different carrier (module hom-sets, not category hom-carriers) and need their own pointwise classifier reasoning over the codomain module. The chapter has zero theorems, and composition associativity is a prerequisite for any later category-of-R-modules style construction. Concrete implication form: certified f, g, k imply pointwise classified equality of the two associations. Lands in concrete_instances and adjacent to existing module / linearmap definitions without duplicating module-side B-entries (which are about scalar action laws, not composition).
+
+---
+
+### B-111 - Opposite functor certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite functor certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a $\FunctorUp$ certificate $F:\mathcal C\to\mathcal D$, the same object and morphism maps yield a $\FunctorUp$ certificate $F^{\mathrm{op}}:\mathcal C^{\mathrm{op}}\to\mathcal D^{\mathrm{op}}$ over the opposite-category certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 37 is 100% definition-only (per B-11 rationale: 7 def, 0 thm). Existing BOARD touches functors only via composition closure (B-11) and naturality (B-14); duality / opposite-category transport is absent from BOARD and from `paper_coverage` (no `def:category-opposite-*` or `def:functor-op-*` labels). Concrete one-line implication, lives squarely in chapter 37, and exercises the functor stability certificate fields under arrow-reversal — the canonical first duality test in the categorical layer.
+
+---
+
+
+### B-112 - Opposite natural transformation certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite natural transformation certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Given a $\NatTransUp$ certificate $\alpha:F\Rightarrow G$, the same component family yields a $\NatTransUp$ certificate $\alpha^{\mathrm{op}}:G^{\mathrm{op}}\Rightarrow F^{\mathrm{op}}$ over the opposite-functor certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Chapter 38 is also 100% definition-only (per B-14 rationale: 7 def, 0 thm). Sibling to the opposite-functor target but lands on a distinct stability layer: it tests that the naturality square certificate transports under simultaneous arrow-reversal of source and target functors, with $F$ and $G$ swapping roles. Not a paraphrase of B-14 (which is composition-naturality, not duality), and `paper_coverage` shows no existing nattrans-opposite label. Stands on its own as the canonical second duality theorem after the functor case.
+
+---
+
+### B-113 - Polynomial division algorithm well-foundedness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Polynomial division algorithm well-foundedness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $p, q$ are polynomial spines over a $\CommRingUp$ carrier with $\neg(\PolySame_R(q, \emp))$, then iterated leading-coefficient elimination of $q$ from $p$ terminates in finitely many steps with a quotient and remainder satisfying the standard polynomial division identity.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Polynomial chapter (25_polynomial) currently covers add/multiply/normalize but has no division-with-remainder theorem. Existing polynomial BOARD entries (B-09, B-21, B-22, B-30, B-31) all concern normalization invariance and add/multiply commutativity; none touch on division. This is a foundational well-foundedness obligation requiring a length-decreasing measure under leading-coefficient elimination, and is a prerequisite for any future rational-function, GCD, or factorization work. No paper label of the form thm:polynomial-division exists.
+
+---
+
+
+### B-114 - CommRing zero-divisor product closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CommRing zero-divisor product closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a $\CommRingUp$ carrier with classifier $\sim_R$, if $a$ is a left zero divisor and $b$ is any ring element, then $ab$ is also a left zero divisor (or zero).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+CommRing chapter (19_commring) carries the basic ring laws and commutativity but no zero-divisor / integral-domain structure theorems. No existing BOARD entry treats the zero-divisor predicate as a closed structure. This is a foundational closure law that future integral-domain certificates would need to invoke, derived from ring distributivity and classifier transport already provided by the CommRing certificate. No paper label like thm:zero-divisor-* is present.
+
+---
+
+
+### B-115 - TotalOrder finite minimum element existence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | TotalOrder finite minimum element existence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $L$ is a finite nonempty list of $\TotalOrderUp$ elements, then there exists $m \in L$ such that for every $x \in L$, $m \le x$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+TotalOrder chapter (29_totalorder) has the trichotomy and classifier laws, but no theorem about minimum-element extraction from a finite list. B-13 covers trichotomy reduction of the classifier and B-29 covers lattice bound uniqueness — neither addresses list-minimum existence. The proof is constructive (induction on list spine + trichotomy at the cons step), entirely BEDC-clean, and is foundational for any sorting / scheduling / extremization development. No paper label of the form thm:totalorder-min exists.
+
+---
+
+
+### B-116 - AbGroup torsion element subgroup closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | AbGroup torsion element subgroup closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an $\AbGroupUp$ carrier, if $a, b$ are torsion elements (each annihilated by some positive integer multiplication), then $a + b$ and $-a$ are also torsion elements.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+AbGroup chapter (17_abgroup) provides the abelian group laws but contains no torsion-element / torsion-subgroup theorem. The proof requires a NatMul-style witness construction combining the two annihilator orders (lcm-style), which exercises the unary multiplication interface in a new direction. Foundational for any future divisible-group or torsion-free-quotient development. No paper label like thm:torsion-* exists.
+
+---
+
+
+### B-117 - Functor preserves split monomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Functor preserves split monomorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $F : \mathcal{C} \to \mathcal{D}$ is a $\FunctorUp$ certificate and $f$ has a left inverse in $\mathcal{C}$, then $F(f)$ has a left inverse in $\mathcal{D}$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Functor chapter (37_functor) is currently definition-heavy (the basis for B-11's composition-closure target). No theorem covers preservation of split monomorphisms / split epimorphisms. Distinct from B-11 (composition closure of the hom-carrier classifier) and from the existing nat-trans naturality targets (B-14, etc.). The proof goes directly from $F(g \circ f) \sim F(g) \circ F(f)$ plus identity preservation. Pre-requisite for any later preservation-of-iso theorem. No paper label like thm:functor-split-mono exists.
+
+---
+
+
+### B-118 - Convergence radius monotonicity in coefficient ring inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Convergence radius monotonicity in coefficient ring inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $R \subseteq R'$ is a $\CommRingUp$ subring inclusion and $f$ is a power series with coefficients in $R$, then the convergence radius of $f$ viewed in $R'$ is at least the convergence radius of $f$ in $R$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Convergence-radius chapter (41_convergence_radius) provides the radius definition and existing convergence-radius targets concern internal stability under coefficient operations. No BOARD entry or paper label addresses transport of the radius along subring/superring inclusion. The witness transports via the inclusion homomorphism preserving partial sums. Genuinely new direction connecting the algebraic forgetful structure of CommRing to the analytic side, with no existing duplicate among the def:conv-rad-* labels (which are definition-only).
+
+---
+
+### B-119 - Pulled-back gap policy preserves coverage and separation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Pulled-back gap policy preserves coverage and separation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If GapPol(Π, D) holds and τ : D' → D has a classifier-preserving inverse-image ledger and preserves source admission, then the pulled-back ledger satisfies the coverage and separation obligations over D'.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/verification_queue.tex`
+
+Rationale:
+Sits in proof_obligations alongside B-16 (concrete token reflection) but on a disjoint axis: it lifts an existing definitional primitive (def:classifier-preserving-pullback-ledger) into a coverage+separation transport theorem under a domain morphism. The paper currently defines pullback ledgers, gap policies, and domain-invariance of source admission as separate facts (def:gap-policy, def:classifier-preserving-pullback-ledger, cor:domain-invariance-of-concrete-source-admission), but never composes them into the obvious pullback theorem for GapPol. Concrete enough to drive a single-implication proof loop, and it activates the existing pullback-ledger definition that otherwise has no theorem consumer.
+
+---
+
+### B-120 - Adjunction carrier swap involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction carrier swap involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under an AdjunctionUp setup with unit-counit carriers, applying the unit-counit carrier swap twice returns the original carrier ordering up to the adjunction classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Adjunctions are present in the paper only as definitions (def:adjunction-unit-counit-carrier, def:adjunction-triangle-carrier) with zero theorems attached, paralleling the functor/nattrans definition-only chapters that already justified B-11 and B-14. A swap-involution lemma is the natural first structural theorem on the unit-counit carrier and is not a notation variant of any existing BOARD entry (B-11 is functor composition closure, B-14 is nattrans composition naturality, neither touches adjunction swap). The claim is a single equation under a concrete setup, satisfying the implication-form requirement, and gives the formalization lane a concrete site to attach \leanchecked once a Lean target lands.
+
+---
+
+### B-121 - LinearMap identity unit laws
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap identity unit laws |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If LinearMapCert_R(M,N;f) holds, then id_N ∘ f and f ∘ id_M carry LinearMap certificates and are related to f by the pointwise LinearMap classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+
+Rationale:
+Chapter 23 already proves id is a linear map (thm:module-linearmap-identity-certificate) and composition is a linear map (thm:module-linearmap-composition-certificate, thm:linmap-composition-classifier-congruence), but the explicit categorical unit laws id_N ∘ f ∼ f and f ∘ id_M ∼ f under the pointwise LinearMap classifier are not stated. This completes the categorical-unit fragment of the LinearMap certificate algebra in a way parallel to B-11 (functor composition closure) and B-14 (nattrans composition naturality), and is a clean follow-up to the identity and composition certificates already in the chapter. Proof reduces to point evaluation plus classifier reflexivity, but the standalone statement is currently absent. Borderline novelty because it is a thin corollary of existing theorems, but it fills a precise categorical-law gap.
+
+---
+
+### B-122 - Module faithful action characterization via annihilator
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Module faithful action characterization via annihilator |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a $\ModuleUp(R,M)$ certificate, the scalar action is faithful (distinct scalars induce classifier-distinguishable module endomorphisms) iff for every $r:R$, $(\forall m:M, r\cdot m \hsame_M 0_M) \implies r \hsame_R 0_R$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Module chapter (21_module) currently has scalar associativity/compatibility (B-08, B-19, B-23) and independence obstructions (B-20, B-24) but no theorem characterizing classifier-level faithfulness. The iff form is a clean implication-pair statable purely with existing $\hsame_R$ / $\hsame_M$ classifiers (no need to introduce ideal structure as a primitive — the annihilator can be left as the predicate body). It fills a structural gap orthogonal to all existing module BOARD entries and is a prerequisite for any later torsion-free / projective module obligations.
+
+---
+
+
+### B-123 - List length subadditivity under append
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | List length subadditivity under append |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+For all unary-spine lists $\ell_1, \ell_2$ in the public list carrier, $\mathsf{length}(\mathsf{append}(\ell_1, \ell_2)) \hsame \mathsf{NatAdd}(\mathsf{length}(\ell_1), \mathsf{length}(\ell_2))$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_history_semantic_fields_source_refinement.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Public framed-list length readback (def:framed-list-public-length-readback) and append are defined, and Nat additive structure (chapter 04) is in place, but there is no theorem connecting list length to NatAdd under append. The identity is foundational for any future induction on list length and bridges the list and nat naming-certificate constructions. The proof is a short induction on $\ell_1$ using empty/cons cases, which makes it a low-risk but high-utility BOARD slot. Distinct from B-100 (list left-cancellation) which addresses head-equality, not length arithmetic.
+
+---
+
+### B-124 - Euclid's lemma: prime divides product implies prime divides factor
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Euclid's lemma: prime divides product implies prime divides factor |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under PrimeUp setup, if NatPrime(p) and NatDivides(p, q) where NatMul(a, b, q), then NatDivides(p, a) or NatDivides(p, b).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/PrimeUp.lean`
+
+Rationale:
+Lands directly in concrete_instances/39_prime_namecert_construction.tex where the chapter already invokes 'Standard Euclid's-lemma argument' inside thm:ftoa-uniqueness and lists the lemma in def:prime-ledger-policy without giving it a labeled theorem. All prerequisites (NatDivides reflexivity/transitivity, prime-decidable, NatMul shape inversions) are in place. No existing BOARD entry covers prime divisibility distribution over products, and the paper_coverage list shows no `lem:euclid-lemma` or equivalent. Fills a concrete dependency gap that the FTOA chain already silently uses.
+
+---
+
+
+### B-125 - LinearMap kernel is a sub-module of the source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap kernel is a sub-module of the source |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under LinearMapCert_R(M, N; f), the predicate Ker(f, x) := (f(x) ~_N 0_N) on carried x:M is closed under module addition, scalar action, and contains 0_M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+- `lean4/BEDC/Derived/ModuleUp.lean`
+
+Rationale:
+Belongs in concrete_instances/23_linearmap_namecert_construction.tex. Existing chapter has thm:linearmap-zero-preservation-from-additivity and the additivity/scalar/zero rows of def:linearmap-stability-certificate but no labeled theorem stating the fiber over 0 forms a sub-module carrier. No BOARD entry currently addresses LinearMap kernel/image structure. The chapter's existing additivity, scalar-compatibility, and zero-preservation rows compose directly via M-classifier transitivity to give the three closure clauses — clean, scope-appropriate target.
+
+---
+
+
+### B-126 - LinearMap image is a sub-module of the target
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap image is a sub-module of the target |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under LinearMapCert_R(M, N; f), the predicate Im(f, y) := (∃ carried x:M, f(x) ~_N y) on N is closed under module addition, scalar action, and contains 0_N.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `lean4/BEDC/Derived/LinearMapUp.lean`
+
+Rationale:
+Parallel target to the kernel candidate, but on the codomain side. No paper_coverage label matches image/sub-module on linearmap, and no BOARD entry covers it. The witness composition uses M-side additive/scalar closure (def:module-stability-certificate) plus the f-row additivity and scalar-compatibility rows to produce N-side image closure, with zero-preservation giving 0_N ∈ Im(f). Distinct enough from the kernel target because the construction path is existential-witness composition rather than fiber-equation closure.
+
+---
+
+
+### B-127 - Subgroup intersection is a subgroup
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Subgroup intersection is a subgroup |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If H_1 and H_2 are SubgroupCert(G)-carriers of an ambient GroupUp(G), then their pointwise intersection H_1 ∩ H_2 is also a SubgroupCert(G)-carrier (closed under multiplication, inverse, contains identity).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_centralizer_normalizer.tex`
+
+Rationale:
+Lands in concrete_instances/58_subgroup_namecert_construction.tex which currently has only 3 theorems, all centralizer-specific. No BOARD entry covers general subgroup-closure constructions, and no paper_coverage label matches. The proof is conjunction-of-closure-clauses on each axiom; surrounding centralizer/normalizer machinery (thm:group-center-normal-subgroup) confirms the apparatus is ready. Useful as a foundational subgroup-construction theorem that will be reused by later subgroup targets.
+
+---
+
+### B-128 - TotalOrder finite maximum element existence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite maximum element existence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a concrete TotalOrderUp setup, every nonempty finite list of carrier elements admits an index whose entry is above every entry of the list under the order classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Chapter 29 (concrete totalorder) currently has only definition-level content (def:concrete-singleton-history-totalorder-instance, def:concrete-unary-prefix-totalorder-instance, def:concrete-unary-prefix-totalorder-successor-package) and no labeled theorem stating finite-list operational consequences of the trichotomy/antisymmetry fields. Finite-max existence is the canonical first operational theorem at a totalorder certificate: it consumes only trichotomy and reflexivity, exercises the carrier classifier on a list spine, and produces an index witness usable downstream by sorting/selection certificates. Distinct from B-13 (which reduces classifier fields via trichotomy) and from B-25/B-26 (which target lattice meet/join laws, not totalorder finite-list operations).
+
+---
+
+
+### B-129 - TotalOrder finite minimum classifier uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite minimum classifier uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a concrete TotalOrderUp setup, any two minimum witnesses of the same nonempty finite carrier list are classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Parallels B-29 (lattice GLB/LUB uniqueness from directional certificates) but in the totalorder + finite-list setting rather than the lattice + binary-meet/join setting: the witness shape is an index of a finite list satisfying a universal lower-bound predicate, and the proof uses trichotomy + antisymmetry rather than directional bound fields. With B-13 occupying the trichotomy-reduction site and the candidate-1 existence theorem occupying the production site, this uniqueness theorem closes the standard existence/uniqueness pair at the totalorder finite-list interface and gives downstream selection/sort interfaces a classifier-stable readback. Borderline novelty against B-29 due to the shared antisymmetry-uniqueness pattern, but the chapter, setup, and witness type all differ.
+
+---
+
+### B-130 - Functor preserves split epimorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves split epimorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $F:\mathcal C\to\mathcal D$ is a $\FunctorUp$ certificate and $f$ has a right-inverse witness in the source category, then $F_1(f)$ has the mapped right-inverse witness in the codomain category.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapter 37 (functor namecert) is currently 100% definition-only (B-11 rationale notes 7 def, 0 thm). The paper already has `def:category-split-monomorphism` so the dual notion of split epimorphism via right-inverse witnesses is natural to introduce, and a Functor preserving such witnesses is a foundational theorem distinct from B-11 (which is about composition of functors preserving the hom-carrier classifier, not about morphism-class preservation). It directly fills a known structural gap in the functor chapter.
+
+---
+
+
+### B-131 - Functor preserves isomorphism witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves isomorphism witnesses |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If $f$ carries both a split-monomorphism witness and a split-epimorphism witness in a $\FunctorUp$ source category, then $F_1(f)$ carries the mapped split-monomorphism and split-epimorphism witnesses in the codomain category.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Distinct enough from the split-epi target above because in BEDC's witness style the isomorphism case is the joint preservation of two oriented witness fields rather than the bare conjunction; the proof packages both inverse-side certificate transports together and is the natural target site for `\leanchecked` once the split-mono and split-epi preservation lemmas are in place. Sits in the same definition-only Chapter 37 zone, so it adds usable theorem mass without duplicating B-11 composition or the split-epi target.
+
+---
+
+### B-132 - CommRing subring inclusion via operation-preserving carrier reflection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | CommRing subring inclusion via operation-preserving carrier reflection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a carrier-reflecting map between two CommRingUp certificates preserves +, ×, 0, 1 up to the target classifier, then it induces a subring-inclusion name certificate over the target package.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+BEDC's concrete_instances layer has many namecerts (Ring, CommRing, Module, Field, Polynomial, …) but very few theorems about morphisms BETWEEN namecerts. The only existing morphism-flavored entry is B-28 (CommRing-to-Ring forgetful projection), which drops multiplicative commutativity over the same carrier. A subring-inclusion certificate is a different and complementary direction: same structure level, smaller carrier, classifier-respecting. It would be the first inclusion-style structural theorem on the board and would supply a reusable construction that downstream targets (e.g., field-of-fractions denominator subring fragments already drafted in def:field-rat-denominator-*) could cite. Grep of paper_coverage shows no thm/lem/cor labeled for subring-inclusion namecerts. Acceptable as a single implication: (carrier-reflecting ∧ operation-preserving map between two CommRingUp packages) ⇒ subring-inclusion namecert over the target.
+
+---
+
+### B-133 - Adjunction triangle carrier-swap involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction triangle carrier-swap involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an adjunction triangle setup, applying the carrier-swap classifier twice to a triangle display yields a display componentwise classifier-same to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The paper introduces def:adjunction-triangle-carrier, def:adjunction-unit-counit-carrier, and def:adjunction-unit-counit-carrier-swap-classifier as definitions, but the paper coverage list contains no theorem/lemma/cor stating that the swap is involutive up to the classifier. Involutivity of the carrier-swap is a basic structural property analogous to B-11 (functor composition closure) and B-14 (NT composition naturality) but for adjunction-level structure, and it does not duplicate any existing BOARD entry. It is a single-implication concrete claim, lands cleanly in concrete_instances, and fills a real gap left by the swap-classifier definition.
+
+---
+
+### B-134 - Monad adjunction-endomorphism semantic name certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Monad adjunction-endomorphism semantic name certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a unary prefix history $p$ and unary object $a$, the predicate $M_{p,a}(unit,counit,left,right) :\Leftrightarrow \mathrm{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right)$ carries a $\mathrm{SemanticNameCert}$ with source = pattern = ledger = $M_{p,a}$ and classifier the componentwise conjunction of $\hsame$ on $unit$, $counit$, $left$, $right$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/86_monad_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+86_monad has 11 carrier theorems (lines 9-204) about adjunction-endomorphism degenerate cases (unit, counit, triangle results all collapse to $\emp$ under same-prefix endomorphism), but `\section{The certificate}` at lines 206-208 is *literally empty*. Mirrors the exact pattern that successfully closed for Unit (93:153), Empty, Yoneda (87:178), EquivCat (88:213), and Homology (76:188) — all of which had carrier theorems followed by a single terminal `SemanticNameCert` packaging theorem. Loop has done 5 SemanticNameCert wrap-ups in adjacent chapters but never opened 86_monad — see write counts: monad=0, adjunction=2, nattrans=2.
+
+---
+
+
+### B-135 - Cohomology cocycle predicate semantic name certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Cohomology cocycle predicate semantic name certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under bilateral cocycle axis-cancel (\autoref{thm:cohomology-cocycle-bilateral-axis-cancel}) and cocycle append closure (\autoref{thm:cohomology-cocycle-append-closed}), the cocycle predicate $C_d$ carries a $\mathrm{SemanticNameCert}$ with source = pattern = ledger = $C_d$ and classifier $\hsame$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/77_cohomology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/76_homology_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+77_cohomology has 18 cocycle theorems (axis-cancel left/right/context/bilateral, append closure, prepend axis closure, transport variants) at lines 9-280, but `\section{The certificate}` at lines 282-284 is *literally empty*. Direct dual structure to 76_homology, where the loop did produce `thm:homology-singleton-cycle-semantic-name-certificate` (line 188). Loop has touched cohomology chapter zero times despite 18 already-checked sub-theorems sitting ready for the certificate roll-up.
+
+---
+
+### B-136 - TotalOrder finite maximum classifier uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | TotalOrder finite maximum classifier uniqueness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under TotalOrderUp(C), any two finite-maximum witnesses of the same nonempty finite carried spine are classifier-equal.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+Lands cleanly in chapter 29 (totalorder namecert), which currently has only definitions plus B-13 (trichotomy classifier reduction). Finite-max uniqueness is a distinct, foundational total-order theorem — it is the antisymmetric upper-bound uniqueness applied to a finite spine, not the trichotomy reduction of B-13 nor the general lattice GLB/LUB uniqueness of B-29 (different setup: totalorder finite spine vs lattice directional bounds). It fills a real gap on the totalorder side and is naturally expressible as a single implication. Risk is low-medium because the proof reduces to antisymmetry on a finite enumeration.
+
+---
+
+### B-137 - Functor preserves isomorphism witness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves isomorphism witness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp source and CategoryUp codomain with a FunctorUp F between them, if a source morphism f has paired left-inverse and right-inverse witnesses g, h satisfying g ∘ f ∼C 1 and f ∘ h ∼C 1 in the source, then F(f) has F(g), F(h) as left- and right-inverse witnesses in the codomain up to the codomain hom classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 37 functor_namecert is currently 100% definition-only (per B-11 rationale: 7 def, 0 thm), so theorem sites that exercise the functor stability certificate are scarce and high-value. The candidate is a clean classifier-level preservation statement, distinct from B-11 (which covers hom-carrier composition closure under functor composition) and not a paraphrase of any existing functor-related entry. Iso/split-mono/split-epi witnesses already have definition-side surface (def:category-split-epimorphism, def:category-split-monomorphism) but no theorem proves their functor image carries the mapped witnesses, so this directly fills a known gap and feeds cleanly into the codex_formalize.py lane.
+
+---
+
+### B-138 - Euclid's lemma for prime divisibility (p | a·b → p | a ∨ p | b)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Euclid's lemma for prime divisibility (p | a·b → p | a ∨ p | b) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If p : NatPrime and a, b : Nat with NatDivides(p, NatMul(a, b)), then NatDivides(p, a) ∨ NatDivides(p, b), proved by induction on the unary representation of a together with the prime classifier and trial-division decidability.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `lean4/BEDC/Derived/PrimeUp.lean`
+
+Rationale:
+Belongs in chapter 39 (concrete-instances/prime). This is exactly Hardy & Wright "An Introduction to the Theory of Numbers" Theorem 3 (Ch.II §3): the cornerstone of unique factorization. The chapter's own proof of \thm:ftoa-uniqueness invokes Euclid's lemma in prose at line 411 ("Standard Euclid's-lemma argument: if a prime p divides a product a·b, then p divides a or p divides b, proved by induction on the unary representation of a") but never states or labels it as its own theorem. The chapter already has \def:nat-prime, \def:nat-divides, \thm:prime-decidable, \lem:divides-transitive, and the unary multiplication kit (lem:nat-mul-functional, lem:nat-mul-result-unary), so the prerequisites for a clean classifier-stable statement are all present. The proof inducts on the unary list of a using divides-transport (\thm:nat-divides-divisor-hsame-transport) and the trial-division witness; ≤ 3 deep-reasoning rounds is realistic. Every introductory number-theory text states this as a separate theorem; not stating it leaves a textbook-level gap directly under FTOA.
+
+---
+
+
+### B-139 - Lattice distributivity implies modular law (x ≤ z ⇒ x ∨ (y ∧ z) ∼ (x ∨ y) ∧ z)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice distributivity implies modular law (x ≤ z ⇒ x ∨ (y ∧ z) ∼ (x ∨ y) ∧ z) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a LatticeUp setup with directional meet/join bound fields, if the distributive identity x ∧ (y ∨ z) ∼_C (x ∧ y) ∨ (x ∧ z) holds for all x, y, z, then for any x, y, z with x ≤_C z, x ∨ (y ∧ z) ∼_C (x ∨ y) ∧ z (Dedekind modular law).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `lean4/BEDC/Derived/LatticeUp.lean`
+
+Rationale:
+Belongs in chapter 30 (concrete-instances/lattice). This is Birkhoff "Lattice Theory" Ch.I §6 (also Davey & Priestley Ch.4): every distributive lattice is modular — a one-line classical pivot between the two main lattice-theoretic axes. Chapter 30 currently labels idempotence/absorption/commutativity/opposite-absorption/bound-uniqueness from the directional bound certificate (\thm:lattice-idempotence-absorption-from-bound-characterization, \thm:lattice-commutativity-from-directional-bounds, etc.) but contains zero theorems naming the words "distributive" or "modular" (verified: grep -i 'distributive\|modular' on 30_lattice_namecert_construction.tex returns no theorem environments). BOARD entries B-07/B-25/B-26/B-27/B-29 cover only the bound-direction laws, not distributivity vs. modularity. The proof uses absorption (already proved in B-07) plus the directional join-leastness field — closeable in 1-2 rounds. This is precisely the curricular gap a Birkhoff-style chapter must fill before any Boolean / Heyting algebra extension.
+
+---
+
+
+### B-140 - Determinant multiplicativity det(A·B) ∼ det(A)·det(B)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Determinant multiplicativity det(A·B) ∼ det(A)·det(B) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a CommRingUp(R) scalar package and a fixed matrix dimension, for square matrices A, B carrying matrix certificates and a determinant function defined as the Leibniz signed permutation fold, det(MatMul(A, B)) ∼_R MatMul(det(A), det(B)) up to the scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/62_determinant_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+- `lean4/BEDC/Derived/DeterminantUp.lean`
+
+Rationale:
+Belongs in chapter 62 (concrete-instances/determinant). This is Hungerford "Algebra" Ch.VII Theorem 4.7 / Lang "Algebra" Ch.XIII §4 — the single most classical theorem about determinants. Chapter 62 currently has only three labeled theorems (\thm:singleton-matrix-determinant-endpoint-correspondence, \thm:determinant-singleton-det-append-pair-scalar-classifier, \thm:determinant-singleton-classifier-semantic-namecert — verified by grep on 62_determinant_namecert_construction.tex). Chapter 24 (matrix) already provides \thm:matrix-multiplication-associativity-finite-folds and \thm:matrix-multiplication-classifier-congruence; chapter 94 supplies a Permutation namecert; chapter 19 supplies the commring fields needed to expand the Leibniz product-of-folds. The result is deeper than 1-round but tightly bounded: the standard Cauchy-Binet style proof reduces to two finite-fold reorderings (sum over composed permutations), each of which is a finite-fold congruence already adjacent to existing matrix machinery. Strong textbook standard, no overlap with BOARD.
+
+---
+
+
+### B-141 - Lagrange's theorem: |G| ∼ |H| · [G:H] for a finite group with subgroup
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lagrange's theorem: |G| ∼ |H| · [G:H] for a finite group with subgroup |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+Under a finite GroupUp(G) carrier with a SubgroupUp(H ≤ G) carrier, the group cardinality classifier decomposes as a NatMul of the subgroup cardinality and the right-coset index, NatMul(|H|, [G:H]) ∼_Nat |G|, derived from the right-coset partition supplied by the subgroup centralizer right-coset classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/60_quotientgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/SubgroupUp.lean`
+- `lean4/BEDC/Derived/GroupUp.lean`
+
+Rationale:
+Belongs in chapter 58 (concrete-instances/subgroup) or 60 (concrete-instances/quotientgroup). Hungerford "Algebra" Ch.II §4 Theorem 4.6 — the most cited finite-group theorem in any first algebra course. Chapter 58 already has \thm:subgroup-centralizer-right-coset-classifier-hsame-transport and \thm:subgroup-centralizer-right-coset-classifier-trans-from-empty-unit, plus \def:quotientgroup-centralizer-coset-carrier in chapter 60, so the right-coset classifier is on hand. There are zero hits for "Lagrange" anywhere under papers/bedc/parts/. The chapter framework expresses cardinalities as unary Nat lengths, so the theorem becomes: the carrier index is a NatMul fold over coset representatives. The proof uses the right-coset classifier's trans+hsame-transport to show each coset has the same cardinality as H, then a finite-fold finalization. This is the natural next theorem the chapter is set up for; high textbook fit, no overlap with BOARD entries.
+
+---
+
+
+### B-142 - Polynomial evaluation is an additive homomorphism: eval_α(p ⊕ q) ∼ eval_α(p) +_R eval_α(q)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial evaluation is an additive homomorphism: eval_α(p ⊕ q) ∼ eval_α(p) +_R eval_α(q) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a CommRingUp(R) scalar package and a chosen point α : R, the Horner-style evaluation eval_α : PolynomialCarrier(R) → R satisfies eval_α(PolyAdd(p, q)) ∼_R Add_R(eval_α(p), eval_α(q)) for all coefficient lists p, q, up to the scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `lean4/BEDC/Derived/PolynomialUp.lean`
+
+Rationale:
+Belongs in chapter 25 (concrete-instances/polynomial). Hungerford "Algebra" Ch.III §6 Theorem 6.5 / Lang "Algebra" Ch.IV §1 — the substitution principle on which factor-theorem and Hilbert-Nullstellensatz culture rests. Chapter 25 has \def:polynomial-carrier, polynomial addition (\def:polynomial-raw-add-comparison-data), normalization and trim-zero infrastructure (B-09, B-21, B-30), and \thm:finite-additive-fold-congruence-coefficient-lists, but contains no theorem nor definition naming evaluation/eval_α (verified: grep -i 'evaluate\|eval_\|Horner' on 25_polynomial_namecert_construction.tex returns 0). The new block introduces eval_α via Horner recursion (a commring-side use of the existing finite-additive-fold) and proves the additive-homomorphism row only — closeable in 2 rounds since both sides reduce to the same fold via the additive-fold congruence already labeled in the chapter. The multiplicative-homomorphism case is left for a future block; the additive case alone is a complete textbook theorem. No overlap with BOARD entries B-09/B-21/B-22/B-30/B-31, which all concern normalize-vs-raw rather than evaluation.
+
+---
+
+
+### B-143 - Identity functor name certificate: 1_C : C → C carries the FunctorUp obligations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Identity functor name certificate: 1_C : C → C carries the FunctorUp obligations |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp(C) carrier, the identity functor 1_C with object map x ↦ x and morphism map f ↦ f satisfies the FunctorUp(C, C) certificate: it preserves composition (1_C(g∘f) ∼ 1_C(g)∘1_C(f)), preserves identity (1_C(id_x) ∼ id_{1_C(x)}), and respects the morphism classifier endpoint-by-endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+
+Rationale:
+Belongs in chapter 37 (concrete-instances/functor). Mac Lane "Categories for the Working Mathematician" Ch.I §3 — the very first concrete functor every textbook constructs; identity 1_C and composition F∘G together generate the category Cat. Chapter 37 has 39 labeled theorems mostly about prefix-hom-carrier preserves/reflects/composition, plus chapter 36 has \thm:category-hom-carrier-unary-prefix-iff and \thm:category-unary-continuation-stability-law-package, but there is no labeled identity-functor name certificate (verified: grep 'identity-functor\|id-functor\|functor-identity' returns only \thm:functor-prefix-hom-carrier-empty-identity-iff, which is a different statement about what happens when a functor's image of an identity is empty). BOARD entry B-11 covers functor *composition* preserving the hom-carrier classifier, not the identity functor. The proof is straightforward: every classifier obligation reduces by reflexivity of ∼ on the carrier; closeable in 1 round. Pedagogically, having no identity-functor instance is the most visible textbook gap in the category chapter cluster.
+
+---
+
+
+### B-144 - AbGroup divisible-subgroup closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup divisible-subgroup closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an AbGroupUp(G) carrier, the predicate Divisible(a) := "for every n : Nat with n nonempty there exists b : G with NatScale(n, b) ∼_G a" is closed under the abelian-group addition and inverse: Divisible(a) ∧ Divisible(c) → Divisible(a +_G c) and Divisible(a) → Divisible(-_G a), and Divisible(0_G) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/AbGroupUp.lean`
+
+Rationale:
+Belongs in chapter 17 (concrete-instances/abgroup). Hungerford "Algebra" Ch.II §3 / Kaplansky "Infinite Abelian Groups" §1 — the dual pair to the torsion subgroup. Chapter 17 already labels \thm:abgroup-torsion-subgroup-closure (line ≈ near end), so the *torsion* side of the textbook dyad is in place; the *divisible* side is missing entirely (verified: grep -i 'divisible' on 17_abgroup_namecert_construction.tex returns 0 hits). The proof uses \thm:abgroup-mul-common-left-factor-collect (existing) to combine two n-th-root witnesses for a + c, and inverse closure follows from \thm:abgroup-inverse-mul. The new block can introduce the Divisible predicate inline (in the theorem statement) and prove the three closure rows in a single proof, mirroring the torsion-closure block. Closeable in 1-2 rounds. Strong textbook standard; not in BOARD.
+
+---
+
+### B-145 - Double opposite category certificate is data-equal to original
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double opposite category certificate is data-equal to original |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a CategoryUp certificate C satisfies the obligations of def:opposite-category-certificate-data, then iterating the opposite construction twice yields a CategoryUp certificate whose object carrier, object classifier, hom-carrier predicate, morphism classifier, identity witnesses, and composition relation are componentwise identical to those of C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+
+Rationale:
+Definition `def:opposite-category-certificate-data` is at 36_category_namecert_construction.tex:223-242, and `thm:opposite-category-certificate` proves the construction yields a valid CategoryUp at 36_category_namecert_construction.tex:245-318. There is NO theorem stating the construction is involutive (C^op^op = C). Grep `"opposite.*opposite|double.*opposite|opop|involution|reverse.*reverse"` over all of papers/bedc/parts/concrete_instances/ returned only references to `inverse involution` (a different concept inside chapters 17 abgroup, 58 subgroup, 20 field), `nattrans/vertical_and_opposite_extras.tex` (different chapter, only proving the single opposite construction), `adjunction-unit-counit-carrier-swap-involution` at 85_adjunction:342-376 (about coordinate-swap, not opposite-opposite), and a filename `category/certificate_and_visible_cases_core_double_endpoint_tail` (`double endpoint tail` is unrelated). The natural BEDC proof is unfolding twice: opposite swaps endpoints in HomCarrier and arguments in Comp; doing it twice yields identity on every field. The same gap exists in `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex:67-149` (def+thm for opposite functor) and `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex:22-79` (def+thm for opposite nattrans), but the category-level statement is foundational and is the cleanest of the three to formalize first.
+
+---
+
+
+### B-146 - Double opposite functor certificate is data-equal to original
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Double opposite functor certificate is data-equal to original |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If F:C->D is a FunctorUp certificate satisfying the obligations of def:functor-certificate-obligations and def:opposite-functor-certificate-data is applied twice, the resulting functor F^op^op:C^op^op->D^op^op has object map, morphism map, and stability fields componentwise identical to F (modulo the C^op^op = C identity at the source/target level).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+
+Rationale:
+Definition `def:opposite-functor-certificate-data` at functor/certificate_obligations.tex:67-84 sets F^op object map = F_0 and morphism map = F_1, only the hom-carrier endpoints are read through opposite category convention. Theorem `thm:opposite-functor-certificate` at functor/certificate_obligations.tex:86-149 verifies the construction is valid. Grep `double|involution|second.*opposite` in functor/ returned no matches. Iterating the construction twice should restore F since the object/morphism maps are unchanged by each opposite step. This is an independent target from the category-level double opposite (different Lean theorem on FunctorUp.lean) and depends on the category-level result for endpoint reasoning.
+
+---
+
+### B-147 - Choice as term-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Choice as term-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the term stratum, the schematic move 'accept an unwitnessed positive existential and use the accepted value as oracle' is equivalent to AC: ∀i∈I,∃x_i∈A_i ⇒ ∃f:I→⊔A_i with f(i)∈A_i.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Directly fills a known Sketch-proof gap in thm:three-axioms-unification (capstones/three_axioms_one_closure.tex). The infrastructure (def:three-axioms-meta-closure-operation, ex:three-axioms-choice) already exists and the equivalence is currently stated only informally. This is the term-stratum component of a triad with #2 and #3 supporting the unification theorem; once all three exist the Sketch can be replaced with a structured proof. No BOARD entry, no theorem-level paper label covers this. Stepping-stone scope.
+
+---
+
+
+### B-148 - Quot.sound as type-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Quot.sound as type-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the type stratum, the schematic move is equivalent to Quot-soundness: from an equivalence R on A, conclude there exists a type A/R with a section A/R→A choosing a canonical representative.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Type-stratum sister of #1; supports the Sketch proof of thm:three-axioms-unification. ex:three-axioms-quot-sound states the equivalence informally; this lemma formalizes it. Connects to def:three-axioms-replacement-quot which uses NameCert/psame-transport as the BEDC replacement, making this the lemma that justifies the replacement at the schema level. No BOARD or paper duplicate. Distinct from #5 which proves the structural soundness of the replacement, not the equivalence schema-side.
+
+---
+
+
+### B-149 - Propext as proposition-stratum instance of the meta-closure schema
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Propext as proposition-stratum instance of the meta-closure schema |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the proposition stratum, the schematic move is equivalent to propext: from P⇔Q conclude P=Q at the proposition level.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+Proposition-stratum third of the equivalence triad behind thm:three-axioms-unification's Sketch proof. ex:three-axioms-propext states the schema informally; formalizing the proposition-level instantiation closes the third gap and makes the unification proof structured rather than sketched. No paper-level theorem label covers this. Belongs in capstones alongside #1 and #2.
+
+---
+
+
+### B-150 - Countable choice constructs explicit witness function from N-indexed family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Countable choice constructs explicit witness function from N-indexed family |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Given a family A:N→Type with w:∀n,A(n), there is an explicit f:N→⊔A(n) defined by primitive recursion satisfying f(n)∈A(n), without invoking Classical.choice.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+def:three-axioms-replacement-choice names countable choice as the BEDC replacement for term-stratum meta closure but only states it definitionally — the explicit recursive construction is missing. This is the term-stratum component of thm:three-axioms-replacements-suffice's currently-Sketch proof. Distinct from #1 which proves the equivalence schema; this proves the constructive replacement is realizable. Closes quickly because primitive recursion is already kernel-level.
+
+---
+
+
+### B-151 - NameCert psame-transport replaces Quot.sound use
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | NameCert psame-transport replaces Quot.sound use |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any classifier-respecting operation φ:A→B and a,a' with a∼A a', φ(a)∼B φ(a') — without invoking Quot.sound to identify a and a' at the type level.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+def:three-axioms-replacement-quot declares NameCert + psame-transport as the BEDC replacement for type-stratum meta closure but the structural soundness lemma showing this replacement preserves the classifier-respecting operations Quot.sound enables is missing. Type-stratum component of thm:three-axioms-replacements-suffice's Sketch. Slightly lower novelty than oracle's 8 because generic psame-transport machinery exists in core (ch:core-typed-naming-certificates), but the capstones-specific replacement-soundness framing is new and distinct from generic transport. Distinct from #2 (equivalence schema) and from existing core transport lemmas.
+
+---
+
+
+### B-152 - hsame transport bypasses propext at the proposition level
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | hsame transport bypasses propext at the proposition level |
+| Layer | capstones |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any kernel construction Φ consuming a proposition P, and propositions P,Q with P⇔Q (equivalently an hsame-transport between P and Q), there is a parameterized form Φ[P→Q] consuming Q via the bidirectional implication, without invoking propext.
+
+Local inputs:
+- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+
+Rationale:
+def:three-axioms-replacement-propext names hsame/psame transport as the BEDC replacement for proposition-stratum meta closure but no structural lemma states the replacement is sound. Proposition-stratum third of thm:three-axioms-replacements-suffice's Sketch components, completing the triad with #4 (term) and #5 (type). After all three land, the chapter's claim that BEDC's certified content is closed under the three replacements becomes a structured proof.
+
+---
+

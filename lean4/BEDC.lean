@@ -135,6 +135,7 @@ import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
 import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexAnalyticUp
@@ -173,6 +174,7 @@ import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
@@ -201,6 +203,7 @@ import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
+import BEDC.Derived.RealUp.SelectedContinuationFullShape
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.SemanticCertificate
