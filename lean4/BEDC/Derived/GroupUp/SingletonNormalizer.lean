@@ -67,6 +67,25 @@ theorem GroupSingletonClassifier_normalizer_orbit_source_exact_iff {x y : BHist}
           (And.intro classified.right.left
             (hsame_trans actionCarrier (hsame_symm classified.right.left)))))
 
+theorem GroupSingletonClassifier_append_conjugation_coverage_iff {s x y : BHist} :
+    GroupSingletonCarrier s ->
+      (GroupSingletonClassifier (append (append s x) BHist.Empty) y <->
+        GroupSingletonCarrier x ∧ GroupSingletonCarrier y) := by
+  intro carrierS
+  constructor
+  · intro classified
+    have actionSplit := append_eq_empty_iff.mp classified.left
+    have sourceSplit := append_eq_empty_iff.mp actionSplit.left
+    exact And.intro sourceSplit.right classified.right.left
+  · intro carriers
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have sourceCarrier : GroupSingletonCarrier (append s x) :=
+      append_eq_empty_iff.mpr (And.intro carrierS carriers.left)
+    have actionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro sourceCarrier emptyCarrier)
+    exact And.intro actionCarrier
+      (And.intro carriers.right (hsame_trans actionCarrier (hsame_symm carriers.right)))
+
 theorem GroupSingletonClassifier_conjugation_coverage_iff {s x y : BHist} :
     GroupSingletonCarrier s ->
       (let Conj := fun u z : BHist => append (append u z) BHist.Empty
