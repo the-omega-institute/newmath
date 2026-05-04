@@ -519,3 +519,80 @@ It remains to account for meet and join congruence. Suppose $h,h',k,k'$ are carr
 
 The classifier-equality rows in the theorem statement follow from the same selected-readback definition and classifier reflexivity on carried endpoints. The ledger row of \autoref{def:lattice-ledger-policy} records the selected comparison branch together with the greatest-lower and least-upper bound certificates just cited. Therefore the tuple with operations $\wedge_{\mathsf{tri}}$ and $\vee_{\mathsf{tri}}$ satisfies the $\LatticeUp$ certificate obligations of \autoref{def:lattice-certificate-obligations}.
 \end{proof}
+
+\begin{definition}[Opposite lattice certificate data]
+\label{def:opposite-lattice-certificate-data}
+Let a $\LatticeUp$ certificate be presented by a carrier predicate $\mathcal C$, classifier $\sim_C$, order $\le_C$, meet $\wedge_C$, and join $\vee_C$. Define
+$$
+a\le_C^{\mathrm{op}} b:=b\le_C a,
+\qquad
+a\wedge_C^{\mathrm{op}} b:=a\vee_C b,
+\qquad
+a\vee_C^{\mathrm{op}} b:=a\wedge_C b.
+$$
+The opposite lattice data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, the opposite order $\le_C^{\mathrm{op}}$, meet $\wedge_C^{\mathrm{op}}$, and join $\vee_C^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite lattice certificate]
+\label{thm:opposite-lattice-certificate}
+If $(\mathcal C,\sim_C,\le_C,\wedge_C,\vee_C)$ satisfies the $\LatticeUp$ certificate obligations of \autoref{def:lattice-certificate-obligations}, then the data of \autoref{def:opposite-lattice-certificate-data} also satisfy the $\LatticeUp$ certificate obligations.
+\end{theorem}
+\begin{proof}
+Unpack the lattice obligations through \autoref{def:lattice-certificate-obligations}. By \autoref{def:lattice-carrier} and \autoref{def:lattice-source-specification}, the given lattice certificate contains a certified $\POSetUp$ carrier with carrier predicate $\mathcal C$, classifier $\sim_C$, and order $\le_C$. Applying \autoref{thm:opposite-poset-certificate} supplies the carrier, source, pattern, classifier, stability, and ledger rows for the same carrier and classifier with order $\le_C^{\mathrm{op}}$.
+
+The binary operation rows are present with names exchanged. The opposite meet $\wedge_C^{\mathrm{op}}$ is the original join $\vee_C$, and the opposite join $\vee_C^{\mathrm{op}}$ is the original meet $\wedge_C$. Thus the carried-operation data required by the lattice source row are copied from the original join and meet data.
+
+It remains to verify the four bound-characterization rows in \autoref{def:lattice-stability-certificate}. Fix carried endpoints $a,b,z$. For the opposite meet, the lower-bound laws are exactly the original join upper-bound laws:
+$$
+a\wedge_C^{\mathrm{op}} b\le_C^{\mathrm{op}} a
+\Longleftrightarrow
+a\le_C a\vee_C b,
+\qquad
+ a\wedge_C^{\mathrm{op}} b\le_C^{\mathrm{op}} b
+\Longleftrightarrow
+b\le_C a\vee_C b.
+$$
+For opposite meet greatestness, assume $z\le_C^{\mathrm{op}} a$ and $z\le_C^{\mathrm{op}} b$. These unfold to $a\le_C z$ and $b\le_C z$. The original join leastness row gives $a\vee_C b\le_C z$, which is exactly
+$$
+z\le_C^{\mathrm{op}} a\wedge_C^{\mathrm{op}} b.
+$$
+
+For the opposite join, the upper-bound laws are exactly the original meet lower-bound laws:
+$$
+a\le_C^{\mathrm{op}} a\vee_C^{\mathrm{op}} b
+\Longleftrightarrow
+a\wedge_C b\le_C a,
+\qquad
+b\le_C^{\mathrm{op}} a\vee_C^{\mathrm{op}} b
+\Longleftrightarrow
+a\wedge_C b\le_C b.
+$$
+For opposite join leastness, assume $a\le_C^{\mathrm{op}} z$ and $b\le_C^{\mathrm{op}} z$. These unfold to $z\le_C a$ and $z\le_C b$. The original meet greatestness row gives $z\le_C a\wedge_C b$, which is exactly
+$$
+a\vee_C^{\mathrm{op}} b\le_C^{\mathrm{op}} z.
+$$
+
+Meet and join congruence are also exchanged. If $a\sim_C a'$ and $b\sim_C b'$, then original join congruence gives
+$$
+a\wedge_C^{\mathrm{op}} b
+=
+a\vee_C b
+\sim_C
+a'\vee_C b'
+=
+a'\wedge_C^{\mathrm{op}} b',
+$$
+and original meet congruence gives
+$$
+a\vee_C^{\mathrm{op}} b
+=
+a\wedge_C b
+\sim_C
+a'\wedge_C b'
+=
+a'\vee_C^{\mathrm{op}} b'.
+$$
+These are precisely the opposite meet-congruence and opposite join-congruence rows of \autoref{def:lattice-classifier-specification}.
+
+The pattern row of \autoref{def:lattice-pattern-specification} is unchanged expression formation by two binary lattice operations; each opposite meet node is read as an original join node, and each opposite join node is read as an original meet node. The ledger row of \autoref{def:lattice-ledger-policy} is the same exchange: an opposite meet ledger records the original join bound-characterization certificate, and an opposite join ledger records the original meet bound-characterization certificate, with the order witnesses interpreted through $\le_C^{\mathrm{op}}$. Together with the opposite $\POSetUp$ rows supplied above, these are all carrier, source, pattern, classifier, stability, and ledger obligations required by \autoref{def:lattice-certificate-obligations}. Hence $C^{\mathrm{op}}$ carries a $\LatticeUp$ certificate.
+\end{proof}
