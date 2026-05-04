@@ -6,7 +6,14 @@
 \begin{theorem}[ContinuousMap composite graph depth addition]
 \label{thm:continuousmap-comp-graph-depth-add}
 For histories $source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG$,
-if two continuous-function carriers compose through continuation ledgers
+assume the two continuous-function carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,mapF,mid,modF,certF),\\
+\mathsf{ContinuousFunctionCarrier}(mid,mapG,target,modG,certG),
+\end{array}
+$$
+and the continuation ledgers
 $$
 \ContR(mapF,mapG,mapFG),\qquad
 \ContR(modF,modG,modFG),\qquad
@@ -22,8 +29,10 @@ $$
 \end{theorem}
 \begin{proof}
 Composition closure for continuous-function carriers builds the composite
-carrier from $source$ to $target$ along $mapFG$. Its graph fields are exactly a
-metric distance witness with endpoints $source$, $mapFG$, and $target$.
+carrier from the two displayed carriers and the continuation ledgers. Its graph
+fields are exactly a metric distance witness with endpoints $source$, $mapFG$,
+and $target$.
+
 Metric-distance depth addition for that witness gives the displayed equality.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_comp\_graph\_depth\_add}

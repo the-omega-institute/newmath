@@ -53,4 +53,16 @@ theorem CategoryHomCarrier_empty_target_morphism_source_deterministic {a b f g :
       (hsame_symm sameMorphism) right
   exact CategoryHomCarrier_source_deterministic left movedRight
 
+theorem CategoryHomCarrier_empty_target_source_morphism_swap_iff {a f : BHist} :
+    CategoryHomCarrier a BHist.Empty f ↔ CategoryHomCarrier f BHist.Empty a := by
+  constructor
+  · intro homCarrier
+    have data := (CategoryHomCarrier_empty_target_iff (a := a) (f := f)).mp homCarrier
+    exact (CategoryHomCarrier_empty_target_iff (a := f) (f := a)).mpr
+      (And.intro data.right data.left)
+  · intro homCarrier
+    have data := (CategoryHomCarrier_empty_target_iff (a := f) (f := a)).mp homCarrier
+    exact (CategoryHomCarrier_empty_target_iff (a := a) (f := f)).mpr
+      (And.intro data.right data.left)
+
 end BEDC.Derived.CategoryUp
