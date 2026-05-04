@@ -173,6 +173,7 @@ import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
+import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -188,6 +189,7 @@ import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
+import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
@@ -521,6 +523,7 @@ import BEDC.Derived.FunctorUp.CompMiddlePrefix
 import BEDC.Derived.FunctorUp.NonemptyTargetComponent
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.FunctorUp.EmptyMorphismSource
+import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.NatTransUp
 import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp

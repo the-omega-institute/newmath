@@ -66,6 +66,24 @@ the left multiplicand \(d\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}
 
+\begin{theorem}[Successor multiplication has positive result shape]
+\label{thm:natmul-succ-result-positive-shape}
+If $\mathsf{NatMul}(d,\Eone(q),n)$ and $d$ is not history-same to
+$\emp$, then $n$ has one-headed shape:
+$$
+\exists r,\ \hsame(n,\Eone(r))\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+Invert the successor multiplication witness. The final step is a continuation
+$\Cont(n_0,d,n)$, and the multiplication witness supplies unary closure of
+$d$ and $n_0$. The empty and zero-headed cases for $d$ are impossible by
+non-emptiness and unary exactness. Thus $d=\Eone(t)$, and the continuation
+has result $\Eone(\mathsf{append}(n_0,t))$, whose tail is unary by append
+closure.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_positive\_shape}
+
 \begin{theorem}[Successor multiplication empty result exactness]
 \label{thm:nat-mul-succ-result-empty-left-empty-iff}
 If $\mathsf{NatMul}(d,\Eone(q),n)$, then the result is empty exactly when the
