@@ -353,6 +353,44 @@ The hypothesis $c+a\hsame c+b$ then yields the same conclusion $a\hsame b$.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_additive\_two\_sided\_cancellation}
 
+\begin{theorem}[Ring negative of sum]
+\label{thm:ring-neg-add}
+For BEDC history addition and negation satisfying additive associativity,
+commutativity, left zero, left inverse, and addition congruence, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\hsame(\mathsf{neg}(\mathsf{add}(a,b)),
+\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))).
+$$
+The ten-field fit is: traditional target additive inverse of a sum in a ring;
+BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from additive congruence and additive
+cancellation; ledger the two addends $a,b$ and the inverse witnesses
+$\mathsf{neg}(\mathsf{add}(a,b))$ and
+$\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))$; core theorem this theorem;
+exactness the displayed equality; downstream consumer CommRing signed-product
+normalization and FieldUp denominator inverse normalization; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The common element to cancel is $\mathsf{add}(a,b)$. By
+Theorem~\ref{thm:ring-add-right-inverse}, the endpoint
+$\mathsf{neg}(\mathsf{add}(a,b))$ is a right inverse of this common element.
+
+It remains to see that
+$\mathsf{add}(\mathsf{neg}(a),\mathsf{neg}(b))$ is also a right inverse of
+$\mathsf{add}(a,b)$. Reassociate the sum
+$(a+b)+((-a)+(-b))$, commute the middle terms so that $b+(-b)$ and
+$a+(-a)$ appear as adjacent pairs, collapse those pairs using the right
+inverse and left inverse rows, and remove the resulting zeros by the left and
+right zero laws.
+
+Both endpoints therefore give the same sum with the common left factor
+$\mathsf{add}(a,b)$. Apply
+Theorem~\ref{thm:ring-additive-two-sided-cancellation} to cancel that factor
+and obtain the displayed $\hsame$ comparison.
+\end{proof}
+
 \begin{theorem}[Ring additive difference zero exactness]
 \label{thm:ring-additive-difference-zero-exact}
 For BEDC history addition satisfying additive associativity, commutativity,
