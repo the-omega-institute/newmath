@@ -424,4 +424,78 @@ theorem IntHistory_semanticNameCert :
               | intro q data =>
                   exact BEDC.FKernel.Hist.not_hsame_e0_e1 data.right.right.right.left
 
+theorem IntHistoryClassifier_signed_branch_determinacy
+    {h k : BEDC.FKernel.Hist.BHist} :
+    IntHistoryClassifier h k ->
+      (∃ m : BEDC.FKernel.Hist.BHist, ∃ n : BEDC.FKernel.Hist.BHist,
+          BEDC.FKernel.Unary.UnaryHistory m ∧ BEDC.FKernel.Unary.UnaryHistory n ∧
+            BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e0 m) ∧
+              BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e0 n) ∧
+                BEDC.FKernel.Hist.hsame m n ∧
+                  (∀ p q : BEDC.FKernel.Hist.BHist,
+                    BEDC.FKernel.Unary.UnaryHistory p ->
+                      BEDC.FKernel.Unary.UnaryHistory q ->
+                        BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 p) ->
+                          BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e1 q) ->
+                            BEDC.FKernel.Hist.hsame p q -> False)) ∨
+      (∃ m : BEDC.FKernel.Hist.BHist, ∃ n : BEDC.FKernel.Hist.BHist,
+          BEDC.FKernel.Unary.UnaryHistory m ∧ BEDC.FKernel.Unary.UnaryHistory n ∧
+            BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 m) ∧
+              BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e1 n) ∧
+                BEDC.FKernel.Hist.hsame m n ∧
+                  (∀ p q : BEDC.FKernel.Hist.BHist,
+                    BEDC.FKernel.Unary.UnaryHistory p ->
+                      BEDC.FKernel.Unary.UnaryHistory q ->
+                        BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e0 p) ->
+                          BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e0 q) ->
+                            BEDC.FKernel.Hist.hsame p q -> False)) := by
+  intro classified
+  cases classified with
+  | inl zero =>
+      cases zero with
+      | intro m rest =>
+          cases rest with
+          | intro n data =>
+              exact Or.inl
+                (Exists.intro m
+                  (Exists.intro n
+                    (And.intro data.left
+                      (And.intro data.right.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right
+                              (by
+                                intro p _q _unaryP _unaryQ sameHOne _sameKOne _samePQ
+                                have mixed : BEDC.FKernel.Hist.hsame
+                                    (BEDC.FKernel.Hist.BHist.e0 m)
+                                    (BEDC.FKernel.Hist.BHist.e1 p) :=
+                                  BEDC.FKernel.Hist.hsame_trans
+                                    (BEDC.FKernel.Hist.hsame_symm
+                                      data.right.right.left)
+                                    sameHOne
+                                exact BEDC.FKernel.Hist.not_hsame_e0_e1 mixed))))))))
+  | inr one =>
+      cases one with
+      | intro m rest =>
+          cases rest with
+          | intro n data =>
+              exact Or.inr
+                (Exists.intro m
+                  (Exists.intro n
+                    (And.intro data.left
+                      (And.intro data.right.left
+                        (And.intro data.right.right.left
+                          (And.intro data.right.right.right.left
+                            (And.intro data.right.right.right.right
+                              (by
+                                intro p _q _unaryP _unaryQ sameHZero _sameKZero _samePQ
+                                have mixed : BEDC.FKernel.Hist.hsame
+                                    (BEDC.FKernel.Hist.BHist.e1 m)
+                                    (BEDC.FKernel.Hist.BHist.e0 p) :=
+                                  BEDC.FKernel.Hist.hsame_trans
+                                    (BEDC.FKernel.Hist.hsame_symm
+                                      data.right.right.left)
+                                    sameHZero
+                                exact BEDC.FKernel.Hist.not_hsame_e1_e0 mixed))))))))
+
 end BEDC.Derived.IntUp

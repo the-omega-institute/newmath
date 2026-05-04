@@ -131,6 +131,7 @@ import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
 import BEDC.Derived.ProdUp
+import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.LedgerEndpoint
 import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
