@@ -79,6 +79,21 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_e1_congr {h k : BHist} :
+    NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) := by
+  intro strict
+  cases strict with
+  | intro tail data =>
+      cases data with
+      | intro tailUnary strictData =>
+          cases strictData with
+          | intro tailNonempty tailCont =>
+              exact
+                ⟨tail, tailUnary, tailNonempty,
+                  cont_intro
+                    ((congrArg BHist.e1 tailCont).trans
+                      (unary_append_e1_left (h := tail) (k := h) tailUnary).symm)⟩
+
 theorem NatUnaryStrictPrefix_e0_inversion {h k : BHist} :
     NatUnaryStrictPrefix (BHist.e0 h) (BHist.e0 k) -> NatUnaryStrictPrefix h k := by
   intro strict
