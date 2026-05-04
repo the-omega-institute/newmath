@@ -450,3 +450,108 @@ r\odot(0_M+_M0_M)\sim_M b+_M b.
 $$
 Again symmetry and transitivity give $b\sim_M b+_M b$, and \autoref{lem:module-additive-duplicate-cancel-zero} gives $r\odot0_M\sim_M0_M$.
 \end{proof}
+
+\begin{definition}[Classifier-faithful scalar action and action annihilator]
+\label{def:module-action-faithful-annihilator}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $0_R$ and $0_M$ for the two zero endpoints, $+_R$ and $+_M$ for the two additions, and $\odot$ for scalar action. For a carried scalar $r:R$, let $L_r(m):=r\odot m$.
+
+The pointwise classifier equality of the action endomorphisms determined by $r$ and $s$ is
+$$
+\mathsf{ActEq}_{R,M}(r,s)\Longleftrightarrow
+\forall m:M,\ L_r(m)\sim_M L_s(m).
+$$
+The action is classifier-faithful when
+$$
+\mathsf{FaithAct}_{R,M}\Longleftrightarrow
+\forall r,s:R,\ \mathsf{ActEq}_{R,M}(r,s)\Longrightarrow r\sim_R s.
+$$
+The action annihilator predicate is
+$$
+\mathsf{Ann}_M(r)\Longleftrightarrow
+\forall m:M,\ r\odot m\sim_M 0_M.
+$$
+The predicate body is the annihilator; no ideal carrier is introduced.
+\end{definition}
+
+\begin{lemma}[Pointwise action equality gives difference annihilator]
+\label{lem:module-pointwise-action-equality-difference-annihilator}
+Under the notation of \autoref{def:module-action-faithful-annihilator}, if
+$\mathsf{ActEq}_{R,M}(r,s)$, then
+$$
+\mathsf{Ann}_M(r+_R(-s)).
+$$
+\end{lemma}
+\begin{proof}
+Fix a carried module endpoint $m:M$. Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives
+$$
+(r+_R(-s))\odot m\sim_M (r\odot m)+_M((-s)\odot m).
+$$
+The same distributivity row at $s$ gives
+$$
+(s+_R(-s))\odot m\sim_M (s\odot m)+_M((-s)\odot m).
+$$
+The scalar additive right-inverse row of \autoref{thm:ring-add-right-inverse}, read in the scalar source supplied by \autoref{def:module-source-specification}, classifies $s+_R(-s)$ with $0_R$. Scalar-action congruence from \autoref{def:module-stability-certificate}, followed by \autoref{thm:module-zero-action-annihilation}, gives
+$$
+(s+_R(-s))\odot m\sim_M 0_M.
+$$
+Composing this with the symmetry of the preceding distributivity comparison yields
+$$
+(s\odot m)+_M((-s)\odot m)\sim_M 0_M.
+$$
+Now use the hypothesis $\mathsf{ActEq}_{R,M}(r,s)$ at $m$. Module additive congruence, from the additive $\AbGroupUp$ component in \autoref{def:module-source-specification}, transports the first summand and gives
+$$
+(r\odot m)+_M((-s)\odot m)\sim_M (s\odot m)+_M((-s)\odot m).
+$$
+Transitivity with the last zero comparison gives
+$$
+(r\odot m)+_M((-s)\odot m)\sim_M 0_M.
+$$
+Finally compose with the scalar-distributivity comparison for $r+_R(-s)$ to obtain
+$$
+(r+_R(-s))\odot m\sim_M 0_M.
+$$
+Since $m$ was arbitrary, $\mathsf{Ann}_M(r+_R(-s))$ holds.
+\end{proof}
+
+\begin{theorem}[Module faithful action iff zero annihilator]
+\label{thm:module-faithful-action-iff-zero-annihilator}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. With the notation of \autoref{def:module-action-faithful-annihilator}, the scalar action is classifier-faithful exactly when the only scalar whose action annihilates every carried module endpoint is the scalar zero:
+$$
+\mathsf{FaithAct}_{R,M}
+\Longleftrightarrow
+\forall r:R,\ \mathsf{Ann}_M(r)\Longrightarrow r\sim_R 0_R.
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{FaithAct}_{R,M}$. Let $r:R$ satisfy $\mathsf{Ann}_M(r)$. For every carried $m:M$, the annihilator hypothesis gives
+$$
+r\odot m\sim_M 0_M.
+$$
+By \autoref{thm:module-zero-action-annihilation}, the zero scalar action gives
+$$
+0_R\odot m\sim_M 0_M.
+$$
+Classifier symmetry and transitivity compose these two comparisons into
+$$
+r\odot m\sim_M 0_R\odot m.
+$$
+Thus $\mathsf{ActEq}_{R,M}(r,0_R)$, and classifier-faithfulness gives $r\sim_R 0_R$.
+
+Conversely, assume
+$$
+\forall t:R,\ \mathsf{Ann}_M(t)\Longrightarrow t\sim_R 0_R.
+$$
+Let $r,s:R$ and assume $\mathsf{ActEq}_{R,M}(r,s)$. By \autoref{lem:module-pointwise-action-equality-difference-annihilator},
+$$
+\mathsf{Ann}_M(r+_R(-s)).
+$$
+The assumed zero-annihilator condition therefore gives
+$$
+r+_R(-s)\sim_R 0_R.
+$$
+Applying the left-to-right direction of the scalar-ring difference exactness theorem \autoref{thm:ring-additive-difference-zero-exact}, read through the certified scalar $\RingUp$ source of \autoref{def:module-source-specification}, yields
+$$
+r\sim_R s.
+$$
+Therefore $\mathsf{FaithAct}_{R,M}$ holds, and the two conditions are equivalent.
+\end{proof}
