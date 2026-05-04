@@ -84,4 +84,45 @@ theorem ConcreteUnaryHistoryMagma_semanticNameCert :
       exact source
   · exact concrete_unary_history_magma_cont_laws
 
+theorem concrete_unary_history_magma_cont_result_unary_iff {h k r : BHist} :
+    Cont h k r -> (UnaryHistory r ↔ UnaryHistory h ∧ UnaryHistory k) := by
+  intro rel
+  constructor
+  · intro resultCarrier
+    have appendedCarrier : UnaryHistory (append h k) := by
+      cases rel
+      exact resultCarrier
+    exact unary_append_factors_iff_result.mpr appendedCarrier
+  · intro factors
+    cases rel
+    exact unary_append_factors_iff_result.mp factors
+
+theorem concrete_unary_history_magma_classifier_append_factors_iff {h h' k k' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier (append h k) (append h' k') ↔
+      Carrier h ∧ Carrier k ∧ Carrier h' ∧ Carrier k' ∧
+        hsame (append h k) (append h' k') := by
+  dsimp
+  constructor
+  · intro classified
+    have leftFactors :
+        UnaryHistory h ∧ UnaryHistory k :=
+      (unary_append_factors_iff_result (h := h) (k := k)).mpr classified.left
+    have rightFactors :
+        UnaryHistory h' ∧ UnaryHistory k' :=
+      (unary_append_factors_iff_result (h := h') (k := k')).mpr classified.right.left
+    exact And.intro leftFactors.left
+      (And.intro leftFactors.right
+        (And.intro rightFactors.left
+          (And.intro rightFactors.right classified.right.right)))
+  · intro factors
+    have leftCarrier : UnaryHistory (append h k) :=
+      unary_append_closed factors.left factors.right.left
+    have rightCarrier : UnaryHistory (append h' k') :=
+      unary_append_closed factors.right.right.left factors.right.right.right.left
+    exact And.intro leftCarrier
+      (And.intro rightCarrier factors.right.right.right.right)
+
 end BEDC.Derived.MagmaUp
