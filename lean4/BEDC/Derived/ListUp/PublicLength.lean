@@ -353,4 +353,17 @@ theorem FramedListPublicLength_bridge_transport_pair {A : BHist -> Prop}
   · intro n publicK
     exact wellDefined.right symmetry publicK
 
+theorem FramedListBridgeClassifier_public_length_transport {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
+    FramedListBridgeClassifier A Rel h k ->
+      (FramedListPublicLength A h n -> FramedListPublicLength A k n) /\
+        (FramedListPublicLength A k n -> FramedListPublicLength A h n) := by
+  intro bridge
+  have reverseBridge : FramedListBridgeClassifier A Rel k h :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.right.left bridge
+  constructor
+  · exact (FramedListPublicLength_well_defined compat).right bridge
+  · exact (FramedListPublicLength_well_defined compat).right reverseBridge
+
 end BEDC.Derived.ListUp
