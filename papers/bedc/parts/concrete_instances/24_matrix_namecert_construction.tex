@@ -209,6 +209,24 @@ with $\emp$, contradicting BEDC constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_visible\_base\_succ\_continuation\_empty\_result\_absurd}
 
+\begin{theorem}[Matrix singleton power positive-exponent visible-base empty-result exclusion]
+\label{thm:matrix-singleton-pow-positive-exponent-visible-base-continuation-empty-result-absurd}
+For unary nonempty exponent $e$, a singleton matrix power whose base has a
+visible head cannot continue to an empty result:
+$$
+\ContR(\mathsf{MatrixSingletonPow}(\Ezero(m),e),y,r)
+\land r\hsame\emp\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(m)$ in place of $\Ezero(m)$.
+\end{theorem}
+\begin{proof}
+Transport the continuation along $r\hsame\emp$ and invert the empty result.
+The nonempty-unary power carrier exactness theorem then turns the empty power
+endpoint into a singleton carrier witness for the visible base, contradicting
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_visible\_base\_continuation\_empty\_result\_absurd}
+
 \begin{theorem}[Matrix singleton power append exponent classifier]
 \label{thm:matrix-singleton-pow-append-exponent-classifier}
 If $M$ is carried by the singleton matrix carrier and $w,q$ are unary

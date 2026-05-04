@@ -173,6 +173,19 @@ theorem MatrixSingletonPow_visible_base_succ_continuation_empty_result_absurd
     have sourceParts := append_eq_empty_iff.mp sourceEmpty
     exact not_hsame_e1_empty sourceParts.right
 
+theorem MatrixSingletonPow_positive_exponent_visible_base_continuation_empty_result_absurd {m exponent y r : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      (Cont (MatrixSingletonPow (BHist.e0 m) exponent) y r -> hsame r BHist.Empty -> False) ∧
+      (Cont (MatrixSingletonPow (BHist.e1 m) exponent) y r -> hsame r BHist.Empty -> False) := by
+  intro exponentUnary exponentNonempty
+  exact And.intro
+    (fun continuation resultEmpty => not_hsame_e0_empty
+      ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+    (fun continuation resultEmpty => not_hsame_e1_empty
+      ((MatrixSingletonPow_carrier_nonempty_unary_input_iff exponentUnary exponentNonempty).mp
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+
 theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
       MatrixSingletonClassifier (MatrixSingletonPow M (append w q))

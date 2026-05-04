@@ -411,6 +411,20 @@ theorem LinearMapSingletonEval_context_continuation_classifier_iff {p f x y r h 
       (And.intro carriers.right.right
         (hsame_trans resultCarrier (hsame_symm carriers.right.right)))
 
+theorem LinearMapSingletonEval_context_continuation_visible_context_absurd
+    {p f x y r h : BHist} :
+    (Cont (append (BHist.e0 p) (LinearMapSingletonEval f x)) y r ->
+      LinearMapSingletonClassifier r h -> False) ∧
+      (Cont (append (BHist.e1 p) (LinearMapSingletonEval f x)) y r ->
+        LinearMapSingletonClassifier r h -> False) := by
+  exact And.intro
+    (fun continuation classified =>
+      not_hsame_e0_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
+        continuation).mp classified).left)
+    (fun continuation classified =>
+      not_hsame_e1_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
+        continuation).mp classified).left)
+
 theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
     {f x y r p : BHist} :
     Cont (LinearMapSingletonEval f x) y r ->
