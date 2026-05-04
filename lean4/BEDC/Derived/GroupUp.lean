@@ -597,4 +597,10 @@ theorem group_left_right_inverse_unique {mul : BHist → BHist → BHist} {e : B
     exact hsame_trans (mulCongr sameLeftProduct (hsame_refl (inv a)))
       (hsame_trans (assocC b a (inv a))
         (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b)))
+theorem GroupSingletonNormalizerOrbit_equivalence {x y z : BHist} :
+    GroupSingletonCarrier x -> (let Orbit := fun p q : BHist => Exists (fun s : BHist => GroupSingletonCarrier s ∧ GroupSingletonClassifier (append (append s p) BHist.Empty) q); Orbit x x ∧ (Orbit x y -> Orbit y x) ∧ (Orbit x y -> Orbit y z -> Orbit x z)) := by
+  intro carrierX; cases carrierX
+  exact ⟨⟨BHist.Empty, rfl, rfl, rfl, rfl⟩,
+    (fun orbitXY => by cases orbitXY with | intro s witness => cases witness.right.right.left; exact ⟨BHist.Empty, rfl, rfl, rfl, rfl⟩),
+    (fun _ orbitYZ => by cases orbitYZ with | intro s witness => cases witness.right.right.left; exact ⟨BHist.Empty, rfl, rfl, rfl, rfl⟩)⟩
 end BEDC.Derived.GroupUp

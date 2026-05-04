@@ -41,6 +41,15 @@ theorem RealStreamClassifier_unary_denominator_context_closed
       ((contOY n).trans (congrArg (fun r => append r (tY n)) (contPY n))).symm
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY pointContext
 
+theorem RealConstantHistoryClassifier_append_common_tail_cancel {d e tail : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 (append d tail)) (BHist.e1 (append e tail)) ->
+      hsame d e := by
+  intro classified
+  have rational :
+      RatHistoryClassifier (append d tail) (append e tail) :=
+    Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
+  exact append_right_cancel (k := tail) rational.right.right
+
 theorem RealStreamClassifier_unary_denominator_context_selected_e1_pair_readback
     {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {a b : BHist} :
     RealStreamClassifier x y ->
