@@ -135,6 +135,30 @@ right triangle results.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_triangles\_empty}
 
+\begin{theorem}[Adjunction unit-counit endomorphism total collapse]
+\label{thm:adjunction-unit-counit-endomorphism-total-collapse}
+For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right),
+$$
+then all four endomorphism fields are empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\hsame(left,\emp)\land\hsame(right,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
+to the displayed carrier. This gives the two boundary witnesses
+$\hsame(unit,\emp)$ and $\hsame(counit,\emp)$.
+
+Apply Theorem~\ref{thm:adjunction-unit-counit-carrier-endomorphism-triangles-empty}
+to the same carrier. This gives the two triangle-leg witnesses
+$\hsame(left,\emp)$ and $\hsame(right,\emp)$.
+
+Combining the two boundary witnesses with the two triangle-leg witnesses
+assembles the displayed four-fold conjunction.
+\end{proof}
+
 \begin{definition}[Adjunction triangle carrier]
 \label{def:adjunction-triangle-carrier}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and

@@ -515,6 +515,27 @@ theorem TrialDiv_bound_positive_shape {b n : BHist} :
   | step previous _screen stepCont =>
       exact ⟨_, stepCont, TrialDiv_bound_unary previous⟩
 
+theorem TrialDiv_bound_unit_prefix_or_self {b n : BHist} :
+    TrialDiv b n ->
+      NatUnaryStrictPrefix (BHist.e1 BHist.Empty) b ∨ hsame b (BHist.e1 BHist.Empty) := by
+  intro trial
+  induction trial with
+  | unit _hn =>
+      exact Or.inr (hsame_refl (BHist.e1 BHist.Empty))
+  | step previous _screen stepCont ih =>
+      have stepStrict : NatUnaryStrictPrefix _ _ :=
+        ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty, (fun empty => by cases empty),
+          stepCont⟩
+      cases ih with
+      | inl previousStrict =>
+          cases NatUnaryStrictPrefix_trans_composite_tail previousStrict stepStrict with
+          | intro _ composite =>
+              exact Or.inl composite.right.right.right
+      | inr previousUnit =>
+          exact Or.inl
+            (NatUnaryStrictPrefix_cont_hsame_transport (unary_e1_closed unary_empty)
+              (fun empty => by cases empty) stepCont previousUnit (hsame_refl _))
+
 theorem TrialDiv_bound_not_empty {b n : BHist} :
     TrialDiv b n -> hsame b BHist.Empty -> False := by
   intro trial emptyBound

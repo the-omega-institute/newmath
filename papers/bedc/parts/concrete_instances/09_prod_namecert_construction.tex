@@ -80,6 +80,24 @@ the empty history, giving the two displayed $\hsame$ facts.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_empty\_result\_components}
 
+\begin{theorem}[Product visible-result component cases]
+\label{thm:prod-history-carrier-visible-result-cases}
+If $\mathsf{ProdHistoryCarrier}(L,R,\Ezero(tail))$ holds, then its right
+component is either $\emp$ and the left component is $\hsame$ to the visible
+result, or the right component is itself $\Ezero$-headed and the stored
+continuation exposes its tail. The same dichotomy holds for visible result
+$\Eone(tail)$ with an $\Eone$-headed right component.
+\end{theorem}
+\begin{proof}
+Unpack the product carrier into component histories $l$ and $r$, source
+witnesses $L(l)$ and $R(r)$, and the continuation proof
+$\Cont(l,r,\Ezero(tail))$ or $\Cont(l,r,\Eone(tail))$. Apply the corresponding
+BEDC continuation visible-result inversion theorem to the stored continuation.
+It yields exactly the empty-right case or the matching visible-headed right
+component case.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryCarrier\_visible\_result\_cases}
+
 \begin{theorem}[Product unary history closure]
 \label{thm:prod-history-carrier-unary}
 If a product history is generated from unary left and right histories, then the
@@ -646,6 +664,31 @@ $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier agreement between
 the envelope and componentwise $\hsame$ classifiers, stability by
 $\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$, ledger through displayed
 pair representations, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product history classifier displayed component hsame exactness]
+\label{thm:prod-history-classifier-displayed-component-hsame-iff}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. If
+$L(l)$, $R(r)$, $\Cont(l,r,h)$, $L(l')$, $R(r')$, and
+$\Cont(l',r',k)$ hold, then
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\hsame(l,l')\wedge\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the displayed component data are
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$. The product history classifier supplies
+the endpoint link $\hsame(h,k)$, so pair-representation coherence transports
+the endpoint link back to the two component links. For the reverse direction,
+the two component links are pushed through the two continuation witnesses by
+continuation respect for $\hsame$, producing $\hsame(h,k)$. The displayed
+component data rebuild the two endpoint product carriers, and these three
+fields are exactly $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_displayed\_component\_hsame\_iff}
 
 \begin{theorem}[Product componentwise history classifier displayed exactness]
 \label{thm:prod-component-history-classifier-displayed-exactness}
