@@ -102,6 +102,19 @@ Induct on the concrete multiplication derivation for $q$. The zero case is immed
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_left\_hsame}
 
+\begin{lemma}[Unit right multiplication reads back the multiplicand]
+\label{lem:natmul-unit-right-hsame}
+For every history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then
+$\hsame(n,d)$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness at multiplier $\Eone(\emp)$. Its
+predecessor multiplier is $\emp$, so the predecessor product is the zero
+constructor result $\emp$. The final continuation is therefore the empty-left
+append of $d$, which identifies the result with $d$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}
+
 \begin{lemma}[\(\Ezero\)-multiplier exclusion]
 \label{thm:natmul-e0-multiplier-absurd}
 No unary multiplication witness has an \(\Ezero\)-headed multiplier:
