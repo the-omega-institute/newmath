@@ -1,0 +1,19 @@
+\begin{theorem}[Matrix singleton add-mul visible-right continuation result nonempty]
+\label{thm:matrix-singleton-addmul-visible-right-continuation-result-nonempty}
+For any histories $M,n,R$, if the shared right input of the displayed
+singleton addition and multiplication has a visible head, then a continuation
+from the addition endpoint to the multiplication endpoint cannot have empty
+result:
+$$
+\ContR(M\oplus \Ezero(n),M\odot \Ezero(n),R)\land R\hsame\emp
+\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(n)$ in place of $\Ezero(n)$.
+\end{theorem}
+\begin{proof}
+Apply the continuation empty-result factor theorem for displayed singleton
+addition and multiplication. An empty result forces the right input factor to
+be empty. This contradicts constructor separation for $\Ezero(n)$ in the first
+case and for $\Eone(n)$ in the second case.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_visible\_right\_continuation\_result\_nonempty}
