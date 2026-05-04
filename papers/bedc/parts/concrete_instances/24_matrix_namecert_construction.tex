@@ -83,6 +83,28 @@ exactness carries the product ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
 
+\begin{theorem}[Matrix singleton power append exponent classifier]
+\label{thm:matrix-singleton-pow-append-exponent-classifier}
+If $M$ is carried by the singleton matrix carrier and $a,b$ are unary
+histories, then the classifier of the append-exponent power ledger against
+$h$ is exactly the singleton carrier condition on $h$:
+$$
+\mathsf{MatrixSingletonClassifier}
+  (\mathsf{MatrixSingletonPow}(M,\mathsf{append}(a,b)),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+Unary closure under append makes $\mathsf{append}(a,b)$ a unary exponent. The
+power carrier theorem therefore carries
+$\mathsf{MatrixSingletonPow}(M,\mathsf{append}(a,b))$. The forward direction
+reads the right carrier field from the classifier. In the reverse direction,
+that carried power endpoint and the carrier witness for $h$ assemble the
+restricted singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_classifier\_iff}
+
 \begin{theorem}[Matrix singleton classifier append split empty]
 \label{thm:matrix-singleton-classifier-append-split-empty}
 For $M,N,h:\mathsf{BHist}$,

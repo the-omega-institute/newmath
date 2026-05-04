@@ -446,6 +446,52 @@ $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
 
+\begin{theorem}[Singleton evaluation continuation append target carrier]
+\label{thm:linearmap-singleton-eval-continuation-append-target-carrier}
+For histories $f,x,y,p,q:\mathsf{BHist}$, if
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\mathsf{append}(p,q)),
+$$
+then the exposed continuation input is in the singleton carrier exactly when
+both append factors are:
+$$
+\mathsf{LinearMapSingletonCarrier}(y)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(q).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the continuation ledger identifies
+$\mathsf{append}(p,q)$ with $\mathsf{append}(\emp,y)$. The left-unit law for
+append identifies this with $y$. Thus a singleton carrier witness for $y$
+turns into an empty-result witness for $\mathsf{append}(p,q)$, which append
+empty-result inversion splits into carrier witnesses for $p$ and $q$.
+Conversely, carrier witnesses for both factors assemble an empty-result
+witness for $\mathsf{append}(p,q)$, and the same continuation ledger and
+left-unit law carry it back to $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_append\_target\_carrier\_iff}
+
+\begin{theorem}[Singleton evaluation continuation visible result exclusion]
+\label{thm:linearmap-singleton-eval-continuation-visible-result-absurd}
+For histories $f,x,y,p:\mathsf{BHist}$, if
+$\mathsf{LinearMapSingletonCarrier}(y)$, then the continuation result of the
+singleton evaluator cannot be either visible endpoint:
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\Ezero(p))\Longrightarrow\bot,
+\qquad
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\Eone(p))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The continuation ledger identifies each displayed result with
+$\mathsf{append}(\emp,y)$. The append left-unit law and the carrier witness for
+$y$ force that result to be history-same to $\emp$. Constructor no-confusion
+for $\Ezero$ and $\Eone$ closes the two visible cases.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_result\_absurd}
+
 \begin{theorem}[Singleton evaluation visible target classifier exclusion]
 \label{thm:linearmap-singleton-eval-visible-target-classifier-absurd}
 For histories $f,x,p:\mathsf{BHist}$, the singleton evaluator cannot classify
