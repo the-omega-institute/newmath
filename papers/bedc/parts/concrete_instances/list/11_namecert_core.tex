@@ -472,18 +472,30 @@ to recover $\mathsf{ListClassifierSpec}(\hsame,xs,ys)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
 
-\begin{theorem}[List classifier reverse equivalence]
-\label{thm:list-classifier-reverse-hsame-equiv}
-For BEDC history lists $xs$ and $ys$, structural classification by $\HSame$ is equivalent before and after reversing both lists:
+\begin{theorem}[Source-parametric list classifier reverse equivalence]
+\label{thm:list-classifier-reverse-iff}
+For any source type $A$, source relation
+$\sim_A:A\to A\to\mathsf{Prop}$, and finite spines
+$xs,ys:\mathsf{ListCarrier}(A)$, list classification by $\sim_A$ is
+equivalent before and after reversing both spines:
 $$
-  \mathsf{ListClassifierSpec}(\hsame,xs,ys)
+  \mathsf{ListClassifierSpec}(\sim_A,xs,ys)
   \Longleftrightarrow
-  \mathsf{ListClassifierSpec}(\hsame,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
+  \mathsf{ListClassifierSpec}(\sim_A,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
 $$
 \end{theorem}
 \begin{proof}
-The forward direction is the reverse-stability theorem. The reverse direction is the reverse-inversion theorem applied to the classified reversed lists.
+The forward direction is
+Theorem~\ref{thm:list-classifier-reverse-source-relation}.
+
+For the reverse direction, apply the same source-parametric reverse stability
+to the classified reversed spines. This gives a classifier on
+$\mathsf{reverse}(\mathsf{reverse}(xs))$ and
+$\mathsf{reverse}(\mathsf{reverse}(ys))$. Reverse-involutivity of finite
+spines identifies these endpoints with $xs$ and $ys$, yielding
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_iff}
 
 \begin{theorem}[List classifier append right cancellation]
 \label{thm:list-classifier-append-right-cancel-hsame}
