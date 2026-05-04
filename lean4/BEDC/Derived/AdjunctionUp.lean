@@ -286,6 +286,19 @@ theorem AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty
         cont_result_hsame_transport data.right resultEmpty
       exact (cont_empty_result_inversion emptyContinuation).left
 
+theorem AdjunctionUnitCounitAlternating_positive_depth_visible_unit_continuation_empty_result_absurd {unit counit depth y r : BHist} :
+    UnaryHistory depth -> (hsame depth BHist.Empty -> False) ->
+      (Cont (AdjunctionUnitCounitAlternating (BHist.e0 unit) counit depth) y r -> hsame r BHist.Empty -> False) ∧
+      (Cont (AdjunctionUnitCounitAlternating (BHist.e1 unit) counit depth) y r -> hsame r BHist.Empty -> False) := by
+  intro depthUnary depthNonempty
+  exact And.intro
+    (fun continuation resultEmpty => not_hsame_e0_empty
+      (AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty depthUnary depthNonempty
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+    (fun continuation resultEmpty => not_hsame_e1_empty
+      (AdjunctionUnitCounitAlternating_positive_depth_result_empty_unit_empty depthUnary depthNonempty
+        (cont_empty_result_inversion (cont_result_hsame_transport continuation resultEmpty)).left))
+
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right ↔

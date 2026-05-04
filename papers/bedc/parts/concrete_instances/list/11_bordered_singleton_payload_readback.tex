@@ -33,3 +33,52 @@ prefix and suffix cancellation; ledger hidden prefix and suffix context; core
 theorem singleton payload readback; exactness by cancellation and singleton
 inversion; standard bridge finite-spine payload extraction; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[List represented-spine bordered singleton payload readback]
+\label{thm:list-represented-spine-bordered-singleton-payload-readback}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
+$p,p',s,s':\mathsf{HistSpine}$ and histories $x,y,h,k:\mathsf{BHist}$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. If
+$$
+\mathsf{ListSpineRep}_A(h,p{++}(x::\mathsf{nil}){++}s),
+\quad
+\mathsf{ListSpineRep}_A(k,p'{++}(y::\mathsf{nil}){++}s')
+$$
+hold, and if $\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)$ holds, then
+$\hsame(x,y)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness}
+to the two displayed endpoint representations and the public represented-spine
+classifier. This reads the endpoint classifier as
+$$
+\mathsf{ListClassifierSpec}(\hsame,
+p{++}(x::\mathsf{nil}){++}s,
+p'{++}(y::\mathsf{nil}){++}s').
+$$
+
+The classified prefix and suffix hypotheses now place the displayed finite
+spines in the scope of
+Theorem~\ref{thm:list-classifier-bordered-singleton-payload-readback}. Applying
+that theorem cancels the classified borders and reads back the singleton
+payload relation $\hsame(x,y)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite-list represented endpoint
+payload readback; BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from source
+certificate plus spine-representation coherence; ledger represented endpoints
+with classified prefix and suffix borders; core theorem bordered singleton
+payload readback; exactness by displayed-spine public classifier conversion and
+finite-spine border cancellation; standard bridge represented finite spines;
+status $\mathsf{ProofTarget}$.
