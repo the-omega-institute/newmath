@@ -227,6 +227,44 @@ def HolomorphicOpenDiskWitnessed (center radius point : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧
     ∃ gap : BHist, UnaryHistory gap ∧ Cont point gap radius
 
+theorem HolomorphicOpenDiskCarrier_witnessed_components {center radius point : BHist} :
+    HolomorphicOpenDiskCarrier center radius point ->
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧
+        ∃ gap : BHist, UnaryHistory gap ∧ Cont point gap radius ∧
+          HolomorphicOpenDiskWitnessed center radius point := by
+  intro carrier
+  cases carrier with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier gapWitness =>
+              have centerUnary : UnaryHistory center :=
+                ComplexHistoryCarrier_unary centerCarrier
+              have radiusPositive : RatUp.PositiveUnaryDenominator radius :=
+                RatUp.RatHistoryCarrier_iff_positive_denominator.mp radiusCarrier
+              have radiusUnary : UnaryHistory radius :=
+                (RatUp.PositiveUnaryDenominator_unary_and_nonempty radiusPositive).left
+              have pointUnary : UnaryHistory point :=
+                ComplexHistoryCarrier_unary pointCarrier
+              cases gapWitness with
+              | intro gap gapData =>
+                  cases gapData with
+                  | intro gapUnary gapRest =>
+                      cases gapRest with
+                      | intro _gapPrefix pointGap =>
+                          exact And.intro centerUnary
+                            (And.intro radiusUnary
+                              (And.intro pointUnary
+                                (Exists.intro gap
+                                  (And.intro gapUnary
+                                    (And.intro pointGap
+                                      (And.intro centerUnary
+                                        (And.intro radiusUnary
+                                          (And.intro pointUnary
+                                            (Exists.intro gap
+                                              (And.intro gapUnary pointGap))))))))))
+
 theorem HolomorphicOpenDiskWitnessed_zero_headed_component_absurd {center radius point :
     BHist} :
     HolomorphicOpenDiskWitnessed center radius point ->
@@ -321,6 +359,34 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                           (And.intro pointUnary
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
+
+theorem HolomorphicOpenDiskCarrier_radius_extension_witnessed
+    {center point radius extra radius' : BHist} :
+    HolomorphicOpenDiskCarrier center radius point -> UnaryHistory extra ->
+      Cont radius extra radius' ->
+        HolomorphicOpenDiskWitnessed center radius' point ∧
+          ∃ gap : BHist, ∃ extendedGap : BHist,
+            UnaryHistory gap ∧ UnaryHistory extendedGap ∧ Cont point gap radius ∧
+              Cont gap extra extendedGap ∧ Cont point extendedGap radius' := by
+  intro carrier extraUnary radiusExtension
+  have components := HolomorphicOpenDiskCarrier_witnessed_components carrier
+  cases components with
+  | intro _centerUnary componentsRest =>
+      cases componentsRest with
+      | intro _radiusUnary componentsRest =>
+          cases componentsRest with
+          | intro _pointUnary gapWitness =>
+              cases gapWitness with
+              | intro _gap gapData =>
+                  cases gapData with
+                  | intro _gapUnary gapRest =>
+                      cases gapRest with
+                      | intro _pointGap witnessed =>
+                          exact And.intro
+                            (HolomorphicOpenDisk_radius_continuation_extend witnessed
+                              extraUnary radiusExtension)
+                            (HolomorphicOpenDisk_radius_extension_gap_witness witnessed
+                              extraUnary radiusExtension)
 
 theorem HolomorphicOpenDiskWitnessed_boundary_hsame_transport
     {center center' radius radius' point point' : BHist} :
