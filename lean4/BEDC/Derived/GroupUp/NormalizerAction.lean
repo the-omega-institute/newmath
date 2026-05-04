@@ -345,4 +345,28 @@ theorem GroupSingletonNormalizerAction_product_coherent_orbit_collapse {s t x : 
   · exact And.intro composedCarrier
       (And.intro nestedCarrier (hsame_trans composedCarrier (hsame_symm nestedCarrier)))
 
+theorem GroupSingletonNormalizerOrbit_product_coherent_action_law {s t x : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
+      GroupSingletonNormalizerOrbit
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty)
+        (append (append (append s t) x) BHist.Empty) ∧
+      GroupSingletonNormalizerOrbit
+        (append (append (append s t) x) BHist.Empty)
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty) := by
+  intro carrierS carrierT carrierX
+  have collapse :=
+    GroupSingletonNormalizerAction_product_coherent_orbit_collapse carrierS carrierT carrierX
+  have nestedSource :
+      GroupSingletonCarrier
+        (append (append s (append (append t x) BHist.Empty)) BHist.Empty) :=
+    collapse.left.left
+  have composedSource :
+      GroupSingletonCarrier (append (append (append s t) x) BHist.Empty) :=
+    collapse.left.right.left
+  constructor
+  · exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro nestedSource composedSource)
+  · exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro composedSource nestedSource)
+
 end BEDC.Derived.GroupUp
