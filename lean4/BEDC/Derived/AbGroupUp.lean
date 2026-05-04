@@ -178,6 +178,51 @@ theorem abgroup_centralizer_commutator_collapse {mul : BHist -> BHist -> BHist}
     exact abgroup_conjugation_collapse assocC commC rightId mulCongr rightInv a x
   exact And.intro central (And.intro commutator conjugation)
 
+theorem abgroup_centralizer_normalizer_collapse
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a s x : BHist} :
+    let Centralizer := fun y : BHist => hsame (mul y a) (mul a y)
+    let Conj := fun t y : BHist => mul (mul t y) (inv t)
+    let Normalizer := fun t : BHist =>
+      (forall y : BHist, Centralizer y -> Centralizer (Conj t y)) ∧
+        (forall y : BHist, Centralizer y -> Centralizer (Conj (inv t) y))
+    Centralizer x ->
+      Normalizer s ∧ Centralizer (Conj s x) ∧ hsame (Conj s x) x := by
+  dsimp
+  intro _centralX
+  have totalCentral :
+      forall y : BHist, hsame (mul y a) (mul a y) := by
+    intro y
+    exact (abgroup_centralizer_commutator_collapse
+      assocC leftId rightId commC mulCongr leftInv rightInv (a := a) (x := y)).left
+  have normalizerS :
+      (forall y : BHist, hsame (mul y a) (mul a y) ->
+        hsame (mul (mul (mul s y) (inv s)) a)
+          (mul a (mul (mul s y) (inv s)))) ∧
+      (forall y : BHist, hsame (mul y a) (mul a y) ->
+        hsame (mul (mul (mul (inv s) y) (inv (inv s))) a)
+          (mul a (mul (mul (inv s) y) (inv (inv s))))) := by
+    constructor
+    · intro y _centralY
+      exact totalCentral (mul (mul s y) (inv s))
+    · intro y _centralY
+      exact totalCentral (mul (mul (inv s) y) (inv (inv s)))
+  have centralConj : hsame (mul (mul (mul s x) (inv s)) a)
+      (mul a (mul (mul s x) (inv s))) :=
+    totalCentral (mul (mul s x) (inv s))
+  have collapseConj : hsame (mul (mul s x) (inv s)) x := by
+    exact hsame_trans (assocC s x (inv s))
+      (abgroup_conjugation_collapse assocC commC rightId mulCongr rightInv s x)
+  exact And.intro normalizerS (And.intro centralConj collapseConj)
+
 theorem abgroup_inverse_mul {mul : BHist -> BHist -> BHist} {e : BHist}
     {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
