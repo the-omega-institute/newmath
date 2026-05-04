@@ -412,6 +412,85 @@ ledger the hidden rational seed and observation witness; core theorem
 displayed equivalence rows; standard bridge constant rational real name; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Constant rational embedding certificate for RealUp]
+\label{thm:real-constant-rational-embedding-certificate}
+For histories $d,e:\Hist$, the assignment
+$d\mapsto(\mathsf{RatConstStream}_d,\Eone(d))$ supplies a concrete embedding
+package from $\RatUp$ into the constant-real part of $\RealUp$. Its carrier row
+is:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d).
+$$
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+Its classifier row is:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e).
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+The carrier and classifier rows inherit reflexivity, symmetry, transitivity,
+endpoint carrier projection, and endpoint transport from the RatUp,
+StreamNameUp, and RealUp certificate fields cited below.
+\end{theorem}
+\begin{proof}
+The carrier row is exactly the two-step bridge of
+\autoref{thm:streamname-real-constant-carrier-bridge}. Reading it left to right
+turns a RatUp carrier into the StreamNameUp carrier of the constant stream and
+then into the e-one sealed RealUp carrier. Reading it right to left unseals the
+constant-real carrier and recovers the hidden rational seed.
+
+The classifier row is the three-step bridge of
+\autoref{thm:streamname-real-constant-prefix-bridge}. The first step moves from
+the RatUp point classifier to the StreamNameUp constant-stream classifier; the
+second identifies that constant-stream classifier with the RealUp unary
+observation stream classifier; the third seals and unseals the same rational
+classifier at $\Eone(d)$ and $\Eone(e)$.
+
+The field inheritance is obtained by transporting the two displayed rows across
+the certificate-field theorems. Apply
+\autoref{thm:rat-stream-name-certificate-fields} for StreamNameUp reflexivity,
+symmetry, transitivity, endpoint carrier projection, and endpoint transport.
+Apply
+\autoref{thm:real-constant-history-classifier-equivalence-fields} for the
+sealed constant-real equivalence fields, and use
+\autoref{thm:streamname-real-constant-carrier-bridge} with
+\autoref{thm:streamname-real-constant-prefix-bridge} to shuttle each field
+between the point, stream-name, unary-stream, and e-one presentations.
+
+Thus the displayed assignment packages exactly one rational seed, its constant
+observation stream, and its e-one real seal, with no additional carrier or
+classifier data.
+\end{proof}
+
+The constant rational embedding certificate fit has ten fields: traditional
+target constant rational embedding into the constant-real part of $\RealUp$;
+BEDC source $\RatUp$ histories plus StreamNameUp unary observations and RealUp
+e-one seals; carrier the pair
+$(\mathsf{RatConstStream}_d,\Eone(d))$; classifier the four-entry row displayed
+above; stability the inherited reflexivity, symmetry, transitivity, endpoint
+carrier projection, and endpoint transport fields; ledger the hidden rational
+seed, the constant observation map, and the e-one seal; core theorem
+\autoref{thm:real-constant-rational-embedding-certificate}; exactness the
+carrier and classifier bridge rows; standard bridge constant dyadic embedding
+as a RealUp naming certificate; downstream consumer the RealUp dyadic embedding
+theorem.
+
 The certificate fit has ten fields: traditional target constant rational real
 names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
 constant rational observation maps; classifier the displayed bridge; stability
