@@ -108,6 +108,42 @@ the result equality identifies the composite payload with $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_target\_visible}
 
+\begin{theorem}[Functor prefix hom-carrier nonempty composite source-target cases]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-source-target-cases}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if $\ContR(f,g,\Eone(k))$, then either the prefixed source is empty and the
+prefixed target is visible, or both source and target are visible:
+$$
+\begin{aligned}
+&\hsame(\mathsf{append}(p,a),\emp)\wedge
+\exists r.\ \mathsf{append}(p,c)=\Eone(r)\wedge
+\mathsf{UnaryHistory}(k)\wedge\mathsf{UnaryHistory}(r)\wedge
+\ContR(\mathsf{append}(p,a),\Eone(k),\Eone(r))\\
+&\quad\vee\\
+&\exists s,r.\ \mathsf{append}(p,a)=\Eone(s)\wedge
+\mathsf{append}(p,c)=\Eone(r)\wedge
+\mathsf{UnaryHistory}(s)\wedge\mathsf{UnaryHistory}(k)\wedge
+\mathsf{UnaryHistory}(r)\wedge
+\ContR(\Eone(s),\Eone(k),\Eone(r)).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply category source-target case analysis to the two prefixed hom-carriers at
+the displayed composite result $\Eone(k)$. The empty-source branch gives the
+empty source classifier and visible target witness. The visible-source branch
+keeps the displayed source endpoint, identifies the result payload with $k$,
+and repacks the target endpoint and continuation witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_source\_target\_cases}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
@@ -229,6 +265,7 @@ identity map. These rows are precisely the ten-field certificate data, so they
 assemble as the semantic naming certificate for the prefix $\FunctorUp$
 interface over $\CategoryUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_semanticNameCert}
 
 \begin{theorem}[Prefix functor two-sided identity law]
 \label{thm:functor-prefix-hom-carrier-two-sided-identity-law}
