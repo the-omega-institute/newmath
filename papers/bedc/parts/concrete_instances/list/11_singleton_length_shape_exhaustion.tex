@@ -141,3 +141,64 @@ Collect the common length $n$ and the six constructor histories. The displayed
 data are exactly the second alternative. The same no-confusion argument
 separates the nil endpoint shape from any cons endpoint shape.
 \end{proof}
+
+\begin{theorem}[List singleton source classified successor length inversion]
+\label{thm:list-singleton-source-classified-successor-length-inversion}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1),
+$$
+then there exist histories $a,b,t,u,p,q:\mathsf{BHist}$ such that
+$$
+\left(
+\begin{array}{l}
+A_{a_0}(a)\land A_{a_0}(b)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+\mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(u,n)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\hsame(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)
+\end{array}
+\right).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-singleton-source-classified-shape-synchrony} to the
+classifier witness. It gives the synchronized nil endpoint shape or a
+synchronized cons endpoint shape.
+
+In the nil endpoint shape, the theorem supplies
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,0)$. Public-length uniqueness from
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+identifies these zero witnesses with the displayed successor witnesses
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)$. The zero-length characterization
+from the same certificate is incompatible with a successor public endpoint, so
+the nil branch is empty.
+
+In the cons endpoint shape, the synchrony theorem supplies a finite value $m$
+and histories $a,b,t,u,p,q:\mathsf{BHist}$ with the two endpoint public lengths
+at $m+1$, both singleton-source heads, both carrier tails, both tail public
+lengths at $m$, the two $\ContR$ ledgers, the two endpoint readbacks,
+$\hsame(a,b)$, and the tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)$.
+
+Apply public-length uniqueness from
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package} to the
+public length witnesses for $h$ at $m+1$ and at $n+1$. The same argument for
+$k$ gives the identical successor index comparison, and successor injectivity
+for finite length values identifies $m$ with $n$.
+
+Transport the two tail public-length witnesses along this length equality.
+Keeping the constructor histories and all ledger, endpoint, head, and classifier
+witnesses supplied by the cons shape gives exactly the displayed six-history
+package.
+\end{proof}
