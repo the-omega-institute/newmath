@@ -132,6 +132,7 @@ import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
+import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
