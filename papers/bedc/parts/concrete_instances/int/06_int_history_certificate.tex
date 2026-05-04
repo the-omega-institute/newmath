@@ -779,51 +779,6 @@ forward implication before repacking the public classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntHistoryClassifier\_positive\_append\_context\_iff}
 
-\begin{theorem}[Integer history classifier hsame transport]
-\label{thm:int-history-classifier-hsame-transport}
-For all $h,k,h',k':\mathsf{BHist}$, the public integer history classifier is
-stable under replacement of both endpoints by $\hsame$-equal representatives:
-$$
-\hsame(h,h')\to
-\hsame(k,k')\to
-\mathsf{IntHistoryClassifier}(h,k)\to
-\mathsf{IntHistoryClassifier}(h',k').
-$$
-The ten-field fit is the following. The traditional target is signed-integer
-equality stable under representative replacement. The BEDC source consists of
-$\mathsf{BHist}$, $\hsame$, $\Ezero$, $\Eone$, and
-$\mathsf{IntHistoryClassifier}$. The carrier is
-$\mathsf{IntHistoryCarrier}$. The classifier is the two-branch public
-classifier. The stability endpoint is $\hsame$ transport. The ledger records
-the visible sign tag together with the unary payload. The core theorem is this
-transport statement. Exactness preservation is preservation of the classifier
-under representative replacement. The standard bridge is replacement of
-signed-unary representatives. The status is $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Unfold the classifier witness for $\mathsf{IntHistoryClassifier}(h,k)$ and
-split its visible signed branch.
-
-In the zero-tag branch, keep the unary payload witnesses $m,n$, the payload
-comparison $\hsame(m,n)$, and the stored mixed-tag exclusion. Compose the old
-endpoint witness $\hsame(h,\Ezero(m))$ with the symmetry of $\hsame(h,h')$ to
-obtain $\hsame(h',\Ezero(m))$. The same composition with $\hsame(k,k')$ gives
-$\hsame(k',\Ezero(n))$.
-
-It remains to rebuild the branch exclusion at the transported endpoints. Given
-a hypothetical one-tag witness from $h'$ and $k'$, compose it back through
-$\hsame(h,h')$ and $\hsame(k,k')$ to obtain the corresponding one-tag witness
-from $h$ and $k$. The stored zero-branch exclusion then rules it out, so the
-zero-tag classifier branch repacks at $h'$ and $k'$.
-
-In the one-tag branch, keep the same unary payload data and payload
-comparison. The supplied endpoint transports compose with the old witnesses to
-produce $\hsame(h',\Eone(m))$ and $\hsame(k',\Eone(n))$.
-
-For the transported exclusion, any zero-tag witness at $h'$ and $k'$ composes
-back to a zero-tag witness at $h$ and $k$. The stored one-branch exclusion
-rules it out, and the one-tag classifier branch repacks with the original
-payload witnesses.
-\end{proof}
+\input{parts/concrete_instances/int/06_int_history_classifier_transport}
 
 \closureat{\IntUp}{\checkedCertStr}

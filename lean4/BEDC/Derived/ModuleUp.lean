@@ -469,4 +469,48 @@ theorem ModuleSingletonSmul_scalar_representative_transport_compatibility
     (singleton_empty_history_module_laws.left.core.equiv_trans
       nestedClassified reassocClassified)
 
+def ModuleParityEps : BHist :=
+  BHist.e0 BHist.Empty
+
+def ModuleParityOne : BHist :=
+  BHist.e1 BHist.Empty
+
+def ModuleParityMul : BHist -> BHist -> BHist
+  | BHist.Empty, h => h
+  | BHist.e0 BHist.Empty, BHist.Empty => BHist.e0 BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e0 BHist.Empty => BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e0 (BHist.e0 _h) => BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e0 (BHist.e1 _h) => BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e1 _h => BHist.Empty
+  | BHist.e0 (BHist.e0 _h), _ => BHist.Empty
+  | BHist.e0 (BHist.e1 _h), _ => BHist.Empty
+  | BHist.e1 h, BHist.Empty => BHist.e1 h
+  | BHist.e1 _h, BHist.e0 _k => BHist.Empty
+  | BHist.e1 _h, BHist.e1 _k => BHist.Empty
+
+def ModuleParitySmul : BHist -> BHist -> BHist
+  | BHist.Empty, _ => BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.Empty => BHist.e1 BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e0 _h => BHist.Empty
+  | BHist.e0 BHist.Empty, BHist.e1 _h => BHist.Empty
+  | BHist.e0 (BHist.e0 _h), h => h
+  | BHist.e0 (BHist.e1 _h), h => h
+  | BHist.e1 _h, h => h
+
+theorem ModuleParityAction_scalar_associativity_counterexample :
+    hsame (ModuleParitySmul (ModuleParityMul ModuleParityEps ModuleParityEps) ModuleParityOne)
+      BHist.Empty /\
+      hsame (ModuleParitySmul ModuleParityEps (ModuleParitySmul ModuleParityEps ModuleParityOne))
+        ModuleParityOne /\
+        (hsame
+          (ModuleParitySmul (ModuleParityMul ModuleParityEps ModuleParityEps) ModuleParityOne)
+          (ModuleParitySmul ModuleParityEps (ModuleParitySmul ModuleParityEps ModuleParityOne)) ->
+            False) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · exact hsame_refl ModuleParityOne
+    · intro same
+      exact not_hsame_emp_e1 same
+
 end BEDC.Derived.ModuleUp
