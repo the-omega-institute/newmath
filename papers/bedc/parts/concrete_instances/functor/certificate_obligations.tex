@@ -45,3 +45,87 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:functor-zero-axiom-note}
 Avoids funext by pointwise classifier sameness for object and morphism mappings.
 \end{remark}
+
+\begin{definition}[Opposite functor certificate data]
+\label{def:opposite-functor-certificate-data}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ denote a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. Over the opposite category data of
+\autoref{def:opposite-category-certificate-data}, define
+$F^{\mathrm{op}}:\mathcal C^{\mathrm{op}}\to\mathcal D^{\mathrm{op}}$ by
+$$
+F^{\mathrm{op}}_0(a):=F_0(a),
+\qquad
+F^{\mathrm{op}}_1(u):=F_1(u).
+$$
+A displayed morphism $u:a\to b$ in $\mathcal C^{\mathrm{op}}$ is read as the
+same raw morphism $u:b\to a$ in $\mathcal C$; therefore
+$F^{\mathrm{op}}_1(u)$ is read as $F_1(u):F_0(b)\to F_0(a)$ in
+$\mathcal D$, hence as a displayed morphism $F_0(a)\to F_0(b)$ in
+$\mathcal D^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite functor certificate]
+\label{thm:opposite-functor-certificate}
+If $\mathcal C$ and $\mathcal D$ satisfy the $\CategoryUp$ certificate
+obligations and $F:\mathcal C\to\mathcal D$ satisfies the $\FunctorUp$
+certificate obligations of \autoref{def:functor-certificate-obligations}, then
+the data of \autoref{def:opposite-functor-certificate-data} satisfy the
+$\FunctorUp$ certificate obligations from $\mathcal C^{\mathrm{op}}$ to
+$\mathcal D^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:opposite-category-certificate}, the source and codomain
+opposite data are certified categories, so the source specification required by
+\autoref{def:functor-source-specification} is present. The carrier and pattern
+fields are the same two maps $F_0$ and $F_1$, only with the hom-carrier
+endpoints read through the opposite category convention.
+
+For hom-carrier landing, let $u:a\to b$ be displayed in
+$\mathcal C^{\mathrm{op}}$. By
+\autoref{def:opposite-category-certificate-data}, this is the original
+hom-carrier assertion $u:b\to a$ in $\mathcal C$. The carrier field of $F$
+sends it to a displayed morphism $F_1(u):F_0(b)\to F_0(a)$ in $\mathcal D$.
+Unfolding the codomain opposite hom-carrier reads that same assertion as
+$F_1(u):F_0(a)\to F_0(b)$ in $\mathcal D^{\mathrm{op}}$, which is exactly the
+landing field for $F^{\mathrm{op}}$.
+
+The classifier specification is inherited pointwise. Object classifiers are
+unchanged by the opposite construction, and the morphism classifier of
+$\mathcal D^{\mathrm{op}}$ is the morphism classifier of $\mathcal D$ on the
+same displayed morphism representatives. Thus the pointwise object-map,
+morphism-map, reflexivity, and transitivity clauses from
+\autoref{def:functor-classifier-specification} and
+\autoref{def:functor-stability-certificate} are the original clauses for $F$.
+
+For identity preservation, the identity at $a$ in $\mathcal C^{\mathrm{op}}$
+is the identity at $a$ in $\mathcal C$, and the identity at $F_0(a)$ in
+$\mathcal D^{\mathrm{op}}$ is the identity at $F_0(a)$ in $\mathcal D$. The
+identity preservation witness for $F$ therefore gives the required
+$\mathcal D^{\mathrm{op}}$ morphism-classifier witness for $F^{\mathrm{op}}$.
+
+For composition preservation, let $u:a\to b$ and $v:b\to c$ be displayed in
+$\mathcal C^{\mathrm{op}}$, and let $w$ be their displayed composite there.
+Unfolding opposite composition gives the original source ledger
+$$
+\mathsf{Comp}_{\mathcal C}(v,u,w).
+$$
+The composition preservation field of $F$ gives the codomain classifier
+comparison between $F_1(w)$ and the composite selected by
+$\mathsf{Comp}_{\mathcal D}(F_1(v),F_1(u),-)$. By the definition of opposite
+composition in $\mathcal D^{\mathrm{op}}$, that is precisely the composite
+selected by
+$$
+\mathsf{Comp}_{\mathcal D^{\mathrm{op}}}(F_1(u),F_1(v),-).
+$$
+Since the morphism classifier is unchanged, this is the required composition
+preservation witness for $F^{\mathrm{op}}$.
+
+Stability under source and target classifier replacement is also inherited.
+A source-endpoint replacement in the opposite category is a target-endpoint
+replacement in the original category, and conversely; the original stability
+field applies with the endpoint order swapped. The ledger policy of
+\autoref{def:functor-ledger-policy} records the same category ledgers and the
+same preservation witnesses, read through the two opposite-category
+certificates.
+\end{proof}
