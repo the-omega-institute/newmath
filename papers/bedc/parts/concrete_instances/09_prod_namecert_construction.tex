@@ -445,29 +445,7 @@ the displayed endpoint sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdPairRep\_fixed\_endpoint\_exactness}
 
-\begin{definition}[Product pair-representation coherence]
-\label{def:prod-pair-rep-coherent}
-For source classifiers $\sim_L$ and $\sim_R$, define
-$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ to mean that any two pair
-representations of the same product history classify their corresponding
-components:
-$$
-  \forall h\,l\,r\,l'\,r'.\;
-  \mathsf{ProdPairRep}_{L,R}(h,l,r)\wedge
-  \mathsf{ProdPairRep}_{L,R}(h,l',r')
-  \to (l\sim_L l')\wedge(r\sim_R r').
-$$
-\end{definition}
-
-\begin{theorem}[Product raw pair representation coherence is not automatic]
-\label{thm:prod-pair-rep-coherence-not-automatic}
-Let $\mathsf{TopCarrier}(h):=\mathsf{True}$ for every $h:\mathsf{BHist}$, and take both source classifiers to be $\hsame$. Then $\neg\mathsf{ProdPairRepCoherent}_{\mathsf{TopCarrier},\mathsf{TopCarrier},\hsame,\hsame}$ holds.
-
-The per-object fit is: traditional target ordered-pair readback; BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier $\mathsf{ProdPairRep}$; classifier $\hsame$; stability obligation coherence; ledger displayed pair boundary; core theorem non-automaticity; exactness obstruction; standard bridge raw append ambiguity; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-The endpoint $\Ezero(\emp)$ has two raw pair presentations under $\mathsf{TopCarrier}$. The left-unit presentation uses components $(\emp,\Ezero(\emp))$, and the right-unit presentation uses components $(\Ezero(\emp),\emp)$. If product pair-representation coherence were automatic for the two $\hsame$ classifiers, applying it to these two presentations of the same endpoint would force $\hsame(\emp,\Ezero(\emp))$ on the left components, and also $\hsame(\Ezero(\emp),\emp)$ on the right components. BEDC history no-confusion separates the empty history from a zero-step endpoint, so the forced $\hsame(\emp,\Ezero(\emp))$ is impossible. Thus the componentwise ordered-pair certificate needs displayed coherence data and cannot be recovered from raw continuation alone.
-\end{proof}
+\input{parts/concrete_instances/prod/09_pair_representation_coherence_obstruction}
 
 \begin{definition}[Product componentwise history classifier]
 \label{def:prod-component-history-classifier}

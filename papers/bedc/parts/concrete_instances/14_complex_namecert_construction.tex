@@ -45,6 +45,23 @@ rational-history carrier characterization to each component to read back the
 positive unary denominator evidence, and keep the same continuation witness.
 \end{proof}
 
+\begin{theorem}[Complex e1-tail carrier component readback]
+\label{thm:complex-history-carrier-e1-tail-components}
+If $\mathsf{ComplexHistoryCarrier}(\Eone(tail))$ holds, then there are
+histories $real$ and $imagTail$ such that $real$ is a rational-history
+component, $\Eone(imagTail)$ is a rational-history component, and
+$\Cont(real,imagTail,tail)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier into rational real and imaginary components and the
+continuation witness assembling them into $\Eone(tail)$. Continuation
+$\Eone$-result inversion gives either an empty imaginary component or an
+$\Eone$-headed imaginary component with tail continuation. The empty branch
+contradicts rational-history carrier non-emptiness; the visible branch exposes
+the required rational component and tail continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_e1\_tail\_components}
+
 \begin{theorem}[Complex carrier component reflexive classifiers]
 \label{thm:complex-history-carrier-component-reflexive-classifiers}
 Every complex history carrier exposes real and imaginary rational-history
@@ -147,6 +164,22 @@ ledgers, endpoint sameness, and positive denominator witnesses assemble
 directly into the displayed endpoint-pair statement.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_positive\_components}
+
+\begin{theorem}[Complex e1-endpoint classifier component readback]
+\label{thm:complex-history-classifier-e1-endpoint-components}
+If $\mathsf{ComplexHistoryClassifier}(\Eone(tail),h)$ holds, or if
+$\mathsf{ComplexHistoryClassifier}(h,\Eone(tail))$ holds, then there are
+histories $real$ and $imagTail$ such that $real$ is a rational-history
+component, $\Eone(imagTail)$ is a rational-history component, and
+$\Cont(real,imagTail,tail)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the complex classifier into its two endpoint carrier witnesses and the
+stored endpoint $\hsame$ proof. In either endpoint position, the
+$\Eone$-headed endpoint supplies a complex carrier. Apply the
+$\Eone$-tail carrier component readback theorem to that carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_e1\_endpoint\_components}
 
 \begin{theorem}[Complex classifier excludes an \(e0\) endpoint]
 \label{thm:complex-history-classifier-e0-endpoint-absurd}
