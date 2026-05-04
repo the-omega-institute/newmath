@@ -188,6 +188,12 @@ theorem NatMul_succ_result_empty_left_empty {d q n : BHist} :
 def NatDivides (d n : BHist) : Prop :=
   ∃ q : BHist, UnaryHistory q ∧ NatMul d q n
 
+theorem NatDivides_result_unary {d n : BHist} : NatDivides d n -> UnaryHistory n := by
+  intro divides
+  cases divides with
+  | intro _ qData =>
+      exact NatMul_result_unary (NatMul_left_unary qData.right) qData.right
+
 theorem NatDivides_empty_left_result_empty {n : BHist} :
     NatDivides BHist.Empty n -> hsame n BHist.Empty := by
   intro divides
