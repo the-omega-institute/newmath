@@ -238,6 +238,27 @@ theorem ComplexDistance_nonempty_distance_endpoint_cases {z w d : BHist} :
       | inr zNonempty =>
           exact Or.inl zNonempty
 
+theorem ComplexDistance_endpoint_nonempty_distance_nonempty {z w d : BHist} :
+    ComplexDistance z w d ->
+      ((hsame z BHist.Empty -> False) ∨ (hsame w BHist.Empty -> False)) ->
+        hsame d BHist.Empty -> False := by
+  intro distance endpointNonempty dEmpty
+  cases distance.right.right.right with
+  | inl zw =>
+      have emptyParts := cont_empty_result_inversion (cont_result_hsame_transport zw dEmpty)
+      cases endpointNonempty with
+      | inl zNonempty =>
+          exact zNonempty emptyParts.left
+      | inr wNonempty =>
+          exact wNonempty emptyParts.right
+  | inr wz =>
+      have emptyParts := cont_empty_result_inversion (cont_result_hsame_transport wz dEmpty)
+      cases endpointNonempty with
+      | inl zNonempty =>
+          exact zNonempty emptyParts.right
+      | inr wNonempty =>
+          exact wNonempty emptyParts.left
+
 theorem ComplexDistanceTriangleBound_unary {z w u d12 d23 : BHist} :
     ComplexDistance z w d12 -> ComplexDistance w u d23 ->
       UnaryHistory (ComplexDistanceTriangleBound d12 d23) := by
