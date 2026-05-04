@@ -502,6 +502,27 @@ second classification and transitivity of $\hsame$ identify $x$ and $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_conjugation\_equation\_solution\_unique\_from\_empty\_unit}
 
+\begin{theorem}[Group singleton conjugation equation solver]
+\label{thm:group-singleton-conjugation-equation-solver}
+For singleton histories $a,x,b:\mathsf{BHist}$, the singleton classifier
+solves the displayed conjugation equation exactly when the middle history is
+classified against the corresponding empty-left normal form:
+$$
+\mathsf{GroupSingletonClassifier}((a x)\emp,b)
+\Longleftrightarrow
+\mathsf{GroupSingletonClassifier}(x,(\emp b)a).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction splits the carrier of $(a x)\emp$ through the append-empty
+readback, extracting singleton carriers for $a$, $x$, and the terminal empty
+factor. It then rebuilds the carrier of $(\emp b)a$ from the empty factor,
+$b$, and $a$, and repacks the singleton classifier by transitivity of
+$\hsame$. The reverse direction performs the same carrier split on
+$(\emp b)a$ and rebuilds $(a x)\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_equation\_solver\_iff}
+
 \begin{theorem}[Group commutator detects commutation]
 \label{thm:group-commutator-trivial-iff-commutes}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with
