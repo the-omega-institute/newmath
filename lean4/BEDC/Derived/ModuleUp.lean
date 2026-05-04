@@ -536,6 +536,18 @@ theorem ModuleParitySmul_epsilon_empty_result_iff {m : BHist} :
       · intro _nonempty
         exact hsame_refl BHist.Empty
 
+theorem ModuleParityAction_scalar_associativity_forces_empty_visible_one :
+    (∀ r s m : BHist,
+      hsame (ModuleParitySmul (ModuleParityMul r s) m)
+        (ModuleParitySmul r (ModuleParitySmul s m))) ->
+      hsame ModuleParityOne BHist.Empty := by
+  intro assocLaw
+  have counter := ModuleParityAction_scalar_associativity_counterexample
+  have associated := assocLaw ModuleParityEps ModuleParityEps ModuleParityOne
+  have leftEmpty := counter.left
+  have rightOne := counter.right.left
+  exact hsame_trans (hsame_symm rightOne) (hsame_trans (hsame_symm associated) leftEmpty)
+
 theorem ModuleAdditive_duplicate_cancel_empty {add : BHist -> BHist -> BHist} {x : BHist}
     (right_empty : hsame (add x BHist.Empty) x)
     (left_cancel : forall {a b c : BHist}, hsame (add a b) (add a c) -> hsame b c)
