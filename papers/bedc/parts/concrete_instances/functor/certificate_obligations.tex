@@ -56,6 +56,31 @@ composite carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_zero\_headed\_component\_absurd}
 
+\begin{theorem}[Functor prefix composite nonempty target component split]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-target-component-split}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if $\ContR(f,g,fg)$ and $fg$ is not empty, then the displayed target
+$\mathsf{append}(p,c)$ has a nonempty component:
+$$
+(\hsame(p,\emp)\to\bot)\vee(\hsame(c,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The category composite nonempty-target obstruction applies to the two
+prefixed hom-carriers and their continuation composite, giving
+$\hsame(\mathsf{append}(p,c),\emp)\to\bot$. BEDC append nonemptiness then
+separates the prefixed target into a nonempty prefix component or a nonempty
+target-tail component.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_target\_component\_split}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
