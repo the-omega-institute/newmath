@@ -179,6 +179,23 @@ front component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
 
+\begin{theorem}[Adjunction positive-depth alternating unit nonempty]
+\label{thm:adjunction-unit-counit-alternating-positive-depth-unit-nonempty}
+For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary,
+$depth$ is not history-same as $\emp$, and $unit$ is not history-same as
+$\emp$. Then the alternating unit-counit ledger at that depth is not
+history-same as $\emp$:
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty depth has a one-headed tail. At such a depth the alternating
+ledger unfolds to an append whose left component is $unit$. Append nonemptiness
+therefore follows from the nonempty unit component.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_result\_nonempty\_of\_positive\_depth\_unit\_nonempty}
+
 \begin{theorem}[Adjunction unit-counit alternating empty components closed]
 \label{thm:adjunction-unit-counit-alternating-empty-components-closed}
 If both boundary components are empty and $depth$ is unary, then the
