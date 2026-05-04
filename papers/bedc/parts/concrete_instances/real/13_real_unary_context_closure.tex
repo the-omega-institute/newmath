@@ -387,3 +387,59 @@ e-one and zero-headed tests; core theorem
 \autoref{thm:real-stream-classifier-unary-denominator-context-selected-classifier-full-endpoint-package};
 exactness classifier-plus-shape package; standard bridge RegSeqRat selected
 endpoint classifier readback; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier unary denominator context selected classifier appended-tail package]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-classifier-appended-tail-package}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, a selected
+index $n$, histories $a,b,d_X,d_Y,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamClassifier}(x,y)$ and the pointwise unary-context and
+continuation hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. If the
+selected contextual outputs also satisfy the one-extension seals
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad \hsame(o_Y(n),\Eone(b)),
+$$
+then the selected contextual endpoints carry all of the following data:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$;
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))\land
+\mathsf{PositiveUnaryDenominator}(o_Y(n))$;
+\item $\mathsf{UnaryHistory}(o_X(n))\land \mathsf{UnaryHistory}(o_Y(n))$;
+\item $(\hsame(o_X(n),\emp)\to\mathsf{False})\land
+(\hsame(o_Y(n),\emp)\to\mathsf{False})$;
+\item $(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False})$;
+\item $\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$;
+\item $(\hsame(o_X(n),d_X\cdot\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),d_Y\cdot\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-classifier-full-endpoint-package}
+to the same RealUp stream classifier, pointwise context-closure hypotheses, and
+one-extension seals. This supplies the selected rational-history classifier,
+the positivity rows, the unary-shape rows, the nonempty and zero-headed
+exclusions, and the e-one tail readback row.
+
+Next apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-appended-e0-tail-absurd}
+to the same selected contextual instance. This gives the two exclusions against
+displays of $o_X(n)$ and $o_Y(n)$ as denominators with appended e-zero tails.
+
+Repack the six rows from the selected classifier full endpoint package with
+the two appended-tail exclusions as the final row. The resulting tuple is
+exactly the displayed package for the selected contextual endpoints.
+\end{proof}
+
+Fit: traditional target RealUp contextual endpoint classifier readback; BEDC
+source RealUp streams, RatUp classifier, $\mathsf{Cont}$, unary contexts, and
+appended e-zero-tail obstruction; carrier rational-observation streams;
+classifier $\mathsf{RealStreamClassifier}$ and selected
+$\mathsf{RatHistoryClassifier}$; stability context closure and endpoint
+selection; ledger selected index, contexts, continuation outputs, e-one seals,
+zero-headed tests, and appended-tail displays; core theorem
+\autoref{thm:real-stream-classifier-unary-denominator-context-selected-classifier-appended-tail-package};
+exactness classifier-plus-shape-plus-tail package; standard bridge RegSeqRat
+selected endpoint classifier readback; status $\mathsf{ProofTarget}$.
