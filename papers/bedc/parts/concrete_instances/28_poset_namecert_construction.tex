@@ -188,47 +188,52 @@ two carrier witnesses reassembles
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
 \end{proof}
 
-\begin{theorem}[Prefix sandwich collapse for concrete POSet]
-\label{thm:poset-prefix-sandwich-collapse}
-For carrier histories $h,k,r$ in $\mathsf{PreorderCarrier}$, suppose that
-$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$,
-$\mathsf{PreorderPrefixLE}(h,k)$, and $\mathsf{PreorderPrefixLE}(k,r)$ hold.
-Then both
+\begin{theorem}[Prefix interval classifier collapse for concrete POSet]
+\label{thm:poset-prefix-interval-classifier-collapse}
+For carrier histories $h,k,r$ in $\mathsf{PreorderCarrier}$, if
+$\mathsf{PreorderPrefixLE}(h,k)$, $\mathsf{PreorderPrefixLE}(k,r)$, and
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$ hold,
+then both
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$ and
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$ hold.
 
 The per-object fields are as follows: the traditional target is interval
-sandwich collapse in a partial order; the BEDC source is
-$\mathsf{UnaryHistory}$ with $\mathsf{PreorderPrefixLE}$; the carrier is
-$\mathsf{PreorderCarrier}$; the classifier is
-$\mathsf{PreorderCarrierClassifierSpec}$; the stability obligations are
-transitivity and antisymmetry/exactness; the ledger records the two comparison
-chains $h\le k\le r$ and $r\le h$; the core theorem is this sandwich collapse;
-the exactness component is classifier-fiber collapse; the standard bridge is
-the finite unary prefix order; the status is $\mathsf{ProofTarget}$.
+collapse for order-convex consumers; the BEDC source is the unary
+$\mathsf{BHist}$ prefix order; the carrier is $\mathsf{PreorderCarrier}$; the
+classifier is $\mathsf{PreorderCarrierClassifierSpec}$; stability comes from
+prefix transitivity and antisymmetry; the ledger records the chains
+$h\le k\le r$ and $r\le h\le k$; the core theorem is this interval classifier
+collapse; exactness is inherited from
+\autoref{thm:poset-prefix-classifier-exactness}; the standard bridge is the
+finite unary prefix order; and the status is $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Unpack the endpoint classifier
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,r)$. It
-provides carrier data for $h$ and $r$ together with $\hsame(h,r)$. By symmetry
-and \autoref{thm:preorder-prefix-le-of-hsame}, obtain the reverse comparison
-$\mathsf{PreorderPrefixLE}(r,h)$.
+provides carrier data for $h$ and $r$ together with $\hsame(h,r)$. The displayed
+comparison $\mathsf{PreorderPrefixLE}(h,k)$ and
+\autoref{thm:preorder-prefix-preserves-carrier} give the carrier witness for
+$k$.
 
-Compose the displayed comparison $\mathsf{PreorderPrefixLE}(k,r)$ with
-$\mathsf{PreorderPrefixLE}(r,h)$ by
-\autoref{thm:preorder-prefix-transitivity}; this gives
-$\mathsf{PreorderPrefixLE}(k,h)$.
+Symmetry of $\hsame(h,r)$ and \autoref{thm:preorder-prefix-le-of-hsame} give
+$\mathsf{PreorderPrefixLE}(r,h)$. Compose this with
+$\mathsf{PreorderPrefixLE}(k,r)$ by
+\autoref{thm:preorder-prefix-transitivity} to obtain
+$\mathsf{PreorderPrefixLE}(k,h)$. Now
+\autoref{thm:poset-prefix-antisymmetry} applies to
+$\mathsf{PreorderPrefixLE}(h,k)$ and $\mathsf{PreorderPrefixLE}(k,h)$, yielding
+$\hsame(h,k)$.
 
-Together with the assumed $\mathsf{PreorderPrefixLE}(h,k)$,
-\autoref{thm:poset-prefix-classifier-exactness} returns
-$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$.
-
-For the second endpoint, compose
+For the right subinterval, compose
 $\mathsf{PreorderPrefixLE}(r,h)$ with the displayed comparison
 $\mathsf{PreorderPrefixLE}(h,k)$ to get $\mathsf{PreorderPrefixLE}(r,k)$.
+$\mathsf{PreorderPrefixLE}(k,r)$ is already available, so
+\autoref{thm:poset-prefix-antisymmetry} gives $\hsame(k,r)$.
 
-The assumed $\mathsf{PreorderPrefixLE}(k,r)$ and
-\autoref{thm:poset-prefix-classifier-exactness} yield
+Finally repackage the two classifier witnesses. Combine the carrier witnesses
+for $h$ and $k$ with $\hsame(h,k)$ to obtain
+$\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(h,k)$, and
+combine the carrier witnesses for $k$ and $r$ with $\hsame(k,r)$ to obtain
 $\mathsf{PreorderCarrierClassifierSpec}(\mathsf{PreorderCarrier})(k,r)$.
 \end{proof}
 
