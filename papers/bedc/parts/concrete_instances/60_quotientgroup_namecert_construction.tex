@@ -354,6 +354,31 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty continuation carrier pair]
+\label{thm:quotientgroup-centralizer-coset-empty-continuation-pair}
+If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then the empty-representative
+centralizer-coset carrier of the continuation result is equivalent to the two
+endpoint carriers:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,r)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,p)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,q).
+$$
+\end{theorem}
+\begin{proof}
+Forwards, the result carrier gives $r\hsame\emp$. Transport the displayed
+continuation to an empty result and apply empty-result inversion, giving
+$p\hsame\emp$ and $q\hsame\emp$; combine each with the assumed centralizer
+witness for $\emp$.
+
+Conversely, the two endpoint carriers give $p\hsame\emp$ and $q\hsame\emp$.
+The displayed continuation is therefore determined by the empty append result,
+so $r\hsame\emp$, and the empty centralizer witness closes the result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_continuation\_pair\_iff}
+
 \begin{theorem}[Centralizer coset empty continuation classifier]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then

@@ -316,6 +316,23 @@ theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_readback
       (And.intro boundaries.right.left
         (And.intro certData.left (hsame_symm certData.right)))
 
+theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_exactness
+    {source target modulus cert : BHist} :
+    ContinuousMapCarrier source BHist.Empty target modulus cert BHist.Empty ↔
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        UnaryHistory cert ∧ hsame cert modulus := by
+  constructor
+  · intro carrier
+    exact ContinuousMapCarrier_empty_map_empty_distance_certificate_readback carrier
+  · intro data
+    have modulusWitness : ContinuousModulusWitness BHist.Empty modulus cert :=
+      Iff.mpr (ContinuousModulusWitness_empty_source_iff
+        (modulus := modulus) (target := cert))
+        (And.intro data.right.right.left (hsame_symm data.right.right.right))
+    exact Iff.mpr (ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
+      (source := source) (target := target) (modulus := modulus) (cert := cert))
+      (And.intro data.left (And.intro data.right.left modulusWitness))
+
 theorem ContinuousMapCarrier_prefix_canonical_distance_closed
     {p source map target modulus cert distance : BHist} :
     UnaryHistory p -> ContinuousMapCarrier source map target modulus cert distance ->
