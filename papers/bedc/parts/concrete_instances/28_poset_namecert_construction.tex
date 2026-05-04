@@ -104,6 +104,43 @@ $\mathsf{PreorderPrefixLE}$ supplies $\hsame(h,k)$. Recombine that endpoint
 witness with the two carrier witnesses to get $\rho_{\emp}(h,k)$.
 \end{proof}
 
+\begin{theorem}[Singleton empty POSet terminal interval collapse]
+\label{thm:poset-singleton-empty-terminal-interval-collapse}
+For the concrete package of
+\autoref{def:concrete-singleton-empty-poset-instance}, let
+$h,k,r:\mathsf{BHist}$ be carried by $A_{\emp}$. If the displayed terminal
+chain supplies $h\le_{\emp}k$ and $k\le_{\emp}r$, then all three endpoints
+collapse inside the singleton interval:
+$$
+\rho_{\emp}(h,k)\land \rho_{\emp}(k,r)\land \rho_{\emp}(h,r)\land
+h\le_{\emp}r\land r\le_{\emp}h.
+$$
+The ten-field fit is: traditional target one-point partial order interval
+collapse; BEDC source singleton $\mathsf{BHist}$; carrier $A_{\emp}$;
+classifier $\rho_{\emp}$; relation $\le_{\emp}$; stability from singleton
+transport, preorder transitivity, and POSet antisymmetry; ledger the two chain
+comparisons plus carried endpoints; core theorem this block; exactness
+terminal classifier collapse; standard bridge one-point poset; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold the singleton carrier $A_{\emp}$. Each carried endpoint transports
+through the empty history $\emp$, so the endpoint classifier witnesses
+$\rho_{\emp}(h,k)$, $\rho_{\emp}(k,r)$, and $\rho_{\emp}(h,r)$ are obtained by
+pairing the two relevant carrier witnesses with the corresponding
+$\hsame$ endpoint comparison.
+
+The comparison $h\le_{\emp}r$ is inherited from preorder transitivity for the
+restricted prefix relation: compose the displayed witnesses
+$h\le_{\emp}k$ and $k\le_{\emp}r$.
+
+For the reverse comparison, the same singleton endpoint comparison identifies
+$r$ with $h$ inside $A_{\emp}$. Apply the exactness direction of
+\autoref{thm:singleton-empty-poset-laws} to the classifier witness
+$\rho_{\emp}(h,r)$, then read off $r\le_{\emp}h$ from the opposing comparison.
+The five displayed conjuncts therefore repack the terminal interval collapse.
+\end{proof}
+
 This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
 machine checking.
 
