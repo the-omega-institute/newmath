@@ -19,6 +19,17 @@ theorem CompletionMetricDistanceWitness_e1_tail_real_prefix_readback
   exact And.intro (unary_e1_inversion hDistance.2.2.1)
     (RealStreamPrefixClassifier_endpoint n hPrefix)
 
+theorem CompletionMetricDistanceWitness_empty_distance_real_prefix_readback
+    {x y : Nat -> BHist} {n : Nat} :
+    RealStreamPrefixClassifier x y n -> MetricDistanceWitness (x n) (y n) BHist.Empty ->
+      hsame (x n) BHist.Empty ∧ hsame (y n) BHist.Empty ∧
+        RatHistoryClassifier (x n) (y n) := by
+  intro hPrefix hDistance
+  have endpoints :=
+    (MetricDistanceWitness_empty_distance_iff (x := x n) (y := y n)).mp hDistance
+  exact And.intro endpoints.left
+    (And.intro endpoints.right (RealStreamPrefixClassifier_endpoint n hPrefix))
+
 theorem CompletionMetricDistanceWitness_e1_tail_hsame_transport
     {x x' y y' : Nat -> BHist} {n : Nat} {tail : BHist}
     (sameX : forall m : Nat, hsame (x m) (x' m))

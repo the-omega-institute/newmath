@@ -199,6 +199,35 @@ theorem ComplexHistoryCarrier_append_unary_closed {h q : BHist} :
                             ((congrArg (fun visible => append visible q) cont).trans
                               (append_assoc real imag q))))))
 
+theorem ComplexHistoryClassifier_unary_context_closed {p p' h k q q' : BHist} :
+    UnaryHistory p -> hsame p p' -> ComplexHistoryClassifier h k ->
+      UnaryHistory q -> hsame q q' ->
+        ComplexHistoryClassifier
+          (BEDC.FKernel.Cont.append p (BEDC.FKernel.Cont.append h q))
+          (BEDC.FKernel.Cont.append p' (BEDC.FKernel.Cont.append k q')) := by
+  intro pUnary sameP classified qUnary sameQ
+  cases classified with
+  | intro carrierH rest =>
+      cases rest with
+      | intro carrierK sameHK =>
+          have pUnary' : UnaryHistory p' := unary_transport pUnary sameP
+          have qUnary' : UnaryHistory q' := unary_transport qUnary sameQ
+          have tailCarrierH : ComplexHistoryCarrier (append h q) :=
+            ComplexHistoryCarrier_append_unary_closed carrierH qUnary
+          have tailCarrierK : ComplexHistoryCarrier (append k q') :=
+            ComplexHistoryCarrier_append_unary_closed carrierK qUnary'
+          have contextCarrierH : ComplexHistoryCarrier (append p (append h q)) :=
+            ComplexHistoryCarrier_prepend_unary_closed pUnary tailCarrierH
+          have contextCarrierK : ComplexHistoryCarrier (append p' (append k q')) :=
+            ComplexHistoryCarrier_prepend_unary_closed pUnary' tailCarrierK
+          have sameContext :
+              hsame (append p (append h q)) (append p' (append k q')) := by
+            cases sameP
+            cases sameHK
+            cases sameQ
+            rfl
+          exact And.intro contextCarrierH (And.intro contextCarrierK sameContext)
+
 theorem ComplexHistoryLedgerPolicy_classifier_extension {raw visible t : BHist} :
     ComplexHistoryLedgerPolicy raw visible -> ComplexHistoryClassifier visible t ->
       ComplexHistoryClassifier raw t := by
