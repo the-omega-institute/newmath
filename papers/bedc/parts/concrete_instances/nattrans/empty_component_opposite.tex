@@ -16,3 +16,23 @@ together with $p\hsame q$. Symmetry of $\hsame$ gives $q\hsame p$, and the
 same empty-identity exactness theorem rebuilds the reversed prefix component.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_component\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result opposite closure]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-empty-result-opposite-closed}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then the
+empty component also carries the opposite endpoint direction $r\to p$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(r,p,a,\emp).
+$$
+\end{theorem}
+\begin{proof}
+First close the vertical composite, obtaining the empty component from $p$ to
+$r$ over $a$. Apply empty-component opposite closure to this component with
+reflexive $\hsame(\emp,\emp)$, which reverses the endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_opposite\_closed}
