@@ -106,6 +106,17 @@ theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
   | intro n data =>
       exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
 
+theorem PadicPrimeScale_succ_exponent_factorization_iff {p q r : BHist} :
+    PadicPrimeScale p (BHist.e1 q) r ↔
+      ∃ n : BHist, PadicPrimeScale p q n ∧ Cont n p r := by
+  constructor
+  · intro scale
+    exact PadicPrimeScale_succ_exponent_inversion scale
+  · intro factors
+    cases factors with
+    | intro n data =>
+        exact And.intro data.left.left (NatMul.succ data.left.right data.right)
+
 theorem PadicPrimeScale_exponent_result_cases {p exponent result : BHist} :
     PadicPrimeScale p exponent result ->
       (hsame exponent BHist.Empty ∧ hsame result BHist.Empty) ∨

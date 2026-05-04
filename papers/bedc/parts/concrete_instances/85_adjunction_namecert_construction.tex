@@ -130,6 +130,33 @@ unit, counit, left, and right rebuild the two continuation ledgers and retain
 the displayed left-cycle empty witness.
 \end{proof}
 
+\begin{theorem}[Adjunction right-cycle empty component exactness]
+\label{thm:adjunction-unit-counit-right-cycle-empty-components}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$,
+an adjunction unit-counit carrier whose right triangle result is empty is
+equivalent to unary prefix data, two-way prefix equality, and all four
+unit, counit, left-triangle, and right-triangle histories being empty:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \hsame(right,\emp)\\[2pt]
+\Longleftrightarrow
+\Unary(p)\land\Unary(q)\land\Unary(a)\land
+\hsame(p,q)\land\hsame(q,p)\land
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(left,\emp)\land\hsame(right,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Exchange the unit and counit component rows and read the right triangle as the
+left triangle of the exchanged carrier. The left-cycle exactness theorem
+extracts the unary witnesses, the two prefix equalities, and the empty
+component histories. Reassembling the component rows in the original order
+gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_right\_cycle\_empty\_components\_iff}
+
 \begin{theorem}[Adjunction unit-counit triangle result determinism]
 \label{thm:adjunction-unit-counit-triangle-results-deterministic}
 If an adjunction unit-counit carrier displays triangle results $left$ and
@@ -214,6 +241,24 @@ component is $unit$ and whose right component is the alternating ledger with
 the boundary components exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
+
+\begin{theorem}[Adjunction positive-depth unit-empty readback]
+\label{thm:adjunction-alternating-positive-depth-unit-empty-readback}
+For unary nonempty $depth$, if $unit\hsame\emp$, then the alternating
+unit-counit ledger at $depth$ is history-same to the tail readback with the
+boundary components exchanged: there is a unary $tail$ such that
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),
+\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,tail)).
+$$
+\end{theorem}
+\begin{proof}
+Positive-depth continuation readback supplies a unary tail and a continuation
+from $unit$ into the exchanged alternating tail. Replacing $unit$ by $\emp$
+turns that continuation into the left-unit law, so its result reads back to
+the exchanged tail.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_unit\_empty\_readback}
 
 \begin{theorem}[Adjunction unit-counit alternating empty components closed]
 \label{thm:adjunction-unit-counit-alternating-empty-components-closed}
