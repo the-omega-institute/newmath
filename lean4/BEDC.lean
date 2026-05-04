@@ -215,6 +215,7 @@ import BEDC.Derived.RealUp.SelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
+import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
 import BEDC.Derived.RealUp.StreamBridge
