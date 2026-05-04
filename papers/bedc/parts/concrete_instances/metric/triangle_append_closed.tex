@@ -193,6 +193,52 @@ field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric triangle depth-zero iff empty spine]
+\label{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three concrete metric distance
+witnesses identify final structural depth zero exactly with emptiness of the
+three endpoints and the two displayed edge distances:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\mathsf{MetricDistanceDepth}(d_{xyz})=0
+\Longleftrightarrow
+\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-depth-zero-collapse} to the three
+triangle witnesses and the displayed zero-depth equation. The theorem returns a
+larger conjunction containing the append equality as its first component; discard
+that component and retain precisely the five empty-spine classifiers.
+
+For the reverse direction, assume the five displayed classifiers. Apply
+\autoref{thm:metric-distance-witness-empty-endpoints-depth-zero} to the first
+edge witness, using $\hsame(x,\emp)$ and $\hsame(y,\emp)$, to get
+$\mathsf{MetricDistanceDepth}(d_{xy})=0$. Then use
+\autoref{thm:metric-distance-depth-zero-iff-empty} to recover
+$\hsame(d_{xy},\emp)$ as the certified empty left endpoint for the outer witness.
+Finally apply
+\autoref{thm:metric-distance-witness-empty-endpoints-depth-zero} to
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$, together with
+$\hsame(d_{xy},\emp)$ and $\hsame(z,\emp)$, to obtain
+$\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+\end{proof}
+
+Fit: traditional target triangle degeneracy criterion; BEDC source $BHist$
+metric distance witnesses; carrier the three witnessed edges; classifier
+$\hsame$; stability supplied by existing depth-zero and empty-endpoint lemmas;
+ledger the two edge distances; core theorem this iff; exactness zero-depth iff
+empty spine; standard bridge none claimed; status ProofTarget.
+
 \begin{theorem}[Metric distance witness visible-context triangle depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-triangle-depth-zero-collapse}
 For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, if the first triangle edge
