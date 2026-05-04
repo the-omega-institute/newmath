@@ -73,4 +73,30 @@ theorem GroupSingletonNormalizerOrbit_coverage_iff {x y : BHist} :
         (And.intro actionCarrier
           (And.intro endpoints.right (hsame_trans actionCarrier (hsame_symm endpoints.right)))))
 
+theorem GroupSingletonNormalizerOrbit_action_single_fiber_iff {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x ->
+      (GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty) y <->
+        GroupSingletonCarrier y) := by
+  intro carrierS carrierX
+  have actionCertificate := GroupSingleton_normalizer_action_certificate carrierS carrierX
+  have actionCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    actionCertificate.left
+  constructor
+  · intro orbit
+    exact (GroupSingletonNormalizerOrbit_coverage_iff.mp orbit).right
+  · intro carrierY
+    exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro actionCarrier carrierY)
+
+theorem GroupSingletonNormalizerOrbit_action_identity_iff {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      (GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty) y <->
+        GroupSingletonNormalizerOrbit x y) := by
+  intro carrierS carrierX carrierY
+  constructor
+  · intro _actedOrbit
+    exact GroupSingletonNormalizerOrbit_coverage_iff.mpr (And.intro carrierX carrierY)
+  · intro _sourceOrbit
+    exact (GroupSingletonNormalizerOrbit_action_single_fiber_iff carrierS carrierX).mpr carrierY
+
 end BEDC.Derived.GroupUp
