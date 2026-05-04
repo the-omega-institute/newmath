@@ -54,6 +54,7 @@ $\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
 Theorem~\ref{thm:history-no-confusion}, excludes this empty-versus-one
 identification.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListHistoryCarrier\_public\_length\_shape\_exhaustion}
 
 \begin{theorem}[List singleton source classified shape synchrony]
 \label{thm:list-singleton-source-classified-shape-synchrony}
@@ -260,4 +261,46 @@ premises, so it yields
 $\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$.
 
 Together these three reconstructed witnesses give the first condition.
+\end{proof}
+
+\begin{theorem}[List singleton source classified successor endpoint nonempty]
+\label{thm:list-singleton-source-classified-successor-endpoint-nonempty}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1),
+$$
+then
+$$
+\neg\hsame(h,\emp)\land \neg\hsame(k,\emp).
+$$
+The ten-field fit is: traditional target finite-list successor endpoint
+exclusion; BEDC source $\mathsf{BHist}$ with singleton source $A_{a_0}$;
+carrier $\mathsf{ListHistoryCarrier}_{A_{a_0}}$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}$; stability from public
+successor length inversion; ledger cons endpoint readbacks through $\Eone(p)$
+and $\Eone(q)$; core theorem this endpoint exclusion; exactness by BEDC history
+no-confusion; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-length-inversion} to
+the classifier witness and the two successor public-length witnesses. It gives
+histories $a,b,t,u,p,q:\mathsf{BHist}$, in particular the endpoint readbacks
+$\hsame(h,\Eone(p))$ and $\hsame(k,\Eone(q))$.
+
+For the first exclusion, suppose $\hsame(h,\emp)$. Symmetry gives
+$\hsame(\emp,h)$, and transitivity with the readback $\hsame(h,\Eone(p))$ gives
+$\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
+Theorem~\ref{thm:history-no-confusion}, rules out this empty-versus-one
+identification.
+
+The second exclusion is identical with $k$ and $q$. From $\hsame(k,\emp)$,
+symmetry and transitivity with $\hsame(k,\Eone(q))$ give
+$\hsame(\emp,\Eone(q))$, again contradicting
+Theorem~\ref{thm:history-no-confusion}. These two exclusions form the displayed
+conjunction.
 \end{proof}
