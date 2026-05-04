@@ -2860,3 +2860,155 @@ Chapter 38 is also 100% definition-only (per B-14 rationale: 7 def, 0 thm). Sibl
 
 ---
 
+### B-113 - Polynomial division algorithm well-foundedness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Polynomial division algorithm well-foundedness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $p, q$ are polynomial spines over a $\CommRingUp$ carrier with $\neg(\PolySame_R(q, \emp))$, then iterated leading-coefficient elimination of $q$ from $p$ terminates in finitely many steps with a quotient and remainder satisfying the standard polynomial division identity.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Polynomial chapter (25_polynomial) currently covers add/multiply/normalize but has no division-with-remainder theorem. Existing polynomial BOARD entries (B-09, B-21, B-22, B-30, B-31) all concern normalization invariance and add/multiply commutativity; none touch on division. This is a foundational well-foundedness obligation requiring a length-decreasing measure under leading-coefficient elimination, and is a prerequisite for any future rational-function, GCD, or factorization work. No paper label of the form thm:polynomial-division exists.
+
+---
+
+
+### B-114 - CommRing zero-divisor product closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CommRing zero-divisor product closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a $\CommRingUp$ carrier with classifier $\sim_R$, if $a$ is a left zero divisor and $b$ is any ring element, then $ab$ is also a left zero divisor (or zero).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+CommRing chapter (19_commring) carries the basic ring laws and commutativity but no zero-divisor / integral-domain structure theorems. No existing BOARD entry treats the zero-divisor predicate as a closed structure. This is a foundational closure law that future integral-domain certificates would need to invoke, derived from ring distributivity and classifier transport already provided by the CommRing certificate. No paper label like thm:zero-divisor-* is present.
+
+---
+
+
+### B-115 - TotalOrder finite minimum element existence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | TotalOrder finite minimum element existence |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $L$ is a finite nonempty list of $\TotalOrderUp$ elements, then there exists $m \in L$ such that for every $x \in L$, $m \le x$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+TotalOrder chapter (29_totalorder) has the trichotomy and classifier laws, but no theorem about minimum-element extraction from a finite list. B-13 covers trichotomy reduction of the classifier and B-29 covers lattice bound uniqueness — neither addresses list-minimum existence. The proof is constructive (induction on list spine + trichotomy at the cons step), entirely BEDC-clean, and is foundational for any sorting / scheduling / extremization development. No paper label of the form thm:totalorder-min exists.
+
+---
+
+
+### B-116 - AbGroup torsion element subgroup closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | AbGroup torsion element subgroup closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an $\AbGroupUp$ carrier, if $a, b$ are torsion elements (each annihilated by some positive integer multiplication), then $a + b$ and $-a$ are also torsion elements.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+AbGroup chapter (17_abgroup) provides the abelian group laws but contains no torsion-element / torsion-subgroup theorem. The proof requires a NatMul-style witness construction combining the two annihilator orders (lcm-style), which exercises the unary multiplication interface in a new direction. Foundational for any future divisible-group or torsion-free-quotient development. No paper label like thm:torsion-* exists.
+
+---
+
+
+### B-117 - Functor preserves split monomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Functor preserves split monomorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $F : \mathcal{C} \to \mathcal{D}$ is a $\FunctorUp$ certificate and $f$ has a left inverse in $\mathcal{C}$, then $F(f)$ has a left inverse in $\mathcal{D}$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Functor chapter (37_functor) is currently definition-heavy (the basis for B-11's composition-closure target). No theorem covers preservation of split monomorphisms / split epimorphisms. Distinct from B-11 (composition closure of the hom-carrier classifier) and from the existing nat-trans naturality targets (B-14, etc.). The proof goes directly from $F(g \circ f) \sim F(g) \circ F(f)$ plus identity preservation. Pre-requisite for any later preservation-of-iso theorem. No paper label like thm:functor-split-mono exists.
+
+---
+
+
+### B-118 - Convergence radius monotonicity in coefficient ring inclusion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Convergence radius monotonicity in coefficient ring inclusion |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $R \subseteq R'$ is a $\CommRingUp$ subring inclusion and $f$ is a power series with coefficients in $R$, then the convergence radius of $f$ viewed in $R'$ is at least the convergence radius of $f$ in $R$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Convergence-radius chapter (41_convergence_radius) provides the radius definition and existing convergence-radius targets concern internal stability under coefficient operations. No BOARD entry or paper label addresses transport of the radius along subring/superring inclusion. The witness transports via the inclusion homomorphism preserving partial sums. Genuinely new direction connecting the algebraic forgetful structure of CommRing to the analytic side, with no existing duplicate among the def:conv-rad-* labels (which are definition-only).
+
+---
+
