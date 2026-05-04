@@ -15,6 +15,46 @@
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
+\begin{theorem}[Group singleton two-conjugator orbit classifier]
+\label{thm:group-singleton-two-conjugator-orbit-classifier}
+For histories $s,t,x,y:\mathsf{BHist}$ in the concrete singleton history group,
+write
+$$
+\mathsf{Conj}_u(z):=\mathsf{mul}(\mathsf{mul}(u,z),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$ and $A_{\emp}(t)$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\Longleftrightarrow R_{\emp}(x,y).
+$$
+The ten-field fit is: traditional target terminal two-conjugator orbit
+classifier; BEDC source concrete singleton $\GroupUp$; carrier $A_{\emp}$;
+classifier $R_{\emp}$; stability from normalizer action coverage and terminal
+classifier packaging; ledger the two conjugators and endpoint witnesses;
+exactness the displayed iff; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-two-conjugator-orbit-coverage} under the
+two displayed conjugator carrier witnesses. This rewrites the normalizer orbit
+relation between the acted endpoints as the endpoint carrier condition
+$$
+A_{\emp}(x)\land A_{\emp}(y).
+$$
+
+Apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to the same endpoint
+pair. It identifies $R_{\emp}(x,y)$ with
+$A_{\emp}(x)\land A_{\emp}(y)$.
+
+Composing the first equivalence with the reverse direction of the second gives
+exactly
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\Longleftrightarrow R_{\emp}(x,y).
+$$
+\end{proof}
+
 \begin{theorem}[Group singleton normalizer orbit action chain]
 \label{thm:group-singleton-normalizer-orbit-action-chain}
 For histories $s,x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
