@@ -37,6 +37,28 @@ the shifted boundary continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_unary\_suffix\_transport}
 
+\begin{theorem}[Open-disk gap zero-headed component impossibility]
+\label{thm:holomorphic-open-disk-gap-zero-headed-component-absurd}
+For histories \(z_0,r,z,g\), an open-disk gap witness has no zero-headed
+center, radius, point, or gap component:
+$$
+\mathsf{HolomorphicOpenDiskGap}(z_0,r,z,g)
+\Longrightarrow
+\left(\exists w,\ z_0=\Ezero(w)\right)\lor
+\left(\exists w,\ r=\Ezero(w)\right)\lor
+\left(\exists w,\ z=\Ezero(w)\right)\lor
+\left(\exists w,\ g=\Ezero(w)\right)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the open-disk gap witness into its four unary-history fields. Rewriting
+any component as a zero-headed history turns the corresponding unary witness
+into a unary zero-extension, contradicting unary zero-extension separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Open-disk transport along \(\hsame\)]
 \label{lem:holomorphic-open-disk-hsame-transport}
 If \(\mathsf{OpenDisk}(z_0,r,z,g)\) and each of \(z_0,r,z,g\) is replaced by an \(\hsame\)-equivalent history, then the transported tuple is again an open-disk witness. The transported witness exposes the unary carriers of the four target histories and the transported ledger \(\Cont(z',g',r')\).

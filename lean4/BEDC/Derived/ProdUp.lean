@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
@@ -98,6 +99,17 @@ theorem ProdHistoryClassifier_common_right_component_left_hsame
   intro classifier contLeft contRight
   exact cont_common_suffix_cancellation contLeft contRight classifier.right.right
 
+theorem ProdHistoryClassifier_component_hsame_cancellation {Left Right : BHist -> Prop}
+    {h k l l2 r r2 : BHist} :
+    ProdHistoryClassifier Left Right h k -> Cont l r h -> Cont l2 r2 k ->
+      And (hsame l l2 -> hsame r r2) (hsame r r2 -> hsame l l2) := by
+  intro classifier contLeft contRight
+  constructor
+  · intro sameLeft
+    exact cont_cancel_hsame_left_context contLeft contRight sameLeft classifier.right.right
+  · intro sameRight
+    exact cont_cancel_hsame_right_context contLeft contRight sameRight classifier.right.right
+
 theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHist} :
     Left l -> Right r -> ProdHistoryCarrier Left Right (append l r) := by
   intro leftCarrier rightCarrier
@@ -113,6 +125,31 @@ theorem ProdHistoryCarrier_cont_intro {Left Right : BHist -> Prop} {l r h : BHis
     (Exists.intro r
       (And.intro leftCarrier
         (And.intro rightCarrier hCont)))
+
+theorem ProdHistoryCarrier_visible_result_cases {Left Right : BHist -> Prop} {tail : BHist} :
+    (ProdHistoryCarrier Left Right (BHist.e0 tail) ->
+      exists l : BHist, exists r : BHist,
+        Left l /\ Right r /\
+          ((r = BHist.Empty /\ hsame l (BHist.e0 tail)) \/
+            exists r0 : BHist, r = BHist.e0 r0 /\ Cont l r0 tail)) /\
+      (ProdHistoryCarrier Left Right (BHist.e1 tail) ->
+        exists l : BHist, exists r : BHist,
+          Left l /\ Right r /\
+            ((r = BHist.Empty /\ hsame l (BHist.e1 tail)) \/
+              exists r0 : BHist, r = BHist.e1 r0 /\ Cont l r0 tail)) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact ⟨l, r, data.left, data.right.left, cont_e0_result_inversion data.right.right⟩
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact ⟨l, r, data.left, data.right.left, cont_e1_result_inversion data.right.right⟩
 
 theorem ProdComponentHistoryClassifier_endpoint_carriers {Left Right : BHist -> Prop}
     {LeftEq RightEq : BHist -> BHist -> Prop} {h k : BHist} :

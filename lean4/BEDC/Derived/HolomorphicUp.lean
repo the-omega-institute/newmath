@@ -106,6 +106,46 @@ theorem HolomorphicOpenDisk_radius_extension_closed {center radius radius' point
 def HolomorphicOpenDiskGap (z0 r z gap : BHist) : Prop :=
   UnaryHistory z0 ∧ UnaryHistory r ∧ UnaryHistory z ∧ UnaryHistory gap ∧ Cont z gap r
 
+theorem HolomorphicOpenDiskGap_zero_headed_component_absurd {z0 r z gap : BHist} :
+    HolomorphicOpenDiskGap z0 r z gap →
+      ((∃ w : BHist, z0 = BHist.e0 w) ∨ (∃ w : BHist, r = BHist.e0 w) ∨
+        (∃ w : BHist, z = BHist.e0 w) ∨ (∃ w : BHist, gap = BHist.e0 w)) →
+        False := by
+  intro disk zeroComponent
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro gapCarrier _pointGap =>
+                  cases zeroComponent with
+                  | inl centerZero =>
+                      cases centerZero with
+                      | intro w centerEq =>
+                          cases centerEq
+                          exact unary_no_zero_extension centerCarrier
+                  | inr rest =>
+                      cases rest with
+                      | inl radiusZero =>
+                          cases radiusZero with
+                          | intro w radiusEq =>
+                              cases radiusEq
+                              exact unary_no_zero_extension radiusCarrier
+                      | inr rest =>
+                          cases rest with
+                          | inl pointZero =>
+                              cases pointZero with
+                              | intro w pointEq =>
+                                  cases pointEq
+                                  exact unary_no_zero_extension pointCarrier
+                          | inr gapZero =>
+                              cases gapZero with
+                              | intro w gapEq =>
+                                  cases gapEq
+                                  exact unary_no_zero_extension gapCarrier
+
 theorem HolomorphicOpenDiskGap_transport_certificate {z0 z0' r r' z z' gap gap' : BHist} :
     HolomorphicOpenDiskGap z0 r z gap -> hsame z0 z0' -> hsame r r' -> hsame z z' ->
       hsame gap gap' -> HolomorphicOpenDiskGap z0' r' z' gap' ∧ UnaryHistory gap' ∧
