@@ -88,6 +88,42 @@ theorem EigenComponentSingletonCarrier_singleton_append {map scalar vector pair 
                         (And.intro vectorCarrier
                           (cont_intro (congrArg (append map) scalarVectorCont)))))))
 
+theorem EigenComponentSingletonCarrier_cont_result_transport {map scalar vector pair full full' :
+    BHist} :
+    EigenComponentSingletonCarrier map scalar vector pair -> DeterminantSingletonCarrier scalar ->
+      Cont map pair full -> hsame full full' -> EigenSingletonCarrier full' := by
+  intro componentCarrier scalarCarrier mapPair sameFull
+  cases componentCarrier with
+  | intro mapCarrier rest =>
+      cases rest with
+      | intro _scalarCommCarrier rest =>
+          cases rest with
+          | intro vectorCarrier scalarVectorCont =>
+              have mapScalarVector : Cont map (append scalar vector) full :=
+                cont_intro (mapPair.trans (congrArg (append map) scalarVectorCont))
+              exact EigenSingletonCarrier_cont_result_transport mapCarrier scalarCarrier
+                vectorCarrier mapScalarVector sameFull
+
+theorem EigenComponentSingletonCarrier_pair_deterministic {f lam v pair pair' : BHist} :
+    EigenComponentSingletonCarrier f lam v pair ->
+      EigenComponentSingletonCarrier f lam v pair' ->
+        hsame pair pair' ∧ Cont lam v pair ∧ Cont lam v pair' := by
+  intro left right
+  cases left with
+  | intro _fCarrier leftRest =>
+      cases leftRest with
+      | intro _lamCarrier leftRest =>
+          cases leftRest with
+          | intro _vCarrier leftLedger =>
+              cases right with
+              | intro _fCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _lamCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _vCarrier' rightLedger =>
+                          exact And.intro (cont_deterministic leftLedger rightLedger)
+                            (And.intro leftLedger rightLedger)
+
 theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
     EigenSingletonCarrier pair ↔ hsame pair BHist.Empty := by
   constructor
@@ -148,8 +184,50 @@ theorem EigenSingletonCarrier_append_context_empty_iff {L R h : BHist} :
       append_eq_empty_iff.mpr (And.intro data.left innerEmpty)
     exact EigenSingletonCarrier_empty_iff.mpr contextualEmpty
 
+theorem EigenSingletonCarrier_cont_left_unit_result {pair q result : BHist} :
+    EigenSingletonCarrier pair -> Cont pair q result -> hsame result q := by
+  intro carrier continuation
+  have pairEmpty : hsame pair BHist.Empty := EigenSingletonCarrier_empty_iff.mp carrier
+  cases pairEmpty
+  exact cont_left_unit_result continuation
+
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
+
+theorem EigenComponentSingletonCarrier_append_classifier
+    {map map' scalar scalar' vector vector' pair pair' : BHist} :
+    EigenComponentSingletonCarrier map scalar vector pair ->
+      EigenComponentSingletonCarrier map' scalar' vector' pair' ->
+        DeterminantSingletonCarrier scalar ->
+          DeterminantSingletonCarrier scalar' ->
+            hsame map map' ->
+              hsame scalar scalar' ->
+                hsame vector vector' ->
+                  EigenSingletonClassifier (append map pair) (append map' pair') := by
+  intro componentCarrier componentCarrier' scalarCarrier scalarCarrier'
+  intro sameMap sameScalar sameVector
+  have leftCarrier : EigenSingletonCarrier (append map pair) :=
+    EigenComponentSingletonCarrier_singleton_append componentCarrier scalarCarrier
+  have rightCarrier : EigenSingletonCarrier (append map' pair') :=
+    EigenComponentSingletonCarrier_singleton_append componentCarrier' scalarCarrier'
+  cases componentCarrier with
+  | intro _mapCarrier rest =>
+      cases rest with
+      | intro _scalarCommCarrier rest =>
+          cases rest with
+          | intro _vectorCarrier scalarVectorCont =>
+              cases componentCarrier' with
+              | intro _mapCarrier' rest' =>
+                  cases rest' with
+                  | intro _scalarCommCarrier' rest' =>
+                      cases rest' with
+                      | intro _vectorCarrier' scalarVectorCont' =>
+                          have samePair : hsame pair pair' :=
+                            cont_respects_hsame sameScalar sameVector
+                              scalarVectorCont scalarVectorCont'
+                          have sameEndpoint : hsame (append map pair) (append map' pair') :=
+                            cont_respects_hsame sameMap samePair (cont_intro rfl) (cont_intro rfl)
+                          exact And.intro leftCarrier (And.intro rightCarrier sameEndpoint)
 
 theorem EigenSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     EigenSingletonClassifier (append L h) (append k R) ↔
@@ -179,6 +257,16 @@ theorem EigenSingletonClassifier_append_context_empty_iff {L R h k : BHist} :
     exact And.intro (EigenSingletonCarrier_empty_iff.mpr leftEmpty)
       (And.intro (EigenSingletonCarrier_empty_iff.mpr rightEmpty)
         (hsame_trans leftEmpty (hsame_symm rightEmpty)))
+
+theorem EigenSingletonClassifier_continuation_results_hsame {h k q q' r r' : BHist} :
+    EigenSingletonClassifier h k -> hsame q q' -> Cont h q r -> Cont k q' r' ->
+      hsame r r' := by
+  intro classified sameTail leftContinuation rightContinuation
+  have leftResult : hsame r q :=
+    EigenSingletonCarrier_cont_left_unit_result classified.left leftContinuation
+  have rightResult : hsame r' q' :=
+    EigenSingletonCarrier_cont_left_unit_result classified.right.left rightContinuation
+  exact hsame_trans leftResult (hsame_trans sameTail (hsame_symm rightResult))
 
 theorem eigen_singleton_semantic_name_certificate :
     SemanticNameCert EigenSingletonCarrier EigenSingletonCarrier EigenSingletonCarrier

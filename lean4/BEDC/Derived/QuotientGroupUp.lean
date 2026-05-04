@@ -172,6 +172,27 @@ theorem CentralizerCoset_semanticNameCert {mul : BHist -> BHist -> BHist} {a rep
   · intro h carrier
     exact carrier
 
+theorem CentralizerCosetClassifier_empty_representative_transport_iff
+    {mul : BHist -> BHist -> BHist} {a repr h k : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty)
+    (reprCentral : SubgroupCentralizerCarrier mul a repr) :
+    hsame repr BHist.Empty ->
+      (CentralizerCosetClassifier mul a repr h k <->
+        CentralizerCosetClassifier mul a BHist.Empty h k) := by
+  intro reprEmpty
+  constructor
+  · intro classified
+    exact And.intro (And.intro emptyCentral (hsame_trans classified.left.right reprEmpty))
+      (And.intro
+        (And.intro emptyCentral (hsame_trans classified.right.left.right reprEmpty))
+        classified.right.right)
+  · intro classified
+    exact And.intro
+      (And.intro reprCentral (hsame_trans classified.left.right (hsame_symm reprEmpty)))
+      (And.intro
+        (And.intro reprCentral
+          (hsame_trans classified.right.left.right (hsame_symm reprEmpty)))
+        classified.right.right)
 theorem QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

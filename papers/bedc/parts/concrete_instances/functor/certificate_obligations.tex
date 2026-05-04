@@ -143,6 +143,34 @@ Use the roadmap ten-field template for the prefix endofunctor target.
 \end{enumerate}
 \end{proof}
 
+\begin{theorem}[Prefix functor two-sided identity law]
+\label{thm:functor-prefix-hom-carrier-two-sided-identity-law}
+For histories $p,a,b,f,left,right$, suppose $p$ is unary, $f$ is a
+category hom-carrier from $a$ to $b$, $\ContR(\emp,f,left)$ holds, and
+$\ContR(f,\emp,right)$ holds. Then
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),left)
+\wedge
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),right)
+\wedge
+\HSame(left,f)\wedge\HSame(right,f)\wedge\HSame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+First transport the displayed hom-carrier for $f$ across the unary prefix.
+Apply \autoref{thm:functor-prefix-hom-carrier-preserves} to the unary witness
+for $p$ and to the carrier from $a$ to $b$. This gives $f$ as a hom-carrier
+from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$.
+
+Next apply \autoref{thm:category-hom-carrier-two-sided-identity-law} to this
+prefixed carrier and to the two continuation ledgers
+$\ContR(\emp,f,left)$ and $\ContR(f,\emp,right)$.
+
+Project the resulting conjunction. The first two projections are the prefixed
+carrier conclusions for $left$ and $right$; the remaining projections are
+$\HSame(left,f)$, $\HSame(right,f)$, and $\HSame(left,right)$.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 
