@@ -459,6 +459,36 @@ second raw-visible classifier by rational classifier transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_visible\_classifier}
 
+\begin{theorem}[Rat ledger shared-raw contextual visible classifier]
+\label{thm:rat-history-ledger-shared-raw-context-visible-classifier}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes $p,p_v,p_{v'}$
+satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, and unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, then the
+contextual visible denominator endpoints are classified:
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),
+\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'}))).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-ledger-unary-denominator-context-closed} to the first
+ledger with the raw context $p,t$ and the visible context $p_v,t_v$. This
+produces a ledger from the shared raw contextual endpoint
+$\mathsf{append}(p,\mathsf{append}(\rho,t))$ to the first contextual visible
+endpoint.
+
+Apply the same context-closure theorem to the second ledger with the same raw
+context $p,t$ and the visible context $p_{v'},t_{v'}$. The two contextual
+ledger witnesses now share the raw endpoint
+$\mathsf{append}(p,\mathsf{append}(\rho,t))$.
+
+Finally apply
+\autoref{thm:rat-history-ledger-policy-shared-raw-visible-classifier} to those
+two contextual ledger witnesses. Its conclusion is exactly the displayed
+classifier between the two contextual visible denominator endpoints.
+\end{proof}
+
 \begin{theorem}[Rat ledger classifier extension]
 \label{thm:rat-ledger-classifier-extension}
 If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
