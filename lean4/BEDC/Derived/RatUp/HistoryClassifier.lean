@@ -245,4 +245,29 @@ theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
     RatHistoryCarrier_hsame_transport sameVisible visibleCarrier
   exact RatHistoryCarrier_e1_tail_unary_iff.mp displayedCarrier
 
+theorem RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion
+    {rho v w z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      (hsame rho (BHist.e0 z) -> False) ∧ (hsame w (BHist.e0 z') -> False) := by
+  intro ledger visibleTarget
+  have rawTarget : RatHistoryClassifier rho w :=
+    RatHistoryLedgerPolicy_classifier_extension ledger visibleTarget
+  constructor
+  · intro sameRawZero
+    have displayed : RatHistoryClassifier (BHist.e0 z) w :=
+      RatHistoryClassifier_hsame_transport sameRawZero (hsame_refl w) rawTarget
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z) (d := w)).left
+      displayed
+  · intro sameTargetZero
+    have displayed : RatHistoryClassifier rho (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport (hsame_refl rho) sameTargetZero rawTarget
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z') (d := rho)).right
+      displayed
+
+theorem RatHistoryLedgerPolicy_visible_target_e0_endpoint_absurd {rho v w z z' : BHist} :
+    RatHistoryLedgerPolicy rho v -> RatHistoryClassifier v w ->
+      (hsame rho (BHist.e0 z) -> False) ∧ (hsame w (BHist.e0 z') -> False) := by
+  intro ledger classified
+  exact RatHistoryLedgerPolicy_visible_target_zero_extension_exclusion ledger classified
+
 end BEDC.Derived.RatUp

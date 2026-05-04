@@ -308,6 +308,26 @@ theorem ProdHistoryClassifier_pair_coherent_componentwise
                                                             (And.intro contK
                                                               components)))))))))
 
+theorem ProdHistoryClassifier_displayed_component_hsame_iff
+    {Left Right : BHist → Prop} (coherent : ProdPairRepCoherent Left Right hsame hsame)
+    {h k l r l' r' : BHist} :
+    Left l -> Right r -> Cont l r h -> Left l' -> Right r' -> Cont l' r' k ->
+      (ProdHistoryClassifier Left Right h k ↔ hsame l l' ∧ hsame r r') := by
+  intro leftL rightR contH leftL' rightR' contK
+  constructor
+  · intro classifier
+    have repH : ProdPairRep Left Right h l r :=
+      And.intro leftL (And.intro rightR contH)
+    have repK : ProdPairRep Left Right k l' r' :=
+      And.intro leftL' (And.intro rightR' contK)
+    exact ProdPairRep_hsame_coherence coherent repH repK classifier.right.right
+  · intro componentSame
+    have sameHK : hsame h k :=
+      cont_respects_hsame componentSame.left componentSame.right contH contK
+    exact And.intro
+      (ProdHistoryCarrier_cont_intro leftL rightR contH)
+      (And.intro (ProdHistoryCarrier_cont_intro leftL' rightR' contK) sameHK)
+
 theorem ProdComponentHistoryClassifier_symm_from_source_certificates
     {Left Right : BHist → Prop} {LeftEq RightEq : BHist → BHist → Prop}
     (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
@@ -400,5 +420,22 @@ theorem ProdComponentHistoryClassifier_name_certificate
               intro h k classifier _carrier
               exact (ProdComponentHistoryClassifier_endpoint_carriers classifier).right
           }
+
+theorem ProdComponentHistoryClassifier_semantic_name_certificate
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) :
+    SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+      (ProdHistoryCarrier Left Right)
+      (ProdComponentHistoryClassifier Left Right LeftEq RightEq) := by
+  exact {
+    core := ProdComponentHistoryClassifier_name_certificate leftCert rightCert coherent
+    pattern_sound := by
+      intro _h carrier
+      exact carrier
+    ledger_sound := by
+      intro _h carrier
+      exact carrier
+  }
 
 end BEDC.Derived.ProdUp

@@ -572,6 +572,72 @@ $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)$. Repack these with the
 two readback packages to obtain the displayed existential witnesses.
 \end{proof}
 
+\begin{theorem}[List classified successor component readback determinacy]
+\label{thm:list-classified-successor-component-readback-determinacy}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. For histories
+$h,k,a,b,t,u,p,q,a',b',t',u',p',q'$ and every finite length value $n$, suppose
+the two six-tuples $(a,b,t,u,p,q)$ and $(a',b',t',u',p',q')$ both satisfy the
+classified successor component package for the same $h,k,n$:
+$$
+\begin{array}{l}
+A(a)\land A(b)\land
+\mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListHistoryCarrier}_A(u)\land\\
+\mathsf{ListPublicLength}_A(t,n)\land
+\mathsf{ListPublicLength}_A(u,n)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land\\
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+a\sim_A b\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,u)
+\end{array}
+$$
+and
+$$
+\begin{array}{l}
+A(a')\land A(b')\land
+\mathsf{ListHistoryCarrier}_A(t')\land
+\mathsf{ListHistoryCarrier}_A(u')\land\\
+\mathsf{ListPublicLength}_A(t',n)\land
+\mathsf{ListPublicLength}_A(u',n)\land\\
+\ContR(a',t',p')\land \ContR(b',u',q')\land\\
+\hsame(h,\Eone(p'))\land \hsame(k,\Eone(q'))\land\\
+a'\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t',u')
+\end{array}
+$$
+hold. Then
+$$
+a\sim_A a'\land b\sim_A b'\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')\land
+\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u').
+$$
+The ten-field fit is: traditional target finite-list classified successor
+component readback; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; stability from
+cons-boundary coherence; ledger same public successor endpoints $h,k$ with
+common predecessor length $n$; core theorem witness-choice determinacy;
+exactness by public cons endpoint readback; standard bridge finite spines;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-cons-readback-deterministic} to the two
+$h$-side cons presentations. The first package supplies $A(a)$,
+$\mathsf{ListHistoryCarrier}_A(t)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$; the second supplies the corresponding data for
+$a',t',p'$. The conclusion gives $a\sim_A a'$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(t,t')$.
+
+Apply the same theorem to the two $k$-side cons presentations. The first
+package supplies $A(b)$, $\mathsf{ListHistoryCarrier}_A(u)$,
+$\ContR(b,u,q)$, and $\hsame(k,\Eone(q))$; the second supplies the
+corresponding data for $b',u',q'$. The conclusion gives $b\sim_A b'$ and
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(u,u')$. Repack the four
+conclusions in the displayed order.
+\end{proof}
+
 \begin{definition}[List source hsame compatibility]
 \label{def:list-source-hsame-compatible}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let

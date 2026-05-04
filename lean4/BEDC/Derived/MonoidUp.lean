@@ -392,11 +392,49 @@ theorem unary_append_monoid_classifier_context_iff {left right a b : BHist} :
   · intro classified
     exact unary_append_monoid_classifier_append_context unaryLeft unaryRight classified
 
+theorem unary_append_monoid_left_factor_empty_iff {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      (MonoidHistoryClassifier UnaryHistory (append h k) h <->
+        MonoidHistoryClassifier UnaryHistory k BHist.Empty) := by
+  intro unaryH unaryK
+  constructor
+  · intro classified
+    have sameTail : hsame k BHist.Empty := by
+      exact append_left_cancel (h := h) (hsame_trans classified.right.right
+        (hsame_symm (BEDC.FKernel.Cont.append_empty_right h)))
+    exact And.intro unaryK (And.intro unary_empty sameTail)
+  · intro classified
+    have sameAppend : hsame (append h k) h := by
+      exact hsame_trans
+        (by
+          cases classified.right.right
+          exact hsame_refl (append h BHist.Empty))
+        (BEDC.FKernel.Cont.append_empty_right h)
+    exact And.intro (unary_append_closed unaryH unaryK) (And.intro unaryH sameAppend)
+
 theorem unary_append_monoid_commutative_classifier {a b : BHist} :
     UnaryHistory a -> UnaryHistory b ->
       MonoidHistoryClassifier UnaryHistory (append a b) (append b a) := by
   intro unaryA unaryB
   have commData := unary_append_comm_with_closed_results unaryA unaryB
   exact And.intro commData.right.left (And.intro commData.right.right commData.left)
+
+theorem unary_append_monoid_classifier_context_swap {left right a : BHist} :
+    UnaryHistory left -> UnaryHistory right -> UnaryHistory a ->
+      MonoidHistoryClassifier UnaryHistory (append left (append a right))
+        (append right (append a left)) := by
+  intro unaryLeft unaryRight unaryA
+  have leftContext : UnaryHistory (append left (append a right)) :=
+    unary_append_closed unaryLeft (unary_append_closed unaryA unaryRight)
+  have rightContext : UnaryHistory (append right (append a left)) :=
+    unary_append_closed unaryRight (unary_append_closed unaryA unaryLeft)
+  have sameContext :
+      hsame (append left (append a right)) (append right (append a left)) := by
+    exact (congrArg (append left) (unary_append_comm unaryA unaryRight)).trans
+      ((append_assoc left right a).symm.trans
+        ((congrArg (fun x => append x a) (unary_append_comm unaryLeft unaryRight)).trans
+          ((append_assoc right left a).trans
+            (congrArg (append right) (unary_append_comm unaryLeft unaryA)))))
+  exact And.intro leftContext (And.intro rightContext sameContext)
 
 end BEDC.Derived.MonoidUp
