@@ -282,10 +282,28 @@ theorem NatDivides_unit_self_reflexive {n : BHist} :
         (And.intro (unary_e1_closed unary_empty)
           (NatMul.succ (NatMul.zero hn) (cont_intro (append_empty_left n).symm)))
 
+theorem NatDivides_unit_left_iff {n : BHist} :
+    NatDivides (BHist.e1 BHist.Empty) n <-> UnaryHistory n := by
+  constructor
+  · intro divides
+    cases divides with
+    | intro q qData =>
+        have sameNQ : hsame n q := NatMul_unit_left_hsame qData.left qData.right
+        exact unary_transport qData.left (hsame_symm sameNQ)
+  · intro hn
+    exact (NatDivides_reflexive_pair hn).left
+
 def NatPrime (p : BHist) : Prop :=
   UnaryHistory p ∧ NatUnaryStrictPrefix (BHist.e1 BHist.Empty) p ∧
     ∀ d : BHist, UnaryHistory d -> NatDivides d p ->
       hsame d (BHist.e1 BHist.Empty) ∨ hsame d p
+
+theorem NatPrime_unit_absurd : NatPrime (BHist.e1 BHist.Empty) -> False := by
+  intro prime
+  cases prime.right.left with
+  | intro tail data =>
+      exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd data.left data.right.left
+        data.right.right (hsame_refl (BHist.e1 BHist.Empty))
 
 theorem NatPrime_first_pair :
     NatPrime (BHist.e1 (BHist.e1 BHist.Empty)) ∧
