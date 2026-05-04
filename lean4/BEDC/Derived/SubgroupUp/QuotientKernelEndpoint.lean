@@ -95,4 +95,26 @@ protected theorem SubgroupCentralizerQuotientKernel_right_endpoint_right_central
   exact And.intro kernel.left
     (And.intro normalizesYC (carrierTransport productCentral displayedKernel))
 
+protected theorem SubgroupCentralizerQuotientKernel_two_sided_centralizer_endpoint_mul_closed_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y c d : BHist} :
+    SubgroupCentralizerQuotientKernel mul inv a x y ->
+      SubgroupCentralizerCarrier mul a c -> SubgroupCentralizerCarrier mul a d ->
+        SubgroupCentralizerQuotientKernel mul inv a (mul x c) (mul y d) := by
+  intro kernel centralC centralD
+  have leftClosed :
+      SubgroupCentralizerQuotientKernel mul inv a (mul x c) y :=
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_left_endpoint_right_centralizer_mul_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv kernel centralC
+  exact
+    BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel_right_endpoint_right_centralizer_mul_closed_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv leftClosed centralD
+
 end BEDC.Derived.SubgroupUp
