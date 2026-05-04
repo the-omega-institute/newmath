@@ -223,7 +223,52 @@ $\mathsf{StrictZD}_R(a\cdot b)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_strict\_zero\_divisor\_empty\_product\_closed}
 
-The ten-field fit is: traditional target strict zero-divisor closure in a
+\begin{theorem}[CommRing left zero-divisor product strict closure]
+\label{thm:commring-left-zero-divisor-product-strict-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, together with the
+multiplicative commutativity row used in
+\autoref{thm:commring-left-zero-divisor-strict-of-mul-comm}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{LeftZD}_R(a)$ and let $P:(a\cdot b)\hsame0\to\bot$ be the
+displayed apartness proof for the product. Apply
+\autoref{thm:commring-zero-divisor-product-closure} to $a$, $b$, the left
+zero-divisor witness for $a$, and $P$. This gives
+$\mathsf{LeftZD}_R(a\cdot b)$ with the preserved annihilator.
+
+Next apply \autoref{thm:commring-left-zero-divisor-strict-of-mul-comm} to the
+product $a\cdot b$, using the same multiplicative commutativity row. The result
+unpacks into the apartness of $a\cdot b$ and a history
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$,
+$(a\cdot b)\cdot c\hsame0$, and $c\cdot(a\cdot b)\hsame0$.
+
+These are precisely the fields of $\mathsf{StrictZD}_R(a\cdot b)$. Repack the
+apartness component and the two-sided annihilator witness $c$ to obtain the
+claimed strict product closure.
+\end{proof}
+The ten-field fit for
+\autoref{thm:commring-left-zero-divisor-product-strict-closure} is:
+traditional target nonzero multiple of a left zero-divisor; BEDC source
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from associativity, commutativity, congruence, and zero
+absorption; ledger the preserved annihilator and product apartness; core theorem
+\autoref{thm:commring-left-zero-divisor-product-strict-closure}; exactness the
+two-sided strict witness recovered from the left witness; downstream consumer
+the $\FieldUp$ zero-product obstruction and commutative-ring localization
+boundary; status $\mathsf{ProofTarget}$.
+
+The ten-field fit for
+\autoref{thm:commring-strict-zero-divisor-product-closure} is: traditional
+target strict zero-divisor closure in a
 commutative ring; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
 $\mathsf{BHist}$; classifier $\hsame$; stability from associativity,
 commutativity, congruence, and zero absorption; ledger the apartness witness
