@@ -297,6 +297,63 @@ readback supplies $P(D,E,z_D,z_E)$.
 From $A$, use all three bridge equivalences in order. The resulting $C$ row
 again yields the complete appended-tail denominator package.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_appended\_tail\_bridge\_denominator\_package}
+
+\begin{theorem}[Real constant appended-tail bridge denominator package exactness]
+\label{thm:real-constant-appended-tail-bridge-denominator-package-exactness}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\Hist$ and observation maps
+$r,q:\Hist\to\Hist$, set
+$$
+D=d\cdot\Eone(tail_D)
+\qquad\text{and}\qquad
+E=e\cdot\Eone(tail_E).
+$$
+Write the bridge classifier rows as
+$$
+A=\mathsf{RatHistoryClassifier}(D,E),
+\qquad
+B=\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+$$
+$$
+U=\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_D\circ r,
+\mathsf{RatConstStream}_E\circ q),
+\qquad
+C=\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)).
+$$
+Let $P(D,E,z_D,z_E)$ denote the following appended-tail denominator package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(D,E)$;
+  \item $\mathsf{PositiveUnaryDenominator}(D)$ and
+  $\mathsf{PositiveUnaryDenominator}(E)$;
+  \item $\mathsf{UnaryHistory}(d)$, $\mathsf{UnaryHistory}(tail_D)$,
+  $\mathsf{UnaryHistory}(e)$, and $\mathsf{UnaryHistory}(tail_E)$;
+  \item $D\hsame\emp\Longrightarrow\bot$ and
+  $E\hsame\emp\Longrightarrow\bot$;
+  \item $D\hsame\Ezero(z_D)\Longrightarrow\bot$ and
+  $E\hsame\Ezero(z_E)\Longrightarrow\bot$;
+  \item $D\hsame E$.
+\end{enumerate}
+Then the denominator package is exact for the bridge rows:
+$$
+P(D,E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C.
+$$
+\end{theorem}
+\begin{proof}
+Assume $P(D,E,z_D,z_E)$. Its first row is the rational history classifier
+$A$. Apply
+\autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback} to
+the displayed histories and observation maps. The three bridge equivalences
+carry $A$ to $B$, then to $U$, and then to $C$, so the four bridge rows hold
+together.
+
+Conversely assume $A\land B\land U\land C$. Project the final row $C$ and
+apply
+\autoref{thm:real-constant-history-classifier-append-e1-tail-denominator-package}
+to the decompositions $D=d\cdot\Eone(tail_D)$ and
+$E=e\cdot\Eone(tail_E)$, with the zero witnesses $z_D$ and $z_E$. This
+recovers every row of $P(D,E,z_D,z_E)$.
+\end{proof}
 
 The bridge-readback certificate fit has ten fields: traditional target faithful
 constant rational embedding into RealUp; BEDC source RatUp plus StreamNameUp
@@ -306,7 +363,9 @@ from constant streams ignoring $r$ and $q$; ledger the appended e-one
 denominator tails $tail_D,tail_E$ together with heads $d,e$; core theorem
 \autoref{thm:real-constant-appended-tail-rational-stream-bridge-readback}
 together with
-\autoref{thm:real-constant-appended-tail-bridge-denominator-package}; exactness
-recovery of $R$ and of $P(D,E,z_D,z_E)$ from any bridge classifier row; standard
-bridge the usual faithful rational embedding into real names; status
-$\mathsf{ProofTarget}$.
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package} and
+\autoref{thm:real-constant-appended-tail-bridge-denominator-package-exactness};
+exactness the equivalence
+$P(D,E,z_D,z_E)\Longleftrightarrow A\land B\land U\land C$, hence recovery of
+$R$ and of $P(D,E,z_D,z_E)$ from any bridge classifier row; standard bridge the
+usual faithful rational embedding into real names; status $\mathsf{ProofTarget}$.
