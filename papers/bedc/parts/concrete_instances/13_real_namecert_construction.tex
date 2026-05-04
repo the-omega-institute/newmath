@@ -290,6 +290,42 @@ The result is exactly the displayed transported selected denominator readback
 conjunction.
 \end{proof}
 
+\begin{theorem}[Real stream classifier transported selected positive unary nonempty package]
+\label{thm:real-stream-classifier-transport-selected-positive-unary-nonempty-package}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and a selected
+observation index $n$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Then the transported selected endpoints carry the complete rational endpoint
+package
+$$
+\begin{aligned}
+&\mathsf{RatHistoryClassifier}(x'(n),y'(n))\land
+\mathsf{PositiveUnaryDenominator}(x'(n))\land
+\mathsf{PositiveUnaryDenominator}(y'(n))\\
+&\land\ \mathsf{UnaryHistory}(x'(n))\land
+\mathsf{UnaryHistory}(y'(n))\land
+(\hsame(x'(n),\emp)\to\bot)\land
+(\hsame(y'(n),\emp)\to\bot).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Transport the selected rational-history classifier from
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$ to
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$ along the two pointwise
+$\hsame$ hypotheses.
+
+Rational classifier positivity exposes positive unary denominator witnesses at
+both transported endpoints. Each positive unary denominator witness gives a
+unary-history row and separates that endpoint from $\emp$. Packaging these rows
+with the transported classifier gives the displayed conjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_positive\_unary\_nonempty\_package}
+
 Fit: traditional target selected positive denominator readback for transported
 RealUp rational observations; BEDC source RealUp plus RatUp; carrier
 rational-observation streams; classifier RealStreamClassifier and

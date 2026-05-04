@@ -41,4 +41,32 @@ theorem RealStreamClassifier_unary_denominator_context_closed
       ((contOY n).trans (congrArg (fun r => append r (tY n)) (contPY n))).symm
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY pointContext
 
+theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
+    {x x' y y' : Nat -> BHist} {n : Nat} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          RatHistoryClassifier (x' n) (y' n) ∧
+            PositiveUnaryDenominator (x' n) ∧
+              PositiveUnaryDenominator (y' n) ∧
+                UnaryHistory (x' n) ∧
+                  UnaryHistory (y' n) ∧
+                    (hsame (x' n) BHist.Empty -> False) ∧
+                      (hsame (y' n) BHist.Empty -> False) := by
+  intro sameX sameY classified
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) (classified n)
+  have positiveRows :
+      PositiveUnaryDenominator (x' n) ∧ PositiveUnaryDenominator (y' n) :=
+    RatHistoryClassifier_positive_denominators transported
+  have leftRows : UnaryHistory (x' n) ∧ (hsame (x' n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.left
+  have rightRows : UnaryHistory (y' n) ∧ (hsame (y' n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.right
+  exact And.intro transported
+    (And.intro positiveRows.left
+      (And.intro positiveRows.right
+        (And.intro leftRows.left
+          (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
+
 end BEDC.Derived.RealUp
