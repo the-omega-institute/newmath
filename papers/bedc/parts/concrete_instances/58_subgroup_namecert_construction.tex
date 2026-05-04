@@ -208,6 +208,53 @@ $(x',y')$.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_hsame\_transport}
 
+\begin{theorem}[Centralizer right quotient product witness carrier]
+\label{thm:subgroup-centralizer-right-quotient-product-witness-carrier}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying associativity, two-sided unit, multiplication-congruence, and
+two-sided inverse laws, let $u$ be carried by the centralizer normalizer and
+let $p,q$ be carried by the centralizer $Z_a$. Then the product witness
+$$
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u),q)
+$$
+is again carried by $Z_a$.
+\end{theorem}
+\begin{proof}
+The normalizer row for $u$ sends the centralizer witness $p$ through the
+inverse conjugation word
+$\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),
+\mathsf{inv}(\mathsf{inv}(u)))$. The inverse-involution law transports this
+carrier witness to
+$\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u)$. Product closure for
+$Z_a$ then multiplies the transported conjugation witness with the carried
+element $q$, giving the displayed product witness carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_product\_witness\_carrier\_from\_empty\_unit}
+
+\begin{theorem}[Centralizer right quotient product witness endpoint]
+\label{thm:subgroup-centralizer-right-quotient-product-witness-endpoint}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying associativity, left unit, multiplication-congruence, and right
+inverse laws, if
+$y\hsame\mathsf{mul}(x,p)$ and $v\hsame\mathsf{mul}(u,q)$, then
+$$
+\mathsf{mul}(y,v)\hsame
+\mathsf{mul}(\mathsf{mul}(x,u),
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u),q)).
+$$
+\end{theorem}
+\begin{proof}
+Multiplication congruence first replaces $y$ and $v$ by their right quotient
+presentations. Associativity moves the middle $u$ next to
+$\mathsf{inv}(u)$, the right inverse law contracts
+$\mathsf{mul}(u,\mathsf{inv}(u))$ to the empty unit, and the left-unit law
+removes that empty factor. A final associativity comparison restores the
+endpoint as
+$\mathsf{mul}(\mathsf{mul}(x,u),
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u),q))$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_product\_witness\_endpoint\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer right quotient classifier multiplication compatibility]
 \label{thm:subgroup-centralizer-right-quotient-classifier-mul-compatible}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
