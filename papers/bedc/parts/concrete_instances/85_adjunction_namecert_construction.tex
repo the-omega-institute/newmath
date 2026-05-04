@@ -179,6 +179,25 @@ front component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
 
+\begin{theorem}[Adjunction unit-counit alternating empty components closed]
+\label{thm:adjunction-unit-counit-alternating-empty-components-closed}
+If both boundary components are empty and $depth$ is unary, then the
+alternating unit-counit ledger is empty:
+$$
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\Unary(depth)
+\quad\Longrightarrow\quad
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the unary depth. The empty depth returns the empty ledger, while a
+zero-headed depth is incompatible with unary history. In the one-headed case,
+the recursion exchanges the empty unit and counit components; the induction
+hypothesis collapses the tail ledger, and append by the empty front component
+keeps the endpoint empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_empty\_components\_closed}
+
 \begin{theorem}[Adjunction unit-counit alternating endomorphism empty]
 \label{thm:adjunction-unit-counit-alternating-endomorphism-empty}
 For histories $p,a,unit,counit,left,right,depth:\mathsf{BHist}$, if
