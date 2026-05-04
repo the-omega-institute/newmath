@@ -578,5 +578,62 @@ $\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
 \mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
 \end{proof}
 
+\begin{theorem}[Group singleton normalizer orbit action law package]
+\label{thm:group-singleton-normalizer-orbit-action-law-package}
+For histories $s,t,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, if $A_{\emp}(s)$, $A_{\emp}(t)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and
+$x\sim_{N_{\emp}}y$, then:
+\begin{enumerate}
+\item $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)$.
+\item
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))\sim_{N_{\emp}}y$.
+\item
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$.
+\end{enumerate}
+The ten-field fit names the traditional target as a concrete terminal
+normalizer orbit action law package; the BEDC source as the concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier the
+normalizer orbit relation exact against $R_{\emp}$; stability from orbit
+exactness, classifier determinacy, and product-coherent orbit collapse; ledger
+the two conjugating singleton endpoints, the acted-on singleton endpoint, and
+the orbit witness; core theorem this block; exactness predicate the three
+displayed orbit action laws; downstream consumer $\QuotientGroupUp$; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First convert the input orbit witness into the concrete classifier. Since $x$
+and $y$ lie in $A_{\emp}$, the forward direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} gives
+$R_{\emp}(x,y)$.
+
+For the first law, apply
+Theorem~\ref{thm:group-singleton-normalizer-orbit-action-invariance} directly
+to $s$, $x$, and $y$. Its hypotheses are exactly $A_{\emp}(s)$,
+$A_{\emp}(x)$, $A_{\emp}(y)$, and the given orbit relation.
+
+For the inverse-roundtrip law, apply
+Theorem~\ref{thm:group-singleton-normalizer-action-classifier-determinacy} with
+the conjugating endpoint $s$ and the classifier row $R_{\emp}(x,y)$. The second
+row gives
+$$
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+The reverse direction of
+Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} repacks this
+classifier as
+$\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x))\sim_{N_{\emp}}y$.
+
+For the product law, apply
+Theorem~\ref{thm:group-singleton-normalizer-action-product-coherent-orbit-collapse}
+to $s$, $t$, and $x$. Its forward classifier row is
+$$
+R_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)),
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)).
+$$
+Again use the reverse direction of orbit exactness to convert that classifier
+into the displayed orbit relation.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
