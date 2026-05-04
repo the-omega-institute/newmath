@@ -50,6 +50,7 @@ import BEDC.BaseReflection
 
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
+import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.EmptyUp
@@ -231,6 +232,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.RingUp.SingletonAppend
 import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
