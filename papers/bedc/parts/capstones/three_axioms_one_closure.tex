@@ -255,3 +255,36 @@ is the primitive-recursive witness map of \autoref{def:countable-choice-primitiv
 \begin{proof}
 For each $n$, the term $H(n)$ is a displayed pair. Define $a(n)$ to be its first projection and $p(n)$ to be its second projection. Then $a(n):B(n)$ and $p(n):P(n,a(n))$ by dependent-pair elimination. Applying \autoref{thm:countable-choice-primitive-recursive-witness-function} to the family $B$ and witness function $a$ gives the displayed-pair map $n\mapsto(n,a(n))$, and the proof component $p(n)$ supplies the predicate evidence for each chosen value. Projection from a displayed pair is kernel computation, not term-stratum meta closure.
 \end{proof}
+
+\begin{definition}[Certified psame-respecting operation]
+\label{def:namecert-psame-respecting-operation}
+Let $A$ and $B$ be BEDC carrier layers whose public classifiers are written $\psame_A$ and $\psame_B$, and whose carrier-classifier laws are licensed by naming certificates in the sense of \autoref{def:typed-naming-certificate} and \autoref{def:lean-carrier-naming-certificate}. A map $\varphi:A\to B$ is a \emph{certified $\psame$-respecting operation} when its stability data contains a descent witness
+$$
+\tau_\varphi:\forall a,a':A,\; \psame_A(a,a')\Longrightarrow \psame_B(\varphi(a),\varphi(a')).
+$$
+This witness is the operation-level $\DescentCert$ component of \autoref{def:naming-certificate-stability-field}. It is evidence about the classifiers, not an equality $a=a'$ and not a selector of a representative of the $\psame_A$-class.
+\end{definition}
+
+\begin{theorem}[NameCert psame transport replaces quotient equality]
+\label{thm:namecert-psame-transport-replaces-quot-sound}
+Let $A$ and $B$ be BEDC carrier layers with certified classifiers $\psame_A$ and $\psame_B$. Let $\varphi:A\to B$ be a certified $\psame$-respecting operation with descent witness $\tau_\varphi$ as in \autoref{def:namecert-psame-respecting-operation}. For every $a,a':A$, a classifier witness
+$$
+s:\psame_A(a,a')
+$$
+transports through $\varphi$ to a target classifier witness
+$$
+\psame_B(\varphi(a),\varphi(a')).
+$$
+The derivation uses no type-level equality $a=a'$, no quotient representative type, and no representative-selecting section.
+\end{theorem}
+\begin{proof}
+Unfold the certified $\psame$-respecting operation datum. Its descent field is precisely
+$$
+\tau_\varphi:\forall x,y:A,\; \psame_A(x,y)\Longrightarrow \psame_B(\varphi(x),\varphi(y)).
+$$
+Apply this field to $a$, $a'$, and the supplied classifier witness $s$. The resulting witness is
+$$
+\tau_\varphi(a,a',s):\psame_B(\varphi(a),\varphi(a')).
+$$
+This proof consumes only the displayed classifier evidence and the certified descent field. A quotient-style argument would first turn $s$ into an equality at a quotient type and then use congruence of $\varphi$ over that equality. The naming-certificate argument keeps $a$ and $a'$ as distinct source terms and transports only the classifier judgment. Thus the quotient-soundness role identified in \autoref{def:three-axioms-replacement-quot} is supplied by explicit $\psame$-transport.
+\end{proof}
