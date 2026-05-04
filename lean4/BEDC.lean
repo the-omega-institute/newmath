@@ -168,6 +168,7 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
@@ -214,6 +215,7 @@ import BEDC.Derived.GroupUp.NormalizerOrbitActionChain
 import BEDC.Derived.GroupUp.EquationCancellationSolver
 import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
 import BEDC.Derived.GroupUp.AppendInverseObstruction
+import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
