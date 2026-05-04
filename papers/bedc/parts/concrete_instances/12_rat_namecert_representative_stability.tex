@@ -1,0 +1,49 @@
+\begin{theorem}[Rat representative classifier stability package]
+\label{thm:rat-representative-classifier-stability-package}
+Fix a rational source normalizer
+$\mathsf{normalized}:\mathsf{BMark}\to\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$.
+For every representative triple $s,n,d$ with
+$\mathsf{RatSourceSpec}(\mathsf{normalized},s,n,d)$, the row
+$\mathsf{RatSourceSpec\_to\_RatCarrier}$ supplies the representative carrier
+$\mathsf{RatCarrier}(s,n,d)$.
+
+On such representatives the classifier
+$\mathsf{RatClassifierSpec}$ is stable in the following sense:
+\begin{enumerate}
+\item $\mathsf{RatClassifierSpec}$ is reflexive on every representative
+carrier.
+\item $\mathsf{RatClassifierSpec}$ is symmetric on classified representative
+pairs.
+\item $\mathsf{RatClassifierSpec}$ is transitive along composable
+representative pairs.
+\item If signs are related by $\msame$ and numerator and denominator histories
+are related by $\hsame$, then each classified representative pair transports
+componentwise to the displayed representatives.
+\end{enumerate}
+Thus the representative classifier used by the $\RatUp$ name certificate is
+an equivalence relation on normalized representatives and is stable under
+the BEDC component sameness relations for signs, numerators, and denominators.
+\end{theorem}
+\begin{proof}
+Start with a representative source witness
+$\mathsf{RatSourceSpec}(\mathsf{normalized},s,n,d)$. The checked row
+$\mathsf{RatSourceSpec\_to\_RatCarrier}$ converts it into the carrier witness
+needed by the representative classifier.
+
+The equivalence portion is supplied by three checked rows. Apply
+$\mathsf{RatClassifierSpec\_refl}$ to a representative carrier for
+reflexivity, apply $\mathsf{RatClassifierSpec\_symm}$ to reverse any classified
+representative pair, and apply $\mathsf{RatClassifierSpec\_trans}$ to compose
+two adjacent classified representative pairs.
+
+For component stability, use
+$\mathsf{RatClassifierSpec\_component\_transport}$. Its hypotheses are exactly
+the displayed $\msame$ links on the two signs and the displayed $\hsame$ links
+on the two numerator histories and the two denominator histories, so it moves
+the classifier edge to the transported representative data.
+
+The statement therefore packages the representative carrier conversion, the
+three equivalence laws, and component transport as one certificate layer. It
+records the combined representative-level stability supplied by several
+checked rows rather than restating any single row.
+\end{proof}
