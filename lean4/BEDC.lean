@@ -178,6 +178,8 @@ import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.EmptyBoundedSource
 import BEDC.Derived.ListUp.SpineRep
+import BEDC.Derived.ListUp.SpineCoherence
+import BEDC.Derived.ListUp.SpineBridge
 import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.PairFrameBoundary
