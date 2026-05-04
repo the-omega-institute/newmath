@@ -48,6 +48,38 @@ histories, while the first witness supplies the displayed existential data.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_common\_source\_final\_located\_deterministic}
 
+\begin{theorem}[Compact located refinement chain common-source final located tail determinacy]
+\label{thm:compact-located-refinement-chain-common-source-final-located-tail-deterministic}
+If two compact located refinement chains share the same starting compactness
+ledger and their final located histories are $\hsame$, then their final
+intermediate histories and final compact histories are $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply the located continuation-witness theorem to both chains using the same
+starting compactness ledger. The final located equality cancels the common
+located source and identifies the two refinement tails. Continuation
+determinism then identifies the final intermediate histories, and the resulting
+intermediate equality identifies the final compact histories through the fixed
+finite suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_common\_source\_final\_located\_tail\_deterministic}
+
+\begin{theorem}[Compact located refinement chain common-source final compact tail determinacy]
+\label{thm:compact-located-refinement-chain-common-source-final-compact-tail-deterministic}
+If two compact located refinement chains share the same starting compactness
+ledger and their final compact histories are $\hsame$, then their final
+intermediate histories and final located histories are $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply the located continuation-witness theorem to both chains using the same
+starting compactness ledger. The final compact equality cancels the fixed
+finite suffix and identifies the final intermediate histories. That equality
+cancels the common intermediate source to identify the refinement tails, and
+continuation determinism on the located ledgers identifies the final located
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_common\_source\_final\_compact\_tail\_deterministic}
+
 \begin{theorem}[Compact located refinement chain empty final reflects empty initial]
 \label{thm:compact-located-refinement-chain-empty-final-reflects-empty-initial}
 If a compact located refinement chain has empty final locatedness and intermediate ledgers, then its initial locatedness and intermediate ledgers are empty.
