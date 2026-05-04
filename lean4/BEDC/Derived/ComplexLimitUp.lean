@@ -32,6 +32,21 @@ theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     (And.intro rightUnary
       (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
 
+theorem ComplexDistance_append_constant_result_deterministic {z w d q d' : BHist} :
+    UnaryHistory q -> ComplexDistance z w d -> ComplexDistance (append z q) (append w q) d' ->
+      hsame d' (append (append z q) (append w q)) := by
+  intro _unaryQ _distance shiftedDistance
+  cases shiftedDistance.right.right.right with
+  | inl forward =>
+      exact cont_deterministic forward (cont_intro rfl)
+  | inr reverse =>
+      have sameReverse : hsame d' (append (append w q) (append z q)) :=
+        cont_deterministic reverse (cont_intro rfl)
+      have sameCanonical :
+          hsame (append (append w q) (append z q)) (append (append z q) (append w q)) :=
+        unary_append_comm_hsame shiftedDistance.right.left shiftedDistance.left
+      exact hsame_trans sameReverse sameCanonical
+
 theorem ComplexDistance_symm_iff {z w d : BHist} :
     (ComplexDistance z w d ↔ ComplexDistance w z d) ∧
       (ComplexDistance z w d -> UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d) := by
@@ -208,6 +223,17 @@ theorem ComplexRegularSequence_append_constant_closed {s N : BHist -> BHist} {q 
         (And.intro leftUnary
           (And.intro rightUnary
             (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl)))))
+
+theorem ComplexRegularSequence_append_constant_result_deterministic {s N : BHist -> BHist}
+    {q k n m d' : BHist} :
+    UnaryHistory q -> ComplexRegularSequence s N -> UnaryHistory k -> UnaryHistory n ->
+      UnaryHistory m -> Cont (N k) n n -> Cont (N k) m m ->
+        ComplexDistance (append (s n) q) (append (s m) q) d' ->
+          hsame d' (append (append (s n) q) (append (s m) q)) := by
+  intro unaryQ regular unaryK unaryN unaryM contN contM shiftedDistance
+  cases regular k n m unaryK unaryN unaryM contN contM with
+  | intro d distance =>
+      exact ComplexDistance_append_constant_result_deterministic unaryQ distance shiftedDistance
 
 theorem ComplexRegularSequence_prepend_constant_closed {s N : BHist -> BHist} {q : BHist} :
     UnaryHistory q -> ComplexRegularSequence s N ->

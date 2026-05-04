@@ -255,6 +255,21 @@ non-emptiness theorem for complex difference quotient results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_visible\_context\_readback}
 
+\begin{theorem}[Complex difference quotient step visible-context readback]
+\label{thm:cplx-diff-quot-step-visible-context-readback}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the displayed step is equal
+inside a common left and right append context to the same context around
+$core$, then $h\hsame core$. The readback core is also non-zero:
+\(\mathsf{CplxNonZero}(core)\).
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $h\hsame core$. A hypothetical
+$core\hsame\emp$ transports to $h\hsame\emp$, contradicting the non-zero step
+witness stored in the complex difference quotient.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_step\_visible\_context\_readback}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]

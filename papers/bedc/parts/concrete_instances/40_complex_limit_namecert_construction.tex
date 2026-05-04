@@ -308,6 +308,25 @@ relation is the canonical append continuation from the suffixed left endpoint
 to the suffixed right endpoint.
 \end{proof}
 
+\begin{theorem}[Complex distance constant suffix result determinacy]
+\label{thm:complex-distance-append-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds and a displayed distance witness for the suffixed endpoints
+\(\mathsf{append}(z,q)\) and \(\mathsf{append}(w,q)\) has result \(d'\), then
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(z,q),\mathsf{append}(w,q)).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed distance witness into its two continuation orientations.
+The forward orientation is determined by the canonical append continuation.
+The reverse orientation is determined by the reverse canonical continuation,
+then unary append commutativity for the two suffixed endpoints identifies the
+reverse canonical result with the forward canonical result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_append\_constant\_result\_deterministic}
+
 \begin{theorem}[Complex distance unary append commutation package]
 \label{thm:complex-distance-unary-append-comm-package}
 For unary histories $z$ and $q$, the two appended endpoints $q\cdot z$ and
@@ -347,6 +366,25 @@ distance history. The canonical continuation witness for append supplies the
 distance relation, so the suffixed sequence satisfies the same regularity
 predicate.
 \end{proof}
+
+\begin{theorem}[Regular complex sequence constant suffix result determinacy]
+\label{thm:complex-regular-sequence-append-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary and let \((s,N)\) be a regular complex
+sequence. For accepted unary indices \(n,m\) at threshold \(k\), every displayed
+complex-distance result \(d'\) for the suffixed endpoints
+\(\mathsf{append}(s(n),q)\) and \(\mathsf{append}(s(m),q)\) satisfies
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(s(n),q),\mathsf{append}(s(m),q)).
+$$
+\end{theorem}
+\begin{proof}
+Regularity supplies a base complex-distance witness between \(s(n)\) and
+\(s(m)\). Applying the constant-suffix result determinacy theorem to that base
+witness and to the displayed suffixed distance identifies \(d'\) with the
+canonical suffixed append result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexRegularSequence\_append\_constant\_result\_deterministic}
 
 \begin{theorem}[Regular complex sequence constant prefix closure]
 \label{lem:complex-regular-sequence-prepend-constant-closed}
