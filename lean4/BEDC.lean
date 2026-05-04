@@ -153,6 +153,7 @@ import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedComposition
 import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
+import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp

@@ -154,6 +154,38 @@ theorem concrete_unary_history_magma_cont_result_classifier_factors_iff
   cases right
   exact concrete_unary_history_magma_classifier_append_factors_iff
 
+theorem concrete_unary_history_magma_cont_left_context_classifier_iff
+    {left left' right right' out out' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier left left' -> Cont left right out -> Cont left' right' out' ->
+      (Classifier out out' ↔ Carrier right ∧ Carrier right' ∧ hsame right right') := by
+  dsimp
+  intro leftClassified leftCont rightCont
+  constructor
+  · intro outClassified
+    have rightCarrier : UnaryHistory right :=
+      (Iff.mp (concrete_unary_history_magma_cont_result_unary_iff leftCont)
+        outClassified.left).right
+    have rightCarrier' : UnaryHistory right' :=
+      (Iff.mp (concrete_unary_history_magma_cont_result_unary_iff rightCont)
+        outClassified.right.left).right
+    have sameRight : hsame right right' := by
+      cases leftClassified.right.right
+      cases leftCont
+      cases rightCont
+      exact append_left_cancel outClassified.right.right
+    exact And.intro rightCarrier (And.intro rightCarrier' sameRight)
+  · intro rightData
+    have outCarrier : UnaryHistory out :=
+      unary_cont_closed leftClassified.left rightData.left leftCont
+    have outCarrier' : UnaryHistory out' :=
+      unary_cont_closed leftClassified.right.left rightData.right.left rightCont
+    have sameOut : hsame out out' :=
+      cont_respects_hsame leftClassified.right.right rightData.right.right leftCont rightCont
+    exact And.intro outCarrier (And.intro outCarrier' sameOut)
+
 theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
     {left middle middle' right : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory
@@ -247,5 +279,66 @@ theorem concrete_unary_history_magma_cont_common_context_classifier_iff
   cases rightCont
   exact concrete_unary_history_magma_classifier_append_middle_cancel_iff
     leftClassified.left rightClassified.left
+
+theorem concrete_unary_history_magma_cont_nested_common_context_classifier_iff
+    {left left' middle middle' right right' lm lm' out out' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier left left' -> Classifier right right' ->
+      Cont left middle lm -> Cont lm right out ->
+        Cont left' middle' lm' -> Cont lm' right' out' ->
+          (Classifier out out' ↔ Carrier middle ∧ Carrier middle' ∧ hsame middle middle') := by
+  dsimp
+  intro leftClassified rightClassified leftMiddle leftResult rightMiddle rightResult
+  cases leftClassified.right.right
+  cases rightClassified.right.right
+  cases leftMiddle
+  cases leftResult
+  cases rightMiddle
+  cases rightResult
+  constructor
+  · intro classified
+    have nestedClassified :
+        (let Carrier : BHist -> Prop := UnaryHistory
+         let Classifier : BHist -> BHist -> Prop :=
+          fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+         Classifier (append left (append middle right))
+          (append left (append middle' right))) := by
+      dsimp
+      have leftNestedCarrier : UnaryHistory (append left (append middle right)) :=
+        append_assoc left middle right ▸ classified.left
+      have rightNestedCarrier : UnaryHistory (append left (append middle' right)) :=
+        append_assoc left middle' right ▸ classified.right.left
+      have sameLeftNested :
+          hsame (append left (append middle right)) (append (append left middle') right) :=
+        append_assoc left middle right ▸ classified.right.right
+      have sameNested :
+          hsame (append left (append middle right)) (append left (append middle' right)) :=
+        append_assoc left middle' right ▸ sameLeftNested
+      exact And.intro leftNestedCarrier (And.intro rightNestedCarrier sameNested)
+    exact Iff.mp
+      (concrete_unary_history_magma_classifier_append_middle_cancel_iff
+        (left := left) (middle := middle) (middle' := middle') (right := right)
+        leftClassified.left rightClassified.left)
+      nestedClassified
+  · intro core
+    have nestedClassified :=
+      Iff.mpr
+        (concrete_unary_history_magma_classifier_append_middle_cancel_iff
+          (left := left) (middle := middle) (middle' := middle') (right := right)
+          leftClassified.left rightClassified.left)
+        core
+    have leftCarrier : UnaryHistory (append (append left middle) right) :=
+      Eq.symm (append_assoc left middle right) ▸ nestedClassified.left
+    have rightCarrier : UnaryHistory (append (append left middle') right) :=
+      Eq.symm (append_assoc left middle' right) ▸ nestedClassified.right.left
+    have sameLeftAssociated :
+        hsame (append (append left middle) right) (append left (append middle' right)) :=
+      Eq.symm (append_assoc left middle right) ▸ nestedClassified.right.right
+    have sameAssociated :
+        hsame (append (append left middle) right) (append (append left middle') right) :=
+      Eq.symm (append_assoc left middle' right) ▸ sameLeftAssociated
+    exact And.intro leftCarrier (And.intro rightCarrier sameAssociated)
 
 end BEDC.Derived.MagmaUp

@@ -261,6 +261,23 @@ component to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_result\_empty\_unit\_empty}
 
+\begin{theorem}[Adjunction visible unit positive-depth empty-result exclusion]
+\label{thm:adjunction-alternating-positive-depth-visible-unit-continuation-empty-result-absurd}
+For unary nonempty $depth$, an alternating unit-counit ledger whose displayed
+unit component has a visible head cannot continue to an empty result:
+$$
+\ContR(\mathsf{AdjunctionUnitCounitAlternating}(\Ezero(unit),counit,depth),y,r)
+\land r\hsame\emp\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(unit)$ in place of $\Ezero(unit)$.
+\end{theorem}
+\begin{proof}
+Transport the continuation along $r\hsame\emp$ and invert the empty result.
+The positive-depth empty-result readback then forces the visible unit component
+itself to be history-same to $\emp$, contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_visible\_unit\_continuation\_empty\_result\_absurd}
+
 \begin{theorem}[Adjunction positive-depth unit-empty readback]
 \label{thm:adjunction-alternating-positive-depth-unit-empty-readback}
 For unary nonempty $depth$, if $unit\hsame\emp$, then the alternating
@@ -480,6 +497,27 @@ empty component witnesses and compare them with the empty-empty continuation
 unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
+
+\begin{theorem}[Adjunction roundtrip empty component-prefix readback]
+\label{thm:adjunction-triangle-roundtrip-empty-component-prefix-readback}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier whose two roundtrip legs are
+$\hsame$ to $\emp$ has empty displayed components and equal endpoint prefixes:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(leftLeg,\emp)\Longrightarrow
+\hsame(rightLeg,\emp)\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The roundtrip emptiness component exactness theorem reads the two empty legs
+back to empty $unit$ and $counit$ components. The empty roundtrip prefix
+determinacy theorem applied to the same carrier and leg witnesses identifies
+the two endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_component\_prefix\_readback}
 
 \section{The certificate}
 \label{sec:adjunction-certificate}

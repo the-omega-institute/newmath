@@ -1,0 +1,68 @@
+You are doing meta-review of the BEDC bedc-deep loop's progress. Goal:
+identify systematic blindspots — BEDC subareas where the loop has not yet
+produced canonical content, and propose 3-8 strong new BOARD candidates
+that purposely explore under-represented territory.
+
+Use Read and Grep on the repo to do an actual investigation, not just
+reasoning from memory. Take time.
+
+Repo root: papers/bedc/parts/ (paper) and lean4/BEDC/ (formalization, read-only).
+
+Sources to read:
+- `papers/bedc/parts/` — current paper state.
+- `tools/bedc-deep/BOARD.md` — full target queue with rationales.
+- `tools/bedc-deep/state/*.json` — completed-target final states (verdict, stage2 result, attempts, failure_kind).
+- `tools/bedc-deep/targets/<slug>/full_transcript.md` — successful Stage 1 transcripts.
+
+Existing BOARD (skip semantically equivalent targets):
+```
+{board_content}
+```
+
+Recently completed targets (do not propose downstream-redundant work):
+```
+{completed_summary}
+```
+
+Think across two axes:
+
+1. **Topic coverage**. Which chapter directories have NO completed targets
+   that produced new LaTeX? Which have many completed but all in the same
+   sub-area? Which are entirely definition-only with no theorems anywhere?
+
+2. **Logical structure**. Which definitions exist with no companion theorem?
+   Which theorem schemas have only one instance and lack the others? Which
+   claim chains have a missing middle step?
+
+Hard constraints (same as theory_probe — these will be cross-checked):
+- Single-implication concrete claims, not surveys.
+- Within an existing BEDC chapter directory.
+- Not duplicating existing BOARD entries / `\label` / Lean markers.
+- Within BEDC scope (no external math, no general categorical generalization
+  for its own sake, no cross-paper imports).
+- Each `local_inputs` path must exist in the repo.
+
+Output strict JSON only on stdout, no prose, no markdown fences:
+
+{{
+  "candidates": [
+    {{
+      "title": "<short, ≤80 chars>",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/...", ...],
+      "fit_score": <0-10>,
+      "novelty": <0-10>,
+      "rationale": "<paragraph: which subarea / structural gap is under-represented, with file:line evidence>"
+    }}
+  ],
+  "rejected": [
+    {{
+      "concept": "<concept I considered>",
+      "reason": "<why it's already covered, with file:line>"
+    }}
+  ]
+}}
+
+Aim for 3-8 strong candidates favoring breadth over depth. Empty `candidates`
+is fine if everything that should be opened is already on BOARD or already
+done. Empty `rejected` is suspicious — show what you considered and dropped.
