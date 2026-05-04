@@ -140,7 +140,9 @@ $$
 (\mathsf{PreorderPrefixLE}(h,k)\land\mathsf{PreorderPrefixLE}(k,h)),
 $$
 and the inherited preorder and antisymmetry fields assemble these data into a
-concrete $\TotalOrderUp$ law package over unary histories.
+concrete $\TotalOrderUp$ law package over unary histories. The strict comparison
+row is the isolated branch transitivity of
+\autoref{thm:totalorder-strict-branch-transitivity}.
 \end{theorem}
 \begin{proof}
 Start from the total unary prefix comparison of
@@ -167,8 +169,13 @@ exactness theorem \autoref{thm:poset-prefix-classifier-exactness} after
 unfolding $\mathsf{same}_{\mathsf{u}}$. Relation stability, reflexivity, and
 transitivity are inherited from
 \autoref{thm:concrete-unary-prefix-preorder-laws}, while antisymmetry is the
-same exactness field of \autoref{thm:poset-prefix-classifier-exactness}. These
-fields repack into the concrete $\TotalOrderUp$ law package.
+same exactness field of \autoref{thm:poset-prefix-classifier-exactness}.
+
+For strict-comparison transitivity, use
+\autoref{thm:totalorder-strict-branch-transitivity}. It applies the concrete
+strict unary-prefix transitivity field to the strict-left branch and the same
+argument with reversed endpoints to the strict-right branch. These fields repack
+into the concrete $\TotalOrderUp$ law package.
 \end{proof}
 
 \begin{theorem}[Concrete unary prefix total-order comparison partition]
@@ -226,6 +233,47 @@ incompatibility, so the three branches form the concrete constructive
 partition.
 \end{proof}
 
+\begin{theorem}[Concrete unary strict branch transitivity]
+\label{thm:totalorder-strict-branch-transitivity}
+For carried unary histories $h,k,l$ in $\mathsf{Carrier}_{\mathsf{u}}$,
+strict-left comparison is transitive:
+$$
+\mathsf{NatUnaryStrictPrefix}(h,k)\land
+\mathsf{NatUnaryStrictPrefix}(k,l)
+\to
+\mathsf{NatUnaryStrictPrefix}(h,l).
+$$
+The strict-right branch is transitive in the same concrete carrier:
+$$
+\mathsf{NatUnaryStrictPrefix}(k,h)\land
+\mathsf{NatUnaryStrictPrefix}(l,k)
+\to
+\mathsf{NatUnaryStrictPrefix}(l,h).
+$$
+Consequently $\mathsf{lt}_{\mathsf{u}}$ and $\mathsf{gt}_{\mathsf{u}}$ are
+transitive on the concrete unary prefix $\TotalOrderUp$ instance.
+\end{theorem}
+\begin{proof}
+Unfold the strict-left branch of
+\autoref{def:concrete-unary-prefix-totalorder-instance}. The two hypotheses are
+exactly a strict unary prefix from $h$ to $k$ and a strict unary prefix from $k$
+to $l$. Apply
+\autoref{thm:nat-unary-strict-prefix-trans-composite-tail}; its composite tail
+witness gives $\mathsf{NatUnaryStrictPrefix}(h,l)$.
+
+For strict-right comparison, unfold
+$\mathsf{gt}_{\mathsf{u}}(x,y):=\mathsf{NatUnaryStrictPrefix}(y,x)$. The
+hypotheses become strict unary prefixes from $l$ to $k$ and from $k$ to $h$.
+Applying the same composite-tail transitivity theorem yields
+$\mathsf{NatUnaryStrictPrefix}(l,h)$.
+
+The carrier witnesses for $h$, $k$, and $l$ are not consumed by the strict-prefix
+composition itself; they keep the conclusion inside the concrete
+$\mathsf{Carrier}_{\mathsf{u}}$ total-order package. The two displayed
+implications are therefore precisely the transitivity fields for
+$\mathsf{lt}_{\mathsf{u}}$ and $\mathsf{gt}_{\mathsf{u}}$.
+\end{proof}
+
 \begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
 \label{thm:concrete-unary-prefix-totalorder-namecert}
 The tuple of \autoref{def:concrete-unary-prefix-totalorder-instance} supplies
@@ -250,7 +298,9 @@ $h\le_{\mathsf{u}}k$ and $k\le_{\mathsf{u}}h$.
 The stability row is the concrete total-order law package of
 \autoref{thm:concrete-unary-prefix-totalorder-laws}. It supplies the
 strict-to-apartness obligations, relation stability, constructive total
-comparison, and comparison stability for the three displayed branches.
+comparison, comparison stability, and strict-comparison transitivity for the
+three displayed branches. The strict-comparison transitivity component is the
+concrete branch law of \autoref{thm:totalorder-strict-branch-transitivity}.
 
 The ledger row is the selected branch certificate. By
 \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, each pair
