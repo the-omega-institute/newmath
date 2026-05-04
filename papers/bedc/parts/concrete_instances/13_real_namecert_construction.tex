@@ -472,6 +472,44 @@ theorem \autoref{thm:real-constant-rational-embedding-certificate}; exactness
 the carrier and classifier chains; standard bridge ordinary rational constants;
 status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Reindexed constant rational embedding certificate]
+\label{thm:real-reindexed-constant-rational-embedding-certificate}
+For histories $d,e:\Hist$ and any observation map $r:\Hist\to\Hist$, the
+concrete map
+$$
+d\longmapsto (\mathsf{RatConstStream}_d\circ r,\Eone(d))
+$$
+supplies the constant rational embedding into RealUp under certified
+observation reindexing. Its carrier exactness is the chain
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+Its classifier exactness is the chain displayed in
+\autoref{thm:real-constant-reindexed-stream-bridge}.
+\end{theorem}
+\begin{proof}
+For the reindexed carrier row, unfold $\mathsf{RatConstStream}$ and
+Definition~\ref{def:rat-stream-name-carrier}. The forward direction reuses the
+carrier of $d$ at every observation. Conversely, read the stream-name carrier at
+$\emp$ to recover the hidden seed carrier.
+
+The e-one carrier seal is exactly
+\autoref{thm:real-constant-history-carrier-e1-iff-rat}. It transports
+$\mathsf{RatHistoryCarrier}(d)$ to
+$\mathsf{RealConstantHistoryCarrier}(\Eone(d))$ and back, so it composes with
+the reindexed StreamNameUp carrier row to give the displayed carrier chain.
+
+For classifier exactness, apply
+\autoref{thm:real-constant-reindexed-stream-bridge}. Its three rows identify the
+RatUp classifier, the StreamNameUp classifier of the reindexed constant streams,
+the RealUp unary-observation stream classifier of those streams, and the RealUp
+constant-history classifier at the paired e-one seals.
+\end{proof}
+
 The certificate fit has ten fields: traditional target constant rational real
 names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
 constant rational observation maps; classifier the displayed bridge; stability
