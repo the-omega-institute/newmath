@@ -278,6 +278,31 @@ $\rho_{\emp}(n,n')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_empty\_action\_outputs\_deterministic}
 
+\begin{theorem}[Module singleton visible scalar nonfaithfulness]
+\label{thm:module-singleton-smul-nonfaithful-visible-scalar}
+For the concrete singleton scalar action, every carried module endpoint sees
+the visible scalar $\Eone(\emp)$ and the empty scalar $\emp$ as producing the
+same empty action endpoint:
+$$
+A_{\emp}(m)\Longrightarrow
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\Eone(\emp),m),
+\mathsf{ModuleSingletonSmul}(\emp,m)).
+$$
+Nevertheless the visible scalar itself is not classified with the empty scalar:
+$$
+\rho_{\emp}(\Eone(\emp),\emp)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Both scalar-action endpoints reduce definitionally to $\emp$, so classifier
+endpoint exactness packages the two empty endpoints for the first assertion.
+For the second assertion, the left carrier field of
+$\rho_{\emp}(\Eone(\emp),\emp)$ would give
+$\hsame(\Eone(\emp),\emp)$, contradicting the BEDC constructor
+no-confusion theorem for a visible one-step history and the empty history.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_nonfaithful\_visible\_scalar}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple
