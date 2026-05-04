@@ -412,6 +412,66 @@ ledger the hidden rational seed and observation witness; core theorem
 displayed equivalence rows; standard bridge constant rational real name; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Constant rational embedding certificate]
+\label{thm:real-constant-rational-embedding-certificate}
+The concrete map
+$$
+d\longmapsto (\mathsf{RatConstStream}_d,\Eone(d))
+$$
+from a RatUp history seed $d:\Hist$ supplies the constant rational embedding
+into RealUp. Its carrier exactness is the chain
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+Its classifier exactness, for histories $d,e:\Hist$, is the chain
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+The certificate therefore packages the hidden rational seed, the constant
+StreamNameUp observation map, and the e-one RealUp seal as one concrete
+BHist-anchored rational-to-real name.
+\end{theorem}
+\begin{proof}
+For carrier exactness, use
+\autoref{thm:streamname-real-constant-carrier-bridge}. Its two displayed rows
+identify the RatUp carrier with the StreamNameUp constant-stream carrier, and
+then identify that carrier with the RealUp constant history carrier at the
+e-one seal.
+
+For classifier exactness, use
+\autoref{thm:streamname-real-constant-prefix-bridge}. Its three displayed rows
+identify the RatUp point classifier, the StreamNameUp constant-stream
+classifier, the RealUp unary stream classifier, and the RealUp constant
+history classifier at the paired e-one seals.
+
+The endpoint part of the last row is the Real constant classifier equivalence
+and transport mechanism: \autoref{thm:real-constant-history-classifier-e1-iff-rat}
+turns an e-one sealed RealUp classifier into the underlying RatUp classifier
+and back, while
+\autoref{thm:real-constant-history-classifier-endpoint-transport} preserves the
+same classifier under endpoint-equivalent real histories. These facts repack
+the two chains as one certificate for the displayed map.
+\end{proof}
+
+The constant rational embedding certificate has ten fields: traditional target
+constant rational embedding; BEDC source RatUp plus StreamNameUp plus RealUp;
+carrier the constant stream and e-one seal; classifier the displayed equivalence
+chain; stability inherited from RatUp classifier fields and Real constant
+endpoint transport; ledger hidden rational seed plus unary observation; core
+theorem \autoref{thm:real-constant-rational-embedding-certificate}; exactness
+the carrier and classifier chains; standard bridge ordinary rational constants;
+status $\mathsf{ProofTarget}$.
+
 The certificate fit has ten fields: traditional target constant rational real
 names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
 constant rational observation maps; classifier the displayed bridge; stability
