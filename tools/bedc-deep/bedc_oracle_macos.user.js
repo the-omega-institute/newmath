@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.15
+// @version      1.16
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -42,7 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const SCRIPT_VERSION = "bedc-1.15";
+  const SCRIPT_VERSION = "bedc-1.16";
 
   let busy = false;
   // BEDC CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
@@ -1190,12 +1190,22 @@
           // the project-attached PDF and any project-wide instructions).
           // Outside a Project, fall back to chatgpt.com root with the
           // tab's bedc=N flag pinned.
+          //
+          // BEDC FIX (cross-tab id corruption): the bedc flag MUST come
+          // from agentId() (which is pinned in sessionStorage on the
+          // tab's first load). Reading it from window.location.search
+          // here is wrong — after ChatGPT redirects /project?bedc=N to
+          // /project/c/<uuid>, the URL has no query string, and the
+          // previous default-of-"1" caused bedc_3 to navigate to
+          // ?bedc=1 and steal bedc_1's identity in subsequent tasks.
           const m = window.location.pathname.match(/^(\/g\/g-p-[a-zA-Z0-9_-]+)/);
-          const bedcFlag = (window.location.search.match(/[?&]bedc=([^&]+)/) || [])[1] || "1";
+          const aid = agentId();
+          const flagMatch = aid.match(/^bedc_(\d+)$/);
+          const bedcFlag = flagMatch ? flagMatch[1] : "1";
           const fallbackUrl = m
             ? `https://chatgpt.com${m[1]}/project?bedc=${bedcFlag}`
             : `https://chatgpt.com/?bedc=${bedcFlag}`;
-          log(`fallback URL: ${fallbackUrl}`);
+          log(`fallback URL: ${fallbackUrl} (agentId=${aid})`);
           window.location.href = fallbackUrl;
           return;
         }

@@ -56,7 +56,7 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
-MIN_SCRIPT_VERSION = "bedc-1.15"
+MIN_SCRIPT_VERSION = "bedc-1.16"
 
 # In-memory state (durable copy on disk)
 task_queue: deque[dict] = deque()
