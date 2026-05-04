@@ -456,6 +456,50 @@ presentations as actual BEDC histories.
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntHistoryCarrier}
 
+\begin{theorem}[Integer history carrier signed branch determinacy]
+\label{thm:int-history-carrier-signed-branch-determinacy}
+For every history $h:\mathsf{BHist}$, if $\mathsf{IntHistoryCarrier}(h)$,
+then exactly one visible signed carrier branch supplies the witness:
+$$
+\begin{gathered}
+\Bigl(\exists m:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\hsame(h,\Ezero(m))\land
+\forall p:\mathsf{BHist}.\;
+\mathsf{Unary}(p)\to\hsame(h,\Eone(p))\to\mathsf{False}
+\Bigr)\\
+\lor\\
+\Bigl(\exists m:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\hsame(h,\Eone(m))\land
+\forall p:\mathsf{BHist}.\;
+\mathsf{Unary}(p)\to\hsame(h,\Ezero(p))\to\mathsf{False}
+\Bigr).
+\end{gathered}
+$$
+The ten-field fit is: traditional target signed-integer carrier readback; BEDC
+source $\mathsf{BHist}$, $\hsame$, $\Ezero$, and $\Eone$; carrier
+$\mathsf{IntHistoryCarrier}$; classifier not needed; stability from constructor
+inversion and $\hsame$ laws; ledger visible sign tag plus unary payload; core
+theorem this carrier branch determinacy block; exactness exclusive branch
+determinacy; standard bridge ordinary signed unary integer tag readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Split the defining disjunction of $\mathsf{IntHistoryCarrier}(h)$.
+
+In the zero-tag branch, keep the unary payload $m$ and the endpoint witness
+$\hsame(h,\Ezero(m))$. If a one-tag carrier witness for the same $h$ were also
+available, its endpoint witness $\hsame(h,\Eone(p))$ would compose with
+$\hsame(h,\Ezero(m))$, using symmetry on one side, to produce
+$\hsame(\Ezero(m),\Eone(p))$. BEDC history constructor no-confusion rules out
+that mixed visible-tag equality.
+
+In the one-tag branch, keep the unary payload and endpoint witness in the same
+way. A hypothetical zero-tag witness composes into
+$\hsame(\Eone(m),\Ezero(p))$, again contradicting constructor no-confusion.
+Thus the carrier witness determines the visible signed branch before any
+classifier evidence is used.
+\end{proof}
+
 \begin{definition}[Integer history classifier]
 \label{def:intup-history-classifier}
 The public classifier relates exactly same-tag signed unary histories:
