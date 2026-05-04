@@ -74,6 +74,17 @@ theorem EmptyVisiblePairCarrier_namecert_absurd {left right : BHist} :
         hsame_trans (hsame_symm carrier.left) carrier.right
       exact not_hsame_e0_e1 mixed
 
+theorem EmptyVisiblePairCarrier_semantic_namecert_absurd {left right : BHist} :
+    SemanticNameCert
+      (fun h : BHist => hsame h (BHist.e0 left) ∧ hsame h (BHist.e1 right))
+      (fun h : BHist => hsame h (BHist.e0 left) ∧ hsame h (BHist.e1 right))
+      (fun h : BHist => hsame h (BHist.e0 left) ∧ hsame h (BHist.e1 right))
+      hsame -> False := by
+  intro cert
+  cases semanticNameCert_ledger_policy_witness cert with
+  | intro _h carrier =>
+      exact not_hsame_e0_e1 (hsame_trans (hsame_symm carrier.left) carrier.right)
+
 theorem EmptyHistoryCarrier_semantic_namecert_absurd :
     SemanticNameCert EmptyHistoryCarrier EmptyHistoryCarrier EmptyHistoryCarrier hsame ->
       False := by
