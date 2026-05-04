@@ -135,7 +135,9 @@ import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexUp.ComponentsNonempty
 import BEDC.Derived.ComplexUp.UnaryContinuation
+import BEDC.Derived.ComplexUp.ComponentTargetTransport
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
 import BEDC.Derived.ComplexDifferentiabilityUp
@@ -177,6 +179,7 @@ import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.DescentCertificate
 import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
+import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -192,6 +195,7 @@ import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.Derived.PrimeUp.NatMulTransport
+import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
@@ -386,10 +390,13 @@ import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
+import BEDC.Derived.LinearMapUp.ContinuationAppendPair
+import BEDC.Derived.LinearMapUp.EvalContinuationPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
+import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
@@ -436,6 +443,7 @@ import BEDC.Derived.CompactUp.EndpointIff
 import BEDC.Derived.CompactUp.LocatedEndpointPackage
 import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
+import BEDC.Derived.CompactUp.PrefixDeterminism
 import BEDC.Derived.CompactUp.RefinementPrefix
 import BEDC.Derived.CompactUp.PrefixedCompositePrefixIndependent
 import BEDC.Derived.CompactUp.SemanticCertificate
@@ -525,6 +533,7 @@ import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp.FamilyReadback
+import BEDC.Derived.FunctorUp.IdentityLaw
 import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
@@ -549,9 +558,11 @@ import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.AdjunctionUp.CarrierSwap
 import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
+import BEDC.Derived.AdjunctionUp.CarrierSwapInvolution
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
