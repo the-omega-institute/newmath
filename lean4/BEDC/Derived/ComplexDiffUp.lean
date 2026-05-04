@@ -208,6 +208,14 @@ theorem CplxDiffQuot_same_result_step_deterministic {f z h h' q : BHist} :
                                   exact And.intro (cont_left_cancel leftLedger rightLedger)
                                     (And.intro leftLedger rightLedger)
 
+theorem CplxDiffQuot_visible_step_same_result_absurd {f z p q out : BHist} :
+    CplxDiffQuot f z (BHist.e0 p) out ->
+      CplxDiffQuot f z (BHist.e1 q) out -> False := by
+  intro left right
+  have sameStep : hsame (BHist.e0 p) (BHist.e1 q) :=
+    (CplxDiffQuot_same_result_step_deterministic left right).left
+  exact not_hsame_e0_e1 sameStep
+
 theorem CplxDiffQuot_step_unary {f z h q : BHist} :
     CplxDiffQuot f z h q -> UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q := by
   intro quotient
