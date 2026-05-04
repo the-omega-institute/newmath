@@ -11,6 +11,23 @@ $b\hsame e$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_left\_absorb\_right\_factor\_unit}
 
+\begin{theorem}[Group left multiplication cancellation from empty unit]
+\label{thm:group-left-mul-cancel-empty-unit-iff}
+For a BEDC history-level group operation with empty unit $\emp$,
+associativity, left empty-unit law, multiplication congruence, and left
+inverses, left multiplication by a common factor preserves and reflects
+$\hsame$:
+$$
+\hsame(ab,ac) \Longleftrightarrow \hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is left cancellation for the common factor $a$. The
+reverse direction transports $b\hsame c$ through multiplication congruence with
+the fixed left factor $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_left\_mul\_cancel\_from\_empty\_unit\_iff}
+
 \begin{theorem}[Group right cancellation]
 \label{thm:group-right-cancellation}
 For a history-level group operation with associativity, right identity,
@@ -24,6 +41,23 @@ the assumed product equality, reassociate back to \(c(aa^{-1})\), collapse the
 right inverse, and finish by the right identity on \(c\).
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.group\_right\_cancel}
+
+\begin{theorem}[Group right multiplication cancellation from empty unit]
+\label{thm:group-right-mul-cancel-empty-unit-iff}
+For a BEDC history-level group operation with empty unit $\emp$,
+associativity, right empty-unit law, multiplication congruence, and right
+inverses, right multiplication by a common factor preserves and reflects
+$\hsame$:
+$$
+\hsame(ba,ca) \Longleftrightarrow \hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is right cancellation for the common factor $a$. The
+reverse direction transports $b\hsame c$ through multiplication congruence with
+the fixed right factor $a$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.group\_right\_mul\_cancel\_from\_empty\_unit\_iff}
 
 \begin{theorem}[Group right absorption forces the left factor to the unit]
 \label{thm:group-right-absorb-left-factor-unit}
