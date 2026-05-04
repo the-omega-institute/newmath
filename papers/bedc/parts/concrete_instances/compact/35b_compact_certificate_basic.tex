@@ -1,0 +1,237 @@
+\section{The certificate}
+
+\begin{definition}[Compact source specification]
+\label{def:compact-source-specification}
+The source is a certified metric space plus a subset predicate over its carrier.
+\end{definition}
+
+\begin{definition}[Compact pattern specification]
+\label{def:compact-pattern-specification}
+The pattern is compact-subset formation by attaching locatedness and finite-net data for each rational precision.
+\end{definition}
+
+\begin{definition}[Compact classifier specification]
+\label{def:compact-classifier-specification}
+The classifier relates compact witnesses when their membership predicates agree by explicit bidirectional evidence under carrier sameness.
+\end{definition}
+
+\begin{definition}[Compact stability certificate]
+\label{def:compact-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item membership stability under carrier classifier
+  \item locatedness witness validity
+  \item total-bounded finite-net validity
+  \item monotonicity of precision witnesses where required
+  \item stability under compact-witness classifier
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Compact net witness semantic name certificate]
+\label{thm:compact-net-witness-semantic-namecert}
+For unary histories $c$ and $\epsilon$, the compact-net witness predicate
+$\mathsf{CompactNetWitness}(c,\epsilon,-)$ carries a semantic name certificate
+with source, pattern, and ledger all equal to that concrete witness predicate,
+and classifier $\hsame$:
+$$
+\mathsf{SemanticNameCert}
+(\mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \mathsf{CompactNetWitness}(c,\epsilon,-),
+ \hsame).
+$$
+\end{theorem}
+\begin{proof}
+The carrier witness is the concrete history $c\cdot\epsilon$. Unary append
+closure supplies its unary carrier, and the continuation ledger is
+$c\cdot\epsilon=c\cdot\epsilon$. The classifier fields are the reflexive,
+symmetric, and transitive laws of $\hsame$, with carrier transport by equality
+case analysis. Pattern and ledger soundness are the identity projections
+because all three semantic predicates are the compact-net witness predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_semanticNameCert}
+
+\begin{theorem}[Compact net witness prefix closure]
+\label{thm:compact-net-witness-prefix-closed}
+For unary histories $p,c,\epsilon,n$, if $n$ is a compact net witness obtained
+by continuing center $c$ with precision $\epsilon$, then prefixing the center
+and net by $p$ preserves the same precision witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary center, precision, and net histories together
+with the continuation ledger $n=c\cdot\epsilon$. Unary closure gives unary
+histories for $p\cdot c$ and $p\cdot n$. The prefixed continuation ledger is
+the associativity equality $(p\cdot c)\cdot\epsilon=p\cdot(c\cdot\epsilon)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_closed}
+
+\begin{theorem}[Compact net witness prefix exactness]
+\label{thm:compact-net-witness-prefix-iff}
+For histories $p,c,\epsilon,n$, a prefixed compact-net witness is equivalent
+to unary prefix evidence together with the unprefixed witness:
+$$
+\mathsf{CompactNetWitness}(p \cdot c,\epsilon,p \cdot n)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the prefixed witness. Unary append
+factorization recovers the unary prefix and the unary center and net histories,
+while prefix cancellation on the continuation ledger recovers
+$\mathsf{Cont}(c,\epsilon,n)$. For the reverse direction, apply prefix closure
+to the unary prefix and the original compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefix\_iff}
+
+\begin{theorem}[Compact net witness empty net exactness]
+\label{thm:compact-net-witness-empty-net-iff}
+For histories $c$ and $\epsilon$, a compact-net witness with empty net is
+equivalent to both the center and precision histories being empty:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,\emp)
+\Longleftrightarrow
+\hsame(c,\emp)\land\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness and invert the continuation
+$\Cont(c,\epsilon,\emp)$. This yields empty center and empty precision. The
+reverse implication uses the empty unary carrier for both endpoints and the
+canonical continuation from $\emp$ through $\emp$ to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_net\_iff}
+
+\begin{theorem}[Compact net witness endpoint cycle precision empty]
+\label{thm:compact-net-witness-endpoint-cycle-precision-empty}
+For histories $c,\epsilon,n$, a compact-net witness whose center and net are
+history-same has empty precision:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)\Longrightarrow
+\hsame(c,n)\Longrightarrow\hsame(\epsilon,\emp).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_endpoint\_cycle\_precision\_empty}
+\begin{proof}
+Transport the witness continuation $\ContR(c,\epsilon,n)$ across
+$\hsame(c,n)$ to obtain a self-extension of $c$. Right-unit uniqueness forces
+the precision tail to be empty.
+\end{proof}
+
+\begin{theorem}[Compact empty-center nonempty precision shape]
+\label{thm:compact-empty-center-nonempty-precision-shape}
+For histories $net,\epsilon$, a compact-net witness with empty center and
+nonempty precision has exactly one visible unary payload:
+$$
+\mathsf{CompactNetWitness}(\emp,\epsilon,net)\wedge\neg\hsame(\epsilon,\emp)
+\Longleftrightarrow
+\exists r:\mathsf{BHist}.\;
+net=\Eone(r)\wedge \epsilon=\Eone(r)\wedge\mathsf{UnaryHistory}(r).
+$$
+\end{theorem}
+\begin{proof}
+The continuation field is $\Cont(\emp,\epsilon,net)$, so left-unit exactness
+identifies $net$ with $\epsilon$. The nonempty precision premise removes the
+empty case, and unary membership removes zero-headed precision. In the visible
+case, the precision carrier exposes the unary payload and sameness fixes the
+net to the same visible history. Conversely, the displayed visible payload
+rebuilds the compact-net witness by the left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_center\_nonempty\_precision\_shape\_iff}
+
+\begin{theorem}[Compact net witness left e1 result cases]
+\label{thm:compact-net-witness-left-e1-result-cases}
+For histories $center,precision,net$, a compact-net witness from a visible
+center to a visible net has only the empty precision case or a visible
+precision tail:
+$$
+\mathsf{CompactNetWitness}(\Eone(center),precision,\Eone(net))
+\Longrightarrow
+\bigl(precision=\emp\land\mathsf{UnaryHistory}(center)\land
+\hsame(center,net)\bigr)
+\lor
+\bigl(\exists precisionTail:\mathsf{BHist}.\;
+precision=\Eone(precisionTail)\land
+\mathsf{CompactNetWitness}(\Eone(center),precisionTail,net)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the compact-net witness to expose the unary carriers and the
+continuation ledger. Inverting the ledger with visible result $\Eone(net)$
+gives either empty precision or a visible precision tail. The empty branch
+strips the visible constructor from the center-net equality and inverts the
+center carrier to obtain $\mathsf{UnaryHistory}(center)$. The visible branch
+inverts the precision and net carriers and repacks the tail continuation as a
+compact-net witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_cases}
+
+\begin{theorem}[Compact net witness left e1 result e1 precision tail]
+\label{thm:compact-net-witness-left-e1-result-e1-precision-tail}
+For histories $center,precisionTail,net$, a compact-net witness whose center,
+precision, and result are all visible exposes the precision tail witness:
+$$
+\mathsf{CompactNetWitness}(\Eone(center),\Eone(precisionTail),\Eone(net))
+\Longrightarrow
+\mathsf{CompactNetWitness}(\Eone(center),precisionTail,net).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-result cases theorem. The empty-precision branch would
+identify $\Eone(precisionTail)$ with $\emp$, which constructor disjointness
+excludes. The visible branch identifies the displayed precision tail with the
+recovered tail, and the recovered tail witness is the required compact-net
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_left\_e1\_result\_e1\_precision\_tail}
+
+\begin{theorem}[Compact net witness suffix exactness]
+\label{thm:compact-net-witness-suffix-iff}
+For histories $p,c,\epsilon,n$, a compact-net witness with the same right
+suffix attached to precision and net is equivalent to unary suffix evidence
+together with the unsuffixed witness:
+$$
+\mathsf{CompactNetWitness}(c,\epsilon\cdot p,n\cdot p)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, unary append factorization recovers the suffix and
+the unsuffixed precision and net histories. The continuation ledger
+$n\cdot p=c\cdot(\epsilon\cdot p)$ is associated to
+$(c\cdot\epsilon)\cdot p$, and right cancellation by $p$ recovers
+$n=c\cdot\epsilon$. In the reverse direction, unary append closure builds the
+suffixed precision and net histories, while associativity supplies the
+suffixed continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_suffix\_iff}
+
+\begin{theorem}[Compact net witness visible context exactness]
+\label{thm:compact-net-witness-visible-context-iff}
+For histories $p,q,c,\epsilon,n$, a compact-net witness with visible left
+context on the center and net and visible right context on the precision and
+net is equivalent to the two unary context witnesses and the base compact-net
+witness:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon\cdot q,(p\cdot n)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge
+\mathsf{UnaryHistory}(q)\wedge
+\mathsf{CompactNetWitness}(c,\epsilon,n).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix by Theorem~\ref{thm:compact-net-witness-suffix-iff}, then
+peel the left prefix by Theorem~\ref{thm:compact-net-witness-prefix-iff}. The
+reverse direction first applies prefix exactness and then reattaches the right
+suffix by suffix exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_iff}
