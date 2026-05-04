@@ -21,3 +21,23 @@ and empty right tail. Continuation determinacy compares it with the BEDC
 right-unit continuation at $\emp$, identifying $right$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_identity\_empty\_result\_iff}
+
+\begin{theorem}[NatTrans prefix component empty component prefix exactness]
+\label{thm:nattrans-prefix-component-carrier-component-empty-prefix-iff}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, the component history is
+empty exactly when the two prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)
+\Longrightarrow
+\bigl(\HSame(\eta,\emp)\Longleftrightarrow\HSame(p,q)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Project the underlying category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$. The category empty-morphism
+endpoint theorem turns $\eta\hsame\emp$ into equality of those endpoints, and
+right cancellation removes the shared object suffix $a$. Conversely, prefix
+equality lifts through the common object suffix and the category endpoint
+theorem identifies $\eta$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_component\_empty\_prefix\_iff}

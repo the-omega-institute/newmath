@@ -177,6 +177,7 @@ import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
@@ -496,6 +497,7 @@ import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
+import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp.FamilyReadback
@@ -504,6 +506,7 @@ import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1ObjectEmptyComponent
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent

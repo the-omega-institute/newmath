@@ -130,6 +130,27 @@ append of $d$, which identifies the result with $d$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_right\_hsame}
 
+\begin{theorem}[Unit multiplication result forces unit factors]
+\label{thm:natmul-unit-result-factors-unit}
+If a unary multiplication witness returns the unit history, then both the
+multiplicand and the multiplier are the unit history:
+$$
+\mathsf{NatMul}(d,q,\Eone(\emp))
+\Longrightarrow
+\HSame(d,\Eone(\emp))\wedge \HSame(q,\Eone(\emp)).
+$$
+\end{theorem}
+\begin{proof}
+Invert the multiplication witness at the unit result. The zero constructor is
+impossible. In the successor case, continuation inversion at an \(\Eone\)
+result either makes the multiplicand empty, contradicting empty-left
+multiplication, or exposes a one-headed multiplicand whose tail continuation
+has empty result. Empty-result inversion then forces that tail and the
+predecessor product to be empty, so the multiplier tail is empty by the
+nonempty-multiplicand empty-result exactness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_unit\_result\_factors\_unit}
+
 \begin{lemma}[\(\Ezero\)-multiplier exclusion]
 \label{thm:natmul-e0-multiplier-absurd}
 No unary multiplication witness has an \(\Ezero\)-headed multiplier:
