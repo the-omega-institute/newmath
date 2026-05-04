@@ -1,0 +1,25 @@
+\section{The fundamental theorem of arithmetic}
+
+\begin{definition}[Prime factorization list]
+\label{def:prime-factorization-list}
+A prime factorization of a unary history \(n\) is a finite list of unary primes \([p_1, \dots, p_k]\) (in non-decreasing unary order) such that the iterated multiplicative continuation \(p_1 \cdot p_2 \cdots p_k\) yields a unary history \(\hsame\)-equal to \(n\).
+\end{definition}
+
+\begin{theorem}[Existence of prime factorization]
+\label{thm:ftoa-existence}
+For every unary history \(n\) with \(\mathsf{NatGT}(n, \emp)\), there exists a prime factorization list of \(n\). The list is constructed explicitly by repeated trial division using \autoref{thm:prime-decidable}.
+\end{theorem}
+\begin{proof}[Sketch]
+Strong induction on the unary history \(n\) along \(\mathsf{NatUnaryStrictPrefix}\). If \(n = \Eone(\emp)\), the empty list factors it. Otherwise apply \autoref{thm:prime-decidable}: either \(n\) is prime (return \([n]\)) or a non-trivial divisor \(d\) is exhibited; recurse on \(d\) and on the quotient \(q = n / d\), both strictly smaller than \(n\), and concatenate the resulting lists.
+\end{proof}
+
+\begin{theorem}[Uniqueness of prime factorization]
+\label{thm:ftoa-uniqueness}
+If \([p_1, \dots, p_j]\) and \([q_1, \dots, q_k]\) are two prime factorization lists of the same unary history \(n\), then \(j = k\) and the lists agree pointwise up to \(\hsame\).
+\end{theorem}
+\begin{proof}[Sketch]
+Apply \autoref{thm:prime-divides-product-factor} to the leading prime of one factorization and the iterated product represented by the other factorization. Repeating this product-factor exposure across the second list locates a matching prime factor up to \(\hsame\).
+
+Cancel the matched factor using the \(\mathsf{NatMul}\) result and functionality facts, then continue by induction on the remaining lists. The induction gives pointwise agreement up to \(\hsame\) and length agreement \(j = k\).
+\end{proof}
+
