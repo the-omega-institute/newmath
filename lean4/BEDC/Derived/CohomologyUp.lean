@@ -1,9 +1,45 @@
-import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CohomologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+
+theorem CohomologyCocycle_semanticNameCert {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    SemanticNameCert (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h : BHist => hsame (d h) BHist.Empty)
+      (fun h k : BHist => hsame (d h) (d k)) := by
+  have emptyCycle : hsame (d BHist.Empty) BHist.Empty := by
+    have idempotent : append (d BHist.Empty) (d BHist.Empty) = d BHist.Empty :=
+      hsame_symm (dAppend BHist.Empty BHist.Empty)
+    exact append_right_unit_iff.mp idempotent
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty emptyCycle
+      equiv_refl := by
+        intro h _cycle
+        exact hsame_refl (d h)
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same source
+        exact hsame_trans (hsame_symm same) source
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
 
 theorem CohomologyCocycle_axis_right_cancel {d : BHist -> BHist} {axis h : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
@@ -107,6 +143,22 @@ theorem CohomologyCocycle_continuation_axis_context_cancel {d : BHist -> BHist}
     CohomologyCocycle_axis_context_cancel dAppend contextCycle
   exact (CohomologyCocycle_append_empty_iff (d := d) (h := h) (k := k) dAppend).mp
     appendCycle
+
+theorem CohomologyCocycle_continuation_axis_context_closed {d : BHist -> BHist}
+    {left right h k r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b)) :
+    Cont h k r -> hsame (d left) BHist.Empty -> hsame (d h) BHist.Empty ->
+      hsame (d k) BHist.Empty -> hsame (d right) BHist.Empty ->
+        hsame (d (append left (append r right))) BHist.Empty := by
+  intro continuation leftCycle hCycle kCycle rightCycle
+  have appendCycle : hsame (d (append h k)) BHist.Empty :=
+    CohomologyCocycle_append_core_closed dAppend hCycle kCycle
+  have rCycle : hsame (d r) BHist.Empty :=
+    hsame_trans (dCongr continuation) appendCycle
+  have rightContextCycle : hsame (d (append r right)) BHist.Empty :=
+    CohomologyCocycle_append_core_closed dAppend rCycle rightCycle
+  exact CohomologyCocycle_append_core_closed dAppend leftCycle rightContextCycle
 
 theorem CohomologyCocycle_append_left_e1_boundary_empty_absurd
     {d : BHist -> BHist} {h k tail : BHist}

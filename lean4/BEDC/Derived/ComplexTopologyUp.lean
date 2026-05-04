@@ -227,6 +227,27 @@ theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point {center radius point g
                     (cont_hsame_transport (hsame_refl point) sameGap
                       (hsame_refl radius) pointGap))
 
+theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point_iff
+    {center radius point gap : BHist} :
+    ComplexTopologyOpenDiskGap center radius point gap ->
+      (hsame gap BHist.Empty ↔ hsame radius point) := by
+  intro disk
+  constructor
+  · intro sameGap
+    exact ComplexTopologyOpenDiskGap_empty_gap_radius_point disk sameGap
+  · intro sameRadius
+    cases disk with
+    | intro _centerCarrier rest =>
+        cases rest with
+        | intro _radiusCarrier rest =>
+            cases rest with
+            | intro _pointCarrier rest =>
+                cases rest with
+                | intro _gapCarrier pointGap =>
+                    have pointGapPoint : Cont point gap point :=
+                      cont_result_hsame_transport pointGap sameRadius
+                    exact cont_left_cancel pointGapPoint (cont_right_unit point)
+
 theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
     {center radius point gap q pointq radiusq : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q -> Cont point q pointq ->

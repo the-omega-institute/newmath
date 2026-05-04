@@ -66,6 +66,21 @@ the left multiplicand \(d\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty}
 
+\begin{theorem}[Successor multiplication empty result exactness]
+\label{thm:nat-mul-succ-result-empty-left-empty-iff}
+If $\mathsf{NatMul}(d,\Eone(q),n)$, then the result is empty exactly when the
+left multiplicand is empty:
+$$
+\hsame(n,\emp)\Longleftrightarrow \hsame(d,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is the successor empty-result inversion above. For the
+reverse implication, identify $d$ with $\emp$ and apply the empty-left
+multiplication result theorem to the same multiplication witness.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_empty\_left\_empty\_iff}
+
 \begin{lemma}[Unary multiplication right operand is unary]
 \label{lem:nat-mul-right-unary}
 Every closed witness of $\mathsf{NatMul}(d,q,n)$ carries a unary multiplier
@@ -260,6 +275,21 @@ witness of \(\mathsf{NatMul}(\emp,q,n)\), so empty-left multiplication
 exactness identifies the result \(n\) with \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_result\_empty}
+
+\begin{theorem}[Empty-left divisibility exactness]
+\label{thm:nat-divides-empty-left-iff}
+For every history $n$, divisibility by the empty unary history holds exactly
+when the result is empty:
+$$
+\mathsf{NatDivides}(\emp,n)\Longleftrightarrow \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is empty-left divisibility result exactness. For the
+reverse implication, identify $n$ with $\emp$; then the empty quotient and the
+zero multiplication constructor witness $\mathsf{NatDivides}(\emp,\emp)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_left\_iff}
 
 \begin{lemma}[Empty right divisibility is unary carrier]
 \label{thm:natdivides-empty-right-iff}

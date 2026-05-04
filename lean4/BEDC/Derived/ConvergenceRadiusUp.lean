@@ -166,6 +166,18 @@ theorem GeomBound_append_unary_coeff_closed {a : Nat -> BHist} {r K q : BHist} :
     (And.intro bound.right.left
       (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (bound.right.right n) qUnary))
 
+theorem ConvRad_append_unary_coeff_closed {a : Nat -> BHist} {R q : BHist} :
+    ConvRad a R -> UnaryHistory q -> ConvRad (fun n : Nat => append (a n) q) R := by
+  intro radius qUnary
+  cases radius with
+  | intro radiusUnary witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact And.intro radiusUnary
+            (Exists.intro K
+              (fun {r : BHist} rUnary continuation =>
+                GeomBound_append_unary_coeff_closed (boundAt rUnary continuation) qUnary))
+
 theorem ConvRad_powerSeriesCarrier_witness {a : Nat -> BHist} {R z0 : BHist} :
     ConvRad a R -> ComplexHistoryCarrier z0 ->
       ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
