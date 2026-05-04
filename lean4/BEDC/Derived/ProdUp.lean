@@ -114,6 +114,31 @@ theorem ProdHistoryCarrier_cont_intro {Left Right : BHist -> Prop} {l r h : BHis
       (And.intro leftCarrier
         (And.intro rightCarrier hCont)))
 
+theorem ProdHistoryCarrier_visible_result_cases {Left Right : BHist -> Prop} {tail : BHist} :
+    (ProdHistoryCarrier Left Right (BHist.e0 tail) ->
+      exists l : BHist, exists r : BHist,
+        Left l /\ Right r /\
+          ((r = BHist.Empty /\ hsame l (BHist.e0 tail)) \/
+            exists r0 : BHist, r = BHist.e0 r0 /\ Cont l r0 tail)) /\
+      (ProdHistoryCarrier Left Right (BHist.e1 tail) ->
+        exists l : BHist, exists r : BHist,
+          Left l /\ Right r /\
+            ((r = BHist.Empty /\ hsame l (BHist.e1 tail)) \/
+              exists r0 : BHist, r = BHist.e1 r0 /\ Cont l r0 tail)) := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact ⟨l, r, data.left, data.right.left, cont_e0_result_inversion data.right.right⟩
+  · intro carrier
+    cases carrier with
+    | intro l rest =>
+        cases rest with
+        | intro r data =>
+            exact ⟨l, r, data.left, data.right.left, cont_e1_result_inversion data.right.right⟩
+
 theorem ProdComponentHistoryClassifier_endpoint_carriers {Left Right : BHist -> Prop}
     {LeftEq RightEq : BHist -> BHist -> Prop} {h k : BHist} :
     ProdComponentHistoryClassifier Left Right LeftEq RightEq h k ->
