@@ -272,6 +272,18 @@ constructor separation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_visible\_base\_continuation\_empty\_result\_absurd}
 
+\begin{theorem}[Matrix singleton power nonempty-base empty-result exclusion]
+\label{thm:matrix-singleton-pow-nonempty-base-continuation-result-absurd}
+For unary nonempty exponent $e$, if the base matrix $M$ is not singleton-carried, then
+$$
+\ContR(\mathsf{MatrixSingletonPow}(M,e),y,r)\land r\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Transport the continuation result to $\emp$ and invert the empty continuation. The source carrier for $\mathsf{MatrixSingletonPow}(M,e)$ transfers through positive-unary power exactness to a singleton carrier witness for $M$, contradicting the base non-carrier hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_nonempty\_base\_continuation\_result\_absurd}
+
 \begin{theorem}[Matrix singleton power append exponent classifier]
 \label{thm:matrix-singleton-pow-append-exponent-classifier}
 If $M$ is carried by the singleton matrix carrier and $w,q$ are unary
@@ -778,21 +790,4 @@ components and $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
 
-\begin{theorem}[Matrix singleton visible continuation result exclusion]
-\label{thm:matrix-singleton-carrier-continuation-visible-result-absurd}
-Let $M,N:\mathsf{BHist}$ be carried by the singleton matrix carrier
-$A_{\emp}$. Then a continuation \(\ContR(M,N,-)\) cannot have a visible
-\(\mathsf{e0}\)-headed or \(\mathsf{e1}\)-headed result:
-$$
-\ContR(M,N,\mathsf{e0}(r))\to\bot
-\qquad\text{and}\qquad
-\ContR(M,N,\mathsf{e1}(r))\to\bot.
-$$
-\end{theorem}
-\begin{proof}
-The carrier witnesses identify both inputs with \(\emp\). With those
-identifications, any continuation result must be the BEDC append endpoint
-\(\mathsf{append}(\emp,\emp)=\emp\). A visible-headed result cannot be that
-empty endpoint, so both visible cases are impossible.
-\end{proof}
-\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_visible\_result\_absurd}
+\input{parts/concrete_instances/matrix/singleton_carrier_continuation_visible_result_absurd.tex}

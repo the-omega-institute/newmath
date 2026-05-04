@@ -89,6 +89,36 @@ Induct on the located refinement chain. In each step, transport the two final em
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_empty\_final\_reflects\_empty\_initial}
 
+\begin{theorem}[Compact located refinement chain located nonempty forward]
+\label{thm:compact-located-refinement-chain-located-nonempty-forward}
+If a compact located refinement chain starts from a locatedness ledger that is
+not history-same to \(\emp\), then its final locatedness ledger is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. The base case is the initial
+nonemptiness premise. In a step, an empty final locatedness endpoint transports
+across the displayed locatedness continuation; empty-result inversion then
+forces the prior locatedness endpoint to be empty, contradicting the induction
+hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_located\_nonempty\_forward}
+
+\begin{theorem}[Compact located refinement chain intermediate nonempty forward]
+\label{thm:compact-located-refinement-chain-intermediate-nonempty-forward}
+If a compact located refinement chain starts from an intermediate ledger that
+is not history-same to \(\emp\), then its final intermediate ledger is not
+history-same to \(\emp\).
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. The base case is the initial
+nonemptiness premise. In a step, an empty final intermediate endpoint
+transports across the displayed intermediate continuation; empty-result
+inversion then forces the prior intermediate endpoint to be empty, contradicting
+the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_intermediate\_nonempty\_forward}
+
 \begin{theorem}[Compact witness carrier located empty final refinement reflects empty initial]
 \label{thm:compact-witness-carrier-located-empty-final-refinement-reflects-empty-initial}
 For a compact witness carrier and a located refinement chain, if the final locatedness, intermediate, and compactness ledgers are empty, then all five initial carrier ledgers are empty.
