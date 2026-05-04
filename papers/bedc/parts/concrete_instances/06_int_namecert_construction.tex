@@ -473,6 +473,104 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntHistoryClassifier}
 
+\begin{theorem}[Integer history classifier visible branch exactness]
+\label{thm:int-history-classifier-visible-branch-exactness}
+For any $m,n:\mathsf{BHist}$ with $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$, the public integer-history classifier reads back the
+same visible tag precisely as payload history sameness:
+$$
+\bigl(
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))
+\Longleftrightarrow
+\hsame(m,n)
+\bigr)
+\land
+\bigl(
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))
+\Longleftrightarrow
+\hsame(m,n)
+\bigr).
+$$
+The ten-field fit is: traditional target signed-integer visible-tag readback;
+BEDC source $\mathsf{BHist}$; admissible payloads $\mathsf{Unary}$; payload
+relation $\hsame$; public classifier $\mathsf{IntHistoryClassifier}$; carrier
+the public integer history carrier; classifier same-tag payload sameness;
+stability by constructor inversion and $\hsame$ laws; ledger visible tag plus
+unary payload; exactness the two iff clauses; standard bridge ordinary
+signed-integer tag readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the zero-tag forward direction, split a witness of
+$\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))$ by the two displayed
+classifier branches. In the zero branch, constructor inversion on the endpoint
+witnesses reduces the visible histories to payload histories, and transitivity
+of $\hsame$ composes the two endpoint equalities with the stored payload
+comparison. In the one branch, the endpoint evidence would identify a zero tag
+with a one tag, contradicting history no-confusion.
+
+The one-tag forward direction is symmetric. The matching one branch gives the
+payload comparison by constructor inversion and transitivity of $\hsame$; the
+zero branch is ruled out by the same zero/one history no-confusion.
+
+For the reverse directions, assume $\hsame(m,n)$ together with the displayed
+unary witnesses for $m$ and $n$. The zero-tag classifier witness is obtained by
+choosing the zero branch, using the two unary witnesses, reflexive endpoint
+witnesses for $\Ezero(m)$ and $\Ezero(n)$, and the given payload relation. The
+one-tag case is identical with $\Eone$ in place of $\Ezero$.
+\end{proof}
+
+\begin{theorem}[Integer history classifier signed branch determinacy]
+\label{thm:int-history-classifier-signed-branch-determinacy}
+For all histories $h,k:\mathsf{BHist}$, if
+$\mathsf{IntHistoryClassifier}(h,k)$, then exactly one visible signed branch
+supplies the classifier witnesses:
+$$
+\begin{gathered}
+\Bigl(\exists m,n:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land
+\hsame(h,\Ezero(m))\land\hsame(k,\Ezero(n))\land\hsame(m,n)\\
+\land\;
+\forall p,q:\mathsf{BHist}.\;
+\mathsf{Unary}(p)\to\mathsf{Unary}(q)\to
+\hsame(h,\Eone(p))\to\hsame(k,\Eone(q))\to\hsame(p,q)\to\mathsf{False}
+\Bigr)\\
+\lor\\
+\Bigl(\exists m,n:\mathsf{BHist}.\;
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land
+\hsame(h,\Eone(m))\land\hsame(k,\Eone(n))\land\hsame(m,n)\\
+\land\;
+\forall p,q:\mathsf{BHist}.\;
+\mathsf{Unary}(p)\to\mathsf{Unary}(q)\to
+\hsame(h,\Ezero(p))\to\hsame(k,\Ezero(q))\to\hsame(p,q)\to\mathsf{False}
+\Bigr).
+\end{gathered}
+$$
+The ten-field fit is: traditional target signed integer branch readback; BEDC
+source $\mathsf{BHist}$, $\hsame$, $\Ezero$, $\Eone$, and
+$\mathsf{IntHistoryClassifier}$; carrier $\mathsf{IntHistoryCarrier}$;
+classifier $\mathsf{IntHistoryClassifier}$; stability inherited from
+\autoref{thm:concrete-int-history-semantic-namecert}; ledger the visible sign
+tag and unary payload; core theorem this signed branch determinacy block;
+exactness signed branch determinacy; standard bridge ordinary signed-integer
+sign readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Split the defining disjunction of $\mathsf{IntHistoryClassifier}(h,k)$.
+
+In the zero-tag case, keep the exposed unary payloads $m,n$, the two visible
+endpoint witnesses $h\hsame\Ezero(m)$ and $k\hsame\Ezero(n)$, and the payload
+comparison $m\hsame n$. To rule out a one-tag witness for the same endpoints,
+compose $h\hsame\Ezero(m)$ with the hypothetical $h\hsame\Eone(p)$, using
+symmetry on one side as needed. The result is a visible contradiction
+$\hsame(\Ezero(m),\Eone(p))$ by BEDC constructor no-confusion.
+
+In the one-tag case, keep the exposed unary payloads and endpoint witnesses in
+the same way. A hypothetical zero-tag witness for the same endpoints composes
+the endpoint comparisons into $\hsame(\Eone(m),\Ezero(p))$, again contradicting
+BEDC constructor no-confusion. Thus the classifier witness determines the
+visible signed branch and leaves only the payload equality inside that branch.
+\end{proof}
+
 \begin{theorem}[Concrete IntUp history semantic certificate]
 \label{thm:concrete-int-history-semantic-namecert}
 The integer history carrier and classifier form the public semantic naming
