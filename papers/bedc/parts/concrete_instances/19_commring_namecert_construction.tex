@@ -714,3 +714,54 @@ annihilator packages; ledger the equal-square row, signed-product zero row, and
 universal two-sided annihilator row; core theorem this block; exactness the
 displayed three-part certificate; downstream use by $\FieldUp$ quadratic and
 zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing singleton empty square endpoint annihilator package]
+\label{thm:commring-singleton-empty-square-endpoint-annihilator-package}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, every pair
+$a,b:\mathsf{BHist}$ carried by $A_{\emp}$ satisfies
+$$
+\bigl(a\cdot a\hsame b\cdot b\bigr)
+\land
+\forall c:\mathsf{BHist},\
+\left(
+(((a\cdot a)\cdot c)\hsame0)
+\land
+(c\cdot(a\cdot a)\hsame0)
+\land
+(((b\cdot b)\cdot c)\hsame0)
+\land
+(c\cdot(b\cdot b)\hsame0)
+\right),
+$$
+where $\cdot$ and $0$ are the displayed singleton operations.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:commring-singleton-empty-square-signed-product-package} to the
+selected histories $a,b$. Its first component gives the required square row
+$a\cdot a\hsame b\cdot b$.
+
+Next use Theorem~\ref{thm:singleton-empty-history-commring-laws}. In the
+singleton empty-history CommRing tuple, multiplication and zero both select the
+singleton endpoint, so carriedness identifies $a\cdot a$ and $b\cdot b$ with
+the zero endpoint.
+
+Now instantiate the zero-factor absorption mechanism of
+Theorem~\ref{thm:ring-zero-classifier-factor-absorption} twice, first with
+$x=a\cdot a$ and then with $x=b\cdot b$. For an arbitrary multiplier
+$c:\mathsf{BHist}$, the two instantiations provide both left and right
+zero-factor rows for the two square endpoints.
+
+Package these outputs as the displayed conjunction: the square-equality row is
+the first component, and the four universal multiplier rows are the second
+component.
+\end{proof}
+
+The ten-field fit is: traditional target one-element commutative-ring square
+ideal boundary; BEDC source singleton empty-history $\CommRingUp$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from singleton laws and
+zero-factor absorption; ledger carried inputs, two square endpoints, and
+arbitrary multiplier; core theorem this block; exactness square endpoints are
+two-sided zero annihilators; downstream consumer $\FieldUp$ square-apartness and
+zero-product exits; status $\mathsf{ProofTarget}$.
