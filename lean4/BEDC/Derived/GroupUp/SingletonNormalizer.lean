@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.Commutator
 
 namespace BEDC.Derived.GroupUp
 
@@ -150,5 +151,34 @@ theorem GroupSingletonClassifier_normalizer_orbit_total_coverage_iff {x y : BHis
         (And.intro actionCarrier
           (And.intro carriers.right
             (hsame_trans actionCarrier (hsame_symm carriers.right)))))
+
+theorem GroupSingletonCommutator_normalizer_orbit_kernel_exactness_iff {x y : BHist} :
+    let comm : BHist := append (append (append x y) BHist.Empty) BHist.Empty
+    (GroupSingletonNormalizerOrbit comm BHist.Empty <->
+      GroupSingletonCarrier x ∧ GroupSingletonCarrier y) ∧
+      (GroupSingletonNormalizerOrbit comm BHist.Empty <-> GroupSingletonNormalizerOrbit x y) := by
+  dsimp
+  have commExact := GroupSingletonCommutator_carrier_classifier_exactness (x := x) (y := y)
+  have orbitComm :
+      GroupSingletonNormalizerOrbit (append (append (append x y) BHist.Empty) BHist.Empty)
+          BHist.Empty <->
+        GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) ∧
+          GroupSingletonCarrier BHist.Empty :=
+    GroupSingletonNormalizerOrbit_total_coverage_iff
+  have orbitXY :
+      GroupSingletonNormalizerOrbit x y <->
+        GroupSingletonCarrier x ∧ GroupSingletonCarrier y :=
+    GroupSingletonNormalizerOrbit_total_coverage_iff
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have orbitCommCarriers :
+      GroupSingletonNormalizerOrbit (append (append (append x y) BHist.Empty) BHist.Empty)
+          BHist.Empty <->
+        GroupSingletonCarrier x ∧ GroupSingletonCarrier y := by
+    constructor
+    · intro orbit
+      exact commExact.left.mp (orbitComm.mp orbit).left
+    · intro carriers
+      exact orbitComm.mpr (And.intro (commExact.left.mpr carriers) emptyCarrier)
+  exact And.intro orbitCommCarriers (Iff.trans orbitCommCarriers (Iff.symm orbitXY))
 
 end BEDC.Derived.GroupUp
