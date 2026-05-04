@@ -77,6 +77,21 @@ def IntPairClassifier
     BEDC.FKernel.Hist.hsame (BEDC.FKernel.Cont.append x.1 y.2)
       (BEDC.FKernel.Cont.append y.1 x.2)
 
+theorem IntPairClassifier_append_positive_context {a p n q m : BEDC.FKernel.Hist.BHist} :
+    BEDC.FKernel.Unary.UnaryHistory a -> IntPairClassifier (p, n) (q, m) ->
+      IntPairClassifier (BEDC.FKernel.Cont.append a p, n)
+        (BEDC.FKernel.Cont.append a q, m) := by
+  intro unaryA classified
+  constructor
+  · exact ⟨BEDC.FKernel.Unary.unary_append_closed unaryA classified.left.left,
+      classified.left.right⟩
+  · constructor
+    · exact ⟨BEDC.FKernel.Unary.unary_append_closed unaryA classified.right.left.left,
+        classified.right.left.right⟩
+    · exact (BEDC.FKernel.Cont.append_assoc a p m).trans
+        ((congrArg (BEDC.FKernel.Cont.append a) classified.right.right).trans
+          (BEDC.FKernel.Cont.append_assoc a q n).symm)
+
 theorem IntClassifierSpec_refl {sign : BEDC.FKernel.Mark.BMark}
     {h : BEDC.FKernel.Hist.BHist} :
     IntCarrier sign h -> IntClassifierSpec (sign, h) (sign, h) := by

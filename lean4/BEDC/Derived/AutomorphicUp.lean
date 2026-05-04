@@ -106,6 +106,46 @@ theorem AutomorphicAdeleGraph_visible_context_core_deterministic_nonempty
     (And.intro (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont)
       (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier coreCont'))
 
+theorem AutomorphicAdeleGraph_visible_context_value_deterministic
+    {p q domain value value' graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        Cont (append p domain) (append value' q) (append (append p graph) q) ->
+          hsame value value' ∧ (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleGraph visibleGraph'
+  have rightPeeled : Cont (append p domain) value (append p graph) :=
+    (cont_suffix_iff (a := append p domain) (b := append p graph) (f := value)
+      (p := q)).mp visibleGraph
+  have rightPeeled' : Cont (append p domain) value' (append p graph) :=
+    (cont_suffix_iff (a := append p domain) (b := append p graph) (f := value')
+      (p := q)).mp visibleGraph'
+  have baseGraph : Cont domain value graph :=
+    (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
+  exact And.intro (cont_left_cancel rightPeeled rightPeeled')
+    (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier baseGraph)
+
+theorem AutomorphicAdeleGraph_visible_context_domain_deterministic
+    {p q domain domain' value graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) (append (append p graph) q) ->
+        Cont (append p domain') (append value q) (append (append p graph) q) ->
+          hsame domain domain' ∧ (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleGraph visibleGraph'
+  have rightPeeled : Cont (append p domain) value (append p graph) :=
+    (cont_suffix_iff (a := append p domain) (b := append p graph) (f := value)
+      (p := q)).mp visibleGraph
+  have rightPeeled' : Cont (append p domain') value (append p graph) :=
+    (cont_suffix_iff (a := append p domain') (b := append p graph) (f := value)
+      (p := q)).mp visibleGraph'
+  have sameDomainWithContext : hsame (append p domain) (append p domain') :=
+    cont_right_cancel rightPeeled rightPeeled'
+  have sameDomain : hsame domain domain' :=
+    append_left_cancel (h := p) sameDomainWithContext
+  have baseGraph : Cont domain value graph :=
+    (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
+  exact And.intro sameDomain
+    (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier baseGraph)
+
 theorem AutomorphicAdeleGraph_visible_context_result_nonempty {p q domain value graph : BHist} :
     AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
       Cont (append p domain) (append value q) (append (append p graph) q) ->

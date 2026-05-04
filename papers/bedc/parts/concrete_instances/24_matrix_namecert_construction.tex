@@ -83,6 +83,30 @@ exactness carries the product ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
 
+\begin{theorem}[Matrix singleton power nonempty unary input carrier exactness]
+\label{thm:matrix-singleton-pow-carrier-nonempty-unary-input}
+If the exponent $e$ is unary and not history-same as $\emp$, then the singleton
+carrier condition on the power ledger is exactly the singleton carrier
+condition on the input matrix:
+$$
+\Unary(e)\land(\hsame(e,\emp)\to\bot)
+\quad\Longrightarrow\quad
+\bigl(
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,e))
+\Longleftrightarrow
+A_{\emp}(M)
+\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The unary, nonempty exponent has a one-headed form. In that branch the power
+ledger is the displayed append product of the previous power ledger and $M$.
+Append empty-result exactness therefore recovers $A_{\emp}(M)$ from the carried
+power ledger. Conversely, carrier closure for singleton powers carries the
+power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
+
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}
 For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
@@ -146,6 +170,26 @@ endpoints are carried by $A_{\emp}$, transitivity through $\emp$ supplies the
 classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_classifier}
+
+\begin{theorem}[Matrix singleton power append exponent commuted classifier]
+\label{thm:matrix-singleton-pow-append-exponent-comm-classifier}
+If $M$ is carried by the singleton matrix carrier and $w,q$ are unary
+histories, then the two power ledgers obtained by the two append orders of the
+exponent histories are singleton-classified:
+$$
+A_{\emp}(M)\land\Unary(w)\land\Unary(q)
+\quad\Longrightarrow\quad
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(w,q)),
+\mathsf{MatrixSingletonPow}(M,\mathsf{append}(q,w))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure makes both $\mathsf{append}(w,q)$ and
+$\mathsf{append}(q,w)$ unary. Singleton power carrier closure carries both
+power ledgers from $A_{\emp}(M)$. Since both endpoints are carried by
+$A_{\emp}$, transitivity through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_comm\_classifier}
 
 \begin{theorem}[Matrix singleton power append exponent classifier iff]
 \label{thm:matrix-singleton-pow-append-exponent-classifier-iff}

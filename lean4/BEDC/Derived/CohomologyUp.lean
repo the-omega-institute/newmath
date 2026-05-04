@@ -171,6 +171,27 @@ theorem CohomologyCocycle_append_left_e1_boundary_empty_absurd
     (append_eq_empty_iff.mp split).left
   exact not_hsame_e1_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
 
+theorem CohomologyCocycle_append_left_visible_boundary_empty_absurd
+    {d : BHist -> BHist} {h k : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    ((Exists fun tail : BHist => hsame (d h) (BHist.e0 tail)) \/
+      (Exists fun tail : BHist => hsame (d h) (BHist.e1 tail))) ->
+      hsame (d (append h k)) BHist.Empty -> False := by
+  intro visible appendCycle
+  have split : hsame (append (d h) (d k)) BHist.Empty :=
+    hsame_trans (hsame_symm (dAppend h k)) appendCycle
+  have leftEmpty : hsame (d h) BHist.Empty :=
+    (append_eq_empty_iff.mp split).left
+  cases visible with
+  | inl e0Boundary =>
+      cases e0Boundary with
+      | intro tail leftVisible =>
+          exact not_hsame_e0_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
+  | inr e1Boundary =>
+      cases e1Boundary with
+      | intro tail leftVisible =>
+          exact not_hsame_e1_empty (hsame_trans (hsame_symm leftVisible) leftEmpty)
+
 theorem CohomologyCocycle_append_right_e1_boundary_empty_absurd
     {d : BHist -> BHist} {h k tail : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
