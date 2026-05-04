@@ -4,6 +4,7 @@ namespace BEDC.Derived.RatUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
 theorem PositiveUnaryDenominator_append_unary_context {pref den tail : BHist} :
@@ -62,5 +63,19 @@ theorem RatHistoryLedgerPolicy_unary_denominator_context_closed
         (BEDC.FKernel.Cont.append visible tailVisible) :=
     RatHistoryLedgerPolicy_append_unary_denominator_closed ledger tailRawUnary sameTail
   exact RatHistoryLedgerPolicy_prepend_unary_denominator_closed appended prefRawUnary samePref
+
+theorem RatHistoryClassifier_unary_denominator_context_positive_denominators
+    {d e prefD prefE tailD tailE : BHist} :
+    RatHistoryClassifier d e -> UnaryHistory prefD -> hsame prefD prefE ->
+      UnaryHistory tailD -> hsame tailD tailE ->
+        PositiveUnaryDenominator (append prefD (append d tailD)) ∧
+          PositiveUnaryDenominator (append prefE (append e tailE)) := by
+  intro classified prefUnary samePref tailUnary sameTail
+  have contextClassified :
+      RatHistoryClassifier (append prefD (append d tailD))
+        (append prefE (append e tailE)) :=
+    RatHistoryClassifier_unary_denominator_context_closed classified prefUnary samePref
+      tailUnary sameTail
+  exact RatHistoryClassifier_positive_denominators contextClassified
 
 end BEDC.Derived.RatUp

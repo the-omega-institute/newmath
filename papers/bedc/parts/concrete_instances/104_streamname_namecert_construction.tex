@@ -90,6 +90,26 @@ certified observation of $\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
 
+\begin{theorem}[Rational stream-name observation one-tail pair readback]
+\label{thm:rat-stream-name-classifier-observation-e1-pair-readback}
+For certified observation maps $s,t:\Hist\to\Hist$, if
+$\mathsf{RatStreamNameClassifier}(s,t)$ and $n$ is a unary observation, then
+displayed one-extension endpoints
+$$
+\hsame(s(n),\Eone(a))\quad\text{and}\quad \hsame(t(n),\Eone(b))
+$$
+determine unary tails with the internal comparison
+$$
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Read the stream-name classifier at the certified observation $n$. Transport the
+resulting RatUp point classifier to the displayed one-extension endpoints, then
+apply rational one-tail classifier exactness.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameClassifier\_observation\_e1\_pair\_readback}
+
 \begin{theorem}[Rational stream-name reindexing and map stability]
 \label{thm:rat-stream-name-reindexing-and-map-stability}
 For certified observation maps $s,t,r:\Hist\to\Hist$, suppose $r$ preserves

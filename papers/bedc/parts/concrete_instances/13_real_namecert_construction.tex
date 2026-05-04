@@ -383,3 +383,28 @@ Transport the rational classifier to these displayed outputs and apply
 positive-denominator witnesses in the displayed conclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_positive\_denominators}
+
+\begin{theorem}[Real stream classifier unary denominator context one-tail pair readback]
+\label{thm:real-stream-classifier-unary-denominator-context-e1-pair-readback}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$ and a selected
+index $n$, assume $\mathsf{RealStreamClassifier}(x,y)$ and the pointwise
+unary-context and continuation hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. If the
+displayed contextual outputs satisfy
+$$
+\hsame(o_X(n),\Eone(a))\quad\text{and}\quad \hsame(o_Y(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed} to obtain
+$\mathsf{RealStreamClassifier}(o_X,o_Y)$. At the selected index, transport the
+point classifier to the displayed one-extension endpoints and apply the
+selected RealUp one-tail pair readback theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_e1\_pair\_readback}
