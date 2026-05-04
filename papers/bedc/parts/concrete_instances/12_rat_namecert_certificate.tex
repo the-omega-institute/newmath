@@ -337,6 +337,49 @@ contextual classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_positive\_denominators}
 
+\begin{theorem}[Rat history classifier unary context zero-extension endpoint exclusion]
+\label{thm:rat-history-classifier-unary-context-zero-extension-endpoint-exclusion}
+Let $d,e,p_d,p_e,t_d,t_e,z,z':\mathsf{BHist}$. If
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, $p_d,p_e$ are unary prefixes with
+$\hsame(p_d,p_e)$, and $t_d,t_e$ are unary tails with $\hsame(t_d,t_e)$, then
+the two contextual denominator endpoints cannot be internally the same as
+zero-extension histories:
+$$
+(\hsame(\mathsf{append}(p_d,\mathsf{append}(d,t_d)),\Ezero(z))\to
+\mathsf{False})\land
+(\hsame(\mathsf{append}(p_e,\mathsf{append}(e,t_e)),\Ezero(z'))\to
+\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-classifier-unary-denominator-context-positive-denominators}
+to the displayed classifier, the matching unary prefix context, and the
+matching unary tail context. This produces positive unary denominator witnesses
+for $\mathsf{append}(p_d,\mathsf{append}(d,t_d))$ and
+$\mathsf{append}(p_e,\mathsf{append}(e,t_e))$.
+
+For the left endpoint, transport the positive unary denominator witness across
+the displayed $\hsame$ link from
+$\mathsf{append}(p_d,\mathsf{append}(d,t_d))$ to $\Ezero(z)$. Then apply
+\autoref{thm:rat-positive-denominator-e0-absurd} to rule out that
+zero-extension endpoint.
+
+For the right endpoint, repeat the same transport across the displayed
+$\hsame$ link from $\mathsf{append}(p_e,\mathsf{append}(e,t_e))$ to
+$\Ezero(z')$. The positive-denominator zero-head absurdity theorem gives the
+second contradiction.
+\end{proof}
+
+The ten-field fit is: traditional target contextual positive-rational branch
+exclusion; BEDC source $\mathsf{RatHistoryClassifier}$ over $\mathsf{BHist}$;
+carrier $\mathsf{RatHistoryCarrier}$; classifier
+$\mathsf{RatHistoryClassifier}$; stability from unary context closure and
+positive-denominator transport; ledger the hidden prefix and tail contexts;
+core theorem this block; exactness the two contradictions; downstream consumer
+$\mathsf{FieldUp}(\mathsf{RatUp})$ denominator continuation and
+$\mathsf{RealUp}$ stream-prefix readback; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat history classifier context one-tail pair readback]
 \label{thm:rat-history-classifier-unary-context-e1-pair-readback}
 If a rational history classifier is closed under matching unary denominator prefixes and tails, and the resulting left and right endpoints display as one-extension histories, then the displayed tails are unary and internally the same.
