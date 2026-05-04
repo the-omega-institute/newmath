@@ -442,6 +442,7 @@ Associativity compares this history with
 $\mathsf{mul}(\mathsf{inv}(x),\mathsf{mul}(y,c))$, and the centralizer
 carrier transport row moves the witness across that $\hsame$ comparison.
 \end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_right\_endpoint\_right\_centralizer\_mul\_closed\_from\_empty\_unit}
 
 \begin{theorem}[Centralizer quotient-kernel two-sided centralizer endpoint multiplication]
 \label{thm:subgroup-centralizer-quotient-kernel-two-sided-centralizer-endpoint-mul-closed}
@@ -551,6 +552,27 @@ involution followed by carrier transport gives the displayed
 $Z_a(\mathsf{mul}(\mathsf{inv}(y),x))$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_from\_empty\_unit}
+
+\begin{theorem}[Append centralizer carrier unary word]
+\label{thm:subgroup-centralizer-carrier-append-e1-unit-unary}
+For the concrete BEDC append operation, centralizing the visible singleton
+$\Eone(\emp)$ forces the carried word to be unary:
+$$
+Z_{\Eone(\emp)}^{\mathsf{append}}(w)
+\Longrightarrow
+\mathsf{UnaryHistory}(w).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the centralizer carrier as the displayed comparison
+$\mathsf{append}(w,\Eone(\emp))\hsame
+\mathsf{append}(\Eone(\emp),w)$. Induct on the concrete history $w$. The
+empty word is unary. A zero-headed word displays opposite visible constructors
+on the two sides, contradicting constructor separation. A one-headed word has
+matching $\Eone$ constructors; injectivity descends the same centralizer
+comparison to the tail, and the induction hypothesis gives unary evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerCarrier\_append\_e1\_unit\_unary}
 
 \begin{theorem}[Append centralizer quotient-kernel unary word]
 \label{thm:subgroup-centralizer-quotient-kernel-append-e1-unit-kernel-unary}
