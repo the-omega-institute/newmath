@@ -101,6 +101,21 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_target\_iff}
 
+\begin{theorem}[Continuous modulus chain empty second witness]
+\label{thm:continuous-modulus-chain-empty-second-witness}
+For histories $source,first,second,target$, if a two-link continuous modulus
+chain has $second\hsame\emp$, then the first link directly witnesses
+$\mathsf{ContinuousModulusWitness}(source,first,target)$.
+\end{theorem}
+\begin{proof}
+Unpack the middle history and the two continuation ledgers. The second ledger,
+transported across $second\hsame\emp$, is compared with the right-unit
+continuation at the middle endpoint, so the target is history-same to the
+middle endpoint. Transporting the first continuation result along this
+endpoint sameness gives the displayed one-step witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_second\_witness}
+
 \begin{theorem}[Continuous function carrier empty certificate exactness]
 \label{thm:continuous-function-carrier-empty-cert-iff}
 For histories $source,map,target,modulus$, a continuous-function carrier with
