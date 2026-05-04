@@ -140,3 +140,58 @@ The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)+\mathsf{Eval}_{\alpha,R}(q)$ 
 
 If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$, and $\mathsf{Eval}_{\alpha,R}$ on each displayed representative is the unnormalized Horner evaluation. Substituting these equalities gives the carrier formula.
 \end{proof}
+
+\begin{lemma}[Horner evaluation respects structural classifier]
+\label{lem:horner-evaluation-structural-classifier}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $x,y:\mathsf{ListCarrier}(R)$, if
+$$
+\mathsf{ListClassifierSpec}(\sim_R,x,y)
+$$
+holds, then
+$$
+\mathsf{eval}_{\alpha,R}(x)\sim_R\mathsf{eval}_{\alpha,R}(y).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the displayed structural classifier witness from \autoref{def:list-classifier-specification}. By \autoref{thm:list-classifier-case-exactness}, the only constructor cases are nil-nil and cons-cons; mixed nil-cons shapes have no classifier witness.
+
+In the nil-nil case, the two Horner equations in \autoref{def:polynomial-horner-evaluation} identify both endpoints with $0_R$. The zero self-classification field retained in \autoref{def:ring-stability-certificate} gives $0_R\sim_R0_R$.
+
+In the cons-cons case, write $x=\mathsf{cons}(a,x')$ and $y=\mathsf{cons}(b,y')$. The classifier constructor supplies $a\sim_R b$ and a tail witness $\mathsf{ListClassifierSpec}(\sim_R,x',y')$. The induction hypothesis gives
+$$
+\mathsf{eval}_{\alpha,R}(x')\sim_R\mathsf{eval}_{\alpha,R}(y').
+$$
+The carried point $\alpha$ is self-classified by the scalar certificate. Multiplication congruence from \autoref{def:ring-stability-certificate} transports the tail comparison through left multiplication by $\alpha$, giving
+$$
+\alpha\cdot\mathsf{eval}_{\alpha,R}(x')\sim_R
+\alpha\cdot\mathsf{eval}_{\alpha,R}(y').
+$$
+Addition congruence combines this comparison with the head comparison $a\sim_Rb$:
+$$
+a+\alpha\cdot\mathsf{eval}_{\alpha,R}(x')\sim_R
+b+\alpha\cdot\mathsf{eval}_{\alpha,R}(y').
+$$
+The cons recursion equation in \autoref{def:polynomial-horner-evaluation} identifies these two endpoints with $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x'))$ and $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(b,y'))$, respectively.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation respects the polynomial classifier]
+\label{thm:polynomial-evaluation-respects-polynomial-classifier}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(p,q)
+\Longrightarrow
+\mathsf{Eval}_{\alpha,R}(p)\sim_R\mathsf{Eval}_{\alpha,R}(q).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{PolySame}_R$ using \autoref{def:polynomial-raw-add-comparison-data}. A classifier witness for $p$ and $q$ is exactly
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(p),\mathsf{trim}_R(q)).
+$$
+Apply \autoref{lem:horner-evaluation-structural-classifier} to the two trimmed spines. This gives
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(p))\sim_R
+\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(q)).
+$$
+The normalized evaluation definition in \autoref{def:polynomial-horner-evaluation} reads the left endpoint as $\mathsf{Eval}_{\alpha,R}(p)$ and the right endpoint as $\mathsf{Eval}_{\alpha,R}(q)$, giving the displayed implication.
+\end{proof}
