@@ -316,3 +316,73 @@ $$
 $$
 Downstream use: four-factor product equation exactness and inverse-reversal
 proof targets. Status: ProofTarget.
+
+\begin{theorem}[Field certified five-factor product nonzero iff factors]
+\label{thm:field-five-factor-product-nonzero-iff-factors}
+For a BEDC history-level $\FieldUp$ candidate over $\mathsf{BHist}$ with the
+hypotheses of \autoref{thm:field-four-factor-product-nonzero-iff-factors},
+\autoref{thm:field-product-nonzero-of-nonzero-factors}, and the zero-factor
+exclusion hypotheses used by
+\autoref{thm:field-product-nonzero-excludes-zero-factors}, assume an
+apartness-to-nonzero bridge family: for every $t:\mathsf{BHist}$, an instance
+$$
+\alpha_t:\bigl(t\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(t).
+$$
+Then every $a,b,c,d,e:\mathsf{BHist}$ satisfies
+$$
+\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+\mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d)\wedge
+\mathsf{NonZero}_F(e).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume
+$p_{abcde}:\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))$.
+Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the outer
+binary product. This gives apartness of the fourfold prefix from $0$ and
+apartness of $e$ from $0$.
+
+Convert both apartness witnesses through the bridge family. The prefix witness
+becomes
+$p_{abcd}:\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$, and the right witness
+becomes $\mathsf{NonZero}_F(e)$. Apply
+\autoref{thm:field-four-factor-product-nonzero-iff-factors} to
+$p_{abcd}$ to obtain the nonzero witnesses for $a$, $b$, $c$, and $d$. Pair
+these four witnesses with the witness for $e$ in the displayed order.
+
+For the reverse direction, assume witnesses
+$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
+$p_c:\mathsf{NonZero}_F(c)$, $p_d:\mathsf{NonZero}_F(d)$, and
+$p_e:\mathsf{NonZero}_F(e)$. Apply
+\autoref{thm:field-four-factor-product-nonzero-iff-factors} in the reverse
+direction to the first four witnesses. This supplies
+$p_{abcd}:\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$.
+
+Apply \autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_{abcd}$ and
+$p_e$. The resulting witness is the displayed left-nested fivefold product
+nonzero certificate, completing the equivalence.
+\end{proof}
+
+Per-object certificate: Traditional target: five-factor product nonzero
+exactness. BEDC source: $\FieldUp$ plus $\RingUp$ zero absorption. Carrier
+choice: $\mathsf{BHist}$. Classifier choice: $\hsame$. Ledger: factor
+witnesses $p_a,p_b,p_c,p_d,p_e$, fourfold prefix witness $p_{abcd}$, and
+fivefold product witness $p_{abcde}$. Core theorem list:
+Theorem~\ref{thm:field-five-factor-product-nonzero-iff-factors}. Exactness
+predicate:
+$$
+\mathsf{NonZero}_F(
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
+\Longleftrightarrow
+\mathsf{NonZero}_F(a)\wedge\mathsf{NonZero}_F(b)\wedge
+\mathsf{NonZero}_F(c)\wedge\mathsf{NonZero}_F(d)\wedge
+\mathsf{NonZero}_F(e).
+$$
+Downstream use: RatUp FieldUp exit ledgers and five-factor product equation
+exactness. Status: ProofTarget.
