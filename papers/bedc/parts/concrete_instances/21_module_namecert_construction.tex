@@ -87,6 +87,33 @@ reverse direction.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_classifier\_readback\_iff}
 
+\begin{theorem}[Module singleton scalar action image semantic certificate]
+\label{thm:module-singleton-smul-image-semantic-name-cert}
+For the concrete singleton $\ModuleUp$ instance, the source carrier $A_{\emp}$,
+the scalar-action image pattern
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{ModuleSingletonSmul}(r,m),
+$$
+the ledger carrier $A_{\emp}$, and the singleton classifier $\rho_{\emp}$ form a
+$\mathsf{SemanticNameCert}$.
+\end{theorem}
+\begin{proof}
+The certificate core is the singleton module classifier from
+Theorem~\ref{thm:module-singleton-scalar-action-laws}. Its carrier is
+$A_{\emp}$, its classifier is $\rho_{\emp}$, and its stability fields give the
+reflexive, symmetric, transitive, and carrier-transport clauses required by the
+semantic certificate.
+
+For pattern soundness, assume $A_{\emp}(h)$. Choose the scalar and module
+witnesses $r=\emp$ and $m=h$. The module witness is the given carrier evidence,
+and $\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally the empty history, so
+the same singleton evidence supplies $h\hsame\mathsf{ModuleSingletonSmul}(r,m)$.
+
+Ledger soundness is the identity map on the singleton carrier $A_{\emp}$, with
+classification read by the same $\rho_{\emp}$ endpoint relation.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple

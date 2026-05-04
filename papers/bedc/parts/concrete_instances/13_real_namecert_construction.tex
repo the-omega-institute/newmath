@@ -102,20 +102,31 @@ Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-packag
 Exactness: the displayed four-part conjunction. Standard bridge: finite
 rational prefix agreement. Status: $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Real stream prefix truncation positive denominator package]
+\begin{theorem}[Real stream prefix truncation endpoint denominator package]
 \label{thm:real-stream-prefix-truncated-positive-denominator-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if
 $$
 \mathsf{RealStreamPrefixClassifier}(x,y,m+n),
 $$
-then the selected endpoints of the shorter certified prefix have positive unary
-denominators:
+then the selected endpoints of the shorter certified prefix carry the complete
+endpoint-classifier and denominator-shape package:
 $$
+\mathsf{RatHistoryClassifier}(x(n),y(n))
+\land
 \mathsf{PositiveUnaryDenominator}(x(n))
 \land
-\mathsf{PositiveUnaryDenominator}(y(n)).
+\mathsf{PositiveUnaryDenominator}(y(n))
+\land
+\mathsf{UnaryHistory}(x(n))
+\land
+\mathsf{UnaryHistory}(y(n))
+\land
+(\hsame(x(n),\emp)\to\mathsf{False})
+\land
+(\hsame(y(n),\emp)\to\mathsf{False}).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_denominator\_package}
 \begin{proof}
 First descend from the displayed prefix through $m+n$ to the selected prefix
 through $n$. This is the constructor induction used in
@@ -125,12 +136,18 @@ recursive prefix component.
 
 Apply \autoref{thm:real-stream-prefix-classifier-endpoint} to the resulting
 prefix classifier at $n$. This projects the endpoint rational-history classifier
-$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$, which is kept as the first
+conjunct of the displayed package.
 
-Finally apply \autoref{thm:rat-history-classifier-positive-denominators} to that
-endpoint classifier. The two projected witnesses are exactly
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the endpoint
+classifier. The two projected witnesses are exactly
 $\mathsf{PositiveUnaryDenominator}(x(n))$ and
 $\mathsf{PositiveUnaryDenominator}(y(n))$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two positive-denominator rows. The two applications supply
+$\mathsf{UnaryHistory}(x(n))$, $\mathsf{UnaryHistory}(y(n))$, and the two
+nonemptiness implications, so the seven displayed rows repack directly.
 \end{proof}
 
 Fit. Traditional target: finite-prefix denominator readback for RealUp streams.
@@ -139,8 +156,76 @@ Carrier: rational-observation streams. Classifier:
 $\mathsf{RealStreamPrefixClassifier}$. Stability: prefix truncation and endpoint
 projection. Ledger: selected indices $m,n$. Core theorem:
 \autoref{thm:real-stream-prefix-truncated-positive-denominator-package}.
-Exactness: the displayed implication. Standard bridge: finite rational prefix
-positivity. Status: $\mathsf{ProofTarget}$.
+Exactness: the displayed endpoint-classifier and denominator-shape package.
+Standard bridge: RealUp dyadic embedding and RegSeqRat endpoint-readback
+obligations. Status: $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream prefix contextual one-tail denominator package]
+\label{thm:real-stream-prefix-contextual-e1-denominator-package}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, indices $m,n$,
+and histories $a,b:\Hist$, assume
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n),
+$$
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+and
+$$
+\mathsf{Cont}(p_X(n),x(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad
+\mathsf{Cont}(p_Y(n),y(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)).
+$$
+Then the selected contextual endpoints carry the finite-prefix package:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$.
+\item $\mathsf{PositiveUnaryDenominator}(o_X(n))$ and
+$\mathsf{PositiveUnaryDenominator}(o_Y(n))$.
+\item $\mathsf{UnaryHistory}(o_X(n))$ and $\mathsf{UnaryHistory}(o_Y(n))$.
+\item $\hsame(o_X(n),\emp)\to\mathsf{False}$ and
+$\hsame(o_Y(n),\emp)\to\mathsf{False}$.
+\item If $\hsame(o_X(n),\Eone(a))$ and $\hsame(o_Y(n),\Eone(b))$, then
+$\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land\hsame(a,b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-stream-prefix-truncated-cont-endpoint-context-closed} to the
+classified prefix and the four selected continuation displays. This gives the
+contextual endpoint classifier
+$\mathsf{RatHistoryClassifier}(o_X(n),o_Y(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to that
+classifier. The two projections are the positive unary denominator witnesses for
+$o_X(n)$ and $o_Y(n)$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two positive denominator witnesses. This gives unary membership and empty
+endpoint exclusion for both contextual outputs.
+
+For the one-tail readback, transport the endpoint classifier along the two
+displayed $\hsame$ comparisons to obtain
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$. Apply
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward direction,
+which yields the two unary tail witnesses and $\hsame(a,b)$.
+\end{proof}
+
+Fit. Traditional target: finite-prefix contextual denominator readback for
+RealUp streams. BEDC source: RealUp prefix context closure plus RatUp
+denominator and one-tail exactness. Carrier: rational-observation streams with
+selected unary contexts. Classifier: $\mathsf{RealStreamPrefixClassifier}$ and
+$\mathsf{RatHistoryClassifier}$. Stability: prefix truncation, contextual
+endpoint closure, and $\hsame$ transport. Ledger: selected indices $m,n$ and
+displayed outputs $o_X(n),o_Y(n)$. Core theorem:
+\autoref{thm:real-stream-prefix-contextual-e1-denominator-package}. Exactness:
+the displayed five-part endpoint package. Standard bridge: RegSeqRat contextual
+endpoint readback. Status: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
@@ -652,6 +737,36 @@ Transport the rational classifier to these displayed outputs and apply
 positive-denominator witnesses in the displayed conclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_positive\_denominators}
+
+\begin{theorem}[Real stream classifier unary denominator context selected shape package]
+\label{thm:real-stream-classifier-unary-denominator-context-selected-shape-package}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$ and a selected
+index $n$, assume $\mathsf{RealStreamClassifier}(x,y)$ and the pointwise
+unary-context and continuation hypotheses of
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed}. Then
+the selected contextual outputs $o_X(n)$ and $o_Y(n)$ are unary histories,
+are disjoint from $\emp$, and are disjoint from every zero-extension endpoint:
+$$
+\begin{aligned}
+&\mathsf{UnaryHistory}(o_X(n))\land \mathsf{UnaryHistory}(o_Y(n))\\
+&{}\land(\hsame(o_X(n),\emp)\to\mathsf{False})
+\land(\hsame(o_Y(n),\emp)\to\mathsf{False})\\
+&{}\land(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})
+\land(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False}).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Apply unary-denominator context closure to obtain
+$\mathsf{RealStreamClassifier}(o_X,o_Y)$. At the selected index, the classifier
+gives a rational-history classifier between $o_X(n)$ and $o_Y(n)$, hence
+positive unary denominator witnesses for both outputs. Each positive
+denominator gives unary membership and nonempty exclusion, and transport of
+positive denominators across a displayed zero-extension contradicts the
+zero-extension exclusion for positive denominators.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_denominator\_context\_selected\_shape\_package}
 
 \begin{theorem}[Real stream classifier unary denominator context one-tail pair readback]
 \label{thm:real-stream-classifier-unary-denominator-context-e1-pair-readback}

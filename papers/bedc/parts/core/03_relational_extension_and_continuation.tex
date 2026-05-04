@@ -172,23 +172,17 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-The forward direction splits on the left factor. If it is empty, the append
-left-unit law reduces the obstruction to the right factor; visible left
-constructors are separated from $\emp$. Conversely, an empty appended result
-is inverted into empty witnesses for both factors, contradicting either
-nonempty disjunct.
+The forward direction splits on the left factor: the empty branch reduces the
+obstruction to the right factor, while visible left constructors are separated
+from $\emp$. Conversely, empty-result inversion contradicts either nonempty
+disjunct.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_nonempty\_iff}
 
 \begin{theorem}[Append visible-left empty exclusion]
 \label{thm:append-visible-left-empty-absurd}
-For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible
-left endpoint cannot produce an internally empty history:
-$$
-\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot,
-\qquad
-\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot.
-$$
+For histories $h,k:\mathsf{BHist}$, appending any right tail to a visible left endpoint cannot produce an internally empty history:
+both $\HSame(\mathsf{append}(\Ezero(h),k),\emp)\to\bot$ and $\HSame(\mathsf{append}(\Eone(h),k),\emp)\to\bot$ hold.
 \end{theorem}
 \begin{proof}
 Split on the right tail $k$. If it is empty, the visible left endpoint remains
@@ -215,6 +209,15 @@ outer layer and the induction hypothesis applies to the shorter tail.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tail\_tag\_separation}
 
+\begin{theorem}[Append visible-left same-tag tail cancellation]
+\label{thm:append-visible-left-same-tag-tail-cancel}
+For histories $h_0,h_1,k:\mathsf{BHist}$, common right-tail append cancellation identifies the payloads of equal zero-headed visible-left endpoints, and likewise for equal one-headed visible-left endpoints.
+\end{theorem}
+\begin{proof}
+Apply append right-cancellation to the common tail, then use constructor injectivity for the matching \(\Ezero\) or \(\Eone\) head.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_same\_tag\_tail\_cancel}
+
 \begin{lemma}[Continuation respects a matching right extension step]
 \label{lem:cont-ext-right-step}
 If $\ContR(h,k,r)$, $\ExtR(m,k,k')$, and $\ExtR(m,r,r')$, then
@@ -222,9 +225,7 @@ $\ContR(h,k',r')$.
 \end{lemma}
 \leanchecked{BEDC.FKernel.Cont.cont\_ext\_right\_step}
 \begin{proof}
-Case split on the extension of $k$ by $m$. In the $\Ezero$ branch, the matching
-extension of $r$ is also the zero branch, and the zero continuation step
-applies. The $\Eone$ branch is analogous.
+Case split on the extension of $k$ by $m$. In the $\Ezero$ branch, the matching extension of $r$ is also the zero branch, and the zero continuation step applies. The $\Eone$ branch is analogous.
 \end{proof}
 
 \begin{theorem}[Extension as singleton continuation]
@@ -657,10 +658,7 @@ a\hsame b
 $$
 \end{theorem}
 \begin{proof}
-Transport the right context along $P\hsame Q$. The forward direction is right
-append cancellation for the common suffix. Conversely, after the endpoints
-$a$ and $b$ are identified, the two appended histories are definitionally the
-same.
+Transport the right context along $P\hsame Q$. The forward direction is right append cancellation for the common suffix. Conversely, after the endpoints $a$ and $b$ are identified, the two appended histories are definitionally the same.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_hsame\_right\_context\_cancel\_iff}
 

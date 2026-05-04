@@ -80,6 +80,7 @@ Finally apply
 direction. The one-tail classifier exactness theorem reads back exactly
 $\mathsf{Unary}(a)\land\mathsf{Unary}(b)\land\hsame(a,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_e1\_pair\_readback}
 
 \begin{theorem}[Rat ledger visible-target lift with positive endpoints]
 \label{thm:rat-ledger-visible-target-lift-positive-endpoints}
@@ -184,6 +185,64 @@ classifier hypothesis.
 
 The two equivalences, the positive $\rho$ and $v$ endpoint witnesses, and the
 two implication rows assemble the displayed conjunction.
+\end{proof}
+
+\begin{theorem}[Rat ledger one-tail classifier saturation]
+\label{thm:rat-ledger-one-tail-classifier-saturation}
+For histories $\rho,v,t:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then
+$$
+(\mathsf{RatHistoryClassifier}(\rho,\Eone(t))\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(v,\Eone(t)))
+\land
+(\mathsf{RatHistoryClassifier}(\Eone(t),\rho)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\Eone(t),v))
+\land
+\mathsf{PositiveUnaryDenominator}(\rho)
+\land
+\mathsf{PositiveUnaryDenominator}(v)
+\land
+(\mathsf{RatHistoryClassifier}(v,\Eone(t))\to
+\mathsf{Unary}(t))
+\land
+(\mathsf{RatHistoryClassifier}(\Eone(t),v)\to
+\mathsf{Unary}(t)).
+$$
+
+Its ten-field fit is: traditional target rational ledger one-tail readback;
+BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from ledger endpoint classifier equivalence and one-extension
+denominator readback; ledger raw-visible denominator edge; core theorem this
+block; exactness the two displayed iff rows plus tail readback; downstream
+consumers $\FieldUp(\RatUp)$ denominator rows and $\RealUp$ rational
+observation streams; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-ledger-two-sided-endpoint-classifier-equivalence} with
+$w=\Eone(t)$. Project the forward one-tail classifier row, the reversed
+one-tail classifier row, and the positive-denominator witnesses for $\rho$ and
+$v$.
+
+For the visible target orientation, assume
+$\mathsf{RatHistoryClassifier}(v,\Eone(t))$. The same two-sided endpoint
+package gives $\mathsf{PositiveUnaryDenominator}(\Eone(t))$ under this
+hypothesis.
+
+Apply
+\autoref{thm:rat-positive-unary-denominator-eone-iff-unary} to the conditional
+positive denominator for $\Eone(t)$. This reads back the tail witness
+$\mathsf{Unary}(t)$.
+
+For the visible source orientation, assume
+$\mathsf{RatHistoryClassifier}(\Eone(t),v)$. Project the opposite conditional
+positive-denominator row from the same endpoint package and apply
+\autoref{thm:rat-positive-unary-denominator-eone-iff-unary} again to obtain
+$\mathsf{Unary}(t)$.
+
+The two classifier equivalences, the two endpoint denominator witnesses, and
+the two one-tail readback implications assemble the displayed conjunction.
 \end{proof}
 
 \begin{theorem}[Rat ledger bidirectional target-positive endpoint package]
@@ -393,21 +452,19 @@ stability from ledger endpoint equivalence, classifier symmetry/transitivity,
 positive unary denominator readback, and zero-extension exclusion; ledger the
 raw-visible denominator edge; core theorem this block; exactness the three
 endpoint shape package; downstream consumers $\FieldUp(\RatUp)$
-denominator-unit rows and $\RealUp$ stream-prefix readback; status
-$\mathsf{ProofTarget}$.
+denominator-unit rows and $\RealUp$ stream-prefix readback.
 \end{theorem}
 \begin{proof}
-First apply \autoref{thm:rat-ledger-classifier-saturation-package} to the
-ledger witness and the supplied classifier orientation. This gives the four
-saturated classifier orientations together with
-$\mathsf{PositiveUnaryDenominator}(\rho)$,
-$\mathsf{PositiveUnaryDenominator}(v)$, and
-$\mathsf{PositiveUnaryDenominator}(w)$.
+Unpack the ledger witness. Its raw carrier gives
+$\mathsf{PositiveUnaryDenominator}(\rho)$, and visible-carrier transport gives
+$\mathsf{PositiveUnaryDenominator}(v)$. Case-split on the supplied classifier
+orientation; in each branch the classifier contains a carrier witness for
+$w$, which gives $\mathsf{PositiveUnaryDenominator}(w)$.
 
-Project the three positive denominator witnesses. For each endpoint, apply
+For each endpoint, apply
 \autoref{thm:positive-unary-denominator-unary-and-nonempty}; the unary component
-gives the displayed $\mathsf{UnaryHistory}$ row, and the nonempty component gives
-the corresponding contradiction from $\hsame(-,\emp)$.
+gives the displayed $\mathsf{UnaryHistory}$ row, and the nonempty component
+gives the corresponding contradiction from $\hsame(-,\emp)$.
 
 It remains to exclude zero-extension presentations. Suppose
 $\hsame(\rho,\Ezero(z_\rho))$ holds. Transport
@@ -420,3 +477,4 @@ $\mathsf{PositiveUnaryDenominator}(v)$ along $\hsame(v,\Ezero(z_v))$ and apply
 $\mathsf{PositiveUnaryDenominator}(w)$ along $\hsame(w,\Ezero(z_w))$ and apply
 the same zero-extension exclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_saturated\_denominator\_shape\_package}

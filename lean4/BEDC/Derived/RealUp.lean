@@ -427,6 +427,40 @@ theorem RealStreamClassifier_unary_denominator_context_e1_pair_readback
       sameTail contPX contOX contPY contOY
   exact RealStreamClassifier_selected_e1_pair_readback contextClassified sameX sameY
 
+theorem RealStreamClassifier_unary_denominator_context_selected_shape_package
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat} {zx zy : BHist} :
+    RealStreamClassifier x y -> (forall i : Nat, UnaryHistory (pX i)) ->
+      (forall i : Nat, UnaryHistory (tX i)) ->
+        (forall i : Nat, hsame (pX i) (pY i)) ->
+          (forall i : Nat, hsame (tX i) (tY i)) ->
+            (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+              (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                  (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                    UnaryHistory (oX n) ∧ UnaryHistory (oY n) ∧
+                      (hsame (oX n) BHist.Empty -> False) ∧
+                        (hsame (oY n) BHist.Empty -> False) ∧
+                          (hsame (oX n) (BHist.e0 zx) -> False) ∧
+                            (hsame (oY n) (BHist.e0 zy) -> False) := by
+  intro classified prefixX tailX samePrefix sameTail contPX contOX contPY contOY
+  have contextClassified : RealStreamClassifier oX oY :=
+    RealStreamClassifier_unary_denominator_context_closed classified prefixX tailX samePrefix
+      sameTail contPX contOX contPY contOY
+  have positives := RatHistoryClassifier_positive_denominators (contextClassified n)
+  have leftRows := PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows := PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact And.intro leftRows.left
+    (And.intro rightRows.left
+      (And.intro leftRows.right
+        (And.intro rightRows.right
+          (And.intro
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.left))
+            (fun sameZero =>
+              PositiveUnaryDenominator_e0_absurd
+                (PositiveUnaryDenominator_hsame_transport sameZero positives.right))))))
+
 theorem RealStreamClassifier_selected_continuation_e1_pair_readback
     {x y : Nat -> BHist} {n : Nat} {q xq yq a b : BHist} :
     RealStreamClassifier x y -> UnaryHistory q -> Cont (x n) q xq -> Cont (y n) q yq ->

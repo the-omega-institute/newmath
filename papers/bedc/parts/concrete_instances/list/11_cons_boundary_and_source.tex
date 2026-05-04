@@ -463,6 +463,57 @@ $\mathsf{ListPublicLength}_A(t,n)$. Together with $A(a)$, $\ContR(a,t,p)$, and
 $\hsame(h,\Eone(p))$, these data are the required existential witnesses.
 \end{proof}
 
+\begin{theorem}[List public successor length constructor exactness]
+\label{thm:list-public-successor-length-constructor-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. For every history $h$ and every
+finite length value $n$,
+$$
+\mathsf{ListPublicLength}_A(h,n+1)
+\quad\Longleftrightarrow\quad
+\exists a\,t\,p:\mathsf{BHist}.\;
+\left(
+\begin{array}{l}
+A(a)\land \mathsf{ListHistoryCarrier}_A(t)\land
+\mathsf{ListPublicLength}_A(t,n)\land\\
+\ContR(a,t,p)\land \hsame(h,\Eone(p))
+\end{array}
+\right).
+$$
+The ten-field fit is: traditional target finite-list public successor
+constructor law; BEDC source $\mathsf{BHist}$ with $\ContR$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier protected by source $\NameCert$ and
+cons-boundary coherence; ledger $\mathsf{ListPublicLength}_A$; core theorem
+constructor readback in both directions; exactness by finite-spine cons
+formation; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:list-public-successor-length-cons-readback}. This exposes the
+head history, tail history, continuation boundary, predecessor public length,
+and endpoint presentation required by the right-hand side.
+
+For the reverse direction, assume histories $a,t,p$ with $A(a)$,
+$\mathsf{ListHistoryCarrier}_A(t)$, $\mathsf{ListPublicLength}_A(t,n)$,
+$\ContR(a,t,p)$, and $\hsame(h,\Eone(p))$.
+
+Unfold Definition~\ref{def:list-public-length-readback} for the tail public
+length. This gives a finite spine $xs$ with
+$\mathsf{ListSpineRep}_A(t,xs)$ and $\ell(xs)=n$.
+
+Use the cons constructor for $\mathsf{ListSpineRep}_A$ with the displayed
+source membership $A(a)$, the tail representation, the continuation witness,
+and the endpoint presentation. It gives
+$\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$.
+
+The represented cons spine has length $\ell(xs)+1$, so the displayed tail
+length identifies it with $n+1$. Repack this cons representation and length
+identity through Definition~\ref{def:list-public-length-readback}, obtaining
+$\mathsf{ListPublicLength}_A(h,n+1)$.
+\end{proof}
+
 \begin{theorem}[List classified successor length cons readback]
 \label{thm:list-classified-successor-length-cons-readback}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let

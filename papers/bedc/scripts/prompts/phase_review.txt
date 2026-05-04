@@ -97,12 +97,20 @@ Track the recent activity profile and the current size of `papers/bedc/parts/` f
 
 1. Run `git log --oneline -20 -- papers/bedc/parts/` to inspect the last twenty paper-side commits. Build the multiset of touched files.
 2. **File-size pre-check.** Run `wc -l <each candidate paper_files[0]>`. A candidate is INVALID if its `paper_files[0]` is **≥760 lines** unless the target is precisely a content split (see Structural split rule in `phase_revise.txt`): extract a focused sub-chapter file inside the same theme directory and leave the parent as a pure index of ordered `\input` lines. An "append a new theorem to a 760+ line file" target is rejected — the gate will fail it after Phase Revise spends a codex-exec budget for nothing.
-3. If the candidate target's `paper_files[0]` already appears ≥3 times in those 20 commits, the candidate must clear an additional bar: it must either close a roadmap exit criterion, or fix a logical/notational defect that is visible by grep, or introduce a NEW kernel touchpoint not yet present in the file. A fourth same-file source-equivalence / parameter-transport target is INVALID.
-4. If the candidate's `summary` contains any of `source equivalence`, `source-equivalence`, `under source equivalence`, `under_source_equivalence`, `parameter transport`, `<obj>_A`, `<obj>_B` (literal subscript), and the same paper file already contains a theorem whose label or title matches `*source-equivalence*` or `*under-source-equivalence*`, treat the candidate as a parameter-echo sibling (see Anti-parameter-echo above) and skip it.
+3. **Hub-file pre-check.** A `.tex` file is a HUB if it has been previously split — its non-blank, non-comment lines are ≥80% `\input{...}` directives, and it carries no `\chapter`/`\section`/`\begin{theorem}`/`\begin{definition}`/`\begin{proof}` of its own. The actual content lives in the child files referenced by `\input`. To detect:
+   ```bash
+   f=<candidate paper_files[0]>
+   total=$(grep -cEv '^\s*$|^\s*%' "$f")
+   inputs=$(grep -cE '^\s*\\input\{' "$f")
+   own=$(grep -cE '\\(chapter|section|begin\{(theorem|definition|proposition|lemma|corollary|proof)\})' "$f")
+   ```
+   If `total <= 30` AND `inputs * 100 >= total * 80` AND `own == 0`, the file is a HUB. A candidate whose `paper_files[0]` is a HUB is INVALID UNLESS its `proposed_change` is precisely "create new child file under the hub's subdirectory, then append a single `\input{…}` line to the parent hub" (additive split). Targets that say "add theorem / definition / proof / certificate to <hub-file>" are rejected — content does not live in the hub. Instead either (a) pick the relevant `\input`-ed child file as `paper_files[0]` and target that, or (b) create a new child file alongside the existing children and add it to the hub's `\input` list. Appending content to a hub will be reverted by the next "keep paper sites singular" cleanup round and waste a codex-exec budget.
+4. If the candidate target's `paper_files[0]` already appears ≥3 times in those 20 commits, the candidate must clear an additional bar: it must either close a roadmap exit criterion, or fix a logical/notational defect that is visible by grep, or introduce a NEW kernel touchpoint not yet present in the file. A fourth same-file source-equivalence / parameter-transport target is INVALID.
+5. If the candidate's `summary` contains any of `source equivalence`, `source-equivalence`, `under source equivalence`, `under_source_equivalence`, `parameter transport`, `<obj>_A`, `<obj>_B` (literal subscript), and the same paper file already contains a theorem whose label or title matches `*source-equivalence*` or `*under-source-equivalence*`, treat the candidate as a parameter-echo sibling (see Anti-parameter-echo above) and skip it.
 
 The pipeline runs many rounds in parallel; concentrating them in one file produces label collisions and bookkeeping growth without theory growth. Spread the work.
 
-In `notes`, briefly state (a) which files appeared most often in the last 20 commits, (b) the line counts of every file listed in `targets[*].paper_files[0]`, and (c) confirm the chosen target spreads the workload and stays under 760 lines (or is a split).
+In `notes`, briefly state (a) which files appeared most often in the last 20 commits, (b) the line counts of every file listed in `targets[*].paper_files[0]`, (c) confirm the chosen target spreads the workload and stays under 760 lines (or is a split), and (d) confirm `paper_files[0]` is not a hub (or, if it is, that the target is an additive split that creates a new child file).
 
 ## Pre-emit redundancy gate (HARD GATE)
 
