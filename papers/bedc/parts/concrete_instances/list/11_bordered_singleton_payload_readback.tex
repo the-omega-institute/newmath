@@ -1,0 +1,35 @@
+\section{Bordered singleton payload readback}
+\label{sec:list-bordered-singleton-payload-readback}
+
+\begin{theorem}[List classifier bordered singleton payload readback]
+\label{thm:list-classifier-bordered-singleton-payload-readback}
+For finite BEDC-history lists $p$, $p'$, $s$, and $s'$ and histories $x$ and
+$y$, if
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,s,s'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,p{++}(x::\mathsf{nil}){++}s,
+p'{++}(y::\mathsf{nil}){++}s')
+$$
+hold, then $\hsame(x,y)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-classifier-append-two-sided-cancel-classified} to
+the displayed prefix classifiers, suffix classifiers, and bordered singleton
+classification. This cancels the classified boundaries and gives
+$\mathsf{ListClassifierSpec}(\hsame,x::\mathsf{nil},y::\mathsf{nil})$.
+
+Apply Theorem~\ref{thm:list-classifier-hsame-singleton-iff} in the forward
+direction. The singleton classifier witness reads back exactly the payload
+relation $\hsame(x,y)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite-list singleton payload
+readback; BEDC source $\mathsf{BHist}$; carrier finite BEDC-history spines;
+classifier $\mathsf{ListClassifierSpec}(\hsame,-,-)$; stability from classified
+prefix and suffix cancellation; ledger hidden prefix and suffix context; core
+theorem singleton payload readback; exactness by cancellation and singleton
+inversion; standard bridge finite-spine payload extraction; status
+$\mathsf{ProofTarget}$.
