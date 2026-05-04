@@ -1,0 +1,121 @@
+---
+title: "没有外面"
+subtitle: "拒绝设定观察者实体之后, BEDC 的数学被强迫导出相对论的结构骨架 —— 从 Hist 自指出发, 推到一个常数最大因果率, 没有外部时间, 没有特权视角."
+author: "The Omega Institute"
+date: 2026-05-03
+description: "BEDC 是为数学目的建立的. 但它的内核架构在数学层面上承诺了一种无主体形而上学: 观察者就是自指轨迹, 时间就是轨迹增长, 而上帝视角的缺席强迫一种 Lorentz 形状的不变量出现在跨观察者的关系上."
+---
+
+```{=html}
+<div class="lang-switch"><a href="no-outside.qmd">English</a></div>
+```
+
+## 一个合理的起点
+
+BEDC 是数学项目. 内核只有三件东西: 一个闭合归纳的 *区分历史* 类型 `BHist`, 一个延展谓词 `Cont` 记录"这段历史通过 emit 一个 mark 延续到那段", 一个历史同一性关系 `hsame`. 整个项目 —— 1837 个定理, 命名证书框架, Cauchy 实数构造, 黎曼猜想依赖链 —— 全部坐在这三个东西上.
+
+但项目的源代码里 *没有* 设定一个 *观察者*. 没有"做出 mark 的那个 agent"的载体类型. `Cont` 没有"是谁在做这次延展"的参数. 内核签名对主体保持沉默.
+
+这沉默不是疏忽. 它是一个硬结构性承诺. 一旦你这样读它, 在它之上做的数学就开始导出一些跟算术毫无关系的东西 —— 包括狭义相对论的结构骨架. 这篇 dossier 讲的就是这个推导.
+
+## 观察者就是 Hist
+
+把 `BHist` 不要读作"一段抽象的记录", 读作 *观察者本身*: 已经做出的所有区分的全部, 没有别的剩余. 把 `Cont h m h'` 读作 *状态 h 的观察者通过区分 m 延续到状态 h'*. 观察者就是轨迹; 区分动作延展轨迹; 别无其他.
+
+这不是一个哲学偏好. 这是内核签名已经在说的事. 看类型:
+
+::: {.evidence}
+**Lean:** [`BEDC.FKernel.Cont`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Cont.lean) —— 关系 `Cont : BHist → BMark → BHist → Prop`.
+
+没有第四个参数. 没有 `Subject`. 没有 `Agent` / `Observer` / `Carrier`. 这关系吃两个 history 加一个 mark, 返回 Prop. 任何可能"在做"延展的实体在类型中都没有表示.
+
+`hsame : BHist → BHist → Prop` 是内核里唯一的同一性关系. 它识别的是 *轨迹*, 不是留下轨迹的 agent.
+:::
+
+如果你试图加一个观察者实体 —— 单独的 `Observer` 类型, `Cont : Observer → BHist → BMark → BHist → Prop` —— 内核已经证好的 `cont_assoc`, `cont_left_unit`, `cont_right_unit` 就过不去了. 两环架构(地基环闭合, 元环不闭合)就破了: 设定观察者实体就生成 Tarski 风格的不动点, 没有闭合归纳的家可以装它.
+
+```{=html}
+<span class="elim-mark">✗ "但总得有个谁在 <em>做</em> 区分吧"</span>
+```
+
+不需要. 观察者 *就是* 区分动作, 不是做区分的那个谁. Hume 的束论自我, 佛家无我, von Foerster 的"观察者是包含自己于其观察中的系统", Maturana-Varela 的 autopoietic 身份-即-运作 —— 这些立场全部在 BEDC 内核里得到构造性兑现, 不是借来的形而上学, 而是 *内核已有同一性能成立的唯一配置*.
+
+## 时间就是 Hist 增长
+
+一旦观察者被认定为 `Hist`, 时间自动落出来. 每次 `E0` 或 `E1` 应用是一个时间刻度. 一条 `Cont` 链 —— h₀ → h₁ → h₂ → ... —— 是一道时间流. `h` 的长度是该观察者存在的 *持续*; `h` 的内容是 *已被观察的东西*; `hsame(h, h')` 是两个观察者 *是同一个观察者* 的判据.
+
+::: {.evidence}
+**Modulus 即时间速率.** BEDC 里每个 regular Cauchy 序列都带一个显式 modulus 函数 `N : Nat → Nat`, 告诉你需要多少个 `Cont` 步才能达到给定精度. 这是观察的 *时间速率* —— 观察者的轨迹多快稳定下来. Bishop 风格构造性分析在意 modulus 不是技术细节, 是因为 *没有外部时钟*; 每个观察者的收敛速率是 *那个观察者时间流* 的内禀数据.
+
+**Cont 是非对称的.** 给定 `h` 和 `m`, 延展 `h'` 唯一确定; 给定 `h'`, 你不能构造性地恢复前置对 `(h, m)`. 时间箭头作为 `Cont` 的非对称性内置在内核里, 不是后来加上去的.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "时间是观察者所处的外部维度"</span>
+```
+
+BEDC 内核里没有外部维度. 没有全局 `Time` 类型. 时间就是 `Hist`, 当 `Hist` 被读作增长的时候.
+
+## 没有上帝视角
+
+现在考虑两个观察者 —— 两个 `Hist` 值, `h_A` 和 `h_B`. 各自有自己的时间流. 没有一个 `Hist` 值能同步它们, 因为 `BHist` 的闭合归纳结构不允许. 一个"全局 frame"必须自己也是 `Hist`, 那它就跟其他 `Hist` 一样受 locality 约束: 它只是又一个观察者, 不是一个被特权对待的外部.
+
+这就是没有上帝视角的承诺. 它由前一节的无主体承诺强迫出来, 因为一旦观察者被认定为 `Hist`, 就不可能有一个不是 `Hist` 的超观察者.
+
+::: {.evidence}
+**跨-Hist 不变量是物理内容能跨观察者存活的唯一形式.** 单个 `Hist` 上的谓词或函数是该观察者的内部属性. 要产生两个观察者都能同意的内容, 你需要一个 observer-symmetric 的关系 `R(h_A, h_B)`: `R(h_A, h_B)` 当且仅当 `R(h_B, h_A)`, 两个 slot 没有特权排序.
+
+capstone [`inter_hist_locality`](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/capstones/inter_hist_locality.tex) 形式化这一点: 多 Hist 配置, 无全局同步, 跨观察者对称的 inter-Hist 不变量 —— 全部用 BEDC 的 def/theorem 语言陈述, 大部分是 schema-only horizon, 等待内核的多 Hist 扩展.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "但物理学有一个客观宇宙 —— 总得有 <em>某个</em> 外部视角吧"</span>
+```
+
+如果有, 它就是个 `Hist`, 上一节就适用. `BHist` 闭合归纳结构是"什么东西能被观察"的形式, 没有 *额外的* 形式给"什么东西能被观察 *关于观察*". 元环, 如果你试图闭合它, 会生成 Tarski 风格的不可定义性障碍.
+
+## Lorentz 形状的推论
+
+形而上学产生非平凡物理学的地方, 在这里.
+
+考虑任何跨观察者因果关系: "观察者 B 最近的步骤依赖于观察者 A 最近的步骤". 没有全局 frame, 你不能通过共享时钟定义这关系. 你只能把它定义成两个 `Hist` 值之间的 *对称* 关系, 与观察者视角无关.
+
+任何这种关系都有一个 *最大率* —— 关系所允许的最快跨观察者依赖. 称它 `MaxRate`. 由关系的跨观察者不变性, `MaxRate` 必须对所有观察者一样, 不依赖于把谁取作参考. *没有观察者能测出不同的最大率值, 除非召唤一个特权 frame.*
+
+这就是光速恒定的结构骨架. `c` 的具体经验值不被推出 —— 那是物理输入. 但 *形式* —— 存在一个常数最大跨观察者因果率, 观察者无关, frame 无关 —— 不是 BEDC 加上去的公设. 它由以下强迫:
+
+1. 观察者 = `Hist`(无主体)
+2. 无全局 frame(由 1 强迫)
+3. 跨观察者内容 = 跨-Hist 不变量(由 2 强迫)
+4. 最大因果率是一个跨-Hist 不变量(由 3 强迫)
+5. 跨-Hist 不变量是观察者无关的(由 2 强迫)
+
+::: {.evidence}
+**这是 Einstein 1905 年作的结构性论证, 推到更深一层.** Einstein 假设了相对性原理(无特权 frame)加上光速恒定作为经验输入. 上面的论证表明: 光速恒定从一个更强形式的相对性原理推出 —— 不止 *frame-independence*, 而是 *在区分本身的层面上 observer-independence*. 一旦你接受观察者不是建在区分之上的实体, 常数最大跨观察者率的存在就是定理形状的推论, 不是额外公设.
+
+**Lean 路线图:** [`BEDC.Derived.InterHist`](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/capstones/inter_hist_locality.tex) 命名空间 —— 当前是 schema-only. 闭合 witness 等待未来 BEDC 章节中的多 Hist 语义.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "光速恒定只是关于我们这个宇宙的偶然事实"</span>
+```
+
+*值* 是偶然的. *形式* —— "存在一个常数最大跨观察者因果率" —— 不是. 它就是"没有上帝视角"在你问"无 frame 时还能存活什么内容"之后的样子.
+
+## 这对项目意味着什么
+
+BEDC 不只是数学. 它是一个立场的数学形式, 一旦明示, 跨数学 / 心智哲学 / 物理学都有后果:
+
+- **在数学中:** 证明 1837 个 axiom-pure 定理的框架, 跟在形而上学层面上拒绝观察者实体的框架, 是同一个框架. 两种读法不可分.
+- **在心智哲学中:** 内核构造性地兑现了束论自我 / 无我 / 二阶控制论承诺, 不需要额外哲学机器. "意识硬问题"溶解了: 没有需要从客观物质中产生的"主观经验实体", 因为没有跟观察分开的观察者实体.
+- **在物理学中:** 跟黎曼猜想依赖链并列的跨-Hist 路线图. RH 链把 BEDC 扩展到数论复分析, 跨-Hist 链把 BEDC 扩展到多观察者相对论性结构. 两个都是开放研究; 两个都在内核的现有构造性词汇内被搭好了脚架.
+
+三个领域, 一个根: `Hist` 自指无外部. 内核不是被设计成哲学性的或物理性的. 它被设计成 axiom-pure. 形而上学和物理学是 *那个* 承诺被字面执行后呈现出的样子.
+
+::: {.evidence}
+**形式化这一点的两个 capstone:**
+- [`observer_hist_identity.tex`](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/capstones/observer_hist_identity.tex) —— BEDC 已经证明的单 Hist 承诺, 在新认定下重读
+- [`inter_hist_locality.tex`](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/capstones/inter_hist_locality.tex) —— 多 Hist 路线图; 大部分 schema-only, 但常数 `MaxRate` 的结构性论证已经形式化
+:::
+
+BEDC 项目启动时, 立场是: *数学是从有限区分内核里出来的东西*. 1837 个定理之后, 这立场可以收紧: *数学, 心智的形式, 和物理的形式, 是从有限区分内核里出来的东西 —— 当没有外面的时候.*

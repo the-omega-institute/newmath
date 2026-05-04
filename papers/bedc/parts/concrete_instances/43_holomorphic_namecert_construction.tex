@@ -334,6 +334,21 @@ Unfold the open-disk witness. The target center and point carriers are supplied 
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_gap\_endpoint\_transport}
 
+\begin{theorem}[Open disk radius extension closure]
+\label{thm:open-disk-radius-extension-closed}
+If \(\mathsf{OpenDisk}(z_0,r,z)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then \(\mathsf{OpenDisk}(z_0,r',z)\).
+\end{theorem}
+\begin{proof}
+Unpack the open disk to a unary gap \(g\) with boundary ledger
+\(\ContR(g,z,r)\). The radius \(r'\) is unary by continuation closure.
+The extended gap is \(g\cdot e\), unary by append closure. Since the point history
+is complex, it is unary, so \(z\) commutes with \(e\); associativity then
+rewrites the composite boundary ledger to
+\(\ContR(g\cdot e,z,r')\).
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_radius\_extension\_closed}
+
 \begin{theorem}[Open disk empty-radius boundary]
 \label{thm:open-disk-empty-radius-boundary}
 If $\mathsf{OpenDisk}(z_0,\emp,z)$ holds, then the displayed point is the

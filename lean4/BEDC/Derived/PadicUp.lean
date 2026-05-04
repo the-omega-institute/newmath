@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.NatMulComm
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.PadicUp
@@ -20,6 +20,12 @@ theorem PadicPrimeScale_unary_components {p exponent result : BHist} :
   exact And.intro scale.left.left
     (And.intro (NatMul_right_unary scale.right)
       (NatMul_result_unary scale.left.left scale.right))
+
+theorem PadicPrimeScale_prime_exponent_comm_hsame {p q r s : BHist} :
+    UnaryHistory p -> UnaryHistory q -> PadicPrimeScale p q r -> PadicPrimeScale q p s ->
+      hsame r s := by
+  intro hp hq left right
+  exact NatMul_comm_hsame hp hq left.right right.right
 
 theorem PadicPrimeScale_total {p exponent : BHist} :
     NatPrime p -> UnaryHistory exponent ->
@@ -293,6 +299,70 @@ theorem PadicPrimeScale_append_succ_right_exponent_factorization_iff {p w q r : 
                     (Exists.intro e (And.intro stepData.right.left stepData.right.right.left))
                 exact PadicPrimeScale_append_cont_closure stepData.left rightScale
                   stepData.right.right.right
+
+theorem PadicPrimeScale_append_succ_left_exponent_factorization_iff {p w q r : BHist} :
+    UnaryHistory w -> UnaryHistory q ->
+      (PadicPrimeScale p (append (BHist.e1 w) q) r <->
+        ∃ n : BHist, ∃ e : BHist, ∃ step : BHist,
+          PadicPrimeScale p w n ∧ Cont n p step ∧ PadicPrimeScale p q e ∧
+            Cont step e r) := by
+  intro unaryW unaryQ
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicPrimeScale_append_exponent_decomposition (unary_e1_closed unaryW) unaryQ scale
+    cases decomposed with
+    | intro step stepData =>
+        cases stepData with
+        | intro e eData =>
+            have leftInversion := PadicPrimeScale_succ_exponent_inversion eData.left
+            cases leftInversion with
+            | intro n nData =>
+                exact Exists.intro n
+                  (Exists.intro e
+                    (Exists.intro step
+                      (And.intro nData.left
+                        (And.intro nData.right
+                          (And.intro eData.right.left eData.right.right)))))
+  · intro factors
+    cases factors with
+    | intro n nData =>
+        cases nData with
+        | intro e eData =>
+            cases eData with
+            | intro step stepData =>
+                have leftScale : PadicPrimeScale p (BHist.e1 w) step :=
+                  Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
+                    (Exists.intro n (And.intro stepData.left stepData.right.left))
+                exact PadicPrimeScale_append_cont_closure leftScale stepData.right.right.left
+                  stepData.right.right.right
+
+theorem PadicPrimeScale_append_unit_right_factorization_iff {p w r : BHist} :
+    UnaryHistory w ->
+      (PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r <->
+        ∃ n : BHist, PadicPrimeScale p w n ∧ Cont n p r) := by
+  intro unaryW
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicPrimeScale_append_exponent_decomposition unaryW (unary_e1_closed unary_empty) scale
+    cases decomposed with
+    | intro n nData =>
+        cases nData with
+        | intro e eData =>
+            have sameE : hsame e p :=
+              PadicPrimeScale_unit_exponent_result_prime_hsame eData.right.left
+            cases sameE
+            exact Exists.intro n (And.intro eData.left eData.right.right)
+  · intro factors
+    cases factors with
+    | intro n data =>
+        have emptyScale : PadicPrimeScale p BHist.Empty BHist.Empty :=
+          And.intro data.left.left (NatMul.zero data.left.left.left)
+        have unitScale : PadicPrimeScale p (BHist.e1 BHist.Empty) p :=
+          Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
+            (Exists.intro BHist.Empty (And.intro emptyScale (cont_left_unit p)))
+        exact PadicPrimeScale_append_cont_closure data.left unitScale data.right
 
 theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->

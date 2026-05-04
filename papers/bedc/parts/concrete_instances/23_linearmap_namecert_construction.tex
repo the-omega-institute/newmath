@@ -317,6 +317,45 @@ displayed singleton carrier factors and rebuilds the classifier from them.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_pair\_factors\_iff}
 
+\begin{theorem}[Singleton linear-map continuation append-source classifier]
+\label{thm:linearmap-singleton-classifier-continuation-append-source-classifier}
+For histories $p,q,r,h,t:\mathsf{BHist}$, if
+$\ContR(\mathsf{append}(p,q),r,h)$, then
+$$
+\lambda_{\emp}(h,t)
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(r)\wedge L_{\emp}(t).
+$$
+\end{theorem}
+\begin{proof}
+The continuation displays $h$ as $\mathsf{append}(\mathsf{append}(p,q),r)$.
+The forward direction splits the left classifier carrier through empty-append
+inversion twice, exposing $p,q,r$; the right classifier carrier gives $t$.
+Conversely, the three source carriers rebuild the nested empty append carrier,
+and symmetry on the target carrier closes the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_append\_source\_classifier\_iff}
+
+\begin{theorem}[Singleton linear-map continuation append-target classifier]
+\label{thm:linearmap-singleton-classifier-continuation-append-target-classifier}
+For histories $p,q,r,h,t:\mathsf{BHist}$, if
+$\ContR(p,\mathsf{append}(q,r),h)$, then
+$$
+\lambda_{\emp}(h,t)
+\Longleftrightarrow
+L_{\emp}(p)\wedge L_{\emp}(q)\wedge L_{\emp}(r)\wedge L_{\emp}(t).
+$$
+\end{theorem}
+\begin{proof}
+The continuation displays $h$ as $\mathsf{append}(p,\mathsf{append}(q,r))$.
+In the forward direction, empty-append inversion first exposes $p$ and the
+right appended endpoint, then splits that endpoint into $q$ and $r$; the target
+carrier field supplies $t$. In the reverse direction, the $q$ and $r$ carriers
+rebuild the right append, the $p$ carrier rebuilds the continuation result
+carrier, and the target carrier completes the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_append\_target\_classifier\_iff}
+
 \begin{theorem}[Singleton linear-map left continuation closure]
 \label{thm:linearmap-singleton-classifier-continuation-left-closed}
 For histories $P,P',Q,L:\mathsf{BHist}$, if $\lambda_{\emp}(P,P')$,
@@ -511,6 +550,25 @@ $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
 
+\begin{theorem}[Singleton evaluation composition continuation classifier]
+\label{thm:linearmap-singleton-eval-comp-continuation-classifier}
+If $g,f,x$ lie in the singleton linear-map carrier and
+$\ContR(\mathsf{LinearMapSingletonEval}(f,x),g,r)$, then the composed
+evaluation endpoint classifies against the continuation result:
+$$
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(\mathsf{LinearMapSingletonComp}(g,f),x),r).
+$$
+\end{theorem}
+\begin{proof}
+The continuation readback theorem applied to
+$\ContR(\mathsf{LinearMapSingletonEval}(f,x),g,r)$ carries the result $r$
+whenever $g$ is carried. The composed singleton evaluation endpoint is
+$\emp$, so the singleton classifier is assembled from the endpoint carrier,
+the result carrier, and symmetry of the result carrier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_comp\_continuation\_classifier}
+
 \begin{theorem}[Singleton evaluation context continuation classifier]
 \label{thm:linearmap-singleton-eval-context-continuation-classifier}
 For histories $p,f,x,y,r,h:\mathsf{BHist}$, if
@@ -540,6 +598,24 @@ witness for $y$, continuation transport carries $r$ by $\emp$, and the carrier
 witness for $h$ assembles the restricted singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_classifier\_iff}
+
+\begin{theorem}[Singleton evaluation visible context continuation exclusion]
+\label{thm:linearmap-singleton-eval-context-continuation-visible-context-absurd}
+For histories $p,f,x,y,r,h:\mathsf{BHist}$, a singleton evaluation with a
+visible context prefix cannot have a classified continuation result:
+$$
+\ContR(\mathsf{append}(\Ezero(p),\mathsf{LinearMapSingletonEval}(f,x)),y,r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr),
+$$
+and the same statement holds with $\Eone(p)$ in place of $\Ezero(p)$.
+\end{theorem}
+\begin{proof}
+The context-continuation classifier readback says any such classifier forces
+the visible context prefix to lie in the singleton carrier. That carrier is
+$\hsame$ to $\emp$, contradicting constructor separation for the visible head.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_visible\_context\_absurd}
 
 \begin{theorem}[Singleton evaluation continuation append target carrier]
 \label{thm:linearmap-singleton-eval-continuation-append-target-carrier}
