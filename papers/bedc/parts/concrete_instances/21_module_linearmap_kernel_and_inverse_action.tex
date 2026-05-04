@@ -189,3 +189,55 @@ lie in the singleton carrier $A_{\emp}$. Applying the first part to these two
 carrier witnesses gives $K(h)$ and $K(k)$, so the restricted classifier repacks
 as $K(h)\land K(k)\land \rho_{\emp}(h,k)$.
 \end{proof}
+
+\begin{theorem}[Module singleton scalar-action kernel semantic certificate]
+\label{thm:module-singleton-smul-kernel-semantic-name-cert}
+For the concrete singleton empty-history module of
+\autoref{sec:module-concrete-singleton-instance}, fix the terminal scalar
+$\emp$ and let
+$$
+K(h):\Longleftrightarrow A_{\emp}(h)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(\emp,h),\emp).
+$$
+Define the restricted kernel classifier by
+$$
+\rho_K(h,k):\Longleftrightarrow K(h)\land K(k)\land \rho_{\emp}(h,k).
+$$
+Then source, pattern, and ledger all equal to $K$, together with classifier
+$\rho_K$, form the singleton scalar-action kernel semantic naming certificate:
+$$
+\mathsf{SemanticNameCert}(K,K,K,\rho_K).
+$$
+\end{theorem}
+\begin{proof}
+\autoref{thm:module-singleton-smul-kernel-exactness} identifies the
+displayed kernel predicate with the singleton carrier $A_{\emp}$. This gives
+the empty endpoint as an inhabitant of $K$ and converts each carried kernel
+endpoint to the carrier context used by
+\autoref{thm:module-singleton-scalar-action-laws}.
+
+For the restricted classifier core, reflexivity at a kernel endpoint $h$ uses
+the singleton classifier reflexivity row at the converted carrier witness for
+$h$, then repacks the two copies of the original kernel witness with
+$\rho_{\emp}(h,h)$. Symmetry projects a comparison
+$\rho_K(h,k)$ to $\rho_{\emp}(h,k)$, applies the symmetry row from
+\autoref{thm:module-singleton-scalar-action-laws}, and repacks the
+kernel witnesses in the reversed order.
+
+For transitivity, project the two restricted comparisons to
+$\rho_{\emp}(h,k)$ and $\rho_{\emp}(k,l)$. Apply
+\autoref{thm:namecert-equivalence-transitivity} in the singleton classifier to
+obtain $\rho_{\emp}(h,l)$, and pair that comparison with the retained kernel
+witnesses for $h$ and $l$.
+
+Endpoint witnesses are repacked through
+\autoref{thm:module-singleton-classifier-empty-endpoints}: every underlying
+singleton comparison supplies the carrier witnesses needed to return to $K$ by
+\autoref{thm:module-singleton-smul-kernel-exactness}. Conversely, a
+restricted comparison already contains its two $K$ witnesses and its underlying
+$\rho_{\emp}$ row.
+
+Pattern and ledger soundness are identity maps, since source, pattern, and
+ledger are the same predicate $K$. These rows assemble the displayed
+$\mathsf{SemanticNameCert}(K,K,K,\rho_K)$.
+\end{proof}
