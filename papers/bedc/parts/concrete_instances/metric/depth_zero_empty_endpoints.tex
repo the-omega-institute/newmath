@@ -69,6 +69,26 @@ and constructor separation rules out history-sameness with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
 
+\begin{theorem}[Metric distance append positive depth iff]
+\label{thm:metric-distance-depth-append-positive-iff}
+For histories $p$ and $d$, an appended distance ledger has positive structural
+depth exactly when one of its two factors has positive structural depth:
+$$
+0<\mathsf{MetricDistanceDepth}(p\cdot d)
+\Longleftrightarrow
+0<\mathsf{MetricDistanceDepth}(p)\vee
+0<\mathsf{MetricDistanceDepth}(d).
+$$
+\end{theorem}
+\begin{proof}
+Use the positive-depth classifier to replace positive depth by internal
+nonemptiness. Kernel append nonemptiness then splits the appended history into
+the left or right nonempty factor. The converse applies the same two
+classifiers in reverse and rebuilds nonemptiness of the appended history from
+the displayed nonempty factor.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_positive\_iff}
+
 \begin{theorem}[Metric distance positive depth shape cases]
 \label{thm:metric-distance-depth-positive-shape-cases}
 For a history $d$, positive structural metric distance depth exposes one of
