@@ -306,6 +306,23 @@ relation is the canonical append continuation from the suffixed left endpoint
 to the suffixed right endpoint.
 \end{proof}
 
+\begin{lemma}[Complex distance constant prefix closure]
+\label{lem:complex-distance-prepend-constant-closed}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds, then the prefixed endpoints admit the canonical BEDC distance witness
+$$
+\mathsf{append}(\mathsf{append}(q,z),\mathsf{append}(q,w)).
+$$
+\end{lemma}
+\begin{proof}
+Unary support for the distance endpoints gives unary histories for \(z\) and
+\(w\). Unary append closure with \(q\) gives unary support for the two prefixed
+endpoints, and append closure gives the displayed distance history. The
+continuation component is the canonical append continuation from the prefixed
+left endpoint to the prefixed right endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_prepend\_constant\_closed}
+
 \begin{theorem}[Complex distance unary append commutation package]
 \label{thm:complex-distance-unary-append-comm-package}
 For unary histories $z$ and $q$, the two appended endpoints $q\cdot z$ and
