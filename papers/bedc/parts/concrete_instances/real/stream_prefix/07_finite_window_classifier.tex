@@ -1,3 +1,149 @@
+\begin{definition}[Real unary offset bound]
+\label{def:real-unary-offset-bound}
+For histories $k,w:\Hist$, the unary offset bound is the BEDC continuation
+witness that $k$ is a certified unary observation lying below the certified
+unary bound $w$:
+$$
+\mathsf{UnaryOffsetLe}(k,w)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(k)\land
+\exists \tau:\Hist,\ \mathsf{UnaryHistory}(\tau)\land \ContR(k,\tau,w).
+$$
+\end{definition}
+
+\begin{definition}[Real unary stream finite window classifier]
+\label{def:real-unary-stream-window-classifier}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$, read $a$
+as the anchor and $w$ as the bound. The finite window classifier is the
+pointwise RatUp classifier over every certified unary offset below $w$:
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(w)\land
+\forall k,\ \mathsf{UnaryOffsetLe}(k,w)\to
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+\end{definition}
+
+\begin{theorem}[Real unary stream finite-window coverage]
+\label{thm:real-unary-stream-window-coverage}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$,
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t)\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(w)
+\Longrightarrow
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier}. The anchor and
+bound fields are exactly the displayed assumptions $\mathsf{UnaryHistory}(a)$
+and $\mathsf{UnaryHistory}(w)$.
+
+Fix an offset $k$ and assume $\mathsf{UnaryOffsetLe}(k,w)$. Unfold
+Definition~\ref{def:real-unary-offset-bound}; the offset witness projects
+$\mathsf{UnaryHistory}(k)$ together with a unary tail whose continuation reaches
+the bound.
+
+Apply unary append closure to $\mathsf{UnaryHistory}(a)$ and
+$\mathsf{UnaryHistory}(k)$ to obtain
+$\mathsf{UnaryHistory}(\mathsf{append}(a,k))$. Evaluating
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ at this certified observation gives
+$$
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+
+Since the offset was arbitrary under $\mathsf{UnaryOffsetLe}(k,w)$, these
+pointwise endpoint classifiers repack into
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
+\end{proof}
+
+\begin{theorem}[Real stream window selected full shape readback package]
+\label{thm:real-stream-window-selected-full-shape-readback-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index
+$n$, a radius $m$, a bounded offset $k$ with $k\le m$, and histories
+$a,b,z_X,z_Y:\Hist$, assume
+$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$,
+$\hsame(x(n+k),\Eone(a))$, and $\hsame(y(n+k),\Eone(b))$. Then the selected
+endpoints at $n+k$ carry the following package:
+\begin{enumerate}
+\item $\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$;
+\item $\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land
+\hsame(a,b)$;
+\item $\mathsf{PositiveUnaryDenominator}(x(n+k))\land
+\mathsf{PositiveUnaryDenominator}(y(n+k))$;
+\item $\mathsf{UnaryHistory}(x(n+k))\land
+\mathsf{UnaryHistory}(y(n+k))\land
+(\hsame(x(n+k),\emp)\to\mathsf{False})\land
+(\hsame(y(n+k),\emp)\to\mathsf{False})$;
+\item $(\hsame(x(n+k),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(y(n+k),\Ezero(z_Y))\to\mathsf{False})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier at the selected offset. The bound $k\le m$
+turns the window hypothesis into
+$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+
+Transport this rational classifier across the two displayed one-seal endpoint
+comparisons by \autoref{thm:rat-history-classifier-hsame-transport}. The
+transported classifier is
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$, and
+\autoref{thm:rat-history-classifier-e1-tail-unary-iff} reads back the two
+unary tails together with $\hsame(a,b)$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+original endpoint classifier. This gives positive unary denominator witnesses
+for $x(n+k)$ and $y(n+k)$, and
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} converts those
+witnesses into unary and nonempty endpoint rows.
+
+For the left zero-extension test, transport
+$\mathsf{PositiveUnaryDenominator}(x(n+k))$ along the proposed comparison
+$\hsame(x(n+k),\Ezero(z_X))$ by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. The resulting
+positive denominator on $\Ezero(z_X)$ contradicts
+\autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the right zero-extension test, repeat the same transport from $y(n+k)$ to
+$\Ezero(z_Y)$. The positive-denominator zero-head absurdity theorem gives the
+second contradiction, completing the listed package.
+\end{proof}
+
+\begin{lemma}[Real unary stream finite-window endpoint projection]
+\label{lem:real-unary-stream-window-endpoint-projection}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w,k:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land
+\mathsf{UnaryOffsetLe}(k,w)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+\end{lemma}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier}. The window
+witness contains the universal endpoint row for every offset satisfying
+$\mathsf{UnaryOffsetLe}(\cdot,w)$.
+
+Apply that row to the displayed offset witness
+$\mathsf{UnaryOffsetLe}(k,w)$. The result is precisely the RatUp endpoint
+classifier at $\mathsf{append}(a,k)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation windows for RealUp
+streams; BEDC source $\mathsf{RealUnaryStreamClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$ plus $\mathsf{UnaryHistory}$ plus $\ContR$;
+carrier $\mathsf{BHist}$ observation maps; classifier
+$\mathsf{RealUnaryStreamWindowClassifier}$; stability by unary append closure
+and pointwise classifier evaluation; ledger anchor, bound, offset, and tail
+witness; core theorem \autoref{thm:real-unary-stream-window-coverage};
+exactness endpoint projection
+\autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
+finite rational observation windows; status $\mathsf{ProofTarget}$.
+
 \begin{definition}[Real stream finite window classifier]
 \label{def:real-stream-finite-window-classifier}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index $n$,
@@ -10,74 +156,6 @@ $$
 \mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
 $$
 \end{definition}
-
-\begin{theorem}[Real stream window classifier hsame transport]
-\label{thm:real-stream-window-classifier-hsame-transport}
-For rational-observation streams $x,y,x',y':\mathbb{N}\to\Hist$, an anchor
-index $n$, and a radius $m$, assume
-$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$. If every bounded offset
-$k\le m$ carries both endpoint rows
-$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$, then
-$\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
-\end{theorem}
-\begin{proof}
-Unfold the finite window classifier and fix an arbitrary offset $k\le m$. The
-source window hypothesis supplies the endpoint classifier
-$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
-
-The offset transport hypothesis gives the two rows
-$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$ at the same bounded
-observation. Apply
-\autoref{thm:rat-history-classifier-hsame-transport} to the source rational
-classifier and these endpoint rows.
-
-The result is
-$\mathsf{RatHistoryClassifier}(x'(n+k),y'(n+k))$. Since the offset was
-arbitrary under the bound $k\le m$, these transported endpoint classifiers
-repack into $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
-\end{proof}
-
-The ten-field fit is: traditional target finite observation-window stability
-for RealUp names; BEDC source RealUp windows plus RatUp endpoint classifier
-transport; carrier bounded rational-observation windows; classifier
-$\mathsf{RealStreamWindowClassifier}$; stability endpoint hsame transport;
-ledger anchor, radius, offset, and two endpoint transports; core theorem
-\autoref{thm:real-stream-window-classifier-hsame-transport}; exactness
-preservation of the bounded classifier; standard bridge finite prefix
-stability for regular rational observation names; status
-$\mathsf{ProofTarget}$.
-
-\begin{theorem}[Real stream prefix-window exactness at zero]
-\label{thm:real-stream-prefix-window-exactness-at-zero}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every finite
-offset $m$,
-$$
-\mathsf{RealStreamPrefixClassifier}(x,y,m)
-\Longleftrightarrow
-\mathsf{RealStreamWindowClassifier}(x,y,0,m).
-$$
-\end{theorem}
-\begin{proof}
-Induct on $m$. At $m=0$, the recursive prefix classifier is exactly the
-rational-history classifier at observation $0$, and the window condition has
-only the offset $k=0$.
-
-For the successor step, use
-\autoref{lem:real-stream-prefix-successor-inversion} to split a prefix through
-$m+1$ into the prefix through $m$ and the rational-history classifier at the new
-endpoint. The induction hypothesis converts the shorter prefix into the window
-condition through offset $m$.
-
-Given any $k\le m+1$, split constructively between $k\le m$ and $k=m+1$. The
-first case is handled by the shorter window; the endpoint case is exactly the
-successor rational-history classifier.
-
-Conversely, assume the window condition through $m+1$. Its restriction to
-offsets $k\le m$ gives the zero-based window through $m$, hence by induction the
-prefix through $m$. Taking $k=m+1$ gives the endpoint classifier, and the reverse
-direction of successor inversion pairs these two witnesses into the prefix
-through $m+1$.
-\end{proof}
 
 \begin{theorem}[Real stream classifier finite-window coverage]
 \label{thm:real-stream-classifier-finite-window-coverage}
@@ -99,3 +177,88 @@ Since the chosen offset was arbitrary under the window bound, these endpoint
 classifiers assemble exactly into
 $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
 \end{proof}
+
+\begin{theorem}[Real stream classifier zero-window exactness]
+\label{thm:real-stream-classifier-zero-window-exactness}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longleftrightarrow
+\forall n,\ \mathsf{RealStreamWindowClassifier}(x,y,n,0).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $\mathsf{RealStreamClassifier}(x,y)$. For
+each anchor $n$, apply
+\autoref{thm:real-stream-classifier-finite-window-coverage} with radius $0$.
+This gives $\mathsf{RealStreamWindowClassifier}(x,y,n,0)$ for every anchor.
+
+For the reverse direction, assume every zero-radius window is classified and
+fix an observation index $n$. Unfold the window at anchor $n$ and radius $0$.
+Taking offset $k=0$ uses $0\le 0$ and the identity $n+0=n$, so the window row
+returns $\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+
+Since $n$ was arbitrary, these rational-history rows repack as the pointwise
+stream classifier $\mathsf{RealStreamClassifier}(x,y)$.
+\end{proof}
+
+The ten-field fit is: traditional target pointwise equality of countable real
+names; BEDC source RealUp stream classifier plus RatUp endpoint classifier;
+carrier rational-observation streams; classifier all zero-radius windows;
+stability inherited from finite-window stability; ledger anchor index and zero
+offset; core theorem this exactness; exactness all pointwise observations iff
+all zero windows; standard bridge finite observation equality of regular
+rational names; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream finite-window stability package]
+\label{thm:real-stream-window-classifier-stability-package}
+For rational-observation streams $x,x',y,y',z:\mathbb{N}\to\Hist$ and indices
+$n,m$, the finite window classifier supplies the following stability rows:
+\begin{enumerate}
+  \item if
+  $\forall k,\ k\le m\Longrightarrow\mathsf{RatHistoryCarrier}(x(n+k))$,
+  then $\mathsf{RealStreamWindowClassifier}(x,x,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$, then
+  $\mathsf{RealStreamWindowClassifier}(y,x,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$ and
+  $\mathsf{RealStreamWindowClassifier}(y,z,n,m)$, then
+  $\mathsf{RealStreamWindowClassifier}(x,z,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$ and, for every
+  $k\le m$, both $\hsame(x(n+k),x'(n+k))$ and
+  $\hsame(y(n+k),y'(n+k))$ hold, then
+  $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier in each row and fix an offset $k\le m$.
+
+\begin{enumerate}
+  \item The reflexivity row reads the carrier hypothesis at this offset. Pair
+  the carrier with itself, and use $\hsame$ reflexivity to build
+  $\mathsf{RatHistoryClassifier}(x(n+k),x(n+k))$.
+
+  \item The symmetry row evaluates the source window at the offset and applies
+  \autoref{thm:rat-history-classifier-symmetry} to reverse the rational-history
+  classifier.
+
+  \item The transitivity row evaluates the two source windows at the same
+  offset and applies \autoref{thm:rat-history-classifier-trans} to compose the
+  two rational-history classifiers through the shared middle stream $y$.
+
+  \item The transport row evaluates the source window at the offset and reads
+  the two pointwise $\hsame$ hypotheses at the same offset. Apply
+  \autoref{thm:rat-history-classifier-hsame-transport} to transport the
+  rational-history classifier to the endpoints $x'(n+k)$ and $y'(n+k)$.
+\end{enumerate}
+
+Since the offset was arbitrary under the bound, each row repacks into the
+corresponding $\mathsf{RealStreamWindowClassifier}$ statement.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window stability;
+BEDC source RealUp rational-observation streams plus RatUp classifier; carrier
+the bounded window predicate; classifier
+$\mathsf{RealStreamWindowClassifier}$; stability the four displayed rows;
+ledger anchor $n$, radius $m$, and offset witnesses; core theorem this block;
+exactness bounded pointwise rational classification; standard bridge finite
+rational observation-window agreement; status $\mathsf{ProofTarget}$.

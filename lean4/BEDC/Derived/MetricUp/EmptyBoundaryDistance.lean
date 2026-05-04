@@ -94,4 +94,19 @@ theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_splice
       rightCont
   exact cont_deterministic spliced displayed
 
+theorem MetricDistanceWitness_empty_boundary_visible_context_continuation_depth_add
+    {p q d l r mid out : BHist} :
+    MetricDistanceWitness (append p BHist.Empty) (append BHist.Empty q)
+      (append (append p d) q) ->
+      UnaryHistory l -> UnaryHistory r -> Cont l d mid -> Cont mid r out ->
+        MetricDistanceDepth out = MetricDistanceDepth l + MetricDistanceDepth r := by
+  intro visible lCarrier rCarrier leftCont rightCont
+  have spliced : Cont l r out :=
+    MetricDistanceWitness_empty_boundary_visible_context_continuation_splice visible leftCont
+      rightCont
+  have witness : MetricDistanceWitness l r out :=
+    And.intro lCarrier
+      (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
+  exact MetricDistanceWitness_depth_add witness
+
 end BEDC.Derived.MetricUp

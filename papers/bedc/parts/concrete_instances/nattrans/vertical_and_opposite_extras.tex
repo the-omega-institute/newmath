@@ -160,3 +160,46 @@ $$
 
 The classifier specification of \autoref{def:nattrans-classifier-specification} is componentwise by the target morphism classifier, and that classifier is unchanged after the two opposite readings. The stability fields of \autoref{def:nattrans-stability-certificate} use the same component transports, naturality rows, identity components, and vertical composites after the endpoint order has been swapped twice. The ledger policy of \autoref{def:nattrans-ledger-policy} therefore records the original functor ledgers, component ledgers, and naturality derivations under the restored source and target data.
 \end{proof}
+
+\begin{definition}[Identity natural transformation certificate data]
+\label{def:identity-nattrans-certificate-data}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let $F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map $F_0$ and morphism map $F_1$. The identity natural transformation data $\mathsf{id}_F:F\Rightarrow F$ are the component family
+$$
+(\mathsf{id}_F)_X:=\mathsf{id}_{F_0(X)}.
+$$
+For a displayed morphism $u:X\to Y$ in $\mathcal C$, the naturality ledger is the target-category identity square comparing
+$$
+F_1(u)\circ_{\mathcal D}\mathsf{id}_{F_0(X)}
+\quad\text{and}\quad
+\mathsf{id}_{F_0(Y)}\circ_{\mathcal D}F_1(u).
+$$
+\end{definition}
+
+\begin{theorem}[Identity natural transformation certificate]
+\label{thm:identity-nattrans-certificate}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}, and let $F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate satisfying \autoref{def:functor-certificate-obligations}. Then the data of \autoref{def:identity-nattrans-certificate-data} satisfy the $\NatTransUp$ certificate obligations from $F$ to $F$ in the sense of \autoref{def:nattrans-certificate-obligations}. Its component at each object $X$ is the target identity,
+$$
+(\mathsf{id}_F)_X=\mathsf{id}_{F_0(X)},
+$$
+and for every displayed source morphism $u:X\to Y$ its naturality row is
+$$
+F_1(u)\circ_{\mathcal D}(\mathsf{id}_F)_X
+\sim_{\mathcal D}
+(\mathsf{id}_F)_Y\circ_{\mathcal D}F_1(u).
+$$
+\end{theorem}
+\begin{proof}
+The source row of \autoref{def:nattrans-source-specification} is the pair $(F,F)$, and the two entries have the same certified source $\mathcal C$ and target $\mathcal D$ by the displayed $\FunctorUp$ certificate for $F$. The pattern row of \autoref{def:nattrans-pattern-specification} is component-family formation over objects of $\mathcal C$.
+
+For the carrier row, fix an object $X$ of $\mathcal C$. The functor carrier of \autoref{def:functor-carrier} sends $X$ to the target object $F_0(X)$ of $\mathcal D$. The identity field of the target category, listed in \autoref{def:category-stability-certificate}, supplies a hom-carrier
+$$
+\mathsf{id}_{F_0(X)}:F_0(X)\to F_0(X).
+$$
+This is exactly the component required by \autoref{def:nattrans-carrier} for a transformation from $F$ to itself.
+
+It remains to check naturality. Let $u:X\to Y$ be displayed in $\mathcal C$. By the morphism part of the functor carrier, $F_1(u)$ is a displayed target morphism $F_0(X)\to F_0(Y)$ in $\mathcal D$. The two composites in the identity naturality square are the right and left identity composites of this displayed morphism with the target-category identities at $F_0(X)$ and $F_0(Y)$. The category identity-square closure of \autoref{thm:category-hom-carrier-identity-square-closed}, equivalently the left and right identity rows of \autoref{def:category-stability-certificate}, gives both composites as target hom-carriers from $F_0(X)$ to $F_0(Y)$ and gives their morphism-classifier comparison. Substituting the definition of $(\mathsf{id}_F)_X$ and $(\mathsf{id}_F)_Y$ yields the displayed $\NatTransUp$ naturality row. In the concrete prefix-component realization, this is the same pointwise calculation recorded in \autoref{thm:nattrans-prefix-identity-naturality-square}.
+
+The classifier row of \autoref{def:nattrans-classifier-specification} is componentwise in the target morphism classifier. Hence component reflexivity, symmetry, transitivity, and transport along classified component histories are inherited from the morphism classifier and endpoint transport fields of $\mathcal D$. Stability of the naturality row under component-classifier replacement follows by the same target classifier transitivity after replacing the two identity components by classified components at the same endpoints. The identity-transformation closure row in \autoref{def:nattrans-stability-certificate} is realized by the family above, and the vertical-composition row is the ambient closure operation on admitted component families.
+
+The ledger row of \autoref{def:nattrans-ledger-policy} records the functor ledger of $F$ on both sides, the target identity ledger at each object $F_0(X)$, and the identity-square derivation for each displayed source morphism. These rows supply the carrier, source, pattern, classifier, stability, and ledger obligations listed in \autoref{def:nattrans-certificate-obligations}.
+\end{proof}

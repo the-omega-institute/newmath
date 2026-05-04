@@ -720,3 +720,62 @@ Therefore the composition-preservation row for $F^{\mathrm{opop}}$ is the origin
 
 Finally, source-endpoint replacement and target-endpoint replacement are exchanged by one opposite reading and exchanged back by the second. The remaining stability fields in \autoref{def:functor-stability-certificate} and the ledger fields in \autoref{def:functor-ledger-policy} use the same category ledgers and the same preservation witnesses, with the double-opposite category data identified with the starting category data. Hence every functor certificate row of $F^{\mathrm{opop}}$ is componentwise identical to the corresponding row of $F$.
 \end{proof}
+
+\begin{theorem}[Composition of split monomorphisms]
+\label{thm:category-split-monomorphism-composition-closed}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-certificate-obligations}. Let $f:a\to b$ and
+$g:b\to c$ be displayed morphisms in $\mathcal C$. Suppose $f$ is a split
+monomorphism with left-inverse witness $f':b\to a$, and suppose $g$ is a
+split monomorphism with left-inverse witness $g':c\to b$, in the sense of
+\autoref{def:category-split-monomorphism}. If $u:a\to c$ is a displayed
+composite with $\mathsf{Comp}_{\mathcal C}(f,g,u)$ and $\ell:c\to a$ is a
+displayed composite with $\mathsf{Comp}_{\mathcal C}(g',f',\ell)$, then $u$
+is a split monomorphism with left-inverse witness $\ell$.
+\end{theorem}
+\begin{proof}
+Unpack the two split-monomorphism witnesses. For $f$ this gives displayed
+hom-carriers for $f$ and $f'$, an identity display $i_a:a\to a$, and a
+composite display $s_f:a\to a$ with
+$$
+\mathsf{Comp}_{\mathcal C}(f,f',s_f)
+\qquad\text{and}\qquad
+s_f\sim_{\mathcal C} i_a.
+$$
+For $g$ it gives displayed hom-carriers for $g$ and $g'$, an identity display
+$i_b:b\to b$, and a composite display $s_g:b\to b$ with
+$$
+\mathsf{Comp}_{\mathcal C}(g,g',s_g)
+\qquad\text{and}\qquad
+s_g\sim_{\mathcal C} i_b.
+$$
+Composition closure in the $\CategoryUp$ stability fields makes the displayed
+composites $u$ and $\ell$ hom-carriers over $a\to c$ and $c\to a$.
+
+Let $R:a\to a$ be the composite display selected for $u$ followed by $\ell$,
+so $\mathsf{Comp}_{\mathcal C}(u,\ell,R)$. It remains to classify $R$ with
+$i_a$. The four displayed factors form the chain
+$$
+a\xrightarrow{f}b\xrightarrow{g}c\xrightarrow{g'}b\xrightarrow{f'}a.
+$$
+The associativity row of \autoref{def:category-stability-certificate}, applied
+twice, compares the outside bracketing
+$(f'\circ_{\mathcal C}g')\circ_{\mathcal C}(g\circ_{\mathcal C}f)$ with the
+bracketing $f'\circ_{\mathcal C}((g'\circ_{\mathcal C}g)\circ_{\mathcal C}f)$.
+Thus $R$ is classified with the display obtained by first using the inner
+composite $s_g$, then composing with $f$, and finally composing with $f'$.
+
+Since $s_g\sim_{\mathcal C}i_b$, composition congruence replaces
+$s_g\circ_{\mathcal C}f$ by $i_b\circ_{\mathcal C}f$. The target-identity law
+classifies this composite with $f$. A second use of composition congruence,
+now after postcomposition by $f'$, compares the resulting display with
+$s_f=f'\circ_{\mathcal C}f$. Transitivity of the morphism classifier and the
+stored comparison $s_f\sim_{\mathcal C}i_a$ give
+$R\sim_{\mathcal C}i_a$.
+
+The hom-carriers for $u$ and $\ell$, the identity display $i_a$, the composite
+ledger $\mathsf{Comp}_{\mathcal C}(u,\ell,R)$, and the classifier comparison
+$R\sim_{\mathcal C}i_a$ are exactly the data required by
+\autoref{def:category-split-monomorphism}. Hence $u$ is a split monomorphism
+with left-inverse witness $\ell$.
+\end{proof}

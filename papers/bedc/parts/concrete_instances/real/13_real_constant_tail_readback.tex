@@ -1,0 +1,22 @@
+\begin{theorem}[Real constant classifier appended e-one tail unary readback]
+\label{thm:real-constant-history-classifier-append-e1-tail-unary-readback}
+For histories $d,e,tail_D,tail_E$, a constant RealUp classifier whose two
+rational denominators are displayed as appended e-one tails reads back both
+unary factors and the rational endpoint classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d\cdot\Eone(tail_D)),
+  \Eone(e\cdot\Eone(tail_E)))
+\Longrightarrow
+\mathsf{UnaryHistory}(d)\land\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(e)\land\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d\cdot\Eone(tail_D),e\cdot\Eone(tail_E)).
+$$
+\end{theorem}
+\begin{proof}
+Use the e-one RealUp/RatUp classifier equivalence to expose the underlying
+RatUp history classifier. Its positive-denominator fields apply to both
+displayed denominators. The appended e-one denominator decomposition reads
+each positive denominator as unary evidence for its head and tail, and the
+remaining classifier field is the displayed endpoint $\hsame$ relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}

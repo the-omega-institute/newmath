@@ -23,6 +23,22 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
 
+\begin{theorem}[Metric distance witness right e1 result e0 absurd]
+\label{thm:metric-distance-witness-right-e1-result-e0-absurd}
+For histories $x,y,d$, no concrete metric distance witness can have a visibly
+one-headed right endpoint while its distance result is visibly zero-headed:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Ezero(d))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Apply the right e-one result shape theorem to the witness. It exposes a tail
+$k$ with $\hsame(\Ezero(d),\Eone(k))$. Constructor no-confusion for generated
+history sameness rejects this zero-headed versus one-headed comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_e0\_absurd}
+
 \begin{theorem}[Metric distance witness right e1 result tail exactness]
 \label{thm:metric-distance-witness-right-e1-result-tail-hsame-exact}
 For histories $x,y,d,k$, if a distance witness has a visibly one-headed right
@@ -143,6 +159,31 @@ branch, visible $\hsame$ inversion exposes the transported tail, and unary and
 continuation transport rebuild the descended metric witness.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_source}
+
+\begin{theorem}[Metric distance witness right e1 result hsame target]
+\label{thm:metric-distance-witness-right-e1-result-hsame-target}
+For histories $x,y,y',d$, a distance witness whose right endpoint and result
+both carry one visible constructor has the same empty-or-visible source
+readback after target-tail transport:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))\land\hsame(y,y')
+\Longrightarrow
+\bigl(x=\emp\land\mathsf{UnaryHistory}(y')\land\hsame(d,y')\bigr)
+$$
+or there exists $x_1:\mathsf{BHist}$ such that
+$$
+x=\Eone(x_1)\land\mathsf{MetricDistanceWitness}(\Eone(x_1),y',d).
+$$
+\end{theorem}
+\begin{proof}
+Apply the right one-headed source case split before target transport. In the
+empty-source branch, transport the unary carrier and compose the displayed
+result-tail comparison with $\hsame(y,y')$. In the visible-source branch, keep
+the exposed source tail and transport the target carrier and continuation
+ledger across the target-tail classifier, leaving the source and result
+endpoints fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_hsame\_target}
 
 \begin{theorem}[Metric e-one pair result tail readback]
 \label{thm:metric-distance-witness-e1-pair-result-tail-readback}
