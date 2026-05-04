@@ -45,9 +45,10 @@ DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
 DEFAULT_LOW_WATER = 3
 DEFAULT_PROBE_COOLDOWN_HOURS = 6
+DEFAULT_CURRICULUM_COOLDOWN_HOURS = 6
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
-DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 12
+DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
 COMPLETIONS_PER_CURATOR = 5
@@ -296,11 +297,20 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 # ---------------------------------------------------------------------------
 
 
+DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
+
+
 def git_sync_dev() -> bool:
-    """Fetch + merge origin/dev into current branch with claude-driven
+    """Fetch + merge the upstream integration branch (origin/codex-auto-dev
+    by default — see dev_sync_resolver.UPSTREAM_BRANCH) with claude-driven
     conflict resolution.
 
-    Delegates to dev_sync_resolver.sync_with_resolution which:
+    Spawned as a subprocess so the resolver's module constants (upstream
+    branch, validation timeouts, claude path) are read fresh from disk on
+    every invocation. This way edits to dev_sync_resolver.py take effect
+    on the next sync cycle without restarting supervisor.
+
+    The subprocess prints a JSON status object on stdout. Behaviour:
       - holds paper_writes lock for the whole flow
       - attempts ff/clean merge first
       - on conflict: spawns claude to resolve each non-protected file,
@@ -310,37 +320,63 @@ def git_sync_dev() -> bool:
         to human_inbox via supervisor log
       - commits + pushes on full success
 
-    Returns True iff dev's commits were actually pulled in (ff_merged or
-    auto_resolved). On any other outcome returns False — caller should
+    Returns True iff upstream commits were actually pulled in (ff_merged
+    or auto_resolved). On any other outcome returns False — caller should
     treat as "no sync this cycle" and retry later.
     """
     try:
-        import dev_sync_resolver
-        result = dev_sync_resolver.sync_with_resolution()
+        proc = subprocess.run(
+            ["python3", str(DEV_SYNC_RESOLVER)],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=2400,  # 40 min: claude resolve + lake build + pdflatex
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("git_sync_dev: resolver subprocess timed out (40 min)")
+        return False
     except Exception as exc:
-        supervisor_log(f"git_sync_dev: resolver crashed: {exc}")
+        supervisor_log(f"git_sync_dev: resolver subprocess failed to launch: {exc}")
         return False
 
-    status = result.status
+    raw_stdout = (proc.stdout or "").strip()
+    raw_stderr = (proc.stderr or "").strip()
+    try:
+        result = json.loads(raw_stdout)
+    except json.JSONDecodeError:
+        supervisor_log(
+            f"git_sync_dev: resolver output not JSON (rc={proc.returncode}). "
+            f"stdout={raw_stdout[:300]}  stderr={raw_stderr[:300]}"
+        )
+        return False
+
+    status = result.get("status", "error")
     if status == "up_to_date":
         return False
     if status == "ff_merged":
-        supervisor_log(f"git_sync_dev: ff-merged origin/dev cleanly ({result.n_dev_commits} commits)")
+        n = result.get("n_dev_commits", "?")
+        supervisor_log(f"git_sync_dev: ff-merged upstream cleanly ({n} commits)")
         return True
     if status == "auto_resolved":
+        n = result.get("n_dev_commits", "?")
+        resolved = result.get("resolved_files") or []
+        validation = (result.get("validation") or {}).get("summary", "?")
         supervisor_log(
-            f"git_sync_dev: auto-resolved {len(result.resolved_files)} conflict(s) "
-            f"({result.n_dev_commits} commits); validation={result.validation.summary if result.validation else '?'}"
+            f"git_sync_dev: auto-resolved {len(resolved)} conflict(s) "
+            f"({n} commits); validation={validation}"
         )
         return True
     if status == "aborted_protected":
+        files = result.get("conflict_files") or []
+        err = result.get("error") or ""
         supervisor_log(
-            f"git_sync_dev: ABORTED — protected files in conflict ({result.error}). "
-            f"This needs human attention. Files: {result.conflict_files}"
+            f"git_sync_dev: ABORTED — protected files in conflict ({err}). "
+            f"This needs human attention. Files: {files}"
         )
         return False
     if status == "aborted_validation":
-        fails = "; ".join((result.validation.failures or [])[:1])[:300]
+        validation = result.get("validation") or {}
+        fails = "; ".join((validation.get("failures") or [])[:1])[:300]
         supervisor_log(
             f"git_sync_dev: ABORTED — validation failed after resolution. "
             f"Hard-reset to ORIG_HEAD. Will retry next cycle. {fails}"
@@ -349,7 +385,8 @@ def git_sync_dev() -> bool:
     if status == "skipped_dirty":
         # quiet — common case during active Stage 2 / normal pipeline life
         return False
-    supervisor_log(f"git_sync_dev: error — {result.error[:300]}")
+    err = result.get("error") or "(no error message)"
+    supervisor_log(f"git_sync_dev: error — {err[:300]}")
     return False
 
 
@@ -363,6 +400,27 @@ def trigger_probe() -> None:
     with open(log_path, "ab") as logf:
         subprocess.Popen(
             ["python3", str(AUTO_DISCOVERY), "probe", "--append"],
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
+def trigger_curriculum_probe() -> None:
+    """Curriculum-aware probe — find textbook-classical theorems missing
+    from started chapters. Complements `probe` (internal symmetry gaps)
+    and `oracle_board_refill` (deep structural / classification theorems).
+    Same architecture as probe but with a different prompt that asks for
+    'what would a standard textbook on this object also cover'.
+    """
+    git_sync_dev()
+    supervisor_log("triggering auto_discovery curriculum probe")
+    log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"],
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -531,6 +589,9 @@ def main() -> int:
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
     parser.add_argument("--low-water", type=int, default=DEFAULT_LOW_WATER)
     parser.add_argument("--probe-cooldown-hours", type=float, default=DEFAULT_PROBE_COOLDOWN_HOURS)
+    parser.add_argument("--curriculum-cooldown-hours", type=float, default=DEFAULT_CURRICULUM_COOLDOWN_HOURS,
+                        help="Cooldown between curriculum probe runs (textbook-classical theorem hunt). "
+                             "Complements --probe-cooldown-hours (internal symmetry gaps).")
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
@@ -569,6 +630,7 @@ def main() -> int:
             supervisor_log(f"git_sync_dev startup error: {exc}")
 
     last_probe_ts = 0.0
+    last_curriculum_ts = 0.0
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
@@ -579,6 +641,7 @@ def main() -> int:
     supervisor_state: dict = {
         "inner": None,
         "probe_cooldown_hours": args.probe_cooldown_hours,
+        "curriculum_cooldown_hours": args.curriculum_cooldown_hours,
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
@@ -613,11 +676,16 @@ def main() -> int:
 
             unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
+            since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
                 trigger_probe()
                 last_probe_ts = _now()
+            if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
+                trigger_curriculum_probe()
+                last_curriculum_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
                 trigger_oracle_board_refill()

@@ -125,6 +125,26 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele visible zero-scale result carrier and nonempty result]
+\label{thm:adele-history-carrier-visible-zero-scale-result-nonempty}
+For histories $r,p,e,s:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$ and
+$\mathsf{PadicPrimeScale}(p,\Ezero(e),s)$ hold, then the appended history
+$\mathsf{append}(r,s)$ is an adele-history carrier and the visible zero-scale
+result is not history-same as $\emp$:
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use $r,p,\Ezero(e),s$ as the four carrier witnesses for the appended adele
+history. The append witness is reflexive history sameness. If $s\hsame\emp$,
+the $p$-adic empty-result iff forces $\hsame(\Ezero(e),\emp)$, contradicting
+the BEDC separation of zero-headed histories from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_zero\_scale\_result\_nonempty}
+
 \begin{theorem}[Adele prime-swap scale readback]
 \label{thm:adele-prime-swap-scale-readback}
 Let \(real,p,q,r,s:\mathsf{BHist}\). If \(real\) is a constant real-history
@@ -344,6 +364,31 @@ component with the displayed scale and separates the scale result from
 $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_result\_nonempty}
+
+\begin{theorem}[Adele long-prefix visible zero-scale result is not empty]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-zero-scale-result-nonempty}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic visible zero scale
+$\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),\Ezero(e),r)$ holds, then
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds,
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)),
+$$
+and the visible zero-scale result is not history-same as $\emp$:
+$$
+\hsame(r,\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the prefix classifier to descend from $m+n$ to $n$.
+The selected one-extension endpoints read back to a unary denominator tail,
+hence to a rational carrier and then to the constant real-history carrier
+$\Eone(\Eone(d))$. The visible zero-scale theorem packages this real component
+with the displayed $p$-adic scale and separates the scale result from $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_zero\_scale\_result\_nonempty}
 
 \begin{theorem}[Adele long-prefix visible scale continuation result is not empty]
 \label{thm:adele-real-stream-prefix-long-prefix-visible-scale-cont-result-nonempty}

@@ -293,4 +293,37 @@ theorem ContinuousFunctionCarrier_modulus_suffix_iff {p source map target modulu
                                                   (And.intro sourceMap
                                                     suffixedTargetCert))))
 
+theorem ContinuousFunctionCarrier_visible_modulus_context_iff
+    {p q source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+        (append (append p cert) q) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧
+        ContinuousFunctionCarrier source map target modulus cert := by
+  constructor
+  · intro visible
+    have suffixData :=
+      (ContinuousFunctionCarrier_modulus_suffix_iff (p := q) (source := append p source)
+        (map := map) (target := append p target) (modulus := modulus)
+        (cert := append p cert)).mp visible
+    have prefixData :=
+      (ContinuousFunctionCarrier_prefix_iff (p := p) (source := source) (map := map)
+        (target := target) (modulus := modulus) (cert := cert)).mp suffixData.right
+    exact And.intro prefixData.left (And.intro suffixData.left prefixData.right)
+  · intro data
+    cases data with
+    | intro prefixCarrier rest =>
+        cases rest with
+        | intro suffixCarrier carrier =>
+            have prefixedCarrier :
+                ContinuousFunctionCarrier (append p source) map (append p target) modulus
+                  (append p cert) :=
+              (ContinuousFunctionCarrier_prefix_iff (p := p) (source := source) (map := map)
+                (target := target) (modulus := modulus) (cert := cert)).mpr
+                (And.intro prefixCarrier carrier)
+            exact
+              (ContinuousFunctionCarrier_modulus_suffix_iff (p := q)
+                (source := append p source) (map := map) (target := append p target)
+                (modulus := modulus) (cert := append p cert)).mpr
+                (And.intro suffixCarrier prefixedCarrier)
+
 end BEDC.Derived.ContinuousUp

@@ -206,6 +206,28 @@ front component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
 
+\begin{theorem}[Adjunction alternating zero-headed result exclusion]
+\label{thm:adjunction-unit-counit-carrier-alternating-zero-headed-result-absurd}
+For an adjunction unit-counit carrier, unary depth makes the alternating
+unit-counit ledger unary. Therefore it cannot be history-same to a zero-headed
+result:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)
+\land \hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\Ezero(z))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit components of the displayed carrier are natural
+transformation component histories, hence each component history is unary.
+Together with unary depth, the alternating unary theorem makes the displayed
+alternating ledger unary. Transporting unary membership across the result
+\(\hsame\) would make \(\Ezero(z)\) unary, contradicting unary zero-headed
+exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_zero\_headed\_result\_absurd}
+
 \begin{theorem}[Adjunction positive-depth alternating unit nonempty]
 \label{thm:adjunction-unit-counit-alternating-positive-depth-unit-nonempty}
 For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary,
@@ -241,6 +263,27 @@ component is $unit$ and whose right component is the alternating ledger with
 the boundary components exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
+
+\begin{theorem}[Adjunction alternating append positive suffix continuation readback]
+\label{thm:adjunction-unit-counit-alternating-append-positive-suffix-cont-readback}
+If $suffix$ is unary and not history-same as $\emp$, then the alternating
+unit-counit ledger over $\mathsf{append}(pref,suffix)$ exposes a successor
+continuation with the same prefix inside the exchanged tail:
+$$
+\exists tail.\ \Unary(tail)\land
+\Cont\bigl(unit,
+\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,\mathsf{append}(pref,tail)),
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,\mathsf{append}(pref,suffix))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty suffixes have a one-headed tail. Substituting
+$suffix=\Eone(tail)$ makes the appended depth one-headed with payload
+$\mathsf{append}(pref,tail)$. The alternating ledger unfolds at that branch to
+append $unit$ to the exchanged alternating tail, which is exactly the
+displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_cont\_readback}
 
 \begin{theorem}[Adjunction positive-depth empty result forces empty unit]
 \label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}
@@ -498,6 +541,29 @@ unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
+\begin{theorem}[Adjunction triangle empty components prefix determinacy]
+\label{thm:adjunction-triangle-components-empty-prefix-deterministic}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier whose displayed unit and counit
+components are both $\hsame$ to $\emp$ has equal endpoint prefixes:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(unit,\emp)
+\Longrightarrow
+\hsame(counit,\emp)
+\Longrightarrow
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Transport the two triangle-leg continuations along the empty unit and counit
+component witnesses. Both roundtrip legs become $\hsame$ to the empty
+continuation result, and the roundtrip prefix determinacy theorem identifies
+the two endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_components\_empty\_prefix\_deterministic}
+
 \begin{theorem}[Adjunction roundtrip empty component-prefix readback]
 \label{thm:adjunction-triangle-roundtrip-empty-component-prefix-readback}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
@@ -619,3 +685,72 @@ prefix equalities. Reordering those four facts gives the stated adjunction
 cycle boundary.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionPrefixComponent\_cycle\_empty\_prefix\_same}
+
+\begin{theorem}[Adjunction triangle carrier carrier-swap symmetry]
+\label{thm:adjunction-triangle-carrier-carrier-swap-symmetry}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, the adjunction triangle carrier is invariant under exchanging the
+two carrier sides together with the unit-counit data and the two triangle
+ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionTriangleCarrier}(right,left,object,counit,unit,rightLeg,leftLeg).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-triangle-carrier}, the left-hand carrier consists of
+four fields: the prefix component from $left$ to $right$ carried by $unit$, the
+prefix component from $right$ to $left$ carried by $counit$, the continuation
+ledger $\ContR(unit,counit,leftLeg)$, and the continuation ledger
+$\ContR(counit,unit,rightLeg)$. The right-hand carrier asks for the same four
+fields in the exchanged order: the $counit$ component, the $unit$ component,
+the second ledger, and then the first ledger. Each implication is therefore
+obtained by reordering these four conjunctive fields.
+\end{proof}
+
+\begin{theorem}[Adjunction unit-counit carrier carrier-swap symmetry]
+\label{thm:adjunction-unit-counit-carrier-swap-symmetry}
+For histories $p,q,a,unit,counit,left,right:\mathsf{BHist}$, the adjunction
+unit-counit carrier is invariant under exchanging the two prefix carriers,
+exchanging unit with counit, and exchanging the two triangle ledgers:
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)\\
+\quad\Longleftrightarrow\quad
+\mathsf{AdjunctionUnitCounitCarrier}(q,p,a,counit,unit,right,left).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:adjunction-unit-counit-carrier}, a witness of the left-hand
+carrier consists of four fields: the prefix component from $p$ to $q$ carried
+by $unit$, the prefix component from $q$ to $p$ carried by $counit$, the
+continuation ledger $\ContR(unit,counit,left)$, and the continuation ledger
+$\ContR(counit,unit,right)$. The displayed carrier with $p$ and $q$ exchanged
+asks for exactly the same four fields in the order: the $counit$ component,
+the $unit$ component, the second ledger, and the first ledger. Reordering the
+four conjunctive fields proves the forward implication, and the same
+reordering with the two sides exchanged proves the reverse implication.
+\end{proof}
+
+\begin{definition}[Adjunction unit-counit carrier-swap classifier]
+\label{def:adjunction-unit-counit-carrier-swap-classifier}
+For unit-counit displays $D=(p,q,a,u,c,l,r)$ and
+$D'=(p',q',a',u',c',l',r')$, the carrier-swap relation
+$\mathsf{AdjunctionUnitCounitCarrierSwap}(D,D')$ holds when
+$$
+p'=q\land q'=p\land a'=a\land u'=c\land c'=u\land l'=r\land r'=l.
+$$
+The display classifier $\mathsf{AdjunctionUnitCounitDisplaySame}(D,D')$ holds
+when
+$$
+p\hsame p'\land q\hsame q'\land a\hsame a'\land u\hsame u'
+\land c\hsame c'\land l\hsame l'\land r\hsame r'.
+$$
+\end{definition}
+
+
+\input{parts/concrete_instances/adjunction/carrier_swap_involutions}

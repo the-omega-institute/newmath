@@ -324,4 +324,19 @@ theorem DirichletPositiveIndex_append_right_cases {m n : BHist} :
                 unary_append_right_factor appendUnary
               exact Or.inr (Exists.intro n (And.intro rightUnary rfl))
 
+theorem DirichletPositiveIndex_append_iff {m n : BHist} :
+    UnaryHistory m -> UnaryHistory n ->
+      (DirichletPositiveIndex (append m n) ↔
+        DirichletPositiveIndex m ∨ DirichletPositiveIndex n) := by
+  intro unaryM unaryN
+  constructor
+  · intro positiveAppend
+    exact DirichletPositiveIndex_append_right_cases positiveAppend
+  · intro positive
+    cases positive with
+    | inl positiveM =>
+        exact DirichletPositiveIndex_append_unary_closed positiveM unaryN
+    | inr positiveN =>
+        exact DirichletPositiveIndex_prepend_unary_closed unaryM positiveN
+
 end BEDC.Derived.DirichletSeriesUp
