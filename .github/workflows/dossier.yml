@@ -98,14 +98,6 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build_dossier
-    # Only the branches whitelisted on the github-pages environment can
-    # actually deploy. Other branches (codex-auto-dev, dev) still run
-    # build_dossier so we catch render-time errors early, but skip the
-    # deploy job to avoid the unavoidable "environment protection rules"
-    # red X on every push.
-    if: >
-      github.ref == 'refs/heads/main'
-      || github.ref == 'refs/heads/feature/dossier'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
