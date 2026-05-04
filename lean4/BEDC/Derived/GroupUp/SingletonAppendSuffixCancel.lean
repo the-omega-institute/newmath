@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonContinuation
 
 namespace BEDC.Derived.GroupUp
 
@@ -108,5 +109,26 @@ theorem GroupSingletonClassifier_two_sided_contextual_carrier_coverage_iff
       (Q := Q) (S := S) carrierL carrierR
   exact Iff.trans suffixCancel
     (Iff.trans prefixCancel (GroupSingleton_terminal_classifier_package.left Q S))
+
+theorem GroupSingletonClassifier_two_sided_contextual_product_unit_split_iff
+    {L R Lp Rp p q : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp ->
+      (GroupSingletonClassifier (append (append L (append p q)) Lp)
+          (append (append R BHist.Empty) Rp) <->
+        GroupSingletonCarrier p ∧ GroupSingletonCarrier q) := by
+  intro carrierL carrierR carrierLp carrierRp
+  have contextual :=
+    GroupSingletonClassifier_two_sided_contextual_coverage_iff (L := L) (R := R)
+      (L' := Lp) (R' := Rp) (Q := append p q) (S := BHist.Empty)
+      carrierL carrierR carrierLp carrierRp
+  constructor
+  · intro classified
+    have carriers := contextual.mp classified
+    exact append_eq_empty_iff.mp carriers.left
+  · intro carriers
+    have productCarrier : GroupSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr carriers
+    exact contextual.mpr (And.intro productCarrier (hsame_refl BHist.Empty))
 
 end BEDC.Derived.GroupUp
