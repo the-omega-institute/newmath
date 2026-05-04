@@ -537,4 +537,53 @@ $\mathsf{PositiveUnaryDenominator}(w)$ along $\hsame(w,\Ezero(z_w))$ and apply
 the same zero-extension exclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_saturated\_denominator\_shape\_package}
+
+\begin{theorem}[Rat ledger one-tail denominator-shape readback]
+\label{thm:rat-ledger-one-tail-denominator-shape-readback}
+For histories $\rho,v,t,z_\rho,z_v,z_t:\mathsf{BHist}$, assume
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and at least one of
+$\mathsf{RatHistoryClassifier}(\rho,\Eone(t))$,
+$\mathsf{RatHistoryClassifier}(v,\Eone(t))$,
+$\mathsf{RatHistoryClassifier}(\Eone(t),\rho)$, or
+$\mathsf{RatHistoryClassifier}(\Eone(t),v)$. Then all of the following hold:
+\begin{enumerate}
+\item $\mathsf{UnaryHistory}(\rho)$, $\mathsf{UnaryHistory}(v)$,
+$\mathsf{UnaryHistory}(\Eone(t))$, and $\mathsf{UnaryHistory}(t)$;
+\item $\hsame(\rho,\emp)\to\mathsf{False}$,
+$\hsame(v,\emp)\to\mathsf{False}$, and
+$\hsame(\Eone(t),\emp)\to\mathsf{False}$;
+\item $\hsame(\rho,\Ezero(z_\rho))\to\mathsf{False}$,
+$\hsame(v,\Ezero(z_v))\to\mathsf{False}$, and
+$\hsame(\Eone(t),\Ezero(z_t))\to\mathsf{False}$.
+\end{enumerate}
+
+Its ten-field fit is: traditional target one-tail rational denominator
+readback; BEDC source $\mathsf{RatHistoryLedgerPolicy}$,
+$\mathsf{RatHistoryClassifier}$, $\mathsf{BHist}$, and $\Eone$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from one-tail saturation and saturated denominator-shape; ledger the
+raw-visible denominator edge; core theorem this block; exactness tail readback
+plus endpoint shape exclusions; standard bridge positive rational denominator
+tail readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-ledger-saturated-denominator-shape-package} with
+$w=\Eone(t)$. This gives the unary row for $\rho$, $v$, and $\Eone(t)$, the
+three nonempty exclusions, and the three zero-extension exclusions.
+
+It remains to read back the tail witness $t$. Case-split on the supplied
+classifier orientation. If the classifier is
+$\mathsf{RatHistoryClassifier}(\rho,\Eone(t))$ or
+$\mathsf{RatHistoryClassifier}(v,\Eone(t))$, it already has $\Eone(t)$ as the
+visible target. Apply
+\autoref{thm:rat-ledger-one-tail-classifier-saturation} to obtain the one-tail
+target readback, and project $\mathsf{UnaryHistory}(t)$.
+
+If the classifier is $\mathsf{RatHistoryClassifier}(\Eone(t),\rho)$ or
+$\mathsf{RatHistoryClassifier}(\Eone(t),v)$, the same saturation theorem is
+applied in the visible-source orientation. Its source readback projects
+$\mathsf{UnaryHistory}(t)$. Combining this tail row with the package obtained
+above gives the displayed conjunctions.
+\end{proof}
 \closureat{\RatUp}{\checkedCertStr}
