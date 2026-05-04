@@ -3485,3 +3485,28 @@ Lands cleanly in chapter 29 (totalorder namecert), which currently has only defi
 
 ---
 
+### B-137 - Functor preserves isomorphism witness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves isomorphism witness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp source and CategoryUp codomain with a FunctorUp F between them, if a source morphism f has paired left-inverse and right-inverse witnesses g, h satisfying g ∘ f ∼C 1 and f ∘ h ∼C 1 in the source, then F(f) has F(g), F(h) as left- and right-inverse witnesses in the codomain up to the codomain hom classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 37 functor_namecert is currently 100% definition-only (per B-11 rationale: 7 def, 0 thm), so theorem sites that exercise the functor stability certificate are scarce and high-value. The candidate is a clean classifier-level preservation statement, distinct from B-11 (which covers hom-carrier composition closure under functor composition) and not a paraphrase of any existing functor-related entry. Iso/split-mono/split-epi witnesses already have definition-side surface (def:category-split-epimorphism, def:category-split-monomorphism) but no theorem proves their functor image carries the mapped witnesses, so this directly fills a known gap and feeds cleanly into the codex_formalize.py lane.
+
+---
+
