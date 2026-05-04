@@ -120,4 +120,16 @@ theorem MetricDistanceWitness_e1_pair_empty_distance_absurd {x y : BHist} :
       witness
   exact not_hsame_e1_empty endpoints.left
 
+theorem MetricDistanceWitness_right_boundary_visible_context_distance_source {p q x d : BHist} :
+    MetricDistanceWitness (append p x) (append BHist.Empty q) (append (append p d) q) ->
+      hsame d x ∧ MetricDistanceDepth d = MetricDistanceDepth x := by
+  intro visible
+  have boundary :=
+    (MetricDistanceWitness_right_boundary_visible_context_iff
+      (p := p) (q := q) (x := x) (d := d)).mp visible
+  constructor
+  · exact boundary.right.right.right
+  · cases boundary.right.right.right
+    rfl
+
 end BEDC.Derived.MetricUp

@@ -79,6 +79,15 @@ theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
                     exact cont_intro ((BHist.e1.inj tailCont).trans tailStep)
                   exact ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), loweredCont⟩
 
+theorem NatUnaryStrictPrefix_e1_endpoint_hsame_absurd {h k : BHist} :
+    NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) -> hsame h k -> False := by
+  intro strict sameTail
+  have lowered : NatUnaryStrictPrefix h k := NatUnaryStrictPrefix_e1_inversion strict
+  cases lowered with
+  | intro tail data =>
+      exact NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
+        data.left data.right.left data.right.right sameTail
+
 theorem NatUnaryStrictPrefix_e1_congr {h k : BHist} :
     NatUnaryStrictPrefix h k -> NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) := by
   intro strict

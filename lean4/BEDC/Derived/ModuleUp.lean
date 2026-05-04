@@ -416,4 +416,31 @@ theorem ModuleSingleton_scalar_action_laws :
               · exact carrierM
               · exact hsame_symm carrierM
 
+theorem ModuleSingletonSmul_scalar_representative_transport_compatibility
+    {r r' s s' m m' : BHist} :
+    ModuleSingletonClassifier r r' ->
+      ModuleSingletonClassifier s s' ->
+        ModuleSingletonClassifier m m' ->
+          hsame (ModuleSingletonSmul r (ModuleSingletonSmul s m)) BHist.Empty ∧
+            ModuleSingletonClassifier (ModuleSingletonSmul r (ModuleSingletonSmul s m))
+              (ModuleSingletonSmul (ModuleSingletonMul r' s') m') := by
+  intro sameR sameS sameM
+  have smulSM :
+      ModuleSingletonClassifier (ModuleSingletonSmul s m) (ModuleSingletonSmul s' m') :=
+    ModuleSingleton_scalar_action_laws.right.left sameS sameM
+  have nestedClassified :
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul r (ModuleSingletonSmul s m))
+        (ModuleSingletonSmul r' (ModuleSingletonSmul s' m')) :=
+    ModuleSingleton_scalar_action_laws.right.left sameR smulSM
+  have reassocClassified :
+      ModuleSingletonClassifier
+        (ModuleSingletonSmul r' (ModuleSingletonSmul s' m'))
+        (ModuleSingletonSmul (ModuleSingletonMul r' s') m') :=
+    singleton_empty_history_module_laws.left.core.equiv_symm
+      (ModuleSingleton_scalar_action_laws.right.right.left r' s' m')
+  exact And.intro (hsame_refl BHist.Empty)
+    (singleton_empty_history_module_laws.left.core.equiv_trans
+      nestedClassified reassocClassified)
+
 end BEDC.Derived.ModuleUp

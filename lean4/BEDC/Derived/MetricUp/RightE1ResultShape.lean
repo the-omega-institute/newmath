@@ -39,6 +39,29 @@ theorem MetricDistanceWitness_right_e1_result_tail_hsame_exact
           cases sameTail
           exact tailWitness
 
+theorem MetricDistanceWitness_right_e1_source_shape {x y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) d ->
+      ∃ k : BHist, hsame d (BHist.e1 k) ∧
+        ((x = BHist.Empty ∧ UnaryHistory y ∧ hsame k y) ∨
+          ∃ x1 : BHist, x = BHist.e1 x1 ∧
+            MetricDistanceWitness (BHist.e1 x1) y k) := by
+  intro witness
+  cases d with
+  | Empty =>
+      cases witness with
+      | intro _xCarrier rest =>
+          cases rest with
+          | intro _targetCarrier rest =>
+              cases rest with
+              | intro _distanceCarrier distance =>
+                  cases distance
+  | e0 d0 =>
+      exact False.elim (unary_no_zero_extension witness.right.right.left)
+  | e1 k =>
+      exact Exists.intro k
+        (And.intro (hsame_refl (BHist.e1 k))
+          (MetricDistanceWitness_right_e1_source_cases witness))
+
 theorem MetricDistanceWitness_right_e1_result_hsame_source {x x' y d : BHist} :
     MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) -> hsame x x' ->
       (x' = BHist.Empty ∧ UnaryHistory y ∧ hsame d y) ∨

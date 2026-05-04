@@ -188,6 +188,50 @@ displayed-spine exactness exactly as in the congruence argument. This classifies
 the two append outputs $r$ and $r'$.
 \end{proof}
 
+\begin{theorem}[List public append readback exposes unary-length addition]
+\label{thm:list-public-append-unary-length-additivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For
+histories $h,k,r:\mathsf{BHist}$, if
+$$
+\mathsf{ListPublicAppend}_A(h,k,r)
+$$
+holds, then there exist histories $u,v,w:\mathsf{BHist}$ such that
+\begin{enumerate}
+  \item $\mathsf{ListPublicUnaryLength}_A(h,u)$,
+  $\mathsf{ListPublicUnaryLength}_A(k,v)$, and
+  $\mathsf{ListPublicUnaryLength}_A(r,w)$ hold;
+  \item
+  $$
+  \mathsf{NatAdd}(v,u,w);
+  $$
+  \item for every $z:\mathsf{BHist}$,
+  $$
+  \mathsf{NatAdd}(u,v,z)\to \hsame(w,z).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unpack $\mathsf{ListPublicAppend}_A(h,k,r)$ as finite BEDC-history spines
+$xs,ys:\mathsf{HistSpine}$ together with representations of $h$ by $xs$, of $k$
+by $ys$, and of $r$ by $xs{++}ys$.
+
+Choose
+$$
+u=\mathsf{ListUnaryLength}(xs),\qquad
+v=\mathsf{ListUnaryLength}(ys),\qquad
+w=\mathsf{ListUnaryLength}(xs{++}ys).
+$$
+The three public unary-length witnesses follow by pairing the same spine
+representations with reflexivity of $\hsame$ in
+\autoref{def:list-public-unary-length-token}.
+
+Apply Theorem~\ref{thm:list-unary-length-append-additivity} to the three
+displayed representations. Its append-aligned clause gives
+$\mathsf{NatAdd}(v,u,w)$, and its commuted uniqueness clause gives, for every
+$z:\mathsf{BHist}$, the implication
+$\mathsf{NatAdd}(u,v,z)\to\hsame(w,z)$.
+\end{proof}
+
 \begin{theorem}[List classifier mixed-tag append-context exactness]
 \label{thm:list-classifier-mixed-tag-append-context-exactness}
 For finite BEDC-history spines $p,p',x,y,s,s'$, suppose
