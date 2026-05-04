@@ -370,6 +370,21 @@ theorem PadicPrimeScale_append_unit_right_factorization_iff {p w r : BHist} :
             (Exists.intro BHist.Empty (And.intro emptyScale (cont_left_unit p)))
         exact PadicPrimeScale_append_cont_closure data.left unitScale data.right
 
+theorem PadicPrimeScale_append_unit_right_predecessor_unique {p w r : BHist} :
+    UnaryHistory w -> PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r ->
+      exists n : BHist, PadicPrimeScale p w n ∧ Cont n p r ∧
+        forall other : BHist, PadicPrimeScale p w other -> hsame n other := by
+  intro unaryW scale
+  have factors :=
+    Iff.mp (PadicPrimeScale_append_unit_right_factorization_iff unaryW) scale
+  cases factors with
+  | intro n data =>
+      exact Exists.intro n
+        (And.intro data.left
+          (And.intro data.right
+            (fun other otherScale =>
+              NatMul_functional scale.left.left data.left.right otherScale.right)))
+
 theorem PadicPrimeScale_append_unit_left_factorization_iff {p q r : BHist} :
     UnaryHistory q ->
       (PadicPrimeScale p (append (BHist.e1 BHist.Empty) q) r <->
