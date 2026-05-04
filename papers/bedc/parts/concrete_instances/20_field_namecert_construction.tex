@@ -617,3 +617,79 @@ witness, external-unit endpoint, classifier orientation, denominator tuple,
 contexts, selectors, affine data; core theorem this block; exactness the
 displayed three-row package; standard bridge constructive rational field guard;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp phase-exit record guard projection]
+\label{thm:ratup-fieldup-phase-exit-record-guard-projection}
+For $\mathsf{RatUpFieldSource}_F$, let $\mathcal E_F$ be the concrete
+$\FieldUp(\RatUp)$ exit object of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Fix the concrete
+denominator tuple $(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$, histories
+$h,k,\ell:\mathsf{BHist}$ with carrier witnesses $C_D^u(h)$, $C_D^u(k)$, and
+$C_D^u(\ell)$, selectors $s,t,u_0,v,w,z:\mathsf{BMark}$, contexts
+$L,R,r:\mathsf{BHist}$, and a support witness
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$. Also fix Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryClassifier}(x,x')$ and
+$\mathsf{RatHistoryClassifier}(y,y')$, a carried denominator
+$q:\mathsf{BHist}$ with $\mathsf{RatHistoryCarrier}(q)$, apart-zero context data
+$L_0,R_0,\tau:\mathsf{BHist}$ with $p:\mathsf{FieldApartZero}(L_0)$, histories
+$a,b,u,d:\mathsf{BHist}$, the contextual action $\Gamma$, the affine source
+$\mathsf{AffAut}_F$, and the same BEDC history operations $add$, $mul$, $neg$,
+and $zero$ satisfying the CommRing hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$\mathsf{RatUpFieldPhaseExit}(\mathcal E_F)$ holds for the displayed data and
+guard hypothesis
+$$
+H:\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr),
+$$
+and if $U_D(u)$, then the record exposes the following two guard rows:
+\begin{enumerate}
+  \item the external-unit classifier separation
+  $\bigl(\mathsf{RatHistoryClassifier}(u,d)\lor
+  \mathsf{RatHistoryClassifier}(d,u)\bigr)\to\mathsf{False}$;
+  \item the canonical action-and-inverse rows of
+  \autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package} over the
+  same $\mathcal E_F$.
+\end{enumerate}
+Both rows keep the same carrier, classifier, denominator tuple, contextual
+action, affine source, guard datum, histories, contexts, and selectors fixed by
+Definition~\ref{def:ratup-fieldup-phase-exit-record}.
+\end{theorem}
+\begin{proof}
+Unfold the record predicate of
+Definition~\ref{def:ratup-fieldup-phase-exit-record}. The assumed
+$\mathsf{RatUpFieldPhaseExit}(\mathcal E_F)$ contains the guarded full package
+component and the guarded canonical action-inverse component for the displayed
+source, exit object, denominator tuple, contextual action, affine source, and
+guard datum.
+
+Project the guarded full package component and specialize it with the witness
+$U_D(u)$. Equivalently, read the external-unit row through
+\autoref{thm:ratup-fieldup-guarded-action-inverse-external-unit-separation};
+the carrier $\mathsf{RatHistoryCarrier}$, denominator carrier $C_D^u$, unit
+carrier $U_D$, and Rat classifier $\mathsf{RatHistoryClassifier}$ are exactly
+the ones recorded in the phase-exit data.
+
+Project the guarded canonical action-inverse component next. It is the same
+canonical action-and-inverse support cited by
+\autoref{thm:ratup-fieldup-canonical-exit-action-inverse-package}, with the
+same contextual action $\Gamma$, affine source $\mathsf{AffAut}_F$, affine
+classifier, denominator relation $R_D^u$, and history relation $\hsame$.
+
+Pair these two projections. No carrier, classifier, denominator tuple,
+contextual action, affine source, or guard datum is replaced, so the resulting
+two-row package is a direct record-level guard projection for the Phase Algebra
+Hierarchy exit criterion.
+\end{proof}
+
+Per-object template: traditional target rational field phase-exit guard
+projection; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, and
+$\FieldUp$; carriers $\mathsf{RatHistoryCarrier}$, $C_D^u$, $U_D$, and
+$\mathsf{AffAut}_F$; classifiers $\mathsf{RatHistoryClassifier}$, $R_D^u$,
+$\hsame$, and affine classifier; stability obligations phase-exit record
+projection, external-unit classifier separation, and canonical action/inverse
+support; ledger denominator tuple, external-unit endpoint, guard witness,
+contextual action, affine source, histories, contexts, selectors, and carrier
+witnesses; core theorem this block; exactness the displayed record-level guard
+projection; downstream consumer Phase Algebra Hierarchy exit criterion; status
+$\mathsf{ProofTarget}$.
