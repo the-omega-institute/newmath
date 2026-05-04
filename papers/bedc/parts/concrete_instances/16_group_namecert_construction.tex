@@ -8,6 +8,46 @@
 \input{parts/concrete_instances/group/16_group_singleton_conjugated_commutator_orbit_invariance}
 \input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
+
+\begin{theorem}[Group singleton double continuation product-unit chain coverage]
+\label{thm:group-singleton-double-continuation-product-unit-chain-coverage}
+For histories $P,Q,S,T,U,V:\mathsf{BHist}$ with $\ContR(P,Q,S)$ and
+$\ContR(S,T,U)$, the concrete singleton $\GroupUp$ instance satisfies
+$$
+R_{\emp}(\mathsf{append}(U,V),\emp)\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+The ten-field fit names the traditional target terminal-group two-step
+continuation product-unit coverage; BEDC source concrete singleton $\GroupUp$
+over $\mathsf{BHist}$ plus two $\ContR$ witnesses and append; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from continuation product-unit
+coverage, continuation terminal collapse, and terminal classifier packaging;
+ledger the two continuation witnesses and suffix endpoint; exactness the
+displayed iff; downstream consumer $\QuotientGroupUp$ path compression; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-continuation-product-unit-triple-coverage}
+to the continuation witness $\ContR(S,T,U)$. This rewrites the left side as
+$$
+A_{\emp}(S)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under the
+continuation witness $\ContR(P,Q,S)$ to identify $A_{\emp}(S)$ with
+$R_{\emp}(P,Q)$. The intermediate condition becomes
+$$
+R_{\emp}(P,Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Finally, apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to rewrite
+$R_{\emp}(P,Q)$ as $A_{\emp}(P)\land A_{\emp}(Q)$. Reassociating conjunctions
+gives exactly
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
@@ -65,6 +105,55 @@ $\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
 classifiers with $h$ as the right factor, so the right factor is the displayed
 singleton-unit conclusion.
 \end{proof}
+
+\begin{theorem}[Full unary append left-inverse obstruction]
+\label{thm:full-unary-append-left-inverse-obstruction}
+For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, if the
+full unary-history append carrier carries the left-inverse field
+$$
+\begin{array}{l}
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow{}\\
+\qquad
+\mathsf{UnaryHistory}(\mathsf{inv}(h))\land{}\\
+\qquad
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(h),h),\emp),
+\end{array}
+$$
+then $\mathsf{False}$.
+
+The ten-field fit names the traditional target as the two-sided obstruction to
+a full unary-history group; BEDC source $\mathsf{UnaryHistory}$; carrier
+$\mathsf{UnaryHistory}$; classifier
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; stability from
+unit-product factor exactness; ledger the proposed left-inverse field;
+exactness the contradiction; downstream consumer the $\GroupUp$ carrier
+selection; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume such an operation $\mathsf{inv}$ and its displayed left-inverse field.
+Specialize the field at $h=\Eone(\emp)$, a concrete unary history. This gives
+the classified product
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(\Eone(\emp)),\Eone(\emp)),\emp).
+$$
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classified product. The forward direction decomposes the append product into
+the two unit-classified factors, and the right factor is
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+
+Unfold the classifier from \autoref{def:concrete-history-monoid-instance}. The
+displayed classifier contains the internal history-sameness witness
+$\Eone(\emp)\hsame\emp$. This contradicts
+\autoref{thm:history-no-confusion}, because an $\Eone$-history and $\emp$ have
+different outer constructors. Hence the left-inverse field yields
+$\mathsf{False}$.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
@@ -107,6 +196,7 @@ $$
 \Longleftrightarrow R_{\emp}(x,y).
 $$
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_two\_conjugator\_classifier\_iff}
 
 \begin{theorem}[Group singleton normalizer orbit action chain]
 \label{thm:group-singleton-normalizer-orbit-action-chain}
