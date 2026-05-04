@@ -102,6 +102,39 @@ the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
 
+\begin{theorem}[Real stream prefix initial-segment coverage]
+\label{thm:real-stream-prefix-initial-segment-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and a prefix length
+$n$, the prefix witness covers exactly the finite initial segment through $n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)
+\Longleftrightarrow
+\forall k\le n,\ \mathsf{RatHistoryClassifier}(x(k),y(k)).
+$$
+Per-object certificate: traditional target finite initial segment of a rational
+observation stream; BEDC source RealUp prefix classifier over RatUp point
+classifiers; carrier the bounded index set up to $n$; classifier pointwise
+$\mathsf{RatHistoryClassifier}$; stability inherited from prefix hsame
+transport; ledger the finite bound and selected index; core theorem this block;
+exactness the displayed iff; standard bridge finite prefix of a rational
+sequence; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the recursive base classifier is exactly the
+rational-history classifier at index $0$, and the bounded family has only that
+index.
+
+For the successor step in the left-to-right direction, split the prefix witness
+through $n+1$ into its previous-prefix witness and its endpoint classifier. If
+$k\le n$, apply the induction hypothesis to the previous-prefix witness. If
+$k=n+1$, use the endpoint classifier.
+
+Conversely, assume the bounded family through $n+1$. The induction hypothesis
+builds the previous-prefix witness from the restriction to indices $k\le n$.
+The endpoint classifier is the bounded-family instance at $k=n+1$, and these
+two components form the successor prefix witness.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier truncation]
 \label{thm:real-stream-prefix-classifier-truncation}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
