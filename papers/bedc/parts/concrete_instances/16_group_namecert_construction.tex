@@ -161,6 +161,7 @@ $\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
 classifiers with $h$ as the right factor, so the right factor is the displayed
 singleton-unit conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.MonoidHistoryClassifier\_unary\_append\_inverse\_field\_collapse}
 \leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_collapses\_to\_singleton}
 
 \begin{theorem}[Unary append inverse field iff singleton collapse]
@@ -233,7 +234,40 @@ classifiers in the opposite order. Applying the reverse direction of
 $i(h)$, $h$ classifies $\mathsf{append}(i(h),h)$ as $\emp$, completing the
 two-sided inverse-field laws.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_append\_inverse\_field\_singleton\_collapse\_iff}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_singleton\_collapse\_iff}
 \leanchecked{BEDC.Derived.GroupUp.unary\_append\_inverse\_field\_iff\_singleton\_collapse}
+
+\begin{theorem}[Unary append singleton collapse obstruction]
+\label{thm:unary-append-singleton-collapse-obstruction}
+The full unary-history append classifier cannot classify every unary history
+as the singleton unit:
+$$
+\left(
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)
+\right)
+\Rightarrow \mathsf{False}.
+$$
+The ten-field fit is: traditional target obstruction to collapsing the full
+unary append carrier to the unit; BEDC source $\mathsf{UnaryHistory}$; carrier
+$\mathsf{UnaryHistory}$; classifier
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; stability from the
+concrete classifier fields; ledger the visible unary endpoint $\Eone(\emp)$;
+exactness the contradiction; downstream consumer the inverse-field obstruction;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume the displayed singleton-unit collapse. The concrete history
+$\Eone(\emp)$ is unary, so the collapse hypothesis classifies
+$$
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(\Eone(\emp),\emp).
+$$
+Unfolding the classifier exposes the internal witness
+$\Eone(\emp)\hsame\emp$, contradicting the BEDC history no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_append\_singleton\_collapse\_obstruction}
 
 \begin{theorem}[Full unary append left-inverse obstruction]
 \label{thm:full-unary-append-left-inverse-obstruction}
@@ -290,6 +324,7 @@ $\Eone(\emp)\hsame\emp$. This contradicts
 different outer constructors. Hence the left-inverse field yields
 $\mathsf{False}$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.unary\_append\_left\_inverse\_field\_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
 
