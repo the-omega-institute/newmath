@@ -161,6 +161,28 @@ which repackages the restricted classifier witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_mul\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer intersection classifier inverse closure]
+\label{thm:subgroup-centralizer-intersection-classifier-inv-closed}
+Under the same BEDC history-level $\GroupUp$ associativity, two-sided unit,
+multiplication congruence, and inverse laws, if the restricted classifier on
+$Z_{a,b}$ relates $x$ to $y$, then it relates their inverses:
+$$
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,x,y)
+\Rightarrow
+\mathsf{SubgroupCentralizerIntersectionClassifier}(mul,a,b,
+  \mathsf{inv}(x),\mathsf{inv}(y)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into its two carrier rows and its stored
+$x\hsame y$ comparison. Inverse closure for the two-centralizer intersection
+carrier supplies the carrier witnesses for $\mathsf{inv}(x)$ and
+$\mathsf{inv}(y)$. The ambient group inverse congruence transports
+$x\hsame y$ to $\mathsf{inv}(x)\hsame\mathsf{inv}(y)$, which repackages the
+restricted classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerIntersectionClassifier\_inv\_closed\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer intersection self-conjugation closure]
 \label{thm:subgroup-centralizer-intersection-self-conjugation-closure}
 Under the same BEDC history-level $\GroupUp$ laws, if
