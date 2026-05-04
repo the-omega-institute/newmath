@@ -1,11 +1,13 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MatrixUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 def MatrixSingletonCarrier (h : BHist) : Prop :=
   hsame h BHist.Empty
@@ -24,6 +26,24 @@ def MatrixSingletonAdd (M N : BHist) : BHist :=
 
 def MatrixSingletonMul (M N : BHist) : BHist :=
   append M N
+
+def MatrixSingletonPow (M exponent : BHist) : BHist :=
+  match exponent with
+  | BHist.Empty => MatrixSingletonOne
+  | BHist.e0 _ => MatrixSingletonZero
+  | BHist.e1 tail => MatrixSingletonMul (MatrixSingletonPow M tail) M
+
+theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory exponent ->
+      MatrixSingletonCarrier (MatrixSingletonPow M exponent) := by
+  intro carrierM exponentUnary
+  induction exponent with
+  | Empty =>
+      exact hsame_refl BHist.Empty
+  | e0 tail _ih =>
+      exact hsame_refl BHist.Empty
+  | e1 tail ih =>
+      exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
 
 theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
     MatrixSingletonClassifier (append M N) h ↔
@@ -313,6 +333,23 @@ theorem MatrixSingletonAddMul_continuation_result_iff {M N R : BHist} :
     cases carrierN
     cases carrierR
     exact cont_right_unit BHist.Empty
+
+theorem MatrixSingletonAddMul_continuation_empty_result_factors_iff {M N R : BHist} :
+    Cont (MatrixSingletonAdd M N) (MatrixSingletonMul M N) R ->
+      (hsame R BHist.Empty ↔ hsame M BHist.Empty ∧ hsame N BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro resultEmpty
+    have emptyContinuation :
+        Cont (MatrixSingletonAdd M N) (MatrixSingletonMul M N) BHist.Empty := by
+      cases resultEmpty
+      exact continuation
+    have emptyFactors := cont_empty_result_inversion emptyContinuation
+    exact append_eq_empty_iff.mp emptyFactors.left
+  · intro emptyParts
+    cases emptyParts.left
+    cases emptyParts.right
+    exact cont_deterministic continuation (cont_right_unit BHist.Empty)
 
 theorem MatrixSingletonClassifier_continuation_comm_closed {M N left right : BHist} :
     MatrixSingletonCarrier M -> MatrixSingletonCarrier N -> Cont M N left -> Cont N M right ->

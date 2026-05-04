@@ -150,6 +150,53 @@ classification read by the same $\rho_{\emp}$ endpoint relation.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_image\_semanticNameCert}
 
+\begin{theorem}[Module singleton scalar action graph exactness]
+\label{thm:module-singleton-smul-graph-exact}
+For histories $r,m,n:\mathsf{BHist}$, define the concrete scalar-action graph
+predicate
+$$
+G(r,m,n)\;:\Longleftrightarrow\;
+A_{\emp}(r)\land A_{\emp}(m)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n).
+$$
+Then this graph is exactly the singleton carrier on scalar input, module input,
+and classified output:
+$$
+G(r,m,n)\quad\Longleftrightarrow\quad
+A_{\emp}(r)\land A_{\emp}(m)\land A_{\emp}(n).
+$$
+The ten-field fit is: traditional target the terminal module action graph;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from
+Theorems~\ref{thm:module-singleton-classifier-empty-endpoints},
+\ref{thm:module-singleton-smul-classifier-readback-iff}, and
+\ref{thm:module-singleton-scalar-action-laws}; ledger scalar endpoint, module
+endpoint, and classified result endpoint; core theorem this block; exactness
+the displayed iff; downstream consumer the $\ModuleUp$ action-row certificate;
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ModuleSingletonSmul}$ as the constant empty-history action.
+The only nontrivial classifier read in the graph is therefore
+$\rho_{\emp}(\emp,n)$.
+
+For the forward direction, unpack $G(r,m,n)$. The first two projections are
+already the scalar endpoint witness $A_{\emp}(r)$ and the module endpoint
+witness $A_{\emp}(m)$. The classifier projection, together with
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}, reads
+$\rho_{\emp}(\emp,n)$ as the two empty endpoint witnesses; the second one is
+precisely the singleton carrier witness for $n$.
+
+For the reverse direction, assume
+$A_{\emp}(r)\land A_{\emp}(m)\land A_{\emp}(n)$. Reuse the scalar and module
+carrier witnesses unchanged. Since
+$\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally $\emp$,
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} and the
+singleton carrier witness for $n$ give
+$\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n)$, which repacks the graph
+predicate.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple
