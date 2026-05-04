@@ -206,6 +206,7 @@ import BEDC.Derived.PrimeUp.SuccPositiveShape
 import BEDC.Derived.PrimeUp.FactorialShape
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
 import BEDC.Derived.RealUp.SelectedTransportReadback
