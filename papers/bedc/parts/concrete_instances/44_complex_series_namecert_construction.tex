@@ -150,6 +150,21 @@ pointwise comparison of the current terms.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_pointwise\_hsame\_deterministic}
 
+\begin{lemma}[Complex partial-sum result nonempty from nonempty terms]
+\label{lem:complex-part-sum-result-nonempty-of-nonempty-terms}
+If the chosen zero history is apart from $\emp$, and every unary-indexed term
+$c(m)$ is apart from $\emp$, then no closed
+$\mathsf{ComplexPartSum}(zero,c,n,S)$ witness can have $S\hsame\emp$.
+\end{lemma}
+\begin{proof}
+Induct on the closed partial-sum witness. The zero case is the supplied
+apartness of the chosen zero history. In the successor case, transport the
+final empty equality across the displayed continuation
+$\Cont(S,c(m),T)$, invert the empty result, and use the unary index extracted
+from the predecessor partial-sum chain to contradict the apartness of $c(m)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexPartSum\_result\_nonempty\_of\_nonempty\_terms}
+
 \section{Absolute convergence}
 
 \begin{definition}[Modulus partial sum]

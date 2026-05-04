@@ -109,6 +109,23 @@ theorem ComplexTopologyClosedDiskGap_hsame_transport
                                           (And.intro gapCarrier' boundary'))))
                                     boundary'
 
+theorem ComplexTopologyClosedDiskGap_strict_radius_not_empty
+    {center radius point gap : BHist} :
+    ComplexTopologyClosedDiskGap center radius point gap -> Cont point gap radius ->
+      hsame radius BHist.Empty -> False := by
+  intro disk strictBoundary radiusEmpty
+  cases disk with
+  | intro _centerCarrier rest =>
+      cases rest with
+      | intro _radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier _rest =>
+              have emptyBoundary :
+                  Cont point gap BHist.Empty :=
+                cont_result_hsame_transport strictBoundary radiusEmpty
+              have emptyParts := cont_empty_result_inversion emptyBoundary
+              exact ComplexHistoryCarrier_not_empty pointCarrier emptyParts.left
+
 theorem ComplexTopologyOpenDisk_point_radius_suffix_closed {z0 r z extra r' z' : BHist} :
     OpenDisk z0 r z -> UnaryHistory extra -> Cont r extra r' -> Cont z extra z' ->
       OpenDisk z0 r' z' ∧ ∃ gap : BHist,
