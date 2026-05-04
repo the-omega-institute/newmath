@@ -102,20 +102,31 @@ Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-packag
 Exactness: the displayed four-part conjunction. Standard bridge: finite
 rational prefix agreement. Status: $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Real stream prefix truncation positive denominator package]
+\begin{theorem}[Real stream prefix truncation endpoint denominator package]
 \label{thm:real-stream-prefix-truncated-positive-denominator-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if
 $$
 \mathsf{RealStreamPrefixClassifier}(x,y,m+n),
 $$
-then the selected endpoints of the shorter certified prefix have positive unary
-denominators:
+then the selected endpoints of the shorter certified prefix carry the complete
+endpoint-classifier and denominator-shape package:
 $$
+\mathsf{RatHistoryClassifier}(x(n),y(n))
+\land
 \mathsf{PositiveUnaryDenominator}(x(n))
 \land
-\mathsf{PositiveUnaryDenominator}(y(n)).
+\mathsf{PositiveUnaryDenominator}(y(n))
+\land
+\mathsf{UnaryHistory}(x(n))
+\land
+\mathsf{UnaryHistory}(y(n))
+\land
+(\hsame(x(n),\emp)\to\mathsf{False})
+\land
+(\hsame(y(n),\emp)\to\mathsf{False}).
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_truncated\_endpoint\_denominator\_package}
 \begin{proof}
 First descend from the displayed prefix through $m+n$ to the selected prefix
 through $n$. This is the constructor induction used in
@@ -125,12 +136,18 @@ recursive prefix component.
 
 Apply \autoref{thm:real-stream-prefix-classifier-endpoint} to the resulting
 prefix classifier at $n$. This projects the endpoint rational-history classifier
-$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$, which is kept as the first
+conjunct of the displayed package.
 
-Finally apply \autoref{thm:rat-history-classifier-positive-denominators} to that
-endpoint classifier. The two projected witnesses are exactly
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the endpoint
+classifier. The two projected witnesses are exactly
 $\mathsf{PositiveUnaryDenominator}(x(n))$ and
 $\mathsf{PositiveUnaryDenominator}(y(n))$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two positive-denominator rows. The two applications supply
+$\mathsf{UnaryHistory}(x(n))$, $\mathsf{UnaryHistory}(y(n))$, and the two
+nonemptiness implications, so the seven displayed rows repack directly.
 \end{proof}
 
 Fit. Traditional target: finite-prefix denominator readback for RealUp streams.
@@ -139,8 +156,9 @@ Carrier: rational-observation streams. Classifier:
 $\mathsf{RealStreamPrefixClassifier}$. Stability: prefix truncation and endpoint
 projection. Ledger: selected indices $m,n$. Core theorem:
 \autoref{thm:real-stream-prefix-truncated-positive-denominator-package}.
-Exactness: the displayed implication. Standard bridge: finite rational prefix
-positivity. Status: $\mathsf{ProofTarget}$.
+Exactness: the displayed endpoint-classifier and denominator-shape package.
+Standard bridge: RealUp dyadic embedding and RegSeqRat endpoint-readback
+obligations. Status: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
