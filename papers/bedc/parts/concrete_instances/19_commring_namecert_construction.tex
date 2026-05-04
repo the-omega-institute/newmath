@@ -67,6 +67,7 @@ In the $(a+(-b))\hsame0$ branch, specialize the universal row at $c=a+b$ and
 take its right component. The oriented product is
 $(a+b)\cdot(a+(-b))$, giving the required zero classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_signed\_product\_zero}
 
 \begin{theorem}[CommRing zero linear factor commuted signed product zero]
 \label{thm:commring-zero-linear-factor-commuted-signed-product-zero}
@@ -198,6 +199,43 @@ $c\cdot((a+b)\cdot(a+(-b)))\hsame0$. Pair this universal two-sided absorption
 row with the signed product-zero witness from the equal-squares route.
 \end{proof}
 
+\begin{theorem}[CommRing equal-squares bilateral signed-product zero]
+\label{thm:commring-equal-squares-bilateral-signed-product-zero}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of \autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+a\cdot a\hsame b\cdot b
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)
+\land
+\bigl((a+(-b))\cdot(a+b)\hsame0\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Let $Q$ be the square-equality hypothesis $a\cdot a\hsame b\cdot b$. Apply
+\autoref{thm:commring-equal-squares-signed-factor-zero} to $Q$ to obtain the
+forward signed-product zero witness
+$(a+b)\cdot(a+(-b))\hsame0$.
+
+The $\CommRingUp$ multiplicative commutativity field identifies the reversed
+product $(a+(-b))\cdot(a+b)$ with the forward product
+$(a+b)\cdot(a+(-b))$. Compose this identification with the forward
+signed-product zero witness by transitivity of $\hsame$.
+
+The two oriented zero-product witnesses form the required conjunction.
+\end{proof}
+
+The ten-field fit is: traditional target equal squares yields a bilateral
+signed-product zero certificate in a commutative ring; BEDC source $\RingUp$
+plus $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from difference-of-squares exactness and multiplicative
+commutativity; ledger the square-equality witness, the forward signed-product
+zero witness, and the commuted signed-product zero witness; core theorem this
+block; exactness the two oriented signed products at zero; downstream consumer
+the $\FieldUp$ equal-square signed-factor exclusion package; status
+$\mathsf{ProofTarget}$.
+
 The ten-field fit is: traditional target equal squares yields the signed-product
 annihilator package in a commutative ring; BEDC source $\RingUp$ plus
 $\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
@@ -261,11 +299,11 @@ chosen zero factor and product-zero witness; core theorem this block; exactness
 equality of squares; standard bridge ordinary commutative-ring factor argument;
 status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[CommRing zero linear factor exact package]
-\label{thm:commring-zero-linear-factor-exact-package}
+\begin{theorem}[CommRing zero linear factor exact package with right distributivity]
+\label{thm:commring-zero-linear-factor-exact-package-with-right-distrib}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
 $\RingUp$ additive abelian-group laws, addition and multiplication congruence,
-left distributivity, the $\RingUp$ negative-product laws, and the
+left and right distributivity, the $\RingUp$ negative-product laws, and the
 $\CommRingUp$ multiplicative commutativity field used in
 \autoref{thm:commring-difference-of-squares-zero-exact}, every
 $a,b : \mathsf{BHist}$ satisfies
@@ -286,6 +324,31 @@ square equality is $a\cdot a\hsame b\cdot b$, and pairing it with the
 signed product-zero witness gives the displayed conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.commring\_zero\_linear\_factor\_exact\_package}
+
+\begin{theorem}[CommRing zero linear factor exact package]
+\label{thm:commring-zero-linear-factor-exact-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, addition and multiplication congruence,
+left distributivity, the $\RingUp$ negative-product laws, and the
+$\CommRingUp$ multiplicative commutativity field used in
+\autoref{thm:commring-difference-of-squares-zero-exact}, every
+$a,b : \mathsf{BHist}$ satisfies
+$$
+\bigl((a+b)\hsame0 \lor (a+(-b))\hsame0\bigr)
+\Longrightarrow
+\bigl((a+b)\cdot(a+(-b))\hsame0 \land a\cdot a\hsame b\cdot b\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:commring-right-distrib-from-left} to recover right
+distributivity from left distributivity, multiplicative commutativity, and
+additive congruence.
+
+Apply
+\autoref{thm:commring-zero-linear-factor-exact-package-with-right-distrib} with
+this right distributivity field and the remaining stated hypotheses. The
+result is the displayed conjunction for the chosen zero linear factor.
+\end{proof}
 
 The ten-field fit is: traditional target zero linear factor exact package in a
 commutative ring; BEDC source $\RingUp$ plus $\CommRingUp$ over
@@ -641,6 +704,7 @@ square-exact package as the first component, use either signed-product zero row
 as the second component, and use the universal annihilator row from the
 signed-product annihilator package as the final component.
 \end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.commringSingletonEmpty\_square\_signed\_product\_annihilator\_package}
 
 The ten-field fit is: traditional target one-element commutative-ring package
 combining singleton square exactness with signed-product annihilation; BEDC
@@ -650,3 +714,54 @@ annihilator packages; ledger the equal-square row, signed-product zero row, and
 universal two-sided annihilator row; core theorem this block; exactness the
 displayed three-part certificate; downstream use by $\FieldUp$ quadratic and
 zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing singleton empty square endpoint annihilator package]
+\label{thm:commring-singleton-empty-square-endpoint-annihilator-package}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, every pair
+$a,b:\mathsf{BHist}$ carried by $A_{\emp}$ satisfies
+$$
+\bigl(a\cdot a\hsame b\cdot b\bigr)
+\land
+\forall c:\mathsf{BHist},\
+\left(
+(((a\cdot a)\cdot c)\hsame0)
+\land
+(c\cdot(a\cdot a)\hsame0)
+\land
+(((b\cdot b)\cdot c)\hsame0)
+\land
+(c\cdot(b\cdot b)\hsame0)
+\right),
+$$
+where $\cdot$ and $0$ are the displayed singleton operations.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:commring-singleton-empty-square-signed-product-package} to the
+selected histories $a,b$. Its first component gives the required square row
+$a\cdot a\hsame b\cdot b$.
+
+Next use Theorem~\ref{thm:singleton-empty-history-commring-laws}. In the
+singleton empty-history CommRing tuple, multiplication and zero both select the
+singleton endpoint, so carriedness identifies $a\cdot a$ and $b\cdot b$ with
+the zero endpoint.
+
+Now instantiate the zero-factor absorption mechanism of
+Theorem~\ref{thm:ring-zero-classifier-factor-absorption} twice, first with
+$x=a\cdot a$ and then with $x=b\cdot b$. For an arbitrary multiplier
+$c:\mathsf{BHist}$, the two instantiations provide both left and right
+zero-factor rows for the two square endpoints.
+
+Package these outputs as the displayed conjunction: the square-equality row is
+the first component, and the four universal multiplier rows are the second
+component.
+\end{proof}
+
+The ten-field fit is: traditional target one-element commutative-ring square
+ideal boundary; BEDC source singleton empty-history $\CommRingUp$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from singleton laws and
+zero-factor absorption; ledger carried inputs, two square endpoints, and
+arbitrary multiplier; core theorem this block; exactness square endpoints are
+two-sided zero annihilators; downstream consumer $\FieldUp$ square-apartness and
+zero-product exits; status $\mathsf{ProofTarget}$.

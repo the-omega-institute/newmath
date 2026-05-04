@@ -44,6 +44,19 @@ for the adele history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_cont\_result\_nonempty}
 
+\begin{theorem}[Adele right carrier continuation result nonempty]
+\label{thm:adele-history-carrier-cont-right-result-nonempty}
+If $\mathsf{AdeleHistoryCarrier}(k)$ holds, $\mathsf{Cont}(h,k,r)$ holds, and
+$r\hsame\emp$, then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the continuation result along $r\hsame\emp$ to a continuation with
+empty result. The empty-result inversion theorem for $\mathsf{Cont}$ forces
+the right endpoint $k$ to be $\emp$, contradicting the nonempty theorem for the
+adele history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_cont\_right\_result\_nonempty}
+
 \begin{theorem}[Adele real-padic e1 real nonempty scale result package]
 \label{thm:adele-real-padic-e1-real-nonempty-scale-result-package}
 For histories $r,p,e,s:\mathsf{BHist}$, if $r$ is a rational-history carrier
@@ -112,6 +125,66 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele prime-swap scale readback]
+\label{thm:adele-prime-swap-scale-readback}
+Let \(real,p,q,r,s:\mathsf{BHist}\). If \(real\) is a constant real-history
+carrier and the two swapped prime scales
+\(\mathsf{PadicPrimeScale}(p,q,r)\) and \(\mathsf{PadicPrimeScale}(q,p,s)\)
+hold, then both appended real-padic histories are adele-history carriers and
+they are history-same:
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(real,r))\land
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(real,s))\land
+\hsame(\mathsf{append}(real,r),\mathsf{append}(real,s)).
+$$
+\end{theorem}
+\begin{proof}
+Use the displayed real component and the two displayed prime-scale witnesses
+as the adele carrier payloads. The \(p\)-adic scale results are identified by
+prime-exponent commutativity for \(\mathsf{PadicPrimeScale}\), and applying
+the fixed real append context to that \(\hsame\) identifies the two adele
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_prime\_swap\_scale\_readback}
+
+\begin{theorem}[Adele visible scale continuation nonempty package]
+\label{thm:adele-history-carrier-visible-scale-cont-nonempty-package}
+For histories $r,p,e,s,k,out:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$,
+$\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$, and
+$\ContR(\mathsf{append}(r,s),k,out)$ hold, then
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot)\land(\hsame(out,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The visible scale theorem supplies both the adele-history carrier for
+$\mathsf{append}(r,s)$ and the nonempty scale endpoint $s$. Feeding that carrier
+and the displayed continuation into the adele continuation-result theorem gives
+the nonempty output endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_cont\_nonempty\_package}
+
+\begin{theorem}[Adele e1 real append carrier is nonempty]
+\label{thm:adele-history-carrier-e1-real-append-nonempty}
+For histories $realTail,p,exponent,result:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(\mathsf{e1}(realTail))$ and
+$\mathsf{PadicPrimeScale}(p,exponent,result)$ hold, then the appended real-padic
+history is an adele-history carrier and cannot be history-same as $\emp$:
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\mathsf{e1}(realTail),result))\land
+(\hsame(\mathsf{append}(\mathsf{e1}(realTail),result),\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Use the displayed one-sealed real component, $p$, $exponent$, and $result$ as
+the four witnesses for the adele carrier. If the append were empty, append-empty
+exactness would force $\mathsf{e1}(realTail)\hsame\emp$, contradicting BEDC
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_e1\_real\_append\_nonempty}
+
 \begin{theorem}[Adele visible scale append is not empty]
 \label{thm:adele-visible-scale-append-not-empty}
 For histories $r,p,e,s:\mathsf{BHist}$, if
@@ -146,6 +219,23 @@ empty exponent, scale result, and reflexive append witness. The readback to
 $real$ follows from the identified empty scale result and append-right unit.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_empty\_scale\_real\_readback}
+
+\begin{theorem}[Adele unit scale real-prime readback]
+\label{thm:adele-history-carrier-unit-scale-real-prime-readback}
+Let $real,p,result:\mathsf{BHist}$. If $real$ is a constant real-history
+carrier and $\mathsf{PadicPrimeScale}(p,\Eone(\emp),result)$ holds, then
+$\mathsf{append}(real,result)$ is an adele-history carrier and
+$$
+\mathsf{append}(real,result)\hsame\mathsf{append}(real,p).
+$$
+\end{theorem}
+\begin{proof}
+Use the displayed real component, prime base, unit exponent, and scale result
+as the four witnesses for the adele carrier. The prime-scale unit-exponent
+readback identifies $result$ with $p$; applying append congruence under the
+fixed real component gives the displayed real-prime readback.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_unit\_scale\_real\_prime\_readback}
 
 \begin{theorem}[Adele real-stream prefix visible scale carrier]
 \label{thm:adele-real-stream-prefix-visible-scale-carrier}
@@ -190,6 +280,76 @@ component with the stored first-prime $p$-adic scale and reflexive sameness of
 the appended endpoint gives the adele-history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_carrier}
+
+\begin{theorem}[Adele long-prefix visible $p$-adic scale carrier]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-padic-scale-carrier}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and
+$\mathsf{PadicPrimeScale}(p,e,r)$ holds, then
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds and
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the finite-prefix classifier to descend from $m+n$ to
+$n$. The visible one-extension pair at index $n$ reads back a unary denominator
+tail, so $\Eone(d)$ is a rational-history carrier and $\Eone(\Eone(d))$ is a
+constant real-history carrier. The arbitrary displayed $p$-adic scale supplies
+the non-real component of the adele carrier, and reflexive history sameness
+identifies the displayed append endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_padic\_scale\_carrier}
+
+\begin{theorem}[Adele long-prefix visible scale result is not empty]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-scale-result-nonempty}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic visible scale
+$\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),\Eone(e),r)$ holds, then
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds,
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)),
+$$
+and the visible scale result is not history-same as $\emp$:
+$$
+\hsame(r,\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the prefix classifier to descend from $m+n$ to $n$.
+The selected one-extension endpoints read back to a unary denominator tail,
+hence to a rational carrier and then to the constant real-history carrier
+$\Eone(\Eone(d))$. The visible $p$-adic scale theorem packages this real
+component with the displayed scale and separates the scale result from
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_result\_nonempty}
+
+\begin{theorem}[Adele long-prefix visible scale continuation result is not empty]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-scale-cont-result-nonempty}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic visible scale
+$\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),\Eone(e),r)$ holds, then every
+continuation out of the appended visible scale endpoint has a non-empty
+result:
+$$
+\ContR(\mathsf{append}(\Eone(\Eone(d)),r),k,out)
+\Longrightarrow
+\hsame(out,\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The long-prefix visible scale result theorem supplies an adele-history carrier
+for $\mathsf{append}(\Eone(\Eone(d)),r)$. Applying the adele carrier
+continuation-result nonemptiness theorem to the displayed continuation rules
+out $out\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_cont\_result\_nonempty}
 
 \begin{theorem}[Adele long-prefix visible scale append is not empty]
 \label{thm:adele-real-stream-prefix-long-prefix-visible-scale-append-not-empty}
@@ -245,3 +405,21 @@ move the displayed $\Eone(d)$ endpoint from $h$ to $h'$.
 
 \section{The certificate}
 \label{sec:adele-certificate}
+
+\begin{theorem}[Adele history-carrier semantic name certificate]
+\label{thm:adele-history-carrier-semantic-namecert}
+The adele history carrier forms a semantic naming certificate with $\hsame$ as
+classifier, using the same adele carrier as source, pattern, and ledger policy.
+\end{theorem}
+\begin{proof}
+A rational tail $\Eone(\emp)$ supplies the constant-real side, and the
+first-prime unit scale supplies the $p$-adic side, so the adele carrier is
+inhabited by the displayed append endpoint from
+\autoref{thm:adele-history-carrier-first-prime-unit-scale}. The classifier
+laws are the BEDC $\hsame$ equivalence laws. For carrier transport, unpack an
+adele witness into its real component, prime, exponent, result, and append
+comparison; composing that comparison with the symmetric endpoint $\hsame$
+moves the same witnesses to the target history. Pattern and ledger soundness
+are identity maps on the carrier predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_semanticNameCert}

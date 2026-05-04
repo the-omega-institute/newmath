@@ -1,0 +1,115 @@
+\leandef{BEDC.Derived.FunctorUp.PrefixFunctorCarrier}
+
+\begin{theorem}[Prefix functor carrier from unary prefix]
+\label{thm:prefix-functor-carrier-from-unary-prefix}
+For the unary-continuation category, every unary prefix history determines a
+prefix functor carrier. Its hom-carrier fields preserve and reflect prefixed
+hom histories, and its composition field preserves displayed composition after
+prefixing the endpoints.
+\end{theorem}
+\begin{proof}
+Package the unary prefix witness together with the prefix hom-carrier
+preservation theorem, the prefix reflection theorem, and the prefixed
+composition preservation theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
+
+\begin{theorem}[Prefix functor carrier composition public readback]
+\label{thm:prefix-functor-carrier-comp-public-readback}
+For a prefix functor carrier \(p\), if \(f\) is a hom-carrier from \(a\) to
+\(b\), \(g\) is a hom-carrier from \(b\) to \(c\), and
+\(\ContR(f,g,fg)\), then \(fg\) is displayed as a hom-carrier from
+\(\mathsf{append}(p,a)\) to \(\mathsf{append}(p,c)\). Moreover, any displayed
+hom-carrier between the same prefixed endpoints has morphism history
+\(\HSame\) to \(fg\).
+\end{theorem}
+\begin{proof}
+The composition-preservation field of the prefix functor carrier closes the
+prefixed composite. Public readback follows by category hom-carrier morphism
+determinacy at the same prefixed endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_comp\_public\_readback}
+
+\begin{theorem}[Prefix functor empty morphism source exactness]
+\label{thm:functor-prefix-empty-morphism-source}
+For histories $p,a,source$, the empty history is a category hom-carrier from
+$source$ to $\mathsf{append}(p,a)$ exactly when $p$ and $a$ are unary and
+$source$ is history-same to that prefixed target:
+$$
+\mathsf{CategoryHomCarrier}(source,\mathsf{append}(p,a),\emp)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(a)\wedge
+\hsame(source,\mathsf{append}(p,a)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-identity exactness to the displayed empty morphism. The
+target unary witness splits through append into unary witnesses for $p$ and
+$a$, while the same exactness theorem gives the endpoint sameness. Conversely,
+append closure rebuilds the target carrier, unary transport gives the source
+carrier along endpoint sameness, and category empty-identity exactness
+reconstructs the hom-carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_empty\_morphism\_source\_iff}
+
+\begin{theorem}[Prefix functor empty morphism endpoint exactness]
+\label{thm:functor-prefix-hom-carrier-morphism-empty-endpoint-iff}
+For histories $p,a,b,f$, a prefixed hom-carrier has empty morphism history
+exactly when the unprefixed endpoints agree:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+\Longrightarrow
+\bigl(\HSame(f,\emp)\Longleftrightarrow\HSame(a,b)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The underlying category hom-carrier identifies empty morphisms with equality
+of the prefixed endpoints. Left cancellation for generated-history append
+removes the common prefix. Conversely, endpoint equality of $a$ and $b$
+lifts through the shared prefix and the category endpoint theorem identifies
+the morphism with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_morphism\_empty\_endpoint\_iff}
+
+\begin{theorem}[Functor prefix hom-carrier composite result empty exactness]
+\label{thm:functor-prefix-hom-carrier-comp-result-empty}
+For histories $p,a,b,c,f,g,fg$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, and $\ContR(f,g,fg)$ holds,
+then emptiness of the displayed composite result is equivalent to the two
+factor morphisms being empty and the adjacent unprefixed endpoints agreeing:
+$$
+\hsame(fg,\emp)
+\quad\Longleftrightarrow\quad
+\hsame(f,\emp)\wedge\hsame(g,\emp)\wedge\hsame(a,b)\wedge\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the displayed continuation to empty result
+and applies prefix empty-composite exactness. Conversely, the componentwise
+empty data builds the empty composite continuation; continuation determinacy
+compares that empty result with the displayed composite result $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_result\_empty\_iff}
+
+\begin{theorem}[Prefix hom composite empty-middle inversion]
+\label{thm:functor-prefix-hom-comp-empty-middle-inversion}
+For histories $p,a,c,f,g,fg$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$
+to $\mathsf{append}(p,c)$, and $\ContR(f,g,fg)$, then
+$$
+\hsame(p,\emp)\wedge\hsame(a,\emp)\wedge\hsame(f,\emp)\wedge
+\hsame(g,\mathsf{append}(p,c))\wedge
+\mathsf{CategoryHomCarrier}(\emp,\mathsf{append}(p,c),fg)\wedge
+\hsame(fg,\mathsf{append}(p,c)).
+$$
+\end{theorem}
+\begin{proof}
+Empty-target component exactness splits the left hom-carrier into emptiness of
+the prefix, source tail, and morphism. Empty-source component exactness reads
+the right morphism as the prefixed target. With $f=\emp$, the displayed
+continuation identifies $fg$ with $g$, so $fg$ also reads back as
+$\mathsf{append}(p,c)$; category empty-source exactness rebuilds the final
+hom-carrier for $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_inversion}

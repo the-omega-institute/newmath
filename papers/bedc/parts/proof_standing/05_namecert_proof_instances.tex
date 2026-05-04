@@ -42,6 +42,19 @@ If \(h\) and \(k\) are unary histories and \(\ContR(h,k,r)\), then \(r\) is unar
 Induct on the generation of \(h\). If \(h=\emp\), then \(r\) is internally same as \(k\), hence unary. If \(h=\Eone(h')\), the continuation rule reduces the result to \(\Eone(r')\) where \(r'\) is obtained by continuing \(h'\) by \(k\). Apply the induction hypothesis and close under \(\Eone\). The \(\Ezero\)-case is absent for unary histories.
 \end{proof}
 
+\begin{theorem}[Additive unary continuation transport]
+\label{thm:add-unary-continuation-hsame-transport}
+For unary histories $h$ and $k$ with $\ContR(h,k,r)$, if $h\hsame h'$,
+$k\hsame k'$, and $r\hsame r'$, then $h'$, $k'$, and $r'$ are unary and
+$\ContR(h',k',r')$.
+\end{theorem}
+\begin{proof}
+Transport the two unary inputs across $\HSame$, transport the continuation
+relation across the same endpoints and result, and close the transported result
+by unary continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.AddUp.AddUnaryContinuation\_hsame\_transport}
+
 \begin{theorem}[Addition-like unit]
 \label{thm:unary-addition-like-unit-spine}
 \label{thm:addition-like-unit}

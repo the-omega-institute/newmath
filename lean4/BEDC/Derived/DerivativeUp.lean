@@ -80,6 +80,47 @@ theorem DerivativeMetricQuotient_hsame_transport
                                   (And.intro metricWitness'
                                     (And.intro diffLedger' metricLedger')))
 
+theorem DerivativeMetricQuotient_function_prefix_closed {p f z h q dist : BHist} :
+    UnaryHistory p -> DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient (append p f) z h (append p q) (append h (append p q)) := by
+  intro prefixCarrier quotient
+  cases quotient with
+  | intro functionCarrier rest =>
+      cases rest with
+      | intro pointCarrier rest =>
+          cases rest with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro quotientCarrier rest =>
+                  cases rest with
+                  | intro functionLedger rest =>
+                      cases rest with
+                      | intro stepCarrier rest =>
+                          cases rest with
+                          | intro _distanceCarrier _metricLedger =>
+                              have prefixedFunctionCarrier : UnaryHistory (append p f) :=
+                                unary_append_closed prefixCarrier functionCarrier
+                              have prefixedQuotientCarrier : UnaryHistory (append p q) :=
+                                unary_append_closed prefixCarrier quotientCarrier
+                              have prefixedFunctionLedger :
+                                  Cont (append p f) h (append p q) := by
+                                apply cont_intro
+                                exact
+                                  (congrArg (append p) functionLedger).trans
+                                    (append_assoc p f h).symm
+                              have prefixedDistanceCarrier :
+                                  UnaryHistory (append h (append p q)) :=
+                                unary_append_closed stepCarrier prefixedQuotientCarrier
+                              exact
+                                And.intro prefixedFunctionCarrier
+                                  (And.intro pointCarrier
+                                    (And.intro stepNonzero
+                                      (And.intro prefixedQuotientCarrier
+                                        (And.intro prefixedFunctionLedger
+                                          (And.intro stepCarrier
+                                            (And.intro prefixedDistanceCarrier
+                                              (cont_intro rfl)))))))
+
 theorem DerivativeMetricQuotient_distance_result_nonempty {f z h q dist : BHist} :
     DerivativeMetricQuotient f z h q dist -> hsame dist BHist.Empty -> False := by
   intro quotient sameDist
@@ -252,6 +293,37 @@ theorem DerivativeMetricQuotient_result_deterministic {f z h q q' dist dist' : B
                                                                 (And.intro sameQuotient
                                                                   sameDistance))))
 
+theorem DerivativeMetricQuotient_hsame_step_result_deterministic
+    {f z h h' q q' dist dist' : BHist} :
+    hsame h h' -> DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient f z h' q' dist' ->
+        hsame q q' ∧ hsame dist dist' ∧ Cont f h q ∧ Cont f h' q' ∧
+          Cont h q dist ∧ Cont h' q' dist' := by
+  intro sameStep left right
+  have leftFunctionLedger : Cont f h q :=
+    left.right.right.right.right.left
+  have rightFunctionLedger : Cont f h' q' :=
+    right.right.right.right.right.left
+  have rightFunctionAtLeftStep : Cont f h q' :=
+    cont_hsame_transport (hsame_refl f) (hsame_symm sameStep) (hsame_refl q')
+      rightFunctionLedger
+  have sameQuotient : hsame q q' :=
+    cont_deterministic leftFunctionLedger rightFunctionAtLeftStep
+  have leftMetricLedger : Cont h q dist :=
+    left.right.right.right.right.right.right.right
+  have rightMetricLedger : Cont h' q' dist' :=
+    right.right.right.right.right.right.right.right
+  have rightMetricAtLeftInputs : Cont h q dist' :=
+    cont_hsame_transport (hsame_symm sameStep) (hsame_symm sameQuotient)
+      (hsame_refl dist') rightMetricLedger
+  have sameDistance : hsame dist dist' :=
+    cont_deterministic leftMetricLedger rightMetricAtLeftInputs
+  exact And.intro sameQuotient
+    (And.intro sameDistance
+      (And.intro leftFunctionLedger
+        (And.intro rightFunctionLedger
+          (And.intro leftMetricLedger rightMetricLedger))))
+
 theorem DerivativeMetricQuotient_same_quotient_step_distance_deterministic
     {f z h h' q dist dist' : BHist} :
     DerivativeMetricQuotient f z h q dist ->
@@ -295,6 +367,18 @@ theorem DerivativeMetricQuotient_visible_step_same_quotient_absurd
     (DerivativeMetricQuotient_same_quotient_step_distance_deterministic left right).left
   exact not_hsame_e0_e1 sameStep
 
+theorem DerivativeMetricQuotient_visible_step_hsame_quotient_absurd
+    {f z p q out out' dist0 dist1 : BHist} :
+    hsame out out' ->
+      DerivativeMetricQuotient f z (BHist.e0 p) out dist0 ->
+        DerivativeMetricQuotient f z (BHist.e1 q) out' dist1 -> False := by
+  intro sameQuotient left right
+  have rightAtLeftQuotient : DerivativeMetricQuotient f z (BHist.e1 q) out dist1 :=
+    (DerivativeMetricQuotient_hsame_transport
+      (hsame_refl f) (hsame_refl z) (hsame_refl (BHist.e1 q))
+      (hsame_symm sameQuotient) (hsame_refl dist1) right).left
+  exact DerivativeMetricQuotient_visible_step_same_quotient_absurd left rightAtLeftQuotient
+
 theorem DerivativeMetricQuotient_distance_visible_context_readback {p r f z h q dist core : BHist} :
     DerivativeMetricQuotient f z h q dist ->
       hsame (append (append p dist) r) (append (append p core) r) ->
@@ -325,5 +409,48 @@ theorem DerivativeMetricQuotient_quotient_visible_context_readback
     (fun coreEmpty =>
       (DerivativeMetricQuotient_quotient_distance_nonempty quotient).left
         (hsame_trans sameCore coreEmpty))
+
+theorem DerivativeMetricQuotient_step_visible_context_readback
+    {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p h) r) (append (append p core) r) ->
+        hsame h core ∧ UnaryHistory core ∧ (hsame core BHist.Empty -> False) := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append h r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p h r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame h core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  have coreCarrier : UnaryHistory core :=
+    unary_transport quotient.right.right.right.right.right.left sameCore
+  exact And.intro sameCore
+    (And.intro coreCarrier
+      (fun coreEmpty => quotient.right.right.left (hsame_trans sameCore coreEmpty)))
+
+theorem DerivativeMetricQuotient_point_visible_context_readback
+    {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p z) r) (append (append p core) r) ->
+        hsame z core ∧ UnaryHistory core := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append z r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p z r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame z core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore (unary_transport quotient.right.left sameCore)
+
+theorem DerivativeMetricQuotient_function_visible_context_readback
+    {p r f z h q dist core : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      hsame (append (append p f) r) (append (append p core) r) ->
+        hsame f core ∧ UnaryHistory core := by
+  intro quotient sameVisible
+  have sameNested : hsame (append p (append f r)) (append p (append core r)) :=
+    hsame_trans (hsame_symm (append_assoc p f r))
+      (hsame_trans sameVisible (append_assoc p core r))
+  have sameCore : hsame f core :=
+    (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
+  exact And.intro sameCore (unary_transport quotient.left sameCore)
 
 end BEDC.Derived.DerivativeUp

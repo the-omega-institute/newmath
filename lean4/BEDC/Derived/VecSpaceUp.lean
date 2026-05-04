@@ -173,6 +173,19 @@ theorem VecSpaceSingletonSmul_classifier_empty_iff {r m t : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro targetEmpty (hsame_symm targetEmpty))
 
+theorem VecSpaceSingletonSmul_image_pullback_iff {r m n : BHist} :
+    hsame m BHist.Empty ->
+      (VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) n <->
+        VecSpaceSingletonClassifier m n) := by
+  intro carrierM
+  constructor
+  · intro classified
+    exact And.intro carrierM
+      (And.intro classified.right.left (hsame_trans carrierM classified.right.right))
+  · intro classified
+    exact And.intro (hsame_refl BHist.Empty)
+      (And.intro classified.right.left (hsame_symm classified.right.left))
+
 theorem VecSpaceSingletonSmul_empty_result_readback {r m n : BHist} :
     VecSpaceSingletonCarrier m ->
       VecSpaceSingletonClassifier (VecSpaceSingletonSmul r m) n ->

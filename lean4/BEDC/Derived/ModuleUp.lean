@@ -57,6 +57,40 @@ theorem ModuleSingletonSmul_classifier_readback_iff {r m n : BHist} :
         (And.intro classified.right.left
           (hsame_trans (hsame_symm carrierM) classified.right.right))
 
+theorem ModuleSingletonSmul_graph_empty_exact_iff {r m n : BHist} :
+    hsame (ModuleSingletonSmul r m) BHist.Empty ∧
+      (((ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+        ModuleSingletonClassifier (ModuleSingletonSmul r m) n) ↔
+          ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n)) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro graph
+      have endpoints :
+          hsame (ModuleSingletonSmul r m) BHist.Empty ∧ hsame n BHist.Empty :=
+        Iff.mp ModuleSingletonClassifier_empty_endpoints_iff graph.right.right
+      exact And.intro graph.left (And.intro graph.right.left endpoints.right)
+    · intro carriers
+      have classified : ModuleSingletonClassifier (ModuleSingletonSmul r m) n :=
+        Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+          (And.intro (hsame_refl BHist.Empty) carriers.right.right)
+      exact And.intro carriers.left (And.intro carriers.right.left classified)
+
+theorem ModuleSingletonSmul_image_empty_endpoint_iff {h : BHist} :
+    (Exists (fun r : BHist => Exists (fun m : BHist =>
+      ModuleSingletonCarrier m /\ hsame h (ModuleSingletonSmul r m)))) <->
+      hsame h BHist.Empty := by
+  constructor
+  · intro image
+    cases image with
+    | intro _r moduleImage =>
+        cases moduleImage with
+        | intro _m data =>
+            exact data.right
+  · intro carrier
+    exact Exists.intro BHist.Empty
+      (Exists.intro h (And.intro carrier carrier))
+
 theorem singleton_empty_history_module_laws :
     SemanticNameCert ModuleSingletonCarrier ModuleSingletonCarrier ModuleSingletonCarrier
       ModuleSingletonClassifier ∧
@@ -126,6 +160,20 @@ theorem singleton_empty_history_module_laws :
               exact emptyClassified
             · intro m carrierM
               exact And.intro emptyCarrier (And.intro carrierM (hsame_symm carrierM))
+
+theorem ModuleSingletonSmul_image_semanticNameCert :
+    SemanticNameCert ModuleSingletonCarrier (fun h : BHist => Exists (fun r : BHist =>
+      Exists (fun m : BHist => ModuleSingletonCarrier m /\ hsame h (ModuleSingletonSmul r m))))
+      ModuleSingletonCarrier ModuleSingletonClassifier := by
+  exact {
+    core := singleton_empty_history_module_laws.left.core
+    pattern_sound := by
+      intro h carrier
+      exact Iff.mpr ModuleSingletonSmul_image_empty_endpoint_iff carrier
+    ledger_sound := by
+      intro _h carrier
+      exact carrier
+  }
 
 theorem singleton_empty_history_module_action_fields :
     let Carrier : BHist -> Prop := fun h => hsame h BHist.Empty

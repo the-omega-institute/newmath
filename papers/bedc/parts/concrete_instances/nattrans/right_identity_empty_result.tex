@@ -1,0 +1,88 @@
+\begin{theorem}[NatTrans prefix component empty object exactness]
+\label{thm:nattrans-prefix-empty-object}
+For histories $p,q,\eta$, a prefix component over the empty object is exactly
+unary source and target prefixes together with the unprefixed category
+hom-carrier from $p$ to $q$:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,\emp,\eta)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge
+\mathsf{CategoryHomCarrier}(p,q,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier at the empty object. The two endpoints are
+$\mathsf{append}(p,\emp)$ and $\mathsf{append}(q,\emp)$, which reduce to $p$
+and $q$ by the right unit law for append. Category hom-carrier transport across
+those endpoint equalities gives the unprefixed carrier, and the converse
+transports it back while packaging the empty object carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_object\_iff}
+
+\begin{theorem}[NatTrans prefix component right identity empty result]
+\label{thm:nattrans-prefix-component-right-identity-empty-result}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, if $right$ is obtained
+by composing $\eta$ with the empty right identity, then $right$ is empty
+exactly when $\eta$ is empty and the two prefixes agree:
+$$
+\HSame(right,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\land \HSame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Right-identity closure identifies $right$ with $\eta$ and transports the
+prefix-component carrier to $right$. If $right$ is empty, this transported
+carrier becomes an empty prefix component, so the empty-identity exactness
+theorem gives $\HSame(p,q)$; the same right-identity comparison gives
+$\HSame(\eta,\emp)$.
+
+Conversely, if $\eta$ is empty, the displayed continuation has empty source
+and empty right tail. Continuation determinacy compares it with the BEDC
+right-unit continuation at $\emp$, identifying $right$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_identity\_empty\_result\_iff}
+
+\begin{theorem}[NatTrans prefix component left identity empty result]
+\label{thm:nattrans-prefix-component-left-identity-empty-result}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, if $left$ is obtained
+by composing the empty left identity before $\eta$, then $left$ is empty
+exactly when $\eta$ is empty and the two prefixes agree:
+$$
+\HSame(left,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\land \HSame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Left-identity closure identifies $left$ with $\eta$ and transports the
+prefix-component carrier to $left$. If $left$ is empty, this transported
+carrier becomes an empty prefix component, so the empty-identity exactness
+theorem gives $\HSame(p,q)$; the same left-identity comparison gives
+$\HSame(\eta,\emp)$.
+
+Conversely, if $\eta$ is empty, the displayed continuation has empty left tail
+and empty source component. The BEDC left-unit result identifies $left$ with
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_left\_identity\_empty\_result\_iff}
+
+\begin{theorem}[NatTrans prefix component empty component prefix exactness]
+\label{thm:nattrans-prefix-component-carrier-component-empty-prefix-iff}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, the component history is
+empty exactly when the two prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)
+\Longrightarrow
+\bigl(\HSame(\eta,\emp)\Longleftrightarrow\HSame(p,q)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Project the underlying category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(q,a)$. The category empty-morphism
+endpoint theorem turns $\eta\hsame\emp$ into equality of those endpoints, and
+right cancellation removes the shared object suffix $a$. Conversely, prefix
+equality lifts through the common object suffix and the category endpoint
+theorem identifies $\eta$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_component\_empty\_prefix\_iff}

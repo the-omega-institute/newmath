@@ -140,6 +140,42 @@ displayed representations, these witnesses rebuild
 $\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$.
 \end{proof}
 
+\begin{theorem}[Singleton product displayed pair ledger endpoint exactness]
+\label{thm:prod-singleton-displayed-pair-ledger-endpoint-exactness}
+Fix histories $l_0,r_0:\mathsf{BHist}$, and define
+$L(x):\Longleftrightarrow\hsame(x,l_0)$ and
+$R(y):\Longleftrightarrow\hsame(y,r_0)$. With displayed pair ledger
+$D(h):\Longleftrightarrow
+\exists l,r:\mathsf{BHist}.\;\mathsf{ProdPairRep}_{L,R}(h,l,r)$, every
+history $h:\mathsf{BHist}$ satisfies
+$$
+D(h)\Longleftrightarrow\hsame(h,\mathsf{append}(l_0,r_0)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack $D(h)$ to obtain histories $l,r$ and a
+displayed representation $\mathsf{ProdPairRep}_{L,R}(h,l,r)$. Its singleton
+source clauses give $\hsame(l,l_0)$ and $\hsame(r,r_0)$, while its
+continuation clause presents $h$ from the displayed components.
+
+Transport the displayed components to $l_0,r_0$ and compare the transported
+continuation with the canonical continuation for
+$\mathsf{append}(l_0,r_0)$. The fixed-pair endpoint determinism of
+Theorem~\ref{thm:prod-pair-rep-determinism}, applied after this component
+transport, yields $\hsame(h,\mathsf{append}(l_0,r_0))$.
+
+For the reverse direction, start from the canonical displayed pair
+representation of $\mathsf{append}(l_0,r_0)$ with components $l_0,r_0$. Given
+$\hsame(h,\mathsf{append}(l_0,r_0))$, symmetry converts it to the orientation
+needed to move that representation back to $h$.
+
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} carries the canonical
+representation along this endpoint witness, keeping the displayed components
+$l_0,r_0$. The resulting
+$\mathsf{ProdPairRep}_{L,R}(h,l_0,r_0)$ supplies the existential witnesses for
+$D(h)$.
+\end{proof}
+
 \begin{theorem}[Product componentwise certificate refines the checked envelope]
 \label{thm:prod-componentwise-certificate-refines-checked-envelope}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let

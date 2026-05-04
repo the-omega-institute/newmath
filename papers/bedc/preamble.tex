@@ -329,6 +329,23 @@
 \newcommand{\paperCertStr}{\mathsf{paperCert}}
 \newcommand{\checkedCertStr}{\mathsf{checkedCert}}
 \newcommand{\bridgeCertStr}{\mathsf{bridgeCert}}
+
+% Per-chapter closure marker. Place at the END of a `<X>Up` namecert chapter
+% once every NameCert clause (carrier / classifier / stability / exactness
+% / ledger fields) has a `\leanchecked` resolving to a real Lean target.
+% Renders a visible AcceptGate-style line and is greppable by
+% `lean4/scripts/critical_path.py` (regex `\\closureat\{...\}\{\\?\\w+\}`).
+% A chapter with `\closureat{<X>Up}{\checkedCertStr}` (or `\bridgeCertStr`)
+% is considered CLOSED — critical_path excludes it from `top` so codex
+% rounds attack still-open horizons. Removing or downgrading the marker
+% is a deliberate downgrade and reopens the chapter.
+%
+% Usage:
+%   \closureat{\FieldUp}{\checkedCertStr}
+%     → purple   Theory closed:  AcceptGate(NameCert_{Field^↑})(checkedCert)
+\newcommand{\closureat}[2]{%
+  \par\noindent{\small\color{purple!55!black}%
+    \textsf{Theory closed:}\quad$\AcceptGate(\NameCert_{#1})(#2)$}\par}
 \newcommand{\StdBridge}{\mathsf{StandardBridge}}
 \newcommand{\encodeN}{\mathsf{encode}}
 \newcommand{\decodeN}{\mathsf{decode}}

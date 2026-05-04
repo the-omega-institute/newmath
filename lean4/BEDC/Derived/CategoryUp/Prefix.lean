@@ -43,6 +43,22 @@ theorem CategoryHomCarrier_unary_prefix_iff {p a b f : BHist} :
                           (And.intro morphismCarrier
                             (cont_intro (append_assoc p a f).symm)))
 
+theorem CategoryHomCarrier_unary_prefix_comm_transport {p q a b f : BHist} :
+    UnaryHistory p -> UnaryHistory q ->
+      CategoryHomCarrier (append p (append q a)) (append p (append q b)) f ->
+        CategoryHomCarrier (append q (append p a)) (append q (append p b)) f := by
+  intro prefixCarrier suffixCarrier displayed
+  have suffixDisplayed :
+      CategoryHomCarrier (append q a) (append q b) f :=
+    (CategoryHomCarrier_unary_prefix_iff.mp displayed).right
+  have baseCarrier : CategoryHomCarrier a b f :=
+    (CategoryHomCarrier_unary_prefix_iff.mp suffixDisplayed).right
+  have prefixDisplayed :
+      CategoryHomCarrier (append p a) (append p b) f :=
+    CategoryHomCarrier_unary_prefix_iff.mpr (And.intro prefixCarrier baseCarrier)
+  exact CategoryHomCarrier_unary_prefix_iff.mpr
+    (And.intro suffixCarrier prefixDisplayed)
+
 theorem CategoryHomCarrier_unary_prefix_comp_public_readback {p a b c f g fg : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g -> Cont f g fg ->
       CategoryHomCarrier (append p a) (append p c) fg ∧

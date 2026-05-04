@@ -1,0 +1,67 @@
+\begin{theorem}[Group singleton contextual triple continuation product-unit exact visibility]
+\label{thm:group-singleton-contextual-triple-continuation-product-unit-exact-visibility}
+For histories $L_0,R_0,L_1,R_1,P,Q,S,T,U,V,W,X,r:\mathsf{BHist}$, if
+$A_{\emp}(L_0)$, $A_{\emp}(R_0)$, $A_{\emp}(L_1)$, $A_{\emp}(R_1)$,
+$\ContR(P,Q,S)$, $\ContR(S,T,U)$, and $\ContR(U,V,W)$, then
+$$
+\begin{array}{c}
+R_{\emp}(\mathsf{append}(\mathsf{append}(L_0,\mathsf{append}(W,X)),L_1),
+\mathsf{append}(\mathsf{append}(R_0,\emp),R_1))\\
+\Longleftrightarrow\\
+\bigl(A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V)\land
+A_{\emp}(X)\bigr)\land
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(U,V,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(U,V,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group contextual three-step
+continuation product-unit exact visibility; BEDC source concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$ plus two context pairs, three $\ContR$
+witnesses, visible continuation endpoints, and append; carrier $A_{\emp}$;
+classifier $R_{\emp}$; stability from two-sided context cancellation, triple
+continuation product-unit coverage, terminal collapse, and terminal classifier
+packaging; ledger the two hidden context pairs, three continuation witnesses,
+suffix endpoint, and visible result seed $r$; core theorem list
+\autoref{thm:group-singleton-classifier-two-sided-context-cancel} and
+\autoref{thm:group-singleton-triple-continuation-product-unit-coverage-and-visibility};
+exactness the displayed iff package; downstream consumer $\QuotientGroupUp$
+path compression; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the displayed contextual classifier. Apply
+\autoref{thm:group-singleton-classifier-two-sided-context-cancel} with
+$Q=\mathsf{append}(W,X)$ and $S=\emp$ to the four context carrier witnesses.
+This strips the hidden contexts and reduces the classifier to
+$R_{\emp}(\mathsf{append}(W,X),\emp)$.
+
+Apply
+\autoref{thm:group-singleton-triple-continuation-product-unit-coverage-and-visibility}
+to the three continuation witnesses. Its classifier direction supplies the
+five carrier factors $A_{\emp}(P)$, $A_{\emp}(Q)$, $A_{\emp}(T)$,
+$A_{\emp}(V)$, and $A_{\emp}(X)$; its visibility clause supplies the six
+visible-result exclusions for the same endpoint seed $r$.
+
+Conjoining these facts gives the full right-hand visible-classification
+package. No extra hidden context data remains, because all four context
+carriers were consumed by the cancellation step.
+
+For the reverse direction, assume the right-hand package. Its carrier component
+contains $A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V)\land
+A_{\emp}(X)$, which is exactly the carrier side of the triple continuation
+product-unit coverage theorem.
+
+Use the reverse classifier direction of
+\autoref{thm:group-singleton-triple-continuation-product-unit-coverage-and-visibility}
+with $\ContR(P,Q,S)$, $\ContR(S,T,U)$, and $\ContR(U,V,W)$ to reconstruct
+$R_{\emp}(\mathsf{append}(W,X),\emp)$. The six exclusion clauses remain part
+of the package but are not needed to rebuild this unwrapped classifier.
+
+Finally apply the reverse direction of
+\autoref{thm:group-singleton-classifier-two-sided-context-cancel} with the four
+context carrier witnesses. This wraps the unwrapped classifier by the left and
+right context pairs and gives the displayed contextual classifier.
+\end{proof}

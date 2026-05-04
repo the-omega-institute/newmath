@@ -1,0 +1,160 @@
+\section{The certificate}
+
+\begin{definition}[NatTrans source specification]
+\label{def:nattrans-source-specification}
+The source is two certified functors sharing the same certified source and target categories.
+\end{definition}
+
+\begin{definition}[NatTrans pattern specification]
+\label{def:nattrans-pattern-specification}
+The pattern is component-family formation with one codomain morphism per source object.
+\end{definition}
+
+\begin{definition}[NatTrans classifier specification]
+\label{def:nattrans-classifier-specification}
+The classifier relates natural transformations componentwise by the target category morphism classifier.
+\end{definition}
+
+\begin{definition}[NatTrans prefix component classifier]
+\label{def:nattrans-prefix-component-classifier}
+For fixed prefixes $p,q$ and a fixed source object history $a$, the displayed
+component classifier is
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)
+$$
+when $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ and
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\theta)$ both hold and
+$\eta\hsame\theta$. Thus a classified component is not only an equality
+witness between histories; it also carries both displayed endpoints in the
+target-category hom-carrier interface.
+\end{definition}
+\leandef{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier}
+
+\begin{theorem}[NatTrans prefix component classifier equivalence fields]
+\label{thm:nattrans-prefix-component-classifier-equivalence-fields}
+For fixed prefixes $p,q$ and object history $a$, the relation
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ has the component fields
+required by the certificate:
+\begin{enumerate}
+  \item if $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ holds, then
+  $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta)$;
+  \item if $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)$
+  holds, then
+  $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\theta,\eta)$;
+  \item if $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)$
+  and $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\theta,\iota)$ hold,
+  then $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\iota)$;
+  \item if $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ and
+  $\eta\hsame\eta'$ hold, then
+  $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Reflexivity packages the given component carrier twice with the reflexive
+$\hsame$ proof for $\eta$. Symmetry swaps the two carried endpoints and uses
+symmetry of $\hsame$.
+
+For transitivity, unpack the two classifier witnesses. The middle component is
+carried on both sides over the same fixed prefixes and object, and transitivity
+of $\hsame$ identifies the two outer component histories. Repack the original
+left carrier, the original right carrier, and the composite $\hsame$ witness.
+
+For carrier transport, unfold
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ to the underlying
+$\mathsf{CategoryHomCarrier}$ component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(q,a)$. The source and target endpoint fields are unchanged;
+the displayed component field transports along the supplied
+$\eta\hsame\eta'$ witness, yielding the carrier for $\eta'$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_equivalence\_fields}
+
+\begin{theorem}[NatTrans prefix component classifier semantic name certificate]
+\label{thm:nattrans-prefix-component-classifier-semantic-namecert}
+If the empty component inhabits
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)$, then the displayed
+component carrier, used simultaneously as source, pattern, and ledger policy,
+together with
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ forms a semantic name
+certificate.
+\end{theorem}
+\begin{proof}
+The empty component gives the carrier witness. Reflexivity, symmetry, and
+transitivity are obtained by unpacking the fixed prefix and object fields and
+using reflexivity, symmetry, and transitivity of $\hsame$ on displayed
+components. Carrier transport follows from the classifier's second carried
+$\mathsf{CategoryHomCarrier}$ endpoint over
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$. Since source, pattern, and
+ledger are the same concrete component carrier, the two semantic soundness maps
+are identity projections.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_semanticNameCert}
+
+\begin{theorem}[NatTrans prefix component classifier vertical composition congruence]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-congruence}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta',c,c'$, if
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$,
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$,
+$\ContR(\eta,\theta,c)$, and $\ContR(\eta',\theta',c')$, then
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two classifier witnesses. The first gives component carriers for
+$\eta$ and $\eta'$ from prefix $p$ to prefix $q$ at $a$, together with
+$\eta\hsame\eta'$. The second gives component carriers for $\theta$ and
+$\theta'$ from prefix $q$ to prefix $r$ at $a$, together with
+$\theta\hsame\theta'$.
+
+Apply
+Theorem~\ref{thm:nattrans-prefix-component-carrier-vert-comp-closed} to the
+carriers for $\eta$ and $\theta$ and the witness $\ContR(\eta,\theta,c)$.
+This gives a component carrier for $c$ from prefix $p$ to prefix $r$ at $a$.
+Apply the same closure theorem to $\eta'$, $\theta'$, and
+$\ContR(\eta',\theta',c')$ to obtain the matching carrier for $c'$.
+
+It remains to identify the two composite histories. The finite-kernel
+continuation $\hsame$-congruence theorem transports the continuation witness
+for $\eta$ and $\theta$ across $\eta\hsame\eta'$ and
+$\theta\hsame\theta'$, and continuation result determinacy compares the
+transported composite with the displayed witness for $c'$. Hence
+$c\hsame c'$.
+
+Repack the carrier for $c$, the carrier for $c'$, and the resulting
+$c\hsame c'$ witness into
+$\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(c,c')$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_congr}
+
+\begin{definition}[NatTrans stability certificate]
+\label{def:nattrans-stability-certificate}
+The stability certificate consists of:
+\begin{enumerate}
+  \item componentwise reflexivity
+  \item componentwise symmetry
+  \item componentwise transitivity
+  \item component carrier transport along $\hsame$ of displayed component histories
+  \item naturality square validity for every source morphism
+  \item stability of naturality under component classifier replacement
+  \item vertical composition closure
+  \item identity natural transformation closure
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[NatTrans ledger policy]
+\label{def:nattrans-ledger-policy}
+Record the functor ledgers, component morphism ledgers, and naturality derivations.
+\end{definition}
+
+\begin{definition}[\(\NatTransUp\) certificate obligations]
+\label{def:nattrans-certificate-obligations}
+The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\NatTransUp\).
+\end{definition}
+
+\paragraph{Primitive boundary.}
+\(\NatTransUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{remark}[Zero-axiom encoding note]
+\label{rem:nattrans-zero-axiom-note}
+Avoids funext by componentwise classifier sameness.
+\end{remark}

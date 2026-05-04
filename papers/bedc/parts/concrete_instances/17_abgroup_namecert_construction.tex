@@ -140,7 +140,8 @@ obligations for this classifier together with commutativity; ledger
 constant-operation provenance; core theorem
 Theorem~\ref{thm:singleton-empty-history-abgroup-laws}; exactness the singleton
 endpoint classification $A_{\emp}(x)$; standard bridge the one-object abelian
-group; and status $\mathsf{ProofTarget}$.
+group; certificate site \autoref{thm:singleton-empty-history-abgroup-namecert};
+and status $\mathsf{CheckedCert}$.
 \end{definition}
 
 \begin{theorem}[Singleton empty-history abelian group laws]
@@ -174,15 +175,16 @@ the classifier is assembled from $A_{\emp}(\emp)$, the endpoint carrier
 hypothesis, and the corresponding $\hsame$ witness obtained from the singleton
 carrier definition.
 \end{proof}
-\leanchecked{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
 
 \begin{theorem}[Concrete singleton empty-history $\AbGroupUp$ naming certificate]
 \label{thm:singleton-empty-history-abgroup-namecert}
 The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ of
-\autoref{def:singleton-empty-history-abgroup-instance} supplies the source,
-pattern, classifier, stability, commutativity, ledger, and exactness rows for a
-concrete $\NameCert$ licensing $\AbGroupUp$ over the singleton empty-history
-carrier $A_{\emp}$.
+\autoref{def:singleton-empty-history-abgroup-instance} supplies a checked
+package whose $\mathsf{SemanticNameCert}$ row is carried by
+$A_{\emp}$ and $\rho_{\emp}$ and whose singleton operation rows are
+$(\mu_{\emp},e_{\emp},\iota_{\emp})$, with source, stability, commutativity,
+ledger, and exactness rows forming a concrete $\NameCert$ licensing
+$\AbGroupUp$ over the singleton empty-history carrier $A_{\emp}$.
 \end{theorem}
 \begin{proof}
 The source row is $\mathsf{BHist}$ restricted by $A_{\emp}$, and the pattern row
@@ -204,6 +206,7 @@ already exposed by the carrier-aware classifier: a classified endpoint is
 precisely an endpoint in the singleton empty-history carrier, so the public
 $\AbGroupUp$ name has no additional hidden carrier cases.
 \end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
 
 Thus the AbGroup schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and operations, so Lean formalization can target this BHist-anchored
@@ -425,6 +428,81 @@ records that the resulting classifier is stable on the centralizer carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_collapse\_from\_empty\_unit}
 
+\begin{theorem}[AbGroup total centralizer-normalizer orbit collapse]
+\label{thm:abgroup-total-centralizer-normalizer-orbit-collapse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the
+$\GroupUp$ associativity, unit, multiplication-congruence,
+inverse-congruence, and two-sided inverse laws, plus $\AbGroupUp$
+commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$, $N_a$,
+$\mathsf{Conj}_s$, and $\sim_{N_a}$ be the centralizer, normalizer, action,
+and orbit relation from \autoref{def:group-centralizer-carrier},
+\autoref{def:group-centralizer-normalizer-carrier}, and
+\autoref{def:group-centralizer-normalizer-orbit-relation}. Then for all
+histories $x,y:\mathsf{BHist}$,
+$$
+x\sim_{N_a}y \Longleftrightarrow \hsame(x,y).
+$$
+The ten-field fit is: traditional target abelian normalizer orbits over the
+whole carrier; BEDC source $\AbGroupUp$ plus the $\GroupUp$
+centralizer-normalizer orbit relation; carrier $\mathsf{BHist}$; classifier
+$\sim_{N_a}$ exact against $\hsame$; stability from total centralizer and the
+carried orbit collapse; ledger the two automatically supplied centralizer
+endpoint witnesses; core theorem list
+\autoref{thm:abgroup-centralizer-commutator-collapse} and
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse}; exactness
+total-carrier orbit iff $\hsame$; standard bridge ordinary abelian
+normalizer-orbit collapse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First obtain centralizer carriedness for the chosen endpoints. The totality
+row of \autoref{thm:abgroup-centralizer-commutator-collapse}, read at the
+fixed element $a$, gives $Z_a(x)$ and $Z_a(y)$ for arbitrary
+$x,y:\mathsf{BHist}$.
+
+For the forward direction, combine the orbit witness $x\sim_{N_a}y$ with these
+two centralizer endpoint witnesses. Apply
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse} in its forward
+direction to conclude $\hsame(x,y)$.
+
+For the reverse direction, combine the assumed $\hsame(x,y)$ with the same
+two endpoint witnesses. Apply
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse} in its reverse
+direction to package the required orbit witness $x\sim_{N_a}y$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_total\_collapse\_from\_empty\_unit}
+
+\begin{theorem}[AbGroup total centralizer normalizer orbit fiber determinacy]
+\label{thm:abgroup-centralizer-normalizer-orbit-total-fiber-determinacy}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the
+$\GroupUp$ associativity, unit, multiplication-congruence, inverse-congruence,
+and two-sided inverse laws, plus $\AbGroupUp$ commutativity under $\hsame$, fix
+$a:\mathsf{BHist}$. Let $Z_a$, $N_a$, $\mathsf{Conj}_s$, and $\sim_{N_a}$ be
+the centralizer, normalizer, action, and orbit relation from the existing
+centralizer-normalizer definitions. For all histories $x,y,z:\mathsf{BHist}$,
+$$
+x\sim_{N_a}y\land x\sim_{N_a}z \Longrightarrow \hsame(y,z).
+$$
+The ten-field fit is: traditional target abelian normalizer-orbit fiber
+determinacy over the whole carrier; BEDC source $\AbGroupUp$ plus the
+$\GroupUp$ normalizer orbit relation; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from total orbit collapse plus symmetry and transitivity
+of $\hsame$; ledger the two normalizer witnesses over one anchor; core theorem
+list \autoref{thm:abgroup-total-centralizer-normalizer-orbit-collapse} and the
+$\hsame$ equivalence laws; exactness predicate same-anchor orbit fibers
+collapse to one classifier class; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:abgroup-total-centralizer-normalizer-orbit-collapse} to the
+first orbit witness $x\sim_{N_a}y$ to obtain $\hsame(x,y)$. Apply the same
+collapse theorem to the second orbit witness $x\sim_{N_a}z$ to obtain
+$\hsame(x,z)$.
+
+The first comparison reverses by symmetry of $\hsame$, giving $\hsame(y,x)$.
+Transitivity of $\hsame$ composes $\hsame(y,x)$ with $\hsame(x,z)$ and yields
+the required classifier equality $\hsame(y,z)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_total\_fiber\_determinacy\_from\_empty\_unit}
+
 \begin{theorem}[AbGroup centralizer normalizer orbit fiber determinacy]
 \label{thm:abgroup-centralizer-normalizer-orbit-fiber-determinacy}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
@@ -565,6 +643,7 @@ $$
 Finally apply group right cancellation, Theorem~\ref{thm:group-right-cancellation},
 to the common right factor $d$, yielding $\hsame(b,u)$.
 \end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_middle\_four\_double\_cancel\_from\_empty\_unit}
 
 \begin{theorem}[AbGroup transported middle-four double cancellation]
 \label{thm:abgroup-middle-four-transported-double-cancel}
@@ -600,6 +679,7 @@ $$
 Finally apply Theorem~\ref{thm:group-right-cancellation} to remove the common
 right factor $d$, yielding $\hsame(b,u)$.
 \end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.abgroup\_mul\_middle\_four\_transported\_double\_cancel\_from\_empty\_unit}
 
 The ten-field fit is: traditional target transported abelian double
 cancellation; BEDC source $\AbGroupUp$ over $\mathsf{BHist}$; carrier
@@ -655,3 +735,4 @@ By \autoref{def:abgroup-stability-certificate}, the stability certificate contai
 
 The retained carrier, source, pattern, classifier, stability, and ledger data are exactly the obligations named in \autoref{def:group-certificate-obligations}. Since each retained operation and the classifier are copied from the original \(\AbGroupUp(M)\) certificate, the resulting \(\GroupUp(M)\) source package has the same carrier operation, identity, inverse, and classifier.
 \end{proof}
+\closureat{\AbGroupUp}{\checkedCertStr}

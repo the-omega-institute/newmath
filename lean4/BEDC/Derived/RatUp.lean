@@ -92,6 +92,19 @@ theorem PositiveUnaryDenominator_e0_absurd {tail : BHist} :
   cases positive with
   | intro witness data =>
       exact not_hsame_e0_e1 data.left
+theorem PositiveUnaryDenominator_append_e0_tail_absurd {d tail : BHist} :
+    PositiveUnaryDenominator (BEDC.FKernel.Cont.append d (BHist.e0 tail)) -> False := by
+  intro positive
+  exact unary_no_zero_extension
+    (unary_append_right_factor (PositiveUnaryDenominator_unary_and_nonempty positive).left)
+theorem PositiveUnaryDenominator_append_e1_tail_iff_unary_append {d tail : BHist} :
+    PositiveUnaryDenominator (BEDC.FKernel.Cont.append d (BHist.e1 tail)) <->
+      BEDC.FKernel.Unary.UnaryHistory (BEDC.FKernel.Cont.append d tail) := by
+  constructor
+  · intro positive
+    exact (PositiveUnaryDenominator_unary_and_nonempty positive).left
+  · intro compositeUnary
+    exact PositiveUnaryDenominator_e1_iff_unary.mpr compositeUnary
 theorem PositiveUnaryDenominator_append_unary_left_iff {left right : BHist} :
     UnaryHistory left ->
       (PositiveUnaryDenominator (append left right) ↔
@@ -158,7 +171,7 @@ theorem RatCarrier_of_int_positive_denominator {sign : BEDC.FKernel.Mark.BMark}
                 (BEDC.FKernel.Hist.hsame_symm sameTail)
             · intro sameEmpty
               exact BEDC.FKernel.Hist.not_hsame_e1_empty
-                (BEDC.FKernel.Hist.hsame_trans
+                  (BEDC.FKernel.Hist.hsame_trans
                   (BEDC.FKernel.Hist.hsame_symm sameTail) sameEmpty)
 theorem RatCarrier_denominator_hsame_transport {sign : BEDC.FKernel.Mark.BMark}
     {numerator denominator denominator2 : BHist} :

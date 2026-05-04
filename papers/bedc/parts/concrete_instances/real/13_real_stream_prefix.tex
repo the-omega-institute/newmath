@@ -102,6 +102,39 @@ the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
 
+\begin{theorem}[Real stream prefix initial-segment coverage]
+\label{thm:real-stream-prefix-initial-segment-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and a prefix length
+$n$, the prefix witness covers exactly the finite initial segment through $n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)
+\Longleftrightarrow
+\forall k\le n,\ \mathsf{RatHistoryClassifier}(x(k),y(k)).
+$$
+Per-object certificate: traditional target finite initial segment of a rational
+observation stream; BEDC source RealUp prefix classifier over RatUp point
+classifiers; carrier the bounded index set up to $n$; classifier pointwise
+$\mathsf{RatHistoryClassifier}$; stability inherited from prefix hsame
+transport; ledger the finite bound and selected index; core theorem this block;
+exactness the displayed iff; standard bridge finite prefix of a rational
+sequence; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on $n$. At $0$, the recursive base classifier is exactly the
+rational-history classifier at index $0$, and the bounded family has only that
+index.
+
+For the successor step in the left-to-right direction, split the prefix witness
+through $n+1$ into its previous-prefix witness and its endpoint classifier. If
+$k\le n$, apply the induction hypothesis to the previous-prefix witness. If
+$k=n+1$, use the endpoint classifier.
+
+Conversely, assume the bounded family through $n+1$. The induction hypothesis
+builds the previous-prefix witness from the restriction to indices $k\le n$.
+The endpoint classifier is the bounded-family instance at $k=n+1$, and these
+two components form the successor prefix witness.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier truncation]
 \label{thm:real-stream-prefix-classifier-truncation}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
@@ -321,14 +354,14 @@ $\forall n,\ \hsame(x(n),x'(n))$ and
 $\forall n,\ \hsame(y(n),y'(n))$, then
 $$
 \mathsf{RealStreamClassifier}(x,y)
-\Longrightarrow
+\Longleftrightarrow
 \mathsf{RealStreamClassifier}(x',y').
 $$
 \end{theorem}
 \begin{proof}
-Assume $\mathsf{RealStreamClassifier}(x,y)$. By the forward direction of
-\autoref{thm:real-stream-finite-prefix-exactness}, every finite prefix
-$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
+For the forward direction, assume $\mathsf{RealStreamClassifier}(x,y)$. By the
+forward direction of \autoref{thm:real-stream-finite-prefix-exactness}, every
+finite prefix $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
 
 For each prefix index $n$, apply
 \autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
@@ -339,6 +372,20 @@ Since the transported prefix witness is available for every $n$, the reverse
 direction of \autoref{thm:real-stream-finite-prefix-exactness} reassembles
 these finite-prefix witnesses into
 $\mathsf{RealStreamClassifier}(x',y')$.
+
+For the reverse direction, assume $\mathsf{RealStreamClassifier}(x',y')$. The
+same finite-prefix exactness theorem gives
+$\mathsf{RealStreamPrefixClassifier}(x',y',n)$ for every $n$.
+
+For each prefix index $n$, use the symmetry of the pointwise $\hsame$
+witnesses to obtain $\hsame(x'(n),x(n))$ and $\hsame(y'(n),y(n))$. Applying
+\autoref{thm:real-stream-prefix-classifier-hsame-transport} with these
+symmetric witnesses transports the prefix classifier from $(x',y')$ back to
+$(x,y)$.
+
+The reverse direction of \autoref{thm:real-stream-finite-prefix-exactness}
+then reassembles the transported finite-prefix witnesses into
+$\mathsf{RealStreamClassifier}(x,y)$.
 \end{proof}
 
 \begin{theorem}[Real stream transport with endpoint readback]
@@ -357,7 +404,8 @@ following readback package:
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-First apply \autoref{thm:real-stream-classifier-hsame-transport} to the two
+First take the forward implication from
+\autoref{thm:real-stream-classifier-hsame-transport} and apply it to the two
 pointwise $\hsame$ hypotheses and the original stream classifier. This gives
 $\mathsf{RealStreamClassifier}(x',y')$.
 
@@ -373,6 +421,32 @@ witness at that index. This recovers the endpoint
 $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
 fields of the package.
 \end{proof}
+
+\begin{theorem}[Real stream transported selected zero-endpoint exclusion]
+\label{thm:real-stream-classifier-transport-selected-e0-endpoint-absurd}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and a
+selected index $n$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+then neither transported selected endpoint can be displayed as a
+zero-extension endpoint:
+$$
+(\hsame(x'(n),\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Transport the pointwise rational-history classifier at index $n$ along the
+two streamwise $\hsame$ hypotheses. The transported classifier exposes
+positive unary denominator witnesses at $x'(n)$ and $y'(n)$. If either
+endpoint is displayed as $\Ezero$, transport the corresponding positive
+denominator witness to that zero-extension endpoint and apply the rational
+positive-denominator zero-endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e0\_endpoint\_absurd}
 
 \begin{theorem}[Real stream classifier hsame one-tail pair readback]
 \label{thm:real-stream-classifier-hsame-e1-pair-readback}
@@ -393,6 +467,58 @@ one-tail classifier exactness exposes the two unary tails and their internal
 sameness.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_hsame\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream classifier selected continuation positive denominators]
+\label{thm:real-stream-classifier-selected-continuation-positive-denominators}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, and continuation outputs $xq,yq$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then
+$$
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Close this rational classifier
+under the common unary suffix $q$, using reflexive suffix sameness. The two
+continuation displays identify the closed endpoints with $xq$ and $yq$.
+Transport the closed classifier across those displays and read the two positive
+denominators from the transported rational-history classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_positive\_denominators}
+
+\begin{theorem}[Real stream classifier selected continuation zero-endpoint exclusion]
+\label{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then neither selected continuation output can be displayed as a zero-headed
+endpoint:
+$$
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+The selected continuation positive-denominator theorem gives positive unary
+denominator witnesses for $xq$ and $yq$. Transport either witness along a
+displayed zero-headed endpoint comparison and apply positive denominator
+zero-endpoint absurdity.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e0\_endpoint\_absurd}
 
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}

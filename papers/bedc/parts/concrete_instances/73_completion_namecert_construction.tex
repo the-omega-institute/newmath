@@ -33,6 +33,22 @@ supplies the rational endpoint classifier at the selected index.
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_empty\_distance\_real\_prefix\_readback}
 
+\begin{theorem}[Completion visible-tail excludes empty distance]
+\label{thm:completion-metric-distance-e1-tail-empty-distance-absurd}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index.
+If the real stream prefix classifier holds at $n$ and the metric distance
+witness between $x_n$ and $y_n$ has visible result $\Eone(t)$, then the
+rational endpoint classifier holds between $x_n$ and $y_n$, and no empty
+metric distance witness can classify the same endpoints.
+\end{theorem}
+\begin{proof}
+Visible-tail readback supplies the rational endpoint classifier. If an empty
+distance witness also classified the same endpoints, metric result
+determinacy would identify $\Eone(t)$ with $\emp$, contradicting the BEDC
+no-confusion theorem for visible constructors.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_empty\_distance\_absurd}
+
 \begin{theorem}[Completion visible-tail transport]
 \label{thm:completion-metric-distance-witness-e1-tail-hsame-transport}
 Let $x,x',y,y'$ be real stream representatives and let $n$ be a prefix
@@ -232,3 +248,66 @@ $\hsame$ descends the comparison to the tails.
 
 \section{The certificate}
 \label{sec:completion-certificate}
+
+\begin{theorem}[Concrete CompletionUp naming certificate]\label{thm:concrete-completion-namecert}
+The $\CompletionUp$ chapter carries a concrete naming-certificate boundary for the universal
+regular-Cauchy completion of a metric naming certificate. The certificate has the following
+ten fields.
+\begin{enumerate}
+\item The traditional target is the universal regular-Cauchy completion associated to
+$\NameCert_{\MetricSpaceUp}$.
+\item The BEDC source is $\mathsf{BHist}$ equipped with $\mathsf{RealStreamPrefixClassifier}$,
+$\mathsf{MetricDistanceWitness}$, and the supplied real-completeness capstone data.
+\item The carrier consists of completion candidates, namely regular Cauchy point-name
+streams modulo the pointwise $\hsame$ transport already used by the readback rows.
+\item The classifier reads pointwise metric-distance tolerance through the real-prefix
+classifier at a selected prefix index.
+\item Stability is supplied by the checked visible-tail, empty-distance, transport,
+symmetry, determinacy, and prefix-independent readback theorems listed in this chapter.
+\item The ledger records the selected prefix index, the visible left and right contexts,
+the metric-distance witness, the Cauchy modulus, and the limit candidate.
+\item The core theorem is this certificate boundary, which repacks the carrier,
+classifier, stability, ledger, and exactness clauses for $\CompletionUp$.
+\item Exactness is finite-prefix distance readback together with limit uniqueness under
+the classifier.
+\item The standard bridge slot is carried by the conservative completion bridge, so this
+certificate exposes the paper-side boundary consumed by $\CompleteMetricUp$ and
+$\CompactMetricUp$ without asserting that bridge here.
+\item The certificate status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Endpoint coverage comes from the two direct real-prefix readback rows. Apply
+\autoref{thm:completion-metric-distance-e1-tail-real-prefix-readback} for visible
+$\Eone$ distance results, equivalently the checked
+\texttt{CompletionMetricDistanceWitness\_e1\_tail\_real\_prefix\_readback} row, and
+apply \autoref{thm:completion-empty-distance-real-prefix-readback} for empty results,
+equivalently the checked
+\texttt{CompletionMetricDistanceWitness\_empty\_distance\_real\_prefix\_readback} row.
+These two cases cover the finite-prefix distance readback used by the classifier.
+
+Carrier and classifier transport are the two $\hsame$ transport rows. Use
+\autoref{thm:completion-metric-distance-witness-e1-tail-hsame-transport} for ordinary
+visible tails and \autoref{thm:completion-metric-distance-visible-context-e1-tail-hsame-transport}
+for contextualized tails. The empty contextual case is carried by
+\autoref{thm:completion-visible-context-empty-distance-hsame-transport}, so the selected
+prefix index and its visible contexts can be moved along pointwise representative equality.
+
+Symmetry and uniqueness are read from the symmetric and deterministic rows. Apply
+\autoref{thm:completion-metric-distance-witness-e1-result-tail-deterministic},
+\autoref{thm:completion-metric-distance-witness-e1-symmetric-tail-real-prefix-readback},
+\autoref{thm:completion-visible-context-symmetric-tail-readback}, and
+\autoref{thm:completion-metric-distance-visible-context-e1-tail-deterministic} to compare
+all visible distance tails attached to the same finite-prefix classifier data.
+
+Context-insensitive readback is supplied by the prefix-independent visible-context rows.
+Apply \autoref{thm:completion-metric-distance-visible-context-e1-prefix-independent-tail-deterministic}
+and \autoref{thm:completion-metric-distance-visible-context-e1-prefix-independent-symmetric-tail-readback}
+to remove dependence on the chosen visible left and right contexts. The Cauchy modulus and
+limit candidate are then ledger fields, while limit uniqueness is the exactness condition
+read through the same classifier.
+
+This is not a one-theorem variant of any checked row: its conclusion packages the source,
+carrier, classifier, stability obligations, ledger, exactness predicate, and downstream
+bridge slots into one $\CompletionUp$ certificate boundary.
+\end{proof}

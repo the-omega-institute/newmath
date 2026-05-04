@@ -148,6 +148,57 @@ transitivity carries the cocycle witness to $s$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_hsame\_transport}
 
+\begin{theorem}[Cohomology cocycle continuation context cancel]
+\label{thm:cohomology-cocycle-continuation-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+respect $\hsame$ on histories. If $\Cont(left,h,mid)$ and
+$\Cont(mid,right,r)$ compose a two-sided context around $h$, then any
+$d$-cocycle on $r$ restricts to a $d$-cocycle on $h$.
+\end{theorem}
+\begin{proof}
+The two continuation ledgers identify $r$ with $(left\cdot h)\cdot right$.
+Associativity rewrites this as $left\cdot(h\cdot right)$, and congruence for
+$d$ transports the cocycle witness to that reassociated context. Axis context
+cancellation then removes the visible left and right factors.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_cancel}
+
+\begin{theorem}[Cohomology cocycle continuation context empty iff]
+\label{thm:cohomology-cocycle-continuation-context-empty-iff}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$\Cont(left,h,mid)$ and $\Cont(mid,right,r)$ compose a two-sided continuation
+context, then $r$ is a $d$-cocycle exactly when the three exposed components
+$left$, $h$, and $right$ are $d$-cocycles:
+$$
+d(r)\hsame\emp
+\quad\Longleftrightarrow\quad
+d(left)\hsame\emp\ \wedge\ d(h)\hsame\emp\ \wedge\ d(right)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The two continuation ledgers identify $r$ with $(left\cdot h)\cdot right$.
+Append-empty equivalence first splits the outer append into the cocycle on
+$left\cdot h$ and the cocycle on $right$, and then splits $left\cdot h$ into
+the two cocycles on $left$ and $h$. Conversely, core append closure combines
+$left$ with $h$ and then combines that result with $right$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_empty\_iff}
+
+\begin{theorem}[Cohomology cocycle continuation context e1 boundary empty absurd]
+\label{thm:cohomology-cocycle-continuation-context-e1-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$\Cont(left,h,mid)$ and $\Cont(mid,right,r)$ form a two-sided continuation
+context, any visible $\Eone$ boundary among $d(left)$, $d(h)$, and $d(right)$
+contradicts $d(r)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The continuation-context empty equivalence decomposes $d(r)\hsame\emp$ into
+empty witnesses for $d(left)$, $d(h)$, and $d(right)$. In each visible boundary
+case, symmetry and transitivity give an $\Eone$ history $\hsame\emp$, forbidden
+by constructor disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_e1\_boundary\_empty\_absurd}
+
 \begin{theorem}[Cohomology cocycle core append hsame transport]
 \label{thm:cohomology-cocycle-core-append-hsame-transport}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
@@ -180,6 +231,85 @@ Conversely, the core append closure theorem combines the two component
 cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
+
+\begin{theorem}[Cohomology cocycle continuation axis context cancel]
+\label{thm:cohomology-cocycle-continuation-axis-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$\Cont(h,k,r)$ and the two-sided contextual history
+$left\cdot(r\cdot right)$ is a $d$-cocycle, then both $h$ and $k$ are
+$d$-cocycles:
+$$
+d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The continuation witness identifies $r$ with $h\cdot k$. Axis-context
+cancellation removes the surrounding histories from the contextual cocycle and
+gives $d(h\cdot k)\hsame\emp$. Append-empty equivalence then splits this core
+cocycle into the two component cocycle rows for $h$ and $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_axis\_context\_cancel}
+
+\begin{theorem}[Cohomology cocycle continuation axis context closure]
+\label{thm:cohomology-cocycle-continuation-axis-context-closed}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+respect $\hsame$. If $\Cont(h,k,r)$ and $left$, $h$, $k$, and $right$ are
+$d$-cocycles, then the two-sided contextual continuation history
+$left\cdot(r\cdot right)$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+Core append closure first combines the cocycles on $h$ and $k$. Congruence
+for $d$ transports the continuation comparison to a cocycle on $r$. Applying
+core append closure to $r$ with $right$, and then to $left$ with that result,
+gives the displayed two-sided contextual cocycle.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_axis\_context\_closed}
+
+\begin{theorem}[Cohomology visible left boundary excludes appended cycle]
+\label{thm:cohomology-cocycle-append-left-e1-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$d(h)$ has visible boundary $\Eone(t)$, then the appended history $h\cdot k$
+cannot be a $d$-cocycle:
+$$
+d(h)\hsame\Eone(t)\Longrightarrow d(h\cdot k)\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Append preservation transports the appended cocycle to
+$\mathsf{append}(d(h),d(k))\hsame\emp$. Append-empty inversion then forces
+$d(h)\hsame\emp$. Together with the visible boundary hypothesis this identifies
+$\Eone(t)$ with $\emp$, contradicting BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_left\_e1\_boundary\_empty\_absurd}
+
+\begin{theorem}[Cohomology visible left boundary excludes appended cycle]
+\label{thm:cohomology-cocycle-append-left-visible-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$d(h)$ is $\hsame$ to either $\Ezero(t)$ or $\Eone(t)$, then
+$d(h\cdot k)\hsame\emp$ is impossible.
+\end{theorem}
+\begin{proof}
+Append preservation and append-empty inversion force $d(h)\hsame\emp$; either
+visible constructor case contradicts BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_left\_visible\_boundary\_empty\_absurd}
+
+\begin{theorem}[Cohomology visible right boundary excludes appended cycle]
+\label{thm:cohomology-cocycle-append-right-e1-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$d(k)$ has visible boundary $\Eone(t)$, then the appended history $h\cdot k$
+cannot be a $d$-cocycle:
+$$
+d(k)\hsame\Eone(t)\Longrightarrow d(h\cdot k)\hsame\emp\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Append preservation transports the appended cocycle to
+$\mathsf{append}(d(h),d(k))\hsame\emp$. Append-empty inversion then forces
+$d(k)\hsame\emp$. Together with the visible boundary hypothesis this identifies
+$\Eone(t)$ with $\emp$, contradicting BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_right\_e1\_boundary\_empty\_absurd}
 
 \begin{theorem}[Cohomology cocycle left-shift append empty equivalence]
 \label{thm:cohomology-cocycle-left-shift-append-empty-iff}
@@ -231,6 +361,25 @@ shifted cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_append\_closed}
 
+\begin{theorem}[Cohomology cocycle axis context append hsame transport]
+\label{thm:cohomology-cocycle-axis-context-append-hsame-transport}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+be congruent for $\hsame$, and let $left$ and $right$ be $d$-cocycles. If
+$left\cdot(h\cdot right)$ and $left\cdot(k\cdot right)$ are $d$-cocycles
+and
+$$
+\hsame(left\cdot((h\cdot k)\cdot right),r),
+$$
+then $r$ is a $d$-cocycle.
+\end{theorem}
+\begin{proof}
+The two-sided context append closure theorem gives the cocycle predicate for
+$left\cdot((h\cdot k)\cdot right)$. Congruence for $d$ transports the final
+$\hsame$ comparison to the differential histories, and symmetry followed by
+transitivity carries the cocycle predicate to $r$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_axis\_context\_append\_hsame\_transport}
+
 \begin{theorem}[Cohomology cocycle left-shift append closure]
 \label{thm:cohomology-cocycle-left-shift-append-closed}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$, and
@@ -281,3 +430,22 @@ cocycle predicate to $r$.
 
 \section{The certificate}
 \label{sec:cohomology-certificate}
+
+\begin{theorem}[Cohomology cocycle semantic name certificate]
+\label{thm:cohomology-cocycle-semantic-namecert}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. The
+cocycle predicate $h\mapsto d(h)\hsame\emp$, used simultaneously as source,
+pattern, and ledger policy, forms a semantic naming certificate whose
+classifier compares histories by $d(h)\hsame d(k)$.
+\end{theorem}
+\begin{proof}
+Append preservation at $\emp,\emp$ identifies $d(\emp)$ with
+$\mathsf{append}(d(\emp),d(\emp))$. BEDC right-unit exactness for append
+therefore forces $d(\emp)\hsame\emp$, giving the carrier witness. The
+classifier fields are reflexivity, symmetry, and transitivity of $\hsame$ on
+the displayed differential histories. Carrier transport composes the symmetric
+classifier witness with the source cocycle predicate, and the pattern and
+ledger policies are the same cocycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_semanticNameCert}
+\closureat{\CohomologyUp}{\checkedCertStr}

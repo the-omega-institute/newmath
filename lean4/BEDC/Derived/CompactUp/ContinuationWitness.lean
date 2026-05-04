@@ -6,6 +6,26 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+theorem CompactFiniteRefinementChain_final_cases
+    {finite compact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      (hsame finalFinite finite /\ hsame finalCompact compact) \/
+        exists currentFinite currentCompact extra : BHist,
+          CompactFiniteRefinementChain finite compact currentFinite currentCompact /\
+            UnaryHistory extra /\ Cont currentFinite extra finalFinite /\
+              Cont currentCompact extra finalCompact := by
+  intro chain
+  cases chain with
+  | base =>
+      exact Or.inl (And.intro (hsame_refl finite) (hsame_refl compact))
+  | step prior extraCarrier finiteRel compactRel =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (Exists.intro _
+              (And.intro prior
+                (And.intro extraCarrier (And.intro finiteRel compactRel))))))
+
 theorem CompactFiniteRefinementChain_continuation_witness
     {finite compact finalFinite finalCompact : BHist} :
     CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
@@ -40,6 +60,34 @@ theorem CompactFiniteRefinementChain_continuation_witness
                                       (unary_cont_closed priorExtraCarrier extraCarrier
                                         priorCombined)
                                       (And.intro finiteFinal compactFinal))
+
+theorem CompactLocatedRefinementChain_final_cases
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
+    CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact ->
+      (hsame finalLocated located /\ hsame finalIntermediate intermediate /\
+          hsame finalCompact compact) \/
+        exists currentLocated currentIntermediate currentCompact extra : BHist,
+          CompactLocatedRefinementChain finite located intermediate compact currentLocated
+              currentIntermediate currentCompact /\
+            UnaryHistory extra /\ Cont currentLocated extra finalLocated /\
+              Cont currentIntermediate extra finalIntermediate /\
+                Cont finalIntermediate finite finalCompact := by
+  intro chain
+  cases chain with
+  | base =>
+      exact Or.inl
+        (And.intro (hsame_refl located)
+          (And.intro (hsame_refl intermediate) (hsame_refl compact)))
+  | step prior extraCarrier locatedRel intermediateRel compactRel =>
+      exact Or.inr
+        (Exists.intro _
+          (Exists.intro _
+            (Exists.intro _
+              (Exists.intro _
+                (And.intro prior
+                  (And.intro extraCarrier
+                    (And.intro locatedRel (And.intro intermediateRel compactRel))))))))
 
 theorem CompactLocatedRefinementChain_continuation_witness
     {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
@@ -83,5 +131,173 @@ theorem CompactLocatedRefinementChain_continuation_witness
                                             priorCombined)
                                           (And.intro locatedFinal
                                             (And.intro intermediateFinal compactRel)))
+
+theorem CompactLocatedRefinementChain_final_compact_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact
+      finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+        CompactLocatedRefinementChain finite located intermediate compact finalLocated
+          finalIntermediate finalCompact' ->
+          hsame finalCompact finalCompact' := by
+  intro initialCompact leftChain rightChain
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases leftData with
+      | intro _leftExtraCarrier leftRels =>
+          cases leftRels with
+          | intro _leftLocatedRel leftRest =>
+              cases leftRest with
+              | intro _leftIntermediateRel leftFinalRel =>
+                  cases rightWitness with
+                  | intro rightExtra rightData =>
+                      cases rightData with
+                      | intro _rightExtraCarrier rightRels =>
+                          cases rightRels with
+                          | intro _rightLocatedRel rightRest =>
+                              cases rightRest with
+                              | intro _rightIntermediateRel rightFinalRel =>
+                                  exact cont_deterministic leftFinalRel rightFinalRel
+
+theorem CompactFiniteRefinementChain_common_source_final_finite_deterministic
+    {finite compact finalFinite finalCompact finalFinite' finalCompact' : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      CompactFiniteRefinementChain finite compact finalFinite' finalCompact' ->
+        hsame finalFinite finalFinite' ->
+          (∃ extra : BHist,
+            UnaryHistory extra ∧ Cont finite extra finalFinite ∧ Cont compact extra finalCompact) ∧
+            hsame finalCompact finalCompact' := by
+  intro leftChain rightChain sameFinite
+  have leftWitness := CompactFiniteRefinementChain_continuation_witness leftChain
+  have rightWitness := CompactFiniteRefinementChain_continuation_witness rightChain
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameFinite
+            exact cont_left_cancel leftData.right.left rightData.right.left
+          have sameCompact : hsame finalCompact finalCompact' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.right rightData.right.right
+          exact And.intro (Exists.intro leftExtra leftData) sameCompact
+
+theorem CompactFiniteRefinementChain_common_source_final_compact_deterministic
+    {finite compact finalFinite finalCompact finalFinite' finalCompact' : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      CompactFiniteRefinementChain finite compact finalFinite' finalCompact' ->
+        hsame finalCompact finalCompact' ->
+          (∃ extra : BHist,
+            UnaryHistory extra ∧ Cont finite extra finalFinite ∧ Cont compact extra finalCompact) ∧
+            hsame finalFinite finalFinite' := by
+  intro leftChain rightChain sameCompact
+  have leftWitness := CompactFiniteRefinementChain_continuation_witness leftChain
+  have rightWitness := CompactFiniteRefinementChain_continuation_witness rightChain
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameCompact
+            exact cont_left_cancel leftData.right.right rightData.right.right
+          have sameFinite : hsame finalFinite finalFinite' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.left rightData.right.left
+          exact And.intro (Exists.intro leftExtra leftData) sameFinite
+
+theorem CompactLocatedRefinementChain_common_source_final_located_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact finalLocated'
+      finalIntermediate' finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated'
+        finalIntermediate' finalCompact' ->
+      hsame finalIntermediate finalIntermediate' ->
+        (∃ extra : BHist,
+          UnaryHistory extra ∧ Cont located extra finalLocated ∧
+            Cont intermediate extra finalIntermediate ∧ Cont finalIntermediate finite finalCompact) ∧
+          hsame finalLocated finalLocated' := by
+  intro initialCompact leftChain rightChain sameIntermediate
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameIntermediate
+            exact cont_left_cancel leftData.right.right.left rightData.right.right.left
+          have sameLocated : hsame finalLocated finalLocated' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.left rightData.right.left
+          exact And.intro (Exists.intro leftExtra leftData) sameLocated
+
+theorem CompactLocatedRefinementChain_common_source_final_located_tail_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact finalLocated'
+      finalIntermediate' finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated'
+        finalIntermediate' finalCompact' ->
+      hsame finalLocated finalLocated' ->
+        hsame finalIntermediate finalIntermediate' ∧ hsame finalCompact finalCompact' := by
+  intro initialCompact leftChain rightChain sameLocated
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameLocated
+            exact cont_left_cancel leftData.right.left rightData.right.left
+          have sameIntermediate : hsame finalIntermediate finalIntermediate' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.right.left rightData.right.right.left
+          have sameCompact : hsame finalCompact finalCompact' := by
+            cases sameIntermediate
+            exact cont_deterministic leftData.right.right.right rightData.right.right.right
+          exact And.intro sameIntermediate sameCompact
+
+theorem CompactLocatedRefinementChain_common_source_final_compact_tail_deterministic
+    {finite located intermediate compact finalLocated finalIntermediate finalCompact finalLocated'
+      finalIntermediate' finalCompact' : BHist} :
+    Cont intermediate finite compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated
+        finalIntermediate finalCompact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated'
+        finalIntermediate' finalCompact' ->
+      hsame finalCompact finalCompact' ->
+        hsame finalIntermediate finalIntermediate' ∧ hsame finalLocated finalLocated' := by
+  intro initialCompact leftChain rightChain sameCompact
+  have leftWitness :=
+    CompactLocatedRefinementChain_continuation_witness leftChain initialCompact
+  have rightWitness :=
+    CompactLocatedRefinementChain_continuation_witness rightChain initialCompact
+  cases leftWitness with
+  | intro leftExtra leftData =>
+      cases rightWitness with
+      | intro rightExtra rightData =>
+          have sameIntermediate : hsame finalIntermediate finalIntermediate' :=
+            cont_common_suffix_cancellation leftData.right.right.right
+              rightData.right.right.right sameCompact
+          have sameExtra : hsame leftExtra rightExtra := by
+            cases sameIntermediate
+            exact cont_left_cancel leftData.right.right.left rightData.right.right.left
+          have sameLocated : hsame finalLocated finalLocated' := by
+            cases sameExtra
+            exact cont_deterministic leftData.right.left rightData.right.left
+          exact And.intro sameIntermediate sameLocated
 
 end BEDC.Derived.CompactUp

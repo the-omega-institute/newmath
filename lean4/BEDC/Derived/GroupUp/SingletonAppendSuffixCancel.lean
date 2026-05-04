@@ -190,4 +190,34 @@ theorem GroupSingletonClassifier_contextual_continuation_visible_result_absurd
       (Q := P) (S := Q) carrierL carrierR).mp suffixReduced
   exact GroupSingletonClassifier_continuation_visible_result_absurd reduced
 
+theorem GroupSingletonClassifier_contextual_continuation_terminal_collapse
+    {L R Lp Rp P Q S r : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier Lp ->
+      GroupSingletonCarrier Rp -> Cont P Q S ->
+      (GroupSingletonClassifier (append (append L P) Lp) (append (append R Q) Rp) <->
+        GroupSingletonClassifier P Q) ∧
+      (GroupSingletonClassifier P Q <-> GroupSingletonClassifier S P) ∧
+      (GroupSingletonClassifier P Q <-> GroupSingletonClassifier S Q) ∧
+      (GroupSingletonClassifier P Q <-> GroupSingletonCarrier S) ∧
+      (GroupSingletonClassifier P Q ->
+        (Cont P Q (BHist.e0 r) -> False) ∧ (Cont P Q (BHist.e1 r) -> False)) := by
+  intro carrierL carrierR carrierLp carrierRp continuation
+  have suffixCancel :=
+    GroupSingletonClassifier_append_suffix_cancel_iff (P := append L P) (R := Lp)
+      (Q := append R Q) (S := Rp) carrierLp carrierRp
+  have prefixCancel :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := P) (S := Q) carrierL carrierR
+  have contextualCollapse :
+      GroupSingletonClassifier (append (append L P) Lp) (append (append R Q) Rp) <->
+        GroupSingletonClassifier P Q :=
+    Iff.trans suffixCancel prefixCancel
+  have terminalCollapse :=
+    GroupSingletonClassifier_continuation_terminal_collapse (P := P) (Q := Q)
+      (R := S) (r := r) continuation
+  exact And.intro contextualCollapse
+    (And.intro terminalCollapse.left
+      (And.intro terminalCollapse.right.left
+        (And.intro terminalCollapse.right.right.left terminalCollapse.right.right.right)))
+
 end BEDC.Derived.GroupUp

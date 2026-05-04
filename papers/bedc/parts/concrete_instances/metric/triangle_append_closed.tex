@@ -21,6 +21,24 @@ this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
 
+\begin{theorem}[Metric distance witness unary append commutation package]
+\label{thm:metric-distance-witness-unary-append-comm-package}
+For unary histories $x$ and $y$, the appended endpoints $x\cdot y$ and
+$y\cdot x$ carry the canonical metric distance witness
+$(x\cdot y)\cdot(y\cdot x)$, and the endpoints are $\hsame$:
+$$
+\mathsf{MetricDistanceWitness}(x\cdot y,y\cdot x,(x\cdot y)\cdot(y\cdot x))
+\land \hsame(x\cdot y,y\cdot x).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure supplies the two endpoint carriers and the displayed
+distance carrier. The distance ledger is the canonical continuation from
+$x\cdot y$ to $y\cdot x$, and unary append commutativity gives the endpoint
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_unary\_append\_comm\_package}
+
 \begin{theorem}[Metric distance witness composite endpoint append result]
 \label{thm:metric-distance-witness-composite-endpoint-hsame-append-result}
 For histories $x,x',y,y',z,z',d_{xy},d_{xyz}$, endpoint comparisons
@@ -175,6 +193,86 @@ field in the witness from $x$ to $y$ forces $d_{xy}$ to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_depth\_zero\_collapse}
 
+\begin{theorem}[Metric triangle depth-zero iff empty spine]
+\label{thm:metric-distance-witness-triangle-depth-zero-iff-empty-spine}
+For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, three concrete metric distance
+witnesses identify final structural depth zero exactly with emptiness of the
+three endpoints and the two displayed edge distances:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\\
+\mathsf{MetricDistanceDepth}(d_{xyz})=0
+\Longleftrightarrow
+\\
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-depth-zero-collapse} to the three
+triangle witnesses and the displayed zero-depth equation. The theorem returns a
+larger conjunction containing the append equality as its first component; discard
+that component and retain precisely the five empty-spine classifiers.
+
+For the reverse direction, assume the five displayed classifiers. Apply
+\autoref{thm:metric-distance-witness-empty-endpoints-depth-zero} to the first
+edge witness, using $\hsame(x,\emp)$ and $\hsame(y,\emp)$, to get
+$\mathsf{MetricDistanceDepth}(d_{xy})=0$. Then use
+\autoref{thm:metric-distance-depth-zero-iff-empty} to recover
+$\hsame(d_{xy},\emp)$ as the certified empty left endpoint for the outer witness.
+Finally apply
+\autoref{thm:metric-distance-witness-empty-endpoints-depth-zero} to
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$, together with
+$\hsame(d_{xy},\emp)$ and $\hsame(z,\emp)$, to obtain
+$\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
+\end{proof}
+
+Fit: traditional target triangle degeneracy criterion; BEDC source $BHist$
+metric distance witnesses; carrier the three witnessed edges; classifier
+$\hsame$; stability supplied by existing depth-zero and empty-endpoint lemmas;
+ledger the two edge distances; core theorem this iff; exactness zero-depth iff
+empty spine; standard bridge none claimed; status ProofTarget.
+
+\begin{theorem}[Metric distance witness visible-context triangle depth-zero collapse]
+\label{thm:metric-distance-witness-visible-context-triangle-depth-zero-collapse}
+For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, if the first triangle edge
+is displayed through visible source and target ledgers and the final triangle
+distance has structural depth zero, then the triangle append equality holds
+and every central endpoint and intermediate distance collapses to $\emp$:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,p\cdot d_{xy}\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\mathsf{MetricDistanceDepth}(d_{xyz})=0\Longrightarrow
+\\
+\hsame(d_{xyz},x\cdot d_{yz})\land
+\hsame(x,\emp)\land\hsame(y,\emp)\land\hsame(z,\emp)\land
+\hsame(d_{xy},\emp)\land\hsame(d_{yz},\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+contextual first edge. This recovers the central witness
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ while leaving the two remaining
+triangle witnesses unchanged.
+
+Apply
+\autoref{thm:metric-distance-witness-triangle-depth-zero-collapse} to the
+central witness, the witness from $y$ to $z$, the witness from $d_{xy}$ to $z$,
+and the depth-zero hypothesis. The resulting conjunction is exactly the stated
+visible-context collapse conclusion.
+\end{proof}
+
 \begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
 \label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
 For histories $x,y,z,d_{xy},d_{yz},d_{xyz}$, if the three triangle distance
@@ -201,11 +299,15 @@ nonempty $x$ or $y$ endpoint.
 
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
-For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$
-to $z$, and from $d_{xy}$ to $z$ produce a distance witness from $p\cdot x$ to
-$d_{yz}\cdot q$ whose result is $p\cdot d_{xyz}\cdot q$:
+If $p$ and $q$ are supplied as unary visible contexts, distance witnesses from
+$x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ produce a distance witness
+from $p\cdot x$ to $d_{yz}\cdot q$ whose result is
+$p\cdot d_{xyz}\cdot q$:
 $$
 \begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\\
 \mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
 \mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
 \\
@@ -267,3 +369,34 @@ histories, so continuation determinacy for their distance ledgers identifies
 their result histories.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_result\_deterministic}
+
+\begin{theorem}[Metric distance witness triangle append context endpoint determinacy]
+\label{thm:metric-distance-witness-triangle-append-context-endpoint-determinacy}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then the
+canonical contextual triangle result $(p\cdot d_{xyz})\cdot q$ determines both
+exposed endpoints:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x',d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longrightarrow \HSame(x,x'),
+\\
+\mathsf{MetricDistanceWitness}(p\cdot x,e\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longrightarrow \HSame(d_{yz},e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Triangle append context closure first constructs the canonical contextual
+witness
+$\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q)$
+from the three triangle witnesses and the unary context hypotheses.
+
+For the displayed witness with source $p\cdot x'$ and target $d_{yz}\cdot q$,
+visible-context source determinacy compares it with the canonical contextual
+witness and recovers $\hsame(x,x')$ at the exposed source.
+
+For the displayed witness with source $p\cdot x$ and target $e\cdot q$,
+visible-context target determinacy compares it with the same canonical
+contextual witness and recovers $\hsame(d_{yz},e)$ at the exposed middle target.
+\end{proof}

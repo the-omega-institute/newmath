@@ -1,0 +1,77 @@
+\section{The prime predicate}
+
+\begin{definition}[Strict greater-than on unary histories]
+\label{def:nat-strict-greater}
+The relation \(\mathsf{NatGT}(n, m)\) holds when \(\mathsf{NatUnaryStrictPrefix}(m, n)\) holds (\autoref{ch:concrete-instances-nat-namecert}). Equivalently, \(n\) extends \(m\) by at least one further \(\Eone\) step.
+\end{definition}
+
+\begin{definition}[Prime predicate]
+\label{def:nat-prime}
+A unary history \(p\) is prime, written \(\mathsf{NatPrime}(p)\), when:
+\begin{enumerate}
+  \item \(\mathsf{Unary}(p)\),
+  \item \(\mathsf{NatGT}(p, \Eone(\emp))\) (i.e., \(p\) strictly exceeds the unit), and
+  \item for every unary \(d\) with \(\mathsf{NatDivides}(d, p)\), either \(\hsame(d, \Eone(\emp))\) or \(\hsame(d, p)\).
+\end{enumerate}
+\end{definition}
+\leandef{BEDC.Derived.PrimeUp.NatPrime}
+
+\begin{lemma}[The first two primes]
+\label{lem:first-primes}
+\(\mathsf{NatPrime}(\Eone(\Eone(\emp)))\) and \(\mathsf{NatPrime}(\Eone(\Eone(\Eone(\emp))))\). That is, the unary representations of \(2\) and \(3\) are prime.
+\end{lemma}
+\begin{proof}
+For \(p = 2\), the only divisors are the unit and \(p\) itself by \autoref{def:nat-divides} and the case analysis on the quotient \(q\). The same case analysis applies to \(p = 3\), with the additional sub-case ruling out \(q = 2\) by the failure of \(\mathsf{NatMul}(2, 2, 3)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_first\_pair}
+
+\begin{lemma}[First prime multiplied by the unit exponent]
+\label{lem:nat-mul-first-prime-unit-result}
+The concrete unary multiplication witness for the first prime and the unit
+exponent returns the first prime:
+$$
+\mathsf{NatMul}(\Eone(\Eone(\emp)),\Eone(\emp),\Eone(\Eone(\emp))).
+$$
+\end{lemma}
+\begin{proof}
+Use the first-prime witness for \(\Eone(\Eone(\emp))\). The zero
+multiplication constructor gives the empty predecessor product, and the
+successor multiplication constructor appends the first prime once using the
+left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_first\_prime\_unit\_result}
+
+\begin{theorem}[Prime successor multiplication cannot have empty result]
+\label{thm:natprime-natmul-succ-result-not-empty}
+If \(p\) is prime and \(\mathsf{NatMul}(p,\Eone(q),n)\), then \(n\) is not
+empty up to \(\hsame\).
+\end{theorem}
+\begin{proof}
+If \(n\hsame\emp\), then
+\autoref{thm:natmul-succ-result-empty-left-empty} forces \(p\hsame\emp\).
+After this identification, the strict-prefix field in the prime predicate
+would be a strict unary prefix into \(\emp\), which is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_NatMul\_succ\_result\_not\_empty}
+
+\begin{theorem}[Prime has no empty divisor]
+\label{thm:natprime-divisor-empty-absurd}
+If $p$ is prime, $d$ divides $p$, and $d\hsame\emp$, then false.
+\end{theorem}
+\begin{proof}
+Transport the divisor to the empty-left case. Empty-left divisibility forces
+$p\hsame\emp$. Under that endpoint identification, the strict greater-than
+field of the prime predicate becomes a strict unary prefix into $\emp$, which
+is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_divisor\_empty\_absurd}
+
+\begin{lemma}[Non-primality of the unit]
+\label{lem:unit-not-prime}
+\(\neg \mathsf{NatPrime}(\Eone(\emp))\).
+\end{lemma}
+\begin{proof}
+The unit fails the strict greater-than condition \(\mathsf{NatGT}(\Eone(\emp), \Eone(\emp))\) by the irreflexivity of \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_unit\_absurd}
+

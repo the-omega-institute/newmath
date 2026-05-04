@@ -374,6 +374,31 @@ fields of the core $\NameCert$ record.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_name\_certificate}
 
+\begin{theorem}[Product componentwise history classifier semantic name certificate]
+\label{thm:prod-component-history-classifier-semantic-name-certificate}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers, and assume $\mathsf{cert}_L:\NameCert(L,\sim_L)$,
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the componentwise
+classifier forms the semantic naming certificate whose source, pattern, and
+ledger predicates are all the concrete product history carrier:
+$$
+\mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdHistoryCarrier}(L,R),
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+$$
+\end{theorem}
+\begin{proof}
+The componentwise core name certificate is
+Theorem~\ref{thm:prod-component-history-core-namecert}. Its source carrier is
+$\mathsf{ProdHistoryCarrier}(L,R)$. Since the semantic pattern and ledger
+predicates are the same concrete carrier, both soundness maps are the identity
+on product history carrier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_semantic\_name\_certificate}
+
 \begin{theorem}[Product componentwise history semantic certificate target]
 \label{thm:prod-component-history-semantic-certificate-target}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let

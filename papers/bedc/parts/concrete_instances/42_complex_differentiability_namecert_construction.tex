@@ -255,6 +255,21 @@ non-emptiness theorem for complex difference quotient results.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_result\_visible\_context\_readback}
 
+\begin{theorem}[Complex difference quotient step visible-context readback]
+\label{thm:cplx-diff-quot-step-visible-context-readback}
+If $\mathsf{CplxDiffQuot}(f,z,h,q)$ holds and the displayed step is equal
+inside a common left and right append context to the same context around
+$core$, then $h\hsame core$. The readback core is also non-zero:
+\(\mathsf{CplxNonZero}(core)\).
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $h\hsame core$. A hypothetical
+$core\hsame\emp$ transports to $h\hsame\emp$, contradicting the non-zero step
+witness stored in the complex difference quotient.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffQuot\_step\_visible\_context\_readback}
+
 \section{Pointwise complex differentiability}
 
 \begin{definition}[Pointwise complex differentiability]
@@ -262,6 +277,100 @@ non-emptiness theorem for complex difference quotient results.
 For a complex-valued function-history \(f\), a complex history \(z\), and a candidate derivative \(f'\), the pointwise complex differentiability predicate \(\mathsf{CplxDiffAt}(f, z, f')\) records unary carriers for \(f\) and \(z\), a complex-history carrier for \(f'\), at least one difference-quotient witness of \autoref{def:cplx-diff-quot}, and the requirement that every such quotient classifies to \(f'\) under \(\hsame\).
 \end{definition}
 \leandef{BEDC.Derived.ComplexDiffUp.CplxDiffAt}
+
+\begin{lemma}[Differentiability witness exposes a nonzero step]
+\label{lem:cplx-diff-at-witness-step-nonzero}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then some displayed quotient
+witness has a nonzero step \(h\), a quotient result \(q\), the quotient
+relation \(\mathsf{CplxDiffQuot}(f,z,h,q)\), the continuation ledger
+\(\ContR(f,h,q)\), and \(q\hsame f'\).
+\end{lemma}
+\begin{proof}
+Unpack the pointwise differentiability record. Its witness field supplies
+\(h\), \(q\), and the concrete quotient package. Unpacking that package exposes
+the stored nonzero proof for \(h\) and the continuation ledger. The classifier
+field of \(\mathsf{CplxDiffAt}\) identifies the displayed quotient result with
+the derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_step\_nonzero}
+
+\begin{theorem}[Differentiability witness exposes nonzero unary step]
+\label{thm:cplx-diff-at-witness-nonzero-unary-step}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then there are histories \(h\) and
+\(q\) such that \(h\) is nonzero and unary, \(q\) is unary, the quotient
+relation \(\mathsf{CplxDiffQuot}(f,z,h,q)\) holds, the continuation ledger
+\(\ContR(f,h,q)\) is displayed, and \(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Extract the displayed nonzero quotient witness from pointwise differentiability.
+The quotient package contains the continuation ledger and quotient carrier, and
+the quotient step-readback theorem recovers unary histories for both the step
+and the quotient result. The classifier field of \(\mathsf{CplxDiffAt}\)
+identifies the displayed quotient result with the derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
+
+\begin{theorem}[Differentiability witness has a nonzero quotient result]
+\label{thm:cplx-diff-at-witness-nonzero-result}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then there are histories \(h\) and
+\(q\) such that \(\mathsf{CplxDiffQuot}(f,z,h,q)\) holds, the continuation
+ledger \(\ContR(f,h,q)\) is displayed, both \(h\) and \(q\) are nonzero, and
+\(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Extract the displayed quotient witness from pointwise differentiability. The
+quotient package supplies the nonzero witness for \(h\) and the continuation
+ledger. Quotient result non-emptiness turns that same package into the nonzero
+witness for \(q\), while the classifier field identifies \(q\) with the
+displayed derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_result}
+
+\begin{theorem}[Empty-function differentiability has non-zero derivative]
+\label{thm:cplx-diff-at-empty-function-derivative-nonzero}
+If \(\mathsf{CplxDiffAt}(\emp,z,f')\) holds, then \(f'\) is non-zero as a
+complex history.
+\end{theorem}
+\begin{proof}
+Extract a displayed quotient witness \(h,q\) from pointwise differentiability.
+The empty-function quotient theorem gives non-zeroness of \(q\), and the
+classifier field of \(\mathsf{CplxDiffAt}\) identifies \(q\) with the derivative
+candidate \(f'\). Transporting a hypothetical \(f'\hsame\emp\) back along that
+classifier contradicts the non-zero witness for \(q\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_empty\_function\_derivative\_nonzero}
+
+\begin{theorem}[Pointwise differentiability rejects visible step branches]
+\label{thm:cplx-diff-at-visible-step-branches-absurd}
+If $\mathsf{CplxDiffAt}(f,z,f')$ holds, then two quotient witnesses at the
+visible steps $\Ezero(p)$ and $\Eone(q)$ cannot both be present. More
+precisely, $\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out_0)$ and
+$\mathsf{CplxDiffQuot}(f,z,\Eone(q),out_1)$ together imply contradiction.
+\end{theorem}
+\begin{proof}
+The classifier field of $\mathsf{CplxDiffAt}$ identifies both quotient results
+with the same derivative candidate. Transport the $\Eone$-step quotient along
+this result equality so that both quotients have the same visible result. The
+checked visible-step same-result separation theorem for complex difference
+quotients then contradicts constructor separation between $\Ezero$ and
+$\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_visible\_step\_branches\_absurd}
+
+\begin{theorem}[Pointwise derivative visible-context readback]
+\label{thm:cplx-diff-at-derivative-visible-context-readback}
+If $\mathsf{CplxDiffAt}(f,z,f')$ holds and the displayed derivative candidate
+is equal inside a common left and right append context to the same context
+around $core$, then $f'\hsame core$. The readback core is also a complex
+history carrier.
+\end{theorem}
+\begin{proof}
+Reassociate both visible displays into a shared append-context form and cancel
+the common context. The cancellation gives $f'\hsame core$. The
+$\mathsf{CplxDiffAt}$ record stores the complex-history carrier for $f'$, and
+carrier transport along the recovered $\hsame$ gives the carrier for $core$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_derivative\_visible\_context\_readback}
 
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
@@ -280,6 +389,23 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\), \(\hsame(z, z')\), and \(\hsame(f', g')\),
 Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus comparison's stability under \(\hsame\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_hsame\_transport\_witness}
+
+\begin{lemma}[Full $\hsame$-transport of pointwise differentiability]
+\label{lem:cplx-diff-at-full-hsame-transport}
+If $\mathsf{CplxDiffAt}(f,z,f')$, $\hsame(f,g)$, $\hsame(z,w)$,
+and $\hsame(f',g')$, then $\mathsf{CplxDiffAt}(g,w,g')$. The transported
+statement also exposes a difference-quotient witness $h,q$, its continuation
+ledger $\Cont(g,h,q)$, and $q\hsame g'$.
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{CplxDiffAt}(f,z,f')$ into the unary carriers, complex
+derivative carrier, displayed quotient witness, and classifier. Transport the
+function carrier, point carrier, derivative carrier, and displayed quotient
+along the three $\hsame$ identifications. For any quotient at the target
+slots, transport it back to the source slots, apply the source classifier, and
+compose with $f'\hsame g'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_full\_hsame\_transport\_witness}
 
 \section{Closure laws for complex differentiability}
 
