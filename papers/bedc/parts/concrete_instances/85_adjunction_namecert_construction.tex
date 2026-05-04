@@ -206,6 +206,28 @@ front component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
 
+\begin{theorem}[Adjunction alternating zero-headed result exclusion]
+\label{thm:adjunction-unit-counit-carrier-alternating-zero-headed-result-absurd}
+For an adjunction unit-counit carrier, unary depth makes the alternating
+unit-counit ledger unary. Therefore it cannot be history-same to a zero-headed
+result:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)
+\land \hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\Ezero(z))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit components of the displayed carrier are natural
+transformation component histories, hence each component history is unary.
+Together with unary depth, the alternating unary theorem makes the displayed
+alternating ledger unary. Transporting unary membership across the result
+\(\hsame\) would make \(\Ezero(z)\) unary, contradicting unary zero-headed
+exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_zero\_headed\_result\_absurd}
+
 \begin{theorem}[Adjunction positive-depth alternating unit nonempty]
 \label{thm:adjunction-unit-counit-alternating-positive-depth-unit-nonempty}
 For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary,
