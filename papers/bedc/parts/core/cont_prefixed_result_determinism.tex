@@ -1,0 +1,32 @@
+\begin{theorem}[Prefixed result common-suffix source determinacy]
+\label{thm:cont-prefixed-result-common-suffix-source-deterministic}
+For histories $p,a,b,k,r,s:\mathsf{BHist}$, if $\ContR(a,k,r)$,
+$\ContR(b,k,s)$, and
+$$
+\hsame(\mathsf{append}(p,r),\mathsf{append}(p,s)),
+$$
+then $\hsame(a,b)$.
+\end{theorem}
+\begin{proof}
+Left cancellation removes the visible prefix $p$ from the result comparison.
+The two continuations then have a common right suffix $k$ and history-same
+results, so right-context continuation cancellation identifies the sources.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_prefixed\_result\_common\_suffix\_source\_deterministic}
+
+\begin{theorem}[Prefixed result common-source tail determinacy]
+\label{thm:cont-prefixed-result-common-source-tail-deterministic}
+For histories $p,a,k,l,r,s:\mathsf{BHist}$, if $\ContR(a,k,r)$,
+$\ContR(a,l,s)$, and
+$$
+\hsame(\mathsf{append}(p,r),\mathsf{append}(p,s)),
+$$
+then $\hsame(k,l)$.
+\end{theorem}
+\begin{proof}
+Left cancellation removes the common visible prefix $p$ from the result
+comparison. The two continuation witnesses now share source $a$ and have
+history-same results, so left-context continuation cancellation identifies the
+two tails.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_prefixed\_result\_common\_source\_tail\_deterministic}

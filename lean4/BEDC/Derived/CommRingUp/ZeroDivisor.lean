@@ -12,6 +12,21 @@ def CommRingLeftZeroDivisor (mul : BHist -> BHist -> BHist) (x : BHist) : Prop :
   CommRingApartZero x ∧
     Exists (fun c : BHist => CommRingApartZero c ∧ hsame (mul x c) BHist.Empty)
 
+theorem CommRingLeftZeroDivisor_strict_of_mul_comm {mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
+    CommRingLeftZeroDivisor mul x ->
+      CommRingApartZero x ∧
+        Exists (fun c : BHist =>
+          CommRingApartZero c ∧ hsame (mul x c) BHist.Empty ∧
+            hsame (mul c x) BHist.Empty) := by
+  intro leftZD
+  cases leftZD.right with
+  | intro c witness =>
+      exact And.intro leftZD.left
+        (Exists.intro c
+          (And.intro witness.left
+            (And.intro witness.right (hsame_trans (mulComm c x) witness.right))))
+
 theorem CommRingLeftZeroDivisor_product_closed {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
