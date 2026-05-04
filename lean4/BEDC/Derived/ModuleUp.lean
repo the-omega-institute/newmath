@@ -536,6 +536,19 @@ theorem ModuleParitySmul_epsilon_empty_result_iff {m : BHist} :
       · intro _nonempty
         exact hsame_refl BHist.Empty
 
+theorem ModuleParitySmul_e0_empty_no_fixed_point {m : BHist} :
+    hsame (ModuleParitySmul (BHist.e0 BHist.Empty) m) m -> False := by
+  cases m with
+  | Empty =>
+      intro same
+      exact not_hsame_e1_empty same
+  | e0 h =>
+      intro same
+      exact not_hsame_emp_e0 same
+  | e1 h =>
+      intro same
+      exact not_hsame_emp_e1 same
+
 theorem ModuleParityAction_scalar_associativity_forces_empty_visible_one :
     (∀ r s m : BHist,
       hsame (ModuleParitySmul (ModuleParityMul r s) m)
