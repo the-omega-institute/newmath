@@ -572,3 +572,39 @@ All comparison branches construct a located entry of $L$ above every entry of
 $L$, so the finite maximum selector exists for every nonempty finite spine of
 carried concrete $\TotalOrderUp$ elements.
 \end{proof}
+
+\begin{definition}[Concrete unary finite minimum witness]
+\label{def:totalorder-prefix-finite-minimum-witness}
+For a finite BEDC-history spine $L:\mathsf{ListCarrier}(\mathsf{BHist})$, a visible readback $m$ is a concrete unary finite minimum witness when
+$$
+\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)
+:=
+m\in L
+\land
+\forall x.\; x\in L\to m\le_{\mathsf{u}}x.
+$$
+The carrier side condition is supplied by the finite-carrier list hypothesis used with the witness.
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix finite minimum classifier uniqueness]
+\label{thm:totalorder-prefix-finite-minimum-classifier-unique}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$ certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+If $m$ and $n$ satisfy $\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,m)$ and $\mathsf{FiniteMinimumWitness}_{\mathsf{u}}(L,n)$, then
+$$
+\rho_{\mathsf{u}}(m,n).
+$$
+
+The per-object fields are: traditional target finite-list minimum witness uniqueness in a total order; BEDC source finite spines of carried unary histories; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability obligations finite-list lower-bound readout and inherited $\POSetUp$ antisymmetry; ledger the two minimum witness records and the two extracted comparisons; core theorem this block; exactness classifier equality of competing minimum readbacks; standard bridge finite unary-word minimum uniqueness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two finite minimum witness records of \autoref{def:totalorder-prefix-finite-minimum-witness}. The first supplies $m\in L$ and the lower-bound row $\forall x.\; x\in L\to m\le_{\mathsf{u}}x$; the second supplies $n\in L$ and the lower-bound row $\forall x.\; x\in L\to n\le_{\mathsf{u}}x$.
+
+From the entry-carrier hypothesis, the membership rows give carrier witnesses for $m$ and $n$. Instantiate the first lower-bound row at the entry $n$; this gives $m\le_{\mathsf{u}}n$. Instantiate the second lower-bound row at the entry $m$; this gives $n\le_{\mathsf{u}}m$.
+
+By \autoref{def:concrete-unary-prefix-totalorder-instance}, these comparisons are the concrete prefix relation of the unary total-order package. The exact middle-branch row of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, equivalently the $\POSetUp$ classifier exactness of \autoref{thm:poset-prefix-classifier-exactness} in this notation, sends the carried opposing comparisons to $\rho_{\mathsf{u}}(m,n)$.
+
+The strict-left and strict-right branches of the total comparison ledger are therefore excluded by the incompatibility clauses of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Together with the existence selector of \autoref{thm:totalorder-prefix-finite-minimum-selector}, this gives a classifier-stable finite minimum readback for every nonempty finite carried spine.
+\end{proof}
