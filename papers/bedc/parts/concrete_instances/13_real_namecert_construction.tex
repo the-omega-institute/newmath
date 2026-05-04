@@ -1,6 +1,57 @@
 \input{parts/concrete_instances/real/13_real_constant_core.tex}
 \input{parts/concrete_instances/real/13_real_stream_prefix.tex}
 
+\begin{theorem}[Independent reindexed constant rational embedding certificate]
+\label{thm:real-independent-reindexed-constant-rational-embedding-certificate}
+For histories $d,e:\Hist$ and observation maps $r,q:\Hist\to\Hist$, the two
+concrete endpoint assignments
+$$
+d\longmapsto (\mathsf{RatConstStream}_d\circ r,\Eone(d)),
+\qquad
+e\longmapsto (\mathsf{RatConstStream}_e\circ q,\Eone(e))
+$$
+supply the independently scheduled constant rational embedding certificate into
+RealUp. The first endpoint has carrier exactness
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)),
+$$
+and the second endpoint has carrier exactness
+$$
+\mathsf{RatHistoryCarrier}(e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_e\circ q)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(e)).
+$$
+Its classifier exactness is the three-row chain displayed in
+\autoref{thm:real-constant-independent-reindexed-stream-bridge}: the RatUp
+classifier of $d$ and $e$, the StreamNameUp classifier of
+$\mathsf{RatConstStream}_d\circ r$ and $\mathsf{RatConstStream}_e\circ q$, the
+RealUp unary-observation stream classifier of those same streams, and the
+RealUp constant-history classifier of $\Eone(d)$ and $\Eone(e)$ are equivalent.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-constant-stream-carrier-reindexed-streamname-bridge}
+to $d$ with observation map $r$. This gives the first carrier row, identifying
+the RatUp carrier of $d$, the StreamNameUp carrier of
+$\mathsf{RatConstStream}_d\circ r$, and the RealUp constant carrier of
+$\Eone(d)$.
+
+Apply the same theorem separately to $e$ with observation map $q$. This gives
+the second carrier row, identifying the RatUp carrier of $e$, the StreamNameUp
+carrier of $\mathsf{RatConstStream}_e\circ q$, and the RealUp constant carrier
+of $\Eone(e)$.
+
+For classifier exactness, apply
+\autoref{thm:real-constant-independent-reindexed-stream-bridge}. Its three
+equivalence rows are precisely the classifier rows required for independently
+scheduled constant streams and their paired e-one seals.
+\end{proof}
+
 \begin{theorem}[Real stream classifier finite-prefix stability package]
 \label{thm:real-stream-classifier-finite-prefix-stability-package}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$ and prefix index
