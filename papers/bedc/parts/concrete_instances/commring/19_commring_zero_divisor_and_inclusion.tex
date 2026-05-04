@@ -86,6 +86,41 @@ both annihilator orientations.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strict\_of\_mul\_comm}
 
+\begin{theorem}[CommRing left zero-divisor strictness iff under commutativity]
+\label{thm:commring-left-zero-divisor-strict-iff-of-mul-comm}
+For any BEDC history multiplication $mul$, written as $\cdot$, satisfying
+multiplicative commutativity under $\hsame$, every $x:\mathsf{BHist}$
+satisfies
+$$
+(\forall u v:\mathsf{BHist},\,u\cdot v\hsame v\cdot u)
+\Longrightarrow
+\bigl(\mathsf{LeftZD}_R(x)\Longleftrightarrow\mathsf{StrictZD}_R(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $\mathsf{LeftZD}_R(x)$ and the displayed
+multiplicative commutativity row. Apply
+\autoref{thm:commring-left-zero-divisor-strict-of-mul-comm}. Its conclusion is
+the apartness of $x$ together with an apart annihilator $c$ satisfying both
+$x\cdot c\hsame0$ and $c\cdot x\hsame0$, which is exactly
+$\mathsf{StrictZD}_R(x)$ by
+\autoref{def:commring-strict-zero-divisor-data}.
+
+For the reverse implication, unfold $\mathsf{StrictZD}_R(x)$. The strict
+two-sided data gives $\mathsf{ApartZero}_R(x)$ and a witness
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$, $x\cdot c\hsame0$, and
+$c\cdot x\hsame0$. Dropping the right-annihilation conjunct leaves precisely
+the apartness of $x$, the same witness $c$, its apartness, and
+$x\cdot c\hsame0$, hence $\mathsf{LeftZD}_R(x)$.
+\end{proof}
+Ten-field fit: traditional target left and two-sided zero-divisor collapse in
+commutative rings; BEDC source $\CommRingUp$ over $\mathsf{BHist}$; carrier
+$\mathsf{BHist}$; classifier $\hsame$; stability multiplicative commutativity
+and transitivity; ledger selected annihilator witness; core theorem
+\autoref{thm:commring-left-zero-divisor-strict-iff-of-mul-comm}; exactness
+equivalence of one-sided and two-sided annihilator data; standard bridge
+ordinary commutative-ring zero divisors; status $\mathsf{ProofTarget}$.
+
 \begin{theorem}[CommRing zero-divisor product closure]
 \label{thm:commring-zero-divisor-product-closure}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
