@@ -96,7 +96,11 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     if not files:
         return True
 
-    prompt = CONFLICT_PROMPT.format(conflicted="\n".join(f"  {f}" for f in files))
+    # Use replacement rather than str.format because CONFLICT_PROMPT contains
+    # literal LaTeX braces such as \label{...}, \input{...}, and \begin{...}.
+    prompt = CONFLICT_PROMPT.replace(
+        "{conflicted}", "\n".join(f"  {f}" for f in files),
+    )
 
     if not Path(CODEX_PATH).exists():
         print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
