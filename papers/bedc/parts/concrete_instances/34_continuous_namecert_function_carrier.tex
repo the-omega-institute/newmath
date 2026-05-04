@@ -219,6 +219,29 @@ $\mathsf{ContinuousModulusWitness}(target,modulus,cert)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_graph\_modulus\_cont\_readback}
 
+\begin{theorem}[Continuous function carrier endpoint-certificate cycle tails]
+\label{thm:continuous-function-carrier-endpoint-cert-cycle-tails-empty}
+For histories \(source,map,target,modulus,cert\), a continuous-function carrier
+whose source is history-same to its certificate has empty graph tail and empty
+modulus tail:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+\Longrightarrow
+\hsame(source,cert)
+\Longrightarrow
+\hsame(map,\emp)\land\hsame(modulus,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the carrier into its graph ledger \(\Cont(source,map,target)\) and
+certificate ledger \(\Cont(target,modulus,cert)\). Transport the certificate
+ledger across \(\hsame(source,cert)\), obtaining
+\(\Cont(target,modulus,source)\). The two ledgers form a continuation cycle,
+so mutual-extension cancellation forces both tails, \(map\) and \(modulus\),
+to be history-same to \(\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_endpoint\_cert\_cycle\_tails\_empty}
+
 \begin{theorem}[Continuous function carrier prefix exactness]
 \label{thm:continuous-function-carrier-prefix-iff}
 For histories $p,source,map,target,modulus,cert$, prefixing the visible source,

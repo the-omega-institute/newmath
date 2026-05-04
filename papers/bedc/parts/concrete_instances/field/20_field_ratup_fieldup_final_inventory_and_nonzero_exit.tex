@@ -496,3 +496,96 @@ and
 exactness predicate final inventory plus external-unit classifier
 disjointness; standard bridge Phase Algebra Hierarchy $\FieldUp(\RatUp)$;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RatUp FieldUp final inventory phase-exit boundary]
+\label{thm:ratup-fieldup-final-inventory-phase-exit-boundary}
+Fix the concrete source $\mathsf{RatUpFieldSource}_F$, the operation table of
+Definition~\ref{def:ratup-fieldup-concrete-operation-table}, and the concrete
+exit object $\mathcal E_F$ of
+Definition~\ref{def:ratup-fieldup-concrete-exit-object}. Let
+$(C_D^u,R_D^u,\mu_D^u,e_D^u,N_D^u)$ be the concrete denominator tuple, let
+$h,k,\ell:\mathsf{BHist}$ satisfy $C_D^u(h)$, $C_D^u(k)$, $C_D^u(\ell)$, and
+$\mathsf{ThreeSupp}_D^u(h,k,\ell)$, and let
+$s,t,\upsilon,v,w,z:\mathsf{BMark}$ and $L,R,r:\mathsf{BHist}$ be the chosen
+selectors and contexts. For Rat-classified endpoint pairs
+$x,x',y,y':\mathsf{BHist}$ satisfying
+$$
+\mathsf{RatHistoryClassifier}(x,x')
+\land
+\mathsf{RatHistoryClassifier}(y,y'),
+$$
+for every carried denominator $q:\mathsf{BHist}$ satisfying
+$\mathsf{RatHistoryCarrier}(q)$, fix apart-zero context data
+$L_0,R_0,\tau:\mathsf{BHist}$ with $p:\mathsf{FieldApartZero}(L_0)$, guard
+histories $\alpha,\beta:\mathsf{BHist}$, the contextual action $\Gamma$, the
+affine source $\mathsf{AffAut}_F$, and the same BEDC history operations $add$,
+$mul$, $neg$, and $zero$ satisfying the CommRing hypotheses used by
+\autoref{thm:commring-zero-linear-factor-bilateral-exact-package}. If
+$$
+H:\bigl((\alpha+\beta)\hsame0 \lor (\alpha+(-\beta))\hsame0\bigr),
+$$
+and histories $u,d:\mathsf{BHist}$ satisfy $U_D(u)$ and
+$\mathsf{RatHistoryCarrier}(d)$, then the same exit object $\mathcal E_F$
+supplies one concrete $\mathsf{BHist}$-anchored $\FieldUp(\RatUp)$ boundary
+containing, at the same time:
+\begin{enumerate}
+  \item the phase-exit record certificate boundary of
+  \autoref{thm:ratup-fieldup-phase-exit-record-certificate-boundary} for the
+  displayed source, exit object, denominator tuple, histories, selectors,
+  contexts, endpoint pairs, carried denominator, apart-zero data, contextual
+  action, affine source, operations, guard hypothesis, and external-unit
+  witness;
+  \item the operation-table final inventory rows and two-sided unit coverage of
+  \autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}
+  for the displayed source, table, exit object, denominator tuple, histories,
+  selectors, contexts, endpoint pairs, and carried denominator;
+  \item the carried-external classifier separation row
+  $$
+  \bigl(
+  \mathsf{RatHistoryClassifier}(u,d)\lor
+  \mathsf{RatHistoryClassifier}(d,u)
+  \bigr)\to\mathsf{False}
+  $$
+  of
+  \autoref{thm:ratup-fieldup-final-inventory-carried-external-unit-separation}
+  for the same external unit, carried endpoint, unit witness, and carried
+  denominator endpoint.
+\end{enumerate}
+Thus the traditional final $\FieldUp(\RatUp)$ exit boundary reads the phase
+record certificate, the final-inventory unit coverage, and the carried-external
+classifier separation from one unchanged concrete exit package.
+\end{theorem}
+\begin{proof}
+First invoke
+\autoref{thm:ratup-fieldup-phase-exit-record-certificate-boundary} with the
+displayed guard hypothesis $H$ and the external-unit witness $U_D(u)$. Its
+certificate rows are read over the same source, exit object, denominator tuple,
+selectors, contexts, Rat endpoints, carried denominator, contextual action,
+affine source, and CommRing operations.
+
+Next invoke
+\autoref{thm:ratup-fieldup-final-inventory-carried-external-unit-separation}
+with the same concrete source, operation table, exit object, denominator tuple,
+histories, selectors, contexts, endpoint pairs, carried denominator $q$,
+external unit $u$, carried endpoint $d$, witness $U_D(u)$, and carrier witness
+$\mathsf{RatHistoryCarrier}(d)$. That theorem already imports the
+operation-table final inventory and two-sided unit coverage of
+\autoref{thm:ratup-fieldup-operation-table-final-inventory-two-sided-unit-coverage}.
+
+Finally conjoin the two packages. The source, table, exit object, denominator
+tuple, selectors, contexts, endpoint pairs, carried denominator, external-unit
+witness, carried endpoint, and guard datum are unchanged, so the conclusion is
+one concrete $\mathsf{BHist}$-anchored phase-exit boundary rather than two
+separately indexed row families.
+\end{proof}
+
+Per-object template: traditional target final $\FieldUp(\RatUp)$ exit
+boundary; BEDC source $\mathsf{BHist}$, $\RatUp$, $\CommRingUp$, and
+$\FieldUp$; carriers $\mathsf{RatHistoryCarrier}$ and denominator carrier
+$C_D^u$; classifiers $\mathsf{RatHistoryClassifier}$, $R_D^u$, and $\hsame$;
+stability obligations phase-exit record plus final-inventory unit separation;
+ledger source, operation table, exit object, denominator tuple, histories,
+selectors, contexts, Rat-classified endpoint pairs, carried denominator
+$q$, external unit $u$, carried endpoint $d$, guard hypothesis $H$, and witness
+$U_D(u)$; exactness one concrete boundary; downstream consumer Phase Algebra
+Hierarchy exit criterion; status $\mathsf{ProofTarget}$.

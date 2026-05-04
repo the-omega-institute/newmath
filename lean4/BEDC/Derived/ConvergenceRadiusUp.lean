@@ -282,6 +282,20 @@ theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
     (And.intro (unary_cont_closed bound.right.left constantStep constantContinuation)
       bound.right.right)
 
+theorem GeomBound_radius_constant_hsame_transport_unary {a : Nat -> BHist}
+    {r r' K K' : BHist} :
+    hsame r r' -> hsame K K' -> GeomBound a r K ->
+      UnaryHistory r' ∧ UnaryHistory K' ∧ GeomBound a r' K' := by
+  intro sameRadius sameConstant bound
+  have radiusUnary : UnaryHistory r' :=
+    unary_transport bound.left sameRadius
+  have constantUnary : UnaryHistory K' :=
+    unary_transport bound.right.left sameConstant
+  exact And.intro radiusUnary
+    (And.intro constantUnary
+      (And.intro radiusUnary
+        (And.intro constantUnary bound.right.right)))
+
 theorem GeomBound_continuation_visible_radius_endpoint_package {a : Nat -> BHist}
     {r K dr dK K' R tail : BHist} :
     GeomBound a r K -> UnaryHistory dr -> UnaryHistory dK ->

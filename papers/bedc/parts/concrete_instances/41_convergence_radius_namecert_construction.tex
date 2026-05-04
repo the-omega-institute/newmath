@@ -188,6 +188,30 @@ continuation ledgers, while the coefficient carrier clause is unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_constant\_continuation\_closed}
 
+\begin{theorem}[Geometric bound radius and constant hsame transport]
+\label{thm:geom-bound-radius-constant-hsame-transport-unary}
+For coefficients $a$, radius histories $r,r'$, and constant histories $K,K'$,
+if
+$$
+r\hsame r',
+\qquad
+K\hsame K',
+\qquad
+\mathsf{GeomBound}(a,r,K),
+$$
+then $r'$ and $K'$ are unary histories and
+$$
+\mathsf{GeomBound}(a,r',K').
+$$
+\end{theorem}
+\begin{proof}
+Unpack the geometric-bound witness into its unary radius field, unary constant
+field, and coefficient carrier family. Transport the two unary fields along
+the displayed $\hsame$ classifiers, and reuse the unchanged coefficient
+carrier family.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_radius\_constant\_hsame\_transport\_unary}
+
 \begin{theorem}[Geometric bound continuation visible radius endpoint package]
 \label{thm:geom-bound-continuation-visible-radius-endpoint-package}
 For coefficients $a$, radius histories $r,R$, constant histories $K,K'$,

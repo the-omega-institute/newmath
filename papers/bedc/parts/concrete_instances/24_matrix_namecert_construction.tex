@@ -190,6 +190,25 @@ one-headed power ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_succ\_continuation\_classifier}
 
+\begin{theorem}[Matrix singleton power visible-base successor continuation empty-result absurd]
+\label{thm:matrix-singleton-pow-visible-base-succ-continuation-empty-result-absurd}
+For any singleton-carried continuation right input $y$, a successor power whose
+base has a visible head cannot continue to the empty result:
+$$
+\ContR(\mathsf{MatrixSingletonPow}(\Ezero(m),\Eone(e)),y,r)
+\land r\hsame\emp\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(m)$ in place of $\Ezero(m)$.
+\end{theorem}
+\begin{proof}
+Transport the displayed continuation along $r\hsame\emp$ and invert the empty
+continuation result. The source side is the successor power endpoint, which
+unfolds to an append whose right factor is the visible base. Append
+empty-result inversion would identify $\Ezero(m)$, respectively $\Eone(m)$,
+with $\emp$, contradicting BEDC constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_visible\_base\_succ\_continuation\_empty\_result\_absurd}
+
 \begin{theorem}[Matrix singleton power append exponent classifier]
 \label{thm:matrix-singleton-pow-append-exponent-classifier}
 If $M$ is carried by the singleton matrix carrier and $w,q$ are unary
@@ -384,6 +403,25 @@ continuation with the BEDC right-unit continuation at $\emp$, identifying the
 result with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_empty\_result\_factors\_iff}
+
+\begin{theorem}[Matrix singleton add-mul visible-left continuation result nonempty]
+\label{thm:matrix-singleton-addmul-visible-left-continuation-result-nonempty}
+For any histories $m,N,R$, if the shared left input of the displayed singleton
+addition and multiplication has a visible head, then a continuation from the
+addition endpoint to the multiplication endpoint cannot have empty result:
+$$
+\ContR(\Ezero(m)\oplus N,\Ezero(m)\odot N,R)\land R\hsame\emp
+\Longrightarrow\bot,
+$$
+and the same statement holds with $\Eone(m)$ in place of $\Ezero(m)$.
+\end{theorem}
+\begin{proof}
+Apply the continuation empty-result factor theorem for displayed singleton
+addition and multiplication. An empty result forces the left input factor to
+be empty. This contradicts constructor separation for $\Ezero(m)$ in the first
+case and for $\Eone(m)$ in the second case.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_visible\_left\_continuation\_result\_nonempty}
 
 \begin{theorem}[Matrix singleton classifier visible right append exclusion]
 \label{thm:matrix-singleton-classifier-append-visible-right-absurd}
