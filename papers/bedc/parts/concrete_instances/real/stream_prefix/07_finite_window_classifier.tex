@@ -1,101 +1,93 @@
-\begin{definition}[Real stream finite window classifier]
-\label{def:real-stream-finite-window-classifier}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$, an anchor index $n$,
-and a zero-based window radius $m$, the finite window classifier is the bounded
-pointwise rational-history classifier
+\begin{definition}[Real unary offset bound]
+\label{def:real-unary-offset-bound}
+For histories $k,w:\Hist$, the unary offset bound is the BEDC continuation
+witness that $k$ is a certified unary observation lying below the certified
+unary bound $w$:
 $$
-\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+\mathsf{UnaryOffsetLe}(k,w)
 \Longleftrightarrow
-\forall k,\ k\le m\Longrightarrow
-\mathsf{RatHistoryClassifier}(x(n+k),y(n+k)).
+\mathsf{UnaryHistory}(k)\land
+\exists \tau:\Hist,\ \mathsf{UnaryHistory}(\tau)\land \ContR(k,\tau,w).
 $$
 \end{definition}
 
-\begin{theorem}[Real stream window classifier hsame transport]
-\label{thm:real-stream-window-classifier-hsame-transport}
-For rational-observation streams $x,y,x',y':\mathbb{N}\to\Hist$, an anchor
-index $n$, and a radius $m$, assume
-$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$. If every bounded offset
-$k\le m$ carries both endpoint rows
-$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$, then
-$\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
-\end{theorem}
-\begin{proof}
-Unfold the finite window classifier and fix an arbitrary offset $k\le m$. The
-source window hypothesis supplies the endpoint classifier
-$\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
-
-The offset transport hypothesis gives the two rows
-$x(n+k)\hsame x'(n+k)$ and $y(n+k)\hsame y'(n+k)$ at the same bounded
-observation. Apply
-\autoref{thm:rat-history-classifier-hsame-transport} to the source rational
-classifier and these endpoint rows.
-
-The result is
-$\mathsf{RatHistoryClassifier}(x'(n+k),y'(n+k))$. Since the offset was
-arbitrary under the bound $k\le m$, these transported endpoint classifiers
-repack into $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
-\end{proof}
-
-The ten-field fit is: traditional target finite observation-window stability
-for RealUp names; BEDC source RealUp windows plus RatUp endpoint classifier
-transport; carrier bounded rational-observation windows; classifier
-$\mathsf{RealStreamWindowClassifier}$; stability endpoint hsame transport;
-ledger anchor, radius, offset, and two endpoint transports; core theorem
-\autoref{thm:real-stream-window-classifier-hsame-transport}; exactness
-preservation of the bounded classifier; standard bridge finite prefix
-stability for regular rational observation names; status
-$\mathsf{ProofTarget}$.
-
-\begin{theorem}[Real stream prefix-window exactness at zero]
-\label{thm:real-stream-prefix-window-exactness-at-zero}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and every finite
-offset $m$,
+\begin{definition}[Real unary stream finite window classifier]
+\label{def:real-unary-stream-window-classifier}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$, read $a$
+as the anchor and $w$ as the bound. The finite window classifier is the
+pointwise RatUp classifier over every certified unary offset below $w$:
 $$
-\mathsf{RealStreamPrefixClassifier}(x,y,m)
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
 \Longleftrightarrow
-\mathsf{RealStreamWindowClassifier}(x,y,0,m).
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(w)\land
+\forall k,\ \mathsf{UnaryOffsetLe}(k,w)\to
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
 $$
-\end{theorem}
-\begin{proof}
-Induct on $m$. At $m=0$, the recursive prefix classifier is exactly the
-rational-history classifier at observation $0$, and the window condition has
-only the offset $k=0$.
+\end{definition}
 
-For the successor step, use
-\autoref{lem:real-stream-prefix-successor-inversion} to split a prefix through
-$m+1$ into the prefix through $m$ and the rational-history classifier at the new
-endpoint. The induction hypothesis converts the shorter prefix into the window
-condition through offset $m$.
-
-Given any $k\le m+1$, split constructively between $k\le m$ and $k=m+1$. The
-first case is handled by the shorter window; the endpoint case is exactly the
-successor rational-history classifier.
-
-Conversely, assume the window condition through $m+1$. Its restriction to
-offsets $k\le m$ gives the zero-based window through $m$, hence by induction the
-prefix through $m$. Taking $k=m+1$ gives the endpoint classifier, and the reverse
-direction of successor inversion pairs these two witnesses into the prefix
-through $m+1$.
-\end{proof}
-
-\begin{theorem}[Real stream classifier finite-window coverage]
-\label{thm:real-stream-classifier-finite-window-coverage}
-For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
-every pointwise stream classifier covers the finite observation window anchored
-at $n$ with radius $m$:
+\begin{theorem}[Real unary stream finite-window coverage]
+\label{thm:real-unary-stream-window-coverage}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w:\Hist$,
 $$
-\mathsf{RealStreamClassifier}(x,y)
+\mathsf{RealUnaryStreamClassifier}(s,t)\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(w)
 \Longrightarrow
-\mathsf{RealStreamWindowClassifier}(x,y,n,m).
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w).
 $$
 \end{theorem}
 \begin{proof}
-Assume $\mathsf{RealStreamClassifier}(x,y)$ and fix an offset $k\le m$. The
-stream classifier is pointwise, so evaluating it at the observation index $n+k$
-gives $\mathsf{RatHistoryClassifier}(x(n+k),y(n+k))$.
+Unfold Definition~\ref{def:real-unary-stream-window-classifier}. The anchor and
+bound fields are exactly the displayed assumptions $\mathsf{UnaryHistory}(a)$
+and $\mathsf{UnaryHistory}(w)$.
 
-Since the chosen offset was arbitrary under the window bound, these endpoint
-classifiers assemble exactly into
-$\mathsf{RealStreamWindowClassifier}(x,y,n,m)$.
+Fix an offset $k$ and assume $\mathsf{UnaryOffsetLe}(k,w)$. Unfold
+Definition~\ref{def:real-unary-offset-bound}; the offset witness projects
+$\mathsf{UnaryHistory}(k)$ together with a unary tail whose continuation reaches
+the bound.
+
+Apply unary append closure to $\mathsf{UnaryHistory}(a)$ and
+$\mathsf{UnaryHistory}(k)$ to obtain
+$\mathsf{UnaryHistory}(\mathsf{append}(a,k))$. Evaluating
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ at this certified observation gives
+$$
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+
+Since the offset was arbitrary under $\mathsf{UnaryOffsetLe}(k,w)$, these
+pointwise endpoint classifiers repack into
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$.
 \end{proof}
+
+\begin{lemma}[Real unary stream finite-window endpoint projection]
+\label{lem:real-unary-stream-window-endpoint-projection}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w,k:\Hist$,
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)\land
+\mathsf{UnaryOffsetLe}(k,w)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(a,k)),t(\mathsf{append}(a,k))).
+$$
+\end{lemma}
+\begin{proof}
+Unfold Definition~\ref{def:real-unary-stream-window-classifier}. The window
+witness contains the universal endpoint row for every offset satisfying
+$\mathsf{UnaryOffsetLe}(\cdot,w)$.
+
+Apply that row to the displayed offset witness
+$\mathsf{UnaryOffsetLe}(k,w)$. The result is precisely the RatUp endpoint
+classifier at $\mathsf{append}(a,k)$.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation windows for RealUp
+streams; BEDC source $\mathsf{RealUnaryStreamClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$ plus $\mathsf{UnaryHistory}$ plus $\ContR$;
+carrier $\mathsf{BHist}$ observation maps; classifier
+$\mathsf{RealUnaryStreamWindowClassifier}$; stability by unary append closure
+and pointwise classifier evaluation; ledger anchor, bound, offset, and tail
+witness; core theorem \autoref{thm:real-unary-stream-window-coverage};
+exactness endpoint projection
+\autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
+finite rational observation windows; status $\mathsf{ProofTarget}$.
