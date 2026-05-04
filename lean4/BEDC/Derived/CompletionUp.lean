@@ -154,6 +154,43 @@ theorem CompletionMetricDistanceWitness_visible_context_empty_distance_real_pref
         (And.intro visibleBase.right.right.right
           (RealStreamPrefixClassifier_endpoint n hPrefix))))
 
+theorem CompletionMetricDistanceWitness_visible_context_empty_distance_hsame_transport
+    {x x' y y' : Nat -> BHist} {n : Nat} {p q : BHist}
+    (sameX : forall m : Nat, hsame (x m) (x' m))
+    (sameY : forall m : Nat, hsame (y m) (y' m)) :
+    RealStreamPrefixClassifier x y n ->
+      MetricDistanceWitness (append p (x n)) (append (y n) q)
+        (append (append p BHist.Empty) q) ->
+        RealStreamPrefixClassifier x' y' n ∧
+          MetricDistanceWitness (append p (x' n)) (append (y' n) q)
+            (append (append p BHist.Empty) q) ∧
+          UnaryHistory p ∧ UnaryHistory q ∧ hsame (x' n) BHist.Empty ∧
+          hsame (y' n) BHist.Empty ∧ RatHistoryClassifier (x' n) (y' n) := by
+  intro hPrefix hDistance
+  have hPrefix' : RealStreamPrefixClassifier x' y' n :=
+    RealStreamPrefixClassifier_hsame_transport sameX sameY n hPrefix
+  have visibleBase :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x n) (y := y n)).mp hDistance
+  have xEmpty' : hsame (x' n) BHist.Empty :=
+    hsame_trans (hsame_symm (sameX n)) visibleBase.right.right.left
+  have yEmpty' : hsame (y' n) BHist.Empty :=
+    hsame_trans (hsame_symm (sameY n)) visibleBase.right.right.right
+  have hDistance' :
+      MetricDistanceWitness (append p (x' n)) (append (y' n) q)
+        (append (append p BHist.Empty) q) :=
+    (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+      (x := x' n) (y := y' n)).mpr
+      (And.intro visibleBase.left
+        (And.intro visibleBase.right.left (And.intro xEmpty' yEmpty')))
+  have ratClassifier' : RatHistoryClassifier (x' n) (y' n) :=
+    RealStreamPrefixClassifier_endpoint n hPrefix'
+  exact And.intro hPrefix'
+    (And.intro hDistance'
+      (And.intro visibleBase.left
+        (And.intro visibleBase.right.left
+          (And.intro xEmpty' (And.intro yEmpty' ratClassifier')))))
+
 theorem CompletionMetricDistanceWitness_visible_context_e1_symmetric_tail_real_prefix_readback
     {x y : Nat -> BHist} {n : Nat} {p q d e : BHist} :
     RealStreamPrefixClassifier x y n ->
