@@ -4618,3 +4618,116 @@ Belongs in chapter 19 (CommRing). Standard textbook stepping stone in Hungerford
 
 ---
 
+### B-180 - Ring forgets to Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring forgets to Monoid certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If R carries a RingUp(R) certificate, then dropping the additive carrier (0_R, +_R, (-)_R, distributivity rows, additive-abelian-group stability rows, and ledger entries whose provenance uses + or unary minus) yields a MonoidUp(R) certificate over R with operation mul_R, identity 1_R, and the ring's classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_zero_product_and_signed_square.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+The dual companion to the previous candidate. ring/18_ring_certificate_and_additive_laws.tex:19 (def:ring-stability-certificate) names multiplicative-monoid laws (associativity, identity, congruence) as ring obligations, and these are realized by the singleton-empty-history ring instance at ring/18_ring_intro_and_singletons.tex. 15_monoid_namecert_construction.tex:104 (def:monoid-stability-certificate) and 15_monoid:523 (def:monoid-certificate-obligations) are the target obligations. `grep -rn 'ring-forgets-monoid\|ring-multiplicative-carrier' papers/bedc/parts/ --include='*.tex'` returns 0 matches, so the multiplicative reduct is genuinely unstated even though all the law fields it would project are already proved (cf. prop:monoid-forgets-semigroup-certificate at 57_semigroup:158 for the proof template).
+
+---
+
+
+### B-181 - TotalOrder forgets to Lattice certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TotalOrder forgets to Lattice certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+If C carries a TotalOrderUp(C) certificate, then defining x ∧ y as the trichotomy-selected lesser endpoint and x ∨ y as the trichotomy-selected greater endpoint yields a LatticeUp(C) certificate whose meet and join classifier-equal the trichotomy selectors.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_carriers_and_unary_selectors.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_unary_context_laws.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/lattice/the_certificate.tex`
+
+Rationale:
+Unlike the simpler downward forget projections, this one runs sideways and EXHIBITS lattice meet/join from totalorder selectors. The selector machinery is already in place: 29_totalorder_namecert_carriers_and_unary_selectors.tex:237 (thm:totalorder-prefix-least-upper-selector) and 29_totalorder_namecert_unary_context_laws.tex:2 (thm:totalorder-prefix-greatest-lower-selector) exhibit GLB and LUB witnesses on the unary-prefix model. lattice/the_certificate.tex:18 (def:lattice-stability-certificate) requires only those bound-characterization rows, which the trichotomy-driven selectors directly supply (cf. lem:lattice-meet-idempotence-from-bounds at lattice/the_certificate.tex:45 — its hypothesis IS the GLB rule). `grep -rn 'totalorder-forgets-lattice\|totalorder.*lattice.*forget' papers/bedc/parts/ --include='*.tex'` returns 0 hits. This is the natural classifier-level promotion theorem missing from the order/lattice chapter chain.
+
+---
+
+
+### B-182 - Field forgets to Ring certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Field forgets to Ring certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If F carries a FieldUp(F) certificate, then composing the existing field→commring projection with the existing commring→ring projection yields a RingUp(F) certificate over the same scalar carrier, classifier, +_F, 0_F, (-)_F, mul_F, and 1_F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/field/20_field_certificate_record.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/commring/19_commring_core.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+
+Rationale:
+field/20_field_certificate_record.tex:206 (thm:field-certificate-forgets-commring-certificate) and commring/19_commring_core.tex:229 (prop:commring-forgets-ring-certificate) both exist; the natural composite is the direct Field → Ring projection, but `grep -rn 'field-forgets-ring\|field-ring-projection' papers/bedc/parts/ --include='*.tex'` returns 0 hits. The corresponding two-step composite is exactly the construction used implicitly throughout 22_vecspace_namecert_construction.tex:495 (cor:vecspace-additive-carrier-projection) — the ring-side reduct of a field-side certificate. Promoting that implicit composite to a labeled corollary unblocks consumer chapters (vecspace, linearmap, polynomial) that currently re-derive the projection in prose.
+
+---
+
+
+### B-183 - AbGroup forgets to Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup forgets to Monoid certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries an AbGroupUp(C) certificate, then dropping the additive-inverse field, the commutativity field, and inverse-witness ledger entries yields a MonoidUp(C) certificate over the same carrier, classifier, addition operation, and zero element.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/group/16_group_certificate_tail.tex`
+- `papers/bedc/parts/concrete_instances/15_monoid_namecert_construction.tex`
+
+Rationale:
+prop:abgroup-forgets-group-certificate (17_abgroup:722) and prop:group-forgets-monoid-certificate (group/16_group_certificate_tail.tex:103) both exist; the direct AbGroup → Monoid projection (skipping Group) is unstated. `grep -rn 'abgroup-forgets-monoid\|abgroup-monoid-projection' papers/bedc/parts/ --include='*.tex'` returns 0 hits. This is the additive analogue of the field-forgets-ring candidate above and uses the same composite-corollary pattern. Justification for separateness: 21_module_namecert_construction.tex:553 explicitly relies on 'the additive abelian-group laws' as a single bundle but never names this bundle through the monoid certificate, and the linearmap chapter (linearmap/module_linearmap_certificates.tex:13) re-derives the additive monoid each time it needs a unit-and-associativity reduct.
+
+---
+
