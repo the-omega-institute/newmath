@@ -169,6 +169,27 @@ out \(zq\hsame\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_complex\_carrier}
 
+\begin{theorem}[Pure-imaginary suffix continuation classifier]
+\label{thm:cplx-pure-imaginary-suffix-continuation-classifier}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) and
+\(\mathsf{CplxPureImaginary}(\phi,w)\) hold with \(\theta\hsame\phi\). If
+unary suffixes \(q,q'\) satisfy \(q\hsame q'\), \(q\) continues \(z\) to
+\(zq\), and \(q'\) continues \(w\) to \(wq\), then
+\(\mathsf{ComplexHistoryClassifier}(zq,wq)\).
+\end{theorem}
+\begin{proof}
+Split both suffix continuations through their imaginary components. The real
+component on both sides is the fixed rational carrier \(\Eone(\emp)\), so it
+classifies to itself. The imaginary base components
+\(\Eone(\theta)\) and \(\Eone(\phi)\) classify by rational one-tail exactness
+from the unary witnesses and \(\theta\hsame\phi\). Close that imaginary
+classifier under the matched suffixes \(q\) and \(q'\), then transport it to
+the displayed split imaginary outputs. The component classifier introduction
+theorem combines the real and imaginary component classifiers through the two
+continuation ledgers, yielding the complex endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_continuation\_classifier}
+
 \begin{theorem}[Pure-imaginary continuation has complex carrier]
 \label{thm:cplx-pure-imaginary-continuation-complex-carrier}
 If \(z\) is the pure-imaginary source determined by \(\theta\), a unary suffix
