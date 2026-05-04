@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v2.5 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.6 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Role
 You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touch any file. You output a JSON list of CONCRETE, ACTIONABLE revision targets that the next phase will implement. Think of yourself as a senior referee whose comments must produce a better paper, not a checklist of stylistic noise.
@@ -150,7 +150,9 @@ Run before target selection:
 python3 lean4/scripts/critical_path.py
 ```
 
-The script ranks every horizon `<X>Up` chapter by `transitive_downstream / (1 + thms)` after excluding nodes that are saturated (`thms >= 10`) or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
+The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry `\closureat{<X>Up}{\checkedCertStr|\bridgeCertStr}` (= binarily closed) or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
+
+**Closure proposals (`kind = "closure_mark"`)**. If a horizon `<X>Up` chapter has every NameCert clause (carrier / classifier / stability / exactness / ledger / standard bridge if applicable) `\leanchecked` to a Lean target that resolves under `lean4/BEDC/`, AND the chapter does NOT yet carry `\closureat{<X>Up}{\checkedCertStr}`, propose a `closure_mark` target. This is a one-line revise round that adds the closure marker at the end of the chapter's last sub-file. Closure proposals always rank ahead of new theory_extensions for the same chapter — closing a chapter retires it from `critical_path.top` and frees Phase B to attack new fronts. To detect closure-eligible chapters: from the critical_path output, check chapters with `thms >= 10` that are still in `top` (i.e. open per `\closureat` but `\leanchecked`-rich); their NameCert is likely complete and just needs the explicit closure marker.
 
 If a top-3 chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
 
@@ -348,7 +350,7 @@ Output a single fenced JSON block:
   "candidate_pool": [
     {
       "candidate_id": "C1",
-      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension",
+      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension | closure_mark",
       "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
       "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
       "summary": "One-sentence summary of the candidate.",
@@ -369,7 +371,7 @@ Output a single fenced JSON block:
   "targets": [
     {
       "candidate_id": "C1",
-      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension",
+      "kind": "logical_gap | notation_inconsistency | dead_material | missing_companion | unclear_statement | stronger_available | structural | theory_extension | closure_mark",
       "paper_files": ["papers/bedc/parts/core/05_xxx.tex"],
       "new_files": ["(optional; only when the substantive target requires a line-cap split) papers/bedc/parts/<theme>/<subdir>/<child>.tex"],
       "section_label": "sec:core-some-concept",

@@ -121,6 +121,17 @@ SCHEMA_ONLY_HORIZONS: set[str] = {
 NAME_RE = re.compile(r"^\d+_([a-z][a-z0-9]*)_namecert_construction\.tex$")
 UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
+# `\closureat{<X>Up}{<strength>}` is the per-chapter binary closure marker
+# (preamble.tex). The chapter is "closed" iff a closureat with strength
+# `\checkedCertStr` or `\bridgeCertStr` is present anywhere under the
+# chapter's recursive include closure. Critical_path excludes closed
+# chapters from `top` so codex rounds focus on still-open horizons.
+CLOSUREAT_RE = re.compile(
+    r"\\closureat\{[^}]*?\b([A-Z][A-Za-z]*)Up\b[^}]*\}\{[^}]*\\?(\w+)Str\b[^}]*\}"
+)
+INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
+CLOSED_STRENGTHS = {"checkedCert", "bridgeCert"}
+PAPER_ROOT_DIR = ROOT / "papers" / "bedc"
 
 
 def normalize_name(stem: str) -> str:
@@ -148,21 +159,65 @@ def derive_lean_camel_case(paper_key: str, paper_text: str) -> str:
     return "".join(p.capitalize() for p in paper_key.split("_"))
 
 
+def _read_chapter_recursive(chapter_path: Path,
+                              seen: "set | None" = None) -> str:
+    """Read a paper chapter and recursively follow `\\input{...}` includes.
+    Returns the concatenated text. `seen` guards against include cycles.
+    All `\\input` paths are resolved relative to PAPER_ROOT_DIR (matching
+    pdflatex's working directory)."""
+    if seen is None:
+        seen = set()
+    chapter_path = chapter_path.resolve()
+    if chapter_path in seen or not chapter_path.exists():
+        return ""
+    seen.add(chapter_path)
+    try:
+        text = chapter_path.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return ""
+    parts = [text]
+    for m in INPUT_RE.finditer(text):
+        rel = m.group(1).strip()
+        if not rel.endswith(".tex"):
+            rel = rel + ".tex"
+        child = (PAPER_ROOT_DIR / rel).resolve()
+        parts.append(_read_chapter_recursive(child, seen))
+    return "".join(parts)
+
+
+def is_chapter_closed(chapter_text: str, name: str) -> "str | None":
+    """If chapter has `\\closureat{<Name>Up}{\\<strength>Str}` with strength
+    in CLOSED_STRENGTHS, return the strength string. Else None."""
+    target_lower = name.lower()
+    for m in CLOSUREAT_RE.finditer(chapter_text):
+        if m.group(1).lower() != target_lower:
+            continue
+        strength = m.group(2)  # e.g. "checkedCert" / "bridgeCert"
+        if strength in CLOSED_STRENGTHS:
+            return strength
+    return None
+
+
 def extract_horizons() -> dict[str, dict]:
-    """Scan namecert chapters; return {name: {file_paper, deps, thms}}."""
+    """Scan namecert chapters; return {name: {file_paper, deps, thms, closed_at}}."""
     horizons: dict[str, dict] = {}
     for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
         name = normalize_name(tex.name)
         text = tex.read_text(encoding="utf-8", errors="replace")
-        deps = {m.group(1).lower() for m in UP_REF_RE.finditer(text)}
+        # Resolve all included subfiles for closure / dep / marker scanning.
+        full_text = _read_chapter_recursive(tex)
+        deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
         deps.discard(name)
-        thms = len(LEAN_MARKER_RE.findall(text))
+        thms = len(LEAN_MARKER_RE.findall(full_text))
+        closed_at = is_chapter_closed(full_text, name)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         horizons[name] = {
             "name": name,
             "deps": sorted(deps),
             "thms": thms,
+            "closed_at": closed_at,           # None | "checkedCert" | "bridgeCert"
+            "closed": closed_at is not None,
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
         }
@@ -248,21 +303,39 @@ def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
 
 def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                         threshold: int) -> list[dict]:
+    """Rank OPEN horizons by transitive downstream impact.
+
+    A horizon is "closed" iff its chapter has `\\closureat{<X>Up}{checkedCert
+    or bridgeCert}` somewhere in its include closure — see preamble.tex
+    `\\closureat` macro and `is_chapter_closed`. Closed horizons are
+    excluded entirely (the binary closure replaces the old
+    `thms >= SATURATION_THRESHOLD` heuristic).
+
+    Among open horizons, score is `downstream` (binary). The legacy
+    `score / (1 + thms)` denominator is preserved as a tiebreaker so that
+    among horizons with equal downstream impact, the one with fewer
+    `\\leanchecked` markers comes first (closer to a meaningful
+    closureat opportunity).
+    """
     ranked: list[dict] = []
     for n, info in horizons.items():
         if n in SCHEMA_ONLY_HORIZONS:
             continue
-        if info["thms"] >= SATURATION_THRESHOLD:
+        if info.get("closed"):
             continue
         if not deps_ready(n, horizons, threshold):
             continue
-        score = downstream[n] / (1.0 + info["thms"])
+        score = downstream[n]
+        # Tiebreaker: prefer horizons with fewer thms (closer to a fresh
+        # closureat opportunity, fewer accumulated wrappers).
+        tiebreak = downstream[n] / (1.0 + info["thms"])
         ranked.append({
             **info,
             "downstream": downstream[n],
-            "score": round(score, 2),
+            "score": score,
+            "tiebreak": round(tiebreak, 2),
         })
-    ranked.sort(key=lambda r: (-r["score"], -r["downstream"], r["name"]))
+    ranked.sort(key=lambda r: (-r["score"], -r["tiebreak"], r["name"]))
     return ranked
 
 
@@ -287,12 +360,26 @@ def main() -> int:
             break
 
     rolled = _claim_top_with_cooldown(ranked)
+
+    # Closure stats: how many of each strength under the binary closure
+    # marker `\closureat`. Useful for the daily self-check to track
+    # progress toward full theory closure.
+    closed_count = {"checkedCert": 0, "bridgeCert": 0}
+    open_count = 0
+    for info in horizons.values():
+        c = info.get("closed_at")
+        if c in closed_count:
+            closed_count[c] += 1
+        elif not info.get("closed"):
+            open_count += 1
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
         "deps_ready_threshold_used": relaxed_at if relaxed_at is not None else strict,
         "deps_ready_relaxed": relaxed_at is not None,
-        "saturation_threshold": SATURATION_THRESHOLD,
+        "closed_horizons": closed_count,
+        "open_horizons": open_count,
         "top": rolled[:10],
     }
     print(json.dumps(payload, indent=2, ensure_ascii=False))

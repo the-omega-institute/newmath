@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v2.5 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v2.6 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Round P<ROUND_NUM>
 
@@ -118,7 +118,18 @@ For each target in the list above:
    - Do **NOT** introduce a new `inductive` type or new `class` field merely to support the proposed theorem. The proposal must be statable using existing kernel + setup objects.
    - Do **NOT** edit `lean4/BEDC/...` for a theory_extension target. Paper proposes; Lean implements separately.
 
-9. If the target's `paper_files[0]` matches `papers/bedc/parts/capstones/...` (capstone bridge theorem with `cross_chapter_unification = 2`):
+9. **Closure marker (`\closureat{...}{\checkedCertStr}`)**: a chapter is binarily CLOSED iff it carries `\closureat{<X>Up}{\checkedCertStr}` (or `\bridgeCertStr`) somewhere under its include closure (preamble.tex). `lean4/scripts/critical_path.py` excludes closed chapters from `top`, so adding this marker is the only way the lean pipeline retires a horizon. Rules:
+   - **When to add**: a target with `kind=closure_mark` proposes the closure for chapter `<X>Up`. BEFORE adding, verify every NameCert clause (carrier / classifier / stability fields / exactness / ledger / standard bridge if applicable) has a `\leanchecked` whose target resolves under `lean4/BEDC/<X>Up.lean` (or `<X>Up/...`). `python3 lean4/scripts/bedc_ci.py audit` must report 0 unresolved markers for this chapter.
+   - **Where to add**: at the END of the chapter's last sub-file (the file LaTeX renders last for that chapter), on its own line, OUTSIDE any `\begin{theorem}/\begin{definition}` block.
+   - **What to write**:
+     ```
+     \closureat{\<X>Up}{\checkedCertStr}
+     ```
+     Use `\bridgeCertStr` only if the chapter exhibits a complete `\StdBridge` per `\autoref{ch:acceptance-bridge}`.
+   - **Removing or downgrading** a `\closureat` marker is a deliberate downgrade and reopens the chapter to lean rounds. Don't do this lightly — it should be a separate target, justified by a found defect.
+   - The marker is the manuscript's binary commitment that the theory has reached the named strength. Adding it without coverage is a discipline violation that the audit will catch (`bedc_ci.py audit` will fail when a `\leanchecked` marker is unresolved).
+
+10. If the target's `paper_files[0]` matches `papers/bedc/parts/capstones/...` (capstone bridge theorem with `cross_chapter_unification = 2`):
    - If the file does not yet exist (i.e. `targets[0].new_files` lists it), create it with this header:
      ```
      \section{<Title>}
@@ -196,12 +207,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-prompts: v2.5
+prompts: v2.6
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v2.5` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v2.6` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
