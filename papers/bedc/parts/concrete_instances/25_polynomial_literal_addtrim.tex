@@ -140,3 +140,217 @@ The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)+\mathsf{Eval}_{\alpha,R}(q)$ 
 
 If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$, and $\mathsf{Eval}_{\alpha,R}$ on each displayed representative is the unnormalized Horner evaluation. Substituting these equalities gives the carrier formula.
 \end{proof}
+
+\begin{lemma}[Horner evaluation respects structural classifier]
+\label{lem:horner-evaluation-structural-classifier}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $x,y:\mathsf{ListCarrier}(R)$, if
+$$
+\mathsf{ListClassifierSpec}(\sim_R,x,y)
+$$
+holds, then
+$$
+\mathsf{eval}_{\alpha,R}(x)\sim_R\mathsf{eval}_{\alpha,R}(y).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the displayed structural classifier witness from \autoref{def:list-classifier-specification}. By \autoref{thm:list-classifier-case-exactness}, the only constructor cases are nil-nil and cons-cons; mixed nil-cons shapes have no classifier witness.
+
+In the nil-nil case, the two Horner equations in \autoref{def:polynomial-horner-evaluation} identify both endpoints with $0_R$. The zero self-classification field retained in \autoref{def:ring-stability-certificate} gives $0_R\sim_R0_R$.
+
+In the cons-cons case, write $x=\mathsf{cons}(a,x')$ and $y=\mathsf{cons}(b,y')$. The classifier constructor supplies $a\sim_R b$ and a tail witness $\mathsf{ListClassifierSpec}(\sim_R,x',y')$. The induction hypothesis gives
+$$
+\mathsf{eval}_{\alpha,R}(x')\sim_R\mathsf{eval}_{\alpha,R}(y').
+$$
+The carried point $\alpha$ is self-classified by the scalar certificate. Multiplication congruence from \autoref{def:ring-stability-certificate} transports the tail comparison through left multiplication by $\alpha$, giving
+$$
+\alpha\cdot\mathsf{eval}_{\alpha,R}(x')\sim_R
+\alpha\cdot\mathsf{eval}_{\alpha,R}(y').
+$$
+Addition congruence combines this comparison with the head comparison $a\sim_Rb$:
+$$
+a+\alpha\cdot\mathsf{eval}_{\alpha,R}(x')\sim_R
+b+\alpha\cdot\mathsf{eval}_{\alpha,R}(y').
+$$
+The cons recursion equation in \autoref{def:polynomial-horner-evaluation} identifies these two endpoints with $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x'))$ and $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(b,y'))$, respectively.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation respects the polynomial classifier]
+\label{thm:polynomial-evaluation-respects-polynomial-classifier}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R(p,q)
+\Longrightarrow
+\mathsf{Eval}_{\alpha,R}(p)\sim_R\mathsf{Eval}_{\alpha,R}(q).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{PolySame}_R$ using \autoref{def:polynomial-raw-add-comparison-data}. A classifier witness for $p$ and $q$ is exactly
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(p),\mathsf{trim}_R(q)).
+$$
+Apply \autoref{lem:horner-evaluation-structural-classifier} to the two trimmed spines. This gives
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(p))\sim_R
+\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(q)).
+$$
+The normalized evaluation definition in \autoref{def:polynomial-horner-evaluation} reads the left endpoint as $\mathsf{Eval}_{\alpha,R}(p)$ and the right endpoint as $\mathsf{Eval}_{\alpha,R}(q)$, giving the displayed implication.
+\end{proof}
+
+\begin{definition}[Polynomial raw Cauchy product]
+\label{def:polynomial-raw-cauchy-product}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and raw addition $\mathsf{radd}_R$ from \autoref{def:polynomial-raw-add-comparison-data}. For a scalar coefficient $a$ and a finite coefficient spine $y:\mathsf{ListCarrier}(R)$, define scalar multiplication of coefficient spines by
+$$
+\mathsf{rscale}_R(a,\mathsf{nil}):=\mathsf{nil},
+\qquad
+\mathsf{rscale}_R(a,\mathsf{cons}(b,y)):=\mathsf{cons}(a\cdot b,\mathsf{rscale}_R(a,y)).
+$$
+Define the one-place coefficient shift by
+$$
+\mathsf{shift}_R(y):=\mathsf{cons}(0_R,y).
+$$
+The raw polynomial product is the finite recursion
+$$
+\mathsf{rmul}_R(\mathsf{nil},y):=\mathsf{nil},
+$$
+$$
+\mathsf{rmul}_R(\mathsf{cons}(a,x),y):=
+\mathsf{radd}_R(\mathsf{rscale}_R(a,y),\mathsf{shift}_R(\mathsf{rmul}_R(x,y))).
+$$
+The normalized polynomial product is
+$$
+\mathsf{PolyMul}_R(x,y):=\mathsf{trim}_R(\mathsf{rmul}_R(\mathsf{trim}_R(x),\mathsf{trim}_R(y))).
+$$
+This is the Cauchy product in low-coefficient-first Horner form: the cons clause expresses $(a+Xx)y=ay+X(xy)$.
+\end{definition}
+
+\begin{lemma}[Horner evaluation of scalar-multiplied coefficient spines]
+\label{lem:horner-evaluation-raw-scalar-product}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For every carried scalar coefficient $a$ and every finite coefficient spine $y:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{rscale}_R(a,y))\sim_R
+ a\cdot\mathsf{eval}_{\alpha,R}(y).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine $y$ from \autoref{def:list-carrier}. In the nil case, both the scalar-multiple spine and its Horner value are $0_R$. The target endpoint is $a\cdot0_R$, and the zero-multiplication row in \autoref{def:ring-stability-certificate}, with symmetry of $\sim_R$, gives the displayed comparison.
+
+In the cons case, write $y=\mathsf{cons}(b,y')$. The recursion in \autoref{def:polynomial-raw-cauchy-product} and the Horner recursion in \autoref{def:polynomial-horner-evaluation} identify the left endpoint with
+$$
+a\cdot b+\alpha\cdot\mathsf{eval}_{\alpha,R}(\mathsf{rscale}_R(a,y')).
+$$
+The induction hypothesis and multiplication congruence classify this endpoint with
+$$
+a\cdot b+\alpha\cdot(a\cdot\mathsf{eval}_{\alpha,R}(y')).
+$$
+Multiplicative associativity, multiplicative commutativity from \autoref{def:commring-stability-certificate}, and multiplication congruence classify
+$$
+\alpha\cdot(a\cdot\mathsf{eval}_{\alpha,R}(y'))
+$$
+with
+$$
+a\cdot(\alpha\cdot\mathsf{eval}_{\alpha,R}(y')).
+$$
+Addition congruence transports this comparison under the common summand $a\cdot b$. The left distributive row in \autoref{def:ring-stability-certificate}, used in the reverse direction, then identifies
+$$
+a\cdot b+a\cdot(\alpha\cdot\mathsf{eval}_{\alpha,R}(y'))
+$$
+with
+$$
+a\cdot(b+\alpha\cdot\mathsf{eval}_{\alpha,R}(y')).
+$$
+The final endpoint is $a\cdot\mathsf{eval}_{\alpha,R}(\mathsf{cons}(b,y'))$ by the Horner recursion, and transitivity composes the comparisons.
+\end{proof}
+
+\begin{lemma}[Horner evaluation of coefficient shift]
+\label{lem:horner-evaluation-coefficient-shift}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For every finite coefficient spine $x:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{shift}_R(x))\sim_R
+\alpha\cdot\mathsf{eval}_{\alpha,R}(x).
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{def:polynomial-raw-cauchy-product}, $\mathsf{shift}_R(x)=\mathsf{cons}(0_R,x)$. The Horner recursion from \autoref{def:polynomial-horner-evaluation} makes its evaluation
+$$
+0_R+\alpha\cdot\mathsf{eval}_{\alpha,R}(x).
+$$
+The additive left-zero row in \autoref{def:ring-stability-certificate} classifies this endpoint with $\alpha\cdot\mathsf{eval}_{\alpha,R}(x)$.
+\end{proof}
+
+\begin{lemma}[Horner evaluation respects raw polynomial multiplication]
+\label{lem:horner-evaluation-raw-multiplicative}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $x,y:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(x,y))\sim_R
+\mathsf{eval}_{\alpha,R}(x)\cdot\mathsf{eval}_{\alpha,R}(y).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the first spine $x$. In the nil case, $\mathsf{rmul}_R(\mathsf{nil},y)=\mathsf{nil}$, so the left endpoint evaluates to $0_R$. The target endpoint is $0_R\cdot\mathsf{eval}_{\alpha,R}(y)$, and the zero-multiplication row in \autoref{def:ring-stability-certificate}, with symmetry, gives the comparison.
+
+For the cons case, write $x=\mathsf{cons}(a,x')$, put $u=\mathsf{eval}_{\alpha,R}(x')$, and put $v=\mathsf{eval}_{\alpha,R}(y)$. The raw product recursion in \autoref{def:polynomial-raw-cauchy-product} and the raw additivity theorem \autoref{lem:horner-evaluation-raw-additive} give
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(\mathsf{cons}(a,x'),y))\sim_R
+\mathsf{eval}_{\alpha,R}(\mathsf{rscale}_R(a,y))+
+\mathsf{eval}_{\alpha,R}(\mathsf{shift}_R(\mathsf{rmul}_R(x',y))).
+$$
+By \autoref{lem:horner-evaluation-raw-scalar-product}, the first summand is classified with $a\cdot v$. By \autoref{lem:horner-evaluation-coefficient-shift}, the second summand is classified with
+$$
+\alpha\cdot\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(x',y)).
+$$
+The induction hypothesis and multiplication congruence classify this with $\alpha\cdot(u\cdot v)$. Multiplicative associativity classifies $\alpha\cdot(u\cdot v)$ with $(\alpha\cdot u)\cdot v$. Addition congruence therefore gives
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(\mathsf{cons}(a,x'),y))\sim_R
+ a\cdot v+(\alpha\cdot u)\cdot v.
+$$
+The right distributive row retained by \autoref{prop:commring-forgets-ring-certificate}, equivalently derived from \autoref{thm:commring-right-distrib-from-left}, classifies
+$$
+(a+\alpha\cdot u)\cdot v
+$$
+with
+$$
+a\cdot v+(\alpha\cdot u)\cdot v.
+$$
+Using symmetry of this distributive comparison and the Horner recursion
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x'))=a+\alpha\cdot u,
+$$
+transitivity gives the required cons-case endpoint.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation is multiplicative]
+\label{thm:polynomial-evaluation-multiplicative-homomorphism}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. Fix a carried scalar point $\alpha$. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{PolyMul}_R(p,q))\sim_R
+\mathsf{Eval}_{\alpha,R}(p)\cdot\mathsf{Eval}_{\alpha,R}(q).
+$$
+If $p$ and $q$ are normalized representatives in the polynomial carrier, the same assertion is the carrier formula
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{PolyMul}_R(p,q))\sim_R
+\mathsf{eval}_{\alpha,R}(p)\cdot\mathsf{eval}_{\alpha,R}(q).
+$$
+\end{theorem}
+\begin{proof}
+Put $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$. By \autoref{def:polynomial-raw-cauchy-product},
+$$
+\mathsf{PolyMul}_R(p,q)=\mathsf{trim}_R(\mathsf{rmul}_R(p_0,q_0)).
+$$
+Trim idempotence from \autoref{def:polynomial-stability-certificate} identifies the normalized evaluation of this endpoint with
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{rmul}_R(p_0,q_0)).
+$$
+Applying \autoref{lem:horner-evaluation-zero-tail-invariance} gives
+$$
+\mathsf{Eval}_{\alpha,R}(\mathsf{rmul}_R(p_0,q_0))\sim_R
+\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(p_0,q_0)).
+$$
+By \autoref{lem:horner-evaluation-raw-multiplicative},
+$$
+\mathsf{eval}_{\alpha,R}(\mathsf{rmul}_R(p_0,q_0))\sim_R
+\mathsf{eval}_{\alpha,R}(p_0)\cdot\mathsf{eval}_{\alpha,R}(q_0).
+$$
+The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)\cdot\mathsf{Eval}_{\alpha,R}(q)$ by the definition of $p_0$, $q_0$, and normalized evaluation in \autoref{def:polynomial-horner-evaluation}. Classifier transitivity composes the displayed comparisons.
+
+If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$. The product endpoint is normalized by its defining trim, so normalized evaluation on $\mathsf{PolyMul}_R(p,q)$ is the unnormalized Horner evaluation of that product. Substituting these equalities gives the carrier formula.
+\end{proof}

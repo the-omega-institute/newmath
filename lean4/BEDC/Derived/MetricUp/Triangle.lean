@@ -211,42 +211,43 @@ theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
     {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
       MetricDistanceWitness dxy z dxyz ->
-        ((hsame dxyz BHist.Empty -> False) <->
+        ((hsame dxyz BHist.Empty -> False) ↔
           (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
             (hsame z BHist.Empty -> False) ∨ (hsame dxy BHist.Empty -> False) ∨
               (hsame dyz BHist.Empty -> False)) := by
   intro xy yz xyz
   constructor
   · intro nonemptyDistance
-    have endpointNonempty :=
+    have endpoints :=
       MetricDistanceWitness_triangle_nonempty_endpoint_nonempty xy yz xyz nonemptyDistance
-    cases endpointNonempty with
+    cases endpoints with
     | inl nonemptyX =>
         exact Or.inl nonemptyX
-    | inr yzEndpoint =>
-        cases yzEndpoint with
+    | inr endpointRest =>
+        cases endpointRest with
         | inl nonemptyY =>
             exact Or.inr (Or.inl nonemptyY)
         | inr nonemptyZ =>
             exact Or.inr (Or.inr (Or.inl nonemptyZ))
-  · intro nonemptySpine sameDistanceEmpty
+  · intro nonemptySpine
+    intro emptyDistance
     have depthZero : MetricDistanceDepth dxyz = 0 :=
-      MetricDistanceDepth_zero_iff_empty.mpr sameDistanceEmpty
+      MetricDistanceDepth_zero_iff_empty.mpr emptyDistance
     have emptySpine :=
       (MetricDistanceWitness_triangle_depth_zero_iff_empty_spine xy yz xyz).mp depthZero
     cases nonemptySpine with
     | inl nonemptyX =>
         exact nonemptyX emptySpine.left
-    | inr rest =>
-        cases rest with
+    | inr spineRest =>
+        cases spineRest with
         | inl nonemptyY =>
             exact nonemptyY emptySpine.right.left
-        | inr rest =>
-            cases rest with
+        | inr spineRest =>
+            cases spineRest with
             | inl nonemptyZ =>
                 exact nonemptyZ emptySpine.right.right.left
-            | inr rest =>
-                cases rest with
+            | inr spineRest =>
+                cases spineRest with
                 | inl nonemptyDxy =>
                     exact nonemptyDxy emptySpine.right.right.right.left
                 | inr nonemptyDyz =>
