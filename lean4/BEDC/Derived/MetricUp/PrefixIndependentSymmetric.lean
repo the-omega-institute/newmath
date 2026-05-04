@@ -71,6 +71,19 @@ theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_continuati
   cases leftCont
   exact rightCont
 
+theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_witness_splice
+    {p q p' q' x y dxy dyx l r mid out : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 -> UnaryHistory l -> UnaryHistory r ->
+          Cont l dyx mid -> Cont mid r out -> MetricDistanceWitness l r out := by
+  intro forward reverse depthZero lCarrier rCarrier leftCont rightCont
+  have spliced : Cont l r out :=
+    MetricDistanceWitness_prefix_independent_symmetric_zero_depth_continuation_splice
+      forward reverse depthZero leftCont rightCont
+  exact And.intro lCarrier
+    (And.intro rCarrier (And.intro (unary_cont_closed lCarrier rCarrier spliced) spliced))
+
 theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_distance_continuation_result
     {p q p' q' x y dxy dyx l mid out : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
