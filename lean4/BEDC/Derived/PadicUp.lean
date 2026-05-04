@@ -106,6 +106,17 @@ theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
   | intro n data =>
       exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
 
+theorem PadicPrimeScale_succ_exponent_factorization_iff {p q r : BHist} :
+    PadicPrimeScale p (BHist.e1 q) r ↔
+      ∃ n : BHist, PadicPrimeScale p q n ∧ Cont n p r := by
+  constructor
+  · intro scale
+    exact PadicPrimeScale_succ_exponent_inversion scale
+  · intro factors
+    cases factors with
+    | intro n data =>
+        exact And.intro data.left.left (NatMul.succ data.left.right data.right)
+
 theorem PadicPrimeScale_exponent_result_cases {p exponent result : BHist} :
     PadicPrimeScale p exponent result ->
       (hsame exponent BHist.Empty ∧ hsame result BHist.Empty) ∨
@@ -277,6 +288,20 @@ theorem PadicPrimeScale_append_empty_result_empty_factors_iff {p w q n e r : BHi
     exact append_eq_empty_iff.mp (Iff.mp resultIff resultEmpty)
   · intro partsEmpty
     exact Iff.mpr resultIff (append_eq_empty_iff.mpr partsEmpty)
+
+theorem PadicPrimeScale_append_empty_factor_result_hsame {p w q n e r : BHist} :
+    PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
+      (hsame w BHist.Empty -> hsame r e) ∧ (hsame q BHist.Empty -> hsame r n) := by
+  intro left right continuation
+  constructor
+  · intro wEmpty
+    have nEmpty : hsame n BHist.Empty :=
+      Iff.mpr (PadicPrimeScale_empty_result_iff_empty_exponent left) wEmpty
+    exact cont_respects_hsame nEmpty (hsame_refl e) continuation (cont_left_unit e)
+  · intro qEmpty
+    have eEmpty : hsame e BHist.Empty :=
+      Iff.mpr (PadicPrimeScale_empty_result_iff_empty_exponent right) qEmpty
+    exact cont_respects_hsame (hsame_refl n) eEmpty continuation (cont_right_unit n)
 
 theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail : BHist} :
     (PadicPrimeScale p (BHist.e0 tail) n -> PadicPrimeScale p q e -> Cont n e r ->

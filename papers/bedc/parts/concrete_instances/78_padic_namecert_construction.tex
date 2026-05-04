@@ -84,6 +84,21 @@ prime-scale witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_inversion}
 
+\begin{theorem}[Prime scale successor exponent factorization]
+\label{thm:padic-prime-scale-succ-exponent-factorization}
+A successor-exponent prime scale $\mathsf{PadicPrimeScale}(p,\Eone(q),r)$
+holds exactly when some predecessor result $n$ carries
+$\mathsf{PadicPrimeScale}(p,q,n)$ and a continuation $\Cont(n,p,r)$.
+\end{theorem}
+\begin{proof}
+The forward direction is successor-exponent inversion. Conversely, the
+predecessor scale gives the prime field and a concrete
+$\mathsf{NatMul}(p,q,n)$ witness; the successor constructor for
+$\mathsf{NatMul}$, applied to $\Cont(n,p,r)$, rebuilds the scale over
+$\Eone(q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_factorization\_iff}
+
 \begin{lemma}[Prime scale exponent-result cases]
 \label{lem:padic-prime-scale-exponent-result-cases}
 Every \(\mathsf{PadicPrimeScale}(p,e,r)\) witness is either the empty exponent
@@ -264,6 +279,22 @@ scales reduces \(r\hsame\emp\) to
 that condition into the two factor witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_result\_empty\_factors\_iff}
+
+\begin{theorem}[Prime scale appended empty factor result readback]
+\label{thm:padic-prime-scale-append-empty-factor-result-hsame}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, an empty left exponent
+factor identifies the continuation result with the right factor result, and an
+empty right exponent factor identifies the continuation result with the left
+factor result.
+\end{theorem}
+\begin{proof}
+Prime-scale empty-result exactness turns the empty exponent factor into an
+empty factor result. The continuation ledger is then compared with the
+corresponding left-unit or right-unit continuation by $\Cont$ stability under
+$\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_factor\_result\_hsame}
 
 \begin{theorem}[Prime scale visible exponent nonempty result]
 \label{thm:padic-prime-scale-append-visible-exponent-result-nonempty}
