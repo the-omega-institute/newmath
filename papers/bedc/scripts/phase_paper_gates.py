@@ -54,7 +54,6 @@ _DEFAULT_FORBIDDEN_MATH_PATTERNS = [
     r"\\begin\{equation\*?\}",
     r"\\begin\{align\*?\}",
     r"\\begin\{eqnarray\*?\}",
-    r"(?<!\\)\\\[",
 ]
 
 LEAN_MARKER_RE = re.compile(
