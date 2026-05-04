@@ -471,6 +471,54 @@ contextual witness and recovers $\hsame(d_{yz},e)$ at the exposed middle target.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_context\_endpoint\_deterministic}
 
+\begin{theorem}[Metric distance witness triangle append context endpoint iff]
+\label{thm:metric-distance-witness-triangle-append-context-endpoint-iff}
+For unary visible contexts $p,q$, if the three triangle distance witnesses
+from $x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ are given, then
+the canonical contextual triangle result classifies exactly the exposed source
+and middle target:
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})\Longrightarrow
+\Bigl(
+\mathsf{MetricDistanceWitness}(p\cdot x',e\cdot q,(p\cdot d_{xyz})\cdot q)
+\Longleftrightarrow
+\hsame(x,x')\land\hsame(d_{yz},e)
+\Bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:metric-distance-witness-triangle-append-context-endpoint-determinacy}
+to the displayed witness after visible-context exactness has placed it in the
+canonical contextual form. The source projection gives $\hsame(x,x')$, while
+the target projection gives $\hsame(d_{yz},e)$; together these are the two
+components of the displayed conjunction.
+
+For the reverse direction, assume $\hsame(x,x')$ and $\hsame(d_{yz},e)$.
+Apply \autoref{thm:metric-distance-witness-triangle-append-context-closed} to
+the two unary contexts and the three triangle witnesses. This gives the
+canonical witness
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,d_{yz}\cdot q,(p\cdot d_{xyz})\cdot q).
+$$
+
+Append congruence transports $\hsame(x,x')$ to
+$\hsame(p\cdot x,p\cdot x')$ and transports $\hsame(d_{yz},e)$ to
+$\hsame(d_{yz}\cdot q,e\cdot q)$. Unary transport preserves the endpoint
+carriers across these classifiers, and
+\autoref{thm:metric-distance-witness-cont-hsame-transport} transports the
+continuation ledger while keeping the contextual result fixed. Repacking the
+transported carriers with this ledger gives the displayed witness
+$\mathsf{MetricDistanceWitness}(p\cdot x',e\cdot q,(p\cdot d_{xyz})\cdot q)$.
+\end{proof}
+
 \begin{definition}[Metric ball budget predicate]
 \label{def:metric-ball-budget-predicate}
 For a certified $\MetricSpaceUp$ setup on a carrier $X$ with distance $d:X\times X\to\RealUp$, write $\le_{\mathsf R}$ and $+$ for the ordered-real comparison and addition used by the Bishop real moduli in \autoref{def:metric-stability-certificate}. The closed ball-budget predicate is
