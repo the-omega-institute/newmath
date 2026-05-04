@@ -33,6 +33,21 @@ continuation endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_singleton\_append}
 
+\begin{theorem}[Eigen component singleton carrier pair determinacy]
+\label{thm:eigen-component-singleton-carrier-pair-deterministic}
+For histories $f,\lambda,v,pair,pair':\mathsf{BHist}$, two component
+singleton eigen carriers over the same $(f,\lambda,v)$ determine the same
+scalar-vector endpoint $\hsame(pair,pair')$. Both stored continuation ledgers
+$\Cont(\lambda,v,pair)$ and $\Cont(\lambda,v,pair')$ remain available.
+\end{theorem}
+\begin{proof}
+Unpack both component singleton carriers. They contain the two BEDC
+continuation ledgers with the same source $\lambda$ and tail $v$. The
+kernel determinacy theorem for continuation endpoints identifies their
+results, and the two ledgers are retained directly from the carriers.
+\end{proof}
+\leanchecked{BEDC.Derived.EigenUp.EigenComponentSingletonCarrier\_pair\_deterministic}
+
 \begin{theorem}[Eigen singleton carrier pair emptiness]
 \label{thm:eigen-singleton-carrier-pair-empty}
 For histories $f,\lambda,v,pair:\mathsf{BHist}$, the component singleton

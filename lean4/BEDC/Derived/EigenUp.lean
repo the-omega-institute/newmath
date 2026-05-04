@@ -88,6 +88,26 @@ theorem EigenComponentSingletonCarrier_singleton_append {map scalar vector pair 
                         (And.intro vectorCarrier
                           (cont_intro (congrArg (append map) scalarVectorCont)))))))
 
+theorem EigenComponentSingletonCarrier_pair_deterministic {f lam v pair pair' : BHist} :
+    EigenComponentSingletonCarrier f lam v pair ->
+      EigenComponentSingletonCarrier f lam v pair' ->
+        hsame pair pair' ∧ Cont lam v pair ∧ Cont lam v pair' := by
+  intro left right
+  cases left with
+  | intro _fCarrier leftRest =>
+      cases leftRest with
+      | intro _lamCarrier leftRest =>
+          cases leftRest with
+          | intro _vCarrier leftLedger =>
+              cases right with
+              | intro _fCarrier' rightRest =>
+                  cases rightRest with
+                  | intro _lamCarrier' rightRest =>
+                      cases rightRest with
+                      | intro _vCarrier' rightLedger =>
+                          exact And.intro (cont_deterministic leftLedger rightLedger)
+                            (And.intro leftLedger rightLedger)
+
 theorem EigenSingletonCarrier_empty_iff {pair : BHist} :
     EigenSingletonCarrier pair ↔ hsame pair BHist.Empty := by
   constructor
