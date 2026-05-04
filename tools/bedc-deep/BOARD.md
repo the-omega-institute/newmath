@@ -3354,3 +3354,29 @@ Distinct enough from the split-epi target above because in BEDC's witness style 
 
 ---
 
+### B-132 - CommRing subring inclusion via operation-preserving carrier reflection
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | CommRing subring inclusion via operation-preserving carrier reflection |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a carrier-reflecting map between two CommRingUp certificates preserves +, ×, 0, 1 up to the target classifier, then it induces a subring-inclusion name certificate over the target package.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+BEDC's concrete_instances layer has many namecerts (Ring, CommRing, Module, Field, Polynomial, …) but very few theorems about morphisms BETWEEN namecerts. The only existing morphism-flavored entry is B-28 (CommRing-to-Ring forgetful projection), which drops multiplicative commutativity over the same carrier. A subring-inclusion certificate is a different and complementary direction: same structure level, smaller carrier, classifier-respecting. It would be the first inclusion-style structural theorem on the board and would supply a reusable construction that downstream targets (e.g., field-of-fractions denominator subring fragments already drafted in def:field-rat-denominator-*) could cite. Grep of paper_coverage shows no thm/lem/cor labeled for subring-inclusion namecerts. Acceptable as a single implication: (carrier-reflecting ∧ operation-preserving map between two CommRingUp packages) ⇒ subring-inclusion namecert over the target.
+
+---
+
