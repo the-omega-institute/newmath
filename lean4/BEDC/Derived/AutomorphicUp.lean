@@ -310,4 +310,21 @@ theorem AutomorphicAdeleGraph_visible_context_core_cont_readback
       sameVisible
   exact And.intro coreCont coreReadback
 
+theorem AutomorphicAdeleGraph_visible_result_context_factorizes
+    {p q domain value graph result : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value ->
+      Cont (append p domain) (append value q) result ->
+        hsame result (append (append p graph) q) ->
+          Cont domain value graph ∧ (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier visibleResult sameResult
+  have visibleGraph : Cont (append p domain) (append value q) (append (append p graph) q) :=
+    cont_result_hsame_transport visibleResult sameResult
+  have rightPeeled : Cont (append p domain) value (append p graph) :=
+    (cont_suffix_iff (a := append p domain) (b := append p graph) (f := value)
+      (p := q)).mp visibleGraph
+  have graphCont : Cont domain value graph :=
+    (cont_prefix_iff (p := p) (a := domain) (b := graph) (f := value)).mp rightPeeled
+  exact And.intro graphCont
+    (AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier graphCont)
+
 end BEDC.Derived.AutomorphicUp

@@ -263,6 +263,78 @@ resulting displayed contextual classifier is repacked by represented-spine
 displayed exactness for the represented endpoints $h_1,k_1$.
 \end{proof}
 
+\begin{theorem}[List represented-spine mixed-tag same-history emptiness]
+\label{thm:list-represented-spine-mixed-tag-same-history-emptiness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
+$p,p',x,y,s,s':\mathsf{HistSpine}$ and a history $h$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. Then mixed visible constructor tags around two represented-spine readbacks
+of the same history force both untagged middle payloads to be empty:
+\begin{enumerate}
+  \item if
+  $$
+  \mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e0,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(h,p'{++}(\mathsf{map}(e1,y){++}s'))
+  $$
+  hold, then
+  $$
+  x=\mathsf{nil}\land y=\mathsf{nil};
+  $$
+  \item if
+  $$
+  \mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e1,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(h,p'{++}(\mathsf{map}(e0,y){++}s'))
+  $$
+  hold, then
+  $$
+  x=\mathsf{nil}\land y=\mathsf{nil}.
+  $$
+\end{enumerate}
+
+The ten-field fit is: traditional target finite-list same-history mixed visible
+tag no-confusion; BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from spine
+coherence and certificate reflexivity; ledger visible $e0/e1$ branch tags in
+finite spines; core theorem mixed-tag context exactness at identical endpoints;
+exactness by represented-spine carrier coverage and public classifier
+reflexivity; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Start with either represented-spine presentation of $h$. By
+Theorem~\ref{thm:list-spine-representation-exactness}, the presentation exposes
+$\mathsf{ListHistoryCarrier}_A(h)$.
+
+Apply Theorem~\ref{thm:concrete-list-namecert} to $\mathsf{cert}$ and the
+coherence witness. The resulting semantic certificate supplies classifier
+reflexivity for the carrier witness, hence
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,h).
+$$
+
+For the $e0/e1$ clause, specialize
+Theorem~\ref{thm:list-represented-spine-mixed-tag-context-exactness} to the two
+endpoints $h$ and $h$, using the displayed mixed-tag presentations, the
+classified prefix and suffix hypotheses, and the reflexive public classifier
+above. Project the forward implication of the $e0/e1$ branch to obtain
+$x=\mathsf{nil}\land y=\mathsf{nil}$.
+
+The $e1/e0$ clause is the symmetric specialization with the visible tags
+interchanged. Project the forward implication of that branch, again using the
+public reflexivity of $h$, to obtain $x=\mathsf{nil}\land y=\mathsf{nil}$.
+\end{proof}
+
 \begin{theorem}[List classifier $e0$ append-context equivalence]
 \label{thm:list-classifier-hsame-map-e0-append-context-iff}
 For finite BEDC-history spines $p,p',x,y,s,s'$, suppose the prefix contexts
@@ -505,76 +577,4 @@ $\mathsf{ListClassifierSpec}(\hsame,x,y)$.
 The $e1$ clause is the same specialization with $e1$ in place of $e0$. Project
 the forward implication of the $e1$ branch, again using the public reflexivity of
 $h$, to obtain $\mathsf{ListClassifierSpec}(\hsame,x,y)$.
-\end{proof}
-
-\begin{theorem}[List represented-spine mixed-tag payload determinacy]
-\label{thm:list-represented-spine-mixed-tag-payload-determinacy}
-Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
-$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
-$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
-$p,p',x,y,s,s':\mathsf{HistSpine}$ and a history $h$, suppose
-$$
-\mathsf{ListClassifierSpec}(\hsame,p,p')
-$$
-and
-$$
-\mathsf{ListClassifierSpec}(\hsame,s,s')
-$$
-hold. Then mixed visible constructor tags around two represented-spine readbacks
-of $h$ force both untagged middle payloads to be empty:
-\begin{enumerate}
-  \item if
-  $$
-  \mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e0,x){++}s)),
-  \quad
-  \mathsf{ListSpineRep}_A(h,p'{++}(\mathsf{map}(e1,y){++}s'))
-  $$
-  hold, then
-  $$
-  x=\mathsf{nil}\land y=\mathsf{nil};
-  $$
-  \item if
-  $$
-  \mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e1,x){++}s)),
-  \quad
-  \mathsf{ListSpineRep}_A(h,p'{++}(\mathsf{map}(e0,y){++}s'))
-  $$
-  hold, then
-  $$
-  x=\mathsf{nil}\land y=\mathsf{nil}.
-  $$
-\end{enumerate}
-
-The ten-field fit is: traditional target finite-list same-history mixed visible
-tag no-confusion; BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
-$\mathsf{ListHistoryCarrier}_A$; classifier
-$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from spine
-coherence and certificate reflexivity; ledger visible $e0/e1$ branch tags in
-finite spines; core theorem mixed-tag context exactness at identical endpoints;
-exactness by represented-spine carrier coverage and public classifier
-reflexivity; standard bridge finite-spine readback; status
-$\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Start with either represented-spine presentation of $h$. By
-Theorem~\ref{thm:list-spine-representation-exactness}, the presentation exposes
-$\mathsf{ListHistoryCarrier}_A(h)$.
-
-Apply Theorem~\ref{thm:concrete-list-namecert} to $\mathsf{cert}$ and the
-coherence witness. The resulting semantic certificate supplies classifier
-reflexivity for the carrier witness, hence
-$$
-\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,h).
-$$
-
-For the $e0/e1$ clause, specialize
-Theorem~\ref{thm:list-represented-spine-mixed-tag-context-exactness} to the two
-endpoints $h$ and $h$, using the displayed mixed-tag presentations, the
-classified prefix and suffix hypotheses, and the reflexive public classifier
-above. Project the forward implication of the $e0/e1$ branch to obtain
-$x=\mathsf{nil}\land y=\mathsf{nil}$.
-
-The $e1/e0$ clause is the symmetric specialization with the visible tags
-interchanged. Project the forward implication of that branch, again using the
-public reflexivity of $h$, to obtain $x=\mathsf{nil}\land y=\mathsf{nil}$.
 \end{proof}
