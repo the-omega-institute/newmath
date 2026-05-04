@@ -57,6 +57,21 @@ theorem ComplexDistance_append_constant_result_deterministic {z w d q d' : BHist
         unary_append_comm_hsame shiftedDistance.right.left shiftedDistance.left
       exact hsame_trans sameReverse sameCanonical
 
+theorem ComplexDistance_prepend_constant_result_deterministic {z w d q d' : BHist} :
+    UnaryHistory q -> ComplexDistance z w d -> ComplexDistance (append q z) (append q w) d' ->
+      hsame d' (append (append q z) (append q w)) := by
+  intro _unaryQ _distance shiftedDistance
+  cases shiftedDistance.right.right.right with
+  | inl forward =>
+      exact cont_deterministic forward (cont_intro rfl)
+  | inr reverse =>
+      have sameReverse : hsame d' (append (append q w) (append q z)) :=
+        cont_deterministic reverse (cont_intro rfl)
+      have sameCanonical :
+          hsame (append (append q w) (append q z)) (append (append q z) (append q w)) :=
+        unary_append_comm_hsame shiftedDistance.right.left shiftedDistance.left
+      exact hsame_trans sameReverse sameCanonical
+
 theorem ComplexDistance_symm_iff {z w d : BHist} :
     (ComplexDistance z w d ↔ ComplexDistance w z d) ∧
       (ComplexDistance z w d -> UnaryHistory z ∧ UnaryHistory w ∧ UnaryHistory d) := by
