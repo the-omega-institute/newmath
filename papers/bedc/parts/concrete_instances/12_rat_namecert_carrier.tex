@@ -219,6 +219,24 @@ positive witness for $\mathsf{append}(u,d)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_prefix}
 
+\begin{theorem}[Positive unary denominator append unary left iff]
+\label{thm:positive-unary-denominator-append-unary-left-iff}
+If $u$ is unary, then a continued denominator
+$\mathsf{append}(u,r)$ has a positive unary denominator witness exactly when
+either $r$ is internally empty and $u$ already has such a witness, or $r$
+itself has such a witness.
+\end{theorem}
+\begin{proof}
+Case-split on the right history $r$. The empty case reduces the continuation
+to $u$. A zero-extension case is impossible because no zero-extension is a
+positive denominator. In the one-extension case, one-constructor readback gives
+unary membership of the continued tail, and unary append factorization recovers
+the right tail witness. Conversely, the empty-right alternative reduces by
+endpoint equality, while a positive witness on $r$ is preserved by unary
+prefix closure.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_left\_iff}
+
 \begin{theorem}[Positive unary denominator append unary left split]
 \label{thm:positive-unary-denominator-append-unary-left-split}
 If $p$ is unary and $\mathsf{append}(p,d)$ has a positive unary denominator
