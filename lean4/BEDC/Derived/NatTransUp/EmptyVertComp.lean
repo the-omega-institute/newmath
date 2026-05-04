@@ -61,4 +61,25 @@ theorem NatTransPrefixComponentCarrier_vert_comp_result_empty_iff
     exact Iff.mpr componentResult
       (And.intro data.left (And.intro data.right.left (And.intro sourceSame targetSame)))
 
+theorem NatTransPrefixComponentCarrier_vert_comp_empty_component_readback
+    {p q r a eta theta : BHist} :
+    NatTransPrefixComponentCarrier p q a eta ->
+      NatTransPrefixComponentCarrier q r a theta -> Cont eta theta BHist.Empty ->
+        NatTransPrefixComponentCarrier p q a BHist.Empty ∧
+          NatTransPrefixComponentCarrier q r a BHist.Empty ∧ hsame p q ∧ hsame q r := by
+  intro left right comp
+  have base := (CategoryHomCarrier_empty_composite_iff left.right.right.right
+    right.right.right.right).mp comp
+  have leftEmpty : NatTransPrefixComponentCarrier p q a BHist.Empty := by
+    cases base.left
+    exact left
+  have rightEmpty : NatTransPrefixComponentCarrier q r a BHist.Empty := by
+    cases base.right.left
+    exact right
+  exact And.intro leftEmpty
+    (And.intro rightEmpty
+      (And.intro
+        (append_right_cancel (k := a) base.right.right.left)
+        (append_right_cancel (k := a) base.right.right.right)))
+
 end BEDC.Derived.NatTransUp

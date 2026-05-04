@@ -670,6 +670,28 @@ for $\Ezero$ and $\Eone$ closes the two visible cases.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_result\_absurd}
 
+\begin{theorem}[Singleton evaluation context continuation visible result exclusion]
+\label{thm:singleton-linearmap-eval-context-continuation-visible-result-absurd}
+For histories $p,f,x,y,z:\mathsf{BHist}$, if both $p$ and $y$ lie in the
+singleton linear-map carrier, then the continuation result of the prefixed
+singleton evaluator cannot be either visible endpoint:
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,\Ezero(z))
+\Longrightarrow\bot,
+\qquad
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,\Eone(z))
+\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the carrier witness for $p$ makes
+the prefixed evaluator history empty. Transporting the displayed continuation
+against the right-unit empty continuation forces each displayed result to be
+$\hsame$ to $\emp$. Constructor no-confusion excludes both visible endpoint
+results.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_visible\_result\_absurd}
+
 \begin{theorem}[Singleton evaluation visible target classifier exclusion]
 \label{thm:linearmap-singleton-eval-visible-target-classifier-absurd}
 For histories $f,x,p:\mathsf{BHist}$, the singleton evaluator cannot classify
