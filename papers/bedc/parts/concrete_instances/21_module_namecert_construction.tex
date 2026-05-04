@@ -87,6 +87,40 @@ reverse direction.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_classifier\_readback\_iff}
 
+\begin{theorem}[Module singleton scalar action image carrier exactness]
+\label{thm:module-singleton-smul-image-carrier-exact}
+For the concrete singleton $\ModuleUp$ instance, let
+$$
+P(h)\;:\Longleftrightarrow\;\exists r,m:\mathsf{BHist},\,
+  A_{\emp}(m)\wedge h\hsame\mathsf{ModuleSingletonSmul}(r,m).
+$$
+Then the scalar-action image pattern is exactly the singleton carrier:
+$$
+P(h)\quad\Longleftrightarrow\quad A_{\emp}(h).
+$$
+The ten-field fit is: traditional target the one-element module action image;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$; carrier
+$A_{\emp}$; classifier $\rho_{\emp}$; stability from
+Theorems~\ref{thm:module-singleton-classifier-empty-endpoints} and
+\ref{thm:module-singleton-smul-classifier-readback-iff}; ledger scalar-action
+witnesses; core theorem this block; exactness the displayed iff; standard
+bridge the terminal module; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack a witness
+$r,m:\mathsf{BHist}$ with $A_{\emp}(m)$ and
+$h\hsame\mathsf{ModuleSingletonSmul}(r,m)$. The scalar action endpoint is
+definitionally $\emp$, so this comparison composes to $h\hsame\emp$. By the
+singleton carrier definition, that endpoint comparison is precisely
+$A_{\emp}(h)$.
+
+For the reverse direction, assume $A_{\emp}(h)$. Choose $r=\emp$ and $m=h$.
+The module witness is the given carrier evidence, and
+$\mathsf{ModuleSingletonSmul}(r,m)$ is definitionally $\emp$. The same
+singleton carrier witness compares $h$ with this empty scalar-action endpoint,
+so the chosen pair lies in the image pattern.
+\end{proof}
+
 \begin{theorem}[Module singleton scalar action image semantic certificate]
 \label{thm:module-singleton-smul-image-semantic-name-cert}
 For the concrete singleton $\ModuleUp$ instance, the source carrier $A_{\emp}$,
