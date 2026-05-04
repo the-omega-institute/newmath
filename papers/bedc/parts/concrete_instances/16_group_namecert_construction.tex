@@ -8,6 +8,46 @@
 \input{parts/concrete_instances/group/16_group_singleton_conjugated_commutator_orbit_invariance}
 \input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
 \input{parts/concrete_instances/group/16_group_namecert_construction_core}
+
+\begin{theorem}[Group singleton double continuation product-unit chain coverage]
+\label{thm:group-singleton-double-continuation-product-unit-chain-coverage}
+For histories $P,Q,S,T,U,V:\mathsf{BHist}$ with $\ContR(P,Q,S)$ and
+$\ContR(S,T,U)$, the concrete singleton $\GroupUp$ instance satisfies
+$$
+R_{\emp}(\mathsf{append}(U,V),\emp)\Longleftrightarrow
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+The ten-field fit names the traditional target terminal-group two-step
+continuation product-unit coverage; BEDC source concrete singleton $\GroupUp$
+over $\mathsf{BHist}$ plus two $\ContR$ witnesses and append; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from continuation product-unit
+coverage, continuation terminal collapse, and terminal classifier packaging;
+ledger the two continuation witnesses and suffix endpoint; exactness the
+displayed iff; downstream consumer $\QuotientGroupUp$ path compression; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-continuation-product-unit-triple-coverage}
+to the continuation witness $\ContR(S,T,U)$. This rewrites the left side as
+$$
+A_{\emp}(S)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under the
+continuation witness $\ContR(P,Q,S)$ to identify $A_{\emp}(S)$ with
+$R_{\emp}(P,Q)$. The intermediate condition becomes
+$$
+R_{\emp}(P,Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Finally, apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to rewrite
+$R_{\emp}(P,Q)$ as $A_{\emp}(P)\land A_{\emp}(Q)$. Reassociating conjunctions
+gives exactly
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
