@@ -1,0 +1,37 @@
+\begin{theorem}[Real stream finite-window subwindow extraction]
+\label{thm:real-stream-window-subwindow-extraction}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,j,r,m$, if
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m)
+$$
+and $j+r\le m$, then
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:real-stream-finite-window-classifier} in the source
+window and fix a shifted offset $k\le r$. From $k\le r$ and $j+r\le m$,
+bounded-offset monotonicity gives $j+k\le j+r\le m$.
+
+Apply the source window at offset $j+k$. This yields the endpoint classifier
+$$
+\mathsf{RatHistoryClassifier}(x(n+(j+k)),y(n+(j+k))).
+$$
+
+The arithmetic identity $(n+j)+k=n+(j+k)$ identifies this endpoint with the
+corresponding endpoint of the shifted window. Since the chosen $k$ was
+arbitrary under the radius $r$, these endpoint classifiers repack as
+$\mathsf{RealStreamWindowClassifier}(x,y,n+j,r)$.
+\end{proof}
+
+The ten-field fit is: traditional target shifted finite RealUp observation
+windows; BEDC source $\mathsf{RealStreamWindowClassifier}$ plus
+$\mathsf{RatHistoryClassifier}$; carrier rational-observation streams;
+classifier shifted finite-window predicate; stability by bounded-offset
+monotonicity and endpoint reuse; ledger original anchor, shift, radius, source
+bound, and offset witness; core theorem
+\autoref{thm:real-stream-window-subwindow-extraction}; exactness every shifted
+endpoint is already a source-window endpoint; standard bridge RegSeqRat
+tail/window stability; status $\mathsf{ProofTarget}$.
