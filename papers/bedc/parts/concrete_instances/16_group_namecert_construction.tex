@@ -133,5 +133,48 @@ classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
 
+\begin{theorem}[Group singleton conjugation classifier coverage]
+\label{thm:group-singleton-conjugation-classifier-coverage}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, define
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y)\Longleftrightarrow
+A_{\emp}(x)\land A_{\emp}(y).
+$$
+The ten-field fit is: traditional target terminal conjugation coverage; BEDC
+source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from multiplication closure,
+inverse closure, and terminal classifier exactness; ledger the conjugating
+singleton endpoint plus the acted-on endpoint; core theorem this block;
+exactness the displayed iff; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{Conj}_s(x)$. The inverse row of
+\autoref{thm:group-singleton-terminal-classifier-package} sends the assumption
+$A_{\emp}(s)$ to $A_{\emp}(\mathsf{inv}(s))$.
+
+Use the multiplication-closure iff from
+\autoref{thm:group-singleton-terminal-classifier-package} twice. The first use
+rewrites $A_{\emp}(\mathsf{mul}(s,x))$ as
+$A_{\emp}(s)\land A_{\emp}(x)$, and the second rewrites
+$A_{\emp}(\mathsf{Conj}_s(x))$ as
+$A_{\emp}(\mathsf{mul}(s,x))\land A_{\emp}(\mathsf{inv}(s))$. With the two
+carrier facts for $s$ and $\mathsf{inv}(s)$ fixed, this identifies
+$A_{\emp}(\mathsf{Conj}_s(x))$ with $A_{\emp}(x)$.
+
+Apply the terminal classifier exactness row of
+\autoref{thm:group-singleton-terminal-classifier-package} to replace
+$R_{\emp}(\mathsf{Conj}_s(x),y)$ by
+$A_{\emp}(\mathsf{Conj}_s(x))\land A_{\emp}(y)$. Substituting the conjugation
+carrier equivalence from the previous paragraph and reassociating the
+conjunctions gives exactly
+$A_{\emp}(x)\land A_{\emp}(y)$.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
