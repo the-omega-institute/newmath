@@ -536,6 +536,20 @@ theorem ModuleParitySmul_epsilon_empty_result_iff {m : BHist} :
       · intro _nonempty
         exact hsame_refl BHist.Empty
 
+theorem ModuleParitySmul_epsilon_result_partition {m : BHist} :
+    (hsame m BHist.Empty ∧ hsame (ModuleParitySmul ModuleParityEps m) ModuleParityOne) ∨
+      ((hsame m BHist.Empty -> False) ∧
+        hsame (ModuleParitySmul ModuleParityEps m) BHist.Empty) := by
+  cases m with
+  | Empty =>
+      exact Or.inl (And.intro (hsame_refl BHist.Empty) (hsame_refl ModuleParityOne))
+  | e0 h =>
+      exact Or.inr (And.intro (fun sameEmpty => not_hsame_e0_empty sameEmpty)
+        (hsame_refl BHist.Empty))
+  | e1 h =>
+      exact Or.inr (And.intro (fun sameEmpty => not_hsame_e1_empty sameEmpty)
+        (hsame_refl BHist.Empty))
+
 theorem ModuleParitySmul_e0_empty_no_fixed_point {m : BHist} :
     hsame (ModuleParitySmul (BHist.e0 BHist.Empty) m) m -> False := by
   cases m with
