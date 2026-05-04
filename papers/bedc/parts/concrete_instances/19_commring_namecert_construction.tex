@@ -508,3 +508,52 @@ plus the zero-linear-factor exact package; ledger the selected empty linear
 factor and signed-product witness; core theorem this block; exactness the
 paired product-zero and equal-square conclusion; standard bridge the
 one-element commutative ring; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing singleton empty signed product annihilator package]
+\label{thm:commring-singleton-empty-signed-product-annihilator-package}
+For the singleton empty-history CommRing tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}, every pair
+$a,b:\mathsf{BHist}$ carried by $A_{\emp}$ satisfies
+$$
+\bigl((a+b)\cdot(a+(-b))\hsame0\bigr)\land
+\forall c:\mathsf{BHist},\
+\left(
+(((a+b)\cdot(a+(-b)))\cdot c\hsame0)
+\land
+(c\cdot((a+b)\cdot(a+(-b)))\hsame0)
+\right),
+$$
+where $+$, $\cdot$, $-$, and $0$ are the displayed singleton operations.
+\end{theorem}
+\begin{proof}
+Theorem~\ref{thm:singleton-empty-history-commring-laws} supplies the concrete
+singleton $\CommRingUp$ laws for the operation tuple of
+Definition~\ref{def:singleton-empty-history-commring-instance}. Because the
+displayed addition and zero operations are constant at $\emp$, carriedness of
+$a$ and $b$ identifies the sum endpoint with the zero endpoint, giving
+$(a+b)\hsame0$.
+
+Choose the left branch of the zero-linear-factor disjunction:
+$$
+(a+b)\hsame0 \lor (a+(-b))\hsame0 .
+$$
+The same singleton law package supplies the additive, congruence,
+distributive, negative-product, and multiplicative-commutativity fields needed
+to instantiate
+Theorem~\ref{thm:commring-zero-linear-factor-signed-product-annihilator-package}.
+
+That theorem yields the signed product-zero witness together with the universal
+two-sided annihilator row for the signed product. Unpacking those two components
+gives exactly $((a+b)\cdot(a+(-b))\hsame0)$ and, for every
+$c:\mathsf{BHist}$, both $(((a+b)\cdot(a+(-b)))\cdot c\hsame0)$ and
+$(c\cdot((a+b)\cdot(a+(-b)))\hsame0)$ for the singleton empty-history CommRing
+tuple.
+\end{proof}
+
+The ten-field fit is: traditional target one-element commutative-ring
+signed-product annihilator; BEDC source singleton empty-history $\CommRingUp$;
+carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability from singleton CommRing
+laws plus zero-factor absorption; ledger selected empty linear factor and
+signed-product annihilator row; core theorem this block; exactness product-zero
+plus universal two-sided annihilation; standard bridge one-element commutative
+ring; status $\mathsf{ProofTarget}$.
