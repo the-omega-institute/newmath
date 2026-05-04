@@ -141,31 +141,38 @@ The concrete commutative-ring certificate has the following ten fields:
 
 \begin{theorem}[Singleton empty-history commutative ring laws]
 \label{thm:singleton-empty-history-commring-laws}
-The tuple
-$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
-all singleton empty-history ring laws from
-Theorem~\ref{thm:singleton-empty-history-ring-laws}, together with
-multiplicative commutativity and the compatibility fields for multiplication
-commutativity under $\rho_{\emp}$.
+The singleton empty-history commutative-ring tuple supplies a concrete
+$\mathsf{SemanticNameCert}$ for the carrier $A_{\emp}$ and classifier
+$\rho_{\emp}$. Its operation rows include the displayed constant
+$\mathsf{add}$, $\mathsf{neg}$, and $\mathsf{mul}$ endpoints, multiplicative
+commutativity, both distributive laws, and the left unit row for
+$1$ under $\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
+The carrier-aware classifier $\rho_{\emp}$ is a semantic naming certificate.
+Carrier inhabitance is witnessed by $\emp$. Reflexivity uses the given carrier
+witness and $\hsame(h,h)$; symmetry swaps the endpoint carrier witnesses and
+uses symmetry of $\hsame$; transitivity composes the $\hsame$ components and
+keeps the outer carrier witnesses. Carrier transport is the right endpoint
+carrier field of the classifier.
+
+The concrete $\mathsf{add}$, $\mathsf{neg}$, and $\mathsf{mul}$ endpoint rows
+close because all three displayed operations are constant at $\emp$. The two
+carrier witnesses are therefore singleton witnesses for $\emp$, and the
+relation component is reflexive $\hsame(\emp,\emp)$.
+
 The ring-law part is exactly Theorem~\ref{thm:singleton-empty-history-ring-laws}
 applied to the displayed singleton empty-history operation tuple. This supplies
 carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
-operation congruence, both distributive laws, and zero multiplication laws.
+operation congruence, both distributive laws, the unit laws, and zero
+multiplication laws.
 
 For multiplicative commutativity, both $\mathsf{mul}(x,y)$ and
 $\mathsf{mul}(y,x)$ are definitionally $\emp$. The two endpoint witnesses for
 $\rho_{\emp}$ are the singleton carrier witnesses for $\emp$, and the relation
 component is $\hsame(\emp,\emp)$.
-
-For compatibility, the multiplication operation is constant on the singleton
-carrier. Replacing inputs by $\rho_{\emp}$-related inputs does not change either
-product endpoint: every source and target product is still $\emp$. Hence the
-same endpoint witnesses and reflexive $\hsame(\emp,\emp)$ package the
-commutativity field after transport.
 \end{proof}
-\leanchecked{BEDC.Derived.CommRingUp.commring\_singleton\_empty\_laws}
+\leanchecked{BEDC.Derived.CommRingUp.singleton\_empty\_history\_commring\_laws}
 
 \begin{theorem}[CommRing singleton empty multiplication context carrier]
 \label{thm:commring-singleton-empty-classifier-mul-context-carrier-iff}
