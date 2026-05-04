@@ -67,7 +67,11 @@ $$
 \land
 \mathsf{RealStreamPrefixClassifier}(x,z,n)
 \land
-\mathsf{RatHistoryClassifier}(x(n),z(n)).
+\mathsf{RatHistoryClassifier}(x(n),z(n))
+\land
+\mathsf{UnaryHistory}(x(n))
+\land
+\mathsf{UnaryHistory}(z(n)).
 $$
 \end{theorem}
 \begin{proof}
@@ -88,7 +92,14 @@ Compose the $x,y$ and $y,z$ prefix witnesses by
 $\mathsf{RealStreamPrefixClassifier}(x,z,n)$. Finally apply
 \autoref{thm:real-stream-prefix-classifier-endpoint} to this composite prefix
 to recover $\mathsf{RatHistoryClassifier}(x(n),z(n))$.
+
+Apply the RatUp positive-denominator projection
+\autoref{thm:rat-history-classifier-positive-denominators} to the endpoint
+classifier. Positive-denominator readback by
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} gives
+$\mathsf{UnaryHistory}(x(n))$ and $\mathsf{UnaryHistory}(z(n))$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_unary\_stability\_package}
 
 Fit. Traditional target: finite-prefix stability for RealUp streams. BEDC
 source: RatUp plus RealUp stream prefixes. Carrier: rational-observation
@@ -96,8 +107,9 @@ streams. Classifier: $\mathsf{RealStreamClassifier}$ and
 $\mathsf{RealStreamPrefixClassifier}$. Stability: prefix reflexivity, symmetry,
 transitivity, and endpoint projection. Ledger: the selected prefix index $n$.
 Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-package}.
-Exactness: the displayed four-part conjunction. Standard bridge: finite
-rational prefix agreement. Status: $\mathsf{ProofTarget}$.
+Exactness: the three prefix rows, selected endpoint classifier, and two unary
+endpoint rows. Standard bridge: finite rational prefix agreement. Status:
+$\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real stream finite-prefix endpoint denominator package]
 \label{thm:real-stream-classifier-finite-prefix-endpoint-denominator-package}

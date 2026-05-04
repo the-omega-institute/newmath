@@ -5131,3 +5131,234 @@ This is the group-level counterpart to the opposite-semigroup theorem and is ind
 
 ---
 
+### B-199 - Kernel and image inherit module classifiers
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Kernel and image inherit module classifiers |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under LinearmapUp(f:M→N), the predicate-defined Kernel(f) and Image(f) carriers close under 0, addition, negation, and scalar action, and therefore inherit the ModuleUp classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+The linearmap chapter has predicate definitions for kernel and image but no labeled theorem promoting them to inherited module certificates. This is the canonical sub-object closure result for linear maps and is structurally distinct from B-08/B-23 (which are about scalar associativity transport on the ambient module), so it does not duplicate any existing BOARD slot or paper label.
+
+---
+
+
+### B-200 - Matrix product associativity from scalar folds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix product associativity from scalar folds |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under MatrixUp over RingUp(R), if matrix multiplication is defined by finite additive scalar folds and ring multiplication, then for matching dimensions (A·B)·C ∼ A·(B·C) holds under the entrywise matrix classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+The matrix chapter currently only carries carrier/source/pattern/classifier/stability definitions without any labeled theorem proving the central structural law of matrix multiplication. The proof must connect ring distributivity, ring associativity, and finite scalar fold reindexing — a soundness theorem that is not addressed by the polynomial-convolution targets B-09/B-22.
+
+---
+
+
+### B-201 - Metric ball budgets compose
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Metric ball budgets compose |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under MetricUp(X,d), if Ball_r(x,y) and Ball_s(y,z) hold, then Ball_{r+s}(x,z) follows from the metric classifier and the triangle stability field.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+The metric chapter defines metric-ball-budget-predicate, classifier, and stability certificate, but no labeled theorem promotes triangle stability into a ball-budget transitivity statement. It is a small but reusable closure lemma for multiscale arguments, distinct from B-12 (continuous modulus composition) which targets uniform continuity moduli rather than ball budgets.
+
+---
+
+
+### B-202 - Compact two-step finite-net gluing
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact two-step finite-net gluing |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under CompactUp(K) with finite-net setup, if N is an ε-net for K and each local block B(n,ε) has a finite δ-net N_n, then the union ⋃_{n∈N} N_n is a finite (ε+δ)-net for K.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/33_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+The compact chapter defines compact-finite-refinement-chain, compact-net-two-step-factor, and uniform finite-net data, but no labeled theorem packages the two-step factor as a multiscale finite-net gluing principle. This is a high-value local-to-global closure theorem provable from finite unions plus the metric ball-budget triangle, and it does not duplicate any existing BOARD entry.
+
+---
+
+
+### B-203 - Strict zero divisor obstructs FieldUp
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Strict zero divisor obstructs FieldUp |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under CommRingUp(R), if there exist strict zero-divisor witnesses a,b with a≠0, b≠0, and a·b∼0, then no FieldUp upgrade exists that preserves the same 0, 1, multiplication, classifier, and apartness.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+The commring chapter already encodes strict zero-divisor data and the field chapter encodes zero-apartness, but the BOARD only has the forgetful positive direction (cor:field-certificate-forgets-to-ring-certificate). A negative obstruction theorem is the natural counterpart: short to prove (multiply b's inverse on both sides of a·b∼0 to derive a∼0, contradicting apartness), high-value as an explicit boundary on field-upgrade admissibility.
+
+---
+
+
+### B-204 - Opposite category certificate involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Opposite category certificate involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under CategoryUp(C) with opposite-category certificate data, the doubly-opposite (C^op)^op has the same objects, hom-carrier classifier, identity, and composition classifier as C.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+The category chapter defines opposite-category-certificate-data but no theorem promotes the double opposite to a certificate-level identification. This is the rigidity/representation theorem missing from the otherwise definition-heavy category chapters and is orthogonal to B-11 (functor composition) and B-14 (nattrans composition).
+
+---
+
+
+### B-205 - Preorder quotient yields PosetUp
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Preorder quotient yields PosetUp |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under PreorderUp(X,≤), defining x≈y iff x≤y and y≤x and equipping the quotient carrier with the induced order yields a PosetUp whose quotient classifier exactly classifies ≈-equivalence classes.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+
+Rationale:
+Both preorder and poset chapters carry certificate definitions, but the canonical exactness theorem connecting them — preorder-to-poset quotient — is missing from the BOARD and the paper labels. It is a foundational structural result that explains where poset antisymmetry concretely arises and is independent of the lattice/totalorder targets already on the board.
+
+---
+
+
+### B-206 - Normalizer quotient conjugation is well-defined
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Normalizer quotient conjugation is well-defined |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under GroupUp(G) with sub-carrier S, for n,n'∈N_G(S): n^{-1}n'∈C_G(S) implies n s n^{-1} ∼ n' s n'^{-1} for all s∈S, and conversely pointwise equal conjugation implies n^{-1}n'∈C_G(S).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+
+Rationale:
+The group chapter has definitions for center, centralizer, normalizer, the centralizer-normalizer quotient classifier, and the orbit relation, but no labeled theorem promoting the quotient-action data to a well-definedness/kernel-classification statement. This is the substantive group-theoretic soundness theorem behind those definitions and uses only group inverses, associativity, and conjugation stability.
+
+---
+
+
+### B-207 - CommRing subring inclusion transitivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | CommRing subring inclusion transitivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under CommRingUp(A), CommRingUp(B), CommRingUp(C), if A→B and B→C each carry a subring-inclusion name certificate preserving 0, 1, addition, multiplication, and classifier, then the composite A→C carries a subring-inclusion name certificate of the same form.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+The commring chapter defines commring-subring-inclusion-name-certificate, but no labeled theorem records closure of inclusion certificates under composition. It is a short transitive-closure result that is genuinely distinct from B-28 (the CommRing→Ring forgetful projection) and is needed to justify chained subring constructions throughout concrete_instances.
+
+---
+
