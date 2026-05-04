@@ -118,3 +118,36 @@ By \autoref{def:group-stability-certificate}, the group stability certificate co
 
 Finally, \autoref{def:group-ledger-policy} records the monoid ledger plus every inverse operation applied. Omitting entries justified by inverse formation leaves the carrier witnesses and multiplication-expression provenance described by \autoref{def:monoid-ledger-policy}. Hence the retained carrier, source, pattern, classifier, stability, and ledger data satisfy the obligations named in \autoref{def:monoid-certificate-obligations}, with $C$, $\cdot$, $e$, and $\sim_C$ copied from the original $\GroupUp(C)$ certificate.
 \end{proof}
+
+\begin{definition}[Opposite group certificate data]
+\label{def:opposite-group-certificate-data}
+Let a $\GroupUp(C)$ certificate be presented by a carrier predicate $\mathcal C$, a classifier $\sim_C$, multiplication $\cdot_C$, identity $e_C$, and inverse operation $i_C$. Define the opposite multiplication by
+$$
+a\star_C b:=b\cdot_C a.
+$$
+The opposite group data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, the same identity $e_C$, the same inverse operation $i_C$, and multiplication $\star_C$.
+\end{definition}
+
+\begin{theorem}[Opposite group certificate]
+\label{thm:opposite-group-certificate}
+If $(\mathcal C,\sim_C,\cdot_C,e_C,i_C)$ satisfies the $\GroupUp$ certificate obligations of \autoref{def:group-certificate-obligations}, then the data of \autoref{def:opposite-group-certificate-data} also satisfy the $\GroupUp$ certificate obligations. Thus the same carrier, classifier, identity, and inverse operation carry a group certificate with multiplication $\star_C$.
+\end{theorem}
+\begin{proof}
+Unpack the group obligations through \autoref{def:group-certificate-obligations}. The monoid reduct supplied by \autoref{prop:group-forgets-monoid-certificate} has carrier $\mathcal C$, classifier $\sim_C$, multiplication $\cdot_C$, and identity $e_C$. Applying \autoref{thm:opposite-monoid-certificate} to that reduct gives the carrier, source, monoid pattern, classifier, monoid stability rows, and monoid ledger for the multiplication $\star_C$ with the same identity $e_C$.
+
+These rows supply exactly the monoid part demanded by \autoref{def:group-source-specification}, \autoref{def:group-pattern-specification}, and the first component of \autoref{def:group-stability-certificate}. The carrier data of \autoref{def:group-carrier} are also present: the carrier, classifier, and identity are unchanged, the multiplication is $\star_C$, and the inverse operation is still $i_C$.
+
+It remains to check the inverse-specific group rows. Inverse closure is copied from the original group certificate because the inverse operation and carrier predicate are unchanged: from $\mathcal C(a)$ the original row gives $\mathcal C(i_C(a))$. Inverse congruence is copied for the same reason: from $a\sim_C b$ the original row gives $i_C(a)\sim_C i_C(b)$, and the classifier is still $\sim_C$.
+
+The two inverse laws exchange their handedness under the reversed multiplication. The opposite left-inverse row at a carried element $a$ unfolds to
+$$
+i_C(a)\star_C a=a\cdot_C i_C(a)\sim_C e_C,
+$$
+which is the original right-inverse row. The opposite right-inverse row unfolds to
+$$
+a\star_C i_C(a)=i_C(a)\cdot_C a\sim_C e_C,
+$$
+which is the original left-inverse row.
+
+The classifier row of \autoref{def:group-classifier-specification} is the same carrier classifier equipped with the inverse congruence just copied. For the pattern and ledger, a $\star_C$ group-expression tree is interpreted as a $\cdot_C$ group-expression tree by exchanging the two children at each binary multiplication node while leaving carrier leaves, the identity leaf, and inverse nodes unchanged. The opposite monoid certificate supplies the binary-node source and ledger reading; the inverse nodes use the original inverse source and ledger entries of \autoref{def:group-ledger-policy}. Thus the source, pattern, classifier, stability, and ledger rows form the $\GroupUp$ certificate data required by \autoref{def:typed-naming-certificate} and \autoref{def:group-certificate-obligations}.
+\end{proof}
