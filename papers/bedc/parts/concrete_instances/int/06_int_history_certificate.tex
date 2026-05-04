@@ -375,6 +375,73 @@ $\hsame(m,n)$ are precisely its public-history criterion, giving the negative
 displayed $\Longleftrightarrow$.
 \end{proof}
 
+\begin{theorem}[Integer canonical same-sign pair readback]
+\label{thm:int-canonical-same-sign-pair-readback}
+For all $m,n:\mathsf{BHist}$, the canonical positive difference-pair
+classifier reads back exactly to unary payload sameness:
+$$
+\mathsf{IntPairClassifier}((m,\emp),(n,\emp))
+\Longleftrightarrow
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n).
+$$
+The canonical negative difference-pair classifier has the same public payload
+criterion:
+$$
+\mathsf{IntPairClassifier}((\emp,m),(\emp,n))
+\Longleftrightarrow
+\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n).
+$$
+The ten-field fit is the following. The traditional target is canonical
+positive and negative signed unary integer equality. The BEDC source consists
+of $\mathsf{IntPairClassifier}$, $\mathsf{IntPairCarrier}$, $\mathsf{append}$,
+$\emp$, and $\hsame$. The carrier is the canonical difference-pair carrier.
+The classifier is cross-addition sameness. Stability is supplied by the append
+unit laws and symmetry of $\hsame$. The ledger records the hidden empty
+counter. The core theorem is this direct readback. Exactness is the two
+displayed iff rows. The downstream consumer is the $\RatUp$ numerator
+readback. The status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{IntPairClassifier}$ at the positive canonical endpoints
+$((m,\emp),(n,\emp))$.
+
+For the positive forward direction, the carrier projections give
+$\mathsf{Unary}(m)$ and $\mathsf{Unary}(n)$, with the two hidden counters
+carried by $\emp$. The classifier payload is
+$$
+\hsame(\mathsf{append}(m,\emp),\mathsf{append}(n,\emp)).
+$$
+The right append unit laws reduce this payload to $\hsame(m,n)$.
+
+For the positive reverse direction, assume
+$\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n)$. Repack the two
+canonical carriers from the unary witnesses for $m$ and $n$ together with the
+empty unary carrier for $\emp$. The supplied payload $\hsame(m,n)$ transports
+through the right append unit laws to the cross-addition payload required by
+$\mathsf{IntPairClassifier}$.
+
+Unfold $\mathsf{IntPairClassifier}$ at the negative canonical endpoints
+$((\emp,m),(\emp,n))$.
+
+For the negative forward direction, the carrier projections again give
+$\mathsf{Unary}(m)$ and $\mathsf{Unary}(n)$. The classifier payload is
+$$
+\hsame(\mathsf{append}(\emp,n),\mathsf{append}(\emp,m)).
+$$
+The left append unit laws reduce it to $\hsame(n,m)$, and symmetry of
+$\hsame$ orients the conclusion as $\hsame(m,n)$.
+
+For the negative reverse direction, assume
+$\mathsf{Unary}(m)\land\mathsf{Unary}(n)\land\hsame(m,n)$. Symmetry first
+turns the payload into $\hsame(n,m)$, and the left append unit laws transport
+it to
+$$
+\hsame(\mathsf{append}(\emp,n),\mathsf{append}(\emp,m)).
+$$
+Together with the two canonical carriers, this is exactly the negative
+instance of $\mathsf{IntPairClassifier}$.
+\end{proof}
+
 \begin{theorem}[Integer canonical opposite-sign zero collapse]
 \label{thm:int-canonical-opposite-sign-zero-collapse}
 For all $m,n:\mathsf{BHist}$, if $\mathsf{Unary}(m)$ and

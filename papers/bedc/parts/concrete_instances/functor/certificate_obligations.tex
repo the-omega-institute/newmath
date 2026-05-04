@@ -508,3 +508,149 @@ same image endpoints. Packing them by
 \autoref{def:category-split-isomorphism-witness-pair} gives the required split
 isomorphism witness pair in $\mathcal D$.
 \end{proof}
+
+\begin{definition}[Identity functor certificate data]
+\label{def:identity-functor-certificate-data}
+Let $\mathcal C$ be a $\CategoryUp$ certificate with object carrier
+$\mathcal O_{\mathcal C}$, object classifier $\sim_{\mathcal O}$,
+hom-carrier $\mathcal H_{\mathcal C}(a,b,u)$, endpoint-indexed morphism
+classifier $\sim_{\mathcal H_{\mathcal C}(a,b)}$, identity witnesses
+$\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$. The identity functor data
+$1_{\mathcal C}:\mathcal C\to\mathcal C$ are
+$$
+(1_{\mathcal C})_0(a):=a,
+\qquad
+(1_{\mathcal C})_1(u):=u.
+$$
+The functor-indexed hom-carrier is the original endpoint-indexed hom-carrier:
+$$
+\mathsf{FunctorHomCarrier}_{1_{\mathcal C}}(a,b,u)
+:=\mathcal H_{\mathcal C}(a,b,u).
+$$
+Object and morphism classifiers are read from the same category certificate at
+the same endpoints.
+\end{definition}
+
+\begin{theorem}[Identity functor name certificate]
+\label{thm:identity-functor-namecert}
+If $\mathcal C$ satisfies the $\CategoryUp$ certificate obligations of
+\autoref{def:category-certificate-obligations}, then the data of
+\autoref{def:identity-functor-certificate-data} satisfy the $\FunctorUp$
+certificate obligations of \autoref{def:functor-certificate-obligations}.
+Endpoint-by-endpoint, for every source pair $a,b$ and morphism candidate $u$,
+$$
+\mathsf{FunctorHomCarrier}_{1_{\mathcal C}}(a,b,u)
+\Longleftrightarrow
+\mathcal H_{\mathcal C}(a,b,u).
+$$
+For every object $a$,
+$$
+(1_{\mathcal C})_1(\mathsf{id}_a)
+\sim_{\mathcal H_{\mathcal C}(a,a)}
+\mathsf{id}_{(1_{\mathcal C})_0(a)}.
+$$
+For every displayed composable pair $u:a\to b$ and $v:b\to c$ with
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$ recording $v\circ_{\mathcal C}u$,
+$$
+(1_{\mathcal C})_1(w)
+\sim_{\mathcal H_{\mathcal C}(a,c)}
+(1_{\mathcal C})_1(v)\circ_{\mathcal C}(1_{\mathcal C})_1(u).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the identity functor data. The source row of
+\autoref{def:functor-source-specification} is the pair $(\mathcal C,\mathcal C)$,
+which is licensed by the displayed $\CategoryUp$ certificate. The pattern row
+of \autoref{def:functor-pattern-specification} is the pair of identity maps on
+objects and displayed morphisms.
+
+The carrier landing clause is definitional. A source hom-carrier
+$\mathcal H_{\mathcal C}(a,b,u)$ is sent to
+$\mathcal H_{\mathcal C}((1_{\mathcal C})_0(a),(1_{\mathcal C})_0(b),
+(1_{\mathcal C})_1(u))$, and this unfolds to the same proposition
+$\mathcal H_{\mathcal C}(a,b,u)$. This proves the displayed biconditional and
+shows that the classifier specification of \autoref{def:functor-classifier-specification}
+is inherited pointwise from the category classifier.
+
+For identity preservation, the source identity at $a$ and the codomain
+identity at $(1_{\mathcal C})_0(a)=a$ are the same witness $\mathsf{id}_a$.
+Morphism-classifier reflexivity from the category stability fields in
+\autoref{def:category-stability-certificate} gives the classifier comparison
+of $\mathsf{id}_a$ with itself.
+
+For composition preservation, take a source composition ledger
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$. Since the morphism map is the identity,
+the image of the source composite is $w$. The codomain composite of the image
+pair is recorded by the same ledger, now read in the codomain copy of
+$\mathcal C$. Morphism-classifier reflexivity at the endpoint pair $(a,c)$
+therefore classifies $w$ with that codomain composite.
+
+The remaining stability rows in \autoref{def:functor-stability-certificate}
+are pointwise classifier laws and endpoint-replacement laws. Object classifier
+reflexivity, symmetry, and transitivity are the object classifier laws of
+$\mathcal C$; morphism classifier reflexivity, symmetry, and transitivity are
+the endpoint-indexed morphism classifier laws of $\mathcal C$. Source and
+target replacement for displayed morphisms is exactly the category endpoint
+transport field, because both functor maps are identities.
+
+The ledger row of \autoref{def:functor-ledger-policy} records the same
+category ledger on both sides, the same identity displays, and the same
+composition trees. Thus all carrier, source, pattern, classifier, stability,
+and ledger rows listed in \autoref{def:functor-certificate-obligations} are
+present for $1_{\mathcal C}:\mathcal C\to\mathcal C$.
+\end{proof}
+
+\begin{theorem}[Double opposite functor certificate data identity]
+\label{thm:double-opposite-functor-certificate-data-identity}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates satisfying the category certificate obligations, and let $F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate satisfying the obligations of \autoref{def:functor-certificate-obligations}. Write $F_0$ for its object map and $F_1$ for its morphism map. Let
+$$
+F^{\mathrm{opop}}=(F^{\mathrm{op}})^{\mathrm{op}}
+$$
+be obtained by applying \autoref{def:opposite-functor-certificate-data} twice, with source and target categories identified through the double-opposite category data identity of \autoref{thm:double-opposite-category-certificate-data-identity}. Then $F^{\mathrm{opop}}:\mathcal C^{\mathrm{opop}}\to\mathcal D^{\mathrm{opop}}$ satisfies the $\FunctorUp$ certificate obligations, and its functor data are componentwise identical to the data of $F$:
+$$
+(F^{\mathrm{opop}})_0(a)=F_0(a),
+\qquad
+(F^{\mathrm{opop}})_1(u)=F_1(u).
+$$
+The pointwise object-map classifier, pointwise morphism-map classifier, identity-preservation row, composition-preservation row, source-replacement stability row, target-replacement stability row, and ledger row of $F^{\mathrm{opop}}$ are the corresponding rows of $F$ under the same double-opposite source and target identification.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:opposite-category-certificate} to $\mathcal C$ and $\mathcal D$. This supplies certified categories $\mathcal C^{\mathrm{op}}$ and $\mathcal D^{\mathrm{op}}$. Then \autoref{thm:opposite-functor-certificate} supplies a certified functor
+$$
+F^{\mathrm{op}}:\mathcal C^{\mathrm{op}}\to\mathcal D^{\mathrm{op}}.
+$$
+Applying the same category and functor results once more supplies a certified functor
+$$
+F^{\mathrm{opop}}:\mathcal C^{\mathrm{opop}}\to\mathcal D^{\mathrm{opop}}.
+$$
+By \autoref{thm:double-opposite-category-certificate-data-identity}, the source and target category data of $\mathcal C^{\mathrm{opop}}$ and $\mathcal D^{\mathrm{opop}}$ are the source and target category data of $\mathcal C$ and $\mathcal D$, with hom endpoints swapped twice and therefore restored.
+
+It remains to compare the functor rows. One unfolding of \autoref{def:opposite-functor-certificate-data} gives
+$$
+F^{\mathrm{op}}_0(a)=F_0(a),
+\qquad
+F^{\mathrm{op}}_1(u)=F_1(u).
+$$
+A second unfolding gives
+$$
+(F^{\mathrm{opop}})_0(a)=F^{\mathrm{op}}_0(a)=F_0(a),
+\qquad
+(F^{\mathrm{opop}})_1(u)=F^{\mathrm{op}}_1(u)=F_1(u).
+$$
+Thus the object map and morphism map are unchanged as raw data.
+
+The classifier rows are also unchanged. The opposite category data of \autoref{def:opposite-category-certificate-data} leave object classifiers and morphism classifiers fixed; \autoref{thm:double-opposite-category-certificate-data-identity} identifies the double-opposite classifiers with the classifiers of $\mathcal D$. Since \autoref{def:opposite-functor-certificate-data} does not alter $F_0$ or $F_1$, the pointwise object-map and morphism-map classifier clauses for $F^{\mathrm{opop}}$ are exactly the corresponding clauses for $F$.
+
+For identity preservation, the identity at $a$ in $\mathcal C^{\mathrm{opop}}$ is the identity at $a$ in $\mathcal C$, and the identity at $F_0(a)$ in $\mathcal D^{\mathrm{opop}}$ is the identity at $F_0(a)$ in $\mathcal D$. Hence the identity-preservation witness of $F^{\mathrm{opop}}$ is the identity-preservation witness of $F$ read through the double-opposite category identification.
+
+For composition preservation, let $u:a\to b$ and $v:b\to c$ be displayed source morphisms with composite ledger $\mathsf{Comp}_{\mathcal C}(u,v,w)$. In the first opposite construction the source ledger is read as $\mathsf{Comp}_{\mathcal C}(v,u,w)$, and in the second opposite construction it is read back as $\mathsf{Comp}_{\mathcal C}(u,v,w)$. The same cancellation occurs in the target category:
+$$
+\mathsf{Comp}_{\mathcal D^{\mathrm{opop}}}(F_1(u),F_1(v),-)
+=
+\mathsf{Comp}_{\mathcal D}(F_1(u),F_1(v),-).
+$$
+Therefore the composition-preservation row for $F^{\mathrm{opop}}$ is the original composition-preservation row for $F$.
+
+Finally, source-endpoint replacement and target-endpoint replacement are exchanged by one opposite reading and exchanged back by the second. The remaining stability fields in \autoref{def:functor-stability-certificate} and the ledger fields in \autoref{def:functor-ledger-policy} use the same category ledgers and the same preservation witnesses, with the double-opposite category data identified with the starting category data. Hence every functor certificate row of $F^{\mathrm{opop}}$ is componentwise identical to the corresponding row of $F$.
+\end{proof}

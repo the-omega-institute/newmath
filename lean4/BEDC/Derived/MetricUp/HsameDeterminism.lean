@@ -19,6 +19,20 @@ theorem MetricDistanceWitness_hsame_source_deterministic {x x' y y' d d' : BHist
       cases sameDistance
       exact cont_right_cancel leftCont rightCont
 
+theorem MetricDistanceWitness_hsame_target_deterministic {x x' y y' d d' : BHist} :
+    hsame x x' -> hsame d d' -> MetricDistanceWitness x y d ->
+      MetricDistanceWitness x' y' d' -> Cont x y d ∧ Cont x' y' d' ∧ hsame y y' := by
+  intro sameSource sameDistance left right
+  have leftCont : Cont x y d := left.2.2.2
+  have rightCont : Cont x' y' d' := right.2.2.2
+  constructor
+  · exact leftCont
+  · constructor
+    · exact rightCont
+    · cases sameSource
+      cases sameDistance
+      exact cont_left_cancel leftCont rightCont
+
 theorem MetricDistanceWitness_visible_context_hsame_source_deterministic
     {p q p' q' x x' y y' d d' : BHist} :
     hsame y y' -> hsame d d' ->
