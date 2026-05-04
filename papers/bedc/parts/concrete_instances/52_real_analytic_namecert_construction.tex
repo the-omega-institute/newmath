@@ -66,10 +66,12 @@ For a $\RealUp$-history $x$, $\mathsf{Exp}(x, y)$ holds in this chapter only rel
 
 \begin{theorem}[Exponential additivity]
 \label{thm:real-analytic-exp-add}
-For all \(\RealUp\)-histories \(x, y\) and corresponding \(\mathsf{Exp}(x, e_x)\), \(\mathsf{Exp}(y, e_y)\), \(\mathsf{Exp}(x + y, e_{x+y})\), the equality \(\mathsf{RealClassifier}(e_{x+y}, e_x \cdot e_y)\) holds.
+For $\RealUp$-histories $x$ and $y$, assume supplied $\RealAlgOrder$ rows for $x+y$, products in $\RealUp$, powers $x^k$, $y^k$, and $(x+y)^k$, the unary factorial-denominator inverses, and the Cauchy-product comparison between the partial sums of $\mathsf{ExpPart}(x+y,\cdot,\cdot)$ and the product of the partial sums for $x$ and $y$. Assume also supplied $\RealUp$ limit witnesses and their limit-uniqueness classifier rows for $\mathsf{Exp}(x,e_x)$, $\mathsf{Exp}(y,e_y)$, and $\mathsf{Exp}(x+y,e_{x+y})$. Under exactly these rows, $\mathsf{RealClassifier}(e_{x+y}, e_x \cdot e_y)$ holds.
 \end{theorem}
 \begin{proof}
-Compare the partial sums of \(\exp(x+y)\) and \(\exp(x) \cdot \exp(y)\) by Cauchy product; the tail bound is dominated by the geometric tail of \autoref{lem:real-analytic-exp-cauchy} applied at \(B = |x| + |y|\). The classifier equality then follows from limit uniqueness.
+The $\RealAlgOrder$ rows make the finite algebraic comparison meaningful: addition supplies $x+y$, multiplication supplies the product side, powers and factorial-denominator inverses supply the displayed exponential terms, and the Cauchy-product row compares the two regular rational partial-sum families.
+
+The three supplied $\RealUp$ limit witnesses place those regular rational families in the real-history carrier. Their supplied classifier uniqueness rows identify the common limit, giving $\mathsf{RealClassifier}(e_{x+y}, e_x \cdot e_y)$.
 \end{proof}
 
 \section{Constructive logarithm on positives}
@@ -82,18 +84,22 @@ For a positive $\RealUp$-history $x$ (i.e.\ apartness witness $x \neq 0$ with po
 
 \begin{theorem}[Logarithm is the inverse of \(\exp\) on positives]
 \label{thm:real-analytic-log-exp-inverse}
-For positive \(\RealUp\)-history \(x\) with \(\mathsf{Log}(x, y)\) and \(\mathsf{Exp}(y, e_y)\), \(\mathsf{RealClassifier}(e_y, x)\) holds. Conversely, for \(\RealUp\)-history \(z\) with \(\mathsf{Exp}(z, w)\), \(\mathsf{Log}(w, z')\) gives \(\mathsf{RealClassifier}(z', z)\).
+For a $\RealUp$-history $x$, assume supplied positivity and apartness rows for $x$, supplied dyadic bisection rows locating rational intervals $[y_k,y_k+2^{-k}]$ with $\exp(y_k) \leq x < \exp(y_k+2^{-k})$, supplied rational-embedding rows for the dyadic endpoints and exponential comparisons, and supplied $\RealUp$ limit witnesses with limit-uniqueness classifier rows for $\mathsf{Log}(x,y)$ and $\mathsf{Exp}(y,e_y)$. Under these rows, $\mathsf{RealClassifier}(e_y,x)$ holds. Conversely, for a $\RealUp$-history $z$, assume the supplied $\mathsf{Exp}(z,w)$ limit witness, the supplied positivity row for $w$, the same bisection and rational-embedding rows applied to $w$, and the supplied uniqueness rows for $\mathsf{Log}(w,z')$; then $\mathsf{RealClassifier}(z',z)$ holds.
 \end{theorem}
 \begin{proof}
-The bisection construction in \autoref{def:real-analytic-log} explicitly enforces \(\exp(y_k) \to x\) at every precision; limit uniqueness gives the forward direction. The reverse direction is the same construction applied to \(\exp(z)\).
+For the forward direction, the supplied positivity row permits the bisection search, and the dyadic and rational-embedding rows provide the rational comparisons used at every precision. The supplied limit witness for $\mathsf{Log}(x,y)$ records the bisection limit, while the supplied witness for $\mathsf{Exp}(y,e_y)$ records the exponential value of that limit.
+
+The supplied uniqueness rows then identify the real-history value of $\exp(y)$ with the original positive input $x$. The reverse direction uses the supplied $\mathsf{Exp}(z,w)$ row as the positive input for the same bisection package, and the uniqueness row for $\mathsf{Log}(w,z')$ identifies the recovered logarithm with $z$.
 \end{proof}
 
 \begin{theorem}[Logarithm of a unary natural]
 \label{thm:real-analytic-log-unary}
-For positive unary natural \(n\), \(\mathsf{Log}(\Eone^n(\emp), y_n)\) gives a constructive \(\log n\) used by the Dirichlet term construction (\autoref{ch:concrete-instances-dirichlet-series-namecert}).
+For positive unary natural $n$, assume supplied rational-embedding rows sending the unary numeral $\Eone^n(\emp)$ into the positive $\RealUp$ carrier, supplied positivity and apartness rows for that embedded value, supplied dyadic bisection rows with the modulus determined by the unary length of $n$, and supplied $\RealUp$ limit uniqueness rows for the resulting $\mathsf{Log}(\Eone^n(\emp),y_n)$ witness. Under these rows, $y_n$ is the constructive $\log n$ input used by the Dirichlet term construction (\autoref{ch:concrete-instances-dirichlet-series-namecert}).
 \end{theorem}
 \begin{proof}
-Specialize \autoref{def:real-analytic-log} to the rational embedding of the unary natural; the bisection terminates with explicit modulus determined by the unary length of \(n\).
+The rational-embedding rows place the unary numeral inside $\RealUp$ with the required positive sign data. The bisection rows then specialize \autoref{def:real-analytic-log} to this embedded value and supply the precision modulus determined by the unary length of $n$.
+
+The supplied limit witness and uniqueness rows turn the bisection stream into the real-history value $y_n$. No logarithm classifier conclusion is available before these rows are present.
 \end{proof}
 
 \section{Constructive sine and cosine}
@@ -116,18 +122,22 @@ $\mathsf{Sin}(x, s)$ and $\mathsf{Cos}(x, c)$ hold in this chapter only relative
 
 \begin{theorem}[Pythagorean identity]
 \label{thm:real-analytic-pythagorean}
-For all \(\RealUp\)-history \(x\) with \(\mathsf{Sin}(x, s)\) and \(\mathsf{Cos}(x, c)\), \(\mathsf{RealClassifier}(s^2 + c^2, \Eone(\emp))\) holds.
+For a $\RealUp$-history $x$, assume supplied $\RealAlgOrder$ rows for products, squares, addition, and the constant $\Eone(\emp)$, supplied product-stability rows for multiplying supplied sine and cosine limits, supplied trigonometric limit witnesses for $\mathsf{Sin}(x,s)$ and $\mathsf{Cos}(x,c)$, and supplied limit-uniqueness classifier rows comparing the regular rational partial sums for $s^2+c^2$ with the constant-one witness. Under these rows, $\mathsf{RealClassifier}(s^2 + c^2, \Eone(\emp))$ holds.
 \end{theorem}
 \begin{proof}
-Compare partial sums \(S_n^2 + C_n^2\) against the constant \(1\) using the Cauchy product with explicit cancellation between odd-power and even-power terms. The tail bound is the squared geometric tail of \autoref{lem:real-analytic-trig-cauchy}.
+The supplied algebraic rows make $s^2+c^2$ and the constant-one comparison available in $\RealUp$. Product stability transports the supplied sine and cosine limit witnesses through the finite products needed to form the square terms.
+
+The regular rational comparison is the usual cancellation between the odd-power and even-power partial sums, bounded by the trigonometric Cauchy modulus of \autoref{lem:real-analytic-trig-cauchy}. The supplied uniqueness classifier rows then identify the resulting value with $\Eone(\emp)$.
 \end{proof}
 
 \begin{theorem}[Sine vanishes at integer multiples of \(\pi\)]
 \label{thm:real-analytic-sin-pi-multiples}
-For every signed unary integer \(n\), \(\mathsf{Sin}(n \cdot \mathsf{Pi}, s)\) gives \(\mathsf{RealClassifier}(s, \emp)\). In particular, \(\sin(-n\pi) = 0\) for every unary \(n \geq \emp\), supplying the trivial-zero witness used in \autoref{ch:concrete-instances-zeta-zeros-namecert}.
+For every signed unary integer $n$, assume supplied $\RealAlgOrder$ rows for integer scalar multiplication $n \cdot \mathsf{Pi}$, addition of consecutive multiples of $\mathsf{Pi}$, products in the sine addition formula, and the zero constant $\emp$. Assume also a supplied constant $\mathsf{Pi}$ limit witness, supplied trigonometric limit witnesses for the required sine and cosine terms, supplied addition-formula rows for $\sin(a+b)$ and $\cos(a+b)$ at these arguments, supplied product-stability rows for the formula terms, and supplied limit-uniqueness classifier rows for the base values $\sin(0)$ and $\sin(\mathsf{Pi})$. Under these rows, $\mathsf{Sin}(n \cdot \mathsf{Pi},s)$ gives $\mathsf{RealClassifier}(s,\emp)$. In particular, the negative signed multiples supply the zero witness used in \autoref{ch:concrete-instances-zeta-zeros-namecert}.
 \end{theorem}
 \begin{proof}
-By induction on \(n\) using addition formula \(\sin((n+1)\pi) = \sin(n\pi)\cos(\pi) + \cos(n\pi)\sin(\pi)\), with base cases \(\sin(0) = 0\) and \(\sin(\pi) = 0\). The base \(\sin(\pi) = 0\) is established by comparing the alternating partial sums of \(\sin(\mathsf{Pi})\) against the explicit cancellation pattern visible in the \(\mathsf{LeibPart}\) construction.
+The supplied $\mathsf{Pi}$ limit witness and scalar-multiplication rows make each integer multiple $n \cdot \mathsf{Pi}$ a legitimate $\RealUp$ argument. The trigonometric witnesses and classifier rows supply the base values $\sin(0)$ and $\sin(\mathsf{Pi})$ as zero.
+
+For the induction step, the supplied addition-formula row rewrites $\sin((n+1)\mathsf{Pi})$ through $\sin(n\mathsf{Pi})\cos(\mathsf{Pi})+\cos(n\mathsf{Pi})\sin(\mathsf{Pi})$. Product stability transports the induction hypothesis and the base zero classifier through the product terms, and the supplied uniqueness row returns the classifier $\mathsf{RealClassifier}(s,\emp)$.
 \end{proof}
 
 \section{Certificate target}
@@ -141,7 +151,7 @@ Suppose the following machine-checked rows are supplied for the analytic constru
   \item \textbf{Stream carrier}: $\StreamNameUp$ and $\RegSeqRat$ data for every displayed partial-sum family, including the explicit unary moduli of \autoref{lem:real-analytic-leibniz-cauchy}, \autoref{lem:real-analytic-exp-cauchy}, and \autoref{lem:real-analytic-trig-cauchy}.
   \item \textbf{Real carrier}: $\RealUp$ limit witnesses for $\mathsf{Pi}$, $\mathsf{Exp}$, $\mathsf{Log}$, $\mathsf{Sin}$, and $\mathsf{Cos}$, supplied from the Phase Real and Completion obligations.
   \item \textbf{Classifier}: limit uniqueness for the supplied $\RealUp$ witnesses, stated up to $\mathsf{RealClassifier}$.
-  \item \textbf{Stability}: additivity of $\exp$ (\autoref{thm:real-analytic-exp-add}), inverse relation $\log = \exp^{-1}$ (\autoref{thm:real-analytic-log-exp-inverse}), Pythagorean identity (\autoref{thm:real-analytic-pythagorean}), and $\pi$-multiple zeros of $\sin$ (\autoref{thm:real-analytic-sin-pi-multiples}).
+  \item \textbf{Stability}: supplied conditional rows for additivity of $\exp$ (\autoref{thm:real-analytic-exp-add}), inverse relation $\log = \exp^{-1}$ (\autoref{thm:real-analytic-log-exp-inverse}), Pythagorean identity (\autoref{thm:real-analytic-pythagorean}), and $\pi$-multiple zeros of $\sin$ (\autoref{thm:real-analytic-sin-pi-multiples}), each with its theorem-site hypotheses for algebraic operations, bisection or Cauchy-product comparison, limit witnesses, classifiers, addition formulas, and product stability.
 \end{enumerate}
 Under these supplied rows, the tuple $(\mathsf{Pi}, \mathsf{Exp}, \mathsf{Log}, \mathsf{Sin}, \mathsf{Cos})$, with sources, classifiers, stability obligations, ledgers, and standard bridges, is a $\NameCert(\RealAnalyticUp)$ candidate over $\RealUp$. Without those supplied rows, this chapter exports only the displayed proof obligations and explicit-modulus scaffolds.
 \end{theorem}
