@@ -246,6 +246,32 @@ each factor multiplication gives the two displayed prime-scale witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_exponent\_decomposition}
 
+\begin{theorem}[Prime scale append successor right factorization]
+\label{thm:padic-prime-scale-append-succ-right-factorization}
+For unary histories $w$ and $q$, a prime scale over
+$\mathsf{append}(w,\Eone(q))$ is exactly a left prime-scale result over $w$,
+a predecessor right prime-scale result over $q$, a one-step continuation by
+the prime base, and the final continuation from the left result:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(q)),r)
+\Longleftrightarrow
+\exists n,e,s.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\ContR(e,p,s)\land
+\ContR(n,s,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction first applies append-exponent decomposition with the
+right factor $\Eone(q)$. The right factor scale is then inverted by the
+successor-exponent factorization theorem, producing the predecessor scale over
+$q$ and its continuation by $p$. Conversely, rebuild the right successor scale
+from the predecessor row and then apply append continuation closure with the
+final continuation row.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_succ\_right\_exponent\_factorization\_iff}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of

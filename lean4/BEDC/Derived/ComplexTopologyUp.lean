@@ -268,6 +268,89 @@ theorem ComplexTopologyOpenDiskGap_empty_gap_radius_point_iff
                       cont_result_hsame_transport pointGap sameRadius
                     exact cont_left_cancel pointGapPoint (cont_right_unit point)
 
+theorem ComplexTopologyOpenDiskGap_visible_radius_gap_cases
+    {center radiusTail point gap : BHist} :
+    ComplexTopologyOpenDiskGap center (BHist.e1 radiusTail) point gap ->
+      (gap = BHist.Empty ∧ hsame point (BHist.e1 radiusTail)) ∨
+        (∃ gapTail : BHist,
+          gap = BHist.e1 gapTail ∧
+            ComplexTopologyOpenDiskGap center radiusTail point gapTail) := by
+  intro disk
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro gapCarrier pointGap =>
+                  have resultCases := cont_e1_result_inversion pointGap
+                  cases resultCases with
+                  | inl visible =>
+                      exact Or.inl visible
+                  | inr descended =>
+                      cases descended with
+                      | intro gapTail tailData =>
+                          cases tailData with
+                          | intro gapEq tailRel =>
+                              have radiusTailCarrier : UnaryHistory radiusTail :=
+                                unary_e1_inversion radiusCarrier
+                              have gapTailCarrier : UnaryHistory gapTail := by
+                                cases gapEq
+                                exact unary_e1_inversion gapCarrier
+                              exact Or.inr
+                                (Exists.intro gapTail
+                                  (And.intro gapEq
+                                    (And.intro centerCarrier
+                                      (And.intro radiusTailCarrier
+                                        (And.intro pointCarrier
+                                          (And.intro gapTailCarrier tailRel))))))
+
+theorem ComplexTopologyClosedDiskGap_visible_radius_boundary_cases
+    {center radiusTail point gap : BHist} :
+    ComplexTopologyClosedDiskGap center (BHist.e1 radiusTail) point gap ->
+      ((gap = BHist.Empty ∧ hsame point (BHist.e1 radiusTail)) ∨
+          (∃ gapTail : BHist,
+            gap = BHist.e1 gapTail ∧
+              ComplexTopologyClosedDiskGap center radiusTail point gapTail)) ∨
+        hsame point (BHist.e1 radiusTail) := by
+  intro disk
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier rest =>
+              cases rest with
+              | intro gapCarrier boundary =>
+                  cases boundary with
+                  | inl pointGap =>
+                      have resultCases := cont_e1_result_inversion pointGap
+                      cases resultCases with
+                      | inl visible =>
+                          exact Or.inl (Or.inl visible)
+                      | inr descended =>
+                          cases descended with
+                          | intro gapTail tailData =>
+                              cases tailData with
+                              | intro gapEq tailRel =>
+                                  have radiusTailCarrier : UnaryHistory radiusTail :=
+                                    unary_e1_inversion radiusCarrier
+                                  have gapTailCarrier : UnaryHistory gapTail := by
+                                    cases gapEq
+                                    exact unary_e1_inversion gapCarrier
+                                  exact Or.inl
+                                    (Or.inr
+                                      (Exists.intro gapTail
+                                        (And.intro gapEq
+                                          (And.intro centerCarrier
+                                            (And.intro radiusTailCarrier
+                                              (And.intro pointCarrier
+                                                (And.intro gapTailCarrier
+                                                  (Or.inl tailRel))))))))
+                  | inr pointRadius =>
+                      exact Or.inr pointRadius
+
 theorem ComplexTopologyOpenDiskGap_unary_suffix_transport
     {center radius point gap q pointq radiusq : BHist} :
     ComplexTopologyOpenDiskGap center radius point gap -> UnaryHistory q -> Cont point q pointq ->

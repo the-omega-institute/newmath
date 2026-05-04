@@ -70,3 +70,24 @@ lifts through the shared prefix and the category endpoint theorem identifies
 the morphism with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_morphism\_empty\_endpoint\_iff}
+
+\begin{theorem}[Functor prefix hom-carrier composite result empty exactness]
+\label{thm:functor-prefix-hom-carrier-comp-result-empty}
+For histories $p,a,b,c,f,g,fg$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a hom-carrier from
+$\mathsf{append}(p,b)$ to $\mathsf{append}(p,c)$, and $\ContR(f,g,fg)$ holds,
+then emptiness of the displayed composite result is equivalent to the two
+factor morphisms being empty and the adjacent unprefixed endpoints agreeing:
+$$
+\hsame(fg,\emp)
+\quad\Longleftrightarrow\quad
+\hsame(f,\emp)\wedge\hsame(g,\emp)\wedge\hsame(a,b)\wedge\hsame(b,c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the displayed continuation to empty result
+and applies prefix empty-composite exactness. Conversely, the componentwise
+empty data builds the empty composite continuation; continuation determinacy
+compares that empty result with the displayed composite result $fg$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_result\_empty\_iff}

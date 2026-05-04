@@ -146,6 +146,28 @@ append-closure theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_components\_iff}
 
+\begin{theorem}[Homology cycle carrier append differential nonempty component split]
+\label{thm:homology-cycle-carrier-append-differential-nonempty-component-split}
+Assume the differential respects BEDC continuation append. If the differential
+of an appended history is not empty,
+$$
+\hsame(d(\mathsf{append}(h,k)),\mathsf{Empty})\to\bot,
+$$
+then at least one component is not a cycle:
+$$
+(Z_d(h)\to\bot)\vee(Z_d(k)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+Transport the displayed nonemptiness along the append law for $d$ to obtain
+nonemptiness of $\mathsf{append}(d(h),d(k))$. BEDC append nonemptiness then
+separates this obstruction into a nonempty $d(h)$ component or a nonempty
+$d(k)$ component. Since $Z_d(h)$ and $Z_d(k)$ mean exactly that the
+corresponding differential is empty, the selected obstruction negates the
+matching cycle predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_differential\_nonempty\_component\_split}
+
 \begin{theorem}[Homology boundary carrier append closure]
 \label{thm:homology-boundary-carrier-append-closed}
 Assume the differential respects BEDC continuation append:
@@ -249,6 +271,31 @@ the two boundary witness comparisons unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage\_append\_hsame\_transport}
 
+\begin{theorem}[Homology boundary continuation cycle-preimage package]
+\label{thm:homology-boundary-continuation-cycle-preimage-package}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $B_d(h)$, $B_d(k)$, and $\ContR(h,k,r)$, then
+$$
+Z_d(r)\land \exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(r,d(\mathsf{append}(u,v))).
+$$
+\end{theorem}
+\begin{proof}
+The cycle component is exactly
+\autoref{thm:homology-boundary-cont-cycle-closed}: boundary continuation first
+produces a boundary carrier for $r$, and square-zero turns that carrier into
+$Z_d(r)$.
+
+The preimage component is supplied by
+\autoref{thm:homology-boundary-carrier-cont-preimage-append}. It gives BEDC
+histories $u$ and $v$ whose differential images match $h$ and $k$, and whose
+appended differential image matches the continuation result $r$.
+
+Conjoining these two conclusions gives the displayed cycle-preimage certificate
+for the same continuation result.
+\end{proof}
+
 \begin{theorem}[Homology boundary carrier continuation nonempty preimage append]
 \label{thm:homology-boundary-carrier-cont-nonempty-preimage-append}
 Assume the differential respects BEDC continuation append. If $B_d(h)$,
@@ -287,6 +334,25 @@ $v$ with the stated endpoint comparisons, which are then paired.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_empty\_preimages}
 
+\begin{theorem}[Homology boundary carrier continuation empty preimages]
+\label{thm:homology-boundary-carrier-cont-empty-preimages}
+If $B_d(h)$ and $B_d(k)$ and $\ContR(h,k,r)$ and
+$r\hsame\mathsf{Empty}$, then the two boundary witnesses can be chosen with
+empty differential endpoints:
+$$
+\exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(d(u),\mathsf{Empty})\land\hsame(d(v),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+The continuation equation identifies $r$ with $\mathsf{append}(h,k)$.
+Transporting the empty result comparison along this equation gives
+$\mathsf{append}(h,k)\hsame\mathsf{Empty}$, and the append empty preimage
+theorem supplies the paired witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_empty\_preimages}
+
 \begin{theorem}[Homology boundary carrier append nonempty preimage]
 \label{thm:homology-boundary-carrier-append-nonempty-preimage}
 If $B_d(h)$ and $B_d(k)$ and
@@ -309,6 +375,28 @@ applied to $B_d(h)$ gives the left disjunct. In the right case, the same
 argument applied to $B_d(k)$ gives the right disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_nonempty\_preimage}
+
+\begin{theorem}[Homology boundary carrier continuation nonempty side preimage]
+\label{thm:homology-boundary-carrier-cont-nonempty-side-preimage}
+If $B_d(h)$ and $B_d(k)$ and $\ContR(h,k,r)$ and $r$ is not
+history-same to $\mathsf{Empty}$, then at least one side has a boundary
+preimage with a nonempty differential endpoint:
+$$
+\begin{aligned}
+&\left(\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land\neg\hsame(d(u),\mathsf{Empty})\right)\\
+&\quad{}\lor
+\left(\exists v:\mathsf{BHist},\
+\hsame(k,d(v))\land\neg\hsame(d(v),\mathsf{Empty})\right).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The continuation equation transports nonemptiness of $r$ to nonemptiness of
+$\mathsf{append}(h,k)$. The append nonempty preimage theorem then separates
+the witness to the left boundary preimage or to the right boundary preimage.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_nonempty\_side\_preimage}
 
 \begin{theorem}[Homology boundary carrier append nonempty cycle preimage]
 \label{thm:homology-boundary-carrier-append-nonempty-cycle-preimage}
