@@ -91,3 +91,56 @@ witness; core theorem \autoref{thm:real-unary-stream-window-coverage};
 exactness endpoint projection
 \autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
 finite rational observation windows; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream finite-window stability package]
+\label{thm:real-stream-window-classifier-stability-package}
+For rational-observation streams $x,x',y,y',z:\mathbb{N}\to\Hist$ and indices
+$n,m$, the finite window classifier supplies the following stability rows:
+\begin{enumerate}
+  \item if
+  $\forall k,\ k\le m\Longrightarrow\mathsf{RatHistoryCarrier}(x(n+k))$,
+  then $\mathsf{RealStreamWindowClassifier}(x,x,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$, then
+  $\mathsf{RealStreamWindowClassifier}(y,x,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$ and
+  $\mathsf{RealStreamWindowClassifier}(y,z,n,m)$, then
+  $\mathsf{RealStreamWindowClassifier}(x,z,n,m)$;
+  \item if $\mathsf{RealStreamWindowClassifier}(x,y,n,m)$ and, for every
+  $k\le m$, both $\hsame(x(n+k),x'(n+k))$ and
+  $\hsame(y(n+k),y'(n+k))$ hold, then
+  $\mathsf{RealStreamWindowClassifier}(x',y',n,m)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold the finite window classifier in each row and fix an offset $k\le m$.
+
+\begin{enumerate}
+  \item The reflexivity row reads the carrier hypothesis at this offset. Pair
+  the carrier with itself, and use $\hsame$ reflexivity to build
+  $\mathsf{RatHistoryClassifier}(x(n+k),x(n+k))$.
+
+  \item The symmetry row evaluates the source window at the offset and applies
+  \autoref{thm:rat-history-classifier-symmetry} to reverse the rational-history
+  classifier.
+
+  \item The transitivity row evaluates the two source windows at the same
+  offset and applies \autoref{thm:rat-history-classifier-trans} to compose the
+  two rational-history classifiers through the shared middle stream $y$.
+
+  \item The transport row evaluates the source window at the offset and reads
+  the two pointwise $\hsame$ hypotheses at the same offset. Apply
+  \autoref{thm:rat-history-classifier-hsame-transport} to transport the
+  rational-history classifier to the endpoints $x'(n+k)$ and $y'(n+k)$.
+\end{enumerate}
+
+Since the offset was arbitrary under the bound, each row repacks into the
+corresponding $\mathsf{RealStreamWindowClassifier}$ statement.
+\end{proof}
+
+The ten-field fit is: traditional target finite observation-window stability;
+BEDC source RealUp rational-observation streams plus RatUp classifier; carrier
+the bounded window predicate; classifier
+$\mathsf{RealStreamWindowClassifier}$; stability the four displayed rows;
+ledger anchor $n$, radius $m$, and offset witnesses; core theorem this block;
+exactness bounded pointwise rational classification; standard bridge finite
+rational observation-window agreement; status $\mathsf{ProofTarget}$.
