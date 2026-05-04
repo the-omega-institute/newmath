@@ -529,5 +529,50 @@ $R_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),
 \mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
 \end{proof}
 
+\begin{theorem}[Group singleton normalizer action product-coherent orbit law]
+\label{thm:group-singleton-normalizer-action-product-coherent-orbit-law}
+For histories $s,t,x:\mathsf{BHist}$ in the concrete singleton history group
+instance, write
+$$
+\mathsf{Conj}_u(y):=\mathsf{mul}(\mathsf{mul}(u,y),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, and $A_{\emp}(x)$, then
+$$
+\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)
+\land
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
+\mathsf{Conj}_s(\mathsf{Conj}_t(x)).
+$$
+The ten-field fit names the traditional target as terminal normalizer action
+composition on orbits; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$; carrier $A_{\emp}$; classifier $\sim_{N_{\emp}}$; stability
+from orbit exactness and product-coherent classifier collapse; ledger the two
+conjugators, product conjugator, and acted endpoint; core theorem this block;
+exactness the displayed orbit-level product law; downstream consumer
+$\QuotientGroupUp$ action composition; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+Theorem~\ref{thm:group-singleton-normalizer-action-composition-collapse} to
+$s$, $t$, and $x$. Its carrier rows place
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))$ and
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$ in $A_{\emp}$.
+
+Next apply
+Theorem~\ref{thm:group-singleton-normalizer-action-product-coherent-orbit-collapse}.
+This gives the two terminal classifier rows between the nested conjugation
+endpoint and the product-conjugator endpoint.
+
+Finally use Theorem~\ref{thm:group-singleton-normalizer-orbit-exactness} in the
+classifier-to-orbit direction twice. The first use turns the forward
+$R_{\emp}$ row into
+$\mathsf{Conj}_s(\mathsf{Conj}_t(x))\sim_{N_{\emp}}
+\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)$, and the second use turns the reverse
+$R_{\emp}$ row into
+$\mathsf{Conj}_{\mathsf{mul}(s,t)}(x)\sim_{N_{\emp}}
+\mathsf{Conj}_s(\mathsf{Conj}_t(x))$.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
