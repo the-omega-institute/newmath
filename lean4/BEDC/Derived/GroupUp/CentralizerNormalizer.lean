@@ -556,4 +556,36 @@ theorem group_centralizer_normalizer_orbit_endpoint_transport_iff
     leftId rightId mulCongr
     (group_inverse_congruence_from_laws assocC leftId rightId mulCongr leftInv rightInv)
 
+theorem group_centralizer_normalizer_orbit_hsame_lift_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    let Centralizer := fun q : BHist => hsame (mul q a) (mul a q)
+    let Conj := fun s q : BHist => mul (mul s q) (inv s)
+    let Normalizer := fun s : BHist =>
+      (forall q : BHist, Centralizer q -> Centralizer (Conj s q)) ∧
+        (forall q : BHist, Centralizer q -> Centralizer (Conj (inv s) q))
+    let Orbit := fun p q : BHist =>
+      Exists (fun s : BHist =>
+        Normalizer s ∧ Centralizer p ∧ Centralizer q ∧ hsame (Conj s p) q)
+    Centralizer x -> Centralizer y -> hsame x y -> Orbit x y := by
+  dsimp
+  intro centralX centralY sameXY
+  have orbitXX :=
+    (BEDC.Derived.GroupUp.group_centralizer_normalizer_orbit_equivalence_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv
+      (a := a) (x := x) (y := x) (z := x) centralX centralX centralX).left
+  have transport :=
+    BEDC.Derived.GroupUp.group_centralizer_normalizer_orbit_endpoint_transport_iff
+      assocC leftId rightId mulCongr leftInv rightInv
+      (a := a) (x := x) (y := x) (x' := x) (y' := y)
+      centralX centralX centralX centralY (hsame_refl x) sameXY
+  exact Iff.mp transport orbitXX
+
 end BEDC.Derived.GroupUp
