@@ -178,3 +178,80 @@ diagonal equalities; core theorem this block; exactness the displayed
 conjunction; standard bridge ordinary quadratic polarization in a commutative
 ring; downstream use $\FieldUp$ quadratic normalization and equal-square/zero-product
 reasoning; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[CommRing quadratic zero-polarization annihilator package]
+\label{thm:commring-quadratic-zero-polarization-annihilator-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+joint hypotheses of
+\autoref{thm:commring-quadratic-zero-polarization-exit-package} and
+\autoref{thm:ring-mul-zero-absorption}, every $a,b : \mathsf{BHist}$ with
+$((a+(-b))\cdot(a+(-b)))\hsame0$ carries the concrete annihilator package
+$$
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+\forall c : \mathsf{BHist},\
+(((a+(-b))\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+(-b))\cdot(a+(-b)))\hsame0)
+\Bigr).
+$$
+The ten-field fit is: traditional target commutative-ring quadratic
+zero-polarization annihilator interface; BEDC source $\RingUp$ plus
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from the zero-square witness, multiplication congruence,
+and zero multiplication absorption; ledger the six exit rows and the universal
+two-sided annihilator row; core theorem this theorem; exactness the displayed
+seven-row package; standard bridge ordinary nil-square annihilation in a
+commutative ring; downstream use $\FieldUp$ quadratic normalization and
+nil-square handling; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-zero-polarization-exit-package} to the
+selected histories $a,b$ and the displayed zero-square hypothesis. This supplies
+the six exit-package rows: the parallelogram identity, the positive and signed
+cross-term extractions, signed-square zero exactness, the positive diagonal
+equality, and the inverse diagonal equality.
+
+Now fix an arbitrary multiplier $c:\mathsf{BHist}$. Transport the zero-square
+witness through multiplication on the left and on the right, and apply
+\autoref{thm:ring-mul-zero-absorption} to the resulting zero products. This
+gives
+$$
+((a+(-b))\cdot(a+(-b)))\cdot c\hsame0
+\land
+c\cdot((a+(-b))\cdot(a+(-b)))\hsame0.
+$$
+
+Finally conjoin the six rows obtained from the zero-polarization exit package
+with the two absorption rows obtained for the arbitrary multiplier $c$. Since
+$c$ was arbitrary, these rows give the universal two-sided annihilator clause,
+and the displayed package follows in the stated order.
+\end{proof}
