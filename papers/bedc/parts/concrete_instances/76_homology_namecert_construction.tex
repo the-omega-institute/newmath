@@ -137,6 +137,18 @@ $\hsame$ comparison transports the image witness to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
 
+\begin{theorem}[Homology boundary carrier continuation cycle closure]
+\label{thm:homology-boundary-cont-cycle-closed}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $B_d(h)$, $B_d(k)$, and $\ContR(h,k,r)$, then $Z_d(r)$.
+\end{theorem}
+\begin{proof}
+Boundary append closure with endpoint transport first makes the continuation
+result $r$ a boundary carrier. The square-zero differential condition turns any
+boundary carrier into a cycle carrier, so $Z_d(r)$ follows.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_cycle\_closed}
+
 \begin{theorem}[Homology boundary carrier continuation preimage]
 \label{thm:homology-boundary-carrier-cont-preimage}
 Assume the differential respects BEDC continuation append. If $B_d(h)$,
@@ -237,6 +249,22 @@ applied to $B_d(h)$ gives the left disjunct. In the right case, the same
 argument applied to $B_d(k)$ gives the right disjunct.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_nonempty\_preimage}
+
+\begin{theorem}[Homology boundary carrier continuation cycle components]
+\label{thm:homology-boundary-cont-cycle-components}
+Assume the differential respects BEDC continuation append and is square-zero.
+If $B_d(r)$ and $\ContR(h,k,r)$, then both continuation components are cycles:
+$$
+Z_d(h)\wedge Z_d(k).
+$$
+\end{theorem}
+\begin{proof}
+The square-zero law turns the boundary carrier on $r$ into a cycle carrier on
+the continuation result. Since $\ContR(h,k,r)$ identifies $r$ with
+$\mathsf{append}(h,k)$, the append-components theorem splits that cycle
+predicate into the two component cycle predicates.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_cycle\_components}
 
 \begin{theorem}[Homology boundary carrier cycle from square-zero differential]
 \label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
