@@ -55,13 +55,13 @@ Theorem~\ref{thm:history-no-confusion}, excludes this empty-versus-one
 identification.
 \end{proof}
 
-\begin{theorem}[List singleton source public classifier length shape exhaustion]
-\label{thm:list-singleton-source-public-classifier-length-shape-exhaustion}
+\begin{theorem}[List singleton source classified shape synchrony]
+\label{thm:list-singleton-source-classified-shape-synchrony}
 Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
 history source of Definition~\ref{def:list-singleton-history-source}. For all
 histories $h,k:\mathsf{BHist}$, if
-$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$ holds, then one of
-the following two public endpoint length shapes is available:
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$ holds, then
+exactly one synchronized public endpoint shape is available:
 \begin{enumerate}
   \item
   $$
@@ -89,8 +89,8 @@ the following two public endpoint length shapes is available:
   \right).
   $$
 \end{enumerate}
-The nil endpoint shape and every displayed cons endpoint shape are disjoint by
-BEDC history no-confusion between $\emp$ and $\Eone(p)$.
+The nil endpoint shape and every displayed cons endpoint shape are mutually
+exclusive by BEDC history no-confusion between $\emp$ and $\Eone(p)$.
 \end{theorem}
 \begin{proof}
 Apply
@@ -123,13 +123,19 @@ $\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)$.
 
 The endpoint spine ledgers supplied by the certificate give the carrier
 presentations needed to apply
-Theorem~\ref{thm:list-singleton-source-public-length-shape-exhaustion} to each
-classified endpoint. In the present cons-cons branch, the nil alternatives
-would identify $\emp$ with $\Eone(p)$ or with $\Eone(q)$ after symmetry and
-transitivity of $\hsame$, so Theorem~\ref{thm:history-no-confusion} excludes
-them. Public-length uniqueness then identifies the resulting endpoint
-successor lengths with the $n+1$ lengths already obtained from the tail
-classifier.
+Theorem~\ref{thm:list-singleton-source-public-length-shape-exhaustion} to the
+classified endpoints $h$ and $k$. Apply the same theorem to the exposed tails
+$t$ and $u$ using their carrier witnesses. These four one-endpoint applications
+attach the public readback shape witnesses to the data supplied by the
+constructor audit.
+
+In the present cons-cons branch, endpoint nil alternatives would identify
+$\emp$ with $\Eone(p)$ or with $\Eone(q)$ after symmetry and transitivity of
+$\hsame$, so Theorem~\ref{thm:history-no-confusion} excludes them.
+Public-length uniqueness then identifies the resulting endpoint successor
+lengths with the $n+1$ lengths already obtained from the tail classifier, while
+the displayed tail public lengths remain the common length data for $t$ and
+$u$.
 
 Collect the common length $n$ and the six constructor histories. The displayed
 data are exactly the second alternative. The same no-confusion argument
