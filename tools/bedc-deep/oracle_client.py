@@ -546,6 +546,35 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         )
         verdict = "done"
 
+    # Codex-pool worker hands off on escalate: write `.oracle_pending` and
+    # release the worker for the next BOARD target. The oracle pool picks
+    # these up via `claim_next_for_oracle`. This decouples the codex
+    # parallelism (high) from the oracle parallelism (capped at tab count).
+    role = (getattr(args, "worker_role", "all") or "all").lower()
+    if role == "codex" and verdict == "open":
+        pending = oracle_pending_marker(target)
+        pending.parent.mkdir(parents=True, exist_ok=True)
+        pending.write_text(json.dumps({
+            "ts": _now_iso(),
+            "codex_summary": codex_summary,
+            "codex_board_candidates": codex_board_candidates,
+            "reason": (codex_summary.get("reason") if isinstance(codex_summary, dict) else "") or "codex_track escalated; oracle round queued",
+        }, ensure_ascii=False, indent=2))
+        print(
+            f"[v2 codex-only] {target.target_id} escalated → queued for oracle pool "
+            f"(.oracle_pending written)",
+            flush=True,
+        )
+        return {
+            "target_id": target.target_id,
+            "title": target.title,
+            "codex_track": codex_summary,
+            "codex_board_candidates": codex_board_candidates,
+            "queued_for_oracle": True,
+            "started_at": started_at,
+            "completed_at": None,
+        }
+
     if verdict == "open":
         # Preflight tab wait (only when actually invoking oracle)
         print_status_hint(args.server)
@@ -1057,6 +1086,26 @@ def in_progress_marker(target: BedcTarget) -> Path:
     return STATE_DIR / target.slug / ".in_progress"
 
 
+def oracle_pending_marker(target: BedcTarget) -> Path:
+    """Marker written by the codex pool when codex_track returns escalate.
+
+    Presence means: codex finished its part, target now needs an oracle
+    round. The oracle pool's picker (`claim_next_for_oracle`) finds these,
+    claims them, and runs the oracle path. The full final json (under
+    STATE_DIR / f"{slug}.json") clears the pending state.
+    """
+    return STATE_DIR / target.slug / ".oracle_pending"
+
+
+def release_oracle_pending(target: BedcTarget) -> None:
+    p = oracle_pending_marker(target)
+    if p.exists():
+        try:
+            p.unlink()
+        except OSError:
+            pass
+
+
 STALE_CLAIM_MAX_AGE_SECONDS = 30 * 60
 
 
@@ -1164,14 +1213,38 @@ def cleanup_stale_claims(max_age_seconds: int = STALE_CLAIM_MAX_AGE_SECONDS) -> 
 
 
 def claim_next_unfinished() -> BedcTarget | None:
-    """Pick one unfinished+unclaimed target under target-picker lock."""
+    """Pick one unfinished+unclaimed target under target-picker lock.
+
+    Used by the legacy single-pool loop AND by the codex pool: skip targets
+    that already have an `.oracle_pending` marker (those belong to the
+    oracle pool now)."""
     with file_lock("target_picker"):
         targets = parse_board()
         for t in targets.values():
             done = (STATE_DIR / f"{t.slug}.json").exists()
             marker = in_progress_marker(t)
-            if done or marker.exists():
+            pending = oracle_pending_marker(t)
+            if done or marker.exists() or pending.exists():
                 continue
+            marker.parent.mkdir(parents=True, exist_ok=True)
+            marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
+            return t
+    return None
+
+
+def claim_next_for_oracle() -> BedcTarget | None:
+    """Pick a target that the codex pool already escalated (has
+    `.oracle_pending`), no in-progress claim, no final json."""
+    with file_lock("target_picker"):
+        targets = parse_board()
+        for t in targets.values():
+            if (STATE_DIR / f"{t.slug}.json").exists():
+                continue
+            if in_progress_marker(t).exists():
+                continue
+            if not oracle_pending_marker(t).exists():
+                continue
+            marker = in_progress_marker(t)
             marker.parent.mkdir(parents=True, exist_ok=True)
             marker.write_text(f"pid={os.getpid()} ts={_now_iso()}\n", encoding="utf-8")
             return t
@@ -1215,6 +1288,12 @@ def _run_target_safe(args: argparse.Namespace, target: BedcTarget) -> dict:
         return crash_state
     finally:
         release_claim(target)
+        # Sweep .oracle_pending only when target is fully finalized (final
+        # json exists). This way codex-pool workers that escalated can keep
+        # the marker alive for the oracle pool, while oracle-pool workers
+        # that finalize remove it.
+        if (STATE_DIR / f"{target.slug}.json").exists():
+            release_oracle_pending(target)
 
 
 def run_loop(args: argparse.Namespace) -> int:
@@ -1243,8 +1322,14 @@ def run_loop(args: argparse.Namespace) -> int:
             release_claim(target)
         return 0
 
+    codex_parallel = max(0, getattr(args, "codex_parallel", 0) or 0)
+    oracle_parallel = max(0, getattr(args, "oracle_parallel", 0) or 0)
+
+    if codex_parallel > 0 or oracle_parallel > 0:
+        return _run_loop_two_pool(args, codex_parallel, oracle_parallel)
+
     parallel = max(1, args.parallel)
-    print(f"[loop] starting --loop with parallel={parallel}", flush=True)
+    print(f"[loop] starting --loop with parallel={parallel} (single-pool legacy mode)", flush=True)
 
     if parallel == 1:
         while True:
@@ -1285,11 +1370,122 @@ def run_loop(args: argparse.Namespace) -> int:
     return 0
 
 
+def _run_loop_two_pool(args: argparse.Namespace,
+                       codex_parallel: int,
+                       oracle_parallel: int) -> int:
+    """Run two independent thread pools:
+      - codex pool (size codex_parallel): claims unfinished BOARD targets,
+        runs codex_track only. On `close` finalizes through stage2; on
+        escalate writes `.oracle_pending` and releases the worker.
+      - oracle pool (size oracle_parallel): claims targets that have
+        `.oracle_pending` set, runs the oracle path, finalizes.
+
+    Codex pool is sized for compute (no tab dependency), oracle pool is
+    capped at the number of active ChatGPT tabs."""
+    import copy
+    print(
+        f"[loop] starting two-pool mode codex_parallel={codex_parallel} "
+        f"oracle_parallel={oracle_parallel}",
+        flush=True,
+    )
+
+    codex_args = copy.copy(args)
+    codex_args.worker_role = "codex"
+    oracle_args = copy.copy(args)
+    oracle_args.worker_role = "oracle"
+
+    codex_pool = ThreadPoolExecutor(
+        max_workers=codex_parallel,
+        thread_name_prefix="codex",
+    ) if codex_parallel > 0 else None
+    oracle_pool = ThreadPoolExecutor(
+        max_workers=oracle_parallel,
+        thread_name_prefix="oracle",
+    ) if oracle_parallel > 0 else None
+
+    try:
+        active: dict = {}  # future → ("codex"|"oracle", target_id)
+
+        def _spawn_codex():
+            t = claim_next_unfinished()
+            if t is None:
+                return False
+            print(f"[loop:codex] dispatch {t.target_id} ({t.title})", flush=True)
+            fut = codex_pool.submit(_run_target_safe, codex_args, t)
+            active[fut] = ("codex", t.target_id)
+            return True
+
+        def _spawn_oracle():
+            t = claim_next_for_oracle()
+            if t is None:
+                return False
+            print(f"[loop:oracle] dispatch {t.target_id} ({t.title})", flush=True)
+            fut = oracle_pool.submit(_run_target_safe, oracle_args, t)
+            active[fut] = ("oracle", t.target_id)
+            return True
+
+        if codex_pool:
+            for _ in range(codex_parallel):
+                if not _spawn_codex():
+                    break
+        if oracle_pool:
+            for _ in range(oracle_parallel):
+                if not _spawn_oracle():
+                    break
+
+        idle_ticks = 0
+        while active or idle_ticks < 120:
+            if not active:
+                idle_ticks += 1
+                time.sleep(2)
+                if codex_pool and not _spawn_codex() and oracle_pool and not _spawn_oracle():
+                    continue
+                idle_ticks = 0
+                continue
+            done, _pending = wait(list(active.keys()), timeout=2, return_when=FIRST_COMPLETED)
+            for fut in done:
+                role, tid = active.pop(fut)
+                try:
+                    fut.result()
+                except KeyboardInterrupt:
+                    raise
+                except SystemExit as e:
+                    print(f"[loop:{role}] {tid} worker exited: {e}", flush=True)
+                except Exception as e:
+                    print(f"[loop:{role}] {tid} worker error: {e}", flush=True)
+            for fut in done:
+                if codex_pool and not _spawn_codex():
+                    if oracle_pool:
+                        _spawn_oracle()
+                else:
+                    pass
+            if oracle_pool:
+                idle_oracle_slots = oracle_parallel - sum(
+                    1 for r, _ in active.values() if r == "oracle"
+                )
+                for _ in range(max(0, idle_oracle_slots)):
+                    if not _spawn_oracle():
+                        break
+            idle_ticks = 0
+    except KeyboardInterrupt:
+        print("[loop] interrupted; existing workers continue to safe stop", flush=True)
+        return 130
+    finally:
+        if codex_pool:
+            codex_pool.shutdown(wait=False)
+        if oracle_pool:
+            oracle_pool.shutdown(wait=False)
+    print("[loop] two-pool drained", flush=True)
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run a BEDC target through the codex-orchestrated oracle bridge")
     parser.add_argument("target_id", nargs="?", help="Target id such as B-01")
     parser.add_argument("--loop", action="store_true", help="Process unfinished BOARD targets until BOARD is empty")
-    parser.add_argument("--parallel", type=int, default=1, help="Number of concurrent target workers in --loop mode (default 1; cap to active ChatGPT tabs)")
+    parser.add_argument("--parallel", type=int, default=1, help="Single-pool mode: concurrent workers in --loop (default 1). Each worker runs codex_track then oracle in sequence.")
+    parser.add_argument("--codex-parallel", type=int, default=0, help="Two-pool mode: concurrent codex_track workers. When set together with --oracle-parallel, supersedes --parallel. Codex doesn't need ChatGPT tabs so this can be high (8-16).")
+    parser.add_argument("--oracle-parallel", type=int, default=0, help="Two-pool mode: concurrent oracle path workers. Cap at the number of active ChatGPT tabs. Workers drain `.oracle_pending` markers written by codex_pool when codex_track escalates.")
     parser.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD, help="Minimum fit_score for Stage 1.5 to accept a spawned candidate")
     parser.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD, help="Minimum novelty for Stage 1.5 to accept a spawned candidate")
     # --pipeline-version was removed when v1 retired; accept-and-ignore for
