@@ -26,49 +26,32 @@ theorem concrete_singleton_history_group_laws :
   constructor
   · exact hsame_refl BHist.Empty
   · constructor
-    · intro h k carrierH carrierK
-      cases carrierH
-      cases carrierK
+    · intro h k carrierH carrierK; cases carrierH; cases carrierK
       exact hsame_refl BHist.Empty
     · constructor
-      · intro h _
-        exact hsame_refl BHist.Empty
+      · intro h _; exact hsame_refl BHist.Empty
       · constructor
-        · intro h carrierH
-          cases carrierH
-          exact And.intro (hsame_refl BHist.Empty)
+        · intro h carrierH; cases carrierH; exact And.intro (hsame_refl BHist.Empty)
             (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
         · constructor
-          · intro h carrierH
-            cases carrierH
-            exact And.intro (hsame_refl BHist.Empty)
+          · intro h carrierH; cases carrierH; exact And.intro (hsame_refl BHist.Empty)
               (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
           · constructor
-            · intro a b c carrierA carrierB carrierC
-              cases carrierA
-              cases carrierB
-              cases carrierC
-              exact And.intro (hsame_refl BHist.Empty)
-                (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+            · intro a b c carrierA carrierB carrierC; cases carrierA; cases carrierB; cases carrierC
+              exact And.intro (hsame_refl BHist.Empty) (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
             · constructor
               · intro h k h' k' sameH sameK
-                cases sameH.left
-                cases sameH.right.left
-                cases sameK.left
-                cases sameK.right.left
-                exact And.intro (hsame_refl BHist.Empty)
-                  (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+                cases sameH.left; cases sameH.right.left; cases sameK.left; cases sameK.right.left
+                exact And.intro (hsame_refl BHist.Empty) (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
               · constructor
                 · intro h k _
                   exact And.intro (hsame_refl BHist.Empty)
                     (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
                 · constructor
-                  · intro h carrierH
-                    cases carrierH
+                  · intro h carrierH; cases carrierH
                     exact And.intro (hsame_refl BHist.Empty)
                       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
-                  · intro h carrierH
-                    cases carrierH
+                  · intro h carrierH; cases carrierH
                     exact And.intro (hsame_refl BHist.Empty)
                       (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
 def GroupSingletonCarrier (h : BHist) : Prop :=
@@ -81,10 +64,17 @@ def GroupSingletonInv (_x : BHist) : BHist :=
   BHist.Empty
 def GroupSingletonUnit : BHist :=
   BHist.Empty
+theorem GroupSingletonClassifier_inverse_fiber_empty_endpoint_iff {x y : BHist} :
+    GroupSingletonClassifier (GroupSingletonInv x) y ↔
+      GroupSingletonCarrier y ∧ hsame (GroupSingletonInv x) BHist.Empty := by
+  constructor
+  · intro classified; exact And.intro classified.right.left classified.left
+  · intro endpoint
+    exact And.intro endpoint.right
+      (And.intro endpoint.left (hsame_trans endpoint.right (hsame_symm endpoint.left)))
 theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     GroupSingletonCarrier L -> GroupSingletonCarrier R ->
-      (GroupSingletonClassifier (append L Q) (append R S) <->
-        GroupSingletonClassifier Q S) := by
+      (GroupSingletonClassifier (append L Q) (append R S) <-> GroupSingletonClassifier Q S) := by
   intro carrierL carrierR
   constructor
   · intro classified
@@ -100,8 +90,8 @@ theorem GroupSingletonClassifier_append_context_cancel_iff {L R Q S : BHist} :
     exact And.intro leftCarrier
       (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 theorem GroupSingletonClassifier_append_unit_split_iff {p q : BHist} :
-    GroupSingletonClassifier (append p q) BHist.Empty <->
-      GroupSingletonCarrier p ∧ GroupSingletonCarrier q := by
+    GroupSingletonClassifier (append p q) BHist.Empty <-> GroupSingletonCarrier p ∧
+      GroupSingletonCarrier q := by
   constructor
   · intro classified
     exact append_eq_empty_iff.mp classified.left
@@ -109,7 +99,8 @@ theorem GroupSingletonClassifier_append_unit_split_iff {p q : BHist} :
     exact And.intro (append_eq_empty_iff.mpr split)
       (And.intro (hsame_refl BHist.Empty) (append_eq_empty_iff.mpr split))
 theorem GroupSingletonClassifier_conjugation_fixed_carrier_iff {a x : BHist} :
-    GroupSingletonCarrier a -> (GroupSingletonClassifier (append (append a x) BHist.Empty) x <-> GroupSingletonCarrier x) := by
+    GroupSingletonCarrier a ->
+      (GroupSingletonClassifier (append (append a x) BHist.Empty) x <-> GroupSingletonCarrier x) := by
   intro carrierA
   constructor
   · intro classified
@@ -118,7 +109,9 @@ theorem GroupSingletonClassifier_conjugation_fixed_carrier_iff {a x : BHist} :
     let actionCarrier : GroupSingletonCarrier (append (append a x) BHist.Empty) := append_eq_empty_iff.mpr (And.intro (append_eq_empty_iff.mpr (And.intro carrierA carrierX)) (hsame_refl BHist.Empty))
     exact And.intro actionCarrier (And.intro carrierX (hsame_trans actionCarrier (hsame_symm carrierX)))
 theorem GroupSingletonClassifier_conjugation_terminal_collapse_iff {s x : BHist} :
-    GroupSingletonCarrier s -> (GroupSingletonClassifier (append (append s x) (GroupSingletonInv s)) BHist.Empty <-> GroupSingletonCarrier x) := by
+    GroupSingletonCarrier s ->
+      (GroupSingletonClassifier (append (append s x) (GroupSingletonInv s)) BHist.Empty <->
+        GroupSingletonCarrier x) := by
   intro carrierS
   constructor
   · intro classified
