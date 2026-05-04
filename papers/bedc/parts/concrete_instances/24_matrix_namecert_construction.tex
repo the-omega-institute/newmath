@@ -83,6 +83,44 @@ exactness carries the product ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_closed}
 
+\begin{theorem}[Matrix singleton power successor endpoint exactness]
+\label{thm:matrix-singleton-pow-successor-endpoint-exactness}
+For histories $M,e:\mathsf{BHist}$, if $A_{\emp}(M)$ and $\Unary(e)$, then
+the successor power is carried:
+$$
+A_{\emp}(\mathsf{MatrixSingletonPow}(M,\Eone(e))).
+$$
+Moreover, the successor power is exactly classified with both displayed
+singleton multiplication endpoints:
+$$
+\rho_{\emp}(\mathsf{MatrixSingletonPow}(M,\Eone(e)),
+\mathsf{MatrixSingletonPow}(M,e)\odot M)
+\quad\text{and}\quad
+\rho_{\emp}(\mathsf{MatrixSingletonPow}(M,\Eone(e)),
+M\odot\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the one-headed exponent clause of $\mathsf{MatrixSingletonPow}$. The
+successor ledger is the displayed singleton product
+$\mathsf{MatrixSingletonPow}(M,e)\odot M$.
+
+The carrier closure theorem for powers gives
+$A_{\emp}(\mathsf{MatrixSingletonPow}(M,e))$ from $A_{\emp}(M)$ and
+$\Unary(e)$. Combining this carrier with $A_{\emp}(M)$, the singleton
+multiplication closure in
+Theorem~\ref{thm:singleton-empty-history-matrix-laws} carries both append
+endpoints
+$\mathsf{MatrixSingletonPow}(M,e)\odot M$ and
+$M\odot\mathsf{MatrixSingletonPow}(M,e)$.
+
+For the first classifier, the unfolded successor ledger is the same append
+endpoint, so the singleton classifier closes by reflexivity and the carried
+endpoint witness. For the second classifier, both append endpoints classify as
+empty singleton endpoints; transitivity through $\emp$ compares them and
+supplies $\rho_{\emp}$.
+\end{proof}
+
 \begin{theorem}[Matrix singleton classifier append split empty]
 \label{thm:matrix-singleton-classifier-append-split-empty}
 For $M,N,h:\mathsf{BHist}$,
