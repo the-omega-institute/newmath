@@ -53,4 +53,25 @@ theorem RealStreamClassifier_unary_denominator_context_selected_classifier_shape
                 (And.intro shape.right.right.right.right.left
                   shape.right.right.right.right.right)))))))
 
+theorem RealStreamClassifier_transported_unary_denominator_context_closed
+    {x x' y y' pX pY tX tY mX mY oX oY : Nat -> BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          (forall i : Nat, UnaryHistory (pX i)) ->
+            (forall i : Nat, UnaryHistory (tX i)) ->
+              (forall i : Nat, hsame (pX i) (pY i)) ->
+                (forall i : Nat, hsame (tX i) (tY i)) ->
+                  (forall i : Nat, Cont (pX i) (x' i) (mX i)) ->
+                    (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                      (forall i : Nat, Cont (pY i) (y' i) (mY i)) ->
+                        (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                          RealStreamClassifier oX oY := by
+  intro sameX sameY classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+  have transported : RealStreamClassifier x' y' := by
+    intro i
+    exact RatHistoryClassifier_hsame_transport (sameX i) (sameY i) (classified i)
+  exact RealStreamClassifier_unary_denominator_context_closed transported pXUnary tXUnary
+    sameP sameT pXCont oXCont pYCont oYCont
+
 end BEDC.Derived.RealUp
