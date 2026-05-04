@@ -167,3 +167,33 @@ and transitivity are those of $\hsame$. Carrier transport is exactly
 right endpoints fixed by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.TensorProductUp.TensorProductSingletonFactor\_tensor\_semanticNameCert}
+
+\begin{theorem}[Tensor product singleton factor source-target swap]
+\label{thm:tensorproduct-singleton-factor-source-target-swap}
+For histories $l,r,t:\mathsf{BHist}$, if
+$$
+\mathsf{TensorProductSingletonFactor}(l,r,t)
+$$
+holds, then
+$$
+\mathsf{TensorProductSingletonFactor}(r,l,t)
+$$
+holds. The resulting factor contains the swapped continuation witness
+$\Cont(r,l,t)$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:tensorproduct-singleton-factor}. The factor supplies
+$A_{\emp}(l)$, $A_{\emp}(r)$, $A_{\emp}(t)$, and
+$\Cont(l,r,t)$. In the concrete singleton module of
+\autoref{def:singleton-empty-history-module-instance}, the first two endpoint
+witnesses are the comparisons $l\hsame\emp$ and $r\hsame\emp$. Hence
+$l\hsame r$ follows by composing $l\hsame\emp$ with the symmetry of
+$r\hsame\emp$, and $r\hsame l$ follows by the same argument with the roles
+reversed.
+
+Apply \autoref{thm:tensorproduct-singleton-factor-hsame-transport} to the
+original factor with the comparisons $l\hsame r$, $r\hsame l$, and
+$t\hsame t$. Its conclusion is exactly the swapped predicate
+$\mathsf{TensorProductSingletonFactor}(r,l,t)$, and its continuation component
+is $\Cont(r,l,t)$.
+\end{proof}

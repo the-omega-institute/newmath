@@ -2,8 +2,10 @@ import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.CommonHeadCancel
 import BEDC.Derived.RealUp.PrefixTruncation
+import BEDC.Derived.RealUp.FinitePrefixEndpointPackage
 import BEDC.Derived.RealUp.ConstantStreamBridge
 import BEDC.Derived.RealUp.ConstantStream
 import BEDC.Derived.RealUp.StreamReadback
@@ -589,4 +591,11 @@ theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     RealStreamClassifier_transported_selected_e1_rat_classifier_readback sameX sameY classified
       sameLeft sameRight
   exact And.intro displayed (RatHistoryClassifier_e1_tail_unary_iff.mp displayed)
+theorem RealStreamPrefixClassifier_truncated_endpoint_e0_absurd {x y : Nat -> BHist}
+    {m n : Nat} {zx zy : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> (hsame (x n) (BHist.e0 zx) -> False) ∧
+      (hsame (y n) (BHist.e0 zy) -> False) := by
+  intro h
+  have p := RealStreamPrefixClassifier_truncated_endpoint_denominator_package (m := m) (n := n) h
+  exact ⟨fun s => PositiveUnaryDenominator_e0_absurd (PositiveUnaryDenominator_hsame_transport s p.right.left), fun s => PositiveUnaryDenominator_e0_absurd (PositiveUnaryDenominator_hsame_transport s p.right.right.left)⟩
 end BEDC.Derived.RealUp

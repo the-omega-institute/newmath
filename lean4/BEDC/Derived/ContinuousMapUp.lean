@@ -443,4 +443,60 @@ theorem ContinuousMap_comp_graph_depth_add
                             (And.intro mapCarrier (And.intro targetCarrier graph))
   exact MetricDistanceWitness_depth_add graphWitness
 
+theorem ContinuousMapCarrier_composition_associative_canonical_package
+    {source mid1 mid2 target mapF mapG mapH mapFG mapGH mapL mapR modF modG modH modFG modGH
+      modL modR certF certG certH certFG certGH certL certR distF distG distH displayedL
+      displayedR : BHist} :
+    ContinuousMapCarrier source mapF mid1 modF certF distF ->
+      ContinuousMapCarrier mid1 mapG mid2 modG certG distG ->
+        ContinuousMapCarrier mid2 mapH target modH certH distH ->
+          Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont mid2 modFG certFG ->
+            Cont mapFG mapH mapL -> Cont modFG modH modL -> Cont target modL certL ->
+              Cont mapG mapH mapGH -> Cont modG modH modGH -> Cont target modGH certGH ->
+                Cont mapF mapGH mapR -> Cont modF modGH modR -> Cont target modR certR ->
+                  ContinuousMapCarrier source mapL target modL certL (append source target) ∧
+                    ContinuousMapCarrier source mapR target modR certR (append source target) ∧
+                      hsame mapL mapR ∧ hsame modL modR ∧
+                        (ContinuousMapCarrier source mapL target modL certL displayedL ->
+                          hsame displayedL (append source target)) ∧
+                          (ContinuousMapCarrier source mapR target modR certR displayedR ->
+                            hsame displayedR (append source target)) := by
+  intro carrierF carrierG carrierH graphFG modulusFG certFGRel graphL modulusL certLRel
+    graphGH modulusGH certGHRel graphR modulusR certRRel
+  have carrierFG :
+      ContinuousMapCarrier source mapFG mid2 modFG certFG (append source mid2) :=
+    ContinuousMapCarrier_comp_closed carrierF carrierG graphFG modulusFG certFGRel
+  have carrierGH :
+      ContinuousMapCarrier mid1 mapGH target modGH certGH (append mid1 target) :=
+    ContinuousMapCarrier_comp_closed carrierG carrierH graphGH modulusGH certGHRel
+  have carrierL :
+      ContinuousMapCarrier source mapL target modL certL (append source target) :=
+    ContinuousMapCarrier_comp_closed carrierFG carrierH graphL modulusL certLRel
+  have carrierR :
+      ContinuousMapCarrier source mapR target modR certR (append source target) :=
+    ContinuousMapCarrier_comp_closed carrierF carrierGH graphR modulusR certRRel
+  have graphSame : hsame mapL mapR :=
+    cont_assoc_unique graphFG graphGH graphL graphR
+  have modulusSame : hsame modL modR :=
+    cont_assoc_unique modulusFG modulusGH modulusL modulusR
+  have displayedLeft :
+      ContinuousMapCarrier source mapL target modL certL displayedL ->
+        hsame displayedL (append source target) := by
+    intro displayed
+    exact
+      ContinuousMapCarrier_comp_distance_deterministic carrierFG carrierH graphL modulusL certLRel
+        displayed
+  have displayedRight :
+      ContinuousMapCarrier source mapR target modR certR displayedR ->
+        hsame displayedR (append source target) := by
+    intro displayed
+    exact
+      ContinuousMapCarrier_comp_distance_deterministic carrierF carrierGH graphR modulusR certRRel
+        displayed
+  exact
+    And.intro carrierL
+      (And.intro carrierR
+        (And.intro graphSame
+          (And.intro modulusSame (And.intro displayedLeft displayedRight))))
+
 end BEDC.Derived.ContinuousMapUp

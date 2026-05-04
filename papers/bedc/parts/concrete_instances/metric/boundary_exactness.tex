@@ -39,6 +39,51 @@ identifies the distance result with $\emp$, contradicting the assumed
 nonempty distance.
 \end{proof}
 
+\begin{theorem}[Metric nonempty distance endpoint positive depth]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-positive-depth}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and $d$ is not history-same as
+$\emp$, then at least one endpoint has positive structural metric depth:
+$$
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to
+\bigl(0<\mathsf{MetricDistanceDepth}(x)
+\vee 0<\mathsf{MetricDistanceDepth}(y)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty-distance endpoint theorem to obtain a nonempty endpoint.
+The positive-depth classifier for metric histories converts that endpoint
+nonemptiness into positive structural depth on the corresponding side of the
+disjunction.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_positive\_depth}
+
+\begin{theorem}[Metric nonempty distance endpoint e-one cases]
+\label{thm:metric-distance-witness-nonempty-distance-endpoint-e1-cases}
+For histories $x,y,d:\mathsf{BHist}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d)$ holds and the distance endpoint is not
+history-same as $\emp$, then at least one endpoint is visibly one-headed with a
+unary tail:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(x,y,d)\to
+(d\hsame\emp\to\mathsf{False})\to\\
+\qquad
+\bigl(\exists x_0,\ x=\Eone(x_0)\land\mathsf{UnaryHistory}(x_0)\bigr)
+\vee
+\bigl(\exists y_0,\ y=\Eone(y_0)\land\mathsf{UnaryHistory}(y_0)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First apply the endpoint non-emptiness theorem to the metric witness and the
+nonempty distance assumption. On whichever side is nonempty, use the endpoint's
+unary-history carrier from the metric witness and apply unary nonempty
+one-tail readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_e1\_cases}
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
