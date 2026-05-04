@@ -1,0 +1,41 @@
+\begin{theorem}[Real stream finite-window nested subwindow extraction]
+\label{thm:real-stream-window-nested-subwindow-extraction}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices
+$n,j,q,r,s,m$, if
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n,m),
+$$
+$j+r\le m$, and $q+s\le r$, then
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-subwindow-extraction} to the source
+window with shift $j$ and radius $r$. The bound $j+r\le m$ produces the first
+subwindow
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,n+j,r).
+$$
+
+Apply the same subwindow theorem again to this derived window with shift $q$
+and radius $s$. The bound $q+s\le r$ gives
+$$
+\mathsf{RealStreamWindowClassifier}(x,y,(n+j)+q,s).
+$$
+
+Every endpoint of the nested window has the form $(n+j)+(q+k)$ with $k\le s$.
+The second bound places $q+k$ inside the first subwindow, and the first bound
+places $j+(q+k)$ inside the original window. Thus the displayed classifier is
+exactly the repeated finite-window extraction.
+\end{proof}
+
+The ten-field fit is: traditional target nested finite RealUp observation
+windows; BEDC source $\mathsf{RealStreamWindowClassifier}$ over
+rational-observation streams; carrier rational-observation streams; classifier
+the finite-window predicate; stability by repeated subwindow extraction and
+bounded-offset monotonicity; ledger original anchor, first shift, second shift,
+outer radius, inner radius, and offset witnesses; core theorem
+\autoref{thm:real-stream-window-nested-subwindow-extraction}; exactness every
+nested endpoint is already in the original window; standard bridge RegSeqRat
+nested tail/window stability; status $\mathsf{ProofTarget}$.

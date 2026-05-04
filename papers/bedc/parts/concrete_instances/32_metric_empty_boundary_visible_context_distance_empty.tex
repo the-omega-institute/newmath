@@ -60,6 +60,28 @@ unit laws for finite-kernel append.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_append\_unit\_laws}
 
+\begin{theorem}[Metric empty-boundary visible context left-unit witness]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-left-unit-witness}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+turns any continuation $\ContR(d,r,out)$ into a metric witness from the empty
+source:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{UnaryHistory}(r)\Longrightarrow
+\ContR(d,r,out)\Longrightarrow
+\mathsf{MetricDistanceWitness}(\emp,r,out).
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary distance theorem identifies $d$ with $\emp$. Substituting
+that classifier makes the continuation a left-unit continuation from $\emp$ to
+$r$. The empty source is unary, the target is unary by hypothesis, and unary
+continuation closure supplies the output carrier, so the three fields package
+the displayed metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_left\_unit\_witness}
+
 \begin{theorem}[Metric empty-boundary visible context continuation depth add]
 \label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}
 For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
