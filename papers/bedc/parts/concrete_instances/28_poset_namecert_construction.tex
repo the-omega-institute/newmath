@@ -431,3 +431,64 @@ The source row of \autoref{def:poset-source-specification} is therefore a certif
 
 Finally, the ledger row is \autoref{def:poset-ledger-policy}. It records both comparison derivations used by antisymmetry; under \autoref{def:opposite-poset-certificate-data}, those are exactly the original derivations $b\le_C a$ and $a\le_C b$ with the displayed slots exchanged. Hence the carrier, source, pattern, classifier, stability, and ledger rows satisfy \autoref{def:poset-certificate-obligations}, so $C^{\mathrm{op}}$ carries a $\POSetUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Double opposite POSet certificate data identity]
+\label{thm:double-opposite-poset-certificate-data-identity}
+Let $D$ be a $\POSetUp$ certificate satisfying the obligations of
+\autoref{def:poset-certificate-obligations}. Present its POSet data by a
+carrier predicate $\mathcal C$, classifier $\sim_C$, order relation $\le_C$,
+and antisymmetry ledger row $\mathcal L_C$ as in
+\autoref{def:poset-ledger-policy}. Let
+$D^{\mathrm{opop}}=(D^{\mathrm{op}})^{\mathrm{op}}$ be obtained by applying
+\autoref{def:opposite-poset-certificate-data} twice. Then
+$D^{\mathrm{opop}}$ is a $\POSetUp$ certificate, and its carrier predicate,
+classifier, order relation, and antisymmetry ledger row are componentwise
+identical to those of $D$: for carried endpoints $a,b$ and comparison
+witnesses $p:a\le_C b$ and $q:b\le_C a$,
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+a\sim_C^{\mathrm{opop}}b&=a\sim_C b,\\
+a\le_C^{\mathrm{opop}}b&=a\le_C b,&
+\mathcal L_C^{\mathrm{opop}}(a,b;p,q)&=\mathcal L_C(a,b;p,q).
+\end{aligned}
+$$
+Here $\mathcal L_C(a,b;p,q)$ denotes the ledger entry that records the
+ordered antisymmetry pair $p,q$.
+\end{theorem}
+\begin{proof}
+Because $D$ satisfies the $\POSetUp$ obligations,
+\autoref{thm:opposite-poset-certificate} makes $D^{\mathrm{op}}$ a certified
+$\POSetUp$ instance. Applying the same theorem to that certified opposite data
+makes $D^{\mathrm{opop}}$ a certified $\POSetUp$ instance.
+
+It remains to compare the displayed data. For the carrier predicate and
+classifier, two unfoldings of \autoref{def:opposite-poset-certificate-data}
+give
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C^{\mathrm{op}}(a)=\mathcal C(a)
+$$
+and
+$$
+a\sim_C^{\mathrm{opop}}b=a\sim_C^{\mathrm{op}}b=a\sim_C b.
+$$
+
+For the order relation, the two reversals cancel:
+$$
+a\le_C^{\mathrm{opop}}b
+=b\le_C^{\mathrm{op}}a
+=a\le_C b.
+$$
+Thus the double opposite order field is exactly the original order field.
+
+For the ledger row, \autoref{def:opposite-poset-certificate-data} says one
+opposite keeps the same two antisymmetry derivations and exchanges their
+displayed source and target slots. Hence the first opposite reads the ordered
+ledger entry for $(a,b;p,q)$ in the exchanged slots, and the second opposite
+performs the same exchange again. The endpoints and the two comparison slots
+are restored to $(a,b;p,q)$, so
+$\mathcal L_C^{\mathrm{opop}}(a,b;p,q)=\mathcal L_C(a,b;p,q)$.
+
+The certified status and the four displayed component identities therefore
+identify the double opposite POSet data with the original POSet data.
+\end{proof}
