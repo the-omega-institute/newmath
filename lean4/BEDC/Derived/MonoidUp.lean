@@ -14,6 +14,14 @@ open BEDC.FKernel.NameCert
 def MonoidHistoryClassifier (Carrier : BHist -> Prop) (h k : BHist) : Prop :=
   Carrier h ∧ Carrier k ∧ hsame h k
 
+theorem MonoidHistoryClassifier_unary_diagonal_induction {P : BHist -> BHist -> Prop} :
+    P BHist.Empty BHist.Empty ->
+      (forall h : BHist, UnaryHistory h -> P h h -> P (BHist.e1 h) (BHist.e1 h)) ->
+      forall {h k : BHist}, MonoidHistoryClassifier UnaryHistory h k -> P h k := by
+  intro base step h k classified
+  cases classified.right.right
+  exact unary_history_induction (P := fun h => P h h) base step h classified.left
+
 theorem monoid_history_semantic_name_certificate (Carrier : BHist -> Prop)
     (mul : BHist -> BHist -> BHist) (e : BHist) (carrier_e : Carrier e)
     (mul_closed : forall {h k : BHist}, Carrier h -> Carrier k -> Carrier (mul h k))
