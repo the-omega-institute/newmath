@@ -315,6 +315,24 @@ functionality to identify the continuation result with \(\emp\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_cont\_empty\_result\_empty\_factors\_iff}
 
+\begin{lemma}[Append multiplier right factor readback]
+\label{lem:nat-mul-append-multiplier-right-factor}
+Let $d$ and $q$ be unary histories. If $\mathsf{NatMul}(d,w,n)$ and
+$\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ hold, and if $\ContR(n,e,r)$
+displays $e$ as the right factor of the result continuation, then
+$\mathsf{NatMul}(d,q,e)$.
+\end{lemma}
+\begin{proof}
+Use totality of unary multiplication to build a product $e'$ for $d$ and $q$.
+Append-continuation closure then produces a product for
+$\mathsf{append}(w,q)$ with result $\mathsf{append}(n,e')$. Functionality of
+$\mathsf{NatMul}$ identifies this result with the displayed $r$. Transport the
+continuation $\ContR(n,e',\mathsf{append}(n,e'))$ across that result equality,
+left-cancel it against $\ContR(n,e,r)$, and transport the product for $q$ from
+$e'$ to $e$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_right\_factor}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.

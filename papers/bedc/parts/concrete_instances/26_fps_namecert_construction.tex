@@ -379,3 +379,51 @@ F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}F'\odot_{\mathrm{fps}}G'.
 $$
 The argument is finite at each coefficient index and uses no convergence field, matching the stability obligations listed in \autoref{def:fps-stability-certificate}.
 \end{proof}
+
+\begin{definition}[FPS pointwise addition coefficient]
+\label{def:fps-pointwise-addition-coefficient}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. For coefficient sequences $F,G:\NatUp\to R$ as in \autoref{def:fps-carrier}, the formal sum $F\oplus_{\mathrm{fps}}G$ is the coefficient sequence determined by
+$$
+(F\oplus_{\mathrm{fps}}G)_n:=F_n+_R G_n
+$$
+for every unary index $n:\NatUp$.
+\end{definition}
+
+\begin{theorem}[FPS addition commutativity from scalar additive commutativity]
+\label{thm:fps-addition-commutativity-from-scalar-additive-commutativity}
+Let $R$ carry a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and addition $+_R$. Assume the scalar additive commutativity row retained in \autoref{def:ring-stability-certificate}: for all scalar endpoints $a,b$,
+$$
+a+_R b\sim_R b+_R a.
+$$
+For a commutative-ring scalar source, \autoref{prop:commring-forgets-ring-certificate} keeps these additive data unchanged. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,G:\NatUp\to R$,
+$$
+F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\oplus_{\mathrm{fps}}F.
+$$
+Equivalently, for every unary coefficient index $n:\NatUp$,
+$$
+(F\oplus_{\mathrm{fps}}G)_n\sim_R(G\oplus_{\mathrm{fps}}F)_n.
+$$
+\end{theorem}
+\begin{proof}
+Fix a unary index $n$. By \autoref{def:fps-pointwise-addition-coefficient}, the two coefficient endpoints unfold as
+$$
+(F\oplus_{\mathrm{fps}}G)_n=F_n+_R G_n
+$$
+and
+$$
+(G\oplus_{\mathrm{fps}}F)_n=G_n+_R F_n.
+$$
+The scalar additive commutativity row gives
+$$
+F_n+_R G_n\sim_R G_n+_R F_n.
+$$
+Substituting the two coefficient rules gives the displayed scalar comparison at index $n$:
+$$
+(F\oplus_{\mathrm{fps}}G)_n\sim_R(G\oplus_{\mathrm{fps}}F)_n.
+$$
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} converts these coefficientwise scalar comparisons into
+$$
+F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\oplus_{\mathrm{fps}}F.
+$$
+No convergence or finite-support premise is used; the argument is exactly the pointwise addition closure situation recorded in \autoref{def:fps-stability-certificate}.
+\end{proof}
