@@ -1,10 +1,12 @@
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.Derived.StreamNameUp
 
 namespace BEDC.Derived.RealUp
 
 open BEDC.FKernel.Hist
 open BEDC.Derived.RatUp
+open BEDC.Derived.StreamNameUp
 open BEDC.FKernel.Unary
 
 def RealConstantHistoryCarrier (h : BHist) : Prop :=
@@ -91,6 +93,44 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   constructor
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
+
+def RealUnaryStreamClassifier (s t : BHist -> BHist) : Prop :=
+  forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
+
+theorem StreamNameReal_constant_prefix_bridge {d e : BHist} :
+    (RatHistoryClassifier d e ↔ RatStreamNameClassifier (RatConstStream d) (RatConstStream e)) ∧
+      (RatStreamNameClassifier (RatConstStream d) (RatConstStream e) ↔
+        RealUnaryStreamClassifier (RatConstStream d) (RatConstStream e)) ∧
+        (RealUnaryStreamClassifier (RatConstStream d) (RatConstStream e) ↔
+          RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
+  constructor
+  · constructor
+    · intro classified
+      exact And.intro
+        (fun _n _nUnary => classified.left)
+        (And.intro
+          (fun _n _nUnary => classified.right.left)
+          (fun _n _nUnary => classified))
+    · intro classified
+      exact classified.right.right BHist.Empty unary_empty
+  · constructor
+    · constructor
+      · intro classified
+        exact classified.right.right
+      · intro pointwise
+        have classified : RatHistoryClassifier d e := pointwise BHist.Empty unary_empty
+        exact And.intro
+          (fun _n _nUnary => classified.left)
+          (And.intro
+            (fun _n _nUnary => classified.right.left)
+            pointwise)
+    · constructor
+      · intro pointwise
+        exact RealConstantHistoryClassifier_e1_iff_rat.mpr (pointwise BHist.Empty unary_empty)
+      · intro classified
+        have point : RatHistoryClassifier d e :=
+          RealConstantHistoryClassifier_e1_iff_rat.mp classified
+        exact fun _n _nUnary => point
 
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)

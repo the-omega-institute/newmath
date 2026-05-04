@@ -6,6 +6,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
+def RatConstStream (d : BHist) : BHist -> BHist :=
+  fun _n : BHist => d
+
 def RatStreamNameCarrier (s : BHist -> BHist) : Prop :=
   forall n : BHist, UnaryHistory n -> RatHistoryCarrier (s n)
 
