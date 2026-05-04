@@ -2808,3 +2808,55 @@ No existing BOARD entry covers linearmap composition. B-11 is the analogous theo
 
 ---
 
+### B-111 - Opposite functor certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite functor certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Given a $\FunctorUp$ certificate $F:\mathcal C\to\mathcal D$, the same object and morphism maps yield a $\FunctorUp$ certificate $F^{\mathrm{op}}:\mathcal C^{\mathrm{op}}\to\mathcal D^{\mathrm{op}}$ over the opposite-category certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Chapter 37 is 100% definition-only (per B-11 rationale: 7 def, 0 thm). Existing BOARD touches functors only via composition closure (B-11) and naturality (B-14); duality / opposite-category transport is absent from BOARD and from `paper_coverage` (no `def:category-opposite-*` or `def:functor-op-*` labels). Concrete one-line implication, lives squarely in chapter 37, and exercises the functor stability certificate fields under arrow-reversal — the canonical first duality test in the categorical layer.
+
+---
+
+
+### B-112 - Opposite natural transformation certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite natural transformation certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Given a $\NatTransUp$ certificate $\alpha:F\Rightarrow G$, the same component family yields a $\NatTransUp$ certificate $\alpha^{\mathrm{op}}:G^{\mathrm{op}}\Rightarrow F^{\mathrm{op}}$ over the opposite-functor certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+Chapter 38 is also 100% definition-only (per B-14 rationale: 7 def, 0 thm). Sibling to the opposite-functor target but lands on a distinct stability layer: it tests that the naturality square certificate transports under simultaneous arrow-reversal of source and target functors, with $F$ and $G$ swapping roles. Not a paraphrase of B-14 (which is composition-naturality, not duality), and `paper_coverage` shows no existing nattrans-opposite label. Stands on its own as the canonical second duality theorem after the functor case.
+
+---
+
