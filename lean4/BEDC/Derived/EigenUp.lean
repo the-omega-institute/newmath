@@ -191,6 +191,12 @@ theorem EigenSingletonCarrier_cont_left_unit_result {pair q result : BHist} :
   cases pairEmpty
   exact cont_left_unit_result continuation
 
+theorem EigenSingletonCarrier_cont_right_unit_result {q pair result : BHist} :
+    EigenSingletonCarrier pair -> Cont q pair result -> hsame result q := by
+  intro carrier continuation
+  have pairEmpty : hsame pair BHist.Empty := EigenSingletonCarrier_empty_iff.mp carrier
+  exact cont_respects_hsame (hsame_refl q) pairEmpty continuation (cont_right_unit q)
+
 def EigenSingletonClassifier (h k : BHist) : Prop :=
   EigenSingletonCarrier h ∧ EigenSingletonCarrier k ∧ hsame h k
 

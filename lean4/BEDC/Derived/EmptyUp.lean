@@ -102,6 +102,19 @@ theorem EmptyHistoryCarrier_source_semantic_namecert_absurd
   | intro _h carrier =>
       exact EmptyHistoryCarrier_absurd carrier
 
+theorem EmptyVisiblePairCarrier_source_semantic_namecert_absurd {left right : BHist}
+    {PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop} :
+    SemanticNameCert
+      (fun h : BHist => hsame h (BHist.e0 left) ∧ hsame h (BHist.e1 right))
+      PatternSpec LedgerPolicy ClassifierSpec -> False := by
+  intro cert
+  cases cert.core.carrier_inhabited with
+  | intro _h carrier =>
+      have mixed : hsame (BHist.e0 left) (BHist.e1 right) :=
+        hsame_trans (hsame_symm carrier.left) carrier.right
+      exact not_hsame_e0_e1 mixed
+
 theorem EmptyVisibleContradictoryCarrier_semantic_namecert_absurd {tail : BHist} :
     SemanticNameCert
       (fun h : BHist =>
