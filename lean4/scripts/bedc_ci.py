@@ -438,6 +438,85 @@ def detect_case_collision_paths() -> list[dict[str, object]]:
     ]
 
 
+CLOSUREAT_RE = re.compile(
+    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
+    r"(?:\[\s*([^\]]+?)\s*\])?"
+)
+
+
+def detect_orphan_concrete_subdirs() -> list[dict]:
+    """Every subdirectory of `papers/bedc/parts/concrete_instances/` MUST
+    name a real BEDC region — i.e. a region for which either:
+      (a) `lean4/BEDC/Derived/<X>Up.lean` exists (the standard derived horizon), OR
+      (b) the paper has a top-level `<NN>_<X>_namecert_construction.tex`
+          chapter (the paper-side region marker).
+
+    Sub-folders that don't match (e.g. `rat_proofs/` holding rat helper
+    lemmas) inflate the dossier dependency-graph node set and break
+    glossary completeness gates. Move their files up to the parent
+    region's directory or rename the folder to a real region name.
+    """
+    instances = PAPER_PARTS_ROOT / "concrete_instances"
+    if not instances.exists():
+        return []
+    derived = REPO_ROOT / "lean4" / "BEDC" / "Derived"
+    # Region names from Lean: BEDC/Derived/<X>Up.lean (file or directory)
+    lean_regions: set[str] = set()
+    if derived.exists():
+        for p in derived.iterdir():
+            stem = p.stem if p.is_file() else p.name
+            if stem.endswith("Up"):
+                core = stem[:-2]
+                lean_regions.add(re.sub(r"([a-z])([A-Z])", r"\1_\2", core).lower())
+    # Region names from paper: NN_<X>_namecert_construction.tex
+    paper_chapter_re = re.compile(r"^\d+_([a-z][a-z0-9_]*)_namecert_construction\.tex$")
+    paper_regions: set[str] = set()
+    for f in instances.iterdir():
+        if f.is_file():
+            m = paper_chapter_re.match(f.name)
+            if m:
+                paper_regions.add(m.group(1))
+    known = lean_regions | paper_regions
+    orphans: list[dict] = []
+    for sub in sorted(instances.iterdir()):
+        if not sub.is_dir():
+            continue
+        if sub.name not in known:
+            sample = sorted(p.name for p in sub.iterdir() if p.suffix == ".tex")[:3]
+            orphans.append({
+                "subdir": str(sub.relative_to(REPO_ROOT)),
+                "sample_files": sample,
+            })
+    return orphans
+
+
+def collect_closureat_groundings(part_root: Path) -> list[dict]:
+    """Walk every paper part and return one dict per `\\closureat` site:
+    {file, line, region, strength, grounding | None}. Used by audit to
+    require grounding on every closure declaration and to verify the
+    grounded Lean target actually exists.
+    """
+    out: list[dict] = []
+    for tex in part_root.rglob("*.tex"):
+        try:
+            text = tex.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in CLOSUREAT_RE.finditer(text):
+            line = text.count("\n", 0, m.start()) + 1
+            grounding = m.group(3)
+            if grounding:
+                grounding = grounding.replace("\\_", "_").strip()
+            out.append({
+                "file": str(tex.relative_to(part_root.parent.parent.parent)),
+                "line": line,
+                "region": m.group(1),
+                "strength": m.group(2),
+                "grounding": grounding,
+            })
+    return out
+
+
 def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
@@ -459,6 +538,15 @@ def audit_payload() -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
 
+    closureats = collect_closureat_groundings(PAPER_PARTS_ROOT)
+    closureats_missing_grounding = [c for c in closureats if not c["grounding"]]
+    closureats_bad_grounding = [
+        c for c in closureats
+        if c["grounding"] and c["grounding"] not in symbols
+    ]
+
+    orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
+
     return {
         "forbidden_constructs": forbidden,
         "forbidden_construct_count": len(forbidden),
@@ -467,6 +555,13 @@ def audit_payload() -> dict[str, object]:
         "missing_marker_targets_count": len(missing_marker_targets),
         "case_collisions": case_collisions,
         "case_collisions_count": len(case_collisions),
+        "closureats_total": len(closureats),
+        "closureats_missing_grounding": closureats_missing_grounding,
+        "closureats_missing_grounding_count": len(closureats_missing_grounding),
+        "closureats_bad_grounding": closureats_bad_grounding,
+        "closureats_bad_grounding_count": len(closureats_bad_grounding),
+        "orphan_concrete_subdirs": orphan_concrete_subdirs,
+        "orphan_concrete_subdirs_count": len(orphan_concrete_subdirs),
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
 
@@ -588,12 +683,52 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "`git update-index --force-remove <wrong-case-path>`; "
                 "also remove the duplicate import / reference."
             )
+        if payload["closureats_missing_grounding"]:
+            print(
+                "[bedc-ci] \\closureat without grounding: "
+                f"{payload['closureats_missing_grounding_count']}"
+            )
+            for item in payload["closureats_missing_grounding"][:50]:
+                print(f"  {item['file']}:{item['line']}  region={item['region']}")
+            print(
+                "[bedc-ci] resolution: extend each \\closureat with the canonical "
+                "Lean theorem ID — "
+                "`\\closureat{<X>Up}{<strength>Str}[BEDC.<...>.<theorem>]`."
+            )
+        if payload["closureats_bad_grounding"]:
+            print(
+                "[bedc-ci] \\closureat grounding refers to nonexistent Lean target: "
+                f"{payload['closureats_bad_grounding_count']}"
+            )
+            for item in payload["closureats_bad_grounding"][:50]:
+                print(
+                    f"  {item['file']}:{item['line']}  region={item['region']}  "
+                    f"grounding={item['grounding']}"
+                )
+        if payload["orphan_concrete_subdirs"]:
+            print(
+                "[bedc-ci] orphan concrete_instances/ subdirectories: "
+                f"{payload['orphan_concrete_subdirs_count']}"
+            )
+            for item in payload["orphan_concrete_subdirs"][:50]:
+                files = ", ".join(item["sample_files"]) or "(empty)"
+                print(f"  {item['subdir']}/  files: {files}")
+            print(
+                "[bedc-ci] resolution: every concrete_instances/<X>/ folder "
+                "must name a real BEDC region (i.e. a derived horizon with "
+                "lean4/BEDC/Derived/<X>Up.lean OR a paper namecert chapter "
+                "named NN_<X>_namecert_construction.tex). Move helper files "
+                "into the parent region's folder or rename the orphan."
+            )
 
     failures = (
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_count"]
         + len(payload["duplicate_part_labels"])
         + payload["case_collisions_count"]
+        + payload["closureats_missing_grounding_count"]
+        + payload["closureats_bad_grounding_count"]
+        + payload["orphan_concrete_subdirs_count"]
     )
     return 0 if failures == 0 else 1
 
