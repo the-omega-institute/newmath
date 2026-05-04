@@ -428,6 +428,48 @@ records that the resulting classifier is stable on the centralizer carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AbGroupUp.abgroup\_centralizer\_normalizer\_orbit\_collapse\_from\_empty\_unit}
 
+\begin{theorem}[AbGroup total centralizer-normalizer orbit collapse]
+\label{thm:abgroup-total-centralizer-normalizer-orbit-collapse}
+For a BEDC history-level group operation over $\mathsf{BHist}$ with the
+$\GroupUp$ associativity, unit, multiplication-congruence,
+inverse-congruence, and two-sided inverse laws, plus $\AbGroupUp$
+commutativity under $\hsame$, fix $a:\mathsf{BHist}$. Let $Z_a$, $N_a$,
+$\mathsf{Conj}_s$, and $\sim_{N_a}$ be the centralizer, normalizer, action,
+and orbit relation from \autoref{def:group-centralizer-carrier},
+\autoref{def:group-centralizer-normalizer-carrier}, and
+\autoref{def:group-centralizer-normalizer-orbit-relation}. Then for all
+histories $x,y:\mathsf{BHist}$,
+$$
+x\sim_{N_a}y \Longleftrightarrow \hsame(x,y).
+$$
+The ten-field fit is: traditional target abelian normalizer orbits over the
+whole carrier; BEDC source $\AbGroupUp$ plus the $\GroupUp$
+centralizer-normalizer orbit relation; carrier $\mathsf{BHist}$; classifier
+$\sim_{N_a}$ exact against $\hsame$; stability from total centralizer and the
+carried orbit collapse; ledger the two automatically supplied centralizer
+endpoint witnesses; core theorem list
+\autoref{thm:abgroup-centralizer-commutator-collapse} and
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse}; exactness
+total-carrier orbit iff $\hsame$; standard bridge ordinary abelian
+normalizer-orbit collapse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First obtain centralizer carriedness for the chosen endpoints. The totality
+row of \autoref{thm:abgroup-centralizer-commutator-collapse}, read at the
+fixed element $a$, gives $Z_a(x)$ and $Z_a(y)$ for arbitrary
+$x,y:\mathsf{BHist}$.
+
+For the forward direction, combine the orbit witness $x\sim_{N_a}y$ with these
+two centralizer endpoint witnesses. Apply
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse} in its forward
+direction to conclude $\hsame(x,y)$.
+
+For the reverse direction, combine the assumed $\hsame(x,y)$ with the same
+two endpoint witnesses. Apply
+\autoref{thm:abgroup-centralizer-normalizer-orbit-collapse} in its reverse
+direction to package the required orbit witness $x\sim_{N_a}y$.
+\end{proof}
+
 \begin{theorem}[AbGroup centralizer normalizer orbit fiber determinacy]
 \label{thm:abgroup-centralizer-normalizer-orbit-fiber-determinacy}
 For a BEDC history-level group operation over $\mathsf{BHist}$ with the same
