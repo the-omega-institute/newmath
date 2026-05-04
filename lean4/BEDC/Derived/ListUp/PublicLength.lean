@@ -7,6 +7,58 @@ open BEDC.FKernel.Hist
 def FramedListPublicLength (A : BHist → Prop) (h : BHist) (n : Nat) : Prop :=
   ∃ xs : ListCarrier BHist, FramedListSpineRep A h xs ∧ xs.length = n
 
+theorem FramedListPublicLength_constructor_endpoint_readback {A : BHist → Prop}
+    {h : BHist} {n : Nat} :
+    (FramedListPublicLength A h 0 ↔ hsame h (BHist.e0 BHist.Empty)) ∧
+      (FramedListPublicLength A h (Nat.succ n) →
+        ∃ a : BHist, ∃ xs : ListCarrier BHist,
+          A a ∧ FramedListSpineRep A h (a :: xs) ∧
+            FramedListPublicLength A (FramedListEndpoint xs) n) := by
+  constructor
+  · constructor
+    · intro publicLength
+      cases publicLength with
+      | intro xs data =>
+          cases data with
+          | intro rep lengthEq =>
+              cases xs with
+              | nil =>
+                  exact rep.right
+              | cons _ _ =>
+                  cases lengthEq
+    · intro sameEndpoint
+      exact Exists.intro []
+        (And.intro
+          (And.intro
+            (fun x mem => by
+              cases mem)
+            sameEndpoint)
+          rfl)
+  · intro publicLength
+    cases publicLength with
+    | intro xs data =>
+        cases data with
+        | intro rep lengthEq =>
+            cases xs with
+            | nil =>
+                cases lengthEq
+            | cons a tail =>
+                have tailLength : tail.length = n :=
+                  Nat.succ.inj lengthEq
+                have tailEntries : ∀ x : BHist, x ∈ tail → A x := by
+                  intro x mem
+                  exact rep.left x (List.Mem.tail a mem)
+                have tailPublic : FramedListPublicLength A (FramedListEndpoint tail) n :=
+                  Exists.intro tail
+                    (And.intro
+                      (And.intro tailEntries (hsame_refl (FramedListEndpoint tail)))
+                      tailLength)
+                exact Exists.intro a
+                  (Exists.intro tail
+                    (And.intro
+                      (rep.left a (List.Mem.head tail))
+                      (And.intro rep tailPublic)))
+
 theorem FramedListPublicLength_well_defined {A : BHist → Prop}
     {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel) :
     (∀ {h : BHist} {n m : Nat},
