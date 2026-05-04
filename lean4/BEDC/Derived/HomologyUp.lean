@@ -169,6 +169,25 @@ theorem HomologyBoundaryCarrier_cont_preimage_append {d : BHist -> BHist}
                   (hsame_trans resultRel
                     (hsame_trans appendWitness (hsame_symm (dAppend u v)))))))
 
+theorem HomologyBoundaryCarrier_cont_preimage_append_hsame_transport {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k r r' : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r -> hsame r r' ->
+      Exists (fun u : BHist => Exists (fun v : BHist =>
+        hsame h (d u) ∧ hsame k (d v) ∧ hsame r' (d (append u v)))) := by
+  intro boundaryH boundaryK resultRel sameResult
+  have preimages :=
+    HomologyBoundaryCarrier_cont_preimage_append dAppend boundaryH boundaryK resultRel
+  cases preimages with
+  | intro u uData =>
+      cases uData with
+      | intro v vData =>
+          exact Exists.intro u
+            (Exists.intro v
+              (And.intro vData.left
+                (And.intro vData.right.left
+                  (hsame_trans (hsame_symm sameResult) vData.right.right))))
+
 theorem HomologyBoundaryCarrier_cont_nonempty_preimage_append {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     {h k r : BHist} :
