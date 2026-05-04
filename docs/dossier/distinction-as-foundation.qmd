@@ -1,0 +1,166 @@
+---
+title: "Distinction as Foundation"
+subtitle: "Why we think e0/e1 is more primitive than sets, types, or categories — and what Wheeler, Bishop, and homotopy type theory have to say about it"
+author: "The Omega Institute"
+date: 2026-05-02
+description: "BEDC starts from the act of distinguishing itself, recursively. This is a position no other foundational project occupies. Here is what that position is, and what it isn't."
+---
+
+```{=html}
+<div class="lang-switch"><a href="distinction-as-foundation.zh-CN.qmd">中文</a></div>
+```
+
+## The constructor that is not labelled
+
+Look at this Lean type one more time:
+
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+
+Most readers see "binary tree", "binary string", or "natural number in two-symbol encoding". All of those readings *project* the type onto an already-understood object. They smuggle in a prior commitment: that there is something called "0" and something called "1" being recorded.
+
+The literal reading of the Lean code does not say that. `e0` and `e1` are constructor names, but they could just as well have been called `α` and `β`, or `left` and `right`. What the code actually says is:
+
+> There is a starting state where no construction has happened (`Empty`).
+> There are two recursive ways of extending any prior history.
+> The two ways are different (otherwise the type would be redundant).
+> *That is all.*
+
+This is the smallest substantive `inductive` type Lean lets you write. The two recursive constructors do not encode pre-existing entities. They constitute the very possibility of "this versus that" — recursively.
+
+Their distinction is not a property they have. Their distinction is what they are.
+
+## What the major foundations presuppose
+
+To see how primitive this is, lay out the starting assumption of each major foundational system:
+
+| System | Starting object | Already presupposes |
+|---|---|---|
+| ZFC | the set | "set" as a meta-level concept; extensionality; pair, union, power axioms |
+| Type theory (MLTT) | the type | a type universe; identity types; some form of equality judgement |
+| Category theory | object + morphism | two layers; composition; identity; associativity stipulated by axiom |
+| Homotopy Type Theory | type + path | types as in MLTT; the path/identity layer |
+| Bishop constructive analysis | natural number | Peano axioms; sequence functions; subset comprehension |
+| Peano arithmetic | 0 + successor | the successor function as a primitive distinct from anything else; the structure of natural numbers |
+| **BEDC** | the act of distinguishing | the `inductive` mechanism of CIC, and nothing else |
+
+Every other system takes *something already-distinguished* as input — sets, types, objects, naturals — and builds upward. BEDC takes the act of distinction itself, recursively, and lets the rest follow.
+
+```{=html}
+<span class="elim-mark">✗ "But you still rely on Lean / CIC / inductive types."</span>
+```
+
+True, and important to admit. BEDC is *relatively* primitive, not absolutely primitive. We sit on the Calculus of Inductive Constructions, and we use Lean's built-in `inductive` mechanism. What BEDC does is *minimise the residual commitments inside CIC*: no `Classical.choice`, no `Quot.sound`, no `propext`. Everything is verified by an `axiom-purity --strict` audit that reads `#print axioms` for every theorem and refuses Lean stdlib axioms.
+
+```bash
+$ python3 lean4/scripts/bedc_ci.py axiom-purity
+[bedc-ci] axiom-purity: theorems=1837 pure=1837 impure=0
+forbidden=['Classical.choice', 'Quot.sound', 'propext']
+```
+
+So the position is: *given that we are standing inside CIC, BEDC sits at its minimum.* If you accept CIC's `inductive` mechanism as a tool for expression — and we have to accept *something* — then BHist's two-constructor recursion is the smallest meaningful starting point you can take.
+
+## Wheeler's "It from bit", mechanically verified
+
+In 1990, John Wheeler proposed that physical reality might be informational at its root: every "it" — every particle, every field — derives from yes/no answers to questions. *It from bit.* This was philosophy. Wheeler was clear it was a conjecture, a question, not a theorem.
+
+The conjecture had two natural elaborations:
+
+1. The bit is the minimum unit of physical information. (Susskind, Bekenstein, holographic principle.)
+2. The bit is the minimum unit of *any* information, including mathematical information. (This step Wheeler did not commit to, but the structure of his argument suggests it.)
+
+Step 2 is a much stronger claim. It says: even when we are not talking about physics, even when we are doing pure mathematics, the underlying primitive is still the binary distinction.
+
+BEDC is a working test of step 2. Not a proof, but a constructive test: *can you build mathematics — Bishop-style real analysis, baby category theory, basic algebra — from `inductive BHist | Empty | e0 | e1` and nothing else, with no axioms?*
+
+After 72 hours of AI-driven formalisation: provisionally yes, for 38 chapters covering numbers, sequences, real-stream classifiers, continuous functions, metric spaces, compact subsets, S¹, categories, functors, natural transformations. With 1837 mechanically verified theorems, mathlib-free, axiom-pure.
+
+This is not a proof that Wheeler is right. It is a demonstration that the *structural* version of his claim — distinction as foundational — is buildable, and what it looks like when you build it.
+
+## Three intuitions for why distinction might be primary
+
+If the claim "distinction is the root of information" sounds tendentious, three intuitions give it weight from different directions.
+
+**Information-theoretic.** Shannon's bit is the minimum unit of information by definition. Every information source can be reduced to a binary stream by relabelling and concatenation. The bit is not negotiable as a minimum; the only question is whether non-information has anything to say about mathematics.
+
+**Cognitive.** Infant cognitive development begins with self/other distinction. Phonemic discrimination is the smallest unit of language. Concept formation is category boundary detection. There is no human-readable layer of cognition that does not bottom out in distinguishing.
+
+**Mathematical.** Every formal foundation eventually grounds out in equality and apartness. Even the most abstract type theory needs some way to say "this term is not that term", and that capacity is the proof-theoretic content of distinction.
+
+These do not prove distinction is the unique foundation. They suggest it is *one* foundation that, if it works, would explain why mathematics integrates with physics, with cognition, and with information theory at all — because they would all be the same activity at root.
+
+## The "Hom = Cont" surprise as evidence
+
+If distinction is foundational, you would expect the categorical structures of mathematics to *fall out* of the kernel without being added as new axioms. They would be visible as patterns in the kernel relation, not as a separate layer.
+
+This is what BEDC observed (described in detail in the [main story](index.qmd) and the [discovery loop](discovery-loop.qmd)):
+
+```lean
+def CategoryHomCarrier (a b f : BHist) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory f ∧ Cont a f b
+```
+
+A category morphism is a unary continuation. Composition is `cont_assoc`. Identity is `Empty`. The category axioms are kernel theorems.
+
+If you started from sets, you would have to introduce the category as a *new* algebraic structure on top of sets, with its own axioms. If you started from types, similarly. If you started from category theory, you would have it as primitive, but then you have committed to the layered structure of objects-and-morphisms from the start.
+
+If you start from distinction, the category is *already there* — hidden in the recursive structure of histories and their continuations. You do not introduce it; you discover that the kernel was a category from the beginning.
+
+This is a partial-but-real form of evidence. Not proof. Evidence.
+
+## What this position is *not*
+
+It is not new physics. We are not claiming Wheeler was right about quantum mechanics. We are claiming that the *mathematical* form of his structural intuition is buildable.
+
+It is not a claim that other foundations are wrong. ZFC works. MLTT works. Category theory works. They build mathematics successfully. BEDC is not a refutation of any of them. It is a demonstration that there is a *more primitive starting point* that also works, in the limited sense that it has now generated 1837 mechanically verified theorems.
+
+It is not a claim of philosophical originality. Wheeler said something like this in 1990. Spencer-Brown's *Laws of Form* (1969) explored the algebra of distinction. Constructivist mathematics from Brouwer onward has held that the meaningful content of mathematics is constructive, which is closely related. BEDC's contribution is not the philosophical claim — it is the mechanical verification of the claim, *in working Lean code, with no axioms*.
+
+## What we actually know after 72 hours
+
+We know that, starting from `inductive BHist | Empty | e0 | e1` and adding only relations expressible as further inductives or definitions over BHist, we can build:
+
+- Bishop-style equivalence classes for real numbers (16 theorems and growing)
+- Constructive metric distance witnesses with symmetric and transport closure (20 theorems)
+- Constructive compactness via located ε-nets (26 theorems)
+- Continuous-function modulus chains and their composition (20 theorems)
+- Categories, functors, natural transformations as restricted continuations (59 theorems combined)
+- Full basic-data-type coverage: booleans, options, sums, products, lists, naturals, integers, rationals (saturated)
+
+We know the project is `axiom-purity --strict` — every one of these 1837 theorems traces transitively to CIC's `inductive` and `def` and nothing else.
+
+We know that schema-only chapters (groups, monoids, rings, fields, modules) — chapters whose paper definition uses parametric `mul : BHist → BHist → BHist` — *cannot* be built without giving them concrete carriers, because the AI's attempts produce parameter-echo and the mechanical lints reject them. This is itself evidence: the foundational claim says you cannot define algebraic structures abstractly in BEDC, you have to *exhibit* concrete instances. The blocked chapters are a signal that the foundation is doing what it should.
+
+What we don't know yet:
+
+- Whether the philosophical claim is more than a structural observation. (Asks: does distinction *really* underlie information, or is it just a convenient minimum?)
+- Whether external mathematicians will read the Hom = Cont unification as a genuine insight or a definitional triviality. (We have not yet had a constructive analyst or category theorist review the code.)
+- How far the foundation can go before hitting a wall. (Sheaves, manifolds, measure theory, modular forms — all of these have BEDC paper schemas that are still empty stubs.)
+
+## A working hypothesis, mechanically tested
+
+So this is the position we are willing to commit to in writing:
+
+> **Distinction is the candidate foundation of information, including mathematical information.**
+> **BEDC is the first Lean-level project to test this claim by construction, with no axioms.**
+> **The test is provisionally positive at 38 chapters of mathematics covering counting, real analysis, topology, and elementary category theory.**
+> **Whether it remains positive at sheaves, modular forms, or homotopy groups — we do not yet know.**
+
+This is not a manifesto. It is a hypothesis that has been mechanically tested for 72 hours and has produced 1837 working theorems. It is also a hypothesis that will, eventually, hit a structure it cannot encode — and that wall, when we find it, will tell us something about the limits of distinction as a foundation.
+
+Until then, we keep building.
+
+```{=html}
+<div class="cta-choices">
+  <a href="index.qmd"><strong>← Back to the main story</strong><br/>What BEDC is, what happened in 72 hours, and the five surprises that came out of the AI-driven formalisation.</a>
+  <a href="schema-only-as-evidence.qmd"><strong>Schema-only as Evidence →</strong><br/>The empirical companion: when we tried to formalise abstract algebra without a concrete carrier, it didn't compile. That failure is foundationalism in action.</a>
+  <a href="one-closed-loop.qmd"><strong>One Closed Loop →</strong><br/>How the same foundation makes Gödel, Tarski, and Hofstadter into one constraint — and locates it in a single inductive declaration.</a>
+  <a href="discovery-loop.qmd"><strong>The Discovery Loop →</strong><br/>The engineering: how the AI-driven harness self-drives, where it failed, and what the methodology generalises to.</a>
+</div>
+```
+
+— *The Omega Institute*

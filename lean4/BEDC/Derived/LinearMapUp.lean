@@ -386,6 +386,19 @@ theorem LinearMapSingletonEval_continuation_classifier_iff {f x y r h : BHist} :
         (And.intro carriers.right
           (hsame_trans rEmpty (hsame_symm carriers.right)))
 
+theorem LinearMapSingletonEval_comp_continuation_classifier {g f x r : BHist} :
+    LinearMapSingletonCarrier g -> LinearMapSingletonCarrier f -> LinearMapSingletonCarrier x ->
+      Cont (LinearMapSingletonEval f x) g r ->
+        LinearMapSingletonClassifier (LinearMapSingletonEval (LinearMapSingletonComp g f) x) r := by
+  intro carrierG _carrierF _carrierX evalCont
+  have resultCarrier : LinearMapSingletonCarrier r :=
+    cont_respects_hsame (hsame_refl BHist.Empty) carrierG evalCont (cont_right_unit BHist.Empty)
+  have carriedResult : LinearMapSingletonClassifier r r :=
+    Iff.mpr (LinearMapSingletonEval_continuation_classifier_iff evalCont)
+      (And.intro carrierG resultCarrier)
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro carriedResult.right.left (hsame_symm carriedResult.right.left))
+
 theorem LinearMapSingletonEval_context_continuation_classifier_iff {p f x y r h : BHist} :
     Cont (append p (LinearMapSingletonEval f x)) y r ->
       (LinearMapSingletonClassifier r h ↔
@@ -410,6 +423,20 @@ theorem LinearMapSingletonEval_context_continuation_classifier_iff {p f x y r h 
     exact And.intro resultCarrier
       (And.intro carriers.right.right
         (hsame_trans resultCarrier (hsame_symm carriers.right.right)))
+
+theorem LinearMapSingletonEval_context_continuation_visible_context_absurd
+    {p f x y r h : BHist} :
+    (Cont (append (BHist.e0 p) (LinearMapSingletonEval f x)) y r ->
+      LinearMapSingletonClassifier r h -> False) ∧
+      (Cont (append (BHist.e1 p) (LinearMapSingletonEval f x)) y r ->
+        LinearMapSingletonClassifier r h -> False) := by
+  exact And.intro
+    (fun continuation classified =>
+      not_hsame_e0_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
+        continuation).mp classified).left)
+    (fun continuation classified =>
+      not_hsame_e1_empty ((LinearMapSingletonEval_context_continuation_classifier_iff
+        continuation).mp classified).left)
 
 theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
     {f x y r p : BHist} :
