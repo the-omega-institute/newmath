@@ -512,3 +512,63 @@ All comparison branches construct an entry of $L$ satisfying the displayed
 lower-bound condition, so the finite minimum selector exists for every nonempty
 finite spine of carried concrete $\TotalOrderUp$ elements.
 \end{proof}
+
+\begin{theorem}[Concrete unary prefix total-order finite maximum index selector]
+\label{thm:totalorder-prefix-finite-maximum-index-selector}
+Let $L$ be a nonempty finite spine of histories in the finite-list helper of
+\autoref{def:list-carrier}. Assume every entry of $L$ is carried by
+$\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$ certificate of
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}. Then there are a
+finite-spine membership witness $i$ and a carried entry $M=L_i$ such that, for
+every entry $x\in L$,
+$$
+x\le_{\mathsf{u}}M.
+$$
+
+The per-object fields are: traditional target finite-list maximum extraction in
+a total order; BEDC source finite spines of carried unary histories; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; relation
+$\le_{\mathsf{u}}$; stability obligations total comparison, reflexivity, and
+transitivity; ledger the tail-maximum membership witness and the selected
+comparison branch at each cons step; core theorem this finite maximum selector;
+exactness the displayed membership witness plus upper-bound row; standard
+bridge finite unary-word total order; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the nonempty finite spine $L$.
+
+For the singleton spine $L=[a]$, choose the unique membership position and set
+$M=a$. The only entry to check is $a$ itself, and reflexivity from
+\autoref{thm:concrete-unary-prefix-preorder-laws} gives $a\le_{\mathsf{u}}a$.
+
+For the cons step, write $L=a::T$ with $T$ nonempty and all its entries carried
+by $\mathsf{Carrier}_{\mathsf{u}}$. By the induction hypothesis applied to
+$T$, choose a tail membership witness $i_T$ and an entry $M_T\in T$ such that
+$x\le_{\mathsf{u}}M_T$ for every $x\in T$. Apply
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to the
+carried pair $a,M_T$.
+
+In the strict-left branch $\mathsf{NatUnaryStrictPrefix}(a,M_T)$, choose the
+same tail membership witness, viewed as a membership witness in $a::T$, and set
+$M=M_T$. By \autoref{def:nat-unary-strict-prefix} and
+\autoref{def:concrete-unary-prefix-totalorder-instance}, forgetting the
+nonempty-tail condition gives $a\le_{\mathsf{u}}M_T$, which handles the head
+entry. Every tail entry is below $M_T$ by the induction hypothesis.
+
+In the same branch $\rho_{\mathsf{u}}(a,M_T)$, again choose the tail membership
+witness and set $M=M_T$. The exact middle-branch row of
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$a\le_{\mathsf{u}}M_T$ and $M_T\le_{\mathsf{u}}a$. The first comparison handles
+the head entry, and every tail entry is handled by the induction hypothesis.
+
+In the strict-right branch $\mathsf{NatUnaryStrictPrefix}(M_T,a)$, choose the
+head membership witness and set $M=a$. Forgetting strictness gives
+$M_T\le_{\mathsf{u}}a$. For the head entry, reflexivity gives
+$a\le_{\mathsf{u}}a$. For a tail entry $x\in T$, the induction hypothesis gives
+$x\le_{\mathsf{u}}M_T$; composing this with $M_T\le_{\mathsf{u}}a$ by
+\autoref{thm:preorder-prefix-transitivity} gives $x\le_{\mathsf{u}}a$.
+
+All comparison branches construct a located entry of $L$ above every entry of
+$L$, so the finite maximum selector exists for every nonempty finite spine of
+carried concrete $\TotalOrderUp$ elements.
+\end{proof}
