@@ -21,6 +21,24 @@ this last ledger with $x\cdot (y\cdot z)$, hence with $x\cdot d_{yz}$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_append\_closed}
 
+\begin{theorem}[Metric distance witness unary append commutation package]
+\label{thm:metric-distance-witness-unary-append-comm-package}
+For unary histories $x$ and $y$, the appended endpoints $x\cdot y$ and
+$y\cdot x$ carry the canonical metric distance witness
+$(x\cdot y)\cdot(y\cdot x)$, and the endpoints are $\hsame$:
+$$
+\mathsf{MetricDistanceWitness}(x\cdot y,y\cdot x,(x\cdot y)\cdot(y\cdot x))
+\land \hsame(x\cdot y,y\cdot x).
+$$
+\end{theorem}
+\begin{proof}
+Unary append closure supplies the two endpoint carriers and the displayed
+distance carrier. The distance ledger is the canonical continuation from
+$x\cdot y$ to $y\cdot x$, and unary append commutativity gives the endpoint
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_unary\_append\_comm\_package}
+
 \begin{theorem}[Metric distance witness composite endpoint append result]
 \label{thm:metric-distance-witness-composite-endpoint-hsame-append-result}
 For histories $x,x',y,y',z,z',d_{xy},d_{xyz}$, endpoint comparisons
