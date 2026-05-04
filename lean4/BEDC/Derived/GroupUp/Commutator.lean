@@ -3,6 +3,7 @@ import BEDC.Derived.GroupUp
 namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
  theorem group_commutator_trivial_iff_commutes_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
@@ -61,5 +62,35 @@ protected theorem group_conjugation_fixed_point_commutation_iff_from_empty_unit
       exact hsame_trans (assocC b a (inv a))
         (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b))
     exact hsame_trans transported collapse
+
+theorem GroupSingletonClassifier_commutator_terminal_collapse {x y : BHist} :
+    GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) ∧
+        GroupSingletonClassifier
+          (append (append (append x y) BHist.Empty) BHist.Empty) BHist.Empty := by
+  intro carrierX carrierY
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have productCarrier : GroupSingletonCarrier (append x y) :=
+    append_eq_empty_iff.mpr (And.intro carrierX carrierY)
+  have inverseTailCarrier : GroupSingletonCarrier (append (append x y) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro productCarrier emptyCarrier)
+  have commutatorCarrier :
+      GroupSingletonCarrier (append (append (append x y) BHist.Empty) BHist.Empty) :=
+    append_eq_empty_iff.mpr (And.intro inverseTailCarrier emptyCarrier)
+  exact And.intro commutatorCarrier
+    (And.intro commutatorCarrier
+      (And.intro emptyCarrier (hsame_trans commutatorCarrier (hsame_symm emptyCarrier))))
+
+theorem GroupSingletonClassifier_commutator_unit_exactness_iff {x y : BHist} :
+    GroupSingletonClassifier (append (append (append x y) BHist.Empty) BHist.Empty)
+        BHist.Empty <->
+      GroupSingletonCarrier x ∧ GroupSingletonCarrier y := by
+  constructor
+  · intro classified
+    have outerSplit := append_eq_empty_iff.mp classified.left
+    have inverseTailSplit := append_eq_empty_iff.mp outerSplit.left
+    exact append_eq_empty_iff.mp inverseTailSplit.left
+  · intro carriers
+    exact (GroupSingletonClassifier_commutator_terminal_collapse carriers.left carriers.right).right
 
 end BEDC.Derived.GroupUp
