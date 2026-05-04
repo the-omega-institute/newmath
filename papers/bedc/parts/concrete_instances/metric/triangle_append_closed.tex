@@ -312,6 +312,7 @@ central witness and the two unchanged triangle witnesses. Its reverse half turns
 the five displayed empty-spine classifiers into
 $\mathsf{MetricDistanceDepth}(d_{xyz})=0$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_triangle\_depth\_zero\_iff\_empty\_spine}
 
 \begin{theorem}[Metric triangle nonempty distance has a nonempty endpoint]
 \label{thm:metric-distance-witness-triangle-nonempty-endpoint-nonempty}
@@ -382,6 +383,46 @@ to $\mathsf{False}$, so applying it to the matching classifier from the
 empty-spine conjunction gives the desired contradiction.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_triangle\_nonempty\_spine\_iff\_nonempty\_distance}
+
+\begin{theorem}[Metric distance witness visible-context triangle nonempty spine iff nonempty distance]
+\label{thm:metric-distance-witness-visible-context-triangle-nonempty-spine-iff-nonempty-distance}
+For histories $p,q,x,y,z,d_{xy},d_{yz},d_{xyz}$, a triangle whose first edge is
+displayed through visible contexts has the same exact nonempty-spine criterion
+as the central triangle:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d_{xy})\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(y,z,d_{yz})
+\Longrightarrow
+\\
+\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})
+\Longrightarrow
+\\
+\bigl(d_{xyz}\hsame\emp\to\mathsf{False}\bigr)
+\Longleftrightarrow
+\\
+\bigl((x\hsame\emp\to\mathsf{False})\vee
+(y\hsame\emp\to\mathsf{False})\vee
+(z\hsame\emp\to\mathsf{False})\vee
+(d_{xy}\hsame\emp\to\mathsf{False})\vee
+(d_{yz}\hsame\emp\to\mathsf{False})\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+displayed first-edge witness. Its forward direction recovers the central
+witness $\mathsf{MetricDistanceWitness}(x,y,d_{xy})$, while the unary evidence
+for $p$ and $q$ is not needed by the remaining argument.
+
+Now apply
+\autoref{thm:metric-distance-witness-triangle-nonempty-spine-iff-nonempty-distance}
+to this recovered central witness and to the two unchanged witnesses
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$ and
+$\mathsf{MetricDistanceWitness}(d_{xy},z,d_{xyz})$. The result is exactly the
+displayed equivalence.
+\end{proof}
 
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
