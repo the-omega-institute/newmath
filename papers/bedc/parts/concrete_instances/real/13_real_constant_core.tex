@@ -195,6 +195,22 @@ of the common BEDC history head $h$ exposes $d\hsame e$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_head\_cancel}
 
+\begin{theorem}[Constant real classifier common-context cancellation]
+\label{thm:real-constant-history-classifier-append-common-context-cancel}
+For all histories $left,right,d,e$,
+$$
+\mathsf{RealConstantHistoryClassifier}
+(\Eone(left\cdot(d\cdot right)),\Eone(left\cdot(e\cdot right)))
+\Longrightarrow d\hsame e.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the shared visible left context using the common-head cancellation
+theorem. This yields $\hsame(d\cdot right,e\cdot right)$. Right append
+cancellation then removes the shared suffix $right$ and exposes $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_context\_cancel}
+
 \begin{theorem}[Constant real classifier double-seal readback]
 \label{thm:real-constant-history-classifier-e1-pair-readback}
 If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
