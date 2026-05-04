@@ -93,4 +93,25 @@ theorem CompactWitnessCarrier_located_empty_final_refinement_reflects_empty_init
           (And.intro finalCompactParts.right
             (And.intro intermediateParts.left compactEmpty)))
 
+theorem CompactWitnessCarrier_located_finite_empty_final_reflects_empty_initial
+    {subset located finite intermediate compact finalLocated finalIntermediate finalCompact
+      finalFinite finalCompact' : BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact ->
+      CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
+        finalCompact ->
+        CompactFiniteRefinementChain finite finalCompact finalFinite finalCompact' ->
+          hsame finalLocated BHist.Empty -> hsame finalIntermediate BHist.Empty ->
+            hsame finalFinite BHist.Empty -> hsame finalCompact' BHist.Empty ->
+              hsame subset BHist.Empty ∧ hsame located BHist.Empty ∧
+                hsame finite BHist.Empty ∧ hsame intermediate BHist.Empty ∧
+                  hsame compact BHist.Empty := by
+  intro carrier locatedChain finiteChain finalLocatedEmpty finalIntermediateEmpty finalFiniteEmpty
+    finalCompactEmpty
+  have finiteInitialEmpty :=
+    CompactFiniteRefinementChain_empty_final_reflects_empty_initial finiteChain finalFiniteEmpty
+      finalCompactEmpty
+  exact
+    CompactWitnessCarrier_located_empty_final_refinement_reflects_empty_initial carrier locatedChain
+      finalLocatedEmpty finalIntermediateEmpty finiteInitialEmpty.right
+
 end BEDC.Derived.CompactUp
