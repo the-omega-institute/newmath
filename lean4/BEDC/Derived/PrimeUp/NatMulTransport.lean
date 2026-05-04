@@ -1,4 +1,4 @@
-import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.PrimeUp
@@ -86,5 +86,49 @@ theorem NatDivides_endpoint_hsame_transport {d d' n n' : BHist} :
   have dividendTransported := NatDivides_dividend_hsame_transport divisorTransported.right sameN
   exact And.intro divisorTransported.left
     (And.intro dividendTransported.left dividendTransported.right)
+
+theorem NatDivides_prefix_cancellation {d x y z : BHist} :
+    UnaryHistory d -> (hsame d BHist.Empty -> False) -> UnaryHistory x -> UnaryHistory y ->
+      UnaryHistory z -> Cont x y z -> NatDivides d x -> NatDivides d z ->
+        NatDivides d y := by
+  intro dUnary dNonempty _xUnary yUnary _zUnary xyCont dividesX dividesZ
+  cases dividesX with
+  | intro q qData =>
+      induction qData.right generalizing y z with
+      | zero dUnaryZero =>
+          have sameZY : hsame z y := cont_left_unit_result xyCont
+          exact (NatDivides_dividend_hsame_transport dividesZ sameZY).right
+      | succ previous step ih =>
+          rename_i qTail n xStep
+          have resultCases := NatDivides_result_cases dividesZ
+          cases resultCases with
+          | inl emptyCase =>
+              have zEmpty : hsame z BHist.Empty := emptyCase.left
+              have xStepEmpty : hsame xStep BHist.Empty :=
+                (append_eq_empty_iff.mp (xyCont.symm.trans zEmpty)).left
+              have dEmpty : hsame d BHist.Empty :=
+                NatMul_succ_result_empty_left_empty (NatMul.succ previous step) xStepEmpty
+              exact False.elim (dNonempty dEmpty)
+          | inr stepCase =>
+              cases stepCase with
+              | intro pred predData =>
+                  have displayed : Cont (append n y) d z := by
+                    apply cont_intro
+                    calc
+                      z = append xStep y := xyCont
+                      _ = append (append n d) y := congrArg (fun h => append h y) step
+                      _ = append n (append d y) := append_assoc n d y
+                      _ = append n (append y d) :=
+                        congrArg (fun h => append n h) (unary_append_comm dUnary yUnary)
+                      _ = append (append n y) d := (append_assoc n y d).symm
+                  have samePred : hsame pred (append n y) :=
+                    cont_right_cancel predData.right displayed
+                  have shiftedDivides :
+                      NatDivides d (append n y) :=
+                    (NatDivides_dividend_hsame_transport predData.left samePred).right
+                  exact ih (NatMul_result_unary dUnary previous) yUnary
+                    (unary_append_closed (NatMul_result_unary dUnary previous) yUnary)
+                    (cont_intro rfl) shiftedDivides
+                    (And.intro (unary_e1_inversion qData.left) previous)
 
 end BEDC.Derived.PrimeUp
