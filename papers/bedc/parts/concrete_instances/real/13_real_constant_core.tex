@@ -328,6 +328,24 @@ for $h$ and $\ell$ gives the required classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_equivalence\_fields}
 
+\begin{theorem}[Constant real semantic name certificate]
+\label{thm:real-constant-history-semantic-namecert}
+The constant real history carrier and classifier form a
+$\mathsf{SemanticNameCert}$ whose source, pattern, and ledger predicates are all
+$\mathsf{RealConstantHistoryCarrier}$, and whose classifier is
+$\mathsf{RealConstantHistoryClassifier}$.
+\end{theorem}
+\begin{proof}
+Use the e-one rational denominator witnessed by $\emp$ to inhabit the source
+carrier. The classifier equivalence fields of
+\autoref{thm:real-constant-history-classifier-equivalence-fields} supply
+reflexivity, symmetry, and transitivity. Endpoint-carrier readback from
+\autoref{thm:real-constant-history-classifier-endpoint-carriers} supplies
+carrier transport along the classifier. Since the pattern and ledger predicates
+are the same concrete carrier, their soundness rows are direct.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
+
 \begin{definition}[Real stream classifiers]
 \label{def:real-stream-classifiers}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, the stream classifier is pointwise rational-history classification. The finite prefix classifier records the same data recursively through a selected observation index.
@@ -556,6 +574,7 @@ and back, while
 same classifier under endpoint-equivalent real histories. These facts repack
 the two chains as one certificate for the displayed map.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstant\_rational\_embedding\_certificate}
 
 The constant rational embedding certificate has ten fields: traditional target
 constant rational embedding; BEDC source RatUp plus StreamNameUp plus RealUp;
