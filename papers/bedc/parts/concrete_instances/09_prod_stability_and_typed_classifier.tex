@@ -1,0 +1,89 @@
+\begin{definition}[Prod stability certificate]
+\label{def:prod-stability-certificate}
+The checked stability subcertificate consists of:
+\begin{enumerate}
+  \item componentwise reflexivity obtained from the two source reflexivity fields
+  \item componentwise transitivity obtained from the two source transitivity fields
+  \item coordinate exposure: any
+  $\mathsf{ProdClassifierSpec}(R_A,R_B,x,y)$ witness yields
+  $R_A(x.1,y.1)$ and $R_B(x.2,y.2)$
+\end{enumerate}
+Relation-level symmetry is supplied by
+Theorem~\ref{thm:prod-classifier-symm-from-source-symmetry}; the
+source-certificate theorem is obtained from the two $\mathsf{equiv\_symm}$
+fields, while the $\hsame$ specialization is
+Theorem~\ref{thm:prod-classifier-hsame-symm}.
+\end{definition}
+\leanchecked{BEDC.Derived.ProdUp.prod\_stability\_certificate\_fields}
+
+\begin{theorem}[Product classifier transitivity at the typed level]
+\label{thm:prod-classifier-transitivity}
+Let $R_A : A \to A \to \mathsf{Prop}$ and
+$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations.  If both
+$R_A$ and $R_B$ are transitive, then for product carriers $x$, $y$, and $z$,
+$$
+  \mathsf{ProdClassifierSpec}(R_A,R_B,x,y)
+  \quad\text{and}\quad
+  \mathsf{ProdClassifierSpec}(R_A,R_B,y,z)
+$$
+imply $\mathsf{ProdClassifierSpec}(R_A,R_B,x,z)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_trans}
+\begin{proof}
+Invert the product classifier witnesses by their constructor. The first
+components compose by transitivity of $R_A$, the second components compose by
+transitivity of $R_B$, and the paired typed witness rebuilds the product
+classifier.
+\end{proof}
+
+\begin{theorem}[Product classifier symmetry from source symmetry]
+\label{thm:prod-classifier-symm-from-source-symmetry}
+Let $R_A : A \to A \to \mathsf{Prop}$ and
+$R_B : B \to B \to \mathsf{Prop}$ be source classifier relations. If
+$$
+\forall a\,a'.\; R_A(a,a')\to R_A(a',a)
+$$
+and
+$$
+\forall b\,b'.\; R_B(b,b')\to R_B(b',b)
+$$
+hold, then for product carriers $x$ and $y$,
+$\mathsf{ProdClassifierSpec}(R_A,R_B,x,y)$ implies
+$\mathsf{ProdClassifierSpec}(R_A,R_B,y,x)$.
+\end{theorem}
+\begin{proof}
+Invert the product classifier witness into its two coordinate witnesses.
+Apply source symmetry for $R_A$ to the first coordinate and source symmetry for
+$R_B$ to the second coordinate, then rebuild the product classifier with the
+same constructor in the opposite order.
+\end{proof}
+
+\begin{theorem}[Product classifier symmetry from source certificates]
+\label{thm:prod-classifier-symm-from-namecert}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their
+source classifiers, and let
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$ be source name certificates. For product
+carriers $x,y:\mathsf{ProdCarrier}(\mathsf{BHist},\mathsf{BHist})$,
+$\mathsf{ProdClassifierSpec}(\sim_L,\sim_R,x,y)$ implies
+$\mathsf{ProdClassifierSpec}(\sim_L,\sim_R,y,x)$.
+\end{theorem}
+\begin{proof}
+Invert the product classifier witness into its left and right component
+classifier proofs. Apply the $\mathsf{equiv\_symm}$ field of
+$\mathsf{cert}_L$ to reverse the left component, and the
+$\mathsf{equiv\_symm}$ field of $\mathsf{cert}_R$ to reverse the right
+component. The product classifier constructor then rebuilds the componentwise
+witness in the opposite order.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_symm\_from\_nameCert}
+
+\begin{theorem}[History product classifier is symmetric]
+\label{thm:prod-classifier-hsame-symm}
+For pairs of finite-kernel histories, if the product classifier relates \(x\) to \(y\) componentwise by \(\hsame\), then it relates \(y\) to \(x\).
+\end{theorem}
+\begin{proof}
+Invert the componentwise product classifier. Each component witness reverses by symmetry of \(\hsame\), and the reversed witnesses rebuild the product classifier in the opposite direction.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdClassifierSpec\_hsame\_symm}
