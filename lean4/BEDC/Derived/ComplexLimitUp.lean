@@ -32,6 +32,16 @@ theorem ComplexDistance_append_constant_closed {z w d q : BHist} :
     (And.intro rightUnary
       (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
 
+theorem ComplexDistance_prepend_constant_closed {z w d q : BHist} :
+    UnaryHistory q -> ComplexDistance z w d ->
+      ComplexDistance (append q z) (append q w) (append (append q z) (append q w)) := by
+  intro unaryQ distance
+  have leftUnary : UnaryHistory (append q z) := unary_append_closed unaryQ distance.left
+  have rightUnary : UnaryHistory (append q w) := unary_append_closed unaryQ distance.right.left
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro (unary_append_closed leftUnary rightUnary) (Or.inl (cont_intro rfl))))
+
 theorem ComplexDistance_append_constant_result_deterministic {z w d q d' : BHist} :
     UnaryHistory q -> ComplexDistance z w d -> ComplexDistance (append z q) (append w q) d' ->
       hsame d' (append (append z q) (append w q)) := by
