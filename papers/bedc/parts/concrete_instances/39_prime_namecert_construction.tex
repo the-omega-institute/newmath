@@ -27,6 +27,21 @@ witness are exactly the constructor payloads.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_inversion}
 
+\begin{lemma}[Unary multiplication exponent-result cases]
+\label{lem:nat-mul-exponent-result-cases}
+Every witness of \(\mathsf{NatMul}(d,q,n)\) is either the empty exponent
+case, with \(q\hsame\emp\) and \(n\hsame\emp\), or a successor exponent case:
+there are histories \(q_0\) and \(n_0\) such that
+\(q=\Eone(q_0)\), \(\mathsf{NatMul}(d,q_0,n_0)\), and
+\(\Cont(n_0,d,n)\).
+\end{lemma}
+\begin{proof}
+Invert the closed multiplication witness. The zero constructor gives the
+empty exponent and empty result. The successor constructor exposes exactly the
+predecessor exponent, predecessor product, and final continuation payload.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_exponent\_result\_cases}
+
 \begin{lemma}[Empty left unary multiplication has empty result]
 \label{lem:natmul-empty-left-result-empty}
 If \(\mathsf{NatMul}(\emp,q,n)\), then \(n\hsame\emp\).
@@ -188,6 +203,22 @@ For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d,
 \end{definition}
 \leandef{BEDC.Derived.PrimeUp.NatDivides}
 
+\begin{lemma}[Divisibility result cases]
+\label{lem:nat-divides-result-cases}
+Every witness of \(\mathsf{NatDivides}(d,n)\) is either an empty-result
+witness, with \(n\hsame\emp\) and \(d\) unary, or a successor-product witness:
+there is a predecessor \(n_0\) with \(\mathsf{NatDivides}(d,n_0)\) and
+\(\Cont(n_0,d,n)\).
+\end{lemma}
+\begin{proof}
+Unpack the explicit quotient in the divisibility witness. If its
+\(\mathsf{NatMul}\) witness is zero, the result is empty and the multiplicand
+field gives unary \(d\). If it is a successor witness, unary inversion on the
+quotient supplies a unary predecessor quotient, and the predecessor
+multiplication witness repackages as \(\mathsf{NatDivides}(d,n_0)\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_result\_cases}
+
 \begin{lemma}[Empty left divisibility has empty result]
 \label{lem:natdivides-empty-left-result-empty}
 If \(\mathsf{NatDivides}(\emp,n)\), then \(n\hsame\emp\).
@@ -210,6 +241,19 @@ field carries the unary multiplicand field for $d$. In the reverse direction,
 use the empty quotient and the zero constructor of $\mathsf{NatMul}$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_empty\_right\_iff}
+
+\begin{theorem}[Unit-left divisibility is unary carrier]
+\label{thm:natdivides-unit-left-iff}
+For any history $n$, $\mathsf{NatDivides}(\Eone(\emp),n)$ holds exactly when
+$n$ is a unary history.
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the quotient witness $q$. Multiplication by
+the unit identifies the result with $q$, and unaryness transports across that
+endpoint identification. Conversely, the unit-divisibility half of reflexivity
+gives $\mathsf{NatDivides}(\Eone(\emp),n)$ for every unary $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_unit\_left\_iff}
 
 \begin{lemma}[Divisibility is reflexive on the unit and on every unary history]
 \label{lem:divides-reflexive}
@@ -306,6 +350,7 @@ is impossible.
 \begin{proof}
 The unit fails the strict greater-than condition \(\mathsf{NatGT}(\Eone(\emp), \Eone(\emp))\) by the irreflexivity of \(\mathsf{NatUnaryStrictPrefix}\) (\autoref{ch:concrete-instances-nat-namecert}).
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_unit\_absurd}
 
 \section{Effective primality testing}
 

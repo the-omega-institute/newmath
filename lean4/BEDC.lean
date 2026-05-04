@@ -53,6 +53,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -145,6 +146,7 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
+import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
@@ -175,6 +177,7 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge

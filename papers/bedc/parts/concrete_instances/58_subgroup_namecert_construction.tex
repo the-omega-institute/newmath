@@ -236,6 +236,34 @@ $(x',y')$.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_hsame\_transport}
 
+\begin{theorem}[Centralizer right quotient classifier multiplication compatibility]
+\label{thm:subgroup-centralizer-right-quotient-classifier-mul-compatible}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying associativity, two-sided unit, multiplication-congruence, and
+two-sided inverse laws, the centralizer right-witness quotient classifier is
+compatible with multiplication:
+$$
+Q_{Z_a\leq N_a}(x,y)\land Q_{Z_a\leq N_a}(u,v)
+\Longrightarrow Q_{Z_a\leq N_a}(\mathsf{mul}(x,u),\mathsf{mul}(y,v)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two right quotient witnesses as centralizer elements $p$ and $q$
+with $y\hsame\mathsf{mul}(x,p)$ and
+$v\hsame\mathsf{mul}(u,q)$. Product closure gives normalizer membership for
+$\mathsf{mul}(x,u)$ and $\mathsf{mul}(y,v)$.
+
+The normalizer witness for $u$ carries $p$ through conjugation, so
+$\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u)$ is again a centralizer
+element. Multiplying it with $q$ gives the new right quotient witness. The
+endpoint equation follows by associativity, unit laws, inverse cancellation,
+and multiplication congruence:
+$\mathsf{mul}(y,v)$ is transported to
+$\mathsf{mul}(\mathsf{mul}(x,u),
+\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(u),p),u),q))$.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerRightQuotientClassifier\_mul\_compatible\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer right coset classifier hsame transport]
 \label{thm:subgroup-centralizer-right-coset-classifier-hsame-transport}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$

@@ -365,4 +365,18 @@ theorem MatrixSingletonClassifier_continuation_comm_closed {M N left right : BHi
     (And.intro emptyCarrier
       (And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))))
 
+theorem MatrixSingletonCarrier_continuation_visible_result_absurd {M N r : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonCarrier N ->
+      (Cont M N (BHist.e0 r) -> False) ∧ (Cont M N (BHist.e1 r) -> False) := by
+  intro carrierM carrierN
+  constructor
+  · intro continuation
+    cases carrierM
+    cases carrierN
+    cases continuation
+  · intro continuation
+    cases carrierM
+    cases carrierN
+    cases continuation
+
 end BEDC.Derived.MatrixUp
