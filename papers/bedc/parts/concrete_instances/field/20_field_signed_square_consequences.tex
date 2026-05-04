@@ -141,6 +141,61 @@ square row and to $p_-$, gives $a\hsame -b$ and excludes every witness
 $\mathsf{NonZero}_F(a+b)$.
 \end{proof}
 
+\begin{theorem}[Field zero linear factor signed endpoint package]
+\label{thm:field-zero-linear-factor-signed-endpoint-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+hypotheses of
+\autoref{thm:commring-zero-linear-factor-equal-squares} and
+\autoref{thm:field-equal-squares-signed-branch-determinacy}, every
+$a,b:\mathsf{BHist}$ satisfies the following two signed endpoint clauses:
+\begin{enumerate}
+  \item if $(a+(-b))\hsame0$ and $p_+:\mathsf{NonZero}_F(a+b)$, then
+  simultaneously $a\cdot a\hsame b\cdot b$, $a\hsame b$, and
+  $\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}$;
+  \item if $(a+b)\hsame0$ and $p_-:\mathsf{NonZero}_F(a+(-b))$, then
+  simultaneously $a\cdot a\hsame b\cdot b$, $a\hsame -b$, and
+  $\mathsf{NonZero}_F(a+b)\to\mathsf{False}$.
+\end{enumerate}
+Traditional target signed square-root endpoint package; BEDC source
+$\mathsf{BHist}$ with $\CommRingUp$ and $\FieldUp$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; ledger the zero factor plus signed nonzero witness; core
+theorem this block; exactness predicate signed branch square row plus endpoint;
+downstream consumer $\FieldUp(\mathsf{RatUp})$ affine solution and square-root
+branch ledgers; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first the zero factor $(a+(-b))\hsame0$ and the signed nonzero witness
+$p_+:\mathsf{NonZero}_F(a+b)$. Apply
+\autoref{thm:commring-zero-linear-factor-equal-squares} to the displayed
+right signed zero factor, read as the second disjunct. This gives the square
+row
+
+$$
+a\cdot a\hsame b\cdot b.
+$$
+
+Apply the positive branch of
+\autoref{thm:field-equal-squares-signed-branch-determinacy} to this square row
+and to $p_+$. It returns $a\hsame b$ together with
+$\mathsf{NonZero}_F(a+(-b))\to\mathsf{False}$. Conjunction introduction packages
+the square row, the endpoint, and the opposite-witness exclusion.
+
+For the negative signed endpoint, assume the zero factor $(a+b)\hsame0$ and the
+signed nonzero witness $p_-:\mathsf{NonZero}_F(a+(-b))$. Apply
+\autoref{thm:commring-zero-linear-factor-equal-squares} to the displayed left
+signed zero factor, read as the first disjunct. This again gives
+
+$$
+a\cdot a\hsame b\cdot b.
+$$
+
+Apply the negative branch of
+\autoref{thm:field-equal-squares-signed-branch-determinacy} to the square row
+and to $p_-$. It returns $a\hsame -b$ and
+$\mathsf{NonZero}_F(a+b)\to\mathsf{False}$. A second conjunction introduction
+packages the square row, the signed endpoint, and the excluded opposite branch.
+\end{proof}
+
 Per-object template: traditional target constructive signed square-root branch
 selection; BEDC source $\FieldUp+\CommRingUp$ over $\mathsf{BHist}$; carrier
 $\mathsf{BHist}$; classifier $\hsame$; stability obligations zero-linear-factor

@@ -59,4 +59,24 @@ theorem RatDenomUnitClassifier_e1_empty_absurd {d : BHist} :
   · intro classified
     exact not_hsame_emp_e1 classified.right.right
 
+theorem RatDenomUnitClassifier_continuation_e0_endpoint_absurd
+    {h h' k k' r r' tail tail' : BHist} :
+    RatDenomUnitClassifier h h' -> RatDenomUnitClassifier k k' -> Cont h k r ->
+      Cont h' k' r' ->
+        (hsame r (BHist.e0 tail) -> False) ∧
+          (hsame r' (BHist.e0 tail') -> False) := by
+  intro classifiedH classifiedK continuation continuation'
+  have carrierR : RatDenomUnitCarrier r :=
+    RatDenomUnitCarrier_continuation_closed classifiedH.left classifiedK.left continuation
+  have carrierR' : RatDenomUnitCarrier r' :=
+    RatDenomUnitCarrier_continuation_closed classifiedH.right.left classifiedK.right.left
+      continuation'
+  constructor
+  · intro sameEndpoint
+    exact RatDenomUnitCarrier_e0_absurd
+      (RatDenomUnitCarrier_hsame_transport sameEndpoint carrierR)
+  · intro sameEndpoint
+    exact RatDenomUnitCarrier_e0_absurd
+      (RatDenomUnitCarrier_hsame_transport sameEndpoint carrierR')
+
 end BEDC.Derived.FieldUp
