@@ -4,6 +4,8 @@ import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.IntUp
 
+open BEDC.FKernel.Hist BEDC.FKernel.Unary
+
 def IntCarrier
     (sign : BEDC.FKernel.Mark.BMark) (magnitude : BEDC.FKernel.Hist.BHist) : Prop :=
   (sign = BEDC.FKernel.Mark.BMark.b0 ∨ sign = BEDC.FKernel.Mark.BMark.b1) ∧
@@ -70,6 +72,10 @@ def IntClassifierSpec
 
 def IntPairCarrier (p n : BEDC.FKernel.Hist.BHist) : Prop :=
   BEDC.FKernel.Unary.UnaryHistory p ∧ BEDC.FKernel.Unary.UnaryHistory n
+
+theorem IntPairCarrier_pair_induction {P : BHist -> BHist -> Prop} : P BHist.Empty BHist.Empty -> (forall p n : BHist, UnaryHistory p -> UnaryHistory n -> P p n -> P (BHist.e1 p) n) -> (forall p n : BHist, UnaryHistory p -> UnaryHistory n -> P p n -> P p (BHist.e1 n)) -> forall {p n : BHist}, IntPairCarrier p n -> P p n := by
+  intro base leftStep rightStep p n carrier
+  exact unary_history_induction (P := fun p => forall n : BHist, UnaryHistory n -> P p n) (fun n unaryN => unary_history_induction base (fun n unaryN ih => rightStep BHist.Empty n unary_empty unaryN ih) n unaryN) (fun p unaryP ih n unaryN => leftStep p n unaryP unaryN (ih n unaryN)) p carrier.left n carrier.right
 
 def IntPairClassifier
     (x y : BEDC.FKernel.Hist.BHist × BEDC.FKernel.Hist.BHist) : Prop :=
