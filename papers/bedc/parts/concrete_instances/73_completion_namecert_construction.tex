@@ -33,6 +33,22 @@ supplies the rational endpoint classifier at the selected index.
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_empty\_distance\_real\_prefix\_readback}
 
+\begin{theorem}[Completion visible-tail excludes empty distance]
+\label{thm:completion-metric-distance-e1-tail-empty-distance-absurd}
+Let $x$ and $y$ be real stream representatives and let $n$ be a prefix index.
+If the real stream prefix classifier holds at $n$ and the metric distance
+witness between $x_n$ and $y_n$ has visible result $\Eone(t)$, then the
+rational endpoint classifier holds between $x_n$ and $y_n$, and no empty
+metric distance witness can classify the same endpoints.
+\end{theorem}
+\begin{proof}
+Visible-tail readback supplies the rational endpoint classifier. If an empty
+distance witness also classified the same endpoints, metric result
+determinacy would identify $\Eone(t)$ with $\emp$, contradicting the BEDC
+no-confusion theorem for visible constructors.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_e1\_tail\_empty\_distance\_absurd}
+
 \begin{theorem}[Completion visible-tail transport]
 \label{thm:completion-metric-distance-witness-e1-tail-hsame-transport}
 Let $x,x',y,y'$ be real stream representatives and let $n$ be a prefix

@@ -492,6 +492,7 @@ import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
+import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp.FamilyReadback
