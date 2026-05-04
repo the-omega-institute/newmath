@@ -10,22 +10,6 @@ The commutative ring interface \(\CommRingUp\) extends \autoref{ch:concrete-inst
 Use a ring setup extended with commutativity of multiplication.
 \end{definition}
 
-\begin{proposition}[CommRing forgets to Ring certificate]
-\label{prop:commring-forgets-ring-certificate}
-Every $\CommRingUp$ certificate has an underlying $\RingUp$ certificate with
-the same carrier, classifier, zero, one, addition, negation, multiplication,
-source rows, pattern rows, stability rows, and ledger rows required by
-\autoref{def:ring-certificate-obligations}. The multiplicative commutativity
-field is not used by the reduct.
-\end{proposition}
-\begin{proof}
-Unpack the commutative-ring certificate. Its source and stability data contain
-the full ring source, pattern, classifier, additive group, multiplicative
-monoid, distributive, congruence, exactness, and ledger rows. Project those
-coordinates and suppress only the commutativity row. The projected package has
-exactly the data requested by the $\RingUp$ certificate obligations.
-\end{proof}
-
 \section{Concrete singleton history commutative ring instance}
 \label{sec:commring-concrete-singleton-history-instance}
 
