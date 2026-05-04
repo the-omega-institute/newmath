@@ -59,3 +59,26 @@ on that classifier reduces the two displayed equations to the left and right
 unit laws for finite-kernel append.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_append\_unit\_laws}
+
+\begin{theorem}[Metric empty-boundary visible context continuation depth add]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-depth-add}
+For histories $p,q,d,l,r,mid,out$, an empty-boundary visible-context distance
+witness lets a continuation through $d$ splice into the direct continuation
+from $l$ to $r$, so the output depth is the sum of the endpoint depths:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\mathsf{UnaryHistory}(l)\Longrightarrow\mathsf{UnaryHistory}(r)\Longrightarrow
+\ContR(l,d,mid)\Longrightarrow\ContR(mid,r,out)\Longrightarrow
+\mathsf{MetricDistanceDepth}(out)=
+\mathsf{MetricDistanceDepth}(l)+\mathsf{MetricDistanceDepth}(r).
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary continuation splice removes the central empty distance from
+the two-step ledger and gives $\ContR(l,r,out)$. Together with the unary
+endpoint hypotheses, unary continuation closure supplies the output carrier,
+so these fields form a concrete metric distance witness from $l$ to $r$.
+Metric distance depth additivity then gives the displayed equation.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_depth\_add}

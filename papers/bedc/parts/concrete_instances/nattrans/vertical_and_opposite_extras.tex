@@ -1,3 +1,28 @@
+\begin{theorem}[NatTrans prefix component vertical composite nonempty source visibility]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-nonempty-result-source-visible}
+For prefix components over a common object $a$, if $\eta$ goes from $p$ to
+$q$, $\theta$ goes from $q$ to $r$, their vertical composite displays
+$\Eone(k)$, and the source endpoint $\mathsf{append}(p,a)$ is not
+history-same to $\emp$, then both component endpoints are visible:
+$$
+\exists s,t.\ \mathsf{append}(p,a)=\Eone(s)\wedge
+\mathsf{append}(r,a)=\Eone(t)\wedge
+\mathsf{UnaryHistory}(s)\wedge\mathsf{UnaryHistory}(k)\wedge
+\mathsf{UnaryHistory}(t)\wedge
+\ContR(\Eone(s),\Eone(k),\Eone(t)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack both prefix components to their underlying category hom-carriers and
+apply category source-target case analysis to the displayed nonempty composite
+result. The empty-source branch contradicts the source nonemptiness
+assumption. In the visible-source branch, one-constructor inversion on the
+displayed result identifies the payload with $k$, leaving exactly the visible
+source endpoint, visible target endpoint, unary tail witnesses, and the
+visible continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_source\_visible}
+
 \begin{theorem}[NatTrans vertical composition naturality]
 \label{thm:nattrans-vertical-composition-naturality}
 Let \(F\), \(G\), and \(H\) be certified \(\FunctorUp\) carriers with the same certified source category and target category. Let \(\alpha:F\Rightarrow G\) and \(\beta:G\Rightarrow H\) be admitted \(\NatTransUp\) carriers. For every source morphism \(f:C\to C'\), the vertical component family \((\beta\circ\alpha)_X=\beta_X\circ\alpha_X\) satisfies the target morphism-classifier naturality square
