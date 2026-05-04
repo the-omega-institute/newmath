@@ -41,4 +41,19 @@ theorem field_rat_denominator_external_unit_normal_form {u : BHist} :
       | inr leftLaw =>
           exact exclusion.right leftLaw
 
+theorem field_rat_denominator_external_unit_classifier_disjointness {u d : BHist} :
+    (((forall {x r : BHist}, RatHistoryCarrier x -> Cont x u r ->
+      RatHistoryClassifier r x) \/
+        (forall {x r : BHist}, RatHistoryCarrier x -> Cont u x r ->
+          RatHistoryClassifier r x)) ->
+      (RatHistoryClassifier u d \/ RatHistoryClassifier d u) -> False) := by
+  intro oneSided classified
+  have emptyU : hsame u BHist.Empty :=
+    (field_rat_denominator_external_unit_normal_form (u := u)).right.left.mp oneSided
+  cases classified with
+  | inl leftClassified =>
+      exact RatHistoryCarrier_not_empty leftClassified.left emptyU
+  | inr rightClassified =>
+      exact RatHistoryCarrier_not_empty rightClassified.right.left emptyU
+
 end BEDC.Derived.FieldUp

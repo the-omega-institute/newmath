@@ -541,6 +541,29 @@ unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
+\begin{theorem}[Adjunction triangle empty components prefix determinacy]
+\label{thm:adjunction-triangle-components-empty-prefix-deterministic}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier whose displayed unit and counit
+components are both $\hsame$ to $\emp$ has equal endpoint prefixes:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(unit,\emp)
+\Longrightarrow
+\hsame(counit,\emp)
+\Longrightarrow
+\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Transport the two triangle-leg continuations along the empty unit and counit
+component witnesses. Both roundtrip legs become $\hsame$ to the empty
+continuation result, and the roundtrip prefix determinacy theorem identifies
+the two endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_components\_empty\_prefix\_deterministic}
+
 \begin{theorem}[Adjunction roundtrip empty component-prefix readback]
 \label{thm:adjunction-triangle-roundtrip-empty-component-prefix-readback}
 For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and

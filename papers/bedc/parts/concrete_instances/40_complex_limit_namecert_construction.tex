@@ -192,6 +192,27 @@ store unary support for the outer endpoints $z$ and $u$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_unary\_of\_distances}
 
+\begin{theorem}[Complex distance triangle bound empty endpoints]
+\label{thm:complex-distance-triangle-bound-empty-endpoints}
+For complex histories $z,w,u$ and distance histories $d_{12},d_{23}$, if
+the two concrete distance witnesses
+$$
+\mathsf{ComplexDistance}(z,w,d_{12})
+\quad\text{and}\quad
+\mathsf{ComplexDistance}(w,u,d_{23})
+$$
+hold and the explicit triangle bound is history-same to $\emp$, then all
+three endpoints are history-same to $\emp$.
+\end{theorem}
+\begin{proof}
+The triangle bound is $\mathsf{append}(d_{12},d_{23})$, so append-empty
+inversion forces both displayed distance histories to be empty. Each
+empty-distance witness then exposes empty endpoints by continuation
+empty-result inversion; applying this to the two adjacent distances gives
+$z\hsame\emp$, $w\hsame\emp$, and $u\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistanceTriangleBound\_empty\_endpoints}
+
 \begin{lemma}[Complex distance nonempty endpoint cases]
 \label{thm:cplx-dist-nonempty-distance-endpoint-cases}
 For complex histories $z,w$ and distance endpoint $d$, if

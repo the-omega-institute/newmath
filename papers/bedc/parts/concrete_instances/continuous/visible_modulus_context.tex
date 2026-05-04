@@ -1,0 +1,22 @@
+\begin{theorem}[Continuous function carrier visible modulus context exactness]
+\label{thm:continuous-function-carrier-visible-modulus-context-iff}
+For histories $p,q,source,map,target,modulus,cert$, a visible prefix on the
+source, target, and certificate ledgers together with a visible suffix on the
+modulus and certificate ledgers is exactly unary evidence for the two context
+histories together with the central continuous-function carrier:
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(p)\wedge\mathsf{UnaryHistory}(q)\wedge
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+Peel the right suffix from the modulus and certificate ledgers by modulus
+suffix exactness. The remaining carrier has the common left prefix on source,
+target, and certificate, so carrier prefix exactness recovers the unary prefix
+and the central carrier. Conversely, rebuild the prefixed carrier first, then
+reattach the modulus suffix.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_modulus\_context\_iff}
