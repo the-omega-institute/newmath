@@ -639,3 +639,38 @@ unary-prefix data as the public $\NameCert$ for $\PreorderUp$.
 \(\PreorderUp\) is licensed by relational fields, not as a primitive order.
 \end{corollary}
 \leanchecked{BEDC.Derived.PreorderUp.preorder\_carrier\_semantic\_name\_certificate}
+
+\begin{definition}[Opposite preorder certificate data]
+\label{def:opposite-preorder-certificate-data}
+Let a $\PreorderUp$ certificate be presented by a carrier predicate $\mathcal C$, classifier $\sim_C$, and relation $\le_C$. Define the opposite relation by
+$$
+a\le_C^{\mathrm{op}} b:=b\le_C a.
+$$
+The opposite preorder data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, and relation $\le_C^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite preorder certificate]
+\label{thm:opposite-preorder-certificate}
+If $(\mathcal C,\sim_C,\le_C)$ satisfies the $\PreorderUp$ certificate obligations of \autoref{def:preorder-certificate-obligations}, then the data of \autoref{def:opposite-preorder-certificate-data} also satisfy the $\PreorderUp$ certificate obligations. Thus the same carrier and classifier carry a preorder certificate with relation $\le_C^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+Unpack the preorder obligations through \autoref{def:preorder-certificate-obligations}. The carrier row of \autoref{def:preorder-carrier} is unchanged, and the carrier-and-classifier core is the same $\NameCert$ data. Hence classifier reflexivity, symmetry, transitivity, and carrier transport are copied from \autoref{def:lean-carrier-naming-certificate}. The source row of \autoref{def:preorder-source-specification} is the same carrier and classifier equipped with the reversed relation symbol.
+
+The reflexivity field for the opposite relation is immediate. For every carried endpoint $a$,
+$$
+a\le_C^{\mathrm{op}}a
+$$
+unfolds to $a\le_C a$, which is the original preorder reflexivity field.
+
+For transitivity, assume $a\le_C^{\mathrm{op}} b$ and $b\le_C^{\mathrm{op}} c$. By definition these are $b\le_C a$ and $c\le_C b$. Applying the original transitivity field of \autoref{def:preorder-stability-certificate} to the composable pair $c\le_C b$ and $b\le_C a$ gives $c\le_C a$, which is exactly $a\le_C^{\mathrm{op}} c$.
+
+Relation congruence is inherited with the two endpoints exchanged. Given $a\sim_C a'$, $b\sim_C b'$, and $a\le_C^{\mathrm{op}}b$, unfold the last witness to $b\le_C a$. The original relation-congruence field, applied with endpoint comparisons $b\sim_C b'$ and $a\sim_C a'$, gives
+$$
+b'\le_C a'.
+$$
+This is precisely $a'\le_C^{\mathrm{op}} b'$.
+
+The pattern row of \autoref{def:preorder-pattern-specification} remains binary comparison expression formation over carried endpoints: a node $a\le_C^{\mathrm{op}}b$ is read as the original comparison node $b\le_C a$ with endpoint order exchanged. The classifier row of \autoref{def:preorder-classifier-specification} is unchanged because endpoint classification is still $\sim_C$. The ledger row of \autoref{def:preorder-ledger-policy} records the same two carrier witnesses and the same relation derivation, with source and target slots exchanged for the displayed comparison.
+
+These source, pattern, classifier, stability, and ledger rows are exactly the five fields of the paper naming-certificate template in \autoref{def:typed-naming-certificate}, specialized to the preorder obligations of \autoref{def:preorder-certificate-obligations}. Therefore $C^{\mathrm{op}}$ carries a $\PreorderUp$ certificate.
+\end{proof}
