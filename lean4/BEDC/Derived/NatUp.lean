@@ -198,6 +198,43 @@ theorem NatUnaryPrefix_total {h k : BHist} :
                       exact Or.inr
                         ⟨tail, tailUnary, cont_result_hsame_transport base same⟩
 
+theorem NatUnaryPrefix_trichotomy_hsame_strict {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      hsame h k ∨ NatUnaryStrictPrefix h k ∨ NatUnaryStrictPrefix k h := by
+  intro uh uk
+  have total := NatUnaryPrefix_total uh uk
+  cases total with
+  | inl left =>
+      cases left with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              cases tail with
+              | Empty =>
+                  have same : hsame k h := cont_deterministic tailCont (cont_right_unit h)
+                  exact Or.inl (hsame_symm same)
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  exact Or.inr
+                    (Or.inl
+                      ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩)
+  | inr right =>
+      cases right with
+      | intro tail data =>
+          cases data with
+          | intro tailUnary tailCont =>
+              cases tail with
+              | Empty =>
+                  have same : hsame h k := cont_deterministic tailCont (cont_right_unit k)
+                  exact Or.inl same
+              | e0 tail =>
+                  exact False.elim (unary_no_zero_extension tailUnary)
+              | e1 tail =>
+                  exact Or.inr
+                    (Or.inr
+                      ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩)
+
 theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       exists upper : BHist, And (UnaryHistory upper)
