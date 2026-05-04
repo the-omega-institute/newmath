@@ -285,6 +285,32 @@ theorem ComplexAbsPartSum_result_unary {zero : BHist} {modulus : BHist -> BHist}
             exact unary_e1_closed inner
       exact unary_cont_closed ih (modulusUnary (indexUnary previous)) stepContinuation
 
+theorem ComplexAbsPartSum_result_nonempty_of_nonempty_terms {zero : BHist}
+    {modulus : BHist -> BHist} {n M : BHist} :
+    (hsame zero BHist.Empty -> False) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (modulus m) BHist.Empty -> False) ->
+        ComplexAbsPartSum zero modulus n M -> hsame M BHist.Empty -> False := by
+  intro zeroNonempty modulusNonempty sum
+  have indexUnary :
+      forall {m P : BHist}, ComplexAbsPartSum zero modulus m P -> UnaryHistory m :=
+    fun {m P : BHist} (part : ComplexAbsPartSum zero modulus m P) => by
+      induction part with
+      | zero =>
+          exact unary_empty
+      | step _ _ ih =>
+          exact unary_e1_closed ih
+  induction sum with
+  | zero =>
+      intro resultEmpty
+      exact zeroNonempty resultEmpty
+  | step previous stepContinuation _ih =>
+      intro resultEmpty
+      have emptyStep :
+          Cont _ (modulus _) BHist.Empty :=
+        cont_result_hsame_transport stepContinuation resultEmpty
+      have emptyParts := cont_empty_result_inversion emptyStep
+      exact modulusNonempty (indexUnary previous) emptyParts.right
+
 theorem ComplexAbsPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
     {modulus modulus' : BHist -> BHist} {n M T : BHist} :
     hsame zero zero' ->
