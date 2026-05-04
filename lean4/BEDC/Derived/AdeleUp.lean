@@ -117,6 +117,51 @@ theorem AdeleRealStreamPrefix_visible_scale_carrier {x y : Nat -> BHist} {n m : 
         realCarrier, scale,
         hsame_refl (append (BHist.e1 (BHist.e1 denTail)) result)⟩
 
+theorem AdeleRealStreamPrefix_long_prefix_visible_scale_carrier {x y : Nat -> BHist}
+    {n m : Nat} {denTail imagTail exponent result : BHist} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      hsame (x n) (BHist.e1 (BHist.e1 denTail)) -> hsame (y n) (BHist.e1 imagTail) ->
+        PadicPrimeScale (BHist.e1 (BHist.e1 BHist.Empty)) exponent result ->
+          RealStreamPrefixClassifier x y n ∧
+            AdeleHistoryCarrier (append (BHist.e1 (BHist.e1 denTail)) result) := by
+  intro classified sameReal sameImag scale
+  have prefixAtN : RealStreamPrefixClassifier x y n := by
+    induction m with
+    | zero =>
+        simp only [Nat.zero_add] at classified
+        exact classified
+    | succ m ih =>
+        have stepClassified : RealStreamPrefixClassifier x y (Nat.succ (m + n)) := by
+          simp only [Nat.succ_add] at classified
+          exact classified
+        exact ih stepClassified.left
+  have visible :=
+    RealStreamPrefixClassifier_e1_pair_readback prefixAtN sameReal sameImag
+  have denUnary : UnaryHistory denTail :=
+    unary_e1_inversion visible.left
+  have realTailCarrier : RatHistoryCarrier (BHist.e1 denTail) :=
+    RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr denUnary)
+  have realCarrier : RealConstantHistoryCarrier (BHist.e1 (BHist.e1 denTail)) :=
+    Iff.mpr RealConstantHistoryCarrier_e1_iff_rat realTailCarrier
+  constructor
+  · exact prefixAtN
+  · exact
+      ⟨BHist.e1 (BHist.e1 denTail), BHist.e1 (BHist.e1 BHist.Empty), exponent, result,
+        realCarrier, scale,
+        hsame_refl (append (BHist.e1 (BHist.e1 denTail)) result)⟩
+
+theorem AdeleRealStreamPrefix_long_prefix_visible_scale_append_not_empty {x y : Nat -> BHist}
+    {n m : Nat} {denTail imagTail exponent result : BHist} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      hsame (x n) (BHist.e1 (BHist.e1 denTail)) -> hsame (y n) (BHist.e1 imagTail) ->
+        PadicPrimeScale (BHist.e1 (BHist.e1 BHist.Empty)) exponent result ->
+          hsame (append (BHist.e1 (BHist.e1 denTail)) result) BHist.Empty -> False := by
+  intro classified sameReal sameImag scale appendEmpty
+  have carrier :=
+    (AdeleRealStreamPrefix_long_prefix_visible_scale_carrier classified sameReal sameImag scale).right
+  exact AdeleHistoryCarrier_not_empty carrier appendEmpty
+
 theorem AdeleRealPadic_e1_append_empty_padic_result_iff {p w q d e n r out : BHist} :
     RealConstantHistoryCarrier (BHist.e1 d) -> PadicPrimeScale p w n ->
       RealConstantHistoryCarrier (BHist.e1 e) -> PadicPrimeScale p q r -> Cont n r out ->

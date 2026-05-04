@@ -252,6 +252,17 @@ theorem RealStreamPrefixClassifier_add_left_previous_with_unary {x y : Nat -> BH
       have peeled := RealStreamPrefixClassifier_previous_with_unary unary (m + n) stepClassified
       exact ih peeled.left
 
+theorem RealStreamPrefixClassifier_add_left_previous_with_right_unary {x y : Nat -> BHist} :
+    (forall i : Nat, UnaryHistory (y i)) -> forall n m : Nat,
+      RealStreamPrefixClassifier x y (m + n) ->
+        RealStreamPrefixClassifier x y n ∧ UnaryHistory (y n) := by
+  intro unary n m classified
+  have swapped :
+      RealStreamPrefixClassifier y x n ∧ UnaryHistory (y n) :=
+    RealStreamPrefixClassifier_add_left_previous_with_unary unary n m
+      (RealStreamPrefixClassifier_symm (m + n) classified)
+  exact And.intro (RealStreamPrefixClassifier_symm n swapped.left) swapped.right
+
 theorem RealConstantHistoryClassifier_equivalence_fields :
     (∀ {h : BHist}, RealConstantHistoryCarrier h → RealConstantHistoryClassifier h h) ∧
       (∀ {h k : BHist}, RealConstantHistoryClassifier h k → RealConstantHistoryClassifier k h) ∧
