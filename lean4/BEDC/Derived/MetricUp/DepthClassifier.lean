@@ -110,4 +110,26 @@ theorem MetricDistanceDepth_append_right_eq_iff_empty {p d : BHist} :
     cases sameEmpty
     rfl
 
+theorem MetricDistanceDepth_append_left_cancel {p d e : BHist} :
+    MetricDistanceDepth (append p d) = MetricDistanceDepth (append p e) ->
+      MetricDistanceDepth d = MetricDistanceDepth e := by
+  have depthAppend :
+      ∀ x y : BHist, MetricDistanceDepth (append x y) =
+        MetricDistanceDepth x + MetricDistanceDepth y := by
+    intro x y
+    induction y with
+    | Empty =>
+        rfl
+    | e0 y ih =>
+        exact congrArg Nat.succ ih
+    | e1 y ih =>
+        exact congrArg Nat.succ ih
+  have addLeftCancel :
+      ∀ n m k : Nat, n + m = n + k -> m = k := by
+    intro n m k same
+    exact Nat.add_left_cancel same
+  intro sameDepth
+  exact addLeftCancel (MetricDistanceDepth p) (MetricDistanceDepth d) (MetricDistanceDepth e)
+    ((depthAppend p d).symm.trans (sameDepth.trans (depthAppend p e)))
+
 end BEDC.Derived.MetricUp
