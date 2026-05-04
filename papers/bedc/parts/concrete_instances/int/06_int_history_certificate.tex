@@ -362,19 +362,21 @@ and the supplied payload $\hsame(m,n)$.
 
 \begin{theorem}[Integer canonical difference-pair/history bridge]
 \label{thm:int-canonical-difference-pair-history-bridge}
-For all unary histories $m,n:\mathsf{BHist}$, the canonical same-sign
-difference pairs read back exactly to the corresponding public signed-history
-classifier branches:
+For all $m,n:\mathsf{BHist}$, if $\mathsf{Unary}(m)$ and
+$\mathsf{Unary}(n)$, then the canonical same-sign difference pairs read back
+exactly to the corresponding public signed-history classifier branches:
 $$
+\bigl(
 \mathsf{IntPairClassifier}((m,\emp),(n,\emp))
 \Longleftrightarrow
-\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n)).
-$$
-The negative canonical representatives satisfy the parallel one-tag bridge:
-$$
+\mathsf{IntHistoryClassifier}(\Ezero(m),\Ezero(n))
+\bigr)
+\land
+\bigl(
 \mathsf{IntPairClassifier}((\emp,m),(\emp,n))
 \Longleftrightarrow
-\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n)).
+\mathsf{IntHistoryClassifier}(\Eone(m),\Eone(n))
+\bigr).
 $$
 The ten-field fit is the following. The traditional target is canonical signed
 unary integers. The BEDC source consists of $\mathsf{IntPairClassifier}$,
@@ -388,7 +390,8 @@ the two iff clauses. The downstream consumer is the $\RatUp$ numerator
 readback and $\IntUp$ closure. The status is $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
-Assume first that $m$ and $n$ are unary. For the positive canonical pair,
+Assume $\mathsf{Unary}(m)$ and $\mathsf{Unary}(n)$. For the positive canonical
+pair,
 unfold $\mathsf{IntPairClassifier}$ at $((m,\emp),(n,\emp))$. The carrier
 clauses reduce to the unary witnesses for $m$, $n$, and the two empty counters.
 The classifier payload is
@@ -498,6 +501,7 @@ counter. The core theorem is this direct readback. Exactness is the two
 displayed iff rows. The downstream consumer is the $\RatUp$ numerator
 readback. The status is $\mathsf{ProofTarget}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_canonical\_same\_sign\_readback\_iff}
 \begin{proof}
 Unfold $\mathsf{IntPairClassifier}$ at the positive canonical endpoints
 $((m,\emp),(n,\emp))$.
