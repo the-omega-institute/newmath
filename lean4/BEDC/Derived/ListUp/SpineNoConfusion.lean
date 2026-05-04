@@ -1,4 +1,5 @@
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.BridgeTransport
 
 namespace BEDC.Derived.ListUp
 

@@ -131,6 +131,38 @@ is obtained by the two concrete unary-context closure steps.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominator\_context\_closed}
 
+\begin{theorem}[Rat classifier unary denominator context exactness]
+\label{thm:rat-classifier-unary-denominator-context-exactness}
+For $s_1,s_2:\mathsf{BMark}$ and
+$n_1,n_2,d_1,d_2,p_1,p_2,t_1,t_2:\mathsf{BHist}$, assume
+$\mathsf{RatCarrier}(s_1,n_1,d_1)$,
+$\mathsf{RatCarrier}(s_2,n_2,d_2)$, $\mathsf{Unary}(p_1)$,
+$\mathsf{Unary}(t_1)$, $\hsame(p_1,p_2)$, and $\hsame(t_1,t_2)$.
+Then
+$$
+\mathsf{RatClassifierSpec}(s_1,n_1,\mathsf{append}(p_1,\mathsf{append}(d_1,t_1)),s_2,n_2,\mathsf{append}(p_2,\mathsf{append}(d_2,t_2)))
+\Longleftrightarrow
+\mathsf{RatClassifierSpec}(s_1,n_1,d_1,s_2,n_2,d_2).
+$$
+\end{theorem}
+\begin{proof}
+Suppose first that the contextual classifier holds. Unpack it to expose the
+contextual endpoint carriers and the sign, numerator, and denominator sameness
+fields. Keep the supplied original carrier witnesses for
+$\mathsf{RatCarrier}(s_1,n_1,d_1)$ and
+$\mathsf{RatCarrier}(s_2,n_2,d_2)$.
+
+The denominator field gives sameness between the two displayed context
+denominators. Transport this relation across $\hsame(p_1,p_2)$ and
+$\hsame(t_1,t_2)$, then cancel the matching prefix and suffix by append
+cancellation to obtain $\hsame(d_1,d_2)$. Repack the original classifier with
+the unchanged sign and numerator fields and this cancelled denominator field.
+
+Conversely, suppose the original classifier holds. The unary-context closure
+theorem, applied with the supplied unary prefix, unary tail, and matching
+$\hsame$ witnesses, gives the contextual classifier directly.
+\end{proof}
+
 \begin{theorem}[Rat classifier append unary prefix denominator split]
 \label{thm:rat-classifier-spec-append-unary-prefix-denominator-split}
 If two rational representatives are classified after matching unary prefixes
