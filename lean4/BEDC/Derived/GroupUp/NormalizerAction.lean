@@ -139,6 +139,48 @@ theorem GroupSingletonNormalizerOrbit_action_invariance {s x y : BHist} :
   exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
     (And.intro actionXCarrier actionYCarrier)
 
+theorem GroupSingletonNormalizerOrbit_two_conjugator_classifier_iff {s t x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier t ->
+      ((Exists (fun u : BHist => GroupSingletonCarrier u ∧
+        GroupSingletonClassifier
+          (append (append u (append (append s x) BHist.Empty)) BHist.Empty)
+          (append (append t y) BHist.Empty))) <-> GroupSingletonClassifier x y) := by
+  intro carrierS carrierT
+  constructor
+  · intro orbit
+    cases orbit with
+    | intro u witness =>
+        have leftOuter := append_eq_empty_iff.mp witness.right.left
+        have leftInner := append_eq_empty_iff.mp leftOuter.left
+        have sourceActionSplit := append_eq_empty_iff.mp leftInner.right
+        have sourceSplit := append_eq_empty_iff.mp sourceActionSplit.left
+        have rightOuter := append_eq_empty_iff.mp witness.right.right.left
+        have targetSplit := append_eq_empty_iff.mp rightOuter.left
+        exact And.intro sourceSplit.right
+          (And.intro targetSplit.right
+            (hsame_trans sourceSplit.right (hsame_symm targetSplit.right)))
+  · intro classified
+    have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+    have sourceProduct : GroupSingletonCarrier (append s x) :=
+      append_eq_empty_iff.mpr (And.intro carrierS classified.left)
+    have sourceAction : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro sourceProduct emptyCarrier)
+    have witnessProduct :
+        GroupSingletonCarrier (append BHist.Empty (append (append s x) BHist.Empty)) :=
+      append_eq_empty_iff.mpr (And.intro emptyCarrier sourceAction)
+    have witnessAction :
+        GroupSingletonCarrier
+          (append (append BHist.Empty (append (append s x) BHist.Empty)) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro witnessProduct emptyCarrier)
+    have targetProduct : GroupSingletonCarrier (append t y) :=
+      append_eq_empty_iff.mpr (And.intro carrierT classified.right.left)
+    have targetAction : GroupSingletonCarrier (append (append t y) BHist.Empty) :=
+      append_eq_empty_iff.mpr (And.intro targetProduct emptyCarrier)
+    exact Exists.intro BHist.Empty
+      (And.intro emptyCarrier
+        (And.intro witnessAction
+          (And.intro targetAction (hsame_trans witnessAction (hsame_symm targetAction)))))
+
 theorem GroupSingletonNormalizerAction_composition_collapse {s t x : BHist} :
     GroupSingletonCarrier s -> GroupSingletonCarrier t -> GroupSingletonCarrier x ->
       GroupSingletonCarrier (append (append t x) BHist.Empty) ∧
