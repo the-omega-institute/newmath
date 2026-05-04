@@ -5051,3 +5051,29 @@ Core / probe_bundles. Review category 7 (composite consequence). Chapter 05/01_b
 
 ---
 
+### B-196 - Opposite monoid carries a Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite monoid carries a Monoid certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries MonoidUp(C) with multiplication \cdot, then C with multiplication a \cdot^{op} b := b \cdot a carries MonoidUp(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Opposite-structure constructions are a foundational concrete_instances theorem and currently have no presence on the BOARD or in paper labels. The result is non-trivial in the certificate framework: associativity must be transported (a \cdot^{op} b) \cdot^{op} c = c \cdot (b \cdot a) = (c \cdot b) \cdot a = a \cdot^{op} (b \cdot^{op} c), unit fields must transfer on both sides, and pattern/ledger/classifier rows must be re-verified for the swapped operation. Distinct from B-28 (forgetful CommRing→Ring) — that is structure-projection, this is structure-reversal. Establishes the prerequisite for any later opposite-Ring or opposite-Category sibling work.
+
+---
+
