@@ -294,6 +294,22 @@ the derivative candidate.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_step\_nonzero}
 
+\begin{theorem}[Differentiability witness exposes nonzero unary step]
+\label{thm:cplx-diff-at-witness-nonzero-unary-step}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then there are histories \(h\) and
+\(q\) such that \(h\) is nonzero and unary, \(q\) is unary, the quotient
+relation \(\mathsf{CplxDiffQuot}(f,z,h,q)\) holds, the continuation ledger
+\(\ContR(f,h,q)\) is displayed, and \(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Extract the displayed nonzero quotient witness from pointwise differentiability.
+The quotient package contains the continuation ledger and quotient carrier, and
+the quotient step-readback theorem recovers unary histories for both the step
+and the quotient result. The classifier field of \(\mathsf{CplxDiffAt}\)
+identifies the displayed quotient result with the derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
