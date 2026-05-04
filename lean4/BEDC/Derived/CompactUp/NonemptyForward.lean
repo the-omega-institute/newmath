@@ -19,4 +19,18 @@ theorem CompactFiniteRefinementChain_nonempty_forward
       have split := append_eq_empty_iff.mp finalEmpty
       exact ih split.left
 
+theorem CompactFiniteRefinementChain_compact_nonempty_forward
+    {finite compact finalFinite finalCompact : BHist} :
+    CompactFiniteRefinementChain finite compact finalFinite finalCompact ->
+      (hsame compact BHist.Empty -> False) -> hsame finalCompact BHist.Empty -> False := by
+  intro chain compactNonempty
+  induction chain with
+  | base =>
+      exact compactNonempty
+  | step prior extraCarrier finiteRel compactRel ih =>
+      intro finalEmpty
+      cases compactRel
+      have split := append_eq_empty_iff.mp finalEmpty
+      exact ih split.left
+
 end BEDC.Derived.CompactUp
