@@ -351,3 +351,44 @@ $$
 $$
 Composing this inequality with the comparison row supplied by $\mathsf{GeomBound}(a,r,K)$ yields $|a_n|\cdot (r')^n\leq K$. The constant carrier and coefficient carrier rows are unchanged, so \autoref{def:geom-bound} repacks these data as $\mathsf{GeomBound}(a,r',K)$.
 \end{proof}
+
+\begin{definition}[Convergence-radius compatible coefficient-ring inclusion]
+\label{def:conv-rad-coefficient-ring-inclusion}
+Let $R$ and $R'$ be coefficient sources equipped with $\CommRingUp$ certificates as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $C_R,\sim_R$ and $C_{R'},\sim_{R'}$, their operations as $0_R,1_R,+_R,-_R,\cdot_R$ and $0_{R'},1_{R'},+_{R'},-_{R'},\cdot_{R'}$, and let $\gamma_R$ and $\gamma_{R'}$ be complex-realization maps into $\ComplexUp$ histories. A convergence-radius compatible coefficient-ring inclusion
+$$
+\iota:R\hookrightarrow R'
+$$
+consists of the following data:
+\begin{enumerate}
+  \item Carrier and classifier rows: $C_R(x)$ implies $C_{R'}(\iota x)$; $x\sim_R y$ implies $\iota x\sim_{R'}\iota y$; and, for carried $x,y$, $\iota x\sim_{R'}\iota y$ implies $x\sim_R y$.
+  \item Operation rows: for carried inputs, $\iota(0_R)\sim_{R'}0_{R'}$, $\iota(1_R)\sim_{R'}1_{R'}$, $\iota(x+_R y)\sim_{R'}\iota x+_{R'}\iota y$, $\iota(-_R x)\sim_{R'}-_{R'}\iota x$, and $\iota(x\cdot_R y)\sim_{R'}\iota x\cdot_{R'}\iota y$.
+  \item Complex-realization rows: $\gamma_R(x)$ and $\gamma_{R'}(\iota x)$ are complex histories, and every carried $x$ satisfies
+$$
+\mathsf{ComplexHistoryClassifier}(\gamma_R(x),\gamma_{R'}(\iota x)).
+$$
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Convergence radius monotonicity under coefficient-ring inclusion]
+\label{thm:conv-rad-coefficient-ring-inclusion-monotone}
+Let $R$ and $R'$ be $\CommRingUp$ coefficient sources and let $\iota:R\hookrightarrow R'$ be a convergence-radius compatible coefficient-ring inclusion from \autoref{def:conv-rad-coefficient-ring-inclusion}. For a pointwise carried formal coefficient sequence $f:\NatUp\to R$ as in \autoref{def:fps-carrier}, put
+$$
+a_n:=\gamma_R(f_n),\qquad a'_n:=\gamma_{R'}(\iota(f_n)).
+$$
+If $\rho$ is a unary radius history and $\mathsf{ConvRad}(a,\rho)$ holds, then
+$$
+\mathsf{ConvRad}(a',\rho).
+$$
+Thus every convergence-radius witness admitted by the $R$-view is also admitted by the $R'$-view.
+\end{theorem}
+\begin{proof}
+For each unary index $n$, pointwise carriedness gives $C_R(f_n)$. The complex-realization row in \autoref{def:conv-rad-coefficient-ring-inclusion} therefore supplies
+$$
+\mathsf{ComplexHistoryClassifier}(a_n,a'_n).
+$$
+The operation rows in the inclusion identify $a'$ as the coefficient sequence obtained by reading the same formal series in the larger coefficient source; these are the finite algebraic rows used by the partial-sum recursion of \autoref{def:part-sum-power-series}. The convergence-radius argument only needs the resulting pointwise complex classifier family.
+
+The radius endpoint is unchanged. Hence the radius-classifier input for \autoref{lem:conv-rad-radius-coefficient-classifier-transport} is the reflexive history-sameness witness $\hsame(\rho,\rho)$, and the target-radius carrier input is the displayed unary witness for $\rho$. Applying that lemma to the coefficient families $a$ and $a'$ gives $\mathsf{ConvRad}(a',\rho)$.
+
+Equivalently, unpacking \autoref{def:conv-rad}, the same constant-witness function $K$ can be retained. For every strict subradius $r$ of $\rho$, the source row gives $\mathsf{GeomBound}(a,r,K(r))$; the coefficient-classifier transport in \autoref{lem:conv-rad-radius-coefficient-classifier-transport} sends this geometric-bound row to $\mathsf{GeomBound}(a',r,K(r))$, while the radius and constant histories are unchanged as in \autoref{def:geom-bound}. These rows reassemble the convergence-radius predicate for $a'$ at $\rho$.
+\end{proof}
