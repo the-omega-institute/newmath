@@ -326,6 +326,32 @@ witness for $k$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListPublicLength\_well\_defined}
 
+\begin{theorem}[Framed list bridge classifier has common public length]
+\label{thm:list-framed-bridge-classifier-public-length-total}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
+$\sim_A$ be a source classifier. If $\mathsf{cert}:\NameCert(A,\sim_A)$,
+$\mathsf{ListSourceHsameCompatible}(A,\sim_A)$, and
+$\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(h,k)$ hold, then $h$ and $k$
+are framed list carrier histories and share a framed public length:
+$$
+\mathsf{FramedListHistoryCarrier}_A(h)\land
+\mathsf{FramedListHistoryCarrier}_A(k)
+\land
+\exists n.\;
+\mathsf{FramedListPublicLength}_A(h,n)\land
+\mathsf{FramedListPublicLength}_A(k,n).
+$$
+\end{theorem}
+\begin{proof}
+Use the equivalence-field theorem for the framed bridge classifier to obtain
+the two carrier endpoints. Unpack the bridge witness into displayed finite
+spines $xs,ys$ and a finite-spine classifier
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. The list classifier length theorem
+gives $\ell(xs)=\ell(ys)$, so $\ell(xs)$ is a shared public length for the two
+displayed framed spine representatives.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_public\_length\_total}
+
 \begin{theorem}[Framed list public length constructor readback]
 \label{thm:framed-list-public-length-constructor-readback}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. For
