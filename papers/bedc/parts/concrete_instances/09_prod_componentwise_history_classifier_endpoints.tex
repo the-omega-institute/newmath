@@ -128,3 +128,22 @@ in \autoref{thm:continuation-right-cancellation}, using the same endpoint
 comparison $\hsame(h,k)$, to obtain $\hsame(l,l')$.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_component\_hsame\_cancellation}
+
+\begin{theorem}[Product history classifier empty-left component inversion]
+\label{thm:prod-history-classifier-empty-left-component-inversion}
+For source predicates $L,R:\mathsf{BHist}\to\mathsf{Prop}$ and a history
+$k:\mathsf{BHist}$, if
+$\mathsf{ProdHistoryClassifier}(L,R,\mathsf{Empty},k)$ holds, then there are
+component histories $l,r,l',r'$ such that $L(l)$, $R(r)$,
+$l\hsame\mathsf{Empty}$, $r\hsame\mathsf{Empty}$, $L(l')$, $R(r')$,
+$\Cont(l',r',k)$, and $\mathsf{Empty}\hsame k$ all hold.
+\end{theorem}
+\begin{proof}
+Invert the product-history classifier into displayed product carrier witnesses
+for the empty left endpoint and for $k$. The empty endpoint carrier supplies a
+continuation $\Cont(l,r,\mathsf{Empty})$, and empty-result inversion for BEDC
+continuations forces both displayed components to be $\mathsf{Empty}$. Keep the
+right endpoint continuation witness and the stored classifier endpoint equality
+to obtain the stated exposure.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_empty\_left\_component\_inversion}

@@ -455,4 +455,10 @@ theorem HolomorphicOpenDiskWitnessed_center_point_unary_suffix_transport
                 (And.intro shiftedDisk.right.right.left shiftedGap)))
             shiftedGap
 
+theorem HolomorphicOpenDisk_gap_point_comm {center radius point gap : BHist} :
+    HolomorphicOpenDisk center radius point gap -> hsame radius (append gap point) := by
+  intro disk
+  exact hsame_trans disk.right.right.right.right
+    (unary_append_comm_hsame disk.right.right.left disk.right.right.right.left)
+
 end BEDC.Derived.HolomorphicUp
