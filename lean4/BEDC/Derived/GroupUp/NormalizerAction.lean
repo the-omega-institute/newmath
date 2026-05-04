@@ -99,4 +99,21 @@ theorem GroupSingletonNormalizerOrbit_action_identity_iff {s x y : BHist} :
   · intro _sourceOrbit
     exact (GroupSingletonNormalizerOrbit_action_single_fiber_iff carrierS carrierX).mpr carrierY
 
+theorem GroupSingletonNormalizerOrbit_action_invariance {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      GroupSingletonNormalizerOrbit x y ->
+        GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty)
+          (append (append s y) BHist.Empty) := by
+  intro carrierS _carrierX _carrierY orbit
+  have endpoints := GroupSingletonNormalizerOrbit_coverage_iff.mp orbit
+  have emptyCarrier : GroupSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  have actionXCarrier : GroupSingletonCarrier (append (append s x) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS endpoints.left)) emptyCarrier)
+  have actionYCarrier : GroupSingletonCarrier (append (append s y) BHist.Empty) :=
+    append_eq_empty_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr (And.intro carrierS endpoints.right)) emptyCarrier)
+  exact GroupSingletonNormalizerOrbit_coverage_iff.mpr
+    (And.intro actionXCarrier actionYCarrier)
+
 end BEDC.Derived.GroupUp

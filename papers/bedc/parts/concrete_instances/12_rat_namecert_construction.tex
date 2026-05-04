@@ -374,12 +374,7 @@ If two rational representatives are classified the same, then appending
 rational classifier relation.
 \end{theorem}
 \begin{proof}
-Unpack the classifier witness into the two endpoint carriers and the sign,
-numerator, and denominator sameness fields. Close both endpoint denominator
-carriers under unary append, transporting the unary-tail witness along the
-tail sameness for the second endpoint. The resulting denominator sameness follows by
-eliminating the original denominator and tail sameness witnesses and applying
-reflexivity to the resulting append history.
+\input{parts/concrete_instances/rat_proofs/classifier_append_unary_denominators.tex}
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominators\_closed}
 
@@ -390,12 +385,7 @@ If two rational representatives are classified the same, then prepending
 rational classifier relation.
 \end{theorem}
 \begin{proof}
-Unpack the classifier witness into the two endpoint carriers and the sign,
-numerator, and denominator sameness fields. Close both endpoint denominator
-carriers under unary prepend, transporting unary membership of the first prefix
-across prefix sameness for the second endpoint. The resulting denominator
-sameness follows by eliminating the original denominator and prefix sameness
-witnesses and applying reflexivity to the resulting append history.
+\input{parts/concrete_instances/rat_proofs/classifier_prepend_unary_denominators.tex}
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_prepend\_unary\_denominators\_closed}
 
@@ -406,11 +396,7 @@ denominators by $\hsame$-matching unary prefixes and unary tails preserves the
 rational classifier relation.
 \end{theorem}
 \begin{proof}
-First apply denominator append closure to the classified representatives and
-the matching unary tails. Then apply denominator prepend closure to the
-resulting classified representatives and the matching unary prefixes. The sign
-and numerator witnesses are unchanged, while the denominator endpoint relation
-is obtained by the two concrete unary-context closure steps.
+\input{parts/concrete_instances/rat_proofs/classifier_unary_denominator_context.tex}
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominator\_context\_closed}
 
