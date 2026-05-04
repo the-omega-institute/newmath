@@ -62,3 +62,150 @@ Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} for the
 represented contextual endpoints $h$ and $k$ repacks the displayed contextual
 classifier as $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
 \end{proof}
+
+\begin{theorem}[List represented-spine mixed-tag context separation]
+\label{thm:list-represented-spine-mixed-tag-context-separation}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
+$p,p',x,y,s,s':\mathsf{HistSpine}$ and histories $h,k,m,n$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. If
+$$
+\mathsf{ListSpineRep}_A(h,p{++}(\mathsf{map}(e0,x){++}s)),
+\quad
+\mathsf{ListSpineRep}_A(k,p'{++}(\mathsf{map}(e1,y){++}s')),
+$$
+and
+$$
+\mathsf{ListSpineRep}_A(m,\mathsf{map}(e0,x)),
+\quad
+\mathsf{ListSpineRep}_A(n,\mathsf{map}(e1,y))
+$$
+hold, and if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h,k)
+$$
+holds, then $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
+
+The ten-field fit is: traditional target finite-list tagged-branch separation;
+BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from spine
+coherence, append-context cancellation, and history constructor no-confusion;
+ledger visible $e0/e1$ branch tags in finite spines; core theorem mixed-tag
+context separation; exactness by displayed-spine classifier exactness; standard
+bridge finite-spine readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-represented-spine-append-context-cancellation} with
+middle spines $\mathsf{map}(e0,x)$ and $\mathsf{map}(e1,y)$. The classified
+prefix and suffix hypotheses, the four represented-spine witnesses, and the
+public classifier on $h,k$ transfer the classifier to the represented middle
+histories $m,n$.
+
+Next apply
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} to the
+middle representations of $m$ and $n$. This reads the public middle classifier as
+$$
+\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e0,x),\mathsf{map}(e1,y)).
+$$
+
+Finally apply Theorem~\ref{thm:list-classifier-mixed-tag-empty}. The displayed
+classifier can relate an $e0$-mapped spine to an $e1$-mapped spine only in the
+empty-empty case, so $x=\mathsf{nil}$ and $y=\mathsf{nil}$.
+\end{proof}
+
+\begin{theorem}[List represented-spine same-tag context exactness]
+\label{thm:list-represented-spine-same-tag-context-exactness}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\mathsf{cert}:\NameCert(A,\hsame)$, and assume
+$\mathsf{ListSpineRepCoherent}_{A,\hsame}$. For finite BEDC-history spines
+$p,p',x,y,s,s':\mathsf{HistSpine}$, suppose
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p')
+$$
+and
+$$
+\mathsf{ListClassifierSpec}(\hsame,s,s')
+$$
+hold. Then same visible constructor tags expose exactly the untagged payload
+spine classifier:
+\begin{enumerate}
+  \item for histories $h_0,k_0$, if
+  $$
+  \mathsf{ListSpineRep}_A(h_0,p{++}(\mathsf{map}(e0,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(k_0,p'{++}(\mathsf{map}(e0,y){++}s'))
+  $$
+  hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_0,k_0)
+  \Longleftrightarrow
+  \mathsf{ListClassifierSpec}(\hsame,x,y);
+  $$
+  \item for histories $h_1,k_1$, if
+  $$
+  \mathsf{ListSpineRep}_A(h_1,p{++}(\mathsf{map}(e1,x){++}s)),
+  \quad
+  \mathsf{ListSpineRep}_A(k_1,p'{++}(\mathsf{map}(e1,y){++}s'))
+  $$
+  hold, then
+  $$
+  \mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_1,k_1)
+  \Longleftrightarrow
+  \mathsf{ListClassifierSpec}(\hsame,x,y).
+  $$
+\end{enumerate}
+
+The ten-field fit is: traditional target finite-list same-tag payload readback;
+BEDC source $A$ with $\NameCert(A,\hsame)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}$; stability from spine
+coherence, constructor-map stability, and append-context rebuilding; ledger
+visible $e0/e1$ branch tags in finite spines; core theorem same-tag context
+exactness; exactness by displayed-spine classifier readback and constructor-map
+inversion; standard bridge finite-spine readback; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the $e0$ forward implication, apply
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} to the
+two represented contextual endpoints. This reads the public classifier as
+$$
+\mathsf{ListClassifierSpec}(\hsame,
+  p{++}(\mathsf{map}(e0,x){++}s),
+  p'{++}(\mathsf{map}(e0,y){++}s')).
+$$
+
+Apply Theorem~\ref{thm:list-classifier-BHist-append-context-iff} with the
+classified prefixes and suffixes to cancel the displayed context. The result is
+$\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e0,x),\mathsf{map}(e0,y))$,
+and Theorem~\ref{thm:list-classifier-hsame-map-e0-inversion} reflects it to
+$\mathsf{ListClassifierSpec}(\hsame,x,y)$.
+
+For the $e0$ reverse implication, start with
+$\mathsf{ListClassifierSpec}(\hsame,x,y)$. Theorem~\ref{thm:list-classifier-hsame-map-e0}
+transports it to the mapped middle spines, and the reverse direction of
+Theorem~\ref{thm:list-classifier-BHist-append-context-iff} rebuilds the
+classified prefix and suffix context.
+
+The reverse direction of
+Theorem~\ref{thm:list-represented-spine-classifier-displayed-exactness} then
+repacks the displayed contextual classifier as
+$\mathsf{ListSpineHistoryClassifier}_{A,\hsame}(h_0,k_0)$.
+
+The $e1$ clause is identical with $e1$ in place of $e0$. Its forward direction
+uses displayed exactness and append-context cancellation to obtain
+$\mathsf{ListClassifierSpec}(\hsame,\mathsf{map}(e1,x),\mathsf{map}(e1,y))$,
+then applies Theorem~\ref{thm:list-classifier-hsame-map-e1-inversion}. Its
+reverse direction applies Theorem~\ref{thm:list-classifier-hsame-map-e1},
+rebuilds the classified context, and repacks through displayed exactness for
+the represented endpoints $h_1,k_1$.
+\end{proof}

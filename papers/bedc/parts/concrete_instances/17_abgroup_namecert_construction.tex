@@ -140,7 +140,8 @@ obligations for this classifier together with commutativity; ledger
 constant-operation provenance; core theorem
 Theorem~\ref{thm:singleton-empty-history-abgroup-laws}; exactness the singleton
 endpoint classification $A_{\emp}(x)$; standard bridge the one-object abelian
-group; and status $\mathsf{ProofTarget}$.
+group; certificate site \autoref{thm:singleton-empty-history-abgroup-namecert};
+and status $\mathsf{CheckedCert}$.
 \end{definition}
 
 \begin{theorem}[Singleton empty-history abelian group laws]
@@ -174,15 +175,16 @@ the classifier is assembled from $A_{\emp}(\emp)$, the endpoint carrier
 hypothesis, and the corresponding $\hsame$ witness obtained from the singleton
 carrier definition.
 \end{proof}
-\leanchecked{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
 
 \begin{theorem}[Concrete singleton empty-history $\AbGroupUp$ naming certificate]
 \label{thm:singleton-empty-history-abgroup-namecert}
 The tuple $(A_{\emp},\rho_{\emp},\mu_{\emp},e_{\emp},\iota_{\emp})$ of
-\autoref{def:singleton-empty-history-abgroup-instance} supplies the source,
-pattern, classifier, stability, commutativity, ledger, and exactness rows for a
-concrete $\NameCert$ licensing $\AbGroupUp$ over the singleton empty-history
-carrier $A_{\emp}$.
+\autoref{def:singleton-empty-history-abgroup-instance} supplies a checked
+package whose $\mathsf{SemanticNameCert}$ row is carried by
+$A_{\emp}$ and $\rho_{\emp}$ and whose singleton operation rows are
+$(\mu_{\emp},e_{\emp},\iota_{\emp})$, with source, stability, commutativity,
+ledger, and exactness rows forming a concrete $\NameCert$ licensing
+$\AbGroupUp$ over the singleton empty-history carrier $A_{\emp}$.
 \end{theorem}
 \begin{proof}
 The source row is $\mathsf{BHist}$ restricted by $A_{\emp}$, and the pattern row
@@ -204,6 +206,7 @@ already exposed by the carrier-aware classifier: a classified endpoint is
 precisely an endpoint in the singleton empty-history carrier, so the public
 $\AbGroupUp$ name has no additional hidden carrier cases.
 \end{proof}
+\leanchecked{BEDC.Derived.AbGroupUp.singleton\_empty\_history\_abgroup\_laws}
 
 Thus the AbGroup schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and operations, so Lean formalization can target this BHist-anchored
