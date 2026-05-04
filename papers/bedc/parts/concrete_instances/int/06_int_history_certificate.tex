@@ -590,6 +590,43 @@ is reflexive. Repacking the two carriers and this payload gives
 $\mathsf{IntPairClassifier}((m,\emp),(\emp,n))$.
 \end{proof}
 
+\begin{theorem}[Integer zero sign-refined boundary]
+\label{thm:int-zero-sign-refined-boundary}
+The difference-pair zero classifier and the visible history classifier expose
+different interfaces at zero. The pair-zero class is classified:
+$$
+\mathsf{IntPairClassifier}((\emp,\emp),(\emp,\emp)).
+$$
+At the same time, the signed-history classifier rejects the two mixed visible
+zero displays:
+$$
+\bigl(\mathsf{IntHistoryClassifier}(\Ezero(\emp),\Eone(\emp))\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{IntHistoryClassifier}(\Eone(\emp),\Ezero(\emp))\to\mathsf{False}\bigr).
+$$
+Consequently, a classifier-reflecting bridge from difference pairs to signed
+histories must either remain inside one visible branch or choose a canonical
+zero branch before reflecting the pair-zero class.
+\end{theorem}
+\begin{proof}
+The empty history is unary, so the pair $(\emp,\emp)$ satisfies
+$\mathsf{IntPairCarrier}(\emp,\emp)$. Apply the reflexivity component of
+\autoref{thm:intup-difference-pair-classifier-equivalence-fields} to this
+carrier witness. This gives
+$\mathsf{IntPairClassifier}((\emp,\emp),(\emp,\emp))$.
+
+For the signed-history clauses, instantiate
+\autoref{thm:int-history-classifier-mixed-visible-tag-exclusion} with
+$m=\emp$ and $n=\emp$. The two conjuncts are exactly the exclusions for
+$\mathsf{IntHistoryClassifier}(\Ezero(\emp),\Eone(\emp))$ and
+$\mathsf{IntHistoryClassifier}(\Eone(\emp),\Ezero(\emp))$.
+
+These two facts describe distinct public interfaces. The pair quotient records
+the integer zero class, while the history certificate keeps the visible sign
+tag in the endpoint shape unless a bridge explicitly selects a same-branch
+zero representative.
+\end{proof}
+
 \begin{theorem}[Integer history classifier positive append context iff]
 \label{thm:int-history-classifier-positive-append-context-iff}
 For all $a,m,n:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
