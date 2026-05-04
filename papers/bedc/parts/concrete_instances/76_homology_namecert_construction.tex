@@ -114,6 +114,44 @@ $\hsame$ comparison transports the image witness to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
 
+\begin{theorem}[Homology boundary carrier continuation preimage append]
+\label{thm:homology-boundary-carrier-cont-preimage-append}
+Assume the differential respects BEDC continuation append. If $B_d(h)$,
+$B_d(k)$, and $\ContR(h,k,r)$, then there are BEDC preimages $u$ and $v$
+such that
+$$
+\hsame(h,d(u))\land
+\hsame(k,d(v))\land
+\hsame(r,d(\mathsf{append}(u,v))).
+$$
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ for $h$ and $k$. The continuation ledger
+identifies $r$ with $\mathsf{append}(h,k)$. The witness endpoints identify
+that appended history with $\mathsf{append}(d(u),d(v))$, and the differential
+append law identifies this with $d(\mathsf{append}(u,v))$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage\_append}
+
+\begin{theorem}[Homology boundary carrier continuation nonempty preimage append]
+\label{thm:homology-boundary-carrier-cont-nonempty-preimage-append}
+Assume the differential respects BEDC continuation append. If $B_d(h)$,
+$B_d(k)$, $\ContR(h,k,r)$, and $r$ is not history-same to $\mathsf{Empty}$,
+then there are BEDC preimages $u$ and $v$ such that
+$$
+\hsame(h,d(u))\land
+\hsame(k,d(v))\land
+\neg\hsame(d(\mathsf{append}(u,v)),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+The preimage-append theorem gives witnesses $u$ and $v$ with
+$\hsame(r,d(\mathsf{append}(u,v)))$. If the displayed differential endpoint
+were history-same to $\mathsf{Empty}$, transitivity would make $r$ history-same
+to $\mathsf{Empty}$, contradicting the nonempty hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_nonempty\_preimage\_append}
+
 \begin{theorem}[Homology boundary carrier cycle from square-zero differential]
 \label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
 Assume the differential respects $\hsame$ and satisfies the square-zero
