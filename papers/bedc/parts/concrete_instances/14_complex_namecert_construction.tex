@@ -45,6 +45,21 @@ rational-history carrier characterization to each component to read back the
 positive unary denominator evidence, and keep the same continuation witness.
 \end{proof}
 
+\begin{theorem}[Complex carrier component reflexive classifiers]
+\label{thm:complex-history-carrier-component-reflexive-classifiers}
+Every complex history carrier exposes real and imaginary rational-history
+components whose own rational-history classifiers hold reflexively, together
+with the continuation witness assembling them into the complex history.
+\end{theorem}
+\begin{proof}
+Unpack the complex carrier as a product-history carrier over two
+rational-history carriers. The exposed real and imaginary components already
+carry rational-history carrier evidence. Pair each component carrier with
+itself and the reflexive $\hsame$ witness for that component to form the two
+rational-history classifiers, and keep the stored continuation witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_component\_reflexive\_classifiers}
+
 \begin{theorem}[Complex carrier left unary context closure]
 \label{thm:complex-history-carrier-prepend-unary-closed}
 If \(p\) is a unary history and \(h\) is a complex history carrier, then
@@ -105,6 +120,18 @@ carriers.
 \end{definition}
 \leandef{BEDC.Derived.ComplexUp.ComplexHistoryClassifier}
 
+\begin{theorem}[Complex history classifier nonempty endpoints]
+\label{thm:complex-history-classifier-nonempty-endpoints}
+If $\mathsf{ComplexHistoryClassifier}(h,k)$ holds, then neither endpoint can
+be identified with the empty history.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into the two complex-history carrier witnesses and the
+stored endpoint $\hsame$ link. Apply complex carrier non-emptiness separately
+to the source endpoint carrier and to the target endpoint carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_nonempty\_endpoints}
+
 \begin{theorem}[Complex classifier positive components]
 \label{thm:complex-history-classifier-positive-components}
 Every complex history classifier between two histories exposes real and
@@ -134,6 +161,18 @@ cases contradict the positive unary denominator witness attached to the
 imaginary rational component.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Complex classifier excludes empty endpoints]
+\label{thm:complex-history-classifier-empty-endpoint-absurd}
+No complex history classifier can identify either endpoint with the empty
+history.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its two complex carrier witnesses. Apply complex
+carrier non-emptiness separately to the source endpoint carrier and to the
+target endpoint carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_empty\_endpoint\_absurd}
 
 \begin{theorem}[Complex history classifier transitivity]
 \label{thm:complex-history-classifier-transitivity}

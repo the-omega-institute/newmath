@@ -221,6 +221,23 @@ $\mathsf{append}(p,q)$ and $h$.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_split\_empty}
 
+\begin{theorem}[Ring singleton classifier append commutation]
+\label{thm:ring-singleton-classifier-append-comm}
+For singleton ring carrier histories $h,k:\mathsf{BHist}$, the classifier
+relates the two appended endpoints with the factors exchanged:
+$$
+\rho_{\emp}(\mathsf{append}(h,k),\mathsf{append}(k,h)).
+$$
+\end{theorem}
+\begin{proof}
+The two carrier witnesses identify both $h$ and $k$ with $\emp$.
+Empty-result construction for append gives singleton carrier witnesses for
+$\mathsf{append}(h,k)$ and $\mathsf{append}(k,h)$. Since both endpoints are
+classified through $\emp$, transitivity and symmetry of $\hsame$ package the
+classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_comm}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
