@@ -169,6 +169,18 @@ theorem AdjunctionUnitCounitCarrier_endomorphism_triangles_empty
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty rightEmpty
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_total_collapse
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧
+        hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  intro carrier
+  have components := AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty carrier
+  have triangles := AdjunctionUnitCounitCarrier_endomorphism_triangles_empty carrier
+  exact
+    And.intro components.left
+      (And.intro components.right (And.intro triangles.left triangles.right))
+
 theorem AdjunctionUnitCounitAlternating_endomorphism_empty
     {p a unit counit left right depth : BHist} :
     AdjunctionUnitCounitCarrier p p a unit counit left right -> UnaryHistory depth ->

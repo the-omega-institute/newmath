@@ -392,6 +392,30 @@ ordinary iterated chain.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_forget\_strict\_unary\_readback}
 
+\begin{theorem}[Strict iterated complex differentiability has ordinary readback]
+\label{thm:iterated-strict-cplxdiff-relaxation}
+Every strict iterated complex-differentiability chain determines the ordinary
+iterated complex-differentiability chain with the same seed, index, and
+selected history. Consequently, a unary seed still reads back unary membership
+of the selected history:
+$$
+\mathsf{IteratedStrictCplxDiff}(seed,n,h)
+\Longrightarrow
+\mathsf{IteratedCplxDiff}(seed,n,h)\wedge
+\bigl(\mathsf{UnaryHistory}(seed)\Rightarrow\mathsf{UnaryHistory}(h)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the iteration index. At zero, both chains are the same endpoint
+classifier from the seed to the selected history, and unary readback is
+transport along that classifier. At a successor index, unpack the predecessor,
+the unary step, the nonempty-step witness, and the continuation. The induction
+hypothesis supplies the ordinary predecessor chain; discarding only the
+nonempty-step witness reconstructs the ordinary successor chain, and unary
+continuation closure gives the displayed readback.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_iteratedCplxDiff\_unary\_readback}
+
 \begin{lemma}[Strict iterated complex differentiability exposes a strict prefix]
 \label{lem:iterated-strict-cplx-diff-strict-prefix}
 If a strict iterated complex-differentiability chain starts from a unary seed

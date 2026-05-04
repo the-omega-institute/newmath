@@ -148,6 +148,7 @@ import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.IteratedTransport
 import BEDC.Derived.HolomorphicUp.IteratedStrict
+import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
@@ -166,6 +167,8 @@ import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
 import BEDC.Derived.ListUp.SourceEquivalence
+import BEDC.Derived.ListUp.DescentCertificate
+import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -178,6 +181,7 @@ import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
@@ -497,6 +501,7 @@ import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
+import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
 import BEDC.Derived.FunctorUp.SemanticCertificate
 import BEDC.Derived.FunctorUp.RightUnaryTailPublicReadback
 import BEDC.Derived.FunctorUp.FamilyReadback
@@ -504,7 +509,9 @@ import BEDC.Derived.FunctorUp.IdentitySquare
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
+import BEDC.Derived.FunctorUp.EmptyMorphismSource
 import BEDC.Derived.NatTransUp
+import BEDC.Derived.NatTransUp.EmptyComponentPrefix
 import BEDC.Derived.NatTransUp.EmptyVertComp
 import BEDC.Derived.NatTransUp.E1ObjectEmptyComponent
 import BEDC.Derived.NatTransUp.E1TargetEmptyComponent
@@ -513,6 +520,8 @@ import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.NatTransUp.IdentitySquare
 import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
+import BEDC.Derived.NatTransUp.TailCommClosed
+import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp

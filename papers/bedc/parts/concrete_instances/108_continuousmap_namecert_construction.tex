@@ -194,6 +194,48 @@ left metric distance witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_target\_cert\_distance\_deterministic}
 
+\begin{theorem}[ContinuousMap carrier canonical distance exactness]
+\label{thm:continuousmap-carrier-canonical-distance-exactness}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the concrete continuous-map carrier is exactly the continuous-function carrier
+together with the canonical source-target distance classifier:
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\Longleftrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)\land
+\hsame(distance,\mathsf{append}(source,target)).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, project the continuous-function carrier from the
+given continuous-map carrier. Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff}
+then supplies the carrier with distance ledger
+$\mathsf{append}(source,target)$, and
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic} compares
+the two carriers with the same source, map, target, modulus, and certificate,
+identifying $distance$ with $\mathsf{append}(source,target)$.
+
+Conversely, start from the displayed continuous-function carrier and the
+classifier $\hsame(distance,\mathsf{append}(source,target))$.
+Theorem~\ref{thm:continuousmap-carrier-canonical-distance-iff} builds the
+canonical-distance carrier. Its metric component contains the continuation
+$\ContR(source,target,\mathsf{append}(source,target))$ and unary membership of
+the canonical distance ledger. Transport the continuation by
+$\mathsf{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_hsame\_transport}$,
+transport unary membership of the distance ledger along $\hsame$, and repack
+these fields as the required $\mathsf{MetricDistanceWitness}(source,target,distance)$.
+Together with the original continuous-function carrier this is precisely
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$.
+
+The ten-field fit is: traditional target normalized continuous-map distance
+ledger; BEDC source $\mathsf{ContinuousFunctionCarrier}$,
+$\mathsf{MetricDistanceWitness}$, and $\ContR$; carrier
+$\mathsf{ContinuousMapCarrier}$; classifier $\hsame$; stability obligations
+distance determinacy and metric hsame transport; ledger the hidden distance
+history; core theorem this iff; exactness the displayed iff; standard bridge
+deferred; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \begin{theorem}[ContinuousMap empty map with empty distance boundaries]
 \label{thm:continuousmap-empty-map-empty-distance-boundaries}
 For histories $source$, $target$, $modulus$, and $cert$, a concrete
@@ -268,6 +310,7 @@ chapter to the final witness. It gives $\mathsf{UnaryHistory}(cert)$ and
 $\hsame(modulus,cert)$; symmetry of $\hsame$ presents the last conjunct in the
 displayed certificate-to-modulus orientation.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_certificate\_readback}
 
 The ten-field fit is: traditional target empty continuous-map readback, BEDC
 source ContinuousMapUp with ContinuousModulusWitness, carrier
