@@ -53,4 +53,26 @@ theorem GroupSingletonClassifier_two_sided_contextual_continuation_product_unit_
         (hsame_trans carriers.left (hsame_symm carriers.right.left)))
   exact GroupSingletonClassifier_continuation_visible_result_absurd classifiedPQ
 
+theorem GroupSingletonClassifier_continuation_product_unit_coverage_iff {P Q S T : BHist} :
+    Cont P Q S ->
+      (GroupSingletonClassifier (append S T) BHist.Empty <->
+        GroupSingletonCarrier P ∧ GroupSingletonCarrier Q ∧ GroupSingletonCarrier T) := by
+  intro continuation
+  constructor
+  · intro classified
+    have split := GroupSingletonClassifier_append_unit_split_iff.mp classified
+    have inputClassified :=
+      (GroupSingletonClassifier_continuation_result_carrier_iff continuation).mpr split.left
+    exact And.intro inputClassified.left
+      (And.intro inputClassified.right.left split.right)
+  · intro carriers
+    have inputClassified : GroupSingletonClassifier P Q :=
+      And.intro carriers.left
+        (And.intro carriers.right.left
+          (hsame_trans carriers.left (hsame_symm carriers.right.left)))
+    have resultCarrier :=
+      (GroupSingletonClassifier_continuation_result_carrier_iff continuation).mp inputClassified
+    exact GroupSingletonClassifier_append_unit_split_iff.mpr
+      (And.intro resultCarrier carriers.right.right)
+
 end BEDC.Derived.GroupUp
