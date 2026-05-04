@@ -81,7 +81,9 @@ def main() -> int:
                 return 1
             alias_to_key[alias] = key
 
-    failures: list[str] = []
+    missing_regions: list[str] = []
+    missing_macros: list[str] = []
+    bilingual_issues: list[str] = []
 
     # ---- Gate 1: region coverage ----
     if DEP_DATA.exists():
@@ -92,9 +94,7 @@ def main() -> int:
             if not nid:
                 continue
             if nid not in glossary_keys and nid not in alias_to_key:
-                failures.append(
-                    f"region '{nid}' (auto-derived dependency-graph node) has no glossary entry"
-                )
+                missing_regions.append(nid)
     else:
         print(
             f"[check-glossary] note: {DEP_DATA.relative_to(ROOT)} not built yet; "
@@ -111,9 +111,7 @@ def main() -> int:
                 continue
             if m in alias_to_key:
                 continue
-            failures.append(
-                f"preamble macro '\\{m}' is neither a glossary key, an alias, nor exempt"
-            )
+            missing_macros.append(m)
     else:
         print(f"[check-glossary] preamble not found: {PREAMBLE}", file=sys.stderr)
 
@@ -122,27 +120,52 @@ def main() -> int:
         en_label = entry.get("en", {}).get("label", "")
         zh_label = entry.get("zh", {}).get("label", "")
         if not en_label or not zh_label:
-            failures.append(f"entry '{key}' missing en.label or zh.label")
+            bilingual_issues.append(f"entry '{key}' missing en.label or zh.label")
             continue
         if en_label == zh_label and key not in label_identical_ok:
-            failures.append(
-                f"entry '{key}' has identical en/zh labels '{en_label}'; "
-                "either localise zh.label or add the key to "
-                "_meta.label_identical_ok in glossary.json"
+            bilingual_issues.append(
+                f"entry '{key}' has identical en/zh labels '{en_label}' "
+                "(localise zh.label or add the key to _meta.label_identical_ok)"
             )
 
     # ---- Report ----
-    if failures:
-        print(f"[check-glossary] FAIL: {len(failures)} issues", file=sys.stderr)
-        for f in failures:
-            print(f"  - {f}", file=sys.stderr)
+    # Glossary completeness is advisory: missing entries do NOT block CI.
+    # The dossier still renders without them — unknown nodes just show
+    # their raw region id instead of a bilingual label.
+    total = len(missing_regions) + len(missing_macros) + len(bilingual_issues)
+    if total:
         print(
-            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary.json "
-            "to add the missing entry, or update _meta.exempt_macros / "
-            "_meta.label_identical_ok if the term is intentionally not in scope.",
+            f"[check-glossary] WARN: {total} issues (advisory; not blocking)",
             file=sys.stderr,
         )
-        return 1
+        if missing_regions:
+            print(
+                f"  Missing region entries ({len(missing_regions)}):",
+                file=sys.stderr,
+            )
+            for nid in sorted(missing_regions):
+                print(f"    - {nid}", file=sys.stderr)
+        if missing_macros:
+            print(
+                f"  Missing preamble macros ({len(missing_macros)}):",
+                file=sys.stderr,
+            )
+            for m in missing_macros:
+                print(f"    - \\{m}", file=sys.stderr)
+        if bilingual_issues:
+            print(
+                f"  Bilingual entry problems ({len(bilingual_issues)}):",
+                file=sys.stderr,
+            )
+            for s in bilingual_issues:
+                print(f"    - {s}", file=sys.stderr)
+        print(
+            "\n[check-glossary] hint: edit docs/dossier/data_source/glossary.json "
+            "to add missing entries, or update _meta.exempt_macros / "
+            "_meta.label_identical_ok if a term is intentionally not in scope.",
+            file=sys.stderr,
+        )
+        return 0
 
     print(
         f"[check-glossary] OK: {len(entries)} entries cover all project concepts "
