@@ -65,4 +65,47 @@ theorem ContinuousModulusWitness_empty_source_nonempty_modulus_shape_iff
                 · intro sameEmpty
                   exact not_hsame_e1_empty sameEmpty
 
+theorem ContinuousFunctionCarrier_empty_source_iff {map target modulus cert : BHist} :
+    ContinuousFunctionCarrier BHist.Empty map target modulus cert ↔
+      UnaryHistory map ∧ ContinuousModulusWitness map modulus cert ∧ hsame target map := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro _sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro modulusCarrier rest =>
+                    cases rest with
+                    | intro sourceMap targetCert =>
+                        have sameTarget : hsame target map := cont_left_unit_result sourceMap
+                        have certCarrier : UnaryHistory cert :=
+                          unary_cont_closed targetCarrier modulusCarrier targetCert
+                        cases sameTarget
+                        exact And.intro mapCarrier
+                          (And.intro
+                            (And.intro mapCarrier
+                              (And.intro modulusCarrier
+                                (And.intro certCarrier targetCert)))
+                            (hsame_refl map))
+  · intro data
+    cases data with
+    | intro mapCarrier rest =>
+        cases rest with
+        | intro modulusWitness sameTarget =>
+            cases modulusWitness with
+            | intro _mapCarrier witnessRest =>
+                cases witnessRest with
+                | intro modulusCarrier witnessRest =>
+                    cases witnessRest with
+                    | intro certCarrier mapCert =>
+                        cases sameTarget
+                        exact And.intro unary_empty
+                          (And.intro mapCarrier
+                            (And.intro mapCarrier
+                              (And.intro modulusCarrier
+                                (And.intro (cont_left_unit map) mapCert))))
+
 end BEDC.Derived.ContinuousUp
