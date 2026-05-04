@@ -488,6 +488,36 @@ $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
 
+\begin{theorem}[Singleton evaluation context continuation classifier]
+\label{thm:linearmap-singleton-eval-context-continuation-classifier}
+For histories $p,f,x,y,r,h:\mathsf{BHist}$, if
+$$
+\ContR(\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),y,r),
+$$
+then classifying the continuation result $r$ against $h$ is equivalent to all
+three exposed endpoints lying in the singleton carrier:
+$$
+\mathsf{LinearMapSingletonClassifier}(r,h)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(y)\land
+\mathsf{LinearMapSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, the result classifier transports the continuation to
+an empty result. Empty-result inversion splits the continuation into an empty
+context append and an empty continuation input, and append empty-result
+inversion recovers the carrier witness for $p$; the target carrier comes from
+the classifier.
+
+Conversely, the singleton evaluator returns $\emp$, so the carrier witness for
+$p$ makes the context append carried by $\emp$. Together with the carrier
+witness for $y$, continuation transport carries $r$ by $\emp$, and the carrier
+witness for $h$ assembles the restricted singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_context\_continuation\_classifier\_iff}
+
 \begin{theorem}[Singleton evaluation continuation append target carrier]
 \label{thm:linearmap-singleton-eval-continuation-append-target-carrier}
 For histories $f,x,y,p,q:\mathsf{BHist}$, if

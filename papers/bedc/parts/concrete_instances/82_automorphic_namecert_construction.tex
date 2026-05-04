@@ -47,6 +47,38 @@ emptiness for each core.
 \end{proof}
 \leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_deterministic\_nonempty}
 
+\begin{theorem}[Automorphic adele graph visible-context value determinacy]
+\label{thm:automorphic-adele-graph-visible-context-value-deterministic}
+For adelic domain and value histories, if the same visible left context and
+result display \(v \cdot q\) and \(v' \cdot q\) as the value side of the graph,
+then \(v\hsame v'\). The exposed graph is also not \(\hsame\)-equal to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+Peel the common right context by suffix cancellation from both displayed
+continuations. The remaining ledgers share the same source and result, so
+continuation left cancellation compares the two value histories. Prefix
+cancellation recovers the central graph ledger, and automorphic adele graph
+non-emptiness rules out an empty graph.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_value\_deterministic}
+
+\begin{theorem}[Automorphic adele graph visible-context domain determinacy]
+\label{thm:automorphic-adele-graph-visible-context-domain-deterministic}
+For adelic domain and value histories, if the same visible value context and
+result display \(p \cdot d\) and \(p \cdot d'\) as the domain side of the graph,
+then \(d\hsame d'\). The exposed graph is also not \(\hsame\)-equal to
+\(\emp\).
+\end{theorem}
+\begin{proof}
+Peel the common right context by suffix cancellation from both displayed
+continuations. The remaining ledgers share the same value and result, so
+continuation right cancellation compares the prefixed domain histories. Left
+prefix cancellation removes \(p\). The recovered central graph ledger supplies
+automorphic adele graph non-emptiness.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_domain\_deterministic}
+
 \begin{theorem}[Automorphic adele graph visible-context non-empty]
 \label{thm:automorphic-adele-graph-visible-context-nonempty}
 For adelic domain and value histories, a displayed graph inside a visible
@@ -258,6 +290,19 @@ $\Cont(domain,value,core)$. The existing core readback theorem supplies
 $graph\hsame core$ and core non-emptiness.
 \end{proof}
 \leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_context\_core\_cont\_readback}
+
+\begin{theorem}[Automorphic adele graph visible-result context factorization]
+\label{thm:automorphic-adele-graph-visible-result-context-factorizes}
+For adelic domain and value histories, if a visible result is
+$\hsame$-equal to $(p\cdot graph)\cdot q$, then the exposed graph is displayed
+by $\Cont(domain,value,graph)$ and is not $\hsame$-equal to $\emp$.
+\end{theorem}
+\begin{proof}
+Transport the visible continuation ledger along the displayed result
+$\hsame$. Peel the right suffix and then the left prefix to recover the central
+continuation, and apply adelic graph non-emptiness to that central ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.AutomorphicUp.AutomorphicAdeleGraph\_visible\_result\_context\_factorizes}
 
 \section{The certificate}
 \label{sec:automorphic-certificate}

@@ -1,6 +1,7 @@
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.RatUp
 import BEDC.Derived.RatUp.HistoryClassifier
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.ComplexAnalyticUp
 
@@ -116,6 +117,18 @@ theorem CplxPureImaginary_component_continuation_witness {theta z q zq : BHist} 
       exact
         ComplexAnalytic_component_continuation_witness realCarrier imagCarrier sameZ qUnary zqCont
 
+theorem CplxPureImaginary_suffix_component_tail_witness {theta z q zq : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
+      ∃ imagq : BHist,
+        RatHistoryCarrier imagq ∧ hsame imagq (BHist.e1 (append theta q)) ∧
+          Cont (BHist.e1 BHist.Empty) imagq zq ∧ PositiveUnaryDenominator imagq := by
+  intro pureImaginary qUnary zqCont
+  cases CplxPureImaginary_component_continuation_witness pureImaginary qUnary zqCont with
+  | intro imagq data =>
+      have sameTail : hsame imagq (BHist.e1 (append theta q)) :=
+        data.right.left.trans (unary_append_e1_left (h := q) (k := theta) qUnary)
+      exact ⟨imagq, data.left, sameTail, data.right.right.left, data.right.right.right⟩
+
 theorem CplxPureImaginary_suffix_continuation_complex_carrier {theta z q zq : BHist} :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ComplexHistoryCarrier zq ∧ (hsame zq BHist.Empty -> False) := by
@@ -175,6 +188,13 @@ theorem CplxPureImaginary_component_continuation_complex_carrier {theta z q zq :
     CplxPureImaginary theta z -> UnaryHistory q -> Cont z q zq ->
       ComplexHistoryCarrier zq := by
   exact CplxPureImaginary_continuation_complex_carrier
+
+theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q (BHist.e0 tail) -> False := by
+  intro pureImaginary qUnary zqCont
+  have resultCarrier : ComplexHistoryCarrier (BHist.e0 tail) :=
+    CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
+  exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
 
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
