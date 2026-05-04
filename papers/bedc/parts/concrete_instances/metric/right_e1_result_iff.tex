@@ -23,6 +23,26 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_shape}
 
+\begin{theorem}[Metric distance witness right e1 result tail exactness]
+\label{thm:metric-distance-witness-right-e1-result-tail-hsame-exact}
+For histories $x,y,d,k$, if a distance witness has a visibly one-headed right
+endpoint and its displayed result is history-same as $\Eone(k)$, then $k$ is
+the exact descended distance tail:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),d)\Longrightarrow
+\hsame(d,\Eone(k))\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply right e-one result shape to expose an intermediate tail $k_0$ together
+with $\hsame(d,\Eone(k_0))$ and the descended metric witness. Compose this
+classifier with the displayed result classifier, invert the resulting
+one-headed $\hsame$ comparison, and transport the tail witness along the
+exposed tail equality.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_tail\_hsame\_exact}
+
 \begin{theorem}[Metric distance witness right e1 result iff]
 \label{thm:metric-distance-witness-right-e1-result-iff}
 For histories $x,y,d$, a distance witness whose right endpoint and result both
