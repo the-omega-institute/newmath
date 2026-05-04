@@ -112,3 +112,89 @@ displayed right-bracketed carrier. The two applications give the two displayed
 distance-determinacy clauses.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_composition\_associative\_canonical\_package}
+
+\begin{theorem}[ContinuousMap associative composition depth synchronization]
+\label{thm:continuousmap-associative-composition-depth-synchronization}
+For histories
+$source,mid_1,mid_2,target,mapF,mapG,mapH,mapFG,mapGH,mapL,mapR,modF,modG,modH,modFG,modGH,modL,modR,certF,certG,certH,certFG,certGH,certL,certR,distF,distG,distH:\mathsf{BHist}$,
+assume the three concrete continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid_1,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid_1,mapG,mid_2,modG,certG,distG),\\
+\mathsf{ContinuousMapCarrier}(mid_2,mapH,target,modH,certH,distH),
+\end{array}
+$$
+the left-bracketed continuation ledgers
+$$
+\begin{array}{lll}
+\ContR(mapF,mapG,mapFG),&
+\ContR(modF,modG,modFG),&
+\ContR(mid_2,modFG,certFG),\\
+\ContR(mapFG,mapH,mapL),&
+\ContR(modFG,modH,modL),&
+\ContR(target,modL,certL),
+\end{array}
+$$
+and the right-bracketed continuation ledgers
+$$
+\begin{array}{lll}
+\ContR(mapG,mapH,mapGH),&
+\ContR(modG,modH,modGH),&
+\ContR(target,modGH,certGH),\\
+\ContR(mapF,mapGH,mapR),&
+\ContR(modF,modGH,modR),&
+\ContR(target,modR,certR).
+\end{array}
+$$
+Then both bracketings synchronize the endpoint depth with their displayed
+composite graph histories:
+$$
+\begin{array}{l}
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapL),\\
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapR).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First build the left intermediate carrier. Apply
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the first two
+continuous-map carriers and the ledgers ending at $certFG$. Project its
+continuous-function half, and project the continuous-function half of the
+$mid_2 \to target$ carrier.
+
+Apply Theorem~\ref{thm:continuousmap-comp-graph-depth-add} to those two
+continuous-function carriers and the left-bracketed ledgers ending at $certL$.
+This gives
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapL).
+$$
+
+Next build the right intermediate carrier. Apply
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the second and third
+continuous-map carriers and the ledgers ending at $certGH$. Project its
+continuous-function half, and project the continuous-function half of the
+$source \to mid_1$ carrier.
+
+Apply Theorem~\ref{thm:continuousmap-comp-graph-depth-add} to the
+$source \to mid_1$ continuous-function carrier, the projected
+$mid_1 \to target$ continuous-function carrier, and the right-bracketed ledgers
+ending at $certR$. This gives
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapR).
+$$
+
+The two displayed equalities are exactly the depth-synchronization conclusion.
+\end{proof}
