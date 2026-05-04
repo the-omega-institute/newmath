@@ -608,3 +608,39 @@ By \autoref{def:concrete-unary-prefix-totalorder-instance}, these comparisons ar
 
 The strict-left and strict-right branches of the total comparison ledger are therefore excluded by the incompatibility clauses of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Together with the existence selector of \autoref{thm:totalorder-prefix-finite-minimum-selector}, this gives a classifier-stable finite minimum readback for every nonempty finite carried spine.
 \end{proof}
+
+\begin{definition}[Concrete unary finite maximum witness]
+\label{def:totalorder-prefix-finite-maximum-witness}
+For a finite BEDC-history spine $L:\mathsf{ListCarrier}(\mathsf{BHist})$, a visible readback $M$ is a concrete unary finite maximum witness when
+$$
+\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)
+:=
+M\in L
+\land
+\forall x.\; x\in L\to x\le_{\mathsf{u}}M.
+$$
+The carrier side condition is supplied by the finite-carrier list hypothesis used with the witness.
+\end{definition}
+
+\begin{theorem}[Concrete unary prefix finite maximum classifier uniqueness]
+\label{thm:totalorder-prefix-finite-maximum-classifier-unique}
+Let $L:\mathsf{ListCarrier}(\mathsf{BHist})$ be a nonempty finite spine in the helper of \autoref{def:list-carrier}. Assume every entry of $L$ is carried by $\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$ certificate of \autoref{thm:concrete-unary-prefix-totalorder-namecert}:
+$$
+\forall x.\; x\in L\to \mathsf{Carrier}_{\mathsf{u}}(x).
+$$
+If $M$ and $N$ satisfy $\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,M)$ and $\mathsf{FiniteMaximumWitness}_{\mathsf{u}}(L,N)$, then
+$$
+\rho_{\mathsf{u}}(M,N).
+$$
+
+The per-object fields are: traditional target finite-list maximum witness uniqueness in a total order; BEDC source finite spines of carried unary histories; carrier $\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; relation $\le_{\mathsf{u}}$; stability obligations finite-list upper-bound readout and inherited $\POSetUp$ antisymmetry; ledger the two maximum witness records and the two extracted comparisons; core theorem this block; exactness classifier equality of competing maximum readbacks; standard bridge finite unary-word maximum uniqueness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the two finite maximum witness records of \autoref{def:totalorder-prefix-finite-maximum-witness}. The first supplies $M\in L$ and the upper-bound row $\forall x.\; x\in L\to x\le_{\mathsf{u}}M$; the second supplies $N\in L$ and the upper-bound row $\forall x.\; x\in L\to x\le_{\mathsf{u}}N$.
+
+From the entry-carrier hypothesis, the membership rows give carrier witnesses for $M$ and $N$. Instantiate the first upper-bound row at the entry $N$; this gives $N\le_{\mathsf{u}}M$. Instantiate the second upper-bound row at the entry $M$; this gives $M\le_{\mathsf{u}}N$.
+
+By \autoref{def:concrete-unary-prefix-totalorder-instance}, these comparisons are the concrete prefix relation of the unary total-order package. The exact middle-branch row of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}, equivalently the $\POSetUp$ classifier exactness of \autoref{thm:poset-prefix-classifier-exactness} in this notation, sends the carried opposing comparisons to $\rho_{\mathsf{u}}(M,N)$.
+
+The strict-left and strict-right branches of the total comparison ledger are therefore excluded by the incompatibility clauses of \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition}. Together with the existence selector of \autoref{thm:totalorder-prefix-finite-maximum-index-selector}, this gives a classifier-stable finite maximum readback for every nonempty finite carried spine.
+\end{proof}
