@@ -163,6 +163,18 @@ theorem AdeleHistoryCarrier_cont_right_result_nonempty {h k r : BHist} :
   have endpoints := cont_empty_result_inversion emptyContinuation
   exact AdeleHistoryCarrier_not_empty carrier endpoints.right
 
+theorem AdeleHistoryCarrier_visible_scale_cont_nonempty_package {real p exponent result k out : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
+      Cont (append real result) k out ->
+        AdeleHistoryCarrier (append real result) ∧
+          (hsame result BHist.Empty -> False) ∧ (hsame out BHist.Empty -> False) := by
+  intro realCarrier scale continuation
+  have visibleScale :=
+    AdeleHistoryCarrier_visible_scale_result_nonempty realCarrier scale
+  exact And.intro visibleScale.left
+    (And.intro visibleScale.right
+      (AdeleHistoryCarrier_cont_result_nonempty visibleScale.left continuation))
+
 theorem AdeleRealStreamPrefix_visible_scale_carrier {x y : Nat -> BHist} {n m : Nat}
     {denTail imagTail exponent result : BHist} :
     (forall i : Nat, UnaryHistory (x i)) -> RealStreamPrefixClassifier x y (m + n) ->
@@ -220,6 +232,39 @@ theorem AdeleRealStreamPrefix_long_prefix_visible_scale_carrier {x y : Nat -> BH
   · exact
       ⟨BHist.e1 (BHist.e1 denTail), BHist.e1 (BHist.e1 BHist.Empty), exponent, result,
         realCarrier, scale,
+        hsame_refl (append (BHist.e1 (BHist.e1 denTail)) result)⟩
+
+theorem AdeleRealStreamPrefix_long_prefix_visible_padic_scale_carrier {x y : Nat -> BHist}
+    {n m : Nat} {denTail imagTail p exponent result : BHist} :
+    RealStreamPrefixClassifier x y (m + n) ->
+      hsame (x n) (BHist.e1 (BHist.e1 denTail)) -> hsame (y n) (BHist.e1 imagTail) ->
+        PadicPrimeScale p exponent result ->
+          RealStreamPrefixClassifier x y n ∧
+            AdeleHistoryCarrier (append (BHist.e1 (BHist.e1 denTail)) result) := by
+  intro classified sameReal sameImag scale
+  have prefixAtN : RealStreamPrefixClassifier x y n := by
+    induction m with
+    | zero =>
+        simp only [Nat.zero_add] at classified
+        exact classified
+    | succ m ih =>
+        have stepClassified : RealStreamPrefixClassifier x y (Nat.succ (m + n)) := by
+          simp only [Nat.succ_add] at classified
+          exact classified
+        exact ih stepClassified.left
+  have visible :=
+    RealStreamPrefixClassifier_e1_pair_readback prefixAtN sameReal sameImag
+  have denUnary : UnaryHistory denTail :=
+    unary_e1_inversion visible.left
+  have realTailCarrier : RatHistoryCarrier (BHist.e1 denTail) :=
+    RatHistoryCarrier_iff_positive_denominator.mpr
+      (PositiveUnaryDenominator_e1_iff_unary.mpr denUnary)
+  have realCarrier : RealConstantHistoryCarrier (BHist.e1 (BHist.e1 denTail)) :=
+    Iff.mpr RealConstantHistoryCarrier_e1_iff_rat realTailCarrier
+  constructor
+  · exact prefixAtN
+  · exact
+      ⟨BHist.e1 (BHist.e1 denTail), p, exponent, result, realCarrier, scale,
         hsame_refl (append (BHist.e1 (BHist.e1 denTail)) result)⟩
 
 theorem AdeleRealStreamPrefix_long_prefix_visible_scale_result_nonempty {x y : Nat -> BHist}

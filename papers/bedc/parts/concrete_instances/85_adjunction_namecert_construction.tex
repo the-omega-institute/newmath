@@ -242,6 +242,25 @@ the boundary components exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
 
+\begin{theorem}[Adjunction positive-depth empty result forces empty unit]
+\label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}
+For unary nonempty $depth$, if the alternating unit-counit ledger is
+history-same as $\emp$, then the visible unit component is history-same as
+\(\emp\):
+$$
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\quad\Longrightarrow\quad
+\hsame(unit,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Positive-depth continuation readback writes the alternating ledger as a
+continuation whose left component is \(unit\). Transporting this continuation
+along the empty result and applying empty-result inversion forces the left
+component to be empty.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_result\_empty\_unit\_empty}
+
 \begin{theorem}[Adjunction positive-depth unit-empty readback]
 \label{thm:adjunction-alternating-positive-depth-unit-empty-readback}
 For unary nonempty $depth$, if $unit\hsame\emp$, then the alternating

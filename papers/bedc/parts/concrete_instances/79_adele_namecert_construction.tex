@@ -125,6 +125,25 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele visible scale continuation nonempty package]
+\label{thm:adele-history-carrier-visible-scale-cont-nonempty-package}
+For histories $r,p,e,s,k,out:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$,
+$\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$, and
+$\ContR(\mathsf{append}(r,s),k,out)$ hold, then
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot)\land(\hsame(out,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The visible scale theorem supplies both the adele-history carrier for
+$\mathsf{append}(r,s)$ and the nonempty scale endpoint $s$. Feeding that carrier
+and the displayed continuation into the adele continuation-result theorem gives
+the nonempty output endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_cont\_nonempty\_package}
+
 \begin{theorem}[Adele e1 real append carrier is nonempty]
 \label{thm:adele-history-carrier-e1-real-append-nonempty}
 For histories $realTail,p,exponent,result:\mathsf{BHist}$, if
@@ -222,6 +241,27 @@ component with the stored first-prime $p$-adic scale and reflexive sameness of
 the appended endpoint gives the adele-history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_carrier}
+
+\begin{theorem}[Adele long-prefix visible $p$-adic scale carrier]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-padic-scale-carrier}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and
+$\mathsf{PadicPrimeScale}(p,e,r)$ holds, then
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds and
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the finite-prefix classifier to descend from $m+n$ to
+$n$. The visible one-extension pair at index $n$ reads back a unary denominator
+tail, so $\Eone(d)$ is a rational-history carrier and $\Eone(\Eone(d))$ is a
+constant real-history carrier. The arbitrary displayed $p$-adic scale supplies
+the non-real component of the adele carrier, and reflexive history sameness
+identifies the displayed append endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_padic\_scale\_carrier}
 
 \begin{theorem}[Adele long-prefix visible scale result is not empty]
 \label{thm:adele-real-stream-prefix-long-prefix-visible-scale-result-nonempty}
