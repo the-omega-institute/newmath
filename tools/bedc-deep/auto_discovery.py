@@ -63,28 +63,37 @@ def _git(args: list[str]) -> subprocess.CompletedProcess[str]:
     )
 
 
+# Upstream integration branch we sync into bedc-claim-packet-pipeline.
+# Kept in sync with dev_sync_resolver.UPSTREAM_BRANCH; switched from `dev`
+# to `codex-auto-dev` because codex_formalize merges land there first
+# and `dev` lags by hours-to-days.
+UPSTREAM_BRANCH = "codex-auto-dev"
+UPSTREAM_REF = f"origin/{UPSTREAM_BRANCH}"
+
+
 def sync_dev_if_clean() -> bool:
-    """Best-effort fetch + merge of origin/dev. Skips silently on uncommitted
-    changes or merge conflicts. Acquires paper_writes lock to avoid clashing
-    with a Stage 2 .tex append. Returns True iff dev's commits were merged.
+    """Best-effort fetch + merge of the upstream integration branch. Skips
+    silently on uncommitted changes or merge conflicts. Acquires
+    paper_writes lock to avoid clashing with a Stage 2 .tex append.
+    Returns True iff upstream commits were merged.
     """
     status = _git(["status", "--porcelain"])
     if status.stdout.strip():
         print("[discovery] sync_dev skipped: uncommitted changes", flush=True)
         return False
-    _git(["fetch", "origin", "dev"])
-    behind = _git(["rev-list", "--count", "HEAD..origin/dev"])
+    _git(["fetch", "origin", UPSTREAM_BRANCH])
+    behind = _git(["rev-list", "--count", f"HEAD..{UPSTREAM_REF}"])
     n = behind.stdout.strip() or "0"
     if n == "0":
         return False
-    print(f"[discovery] sync_dev pulling {n} commits from origin/dev", flush=True)
+    print(f"[discovery] sync_dev pulling {n} commits from {UPSTREAM_REF}", flush=True)
     with file_lock("paper_writes"):
-        merge = _git(["merge", "--no-edit", "origin/dev"])
+        merge = _git(["merge", "--no-edit", UPSTREAM_REF])
     if merge.returncode != 0:
         print("[discovery] sync_dev merge failed; aborting", flush=True)
         _git(["merge", "--abort"])
         return False
-    print(f"[discovery] sync_dev merged origin/dev cleanly ({n} commits)", flush=True)
+    print(f"[discovery] sync_dev merged {UPSTREAM_REF} cleanly ({n} commits)", flush=True)
     return True
 
 

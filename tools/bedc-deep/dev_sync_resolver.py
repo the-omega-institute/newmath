@@ -42,6 +42,15 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 LOG_DIR = SCRIPT_DIR / "state" / "dev_sync_logs"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
+# Upstream integration branch we sync into bedc-claim-packet-pipeline.
+# Originally `dev`, switched to `codex-auto-dev` because the codex
+# formalization lane (lean4-codex-auto-dev / paper-codex-auto-dev) merges
+# into `codex-auto-dev` first; `dev` lags by hours-to-days. Pulling
+# from the integration branch keeps our writebacks rebased against the
+# freshest paper + lean state, reducing the merge surface.
+UPSTREAM_BRANCH = "codex-auto-dev"
+UPSTREAM_REF = f"origin/{UPSTREAM_BRANCH}"
+
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 CLAUDE_RESOLVE_TIMEOUT = 1800   # 30 minutes for whole resolution
 CLAUDE_RESOLVE_PER_FILE_TIMEOUT = 600
@@ -178,7 +187,7 @@ Project conventions you MUST respect:
 File path: {cf.path}
 
 Current file content (with conflict markers `<<<<<<< HEAD`, `=======`,
-`>>>>>>> origin/dev`):
+`>>>>>>> {UPSTREAM_REF}`):
 
 {cf.raw_content}
 
@@ -246,7 +255,7 @@ def _resolve_one_conflict(cf: ConflictFile, project_conventions: str) -> tuple[b
         return (False, "claude declared ABORT_CONFLICT (cannot responsibly resolve)")
 
     # Defensive: ensure no conflict markers remain in claude's output
-    if any(m in resolved for m in ("<<<<<<< HEAD", "=======", ">>>>>>> origin/dev")):
+    if any(m in resolved for m in ("<<<<<<< HEAD", "=======", f">>>>>>> {UPSTREAM_REF}")):
         return (False, "claude output still contains conflict markers")
 
     target_path = REPO_ROOT / cf.path
@@ -376,19 +385,19 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
                                error="working tree dirty; sync deferred")
 
         # Fetch
-        fetch_res = _git(["fetch", "origin", "dev"], capture=False, timeout=30)
+        fetch_res = _git(["fetch", "origin", UPSTREAM_BRANCH], capture=False, timeout=30)
         if fetch_res.returncode != 0:
             return SyncResult(status="error", branch=branch,
-                               error="git fetch origin dev failed")
+                               error=f"git fetch origin {UPSTREAM_BRANCH} failed")
 
         # Count incoming commits
-        behind_res = _git(["rev-list", "--count", "HEAD..origin/dev"], timeout=10)
+        behind_res = _git(["rev-list", "--count", f"HEAD..{UPSTREAM_REF}"], timeout=10)
         n_behind = int((behind_res.stdout.strip() or "0"))
         if n_behind == 0:
             return SyncResult(status="up_to_date", branch=branch)
 
         # Attempt merge
-        merge_res = _git(["merge", "--no-edit", "origin/dev"], timeout=120)
+        merge_res = _git(["merge", "--no-edit", UPSTREAM_REF], timeout=120)
         if merge_res.returncode == 0:
             # FF or clean merge succeeded; push.
             push_res = _git(["push", "origin", branch], capture=False, timeout=60)
@@ -453,7 +462,7 @@ def sync_with_resolution(allowed_branch: str = "bedc-claim-packet-pipeline") -> 
 
         # Commit the merge
         commit_msg = (
-            f"Auto-merge origin/dev ({n_behind} commits) — "
+            f"Auto-merge {UPSTREAM_REF} ({n_behind} commits) — "
             f"{len(resolved)} conflict(s) resolved by dev_sync_resolver\n\n"
             f"Resolved files:\n" + "\n".join(f"  - {p}" for p in resolved) +
             f"\n\nValidation: {validation.summary}"
