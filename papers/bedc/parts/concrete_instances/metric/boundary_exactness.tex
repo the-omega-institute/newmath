@@ -201,3 +201,22 @@ $\hsame(d,x)$. Case analysis on that classifier identifies the two histories,
 and the metric-depth equality follows by reflexivity.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_distance\_source}
+
+\begin{theorem}[Metric left-boundary visible-context distance target]
+\label{thm:metric-distance-witness-left-boundary-visible-context-distance-target}
+For histories $p,q,y,d$, a visible-context distance witness whose central left
+endpoint is empty identifies the central distance with the target and aligns
+their structural depths:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,y\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(d,y)\land
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(y).
+$$
+\end{theorem}
+\begin{proof}
+Apply left-boundary visible-context exactness to peel the visible prefix and
+suffix. The central empty-left witness gives $\hsame(d,y)$. Case analysis on
+that classifier reduces the displayed depth equation to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_boundary\_visible\_context\_distance\_target}
