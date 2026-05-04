@@ -244,3 +244,69 @@ A function-like interface obtained from a stable transformation carries a descen
 \leanvariant{BEDC.FKernel.NameCert.StableTransformation\_descent\_respects\_ledger\_pair}
 \leanvariant{BEDC.FKernel.NameCert.function\_like\_interfaces\_derived\_core}
 \leanvariant{BEDC.FKernel.NameCert.function\_like\_interface\_seed\_is\_derived}
+
+\begin{theorem}[Descent-certificate composition for stable transformations]
+\label{thm:descent-certificate-stable-transformation-composition}
+Let $S,R,Q:\mathsf{BHist}\to\mathsf{Prop}$ be source, intermediate, and target carrier specifications, and let
+$$
+\sim_S,\sim_R,\sim_Q:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be their classifiers. Assume the classifier roles are licensed by
+$$
+\mathsf{cert}_S:\NameCert(S,\sim_S),\qquad
+\mathsf{cert}_R:\NameCert(R,\sim_R),\qquad
+\mathsf{cert}_Q:\NameCert(Q,\sim_Q).
+$$
+Let $T,U:\mathsf{BHist}\to\mathsf{BHist}$ have carrier-preservation fields
+$$
+\rho_T:\forall h.\;S(h)\to R(T(h))
+\qquad\text{and}\qquad
+\rho_U:\forall r.\;R(r)\to Q(U(r)).
+$$
+Assume descent certificates
+$$
+\delta_T:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_R)
+$$
+and
+$$
+\delta_U:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_R,\sim_Q)
+$$
+whose map fields are $T$ and $U$. Then the composite map $U\circ T$ preserves carriers by
+$$
+\rho_{U\circ T}(h,Sh)=\rho_U(T(h),\rho_T(h,Sh))
+$$
+and carries a descent certificate
+$$
+\delta_{U\circ T}:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},\sim_S,\sim_Q)
+$$
+with map field $h\mapsto U(T(h))$. Thus any source-classifier witness $h\sim_S k$ gives the target-classifier witness $U(T(h))\sim_Q U(T(k))$.
+
+Moreover, if
+$$
+\tau_T:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_T,\sim_S,\sim_R)
+$$
+and
+$$
+\tau_U:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_U,\sim_R,\sim_Q)
+$$
+have map fields $T$ and $U$, then their composite is a stable transformation
+$$
+\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},L_T\times L_U,\sim_S,\sim_Q)
+$$
+whose ledger witness is the ordered pair of the two input ledger witnesses. In gap-ledger cases this ordered pair is the witness-level form of the composite ledger policy of \autoref{def:hardening-composite-gap-ledger} and \autoref{cor:ledger-composition-principle}.
+\end{theorem}
+\begin{proof}
+The three displayed naming certificates place $S$, $R$, and $Q$ in the typed certificate template of \autoref{def:typed-naming-certificate-expanded-template}; the descent argument uses the respect fields of the two descent certificates.
+
+Define $\delta_{U\circ T}$ with map field $h\mapsto U(T(h))$. Given $h\sim_S k$, the respect field of $\delta_T$ gives
+$$
+T(h)\sim_R T(k).
+$$
+Applying the respect field of $\delta_U$ to this intermediate classifier witness gives
+$$
+U(T(h))\sim_Q U(T(k)).
+$$
+By \autoref{def:descent-certificate}, this is exactly the respect field required for a descent certificate from $\sim_S$ to $\sim_Q$. Carrier preservation is the displayed composite of the two carrier-preservation fields.
+
+For the stable-transformation statement, use the same composite map. If $h\sim_S k$, the respect field of $\tau_T$ gives $T(h)\sim_R T(k)$, and the respect field of $\tau_U$ gives $U(T(h))\sim_Q U(T(k))$. The ledger field of \autoref{def:stable-transformation} supplies witnesses $\ell_T:L_T$ and $\ell_U:L_U$; pair them as $(\ell_T,\ell_U):L_T\times L_U$. This gives the ledger field for the composite stable transformation. When the two ledgers are gap ledgers, the same pair records the first-stage ledger and the second-stage ledger pulled back along the intermediate interface, which is the composite ledger policy cited above.
+\end{proof}
