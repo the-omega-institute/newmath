@@ -441,4 +441,18 @@ theorem AdeleHistoryCarrier_unit_scale_real_prime_readback {real p result : BHis
         hsame_refl (append real result)⟩
   · exact congrArg (append real) resultPrime
 
+theorem AdeleHistoryCarrier_unit_left_scale_cont_readback {real p q result : BHist} :
+    RealConstantHistoryCarrier real -> UnaryHistory q ->
+      PadicPrimeScale p (append (BHist.e1 BHist.Empty) q) result ->
+        AdeleHistoryCarrier (append real result) ∧
+          ∃ e : BHist, PadicPrimeScale p q e ∧ Cont p e result := by
+  intro realCarrier unaryQ scale
+  have factorization :=
+    Iff.mp (PadicPrimeScale_append_unit_left_factorization_iff (p := p) (q := q)
+      (r := result) unaryQ) scale
+  exact And.intro
+    ⟨real, p, append (BHist.e1 BHist.Empty) q, result, realCarrier, scale,
+      hsame_refl (append real result)⟩
+    factorization
+
 end BEDC.Derived.AdeleUp

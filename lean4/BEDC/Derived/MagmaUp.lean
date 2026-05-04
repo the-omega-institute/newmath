@@ -210,6 +210,38 @@ theorem concrete_unary_history_magma_cont_right_unit_classifier_iff {h k r : BHi
       exact (cont_right_unit_iff (h := h) (r := r)).mp rel
     exact And.intro resultCarrier (And.intro data.left sameResult)
 
+theorem concrete_unary_history_magma_cont_right_context_classifier_iff
+    {left left' right right' out out' : BHist} :
+    let Carrier : BHist -> Prop := UnaryHistory
+    let Classifier : BHist -> BHist -> Prop :=
+      fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+    Classifier right right' -> Cont left right out -> Cont left' right' out' ->
+      (Classifier out out' ↔ Carrier left ∧ Carrier left' ∧ hsame left left') := by
+  dsimp
+  intro rightClassified leftCont rightCont
+  constructor
+  · intro outClassified
+    have leftCarrier : UnaryHistory left :=
+      (Iff.mp (concrete_unary_history_magma_cont_result_unary_iff leftCont)
+        outClassified.left).left
+    have leftCarrier' : UnaryHistory left' :=
+      (Iff.mp (concrete_unary_history_magma_cont_result_unary_iff rightCont)
+        outClassified.right.left).left
+    have sameLeft : hsame left left' := by
+      cases rightClassified.right.right
+      cases leftCont
+      cases rightCont
+      exact append_right_cancel (k := right) outClassified.right.right
+    exact And.intro leftCarrier (And.intro leftCarrier' sameLeft)
+  · intro leftData
+    have outCarrier : UnaryHistory out :=
+      unary_cont_closed leftData.left rightClassified.left leftCont
+    have outCarrier' : UnaryHistory out' :=
+      unary_cont_closed leftData.right.left rightClassified.right.left rightCont
+    have sameOut : hsame out out' :=
+      cont_respects_hsame leftData.right.right rightClassified.right.right leftCont rightCont
+    exact And.intro outCarrier (And.intro outCarrier' sameOut)
+
 theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
     {left middle middle' right : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory

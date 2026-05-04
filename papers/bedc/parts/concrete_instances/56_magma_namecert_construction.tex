@@ -181,6 +181,30 @@ the result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_unit\_classifier\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation right-context classifier]
+\label{thm:concrete-unary-history-magma-right-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $R_U(r,r')$, $\ContR(l,r,a)$, and $\ContR(l',r',a')$, then the concrete
+magma classifier relates the two continuation results exactly when the two
+left inputs are unary and history-same:
+$$
+R_U(a,a')
+\Longleftrightarrow
+U(l)\land U(l')\land\hsame(l,l').
+$$
+\end{theorem}
+\begin{proof}
+Unary exactness for the two continuations reads the left-input carriers back
+from the result carriers. The result classifier equality cancels the shared
+classified right context, giving $l\hsame l'$. The reverse direction uses unary
+continuation closure for the two result carriers and continuation respect for
+$\hsame$ across the classified left and right inputs.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_right\_context\_classifier\_iff}
+
 \begin{theorem}[Concrete unary-history magma classifier middle-context cancellation]
 \label{thm:concrete-unary-history-magma-classifier-append-middle-cancel}
 Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
