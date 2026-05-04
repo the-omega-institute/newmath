@@ -73,6 +73,29 @@ theorem GroupSingletonNormalizerOrbit_coverage_iff {x y : BHist} :
         (And.intro actionCarrier
           (And.intro endpoints.right (hsame_trans actionCarrier (hsame_symm endpoints.right)))))
 
+theorem GroupSingletonNormalizerOrbit_visible_source_absurd {p y : BHist} :
+    ((Exists (fun s : BHist =>
+        GroupSingletonCarrier s ∧
+          GroupSingletonClassifier (append (append s (BHist.e0 p)) BHist.Empty) y)) ->
+      False) ∧
+      ((Exists (fun s : BHist =>
+        GroupSingletonCarrier s ∧
+          GroupSingletonClassifier (append (append s (BHist.e1 p)) BHist.Empty) y)) ->
+      False) := by
+  constructor
+  · intro orbit
+    cases orbit with
+    | intro s witness =>
+        have actionSplit := append_eq_empty_iff.mp witness.right.left
+        have sourceSplit := append_eq_empty_iff.mp actionSplit.left
+        exact not_hsame_e0_empty sourceSplit.right
+  · intro orbit
+    cases orbit with
+    | intro s witness =>
+        have actionSplit := append_eq_empty_iff.mp witness.right.left
+        have sourceSplit := append_eq_empty_iff.mp actionSplit.left
+        exact not_hsame_e1_empty sourceSplit.right
+
 theorem GroupSingletonNormalizerOrbit_action_single_fiber_iff {s x y : BHist} :
     GroupSingletonCarrier s -> GroupSingletonCarrier x ->
       (GroupSingletonNormalizerOrbit (append (append s x) BHist.Empty) y <->
