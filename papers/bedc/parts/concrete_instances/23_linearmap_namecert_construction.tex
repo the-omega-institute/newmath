@@ -420,6 +420,32 @@ singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_input\_classifier\_iff}
 
+\begin{theorem}[Singleton evaluation append-context classifier readback]
+\label{thm:linearmap-singleton-eval-append-context-classifier}
+For histories $p,f,x,h:\mathsf{BHist}$, classifying a singleton evaluation
+after an appended context is exactly the pair of singleton carrier conditions
+on the context and the target:
+$$
+\mathsf{LinearMapSingletonClassifier}
+  (\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),h)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$. In the forward direction, the left
+carrier field classifies $\mathsf{append}(p,\emp)$ with $\emp$, and
+empty-append inversion exposes $p\hsame\emp$; the right classifier carrier
+gives $h\hsame\emp$.
+
+Conversely, $p\hsame\emp$ combines with reflexivity at the evaluator result to
+classify $\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x))$ with
+$\emp$. The target carrier for $h$ and symmetry on that carrier witness then
+assemble the restricted singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_context\_classifier\_iff}
+
 \begin{theorem}[Singleton evaluation continuation classifier]
 \label{thm:linearmap-singleton-eval-continuation-classifier}
 For histories $f,x,y,r,h:\mathsf{BHist}$, if
@@ -445,6 +471,52 @@ $h$. Conversely, singleton witnesses for $y$ and $h$ identify $r$ with
 $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
+
+\begin{theorem}[Singleton evaluation continuation append target carrier]
+\label{thm:linearmap-singleton-eval-continuation-append-target-carrier}
+For histories $f,x,y,p,q:\mathsf{BHist}$, if
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\mathsf{append}(p,q)),
+$$
+then the exposed continuation input is in the singleton carrier exactly when
+both append factors are:
+$$
+\mathsf{LinearMapSingletonCarrier}(y)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(q).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, so the continuation ledger identifies
+$\mathsf{append}(p,q)$ with $\mathsf{append}(\emp,y)$. The left-unit law for
+append identifies this with $y$. Thus a singleton carrier witness for $y$
+turns into an empty-result witness for $\mathsf{append}(p,q)$, which append
+empty-result inversion splits into carrier witnesses for $p$ and $q$.
+Conversely, carrier witnesses for both factors assemble an empty-result
+witness for $\mathsf{append}(p,q)$, and the same continuation ledger and
+left-unit law carry it back to $y$.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_append\_target\_carrier\_iff}
+
+\begin{theorem}[Singleton evaluation continuation visible result exclusion]
+\label{thm:linearmap-singleton-eval-continuation-visible-result-absurd}
+For histories $f,x,y,p:\mathsf{BHist}$, if
+$\mathsf{LinearMapSingletonCarrier}(y)$, then the continuation result of the
+singleton evaluator cannot be either visible endpoint:
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\Ezero(p))\Longrightarrow\bot,
+\qquad
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),y,\Eone(p))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The continuation ledger identifies each displayed result with
+$\mathsf{append}(\emp,y)$. The append left-unit law and the carrier witness for
+$y$ force that result to be history-same to $\emp$. Constructor no-confusion
+for $\Ezero$ and $\Eone$ closes the two visible cases.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_result\_absurd}
 
 \begin{theorem}[Singleton evaluation visible target classifier exclusion]
 \label{thm:linearmap-singleton-eval-visible-target-classifier-absurd}
@@ -502,6 +574,45 @@ Unfolding the singleton carrier makes each witness a history-sameness proof
 from the visible endpoint to $\emp$. Constructor no-confusion for $\Ezero$ and
 $\Eone$ contradicts those histories being empty, so both displayed classifier
 claims imply $\bot$.
+\end{proof}
+
+\begin{theorem}[Singleton evaluation continuation visible input exclusion]
+\label{thm:linearmap-singleton-eval-continuation-visible-input-exclusion}
+For histories $f,x,p,r,h:\mathsf{BHist}$, each visible continuation input
+prevents a singleton-classified continuation result:
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),\Ezero(p),r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr),
+$$
+and
+$$
+\ContR(\mathsf{LinearMapSingletonEval}(f,x),\Eone(p),r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr).
+$$
+The ten-field fit is: traditional target terminal linear-map continuation
+input exclusion; BEDC source $\mathsf{BHist}$, $\ContR$, and the singleton
+evaluator; carrier $\mathsf{LinearMapSingletonCarrier}$; classifier
+$\mathsf{LinearMapSingletonClassifier}$; stability from continuation
+classifier readback plus constructor separation; ledger continuation input
+endpoint; core theorem this block; exactness visible-input impossibility;
+standard bridge terminal linear hom; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:linearmap-singleton-eval-continuation-classifier} to
+the first displayed continuation with continuation input $\Ezero(p)$. A
+classifier witness for $r$ against $h$ then forces
+$\mathsf{LinearMapSingletonCarrier}(\Ezero(p))$.
+
+Apply the same continuation classifier readback to the second displayed
+continuation with continuation input $\Eone(p)$. A classifier witness for $r$
+against $h$ forces $\mathsf{LinearMapSingletonCarrier}(\Eone(p))$.
+
+Unfolding the singleton carrier turns each carrier witness into a
+history-sameness proof from the visible continuation input to $\emp$.
+Constructor no-confusion for $\Ezero$ and $\Eone$ contradicts those histories
+being empty, so each visible continuation input case implies $\bot$.
 \end{proof}
 
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
