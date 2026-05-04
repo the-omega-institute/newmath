@@ -73,4 +73,14 @@ theorem ComplexHistoryClassifier_unary_continuation_e1_endpoint_components
     ((ComplexHistoryClassifier_e1_endpoint_components (tail := b) (h := BHist.e1 a)).right
       continued)
 
+theorem ComplexHistoryClassifier_unary_continuation_empty_endpoint_absurd
+    {h k q qPrime zq wq : BHist} :
+    ComplexHistoryClassifier h k -> UnaryHistory q -> hsame q qPrime -> Cont h q zq ->
+      Cont k qPrime wq ->
+        (hsame zq BHist.Empty -> False) ∧ (hsame wq BHist.Empty -> False) := by
+  intro classified qUnary sameQQPrime leftCont rightCont
+  exact ComplexHistoryClassifier_empty_endpoint_absurd
+    (ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQPrime leftCont
+      rightCont)
+
 end BEDC.Derived.ComplexUp
