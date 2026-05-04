@@ -280,6 +280,49 @@ theorem RatHistoryLedgerPolicy_classifier_endpoint_equivalence {rho v w : BHist}
   · intro classified
     exact RatHistoryLedgerPolicy_classifier_extension ledger classified
 
+theorem RatHistoryLedgerPolicy_one_tail_classifier_saturation {rho v t : BHist} :
+    RatHistoryLedgerPolicy rho v ->
+      (RatHistoryClassifier rho (BHist.e1 t) <->
+        RatHistoryClassifier v (BHist.e1 t)) ∧
+        (RatHistoryClassifier (BHist.e1 t) rho <->
+          RatHistoryClassifier (BHist.e1 t) v) ∧
+          PositiveUnaryDenominator rho ∧ PositiveUnaryDenominator v ∧
+            (RatHistoryClassifier v (BHist.e1 t) -> UnaryHistory t) ∧
+              (RatHistoryClassifier (BHist.e1 t) v -> UnaryHistory t) := by
+  intro ledger
+  have forwardFiber :
+      RatHistoryClassifier rho (BHist.e1 t) <->
+        RatHistoryClassifier v (BHist.e1 t) :=
+    RatHistoryLedgerPolicy_classifier_endpoint_equivalence (w := BHist.e1 t) ledger
+  have reversedFiber :
+      RatHistoryClassifier (BHist.e1 t) rho <->
+        RatHistoryClassifier (BHist.e1 t) v := by
+    constructor
+    · intro classified
+      exact RatHistoryClassifier_symm (forwardFiber.mp (RatHistoryClassifier_symm classified))
+    · intro classified
+      exact RatHistoryClassifier_symm (forwardFiber.mpr (RatHistoryClassifier_symm classified))
+  have rawPositive : PositiveUnaryDenominator rho :=
+    RatHistoryCarrier_iff_positive_denominator.mp ledger.left
+  have visiblePositive : PositiveUnaryDenominator v :=
+    RatHistoryCarrier_iff_positive_denominator.mp
+      (RatHistoryLedgerPolicy_visible_carrier ledger)
+  have visibleTargetTail :
+      RatHistoryClassifier v (BHist.e1 t) -> UnaryHistory t := by
+    intro classified
+    exact PositiveUnaryDenominator_e1_iff_unary.mp
+      (RatHistoryClassifier_positive_denominators classified).right
+  have targetVisibleTail :
+      RatHistoryClassifier (BHist.e1 t) v -> UnaryHistory t := by
+    intro classified
+    exact PositiveUnaryDenominator_e1_iff_unary.mp
+      (RatHistoryClassifier_positive_denominators classified).left
+  exact And.intro forwardFiber
+    (And.intro reversedFiber
+      (And.intro rawPositive
+        (And.intro visiblePositive
+          (And.intro visibleTargetTail targetVisibleTail))))
+
 theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visible' : BHist} :
     RatHistoryLedgerPolicy raw visible ->
       RatHistoryLedgerPolicy raw visible' ->

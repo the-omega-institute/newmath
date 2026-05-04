@@ -181,6 +181,24 @@ cocycles into the appended cocycle.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_empty\_iff}
 
+\begin{theorem}[Cohomology cocycle continuation axis context cancel]
+\label{thm:cohomology-cocycle-continuation-axis-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$\Cont(h,k,r)$ and the two-sided contextual history
+$left\cdot(r\cdot right)$ is a $d$-cocycle, then both $h$ and $k$ are
+$d$-cocycles:
+$$
+d(h)\hsame\emp\ \wedge\ d(k)\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The continuation witness identifies $r$ with $h\cdot k$. Axis-context
+cancellation removes the surrounding histories from the contextual cocycle and
+gives $d(h\cdot k)\hsame\emp$. Append-empty equivalence then splits this core
+cocycle into the two component cocycle rows for $h$ and $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_axis\_context\_cancel}
+
 \begin{theorem}[Cohomology cocycle left-shift append empty equivalence]
 \label{thm:cohomology-cocycle-left-shift-append-empty-iff}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. For

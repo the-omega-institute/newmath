@@ -96,6 +96,18 @@ theorem CohomologyCocycle_append_empty_iff {d : BHist -> BHist} {h k : BHist}
   · intro cycles
     exact CohomologyCocycle_append_core_closed dAppend cycles.left cycles.right
 
+theorem CohomologyCocycle_continuation_axis_context_cancel {d : BHist -> BHist}
+    {left right h k r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
+    Cont h k r -> hsame (d (append left (append r right))) BHist.Empty ->
+      hsame (d h) BHist.Empty ∧ hsame (d k) BHist.Empty := by
+  intro continuation contextCycle
+  cases continuation
+  have appendCycle : hsame (d (append h k)) BHist.Empty :=
+    CohomologyCocycle_axis_context_cancel dAppend contextCycle
+  exact (CohomologyCocycle_append_empty_iff (d := d) (h := h) (k := k) dAppend).mp
+    appendCycle
+
 theorem CohomologyCocycle_left_shift_append_empty_iff {d : BHist -> BHist}
     {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v))) :
