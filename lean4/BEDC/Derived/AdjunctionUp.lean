@@ -163,6 +163,53 @@ theorem AdjunctionUnitCounitCarrier_endomorphism_triangles_empty
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty rightEmpty
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
+    {p a unit counit left right : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right ↔
+      UnaryHistory p ∧ UnaryHistory a ∧ UnaryHistory unit ∧ UnaryHistory counit ∧
+        hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧
+          hsame left BHist.Empty ∧ hsame right BHist.Empty := by
+  constructor
+  · intro carrier
+    have unitData :=
+      Iff.mp NatTransPrefixComponentCarrier_endomorphism_component_empty_iff carrier.left
+    have counitData :=
+      Iff.mp NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+        carrier.right.left
+    have triangleData :=
+      AdjunctionUnitCounitCarrier_endomorphism_triangles_empty carrier
+    exact
+      And.intro unitData.left
+        (And.intro unitData.right.left
+          (And.intro unitData.right.right.left
+            (And.intro counitData.right.right.left
+              (And.intro unitData.right.right.right
+                (And.intro counitData.right.right.right
+                  (And.intro triangleData.left triangleData.right))))))
+  · intro data
+    have unitCarrier : NatTransPrefixComponentCarrier p p a unit :=
+      Iff.mpr NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+        (And.intro data.left
+          (And.intro data.right.left
+            (And.intro data.right.right.left data.right.right.right.right.left)))
+    have counitCarrier : NatTransPrefixComponentCarrier p p a counit :=
+      Iff.mpr NatTransPrefixComponentCarrier_endomorphism_component_empty_iff
+        (And.intro data.left
+          (And.intro data.right.left
+            (And.intro data.right.right.right.left
+              data.right.right.right.right.right.left)))
+    have leftRel : Cont unit counit left := by
+      cases data.right.right.right.right.left
+      cases data.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.left
+      exact cont_right_unit BHist.Empty
+    have rightRel : Cont counit unit right := by
+      cases data.right.right.right.right.left
+      cases data.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.right
+      exact cont_right_unit BHist.Empty
+    exact And.intro unitCarrier (And.intro counitCarrier (And.intro leftRel rightRel))
+
 theorem AdjunctionPrefix_unit_counit_composite_empty
     {p q a eta eps composite : BHist} :
     NatTransPrefixComponentCarrier p q a eta ->
