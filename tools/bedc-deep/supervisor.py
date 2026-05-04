@@ -46,6 +46,7 @@ DEFAULT_POLL_INTERVAL = 60
 DEFAULT_LOW_WATER = 3
 DEFAULT_PROBE_COOLDOWN_HOURS = 6
 DEFAULT_CURRICULUM_COOLDOWN_HOURS = 6
+DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
@@ -490,6 +491,28 @@ def trigger_curriculum_probe() -> None:
         )
 
 
+def trigger_paper_review() -> None:
+    """Editorial-referee audit (paper-driven discovery, gated by our
+    judge). Complements `probe` (internal symmetry), `curriculum`
+    (textbook-classical), and `oracle_board_refill` (PDF-attached deep
+    suggestions). Adapts loning's REVIEW phase but routes through our
+    board_judge so candidates land on BOARD only after the same
+    fit/novelty/dedup thresholds.
+    """
+    git_sync_dev()
+    supervisor_log("triggering auto_discovery paper_review")
+    log_path = SUPERVISOR_LOG_DIR / f"paper_review_{_now_tag_safe()}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            ["python3", str(AUTO_DISCOVERY), "paper_review", "--append"],
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
 def trigger_oracle_board_refill() -> None:
     """Ask oracle (with project-attached PDF) for new BOARD candidates.
 
@@ -659,6 +682,9 @@ def main() -> int:
     parser.add_argument("--curriculum-cooldown-hours", type=float, default=DEFAULT_CURRICULUM_COOLDOWN_HOURS,
                         help="Cooldown between curriculum probe runs (textbook-classical theorem hunt). "
                              "Complements --probe-cooldown-hours (internal symmetry gaps).")
+    parser.add_argument("--paper-review-cooldown-hours", type=float, default=DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS,
+                        help="Cooldown between paper_review probe runs (editorial-referee audit, "
+                             "loning-style REVIEW gated by our judge).")
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
@@ -701,6 +727,7 @@ def main() -> int:
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
+    last_paper_review_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     inner: subprocess.Popen | None = None
@@ -709,6 +736,7 @@ def main() -> int:
         "inner": None,
         "probe_cooldown_hours": args.probe_cooldown_hours,
         "curriculum_cooldown_hours": args.curriculum_cooldown_hours,
+        "paper_review_cooldown_hours": args.paper_review_cooldown_hours,
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
@@ -747,6 +775,7 @@ def main() -> int:
             since_probe_h = (_now() - last_probe_ts) / 3600.0
             since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
+            since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
                 trigger_probe()
@@ -755,6 +784,10 @@ def main() -> int:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
                 trigger_curriculum_probe()
                 last_curriculum_ts = _now()
+            if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
+                trigger_paper_review()
+                last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
                 trigger_oracle_board_refill()
