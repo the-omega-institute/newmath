@@ -550,6 +550,26 @@ transitivity of $\hsame$ package the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_assoc\_carrier\_iff}
 
+\begin{theorem}[CommRing singleton classifier continuation empty result]
+\label{thm:commring-singleton-classifier-continuation-empty-result}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+commutative-ring classifier on the two inputs is equivalent to the continuation
+result being internally empty:
+$$
+\mathsf{CommRingSingletonClassifier}(P,Q)
+\quad\Longleftrightarrow\quad
+\hsame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+If the inputs are singleton-classified, both input endpoints are empty, so the
+append continuation result is empty by append-empty construction. Conversely,
+an empty continuation result identifies $\mathsf{append}(P,Q)$ with $\emp$;
+append-empty inversion gives the two singleton carrier witnesses, and their
+chain through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_continuation\_empty\_result\_iff}
+
 \begin{theorem}[Singleton empty-history CommRingUp schema certificate]
 \label{thm:singleton-empty-history-commring-schema-certificate}
 Definition~\ref{def:singleton-empty-history-commring-instance}, together with

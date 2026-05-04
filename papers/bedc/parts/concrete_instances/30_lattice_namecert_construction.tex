@@ -188,6 +188,27 @@ that history-sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_absorption\_empty\_classified}
 
+\begin{theorem}[Singleton lattice continuation absorption has empty classifier]
+\label{thm:lattice-singleton-meet-join-continuation-absorption-empty-classifier}
+Let $h,k$ be singleton-carried histories. If $left$ is a BEDC continuation
+output of $\mathsf{meet}(h,\mathsf{join}(h,k))$ followed by $h$, and $right$
+is a BEDC continuation output of $h$ followed by
+$\mathsf{join}(h,\mathsf{meet}(h,k))$, then both outputs are empty and are
+classified by the singleton classifier:
+$$
+\hsame(left,\emp)\wedge \hsame(right,\emp)\wedge \rho_{\emp}(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The concrete singleton meet and join both return $\emp$. The left
+continuation is therefore $\mathsf{append}(\emp,h)$, which reduces to $h$,
+and the right continuation is $\mathsf{append}(h,\emp)$, which also reduces
+to $h$. The carrier witness for $h$ identifies each result with $\emp$.
+Those two endpoint witnesses, together with transitivity through $\emp$,
+assemble the singleton classifier between the two continuation outputs.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonMeetJoin\_continuation\_absorption\_empty\_classifier}
+
 \begin{theorem}[Singleton lattice meet-join idempotent commutative classifier]
 \label{thm:lattice-singleton-meet-join-idempotent-comm-classifier}
 For carried singleton endpoints $h,k$, meet and join are classified with the
@@ -319,6 +340,25 @@ $\mathsf{LatticeSingletonLE}$ then gives the displayed order comparison
 against the right input.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_result\_right\_carriers\_iff}
+
+\begin{theorem}[Singleton lattice continuation result endpoint order equivalence]
+\label{thm:lattice-singleton-le-continuation-result-left-right}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the restricted
+singleton order from the continuation result to the left endpoint is equivalent
+to the restricted singleton order from the result to the right endpoint:
+$$
+\mathsf{LatticeSingletonLE}(R,P)
+\quad\Longleftrightarrow\quad
+\mathsf{LatticeSingletonLE}(R,Q).
+$$
+\end{theorem}
+\begin{proof}
+The result-left order theorem identifies the left comparison with the pair of
+singleton carrier witnesses for $P$ and $Q$. The result-right order theorem
+identifies the right comparison with the same pair. Composing these two
+characterizations gives the displayed equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_result\_left\_right\_iff}
 
 \begin{theorem}[Singleton lattice continuation empty result order exactness]
 \label{thm:lattice-singleton-le-continuation-empty-result}
