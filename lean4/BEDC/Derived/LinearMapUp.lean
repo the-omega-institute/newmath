@@ -381,7 +381,8 @@ theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
     have readback := (LinearMapSingletonEval_continuation_classifier_iff evalCont).mp classified
     exact not_hsame_e1_empty readback.right
 
-theorem LinearMapSingletonEval_continuation_visible_input_absurd {f x p r h : BHist} :
+theorem LinearMapSingletonEval_continuation_visible_input_classifier_absurd
+    {f x p r h : BHist} :
     (Cont (LinearMapSingletonEval f x) (BHist.e0 p) r ->
       LinearMapSingletonClassifier r h -> False) ∧
       (Cont (LinearMapSingletonEval f x) (BHist.e1 p) r ->
@@ -393,6 +394,13 @@ theorem LinearMapSingletonEval_continuation_visible_input_absurd {f x p r h : BH
   · intro evalCont classified
     have readback := (LinearMapSingletonEval_continuation_classifier_iff evalCont).mp classified
     exact not_hsame_e1_empty readback.left
+
+theorem LinearMapSingletonEval_continuation_visible_input_absurd {f x p r h : BHist} :
+    (Cont (LinearMapSingletonEval f x) (BHist.e0 p) r ->
+      LinearMapSingletonClassifier r h -> False) ∧
+      (Cont (LinearMapSingletonEval f x) (BHist.e1 p) r ->
+        LinearMapSingletonClassifier r h -> False) := by
+  exact LinearMapSingletonEval_continuation_visible_input_classifier_absurd
 
 theorem LinearMapSingletonEval_continuation_append_target_carrier_iff {f x y p q : BHist} :
     Cont (LinearMapSingletonEval f x) y (append p q) ->
