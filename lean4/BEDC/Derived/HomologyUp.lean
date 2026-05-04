@@ -172,6 +172,44 @@ theorem HomologyBoundaryCarrier_cont_nonempty_preimage_append {d : BHist -> BHis
                   (fun dAppendEmpty => resultNonempty
                     (hsame_trans resultWitness dAppendEmpty)))))
 
+theorem HomologyBoundaryCarrier_append_empty_preimages {d : BHist -> BHist} {h k : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k ->
+      hsame (append h k) BHist.Empty ->
+        Exists (fun u : BHist =>
+          Exists (fun v : BHist =>
+            hsame h (d u) ∧ hsame k (d v) ∧
+              hsame (d u) BHist.Empty ∧ hsame (d v) BHist.Empty)) := by
+  intro boundaryH boundaryK appendEmpty
+  have emptyParts : h = BHist.Empty ∧ k = BHist.Empty :=
+    append_eq_empty_iff.mp (hsame_empty_iff.mp appendEmpty)
+  have hEmpty : hsame h BHist.Empty := emptyParts.left
+  have kEmpty : hsame k BHist.Empty := emptyParts.right
+  have hPreimage := HomologyBoundaryCarrier_empty_preimage boundaryH hEmpty
+  have kPreimage := HomologyBoundaryCarrier_empty_preimage boundaryK kEmpty
+  cases hPreimage with
+  | intro u hData =>
+      cases kPreimage with
+      | intro v kData =>
+          exact Exists.intro u
+            (Exists.intro v
+              (And.intro hData.left
+                (And.intro kData.left (And.intro hData.right kData.right))))
+
+theorem HomologyBoundaryCarrier_append_nonempty_preimage {d : BHist -> BHist} {h k : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k ->
+      (hsame (append h k) BHist.Empty -> False) ->
+        (Exists (fun u : BHist =>
+          hsame h (d u) ∧ (hsame (d u) BHist.Empty -> False))) ∨
+          (Exists (fun v : BHist =>
+            hsame k (d v) ∧ (hsame (d v) BHist.Empty -> False))) := by
+  intro boundaryH boundaryK appendNonempty
+  have nonemptyParts := append_nonempty_iff.mp appendNonempty
+  cases nonemptyParts with
+  | inl hNonempty =>
+      exact Or.inl (HomologyBoundaryCarrier_nonempty_preimage boundaryH hNonempty)
+  | inr kNonempty =>
+      exact Or.inr (HomologyBoundaryCarrier_nonempty_preimage boundaryK kNonempty)
+
 theorem HomologyBoundaryCarrier_cycle_of_d_squared_zero {d : BHist -> BHist}
     (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
     (dSquaredZero : forall u : BHist, hsame (d (d u)) BHist.Empty)
