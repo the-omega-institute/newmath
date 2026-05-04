@@ -297,11 +297,20 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 # ---------------------------------------------------------------------------
 
 
+DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
+
+
 def git_sync_dev() -> bool:
-    """Fetch + merge origin/dev into current branch with claude-driven
+    """Fetch + merge the upstream integration branch (origin/codex-auto-dev
+    by default — see dev_sync_resolver.UPSTREAM_BRANCH) with claude-driven
     conflict resolution.
 
-    Delegates to dev_sync_resolver.sync_with_resolution which:
+    Spawned as a subprocess so the resolver's module constants (upstream
+    branch, validation timeouts, claude path) are read fresh from disk on
+    every invocation. This way edits to dev_sync_resolver.py take effect
+    on the next sync cycle without restarting supervisor.
+
+    The subprocess prints a JSON status object on stdout. Behaviour:
       - holds paper_writes lock for the whole flow
       - attempts ff/clean merge first
       - on conflict: spawns claude to resolve each non-protected file,
@@ -311,37 +320,63 @@ def git_sync_dev() -> bool:
         to human_inbox via supervisor log
       - commits + pushes on full success
 
-    Returns True iff dev's commits were actually pulled in (ff_merged or
-    auto_resolved). On any other outcome returns False — caller should
+    Returns True iff upstream commits were actually pulled in (ff_merged
+    or auto_resolved). On any other outcome returns False — caller should
     treat as "no sync this cycle" and retry later.
     """
     try:
-        import dev_sync_resolver
-        result = dev_sync_resolver.sync_with_resolution()
+        proc = subprocess.run(
+            ["python3", str(DEV_SYNC_RESOLVER)],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=2400,  # 40 min: claude resolve + lake build + pdflatex
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("git_sync_dev: resolver subprocess timed out (40 min)")
+        return False
     except Exception as exc:
-        supervisor_log(f"git_sync_dev: resolver crashed: {exc}")
+        supervisor_log(f"git_sync_dev: resolver subprocess failed to launch: {exc}")
         return False
 
-    status = result.status
+    raw_stdout = (proc.stdout or "").strip()
+    raw_stderr = (proc.stderr or "").strip()
+    try:
+        result = json.loads(raw_stdout)
+    except json.JSONDecodeError:
+        supervisor_log(
+            f"git_sync_dev: resolver output not JSON (rc={proc.returncode}). "
+            f"stdout={raw_stdout[:300]}  stderr={raw_stderr[:300]}"
+        )
+        return False
+
+    status = result.get("status", "error")
     if status == "up_to_date":
         return False
     if status == "ff_merged":
-        supervisor_log(f"git_sync_dev: ff-merged origin/dev cleanly ({result.n_dev_commits} commits)")
+        n = result.get("n_dev_commits", "?")
+        supervisor_log(f"git_sync_dev: ff-merged upstream cleanly ({n} commits)")
         return True
     if status == "auto_resolved":
+        n = result.get("n_dev_commits", "?")
+        resolved = result.get("resolved_files") or []
+        validation = (result.get("validation") or {}).get("summary", "?")
         supervisor_log(
-            f"git_sync_dev: auto-resolved {len(result.resolved_files)} conflict(s) "
-            f"({result.n_dev_commits} commits); validation={result.validation.summary if result.validation else '?'}"
+            f"git_sync_dev: auto-resolved {len(resolved)} conflict(s) "
+            f"({n} commits); validation={validation}"
         )
         return True
     if status == "aborted_protected":
+        files = result.get("conflict_files") or []
+        err = result.get("error") or ""
         supervisor_log(
-            f"git_sync_dev: ABORTED — protected files in conflict ({result.error}). "
-            f"This needs human attention. Files: {result.conflict_files}"
+            f"git_sync_dev: ABORTED — protected files in conflict ({err}). "
+            f"This needs human attention. Files: {files}"
         )
         return False
     if status == "aborted_validation":
-        fails = "; ".join((result.validation.failures or [])[:1])[:300]
+        validation = result.get("validation") or {}
+        fails = "; ".join((validation.get("failures") or [])[:1])[:300]
         supervisor_log(
             f"git_sync_dev: ABORTED — validation failed after resolution. "
             f"Hard-reset to ORIG_HEAD. Will retry next cycle. {fails}"
@@ -350,7 +385,8 @@ def git_sync_dev() -> bool:
     if status == "skipped_dirty":
         # quiet — common case during active Stage 2 / normal pipeline life
         return False
-    supervisor_log(f"git_sync_dev: error — {result.error[:300]}")
+    err = result.get("error") or "(no error message)"
+    supervisor_log(f"git_sync_dev: error — {err[:300]}")
     return False
 
 
