@@ -363,3 +363,40 @@ Finally, \autoref{def:preorder-ledger-policy} asks for the compared carrier witn
 
 The retained carrier, source, pattern, classifier, stability, and ledger fields are therefore exactly the obligations named in \autoref{def:preorder-certificate-obligations}, giving a $\PreorderUp(C)$ certificate with unchanged carrier, classifier, and relation.
 \end{proof}
+
+\begin{definition}[Preorder quotient presentation]
+\label{def:preorder-quotient-presentation}
+Let $(C,\sim_C,\le_C)$ be a $\PreorderUp$ package satisfying the carrier and stability fields of \autoref{def:preorder-carrier} and \autoref{def:preorder-stability-certificate}. On carried representatives define
+$$
+x\approx_C y :\Longleftrightarrow x\le_C y\land y\le_C x.
+$$
+Let $q:C\to C_{\!\approx}$ be the class map for $\approx_C$, and write $\overline{x}:=q(x)$. The quotient carrier is $C_{\!\approx}$. Its induced order and quotient classifier are
+$$
+\overline{x}\le_Q\overline{y} :\Longleftrightarrow x\le_C y,
+\qquad
+\overline{x}\sim_Q\overline{y} :\Longleftrightarrow x\approx_C y.
+$$
+\end{definition}
+
+\begin{theorem}[Preorder quotient yields $\PosetUp$]
+\label{thm:preorder-quotient-yields-poset}
+Let $(C,\sim_C,\le_C)$ supply the carrier, classifier, relation, stability, and ledger fields of a $\PreorderUp$ certificate as in \autoref{def:preorder-certificate-obligations}. For the quotient presentation of \autoref{def:preorder-quotient-presentation}, $\approx_C$ is an equivalence relation on carried representatives, the induced order $\le_Q$ is independent of representatives, and $(C_{\!\approx},\sim_Q,\le_Q)$ supplies the $\POSetUp$ certificate obligations for the quotient partial order. Its classifier is exact on classes:
+$$
+\overline{x}\sim_Q\overline{y}
+\Longleftrightarrow
+x\approx_C y
+\Longleftrightarrow
+(x\le_C y\land y\le_C x).
+$$
+\end{theorem}
+\begin{proof}
+The preorder stability fields in \autoref{def:preorder-stability-certificate} give reflexivity and transitivity of $\le_C$ on carried representatives. Reflexivity of $\approx_C$ follows by pairing two copies of $x\le_C x$. Symmetry follows by exchanging the two comparison witnesses. For transitivity, assume $x\approx_C y$ and $y\approx_C z$. The forward comparison $x\le_C z$ is obtained by composing $x\le_C y$ with $y\le_C z$, and the reverse comparison $z\le_C x$ is obtained by composing $z\le_C y$ with $y\le_C x$. Hence $\approx_C$ is an equivalence relation.
+
+The induced order is representative-independent. Suppose $x\approx_C x'$, $y\approx_C y'$, and $x\le_C y$. The reverse half of $x\approx_C x'$ gives $x'\le_C x$, so transitivity gives $x'\le_C y$. The forward half of $y\approx_C y'$ gives $y\le_C y'$, so another use of transitivity gives $x'\le_C y'$. Thus $\overline{x}\le_Q\overline{y}$ implies $\overline{x'}\le_Q\overline{y'}$ under replacement of representatives. Taking one representative fixed gives the two one-sided relation-congruence rows.
+
+The quotient classifier is also representative-independent because $\approx_C$ is an equivalence relation: from $x\approx_C x'$ and $y\approx_C y'$, transitivity and symmetry give $x\approx_C y$ exactly when $x'\approx_C y'$. Therefore $\sim_Q$ is a well-defined classifier on $C_{\!\approx}$, and unfolding its definition gives the displayed exactness equivalence.
+
+The $\POSetUp$ laws follow directly. Reflexivity of $\le_Q$ is the reflexivity of $\le_C$ on any representative. Transitivity of $\le_Q$ is the transitivity of $\le_C$ after unfolding the two induced comparisons. For antisymmetry, if $\overline{x}\le_Q\overline{y}$ and $\overline{y}\le_Q\overline{x}$, then $x\le_C y$ and $y\le_C x$, hence $x\approx_C y$, and therefore $\overline{x}\sim_Q\overline{y}$ by the quotient classifier.
+
+The source row is the quotient carrier $C_{\!\approx}$, the pattern row is $\le_Q$ as in \autoref{def:poset-pattern-specification}, and the classifier row is $\sim_Q$ as in \autoref{def:poset-classifier-specification}. The stability rows required by \autoref{def:poset-stability-certificate} are the quotient reflexivity, transitivity, relation congruence, and antisymmetry just proved. The ledger of \autoref{def:poset-ledger-policy} records the two representatives and, when antisymmetry is invoked, the two induced comparisons. These are exactly the fields listed in \autoref{def:poset-certificate-obligations}, so the quotient presentation supplies the stated $\POSetUp$ certificate and hence the $\PosetUp$ quotient presentation.
+\end{proof}
