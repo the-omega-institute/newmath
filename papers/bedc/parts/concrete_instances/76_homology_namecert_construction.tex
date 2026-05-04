@@ -369,6 +369,40 @@ across the displayed endpoint comparison.
 \section{The certificate}
 \label{sec:homology-certificate}
 
+\begin{theorem}[Homology boundary carrier semantic name certificate]
+\label{thm:homology-boundary-carrier-semantic-namecert}
+For any BEDC differential $d:\mathsf{BHist}\to\mathsf{BHist}$, the boundary
+carrier $B_d$ forms a semantic naming certificate when source, pattern, and
+ledger policy are all $B_d$, and the classifier requires both endpoints to be
+boundaries together with $\hsame$ between them.
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by $d(\mathsf{Empty})$, using $\mathsf{Empty}$ as
+its preimage and reflexivity of $\hsame$. The classifier equivalence laws
+come from the stored endpoint boundary witnesses and the reflexive, symmetric,
+and transitive laws for $\hsame$. Carrier transport along a classifier edge is
+the right endpoint boundary witness, and the semantic pattern and ledger
+fields are the source witness itself.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_semanticNameCert}
+
+\begin{theorem}[Homology cycle carrier empty semantic name certificate]
+\label{thm:homology-cycle-carrier-empty-semantic-namecert}
+If the empty history is a $d$-cycle, then the cycle carrier $Z_d$ forms a
+semantic naming certificate when source, pattern, and ledger policy are all
+$Z_d$, and the classifier requires both endpoints to be cycles together with
+$\hsame$ between them.
+\end{theorem}
+\begin{proof}
+The empty-cycle hypothesis inhabits the carrier at $\mathsf{Empty}$. The
+classifier equivalence laws again follow by unpacking the two endpoint cycle
+witnesses and composing the underlying $\hsame$ rows. Carrier transport is
+read from the right endpoint cycle witness already stored in the classifier,
+and the semantic pattern and ledger fields are identities on the source
+witness.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_empty\_semanticNameCert}
+
 \begin{theorem}[Homology singleton cycle semantic name certificate]
 \label{thm:homology-singleton-cycle-semantic-namecert}
 Let the singleton cycle carrier contain exactly the BEDC histories
