@@ -132,6 +132,37 @@ Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
 
+\begin{theorem}[Positive unary denominator append zero-tail exclusion]
+\label{thm:positive-unary-denominator-append-e0-tail-absurd}
+For histories $d,t:\mathsf{BHist}$, the continued denominator
+$\mathsf{append}(d,\Ezero(t))$ has no positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+A positive denominator witness first gives unary membership for the whole
+continued history. Unary append factor extraction then gives unary membership
+for the right factor $\Ezero(t)$, contradicting zero-extension separation for
+unary histories.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e0\_tail\_absurd}
+
+\begin{theorem}[Positive unary denominator append one-tail equivalence]
+\label{thm:positive-unary-denominator-append-e1-tail-iff-unary-append}
+For histories $d,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(d,\Eone(t)))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(\mathsf{append}(d,t)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads unary membership from the positive denominator
+witness; the one-step shape of continuation identifies this with unary
+membership of $\mathsf{append}(d,t)$. Conversely, unary membership of
+$\mathsf{append}(d,t)$ is exactly the positive denominator witness for the
+one-extension $\mathsf{append}(d,\Eone(t))$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_tail\_iff\_unary\_append}
+
 \begin{theorem}[Rat carrier append unary denominator closure]
 \label{thm:rat-carrier-append-unary-denominator-closed}
 If a rational carrier has denominator \(d\), then appending any unary history to
