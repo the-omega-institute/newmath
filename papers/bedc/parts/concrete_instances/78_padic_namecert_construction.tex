@@ -154,6 +154,27 @@ result to the successor right product.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicNatMul\_append\_exponent\_decomposition}
 
+\begin{theorem}[Prime scale append exponent decomposition]
+\label{thm:padic-prime-scale-append-exponent-decomposition}
+For unary histories $w,q$, any prime scale over the appended exponent
+decomposes into prime-scale witnesses over the two exponent factors and a
+continuation between their results:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,q),r)
+\quad\Longrightarrow\quad
+\exists n,e.\ \mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(n,e,r).
+$$
+\end{theorem}
+\begin{proof}
+The scale witness contains the shared prime field for \(p\) and a concrete
+\(\mathsf{NatMul}(p,\mathsf{append}(w,q),r)\) field. Append-exponent
+decomposition for \(\mathsf{NatMul}\) splits that multiplication field into
+factor multiplications and a continuation. Reusing the same prime field with
+each factor multiplication gives the two displayed prime-scale witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_exponent\_decomposition}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
@@ -296,3 +317,19 @@ unit-exponent multiplication witness from
 
 \section{The certificate}
 \label{sec:padic-certificate}
+
+\begin{theorem}[Padic prime-scale result semantic name certificate]
+\label{thm:padic-prime-scale-result-semantic-namecert}
+If $p$ is a $\PrimeUp$ prime and $e$ is a unary exponent, then the result
+carrier $r\mapsto\mathsf{PadicPrimeScale}(p,e,r)$ forms a semantic naming
+certificate with $\hsame$ as classifier.
+\end{theorem}
+\begin{proof}
+Prime-scale totality supplies an inhabited result carrier. Reflexivity,
+symmetry, and transitivity of the classifier are exactly the corresponding
+BEDC $\hsame$ laws on result histories. Carrier transport along $\hsame$ is
+obtained by identifying the two result histories and reusing the concrete
+prime-scale witness. The source, pattern, and ledger predicates are the same
+result carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_result\_semanticNameCert}
