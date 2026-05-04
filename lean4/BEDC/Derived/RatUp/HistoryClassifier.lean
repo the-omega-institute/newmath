@@ -59,6 +59,17 @@ theorem RatHistoryClassifier_positive_denominators {d e : BEDC.FKernel.Hist.BHis
           exact ⟨RatHistoryCarrier_iff_positive_denominator.mp carrierD,
             RatHistoryCarrier_iff_positive_denominator.mp carrierE⟩
 
+theorem RatHistoryClassifier_e0_endpoint_absurd {tail d : BHist} :
+    (RatHistoryClassifier (BHist.e0 tail) d → False) ∧
+      (RatHistoryClassifier d (BHist.e0 tail) → False) := by
+  constructor
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryClassifier_positive_denominators classified).left
+  · intro classified
+    exact PositiveUnaryDenominator_e0_absurd
+      (RatHistoryClassifier_positive_denominators classified).right
+
 theorem RatHistoryClassifier_endpoints_not_empty {d e : BHist} :
     RatHistoryClassifier d e →
       (hsame d BHist.Empty → False) ∧ (hsame e BHist.Empty → False) := by
