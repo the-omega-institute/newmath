@@ -170,6 +170,7 @@ import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
+import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
