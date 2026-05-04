@@ -225,6 +225,61 @@ displayed outputs $o_X(n),o_Y(n)$. Core theorem:
 the displayed five-part endpoint package. Standard bridge: RegSeqRat contextual
 endpoint readback. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream prefix contextual zero-endpoint exclusion package]
+\label{thm:real-stream-prefix-contextual-zero-endpoint-exclusion-package}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, indices $m,n$,
+and histories $z_X,z_Y:\Hist$, assume
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n),
+$$
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad
+\mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad
+\hsame(t_X(n),t_Y(n)),
+$$
+and
+$$
+\mathsf{Cont}(p_X(n),x(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+\quad
+\mathsf{Cont}(p_Y(n),y(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)).
+$$
+Then the selected contextual endpoints exclude every zero-headed endpoint:
+$$
+(\hsame(o_X(n),\Ezero(z_X))\to\mathsf{False})\land
+(\hsame(o_Y(n),\Ezero(z_Y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-prefix-contextual-e1-denominator-package} to the
+classified prefix and the displayed unary-context and continuation hypotheses.
+The package supplies $\mathsf{UnaryHistory}(o_X(n))$ and
+$\mathsf{UnaryHistory}(o_Y(n))$.
+
+Suppose $\hsame(o_X(n),\Ezero(z_X))$ holds. Transport the left unary-history
+witness along this displayed endpoint comparison, then apply the unary
+no-zero-extension theorem to get a contradiction.
+
+The right endpoint is identical. If $\hsame(o_Y(n),\Ezero(z_Y))$ holds,
+transport $\mathsf{UnaryHistory}(o_Y(n))$ to the displayed zero-headed endpoint
+and apply the same unary no-zero-extension theorem. These two implications
+repack as the displayed conjunction.
+\end{proof}
+
+Fit. Traditional target: finite-prefix contextual endpoint shape exclusion.
+BEDC source: RealUp prefix classifier, RatUp denominator package, and
+$\mathsf{Cont}$. Carrier: rational-observation streams with selected unary
+contexts. Classifier: $\mathsf{RealStreamPrefixClassifier}$ plus endpoint
+$\mathsf{RatHistoryClassifier}$. Stability: inherited from contextual endpoint
+closure. Ledger: selected indices and contextual outputs. Core theorem:
+\autoref{thm:real-stream-prefix-contextual-zero-endpoint-exclusion-package}.
+Exactness: the two zero-headed exclusions. Standard bridge: RegSeqRat
+endpoint-shape readback. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
 For certified unary-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
