@@ -45,6 +45,20 @@ theorem MatrixSingletonPow_carrier_closed {M exponent : BHist} :
   | e1 tail ih =>
       exact append_eq_empty_iff.mpr (And.intro (ih exponentUnary) carrierM)
 
+theorem MatrixSingletonPow_append_exponent_classifier_iff {M a b h : BHist} :
+    MatrixSingletonCarrier M -> UnaryHistory a -> UnaryHistory b ->
+      (MatrixSingletonClassifier (MatrixSingletonPow M (append a b)) h ↔
+        MatrixSingletonCarrier h) := by
+  intro carrierM unaryA unaryB
+  have powCarrier : MatrixSingletonCarrier (MatrixSingletonPow M (append a b)) :=
+    MatrixSingletonPow_carrier_closed carrierM (unary_append_closed unaryA unaryB)
+  constructor
+  · intro classified
+    exact classified.right.left
+  · intro carrierH
+    exact And.intro powCarrier
+      (And.intro carrierH (hsame_trans powCarrier (hsame_symm carrierH)))
+
 theorem MatrixSingletonClassifier_append_split_empty_iff {M N h : BHist} :
     MatrixSingletonClassifier (append M N) h ↔
       hsame M BHist.Empty ∧ hsame N BHist.Empty ∧ MatrixSingletonCarrier h := by
