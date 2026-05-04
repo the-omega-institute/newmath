@@ -75,3 +75,21 @@ The unit fails the strict greater-than condition \(\mathsf{NatGT}(\Eone(\emp), \
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_unit\_absurd}
 
+\begin{theorem}[Prime successor tail is nonempty]
+\label{thm:nat-prime-successor-tail-nonempty}
+If $\mathsf{NatPrime}(p)$ holds, then $p$ has a one-step successor shape with a
+unary nonempty tail:
+$$
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(t))\ \wedge\ \mathsf{UnaryHistory}(t)\ \wedge\
+(\hsame(t,\emp)\Rightarrow\bot).
+$$
+\end{theorem}
+\begin{proof}
+Analyze the carrier field of the prime witness. The empty case contradicts the
+strict-greater-than field, and the $\Ezero$ case contradicts unary history. In
+the $\Eone(t)$ case, unary inversion gives $\mathsf{UnaryHistory}(t)$. If
+$t\hsame\emp$, the original prime witness becomes a prime witness for the unit,
+contradicting the unit non-primality theorem above.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_successor\_tail\_nonempty}
