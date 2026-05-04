@@ -52,6 +52,16 @@ theorem CommRingLeftZeroDivisor_strict_expansion_iff_of_mul_comm
         exact And.intro strictZD.left
           (Exists.intro c (And.intro witness.left witness.right.left))
 
+theorem CommRingLeftZeroDivisor_strictZeroDivisor_of_mul_comm_iff
+    {mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
+    CommRingLeftZeroDivisor mul x <->
+      ((hsame x BHist.Empty -> False) ∧
+        Exists (fun c : BHist =>
+          (hsame c BHist.Empty -> False) ∧ hsame (mul x c) BHist.Empty ∧
+            hsame (mul c x) BHist.Empty)) := by
+  exact CommRingLeftZeroDivisor_strict_expansion_iff_of_mul_comm mulComm
+
 theorem CommRingLeftZeroDivisor_strict_iff_of_mul_comm {mul : BHist -> BHist -> BHist}
     (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
     CommRingLeftZeroDivisor mul x ↔
@@ -193,5 +203,45 @@ theorem commring_strict_zero_divisor_empty_product_closed
       exact And.intro productApart
         (Exists.intro c (And.intro witness.left
           (And.intro leftProductZero rightProductZero)))
+
+theorem CommRingAnnihilatorProduct_leftZeroDivisor
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulAssoc : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b c : BHist} :
+    CommRingApartZero c -> hsame (mul a c) BHist.Empty ->
+      CommRingApartZero (mul a b) -> CommRingLeftZeroDivisor mul (mul a b) := by
+  intro apartC annihilatesC productApart
+  have rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)) := by
+    exact commring_right_distrib_from_left mulComm addCongr leftDistrib
+  have zeroAbsorption :
+      And (forall x : BHist, hsame (mul x BHist.Empty) BHist.Empty)
+        (forall x : BHist, hsame (mul BHist.Empty x) BHist.Empty) :=
+    BEDC.Derived.RingUp.ring_mul_zero_absorption addAssoc zeroLeft negLeft
+      addCongr mulCongr leftDistrib rightDistrib
+  have sameReassoc : hsame (mul (mul a b) c) (mul a (mul c b)) := by
+    exact hsame_trans (mulAssoc a b c)
+      (mulCongr (hsame_refl a) (mulComm b c))
+  have sameToLeftProduct : hsame (mul a (mul c b)) (mul (mul a c) b) := by
+    exact hsame_symm (mulAssoc a c b)
+  have leftProductZero : hsame (mul (mul a c) b) BHist.Empty := by
+    exact hsame_trans
+      (mulCongr annihilatesC (hsame_refl b))
+      (zeroAbsorption.right b)
+  exact And.intro productApart
+    (Exists.intro c
+      (And.intro apartC
+        (hsame_trans sameReassoc
+          (hsame_trans sameToLeftProduct leftProductZero))))
 
 end BEDC.Derived.CommRingUp
