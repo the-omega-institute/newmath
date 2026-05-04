@@ -208,3 +208,39 @@ $\mathsf{append}(p,c)$; category empty-source exactness rebuilds the final
 hom-carrier for $fg$.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_inversion}
+
+\begin{theorem}[Prefix hom composite empty-middle target determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-empty-middle-target-deterministic}
+For histories $p,a,c,f,g,fg,\mathit{target}$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$, $\ContR(f,g,fg)$, and the displayed composite
+$fg$ is also a hom-carrier from $\emp$ to $\mathit{target}$, then
+$$
+\hsame(\mathit{target},\mathsf{append}(p,c)).
+$$
+\end{theorem}
+\begin{proof}
+The empty-middle inversion supplies the canonical hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$ over the same composite morphism $fg$. Target
+determinacy for category hom-carriers compares this canonical carrier with the
+displayed one and yields the stated classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_target\_deterministic}
+
+\begin{theorem}[Prefix hom composite empty-middle source determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-empty-middle-source-deterministic}
+For histories $p,a,c,f,g,fg,\mathit{source}$, if $f$ is a hom-carrier from
+$\mathsf{append}(p,a)$ to $\emp$, $g$ is a hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$, $\ContR(f,g,fg)$, and the displayed composite $fg$ is
+also a hom-carrier from $\mathit{source}$ to $\mathsf{append}(p,c)$, then
+$$
+\hsame(\mathit{source},\emp).
+$$
+\end{theorem}
+\begin{proof}
+The empty-middle inversion supplies the canonical hom-carrier from $\emp$ to
+$\mathsf{append}(p,c)$ over $fg$. Source determinacy for category hom-carriers
+compares the displayed carrier with this canonical carrier and identifies the
+displayed source with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_empty\_middle\_source\_deterministic}

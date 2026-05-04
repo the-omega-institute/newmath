@@ -67,6 +67,20 @@ theorem MetricDistanceWitness_nonempty_distance_endpoint_e1_cases {x y d : BHist
   | inr yNonempty =>
       exact Or.inr (unary_history_nonempty_e1_tail witness.right.left yNonempty)
 
+theorem MetricDistanceWitness_empty_source_nonempty_distance_target_e1_cases {target dist : BHist} :
+    MetricDistanceWitness BHist.Empty target dist -> (hsame dist BHist.Empty -> False) ->
+      ∃ targetTail : BHist, target = BHist.e1 targetTail ∧ UnaryHistory targetTail := by
+  intro witness nonemptyDistance
+  have endpointCases :=
+    MetricDistanceWitness_nonempty_distance_endpoint_e1_cases witness nonemptyDistance
+  cases endpointCases with
+  | inl sourceCase =>
+      cases sourceCase with
+      | intro sourceTail sourceData =>
+          cases sourceData.left
+  | inr targetCase =>
+      exact targetCase
+
 theorem MetricDistanceWitness_e0_component_absurd {x y d : BHist} :
     (MetricDistanceWitness (BHist.e0 x) y d -> False) ∧
       (MetricDistanceWitness x (BHist.e0 y) d -> False) ∧
@@ -105,5 +119,17 @@ theorem MetricDistanceWitness_e1_pair_empty_distance_absurd {x y : BHist} :
     (MetricDistanceWitness_empty_distance_iff (x := BHist.e1 x) (y := BHist.e1 y)).mp
       witness
   exact not_hsame_e1_empty endpoints.left
+
+theorem MetricDistanceWitness_right_boundary_visible_context_distance_source {p q x d : BHist} :
+    MetricDistanceWitness (append p x) (append BHist.Empty q) (append (append p d) q) ->
+      hsame d x ∧ MetricDistanceDepth d = MetricDistanceDepth x := by
+  intro visible
+  have boundary :=
+    (MetricDistanceWitness_right_boundary_visible_context_iff
+      (p := p) (q := q) (x := x) (d := d)).mp visible
+  constructor
+  · exact boundary.right.right.right
+  · cases boundary.right.right.right
+    rfl
 
 end BEDC.Derived.MetricUp

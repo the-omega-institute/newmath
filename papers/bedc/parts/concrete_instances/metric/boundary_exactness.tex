@@ -84,6 +84,27 @@ one-tail readback.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_nonempty\_distance\_endpoint\_e1\_cases}
 
+\begin{theorem}[Metric empty-source nonempty distance target e-one cases]
+\label{thm:metric-distance-witness-empty-source-nonempty-distance-target-e1-cases}
+For histories $target,dist:\mathsf{BHist}$, if a concrete metric distance
+witness starts at the empty source and its distance endpoint is not
+history-same as $\emp$, then the target endpoint is visibly one-headed with a
+unary tail:
+$$
+\mathsf{MetricDistanceWitness}(\emp,target,dist)\to
+(dist\hsame\emp\to\mathsf{False})\to
+\exists targetTail,\ target=\Eone(targetTail)\land
+\mathsf{UnaryHistory}(targetTail).
+$$
+\end{theorem}
+\begin{proof}
+Apply the nonempty-distance endpoint e-one cases theorem. The source-side
+visible branch would identify $\emp$ with a one-headed history, which is
+impossible by constructor disjointness. The remaining branch is exactly the
+target e-one readback.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_source\_nonempty\_distance\_target\_e1\_cases}
+
 \begin{theorem}[Metric distance witness zero-headed component impossibility]
 \label{thm:metric-distance-witness-e0-component-absurd}
 For histories $x,y,d:\mathsf{BHist}$, no concrete metric distance witness has
@@ -143,3 +164,22 @@ Apply empty-distance exactness to the displayed metric witness. It forces the
 left endpoint $\Eone(x)$ to be history-same as $\emp$, contradicting the
 disjointness of visible one-headed histories from the empty history.
 \end{proof}
+
+\begin{theorem}[Metric right-boundary visible context distance source]
+\label{thm:metric-distance-witness-right-boundary-visible-context-distance-source}
+For histories $p,q,x,d:\mathsf{BHist}$, a visible-context distance witness with
+empty central right endpoint identifies the central distance with the visible
+source and gives the same structural depth:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\hsame(d,x)\land
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(x).
+$$
+\end{theorem}
+\begin{proof}
+Right-boundary visible-context exactness extracts the central classifier
+$\hsame(d,x)$. Case analysis on that classifier identifies the two histories,
+and the metric-depth equality follows by reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_boundary\_visible\_context\_distance\_source}

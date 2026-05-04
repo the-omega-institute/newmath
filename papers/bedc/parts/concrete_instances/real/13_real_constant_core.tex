@@ -195,6 +195,22 @@ of the common BEDC history head $h$ exposes $d\hsame e$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_head\_cancel}
 
+\begin{theorem}[Constant real classifier common-context cancellation]
+\label{thm:real-constant-history-classifier-append-common-context-cancel}
+For all histories $left,right,d,e$,
+$$
+\mathsf{RealConstantHistoryClassifier}
+(\Eone(left\cdot(d\cdot right)),\Eone(left\cdot(e\cdot right)))
+\Longrightarrow d\hsame e.
+$$
+\end{theorem}
+\begin{proof}
+First cancel the shared visible left context using the common-head cancellation
+theorem. This yields $\hsame(d\cdot right,e\cdot right)$. Right append
+cancellation then removes the shared suffix $right$ and exposes $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_context\_cancel}
+
 \begin{theorem}[Constant real classifier double-seal readback]
 \label{thm:real-constant-history-classifier-e1-pair-readback}
 If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
@@ -260,6 +276,46 @@ readback theorem for constant real classifiers then exposes the rational
 classifier on the two tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_tail\_readback}
+
+\begin{theorem}[Constant real classifier e-one denominator package]
+\label{thm:real-constant-history-classifier-e1-denominator-package}
+For histories $h,k,d,e:\mathsf{BHist}$, suppose
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k),\qquad
+h\hsame\Eone(d),\qquad
+k\hsame\Eone(e).
+$$
+Then the displayed rational tails satisfy the full denominator shape package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(d,e)$;
+  \item $\mathsf{PositiveUnaryDenominator}(d)$ and
+  $\mathsf{PositiveUnaryDenominator}(e)$;
+  \item $\mathsf{UnaryHistory}(d)$ and $\mathsf{UnaryHistory}(e)$;
+  \item $d\hsame\emp\Longrightarrow\bot$ and
+  $e\hsame\emp\Longrightarrow\bot$.
+\end{enumerate}
+In the ten-field fit, the traditional target is constant rational endpoint
+shape readback; the BEDC source is $\mathsf{BHist}$ e-one rational seals; the
+carrier is $\mathsf{RealConstantHistoryCarrier}$; the classifier is
+$\mathsf{RealConstantHistoryClassifier}$; the stability obligations are tail
+readback and RatUp denominator projections; the ledger is exposed denominator
+shape; the core theorem is this package; the exactness predicate is rational
+classifier plus positive unary nonempty tails; the standard bridge is constant
+rational real names; and the status is $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-constant-history-classifier-e1-tail-readback} to the
+real classifier and the two displayed e-one endpoint equalities. This gives
+$\mathsf{RatHistoryClassifier}(d,e)$.
+
+Next apply \autoref{thm:rat-history-classifier-positive-denominators} to that
+rational classifier. The result supplies the positive unary denominator
+witnesses for both displayed tails.
+
+Finally apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} to
+each positive-denominator witness. The two applications give the unary-history
+rows and the two exclusions against $\emp$, so the listed package follows.
+\end{proof}
 
 \begin{theorem}[Constant real classifier unary denominator context closure]
 \label{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}

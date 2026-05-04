@@ -164,6 +164,27 @@ the centralizer witness for $\mathsf{repr}$.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty representative visible absurdity]
+\label{thm:quotientgroup-centralizer-coset-empty-representative-visible-absurd}
+For any multiplication operation $\mathsf{mul}$ and histories $a,z$, no visible
+one-step history is carried by the centralizer-coset carrier over the empty
+representative:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,\mathsf{e0}(z))
+\Rightarrow \bot,
+\qquad
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,\mathsf{e1}(z))
+\Rightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Unfold the carrier only to read its endpoint comparison. A carried visible
+endpoint would give $\mathsf{e0}(z)\hsame\emp$ or $\mathsf{e1}(z)\hsame\emp$,
+respectively. Both are excluded by constructor separation for generated BEDC
+histories.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_representative\_visible\_absurd}
+
 \begin{theorem}[Centralizer coset empty continuation carrier pair]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-pair}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then the empty-representative
