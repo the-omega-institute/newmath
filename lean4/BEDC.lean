@@ -196,6 +196,7 @@ import BEDC.Derived.ListUp.BoolReadback
 import BEDC.Derived.ListUp.BorderedSingletonPayload
 import BEDC.Derived.ListUp.NameCertCarrierTransport
 import BEDC.Derived.ListUp.SingletonSource
+import BEDC.Derived.ListUp.SingletonLength
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.MonoidUp
@@ -223,6 +224,7 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.ConstantCarrierContext
 import BEDC.Derived.RealUp.SelectedEndpointShape
+import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealUp.FinitePrefixStability
 import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
