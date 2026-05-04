@@ -8,9 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 open BEDC.Derived.StreamNameUp
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
-open BEDC.Derived.StreamNameUp
 
 def RealConstantHistoryCarrier (h : BHist) : Prop :=
   ∃ d : BHist, hsame h (BHist.e1 d) ∧ RatHistoryCarrier d
@@ -235,6 +233,7 @@ theorem RealConstantHistoryClassifier_invalid_endpoint_absurd_pointwise {h tail 
       · intro classifier
         have carriers := RealConstantHistoryClassifier_endpoint_carriers classifier
         exact RealConstantHistoryCarrier_empty_absurd carriers.right
+
 
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
@@ -760,66 +759,42 @@ theorem RealConstantStream_reindexed_streamName_bridge {d e : BHist}
   exact And.intro ratStreamIff (And.intro streamUnaryIff unaryRealIff)
 
 theorem RealReindexedConstantStream_streamName_bridge {d e : BHist} {r : BHist -> BHist} :
-    (RatHistoryClassifier d e ↔
-      RatStreamNameClassifier (fun n => RatConstStream d (r n))
-        (fun n => RatConstStream e (r n))) ∧
-      (RatStreamNameClassifier (fun n => RatConstStream d (r n))
-        (fun n => RatConstStream e (r n)) ↔
-          RealUnaryStreamClassifier (fun n => RatConstStream d (r n))
-            (fun n => RatConstStream e (r n))) ∧
-        (RealUnaryStreamClassifier (fun n => RatConstStream d (r n))
-          (fun n => RatConstStream e (r n)) ↔
-            RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
+    (RatHistoryClassifier d e ↔ RatStreamNameClassifier (fun n => RatConstStream d (r n))
+      (fun n => RatConstStream e (r n))) ∧
+      (RatStreamNameClassifier (fun n => RatConstStream d (r n)) (fun n => RatConstStream e (r n)) ↔
+        RealUnaryStreamClassifier (fun n => RatConstStream d (r n)) (fun n => RatConstStream e (r n))) ∧
+      (RealUnaryStreamClassifier (fun n => RatConstStream d (r n)) (fun n => RatConstStream e (r n)) ↔
+        RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
   exact RealConstantStream_reindexed_streamName_bridge (d := d) (e := e) (r := r)
-
 theorem RealConstantHistoryClassifier_equivalence_fields :
     (∀ {h : BHist}, RealConstantHistoryCarrier h → RealConstantHistoryClassifier h h) ∧
       (∀ {h k : BHist}, RealConstantHistoryClassifier h k → RealConstantHistoryClassifier k h) ∧
-        (∀ {h k l : BHist}, RealConstantHistoryClassifier h k →
-          RealConstantHistoryClassifier k l → RealConstantHistoryClassifier h l) := by
+      (∀ {h k l : BHist}, RealConstantHistoryClassifier h k →
+        RealConstantHistoryClassifier k l → RealConstantHistoryClassifier h l) := by
   constructor
   · intro h carrier
     cases carrier with
     | intro d data =>
-        cases data with
-        | intro sameHD ratCarrier =>
-            exact ⟨d, d, sameHD, sameHD,
-              And.intro ratCarrier (And.intro ratCarrier (hsame_refl d))⟩
+        exact ⟨d, d, data.left, data.left, And.intro data.right (And.intro data.right (hsame_refl d))⟩
   · constructor
     · intro h k classifier
       cases classifier with
       | intro d rest =>
           cases rest with
           | intro e data =>
-              cases data with
-              | intro sameHD rest =>
-                  cases rest with
-                  | intro sameKE ratClassifier =>
-                      exact ⟨e, d, sameKE, sameHD, RatHistoryClassifier_symm ratClassifier⟩
+              exact ⟨e, d, data.right.left, data.left, RatHistoryClassifier_symm data.right.right⟩
     · intro h k l classifierHK classifierKL
       cases classifierHK with
       | intro d hkRest =>
           cases hkRest with
           | intro e hkData =>
-              cases hkData with
-              | intro sameHD hkRest =>
-                  cases hkRest with
-                  | intro sameKE ratDE =>
-                      cases classifierKL with
-                      | intro e' klRest =>
-                          cases klRest with
-                          | intro f klData =>
-                              cases klData with
-                              | intro sameKE' klRest =>
-                                  cases klRest with
-                                  | intro sameLF ratE'F =>
-                                      have sameEE' : hsame e e' :=
-                                        hsame_e1_iff.mp
-                                          (hsame_trans (hsame_symm sameKE) sameKE')
-                                      have ratEF : RatHistoryClassifier e f :=
-                                        RatHistoryClassifier_hsame_transport
-                                          (hsame_symm sameEE') (hsame_refl f) ratE'F
-                                      exact ⟨d, f, sameHD, sameLF,
-                                        RatHistoryClassifier_trans ratDE ratEF⟩
-
+              cases classifierKL with
+              | intro e' klRest =>
+                  cases klRest with
+                  | intro f klData =>
+                      have sameEE' : hsame e e' :=
+                        hsame_e1_iff.mp (hsame_trans (hsame_symm hkData.right.left) klData.left)
+                      have ratEF : RatHistoryClassifier e f := RatHistoryClassifier_hsame_transport
+                        (hsame_symm sameEE') (hsame_refl f) klData.right.right
+                      exact ⟨d, f, hkData.left, klData.right.left, RatHistoryClassifier_trans hkData.right.right ratEF⟩
 end BEDC.Derived.RealUp
