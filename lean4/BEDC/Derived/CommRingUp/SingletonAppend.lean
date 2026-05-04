@@ -193,4 +193,24 @@ theorem CommRingSingletonClassifier_append_comm_congr {h h' k k' : BHist} :
   exact And.intro leftCarrier
     (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
 
+theorem CommRingSingletonClassifier_append_assoc_carrier_iff {a b c : BHist} :
+    CommRingSingletonClassifier (append (append a b) c) (append a (append b c)) <->
+      CommRingSingletonCarrier a ∧ CommRingSingletonCarrier b ∧ CommRingSingletonCarrier c := by
+  constructor
+  · intro classified
+    have leftOuter := append_eq_empty_iff.mp classified.left
+    have leftInner := append_eq_empty_iff.mp leftOuter.left
+    exact And.intro leftInner.left (And.intro leftInner.right leftOuter.right)
+  · intro carriers
+    have leftInner : CommRingSingletonCarrier (append a b) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left carriers.right.left)
+    have leftCarrier : CommRingSingletonCarrier (append (append a b) c) :=
+      append_eq_empty_iff.mpr (And.intro leftInner carriers.right.right)
+    have rightInner : CommRingSingletonCarrier (append b c) :=
+      append_eq_empty_iff.mpr (And.intro carriers.right.left carriers.right.right)
+    have rightCarrier : CommRingSingletonCarrier (append a (append b c)) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left rightInner)
+    exact And.intro leftCarrier
+      (And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier)))
+
 end BEDC.Derived.CommRingUp
