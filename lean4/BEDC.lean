@@ -176,6 +176,7 @@ import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.SpineNoConfusion
 import BEDC.Derived.ListUp.PairFrameBoundary
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
