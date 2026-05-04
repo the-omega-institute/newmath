@@ -133,6 +133,62 @@ classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
 
+\begin{theorem}[Group singleton conjugation classifier invariance]
+\label{thm:group-singleton-conjugation-classifier-invariance}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group
+instance, define
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y)\Longleftrightarrow R_{\emp}(x,y).
+$$
+The ten-field fit is: traditional target terminal inner-action classifier
+invariance; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier $R_{\emp}$; stability from
+\autoref{thm:group-singleton-conjugation-terminal-collapse},
+\autoref{thm:group-singleton-normalizer-action-certificate}, and terminal
+classifier exactness; ledger the conjugating singleton endpoint and arbitrary
+classified endpoint; exactness the displayed iff; standard bridge identity
+conjugation in the terminal group; downstream consumer terminal normalizer
+orbit and quotient visibility; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(s)$. For the forward direction, start from
+$R_{\emp}(\mathsf{Conj}_s(x),y)$. The terminal classifier exactness row of
+\autoref{thm:group-singleton-terminal-classifier-package} extracts
+$A_{\emp}(y)$ and a singleton carrier witness for the conjugation endpoint
+$\mathsf{Conj}_s(x)$.
+
+The same exactness row packages that conjugation carrier witness with the
+reflexive carrier fact for $\emp$, producing
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\emp).
+$$
+Identify the displayed $\mathsf{mul}$-$\mathsf{inv}$ conjugation word with the
+singleton append form used in
+\autoref{thm:group-singleton-conjugation-terminal-collapse}. That theorem then
+recovers $A_{\emp}(x)$ from the classifier against $\emp$.
+
+With $A_{\emp}(x)$ and the previously extracted $A_{\emp}(y)$, terminal
+classifier exactness packages
+$$
+R_{\emp}(x,y).
+$$
+
+For the reverse direction, start from $R_{\emp}(x,y)$. Terminal classifier
+exactness extracts $A_{\emp}(x)$ and $A_{\emp}(y)$.
+
+Apply \autoref{thm:group-singleton-normalizer-action-certificate} to $s$ and
+$x$. The hypotheses $A_{\emp}(s)$ and $A_{\emp}(x)$ put
+$\mathsf{Conj}_s(x)$ in $A_{\emp}$. Terminal classifier exactness now packages
+that carrier fact with $A_{\emp}(y)$ and yields
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y).
+$$
+\end{proof}
+
 \begin{definition}[Concrete singleton normalizer-action group instance]
 \label{def:group-singleton-normalizer-action-instance}
 The concrete terminal normalizer action over $\mathsf{BHist}$ is the data
