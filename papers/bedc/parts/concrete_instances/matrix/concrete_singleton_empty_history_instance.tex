@@ -136,6 +136,25 @@ step.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
 
+\begin{theorem}[Matrix singleton power append positive suffix continuation readback]
+\label{thm:matrix-singleton-pow-append-positive-suffix-cont-readback}
+If $suffix$ is unary and not history-same as $\emp$, then the power ledger
+over $\mathsf{append}(pref,suffix)$ exposes the successor continuation at the
+same prefix:
+$$
+\exists tail.\ \Unary(tail)\land
+\ContR(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,tail)),M,
+\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,suffix))).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty suffixes have a one-headed tail. After substituting
+$suffix=\Eone(tail)$, the appended exponent is itself one-headed with payload
+$\mathsf{append}(pref,tail)$. The recursive power ledger therefore unfolds to
+the displayed continuation by $M$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_cont\_readback}
+
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}
 For histories $M,e:\mathsf{BHist}$, if $M$ is carried by the singleton matrix
@@ -739,4 +758,3 @@ identifications, any continuation result must be the BEDC append endpoint
 empty endpoint, so both visible cases are impossible.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_visible\_result\_absurd}
-
