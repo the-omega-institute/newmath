@@ -51,6 +51,37 @@ closure gives the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_result\_unary}
 
+\begin{theorem}[Real-analytic complex partial-sum indices and results are unary]
+\label{thm:real-analytic-complex-part-sum-index-result-unary}
+For the real-analytic series interface, if the chosen zero history is unary and
+each term history is unary on unary indices, then every closed complex
+partial-sum witness has both unary index and unary result.
+\end{theorem}
+\begin{proof}
+Induct on the closed complex partial-sum witness. The base has empty unary
+index and the supplied unary zero result. In the successor case, the induction
+hypothesis gives unaryness of the predecessor index and result; closure under
+\(\Eone\) gives the successor index, the term hypothesis gives the next unary
+term, and unary continuation closure gives the successor result.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_index\_result\_unary}
+
+\begin{theorem}[Real-analytic complex absolute partial-sum indices and results are unary]
+\label{thm:real-analytic-complex-abs-part-sum-index-result-unary}
+For the real-analytic absolute-series interface, if the chosen zero history is
+unary and each modulus history is unary on unary indices, then every closed
+absolute complex partial-sum witness has both unary index and unary result.
+\end{theorem}
+\begin{proof}
+Induct on the closed absolute partial-sum witness. The zero case is the empty
+unary index with the supplied unary zero result. In the successor case, the
+induction hypothesis supplies the predecessor index and result; unary
+\(\Eone\)-closure supplies the successor index, the modulus hypothesis supplies
+the unary summand, and unary continuation closure supplies the successor
+result.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexAbsPartSum\_index\_result\_unary}
+
 \begin{lemma}[Exponential Cauchy modulus on bounded inputs]
 \label{lem:real-analytic-exp-cauchy}
 For every \(\RealUp\)-history \(x\) with \(|x| \leq B\) (explicit unary upper bound \(B\)), the partial sums \(\mathsf{ExpPart}(x, n, S_n)\) form a \(\RegSeqRat\)-Cauchy sequence with explicit modulus \(N(k) := 2 B + k\): for all \(m, n \geq N(k)\), \(|S_m - S_n| < 2^{-k}\).

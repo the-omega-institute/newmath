@@ -27,4 +27,30 @@ theorem RealAnalyticComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHi
             exact unary_e1_closed inner
       exact unary_cont_closed ih (termUnary (indexUnary previous)) stepContinuation
 
+theorem RealAnalyticComplexPartSum_index_result_unary {zero : BHist} {c : BHist -> BHist}
+    {n S : BHist}
+    (zeroUnary : UnaryHistory zero)
+    (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (c m)) :
+    ComplexPartSum zero c n S -> UnaryHistory n ∧ UnaryHistory S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty zeroUnary
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed ih.right (termUnary ih.left) stepContinuation)
+
+theorem RealAnalyticComplexAbsPartSum_index_result_unary {zero : BHist}
+    {modulus : BHist -> BHist} {n M : BHist}
+    (zeroUnary : UnaryHistory zero)
+    (modulusUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (modulus m)) :
+    ComplexAbsPartSum zero modulus n M -> UnaryHistory n ∧ UnaryHistory M := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact And.intro unary_empty zeroUnary
+  | step previous stepContinuation ih =>
+      exact And.intro (unary_e1_closed ih.left)
+        (unary_cont_closed ih.right (modulusUnary ih.left) stepContinuation)
+
 end BEDC.Derived.RealAnalyticUp

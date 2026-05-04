@@ -181,6 +181,7 @@ import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
