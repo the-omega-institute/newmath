@@ -280,6 +280,23 @@ hypothesis.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_result\_nonempty\_of\_nonempty\_terms}
 
+\begin{theorem}[Absolute partial-sum empty result boundary]
+\label{thm:complex-abs-part-sum-empty-result-boundary}
+If a closed $\mathsf{ComplexAbsPartSum}(zero,\mathsf{modulus},n,M)$ witness
+has result $M\hsame\emp$, then either the chosen zero history is
+history-same to $\emp$, or some unary predecessor index $m$ has
+$\mathsf{modulus}(m)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+Induct on the absolute partial-sum witness. The base constructor reads the
+empty result directly as $zero\hsame\emp$. In the successor constructor,
+transport the final continuation result to $\emp$ and apply continuation
+empty-result inversion; the right endpoint of that continuation is the current
+modulus term, while a local index induction supplies unaryness of the
+predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexSeriesUp.ComplexAbsPartSum\_empty\_result\_boundary}
+
 \begin{lemma}[Absolute partial-sum successor modulus hsame determinacy]
 \label{lem:complex-abs-part-sum-successor-modulus-hsame-deterministic}
 If two chosen zero histories agree under $\hsame$, and two modulus families

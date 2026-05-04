@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.MetricUp
 
@@ -22,5 +23,43 @@ theorem MetricDistanceWitness_right_e1_result_shape {x y d : BHist} :
                   (And.intro xCarrier
                     (And.intro yTailCarrier
                       (And.intro (unary_append_closed xCarrier yTailCarrier) (cont_intro rfl)))))
+
+theorem MetricDistanceWitness_right_e1_result_hsame_source {x x' y d : BHist} :
+    MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) -> hsame x x' ->
+      (x' = BHist.Empty ∧ UnaryHistory y ∧ hsame d y) ∨
+        (∃ x1 : BHist, x' = BHist.e1 x1 ∧
+          MetricDistanceWitness (BHist.e1 x1) y d) := by
+  intro witness sameSource
+  have sourceCases := MetricDistanceWitness_right_e1_source_cases witness
+  cases sourceCases with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro xEmpty data =>
+          cases xEmpty
+          have sourceEmpty : x' = BHist.Empty := hsame_empty_inversion sameSource
+          exact Or.inl (And.intro sourceEmpty data)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro x0 data =>
+          cases data with
+          | intro xEq tailWitness =>
+              cases xEq
+              have sourceShape := hsame_e1_inversion sameSource
+              cases sourceShape with
+              | intro x1 tailData =>
+                  cases tailData with
+                  | intro sourceEq sameTail =>
+                      have sourceCarrier : UnaryHistory x1 :=
+                        unary_transport (unary_e1_inversion tailWitness.left) sameTail
+                      have sourceCont : Cont (BHist.e1 x1) y d :=
+                        cont_hsame_transport (hsame_e1_congr sameTail) (hsame_refl y)
+                          (hsame_refl d) tailWitness.right.right.right
+                      exact
+                        Or.inr
+                          (Exists.intro x1
+                            (And.intro sourceEq
+                              (And.intro (unary_e1_closed sourceCarrier)
+                                (And.intro tailWitness.right.left
+                                  (And.intro tailWitness.right.right.left sourceCont)))))
 
 end BEDC.Derived.MetricUp

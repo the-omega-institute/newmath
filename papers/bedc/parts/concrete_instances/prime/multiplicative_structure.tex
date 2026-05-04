@@ -79,6 +79,23 @@ closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_positive\_shape}
 
+\begin{theorem}[Nonempty multiplier multiplication has positive result shape]
+\label{thm:natmul-nonempty-multiplier-result-positive-shape}
+If $\mathsf{NatMul}(d,q,n)$, $q$ is not history-same to $\emp$, and $d$ is not
+history-same to $\emp$, then the result has one-headed shape:
+$$
+\exists t,\ \hsame(n,\Eone(t))\wedge\mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication witness carries a unary classifier for $q$. The empty case
+contradicts the displayed non-emptiness, and the zero-headed case contradicts
+unary exactness. Hence $q=\Eone(q_0)$, and
+\autoref{thm:natmul-succ-result-positive-shape} applies to the same
+multiplication witness and the nonempty multiplicand.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplier\_result\_positive\_shape}
+
 \begin{theorem}[Successor multiplication empty result exactness]
 \label{thm:nat-mul-succ-result-empty-left-empty-iff}
 If $\mathsf{NatMul}(d,\Eone(q),n)$, then the result is empty exactly when the
@@ -411,4 +428,3 @@ In the successor case, the product is obtained by appending one more copy of \(a
 
 It remains when the final appended copy is the first place where the divisor can occur. The \(\mathsf{NatMul}\) result and functionality facts identify the last continuation with the factor \(a\) up to \(\hsame\). Applying the defining divisor alternative in \(\mathsf{NatPrime}(p)\) to this non-trivial divisor yields either the unit case, which is incompatible with the prime's strict-greater field, or \(\hsame\)-equality with \(a\). This gives \(\mathsf{NatDivides}(p,a)\), completing the induction.
 \end{proof}
-
