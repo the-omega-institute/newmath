@@ -400,3 +400,34 @@ The $\POSetUp$ laws follow directly. Reflexivity of $\le_Q$ is the reflexivity o
 
 The source row is the quotient carrier $C_{\!\approx}$, the pattern row is $\le_Q$ as in \autoref{def:poset-pattern-specification}, and the classifier row is $\sim_Q$ as in \autoref{def:poset-classifier-specification}. The stability rows required by \autoref{def:poset-stability-certificate} are the quotient reflexivity, transitivity, relation congruence, and antisymmetry just proved. The ledger of \autoref{def:poset-ledger-policy} records the two representatives and, when antisymmetry is invoked, the two induced comparisons. These are exactly the fields listed in \autoref{def:poset-certificate-obligations}, so the quotient presentation supplies the stated $\POSetUp$ certificate and hence the $\PosetUp$ quotient presentation.
 \end{proof}
+
+\begin{definition}[Opposite POSet certificate data]
+\label{def:opposite-poset-certificate-data}
+Let a $\POSetUp$ certificate be presented by a carrier predicate $\mathcal C$, classifier $\sim_C$, and relation $\le_C$. Define the opposite relation by
+$$
+a\le_C^{\mathrm{op}} b:=b\le_C a.
+$$
+The opposite POSet data $C^{\mathrm{op}}$ have the same carrier predicate $\mathcal C$, the same classifier $\sim_C$, and relation $\le_C^{\mathrm{op}}$. An antisymmetry ledger for $a\le_C^{\mathrm{op}} b$ and $b\le_C^{\mathrm{op}} a$ is the same pair of original comparison derivations, read as $b\le_C a$ and $a\le_C b$.
+\end{definition}
+
+\begin{theorem}[Opposite POSet certificate]
+\label{thm:opposite-poset-certificate}
+If $(\mathcal C,\sim_C,\le_C)$ satisfies the $\POSetUp$ certificate obligations of \autoref{def:poset-certificate-obligations}, then the data of \autoref{def:opposite-poset-certificate-data} also satisfy the $\POSetUp$ certificate obligations. Thus the same carrier and classifier carry a POSet certificate with relation $\le_C^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+Unpack the given package through \autoref{def:poset-certificate-obligations}. By \autoref{prop:poset-forgets-preorder-certificate}, it has a $\PreorderUp$ reduct with the same carrier predicate $\mathcal C$, classifier $\sim_C$, and relation $\le_C$. Applying \autoref{thm:opposite-preorder-certificate} to that reduct supplies the carrier, source, preorder pattern, classifier, preorder stability rows, and preorder ledger for the relation $\le_C^{\mathrm{op}}$ of \autoref{def:opposite-poset-certificate-data}.
+
+It remains to supply the partial-order rows of \autoref{def:poset-stability-certificate}. Let $a$ and $b$ be carried endpoints and suppose
+$$
+a\le_C^{\mathrm{op}} b
+\qquad\text{and}\qquad
+b\le_C^{\mathrm{op}} a.
+$$
+Unfolding the opposite relation gives $b\le_C a$ and $a\le_C b$. Applying the original antisymmetry field to the ordered pair $a\le_C b$ and $b\le_C a$ yields $a\sim_C b$, which is exactly the antisymmetry conclusion required for $\le_C^{\mathrm{op}}$.
+
+The compatibility of antisymmetry with relation congruence is inherited in the same exchange of endpoints. Given classifier replacements $a\sim_C a'$ and $b\sim_C b'$, the opposite preorder relation-congruence row transports the two opposite comparisons to $a'\le_C^{\mathrm{op}} b'$ and $b'\le_C^{\mathrm{op}} a'$. Unfolding gives $b'\le_C a'$ and $a'\le_C b'$, and the original antisymmetry compatibility row applies to these transported original comparisons to produce $a'\sim_C b'$.
+
+The source row of \autoref{def:poset-source-specification} is therefore a certified preorder carrier plus the antisymmetry field just proved. The pattern row of \autoref{def:poset-pattern-specification} is still preorder relation formation with classifier collapse from bidirectional comparison: a displayed pair of opposite comparisons is read as the same original pair with the two comparison derivations exchanged. The classifier row of \autoref{def:poset-classifier-specification} is unchanged because endpoint classification remains $\sim_C$.
+
+Finally, the ledger row is \autoref{def:poset-ledger-policy}. It records both comparison derivations used by antisymmetry; under \autoref{def:opposite-poset-certificate-data}, those are exactly the original derivations $b\le_C a$ and $a\le_C b$ with the displayed slots exchanged. Hence the carrier, source, pattern, classifier, stability, and ledger rows satisfy \autoref{def:poset-certificate-obligations}, so $C^{\mathrm{op}}$ carries a $\POSetUp$ certificate.
+\end{proof}
