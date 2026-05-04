@@ -114,6 +114,48 @@ $\hsame$ comparison transports the image witness to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
 
+\begin{theorem}[Homology boundary carrier append empty preimages]
+\label{thm:homology-boundary-carrier-append-empty-preimages}
+If $B_d(h)$ and $B_d(k)$ and
+$\hsame(\mathsf{append}(h,k),\mathsf{Empty})$, then the two boundary
+witnesses can be chosen with empty differential endpoints:
+$$
+\exists u,v:\mathsf{BHist},\
+\hsame(h,d(u))\land \hsame(k,d(v))\land
+\hsame(d(u),\mathsf{Empty})\land\hsame(d(v),\mathsf{Empty}).
+$$
+\end{theorem}
+\begin{proof}
+BEDC append-empty inversion splits the appended endpoint comparison into
+$h\hsame\mathsf{Empty}$ and $k\hsame\mathsf{Empty}$. Applying empty-preimage
+inversion to the two boundary carrier hypotheses produces witnesses $u$ and
+$v$ with the stated endpoint comparisons, which are then paired.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_empty\_preimages}
+
+\begin{theorem}[Homology boundary carrier append nonempty preimage]
+\label{thm:homology-boundary-carrier-append-nonempty-preimage}
+If $B_d(h)$ and $B_d(k)$ and
+$\mathsf{append}(h,k)$ is not history-same to $\mathsf{Empty}$, then at least
+one side has a boundary preimage with a nonempty differential endpoint:
+$$
+\begin{aligned}
+&\left(\exists u:\mathsf{BHist},\
+\hsame(h,d(u))\land\neg\hsame(d(u),\mathsf{Empty})\right)\\
+&\quad{}\lor
+\left(\exists v:\mathsf{BHist},\
+\hsame(k,d(v))\land\neg\hsame(d(v),\mathsf{Empty})\right).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+BEDC append nonemptiness splits into a nonempty left component or a nonempty
+right component. In the left case, boundary nonempty-preimage inversion
+applied to $B_d(h)$ gives the left disjunct. In the right case, the same
+argument applied to $B_d(k)$ gives the right disjunct.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_nonempty\_preimage}
+
 \begin{theorem}[Homology boundary carrier cycle from square-zero differential]
 \label{thm:homology-boundary-carrier-cycle-of-d-squared-zero}
 Assume the differential respects $\hsame$ and satisfies the square-zero

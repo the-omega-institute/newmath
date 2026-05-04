@@ -46,6 +46,29 @@ is the classifier equality required by $R_U$.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_laws}
 
+\begin{theorem}[Concrete unary-history magma classifier append factors]
+\label{thm:concrete-unary-history-magma-classifier-append-factors}
+For histories $h,h',k,k':\mathsf{BHist}$, the concrete unary-history magma
+classifier relates the two appended endpoints exactly when all four factors
+are unary histories and the two appended endpoints are history-same:
+$$
+R_U(\mathsf{append}(h,k),\mathsf{append}(h',k'))
+\Longleftrightarrow
+U(h)\land U(k)\land U(h')\land U(k')
+\land
+\hsame(\mathsf{append}(h,k),\mathsf{append}(h',k')).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_U$. The forward direction gives unary carrier witnesses for the two
+appended endpoints. Apply unary append factor exactness to each carrier
+witness, obtaining the unary witnesses for $h,k,h',k'$, and retain the
+classifier's endpoint $\hsame$ component. Conversely, the four unary factor
+witnesses close both appended endpoints under unary append closure, and the
+displayed endpoint $\hsame$ proof repackages the concrete classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_factors\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
