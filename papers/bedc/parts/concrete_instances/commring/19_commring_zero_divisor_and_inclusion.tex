@@ -16,6 +16,22 @@ $$
 \leandef{BEDC.Derived.CommRingUp.CommRingApartZero}
 \leandef{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor}
 
+\begin{theorem}[CommRing apart-zero visible pair]
+\label{thm:commring-apartzero-visible-pair}
+For every history $h:\mathsf{BHist}$, both visible constructors are apart from
+the empty zero history:
+$$
+\mathsf{ApartZero}_R(\Ezero(h))\land
+\mathsf{ApartZero}_R(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+Each conjunct is the corresponding BEDC history no-confusion law: neither an
+$\Ezero$-headed history nor an $\Eone$-headed history can be history-same as
+$\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingApartZero\_visible\_pair}
+
 \begin{definition}[CommRing strict two-sided zero-divisor data]
 \label{def:commring-strict-zero-divisor-data}
 For the same BEDC history-level $\CommRingUp$ operation tuple, the strict
@@ -28,6 +44,25 @@ $$
 $$
 \end{definition}
 \leandef{BEDC.Derived.CommRingUp.CommRingStrictZeroDivisor}
+
+\begin{theorem}[CommRing singleton multiplication visible strict zero-divisors]
+\label{thm:commring-singleton-mul-visible-strict-zero-divisor}
+For every BEDC history $h$, both visible singleton histories
+$\Ezero(h)$ and $\Eone(h)$ are strict two-sided zero-divisors for the singleton
+commutative-ring multiplication:
+$$
+\mathsf{StrictZD}_{\mathsf{singleton}}(\Ezero(h))
+\land
+\mathsf{StrictZD}_{\mathsf{singleton}}(\Eone(h)).
+$$
+\end{theorem}
+\begin{proof}
+The singleton multiplication sends every pair of histories to $\emp$. For
+$\Ezero(h)$ use $\Eone(h)$ as the displayed annihilator, and for $\Eone(h)$ use
+$\Ezero(h)$. Constructor disjointness gives the apart-from-zero clauses for
+both visible histories, while both ordered products reduce to $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonMul\_visible\_strictZeroDivisor}
 
 \begin{theorem}[CommRing left zero-divisor strictness from commutativity]
 \label{thm:commring-left-zero-divisor-strict-of-mul-comm}

@@ -189,6 +189,29 @@ so $r\hsame\emp$, and the empty centralizer witness closes the result carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_continuation\_pair\_iff}
 
+\begin{theorem}[Centralizer coset empty representative context]
+\label{thm:quotientgroup-centralizer-coset-empty-representative-context}
+If $\emp$ centralizes $a$, then the empty-representative centralizer-coset
+carrier of a three-part append context is equivalent to the three component
+carriers:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,
+  \mathsf{append}(l,\mathsf{append}(h,r)))
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,l)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,h)\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the empty-representative carrier to the endpoint comparison with
+$\emp$. Empty append inversion first splits the outer append into $l$ and the
+inner append, then splits the inner append into $h$ and $r$. Conversely, the
+three empty endpoint comparisons rebuild the nested empty append comparison,
+and the assumed centralizer witness supplies the carrier field.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_representative\_context\_iff}
+
 \begin{theorem}[Centralizer coset empty continuation classifier]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then

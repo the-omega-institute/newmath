@@ -247,6 +247,17 @@ theorem cont_cancel_hsame_right_context {a a' b b' r r' : BHist} :
   cases sameResult
   exact cont_right_cancel left right
 
+theorem cont_prefixed_result_common_suffix_source_deterministic {p a b k r s : BHist} :
+    Cont a k r -> Cont b k s -> hsame (append p r) (append p s) -> hsame a b := by
+  intro left right samePrefixedResult
+  exact cont_right_cancel_hsame_result left right (append_left_cancel (h := p) samePrefixedResult)
+
+theorem cont_prefixed_result_common_source_tail_deterministic {p a k l r s : BHist} :
+    Cont a k r -> Cont a l s -> hsame (append p r) (append p s) -> hsame k l := by
+  intro left right samePrefixedResult
+  exact cont_cancel_hsame_left_context left right (hsame_refl a)
+    (append_left_cancel (h := p) samePrefixedResult)
+
 theorem cont_composite_tail_unique {h k r f g tail : BHist} :
     Cont h f k -> Cont k g r -> Cont h tail r -> hsame tail (append f g) := by
   intro left right direct
