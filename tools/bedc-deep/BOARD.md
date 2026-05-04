@@ -3303,3 +3303,54 @@ Parallels B-29 (lattice GLB/LUB uniqueness from directional certificates) but in
 
 ---
 
+### B-130 - Functor preserves split epimorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves split epimorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $F:\mathcal C\to\mathcal D$ is a $\FunctorUp$ certificate and $f$ has a right-inverse witness in the source category, then $F_1(f)$ has the mapped right-inverse witness in the codomain category.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapter 37 (functor namecert) is currently 100% definition-only (B-11 rationale notes 7 def, 0 thm). The paper already has `def:category-split-monomorphism` so the dual notion of split epimorphism via right-inverse witnesses is natural to introduce, and a Functor preserving such witnesses is a foundational theorem distinct from B-11 (which is about composition of functors preserving the hom-carrier classifier, not about morphism-class preservation). It directly fills a known structural gap in the functor chapter.
+
+---
+
+
+### B-131 - Functor preserves isomorphism witnesses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Functor preserves isomorphism witnesses |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If $f$ carries both a split-monomorphism witness and a split-epimorphism witness in a $\FunctorUp$ source category, then $F_1(f)$ carries the mapped split-monomorphism and split-epimorphism witnesses in the codomain category.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Distinct enough from the split-epi target above because in BEDC's witness style the isomorphism case is the joint preservation of two oriented witness fields rather than the bare conjunction; the proof packages both inverse-side certificate transports together and is the natural target site for `\leanchecked` once the split-mono and split-epi preservation lemmas are in place. Sits in the same definition-only Chapter 37 zone, so it adds usable theorem mass without duplicating B-11 composition or the split-epi target.
+
+---
+
