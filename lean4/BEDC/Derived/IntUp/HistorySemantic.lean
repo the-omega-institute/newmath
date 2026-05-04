@@ -22,9 +22,96 @@ def IntHistoryClassifier
   (Exists (fun m : BEDC.FKernel.Hist.BHist =>
     Exists (fun n : BEDC.FKernel.Hist.BHist =>
       BEDC.FKernel.Unary.UnaryHistory m ∧ BEDC.FKernel.Unary.UnaryHistory n ∧
-        BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 m) ∧
-          BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e1 n) ∧
-            BEDC.FKernel.Hist.hsame m n)))
+          BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 m) ∧
+            BEDC.FKernel.Hist.hsame k (BEDC.FKernel.Hist.BHist.e1 n) ∧
+              BEDC.FKernel.Hist.hsame m n)))
+
+theorem IntHistoryCarrier_signed_branch_determinacy
+    {h : BEDC.FKernel.Hist.BHist} :
+    IntHistoryCarrier h ->
+      (Exists (fun m : BEDC.FKernel.Hist.BHist =>
+        BEDC.FKernel.Unary.UnaryHistory m ∧
+          BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e0 m) ∧
+            (forall p : BEDC.FKernel.Hist.BHist,
+              BEDC.FKernel.Unary.UnaryHistory p ->
+                BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 p) ->
+                  False))) ∨
+      (Exists (fun m : BEDC.FKernel.Hist.BHist =>
+        BEDC.FKernel.Unary.UnaryHistory m ∧
+          BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e1 m) ∧
+            (forall p : BEDC.FKernel.Hist.BHist,
+              BEDC.FKernel.Unary.UnaryHistory p ->
+                BEDC.FKernel.Hist.hsame h (BEDC.FKernel.Hist.BHist.e0 p) ->
+                  False))) := by
+  intro carrier
+  cases carrier with
+  | inl zero =>
+      cases zero with
+      | intro m data =>
+          exact Or.inl
+            (Exists.intro m
+              (And.intro data.left
+                (And.intro data.right
+                  (by
+                    intro p _unaryP sameOne
+                    have mixed : BEDC.FKernel.Hist.hsame
+                        (BEDC.FKernel.Hist.BHist.e0 m)
+                        (BEDC.FKernel.Hist.BHist.e1 p) :=
+                      BEDC.FKernel.Hist.hsame_trans
+                        (BEDC.FKernel.Hist.hsame_symm data.right) sameOne
+                    exact BEDC.FKernel.Hist.not_hsame_e0_e1 mixed))))
+  | inr one =>
+      cases one with
+      | intro m data =>
+          exact Or.inr
+            (Exists.intro m
+              (And.intro data.left
+                (And.intro data.right
+                  (by
+                    intro p _unaryP sameZero
+                    have mixed : BEDC.FKernel.Hist.hsame
+                        (BEDC.FKernel.Hist.BHist.e1 m)
+                        (BEDC.FKernel.Hist.BHist.e0 p) :=
+                      BEDC.FKernel.Hist.hsame_trans
+                        (BEDC.FKernel.Hist.hsame_symm data.right) sameZero
+                    exact BEDC.FKernel.Hist.not_hsame_e1_e0 mixed))))
+
+theorem IntHistoryClassifier_mixed_visible_tag_exclusion :
+    forall m n : BEDC.FKernel.Hist.BHist,
+      (IntHistoryClassifier (BEDC.FKernel.Hist.BHist.e0 m)
+          (BEDC.FKernel.Hist.BHist.e1 n) -> False) ∧
+      (IntHistoryClassifier (BEDC.FKernel.Hist.BHist.e1 m)
+          (BEDC.FKernel.Hist.BHist.e0 n) -> False) := by
+  intro m n
+  constructor
+  · intro classified
+    cases classified with
+    | inl zero =>
+        cases zero with
+        | intro _p rest =>
+            cases rest with
+            | intro _q data =>
+                exact BEDC.FKernel.Hist.not_hsame_e1_e0 data.right.right.right.left
+    | inr one =>
+        cases one with
+        | intro _p rest =>
+            cases rest with
+            | intro _q data =>
+                exact BEDC.FKernel.Hist.not_hsame_e0_e1 data.right.right.left
+  · intro classified
+    cases classified with
+    | inl zero =>
+        cases zero with
+        | intro _p rest =>
+            cases rest with
+            | intro _q data =>
+                exact BEDC.FKernel.Hist.not_hsame_e1_e0 data.right.right.left
+    | inr one =>
+        cases one with
+        | intro _p rest =>
+            cases rest with
+            | intro _q data =>
+                exact BEDC.FKernel.Hist.not_hsame_e0_e1 data.right.right.right.left
 
 theorem IntHistory_semanticNameCert :
     BEDC.FKernel.NameCert.SemanticNameCert IntHistoryCarrier IntHistoryCarrier

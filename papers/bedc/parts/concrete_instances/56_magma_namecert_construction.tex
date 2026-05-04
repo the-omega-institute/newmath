@@ -86,6 +86,30 @@ displayed endpoint $\hsame$ proof repackages the concrete classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_factors\_iff}
 
+\begin{theorem}[Concrete unary-history magma classifier append-empty endpoints]
+\label{thm:concrete-unary-history-magma-classifier-append-empty-endpoints}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $h,k:\mathsf{BHist}$, the concrete unary-history magma
+classifier relates $\mathsf{append}(h,k)$ to $\emp$ exactly when both append
+endpoints are empty:
+$$
+R_U(\mathsf{append}(h,k),\emp)
+\Longleftrightarrow
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unfold $R_U$. The forward direction reads
+$\mathsf{append}(h,k)\hsame\emp$ from the classifier and applies append-empty
+exactness to recover $h\hsame\emp$ and $k\hsame\emp$. Conversely, the two empty
+endpoints make the append endpoint unary and history-same to $\emp$, while
+$\emp$ itself is unary.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_empty\_endpoints\_iff}
+
 \begin{theorem}[Concrete unary-history magma continuation result classifier factors]
 \label{thm:concrete-unary-history-magma-cont-result-classifier-factors}
 For histories $h,h',k,k',r,r':\mathsf{BHist}$, if

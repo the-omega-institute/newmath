@@ -150,6 +150,23 @@ predecessor histories.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_predecessor\_unique}
 
+\begin{theorem}[Prime scale unit exponent reads back to the prime]
+\label{thm:padic-prime-scale-unit-exponent-result-prime}
+If $\mathsf{PadicPrimeScale}(p,\Eone(\emp),result)$ holds, then the scale
+result is history-same to the prime base:
+$$
+result\hsame p.
+$$
+\end{theorem}
+\begin{proof}
+Successor-exponent inversion extracts a predecessor result over the empty
+exponent and a continuation from that predecessor through $p$ to $result$.
+Empty-result exactness for prime scales identifies the predecessor with
+$\emp$. Comparing the displayed continuation with the left-unit continuation
+for $p$ identifies $result$ with $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_result\_prime\_hsame}
+
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}
 If \(\mathsf{PadicPrimeScale}(p,w,n)\), \(\mathsf{PadicPrimeScale}(p,q,e)\),
@@ -228,6 +245,32 @@ factor multiplications and a continuation. Reusing the same prime field with
 each factor multiplication gives the two displayed prime-scale witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_exponent\_decomposition}
+
+\begin{theorem}[Prime scale append successor right factorization]
+\label{thm:padic-prime-scale-append-succ-right-factorization}
+For unary histories $w$ and $q$, a prime scale over
+$\mathsf{append}(w,\Eone(q))$ is exactly a left prime-scale result over $w$,
+a predecessor right prime-scale result over $q$, a one-step continuation by
+the prime base, and the final continuation from the left result:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(q)),r)
+\Longleftrightarrow
+\exists n,e,s.\,
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\ContR(e,p,s)\land
+\ContR(n,s,r).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction first applies append-exponent decomposition with the
+right factor $\Eone(q)$. The right factor scale is then inverted by the
+successor-exponent factorization theorem, producing the predecessor scale over
+$q$ and its continuation by $p$. Conversely, rebuild the right successor scale
+from the predecessor row and then apply append continuation closure with the
+final continuation row.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_succ\_right\_exponent\_factorization\_iff}
 
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
