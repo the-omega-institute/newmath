@@ -375,6 +375,23 @@ as unary, and unary continuation closure gives the successor.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_unary\_of\_seed}
 
+\begin{theorem}[Strict iterated complex differentiability forgets strict steps]
+\label{thm:iterated-strict-cplx-diff-forget-strict-unary-readback}
+Every strict iterated complex-differentiability chain has an underlying
+ordinary iterated complex-differentiability chain with the same seed, index,
+and selected endpoint. Consequently, unary membership of the seed still reads
+back to unary membership of the selected endpoint through the ordinary chain.
+\end{theorem}
+\begin{proof}
+Induct on the iteration index. At zero, the strict and ordinary chains have
+the same seed endpoint classifier. At a successor stage, unpack the predecessor
+and strict nonempty unary step, apply the induction hypothesis to the
+predecessor chain, and keep the same unary continuation witness while erasing
+only the nonemptiness field. Unary readback then applies to the resulting
+ordinary iterated chain.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_forget\_strict\_unary\_readback}
+
 \begin{lemma}[Strict iterated complex differentiability exposes a strict prefix]
 \label{lem:iterated-strict-cplx-diff-strict-prefix}
 If a strict iterated complex-differentiability chain starts from a unary seed
