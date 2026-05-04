@@ -106,6 +106,22 @@ theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
   | intro n data =>
       exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
 
+theorem PadicPrimeScale_positive_exponent_cont_readback {p exponent result : BHist} :
+    UnaryHistory exponent -> (hsame exponent BHist.Empty -> False) ->
+      PadicPrimeScale p exponent result ->
+        ∃ tail : BHist, ∃ pred : BHist,
+          UnaryHistory tail ∧ exponent = BHist.e1 tail ∧
+            PadicPrimeScale p tail pred ∧ Cont pred p result := by
+  intro exponentUnary exponentNonempty scale
+  have exponentTail := unary_history_nonempty_e1_tail exponentUnary exponentNonempty
+  cases exponentTail with
+  | intro tail data =>
+      cases data.left
+      have inversion := PadicPrimeScale_succ_exponent_inversion scale
+      cases inversion with
+      | intro pred predData =>
+          exact ⟨tail, pred, data.right, rfl, predData.left, predData.right⟩
+
 theorem PadicPrimeScale_succ_exponent_factorization_iff {p q r : BHist} :
     PadicPrimeScale p (BHist.e1 q) r ↔
       ∃ n : BHist, PadicPrimeScale p q n ∧ Cont n p r := by
