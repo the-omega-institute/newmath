@@ -1,4 +1,5 @@
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 
 namespace BEDC.Derived.PrimeUp
 
