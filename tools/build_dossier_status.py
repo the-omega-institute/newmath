@@ -101,57 +101,93 @@ def count_paper_markers_per_chapter() -> list[dict]:
 NAMECERT_TARGET_RE = re.compile(
     r"\\(leanchecked|leanstmt)\{"
     r"(BEDC\.(?:Derived|FKernel)\.([A-Za-z]+)\.[A-Za-z0-9_\\]*?"
-    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?"
-    r"[A-Za-z0-9_\\]*)"
+    # Strict definition: only NameCert / Name(_)Certificate-shaped
+    # theorems count as object-completion proofs. Other completion-
+    # related naming (*_laws, *_certificate_fields, *_stability_*) is
+    # NOT folded in here; the detail panel adds an explicit fallback
+    # message when a \closureat-closed region has no canonical namecert
+    # to surface.
+    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?[A-Za-z0-9_\\]*)"
     r"\}"
+)
+
+# Author-declared chapter closure: `\closureat{<X>Up}{\<strength>Str}[<lean.target>]`
+# preamble macro. Same source-of-truth used by critical_path.py. The optional
+# third argument names the canonical Lean theorem grounding the closure —
+# tools read it directly instead of regex-guessing the closure-shape.
+CLOSUREAT_RE = re.compile(
+    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
+    r"(?:\[\s*([^\]]+?)\s*\])?"
 )
 
 # FKernel namespaces that own a region's namecert (the region lives in
 # `Derived/` conceptually but its proof tree is in the kernel).
 FKERNEL_REGION_OVERRIDES: dict[str, str] = {
-    "Unary": "nat",  # nat_up_name_certificate, add_up_name_certificate_exists
+    "Unary": "nat",       # nat_up_name_certificate, etc.
+    "NameCert": "kernel", # FKernel.NameCert.* — kernel-level certificate machinery
+    "Cont": "kernel",     # FKernel.Cont.* — kernel continuation lemmas
+    "Package": "kernel",
+    "Bundle": "kernel",
+    "Ask": "kernel",
+    "Hist": "kernel",
 }
+
+# Paper directories scanned for namecert markers. concrete_instances holds
+# per-region object certificates; core / hardening / proof_standing /
+# proof_sprint / capstones contain kernel-level and meta certificates that
+# nonetheless ground a region's stage.
+PAPER_NAMECERT_DIRS = [
+    PAPER_INSTANCES,
+    ROOT / "papers" / "bedc" / "parts" / "core",
+    ROOT / "papers" / "bedc" / "parts" / "hardening",
+    ROOT / "papers" / "bedc" / "parts" / "proof_standing",
+    ROOT / "papers" / "bedc" / "parts" / "proof_sprint",
+    ROOT / "papers" / "bedc" / "parts" / "capstones",
+]
 
 
 def collect_namecert_theorems_per_region() -> dict[str, list[dict]]:
-    """Walk all paper chapters; return {region_id: [{name, status, file}, ...]}.
+    """Walk all paper chapters that may carry namecert markers; return
+    {region_id: [{name, status, file}, ...]}.
 
     A 'namecert theorem' is any \\leanchecked / \\leanstmt target whose Lean
     name matches *NameCert* or *Name(_)Certificate* (the BEDC convention for
     the object-completion theorems). Stripped underscore escapes are resolved.
+    Markers in core / hardening / proof_standing also count: they ground the
+    kernel and nat / add regions whose proofs live in FKernel.
     """
     out: dict[str, list[dict]] = defaultdict(list)
-    for f in PAPER_INSTANCES.rglob("*.tex"):
-        try:
-            rel = f.relative_to(PAPER_INSTANCES)
-            text = f.read_text(encoding="utf-8", errors="ignore")
-        except Exception:
+    paper_root = ROOT / "papers" / "bedc" / "parts"
+    for top in PAPER_NAMECERT_DIRS:
+        if not top.exists():
             continue
-        for m in NAMECERT_TARGET_RE.finditer(text):
-            status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
-            full_target = m.group(2).replace("\\_", "_")
-            module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary'
-            # Determine region: Derived modules use the standard Up-stripping;
-            # FKernel modules like 'Unary' may map to a specific region via
-            # the override table (FKernel.Unary owns nat / add namecerts).
-            if "FKernel" in m.group(2):
-                region = FKERNEL_REGION_OVERRIDES.get(module)
-                # add_up_name_certificate also lives under FKernel.Unary -- detect.
-                short = full_target.split(".")[-1].lower()
-                if short.startswith("add"):
-                    region = "add"
-                elif short.startswith("nat"):
-                    region = "nat"
-            else:
-                region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
-            if not region:
+        for f in top.rglob("*.tex"):
+            try:
+                rel = f.relative_to(paper_root)
+                text = f.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
                 continue
-            out[region].append({
-                "name": full_target,
-                "short": full_target.split(".")[-1],
-                "status": status,
-                "file": str(rel),
-            })
+            for m in NAMECERT_TARGET_RE.finditer(text):
+                status = m.group(1).removeprefix("lean")  # 'checked' or 'stmt'
+                full_target = m.group(2).replace("\\_", "_")
+                module = m.group(3)  # e.g. 'FieldUp', 'NatUp', 'Unary', 'NameCert'
+                if "FKernel" in m.group(2):
+                    region = FKERNEL_REGION_OVERRIDES.get(module, "kernel")
+                    short = full_target.split(".")[-1].lower()
+                    if short.startswith("add"):
+                        region = "add"
+                    elif short.startswith("nat"):
+                        region = "nat"
+                else:
+                    region = canonical(lean_module_to_region(f"BEDC.Derived.{module}"))
+                if not region:
+                    continue
+                out[region].append({
+                    "name": full_target,
+                    "short": full_target.split(".")[-1],
+                    "status": status,
+                    "file": str(rel),
+                })
     # Deduplicate (same target may appear in multiple chapters)
     for region in out:
         seen = set()
@@ -524,6 +560,38 @@ def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     return level
 
 
+def collect_closure_per_region() -> dict[str, dict]:
+    """Scan paper for `\\closureat{<X>Up}{\\<strength>Str}[<grounding>]`
+    macros — the same author-declared closure signal used by
+    `lean4/scripts/critical_path.py`. Returns
+    {region_id: {'strength': str, 'grounding': str|None}}.
+    """
+    out: dict[str, dict] = {}
+    paper_root = ROOT / "papers" / "bedc" / "parts"
+    for tex in paper_root.rglob("*.tex"):
+        try:
+            text = tex.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for m in CLOSUREAT_RE.finditer(text):
+            region = canonical(m.group(1).lower())
+            strength = m.group(2)
+            grounding = m.group(3)
+            if grounding:
+                grounding = grounding.replace("\\_", "_").strip()
+            if region:
+                prev = out.get(region)
+                # Promote checkedCert over bridgeCert; keep first grounding seen.
+                if prev is None:
+                    out[region] = {"strength": strength, "grounding": grounding}
+                else:
+                    if prev["strength"] != "checkedCert" and strength == "checkedCert":
+                        prev["strength"] = strength
+                    if prev.get("grounding") is None and grounding:
+                        prev["grounding"] = grounding
+    return out
+
+
 def build_dependency_graph() -> dict:
     """Build cytoscape graph by analysing Lean imports and paper \\autoref
     cross-references. Augmented with theorem counts, paper marker counts,
@@ -533,6 +601,7 @@ def build_dependency_graph() -> dict:
     paper_per_chapter = count_paper_markers_per_chapter()
     paper_per_region = aggregate_markers_per_region(paper_per_chapter)
     namecert_per_region = collect_namecert_theorems_per_region()
+    closure_per_region = collect_closure_per_region()
 
     deps_map, all_regions = derive_dependency_edges()
     schema_set = detect_schema_only_regions()
@@ -571,9 +640,13 @@ def build_dependency_graph() -> dict:
             "stmt": markers["stmt"],
             "defs": markers["def"],
             "schema_only": nid in schema_set,
-            # Namecert-theorem-grounded status: these are the actual
-            # object-completion proofs. Node stage is decided by these
-            # counts, not by aggregate chapter marker counts.
+            # Author-declared chapter closure (the single source-of-truth
+            # shared with critical_path.py). null until the author writes
+            # \closureat{<X>Up}{checkedCert|bridgeCert}[grounding] in the chapter.
+            "closed_strength": (closure_per_region.get(nid) or {}).get("strength"),
+            "closure_grounding": (closure_per_region.get(nid) or {}).get("grounding"),
+            # Namecert-theorem-grounded data (kept for the detail panel,
+            # NOT used for proven/progress classification; closure is).
             "namecert_theorems": namecerts,
             "namecert_checked": len(namecerts_checked),
             "namecert_stmt": len(namecerts_stmt),

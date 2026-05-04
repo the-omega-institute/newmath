@@ -489,3 +489,74 @@ $$
 $$
 Unfolding $\mathsf{PolySame}_R$ from \autoref{def:polynomial-raw-add-comparison-data}, this is exactly the displayed polynomial raw classifier comparison.
 \end{proof}
+
+\begin{lemma}[Raw polynomial addition is structurally associative]
+\label{lem:polynomial-raw-add-structural-associativity}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume the additive fields retained in \autoref{def:ring-stability-certificate}: additive associativity, additive zero laws, classifier symmetry, classifier transitivity, and addition congruence. For finite coefficient spines $p,q,r:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{radd}_R(\mathsf{radd}_R(p,q),r),
+\mathsf{radd}_R(p,\mathsf{radd}_R(q,r))\bigr).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite triple spine $(p,q,r)$, using the maximum of the three finite lengths as the decreasing measure. The nil-nil-nil case unfolds both raw additions by \autoref{def:polynomial-raw-add-comparison-data} to $\mathsf{nil}$, and the nil clause of \autoref{def:list-classifier-specification} gives the classifier witness.
+
+In every remaining constructor case, at least one of the three spines is a cons spine. Unfold the corresponding clauses of $\mathsf{radd}_R$ from \autoref{def:polynomial-raw-add-comparison-data}. Both associated raw sums expose a cons head, and their tails are exactly the two associated raw sums for the tail triple, with $\mathsf{nil}$ used as the tail of any absent spine. The induction hypothesis supplies the recursive tail classifier.
+
+It remains to classify the exposed scalar heads. If all three heads are present, say $a,b,c$, the comparison is
+$$
+(a+b)+c\sim_R a+(b+c),
+$$
+which is scalar additive associativity. If exactly two heads are present, the missing head is the padding coefficient $0_R$, so the three possible comparisons
+$$
+(a+b)+0_R\sim_R a+(b+0_R),
+$$
+$$
+(a+0_R)+c\sim_R a+(0_R+c),
+$$
+$$
+(0_R+b)+c\sim_R 0_R+(b+c)
+$$
+are the same associativity law with one displayed argument equal to $0_R$. If only the left input has a head $a$, the comparison is
+$$
+(a+0_R)+0_R\sim_R a+0_R,
+$$
+which is the additive right-zero law applied to $a+0_R$. If only the middle input has a head $b$, the comparison is
+$$
+(0_R+b)+0_R\sim_R 0_R+(b+0_R),
+$$
+again additive associativity. If only the right input has a head $c$, the comparison is
+$$
+0_R+c\sim_R0_R+(0_R+c),
+$$
+obtained by reversing the additive left-zero law at the endpoint $0_R+c$ using classifier symmetry from $\mathsf{cert}_R$.
+
+In each constructor case, the scalar head comparison and the tail classifier rebuild the cons clause of $\mathsf{ListClassifierSpec}$. These cases exhaust the finite-spine constructors by \autoref{thm:list-classifier-case-exactness}.
+\end{proof}
+
+\begin{theorem}[Polynomial raw addition associativity]
+\label{thm:polynomial-raw-addition-associativity}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, canonical trim $\mathsf{trim}_R$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume the additive fields retained in \autoref{def:ring-stability-certificate}: additive abelian-group laws and addition congruence. For finite coefficient spines $p,q,r:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{radd}_R(\mathsf{radd}_R(p,q),r),
+\mathsf{radd}_R(p,\mathsf{radd}_R(q,r))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Set
+$$
+u:=\mathsf{radd}_R(\mathsf{radd}_R(p,q),r),
+\qquad
+\omega:=\mathsf{radd}_R(p,\mathsf{radd}_R(q,r)).
+$$
+By \autoref{lem:polynomial-raw-add-structural-associativity},
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\nu,\omega)
+$$
+holds. The nil spine is a classified zero remainder by the nil clause of \autoref{def:classified-zero-remainder-spine}. Apply \autoref{lem:trim-invariance-common-classified-spine-zero-remainders} to the common classified spines $\nu$ and $\omega$, with nil zero remainders on both sides. The append-nil identities for finite spines give
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(\nu),\mathsf{trim}_R(\omega)).
+$$
+Unfolding $\mathsf{PolySame}_R$ from \autoref{def:polynomial-raw-add-comparison-data} turns this normalized structural classifier into the displayed polynomial classifier comparison.
+\end{proof}

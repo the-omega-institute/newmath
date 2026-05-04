@@ -13,20 +13,40 @@ format:
 ```{=html}
 <style>
   body { background: #fbfbfa; }
-  main.content { padding-top: 1rem !important; padding-bottom: 0 !important; max-width: 100% !important; }
+  /* Lock the Quarto wrapper to viewport height (minus 62px navbar) so
+     the map shell can fit on a 13" laptop without forcing scroll.
+     Wrapper paddings and Quarto's default page footer are zeroed. */
+  #quarto-content {
+    height: calc(100vh - 62px) !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  main.content {
+    padding: 0 !important; margin: 0 !important;
+    max-width: 100% !important;
+    height: calc(100vh - 62px) !important;
+    overflow: hidden;
+  }
+  .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
 
   .map-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 200px;
+    grid-template-columns: minmax(0, 1fr) 180px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
-    height: calc(100vh - 60px);
-    min-height: 760px;
+    /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
+       the shell just fills its parent. min-height is a tablet floor.
+       overflow:hidden + min-height:0 on grid items prevents the
+       detail panel's min-content from inflating the grid past parent. */
+    height: 100%;
+    min-height: 540px;
+    overflow: hidden;
     gap: 0;
     background: #fbfbfa;
     border: 1px solid #e0e0e0;
   }
+  .map-shell > * { min-height: 0; min-width: 0; }
   main.content > .quarto-section-identifier { display: none; }
   .quarto-container { max-width: 100% !important; padding: 0 !important; }
   @media (max-width: 900px) {
@@ -247,6 +267,8 @@ const I18N = {
     detail_downstream: "downstream",
     detail_deps: "Depends on:",
     detail_namecerts: "Object-completion theorems",
+    detail_grounded_by: "Closure grounded by",
+    detail_closed_no_grounding: "Closed via \\closureat — no [grounding] declared yet. Add the canonical Lean theorem ID to surface it here.",
     picker_default: "-- jump to region --",
     grp_kernel: "Kernel primitives",
     grp_namecert: "NameCert framework",
@@ -289,6 +311,8 @@ const I18N = {
     detail_downstream: "下游影响",
     detail_deps: "依赖于:",
     detail_namecerts: "对象完成性定理",
+    detail_grounded_by: "闭合证据",
+    detail_closed_no_grounding: "通过 \\closureat 闭合，但未声明 [grounding] —— 在论文宏中加上权威 Lean 定理 ID 即可在此显示。",
     picker_default: "-- 跳到领域 --",
     grp_kernel: "内核原语",
     grp_namecert: "NameCert 框架",
@@ -399,9 +423,8 @@ function populatePicker() {
 function onPickerChange(id) {
   if (!id) return;
   showNodeDetail(id);
-  // Highlight the picked node + its dependency chain in the existing global
-  // view; do NOT change zoom. The graph stays at its fit-to-screen scale so
-  // the user keeps the full map context.
+  // showNodeDetail zooms into the connected subgraph; tapping an empty
+  // area restores the global fit.
 }
 
 // --- Glossary side pane ----------------------------------------------------
@@ -479,30 +502,19 @@ function toggleGlossary() {
 }
 
 function statusClass(node) {
-  // Schema-only takes precedence: an intentional horizon is not a missing target.
+  // Single source-of-truth: \closureat{<X>Up}{strength} declared by the
+  // author. Same signal used by lean4/scripts/critical_path.py to decide
+  // which horizons are excluded from the attack queue. Dossier and
+  // critical_path now share one judgment — no other heuristic upgrades
+  // a region to proven.
   if (node.schema_only) return "schema";
-  // Critical path: AI is targeting this region right now.
-  if (CRIT_SET.has(node.id)) return "crit";
-  // Kernel has no paper markers (defined in lean4/BEDC/FKernel) but is fully proven.
-  if (node.id === "kernel") return "proven";
-
-  // Three-tier classification grounded in two signals:
-  //   - namecert_checked   = the region's *completion* proofs are landed
-  //   - thms / checked     = there is *any* theorem activity in the region
-  //
-  // proven    : at least one namecert (object-completion) theorem is checked
-  //             AND there are no still-stated namecert theorems
-  // progress  : namecert not yet proven, but the region has Lean theorems or
-  //             paper-marker activity -- work is in flight
-  // scaffold  : nothing yet (paper exists, no theorems, no namecert)
-  const ncChecked = node.namecert_checked || 0;
-  const ncStmt    = node.namecert_stmt    || 0;
-  const thms      = node.thms             || 0;
-  const checked   = node.checked          || 0;
-
-  if (ncChecked > 0 && ncStmt === 0) return "proven";
-  if (ncChecked > 0)                  return "progress";  // mixed namecert states
-  if (thms > 0 || checked > 0)        return "progress";  // theorems exist, namecert pending
+  if (node.id === "kernel") return "proven";       // FKernel is closed by construction
+  if (node.closed_strength) return "proven";        // \closureat{...}{checkedCert|bridgeCert}
+  if (CRIT_SET.has(node.id)) return "crit";        // open horizon AI is attacking
+  if ((node.checked || 0) > 0 || (node.stmt || 0) > 0 ||
+      (node.namecert_checked || 0) > 0 || (node.thms || 0) > 0) {
+    return "progress";
+  }
   return "scaffold";
 }
 
@@ -604,13 +616,14 @@ function renderCy() {
     ],
     layout: {
       name: "dagre",
+      // BEDC dependency is a DAG; LR shows primitives (left) → derived
+      // (right). nodeSep tuned tight, rankSep wide so the natural shape
+      // matches the wide viewport (.map-shell extends to full height
+      // via calc(100vh - 30px) so 108 nodes can breathe vertically).
       rankDir: "LR",
-      // Wider rank spacing + tighter node spacing -> bigger labels under fit:true.
-      // The geometry is tuned so that the graph's natural size matches a typical
-      // viewport at fit ratio close to 1.0.
-      nodeSep: 36,
-      rankSep: 96,
-      edgeSep: 14,
+      nodeSep: 22,
+      rankSep: 150,
+      edgeSep: 10,
       ranker: "network-simplex",
       padding: 16,
       fit: true,
@@ -631,8 +644,13 @@ function renderCy() {
     if (evt.target === CY) {
       document.getElementById("detail-content").innerHTML =
         `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight");
+      CY.elements().removeClass("highlight").removeClass("faded");
       CY.nodes().unselect();
+      // Restore the global fit when the user taps an empty area.
+      CY.animate(
+        { fit: { eles: CY.elements(), padding: 16 } },
+        { duration: 350, easing: "ease-out" }
+      );
     }
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
@@ -683,6 +701,18 @@ function showNodeDetail(id) {
     else e.addClass("faded");
   });
 
+  // Zoom into the connected subgraph (selected node + ancestors +
+  // descendants). Tap on background restores the global fit (see the
+  // tap-on-CY handler below).
+  const focusEles = CY.elements().filter(el => {
+    if (el.isNode()) return keep.has(el.id());
+    return keep.has(el.data("source")) && keep.has(el.data("target"));
+  });
+  CY.animate(
+    { fit: { eles: focusEles, padding: 60 } },
+    { duration: 350, easing: "ease-out" }
+  );
+
   const incoming = DEPS.edges
     .filter(e => e.target === id)
     .map(e => e.source)
@@ -719,8 +749,21 @@ function showNodeDetail(id) {
     html += `<div class="term-deps">${t("detail_deps")} ${links.join(" ")}</div>`;
   }
 
-  // Object-completion theorems (the namecert proofs whose existence IS the
-  // object's existence in BEDC). One green ✓ for checked, blue ◯ for stmt.
+  // Object-completion / closure-grounding section. Three sources, in
+  // priority order:
+  //   1. closure_grounding  — the Lean theorem the author declared in
+  //                           \closureat{...}[grounding]. Authoritative.
+  //   2. namecert_theorems  — heuristic namecert/Name(_)Certificate
+  //                           proofs found by NAMECERT_TARGET_RE.
+  //   3. (none)             — closed but no grounding, no namecert: hint.
+  if (node.closure_grounding) {
+    const short = node.closure_grounding.split(".").pop();
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_grounded_by")}</div>
+        <div class="nc-row"><span style="color:#8e44ad;">★</span>&nbsp;<code>${short}</code></div>
+      </div>`;
+  }
   const ncList = node.namecert_theorems || [];
   if (ncList.length) {
     const items = ncList.map(t => {
@@ -735,6 +778,14 @@ function showNodeDetail(id) {
         `(<strong style="color:#27ae60;">${node.namecert_checked || 0}</strong>` +
         ` / <strong>${ncList.length}</strong>)</div>
         ${items}
+      </div>`;
+  } else if (node.closed_strength && !node.closure_grounding) {
+    html += `
+      <div class="term-namecerts">
+        <div class="term-namecerts-header">${t("detail_namecerts")}</div>
+        <div class="nc-row" style="color:#666;font-style:italic;">
+          ${t("detail_closed_no_grounding")}
+        </div>
       </div>`;
   }
 
