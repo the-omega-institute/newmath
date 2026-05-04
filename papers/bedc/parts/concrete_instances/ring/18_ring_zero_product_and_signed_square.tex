@@ -278,6 +278,38 @@ comes from \autoref{thm:ring-add-right-zero}.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
 
+\begin{theorem}[Ring zero-classifier negated product annihilation]
+\label{thm:ring-zero-classifier-negated-product-annihilation}
+For BEDC history ring operations satisfying additive associativity,
+commutativity, left zero, left inverse, addition congruence, multiplication
+congruence, additive inverse congruence, and both distributive laws, if
+$\hsame(x,0)$, then every $y:\mathsf{BHist}$ satisfies
+$$
+\hsame(-(xy),0)\land \hsame(-(yx),0).
+$$
+The ten-field fit is: traditional target negated zero-product annihilation;
+BEDC source $\RingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$;
+classifier $\hsame$; stability from signed zero-factor absorption and
+negative-product identification; ledger the zero-factor witness and the hidden
+product endpoint; core theorem this theorem; exactness the displayed
+conjunction; downstream consumer $\FieldUp$ denominator inverse normalization
+and zero-product exits; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:ring-zero-classifier-signed-factor-absorption} to the
+zero-classified factor $x$ and multiplier $y$. Its first two components give
+the signed zero-product rows $\hsame((-x)y,0)$ and $\hsame(y(-x),0)$.
+
+Apply \autoref{thm:ring-mul-neg-left-eq-neg-mul} to identify $(-x)y$ with
+$-(xy)$. Apply \autoref{thm:ring-mul-neg-right-eq-neg-mul} with the ordered
+pair $(y,x)$ to identify $y(-x)$ with $-(yx)$.
+
+Use symmetry for the two endpoint identifications where necessary, and then
+transitivity of $\hsame$ with the two signed zero-product rows. This gives
+$\hsame(-(xy),0)$ and $\hsame(-(yx),0)$, which are exactly the displayed
+conjunction.
+\end{proof}
+
 \begin{theorem}[Ring double-negative product]
 \label{thm:ring-mul-neg-neg-eq-mul}
 For BEDC history ring operations satisfying additive associativity,
