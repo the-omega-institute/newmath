@@ -139,6 +139,27 @@ theorem NatMul_nonempty_multiplicand_empty_result_iff {d q : BHist} :
     cases qEmpty
     exact NatMul.zero hd
 
+theorem NatMul_empty_result_factor_empty_or_multiplier_empty {d q : BHist} :
+    NatMul d q BHist.Empty -> hsame d BHist.Empty ∨ hsame q BHist.Empty := by
+  intro mul
+  cases mul with
+  | zero _hd =>
+      exact Or.inr (hsame_refl BHist.Empty)
+  | succ _prev step =>
+      exact Or.inl (cont_empty_result_inversion step).right
+
+theorem NatMul_nonempty_factors_result_not_empty {d q n : BHist} :
+    (hsame d BHist.Empty -> False) -> (hsame q BHist.Empty -> False) ->
+      NatMul d q n -> hsame n BHist.Empty -> False := by
+  intro dNonempty qNonempty mul resultEmpty
+  cases resultEmpty
+  have emptyFactor := NatMul_empty_result_factor_empty_or_multiplier_empty mul
+  cases emptyFactor with
+  | inl dEmpty =>
+      exact dNonempty dEmpty
+  | inr qEmpty =>
+      exact qNonempty qEmpty
+
 theorem NatMul_append_cont_empty_result_empty_factors_iff {d w q n e r : BHist} :
     UnaryHistory d -> (hsame d BHist.Empty -> False) ->
       NatMul d w n -> NatMul d q e -> Cont n e r ->

@@ -50,6 +50,23 @@ def HomologyCycleCarrier (d : BHist -> BHist) (h : BHist) : Prop :=
 def HomologyBoundaryCarrier (d : BHist -> BHist) (h : BHist) : Prop :=
   Exists (fun u : BHist => hsame h (d u))
 
+theorem HomologyBoundaryCarrier_nonempty_preimage {d : BHist -> BHist} {h : BHist} :
+    HomologyBoundaryCarrier d h -> (hsame h BHist.Empty -> False) ->
+      Exists (fun u : BHist => hsame h (d u) ∧ (hsame (d u) BHist.Empty -> False)) := by
+  intro boundary hNonempty
+  cases boundary with
+  | intro u witness =>
+      exact Exists.intro u
+        (And.intro witness (fun duEmpty => hNonempty (hsame_trans witness duEmpty)))
+
+theorem HomologyBoundaryCarrier_empty_preimage {d : BHist -> BHist} {h : BHist} :
+    HomologyBoundaryCarrier d h -> hsame h BHist.Empty ->
+      Exists (fun u : BHist => hsame h (d u) ∧ hsame (d u) BHist.Empty) := by
+  intro boundary hEmpty
+  cases boundary with
+  | intro u witness =>
+      exact Exists.intro u (And.intro witness (hsame_trans (hsame_symm witness) hEmpty))
+
 theorem HomologyBoundaryCarrier_cycle_closed {d : BHist -> BHist}
     (d_squared_zero : forall u : BHist, hsame (d (d u)) BHist.Empty)
     {h : BHist} :
