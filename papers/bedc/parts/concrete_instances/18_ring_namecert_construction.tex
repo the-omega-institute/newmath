@@ -598,8 +598,14 @@ $$
 \end{theorem}
 \begin{proof}
 The left-negative product sum theorem gives $(-x)y+xy\hsame0$. The additive
-right inverse theorem gives $xy+(-(xy))\hsame0$. Applying the additive
-left/right inverse uniqueness argument identifies $(-x)y$ with $-(xy)$.
+right inverse theorem gives $xy+(-(xy))\hsame0$.
+
+Apply \autoref{thm:group-left-right-inverse-uniqueness} with the group
+operation read as addition, the identity read as $0$, and the inverse operation
+read as negation. The displayed equations are the left-inverse and
+right-inverse witnesses for $xy$; \autoref{thm:ring-add-right-zero} and
+\autoref{thm:ring-add-right-inverse} provide the right identity and right
+inverse rows required by that GroupUp theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_left\_eq\_neg\_mul}
 
@@ -615,9 +621,14 @@ $$
 \begin{proof}
 Apply left distributivity backward to identify $x(-y)+xy$ with
 $x((-y)+y)$. Transport the right factor across the additive left-inverse law,
-use right zero absorption for multiplication, and combine the resulting
-left-inverse witness with the additive right inverse of $xy$ by inverse
-uniqueness.
+use right zero absorption for multiplication, and obtain
+$x(-y)+xy\hsame0$.
+
+Apply \autoref{thm:group-left-right-inverse-uniqueness} in the additive group,
+with identity $0$ and inverse operation given by negation. The new equality is
+the left-inverse witness for $xy$, while \autoref{thm:ring-add-right-inverse}
+gives the right-inverse witness $xy+(-(xy))\hsame0$; the right identity row
+comes from \autoref{thm:ring-add-right-zero}.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_right\_eq\_neg\_mul}
 
@@ -632,9 +643,14 @@ $$
 \end{theorem}
 \begin{proof}
 The left-negative product theorem identifies $(-x)(-y)$ with $-(x(-y))$.
-The right-negative product theorem identifies $x(-y)$ with $-(xy)$. Additive
-inverse congruence transports this equality through the outer inverse, and
-additive inverse involutivity collapses $-(-(xy))$ to $xy$.
+The right-negative product theorem identifies $x(-y)$ with $-(xy)$.
+
+Apply \autoref{thm:group-inverse-congruence-from-laws} under the additive-group
+reading, so the inverse operation is negation and the right identity and right
+inverse rows are supplied by \autoref{thm:ring-add-right-zero} and
+\autoref{thm:ring-add-right-inverse}. This transports the second equality
+through the outer inverse. Then \autoref{thm:group-left-inverse-involutive}
+collapses $-(-(xy))$ to $xy$ under the same additive reading.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.ring\_mul\_neg\_neg\_eq\_mul}
 
