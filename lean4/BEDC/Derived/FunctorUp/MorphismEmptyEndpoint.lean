@@ -38,4 +38,19 @@ theorem FunctorPrefixHomCarrier_comp_result_empty_iff {p a b c f g fg : BHist} :
       (FunctorPrefixHomCarrier_comp_empty_iff left right).mpr emptyData
     exact cont_deterministic comp emptyComp
 
+theorem FunctorPrefixHomCarrier_empty_target_source_morphism_swap_iff {p a f : BHist} :
+    CategoryHomCarrier (append p a) BHist.Empty f ↔
+      CategoryHomCarrier f BHist.Empty (append p a) := by
+  constructor
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_empty_target_iff (a := append p a) (f := f)).mp homCarrier
+    exact (CategoryHomCarrier_empty_target_iff (a := f) (f := append p a)).mpr
+      (And.intro data.right data.left)
+  · intro homCarrier
+    have data :=
+      (CategoryHomCarrier_empty_target_iff (a := f) (f := append p a)).mp homCarrier
+    exact (CategoryHomCarrier_empty_target_iff (a := append p a) (f := f)).mpr
+      (And.intro data.right data.left)
+
 end BEDC.Derived.FunctorUp
