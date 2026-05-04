@@ -392,6 +392,7 @@ import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
 import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
+import BEDC.Derived.LinearMapUp.ContextContinuation
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.TensorProductUp
