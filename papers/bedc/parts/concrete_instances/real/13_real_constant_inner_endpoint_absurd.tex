@@ -19,3 +19,29 @@ rational classifier has an $\Ezero$ endpoint on one side, so the RatUp endpoint
 exclusion applies in the corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real constant classifier inner empty endpoint absurd]
+\label{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
+For histories $d:\mathsf{BHist}$, the constant real-history classifier excludes
+an empty rational endpoint even when it is sealed by the outer constant-real
+$\Eone$ constructor:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))
+\Longrightarrow\mathsf{False},\\
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))
+\Longrightarrow\mathsf{False}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Expose the sealed constant-real classifier with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the first
+orientation this gives a rational classifier
+$\mathsf{RatHistoryClassifier}(\emp,d)$; in the second orientation it gives
+$\mathsf{RatHistoryClassifier}(d,\emp)$.
+
+Apply \autoref{thm:rat-history-classifier-endpoints-not-empty} to the exposed
+rational classifier in the corresponding orientation. The relevant endpoint
+nonemptiness clause contradicts $\hsame(\emp,\emp)$ by reflexivity.
+\end{proof}
