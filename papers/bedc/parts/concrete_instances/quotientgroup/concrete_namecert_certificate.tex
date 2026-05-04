@@ -143,6 +143,27 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset carrier empty representative transport]
+\label{thm:quotientgroup-centralizer-coset-carrier-empty-representative-transport}
+If the representative $\mathsf{repr}$ and the empty history both centralize
+$a$, and $\mathsf{repr}\hsame\emp$, then the centralizer-coset carrier for
+$\mathsf{repr}$ agrees with the centralizer-coset carrier for $\emp$:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{repr},h)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two carrier predicates. A carrier witness for $\mathsf{repr}$
+contains the centralizer witness for $\mathsf{repr}$ and the endpoint
+comparison $h\hsame\mathsf{repr}$; composing with
+$\mathsf{repr}\hsame\emp$ gives the empty-representative endpoint comparison.
+The reverse direction composes with symmetry of the same comparison and uses
+the centralizer witness for $\mathsf{repr}$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier\_empty\_representative\_transport\_iff}
+
 \begin{theorem}[Centralizer coset empty continuation carrier pair]
 \label{thm:quotientgroup-centralizer-coset-empty-continuation-pair}
 If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then the empty-representative
