@@ -336,6 +336,26 @@ From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
 
+\begin{lemma}[Divisors of a nonempty unary product are bounded by the result]
+\label{lem:natdivides-result-boundary}
+If $\mathsf{NatDivides}(d,n)$, $n$ is unary, and $n\not\hsame\emp$, then
+either $d\hsame n$ or $\mathsf{NatUnaryStrictPrefix}(d,n)$.
+\end{lemma}
+\begin{proof}
+Unpack the quotient $q$ in the divisor witness and inspect the corresponding
+$\mathsf{NatMul}(d,q,n)$ witness. The empty quotient would make the product
+result empty, contradicting $n\not\hsame\emp$.
+
+For the unit quotient, multiplication by the unit identifies the product result
+with $d$, so the divisor is the whole result up to $\hsame$.
+
+For a successor quotient, the multiplication witness writes $n$ as the previous
+product followed by one more copy of $d$. The final $\Cont$ payload gives a
+strict unary prefix from that copy into the result; unary append commutativity
+and strict-prefix transport move the prefix endpoint to $d$, yielding
+$\mathsf{NatUnaryStrictPrefix}(d,n)$.
+\end{proof}
+
 \begin{theorem}[Prime divisor of a unary product exposes a factor]
 \label{thm:prime-divides-product-factor}
 For histories \(p,a,b,n\), if \(\mathsf{NatPrime}(p)\), \(\mathsf{NatMul}(a,b,n)\), and \(\mathsf{NatDivides}(p,n)\), then \(\mathsf{NatDivides}(p,a)\) or \(\mathsf{NatDivides}(p,b)\).
@@ -502,12 +522,60 @@ history no-confusion principle.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_not\_empty}
 
+\begin{theorem}[Terminal trial division excludes non-trivial divisors]
+\label{thm:trialdiv-terminal-excludes-nontrivial-divisors}
+Let $n$ be unary with $\mathsf{NatGT}(n,\Eone(\emp))$. If
+$\mathsf{TrialDiv}(n,n)$, then every unary $d$ with
+$\mathsf{NatDivides}(d,n)$ satisfies $d\hsame\Eone(\emp)$ or $d\hsame n$.
+Consequently $\mathsf{NatPrime}(n)$.
+\end{theorem}
+\begin{proof}
+Fix a unary divisor $d$ of $n$. Since $\mathsf{NatGT}(n,\Eone(\emp))$ supplies
+a nonempty endpoint, \autoref{lem:natdivides-result-boundary} applies to the
+divisor witness.
+
+If the boundary lemma gives $d\hsame n$, the desired divisor alternative is the
+right branch. It remains to handle the strict-prefix branch
+$\mathsf{NatUnaryStrictPrefix}(d,n)$.
+
+Induct on the terminal witness $\mathsf{TrialDiv}(n,n)$ while transporting the
+strict-prefix endpoint along each unit-continuation step. The induction
+recovers the trial-division step at the bound represented by $d$. Its
+admissible condition is
+$$
+\neg\mathsf{NatDivides}(d,n)
+\quad\text{or}\quad
+d\hsame\Eone(\emp)
+\quad\text{or}\quad
+d\hsame n.
+$$
+
+The first branch contradicts the divisor hypothesis. The last branch
+contradicts strict-prefix asymmetry after transporting across the equality
+$d\hsame n$. Therefore the unit branch remains, so
+$d\hsame\Eone(\emp)$.
+
+The prime predicate now follows by unfolding \autoref{def:nat-prime}: unaryness
+and strict greater-than are the hypotheses, and the preceding argument supplies
+the required alternative for every unary divisor.
+\end{proof}
+
 \begin{theorem}[Decidability of primality]
 \label{thm:prime-decidable}
 For every unary history \(n\), the proposition \(\mathsf{NatPrime}(n)\) is decidable: there is an explicit unary algorithm that returns either a proof of \(\mathsf{NatPrime}(n)\) or an explicit non-trivial divisor of \(n\).
 \end{theorem}
 \begin{proof}[Sketch]
-The algorithm constructs \(\mathsf{TrialDiv}(b, n)\) by unary induction on \(b\) up to \(n\) itself. At each step, it checks divisibility of \(n\) by \(b\) using \autoref{lem:nat-mul-total} and \autoref{lem:nat-mul-functional}: this is decidable because the search for a quotient \(q\) of \(\mathsf{NatMul}(b, q, n)\) is bounded above by \(n\). If a non-trivial divisor is found (i.e.\ \(b\) divides \(n\) and is neither the unit nor \(n\)), the algorithm returns it and refutes primality. Otherwise, \(\mathsf{TrialDiv}\) reaches \(b = n\) and primality holds by \autoref{def:nat-prime}.
+The algorithm constructs $\mathsf{TrialDiv}(b,n)$ by unary induction on $b$
+up to $n$ itself. At each step, it checks divisibility of $n$ by $b$ using
+\autoref{lem:nat-mul-total} and \autoref{lem:nat-mul-functional}: this is
+decidable because the search for a quotient $q$ of $\mathsf{NatMul}(b,q,n)$ is
+bounded above by $n$.
+
+If a non-trivial divisor is found, meaning $b$ divides $n$ and is neither the
+unit nor $n$, the algorithm returns it and refutes primality. Otherwise,
+$\mathsf{TrialDiv}$ reaches $b=n$, and
+\autoref{thm:trialdiv-terminal-excludes-nontrivial-divisors} gives
+$\mathsf{NatPrime}(n)$.
 \end{proof}
 
 \section{Euclid's theorem on the infinitude of primes}

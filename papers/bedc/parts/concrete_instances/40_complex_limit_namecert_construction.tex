@@ -344,6 +344,25 @@ reverse canonical result with the forward canonical result.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_append\_constant\_result\_deterministic}
 
+\begin{theorem}[Complex distance constant prefix result determinacy]
+\label{thm:complex-distance-prepend-constant-result-deterministic}
+Let \(q:\mathsf{BHist}\) be unary. If \(\mathsf{ComplexDistance}(z,w,d)\)
+holds and a displayed distance witness for the prefixed endpoints
+\(\mathsf{append}(q,z)\) and \(\mathsf{append}(q,w)\) has result \(d'\), then
+$$
+d' \hsame
+\mathsf{append}(\mathsf{append}(q,z),\mathsf{append}(q,w)).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed distance witness into its two continuation orientations.
+The forward orientation is determined by the canonical append continuation.
+The reverse orientation is determined by the reverse canonical continuation,
+then unary append commutativity for the two prefixed endpoints identifies the
+reverse canonical result with the forward canonical result.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_prepend\_constant\_result\_deterministic}
+
 \begin{theorem}[Complex distance unary append commutation package]
 \label{thm:complex-distance-unary-append-comm-package}
 For unary histories $z$ and $q$, the two appended endpoints $q\cdot z$ and

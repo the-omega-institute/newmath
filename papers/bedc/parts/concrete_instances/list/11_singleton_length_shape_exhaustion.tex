@@ -202,3 +202,62 @@ Keeping the constructor histories and all ledger, endpoint, head, and classifier
 witnesses supplied by the cons shape gives exactly the displayed six-history
 package.
 \end{proof}
+
+\begin{theorem}[List singleton source classified successor component exactness]
+\label{thm:list-singleton-source-classified-successor-component-exactness}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, the following
+conditions are equivalent:
+\begin{enumerate}
+  \item
+  $\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$,
+  $\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$, and
+  $\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)$ all hold.
+  \item
+  There exist histories $a,b,t,u,p,q:\mathsf{BHist}$ such that
+  $$
+  \left(
+  \begin{array}{l}
+  A_{a_0}(a)\land A_{a_0}(b)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(u,n)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \hsame(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-length-inversion} to
+the classifier witness and the two displayed successor public lengths. The
+result is exactly the six-history component package in the second condition.
+
+For the reverse direction, start from histories $a,b,t,u,p,q:\mathsf{BHist}$
+and the displayed component data. The successor-length equivalence field of
+Theorem~\ref{thm:list-singleton-source-finite-data-exit-constructor-audit}
+applied to $h$ rebuilds
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$ from $a,t,p$, the tail public length
+at $n$, the $\ContR(a,t,p)$ ledger, and the endpoint readback
+$\hsame(h,\Eone(p))$.
+
+Apply the same successor-length field to $k$ with $b,u,q$. This rebuilds
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)$ from the second tail public length,
+the second $\ContR$ ledger, and the endpoint readback through $\Eone(q)$.
+
+It remains to reconstruct the endpoint classifier. Use the cons branch in the
+constructor-disjunction field of
+Theorem~\ref{thm:list-singleton-source-finite-data-exit-constructor-audit} with
+the same six histories. The supplied head membership, tail carriers, ledgers,
+endpoint readbacks, head comparison, and tail classifier satisfy its displayed
+premises, so it yields
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$.
+
+Together these three reconstructed witnesses give the first condition.
+\end{proof}

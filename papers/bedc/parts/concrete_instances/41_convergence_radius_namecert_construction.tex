@@ -26,6 +26,23 @@ series carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_origin\_coefficient\_transport}
 
+\begin{lemma}[Power series carrier append-unary closure]
+\label{thm:power-series-carrier-append-unary-closed}
+If $(a,z_0)$ is a power series carrier and $q$ is unary, then appending $q$ to
+the origin and to every coefficient gives another power series carrier:
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(a_n,q),\mathsf{append}(z_0,q)).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the power-series carrier into the unary origin, coefficient-wise
+complex-history carrier, and complex-history origin carrier. Unary histories
+are closed under append, and complex-history carriers are closed under append
+of a unary suffix; apply the latter pointwise to every coefficient and once to
+the origin.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_append\_unary\_closed}
+
 \begin{definition}[Partial sum at a point]
 \label{def:part-sum-power-series}
 For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
@@ -69,6 +86,29 @@ visible radius endpoint $\Eone(tail)$ with $\emp$, contradicting constructor
 separation.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_radius\_endpoint\_package}
+
+\begin{theorem}[Geometric bound visible constant endpoint package]
+\label{thm:geom-bound-visible-constant-endpoint-package}
+For coefficients $a$, radius history $r$, result history $R$, and tail
+history $tail$, if
+$$
+\mathsf{GeomBound}(a,r,\Eone(tail))
+\qquad\text{and}\qquad
+\ContR(r,\Eone(tail),R),
+$$
+then $tail$ is unary and the continuation result is not internally empty:
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\HSame(R,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The geometric-bound witness contains the unary carrier for the visible constant
+endpoint $\Eone(tail)$, so unary inversion gives the payload carrier for
+$tail$. If the continuation result were empty, empty-result inversion would
+identify the visible constant endpoint $\Eone(tail)$ with $\emp$,
+contradicting constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_visible\_constant\_endpoint\_package}
 
 \begin{theorem}[Geometric bound radius semantic naming certificate]
 \label{thm:geom-bound-radius-semantic-namecert}
@@ -161,6 +201,28 @@ admitted radius row, apply
 bound and the carrier of \(z_0\).
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_witness}
+
+\begin{lemma}[Convergence radius append-unary power-series witness]
+\label{thm:convrad-power-series-carrier-append-unary-witness}
+If $\mathsf{ConvRad}(a,R)$ holds, $z_0$ is a complex history, and $q$ is unary,
+then the convergence-radius witness function $K$ can be chosen so that every
+admitted radius row simultaneously gives
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(a_n,q),\mathsf{append}(z_0,q))
+$$
+and
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(a_n,q),r,K(r)).
+$$
+\end{lemma}
+\begin{proof}
+Choose the witness function supplied by
+\autoref{lem:conv-rad-power-series-carrier-witness}. For each admitted radius
+row, apply append-unary closure to the supplied power-series carrier and
+apply geometric-bound append-unary coefficient closure to the supplied
+geometric bound. The same $K$ remains the witness function.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_append\_unary\_witness}
 
 \begin{theorem}[Convergence radius visible radius witness endpoint package]
 \label{thm:convrad-visible-radius-witness-endpoint-package}
@@ -269,6 +331,22 @@ constant witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_append\_unary\_coeff\_closed}
 
+\begin{lemma}[Geometric bound prepend-unary coefficient closure]
+\label{thm:geom-bound-prepend-unary-coeff-closed}
+If $q$ is unary and $\mathsf{GeomBound}(a,r,K)$ holds, then prepending $q$ to
+every coefficient preserves the same radius and constant:
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(q,a_n),r,K).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{GeomBound}(a,r,K)$ into its unary radius witness, unary constant
+witness, and coefficient carrier family. Apply complex-history carrier
+prepend-unary closure pointwise to each coefficient and keep the same radius
+and constant witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_prepend\_unary\_coeff\_closed}
+
 \begin{theorem}[Convergence radius append-unary coefficient closure]
 \label{thm:conv-rad-append-unary-coeff-closed}
 If $\mathsf{ConvRad}(a,R)$ holds and $q$ is unary, then appending $q$ to every
@@ -291,6 +369,25 @@ arbitrary and the witness function is unchanged, the displayed predicate is
 $\mathsf{ConvRad}(\lambda n.\mathsf{append}(a_n,q),R)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_append\_unary\_coeff\_closed}
+
+\begin{theorem}[Convergence radius prepend-unary coefficient closure]
+\label{thm:conv-rad-prepend-unary-coeff-closed}
+If $\mathsf{ConvRad}(a,R)$ holds and $q$ is unary, then prepending $q$ to every
+coefficient preserves the same convergence radius:
+$$
+\mathsf{ConvRad}(\lambda n.\mathsf{append}(q,a_n),R).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ConvRad}(a,R)$ and keep its constant-witness function $K$ as the
+candidate witness for the prepended coefficient family. For any admitted row
+$r$ with continuation ledger $\ContR(r,K(r),R)$, the original witness gives
+$\mathsf{GeomBound}(a,r,K(r))$. Apply
+\autoref{thm:geom-bound-prepend-unary-coeff-closed} with the unary prefix $q$,
+and leave the radius witness, the continuation row, and the constant witness
+unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_prepend\_unary\_coeff\_closed}
 
 \begin{lemma}[Differentiation preserves radius]
 \label{lem:diff-preserves-radius}
@@ -332,22 +429,55 @@ The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ConvRad}\)
 
 \begin{definition}[Convergence radius ledger policy]
 \label{def:conv-rad-ledger-policy}
-The ledger policy records: (i) term-by-term differentiation preserving radius, (ii) Cauchy product taking minimum, (iii) absolute convergence inside the open disk, and (iv) Cauchy-Hadamard limsup characterization.
+The ledger policy records the analytic obligations for term-by-term
+differentiation, Cauchy product, absolute convergence inside the open disk, and
+the Cauchy-Hadamard limsup characterization.
 \end{definition}
 
-\begin{theorem}[Concrete \(\ConvergenceRadiusUp\) naming certificate]
+\begin{theorem}[Concrete $\ConvergenceRadiusUp$ certificate-obligation package]
 \label{thm:conv-rad-namecert}
-The five fields above form a naming certificate over \(\Hist\) for the convergence radius interface \(\ConvergenceRadiusUp\).
+The convergence-radius construction supplies a concrete certificate-obligation
+package over $\Hist$ for $\ConvergenceRadiusUp$. Its checked rows are the
+$\mathsf{ConvRad}$ carrier, $\hsame$ classifier, radius transport, coefficient
+classifier transport, extraction of power-series carrier data from geometric
+bounds, the convergence-radius power-series carrier witness, and append-unary
+coefficient closure. The analytic ledger laws of
+\autoref{def:conv-rad-ledger-policy} remain policy obligations for this
+interface.
 \end{theorem}
 \begin{proof}[Sketch]
-The five fields satisfy the closure laws of the naming-certificate framework (\autoref{ch:core-typed-naming-certificates}). The certificate uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+The carrier and classifier are the displayed $\mathsf{ConvRad}$ predicate and
+$\hsame$ on radius histories.
+
+The checked transport rows are
+\autoref{lem:conv-rad-radius-transport} and
+\autoref{lem:conv-rad-radius-coefficient-classifier-transport}. The carrier
+witness rows are \autoref{lem:geom-bound-power-series-carrier} and
+\autoref{lem:conv-rad-power-series-carrier-witness}. The checked closure row is
+\autoref{thm:conv-rad-append-unary-coeff-closed}.
+
+These rows give the concrete proof obligations available to the semantic
+certificate target. The differentiation, Cauchy-product, absolute-convergence,
+and Cauchy-Hadamard rows are ledger-policy obligations in this chapter, not
+premises of the checked semantic NameCert target.
 \end{proof}
 
-\begin{theorem}[Semantic \(\ConvergenceRadiusUp\) naming certificate]
+\begin{theorem}[Semantic $\ConvergenceRadiusUp$ naming certificate]
 \label{thm:conv-rad-semantic-namecert}
-The concrete certificate of \autoref{thm:conv-rad-namecert} satisfies the semantic naming-certificate schema of \(\NameCert\) (\autoref{ch:core-typed-naming-certificates}): the carrier, pattern, and ledger are the convergence-radius predicate for a fixed coefficient family, the classifier is \(\hsame\) on the radius, and every closure law is given by an explicit constructive proof.
+The concrete package of \autoref{thm:conv-rad-namecert} supplies the checked
+semantic naming-certificate schema of $\NameCert$
+(\autoref{ch:core-typed-naming-certificates}) exactly for the
+$\mathsf{ConvRad}$ carrier, the $\hsame$ radius classifier, radius transport,
+coefficient classifier transport, the power-series carrier witness, and
+append-unary coefficient closure.
 \end{theorem}
 \begin{proof}[Sketch]
-The witnessed radius inhabits the carrier. The equivalence fields are the finite-kernel \(\hsame\) laws. Carrier transport uses radius transport together with unary transport of the displayed radius.
+The witnessed radius inhabits the $\mathsf{ConvRad}$ carrier. The equivalence
+fields are the finite-kernel $\hsame$ laws.
+
+Carrier transport is the radius-transport row, with unary transport of the
+displayed radius. Coefficient-family transport uses the checked classifier
+transport row, while the carrier witness and append-unary closure are supplied
+by their corresponding checked rows in this chapter.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}

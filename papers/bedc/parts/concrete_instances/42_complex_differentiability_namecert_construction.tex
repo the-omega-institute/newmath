@@ -294,6 +294,22 @@ the derivative candidate.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_step\_nonzero}
 
+\begin{theorem}[Differentiability witness exposes nonzero unary step]
+\label{thm:cplx-diff-at-witness-nonzero-unary-step}
+If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then there are histories \(h\) and
+\(q\) such that \(h\) is nonzero and unary, \(q\) is unary, the quotient
+relation \(\mathsf{CplxDiffQuot}(f,z,h,q)\) holds, the continuation ledger
+\(\ContR(f,h,q)\) is displayed, and \(q\hsame f'\).
+\end{theorem}
+\begin{proof}
+Extract the displayed nonzero quotient witness from pointwise differentiability.
+The quotient package contains the continuation ledger and quotient carrier, and
+the quotient step-readback theorem recovers unary histories for both the step
+and the quotient result. The classifier field of \(\mathsf{CplxDiffAt}\)
+identifies the displayed quotient result with the derivative candidate.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
@@ -311,6 +327,23 @@ If \(\mathsf{CplxDiffAt}(f, z, f')\), \(\hsame(z, z')\), and \(\hsame(f', g')\),
 Transport via \autoref{lem:cplx-diff-quot-hsame} and the complex-modulus comparison's stability under \(\hsame\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDiffUp.CplxDiffAt\_hsame\_transport\_witness}
+
+\begin{lemma}[Full $\hsame$-transport of pointwise differentiability]
+\label{lem:cplx-diff-at-full-hsame-transport}
+If $\mathsf{CplxDiffAt}(f,z,f')$, $\hsame(f,g)$, $\hsame(z,w)$,
+and $\hsame(f',g')$, then $\mathsf{CplxDiffAt}(g,w,g')$. The transported
+statement also exposes a difference-quotient witness $h,q$, its continuation
+ledger $\Cont(g,h,q)$, and $q\hsame g'$.
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{CplxDiffAt}(f,z,f')$ into the unary carriers, complex
+derivative carrier, displayed quotient witness, and classifier. Transport the
+function carrier, point carrier, derivative carrier, and displayed quotient
+along the three $\hsame$ identifications. For any quotient at the target
+slots, transport it back to the source slots, apply the source classifier, and
+compose with $f'\hsame g'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_full\_hsame\_transport\_witness}
 
 \section{Closure laws for complex differentiability}
 
