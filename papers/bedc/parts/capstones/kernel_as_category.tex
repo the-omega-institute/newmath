@@ -64,6 +64,49 @@ own certificate sites. A standard category interface or mathlib bridge is not
 asserted here; that bridge remains governed by the roadmap bridge phase.
 \end{remark}
 
+\paragraph{Capstone}
+
+\begin{theorem}[Prefix functor identity naturality bridge]
+\label{thm:prefix-functor-nattrans-identity-bridge}
+For histories $p,a,b,f,left,right:\mathsf{BHist}$, assume
+$\mathsf{UnaryHistory}(p)$, $\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\ContR(\emp,f,left)$, and $\ContR(f,\emp,right)$. Then the checked
+$\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ facts compose into the concrete
+identity-naturality bridge:
+\begin{enumerate}
+\item $left$ and $right$ are hom-carriers from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$.
+\item $\hsame(left,right)$.
+\item each displayed hom-carrier reflects through
+$\mathsf{CategoryHomCarrier\_unary\_prefix\_iff}$ to the original unprefixed
+hom carrier $\mathsf{CategoryHomCarrier}(a,b,f)$, with the left and right unit
+continuations identifying the displayed morphism with $f$.
+\item for every unary object $x:\mathsf{BHist}$ and every empty identity
+continuation $id$ with $\ContR(\emp,\emp,id)$, the empty component supplied by
+the prefix functor identity law is a hom-carrier from
+$\mathsf{append}(p,x)$ to $\mathsf{append}(p,x)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:nattrans-prefix-identity-naturality-square} to the unary
+prefix, the displayed hom-carrier $f:a\to b$, and the two empty-composite
+continuations. It gives the two displayed hom-carriers after prefixing by $p$
+and the classifier equality $\hsame(left,right)$.
+
+Next apply \autoref{thm:category-hom-carrier-unary-prefix-iff} to each
+displayed carrier. The same unary prefix $p$ is already part of the hypotheses,
+so the readback is the corresponding unprefixed hom-carrier; the empty left and
+right unit continuations identify those displayed morphisms with the original
+carrier $f$.
+
+Finally, apply
+\autoref{thm:functor-prefix-hom-carrier-identity-closed} at any unary object
+$x$. Its identity-closure statement supplies the empty component carrier over
+$\mathsf{append}(p,x)$, giving the component data used by the identity natural
+transformation.
+\end{proof}
+
 \begin{remark}[No new axioms]
 \label{rem:kernel-as-category-no-new-axioms}
 \autoref{thm:kernel-as-category-unary-continuation-realization} introduces no
