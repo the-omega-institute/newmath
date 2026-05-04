@@ -46,6 +46,34 @@ which is the classified prefix through $m+n$. Apply the induction hypothesis to
 this exposed prefix to obtain the classified prefix through $n$.
 \end{proof}
 
+\begin{theorem}[Real stream prefix internal endpoint coverage]
+\label{thm:real-stream-prefix-internal-endpoint-coverage}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+every classified prefix through $m+n$ exposes the retained endpoint row at
+$n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RatHistoryClassifier}(x(n),y(n)).
+$$
+Ten-field fit: traditional target internal finite-prefix observation coverage;
+BEDC source RealUp prefix classifier plus RatUp endpoint classifier; carrier
+rational-observation streams; classifier
+$\mathsf{RealStreamPrefixClassifier}$; stability inherited from truncation and
+endpoint projection; ledger prefix length, truncated endpoint, and observation
+index; core theorem this block; exactness classified prefix exposes each
+retained endpoint row; standard bridge finite rational prefix observation;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-prefix-classifier-truncation} to the source
+prefix. This gives $\mathsf{RealStreamPrefixClassifier}(x,y,n)$.
+
+Apply \autoref{thm:real-stream-prefix-classifier-endpoint} to the truncated
+prefix. The selected endpoint classifier is
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+\end{proof}
+
 \begin{theorem}[Real stream prefix truncated unary context closure]
 \label{thm:real-stream-prefix-truncated-unary-context-closed}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if a prefix through
