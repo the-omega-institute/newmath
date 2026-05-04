@@ -21,6 +21,22 @@ successor observation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_hsame\_transport}
 
+\begin{theorem}[Real stream prefix unary context closure]
+\label{thm:real-stream-prefix-unary-context-closed}
+If every prefix-side context and every tail-side context is unary pointwise, and
+the two displayed context streams are pointwise $\hsame$ on each side, then any
+classified finite real-stream prefix remains classified after each endpoint is
+wrapped by the corresponding unary prefix and tail contexts.
+\end{theorem}
+\begin{proof}
+Induct on the finite prefix length. At the base observation, apply rational
+history classifier unary-context closure to the endpoint classifier and the
+four pointwise context hypotheses at index $0$. At a successor index, keep the
+inductively transported shorter prefix and apply the same rational
+unary-context closure theorem to the successor endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_unary\_context\_closed}
+
 \begin{theorem}[Real stream prefix classifier reflexivity]
 \label{thm:real-stream-prefix-classifier-refl}
 For every rational-observation stream $x:\mathbb{N}\to\Hist$, if
@@ -85,6 +101,27 @@ a further successor, recursively descend through the left prefix component until
 the base observation classifier is exposed.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_base\_of\_successor}
+
+\begin{theorem}[Real stream prefix classifier truncation]
+\label{thm:real-stream-prefix-classifier-truncation}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$,
+any prefix classifier through $m+n$ restricts to the prefix classifier through
+$n$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$. At $m=0$, the source prefix is already the target prefix, since
+$0+n=n$.
+
+At a successor $m+1$, the recursive definition of
+$\mathsf{RealStreamPrefixClassifier}(x,y,(m+1)+n)$ exposes its left component,
+which is the classified prefix through $m+n$. Apply the induction hypothesis to
+this exposed prefix to obtain the classified prefix through $n$.
+\end{proof}
 
 \begin{lemma}[Real stream prefix previous classifier with unary anchor]
 \label{lem:real-stream-prefix-previous-with-unary}
