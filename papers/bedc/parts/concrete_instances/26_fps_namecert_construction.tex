@@ -427,3 +427,104 @@ F\oplus_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\oplus_{\mathrm{fps}}F.
 $$
 No convergence or finite-support premise is used; the argument is exactly the pointwise addition closure situation recorded in \autoref{def:fps-stability-certificate}.
 \end{proof}
+
+\begin{lemma}[Finite additive fold reversal under additive commutativity]
+\label{lem:finite-additive-fold-reversal-under-additive-commutativity}
+Let $R$ be a scalar $\RingUp(R)$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite coefficient fold $\mathsf{fold}_{+,R}$ as in \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Assume the scalar classifier equivalence fields and the additive abelian-group, additive congruence, and zero rows retained in \autoref{def:ring-stability-certificate}. For every finite carried scalar spine $xs:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{fold}_{+,R}(xs)\sim_R\mathsf{fold}_{+,R}(\mathsf{reverse}(xs)).
+$$
+\end{lemma}
+\begin{proof}
+First prove by induction on $xs$ that for every carried scalar $a$,
+$$
+\mathsf{fold}_{+,R}(xs{++}[a])\sim_R\mathsf{fold}_{+,R}(xs)+_R a.
+$$
+For $xs=\mathsf{nil}$, the two endpoints are $a+_R0_R$ and $0_R+_Ra$. The additive zero laws classify both endpoints with $a$, and classifier symmetry and transitivity compose the required comparison.
+
+For the cons step write $xs=\mathsf{cons}(x,xs')$. The induction hypothesis gives
+$$
+\mathsf{fold}_{+,R}(xs'{++}[a])\sim_R\mathsf{fold}_{+,R}(xs')+_R a.
+$$
+Additive congruence transports this under the common left summand $x$, giving
+$$
+x+_R\mathsf{fold}_{+,R}(xs'{++}[a])
+\sim_R
+x+_R(\mathsf{fold}_{+,R}(xs')+_R a).
+$$
+Additive associativity classifies the right endpoint with $(x+_R\mathsf{fold}_{+,R}(xs'))+_R a$, which is $\mathsf{fold}_{+,R}(\mathsf{cons}(x,xs'))+_R a$ by the cons fold clause. This proves the append-last calculation.
+
+Now induct on $xs$ for the reversal claim. The nil case reduces both folds to $0_R$, classified with itself by the zero row. In the cons case write $xs=\mathsf{cons}(a,t)$. The cons fold clause gives $a+_R\mathsf{fold}_{+,R}(t)$. The induction hypothesis and additive congruence classify this endpoint with $a+_R\mathsf{fold}_{+,R}(\mathsf{reverse}(t))$. Additive commutativity then classifies it with $\mathsf{fold}_{+,R}(\mathsf{reverse}(t))+_R a$. The append-last calculation applied to $\mathsf{reverse}(t)$ gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{reverse}(t){++}[a])
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{reverse}(t))+_R a.
+$$
+Classifier symmetry and transitivity identify the preceding endpoint with $\mathsf{fold}_{+,R}(\mathsf{reverse}(t){++}[a])$, which is $\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{cons}(a,t)))$ by the finite-list reverse recursion.
+\end{proof}
+
+\begin{lemma}[FPS Cauchy coefficient spine swapped reverse]
+\label{lem:fps-cauchy-coefficient-spine-swapped-reverse}
+Let $R$ carry a $\CommRingUp(R)$ certificate, read through \autoref{prop:commring-forgets-ring-certificate} as a $\RingUp(R)$ certificate with scalar classifier $\sim_R$ and multiplication $\cdot_R$. For carried coefficient sequences $F,G:\NatUp\to R$ and unary index $n$, the Cauchy coefficient spines satisfy
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G),
+\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))\bigr).
+$$
+\end{lemma}
+\begin{proof}
+Use the finite split spine $\mathsf{Split}(n)$ of \autoref{def:fps-cauchy-coefficient-spine}. Its unary recursion lists each decomposition $i+j=n$ exactly once, and the same recursion gives the swapped-reverse spine: after applying $(i,j)\mapsto(j,i)$, the resulting finite spine is $\mathsf{reverse}(\mathsf{Split}(n))$.
+
+Induct on this split recursion. At the base index the only decomposition is $(0,0)$, and multiplicative commutativity from \autoref{def:commring-stability-certificate} gives
+$$
+F_0\cdot_R G_0\sim_R G_0\cdot_R F_0.
+$$
+For the successor step, the exposed left split $(0,\mathsf{succ}(n))$ is paired with the exposed right split $(\mathsf{succ}(n),0)$ after swapping and reversing; the middle splits are the successor transports of the predecessor split and are handled by the induction hypothesis. For every matched split $(i,j)$, the coefficient carrier supplies carried endpoints $F_i$ and $G_j$, and scalar multiplicative commutativity gives
+$$
+F_i\cdot_R G_j\sim_R G_j\cdot_R F_i.
+$$
+The nil and cons clauses of \autoref{def:list-classifier-specification} assemble these scalar comparisons into the displayed finite-spine classifier witness.
+\end{proof}
+
+\begin{theorem}[FPS Cauchy product commutativity from CommRing scalars]
+\label{thm:fps-cauchy-product-commutativity-from-commring-scalars}
+Let $R$ carry a $\CommRingUp(R)$ certificate. In the $\FormalPowerSeriesUp(R)$ interface, let $\sim_{\mathrm{fps}}$ be the pointwise classifier of \autoref{def:fps-classifier-specification}. For carried coefficient sequences $F,G:\NatUp\to R$,
+$$
+\forall n:\NatUp,\quad
+(F\odot_{\mathrm{fps}}G)_n\sim_R(G\odot_{\mathrm{fps}}F)_n.
+$$
+Consequently,
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\odot_{\mathrm{fps}}F.
+$$
+\end{theorem}
+\begin{proof}
+Read the scalar certificate as a $\RingUp(R)$ certificate by \autoref{prop:commring-forgets-ring-certificate}. This keeps the scalar classifier, zero endpoint, addition, multiplication, additive abelian-group rows, addition congruence, multiplication congruence, and the finite additive fold used in \autoref{def:fps-cauchy-coefficient-spine}. The $\CommRingUp$ layer supplies multiplicative commutativity by \autoref{def:commring-stability-certificate}.
+
+Fix $n:\NatUp$. By \autoref{lem:fps-cauchy-coefficient-spine-swapped-reverse},
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,
+\mathsf{CauchySp}_n(F,G),
+\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))\bigr)
+$$
+holds. Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} gives
+$$
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(F,G))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{CauchySp}_n(G,F))).
+$$
+By \autoref{lem:finite-additive-fold-reversal-under-additive-commutativity}, applied to $\mathsf{CauchySp}_n(G,F)$, and classifier symmetry,
+$$
+\mathsf{fold}_{+,R}(\mathsf{reverse}(\mathsf{CauchySp}_n(G,F)))
+\sim_R
+\mathsf{fold}_{+,R}(\mathsf{CauchySp}_n(G,F)).
+$$
+Classifier transitivity composes the two comparisons. Unfolding \autoref{def:fps-cauchy-coefficient-spine} identifies the composed comparison with
+$$
+(F\odot_{\mathrm{fps}}G)_n\sim_R(G\odot_{\mathrm{fps}}F)_n.
+$$
+Since $n$ was arbitrary, the pointwise classifier specification in \autoref{def:fps-classifier-specification} gives
+$$
+F\odot_{\mathrm{fps}}G\sim_{\mathrm{fps}}G\odot_{\mathrm{fps}}F.
+$$
+\end{proof}
