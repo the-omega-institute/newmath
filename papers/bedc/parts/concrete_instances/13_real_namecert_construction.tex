@@ -412,84 +412,65 @@ ledger the hidden rational seed and observation witness; core theorem
 displayed equivalence rows; standard bridge constant rational real name; status
 $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Constant rational embedding certificate for RealUp]
+\begin{theorem}[Constant rational embedding certificate]
 \label{thm:real-constant-rational-embedding-certificate}
-For histories $d,e:\Hist$, the assignment
-$d\mapsto(\mathsf{RatConstStream}_d,\Eone(d))$ supplies a concrete embedding
-package from $\RatUp$ into the constant-real part of $\RealUp$. Its carrier row
-is:
+The concrete map
+$$
+d\longmapsto (\mathsf{RatConstStream}_d,\Eone(d))
+$$
+from a RatUp history seed $d:\Hist$ supplies the constant rational embedding
+into RealUp. Its carrier exactness is the chain
 $$
 \mathsf{RatHistoryCarrier}(d)
 \quad\Longleftrightarrow\quad
-\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d).
-$$
-$$
 \mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d)
 \quad\Longleftrightarrow\quad
 \mathsf{RealConstantHistoryCarrier}(\Eone(d)).
 $$
-Its classifier row is:
+Its classifier exactness, for histories $d,e:\Hist$, is the chain
 $$
 \mathsf{RatHistoryClassifier}(d,e)
 \quad\Longleftrightarrow\quad
-\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e).
-$$
-$$
 \mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
 \quad\Longleftrightarrow\quad
-\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e).
-$$
-$$
 \mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d,\mathsf{RatConstStream}_e)
 \quad\Longleftrightarrow\quad
 \mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
 $$
-The carrier and classifier rows inherit reflexivity, symmetry, transitivity,
-endpoint carrier projection, and endpoint transport from the RatUp,
-StreamNameUp, and RealUp certificate fields cited below.
+The certificate therefore packages the hidden rational seed, the constant
+StreamNameUp observation map, and the e-one RealUp seal as one concrete
+BHist-anchored rational-to-real name.
 \end{theorem}
 \begin{proof}
-The carrier row is exactly the two-step bridge of
-\autoref{thm:streamname-real-constant-carrier-bridge}. Reading it left to right
-turns a RatUp carrier into the StreamNameUp carrier of the constant stream and
-then into the e-one sealed RealUp carrier. Reading it right to left unseals the
-constant-real carrier and recovers the hidden rational seed.
+For carrier exactness, use
+\autoref{thm:streamname-real-constant-carrier-bridge}. Its two displayed rows
+identify the RatUp carrier with the StreamNameUp constant-stream carrier, and
+then identify that carrier with the RealUp constant history carrier at the
+e-one seal.
 
-The classifier row is the three-step bridge of
-\autoref{thm:streamname-real-constant-prefix-bridge}. The first step moves from
-the RatUp point classifier to the StreamNameUp constant-stream classifier; the
-second identifies that constant-stream classifier with the RealUp unary
-observation stream classifier; the third seals and unseals the same rational
-classifier at $\Eone(d)$ and $\Eone(e)$.
+For classifier exactness, use
+\autoref{thm:streamname-real-constant-prefix-bridge}. Its three displayed rows
+identify the RatUp point classifier, the StreamNameUp constant-stream
+classifier, the RealUp unary stream classifier, and the RealUp constant
+history classifier at the paired e-one seals.
 
-The field inheritance is obtained by transporting the two displayed rows across
-the certificate-field theorems. Apply
-\autoref{thm:rat-stream-name-certificate-fields} for StreamNameUp reflexivity,
-symmetry, transitivity, endpoint carrier projection, and endpoint transport.
-Apply
-\autoref{thm:real-constant-history-classifier-equivalence-fields} for the
-sealed constant-real equivalence fields, and use
-\autoref{thm:streamname-real-constant-carrier-bridge} with
-\autoref{thm:streamname-real-constant-prefix-bridge} to shuttle each field
-between the point, stream-name, unary-stream, and e-one presentations.
-
-Thus the displayed assignment packages exactly one rational seed, its constant
-observation stream, and its e-one real seal, with no additional carrier or
-classifier data.
+The endpoint part of the last row is the Real constant classifier equivalence
+and transport mechanism: \autoref{thm:real-constant-history-classifier-e1-iff-rat}
+turns an e-one sealed RealUp classifier into the underlying RatUp classifier
+and back, while
+\autoref{thm:real-constant-history-classifier-endpoint-transport} preserves the
+same classifier under endpoint-equivalent real histories. These facts repack
+the two chains as one certificate for the displayed map.
 \end{proof}
 
-The constant rational embedding certificate fit has ten fields: traditional
-target constant rational embedding into the constant-real part of $\RealUp$;
-BEDC source $\RatUp$ histories plus StreamNameUp unary observations and RealUp
-e-one seals; carrier the pair
-$(\mathsf{RatConstStream}_d,\Eone(d))$; classifier the four-entry row displayed
-above; stability the inherited reflexivity, symmetry, transitivity, endpoint
-carrier projection, and endpoint transport fields; ledger the hidden rational
-seed, the constant observation map, and the e-one seal; core theorem
-\autoref{thm:real-constant-rational-embedding-certificate}; exactness the
-carrier and classifier bridge rows; standard bridge constant dyadic embedding
-as a RealUp naming certificate; downstream consumer the RealUp dyadic embedding
-theorem.
+The constant rational embedding certificate has ten fields: traditional target
+constant rational embedding; BEDC source RatUp plus StreamNameUp plus RealUp;
+carrier the constant stream and e-one seal; classifier the displayed equivalence
+chain; stability inherited from RatUp classifier fields and Real constant
+endpoint transport; ledger hidden rational seed plus unary observation; core
+theorem \autoref{thm:real-constant-rational-embedding-certificate}; exactness
+the carrier and classifier chains; standard bridge ordinary rational constants;
+status $\mathsf{ProofTarget}$.
 
 The certificate fit has ten fields: traditional target constant rational real
 names; BEDC source RatUp histories plus StreamNameUp unary observations; carrier
