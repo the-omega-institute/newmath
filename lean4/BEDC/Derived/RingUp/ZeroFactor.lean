@@ -61,6 +61,35 @@ theorem ring_zero_classifier_signed_factor_absorption
   exact ⟨plainAbsorption.left, plainAbsorption.right,
     signedAbsorption.left, signedAbsorption.right⟩
 
+theorem ring_zero_classifier_square_annihilator_package {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    {x : BHist} :
+    hsame x BHist.Empty ->
+      hsame (mul x x) BHist.Empty ∧
+        forall c : BHist, hsame (mul (mul x x) c) BHist.Empty ∧
+          hsame (mul c (mul x x)) BHist.Empty := by
+  intro xEmpty
+  have squareAbsorption :=
+    ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+      leftDistrib rightDistrib (x := x) (y := x) xEmpty
+  constructor
+  · exact squareAbsorption.left
+  · intro c
+    exact
+      ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
+        leftDistrib rightDistrib (x := mul x x) (y := c) squareAbsorption.left
+
 theorem ring_equal_factor_difference_annihilation {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
@@ -82,5 +111,40 @@ theorem ring_equal_factor_difference_annihilation {add mul : BHist -> BHist -> B
     (ring_additive_difference_zero_exact addAssoc addComm zeroLeft negLeft addCongr).mpr sameXY
   exact ring_zero_classifier_factor_absorption addAssoc zeroLeft negLeft addCongr mulCongr
     leftDistrib rightDistrib (x := add x (neg y)) (y := z) differenceZero
+
+theorem ring_equal_factor_signed_difference_annihilation {add mul : BHist -> BHist -> BHist}
+    {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (negCongr : forall {a b : BHist}, hsame a b -> hsame (neg a) (neg b))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    (rightDistrib : forall x y z : BHist,
+      hsame (mul (add x y) z) (add (mul x z) (mul y z)))
+    {x y z : BHist} :
+    hsame x y ->
+      hsame (mul (add x (neg y)) z) BHist.Empty ∧
+        hsame (mul z (add x (neg y))) BHist.Empty ∧
+          hsame (mul (neg (add x (neg y))) z) BHist.Empty ∧
+            hsame (mul z (neg (add x (neg y)))) BHist.Empty := by
+  intro sameXY
+  have differenceZero : hsame (add x (neg y)) BHist.Empty :=
+    (ring_additive_difference_zero_exact addAssoc addComm zeroLeft negLeft addCongr).mpr
+      sameXY
+  have unsignedAbsorption :=
+    ring_equal_factor_difference_annihilation addAssoc addComm zeroLeft negLeft addCongr
+      mulCongr leftDistrib rightDistrib (x := x) (y := y) (z := z) sameXY
+  have signedAbsorption :=
+    ring_zero_classifier_signed_factor_absorption addAssoc addComm zeroLeft negLeft addCongr
+      mulCongr negCongr leftDistrib rightDistrib (x := add x (neg y)) (y := z)
+      differenceZero
+  exact ⟨unsignedAbsorption.left, unsignedAbsorption.right, signedAbsorption.left,
+    signedAbsorption.right.left⟩
 
 end BEDC.Derived.RingUp
