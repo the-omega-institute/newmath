@@ -89,6 +89,22 @@ theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
                       (hsame_refl (BHist.e1 q)) sameRightLeft rightQuot).left
                   exact CplxDiffQuot_visible_step_same_result_absurd leftQuot rightAtLeft
 
+theorem CplxDiffAt_empty_function_derivative_nonzero {z fp : BHist} :
+    CplxDiffAt BHist.Empty z fp -> CplxNonZero fp := by
+  intro diff quotientEmpty
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro _stepNonzero rest =>
+              cases rest with
+              | intro quotient rest =>
+                  cases rest with
+                  | intro _ledger sameQFp =>
+                      exact CplxDiffQuot_empty_function_result_nonzero quotient
+                        (hsame_trans sameQFp quotientEmpty)
+
 theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f f' -> hsame z z' -> hsame fp gp ->
       CplxDiffAt f' z' gp ∧

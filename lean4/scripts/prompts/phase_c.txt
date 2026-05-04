@@ -300,6 +300,8 @@ If a new declaration's name (case (b)) appears anywhere else under `lean4/BEDC/`
 
 If two new declarations (case (a)) share a conclusion under different names (e.g. `<X>_iff` vs `<X>_iff_direct`, `<X>` vs `<X>_witness`, `<X>_kernel_iff` vs `<X>QuotientClassifier_kernel_iff` when the second's conclusion proves the same biconditional/equation), KEEP only one — drop the others.
 
+**Left/right cancel and commutativity sibling rule**: a round must NOT introduce both `<X>_left_<Y>` AND `<X>_right_<Y>` (or `_left_cancel_iff` + `_right_cancel_iff`, or `_append_comm` + `_append_context_swap`) when their conclusions reduce to the same biconditional/equation under the BEDC `Cont` / `append` framework. In BEDC, left and right cancellation are typically alpha-equivalent because `Cont(x, y, out)` is symmetric under context permutation; Phase D's normalizer treats them as duplicates and rejects. Four R-rounds (R2220 / R2234 / R2254 / R2329) FAILed in 4 hours under the MagmaUp chapter by adding this exact pair. Pick one orientation (default: `_left_<Y>`), drop the other, and rely on a separate `_left_to_right_iff` lemma if the orientation symmetry needs explicit witness.
+
 The round commits whichever ONE new theorem is canonical.
 
 ## Step 6: Single combined commit
