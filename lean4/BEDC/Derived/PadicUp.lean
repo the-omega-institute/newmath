@@ -390,6 +390,18 @@ theorem PadicPrimeScale_append_unit_right_predecessor_unique {p w r : BHist} :
             (fun other otherScale =>
               NatMul_functional scale.left.left data.left.right otherScale.right)))
 
+theorem PadicPrimeScale_append_unit_right_result_hsame {p w n r : BHist} :
+    UnaryHistory w -> PadicPrimeScale p w n ->
+      PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r ->
+        hsame r (append n p) := by
+  intro unaryW leftScale rightScale
+  have predecessor :=
+    PadicPrimeScale_append_unit_right_predecessor_unique unaryW rightScale
+  cases predecessor with
+  | intro pred data =>
+      have samePredN : hsame pred n := data.right.right n leftScale
+      exact cont_respects_hsame samePredN (hsame_refl p) data.right.left (cont_intro rfl)
+
 theorem PadicPrimeScale_append_unit_left_factorization_iff {p q r : BHist} :
     UnaryHistory q ->
       (PadicPrimeScale p (append (BHist.e1 BHist.Empty) q) r <->
@@ -564,5 +576,17 @@ theorem PadicPrimeScale_first_prime_unit_exponent_result :
     PadicPrimeScale (BHist.e1 (BHist.e1 BHist.Empty)) (BHist.e1 BHist.Empty)
       (BHist.e1 (BHist.e1 BHist.Empty)) := by
   exact And.intro NatPrime_first_pair.left NatMul_first_prime_unit_result
+
+theorem PadicPrimeScale_append_unit_exponents_result_square_hsame {p result : BHist} :
+    PadicPrimeScale p (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) result ->
+      hsame result (append p p) := by
+  intro scale
+  have unitScale : PadicPrimeScale p (BHist.e1 BHist.Empty) p :=
+    PadicPrimeScale_unit_exponent_prime scale.left
+  have squareScale :
+      PadicPrimeScale p (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+        (append p p) :=
+    PadicPrimeScale_append_cont_closure unitScale unitScale (cont_intro rfl)
+  exact NatMul_functional scale.left.left scale.right squareScale.right
 
 end BEDC.Derived.PadicUp

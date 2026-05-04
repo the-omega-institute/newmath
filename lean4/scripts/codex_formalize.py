@@ -557,6 +557,26 @@ def read_target_parallel(default: int) -> int:
     return max(1, min(default, HARD_MAX_PARALLEL))
 
 
+def read_timeout(key: str, default: int, *, lo: int = 60, hi: int = 14400) -> int:
+    """Read a per-phase codex-exec timeout (seconds) from
+    PARALLEL_CONFIG_FILE. Allowed keys: `phase_b_timeout`,
+    `phase_c_timeout`. Falls back to `default` if file/key missing.
+    Clamped to [lo, hi]; default range covers 1 min to 4 hours.
+
+    Lets the operator widen Phase C from 4500s to 6000-7200s without
+    restart when codex starts hitting timeouts on high-difficulty
+    target batches (e.g. 3-of-3 difficulty=high rounds).
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(key, default))
+            return max(lo, min(v, hi))
+    except Exception:
+        pass
+    return max(lo, min(default, hi))
+
+
 def read_lake_parallel(default: int) -> int:
     """Read live lake-gate concurrency cap from PARALLEL_CONFIG_FILE.
 
@@ -1081,6 +1101,64 @@ def _ff_local_branch_to(target: str) -> tuple[bool, str]:
     return r.returncode == 0, (r.stderr or r.stdout or "")[-300:]
 
 
+def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
+    """Bring local BASE_BRANCH into convergence with origin/BASE_BRANCH.
+
+    Try ff first (cheap path; succeeds when LOCAL is behind or equal to
+    origin). If LOCAL has commits that origin doesn't (e.g. a previous
+    attempt's worktree-merge that hasn't been pushed yet), do a real
+    `git merge --no-ff --no-edit origin/BASE_BRANCH`. On conflict, invoke
+    codex via `_codex_resolve_conflicts`. Returns True if LOCAL ends up
+    containing origin's content; False only when codex cannot resolve a
+    real conflict.
+
+    Caller has typically already done `git fetch origin BASE_BRANCH`.
+    Saves and restores the original HEAD if not on BASE_BRANCH.
+    """
+    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                   cwd=REPO_ROOT, timeout=10)
+    original_branch = (head.stdout or "").strip()
+
+    if original_branch != BASE_BRANCH:
+        co = run_cmd(["git", "checkout", BASE_BRANCH],
+                     cwd=REPO_ROOT, timeout=30)
+        if co.returncode != 0:
+            logger.error(
+                f"_sync_local_with_origin: cannot checkout {BASE_BRANCH}: "
+                f"{(co.stderr or '')[-200:]}"
+            )
+            return False
+
+    try:
+        ff = run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
+                     cwd=REPO_ROOT, timeout=30)
+        if ff.returncode == 0:
+            return True
+        merge = run_cmd(
+            ["git", "merge", "--no-ff", "--no-edit", f"origin/{BASE_BRANCH}"],
+            cwd=REPO_ROOT, timeout=120,
+        )
+        if merge.returncode == 0:
+            return True
+        logger.warning(
+            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
+            "invoking codex to resolve"
+        )
+        resolved = _codex_resolve_conflicts(REPO_ROOT, model=model)
+        if resolved:
+            return True
+        run_cmd(["git", "merge", "--abort"], cwd=REPO_ROOT, check=False)
+        logger.error(
+            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
+            "codex could not resolve"
+        )
+        return False
+    finally:
+        if original_branch and original_branch != BASE_BRANCH:
+            run_cmd(["git", "checkout", original_branch],
+                    cwd=REPO_ROOT, check=False, timeout=30)
+
+
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
     """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
 
@@ -1101,9 +1179,12 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
         def _do_merge_and_ff(attempt: int) -> bool:
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-            ok, msg = _ff_local_branch_to(f"origin/{BASE_BRANCH}")
-            if not ok:
-                logger.info(f"local {BASE_BRANCH} ff from origin skipped: {msg.strip()}")
+            if not _sync_local_with_origin(model=model):
+                logger.error(
+                    f"[R{wt.round_number}] local {BASE_BRANCH} could not "
+                    f"sync with origin/{BASE_BRANCH}; aborting attempt"
+                )
+                return False
 
             merge = run_cmd(
                 ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
@@ -2419,7 +2500,7 @@ def run_round_in_worktree(
         phase_b_raw = codex_exec(
             phase_b_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=phase_b_timeout,
+            timeout_seconds=read_timeout("phase_b_timeout", phase_b_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"R{round_num}_phaseB",
@@ -2467,7 +2548,7 @@ def run_round_in_worktree(
         phase_c_raw = codex_exec(
             phase_c_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=phase_c_timeout,
+            timeout_seconds=read_timeout("phase_c_timeout", phase_c_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"R{round_num}_phaseC",
