@@ -15,12 +15,65 @@ The pattern is component-family formation with one codomain morphism per source 
 The classifier relates natural transformations componentwise by the target category morphism classifier.
 \end{definition}
 
+\begin{definition}[NatTrans prefix component classifier]
+\label{def:nattrans-prefix-component-classifier}
+For fixed prefixes $p,q$ and a fixed source object history $a$, the displayed
+component classifier is
+$$
+\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)
+$$
+when $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ and
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\theta)$ both hold and
+$\eta\hsame\theta$. Thus a classified component is not only an equality
+witness between histories; it also carries both displayed endpoints in the
+target-category hom-carrier interface.
+\end{definition}
+
+\begin{theorem}[NatTrans prefix component classifier equivalence fields]
+\label{thm:nattrans-prefix-component-classifier-equivalence-fields}
+For fixed prefixes $p,q$ and object history $a$, the relation
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}$ has the component fields
+required by the certificate:
+\begin{enumerate}
+  \item if $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ holds, then
+  $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta)$;
+  \item if $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)$
+  holds, then
+  $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\theta,\eta)$;
+  \item if $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\theta)$
+  and $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\theta,\iota)$ hold,
+  then $\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\iota)$;
+  \item if $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ and
+  $\eta\hsame\eta'$ hold, then
+  $\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Reflexivity packages the given component carrier twice with the reflexive
+$\hsame$ proof for $\eta$. Symmetry swaps the two carried endpoints and uses
+symmetry of $\hsame$.
+
+For transitivity, unpack the two classifier witnesses. The middle component is
+carried on both sides over the same fixed prefixes and object, and transitivity
+of $\hsame$ identifies the two outer component histories. Repack the original
+left carrier, the original right carrier, and the composite $\hsame$ witness.
+
+For carrier transport, unfold
+$\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)$ to the underlying
+$\mathsf{CategoryHomCarrier}$ component from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(q,a)$. The source and target endpoint fields are unchanged;
+the displayed component field transports along the supplied
+$\eta\hsame\eta'$ witness, yielding the carrier for $\eta'$.
+\end{proof}
+
 \begin{definition}[NatTrans stability certificate]
 \label{def:nattrans-stability-certificate}
 The stability certificate consists of:
 \begin{enumerate}
   \item componentwise reflexivity
+  \item componentwise symmetry
   \item componentwise transitivity
+  \item component carrier transport along $\hsame$ of displayed component histories
   \item naturality square validity for every source morphism
   \item stability of naturality under component classifier replacement
   \item vertical composition closure

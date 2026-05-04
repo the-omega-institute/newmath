@@ -196,6 +196,25 @@ therefore follows from the nonempty unit component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_result\_nonempty\_of\_positive\_depth\_unit\_nonempty}
 
+\begin{theorem}[Adjunction positive-depth alternating continuation readback]
+\label{thm:adjunction-unit-counit-alternating-positive-depth-cont-readback}
+For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary
+and not history-same as $\emp$. Then there is a unary tail $tail$ such that
+the alternating unit-counit ledger at $depth$ is displayed by the first
+continuation step
+$$
+\Cont\bigl(unit,\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,tail),
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty depth has a one-headed tail. Unfolding the alternating ledger
+at that one-headed branch exposes exactly the continuation append whose left
+component is $unit$ and whose right component is the alternating ledger with
+the boundary components exchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
+
 \begin{theorem}[Adjunction unit-counit alternating empty components closed]
 \label{thm:adjunction-unit-counit-alternating-empty-components-closed}
 If both boundary components are empty and $depth$ is unary, then the
@@ -336,6 +355,7 @@ $\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)$.
 The five witnesses assemble the displayed conjunction, giving the total
 endomorphism collapse including the alternating ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_endomorphism\_total\_alternating\_collapse}
 
 \begin{definition}[Adjunction triangle carrier]
 \label{def:adjunction-triangle-carrier}
