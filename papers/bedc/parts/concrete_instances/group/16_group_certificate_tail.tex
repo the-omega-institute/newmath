@@ -98,3 +98,23 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\GroupUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{proposition}[Group forgets to Monoid certificate]
+\label{prop:group-forgets-monoid-certificate}
+Let $C$ carry a $\GroupUp(C)$ certificate with multiplication $\cdot$, identity $e$, inverse operation ${}^{-1}$, and classifier $\sim_C$. If the inverse operation, inverse closure, inverse congruence, left and right inverse rows, and ledger entries whose expression provenance uses inverse formation are omitted, then the retained carrier, source, monoid pattern, classifier, monoid stability fields, and monoid ledger form a $\MonoidUp(C)$ certificate. The carrier $C$, multiplication $\cdot$, identity $e$, and classifier $\sim_C$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:group-certificate-obligations}, the given certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\GroupUp(C)$. The construction keeps exactly the coordinates whose operations and endpoint claims use only the monoid part of the group structure.
+
+By \autoref{def:group-carrier}, a group carrier is a monoid setup extended with an inverse operation. Omitting the inverse operation leaves the same carrier $C$, the same classifier $\sim_C$, the same multiplication $\cdot$, and the same identity $e$. These are precisely the carrier data listed in \autoref{def:monoid-carrier}.
+
+By \autoref{def:group-source-specification}, the source is a certified monoid carrier plus inverse data. Removing the inverse component leaves the certified monoid carrier required by \autoref{def:monoid-source-specification}. No source endpoint, carrier witness, multiplication operation, identity element, or classifier is replaced.
+
+By \autoref{def:group-pattern-specification}, the group pattern is monoid expression formation extended by inverse formation. Restricting to expressions with no inverse node leaves expression formation from $e$, carrier witnesses, and binary multiplication, which is exactly the monoid pattern of \autoref{def:monoid-pattern-specification}.
+
+By \autoref{def:group-classifier-specification}, the group classifier is the monoid carrier classifier together with inverse congruence. The retained relation is therefore the same carrier classifier required by \autoref{def:monoid-classifier-specification}; the omitted inverse congruence row is not a $\MonoidUp$ obligation.
+
+By \autoref{def:group-stability-certificate}, the group stability certificate consists of all monoid stability fields together with inverse congruence, left inverse law, right inverse law, and closure under inverse. The first component is exactly the list in \autoref{def:monoid-stability-certificate}: classifier reflexivity, classifier transitivity, associativity under classifier, left identity, right identity, and multiplication congruence. The inverse-specific rows mention ${}^{-1}$ and are not required for $\MonoidUp$.
+
+Finally, \autoref{def:group-ledger-policy} records the monoid ledger plus every inverse operation applied. Omitting entries justified by inverse formation leaves the carrier witnesses and multiplication-expression provenance described by \autoref{def:monoid-ledger-policy}. Hence the retained carrier, source, pattern, classifier, stability, and ledger data satisfy the obligations named in \autoref{def:monoid-certificate-obligations}, with $C$, $\cdot$, $e$, and $\sim_C$ copied from the original $\GroupUp(C)$ certificate.
+\end{proof}

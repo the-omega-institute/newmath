@@ -1,0 +1,121 @@
+---
+title: "Zero Information Debt"
+subtitle: "BEDC's stance is bookkeeping, not symmetry — what 'hidden assumptions' miss by one layer"
+author: "The Omega Institute"
+date: 2026-05-03
+description: "Tao's hidden-assumptions framing audits one layer. BEDC audits two more: the meta-closure ledger and the observer / protocol layer. Symmetry is the wrong word; reversible accounting is the right one."
+---
+
+```{=html}
+<div class="lang-switch"><a href="zero-information-debt.zh-CN.qmd">中文</a></div>
+```
+
+## The framing chosen here
+
+Terence Tao, working with Lean and mathlib on the PFR conjecture and on Maynard's prime-gap bounds, has documented over and over a particular discovery: a finished paper proof, presented as airtight to a human reader, contains gaps the formal checker rejects. Definitions are unfolded silently; "by symmetry" is a shorthand for two cases that are not in fact symmetric; constants are dropped between sections. The Lean run forces them back into view. Tao calls these *hidden assumptions*. The framing is right, and the audit it produces is genuine. It is also one layer deep.
+
+BEDC operates two layers deeper. The hidden-assumptions audit closes paper-level gaps on top of mathlib, where `Classical.choice`, `Quot.sound`, and `propext` are part of the substrate and never enter the audit. BEDC refuses those three at the gate (`bedc_ci.py axiom-purity --strict`) and, separately, treats the *observer* of a mathematical fact — the asking, the probe bundle, the package, the certificate's classifier — as a first-class kernel object rather than as informal commentary outside the proof.
+
+This essay says what those two extra layers are, why they are not the same as the layer Tao audits, and why the natural intuition for the BEDC stance — "perfect symmetry," "information conservation," "reversibility" — is half right and half misleading. The right framing is bookkeeping, not symmetry.
+
+## Three layers, not one
+
+| Layer | Who audits it | Concrete shape |
+|---|---|---|
+| paper-level gap | Tao, blueprint workflows | skipped step, silent definitional unfold, missing constant, "by symmetry" without symmetry |
+| meta-closure axiom | BEDC, Bishop, Brouwer, Martin-Löf intuitionism | `Classical.choice` / `Quot.sound` / `propext` accepted as substrate |
+| observer / protocol as object | BEDC | `AskSetup`, `ProbeBundle`, `SigRel`, `Package`, `NameCert` as inductive kernel data |
+
+The first row is what Tao's PFR formalization brings to the surface. A paper proof is shown to be locally non-rigorous in a way the human reader's habit of charity covered up. The fix is mechanical: write out the missing steps. Whether the fixed proof rests on `Classical.em` is not in scope; mathlib supplies it freely.
+
+The second row is what the BEDC `axiom-purity` gate brings to the surface. Even after every paper-level gap is closed, a Lean theorem can transitively depend on `Classical.choice`. Run `#print axioms` and the substrate appears. BEDC refuses such dependencies as a project-level invariant: 562 theorems, all of them transitively axiom-free, none invoking `Classical.choice` / `Quot.sound` / `propext`. The cleanup move at this layer is not "write more steps." It is "rebuild the supporting concept so the step does not need the axiom in the first place" — replacing quotient types with naming certificates, replacing classical case analysis with explicit decidability, replacing extensional identification with explicit `psame` / `hsame` transport.
+
+The third row is the layer no other formalization project audits. BEDC's `FKernel` makes the asking event itself an object: `AskSetup` carries the protocol under which a distinction is made, `ProbeBundle` carries the constructed probe witnesses, `SigRel` carries the relation under which signatures are matched, and `NameCert` carries the classifier-aware naming certificate. None of this is auxiliary commentary. It compiles inside the kernel and participates in `\leanchecked` markers. Whether or not the reader cares about the "philosophy of measurement," the kernel is structurally unable to talk about a mathematical object without also exhibiting the protocol that named it.
+
+These three layers are not refinements of one another. They are independent audits, with independent costs.
+
+## The three axioms are one accounting move
+
+Inside the meta-closure layer the chapter `papers/bedc/parts/capstones/three_axioms_one_closure.tex` makes the unifying observation: choice, `Quot.sound`, and `propext` are not three independent commitments. They are the same schematic move expressed at three syntactic strata.
+
+> **Meta-closure schema.** Given a positive existential at syntactic stratum $S \in \{\text{term}, \text{type}, \text{proposition}\}$ together with no constructor witness, supply a value of $S$ as if a witness had been given, and feed it into subsequent kernel construction.
+
+- **Choice** at the term stratum. From $\forall i \in I,\ \exists x_i \in A_i$, conclude $\exists f : I \to \bigsqcup A_i$ with $f\,i \in A_i$. The function $f$ is supplied as oracle data; the body is not built from the existential witnesses.
+- **`Quot.sound`** at the type stratum. From an equivalence relation $R$ on $A$, conclude that $A / R$ exists with a section $A / R \to A$ supplying canonical representatives. The section is type-level oracle data.
+- **`propext`** at the proposition stratum. From $P \Leftrightarrow Q$, conclude $P = Q$. The equality is proposition-level oracle data, since the only relation between $P$ and $Q$ was bidirectional implication.
+
+The `axiom-purity --strict` gate rejects all three uniformly. Read through this unification, the gate is not three separate refusals; it is one refusal of meta-closure at three strata. The application content the three axioms serve — choice on $\mathbb{N}$-indexed families, equivalence-class transport, identification of bi-implied propositions — is supplied instead by countable / dependent / finite recursion, by `psame`-respecting transport on certificates, and by explicit `hsame`-mediated rewrites. The replacements are kernel-level constructions on closed inductive carriers; they pay in writing.
+
+## What "information conservation" actually says
+
+The natural shorthand for this stance is *information conservation*. The shorthand is right at the Curry-Howard level, and worth taking seriously.
+
+A constructive proof is a program. The program's output data is fully determined by its input data. No information is created in the derivation. `Classical.choice` is the canonical violation: from $\exists x.\,P(x)$ it extracts a name $x$, but the identity of $x$ is information that did not exist among the inputs and was not constructed from them. The choice axiom *creates* the witness as a side-effect of accepting the existential. The conservation reading of `axiom-purity --strict` is then: no proof step is allowed to create information that the kernel cannot trace to its inductive constructors.
+
+The Riemann Hypothesis capstone (`papers/bedc/parts/capstones/riemann_hypothesis.tex`) illustrates the same principle in the other direction. A constructive proof of RH inside BEDC must, by Curry-Howard, supply a function $\Phi$ taking each zero $s$ in the critical strip to an explicit `hsame` witness for $\Re(s) = 1/2$. The capstone catalogs the witness types this $\Phi$ would expose: a modulus $\mu_s : \mathbb{N} \to \mathbb{N}$, an approach-rate bound $\beta : \mathbb{N} \to \mathbb{Q}^{>0}$, a constructive zero-count $N : \mathbb{N} \to \mathbb{N}$ matching Riemann–von Mangoldt up to an explicit error term, a decidable trivial-zero classifier, and a `psame`-isomorphism between the critical-strip zero set and its critical-line projection. A classical reductio gives one bit; the constructive proof gives all five views, because all five are the *same* information presented under different projections. None of them is added in the derivation; all of them are present in $\Phi$ and the conservation gate is what forces them to be exhibited.
+
+Information conservation, then, is the right one-line description of the second-layer audit. The first-layer audit (Tao's hidden assumptions) is also a kind of conservation, but at a different scale — it conserves the *paper proof* in the sense that nothing is omitted. The second-layer audit conserves the *substrate*: nothing is created out of meta-closure.
+
+## Why "symmetry" is the wrong word for this
+
+The temptation to say *perfect symmetry* should be resisted. `propext`, the third of the three axioms, is itself a symmetry move: it forces the asymmetry between two distinct propositions $P$ and $Q$ — distinct as kernel data even when bi-implied — to vanish. `Quot.sound` does the analogous move at the type stratum, collapsing the asymmetry between two equivalent carrier elements. Both are *brute symmetrizations*: the residual structure that distinguished the two is discarded.
+
+BEDC refuses both. The refusal is not the rejection of symmetry; it is the rejection of brute symmetrization. The kernel keeps `P` and `Q` distinct as inductive objects and exposes a `hsame`-transport that lets every classifier-respecting operation pass through the bidirectional implication. The kernel keeps two `psame`-equivalent carrier elements physically distinct and supplies a `psame`-respecting transport rather than collapsing them.
+
+The right physical analogy is not the perfectly symmetric vacuum. It is gauge theory: physical observables are invariant under gauge transformations, but the different gauge choices remain *different descriptions of the field configuration*; they are not collapsed into one. `propext` would collapse them. BEDC, like the gauge-invariant formulation of physics, lets observables ride through equivalence without identifying the underlying choices.
+
+The right one-line description is therefore *equivalence with preserved identities*, not *symmetry*. Symmetry is the property; preserved identities is the discipline that lets the property hold without losing data.
+
+## Reversibility, sliced by layer
+
+The remaining intuition — that this stance is about *reversibility* — needs to be sliced.
+
+| Domain | Reversibility ↔ Symmetry relation |
+|---|---|
+| Hamiltonian mechanics | T-symmetry ↔ reversibility, essentially equivalent (Liouville, Landauer) |
+| Information theory | Reversible computation ↔ no information loss, strictly equivalent |
+| Category theory | Isomorphism = pair of morphisms with round-trip identity; not the same as "symmetry" (a group action's invariants) |
+| Group theory | Every group element is invertible; symmetry is a stronger structural condition, not a property of single elements |
+
+BEDC's `psame` / `hsame` transport sits in the category-theoretic row. It is *invertible* — the transport runs both ways and round-trips to identity — but it is not symmetry in the group-theoretic sense. There is no acting group whose invariants are the BEDC theorems. There is, instead, a cohort of pairwise isomorphisms (`psame`, `hsame`, certificate transport) along which information flows without loss.
+
+The closest physical analogue is therefore not symmetry but *reversible computation* in the Bennett–Fredkin sense: every kernel step can be unrolled, every input can be recovered from the output and the step's data, and every distinction made is also a distinction recoverable. This is exactly the gate that `axiom-purity --strict` enforces, because the three forbidden axioms are precisely the three steps that erase the recoverability. `Classical.choice` is irreversible (the witness it supplies has no source). `Quot.sound` is irreversible (the canonical representative cannot be traced back to a constructor). `propext` is irreversible (the equality of $P$ and $Q$ has no proof-theoretic source beyond the bidirectional implication).
+
+So *reversibility* is closer to the truth than *symmetry*, but it lives at the category-theoretic and information-theoretic layers, not the group-theoretic one.
+
+## The accountant's framing
+
+Combining the three observations, the BEDC stance reads:
+
+> **Zero information debt with reversible transport. Every kernel step has a source. Equivalent objects keep their identities; only the operations pass through.**
+
+The metaphor that fits is bookkeeping. Tao's audit is bookkeeping at the paper-proof layer — does every step appear in the ledger of the paper. BEDC's axiom-purity gate is bookkeeping at the substrate layer — does every step appear in the ledger of the kernel without invoking off-balance-sheet meta-closures. BEDC's observer-as-object discipline is bookkeeping at the protocol layer — does every named distinction also appear with the asking that named it.
+
+Three layers of bookkeeping, not one symmetry. The first is *gap closure*; the second is *substrate purity*; the third is *protocol exhibition*. The first has been rigorously formulated by Tao and the blueprint community. The second is the constructive tradition (Brouwer, Bishop, Martin-Löf intuitionism) made operational by `axiom-purity --strict`. The third is BEDC's own contribution and has, to our knowledge, no analogue elsewhere in formal mathematics.
+
+## What this means in practice
+
+For a formal mathematics project considering whether to adopt BEDC's discipline, the operational consequences are sharp.
+
+1. **Auditing only paper-level gaps is necessary but not the project's only ledger.** A theorem can be paper-rigorous and substrate-leaky. Run `#print axioms` and look at the transitive dependencies.
+2. **Replacements for the three axioms are concrete, not gestural.** Countable / dependent / finite recursion replaces choice in the cases where BEDC needs choice. `NameCert` + `psame`-transport replaces quotient soundness. `hsame`-mediated rewrites replace `propext`. The replacements pay in proof length; they save in substrate weight.
+3. **Treating the observer as kernel data is a structural decision, not a stylistic one.** Once `AskSetup` and `ProbeBundle` are inductive, every theorem has to specify the protocol under which the named distinction is made. This is not commentary that can be added later; it has to be in the kernel from the start.
+4. **The right rhetoric is bookkeeping, not symmetry.** Saying "BEDC is more symmetric" misdescribes the stance and invites the wrong objections. Saying "BEDC pays its meta-closure debts in writing" is what it actually does.
+
+```{=html}
+<span class="role-tag discovery">💡 Discovery</span>
+```
+
+The discovery is that "hidden assumption" is one layer of audit out of three. Tao's framing closed a layer the human-reader habit had left open. The constructive tradition closed a layer the substrate had left open. BEDC's protocol layer closes a layer the rest of formal mathematics still leaves open. None of the three is reducible to the others, and the union of all three is what makes the BEDC kernel say what it says with the dependencies it admits.
+
+## Where to read next
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.qmd"><strong>Distinction as Foundation →</strong><br/>Why <code>e0</code> / <code>e1</code> are more primitive than sets, types, or categories — and what BEDC's substrate refuses to assume.</a>
+  <a href="schema-only-as-evidence.qmd"><strong>Schema-only as Evidence →</strong><br/>What sixteen failing chapters tell us, and how the failures themselves carry information that closing them would erase.</a>
+  <a href="index.qmd"><strong>← Back to the main story</strong><br/>BEDC: 1837 theorems, 0 axioms, mathlib-free — the AI-driven case for finite-kernel formalization.</a>
+</div>
+```
+
+— *The Omega Institute*
