@@ -354,3 +354,80 @@ The right endpoint is $\mathsf{Eval}_{\alpha,R}(p)\cdot\mathsf{Eval}_{\alpha,R}(
 
 If $p$ and $q$ are already normalized polynomial-carrier representatives, trim idempotence gives $p_0=p$ and $q_0=q$. The product endpoint is normalized by its defining trim, so normalized evaluation on $\mathsf{PolyMul}_R(p,q)$ is the unnormalized Horner evaluation of that product. Substituting these equalities gives the carrier formula.
 \end{proof}
+
+\begin{lemma}[Zero-point Horner cons evaluation]
+\label{lem:horner-evaluation-zero-cons-constant}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. For every carried scalar coefficient $a$ and every finite coefficient spine $t:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{eval}_{0_R,R}(\mathsf{cons}(a,t))\sim_R a.
+$$
+\end{lemma}
+\begin{proof}
+The cons recursion in \autoref{def:polynomial-horner-evaluation} identifies the left endpoint with
+$$
+a+0_R\cdot\mathsf{eval}_{0_R,R}(t).
+$$
+The zero-absorption theorem \autoref{thm:ring-zero-absorption-from-distributivity}, applied to $\mathsf{eval}_{0_R,R}(t)$, gives
+$$
+0_R\cdot\mathsf{eval}_{0_R,R}(t)\sim_R0_R.
+$$
+Classifier reflexivity supplies $a\sim_Ra$, and addition congruence from \autoref{def:ring-stability-certificate} gives
+$$
+a+0_R\cdot\mathsf{eval}_{0_R,R}(t)\sim_Ra+0_R.
+$$
+The additive right-zero theorem \autoref{thm:ring-add-right-zero} gives $a+0_R\sim_Ra$. Classifier transitivity composes the two comparisons.
+\end{proof}
+
+\begin{lemma}[Zero-point Horner evaluation ignores classified zero tails]
+\label{lem:horner-evaluation-zero-tail-invariance-at-zero}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. For finite coefficient spines $x,t:\mathsf{ListCarrier}(R)$, if $\mathsf{ZeroRem}_R(t)$ holds in the sense of \autoref{def:classified-zero-remainder-spine}, then
+$$
+\mathsf{eval}_{0_R,R}(x{++}t)\sim_R\mathsf{eval}_{0_R,R}(x).
+$$
+\end{lemma}
+\begin{proof}
+First record the endpoint claim that every classified zero remainder evaluates to zero at $0_R$. If the zero remainder is $\mathsf{nil}$, the nil recursion in \autoref{def:polynomial-horner-evaluation} identifies its evaluation with $0_R$, and zero self-classification from \autoref{def:ring-stability-certificate} gives the claim. If the zero remainder is $\mathsf{cons}(c,t')$, the cons clause of \autoref{def:classified-zero-remainder-spine} supplies $c\sim_R0_R$. By \autoref{lem:horner-evaluation-zero-cons-constant},
+$$
+\mathsf{eval}_{0_R,R}(\mathsf{cons}(c,t'))\sim_Rc,
+$$
+and transitivity gives $\mathsf{eval}_{0_R,R}(\mathsf{cons}(c,t'))\sim_R0_R$.
+
+Now split on the first constructor of $x$. If $x=\mathsf{nil}$, then $x{++}t=t$, so the endpoint claim gives the displayed comparison. If $x=\mathsf{cons}(a,x')$, then $x{++}t=\mathsf{cons}(a,x'{++}t)$. Applying \autoref{lem:horner-evaluation-zero-cons-constant} twice gives
+$$
+\mathsf{eval}_{0_R,R}(\mathsf{cons}(a,x'{++}t))\sim_Ra
+$$
+and
+$$
+\mathsf{eval}_{0_R,R}(\mathsf{cons}(a,x'))\sim_Ra.
+$$
+Symmetry of the second comparison and transitivity give the required comparison for the cons case.
+\end{proof}
+
+\begin{theorem}[Polynomial evaluation at zero returns the constant coefficient]
+\label{thm:polynomial-evaluation-at-zero-constant-term}
+Let $R$ carry a $\RingUp(R)$ certificate with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, multiplication $\cdot$, canonical trim $\mathsf{trim}_R$, and Horner evaluation as in \autoref{def:polynomial-horner-evaluation}. For every carried scalar coefficient $a$ and every finite coefficient spine $t:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{Eval}_{0_R,R}(\mathsf{cons}(a,t))\sim_R a.
+$$
+\end{theorem}
+\begin{proof}
+Set $x=\mathsf{cons}(a,t)$. The trailing-zero removal clause in \autoref{def:polynomial-stability-certificate} gives a finite zero remainder $z$ such that
+$$
+x=\mathsf{trim}_R(x){++}z,
+\qquad
+\mathsf{ZeroRem}_R(z).
+$$
+Applying \autoref{lem:horner-evaluation-zero-tail-invariance-at-zero} to $\mathsf{trim}_R(x)$ and $z$ yields
+$$
+\mathsf{eval}_{0_R,R}(x)\sim_R\mathsf{eval}_{0_R,R}(\mathsf{trim}_R(x)).
+$$
+By the normalized evaluation definition in \autoref{def:polynomial-horner-evaluation}, the right endpoint is $\mathsf{Eval}_{0_R,R}(x)$. Symmetry gives
+$$
+\mathsf{Eval}_{0_R,R}(x)\sim_R\mathsf{eval}_{0_R,R}(x).
+$$
+The raw cons comparison \autoref{lem:horner-evaluation-zero-cons-constant} gives
+$$
+\mathsf{eval}_{0_R,R}(x)\sim_Ra.
+$$
+Classifier transitivity composes these two comparisons, and substituting $x=\mathsf{cons}(a,t)$ gives the displayed formula.
+\end{proof}
