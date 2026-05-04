@@ -409,6 +409,23 @@ it against $\ContR(n,e,r)$, and transport the product for $w$ from $n'$ to $n$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_left\_factor}
 
+\begin{theorem}[Append multiplier result deterministic]
+\label{thm:natmul-append-multiplier-result-deterministic}
+Let $d$ be unary. If $\mathsf{NatMul}(d,w,n)$ and $\mathsf{NatMul}(d,q,e)$
+are displayed factor products, $\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ is
+a product over the appended multiplier, and $\Cont(n,e,z)$ displays the
+combined result, then $r\hsame z$.
+\end{theorem}
+\begin{proof}
+Append-continuation multiplication closure combines the two factor products
+along $\Cont(n,e,z)$, producing a multiplication witness for
+$\mathsf{append}(w,q)$ with result $z$. Functionality of
+$\mathsf{NatMul}$ for the unary multiplicand $d$ compares this constructed
+witness with the displayed appended-multiplier witness and identifies the two
+results.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_result\_deterministic}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
