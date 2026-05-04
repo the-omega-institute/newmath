@@ -172,6 +172,24 @@ histories.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_same\_quotient\_step\_distance\_deterministic}
 
+\begin{theorem}[Visible derivative quotient steps cannot share a quotient]
+\label{thm:derivative-metric-quotient-visible-step-same-quotient-absurd}
+If
+$$
+\mathsf{DerivativeMetricQuotient}(f,z,\Ezero(p),out,dist_0)
+\qquad\text{and}\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Eone(q),out,dist_1)
+$$
+hold with the same function, point, and quotient histories, then contradiction
+follows.
+\end{theorem}
+\begin{proof}
+Same-quotient step and distance determinacy identifies the two visible step
+histories. The equality $\Ezero(p)\hsame\Eone(q)$ contradicts constructor
+separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_same\_quotient\_absurd}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
