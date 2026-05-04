@@ -65,4 +65,30 @@ theorem RatStreamName_certificate_fields {s t u s' t' : BHist -> BHist} :
       (And.intro transSU
         (And.intro endpointCarriers transportS'T')))
 
+theorem RatStreamName_reindexing_composition_law {s t : BHist -> BHist}
+    {r q : BHist -> BHist}
+    (r_unary : forall n : BHist, UnaryHistory n -> UnaryHistory (r n))
+    (q_unary : forall n : BHist, UnaryHistory n -> UnaryHistory (q n)) :
+    (forall n : BHist, UnaryHistory n -> UnaryHistory (q (r n))) ∧
+      (RatStreamNameCarrier s -> RatStreamNameCarrier (fun n => s (q (r n)))) ∧
+        (RatStreamNameClassifier s t ->
+          RatStreamNameClassifier (fun n => s (q (r n))) (fun n => t (q (r n)))) := by
+  have compositeUnary : forall n : BHist, UnaryHistory n -> UnaryHistory (q (r n)) := by
+    intro n nUnary
+    exact q_unary (r n) (r_unary n nUnary)
+  constructor
+  · exact compositeUnary
+  · constructor
+    · intro carrierS n nUnary
+      exact carrierS (q (r n)) (compositeUnary n nUnary)
+    · intro classified
+      constructor
+      · intro n nUnary
+        exact classified.left (q (r n)) (compositeUnary n nUnary)
+      · constructor
+        · intro n nUnary
+          exact classified.right.left (q (r n)) (compositeUnary n nUnary)
+        · intro n nUnary
+          exact classified.right.right (q (r n)) (compositeUnary n nUnary)
+
 end BEDC.Derived.StreamNameUp

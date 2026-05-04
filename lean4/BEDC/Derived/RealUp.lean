@@ -92,6 +92,27 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
 
+theorem RealConstantHistoryClassifier_invalid_endpoint_absurd {h tail : BHist} :
+    (RealConstantHistoryClassifier (BHist.e0 tail) h -> False) ∧
+      (RealConstantHistoryClassifier h (BHist.e0 tail) -> False) ∧
+        (RealConstantHistoryClassifier BHist.Empty h -> False) ∧
+          (RealConstantHistoryClassifier h BHist.Empty -> False) := by
+  constructor
+  · intro classifier
+    have carriers := RealConstantHistoryClassifier_endpoint_carriers classifier
+    exact RealConstantHistoryCarrier_e0_absurd carriers.left
+  · constructor
+    · intro classifier
+      have carriers := RealConstantHistoryClassifier_endpoint_carriers classifier
+      exact RealConstantHistoryCarrier_e0_absurd carriers.right
+    · constructor
+      · intro classifier
+        have carriers := RealConstantHistoryClassifier_endpoint_carriers classifier
+        exact RealConstantHistoryCarrier_empty_absurd carriers.left
+      · intro classifier
+        have carriers := RealConstantHistoryClassifier_endpoint_carriers classifier
+        exact RealConstantHistoryCarrier_empty_absurd carriers.right
+
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
 
