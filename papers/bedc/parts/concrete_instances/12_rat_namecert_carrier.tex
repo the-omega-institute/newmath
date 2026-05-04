@@ -81,6 +81,44 @@ reflexive one-extension sameness witness.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_e1\_iff\_unary}
 
+\begin{theorem}[Left one-extension append positive denominator equivalence]
+\label{thm:rat-positive-denominator-append-eone-left-exact}
+For histories $h,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(\Eone(h),t))
+$$
+holds exactly when both $h$ and $t$ are unary histories.
+\end{theorem}
+\begin{proof}
+If the appended history has a positive unary denominator witness, then it is a
+unary history. Unary append factorization recovers unary membership of the
+left factor and of the tail; one-extension inversion turns unary membership of
+$\Eone(h)$ into unary membership of $h$.
+
+Conversely, unary membership of $h$ makes $\Eone(h)$ a positive unary
+denominator, and positive denominators are closed under appending a unary
+tail.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_left\_iff}
+
+\begin{theorem}[Right one-extension append positive denominator equivalence]
+\label{thm:rat-positive-denominator-append-eone-right-exact}
+For histories $h,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(h,\Eone(t)))
+$$
+holds exactly when both $h$ and $t$ are unary histories.
+\end{theorem}
+\begin{proof}
+The right one-extension unfolds the appended denominator as
+$\Eone(\mathsf{append}(h,t))$. The one-extension positive-denominator
+equivalence reads this as unary membership of $\mathsf{append}(h,t)$, and
+unary append factorization is exactly the conjunction of unary membership of
+$h$ and $t$. The reverse direction rebuilds the unary append and applies
+the one-extension positive-denominator equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_right\_iff}
+
 \begin{theorem}[Zero-extension cannot be a positive denominator]
 \label{thm:rat-positive-denominator-e0-absurd}
 A zero-extension history has no positive unary denominator witness.
@@ -131,6 +169,37 @@ If a denominator has a positive unary witness and the appended tail is unary, th
 Write the denominator as internally the same as \(\Eone(t)\) for a unary tail \(t\), and transport unary membership back to the denominator itself. The appended tail is either \(\emp\) or a one-step unary tail. The empty case keeps the original witness, while the one-step case takes the continued denominator without that final step as the new positive tail; closure follows from unary append closure.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_unary\_tail}
+
+\begin{theorem}[Positive unary denominator append zero-tail exclusion]
+\label{thm:positive-unary-denominator-append-e0-tail-absurd}
+For histories $d,t:\mathsf{BHist}$, the continued denominator
+$\mathsf{append}(d,\Ezero(t))$ has no positive unary denominator witness.
+\end{theorem}
+\begin{proof}
+A positive denominator witness first gives unary membership for the whole
+continued history. Unary append factor extraction then gives unary membership
+for the right factor $\Ezero(t)$, contradicting zero-extension separation for
+unary histories.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e0\_tail\_absurd}
+
+\begin{theorem}[Positive unary denominator append one-tail equivalence]
+\label{thm:positive-unary-denominator-append-e1-tail-iff-unary-append}
+For histories $d,t:\mathsf{BHist}$,
+$$
+\mathsf{PositiveUnaryDenominator}(\mathsf{append}(d,\Eone(t)))
+\Longleftrightarrow
+\mathsf{UnaryHistory}(\mathsf{append}(d,t)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads unary membership from the positive denominator
+witness; the one-step shape of continuation identifies this with unary
+membership of $\mathsf{append}(d,t)$. Conversely, unary membership of
+$\mathsf{append}(d,t)$ is exactly the positive denominator witness for the
+one-extension $\mathsf{append}(d,\Eone(t))$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.PositiveUnaryDenominator\_append\_e1\_tail\_iff\_unary\_append}
 
 \begin{theorem}[Rat carrier append unary denominator closure]
 \label{thm:rat-carrier-append-unary-denominator-closed}
