@@ -590,4 +590,9 @@ theorem commring_signed_column_cancellations_zero {add mul : BHist -> BHist -> B
     (hsame_trans normalized
       (hsame_trans regroup (hsame_trans collapseAll (zeroLeft zero))))
 
+def CommRingStrictZeroDivisor (mul : BHist -> BHist -> BHist) (x : BHist) : Prop :=
+  (hsame x BHist.Empty -> False) ∧ ∃ c : BHist,
+    (hsame c BHist.Empty -> False) ∧
+      hsame (mul x c) BHist.Empty ∧ hsame (mul c x) BHist.Empty
+
 end BEDC.Derived.CommRingUp

@@ -52,6 +52,25 @@ equation to the empty reflexive case.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}
 
+\begin{theorem}[Metric distance depth append-left equality emptiness]
+\label{thm:metric-distance-depth-append-left-eq-iff-empty}
+For histories $p$ and $d$, appending $p$ on the left preserves structural
+metric distance depth exactly when $p$ is the empty history:
+$$
+\mathsf{MetricDistanceDepth}(p\cdot d)=\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+\hsame(p,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the displayed tail $d$. The empty tail is precisely
+\autoref{thm:metric-distance-depth-zero-iff-empty}. A zero-headed or one-headed
+tail reduces the equality through successor injectivity, and the reverse
+direction rebuilds the same successor equality after the left prefix is
+identified with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_eq\_iff\_empty}
+
 \begin{theorem}[Metric visible-context depth-zero collapse]
 \label{thm:metric-distance-witness-visible-context-depth-zero-collapse}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
