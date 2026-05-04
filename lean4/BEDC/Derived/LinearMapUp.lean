@@ -386,6 +386,19 @@ theorem LinearMapSingletonEval_continuation_classifier_iff {f x y r h : BHist} :
         (And.intro carriers.right
           (hsame_trans rEmpty (hsame_symm carriers.right)))
 
+theorem LinearMapSingletonEval_comp_continuation_classifier {g f x r : BHist} :
+    LinearMapSingletonCarrier g -> LinearMapSingletonCarrier f -> LinearMapSingletonCarrier x ->
+      Cont (LinearMapSingletonEval f x) g r ->
+        LinearMapSingletonClassifier (LinearMapSingletonEval (LinearMapSingletonComp g f) x) r := by
+  intro carrierG _carrierF _carrierX evalCont
+  have resultCarrier : LinearMapSingletonCarrier r :=
+    cont_respects_hsame (hsame_refl BHist.Empty) carrierG evalCont (cont_right_unit BHist.Empty)
+  have carriedResult : LinearMapSingletonClassifier r r :=
+    Iff.mpr (LinearMapSingletonEval_continuation_classifier_iff evalCont)
+      (And.intro carrierG resultCarrier)
+  exact And.intro (hsame_refl BHist.Empty)
+    (And.intro carriedResult.right.left (hsame_symm carriedResult.right.left))
+
 theorem LinearMapSingletonEval_context_continuation_classifier_iff {p f x y r h : BHist} :
     Cont (append p (LinearMapSingletonEval f x)) y r ->
       (LinearMapSingletonClassifier r h ↔

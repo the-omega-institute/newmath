@@ -511,6 +511,25 @@ $\emp$ through the same continuation ledger and left-unit append equation,
 and the two singleton carrier witnesses assemble the restricted classifier.
 \end{proof}
 
+\begin{theorem}[Singleton evaluation composition continuation classifier]
+\label{thm:linearmap-singleton-eval-comp-continuation-classifier}
+If $g,f,x$ lie in the singleton linear-map carrier and
+$\ContR(\mathsf{LinearMapSingletonEval}(f,x),g,r)$, then the composed
+evaluation endpoint classifies against the continuation result:
+$$
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(\mathsf{LinearMapSingletonComp}(g,f),x),r).
+$$
+\end{theorem}
+\begin{proof}
+The continuation readback theorem applied to
+$\ContR(\mathsf{LinearMapSingletonEval}(f,x),g,r)$ carries the result $r$
+whenever $g$ is carried. The composed singleton evaluation endpoint is
+$\emp$, so the singleton classifier is assembled from the endpoint carrier,
+the result carrier, and symmetry of the result carrier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_comp\_continuation\_classifier}
+
 \begin{theorem}[Singleton evaluation context continuation classifier]
 \label{thm:linearmap-singleton-eval-context-continuation-classifier}
 For histories $p,f,x,y,r,h:\mathsf{BHist}$, if

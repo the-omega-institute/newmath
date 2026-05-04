@@ -231,6 +231,26 @@ classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_exponent\_classifier}
 
+\begin{theorem}[Matrix singleton power append successor right exponent classifier]
+\label{thm:matrix-singleton-pow-append-succ-right-exponent-classifier}
+If $M$ is carried by the singleton matrix carrier and $w,q$ are unary histories,
+then the append exponent with right successor is classified by the left power
+and the nested right multiplication endpoint:
+$$
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(w,\Eone(q))),
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,w),
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonPow}(M,q),M))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary closure carries $\mathsf{append}(w,\Eone(q))$. Singleton power closure
+carries the composite power, the left power, and the right predecessor power.
+Append empty-result exactness carries the inner multiplication by $M$ and then
+the outer multiplication by the left power. Since both endpoints are carried by
+$A_{\emp}$, transitivity through $\emp$ supplies the classifier comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_succ\_right\_exponent\_classifier}
+
 \begin{theorem}[Matrix singleton power append exponent commuted classifier]
 \label{thm:matrix-singleton-pow-append-exponent-comm-classifier}
 If $M$ is carried by the singleton matrix carrier and $w,q$ are unary
