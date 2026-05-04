@@ -634,3 +634,45 @@ Apply \autoref{thm:group-singleton-classifier-product-unit-split} to the
 reduced classifier. It identifies the reduced classifier with
 $A_{\emp}(p)\land A_{\emp}(q)$, giving the desired equivalence.
 \end{proof}
+
+\begin{theorem}[Group singleton two-sided contextual continuation product-unit coverage]
+\label{thm:group-singleton-two-sided-contextual-continuation-product-unit-coverage}
+For histories $L_0,R_0,L_1,R_1,P,Q,S,T:\mathsf{BHist}$, if
+$A_{\emp}(L_0)$, $A_{\emp}(R_0)$, $A_{\emp}(L_1)$, $A_{\emp}(R_1)$, and
+$\ContR(P,Q,S)$, then
+$$
+\begin{array}{c}
+R_{\emp}(\mathsf{append}(\mathsf{append}(L_0,\mathsf{append}(S,T)),L_1),
+\mathsf{append}(\mathsf{append}(R_0,\emp),R_1))\\
+\Longleftrightarrow A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group continuation
+product-unit exactness under two-sided contexts; BEDC source concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$ plus $\ContR$ and $\mathsf{append}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from two-sided context
+cancellation, continuation terminal collapse, and product-unit split; ledger the
+prefix and suffix contexts, continuation witness, suffix factor $T$, and hidden
+endpoint witnesses; core theorem list
+\autoref{thm:group-singleton-two-sided-contextual-product-unit-split},
+\autoref{thm:group-singleton-continuation-terminal-collapse}, and
+\autoref{thm:group-singleton-terminal-classifier-package}; exactness the
+displayed iff; standard bridge terminal group contextual product-unit coverage;
+and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-two-sided-contextual-product-unit-split} with
+$p=S$ and $q=T$. The four context carrier hypotheses strip the two prefix and
+suffix pairs, reducing the displayed classifier to
+$A_{\emp}(S)\land A_{\emp}(T)$.
+
+Use \autoref{thm:group-singleton-continuation-terminal-collapse} under the
+continuation witness $\ContR(P,Q,S)$ to identify $A_{\emp}(S)$ with
+$R_{\emp}(P,Q)$. The intermediate condition is therefore
+$R_{\emp}(P,Q)\land A_{\emp}(T)$.
+
+Apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to replace
+$R_{\emp}(P,Q)$ by $A_{\emp}(P)\land A_{\emp}(Q)$. Reassociating conjunctions
+gives the stated three-factor coverage.
+\end{proof}
