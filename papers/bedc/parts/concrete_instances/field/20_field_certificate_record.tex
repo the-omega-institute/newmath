@@ -202,3 +202,69 @@ $\FieldUp$ is not a BEDC primitive. It is admitted only when those obligations a
 Explicit apartness witnesses support inverse formation without LEM-based
 $a\ne0$ reasoning.
 \end{remark}
+
+\begin{theorem}[Field certificate forgets to CommRing certificate]
+\label{thm:field-certificate-forgets-to-commring-certificate}
+Let $\mathcal F$ be a BEDC history-level $\FieldUp(F)$ certificate with carrier
+$C_F$, classifier $R_F$, operations
+$\mathsf{add}_F$, $\mathsf{zero}_F$, $\mathsf{neg}_F$,
+$\mathsf{mul}_F$, and $\mathsf{one}_F$, nonzero predicate
+$\mathsf{NonZero}_F$, and proof-indexed inverse
+$\mathsf{inv}_F(a,p)$ for $p:\mathsf{NonZero}_F(a)$. If $\mathcal F$
+satisfies the field source, pattern, classifier, stability, ledger, and
+obligation rows of \autoref{def:field-source-specification},
+\autoref{def:field-pattern-specification},
+\autoref{def:field-classifier-specification},
+\autoref{def:field-stability-certificate},
+\autoref{def:field-ledger-policy}, and
+\autoref{def:field-certificate-obligations}, then
+$$
+\mathcal F_{\mathsf{CommRing}}:=
+(C_F,R_F,\mathsf{add}_F,\mathsf{zero}_F,\mathsf{neg}_F,
+\mathsf{mul}_F,\mathsf{one}_F)
+$$
+is a $\CommRingUp(F)$ source package in the sense of
+\autoref{def:commring-source-specification},
+\autoref{def:commring-pattern-specification},
+\autoref{def:commring-classifier-specification}, and
+\autoref{def:commring-stability-certificate}. It has the same carrier,
+classifier, additive operation, zero, additive inverse, multiplication, and
+unit as $\mathcal F$; the nonzero apartness row and all proof-indexed inverse
+rows are not used by this reduct.
+\end{theorem}
+\begin{proof}
+Unpack the field source row. By \autoref{def:field-source-specification}, a
+field source is already a certified commutative-ring carrier together with the
+additional constructive apartness predicate. Selecting the commutative-ring
+coordinate gives the same carrier $C_F$ and does not change any BEDC history
+endpoint.
+
+Unpack the field pattern row. By \autoref{def:field-pattern-specification}, the
+field pattern is commutative-ring expression formation with one added formation
+rule for $\mathsf{inv}_F(a,p)$ when $p:\mathsf{NonZero}_F(a)$. Restricting to
+expressions with no inverse node leaves exactly the commutative-ring pattern
+from \autoref{def:commring-pattern-specification}, using the original
+$\mathsf{add}_F$, $\mathsf{neg}_F$, $\mathsf{mul}_F$, $\mathsf{zero}_F$, and
+$\mathsf{one}_F$ rows.
+
+Unpack the classifier row. By \autoref{def:field-classifier-specification}, the
+field classifier is ring sameness $R_F$ together with transport of
+$\mathsf{NonZero}_F$ along that classifier. The $\CommRingUp(F)$ classifier
+requires only the ring classifier, so the projected classifier is exactly the
+same $R_F$.
+
+Unpack the stability row. The first item of
+\autoref{def:field-stability-certificate} is all commutative-ring stability
+fields. These are precisely the closure, congruence, additive, multiplicative,
+distributive, and multiplicative-commutativity rows listed in
+\autoref{def:commring-stability-certificate}. The remaining field rows concern
+$\mathsf{NonZero}_F(0)$, nonzero transport, inverse closure, and the left and
+right inverse laws indexed by nonzero witnesses; none is required for the
+commutative-ring certificate.
+
+Finally, \autoref{def:field-ledger-policy} records the ring ledger together
+with the nonzero witness used for each inverse. Selecting the ring ledger and
+omitting inverse-witness entries gives the commutative-ring ledger for the same
+operations and classifier. Thus every $\CommRingUp(F)$ row is a coordinate of
+$\mathcal F$, and the displayed tuple is the required forgetful certificate.
+\end{proof}

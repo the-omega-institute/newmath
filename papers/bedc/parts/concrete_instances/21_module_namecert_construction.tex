@@ -195,3 +195,215 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 $\ModuleUp$ is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{definition}[Dual-number parity action]
+\label{def:dual-number-parity-action}
+Let
+$$
+R:=\mathbb F_2[\epsilon]/(\epsilon^2),\qquad M:=\mathbb F_2.
+$$
+Write every scalar of $R$ uniquely as $a+b\epsilon$ with $a,b\in\mathbb F_2$. Define
+$$
+\chi(a+b\epsilon):=a+b
+$$
+and define the scalar action $\star:R\times M\to M$ by
+$$
+r\star m:=\chi(r)m.
+$$
+Equivalently,
+$$
+\chi(0)=0,\qquad \chi(1)=1,\qquad \chi(\epsilon)=1,
+\qquad \chi(1+\epsilon)=0.
+$$
+\end{definition}
+
+\begin{proposition}[Module associativity boundary for additive unit action laws]
+\label{prop:module-associativity-boundary-additive-unit-action-laws}
+For the action of \autoref{def:dual-number-parity-action}, the scalar ring $R$ satisfies the ordinary ring fields used in \autoref{ch:concrete-instances-ring-namecert}, the carrier $M$ satisfies the additive abelian-group fields used in \autoref{ch:concrete-instances-abgroup-namecert}, and equality classifiers make scalar-action congruence immediate. The action also satisfies scalar distributivity over module addition, scalar distributivity over ring addition, and the scalar unit law. It does not satisfy scalar associativity. Hence the scalar associativity item in \autoref{def:module-stability-certificate} is not forced by the remaining additive, congruence, and unit action fields.
+\end{proposition}
+\begin{proof}
+The ring $R$ is the four-element quotient ring with elements $0,1,\epsilon,1+\epsilon$ and relation $\epsilon^2=0$. The carrier $M=\mathbb F_2$ is an additive abelian group. With equality as classifier, scalar-action congruence says that equal scalar and module inputs have equal action outputs, which follows directly from $r\star m=\chi(r)m$.
+
+For scalar distributivity over module addition, let $r\in R$ and $m,n\in M$. Since $\chi(r)\in\mathbb F_2$ and multiplication in $\mathbb F_2$ distributes over addition,
+$$
+r\star(m+n)=\chi(r)(m+n)=\chi(r)m+\chi(r)n=(r\star m)+(r\star n).
+$$
+
+For scalar distributivity over ring addition, write $r=a+b\epsilon$ and $s=c+d\epsilon$. Then
+$$
+\chi(r+s)=\chi((a+c)+(b+d)\epsilon)=a+c+b+d=(a+b)+(c+d)=\chi(r)+\chi(s),
+$$
+with all sums in $\mathbb F_2$. Therefore, for every $m\in M$,
+$$
+(r+s)\star m=\chi(r+s)m=(\chi(r)+\chi(s))m=\chi(r)m+\chi(s)m=(r\star m)+(s\star m).
+$$
+
+The scalar unit law follows from $\chi(1)=1$:
+$$
+1\star m=\chi(1)m=m.
+$$
+
+Scalar associativity fails at $r=s=\epsilon$ and $m=1$. Since $\epsilon^2=0$ in $R$,
+$$
+(\epsilon\epsilon)\star 1=0\star 1=\chi(0)1=0.
+$$
+On the other hand,
+$$
+\epsilon\star(\epsilon\star 1)=\epsilon\star(\chi(\epsilon)1)=\epsilon\star 1=\chi(\epsilon)1=1.
+$$
+Thus
+$$
+(\epsilon\epsilon)\star 1\neq \epsilon\star(\epsilon\star 1),
+$$
+so scalar associativity is a separate stability requirement for $\ModuleUp$.
+\end{proof}
+
+\begin{theorem}[Module scalar action representative stability]
+\label{thm:module-scalar-action-representative-stability}
+For a $\ModuleUp$ certificate over a scalar ring from \autoref{ch:concrete-instances-ring-namecert}, let $\sim_R$ be the scalar-ring classifier and let $\sim_M$ be the module carrier classifier from \autoref{def:module-classifier-specification}. If $r\sim_R r'$, $s\sim_R s'$, and $m\sim_M m'$, then scalar associativity is stable under these representative changes:
+
+$$
+r\odot (s\odot m) \sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{theorem}
+\begin{proof}
+By the scalar associativity field listed in \autoref{def:module-stability-certificate}, the original representatives satisfy
+
+$$
+r\odot (s\odot m) \sim_M (r\cdot_R s)\odot m.
+$$
+
+The multiplication congruence field of the scalar ring, listed in \autoref{def:ring-stability-certificate} and governed by the classifier in \autoref{def:ring-classifier-specification}, transports $r\cdot_R s$ to $r'\cdot_R s'$. The scalar action congruence field from \autoref{def:module-stability-certificate} then transports the scalar-action expression in both inputs, using this product congruence together with $m\sim_M m'$, and gives
+
+$$
+(r\cdot_R s)\odot m \sim_M (r'\cdot_R s')\odot m'.
+$$
+
+Transitivity of the module classifier composes the two displayed classifier equalities.
+\end{proof}
+
+\begin{theorem}[Module scalar representative transport compatibility]
+\label{thm:module-scalar-representative-transport-compatibility}
+Let a $\ModuleUp$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar ring classifier, $\sim_M$ for the module classifier, $\cdot_R$ for scalar ring multiplication, and $\odot$ for scalar action. For carried scalar representatives $r,r',s,s'$ and carried module representatives $m,m'$, if
+
+$$
+r\sim_R r',\qquad s\sim_R s',\qquad m\sim_M m',
+$$
+
+then
+
+$$
+r\odot(s\odot m)\sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{theorem}
+\begin{proof}
+By \autoref{def:module-source-specification}, the scalar side of the $\ModuleUp$ certificate is a certified $\RingUp$. The ring stability certificate of \autoref{def:ring-stability-certificate} includes multiplication congruence, so the two scalar representative relations give
+
+$$
+(r\cdot_R s)\sim_R(r'\cdot_R s').
+$$
+
+By \autoref{def:module-classifier-specification} and \autoref{def:module-stability-certificate}, scalar action is congruent in its scalar and module inputs. Applying scalar-action congruence to the transported scalar relation above and to $m\sim_M m'$ gives
+
+$$
+((r\cdot_R s)\odot m)\sim_M((r'\cdot_R s')\odot m').
+$$
+
+The scalar associativity field listed in \autoref{def:module-stability-certificate} supplies a module-classifier witness between $(r\cdot_R s)\odot m$ and $r\odot(s\odot m)$. Since derived upward-arrow interfaces carry a $\NameCert$ by \autoref{thm:derived-interfaces-require-certificates}, and \autoref{def:lean-carrier-naming-certificate} supplies symmetry for the classifier, use that witness in the orientation
+
+$$
+r\odot(s\odot m)\sim_M((r\cdot_R s)\odot m).
+$$
+
+Finally, \autoref{thm:namecert-equivalence-transitivity} composes this associativity witness with the scalar-action congruence witness, yielding
+
+$$
+r\odot(s\odot m)\sim_M (r'\cdot_R s')\odot m'.
+$$
+
+\end{proof}
+
+\begin{theorem}[Scalar associativity independent of additive unit action laws]
+\label{thm:scalar-associativity-independent-additive-unit-action-laws}
+The action in \autoref{def:dual-number-parity-action} is a finite equality-classified scalar action over
+$$
+R=\mathbb F_2[\epsilon]/(\epsilon^2),\qquad M=\mathbb F_2
+$$
+such that the scalar ring satisfies the ring fields of \autoref{ch:concrete-instances-ring-namecert} and the commutative-ring fields of \autoref{ch:concrete-instances-commring-namecert}, the module carrier satisfies the additive abelian-group fields of \autoref{ch:concrete-instances-abgroup-namecert}, scalar-action congruence holds, scalar distributivity over module addition holds, scalar distributivity over scalar addition holds, and the scalar unit law holds. Scalar associativity fails. Hence the scalar associativity field in \autoref{def:module-stability-certificate} is not a consequence of those surrounding additive, congruence, and unit fields.
+\end{theorem}
+\begin{proof}
+Classify both carriers by ordinary equality. The scalar ring $R$ has exactly the four elements $0$, $1$, $\epsilon$, and $1+\epsilon$, with $\epsilon^2=0$, and it is a finite commutative ring. The module carrier $M$ is the two-element additive abelian group. Equality classifiers make every operation congruence field immediate from substitution; in particular, if $r=r'$ and $m=m'$, then $r\star m=r'\star m'$.
+
+Write an element of $R$ as $a+b\epsilon$, with $a,b\in\mathbb F_2$. The map $\chi(a+b\epsilon)=a+b$ from \autoref{def:dual-number-parity-action} is additive because, for $r=a+b\epsilon$ and $s=c+d\epsilon$,
+$$
+\chi(r+s)=\chi((a+c)+(b+d)\epsilon)=a+c+b+d=\chi(r)+\chi(s).
+$$
+For scalar distributivity over module addition, let $r\in R$ and $m,n\in M$. Since $\chi(r)\in\mathbb F_2$,
+$$
+r\star(m+n)=\chi(r)(m+n)=\chi(r)m+\chi(r)n=(r\star m)+(r\star n).
+$$
+For scalar distributivity over scalar addition, the additivity of $\chi$ gives
+$$
+(r+s)\star m=\chi(r+s)m=(\chi(r)+\chi(s))m=\chi(r)m+\chi(s)m=(r\star m)+(s\star m).
+$$
+The scalar unit law follows from $\chi(1)=1$:
+$$
+1\star m=\chi(1)m=m.
+$$
+
+It remains to test scalar associativity. At $r=s=\epsilon$ and $m=1$,
+$$
+(\epsilon\epsilon)\star 1=0\star 1=\chi(0)1=0,
+$$
+while
+$$
+\epsilon\star(\epsilon\star 1)=\epsilon\star(\chi(\epsilon)1)=\epsilon\star 1=\chi(\epsilon)1=1.
+$$
+The two values are distinct in $M=\mathbb F_2$, so
+$$
+(\epsilon\epsilon)\star 1\neq \epsilon\star(\epsilon\star 1).
+$$
+Thus all listed fields except scalar associativity hold in a finite equality-classified action, while scalar associativity fails.
+\end{proof}
+
+\begin{proposition}[Module forgets to AbGroup certificate]
+\label{prop:module-forgets-abgroup-certificate}
+Let $R$ carry a $\RingUp(R)$ certificate and let $M$ carry a $\ModuleUp(R,M)$ certificate. If the scalar-ring package, the scalar action $\odot:R\times M\to M$, and the scalar-action stability rows are omitted from the exported package, the retained carrier, source, additive pattern, classifier, additive stability fields, and additive ledger form an $\AbGroupUp(M)$ certificate. The carrier, addition, zero, additive inverse, and classifier of $M$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:module-certificate-obligations}, the given module certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\ModuleUp$. The construction keeps exactly the components whose operations and endpoint claims live only on the additive carrier $M$.
+
+By \autoref{def:module-carrier}, a module carrier consists of a scalar ring $R$, an additive abelian group $M$, and scalar multiplication $R\times M\to M$. Removing the scalar multiplication and the scalar carrier from the exported object leaves the same additive carrier $M$ with its addition, zero, additive inverse, and carrier classifier. These are the carrier data required by \autoref{def:abgroup-carrier}.
+
+By \autoref{def:module-source-specification}, the source side of the module certificate is a certified $\RingUp(R)$ together with a certified $\AbGroupUp(M)$ sharing the scalar action. After the scalar-ring certificate and the action-sharing datum are suppressed, the certified $\AbGroupUp(M)$ source remains. Unpacking it through \autoref{def:abgroup-source-specification} gives the certified group carrier plus commutativity field required for the abelian-group source.
+
+By \autoref{def:module-classifier-specification}, the module classifier is the module carrier classifier. This is the classifier of the embedded additive abelian-group certificate, and \autoref{def:abgroup-classifier-specification} requires exactly that carrier classifier. Hence no classifier transport or replacement is involved.
+
+By \autoref{def:module-pattern-specification}, module expressions are formed from vector addition, zero, negation, and scalar multiplication. Deleting the scalar-multiplication constructor leaves the additive expression language generated by addition, zero, and negation. Together with the retained commutativity field from the additive abelian-group certificate, this is the abelian-group pattern of \autoref{def:abgroup-pattern-specification}.
+
+By \autoref{def:module-stability-certificate}, the first stability component of a module certificate is the additive abelian-group laws on $M$. The remaining module-specific rows are scalar action congruence, scalar associativity, distributivity over module addition, distributivity over ring addition, and scalar unit law. Those rows mention the scalar action or the scalar ring, so they are not obligations for $\AbGroupUp$. The retained first component is exactly the stability package listed in \autoref{def:abgroup-stability-certificate}: the group stability fields, additive commutativity under the classifier, and the compatibility data for that commutativity with inverse and multiplication congruence.
+
+Finally, \autoref{def:module-ledger-policy} records scalar and module ledgers for scalar-action expressions. Removing entries whose provenance uses scalar multiplication leaves the additive module ledger. This is the group-expression provenance and commutativity-use ledger of \autoref{def:abgroup-ledger-policy}. The retained carrier, source, pattern, classifier, stability, and ledger data therefore satisfy the obligations named in \autoref{def:abgroup-certificate-obligations}, with the same additive operation, zero, inverse, and classifier carried by the original module certificate.
+\end{proof}
+
+\begin{proposition}[Module forgets to Ring certificate]
+\label{prop:module-forgets-ring-certificate}
+Let $M$ carry a $\ModuleUp(R,M)$ certificate whose scalar source is a certified $\RingUp(R)$. If the additive carrier $M$, vector addition, vector zero, vector negation, scalar action $\odot:R\times M\to M$, and the action-shaped stability and ledger rows are omitted from the exported package, the retained scalar carrier, source, ring pattern, classifier, ring stability fields, and ring ledger form a $\RingUp(R)$ certificate. The operations $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the scalar classifier on $R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:module-certificate-obligations}, a module certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\ModuleUp$. The scalar projection keeps exactly the components whose operations and endpoint claims live only on the scalar carrier $R$.
+
+By \autoref{def:module-carrier}, a module carrier consists of a scalar ring $R$, an additive abelian group $M$, and scalar multiplication $R\times M\to M$. Deleting the additive carrier and scalar action leaves the scalar ring carrier with its addition, zero, additive inverse, multiplication, one, and scalar carrier classifier. These are the carrier data required by \autoref{def:ring-carrier}.
+
+By \autoref{def:module-source-specification}, the source side of the module certificate is a certified $\RingUp(R)$ together with a certified $\AbGroupUp(M)$ sharing the scalar action. Suppressing the additive source and the action-sharing datum leaves the certified $\RingUp(R)$ source. Unpacking it through \autoref{def:ring-source-specification} gives the additive $\AbGroupUp$ and multiplicative $\MonoidUp$ data on the same scalar carrier and classifier.
+
+The classifier retained by the projection is the scalar-ring classifier from that certified source. The module classifier of \autoref{def:module-classifier-specification} belongs to the module carrier $M$ and is not exported in this projection; the retained scalar classifier is already the carrier sameness relation required by \autoref{def:ring-classifier-specification}. No classifier transport or replacement is introduced.
+
+The retained expression language is the ring expression language of the certified scalar source: $0_R$, $1_R$, $+_R$, $(-)_R$, and $\cdot_R$. This is exactly the pattern of \autoref{def:ring-pattern-specification}. The vector constructors and scalar-action constructor are discarded because their endpoints lie in $M$ or in the action $R\times M\to M$, not in the scalar ring.
+
+By \autoref{def:module-stability-certificate}, the module certificate contains ring laws on $R$ in addition to additive module laws and scalar-action laws. Since \autoref{def:module-source-specification} identifies the scalar side with a certified $\RingUp(R)$, unpacking the retained scalar stability through \autoref{def:ring-stability-certificate} gives additive abelian-group laws, multiplicative monoid laws, operation congruence, distributivity, and the zero multiplication rows for the scalar operations. The scalar-action rows, scalar associativity, the two action distributivity rows, and the scalar unit law all mention $\odot$ or the module carrier, so they are not obligations for $\RingUp$.
+
+Finally, the scalar ledger retained from the certified $\RingUp(R)$ source is the shared carrier ledger and ring operation tree of \autoref{def:ring-ledger-policy}. The discarded ledger entries are precisely those whose provenance uses vector operations or scalar action. Thus the retained carrier, source, pattern, classifier, stability, and ledger fields satisfy \autoref{def:ring-certificate-obligations}, with $0_R$, $1_R$, $+_R$, $(-)_R$, $\cdot_R$, and the scalar classifier copied from the original module certificate.
+\end{proof}

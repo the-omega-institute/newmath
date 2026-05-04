@@ -508,3 +508,287 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 \label{rem:polynomial-zero-axiom-note}
 Replaces quotienting by trailing-zero equivalence with normalization.
 \end{remark}
+
+\begin{theorem}[Finite additive fold congruence for coefficient lists]
+\label{thm:finite-additive-fold-congruence-coefficient-lists}
+Let \(R\) be a scalar carrier with classifier \(\sim_R\), zero \(0_R\), and addition \(+\). Assume \(0_R\sim_R0_R\) and the additive congruence field
+\[
+a\sim_R a' \;\text{and}\; b\sim_R b'
+\quad\Longrightarrow\quad
+(a+b)\sim_R(a'+b')
+\]
+for all scalar endpoints. These are among the additive ring fields retained in \autoref{def:ring-stability-certificate}; when the scalar source is presented by the commutative-ring certificate, \autoref{prop:commring-forgets-ring-certificate} keeps these additive fields unchanged.
+
+Let \(\mathsf{fold}_{+}\) be the finite recursive coefficient fold on finite coefficient spines, satisfying
+\[
+\mathsf{fold}_{+}(\mathsf{nil})=0_R,
+\qquad
+\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))=a+\mathsf{fold}_{+}(xs').
+\]
+For finite coefficient spines \(xs,ys:\mathsf{ListCarrier}(R)\), if their same-length pointwise scalar comparison is represented by the structural classifier witness
+\[
+\mathsf{ListClassifierSpec}(\sim_R,xs,ys)
+\]
+from \autoref{def:list-classifier-specification}, then
+\[
+\mathsf{fold}_{+}(xs)\sim_R\mathsf{fold}_{+}(ys).
+\]
+\end{theorem}
+\begin{proof}
+Induct on the structural classifier witness. By \autoref{thm:list-classifier-case-exactness}, the nil case is the nil-nil constructor and the cons case is the cons-cons constructor; mixed nil-cons shapes have no classifier witness. The same structural witness also records the equal finite-spine length by \autoref{thm:list-classifier-length-eq}.
+
+In the nil-nil case, the two fold equations identify both fold endpoints with \(0_R\). The assumed zero self-classification \(0_R\sim_R0_R\) gives the fold comparison.
+
+In the cons-cons case, write the two spines as \(\mathsf{cons}(a,xs')\) and \(\mathsf{cons}(b,ys')\). The constructor clause supplies the head comparison \(a\sim_R b\) and the tail classifier witness \(\mathsf{ListClassifierSpec}(\sim_R,xs',ys')\). The induction hypothesis gives \(\mathsf{fold}_{+}(xs')\sim_R\mathsf{fold}_{+}(ys')\). Applying the additive congruence field from \autoref{def:ring-stability-certificate} to these two comparisons yields
+\[
+(a+\mathsf{fold}_{+}(xs'))\sim_R(b+\mathsf{fold}_{+}(ys')).
+\]
+The cons fold equations identify these endpoints with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\) and \(\mathsf{fold}_{+}(\mathsf{cons}(b,ys'))\), giving the displayed fold comparison.
+\end{proof}
+
+\begin{theorem}[Zero convolution summands fold to zero]
+\label{thm:zero-convolution-summands-fold-zero}
+Let \(R\) be a scalar carrier with classifier \(\sim_R\), zero \(0_R\), and addition \(+\), equipped with the additive fields retained in \autoref{def:ring-stability-certificate}: zero self-classification, classifier transitivity, additive congruence, and the additive left-zero law. For a commutative-ring scalar source, these are unchanged by \autoref{prop:commring-forgets-ring-certificate}.
+
+Let \(\mathsf{fold}_{+}\) be the finite recursive coefficient fold from \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. Let \(\mathsf{summ}_I:\mathsf{ListCarrier}(R)\) be the finite spine of scalar summands selected by a raw Cauchy convolution index spine \(I\), and let \(\mathsf{zero}_I:\mathsf{ListCarrier}(R)\) be the same finite spine with every entry replaced by \(0_R\). If the all-zero summand condition is represented by the structural witness
+\[
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{summ}_I,\mathsf{zero}_I),
+\]
+then
+\[
+\mathsf{fold}_{+}(\mathsf{summ}_I)\sim_R0_R.
+\]
+\end{theorem}
+\begin{proof}
+The displayed hypothesis is a finite-spine classifier witness as in \autoref{def:list-classifier-specification}. By \autoref{thm:list-classifier-case-exactness}, its only possible constructor cases are nil-nil and cons-cons. Induct on this structural witness.
+
+In the nil-nil case, both spines are \(\mathsf{nil}\). The fold equation from \autoref{thm:finite-additive-fold-congruence-coefficient-lists} identifies the left endpoint with \(0_R\), and zero self-classification supplies \(0_R\sim_R0_R\).
+
+In the cons-cons case, write the summand spine as \(\mathsf{cons}(a,xs')\) and the matching zero spine as \(\mathsf{cons}(0_R,zs')\). The constructor clause gives the head comparison \(a\sim_R0_R\) and the tail witness \(\mathsf{ListClassifierSpec}(\sim_R,xs',zs')\). The induction hypothesis gives
+\[
+\mathsf{fold}_{+}(xs')\sim_R0_R.
+\]
+Applying additive congruence from \autoref{def:ring-stability-certificate} to the head comparison and this tail comparison yields
+\[
+(a+\mathsf{fold}_{+}(xs'))\sim_R(0_R+0_R).
+\]
+The additive left-zero law identifies \(0_R+0_R\) with \(0_R\). Classifier transitivity composes these two comparisons. The cons fold equation then identifies \(a+\mathsf{fold}_{+}(xs')\) with \(\mathsf{fold}_{+}(\mathsf{cons}(a,xs'))\), giving the claimed fold comparison for the cons spine.
+\end{proof}
+
+\begin{definition}[Classified zero remainder spine]
+\label{def:classified-zero-remainder-spine}
+Let $R$ be a scalar carrier with classifier $\sim_R$ and zero endpoint $0_R$. For a finite coefficient spine $t:\mathsf{ListCarrier}(R)$, $\mathsf{ZeroRem}_R(t)$ means that every displayed coefficient in $t$ is scalar-classified as zero. It is the finite-spine predicate generated by the nil clause and the cons clause
+$$
+a\sim_R0_R
+\quad\text{and}\quad
+\mathsf{ZeroRem}_R(t')
+\quad\Longrightarrow\quad
+\mathsf{ZeroRem}_R(\mathsf{cons}(a,t')).
+$$
+\end{definition}
+
+\begin{lemma}[Trim invariance under a common classified spine and zero remainders]
+\label{lem:trim-invariance-common-classified-spine-zero-remainders}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume $0_R\sim_R0_R$. For a commutative-ring scalar source, \autoref{prop:commring-forgets-ring-certificate} keeps the underlying ring carrier, zero endpoint, and classifier unchanged. Let $\mathsf{trim}_R$ be the canonical polynomial trimming operation specified by \autoref{def:polynomial-pattern-specification} and \autoref{def:polynomial-stability-certificate}.
+
+For finite coefficient spines $p,q,r,s:\mathsf{ListCarrier}(R)$, if
+$$
+\mathsf{ListClassifierSpec}(\sim_R,p,q),
+\qquad
+\mathsf{ZeroRem}_R(r),
+\qquad
+\mathsf{ZeroRem}_R(s)
+$$
+hold, then the normalized representatives are structurally list-same:
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{trim}_R(p{++}r),\mathsf{trim}_R(q{++}s)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+By \autoref{thm:list-classifier-length-eq}, the classified common spines $p$ and $q$ have the same finite length. The proof is by induction on the displayed witness $\mathsf{ListClassifierSpec}(\sim_R,p,q)$ from \autoref{def:list-classifier-specification}.
+
+First record the zero-remainder base fact. An induction on $\mathsf{ZeroRem}_R(t)$, using the trailing-zero removal and empty zero-polynomial clauses in \autoref{def:polynomial-stability-certificate}, identifies $\mathsf{trim}_R(t)$ with $\mathsf{nil}$. Hence two zero-remainder spines trim to endpoints classified by the nil clause of $\mathsf{ListClassifierSpec}$.
+
+In the nil-nil case for the common spine, $p$ and $q$ are both $\mathsf{nil}$. The two original lists are exactly the remainders $r$ and $s$, so the zero-remainder base fact gives the nil-nil classifier witness for their trims.
+
+In the cons-cons case, write
+$$
+p=\mathsf{cons}(a,p'),
+\qquad
+q=\mathsf{cons}(b,q').
+$$
+The classifier constructor supplies $a\sim_R b$ and a tail witness $\mathsf{ListClassifierSpec}(\sim_R,p',q')$. Applying the induction hypothesis to $p',q'$ with the same zero remainders gives
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{trim}_R(p'{++}r),\mathsf{trim}_R(q'{++}s)\bigr).
+$$
+By \autoref{thm:list-classifier-case-exactness}, the two trimmed tails have matching nil or cons shape; the mixed shapes are impossible.
+
+If the trimmed tails are cons spines, canonical trimming keeps the displayed heads because a nonempty normalized tail contains a nonzero highest entry. The cons clause of $\mathsf{ListClassifierSpec}$ then combines the head witness $a\sim_R b$ with the classified trimmed tails.
+
+If the trimmed tails are both nil, the canonical cons-trim clause tests only whether the displayed head is scalar-classified as zero. The head witness $a\sim_R b$, together with the symmetry and transitivity fields of $\mathsf{cert}_R$, gives
+$$
+a\sim_R0_R
+\quad\Longleftrightarrow\quad
+b\sim_R0_R.
+$$
+Thus the two trim computations take the same branch. In the dropped-head branch, both normalized representatives are $\mathsf{nil}$ and the nil clause classifies them. In the retained-head branch, both normalized representatives are singleton spines, and the cons clause classifies them using $a\sim_R b$ and the nil-tail classifier.
+
+These cases exhaust the structural classifier witness by \autoref{thm:list-classifier-case-exactness}. Finally, \autoref{def:polynomial-classifier-specification} reads the resulting finite-spine classifier as structural sameness of the two normalized polynomial representatives.
+\end{proof}
+
+\begin{definition}[Polynomial raw addition comparison data]
+\label{def:polynomial-raw-add-comparison-data}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, and addition $+$. For finite coefficient spines, the zero-padded raw addition $\mathsf{radd}_R$ is the recursion
+$$
+\begin{aligned}
+\mathsf{radd}_R(\mathsf{nil},\mathsf{nil})&=\mathsf{nil},\\
+\mathsf{radd}_R(\mathsf{cons}(a,x),\mathsf{nil})&=\mathsf{cons}(a+0_R,\mathsf{radd}_R(x,\mathsf{nil})),\\
+\mathsf{radd}_R(\mathsf{nil},\mathsf{cons}(b,y))&=\mathsf{cons}(0_R+b,\mathsf{radd}_R(\mathsf{nil},y)),\\
+\mathsf{radd}_R(\mathsf{cons}(a,x),\mathsf{cons}(b,y))&=\mathsf{cons}(a+b,\mathsf{radd}_R(x,y)).
+\end{aligned}
+$$
+For the canonical trim $\mathsf{trim}_R$ specified by \autoref{def:polynomial-pattern-specification} and \autoref{def:polynomial-stability-certificate}, write the polynomial raw classifier as
+$$
+\mathsf{PolySame}_R(x,y)\Longleftrightarrow
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(x),\mathsf{trim}_R(y)).
+$$
+This is the normalized structural classifier of \autoref{def:polynomial-classifier-specification} applied to raw coefficient spines.
+\end{definition}
+
+\begin{lemma}[Raw addition zero-tail trim stability]
+\label{lem:polynomial-raw-add-zero-tail-trim-stability}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume $0_R\sim_R0_R$ and the additive fields retained in \autoref{def:ring-stability-certificate}: classifier transitivity, additive congruence, and the additive zero laws. For a commutative-ring scalar source, these fields are unchanged by \autoref{prop:commring-forgets-ring-certificate}.
+
+For finite coefficient spines $x,y,z:\mathsf{ListCarrier}(R)$, if $\mathsf{ZeroRem}_R(z)$ holds in the sense of \autoref{def:classified-zero-remainder-spine}, then
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(x{++}z,y),\mathsf{radd}_R(x,y))
+$$
+and
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(x,y{++}z),\mathsf{radd}_R(x,y)).
+$$
+\end{lemma}
+\begin{proof}
+The nil spine is a zero remainder by the nil clause of \autoref{def:classified-zero-remainder-spine}. Consider the left-input statement. The recursion in \autoref{def:polynomial-raw-add-comparison-data} scans the two raw sums coefficient by coefficient. Induct on the displayed finite spines, first through the common prefix $x$ and then through the zero remainder $z$ after $x$ is exhausted.
+
+At a position where both raw sums use the same ordinary coefficient from $x$, source reflexivity from $\mathsf{cert}_R$ and additive congruence classify the two displayed sum coefficients. At a position where the extended input supplies a zero-remainder coefficient $a$ while the unextended input supplies the padding coefficient $0_R$, the hypothesis $a\sim_R0_R$ and source reflexivity on the other displayed coefficient classify $a+b$ with $0_R+b$. If the other input is also padding, additive congruence classifies $a+0_R$ with $0_R+0_R$, and the additive zero law plus transitivity classifies this exposed coefficient as $0_R$.
+
+Thus the raw sum $\mathsf{radd}_R(x{++}z,y)$ decomposes as $c{++}t$ so that $\mathsf{ListClassifierSpec}(\sim_R,c,\mathsf{radd}_R(x,y))$ holds and $\mathsf{ZeroRem}_R(t)$ holds. Applying \autoref{lem:trim-invariance-common-classified-spine-zero-remainders} with the common classified spines $c$ and $\mathsf{radd}_R(x,y)$, the zero remainder $t$, and the nil zero remainder gives
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{trim}_R(\mathsf{radd}_R(x{++}z,y)),\mathsf{trim}_R(\mathsf{radd}_R(x,y))).
+$$
+By \autoref{def:polynomial-raw-add-comparison-data}, this is the first displayed $\mathsf{PolySame}_R$ claim.
+
+The right-input statement is the same coefficient scan with the zero-remainder coefficient appearing in the right summand. The non-padding comparison is $b+a$ against $b+0_R$, handled by additive congruence from $a\sim_R0_R$ and source reflexivity on $b$; the padding comparison is $0_R+a$ against $0_R+0_R$, handled by additive congruence, the additive zero law, and transitivity. The resulting decomposition and the same application of \autoref{lem:trim-invariance-common-classified-spine-zero-remainders} give the second displayed $\mathsf{PolySame}_R$ claim.
+\end{proof}
+
+\begin{theorem}[Polynomial raw addition two-sided trim compatibility]
+\label{thm:polynomial-raw-add-two-sided-trim-compatibility}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume the additive ring fields cited in \autoref{lem:polynomial-raw-add-zero-tail-trim-stability}. For finite coefficient spines $p,q:\mathsf{ListCarrier}(R)$,
+$$
+\mathsf{PolySame}_R\bigl(\mathsf{radd}_R(p,q),\mathsf{radd}_R(\mathsf{trim}_R(p),\mathsf{trim}_R(q))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Put $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$. By the trailing-zero removal clause in \autoref{def:polynomial-stability-certificate}, the canonical trim decompositions present
+$$
+p=p_0{++}z_p,
+\qquad
+q=q_0{++}z_q,
+$$
+with $\mathsf{ZeroRem}_R(z_p)$ and $\mathsf{ZeroRem}_R(z_q)$.
+
+Apply the left-input part of \autoref{lem:polynomial-raw-add-zero-tail-trim-stability} to $p_0,q,z_p$. After substituting the first trim decomposition, this gives
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{radd}_R(p_0,q)).
+$$
+Apply the right-input part of the same lemma to $p_0,q_0,z_q$. After substituting the second trim decomposition, this gives
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(p_0,q),\mathsf{radd}_R(p_0,q_0)).
+$$
+Unfold $\mathsf{PolySame}_R$ using \autoref{def:polynomial-raw-add-comparison-data}. The two displayed witnesses are structural list-classifier witnesses between the three normalized coefficient spines. Transitivity of $\sim_R$ from $\mathsf{cert}_R$ and \autoref{thm:list-classifier-transitivity} compose them, giving
+$$
+\mathsf{ListClassifierSpec}\bigl(\sim_R,\mathsf{trim}_R(\mathsf{radd}_R(p,q)),\mathsf{trim}_R(\mathsf{radd}_R(p_0,q_0))\bigr).
+$$
+Substituting $p_0=\mathsf{trim}_R(p)$ and $q_0=\mathsf{trim}_R(q)$, this is exactly the asserted polynomial classifier comparison.
+\end{proof}
+
+\begin{proposition}[Polynomial raw addition right zero-tail invariance]
+\label{prop:polynomial-raw-add-right-zero-tail-invariance}
+Let $R$ be a scalar carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and scalar certificate $\mathsf{cert}_R:\NameCert(R,\sim_R)$. Assume $0_R\sim_R0_R$ and the additive fields retained in \autoref{def:ring-stability-certificate}: classifier transitivity, additive congruence, and the additive zero laws. For a commutative-ring scalar source, these fields are unchanged by \autoref{prop:commring-forgets-ring-certificate}.
+
+For finite coefficient spines $p,q,t:\mathsf{ListCarrier}(R)$, if $\mathsf{ZeroRem}_R(t)$ holds in the sense of \autoref{def:classified-zero-remainder-spine}, then
+$$
+\mathsf{PolySame}_R(\mathsf{radd}_R(p,q{++}t),\mathsf{radd}_R(p,q)).
+$$
+\end{proposition}
+\begin{proof}
+Apply \autoref{lem:polynomial-raw-add-zero-tail-trim-stability} with $x=p$, $y=q$, and $z=t$, and read its second displayed conclusion. The hypothesis on $t$ is exactly the classified zero-tail condition from \autoref{def:classified-zero-remainder-spine}; \autoref{def:polynomial-raw-add-comparison-data} identifies the displayed relation as the normalized polynomial classifier.
+\end{proof}
+
+\begin{definition}[Polynomial normalized singleton representative]
+\label{def:polynomial-normalized-singleton-representative}
+Let $R$ be a scalar carrier with classifier $\sim_R$ and zero endpoint $0_R$.
+For a scalar coefficient $c$, define
+$$
+\mathsf{NormOne}_R(c)\Longleftrightarrow \neg(c\sim_R0_R).
+$$
+Thus the singleton coefficient spine $\mathsf{cons}(c,\mathsf{nil})$ is a normalized singleton representative exactly when $\mathsf{NormOne}_R(c)$ holds, while $\mathsf{nil}$ is the empty zero-polynomial representative. This is the one-coefficient boundary of the trailing-zero convention in \autoref{def:polynomial-carrier} and the canonical trimming rule in \autoref{def:polynomial-stability-certificate}.
+\end{definition}
+
+\begin{proposition}[Raw polynomial addition leaves singleton normal form]
+\label{prop:raw-polynomial-addition-leaves-singleton-normal-form}
+Let $R$ be a scalar ring carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+$, and canonical trim $\mathsf{trim}_R$ as in \autoref{def:polynomial-pattern-specification} and \autoref{def:polynomial-stability-certificate}. Let $\mathsf{radd}_R$ and $\mathsf{PolySame}_R$ be the raw addition and normalized raw classifier of \autoref{def:polynomial-raw-add-comparison-data}. For scalar sources presented through $\CommRingUp$, \autoref{prop:commring-forgets-ring-certificate} reads these as the retained $\RingUp$ addition, zero endpoint, and classifier.
+
+Suppose $a$ and $b$ are classified nonzero and add to a coefficient classified as zero:
+$$
+\neg(a\sim_R0_R),\qquad \neg(b\sim_R0_R),\qquad (a+b)\sim_R0_R.
+$$
+Set
+$$
+p:=\mathsf{cons}(a,\mathsf{nil}),\qquad q:=\mathsf{cons}(b,\mathsf{nil}).
+$$
+Then $p$ and $q$ are normalized singleton representatives, but their raw zero-padded sum is not a normalized singleton representative:
+$$
+\mathsf{NormOne}_R(a)\land \mathsf{NormOne}_R(b),
+$$
+$$
+\mathsf{radd}_R(p,q)=\mathsf{cons}(a+b,\mathsf{nil}),
+$$
+$$
+\neg\mathsf{NormOne}_R(a+b).
+$$
+Moreover its canonical normalized representative is the empty zero representative, and this is exactly what the polynomial classifier records:
+$$
+\mathsf{trim}_R(\mathsf{radd}_R(p,q))=\mathsf{nil},
+\qquad
+\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{nil}).
+$$
+\end{proposition}
+\begin{proof}
+By \autoref{def:polynomial-normalized-singleton-representative}, the assumptions $\neg(a\sim_R0_R)$ and $\neg(b\sim_R0_R)$ are precisely the witnesses $\mathsf{NormOne}_R(a)$ and $\mathsf{NormOne}_R(b)$, so $p$ and $q$ are normalized singleton representatives.
+
+Unfolding $p$ and $q$, the cons-cons branch of the raw addition recursion in \autoref{def:polynomial-raw-add-comparison-data} gives
+$$
+\mathsf{radd}_R(p,q)
+=\mathsf{cons}(a+b,\mathsf{radd}_R(\mathsf{nil},\mathsf{nil})).
+$$
+The nil-nil branch gives $\mathsf{radd}_R(\mathsf{nil},\mathsf{nil})=\mathsf{nil}$, hence
+$$
+\mathsf{radd}_R(p,q)=\mathsf{cons}(a+b,\mathsf{nil}).
+$$
+The coefficient hypothesis $(a+b)\sim_R0_R$ contradicts any witness of $\mathsf{NormOne}_R(a+b)$, since such a witness is a proof of $\neg((a+b)\sim_R0_R)$. Therefore $\neg\mathsf{NormOne}_R(a+b)$, so the raw singleton spine is not admitted as a normalized singleton representative.
+
+The same coefficient hypothesis activates the trailing-zero clause of the canonical trim from \autoref{def:polynomial-stability-certificate}. Therefore the singleton spine $\mathsf{cons}(a+b,\mathsf{nil})$ trims to $\mathsf{nil}$, and the raw-sum computation above gives
+$$
+\mathsf{trim}_R(\mathsf{radd}_R(p,q))=\mathsf{nil}.
+$$
+The empty zero-polynomial clause gives $\mathsf{trim}_R(\mathsf{nil})=\mathsf{nil}$. Unfolding $\mathsf{PolySame}_R$ from \autoref{def:polynomial-raw-add-comparison-data}, the classifier goal is
+$$
+\mathsf{ListClassifierSpec}(\sim_R,\mathsf{nil},\mathsf{nil}),
+$$
+which is the nil-nil constructor of the finite-spine classifier from \autoref{def:list-classifier-specification}, as isolated by \autoref{thm:list-classifier-case-exactness}. Hence $\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{nil})$ holds.
+\end{proof}
+
+
+\input{parts/concrete_instances/25_polynomial_literal_addtrim}

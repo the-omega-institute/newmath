@@ -446,3 +446,23 @@ The first form is Theorem~\ref{thm:base-reflection-active}. The second form foll
 \leanchecked{BEDC.BaseReflection.PackageReflection\_base\_from\_canonical}
 \leanvariant{BEDC.BaseReflection.PackageReflection\_base\_from\_policy}
 \leanvariant{BEDC.BaseReflection.StableReflectionContract}
+
+\begin{theorem}[Concrete token reflection duality]
+\label{thm:concrete-token-reflection-duality}
+Assume canonical-constructor mode for \(\Pi\): for every answer history \(u\) and package token \(r\), the term-level predicate \(\TokCan(\Pi,u,r)\) implements \(\TokIntro(\Pi,u,r)\), and the no-confusion rule of \autoref{def:canonical-mode} holds. If
+\[
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q),
+\]
+then
+\[
+  \psame_{\Pi}^{\mathrm{sig}}(p,q)
+  \quad\Longleftrightarrow\quad
+  \hsame(s,t).
+\]
+The same equivalence holds with \(\psame_{\Pi}^{\mathrm{base}}\) in place of \(\psame_{\Pi}^{\mathrm{sig}}\) under the identification in \autoref{def:base-psame}.
+\end{theorem}
+
+\begin{proof}
+By \autoref{lem:canonical-implies-unique}, the concrete canonical implementation and its no-confusion rule give \(\TokUnique(\Pi)\). For the forward implication, apply \autoref{thm:package-reflection-token-unique} to this token-uniqueness witness, the two displayed token-introduction premises, and \(\psame_{\Pi}^{\mathrm{sig}}(p,q)\). For the reverse implication, apply \autoref{lem:psame-sound} to the same token-introduction premises and the assumed \(\hsame(s,t)\). The formulation with \(\psame_{\Pi}^{\mathrm{base}}\) follows from its identification with \(\psame_{\Pi}^{\mathrm{sig}}\) in \autoref{def:base-psame}. No use is made of \(\PkgTokPol(\Pi)\).
+\end{proof}
