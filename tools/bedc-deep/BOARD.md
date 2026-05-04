@@ -4891,3 +4891,30 @@ Mac Lane CWM II.4 Prop 1 / Riehl 1.4.1: identity nat-trans is a NatTransUp certi
 
 ---
 
+### B-190 - Module scalar negation acts as additive inverse of scalar action
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module scalar negation acts as additive inverse of scalar action |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a $\ModuleUp(R,M)$ certificate, for carried $r:R$ and $m:M$, $((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M 0_M$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Cleanly fits chapter 21 (module name certificate) as a sibling to the scalar associativity and additivity targets already on the board (B-08, B-19, B-20, B-23, B-24). The existing module entries all probe associativity, additivity, congruence, and unit obligations — none address how the ring's negation transports through the scalar action to produce the module's additive inverse. The claim is a single concrete implication 'P implies Q under setup S' (setup: $\ModuleUp(R,M)$; conclusion: classifier-equality $\sim_M$), and it surfaces a missing piece of module-certificate behavior that future ring-module bridge work will need. No matching theorem label in `paper_coverage` (closest is `def:abgroup-unary-scalar-torsion`, which is structurally distinct).
+
+---
+
