@@ -86,5 +86,57 @@ classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
 
+\begin{definition}[Group singleton normalizer orbit relation]
+\label{def:group-singleton-normalizer-orbit-relation}
+In the concrete singleton history group instance, with $N_{\emp}$ and
+$\mathsf{Conj}$ fixed as in
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate}, define the
+terminal normalizer orbit relation by declaring
+$x\sim_{N_{\emp}}y$ precisely when there exists $s:\mathsf{BHist}$ such that
+$N_{\emp}(s)$ and $R_{\emp}(\mathsf{Conj}_s(x),y)$.
+\end{definition}
+
+\begin{theorem}[Group singleton normalizer orbit exactness]
+\label{thm:group-singleton-normalizer-orbit-exactness}
+For any $x,y:\mathsf{BHist}$ with $A_{\emp}(x)$ and $A_{\emp}(y)$, the
+terminal normalizer orbit relation is exact:
+$x\sim_{N_{\emp}}y$ if and only if $R_{\emp}(x,y)$. The ten-field fit is:
+traditional target terminal normalizer orbit; BEDC source concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier the displayed
+orbit relation compared with $R_{\emp}$; stability from
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate} and
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}; ledger
+conjugator endpoint; core theorem this block; exactness orbit iff terminal
+singleton classifier; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first $x\sim_{N_{\emp}}y$. By
+Definition~\ref{def:group-singleton-normalizer-orbit-relation}, choose
+$s:\mathsf{BHist}$ with $N_{\emp}(s)$ and
+$R_{\emp}(\mathsf{Conj}_s(x),y)$. Since $N_{\emp}(s)$ means
+$A_{\emp}(s)$, Theorem~\ref{thm:group-singleton-normalizer-action-certificate}
+applied to $s$ and $x$ gives
+$R_{\emp}(\mathsf{Conj}_s(x),x)$.
+
+Use the carrier-aware classifier rows of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}. Symmetry turns
+$R_{\emp}(\mathsf{Conj}_s(x),x)$ into
+$R_{\emp}(x,\mathsf{Conj}_s(x))$, and transitivity with the orbit witness
+$R_{\emp}(\mathsf{Conj}_s(x),y)$ gives $R_{\emp}(x,y)$.
+
+Conversely assume $R_{\emp}(x,y)$. Take the witness $s=\emp$. The singleton
+carrier inhabitance row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} gives
+$A_{\emp}(\emp)$, hence $N_{\emp}(\emp)$.
+
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate}, applied to
+$\emp$ and $x$, gives $R_{\emp}(\mathsf{Conj}_{\emp}(x),x)$. Transitivity
+with the assumed $R_{\emp}(x,y)$ yields
+$R_{\emp}(\mathsf{Conj}_{\emp}(x),y)$, so
+Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
+orbit witness and proves $x\sim_{N_{\emp}}y$.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
