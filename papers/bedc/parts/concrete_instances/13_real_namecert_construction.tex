@@ -311,6 +311,66 @@ rational point classifier with
 $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
 \end{proof}
 
+\begin{theorem}[Reindexed constant rational streams bridge StreamNameUp and RealUp]
+\label{thm:real-constant-reindexed-stream-bridge}
+For histories $d,e:\Hist$ and any observation map $r:\Hist\to\Hist$, the
+RatUp point classifier, the StreamNameUp classifier of reindexed constant
+streams, the RealUp unary-observation stream classifier of the same reindexed
+streams, and the constant real-history classifier at e-one seals are
+equivalent:
+$$
+\mathsf{RatHistoryClassifier}(d,e)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r).
+$$
+$$
+\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r).
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)).
+$$
+\end{theorem}
+\begin{proof}
+For the first equivalence, unfold $\mathsf{RatConstStream}$ and
+Definition~\ref{def:rat-stream-name-classifier}. The forward direction reuses
+the supplied $\mathsf{RatHistoryClassifier}(d,e)$ at every certified unary
+observation; the observation map is ignored because both reindexed constant
+streams still evaluate to their hidden seeds $d$ and $e$. Conversely, read the
+stream-name classifier at the empty unary observation history $\emp$.
+
+For the second equivalence, unfold
+Definition~\ref{def:rat-stream-name-classifier} and
+Definition~\ref{def:real-unary-observation-stream-classifier}. After expanding
+the reindexed constant streams, both predicates ask for the same pointwise
+RatUp classifier over certified unary observations, so each direction transports
+the displayed pointwise witness unchanged.
+
+For the last equivalence, the forward direction again reads the unary stream
+classifier at $\emp$ to recover $\mathsf{RatHistoryClassifier}(d,e)$, then
+applies \autoref{thm:real-constant-history-classifier-e1-iff-rat}. In the
+reverse direction, the same theorem unseals the e-one classifier as the RatUp
+point classifier, and the constant observation maps reuse it at every certified
+unary observation.
+\end{proof}
+
+The reindexed constant-stream certificate fit has ten fields: traditional target
+constant rational real names under observation reindexing; BEDC source RatUp
+plus StreamNameUp plus RealUp; carrier the reindexed constant rational
+observation maps and e-one real seals; classifier the three displayed bridge
+rows; stability from ignoring the observation map in constant streams; ledger
+hidden rational seed plus observation map; core theorem
+\autoref{thm:real-constant-reindexed-stream-bridge}; exactness the three
+equivalences; standard bridge target constant rational real names under
+reindexed observation; downstream use by the RealUp dyadic embedding theorem.
+
 \begin{theorem}[Constant rational stream carriers bridge StreamNameUp and RealUp]
 \label{thm:streamname-real-constant-carrier-bridge}
 For every history $d:\Hist$, the RatUp point carrier, the StreamNameUp

@@ -107,6 +107,35 @@ witness with the two carrier witnesses to get $\rho_{\emp}(h,k)$.
 This concrete $\mathsf{BHist}$ tuple is the $\POSetUp$ schema instance used by
 machine checking.
 
+\begin{theorem}[Concrete singleton empty $\POSetUp$ naming certificate]
+\label{thm:concrete-singleton-empty-poset-namecert}
+The tuple $(A_{\emp},\rho_{\emp},\le_{\emp})$ of
+\autoref{def:concrete-singleton-empty-poset-instance} supplies the source,
+pattern, classifier, stability, ledger, and exactness rows for a concrete
+$\NameCert$ licensing $\POSetUp$ over $\mathsf{BHist}$. On carried histories,
+the exactness row is
+$$
+\rho_{\emp}(h,k)\Longleftrightarrow(h\le_{\emp}k\land k\le_{\emp}h).
+$$
+\end{theorem}
+\begin{proof}
+The source row is the singleton history source $A_{\emp}$ anchored at $\emp$,
+and the classifier row is the restricted carrier classifier $\rho_{\emp}$ from
+\autoref{def:concrete-singleton-empty-poset-instance}. The pattern row is the
+restricted prefix comparison $h\le_{\emp}k$ on carried histories.
+
+The preorder, antisymmetry, and stability rows are exactly the concrete law
+package of \autoref{thm:singleton-empty-poset-laws}. Its preorder fields give
+reflexivity, transitivity, and endpoint congruence for the restricted prefix
+relation, while its antisymmetry field collapses opposing comparisons to
+$\rho_{\emp}$.
+
+The ledger records the two comparison witnesses used by antisymmetry,
+$h\le_{\emp}k$ and $k\le_{\emp}h$, together with the carried endpoints. The
+displayed equivalence is the exactness row supplied by the same law package, so
+the concrete tuple repacks as the public $\NameCert$ for $\POSetUp$.
+\end{proof}
+
 \section{The certificate}
 
 \begin{definition}[POSet source specification]
