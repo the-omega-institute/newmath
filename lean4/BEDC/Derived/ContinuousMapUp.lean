@@ -1,4 +1,5 @@
 import BEDC.Derived.ContinuousUp
+import BEDC.Derived.ContinuousUp.EmptySource
 import BEDC.Derived.ContinuousUp.EmptyMap
 import BEDC.Derived.ContinuousUp.GraphModulusReadback
 import BEDC.Derived.MetricUp
@@ -268,6 +269,24 @@ theorem ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
       (MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
         (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
     exact And.intro functionCarrier distanceWitness
+
+theorem ContinuousMapCarrier_empty_map_empty_distance_certificate_readback
+    {source target modulus cert : BHist} :
+    ContinuousMapCarrier source BHist.Empty target modulus cert BHist.Empty ->
+      hsame source BHist.Empty ∧ hsame target BHist.Empty ∧
+        UnaryHistory cert ∧ hsame cert modulus := by
+  intro carrier
+  have boundaries :=
+    (ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
+      (source := source) (target := target) (modulus := modulus) (cert := cert)).mp
+      carrier
+  have certData :=
+    (ContinuousModulusWitness_empty_source_iff (modulus := modulus) (target := cert)).mp
+      boundaries.right.right
+  exact
+    And.intro boundaries.left
+      (And.intro boundaries.right.left
+        (And.intro certData.left (hsame_symm certData.right)))
 
 theorem ContinuousMapCarrier_prefix_canonical_distance_closed
     {p source map target modulus cert distance : BHist} :
