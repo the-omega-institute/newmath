@@ -1,0 +1,48 @@
+\section{Center abelian normal package}
+\label{sec:group-center-abelian-normal-package}
+
+\begin{theorem}[Group center abelian normal subgroup package]
+\label{thm:group-center-abelian-normal-subgroup-package}
+For a BEDC history-level group operation $\mathsf{mul}$ over
+$\mathsf{BHist}$ with associativity, left and right identity laws for $e$,
+multiplication congruence, and two-sided inverse laws, the center carrier
+$\mathsf{Z}(G)$ of \autoref{def:group-center-carrier} has all
+normal-subgroup rows of \autoref{thm:group-center-normal-subgroup} and also
+the abelian row
+$$
+\forall x,y:\mathsf{BHist},\quad
+\mathsf{Z}(G)(x)\Rightarrow
+\mathsf{Z}(G)(y)\Rightarrow
+\hsame(\mathsf{mul}(x,y),\mathsf{mul}(y,x)).
+$$
+The ten-field fit is: traditional target center as an abelian normal subgroup;
+BEDC source $\GroupUp$ over $\mathsf{BHist}$; carrier $\mathsf{Z}(G)$;
+classifier $\hsame$; stability from the checked normal-subgroup theorem plus
+center commutativity at each test history; ledger central endpoints $x,y$ and
+the two product orders $\mathsf{mul}(x,y)$ and $\mathsf{mul}(y,x)$; core
+theorem list \autoref{thm:group-center-normal-subgroup} and
+\autoref{def:group-center-carrier}; exactness the displayed commutativity row
+together with the normal-subgroup rows; standard bridge ordinary group center;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The normal-subgroup part is exactly
+\autoref{thm:group-center-normal-subgroup}. It supplies the unit, product,
+inverse, classifier transport, conjugation, and centralizer-normalizer
+inclusion rows for the carrier $\mathsf{Z}(G)$.
+
+For the abelian row, fix $x,y:\mathsf{BHist}$ and assume
+$\mathsf{Z}(G)(x)$ and $\mathsf{Z}(G)(y)$. Unfold
+\autoref{def:group-center-carrier}. The witness $\mathsf{Z}(G)(x)$ is a
+universal commutativity certificate against every test history, so applying it
+to the test history $y$ gives
+$$
+\hsame(\mathsf{mul}(x,y),\mathsf{mul}(y,x)).
+$$
+
+The carrier witness for $y$ is part of the abelian normal-subgroup package
+interface, and it is used by the product and inverse rows inherited from
+\autoref{thm:group-center-normal-subgroup}. The displayed pointwise
+commutativity itself only needs the center witness for $x$ at the chosen test
+history $y$.
+\end{proof}

@@ -342,6 +342,30 @@ separation for generated histories rules out both cases.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonCarrier\_append\_visible\_tail\_absurd}
 
+\begin{theorem}[Group singleton classifier append commuted factors]
+\label{thm:group-singleton-classifier-append-comm-congr}
+For histories $h,h_2,k,k_2:\mathsf{BHist}$, if the singleton group classifier
+relates the two appended endpoints
+$$
+R_{\emp}(\mathsf{append}(h,k),\mathsf{append}(h_2,k_2)),
+$$
+then it also relates the endpoints with the two append factors exchanged:
+$$
+R_{\emp}(\mathsf{append}(k,h),\mathsf{append}(k_2,h_2)).
+$$
+\end{theorem}
+\begin{proof}
+The classifier gives singleton carrier witnesses for
+$\mathsf{append}(h,k)$ and $\mathsf{append}(h_2,k_2)$. Empty-result inversion
+for append splits each witness into singleton carrier witnesses for the two
+factors. Exchanging the factors and applying empty-result construction rebuilds
+singleton carrier witnesses for $\mathsf{append}(k,h)$ and
+$\mathsf{append}(k_2,h_2)$. Since both rebuilt endpoints are classified through
+$\emp$, transitivity and symmetry of $\hsame$ package the displayed singleton
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_comm\_congr}
+
 \begin{theorem}[Group singleton classifier continuation visible result exclusion]
 \label{thm:group-singleton-classifier-continuation-visible-result-absurd}
 For histories $P,Q,r:\mathsf{BHist}$, if the singleton group classifier relates
@@ -452,6 +476,40 @@ these endpoint witnesses through $\emp$ packages the input pair classifier
 $R_{\emp}(P,Q)$.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_continuation\_result\_carrier\_iff}
+
+\begin{theorem}[Group singleton inverse-continuation roundtrip carrier exactness]
+\label{thm:group-singleton-inverse-continuation-roundtrip-carrier-exactness}
+For histories $x,r,s:\mathsf{BHist}$, if $r$ is a continuation result of the
+singleton inverse of $x$ followed by $x$, and $s$ is a continuation result of
+$r$ followed by the same singleton inverse, then the terminal carrier condition
+on the final result is exactly the terminal carrier condition on the original
+history:
+$$
+\ContR(\mathsf{GroupSingletonInv}(x),x,r)\Rightarrow
+\ContR(r,\mathsf{GroupSingletonInv}(x),s)\Rightarrow
+\bigl(A_{\emp}(s)\Longleftrightarrow A_{\emp}(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-inv-continuation-left-unit-iff} to the
+first continuation. This reads the left-unit inverse product back as
+$R_{\emp}(r,\emp)\Longleftrightarrow A_{\emp}(x)$.
+
+The first row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}, applied to
+$r$ and $\emp$, converts $R_{\emp}(r,\emp)$ into the carrier condition
+$A_{\emp}(r)$, since $A_{\emp}(\emp)$ is the reflexive terminal endpoint.
+Thus $A_{\emp}(r)\Longleftrightarrow A_{\emp}(x)$.
+
+Apply Theorem~\ref{thm:group-singleton-continuation-result-carrier-exactness}
+to the second continuation. It identifies $A_{\emp}(s)$ with
+$R_{\emp}(r,\mathsf{GroupSingletonInv}(x))$.
+
+The terminal classifier package and the constant inverse closure row of
+Theorem~\ref{thm:group-singleton-history-semantic-namecert} identify this
+last classifier with $A_{\emp}(r)$. Composing the two carrier equivalences
+gives $A_{\emp}(s)\Longleftrightarrow A_{\emp}(x)$.
+\end{proof}
 
 The per-object certificate data are: traditional target terminal-group
 continuation-result coverage; BEDC source concrete singleton $\GroupUp$ over

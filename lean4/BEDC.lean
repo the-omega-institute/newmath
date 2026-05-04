@@ -200,6 +200,7 @@ import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
 import BEDC.Derived.GroupUp.CancellationIff
 import BEDC.Derived.GroupUp.SingletonContext
+import BEDC.Derived.GroupUp.SingletonAppendComm
 import BEDC.Derived.GroupUp.SingletonAppendContextEmpty
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
@@ -230,7 +231,9 @@ import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
 import BEDC.Derived.RingUp.Cancellation
+import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.CommRingUp
+import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance

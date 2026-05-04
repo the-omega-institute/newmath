@@ -65,7 +65,31 @@ LOCKS_FILE = _resolve_locks_file()
 LOCK_TTL_SECONDS = 1500  # 25 min — matches typical paper round duration
 
 # Lower bound for "node is implemented enough that its dependents may proceed".
-DEPS_READY_THRESHOLD = 5
+# Lives in `.pipeline_parallel.json` under key `deps_ready_threshold` so it
+# can be tuned without restarting the orchestrator. Default 5; main() reads
+# this once per call. main() also auto-relaxes (5→3→2→1) when the strict
+# value yields `top=[]` so a momentarily-thin tree doesn't wedge the
+# pipeline. Earlier wedge incident: 2026-05-04 08:00–09:30, 22 cooldowns
+# burned because `field` was deps_ready=False with `commring=4 < 5`.
+DEFAULT_DEPS_READY_THRESHOLD = 5
+PARALLEL_CONFIG_FILE = ROOT / ".pipeline_parallel.json"
+
+
+def read_deps_ready_threshold(default: int = DEFAULT_DEPS_READY_THRESHOLD) -> int:
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get("deps_ready_threshold", default))
+            return max(1, min(v, 20))
+    except Exception:
+        pass
+    return default
+
+
+# Legacy module-level constant kept for any importer that still references
+# `cp.DEPS_READY_THRESHOLD`. main() now reads from the config file.
+DEPS_READY_THRESHOLD = DEFAULT_DEPS_READY_THRESHOLD
+
 # Upper bound for "node is saturated; do not pick further". Tightened from
 # the original 20 to 10 because nat/int/ring at 12-15 thm were still in
 # `top` even though further per-domain instances were pure parameter-echo
@@ -167,12 +191,13 @@ def transitive_downstream(horizons: dict[str, dict]) -> dict[str, int]:
     return out
 
 
-def deps_ready(name: str, horizons: dict[str, dict]) -> bool:
-    """All declared deps must already have >= DEPS_READY_THRESHOLD theorems."""
+def deps_ready(name: str, horizons: dict[str, dict],
+                threshold: int = DEFAULT_DEPS_READY_THRESHOLD) -> bool:
+    """All declared deps must already have >= threshold theorems."""
     for d in horizons[name]["deps"]:
         if d not in horizons:
             continue  # external (e.g. a kernel object); ignore
-        if horizons[d]["thms"] < DEPS_READY_THRESHOLD:
+        if horizons[d]["thms"] < threshold:
             return False
     return True
 
@@ -221,16 +246,15 @@ def _claim_top_with_cooldown(ranked: list[dict]) -> list[dict]:
         os.close(fd)
 
 
-def main() -> int:
-    horizons = extract_horizons()
-    downstream = transitive_downstream(horizons)
+def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
+                        threshold: int) -> list[dict]:
     ranked: list[dict] = []
     for n, info in horizons.items():
         if n in SCHEMA_ONLY_HORIZONS:
             continue
         if info["thms"] >= SATURATION_THRESHOLD:
             continue
-        if not deps_ready(n, horizons):
+        if not deps_ready(n, horizons, threshold):
             continue
         score = downstream[n] / (1.0 + info["thms"])
         ranked.append({
@@ -239,10 +263,35 @@ def main() -> int:
             "score": round(score, 2),
         })
     ranked.sort(key=lambda r: (-r["score"], -r["downstream"], r["name"]))
+    return ranked
+
+
+def main() -> int:
+    horizons = extract_horizons()
+    downstream = transitive_downstream(horizons)
+
+    # Read the strict threshold from .pipeline_parallel.json (default 5).
+    strict = read_deps_ready_threshold()
+
+    # Adaptive: try strict first; if empty, drop the threshold by 1 each
+    # iteration down to 1. Avoids the "wedged at empty top" failure mode
+    # where every pending horizon needs deps_ready=False because its single
+    # dep is just shy of the cap (e.g. field needed commring=5 but had 4).
+    relaxed_at = None
+    ranked: list[dict] = []
+    for t in range(strict, 0, -1):
+        ranked = _rank_at_threshold(horizons, downstream, t)
+        if ranked:
+            if t < strict:
+                relaxed_at = t
+            break
+
     rolled = _claim_top_with_cooldown(ranked)
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
-        "deps_ready_threshold": DEPS_READY_THRESHOLD,
+        "deps_ready_threshold": strict,
+        "deps_ready_threshold_used": relaxed_at if relaxed_at is not None else strict,
+        "deps_ready_relaxed": relaxed_at is not None,
         "saturation_threshold": SATURATION_THRESHOLD,
         "top": rolled[:10],
     }
