@@ -12,8 +12,101 @@
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
+
+\begin{theorem}[Unary append inverse field collapses to singleton]
+\label{thm:unary-append-inverse-field-collapses-to-singleton}
+For every operation $i:\mathsf{BHist}\to\mathsf{BHist}$, the right-inverse
+field on the full unary-history append carrier,
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp),
+$$
+implies the singleton-unit collapse
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
+$$
+The analogous left-inverse field,
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(i(h),h),\emp),
+$$
+implies the same singleton-unit collapse.
+
+The ten-field fit is: traditional target obstruction to making the full unary
+append monoid into a group; BEDC source $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, and
+$\mathsf{MonoidHistoryClassifier}$; carrier $\mathsf{UnaryHistory}$;
+classifier $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;
+stability from unit-product factor exactness; ledger the proposed inverse
+field; core theorem this block; exactness inverse-law collapse to the
+singleton unit class; downstream consumer the concrete $\GroupUp$ carrier
+choice; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume the right-inverse field and fix a unary history $h$. Specializing the
+field at $h$ gives the classifier statement that
+$\mathsf{append}(h,i(h))$ is classified as $\emp$.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this append
+product. The forward direction decomposes the unit-product classifier into the
+two factor classifiers, and the left factor is exactly
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)$.
+
+For the left-inverse field, fix the same unary history $h$ and specialize the
+field at $h$. Apply
+\autoref{thm:unary-append-unit-product-factor-exactness} to
+$\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
+classifiers with $h$ as the right factor, so the right factor is the displayed
+singleton-unit conclusion.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
 \input{parts/concrete_instances/group/16_group_singleton_two_conjugator_orbit_coverage}
+
+\begin{theorem}[Group singleton two-conjugator orbit classifier]
+\label{thm:group-singleton-two-conjugator-orbit-classifier}
+For histories $s,t,x,y:\mathsf{BHist}$ in the concrete singleton history group,
+write
+$$
+\mathsf{Conj}_u(z):=\mathsf{mul}(\mathsf{mul}(u,z),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$ and $A_{\emp}(t)$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\Longleftrightarrow R_{\emp}(x,y).
+$$
+The ten-field fit is: traditional target terminal two-conjugator orbit
+classifier; BEDC source concrete singleton $\GroupUp$; carrier $A_{\emp}$;
+classifier $R_{\emp}$; stability from normalizer action coverage and terminal
+classifier packaging; ledger the two conjugators and endpoint witnesses;
+exactness the displayed iff; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-two-conjugator-orbit-coverage} under the
+two displayed conjugator carrier witnesses. This rewrites the normalizer orbit
+relation between the acted endpoints as the endpoint carrier condition
+$$
+A_{\emp}(x)\land A_{\emp}(y).
+$$
+
+Apply the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} to the same endpoint
+pair. It identifies $R_{\emp}(x,y)$ with
+$A_{\emp}(x)\land A_{\emp}(y)$.
+
+Composing the first equivalence with the reverse direction of the second gives
+exactly
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\Longleftrightarrow R_{\emp}(x,y).
+$$
+\end{proof}
 
 \begin{theorem}[Group singleton normalizer orbit action chain]
 \label{thm:group-singleton-normalizer-orbit-action-chain}
@@ -62,4 +155,88 @@ endpoints. The carrier rows supplied by the action certificate and the two
 acted orbit edges compose to
 $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, and the three orbit
 relations form the displayed conjunction.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer orbit action path iff]
+\label{thm:group-singleton-normalizer-orbit-action-path-iff}
+For histories $s,x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton history group, write
+$$
+\mathsf{Conj}_s(w):=\mathsf{mul}(\mathsf{mul}(s,w),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and $A_{\emp}(z)$, then the
+two-edge normalizer orbit path is reflected exactly by the terminal action:
+$$
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\land
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z)\bigr)
+\Longleftrightarrow
+\bigl(x\sim_{N_{\emp}}y\land y\sim_{N_{\emp}}z\bigr).
+$$
+The transitive edge is reflected exactly as well:
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)
+\Longleftrightarrow
+x\sim_{N_{\emp}}z.
+$$
+The ten-field fit is: traditional target terminal action path exactness; BEDC
+source concrete singleton $\GroupUp$; carrier $A_{\emp}$; classifier
+$\sim_{N_{\emp}}$; stability from action identity iff, action invariance, and
+orbit equivalence; ledger the conjugator plus the two source orbit witnesses;
+core theorem this block; exactness the two displayed iff clauses; downstream
+consumer $\QuotientGroupUp$ action-path classifier; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:group-singleton-normalizer-action-certificate} to the
+three pairs $(s,x)$, $(s,y)$, and $(s,z)$. This supplies the carrier rows for
+$\mathsf{Conj}_s(x)$, $\mathsf{Conj}_s(y)$, and $\mathsf{Conj}_s(z)$.
+
+For the forward direction of the two-edge path equivalence, assume the two
+acted orbit edges. Apply
+\autoref{thm:group-singleton-normalizer-action-orbit-identity-iff} to
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)$, with the carrier row for
+$\mathsf{Conj}_s(y)$ supplied by the action certificate, to replace the acted
+left endpoint by $x$.
+
+Use the symmetry row of
+\autoref{thm:group-singleton-normalizer-orbit-equivalence} to turn this edge
+around. The same identity iff, now with source endpoint $y$ and target endpoint
+$x$, replaces $\mathsf{Conj}_s(y)$ by $y$; symmetry turns the result back to
+$x\sim_{N_{\emp}}y$.
+
+The second acted edge is handled in the same way. First replace the acted left
+endpoint $\mathsf{Conj}_s(y)$ by $y$, then use orbit symmetry, the identity iff
+for $z$, and symmetry again. This gives $y\sim_{N_{\emp}}z$.
+
+For the reverse direction of the two-edge path equivalence, assume
+$x\sim_{N_{\emp}}y$ and $y\sim_{N_{\emp}}z$. Apply
+\autoref{thm:group-singleton-normalizer-orbit-action-invariance} to each source
+edge. The two outputs are exactly
+
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\quad\text{and}\quad
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z).
+$$
+
+The transitivity row of
+\autoref{thm:group-singleton-normalizer-orbit-equivalence} also composes these
+acted edges to the acted transitive edge.
+
+For the forward direction of the transitive-edge equivalence, assume
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$. The action identity iff
+replaces the acted left endpoint by $x$, again using the carrier row for
+$\mathsf{Conj}_s(z)$, and gives $x\sim_{N_{\emp}}\mathsf{Conj}_s(z)$.
+
+Apply the symmetry row, the identity-iff row for $z$ with target $x$, and
+symmetry once more to replace the remaining acted endpoint by $z$. The result is
+$x\sim_{N_{\emp}}z$.
+
+For the reverse direction of the transitive-edge equivalence, assume
+$x\sim_{N_{\emp}}z$. Apply
+\autoref{thm:group-singleton-normalizer-orbit-action-invariance} directly to
+this source edge. It gives
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, which is the acted
+transitive edge.
 \end{proof}

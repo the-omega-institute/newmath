@@ -633,6 +633,33 @@ unit selected by the concrete denominator unit predicate can occur as either
 endpoint of a Rat denominator classifier edge.
 \end{proof}
 
+\begin{theorem}[Rat denominator external-unit predicate boundary package]
+\label{thm:field-rat-denominator-external-unit-predicate-boundary-package}
+For histories $u,v,d:\mathsf{BHist}$, if $U_D(u)$ and $U_D(v)$, then the
+following four boundary clauses hold:
+\begin{enumerate}
+\item $u\hsame v$;
+\item $\mathsf{RatHistoryCarrier}(u)\to\mathsf{False}$;
+\item $\mathsf{RatHistoryCarrier}(v)\to\mathsf{False}$;
+\item
+$\bigl(\mathsf{RatHistoryClassifier}(u,d)\lor
+\mathsf{RatHistoryClassifier}(d,u)\bigr)\to\mathsf{False}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold $U_D(u)$ and $U_D(v)$ only to expose the two endpoint-unit
+disjunction witnesses. Apply
+\autoref{thm:field-rat-denominator-external-unit-unique-separated-normal-form}
+to these two witnesses. This gives the uniqueness clause $u\hsame v$ and the
+two carrier-exclusion clauses for $u$ and $v$.
+
+It remains to rule out classifier edges touching the chosen external unit.
+Apply
+\autoref{thm:field-rat-denominator-external-unit-classifier-disjointness} to
+the original witness $U_D(u)$. The resulting implication is exactly the
+displayed Rat-classifier disjointness row for the pair $(u,d)$.
+\end{proof}
+
 \textbf{Traditional target}: external unit classifier separation for the
 concrete Rat denominator fragment; \textbf{BEDC source}:
 $\mathsf{RatHistoryCarrier}$, $\mathsf{RatHistoryClassifier}$, and $\Cont$;
