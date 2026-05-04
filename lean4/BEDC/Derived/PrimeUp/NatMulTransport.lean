@@ -49,4 +49,23 @@ theorem NatMul_multiplicand_hsame_transport {d d' q n : BHist} :
         cont_hsame_transport (hsame_refl _) sameD (hsame_refl _) step
       exact And.intro ih.left (NatMul.succ ih.right shiftedStep)
 
+theorem NatMul_result_hsame_transport {d q n n' : BHist} :
+    NatMul d q n -> hsame n n' -> UnaryHistory d ∧ NatMul d q n' := by
+  intro mul sameResult
+  induction mul with
+  | zero hd =>
+      cases sameResult
+      exact And.intro hd (NatMul.zero hd)
+  | succ previous step ih =>
+      exact And.intro (NatMul_left_unary previous)
+        (NatMul.succ previous (cont_result_hsame_transport step sameResult))
+
+theorem NatDivides_divisor_hsame_transport {d d' n : BHist} :
+    NatDivides d n -> hsame d d' -> UnaryHistory d' ∧ NatDivides d' n := by
+  intro divides sameD
+  cases divides with
+  | intro q qData =>
+      have transported := NatMul_multiplicand_hsame_transport sameD qData.right
+      exact And.intro transported.left (Exists.intro q (And.intro qData.left transported.right))
+
 end BEDC.Derived.PrimeUp

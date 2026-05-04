@@ -230,6 +230,25 @@ the corresponding fields of the component witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_component\_tail\_witness}
 
+\begin{theorem}[Pure-imaginary suffix parameter readback]
+\label{thm:cplx-pure-imaginary-suffix-parameter-readback}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, let \(q\) be unary, and let
+\(\Cont(z,q,zq)\). If \(zq\) is also displayed as
+\(\mathsf{CplxPureImaginary}(\psi,zq)\), then
+\(\psi\hsame\mathsf{append}(\theta,q)\).
+\end{theorem}
+\begin{proof}
+The suffix component-tail witness supplies an intermediate imaginary component
+\(imagq\) with \(imagq\hsame\Eone(\mathsf{append}(\theta,q))\) and a
+continuation ledger from \(\Eone(\emp)\) to \(zq\). The pure-imaginary display
+of \(zq\) identifies the same result with
+\(\mathsf{append}(\Eone(\emp),\Eone(\psi))\). Transport the continuation result
+to that display, cancel the fixed real component \(\Eone(\emp)\), and invert
+the \(\Eone\) constructor. The remaining equality is exactly
+\(\psi\hsame\mathsf{append}(\theta,q)\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_parameter\_readback}
+
 \begin{theorem}[Pure-imaginary suffix continuation complex carrier]
 \label{thm:cplx-pure-imaginary-suffix-continuation-complex-carrier}
 Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
