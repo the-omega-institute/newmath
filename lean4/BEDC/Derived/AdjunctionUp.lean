@@ -290,6 +290,29 @@ theorem AdjunctionTriangleCarrier_empty_roundtrip_prefix_deterministic
   exact hsame_trans leftPrefixData.right.right.right
     (hsame_trans rightPrefixData.right.right.right leftPrefixData.right.right.right)
 
+theorem AdjunctionTriangleCarrier_roundtrip_empty_iff_components_empty
+    {left right object unit counit leftLeg rightLeg : BHist} :
+    AdjunctionTriangleCarrier left right object unit counit leftLeg rightLeg ->
+      ((hsame leftLeg BHist.Empty ∧ hsame rightLeg BHist.Empty) ↔
+        (hsame unit BHist.Empty ∧ hsame counit BHist.Empty)) := by
+  intro carrier
+  constructor
+  · intro legsEmpty
+    have componentEmpty : unit = BHist.Empty ∧ counit = BHist.Empty := by
+      cases legsEmpty.left
+      exact cont_empty_result_inversion carrier.right.right.left
+    cases componentEmpty.left
+    cases componentEmpty.right
+    exact And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  · intro componentsEmpty
+    have leftEmpty : hsame leftLeg BHist.Empty :=
+      cont_respects_hsame componentsEmpty.left componentsEmpty.right carrier.right.right.left
+        (cont_right_unit BHist.Empty)
+    have rightEmpty : hsame rightLeg BHist.Empty :=
+      cont_respects_hsame componentsEmpty.right componentsEmpty.left carrier.right.right.right
+        (cont_right_unit BHist.Empty)
+    exact And.intro leftEmpty rightEmpty
+
 theorem AdjunctionPrefixEndomorphismTriangle_identity_exactness
     {p a f eta eps left right : BHist} :
     NatTransPrefixComponentCarrier p p a eta ->
@@ -322,5 +345,66 @@ theorem AdjunctionPrefixComponent_cycle_empty_prefix_same {p q a eta theta compo
     Iff.mp (NatTransPrefixComponentCarrier_vert_comp_empty_iff unit counit) emptyCycle
   exact And.intro data.right.right.left
     (And.intro data.right.right.right (And.intro data.left data.right.left))
+
+theorem AdjunctionUnitCounitCarrier_left_cycle_empty_components_iff
+    {p q a unit counit left right : BHist} :
+    (AdjunctionUnitCounitCarrier p q a unit counit left right ∧ hsame left BHist.Empty) ↔
+      UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q ∧ hsame q p ∧
+        hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left BHist.Empty ∧
+          hsame right BHist.Empty := by
+  constructor
+  · intro data
+    have carrier := data.left
+    have leftEmpty := data.right
+    have cycleData :=
+      AdjunctionPrefixComponent_cycle_empty_prefix_same carrier.left carrier.right.left
+        carrier.right.right.left leftEmpty
+    have unitIdentity : NatTransPrefixComponentCarrier p q a BHist.Empty := by
+      cases cycleData.right.right.left
+      exact carrier.left
+    have unitData :=
+      (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q) (a := a)).mp
+        unitIdentity
+    have rightEmpty : hsame right BHist.Empty :=
+      cont_respects_hsame cycleData.right.right.right cycleData.right.right.left
+        carrier.right.right.right (cont_right_unit BHist.Empty)
+    exact
+      And.intro unitData.left
+        (And.intro unitData.right.left
+          (And.intro unitData.right.right.left
+            (And.intro cycleData.left
+              (And.intro cycleData.right.left
+                (And.intro cycleData.right.right.left
+                  (And.intro cycleData.right.right.right
+                    (And.intro leftEmpty rightEmpty)))))))
+  · intro data
+    have unitCarrier : NatTransPrefixComponentCarrier p q a unit := by
+      cases data.right.right.right.right.right.left
+      exact
+        (NatTransPrefixComponentCarrier_empty_identity_iff (p := p) (q := q) (a := a)).mpr
+          (And.intro data.left
+            (And.intro data.right.left
+              (And.intro data.right.right.left data.right.right.right.left)))
+    have counitCarrier : NatTransPrefixComponentCarrier q p a counit := by
+      cases data.right.right.right.right.right.right.left
+      exact
+        (NatTransPrefixComponentCarrier_empty_identity_iff (p := q) (q := p) (a := a)).mpr
+          (And.intro data.right.left
+            (And.intro data.left
+              (And.intro data.right.right.left data.right.right.right.right.left)))
+    have leftRel : Cont unit counit left := by
+      cases data.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.right.left
+      exact cont_right_unit BHist.Empty
+    have rightRel : Cont counit unit right := by
+      cases data.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.left
+      cases data.right.right.right.right.right.right.right.right
+      exact cont_right_unit BHist.Empty
+    exact
+      And.intro
+        (And.intro unitCarrier (And.intro counitCarrier (And.intro leftRel rightRel)))
+        data.right.right.right.right.right.right.right.left
 
 end BEDC.Derived.AdjunctionUp

@@ -103,6 +103,16 @@ theorem HolomorphicOpenDisk_radius_extension_closed {center radius radius' point
                       (And.intro pointCarrier
                         (And.intro extendedGapCarrier extendedLedger)))
 
+theorem HolomorphicOpenDisk_radius_extension_gap_deterministic
+    {center radius radius' point gap extra gap' : BHist} :
+    HolomorphicOpenDisk center radius point gap -> UnaryHistory extra ->
+      Cont radius extra radius' -> HolomorphicOpenDisk center radius' point gap' ->
+        hsame (append gap extra) gap' := by
+  intro disk extraCarrier radiusStep displayed
+  have extended : HolomorphicOpenDisk center radius' point (append gap extra) :=
+    HolomorphicOpenDisk_radius_extension_closed disk extraCarrier radiusStep
+  exact cont_left_cancel extended.right.right.right.right displayed.right.right.right.right
+
 def HolomorphicOpenDiskGap (z0 r z gap : BHist) : Prop :=
   UnaryHistory z0 ∧ UnaryHistory r ∧ UnaryHistory z ∧ UnaryHistory gap ∧ Cont z gap r
 
@@ -359,6 +369,34 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                           (And.intro pointUnary
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
+
+theorem HolomorphicOpenDiskWitnessed_radius_extension_gap_public_readback
+    {center point radius extra radius' : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory extra ->
+      Cont radius extra radius' ->
+        HolomorphicOpenDiskWitnessed center radius' point ∧
+          (forall {displayedGap : BHist}, HolomorphicOpenDisk center radius' point displayedGap ->
+            ∃ gap : BHist, ∃ extendedGap : BHist,
+              UnaryHistory gap ∧ UnaryHistory extendedGap ∧ Cont point gap radius ∧
+                Cont gap extra extendedGap ∧ Cont point extendedGap radius' ∧
+                  hsame extendedGap displayedGap) := by
+  intro disk extraUnary radiusExtension
+  constructor
+  · exact HolomorphicOpenDisk_radius_continuation_extend disk extraUnary radiusExtension
+  · intro displayedGap displayed
+    have witness := HolomorphicOpenDisk_radius_extension_gap_witness disk extraUnary radiusExtension
+    cases witness with
+    | intro gap witnessRest =>
+        cases witnessRest with
+        | intro extendedGap data =>
+            exact Exists.intro gap (Exists.intro extendedGap
+                (And.intro data.left
+                  (And.intro data.right.left
+                    (And.intro data.right.right.left
+                      (And.intro data.right.right.right.left
+                        (And.intro data.right.right.right.right
+                          (cont_left_cancel data.right.right.right.right
+                            displayed.right.right.right.right)))))))
 
 theorem HolomorphicOpenDiskCarrier_radius_extension_witnessed
     {center point radius extra radius' : BHist} :
