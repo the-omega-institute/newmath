@@ -53,4 +53,37 @@ theorem ContinuousModulusChain_empty_target_iff {source first second : BHist} :
             (Exists.intro BHist.Empty
               (And.intro (cont_right_unit BHist.Empty) (cont_right_unit BHist.Empty))))))
 
+theorem ContinuousFunctionCarrier_empty_target_iff {source map modulus cert : BHist} :
+    ContinuousFunctionCarrier source map BHist.Empty modulus cert ↔
+      hsame source BHist.Empty ∧ hsame map BHist.Empty ∧ UnaryHistory modulus ∧
+        UnaryHistory cert ∧ hsame cert modulus := by
+  constructor
+  · intro carrier
+    cases carrier with
+    | intro _sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro _mapCarrier rest =>
+                cases rest with
+                | intro modulusCarrier rest =>
+                    cases rest with
+                    | intro sourceMap targetCert =>
+                        have sourceMapParts := cont_empty_result_inversion sourceMap
+                        have certCarrier : UnaryHistory cert :=
+                          unary_cont_closed targetCarrier modulusCarrier targetCert
+                        exact And.intro sourceMapParts.left
+                          (And.intro sourceMapParts.right
+                            (And.intro modulusCarrier
+                              (And.intro certCarrier (cont_left_unit_result targetCert))))
+  · intro endpoints
+    cases endpoints.left
+    cases endpoints.right.left
+    exact And.intro unary_empty
+      (And.intro unary_empty
+        (And.intro unary_empty
+          (And.intro endpoints.right.right.left
+            (And.intro (cont_right_unit BHist.Empty)
+              (cont_left_unit_iff.mpr endpoints.right.right.right.right)))))
+
 end BEDC.Derived.ContinuousUp
