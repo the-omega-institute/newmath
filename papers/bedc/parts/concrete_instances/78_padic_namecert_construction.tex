@@ -84,6 +84,25 @@ prime-scale witness.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_inversion}
 
+\begin{theorem}[Prime scale positive-exponent continuation readback]
+\label{thm:padic-prime-scale-positive-exponent-cont-readback}
+If the exponent $e$ is unary, not history-same as $\emp$, and
+\(\mathsf{PadicPrimeScale}(p,e,r)\) holds, then \(e\) has a unary tail \(t\)
+and the scale result is obtained from a predecessor scale by one continuation
+with the prime base:
+$$
+\exists t,n.\ \Unary(t)\land e=\Eone(t)\land
+\mathsf{PadicPrimeScale}(p,t,n)\land\Cont(n,p,r).
+$$
+\end{theorem}
+\begin{proof}
+The unary nonempty exponent has a one-headed tail. After substituting that
+tail into the scale witness, successor-exponent inversion for
+\(\mathsf{PadicPrimeScale}\) exposes the predecessor scale and the continuation
+from the predecessor result by \(p\).
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_positive\_exponent\_cont\_readback}
+
 \begin{theorem}[Prime scale successor exponent factorization]
 \label{thm:padic-prime-scale-succ-exponent-factorization}
 A successor-exponent prime scale $\mathsf{PadicPrimeScale}(p,\Eone(q),r)$
@@ -130,6 +149,23 @@ using the unary carrier field of the prime witness, identifies the two
 predecessor histories.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_succ\_exponent\_predecessor\_unique}
+
+\begin{theorem}[Prime scale unit exponent reads back to the prime]
+\label{thm:padic-prime-scale-unit-exponent-result-prime}
+If $\mathsf{PadicPrimeScale}(p,\Eone(\emp),result)$ holds, then the scale
+result is history-same to the prime base:
+$$
+result\hsame p.
+$$
+\end{theorem}
+\begin{proof}
+Successor-exponent inversion extracts a predecessor result over the empty
+exponent and a continuation from that predecessor through $p$ to $result$.
+Empty-result exactness for prime scales identifies the predecessor with
+$\emp$. Comparing the displayed continuation with the left-unit continuation
+for $p$ identifies $result$ with $p$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_unit\_exponent\_result\_prime\_hsame}
 
 \begin{theorem}[Prime scale append continuation closure]
 \label{thm:padic-prime-scale-append-cont-closure}

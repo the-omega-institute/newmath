@@ -37,4 +37,18 @@ theorem RingSingletonClassifier_mul_continuation_classifier_iff {x y z r h : BHi
     exact And.intro resultEmpty
       (And.intro carriers.right (hsame_trans resultEmpty (hsame_symm carriers.right)))
 
+theorem RingSingletonClassifier_continuation_visible_result_absurd {h k p r : BHist} :
+    RingSingletonClassifier h k -> RingSingletonCarrier p ->
+      (Cont h p (BHist.e0 r) -> False) ∧ (Cont h p (BHist.e1 r) -> False) := by
+  intro classified carrierP
+  constructor
+  · intro continuation
+    have resultEmpty : hsame (BHist.e0 r) BHist.Empty :=
+      cont_respects_hsame classified.left carrierP continuation (cont_right_unit BHist.Empty)
+    exact not_hsame_e0_empty resultEmpty
+  · intro continuation
+    have resultEmpty : hsame (BHist.e1 r) BHist.Empty :=
+      cont_respects_hsame classified.left carrierP continuation (cont_right_unit BHist.Empty)
+    exact not_hsame_e1_empty resultEmpty
+
 end BEDC.Derived.RingUp
