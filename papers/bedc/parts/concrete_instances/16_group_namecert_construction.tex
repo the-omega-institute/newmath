@@ -63,3 +63,87 @@ acted orbit edges compose to
 $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, and the three orbit
 relations form the displayed conjunction.
 \end{proof}
+
+\begin{theorem}[Group singleton normalizer orbit action path iff]
+\label{thm:group-singleton-normalizer-orbit-action-path-iff}
+For histories $s,x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton history group, write
+$$
+\mathsf{Conj}_s(w):=\mathsf{mul}(\mathsf{mul}(s,w),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and $A_{\emp}(z)$, then the
+two-edge normalizer orbit path is reflected exactly by the terminal action:
+$$
+\bigl(\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\land
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z)\bigr)
+\Longleftrightarrow
+\bigl(x\sim_{N_{\emp}}y\land y\sim_{N_{\emp}}z\bigr).
+$$
+The transitive edge is reflected exactly as well:
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)
+\Longleftrightarrow
+x\sim_{N_{\emp}}z.
+$$
+The ten-field fit is: traditional target terminal action path exactness; BEDC
+source concrete singleton $\GroupUp$; carrier $A_{\emp}$; classifier
+$\sim_{N_{\emp}}$; stability from action identity iff, action invariance, and
+orbit equivalence; ledger the conjugator plus the two source orbit witnesses;
+core theorem this block; exactness the two displayed iff clauses; downstream
+consumer $\QuotientGroupUp$ action-path classifier; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:group-singleton-normalizer-action-certificate} to the
+three pairs $(s,x)$, $(s,y)$, and $(s,z)$. This supplies the carrier rows for
+$\mathsf{Conj}_s(x)$, $\mathsf{Conj}_s(y)$, and $\mathsf{Conj}_s(z)$.
+
+For the forward direction of the two-edge path equivalence, assume the two
+acted orbit edges. Apply
+\autoref{thm:group-singleton-normalizer-action-orbit-identity-iff} to
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)$, with the carrier row for
+$\mathsf{Conj}_s(y)$ supplied by the action certificate, to replace the acted
+left endpoint by $x$.
+
+Use the symmetry row of
+\autoref{thm:group-singleton-normalizer-orbit-equivalence} to turn this edge
+around. The same identity iff, now with source endpoint $y$ and target endpoint
+$x$, replaces $\mathsf{Conj}_s(y)$ by $y$; symmetry turns the result back to
+$x\sim_{N_{\emp}}y$.
+
+The second acted edge is handled in the same way. First replace the acted left
+endpoint $\mathsf{Conj}_s(y)$ by $y$, then use orbit symmetry, the identity iff
+for $z$, and symmetry again. This gives $y\sim_{N_{\emp}}z$.
+
+For the reverse direction of the two-edge path equivalence, assume
+$x\sim_{N_{\emp}}y$ and $y\sim_{N_{\emp}}z$. Apply
+\autoref{thm:group-singleton-normalizer-orbit-action-invariance} to each source
+edge. The two outputs are exactly
+
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\quad\text{and}\quad
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z).
+$$
+
+The transitivity row of
+\autoref{thm:group-singleton-normalizer-orbit-equivalence} also composes these
+acted edges to the acted transitive edge.
+
+For the forward direction of the transitive-edge equivalence, assume
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$. The action identity iff
+replaces the acted left endpoint by $x$, again using the carrier row for
+$\mathsf{Conj}_s(z)$, and gives $x\sim_{N_{\emp}}\mathsf{Conj}_s(z)$.
+
+Apply the symmetry row, the identity-iff row for $z$ with target $x$, and
+symmetry once more to replace the remaining acted endpoint by $z$. The result is
+$x\sim_{N_{\emp}}z$.
+
+For the reverse direction of the transitive-edge equivalence, assume
+$x\sim_{N_{\emp}}z$. Apply
+\autoref{thm:group-singleton-normalizer-orbit-action-invariance} directly to
+this source edge. It gives
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, which is the acted
+transitive edge.
+\end{proof}
