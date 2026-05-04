@@ -1,3 +1,4 @@
+import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.DepthZero
 
 namespace BEDC.Derived.MetricUp
@@ -20,6 +21,29 @@ theorem MetricDistanceWitness_visible_context_prefix_independent_symmetric_class
       (d := dyx)).mp reverse
   exact MetricDistanceWitness_symmetric_classifier forwardCentral.2.2 reverseCentral.2.2
 
+theorem MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
+    {p q p' q' x y dxy dyx : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness (append p' y) (append x q') (append (append p' dyx) q') ->
+        MetricDistanceDepth dxy = 0 ->
+          hsame dxy dyx ∧ MetricDistanceDepth dyx = 0 ∧
+            hsame x BHist.Empty ∧ hsame y BHist.Empty := by
+  intro forward reverse depthZero
+  have sameDistance : hsame dxy dyx :=
+    MetricDistanceWitness_visible_context_prefix_independent_symmetric_classifier forward reverse
+  have forwardCollapse :
+      hsame dxy BHist.Empty ∧ hsame x BHist.Empty ∧ hsame y BHist.Empty :=
+    MetricDistanceWitness_visible_context_depth_zero_collapse forward depthZero
+  have reverseCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p') (q := q') (x := y) (y := x)
+      (d := dyx)).mp reverse
+  have reverseDepth : MetricDistanceDepth dyx = 0 :=
+    MetricDistanceWitness_empty_endpoints_depth_zero reverseCentral.2.2
+      forwardCollapse.2.2 forwardCollapse.2.1
+  exact
+    And.intro sameDistance
+      (And.intro reverseDepth (And.intro forwardCollapse.2.1 forwardCollapse.2.2))
+
 theorem MetricDistanceWitness_visible_context_prefix_independent_symmetric_zero_depth_collapse
     {p q p' q' x y dxy dyx : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
@@ -27,21 +51,6 @@ theorem MetricDistanceWitness_visible_context_prefix_independent_symmetric_zero_
         MetricDistanceDepth dxy = 0 ->
           hsame dxy dyx ∧ MetricDistanceDepth dyx = 0 ∧ hsame x BHist.Empty ∧
             hsame y BHist.Empty := by
-  intro forward reverse dxyZero
-  have sameDistance :
-      hsame dxy dyx :=
-    MetricDistanceWitness_visible_context_prefix_independent_symmetric_classifier forward reverse
-  have forwardCollapse :=
-    MetricDistanceWitness_visible_context_depth_zero_collapse forward dxyZero
-  have reverseCentral :
-      UnaryHistory p' ∧ UnaryHistory q' ∧ MetricDistanceWitness y x dyx :=
-    (MetricDistanceWitness_visible_context_iff (p := p') (q := q') (x := y) (y := x)
-      (d := dyx)).mp reverse
-  have dyxZero :
-      MetricDistanceDepth dyx = 0 :=
-    MetricDistanceWitness_empty_endpoints_depth_zero reverseCentral.2.2 forwardCollapse.2.2
-      forwardCollapse.2.1
-  exact And.intro sameDistance
-    (And.intro dyxZero (And.intro forwardCollapse.2.1 forwardCollapse.2.2))
+  exact MetricDistanceWitness_prefix_independent_symmetric_zero_depth_collapse
 
 end BEDC.Derived.MetricUp

@@ -38,6 +38,32 @@ itself as the exposed rational history and reflexivity of $\hsame$.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e1\_iff\_rat}
 
+\begin{theorem}[Constant real carrier unary denominator context closure]
+\label{thm:real-constant-history-carrier-cont-unary-denominator-context-closed}
+Let $d,p,t,m,o:\Hist$. If
+$$
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)),
+$$
+$p$ and $t$ are unary histories, and
+$$
+\mathsf{Cont}(p,d,m),\qquad \mathsf{Cont}(m,t,o),
+$$
+then
+$$
+\mathsf{RealConstantHistoryCarrier}(\Eone(o)).
+$$
+\end{theorem}
+\begin{proof}
+Unseal the displayed constant real carrier through
+\autoref{thm:real-constant-history-carrier-e1-iff-rat} to obtain
+$\mathsf{RatHistoryCarrier}(d)$. RatUp unary-denominator context closure gives
+the rational carrier of $\mathsf{append}(p,\mathsf{append}(d,t))$. The two
+continuation witnesses and associativity of append identify this normal
+endpoint with $o$. Transport the rational carrier along that endpoint
+identification, and reseal it as a constant real carrier at $\Eone(o)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_cont\_unary\_denominator\_context\_closed}
+
 \begin{theorem}[Constant real carrier e-zero exclusion]
 \label{thm:real-constant-history-carrier-e0-absurd}
 For every history tail $t$,

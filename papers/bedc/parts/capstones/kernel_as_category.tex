@@ -50,6 +50,20 @@ the left and right empty-composition laws, and preservation of hom-carriers
 after endpoint transport along $\hsame$.
 \end{proof}
 
+\begin{theorem}[Category hom-carrier morphism induction]
+\label{thm:category-hom-carrier-morphism-induction}
+For fixed unary-continuation endpoints \(a,b:\mathsf{BHist}\), any predicate
+on displayed morphism histories holds for every
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) if it holds at \(\emp\) and is
+preserved by one-step unary extension of the morphism history.
+\end{theorem}
+\begin{proof}
+Unpack \(\mathsf{CategoryHomCarrier}(a,b,f)\). Its morphism field is exactly
+the unary-history witness for \(f\), so unary-history induction over \(f\)
+proves the displayed predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_induction}
+
 \section{Derived presentations over the unary category}
 \label{sec:kernel-as-category-laws}
 

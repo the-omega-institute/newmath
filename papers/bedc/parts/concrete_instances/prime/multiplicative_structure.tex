@@ -221,6 +221,24 @@ multiplier argument is generated only by \(\emp\) and \(\Eone\)-successor cases.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_e0\_multiplier\_absurd}
 
+\begin{theorem}[Empty multiplier exactness for unary multiplication]
+\label{thm:natmul-empty-right-iff}
+For all histories $d,n$,
+$$
+\mathsf{NatMul}(d,\emp,n)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(d)\land \hsame(n,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction inverts the closed $\mathsf{NatMul}$ witness. The only
+constructor with empty multiplier is the empty-multiplier row, which records
+the unary field for $d$ and returns the empty result. Conversely, if $d$ is
+unary and $n\hsame\emp$, identify the endpoint with $\emp$ and apply the
+empty-multiplier constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_right\_iff}
+
 \begin{theorem}[Nonempty multiplicand and empty multiplication result]
 \label{thm:natmul-nonempty-multiplicand-empty-result-iff}
 For every unary multiplicand $d$ with $d\not\hsame\emp$, the empty-result
