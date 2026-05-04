@@ -22,6 +22,32 @@ the one-step continuation rule.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_iff}
 
+\begin{theorem}[Metric distance witness left e1 result hsame target]
+\label{thm:metric-distance-witness-left-e1-result-hsame-target}
+For histories $x,y,y',d$, a distance witness from a visible left endpoint to a
+visible result keeps the same empty-or-visible target alternative after
+transporting the target presentation along $\hsame(y,y')$:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longrightarrow
+\hsame(y,y')
+\Longrightarrow
+\bigl(y'=\emp\land\mathsf{UnaryHistory}(x)\land\hsame(x,d)\bigr)
+\lor
+\bigl(\exists y_1:\mathsf{BHist}.\;
+y'=\Eone(y_1)\land
+\mathsf{MetricDistanceWitness}(\Eone(x),y_1,d)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-result case split. In the empty branch, empty-history
+inversion transports the displayed target to $\emp$. In the visible branch,
+one-constructor inversion of $\hsame(\Eone(y_0),y')$ exposes
+$y'=\Eone(y_1)$ and $y_0\hsame y_1$; unary and continuation transport
+carry the tail metric witness to the displayed target tail.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_result\_hsame\_target}
+
 \begin{theorem}[Metric distance witness left e1 result shape]
 \label{thm:metric-distance-witness-left-e1-result-shape}
 For histories $x,y,d$, every distance witness from $\Eone(x)$ has a visible

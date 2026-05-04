@@ -1,4 +1,5 @@
 import BEDC.Derived.MetricUp
+import BEDC.FKernel.Cont.Cancellation
 
 namespace BEDC.Derived.MetricUp
 
@@ -74,6 +75,44 @@ theorem MetricDistanceWitness_left_e1_result_iff {x y d : BHist} :
                     (And.intro (unary_e1_closed tailWitness.right.left)
                       (And.intro (unary_e1_closed tailWitness.right.right.left)
                         (cont_step_one tailWitness.right.right.right)))
+
+theorem MetricDistanceWitness_left_e1_result_hsame_target {x y y' d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) -> hsame y y' ->
+      (y' = BHist.Empty ∧ UnaryHistory x ∧ hsame x d) ∨
+        (∃ y1 : BHist, y' = BHist.e1 y1 ∧
+          MetricDistanceWitness (BHist.e1 x) y1 d) := by
+  intro witness sameTarget
+  have resultCases := MetricDistanceWitness_left_e1_result_cases witness
+  cases resultCases with
+  | inl emptyCase =>
+      cases emptyCase with
+      | intro yEmpty data =>
+          cases yEmpty
+          have targetEmpty : y' = BHist.Empty := hsame_empty_inversion sameTarget
+          exact Or.inl (And.intro targetEmpty data)
+  | inr visibleCase =>
+      cases visibleCase with
+      | intro y0 data =>
+          cases data with
+          | intro yEq tailWitness =>
+              cases yEq
+              have targetShape := hsame_e1_inversion sameTarget
+              cases targetShape with
+              | intro y1 tailData =>
+                  cases tailData with
+                  | intro targetEq sameTail =>
+                      have targetCarrier : UnaryHistory y1 :=
+                        unary_transport tailWitness.right.left sameTail
+                      have targetCont : Cont (BHist.e1 x) y1 d :=
+                        cont_hsame_transport (hsame_refl (BHist.e1 x)) sameTail
+                          (hsame_refl d) tailWitness.right.right.right
+                      exact
+                        Or.inr
+                          (Exists.intro y1
+                            (And.intro targetEq
+                              (And.intro tailWitness.left
+                                (And.intro targetCarrier
+                                  (And.intro tailWitness.right.right.left targetCont)))))
 
 theorem MetricDistanceWitness_right_e1_result_iff {x y d : BHist} :
     MetricDistanceWitness x (BHist.e1 y) (BHist.e1 d) ↔ MetricDistanceWitness x y d := by
