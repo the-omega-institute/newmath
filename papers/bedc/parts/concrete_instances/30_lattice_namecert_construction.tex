@@ -232,6 +232,53 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Singleton lattice result-left order carriers]
+\label{thm:lattice-singleton-le-continuation-result-left-carriers}
+For histories $h,k,r:\mathsf{BHist}$ with $\ContR(h,k,r)$, the restricted
+singleton order from the continuation result back to the left input is
+equivalent to both exposed inputs being singleton-carried:
+$$
+\mathsf{LatticeSingletonLE}(r,h)
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads $r\hsame\emp$ from the singleton order endpoint
+fields. The continuation witness identifies $r$ with
+$\mathsf{append}(h,k)$, so empty-append inversion gives
+$h\hsame\emp$ and $k\hsame\emp$.
+
+Conversely, if both exposed inputs are singleton-carried, the continuation
+result is internally the empty endpoint. The empty-endpoint characterization
+of the singleton order then supplies
+$\mathsf{LatticeSingletonLE}(r,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_result\_left\_carriers\_iff}
+
+\begin{theorem}[Singleton lattice result-right order carriers]
+\label{thm:lattice-singleton-le-continuation-result-right-carriers}
+For histories $h,k,r:\mathsf{BHist}$ with $\ContR(h,k,r)$, the restricted
+singleton order from the continuation result back to the right input is
+equivalent to both exposed inputs being singleton-carried:
+$$
+\mathsf{LatticeSingletonLE}(r,k)
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction again projects $r\hsame\emp$ from the singleton order
+endpoint fields. Since the continuation result is the append of $h$ and $k$,
+empty-append inversion exposes both input carriers.
+
+In the reverse direction, the two input carriers force the continuation result
+to be internally empty. The empty-endpoint characterization of
+$\mathsf{LatticeSingletonLE}$ then gives the displayed order comparison
+against the right input.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_result\_right\_carriers\_iff}
+
 \begin{theorem}[Singleton meet--join absorption gives order and classifier data]
 \label{thm:lattice-singleton-meet-join-absorption-order-classifier}
 If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice

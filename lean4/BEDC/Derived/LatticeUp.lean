@@ -296,6 +296,46 @@ theorem LatticeSingletonJoin_least_upper_bound_empty_iff {h k z : BHist} :
       (And.intro zCarrier
         (PreorderPrefixLE_of_hsame (hsame_trans bounds.right.right (hsame_symm zCarrier))))
 
+theorem LatticeSingletonLE_continuation_result_left_carriers_iff {h k r : BHist} :
+    Cont h k r ->
+      (LatticeSingletonLE r h ↔ LatticeSingletonCarrier h ∧ LatticeSingletonCarrier k) := by
+  intro continuation
+  constructor
+  · intro leResult
+    have resultEmpty : hsame r BHist.Empty :=
+      (LatticeSingletonLE_empty_endpoints_iff.mp leResult).left
+    have appendEmpty : append h k = BHist.Empty := by
+      cases continuation
+      exact resultEmpty
+    exact append_eq_empty_iff.mp appendEmpty
+  · intro carriers
+    have resultEmpty : hsame r BHist.Empty := by
+      cases continuation
+      cases carriers.left
+      cases carriers.right
+      rfl
+    exact LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro resultEmpty carriers.left)
+
+theorem LatticeSingletonLE_continuation_result_right_carriers_iff {h k r : BHist} :
+    Cont h k r ->
+      (LatticeSingletonLE r k ↔ LatticeSingletonCarrier h ∧ LatticeSingletonCarrier k) := by
+  intro continuation
+  constructor
+  · intro leResult
+    have resultEmpty : hsame r BHist.Empty :=
+      (LatticeSingletonLE_empty_endpoints_iff.mp leResult).left
+    have appendEmpty : append h k = BHist.Empty := by
+      cases continuation
+      exact resultEmpty
+    exact append_eq_empty_iff.mp appendEmpty
+  · intro carriers
+    have resultEmpty : hsame r BHist.Empty := by
+      cases continuation
+      cases carriers.left
+      cases carriers.right
+      rfl
+    exact LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro resultEmpty carriers.right)
+
 theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
     Cont P Q R -> (LatticeSingletonClassifier P Q <-> LatticeSingletonClassifier R P) := by
   intro continuation

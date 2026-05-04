@@ -379,6 +379,33 @@ $\hsame(out_v,\Ezero(z_v))$ and use the same zero-extension exclusion.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_e0\_endpoint\_absurd}
 
+\begin{theorem}[Rat ledger displayed context empty-endpoint exclusion]
+\label{thm:rat-ledger-cont-unary-context-empty-endpoint-absurd}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuations
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the contextual endpoints, then neither
+displayed endpoint can be internally the empty history:
+$$
+(\hsame(out_\rho,\emp)\to\mathsf{False})\land
+(\hsame(out_v,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-cont-unary-context-positive-denominators} to
+the displayed contextual ledger data. This gives positive unary denominator
+witnesses for both $out_\rho$ and $out_v$.
+
+A positive unary denominator is never internally the empty endpoint. Applying
+that nonempty denominator theorem to each of the two positive witnesses gives
+the two displayed contradictions.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_empty\_endpoint\_absurd}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).
