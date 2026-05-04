@@ -219,52 +219,6 @@ classifier to obtain the stated empty-boundary exposure.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_empty\_component\_exposure}
 
-\begin{theorem}[Product ledger componentwise classifier endpoint equivalence]
-\label{thm:prod-ledger-componentwise-classifier-endpoint-equivalence}
-Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
-$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers, and let $\rho,v:\mathsf{BHist}$. If
-$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then for every
-$w:\mathsf{BHist}$ both public endpoint-replacement clauses hold:
-$$
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)
-\Longleftrightarrow
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(v,w)
-$$
-and
-$$
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)
-\Longleftrightarrow
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,v).
-$$
-The object fit is: traditional target ordered-product ledger endpoint
-replacement at the public componentwise classifier; BEDC source
-$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
-$\mathsf{ProdHistoryCarrier}$ plus displayed $\mathsf{ProdPairRep}$;
-classifier $\mathsf{ProdComponentHistoryClassifier}$; stability by the
-raw-visible ledger classifier and componentwise endpoint transport; ledger
-$\mathsf{ProdHistoryLedgerPolicy}$; core theorem this endpoint equivalence;
-exactness raw and visible endpoint agreement at public component readback;
-standard bridge displayed ordered-pair ledger; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
-witness. Unpacking the resulting raw-visible product classifier gives the
-stored endpoint link $\hsame(\rho,v)$.
-
-For the first displayed clause, the forward implication applies
-Theorem~\ref{thm:prod-component-history-classifier-hsame-transport} with
-$\hsame(\rho,v)$ on the left endpoint and $\hsame$-reflexivity on $w$. The
-reverse implication applies the same transport theorem with
-$\hsame$-symmetry on the stored link and $\hsame$-reflexivity on $w$.
-
-For the second displayed clause, the forward implication applies
-Theorem~\ref{thm:prod-component-history-classifier-hsame-transport} with
-$\hsame$-reflexivity on $w$ and $\hsame(\rho,v)$ on the right endpoint. The
-reverse implication uses $\hsame$-reflexivity on $w$ and $\hsame$-symmetry of
-the stored endpoint link.
-\end{proof}
-
 \begin{theorem}[Product ledger chain transitivity]
 \label{thm:prod-ledger-chain-transitivity}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers. If
