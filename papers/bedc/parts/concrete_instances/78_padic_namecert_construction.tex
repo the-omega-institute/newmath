@@ -385,6 +385,25 @@ scale witness have the same prime base and appended exponent, so
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
 
+\begin{theorem}[Prime scale two unit exponents give prime square]
+\label{thm:padic-prime-scale-append-unit-exponents-result-square}
+If
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),\Eone(\emp)),result)\)
+holds, then the result is history-same to the square append of the prime base:
+$$
+result\hsame \mathsf{append}(p,p).
+$$
+\end{theorem}
+\begin{proof}
+The unit-exponent scale theorem constructs
+\(\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)\) for each of the two exponent
+factors. The concrete continuation \(\ContR(p,p,\mathsf{append}(p,p))\)
+closes these two scales under append continuation. The resulting scale witness
+has the same prime base and appended exponent as the given witness, so
+\(\mathsf{NatMul}\) functionality identifies the displayed results.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_square\_hsame}
+
 \begin{theorem}[Prime scale append factor results unique]
 \label{thm:padic-prime-scale-append-factor-results-unique}
 Let $\mathsf{PadicPrimeScale}(p,w,n)$ and
