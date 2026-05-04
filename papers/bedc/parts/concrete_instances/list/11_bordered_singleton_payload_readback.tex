@@ -26,6 +26,28 @@ direction. The singleton classifier witness reads back exactly the payload
 relation $\hsame(x,y)$.
 \end{proof}
 
+\begin{theorem}[List classifier bordered one-headed singleton payload readback]
+\label{thm:list-classifier-bordered-e1-singleton-payload-readback}
+For finite BEDC-history lists $p$, $p'$, $s$, and $s'$ and histories $x$ and
+$y$, if
+$$
+\mathsf{ListClassifierSpec}(\hsame,p,p'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,s,s'),
+\quad
+\mathsf{ListClassifierSpec}(\hsame,p{++}(\Eone(x)::\mathsf{nil}){++}s,
+p'{++}(\Eone(y)::\mathsf{nil}){++}s')
+$$
+hold, then $\hsame(x,y)$.
+\end{theorem}
+\begin{proof}
+Cancel the classified suffixes from the displayed bordered classifier, then
+cancel the classified prefixes. The remaining singleton classifier identifies
+$\Eone(x)$ with $\Eone(y)$. One-headed constructor exactness reads back
+the payload relation $\hsame(x,y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_bordered\_e1\_singleton\_payload\_readback}
+
 The ten-field fit is: traditional target finite-list singleton payload
 readback; BEDC source $\mathsf{BHist}$; carrier finite BEDC-history spines;
 classifier $\mathsf{ListClassifierSpec}(\hsame,-,-)$; stability from classified

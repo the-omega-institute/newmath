@@ -294,6 +294,43 @@ theorem PadicPrimeScale_append_succ_right_exponent_factorization_iff {p w q r : 
                 exact PadicPrimeScale_append_cont_closure stepData.left rightScale
                   stepData.right.right.right
 
+theorem PadicPrimeScale_append_succ_left_exponent_factorization_iff {p w q r : BHist} :
+    UnaryHistory w -> UnaryHistory q ->
+      (PadicPrimeScale p (append (BHist.e1 w) q) r <->
+        ∃ n : BHist, ∃ e : BHist, ∃ step : BHist,
+          PadicPrimeScale p w n ∧ Cont n p step ∧ PadicPrimeScale p q e ∧
+            Cont step e r) := by
+  intro unaryW unaryQ
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicPrimeScale_append_exponent_decomposition (unary_e1_closed unaryW) unaryQ scale
+    cases decomposed with
+    | intro step stepData =>
+        cases stepData with
+        | intro e eData =>
+            have leftInversion := PadicPrimeScale_succ_exponent_inversion eData.left
+            cases leftInversion with
+            | intro n nData =>
+                exact Exists.intro n
+                  (Exists.intro e
+                    (Exists.intro step
+                      (And.intro nData.left
+                        (And.intro nData.right
+                          (And.intro eData.right.left eData.right.right)))))
+  · intro factors
+    cases factors with
+    | intro n nData =>
+        cases nData with
+        | intro e eData =>
+            cases eData with
+            | intro step stepData =>
+                have leftScale : PadicPrimeScale p (BHist.e1 w) step :=
+                  Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
+                    (Exists.intro n (And.intro stepData.left stepData.right.left))
+                exact PadicPrimeScale_append_cont_closure leftScale stepData.right.right.left
+                  stepData.right.right.right
+
 theorem PadicPrimeScale_append_unit_right_factorization_iff {p w r : BHist} :
     UnaryHistory w ->
       (PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r <->

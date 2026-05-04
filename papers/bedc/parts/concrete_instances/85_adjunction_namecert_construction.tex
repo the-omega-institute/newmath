@@ -498,6 +498,27 @@ unit law.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
 
+\begin{theorem}[Adjunction roundtrip empty component-prefix readback]
+\label{thm:adjunction-triangle-roundtrip-empty-component-prefix-readback}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier whose two roundtrip legs are
+$\hsame$ to $\emp$ has empty displayed components and equal endpoint prefixes:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(leftLeg,\emp)\Longrightarrow
+\hsame(rightLeg,\emp)\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+The roundtrip emptiness component exactness theorem reads the two empty legs
+back to empty $unit$ and $counit$ components. The empty roundtrip prefix
+determinacy theorem applied to the same carrier and leg witnesses identifies
+the two endpoint prefixes.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_component\_prefix\_readback}
+
 \section{The certificate}
 \label{sec:adjunction-certificate}
 
