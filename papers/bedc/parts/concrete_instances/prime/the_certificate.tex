@@ -94,6 +94,20 @@ By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{N
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplicand\_hsame\_transport}
 
+\begin{lemma}[Unary multiplication transports along the multiplier]
+\label{lem:natmul-multiplier-hsame-transport}
+Let $d,q,n$ be unary multiplication histories, and let $q'$ be a history with
+$q\hsame q'$. If $\mathsf{NatMul}(d,q,n)$, then $q'$ is unary and
+$\mathsf{NatMul}(d,q',n)$.
+\end{lemma}
+\begin{proof}
+Case-analyze the displayed history-sameness $q\hsame q'$. In the reflexive
+case the original multiplication witness already has multiplier $q'$, and the
+right-unary theorem for $\mathsf{NatMul}$ supplies the unary witness for that
+multiplier.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplier\_hsame\_transport}
+
 \begin{lemma}[Unary multiplication successor result-continuation transport]
 \label{lem:nat-mul-succ-result-cont-transport}
 Let $d,q,n$ be unary histories, and let $n'$ be a history with $n\hsame n'$. If $\mathsf{NatMul}(d,\Eone(q),n)$, then there is a predecessor product $p$ with $\mathsf{NatMul}(d,q,p)$ and $\Cont(p,d,n')$.

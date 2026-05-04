@@ -60,6 +60,12 @@ theorem NatMul_result_hsame_transport {d q n n' : BHist} :
       exact And.intro (NatMul_left_unary previous)
         (NatMul.succ previous (cont_result_hsame_transport step sameResult))
 
+theorem NatMul_multiplier_hsame_transport {d q q' n : BHist} :
+    NatMul d q n -> hsame q q' -> UnaryHistory q' ∧ NatMul d q' n := by
+  intro mul sameMultiplier
+  cases sameMultiplier
+  exact And.intro (NatMul_right_unary mul) mul
+
 theorem NatDivides_divisor_hsame_transport {d d' n : BHist} :
     NatDivides d n -> hsame d d' -> UnaryHistory d' ∧ NatDivides d' n := by
   intro divides sameD
