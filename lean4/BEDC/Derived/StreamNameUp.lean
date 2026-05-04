@@ -1,4 +1,5 @@
 import BEDC.Derived.RatUp
+import BEDC.Derived.RatUp.HistoryClassifier
 
 namespace BEDC.Derived.StreamNameUp
 
@@ -344,5 +345,21 @@ theorem RatStreamName_constant_point_exactness {h k : BHist} :
             | e1 _ => exact ratClassifier))
   exact And.intro (hsame_refl h)
     (And.intro (hsame_refl k) (And.intro carrierH classifierHK))
+
+theorem RatStreamNameClassifier_unary_context_e1_pair_readback
+    {s t : BHist -> BHist}
+    {n prefS prefT tailS tailT midS midT outS outT leftTail rightTail : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory n -> UnaryHistory prefS ->
+      hsame prefS prefT -> UnaryHistory tailS -> hsame tailS tailT ->
+        Cont prefS (s n) midS -> Cont midS tailS outS ->
+          Cont prefT (t n) midT -> Cont midT tailT outT ->
+            hsame outS (BHist.e1 leftTail) -> hsame outT (BHist.e1 rightTail) ->
+              UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail := by
+  intro classified nUnary prefUnary prefSame tailUnary tailSame prefSCont outSCont
+    prefTCont outTCont sameLeft sameRight
+  have pointClassified : RatHistoryClassifier (s n) (t n) :=
+    classified.right.right n nUnary
+  exact RatHistoryClassifier_cont_unary_context_e1_pair_readback pointClassified prefUnary
+    prefSame tailUnary tailSame prefSCont outSCont prefTCont outTCont sameLeft sameRight
 
 end BEDC.Derived.StreamNameUp
