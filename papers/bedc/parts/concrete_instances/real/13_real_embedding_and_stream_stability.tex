@@ -99,6 +99,50 @@ Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-packag
 Exactness: the displayed four-part conjunction. Standard bridge: finite
 rational prefix agreement. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream finite-prefix endpoint denominator package]
+\label{thm:real-stream-classifier-finite-prefix-endpoint-denominator-package}
+For rational-observation streams \(x,y,z:\mathbb{N}\to\Hist\) and prefix index
+\(n\), if
+$$
+\forall i,\ \mathsf{RatHistoryCarrier}(x(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{RealStreamClassifier}(y,z),
+$$
+then the selected finite prefixes and endpoint carry the denominator package:
+$$
+\begin{gathered}
+\mathsf{RealStreamPrefixClassifier}(x,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(y,x,n)
+\land
+\mathsf{RealStreamPrefixClassifier}(x,z,n)
+\land
+\mathsf{RatHistoryClassifier}(x(n),z(n))\\
+\land\ \mathsf{PositiveUnaryDenominator}(x(n))
+\land
+\mathsf{PositiveUnaryDenominator}(z(n))
+\land
+\mathsf{UnaryHistory}(x(n))
+\land
+\mathsf{UnaryHistory}(z(n))\\
+\land\ (\hsame(x(n),\emp)\to\mathsf{False})
+\land
+(\hsame(z(n),\emp)\to\mathsf{False}).
+\end{gathered}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_finite\_prefix\_endpoint\_denominator\_package}
+\begin{proof}
+Use finite-prefix reflexivity on the carrier row for \(x\), use
+\(\mathsf{RealStreamClassifier}(x,y)\) to obtain the \(x,y\) prefix and
+symmetrize it to the \(y,x\) prefix, and compose the \(x,y\) and \(y,z\)
+prefixes to obtain the \(x,z\) prefix. Endpoint projection gives
+\(\mathsf{RatHistoryClassifier}(x(n),z(n))\). The rational-history classifier
+supplies positive denominator witnesses for both endpoints, and the positive
+denominator readback gives unary membership together with exclusion of
+\(\emp\).
+\end{proof}
+
 \begin{theorem}[Real stream prefix truncation endpoint denominator package]
 \label{thm:real-stream-prefix-truncated-positive-denominator-package}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if

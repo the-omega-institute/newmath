@@ -105,6 +105,27 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntPairCarrier}
 
+\begin{theorem}[Integer difference-pair carrier magnitude-pair induction]
+\label{thm:int-pair-carrier-magnitude-pair-induction}
+Let \(P\) be a predicate on two history magnitudes. If \(P(\emp,\emp)\)
+holds, if \(P(p,n)\) is preserved by replacing the positive component with
+\(\Eone(p)\) whenever both components are unary, and if \(P(p,n)\) is preserved
+by replacing the negative component with \(\Eone(n)\) whenever both components
+are unary, then every carried integer difference-pair satisfies \(P\):
+$$
+\mathsf{IntPairCarrier}(p,n)\Longrightarrow P(p,n).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntPairCarrier\_magnitude\_pair\_induction}
+\begin{proof}
+Unpack \(\mathsf{IntPairCarrier}(p,n)\) into unary witnesses for both
+components. First apply unary-history induction to the negative component to
+derive \(P(\emp,n)\) from the base case and the negative-component step. Then
+apply unary-history induction to the positive component. At each positive
+successor, use the positive-component step with the current positive unary
+witness, the fixed negative unary witness, and the induction hypothesis.
+\end{proof}
+
 \begin{definition}[Integer difference-pair classifier]
 \label{def:intup-difference-pair-classifier}
 Two carried unary pairs classify together when their cross-additions are
