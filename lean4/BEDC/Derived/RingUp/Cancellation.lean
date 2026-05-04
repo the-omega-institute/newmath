@@ -1,4 +1,5 @@
 import BEDC.Derived.RingUp
+import BEDC.Derived.AbGroupUp
 
 namespace BEDC.Derived.RingUp
 
@@ -47,5 +48,25 @@ theorem ring_additive_difference_zero_exact {add : BHist -> BHist -> BHist}
       addRightInverse sameProducts
   · intro sameXY
     exact hsame_trans (addCongr sameXY (hsame_refl (neg y))) (addRightInverse y)
+
+theorem ring_neg_add {add : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b')) :
+    forall x y : BHist, hsame (neg (add x y)) (add (neg x) (neg y)) := by
+  have addRightZero : forall x : BHist, hsame (add x BHist.Empty) x := by
+    exact ring_add_right_zero addComm zeroLeft
+  have addRightInverse : forall x : BHist, hsame (add x (neg x)) BHist.Empty := by
+    exact ring_add_right_inverse addComm negLeft
+  intro x y
+  have pairRightInverse :
+      hsame (add (add x y) (add (neg x) (neg y))) BHist.Empty := by
+    exact BEDC.Derived.AbGroupUp.abgroup_mul_inverse_pair_collapse
+      addAssoc addComm addRightZero addCongr addRightInverse x y
+  exact BEDC.Derived.GroupUp.group_left_right_inverse_uniqueness
+    addAssoc zeroLeft addRightZero addCongr (negLeft (add x y)) pairRightInverse
 
 end BEDC.Derived.RingUp

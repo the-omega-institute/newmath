@@ -232,6 +232,28 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Singleton lattice classifier continuation result-right iff]
+\label{thm:lattice-singleton-classifier-continuation-result-right}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the singleton
+lattice classifier relates $P$ and $Q$ exactly when it relates the
+continuation result $R$ to $Q$:
+$$
+\mathsf{LatticeSingletonClassifier}(P,Q)
+\Longleftrightarrow
+\mathsf{LatticeSingletonClassifier}(R,Q).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction uses the singleton carriers of $P$ and $Q$ to transport
+the continuation result to the right-unit continuation at $\emp$, so $R$ is
+singleton-carried and compares with $Q$ through $\emp$. For the reverse
+direction, the result-right classifier identifies $R$ with $\emp$; transporting
+the continuation to empty result and applying empty-result inversion recovers
+the singleton carrier witnesses for both inputs, and hence the input
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_right\_iff}
+
 \begin{theorem}[Singleton lattice result-left order carriers]
 \label{thm:lattice-singleton-le-continuation-result-left-carriers}
 For histories $h,k,r:\mathsf{BHist}$ with $\ContR(h,k,r)$, the restricted

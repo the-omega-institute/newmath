@@ -169,6 +169,21 @@ theorem LinearMapSingletonEval_append_input_classifier_iff {f x y h : BHist} :
     exact And.intro (hsame_refl BHist.Empty)
       (And.intro carrierH (hsame_symm carrierH))
 
+theorem LinearMapSingletonEval_append_context_classifier_iff {p f x h : BHist} :
+    LinearMapSingletonClassifier (append p (LinearMapSingletonEval f x)) h ↔
+      LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier h := by
+  constructor
+  · intro classified
+    have leftSplit := append_eq_empty_iff.mp classified.left
+    exact And.intro leftSplit.left classified.right.left
+  · intro carriers
+    have evalCarrier : LinearMapSingletonCarrier (LinearMapSingletonEval f x) :=
+      hsame_refl BHist.Empty
+    have appendCarrier : LinearMapSingletonCarrier (append p (LinearMapSingletonEval f x)) :=
+      append_eq_empty_iff.mpr (And.intro carriers.left evalCarrier)
+    exact And.intro appendCarrier
+      (And.intro carriers.right (hsame_trans appendCarrier (hsame_symm carriers.right)))
+
 theorem LinearMapSingleton_laws :
     SemanticNameCert LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonCarrier LinearMapSingletonClassifier ∧
       LinearMapSingletonCarrier BHist.Empty ∧
@@ -365,6 +380,36 @@ theorem LinearMapSingletonEval_continuation_visible_target_classifier_absurd
   · intro classified
     have readback := (LinearMapSingletonEval_continuation_classifier_iff evalCont).mp classified
     exact not_hsame_e1_empty readback.right
+
+theorem LinearMapSingletonEval_continuation_append_target_carrier_iff {f x y p q : BHist} :
+    Cont (LinearMapSingletonEval f x) y (append p q) ->
+      (LinearMapSingletonCarrier y ↔
+        LinearMapSingletonCarrier p ∧ LinearMapSingletonCarrier q) := by
+  intro evalCont
+  constructor
+  · intro carrierY
+    have appendCarrier : LinearMapSingletonCarrier (append p q) :=
+      hsame_trans evalCont (hsame_trans (append_empty_left y) carrierY)
+    exact append_eq_empty_iff.mp appendCarrier
+  · intro carriers
+    have appendCarrier : LinearMapSingletonCarrier (append p q) :=
+      append_eq_empty_iff.mpr carriers
+    exact
+      hsame_trans (hsame_symm (append_empty_left y))
+        (hsame_trans (hsame_symm evalCont) appendCarrier)
+
+theorem LinearMapSingletonEval_continuation_visible_result_absurd {f x y p : BHist} :
+    LinearMapSingletonCarrier y ->
+      (Cont (LinearMapSingletonEval f x) y (BHist.e0 p) -> False) ∧
+        (Cont (LinearMapSingletonEval f x) y (BHist.e1 p) -> False) := by
+  intro carrierY
+  constructor
+  · intro evalCont
+    exact not_hsame_e0_empty
+      (hsame_trans evalCont (hsame_trans (append_empty_left y) carrierY))
+  · intro evalCont
+    exact not_hsame_e1_empty
+      (hsame_trans evalCont (hsame_trans (append_empty_left y) carrierY))
 
 theorem LinearMapSingletonEval_visible_target_classifier_absurd {f x p : BHist} :
     (LinearMapSingletonClassifier (LinearMapSingletonEval f x) (BHist.e0 p) -> False) ∧
