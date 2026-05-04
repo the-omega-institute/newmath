@@ -151,6 +151,20 @@ Induct on \(m\). At \(m=0\), the displayed prefix is the target prefix and the u
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_previous\_with\_unary}
 
+\begin{lemma}[Real stream prefix add-left previous classifier with right unary anchor]
+\label{lem:real-stream-prefix-add-left-previous-with-right-unary}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if every right observation $y(i)$ is unary, then any prefix classified through $m+n$ descends to the prefix classified through $n$, while retaining the unary anchor at $y(n)$:
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n)
+\Longrightarrow
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\wedge \mathsf{UnaryHistory}(y(n)).
+$$
+\end{lemma}
+\begin{proof}
+Apply symmetry of the finite-prefix classifier to read the prefix as a classifier from $y$ to $x$. Then apply the add-left previous theorem with unary anchors on the left stream $y$. The recovered prefix is finally symmetrized back to a classifier from $x$ to $y$, while the unary endpoint anchor remains $y(n)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_add\_left\_previous\_with\_right\_unary}
+
 \begin{theorem}[Real stream finite-prefix exactness]
 \label{thm:real-stream-finite-prefix-exactness}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$,
