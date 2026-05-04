@@ -548,6 +548,27 @@ theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
         (And.intro leftRows.left
           (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
 
+theorem RealStreamClassifier_transport_selected_e0_endpoint_absurd
+    {x x' y y' : Nat -> BHist} {n : Nat} {zx zy : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          (hsame (x' n) (BHist.e0 zx) -> False) ∧
+            (hsame (y' n) (BHist.e0 zy) -> False) := by
+  intro sameX sameY classified
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) (classified n)
+  have positives :
+      PositiveUnaryDenominator (x' n) ∧ PositiveUnaryDenominator (y' n) :=
+    RatHistoryClassifier_positive_denominators transported
+  constructor
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.left)
+  · intro sameZero
+    exact PositiveUnaryDenominator_e0_absurd
+      (PositiveUnaryDenominator_hsame_transport sameZero positives.right)
+
 theorem RealStreamClassifier_transported_selected_e1_full_readback_package
     {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
     (forall i : Nat, hsame (x i) (x' i)) ->

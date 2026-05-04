@@ -374,6 +374,32 @@ $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
 fields of the package.
 \end{proof}
 
+\begin{theorem}[Real stream transported selected zero-endpoint exclusion]
+\label{thm:real-stream-classifier-transport-selected-e0-endpoint-absurd}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and a
+selected index $n$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+then neither transported selected endpoint can be displayed as a
+zero-extension endpoint:
+$$
+(\hsame(x'(n),\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Transport the pointwise rational-history classifier at index $n$ along the
+two streamwise $\hsame$ hypotheses. The transported classifier exposes
+positive unary denominator witnesses at $x'(n)$ and $y'(n)$. If either
+endpoint is displayed as $\Ezero$, transport the corresponding positive
+denominator witness to that zero-extension endpoint and apply the rational
+positive-denominator zero-endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Real stream classifier hsame one-tail pair readback]
 \label{thm:real-stream-classifier-hsame-e1-pair-readback}
 For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume

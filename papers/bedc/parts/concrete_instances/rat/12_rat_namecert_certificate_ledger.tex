@@ -139,6 +139,27 @@ second raw-visible classifier by rational classifier transitivity.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_raw\_visible\_classifier}
 
+\begin{theorem}[Rat ledger shared visible zero-extension exclusion]
+\label{thm:rat-ledger-shared-visible-zero-extension-exclusion}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, then neither visible
+denominator endpoint can be displayed as a zero-extension endpoint:
+$$
+(\hsame(v,\Ezero(z))\to\mathsf{False})\land
+(\hsame(v',\Ezero(z'))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Use the shared-raw visible classifier to obtain
+$\mathsf{RatHistoryClassifier}(v,v')$. If $v$ is displayed as $\Ezero(z)$,
+transport the left endpoint of this classifier to obtain a rational classifier
+with zero-extension source, which contradicts rational classifier
+zero-extension endpoint exclusion. The visible endpoint $v'$ is identical:
+transport the right endpoint to $\Ezero(z')$ and apply the right branch of the
+same exclusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_shared\_visible\_e0\_endpoint\_absurd}
+
 \begin{theorem}[Rat ledger shared-raw contextual visible classifier]
 \label{thm:rat-history-ledger-shared-raw-context-visible-classifier}
 If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and

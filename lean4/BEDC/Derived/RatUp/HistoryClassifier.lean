@@ -390,6 +390,26 @@ theorem RatHistoryLedgerPolicy_shared_raw_visible_classifier {raw visible visibl
     (RatHistoryClassifier_symm (RatHistoryLedgerPolicy_raw_visible_classifier leftLedger))
     (RatHistoryLedgerPolicy_raw_visible_classifier rightLedger)
 
+theorem RatHistoryLedgerPolicy_shared_visible_e0_endpoint_absurd
+    {raw visible visible' z z' : BHist} :
+    RatHistoryLedgerPolicy raw visible -> RatHistoryLedgerPolicy raw visible' ->
+      (hsame visible (BHist.e0 z) -> False) ∧
+        (hsame visible' (BHist.e0 z') -> False) := by
+  intro leftLedger rightLedger
+  have classified : RatHistoryClassifier visible visible' :=
+    RatHistoryLedgerPolicy_shared_raw_visible_classifier leftLedger rightLedger
+  constructor
+  · intro sameZero
+    have displayed : RatHistoryClassifier (BHist.e0 z) visible' :=
+      RatHistoryClassifier_hsame_transport sameZero (hsame_refl visible') classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z)
+      (d := visible')).left displayed
+  · intro sameZero
+    have displayed : RatHistoryClassifier visible (BHist.e0 z') :=
+      RatHistoryClassifier_hsame_transport (hsame_refl visible) sameZero classified
+    exact (RatHistoryClassifier_zero_extension_endpoint_exclusion (tail := z')
+      (d := visible)).right displayed
+
 theorem RatHistoryLedgerPolicy_visible_positive_denominator_readback
     {raw visible tail : BHist} :
     RatHistoryLedgerPolicy raw visible → hsame visible (BHist.e1 tail) → UnaryHistory tail := by
