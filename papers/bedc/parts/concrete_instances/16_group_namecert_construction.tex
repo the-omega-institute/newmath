@@ -597,6 +597,52 @@ branches without any additional classifier data.
 \end{proof}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_context\_visible\_middle\_absurd}
 
+\begin{theorem}[Group singleton two-sided contextual visible middle exclusion]
+\label{thm:group-singleton-two-sided-contextual-visible-middle-absurd}
+For histories $L,R,L',R',p,q,M:\mathsf{BHist}$, if $A_{\emp}(L)$,
+$A_{\emp}(R)$, $A_{\emp}(L')$, and $A_{\emp}(R')$, then visible middle
+endpoints remain impossible after hidden prefix and suffix contexts:
+$$
+\begin{array}{l}
+\bigl(R_{\emp}(\mathsf{append}(\mathsf{append}(L,\Ezero(p)),L'),
+\mathsf{append}(\mathsf{append}(R,M),R'))\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(\mathsf{append}(L,\Eone(p)),L'),
+\mathsf{append}(\mathsf{append}(R,M),R'))\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(\mathsf{append}(L,M),L'),
+\mathsf{append}(\mathsf{append}(R,\Ezero(q)),R'))\to \mathsf{False}\bigr)\land\\
+\bigl(R_{\emp}(\mathsf{append}(\mathsf{append}(L,M),L'),
+\mathsf{append}(\mathsf{append}(R,\Eone(q)),R'))\to \mathsf{False}\bigr).
+\end{array}
+$$
+The ten-field fit is: traditional target terminal-group visible-endpoint
+exclusion under hidden two-sided singleton contexts; BEDC source concrete
+singleton $\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier
+$R_{\emp}$; stability by right-context cancellation followed by prefix-context
+visible-middle exclusion; ledger prefix contexts $L,R$, suffix contexts
+$L',R'$, neutral middle witness $M$, and visible endpoint witnesses $p,q$; core
+theorem list \autoref{thm:group-singleton-classifier-right-context-cancel} and
+\autoref{thm:group-singleton-classifier-append-context-visible-middle-absurd};
+exactness predicate the four displayed contradictions; standard bridge the
+terminal group has no visible middle endpoint under hidden contexts; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Start with any one of the four displayed classifier antecedents. Apply
+\autoref{thm:group-singleton-classifier-right-context-cancel} with the suffix
+carrier witnesses $A_{\emp}(L')$ and $A_{\emp}(R')$. This removes the right
+contexts and reduces the antecedent to the corresponding classifier without the
+outer suffixes.
+
+For the first two reduced classifiers, use the left-middle clauses of
+\autoref{thm:group-singleton-classifier-append-context-visible-middle-absurd}
+with the prefix carrier witnesses $A_{\emp}(L)$ and $A_{\emp}(R)$. They rule
+out the exposed $\Ezero(p)$ and $\Eone(p)$ endpoints.
+
+For the last two reduced classifiers, use the right-middle clauses of the same
+theorem with the same prefix carrier witnesses. They rule out the exposed
+$\Ezero(q)$ and $\Eone(q)$ endpoints, completing the four contradictions.
+\end{proof}
+
 \section{Singleton two-sided product-unit exactness}
 \label{sec:group-singleton-two-sided-product-unit-exactness}
 

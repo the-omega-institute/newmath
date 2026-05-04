@@ -338,9 +338,9 @@ equivalence for $\mathsf{gt}_{\mathsf{u}}$.
 \end{proof}
 
 \begin{theorem}[Concrete unary successor strict branch under two-sided context]
-\label{thm:totalorder-successor-two-sided-context-strict}
-Let $\ell,h,r$ be carried unary histories in
-$\mathsf{Carrier}_{\mathsf{u}}$, and set
+\label{thm:concrete-unary-prefix-totalorder-successor-two-sided-context-strict}
+For carried unary histories $\ell,h,r$ in
+$\mathsf{Carrier}_{\mathsf{u}}$, set
 $$
 H:=\mathsf{append}(\ell,\mathsf{append}(h,r)),
 \qquad
@@ -349,54 +349,53 @@ $$
 Then $H$ and $K$ are carried by $\mathsf{Carrier}_{\mathsf{u}}$, and the
 contextual successor pair satisfies
 $$
-\mathsf{NatUnaryStrictPrefix}(H,K).
+\mathsf{lt}_{\mathsf{u}}(H,K).
 $$
 Moreover,
 $$
-\rho_{\mathsf{u}}(H,K)\to\mathsf{False}
+\mathsf{same}_{\mathsf{u}}(H,K)\to\mathsf{False}
 \qquad
 \text{and}
 \qquad
-\mathsf{NatUnaryStrictPrefix}(K,H)\to\mathsf{False}.
+\mathsf{gt}_{\mathsf{u}}(H,K)\to\mathsf{False}.
 $$
 
-The per-object fields are: traditional target one-step successor separation
-stable under two-sided unary contexts; BEDC source $\mathsf{BHist}$,
-$\mathsf{UnaryHistory}$, $\mathsf{append}$, $\Eone$, and
-$\mathsf{NatUnaryStrictPrefix}$; carrier $\mathsf{Carrier}_{\mathsf{u}}$;
-classifier $\rho_{\mathsf{u}}$; ledger left context $\ell$, right context $r$,
-and visible tail $\Eone(\emp)$; core theorem this block; exactness the two
-excluded non-selected branches; status $\mathsf{ProofTarget}$.
+The per-object fields are: traditional target context-stable one-step successor
+separation; BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, $\Eone$, $\mathsf{lt}_{\mathsf{u}}$,
+$\mathsf{same}_{\mathsf{u}}$, and $\mathsf{gt}_{\mathsf{u}}$; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; ledger common
+two-sided context $(\ell,r)$ plus tail $\Eone(\emp)$; core theorem this
+two-sided contextual successor strict-branch law; exactness the exclusion of
+same and reverse-strict branches; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Apply
 \autoref{thm:concrete-unary-prefix-totalorder-successor-strict} to the carried
-history $h$. This gives the carried successor $\Eone(h)$, the base strict
-branch $\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$, and the two base exclusions
-for $\rho_{\mathsf{u}}(h,\Eone(h))$ and
-$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$.
+history $h$. This gives the carried successor $\Eone(h)$, the base branch
+$\mathsf{lt}_{\mathsf{u}}(h,\Eone(h))$, and the two base exclusions
+$\mathsf{same}_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}$ and
+$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))\to\mathsf{False}$.
 
-Apply
-\autoref{thm:totalorder-branch-two-sided-context-equivalence} with
-$k=\Eone(h)$ and the common contexts $\ell$ and $r$. Its carrier row gives the
-displayed carrier facts for $H$ and $K$.
+Instantiate
+\autoref{thm:totalorder-branch-two-sided-context-equivalence} with the carried
+quadruple $h,\Eone(h),\ell,r$. Its carrier conclusion gives that the displayed
+$H$ and $K$ are carried unary histories.
 
-The strict-left equivalence transports the base branch
-$\mathsf{NatUnaryStrictPrefix}(h,\Eone(h))$ to
-$\mathsf{NatUnaryStrictPrefix}(H,K)$.
+Use the right-to-left direction of the strict-left branch equivalence from the
+same theorem. Transporting the base successor branch
+$\mathsf{lt}_{\mathsf{u}}(h,\Eone(h))$ through the common context
+$(\ell,r)$ gives $\mathsf{lt}_{\mathsf{u}}(H,K)$.
 
-For the same-branch exclusion, a witness of $\rho_{\mathsf{u}}(H,K)$ is a
-witness of $\mathsf{same}_{\mathsf{u}}(H,K)$. The same-branch equivalence sends
-it back to $\mathsf{same}_{\mathsf{u}}(h,\Eone(h))$, hence to
-$\rho_{\mathsf{u}}(h,\Eone(h))$, which is excluded by the base successor
-strict-branch theorem.
+For a same-branch witness at the contextual endpoints, use the left-to-right
+direction of the same-branch equivalence to obtain
+$\mathsf{same}_{\mathsf{u}}(h,\Eone(h))$. The base same-branch exclusion then
+returns $\mathsf{False}$.
 
-For the reverse strict branch, unfold
-$\mathsf{gt}_{\mathsf{u}}(H,K)$ as $\mathsf{NatUnaryStrictPrefix}(K,H)$. The
-strict-right equivalence sends any such witness back to
-$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))$, namely
-$\mathsf{NatUnaryStrictPrefix}(\Eone(h),h)$, and the base successor
-strict-branch theorem excludes it.
+For a reverse strict-branch witness at the contextual endpoints, use the
+left-to-right direction of the strict-right branch equivalence to obtain
+$\mathsf{gt}_{\mathsf{u}}(h,\Eone(h))$. The base reverse-branch exclusion then
+returns $\mathsf{False}$.
 \end{proof}
 
 \begin{theorem}[Concrete unary prefix $\TotalOrderUp$ naming certificate]
