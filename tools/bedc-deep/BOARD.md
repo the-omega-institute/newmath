@@ -4301,3 +4301,56 @@ The opposite natural transformation is already certified at def:opposite-nattran
 
 ---
 
+### B-168 - Polynomial evaluation respects the polynomial classifier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation respects the polynomial classifier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CommRingUp(R) setup with a polynomial-evaluation operation Eval_alpha at a point alpha:R, PolySame_R(p,q) implies Eval_alpha,R(p) ~_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+All existing polynomial BOARD entries (B-09, B-21, B-22, B-30, B-31) and the chapter 25 paper coverage operate purely on the coefficient-list side: trim, normalize, raw add/multiply, zero-tail invariance. None of them carry the polynomial classifier through to a value in R. This is the natural representative-stability theorem for any evaluation map: classifier-equal coefficient lists must produce ring-classifier-equal values under any well-defined Eval. It is the one-line implication form, sits cleanly in concrete_instances/25, and unblocks any later theorem that wants to reason about polynomial roots, identities, or specializations through the certificate. It is also a prerequisite for candidate 2 (multiplicativity of Eval), giving it independent value as a foundation rather than redundancy.
+
+---
+
+
+### B-169 - Polynomial evaluation is multiplicative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Polynomial evaluation is multiplicative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CommRingUp(R) setup with polynomial multiplication PolyMul_R and evaluation Eval_alpha at a point alpha:R, Eval_alpha,R(PolyMul_R(p,q)) ~_R Eval_alpha,R(p) *_R Eval_alpha,R(q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+The multiplicativity-of-evaluation law is the canonical compatibility theorem between Cauchy convolution on coefficient lists and ring multiplication on values. None of the existing BOARD polynomial entries cover this — B-09 stays at normalize/add/multiply commutation on the list side, and B-22/B-30/B-31 deal with zero-tail/trim. Paper coverage shows no eval-multiplicative label. It is a single classifier-level implication, sits in concrete_instances/25, and is the kind of structural law downstream targets (factor theorem, root counting, resultants) would expect. Novelty is slightly lower than candidate 1 because the two are in the same evaluation cluster, but the proof obligations are genuinely distinct — multiplicativity needs finite-sum manipulation through ring distributivity, which the classifier-respect theorem does not.
+
+---
+
