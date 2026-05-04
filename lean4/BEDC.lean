@@ -132,6 +132,7 @@ import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.PairRepresentation
 import BEDC.Derived.ProdUp.Typed
+import BEDC.Derived.ProdUp.EmptyLeftComponent
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.ComplexAnalyticUp
 import BEDC.Derived.ComplexDiffUp
@@ -379,6 +380,7 @@ import BEDC.Derived.MetricUp.ContDepthAdd
 import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetricUp.PrefixIndependentSymmetric
 import BEDC.Derived.MetricUp.HsameDeterminism
+import BEDC.Derived.MetricUp.AppendCommPackage
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
