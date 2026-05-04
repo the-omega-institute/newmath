@@ -68,6 +68,27 @@ theorem CplxDiffAt_witness_nonzero_unary_step {f z fp : BHist} :
                                 (And.intro quotient
                                   (And.intro ledger quotientClass))))))
 
+theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
+    CplxDiffAt f z fp -> CplxDiffQuot f z (BHist.e0 p) out0 ->
+      CplxDiffQuot f z (BHist.e1 q) out1 -> False := by
+  intro diff leftQuot rightQuot
+  cases diff with
+  | intro _functionCarrier diffRest =>
+      cases diffRest with
+      | intro _pointCarrier diffRest =>
+          cases diffRest with
+          | intro _derivativeCarrier diffRest =>
+              cases diffRest with
+              | intro _witness classifier =>
+                  have sameLeft : hsame out0 fp := classifier leftQuot
+                  have sameRight : hsame out1 fp := classifier rightQuot
+                  have sameRightLeft : hsame out1 out0 :=
+                    hsame_trans sameRight (hsame_symm sameLeft)
+                  have rightAtLeft : CplxDiffQuot f z (BHist.e1 q) out0 :=
+                    (CplxDiffQuot_hsame_transport (hsame_refl f) (hsame_refl z)
+                      (hsame_refl (BHist.e1 q)) sameRightLeft rightQuot).left
+                  exact CplxDiffQuot_visible_step_same_result_absurd leftQuot rightAtLeft
+
 theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f f' -> hsame z z' -> hsame fp gp ->
       CplxDiffAt f' z' gp ∧

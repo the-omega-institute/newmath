@@ -184,6 +184,21 @@ $left$ with $h$ and then combines that result with $right$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_empty\_iff}
 
+\begin{theorem}[Cohomology cocycle continuation context e1 boundary empty absurd]
+\label{thm:cohomology-cocycle-continuation-context-e1-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$\Cont(left,h,mid)$ and $\Cont(mid,right,r)$ form a two-sided continuation
+context, any visible $\Eone$ boundary among $d(left)$, $d(h)$, and $d(right)$
+contradicts $d(r)\hsame\emp$.
+\end{theorem}
+\begin{proof}
+The continuation-context empty equivalence decomposes $d(r)\hsame\emp$ into
+empty witnesses for $d(left)$, $d(h)$, and $d(right)$. In each visible boundary
+case, symmetry and transitivity give an $\Eone$ history $\hsame\emp$, forbidden
+by constructor disjointness.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_e1\_boundary\_empty\_absurd}
+
 \begin{theorem}[Cohomology cocycle core append hsame transport]
 \label{thm:cohomology-cocycle-core-append-hsame-transport}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
@@ -266,6 +281,18 @@ $d(h)\hsame\emp$. Together with the visible boundary hypothesis this identifies
 $\Eone(t)$ with $\emp$, contradicting BEDC constructor no-confusion.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_left\_e1\_boundary\_empty\_absurd}
+
+\begin{theorem}[Cohomology visible left boundary excludes appended cycle]
+\label{thm:cohomology-cocycle-append-left-visible-boundary-empty-absurd}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$. If
+$d(h)$ is $\hsame$ to either $\Ezero(t)$ or $\Eone(t)$, then
+$d(h\cdot k)\hsame\emp$ is impossible.
+\end{theorem}
+\begin{proof}
+Append preservation and append-empty inversion force $d(h)\hsame\emp$; either
+visible constructor case contradicts BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_append\_left\_visible\_boundary\_empty\_absurd}
 
 \begin{theorem}[Cohomology visible right boundary excludes appended cycle]
 \label{thm:cohomology-cocycle-append-right-e1-boundary-empty-absurd}
