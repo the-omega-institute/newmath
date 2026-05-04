@@ -286,6 +286,26 @@ separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_same\_quotient\_absurd}
 
+\begin{theorem}[Visible derivative quotient steps cannot share hsame quotients]
+\label{thm:derivative-metric-quotient-visible-step-hsame-quotient-absurd}
+If
+$$
+out\hsame out',
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Ezero(p),out,dist_0),
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Eone(q),out',dist_1),
+$$
+then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the second derivative metric quotient along the quotient classifier
+so that both witnesses have quotient $out$. The same-quotient visible-step
+separation theorem then identifies $\Ezero(p)$ with $\Eone(q)$, contradicting
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_hsame\_quotient\_absurd}
+
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}
 If \(\mathsf{CplxDiffAt}(f,z,f')\) holds, then it contains histories \(h\) and
