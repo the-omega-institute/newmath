@@ -1,0 +1,233 @@
+\chapter{A Concrete Naming Certificate for $\QuotientGroupUp$}
+\label{ch:concrete-instances-quotientgroup-namecert}
+
+The quotient-group interface $\QuotientGroupUp$ packages the carrier of cosets of a normal subgroup of a group. It depends on $\NameCert_{\SubgroupUp}$ (\autoref{ch:concrete-instances-subgroup-namecert}) plus the normality witness, and produces a $\psame$-classifier on cosets without invoking host-level $\Quot$-soundness.
+
+\section{Carrier definition}
+\label{sec:quotientgroup-carrier}
+
+\begin{definition}[QuotientGroup singleton carrier]
+\label{def:quotientgroup-singleton-carrier}
+For the concrete singleton quotient-group object over histories, the carrier is
+the empty-history class
+$$
+Q_{\emp}(h)\Longleftrightarrow \hsame(h,\emp).
+$$
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonCarrier}
+
+\begin{definition}[QuotientGroup singleton classifier]
+\label{def:quotientgroup-singleton-classifier}
+The concrete singleton quotient-group classifier is
+$$
+\rho_Q(h,k)\Longleftrightarrow
+Q_{\emp}(h)\land Q_{\emp}(k)\land \hsame(h,k).
+$$
+It records both endpoint carrier witnesses together with their BEDC
+history-sameness witness.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.QuotientGroupSingletonClassifier}
+
+\begin{definition}[Centralizer coset carrier]
+\label{def:quotientgroup-centralizer-coset-carrier}
+For a BEDC multiplication operation $\mathsf{mul}$, parameter $a$, and
+representative $\mathsf{repr}$, the centralizer-coset carrier contains a
+history $h$ exactly when $\mathsf{repr}$ centralizes $a$ and
+$h\hsame\mathsf{repr}$.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetCarrier}
+
+\begin{definition}[Centralizer coset classifier]
+\label{def:quotientgroup-centralizer-coset-classifier}
+The centralizer-coset classifier relates two carried histories when both lie
+in the same representative carrier and are internally history-same.
+\end{definition}
+\leandef{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier}
+
+\begin{definition}[Centralizer-normalizer QuotientGroupUp carrier]
+\label{def:quotientgroup-centralizer-normalizer-carrier}
+In the BEDC history-level $\GroupUp$ setting of
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, let $Z_a$
+be the centralizer carrier of \autoref{def:group-centralizer-carrier} and let
+$N_a$ be the centralizer normalizer carrier of
+\autoref{def:group-centralizer-normalizer-carrier}. The
+centralizer-normalizer $\QuotientGroupUp$ representative carrier is $N_a$,
+with classifier
+$Q_{Z_a\triangleleft N_a}$ from
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}.
+Represented multiplication, unit, and inversion are given by
+$\mathsf{mul}(x,y)$, $e$, and $\mathsf{inv}(x)$.
+
+The certificate ledger records the representative endpoints in $N_a$, the
+relative kernel witness
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, and the tower rows for the lower
+centralizer subgroup, the upper normalizer subgroup, inclusion
+$Z_a\subseteq N_a$, and conjugation preservation of $Z_a$ by carried elements
+of $N_a$. Thus the carrier is a concrete history-level representative system
+equipped with a classifier, not a host quotient type.
+\end{definition}
+
+\begin{theorem}[Centralizer-normalizer empty representative]
+\label{thm:quotientgroup-centralizer-normalizer-empty-representative}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ whose
+represented unit is $\emp$, assume the unit, multiplication-congruence, and
+right-inverse laws used in
+\autoref{def:quotientgroup-centralizer-normalizer-carrier}. Then the
+representative carrier $N_a$ contains $\emp$.
+\end{theorem}
+\begin{proof}
+Unfold $N_a$ as the centralizer normalizer carrier. The right-inverse law at
+$\emp$, together with the left unit law, identifies $\mathsf{inv}(\emp)$ with
+$\emp$.
+
+For the forward conjugation clause, multiplication congruence and the unit laws
+transport $\mathsf{mul}(\mathsf{mul}(\emp,x),\mathsf{inv}(\emp))$ to $x$. The
+centralizer row for $x$ can therefore be read as the required centralizer row
+for the conjugated word.
+
+The inverse conjugation clause is the same calculation applied to
+$\mathsf{inv}(\mathsf{inv}(\emp))$. The unit and right-inverse laws identify the
+outer inverse word with $\emp$, so the second normalizer clause reduces to the
+same centralizer transport.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_unit}
+
+\begin{theorem}[Centralizer-normalizer empty representative transport]
+\label{thm:quotientgroup-centralizer-normalizer-empty-representative-transport}
+Under the same BEDC history-level group laws, plus inverse congruence, every
+history $t$ with $\emp\hsame t$ also lies in the representative carrier $N_a$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-empty-representative} to get
+$N_a(\emp)$.
+
+For the forward normalizer clause at $t$, multiplication congruence transports
+$\mathsf{mul}(\mathsf{mul}(t,x),\mathsf{inv}(t))$ back to
+$\mathsf{mul}(\mathsf{mul}(\emp,x),\mathsf{inv}(\emp))$, using inverse
+congruence on the endpoint comparison $\emp\hsame t$. The empty representative
+row then supplies the required carried centralizer witness.
+
+The inverse clause uses inverse congruence once more to compare
+$\mathsf{inv}(t)$ with $\mathsf{inv}(\emp)$, and again on the outer inverse.
+Multiplication congruence transports the whole inverse-conjugation word back to
+the empty representative word, where the previous theorem supplies the row.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_empty\_hsame\_transport\_unit}
+
+\begin{theorem}[Centralizer normalizer orbit-kernel quotient equivalence]
+\label{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the hypotheses of
+\autoref{thm:centralizer-normalizer-quotient-classifier-laws} and
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}, and
+for $x,y:\mathsf{BHist}$ with $N_a(x)$ and $N_a(y)$, the two representative
+classifiers on the carrier $N_a$ agree:
+$$
+Q_{Z_a\leq N_a}(x,y)
+\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(x,y).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, expand
+\autoref{def:centralizer-normalizer-quotient-classifier}. The witness is a
+history $z$ with $Z_a(z)$ and
+$\hsame(y,\mathsf{mul}(x,z))$, together with the endpoint rows $N_a(x)$ and
+$N_a(y)$.
+
+Multiply the endpoint comparison on the left by $\mathsf{inv}(x)$. By
+associativity, the two-sided inverse law, the unit laws, and multiplication
+congruence, the word
+$\mathsf{mul}(\mathsf{inv}(x),y)$ is transported by $\hsame$ to $z$. The
+$\hsame$ transport row for the centralizer carrier therefore turns $Z_a(z)$
+into $Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, which is exactly the kernel
+clause of $Q_{Z_a\triangleleft N_a}(x,y)$.
+
+For the reverse direction, expand
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}. Let
+$$
+w=\mathsf{mul}(\mathsf{inv}(x),y).
+$$
+The kernel clause gives $Z_a(w)$, and the endpoint clauses give the same
+representative carrier rows $N_a(x)$ and $N_a(y)$.
+
+Associativity, the left inverse law, the left unit law, and multiplication
+congruence rewrite $\mathsf{mul}(x,w)$ to $y$ up to $\hsame$. Thus $w$ is the
+centralizer witness required by
+\autoref{def:centralizer-normalizer-quotient-classifier}, so
+$Q_{Z_a\leq N_a}(x,y)$ follows.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_orbit\_kernel\_equivalence\_iff}
+
+Per-object template: traditional target quotient group by a normal subgroup;
+BEDC source $\GroupUp$ plus the centralizer-normalizer $\SubgroupUp$ tower;
+carrier $N_a$; classifier either $Q_{Z_a\leq N_a}$ or
+$Q_{Z_a\triangleleft N_a}$; stability
+\autoref{thm:centralizer-normalizer-quotient-classifier-laws},
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}, and
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence};
+ledger representative pair plus coset or kernel witness; core theorem list
+\autoref{def:centralizer-normalizer-quotient-classifier},
+\autoref{def:subgroup-centralizer-normalizer-quotient-kernel-relation}, and
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}; exactness the
+displayed iff; standard bridge ordinary coset/kernel criterion; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[Centralizer-normalizer QuotientGroupUp identity fiber]
+\label{thm:quotientgroup-centralizer-normalizer-identity-fiber}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$
+satisfying the hypotheses of
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence},
+for every $x:\mathsf{BHist}$ the left identity fibers of the two
+representative quotient classifiers satisfy
+$$
+Q_{Z_a\leq N_a}(\emp,x)
+\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(\emp,x)
+\Longleftrightarrow
+Z_a(x),
+$$
+and the right identity fibers satisfy
+$$
+Q_{Z_a\leq N_a}(x,\emp)
+\Longleftrightarrow
+Q_{Z_a\triangleleft N_a}(x,\emp)
+\Longleftrightarrow
+Z_a(x).
+$$
+\end{theorem}
+\begin{proof}
+For the left fiber, first compare the coset classifier with the relative-kernel
+classifier at $(\emp,x)$. Apply
+\autoref{thm:quotientgroup-centralizer-normalizer-orbit-kernel-equivalence}.
+The endpoint rows needed by that theorem are either fields of the classifier
+edge being transported or are supplied by the kernel relation itself.
+
+Next identify the kernel classifier fiber. Apply
+\autoref{thm:subgroup-centralizer-normalizer-quotient-kernel-identity-fiber}
+and, at the Lean level, its empty-fiber form
+\texttt{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_fiber\_iff}.
+This turns
+$Q_{Z_a\triangleleft N_a}(\emp,x)$ into $Z_a(x)$. The group-level
+normalization behind the identity endpoint is
+\texttt{BEDC.Derived.GroupUp.group\_inverse\_identity}, which identifies the
+inverse of the represented identity with the identity before the relative
+kernel word is read.
+
+For the right fiber, repeat the same transport at $(x,\emp)$. The orbit-kernel
+equivalence passes between $Q_{Z_a\leq N_a}(x,\emp)$ and
+$Q_{Z_a\triangleleft N_a}(x,\emp)$, and the empty-right-fiber form
+\texttt{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_empty\_right\_fiber\_iff}
+identifies the kernel classifier fiber with $Z_a(x)$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_identity\_fiber\_iff}
+
+Per-object template: traditional target quotient projection kernel; BEDC
+source $\GroupUp+\SubgroupUp+\QuotientGroupUp$ over $\mathsf{BHist}$; ambient
+sort $\mathsf{BHist}$; carrier $N_a$; classifiers
+$Q_{Z_a\leq N_a}$ and $Q_{Z_a\triangleleft N_a}$; stability orbit-kernel
+equivalence plus identity-fiber transport; ledger identity representative and
+relative-kernel word; endpoint normalization by group inverse identity;
+exactness identity fiber equals centralizer; status $\mathsf{ProofTarget}$.
+

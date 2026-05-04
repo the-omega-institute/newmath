@@ -1,0 +1,50 @@
+\begin{theorem}[List public length classifier transport]
+\label{thm:list-public-length-classifier-transport}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. Assume
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. Then for all histories $h,k$
+and all public length values $n$, a classifier witness
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ transports the chosen
+public length witness across the classified endpoints:
+\begin{enumerate}
+  \item if $\mathsf{ListPublicLength}_A(h,n)$ holds, then
+  $\mathsf{ListPublicLength}_A(k,n)$ holds;
+  \item if $\mathsf{ListPublicLength}_A(k,n)$ holds, then
+  $\mathsf{ListPublicLength}_A(h,n)$ holds.
+\end{enumerate}
+The roadmap ten-field fit is: traditional target classifier-stable finite-list
+length readback; BEDC source $\mathsf{BHist}$ with $\NameCert$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$; ledger chosen public length
+witnesses; exactness through $\mathsf{ListPublicLength}_A$ and classified
+endpoint readback; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Fix $h,k,n$ and a witness
+$C:\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$.
+
+For transport from $h$ to $k$, assume
+$L_h:\mathsf{ListPublicLength}_A(h,n)$. Apply
+Theorem~\ref{thm:list-public-length-readback-total} to $C$ to obtain a public
+length value $m$ with witnesses $\mathsf{ListPublicLength}_A(h,m)$ and
+$\mathsf{ListPublicLength}_A(k,m)$.
+
+Apply Theorem~\ref{thm:list-public-length-readback-well-defined} to the same
+classifier witness $C$, the given witness $L_h$, and the endpoint witness
+$\mathsf{ListPublicLength}_A(k,m)$. This identifies $n=m$. Rewrite the
+endpoint witness at $k$ along this equality to obtain
+$\mathsf{ListPublicLength}_A(k,n)$.
+
+For transport from $k$ to $h$, assume
+$L_k:\mathsf{ListPublicLength}_A(k,n)$. Apply
+Theorem~\ref{thm:list-public-length-readback-total} to $C$ again to obtain a
+public length value $m$ with witnesses
+$\mathsf{ListPublicLength}_A(h,m)$ and $\mathsf{ListPublicLength}_A(k,m)$.
+
+Apply Theorem~\ref{thm:list-public-length-readback-well-defined} to the same
+classifier witness $C$, the endpoint witness $\mathsf{ListPublicLength}_A(h,m)$,
+and the given witness $L_k$. This identifies $m=n$. Rewrite the endpoint
+witness at $h$ along this equality to obtain
+$\mathsf{ListPublicLength}_A(h,n)$.
+\end{proof}

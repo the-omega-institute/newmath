@@ -351,6 +351,27 @@ underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,w,n)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_predecessor\_unique}
 
+\begin{theorem}[Prime scale append unit right result readback]
+\label{thm:padic-prime-scale-append-unit-right-result-hsame}
+For unary $w$, if $n$ is a prime-scale result over $w$ and $r$ is a prime-scale
+result over $\mathsf{append}(w,\Eone(\emp))$, then $r$ reads back to appending
+the prime base to $n$:
+$$
+\mathsf{PadicPrimeScale}(p,w,n)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(w,\Eone(\emp)),r)
+\Rightarrow
+r\hsame\mathsf{append}(n,p).
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-right predecessor theorem extracts a predecessor scale
+$\mathsf{PadicPrimeScale}(p,w,pred)$ with continuation $\ContR(pred,p,r)$.
+Predecessor uniqueness identifies $pred$ with the displayed result $n$ up to
+$\hsame$, and continuation respects that endpoint comparison against the
+canonical continuation $\ContR(n,p,\mathsf{append}(n,p))$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_result\_hsame}
+
 \begin{theorem}[Prime scale append unit left factorization]
 \label{thm:padic-prime-scale-append-unit-left-factorization}
 For unary $q$, a prime scale over $\mathsf{append}(\Eone(\emp),q)$ is exactly a
@@ -370,6 +391,28 @@ right scale by append continuation closure.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_factorization\_iff}
 
+\begin{theorem}[Prime scale append unit left predecessor uniqueness]
+\label{thm:padic-prime-scale-append-unit-left-predecessor-unique}
+For unary $q$, every prime scale over
+$\mathsf{append}(\Eone(\emp),q)$ exposes a right-factor scale
+$\mathsf{PadicPrimeScale}(p,q,e)$ and a continuation $\ContR(p,e,r)$, and
+the right-factor result is unique up to $\hsame$ among prime-scale results over
+$q$:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Longrightarrow
+\exists e.\,
+\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,r)\land
+\forall other.\ \mathsf{PadicPrimeScale}(p,q,other)\Rightarrow e\hsame other.
+$$
+\end{theorem}
+\begin{proof}
+The append-unit-left factorization extracts the right-factor scale and the
+continuation from the prime base. Uniqueness is the functional property of the
+underlying natural multiplication field of $\mathsf{PadicPrimeScale}(p,q,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_predecessor\_unique}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
@@ -384,6 +427,25 @@ scale witness have the same prime base and appended exponent, so
 \(\mathsf{NatMul}\) functionality identifies the two results.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
+
+\begin{theorem}[Prime scale two unit exponents give prime square]
+\label{thm:padic-prime-scale-append-unit-exponents-result-square}
+If
+\(\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),\Eone(\emp)),result)\)
+holds, then the result is history-same to the square append of the prime base:
+$$
+result\hsame \mathsf{append}(p,p).
+$$
+\end{theorem}
+\begin{proof}
+The unit-exponent scale theorem constructs
+\(\mathsf{PadicPrimeScale}(p,\Eone(\emp),p)\) for each of the two exponent
+factors. The concrete continuation \(\ContR(p,p,\mathsf{append}(p,p))\)
+closes these two scales under append continuation. The resulting scale witness
+has the same prime base and appended exponent as the given witness, so
+\(\mathsf{NatMul}\) functionality identifies the displayed results.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_exponents\_result\_square\_hsame}
 
 \begin{theorem}[Prime scale append factor results unique]
 \label{thm:padic-prime-scale-append-factor-results-unique}
