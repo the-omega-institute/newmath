@@ -206,6 +206,26 @@ $\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
 
+\begin{theorem}[Framed list-spine nil-cons no-confusion]
+\label{thm:framed-list-spine-rep-nil-cons-no-confusion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. No
+single history can be represented both by the framed nil spine and by a framed
+cons spine:
+$$
+\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})\to
+\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two framed representations and compose their endpoint classifiers
+through symmetry and transitivity of $\hsame$. This gives
+$\hsame(\mathsf{FramedListEndpoint}(\mathsf{nil}),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)))$, which contradicts the
+framed endpoint nil-cons no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_nil\_cons\_no\_confusion}
+
 \begin{theorem}[Framed list-spine coherence]
 \label{thm:framed-list-spine-coherence}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
@@ -489,6 +509,36 @@ $xs\sim_A xs_0$, $xs_0\sim_A ys_0$, and $ys_0\sim_A ys$, yielding
 $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_displayed\_spine\_exactness}
+
+\begin{theorem}[Framed list bridge empty-left source refinement]
+\label{thm:framed-list-bridge-empty-left-source-refinement}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers and
+let $\sim_A,\sim_B$ be source classifiers. Assume source refinement preserves
+carrier membership and head classification:
+$$
+\forall x:\mathsf{BHist}.\; A(x)\to B(x),
+\qquad
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\to x\sim_B y.
+$$
+Then every framed bridge from the displayed empty-left endpoint
+$\Ezero(\emp)$ to $k$ over $(A,\sim_A)$ refines to a framed bridge over
+$(B,\sim_B)$:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(\Ezero(\emp),k)
+\to
+\mathsf{FramedListBridgeClassifier}_{B,\sim_B}(\Ezero(\emp),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the framed bridge into finite spines $xs,ys$, two
+$\mathsf{FramedListSpineRep}$ witnesses, and a
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ witness. The carrier inclusion
+transports every entry field in both spine representations while preserving the
+endpoint equalities. Induction on the finite-spine classifier transports each
+head relation through the classifier inclusion and rebuilds the tail witness.
+Repack the same two spines with these transported witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_empty\_left\_source\_refinement}
 
 \begin{theorem}[Framed list bridge classifier constructor exactness]
 \label{thm:framed-list-bridge-classifier-constructor-inversion}
