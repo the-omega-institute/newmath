@@ -166,4 +166,45 @@ theorem RealStreamPrefixClassifier_truncated_unary_context_closed
   exact RealStreamPrefixClassifier_unary_context_closed prefUnary prefSame tailUnary tailSame n
     truncated
 
+theorem RealStreamClassifier_transport_selected_positive_unary_nonempty_package
+    {x x' y y' : Nat -> BHist} {n : Nat} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y ->
+          RatHistoryClassifier (x' n) (y' n) ∧
+            PositiveUnaryDenominator (x' n) ∧
+              PositiveUnaryDenominator (y' n) ∧
+                UnaryHistory (x' n) ∧
+                  UnaryHistory (y' n) ∧
+                    (hsame (x' n) BHist.Empty -> False) ∧
+                      (hsame (y' n) BHist.Empty -> False) := by
+  intro sameX sameY classified
+  have transported : RatHistoryClassifier (x' n) (y' n) :=
+    RatHistoryClassifier_hsame_transport (sameX n) (sameY n) (classified n)
+  have positiveRows :
+      PositiveUnaryDenominator (x' n) ∧ PositiveUnaryDenominator (y' n) :=
+    RatHistoryClassifier_positive_denominators transported
+  have leftRows : UnaryHistory (x' n) ∧ (hsame (x' n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.left
+  have rightRows : UnaryHistory (y' n) ∧ (hsame (y' n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positiveRows.right
+  exact And.intro transported
+    (And.intro positiveRows.left
+      (And.intro positiveRows.right
+        (And.intro leftRows.left
+          (And.intro rightRows.left (And.intro leftRows.right rightRows.right)))))
+
+theorem RealStreamClassifier_transported_selected_e1_full_readback_package
+    {x x' y y' : Nat -> BHist} {n : Nat} {a b : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) -> RealStreamClassifier x y ->
+        hsame (x' n) (BHist.e1 a) -> hsame (y' n) (BHist.e1 b) ->
+          RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) ∧
+            UnaryHistory a ∧ UnaryHistory b ∧ hsame a b := by
+  intro sameX sameY classified sameLeft sameRight
+  have displayed : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RealStreamClassifier_transported_selected_e1_rat_classifier_readback sameX sameY classified
+      sameLeft sameRight
+  exact And.intro displayed (RatHistoryClassifier_e1_tail_unary_iff.mp displayed)
+
 end BEDC.Derived.RealUp
