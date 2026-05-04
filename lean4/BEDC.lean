@@ -181,11 +181,13 @@ import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.S1Up
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.SingletonEquationSolver
 import BEDC.Derived.GroupUp.ConjugationParameter
 import BEDC.Derived.GroupUp.ConjugationClassifier
 import BEDC.Derived.GroupUp.Commutator
 import BEDC.Derived.GroupUp.Centralizer
 import BEDC.Derived.GroupUp.CentralizerNormalizer
+import BEDC.Derived.GroupUp.CentralizerNormalizerInclusion
 import BEDC.Derived.GroupUp.CentralizerNormalizerAutomorphism
 import BEDC.Derived.GroupUp.NormalizerSubgroup
 import BEDC.Derived.GroupUp.NormalizerRoundtrip
@@ -193,6 +195,7 @@ import BEDC.Derived.GroupUp.ProductUnitInverse
 import BEDC.Derived.GroupUp.ConjugationEmpty
 import BEDC.Derived.GroupUp.ConjugationComposition
 import BEDC.Derived.GroupUp.EquationUniqueness
+import BEDC.Derived.GroupUp.CancellationIff
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
@@ -203,6 +206,8 @@ import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.SingletonNormalizerAction
 import BEDC.Derived.GroupUp.NormalizerAction
+import BEDC.Derived.GroupUp.EquationCancellationSolver
+import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
 import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
@@ -216,6 +221,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
 import BEDC.Derived.RingUp
+import BEDC.Derived.RingUp.Cancellation
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
@@ -379,6 +385,7 @@ import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
 import BEDC.Derived.CompactUp.EndpointIff
+import BEDC.Derived.CompactUp.LocatedEndpointPackage
 import BEDC.Derived.CompactUp.InitialEndpointsUnary
 import BEDC.Derived.CompactUp.PrefixedCompositeMiddle
 import BEDC.Derived.CompactUp.RefinementPrefix
