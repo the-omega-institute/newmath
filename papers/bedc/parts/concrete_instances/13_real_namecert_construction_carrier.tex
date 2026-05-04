@@ -1,0 +1,72 @@
+\chapter{Certificate Obligations for $\RealUp$}
+\label{ch:concrete-instances-real-namecert}
+
+The real number interface $\RealUp$ is specified here as a certificate-obligation schema over sealed $\RegSeqRat$ stream names. These names are built from $\DyadicRatCore$ observations through $\StreamNameUp$, then sealed with regular-sequence data and a closeness classifier. The classical Dedekind / Cauchy completion is outside this schema because quotient and completion infrastructure is not exported by the mathlib-free BEDC kernel; the interface name is available only through the dyadic rational core, certified stream names, regular-sequence certificates, and their classifier.
+
+\section{Carrier definition}
+
+\begin{definition}[Real carrier]
+\label{def:real-carrier}
+Use a sealed $\RegSeqRat$ name. Its observations form a $\StreamNameUp$ stream over $\DyadicRatCore$, and its regularity certificate is exposed only through the $\RealUp$ seal.
+\end{definition}
+
+\begin{definition}[Constant real history carrier]
+\label{def:real-constant-history-carrier}
+A history is in the constant real history carrier when it is internally the same as an $\Eone$-sealed rational history:
+$$
+\mathsf{RealConstantHistoryCarrier}(h)
+\quad\Longleftrightarrow\quad
+\exists d,\ \hsame(h,\Eone(d))\ \wedge\ \mathsf{RatHistoryCarrier}(d).
+$$
+\end{definition}
+\leandef{BEDC.Derived.RealUp.RealConstantHistoryCarrier}
+
+\begin{theorem}[Constant real carrier at an e-one seal]
+\label{thm:real-constant-history-carrier-e1-iff-rat}
+For every history $d$,
+$$
+\mathsf{RealConstantHistoryCarrier}(\Eone(d))
+\quad\Longleftrightarrow\quad
+\mathsf{RatHistoryCarrier}(d).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant carrier witness. One-constructor inversion turns
+$\hsame(\Eone(d),\Eone(d'))$ into $\hsame(d,d')$, and rational history carrier
+transport moves the witness back along that equality. The converse uses $d$
+itself as the exposed rational history and reflexivity of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e1\_iff\_rat}
+
+\begin{theorem}[Constant real carrier e-zero exclusion]
+\label{thm:real-constant-history-carrier-e0-absurd}
+For every history tail $t$,
+$$
+\mathsf{RealConstantHistoryCarrier}(\Ezero(t))
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant real carrier witness. It displays $\Ezero(t)$ as
+$\Eone(d)$ for some rational history $d$. BEDC history no-confusion between
+zero-extension and one-extension constructors eliminates that display.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_e0\_absurd}
+
+\begin{theorem}[Constant real carrier empty exclusion]
+\label{thm:real-constant-history-carrier-empty-absurd}
+The empty history is not a constant real history carrier:
+$$
+\mathsf{RealConstantHistoryCarrier}(\emp)
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the constant real carrier witness. It displays $\emp$ as an
+$\Eone$-sealed rational history, and BEDC history no-confusion between the
+empty constructor and the one-extension constructor eliminates that display.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryCarrier\_empty\_absurd}
+
