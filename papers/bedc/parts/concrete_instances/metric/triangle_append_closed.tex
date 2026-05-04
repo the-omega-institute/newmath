@@ -219,11 +219,15 @@ nonempty $x$ or $y$ endpoint.
 
 \begin{theorem}[Metric distance witness triangle append context closure]
 \label{thm:metric-distance-witness-triangle-append-context-closed}
-For unary visible contexts $p,q$, distance witnesses from $x$ to $y$, from $y$
-to $z$, and from $d_{xy}$ to $z$ produce a distance witness from $p\cdot x$ to
-$d_{yz}\cdot q$ whose result is $p\cdot d_{xyz}\cdot q$:
+If $p$ and $q$ are supplied as unary visible contexts, distance witnesses from
+$x$ to $y$, from $y$ to $z$, and from $d_{xy}$ to $z$ produce a distance witness
+from $p\cdot x$ to $d_{yz}\cdot q$ whose result is
+$p\cdot d_{xyz}\cdot q$:
 $$
 \begin{array}{l}
+\mathsf{UnaryHistory}(p)\Longrightarrow
+\mathsf{UnaryHistory}(q)\Longrightarrow
+\\
 \mathsf{MetricDistanceWitness}(x,y,d_{xy})\Longrightarrow
 \mathsf{MetricDistanceWitness}(y,z,d_{yz})\Longrightarrow
 \\
