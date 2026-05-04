@@ -337,4 +337,20 @@ theorem FramedListBridgeClassifier_public_length_total {A : BHist → Prop}
                           (Exists.intro xs (And.intro repH rfl))
                           (Exists.intro ys (And.intro repK sameLength.symm))))
 
+theorem FramedListPublicLength_bridge_transport_pair {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (cert : NameCert A Rel)
+    (compat : ListSourceHsameCompatible A Rel) {h k : BHist} :
+    FramedListBridgeClassifier A Rel h k ->
+      (∀ {n : Nat}, FramedListPublicLength A h n -> FramedListPublicLength A k n) ∧
+        (∀ {n : Nat}, FramedListPublicLength A k n -> FramedListPublicLength A h n) := by
+  intro bridge
+  have wellDefined := FramedListPublicLength_well_defined (A := A) (Rel := Rel) compat
+  have symmetry :=
+    (FramedListBridgeClassifier_equivalence_fields cert compat).right.right.left bridge
+  constructor
+  · intro n publicH
+    exact wellDefined.right bridge publicH
+  · intro n publicK
+    exact wellDefined.right symmetry publicK
+
 end BEDC.Derived.ListUp
