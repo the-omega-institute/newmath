@@ -118,6 +118,21 @@ the continuation by associativity of \(\mathsf{append}\).
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_append\_unary\_closed}
 
+\begin{theorem}[Complex carrier unary continuation closure]
+\label{thm:complex-history-carrier-unary-continuation-closed}
+If \(h\) is a complex history carrier, \(q\) is unary, and
+\(\Cont(h,q,zq)\), then \(zq\) is again a complex history carrier.
+\end{theorem}
+\begin{proof}
+Unpack \(h\) into rational real and imaginary components with the continuation
+assembling them. Associativity of continuation splits the suffix \(q\) through
+the imaginary component. The imaginary rational carrier is closed under the
+unary suffix and transported along the split continuation result, while the
+real rational carrier is kept fixed. The resulting component continuation
+reassembles \(zq\) as a complex history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryCarrier\_unary\_continuation\_closed}
+
 \begin{theorem}[Complex history carrier is not empty]
 \label{thm:complex-history-carrier-not-empty}
 No complex history carrier can be identified with the empty history.
@@ -264,6 +279,21 @@ results through the prefix contexts, after transporting unary evidence across
 histories, giving the classifier endpoint relation.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_closed}
+
+\begin{theorem}[Complex classifier unary continuation closure]
+\label{thm:complex-history-classifier-unary-continuation-closed}
+If \(\mathsf{ComplexHistoryClassifier}(h,k)\), \(q\) is unary,
+\(q\hsame q'\), \(\Cont(h,q,zq)\), and \(\Cont(k,q',wq)\), then
+\(\mathsf{ComplexHistoryClassifier}(zq,wq)\).
+\end{theorem}
+\begin{proof}
+Apply complex carrier unary continuation closure to both classified endpoints,
+transporting the unary witness for \(q\) across \(q\hsame q'\) on the right
+endpoint. The stored endpoint comparison \(h\hsame k\), the suffix comparison
+\(q\hsame q'\), and the two continuation witnesses identify the continuation
+results, giving the classifier relation between \(zq\) and \(wq\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_continuation\_closed}
 
 \begin{theorem}[Complex history classifier unary context positive components]
 \label{thm:complex-history-classifier-unary-context-positive-components}
