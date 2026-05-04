@@ -66,6 +66,25 @@ transitivity of $\hsame$ carries $z'\hsame r'$.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyClosedDiskGap\_hsame\_transport}
 
+\begin{theorem}[Closed-disk visible radius boundary cases]
+\label{thm:cplx-topo-closed-disk-gap-visible-radius-boundary-cases}
+If a complex-topology closed-disk gap witness has visible radius
+\(\Eone(r)\), then its strict boundary evidence either has empty gap with the
+point on that visible radius endpoint or descends to a closed-disk gap witness
+over \(r\); the non-strict boundary branch remains the endpoint equality
+\(z\hsame\Eone(r)\).
+\end{theorem}
+\begin{proof}
+Unpack the closed-disk gap witness. In the strict branch, apply visible-result
+inversion to \(\Cont(z,g,\Eone(r))\). The empty-gap branch gives
+\(g=\emp\) and \(z\hsame\Eone(r)\). The visible-gap branch writes
+\(g=\Eone(g')\); unary constructor inversion supplies unary carriers for
+\(r\) and \(g'\), and the descended continuation repacks the closed-disk
+witness over \(r\). In the boundary-equality branch, keep the displayed
+\(\hsame\) evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyClosedDiskGap\_visible\_radius\_boundary\_cases}
+
 \begin{theorem}[Open-disk gap modulus]
 \label{thm:cplx-topo-gap-modulus}
 For every triple \((z_0, r, z)\) with \(\mathsf{OpenDisk}(z_0, r, z)\), the gap function \(\mathsf{Gap}(z_0, r, z)\) is a unary history giving an explicit positive distance from \(z\) to the boundary \(\partial \mathsf{ClosedDisk}(z_0, r)\).
@@ -143,6 +162,23 @@ result along \(r\hsame z\), and compare the resulting \(\Cont(z,g,z)\) with the
 right-unit continuation \(\Cont(z,\emp,z)\) by left cancellation.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_empty\_gap\_radius\_point\_iff}
+
+\begin{theorem}[Open-disk visible radius gap cases]
+\label{thm:cplx-topo-open-disk-gap-visible-radius-gap-cases}
+If a complex-topology open-disk gap witness has visible radius \(\Eone(r)\),
+then either the gap is empty and the point is history-same to that visible
+radius endpoint, or the gap is itself visible and its tail is an open-disk gap
+witness over \(r\).
+\end{theorem}
+\begin{proof}
+Unpack the open-disk gap witness to obtain \(\Cont(z,g,\Eone(r))\). Visible
+result inversion for continuation gives either \(g=\emp\) with
+\(z\hsame\Eone(r)\), or a tail \(g'\) with \(g=\Eone(g')\) and
+\(\Cont(z,g',r)\). Unary constructor inversion on the radius and gap carriers
+supplies the carriers for \(r\) and \(g'\), so the second branch repacks the
+descended open-disk gap witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_visible\_radius\_gap\_cases}
 
 \begin{theorem}[Open-disk gap unary suffix transport]
 \label{thm:cplx-topo-open-disk-gap-unary-suffix-transport}
