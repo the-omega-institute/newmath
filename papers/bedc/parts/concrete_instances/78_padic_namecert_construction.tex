@@ -100,6 +100,30 @@ gives the scale witness for the appended exponent.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_closure}
 
+\begin{theorem}[Padic natural multiplication append exponent decomposition]
+\label{thm:padic-natmul-append-exponent-decomposition}
+For unary histories $d,w,q$, any multiplication witness over the appended
+exponent decomposes into multiplication witnesses over the two exponent
+factors and a continuation between their results:
+$$
+\mathsf{NatMul}(d,\mathsf{append}(w,q),r)
+\quad\Longrightarrow\quad
+\exists n,e.\ \mathsf{NatMul}(d,w,n)\land
+\mathsf{NatMul}(d,q,e)\land\ContR(n,e,r).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the unary right exponent $q$. For the empty exponent, take the left
+result to be the displayed result $r$ and the right result to be $\emp$. In the
+one-headed case, successor inversion for $\mathsf{NatMul}$ extracts the
+previous product over $\mathsf{append}(w,q)$ and the final continuation by
+$d$. The induction hypothesis decomposes the previous product into left and
+right results; composing its continuation with the final continuation and
+using append associativity gives the required continuation from the left
+result to the successor right product.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicNatMul\_append\_exponent\_decomposition}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
