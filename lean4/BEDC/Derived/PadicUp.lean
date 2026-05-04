@@ -231,6 +231,42 @@ theorem PadicPrimeScale_append_exponent_decomposition {p w q r : BHist} :
                 (And.intro (And.intro scale.left eData.left)
                   (And.intro (And.intro scale.left eData.right.left) eData.right.right)))
 
+theorem PadicPrimeScale_append_succ_right_exponent_factorization_iff {p w q r : BHist} :
+    UnaryHistory w -> UnaryHistory q ->
+      (PadicPrimeScale p (append w (BHist.e1 q)) r <->
+        ∃ n : BHist, ∃ e : BHist, ∃ step : BHist,
+          PadicPrimeScale p w n ∧ PadicPrimeScale p q e ∧ Cont e p step ∧
+            Cont n step r) := by
+  intro unaryW unaryQ
+  constructor
+  · intro scale
+    have decomposed :=
+      PadicPrimeScale_append_exponent_decomposition unaryW (unary_e1_closed unaryQ) scale
+    cases decomposed with
+    | intro n nData =>
+        cases nData with
+        | intro step stepData =>
+            have rightInversion := PadicPrimeScale_succ_exponent_inversion stepData.right.left
+            cases rightInversion with
+            | intro e eData =>
+                exact Exists.intro n
+                  (Exists.intro e
+                    (Exists.intro step
+                      (And.intro stepData.left
+                        (And.intro eData.left (And.intro eData.right stepData.right.right)))))
+  · intro factors
+    cases factors with
+    | intro n nData =>
+        cases nData with
+        | intro e eData =>
+            cases eData with
+            | intro step stepData =>
+                have rightScale : PadicPrimeScale p (BHist.e1 q) step :=
+                  Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
+                    (Exists.intro e (And.intro stepData.right.left stepData.right.right.left))
+                exact PadicPrimeScale_append_cont_closure stepData.left rightScale
+                  stepData.right.right.right
+
 theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r' -> hsame r r' := by

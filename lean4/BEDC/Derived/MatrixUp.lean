@@ -125,6 +125,30 @@ theorem MatrixSingletonPow_succ_continuation_classifier {M exponent r : BHist} :
     rfl
   exact And.intro succCarrier (And.intro resultCarrier sameResult)
 
+theorem MatrixSingletonPow_visible_base_succ_continuation_empty_result_absurd
+    {m exponent y r : BHist} :
+    MatrixSingletonCarrier y ->
+      (Cont (MatrixSingletonPow (BHist.e0 m) (BHist.e1 exponent)) y r ->
+        hsame r BHist.Empty -> False) ∧
+      (Cont (MatrixSingletonPow (BHist.e1 m) (BHist.e1 exponent)) y r ->
+        hsame r BHist.Empty -> False) := by
+  intro _carrierY
+  constructor
+  · intro continuation resultEmpty
+    have emptyContinuation :
+        Cont (MatrixSingletonPow (BHist.e0 m) (BHist.e1 exponent)) y BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have sourceEmpty := (cont_empty_result_inversion emptyContinuation).left
+    have sourceParts := append_eq_empty_iff.mp sourceEmpty
+    exact not_hsame_e0_empty sourceParts.right
+  · intro continuation resultEmpty
+    have emptyContinuation :
+        Cont (MatrixSingletonPow (BHist.e1 m) (BHist.e1 exponent)) y BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have sourceEmpty := (cont_empty_result_inversion emptyContinuation).left
+    have sourceParts := append_eq_empty_iff.mp sourceEmpty
+    exact not_hsame_e1_empty sourceParts.right
+
 theorem MatrixSingletonPow_append_exponent_classifier {M w q : BHist} :
     MatrixSingletonCarrier M -> UnaryHistory w -> UnaryHistory q ->
       MatrixSingletonClassifier (MatrixSingletonPow M (append w q))
@@ -474,6 +498,23 @@ theorem MatrixSingletonAddMul_continuation_empty_result_factors_iff {M N R : BHi
     cases emptyParts.left
     cases emptyParts.right
     exact cont_deterministic continuation (cont_right_unit BHist.Empty)
+
+theorem MatrixSingletonAddMul_visible_left_continuation_result_nonempty {m N R : BHist} :
+    (Cont (MatrixSingletonAdd (BHist.e0 m) N) (MatrixSingletonMul (BHist.e0 m) N) R ->
+      hsame R BHist.Empty -> False) ∧
+    (Cont (MatrixSingletonAdd (BHist.e1 m) N) (MatrixSingletonMul (BHist.e1 m) N) R ->
+      hsame R BHist.Empty -> False) := by
+  constructor
+  · intro continuation resultEmpty
+    have emptyFactors :=
+      Iff.mp (MatrixSingletonAddMul_continuation_empty_result_factors_iff continuation)
+        resultEmpty
+    exact not_hsame_e0_empty emptyFactors.left
+  · intro continuation resultEmpty
+    have emptyFactors :=
+      Iff.mp (MatrixSingletonAddMul_continuation_empty_result_factors_iff continuation)
+        resultEmpty
+    exact not_hsame_e1_empty emptyFactors.left
 
 theorem MatrixSingletonClassifier_continuation_comm_closed {M N left right : BHist} :
     MatrixSingletonCarrier M -> MatrixSingletonCarrier N -> Cont M N left -> Cont N M right ->
