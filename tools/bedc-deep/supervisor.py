@@ -230,7 +230,21 @@ def _active_tab_count() -> int:
     return len(s.get("active_recent_agents") or [])
 
 
-def spawn_inner(parallel: int, *, pipeline_version: str = "v2", attach_pdf: str = "") -> subprocess.Popen:
+def spawn_inner(parallel: int, *, pipeline_version: str = "v2",
+                attach_pdf: str = "",
+                codex_parallel: int = 0,
+                oracle_parallel: int = 0) -> subprocess.Popen:
+    """Spawn the inner --loop. Two modes:
+
+    Two-pool mode (preferred): pass codex_parallel + oracle_parallel.
+      - codex pool runs codex_track at high concurrency (no tab dependency).
+      - oracle pool drains `.oracle_pending` markers, capped at active tabs.
+    Single-pool legacy mode: pass `parallel` only (codex+oracle in one
+    worker, capped at tabs).
+
+    Active-tab clamp applies to oracle_parallel (or to single-pool parallel)
+    so the oracle path never exceeds available browser agents.
+    """
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
     # Honor PI v1 adjust_parallel intent if it dropped a file under state/
     parallel_intent_path = SCRIPT_DIR / "state" / ".pi_parallel_intent"
@@ -245,7 +259,55 @@ def spawn_inner(parallel: int, *, pipeline_version: str = "v2", attach_pdf: str 
             parallel_intent_path.unlink()
         except (OSError, ValueError):
             pass
+
+    two_pool = codex_parallel > 0 or oracle_parallel > 0
     tabs = _active_tab_count()
+
+    if two_pool:
+        # Cap oracle pool at active tabs (browser-bound). Codex pool is
+        # compute-bound, no tab clamp.
+        if tabs > 0 and oracle_parallel > tabs:
+            supervisor_log(
+                f"clamp --oracle-parallel {oracle_parallel} → {tabs} "
+                f"(active recent tabs={tabs})"
+            )
+            oracle_parallel = tabs
+        elif tabs == 0:
+            supervisor_log(
+                "no active tabs at spawn — oracle pool will queue tasks "
+                "until tabs come online; codex pool unaffected"
+            )
+        log_handle = open(SUPERVISOR_LOG_DIR / "inner.log", "ab")
+        log_handle.write(
+            f"\n=== inner spawn at {_now_iso()} two-pool "
+            f"codex_parallel={codex_parallel} oracle_parallel={oracle_parallel} "
+            f"pipeline={pipeline_version} ===\n".encode()
+        )
+        log_handle.flush()
+        cmd = [
+            "python3",
+            str(ORACLE_CLIENT),
+            "--loop",
+            "--codex-parallel", str(codex_parallel),
+            "--oracle-parallel", str(oracle_parallel),
+            "--preflight-agent-wait", "60",
+            "--pipeline-version", pipeline_version,
+            "--attach-pdf", attach_pdf,
+        ]
+        proc = subprocess.Popen(
+            cmd,
+            cwd=str(REPO_ROOT),
+            stdout=log_handle,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+        supervisor_log(
+            f"inner loop spawned pid={proc.pid} codex_parallel={codex_parallel} "
+            f"oracle_parallel={oracle_parallel}"
+        )
+        return proc
+
+    # Legacy single-pool mode
     if tabs > 0 and tabs < parallel:
         supervisor_log(f"clamp --parallel {parallel} → {tabs} (active recent tabs={tabs})")
         parallel = tabs
@@ -585,7 +647,12 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC bedc-deep supervisor")
-    parser.add_argument("--parallel", type=int, default=DEFAULT_PARALLEL)
+    parser.add_argument("--parallel", type=int, default=DEFAULT_PARALLEL,
+                        help="Single-pool legacy mode: codex+oracle workers in one pool. Set this OR (--codex-parallel + --oracle-parallel), not both.")
+    parser.add_argument("--codex-parallel", type=int, default=0,
+                        help="Two-pool mode: codex_track workers (compute-bound, no tab dep). Recommended 6-8.")
+    parser.add_argument("--oracle-parallel", type=int, default=0,
+                        help="Two-pool mode: oracle path workers (drains .oracle_pending, capped at active tabs). Recommended 3.")
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
     parser.add_argument("--low-water", type=int, default=DEFAULT_LOW_WATER)
     parser.add_argument("--probe-cooldown-hours", type=float, default=DEFAULT_PROBE_COOLDOWN_HOURS)
@@ -671,6 +738,8 @@ def main() -> int:
                     args.parallel,
                     pipeline_version=supervisor_state.get("pipeline_version", "v2"),
                     attach_pdf=supervisor_state.get("attach_pdf", ""),
+                    codex_parallel=getattr(args, "codex_parallel", 0) or 0,
+                    oracle_parallel=getattr(args, "oracle_parallel", 0) or 0,
                 )
                 supervisor_state["inner"] = inner
 
