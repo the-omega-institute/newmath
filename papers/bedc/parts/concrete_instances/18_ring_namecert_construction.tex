@@ -238,6 +238,30 @@ classifier relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_comm}
 
+\begin{theorem}[Ring singleton classifier append associativity carrier exactness]
+\label{thm:ring-singleton-classifier-append-assoc-carrier-iff}
+For histories $a,b,c:\mathsf{BHist}$, the singleton ring classifier relates
+the two append bracketings exactly when all three factors are singleton
+carriers:
+$$
+\rho_{\emp}(\mathsf{append}(\mathsf{append}(a,b),c),
+\mathsf{append}(a,\mathsf{append}(b,c)))
+\Longleftrightarrow
+A_{\emp}(a)\land A_{\emp}(b)\land A_{\emp}(c).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left carrier field from the classifier.
+Nested empty-result inversion for append first splits
+$\mathsf{append}(\mathsf{append}(a,b),c)$ into the left bracketing and $c$,
+then splits the left bracketing into $a$ and $b$.
+
+Conversely, the three carrier witnesses rebuild singleton carrier witnesses
+for both append bracketings. Since both endpoints are classified through
+$\emp$, transitivity and symmetry of $\hsame$ give the classifier relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_assoc\_carrier\_iff}
+
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.
 
@@ -424,6 +448,7 @@ addition congruence; ledger the hidden signed summand; core theorem this
 theorem; exactness the displayed iff; standard bridge ordinary ring subtraction
 exactness; status $\mathsf{ProofTarget}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RingUp.ring\_additive\_difference\_zero\_exact}
 \begin{proof}
 First derive the additive right-zero law from
 Theorem~\ref{thm:ring-add-right-zero} and the additive right-inverse law from
@@ -530,6 +555,7 @@ exactness additive difference zero exactness feeding zero-factor absorption;
 standard bridge ordinary ring equal-factor difference annihilation; downstream
 use FieldUp and RatUp zero-product reasoning; status $\mathsf{ProofTarget}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RingUp.ring\_equal\_factor\_difference\_annihilation}
 \begin{proof}
 Apply the reverse direction of
 \autoref{thm:ring-additive-difference-zero-exact} to the classifier witness
