@@ -288,6 +288,47 @@ $\mathsf{RatHistoryClassifier}(d,e)$ is therefore reused pointwise.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_constant\_reindexing\_classifier}
 
+\begin{theorem}[Rational stream-name independently reindexed constant classifier]
+\label{thm:rat-stream-name-independent-reindexed-constant-classifier}
+For histories $d,e:\Hist$ and observation schedules
+$r,q:\Hist\to\Hist$, if $\mathsf{RatHistoryCarrier}(d)$, then
+$\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)$. If
+$\mathsf{RatHistoryClassifier}(d,e)$, then
+$\mathsf{RatStreamNameClassifier}(\mathsf{RatConstStream}_d\circ r,
+\mathsf{RatConstStream}_e\circ q)$.
+
+The ten-field fit is:
+\begin{enumerate}
+  \item the traditional target is independently scheduled constant rational
+  stream names;
+  \item the BEDC source is $\RatUp$ over $\mathsf{BHist}$;
+  \item the carrier row is $\mathsf{RatStreamNameCarrier}$;
+  \item the classifier row is $\mathsf{RatStreamNameClassifier}$;
+  \item the schedule row is the pair of observation maps $r$ and $q$;
+  \item the ledger is the two observation schedules together with the hidden
+  rational seeds $d$ and $e$;
+  \item the core theorem is this independently reindexed constant classifier;
+  \item exactness is pointwise reduction to the $\RatUp$ classifier;
+  \item the downstream consumer is the $\RealUp$ independent reindexed constant
+  bridge;
+  \item the status is $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the carrier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameCarrier}$. Fix an arbitrary certified unary observation
+$n$ with witness $\nu:\mathsf{UnaryHistory}(n)$. The composite
+$\mathsf{RatConstStream}_d\circ r$ still evaluates to $d$, so the supplied
+$\mathsf{RatHistoryCarrier}(d)$ is reused as the pointwise carrier witness.
+
+For the classifier, unfold $\mathsf{RatConstStream}$ and
+$\mathsf{RatStreamNameClassifier}$. At the same kind of certified unary
+observation $n$, the left endpoint ignores $r(n)$ and evaluates to $d$, while
+the right endpoint ignores $q(n)$ and evaluates to $e$. Thus the supplied
+$\mathsf{RatHistoryClassifier}(d,e)$ is already the required pointwise
+classifier.
+\end{proof}
+
 \begin{theorem}[Rational stream-name constant point exactness]
 \label{thm:rat-stream-name-constant-point-exactness}
 For histories $h,k:\Hist$, the pointwise stream-name carrier and classifier of
