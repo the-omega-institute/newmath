@@ -52,6 +52,23 @@ equation to the empty reflexive case.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_zero\_iff\_empty}
 
+\begin{theorem}[Metric distance positive depth iff nonempty]
+\label{thm:metric-distance-depth-positive-iff-nonempty}
+For a history $d$, positive structural metric distance depth is equivalent to
+not being history-same as $\emp$:
+$$
+0<\mathsf{MetricDistanceDepth}(d)
+\Longleftrightarrow
+(d\hsame\emp\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty case has depth zero and cannot satisfy the
+nonempty predicate. A zero-headed or one-headed history has successor depth,
+and constructor separation rules out history-sameness with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
+
 \begin{theorem}[Metric distance depth append-left equality emptiness]
 \label{thm:metric-distance-depth-append-left-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the left preserves structural
@@ -91,6 +108,27 @@ depth-zero endpoint theorem gives $\hsame(x,\emp)$ and $\hsame(y,\emp)$, while
 the depth-zero classifier theorem gives $\hsame(d,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_depth\_zero\_collapse}
+
+\begin{theorem}[Metric empty-boundary visible-context continuation left unit]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-continuation-left-unit-result}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+and a continuation out of the central distance identify the continuation result
+with its right input:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(d,r,out)
+\to
+\hsame(out,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply empty-boundary visible-context exactness to read back
+$\hsame(d,\emp)$. Case analysis on this classifier reduces the continuation to
+an empty-left continuation, whose result is the right input by the left-unit
+law for $\ContR$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_result}
 
 \begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
 \label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
