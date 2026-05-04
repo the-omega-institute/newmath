@@ -277,6 +277,27 @@ continuation cancellation identifies the two central center histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_center\_deterministic}
 
+\begin{theorem}[Compact net witness common composite result prefix determinacy]
+\label{thm:compact-net-witness-common-composite-result-prefix-deterministic}
+For histories $p,p',c,\theta,out$, if two compact-net witnesses share the same
+composite precision and result while their centers differ only by the visible
+left prefix before the same $c$, then the two visible prefixes are $\hsame$:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,out)
+\Longrightarrow
+\mathsf{CompactNetWitness}(p'\cdot c,\theta,out)
+\Longrightarrow
+p\hsame p'.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two compact-net witnesses. Their continuation ledgers have the same
+precision $\theta$ and the same result $out$, so right cancellation identifies
+$p\cdot c$ with $p'\cdot c$. Cancelling the common suffix $c$ gives
+$p\hsame p'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_common\_composite\_result\_prefix\_deterministic}
+
 \begin{theorem}[Compact net witness empty-precision visible-context exactness]
 \label{thm:compact-net-witness-empty-precision-visible-context-iff}
 For histories $p,q,c,n$, a visible-context compact-net witness with empty
@@ -304,6 +325,23 @@ $\mathsf{CompactNetWitness}(c,\emp,n)$, and visible-context exactness reattaches
 the prefix $p$ and suffix $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_precision\_visible\_context\_iff}
+
+\begin{theorem}[Compact visible result excludes empty center]
+\label{thm:compact-net-witness-visible-context-e1-result-empty-center-absurd}
+For histories $p,q,c,t$, a visible-context compact-net witness with empty
+central precision and visible net $\Eone(t)$ cannot have an empty central
+center:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\emp\cdot q,(p\cdot \Eone(t))\cdot q)
+\Longrightarrow \hsame(c,\emp)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Empty-precision visible-context exactness reads the central data back as
+$\hsame(\Eone(t),c)$. If $c\hsame\emp$, transitivity identifies $\Eone(t)$
+with $\emp$, contradicting BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_e1\_result\_empty\_center\_absurd}
 
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}
@@ -379,6 +417,25 @@ common suffix $\epsilon$ and the already identified net histories yields
 $\hsame(c,c')$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_center\_deterministic}
+
+\begin{theorem}[Compact net witness common precision center transport]
+\label{thm:compact-net-witness-common-precision-center-transport}
+For histories $c,c',\epsilon,n,n'$, if
+$\mathsf{CompactNetWitness}(c,\epsilon,n)$,
+$\mathsf{CompactNetWitness}(c',\epsilon,n')$, and $\hsame(n,n')$ hold, then
+the second witness transports to the first net and the centers are the same
+BEDC history:
+$$
+\ContR(c',\epsilon,n)\land \hsame(c,c').
+$$
+\end{theorem}
+\begin{proof}
+The second compact-net witness exposes $\ContR(c',\epsilon,n')$; endpoint
+transport along $\hsame(n,n')$ gives $\ContR(c',\epsilon,n)$. The two
+first-stage continuation ledgers now share the same precision and history-same
+results, so common-suffix cancellation identifies $c$ and $c'$.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_common\_precision\_center\_transport}
 
 \begin{theorem}[Compact net witness precision determinacy under endpoint sameness]
 \label{thm:compact-net-witness-precision-hsame-deterministic}

@@ -46,6 +46,23 @@ is the classifier equality required by $R_U$.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_laws}
 
+\begin{theorem}[Concrete unary-history magma continuation result unary exactness]
+\label{thm:concrete-unary-history-magma-cont-result-unary}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$, then the
+continuation result is unary exactly when both continuation inputs are unary:
+$$
+\Unary(r)\Longleftrightarrow \Unary(h)\land\Unary(k).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_unary\_iff}
+\begin{proof}
+The continuation ledger identifies $r$ with $\mathsf{append}(h,k)$. The
+unary append factor theorem says precisely that
+$\Unary(h)\land\Unary(k)$ is equivalent to
+$\Unary(\mathsf{append}(h,k))$. Transporting along the continuation equality
+gives the displayed result-side exactness.
+\end{proof}
+
 \begin{theorem}[Concrete unary-history magma classifier append factors]
 \label{thm:concrete-unary-history-magma-classifier-append-factors}
 For histories $h,h',k,k':\mathsf{BHist}$, the concrete unary-history magma
