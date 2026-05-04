@@ -18,3 +18,20 @@ right-hand side follows from the corresponding visible-vs-empty no-confusion
 law.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_empty\_result\_iff}
+
+\begin{theorem}[Module parity epsilon empty endpoint has no fixed point]
+\label{thm:module-parity-smul-e0-empty-no-fixed-point}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\Ezero(\emp),m),m)
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Perform constructor case analysis on $m$. At $m=\emp$ the action produces
+$\Eone(\emp)$, contradicting visible-one versus empty no-confusion. At
+$m=\Ezero(h)$ and $m=\Eone(h)$ the action produces $\emp$, contradicting the
+corresponding empty versus visible no-confusion law.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_e0\_empty\_no\_fixed\_point}
