@@ -319,6 +319,50 @@ plus both annihilator orientations; core theorem
 two-sided annihilator witness; standard bridge ordinary commutative-ring
 zero-divisor closure; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[CommRing left zero-divisor two-step product strict closure]
+\label{thm:commring-left-zero-divisor-two-step-product-strict-closure}
+Under the same operation hypotheses as
+\autoref{thm:commring-left-zero-divisor-product-strict-closure}, every
+$a,b,c:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\bigl(((a\cdot b)\cdot c)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{StrictZD}_R((a\cdot b)\cdot c).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{LeftZD}_R(a)$ and let
+$P:(a\cdot b)\hsame0\to\bot$ be the apartness proof for the first product.
+Apply \autoref{thm:commring-left-zero-divisor-product-strict-closure} to
+$a$, $b$, the left zero-divisor witness for $a$, and $P$. This gives
+$\mathsf{StrictZD}_R(a\cdot b)$.
+
+Let $Q:((a\cdot b)\cdot c)\hsame0\to\bot$ be the apartness proof for the
+second product. Apply
+\autoref{thm:commring-strict-zero-divisor-product-closure} to the strict
+zero-divisor $a\cdot b$, the factor $c$, and $Q$.
+
+The resulting package is exactly
+$\mathsf{StrictZD}_R((a\cdot b)\cdot c)$: its apartness component is $Q$, and
+its two-sided annihilator witness is the one transported by the cited strict
+product-closure theorem.
+\end{proof}
+
+The ten-field fit for
+\autoref{thm:commring-left-zero-divisor-two-step-product-strict-closure} is:
+traditional target iterated nonzero multiple of a zero divisor; BEDC source
+$\CommRingUp$ over $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier
+$\hsame$; stability from the two cited product-closure theorems; ledger the two
+apartness hypotheses and preserved annihilator; core theorem
+\autoref{thm:commring-left-zero-divisor-two-step-product-strict-closure};
+exactness the strict two-sided witness for the second product; standard bridge
+ordinary commutative-ring zero-divisor propagation; status
+$\mathsf{ProofTarget}$.
+
 \begin{definition}[CommRing subring-inclusion name certificate]
 \label{def:commring-subring-inclusion-name-certificate}
 Let $S$ and $T$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $C_S,\sim_S$ and $C_T,\sim_T$, and write their operations as $0_S,1_S,+_S,-_S,\cdot_S$ and $0_T,1_T,+_T,-_T,\cdot_T$. For a history map $\iota:\mathsf{BHist}\to\mathsf{BHist}$, define the target image carrier
