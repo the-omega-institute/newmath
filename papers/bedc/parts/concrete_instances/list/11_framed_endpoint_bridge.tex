@@ -206,6 +206,26 @@ $\hsame(h,\mathsf{FramedListEndpoint}(xs))$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_hsame\_transport}
 
+\begin{theorem}[Framed list-spine nil-cons no-confusion]
+\label{thm:framed-list-spine-rep-nil-cons-no-confusion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. No
+single history can be represented both by the framed nil spine and by a framed
+cons spine:
+$$
+\mathsf{FramedListSpineRep}_A(h,\mathsf{nil})\to
+\mathsf{FramedListSpineRep}_A(h,\mathsf{cons}(a,xs))\to
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two framed representations and compose their endpoint classifiers
+through symmetry and transitivity of $\hsame$. This gives
+$\hsame(\mathsf{FramedListEndpoint}(\mathsf{nil}),
+\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs)))$, which contradicts the
+framed endpoint nil-cons no-confusion theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListSpineRep\_nil\_cons\_no\_confusion}
+
 \begin{theorem}[Framed list-spine coherence]
 \label{thm:framed-list-spine-coherence}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let
@@ -429,6 +449,29 @@ and $xs$ are the required constructor witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListPublicLength\_constructor\_endpoint\_readback}
 
+\begin{theorem}[Framed list public length successor empty absurd]
+\label{thm:framed-list-public-length-successor-empty-absurd}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier. If a
+history $h$ has successor framed public length, then $h$ cannot also be the
+empty framed endpoint:
+$$
+\mathsf{FramedListPublicLength}_A(h,n+1)
+\Longrightarrow
+\hsame(h,\mathsf{FramedListEndpoint}(\mathsf{nil}))
+\Longrightarrow
+\mathsf{False}.
+$$
+\end{theorem}
+\begin{proof}
+Apply constructor readback to the successor public-length witness. It exposes
+a head $a$ and tail spine $xs$ with a displayed representation of $h$ by the
+cons endpoint $\mathsf{FramedListEndpoint}(\mathsf{cons}(a,xs))$. Composing
+this endpoint display with the assumed empty-frame display gives an internal
+sameness between a cons framed endpoint and the nil framed endpoint. Framed
+endpoint no-confusion for nil versus cons eliminates this case.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListPublicLength\_successor\_empty\_absurd}
+
 \begin{theorem}[Framed list bridge classifier displayed-spine exactness]
 \label{thm:framed-list-bridge-classifier-displayed-spine-exactness}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
@@ -466,6 +509,36 @@ $xs\sim_A xs_0$, $xs_0\sim_A ys_0$, and $ys_0\sim_A ys$, yielding
 $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$.
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_displayed\_spine\_exactness}
+
+\begin{theorem}[Framed list bridge empty-left source refinement]
+\label{thm:framed-list-bridge-empty-left-source-refinement}
+Let $A,B:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history source carriers and
+let $\sim_A,\sim_B$ be source classifiers. Assume source refinement preserves
+carrier membership and head classification:
+$$
+\forall x:\mathsf{BHist}.\; A(x)\to B(x),
+\qquad
+\forall x\,y:\mathsf{BHist}.\; x\sim_A y\to x\sim_B y.
+$$
+Then every framed bridge from the displayed empty-left endpoint
+$\Ezero(\emp)$ to $k$ over $(A,\sim_A)$ refines to a framed bridge over
+$(B,\sim_B)$:
+$$
+\mathsf{FramedListBridgeClassifier}_{A,\sim_A}(\Ezero(\emp),k)
+\to
+\mathsf{FramedListBridgeClassifier}_{B,\sim_B}(\Ezero(\emp),k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the framed bridge into finite spines $xs,ys$, two
+$\mathsf{FramedListSpineRep}$ witnesses, and a
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ witness. The carrier inclusion
+transports every entry field in both spine representations while preserving the
+endpoint equalities. Induction on the finite-spine classifier transports each
+head relation through the classifier inclusion and rebuilds the tail witness.
+Repack the same two spines with these transported witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.FramedListBridgeClassifier\_empty\_left\_source\_refinement}
 
 \begin{theorem}[Framed list bridge classifier constructor exactness]
 \label{thm:framed-list-bridge-classifier-constructor-inversion}
