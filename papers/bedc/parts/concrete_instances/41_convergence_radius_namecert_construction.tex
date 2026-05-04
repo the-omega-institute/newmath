@@ -269,6 +269,28 @@ constant witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.GeomBound\_append\_unary\_coeff\_closed}
 
+\begin{theorem}[Convergence radius append-unary coefficient closure]
+\label{thm:conv-rad-append-unary-coeff-closed}
+If $\mathsf{ConvRad}(a,R)$ holds and $q$ is unary, then appending $q$ to every
+coefficient preserves the same convergence radius:
+$$
+\mathsf{ConvRad}(\lambda n.\mathsf{append}(a_n,q),R).
+$$
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{ConvRad}(a,R)$ and keep its constant-witness function $K$ as the
+candidate witness for the appended coefficient family.
+
+Take an arbitrary admitted radius row, together with its continuation ledger
+$\ContR(r,K(r),R)$. The original convergence-radius witness gives
+$\mathsf{GeomBound}(a,r,K(r))$ for that row. Apply
+\autoref{thm:geom-bound-append-unary-coeff-closed} to this geometric bound and
+the unary suffix $q$, yielding
+$\mathsf{GeomBound}(\lambda n.\mathsf{append}(a_n,q),r,K(r))$. Since the row was
+arbitrary and the witness function is unchanged, the displayed predicate is
+$\mathsf{ConvRad}(\lambda n.\mathsf{append}(a_n,q),R)$.
+\end{proof}
+
 \begin{lemma}[Differentiation preserves radius]
 \label{lem:diff-preserves-radius}
 If \(\mathsf{ConvRad}(a, R)\), then the term-wise derivative coefficients \(b_n = (n+1) \cdot a_{n+1}\) satisfy \(\mathsf{ConvRad}(b, R)\) with the same radius and an explicit constant adjustment.
