@@ -368,6 +368,24 @@ $e'$ to $e$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_right\_factor}
 
+\begin{lemma}[Append multiplier left factor readback]
+\label{lem:nat-mul-append-multiplier-left-factor}
+Let $d$ and $w$ be unary histories. If $\mathsf{NatMul}(d,q,e)$ and
+$\mathsf{NatMul}(d,\mathsf{append}(w,q),r)$ hold, and if $\ContR(n,e,r)$
+displays $n$ as the left factor of the result continuation, then
+$\mathsf{NatMul}(d,w,n)$.
+\end{lemma}
+\begin{proof}
+Use totality of unary multiplication to build a product $n'$ for $d$ and $w$.
+Append-continuation closure combines this product with the supplied product for
+$q$, producing a product for $\mathsf{append}(w,q)$ with result
+$\mathsf{append}(n',e)$. Functionality of $\mathsf{NatMul}$ identifies that
+result with the displayed $r$. Transport the continuation
+$\ContR(n',e,\mathsf{append}(n',e))$ across this result equality, right-cancel
+it against $\ContR(n,e,r)$, and transport the product for $w$ from $n'$ to $n$.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_append\_multiplier\_left\_factor}
+
 \begin{definition}[Divisibility relation]
 \label{def:nat-divides}
 For unary histories \(d, n\), the divisibility relation \(\mathsf{NatDivides}(d, n)\) holds when there exists a unary \(q\) with \(\mathsf{NatMul}(d, q, n)\). The witness \(q\) is the explicit quotient.
