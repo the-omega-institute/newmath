@@ -126,6 +126,26 @@ identified with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_eq\_iff\_empty}
 
+\begin{theorem}[Metric distance depth append-left cancellation]
+\label{thm:metric-distance-depth-append-left-cancel}
+For histories $p,d,e:\mathsf{BHist}$, equality of structural metric distance
+depths after appending the same left prefix cancels that prefix:
+$$
+\mathsf{MetricDistanceDepth}(p\cdot d)
+=
+\mathsf{MetricDistanceDepth}(p\cdot e)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+The structural depth of a left append decomposes as the depth of the common
+prefix plus the depth of the tail. Rewriting both displayed sides by this
+depth-add equation reduces the claim to left cancellation for addition in
+\(\mathbb{N}\), yielding equality of the two tail depths.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_cancel}
+
 \begin{theorem}[Metric distance depth append-right equality emptiness]
 \label{thm:metric-distance-depth-append-right-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the right preserves structural
