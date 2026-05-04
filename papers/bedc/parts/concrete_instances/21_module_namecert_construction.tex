@@ -198,6 +198,40 @@ predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_graph\_empty\_exact\_iff}
 
+\begin{theorem}[Module singleton scalar action graph output determinacy]
+\label{thm:module-singleton-smul-graph-output-determinacy}
+For histories $r,m,n,n':\mathsf{BHist}$, define the concrete scalar-action
+graph predicate
+$$
+G(r,m,n)\;:\Longleftrightarrow\;
+A_{\emp}(r)\land A_{\emp}(m)\land
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n).
+$$
+Then any two outputs of the same scalar and module inputs are classified
+equivalent:
+$$
+G(r,m,n)\land G(r,m,n')\quad\Longrightarrow\quad \rho_{\emp}(n,n').
+$$
+The ten-field fit is: traditional target terminal module action determinacy;
+BEDC source $\mathsf{BHist}$ with $\mathsf{ModuleSingletonSmul}$, $A_{\emp}$,
+and $\rho_{\emp}$; carrier $A_{\emp}$; classifier $\rho_{\emp}$; stability
+from graph exactness and classifier endpoint exactness; ledger scalar, module,
+and output endpoint witnesses; core theorem this block; exactness output
+uniqueness up to classifier; downstream consumer the $\ModuleUp$ action-row
+certificate; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $G(r,m,n)\land G(r,m,n')$. Apply
+Theorem~\ref{thm:module-singleton-smul-graph-exact} to the first graph witness
+to obtain the output endpoint witness $A_{\emp}(n)$. Apply the same theorem to
+the second graph witness to obtain $A_{\emp}(n')$.
+
+Theorem~\ref{thm:module-singleton-classifier-empty-endpoints} identifies
+$\rho_{\emp}$ with pairs of singleton empty-history endpoints. Using the two
+endpoint witnesses just obtained, package the pair as
+$\rho_{\emp}(n,n')$.
+\end{proof}
+
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}
 The tuple
