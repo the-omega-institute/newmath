@@ -74,6 +74,21 @@ into a unary zero-extension, contradicting unary zero-extension separation.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_zero\_headed\_component\_absurd}
 
+\begin{theorem}[Open disk zero-headed component impossibility]
+\label{thm:open-disk-zero-headed-component-absurd}
+For histories \(z_0,r,z:\mathsf{BHist}\), an existential open-disk witness
+\(\mathsf{OpenDisk}(z_0,r,z)\) has no zero-headed center, radius, or point
+component.
+\end{theorem}
+\begin{proof}
+Unpack the existential open disk into the complex center carrier, unary radius,
+complex point carrier, and its boundary gap witness. A zero-headed radius
+contradicts unary zero-extension separation. A zero-headed center or point
+forms a reflexive complex-history classifier with a zero-headed endpoint,
+contradicting complex component endpoint separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.OpenDisk\_zero\_headed\_component\_absurd}
+
 \begin{lemma}[Open-disk transport along \(\hsame\)]
 \label{lem:holomorphic-open-disk-hsame-transport}
 If \(\mathsf{OpenDisk}(z_0,r,z,g)\) and each of \(z_0,r,z,g\) is replaced by an \(\hsame\)-equivalent history, then the transported tuple is again an open-disk witness. The transported witness exposes the unary carriers of the four target histories and the transported ledger \(\Cont(z',g',r')\).
@@ -114,6 +129,24 @@ displayed gap by left cancellation yields the classifier
 \(\hsame(g\cdot e,g')\).
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_deterministic}
+
+\begin{theorem}[Holomorphic open disk radius extension rejects zero-headed enlarged gap]
+\label{thm:holomorphic-open-disk-radius-extension-gap-zero-headed-absurd}
+If \(\mathsf{HolomorphicOpenDisk}(z_0,r,z,g)\), \(e\) is unary, and
+\(\ContR(r,e,r')\), then the enlarged gap \(g\cdot e\) cannot be displayed as a
+zero-headed history:
+$$
+g\cdot e=\Ezero(w)\quad\Longrightarrow\quad \bot.
+$$
+\end{theorem}
+\begin{proof}
+The radius enlargement lemma constructs
+\(\mathsf{HolomorphicOpenDisk}(z_0,r',z,g\cdot e)\). Its gap field gives
+\(\mathsf{UnaryHistory}(g\cdot e)\). Transport that unary witness along the
+displayed equality \(g\cdot e=\Ezero(w)\), obtaining a unary zero-headed
+history, which contradicts BEDC unary zero-headed separation.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDisk\_radius\_extension\_gap\_zero\_headed\_absurd}
 
 \begin{theorem}[Open disk radius extension gap determinacy]
 \label{thm:open-disk-radius-extension-gap-deterministic}

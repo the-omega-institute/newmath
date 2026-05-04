@@ -561,4 +561,16 @@ theorem PadicPrimeScale_first_prime_unit_exponent_result :
       (BHist.e1 (BHist.e1 BHist.Empty)) := by
   exact And.intro NatPrime_first_pair.left NatMul_first_prime_unit_result
 
+theorem PadicPrimeScale_append_unit_exponents_result_square_hsame {p result : BHist} :
+    PadicPrimeScale p (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) result ->
+      hsame result (append p p) := by
+  intro scale
+  have unitScale : PadicPrimeScale p (BHist.e1 BHist.Empty) p :=
+    PadicPrimeScale_unit_exponent_prime scale.left
+  have squareScale :
+      PadicPrimeScale p (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+        (append p p) :=
+    PadicPrimeScale_append_cont_closure unitScale unitScale (cont_intro rfl)
+  exact NatMul_functional scale.left.left scale.right squareScale.right
+
 end BEDC.Derived.PadicUp
