@@ -668,3 +668,62 @@ $$
 $$
 Classifier transitivity composes the left expansion, this fold swap comparison, and the symmetry of the right expansion. Thus every entry of $(A\cdot B)\cdot C$ is scalar-classified with the corresponding entry of $A\cdot(B\cdot C)$. The pointwise matrix classifier of \autoref{def:matrix-classifier-specification} gives the displayed matrix classification, and the unchanged dimension witnesses are recorded by the ledger policy of \autoref{def:matrix-ledger-policy}.
 \end{proof}
+
+\begin{theorem}[Matrix multiplication classifier congruence]
+\label{thm:matrix-multiplication-classifier-congruence}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, multiplication $\cdot_R$, addition $+_R$, zero endpoint $0_R$, and finite additive fold from \autoref{def:finite-additive-scalar-fold}. Let $n,m,p:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A,A':\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B,B':\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R
+$$
+be carried matrices over the same scalar source and the same matching inner dimension $m$. Assume matrix multiplication is the finite-fold operation
+$$
+(X\cdot Y)_{i,k}:=\Sigma_{\mathsf{Fin}(m)}(j\mapsto X_{i,j}\cdot_RY_{j,k})
+$$
+for the shared inner finite index carrier, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar multiplication congruence field of \autoref{def:ring-stability-certificate} and the fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier}. If
+$$
+A\sim_{\mathrm{Mat}}A'
+\qquad\text{and}\qquad
+B\sim_{\mathrm{Mat}}B',
+$$
+then $A\cdot B$ and $A'\cdot B'$ are carried $\MatrixUp$ matrices, and
+$$
+A\cdot B\sim_{\mathrm{Mat}}A'\cdot B'.
+$$
+\end{theorem}
+\begin{proof}
+The multiplication closure item in \autoref{def:matrix-stability-certificate} applies to the carried compatible pairs $(A,B)$ and $(A',B')$, so both products $A\cdot B$ and $A'\cdot B'$ are carried by the $\mathsf{Fin}(n)\times\mathsf{Fin}(p)$ matrix carrier.
+
+By \autoref{def:matrix-classifier-specification}, it remains to prove the scalar classifier comparison entrywise. Fix $i:\mathsf{Fin}(n)$ and $k:\mathsf{Fin}(p)$. The matrix classifier hypotheses give, for every $j:\mathsf{Fin}(m)$,
+$$
+A_{i,j}\sim_R A'_{i,j}
+\qquad\text{and}\qquad
+B_{j,k}\sim_R B'_{j,k}.
+$$
+The multiplication congruence field in \autoref{def:ring-stability-certificate} therefore gives the summand comparison
+$$
+A_{i,j}\cdot_R B_{j,k}
+\sim_R
+A'_{i,j}\cdot_R B'_{j,k}
+$$
+for every inner index $j$.
+
+The shared inner dimension supplies the same finite enumeration of $\mathsf{Fin}(m)$ on both sides. Hence these summand comparisons form a same-length finite-spine classifier witness between
+$$
+j\mapsto A_{i,j}\cdot_R B_{j,k}
+\qquad\text{and}\qquad
+j\mapsto A'_{i,j}\cdot_R B'_{j,k}.
+$$
+Applying \autoref{thm:finite-additive-fold-respects-scalar-classifier} to that finite-spine witness yields
+$$
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A_{i,j}\cdot_R B_{j,k})
+\sim_R
+\Sigma_{\mathsf{Fin}(m)}(j\mapsto A'_{i,j}\cdot_R B'_{j,k}).
+$$
+By the displayed definition of matrix multiplication, this is exactly
+$$
+(A\cdot B)_{i,k}\sim_R(A'\cdot B')_{i,k}.
+$$
+Since $i$ and $k$ were arbitrary, \autoref{def:matrix-classifier-specification} packages the entrywise scalar comparisons as $A\cdot B\sim_{\mathrm{Mat}}A'\cdot B'$. The dimension and scalar-source ledgers are unchanged and are recorded by \autoref{def:matrix-ledger-policy}.
+\end{proof}
