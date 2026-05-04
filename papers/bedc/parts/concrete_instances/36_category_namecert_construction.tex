@@ -411,3 +411,67 @@ $$
 Thus every listed data field of the double opposite certificate is the original
 field of $\mathcal C$.
 \end{proof}
+
+\begin{theorem}[Opposite category certificate involution]
+\label{thm:opposite-category-certificate-involution}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-carrier}. Write its object carrier as $\mathcal O$,
+object classifier as $\sim_{\mathcal O}$, hom-carrier predicate as
+$\mathcal H(a,b,f)$, morphism classifier as $\sim_{\mathcal H}$, identity
+witnesses as $\mathsf{id}_a$, and composition classifier as
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$. Let
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$ be
+obtained by applying \autoref{def:opposite-category-certificate-data} twice.
+Then $\mathcal C^{\mathrm{opop}}$ is a $\CategoryUp$ certificate, and its
+object carrier, object classifier, hom-carrier predicate, morphism classifier,
+identity witnesses, and composition classifier reduce componentwise to those of
+$\mathcal C$:
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{opop}}(a)&=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{opop}}a'&=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{opop}}(a,b,f)&=\mathcal H(a,b,f),&
+ f\sim_{\mathcal H}^{\mathrm{opop}}g&=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{opop}}_a&=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)&=
+\mathsf{Comp}_{\mathcal C}(f,g,h).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Since $\mathcal C$ satisfies the $\CategoryUp$ obligations,
+\autoref{thm:opposite-category-certificate} gives a $\CategoryUp$ certificate
+on $\mathcal C^{\mathrm{op}}$. Applying the same theorem to that certificate
+gives a $\CategoryUp$ certificate on
+$\mathcal C^{\mathrm{opop}}=(\mathcal C^{\mathrm{op}})^{\mathrm{op}}$.
+
+The field comparison is obtained by two unfoldings of
+\autoref{def:opposite-category-certificate-data}. The object carrier and
+object classifier are reused by each opposite construction, so
+$\mathcal O^{\mathrm{opop}}(a)=\mathcal O^{\mathrm{op}}(a)=\mathcal O(a)$
+and
+$a\sim_{\mathcal O}^{\mathrm{opop}}a'=a\sim_{\mathcal O}^{\mathrm{op}}a'=
+a\sim_{\mathcal O}a'$.
+
+For hom-carriers, the first opposite reverses the endpoint order and the
+second opposite reverses it back:
+$$
+\mathcal H^{\mathrm{opop}}(a,b,f)
+=\mathcal H^{\mathrm{op}}(b,a,f)
+=\mathcal H(a,b,f).
+$$
+The morphism classifier is unchanged at both stages, hence
+$f\sim_{\mathcal H}^{\mathrm{opop}}g=f\sim_{\mathcal H}g$. The identity
+witnesses are also reused at both stages, so
+$\mathsf{id}^{\mathrm{opop}}_a=\mathsf{id}^{\mathrm{op}}_a=\mathsf{id}_a$.
+
+For composition, the defining reversal is applied twice. Thus, for displayed
+composable morphisms $f:a\to b$ and $g:b\to c$,
+$$
+\mathsf{Comp}_{\mathcal C^{\mathrm{opop}}}(f,g,h)
+=\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(g,f,h)
+=\mathsf{Comp}_{\mathcal C}(f,g,h).
+$$
+Every displayed data field of the double opposite certificate is therefore the
+corresponding displayed data field of $\mathcal C$.
+\end{proof}
