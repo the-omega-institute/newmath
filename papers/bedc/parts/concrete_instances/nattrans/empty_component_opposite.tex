@@ -1,0 +1,18 @@
+\begin{theorem}[NatTrans prefix component empty component opposite closure]
+\label{thm:nattrans-prefix-component-empty-component-opposite-closed}
+For histories $p,q,a,\eta:\mathsf{BHist}$, an empty prefix component from $p$
+to $q$ over $a$ also carries the component with the prefixes reversed:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\eta\hsame\emp
+\quad\Longrightarrow\quad
+\mathsf{NatTransPrefixComponentCarrier}(q,p,a,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Transport $\eta$ to $\emp$ and apply prefix-component empty-identity
+exactness. The forward component exposes unary carriers for $p$, $q$, and $a$,
+together with $p\hsame q$. Symmetry of $\hsame$ gives $q\hsame p$, and the
+same empty-identity exactness theorem rebuilds the reversed prefix component.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_empty\_component\_opposite\_closed}
