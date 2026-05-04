@@ -132,6 +132,34 @@ through the two fixed append contexts.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_middle\_cancel\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation common-context classifier]
+\label{thm:concrete-unary-history-magma-cont-common-context-classifier}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+For histories $l,l',m,m',r,r',a,a':\mathsf{BHist}$, if
+$R_U(l,l')$ and $R_U(r,r')$, then continuations through the two classified
+contexts expose exactly the middle classifier:
+$$
+\ContR(l,\mathsf{append}(m,r),a)\land
+\ContR(l',\mathsf{append}(m',r'),a')
+\Longrightarrow
+\bigl(R_U(a,a')\Longleftrightarrow
+  U(m)\land U(m')\land\hsame(m,m')\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The context classifiers identify the left contexts and the right contexts
+while carrying all four endpoints as unary histories. Eliminating the two
+continuation witnesses turns the results into the two displayed append
+contexts. The middle-context cancellation theorem then cancels the common
+unary left context and common unary right context, giving exactly the two
+middle carrier witnesses and the middle $\hsame$ comparison; the reverse
+direction rebuilds the contextual classifier by unary append closure.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_common\_context\_classifier\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
