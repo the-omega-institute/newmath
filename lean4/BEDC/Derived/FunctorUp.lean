@@ -3,14 +3,13 @@ import BEDC.Derived.CategoryUp.Cycle
 import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.EmptyComposite
 import BEDC.Derived.CategoryUp.Prefix
-
+import BEDC.Derived.NatUp
 namespace BEDC.Derived.FunctorUp
-
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.CategoryUp
-
+open BEDC.Derived.NatUp
 theorem FunctorPrefixHomCarrier_preserves {p a b f : BHist} :
     UnaryHistory p -> CategoryHomCarrier a b f ->
       CategoryHomCarrier (append p a) (append p b) f := by
@@ -430,7 +429,12 @@ theorem FunctorPrefixHomCarrier_e1_endpoint_visible_morphism_iff {p a r k : BHis
       FunctorPrefixHomCarrier_preserves
         (p := p) (a := BHist.e1 a) (b := BHist.e1 r) (f := BHist.e1 k)
         data.left baseCarrier
-
+theorem FunctorPrefixHomCarrier_e1_visible_morphism_strict_prefix {p a r k : BHist} :
+    CategoryHomCarrier (append p (BHist.e1 a)) (append p (BHist.e1 r)) (BHist.e1 k) ->
+      (k = BHist.Empty -> False) -> NatUnaryStrictPrefix (BHist.e1 a) r := by
+  intro homCarrier tailNonempty
+  have visibleData := FunctorPrefixHomCarrier_e1_endpoint_visible_morphism_iff.mp homCarrier
+  exact ⟨k, visibleData.right.right.left, tailNonempty, visibleData.right.right.right.right⟩
 theorem FunctorPrefixHomCarrier_source_prefix_deterministic {p q a target f : BHist} :
     CategoryHomCarrier (append p a) target f →
       CategoryHomCarrier (append q a) target f → hsame p q := by

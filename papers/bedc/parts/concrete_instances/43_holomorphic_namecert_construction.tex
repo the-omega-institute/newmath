@@ -480,6 +480,29 @@ composes it with the displayed nonempty continuation tail.
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_strict\_prefix}
 
+\begin{theorem}[Strict iterated complex differentiability endpoint contradiction]
+\label{thm:iterated-strict-cplxdiff-endpoint-hsame-absurd}
+If a strict iterated complex-differentiability chain starts from a unary seed
+and advances by at least one nonempty continuation step, then its final endpoint
+cannot be $\hsame$ to the seed:
+$$
+\mathsf{UnaryHistory}(seed)
+\Longrightarrow
+\mathsf{IteratedStrictCplxDiff}(seed,n+1,h)
+\Longrightarrow
+\hsame(seed,h)
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+The strict-prefix readback theorem extracts a strict unary prefix from the seed
+to the final endpoint. Unpacking this prefix gives a nonempty unary tail and a
+continuation from the seed to the endpoint. Endpoint $\hsame$ cancellation
+forces that tail to be empty, contradicting strictness.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedStrictCplxDiff\_endpoint\_hsame\_absurd}
+
 \begin{theorem}[Strict iterated complex differentiability transports strict prefix readback]
 \label{thm:iterated-strict-cplx-diff-hsame-transport-strict-prefix}
 If a nonempty strict iterated complex-differentiability chain has \(\hsame\)-equivalent seed and target endpoints, then the strict chain transports to those endpoints, and a unary transported seed exposes a strict unary prefix into the transported target.

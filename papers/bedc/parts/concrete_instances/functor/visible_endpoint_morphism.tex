@@ -1,0 +1,43 @@
+\begin{theorem}[Prefix functor visible morphism strict prefix]
+\label{thm:functor-prefix-e1-visible-morphism-strict-prefix}
+For histories $p,a,r,k$, a prefixed visible morphism from
+$\mathsf{append}(p,\Eone(a))$ to $\mathsf{append}(p,\Eone(r))$ with morphism
+$\Eone(k)$, together with nonempty $k$, exposes a strict unary prefix from
+$\Eone(a)$ to $r$:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k))
+\Longrightarrow
+k\neq \emp
+\Longrightarrow
+\mathsf{NatUnaryStrictPrefix}(\Eone(a),r).
+$$
+\end{theorem}
+\begin{proof}
+Apply prefixed visible endpoint morphism exactness. Its forward direction
+recovers unary membership of $k$ and the continuation $\ContR(\Eone(a),k,r)$.
+The nonempty witness for $k$ is therefore exactly the strict-prefix tail.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_strict\_prefix}
+
+\begin{theorem}[Prefix functor visible morphism endpoint contradiction]
+\label{thm:functor-prefix-e1-visible-morphism-endpoint-hsame-absurd}
+For histories $p,a,r,k$, a prefixed visible morphism with nonempty visible tail
+cannot have its unprefixed source endpoint $\hsame$ to the target endpoint:
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,\Eone(a)),
+\mathsf{append}(p,\Eone(r)),\Eone(k))
+\Longrightarrow
+k\neq \emp
+\Longrightarrow
+\hsame(\Eone(a),r)
+\Longrightarrow
+\bot.
+$$
+\end{theorem}
+\begin{proof}
+The strict-prefix readback supplies a nonempty unary tail from $\Eone(a)$ to
+$r$. The endpoint $\hsame$ comparison would force this tail to be empty by
+strict-prefix endpoint cancellation, contradicting the displayed nonemptiness.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_e1\_visible\_morphism\_endpoint\_hsame\_absurd}
