@@ -1,5 +1,6 @@
 import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
+import BEDC.Derived.MetricUp.HsameDeterminism
 
 namespace BEDC.Derived.MetricUp
 
@@ -97,6 +98,19 @@ theorem MetricDistanceWitness_triangle_append_context_result_deterministic
     MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
   exact cont_deterministic displayedWitness.right.right.right canonical.right.right.right
 
+theorem MetricDistanceWitness_triangle_append_context_source_deterministic
+    {p q x x' y z dxy dyz dxyz : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        MetricDistanceWitness (append p x') (append dyz q) (append (append p dxyz) q) ->
+          hsame x x' := by
+  intro pCarrier qCarrier xy yz xyz displayedWitness
+  have canonical :
+      MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+    MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+  exact MetricDistanceWitness_visible_context_hsame_source_deterministic (hsame_refl dyz)
+    (hsame_refl dxyz) canonical displayedWitness
+
 theorem MetricDistanceWitness_triangle_append_depth_add {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
       MetricDistanceWitness dxy z dxyz ->
@@ -138,6 +152,21 @@ theorem MetricDistanceWitness_triangle_depth_zero_collapse {x y z dxy dyz dxyz :
     (And.intro xEmpty
       (And.intro yEmpty
         (And.intro zEmpty (And.intro dxyEmpty dyzEmpty))))
+
+theorem MetricDistanceWitness_triangle_depth_zero_iff_empty_spine {x y z dxy dyz dxyz :
+    BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceDepth dxyz = 0 ↔
+          hsame x BHist.Empty ∧ hsame y BHist.Empty ∧ hsame z BHist.Empty ∧
+            hsame dxy BHist.Empty ∧ hsame dyz BHist.Empty) := by
+  intro xy yz xyz
+  constructor
+  · intro depthZero
+    exact (MetricDistanceWitness_triangle_depth_zero_collapse xy yz xyz depthZero).right
+  · intro emptySpine
+    exact MetricDistanceWitness_empty_endpoints_depth_zero xyz emptySpine.right.right.right.left
+      emptySpine.right.right.left
 
 theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->

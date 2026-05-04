@@ -83,6 +83,7 @@ If $q\hsame\emp$, the first multiplication witness has empty multiplier, so $e\h
 
 It remains to consider $q\not\hsame\emp$ and $r\not\hsame\emp$. By \autoref{lem:natmul-nonempty-quotient-product-extension}, there are unary tails $t$ and $s$ with $\Cont(d,t,e)$ and $\Cont(e,s,d)$. By closed unary generation, each tail is either $\emp$ or a one-extension. If $t\hsame\emp$, the first continuation is a right-unit continuation and gives $e\hsame d$ by \autoref{lem:unary-continuation-unit}; symmetry gives $d\hsame e$. If $s\hsame\emp$, the second continuation gives $d\hsame e$ directly. If both tails are one-extensions, the two continuations are strict unary prefix witnesses in the sense of \autoref{def:nat-unary-strict-prefix}, contradicting \autoref{thm:nat-unary-strict-prefix-asymm}. From that contradiction the desired history-sameness follows.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatDivides\_antisymmetry\_hsame}
 
 \begin{lemma}[Unary multiplication transports along the multiplicand]
 \label{lem:nat-mul-multiplicand-hsame-transport}
@@ -92,6 +93,15 @@ Let $d,q,n$ be unary histories, and let $d'$ be a history with $d\hsame d'$. If 
 By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{NatMul}(d,q,n)$ witness from \autoref{def:nat-multiplication}. In the zero-multiplier case, the result is $\emp$, and the zero constructor with the unary witness for $d'$ gives $\mathsf{NatMul}(d',\emp,\emp)$. In the successor case, the induction hypothesis gives $\mathsf{NatMul}(d',q,n_0)$ for the predecessor product. The original last step is a continuation $\Cont(n_0,d,n_1)$. Transport that continuation along reflexivity on $n_0$, the hypothesis $d\hsame d'$, and reflexivity on $n_1$ using \autoref{thm:cont-hsame-transport}; this gives $\Cont(n_0,d',n_1)$. Applying the successor constructor of \autoref{def:nat-multiplication} yields $\mathsf{NatMul}(d',\Eone(q),n_1)$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplicand\_hsame\_transport}
+
+\begin{lemma}[Unary multiplication successor result-continuation transport]
+\label{lem:nat-mul-succ-result-cont-transport}
+Let $d,q,n$ be unary histories, and let $n'$ be a history with $n\hsame n'$. If $\mathsf{NatMul}(d,\Eone(q),n)$, then there is a predecessor product $p$ with $\mathsf{NatMul}(d,q,p)$ and $\Cont(p,d,n')$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness to obtain a predecessor product $p$ and the final continuation $\Cont(p,d,n)$. Transport this continuation along the displayed result history-sameness, leaving the predecessor product unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_cont\_transport}
 
 \begin{theorem}[Divisibility transports along divisor history-sameness]
 \label{thm:nat-divides-divisor-hsame-transport}

@@ -182,6 +182,17 @@ theorem PadicPrimeScale_unit_exponent_result_prime_hsame {p result : BHist} :
           (hsame_refl BHist.Empty)
       exact cont_respects_hsame nEmpty (hsame_refl p) data.right (cont_left_unit p)
 
+theorem PadicPrimeScale_unit_exponent_prime {p : BHist} :
+    NatPrime p -> PadicPrimeScale p (BHist.e1 BHist.Empty) p := by
+  intro prime
+  exact And.intro prime (NatMul.succ (NatMul.zero prime.left) (cont_left_unit p))
+
+theorem PadicPrimeScale_unit_exponent_result_prime {p : BHist} :
+    NatPrime p -> PadicPrimeScale p (BHist.e1 BHist.Empty) p := by
+  intro prime
+  exact And.intro prime
+    (NatMul.succ (NatMul.zero prime.left) (cont_left_unit p))
+
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r := by
@@ -363,6 +374,21 @@ theorem PadicPrimeScale_append_unit_right_factorization_iff {p w r : BHist} :
           Iff.mpr PadicPrimeScale_succ_exponent_factorization_iff
             (Exists.intro BHist.Empty (And.intro emptyScale (cont_left_unit p)))
         exact PadicPrimeScale_append_cont_closure data.left unitScale data.right
+
+theorem PadicPrimeScale_append_unit_right_predecessor_unique {p w r : BHist} :
+    UnaryHistory w -> PadicPrimeScale p (append w (BHist.e1 BHist.Empty)) r ->
+      exists n : BHist, PadicPrimeScale p w n ∧ Cont n p r ∧
+        forall other : BHist, PadicPrimeScale p w other -> hsame n other := by
+  intro unaryW scale
+  have factors :=
+    Iff.mp (PadicPrimeScale_append_unit_right_factorization_iff unaryW) scale
+  cases factors with
+  | intro n data =>
+      exact Exists.intro n
+        (And.intro data.left
+          (And.intro data.right
+            (fun other otherScale =>
+              NatMul_functional scale.left.left data.left.right otherScale.right)))
 
 theorem PadicPrimeScale_append_unit_left_factorization_iff {p q r : BHist} :
     UnaryHistory q ->
