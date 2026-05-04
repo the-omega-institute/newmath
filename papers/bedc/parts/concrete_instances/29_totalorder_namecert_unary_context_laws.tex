@@ -452,3 +452,63 @@ comparisons; status $\mathsf{ProofTarget}$.
 The $\TotalOrderUp$ schema is represented by this concrete $\mathsf{BHist}$
 carrier and explicit comparison data, giving later Lean formalization a
 $\mathsf{BHist}$-anchored target rather than an abstract parameter schema.
+
+\begin{theorem}[Concrete unary prefix total-order finite minimum selector]
+\label{thm:totalorder-prefix-finite-minimum-selector}
+Let $L$ be a nonempty finite spine of histories in the finite-list helper of
+\autoref{def:list-carrier}. Assume every entry of $L$ is carried by
+$\mathsf{Carrier}_{\mathsf{u}}$ for the concrete $\TotalOrderUp$ certificate of
+\autoref{thm:concrete-unary-prefix-totalorder-namecert}. Then there is an entry
+$m\in L$ such that, for every entry $x\in L$,
+$$
+m\le_{\mathsf{u}}x.
+$$
+
+The per-object fields are: traditional target finite-list minimum extraction in
+a total order; BEDC source finite spines of carried unary histories; carrier
+$\mathsf{Carrier}_{\mathsf{u}}$; classifier $\rho_{\mathsf{u}}$; relation
+$\le_{\mathsf{u}}$; stability obligations total comparison, reflexivity, and
+transitivity; ledger the tail-minimum witness and the selected comparison branch
+at each cons step; core theorem this finite minimum selector; exactness
+membership plus the displayed lower-bound row; standard bridge finite unary-word
+total order; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Induct on the nonempty finite spine $L$.
+
+For the singleton spine $L=[a]$, choose $m=a$. The membership clause is
+immediate, and the only entry to check is $a$ itself. Reflexivity from
+\autoref{thm:concrete-unary-prefix-preorder-laws} gives $a\le_{\mathsf{u}}a$.
+
+For the cons step, write $L=a::T$ with $T$ nonempty and all its entries carried
+by $\mathsf{Carrier}_{\mathsf{u}}$. By the induction hypothesis applied to
+$T$, choose $m_T\in T$ such that $m_T\le_{\mathsf{u}}x$ for every $x\in T$.
+Apply \autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} to
+the carried pair $a,m_T$.
+
+In the strict-left branch $\mathsf{NatUnaryStrictPrefix}(a,m_T)$, choose
+$m=a$. By \autoref{def:nat-unary-strict-prefix} and
+\autoref{def:concrete-unary-prefix-totalorder-instance}, forgetting the
+nonempty-tail condition gives $a\le_{\mathsf{u}}m_T$. For $x=a$, reflexivity
+gives $a\le_{\mathsf{u}}a$. For $x\in T$, compose
+$a\le_{\mathsf{u}}m_T$ with the induction-hypothesis comparison
+$m_T\le_{\mathsf{u}}x$ using \autoref{thm:preorder-prefix-transitivity}. Thus
+the head $a$ is a lower bound for every entry of $L$.
+
+In the same branch $\rho_{\mathsf{u}}(a,m_T)$, choose $m=a$. The exact
+middle-branch row of
+\autoref{thm:concrete-unary-prefix-totalorder-comparison-partition} gives
+$a\le_{\mathsf{u}}m_T$ and $m_T\le_{\mathsf{u}}a$. The entry $a$ is below
+itself by reflexivity, and it is below every tail entry by transitivity through
+$m_T$, exactly as in the strict-left case.
+
+In the strict-right branch $\mathsf{NatUnaryStrictPrefix}(m_T,a)$, choose
+$m=m_T$. Its membership in $L$ follows from $m_T\in T$. Forgetting the
+nonempty-tail condition gives $m_T\le_{\mathsf{u}}a$, which handles the head
+entry. Every tail entry is handled by the induction hypothesis. Hence the
+selected tail minimum is below every entry of $L$.
+
+All comparison branches construct an entry of $L$ satisfying the displayed
+lower-bound condition, so the finite minimum selector exists for every nonempty
+finite spine of carried concrete $\TotalOrderUp$ elements.
+\end{proof}
