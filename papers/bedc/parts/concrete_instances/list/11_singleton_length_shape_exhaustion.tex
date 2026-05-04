@@ -1,0 +1,56 @@
+\section{Singleton source length shape exhaustion}
+\label{sec:list-singleton-source-length-shape-exhaustion}
+
+\begin{theorem}[List singleton source public length shape exhaustion]
+\label{thm:list-singleton-source-public-length-shape-exhaustion}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For every
+history $h$, if $\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)$ holds, then one of
+the following two disjoint public length shapes is available:
+\begin{enumerate}
+  \item $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)\land \hsame(h,\emp)$.
+  \item There exist a finite length value $n$ and histories
+  $a,t,p:\mathsf{BHist}$ such that
+  $$
+  \left(
+  \begin{array}{l}
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+  A_{a_0}(a)\land\\
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+The nil alternative and every displayed cons alternative are disjoint by BEDC
+history no-confusion between $\emp$ and $\Eone(p)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+at the fixed singleton source. Its totality clause gives a finite length value
+$m$ with $\mathsf{ListPublicLength}_{A_{a_0}}(h,m)$.
+
+Case-analyze the finite length value $m$.
+
+In the zero case, the zero readback clause of
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+identifies $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ with
+$\hsame(h,\emp)$. Pair the given zero public length witness with this endpoint
+witness to obtain the nil alternative.
+
+In the successor case, write $m=n+1$. The successor exactness clause of
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+turns $\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$ into histories
+$a,t,p:\mathsf{BHist}$ with $A_{a_0}(a)$,
+$\mathsf{ListHistoryCarrier}_{A_{a_0}}(t)$,
+$\mathsf{ListPublicLength}_{A_{a_0}}(t,n)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$. These data are exactly the displayed cons alternative.
+
+For disjointness, suppose the nil alternative and one displayed cons
+alternative both hold. Compose symmetry of the nil endpoint witness
+$\hsame(h,\emp)$ with the cons endpoint witness $\hsame(h,\Eone(p))$ to obtain
+$\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
+Theorem~\ref{thm:history-no-confusion}, excludes this empty-versus-one
+identification.
+\end{proof}
