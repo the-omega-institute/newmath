@@ -22,4 +22,20 @@ theorem FunctorPrefixHomCarrier_morphism_empty_endpoint_iff {p a b f : BHist} :
       rfl
     exact (CategoryHomCarrier_morphism_empty_endpoint_iff homCarrier).mpr samePrefixed
 
+theorem FunctorPrefixHomCarrier_comp_result_empty_iff {p a b c f g fg : BHist} :
+    CategoryHomCarrier (append p a) (append p b) f ->
+      CategoryHomCarrier (append p b) (append p c) g -> Cont f g fg ->
+        (hsame fg BHist.Empty <->
+          hsame f BHist.Empty ∧ hsame g BHist.Empty ∧ hsame a b ∧ hsame b c) := by
+  intro left right comp
+  constructor
+  · intro resultEmpty
+    have emptyComp : Cont f g BHist.Empty :=
+      cont_result_hsame_transport comp resultEmpty
+    exact (FunctorPrefixHomCarrier_comp_empty_iff left right).mp emptyComp
+  · intro emptyData
+    have emptyComp : Cont f g BHist.Empty :=
+      (FunctorPrefixHomCarrier_comp_empty_iff left right).mpr emptyData
+    exact cont_deterministic comp emptyComp
+
 end BEDC.Derived.FunctorUp
