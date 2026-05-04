@@ -232,6 +232,27 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Singleton lattice continuation empty result order exactness]
+\label{thm:lattice-singleton-le-continuation-empty-result}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the restricted
+singleton prefix comparison between the inputs is equivalent to emptiness of the
+continuation result:
+$$
+P\le_{\emp} Q
+\quad\Longleftrightarrow\quad
+R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The restricted singleton order carries both input endpoints as empty. Since
+$R$ is the BEDC append continuation of $P$ and $Q$, append-empty construction
+gives $R\hsame\emp$. Conversely, if the continuation result is empty, BEDC
+append-empty inversion makes both $P$ and $Q$ empty. Their induced
+$\hsame$ chain supplies the underlying prefix comparison, so the singleton
+order tuple is reconstructed.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_empty\_result\_iff}
+
 \begin{theorem}[Singleton meet--join absorption gives order and classifier data]
 \label{thm:lattice-singleton-meet-join-absorption-order-classifier}
 If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice
@@ -334,6 +355,28 @@ witness $A_{\emp}(h)$ therefore also carries $\mathsf{append}(h,t)$, and the
 prefix comparison is the empty-tail side of the same append-tail equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
+
+\begin{theorem}[Singleton lattice classifier append tail emptiness]
+\label{thm:lattice-singleton-classifier-append-tail-empty}
+For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$, then the singleton classifier
+satisfies
+$$
+\mathsf{LatticeSingletonClassifier}(\mathsf{append}(h,t),h)
+\quad\Longleftrightarrow\quad
+t\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the carried left endpoint from the classifier.
+Since $\mathsf{append}(h,t)\hsame\emp$, the concrete append-empty inversion
+forces $t\hsame\emp$.
+
+Conversely, assume $t\hsame\emp$. The append endpoint is carried because both
+$h$ and $t$ are empty in the singleton sense, and the right continuation unit
+identifies $\mathsf{append}(h,t)$ with $h$. Together with the given carrier for
+$h$, these witnesses reconstruct the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_append\_tail\_empty\_iff}
 
 \begin{theorem}[Singleton lattice append tail upper emptiness]
 \label{thm:lattice-singleton-le-append-tail-upper-empty}
