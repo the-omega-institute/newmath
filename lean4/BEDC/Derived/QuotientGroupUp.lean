@@ -399,4 +399,58 @@ theorem QuotientGroupCentralizerNormalizer_abelian_identity_fiber_total
       assocC leftId rightId commC mulCongr leftInv rightInv (a := a) (x := x)).left
   exact Iff.mpr (package.right.right.right.right x) centralX
 
+theorem QuotientGroupCentralizerNormalizer_abelian_classifier_totality
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    SubgroupCentralizerNormalizer mul inv a x -> SubgroupCentralizerNormalizer mul inv a y ->
+      let QuotientClassifier := fun p q : BHist =>
+        SubgroupCentralizerNormalizer mul inv a p ∧
+          SubgroupCentralizerNormalizer mul inv a q ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧ hsame q (mul p z))
+      (SubgroupCentralizerQuotientKernel mul inv a x y <-> True) ∧
+        (QuotientClassifier x y <-> True) := by
+  intro normalizerX normalizerY
+  dsimp
+  have kernelCentral :
+      SubgroupCentralizerCarrier mul a (mul (inv x) y) :=
+    (BEDC.Derived.AbGroupUp.abgroup_centralizer_commutator_collapse
+      assocC leftId rightId commC mulCongr leftInv rightInv
+      (a := a) (x := mul (inv x) y)).left
+  have kernelXY :
+      SubgroupCentralizerQuotientKernel mul inv a x y :=
+    And.intro normalizerX (And.intro normalizerY kernelCentral)
+  have classifierKernel :
+      (SubgroupCentralizerNormalizer mul inv a x ∧
+          SubgroupCentralizerNormalizer mul inv a y ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧
+              hsame y (mul x z))) <->
+        SubgroupCentralizerQuotientKernel mul inv a x y :=
+    QuotientGroupCentralizerNormalizer_orbit_kernel_equivalence_iff
+      assocC leftId mulCongr leftInv
+  have classifierXY :
+      SubgroupCentralizerNormalizer mul inv a x ∧
+          SubgroupCentralizerNormalizer mul inv a y ∧
+            Exists (fun z : BHist => SubgroupCentralizerCarrier mul a z ∧
+              hsame y (mul x z)) :=
+    Iff.mpr classifierKernel kernelXY
+  constructor
+  · constructor
+    · intro _kernel
+      constructor
+    · intro _truth
+      exact kernelXY
+  · constructor
+    · intro _classified
+      constructor
+    · intro _truth
+      exact classifierXY
+
 end BEDC.Derived.QuotientGroupUp
