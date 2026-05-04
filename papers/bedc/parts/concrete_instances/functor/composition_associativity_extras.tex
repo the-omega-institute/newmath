@@ -63,6 +63,24 @@ suffix, while the associativity witness is unchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_assoc\_preserves}
 
+\begin{theorem}[Prefix functor unary suffix reflects associative hom composition]
+\label{thm:functor-prefix-hom-carrier-unary-suffix-comp-assoc-reflects}
+For histories $p,q,a,b,c,d,f,g,h,fg,gh,left,right$, suppose the three
+displayed hom-carriers run through the shared unary context
+$\mathsf{append}(\mathsf{append}(p,-),q)$ from $a$ to $b$, from $b$ to $c$,
+and from $c$ to $d$. If the four continuation ledgers display the two
+associative composites, then $left$ and $right$ are central hom-carriers from
+$a$ to $d$, and $\HSame(left,right)$.
+\end{theorem}
+\begin{proof}
+Apply unary-context exactness to each of the three displayed hom-carriers.
+This reflects them to central hom-carriers $a\to b$, $b\to c$, and $c\to d$.
+Category associative composition closure then applies to the reflected
+carriers and the four displayed continuation ledgers, producing both central
+composite carriers and the associativity classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_unary\_suffix\_comp\_assoc\_reflects}
+
 \begin{theorem}[Prefix functor reflects associative hom composition]
 \label{thm:functor-prefix-hom-carrier-comp-assoc-reflects}
 For histories $p,a,b,c,d,f,g,h,fg,gh,left,right$, suppose $f$ is a
