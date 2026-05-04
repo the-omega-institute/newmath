@@ -1,0 +1,27 @@
+\begin{theorem}[NatTrans prefix component vertical empty-component readback]
+\label{thm:nattrans-prefix-component-vertical-empty-component-readback}
+For prefix components over a common object $a$, if $\eta$ is a component from
+$p$ to $q$, $\theta$ is a component from $q$ to $r$, and their vertical
+continuation has empty result, then both displayed components have empty
+component carriers and the adjacent prefixes agree:
+$$
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\emp)
+\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\emp)
+\land
+\HSame(p,q)
+\land
+\HSame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-composite exactness to the two component hom-carriers.
+The empty result forces both component histories to be empty and gives endpoint
+equalities with the shared object suffix $a$. Transporting the original
+component carriers along the empty component equalities gives the two empty
+component carriers, and right cancellation removes the common suffix from the
+endpoint equalities.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_component\_readback}

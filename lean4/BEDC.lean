@@ -190,6 +190,7 @@ import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
 import BEDC.Derived.PrimeUp.NatMulComm
+import BEDC.Derived.PrimeUp.NatMulTransport
 import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.SuccPositiveShape
@@ -546,6 +547,7 @@ import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.AdjunctionUp.AlternatingSuffix
 import BEDC.Derived.AdjunctionUp.AlternatingZeroHeaded
 import BEDC.Derived.YonedaUp
