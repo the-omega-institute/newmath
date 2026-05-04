@@ -1,0 +1,60 @@
+\begin{lemma}[Unit right multiplication reads back the multiplicand]
+\label{lem:nat-mul-unit-right-hsame}
+For every unary history $d$, if $\mathsf{NatMul}(d,\Eone(\emp),n)$, then $\hsame(n,d)$.
+\end{lemma}
+\begin{proof}
+Apply \autoref{lem:nat-mul-succ-inversion} to the multiplication witness. This gives a history $m$ with $\mathsf{NatMul}(d,\emp,m)$ and $\Cont(m,d,n)$. Inverting the zero-multiplier multiplication witness leaves only the zero constructor, so $m$ is identified with $\emp$, and the displayed continuation becomes $\Cont(\emp,d,n)$. The left-unit existence part of \autoref{thm:continuation-unit-laws-spine} gives $\Cont(\emp,d,d)$, and continuation determinacy from \autoref{thm:continuation-determinacy-up-to-history-sameness} identifies $n$ with $d$.
+\end{proof}
+
+\begin{lemma}[Unary division by a nonempty divisor]
+\label{lem:unary-division-by-nonempty-divisor}
+Let $t$ and $x$ be unary histories with $t\not\hsame\emp$. Then there are unary histories $q$, $r$, and $w$ such that $\mathsf{NatMul}(t,q,w)$, $\Cont(w,r,x)$, and either $r\hsame\emp$ or $\mathsf{NatUnaryStrictPrefix}(r,t)$.
+\end{lemma}
+\begin{proof}
+Run unary induction on $x$, maintaining the invariant that $x$ is the continuation of a $t$-multiple $w$ by a remainder $r$ which is empty or a strict prefix of $t$. The empty case uses $q=\emp$, $w=\emp$, and $r=\emp$. For a one-extension step, first extend the current remainder by the unit history. Apply unary prefix totality from \autoref{thm:nat-unary-prefix-total} to this candidate remainder and $t$. If the candidate is still a strict prefix of $t$, keep the same quotient and replace the remainder by the candidate. If the candidate reaches $t$, append one more copy of $t$ to the multiple using the successor constructor of \autoref{def:nat-multiplication}, reset the remainder to $\emp$, and use continuation associativity from \autoref{lem:unary-continuation-associativity}. The alternative in which $t$ is a strict prefix of the candidate would make the old remainder and $t$ strict prefixes of each other after one-step cancellation, contradicting \autoref{thm:nat-unary-strict-prefix-asymm}. Thus the invariant closes.
+\end{proof}
+
+\begin{lemma}[Unary multiplication commutes up to history-sameness]
+\label{lem:nat-mul-commutative-hsame}
+Let $a$ and $b$ be unary histories. If $\mathsf{NatMul}(a,b,n)$ and $\mathsf{NatMul}(b,a,m)$, then $n\hsame m$.
+\end{lemma}
+\begin{proof}
+Induct on the unary generation of $b$. The empty case reduces both products to $\emp$ by constructor inversion and \autoref{lem:natmul-empty-left-result-empty}. In the one-extension case, invert the first product with \autoref{lem:nat-mul-succ-inversion}. The predecessor is the product of $a$ by the tail of $b$; by the induction hypothesis it agrees with the product of that tail by $a$. The final continuation appends one copy of $a$. On the other side, multiplication of $\Eone(b_0)$ by $a$ is built by appending one visible unit through each copy of $a$. Repeated use of unary continuation commutativity from \autoref{thm:unary-commutativity-refined} and associativity from \autoref{lem:unary-continuation-associativity} moves that visible unit block past the tail product. Functionality of unary multiplication from \autoref{lem:nat-mul-functional} identifies the two resulting histories. The $\Ezero$ case is impossible by \autoref{lem:unary-no-zero-extension}.
+\end{proof}
+
+\begin{lemma}[Divisible prefix cancellation]
+\label{lem:nat-divides-prefix-cancellation}
+Let $d$, $x$, $y$, and $z$ be unary histories with $d\not\hsame\emp$. If $\Cont(x,y,z)$, $\mathsf{NatDivides}(d,x)$, and $\mathsf{NatDivides}(d,z)$, then $\mathsf{NatDivides}(d,y)$.
+\end{lemma}
+\begin{proof}
+Unpack the two divisibility witnesses from \autoref{def:nat-divides}, obtaining quotients $q_x$ and $q_z$ with products $d q_x=x$ and $d q_z=z$. Compare $q_x$ and $q_z$ by unary prefix totality. If $q_z$ is obtained from $q_x$ by a unary tail $u$, then \autoref{def:nat-multiplication} and continuation associativity decompose the $d q_z$ product as the continuation of $x$ by the product $d u$. Since $z$ is also the continuation of $x$ by $y$, continuation left-cancellation identifies $y$ with $d u$, and divisibility follows after endpoint transport by \autoref{cor:nat-divides-endpoint-hsame-transport}.
+
+In the other comparison direction, $x$ is the continuation of $z$ by a $d$-multiple. If that extra quotient tail is nonempty, the nonempty divisor $d$ makes the extra product nonempty by \autoref{thm:natmul-nonempty-multiplicand-empty-result-iff}; then $z$ is a strict unary prefix of $x$, while the displayed $\Cont(x,y,z)$ makes $x$ a prefix of $z$ unless $y\hsame\emp$. Strict-prefix asymmetry from \autoref{thm:nat-unary-strict-prefix-asymm} rules out the nonempty tail. Hence the tail is empty, $x\hsame z$, and continuation unit uniqueness forces $y\hsame\emp$. The empty quotient witnesses $\mathsf{NatDivides}(d,y)$.
+\end{proof}
+
+\begin{lemma}[Least prime multiple period]
+\label{lem:prime-least-multiple-period}
+Let $p$ and $a$ be unary histories with $\mathsf{NatPrime}(p)$ and $\neg\mathsf{NatDivides}(p,a)$. Among the nonempty unary histories $t$ for which there is a product $m_t$ with $\mathsf{NatMul}(a,t,m_t)$ and $\mathsf{NatDivides}(p,m_t)$, a strict-prefix least such $t$ exists, and every such least $t$ satisfies $t\hsame p$.
+\end{lemma}
+\begin{proof}
+The search set is inhabited. By \autoref{lem:nat-mul-total} there is a product of $a$ by $p$; by \autoref{lem:nat-mul-commutative-hsame} it is history-same to the product of $p$ by $a$, so \autoref{cor:nat-divides-endpoint-hsame-transport} gives divisibility by $p$. The strict-greater field in \autoref{def:nat-prime} makes $p$ nonempty. Bounded trial division as in \autoref{thm:prime-decidable}, using \autoref{lem:nat-mul-total} and \autoref{lem:nat-mul-functional} to decide each product test, scans the nonempty prefixes up to $p$ and returns a least period $t$.
+
+Divide $p$ by this nonempty $t$ using \autoref{lem:unary-division-by-nonempty-divisor}. Thus $p$ is the continuation of a $t$-multiple by a remainder $r$, where $r$ is empty or a strict prefix of $t$. Since $p$ divides $a p$, and since $p$ also divides $a$ times the $t$-multiple part by repeated use of the period witness and \autoref{lem:divides-transitive}, \autoref{lem:nat-divides-prefix-cancellation} gives divisibility of $a r$ by $p$. If $r$ were nonempty, this would be a smaller positive period than $t$, contradicting leastness. Hence $r\hsame\emp$, so $t$ divides $p$.
+
+Apply the divisor-classifier field of \autoref{def:nat-prime} to this divisor $t$ of $p$. Either $t\hsame\Eone(\emp)$ or $t\hsame p$. In the unit case, the period witness is a product of $a$ by the unit; \autoref{lem:nat-mul-unit-right-hsame} and endpoint transport give $\mathsf{NatDivides}(p,a)$, contradicting the hypothesis. Therefore $t\hsame p$.
+\end{proof}
+
+\begin{theorem}[Euclid's lemma for prime divisibility]
+\label{thm:prime-divides-product}
+Let $p$, $a$, $b$, and $n$ be unary histories. If $\mathsf{NatPrime}(p)$, $\mathsf{NatMul}(a,b,n)$, and $\mathsf{NatDivides}(p,n)$, then
+$$
+  \mathsf{NatDivides}(p,a) \vee \mathsf{NatDivides}(p,b).
+$$
+\end{theorem}
+\begin{proof}
+If $\mathsf{NatDivides}(p,a)$, take the left disjunct. Assume instead $\neg\mathsf{NatDivides}(p,a)$, and let $t$ be the least prime multiple period supplied by \autoref{lem:prime-least-multiple-period}; then $t\hsame p$.
+
+Use \autoref{lem:unary-division-by-nonempty-divisor} to divide $b$ by $p$. Write $b$ as the continuation of a $p$-multiple part by a remainder $r$, where $r\hsame\emp$ or $r$ is a strict unary prefix of $p$. The product of $a$ with the $p$-multiple part is divisible by $p$, because the product of $a$ with one copy of $p$ is divisible by $p$ by \autoref{lem:nat-mul-commutative-hsame}, and repeated copies compose by \autoref{lem:divides-transitive}. The given product $n$ is obtained from this divisible prefix by appending the product of $a$ with $r$, using the successor clauses of \autoref{def:nat-multiplication} and continuation associativity. Since $p$ divides $n$, \autoref{lem:nat-divides-prefix-cancellation} gives that $p$ divides the product of $a$ with $r$.
+
+If $r$ is nonempty, then $r$ is a positive period for $a$ modulo $p$ and is a strict prefix of $p$, contradicting $t\hsame p$ and the leastness of $t$. Thus $r\hsame\emp$. The displayed division of $b$ therefore has no remainder: $b$ is history-same to a product with left factor $p$. By \autoref{cor:nat-divides-endpoint-hsame-transport}, this is $\mathsf{NatDivides}(p,b)$, giving the right disjunct.
+\end{proof}
