@@ -371,6 +371,24 @@ def read_target_parallel(default: int) -> int:
     return max(1, min(default, HARD_MAX_PARALLEL))
 
 
+def read_timeout(key: str, default: int, *, lo: int = 60, hi: int = 14400) -> int:
+    """Read a per-phase codex-exec timeout (seconds) from
+    PARALLEL_CONFIG_FILE. Allowed keys: `paper_review_timeout`,
+    `paper_revise_timeout`. Falls back to `default` if file/key missing.
+    Clamped to [lo, hi]. Hot-reloadable — operator can widen Phase
+    REVISE from 3600s to 5400-7200s without restart when codex hits
+    timeouts on big-edit rounds.
+    """
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            v = int(data.get(key, default))
+            return max(lo, min(v, hi))
+    except Exception:
+        pass
+    return max(lo, min(default, hi))
+
+
 _origin_sync_stop = threading.Event()
 
 
@@ -1805,7 +1823,7 @@ def run_round_in_worktree(
         review_raw = codex_exec(
             review_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=review_timeout,
+            timeout_seconds=read_timeout("paper_review_timeout", review_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"P{round_num}_review",
@@ -1846,7 +1864,7 @@ def run_round_in_worktree(
         revise_raw = codex_exec(
             revise_prompt,
             work_dir=wt_cwd,
-            timeout_seconds=revise_timeout,
+            timeout_seconds=read_timeout("paper_revise_timeout", revise_timeout),
             model=model,
             dry_run=dry_run,
             log_tag=f"P{round_num}_revise",
