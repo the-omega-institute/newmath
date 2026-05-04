@@ -348,3 +348,57 @@ $\hsame(\emp,\Eone(q))$, again contradicting
 Theorem~\ref{thm:history-no-confusion}. These two exclusions form the displayed
 conjunction.
 \end{proof}
+
+\begin{theorem}[List singleton source classified double-successor tail nonempty]
+\label{thm:list-singleton-source-classified-double-successor-tail-nonempty}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$ and every finite length value $n$, if
+$$
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(h,(n+1)+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(k,(n+1)+1),
+$$
+then there exist histories $a,b,t,u,p,q:\mathsf{BHist}$ such that
+$$
+\left(
+\begin{array}{l}
+A_{a_0}(a)\land A_{a_0}(b)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+\mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+\mathsf{ListPublicLength}_{A_{a_0}}(t,n+1)\land
+\mathsf{ListPublicLength}_{A_{a_0}}(u,n+1)\land\\
+\ContR(a,t,p)\land \ContR(b,u,q)\land
+\hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+\hsame(a,b)\land
+\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)\land\\
+\neg\hsame(t,\emp)\land \neg\hsame(u,\emp)
+\end{array}
+\right).
+$$
+The ten-field fit is: traditional target finite-list two-step constructor
+readback; BEDC source singleton $\mathsf{BHist}$; carrier
+$\mathsf{ListHistoryCarrier}$; classifier
+$\mathsf{ListSpineHistoryClassifier}$; stability from successor component
+exactness; ledger exposed cons endpoints and tail public lengths; core theorem
+this block; exactness by endpoint no-confusion through the cited nonempty
+theorem; standard bridge finite spines; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-component-exactness}
+at length $n+1$ to the classifier witness and the two displayed
+double-successor public-length witnesses. The forward direction supplies
+histories $a,b,t,u,p,q:\mathsf{BHist}$ with the singleton heads, tail carriers,
+tail public lengths at $n+1$, the two $\ContR$ ledgers, the endpoint readbacks,
+the head comparison, and the tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)$.
+
+Apply
+Theorem~\ref{thm:list-singleton-source-classified-successor-endpoint-nonempty}
+to this tail classifier and the two tail public-length witnesses at $n+1$. It
+gives $\neg\hsame(t,\emp)\land \neg\hsame(u,\emp)$.
+
+Keeping the same six histories and appending these two tail exclusions to the
+successor component package gives the displayed existential conclusion.
+\end{proof}

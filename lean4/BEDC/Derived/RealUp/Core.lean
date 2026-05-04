@@ -89,6 +89,18 @@ theorem RealConstantHistoryClassifier_e1_tail_readback {h k d e : BHist} :
     RealConstantHistoryClassifier_endpoint_transport sameH sameK classified
   exact Iff.mp RealConstantHistoryClassifier_e1_iff_rat displayed
 
+theorem RealConstantHistoryClassifier_e1_denominator_package {h k d e : BHist} :
+    RealConstantHistoryClassifier h k -> hsame h (BHist.e1 d) -> hsame k (BHist.e1 e) ->
+      RatHistoryClassifier d e ∧ PositiveUnaryDenominator d ∧ PositiveUnaryDenominator e ∧
+        UnaryHistory d ∧ UnaryHistory e ∧ (hsame d BHist.Empty -> False) ∧
+          (hsame e BHist.Empty -> False) := by
+  intro classified sameH sameK
+  have ratClassifier := RealConstantHistoryClassifier_e1_tail_readback classified sameH sameK
+  have positives := RatHistoryClassifier_positive_denominators ratClassifier
+  have lp := PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rp := PositiveUnaryDenominator_unary_and_nonempty positives.right
+  exact ⟨ratClassifier, positives.left, positives.right, lp.left, rp.left, lp.right, rp.right⟩
+
 theorem RealConstantHistoryClassifier_e1_pair_readback {h k d e : BHist} :
     RealConstantHistoryClassifier h k -> hsame h (BHist.e1 (BHist.e1 d)) ->
       hsame k (BHist.e1 (BHist.e1 e)) ->

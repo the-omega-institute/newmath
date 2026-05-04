@@ -4731,3 +4731,216 @@ prop:abgroup-forgets-group-certificate (17_abgroup:722) and prop:group-forgets-m
 
 ---
 
+### B-184 - Opposite ring carries a Ring certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Opposite ring carries a Ring certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If C carries a RingUp(C) certificate with addition +, multiplication ·, additive identity 0, multiplicative identity 1, additive inverse −, and classifier ~_C, then defining ·^op by a ·^op b := b · a and reusing all other data yields a RingUp(C) certificate with the same carrier C, addition +, additive identity 0, multiplicative identity 1, additive inverse −, classifier ~_C, and reversed multiplication ·^op.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_intro_and_singletons.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+
+Rationale:
+An opposite-ring construction is a canonical algebraic invariant that mirrors the well-developed opposite-functor and opposite-category constructions in the same project: `Opposite functor certificate` exists at functor/certificate_obligations.tex:326 and `Double opposite functor certificate data identity` at functor/certificate_obligations.tex:641; analogously `Double opposite category certificate data identity` exists at 36_category_namecert_construction.tex:352. Yet no opposite-ring construction exists: grep `opposite.*ring|ring.*opposite|R\^op|opp.*ring` across parts/ returns zero matches (only category/functor/nattrans hits and 'integer canonical opposite-sign' which is unrelated). The construction reuses the AbGroup additive structure unchanged and reverses multiplication, with associativity (b·a)·c = b·(a·c) → c·(b·a) = (c·b)·a being symmetric, and distributivity reversing direction (left↔right). Additionally a CommRing→CommRing^op = CommRing identity follows immediately and would parallel the double-opposite identity for functors and categories. The ring intro (ring/18_ring_intro_and_singletons.tex:4) emphasizes ring is licensed by AbGroup+Monoid+distributivity, all of which transport cleanly under multiplication reversal.
+
+---
+
+### B-185 - Group commutator symmetry: inv(comm(a,b)) hsame comm(b,a)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Group commutator symmetry: inv(comm(a,b)) hsame comm(b,a) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under group laws (associativity, two-sided identity, multiplication congruence, two-sided inverses), for all a,b in BHist, hsame(inv(comm(a,b)), comm(b,a)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `lean4/BEDC/Derived/GroupUp/`
+
+Rationale:
+Hungerford ch.I.4 / Dummit-Foote 5.4: [a,b]^{-1} = [b,a] is a one-line consequence of inverse-reversal. comm(a,b) = ab(a^{-1}b^{-1}); apply thm:group-inverse-mul-reverse twice and thm:group-left-inverse-involutive twice. Verified absent: grep 'commutator-symm|commutator.*inverse|comm\(b,a\)' inside group/ returns no theorem. All prerequisites already \leanchecked at 02_certificate.tex lines 33-185. 1-round closeable.
+
+---
+
+
+### B-186 - Ring negation classifier exactness: -x hsame -y iff x hsame y
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring negation classifier exactness: -x hsame -y iff x hsame y |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under additive group laws (associativity, commutativity, left-zero, left-inverse, addition congruence, additive-inverse congruence) on BHist, for every x,y: hsame(neg(x), neg(y)) iff hsame(x, y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `lean4/BEDC/Derived/RingUp/`
+
+Rationale:
+Hungerford ch.III §1 / Dummit-Foote §7.1: 'in any abelian group / ring, additive inverse is injective.' Grep confirms no neg-injectivity / neg-classifier-exact theorem exists in ring/, commring/, or field/. Forward: from -x ~ -y and x + (-x) ~ 0, additive cancellation gives x ~ y. Reverse: additive-inverse congruence transports x ~ y across neg directly. Both directions short. Pairs naturally with thm:ring-additive-difference-zero-exact already in the same file. 1-round closeable.
+
+---
+
+
+### B-187 - Composition of split monomorphisms is a split monomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composition of split monomorphisms is a split monomorphism |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+In any CategoryUp certificate, if f:a->b and g:b->c both carry split-monomorphism witnesses with left inverses f' and g' respectively, then g comp f : a -> c carries a split-monomorphism witness whose left inverse is f' comp g'.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/`
+
+Rationale:
+Mac Lane CWM I.5 Prop 1 / Riehl 1.2.10: closure of split-mono under composition by associativity and unit law. Verified: def:category-split-monomorphism exists at functor/certificate_obligations.tex line 391 and thm:functor-preserves-split-monomorphism exists at line 391+, but no closure-under-composition theorem. Prerequisites all present (composition closure, associativity, identity-square via cor:category-hom-carrier-stability-law-package). Distinct from B-11 (functor preserves hom-carrier under composition). 1-round closeable.
+
+---
+
+
+### B-188 - ListPublicAppend left-identity at the nil-represented endpoint
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ListPublicAppend left-identity at the nil-represented endpoint |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If e:BHist satisfies ListSpineRep_A(e, nil) and h satisfies ListHistoryCarrier_A(h), then ListPublicAppend_A(e, h, h).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/list/11_represented_spine_append_context.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `lean4/BEDC/Derived/ListUp/`
+
+Rationale:
+Bird-Wadler / Pierce TAPL §3 / introductory algebra (Birkhoff-Mac Lane): nil ++ xs = xs is the very first algebraic law for ++ in any free-monoid presentation. Currently the chapter states ListPublicAppend totality + congruence + length-additivity, but the explicit unit law ListPublicAppend(nil, h, h) is missing — grep across list/ returns no `nil_append`, `append_left_unit`, or `append_right_unit` matches. Closure: append/spine-rep machinery is fully present (nil ListSpineRep clause + lem:list-spine-append-representation-construction). 1-round closeable. Sister to thm:preorder-prefix-empty-left-iff-unary already stated in chapter 27.
+
+---
+
+
+### B-189 - Identity natural transformation as a full NatTransUp certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Identity natural transformation as a full NatTransUp certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For any FunctorUp certificate F : C -> D, there is a NatTransUp certificate id_F : F => F whose component at every object x is the D-identity id_(F_0(x)) and whose naturality square at every source morphism u : a -> b is the identity-naturality witness via category identity-square closure.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Mac Lane CWM II.4 Prop 1 / Riehl 1.4.1: identity nat-trans is a NatTransUp certificate. Currently thm:nattrans-prefix-identity-naturality-square exists at the prefix-component level only (line 697 of 38_nattrans_namecert_construction.tex); the abstract certificate-level wrapper packaging this as a full NatTransUp instance from F to F is missing. The opposite-natural-transformation chapter implicitly assumes such an instance exists. Closes the gap before vertical composition with itself (degenerate case). 1-round closeable.
+
+---
+
+### B-190 - Module scalar negation acts as additive inverse of scalar action
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Module scalar negation acts as additive inverse of scalar action |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a $\ModuleUp(R,M)$ certificate, for carried $r:R$ and $m:M$, $((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M 0_M$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Cleanly fits chapter 21 (module name certificate) as a sibling to the scalar associativity and additivity targets already on the board (B-08, B-19, B-20, B-23, B-24). The existing module entries all probe associativity, additivity, congruence, and unit obligations — none address how the ring's negation transports through the scalar action to produce the module's additive inverse. The claim is a single concrete implication 'P implies Q under setup S' (setup: $\ModuleUp(R,M)$; conclusion: classifier-equality $\sim_M$), and it surfaces a missing piece of module-certificate behavior that future ring-module bridge work will need. No matching theorem label in `paper_coverage` (closest is `def:abgroup-unary-scalar-torsion`, which is structurally distinct).
+
+---
+
+### B-191 - Ring right distributivity over subtraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Ring right distributivity over subtraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under RingUp(R), for any a, b, c in R, (a -_R b) *_R c is history-same to (a *_R c) -_R (b *_R c) up to the ring classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Concrete derived theorem at the same granularity as B-07 (lattice idempotence/absorption), B-08 (module scalar associativity), and B-09 (polynomial normalize commutativity): ring chapter records distributivity and additive-inverse fields as obligations, but no labeled theorem in the visible coverage proves the subtraction-form right distributivity. The proof routes through right distributivity over addition plus the (-b)*c = -(b*c) lemma — itself unproven on the board — making this a concrete certificate-projection target rather than a paraphrase of an existing entry. Distinct from B-08 (module scalar action), B-09 (polynomial normalization), B-23 (module representative transport), and B-28 (CommRing→Ring forgetful), which all treat different ring-adjacent obligations. Fits cleanly in concrete_instances/18_ring_namecert_construction.tex.
+
+---
+

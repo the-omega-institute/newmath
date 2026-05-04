@@ -417,3 +417,45 @@ The carrier, source, pattern, classifier, stability, and ledger data listed abov
 
 \paragraph{Primitive boundary.}
 \(\RingUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
+
+\begin{theorem}[Ring left distributivity over subtraction]
+\label{thm:ring-left-distributivity-over-subtraction}
+Let $R$ carry a history-level $\RingUp$ certificate with classifier $\sim_R$,
+addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Write
+$x-_R y$ for $x+_R(-_R y)$. For every carried triple $a,b,c$,
+$$
+a\cdot_R(b-_R c)\sim_R(a\cdot_R b)-_R(a\cdot_R c).
+$$
+The ten-field fit is: traditional target left distributivity over subtraction;
+BEDC source $\RingUp$ over the carried endpoints of $R$; carrier the ring
+carrier; classifier $\sim_R$; stability from the addition congruence and left
+distributivity fields of \autoref{def:ring-stability-certificate}; ledger the
+three endpoints and the hidden negative summand; core theorem this theorem;
+exactness the displayed subtraction law; standard bridge ordinary ring
+distribution over differences; downstream consumer polynomial and module
+linear-expression normalization; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By the difference abbreviation, the left side is
+$a\cdot_R(b+_R(-_R c))$. Left distributivity gives
+$$
+a\cdot_R(b+_R(-_R c))
+\sim_R
+(a\cdot_R b)+_R(a\cdot_R(-_R c)).
+$$
+The right-negative product theorem
+\autoref{thm:ring-mul-neg-right-eq-neg-mul}, read in this certificate, gives
+$$
+a\cdot_R(-_R c)\sim_R-_R(a\cdot_R c).
+$$
+Addition congruence transports this comparison in the right summand while the
+left summand $a\cdot_R b$ is held fixed. Hence
+$$
+(a\cdot_R b)+_R(a\cdot_R(-_R c))
+\sim_R
+(a\cdot_R b)+_R(-_R(a\cdot_R c)).
+$$
+The final expression is $(a\cdot_R b)-_R(a\cdot_R c)$ by the same difference
+abbreviation. Transitivity of $\sim_R$ composes the distributivity comparison
+with the transported sign comparison and yields the displayed law.
+\end{proof}
