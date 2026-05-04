@@ -205,3 +205,60 @@ triangle-result collapse for the same carrier gives the two empty triangle
 
 \section{The certificate}
 \label{sec:monad-certificate}
+
+\begin{theorem}[Monad adjunction endomorphism semantic name certificate]
+\label{thm:monad-adjunction-endomorphism-semantic-namecert}
+Let $p,a:\mathsf{BHist}$ be unary histories. For histories
+$unit,counit,left,right:\mathsf{BHist}$, write
+$M_{p,a}(unit,counit,left,right)$ for the carrier predicate
+$$
+M_{p,a}(unit,counit,left,right)
+:\Longleftrightarrow
+\mathsf{AdjunctionUnitCounitCarrier}(p,p,a,unit,counit,left,right).
+$$
+For two displays $D=(unit,counit,left,right)$ and
+$D'=(unit',counit',left',right')$, let
+$\mathsf{MonadAdjunctionEndomorphismDisplaySame}_{p,a}(D,D')$ mean
+$$
+unit\hsame unit'\land counit\hsame counit'\land
+left\hsame left'\land right\hsame right'.
+$$
+Then, in the display presentation of \autoref{def:typed-naming-certificate},
+$M_{p,a}$ carries a semantic naming certificate with source, pattern, and
+ledger all equal to $M_{p,a}$ and classifier
+$\mathsf{MonadAdjunctionEndomorphismDisplaySame}_{p,a}$:
+$$
+\mathsf{SemanticNameCert}
+(M_{p,a},M_{p,a},M_{p,a},
+\mathsf{MonadAdjunctionEndomorphismDisplaySame}_{p,a}).
+$$
+\end{theorem}
+\begin{proof}
+The empty display $(\emp,\emp,\emp,\emp)$ supplies the carrier witness. Indeed,
+\autoref{thm:nattrans-prefix-component-carrier-empty-identity-iff} builds both
+empty prefix natural-transformation components from the unary hypotheses on
+$p$ and $a$ and reflexivity of $p\hsame p$, while the two continuation ledgers
+are the empty right-unit continuation. By
+\autoref{def:adjunction-unit-counit-carrier}, these four fields give
+$M_{p,a}(\emp,\emp,\emp,\emp)$.
+
+The classifier laws are inherited componentwise from the reflexivity, symmetry,
+and transitivity laws for $\hsame$. For carrier transport, suppose
+$M_{p,a}(unit,counit,left,right)$ and
+$\mathsf{MonadAdjunctionEndomorphismDisplaySame}_{p,a}(D,D')$ hold. The two
+natural-transformation component fields in
+\autoref{def:adjunction-unit-counit-carrier} transport along the displayed
+$\hsame$ comparisons on $unit$ and $counit$, and the two continuation ledgers
+transport along the displayed comparisons on all four coordinates. Repacking
+the transported component fields and continuation ledgers gives
+$M_{p,a}(unit',counit',left',right')$.
+
+The monad endomorphism collapse theorem
+\autoref{thm:monad-adjunction-endomorphism-unit-counit-triangle-empty} shows
+that every carried display is classifier-same to the empty display in all four
+coordinates. Thus the exported pattern and ledger are exactly the same
+degenerate adjunction-endomorphism behavior as the source carrier. Since the
+source, pattern, and ledger predicates are all $M_{p,a}$, the pattern-soundness
+and ledger-soundness rows of the semantic certificate are identity projections,
+as in the certificate template of \autoref{def:typed-naming-certificate}.
+\end{proof}

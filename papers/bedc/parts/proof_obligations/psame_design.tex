@@ -312,3 +312,63 @@ Adding a closure-reflection witness does not change the exported package relatio
 \begin{proof}
 The export discipline is Protocol~\ref{prot:export-discipline} together with Corollary~\ref{cor:no-closure-export}. Closure reflection is consumed only as a local theorem for introduced endpoints, while the exactness predicate continues to name \(\psame_{\Pi}^{\mathrm{base}}\) as its package relation.
 \end{proof}
+
+\begin{theorem}[Finite equivalence-closure reflection obstruction]
+\label{thm:equivalence-closure-reflection-obstruction}
+Let $\Pi$ be a generated probe bundle. Suppose there are signatures $a,b,c,d$ and package tokens $p,r,q$ with token introductions
+$$
+  \TokIntro(\Pi,a,p),\quad
+  \TokIntro(\Pi,c,r),\quad
+  \TokIntro(\Pi,d,r),\quad
+  \TokIntro(\Pi,b,q),
+$$
+and history-sameness data
+$$
+  \hsame(a,c),\quad
+  \hsame(d,b),\quad
+  \neg\hsame(c,d),\quad
+  \neg\hsame(a,b).
+$$
+Then the finite configuration satisfies
+$$
+  \psame_{\Pi}^{\mathrm{eq}}(p,q),
+  \qquad
+  \neg\,\TokUnique(\Pi),
+  \qquad
+  \neg\,\ClosureReflect(\Pi).
+$$
+In particular, the endpoints $a$ and $b$ introduce the closure-related tokens $p$ and $q$ but fail to reflect to $\hsame(a,b)$.
+\end{theorem}
+
+\begin{proof}
+The first and second token-introduction judgments, together with $\hsame(a,c)$, give
+$$
+  \psame_{\Pi}^{\mathrm{base}}(p,r)
+$$
+by \autoref{lem:psame-base-constructor}. The third and fourth token-introduction judgments, together with $\hsame(d,b)$, give
+$$
+  \psame_{\Pi}^{\mathrm{base}}(r,q)
+$$
+by the same constructor. Since $\psame_{\Pi}^{\mathrm{eq}}$ is the equivalence closure of $\psame_{\Pi}^{\mathrm{base}}$ in \autoref{def:psame-eq-target}, and \autoref{prot:closure-reflection-route} records the base-edge and transitive closure cases, the two displayed base edges compose to $\psame_{\Pi}^{\mathrm{eq}}(p,q)$.
+
+If $\TokUnique(\Pi)$ held, \autoref{def:token-unique} applied to $\TokIntro(\Pi,c,r)$ and $\TokIntro(\Pi,d,r)$ would give $\hsame(c,d)$, contradicting the displayed separation. Hence $\neg\,\TokUnique(\Pi)$.
+
+If $\ClosureReflect(\Pi)$ held, unfolding \autoref{def:closure-reflection} and applying it to $\TokIntro(\Pi,a,p)$, $\TokIntro(\Pi,b,q)$, and the closure proof $\psame_{\Pi}^{\mathrm{eq}}(p,q)$ would give $\hsame(a,b)$, contradicting the displayed endpoint separation. Hence $\neg\,\ClosureReflect(\Pi)$.
+\end{proof}
+
+\begin{corollary}[Equivalence-closure exactness needs reflection]
+\label{cor:eq-closure-exactness-needs-reflection}
+The base exact Globalize contract of \autoref{def:exact-globalize-base} cannot be converted into an exactness statement for $\psame_{\Pi}^{\mathrm{eq}}$ by replacing the exported relation name alone. Any such conversion must add $\ClosureReflect(\Pi)$, or hypotheses such as those in \autoref{prop:conditional-closure-reflection-schema} that prove it.
+\end{corollary}
+
+\begin{proof}
+An exactness statement at $\psame_{\Pi}^{\mathrm{eq}}$ needs the endpoint reflection step
+$$
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q),\quad
+  \psame_{\Pi}^{\mathrm{eq}}(p,q)
+  \quad\Longrightarrow\quad
+  \hsame(s,t).
+$$
+The finite configuration in \autoref{thm:equivalence-closure-reflection-obstruction} supplies the antecedents for $s=a$ and $t=b$ and also supplies $\neg\hsame(a,b)$. Thus the reflection step is not derivable from the base constructor and equivalence closure alone. The export relation in \autoref{def:exact-globalize-base} is $\psame_{\Pi}^{\mathrm{base}}$, and \autoref{cor:no-closure-export} records that the closure relation is not exported as exactness.
+\end{proof}

@@ -272,3 +272,245 @@ $\HSame(left,f)$, $\HSame(right,f)$, and $\HSame(left,right)$.
 \label{rem:functor-zero-axiom-note}
 Avoids funext by pointwise classifier sameness for object and morphism mappings.
 \end{remark}
+
+\begin{definition}[Opposite functor certificate data]
+\label{def:opposite-functor-certificate-data}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ denote a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. Over the opposite category data of
+\autoref{def:opposite-category-certificate-data}, define
+$F^{\mathrm{op}}:\mathcal C^{\mathrm{op}}\to\mathcal D^{\mathrm{op}}$ by
+$$
+F^{\mathrm{op}}_0(a):=F_0(a),
+\qquad
+F^{\mathrm{op}}_1(u):=F_1(u).
+$$
+A displayed morphism $u:a\to b$ in $\mathcal C^{\mathrm{op}}$ is read as the
+same raw morphism $u:b\to a$ in $\mathcal C$; therefore
+$F^{\mathrm{op}}_1(u)$ is read as $F_1(u):F_0(b)\to F_0(a)$ in
+$\mathcal D$, hence as a displayed morphism $F_0(a)\to F_0(b)$ in
+$\mathcal D^{\mathrm{op}}$.
+\end{definition}
+
+\begin{theorem}[Opposite functor certificate]
+\label{thm:opposite-functor-certificate}
+If $\mathcal C$ and $\mathcal D$ satisfy the $\CategoryUp$ certificate
+obligations and $F:\mathcal C\to\mathcal D$ satisfies the $\FunctorUp$
+certificate obligations of \autoref{def:functor-certificate-obligations}, then
+the data of \autoref{def:opposite-functor-certificate-data} satisfy the
+$\FunctorUp$ certificate obligations from $\mathcal C^{\mathrm{op}}$ to
+$\mathcal D^{\mathrm{op}}$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:opposite-category-certificate}, the source and codomain
+opposite data are certified categories, so the source specification required by
+\autoref{def:functor-source-specification} is present. The carrier and pattern
+fields are the same two maps $F_0$ and $F_1$, only with the hom-carrier
+endpoints read through the opposite category convention.
+
+For hom-carrier landing, let $u:a\to b$ be displayed in
+$\mathcal C^{\mathrm{op}}$. By
+\autoref{def:opposite-category-certificate-data}, this is the original
+hom-carrier assertion $u:b\to a$ in $\mathcal C$. The carrier field of $F$
+sends it to a displayed morphism $F_1(u):F_0(b)\to F_0(a)$ in $\mathcal D$.
+Unfolding the codomain opposite hom-carrier reads that same assertion as
+$F_1(u):F_0(a)\to F_0(b)$ in $\mathcal D^{\mathrm{op}}$, which is exactly the
+landing field for $F^{\mathrm{op}}$.
+
+The classifier specification is inherited pointwise. Object classifiers are
+unchanged by the opposite construction, and the morphism classifier of
+$\mathcal D^{\mathrm{op}}$ is the morphism classifier of $\mathcal D$ on the
+same displayed morphism representatives. Thus the pointwise object-map,
+morphism-map, reflexivity, and transitivity clauses from
+\autoref{def:functor-classifier-specification} and
+\autoref{def:functor-stability-certificate} are the original clauses for $F$.
+
+For identity preservation, the identity at $a$ in $\mathcal C^{\mathrm{op}}$
+is the identity at $a$ in $\mathcal C$, and the identity at $F_0(a)$ in
+$\mathcal D^{\mathrm{op}}$ is the identity at $F_0(a)$ in $\mathcal D$. The
+identity preservation witness for $F$ therefore gives the required
+$\mathcal D^{\mathrm{op}}$ morphism-classifier witness for $F^{\mathrm{op}}$.
+
+For composition preservation, let $u:a\to b$ and $v:b\to c$ be displayed in
+$\mathcal C^{\mathrm{op}}$, and let $w$ be their displayed composite there.
+Unfolding opposite composition gives the original source ledger
+$$
+\mathsf{Comp}_{\mathcal C}(v,u,w).
+$$
+The composition preservation field of $F$ gives the codomain classifier
+comparison between $F_1(w)$ and the composite selected by
+$\mathsf{Comp}_{\mathcal D}(F_1(v),F_1(u),-)$. By the definition of opposite
+composition in $\mathcal D^{\mathrm{op}}$, that is precisely the composite
+selected by
+$$
+\mathsf{Comp}_{\mathcal D^{\mathrm{op}}}(F_1(u),F_1(v),-).
+$$
+Since the morphism classifier is unchanged, this is the required composition
+preservation witness for $F^{\mathrm{op}}$.
+
+Stability under source and target classifier replacement is also inherited.
+A source-endpoint replacement in the opposite category is a target-endpoint
+replacement in the original category, and conversely; the original stability
+field applies with the endpoint order swapped. The ledger policy of
+\autoref{def:functor-ledger-policy} records the same category ledgers and the
+same preservation witnesses, read through the two opposite-category
+certificates.
+\end{proof}
+
+\begin{definition}[Split monomorphism in a certified category]
+\label{def:category-split-monomorphism}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ is a split monomorphism when there are a displayed morphism
+$g:b\to a$, a source identity display $i_a:a\to a$, and a composite display
+$c:a\to a$ such that $\mathsf{HomCarrier}_{\mathcal C}(a,b,f)$,
+$\mathsf{HomCarrier}_{\mathcal C}(b,a,g)$, $i_a$ is the identity witness at
+$a$, $\mathsf{Comp}_{\mathcal C}(f,g,c)$ records $g\circ_{\mathcal C} f$,
+and $c\sim_{\mathcal C} i_a$ in the morphism classifier at $(a,a)$. The
+morphism $g$ is a left-inverse witness for $f$.
+\end{definition}
+
+\begin{theorem}[Functor preserves split monomorphisms]
+\label{thm:functor-preserves-split-monomorphism}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ is a split monomorphism in
+$\mathcal C$ with left-inverse witness $g:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ is a split monomorphism in $\mathcal D$ with
+left-inverse witness $F_1(g):F_0(b)\to F_0(a)$.
+\end{theorem}
+\begin{proof}
+Unpack the source split-monomorphism data from
+\autoref{def:category-split-monomorphism}. Thus $f$ and $g$ are displayed
+hom-carriers in $\mathcal C$, $i_a$ is the chosen identity display at $a$, and
+there is a composite display $c$ with $\mathsf{Comp}_{\mathcal C}(f,g,c)$ and
+$c\sim_{\mathcal C} i_a$.
+
+The hom-carrier landing field of the functor carrier sends $f$ and $g$ to
+hom-carriers $F_1(f):F_0(a)\to F_0(b)$ and
+$F_1(g):F_0(b)\to F_0(a)$ in $\mathcal D$. Apply the composition preservation
+field of \autoref{def:functor-stability-certificate} to the source composite
+ledger $\mathsf{Comp}_{\mathcal C}(f,g,c)$. It supplies a codomain composite
+display $d$ with
+$$
+\mathsf{Comp}_{\mathcal D}(F_1(f),F_1(g),d)
+$$
+and a morphism-classifier comparison between $d$ and $F_1(c)$.
+
+The morphism-classifier stability field for $F$ transports the source
+comparison $c\sim_{\mathcal C} i_a$ to a codomain comparison
+$F_1(c)\sim_{\mathcal D}F_1(i_a)$. Identity preservation for $F$ identifies
+$F_1(i_a)$ with the identity display $i_{F_0(a)}$ of $\mathcal D$. Symmetry
+and transitivity of the codomain morphism classifier, supplied by the
+$\CategoryUp$ stability laws, compose these comparisons to obtain
+$d\sim_{\mathcal D} i_{F_0(a)}$.
+
+The displayed morphism $F_1(g)$, the composite display $d$, and the classifier
+comparison with $i_{F_0(a)}$ form the split-monomorphism witness for $F_1(f)$
+in $\mathcal D$.
+\end{proof}
+
+\begin{definition}[Split epimorphism in a certified category]
+\label{def:category-split-epimorphism}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ is a split epimorphism when there are a displayed morphism
+$g:b\to a$, a target identity display $i_b:b\to b$, and a composite display
+$c:b\to b$ such that $\mathsf{HomCarrier}_{\mathcal C}(a,b,f)$,
+$\mathsf{HomCarrier}_{\mathcal C}(b,a,g)$, $i_b$ is the identity witness at
+$b$, $\mathsf{Comp}_{\mathcal C}(g,f,c)$ records $f\circ_{\mathcal C} g$, and
+$c\sim_{\mathcal C} i_b$ in the morphism classifier at $(b,b)$. The morphism
+$g$ is a right-inverse witness for $f$.
+\end{definition}
+
+\begin{theorem}[Functor preserves split epimorphisms]
+\label{thm:functor-preserves-split-epimorphism}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ is a split epimorphism in
+$\mathcal C$ with right-inverse witness $g:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ is a split epimorphism in $\mathcal D$ with
+right-inverse witness $F_1(g):F_0(b)\to F_0(a)$.
+\end{theorem}
+\begin{proof}
+Unpack the source split-epimorphism data from
+\autoref{def:category-split-epimorphism}. Thus $f$ and $g$ are displayed
+hom-carriers in $\mathcal C$, $i_b$ is the chosen identity display at $b$, and
+there is a composite display $c$ with $\mathsf{Comp}_{\mathcal C}(g,f,c)$ and
+$c\sim_{\mathcal C} i_b$.
+
+The hom-carrier landing field of the functor carrier sends $f$ and $g$ to
+hom-carriers $F_1(f):F_0(a)\to F_0(b)$ and
+$F_1(g):F_0(b)\to F_0(a)$ in $\mathcal D$. Apply the composition preservation
+field of \autoref{def:functor-stability-certificate} to the source composite
+ledger $\mathsf{Comp}_{\mathcal C}(g,f,c)$. It supplies a codomain composite
+display $d$ with
+$$
+\mathsf{Comp}_{\mathcal D}(F_1(g),F_1(f),d)
+$$
+and a morphism-classifier comparison between $d$ and $F_1(c)$.
+
+The morphism-classifier stability field for $F$ transports the source
+comparison $c\sim_{\mathcal C} i_b$ to a codomain comparison
+$F_1(c)\sim_{\mathcal D}F_1(i_b)$. Identity preservation for $F$ identifies
+$F_1(i_b)$ with the identity display $i_{F_0(b)}$ of $\mathcal D$. Symmetry and
+transitivity of the codomain morphism classifier, supplied by the $\CategoryUp$
+stability laws, compose these comparisons to obtain
+$d\sim_{\mathcal D} i_{F_0(b)}$.
+
+The displayed morphism $F_1(g)$, the composite display $d$, the codomain target
+identity display $i_{F_0(b)}$, and the classifier comparison with
+$i_{F_0(b)}$ form the split-epimorphism witness for $F_1(f)$ in $\mathcal D$.
+\end{proof}
+
+\begin{definition}[Split isomorphism witness pair]
+\label{def:category-split-isomorphism-witness-pair}
+Let $\mathcal C$ be a $\CategoryUp$ certificate. A displayed morphism
+$f:a\to b$ carries a split isomorphism witness pair when it carries a
+split-monomorphism witness in the sense of
+\autoref{def:category-split-monomorphism} with left-inverse witness
+$g_L:b\to a$ and a split-epimorphism witness in the sense of
+\autoref{def:category-split-epimorphism} with right-inverse witness
+$g_R:b\to a$. Thus the package stores the two oriented composite certificates
+$$
+g_L\circ_{\mathcal C} f\sim_{\mathcal C}\mathsf{id}_a,
+\qquad
+f\circ_{\mathcal C} g_R\sim_{\mathcal C}\mathsf{id}_b.
+$$
+The two inverse-side witnesses are part of the data; no equality between
+$g_L$ and $g_R$ is required by this package.
+\end{definition}
+
+\begin{theorem}[Functor preserves split isomorphism witness pairs]
+\label{thm:functor-preserves-split-isomorphism-witness-pair}
+Let $\mathcal C$ and $\mathcal D$ be $\CategoryUp$ certificates, and let
+$F:\mathcal C\to\mathcal D$ be a $\FunctorUp$ certificate with object map
+$F_0$ and morphism map $F_1$. If $f:a\to b$ carries a split isomorphism
+witness pair in $\mathcal C$ with left-inverse witness $g_L:b\to a$ and
+right-inverse witness $g_R:b\to a$, then
+$F_1(f):F_0(a)\to F_0(b)$ carries a split isomorphism witness pair in
+$\mathcal D$ whose left-inverse witness is $F_1(g_L)$ and whose right-inverse
+witness is $F_1(g_R)$.
+\end{theorem}
+\begin{proof}
+Unpack the witness pair by
+\autoref{def:category-split-isomorphism-witness-pair}. Its left-oriented field
+is a split-monomorphism witness for $f$ with left-inverse witness $g_L$, and
+its right-oriented field is a split-epimorphism witness for $f$ with
+right-inverse witness $g_R$.
+
+Apply \autoref{thm:functor-preserves-split-monomorphism} to the left-oriented
+field. This gives a split-monomorphism witness in $\mathcal D$ for
+$F_1(f):F_0(a)\to F_0(b)$, with left-inverse witness
+$F_1(g_L):F_0(b)\to F_0(a)$. Its codomain composite certificate is classified
+with the identity display at $F_0(a)$.
+
+Apply \autoref{thm:functor-preserves-split-epimorphism} to the right-oriented
+field. This gives a split-epimorphism witness in $\mathcal D$ for the same
+forward morphism $F_1(f):F_0(a)\to F_0(b)$, with right-inverse witness
+$F_1(g_R):F_0(b)\to F_0(a)$. Its codomain composite certificate is classified
+with the identity display at $F_0(b)$.
+
+The two transported fields have the same displayed forward morphism and the
+same image endpoints. Packing them by
+\autoref{def:category-split-isomorphism-witness-pair} gives the required split
+isomorphism witness pair in $\mathcal D$.
+\end{proof}
