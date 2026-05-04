@@ -420,6 +420,27 @@ singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_input\_classifier\_iff}
 
+\begin{theorem}[Singleton evaluation visible target classifier exclusion]
+\label{thm:linearmap-singleton-eval-visible-target-classifier-absurd}
+For histories $f,x,p:\mathsf{BHist}$, the singleton evaluator cannot classify
+against either visible target endpoint:
+$$
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(f,x),\Ezero(p))\Longrightarrow\bot,
+\qquad
+\mathsf{LinearMapSingletonClassifier}
+(\mathsf{LinearMapSingletonEval}(f,x),\Eone(p))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$, but the classifier still requires its
+right endpoint to lie in the singleton carrier. Thus a classifier witness
+against $\Ezero(p)$ or $\Eone(p)$ would force that visible endpoint to be
+history-same to $\emp$. Constructor no-confusion for the two visible
+constructors closes both cases.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_visible\_target\_classifier\_absurd}
+
 The $\LinearMapUp$ schema is instantiated by this concrete $\mathsf{BHist}$
 carrier and singleton action, so later Lean work can target BHist-anchored
 linear-map laws instead of only abstract function fields.
