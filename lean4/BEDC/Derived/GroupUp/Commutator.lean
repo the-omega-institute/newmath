@@ -1,4 +1,5 @@
 import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.NormalizerAction
 
 namespace BEDC.Derived.GroupUp
 
@@ -191,5 +192,27 @@ theorem GroupSingletonCommutator_carrier_classifier_exactness {x y : BHist} :
         append_eq_empty_iff.mpr (And.intro middleCarrier emptyCarrier)
       exact GroupSingletonClassifier_append_unit_split_iff.mpr
         (And.intro commCarrier emptyCarrier)
+
+theorem GroupSingletonCommutator_conjugated_orbit_invariance {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      (let Conj : BHist -> BHist := fun z => append (append s z) BHist.Empty
+       let Comm : BHist -> BHist -> BHist := fun a b => append (append (append a b) BHist.Empty) BHist.Empty
+       GroupSingletonNormalizerOrbit (Comm (Conj x) (Conj y)) (Comm x y) ∧
+        GroupSingletonNormalizerOrbit (Comm x y) (Comm (Conj x) (Conj y))) := by
+  intro carrierS carrierX carrierY
+  have invariant := GroupSingletonCommutator_conjugated_invariance carrierS carrierX carrierY
+  have conjugatedCarrier : GroupSingletonCarrier
+      (append
+        (append
+          (append (append (append s x) BHist.Empty) (append (append s y) BHist.Empty))
+          BHist.Empty)
+        BHist.Empty) := invariant.left.left
+  have commutatorCarrier : GroupSingletonCarrier
+      (append (append (append x y) BHist.Empty) BHist.Empty) := invariant.left.right.left
+  exact And.intro
+    (GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro conjugatedCarrier commutatorCarrier))
+    (GroupSingletonNormalizerOrbit_coverage_iff.mpr
+      (And.intro commutatorCarrier conjugatedCarrier))
 
 end BEDC.Derived.GroupUp
