@@ -1,3 +1,16 @@
+\begin{definition}[Finite additive scalar fold]
+\label{def:finite-additive-scalar-fold}
+For a scalar $\RingUp$ carrier $R$ with zero endpoint $0_R$ and addition
+$+_R$, the finite additive scalar fold $\mathsf{fold}_{+,R}$ is the recursive
+operation on finite carried scalar spines determined by the empty-spine value
+$0_R$ and the cons rule
+$$
+\mathsf{fold}_{+,R}(\mathsf{cons}(a,xs))
+=
+a+_R\mathsf{fold}_{+,R}(xs).
+$$
+\end{definition}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
@@ -180,7 +193,7 @@ be carried matrices. Assume matrix multiplication is the finite-fold operation
 $$
 (X\cdot Y)_{u,w}:=\Sigma_V(v\mapsto X_{u,v}\cdot_RY_{v,w})
 $$
-for the matching inner finite index carrier $V$, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar ring stability fields of \autoref{def:ring-stability-certificate}, the fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier}, and the two-index finite fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} for $\mathsf{Fin}(p)$ and $\mathsf{Fin}(m)$. Then the two matched products are carried and
+for the matching inner finite index carrier $V$, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar ring stability fields of \autoref{def:ring-stability-certificate}, the fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists}, and the two-index finite fold swap certificate of \autoref{def:two-index-finite-fold-swap-certificate} for $\mathsf{Fin}(p)$ and $\mathsf{Fin}(m)$. Then the two matched products are carried and
 $$
 (A\cdot B)\cdot C\sim_{\mathrm{Mat}}A\cdot(B\cdot C).
 $$
@@ -210,7 +223,7 @@ $$
 \sim_R
 A_{i,a}\cdot_R(B_{a,b}\cdot_R C_{b,l}).
 $$
-The finite-fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier} lifts these pointwise comparisons through the inner and outer folds. Hence
+The finite-fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists} lifts these pointwise comparisons through the inner and outer folds. Hence
 $$
 ((A\cdot B)\cdot C)_{i,l}
 \sim_R
@@ -229,7 +242,7 @@ A_{i,a}\cdot_R(B\cdot C)_{a,l}
 \sim_R
 \Sigma_{b:\mathsf{Fin}(p)}A_{i,a}\cdot_R(B_{a,b}\cdot_R C_{b,l}).
 $$
-Again \autoref{thm:finite-additive-fold-respects-scalar-classifier} lifts the pointwise comparisons through the finite folds, so
+Again \autoref{thm:finite-additive-fold-congruence-coefficient-lists} lifts the pointwise comparisons through the finite folds, so
 $$
 (A\cdot(B\cdot C))_{i,l}
 \sim_R
@@ -257,7 +270,7 @@ be carried matrices over the same scalar source and the same matching inner dime
 $$
 (X\cdot Y)_{i,k}:=\Sigma_{\mathsf{Fin}(m)}(j\mapsto X_{i,j}\cdot_RY_{j,k})
 $$
-for the shared inner finite index carrier, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar multiplication congruence field of \autoref{def:ring-stability-certificate} and the fold congruence theorem \autoref{thm:finite-additive-fold-respects-scalar-classifier}. If
+for the shared inner finite index carrier, using the multiplication closure field of \autoref{def:matrix-stability-certificate}. Assume the scalar multiplication congruence field of \autoref{def:ring-stability-certificate} and the fold congruence theorem \autoref{thm:finite-additive-fold-congruence-coefficient-lists}. If
 $$
 A\sim_{\mathrm{Mat}}A'
 \qquad\text{and}\qquad
@@ -291,7 +304,7 @@ j\mapsto A_{i,j}\cdot_R B_{j,k}
 \qquad\text{and}\qquad
 j\mapsto A'_{i,j}\cdot_R B'_{j,k}.
 $$
-Applying \autoref{thm:finite-additive-fold-respects-scalar-classifier} to that finite-spine witness yields
+Applying \autoref{thm:finite-additive-fold-congruence-coefficient-lists} to that finite-spine witness yields
 $$
 \Sigma_{\mathsf{Fin}(m)}(j\mapsto A_{i,j}\cdot_R B_{j,k})
 \sim_R
