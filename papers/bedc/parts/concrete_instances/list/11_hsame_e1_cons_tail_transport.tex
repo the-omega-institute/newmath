@@ -1,0 +1,18 @@
+\begin{theorem}[History list classifier one-headed tail transport]
+\label{thm:list-classifier-spec-hsame-e1-cons-tail-transport}
+For BEDC histories $x,y$ and history-list tails $xs,ys,zs$, if
+$\mathsf{ListClassifierSpec}(\hsame,xs,zs)$ and
+$\mathsf{ListClassifierSpec}(\hsame,\Eone(x)::xs,\Eone(y)::ys)$ hold, then
+$$
+\mathsf{ListClassifierSpec}(\hsame,\Eone(x)::zs,\Eone(y)::ys)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Invert the one-headed cons classifier to read off the head comparison
+$\hsame(\Eone(x),\Eone(y))$ and the tail classifier from $xs$ to $ys$.
+Reverse the classifier from $xs$ to $zs$ and compose it with the tail
+classifier by history-list transitivity. Reattach the unchanged head
+comparison by the cons clause.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_e1\_cons\_tail\_transport}
