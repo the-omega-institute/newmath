@@ -2,16 +2,12 @@
 \label{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}
 For a BEDC history-level $\FieldUp(\mathsf{RatUp})$ candidate over
 $\mathsf{BHist}$ satisfying the hypotheses of
-\autoref{thm:field-four-factor-product-nonzero-iff-factors} and
-\autoref{thm:field-product-nonzero-of-nonzero-factors}, together with the
-zero-factor exclusion hypotheses used by
-\autoref{thm:field-product-nonzero-excludes-zero-factors}, assume the
-apartness-to-nonzero bridge
+\autoref{thm:field-five-factor-product-nonzero-iff-factors}, assume the
+apartness-to-nonzero bridge family
 $$
 \alpha_h:\bigl(h\hsame0\to\bot\bigr)\to\mathsf{NonZero}_F(h)
 $$
-for each history term occurring below. Then every
-$a,b,c,d,e:\mathsf{BHist}$ satisfies
+for each $h:\mathsf{BHist}$. Then every $a,b,c,d,e:\mathsf{BHist}$ satisfies
 $$
 \mathsf{NonZero}_F(
 \mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))
@@ -22,45 +18,19 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-For the forward direction, assume
-$p_{abcde}:\mathsf{NonZero}_F(
-\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d),e))$.
-Apply \autoref{thm:field-product-nonzero-excludes-zero-factors} to the outer
-binary product with left factor
-$\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d)$ and right factor $e$. This
-gives apartness of the fourfold prefix from $0$ and apartness of $e$ from $0$.
-
-Convert those two apartness witnesses through $\alpha_h$. The left conversion
-gives
-$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$,
-and the right conversion gives $\mathsf{NonZero}_F(e)$.
-
-Apply \autoref{thm:field-four-factor-product-nonzero-iff-factors} to
-$p_{abcd}$. It supplies the four factor witnesses for $a$, $b$, $c$, and $d$.
-Pair these four witnesses with the converted witness for $e$ in the displayed
-order.
-
-For the reverse direction, assume witnesses
-$p_a:\mathsf{NonZero}_F(a)$, $p_b:\mathsf{NonZero}_F(b)$,
-$p_c:\mathsf{NonZero}_F(c)$, $p_d:\mathsf{NonZero}_F(d)$, and
-$p_e:\mathsf{NonZero}_F(e)$. Apply
-\autoref{thm:field-four-factor-product-nonzero-iff-factors} in the reverse
-direction to obtain
-$p_{abcd}:\mathsf{NonZero}_F(\mathsf{mul}(\mathsf{mul}(\mathsf{mul}(a,b),c),d))$.
-
-Apply \autoref{thm:field-product-nonzero-of-nonzero-factors} to $p_{abcd}$ and
-$p_e$. The resulting witness is exactly the nonzero certificate for the
-left-nested fivefold product, completing the equivalence.
+Apply \autoref{thm:field-five-factor-product-nonzero-iff-factors} to the
+concrete $\FieldUp(\mathsf{RatUp})$ candidate, the given bridge family, and the
+five histories $a,b,c,d,e$. The resulting equivalence is exactly the displayed
+RatUp FieldUp ledger row.
 \end{proof}
 
 Per-object template: traditional target RatUp FieldUp five-factor nonzero
 factor ledger; BEDC source $\FieldUp(\mathsf{RatUp})$ over $\mathsf{BHist}$
-with product nonzero exclusion and product nonzero closure; carrier
+with the certified five-factor product nonzero equivalence; carrier
 $\mathsf{BHist}$; classifier $\hsame$ with $\mathsf{NonZero}_F$; stability
-obligations four-factor exactness, binary product closure, zero-factor
-exclusion, and apartness-to-nonzero transport; ledger factor witnesses
-$p_a,p_b,p_c,p_d,p_e$, prefix witness $p_{abcd}$, and fivefold product witness
-$p_{abcde}$; core theorem
+obligations general five-factor exactness and apartness-to-nonzero transport;
+ledger factor witnesses $p_a,p_b,p_c,p_d,p_e$, prefix witness $p_{abcd}$, and
+fivefold product witness $p_{abcde}$; core theorem
 \autoref{thm:ratup-fieldup-five-factor-nonzero-factor-ledger}; exactness
 predicate nonzero of the left-nested fivefold product equivalent to the five
 factor nonzero witnesses; standard bridge deferred; status
