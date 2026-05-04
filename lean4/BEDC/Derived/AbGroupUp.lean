@@ -2,6 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.Derived.GroupUp
 import BEDC.Derived.GroupUp.Commutator
+import BEDC.Derived.GroupUp.CentralizerNormalizer
 
 namespace BEDC.Derived.AbGroupUp
 
@@ -177,6 +178,81 @@ theorem abgroup_centralizer_commutator_collapse {mul : BHist -> BHist -> BHist}
   have conjugation : hsame (mul a (mul x (inv a))) x := by
     exact abgroup_conjugation_collapse assocC commC rightId mulCongr rightInv a x
   exact And.intro central (And.intro commutator conjugation)
+
+theorem abgroup_centralizer_normalizer_orbit_collapse_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y : BHist} :
+    let Centralizer := fun q : BHist => hsame (mul q a) (mul a q)
+    let Conj := fun s q : BHist => mul (mul s q) (inv s)
+    let Normalizer := fun s : BHist =>
+      (forall q : BHist, Centralizer q -> Centralizer (Conj s q)) ∧
+        (forall q : BHist, Centralizer q -> Centralizer (Conj (inv s) q))
+    let Orbit := fun p q : BHist =>
+      Exists (fun s : BHist =>
+        Normalizer s ∧ Centralizer p ∧ Centralizer q ∧ hsame (Conj s p) q)
+    Centralizer x -> Centralizer y -> (Orbit x y <-> hsame x y) := by
+  dsimp
+  intro centralX centralY
+  constructor
+  · intro orbitXY
+    cases orbitXY with
+    | intro s data =>
+        have reassoc :
+            hsame (mul (mul s x) (inv s)) (mul s (mul x (inv s))) :=
+          assocC s x (inv s)
+        have collapse :
+            hsame (mul s (mul x (inv s))) x :=
+          abgroup_conjugation_collapse (mul := mul) (e := BHist.Empty) (inv := inv)
+            assocC commC rightId mulCongr rightInv s x
+        have fixedConj : hsame (mul (mul s x) (inv s)) x :=
+          hsame_trans reassoc collapse
+        exact hsame_trans (hsame_symm fixedConj) data.right.right.right
+  · intro sameXY
+    exact BEDC.Derived.GroupUp.group_centralizer_normalizer_orbit_hsame_lift_from_empty_unit
+      assocC leftId rightId mulCongr leftInv rightInv centralX centralY sameXY
+
+theorem abgroup_centralizer_normalizer_orbit_fiber_determinacy_from_empty_unit
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x)
+    (commC : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftInv : forall x : BHist, hsame (mul (inv x) x) BHist.Empty)
+    (rightInv : forall x : BHist, hsame (mul x (inv x)) BHist.Empty)
+    {a x y z : BHist} :
+    let Centralizer := fun q : BHist => hsame (mul q a) (mul a q)
+    let Conj := fun s q : BHist => mul (mul s q) (inv s)
+    let Normalizer := fun s : BHist =>
+      (forall q : BHist, Centralizer q -> Centralizer (Conj s q)) ∧
+        (forall q : BHist, Centralizer q -> Centralizer (Conj (inv s) q))
+    let Orbit := fun p q : BHist =>
+      Exists (fun s : BHist =>
+        Normalizer s ∧ Centralizer p ∧ Centralizer q ∧ hsame (Conj s p) q)
+    Centralizer x -> Centralizer y -> Centralizer z ->
+      Orbit x y -> Orbit x z -> hsame y z := by
+  dsimp
+  intro centralX centralY centralZ orbitXY orbitXZ
+  have collapseXY :=
+    abgroup_centralizer_normalizer_orbit_collapse_from_empty_unit
+      assocC leftId rightId commC mulCongr leftInv rightInv
+      (a := a) (x := x) (y := y) centralX centralY
+  have collapseXZ :=
+    abgroup_centralizer_normalizer_orbit_collapse_from_empty_unit
+      assocC leftId rightId commC mulCongr leftInv rightInv
+      (a := a) (x := x) (y := z) centralX centralZ
+  have sameXY : hsame x y := Iff.mp collapseXY orbitXY
+  have sameXZ : hsame x z := Iff.mp collapseXZ orbitXZ
+  exact hsame_trans (hsame_symm sameXY) sameXZ
 
 theorem abgroup_centralizer_normalizer_collapse
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
