@@ -152,4 +152,25 @@ theorem QuotientGroupSingletonClassifier_continuation_classifier_iff {p q r h : 
       (And.intro carriers.right.right
         (hsame_trans resultEmpty (hsame_symm carriers.right.right)))
 
+theorem CentralizerCosetCarrier_empty_representative_context_iff
+    {mul : BHist -> BHist -> BHist} {a left h right : BHist}
+    (emptyCentral : SubgroupCentralizerCarrier mul a BHist.Empty) :
+    CentralizerCosetCarrier mul a BHist.Empty (append left (append h right)) ↔
+      CentralizerCosetCarrier mul a BHist.Empty left ∧
+        CentralizerCosetCarrier mul a BHist.Empty h ∧
+          CentralizerCosetCarrier mul a BHist.Empty right := by
+  constructor
+  · intro carrier
+    have outerSplit := append_eq_empty_iff.mp carrier.right
+    have innerSplit := append_eq_empty_iff.mp outerSplit.right
+    exact And.intro (And.intro emptyCentral outerSplit.left)
+      (And.intro (And.intro emptyCentral innerSplit.left)
+        (And.intro emptyCentral innerSplit.right))
+  · intro carriers
+    exact And.intro emptyCentral
+      (append_eq_empty_iff.mpr
+        (And.intro carriers.left.right
+          (append_eq_empty_iff.mpr
+            (And.intro carriers.right.left.right carriers.right.right.right))))
+
 end BEDC.Derived.QuotientGroupUp

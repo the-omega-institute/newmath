@@ -130,6 +130,42 @@ law for $\ContR$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_result}
 
+\begin{theorem}[Metric empty-boundary visible-context continuation left unit iff]
+\label{thm:metric-empty-boundary-continuation-left-unit-iff}
+For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
+turns continuation from the central distance into exactly the left-unit
+continuation classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\ContR(d,r,out)\leftrightarrow\hsame(out,r)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The visible-context empty-boundary theorem gives $\hsame(d,\emp)$. Case analysis
+on this classifier reduces the displayed continuation predicate to
+$\ContR(\emp,r,out)$, which is characterized by the BEDC left-unit equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_left\_unit\_iff}
+
+\begin{theorem}[Metric empty-boundary visible-context continuation right unit iff]
+\label{thm:metric-empty-boundary-continuation-right-unit-iff}
+For histories $p,q,d,l,out$, an empty-boundary visible-context distance witness
+turns continuation into the central distance into exactly the right-unit
+continuation classifier:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\bigl(\ContR(l,d,out)\leftrightarrow\hsame(out,l)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Again the visible-context empty-boundary theorem gives $\hsame(d,\emp)$. After
+case analysis, the displayed continuation predicate is $\ContR(l,\emp,out)$,
+which is characterized by the BEDC right-unit equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_right\_unit\_iff}
+
 \begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
 \label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
