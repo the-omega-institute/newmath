@@ -22,11 +22,13 @@ $$
 \begin{definition}[Rational stream-name classifier]
 \label{def:rat-stream-name-classifier}
 For certified observation maps $s,t:\Hist\to\Hist$, the rational stream-name
-classifier is the pointwise rational-history classifier over the same unary
-BEDC observation histories:
+classifier bundles the two endpoint stream carriers with the pointwise
+rational-history classifier over the same unary BEDC observation histories:
 $$
 \mathsf{RatStreamNameClassifier}(s,t)
 \Longleftrightarrow
+\mathsf{RatStreamNameCarrier}(s)\land
+\mathsf{RatStreamNameCarrier}(t)\land
 \forall n,\ \mathsf{UnaryHistory}(n)\to
 \mathsf{RatHistoryClassifier}(s(n),t(n)).
 $$
@@ -73,35 +75,42 @@ classifier above supply the rational stream-name certificate fields:
 \end{enumerate}
 \end{theorem}
 \begin{proof}
-For reflexivity, fix a certified observation history $n$ with witness
-$\nu:\mathsf{UnaryHistory}(n)$. The carrier gives
+For reflexivity, the two endpoint carrier rows of
+$\mathsf{RatStreamNameClassifier}(s,s)$ are both the supplied carrier of $s$.
+For its pointwise classifier row, fix a certified observation history $n$ with
+witness $\nu:\mathsf{UnaryHistory}(n)$. The carrier gives
 $\mathsf{RatHistoryCarrier}(s(n))$ from $\nu$, and RatUp classifier
-reflexivity turns that single pointwise rational witness into
+reflexivity turns that pointwise rational witness into
 $\mathsf{RatHistoryClassifier}(s(n),s(n))$.
 
-For symmetry, fix a certified observation history $n$ with witness
-$\nu:\mathsf{UnaryHistory}(n)$ and read the supplied stream classifier at
-$(n,\nu)$. RatUp rational-history classifier symmetry reverses that point
-classifier, so the reversed stream classifier is obtained over the same
-certified observation.
+For symmetry, unpack the supplied stream classifier into its carrier rows for
+$s$ and $t$ and its pointwise classifier row. The reversed classifier uses the
+$t$ carrier as its first carrier row and the $s$ carrier as its second carrier
+row. For the pointwise row, fix $(n,\nu)$ and apply RatUp rational-history
+classifier symmetry to the projected point classifier at $(n,\nu)$.
 
-For transitivity, fix a certified observation history $n$ with witness
-$\nu:\mathsf{UnaryHistory}(n)$ and read the two stream classifiers at
-$(n,\nu)$. RatUp rational-history classifier transitivity composes those two
-point classifiers, giving the classifier between $s(n)$ and $u(n)$.
+For transitivity, unpack $\mathsf{RatStreamNameClassifier}(s,t)$ and
+$\mathsf{RatStreamNameClassifier}(t,u)$. The resulting classifier from $s$ to
+$u$ uses the first carrier row of the first bundle and the second carrier row
+of the second bundle. For the pointwise row, fix $(n,\nu)$ and compose the two
+projected point classifiers at $(n,\nu)$ by RatUp rational-history classifier
+transitivity.
 
 For endpoint carriers, fix a certified observation history $n$ with witness
-$\nu:\mathsf{UnaryHistory}(n)$ and unpack the rational-history classifier
-witness between $s(n)$ and $t(n)$ obtained from $(n,\nu)$. Its stored endpoint
-data are exactly the two rational-history carrier witnesses required at that
-certified observation.
+$\nu:\mathsf{UnaryHistory}(n)$. Project the two bundled carrier rows of
+$\mathsf{RatStreamNameClassifier}(s,t)$ and read them at $(n,\nu)$; these are
+exactly the rational-history carrier witnesses required at the two endpoint
+observations.
 
-For transport, fix a certified observation history $n$ with witness
-$\nu:\mathsf{UnaryHistory}(n)$. Apply
+For transport, first transport the two bundled carrier rows along the supplied
+history-sameness witnesses, producing $\mathsf{RatStreamNameCarrier}(s')$ and
+$\mathsf{RatStreamNameCarrier}(t')$. For the pointwise row, fix $(n,\nu)$ and
+apply
 $\mathsf{BEDC.Derived.RatUp.RatHistoryClassifier\_hsame\_transport}$ to the
-point classifier at $(n,\nu)$ and to the two supplied endpoint history-sameness
-witnesses at $(n,\nu)$. The resulting point classifier is the required
-certified observation of $\mathsf{RatStreamNameClassifier}(s',t')$.
+projected point classifier at $(n,\nu)$ and to the two supplied endpoint
+history-sameness witnesses at $(n,\nu)$. The transported carrier rows and the
+transported pointwise classifier row repack as
+$\mathsf{RatStreamNameClassifier}(s',t')$.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamName\_certificate\_fields}
 

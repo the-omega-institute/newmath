@@ -156,6 +156,39 @@ theorem FramedListPublicLength_well_defined {A : BHist → Prop}
                             exact Exists.intro ys
                               (And.intro repK (Eq.trans (Eq.symm sameLength) lengthX0))
 
+theorem FramedListPublicLength_successor_endpoint_readback {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} (compat : ListSourceHsameCompatible A Rel)
+    {h : BHist} {n : Nat} :
+    FramedListPublicLength A h (Nat.succ n) ->
+      ∃ a : BHist, ∃ xs : ListCarrier BHist,
+        A a ∧ FramedListSpineRep A h (a :: xs) ∧ xs.length = n ∧
+          hsame h (BHist.e1 (PairFrame a (FramedListEndpoint xs))) := by
+  intro publicLength
+  have readback :=
+    FramedListPublicLength_constructor_endpoint_readback
+      (A := A) (h := h) (n := n) |>.right publicLength
+  cases readback with
+  | intro a tail =>
+      cases tail with
+      | intro xs data =>
+          have tailEntries : ∀ z : BHist, z ∈ xs -> A z := by
+            intro z memZ
+            exact data.right.left.left z (List.Mem.tail a memZ)
+          have canonicalTailPublic :
+              FramedListPublicLength A (FramedListEndpoint xs) xs.length :=
+            Exists.intro xs
+              (And.intro
+                (And.intro tailEntries (hsame_refl (FramedListEndpoint xs)))
+                rfl)
+          have tailLength : xs.length = n :=
+            (FramedListPublicLength_well_defined
+              (A := A) (Rel := Rel) compat).left canonicalTailPublic data.right.right
+          exact Exists.intro a
+            (Exists.intro xs
+              (And.intro data.left
+                (And.intro data.right.left
+                  (And.intro tailLength data.right.left.right))))
+
 theorem FramedListBridgeClassifier_public_successor_component_exactness
     {A : BHist → Prop} {Rel : BHist → BHist → Prop} (cert : NameCert A Rel)
     (compat : ListSourceHsameCompatible A Rel) {h k : BHist} {n : Nat} :
