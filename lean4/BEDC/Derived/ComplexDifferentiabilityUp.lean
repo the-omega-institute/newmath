@@ -68,6 +68,30 @@ theorem CplxDiffAt_witness_nonzero_unary_step {f z fp : BHist} :
                                 (And.intro quotient
                                   (And.intro ledger quotientClass))))))
 
+theorem CplxDiffAt_witness_nonzero_result {f z fp : BHist} :
+    CplxDiffAt f z fp ->
+      exists h : BHist, exists q : BHist,
+        CplxDiffQuot f z h q ∧ Cont f h q ∧ CplxNonZero h ∧ CplxNonZero q ∧
+          hsame q fp := by
+  intro diff
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro stepNonzero rest =>
+              cases rest with
+              | intro quotient rest =>
+                  cases rest with
+                  | intro ledger quotientClass =>
+                      exact Exists.intro h
+                        (Exists.intro q
+                          (And.intro quotient
+                            (And.intro ledger
+                              (And.intro stepNonzero
+                                (And.intro (CplxDiffQuot_result_nonempty quotient)
+                                  quotientClass)))))
+
 theorem CplxDiffAt_visible_step_branches_absurd {f z fp p q out0 out1 : BHist} :
     CplxDiffAt f z fp -> CplxDiffQuot f z (BHist.e0 p) out0 ->
       CplxDiffQuot f z (BHist.e1 q) out1 -> False := by
@@ -101,6 +125,22 @@ theorem CplxDiffAt_derivative_visible_context_readback {p r f z fp core : BHist}
     (append_hsame_common_context_cancel_iff (hsame_refl p) (hsame_refl r)).mp sameNested
   exact And.intro sameCore
     (BEDC.Derived.ProdUp.ProdHistoryCarrier_hsame_transport sameCore diff.right.right.left)
+
+theorem CplxDiffAt_empty_function_derivative_nonzero {z fp : BHist} :
+    CplxDiffAt BHist.Empty z fp -> CplxNonZero fp := by
+  intro diff quotientEmpty
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          cases data with
+          | intro _stepNonzero rest =>
+              cases rest with
+              | intro quotient rest =>
+                  cases rest with
+                  | intro _ledger sameQFp =>
+                      exact CplxDiffQuot_empty_function_result_nonzero quotient
+                        (hsame_trans sameQFp quotientEmpty)
 
 theorem CplxDiffAt_full_hsame_transport_witness {f f' z z' fp gp : BHist} :
     CplxDiffAt f z fp -> hsame f f' -> hsame z z' -> hsame fp gp ->
