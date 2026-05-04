@@ -86,6 +86,20 @@ The classifier is the supplied carrier sameness relation, required to respect mu
 \end{definition}
 \leandef{BEDC.Derived.MonoidUp.MonoidHistoryClassifier}
 
+\begin{theorem}[Monoid history classifier unary diagonal induction]
+\label{thm:monoid-history-classifier-unary-diagonal-induction}
+If a predicate \(P\) holds at the empty diagonal \((\emp,\emp)\) and is
+preserved by simultaneous unary extension on a diagonal history, then every
+\(\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,k)\) witness
+supports \(P(h,k)\).
+\end{theorem}
+\begin{proof}
+Unpack the classifier into unary witnesses for \(h\) and \(k\) plus
+\(h\hsame k\). The history sameness component identifies the two histories,
+reducing the claim to the diagonal, where unary-history induction applies.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.MonoidHistoryClassifier\_unary\_diagonal\_induction}
+
 \begin{definition}[Monoid stability certificate]
 \label{def:monoid-stability-certificate}
 The stability certificate consists of:

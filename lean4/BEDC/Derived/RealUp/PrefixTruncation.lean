@@ -167,4 +167,43 @@ theorem RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
     fun sameZero => PositiveUnaryDenominator_e0_absurd
       (PositiveUnaryDenominator_hsame_transport sameZero package.right.right.left)⟩
 
+theorem RealStreamPrefixClassifier_contextual_full_endpoint_package
+    {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat}
+    {leftTail rightTail zX zY : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
+      UnaryHistory (tailX n) -> hsame (prefX n) (prefY n) ->
+        hsame (tailX n) (tailY n) -> Cont (prefX n) (x n) (midX n) ->
+          Cont (midX n) (tailX n) (outX n) -> Cont (prefY n) (y n) (midY n) ->
+            Cont (midY n) (tailY n) (outY n) ->
+              hsame (outX n) (BHist.e1 leftTail) ->
+                hsame (outY n) (BHist.e1 rightTail) ->
+                  RatHistoryClassifier (outX n) (outY n) ∧
+                    PositiveUnaryDenominator (outX n) ∧ PositiveUnaryDenominator (outY n) ∧
+                      UnaryHistory (outX n) ∧ UnaryHistory (outY n) ∧
+                        (hsame (outX n) BHist.Empty -> False) ∧
+                          (hsame (outY n) BHist.Empty -> False) ∧
+                            (hsame (outX n) (BHist.e0 zX) -> False) ∧
+                              (hsame (outY n) (BHist.e0 zY) -> False) ∧
+                                UnaryHistory leftTail ∧ UnaryHistory rightTail ∧
+                                  hsame leftTail rightTail := by
+  intro classified prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont
+    outYCont outXOne outYOne
+  have e1Package := RealStreamPrefixClassifier_contextual_e1_denominator_package
+    (leftTail := leftTail) (rightTail := rightTail) classified prefUnary tailUnary prefSame
+    tailSame prefCont outXCont prefYCont outYCont
+  have e0Absurd := RealStreamPrefixClassifier_contextual_e0_endpoint_absurd
+    (zX := zX) (zY := zY) classified prefUnary tailUnary prefSame tailSame prefCont
+    outXCont prefYCont outYCont
+  have tailPackage : UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail :=
+    e1Package.right.right.right.right.right.right.right outXOne outYOne
+  exact And.intro e1Package.left
+    (And.intro e1Package.right.left
+      (And.intro e1Package.right.right.left
+        (And.intro e1Package.right.right.right.left
+          (And.intro e1Package.right.right.right.right.left
+            (And.intro e1Package.right.right.right.right.right.left
+              (And.intro e1Package.right.right.right.right.right.right.left
+                (And.intro e0Absurd.left
+                  (And.intro e0Absurd.right tailPackage))))))))
+
 end BEDC.Derived.RealUp

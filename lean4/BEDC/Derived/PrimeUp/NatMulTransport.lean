@@ -68,4 +68,23 @@ theorem NatDivides_divisor_hsame_transport {d d' n : BHist} :
       have transported := NatMul_multiplicand_hsame_transport sameD qData.right
       exact And.intro transported.left (Exists.intro q (And.intro qData.left transported.right))
 
+theorem NatDivides_dividend_hsame_transport {d n n' : BHist} :
+    NatDivides d n -> hsame n n' -> UnaryHistory n' ∧ NatDivides d n' := by
+  intro divides sameN
+  cases divides with
+  | intro q qData =>
+      have transported := NatMul_result_hsame_transport qData.right sameN
+      have shiftedDivides : NatDivides d n' :=
+        Exists.intro q (And.intro qData.left transported.right)
+      exact And.intro (NatDivides_result_unary shiftedDivides) shiftedDivides
+
+theorem NatDivides_endpoint_hsame_transport {d d' n n' : BHist} :
+    NatDivides d n -> hsame d d' -> hsame n n' ->
+      UnaryHistory d' ∧ UnaryHistory n' ∧ NatDivides d' n' := by
+  intro divides sameD sameN
+  have divisorTransported := NatDivides_divisor_hsame_transport divides sameD
+  have dividendTransported := NatDivides_dividend_hsame_transport divisorTransported.right sameN
+  exact And.intro divisorTransported.left
+    (And.intro dividendTransported.left dividendTransported.right)
+
 end BEDC.Derived.PrimeUp
