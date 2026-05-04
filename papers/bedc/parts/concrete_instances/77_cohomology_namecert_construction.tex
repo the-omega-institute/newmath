@@ -148,6 +148,21 @@ transitivity carries the cocycle witness to $s$.
 \end{proof}
 \leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_hsame\_transport}
 
+\begin{theorem}[Cohomology cocycle continuation context cancel]
+\label{thm:cohomology-cocycle-continuation-context-cancel}
+Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and
+respect $\hsame$ on histories. If $\Cont(left,h,mid)$ and
+$\Cont(mid,right,r)$ compose a two-sided context around $h$, then any
+$d$-cocycle on $r$ restricts to a $d$-cocycle on $h$.
+\end{theorem}
+\begin{proof}
+The two continuation ledgers identify $r$ with $(left\cdot h)\cdot right$.
+Associativity rewrites this as $left\cdot(h\cdot right)$, and congruence for
+$d$ transports the cocycle witness to that reassociated context. Axis context
+cancellation then removes the visible left and right factors.
+\end{proof}
+\leanchecked{BEDC.Derived.CohomologyUp.CohomologyCocycle\_continuation\_context\_cancel}
+
 \begin{theorem}[Cohomology cocycle core append hsame transport]
 \label{thm:cohomology-cocycle-core-append-hsame-transport}
 Let $d:\mathsf{BHist}\to\mathsf{BHist}$ preserve append up to $\hsame$ and

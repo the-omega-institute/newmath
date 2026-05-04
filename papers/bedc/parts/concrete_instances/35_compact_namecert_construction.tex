@@ -679,40 +679,40 @@ and the step compactness continuation gives the final compact endpoint ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_continuation\_witness}
 
-\begin{theorem}[Compact witness carrier located refinement chain closure]
-\label{thm:compact-witness-carrier-located-refinement-chain-closed}
-If
-
-$$
-\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)
-$$
-
-and
-
-$$
-\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,finalLocated,finalIntermediate,finalCompact),
-$$
-
-then
-
-$$
-\mathsf{CompactWitnessCarrier}(subset,finalLocated,finite,finalIntermediate,finalCompact).
-$$
+\begin{theorem}[Compact located refinement chain final compact determinacy]\label{thm:compact-located-refinement-chain-final-compact-deterministic}
+If two compact located refinement chains share the same starting compactness ledger and the same final located and intermediate endpoints, then their final compact endpoints are $\hsame$-equal.
 \end{theorem}
 \begin{proof}
-Induct on the compact located refinement chain.
+Apply the continuation witness theorem to both chains using the same starting compactness ledger. Both witnesses end in $\Cont(finalIntermediate,finite,-)$, so continuation determinism identifies the final compact endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_final\_compact\_deterministic}
 
-In the base case, the final locatedness, intermediate, and compactness ledgers
-are the original ledgers $located$, $intermediate$, and $compact$. The desired
-carrier is exactly the given compact witness carrier.
+\begin{theorem}[Compact located refinement chain empty final reflects empty initial]
+\label{thm:compact-located-refinement-chain-empty-final-reflects-empty-initial}
+If a compact located refinement chain has empty final locatedness and intermediate ledgers, then its initial locatedness and intermediate ledgers are empty.
+\end{theorem}
+\begin{proof}
+Induct on the located refinement chain. In each step, transport the two final empty equalities across the displayed locatedness and intermediate continuations, use empty-result inversion, and apply the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactLocatedRefinementChain\_empty\_final\_reflects\_empty\_initial}
 
-In the step case, the induction hypothesis gives the carrier at the prior triple
-$(l,i,c)$. Apply
-Theorem~\ref{thm:compact-witness-carrier-located-extension-closed} to that
-carrier, the unary refinement history $e$, and the continuations
-$\Cont(l,e,l')$, $\Cont(i,e,i')$, and $\Cont(i',finite,c')$.
+\begin{theorem}[Compact witness carrier located empty final refinement reflects empty initial]
+\label{thm:compact-witness-carrier-located-empty-final-refinement-reflects-empty-initial}
+For a compact witness carrier and a located refinement chain, if the final locatedness, intermediate, and compactness ledgers are empty, then all five initial carrier ledgers are empty.
+\end{theorem}
+\begin{proof}
+Use the located continuation witness to expose a common refinement tail. Empty-result inversion gives empty locatedness, intermediate, and finite ledgers; the carrier continuations then reflect emptiness to the subset and compactness ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_empty\_final\_refinement\_reflects\_empty\_initial}
 
-The result is the required compact witness carrier at $(l',i',c')$.
+\begin{theorem}[Compact witness carrier located refinement chain closure]
+\label{thm:compact-witness-carrier-located-refinement-chain-closed}
+If $\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact)$ and
+$\mathsf{CompactLocatedRefinementChain}(finite,located,intermediate,compact,finalLocated,finalIntermediate,finalCompact)$, then
+$\mathsf{CompactWitnessCarrier}(subset,finalLocated,finite,finalIntermediate,finalCompact)$.
+\end{theorem}
+\begin{proof}
+Induct on the compact located refinement chain. The base case is the supplied carrier. In the step case, apply \autoref{thm:compact-witness-carrier-located-extension-closed} to the carrier supplied by the induction hypothesis and the displayed locatedness, intermediate, and compactness continuations.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactWitnessCarrier\_located\_refinement\_chain\_closed}
 
