@@ -101,6 +101,46 @@ Core theorem: \autoref{thm:real-stream-classifier-finite-prefix-stability-packag
 Exactness: the displayed four-part conjunction. Standard bridge: finite
 rational prefix agreement. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream prefix truncation positive denominator package]
+\label{thm:real-stream-prefix-truncated-positive-denominator-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $m,n$, if
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,m+n),
+$$
+then the selected endpoints of the shorter certified prefix have positive unary
+denominators:
+$$
+\mathsf{PositiveUnaryDenominator}(x(n))
+\land
+\mathsf{PositiveUnaryDenominator}(y(n)).
+$$
+\end{theorem}
+\begin{proof}
+First descend from the displayed prefix through $m+n$ to the selected prefix
+through $n$. This is the constructor induction used in
+\autoref{thm:real-stream-prefix-classifier-truncation}: the base prefix is
+already the selected prefix, and each successor step projects the shorter
+recursive prefix component.
+
+Apply \autoref{thm:real-stream-prefix-classifier-endpoint} to the resulting
+prefix classifier at $n$. This projects the endpoint rational-history classifier
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$.
+
+Finally apply \autoref{thm:rat-history-classifier-positive-denominators} to that
+endpoint classifier. The two projected witnesses are exactly
+$\mathsf{PositiveUnaryDenominator}(x(n))$ and
+$\mathsf{PositiveUnaryDenominator}(y(n))$.
+\end{proof}
+
+Fit. Traditional target: finite-prefix denominator readback for RealUp streams.
+BEDC source: RealUp prefix classifier plus RatUp denominator certificate.
+Carrier: rational-observation streams. Classifier:
+$\mathsf{RealStreamPrefixClassifier}$. Stability: prefix truncation and endpoint
+projection. Ledger: selected indices $m,n$. Core theorem:
+\autoref{thm:real-stream-prefix-truncated-positive-denominator-package}.
+Exactness: the displayed implication. Standard bridge: finite rational prefix
+positivity. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp stability package]
 \label{thm:real-unary-streamname-stability-package}
 For certified unary-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
