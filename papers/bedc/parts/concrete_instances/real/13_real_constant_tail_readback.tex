@@ -20,3 +20,46 @@ each positive denominator as unary evidence for its head and tail, and the
 remaining classifier field is the displayed endpoint $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}
+
+\begin{theorem}[Real constant classifier appended e-one tail denominator package]
+\label{thm:real-constant-history-classifier-append-e1-tail-denominator-package}
+For histories $d,e,tail_D,tail_E,z_D,z_E:\mathsf{BHist}$, write
+$D=d\cdot\Eone(tail_D)$ and $E=e\cdot\Eone(tail_E)$. If
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(D),\Eone(E)),
+$$
+then the appended rational denominators satisfy the following package:
+\begin{enumerate}
+  \item $\mathsf{RatHistoryClassifier}(D,E)$;
+  \item $\mathsf{PositiveUnaryDenominator}(D)$ and
+  $\mathsf{PositiveUnaryDenominator}(E)$;
+  \item $\mathsf{UnaryHistory}(d)$, $\mathsf{UnaryHistory}(tail_D)$,
+  $\mathsf{UnaryHistory}(e)$, and $\mathsf{UnaryHistory}(tail_E)$;
+  \item $D\hsame\emp\Longrightarrow\bot$ and
+  $E\hsame\emp\Longrightarrow\bot$;
+  \item $D\hsame\Ezero(z_D)\Longrightarrow\bot$ and
+  $E\hsame\Ezero(z_E)\Longrightarrow\bot$;
+  \item $D\hsame E$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to the
+displayed constant RealUp classifier. This exposes the underlying
+$\mathsf{RatHistoryClassifier}(D,E)$ and keeps its classifier field available
+for the final $D\hsame E$ row.
+
+Next apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+rational classifier. The result supplies positive unary denominator witnesses
+for both appended tails. Applying
+\autoref{thm:rat-positive-denominator-append-eone-right-exact} to each
+witness decomposes the two appended e-one denominators into the four unary
+factor rows.
+
+Finally apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} to
+the two positive-denominator witnesses to obtain the two exclusions against
+$\emp$. If either appended denominator were history-same to a zero-extension,
+transport the corresponding positive-denominator witness along that sameness
+and contradict \autoref{thm:rat-positive-denominator-e0-absurd}. The hsame row
+is the rational classifier endpoint field, equivalently the checked unary
+readback theorem above.
+\end{proof}
