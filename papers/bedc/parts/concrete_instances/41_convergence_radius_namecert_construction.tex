@@ -335,6 +335,27 @@ package for geometric bounds.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_visible\_radius\_witness\_endpoint\_package}
 
+\begin{theorem}[Convergence radius classifier-visible radius witness endpoint package]
+\label{thm:conv-rad-classifier-visible-radius-witness-endpoint-package}
+If $\hsame(R,R')$, $R'$ is unary, the coefficient streams $a$ and $b$ are
+complex-history classified pointwise, $\mathsf{ConvRad}(a,R)$ holds, and
+$\Eone(tail)$ is an admitted unary radius endpoint, then the transported
+convergence-radius witness function can be chosen so that every continuation
+$$
+\ContR(\Eone(tail),K(\Eone(tail)),R')
+$$
+exposes
+$$
+\mathsf{UnaryHistory}(tail)\land \neg\hsame(R',\emp).
+$$
+\end{theorem}
+\begin{proof}
+Transport the convergence radius along $\hsame(R,R')$ and the pointwise
+complex-history classifier for the coefficients. The visible-radius endpoint
+package then applies at the transported radius $R'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_classifier\_visible\_radius\_witness\_endpoint\_package}
+
 \begin{lemma}[Convergence radius transport]
 \label{lem:conv-rad-radius-transport}
 If \(\hsame(R, R')\), \(\mathsf{ConvRad}(a, R)\), and \(R'\) is unary, then the same geometric-bound witness function supplies \(\mathsf{ConvRad}(a, R')\).
