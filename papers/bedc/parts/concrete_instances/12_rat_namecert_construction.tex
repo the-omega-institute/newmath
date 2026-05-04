@@ -2,6 +2,34 @@
 \input{parts/concrete_instances/12_rat_namecert_certificate}
 \input{parts/concrete_instances/12_rat_namecert_representative_stability}
 
+\begin{theorem}[Rat history semantic name certificate]
+\label{thm:rat-history-semantic-name-certificate}
+The Rat history carrier with its history classifier supplies the semantic name
+certificate
+$$
+\mathsf{SemanticNameCert}(\mathsf{RatHistoryCarrier},
+\mathsf{RatHistoryCarrier},\mathsf{RatHistoryCarrier},
+\mathsf{RatHistoryClassifier}).
+$$
+\end{theorem}
+\begin{proof}
+The carrier is inhabited by the one-extension of the empty denominator tail.
+This is the positive unary denominator witness used by the checked core.
+
+For the core certificate relation, reflexivity is the self-classifier supplied
+by carrier membership and $\hsame$ reflexivity. Symmetry reverses the
+$\hsame$ component of a classifier witness. Transitivity composes the two
+$\hsame$ components and uses carrier transport along $\hsame$ to recover the
+right endpoint carrier. The same carrier transport gives respect of the
+carrier under a classifier edge.
+
+The semantic source, pattern, and ledger rows are all
+$\mathsf{RatHistoryCarrier}$. Hence the source-to-pattern and source-to-ledger
+clauses are identity rows: each source witness is reused unchanged as the
+pattern witness and as the ledger witness. These are exactly the rows assembled
+by the Lean theorem.
+\end{proof}
+
 \begin{theorem}[Rat history ledger displayed context one-tail readback]
 \label{thm:rat-history-ledger-cont-unary-context-e1-pair-readback}
 For histories
@@ -94,52 +122,6 @@ $\mathsf{PositiveUnaryDenominator}(v)$. The lifted classifier and the three
 positive-denominator witnesses assemble the displayed conjunction.
 \end{proof}
 
-\begin{theorem}[Rat ledger visible-target zero-extension exclusion]
-\label{thm:rat-ledger-visible-target-zero-extension-exclusion}
-For histories $\rho,v,w,z:\mathsf{BHist}$, if
-$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
-$\mathsf{RatHistoryClassifier}(v,w)$ hold, then
-$$
-(\hsame(\rho,\Ezero(z))\to\mathsf{False})\land
-(\hsame(v,\Ezero(z))\to\mathsf{False})\land
-(\hsame(w,\Ezero(z))\to\mathsf{False}).
-$$
-
-Its ten-field fit is: traditional target rational denominator ledger endpoint
-exclusion; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier positive
-unary denominator; classifier $\mathsf{RatHistoryClassifier}$; stability by
-ledger lift and $\hsame$ transport; ledger raw, visible, and target endpoint
-provenance; exactness the three displayed contradictions; downstream consumer
-$\FieldUp(\RatUp)$ denominator continuation and $\RealUp$ stream-prefix
-filtering; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:rat-ledger-visible-target-lift-positive-endpoints} to the
-ledger witness and the visible-target classifier. This produces positive unary
-denominator witnesses for the raw endpoint $\rho$, the visible endpoint $v$,
-and the target endpoint $w$.
-
-\begin{enumerate}
-\item Suppose $\hsame(\rho,\Ezero(z))$. Use
-\autoref{thm:rat-positive-unary-denominator-hsame-transport} to transport the
-positive-denominator witness for $\rho$ along this displayed endpoint
-equality. The transported witness belongs to $\Ezero(z)$, so
-\autoref{thm:rat-positive-denominator-e0-absurd} gives the contradiction.
-
-\item Suppose $\hsame(v,\Ezero(z))$. Use
-\autoref{thm:rat-positive-unary-denominator-hsame-transport} to transport the
-positive-denominator witness for $v$ along this displayed endpoint equality.
-The transported witness belongs to $\Ezero(z)$, and
-\autoref{thm:rat-positive-denominator-e0-absurd} rules it out.
-
-\item Suppose $\hsame(w,\Ezero(z))$. Use
-\autoref{thm:rat-positive-unary-denominator-hsame-transport} to transport the
-positive-denominator witness for $w$ along this displayed endpoint equality.
-The transported witness belongs to $\Ezero(z)$, and
-\autoref{thm:rat-positive-denominator-e0-absurd} gives the contradiction.
-\end{enumerate}
-\end{proof}
-
 \begin{theorem}[Rat ledger two-sided endpoint classifier equivalence]
 \label{thm:rat-ledger-two-sided-endpoint-classifier-equivalence}
 For histories $\rho,v,w:\mathsf{BHist}$, if
@@ -153,8 +135,24 @@ $$
 \land
 \mathsf{PositiveUnaryDenominator}(\rho)
 \land
-\mathsf{PositiveUnaryDenominator}(v).
+\mathsf{PositiveUnaryDenominator}(v)
+\land
+(\mathsf{RatHistoryClassifier}(v,w)\to
+\mathsf{PositiveUnaryDenominator}(w))
+\land
+(\mathsf{RatHistoryClassifier}(w,v)\to
+\mathsf{PositiveUnaryDenominator}(w)).
 $$
+
+Its ten-field fit is: traditional target two-sided $\RatUp$ ledger endpoint
+classifier exactness with conditional endpoint readback; BEDC source $\RatUp$
+ledger over $\mathsf{BHist}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from ledger endpoint
+equivalence, classifier symmetry, and classifier positive-denominator
+readback; ledger $\mathsf{RatHistoryLedgerPolicy}$; core theorem this block;
+exactness the two iff rows plus conditional $w$-readback; downstream consumer
+the $\RatUp$ semantic certificate boundary and $\RealUp$ rational observation
+streams; status $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
@@ -171,7 +169,117 @@ exchanged.
 Finally apply \autoref{thm:rat-ledger-raw-visible-classifier} to the ledger
 witness, obtaining $\mathsf{RatHistoryClassifier}(\rho,v)$. Applying
 \autoref{thm:rat-history-classifier-positive-denominators} to that classifier
-supplies the positive unary denominator witnesses for $\rho$ and $v$, so the
-two equivalences and the two endpoint witnesses assemble the displayed
-conjunction.
+supplies the positive unary denominator witnesses for $\rho$ and $v$.
+
+For the first conditional $w$-readback, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to a witness of
+$\mathsf{RatHistoryClassifier}(v,w)$ and project the right endpoint. This gives
+$\mathsf{PositiveUnaryDenominator}(w)$ under the visible-target classifier
+hypothesis.
+
+For the second conditional $w$-readback, apply the same theorem to a witness of
+$\mathsf{RatHistoryClassifier}(w,v)$ and project the left endpoint. This gives
+$\mathsf{PositiveUnaryDenominator}(w)$ under the reversed visible-endpoint
+classifier hypothesis.
+
+The two equivalences, the positive $\rho$ and $v$ endpoint witnesses, and the
+two implication rows assemble the displayed conjunction.
+\end{proof}
+
+\begin{theorem}[Rat ledger bidirectional target-positive endpoint package]
+\label{thm:rat-ledger-bidirectional-target-positive-endpoint-package}
+For histories $\rho,v,w:\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, then
+$$
+(\mathsf{RatHistoryClassifier}(\rho,w)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(v,w))
+\land
+(\mathsf{RatHistoryClassifier}(w,\rho)\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(w,v))
+\land
+(\mathsf{RatHistoryClassifier}(v,w)\Rightarrow
+\mathsf{PositiveUnaryDenominator}(\rho)\land
+\mathsf{PositiveUnaryDenominator}(v)\land
+\mathsf{PositiveUnaryDenominator}(w))
+\land
+(\mathsf{RatHistoryClassifier}(w,v)\Rightarrow
+\mathsf{PositiveUnaryDenominator}(\rho)\land
+\mathsf{PositiveUnaryDenominator}(v)\land
+\mathsf{PositiveUnaryDenominator}(w)).
+$$
+
+Its ten-field fit is: traditional target rational ledger bidirectional endpoint
+package; BEDC source $\RatUp$ ledger over $\mathsf{BHist}$; carrier
+$\mathsf{RatHistoryCarrier}$; classifier $\mathsf{RatHistoryClassifier}$;
+stability from ledger classifier extension plus classifier symmetry and
+transitivity; ledger the raw/visible denominator edge; core theorem this block;
+exactness the two displayed fibers plus positivity; downstream consumer
+$\RealUp$ stream-prefix and the $\RatUp$ semantic certificate boundary; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
+ledger witness. This gives the forward-orientation classifier fiber between
+$\rho$ and $v$ at the common target $w$.
+
+For the reversed-argument fiber, apply
+\autoref{thm:rat-history-classifier-symmetry} before and after the forward
+fiber. A witness $\mathsf{RatHistoryClassifier}(w,\rho)$ becomes a witness from
+$\rho$ to $w$, crosses the endpoint equivalence, and reverses to a witness from
+$w$ to $v$; the converse direction follows by the same symmetric transport.
+
+It remains to package endpoint positivity. Assume
+$\mathsf{RatHistoryClassifier}(v,w)$. Apply
+\autoref{thm:rat-ledger-classifier-extension} to the ledger witness and this
+visible-target classifier, obtaining
+$\mathsf{RatHistoryClassifier}(\rho,w)$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the lifted
+raw-target classifier for the $\rho$ and $w$ witnesses, and apply the same
+positive-denominator theorem to the original visible-target classifier for the
+$v$ and $w$ witnesses. These assemble the first implication.
+
+For $\mathsf{RatHistoryClassifier}(w,v)$, first reverse it by
+\autoref{thm:rat-history-classifier-symmetry}. The resulting
+$\mathsf{RatHistoryClassifier}(v,w)$ case is exactly the positivity package just
+constructed, so the second implication follows.
+\end{proof}
+
+\begin{theorem}[Rat ledger visible-target zero-extension exclusion]
+\label{thm:rat-ledger-visible-target-zero-extension-exclusion}
+For histories $\rho,v,w,z,z':\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryClassifier}(v,w)$ hold, then
+$$
+(\hsame(\rho,\Ezero(z))\to\mathsf{False})\land
+(\hsame(w,\Ezero(z'))\to\mathsf{False}).
+$$
+
+Its ten-field fit is: traditional target $\RatUp$ ledger visible-target
+zero-branch exclusion; BEDC source $\mathsf{RatHistoryLedgerPolicy}$ and
+$\mathsf{RatHistoryClassifier}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability by ledger classifier
+extension and classifier endpoint transport; ledger the raw-visible edge; core
+theorem this block; exactness the two contradictions; downstream consumers
+$\FieldUp$ denominator continuation and $\RealUp$ stream-prefix readback;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-ledger-visible-target-lift-positive-endpoints} to the ledger
+witness and the visible-target classifier. Its first component gives
+$\mathsf{RatHistoryClassifier}(\rho,w)$, the classifier whose endpoints are the
+raw denominator and the target denominator.
+
+Suppose first that $\hsame(\rho,\Ezero(z))$ holds. Transport the lifted
+classifier along this endpoint equality to obtain
+$\mathsf{RatHistoryClassifier}(\Ezero(z),w)$. The left branch of
+\autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} rules
+out that classifier, giving the first contradiction.
+
+Suppose next that $\hsame(w,\Ezero(z'))$ holds. Transport the same lifted
+classifier along the target endpoint equality to obtain
+$\mathsf{RatHistoryClassifier}(\rho,\Ezero(z'))$. The right branch of
+\autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} rules
+out that classifier, giving the second contradiction.
 \end{proof}
