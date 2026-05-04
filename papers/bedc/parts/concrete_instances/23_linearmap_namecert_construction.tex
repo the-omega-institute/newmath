@@ -645,3 +645,52 @@ Transitivity of the $P$ classifier gives $(g\circ f)(0_M)\sim_P0_P$.
 
 The pointwise classifier for maps $M\to P$ is exactly the relation specified in \autoref{def:linearmap-classifier-specification}. The rows above are the output-closure, descent, additivity, scalar-compatibility, zero-preservation, and composition-closure entries of \autoref{def:linearmap-stability-certificate} read over the module carriers of \autoref{def:module-carrier}. The ledger is the composite record formed from the two input function identifiers and their linearity, zero, and pointwise comparison ledgers, matching the policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations} for $g\circ f$.
 \end{proof}
+
+\begin{theorem}[Module identity LinearMap certificate]
+\label{thm:module-linearmap-identity-certificate}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ carry a $\ModuleUp(R,M)$ certificate. Write $\sim_M$ for the module classifier, $+_M$ for module addition, $0_M$ for module zero, and $\odot_M$ for scalar action. Let $\mathrm{id}_M:M\to M$ be the identity function. Then
+$$
+\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)
+$$
+holds. The source and target classifier are the same module classifier from \autoref{def:module-classifier-specification}, and the ledger is the identity-function ledger governed by \autoref{def:linearmap-ledger-policy}.
+
+The ten-field fit is: traditional target the ordinary identity linear map on a module; BEDC source a single $\ModuleUp(R,M)$ certificate; carrier the function $\mathrm{id}_M$ together with the rows listed in \autoref{def:module-linearmap-certificate-package}; classifier the pointwise module classifier from \autoref{def:linearmap-classifier-specification}; stability output closure, descent, additivity, scalar compatibility, zero preservation, and identity closure from \autoref{def:linearmap-stability-certificate}; ledger the identity function identifier and the inherited operation ledgers required by \autoref{def:linearmap-ledger-policy}; core theorem this block; exactness predicate the displayed certificate; standard bridge the usual identity linear map; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the module certificate by \autoref{def:module-certificate-obligations}. It supplies the module carrier, the module classifier, the additive operation and zero, the scalar action, their stability fields, and their ledgers. By \autoref{def:module-classifier-specification}, the classifier used on the source and target copies of $M$ is the same relation $\sim_M$. The carrier-and-equivalence core of the derived certificate, described in \autoref{def:lean-carrier-naming-certificate}, supplies classifier reflexivity on carried module endpoints.
+
+The rows required by \autoref{def:module-linearmap-certificate-package} are now checked one by one. For output closure, let $x$ be carried in $M$. Since $\mathrm{id}_M(x)=x$, the output is the same carried endpoint.
+
+For source-classifier descent, assume $x\sim_M y$. Applying the identity function changes neither endpoint, so the required comparison
+$$
+\mathrm{id}_M(x)\sim_M\mathrm{id}_M(y)
+$$
+is exactly the supplied comparison $x\sim_M y$.
+
+For additivity, let $x$ and $y$ be carried in $M$. The additive closure component listed in \autoref{def:module-stability-certificate} makes $x+_M y$ a carried module endpoint. Both sides of the additive row reduce to that same endpoint:
+$$
+\mathrm{id}_M(x+_M y)=x+_M y,
+\qquad
+\mathrm{id}_M(x)+_M\mathrm{id}_M(y)=x+_M y.
+$$
+Classifier reflexivity on the carried endpoint $x+_M y$ gives
+$$
+\mathrm{id}_M(x+_M y)\sim_M\mathrm{id}_M(x)+_M\mathrm{id}_M(y).
+$$
+
+For scalar compatibility, let $r$ be a carried scalar and let $x$ be carried in $M$. Scalar-action closure from \autoref{def:module-stability-certificate} makes $r\odot_M x$ carried. Again both endpoints are the same expression:
+$$
+\mathrm{id}_M(r\odot_M x)=r\odot_M x,
+\qquad
+r\odot_M\mathrm{id}_M(x)=r\odot_M x.
+$$
+Reflexivity of $\sim_M$ gives the scalar-compatibility row.
+
+For zero preservation, the additive unit $0_M$ is part of the carried additive module data. The two endpoints are both $0_M$:
+$$
+\mathrm{id}_M(0_M)=0_M.
+$$
+Reflexivity gives $\mathrm{id}_M(0_M)\sim_M0_M$.
+
+It remains only to record the certificate data. The function identifier is $\mathrm{id}_M$. The additive, scalar, and zero rows above use the existing module operation ledgers together with classifier reflexivity, and the descent row uses the input classifier witness itself. This is exactly the ledger policy of \autoref{def:linearmap-ledger-policy}. Therefore the carrier, source, pattern, classifier, stability, and ledger data satisfy \autoref{def:linearmap-certificate-obligations}, yielding $\mathsf{LinearMapCert}_R(M,M;\mathrm{id}_M)$.
+\end{proof}
