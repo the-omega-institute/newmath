@@ -100,6 +100,58 @@ same singleton endpoint classification, so the commutativity row remains
 $R_{\emp}$-classified after replacement.
 \end{proof}
 
+\begin{theorem}[Concrete singleton history CommRingUp certificate boundary]
+\label{thm:concrete-singleton-history-commring-certificate-boundary}
+For the concrete tuple of
+Definition~\ref{def:concrete-singleton-history-commring-instance}, the
+carrier-aware classifier $R_{\emp}$ supplies the
+$\mathsf{SemanticNameCert}$ rows. Together with
+Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws}, these
+rows supply the concrete $\CommRingUp$ certificate boundary over
+$\mathsf{BHist}$ with the following ten fields:
+\begin{enumerate}
+  \item traditional target: the terminal commutative ring;
+  \item BEDC source: the history carrier $\mathsf{BHist}$ with source
+  $A_{\emp}$;
+  \item carrier: $A_{\emp}$;
+  \item classifier: $R_{\emp}$;
+  \item stability obligations: the $\RingUp$ package plus multiplicative
+  commutativity compatibility;
+  \item ledger: append-operation provenance for addition and multiplication,
+  constant-operation provenance for negation, and empty-history provenance for
+  $0$ and $1$;
+  \item core theorem:
+  Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws};
+  \item exactness: singleton endpoint classification by $A_{\emp}$ and
+  $\hsame$;
+  \item standard bridge: the ordinary terminal commutative ring;
+  \item status: $\mathsf{ProofTarget}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:group-singleton-terminal-classifier-package} to the
+singleton history carrier $A_{\emp}$ and classifier $R_{\emp}$. It supplies
+reflexivity, symmetry, transitivity, and carrier transport for the
+carrier-aware semantic naming certificate.
+
+The operation endpoints are exactly the endpoints displayed in
+Definition~\ref{def:concrete-singleton-history-commring-instance}: append for
+addition and multiplication, the constant endpoint $\emp$ for negation, and
+$\emp$ for both distinguished constants. Thus the BEDC source, carrier,
+classifier, ledger, and exactness rows are the concrete rows named in the
+definition.
+
+The law rows are supplied by
+Theorem~\ref{thm:concrete-singleton-history-commring-full-schema-laws}. That
+theorem packages the additive, multiplicative, distributive, congruence, and
+multiplicative-commutativity rows over the same tuple.
+
+Combining the SemanticNameCert rows with the law package gives the displayed
+ten-field $\CommRingUp$ certificate boundary. The terminal commutative ring is
+the standard bridge, and the boundary is recorded with status
+$\mathsf{ProofTarget}$.
+\end{proof}
+
 \section{Concrete singleton empty-history commutative ring instance}
 \label{sec:commring-concrete-singleton-instance}
 
