@@ -4757,3 +4757,137 @@ An opposite-ring construction is a canonical algebraic invariant that mirrors th
 
 ---
 
+### B-185 - Group commutator symmetry: inv(comm(a,b)) hsame comm(b,a)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Group commutator symmetry: inv(comm(a,b)) hsame comm(b,a) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under group laws (associativity, two-sided identity, multiplication congruence, two-sided inverses), for all a,b in BHist, hsame(inv(comm(a,b)), comm(b,a)).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/group/namecert_construction_core/02_certificate.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `lean4/BEDC/Derived/GroupUp/`
+
+Rationale:
+Hungerford ch.I.4 / Dummit-Foote 5.4: [a,b]^{-1} = [b,a] is a one-line consequence of inverse-reversal. comm(a,b) = ab(a^{-1}b^{-1}); apply thm:group-inverse-mul-reverse twice and thm:group-left-inverse-involutive twice. Verified absent: grep 'commutator-symm|commutator.*inverse|comm\(b,a\)' inside group/ returns no theorem. All prerequisites already \leanchecked at 02_certificate.tex lines 33-185. 1-round closeable.
+
+---
+
+
+### B-186 - Ring negation classifier exactness: -x hsame -y iff x hsame y
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ring negation classifier exactness: -x hsame -y iff x hsame y |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under additive group laws (associativity, commutativity, left-zero, left-inverse, addition congruence, additive-inverse congruence) on BHist, for every x,y: hsame(neg(x), neg(y)) iff hsame(x, y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `lean4/BEDC/Derived/RingUp/`
+
+Rationale:
+Hungerford ch.III §1 / Dummit-Foote §7.1: 'in any abelian group / ring, additive inverse is injective.' Grep confirms no neg-injectivity / neg-classifier-exact theorem exists in ring/, commring/, or field/. Forward: from -x ~ -y and x + (-x) ~ 0, additive cancellation gives x ~ y. Reverse: additive-inverse congruence transports x ~ y across neg directly. Both directions short. Pairs naturally with thm:ring-additive-difference-zero-exact already in the same file. 1-round closeable.
+
+---
+
+
+### B-187 - Composition of split monomorphisms is a split monomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Composition of split monomorphisms is a split monomorphism |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+In any CategoryUp certificate, if f:a->b and g:b->c both carry split-monomorphism witnesses with left inverses f' and g' respectively, then g comp f : a -> c carries a split-monomorphism witness whose left inverse is f' comp g'.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/`
+
+Rationale:
+Mac Lane CWM I.5 Prop 1 / Riehl 1.2.10: closure of split-mono under composition by associativity and unit law. Verified: def:category-split-monomorphism exists at functor/certificate_obligations.tex line 391 and thm:functor-preserves-split-monomorphism exists at line 391+, but no closure-under-composition theorem. Prerequisites all present (composition closure, associativity, identity-square via cor:category-hom-carrier-stability-law-package). Distinct from B-11 (functor preserves hom-carrier under composition). 1-round closeable.
+
+---
+
+
+### B-188 - ListPublicAppend left-identity at the nil-represented endpoint
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ListPublicAppend left-identity at the nil-represented endpoint |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If e:BHist satisfies ListSpineRep_A(e, nil) and h satisfies ListHistoryCarrier_A(h), then ListPublicAppend_A(e, h, h).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/list/11_represented_spine_append_context.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `lean4/BEDC/Derived/ListUp/`
+
+Rationale:
+Bird-Wadler / Pierce TAPL §3 / introductory algebra (Birkhoff-Mac Lane): nil ++ xs = xs is the very first algebraic law for ++ in any free-monoid presentation. Currently the chapter states ListPublicAppend totality + congruence + length-additivity, but the explicit unit law ListPublicAppend(nil, h, h) is missing — grep across list/ returns no `nil_append`, `append_left_unit`, or `append_right_unit` matches. Closure: append/spine-rep machinery is fully present (nil ListSpineRep clause + lem:list-spine-append-representation-construction). 1-round closeable. Sister to thm:preorder-prefix-empty-left-iff-unary already stated in chapter 27.
+
+---
+
+
+### B-189 - Identity natural transformation as a full NatTransUp certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Identity natural transformation as a full NatTransUp certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+For any FunctorUp certificate F : C -> D, there is a NatTransUp certificate id_F : F => F whose component at every object x is the D-identity id_(F_0(x)) and whose naturality square at every source morphism u : a -> b is the identity-naturality witness via category identity-square closure.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+Mac Lane CWM II.4 Prop 1 / Riehl 1.4.1: identity nat-trans is a NatTransUp certificate. Currently thm:nattrans-prefix-identity-naturality-square exists at the prefix-component level only (line 697 of 38_nattrans_namecert_construction.tex); the abstract certificate-level wrapper packaging this as a full NatTransUp instance from F to F is missing. The opposite-natural-transformation chapter implicitly assumes such an instance exists. Closes the gap before vertical composition with itself (degenerate case). 1-round closeable.
+
+---
+
