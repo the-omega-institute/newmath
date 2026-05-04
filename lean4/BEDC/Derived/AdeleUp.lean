@@ -163,6 +163,18 @@ theorem AdeleHistoryCarrier_cont_right_result_nonempty {h k r : BHist} :
   have endpoints := cont_empty_result_inversion emptyContinuation
   exact AdeleHistoryCarrier_not_empty carrier endpoints.right
 
+theorem AdeleHistoryCarrier_visible_scale_cont_nonempty_package {real p exponent result k out : BHist} :
+    RealConstantHistoryCarrier real -> PadicPrimeScale p (BHist.e1 exponent) result ->
+      Cont (append real result) k out ->
+        AdeleHistoryCarrier (append real result) ∧
+          (hsame result BHist.Empty -> False) ∧ (hsame out BHist.Empty -> False) := by
+  intro realCarrier scale continuation
+  have visibleScale :=
+    AdeleHistoryCarrier_visible_scale_result_nonempty realCarrier scale
+  exact And.intro visibleScale.left
+    (And.intro visibleScale.right
+      (AdeleHistoryCarrier_cont_result_nonempty visibleScale.left continuation))
+
 theorem AdeleRealStreamPrefix_visible_scale_carrier {x y : Nat -> BHist} {n m : Nat}
     {denTail imagTail exponent result : BHist} :
     (forall i : Nat, UnaryHistory (x i)) -> RealStreamPrefixClassifier x y (m + n) ->

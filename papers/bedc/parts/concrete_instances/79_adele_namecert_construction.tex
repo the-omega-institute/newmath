@@ -125,6 +125,25 @@ one-sealed histories from $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_result\_nonempty}
 
+\begin{theorem}[Adele visible scale continuation nonempty package]
+\label{thm:adele-history-carrier-visible-scale-cont-nonempty-package}
+For histories $r,p,e,s,k,out:\mathsf{BHist}$, if
+$\mathsf{RealConstantHistoryCarrier}(r)$,
+$\mathsf{PadicPrimeScale}(p,\mathsf{e1}(e),s)$, and
+$\ContR(\mathsf{append}(r,s),k,out)$ hold, then
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(r,s))\land
+(\hsame(s,\emp)\to\bot)\land(\hsame(out,\emp)\to\bot).
+$$
+\end{theorem}
+\begin{proof}
+The visible scale theorem supplies both the adele-history carrier for
+$\mathsf{append}(r,s)$ and the nonempty scale endpoint $s$. Feeding that carrier
+and the displayed continuation into the adele continuation-result theorem gives
+the nonempty output endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_visible\_scale\_cont\_nonempty\_package}
+
 \begin{theorem}[Adele e1 real append carrier is nonempty]
 \label{thm:adele-history-carrier-e1-real-append-nonempty}
 For histories $realTail,p,exponent,result:\mathsf{BHist}$, if

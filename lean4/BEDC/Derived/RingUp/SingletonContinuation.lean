@@ -20,4 +20,18 @@ theorem RingSingletonClassifier_cont_result_empty_iff {h k p r : BHist} :
       cases pEmpty
       exact cont_right_unit BHist.Empty)
 
+theorem RingSingletonClassifier_continuation_visible_result_absurd {h k p r : BHist} :
+    RingSingletonClassifier h k -> RingSingletonCarrier p ->
+      (Cont h p (BHist.e0 r) -> False) ∧ (Cont h p (BHist.e1 r) -> False) := by
+  intro classified carrierP
+  constructor
+  · intro continuation
+    have resultEmpty : hsame (BHist.e0 r) BHist.Empty :=
+      cont_respects_hsame classified.left carrierP continuation (cont_right_unit BHist.Empty)
+    exact not_hsame_e0_empty resultEmpty
+  · intro continuation
+    have resultEmpty : hsame (BHist.e1 r) BHist.Empty :=
+      cont_respects_hsame classified.left carrierP continuation (cont_right_unit BHist.Empty)
+    exact not_hsame_e1_empty resultEmpty
+
 end BEDC.Derived.RingUp
