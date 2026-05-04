@@ -173,3 +173,62 @@ because all three semantic predicates are
 $\mathsf{MatrixSingletonCarrier}$.
 \end{proof}
 \leanchecked{BEDC.Derived.DeterminantUp.DeterminantSingletonClassifier\_semanticNameCert}
+
+\begin{theorem}[Singleton determinant threefold multiplicativity]
+\label{thm:determinant-singleton-triple-multiplicativity}
+For singleton-carried matrix histories $M,N,P:\mathsf{BHist}$, the
+left-bracketed matrix product has the scalar determinant classifier
+$$
+\mathsf{CommRingSingletonClassifier}\bigl(
+\mathsf{DeterminantSingletonDet}(
+\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonMul}(M,N),P)),
+\mathsf{CommRingSingletonMul}(
+\mathsf{CommRingSingletonMul}(
+\mathsf{DeterminantSingletonDet}(M),
+\mathsf{DeterminantSingletonDet}(N)),
+\mathsf{DeterminantSingletonDet}(P))\bigr).
+$$
+The right-bracketed matrix product has the analogous classifier
+$$
+\mathsf{CommRingSingletonClassifier}\bigl(
+\mathsf{DeterminantSingletonDet}(
+\mathsf{MatrixSingletonMul}(M,\mathsf{MatrixSingletonMul}(N,P))),
+\mathsf{CommRingSingletonMul}(
+\mathsf{DeterminantSingletonDet}(M),
+\mathsf{CommRingSingletonMul}(
+\mathsf{DeterminantSingletonDet}(N),
+\mathsf{DeterminantSingletonDet}(P)))\bigr).
+$$
+Moreover, the two scalar products above are classified with one another by
+$\mathsf{CommRingSingletonClassifier}$.
+\end{theorem}
+\begin{proof}
+The singleton matrix laws in
+Theorem~\ref{thm:singleton-empty-history-matrix-laws} close
+$\mathsf{MatrixSingletonMul}(M,N)$ and then
+$\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonMul}(M,N),P)$ under
+$\mathsf{MatrixSingletonCarrier}$. The same laws also close
+$\mathsf{MatrixSingletonMul}(N,P)$ and
+$\mathsf{MatrixSingletonMul}(M,\mathsf{MatrixSingletonMul}(N,P))$, and their
+associativity field classifies the two matrix products at the singleton
+endpoint.
+
+Apply
+Theorem~\ref{thm:singleton-matrix-determinant-endpoint-correspondence} to the
+left-bracketed product and then use
+Theorem~\ref{thm:determinant-singleton-classifier-semantic-namecert} to keep
+the determinant readback stable under the singleton matrix classifier. The
+result is the displayed classifier from the determinant of
+$\mathsf{MatrixSingletonMul}(\mathsf{MatrixSingletonMul}(M,N),P)$ to the
+left-bracketed scalar product.
+
+The right-bracketed statement is obtained by the same argument applied to
+$\mathsf{MatrixSingletonMul}(M,\mathsf{MatrixSingletonMul}(N,P))$. Matrix
+associativity transports the product endpoint, and determinant readback
+stability gives the corresponding scalar classifier.
+
+Finally, Theorem~\ref{thm:singleton-empty-history-commring-laws} closes
+$\mathsf{CommRingSingletonMul}$ on the three determinant readbacks and
+classifies the left- and right-bracketed scalar products by commutative-ring
+associativity.
+\end{proof}
