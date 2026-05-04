@@ -158,6 +158,25 @@ obtain the required composite tail classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_tail\_factorization\_iff}
 
+\begin{theorem}[Continuation morphism identity and composition closure]
+\label{thm:continuation-morphism-identity-composition-closure}
+Every history $h$ has an empty-tail identity witness in
+$\mathsf{ContinuationMorphism}(h,h)$. Moreover, composable continuation
+morphisms $left:a\to b$ and $right:b\to c$ determine an inhabited
+$\mathsf{ContinuationMorphism}(a,c)$ by the closed composite.
+\end{theorem}
+\begin{proof}
+For the identity clause, take the empty tail. The continuation witness is the
+empty right-unit continuation at $h$, so the corresponding continuation
+morphism inhabits $\mathsf{ContinuationMorphism}(h,h)$.
+
+For the composition clause, apply
+$\mathsf{ContinuationMorphism\_comp\_closed}$ to $left$ and $right$. The result
+is the closed composite continuation morphism from $a$ to $c$, which supplies
+the required inhabitant.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_identity\_comp\_closure}
+
 Per-object certificate: traditional target hom-as-continuation morphism bridge;
 BEDC source $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$,
 $\mathsf{UnaryHistory}$, and $\mathsf{Cont}$; carrier $\mathsf{BHist}$ tails;

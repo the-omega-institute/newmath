@@ -22,4 +22,17 @@ theorem fieldSingletonEmptyNonZero_visible_headed {h : BHist} :
   · intro classified
     exact not_hsame_e1_empty classified.left
 
+theorem fieldSingletonEmptyNonZero_visible_cases {h : BHist} :
+    fieldSingletonEmptyNonZero h ->
+      (exists t : BHist, h = BHist.e0 t) \/ (exists t : BHist, h = BHist.e1 t) := by
+  intro nonzero
+  cases h with
+  | Empty =>
+      exact False.elim (nonzero ⟨hsame_refl BHist.Empty, hsame_refl BHist.Empty,
+        hsame_refl BHist.Empty⟩)
+  | e0 t =>
+      exact Or.inl ⟨t, rfl⟩
+  | e1 t =>
+      exact Or.inr ⟨t, rfl⟩
+
 end BEDC.Derived.FieldUp
