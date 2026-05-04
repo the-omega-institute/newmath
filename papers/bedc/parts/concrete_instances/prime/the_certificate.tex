@@ -93,6 +93,15 @@ By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{N
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplicand\_hsame\_transport}
 
+\begin{lemma}[Unary multiplication successor result-continuation transport]
+\label{lem:nat-mul-succ-result-cont-transport}
+Let $d,q,n$ be unary histories, and let $n'$ be a history with $n\hsame n'$. If $\mathsf{NatMul}(d,\Eone(q),n)$, then there is a predecessor product $p$ with $\mathsf{NatMul}(d,q,p)$ and $\Cont(p,d,n')$.
+\end{lemma}
+\begin{proof}
+Invert the successor multiplication witness to obtain a predecessor product $p$ and the final continuation $\Cont(p,d,n)$. Transport this continuation along the displayed result history-sameness, leaving the predecessor product unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_succ\_result\_cont\_transport}
+
 \begin{theorem}[Divisibility transports along divisor history-sameness]
 \label{thm:nat-divides-divisor-hsame-transport}
 Let $d$ and $e$ be unary histories, and let $d'$ be any history with $d\hsame d'$. If $\mathsf{NatDivides}(d,e)$, then $\mathsf{NatDivides}(d',e)$.
