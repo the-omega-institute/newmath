@@ -43,4 +43,21 @@ theorem NatMul_empty_result_iff_factor_empty_or_multiplier_empty {d q n : BHist}
             ⟨NatMul_left_unary mul, hsame_refl BHist.Empty⟩
         exact NatMul_functional (NatMul_left_unary mul) mul emptyProduct
 
+theorem NatMul_empty_left_iff {q n : BHist} :
+    NatMul BHist.Empty q n ↔ UnaryHistory q ∧ hsame n BHist.Empty := by
+  constructor
+  · intro mul
+    exact And.intro (NatMul_right_unary mul) (NatMul_empty_left_result_empty mul)
+  · intro data
+    cases data with
+    | intro qUnary resultEmpty =>
+        cases resultEmpty
+        induction q with
+        | Empty =>
+            exact NatMul.zero unary_empty
+        | e0 q =>
+            cases qUnary
+        | e1 q ih =>
+            exact NatMul.succ (ih qUnary) (BEDC.FKernel.Cont.cont_intro rfl)
+
 end BEDC.Derived.PrimeUp
