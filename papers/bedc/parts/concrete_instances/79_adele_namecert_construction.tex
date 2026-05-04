@@ -169,6 +169,42 @@ append endpoint gives the adele carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_visible\_scale\_carrier}
 
+\begin{theorem}[Adele long-prefix visible scale carrier]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-scale-carrier}
+Let $x,y:\mathbb{N}\to\mathsf{BHist}$ be real stream representatives. If
+$\mathsf{RealStreamPrefixClassifier}(x,y,m+n)$ holds, $x(n)\hsame
+\Eone(\Eone(d))$, $y(n)\hsame\Eone(i)$, and the concrete first-prime
+$p$-adic scale $\mathsf{PadicPrimeScale}(\Eone(\Eone(\emp)),e,r)$ holds,
+then $\mathsf{RealStreamPrefixClassifier}(x,y,n)$ holds and
+$$
+\mathsf{AdeleHistoryCarrier}(\mathsf{append}(\Eone(\Eone(d)),r)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $m$ through the recursive finite-prefix classifier to descend from
+$m+n$ to $n$. At the selected index, the displayed one-extension endpoints
+read back through the rational stream-prefix classifier: the left displayed
+tail is unary, hence $\Eone(d)$ is a rational-history carrier and
+$\Eone(\Eone(d))$ is a constant real-history carrier. Combining this real
+component with the stored first-prime $p$-adic scale and reflexive sameness of
+the appended endpoint gives the adele-history carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_carrier}
+
+\begin{theorem}[Adele long-prefix visible scale append is not empty]
+\label{thm:adele-real-stream-prefix-long-prefix-visible-scale-append-not-empty}
+Under the hypotheses of \autoref{thm:adele-real-stream-prefix-long-prefix-visible-scale-carrier}, the appended visible scale endpoint is not history-same as $\emp$:
+$$
+\hsame(\mathsf{append}(\Eone(\Eone(d)),r),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The long-prefix visible scale carrier theorem supplies the adele-history carrier
+for the displayed append endpoint. Adele-history carriers cannot be
+history-same as $\emp$, so the assumed empty append endpoint is impossible.
+\end{proof}
+\leanchecked{BEDC.Derived.AdeleUp.AdeleRealStreamPrefix\_long\_prefix\_visible\_scale\_append\_not\_empty}
+
 \begin{theorem}[Real--padic empty-result split]
 \label{thm:adele-real-padic-e1-append-empty-padic-result}
 Let the two real coordinates be displayed as endpoint histories

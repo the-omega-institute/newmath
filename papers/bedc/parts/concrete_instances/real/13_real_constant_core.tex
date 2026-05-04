@@ -135,6 +135,21 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_unary\_tail\_closed}
 
+\begin{theorem}[Constant real classifier double-seal readback]
+\label{thm:real-constant-history-classifier-e1-pair-readback}
+If $\mathsf{RealConstantHistoryClassifier}(h,k)$ holds and the two endpoints
+are displayed as $\Eone(\Eone(d))$ and $\Eone(\Eone(e))$, then the exposed
+tails $d$ and $e$ are unary histories and satisfy $d\hsame e$.
+\end{theorem}
+\begin{proof}
+Transport the classifier along the two displayed endpoint equalities to obtain
+$\mathsf{RealConstantHistoryClassifier}(\Eone(\Eone(d)),\Eone(\Eone(e)))$.
+The constant real e-one equivalence reads this as a rational classifier
+between $\Eone(d)$ and $\Eone(e)$. Rational e-one tail readback then exposes
+the two unary tail carriers and the tail equality $d\hsame e$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_pair\_readback}
+
 \begin{theorem}[Constant real classifier endpoint carriers]
 \label{thm:real-constant-history-classifier-endpoint-carriers}
 If two constant real histories classify together, then both endpoints are in the
@@ -166,6 +181,57 @@ $\hsame$ move the displayed endpoint equalities from $h,k$ to $h',k'$, while
 the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
+
+\begin{theorem}[Constant real classifier e-one tail readback]
+\label{thm:real-constant-history-classifier-e1-tail-readback}
+If a constant real classifier is displayed at two visible rational seals, then
+the displayed tails carry the rational history classifier:
+$$
+\mathsf{RealConstantHistoryClassifier}(h,k)\Longrightarrow
+\hsame(h,\Eone(d))\Longrightarrow
+\hsame(k,\Eone(e))\Longrightarrow
+\mathsf{RatHistoryClassifier}(d,e).
+$$
+\end{theorem}
+\begin{proof}
+Transport the classifier along the two displayed endpoint equalities to obtain
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$. The e-one seal
+readback theorem for constant real classifiers then exposes the rational
+classifier on the two tails.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_tail\_readback}
+
+\begin{theorem}[Constant real classifier unary denominator context closure]
+\label{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}
+Let $d,e,p_D,p_E,t_D,t_E,m_D,m_E,o_D,o_E:\mathsf{BHist}$. If
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)),
+$$
+$p_D$ and $t_D$ are unary histories, $p_D\hsame p_E$, $t_D\hsame t_E$, and the
+displayed continuation witnesses are
+$$
+\mathsf{Cont}(p_D,d,m_D),\quad
+\mathsf{Cont}(m_D,t_D,o_D),\quad
+\mathsf{Cont}(p_E,e,m_E),\quad
+\mathsf{Cont}(m_E,t_E,o_E),
+$$
+then
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(o_D),\Eone(o_E)).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-constant-history-classifier-e1-iff-rat} to expose the
+rational classifier on $d$ and $e$. The RatUp unary-denominator context closure
+classifies the associativity-normal endpoints
+$\mathsf{append}(p_D,\mathsf{append}(d,t_D))$ and
+$\mathsf{append}(p_E,\mathsf{append}(e,t_E))$. The four displayed continuation
+witnesses identify $o_D$ and $o_E$ with those normal endpoints through
+associativity of append. Transport the rational classifier along those
+identifications, then reseal the two endpoints with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_cont\_unary\_denominator\_context\_closed}
 
 \begin{theorem}[Constant real classifier invalid endpoint exclusions]
 \label{thm:real-constant-history-classifier-invalid-endpoint-absurd}
@@ -331,6 +397,7 @@ Apply \autoref{thm:real-constant-history-classifier-e1-iff-rat} to identify that
 rational point classifier with
 $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e))$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_constant\_prefix\_bridge\_iff}
 \leanchecked{BEDC.Derived.RealUp.StreamNameReal\_constant\_prefix\_bridge}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamClassifier\_constant\_streamname\_bridge}
 \leanchecked{BEDC.Derived.RealUp.RealConstantStream\_streamName\_bridge}
@@ -384,6 +451,8 @@ reverse direction, the same theorem unseals the e-one classifier as the RatUp
 point classifier, and the constant observation maps reuse it at every certified
 unary observation.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealReindexedConstantStream\_streamName\_bridge}
+\leanchecked{BEDC.Derived.RealUp.RealConstantStream\_reindexed\_streamName\_bridge}
 
 The reindexed constant-stream certificate fit has ten fields: traditional target
 constant rational real names under observation reindexing; BEDC source RatUp
@@ -496,6 +565,33 @@ endpoint transport; ledger hidden rational seed plus unary observation; core
 theorem \autoref{thm:real-constant-rational-embedding-certificate}; exactness
 the carrier and classifier chains; standard bridge ordinary rational constants;
 status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Reindexed constant rational stream carriers bridge StreamNameUp and RealUp]
+\label{thm:real-constant-stream-carrier-reindexed-streamname-bridge}
+For every history $d:\Hist$ and any observation map $r:\Hist\to\Hist$, the
+RatUp point carrier, the StreamNameUp carrier of the reindexed constant stream,
+and the RealUp constant real-history carrier at the e-one seal are equivalent:
+$$
+\mathsf{RatHistoryCarrier}(d)
+\quad\Longleftrightarrow\quad
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r).
+$$
+$$
+\mathsf{RatStreamNameCarrier}(\mathsf{RatConstStream}_d\circ r)
+\quad\Longleftrightarrow\quad
+\mathsf{RealConstantHistoryCarrier}(\Eone(d)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier} and
+$\mathsf{RatConstStream}$. A carrier of $d$ supplies the carrier at every
+certified unary observation because the reindexed constant stream still returns
+the seed $d$. Conversely, reading the stream carrier at $\emp$ recovers the
+RatUp carrier of $d$. Composing this row with
+\autoref{thm:real-constant-history-carrier-e1-iff-rat} gives the e-one RealUp
+carrier row.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantStreamCarrier\_reindexed\_streamName\_bridge}
 
 \begin{theorem}[Reindexed constant rational embedding certificate]
 \label{thm:real-reindexed-constant-rational-embedding-certificate}

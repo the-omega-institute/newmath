@@ -144,6 +144,26 @@ Unfold the classifier as the product history classifier over two $\mathsf{RatHis
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_symm}
 
+\begin{theorem}[Complex history classifier unary context closure]
+\label{thm:complex-history-classifier-unary-context-closed}
+If \(p\) and \(q\) are unary context histories, \(p\hsame p'\),
+\(q\hsame q'\), and \(\mathsf{ComplexHistoryClassifier}(h,k)\), then the
+context-wrapped endpoints
+\(\mathsf{append}(p,\mathsf{append}(h,q))\) and
+\(\mathsf{append}(p',\mathsf{append}(k,q'))\) are again related by the complex
+history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the complex classifier into carrier witnesses for \(h\) and \(k\)
+together with the endpoint \(\hsame\) link. Right unary context closure carries
+both endpoint carriers through the tail contexts, after transporting unary
+evidence across \(q\hsame q'\). Left unary context closure then carries those
+results through the prefix contexts, after transporting unary evidence across
+\(p\hsame p'\). The three \(\hsame\) links identify the two fully wrapped
+histories, giving the classifier endpoint relation.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexUp.ComplexHistoryClassifier\_unary\_context\_closed}
+
 \begin{theorem}[Complex component classifier introduction]
 \label{thm:complex-history-classifier-component-classifier-intro}
 If the real components are related by $\mathsf{RatHistoryClassifier}$, the
