@@ -58,6 +58,28 @@ continuation equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_source\_step}
 
+\begin{theorem}[Metric distance witness left e1 source result iff]
+\label{thm:metric-distance-witness-left-e1-source-result-iff}
+For histories $x,y,d$, placing both the source and result under one visible
+$\Eone$ constructor is reversible:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longleftrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the displayed witness. Unary inversion on
+the source and result gives unary carriers for $x$ and $d$. The continuation
+ledger identifies $\Eone(d)$ with $\Eone(x)\cdot y$, and the unary append law
+for the target rewrites the right side to $\Eone(x\cdot y)$; constructor
+inversion exposes the descended continuation ledger $d=x\cdot y$.
+
+For the reverse direction, apply
+\autoref{thm:metric-distance-witness-left-e1-source-step}.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_source\_result\_iff}
+
 \begin{theorem}[Metric distance witness left e1 visible target iff]
 \label{thm:metric-distance-witness-left-e1-visible-target-iff}
 For histories $x,y,d$, placing both the target and result under one visible

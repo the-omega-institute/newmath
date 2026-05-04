@@ -62,6 +62,19 @@ theorem MetricDistanceWitness_triangle_cont_middle_closed {x y z dxy dyz dxyz : 
           cases xyzRel
           exact cont_intro (append_assoc x y z))))
 
+theorem MetricDistanceWitness_visible_context_triangle_cont_middle_closed
+    {p q x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
+      MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->
+        MetricDistanceWitness x dyz dxyz := by
+  intro visible yz middleContinuation
+  have visibleData :
+      UnaryHistory p ∧ UnaryHistory q ∧ MetricDistanceWitness x y dxy :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x) (y := y)
+      (d := dxy)).mp visible
+  exact MetricDistanceWitness_triangle_cont_middle_closed visibleData.right.right yz
+    middleContinuation
+
 theorem MetricDistanceWitness_triangle_cont_middle_result_deterministic
     {x y z dxy dyz dxyz displayed : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz -> Cont dxy z dxyz ->

@@ -19,6 +19,30 @@ $\ContR(x,y,d)$, which is the required transported continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_cont\_hsame\_transport}
 
+\begin{theorem}[Metric distance witness hsame field transport]
+\label{thm:metric-distance-witness-hsame-fields-transport}
+For histories $x,x',y,y',d,d':\mathsf{BHist}$, history-sameness of the two
+endpoints and of the distance result transports all exposed fields of a metric
+distance witness:
+$$
+\hsame(x,x')\Longrightarrow
+\hsame(y,y')\Longrightarrow
+\hsame(d,d')\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d)\Longrightarrow
+\mathsf{UnaryHistory}(x')\land
+\mathsf{UnaryHistory}(y')\land
+\mathsf{UnaryHistory}(d')\land
+\ContR(x',y',d').
+$$
+\end{theorem}
+\begin{proof}
+Case-reduce the three supplied $\hsame$ witnesses. The transported source,
+target, and distance histories are then definitionally the original fields.
+Project the three unary carrier fields and the continuation ledger from the
+metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_hsame\_fields\_transport}
+
 \begin{theorem}[Metric distance witness hsame source determinacy]
 \label{thm:metric-distance-witness-hsame-source-deterministic}
 For histories $x,x',y,y',d,d':\mathsf{BHist}$, if the target and distance

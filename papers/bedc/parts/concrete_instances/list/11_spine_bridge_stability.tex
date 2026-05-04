@@ -126,6 +126,37 @@ recursive classifier witness
 $\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,u)$.
 \end{proof}
 
+\begin{theorem}[List recursive history classifier transitivity from cons-boundary coherence]
+\label{thm:list-recursive-history-classifier-trans-from-cons-boundary-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$. The ten-field fit is:
+traditional target finite-list recursive classifier transitivity; BEDC source
+$A$ over $\mathsf{BHist}$ with $\NameCert(A,\sim_A)$; carrier
+$\mathsf{ListHistoryCarrier}_A$; classifier
+$\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}$; stability
+obligation transitivity; ledger finite spine representation plus cons-boundary
+comparison; core theorem this block; exactness through $\mathsf{ListSpineRep}$;
+standard bridge finite spines; status $\mathsf{ProofTarget}$. Then for all
+histories $h,k,u$,
+$$
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,k)\to
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(k,u)\to
+\mathsf{ListHistoryClassifier}^{\mathrm{rec}}_{A,\sim_A}(h,u)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+First obtain $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ from the displayed
+cons-boundary coherence by applying
+Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence}.
+
+With that spine-coherence witness and the source certificate in hand, apply
+Theorem~\ref{thm:list-recursive-history-classifier-trans-from-spine-coherence}.
+It gives exactly the recursive classifier transitivity implication for the
+three histories $h,k,u$.
+\end{proof}
+
 \begin{theorem}[List spine bridge stability from cons-boundary coherence]
 \label{thm:list-spine-bridge-stability-from-cons-boundary-coherence}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
@@ -171,3 +202,4 @@ $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Apply
 Theorem~\ref{thm:list-spine-bridge-stability-from-spine-coherence} with that
 spine-coherence witness and the source certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineBridgeClassifier\_stability\_from\_cons\_boundary}
