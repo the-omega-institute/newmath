@@ -161,6 +161,21 @@ the classifier relation required by $\rho_{\emp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_neg\_empty\_endpoint\_iff}
 
+\begin{theorem}[Ring singleton classifier multiplication empty endpoint]
+\label{thm:ring-singleton-classifier-mul-empty-endpoint}
+For histories $h,k,out:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{RingSingletonMul}(h,k),out)\Longleftrightarrow
+\hsame(out,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication endpoint is definitionally $\emp$. Forward projection reads the
+right carrier field of $\rho_{\emp}$. Conversely, the displayed endpoint witness,
+the reflexive left carrier at $\emp$, and symmetry rebuild the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_mul\_empty\_endpoint\_iff}
+
 \begin{theorem}[Ring singleton classifier visible-right exclusion]
 \label{thm:ring-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, neither
