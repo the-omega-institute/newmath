@@ -81,6 +81,33 @@ target-tail component.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_target\_component\_split}
 
+\begin{theorem}[Functor prefix hom-carrier nonempty composite target visibility]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-target-visible}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if the composite continuation displays the visible result $\Eone(k)$, then
+the prefixed target is visible:
+$$
+\exists r.\ \mathsf{append}(p,c)=\Eone(r)\wedge
+\mathsf{UnaryHistory}(k)\wedge\mathsf{UnaryHistory}(r)\wedge
+\ContR(\mathsf{append}(p,a),\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Apply category source-target case analysis for nonempty composite results to
+the two prefixed hom-carriers. The empty-source branch already displays the
+target endpoint. In the visible-source branch, the source endpoint equality
+transports the displayed continuation back to $\mathsf{append}(p,a)$, while
+the result equality identifies the composite payload with $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_target\_visible}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
