@@ -30,6 +30,26 @@ recursive prefix display, obtaining
 $\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$.
 \end{proof}
 
+\begin{lemma}[Real stream prefix successor e1 endpoint package]
+\label{lem:real-stream-prefix-successor-e1-endpoint-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, if
+$\mathsf{RealStreamPrefixClassifier}(x,y,n+1)$ and the successor endpoint
+histories have displays $x(n+1)\hsame\Eone(a)$ and
+$y(n+1)\hsame\Eone(b)$, then
+$$
+\mathsf{RealStreamPrefixClassifier}(x,y,n)\land
+\mathsf{UnaryHistory}(a)\land\mathsf{UnaryHistory}(b)\land a\hsame b .
+$$
+\end{lemma}
+\begin{proof}
+The successor prefix witness splits into the predecessor prefix and the
+successor endpoint classifier. Apply the e1 endpoint readback theorem at
+index $n+1$ to the endpoint classifier and the two displayed e1 histories;
+this yields the unary tail witnesses and their history-sameness. Pair that
+endpoint package with the predecessor prefix.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamPrefixClassifier\_successor\_e1\_endpoint\_package}
+
 \begin{theorem}[Real stream prefix classifier tail extension]
 \label{thm:real-stream-prefix-classifier-tail-extension}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$ and indices $n,m$,
