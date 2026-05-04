@@ -265,6 +265,38 @@ theorem HolomorphicOpenDiskCarrier_witnessed_components {center radius point : B
                                             (Exists.intro gap
                                               (And.intro gapUnary pointGap))))))))))
 
+theorem HolomorphicOpenDiskWitnessed_zero_headed_component_absurd {center radius point :
+    BHist} :
+    HolomorphicOpenDiskWitnessed center radius point ->
+      ((∃ z : BHist, center = BHist.e0 z) ∨
+        (∃ z : BHist, radius = BHist.e0 z) ∨
+          (∃ z : BHist, point = BHist.e0 z)) -> False := by
+  intro disk zeroComponent
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier _gapWitness =>
+              cases zeroComponent with
+              | inl centerZero =>
+                  cases centerZero with
+                  | intro z centerEq =>
+                      cases centerEq
+                      exact unary_no_zero_extension centerCarrier
+              | inr rest =>
+                  cases rest with
+                  | inl radiusZero =>
+                      cases radiusZero with
+                      | intro z radiusEq =>
+                          cases radiusEq
+                          exact unary_no_zero_extension radiusCarrier
+                  | inr pointZero =>
+                      cases pointZero with
+                      | intro z pointEq =>
+                          cases pointEq
+                          exact unary_no_zero_extension pointCarrier
+
 theorem HolomorphicOpenDisk_radius_extension_gap_witness
     {center point radius extra radius' : BHist} :
     HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory extra ->
@@ -520,5 +552,11 @@ theorem HolomorphicOpenDiskWitnessed_center_point_unary_suffix_transport
               (And.intro shiftedDisk.right.left
                 (And.intro shiftedDisk.right.right.left shiftedGap)))
             shiftedGap
+
+theorem HolomorphicOpenDisk_gap_point_comm {center radius point gap : BHist} :
+    HolomorphicOpenDisk center radius point gap -> hsame radius (append gap point) := by
+  intro disk
+  exact hsame_trans disk.right.right.right.right
+    (unary_append_comm_hsame disk.right.right.left disk.right.right.right.left)
 
 end BEDC.Derived.HolomorphicUp

@@ -350,6 +350,35 @@ projection gives $\mathsf{PositiveUnaryDenominator}(out_v)$.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_positive\_denominators}
 
+\begin{theorem}[Rat ledger displayed context zero-endpoint exclusion]
+\label{thm:rat-history-ledger-cont-unary-context-e0-endpoint-absurd}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuations
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the contextual endpoints, then neither
+displayed endpoint can be a zero-extension endpoint:
+$$
+(\hsame(out_\rho,\Ezero(z_\rho))\to\mathsf{False})\land
+(\hsame(out_v,\Ezero(z_v))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-cont-unary-context-positive-denominators} to
+the displayed contextual ledger data. This gives positive unary denominator
+witnesses for both $out_\rho$ and $out_v$.
+
+If $out_\rho$ is displayed as $\Ezero(z_\rho)$, transport the positive
+denominator witness along that $\hsame$ link and contradict
+\autoref{thm:rat-positive-denominator-e0-absurd}. The visible endpoint
+$out_v$ is identical: transport its positive denominator witness along
+$\hsame(out_v,\Ezero(z_v))$ and use the same zero-extension exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryLedgerPolicy\_cont\_unary\_context\_e0\_endpoint\_absurd}
+
 \begin{definition}[\(\RatUp\) certificate obligations]
 \label{def:rat-certificate-obligations}
 The carrier, source, pattern, classifier, stability, and ledger data listed above are the obligations required for the interface name \(\RatUp\).

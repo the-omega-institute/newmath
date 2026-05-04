@@ -125,6 +125,36 @@ theorem ProdHistoryLedgerChain_shared_raw_visible_classifier {Left Right : BHist
     (ProdHistoryClassifier_symm leftEnvelope.right.left)
     rightEnvelope.right.left
 
+theorem ProdHistoryLedgerPolicy_visible_empty_component_exposure {Left Right : BHist -> Prop}
+    {rho : BHist} :
+    ProdHistoryLedgerPolicy Left Right rho BHist.Empty ->
+      exists l : BHist, exists r : BHist,
+        Left l /\ Right r /\ hsame l BHist.Empty /\ hsame r BHist.Empty /\
+          ProdHistoryClassifier Left Right rho BHist.Empty := by
+  intro ledger
+  have visibleCarrier : ProdHistoryCarrier Left Right BHist.Empty :=
+    ProdHistoryLedgerPolicy_visible_carrier ledger
+  have visibleComponents :=
+    ProdHistoryCarrier_empty_result_components visibleCarrier
+  have rawVisibleClassifier : ProdHistoryClassifier Left Right rho BHist.Empty :=
+    ProdHistoryLedgerPolicy_raw_visible_classifier ledger
+  cases visibleComponents with
+  | intro l rest =>
+      cases rest with
+      | intro r data =>
+          cases data with
+          | intro leftCarrier data =>
+              cases data with
+              | intro rightCarrier data =>
+                  cases data with
+                  | intro sameLeft sameRight =>
+                      exact Exists.intro l
+                        (Exists.intro r
+                          (And.intro leftCarrier
+                            (And.intro rightCarrier
+                              (And.intro sameLeft
+                                (And.intro sameRight rawVisibleClassifier)))))
+
 theorem ProdHistoryLedgerChain_displayed_component_readback
     {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
     (coherent : ProdPairRepCoherent Left Right LeftEq RightEq) {rho z l r : BHist} :
