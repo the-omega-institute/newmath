@@ -544,6 +544,7 @@ import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.NatTransUp.VertCompNonemptyResultTargetVisible
 import BEDC.Derived.AdjunctionUp
+import BEDC.Derived.AdjunctionUp.TriangleComponents
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.MonadUp
