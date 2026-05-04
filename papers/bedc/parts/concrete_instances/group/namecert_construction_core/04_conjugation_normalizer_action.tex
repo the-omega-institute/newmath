@@ -247,6 +247,31 @@ existential orbit witness.
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_total\_coverage\_iff}
 \leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_normalizer\_orbit\_total\_coverage\_iff}
 
+\begin{theorem}[Group singleton normalizer orbit visible source contradiction]
+\label{thm:group-singleton-normalizer-orbit-visible-source-absurd}
+For histories $p,y:\mathsf{BHist}$, neither visible singleton endpoint can be
+the source of a terminal singleton normalizer orbit into $y$:
+$$
+\bigl(\exists s,\ A_{\emp}(s)\land
+R_{\emp}(\mathsf{append}(\mathsf{append}(s,\Ezero(p)),\emp),y)\bigr)
+\Longrightarrow \bot
+$$
+and
+$$
+\bigl(\exists s,\ A_{\emp}(s)\land
+R_{\emp}(\mathsf{append}(\mathsf{append}(s,\Eone(p)),\emp),y)\bigr)
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the orbit witness. The terminal classifier says that the conjugation
+display is in the singleton carrier. Applying append-empty decomposition first
+to the terminal append and then to the inner append forces either
+$\Ezero(p)\hsame\emp$ or $\Eone(p)\hsame\emp$. Both contradict constructor
+separation for $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_visible\_source\_absurd}
+
 \begin{theorem}[Group singleton commutator normalizer-orbit kernel exactness]
 \label{thm:group-singleton-commutator-orbit-kernel-exactness}
 For histories $x,y:\mathsf{BHist}$ in the concrete singleton history group, with
