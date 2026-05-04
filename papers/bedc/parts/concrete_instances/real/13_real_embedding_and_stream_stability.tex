@@ -608,6 +608,57 @@ bounded offset. Core theorem:
 pointwise RatUp classification. Standard bridge: finite rational observation
 windows. Status: $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary StreamNameUp selected endpoint denominator package]
+\label{thm:real-unary-streamname-selected-endpoint-denominator-package}
+For observation maps $s,t:\Hist\to\Hist$, a certified observation $n:\Hist$,
+and histories $z_s,z_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameClassifier}(s,t),\quad \mathsf{UnaryHistory}(n).
+$$
+Then the selected observation carries the RatUp denominator package:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(s(n),t(n))\land
+\mathsf{PositiveUnaryDenominator}(s(n))\land
+\mathsf{PositiveUnaryDenominator}(t(n))\land\\
+\mathsf{UnaryHistory}(s(n))\land
+\mathsf{UnaryHistory}(t(n))\land
+(\hsame(s(n),\emp)\to\mathsf{False})\land\\
+(\hsame(t(n),\emp)\to\mathsf{False})\land
+(\hsame(s(n),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(n),\Ezero(z_t))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project $\mathsf{RatStreamNameClassifier}(s,t)$ at the certified observation
+$n$. The unary certificate for $n$ gives the point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to this point
+classifier, and then apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to the
+two positive-denominator witnesses. This gives the two positive denominator
+rows, the two unary endpoint rows, and the two nonempty exclusions.
+
+For a zero-headed display on the left, transport
+$\mathsf{PositiveUnaryDenominator}(s(n))$ along
+$\hsame(s(n),\Ezero(z_s))$ by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}, contradicting
+\autoref{thm:rat-positive-denominator-e0-absurd}. The right endpoint uses the
+same argument with $t(n)$ and $z_t$, and the collected rows form the displayed
+package.
+\end{proof}
+
+Fit. Traditional target: selected rational observation readback. BEDC source:
+$\StreamNameUp+\RatUp$ over $\mathsf{BHist}$. Carrier: observation maps.
+Classifier: $\mathsf{RatStreamNameClassifier}$. Stability: point projection and
+RatUp denominator transport. Ledger: selected observation and zero-head tests.
+Core theorem:
+\autoref{thm:real-unary-streamname-selected-endpoint-denominator-package}.
+Exactness: the displayed endpoint package. Standard bridge: finite rational
+observation readback. Status: $\mathsf{ProofTarget}$.
+
 \begin{theorem}[Real unary StreamNameUp transported selected endpoint shape package]
 \label{thm:real-unary-streamname-transported-selected-endpoint-shape-package}
 For unary observation maps $s,t,s',t':\Hist\to\Hist$, a certified observation
