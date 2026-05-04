@@ -322,3 +322,55 @@ the $unit$ component, the second ledger, and the first ledger. Reordering the
 four conjunctive fields proves the forward implication, and the same
 reordering with the two sides exchanged proves the reverse implication.
 \end{proof}
+
+\begin{definition}[Adjunction unit-counit carrier-swap classifier]
+\label{def:adjunction-unit-counit-carrier-swap-classifier}
+For unit-counit displays $D=(p,q,a,u,c,l,r)$ and
+$D'=(p',q',a',u',c',l',r')$, the carrier-swap relation
+$\mathsf{AdjunctionUnitCounitCarrierSwap}(D,D')$ holds when
+$$
+p'=q\land q'=p\land a'=a\land u'=c\land c'=u\land l'=r\land r'=l.
+$$
+The display classifier $\mathsf{AdjunctionUnitCounitDisplaySame}(D,D')$ holds
+when
+$$
+p\hsame p'\land q\hsame q'\land a\hsame a'\land u\hsame u'
+\land c\hsame c'\land l\hsame l'\land r\hsame r'.
+$$
+\end{definition}
+
+\begin{theorem}[Adjunction unit-counit carrier-swap involution]
+\label{thm:adjunction-unit-counit-carrier-swap-involution}
+Let $D_i=(p_i,q_i,a_i,u_i,c_i,l_i,r_i)$ for $i=0,1,2$ be unit-counit displays
+of histories. If
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p_0,q_0,a_0,u_0,c_0,l_0,r_0)\\
+{}\land\mathsf{AdjunctionUnitCounitCarrierSwap}(D_0,D_1)
+\land\mathsf{AdjunctionUnitCounitCarrierSwap}(D_1,D_2),
+\end{array}
+$$
+then
+$$
+\begin{array}{l}
+\mathsf{AdjunctionUnitCounitCarrier}(p_2,q_2,a_2,u_2,c_2,l_2,r_2)\\
+{}\land\mathsf{AdjunctionUnitCounitDisplaySame}(D_0,D_2).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unfold the two carrier-swap relations of
+\autoref{def:adjunction-unit-counit-carrier-swap-classifier}. The first gives
+$p_1=q_0$, $q_1=p_0$, $a_1=a_0$, $u_1=c_0$, $c_1=u_0$, $l_1=r_0$, and
+$r_1=l_0$. The second gives $p_2=q_1$, $q_2=p_1$, $a_2=a_1$, $u_2=c_1$,
+$c_2=u_1$, $l_2=r_1$, and $r_2=l_1$. Substituting the first row into the
+second yields
+$$
+p_2=p_0\land q_2=q_0\land a_2=a_0\land u_2=u_0\land c_2=c_0\land
+l_2=l_0\land r_2=r_0.
+$$
+Substitute these coordinate identities in the carrier of $D_0$; by
+\autoref{def:adjunction-unit-counit-carrier} this is the carrier of $D_2$.
+The same coordinate identities turn the seven reflexive $\hsame$ witnesses on
+$D_0$ into the componentwise display classifier between $D_0$ and $D_2$.
+\end{proof}
