@@ -143,6 +143,26 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty representative classifier hsame endpoint transport]
+\label{thm:quotientgroup-centralizer-coset-classifier-empty-hsame-endpoint-transport}
+For histories $h,k,h',k':\mathsf{BHist}$, if the empty-representative
+centralizer-coset classifier relates $h$ and $k$, and $h\hsame h'$ and
+$k\hsame k'$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,h',k')
+\land h'\hsame\emp\land k'\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The empty-representative classifier stores the empty centralizer witness
+together with $h\hsame\emp$, $k\hsame\emp$, and $h\hsame k$. Compose the two
+endpoint comparisons with the symmetries of $h\hsame h'$ and $k\hsame k'$ to
+obtain the empty endpoints for $h'$ and $k'$. Reuse the stored centralizer
+witness at both endpoints and compose the two empty endpoints to repack the
+classifier on $(h',k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_hsame\_endpoint\_transport}
+
 \begin{theorem}[Centralizer coset carrier empty representative transport]
 \label{thm:quotientgroup-centralizer-coset-carrier-empty-representative-transport}
 If the representative $\mathsf{repr}$ and the empty history both centralize
@@ -447,6 +467,47 @@ $Q_{Z_a\triangleleft N_a}$ has the same concrete identity fiber as the
 centralizer carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_identity\_fiber\_subgroup\_package}
+
+\begin{theorem}[Centralizer-normalizer quotient identity fiber classifier saturation]
+\label{thm:quotientgroup-centralizer-normalizer-identity-fiber-classifier-saturation}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same hypotheses as
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate}, define
+the quotient identity fiber carrier by
+$$
+K_Q(t) :\Longleftrightarrow Q_{Z_a\triangleleft N_a}(\mathsf{e},t).
+$$
+For histories $x,y:\mathsf{BHist}$, the identity fiber is saturated by the
+quotient classifier:
+\begin{enumerate}
+\item If $K_Q(x)$ and $Q_{Z_a\triangleleft N_a}(x,y)$, then $K_Q(y)$.
+\item If $K_Q(y)$ and $Q_{Z_a\triangleleft N_a}(x,y)$, then $K_Q(x)$.
+\end{enumerate}
+Per-object template: traditional target saturated identity fiber of a quotient
+classifier; BEDC source $\GroupUp$, $\SubgroupUp$, and $\QuotientGroupUp$ over
+$\mathsf{BHist}$; carrier $K_Q$; classifier $Q_{Z_a\triangleleft N_a}$; ledger
+relative-kernel witness; core theorem this block; exactness the two saturation
+implications; downstream consumer first-isomorphism-style quotient-kernel
+exactness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Read the semantic certificate of
+\autoref{thm:quotientgroup-centralizer-normalizer-semantic-certificate} for the
+symmetry and transitivity rows of $Q_{Z_a\triangleleft N_a}$ on carried
+representatives.
+
+For the first implication, unfold $K_Q$. The assumption $K_Q(x)$ is the
+classifier edge $Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$. Compose it with
+$Q_{Z_a\triangleleft N_a}(x,y)$ by transitivity to obtain
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},y)$, which is exactly $K_Q(y)$.
+
+For the second implication, first use symmetry on
+$Q_{Z_a\triangleleft N_a}(x,y)$ to obtain
+$Q_{Z_a\triangleleft N_a}(y,x)$. Unfold $K_Q(y)$ as
+$Q_{Z_a\triangleleft N_a}(\mathsf{e},y)$, then compose these two classifier
+edges by transitivity to obtain $Q_{Z_a\triangleleft N_a}(\mathsf{e},x)$.
+Folding the displayed definition gives $K_Q(x)$.
+\end{proof}
 
 \begin{theorem}[Centralizer-normalizer quotient identity fiber normality]
 \label{thm:quotientgroup-centralizer-normalizer-identity-fiber-normal}

@@ -459,3 +459,65 @@ The final expression is $(a\cdot_R b)-_R(a\cdot_R c)$ by the same difference
 abbreviation. Transitivity of $\sim_R$ composes the distributivity comparison
 with the transported sign comparison and yields the displayed law.
 \end{proof}
+
+\begin{proposition}[Ring forgets to Monoid certificate]
+\label{prop:ring-forgets-monoid-certificate}
+Let $R$ carry a $\RingUp(R)$ certificate with carrier classifier $\sim_R$, zero $0_R$, addition $+_R$, additive inverse $(-)_R$, multiplication $\cdot_R$, and identity $1_R$. If the additive operations $0_R$, $+_R$, and $(-)_R$, the additive abelian-group stability rows, both distributive rows, the zero-multiplication rows, and every ledger entry whose operation-tree provenance uses a dropped additive constructor are omitted, then the retained carrier, source, monoid pattern, classifier, monoid stability fields, and multiplicative ledger form a $\MonoidUp(R)$ certificate. The carrier $R$, multiplication $\cdot_R$, identity $1_R$, and classifier $\sim_R$ are unchanged.
+\end{proposition}
+\begin{proof}
+By \autoref{def:ring-certificate-obligations}, the given certificate supplies carrier, source, pattern, classifier, stability, and ledger data for $\RingUp(R)$. The retained package keeps exactly the rows whose endpoint claims and expression provenance use only the carrier classifier, multiplication, and the multiplicative identity.
+
+By \autoref{def:ring-carrier}, a ring carrier consists of a carrier with classifier, addition, zero, additive inverse, multiplication, one, and ring law fields. Removing the additive coordinates leaves the same carrier $R$, the same classifier $\sim_R$, the same multiplication $\cdot_R:R\times R\to R$, and the same identity $1_R$. These are precisely the carrier data listed in \autoref{def:monoid-carrier}.
+
+By \autoref{def:ring-source-specification}, the source side of a ring is an additive $\AbGroupUp$ and a multiplicative $\MonoidUp$ on the same carrier and classifier. Suppressing the additive source leaves the certified multiplicative source over $R$, $\cdot_R$, $1_R$, and $\sim_R$. This is the source required by \autoref{def:monoid-source-specification}.
+
+By \autoref{def:ring-pattern-specification}, ring expressions are formed from $0$, $1$, $+$, unary minus, and multiplication. Restricting to expressions containing no additive constructor leaves expression formation from $1_R$, carried endpoints, and binary multiplication, exactly the monoid pattern of \autoref{def:monoid-pattern-specification}.
+
+By \autoref{def:ring-classifier-specification}, the ring classifier is the shared carrier sameness relation, congruent for both operations. Retaining the relation $\sim_R$ and its multiplication-congruence row gives the classifier required by \autoref{def:monoid-classifier-specification}. The addition-congruence row mentions the omitted operation and is not a monoid obligation.
+
+For stability, \autoref{def:ring-stability-certificate} lists additive abelian-group laws, multiplicative monoid laws, operation congruence, left distributivity, right distributivity, and zero multiplication laws. The multiplicative monoid laws give associativity and the left and right identity laws for $1_R$ under $\sim_R$; the retained multiplication-congruence row gives congruence in both arguments. The carrier-classifier rows are unchanged by the projection, so reflexivity and transitivity remain available. Together these are exactly the rows listed in \autoref{def:monoid-stability-certificate}. The omitted additive, distributive, and zero-multiplication rows mention $0_R$, $+_R$, or $(-)_R$, so they have no corresponding $\MonoidUp$ obligation.
+
+Finally, \autoref{def:ring-ledger-policy} records the shared carrier ledger and the operation tree for ring expressions. Removing ledger entries whose provenance uses a dropped additive constructor leaves carrier witnesses, the identity endpoint, and multiplication trees for monoid expressions. This is the ledger policy of \autoref{def:monoid-ledger-policy}. Hence the retained data satisfy the obligations named in \autoref{def:monoid-certificate-obligations}, with $R$, $\cdot_R$, $1_R$, and $\sim_R$ copied from the original $\RingUp(R)$ certificate.
+\end{proof}
+
+\begin{theorem}[Ring right distributivity over subtraction]
+\label{thm:ring-right-distributivity-over-subtraction}
+Let $R$ carry a history-level $\RingUp$ certificate with classifier $\sim_R$,
+addition $+_R$, additive inverse $-_R$, and multiplication $\cdot_R$. Write
+$x-_R y$ for $x+_R(-_R y)$. For every carried triple $a,b,c$,
+$$
+(a-_R b)\cdot_R c\sim_R(a\cdot_R c)-_R(b\cdot_R c).
+$$
+The ten-field fit is: traditional target right distributivity over subtraction;
+BEDC source $\RingUp$ over the carried endpoints of $R$; carrier the ring
+carrier; classifier $\sim_R$; stability from the addition congruence and right
+distributivity fields of \autoref{def:ring-stability-certificate}; ledger the
+three endpoints and the hidden negative summand; core theorem this theorem;
+exactness the displayed subtraction law; standard bridge ordinary ring
+distribution over differences; downstream consumer polynomial and module
+linear-expression normalization; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+By the difference abbreviation, the left side is
+$(a+_R(-_R b))\cdot_R c$. Right distributivity gives
+$$
+(a+_R(-_R b))\cdot_R c
+\sim_R
+(a\cdot_R c)+_R((-_R b)\cdot_R c).
+$$
+The left-negative product theorem
+\autoref{thm:ring-mul-neg-left-eq-neg-mul}, read in this certificate, gives
+$$
+(-_R b)\cdot_R c\sim_R-_R(b\cdot_R c).
+$$
+Addition congruence transports this comparison in the right summand while the
+left summand $a\cdot_R c$ is held fixed. Hence
+$$
+(a\cdot_R c)+_R((-_R b)\cdot_R c)
+\sim_R
+(a\cdot_R c)+_R(-_R(b\cdot_R c)).
+$$
+The final expression is $(a\cdot_R c)-_R(b\cdot_R c)$ by the same difference
+abbreviation. Transitivity of $\sim_R$ composes the distributivity comparison
+with the transported sign comparison and yields the displayed law.
+\end{proof}

@@ -112,6 +112,39 @@ metric-distance witness for the composite as the empty distance ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_comp\_closed}
 
+\begin{theorem}[ContinuousMap empty-distance empty-graph composition certificate readback]
+\label{thm:continuousmap-empty-distance-empty-graph-comp-certificate-readback}
+For histories
+$source,mid,target,mapF,mapG,modF,modG,modFG,certF,certG,certFG:\mathsf{BHist}$,
+assume the two continuous-map carriers have empty distance ledgers:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,\emp),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,\emp),
+\end{array}
+$$
+and assume
+$$
+\ContR(mapF,mapG,\emp),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then $source$, $mid$, and $target$ are all $\hsame$ to $\emp$, and the final
+composition certificate is a unary history satisfying
+$$
+\mathsf{UnaryHistory}(certFG)\qquad\hbox{and}\qquad certFG\hsame modFG.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuousmap-empty-distance-comp-closed} with the empty
+composite graph. This gives the three empty endpoint readbacks and a composite
+continuous-map carrier
+$\mathsf{ContinuousMapCarrier}(source,\emp,target,modFG,certFG,\emp)$.
+The empty-map, empty-distance certificate readback theorem then identifies
+$certFG$ as unary and $\hsame$ to $modFG$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_empty\_graph\_comp\_certificate\_readback}
+
 \begin{theorem}[ContinuousMap carrier composition distance determinacy]
 \label{thm:continuousmap-carrier-comp-distance-deterministic}
 For histories
@@ -219,3 +252,5 @@ Theorem~\ref{thm:continuousmap-comp-graph-depth-add} to those halves and the
 same three continuation ledgers, producing the stated equality for
 $\mathsf{MetricDistanceDepth}$.
 \end{proof}
+
+\input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}

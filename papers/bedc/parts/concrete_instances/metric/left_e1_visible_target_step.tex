@@ -38,6 +38,29 @@ tail $k$ and the descended witness with target $y$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_result\_shape}
 
+\begin{theorem}[Metric distance witness left e1 visible target result tail exactness]
+\label{thm:metric-distance-witness-left-e1-visible-target-result-tail-hsame-exact}
+For histories $x,y,d,k$, if a distance witness from $\Eone(x)$ to
+$\Eone(y)$ has displayed result history-same as $\Eone(k)$, then $k$ is the
+descended distance result from $\Eone(x)$ to $y$:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),d)
+\Longrightarrow
+\hsame(d,\Eone(k))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x),y,k).
+$$
+\end{theorem}
+\begin{proof}
+Apply the visible-target result shape theorem to expose a result tail $k_0$,
+a displayed comparison $\hsame(d,\Eone(k_0))$, and the descended witness.
+Composing this comparison with the assumed comparison to $\Eone(k)$ gives a
+one-headed history-sameness relation between $\Eone(k_0)$ and $\Eone(k)$.
+Constructor inversion descends it to $\hsame(k_0,k)$, and tail transport
+returns the displayed witness at $k$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_result\_tail\_hsame\_exact}
+
 \begin{theorem}[Metric distance witness left e1 source step]
 \label{thm:metric-distance-witness-left-e1-source-step}
 For histories $x,y,d$, a distance witness from $x$ to $y$ with result $d$
@@ -57,6 +80,28 @@ $\Eone(x\cdot y)$, so the lifted result $\Eone(d)$ satisfies the required
 continuation equation.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_source\_step}
+
+\begin{theorem}[Metric distance witness left e1 source iff]
+\label{thm:metric-distance-witness-left-e1-source-iff}
+For histories $x,y,d$, placing the source and result under one visible
+$\Eone$ constructor is reversible:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,\Eone(d))
+\Longleftrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+The reverse direction is
+Theorem~\ref{thm:metric-distance-witness-left-e1-source-step}. For the forward
+direction, split on the target history. The empty target case is the right
+empty-boundary exactness of the metric witness. A zero-headed target contradicts
+the unary target carrier recorded in the witness. In the one-headed target case,
+the result equation descends through the visible constructor, and unary append
+commutes the visible source constructor across the unary target tail, giving the
+original continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_source\_iff}
 
 \begin{theorem}[Metric distance witness left e1 source result iff]
 \label{thm:metric-distance-witness-left-e1-source-result-iff}

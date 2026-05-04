@@ -1,7 +1,7 @@
 Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.9 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.0 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -199,10 +199,27 @@ cd papers/bedc && make
 python3 tools/check-axioms.py
 ```
 
-## Step 5: Do not sync remote before commit
-Do not fetch, pull, merge against, checkout, or push any remote branch before committing. The outer pipeline serializes remote synchronization after Phase C returns.
+## Step 5: Pre-commit sync with origin BASE (proactive label-collision resolution)
 
-If verification fails because the worktree appears stale or conflicts with upstream work, do not resolve that by syncing with `origin/lean4-codex-auto-dev`. Either adjust the local proof against the current worktree or leave the round uncommitted so the outer pipeline can discard/retry it.
+Before staging and committing, fetch the latest BASE and merge it into the worktree. This catches concurrent rounds' commits that landed during your Phase C session, and lets you resolve any label / declaration collision INLINE while you still have full context — much cheaper than the outer pipeline's reactive `_codex_resolve_post_rebase_audit` flow which runs after the audit gate already failed.
+
+```bash
+BASE=lean4-codex-auto-dev
+git fetch origin "$BASE"
+git merge --no-ff --no-edit "origin/$BASE"
+```
+
+If `git merge` reports conflicts:
+
+1. List the conflicted files: `git diff --name-only --diff-filter=U`.
+2. For each `.tex` conflict: keep BOTH sides' additions when they are independent. When two sides added the SAME `\label{thm:<X>}` (`bedc_ci.py audit` would catch this as `duplicate paper labels`), drop YOUR side's `\label{thm:<X>}` block and ALL of its content (the `\begin{...}...\end{...}` block plus any marker line on the next non-blank line). The other side's claim is canonical because they got there first. The Lean side of your target still proceeds — only the paper marker registration is dropped.
+3. For each `.lean` conflict in `lean4/BEDC/`: if both sides added the same `theorem` / `def` name, drop yours and use the other side's. If both added different names but same conclusion shape, drop yours per "duplicate theorem" discipline of Step 5.6.
+4. After resolution: `git add <each-file>`, then `git commit --no-edit` to finalize the merge. The merge commit is fine — Step 6's own-round commit is separate.
+5. After the merge commit, re-run Step 4's full verification (`lake_gate.py build` + `make` + `check-axioms.py`). The merge introduced new content that could break compilation. If verification fails on the merged state, fix the proof against the merged BASE; do not `git merge --abort`.
+
+If `git merge` reports "Already up to date", proceed straight to Step 6.
+
+Do NOT push any branch. The outer pipeline owns push.
 
 ## Step 5.2: NAMING.md compliance pre-commit lint (HARD GATE)
 
