@@ -308,6 +308,20 @@ trial-division witness supplies unary closure of the tail by
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_positive\_shape}
 
+\begin{theorem}[Trial-division bounds have unit prefix or are unit]
+\label{thm:trial-div-bound-unit-prefix-or-self}
+If $\mathsf{TrialDiv}(b,n)$, then either $\Eone(\emp)$ is a strict unary prefix
+of $b$, or $b\hsame\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness. The unit constructor gives the self
+branch. In the step constructor, the continuation by $\Eone(\emp)$ supplies a
+strict one-step prefix. If the induction hypothesis already has a strict prefix,
+compose the two strict prefixes; if it has the self branch, transport the
+one-step prefix across that $\HSame$ endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_prefix\_or\_self}
+
 \begin{theorem}[Trial-division bounds are not empty]
 \label{thm:trial-div-bound-not-empty}
 If \(\mathsf{TrialDiv}(b,n)\), then \(b\) is not \(\emp\).
