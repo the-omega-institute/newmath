@@ -19,6 +19,7 @@
 \usepackage{listingsutf8}
 \lstset{inputencoding=utf8,extendedchars=true,literate={→}{{$\rightarrow$}}1 {↦}{{$\mapsto$}}1 {∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {↔}{{$\leftrightarrow$}}1 {≤}{{$\leq$}}1 {≥}{{$\geq$}}1 {≠}{{$\neq$}}1}
 \usepackage{xstring}
+\usepackage{xparse}
 % --- Lean 4 verification status markers (visible in PDF) ---
 %
 % Rendering rule: the target identifier is rendered without any literal `_`.
@@ -334,18 +335,26 @@
 % once every NameCert clause (carrier / classifier / stability / exactness
 % / ledger fields) has a `\leanchecked` resolving to a real Lean target.
 % Renders a visible AcceptGate-style line and is greppable by
-% `lean4/scripts/critical_path.py` (regex `\\closureat\{...\}\{\\?\\w+\}`).
-% A chapter with `\closureat{<X>Up}{\checkedCertStr}` (or `\bridgeCertStr`)
-% is considered CLOSED — critical_path excludes it from `top` so codex
-% rounds attack still-open horizons. Removing or downgrading the marker
-% is a deliberate downgrade and reopens the chapter.
+% `lean4/scripts/critical_path.py` and `tools/build_dossier_status.py` —
+% these tools share `\closureat` as the single source-of-truth for "this
+% chapter is closed". Removing or downgrading reopens the chapter.
+%
+% The optional [grounding] argument names the canonical Lean theorem that
+% grounds the closure (e.g. the chapter's name_certificate, semanticNameCert,
+% or stability_certificate_fields). Tools read this directly — no more
+% regex-guessing the closure-grounding theorem from naming heuristics.
+% Underscores must be \_-escaped, exactly like \leanchecked targets.
 %
 % Usage:
 %   \closureat{\FieldUp}{\checkedCertStr}
-%     → purple   Theory closed:  AcceptGate(NameCert_{Field^↑})(checkedCert)
-\newcommand{\closureat}[2]{%
+%     → no grounding declared; tools fall back to chapter-level inference
+%   \closureat{\RatUp}{\checkedCertStr}[BEDC.Derived.RatUp.rat\_history\_semantic\_name\_certificate]
+%     → tools surface this exact theorem as the closure proof in detail panes
+\NewDocumentCommand{\closureat}{m m o}{%
   \par\noindent{\small\color{purple!55!black}%
-    \textsf{Theory closed:}\quad$\AcceptGate(\NameCert_{#1})(#2)$}\par}
+    \textsf{Theory closed:}\quad$\AcceptGate(\NameCert_{#1})(#2)$%
+    \IfValueT{#3}{\\\hspace*{1.5em}\footnotesize\color{purple!50!black}grounded by \texttt{#3}}%
+  }\par}
 \newcommand{\StdBridge}{\mathsf{StandardBridge}}
 \newcommand{\encodeN}{\mathsf{encode}}
 \newcommand{\decodeN}{\mathsf{decode}}
