@@ -101,8 +101,13 @@ def count_paper_markers_per_chapter() -> list[dict]:
 NAMECERT_TARGET_RE = re.compile(
     r"\\(leanchecked|leanstmt)\{"
     r"(BEDC\.(?:Derived|FKernel)\.([A-Za-z]+)\.[A-Za-z0-9_\\]*?"
-    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?"
-    r"[A-Za-z0-9_\\]*)"
+    # Strict definition: only NameCert / Name(_)Certificate-shaped
+    # theorems count as object-completion proofs. Other completion-
+    # related naming (*_laws, *_certificate_fields, *_stability_*) is
+    # NOT folded in here; the detail panel adds an explicit fallback
+    # message when a \closureat-closed region has no canonical namecert
+    # to surface.
+    r"[Nn]ame[A-Za-z0-9_\\]{0,3}[Cc]ert(?:ificate)?[A-Za-z0-9_\\]*)"
     r"\}"
 )
 
