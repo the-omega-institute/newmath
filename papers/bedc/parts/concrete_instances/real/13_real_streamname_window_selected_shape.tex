@@ -1,0 +1,89 @@
+\begin{theorem}[Real unary StreamNameUp finite-window selected shape package]
+\label{thm:real-unary-streamname-finite-window-selected-shape-package}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,k,u,v,z_s,z_t:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryHistory}(\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega),
+$$
+and the displayed selected window endpoints
+$$
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u)),
+\quad
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v)).
+$$
+Then the selected endpoints carry the finite-window RatUp readback package:
+$$
+\begin{array}{l}
+\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))\land
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{PositiveUnaryDenominator}(t(\mathsf{append}(\alpha,k)))\land\\
+\mathsf{UnaryHistory}(s(\mathsf{append}(\alpha,k)))\land
+\mathsf{UnaryHistory}(t(\mathsf{append}(\alpha,k)))\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\emp)\to\mathsf{False})\land\\
+(\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))\to\mathsf{False})\land
+(\hsame(t(\mathsf{append}(\alpha,k)),\Ezero(z_t))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-unary-streamname-finite-window-coverage} to the two
+carrier rows, the StreamNameUp classifier, and the unary anchor and bound. This
+gives $\mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)$.
+
+Unfold Definition~\ref{def:real-unary-stream-window-classifier} at the selected
+offset $k$. The offset witness $\mathsf{UnaryOffsetLe}(k,\omega)$ projects the
+window classifier to
+$$
+\mathsf{RatHistoryClassifier}(
+s(\mathsf{append}(\alpha,k)),t(\mathsf{append}(\alpha,k))).
+$$
+
+Transport this selected RatUp classifier across the two displayed $\Eone$
+endpoint comparisons by \autoref{thm:rat-history-classifier-hsame-transport}.
+The transported classifier is
+$\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))$.
+
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
+direction to the transported $\Eone$ classifier. This reads back
+$\mathsf{UnaryHistory}(u)$, $\mathsf{UnaryHistory}(v)$, and $\hsame(u,v)$.
+
+Apply \autoref{thm:rat-history-classifier-positive-denominators} to the
+selected classifier before the $\Eone$ transport. Then apply
+\autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to the
+two positive-denominator rows. These projections supply the positive
+denominators, unary endpoint rows, and nonempty endpoint exclusions.
+
+For a displayed zero head on the left endpoint, transport
+$\mathsf{PositiveUnaryDenominator}(s(\mathsf{append}(\alpha,k)))$ along
+$\hsame(s(\mathsf{append}(\alpha,k)),\Ezero(z_s))$ by
+\autoref{thm:rat-positive-unary-denominator-hsame-transport}. This contradicts
+\autoref{thm:rat-positive-denominator-e0-absurd}.
+
+For the right endpoint, repeat the same transport from
+$t(\mathsf{append}(\alpha,k))$ to $\Ezero(z_t)$. The zero-head absurdity theorem
+gives the second exclusion, and the collected rows are exactly the displayed
+finite-window selected shape package.
+\end{proof}
+
+Fit. Traditional target: selected finite-window rational readback for RealUp
+StreamNameUp classifiers. BEDC source: $\StreamNameUp+\RealUp+\RatUp$ over
+$\mathsf{BHist}$. Carrier: $\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: $\hsame$ transport of
+selected endpoints and positive-denominator transport. Ledger: anchor, bound,
+offset, selected endpoint displays, and zero-head tests. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-shape-package}.
+Exactness: displayed RatUp one-tail classifier, denominator, unary, nonempty,
+and zero-headed exclusion rows. Standard bridge: finite rational observation
+windows. Status: $\mathsf{ProofTarget}$.
