@@ -330,6 +330,25 @@ with the left scale and the displayed continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_right\_factorization\_iff}
 
+\begin{theorem}[Prime scale append unit left factorization]
+\label{thm:padic-prime-scale-append-unit-left-factorization}
+For unary $q$, a prime scale over $\mathsf{append}(\Eone(\emp),q)$ is exactly a
+prime-scale result over $q$ preceded by continuation from the prime base:
+$$
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)
+\Longleftrightarrow
+\exists e.\,\mathsf{PadicPrimeScale}(p,q,e)\land\ContR(p,e,r).
+$$
+\end{theorem}
+\begin{proof}
+Decompose the appended exponent into a unit left factor and the displayed
+right factor. The unit-exponent readback identifies the left scale result with
+the prime base, leaving the continuation $\ContR(p,e,r)$. Conversely, construct
+the unit scale from the empty exponent scale and combine it with the displayed
+right scale by append continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_factorization\_iff}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
