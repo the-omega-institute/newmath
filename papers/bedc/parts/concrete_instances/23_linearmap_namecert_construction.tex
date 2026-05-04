@@ -420,6 +420,32 @@ singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_input\_classifier\_iff}
 
+\begin{theorem}[Singleton evaluation append-context classifier readback]
+\label{thm:linearmap-singleton-eval-append-context-classifier}
+For histories $p,f,x,h:\mathsf{BHist}$, classifying a singleton evaluation
+after an appended context is exactly the pair of singleton carrier conditions
+on the context and the target:
+$$
+\mathsf{LinearMapSingletonClassifier}
+  (\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x)),h)
+\Longleftrightarrow
+\mathsf{LinearMapSingletonCarrier}(p)\land
+\mathsf{LinearMapSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The singleton evaluator returns $\emp$. In the forward direction, the left
+carrier field classifies $\mathsf{append}(p,\emp)$ with $\emp$, and
+empty-append inversion exposes $p\hsame\emp$; the right classifier carrier
+gives $h\hsame\emp$.
+
+Conversely, $p\hsame\emp$ combines with reflexivity at the evaluator result to
+classify $\mathsf{append}(p,\mathsf{LinearMapSingletonEval}(f,x))$ with
+$\emp$. The target carrier for $h$ and symmetry on that carrier witness then
+assemble the restricted singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_append\_context\_classifier\_iff}
+
 \begin{theorem}[Singleton evaluation continuation classifier]
 \label{thm:linearmap-singleton-eval-continuation-classifier}
 For histories $f,x,y,r,h:\mathsf{BHist}$, if
@@ -549,6 +575,7 @@ from the visible endpoint to $\emp$. Constructor no-confusion for $\Ezero$ and
 $\Eone$ contradicts those histories being empty, so both displayed classifier
 claims imply $\bot$.
 \end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonEval\_continuation\_visible\_target\_classifier\_absurd}
 
 \begin{theorem}[Singleton evaluation continuation visible input exclusion]
 \label{thm:linearmap-singleton-eval-continuation-visible-input-exclusion}

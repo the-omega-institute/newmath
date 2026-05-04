@@ -169,6 +169,26 @@ scale witness have the same prime base and appended exponent, so
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_cont\_result\_functional}
 
+\begin{theorem}[Prime scale append factor results unique]
+\label{thm:padic-prime-scale-append-factor-results-unique}
+Let $\mathsf{PadicPrimeScale}(p,w,n)$ and
+$\mathsf{PadicPrimeScale}(p,q,e)$ be linked by $\ContR(n,e,r)$. If
+$\mathsf{PadicPrimeScale}(p,w,n_2)$ and
+$\mathsf{PadicPrimeScale}(p,q,e_2)$ are linked by $\ContR(n_2,e_2,r_2)$, then
+the factor results and continuation results are history-same:
+$$
+n\hsame n_2\land e\hsame e_2\land r\hsame r_2.
+$$
+\end{theorem}
+\begin{proof}
+Functionality of $\mathsf{NatMul}$ identifies the two results over the left
+factor exponent $w$ and separately identifies the two results over the right
+factor exponent $q$. Continuation respect for $\hsame$ transports those two
+factor identifications across the displayed continuations and identifies the
+two composite results.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factor\_results\_unique}
+
 \begin{theorem}[Prime scale append totality]
 \label{thm:padic-prime-scale-append-total}
 If \(p\) is a \(\PrimeUp\)-prime and \(w,q\) are unary histories, then there
