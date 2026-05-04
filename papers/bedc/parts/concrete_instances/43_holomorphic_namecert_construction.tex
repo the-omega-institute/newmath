@@ -21,6 +21,21 @@ For every $(z_0, r, z)$ with $\mathsf{OpenDisk}(z_0, r, z)$, the gap modulus $\m
 \begin{proof}
 The strict-prefix witness immediately gives the gap as the difference history.
 \end{proof}
+
+\begin{lemma}[Open disk gap transport certificate]
+\label{lem:open-disk-gap-transport-certificate}
+If $\mathsf{HolomorphicOpenDiskGap}(z_0,r,z,g)$ holds and
+$z_0\hsame z_0'$, $r\hsame r'$, $z\hsame z'$, and $g\hsame g'$,
+then $\mathsf{HolomorphicOpenDiskGap}(z_0',r',z',g')$ holds, $g'$ is
+unary, and $\Cont(z',g',r')$ holds.
+\end{lemma}
+\begin{proof}
+Transport the four unary carriers along the four $\hsame$ witnesses.
+
+The boundary continuation ledger transports along the point, gap, and radius
+$\hsame$ witnesses, giving $\Cont(z',g',r')$. Repack these transported fields
+as the target open-disk gap certificate, retaining the unary witness for $g'$.
+\end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.HolomorphicOpenDiskGap\_transport\_certificate}
 
 \begin{lemma}[Open disk unary suffix transport]

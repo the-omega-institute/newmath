@@ -336,6 +336,20 @@ From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
 
+\begin{theorem}[Prime divisor of a unary product exposes a factor]
+\label{thm:prime-divides-product-factor}
+For histories \(p,a,b,n\), if \(\mathsf{NatPrime}(p)\), \(\mathsf{NatMul}(a,b,n)\), and \(\mathsf{NatDivides}(p,n)\), then \(\mathsf{NatDivides}(p,a)\) or \(\mathsf{NatDivides}(p,b)\).
+\end{theorem}
+\begin{proof}[Sketch]
+Induct on the concrete unary multiplication witness \(\mathsf{NatMul}(a,b,n)\), viewing the right factor \(b\) as the induction spine.
+
+In the zero-product case, the result is \(\emp\). A divisor witness for \(p\) into \(\emp\) would make \(\emp\) a multiple of the prime \(p\). The non-empty condition in \(\mathsf{NatPrime}(p)\), together with the empty-result inversion for \(\mathsf{NatMul}\), rules this case out, so the conclusion follows vacuously.
+
+In the successor case, the product is obtained by appending one more copy of \(a\) to the previous product. If \(p\) already divides the previous product, the induction hypothesis gives \(\mathsf{NatDivides}(p,a)\) or divisibility into the predecessor of \(b\); in the latter subcase, the successor multiplication constructor and \autoref{lem:divides-transitive} transport the divisor to \(\mathsf{NatDivides}(p,b)\).
+
+It remains when the final appended copy is the first place where the divisor can occur. The \(\mathsf{NatMul}\) result and functionality facts identify the last continuation with the factor \(a\) up to \(\hsame\). Applying the defining divisor alternative in \(\mathsf{NatPrime}(p)\) to this non-trivial divisor yields either the unit case, which is incompatible with the prime's strict-greater field, or \(\hsame\)-equality with \(a\). This gives \(\mathsf{NatDivides}(p,a)\), completing the induction.
+\end{proof}
+
 \section{The prime predicate}
 
 \begin{definition}[Strict greater-than on unary histories]
@@ -576,7 +590,9 @@ Strong induction on the unary history \(n\) along \(\mathsf{NatUnaryStrictPrefix
 If \([p_1, \dots, p_j]\) and \([q_1, \dots, q_k]\) are two prime factorization lists of the same unary history \(n\), then \(j = k\) and the lists agree pointwise up to \(\hsame\).
 \end{theorem}
 \begin{proof}[Sketch]
-Standard Euclid's-lemma argument: if a prime \(p\) divides a product \(a \cdot b\), then \(p\) divides \(a\) or \(p\) divides \(b\), proved by induction on the unary representation of \(a\). Iterating Euclid's lemma over the two lists shows pointwise agreement up to \(\hsame\) and length agreement \(j = k\).
+Apply \autoref{thm:prime-divides-product-factor} to the leading prime of one factorization and the iterated product represented by the other factorization. Repeating this product-factor exposure across the second list locates a matching prime factor up to \(\hsame\).
+
+Cancel the matched factor using the \(\mathsf{NatMul}\) result and functionality facts, then continue by induction on the remaining lists. The induction gives pointwise agreement up to \(\hsame\) and length agreement \(j = k\).
 \end{proof}
 
 \section{The certificate}
@@ -611,7 +627,7 @@ The stability certificate consists of:
 The ledger policy records:
 \begin{enumerate}
   \item composition of factorizations: concatenation of prime factorization lists for products;
-  \item Euclid's lemma: prime divisibility distributes over products;
+  \item product-factor exposure by \autoref{thm:prime-divides-product-factor};
   \item infinitude closure: \(\mathsf{NatNextPrime}\) of \autoref{thm:euclid-infinite} produces a new prime exceeding any given bound.
 \end{enumerate}
 \end{definition}
