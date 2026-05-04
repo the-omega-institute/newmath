@@ -335,6 +335,28 @@ prefix comparison is the empty-tail side of the same append-tail equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
 
+\begin{theorem}[Singleton lattice classifier append tail emptiness]
+\label{thm:lattice-singleton-classifier-append-tail-empty}
+For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$, then the singleton classifier
+satisfies
+$$
+\mathsf{LatticeSingletonClassifier}(\mathsf{append}(h,t),h)
+\quad\Longleftrightarrow\quad
+t\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the carried left endpoint from the classifier.
+Since $\mathsf{append}(h,t)\hsame\emp$, the concrete append-empty inversion
+forces $t\hsame\emp$.
+
+Conversely, assume $t\hsame\emp$. The append endpoint is carried because both
+$h$ and $t$ are empty in the singleton sense, and the right continuation unit
+identifies $\mathsf{append}(h,t)$ with $h$. Together with the given carrier for
+$h$, these witnesses reconstruct the singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_append\_tail\_empty\_iff}
+
 \begin{theorem}[Singleton lattice append tail upper emptiness]
 \label{thm:lattice-singleton-le-append-tail-upper-empty}
 For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$ and

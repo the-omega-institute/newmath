@@ -242,6 +242,21 @@ theorem LatticeSingletonLE_append_tail_empty_iff {h tail : BHist} :
     exact And.intro appendCarrier (And.intro carrierH
       ((PreorderPrefixLE_append_tail_backforces_empty_iff tailUnary).mpr tailEmpty))
 
+theorem LatticeSingletonClassifier_append_tail_empty_iff {h tail : BHist} :
+    LatticeSingletonCarrier h ->
+      (LatticeSingletonClassifier (append h tail) h ↔ hsame tail BHist.Empty) := by
+  intro carrierH
+  constructor
+  · intro classified
+    exact (append_eq_empty_iff.mp classified.left).right
+  · intro tailEmpty
+    have appendCarrier : LatticeSingletonCarrier (append h tail) :=
+      append_eq_empty_iff.mpr (And.intro carrierH tailEmpty)
+    have appendSameH : hsame (append h tail) h := by
+      cases tailEmpty
+      exact append_empty_right h
+    exact And.intro appendCarrier (And.intro carrierH appendSameH)
+
 theorem LatticeSingletonLE_append_tail_upper_empty_iff {h tail : BHist} :
     LatticeSingletonCarrier h -> UnaryHistory tail ->
       (LatticeSingletonLE h (append h tail) ↔ hsame tail BHist.Empty) := by
