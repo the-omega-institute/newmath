@@ -66,6 +66,23 @@ $\hsame(h,k)$ component of the classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonClassifier\_empty\_endpoints\_iff}
 
+\begin{theorem}[Module singleton classifier hsame endpoint transport]
+\label{thm:module-singleton-classifier-hsame-endpoint-transport}
+For histories $h,k,h',k':\mathsf{BHist}$, if
+$\rho_{\emp}(h,k)$, $h\hsame h'$, and $k\hsame k'$, then
+$$
+\rho_{\emp}(h',k')\land h'\hsame\emp\land k'\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Unpack $\rho_{\emp}(h,k)$ to obtain $h\hsame\emp$ and
+$k\hsame\emp$. Compose these endpoint comparisons with the symmetries of
+$h\hsame h'$ and $k\hsame k'$ to obtain $h'\hsame\emp$ and
+$k'\hsame\emp$. Theorem~\ref{thm:module-singleton-classifier-empty-endpoints}
+then repacks the two empty endpoints as $\rho_{\emp}(h',k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonClassifier\_hsame\_endpoint\_transport}
+
 \begin{theorem}[Module singleton scalar readback]
 \label{thm:module-singleton-smul-classifier-readback-iff}
 For histories $r,m,n:\mathsf{BHist}$, if $m$ lies in the singleton carrier
