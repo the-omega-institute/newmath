@@ -1,0 +1,200 @@
+\begin{theorem}[Product componentwise history classifier inversion]
+\label{thm:prod-component-history-classifier-inversion}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the
+displayed source transitivity laws
+$$
+\forall a\,b\,c.\;a\sim_L b\to b\sim_L c\to a\sim_L c
+\qquad\hbox{and}\qquad
+\forall a\,b\,c.\;a\sim_R b\to b\sim_R c\to a\sim_R c.
+$$
+If
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$,
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$, and
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ hold, then
+$l\sim_L l'$ and $r\sim_R r'$.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier witness to obtain component histories
+$l_h,r_h,l_k,r_k$ with pair representations for $h$ and $k$, together with
+$l_h\sim_L l_k$ and $r_h\sim_R r_k$. Apply pair-representation coherence at
+$h$ to the displayed representation $(l,r)$ and the witness representation
+$(l_h,r_h)$, yielding $l\sim_L l_h$ and $r\sim_R r_h$. Apply coherence at
+$k$ to the witness representation $(l_k,r_k)$ and the displayed
+representation $(l',r')$, yielding $l_k\sim_L l'$ and $r_k\sim_R r'$. The
+displayed source transitivity hypotheses compose the left chain
+$l\sim_L l_h\sim_L l_k\sim_L l'$ and the right chain
+$r\sim_R r_h\sim_R r_k\sim_R r'$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_inversion}
+
+The descent theorem instantiates the roadmap template as traditional ordered-pair descent over the BEDC source $\mathsf{BHist}$ with $\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier bridge from componentwise to envelope under $\hsame$-sound source classifiers, ledger by displayed pair representations, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product componentwise history classifier descends to envelope]
+\label{thm:prod-component-history-classifier-descends-to-envelope}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers. Assume the source classifiers are $\hsame$-sound:
+$$
+\forall x\,y.\;x\sim_L y\to\hsame(x,y)
+\qquad\hbox{and}\qquad
+\forall x\,y.\;x\sim_R y\to\hsame(x,y).
+$$
+If $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ holds,
+then $\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the componentwise classifier into component histories
+$l_h,r_h,l_k,r_k$, pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$, and component links
+$l_h\sim_L l_k$ and $r_h\sim_R r_k$. The two $\hsame$-sound assumptions turn
+the component links into $\hsame(l_h,l_k)$ and $\hsame(r_h,r_k)$. The pair
+representations expose $\Cont(l_h,r_h,h)$ and $\Cont(l_k,r_k,k)$, so
+continuation respect for $\hsame$ yields $\hsame(h,k)$. Pair-representation
+coverage rebuilds $\mathsf{ProdHistoryCarrier}(L,R,h)$ and
+$\mathsf{ProdHistoryCarrier}(L,R,k)$ from the two displayed pair
+representations, and these two endpoint carriers together with
+$\hsame(h,k)$ rebuild $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_descends\_to\_envelope}
+
+The recovery theorem instantiates the roadmap template as traditional ordered-product envelope-to-componentwise readback over the BEDC source $\mathsf{BHist}$ with $\Cont$ and $\hsame$, carrier $\mathsf{ProdHistoryCarrier}$, classifier $\mathsf{ProdComponentHistoryClassifier}$, stability via pair-representation coherence, ledger displayed pair representation, core theorem coherent envelope recovery, exactness component readback from envelope, standard bridge ordered-pair readback, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product envelope classifier recovers coherent componentwise classifier]
+\label{thm:prod-history-envelope-to-componentwise-coherent}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, and let $h,k:\mathsf{BHist}$. Assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. If
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds, then
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the envelope classifier into endpoint carriers for $h$ and $k$ and the
+stored endpoint link $\hsame(h,k)$. Apply
+Theorem~\ref{thm:prod-pair-rep-coverage} to the two endpoint carriers to choose
+displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$.
+
+Apply Theorem~\ref{thm:prod-pair-rep-hsame-coherence} to the coherence datum,
+the two displayed pair representations, and the endpoint link. The resulting
+component links $l_h\sim_L l_k$ and $r_h\sim_R r_k$, together with the displayed
+pair representations, repack as
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_pair\_coherent\_componentwise}
+
+\begin{theorem}[Product envelope hsame classifier recovers componentwise classifier]
+\label{thm:prod-history-envelope-to-componentwise-hsame}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers. Assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. If
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$ holds, then
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the envelope classifier into endpoint carrier witnesses for $h$ and
+$k$ and an endpoint link $\hsame(h,k)$. Pair-representation coverage for the
+two endpoint carriers supplies displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l_h,r_h)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l_k,r_k)$. First reverse the endpoint link to
+obtain $\hsame(k,h)$. Apply
+Theorem~\ref{thm:prod-pair-rep-hsame-transport} to the displayed
+representation of $k$ and this reversed link, producing a displayed pair
+representation of $h$ with the same components $l_k,r_k$.
+Pair-representation coherence at $h$ compares the two representations of $h$
+and gives
+$\hsame(l_h,l_k)$ and $\hsame(r_h,r_k)$. These two component links together
+with the original displayed pair representations for $h$ and $k$ rebuild
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_pair\_coherent\_componentwise\_hsame}
+
+\begin{theorem}[Product envelope and componentwise hsame classifiers coincide]
+\label{thm:prod-envelope-componentwise-hsame-classifiers-coincide}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. For all
+$h,k:\mathsf{BHist}$,
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\hsame,\hsame}(h,k).
+$$
+\end{theorem}
+\begin{proof}
+The forward implication is Theorem~\ref{thm:prod-history-envelope-to-componentwise-hsame}.
+For the reverse implication, apply
+Theorem~\ref{thm:prod-component-history-classifier-descends-to-envelope}
+with both source classifiers specialized to $\hsame$. The two required
+$\hsame$-soundness premises are discharged by the identity proof on the given
+component links. Thus the envelope classifier and the componentwise $\hsame$
+classifier have exactly the same histories under the displayed
+pair-representation coherence.
+\end{proof}
+
+This exactness statement instantiates the roadmap template as traditional
+ordered-pair equality agreement over the BEDC source $\mathsf{BHist}$ with
+$\Cont$, carrier $\mathsf{ProdHistoryCarrier}$, classifier agreement between
+the envelope and componentwise $\hsame$ classifiers, stability by
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$, ledger through displayed
+pair representations, and status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Product history classifier displayed component hsame exactness]
+\label{thm:prod-history-classifier-displayed-component-hsame-iff}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and assume
+$\mathsf{ProdPairRepCoherent}_{L,R,\hsame,\hsame}$. If
+$L(l)$, $R(r)$, $\Cont(l,r,h)$, $L(l')$, $R(r')$, and
+$\Cont(l',r',k)$ hold, then
+$$
+\mathsf{ProdHistoryClassifier}(L,R,h,k)
+\Longleftrightarrow
+\hsame(l,l')\wedge\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the displayed component data are
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$. The product history classifier supplies
+the endpoint link $\hsame(h,k)$, so pair-representation coherence transports
+the endpoint link back to the two component links. For the reverse direction,
+the two component links are pushed through the two continuation witnesses by
+continuation respect for $\hsame$, producing $\hsame(h,k)$. The displayed
+component data rebuild the two endpoint product carriers, and these three
+fields are exactly $\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdHistoryClassifier\_displayed\_component\_hsame\_iff}
+
+\begin{theorem}[Product componentwise history classifier displayed exactness]
+\label{thm:prod-component-history-classifier-displayed-exactness}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their source
+classifiers. Assume $\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ and the
+displayed source transitivity laws
+$$
+\forall a\,b\,c.\;a\sim_L b\to b\sim_L c\to a\sim_L c
+\qquad\hbox{and}\qquad
+\forall a\,b\,c.\;a\sim_R b\to b\sim_R c\to a\sim_R c.
+$$
+If
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$, then
+$$
+\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(h,k)
+\Longleftrightarrow
+(l\sim_L l')\wedge(r\sim_R r').
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:prod-component-history-classifier-inversion} to the two
+displayed pair representations and the assumed componentwise classifier. For
+the reverse direction, use the displayed pair representations
+$\mathsf{ProdPairRep}_{L,R}(h,l,r)$ and
+$\mathsf{ProdPairRep}_{L,R}(k,l',r')$ as the existential witnesses in
+Definition~\ref{def:prod-component-history-classifier}; the two displayed
+component relations supply the remaining conjuncts.
+\end{proof}
+\leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_displayed\_exactness}
+
