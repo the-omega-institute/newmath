@@ -16,9 +16,19 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntCarrier}
 \leanchecked{BEDC.Derived.IntUp.IntCarrier\_sign\_cases}
-\leanvariant{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
 \begin{proof}
-This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate. With the sign fixed, continuation of two carrier magnitudes remains inside the same signed carrier.
+This is a definitional clause over the finite-kernel mark constructors and the unary-history predicate.
+\end{proof}
+
+\begin{theorem}[Signed carrier is closed under same-sign continuation]
+\label{thm:int-carrier-continuation-closed-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $\mathsf{IntCarrier}(s,h)$, $\mathsf{IntCarrier}(s,k)$, and $\Cont(h,k,r)$, then $\mathsf{IntCarrier}(s,r)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_continuation\_closed\_same\_sign}
+\begin{proof}
+Keep the sign disjunction supplied by the first carrier witness.
+
+The two carrier witnesses also provide unary magnitude witnesses for $h$ and $k$. Apply unary continuation closure to those two magnitude witnesses and the displayed continuation ledger $\Cont(h,k,r)$, then pair the resulting unary witness for $r$ with the retained sign clause.
 \end{proof}
 
 \begin{theorem}[Signed carrier transports along mark sameness]
