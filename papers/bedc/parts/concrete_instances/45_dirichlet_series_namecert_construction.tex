@@ -186,6 +186,25 @@ ledger into \(S\).
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_positive\_index\_predecessor}
 
+\begin{theorem}[Dirichlet append-successor partial-sum predecessor]
+\label{thm:dirichlet-part-sum-append-successor-predecessor}
+Every closed witness of
+$\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,\Eone(n)),S)$
+exposes a predecessor partial sum at $\mathsf{append}(m,n)$:
+$$
+\exists P:\mathsf{BHist},\
+\mathsf{DirichletPartSum}(\mathsf{term},s,\mathsf{append}(m,n),P)\land
+\Cont(P,\mathsf{term}(\mathsf{append}(m,n),s),S).
+$$
+\end{theorem}
+\begin{proof}
+By the definition of history append, $\mathsf{append}(m,\Eone(n))$ is the
+successor history $\Eone(\mathsf{append}(m,n))$. Inverting the closed
+partial-sum witness therefore exposes the predecessor sum at
+$\mathsf{append}(m,n)$ and the continuation step into $S$.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_append\_successor\_predecessor}
+
 \begin{lemma}[Dirichlet partial-sum successor result is deterministic]
 \label{lem:dirichlet-part-sum-successor-result-deterministic}
 If the Dirichlet partial-sum recursion reaches $S$ at unary index $n$, and the
