@@ -20,6 +20,7 @@ $$
 $$
 This is the unary-history counterpart of the finite-spine value $\ell(xs)$ used in \autoref{def:list-public-length-readback}; it records the same constructor count as a $\NatUp$ token.
 \end{definition}
+\leandef{BEDC.Derived.ListUp.ListUnaryLength}
 
 \begin{definition}[List public unary length token]
 \label{def:list-public-unary-length-token}
@@ -218,6 +219,7 @@ In the cons case, write $xs=\mathsf{cons}(a,xs_0)$ and let $L_0=\mathsf{ListUnar
 
 Finally assume $\mathsf{NatAdd}(L_x,L_y,w)$. Together with the reversed append-aligned witness just proved, \autoref{thm:unary-cont-comm} compares the two unary continuation results and gives $\hsame(w,L_{xy})$. Symmetry of $\hsame$ gives $\hsame(L_{xy},w)$.
 \end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListUnaryLength\_append\_cont}
 
 \begin{theorem}[Public list unary length is associative under append]
 \label{thm:list-unary-length-append-associativity}

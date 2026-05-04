@@ -5051,3 +5051,83 @@ Core / probe_bundles. Review category 7 (composite consequence). Chapter 05/01_b
 
 ---
 
+### B-196 - Opposite monoid carries a Monoid certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite monoid carries a Monoid certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If C carries MonoidUp(C) with multiplication \cdot, then C with multiplication a \cdot^{op} b := b \cdot a carries MonoidUp(C).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+Opposite-structure constructions are a foundational concrete_instances theorem and currently have no presence on the BOARD or in paper labels. The result is non-trivial in the certificate framework: associativity must be transported (a \cdot^{op} b) \cdot^{op} c = c \cdot (b \cdot a) = (c \cdot b) \cdot a = a \cdot^{op} (b \cdot^{op} c), unit fields must transfer on both sides, and pattern/ledger/classifier rows must be re-verified for the swapped operation. Distinct from B-28 (forgetful CommRing→Ring) — that is structure-projection, this is structure-reversal. Establishes the prerequisite for any later opposite-Ring or opposite-Category sibling work.
+
+---
+
+### B-197 - Opposite semigroup carries a Semigroup certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite semigroup carries a Semigroup certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a carrier C with multiplication ∗ has SemigroupUp(C, ∗), then C with the reversed multiplication x⋆y := y∗x has SemigroupUp(C, ⋆) on the same carrier and classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/15_semigroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/14_monoid_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+BEDC's semigroup certificate is currently asserted in only one orientation — every existing concrete-instances theorem on the BOARD lives at the lattice / module / polynomial / category layer, and no entry exercises the symmetry of the associativity / pattern / ledger fields under reversal of the binary operation. The claim is a clean implication 'SemigroupUp(C,∗) ⇒ SemigroupUp(C,⋆)' that exposes which certificate fields are intrinsically reversal-symmetric (associativity, same-source determinacy, pattern soundness) and which would need restatement (any handed obligations). It is foundational for downstream opposite-monoid / opposite-group theorems and would not duplicate any existing BOARD entry or paper-side `\label`. Fit is high because it sits squarely in concrete_instances next to the existing semigroup namecert construction; novelty is high because the opposite-construction theme is entirely absent from the current BOARD and paper coverage.
+
+---
+
+
+### B-198 - Opposite group carries a Group certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Opposite group carries a Group certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If GroupUp(C, ∗, e, (·)⁻¹) holds, then GroupUp(C, ⋆, e, (·)⁻¹) holds, where x⋆y := y∗x and the identity and inverse data are unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/15_semigroup_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+This is the group-level counterpart to the opposite-semigroup theorem and is independently meaningful because the GroupUp certificate carries inverse-and-identity stability fields beyond the semigroup ones. The substantive content is that the existing inverse-and-unit obligations (left/right cancellation, e as two-sided unit, x⁻¹ as two-sided inverse) survive multiplication reversal without re-choosing the inverse map — i.e. the inverse data itself is reversal-invariant. No existing BOARD entry treats opposite groups, no paper `\label` matches (only direct group certificate definitions appear), and the result is a foundational stepping stone for any later opposite-monoid / opposite-ring instance. Fit is high in concrete_instances; novelty is somewhat reduced because of adjacency to the opposite-semigroup candidate, but the inverse / identity content is independent enough to warrant its own loop slot, in line with how the BOARD already separates B-25 and B-26 for lattice commutativity vs. associativity.
+
+---
+
