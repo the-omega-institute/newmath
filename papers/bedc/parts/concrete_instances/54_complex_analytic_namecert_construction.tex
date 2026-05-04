@@ -210,6 +210,25 @@ component and returns the positive-denominator witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_component\_continuation\_witness}
 
+\begin{theorem}[Pure-imaginary suffix component tail witness]
+\label{thm:cplx-pure-imaginary-suffix-component-tail-witness}
+Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
+continue \(z\) to \(zq\). Then there is an intermediate imaginary component
+\(imagq\) which is a rational history carrier, is \(\hsame\)-equal to
+\(\Eone(\mathsf{append}(\theta,q))\), continues \(\Eone(\emp)\) to \(zq\),
+and has a positive unary denominator.
+\end{theorem}
+\begin{proof}
+Apply the pure-imaginary component continuation witness to obtain the
+intermediate imaginary component. Its continuation from \(\Eone(\theta)\) by
+the unary suffix \(q\) identifies it with
+\(\mathsf{append}(\Eone(\theta),q)\), and unary append readback identifies this
+history with \(\Eone(\mathsf{append}(\theta,q))\). The rational carrier,
+continuation ledger from \(\Eone(\emp)\), and positive-denominator witness are
+the corresponding fields of the component witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexAnalyticUp.CplxPureImaginary\_suffix\_component\_tail\_witness}
+
 \begin{theorem}[Pure-imaginary suffix continuation complex carrier]
 \label{thm:cplx-pure-imaginary-suffix-continuation-complex-carrier}
 Let \(\mathsf{CplxPureImaginary}(\theta,z)\) hold, and let a unary suffix \(q\)
