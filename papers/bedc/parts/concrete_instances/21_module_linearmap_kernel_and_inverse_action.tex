@@ -108,3 +108,35 @@ Target scalar congruence transports $f(x)\sim_N0_N$ to $r\odot_N f(x)\sim_N r\od
 
 Finally, the scalar source of the module certificate is a certified $\RingUp$ by \autoref{def:module-source-specification}, so the additive inverse row carries $-_R r$. Applying the scalar-action closure row to this carried scalar gives $\mathsf{Ker}_f((-_R r)\odot_M x)$. The endpoint interpretation is exactly \autoref{thm:module-scalar-negation-action-additive-inverse}: $(-_R r)\odot_M x$ is the additive inverse-side action endpoint for $r\odot_M x$ inside the source module classifier.
 \end{proof}
+
+\begin{theorem}[Module LinearMap kernel certificate package]
+\label{thm:module-linearmap-kernel-certificate-package}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Let
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+hold. Write $\sim_M$ and $\sim_N$ for the source and target module classifiers, $+_M$ and $0_M$ for source addition and source zero, $\odot_M$ for source scalar action, $0_N$ for target zero, and $\mathsf{Ker}_f$ for the predicate of \autoref{def:module-linearmap-kernel-predicate}. On the kernel carrier define the restricted classifier by
+$$
+x\sim_{\mathsf{Ker}_f}y :\Longleftrightarrow \mathsf{Ker}_f(x)\land\mathsf{Ker}_f(y)\land x\sim_My.
+$$
+Then the kernel data form a reusable certificate package with the following fields:
+\begin{enumerate}
+\item $\sim_{\mathsf{Ker}_f}$ is reflexive, symmetric, and transitive on carried kernel endpoints.
+\item Source-module classifier transport carries kernel witnesses along $x\sim_Mx'$.
+\item $0_M$ is a carried kernel endpoint, and carried kernel endpoints are closed under $+_M$ and under carried scalar action $\odot_M$.
+\item The inclusion of the kernel carrier into $M$ reflects the source classifier: for kernel endpoints, a comparison in $M$ repacks as a comparison for $\sim_{\mathsf{Ker}_f}$, and every restricted comparison projects to the underlying $x\sim_My$ row.
+\item Every carried kernel endpoint satisfies the exactness row $f(x)\sim_N0_N$.
+\end{enumerate}
+The ten-field fit is: traditional target kernel submodule certificate; BEDC source $\mathsf{LinearMapCert}_R$ over two $\ModuleUp$ certificates; carrier $\mathsf{Ker}_f$; classifier the restriction of $\sim_M$; stability inherited from \autoref{thm:module-linearmap-kernel-submodule-closure}; ledger the function identifier $f$ together with descent, zero, additivity, and scalar rows from \autoref{def:module-linearmap-certificate-package}; core theorem this package; exactness the zero-fiber row $f(x)\sim_N0_N$; standard bridge the ordinary kernel submodule; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+The carrier rows are exactly the rows established in \autoref{thm:module-linearmap-kernel-submodule-closure}. They give source-classifier transport for $\mathsf{Ker}_f$, the kernel witness for $0_M$, additive closure, and carried scalar-action closure.
+
+For the restricted classifier laws, work only with endpoints already carrying kernel witnesses. Reflexivity follows from the source module NameCert reflexivity row applied to the underlying carried endpoint, then paired with the two kernel witnesses. Symmetry keeps the two kernel witnesses and reverses the source comparison by the symmetry row of \autoref{def:lean-carrier-naming-certificate}.
+
+For transitivity, take restricted comparisons from $x$ to $y$ and from $y$ to $z$. Their projections give $x\sim_My$ and $y\sim_Mz$. Apply \autoref{thm:namecert-equivalence-transitivity} in the source module classifier to obtain $x\sim_Mz$, and pair this comparison with the kernel witnesses for $x$ and $z$.
+
+The inclusion statement is definitional. A restricted comparison contains its underlying $x\sim_My$ component by the definition of $\sim_{\mathsf{Ker}_f}$. Conversely, for two kernel endpoints, any source comparison $x\sim_My$ repacks with the two endpoint witnesses to produce $x\sim_{\mathsf{Ker}_f}y$.
+
+It remains to identify the exactness row. By \autoref{def:module-linearmap-kernel-predicate}, a kernel witness is precisely source-carrier evidence together with the zero-fiber comparison $f(x)\sim_N0_N$. The descent row from \autoref{def:module-linearmap-certificate-package}, composed with \autoref{thm:namecert-equivalence-transitivity} in the target module classifier, is the compatibility used when this zero-fiber comparison is transported along source comparisons. Thus the restricted classifier, inclusion reflection, operation closure, and zero-fiber exactness sit in one certificate package.
+\end{proof}
