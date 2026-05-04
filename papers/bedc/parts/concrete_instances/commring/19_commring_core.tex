@@ -546,6 +546,28 @@ give the displayed singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_comm\_congr}
 
+\begin{theorem}[CommRing singleton classifier append commutativity compatibility]
+\label{thm:commring-singleton-classifier-append-commutativity-compatible}
+For histories $x,x',y,y':\mathsf{BHist}$, if the singleton commutative-ring
+classifier relates $x$ to $x'$ and relates $y$ to $y'$, then it classifies
+three append endpoints:
+$$
+\rho_{\emp}(\mathsf{append}(x,y),\mathsf{append}(y,x)),
+\quad
+\rho_{\emp}(\mathsf{append}(x',y'),\mathsf{append}(y',x')),
+\quad
+\rho_{\emp}(\mathsf{append}(x,y),\mathsf{append}(x',y')).
+$$
+\end{theorem}
+\begin{proof}
+The two classifier hypotheses expose singleton carrier witnesses for
+$x,x',y,y'$. Empty-result construction for append builds singleton carrier
+witnesses for each displayed appended endpoint. Since every endpoint in the
+three classifier rows is classified through $\emp$, symmetry and transitivity
+of $\hsame$ package the three singleton classifier witnesses.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_commutativity\_compatible}
+
 \begin{theorem}[CommRing singleton classifier append commutation carrier exactness]
 \label{thm:commring-singleton-classifier-append-comm-carrier-iff}
 For histories $h,k:\mathsf{BHist}$, the singleton commutative-ring classifier
