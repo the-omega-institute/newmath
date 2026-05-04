@@ -219,3 +219,100 @@ exactly the four displayed fields of the basic $\CategoryUp$ hom-carrier
 stability package.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_stability\_law\_package}
+
+\begin{definition}[Opposite category certificate data]
+\label{def:opposite-category-certificate-data}
+Let a $\CategoryUp$ certificate $\mathcal C$ have object carrier
+$\mathcal O$, object classifier $\sim_{\mathcal O}$, hom-carrier
+$\mathcal H(a,b,f)$, morphism classifier $\sim_{\mathcal H}$, identity
+witnesses $\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}(f,g,h)$ for displayed composable morphisms
+$f:a\to b$ and $g:b\to c$. The opposite certificate data
+$\mathcal C^{\mathrm{op}}$ are defined by
+$$
+\begin{aligned}
+\mathcal O^{\mathrm{op}}(a)&:=\mathcal O(a),&
+ a\sim_{\mathcal O}^{\mathrm{op}}a'&:=a\sim_{\mathcal O}a',\\
+\mathcal H^{\mathrm{op}}(a,b,f)&:=\mathcal H(b,a,f),&
+ f\sim_{\mathcal H}^{\mathrm{op}}g&:=f\sim_{\mathcal H}g,\\
+\mathsf{id}^{\mathrm{op}}_a&:=\mathsf{id}_a,&
+\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)&:=
+\mathsf{Comp}_{\mathcal C}(g,f,h).
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Opposite category certificate]
+\label{thm:opposite-category-certificate}
+If $\mathcal C$ satisfies the $\CategoryUp$ certificate obligations of
+\autoref{def:category-carrier}, then the data of
+\autoref{def:opposite-category-certificate-data} also satisfy the
+$\CategoryUp$ certificate obligations. Thus reversing hom-carriers and
+composition produces a $\CategoryUp(\mathcal C^{\mathrm{op}})$ certificate
+with the same object carrier, identity witnesses, object classifier, and
+morphism classifier.
+\end{theorem}
+\begin{proof}
+The object carrier and object classifier fields are literal reuses of the
+corresponding fields of $\mathcal C$, so their carrier and classifier laws are
+unchanged. For a fixed ordered pair $(a,b)$ in the opposite data, the
+hom-carrier predicate is the original predicate for the ordered pair $(b,a)$.
+The corresponding $\NameCert$ source, pattern, ledger, and classifier laws are
+therefore exactly the original hom-carrier certificate fields with the endpoint
+order swapped.
+
+The identity field is also inherited. At an object $a$,
+$$
+\mathcal H^{\mathrm{op}}(a,a,\mathsf{id}^{\mathrm{op}}_a)
+=
+\mathcal H(a,a,\mathsf{id}_a),
+$$
+which is the original identity hom-carrier field.
+
+For composition closure, let $f:a\to b$ and $g:b\to c$ be displayed in
+$\mathcal C^{\mathrm{op}}$. This means
+$\mathcal H(b,a,f)$ and $\mathcal H(c,b,g)$ in $\mathcal C$. If
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,g,h)$ holds, then by definition
+$\mathsf{Comp}_{\mathcal C}(g,f,h)$ holds. The original composition closure in
+$\mathcal C$ gives $\mathcal H(c,a,h)$, which is exactly
+$\mathcal H^{\mathrm{op}}(a,c,h)$.
+
+For associativity, take composable opposite morphisms $f:a\to b$,
+$g:b\to c$, and $h:c\to d$, with displayed composites $fg$, $gh$, $left$, and
+$right$. The four opposite composition ledgers are, in $\mathcal C$,
+$$
+\mathsf{Comp}_{\mathcal C}(g,f,fg),\quad
+\mathsf{Comp}_{\mathcal C}(h,g,gh),\quad
+\mathsf{Comp}_{\mathcal C}(h,fg,left),\quad
+\mathsf{Comp}_{\mathcal C}(gh,f,right).
+$$
+Apply associativity in $\mathcal C$ to the reversed chain $h,g,f$. It compares
+$\mathsf{Comp}_{\mathcal C}(gh,f,right)$ with
+$\mathsf{Comp}_{\mathcal C}(h,fg,left)$, giving
+$right\sim_{\mathcal H}left$. Symmetry of the morphism classifier gives
+$left\sim_{\mathcal H}^{\mathrm{op}}right$.
+
+For unit laws, let $f:a\to b$ be displayed in the opposite data, so
+$f:b\to a$ in $\mathcal C$. The left unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(\mathsf{id}_a,f,left)$, which is
+$\mathsf{Comp}_{\mathcal C}(f,\mathsf{id}_a,left)$; this is the original right
+unit law. The right unit law in $\mathcal C^{\mathrm{op}}$ is
+$\mathsf{Comp}_{\mathcal C^{\mathrm{op}}}(f,\mathsf{id}_b,right)$, which is
+$\mathsf{Comp}_{\mathcal C}(\mathsf{id}_b,f,right)$; this is the original left
+unit law. Hence both opposite unit composites are classified with $f$.
+
+Endpoint transport is inherited with the same swap. A transported opposite
+hom-carrier $\mathcal H^{\mathrm{op}}(a,b,f)$ is the original carrier
+$\mathcal H(b,a,f)$, so source transport in the opposite data is target
+transport in $\mathcal C$, and target transport in the opposite data is source
+transport in $\mathcal C$. The morphism classifier is unchanged, so morphism
+transport and morphism determinacy are inherited directly.
+
+Specializing $\mathcal C$ to the unary-continuation law package of
+\autoref{thm:category-unary-continuation-stability-law-package} uses the
+identity field from \autoref{thm:category-hom-carrier-empty-identity}, the
+composition field from \autoref{thm:category-hom-carrier-comp-closed}, the
+associativity field from \autoref{thm:category-hom-carrier-comp-assoc-closed},
+the unit classification from \autoref{thm:category-hom-carrier-identity-square-closed},
+and endpoint transport from \autoref{thm:category-hom-carrier-hsame-transport}.
+\end{proof}
