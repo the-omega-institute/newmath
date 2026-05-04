@@ -383,6 +383,57 @@ centralizer carrier transport row gives the displayed kernel clause.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_left\_endpoint\_right\_centralizer\_mul\_closed\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer quotient-kernel right endpoint right centralizer multiplication]
+\label{thm:subgroup-centralizer-quotient-kernel-right-endpoint-right-centralizer-mul-closed}
+Under the same BEDC history-level $\GroupUp$ laws, if
+$Q_{Z_a\triangleleft N_a}(x,y)$ and $Z_a(c)$, then
+$$
+Q_{Z_a\triangleleft N_a}(x,\mathsf{mul}(y,c)).
+$$
+\end{theorem}
+\begin{proof}
+The endpoint $\mathsf{mul}(y,c)$ lies in $N_a$ because the
+quotient-kernel hypothesis carries $y$ in $N_a$, the inclusion
+$Z_a\subseteq N_a$ carries $c$ in $N_a$, and product closure for $N_a$
+keeps their product in the carrier.
+
+For the kernel word, the original quotient-kernel hypothesis gives
+$Z_a(\mathsf{mul}(\mathsf{inv}(x),y))$, and the endpoint factor gives
+$Z_a(c)$. Product closure for $Z_a$ yields
+$Z_a(\mathsf{mul}(\mathsf{mul}(\mathsf{inv}(x),y),c))$.
+Associativity compares this history with
+$\mathsf{mul}(\mathsf{inv}(x),\mathsf{mul}(y,c))$, and the centralizer
+carrier transport row moves the witness across that $\hsame$ comparison.
+\end{proof}
+
+\begin{theorem}[Centralizer quotient-kernel two-sided centralizer endpoint multiplication]
+\label{thm:subgroup-centralizer-quotient-kernel-two-sided-centralizer-endpoint-mul-closed}
+Under the same BEDC history-level $\GroupUp$ laws, if
+$Q_{Z_a\triangleleft N_a}(x,y)$, $Z_a(c)$, and $Z_a(d)$, then
+$$
+Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,c),\mathsf{mul}(y,d)).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-left-endpoint-right-centralizer-mul-closed}
+with the centralizer factor $c$. This gives
+$Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,c),y)$.
+
+Then apply
+\autoref{thm:subgroup-centralizer-quotient-kernel-right-endpoint-right-centralizer-mul-closed}
+with the centralizer factor $d$. The result is the displayed
+two-endpoint quotient-kernel relation.
+\end{proof}
+
+Per-object template: traditional target endpoint stability of a
+normal-subgroup quotient classifier; BEDC source $\GroupUp$ plus
+$\SubgroupUp$ over $\mathsf{BHist}$; carrier $N_a$; classifier
+$Q_{Z_a\triangleleft N_a}$; stability centralizer endpoint multiplication;
+ledger left representative, right representative, and centralizer endpoint
+factors; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Centralizer normalizer quotient-kernel transitivity]
 \label{thm:subgroup-centralizer-quotient-kernel-transitivity}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
