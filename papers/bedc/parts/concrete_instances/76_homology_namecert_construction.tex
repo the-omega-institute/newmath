@@ -82,6 +82,29 @@ $\mathsf{append}(\mathsf{Empty},\mathsf{Empty})=\mathsf{Empty}$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_closed}
 
+\begin{theorem}[Homology cycle carrier append components]
+\label{thm:homology-cycle-carrier-append-components}
+Assume the differential respects BEDC continuation append:
+$$
+\hsame(d(\mathsf{append}(u,v)),\mathsf{append}(d(u),d(v))).
+$$
+Then an appended history is a cycle exactly when both appended components are
+cycles:
+$$
+Z_d(\mathsf{append}(h,k))
+\quad\Longleftrightarrow\quad
+Z_d(h)\wedge Z_d(k).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports $d(\mathsf{append}(h,k))$ to
+$\mathsf{append}(d(h),d(k))$. If this endpoint is empty, BEDC append-empty
+inversion gives $d(h)\hsame\mathsf{Empty}$ and
+$d(k)\hsame\mathsf{Empty}$. The reverse direction is the homology cycle
+append-closure theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyCycleCarrier\_append\_components\_iff}
+
 \begin{theorem}[Homology boundary carrier append closure]
 \label{thm:homology-boundary-carrier-append-closed}
 Assume the differential respects BEDC continuation append:
@@ -113,6 +136,27 @@ comparisons identify $\mathsf{append}(h,k)$ with this value, and the final
 $\hsame$ comparison transports the image witness to $r$.
 \end{proof}
 \leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_append\_hsame\_transport}
+
+\begin{theorem}[Homology boundary carrier continuation preimage]
+\label{thm:homology-boundary-carrier-cont-preimage}
+Assume the differential respects BEDC continuation append. If $B_d(h)$,
+$B_d(k)$, and $\Cont(h,k,r)$, then the continuation result has compatible
+boundary preimages:
+$$
+\exists u,v,uv:\mathsf{BHist},\
+\Cont(u,v,uv)\wedge \hsame(r,d(uv))\wedge
+\hsame(h,d(u))\wedge \hsame(k,d(v)).
+$$
+\end{theorem}
+\begin{proof}
+Choose boundary witnesses $u$ and $v$ for $h$ and $k$. Set
+$uv=\mathsf{append}(u,v)$, giving $\Cont(u,v,uv)$ by the BEDC continuation
+constructor. The input continuation reads $r$ as
+$\mathsf{append}(h,k)$; the two boundary witnesses identify this with
+$\mathsf{append}(d(u),d(v))$, and the differential append law identifies the
+endpoint with $d(uv)$.
+\end{proof}
+\leanchecked{BEDC.Derived.HomologyUp.HomologyBoundaryCarrier\_cont\_preimage}
 
 \begin{theorem}[Homology boundary carrier continuation preimage append]
 \label{thm:homology-boundary-carrier-cont-preimage-append}

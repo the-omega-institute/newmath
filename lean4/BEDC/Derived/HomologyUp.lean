@@ -123,6 +123,30 @@ theorem HomologyBoundaryCarrier_append_hsame_transport {d : BHist -> BHist}
             (hsame_trans (hsame_symm sameResult)
               (hsame_trans appendWitness (hsame_symm (dAppend u v))))
 
+theorem HomologyBoundaryCarrier_cont_preimage {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k r : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r ->
+      Exists (fun u : BHist => Exists (fun v : BHist => Exists (fun uv : BHist =>
+        Cont u v uv ∧ hsame r (d uv) ∧ hsame h (d u) ∧ hsame k (d v)))) := by
+  intro boundaryH boundaryK continuation
+  cases boundaryH with
+  | intro u witnessH =>
+      cases boundaryK with
+      | intro v witnessK =>
+          have appendWitness : hsame (append h k) (append (d u) (d v)) := by
+            cases witnessH
+            cases witnessK
+            exact hsame_refl (append (d u) (d v))
+          exact Exists.intro u
+            (Exists.intro v
+              (Exists.intro (append u v)
+                (And.intro (cont_intro rfl)
+                  (And.intro
+                    (hsame_trans continuation
+                      (hsame_trans appendWitness (hsame_symm (dAppend u v))))
+                    (And.intro witnessH witnessK)))))
+
 theorem HomologyBoundaryCarrier_cont_preimage_append {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     {h k r : BHist} :
@@ -229,6 +253,20 @@ theorem HomologyCycleCarrier_append_hsame_transport {d : BHist -> BHist}
   intro cycleH cycleK sameResult
   exact hsame_trans (hsame_symm (dCongr sameResult))
     (HomologyCycleCarrier_append_closed dAppend cycleH cycleK)
+
+theorem HomologyCycleCarrier_append_components_iff {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k : BHist} :
+    HomologyCycleCarrier d (append h k) ↔
+      HomologyCycleCarrier d h ∧ HomologyCycleCarrier d k := by
+  constructor
+  · intro cycleAppend
+    have componentEmpty : hsame (append (d h) (d k)) BHist.Empty :=
+      hsame_trans (hsame_symm (dAppend h k)) cycleAppend
+    have endpoints := append_eq_empty_iff.mp componentEmpty
+    exact And.intro endpoints.left endpoints.right
+  · intro cycles
+    exact HomologyCycleCarrier_append_closed dAppend cycles.left cycles.right
 
 theorem HomologyCycleBoundary_append_cycle_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))

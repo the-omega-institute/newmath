@@ -335,6 +335,28 @@ prefix comparison is the empty-tail side of the same append-tail equivalence.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_empty\_iff}
 
+\begin{theorem}[Singleton lattice append tail upper emptiness]
+\label{thm:lattice-singleton-le-append-tail-upper-empty}
+For $h,t:\mathsf{BHist}$, if $A_{\emp}(h)$ and
+$\mathsf{UnaryHistory}(t)$, then the restricted singleton prefix order
+satisfies
+$$
+h\le_{\emp}\mathsf{append}(h,t)
+\quad\Longleftrightarrow\quad
+t\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the upper endpoint carrier from the restricted
+order. Thus $\mathsf{append}(h,t)$ is history-same to $\emp$, and the BEDC
+append-empty inversion forces both endpoints of the append, in particular
+$t$, to be empty. Conversely, if $t\hsame\emp$, the right continuation unit
+identifies $\mathsf{append}(h,t)$ with $h$, so the given singleton carrier
+for $h$ also carries the append endpoint. The prefix witness is the concrete
+append-tail continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_tail\_upper\_empty\_iff}
+
 \begin{theorem}[Singleton lattice meet greatest lower bound empty exactness]
 \label{thm:lattice-singleton-meet-glb-empty-exactness}
 For carried singleton endpoints $h,k,z$, the statement that $z$ is below the

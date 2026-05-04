@@ -326,6 +326,23 @@ the prefix $p$ and suffix $q$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_empty\_precision\_visible\_context\_iff}
 
+\begin{theorem}[Compact visible result excludes empty center]
+\label{thm:compact-net-witness-visible-context-e1-result-empty-center-absurd}
+For histories $p,q,c,t$, a visible-context compact-net witness with empty
+central precision and visible net $\Eone(t)$ cannot have an empty central
+center:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\emp\cdot q,(p\cdot \Eone(t))\cdot q)
+\Longrightarrow \hsame(c,\emp)\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+Empty-precision visible-context exactness reads the central data back as
+$\hsame(\Eone(t),c)$. If $c\hsame\emp$, transitivity identifies $\Eone(t)$
+with $\emp$, contradicting BEDC constructor no-confusion.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_visible\_context\_e1\_result\_empty\_center\_absurd}
+
 \begin{theorem}[Compact net witness composite result determinacy]
 \label{thm:compact-net-witness-composite-result-deterministic}
 For histories $c,\epsilon,\eta,n,n',m,m'$, if $n$ and $n'$ are compact net
