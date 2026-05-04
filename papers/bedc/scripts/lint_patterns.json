@@ -1,0 +1,23 @@
+{
+  "_comment": "Hot-loaded by paper orchestrator (codex_revise.py). Edit this file (saved as .lint_patterns.json without .template) and changes apply on the next dispatched round, no orchestrator restart needed. Each pattern is a Python regex source string (JSON-escaped: each backslash is doubled).",
+
+  "forbidden_vocab": [
+    "新增", "新版", "修订", "修复了上一版本",
+    "增量", "修改记录", "变更记录", "变更原因",
+    "patch", "migration", "frozen", "supersede", "superseded",
+    "deprecated", "legacy", "increment",
+    "rectification", "amendment"
+  ],
+
+  "_forbidden_vocab_note": "ASCII words use \\b...\\b word boundary so 'patch' does NOT match inside 'dispatch'. CJK words pattern-match as-is.",
+
+  "forbidden_version_pattern": "\\bv\\d+\\.\\d+\\.[Xx0-9]+\\b|\\bv\\d+-[A-Za-z0-9_-]+",
+
+  "forbidden_math_patterns": [
+    "\\\\begin\\{equation\\*?\\}",
+    "\\\\begin\\{align\\*?\\}",
+    "\\\\begin\\{eqnarray\\*?\\}"
+  ],
+
+  "_forbidden_math_note": "Only the label-namespace-polluting environments are blocked. Plain \\[ ... \\] display math is allowed — pdflatex compiles it identically to $$ ... $$, and the gate was wasting paper rounds on a style preference."
+}

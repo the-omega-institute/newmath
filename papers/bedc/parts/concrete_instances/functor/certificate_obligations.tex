@@ -157,13 +157,9 @@ For every unary history $p$, the object assignment
 $a\mapsto \mathsf{append}(p,a)$ and morphism assignment $f\mapsto f$ form a
 concrete $\FunctorUp$ certificate on the unary-continuation $\CategoryUp$
 carrier. The carrier field $\mathsf{PrefixFunctorCarrier}(p)$ is supplied by
-\autoref{thm:prefix-functor-carrier-from-unary-prefix}; identity preservation
-is supplied by \autoref{thm:functor-prefix-hom-carrier-identity-closed};
-composition preservation is supplied by
-\autoref{thm:functor-prefix-hom-carrier-comp-preserves}; source-target
-classifier transport is supplied by
-\autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}; and public
-readback is supplied by
+\autoref{thm:prefix-functor-carrier-from-unary-prefix}; this same carrier
+theorem packages the prefix preservation, prefix reflection, and prefixed
+composition fields. Public readback is supplied by
 \autoref{thm:prefix-functor-carrier-comp-public-readback}.
 \end{theorem}
 \begin{proof}
@@ -179,10 +175,8 @@ Use the roadmap ten-field template for the prefix endofunctor target.
   unary-continuation object classifier, and morphisms are compared by the
   displayed hom-carrier classifier. No quotient or external equality is added.
   \item The stability fields are identity preservation, composition
-  preservation, and source-target classifier transport. Apply
-  \autoref{thm:functor-prefix-hom-carrier-identity-closed},
-  \autoref{thm:functor-prefix-hom-carrier-comp-preserves}, and
-  \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, respectively.
+  preservation, and source-target classifier transport. These are the carrier
+  fields packaged by \autoref{thm:prefix-functor-carrier-from-unary-prefix}.
   \item The ledger records that the morphism map is the identity map on
   displayed morphism histories, while the object ledger stores only the fixed
   unary prefix $p$.
@@ -223,12 +217,11 @@ pattern rows are therefore exactly the source, pattern, and classifier
 specifications already listed for $\FunctorUp$.
 
 The stability rows are the checked preservation clauses consumed by the
-concrete certificate: identity preservation from
-\autoref{thm:functor-prefix-hom-carrier-identity-closed}, composition
-preservation from
-\autoref{thm:functor-prefix-hom-carrier-comp-preserves}, $\hsame$ transport
-from \autoref{thm:functor-prefix-hom-carrier-comp-hsame-transport}, and public
-readback from \autoref{thm:prefix-functor-carrier-comp-public-readback}.
+concrete certificate. The prefix carrier theorem
+\autoref{thm:prefix-functor-carrier-from-unary-prefix} packages identity
+preservation, composition preservation, and $\hsame$ transport, while
+\autoref{thm:prefix-functor-carrier-comp-public-readback} supplies the public
+readback clause.
 
 Finally, the ledger row contains no hidden quotient data. It records the unary
 prefix $p$ on objects and records that morphism histories are read through the
@@ -252,9 +245,9 @@ $$
 \end{theorem}
 \begin{proof}
 First transport the displayed hom-carrier for $f$ across the unary prefix.
-Apply \autoref{thm:functor-prefix-hom-carrier-preserves} to the unary witness
-for $p$ and to the carrier from $a$ to $b$. This gives $f$ as a hom-carrier
-from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$.
+Apply \autoref{thm:prefix-functor-carrier-from-unary-prefix} to the unary
+witness for $p$ and to the carrier from $a$ to $b$. This gives $f$ as a
+hom-carrier from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$.
 
 Next apply \autoref{thm:category-hom-carrier-two-sided-identity-law} to this
 prefixed carrier and to the two continuation ledgers
@@ -264,6 +257,7 @@ Project the resulting conjunction. The first two projections are the prefixed
 carrier conclusions for $left$ and $right$; the remaining projections are
 $\HSame(left,f)$, $\HSame(right,f)$, and $\HSame(left,right)$.
 \end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_two\_sided\_identity\_law}
 
 \paragraph{Primitive boundary.}
 \(\FunctorUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.

@@ -96,6 +96,24 @@ computes the displayed distance depth.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_distance\_cont\_depth\_add}
 
+\begin{theorem}[Derivative empty-function quotient step readback]
+\label{thm:derivative-metric-quotient-empty-function-step-readback}
+If $\mathsf{DerivativeMetricQuotient}(\emp,z,h,q,dist)$ holds, then the
+quotient result reads back to the step, the metric ledger is $\Cont(h,q,dist)$,
+and the displayed distance reads back to $\mathsf{append}(h,h)$:
+$$
+q\hsame h\land \Cont(h,q,dist)\land dist\hsame\mathsf{append}(h,h).
+$$
+\end{theorem}
+\begin{proof}
+The function continuation ledger is $\Cont(\emp,h,q)$, so left-unit readback
+gives $q\hsame h$. The metric field is the displayed ledger $\Cont(h,q,dist)$,
+hence $dist\hsame\mathsf{append}(h,q)$. Appending the recovered equality
+$q\hsame h$ under the fixed left context $h$ identifies this with
+$\mathsf{append}(h,h)$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_empty\_function\_step\_readback}
+
 \begin{theorem}[Derivative metric quotient distance result is nonempty]
 \label{thm:derivative-metric-quotient-distance-result-nonempty}
 For histories $f,z,h,q,dist:\mathsf{BHist}$, a derivative metric quotient
@@ -334,6 +352,24 @@ quotient result \(q\) with the displayed derivative \(f'\). A hypothetical
 result non-emptiness from the nonzero step.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_derivative\_nonempty}
+
+\begin{theorem}[Derivative complex-difference empty-function step readback]
+\label{thm:derivative-cplxdiffat-empty-function-step-readback}
+If $\mathsf{CplxDiffAt}(\emp,z,f')$ holds, then some nonzero unary step
+history $h$ is classified as the displayed derivative:
+$$
+\exists h:\mathsf{BHist},
+\mathsf{CplxNonZero}(h)\land \mathsf{UnaryHistory}(h)\land f'\hsame h.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the differentiability witness to obtain a concrete quotient
+$\mathsf{CplxDiffQuot}(\emp,z,h,q)$. Its step-unary readback exposes the
+nonzero and unary fields for $h$ and the ledger $\Cont(\emp,h,q)$. Left-unit
+readback gives $q\hsame h$, while the classifier field identifies $q$ with
+$f'$. Symmetry and transitivity identify $f'$ with $h$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeCplxDiffAt\_empty\_function\_step\_readback}
 
 \section{The certificate}
 \label{sec:derivative-certificate}
