@@ -38,3 +38,42 @@ ledger witness to read back the visible endpoint $v$. The lifted classifier
 and the three positive-denominator witnesses assemble the displayed
 conjunction.
 \end{proof}
+
+\begin{theorem}[Rat ledger visible-target zero-extension exclusion]
+\label{thm:rat-ledger-visible-target-zero-extension-exclusion}
+For histories $\rho,v,w,z,z':\mathsf{BHist}$, if
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryClassifier}(v,w)$ hold, then
+$$
+(\hsame(\rho,\Ezero(z))\to\mathsf{False})\land
+(\hsame(w,\Ezero(z'))\to\mathsf{False}).
+$$
+
+Its ten-field fit is: traditional target $\RatUp$ ledger visible-target
+zero-branch exclusion; BEDC source $\mathsf{RatHistoryLedgerPolicy}$ and
+$\mathsf{RatHistoryClassifier}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability by ledger classifier
+extension and classifier endpoint transport; ledger the raw-visible edge; core
+theorem this block; exactness the two contradictions; downstream consumers
+$\FieldUp$ denominator continuation and $\RealUp$ stream-prefix readback;
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-ledger-visible-target-lift-positive-endpoints} to the ledger
+witness and the visible-target classifier. Its first component gives
+$\mathsf{RatHistoryClassifier}(\rho,w)$, the classifier whose endpoints are the
+raw denominator and the target denominator.
+
+Suppose first that $\hsame(\rho,\Ezero(z))$ holds. Transport the lifted
+classifier along this endpoint equality to obtain
+$\mathsf{RatHistoryClassifier}(\Ezero(z),w)$. The left branch of
+\autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} rules
+out that classifier, giving the first contradiction.
+
+Suppose next that $\hsame(w,\Ezero(z'))$ holds. Transport the same lifted
+classifier along the target endpoint equality to obtain
+$\mathsf{RatHistoryClassifier}(\rho,\Ezero(z'))$. The right branch of
+\autoref{thm:rat-history-classifier-zero-extension-endpoint-exclusion} rules
+out that classifier, giving the second contradiction.
+\end{proof}
