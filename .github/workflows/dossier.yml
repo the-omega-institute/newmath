@@ -10,6 +10,15 @@ on:
       - 'tools/build_dossier_status.py'
       - '.github/workflows/dossier.yml'
       - '.github/workflows/reusable-pdf.yml'
+  pull_request:
+    branches: [feature/dossier, dev, main, auto-dev]
+    paths:
+      - 'docs/dossier/**'
+      - 'papers/bedc/**'
+      - 'lean4/**'
+      - 'tools/build_dossier_status.py'
+      - '.github/workflows/dossier.yml'
+      - '.github/workflows/reusable-pdf.yml'
   workflow_dispatch:
 
 permissions:
