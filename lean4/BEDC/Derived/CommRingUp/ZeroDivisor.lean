@@ -52,6 +52,21 @@ theorem CommRingLeftZeroDivisor_strict_expansion_iff_of_mul_comm
         exact And.intro strictZD.left
           (Exists.intro c (And.intro witness.left witness.right.left))
 
+theorem CommRingLeftZeroDivisor_strict_iff_of_mul_comm {mul : BHist -> BHist -> BHist}
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x)) {x : BHist} :
+    CommRingLeftZeroDivisor mul x ↔
+      ((hsame x BHist.Empty -> False) ∧ ∃ c : BHist,
+        (hsame c BHist.Empty -> False) ∧ hsame (mul x c) BHist.Empty ∧
+          hsame (mul c x) BHist.Empty) := by
+  constructor
+  · intro leftZD
+    exact CommRingLeftZeroDivisor_strict_of_mul_comm mulComm leftZD
+  · intro strictZD
+    cases strictZD.right with
+    | intro c witness =>
+        exact And.intro strictZD.left
+          (Exists.intro c (And.intro witness.left witness.right.left))
+
 theorem CommRingLeftZeroDivisor_product_closed {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))

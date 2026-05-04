@@ -1,0 +1,238 @@
+\begin{theorem}[Real stream transport with endpoint readback]
+\label{thm:real-stream-classifier-transport-with-endpoint-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$, assume
+$\forall n,\ \hsame(y(n),y'(n))$, and assume
+$\mathsf{RealStreamClassifier}(x,y)$. Then the transported streams carry the
+following readback package:
+\begin{enumerate}
+  \item $\mathsf{RealStreamClassifier}(x',y')$;
+  \item for every $n$,
+  $\mathsf{RealStreamPrefixClassifier}(x',y',n)$;
+  \item for every $n$,
+  $\mathsf{RatHistoryClassifier}(x'(n),y'(n))$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First take the forward implication from
+\autoref{thm:real-stream-classifier-hsame-transport} and apply it to the two
+pointwise $\hsame$ hypotheses and the original stream classifier. This gives
+$\mathsf{RealStreamClassifier}(x',y')$.
+
+Next use the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness} on the transported stream
+classifier. The result is
+$\mathsf{RealStreamPrefixClassifier}(x',y',n)$ for every finite prefix index
+$n$.
+
+Finally fix an index $n$ and apply
+\autoref{thm:real-stream-prefix-classifier-endpoint} to the transported prefix
+witness at that index. This recovers the endpoint
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$, completing the three displayed
+fields of the package.
+\end{proof}
+
+\begin{theorem}[Real stream transported selected zero-endpoint exclusion]
+\label{thm:real-stream-classifier-transport-selected-e0-endpoint-absurd}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$ and a
+selected index $n$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),
+$$
+then neither transported selected endpoint can be displayed as a
+zero-extension endpoint:
+$$
+(\hsame(x'(n),\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(y'(n),\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Transport the pointwise rational-history classifier at index $n$ along the
+two streamwise $\hsame$ hypotheses. The transported classifier exposes
+positive unary denominator witnesses at $x'(n)$ and $y'(n)$. If either
+endpoint is displayed as $\Ezero$, transport the corresponding positive
+denominator witness to that zero-extension endpoint and apply the rational
+positive-denominator zero-endpoint contradiction.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real stream classifier hsame one-tail pair readback]
+\label{thm:real-stream-classifier-hsame-e1-pair-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, assume
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$. If
+$\mathsf{RealStreamClassifier}(x,y)$ and the transported endpoints satisfy
+$\hsame(x'(n),\Eone(a))$ and $\hsame(y'(n),\Eone(b))$, then
+$$
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Evaluate the pointwise stream classifier at the selected index $n$. Transport
+the resulting rational-history classifier along the two pointwise $\hsame$
+maps, then transport again to the displayed one-extension endpoints. Rational
+one-tail classifier exactness exposes the two unary tails and their internal
+sameness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_hsame\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream classifier selected continuation positive denominators]
+\label{thm:real-stream-classifier-selected-continuation-positive-denominators}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, and continuation outputs $xq,yq$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then
+$$
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq).
+$$
+\end{theorem}
+\begin{proof}
+At the selected index, the stream classifier gives
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$. Close this rational classifier
+under the common unary suffix $q$, using reflexive suffix sameness. The two
+continuation displays identify the closed endpoints with $xq$ and $yq$.
+Transport the closed classifier across those displays and read the two positive
+denominators from the transported rational-history classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_positive\_denominators}
+
+\begin{theorem}[Real stream classifier selected continuation zero-endpoint exclusion]
+\label{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then neither selected continuation output can be displayed as a zero-headed
+endpoint:
+$$
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+The selected continuation positive-denominator theorem gives positive unary
+denominator witnesses for $xq$ and $yq$. Transport either witness along a
+displayed zero-headed endpoint comparison and apply positive denominator
+zero-endpoint absurdity.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real stream classifier selected continuation endpoint boundary package]
+\label{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and endpoint
+tails $z_x,z_y:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+then the selected continuation endpoints carry the boundary package
+$$
+\begin{array}{l}
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq)\land\\
+\mathsf{UnaryHistory}(xq)\land
+\mathsf{UnaryHistory}(yq)\land\\
+(\hsame(xq,\emp)\to\mathsf{False})\land
+(\hsame(yq,\emp)\to\mathsf{False})\land\\
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-positive-denominators}
+to the selected stream classifier, the shared unary suffix, and the two
+continuation displays. This gives positive unary denominator witnesses for
+$xq$ and $yq$.
+
+Apply \autoref{thm:positive-unary-denominator-unary-and-nonempty} separately to
+the two denominator witnesses. These two applications give
+$\mathsf{UnaryHistory}(xq)$, $\mathsf{UnaryHistory}(yq)$, and the two
+empty-endpoint exclusions.
+
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-e0-endpoint-absurd}
+to the same selected continuation data. This gives the two zero-headed endpoint
+exclusions. Package the denominator, unary, empty-endpoint, and zero-endpoint
+rows in the displayed order.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_endpoint\_boundary\_package}
+
+\begin{theorem}[Real stream classifier selected continuation full shape package]
+\label{thm:real-stream-classifier-selected-continuation-full-shape-package}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a selected index
+$n$, a shared unary suffix $q$, continuation outputs $xq,yq$, and histories
+$a,b,z_x,z_y:\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),\quad
+\mathsf{UnaryHistory}(q),\quad
+\mathsf{Cont}(x(n),q,xq),\quad
+\mathsf{Cont}(y(n),q,yq),
+$$
+and
+$$
+\hsame(xq,\Eone(a)),\quad \hsame(yq,\Eone(b)),
+$$
+then the selected continuation endpoints carry the full displayed shape package:
+$$
+\begin{array}{l}
+\mathsf{UnaryHistory}(a)\land
+\mathsf{UnaryHistory}(b)\land
+\hsame(a,b)\land\\
+\mathsf{PositiveUnaryDenominator}(xq)\land
+\mathsf{PositiveUnaryDenominator}(yq)\land
+\mathsf{UnaryHistory}(xq)\land
+\mathsf{UnaryHistory}(yq)\land\\
+(\hsame(xq,\emp)\to\mathsf{False})\land
+(\hsame(yq,\emp)\to\mathsf{False})\land\\
+(\hsame(xq,\Ezero(z_x))\to\mathsf{False})\land
+(\hsame(yq,\Ezero(z_y))\to\mathsf{False}).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-e1-pair-readback}
+to the RealUp stream classifier, the shared unary suffix, the two continuation
+outputs, and the two displayed e-one tails. This reads back
+$\mathsf{UnaryHistory}(a)$, $\mathsf{UnaryHistory}(b)$, and $\hsame(a,b)$.
+
+Apply
+\autoref{thm:real-stream-classifier-selected-continuation-endpoint-boundary-package}
+to the same selected continuation data. This supplies both positive denominator
+rows, both unary endpoint rows, both empty-endpoint exclusions, and both
+zero-headed endpoint exclusions.
+
+Package the e-one tail readback, the positive denominator witnesses, the unary
+endpoint rows, the empty-endpoint exclusions, and the zero-endpoint exclusions.
+The result is exactly the displayed full shape package.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_continuation\_full\_shape\_package}
+
+Fit: traditional target selected continuation endpoint shape for RealUp streams;
+BEDC source RealUp stream classifier plus RatUp denominator readback plus
+$\mathsf{Cont}$; carrier rational-observation streams with a selected
+continuation; classifier $\mathsf{RealStreamClassifier}$ and
+RatHistoryClassifier-derived denominator data; stability selected continuation
+closure and $\hsame$ readback; ledger selected index, shared suffix,
+continuation outputs, and endpoint display tests; core theorem
+\autoref{thm:real-stream-classifier-selected-continuation-full-shape-package};
+exactness the displayed conjunction; standard bridge finite selected rational
+endpoint shape inside RealUp; status $\mathsf{ProofTarget}$.
