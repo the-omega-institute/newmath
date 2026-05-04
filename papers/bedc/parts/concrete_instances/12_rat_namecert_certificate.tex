@@ -201,6 +201,37 @@ carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_endpoints\_not\_empty}
 
+\begin{theorem}[Rat history classifier zero-extension endpoint exclusion]
+\label{thm:rat-history-classifier-zero-extension-endpoint-exclusion}
+For histories $t,d:\mathsf{BHist}$, zero-extension cannot appear as either
+endpoint of the rational history classifier:
+$$
+(\mathsf{RatHistoryClassifier}(\Ezero(t),d)\to\mathsf{False})\land
+(\mathsf{RatHistoryClassifier}(d,\Ezero(t))\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis. Its first positive-denominator witness belongs to $\Ezero(t)$, so
+\autoref{thm:rat-positive-denominator-e0-absurd} gives the contradiction.
+
+For the right endpoint, apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the classifier
+hypothesis again. Its second positive-denominator witness belongs to
+$\Ezero(t)$, and
+\autoref{thm:rat-positive-denominator-e0-absurd} rules out that endpoint.
+\end{proof}
+
+The ten-field fit is: traditional target rational-denominator branch
+exclusion; BEDC source $\mathsf{BHist}$ and
+$\mathsf{RatHistoryClassifier}$; carrier $\mathsf{RatHistoryCarrier}$;
+classifier $\mathsf{RatHistoryClassifier}$; stability from
+positive-denominator readback; ledger the rejected zero head; core theorem
+this block; exactness the two displayed contradictions; standard bridge
+positive denominators are never zero-headed unary histories; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[Rat history classifier transitivity]
 \label{thm:rat-history-classifier-trans}
 If denominator histories $d$ and $e$ are related by the rational history
@@ -489,6 +520,39 @@ two contextual ledger witnesses. Its conclusion is exactly the displayed
 classifier between the two contextual visible denominator endpoints.
 \end{proof}
 
+\begin{theorem}[Rat ledger shared-raw contextual visible endpoint equivalence]
+\label{thm:rat-history-ledger-shared-raw-context-visible-endpoint-equivalence}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes $p,p_v,p_{v'}$
+satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, and unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, then every
+target history $w$ sees the same classifier fiber over the two contextual
+visible denominator endpoints:
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),w)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),w).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} to the
+two ledger witnesses and the matching unary prefix and tail hypotheses. This
+gives the classifier edge from
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$ to
+$\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'}))$.
+
+For the forward direction, assume the left contextual visible endpoint is
+classified with $w$. Reverse the contextual endpoint edge by rational classifier
+symmetry, then compose it with the left-endpoint-to-$w$ classifier by
+transitivity. The result is the right-endpoint-to-$w$ classifier.
+
+For the reverse direction, assume the right contextual visible endpoint is
+classified with $w$. Compose the contextual endpoint edge itself with the
+right-endpoint-to-$w$ classifier by transitivity. The result is the
+left-endpoint-to-$w$ classifier.
+\end{proof}
+
 \begin{theorem}[Rat ledger shared-raw context one-tail readback]
 \label{thm:rat-history-ledger-shared-raw-context-e1-pair-readback}
 If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
@@ -554,6 +618,44 @@ The ledger supplies the raw-visible rational classifier. For the raw-to-visible
 direction, reverse that classifier by symmetry and compose it with the
 raw-target classifier by transitivity. The visible-to-raw direction is the
 ledger classifier extension theorem.
+\end{proof}
+
+\begin{theorem}[Rat history ledger displayed context classifier endpoint equivalence]
+\label{thm:rat-history-ledger-cont-unary-context-classifier-endpoint-equivalence}
+If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds, unary prefixes
+$p_\rho,p_v$ satisfy $\hsame(p_\rho,p_v)$, unary tails $t_\rho,t_v$ satisfy
+$\hsame(t_\rho,t_v)$, and the displayed continuation witnesses
+$\mathsf{Cont}(p_\rho,\rho,m_\rho)$,
+$\mathsf{Cont}(m_\rho,t_\rho,out_\rho)$,
+$\mathsf{Cont}(p_v,v,m_v)$, and
+$\mathsf{Cont}(m_v,t_v,out_v)$ expose the two contextual endpoints, then
+every target history $w$ is classified from the displayed raw endpoint exactly
+when it is classified from the displayed visible endpoint:
+$$
+\mathsf{RatHistoryClassifier}(out_\rho,w)\leftrightarrow
+\mathsf{RatHistoryClassifier}(out_v,w).
+$$
+\end{theorem}
+\begin{proof}
+First close the ledger under the matching unary denominator context. Apply
+\autoref{thm:rat-ledger-unary-denominator-context-closed} to the original
+ledger, the prefix match, and the tail match. This gives a ledger between
+$\mathsf{append}(p_\rho,\mathsf{append}(\rho,t_\rho))$ and
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$.
+
+The four continuation witnesses identify the displayed endpoints with those
+normalized append endpoints. Associativity of $\mathsf{append}$ turns the
+two-step displays through $m_\rho$ and $m_v$ into $\hsame$ links from
+$out_\rho$ and $out_v$ to the corresponding normalized contextual histories.
+
+Transport the contextual ledger across these two endpoint identifications by
+\autoref{thm:rat-ledger-hsame-transport}. The transported ledger now relates
+$out_\rho$ and $out_v$ directly.
+
+Finally apply
+\autoref{thm:rat-history-ledger-classifier-endpoint-equivalence} to the
+transported ledger. Its conclusion is the displayed classifier endpoint
+equivalence for every target history $w$.
 \end{proof}
 
 \begin{definition}[\(\RatUp\) certificate obligations]

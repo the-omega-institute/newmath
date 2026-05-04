@@ -199,7 +199,7 @@ import BEDC.Derived.GroupUp.CancellationIff
 import BEDC.Derived.GroupUp.SingletonContext
 import BEDC.Derived.GroupUp.SingletonContinuation
 import BEDC.Derived.GroupUp.SingletonAppendSuffixCancel
-import BEDC.Derived.GroupUp.SingletonEquationSolver
+import BEDC.Derived.GroupUp.SingletonEquationExact
 import BEDC.Derived.GroupUp.SingletonNormalizer
 import BEDC.Derived.GroupUp.ContextualContinuationProductUnit
 import BEDC.Derived.GroupUp.SuffixProductUnitSplit
