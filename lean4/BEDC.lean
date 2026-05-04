@@ -566,6 +566,7 @@ import BEDC.Derived.CategoryUp.EndpointVisible
 import BEDC.Derived.CategoryUp.RightUnaryTailPublicReadback
 import BEDC.Derived.CategoryUp.TailCommCongr
 import BEDC.Derived.CategoryUp.RightE1TailTargetCases
+import BEDC.Derived.CategoryUp.ContinuationTailShape
 import BEDC.Derived.CategoryUp.CompTargetEmptyIff
 import BEDC.Derived.CategoryUp.CompSourceEmptyTailTargetIff
 import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
