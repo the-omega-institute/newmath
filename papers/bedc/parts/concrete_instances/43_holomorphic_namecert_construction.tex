@@ -394,6 +394,23 @@ Induct on the iteration index. At zero, compose the seed comparison, the display
 \end{proof}
 \leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_hsame\_transport\_unary\_readback}
 
+\begin{theorem}[Iterated complex differentiability is closed under additive concatenation]
+\label{thm:iterated-cplx-diff-add-closed-unary-readback}
+If an iterated complex-differentiability chain carries a seed to a middle
+history in \(n\) stages, and a second chain carries that middle history to a
+target history in \(m\) stages, then their concatenation carries the seed to
+the target in \(n+m\) stages. Unary readback from the seed still proves the
+target history unary.
+\end{theorem}
+\begin{proof}
+Induct on \(m\). At \(m=0\), the second chain is exactly an \(\hsame\) endpoint,
+so transport the first chain to the target and reuse unary readback. At a
+successor stage, apply the induction hypothesis to the predecessor endpoint,
+append the displayed unary continuation step, and close the target by unary
+continuation closure.
+\end{proof}
+\leanchecked{BEDC.Derived.HolomorphicUp.IteratedCplxDiff\_add\_closed\_unary\_readback}
+
 \begin{theorem}[Strict iterated complex differentiability preserves unary seed histories]
 \label{thm:iterated-strict-cplxdiff-unary-of-seed}
 If a strict iterated complex-differentiability chain starts from a unary seed

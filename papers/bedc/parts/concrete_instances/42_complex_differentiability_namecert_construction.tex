@@ -310,6 +310,23 @@ identifies the displayed quotient result with the derivative candidate.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
 
+\begin{theorem}[Pointwise differentiability rejects visible step branches]
+\label{thm:cplx-diff-at-visible-step-branches-absurd}
+If $\mathsf{CplxDiffAt}(f,z,f')$ holds, then two quotient witnesses at the
+visible steps $\Ezero(p)$ and $\Eone(q)$ cannot both be present. More
+precisely, $\mathsf{CplxDiffQuot}(f,z,\Ezero(p),out_0)$ and
+$\mathsf{CplxDiffQuot}(f,z,\Eone(q),out_1)$ together imply contradiction.
+\end{theorem}
+\begin{proof}
+The classifier field of $\mathsf{CplxDiffAt}$ identifies both quotient results
+with the same derivative candidate. Transport the $\Eone$-step quotient along
+this result equality so that both quotients have the same visible result. The
+checked visible-step same-result separation theorem for complex difference
+quotients then contradicts constructor separation between $\Ezero$ and
+$\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_visible\_step\_branches\_absurd}
+
 \begin{lemma}[Uniqueness of the derivative]
 \label{lem:cplx-diff-at-unique}
 If \(\mathsf{CplxDiffAt}(f, z, f')\) and \(\mathsf{CplxDiffAt}(f, z, g')\), then \(\hsame(f', g')\).
