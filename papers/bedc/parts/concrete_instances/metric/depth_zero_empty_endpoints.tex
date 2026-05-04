@@ -225,6 +225,28 @@ the desired $\ContR(l,r,out)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice}
 
+\begin{theorem}[Metric empty-boundary continuation splice determinacy]
+\label{thm:metric-empty-boundary-visible-context-continuation-splice-hsame}
+For histories $p,q,d,l,r,mid,out,out'$, an empty-boundary visible-context
+distance witness makes the spliced continuation result match any displayed
+direct continuation result:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\to
+\ContR(l,d,mid)\to
+\ContR(mid,r,out)\to
+\ContR(l,r,out')\to
+\hsame(out,out').
+$$
+\end{theorem}
+\begin{proof}
+The continuation-splice theorem supplies \(\ContR(l,r,out)\) from the
+empty-boundary visible-context witness and the two displayed continuation
+rows. BEDC continuation determinacy compares this spliced continuation with
+the displayed \(\ContR(l,r,out')\), giving \(\hsame(out,out')\).
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_continuation\_splice\_hsame}
+
 \begin{theorem}[Metric visible-context positive central depth has a nonempty endpoint]
 \label{thm:metric-distance-witness-visible-context-positive-depth-nonempty-endpoint}
 For histories $p,q,x,y,d$, a visible-context distance witness whose central
