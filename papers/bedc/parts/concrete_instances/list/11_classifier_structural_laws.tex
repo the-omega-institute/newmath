@@ -1,0 +1,435 @@
+\begin{definition}[List classifier specification]
+\label{def:list-classifier-specification}
+The finite-spine helper classifier relates nil with nil and cons with cons when heads are source-classified the same and tails are list-classified the same.
+\end{definition}
+\leandef{BEDC.Derived.ListUp.ListClassifierSpec}
+
+\begin{theorem}[List classifier case exactness]
+\label{thm:list-classifier-case-exactness}
+For any source relation $\mathsf{sameA}$ on $A$ and any finite spines $xs,ys : \mathsf{ListCarrier}(A)$, $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs,ys)$ holds exactly in the matching constructor cases: both spines are $\mathsf{nil}$, or both spines are $\mathsf{cons}$ spines with a source-head witness $\mathsf{sameA}(a,b)$ and a recursive tail witness $\mathsf{ListClassifierSpec}(\mathsf{sameA},xs',ys')$. It is false for the mixed shapes $\mathsf{nil}$ against $\mathsf{cons}(b,ys')$ and $\mathsf{cons}(a,xs')$ against $\mathsf{nil}$.
+\end{theorem}
+\begin{proof}
+Case-analyze the two finite-spine constructors. In the nil-nil case the classifier is the nil clause. In the cons-cons case the classifier unfolds to its head source witness together with the recursive tail classifier witness, and conversely those two witnesses rebuild the cons classifier clause. The nil-cons and cons-nil cases have no classifier clause, so any assumed witness is eliminated by constructor case analysis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_case\_exactness}
+
+\begin{lemma}[List classifier nil-cons no-confusion]
+\label{lem:list-classifier-nil-cons-no-confusion}
+For any source classifier on $A$, $\mathsf{ListClassifierSpec}$ never relates
+$\mathsf{nil}$ to $\mathsf{cons}(a,xs)$, and never relates
+$\mathsf{cons}(a,xs)$ to $\mathsf{nil}$.
+\end{lemma}
+\begin{proof}
+Unfold the structural classifier by list constructors. The only nil clause is
+the nil-nil clause, and the only cons clause is the cons-cons clause. The two
+mixed constructor shapes therefore have no classifier constructor, so both
+directions are discharged directly by case analysis on the impossible witness.
+\end{proof}
+
+\begin{theorem}[List classifier is transitive]
+\label{thm:list-classifier-transitivity}
+For any source type $A$, relation $R:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys,zs:\mathsf{ListCarrier}(A)$, if
+$\forall a\,b\,c.\;R(a,b)\to R(b,c)\to R(a,c)$,
+$\mathsf{ListClassifierSpec}(R,xs,ys)$, and
+$\mathsf{ListClassifierSpec}(R,ys,zs)$ hold, then
+$\mathsf{ListClassifierSpec}(R,xs,zs)$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the first finite spine. Shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, the head witnesses compose by source transitivity and the tail witnesses compose by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_trans}
+
+\begin{theorem}[History list classifier is transitive]
+\label{thm:list-classifier-hsame-trans}
+For lists of finite-kernel histories, if the structural list classifier relates \(x\) to \(y\) and \(y\) to \(z\) using \(\hsame\) on heads, then it relates \(x\) to \(z\).
+\end{theorem}
+\begin{proof}
+Induct on the first list. The nil and cons shape mismatches are impossible by the classifier clauses. In the cons-cons-cons case, head witnesses compose by transitivity of \(\hsame\), and the tail witnesses compose by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_trans}
+
+\begin{theorem}[History list classifier is symmetric]
+\label{thm:list-classifier-hsame-symm}
+For lists of finite-kernel histories, if the structural list classifier relates \(x\) to \(y\) using \(\hsame\) on heads, then it relates \(y\) to \(x\).
+\end{theorem}
+\begin{proof}
+Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons case, head witnesses reverse by symmetry of \(\hsame\), and tail witnesses reverse by the induction hypothesis.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_symm}
+
+\begin{theorem}[History list classifier cons inversion]
+\label{thm:list-classifier-hsame-cons-inversion}
+For BEDC histories $x,y$ and history-list tails $xs,ys$, if
+$\mathsf{ListClassifierSpec}(\hsame,x::xs,y::ys)$ holds, then $\hsame(x,y)$
+and $\mathsf{ListClassifierSpec}(\hsame,xs,ys)$ hold.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_inversion}
+\begin{proof}
+Unfold the cons-cons classifier clause and read off its source-head and
+recursive-tail components.
+\end{proof}
+
+\begin{theorem}[History list classifier singleton equivalence]
+\label{thm:list-classifier-hsame-singleton-iff}
+For BEDC history singleton lists, structural classification by \(\hsame\) is
+equivalent to \(\hsame\) of the two displayed histories.
+\end{theorem}
+\begin{proof}
+Unfold the singleton cons-cons classifier shape. The forward direction keeps
+the head \(\hsame\) witness; the reverse direction pairs that head witness with
+the nil-tail classifier clause.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_singleton\_iff}
+
+\begin{theorem}[History list classifier head transport]
+\label{thm:list-classifier-hsame-cons-head-transport}
+For BEDC history lists, if \(y\) is internally the same history as \(z\) and
+the structural classifier relates \(x::xs\) to \(y::ys\), then the structural
+classifier also relates \(x::xs\) to \(z::ys\).
+\end{theorem}
+\begin{proof}
+Eliminate the cons-cons classifier witness. Compose its head witness
+\(\hsame(x,y)\) with the replacement witness \(\hsame(y,z)\), and keep the
+tail classifier witness unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_cons\_head\_transport}
+
+\begin{theorem}[List classifier stability under certified entry descent]
+\label{thm:list-classifier-certified-entry-descent}
+Let $R,T:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be BEDC history
+classifiers, and let
+$\mathsf{cert}:\mathsf{DescentCertificate}(\mathsf{BHist},\mathsf{BHist},R,T)$.
+If
+$\mathsf{ListClassifierSpec}(R,xs,ys)$ holds, then
+$\mathsf{ListClassifierSpec}(T,\mathsf{map}(\mathsf{cert.map},xs),\mathsf{map}(\mathsf{cert.map},ys))$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the finite list-classifier witness. The nil witness maps to the nil
+classifier clause. In the cons-cons case, apply
+$\mathsf{descentCertificate\_respects}$ to the head witness for
+$\mathsf{cert.map}$ and use the induction hypothesis on the tail witness, then
+rebuild the cons-cons $\mathsf{ListClassifierSpec}$ clause for the mapped lists.
+\end{proof}
+
+\begin{theorem}[History list classifier is stable under $e0$-mapping]
+\label{thm:list-classifier-hsame-map-e0}
+For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e0$ history constructor.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the classifier clauses. In the cons-cons case, apply $e0$-congruence of $\hsame$ to the heads and apply the induction hypothesis to the classified tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0}
+
+\begin{theorem}[History list classifier reflects $e0$-mapping]
+\label{thm:list-classifier-hsame-map-e0-inversion}
+For BEDC history lists, if the lists obtained by mapping every entry through
+the $e0$ history constructor are structurally classified by $\hsame$, then the
+original lists are structurally classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the
+classifier clauses. In the cons-cons case, invert the mapped head witness using
+the $e0$ constructor characterization for $\hsame$, then apply the induction
+hypothesis to the mapped-tail classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_inversion}
+
+\begin{theorem}[History list classifier is stable under $e1$-mapping]
+\label{thm:list-classifier-hsame-map-e1}
+For BEDC history lists, structural classification by $\hsame$ is preserved when every entry of both lists is mapped through the $e1$ history constructor.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the classifier clauses. In the cons-cons case, apply $e1$-congruence of $\hsame$ to the heads and apply the induction hypothesis to the classified tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1}
+
+\begin{theorem}[History list classifier reflects $e1$-mapping]
+\label{thm:list-classifier-hsame-map-e1-inversion}
+For BEDC history lists, if the lists obtained by mapping every entry through
+the $e1$ history constructor are structurally classified by $\hsame$, then the
+original lists are structurally classified by $\hsame$.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil and cons shape mismatches are impossible by the
+classifier clauses. In the cons-cons case, invert the mapped head witness using
+the $e1$ constructor characterization for $\hsame$, then apply the induction
+hypothesis to the mapped-tail classifier witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_inversion}
+
+\begin{theorem}[History list classifier constructor-map embeddings]
+\label{thm:list-classifier-constructor-map-embeddings}
+For BEDC history lists $xs$ and $ys$, structural classification by $\hsame$ is
+equivalent to structural classification after mapping both lists through the
+$e0$ history constructor, and likewise equivalent to structural classification
+after mapping both lists through the $e1$ history constructor.
+\end{theorem}
+\begin{proof}
+For the $e0$ equivalence, the forward implication is exactly the checked
+preservation theorem for $e0$-mapping, and the reverse implication is exactly
+the checked $e0$-mapping inversion theorem. The $e1$ equivalence is obtained in
+the same way from the checked preservation theorem for $e1$-mapping and the
+checked $e1$-mapping inversion theorem. Thus each BEDC history constructor
+preserves and reflects the list classifier, giving a classifier embedding in
+both constructor-map cases.
+\end{proof}
+
+\begin{theorem}[History list classifier separates mixed mapped tags]
+\label{thm:list-classifier-mixed-tag-empty}
+For BEDC history lists, if the list obtained by mapping every entry of \(x\)
+through \(e0\) is structurally classified by \(\hsame\) with the list obtained
+by mapping every entry of \(y\) through \(e1\), then \(x\) and \(y\) are both
+empty.
+\end{theorem}
+\begin{proof}
+Split both lists by constructors. The nil-nil case is immediate. Nil-cons and
+cons-nil cases contradict the structural classifier clauses. In the cons-cons
+case, the head witness would relate an \(e0\)-tagged history to an \(e1\)-tagged
+history, contradicting BEDC history constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e0\_map\_e1\_empty}
+
+\begin{theorem}[History list classifier preserves length]
+\label{thm:list-classifier-hsame-length-eq}
+For lists of finite-kernel histories, structural classification by \(\hsame\) can only relate lists with equal length.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Nil can only classify with nil. In the cons case, classifier inversion forces the second list to be cons, and the induction hypothesis gives equality of the tail lengths.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_length\_eq}
+
+\begin{theorem}[List classifier preserves length]
+\label{thm:list-classifier-length-eq}
+For finite-spine presentation witnesses only, write $\ell(xs)$ for their meta-level finite length; this notation is neither a $\NatUp$ operation nor a certificate field. For any source type $A$, any source relation $sameA:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, if
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$ holds, then
+$$
+\ell(xs)=\ell(ys).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the first list spine. The nil case can classify only against nil by the mixed-shape clauses of $\mathsf{ListClassifierSpec}$. In the cons case, the classifier can classify only against a cons spine; its tail witness is again a $\mathsf{ListClassifierSpec}$ witness for entries related by $sameA$. The induction hypothesis gives equality of tail lengths, and the two cons lengths are equal.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_length\_eq}
+
+\begin{definition}[Finite-spine helper stability certificate]
+\label{def:list-stability-certificate}
+The checked finite-spine fields recorded in this chapter are the marked $\mathsf{ListClassifierSpec}$ facts:
+reflexivity, symmetry, source-certificate transitivity, nil/cons separation with cons inversion,
+constructor-map preservation/reflection with mixed-tag separation, append stability,
+checked $\hsame$ left and right cancellation, reverse stability with reverse inversion, and checked $\hsame$ length preservation.
+Reverse equivalence, source-parametric left, right, and context cancellation,
+source-certificate symmetry, source-certificate carrier transport, and source-parametric length preservation are paper-side composite targets built from these checked fields.
+The public generated-history $\ListUp$ certificate is obtained only through $\mathsf{ListSpineRep}$,
+$\mathsf{ListSpineBridgeClassifier}$, $\mathsf{ListSpineRepCoherent}$, and Theorem~\ref{thm:concrete-list-namecert}.
+\end{definition}
+
+\begin{theorem}[List classifier reflexivity]
+\label{thm:list-classifier-reflexivity}
+If the source classifier is reflexive on $A$, then $\mathsf{ListClassifierSpec}$ is reflexive on finite list spines over $A$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.list\_stability\_reflexive\_by\_induction}
+\begin{proof}
+Induct on the finite list spine. The nil spine is classified by the nil clause. In the cons spine, source reflexivity classifies the head and the induction hypothesis classifies the tail.
+\end{proof}
+
+\begin{theorem}[List classifier stability under append]
+\label{thm:list-classifier-append-source-relation}
+For any source entry type $A$, source classifier $sameA:A\to A\to\mathsf{Prop}$,
+and finite list spines $xs$, $ys$, $zs$, and $ws$, if
+$\mathsf{ListClassifierSpec}(sameA,xs,ys)$ and
+$\mathsf{ListClassifierSpec}(sameA,zs,ws)$ hold, then
+$\mathsf{ListClassifierSpec}(sameA,xs{++}zs,ys{++}ws)$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the first classifier witness. The nil clause returns the second
+classifier witness. In the cons clause, keep the head classifier witness and
+apply the induction hypothesis to the tail classifier witness and the second
+classifier witness, then rebuild the cons classifier clause.
+\end{proof}
+
+\begin{theorem}[List classifier stability under append for histories]
+\label{thm:list-classifier-append-hsame}
+For BEDC histories, if two list pairs are structurally classified by \(\HSame\),
+then appending the first components and appending the second components
+preserves structural classification.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_hsame}
+
+\begin{proof}
+This is the BEDC-history specialization of
+Theorem~\ref{thm:list-classifier-append-source-relation}, with the source
+entry type specialized to $\mathsf{BHist}$ and $sameA$ specialized to
+$\HSame$. The empty and cons clauses are exactly the two clauses of the
+source-parametric append proof.
+\end{proof}
+
+\begin{theorem}[History list classifier left append cancellation]
+\label{thm:list-classifier-hsame-append-left-cancel}
+For BEDC history lists, structural classification of \(p{++}x\) with
+\(p{++}y\) using \(\hsame\) on heads determines structural classification of
+\(x\) with \(y\).
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_left\_cancel}
+
+\begin{proof}
+Induct on the common prefix \(p\). The empty-prefix case is the given
+classification. In the cons-prefix case, invert the structural classifier and
+apply the induction hypothesis to the classified tails.
+\end{proof}
+
+\begin{theorem}[Classified list prefix cancellation]
+\label{thm:list-classifier-hsame-append-left-cancel-classified}
+For BEDC history lists, if \(p\) and \(p'\) are structurally classified by
+\(\hsame\), and \(p{++}x\) is structurally classified with \(p'{++}y\), then
+\(x\) is structurally classified with \(y\).
+\end{theorem}
+\begin{proof}
+Induct on \(p\). The empty case forces \(p'\) to be empty by the prefix
+classifier, leaving the appended classifier. In the cons case, the prefix
+classifier and appended classifier both expose matching classified tails, and
+the induction hypothesis applies to those tails.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_left\_cancel\_classified}
+
+\begin{theorem}[List classifier stability under reverse]
+\label{thm:list-classifier-reverse-hsame}
+For BEDC history lists, structural classification by $\HSame$ is preserved when both lists are reversed.
+\end{theorem}
+\begin{proof}
+Induct on the first list. Shape mismatches are impossible by the classifier clauses. In the cons-cons case, reverse turns each list into the reversed tail followed by a singleton head; the induction hypothesis handles the tails and append stability combines it with the head witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame}
+
+\begin{theorem}[Source-parametric list classifier stability under reverse]
+\label{thm:list-classifier-reverse-source-relation}
+For any source type $A$, source relation $\sim_A:A\to A\to\mathsf{Prop}$, and finite spines $xs,ys:\mathsf{ListCarrier}(A)$, $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ implies $\mathsf{ListClassifierSpec}(\sim_A,\mathsf{reverse}(xs),\mathsf{reverse}(ys))$.
+\end{theorem}
+\begin{proof}
+Induct on the first spine and case-analyze the second. Mixed shapes are impossible by the classifier clauses. In the cons-cons case, reverse writes both spines as reversed tails followed by singleton heads; the induction hypothesis classifies the reversed tails, and append stability combines that tail witness with the singleton head classifier witness.
+\end{proof}
+
+\begin{theorem}[List classifier reverse inversion]
+\label{thm:list-classifier-reverse-hsame-inversion}
+For BEDC history lists, if the reversed lists are structurally classified by
+\(\HSame\), then the original lists are structurally classified by \(\HSame\).
+\end{theorem}
+\begin{proof}
+Apply reverse stability to the classified reversed lists, obtaining a
+classifier on $\mathsf{reverse}(\mathsf{reverse}(xs))$ and
+$\mathsf{reverse}(\mathsf{reverse}(ys))$. For each finite spine, prove the
+reverse-reverse identity by induction, using append associativity and
+append-nil at the cons step. Rewrite both endpoints along those two identities
+to recover $\mathsf{ListClassifierSpec}(\hsame,xs,ys)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_hsame\_inversion}
+
+\begin{theorem}[List classifier reverse equivalence]
+\label{thm:list-classifier-reverse-hsame-equiv}
+For BEDC history lists $xs$ and $ys$, structural classification by $\HSame$ is equivalent before and after reversing both lists:
+$$
+  \mathsf{ListClassifierSpec}(\hsame,xs,ys)
+  \Longleftrightarrow
+  \mathsf{ListClassifierSpec}(\hsame,\mathsf{reverse}(xs),\mathsf{reverse}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is the reverse-stability theorem. The reverse direction is the reverse-inversion theorem applied to the classified reversed lists.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_reverse\_iff}
+
+\begin{theorem}[List classifier append right cancellation]
+\label{thm:list-classifier-append-right-cancel-hsame}
+For BEDC history lists, if adding the same right suffix to two lists gives a
+structural \(\HSame\)-classification, then the original lists are structurally
+classified.
+\end{theorem}
+\begin{proof}
+Reverse the classified append witnesses. The common right suffix becomes a
+common left prefix, so left-append cancellation removes it. Reversing the
+remaining classifier witness returns the original list order.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_hsame}
+
+\begin{theorem}[List classifier right cancellation with equivalent suffixes]
+\label{thm:list-classifier-append-right-cancel-with-hsame-suffix}
+For BEDC history lists, if two right suffixes are structurally classified by
+\(\HSame\), and appending those suffixes to \(x\) and \(y\) gives a structural
+\(\HSame\)-classification, then \(x\) and \(y\) are structurally classified.
+\end{theorem}
+\begin{proof}
+Use symmetry on the suffix classifier and append stability with reflexivity on
+the left list \(y\) to classify \(y{++}\mathit{suffix}'\) with
+\(y{++}\mathit{suffix}\). Transitivity aligns the appended classification to a
+common right suffix, and ordinary right-append cancellation removes it.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_append\_right\_cancel\_with\_hsame\_suffix}
+
+\begin{theorem}[List classifier two-sided cancellation with classified boundaries]
+\label{thm:list-classifier-append-two-sided-cancel-classified}
+For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, if
+$$
+  \mathsf{ListClassifierSpec}(\hsame,p,p'),
+  \quad
+  \mathsf{ListClassifierSpec}(\hsame,s,s'),
+  \quad
+  \mathsf{ListClassifierSpec}(\hsame,p{++}x{++}s,p'{++}y{++}s')
+$$
+hold, then $\mathsf{ListClassifierSpec}(\hsame,x,y)$ holds.
+\end{theorem}
+\begin{proof}
+Reassociate both appended histories as $(p{++}x){++}s$ and
+$(p'{++}y){++}s'$. Apply right cancellation with the classified suffixes to
+obtain $\mathsf{ListClassifierSpec}(\hsame,p{++}x,p'{++}y)$. Then apply
+classified left cancellation with the classified prefixes $p$ and $p'$ to
+obtain $\mathsf{ListClassifierSpec}(\hsame,x,y)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_boundary\_cancel}
+
+\begin{theorem}[List classifier classified append context equivalence]
+\label{thm:list-classifier-hsame-append-context-iff}
+For BEDC history lists $p$, $p'$, $x$, $y$, $s$, and $s'$, if the prefix
+contexts $p$ and $p'$ are structurally classified by $\HSame$ and the suffix
+contexts $s$ and $s'$ are structurally classified by $\HSame$, then
+$$
+  \mathsf{ListClassifierSpec}(\hsame,x,y)
+  \quad\text{if and only if}\quad
+  \mathsf{ListClassifierSpec}(\hsame,p{++}x{++}s,p'{++}y{++}s')
+$$
+holds.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply append stability first to the classified
+prefixes and middle lists, obtaining a classification of $p{++}x$ with
+$p'{++}y$, and then apply append stability again with the classified suffixes.
+For the reverse direction, apply the preceding two-sided cancellation theorem
+to the classified bordered histories, the classified prefixes, and the
+classified suffixes.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_append\_context\_iff}
+
+\begin{theorem}[List classifier transitivity from a source certificate]
+\label{thm:list-classifier-trans-from-namecert}
+If the source classifier is supplied by a \(\NameCert\), then the lifted list classifier is transitive on finite list spines.
+\end{theorem}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_trans\_from\_nameCert}
+
+\begin{proof}
+Proceed by induction on the first list. The nil case forces the middle list to be nil, then the final list is nil. In the cons case, nil/cons mismatches are impossible by classifier inversion. For matching cons constructors, transitivity of the source certificate handles the heads and the induction hypothesis handles the tails.
+\end{proof}
+
+\begin{theorem}[List classifier symmetry from a source certificate]
+\label{thm:list-classifier-symm-from-namecert}
+For a BEDC history carrier $A : \mathsf{BHist} \to \mathsf{Prop}$, source classifier $\sim_A$, and source certificate $\mathsf{cert} : \NameCert(A,\sim_A)$, if $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$ holds for finite list spines $xs$ and $ys$, then $\mathsf{ListClassifierSpec}(\sim_A,ys,xs)$ holds.
+\end{theorem}
+\begin{proof}
+Induct on the structural list-classifier witness. The nil clause reverses to nil. In the cons clause, apply $\mathsf{cert.equiv\_symm}$ to the head witness and apply the induction hypothesis to the tail witness; the cons constructor of the lifted classifier rebuilds the reversed structural witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_symm\_from\_nameCert}
+
+\begin{theorem}[List carrier transport from a source certificate]
+\label{thm:list-carrier-transport-from-namecert}
+Let $C:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier predicate, let $\sim_C:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be a source classifier, and assume $\mathsf{cert}:\NameCert(C,\sim_C)$. For finite BEDC-history spines $xs,ys:\mathsf{ListCarrier}(\mathsf{BHist})$, if every entry of $xs$ satisfies $C$ and $\mathsf{ListClassifierSpec}(\sim_C,xs,ys)$ holds, then every entry of $ys$ satisfies $C$.
+\end{theorem}
+\begin{proof}
+Induct on the structural classifier derivation. The nil clause has no entries to transport. In the cons clause, the source certificate field $\mathsf{NameCert.carrier\_respects\_equiv}$ transports the head carrier witness across the head classifier witness, and the induction hypothesis transports all tail entries across the tail classifier witness.
+\end{proof}

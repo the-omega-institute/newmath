@@ -1,0 +1,101 @@
+\begin{theorem}[List history classifier transitivity from spine coherence]
+\label{thm:list-history-classifier-trans-from-spine-coherence}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let $\sim_A$ be a source classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. If $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ holds, then the existential spine-representation classifier of Definition~\ref{def:list-spine-representation} is transitive: whenever $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$ and $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(k,u)$ hold, then $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$ holds.
+\end{theorem}
+\begin{proof}
+Unpack the two history-classifier witnesses. The first gives spines $xs,ys$ with representations of $h$ and $k$ and a witness $\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$. The second gives spines $ys',zs$ with representations of $k$ and $u$ and a witness $\mathsf{ListClassifierSpec}(\sim_A,ys',zs)$. Apply Definition~\ref{def:list-spine-rep-coherence} to the two displayed representations of the middle history $k$ to obtain $\mathsf{ListClassifierSpec}(\sim_A,ys,ys')$. The checked finite-spine theorem $\mathsf{ListClassifierSpec\_trans\_from\_nameCert}$, applied with $\mathsf{cert}$, first composes $xs$ with $ys'$ through $ys$ and then composes the result with $zs$ through $ys'$. Repack the original representation of $h$, the original representation of $u$, and the composed finite-spine classifier witness to obtain $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,u)$.
+\end{proof}
+
+\begin{theorem}[List spine classifier preserves represented length]
+\label{thm:list-spine-classifier-represented-length}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, let $\mathsf{cert}:\NameCert(A,\sim_A)$, and
+assume $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Then represented finite spines have equal presentation length along the spine-induced history classifier: whenever $\mathsf{ListSpineRep}_A(h,xs_0)$, $\mathsf{ListSpineRep}_A(k,ys_0)$, and $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ hold, then
+$$
+\ell(xs_0)=\ell(ys_0).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-represented-spine-classifier-alignment} to the two
+displayed representation witnesses and the spine-induced history classifier,
+using $\mathsf{cert}$ and the coherence hypothesis. This gives
+$\mathsf{ListClassifierSpec}(\sim_A,xs_0,ys_0)$. Theorem~\ref{thm:list-classifier-length-eq}
+then reads this finite-spine classifier witness as $\ell(xs_0)=\ell(ys_0)$.
+\end{proof}
+
+\begin{theorem}[List spine representation coverage]
+\label{thm:list-spine-representation-coverage}
+For every BEDC history source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$ and
+history $h$, the generated history carrier is covered exactly by finite spine
+representations:
+$$
+\mathsf{ListHistoryCarrier}_A(h)
+\quad\Longleftrightarrow\quad
+\exists xs:\mathsf{HistSpine}.\;\mathsf{ListSpineRep}_A(h,xs).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, induct on the generated
+$\mathsf{ListHistoryCarrier}_A(h)$ witness. The nil constructor is represented by
+the empty finite spine. The cons constructor uses the induction hypothesis for
+the tail carrier witness to obtain a tail spine, then prefixes it by the source
+history and reuses the continuation and endpoint witnesses. For the reverse
+direction, induct on the $\mathsf{ListSpineRep}_A(h,xs)$ witness. The nil
+representation rebuilds the nil carrier clause, and the cons representation
+rebuilds the cons carrier clause from the source witness, the recursively
+recovered tail carrier witness, the continuation witness, and the displayed
+$\hsame(h,\Eone(p))$ endpoint.
+\end{proof}
+
+\begin{principle}[Unframed list-spine presentations require an external coherence field]
+\label{thm:list-spine-rep-unframed-coherence-obstruction}
+Definition~\ref{def:list-spine-representation} supplies coverage and endpoint presentation data for a chosen finite-spine presentation only. It does not include the comparison datum required by Definition~\ref{def:list-spine-rep-coherence}. For the bridge classifier, the missing datum is exactly a proof that any two cons presentations of the same endpoint have source-classified heads and $\mathsf{ListClassifierSpec}$-classified tails. Thus $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$ is an additional certificate hypothesis needed by Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}. That comparison has to come from a framed or separated spine representation, from a source presentation whose restrictions prove it directly, or from the cons-boundary coherence condition: Theorem~\ref{thm:list-spine-coherence-from-cons-boundary-coherence} supplies the forward construction, and Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence} records the equivalence with spine coherence.
+\end{principle}
+
+\begin{theorem}[Conditional $\ListUp$ public-object target from the spine bridge]
+\label{thm:concrete-list-namecert}
+Given a BEDC history source carrier $A : \mathsf{BHist} \to \mathsf{Prop}$,
+source classifier $\sim_A$, source certificate
+$\mathsf{cert} : \NameCert(A,\sim_A)$, and a witness of
+$\mathsf{ListSpineRepCoherent}_{A,\sim_A}$, define
+$\mathsf{ListSource}(A)$ as the history carrier
+$\mathsf{ListHistoryCarrier}_A$, take the certificate classifier
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}$ to be the spine-induced bridge
+classifier from Definition~\ref{def:list-spine-representation}, use
+Theorem~\ref{thm:list-spine-representation-exactness} as its finite-spine
+exactness theorem, take $\mathsf{ListHistoryPattern}_A$ from
+Definition~\ref{def:list-history-pattern} as the pattern, and take
+$\mathsf{ListHistoryLedger}_A$ from Definition~\ref{def:list-history-ledger}
+as the ledger. The host-list spine model is a presentation witness, not the exported carrier. Under the source $\NameCert$ and the spine-coherence witness,
+these fields form the paper-side target
+$\mathsf{SemanticNameCert}(\mathsf{ListHistoryCarrier}_A,\mathsf{ListHistoryPattern}_A,\mathsf{ListHistoryLedger}_A,\mathsf{ListSpineHistoryClassifier}_{A,\sim_A})$
+for $\ListUp(A)$. This theorem is the paper-side target and carries no
+\texttt{\textbackslash leanchecked} marker.
+\end{theorem}
+\begin{proof}
+The source $\NameCert$ supplies the head-level reflexivity, symmetry,
+transitivity, and carrier transport fields. The generated nil/cons carrier
+supplies the BEDC histories, and
+Theorem~\ref{thm:list-spine-representation-exactness} supplies the exact
+finite-spine presentation through which the checked structural classifier is
+applied. For classifier reflexivity, start with the carrier witness for $h$ and apply the forward direction of Theorem~\ref{thm:list-spine-representation-coverage} to obtain a finite spine $xs$ and a representation witness $\mathsf{ListSpineRep}_A(h,xs)$. Finite-spine reflexivity for $\mathsf{ListClassifierSpec}$, using the source reflexivity field of $\mathsf{cert}$ entry by entry, builds the bridge witness $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,h)$. Symmetry unpacks the bridge witness and applies
+Theorem~\ref{thm:list-classifier-symm-from-namecert} to the displayed finite-spine classifier.
+Transitivity is Theorem~\ref{thm:list-history-classifier-trans-from-spine-coherence}:
+the two existential witnesses may expose different finite spines for the middle
+history, and Definition~\ref{def:list-spine-rep-coherence} supplies the
+finite-spine classifier witness that lets
+Theorem~\ref{thm:list-classifier-trans-from-namecert} compose the two endpoint
+classifiers. Carrier transport for the certificate core unpacks
+$\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ as a $\mathsf{ListSpineBridgeClassifier}_{A,\sim_A}(h,k)$, extracts the displayed target representation $\mathsf{ListSpineRep}_A(k,ys)$, and applies the reverse direction of Theorem~\ref{thm:list-spine-representation-coverage}, equivalently the soundness direction of Theorem~\ref{thm:list-spine-representation-exactness}, to recover $\mathsf{ListHistoryCarrier}_A(k)$. Source-certificate transport is used only for entrywise source-carrier evidence, while the list ledger is the carrier-shaped constructor spine from Definition~\ref{def:list-history-ledger}. Nil/cons case analysis uses
+Theorem~\ref{thm:list-history-carrier-generated-cases} for the generated history
+carrier and Lemma~\ref{lem:list-classifier-nil-cons-no-confusion} inside the
+finite-spine bridge, and exactness means that there exist finite spines $xs,ys$
+with $\mathsf{ListSpineRep}_A(h,xs)$, $\mathsf{ListSpineRep}_A(k,ys)$, and
+$\mathsf{ListClassifierSpec}(\sim_A,xs,ys)$; Definition~\ref{def:list-spine-rep-coherence}
+makes alternate presentations of the same endpoint compatible for certificate use.
+\end{proof}
+
+\begin{corollary}[$\ListUp$ conditional public-object target]
+\label{cor:list-conditional-license}
+By Theorem~\ref{thm:concrete-list-namecert}, $\ListUp(A)$ has an unframed public certificate target relative to the supplied source $\NameCert$ and a witness of $\mathsf{ListSpineRepCoherent}_{A,\sim_A}$. Theorem~\ref{thm:list-public-object-certificate-from-cons-boundary-coherence} gives the unframed public certificate when $\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ is supplied, equivalently by Theorem~\ref{thm:list-spine-coherence-iff-cons-boundary-coherence}. Corollary~\ref{cor:framed-list-carrier-certificate} supplies a separate framed carrier certificate under source-carrier $\hsame$ compatibility and does not identify the framed carrier with the unframed $\mathsf{ListHistoryCarrier}_A$ used by the public $\ListUp$ target.
+\end{corollary}
