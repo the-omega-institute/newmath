@@ -61,6 +61,21 @@ theorem CompactFiniteRefinementChain_continuation_witness
                                         priorCombined)
                                       (And.intro finiteFinal compactFinal))
 
+theorem CompactFiniteRefinementChain_flattening_located_cont
+    {subset located finite intermediate compact midFinite midCompact finalFinite finalCompact :
+      BHist} :
+    CompactWitnessCarrier subset located finite intermediate compact ->
+      CompactFiniteRefinementChain finite compact midFinite midCompact ->
+        CompactFiniteRefinementChain midFinite midCompact finalFinite finalCompact ->
+          CompactFiniteRefinementChain finite compact finalFinite finalCompact ∧
+            CompactWitnessCarrier subset located finalFinite intermediate finalCompact ∧
+              Cont subset located intermediate := by
+  intro carrier first second
+  have flattened := CompactFiniteRefinementChain_transitivity first second
+  exact And.intro flattened
+    (And.intro (CompactWitnessCarrier_finite_refinement_chain_closed carrier flattened)
+      carrier.right.right.right.left)
+
 theorem CompactLocatedRefinementChain_final_cases
     {finite located intermediate compact finalLocated finalIntermediate finalCompact : BHist} :
     CompactLocatedRefinementChain finite located intermediate compact finalLocated finalIntermediate
