@@ -3,6 +3,7 @@ import BEDC.Derived.GroupUp
 namespace BEDC.Derived.GroupUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
  theorem group_commutator_trivial_iff_commutes_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
@@ -61,5 +62,12 @@ protected theorem group_conjugation_fixed_point_commutation_iff_from_empty_unit
       exact hsame_trans (assocC b a (inv a))
         (hsame_trans (mulCongr (hsame_refl b) (rightInv a)) (rightId b))
     exact hsame_trans transported collapse
+
+theorem GroupSingletonCommutator_conjugated_invariance {s x y : BHist} :
+    GroupSingletonCarrier s -> GroupSingletonCarrier x -> GroupSingletonCarrier y ->
+      (let Conj : BHist -> BHist := fun z => append (append s z) BHist.Empty; let Comm : BHist -> BHist -> BHist := fun a b => append (append (append a b) BHist.Empty) BHist.Empty; GroupSingletonClassifier (Comm (Conj x) (Conj y)) (Comm x y) ∧ GroupSingletonClassifier (Comm (Conj x) (Conj y)) BHist.Empty ∧ GroupSingletonClassifier (Comm x y) BHist.Empty) := by
+  intro carrierS carrierX carrierY
+  cases carrierS; cases carrierX; cases carrierY
+  exact ⟨⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩
 
 end BEDC.Derived.GroupUp
