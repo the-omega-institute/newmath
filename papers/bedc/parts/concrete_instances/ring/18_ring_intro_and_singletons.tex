@@ -106,23 +106,14 @@ $A_{\emp}:\mathsf{BHist}\to\mathsf{Prop}$ and classifier $\rho_{\emp}$.
 \begin{theorem}[Singleton empty-history ring laws]
 \label{thm:singleton-empty-history-ring-laws}
 The tuple
-$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ supplies
-$$
-\mathsf{SemanticNameCert}(\mathsf{RingSingletonCarrier},
-\mathsf{RingSingletonCarrier},
-\mathsf{RingSingletonCarrier},
-\mathsf{RingSingletonClassifier})
-$$
-and satisfies carrier inhabitance, additive abelian-group laws, multiplicative
-monoid laws, addition and multiplication congruence, left and right
-distributivity, and zero multiplication laws under $\rho_{\emp}$.
+$(A_{\emp},\rho_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ satisfies
+carrier inhabitance, additive abelian-group laws, multiplicative monoid laws,
+addition and multiplication congruence, left and right distributivity, and zero
+multiplication laws under $\rho_{\emp}$.
 \end{theorem}
 \begin{proof}
-The SemanticNameCert component is the singleton carrier and classifier
-certificate for $\mathsf{RingSingletonCarrier}$ and
-$\mathsf{RingSingletonClassifier}$. Its carrier endpoints are the reflexive
-witness $\hsame(\emp,\emp)$; by
-Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$, this is
+Carrier inhabitance is the reflexive endpoint witness $\hsame(\emp,\emp)$.
+By Definition~\ref{def:list-singleton-history-source} at $a_0=\emp$, this is
 exactly the witness that $\emp$ lies in $A_{\emp}$.
 
 Every operation result in the displayed tuple is definitionally $\emp$. Hence
@@ -270,6 +261,14 @@ for both append bracketings. Since both endpoints are classified through
 $\emp$, transitivity and symmetry of $\hsame$ give the classifier relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_append\_assoc\_carrier\_iff}
+
+\begin{theorem}[Ring singleton continuation empty result exactness]\label{thm:ring-singleton-classifier-cont-result-empty}
+If $C_{\emp}(h,k)$ and $\Cont(h,p,r)$, then $r\hsame\emp$ holds exactly when $p$ is in the singleton carrier.
+\end{theorem}
+\begin{proof}
+Transporting an empty result into the continuation and inverting empty concatenation gives $p\hsame\emp$. Conversely, the classifier makes $h\hsame\emp$; with $p\hsame\emp$, determinacy of continuation compares $\Cont(h,p,r)$ with the right-unit continuation at $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_cont\_result\_empty\_iff}
 
 The RingUp schema is also instantiated by this concrete empty-history carrier
 and constant operation tuple.

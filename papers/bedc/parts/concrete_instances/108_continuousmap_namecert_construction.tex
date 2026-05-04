@@ -288,6 +288,39 @@ append-closure step, and the distance continuation is the defining append
 equation.
 \end{proof}
 
+\begin{theorem}[ContinuousMap prefixed carrier canonical distance determinacy]
+\label{thm:continuousmap-prefix-canonical-distance-determinacy}
+For histories $p,source,map,target,modulus,cert,distance,distance':\mathsf{BHist}$,
+if $\mathsf{UnaryHistory}(p)$,
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$, and
+$$
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),distance')
+$$
+hold, then the displayed prefixed carrier has the canonical prefixed distance
+ledger:
+$$
+\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+$$
+\end{theorem}
+\begin{proof}
+First build the canonical prefixed carrier from the original one. Apply
+Theorem~\ref{thm:continuousmap-carrier-prefix-canonical-distance-closed} to
+the unary prefix and the original carrier.
+
+Now compare the displayed prefixed carrier with that canonical prefixed
+carrier. They have the same prefixed source, map, prefixed target, modulus, and
+prefixed certificate, so
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic} determines
+the distance component.
+
+Projecting that distance component gives exactly the displayed orientation:
+$\hsame(distance',
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target)))$.
+\end{proof}
+
 \begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
 \label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
 For histories $source$, $target$, $modulus$, and $cert$, if
