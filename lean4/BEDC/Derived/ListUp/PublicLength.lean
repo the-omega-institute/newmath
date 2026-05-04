@@ -61,6 +61,41 @@ theorem FramedListPublicLength_constructor_endpoint_readback {A : BHist → Prop
                       (rep.left a (List.Mem.head tail))
                       (And.intro rep tailPublic)))
 
+theorem FramedListHistoryCarrier_public_length_shape_exhaustion {A : BHist → Prop}
+    {h : BHist} :
+    FramedListHistoryCarrier A h →
+      (FramedListPublicLength A h 0 ∧ hsame h (BHist.e0 BHist.Empty)) ∨
+        ∃ a : BHist, ∃ xs : ListCarrier BHist,
+          A a ∧ FramedListSpineRep A h (a :: xs) ∧
+            FramedListPublicLength A (FramedListEndpoint xs) xs.length ∧
+              hsame h (BHist.e1 (PairFrame a (FramedListEndpoint xs))) := by
+  intro carrier
+  cases carrier with
+  | intro xs rep =>
+      cases xs with
+      | nil =>
+          exact Or.inl
+            (And.intro
+              (Exists.intro []
+                (And.intro rep rfl))
+              rep.right)
+      | cons a xs =>
+          have sourceA : A a :=
+            rep.left a (List.Mem.head xs)
+          have tailRep : FramedListSpineRep A (FramedListEndpoint xs) xs := by
+            constructor
+            · intro z memZ
+              exact rep.left z (List.Mem.tail a memZ)
+            · exact hsame_refl (FramedListEndpoint xs)
+          have tailPublic : FramedListPublicLength A (FramedListEndpoint xs) xs.length :=
+            Exists.intro xs (And.intro tailRep rfl)
+          exact Or.inr
+            (Exists.intro a
+              (Exists.intro xs
+                (And.intro sourceA
+                  (And.intro rep
+                    (And.intro tailPublic rep.right)))))
+
 theorem FramedListPublicLength_well_defined {A : BHist → Prop}
     {Rel : BHist → BHist → Prop} (compat : ListSourceHsameCompatible A Rel) :
     (∀ {h : BHist} {n m : Nat},
