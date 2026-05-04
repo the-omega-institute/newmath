@@ -3,6 +3,7 @@ import BEDC.Derived.RatUp
 namespace BEDC.Derived.StreamNameUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
@@ -12,6 +13,9 @@ def RatStreamNameCarrier (s : BHist -> BHist) : Prop :=
 def RatStreamNameClassifier (s t : BHist -> BHist) : Prop :=
   RatStreamNameCarrier s ∧ RatStreamNameCarrier t ∧
     forall n : BHist, UnaryHistory n -> RatHistoryClassifier (s n) (t n)
+
+def RatStreamName_constant (d : BHist) (_n : BHist) : BHist :=
+  append BHist.Empty d
 
 theorem RatStreamName_certificate_fields {s t u s' t' : BHist -> BHist} :
     RatStreamNameCarrier s ->
