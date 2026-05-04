@@ -5,6 +5,14 @@ namespace BEDC.Derived.GroupUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 
+def GroupSingletonNormalizerAction (s x : BHist) : BHist :=
+  append (append s x) (GroupSingletonInv s)
+
+def GroupSingletonNormalizerOrbit (x y : BHist) : Prop :=
+  exists s : BHist,
+    GroupSingletonCarrier s ∧
+      GroupSingletonClassifier (append (append s x) (GroupSingletonInv s)) y
+
 theorem GroupSingleton_normalizer_action_certificate {s x : BHist} :
     GroupSingletonCarrier s -> GroupSingletonCarrier x ->
       let Conj := fun u y : BHist => append (append u y) BHist.Empty
