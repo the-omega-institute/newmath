@@ -232,6 +232,27 @@ classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonClassifier\_continuation\_result\_left\_iff}
 
+\begin{theorem}[Singleton lattice continuation empty result order exactness]
+\label{thm:lattice-singleton-le-continuation-empty-result}
+For histories $P,Q,R:\mathsf{BHist}$ with $\ContR(P,Q,R)$, the restricted
+singleton prefix comparison between the inputs is equivalent to emptiness of the
+continuation result:
+$$
+P\le_{\emp} Q
+\quad\Longleftrightarrow\quad
+R\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The restricted singleton order carries both input endpoints as empty. Since
+$R$ is the BEDC append continuation of $P$ and $Q$, append-empty construction
+gives $R\hsame\emp$. Conversely, if the continuation result is empty, BEDC
+append-empty inversion makes both $P$ and $Q$ empty. Their induced
+$\hsame$ chain supplies the underlying prefix comparison, so the singleton
+order tuple is reconstructed.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_continuation\_empty\_result\_iff}
+
 \begin{theorem}[Singleton meet--join absorption gives order and classifier data]
 \label{thm:lattice-singleton-meet-join-absorption-order-classifier}
 If $h,k:\mathsf{BHist}$ are singleton-carried, then the two singleton lattice

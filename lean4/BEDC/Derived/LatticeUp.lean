@@ -328,6 +328,20 @@ theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} 
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem LatticeSingletonLE_continuation_empty_result_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonLE P Q <-> hsame R BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro leData
+    cases continuation
+    exact append_eq_empty_iff.mpr (And.intro leData.left leData.right.left)
+  · intro resultEmpty
+    cases continuation
+    have endpoints := append_eq_empty_iff.mp resultEmpty
+    exact And.intro endpoints.left
+      (And.intro endpoints.right
+        (PreorderPrefixLE_of_hsame (hsame_trans endpoints.left (hsame_symm endpoints.right))))
+
 theorem LatticeSingletonMeetJoin_idempotent_comm_classifier {h k : BHist} :
     LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
       LatticeSingletonClassifier (LatticeSingletonMeet h h) h ∧
