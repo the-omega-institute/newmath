@@ -3012,3 +3012,29 @@ Convergence-radius chapter (41_convergence_radius) provides the radius definitio
 
 ---
 
+### B-119 - Pulled-back gap policy preserves coverage and separation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Pulled-back gap policy preserves coverage and separation |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If GapPol(Π, D) holds and τ : D' → D has a classifier-preserving inverse-image ledger and preserves source admission, then the pulled-back ledger satisfies the coverage and separation obligations over D'.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/verification_queue.tex`
+
+Rationale:
+Sits in proof_obligations alongside B-16 (concrete token reflection) but on a disjoint axis: it lifts an existing definitional primitive (def:classifier-preserving-pullback-ledger) into a coverage+separation transport theorem under a domain morphism. The paper currently defines pullback ledgers, gap policies, and domain-invariance of source admission as separate facts (def:gap-policy, def:classifier-preserving-pullback-ledger, cor:domain-invariance-of-concrete-source-admission), but never composes them into the obvious pullback theorem for GapPol. Concrete enough to drive a single-implication proof loop, and it activates the existing pullback-ledger definition that otherwise has no theorem consumer.
+
+---
+
