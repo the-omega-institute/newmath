@@ -1,0 +1,51 @@
+\begin{theorem}[Functor prefix hom-carrier composite middle-object determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-middle-object-deterministic}
+For histories $p,a,b,b',c,f,g,fg$, suppose $f$ is a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$, $g$ is a category
+hom-carrier from $\mathsf{append}(p,b')$ to $\mathsf{append}(p,c)$, and
+$\ContR(f,g,fg)$ holds. If $fg$ is displayed as a category hom-carrier from
+$\mathsf{append}(p,a)$ to $\mathsf{append}(p,c)$, then $\hsame(b,b')$.
+\end{theorem}
+\begin{proof}
+Apply category hom-carrier composite middle-object determinacy to the prefixed
+hom-carriers and the displayed composite. This identifies
+$\mathsf{append}(p,b)$ and $\mathsf{append}(p,b')$. Cancelling the common left
+append prefix $p$ gives $\hsame(b,b')$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_middle\_object\_deterministic}
+
+\begin{theorem}[Functor prefix hom-carrier composite target-prefix determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-target-prefix-deterministic}
+For histories $p,q,a,b,c,f,g,fg$, if prefixed hom-carriers compose from
+$\mathsf{append}(p,a)$ through $\mathsf{append}(p,b)$ to
+$\mathsf{append}(p,c)$, and the same composite is displayed with target
+$\mathsf{append}(q,c)$, then the two target prefixes agree:
+$$
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Apply category composite target determinacy to compare the expected composite
+target $\mathsf{append}(p,c)$ with the displayed target
+$\mathsf{append}(q,c)$. Cancelling the common right suffix $c$ gives
+$\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_target\_prefix\_deterministic}
+
+\begin{theorem}[Functor prefix hom-carrier composite target-object determinacy]
+\label{thm:functor-prefix-hom-carrier-comp-target-object-deterministic}
+For histories $p,a,b,c,d,f,g,fg$, if prefixed hom-carriers compose from
+$\mathsf{append}(p,a)$ through $\mathsf{append}(p,b)$ to
+$\mathsf{append}(p,c)$, and the same composite is displayed with target
+$\mathsf{append}(p,d)$, then the two target objects agree:
+$$
+\hsame(c,d).
+$$
+\end{theorem}
+\begin{proof}
+Close the expected composite target $\mathsf{append}(p,c)$ from the two
+prefixed hom-carriers and the continuation witness. Target determinacy compares
+that carrier with the displayed target $\mathsf{append}(p,d)$, and cancellation
+of the common left prefix $p$ gives $\hsame(c,d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_target\_object\_deterministic}
