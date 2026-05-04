@@ -109,6 +109,27 @@ theorem commring_zero_linear_factor_signed_product_zero
   | inr minusBranch =>
       exact (minusBranch.right (add a b)).right
 
+theorem commring_equal_squares_commuted_signed_factor_zero
+    {add mul : BHist -> BHist -> BHist} {neg : BHist -> BHist}
+    (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
+    (addComm : forall x y : BHist, hsame (add x y) (add y x))
+    (zeroLeft : forall x : BHist, hsame (add BHist.Empty x) x)
+    (negLeft : forall x : BHist, hsame (add (neg x) x) BHist.Empty)
+    (addCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (add a b) (add a' b'))
+    (mulComm : forall x y : BHist, hsame (mul x y) (mul y x))
+    (mulCongr : forall {a a' b b' : BHist}, hsame a a' -> hsame b b' ->
+      hsame (mul a b) (mul a' b'))
+    (leftDistrib : forall x y z : BHist,
+      hsame (mul x (add y z)) (add (mul x y) (mul x z)))
+    {a b : BHist} :
+    hsame (mul a a) (mul b b) ->
+      hsame (mul (add a (neg b)) (add a b)) BHist.Empty := by
+  intro sameSquares
+  exact hsame_trans (mulComm (add a (neg b)) (add a b))
+    (commring_equal_squares_signed_factor_zero addAssoc addComm zeroLeft negLeft
+      addCongr mulComm mulCongr leftDistrib sameSquares)
+
 theorem commring_zero_linear_factor_equal_squares {add mul : BHist -> BHist -> BHist}
     {neg : BHist -> BHist}
     (addAssoc : forall x y z : BHist, hsame (add (add x y) z) (add x (add y z)))
