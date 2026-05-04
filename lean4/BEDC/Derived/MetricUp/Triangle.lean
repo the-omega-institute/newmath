@@ -207,4 +207,49 @@ theorem MetricDistanceWitness_triangle_nonempty_endpoint_nonempty {x y z dxy dyz
   | inr nonemptyZ =>
       exact Or.inr (Or.inr nonemptyZ)
 
+theorem MetricDistanceWitness_triangle_nonempty_spine_iff_nonempty_distance
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz ->
+        ((hsame dxyz BHist.Empty -> False) <->
+          (hsame x BHist.Empty -> False) ∨ (hsame y BHist.Empty -> False) ∨
+            (hsame z BHist.Empty -> False) ∨ (hsame dxy BHist.Empty -> False) ∨
+              (hsame dyz BHist.Empty -> False)) := by
+  intro xy yz xyz
+  constructor
+  · intro nonemptyDistance
+    have endpointNonempty :=
+      MetricDistanceWitness_triangle_nonempty_endpoint_nonempty xy yz xyz nonemptyDistance
+    cases endpointNonempty with
+    | inl nonemptyX =>
+        exact Or.inl nonemptyX
+    | inr yzEndpoint =>
+        cases yzEndpoint with
+        | inl nonemptyY =>
+            exact Or.inr (Or.inl nonemptyY)
+        | inr nonemptyZ =>
+            exact Or.inr (Or.inr (Or.inl nonemptyZ))
+  · intro nonemptySpine sameDistanceEmpty
+    have depthZero : MetricDistanceDepth dxyz = 0 :=
+      MetricDistanceDepth_zero_iff_empty.mpr sameDistanceEmpty
+    have emptySpine :=
+      (MetricDistanceWitness_triangle_depth_zero_iff_empty_spine xy yz xyz).mp depthZero
+    cases nonemptySpine with
+    | inl nonemptyX =>
+        exact nonemptyX emptySpine.left
+    | inr rest =>
+        cases rest with
+        | inl nonemptyY =>
+            exact nonemptyY emptySpine.right.left
+        | inr rest =>
+            cases rest with
+            | inl nonemptyZ =>
+                exact nonemptyZ emptySpine.right.right.left
+            | inr rest =>
+                cases rest with
+                | inl nonemptyDxy =>
+                    exact nonemptyDxy emptySpine.right.right.right.left
+                | inr nonemptyDyz =>
+                    exact nonemptyDyz emptySpine.right.right.right.right
+
 end BEDC.Derived.MetricUp
