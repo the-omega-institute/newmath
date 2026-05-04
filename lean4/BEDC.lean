@@ -186,6 +186,7 @@ import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
@@ -530,6 +531,7 @@ import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
 import BEDC.Derived.NatTransUp.TailCommClosed
 import BEDC.Derived.NatTransUp.EmptyObject
+import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp
