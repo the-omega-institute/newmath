@@ -100,4 +100,51 @@ theorem RealStreamPrefixClassifier_truncated_cont_endpoint_context_closed
     exact hsame_trans (hsame_symm (append_assoc (prefY n) (y n) (tailY n))) outEq.symm
   exact RatHistoryClassifier_hsame_transport sameOutX sameOutY contextClassified
 
+theorem RealStreamPrefixClassifier_contextual_e1_denominator_package
+    {x y prefX prefY tailX tailY midX midY outX outY : Nat -> BHist} {m n : Nat}
+    {leftTail rightTail : BHist} :
+    RealStreamPrefixClassifier x y (m + n) -> UnaryHistory (prefX n) ->
+      UnaryHistory (tailX n) -> hsame (prefX n) (prefY n) ->
+        hsame (tailX n) (tailY n) -> Cont (prefX n) (x n) (midX n) ->
+          Cont (midX n) (tailX n) (outX n) -> Cont (prefY n) (y n) (midY n) ->
+            Cont (midY n) (tailY n) (outY n) ->
+              RatHistoryClassifier (outX n) (outY n) ∧
+                PositiveUnaryDenominator (outX n) ∧ PositiveUnaryDenominator (outY n) ∧
+                  UnaryHistory (outX n) ∧ UnaryHistory (outY n) ∧
+                    (hsame (outX n) BHist.Empty -> False) ∧
+                      (hsame (outY n) BHist.Empty -> False) ∧
+                        (hsame (outX n) (BHist.e1 leftTail) ->
+                          hsame (outY n) (BHist.e1 rightTail) ->
+                            UnaryHistory leftTail ∧ UnaryHistory rightTail ∧
+                              hsame leftTail rightTail) := by
+  intro classified prefUnary tailUnary prefSame tailSame prefXCont outXCont prefYCont
+    outYCont
+  have contextClassified :
+      RatHistoryClassifier (outX n) (outY n) :=
+    RealStreamPrefixClassifier_truncated_cont_endpoint_context_closed classified prefUnary
+      tailUnary prefSame tailSame prefXCont outXCont prefYCont outYCont
+  have positives :
+      PositiveUnaryDenominator (outX n) ∧ PositiveUnaryDenominator (outY n) :=
+    RatHistoryClassifier_positive_denominators contextClassified
+  have leftRows : UnaryHistory (outX n) ∧ (hsame (outX n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.left
+  have rightRows : UnaryHistory (outY n) ∧ (hsame (outY n) BHist.Empty -> False) :=
+    PositiveUnaryDenominator_unary_and_nonempty positives.right
+  have tailReadback :
+      hsame (outX n) (BHist.e1 leftTail) ->
+        hsame (outY n) (BHist.e1 rightTail) ->
+          UnaryHistory leftTail ∧ UnaryHistory rightTail ∧ hsame leftTail rightTail := by
+    intro sameLeft sameRight
+    have displayed :
+        RatHistoryClassifier (BHist.e1 leftTail) (BHist.e1 rightTail) :=
+      RatHistoryClassifier_hsame_transport sameLeft sameRight contextClassified
+    exact RatHistoryClassifier_e1_tail_unary_iff.mp displayed
+  exact And.intro contextClassified
+    (And.intro positives.left
+      (And.intro positives.right
+        (And.intro leftRows.left
+          (And.intro rightRows.left
+            (And.intro leftRows.right
+              (And.intro rightRows.right tailReadback))))))
+
 end BEDC.Derived.RealUp
