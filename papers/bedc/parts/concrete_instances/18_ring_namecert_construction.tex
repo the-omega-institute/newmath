@@ -21,21 +21,11 @@ Use a setup with carrier \(C\), classifier, addition, zero, additive inverse, mu
 \begin{definition}[Concrete singleton history ring instance]
 \label{def:concrete-singleton-history-ring-instance}
 Let $A_{\emp}$ and $R_{\emp}$ be the singleton carrier and classifier from
-Definition~\ref{def:concrete-singleton-history-group-instance}. Define the
-operations by
-$$
-\mathsf{add}(h,k):=\mathsf{append}(h,k),\qquad
-\mathsf{neg}(h):=\emp,\qquad
-0:=\emp,
-$$
-and
-$$
-\mathsf{mul}(h,k):=\mathsf{append}(h,k),\qquad
-1:=\emp.
-$$
-The resulting tuple
-$(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$ is the
-concrete singleton history ring instance.
+Definition~\ref{def:concrete-singleton-history-group-instance}. Define
+$\mathsf{add}(h,k):=\mathsf{append}(h,k)$, $\mathsf{neg}(h):=\emp$,
+$0:=\emp$, $\mathsf{mul}(h,k):=\mathsf{append}(h,k)$, and $1:=\emp$. The
+resulting tuple $(A_{\emp},R_{\emp},\mathsf{add},0,\mathsf{neg},\mathsf{mul},1)$
+is the concrete singleton history ring instance.
 \end{definition}
 
 \begin{theorem}[Concrete singleton history ring laws]
@@ -149,17 +139,28 @@ A_{\emp}(t)\land
 $$
 \end{theorem}
 \begin{proof}
-The singleton ring negation endpoint is definitionally $\emp$. In the forward
-direction, unfold $\rho_{\emp}$ and read off the right carrier witness for
-$t$ together with the left endpoint witness for
-$\mathsf{RingSingletonNeg}(h)$.
-
-Conversely, the displayed pair supplies the two carrier endpoints. Symmetry of
-$\hsame$ turns the right carrier endpoint into an endpoint comparison back
-from $\emp$ to $t$, and transitivity with the left endpoint witness packages
-the classifier relation required by $\rho_{\emp}$.
+The singleton ring negation endpoint is definitionally $\emp$. Forward
+projection reads the right carrier witness for $t$ and the left endpoint
+witness for $\mathsf{RingSingletonNeg}(h)$. Conversely, the displayed pair
+supplies the two carrier endpoints, and symmetry followed by transitivity
+packages the classifier relation required by $\rho_{\emp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_neg\_empty\_endpoint\_iff}
+
+\begin{theorem}[Ring singleton classifier multiplication empty endpoint]
+\label{thm:ring-singleton-classifier-mul-empty-endpoint}
+For histories $h,k,out:\mathsf{BHist}$,
+$$
+\rho_{\emp}(\mathsf{RingSingletonMul}(h,k),out)\Longleftrightarrow
+\hsame(out,\emp).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication endpoint is definitionally $\emp$. Forward projection reads the
+right carrier field of $\rho_{\emp}$. Conversely, the displayed endpoint witness,
+the reflexive left carrier at $\emp$, and symmetry rebuild the classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RingUp.RingSingletonClassifier\_mul\_empty\_endpoint\_iff}
 
 \begin{theorem}[Ring singleton classifier visible-right exclusion]
 \label{thm:ring-singleton-classifier-append-visible-right-absurd}
