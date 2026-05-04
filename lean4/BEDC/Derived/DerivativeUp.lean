@@ -102,6 +102,31 @@ theorem DerivativeMetricQuotient_distance_result_nonempty {f z h q dist : BHist}
                               have endpoints := cont_empty_result_inversion emptyLedger
                               exact stepNonzero endpoints.left
 
+theorem DerivativeMetricQuotient_distance_cont_depth_add {f z h q dist : BHist} :
+    DerivativeMetricQuotient f z h q dist ->
+      Cont h q dist ∧ MetricDistanceDepth dist = MetricDistanceDepth h + MetricDistanceDepth q := by
+  intro quotient
+  cases quotient with
+  | intro _functionCarrier rest =>
+      cases rest with
+      | intro _pointCarrier rest =>
+          cases rest with
+          | intro _stepNonzero rest =>
+              cases rest with
+              | intro quotientCarrier rest =>
+                  cases rest with
+                  | intro _diffLedger rest =>
+                      cases rest with
+                      | intro stepCarrier rest =>
+                          cases rest with
+                          | intro distCarrier metricLedger =>
+                              have witness : MetricDistanceWitness h q dist :=
+                                And.intro stepCarrier
+                                  (And.intro quotientCarrier
+                                    (And.intro distCarrier metricLedger))
+                              exact And.intro metricLedger
+                                (MetricDistanceWitness_depth_add witness)
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by

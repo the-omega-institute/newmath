@@ -420,4 +420,18 @@ theorem SOneHistoryCarrier_e1_components_unit_tail_readback {dx dy equation t : 
     (And.intro components.right.left
       (And.intro equationSame (cont_intro components.right.right)))
 
+theorem SOneHistoryCarrier_e1_components_unit_equation_classifier
+    {dx dy equationTail t : BHist} :
+    SOneHistoryCarrier (BHist.e1 dx) (BHist.e1 dy) (BHist.e1 equationTail) (BHist.e1 t) ->
+      RatHistoryCarrier dx ∧ RatHistoryCarrier dy ∧
+        RatHistoryClassifier equationTail (BHist.e1 BHist.Empty) ∧
+          Cont (BHist.e1 dx) dy t := by
+  intro carrier
+  have readback := SOneHistoryCarrier_e1_components_unit_tail_readback carrier
+  have equationClassifier : RatHistoryClassifier equationTail (BHist.e1 BHist.Empty) :=
+    RealConstantHistoryClassifier_e1_iff_rat.mp carrier.right.right.left
+  exact And.intro readback.left
+    (And.intro readback.right.left
+      (And.intro equationClassifier readback.right.right.right))
+
 end BEDC.Derived.S1Up
