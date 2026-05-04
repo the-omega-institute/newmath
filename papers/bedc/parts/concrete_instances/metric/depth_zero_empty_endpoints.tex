@@ -69,6 +69,24 @@ and constructor separation rules out history-sameness with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_iff\_nonempty}
 
+\begin{theorem}[Metric distance positive depth shape cases]
+\label{thm:metric-distance-depth-positive-shape-cases}
+For a history $d$, positive structural metric distance depth exposes one of
+the two visible history constructors:
+$$
+\bigl(\mathsf{MetricDistanceDepth}(d)=0\to\mathsf{False}\bigr)
+\Longrightarrow
+\bigl(\exists z:\mathsf{BHist}.\;d=\Ezero(z)\bigr)\vee
+\bigl(\exists z:\mathsf{BHist}.\;d=\Eone(z)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Case-analyze $d$. The empty branch contradicts the displayed positive-depth
+hypothesis because the structural depth of $\emp$ is zero. The two visible
+branches return the exposed payload under $\Ezero$ or $\Eone$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_positive\_shape\_cases}
+
 \begin{theorem}[Metric distance depth append-left equality emptiness]
 \label{thm:metric-distance-depth-append-left-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the left preserves structural
