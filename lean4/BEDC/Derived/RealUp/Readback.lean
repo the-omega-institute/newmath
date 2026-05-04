@@ -197,6 +197,24 @@ theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
         (And.intro readback.right.left
           (And.intro readback.right.right.right.left sameDE))))
 
+theorem RealConstantHistoryClassifier_append_e1_matched_tail_head_readback
+    {d e tailD tailE : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 (append d (BHist.e1 tailD)))
+      (BHist.e1 (append e (BHist.e1 tailE))) ->
+      hsame tailD tailE ->
+        UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+          hsame d e := by
+  intro classified sameTail
+  have readback :=
+    RealConstantHistoryClassifier_append_e1_tail_unary_readback classified
+  cases sameTail
+  have sameDE : hsame d e :=
+    append_right_cancel (k := BHist.e1 tailD) readback.right.right.right.right
+  exact And.intro readback.left
+    (And.intro readback.right.left
+      (And.intro readback.right.right.left
+        (And.intro readback.right.right.right.left sameDE)))
+
 theorem RealStreamClassifier_selected_append_e1_tail_hsame_cancel
     {x y : Nat -> BHist} {n : Nat} {d e tailD tailE : BHist} :
     RealStreamClassifier x y ->
