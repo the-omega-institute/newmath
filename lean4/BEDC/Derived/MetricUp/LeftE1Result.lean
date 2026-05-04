@@ -283,4 +283,19 @@ theorem MetricDistanceWitness_left_e1_visible_target_result_shape {x y d : BHist
                       cases targetEq
                       exact Exists.intro k (And.intro sameResult tailWitness)
 
+theorem MetricDistanceWitness_left_e1_visible_target_result_tail_hsame_exact
+    {x y d k : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) d ->
+      hsame d (BHist.e1 k) -> MetricDistanceWitness (BHist.e1 x) y k := by
+  intro witness sameResult
+  have shape := MetricDistanceWitness_left_e1_visible_target_result_shape witness
+  cases shape with
+  | intro k0 data =>
+      cases data with
+      | intro sameD tailWitness =>
+          have sameTail : hsame k0 k :=
+            hsame_e1_iff.mp (hsame_trans (hsame_symm sameD) sameResult)
+          cases sameTail
+          exact tailWitness
+
 end BEDC.Derived.MetricUp
