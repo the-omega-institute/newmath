@@ -1,1 +1,47 @@
 
+
+\begin{theorem}[Module scalar negation gives two-sided action inverse]
+\label{thm:module-scalar-negation-action-additive-inverse}
+Let a $\ModuleUp(R,M)$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar-ring classifier, $\sim_M$ for the module classifier, $+_R$ and $0_R$ for scalar addition and scalar zero, $-_R$ for scalar additive inverse, $+_M$ and $0_M$ for module addition and module zero, and $\odot_M$ for scalar action. For every carried scalar $r:R$ and carried module endpoint $m:M$,
+$$
+((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M0_M
+$$
+and
+$$
+(r\odot_M m)+_M((-_R r)\odot_M m)\sim_M0_M.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{def:module-source-specification}, the scalar source of the module certificate is a certified $\RingUp$. Its additive component, listed in \autoref{def:ring-stability-certificate} and \autoref{def:group-stability-certificate}, supplies inverse closure and the scalar additive left-inverse row. Thus $-_R r$ is carried and
+$$
+(-_R r)+_R r\sim_R0_R.
+$$
+Classifier reflexivity for the carried endpoint $m$ comes from \autoref{def:lean-carrier-naming-certificate}. Scalar-action congruence from \autoref{def:module-stability-certificate} transports the scalar inverse comparison to
+$$
+((-_R r)+_R r)\odot_M m\sim_M0_R\odot_M m.
+$$
+Scalar distributivity over scalar addition from \autoref{def:module-stability-certificate} gives
+$$
+((-_R r)+_R r)\odot_M m\sim_M((-_R r)\odot_M m)+_M(r\odot_M m).
+$$
+Using classifier symmetry from \autoref{def:lean-carrier-naming-certificate}, transitivity from \autoref{thm:namecert-equivalence-transitivity}, and the zero-action theorem \autoref{thm:module-zero-action-annihilation}, compose these comparisons to obtain
+$$
+((-_R r)\odot_M m)+_M(r\odot_M m)\sim_M0_M.
+$$
+For the other order, \autoref{thm:ring-add-right-inverse}, read in the same scalar source, supplies
+$$
+r+_R(-_R r)\sim_R0_R.
+$$
+Scalar-action congruence transports this comparison to
+$$
+(r+_R(-_R r))\odot_M m\sim_M0_R\odot_M m,
+$$
+and scalar distributivity over scalar addition gives
+$$
+(r+_R(-_R r))\odot_M m\sim_M(r\odot_M m)+_M((-_R r)\odot_M m).
+$$
+The same symmetry, transitivity, and zero-action composition gives
+$$
+(r\odot_M m)+_M((-_R r)\odot_M m)\sim_M0_M.
+$$
+\end{proof}
