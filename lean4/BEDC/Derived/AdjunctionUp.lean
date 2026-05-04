@@ -205,6 +205,19 @@ theorem AdjunctionUnitCounitAlternating_endomorphism_empty
   exact AdjunctionUnitCounitAlternating_empty_components_closed boundaryEmpty.left
     boundaryEmpty.right depthUnary
 
+theorem AdjunctionUnitCounitCarrier_endomorphism_total_alternating_collapse
+    {p a unit counit left right depth : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right -> UnaryHistory depth ->
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧ hsame left BHist.Empty ∧
+        hsame right BHist.Empty ∧
+          hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty := by
+  intro carrier depthUnary
+  have total := AdjunctionUnitCounitCarrier_endomorphism_total_collapse carrier
+  have alternating := AdjunctionUnitCounitAlternating_endomorphism_empty carrier depthUnary
+  exact And.intro total.left
+    (And.intro total.right.left
+      (And.intro total.right.right.left (And.intro total.right.right.right alternating)))
+
 theorem AdjunctionUnitCounitAlternating_unary {unit counit depth : BHist} :
     UnaryHistory unit -> UnaryHistory counit -> UnaryHistory depth ->
       UnaryHistory (AdjunctionUnitCounitAlternating unit counit depth) := by
