@@ -227,6 +227,38 @@ def HolomorphicOpenDiskWitnessed (center radius point : BHist) : Prop :=
   UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory point ∧
     ∃ gap : BHist, UnaryHistory gap ∧ Cont point gap radius
 
+theorem HolomorphicOpenDiskWitnessed_zero_headed_component_absurd {center radius point :
+    BHist} :
+    HolomorphicOpenDiskWitnessed center radius point ->
+      ((∃ z : BHist, center = BHist.e0 z) ∨
+        (∃ z : BHist, radius = BHist.e0 z) ∨
+          (∃ z : BHist, point = BHist.e0 z)) -> False := by
+  intro disk zeroComponent
+  cases disk with
+  | intro centerCarrier rest =>
+      cases rest with
+      | intro radiusCarrier rest =>
+          cases rest with
+          | intro pointCarrier _gapWitness =>
+              cases zeroComponent with
+              | inl centerZero =>
+                  cases centerZero with
+                  | intro z centerEq =>
+                      cases centerEq
+                      exact unary_no_zero_extension centerCarrier
+              | inr rest =>
+                  cases rest with
+                  | inl radiusZero =>
+                      cases radiusZero with
+                      | intro z radiusEq =>
+                          cases radiusEq
+                          exact unary_no_zero_extension radiusCarrier
+                  | inr pointZero =>
+                      cases pointZero with
+                      | intro z pointEq =>
+                          cases pointEq
+                          exact unary_no_zero_extension pointCarrier
+
 theorem HolomorphicOpenDisk_radius_extension_gap_witness
     {center point radius extra radius' : BHist} :
     HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory extra ->
