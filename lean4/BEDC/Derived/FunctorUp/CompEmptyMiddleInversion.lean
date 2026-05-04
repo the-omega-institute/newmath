@@ -44,4 +44,15 @@ theorem FunctorPrefixHomCarrier_comp_empty_middle_target_deterministic
   exact hsame_symm (CategoryHomCarrier_target_deterministic inverted.right.right.right.right.left
     displayed)
 
+theorem FunctorPrefixHomCarrier_comp_empty_middle_source_deterministic
+    {p a c f g fg source : BHist} :
+    CategoryHomCarrier (append p a) BHist.Empty f ->
+      CategoryHomCarrier BHist.Empty (append p c) g -> Cont f g fg ->
+        CategoryHomCarrier source (append p c) fg -> hsame source BHist.Empty := by
+  intro left right comp displayed
+  have inverted :=
+    FunctorPrefixHomCarrier_comp_empty_middle_inversion
+      (p := p) (a := a) (c := c) (f := f) (g := g) (fg := fg) left right comp
+  exact CategoryHomCarrier_source_deterministic displayed inverted.right.right.right.right.left
+
 end BEDC.Derived.FunctorUp

@@ -402,6 +402,33 @@ theorem ContinuousMapCarrier_comp_closed
     ContinuousFunctionCarrier_comp_closed first.left second.left graphRel modulusRel certRel
   exact ContinuousMapCarrier_canonical_distance_iff.mpr composite
 
+theorem ContinuousMapCarrier_empty_distance_comp_closed
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
+    ContinuousMapCarrier source mapF mid modF certF BHist.Empty ->
+      ContinuousMapCarrier mid mapG target modG certG BHist.Empty ->
+        Cont mapF mapG mapFG ->
+          Cont modF modG modFG ->
+            Cont target modFG certFG ->
+              hsame source BHist.Empty ∧ hsame mid BHist.Empty ∧ hsame target BHist.Empty ∧
+                ContinuousMapCarrier source mapFG target modFG certFG BHist.Empty := by
+  intro first second graphRel modulusRel certRel
+  have firstEndpoints :
+      hsame source BHist.Empty ∧ hsame mid BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := source) (y := mid)).mp first.right
+  have secondEndpoints :
+      hsame mid BHist.Empty ∧ hsame target BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := mid) (y := target)).mp second.right
+  have canonical :
+      ContinuousMapCarrier source mapFG target modFG certFG (append source target) :=
+    ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel
+  have emptyDistance :
+      MetricDistanceWitness source target BHist.Empty :=
+    (MetricDistanceWitness_empty_distance_iff (x := source) (y := target)).mpr
+      (And.intro firstEndpoints.left secondEndpoints.right)
+  exact And.intro firstEndpoints.left
+    (And.intro firstEndpoints.right
+      (And.intro secondEndpoints.right (And.intro canonical.left emptyDistance)))
+
 theorem ContinuousMapCarrier_comp_distance_deterministic
     {source mid target mapF mapG mapFG modF modG modFG certF certG certFG distF distG dist :
       BHist} :
