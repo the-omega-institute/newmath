@@ -261,6 +261,7 @@ import BEDC.Derived.SubgroupUp.IntersectionConjugation
 import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
+import BEDC.Derived.SubgroupUp.QuotientKernelEndpoint
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.QuotientGroupUp.Continuation
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
