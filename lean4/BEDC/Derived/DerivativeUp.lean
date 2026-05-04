@@ -252,6 +252,37 @@ theorem DerivativeMetricQuotient_result_deterministic {f z h q q' dist dist' : B
                                                                 (And.intro sameQuotient
                                                                   sameDistance))))
 
+theorem DerivativeMetricQuotient_hsame_step_result_deterministic
+    {f z h h' q q' dist dist' : BHist} :
+    hsame h h' -> DerivativeMetricQuotient f z h q dist ->
+      DerivativeMetricQuotient f z h' q' dist' ->
+        hsame q q' ∧ hsame dist dist' ∧ Cont f h q ∧ Cont f h' q' ∧
+          Cont h q dist ∧ Cont h' q' dist' := by
+  intro sameStep left right
+  have leftFunctionLedger : Cont f h q :=
+    left.right.right.right.right.left
+  have rightFunctionLedger : Cont f h' q' :=
+    right.right.right.right.right.left
+  have rightFunctionAtLeftStep : Cont f h q' :=
+    cont_hsame_transport (hsame_refl f) (hsame_symm sameStep) (hsame_refl q')
+      rightFunctionLedger
+  have sameQuotient : hsame q q' :=
+    cont_deterministic leftFunctionLedger rightFunctionAtLeftStep
+  have leftMetricLedger : Cont h q dist :=
+    left.right.right.right.right.right.right.right
+  have rightMetricLedger : Cont h' q' dist' :=
+    right.right.right.right.right.right.right.right
+  have rightMetricAtLeftInputs : Cont h q dist' :=
+    cont_hsame_transport (hsame_symm sameStep) (hsame_symm sameQuotient)
+      (hsame_refl dist') rightMetricLedger
+  have sameDistance : hsame dist dist' :=
+    cont_deterministic leftMetricLedger rightMetricAtLeftInputs
+  exact And.intro sameQuotient
+    (And.intro sameDistance
+      (And.intro leftFunctionLedger
+        (And.intro rightFunctionLedger
+          (And.intro leftMetricLedger rightMetricLedger))))
+
 theorem DerivativeMetricQuotient_same_quotient_step_distance_deterministic
     {f z h h' q dist dist' : BHist} :
     DerivativeMetricQuotient f z h q dist ->

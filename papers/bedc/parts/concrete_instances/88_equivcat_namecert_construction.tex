@@ -188,6 +188,26 @@ both displayed roundtrip results with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_unit\_counit\_empty\_iff}
 
+\begin{theorem}[EquivCat empty roundtrip unit-counit determinacy]
+\label{thm:equivcat-adjunction-empty-roundtrip-unit-counit-deterministic}
+For histories $p,q,a,unit,unit',counit,counit',left,right,left',right':\mathsf{BHist}$,
+two carriers
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\qquad\text{and}\qquad
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit',counit',left',right')
+$$
+whose left and right triangle results are all $\hsame$ to $\emp$ determine the
+same unit and counit up to $\hsame$.
+\end{theorem}
+\begin{proof}
+Apply empty roundtrip prefix determinacy to both adjunction carriers. Each
+application identifies its unit and counit with $\emp$. Transitivity of
+$\hsame$, using symmetry on the second pair of empty identifications, gives
+$unit\hsame unit'$ and $counit\hsame counit'$.
+\end{proof}
+\leanchecked{BEDC.Derived.EquivCatUp.EquivCatAdjunction\_empty\_roundtrip\_unit\_counit\_deterministic}
+
 \begin{theorem}[EquivCat empty roundtrip source-prefix determinacy]
 \label{thm:equivcat-adjunction-empty-roundtrip-source-prefix-deterministic}
 For histories $p,q,r,a,unit,counit,left,right:\mathsf{BHist}$, if
