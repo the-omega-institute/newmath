@@ -1,0 +1,329 @@
+\section{The certificate}
+
+\begin{definition}[Rat source specification]
+\label{def:rat-source-specification}
+The source is \(\IntUp \times \NatUp\) restricted to normalized denominator-positive pairs.
+\end{definition}
+\leandef{BEDC.Derived.RatUp.RatSourceSpec}
+
+\begin{theorem}[Rat source specification yields the carrier]
+\label{thm:rat-source-spec-to-carrier}
+A rational source witness determines a rational carrier witness: the numerator
+is an integer carrier, the denominator is unary, and the positive one-tail
+witness excludes internal sameness with \(\emp\).
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatSourceSpec\_to\_RatCarrier}
+\begin{proof}
+Unpack the source witness. The positive-denominator component gives a unary
+tail \(t\) with \(d \hsame e_1(t)\). Unary closure under one-extension and
+transport along \(\hsame\) give \(\mathsf{Unary}(d)\). If \(d\hsame \emp\),
+then symmetry and transitivity give \(e_1(t)\hsame \emp\), contradicting
+finite-kernel history no-confusion.
+\end{proof}
+
+\begin{definition}[Rat pattern specification]
+\label{def:rat-pattern-specification}
+The pattern is normalized numerator/denominator construction via a total normalization function on integer and positive-natural inputs.
+\end{definition}
+
+\begin{definition}[Rat classifier specification]
+\label{def:rat-classifier-specification}
+The classifier is structural sameness of normalized numerator and denominator representatives, tracked by mark sameness on signs and history sameness on the numerator and denominator histories.
+\end{definition}
+\leandef{BEDC.Derived.RatUp.RatClassifierSpec}
+
+\begin{theorem}[Rat classifier reflexivity]
+\label{thm:rat-classifier-reflexivity}
+Every rational carrier witness classifies its representative with itself.
+\end{theorem}
+\begin{proof}
+Reuse the carrier witness for both endpoints. The sign component is witnessed by reflexivity of \(\msame\), and the numerator and denominator components are witnessed by reflexivity of \(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_refl}
+
+\begin{theorem}[Rat classifier exposes positive denominators]
+\label{thm:rat-classifier-positive-denominators}
+If two rational representatives are related by the rational classifier, then
+both endpoint denominators carry positive unary denominator witnesses.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness to expose the two endpoint rational carriers.
+Apply the rational-carrier positive-denominator theorem to each endpoint
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_positive\_denominators}
+
+\begin{theorem}[Rat classifier transports positive denominators]
+\label{thm:rat-classifier-denominator-positive-transport}
+If two rational representatives are related by the rational classifier, and
+each denominator is related by \(\hsame\) to a displayed denominator history,
+then both displayed denominator histories carry positive unary denominator
+witnesses.
+\end{theorem}
+\begin{proof}
+Eliminate the classifier witness to expose the two endpoint rational carriers.
+Each endpoint carrier gives a positive unary denominator witness, and the two
+denominator \(\hsame\) links transport those witnesses to the displayed
+denominator histories.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_denominator\_positive\_transport}
+
+\begin{theorem}[Rat classifier denominator append closure]
+\label{thm:rat-classifier-append-unary-denominators-closed}
+If two rational representatives are classified the same, then appending
+\(\hsame\)-matching unary histories to their denominators preserves the
+rational classifier relation.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two endpoint carriers and the sign,
+numerator, and denominator sameness fields. Close both endpoint denominator
+carriers under unary append, transporting the unary-tail witness along the
+tail sameness for the second endpoint. The resulting denominator sameness follows by
+eliminating the original denominator and tail sameness witnesses and applying
+reflexivity to the resulting append history.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominators\_closed}
+
+\begin{theorem}[Rat classifier denominator prepend closure]
+\label{thm:rat-classifier-prepend-unary-denominators-closed}
+If two rational representatives are classified the same, then prepending
+\(\hsame\)-matching unary histories to their denominators preserves the
+rational classifier relation.
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into the two endpoint carriers and the sign,
+numerator, and denominator sameness fields. Close both endpoint denominator
+carriers under unary prepend, transporting unary membership of the first prefix
+across prefix sameness for the second endpoint. The resulting denominator
+sameness follows by eliminating the original denominator and prefix sameness
+witnesses and applying reflexivity to the resulting append history.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_prepend\_unary\_denominators\_closed}
+
+\begin{theorem}[Rat classifier unary denominator context closure]
+\label{thm:rat-classifier-append-unary-denominator-context-closed}
+If two rational representatives are classified the same, then surrounding their
+denominators by $\hsame$-matching unary prefixes and unary tails preserves the
+rational classifier relation.
+\end{theorem}
+\begin{proof}
+First apply denominator append closure to the classified representatives and
+the matching unary tails. Then apply denominator prepend closure to the
+resulting classified representatives and the matching unary prefixes. The sign
+and numerator witnesses are unchanged, while the denominator endpoint relation
+is obtained by the two concrete unary-context closure steps.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_append\_unary\_denominator\_context\_closed}
+
+\begin{theorem}[Rat classifier transitivity]
+\label{thm:rat-classifier-transitivity}
+If one rational representative is classified the same as a second representative, and the second representative is classified the same as a third representative, then the first and third representatives are classified the same.
+\end{theorem}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_trans}
+\begin{proof}
+Unpack both classifier witnesses. The endpoint carriers are preserved, while sign sameness and the two history-sameness components compose by the finite-kernel transitivity theorems for \(\msame\) and \(\hsame\).
+\end{proof}
+
+\begin{theorem}[Rat classifier symmetry]
+\label{thm:rat-classifier-symmetry}
+If one rational representative is classified the same as a second representative,
+then the second representative is classified the same as the first.
+\end{theorem}
+\begin{proof}
+Unpack the endpoint carriers and the sign, numerator, and denominator sameness
+fields. Rebuild the classifier in the reverse direction using symmetry of
+\(\msame\) for signs and symmetry of \(\hsame\) for both history components.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_symm}
+
+\begin{theorem}[Rat classifier component transport]
+\label{thm:rat-classifier-component-transport}
+If both rational classifier endpoints are transported componentwise by
+\(\msame\) on signs and \(\hsame\) on numerator and denominator histories,
+then the rational classifier transports to the componentwise transported
+representatives.
+\end{theorem}
+\begin{proof}
+Unpack the rational classifier witness. Transport each endpoint rational
+carrier by the component transport theorem, then compose the old sign,
+numerator, and denominator sameness links with the reversed source endpoint
+transports and the target endpoint transports.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatClassifierSpec\_component\_transport}
+
+\begin{theorem}[Rat history classifier one-tail exactness]
+\label{thm:rat-history-classifier-e1-tail-unary-iff}
+For denominator tails \(d,e:\mathsf{BHist}\), the rational history classifier
+relates the one-extension denominators exactly when both tails are unary and
+internally the same:
+$$
+\mathsf{RatHistoryClassifier}(\Eone(d),\Eone(e))
+\Longleftrightarrow
+\mathsf{Unary}(d)\land \mathsf{Unary}(e)\land \hsame(d,e).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack the classifier into two rational history
+carrier witnesses and the endpoint \(\hsame\) link. The one-tail carrier
+equivalence extracts unary membership of both tails, and \(\Eone\)-constructor
+inversion gives \(\hsame(d,e)\). For the reverse direction, rebuild both
+rational history carriers from the unary tails and lift \(\hsame(d,e)\) by
+\(\Eone\)-congruence.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_e1\_tail\_unary\_iff}
+
+\begin{theorem}[Rat history classifier exposes positive denominators]
+\label{thm:rat-history-classifier-positive-denominators}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, then both $d$ and $e$ carry positive unary denominator witnesses.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into its two endpoint rational-history
+carrier witnesses and the stored denominator $\hsame$ link. Convert each
+endpoint carrier to a positive unary denominator witness by the rational history
+carrier positive-denominator equivalence.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_positive\_denominators}
+
+\begin{theorem}[Rat history classifier endpoints are nonempty]
+\label{thm:rat-history-classifier-endpoints-not-empty}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, then neither endpoint is internally the same as the empty history:
+$$
+(\hsame(d,\emp)\to\mathsf{False})\land
+(\hsame(e,\emp)\to\mathsf{False}).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into its two endpoint rational-history
+carrier witnesses. Apply rational-history carrier nonemptiness to each endpoint
+carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_endpoints\_not\_empty}
+
+\begin{theorem}[Rat history classifier transitivity]
+\label{thm:rat-history-classifier-trans}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and $e$ and $f$ are related by the same classifier, then $d$ and
+$f$ are related by the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the two rational history classifier witnesses. Keep the left endpoint
+carrier from the first witness and the right endpoint carrier from the second
+witness, then compose the denominator history sameness proofs by transitivity
+of $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_trans}
+
+\begin{theorem}[Rat history classifier endpoint transport]
+\label{thm:rat-history-classifier-hsame-transport}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and \(d\) and \(e\) are respectively internally the same as
+\(d'\) and \(e'\), then \(d'\) and \(e'\) are related by the rational history
+classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint rational-history carriers
+and the stored \(\hsame(d,e)\) link. Transport both endpoint carriers across
+the supplied history-sameness witnesses, then compose the reversed
+\(\hsame(d,d')\) link, the stored classifier link, and \(\hsame(e,e')\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_hsame\_transport}
+
+\begin{theorem}[Rat history classifier symmetry]
+\label{thm:rat-history-classifier-symmetry}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, then \(e\) and \(d\) are related by the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier witness. Swap the two endpoint carrier
+witnesses, and reverse the denominator history-sameness proof by symmetry of
+\(\hsame\).
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_symm}
+
+\begin{theorem}[Rat history classifier unary denominator append closure]
+\label{thm:rat-history-classifier-append-unary-denominator-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, and unary tails \(t_d\) and \(t_e\) satisfy \(\hsame(t_d,t_e)\),
+then appending the tails to the corresponding denominator histories preserves
+the rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+\(\hsame\). Close the left endpoint carrier under unary denominator append.
+Transport unary membership from \(t_d\) to \(t_e\), close the right endpoint
+carrier under append, and combine the denominator \(\hsame\) with the tail
+\(\hsame\) by constructor cases on append.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_append\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history classifier unary denominator prepend closure]
+\label{thm:rat-history-classifier-prepend-unary-denominator-closed}
+If denominator histories $d$ and $e$ are related by the rational history
+classifier, and unary prefixes $p_d$ and $p_e$ satisfy $\hsame(p_d,p_e)$, then
+prepending the prefixes to the corresponding denominator histories preserves the
+rational history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the rational history classifier into endpoint carriers and denominator
+$\hsame$. Close the left endpoint carrier under unary denominator prepend.
+Transport unary membership from $p_d$ to $p_e$, close the right endpoint carrier
+under prepend, and combine the denominator and prefix $\hsame$ witnesses by
+constructor cases on the continuation append operation.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_prepend\_unary\_denominator\_closed}
+
+\begin{theorem}[Rat history classifier unary denominator context closure]
+\label{thm:rat-history-classifier-unary-denominator-context-closed}
+If denominator histories \(d\) and \(e\) are related by the rational history
+classifier, unary prefixes \(p_d,p_e\) satisfy \(\hsame(p_d,p_e)\), and unary
+tails \(t_d,t_e\) satisfy \(\hsame(t_d,t_e)\), then placing the matching prefix
+and tail around the corresponding denominators preserves the rational history
+classifier.
+\end{theorem}
+\begin{proof}
+First apply unary denominator append closure to the classified denominator
+histories and the matching tails. Then apply unary denominator prepend closure
+to the resulting classified denominator histories and the matching prefixes.
+The endpoint carrier witnesses are closed by the two concrete unary closure
+steps, and the denominator relation is the composed \(\hsame\)-respecting
+append context.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_closed}
+
+\begin{theorem}[Rat history classifier unary denominator context positive denominators]
+\label{thm:rat-history-classifier-unary-denominator-context-positive-denominators}
+If a rational history classifier is closed under matching unary denominator
+prefixes and tails, then the two contextual denominator endpoints have positive
+unary denominator witnesses.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed}
+to the original classifier and the matching unary contexts. Then apply
+\autoref{thm:rat-history-classifier-positive-denominators} to the resulting
+contextual classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_denominator\_context\_positive\_denominators}
+
+\begin{theorem}[Rat history classifier context one-tail pair readback]
+\label{thm:rat-history-classifier-unary-context-e1-pair-readback}
+If a rational history classifier is closed under matching unary denominator prefixes and tails, and the resulting left and right endpoints display as one-extension histories, then the displayed tails are unary and internally the same.
+\end{theorem}
+\begin{proof}
+Apply rational history classifier unary denominator context closure to the original classified denominators and the matching unary contexts. Transport the closed classifier across the two displayed endpoint sameness witnesses, then use rational one-tail classifier exactness to read back the two unary tails and their $\hsame$ relation.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_unary\_context\_e1\_pair\_readback}
+
+\begin{theorem}[Rat history classifier continuation context one-tail pair readback]
+\label{thm:rat-history-classifier-cont-unary-context-e1-pair-readback}
+If the matching unary denominator context is presented by continuation
+displays and the two outputs are one-extension histories, then their tails are
+unary and internally the same.
+\end{theorem}
+\begin{proof}
+Use the two continuation displays and append associativity to identify the
+outputs with the normal context endpoints, then apply
+\autoref{thm:rat-history-classifier-unary-context-e1-pair-readback}.
+\end{proof}
+\leanchecked{BEDC.Derived.RatUp.RatHistoryClassifier\_cont\_unary\_context\_e1\_pair\_readback}
