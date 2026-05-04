@@ -111,6 +111,28 @@ theorem CompactNetWitness_visible_context_e1_result_empty_center_absurd
     hsame_trans data.right.right.right centerEmpty
   exact not_hsame_e1_empty tailEmpty
 
+theorem CompactNetWitness_visible_context_visible_result_empty_center_absurd
+    {p q center net : BHist} :
+    ((Exists fun tail : BHist => hsame net (BHist.e0 tail)) \/
+      (Exists fun tail : BHist => hsame net (BHist.e1 tail))) ->
+      CompactNetWitness (append p center) (append BHist.Empty q) (append (append p net) q) ->
+        hsame center BHist.Empty -> False := by
+  intro visible witness centerEmpty
+  have data :=
+    (CompactNetWitness_empty_precision_visible_context_iff (p := p) (q := q)
+      (center := center) (net := net)).mp witness
+  have netEmpty : hsame net BHist.Empty :=
+    hsame_trans data.right.right.right centerEmpty
+  cases visible with
+  | inl e0Result =>
+      cases e0Result with
+      | intro tail sameNet =>
+          exact not_hsame_e0_empty (hsame_trans (hsame_symm sameNet) netEmpty)
+  | inr e1Result =>
+      cases e1Result with
+      | intro tail sameNet =>
+          exact not_hsame_e1_empty (hsame_trans (hsame_symm sameNet) netEmpty)
+
 theorem CompactNetWitness_visible_context_result_deterministic
     {p q center precision net net' : BHist} :
     CompactNetWitness (append p center) (append precision q) (append (append p net) q) ->

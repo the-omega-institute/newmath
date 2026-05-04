@@ -176,6 +176,13 @@ theorem CplxPureImaginary_component_continuation_complex_carrier {theta z q zq :
       ComplexHistoryCarrier zq := by
   exact CplxPureImaginary_continuation_complex_carrier
 
+theorem CplxPureImaginary_continuation_e0_result_absurd {theta z q tail : BHist} :
+    CplxPureImaginary theta z -> UnaryHistory q -> Cont z q (BHist.e0 tail) -> False := by
+  intro pureImaginary qUnary zqCont
+  have resultCarrier : ComplexHistoryCarrier (BHist.e0 tail) :=
+    CplxPureImaginary_continuation_complex_carrier pureImaginary qUnary zqCont
+  exact unary_no_zero_extension (ComplexHistoryCarrier_unary resultCarrier)
+
 theorem CplxPureImaginary_witness_unique {theta phi z : BHist} :
     (UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))) ->
       (UnaryHistory phi ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi))) ->
