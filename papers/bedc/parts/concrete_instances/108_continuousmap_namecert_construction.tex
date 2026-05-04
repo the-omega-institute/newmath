@@ -504,3 +504,70 @@ The distance component of that determinacy conclusion gives
 $\hsame(\mathsf{append}(source,target),displayed)$, hence the stated
 $\hsame(displayed,\mathsf{append}(source,target))$ by symmetry of $\hsame$.
 \end{proof}
+
+\begin{theorem}[ContinuousMap composition canonical certificate package]
+\label{thm:continuousmap-composition-canonical-certificate-package}
+For histories
+$source,mid,target,mapF,mapG,mapFG,modF,modG,modFG,certF,certG,certFG,distF,distG,displayed:\mathsf{BHist}$,
+assume the two continuous-map carriers
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,mapF,mid,modF,certF,distF),\\
+\mathsf{ContinuousMapCarrier}(mid,mapG,target,modG,certG,distG),
+\end{array}
+$$
+and the continuation ledgers
+$$
+\ContR(mapF,mapG,mapFG),\qquad
+\ContR(modF,modG,modFG),\qquad
+\ContR(target,modFG,certFG).
+$$
+Then the composition data determine the canonical certificate package:
+\begin{enumerate}
+\item the composite carrier closes over the canonical source-target distance
+ledger,
+$$
+\mathsf{ContinuousMapCarrier}
+(source,mapFG,target,modFG,certFG,\mathsf{append}(source,target));
+$$
+
+\item every displayed composite carrier with the same visible fields has that
+canonical distance ledger, namely if
+$$
+\mathsf{ContinuousMapCarrier}(source,mapFG,target,modFG,certFG,displayed),
+$$
+then
+$$
+\hsame(displayed,\mathsf{append}(source,target));
+$$
+
+\item the composite graph obeys metric-depth accounting,
+$$
+\mathsf{MetricDistanceDepth}(target)
+=
+\mathsf{MetricDistanceDepth}(source)+
+\mathsf{MetricDistanceDepth}(mapFG).
+$$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For the carrier row, apply
+Theorem~\ref{thm:continuousmap-carrier-comp-closed} to the two input carriers
+and the three continuation ledgers. This gives the displayed
+$\mathsf{ContinuousMapCarrier}$ with distance
+$\mathsf{append}(source,target)$.
+
+For distance uniqueness, suppose a displayed composite carrier with the same
+source, map, target, modulus, and certificate histories is given. Compare it
+with the canonical carrier just obtained by
+Theorem~\ref{thm:continuousmap-target-cert-distance-deterministic}. The
+distance component gives
+$\hsame(\mathsf{append}(source,target),displayed)$, and symmetry of $\hsame$
+gives $\hsame(displayed,\mathsf{append}(source,target))$.
+
+For metric-depth accounting, project the continuous-function halves from the
+two input $\mathsf{ContinuousMapCarrier}$ hypotheses. Apply
+Theorem~\ref{thm:continuousmap-comp-graph-depth-add} to those halves and the
+same three continuation ledgers, producing the stated equality for
+$\mathsf{MetricDistanceDepth}$.
+\end{proof}
