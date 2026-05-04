@@ -15,6 +15,12 @@ def AdjunctionUnitCounitCarrier (p q a unit counit left right : BHist) : Prop :=
     NatTransPrefixComponentCarrier q p a counit ∧ Cont unit counit left ∧
       Cont counit unit right
 
+def AdjunctionUnitCounitAlternating (unit counit depth : BHist) : BHist :=
+  match depth with
+  | BHist.Empty => BHist.Empty
+  | BHist.e0 _ => BHist.Empty
+  | BHist.e1 tail => append unit (AdjunctionUnitCounitAlternating counit unit tail)
+
 theorem AdjunctionUnitCounitCarrier_empty_components_exact {p q a composite : BHist} :
     AdjunctionUnitCounitCarrier p q a BHist.Empty BHist.Empty composite composite ↔
       UnaryHistory p ∧ UnaryHistory q ∧ UnaryHistory a ∧ hsame p q ∧
@@ -162,6 +168,28 @@ theorem AdjunctionUnitCounitCarrier_endomorphism_triangles_empty
     cont_respects_hsame boundaryEmpty.right boundaryEmpty.left carrier.right.right.right
       (cont_right_unit BHist.Empty)
   exact And.intro leftEmpty rightEmpty
+
+theorem AdjunctionUnitCounitAlternating_endomorphism_empty
+    {p a unit counit left right depth : BHist} :
+    AdjunctionUnitCounitCarrier p p a unit counit left right -> UnaryHistory depth ->
+      hsame (AdjunctionUnitCounitAlternating unit counit depth) BHist.Empty := by
+  intro carrier depthUnary
+  have boundaryEmpty := AdjunctionUnitCounitCarrier_endomorphism_unit_counit_empty carrier
+  have alternatingEmpty :
+      forall {u c depth : BHist}, hsame u BHist.Empty -> hsame c BHist.Empty ->
+        UnaryHistory depth -> hsame (AdjunctionUnitCounitAlternating u c depth) BHist.Empty := by
+    intro u c depth uEmpty cEmpty depthCarrier
+    induction depth generalizing u c with
+    | Empty =>
+        exact hsame_refl BHist.Empty
+    | e0 tail _ih =>
+        cases depthCarrier
+    | e1 tail ih =>
+        have tailEmpty := ih cEmpty uEmpty depthCarrier
+        cases uEmpty
+        exact (append_empty_left (AdjunctionUnitCounitAlternating c BHist.Empty tail)).trans
+          tailEmpty
+  exact alternatingEmpty boundaryEmpty.left boundaryEmpty.right depthUnary
 
 theorem AdjunctionUnitCounitCarrier_endomorphism_empty_components_iff
     {p a unit counit left right : BHist} :
