@@ -278,6 +278,23 @@ the displayed head as one more constructor in the left prefix.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.inBundle\_member\_split}
 
+\begin{theorem}[Bundle member split equivalence]
+\label{thm:inbundle-member-split-iff}
+For a generated probe bundle $\Pi$ and probe $p$,
+$$
+p\in\Pi
+\quad\Longleftrightarrow\quad
+\exists \Pi_L,\exists \Pi_R,\ 
+\Pi=\mathsf{BAppend}(\Pi_L,\Bcons(p,\Pi_R)).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction is Theorem~\ref{thm:inbundle-member-split}. Conversely,
+after substituting the displayed append decomposition, append membership places
+$p$ in the right summand, where the exposed cons head is exactly $p$.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_member\_split\_iff}
+
 \begin{theorem}[Bundle append three-way membership split]
 \label{thm:bundle-append-three-membership-split}
 For every probe $p$ and bundles $\Pi,\Theta,\Omega$,
@@ -528,6 +545,31 @@ then $\Pi=\Pi'$ and $\Theta=\Theta'$.
 Proceed by simultaneous cases on the two left bundles. The empty-empty case reduces the append equality to the suffix equality $\Theta=\Theta'$. The empty-cons and cons-empty cases contradict the displayed length equality by natural-number constructor no-confusion. In the cons-cons case, constructor injectivity on the append equality identifies the two head probes and gives equality of the appended tails; constructor injectivity on the length equality gives equal tail lengths. The induction hypothesis applied to the tails gives equality of the left tails and suffixes, and the head equality rebuilds $\Pi=\Pi'$.
 \end{proof}
 \leanchecked{BEDC.FKernel.Bundle.bundleAppend\_split\_unique\_fixed\_length}
+
+\begin{theorem}[Bundle member split uniqueness at fixed prefix length]
+\label{thm:inbundle-member-split-unique-fixed-prefix-length}
+For probe bundles $\Pi,\Pi_L,\Pi_R,\Pi_L',\Pi_R'$ and probes $p,q$, if
+$$
+\Pi=\mathsf{BAppend}(\Pi_L,\Bcons(p,\Pi_R))
+\quad\text{and}\quad
+\Pi=\mathsf{BAppend}(\Pi_L',\Bcons(q,\Pi_R'))
+$$
+and $\mathsf{BLEN}(\Pi_L)=\mathsf{BLEN}(\Pi_L')$, then
+$$
+\Pi_L=\Pi_L'
+\quad\text{and}\quad
+p=q
+\quad\text{and}\quad
+\Pi_R=\Pi_R'.
+$$
+\end{theorem}
+\begin{proof}
+Compose the two displayed decompositions into an equality between the two
+append forms. Fixed-left-length split uniqueness identifies the prefixes and
+the residual cons suffixes. Constructor injectivity for the residual conses
+then identifies the exposed probes and right tails.
+\end{proof}
+\leanchecked{BEDC.FKernel.Bundle.inBundle\_member\_split\_unique\_fixed\_prefix\_length}
 
 \begin{theorem}[Probe bundle append split uniqueness at fixed suffix length]
 \label{thm:bundle-append-split-unique-fixed-suffix-length}
