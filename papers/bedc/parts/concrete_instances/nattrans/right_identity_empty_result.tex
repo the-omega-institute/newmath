@@ -1,0 +1,23 @@
+\begin{theorem}[NatTrans prefix component right identity empty result]
+\label{thm:nattrans-prefix-component-right-identity-empty-result}
+For a prefix component $\eta$ from $p$ to $q$ at $a$, if $right$ is obtained
+by composing $\eta$ with the empty right identity, then $right$ is empty
+exactly when $\eta$ is empty and the two prefixes agree:
+$$
+\HSame(right,\emp)
+\quad\Longleftrightarrow\quad
+\HSame(\eta,\emp)\land \HSame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+Right-identity closure identifies $right$ with $\eta$ and transports the
+prefix-component carrier to $right$. If $right$ is empty, this transported
+carrier becomes an empty prefix component, so the empty-identity exactness
+theorem gives $\HSame(p,q)$; the same right-identity comparison gives
+$\HSame(\eta,\emp)$.
+
+Conversely, if $\eta$ is empty, the displayed continuation has empty source
+and empty right tail. Continuation determinacy compares it with the BEDC
+right-unit continuation at $\emp$, identifying $right$ with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_right\_identity\_empty\_result\_iff}

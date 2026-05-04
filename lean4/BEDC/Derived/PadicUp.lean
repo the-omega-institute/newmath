@@ -61,6 +61,20 @@ theorem PadicPrimeScale_succ_exponent_inversion {p q r : BHist} :
   | intro n data =>
       exact ⟨n, ⟨scale.left, data.left⟩, data.right⟩
 
+theorem PadicPrimeScale_succ_exponent_predecessor_unique {p q r : BHist} :
+    PadicPrimeScale p (BHist.e1 q) r ->
+      ∃ n : BHist, PadicPrimeScale p q n ∧ Cont n p r ∧
+        ∀ m : BHist, PadicPrimeScale p q m -> hsame n m := by
+  intro scale
+  have inversion := PadicPrimeScale_succ_exponent_inversion scale
+  cases inversion with
+  | intro n data =>
+      exact Exists.intro n
+        (And.intro data.left
+          (And.intro data.right
+            (fun m otherScale =>
+              NatMul_functional scale.left.left data.left.right otherScale.right)))
+
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r := by

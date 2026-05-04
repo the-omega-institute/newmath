@@ -122,6 +122,30 @@ the result carrier back to that same empty continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_result\_iff}
 
+\begin{theorem}[Matrix singleton add-mul continuation empty-result factors]
+\label{thm:matrix-singleton-addmul-continuation-empty-result-factors}
+For histories $M,N,R:\mathsf{BHist}$, if
+$\ContR(M\oplus N,M\odot N,R)$, then the displayed continuation result is
+empty exactly when both matrix inputs are empty:
+$$
+R\hsame\emp
+\quad\Longleftrightarrow\quad
+M\hsame\emp\land N\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the displayed continuation along
+$R\hsame\emp$ and invert the empty continuation result. The source factor is
+$M\oplus N$, which unfolds to $\mathsf{append}(M,N)$, so append empty-result
+inversion gives $M\hsame\emp$ and $N\hsame\emp$.
+
+Conversely, the two input endpoint witnesses collapse both displayed
+operations to the empty history. Continuation determinacy compares the given
+continuation with the BEDC right-unit continuation at $\emp$, identifying the
+result with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddMul\_continuation\_empty\_result\_factors\_iff}
+
 \begin{theorem}[Matrix singleton classifier visible right append exclusion]
 \label{thm:matrix-singleton-classifier-append-visible-right-absurd}
 For histories $h,p,q:\mathsf{BHist}$, a singleton matrix classifier witness
