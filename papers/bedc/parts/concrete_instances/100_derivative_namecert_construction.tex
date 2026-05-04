@@ -52,6 +52,31 @@ Reassembling these transported fields gives all stated components.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_transport}
 
+\begin{theorem}[Derivative metric quotient function prefix closure]
+\label{thm:derivative-metric-quotient-function-prefix-closed}
+For histories $p,f,z,h,q,dist:\mathsf{BHist}$, if $p$ is unary and
+$\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then the function
+and quotient histories may be prefixed together while the step and point
+remain fixed:
+$$
+\mathsf{DerivativeMetricQuotient}
+(\mathsf{append}(p,f),z,h,\mathsf{append}(p,q),
+\mathsf{append}(h,\mathsf{append}(p,q))).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the derivative metric quotient into unary carriers, the complex-nonzero
+step proof, and the two continuation ledgers. Unary closure under append gives
+the prefixed function and prefixed quotient carriers. The function ledger
+$\Cont(f,h,q)$ is transported through the shared prefix by reassociating
+$\mathsf{append}(p,\mathsf{append}(f,h))$ with
+$\mathsf{append}(\mathsf{append}(p,f),h)$. The metric distance component is
+then rebuilt canonically from the original unary step, the prefixed quotient,
+and the defining continuation
+$\Cont(h,\mathsf{append}(p,q),\mathsf{append}(h,\mathsf{append}(p,q)))$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_function\_prefix\_closed}
+
 \begin{theorem}[Derivative metric quotient distance continuation depth]
 \label{thm:derivative-metric-quotient-distance-cont-depth-add}
 If $\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)$ holds, then its metric
@@ -260,6 +285,26 @@ histories. The equality $\Ezero(p)\hsame\Eone(q)$ contradicts constructor
 separation for $\mathsf{BHist}$.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_same\_quotient\_absurd}
+
+\begin{theorem}[Visible derivative quotient steps cannot share hsame quotients]
+\label{thm:derivative-metric-quotient-visible-step-hsame-quotient-absurd}
+If
+$$
+out\hsame out',
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Ezero(p),out,dist_0),
+\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,\Eone(q),out',dist_1),
+$$
+then contradiction follows.
+\end{theorem}
+\begin{proof}
+Transport the second derivative metric quotient along the quotient classifier
+so that both witnesses have quotient $out$. The same-quotient visible-step
+separation theorem then identifies $\Ezero(p)$ with $\Eone(q)$, contradicting
+constructor separation.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_visible\_step\_hsame\_quotient\_absurd}
 
 \begin{theorem}[Derivative complex-difference witness step is unary]
 \label{thm:derivative-cplx-diff-at-witness-step-unary}

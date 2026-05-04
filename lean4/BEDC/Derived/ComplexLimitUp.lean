@@ -223,6 +223,20 @@ theorem ComplexRegularSequence_constant {z : BHist} :
       (And.intro zUnary
         (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl)))))
 
+theorem ComplexLimit_constant {z : BHist} :
+    ComplexHistoryCarrier z ->
+      ComplexLimit (fun _ : BHist => z) (fun _ : BHist => BHist.Empty) z
+        (fun _ : BHist => BHist.Empty) := by
+  intro carrierZ
+  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+  exact And.intro (ComplexRegularSequence_constant zUnary)
+    (And.intro carrierZ
+      (fun k n unaryK unaryN controlled =>
+        Exists.intro (append z z)
+          (And.intro zUnary
+            (And.intro zUnary
+              (And.intro (unary_append_closed zUnary zUnary) (Or.inl (cont_intro rfl)))))))
+
 theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->
       ComplexRegularSequence s N -> ComplexRegularSequence t N := by

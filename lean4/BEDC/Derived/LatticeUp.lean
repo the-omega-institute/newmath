@@ -396,6 +396,21 @@ theorem LatticeSingletonLE_continuation_result_right_carriers_iff {h k r : BHist
       rfl
     exact LatticeSingletonLE_empty_endpoints_iff.mpr (And.intro resultEmpty carriers.right)
 
+theorem LatticeSingletonLE_continuation_result_left_right_iff {P Q R : BHist} :
+    Cont P Q R -> (LatticeSingletonLE R P <-> LatticeSingletonLE R Q) := by
+  intro continuation
+  constructor
+  · intro leftOrder
+    have carriers :
+        LatticeSingletonCarrier P ∧ LatticeSingletonCarrier Q :=
+      (LatticeSingletonLE_continuation_result_left_carriers_iff continuation).mp leftOrder
+    exact (LatticeSingletonLE_continuation_result_right_carriers_iff continuation).mpr carriers
+  · intro rightOrder
+    have carriers :
+        LatticeSingletonCarrier P ∧ LatticeSingletonCarrier Q :=
+      (LatticeSingletonLE_continuation_result_right_carriers_iff continuation).mp rightOrder
+    exact (LatticeSingletonLE_continuation_result_left_carriers_iff continuation).mpr carriers
+
 theorem LatticeSingletonClassifier_continuation_result_left_iff {P Q R : BHist} :
     Cont P Q R -> (LatticeSingletonClassifier P Q <-> LatticeSingletonClassifier R P) := by
   intro continuation

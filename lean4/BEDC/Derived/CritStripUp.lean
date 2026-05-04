@@ -1,3 +1,4 @@
+import BEDC.FKernel.NameCert
 import BEDC.Derived.NatUp
 import BEDC.Derived.RatUp
 
@@ -5,6 +6,7 @@ namespace BEDC.Derived.CritStripUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.NatUp
 open BEDC.Derived.RatUp
@@ -145,5 +147,32 @@ theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHis
       (And.intro
         (RatHistoryCarrier_not_empty carrier.right.left)
         (CritStripComplexCarrier_not_empty carrier)))
+
+theorem CritStripEmptyBoundary_semanticNameCert :
+    SemanticNameCert
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      (fun h : BHist => hsame h BHist.Empty ∧ (InCritStrip h -> False))
+      hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro BHist.Empty
+        (And.intro (hsame_refl BHist.Empty)
+          (fun strip => (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty)))
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      have sameEmpty : hsame k BHist.Empty :=
+        hsame_trans (hsame_symm same) carrier.left
+      exact And.intro sameEmpty
+        (fun strip => (InCritStrip_boundary_excluded strip).left sameEmpty)
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
 
 end BEDC.Derived.CritStripUp

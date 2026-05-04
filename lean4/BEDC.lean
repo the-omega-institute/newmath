@@ -186,6 +186,7 @@ import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.EmptyResult
 import BEDC.Derived.PrimeUp.NatMulCases
+import BEDC.Derived.PrimeUp.ResultBoundary
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
 import BEDC.Derived.RealUp
@@ -243,6 +244,7 @@ import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.QuotientGroupUp
+import BEDC.Derived.QuotientGroupUp.Continuation
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.HomologyUp
 import BEDC.Derived.CohomologyUp
@@ -259,6 +261,7 @@ import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
 import BEDC.Derived.CommRingUp.SingletonAppend
+import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.FieldUp
@@ -530,6 +533,7 @@ import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
 import BEDC.Derived.NatTransUp.TailCommClosed
 import BEDC.Derived.NatTransUp.EmptyObject
+import BEDC.Derived.NatTransUp.PrefixComponentClassifier
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.LFunctionUp

@@ -35,6 +35,16 @@ theorem ContinuousModulusWitness_endpoint_cycle_modulus_empty
   exact cont_right_unit_unique
     (cont_result_hsame_transport witness.right.right.right (hsame_symm sameEndpoint))
 
+theorem ContinuousFunctionCarrier_endpoint_cert_cycle_tails_empty
+    {source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert -> hsame source cert ->
+      hsame map BHist.Empty ∧ hsame modulus BHist.Empty := by
+  intro carrier sameEndpoint
+  exact
+    cont_mutual_extension_tails_empty carrier.right.right.right.right.left
+      (cont_result_hsame_transport carrier.right.right.right.right.right
+        (hsame_symm sameEndpoint))
+
 theorem ContinuousModulusChain_empty_second_witness {source first second target : BHist} :
     ContinuousModulusChain source first second target -> hsame second BHist.Empty ->
       ContinuousModulusWitness source first target := by
