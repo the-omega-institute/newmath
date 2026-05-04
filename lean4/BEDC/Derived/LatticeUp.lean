@@ -110,6 +110,16 @@ theorem LatticeSingletonLE_empty_endpoints_iff {h k : BHist} :
         exact
           ⟨hEmpty, kEmpty, PreorderPrefixLE_of_hsame (hsame_trans hEmpty (hsame_symm kEmpty))⟩
 
+theorem LatticeSingletonLE_append_empty_endpoints_iff {h k : BHist} :
+    LatticeSingletonLE (append h k) BHist.Empty ↔
+      hsame h BHist.Empty ∧ hsame k BHist.Empty := by
+  constructor
+  · intro leData
+    exact append_eq_empty_iff.mp (LatticeSingletonLE_empty_endpoints_iff.mp leData).left
+  · intro endpoints
+    exact LatticeSingletonLE_empty_endpoints_iff.mpr
+      (And.intro (append_eq_empty_iff.mpr endpoints) (hsame_refl BHist.Empty))
+
 theorem LatticeSingletonCarrier_order_collapse {h k : BHist} :
     LatticeSingletonCarrier h -> LatticeSingletonCarrier k ->
       LatticeSingletonLE h k ∧ LatticeSingletonLE k h ∧ LatticeSingletonClassifier h k ∧

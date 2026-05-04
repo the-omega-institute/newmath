@@ -94,6 +94,25 @@ $\mathsf{PreorderPrefixLE\_of\_hsame}$ constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_empty\_endpoints\_iff}
 
+\begin{theorem}[Singleton lattice append order has empty endpoints]
+\label{thm:lattice-singleton-le-append-empty-endpoints}
+For $h,k:\mathsf{BHist}$, the restricted singleton prefix order from the
+appended history to $\emp$ satisfies
+$$
+\mathsf{LatticeSingletonLE}(\mathsf{append}(h,k),\emp)
+\quad\Longleftrightarrow\quad
+h\hsame\emp\land k\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The forward direction first applies singleton-order endpoint exactness to read
+$\mathsf{append}(h,k)\hsame\emp$, then splits the empty append into empty left
+and right endpoints. Conversely, empty endpoints make
+$\mathsf{append}(h,k)$ history-same to $\emp$, and the singleton-order endpoint
+characterization rebuilds the restricted order comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.LatticeUp.LatticeSingletonLE\_append\_empty\_endpoints\_iff}
+
 \begin{theorem}[Singleton lattice carrier order collapse]
 \label{thm:lattice-singleton-carrier-order-collapse}
 If $h$ and $k$ are carried by $A_{\emp}$, then both restricted order
