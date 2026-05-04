@@ -4247,3 +4247,57 @@ Chapter 65 has 9 labeled theorems plus 2 definitions (verified by grep: 9 `\begi
 
 ---
 
+### B-166 - Double opposite functor certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite functor certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If F is a FunctorUp certificate over CategoryUp source and target, then the certificate data obtained by applying the opposite-functor construction twice is componentwise identical to the original F (object map, morphism map, classifier rows, preservation witnesses).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+
+Rationale:
+The paper already proves the category-level analogue at thm:double-opposite-category-certificate-data-identity (36_category_namecert_construction.tex:352) and defines the opposite-functor certificate at def:opposite-functor-certificate-data plus thm:opposite-functor-certificate (functor/certificate_obligations.tex:271,290). The functor-level double-opposite identity is the immediate sibling of the certified category-level theorem; it has nothing to invent and goes by two unfoldings of the same definitional swap, like the category proof. It belongs in concrete_instances/functor and lifts the chapter from definition-only into the involution row of the established hierarchy. No existing BOARD entry covers double-opposite for functor (B-11 is composition closure, not involution).
+
+---
+
+
+### B-167 - Double opposite natural transformation certificate data identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Double opposite natural transformation certificate data identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If alpha:F=>G is a NatTransUp certificate, then the certificate data obtained by applying the opposite-natural-transformation construction twice yields component family and naturality rows componentwise identical to alpha.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/nattrans/vertical_and_opposite_extras.tex`
+- `papers/bedc/parts/concrete_instances/functor/certificate_obligations.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The opposite natural transformation is already certified at def:opposite-nattrans-certificate-data and thm:opposite-natural-transformation-certificate (nattrans/vertical_and_opposite_extras.tex:23,37). The double-opposite identity completes a three-tier series begun at the category level (thm:double-opposite-category-certificate-data-identity); together with the functor candidate above it closes the involution row across CategoryUp / FunctorUp / NatTransUp. Distinct from B-14 (which is naturality preservation under vertical composition, not involution). The proof structure is two unfoldings of the same data swap, rather than a new constructive definition, which makes the loop low-risk and clearly in scope of concrete_instances/nattrans.
+
+---
+
