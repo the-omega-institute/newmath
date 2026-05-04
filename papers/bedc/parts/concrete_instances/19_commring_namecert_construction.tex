@@ -650,3 +650,85 @@ annihilator packages; ledger the equal-square row, signed-product zero row, and
 universal two-sided annihilator row; core theorem this block; exactness the
 displayed three-part certificate; downstream use by $\FieldUp$ quadratic and
 zero-factor exit packages; status $\mathsf{ProofTarget}$.
+
+\begin{definition}[CommRing left zero-divisor data]
+\label{def:commring-left-zero-divisor-data}
+For a BEDC history-level $\CommRingUp$ operation tuple with multiplication
+$\cdot$ and zero $0$, write
+$$
+\mathsf{ApartZero}_R(x):=(x\hsame0\to\bot).
+$$
+The strict left zero-divisor predicate is
+$$
+\mathsf{LeftZD}_R(x):=
+\mathsf{ApartZero}_R(x)\land
+\exists c : \mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0.
+$$
+\end{definition}
+
+\begin{theorem}[CommRing zero-divisor product closure]
+\label{thm:commring-zero-divisor-product-closure}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+$\RingUp$ additive abelian-group laws, multiplicative associativity, addition
+and multiplication congruence, left distributivity, and the $\CommRingUp$
+multiplicative commutativity field, every $a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\bigl((a\cdot b)\hsame0\to\bot\bigr)
+\Longrightarrow
+\mathsf{LeftZD}_R(a\cdot b).
+$$
+\end{theorem}
+\begin{proof}
+First derive right distributivity from the supplied left distributivity by
+\autoref{thm:commring-right-distrib-from-left}. With this row, the additive
+group laws, and multiplication congruence, the hypotheses of
+\autoref{thm:ring-zero-classifier-factor-absorption} are available.
+
+Unpack $\mathsf{LeftZD}_R(a)$. Its right component gives a history
+$c:\mathsf{BHist}$ with $\mathsf{ApartZero}_R(c)$ and $a\cdot c\hsame0$. Let
+$P$ be the displayed proof that $a\cdot b$ is apart from zero.
+
+The same $c$ annihilates $a\cdot b$. Multiplicative associativity gives
+$(a\cdot b)\cdot c\hsame a\cdot(b\cdot c)$. Multiplicative commutativity gives
+$b\cdot c\hsame c\cdot b$, and multiplication congruence transports this inside
+left multiplication by $a$. Symmetry of associativity then identifies
+$a\cdot(c\cdot b)$ with $(a\cdot c)\cdot b$.
+
+Apply \autoref{thm:ring-zero-classifier-factor-absorption} to the zero
+classifier $a\cdot c\hsame0$ and multiplier $b$. Its left product component
+gives $(a\cdot c)\cdot b\hsame0$. Transitivity through the associativity and
+commutativity rows yields
+$$
+(a\cdot b)\cdot c\hsame0.
+$$
+
+The strict left zero-divisor data for $a\cdot b$ is therefore the pair
+consisting of $P$ and the same annihilator witness $c$ with its apart-zero proof
+and the displayed product-zero classifier.
+\end{proof}
+
+\begin{corollary}[CommRing zero-divisor product zero-or closure]
+\label{cor:commring-zero-divisor-product-zero-or-closure}
+Under the same hypotheses as
+\autoref{thm:commring-zero-divisor-product-closure}, every
+$a,b:\mathsf{BHist}$ satisfies
+$$
+\mathsf{LeftZD}_R(a)
+\Longrightarrow
+\left(
+(a\cdot b)\hsame0
+\lor
+\bigl(((a\cdot b)\hsame0\to\bot)\to
+\mathsf{LeftZD}_R(a\cdot b)\bigr)
+\right).
+$$
+\end{corollary}
+\begin{proof}
+Assume $H:\mathsf{LeftZD}_R(a)$. Choose the right disjunct. Given a proof that
+$a\cdot b$ is apart from zero, apply
+\autoref{thm:commring-zero-divisor-product-closure} to $H$ and that apartness
+proof.
+\end{proof}
