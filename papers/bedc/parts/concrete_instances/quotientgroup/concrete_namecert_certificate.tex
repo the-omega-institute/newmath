@@ -143,6 +143,26 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty representative classifier hsame endpoint transport]
+\label{thm:quotientgroup-centralizer-coset-classifier-empty-hsame-endpoint-transport}
+For histories $h,k,h',k':\mathsf{BHist}$, if the empty-representative
+centralizer-coset classifier relates $h$ and $k$, and $h\hsame h'$ and
+$k\hsame k'$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,h',k')
+\land h'\hsame\emp\land k'\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+The empty-representative classifier stores the empty centralizer witness
+together with $h\hsame\emp$, $k\hsame\emp$, and $h\hsame k$. Compose the two
+endpoint comparisons with the symmetries of $h\hsame h'$ and $k\hsame k'$ to
+obtain the empty endpoints for $h'$ and $k'$. Reuse the stored centralizer
+witness at both endpoints and compose the two empty endpoints to repack the
+classifier on $(h',k')$.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_hsame\_endpoint\_transport}
+
 \begin{theorem}[Centralizer coset carrier empty representative transport]
 \label{thm:quotientgroup-centralizer-coset-carrier-empty-representative-transport}
 If the representative $\mathsf{repr}$ and the empty history both centralize

@@ -39,6 +39,19 @@ theorem ModuleSingletonClassifier_empty_endpoints_iff {h k : BHist} :
     exact And.intro endpoints.left
       (And.intro endpoints.right (hsame_trans endpoints.left (hsame_symm endpoints.right)))
 
+theorem ModuleSingletonClassifier_hsame_endpoint_transport {h k h' k' : BHist} :
+    ModuleSingletonClassifier h k -> hsame h h' -> hsame k k' ->
+      ModuleSingletonClassifier h' k' ∧ hsame h' BHist.Empty ∧ hsame k' BHist.Empty := by
+  intro classified sameH sameK
+  have endpointH : hsame h' BHist.Empty :=
+    hsame_trans (hsame_symm sameH) classified.left
+  have endpointK : hsame k' BHist.Empty :=
+    hsame_trans (hsame_symm sameK) classified.right.left
+  have transported : ModuleSingletonClassifier h' k' :=
+    Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro endpointH endpointK)
+  exact And.intro transported (And.intro endpointH endpointK)
+
 theorem ModuleSingletonSmul_empty_action_outputs_deterministic {r m n n' : BHist} :
     ModuleSingletonClassifier (ModuleSingletonSmul BHist.Empty m) n ->
       ModuleSingletonClassifier (ModuleSingletonSmul r BHist.Empty) n' ->
