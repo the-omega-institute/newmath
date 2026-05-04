@@ -260,3 +260,40 @@ suffix $\eta$, so continuation suffix cancellation identifies the first
 precision histories.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_prefixed\_composite\_precision\_deterministic}
+
+\begin{theorem}[Compact two-step finite-net gluing]
+\label{thm:compact-two-step-finite-net-gluing}
+Let $K$ be a $\CompactUp$ witness carried by the finite-net setup of \autoref{def:compact-carrier} inside a metric carrier as in \autoref{def:metric-carrier}. Let $\varepsilon$, $\delta$, and $\theta$ be valid precision ledgers with
+$$
+\Cont(\varepsilon,\delta,\theta).
+$$
+Assume $N\subseteq K$ is a finite $\varepsilon$-net for $K$. For each $n\in N$, let
+$$
+B_K(n,\varepsilon)=\{y\in K\mid d(y,n)\leq\varepsilon\},
+$$
+and assume $N_n\subseteq K$ is a finite $\delta$-net for $B_K(n,\varepsilon)$. Then
+$$
+N^\ast=\bigcup_{n\in N}N_n
+$$
+is finite, is contained in $K$, and is a finite $\theta$-net for $K$. Under the real-budget reading of the continuation ledger, this is a finite $(\varepsilon+\delta)$-net for $K$.
+
+Moreover, every displayed two-step choice
+$$
+\mathsf{CompactNetWitness}(c,\varepsilon,n)\wedge
+\mathsf{CompactNetWitness}(n,\delta,m)
+$$
+from the construction is a $\mathsf{CompactNetTwoStepFactor}(c,\varepsilon,\delta,m)$ and induces the composed witness $\mathsf{CompactNetWitness}(c,\theta,m)$.
+\end{theorem}
+\begin{proof}
+The finiteness and carrier clauses are immediate by finite induction over the displayed list $N$. The empty list gives the empty union. In the step case, adjoining one finite local net $N_n$ preserves finiteness by finite-union closure, and containment in $K$ follows from the hypotheses $N_n\subseteq K$.
+
+Fix $x\in K$. Since $N$ is an $\varepsilon$-net for $K$, choose $n\in N$ with $d(x,n)\leq\varepsilon$. Because $N\subseteq K$ and the metric identity law gives $d(n,n)=0$, the point $n$ lies in $B_K(n,\varepsilon)$. The local $\delta$-net $N_n$ therefore supplies $m\in N_n$ with $d(n,m)\leq\delta$. Since $N_n\subseteq N^\ast$, this $m$ is a candidate center in the glued finite set.
+
+The triangle inequality field of \autoref{def:metric-stability-certificate} gives
+$$
+d(x,m)\leq d(x,n)+d(n,m)\leq\varepsilon+\delta.
+$$
+The precision continuation $\Cont(\varepsilon,\delta,\theta)$ is exactly the BEDC budget ledger for the two visible steps. Thus the displayed point $m\in N^\ast$ witnesses the $\theta$-coverage of $x$. Since $x$ was arbitrary, $N^\ast$ is a finite $\theta$-net for $K$.
+
+For the BEDC witness clause, \autoref{def:compact-net-two-step-factor} repackages the two displayed compact-net witnesses as the two-step factor. Applying \autoref{thm:compact-net-witness-prefixed-composite-closed} with empty visible prefix composes the two precision ledgers through $\Cont(\varepsilon,\delta,\theta)$ and returns $\mathsf{CompactNetWitness}(c,\theta,m)$.
+\end{proof}

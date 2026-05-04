@@ -530,3 +530,113 @@ $$
 $$
 The dimensions and shared scalar source are unchanged throughout; \autoref{def:matrix-ledger-policy} records the common row, contraction, and column witnesses.
 \end{proof}
+
+\begin{lemma}[Rectangular scalar fold reindexing]
+\label{lem:rectangular-scalar-fold-reindexing}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, and finite additive fold $\mathsf{fold}_{+,R}$ from \autoref{def:finite-additive-scalar-fold}. Let $J$ and $K$ be finite index carriers with finite fold sums $\Sigma_J$ and $\Sigma_K$ obtained from their carried index spines. Assume the scalar classifier equivalence fields, the additive abelian-group laws, additive congruence, and zero rows listed in \autoref{def:ring-stability-certificate}. For every pointwise carried scalar family $s:J\times K\to R$, the two iterated scalar folds satisfy
+$$
+\Sigma_J(j\mapsto\Sigma_K(k\mapsto s(j,k)))\sim_R
+\Sigma_K(k\mapsto\Sigma_J(j\mapsto s(j,k))).
+$$
+\end{lemma}
+\begin{proof}
+Induct on the finite spine enumerating $J$. In the nil case, the left endpoint is the fold of the empty spine and hence reduces to $0_R$. The right endpoint is the $K$-fold of the constant family whose inner $J$-fold is $0_R$; an induction on the finite spine enumerating $K$, using the additive zero rows and additive congruence from \autoref{def:ring-stability-certificate}, classifies this fold with $0_R$.
+
+In the cons case, write the outer index spine as $j_0::J'$. The left iterated fold unfolds to
+$$
+\Sigma_K(k\mapsto s(j_0,k))+_R
+\Sigma_{J'}(j\mapsto\Sigma_K(k\mapsto s(j,k))).
+$$
+The induction hypothesis classifies the tail term with
+$$
+\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
+$$
+Additive congruence therefore transports the left endpoint to
+$$
+\Sigma_K(k\mapsto s(j_0,k))+_R
+\Sigma_K(k\mapsto\Sigma_{J'}(j\mapsto s(j,k))).
+$$
+On the right endpoint, the inner $J$-fold at each $k$ unfolds as
+$$
+s(j_0,k)+_R\Sigma_{J'}(j\mapsto s(j,k)).
+$$
+Applying \autoref{lem:finite-additive-fold-splits-pointwise-sums} to the shared $K$-indexed spine classifies the outer fold with the same sum of the selected row fold and the transposed tail fold. Classifier symmetry and transitivity compose these comparisons, giving the cons case.
+\end{proof}
+
+\begin{theorem}[Matrix product associativity from scalar folds]
+\label{thm:matrix-product-associativity-from-scalar-folds}
+Let $R$ be a scalar $\RingUp$ carrier with classifier $\sim_R$, zero endpoint $0_R$, addition $+_R$, multiplication $\cdot_R$, and finite additive folds over finite index spines as in \autoref{def:finite-additive-scalar-fold}. Let $n,m,p,q:\NatUp$, and consider the $\MatrixUp$ carriers of \autoref{def:matrix-carrier} with pointwise classifier from \autoref{def:matrix-classifier-specification}. Let
+$$
+A:\mathsf{Fin}(n)\times\mathsf{Fin}(m)\to R,
+\qquad
+B:\mathsf{Fin}(m)\times\mathsf{Fin}(p)\to R,
+\qquad
+C:\mathsf{Fin}(p)\times\mathsf{Fin}(q)\to R
+$$
+be carried matrices. Assume matrix multiplication is the finite scalar-fold operation
+$$
+(X\cdot_{\mathrm{Mat}}Y)_{u,w}:=
+\Sigma_{\mathsf{Fin}(s)}(v\mapsto X_{u,v}\cdot_RY_{v,w})
+$$
+for every matching inner dimension $s$, using the multiplication closure row of \autoref{def:matrix-stability-certificate}. Assume the scalar classifier equivalence fields, multiplication congruence, multiplicative associativity, left and right distributivity, and additive laws retained in \autoref{def:ring-stability-certificate}. Then the two matched products are carried and
+$$
+(A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C
+\sim_{\mathrm{Mat}}
+A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C).
+$$
+\end{theorem}
+\begin{proof}
+The multiplication closure row of \autoref{def:matrix-stability-certificate} carries $A\cdot_{\mathrm{Mat}}B$ and $B\cdot_{\mathrm{Mat}}C$, and then carries the two outer products. By \autoref{def:matrix-classifier-specification}, it remains to compare corresponding scalar entries.
+
+Fix $i:\mathsf{Fin}(n)$ and $l:\mathsf{Fin}(q)$. For $a:\mathsf{Fin}(m)$ and $b:\mathsf{Fin}(p)$, set
+$$
+t(a,b):=A_{i,a}\cdot_R(B_{a,b}\cdot_RC_{b,l}).
+$$
+Expanding the left-associated product gives
+$$
+((A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C)_{i,l}
+\sim_R
+\Sigma_{b:\mathsf{Fin}(p)}((A\cdot_{\mathrm{Mat}}B)_{i,b}\cdot_RC_{b,l}).
+$$
+For each fixed $b$, the inner product definition and the right-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} classify the summand with
+$$
+\Sigma_{a:\mathsf{Fin}(m)}((A_{i,a}\cdot_RB_{a,b})\cdot_RC_{b,l}).
+$$
+Scalar multiplicative associativity from \autoref{def:ring-stability-certificate} gives the pointwise comparison
+$$
+(A_{i,a}\cdot_RB_{a,b})\cdot_RC_{b,l}
+\sim_R
+A_{i,a}\cdot_R(B_{a,b}\cdot_RC_{b,l}).
+$$
+Using \autoref{thm:finite-additive-fold-respects-scalar-classifier} for the inner and outer finite spines yields
+$$
+((A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C)_{i,l}
+\sim_R
+\Sigma_{b:\mathsf{Fin}(p)}\Sigma_{a:\mathsf{Fin}(m)}t(a,b).
+$$
+
+Expanding the right-associated product gives
+$$
+(A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C))_{i,l}
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}(A_{i,a}\cdot_R(B\cdot_{\mathrm{Mat}}C)_{a,l}).
+$$
+For each fixed $a$, the inner product definition and the left-multiplication half of \autoref{lem:scalar-product-distributes-across-finite-additive-folds} classify the summand with
+$$
+\Sigma_{b:\mathsf{Fin}(p)}A_{i,a}\cdot_R(B_{a,b}\cdot_RC_{b,l}).
+$$
+Again \autoref{thm:finite-additive-fold-respects-scalar-classifier} lifts the pointwise comparisons through the finite folds, so
+$$
+(A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C))_{i,l}
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}\Sigma_{b:\mathsf{Fin}(p)}t(a,b).
+$$
+
+Apply \autoref{lem:rectangular-scalar-fold-reindexing} to the family $s(b,a):=t(a,b)$ over $\mathsf{Fin}(p)\times\mathsf{Fin}(m)$. It gives
+$$
+\Sigma_{b:\mathsf{Fin}(p)}\Sigma_{a:\mathsf{Fin}(m)}t(a,b)
+\sim_R
+\Sigma_{a:\mathsf{Fin}(m)}\Sigma_{b:\mathsf{Fin}(p)}t(a,b).
+$$
+Classifier transitivity composes the left expansion, this rectangular fold reindexing, and the symmetry of the right expansion. Thus every entry of $(A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C$ is scalar-classified with the corresponding entry of $A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C)$. The pointwise classifier of \autoref{def:matrix-classifier-specification} packages these entrywise comparisons as the displayed matrix classifier, and \autoref{def:matrix-ledger-policy} records that the dimension witnesses are unchanged.
+\end{proof}
