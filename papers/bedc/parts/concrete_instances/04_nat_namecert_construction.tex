@@ -116,6 +116,19 @@ tail to be \(\emp\), contradicting the nonempty-tail condition.
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_empty\_right\_absurd}
 
+\begin{lemma}[Strict unary prefix tail endpoint collapse is impossible]
+\label{lem:nat-unary-strict-prefix-tail-endpoint-hsame-absurd}
+If a unary tail \(t\) is nonempty, \(\Cont(h,t,k)\), and \(h\hsame k\), then
+the displayed continuation is impossible.
+\end{lemma}
+\begin{proof}
+Transport the right-unit continuation \(\Cont(h,\emp,h)\) across the endpoint
+identification \(h\hsame k\), giving \(\Cont(h,\emp,k)\). Left cancellation
+against the supplied continuation \(\Cont(h,t,k)\) identifies \(t\) with
+\(\emp\), contradicting the strict tail witness.
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryStrictPrefix\_tail\_endpoint\_hsame\_absurd}
+
 \begin{theorem}[Strict unary prefix one-boundary inversion]
 \label{thm:nat-unary-strict-prefix-e1-inversion}
 If \(\Eone(h)\) is a strict unary prefix of \(\Eone(k)\), then \(h\) is a strict unary prefix of \(k\).

@@ -47,6 +47,15 @@ theorem NatUnaryStrictPrefix_empty_right_absurd {h : BHist} :
       have parts := cont_empty_result_inversion data.right.right
       exact data.right.left parts.right
 
+theorem NatUnaryStrictPrefix_tail_endpoint_hsame_absurd {h k tail : BHist} :
+    UnaryHistory tail -> (tail = BHist.Empty -> False) -> Cont h tail k ->
+      hsame h k -> False := by
+  intro _tailUnary tailNonempty tailCont sameEndpoint
+  have unitAtEndpoint : Cont h BHist.Empty k :=
+    cont_result_hsame_transport (cont_right_unit h) sameEndpoint
+  have tailEmpty : hsame tail BHist.Empty := cont_left_cancel tailCont unitAtEndpoint
+  exact tailNonempty tailEmpty
+
 theorem NatUnaryStrictPrefix_e1_inversion {h k : BHist} :
     NatUnaryStrictPrefix (BHist.e1 h) (BHist.e1 k) -> NatUnaryStrictPrefix h k := by
   intro strict
