@@ -759,3 +759,39 @@ $\mathsf{ProofTarget}$.
 
 \input{parts/concrete_instances/quotientgroup_abelian_terminal_projection}
 \closureat{\QuotientGroupUp}{\checkedCertStr}[BEDC.Derived.QuotientGroupUp.QuotientGroupCentralizerNormalizer\_semanticNameCert]
+
+\begin{theorem}[Centralizer coset carrier representative product closure]
+\label{thm:quotientgroup-centralizer-coset-carrier-representative-product}
+For a BEDC history-level group multiplication $\mathsf{mul}$ over
+$\mathsf{BHist}$ satisfying the associativity, right empty-unit, and
+multiplication-congruence hypotheses of
+\autoref{thm:group-centralizer-mul-closed-from-empty-unit}, if two histories
+are carried by centralizer-coset carriers at representatives $x$ and $y$, then
+their represented product is carried by the centralizer-coset carrier at the
+product representative:
+$$
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,x,h_1)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,y,h_2)
+\Longrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\mathsf{mul}(x,y),
+  \mathsf{mul}(h_1,h_2)).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:quotientgroup-centralizer-coset-carrier}. The first
+carrier witness gives $Z_a(x)$ together with $h_1\hsame x$, and the second
+gives $Z_a(y)$ together with $h_2\hsame y$.
+
+The product-closure theorem
+\autoref{thm:group-centralizer-mul-closed-from-empty-unit}, equivalently the
+product row of \autoref{thm:subgroup-centralizer-certificate-target}, gives
+$Z_a(\mathsf{mul}(x,y))$. Applying ambient multiplication congruence to
+$h_1\hsame x$ and $h_2\hsame y$ gives
+$$
+\mathsf{mul}(h_1,h_2)\hsame\mathsf{mul}(x,y).
+$$
+These are exactly the two fields required by
+\autoref{def:quotientgroup-centralizer-coset-carrier} for the representative
+$\mathsf{mul}(x,y)$ and endpoint $\mathsf{mul}(h_1,h_2)$.
+\end{proof}
