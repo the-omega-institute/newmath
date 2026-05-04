@@ -186,6 +186,30 @@ theorem concrete_unary_history_magma_cont_left_context_classifier_iff
       cont_respects_hsame leftClassified.right.right rightData.right.right leftCont rightCont
     exact And.intro outCarrier (And.intro outCarrier' sameOut)
 
+theorem concrete_unary_history_magma_cont_right_unit_classifier_iff {h k r : BHist} :
+    Cont h k r ->
+      (let Carrier : BHist -> Prop := UnaryHistory
+       let Classifier : BHist -> BHist -> Prop :=
+        fun x y => Carrier x ∧ Carrier y ∧ hsame x y
+       Classifier r h ↔ Carrier h ∧ hsame k BHist.Empty) := by
+  intro rel
+  dsimp
+  constructor
+  · intro classified
+    have rightUnitContinuation : Cont h k h :=
+      cont_result_hsame_transport rel classified.right.right
+    exact And.intro classified.right.left (cont_right_unit_unique rightUnitContinuation)
+  · intro data
+    have rightCarrier : UnaryHistory k := by
+      cases data.right
+      exact unary_empty
+    have resultCarrier : UnaryHistory r :=
+      unary_cont_closed data.left rightCarrier rel
+    have sameResult : hsame r h := by
+      cases data.right
+      exact (cont_right_unit_iff (h := h) (r := r)).mp rel
+    exact And.intro resultCarrier (And.intro data.left sameResult)
+
 theorem concrete_unary_history_magma_classifier_append_middle_cancel_iff
     {left middle middle' right : BHist} :
     let Carrier : BHist -> Prop := UnaryHistory
