@@ -403,31 +403,6 @@ $$
 so scalar associativity is a separate stability requirement for $\ModuleUp$.
 \end{proof}
 
-\begin{theorem}[Module scalar action representative stability]
-\label{thm:module-scalar-action-representative-stability}
-For a $\ModuleUp$ certificate over a scalar ring from \autoref{ch:concrete-instances-ring-namecert}, let $\sim_R$ be the scalar-ring classifier and let $\sim_M$ be the module carrier classifier from \autoref{def:module-classifier-specification}. If $r\sim_R r'$, $s\sim_R s'$, and $m\sim_M m'$, then scalar associativity is stable under these representative changes:
-
-$$
-r\odot (s\odot m) \sim_M (r'\cdot_R s')\odot m'.
-$$
-
-\end{theorem}
-\begin{proof}
-By the scalar associativity field listed in \autoref{def:module-stability-certificate}, the original representatives satisfy
-
-$$
-r\odot (s\odot m) \sim_M (r\cdot_R s)\odot m.
-$$
-
-The multiplication congruence field of the scalar ring, listed in \autoref{def:ring-stability-certificate} and governed by the classifier in \autoref{def:ring-classifier-specification}, transports $r\cdot_R s$ to $r'\cdot_R s'$. The scalar action congruence field from \autoref{def:module-stability-certificate} then transports the scalar-action expression in both inputs, using this product congruence together with $m\sim_M m'$, and gives
-
-$$
-(r\cdot_R s)\odot m \sim_M (r'\cdot_R s')\odot m'.
-$$
-
-Transitivity of the module classifier composes the two displayed classifier equalities.
-\end{proof}
-
 \begin{theorem}[Module scalar representative transport compatibility]
 \label{thm:module-scalar-representative-transport-compatibility}
 Let a $\ModuleUp$ certificate be given by \autoref{def:module-certificate-obligations}. Write $\sim_R$ for the scalar ring classifier, $\sim_M$ for the module classifier, $\cdot_R$ for scalar ring multiplication, and $\odot$ for scalar action. For carried scalar representatives $r,r',s,s'$ and carried module representatives $m,m'$, if
