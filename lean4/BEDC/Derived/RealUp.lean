@@ -738,6 +738,19 @@ theorem RealConstantStream_reindexed_streamName_bridge {d e : BHist}
           exact ratClassifier
   exact And.intro ratStreamIff (And.intro streamUnaryIff unaryRealIff)
 
+theorem RealReindexedConstantStream_streamName_bridge {d e : BHist} {r : BHist -> BHist} :
+    (RatHistoryClassifier d e ↔
+      RatStreamNameClassifier (fun n => RatConstStream d (r n))
+        (fun n => RatConstStream e (r n))) ∧
+      (RatStreamNameClassifier (fun n => RatConstStream d (r n))
+        (fun n => RatConstStream e (r n)) ↔
+          RealUnaryStreamClassifier (fun n => RatConstStream d (r n))
+            (fun n => RatConstStream e (r n))) ∧
+        (RealUnaryStreamClassifier (fun n => RatConstStream d (r n))
+          (fun n => RatConstStream e (r n)) ↔
+            RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e)) := by
+  exact RealConstantStream_reindexed_streamName_bridge (d := d) (e := e) (r := r)
+
 theorem RealConstantHistoryClassifier_equivalence_fields :
     (∀ {h : BHist}, RealConstantHistoryCarrier h → RealConstantHistoryClassifier h h) ∧
       (∀ {h k : BHist}, RealConstantHistoryClassifier h k → RealConstantHistoryClassifier k h) ∧
