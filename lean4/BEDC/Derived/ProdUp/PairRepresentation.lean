@@ -96,6 +96,29 @@ theorem ProdPairRep_fixed_endpoint_exactness {Left Right : BHist → Prop} {h k 
   · intro sameHK
     exact ProdPairRep_hsame_transport repH sameHK
 
+theorem ProdPairRep_singleton_endpoint_exactness_iff {l0 r0 h : BHist} :
+    (exists l : BHist, exists r : BHist,
+      ProdPairRep (fun x : BHist => hsame x l0) (fun y : BHist => hsame y r0) h l r) <->
+      hsame h (append l0 r0) := by
+  constructor
+  · intro displayed
+    cases displayed with
+    | intro l rest =>
+        cases rest with
+        | intro r rep =>
+            cases rep with
+            | intro sameL rest =>
+                cases rest with
+                | intro sameR contH =>
+                    cases sameL
+                    cases sameR
+                    exact contH
+  · intro sameH
+    exact Exists.intro l0
+      (Exists.intro r0
+        (And.intro (hsame_refl l0)
+          (And.intro (hsame_refl r0) sameH)))
+
 theorem ProdPairRep_hsame_coherence {Left Right : BHist → Prop}
     {LeftEq RightEq : BHist → BHist → Prop} {h k l r l' r' : BHist} :
     ProdPairRepCoherent Left Right LeftEq RightEq →
