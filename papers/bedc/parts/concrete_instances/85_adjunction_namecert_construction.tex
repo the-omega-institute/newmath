@@ -222,6 +222,29 @@ roundtrip collapses agree on the same prefix pair.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_empty\_roundtrip\_prefix\_deterministic}
 
+\begin{theorem}[Adjunction roundtrip emptiness component exactness]
+\label{thm:adjunction-triangle-roundtrip-empty-iff-components-empty}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, an adjunction triangle carrier has both roundtrip legs $\hsame$ to
+$\emp$ exactly when its displayed $unit$ and $counit$ histories are both
+$\hsame$ to $\emp$:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+(\hsame(leftLeg,\emp)\land\hsame(rightLeg,\emp))
+\Longleftrightarrow
+(\hsame(unit,\emp)\land\hsame(counit,\emp)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, an empty left roundtrip continuation inverts the
+continuation ledger and forces both $unit$ and $counit$ to be $\emp$. For the
+reverse direction, transport the two triangle-leg continuations along the
+empty component witnesses and compare them with the empty-empty continuation
+unit law.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_iff\_components\_empty}
+
 \section{The certificate}
 \label{sec:adjunction-certificate}
 

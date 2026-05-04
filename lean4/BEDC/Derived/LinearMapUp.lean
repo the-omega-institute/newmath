@@ -309,6 +309,15 @@ theorem LinearMapSingletonClassifier_continuation_closed {P P' Q Q' left right :
   exact And.intro leftEmpty
     (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
+theorem LinearMapSingletonClassifier_continuation_left_closed {P P' Q left : BHist} :
+    LinearMapSingletonClassifier P P' -> LinearMapSingletonCarrier Q -> Cont P Q left ->
+      LinearMapSingletonCarrier left ∧ LinearMapSingletonClassifier left BHist.Empty := by
+  intro classifiedP carrierQ leftContinuation
+  have leftEmpty : LinearMapSingletonCarrier left :=
+    cont_respects_hsame classifiedP.left carrierQ leftContinuation (cont_right_unit BHist.Empty)
+  have emptyCarrier : LinearMapSingletonCarrier BHist.Empty := hsame_refl BHist.Empty
+  exact And.intro leftEmpty (And.intro leftEmpty (And.intro emptyCarrier leftEmpty))
+
 theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
     LinearMapSingletonCarrier f -> LinearMapSingletonCarrier g -> LinearMapSingletonCarrier h ->
       LinearMapSingletonClassifier (LinearMapSingletonComp h (LinearMapSingletonComp g f))
@@ -322,5 +331,14 @@ theorem LinearMapSingleton_comp_assoc_empty_classifier {f g h : BHist} :
   have emptyClassifier : LinearMapSingletonClassifier BHist.Empty BHist.Empty :=
     And.intro emptyCarrier (And.intro emptyCarrier (hsame_refl BHist.Empty))
   exact And.intro emptyClassifier (And.intro emptyClassifier emptyClassifier)
+
+theorem LinearMapSingletonEval_visible_target_classifier_absurd {f x p : BHist} :
+    (LinearMapSingletonClassifier (LinearMapSingletonEval f x) (BHist.e0 p) -> False) ∧
+      (LinearMapSingletonClassifier (LinearMapSingletonEval f x) (BHist.e1 p) -> False) := by
+  constructor
+  · intro classified
+    exact not_hsame_e0_empty classified.right.left
+  · intro classified
+    exact not_hsame_e1_empty classified.right.left
 
 end BEDC.Derived.LinearMapUp
