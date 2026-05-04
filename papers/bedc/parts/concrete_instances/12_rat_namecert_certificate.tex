@@ -489,6 +489,39 @@ two contextual ledger witnesses. Its conclusion is exactly the displayed
 classifier between the two contextual visible denominator endpoints.
 \end{proof}
 
+\begin{theorem}[Rat ledger shared-raw contextual visible endpoint equivalence]
+\label{thm:rat-history-ledger-shared-raw-context-visible-endpoint-equivalence}
+If both $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ and
+$\mathsf{RatHistoryLedgerPolicy}(\rho,v')$ hold, unary prefixes $p,p_v,p_{v'}$
+satisfy $\hsame(p,p_v)$ and $\hsame(p,p_{v'})$, and unary tails
+$t,t_v,t_{v'}$ satisfy $\hsame(t,t_v)$ and $\hsame(t,t_{v'})$, then every
+target history $w$ sees the same classifier fiber over the two contextual
+visible denominator endpoints:
+$$
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_v,\mathsf{append}(v,t_v)),w)
+\Longleftrightarrow
+\mathsf{RatHistoryClassifier}(\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'})),w).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-history-ledger-shared-raw-context-visible-classifier} to the
+two ledger witnesses and the matching unary prefix and tail hypotheses. This
+gives the classifier edge from
+$\mathsf{append}(p_v,\mathsf{append}(v,t_v))$ to
+$\mathsf{append}(p_{v'},\mathsf{append}(v',t_{v'}))$.
+
+For the forward direction, assume the left contextual visible endpoint is
+classified with $w$. Reverse the contextual endpoint edge by rational classifier
+symmetry, then compose it with the left-endpoint-to-$w$ classifier by
+transitivity. The result is the right-endpoint-to-$w$ classifier.
+
+For the reverse direction, assume the right contextual visible endpoint is
+classified with $w$. Compose the contextual endpoint edge itself with the
+right-endpoint-to-$w$ classifier by transitivity. The result is the
+left-endpoint-to-$w$ classifier.
+\end{proof}
+
 \begin{theorem}[Rat ledger classifier extension]
 \label{thm:rat-ledger-classifier-extension}
 If $\mathsf{RatHistoryLedgerPolicy}(\rho,v)$ holds and
