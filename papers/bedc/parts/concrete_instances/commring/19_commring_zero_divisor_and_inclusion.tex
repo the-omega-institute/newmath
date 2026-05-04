@@ -398,3 +398,56 @@ Closure under target additive inverse is \autoref{thm:commring-subring-inclusion
 All remaining $\CommRingUp$ laws restrict from $T$. Associativity, commutativity of addition, additive inverse laws, multiplicative unit and associativity, distributivity, multiplication congruence, and multiplicative commutativity are target stability rows from \autoref{def:commring-stability-certificate}; their endpoints stay inside $\mathsf{Im}_{\iota}$ by the closure rows just proved, and their classifier comparisons are exactly the third component of $\sim_{\iota}$. The reverse carrier and classifier reflection implications are recorded as the exactness part of the inclusion ledger, showing that the target image does not identify carried source endpoints beyond $\sim_S$.
 These rows supply the source, classifier, stability, and ledger components required by \autoref{def:commring-subring-inclusion-name-certificate}, hence they induce the advertised subring-inclusion name certificate over $T$.
 \end{proof}
+
+\begin{theorem}[CommRing subring inclusion transitivity]
+\label{thm:commring-subring-inclusion-transitivity}
+Let $A$, $B$, and $C$ be history-level $\CommRingUp$ packages as in \autoref{def:commring-certificate-obligations}. Write their carriers and classifiers as $D_A,\sim_A$, $D_B,\sim_B$, and $D_C,\sim_C$, and write their operations as $0_A,1_A,+_A,-_A,\cdot_A$, $0_B,1_B,+_B,-_B,\cdot_B$, and $0_C,1_C,+_C,-_C,\cdot_C$. Let $\iota:\mathsf{BHist}\to\mathsf{BHist}$ carry a subring-inclusion name certificate from $A$ to $B$, and let $\kappa:\mathsf{BHist}\to\mathsf{BHist}$ carry a subring-inclusion name certificate from $B$ to $C$, both in the sense of \autoref{def:commring-subring-inclusion-name-certificate}. Then the composite history map $\kappa\circ\iota$ carries a subring-inclusion name certificate from $A$ to $C$ of the same form. Its target image carrier is
+$$
+\mathsf{Im}_{\kappa\circ\iota}(z)\Longleftrightarrow \exists x:\mathsf{BHist},\ D_A(x)\land \kappa(\iota(x))\sim_C z,
+$$
+and its target-image classifier is
+$$
+z\sim_{\kappa\circ\iota}w\Longleftrightarrow \mathsf{Im}_{\kappa\circ\iota}(z)\land\mathsf{Im}_{\kappa\circ\iota}(w)\land z\sim_C w.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two input inclusion certificates using \autoref{def:commring-subring-inclusion-name-certificate}. Each one supplies carrier reflection in both directions, classifier reflection on carried source endpoints, preservation of $0$ and $1$, and preservation of addition and multiplication on carried inputs. By \autoref{thm:commring-carrier-reflection-subring-inclusion-certificate}, it is enough to verify these rows for $\kappa\circ\iota$.
+
+For carrier reflection, if $D_A(x)$ then the carrier-preservation row for $\iota$ gives $D_B(\iota(x))$, and the carrier-preservation row for $\kappa$ gives $D_C(\kappa(\iota(x)))$. Conversely, if $D_C(\kappa(\iota(x)))$, the reverse carrier-reflection row for $\kappa$ gives $D_B(\iota(x))$, and the reverse row for $\iota$ gives $D_A(x)$.
+
+For classifier reflection, fix carried $x,y$ in $A$. Carrier preservation for $\iota$ makes $\iota(x)$ and $\iota(y)$ carried in $B$. The classifier-reflection row for $\iota$ gives
+$$
+x\sim_A y\Longleftrightarrow \iota(x)\sim_B\iota(y),
+$$
+and the classifier-reflection row for $\kappa$ gives
+$$
+\iota(x)\sim_B\iota(y)\Longleftrightarrow \kappa(\iota(x))\sim_C\kappa(\iota(y)).
+$$
+Composing these two equivalences gives the classifier-reflection row for the composite.
+
+For zero preservation, the $A$-certificate carries $0_A$, so carrier preservation for $\iota$ makes $\iota(0_A)$ carried in $B$. The $B$-certificate carries $0_B$. The zero row for $\iota$ gives $\iota(0_A)\sim_B0_B$; applying the classifier-preservation direction for $\kappa$ gives
+$$
+\kappa(\iota(0_A))\sim_C\kappa(0_B).
+$$
+The zero row for $\kappa$ gives $\kappa(0_B)\sim_C0_C$, and classifier transitivity from \autoref{thm:namecert-equivalence-transitivity} yields $\kappa(\iota(0_A))\sim_C0_C$. The same argument with the unit rows gives $\kappa(\iota(1_A))\sim_C1_C$.
+
+For addition preservation, let $x,u$ be carried in $A$. Source additive closure in the $A$ package gives $D_A(x+_Au)$, hence $D_B(\iota(x+_Au))$. The first inclusion certificate gives
+$$
+\iota(x+_Au)\sim_B\iota(x)+_B\iota(u).
+$$
+The endpoints $\iota(x)$ and $\iota(u)$ are carried in $B$, so $B$-addition closure carries $\iota(x)+_B\iota(u)$. Applying classifier preservation for $\kappa$ gives
+$$
+\kappa(\iota(x+_Au))\sim_C\kappa(\iota(x)+_B\iota(u)).
+$$
+The addition-preservation row for $\kappa$ on the carried inputs $\iota(x)$ and $\iota(u)$ gives
+$$
+\kappa(\iota(x)+_B\iota(u))\sim_C\kappa(\iota(x))+_C\kappa(\iota(u)).
+$$
+Classifier transitivity composes these two comparisons, giving the addition-preservation row for $\kappa\circ\iota$.
+
+The multiplication row is identical, using multiplicative closure in the $A$ and $B$ packages and the two multiplication-preservation rows:
+$$
+\kappa(\iota(x\cdot_Au))\sim_C\kappa(\iota(x))\cdot_C\kappa(\iota(u)).
+$$
+Thus the composite supplies carrier reflection, classifier reflection, constant preservation, and operation preservation in the exact format required by \autoref{thm:commring-carrier-reflection-subring-inclusion-certificate}. Applying that theorem to $\kappa\circ\iota$ gives the displayed image carrier, target-image classifier, stability rows inherited from the $C$-package, and the composite inclusion ledger. Therefore $\kappa\circ\iota$ carries the required subring-inclusion name certificate over $C$.
+\end{proof}
