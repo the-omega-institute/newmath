@@ -133,5 +133,194 @@ classifier row then yields
 $R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
 \end{proof}
 
+\begin{theorem}[Group singleton conjugation classifier coverage]
+\label{thm:group-singleton-conjugation-classifier-coverage}
+For histories $s,x,y:\mathsf{BHist}$ in the concrete singleton history group of
+Definition~\ref{def:concrete-singleton-history-group-instance}, define
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(x),y)\Longleftrightarrow
+A_{\emp}(x)\land A_{\emp}(y).
+$$
+The ten-field fit is: traditional target terminal conjugation coverage; BEDC
+source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from multiplication closure,
+inverse closure, and terminal classifier exactness; ledger the conjugating
+singleton endpoint plus the acted-on endpoint; core theorem this block;
+exactness the displayed iff; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unfold $\mathsf{Conj}_s(x)$. The inverse row of
+\autoref{thm:group-singleton-terminal-classifier-package} sends the assumption
+$A_{\emp}(s)$ to $A_{\emp}(\mathsf{inv}(s))$.
+
+Use the multiplication-closure iff from
+\autoref{thm:group-singleton-terminal-classifier-package} twice. The first use
+rewrites $A_{\emp}(\mathsf{mul}(s,x))$ as
+$A_{\emp}(s)\land A_{\emp}(x)$, and the second rewrites
+$A_{\emp}(\mathsf{Conj}_s(x))$ as
+$A_{\emp}(\mathsf{mul}(s,x))\land A_{\emp}(\mathsf{inv}(s))$. With the two
+carrier facts for $s$ and $\mathsf{inv}(s)$ fixed, this identifies
+$A_{\emp}(\mathsf{Conj}_s(x))$ with $A_{\emp}(x)$.
+
+Apply the terminal classifier exactness row of
+\autoref{thm:group-singleton-terminal-classifier-package} to replace
+$R_{\emp}(\mathsf{Conj}_s(x),y)$ by
+$A_{\emp}(\mathsf{Conj}_s(x))\land A_{\emp}(y)$. Substituting the conjugation
+carrier equivalence from the previous paragraph and reassociating the
+conjunctions gives exactly
+$A_{\emp}(x)\land A_{\emp}(y)$.
+\end{proof}
+
+\begin{definition}[Group singleton normalizer orbit relation]
+\label{def:group-singleton-normalizer-orbit-relation}
+In the concrete singleton history group instance, with $N_{\emp}$ and
+$\mathsf{Conj}$ fixed as in
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate}, define the
+terminal normalizer orbit relation by declaring
+$x\sim_{N_{\emp}}y$ precisely when there exists $s:\mathsf{BHist}$ such that
+$N_{\emp}(s)$ and $R_{\emp}(\mathsf{Conj}_s(x),y)$.
+\end{definition}
+
+\begin{theorem}[Group singleton normalizer orbit exactness]
+\label{thm:group-singleton-normalizer-orbit-exactness}
+For any $x,y:\mathsf{BHist}$ with $A_{\emp}(x)$ and $A_{\emp}(y)$, the
+terminal normalizer orbit relation is exact:
+$x\sim_{N_{\emp}}y$ if and only if $R_{\emp}(x,y)$. The ten-field fit is:
+traditional target terminal normalizer orbit; BEDC source concrete singleton
+$\GroupUp$ over $\mathsf{BHist}$; carrier $A_{\emp}$; classifier the displayed
+orbit relation compared with $R_{\emp}$; stability from
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate} and
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}; ledger
+conjugator endpoint; core theorem this block; exactness orbit iff terminal
+singleton classifier; downstream consumer $\QuotientGroupUp$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume first $x\sim_{N_{\emp}}y$. By
+Definition~\ref{def:group-singleton-normalizer-orbit-relation}, choose
+$s:\mathsf{BHist}$ with $N_{\emp}(s)$ and
+$R_{\emp}(\mathsf{Conj}_s(x),y)$. Since $N_{\emp}(s)$ means
+$A_{\emp}(s)$, Theorem~\ref{thm:group-singleton-normalizer-action-certificate}
+applied to $s$ and $x$ gives
+$R_{\emp}(\mathsf{Conj}_s(x),x)$.
+
+Use the carrier-aware classifier rows of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}. Symmetry turns
+$R_{\emp}(\mathsf{Conj}_s(x),x)$ into
+$R_{\emp}(x,\mathsf{Conj}_s(x))$, and transitivity with the orbit witness
+$R_{\emp}(\mathsf{Conj}_s(x),y)$ gives $R_{\emp}(x,y)$.
+
+Conversely assume $R_{\emp}(x,y)$. Take the witness $s=\emp$. The singleton
+carrier inhabitance row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} gives
+$A_{\emp}(\emp)$, hence $N_{\emp}(\emp)$.
+
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate}, applied to
+$\emp$ and $x$, gives $R_{\emp}(\mathsf{Conj}_{\emp}(x),x)$. Transitivity
+with the assumed $R_{\emp}(x,y)$ yields
+$R_{\emp}(\mathsf{Conj}_{\emp}(x),y)$, so
+Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
+orbit witness and proves $x\sim_{N_{\emp}}y$.
+\end{proof}
+
+\begin{definition}[Concrete singleton normalizer-action group instance]
+\label{def:group-singleton-normalizer-action-instance}
+The concrete terminal normalizer action over $\mathsf{BHist}$ is the data
+whose carrier is $Carrier:=A_{\emp}$, whose classifier is
+$classifier:=R_{\emp}$, whose multiplication is $mul:=\mathsf{append}$, whose
+unit is $e:=\emp$, whose inverse is the constant operation
+$inv(h):=\emp$, and whose action map is
+$$
+\mathsf{Conj}_s(x):=\mathsf{mul}(\mathsf{mul}(s,x),\mathsf{inv}(s)).
+$$
+\end{definition}
+
+\begin{theorem}[Group singleton normalizer action classifier determinacy]
+\label{thm:group-singleton-normalizer-action-classifier-determinacy}
+For histories $s,x,y:\mathsf{BHist}$, if $A_{\emp}(s)$ and
+$R_{\emp}(x,y)$, then
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y))\land
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+\end{theorem}
+\begin{proof}
+The classifier assumption $R_{\emp}(x,y)$ carries the singleton endpoint facts
+$A_{\emp}(x)$ and $A_{\emp}(y)$ by the forward direction of the terminal
+classifier row in
+Theorem~\ref{thm:group-singleton-terminal-classifier-package}.
+
+Instantiate Theorem~\ref{thm:group-singleton-normalizer-action-certificate}
+at $(s,x)$ and $(s,y)$. The two instances give
+$A_{\emp}(\mathsf{Conj}_s(x))$ and
+$A_{\emp}(\mathsf{Conj}_s(y))$, so the SemanticNameCert classifier
+symmetry/transitivity rows for $R_{\emp}$ classify the two action endpoints:
+$$
+R_{\emp}(\mathsf{Conj}_s(x),\mathsf{Conj}_s(y)).
+$$
+
+The $(s,x)$ instance also gives the inverse-roundtrip classifier
+$R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),x)$.
+Composing this row with the input classifier $R_{\emp}(x,y)$ by the
+SemanticNameCert transitivity row for $R_{\emp}$ yields
+$$
+R_{\emp}(\mathsf{Conj}_{\mathsf{inv}(s)}(\mathsf{Conj}_s(x)),y).
+$$
+
+The two displayed classifiers are exactly the required conjunction.
+\end{proof}
+
+\begin{theorem}[Group singleton normalizer action composition collapse]
+\label{thm:group-singleton-normalizer-action-composition-collapse}
+For histories $s,t,x:\mathsf{BHist}$ in the concrete singleton history group
+instance, define
+$$
+\mathsf{Conj}_u(y):=\mathsf{mul}(\mathsf{mul}(u,y),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, and $A_{\emp}(x)$, then:
+\begin{enumerate}
+\item $A_{\emp}(\mathsf{Conj}_t(x))$.
+\item $A_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+\item $A_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x))$.
+\item $R_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)),x)$.
+\item $R_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x),x)$.
+\end{enumerate}
+The fit names the traditional target as terminal normalizer composition; the
+BEDC source as the concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from singleton multiplication
+closure and terminal classifier exactness; ledger the two conjugating singleton
+endpoints and the acted-on singleton endpoint; core theorem this block;
+exactness predicate the displayed carrier and classifier collapse; downstream
+consumer $\QuotientGroupUp$ orbit classification; and status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply Theorem~\ref{thm:group-singleton-normalizer-action-certificate} to
+$t$ and $x$. The hypotheses $A_{\emp}(t)$ and $A_{\emp}(x)$ give
+$A_{\emp}(\mathsf{Conj}_t(x))$.
+
+Use that carrier fact as the acted-on endpoint for a second application of
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate}, now with
+conjugator $s$. Together with $A_{\emp}(s)$ it gives
+$A_{\emp}(\mathsf{Conj}_s(\mathsf{Conj}_t(x)))$.
+
+Next apply the multiplication-closure row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} to $s$ and $t$.
+This places $\mathsf{mul}(s,t)$ in $A_{\emp}$. Applying
+Theorem~\ref{thm:group-singleton-normalizer-action-certificate} to
+$\mathsf{mul}(s,t)$ and $x$ gives
+$A_{\emp}(\mathsf{Conj}_{\mathsf{mul}(s,t)}(x))$.
+
+It remains to read the terminal classifier. The first row of
+Theorem~\ref{thm:group-singleton-terminal-classifier-package} classifies any two
+singleton endpoints. Apply it to the nested endpoint and $x$, then to the
+product-conjugator endpoint and $x$, using the carrier facts already displayed.
+\end{proof}
+
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
