@@ -10,3 +10,52 @@
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 \input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
+
+\begin{theorem}[Group singleton normalizer orbit action chain]
+\label{thm:group-singleton-normalizer-orbit-action-chain}
+For histories $s,x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton history group, write
+$$
+\mathsf{Conj}_s(w):=\mathsf{mul}(\mathsf{mul}(s,w),\mathsf{inv}(s)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(x)$, $A_{\emp}(y)$, $A_{\emp}(z)$,
+$x\sim_{N_{\emp}}y$, and $y\sim_{N_{\emp}}z$, then
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\land
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z)
+\land
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z).
+$$
+The ten-field fit is: traditional target action congruence on an orbit
+relation; BEDC source concrete singleton $\GroupUp$; carrier $A_{\emp}$;
+classifier the normalizer orbit relation exact against $R_{\emp}$; stability
+from the normalizer action certificate, orbit action invariance, and orbit
+equivalence; ledger the conjugator and two orbit witnesses; core theorem this
+block; exactness the displayed chain preservation; standard bridge terminal
+group action on its one orbit; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:group-singleton-normalizer-action-certificate} to the three pairs
+$(s,x)$, $(s,y)$, and $(s,z)$. These instances carry
+$\mathsf{Conj}_s(x)$, $\mathsf{Conj}_s(y)$, and $\mathsf{Conj}_s(z)$ inside
+$A_{\emp}$.
+
+Next apply
+\autoref{thm:group-singleton-normalizer-orbit-action-invariance} to the input
+edge $x\sim_{N_{\emp}}y$. Apply the same theorem to the input edge
+$y\sim_{N_{\emp}}z$. This gives the two acted orbit edges
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\quad\text{and}\quad
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z).
+$$
+
+Finally use the transitivity row of
+\autoref{thm:group-singleton-normalizer-orbit-equivalence} on the three acted
+endpoints. The carrier rows supplied by the action certificate and the two
+acted orbit edges compose to
+$\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, and the three orbit
+relations form the displayed conjunction.
+\end{proof}
