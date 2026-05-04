@@ -202,4 +202,17 @@ theorem ListClassifierSpec_BHist_append_context_iff
     exact ListClassifierSpec_BHist_append prefixClass
       (ListClassifierSpec_BHist_append coreClass suffixClass)
 
+theorem ListClassifierSpec_hsame_append_boundary_cancel
+    {pref pref' xs ys suffix suffix' : ListCarrier BEDC.FKernel.Hist.BHist} :
+    ListClassifierSpec BEDC.FKernel.Hist.hsame pref pref' ->
+      ListClassifierSpec BEDC.FKernel.Hist.hsame suffix suffix' ->
+        ListClassifierSpec BEDC.FKernel.Hist.hsame
+          (List.append (List.append pref xs) suffix) (List.append (List.append pref' ys) suffix') ->
+          ListClassifierSpec BEDC.FKernel.Hist.hsame xs ys := by
+  intro prefixClass suffixClass boundaryClass
+  have coreWithPrefix :
+      ListClassifierSpec BEDC.FKernel.Hist.hsame (pref ++ xs) (pref' ++ ys) :=
+    ListClassifierSpec_append_right_cancel_with_hsame_suffix suffixClass boundaryClass
+  exact ListClassifierSpec_hsame_append_left_cancel_classified prefixClass coreWithPrefix
+
 end BEDC.Derived.ListUp

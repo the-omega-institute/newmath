@@ -141,6 +141,30 @@ direction is the zero constructor after identifying $q$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_multiplicand\_empty\_result\_iff}
 
+\begin{lemma}[Empty unary multiplication result exposes an empty factor]
+\label{lem:natmul-empty-result-factor-empty-or-multiplier-empty}
+If \(\mathsf{NatMul}(d,q,\emp)\), then either the multiplicand is empty
+\(d\hsame\emp\), or the multiplier is empty \(q\hsame\emp\).
+\end{lemma}
+\begin{proof}
+Invert the closed multiplication witness. The zero constructor has multiplier
+\(\emp\). A successor constructor ends with a continuation \(\Cont(n,d,\emp)\),
+and empty-result inversion for \(\Cont\) forces \(d\hsame\emp\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_empty\_result\_factor\_empty\_or\_multiplier\_empty}
+
+\begin{theorem}[Nonempty unary multiplication factors have nonempty result]
+\label{thm:natmul-nonempty-factors-result-not-empty}
+If neither \(d\) nor \(q\) is history-same to \(\emp\), then no witness
+\(\mathsf{NatMul}(d,q,n)\) can have \(n\hsame\emp\).
+\end{theorem}
+\begin{proof}
+Transport the result equality to the empty-result case and apply the preceding
+empty-result factor theorem. Its two alternatives are exactly the two excluded
+empty-factor cases.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_factors\_result\_not\_empty}
+
 \begin{theorem}[Append-continuation multiplication empty result split]
 \label{thm:natmul-append-cont-empty-result-empty-factors-iff}
 Let \(d\) be unary and not history-same to \(\emp\). If
@@ -307,6 +331,20 @@ trial-division witness supplies unary closure of the tail by
 \autoref{thm:trial-div-bound-unary}.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_positive\_shape}
+
+\begin{theorem}[Trial-division bounds have unit prefix or are unit]
+\label{thm:trial-div-bound-unit-prefix-or-self}
+If $\mathsf{TrialDiv}(b,n)$, then either $\Eone(\emp)$ is a strict unary prefix
+of $b$, or $b\hsame\Eone(\emp)$.
+\end{theorem}
+\begin{proof}
+Induct on the trial-division witness. The unit constructor gives the self
+branch. In the step constructor, the continuation by $\Eone(\emp)$ supplies a
+strict one-step prefix. If the induction hypothesis already has a strict prefix,
+compose the two strict prefixes; if it has the self branch, transport the
+one-step prefix across that $\HSame$ endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.TrialDiv\_bound\_unit\_prefix\_or\_self}
 
 \begin{theorem}[Trial-division bounds are not empty]
 \label{thm:trial-div-bound-not-empty}
