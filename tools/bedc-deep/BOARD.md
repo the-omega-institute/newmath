@@ -3510,3 +3510,200 @@ Chapter 37 functor_namecert is currently 100% definition-only (per B-11 rational
 
 ---
 
+### B-138 - Euclid's lemma for prime divisibility (p | a·b → p | a ∨ p | b)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Euclid's lemma for prime divisibility (p | a·b → p | a ∨ p | b) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 8/10 |
+
+Problem:
+If p : NatPrime and a, b : Nat with NatDivides(p, NatMul(a, b)), then NatDivides(p, a) ∨ NatDivides(p, b), proved by induction on the unary representation of a together with the prime classifier and trial-division decidability.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/39_prime_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+- `lean4/BEDC/Derived/PrimeUp.lean`
+
+Rationale:
+Belongs in chapter 39 (concrete-instances/prime). This is exactly Hardy & Wright "An Introduction to the Theory of Numbers" Theorem 3 (Ch.II §3): the cornerstone of unique factorization. The chapter's own proof of \thm:ftoa-uniqueness invokes Euclid's lemma in prose at line 411 ("Standard Euclid's-lemma argument: if a prime p divides a product a·b, then p divides a or p divides b, proved by induction on the unary representation of a") but never states or labels it as its own theorem. The chapter already has \def:nat-prime, \def:nat-divides, \thm:prime-decidable, \lem:divides-transitive, and the unary multiplication kit (lem:nat-mul-functional, lem:nat-mul-result-unary), so the prerequisites for a clean classifier-stable statement are all present. The proof inducts on the unary list of a using divides-transport (\thm:nat-divides-divisor-hsame-transport) and the trial-division witness; ≤ 3 deep-reasoning rounds is realistic. Every introductory number-theory text states this as a separate theorem; not stating it leaves a textbook-level gap directly under FTOA.
+
+---
+
+
+### B-139 - Lattice distributivity implies modular law (x ≤ z ⇒ x ∨ (y ∧ z) ∼ (x ∨ y) ∧ z)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lattice distributivity implies modular law (x ≤ z ⇒ x ∨ (y ∧ z) ∼ (x ∨ y) ∧ z) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a LatticeUp setup with directional meet/join bound fields, if the distributive identity x ∧ (y ∨ z) ∼_C (x ∧ y) ∨ (x ∧ z) holds for all x, y, z, then for any x, y, z with x ≤_C z, x ∨ (y ∧ z) ∼_C (x ∨ y) ∧ z (Dedekind modular law).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/30_lattice_directed_associativity.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `lean4/BEDC/Derived/LatticeUp.lean`
+
+Rationale:
+Belongs in chapter 30 (concrete-instances/lattice). This is Birkhoff "Lattice Theory" Ch.I §6 (also Davey & Priestley Ch.4): every distributive lattice is modular — a one-line classical pivot between the two main lattice-theoretic axes. Chapter 30 currently labels idempotence/absorption/commutativity/opposite-absorption/bound-uniqueness from the directional bound certificate (\thm:lattice-idempotence-absorption-from-bound-characterization, \thm:lattice-commutativity-from-directional-bounds, etc.) but contains zero theorems naming the words "distributive" or "modular" (verified: grep -i 'distributive\|modular' on 30_lattice_namecert_construction.tex returns no theorem environments). BOARD entries B-07/B-25/B-26/B-27/B-29 cover only the bound-direction laws, not distributivity vs. modularity. The proof uses absorption (already proved in B-07) plus the directional join-leastness field — closeable in 1-2 rounds. This is precisely the curricular gap a Birkhoff-style chapter must fill before any Boolean / Heyting algebra extension.
+
+---
+
+
+### B-140 - Determinant multiplicativity det(A·B) ∼ det(A)·det(B)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Determinant multiplicativity det(A·B) ∼ det(A)·det(B) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a CommRingUp(R) scalar package and a fixed matrix dimension, for square matrices A, B carrying matrix certificates and a determinant function defined as the Leibniz signed permutation fold, det(MatMul(A, B)) ∼_R MatMul(det(A), det(B)) up to the scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/62_determinant_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/24_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+- `lean4/BEDC/Derived/DeterminantUp.lean`
+
+Rationale:
+Belongs in chapter 62 (concrete-instances/determinant). This is Hungerford "Algebra" Ch.VII Theorem 4.7 / Lang "Algebra" Ch.XIII §4 — the single most classical theorem about determinants. Chapter 62 currently has only three labeled theorems (\thm:singleton-matrix-determinant-endpoint-correspondence, \thm:determinant-singleton-det-append-pair-scalar-classifier, \thm:determinant-singleton-classifier-semantic-namecert — verified by grep on 62_determinant_namecert_construction.tex). Chapter 24 (matrix) already provides \thm:matrix-multiplication-associativity-finite-folds and \thm:matrix-multiplication-classifier-congruence; chapter 94 supplies a Permutation namecert; chapter 19 supplies the commring fields needed to expand the Leibniz product-of-folds. The result is deeper than 1-round but tightly bounded: the standard Cauchy-Binet style proof reduces to two finite-fold reorderings (sum over composed permutations), each of which is a finite-fold congruence already adjacent to existing matrix machinery. Strong textbook standard, no overlap with BOARD.
+
+---
+
+
+### B-141 - Lagrange's theorem: |G| ∼ |H| · [G:H] for a finite group with subgroup
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Lagrange's theorem: |G| ∼ |H| · [G:H] for a finite group with subgroup |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+Under a finite GroupUp(G) carrier with a SubgroupUp(H ≤ G) carrier, the group cardinality classifier decomposes as a NatMul of the subgroup cardinality and the right-coset index, NatMul(|H|, [G:H]) ∼_Nat |G|, derived from the right-coset partition supplied by the subgroup centralizer right-coset classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/58_subgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/16_group_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/60_quotientgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/SubgroupUp.lean`
+- `lean4/BEDC/Derived/GroupUp.lean`
+
+Rationale:
+Belongs in chapter 58 (concrete-instances/subgroup) or 60 (concrete-instances/quotientgroup). Hungerford "Algebra" Ch.II §4 Theorem 4.6 — the most cited finite-group theorem in any first algebra course. Chapter 58 already has \thm:subgroup-centralizer-right-coset-classifier-hsame-transport and \thm:subgroup-centralizer-right-coset-classifier-trans-from-empty-unit, plus \def:quotientgroup-centralizer-coset-carrier in chapter 60, so the right-coset classifier is on hand. There are zero hits for "Lagrange" anywhere under papers/bedc/parts/. The chapter framework expresses cardinalities as unary Nat lengths, so the theorem becomes: the carrier index is a NatMul fold over coset representatives. The proof uses the right-coset classifier's trans+hsame-transport to show each coset has the same cardinality as H, then a finite-fold finalization. This is the natural next theorem the chapter is set up for; high textbook fit, no overlap with BOARD entries.
+
+---
+
+
+### B-142 - Polynomial evaluation is an additive homomorphism: eval_α(p ⊕ q) ∼ eval_α(p) +_R eval_α(q)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Polynomial evaluation is an additive homomorphism: eval_α(p ⊕ q) ∼ eval_α(p) +_R eval_α(q) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+Under a CommRingUp(R) scalar package and a chosen point α : R, the Horner-style evaluation eval_α : PolynomialCarrier(R) → R satisfies eval_α(PolyAdd(p, q)) ∼_R Add_R(eval_α(p), eval_α(q)) for all coefficient lists p, q, up to the scalar classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `lean4/BEDC/Derived/PolynomialUp.lean`
+
+Rationale:
+Belongs in chapter 25 (concrete-instances/polynomial). Hungerford "Algebra" Ch.III §6 Theorem 6.5 / Lang "Algebra" Ch.IV §1 — the substitution principle on which factor-theorem and Hilbert-Nullstellensatz culture rests. Chapter 25 has \def:polynomial-carrier, polynomial addition (\def:polynomial-raw-add-comparison-data), normalization and trim-zero infrastructure (B-09, B-21, B-30), and \thm:finite-additive-fold-congruence-coefficient-lists, but contains no theorem nor definition naming evaluation/eval_α (verified: grep -i 'evaluate\|eval_\|Horner' on 25_polynomial_namecert_construction.tex returns 0). The new block introduces eval_α via Horner recursion (a commring-side use of the existing finite-additive-fold) and proves the additive-homomorphism row only — closeable in 2 rounds since both sides reduce to the same fold via the additive-fold congruence already labeled in the chapter. The multiplicative-homomorphism case is left for a future block; the additive case alone is a complete textbook theorem. No overlap with BOARD entries B-09/B-21/B-22/B-30/B-31, which all concern normalize-vs-raw rather than evaluation.
+
+---
+
+
+### B-143 - Identity functor name certificate: 1_C : C → C carries the FunctorUp obligations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Identity functor name certificate: 1_C : C → C carries the FunctorUp obligations |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a CategoryUp(C) carrier, the identity functor 1_C with object map x ↦ x and morphism map f ↦ f satisfies the FunctorUp(C, C) certificate: it preserves composition (1_C(g∘f) ∼ 1_C(g)∘1_C(f)), preserves identity (1_C(id_x) ∼ id_{1_C(x)}), and respects the morphism classifier endpoint-by-endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `lean4/BEDC/Derived/FunctorUp.lean`
+- `lean4/BEDC/Derived/CategoryUp.lean`
+
+Rationale:
+Belongs in chapter 37 (concrete-instances/functor). Mac Lane "Categories for the Working Mathematician" Ch.I §3 — the very first concrete functor every textbook constructs; identity 1_C and composition F∘G together generate the category Cat. Chapter 37 has 39 labeled theorems mostly about prefix-hom-carrier preserves/reflects/composition, plus chapter 36 has \thm:category-hom-carrier-unary-prefix-iff and \thm:category-unary-continuation-stability-law-package, but there is no labeled identity-functor name certificate (verified: grep 'identity-functor\|id-functor\|functor-identity' returns only \thm:functor-prefix-hom-carrier-empty-identity-iff, which is a different statement about what happens when a functor's image of an identity is empty). BOARD entry B-11 covers functor *composition* preserving the hom-carrier classifier, not the identity functor. The proof is straightforward: every classifier obligation reduces by reflexivity of ∼ on the carrier; closeable in 1 round. Pedagogically, having no identity-functor instance is the most visible textbook gap in the category chapter cluster.
+
+---
+
+
+### B-144 - AbGroup divisible-subgroup closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AbGroup divisible-subgroup closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an AbGroupUp(G) carrier, the predicate Divisible(a) := "for every n : Nat with n nonempty there exists b : G with NatScale(n, b) ∼_G a" is closed under the abelian-group addition and inverse: Divisible(a) ∧ Divisible(c) → Divisible(a +_G c) and Divisible(a) → Divisible(-_G a), and Divisible(0_G) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+- `lean4/BEDC/Derived/AbGroupUp.lean`
+
+Rationale:
+Belongs in chapter 17 (concrete-instances/abgroup). Hungerford "Algebra" Ch.II §3 / Kaplansky "Infinite Abelian Groups" §1 — the dual pair to the torsion subgroup. Chapter 17 already labels \thm:abgroup-torsion-subgroup-closure (line ≈ near end), so the *torsion* side of the textbook dyad is in place; the *divisible* side is missing entirely (verified: grep -i 'divisible' on 17_abgroup_namecert_construction.tex returns 0 hits). The proof uses \thm:abgroup-mul-common-left-factor-collect (existing) to combine two n-th-root witnesses for a + c, and inverse closure follows from \thm:abgroup-inverse-mul. The new block can introduce the Divisible predicate inline (in the theorem statement) and prove the three closure rows in a single proof, mirroring the torsion-closure block. Closeable in 1-2 rounds. Strong textbook standard; not in BOARD.
+
+---
+
