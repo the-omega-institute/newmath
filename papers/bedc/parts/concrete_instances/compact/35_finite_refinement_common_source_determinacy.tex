@@ -1,0 +1,28 @@
+\begin{theorem}[Compact finite refinement common-source final finite determinacy]
+\label{thm:compact-finite-refinement-chain-common-source-final-finite-deterministic}
+If two compact finite refinement chains start from the same finite and compact
+histories, and their final finite histories are $\hsame$, then the first chain
+has a common continuation witness and the two final compact histories are
+$\hsame$:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+\Longrightarrow
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite',finalCompact')
+\Longrightarrow
+finalFinite\hsame finalFinite'
+\Longrightarrow
+\exists extra,\,
+\mathsf{UnaryHistory}(extra)\land
+\Cont(finite,extra,finalFinite)\land
+\Cont(compact,extra,finalCompact)
+\land finalCompact\hsame finalCompact'.
+$$
+\end{theorem}
+\begin{proof}
+Apply the compact finite refinement continuation-witness theorem to both
+chains. The shared finite source and the equality of final finite ledgers cancel
+the two continuation tails. Transporting that tail equality through the compact
+continuation ledgers identifies the two final compact histories, while the
+first witness supplies the displayed existential data.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_common\_source\_final\_finite\_deterministic}

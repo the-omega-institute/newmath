@@ -103,6 +103,16 @@ theorem HolomorphicOpenDisk_radius_extension_closed {center radius radius' point
                       (And.intro pointCarrier
                         (And.intro extendedGapCarrier extendedLedger)))
 
+theorem HolomorphicOpenDisk_radius_extension_gap_deterministic
+    {center radius radius' point gap extra gap' : BHist} :
+    HolomorphicOpenDisk center radius point gap -> UnaryHistory extra ->
+      Cont radius extra radius' -> HolomorphicOpenDisk center radius' point gap' ->
+        hsame (append gap extra) gap' := by
+  intro disk extraCarrier radiusStep displayed
+  have extended : HolomorphicOpenDisk center radius' point (append gap extra) :=
+    HolomorphicOpenDisk_radius_extension_closed disk extraCarrier radiusStep
+  exact cont_left_cancel extended.right.right.right.right displayed.right.right.right.right
+
 def HolomorphicOpenDiskGap (z0 r z gap : BHist) : Prop :=
   UnaryHistory z0 ∧ UnaryHistory r ∧ UnaryHistory z ∧ UnaryHistory gap ∧ Cont z gap r
 
@@ -360,6 +370,34 @@ theorem HolomorphicOpenDisk_radius_continuation_extend
                                             (Exists.intro extendedGap
                                               (And.intro extendedGapUnary pointExtended))))
 
+theorem HolomorphicOpenDiskWitnessed_radius_extension_gap_public_readback
+    {center point radius extra radius' : BHist} :
+    HolomorphicOpenDiskWitnessed center radius point -> UnaryHistory extra ->
+      Cont radius extra radius' ->
+        HolomorphicOpenDiskWitnessed center radius' point ∧
+          (forall {displayedGap : BHist}, HolomorphicOpenDisk center radius' point displayedGap ->
+            ∃ gap : BHist, ∃ extendedGap : BHist,
+              UnaryHistory gap ∧ UnaryHistory extendedGap ∧ Cont point gap radius ∧
+                Cont gap extra extendedGap ∧ Cont point extendedGap radius' ∧
+                  hsame extendedGap displayedGap) := by
+  intro disk extraUnary radiusExtension
+  constructor
+  · exact HolomorphicOpenDisk_radius_continuation_extend disk extraUnary radiusExtension
+  · intro displayedGap displayed
+    have witness := HolomorphicOpenDisk_radius_extension_gap_witness disk extraUnary radiusExtension
+    cases witness with
+    | intro gap witnessRest =>
+        cases witnessRest with
+        | intro extendedGap data =>
+            exact Exists.intro gap (Exists.intro extendedGap
+                (And.intro data.left
+                  (And.intro data.right.left
+                    (And.intro data.right.right.left
+                      (And.intro data.right.right.right.left
+                        (And.intro data.right.right.right.right
+                          (cont_left_cancel data.right.right.right.right
+                            displayed.right.right.right.right)))))))
+
 theorem HolomorphicOpenDiskCarrier_radius_extension_witnessed
     {center point radius extra radius' : BHist} :
     HolomorphicOpenDiskCarrier center radius point -> UnaryHistory extra ->
@@ -448,6 +486,41 @@ theorem IteratedCplxDiff_unary_of_seed {seed h : BHist} {n : Nat} :
           cases rest with
           | intro step data =>
               exact unary_cont_closed (ih data.left) data.right.left data.right.right
+
+def IteratedStrictCplxDiff (seed : BHist) : Nat -> BHist -> Prop :=
+  Nat.rec
+    (fun h : BHist => hsame seed h)
+    (fun _ prior h =>
+      ∃ previous : BHist, ∃ step : BHist,
+        prior previous ∧ UnaryHistory step ∧ (step = BHist.Empty -> False) ∧
+          Cont previous step h)
+
+theorem IteratedStrictCplxDiff_strict_prefix {seed h : BHist} {n : Nat} :
+    UnaryHistory seed -> IteratedStrictCplxDiff seed (Nat.succ n) h ->
+      NatUnaryStrictPrefix seed h := by
+  intro seedUnary diff
+  induction n generalizing h with
+  | zero =>
+      cases diff with
+      | intro previous rest =>
+          cases rest with
+          | intro step data =>
+              exact
+                NatUnaryStrictPrefix_cont_hsame_transport data.right.left
+                  data.right.right.left data.right.right.right (hsame_symm data.left)
+                  (hsame_refl h)
+  | succ n ih =>
+      cases diff with
+      | intro previous rest =>
+          cases rest with
+          | intro step data =>
+              have previousStrict : NatUnaryStrictPrefix seed previous :=
+                ih data.left
+              have stepStrict : NatUnaryStrictPrefix previous h :=
+                Exists.intro step data.right
+              cases NatUnaryStrictPrefix_trans_composite_tail previousStrict stepStrict with
+              | intro _tail joined =>
+                  exact joined.right.right.right
 
 def OpenDisk (z0 r z : BHist) : Prop :=
   ComplexHistoryCarrier z0 ∧ UnaryHistory r ∧ ComplexHistoryCarrier z ∧
