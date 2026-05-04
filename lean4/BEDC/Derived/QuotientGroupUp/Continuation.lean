@@ -135,6 +135,25 @@ theorem CentralizerCosetClassifier_representative_continuation_classifier_iff
           (And.intro emptyCentral (hsame_trans carriers.right.right.right reprEmpty)))
     exact Iff.mpr transport (Iff.mpr emptyIff emptyCarriers)
 
+theorem CentralizerCosetClassifier_empty_hsame_endpoint_transport
+    {mul : BHist -> BHist -> BHist} {a h k h' k' : BHist} :
+    CentralizerCosetClassifier mul a BHist.Empty h k -> hsame h h' -> hsame k k' ->
+      CentralizerCosetClassifier mul a BHist.Empty h' k' ∧ hsame h' BHist.Empty ∧
+        hsame k' BHist.Empty := by
+  intro classified sameH sameK
+  have endpointH : hsame h' BHist.Empty :=
+    hsame_trans (hsame_symm sameH) classified.left.right
+  have endpointK : hsame k' BHist.Empty :=
+    hsame_trans (hsame_symm sameK) classified.right.left.right
+  have carrierH : CentralizerCosetCarrier mul a BHist.Empty h' :=
+    And.intro classified.left.left endpointH
+  have carrierK : CentralizerCosetCarrier mul a BHist.Empty k' :=
+    And.intro classified.right.left.left endpointK
+  have sameHK : hsame h' k' :=
+    hsame_trans endpointH (hsame_symm endpointK)
+  exact And.intro (And.intro carrierH (And.intro carrierK sameHK))
+    (And.intro endpointH endpointK)
+
 theorem QuotientGroupSingletonClassifier_continuation_classifier_iff {p q r h : BHist} :
     Cont p q r ->
       (QuotientGroupSingletonClassifier r h ↔
