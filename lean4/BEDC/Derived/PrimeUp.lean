@@ -485,4 +485,21 @@ theorem TrialDiv_bound_unary {b n : BHist} : TrialDiv b n -> UnaryHistory b := b
   | step _trial _screen stepCont ih =>
       exact unary_cont_closed ih (unary_e1_closed unary_empty) stepCont
 
+theorem TrialDiv_bound_positive_shape {b n : BHist} :
+    TrialDiv b n -> exists tail : BHist, hsame b (BHist.e1 tail) ∧ UnaryHistory tail := by
+  intro trial
+  cases trial with
+  | unit _hn =>
+      exact ⟨BHist.Empty, hsame_refl (BHist.e1 BHist.Empty), unary_empty⟩
+  | step previous _screen stepCont =>
+      exact ⟨_, stepCont, TrialDiv_bound_unary previous⟩
+
+theorem TrialDiv_bound_not_empty {b n : BHist} :
+    TrialDiv b n -> hsame b BHist.Empty -> False := by
+  intro trial emptyBound
+  have shape := TrialDiv_bound_positive_shape trial
+  cases shape with
+  | intro tail data =>
+      exact not_hsame_e1_empty (hsame_trans (hsame_symm data.left) emptyBound)
+
 end BEDC.Derived.PrimeUp
