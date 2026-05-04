@@ -286,6 +286,15 @@ theorem DerivativeMetricQuotient_same_quotient_step_distance_deterministic
         (And.intro sameStepData.right.right
           (And.intro leftMetricLedger rightMetricLedger))))
 
+theorem DerivativeMetricQuotient_visible_step_same_quotient_absurd
+    {f z p q out dist0 dist1 : BHist} :
+    DerivativeMetricQuotient f z (BHist.e0 p) out dist0 ->
+      DerivativeMetricQuotient f z (BHist.e1 q) out dist1 -> False := by
+  intro left right
+  have sameStep : hsame (BHist.e0 p) (BHist.e1 q) :=
+    (DerivativeMetricQuotient_same_quotient_step_distance_deterministic left right).left
+  exact not_hsame_e0_e1 sameStep
+
 theorem DerivativeMetricQuotient_distance_visible_context_readback {p r f z h q dist core : BHist} :
     DerivativeMetricQuotient f z h q dist ->
       hsame (append (append p dist) r) (append (append p core) r) ->
