@@ -110,6 +110,29 @@ theorem CritStripComplexCarrier_strict_interval_absurd {s sigma tau : BHist} :
   exact And.intro interval
     (CritStripOpenInterval_empty_unit_absurd interval.left interval.right)
 
+theorem CritStripComplexCarrier_hsame_transport {s s' sigma sigma' tau tau' : BHist} :
+    hsame s s' -> hsame sigma sigma' -> hsame tau tau' ->
+      CritStripComplexCarrier s sigma tau ->
+        CritStripComplexCarrier s' sigma' tau' ∧ Cont sigma' tau' s' ∧ False := by
+  intro sameS sameSigma sameTau carrier
+  have sigmaCarrier : RatHistoryCarrier sigma' :=
+    RatHistoryCarrier_hsame_transport sameSigma carrier.left
+  have tauCarrier : RatHistoryCarrier tau' :=
+    RatHistoryCarrier_hsame_transport sameTau carrier.right.left
+  have transportedStrip :=
+    InCritStrip_hsame_transport_boundary_exclusion carrier.right.right.right sameSigma
+  have transportedCont : Cont sigma' tau' s' := by
+    cases sameS
+    cases sameSigma
+    cases sameTau
+    exact carrier.right.right.left
+  have transportedCarrier : CritStripComplexCarrier s' sigma' tau' :=
+    And.intro sigmaCarrier
+      (And.intro tauCarrier (And.intro transportedCont transportedStrip.left))
+  exact And.intro transportedCarrier
+    (And.intro transportedCont
+      (CritStripComplexCarrier_strict_interval_absurd transportedCarrier).right)
+
 theorem CritStripComplexCarrier_component_boundary_exclusion {s sigma tau : BHist} :
     CritStripComplexCarrier s sigma tau ->
       (hsame sigma BHist.Empty -> False) ∧

@@ -143,6 +143,18 @@ theorem HomologyBoundaryCarrier_cycle_closed {d : BHist -> BHist}
       cases witness
       exact d_squared_zero u
 
+theorem HomologyBoundaryCarrier_cycle_classifier_refinement {d : BHist -> BHist}
+    (d_squared_zero : forall u : BHist, hsame (d (d u)) BHist.Empty)
+    {h k : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> hsame h k ->
+      HomologyCycleCarrier d h ∧ HomologyCycleCarrier d k ∧ hsame h k := by
+  intro boundaryH boundaryK sameHK
+  constructor
+  · exact HomologyBoundaryCarrier_cycle_closed d_squared_zero boundaryH
+  · constructor
+    · exact HomologyBoundaryCarrier_cycle_closed d_squared_zero boundaryK
+    · exact sameHK
+
 theorem HomologyCycleCarrier_append_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     {h k : BHist} :

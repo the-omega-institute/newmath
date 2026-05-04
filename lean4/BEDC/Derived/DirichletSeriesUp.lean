@@ -233,6 +233,40 @@ theorem DirichletPartSum_nonempty_index_positive {term : BHist -> BHist -> BHist
   | intro t data =>
       exact Exists.intro t (And.intro data.right data.left)
 
+theorem DirichletPartSum_positive_index_result_nonempty
+    {term : BHist -> BHist -> BHist} {s n S : BHist}
+    (termNonempty : forall {m : BHist}, UnaryHistory m ->
+      hsame (term m s) BHist.Empty -> False) :
+    DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+      hsame S BHist.Empty -> False := by
+  intro sum positive sameEmpty
+  cases positive with
+  | intro tail data =>
+      cases data with
+      | intro unaryTail nEq =>
+          cases nEq
+          cases sum with
+          | step previous stepCont =>
+              have emptyStep : Cont _ (term tail s) BHist.Empty :=
+                cont_result_hsame_transport stepCont sameEmpty
+              have endpoints := cont_empty_result_inversion emptyStep
+              exact termNonempty unaryTail endpoints.right
+
+theorem DirichletPartSum_positive_index_predecessor {term : BHist -> BHist -> BHist}
+    {s n S : BHist} :
+    DirichletPartSum term s n S -> DirichletPositiveIndex n ->
+      exists m P : BHist, n = BHist.e1 m ∧ UnaryHistory m ∧
+        DirichletPartSum term s m P ∧ Cont P (term m s) S := by
+  intro sum positiveN
+  cases sum with
+  | zero =>
+      exact False.elim (DirichletPositiveIndex_nonempty positiveN (hsame_refl BHist.Empty))
+  | step previous stepCont =>
+      exact Exists.intro _ (Exists.intro _
+        (And.intro rfl
+          (And.intro (DirichletPartSum_index_unary previous)
+            (And.intro previous stepCont))))
+
 theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
     DirichletPositiveIndex m -> UnaryHistory n -> DirichletPositiveIndex (append m n) := by
   intro positiveM unaryN
@@ -244,6 +278,17 @@ theorem DirichletPositiveIndex_append_unary_closed {m n : BHist} :
           exact Exists.intro (append tail n)
             (And.intro (unary_append_closed unaryTail unaryN)
               (unary_append_e1_left (h := n) (k := tail) unaryN))
+
+theorem DirichletPositiveIndex_prepend_unary_closed {m n : BHist} :
+    UnaryHistory m -> DirichletPositiveIndex n -> DirichletPositiveIndex (append m n) := by
+  intro unaryM positiveN
+  cases positiveN with
+  | intro tail data =>
+      cases data with
+      | intro unaryTail nEq =>
+          cases nEq
+          exact Exists.intro (append m tail)
+            (And.intro (unary_append_closed unaryM unaryTail) rfl)
 
 theorem DirichletPositiveIndex_append_right_cases {m n : BHist} :
     DirichletPositiveIndex (append m n) ->
