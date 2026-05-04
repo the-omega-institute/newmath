@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
@@ -97,6 +98,17 @@ theorem ProdHistoryClassifier_common_right_component_left_hsame
     ProdHistoryClassifier Left Right h k -> Cont l r h -> Cont l' r k -> hsame l l' := by
   intro classifier contLeft contRight
   exact cont_common_suffix_cancellation contLeft contRight classifier.right.right
+
+theorem ProdHistoryClassifier_component_hsame_cancellation {Left Right : BHist -> Prop}
+    {h k l l2 r r2 : BHist} :
+    ProdHistoryClassifier Left Right h k -> Cont l r h -> Cont l2 r2 k ->
+      And (hsame l l2 -> hsame r r2) (hsame r r2 -> hsame l l2) := by
+  intro classifier contLeft contRight
+  constructor
+  · intro sameLeft
+    exact cont_cancel_hsame_left_context contLeft contRight sameLeft classifier.right.right
+  · intro sameRight
+    exact cont_cancel_hsame_right_context contLeft contRight sameRight classifier.right.right
 
 theorem ProdHistoryCarrier_append_intro {Left Right : BHist -> Prop} {l r : BHist} :
     Left l -> Right r -> ProdHistoryCarrier Left Right (append l r) := by
