@@ -67,6 +67,20 @@ theorem SubgroupCentralizerRightQuotientClassifier_hsame_transport
       (Iff.mp classifierKernelXY classified) sameXX' sameYY'
   exact Iff.mpr classifierKernelX'Y' transported
 
+theorem SubgroupCentralizerRightQuotientClassifier_diagonal_carrier_iff
+    {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
+    (leftId : forall x : BHist, hsame (mul BHist.Empty x) x)
+    (rightId : forall x : BHist, hsame (mul x BHist.Empty) x) {a x : BHist} :
+    SubgroupCentralizerRightQuotientClassifier mul inv a x x <->
+      SubgroupCentralizerNormalizer mul inv a x := by
+  constructor
+  · intro diagonal
+    exact diagonal.left
+  · intro normalizes
+    exact
+      BEDC.Derived.SubgroupUp.SubgroupCentralizerNormalizerQuotientClassifier_refl_from_empty_unit
+        leftId rightId normalizes
+
 protected theorem SubgroupCentralizerRightQuotientClassifier_symm_from_empty_unit
     {mul : BHist -> BHist -> BHist} {inv : BHist -> BHist}
     (assocC : forall x y z : BHist, hsame (mul (mul x y) z) (mul x (mul y z)))

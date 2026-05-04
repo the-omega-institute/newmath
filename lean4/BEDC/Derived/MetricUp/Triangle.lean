@@ -111,6 +111,25 @@ theorem MetricDistanceWitness_triangle_append_context_source_deterministic
   exact MetricDistanceWitness_visible_context_hsame_source_deterministic (hsame_refl dyz)
     (hsame_refl dxyz) canonical displayedWitness
 
+theorem MetricDistanceWitness_triangle_append_context_endpoint_deterministic
+    {p q x x' y z dxy dyz dxyz e : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        (MetricDistanceWitness (append p x') (append dyz q) (append (append p dxyz) q) ->
+          hsame x x') /\
+        (MetricDistanceWitness (append p x) (append e q) (append (append p dxyz) q) ->
+          hsame dyz e) := by
+  intro pCarrier qCarrier xy yz xyz
+  constructor
+  · intro displayed
+    exact MetricDistanceWitness_triangle_append_context_source_deterministic
+      pCarrier qCarrier xy yz xyz displayed
+  · intro displayed
+    have canonical :
+        MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+      MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+    exact MetricDistanceWitness_visible_context_target_deterministic canonical displayed
+
 theorem MetricDistanceWitness_triangle_append_depth_add {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
       MetricDistanceWitness dxy z dxyz ->

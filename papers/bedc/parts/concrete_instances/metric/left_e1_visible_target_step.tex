@@ -1,0 +1,18 @@
+\begin{theorem}[Metric distance witness left e1 visible target step]
+\label{thm:metric-distance-witness-left-e1-visible-target-step}
+For histories $x,y,d$, a distance witness from $\Eone(x)$ to $y$ with result
+$d$ remains a distance witness after placing the target and result under one
+visible $\Eone$ constructor:
+$$
+\mathsf{MetricDistanceWitness}(\Eone(x),y,d)
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(\Eone(x),\Eone(y),\Eone(d)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the witness into unary carriers and the continuation ledger. Unary
+closure supplies carriers for $\Eone(y)$ and $\Eone(d)$, and the continuation
+step rule lifts the same ledger from target $y$ and result $d$ to target
+$\Eone(y)$ and result $\Eone(d)$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_left\_e1\_visible\_target\_step}

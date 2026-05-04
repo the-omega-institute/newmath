@@ -67,6 +67,25 @@ functionality comparisons above, give
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(s,s')$.
 \end{proof}
 
+\begin{theorem}[List classifier e1-map reverse append antimorphism]
+\label{thm:list-classifier-map-e1-reverse-append-antimorphism}
+For BEDC history lists $xs,ys,xs^{\mathrm{rev}},ys^{\mathrm{rev}}$, if
+$xs^{\mathrm{rev}}$ classifies $reverse(xs)$ and $ys^{\mathrm{rev}}$
+classifies $reverse(ys)$ under $\hsame$, then the $\Eone$-mapped reverse of
+$xs{++}ys$ classifies the $\Eone$-mapped opposite append
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$.
+\end{theorem}
+\begin{proof}
+Use the finite-list identity
+$reverse(xs{++}ys)=reverse(ys){++}reverse(xs)$. Symmetry of the two classifier
+hypotheses gives classifiers from $reverse(ys)$ to $ys^{\mathrm{rev}}$ and
+from $reverse(xs)$ to $xs^{\mathrm{rev}}$; append congruence combines them into
+a classifier from $reverse(ys){++}reverse(xs)$ to
+$ys^{\mathrm{rev}}{++}xs^{\mathrm{rev}}$. Transport along the finite-list
+identity and apply the $\Eone$ map classifier theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListClassifierSpec\_hsame\_map\_e1\_reverse\_append\_antimorphism}
+
 \begin{theorem}[List public reverse append output classifier uniqueness]
 \label{thm:list-public-reverse-append-output-classifier-unique}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let

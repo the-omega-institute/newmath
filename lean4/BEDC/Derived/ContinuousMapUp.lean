@@ -402,6 +402,21 @@ theorem ContinuousMapCarrier_comp_closed
     ContinuousFunctionCarrier_comp_closed first.left second.left graphRel modulusRel certRel
   exact ContinuousMapCarrier_canonical_distance_iff.mpr composite
 
+theorem ContinuousMapCarrier_comp_distance_deterministic
+    {source mid target mapF mapG mapFG modF modG modFG certF certG certFG distF distG dist :
+      BHist} :
+    ContinuousMapCarrier source mapF mid modF certF distF ->
+      ContinuousMapCarrier mid mapG target modG certG distG ->
+        Cont mapF mapG mapFG -> Cont modF modG modFG -> Cont target modFG certFG ->
+          ContinuousMapCarrier source mapFG target modFG certFG dist ->
+            hsame dist (append source target) := by
+  intro first second graphRel modulusRel certRel displayed
+  have canonical :
+      ContinuousMapCarrier source mapFG target modFG certFG (append source target) :=
+    ContinuousMapCarrier_comp_closed first second graphRel modulusRel certRel
+  exact
+    (ContinuousMapCarrier_target_cert_distance_deterministic displayed canonical).right.right.left
+
 theorem ContinuousMap_comp_graph_depth_add
     {source mid target mapF mapG mapFG modF modG modFG certF certG certFG : BHist} :
     ContinuousFunctionCarrier source mapF mid modF certF ->
