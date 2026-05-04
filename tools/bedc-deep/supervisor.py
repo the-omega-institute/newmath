@@ -45,6 +45,7 @@ DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
 DEFAULT_LOW_WATER = 3
 DEFAULT_PROBE_COOLDOWN_HOURS = 6
+DEFAULT_CURRICULUM_COOLDOWN_HOURS = 6
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
@@ -370,6 +371,27 @@ def trigger_probe() -> None:
         )
 
 
+def trigger_curriculum_probe() -> None:
+    """Curriculum-aware probe — find textbook-classical theorems missing
+    from started chapters. Complements `probe` (internal symmetry gaps)
+    and `oracle_board_refill` (deep structural / classification theorems).
+    Same architecture as probe but with a different prompt that asks for
+    'what would a standard textbook on this object also cover'.
+    """
+    git_sync_dev()
+    supervisor_log("triggering auto_discovery curriculum probe")
+    log_path = SUPERVISOR_LOG_DIR / f"curriculum_{_now_tag_safe()}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            ["python3", str(AUTO_DISCOVERY), "curriculum", "--append"],
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
 def trigger_oracle_board_refill() -> None:
     """Ask oracle (with project-attached PDF) for new BOARD candidates.
 
@@ -531,6 +553,9 @@ def main() -> int:
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
     parser.add_argument("--low-water", type=int, default=DEFAULT_LOW_WATER)
     parser.add_argument("--probe-cooldown-hours", type=float, default=DEFAULT_PROBE_COOLDOWN_HOURS)
+    parser.add_argument("--curriculum-cooldown-hours", type=float, default=DEFAULT_CURRICULUM_COOLDOWN_HOURS,
+                        help="Cooldown between curriculum probe runs (textbook-classical theorem hunt). "
+                             "Complements --probe-cooldown-hours (internal symmetry gaps).")
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
@@ -569,6 +594,7 @@ def main() -> int:
             supervisor_log(f"git_sync_dev startup error: {exc}")
 
     last_probe_ts = 0.0
+    last_curriculum_ts = 0.0
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
@@ -579,6 +605,7 @@ def main() -> int:
     supervisor_state: dict = {
         "inner": None,
         "probe_cooldown_hours": args.probe_cooldown_hours,
+        "curriculum_cooldown_hours": args.curriculum_cooldown_hours,
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
@@ -613,11 +640,16 @@ def main() -> int:
 
             unfinished = board_unfinished_count()
             since_probe_h = (_now() - last_probe_ts) / 3600.0
+            since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
             if unfinished < args.low_water and since_probe_h > supervisor_state["probe_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → probe")
                 trigger_probe()
                 last_probe_ts = _now()
+            if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → curriculum probe")
+                trigger_curriculum_probe()
+                last_curriculum_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
                 trigger_oracle_board_refill()

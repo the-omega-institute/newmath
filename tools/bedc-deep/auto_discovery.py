@@ -306,11 +306,25 @@ def cmd_curator(args: argparse.Namespace) -> int:
     )
 
 
+def cmd_curriculum(args: argparse.Namespace) -> int:
+    """Curriculum probe — find textbook-classical theorems missing from
+    started chapters. Complements `probe` (which looks for internal
+    symmetry gaps inside the existing paper topology). Same two-stage
+    flow: claude proposes, codex adversarially audits.
+    """
+    return _run_two_stage(
+        args,
+        "curriculum",
+        "curriculum_probe.txt",
+        board_content=_board_text(),
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC auto-discovery: codex generates, claude gates")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_probe = sub.add_parser("probe", help="Codex global gap scan over papers/bedc/parts + lean4/BEDC")
+    p_probe = sub.add_parser("probe", help="Static gap scan: definition-without-theorem, A→B without B→A, etc.")
     p_probe.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
     p_probe.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
     p_probe.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
@@ -323,6 +337,13 @@ def main() -> int:
     p_cur.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
     p_cur.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
     p_cur.set_defaults(func=cmd_curator)
+
+    p_cur2 = sub.add_parser("curriculum", help="Curriculum gap scan: classical textbook theorems missing from started chapters")
+    p_cur2.add_argument("--append", action="store_true", help="Append accepted candidates to BOARD.md")
+    p_cur2.add_argument("--candidate-fit-threshold", type=int, default=DEFAULT_CANDIDATE_FIT_THRESHOLD)
+    p_cur2.add_argument("--candidate-novelty-threshold", type=int, default=DEFAULT_CANDIDATE_NOVELTY_THRESHOLD)
+    p_cur2.add_argument("--no-dev-sync", action="store_true", help="Skip merging origin/dev before scan")
+    p_cur2.set_defaults(func=cmd_curriculum)
 
     args = parser.parse_args()
     return args.func(args)

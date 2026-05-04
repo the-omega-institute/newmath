@@ -1,0 +1,117 @@
+You are doing a CURRICULUM AUDIT of the BEDC paper.
+
+Goal: identify 5-10 GENUINELY OPEN theorem-level claims in the BEDC
+project where the gap is NOT an internal symmetry of existing structure
+(those go through `theory_probe`), but rather a **classical theorem
+from a standard textbook on the topic** that has not yet been formalized
+in the chapter that introduces the object.
+
+This complements `theory_probe`. `theory_probe` looks for "definition
+without theorem", "A→B without B→A", "concrete instance missing",
+"composition gap" — internal symmetry inside the paper's existing
+topology. `curriculum_probe` looks for **textbook-classical theorems
+missing from started chapters** — outward-pointing curricular gaps.
+
+Pipeline lane (what bedc-deep does):
+- Reads `papers/bedc/parts/*.tex` and `lean4/BEDC/*.lean` (no edits during audit)
+- Output is a NEW LaTeX block (theorem with complete proof) appended into an
+  existing chapter file under papers/bedc/parts/
+- Operates within the eight existing chapters: core / proof_obligations /
+  concrete_instances / hardening / formalization / proof_sprint / proof_standing /
+  project_governance
+
+Existing BOARD (skip everything semantically equivalent to these):
+```
+{board_content}
+```
+
+A genuine open target must satisfy ALL:
+1. Concrete proposition expressible as a single implication
+   "P(x) implies Q(x) under setup S".
+2. NOT already stated as `\begin{{theorem|lemma|proposition|corollary}}` with
+   `\label{{...}}` anywhere under `papers/bedc/parts/`.
+3. NOT already covered by `\leanchecked` / `\leanvariant` / `\leansorryd` /
+   `\leandef` / `\leanstmt` macros.
+4. Within an existing chapter directory.
+5. **Is a theorem any introductory textbook on the topic would have**
+   (curricular standard, not exotic / research-level).
+
+Audit method (execute thoroughly — many tool calls expected):
+
+1. Map paper structure. List `papers/bedc/parts/concrete_instances/`. Note
+   which chapters have started (have a chapter file with definitions and
+   ≥1 theorem) but have **partial coverage of the standard textbook chapter
+   for that topic**.
+
+2. For each started chapter, ask the question:
+   "What classical theorems would a standard undergraduate textbook on
+    {{this object}} prove that this chapter has not yet stated?"
+
+   Examples by topic (NOT exhaustive — use as inspiration):
+   - **Polynomial / FPS**: division-with-remainder well-foundedness;
+     GCD existence; coprime characterization; evaluation homomorphism;
+     factor theorem; derivative laws; root multiplicity.
+   - **CommRing / Ring**: zero-divisor product closure; integral domain
+     cancellation; nilpotent ideal closure; characteristic function;
+     prime ideal characterization.
+   - **AbGroup / Group**: torsion element subgroup; divisible subgroup
+     closure; finite cyclic decomposition witness; commutator subgroup;
+     conjugation invariant subgroups.
+   - **TotalOrder / POSet / Lattice**: finite minimum/maximum existence;
+     no-infinite-descent; well-ordering of finite total orders; tournament
+     representation; Hasse diagram distinctness.
+   - **Functor / NatTrans / Category**: split mono/epi preservation; iso
+     preservation; faithfulness via reflection; equivalences vs isomorphisms;
+     limit preservation criterion.
+   - **Metric / TotallyBounded / Compact**: Heine-Borel equivalence chain;
+     diameter additivity; uniform continuity preservation under composition;
+     Lipschitz continuity from bounded modulus.
+   - **Module / VecSpace / LinearMap**: faithful action characterization;
+     direct sum universal property; rank-nullity for finite linear maps;
+     dual space pairing.
+   - **NatMul / NatDivides / Prime**: division algorithm for natural numbers;
+     Euclidean algorithm GCD; Bezout identity; coprime characterization;
+     prime factorization uniqueness in Nat.
+
+3. For each candidate, run a focused grep across `papers/bedc/parts/` for
+   the concept name. If you find ANY matching theorem environment, the
+   candidate is NOT open — drop it. If you find only a remark or definition,
+   it may still be open (proceed).
+
+4. Reject candidates that are:
+   - Internal symmetry gaps (those belong to `theory_probe`).
+   - Pure renamings or notation variants of existing theorems.
+   - Cross-chapter integration (those belong to `curator`).
+   - Research-level or exotic results outside textbook standard.
+   - Already in BOARD by another title.
+
+5. Output a single JSON object on stdout, no prose, no markdown fences:
+
+{{
+  "candidates": [
+    {{
+      "title": "<short, ≤80 chars>",
+      "concrete_claim": "<single-sentence implication form>",
+      "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
+      "fit_score": <0-10 integer>,
+      "novelty": <0-10 integer>,
+      "rationale": "<paragraph: which chapter does this belong to, what textbook standard is it (e.g. 'Hungerford Algebra ch.III'), specific evidence (file:line) that it's not yet stated, why is it 1-3 round closeable>"
+    }}
+  ],
+  "rejected": [
+    {{
+      "concept": "<short title>",
+      "reason": "<which existing label / BOARD entry covers it, with file:line>"
+    }}
+  ]
+}}
+
+Constraints:
+- Each `local_inputs` path MUST exist in the repository (verify with Read or ls).
+- Be opinionated about novelty: a theorem that's "obvious next textbook step"
+  scores HIGH on fit (chapter accepts it cleanly) but moderate on novelty
+  (it's expected). That's fine — fit > novelty for this mode.
+- Empty candidates list is acceptable. Empty rejected list is suspicious.
+- 5 candidates with strong textbook precedent is better than 10 borderline ones.
+- The rejected list calibrates the audit; include 5+ entries showing what you
+  considered and why you dropped them.
