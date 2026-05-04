@@ -157,6 +157,7 @@ import BEDC.Derived.HolomorphicUp.IteratedStrict
 import BEDC.Derived.HolomorphicUp.IteratedStrictReadback
 import BEDC.Derived.HolomorphicUp.CenterPointSuffixGapReadback
 import BEDC.Derived.HolomorphicUp.OpenDiskRadiusExtension
+import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp

@@ -231,6 +231,30 @@ $\rho_{\emp}$ with pairs of singleton empty-history endpoints. Using the two
 endpoint witnesses just obtained, package the pair as
 $\rho_{\emp}(n,n')$.
 \end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_graph\_output\_determinacy}
+
+\begin{theorem}[Module singleton scalar action output fiber semantic certificate]
+\label{thm:module-singleton-smul-output-fiber-semantic-name-cert}
+For histories \(r,m,n:\mathsf{BHist}\), if \(A_{\emp}(r)\),
+\(A_{\emp}(m)\), and
+\(\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),n)\), then the concrete output
+fiber
+$$
+F_{r,m}(o)\;:\Longleftrightarrow\;
+\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)
+$$
+forms a semantic naming certificate with source, pattern, and ledger all equal
+to \(F_{r,m}\), and classifier \(\rho_{\emp}\).
+\end{theorem}
+\begin{proof}
+The displayed output \(n\) inhabits the source fiber. Reflexivity, symmetry,
+and transitivity are inherited from the singleton classifier certificate. For
+carrier transport, compose the source classification
+\(\rho_{\emp}(\mathsf{ModuleSingletonSmul}(r,m),o)\) with
+\(\rho_{\emp}(o,o')\). Pattern and ledger soundness are identity maps on the
+same concrete fiber.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleSingletonSmul\_output\_fiber\_semanticNameCert}
 
 \begin{theorem}[Singleton empty-history module laws]
 \label{thm:module-singleton-scalar-action-laws}

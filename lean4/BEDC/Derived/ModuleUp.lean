@@ -76,6 +76,24 @@ theorem ModuleSingletonSmul_graph_empty_exact_iff {r m n : BHist} :
           (And.intro (hsame_refl BHist.Empty) carriers.right.right)
       exact And.intro carriers.left (And.intro carriers.right.left classified)
 
+theorem ModuleSingletonSmul_graph_output_determinacy {r m n n' : BHist} :
+    (ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n) ->
+    (ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n') ->
+      ModuleSingletonClassifier n n' ∧ hsame (ModuleSingletonSmul r m) BHist.Empty := by
+  intro graph graph'
+  have graphExact := ModuleSingletonSmul_graph_empty_exact_iff (r := r) (m := m) (n := n)
+  have graphExact' := ModuleSingletonSmul_graph_empty_exact_iff (r := r) (m := m) (n := n')
+  have carriers : ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n :=
+    Iff.mp graphExact.right graph
+  have carriers' : ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n' :=
+    Iff.mp graphExact'.right graph'
+  have outputClassified : ModuleSingletonClassifier n n' :=
+    Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+      (And.intro carriers.right.right carriers'.right.right)
+  exact And.intro outputClassified graphExact.left
+
 theorem ModuleSingletonSmul_image_empty_endpoint_iff {h : BHist} :
     (Exists (fun r : BHist => Exists (fun m : BHist =>
       ModuleSingletonCarrier m /\ hsame h (ModuleSingletonSmul r m)))) <->
@@ -173,6 +191,39 @@ theorem ModuleSingletonSmul_image_semanticNameCert :
     ledger_sound := by
       intro _h carrier
       exact carrier
+  }
+
+theorem ModuleSingletonSmul_output_fiber_semanticNameCert {r m n : BHist} :
+    ModuleSingletonCarrier r -> ModuleSingletonCarrier m ->
+      ModuleSingletonClassifier (ModuleSingletonSmul r m) n ->
+        SemanticNameCert
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          (fun out : BHist => ModuleSingletonClassifier (ModuleSingletonSmul r m) out)
+          ModuleSingletonClassifier := by
+  intro _carrierR _carrierM classified
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro n classified
+      equiv_refl := by
+        intro out source
+        exact singleton_empty_history_module_laws.left.core.equiv_refl source.right.left
+      equiv_symm := by
+        intro out out' same
+        exact singleton_empty_history_module_laws.left.core.equiv_symm same
+      equiv_trans := by
+        intro out out' out'' same same'
+        exact singleton_empty_history_module_laws.left.core.equiv_trans same same'
+      carrier_respects_equiv := by
+        intro out out' same source
+        exact singleton_empty_history_module_laws.left.core.equiv_trans source same
+    }
+    pattern_sound := by
+      intro _out source
+      exact source
+    ledger_sound := by
+      intro _out source
+      exact source
   }
 
 theorem singleton_empty_history_module_action_fields :
