@@ -53,59 +53,6 @@ $$
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
 
-\begin{theorem}[Unary append inverse field collapses to singleton]
-\label{thm:unary-append-inverse-field-collapses-to-singleton}
-For every operation $i:\mathsf{BHist}\to\mathsf{BHist}$, the right-inverse
-field on the full unary-history append carrier,
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
-(\mathsf{append}(h,i(h)),\emp),
-$$
-implies the singleton-unit collapse
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
-$$
-The analogous left-inverse field,
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
-(\mathsf{append}(i(h),h),\emp),
-$$
-implies the same singleton-unit collapse.
-
-The ten-field fit is: traditional target obstruction to making the full unary
-append monoid into a group; BEDC source $\mathsf{UnaryHistory}$,
-$\mathsf{append}$, and
-$\mathsf{MonoidHistoryClassifier}$; carrier $\mathsf{UnaryHistory}$;
-classifier $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;
-stability from unit-product factor exactness; ledger the proposed inverse
-field; core theorem this block; exactness inverse-law collapse to the
-singleton unit class; downstream consumer the concrete $\GroupUp$ carrier
-choice; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Assume the right-inverse field and fix a unary history $h$. Specializing the
-field at $h$ gives the classifier statement that
-$\mathsf{append}(h,i(h))$ is classified as $\emp$.
-
-Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this append
-product. The forward direction decomposes the unit-product classifier into the
-two factor classifiers, and the left factor is exactly
-$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)$.
-
-For the left-inverse field, fix the same unary history $h$ and specialize the
-field at $h$. Apply
-\autoref{thm:unary-append-unit-product-factor-exactness} to
-$\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
-classifiers with $h$ as the right factor, so the right factor is the displayed
-singleton-unit conclusion.
-\end{proof}
-
 \begin{theorem}[Unary append inverse field iff singleton collapse]
 \label{thm:unary-append-inverse-field-iff-singleton-collapse}
 For every operation $i:\mathsf{BHist}\to\mathsf{BHist}$ satisfying unary
@@ -149,9 +96,14 @@ $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For the forward direction, assume the displayed conjunction of inverse-field
-laws. Its right-inverse conjunct is exactly the hypothesis of
-\autoref{thm:unary-append-inverse-field-collapses-to-singleton}, so that
-theorem gives the displayed singleton-unit collapse.
+laws and fix a unary history $h$. The right-inverse conjunct gives
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)$.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classifier. The forward direction decomposes it into the two factor
+classifiers, and the left factor is exactly the displayed singleton-unit
+conclusion for $h$.
 
 For the reverse direction, assume singleton-unit collapse and fix a unary
 history $h$. The collapse hypothesis gives
