@@ -239,3 +239,42 @@ stated uniqueness of predecessor readback.
 
 \section{The certificate}
 \label{sec:lfunction-certificate}
+
+\begin{theorem}[L-function Dirichlet partial-sum result hsame transport]
+\label{thm:lfunction-dirichlet-part-sum-result-hsame-transport}
+For any Dirichlet term operation $term$, parameter $s$, index $n$, and
+histories $S$ and $S'$, result history-sameness transports closed
+partial-sum witnesses:
+$$
+S\hsame S'
+\Longrightarrow
+\bigl(
+\mathsf{DirichletPartSum}(term,s,n,S)
+\Longleftrightarrow
+\mathsf{DirichletPartSum}(term,s,n,S')
+\bigr).
+$$
+In particular, no separate unary-index hypothesis is required.
+\end{theorem}
+\begin{proof}
+It is enough to prove the forward implication; applying that implication to
+the symmetric result identification gives the reverse direction by
+\autoref{thm:history-sameness-equivalence}. Fix $S\hsame S'$ and a closed
+witness of $\mathsf{DirichletPartSum}(term,s,n,S)$, and induct on that
+witness. In the zero case, closed generation gives $n=\emp$ and $S=\emp$.
+The result hypothesis therefore reduces to $\emp\hsame S'$. By symmetry from
+\autoref{thm:history-sameness-equivalence} it also gives $S'\hsame\emp$; the
+empty case of the constructor characterization in
+\autoref{thm:history-constructor-characterization} makes $S'$ literally
+$\emp$. After this literal replacement, the zero constructor of
+\autoref{def:dir-part-sum} gives
+$\mathsf{DirichletPartSum}(term,s,\emp,S')$.
+
+In the step case, the witness has index $\Eone(m)$ and consists of a
+predecessor witness $\mathsf{DirichletPartSum}(term,s,m,P)$ together with the
+final continuation $\Cont(P,term(m,s),S)$. By
+\autoref{thm:cont-result-hsame-transport}, this continuation transports along
+$S\hsame S'$ to $\Cont(P,term(m,s),S')$. The step constructor of
+\autoref{def:dir-part-sum} then gives
+$\mathsf{DirichletPartSum}(term,s,\Eone(m),S')$.
+\end{proof}
