@@ -201,6 +201,37 @@ concrete continuous-map carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_boundaries\_iff}
 
+\begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
+\label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
+For histories $source$, $target$, $modulus$, and $cert$, if
+$\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)$, then
+the endpoint collapses and the modulus certificate reads back as a unary
+history equivalent to the modulus:
+$$
+\hsame(source,\emp)\land\hsame(target,\emp)\land
+\mathsf{UnaryHistory}(cert)\land\hsame(cert,modulus).
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuousmap-empty-map-empty-distance-boundaries} to
+the carrier. The forward implication yields $\hsame(source,\emp)$,
+$\hsame(target,\emp)$, and
+$\mathsf{ContinuousModulusWitness}(\emp,modulus,cert)$.
+
+Apply the empty-source modulus-witness readback theorem from the continuous
+chapter to the final witness. It gives $\mathsf{UnaryHistory}(cert)$ and
+$\hsame(modulus,cert)$; symmetry of $\hsame$ presents the last conjunct in the
+displayed certificate-to-modulus orientation.
+\end{proof}
+
+The ten-field fit is: traditional target empty continuous-map readback, BEDC
+source ContinuousMapUp with ContinuousModulusWitness, carrier
+ContinuousMapCarrier, classifier $\hsame$, graph ledger $\emp$, distance ledger
+$\emp$, certificate ledger $cert$, core theorem
+Theorem~\ref{thm:continuousmap-empty-map-empty-distance-certificate-readback},
+exactness the displayed conjunction, and downstream consumer compact-continuous
+map endpoint readback.
+
 \section{The certificate}
 \label{sec:continuousmap-certificate}
 
