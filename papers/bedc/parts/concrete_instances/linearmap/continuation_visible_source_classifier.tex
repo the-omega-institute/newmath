@@ -1,0 +1,24 @@
+\begin{theorem}[Singleton linear-map classifier continuation visible source exclusion]
+\label{thm:linearmap-singleton-classifier-continuation-visible-source-absurd}
+For histories \(p,q,r,h:\mathsf{BHist}\), no continuation whose source is
+\(\Ezero(p)\) or \(\Eone(p)\) can have a result classified by the singleton
+linear-map classifier:
+$$
+\ContR(\Ezero(p),q,r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr),
+$$
+and
+$$
+\ContR(\Eone(p),q,r)
+\Longrightarrow
+\bigl(\mathsf{LinearMapSingletonClassifier}(r,h)\Longrightarrow\bot\bigr).
+$$
+\end{theorem}
+\begin{proof}
+The singleton classifier gives \(r\hsame\emp\). Transport the displayed
+continuation result to \(\emp\) and apply empty-result inversion for
+\(\ContR\). The source endpoint is forced to be \(\emp\), contradicting
+constructor separation for \(\Ezero\) or \(\Eone\).
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_visible\_source\_absurd}

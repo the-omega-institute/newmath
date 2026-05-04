@@ -497,6 +497,31 @@ introduction packages the four factors.
 \end{proof}
 \leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_context\_carrier\_split}
 
+\begin{theorem}[CommRing singleton classifier append-left carrier exactness]
+\label{thm:commring-singleton-classifier-append-left-carrier-iff}
+For histories $h,k,\mathit{out}:\mathsf{BHist}$, the singleton
+commutative-ring classifier relates the appended left endpoint to
+$\mathit{out}$ exactly when all three visible histories are singleton
+carriers:
+$$
+\rho_{\emp}(\mathsf{append}(h,k),\mathit{out})
+\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(k)\land A_{\emp}(\mathit{out}).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction projects the left endpoint carrier from the classifier
+and applies empty-result inversion for append, yielding singleton carrier
+witnesses for $h$ and $k$. The right endpoint carrier is the second classifier
+field.
+
+Conversely, the carrier witnesses for $h$ and $k$ rebuild a singleton carrier
+witness for $\mathsf{append}(h,k)$ by empty-result construction. Together with
+the carrier witness for $\mathit{out}$, transitivity through $\emp$ and symmetry
+give the displayed singleton classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingSingletonClassifier\_append\_left\_carrier\_iff}
+
 \begin{theorem}[CommRing singleton classifier append commuted factors]
 \label{thm:commring-singleton-classifier-append-comm-congr}
 For histories $h,h',k,k':\mathsf{BHist}$, if the singleton commutative-ring
