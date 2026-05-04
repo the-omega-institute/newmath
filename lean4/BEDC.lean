@@ -285,6 +285,7 @@ import BEDC.Derived.SubgroupUp.RightQuotientEmptyFiber
 import BEDC.Derived.SubgroupUp.NormalizerCertificate
 import BEDC.Derived.SubgroupUp.IntersectionConjugation
 import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
+import BEDC.Derived.SubgroupUp.IntersectionNormalizer
 import BEDC.Derived.SubgroupUp.RightCosetTransport
 import BEDC.Derived.SubgroupUp.RelativeProduct
 import BEDC.Derived.SubgroupUp.QuotientKernelEndpoint
