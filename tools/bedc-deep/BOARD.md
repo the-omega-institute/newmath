@@ -2755,3 +2755,56 @@ The paper defines `def:adjunction-unit-counit-carrier` and `def:adjunction-trian
 
 ---
 
+### B-109 - LinearMap identity certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap identity certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under any ModuleUp(R,M), the identity map on M satisfies LinearMapCert_R(M, M; id) with the inherited classifier and ledger policy.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Chapter 23 currently only registers six \leandef definitions (def:linearmap-carrier, def:linearmap-certificate-obligations, def:linearmap-classifier-specification, def:linearmap-ledger-policy, def:linearmap-pattern-specification, def:linearmap-source-specification) with zero theorems. The identity-carries-certificate fact is the foundational counterpart that any category-of-modules style usage needs and is not implied by any module-side BOARD entry (B-08/B-19/B-20/B-23/B-24 are all about scalar associativity or representative transport, not about specific linear maps carrying the certificate). The claim is in single-implication form: ModuleUp(R,M) implies LinearMapCert_R(M,M;id), and lives squarely in concrete_instances. The existing linearmap chapter is already on the working tree (23_linearmap_namecert_construction.tex is modified), making this a natural extension slot.
+
+---
+
+
+### B-110 - LinearMap composition associativity certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LinearMap composition associativity certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For LinearMapCert_R-certified maps f: M -> N, g: N -> P, k: P -> Q over a common scalar source, the two associations ((k . g) . f) and (k . (g . f)) are pointwise classified equal in Q's classifier and the composite carries the linearmap certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+No existing BOARD entry covers linearmap composition. B-11 is the analogous theorem at the functor level (HomCarrier composition), but linear maps live one level down on a different carrier (module hom-sets, not category hom-carriers) and need their own pointwise classifier reasoning over the codomain module. The chapter has zero theorems, and composition associativity is a prerequisite for any later category-of-R-modules style construction. Concrete implication form: certified f, g, k imply pointwise classified equality of the two associations. Lands in concrete_instances and adjacent to existing module / linearmap definitions without duplicating module-side B-entries (which are about scalar action laws, not composition).
+
+---
+
