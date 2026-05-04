@@ -141,6 +141,21 @@ theorem CohomologyCocycle_axis_context_append_closed {d : BHist -> BHist}
     (append_eq_empty_iff.mpr
       (And.intro (hsame_empty_iff.mp leftCycle) (hsame_empty_iff.mp rightContextCycle)))
 
+theorem CohomologyCocycle_axis_context_append_hsame_transport {d : BHist -> BHist}
+    {left right h k r : BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    (dCongr : forall {a b : BHist}, hsame a b -> hsame (d a) (d b))
+    (leftCycle : hsame (d left) BHist.Empty) (rightCycle : hsame (d right) BHist.Empty) :
+    hsame (d (append left (append h right))) BHist.Empty ->
+      hsame (d (append left (append k right))) BHist.Empty ->
+        hsame (append left (append (append h k) right)) r -> hsame (d r) BHist.Empty := by
+  intro hContextCycle kContextCycle sameResult
+  have contextAppendCycle :
+      hsame (d (append left (append (append h k) right))) BHist.Empty :=
+    CohomologyCocycle_axis_context_append_closed dAppend leftCycle rightCycle hContextCycle
+      kContextCycle
+  exact hsame_trans (hsame_symm (dCongr sameResult)) contextAppendCycle
+
 theorem CohomologyCocycle_prepend_axis_closed {d : BHist -> BHist} {axis h k : BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
     (axisCycle : hsame (d axis) BHist.Empty) :
