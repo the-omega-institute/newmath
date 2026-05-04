@@ -20,3 +20,36 @@ each positive denominator as unary evidence for its head and tail, and the
 remaining classifier field is the displayed endpoint $\hsame$ relation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_e1\_tail\_unary\_readback}
+
+\begin{theorem}[Real constant classifier common-head e-one tail readback]
+\label{thm:real-constant-history-classifier-append-common-head-e1-tail-readback}
+For histories $left,d,e,tail_D,tail_E$, a common visible head in two displayed
+constant RealUp e-one tail denominators can be read back to the five unary
+factors and the central denominator comparison:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}
+  (\Eone(left\cdot(d\cdot\Eone(tail_D))),
+   \Eone(left\cdot(e\cdot\Eone(tail_E))))\\
+\qquad\Longrightarrow
+\hsame(tail_D,tail_E)\Longrightarrow\\
+\qquad
+\mathsf{UnaryHistory}(left)\land
+\mathsf{UnaryHistory}(d)\land
+\mathsf{UnaryHistory}(e)\land
+\mathsf{UnaryHistory}(tail_D)\land
+\mathsf{UnaryHistory}(tail_E)\land
+\hsame(d,e).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Use associativity of BEDC append to expose the endpoints as appended e-one
+tails with heads $left\cdot d$ and $left\cdot e$. The appended e-one tail
+readback theorem gives unary evidence for both composite heads, the two tails,
+and the displayed endpoint comparison. Split the composite unary heads into
+their factors. The assumed tail comparison identifies the two e-one tail
+suffixes, so BEDC append right cancellation removes the shared suffix; append
+left cancellation then removes the common head and yields $\hsame(d,e)$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_append\_common\_head\_e1\_tail\_readback}
