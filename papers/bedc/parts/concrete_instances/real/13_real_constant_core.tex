@@ -148,6 +148,38 @@ the rational classifier witness remains attached to the same sealed tails.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_endpoint\_transport}
 
+\begin{theorem}[Constant real classifier unary denominator context closure]
+\label{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}
+Let $d,e,p_D,p_E,t_D,t_E,m_D,m_E,o_D,o_E:\mathsf{BHist}$. If
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(e)),
+$$
+$p_D$ and $t_D$ are unary histories, $p_D\hsame p_E$, $t_D\hsame t_E$, and the
+displayed continuation witnesses are
+$$
+\mathsf{Cont}(p_D,d,m_D),\quad
+\mathsf{Cont}(m_D,t_D,o_D),\quad
+\mathsf{Cont}(p_E,e,m_E),\quad
+\mathsf{Cont}(m_E,t_E,o_E),
+$$
+then
+$$
+\mathsf{RealConstantHistoryClassifier}(\Eone(o_D),\Eone(o_E)).
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-constant-history-classifier-e1-iff-rat} to expose the
+rational classifier on $d$ and $e$. The RatUp unary-denominator context closure
+classifies the associativity-normal endpoints
+$\mathsf{append}(p_D,\mathsf{append}(d,t_D))$ and
+$\mathsf{append}(p_E,\mathsf{append}(e,t_E))$. The four displayed continuation
+witnesses identify $o_D$ and $o_E$ with those normal endpoints through
+associativity of append. Transport the rational classifier along those
+identifications, then reseal the two endpoints with
+\autoref{thm:real-constant-history-classifier-e1-iff-rat}.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_cont\_unary\_denominator\_context\_closed}
+
 \begin{theorem}[Constant real classifier invalid endpoint exclusions]
 \label{thm:real-constant-history-classifier-invalid-endpoint-absurd}
 For every history $h$ and history tail $t$, the constant real-history classifier
@@ -194,6 +226,7 @@ the status is $\mathsf{ProofTarget}$.
   \autoref{thm:real-constant-history-carrier-empty-absurd}.
 \end{enumerate}
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_invalid\_endpoint\_absurd}
 
 \begin{theorem}[Constant real classifier equivalence fields]
 \label{thm:real-constant-history-classifier-equivalence-fields}

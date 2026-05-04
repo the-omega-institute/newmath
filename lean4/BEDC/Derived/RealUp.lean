@@ -5,6 +5,7 @@ import BEDC.Derived.StreamNameUp
 namespace BEDC.Derived.RealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.Derived.RatUp
 open BEDC.Derived.StreamNameUp
 open BEDC.FKernel.Unary
@@ -93,6 +94,53 @@ theorem RealConstantHistoryClassifier_endpoint_carriers {h k : BHist} :
                   constructor
                   · exact ⟨d, sameH, ratClassifier.left⟩
                   · exact ⟨e, sameK, ratClassifier.right.left⟩
+
+theorem RealConstantHistoryClassifier_cont_unary_denominator_context_closed
+    {d e prefD prefE tailD tailE pd pe outD outE : BHist} :
+    RealConstantHistoryClassifier (BHist.e1 d) (BHist.e1 e) -> UnaryHistory prefD ->
+      UnaryHistory tailD -> hsame prefD prefE -> hsame tailD tailE -> Cont prefD d pd ->
+        Cont pd tailD outD -> Cont prefE e pe -> Cont pe tailE outE ->
+          RealConstantHistoryClassifier (BHist.e1 outD) (BHist.e1 outE) := by
+  intro classified prefDUnary tailDUnary samePref sameTail prefDCont outDCont prefECont
+    outECont
+  have ratClassified : RatHistoryClassifier d e :=
+    Iff.mp RealConstantHistoryClassifier_e1_iff_rat classified
+  have contextClassified :
+      RatHistoryClassifier (append prefD (append d tailD))
+        (append prefE (append e tailE)) :=
+    RatHistoryClassifier_unary_denominator_context_closed ratClassified prefDUnary samePref
+      tailDUnary sameTail
+  have sameOutD : hsame (append prefD (append d tailD)) outD := by
+    cases prefDCont
+    cases outDCont
+    exact hsame_symm (append_assoc prefD d tailD)
+  have sameOutE : hsame (append prefE (append e tailE)) outE := by
+    cases prefECont
+    cases outECont
+    exact hsame_symm (append_assoc prefE e tailE)
+  exact Iff.mpr RealConstantHistoryClassifier_e1_iff_rat
+    (RatHistoryClassifier_hsame_transport sameOutD sameOutE contextClassified)
+
+theorem RealConstantHistoryClassifier_invalid_endpoint_absurd :
+    (∀ {tail h : BHist}, RealConstantHistoryClassifier (BHist.e0 tail) h -> False) ∧
+      (∀ {tail h : BHist}, RealConstantHistoryClassifier h (BHist.e0 tail) -> False) ∧
+        (∀ {h : BHist}, RealConstantHistoryClassifier BHist.Empty h -> False) ∧
+          (∀ {h : BHist}, RealConstantHistoryClassifier h BHist.Empty -> False) := by
+  constructor
+  · intro tail h classified
+    exact RealConstantHistoryCarrier_e0_absurd
+      (RealConstantHistoryClassifier_endpoint_carriers classified).left
+  · constructor
+    · intro tail h classified
+      exact RealConstantHistoryCarrier_e0_absurd
+        (RealConstantHistoryClassifier_endpoint_carriers classified).right
+    · constructor
+      · intro h classified
+        exact RealConstantHistoryCarrier_empty_absurd
+          (RealConstantHistoryClassifier_endpoint_carriers classified).left
+      · intro h classified
+        exact RealConstantHistoryCarrier_empty_absurd
+          (RealConstantHistoryClassifier_endpoint_carriers classified).right
 
 def RealStreamClassifier (x y : Nat -> BHist) : Prop :=
   forall n : Nat, BEDC.Derived.RatUp.RatHistoryClassifier (x n) (y n)
