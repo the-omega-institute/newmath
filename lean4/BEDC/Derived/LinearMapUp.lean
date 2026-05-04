@@ -578,4 +578,21 @@ theorem LinearMapSingletonEval_visible_target_classifier_absurd {f x p : BHist} 
   · intro classified
     exact not_hsame_e1_empty classified.right.left
 
+theorem LinearMapSingletonCarrier_continuation_append_source_visible_result_absurd {p q r s : BHist} :
+    LinearMapSingletonCarrier p -> LinearMapSingletonCarrier q -> LinearMapSingletonCarrier r ->
+      (Cont (append p q) r (BHist.e0 s) -> False) ∧
+        (Cont (append p q) r (BHist.e1 s) -> False) := by
+  intro carrierP carrierQ carrierR
+  constructor
+  · intro continuation
+    cases carrierP
+    cases carrierQ
+    cases carrierR
+    cases continuation
+  · intro continuation
+    cases carrierP
+    cases carrierQ
+    cases carrierR
+    cases continuation
+
 end BEDC.Derived.LinearMapUp

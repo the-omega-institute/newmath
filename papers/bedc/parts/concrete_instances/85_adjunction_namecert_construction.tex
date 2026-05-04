@@ -206,6 +206,28 @@ front component.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_unary}
 
+\begin{theorem}[Adjunction alternating zero-headed result exclusion]
+\label{thm:adjunction-unit-counit-carrier-alternating-zero-headed-result-absurd}
+For an adjunction unit-counit carrier, unary depth makes the alternating
+unit-counit ledger unary. Therefore it cannot be history-same to a zero-headed
+result:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)
+\land \hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\Ezero(z))
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+The unit and counit components of the displayed carrier are natural
+transformation component histories, hence each component history is unary.
+Together with unary depth, the alternating unary theorem makes the displayed
+alternating ledger unary. Transporting unary membership across the result
+\(\hsame\) would make \(\Ezero(z)\) unary, contradicting unary zero-headed
+exclusion.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_zero\_headed\_result\_absurd}
+
 \begin{theorem}[Adjunction positive-depth alternating unit nonempty]
 \label{thm:adjunction-unit-counit-alternating-positive-depth-unit-nonempty}
 For histories $unit,counit,depth:\mathsf{BHist}$, suppose $depth$ is unary,
@@ -241,6 +263,27 @@ component is $unit$ and whose right component is the alternating ledger with
 the boundary components exchanged.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_cont\_readback}
+
+\begin{theorem}[Adjunction alternating append positive suffix continuation readback]
+\label{thm:adjunction-unit-counit-alternating-append-positive-suffix-cont-readback}
+If $suffix$ is unary and not history-same as $\emp$, then the alternating
+unit-counit ledger over $\mathsf{append}(pref,suffix)$ exposes a successor
+continuation with the same prefix inside the exchanged tail:
+$$
+\exists tail.\ \Unary(tail)\land
+\Cont\bigl(unit,
+\mathsf{AdjunctionUnitCounitAlternating}(counit,unit,\mathsf{append}(pref,tail)),
+\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,\mathsf{append}(pref,suffix))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unary nonempty suffixes have a one-headed tail. Substituting
+$suffix=\Eone(tail)$ makes the appended depth one-headed with payload
+$\mathsf{append}(pref,tail)$. The alternating ledger unfolds at that branch to
+append $unit$ to the exchanged alternating tail, which is exactly the
+displayed continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_append\_positive\_suffix\_cont\_readback}
 
 \begin{theorem}[Adjunction positive-depth empty result forces empty unit]
 \label{thm:adjunction-alternating-positive-depth-result-empty-unit-empty}

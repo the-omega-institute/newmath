@@ -70,6 +70,7 @@ If $q_0\hsame\emp$, the zero clause of \autoref{def:nat-multiplication} identifi
 
 If $q_0\not\hsame\emp$, the induction hypothesis applied to $\mathsf{NatMul}(d,q_0,p)$ gives a unary tail $t$ with $\Cont(d,t,p)$. Composing this continuation with $\Cont(p,d,n)$ and using continuation associativity gives $\Cont(d,\mathsf{append}(t,d),n)$. The tail $\mathsf{append}(t,d)$ is unary because continuation preserves unary histories.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_nonempty\_quotient\_product\_extension}
 
 \begin{theorem}[Divisibility antisymmetry up to history-sameness]
 \label{thm:nat-divides-antisymmetry-hsame}
@@ -90,6 +91,7 @@ Let $d,q,n$ be unary histories, and let $d'$ be a history with $d\hsame d'$. If 
 \begin{proof}
 By \autoref{lem:unary-transport}, $d'$ is unary. Induct on the closed $\mathsf{NatMul}(d,q,n)$ witness from \autoref{def:nat-multiplication}. In the zero-multiplier case, the result is $\emp$, and the zero constructor with the unary witness for $d'$ gives $\mathsf{NatMul}(d',\emp,\emp)$. In the successor case, the induction hypothesis gives $\mathsf{NatMul}(d',q,n_0)$ for the predecessor product. The original last step is a continuation $\Cont(n_0,d,n_1)$. Transport that continuation along reflexivity on $n_0$, the hypothesis $d\hsame d'$, and reflexivity on $n_1$ using \autoref{thm:cont-hsame-transport}; this gives $\Cont(n_0,d',n_1)$. Applying the successor constructor of \autoref{def:nat-multiplication} yields $\mathsf{NatMul}(d',\Eone(q),n_1)$.
 \end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatMul\_multiplicand\_hsame\_transport}
 
 \begin{theorem}[Divisibility transports along divisor history-sameness]
 \label{thm:nat-divides-divisor-hsame-transport}

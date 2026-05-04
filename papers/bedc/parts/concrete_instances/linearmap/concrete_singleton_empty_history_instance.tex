@@ -324,6 +324,25 @@ and symmetry on the target carrier closes the singleton classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonClassifier\_continuation\_append\_source\_classifier\_iff}
 
+\begin{theorem}[Singleton linear-map append-source visible result exclusion]
+\label{thm:linearmap-singleton-carrier-continuation-append-source-visible-result-absurd}
+For histories $p,q,r,s:\mathsf{BHist}$, if $p,q,r$ lie in the singleton
+linear-map carrier, then no continuation from the appended source
+$\mathsf{append}(p,q)$ through $r$ can have either visible result:
+$$
+\ContR(\mathsf{append}(p,q),r,\Ezero(s))\Longrightarrow\bot,
+\qquad
+\ContR(\mathsf{append}(p,q),r,\Eone(s))\Longrightarrow\bot.
+$$
+\end{theorem}
+\begin{proof}
+The three singleton carrier witnesses identify $p$, $q$, and $r$ with
+$\emp$. The displayed continuation therefore reads the visible result as the
+append of three empty histories, hence as $\emp$. Constructor no-confusion for
+$\Ezero$ and $\Eone$ rules out both visible endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.LinearMapUp.LinearMapSingletonCarrier\_continuation\_append\_source\_visible\_result\_absurd}
+
 \begin{theorem}[Singleton linear-map continuation append-target classifier]
 \label{thm:linearmap-singleton-classifier-continuation-append-target-classifier}
 For histories $p,q,r,h,t:\mathsf{BHist}$, if
