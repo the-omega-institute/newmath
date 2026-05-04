@@ -48,63 +48,66 @@ $$
 A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
 $$
 \end{proof}
+
+\begin{theorem}[Group singleton double continuation product-unit visible exclusion]
+\label{thm:group-singleton-double-continuation-product-unit-visible-exclusion}
+For histories $P,Q,S,T,U,V,r:\mathsf{BHist}$ with $\ContR(P,Q,S)$ and
+$\ContR(S,T,U)$, if
+$$
+R_{\emp}(\mathsf{append}(U,V),\emp)
+$$
+holds, then the concrete singleton $\GroupUp$ instance excludes visible results
+for both continuation witnesses:
+$$
+\bigl(\ContR(P,Q,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(P,Q,\Eone(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Ezero(r))\Rightarrow\mathsf{False}\bigr)\land
+\bigl(\ContR(S,T,\Eone(r))\Rightarrow\mathsf{False}\bigr).
+$$
+The ten-field template names the traditional target terminal-group two-step
+continuation visibility guard; BEDC source concrete singleton $\GroupUp$ over
+$\mathsf{BHist}$ with two $\ContR$ witnesses and append; carrier $A_{\emp}$;
+classifier $R_{\emp}$; stability from double continuation product-unit coverage,
+terminal classifier packaging, and continuation terminal collapse; ledger the
+two continuation witnesses, suffix endpoint, and visible result endpoint; core
+theorem this block; exactness the four displayed contradictions; downstream
+consumer $\QuotientGroupUp$ path compression and subgroup visibility guards; and
+status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:group-singleton-double-continuation-product-unit-chain-coverage} to
+the two continuation witnesses and the product-unit classifier. The forward
+direction gives
+$$
+A_{\emp}(P)\land A_{\emp}(Q)\land A_{\emp}(T)\land A_{\emp}(V).
+$$
+
+Keep the first two carrier components. Use the reverse direction of the first
+row of \autoref{thm:group-singleton-terminal-classifier-package} to repack
+$A_{\emp}(P)\land A_{\emp}(Q)$ as $R_{\emp}(P,Q)$.
+
+Apply the visible-result part of
+\autoref{thm:group-singleton-continuation-terminal-collapse} under
+$\ContR(P,Q,S)$. The repacked input classifier excludes
+$\ContR(P,Q,\Ezero(r))$ and $\ContR(P,Q,\Eone(r))$, and the same collapse
+identifies the terminal condition $A_{\emp}(S)$.
+
+Combine this $A_{\emp}(S)$ with the retained factor $A_{\emp}(T)$. The reverse
+direction of the first row of
+\autoref{thm:group-singleton-terminal-classifier-package} repacks
+$A_{\emp}(S)\land A_{\emp}(T)$ as $R_{\emp}(S,T)$.
+
+Apply the visible-result part of
+\autoref{thm:group-singleton-continuation-terminal-collapse} under
+$\ContR(S,T,U)$. The repacked second input classifier excludes
+$\ContR(S,T,\Ezero(r))$ and $\ContR(S,T,\Eone(r))$, giving the four displayed
+contradictions.
+\end{proof}
 \input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
 \input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
 \input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
 \input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
-
-\begin{theorem}[Unary append inverse field collapses to singleton]
-\label{thm:unary-append-inverse-field-collapses-to-singleton}
-For every operation $i:\mathsf{BHist}\to\mathsf{BHist}$, the right-inverse
-field on the full unary-history append carrier,
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
-(\mathsf{append}(h,i(h)),\emp),
-$$
-implies the singleton-unit collapse
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
-$$
-The analogous left-inverse field,
-$$
-\forall h:\mathsf{BHist},\
-\mathsf{UnaryHistory}(h)\Rightarrow
-\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
-(\mathsf{append}(i(h),h),\emp),
-$$
-implies the same singleton-unit collapse.
-
-The ten-field fit is: traditional target obstruction to making the full unary
-append monoid into a group; BEDC source $\mathsf{UnaryHistory}$,
-$\mathsf{append}$, and
-$\mathsf{MonoidHistoryClassifier}$; carrier $\mathsf{UnaryHistory}$;
-classifier $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;
-stability from unit-product factor exactness; ledger the proposed inverse
-field; core theorem this block; exactness inverse-law collapse to the
-singleton unit class; downstream consumer the concrete $\GroupUp$ carrier
-choice; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Assume the right-inverse field and fix a unary history $h$. Specializing the
-field at $h$ gives the classifier statement that
-$\mathsf{append}(h,i(h))$ is classified as $\emp$.
-
-Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this append
-product. The forward direction decomposes the unit-product classifier into the
-two factor classifiers, and the left factor is exactly
-$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp)$.
-
-For the left-inverse field, fix the same unary history $h$ and specialize the
-field at $h$. Apply
-\autoref{thm:unary-append-unit-product-factor-exactness} to
-$\mathsf{append}(i(h),h)$. The forward direction now gives the two factor
-classifiers with $h$ as the right factor, so the right factor is the displayed
-singleton-unit conclusion.
-\end{proof}
 
 \begin{theorem}[Unary append inverse field iff singleton collapse]
 \label{thm:unary-append-inverse-field-iff-singleton-collapse}
@@ -149,9 +152,14 @@ $\mathsf{ProofTarget}$.
 \end{theorem}
 \begin{proof}
 For the forward direction, assume the displayed conjunction of inverse-field
-laws. Its right-inverse conjunct is exactly the hypothesis of
-\autoref{thm:unary-append-inverse-field-collapses-to-singleton}, so that
-theorem gives the displayed singleton-unit collapse.
+laws and fix a unary history $h$. The right-inverse conjunct gives
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,i(h)),\emp)$.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness} to this
+classifier. The forward direction decomposes it into the two factor
+classifiers, and the left factor is exactly the displayed singleton-unit
+conclusion for $h$.
 
 For the reverse direction, assume singleton-unit collapse and fix a unary
 history $h$. The collapse hypothesis gives
