@@ -685,6 +685,22 @@ $\ListUp$ object carries the Phase Finite Data exit package:
   \mathsf{ListHistoryLedger}_A,
   \mathsf{ListSpineHistoryClassifier}_{A,\sim_A})$.
   \item
+  The public carrier is exact against both the finite pattern predicate and the
+  ledger predicate:
+  $$
+  \forall h.\;
+  \mathsf{ListHistoryCarrier}_A(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryPattern}_A(h)
+  $$
+  and
+  $$
+  \forall h.\;
+  \mathsf{ListHistoryCarrier}_A(h)
+  \Longleftrightarrow
+  \mathsf{ListHistoryLedger}_A(h).
+  $$
+  \item
   Public length is total and well-defined:
   $$
   \forall h.\;\mathsf{ListHistoryCarrier}_A(h)\to
@@ -757,6 +773,10 @@ fields give the semantic certificate, totality of public length, well-definednes
 of public length, shared length for classified endpoints, and equality of public
 length values across classified endpoints.
 
+Apply Theorem~\ref{thm:list-history-carrier-pattern-ledger-equivalence} with
+$S=A$. This supplies the exactness of $\mathsf{ListHistoryCarrier}_A$ against
+both $\mathsf{ListHistoryPattern}_A$ and $\mathsf{ListHistoryLedger}_A$.
+
 Next apply Theorem~\ref{thm:list-public-object-constructor-audit}. This supplies
 the endpoint spine-ledger exposure for every
 $\mathsf{ListSpineHistoryClassifier}_{A,\sim_A}(h,k)$ witness and the nil-or-cons
@@ -766,5 +786,5 @@ Finally use
 Theorem~\ref{thm:list-classified-successor-component-readback-determinacy}. It
 turns the classified successor readback clause into a witness-choice independent
 component package for the public object. Repack the three theorem outputs into
-the six displayed fields.
+the seven displayed fields.
 \end{proof}

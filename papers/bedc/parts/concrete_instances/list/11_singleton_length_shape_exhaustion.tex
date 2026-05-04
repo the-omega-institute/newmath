@@ -1,0 +1,137 @@
+\section{Singleton source length shape exhaustion}
+\label{sec:list-singleton-source-length-shape-exhaustion}
+
+\begin{theorem}[List singleton source public length shape exhaustion]
+\label{thm:list-singleton-source-public-length-shape-exhaustion}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For every
+history $h$, if $\mathsf{ListHistoryCarrier}_{A_{a_0}}(h)$ holds, then one of
+the following two disjoint public length shapes is available:
+\begin{enumerate}
+  \item $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)\land \hsame(h,\emp)$.
+  \item There exist a finite length value $n$ and histories
+  $a,t,p:\mathsf{BHist}$ such that
+  $$
+  \left(
+  \begin{array}{l}
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+  A_{a_0}(a)\land\\
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land\\
+  \ContR(a,t,p)\land \hsame(h,\Eone(p))
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+The nil alternative and every displayed cons alternative are disjoint by BEDC
+history no-confusion between $\emp$ and $\Eone(p)$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+at the fixed singleton source. Its totality clause gives a finite length value
+$m$ with $\mathsf{ListPublicLength}_{A_{a_0}}(h,m)$.
+
+Case-analyze the finite length value $m$.
+
+In the zero case, the zero readback clause of
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+identifies $\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ with
+$\hsame(h,\emp)$. Pair the given zero public length witness with this endpoint
+witness to obtain the nil alternative.
+
+In the successor case, write $m=n+1$. The successor exactness clause of
+Theorem~\ref{thm:list-singleton-source-finite-data-certificate-package}
+turns $\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$ into histories
+$a,t,p:\mathsf{BHist}$ with $A_{a_0}(a)$,
+$\mathsf{ListHistoryCarrier}_{A_{a_0}}(t)$,
+$\mathsf{ListPublicLength}_{A_{a_0}}(t,n)$, $\ContR(a,t,p)$, and
+$\hsame(h,\Eone(p))$. These data are exactly the displayed cons alternative.
+
+For disjointness, suppose the nil alternative and one displayed cons
+alternative both hold. Compose symmetry of the nil endpoint witness
+$\hsame(h,\emp)$ with the cons endpoint witness $\hsame(h,\Eone(p))$ to obtain
+$\hsame(\emp,\Eone(p))$. The BEDC history no-confusion theorem,
+Theorem~\ref{thm:history-no-confusion}, excludes this empty-versus-one
+identification.
+\end{proof}
+
+\begin{theorem}[List singleton source public classifier length shape exhaustion]
+\label{thm:list-singleton-source-public-classifier-length-shape-exhaustion}
+Fix a BEDC history $a_0:\mathsf{BHist}$ and let $A_{a_0}$ be the singleton
+history source of Definition~\ref{def:list-singleton-history-source}. For all
+histories $h,k:\mathsf{BHist}$, if
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(h,k)$ holds, then one of
+the following two public endpoint length shapes is available:
+\begin{enumerate}
+  \item
+  $$
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,0)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,0)\land
+  \hsame(h,\emp)\land \hsame(k,\emp).
+  $$
+  \item There exist a finite length value $n$ and histories
+  $a,b,t,u,p,q:\mathsf{BHist}$ such that
+  $$
+  \left(
+  \begin{array}{l}
+  \mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)\land\\
+  A_{a_0}(a)\land A_{a_0}(b)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(t)\land
+  \mathsf{ListHistoryCarrier}_{A_{a_0}}(u)\land\\
+  \mathsf{ListPublicLength}_{A_{a_0}}(t,n)\land
+  \mathsf{ListPublicLength}_{A_{a_0}}(u,n)\land\\
+  \ContR(a,t,p)\land \ContR(b,u,q)\land
+  \hsame(h,\Eone(p))\land \hsame(k,\Eone(q))\land\\
+  \hsame(a,b)\land
+  \mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)
+  \end{array}
+  \right).
+  $$
+\end{enumerate}
+The nil endpoint shape and every displayed cons endpoint shape are disjoint by
+BEDC history no-confusion between $\emp$ and $\Eone(p)$.
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:list-singleton-source-finite-data-exit-constructor-audit} to
+the fixed singleton source. For the given classifier witness, its public data
+give a common endpoint length, public-length uniqueness, successor exactness,
+finite endpoint spine ledgers, and the nil-nil or cons-cons constructor
+disjunction.
+
+In the nil-nil constructor case, the zero-length characterization in the same
+certificate turns $\hsame(h,\emp)$ and $\hsame(k,\emp)$ into
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,0)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,0)$. Pair these two public lengths with
+the two endpoint witnesses to obtain the first alternative.
+
+In the cons-cons constructor case, the constructor disjunction supplies
+histories $a,b,t,u,p,q:\mathsf{BHist}$ with both heads in $A_{a_0}$, both tails
+in $\mathsf{ListHistoryCarrier}_{A_{a_0}}$, both $\ContR$ ledgers, both endpoint
+readbacks, $\hsame(a,b)$, and the tail classifier
+$\mathsf{ListSpineHistoryClassifier}_{A_{a_0},\hsame}(t,u)$.
+
+Apply the common endpoint length clause of
+Theorem~\ref{thm:list-singleton-source-finite-data-exit-constructor-audit} to
+the tail classifier. This gives a finite value $n$ with
+$\mathsf{ListPublicLength}_{A_{a_0}}(t,n)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(u,n)$. The reverse direction of successor
+exactness transports the two $\ContR$ ledgers and these tail lengths to
+$\mathsf{ListPublicLength}_{A_{a_0}}(h,n+1)$ and
+$\mathsf{ListPublicLength}_{A_{a_0}}(k,n+1)$.
+
+The endpoint spine ledgers supplied by the certificate give the carrier
+presentations needed to apply
+Theorem~\ref{thm:list-singleton-source-public-length-shape-exhaustion} to each
+classified endpoint. In the present cons-cons branch, the nil alternatives
+would identify $\emp$ with $\Eone(p)$ or with $\Eone(q)$ after symmetry and
+transitivity of $\hsame$, so Theorem~\ref{thm:history-no-confusion} excludes
+them. Public-length uniqueness then identifies the resulting endpoint
+successor lengths with the $n+1$ lengths already obtained from the tail
+classifier.
+
+Collect the common length $n$ and the six constructor histories. The displayed
+data are exactly the second alternative. The same no-confusion argument
+separates the nil endpoint shape from any cons endpoint shape.
+\end{proof}
