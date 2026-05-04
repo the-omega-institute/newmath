@@ -1,0 +1,23 @@
+\begin{proposition}[Uniform continuity modulus restriction along subset inclusion]
+\label{prop:uniform-continuity-modulus-restricts-along-subset-inclusion}
+Let $Y$ and $Z$ be certified $\MetricSpaceUp$ objects with the metric data of \autoref{def:metric-carrier}. Let $T$ and $U$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, and let
+$$
+i:U\subseteq T
+$$
+be a certified inclusion, meaning that each membership ledger $\nu:U(u)$ is transported to a membership ledger $i(\nu):T(u)$. Let $f:T\to Z$ be a certified graph witness with totality and single-valuedness as in \autoref{def:continuous-carrier}, and let $f\!\restriction_U$ be the same graph relation read with the source classifier restricted through $i$. If a unary precision ledger $\delta$ satisfies the modulus-validity field of \autoref{def:continuous-stability-certificate} for $f$ on $T$, then the same $\delta$ satisfies the modulus-validity field for $f\!\restriction_U$ on $U$.
+\end{proposition}
+\begin{proof}
+Fix a target precision request $n$ and the source precision returned by the unary ledger $\delta$. To verify the restricted modulus field, take source histories $u_0,u_1$ admitted by $U$, graph outputs $z_0,z_1$ for $f\!\restriction_U$, and the source closeness judgment required at the returned source precision.
+
+The inclusion certificate transports the two source-admission ledgers:
+$$
+\nu_j:U(u_j)\Longrightarrow i(\nu_j):T(u_j)\qquad(j=0,1).
+$$
+
+By \autoref{def:continuous-pattern-specification} and \autoref{def:continuous-ledger-policy}, restricting the source subset does not alter the graph relation, the codomain classifier ledger, the precision ledger, or the modulus ledger. Thus the graph witnesses for $f\!\restriction_U$ are the same graph witnesses for $f$ after the source admissions are read in $T$.
+
+Apply the modulus-validity field for $f$ on $T$ to the transported memberships, the same source closeness judgment, and the same two graph outputs. It yields the target metric closeness conclusion at precision $n$. The well-formedness and representative stability of this conclusion are exactly the classifier and stability data of \autoref{def:metric-classifier-specification} and \autoref{def:metric-stability-certificate}.
+
+This is the entire obligation for the restricted witness: only the source-admission hypotheses have been narrowed from $T$ to $U$, and those hypotheses enter the original modulus field through the certified inclusion. The precision ledger $\delta$ is unchanged.
+\end{proof}
+
