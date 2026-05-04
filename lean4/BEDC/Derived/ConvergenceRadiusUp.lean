@@ -36,6 +36,15 @@ theorem PowerSeriesCarrier_append_unary_closed {a : Nat -> BHist} {z0 q : BHist}
       (fun n : Nat => ComplexHistoryCarrier_append_unary_closed (carrier.right.left n) qUnary)
       (ComplexHistoryCarrier_append_unary_closed carrier.right.right qUnary))
 
+theorem PowerSeriesCarrier_prepend_unary_closed {a : Nat -> BHist} {z0 q : BHist} :
+    PowerSeriesCarrier a z0 -> UnaryHistory q ->
+      PowerSeriesCarrier (fun n : Nat => append q (a n)) (append q z0) := by
+  intro carrier qUnary
+  exact And.intro (unary_append_closed qUnary carrier.left)
+    (And.intro
+      (fun n : Nat => ComplexHistoryCarrier_prepend_unary_closed qUnary (carrier.right.left n))
+      (ComplexHistoryCarrier_prepend_unary_closed qUnary carrier.right.right))
+
 def ConvRad (a : Nat -> BHist) (R : BHist) : Prop :=
   UnaryHistory R ∧ ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r ->
     Cont r (K r) R -> GeomBound a r (K r)
@@ -247,6 +256,22 @@ theorem ConvRad_powerSeriesCarrier_append_unary_witness
         exact And.intro
           (PowerSeriesCarrier_append_unary_closed source.left qUnary)
           (GeomBound_append_unary_coeff_closed source.right qUnary))
+
+theorem ConvRad_powerSeriesCarrier_prepend_unary_witness
+    {a : Nat -> BHist} {R z0 q : BHist} :
+    ConvRad a R -> ComplexHistoryCarrier z0 -> UnaryHistory q ->
+      ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+        PowerSeriesCarrier (fun n : Nat => append q (a n)) (append q z0) ∧
+          GeomBound (fun n : Nat => append q (a n)) r (K r) := by
+  intro radius centerCarrier qUnary
+  cases ConvRad_powerSeriesCarrier_witness radius centerCarrier with
+  | intro K witnessAt =>
+      exact Exists.intro K (by
+        intro r radiusUnary contRadius
+        have source := witnessAt radiusUnary contRadius
+        exact And.intro
+          (PowerSeriesCarrier_prepend_unary_closed source.left qUnary)
+          (GeomBound_prepend_unary_coeff_closed qUnary source.right))
 
 theorem GeomBound_radius_constant_continuation_closed {a : Nat -> BHist}
     {r K dr dK R K' : BHist} :

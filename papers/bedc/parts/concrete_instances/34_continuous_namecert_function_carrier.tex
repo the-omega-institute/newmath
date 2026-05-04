@@ -138,6 +138,31 @@ two right-unit continuations rebuild the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_cert\_iff}
 
+\begin{theorem}[Continuous function carrier empty-target exactness]
+\label{thm:continuous-function-carrier-empty-target-iff}
+For histories $source,map,modulus,cert$, the empty target case of
+$\mathsf{ContinuousFunctionCarrier}$ is exact:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,\emp,modulus,cert)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(map,\emp)\land
+\mathsf{UnaryHistory}(modulus)\land\mathsf{UnaryHistory}(cert)\land
+\hsame(cert,modulus).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, empty-result inversion on the graph ledger identifies
+the source and map histories with $\emp$. The certificate ledger is then a
+left-unit continuation from $\emp$ through $modulus$, so the certificate is
+history-same to the modulus; unary continuation closure supplies the
+certificate carrier.
+
+Conversely, the displayed empty source and map rebuild the graph ledger by the
+right-unit continuation at $\emp$. The displayed certificate-modulus sameness
+rebuilds the certificate ledger by the left-unit continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_target\_iff}
+
 \begin{theorem}[Continuous function carrier empty-source exactness]
 \label{thm:continuous-function-carrier-empty-source-iff}
 For histories $map$, $target$, $modulus$, and $cert$, the empty source case of
