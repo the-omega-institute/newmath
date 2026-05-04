@@ -216,6 +216,54 @@ giving the displayed classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_idempotent\_empty\_iff}
 
+\begin{theorem}[Unary append monoid one-sided inverse obstruction]
+\label{thm:unary-append-monoid-one-sided-inverse-obstruction}
+For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, the
+concrete unary-history append monoid supports neither a global right-inverse
+family
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(h,\mathsf{inv}(h)),\emp),
+$$
+nor a global left-inverse family
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(h),h),\emp).
+$$
+
+The ten-field fit is: traditional target group-upgrade obstruction for the
+unary append monoid; BEDC source $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\mathsf{append}$, and
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$; carrier
+$\mathsf{UnaryHistory}$; classifier the concrete monoid classifier; stability
+from unary append closure and empty-result inversion; ledger the attempted
+inverse endpoint; core theorem this block; exactness the contradiction from
+the visible unary generator; standard bridge finite unary-word monoid has no
+global inverse; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+For the right-inverse family, take the visible unary generator
+$u=\Eone(\emp)$. Unary closure gives $\mathsf{UnaryHistory}(u)$, so the
+assumed family classifies
+$\mathsf{append}(u,\mathsf{inv}(u))$ with $\emp$. Unfolding the concrete
+classifier exposes
+$\mathsf{append}(u,\mathsf{inv}(u))\hsame\emp$.
+
+Empty-result inversion for append then forces the left factor to satisfy
+$u\hsame\emp$. This contradicts the BEDC no-confusion theorem separating the
+$\Eone$ constructor from $\emp$.
+
+The left-inverse family is symmetric in the obstruction. Specializing it at
+the same $u$ exposes
+$\mathsf{append}(\mathsf{inv}(u),u)\hsame\emp$. Empty-result inversion now
+forces the right factor $u$ to be $\hsame$ to $\emp$, and the same
+no-confusion contradiction follows.
+\end{proof}
+
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
 The BEDC history continuation relation has empty history as a left and right unit, and the two parenthesizations of a triple continuation have the same resulting history.
