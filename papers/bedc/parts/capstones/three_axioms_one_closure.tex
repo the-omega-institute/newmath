@@ -288,3 +288,52 @@ $$
 $$
 This proof consumes only the displayed classifier evidence and the certified descent field. A quotient-style argument would first turn $s$ into an equality at a quotient type and then use congruence of $\varphi$ over that equality. The naming-certificate argument keeps $a$ and $a'$ as distinct source terms and transports only the classifier judgment. Thus the quotient-soundness role identified in \autoref{def:three-axioms-replacement-quot} is supplied by explicit $\psame$-transport.
 \end{proof}
+
+\begin{definition}[Proof-input proposition construction]
+\label{def:proof-input-proposition-construction}
+Let $P:\mathsf{Prop}$ and let $X$ be a kernel target, where $X$ may itself be a proposition or a certified carrier. A \emph{proof-input proposition construction over $P$} is a construction whose access to $P$ is mediated by a displayed proof argument:
+$$
+\Phi_P:P\to X.
+$$
+An \emph{$\hsame$-style proposition transport} between propositions $P$ and $Q$ is the bidirectional implication datum
+$$
+b_{P,Q}=(b^\rightarrow_{P,Q},b^\leftarrow_{P,Q}):(P\Rightarrow Q)\land(Q\Rightarrow P).
+$$
+It is used as transport data between proof inputs, not as an equality token $P=Q$.
+\end{definition}
+
+\begin{theorem}[$\hsame$-style proposition transport bypasses propext]
+\label{thm:hsame-proposition-transport-bypasses-propext}
+Let $P,Q:\mathsf{Prop}$ and let
+$$
+b_{P,Q}=(b^\rightarrow_{P,Q},b^\leftarrow_{P,Q}):(P\Rightarrow Q)\land(Q\Rightarrow P)
+$$
+be the proposition-stratum transport datum of \autoref{def:proposition-stratum-propext-closure}, read without the equality token supplied by $\mathsf{propext}$. For every proof-input proposition construction
+$$
+\Phi_P:P\to X,
+$$
+there is a $Q$-parameterised construction
+$$
+\Phi[P\leadsto Q]:Q\to X
+$$
+given by
+$$
+\Phi[P\leadsto Q](q)=\Phi_P\bigl(b^\leftarrow_{P,Q}(q)\bigr).
+$$
+Dually, every proof-input construction $\Psi_Q:Q\to Y$ has a $P$-parameterised construction
+$$
+\Psi[Q\leadsto P]:P\to Y,
+\qquad
+\Psi[Q\leadsto P](p)=\Psi_Q\bigl(b^\rightarrow_{P,Q}(p)\bigr).
+$$
+Thus every later kernel step that consumes a displayed proof of the proposition can be rerun on the transported proposition through the chosen implication direction, using no inhabitant of $P=Q$ and no contextual rewrite over an arbitrary $C:\mathsf{Prop}\to\mathsf{Prop}$.
+\end{theorem}
+\begin{proof}
+Unpack the bidirectional transport datum into its two implication components. Given $q:Q$, the reverse component $b^\leftarrow_{P,Q}:Q\Rightarrow P$ produces a proof $b^\leftarrow_{P,Q}(q):P$. The original construction $\Phi_P$ consumes exactly such a displayed proof, so applying it gives
+$$
+\Phi_P\bigl(b^\leftarrow_{P,Q}(q)\bigr):X.
+$$
+This defines the displayed map $\Phi[P\leadsto Q]:Q\to X$. The dual construction is identical, using $b^\rightarrow_{P,Q}:P\Rightarrow Q$ before applying $\Psi_Q$.
+
+No step asks for an equality proof $\varepsilon_{P,Q}:P=Q$. The proposition symbol is never rewritten inside an arbitrary context; the construction only composes ordinary proof functions. The stronger operation described in \autoref{def:proposition-stratum-propext-closure} would manufacture an equality token and then transport through every proposition-valued context. The construction above is the effective replacement promised by \autoref{def:three-axioms-replacement-propext}: it keeps $P$ and $Q$ distinct and moves only displayed proof inputs along the supplied bidirectional implication.
+\end{proof}
