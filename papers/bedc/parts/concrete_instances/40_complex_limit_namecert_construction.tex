@@ -210,6 +210,25 @@ nonempty readback is applied and the two alternatives are swapped.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_nonempty\_distance\_endpoint\_cases}
 
+\begin{lemma}[Complex distance endpoint nonempty distance nonempty]
+\label{thm:complex-distance-endpoint-nonempty-distance-nonempty}
+For complex histories $z,w$ and distance endpoint $d$, if
+$\mathsf{CplxDist}(z,w,d)$ holds and at least one endpoint is not
+history-same to $\emp$, then $d$ is not history-same to $\emp$:
+$$
+\neg(z\hsame\emp)\vee\neg(w\hsame\emp)
+\Longrightarrow
+\neg(d\hsame\emp).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the symmetric continuation branch inside the distance witness. If the
+distance result were $\emp$, continuation empty-result inversion would force
+both endpoints of the active branch to be $\emp$. In either branch orientation
+this contradicts the displayed nonempty endpoint alternative.
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexLimitUp.ComplexDistance\_endpoint\_nonempty\_distance\_nonempty}
+
 \begin{lemma}[Complex distance triangle inequality with explicit bound]
 \label{lem:cplx-dist-triangle}
 For all complex histories \(z_1, z_2, z_3\) with distances \(\mathsf{CplxDist}(z_1, z_2, D_{12})\) and \(\mathsf{CplxDist}(z_2, z_3, D_{23})\), there exists an explicit rational-history bound function \(\mathsf{TriBound}(D_{12}, D_{23}, D_{13})\) with \(\mathsf{CplxDist}(z_1, z_3, D_{13})\) and \(D_{13} \leq D_{12} + D_{23}\) under rational-history ordering.
