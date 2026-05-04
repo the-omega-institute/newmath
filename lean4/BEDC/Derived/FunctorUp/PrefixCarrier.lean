@@ -29,6 +29,12 @@ protected theorem PrefixFunctorCarrier_from_unary_prefix {p : BHist} :
   · intro _a _b _c _f _g _fg left right comp
     exact FunctorPrefixHomCarrier_comp_preserves prefixCarrier left right comp
 
+theorem PrefixFunctorCarrier_hsame_transport_with_unary {p q : BHist} :
+    PrefixFunctorCarrier p -> hsame p q -> PrefixFunctorCarrier q ∧ UnaryHistory q := by
+  intro prefixCarrier samePrefix
+  cases samePrefix
+  exact And.intro prefixCarrier prefixCarrier.prefix_unary
+
 theorem PrefixFunctorCarrier_comp_public_readback {p a b c f g fg : BHist} :
     PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> CategoryHomCarrier b c g ->
       Cont f g fg ->

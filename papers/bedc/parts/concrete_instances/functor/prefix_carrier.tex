@@ -14,6 +14,19 @@ composition preservation theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_from\_unary\_prefix}
 
+\begin{theorem}[Prefix functor carrier hsame transport with unary readback]
+\label{thm:prefix-functor-carrier-hsame-transport-with-unary}
+For prefix histories $p,q$, a prefix functor carrier at $p$ transports along
+$p\hsame q$ to a prefix functor carrier at $q$, and the transported endpoint
+also exposes $\mathsf{UnaryHistory}(q)$.
+\end{theorem}
+\begin{proof}
+Case-analyze the displayed history-sameness $p\hsame q$. In the reflexive
+case the original prefix functor carrier is already a carrier at $q$, and its
+stored prefix-unary field gives the unary readback.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.PrefixFunctorCarrier\_hsame\_transport\_with\_unary}
+
 \begin{theorem}[Functor prefix hom-carrier preserves]
 \label{thm:functor-prefix-hom-carrier-preserves}
 For a unary prefix $p$, any category hom-carrier from $a$ to $b$ transports to
