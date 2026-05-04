@@ -144,6 +144,35 @@ and repacks the target endpoint and continuation witness.
 \end{proof}
 \leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_source\_target\_cases}
 
+\begin{theorem}[Functor prefix hom-carrier nonempty composite source visibility]
+\label{thm:functor-prefix-hom-carrier-comp-nonempty-result-source-visible}
+For prefixed hom-carriers
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,a),\mathsf{append}(p,b),f)
+$$
+and
+$$
+\mathsf{CategoryHomCarrier}(\mathsf{append}(p,b),\mathsf{append}(p,c),g),
+$$
+if $\ContR(f,g,\Eone(k))$ and the prefixed source is not history-same to
+$\emp$, then both the source and target endpoints are visible:
+$$
+\exists s,r.\ \mathsf{append}(p,a)=\Eone(s)\wedge
+\mathsf{append}(p,c)=\Eone(r)\wedge
+\mathsf{UnaryHistory}(s)\wedge\mathsf{UnaryHistory}(k)\wedge
+\mathsf{UnaryHistory}(r)\wedge
+\ContR(\Eone(s),\Eone(k),\Eone(r)).
+$$
+\end{theorem}
+\begin{proof}
+Apply the source-target case theorem for nonempty prefixed composites. Its
+empty-source branch contradicts the displayed nonempty-source classifier
+assumption. The remaining branch is exactly the visible source and target
+case, with unary witnesses for the source tail, composite payload, and target
+tail.
+\end{proof}
+\leanchecked{BEDC.Derived.FunctorUp.FunctorPrefixHomCarrier\_comp\_nonempty\_result\_source\_visible}
+
 \section{The certificate}
 
 \begin{definition}[Functor source specification]
