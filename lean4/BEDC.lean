@@ -177,6 +177,7 @@ import BEDC.Derived.ListUp.FramedEndpoint
 import BEDC.Derived.ListUp.PublicLength
 import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.Reverse
+import BEDC.Derived.ListUp.ReverseAppendAntimorphism
 import BEDC.Derived.ListUp.NameCertTransport
 import BEDC.Derived.ListUp.SourceEquivalence
 import BEDC.Derived.ListUp.DescentCertificate
@@ -277,6 +278,7 @@ import BEDC.Derived.CommRingUp.EmptyLinearFactor
 import BEDC.Derived.CommRingUp.Parallelogram
 import BEDC.Derived.CommRingUp.SignedProductBalance
 import BEDC.Derived.CommRingUp.CrossTerm
+import BEDC.Derived.CommRingUp.DiagonalExtractionPackage
 import BEDC.Derived.CommRingUp.SingletonAppend
 import BEDC.Derived.CommRingUp.SingletonContinuation
 import BEDC.Derived.CommRingUp.ZeroLinearFactor
