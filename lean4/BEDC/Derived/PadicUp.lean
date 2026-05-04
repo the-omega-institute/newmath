@@ -182,6 +182,11 @@ theorem PadicPrimeScale_unit_exponent_result_prime_hsame {p result : BHist} :
           (hsame_refl BHist.Empty)
       exact cont_respects_hsame nEmpty (hsame_refl p) data.right (cont_left_unit p)
 
+theorem PadicPrimeScale_unit_exponent_prime {p : BHist} :
+    NatPrime p -> PadicPrimeScale p (BHist.e1 BHist.Empty) p := by
+  intro prime
+  exact And.intro prime (NatMul.succ (NatMul.zero prime.left) (cont_left_unit p))
+
 theorem PadicPrimeScale_append_cont_closure {p w q n e r : BHist} :
     PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
       PadicPrimeScale p (append w q) r := by
