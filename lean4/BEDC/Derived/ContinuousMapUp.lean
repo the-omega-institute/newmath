@@ -17,6 +17,35 @@ def ContinuousMapCarrier (source map target modulus cert distance : BHist) : Pro
   ContinuousFunctionCarrier source map target modulus cert ∧
     MetricDistanceWitness source target distance
 
+theorem ContinuousMapCarrier_canonical_distance_iff {source map target modulus cert : BHist} :
+    ContinuousMapCarrier source map target modulus cert (append source target) ↔
+      ContinuousFunctionCarrier source map target modulus cert := by
+  constructor
+  · intro carrier
+    exact carrier.left
+  · intro carrier
+    cases carrier with
+    | intro sourceCarrier rest =>
+        cases rest with
+        | intro targetCarrier rest =>
+            cases rest with
+            | intro mapCarrier rest =>
+                cases rest with
+                | intro modulusCarrier rest =>
+                    cases rest with
+                    | intro sourceMap targetCert =>
+                        exact
+                          And.intro
+                            (And.intro sourceCarrier
+                              (And.intro targetCarrier
+                                (And.intro mapCarrier
+                                  (And.intro modulusCarrier
+                                    (And.intro sourceMap targetCert)))))
+                            (And.intro sourceCarrier
+                              (And.intro targetCarrier
+                                (And.intro (unary_append_closed sourceCarrier targetCarrier)
+                                  (cont_intro rfl))))
+
 theorem ContinuousMapCarrier_empty_distance_exact {source map modulus cert : BHist} :
     ContinuousMapCarrier source map BHist.Empty modulus cert BHist.Empty ↔
       UnaryHistory source ∧ UnaryHistory map ∧ UnaryHistory modulus ∧
@@ -239,6 +268,32 @@ theorem ContinuousMapCarrier_empty_map_empty_distance_boundaries_iff
       (MetricDistanceWitness_empty_distance_iff (x := BHist.Empty) (y := BHist.Empty)).mpr
         (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
     exact And.intro functionCarrier distanceWitness
+
+theorem ContinuousMapCarrier_prefix_canonical_distance_closed
+    {p source map target modulus cert distance : BHist} :
+    UnaryHistory p -> ContinuousMapCarrier source map target modulus cert distance ->
+      ContinuousMapCarrier (append p source) map (append p target) modulus (append p cert)
+        (append (append p source) (append p target)) := by
+  intro prefixCarrier carrier
+  have functionCarrier :
+      ContinuousFunctionCarrier (append p source) map (append p target) modulus
+        (append p cert) :=
+    ContinuousFunctionCarrier_prefix_closed prefixCarrier carrier.left
+  cases carrier with
+  | intro baseFunction _distanceWitness =>
+      cases baseFunction with
+      | intro sourceCarrier rest =>
+          cases rest with
+          | intro targetCarrier _functionRest =>
+              exact
+                And.intro functionCarrier
+                  (And.intro (unary_append_closed prefixCarrier sourceCarrier)
+                    (And.intro (unary_append_closed prefixCarrier targetCarrier)
+                      (And.intro
+                        (unary_append_closed
+                          (unary_append_closed prefixCarrier sourceCarrier)
+                          (unary_append_closed prefixCarrier targetCarrier))
+                        (cont_intro rfl))))
 
 theorem ContinuousMapFunctionCarrier_metric_graph_exactness
     {source map target modulus cert dist : BHist} :

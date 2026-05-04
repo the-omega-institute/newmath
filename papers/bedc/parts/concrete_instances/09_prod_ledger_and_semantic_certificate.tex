@@ -219,52 +219,6 @@ classifier to obtain the stated empty-boundary exposure.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerPolicy\_visible\_empty\_component\_exposure}
 
-\begin{theorem}[Product ledger componentwise classifier endpoint equivalence]
-\label{thm:prod-ledger-componentwise-classifier-endpoint-equivalence}
-Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, let
-$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
-classifiers, and let $\rho,v:\mathsf{BHist}$. If
-$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ holds, then for every
-$w:\mathsf{BHist}$ both public endpoint-replacement clauses hold:
-$$
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(\rho,w)
-\Longleftrightarrow
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(v,w)
-$$
-and
-$$
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,\rho)
-\Longleftrightarrow
-\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}(w,v).
-$$
-The object fit is: traditional target ordered-product ledger endpoint
-replacement at the public componentwise classifier; BEDC source
-$\mathsf{BHist}$ with $\Cont$ and $\hsame$; carrier
-$\mathsf{ProdHistoryCarrier}$ plus displayed $\mathsf{ProdPairRep}$;
-classifier $\mathsf{ProdComponentHistoryClassifier}$; stability by the
-raw-visible ledger classifier and componentwise endpoint transport; ledger
-$\mathsf{ProdHistoryLedgerPolicy}$; core theorem this endpoint equivalence;
-exactness raw and visible endpoint agreement at public component readback;
-standard bridge displayed ordered-pair ledger; status $\mathsf{ProofTarget}$.
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the ledger
-witness. Unpacking the resulting raw-visible product classifier gives the
-stored endpoint link $\hsame(\rho,v)$.
-
-For the first displayed clause, the forward implication applies
-Theorem~\ref{thm:prod-component-history-classifier-hsame-transport} with
-$\hsame(\rho,v)$ on the left endpoint and $\hsame$-reflexivity on $w$. The
-reverse implication applies the same transport theorem with
-$\hsame$-symmetry on the stored link and $\hsame$-reflexivity on $w$.
-
-For the second displayed clause, the forward implication applies
-Theorem~\ref{thm:prod-component-history-classifier-hsame-transport} with
-$\hsame$-reflexivity on $w$ and $\hsame(\rho,v)$ on the right endpoint. The
-reverse implication uses $\hsame$-reflexivity on $w$ and $\hsame$-symmetry of
-the stored endpoint link.
-\end{proof}
-
 \begin{theorem}[Product ledger chain transitivity]
 \label{thm:prod-ledger-chain-transitivity}
 Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers. If
@@ -280,6 +234,60 @@ induction hypothesis to concatenate the tail chain with the second chain, then
 reapply the leading displayed ledger by the cons constructor.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdHistoryLedgerChain\_trans}
+
+\begin{theorem}[Product ledger-chain boundary classifier decomposition]
+\label{thm:prod-ledger-chain-boundary-classifier-decomposition}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers, and let
+$\rho,z:\mathsf{BHist}$. If
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(\rho,z)$ holds, then both boundary
+clauses hold:
+\begin{enumerate}
+  \item either $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,z)$ holds, or there
+  exists $v:\mathsf{BHist}$ such that
+  $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and
+  $\mathsf{ProdHistoryClassifier}(L,R,v,z)$ hold;
+  \item either $\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,z)$ holds, or there
+  exists $v:\mathsf{BHist}$ such that
+  $\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$ and
+  $\mathsf{ProdHistoryLedgerPolicy}(L,R,v,z)$ hold.
+\end{enumerate}
+The object fit is: traditional target finite ordered-product provenance; BEDC
+source $\mathsf{BHist}$,
+$\mathsf{ProdHistoryLedgerPolicy}$, and
+$\mathsf{ProdHistoryLedgerChain}$; carrier
+$\mathsf{ProdHistoryCarrier}$; classifier
+$\mathsf{ProdHistoryClassifier}$; ledger finite product ledger chain; core
+theorem boundary decomposition; exactness endpoint classifier preservation.
+\end{theorem}
+\begin{proof}
+For the head boundary clause, perform cases on the finite ledger-chain
+constructor. The one-step constructor is exactly
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,z)$.
+
+In the cons constructor, the displayed first ledger has the form
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$ and the tail has the form
+$\mathsf{ProdHistoryLedgerChain}_{L,R}(v,z)$. Apply
+Theorem~\ref{thm:prod-ledger-chain-envelope-closure} to the tail; its envelope
+part gives $\mathsf{ProdHistoryClassifier}(L,R,v,z)$, so the witness $v$
+exposes the first concrete ledger step and the classifier tail consumed by
+readback.
+
+For the terminal boundary clause, induct on the chain. The base case again is
+the displayed one-step ledger
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,z)$.
+
+In the cons step, first apply
+Theorem~\ref{thm:prod-ledger-raw-visible-classifier} to the leading policy
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,\rho,v)$, obtaining
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,v)$. If the tail is a one-step ledger,
+the same $v$ is the terminal-boundary witness. If the inductive tail has already
+exposed a terminal ledger
+$\mathsf{ProdHistoryLedgerPolicy}(L,R,u,z)$ with classifier prefix
+$\mathsf{ProdHistoryClassifier}(L,R,v,u)$, compose the leading classifier with
+that prefix by classifier transitivity to obtain
+$\mathsf{ProdHistoryClassifier}(L,R,\rho,u)$. The witness $u$ exposes the last
+concrete ledger step and the accumulated classifier prefix.
+\end{proof}
 
 \begin{theorem}[Product ledger chain concatenation preserves public endpoints]
 \label{thm:prod-ledger-chain-concatenation-componentwise-endpoints}
@@ -491,3 +499,4 @@ $\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$ induced by
 $\mathsf{ProdPairRep}$ and source classifiers, together with displayed
 component exposure, $\hsame$-sound descent, and ledger fields from this chapter.
 \end{corollary}
+\closureat{\ProdUp}{\checkedCertStr}
