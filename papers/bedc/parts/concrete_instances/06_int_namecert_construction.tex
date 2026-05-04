@@ -99,6 +99,34 @@ carrier supplies the unary witness for the right magnitude.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_endpoint\_sign\_cases}
 
+\begin{theorem}[Integer classifier cross-sign exclusion]
+\label{thm:int-classifier-cross-sign-exclusion}
+For all $h,k:\mathsf{BHist}$, cross-signed endpoints cannot be classified:
+$$
+\forall h,k:\mathsf{BHist},\quad
+\bigl(\mathsf{IntClassifierSpec}((\bzero,h),(\bone,k))\to\mathsf{False}\bigr)
+\land
+\bigl(\mathsf{IntClassifierSpec}((\bone,h),(\bzero,k))\to\mathsf{False}\bigr).
+$$
+The ten-field fit is: traditional target signed-integer sign separation; BEDC
+source $\mathsf{IntCarrier}$, $\mathsf{IntClassifierSpec}$, and raw mark
+no-confusion; carrier signed unary representatives; classifier
+$\mathsf{IntClassifierSpec}$; stability from existing sign and magnitude
+transport; ledger the sign mark and unary magnitude; core theorem this block;
+exactness cross-sign exclusion; standard bridge ordinary signed-integer sign
+disjointness; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Project the sign-sameness component from
+\autoref{def:intup-classifier-specification}. In the first branch, a classifier
+from $(\bzero,h)$ to $(\bone,k)$ supplies $\msame(\bzero,\bone)$, which
+contradicts raw mark no-confusion in \autoref{thm:mark-no-confusion}.
+
+The second branch is the opposite orientation. A classifier from $(\bone,h)$ to
+$(\bzero,k)$ supplies $\msame(\bone,\bzero)$, and the exchanged half of
+\autoref{thm:mark-no-confusion} excludes that mark-sameness judgment.
+\end{proof}
+
 \begin{theorem}[Integer classifier magnitude transport]
 \label{thm:int-classifier-hsame-magnitude-transport}
 If \(\mathsf{IntClassifierSpec}((s_x,h_x),(s_y,h_y))\), and the two
@@ -214,5 +242,47 @@ unary append commutativity gives
 \(\mathsf{append}(h,k)\hsame\mathsf{append}(k,h)\).
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_comm\_same\_sign}
+
+\begin{theorem}[Integer classifier appends same-sign context]
+\label{thm:int-classifier-append-context-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $left$ and $right$ are carried
+by $\mathsf{IntCarrier}(s,-)$, and
+$\mathsf{IntClassifierSpec}((s,a),(s,b))$, then the classifier identifies
+the common-context magnitudes:
+$$
+\mathsf{IntClassifierSpec}
+\bigl((s,\mathsf{append}(left,\mathsf{append}(a,right))),
+(s,\mathsf{append}(left,\mathsf{append}(b,right)))\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the classifier witness into signed carrier evidence for $a$ and
+$b$, the fixed-sign component, and the magnitude equality $a\hsame b$.
+Same-sign unary append closure builds the two contextual endpoint carriers.
+Replacing the middle magnitude along $a\hsame b$ leaves the two contextual
+append histories equal, while sign reflexivity supplies the sign classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_append\_context\_same\_sign}
+
+\begin{theorem}[Integer classifier cancels same-sign append context]
+\label{thm:int-classifier-cancel-append-context-same-sign}
+For a fixed sign $s:\mathsf{BMark}$, if $a$ and $b$ are carried by
+$\mathsf{IntCarrier}(s,-)$, and the integer classifier identifies
+the two common-context magnitudes
+$$
+\mathsf{append}(left,\mathsf{append}(a,right))
+\quad\text{and}\quad
+\mathsf{append}(left,\mathsf{append}(b,right)),
+$$
+then $\mathsf{IntClassifierSpec}((s,a),(s,b))$.
+\end{theorem}
+\begin{proof}
+The contextual classifier exposes a BEDC history equality between the two
+append histories. Left append cancellation removes the common left context, and
+right append cancellation removes the common suffix. The resulting
+$a\hsame b$, together with the supplied endpoint carriers and reflexivity of
+$\msame(s,s)$, gives the integer classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_cancel\_append\_context\_same\_sign}
 
 \section{The certificate}
