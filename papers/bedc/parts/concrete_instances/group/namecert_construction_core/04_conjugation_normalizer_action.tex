@@ -1,10 +1,3 @@
-\input{parts/concrete_instances/group/namecert_construction_core/01_intro_and_singleton}
-\input{parts/concrete_instances/group/namecert_construction_core/03_commutator_boundary}
-\input{parts/concrete_instances/group/16_group_singleton_conjugated_commutator_invariance}
-\input{parts/concrete_instances/group/namecert_construction_core/02_certificate}
-\input{parts/concrete_instances/group/16_group_namecert_construction_core}
-\input{parts/concrete_instances/group/16_group_singleton_conjugation_terminal_collapse}
-
 \section{Singleton conjugation collapse}
 \label{sec:group-singleton-conjugation-collapse}
 
@@ -50,7 +43,6 @@ $$
 R_{\emp}(\mathsf{mul}(\mathsf{mul}(a,x),\mathsf{inv}(a)),x).
 $$
 \end{proof}
-\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_fixed\_carrier\_iff}
 
 \section{Concrete singleton normalizer action certificate}
 \label{sec:group-singleton-normalizer-action-certificate}
@@ -154,6 +146,8 @@ carrier equivalence from the previous paragraph and reassociating the
 conjunctions gives exactly
 $A_{\emp}(x)\land A_{\emp}(y)$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_append\_conjugation\_coverage\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_conjugation\_coverage\_iff}
 
 \begin{definition}[Group singleton normalizer orbit relation]
 \label{def:group-singleton-normalizer-orbit-relation}
@@ -248,6 +242,57 @@ $s=\emp$. The endpoint facts $A_{\emp}(x)$ and $A_{\emp}(y)$ yield
 $R_{\emp}(\mathsf{Conj}_{\emp}(x),y)$, and
 Definition~\ref{def:group-singleton-normalizer-orbit-relation} supplies the
 existential orbit witness.
+\end{proof}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_coverage\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonNormalizerOrbit\_total\_coverage\_iff}
+\leanchecked{BEDC.Derived.GroupUp.GroupSingletonClassifier\_normalizer\_orbit\_total\_coverage\_iff}
+
+\begin{theorem}[Group singleton commutator normalizer-orbit kernel exactness]
+\label{thm:group-singleton-commutator-orbit-kernel-exactness}
+For histories $x,y:\mathsf{BHist}$ in the concrete singleton history group, with
+$\mathsf{Comm}_{\emp}(x,y)$ defined as in
+\autoref{thm:group-singleton-commutator-terminal-collapse} and with the
+terminal normalizer orbit relation of
+Definition~\ref{def:group-singleton-normalizer-orbit-relation},
+$$
+\mathsf{Comm}_{\emp}(x,y)\sim_{N_{\emp}}\emp
+\Longleftrightarrow A_{\emp}(x)\land A_{\emp}(y).
+$$
+Moreover the same endpoint is the terminal orbit kernel exactly when the two
+inputs lie in the same terminal normalizer orbit:
+$$
+\mathsf{Comm}_{\emp}(x,y)\sim_{N_{\emp}}\emp
+\Longleftrightarrow x\sim_{N_{\emp}}y.
+$$
+The ten-field fit is: traditional target terminal commutator orbit-kernel
+exactness; BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$;
+carrier $A_{\emp}$; classifier the terminal normalizer orbit relation;
+stability from total orbit coverage and commutator carrier exactness; ledger
+the commutator endpoint together with the terminal endpoint $\emp$; core theorem
+this block; exactness the two displayed equivalences; downstream consumer
+$\QuotientGroupUp$ first-isomorphism-style quotient-kernel exactness; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-normalizer-orbit-total-coverage} to the pair
+$(\mathsf{Comm}_{\emp}(x,y),\emp)$. The singleton carrier inhabitance row of
+\autoref{thm:group-singleton-terminal-classifier-package} gives
+$A_{\emp}(\emp)$, so the orbit coverage statement reduces the commutator orbit
+edge to the carrier condition $A_{\emp}(\mathsf{Comm}_{\emp}(x,y))$.
+
+Now compose this reduction with
+\autoref{thm:group-singleton-commutator-carrier-exactness}. That theorem
+identifies the commutator carrier condition with
+$A_{\emp}(x)\land A_{\emp}(y)$, giving the first displayed equivalence.
+
+For the comparison with the terminal orbit of the two inputs, apply
+\autoref{thm:group-singleton-normalizer-orbit-total-coverage} again, now to
+the pair $(x,y)$. It identifies $x\sim_{N_{\emp}}y$ with the same carrier pair
+$A_{\emp}(x)\land A_{\emp}(y)$.
+
+Combining the two identifications through the common carrier pair gives the
+second displayed equivalence, with no additional group data beyond the
+singleton normalizer orbit certificate.
 \end{proof}
 
 \begin{theorem}[Group singleton normalizer orbit equivalence]
@@ -575,8 +620,3 @@ $$
 Again use the reverse direction of orbit exactness to convert that classifier
 into the displayed orbit relation.
 \end{proof}
-
-\input{parts/concrete_instances/group/namecert_construction_core/04_conjugation_normalizer_action}
-\input{parts/concrete_instances/group/16_group_singleton_normalizer_action_orbit_fiber_identity}
-\input{parts/concrete_instances/group/16_group_unary_append_inverse_obstruction}
-\input{parts/concrete_instances/group/16_group_singleton_contextual_exact_visibility}
