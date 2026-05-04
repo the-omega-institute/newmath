@@ -1,0 +1,48 @@
+\section{Singleton conjugation terminal collapse}
+\label{sec:group-singleton-conjugation-terminal-collapse}
+
+\begin{theorem}[Group singleton conjugation terminal collapse]
+\label{thm:group-singleton-conjugation-terminal-collapse}
+For histories $s,x:\mathsf{BHist}$, if $A_{\emp}(s)$, then singleton
+conjugation by $s$ is exactly terminal carrier membership of the middle
+endpoint:
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(s,x),\mathsf{GroupSingletonInv}(s)),\emp)
+\Longleftrightarrow A_{\emp}(x).
+$$
+The ten-field fit is: traditional target terminal-group conjugation identity;
+BEDC source concrete singleton $\GroupUp$ over $\mathsf{BHist}$; carrier
+$A_{\emp}$; classifier $R_{\emp}$; stability from inverse closure, two-sided
+contextual cancellation, product-unit split, and unit transport; ledger the
+conjugating endpoint $s$ and the hidden inverse endpoint
+$\mathsf{GroupSingletonInv}(s)$; exactness the displayed iff; standard bridge
+conjugation in the one-element group; downstream consumer terminal normalizer
+and quotient-visibility collapse; and status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Assume $A_{\emp}(s)$. The inverse row of
+\autoref{thm:group-singleton-terminal-classifier-package}, applied to the
+concrete singleton inverse of $s$, supplies
+$A_{\emp}(\mathsf{GroupSingletonInv}(s))$. The empty endpoint has
+$A_{\emp}(\emp)$ by reflexivity, so the four context carriers needed for the
+two-sided contextual product-unit split are available.
+
+Transport the displayed right endpoint along the empty unit laws, and transport
+the middle factor $x$ along the right unit law, so the classifier has the
+two-sided product-unit shape with contexts $s,\emp$ and
+$\mathsf{GroupSingletonInv}(s),\emp$:
+$$
+R_{\emp}(\mathsf{append}(\mathsf{append}(s,\mathsf{append}(x,\emp)),
+\mathsf{GroupSingletonInv}(s)),\mathsf{append}(\mathsf{append}(\emp,\emp),\emp)).
+$$
+
+Apply \autoref{thm:group-singleton-two-sided-contextual-product-unit-split} with
+$p=x$ and $q=\emp$. This cancels the singleton contexts and identifies the
+transported classifier with $A_{\emp}(x)\land A_{\emp}(\emp)$.
+
+For the forward direction, project the first component of this conjunction. For
+the reverse direction, combine the assumed $A_{\emp}(x)$ with the reflexive
+carrier witness $A_{\emp}(\emp)$, apply the product-unit split in the
+constructive direction, and transport the unit laws back to the displayed
+conjugation endpoint against $\emp$.
+\end{proof}
