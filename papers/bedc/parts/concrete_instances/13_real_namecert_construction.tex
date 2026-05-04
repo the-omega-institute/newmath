@@ -681,6 +681,33 @@ therefore available as the certificate-level stability package for the stream
 classifier.
 \end{proof}
 
+\begin{theorem}[Real stream classifier hsame transport]
+\label{thm:real-stream-classifier-hsame-transport}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, if
+$\forall n,\ \hsame(x(n),x'(n))$ and
+$\forall n,\ \hsame(y(n),y'(n))$, then
+$$
+\mathsf{RealStreamClassifier}(x,y)
+\Longrightarrow
+\mathsf{RealStreamClassifier}(x',y').
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{RealStreamClassifier}(x,y)$. By the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness}, every finite prefix
+$\mathsf{RealStreamPrefixClassifier}(x,y,n)$ is classified.
+
+For each prefix index $n$, apply
+\autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
+pointwise $\hsame$ hypotheses. This transports the prefix classifier from
+$(x,y)$ to $(x',y')$ at the same index.
+
+Since the transported prefix witness is available for every $n$, the reverse
+direction of \autoref{thm:real-stream-finite-prefix-exactness} reassembles
+these finite-prefix witnesses into
+$\mathsf{RealStreamClassifier}(x',y')$.
+\end{proof}
+
 \begin{theorem}[Real stream prefix classifier transitivity]
 \label{thm:real-stream-prefix-classifier-trans}
 For rational-observation streams $x,y,z:\mathbb{N}\to\Hist$, if the finite
