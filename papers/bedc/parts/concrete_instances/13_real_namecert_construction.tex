@@ -1,6 +1,70 @@
 \input{parts/concrete_instances/real/13_real_constant_core.tex}
 \input{parts/concrete_instances/real/13_real_stream_prefix.tex}
 
+\begin{theorem}[Real unary StreamNameUp stability package]
+\label{thm:real-unary-streamname-stability-package}
+For certified unary-observation maps $s,t,u,s',t':\Hist\to\Hist$, suppose
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameCarrier}(u),
+$$
+$$
+\mathsf{RealUnaryStreamClassifier}(s,t),\quad
+\mathsf{RealUnaryStreamClassifier}(t,u),
+$$
+and suppose the transported endpoints satisfy
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n)),
+\quad
+\forall n,\ \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then the same BEDC unary observation rows supply the following public
+certificate fields:
+\begin{enumerate}
+  \item $\mathsf{RatStreamNameClassifier}(s,t)$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s,s)$,
+  $\mathsf{RealUnaryStreamClassifier}(t,s)$, and
+  $\mathsf{RealUnaryStreamClassifier}(s,u)$.
+  \item For every certified unary observation $n$, both
+  $\mathsf{RatHistoryCarrier}(s(n))$ and $\mathsf{RatHistoryCarrier}(t(n))$.
+  \item $\mathsf{RealUnaryStreamClassifier}(s',t')$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-carrier},
+Definition~\ref{def:rat-stream-name-classifier}, and
+Definition~\ref{def:real-unary-observation-stream-classifier}. After this
+unfolding, both StreamNameUp and RealUp classifier rows are the same pointwise
+RatUp classifier over histories $n$ equipped with
+$\mathsf{UnaryHistory}(n)$.
+
+The first conclusion is therefore just the displayed
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ read under the StreamNameUp
+classifier name. For $\mathsf{RealUnaryStreamClassifier}(s,s)$, fix a
+certified observation $n$; the carrier row for $s$ gives
+$\mathsf{RatHistoryCarrier}(s(n))$, and RatUp classifier reflexivity gives the
+required point classifier at that observation.
+
+For the reversed classifier $\mathsf{RealUnaryStreamClassifier}(t,s)$, read the
+point classifier from $\mathsf{RealUnaryStreamClassifier}(s,t)$ and apply RatUp
+classifier symmetry. For $\mathsf{RealUnaryStreamClassifier}(s,u)$, read the
+two point classifiers from the assumptions at the same certified observation
+and compose them by RatUp classifier transitivity.
+
+For endpoint carriers, fix a certified unary observation $n$ and unpack the
+RatUp classifier obtained from $\mathsf{RealUnaryStreamClassifier}(s,t)$ at
+that observation. Its endpoint data are precisely
+$\mathsf{RatHistoryCarrier}(s(n))$ and $\mathsf{RatHistoryCarrier}(t(n))$.
+
+For transport, fix the same certified observation $n$. Apply
+$\mathsf{RatHistoryClassifier\_hsame\_transport}$ to the point classifier from
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ and to the two pointwise $\hsame$
+witnesses from $s,t$ to $s',t'$. Repacking the transported point classifier
+over all certified unary observations gives
+$\mathsf{RealUnaryStreamClassifier}(s',t')$.
+\end{proof}
+
 \begin{theorem}[Real stream classifier selected e-one pair readback]
 \label{thm:real-stream-classifier-selected-e1-pair-readback}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, every selected
@@ -25,6 +89,50 @@ and to the two displayed e-one endpoint equalities. The readback theorem returns
 the two unary tail witnesses and the internal sameness relation
 $\hsame(a,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_selected\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream classifier transported selected e-one rational classifier readback]
+\label{thm:real-stream-classifier-transported-selected-e1-rat-classifier-readback}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b)).
+$$
+\end{theorem}
+\begin{proof}
+Use the forward direction of
+\autoref{thm:real-stream-finite-prefix-exactness} on
+$\mathsf{RealStreamClassifier}(x,y)$ and select the finite prefix at $n$.
+Transport this prefix witness along the two pointwise $\hsame$ hypotheses by
+\autoref{thm:real-stream-prefix-classifier-hsame-transport}, obtaining a
+classified prefix for $x'$ and $y'$ at the same selected index.
+
+Project the selected endpoint classifier with
+\autoref{thm:real-stream-prefix-classifier-endpoint}. It gives
+$\mathsf{RatHistoryClassifier}(x'(n),y'(n))$.
+
+Finally apply \autoref{thm:rat-history-classifier-hsame-transport} to move this
+endpoint classifier along $\hsame(x'(n),\Eone(a))$ and
+$\hsame(y'(n),\Eone(b))$, producing
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+\end{proof}
+
+Fit: traditional target selected rational endpoint readback for RealUp streams;
+BEDC source RatUp plus RealUp; carrier rational-observation streams; classifier
+RealStreamClassifier and RatHistoryClassifier; stability prefix exactness,
+hsame transport, and endpoint projection; ledger selected observation index and
+displayed e-one seals; core theorem
+\autoref{thm:real-stream-classifier-transported-selected-e1-rat-classifier-readback};
+exactness the displayed implication; standard bridge rational equality read from
+equal real observations; status $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real stream classifier transported selected e-one pair readback]
 \label{thm:real-stream-classifier-transported-selected-e1-pair-readback}
@@ -43,20 +151,112 @@ $$
 $$
 \end{theorem}
 \begin{proof}
-Use the forward direction of
-\autoref{thm:real-stream-finite-prefix-exactness} on the classifier
-$\mathsf{RealStreamClassifier}(x,y)$ and select the index $n$. This produces
-the finite-prefix classifier for the original streams $x$ and $y$ at the
-selected observation.
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-rat-classifier-readback}
+to obtain the endpoint classifier
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
 
-Apply \autoref{thm:real-stream-prefix-classifier-hsame-transport} with the two
-pointwise $\hsame$ transport hypotheses. The resulting finite-prefix classifier
-is now the corresponding prefix witness for the transported streams $x'$ and
-$y'$ at the same index $n$.
-
-Apply \autoref{thm:real-stream-prefix-e1-pair-readback} to the transported
-prefix witness and to the displayed e-one endpoint relations for $x'(n)$ and
-$y'(n)$. The readback theorem returns the two unary tail witnesses together with
-$\hsame(a,b)$.
+Apply \autoref{thm:rat-history-classifier-e1-tail-unary-iff} in the forward
+direction. The one-tail exactness theorem returns
+$\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_e1\_pair\_readback}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transported\_selected\_e1\_pair\_readback}
 \leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_transport\_selected\_e1\_pair\_readback}
+
+\begin{theorem}[Real stream classifier transported selected e-one full readback package]
+\label{thm:real-stream-classifier-transported-selected-e1-full-readback-package}
+For rational-observation streams $x,x',y,y':\mathbb{N}\to\Hist$, every selected
+observation index $n$, and histories $a,b:\Hist$, if
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\mathsf{RealStreamClassifier}(x,y),\quad
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),
+$$
+then
+$$
+\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))\land
+\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-rat-classifier-readback}
+under the displayed transport, classifier, and e-one seal hypotheses. This gives
+the first conjunct
+$\mathsf{RatHistoryClassifier}(\Eone(a),\Eone(b))$.
+
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-e1-pair-readback}
+under the same hypotheses. This gives
+$\mathsf{UnaryHistory}(a)\land \mathsf{UnaryHistory}(b)\land \hsame(a,b)$.
+
+Package the endpoint classifier together with the unary-tail readback triple.
+The resulting conjunction is exactly the selected transported e-one readback
+package displayed in the statement.
+\end{proof}
+
+Fit: traditional target selected sealed rational endpoint package for RealUp
+streams; BEDC source RatUp plus RealUp finite-prefix exactness; carrier
+rational-observation streams; classifier RealStreamClassifier and
+RatHistoryClassifier; stability prefix hsame transport and RatUp one-tail
+exactness; ledger selected index and two e-one seals; core theorem this block;
+exactness the displayed conjunction; standard bridge rational equality read from
+equal transported real observations; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier unary denominator context closure]
+\label{thm:real-stream-classifier-unary-denominator-context-closed}
+For rational-observation streams
+$x,y,p_X,p_Y,t_X,t_Y,m_X,m_Y,o_X,o_Y:\mathbb{N}\to\Hist$, if
+$$
+\mathsf{RealStreamClassifier}(x,y),
+$$
+and for every observation index $n$ the contexts and continuation outputs
+satisfy
+$$
+\mathsf{UnaryHistory}(p_X(n)),\quad \mathsf{UnaryHistory}(t_X(n)),\quad
+\hsame(p_X(n),p_Y(n)),\quad \hsame(t_X(n),t_Y(n)),
+$$
+$$
+\mathsf{Cont}(p_X(n),x(n),m_X(n)),\quad
+\mathsf{Cont}(m_X(n),t_X(n),o_X(n)),
+$$
+$$
+\mathsf{Cont}(p_Y(n),y(n),m_Y(n)),\quad
+\mathsf{Cont}(m_Y(n),t_Y(n),o_Y(n)),
+$$
+then
+$$
+\mathsf{RealStreamClassifier}(o_X,o_Y).
+$$
+\end{theorem}
+\begin{proof}
+Fix an observation index $n$. The stream classifier supplies
+$\mathsf{RatHistoryClassifier}(x(n),y(n))$ at that index.
+
+Apply \autoref{thm:rat-history-classifier-unary-denominator-context-closed} to
+this point classifier, the two unary-context hypotheses on $p_X(n)$ and
+$t_X(n)$, and the two displayed context comparisons
+$\hsame(p_X(n),p_Y(n))$ and $\hsame(t_X(n),t_Y(n))$. This gives the rational
+history classifier on the associativity-normal context endpoints.
+
+The four continuation witnesses identify those normal endpoints with $o_X(n)$
+and $o_Y(n)$, using associativity of append as in
+\autoref{thm:real-constant-history-classifier-cont-unary-denominator-context-closed}.
+Transport the point classifier along these endpoint identifications.
+
+Since $n$ was arbitrary, repack the transported pointwise witnesses as
+$\mathsf{RealStreamClassifier}(o_X,o_Y)$.
+\end{proof}
+
+Fit: traditional target streamwise rational-denominator context stability; BEDC
+source RealUp streams plus RatUp classifier plus $\mathsf{Cont}$; carrier
+rational-observation streams; classifier $\mathsf{RealStreamClassifier}$;
+stability pointwise unary context closure; ledger pointwise prefix and tail
+context witnesses with continuation outputs; core theorem
+\autoref{thm:real-stream-classifier-unary-denominator-context-closed};
+exactness pointwise $\mathsf{RealStreamClassifier}$ preservation; standard
+bridge denominator/context stability of rational real names; status
+$\mathsf{ProofTarget}$.
