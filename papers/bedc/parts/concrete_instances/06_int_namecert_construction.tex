@@ -51,6 +51,19 @@ For a fixed sign \(s\), if \(\mathsf{IntCarrier}(s,h)\) holds and \(h\) is inter
 The sign disjunction is preserved unchanged, while the unary-history component is transported across \(\hsame(h,k)\) by the finite-kernel unary transport theorem.
 \end{proof}
 
+\begin{theorem}[Integer carrier magnitude induction]
+\label{thm:int-carrier-magnitude-induction}
+For a fixed sign \(s:\mathsf{BMark}\), any predicate \(P\) on histories holds
+for every integer-carried magnitude if it holds at \(\emp\) and is preserved
+by one-step unary extension along \(\mathsf{IntCarrier}(s,-)\).
+\end{theorem}
+\begin{proof}
+Unpack \(\mathsf{IntCarrier}(s,h)\) into its sign clause and unary-history
+witness. Apply unary-history induction to the magnitude; the step rebuilds the
+integer carrier from the fixed sign clause and the current unary witness.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntCarrier\_magnitude\_induction}
+
 \begin{definition}[Integer source specification]
 \label{def:intup-source-specification}
 The source specification for \(\IntUp\) is exactly the signed unary integer carrier:
@@ -79,6 +92,21 @@ $$
 $$
 \end{definition}
 \leandef{BEDC.Derived.IntUp.IntClassifierSpec}
+
+\begin{theorem}[Integer classifier magnitude pair induction]
+\label{thm:int-classifier-magnitude-pair-induction}
+Any predicate \(P\) on pairs of histories holds for the two magnitudes of every
+\(\mathsf{IntClassifierSpec}\) witness if it holds at \((\emp,\emp)\) and is
+preserved by one-step unary extension on either magnitude while the other
+magnitude remains unary.
+\end{theorem}
+\begin{proof}
+Unpack the classifier into its two signed unary carrier witnesses. These give
+unary histories for both magnitudes. Run unary-history induction over the left
+magnitude; its base is supplied by a second unary-history induction over the
+right magnitude, and its step uses the left extension rule.
+\end{proof}
+\leanchecked{BEDC.Derived.IntUp.IntClassifierSpec\_magnitude\_pair\_induction}
 
 \begin{theorem}[Integer classifier endpoint sign cases]
 \label{thm:int-classifier-endpoint-sign-cases}
