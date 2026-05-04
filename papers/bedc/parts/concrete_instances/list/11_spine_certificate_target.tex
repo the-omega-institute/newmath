@@ -31,6 +31,25 @@ Unpack the nil representation to obtain $\hsame(h,\emp)$. Unpack the cons repres
 \end{proof}
 \leanchecked{BEDC.Derived.ListUp.ListSpineRep\_nil\_cons\_no\_confusion}
 
+\begin{theorem}[List spine cons endpoint shape]
+\label{thm:list-spine-rep-cons-endpoint-shape}
+For every source carrier $A:\mathsf{BHist}\to\mathsf{Prop}$, history $h$,
+head $a$, and tail spine $xs:\mathsf{HistSpine}$, a cons spine presentation
+$\mathsf{ListSpineRep}_A(h,\mathsf{cons}(a,xs))$ exposes its BEDC constructor
+payload:
+$$
+\exists t,p:\mathsf{BHist}.\;
+A(a)\land\mathsf{ListSpineRep}_A(t,xs)\land\ContR(a,t,p)\land
+\hsame(h,\Eone(p)).
+$$
+\end{theorem}
+\begin{proof}
+Invert the displayed cons presentation. The cons constructor of
+$\mathsf{ListSpineRep}$ stores exactly the head source proof, tail spine
+presentation, continuation ledger, and one-headed endpoint classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.ListUp.ListSpineRep\_cons\_endpoint\_shape}
+
 \begin{theorem}[List spine representation exactness]
 \label{thm:list-spine-representation-exactness}
 Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier and let $\sim_A$ be a source classifier. The spine representation of Definition~\ref{def:list-spine-representation} is exact for the generated list carrier and classifier:
