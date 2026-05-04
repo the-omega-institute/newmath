@@ -404,6 +404,22 @@ exactness pointwise $\mathsf{RealStreamClassifier}$ preservation; standard
 bridge denominator/context stability of rational real names; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real stream classifier unary context closure]
+\label{thm:real-stream-classifier-unary-context-closed}
+For rational-observation streams $x,y$ and pointwise unary contexts
+$pref_X,pref_Y,tail_X,tail_Y$, if $\mathsf{RealStreamClassifier}(x,y)$ and
+each prefix and tail is matched by $\hsame$, then the stream obtained by
+placing every observation inside its matched prefix and tail context is again
+classified by $\mathsf{RealStreamClassifier}$.
+\end{theorem}
+\begin{proof}
+At each index, apply rational history unary-denominator context closure to the
+point classifier supplied by the real stream classifier and to the matched
+unary prefix and tail histories. These pointwise classifiers assemble into the
+contextual stream classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealStreamClassifier\_unary\_context\_closed}
+
 \begin{theorem}[Real stream classifier unary denominator context selected one-tail pair readback]
 \label{thm:real-stream-classifier-unary-denominator-context-selected-e1-pair-readback}
 Under the hypotheses of
