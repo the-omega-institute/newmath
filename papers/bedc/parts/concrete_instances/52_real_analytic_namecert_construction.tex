@@ -36,6 +36,18 @@ The Leibniz series is the simplest constructive presentation; faster-converging 
 For \(\RealUp\)-history \(x\) and unary index \(n\), the predicate \(\mathsf{ExpPart}(x, n, S_n)\) holds when \(S_n\) is the partial sum \(\sum_{k=0}^{n} x^k / k!\) computed by unary recursion: powers \(x^k\) via iterated \(\RealUp\) multiplication, factorials \(k!\) via the unary factorial of \(\PrimeUp\) (\autoref{ch:concrete-instances-prime-namecert}), and division as \(\RealUp\)-multiplicative inverse against the positive unary denominator.
 \end{definition}
 
+\begin{lemma}[Real-analytic complex partial-sum indices are unary]
+\label{lem:real-analytic-complex-part-sum-index-unary}
+For the real-analytic series interface, every closed complex partial-sum
+witness has unary index.
+\end{lemma}
+\begin{proof}
+Induct on the closed complex partial-sum witness. The zero constructor has the
+empty index, and the successor constructor applies the unary successor closure
+to the predecessor index.
+\end{proof}
+\leanchecked{BEDC.Derived.RealAnalyticUp.RealAnalyticComplexPartSum\_index\_unary}
+
 \begin{theorem}[Real-analytic complex partial-sum results are unary]
 \label{thm:real-analytic-complex-part-sum-result-unary}
 For the real-analytic series interface, if the chosen zero history is unary and
