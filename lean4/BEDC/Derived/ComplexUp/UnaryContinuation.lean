@@ -39,4 +39,18 @@ theorem ComplexHistoryClassifier_unary_continuation_closed {h k q q' zq wq : BHi
     cont_respects_hsame classified.right.right sameQQ' leftCont rightCont
   exact ⟨carrierZq, carrierWq, sameResults⟩
 
+theorem ComplexHistoryClassifier_unary_continuation_positive_components
+    {h k q q' zq wq : BHist} :
+    ComplexHistoryClassifier h k -> UnaryHistory q -> hsame q q' -> Cont h q zq ->
+      Cont k q' wq ->
+        ∃ hr hi kr ki : BHist, RatUp.RatHistoryCarrier hr ∧ RatUp.RatHistoryCarrier hi ∧
+          RatUp.RatHistoryCarrier kr ∧ RatUp.RatHistoryCarrier ki ∧ Cont hr hi zq ∧
+            Cont kr ki wq ∧ hsame zq wq ∧ RatUp.PositiveUnaryDenominator hr ∧
+              RatUp.PositiveUnaryDenominator hi ∧ RatUp.PositiveUnaryDenominator kr ∧
+                RatUp.PositiveUnaryDenominator ki := by
+  intro classified qUnary sameQQ' leftCont rightCont
+  have continued : ComplexHistoryClassifier zq wq :=
+    ComplexHistoryClassifier_unary_continuation_closed classified qUnary sameQQ' leftCont rightCont
+  exact ComplexHistoryClassifier_positive_components continued
+
 end BEDC.Derived.ComplexUp

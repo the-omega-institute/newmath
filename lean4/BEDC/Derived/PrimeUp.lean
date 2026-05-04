@@ -201,6 +201,17 @@ theorem NatDivides_empty_left_result_empty {n : BHist} :
   | intro _ qData =>
       exact NatMul_empty_left_result_empty qData.right
 
+theorem NatDivides_successor_result_divisor_positive_shape {d n : BHist} :
+    NatDivides d (BHist.e1 n) -> exists tail : BHist, hsame d (BHist.e1 tail) ∧
+      UnaryHistory tail := by
+  intro divides
+  have hd : UnaryHistory d := by
+    cases divides with
+    | intro _ qData => exact NatMul_left_unary qData.right
+  cases d with
+  | Empty => exact False.elim (not_hsame_e1_empty (NatDivides_empty_left_result_empty divides))
+  | e0 d => cases hd
+  | e1 tail => exact ⟨tail, hsame_refl (BHist.e1 tail), unary_e1_inversion hd⟩
 theorem NatDivides_empty_right_iff {d : BHist} :
     NatDivides d BHist.Empty ↔ UnaryHistory d := by
   constructor

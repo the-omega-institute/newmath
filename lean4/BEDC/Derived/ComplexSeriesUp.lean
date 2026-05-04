@@ -145,6 +145,32 @@ theorem ComplexPartSum_pointwise_hsame_deterministic {zero zero' : BHist}
           have samePrev := ih unaryTail rightPrev
           exact cont_respects_hsame samePrev (pointwise unaryTail) leftStep rightStep
 
+theorem ComplexPartSum_result_nonempty_of_nonempty_terms {zero : BHist}
+    {c : BHist -> BHist} {n S : BHist} :
+    (hsame zero BHist.Empty -> False) ->
+      (forall {m : BHist}, UnaryHistory m -> hsame (c m) BHist.Empty -> False) ->
+        ComplexPartSum zero c n S -> hsame S BHist.Empty -> False := by
+  intro zeroNonempty termNonempty sum
+  have indexUnary :
+      forall {m P : BHist}, ComplexPartSum zero c m P -> UnaryHistory m :=
+    fun {m P : BHist} (part : ComplexPartSum zero c m P) => by
+      induction part with
+      | zero =>
+          exact unary_empty
+      | step _ _ ih =>
+          exact unary_e1_closed ih
+  induction sum with
+  | zero =>
+      intro resultEmpty
+      exact zeroNonempty resultEmpty
+  | step previous stepContinuation _ih =>
+      intro resultEmpty
+      have emptyStep :
+          Cont _ (c _) BHist.Empty :=
+        cont_result_hsame_transport stepContinuation resultEmpty
+      have emptyParts := cont_empty_result_inversion emptyStep
+      exact termNonempty (indexUnary previous) emptyParts.right
+
 theorem ComplexPartSum_result_unary {zero : BHist} {c : BHist -> BHist} {n S : BHist}
     (zeroUnary : UnaryHistory zero)
     (termUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (c m)) :
