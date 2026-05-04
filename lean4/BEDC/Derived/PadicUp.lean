@@ -185,6 +185,19 @@ theorem PadicPrimeScale_append_cont_result_functional {p w q n e r r' : BHist} :
     PadicPrimeScale_append_cont_closure left right continuation
   exact NatMul_functional left.left.left combined.right other.right
 
+theorem PadicPrimeScale_append_factor_results_unique {p w q n e r n2 e2 r2 : BHist} :
+    PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
+      PadicPrimeScale p w n2 -> PadicPrimeScale p q e2 -> Cont n2 e2 r2 ->
+        hsame n n2 ∧ hsame e e2 ∧ hsame r r2 := by
+  intro left right continuation left2 right2 continuation2
+  have sameN : hsame n n2 :=
+    NatMul_functional left.left.left left.right left2.right
+  have sameE : hsame e e2 :=
+    NatMul_functional right.left.left right.right right2.right
+  have sameR : hsame r r2 :=
+    cont_respects_hsame sameN sameE continuation continuation2
+  exact And.intro sameN (And.intro sameE sameR)
+
 theorem PadicPrimeScale_append_total {p w q : BHist} :
     NatPrime p -> UnaryHistory w -> UnaryHistory q ->
       Exists (fun r : BHist => PadicPrimeScale p (append w q) r ∧

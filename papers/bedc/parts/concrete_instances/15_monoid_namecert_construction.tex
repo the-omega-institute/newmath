@@ -216,6 +216,32 @@ giving the displayed classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_idempotent\_empty\_iff}
 
+\begin{theorem}[Unary append monoid left-inverse field collapses to singleton]
+\label{thm:unary-append-monoid-left-inverse-field-collapses-to-singleton}
+For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, a global
+left-inverse field on the full unary-history append carrier,
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})
+(\mathsf{append}(\mathsf{inv}(h),h),\emp),
+$$
+forces every unary history to be classified with the singleton unit:
+$$
+\forall h:\mathsf{BHist},\
+\mathsf{UnaryHistory}(h)\Rightarrow
+\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})(h,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Fix a unary history $h$ and specialize the left-inverse field at $h$. The
+unit-product factor exactness theorem decomposes the classifier for
+$\mathsf{append}(\mathsf{inv}(h),h)$ into singleton classifiers for the two
+append factors. The right factor is exactly the displayed classifier of $h$
+with $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_left\_inverse\_field\_collapses\_to\_singleton}
+
 \begin{theorem}[Unary append monoid one-sided inverse obstruction]
 \label{thm:unary-append-monoid-one-sided-inverse-obstruction}
 For every operation $\mathsf{inv}:\mathsf{BHist}\to\mathsf{BHist}$, the
@@ -263,6 +289,7 @@ $\mathsf{append}(\mathsf{inv}(u),u)\hsame\emp$. Empty-result inversion now
 forces the right factor $u$ to be $\hsame$ to $\emp$, and the same
 no-confusion contradiction follows.
 \end{proof}
+\leanchecked{BEDC.Derived.MonoidUp.unary\_append\_monoid\_one\_sided\_inverse\_law\_absurd}
 
 \begin{theorem}[History continuation monoid laws]
 \label{thm:history-continuation-monoid-laws}
