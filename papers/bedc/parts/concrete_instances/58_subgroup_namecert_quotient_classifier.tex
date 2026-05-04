@@ -442,6 +442,27 @@ $Z_a(\mathsf{mul}(\mathsf{inv}(y),x))$ witness.
 \end{proof}
 \leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_symm\_from\_empty\_unit}
 
+\begin{theorem}[Centralizer quotient-kernel multiplication compatibility]
+\label{thm:subgroup-centralizer-quotient-kernel-mul-compatible}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
+the same associativity, unit, multiplication-congruence, and two-sided inverse
+laws as in
+\autoref{thm:subgroup-centralizer-normalizer-tower-certificate}, the
+quotient-kernel relation is compatible with multiplication:
+$$
+Q_{Z_a\triangleleft N_a}(x,y)\land Q_{Z_a\triangleleft N_a}(u,v)
+\Longrightarrow
+Q_{Z_a\triangleleft N_a}(\mathsf{mul}(x,u),\mathsf{mul}(y,v)).
+$$
+\end{theorem}
+\begin{proof}
+Translate both quotient-kernel hypotheses through the right quotient
+classifier equivalence. The right quotient classifier multiplication row
+supplies the product relation, and the same equivalence translates the product
+classifier back to the quotient-kernel relation.
+\end{proof}
+\leanchecked{BEDC.Derived.SubgroupUp.SubgroupCentralizerQuotientKernel\_mul\_compatible\_from\_empty\_unit}
+
 \begin{theorem}[Centralizer normalizer quotient-kernel classifier congruence]
 \label{thm:subgroup-centralizer-normalizer-quotient-kernel-congruence}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying
