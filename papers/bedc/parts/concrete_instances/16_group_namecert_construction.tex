@@ -240,3 +240,56 @@ this source edge. It gives
 $\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)$, which is the acted
 transitive edge.
 \end{proof}
+
+\begin{theorem}[Group singleton normalizer orbit action conjugator independence]
+\label{thm:group-singleton-normalizer-orbit-action-conjugator-independence}
+For histories $s,t,x,y,z:\mathsf{BHist}$ carried by $A_{\emp}$ in the concrete
+singleton history group, write
+$$
+\mathsf{Conj}_u(w):=\mathsf{mul}(\mathsf{mul}(u,w),\mathsf{inv}(u)).
+$$
+If $A_{\emp}(s)$, $A_{\emp}(t)$, $A_{\emp}(x)$, $A_{\emp}(y)$, and
+$A_{\emp}(z)$, then the terminal two-edge normalizer action path is independent
+of the carried conjugator:
+$$
+\bigl(
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(y)
+\land
+\mathsf{Conj}_s(y)\sim_{N_{\emp}}\mathsf{Conj}_s(z)
+\bigr)
+\Longleftrightarrow
+\bigl(
+\mathsf{Conj}_t(x)\sim_{N_{\emp}}\mathsf{Conj}_t(y)
+\land
+\mathsf{Conj}_t(y)\sim_{N_{\emp}}\mathsf{Conj}_t(z)
+\bigr).
+$$
+The induced transitive edge is independent of the carried conjugator as well:
+$$
+\mathsf{Conj}_s(x)\sim_{N_{\emp}}\mathsf{Conj}_s(z)
+\Longleftrightarrow
+\mathsf{Conj}_t(x)\sim_{N_{\emp}}\mathsf{Conj}_t(z).
+$$
+The ten-field fit is: traditional target conjugator-independent terminal action
+paths; BEDC source concrete singleton $\GroupUp$; carrier $A_{\emp}$;
+classifier $\sim_{N_{\emp}}$; stability from
+\autoref{thm:group-singleton-normalizer-orbit-action-path-iff}; ledger the two
+conjugators and the two-edge source path; core theorem this block; exactness
+the displayed iff clauses; downstream consumer $\QuotientGroupUp$ action-path
+classifier; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:group-singleton-normalizer-orbit-action-path-iff} with
+conjugator $s$. Its first iff identifies the $s$-acted two-edge path with the
+source path $x\sim_{N_{\emp}}y\land y\sim_{N_{\emp}}z$, and its second iff
+identifies the $s$-acted transitive edge with the source edge
+$x\sim_{N_{\emp}}z$.
+
+Apply the same theorem with conjugator $t$. Its two iff clauses identify the
+$t$-acted two-edge path and the $t$-acted transitive edge with the same source
+path and source edge.
+
+Compose the two iff chains through those shared source classifiers. The
+two-edge chain gives the displayed path equivalence, and the transitive-edge
+chain gives the displayed endpoint equivalence.
+\end{proof}
