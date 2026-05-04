@@ -127,6 +127,22 @@ theorem EquivCatAdjunction_empty_roundtrip_unit_counit_empty_iff
       cont_deterministic carrier.right.right.right (cont_right_unit BHist.Empty)
     exact And.intro leftEmpty rightEmpty
 
+theorem EquivCatAdjunction_empty_roundtrip_unit_counit_deterministic
+    {p q a unit unit' counit counit' left right left' right' : BHist} :
+    AdjunctionUnitCounitCarrier p q a unit counit left right ->
+      AdjunctionUnitCounitCarrier p q a unit' counit' left' right' ->
+        hsame left BHist.Empty -> hsame right BHist.Empty ->
+          hsame left' BHist.Empty -> hsame right' BHist.Empty ->
+            hsame unit unit' ∧ hsame counit counit' := by
+  intro carrier carrier' leftEmpty rightEmpty leftEmpty' rightEmpty'
+  have boundary :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier leftEmpty rightEmpty
+  have boundary' :=
+    EquivCatAdjunction_empty_roundtrip_prefix_determinacy carrier' leftEmpty' rightEmpty'
+  exact And.intro
+    (hsame_trans boundary.right.left (hsame_symm boundary'.right.left))
+    (hsame_trans boundary.right.right.left (hsame_symm boundary'.right.right.left))
+
 theorem EquivCatAdjunction_empty_roundtrip_source_prefix_deterministic
     {p q r a unit counit left right : BHist} :
     AdjunctionUnitCounitCarrier p q a unit counit left right ->

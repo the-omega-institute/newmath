@@ -181,6 +181,31 @@ $\Cont(h,q,\cdot)$ to identify the displayed distance histories.
 \end{proof}
 \leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_result\_deterministic}
 
+\begin{theorem}[Derivative metric quotient hsame-step result determinacy]
+\label{thm:derivative-metric-quotient-hsame-step-result-deterministic}
+For histories $f,z,h,h',q,q',dist,dist':\mathsf{BHist}$, if
+$h\hsame h'$ and
+$$
+\mathsf{DerivativeMetricQuotient}(f,z,h,q,dist)
+\qquad\text{and}\qquad
+\mathsf{DerivativeMetricQuotient}(f,z,h',q',dist')
+$$
+hold, then $q\hsame q'$ and $dist\hsame dist'$. The exposed continuation
+ledgers are
+$$
+\Cont(f,h,q),\qquad \Cont(f,h',q'),\qquad \Cont(h,q,dist),\qquad
+\Cont(h',q',dist').
+$$
+\end{theorem}
+\begin{proof}
+Destructure the two derivative metric quotient witnesses. Transport the second
+function continuation ledger along $h\hsame h'$ and apply continuation
+determinism to identify $q$ with $q'$. Then transport the second metric
+continuation ledger along both the step equality and the quotient equality, and
+apply continuation determinism again to identify $dist$ with $dist'$.
+\end{proof}
+\leanchecked{BEDC.Derived.DerivativeUp.DerivativeMetricQuotient\_hsame\_step\_result\_deterministic}
+
 \begin{theorem}[Derivative same-quotient step and distance determinacy]
 \label{thm:derivative-metric-quotient-same-quotient-step-distance-deterministic}
 For histories $f,z,h,h',q,dist,dist':\mathsf{BHist}$, two derivative metric

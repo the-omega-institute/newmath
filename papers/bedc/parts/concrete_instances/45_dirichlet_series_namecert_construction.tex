@@ -137,6 +137,24 @@ of $\mathsf{Cont}$ identifies the successor result.
 \end{proof}
 \leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_successor\_result\_deterministic}
 
+\begin{lemma}[Dirichlet successor term nonempty forces result nonempty]
+\label{thm:dirichlet-part-sum-successor-term-nonempty-result-nonempty}
+For any Dirichlet term function $\mathsf{term}$, if
+$$
+\mathsf{DirichletPartSum}(\mathsf{term},s,\Eone(n),S)
+$$
+holds and $\mathsf{term}(n,s)$ is not $\hsame$ to $\emp$, then $S$ is not
+$\hsame$ to $\emp$.
+\end{lemma}
+\begin{proof}
+Invert the successor partial-sum witness. Its displayed continuation ledger has
+the form $\Cont(P,\mathsf{term}(n,s),S)$ for the previous partial sum $P$. If
+$S\hsame\emp$, result transport gives a continuation into $\emp$; empty-result
+continuation inversion then forces $\mathsf{term}(n,s)\hsame\emp$,
+contradicting the term nonemptiness assumption.
+\end{proof}
+\leanchecked{BEDC.Derived.DirichletSeriesUp.DirichletPartSum\_successor\_term\_nonempty\_result\_nonempty}
+
 \begin{lemma}[Dirichlet partial-sum unary index is deterministic]
 \label{lem:dirichlet-part-sum-unary-index-deterministic}
 If $n$ is a unary history, then any two closed derivations of
