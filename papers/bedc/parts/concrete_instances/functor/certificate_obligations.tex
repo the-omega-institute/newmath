@@ -508,3 +508,95 @@ same image endpoints. Packing them by
 \autoref{def:category-split-isomorphism-witness-pair} gives the required split
 isomorphism witness pair in $\mathcal D$.
 \end{proof}
+
+\begin{definition}[Identity functor certificate data]
+\label{def:identity-functor-certificate-data}
+Let $\mathcal C$ be a $\CategoryUp$ certificate with object carrier
+$\mathcal O_{\mathcal C}$, object classifier $\sim_{\mathcal O}$,
+hom-carrier $\mathcal H_{\mathcal C}(a,b,u)$, endpoint-indexed morphism
+classifier $\sim_{\mathcal H_{\mathcal C}(a,b)}$, identity witnesses
+$\mathsf{id}_a$, and composition relation
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$. The identity functor data
+$1_{\mathcal C}:\mathcal C\to\mathcal C$ are
+$$
+(1_{\mathcal C})_0(a):=a,
+\qquad
+(1_{\mathcal C})_1(u):=u.
+$$
+The functor-indexed hom-carrier is the original endpoint-indexed hom-carrier:
+$$
+\mathsf{FunctorHomCarrier}_{1_{\mathcal C}}(a,b,u)
+:=\mathcal H_{\mathcal C}(a,b,u).
+$$
+Object and morphism classifiers are read from the same category certificate at
+the same endpoints.
+\end{definition}
+
+\begin{theorem}[Identity functor name certificate]
+\label{thm:identity-functor-namecert}
+If $\mathcal C$ satisfies the $\CategoryUp$ certificate obligations of
+\autoref{def:category-certificate-obligations}, then the data of
+\autoref{def:identity-functor-certificate-data} satisfy the $\FunctorUp$
+certificate obligations of \autoref{def:functor-certificate-obligations}.
+Endpoint-by-endpoint, for every source pair $a,b$ and morphism candidate $u$,
+$$
+\mathsf{FunctorHomCarrier}_{1_{\mathcal C}}(a,b,u)
+\Longleftrightarrow
+\mathcal H_{\mathcal C}(a,b,u).
+$$
+For every object $a$,
+$$
+(1_{\mathcal C})_1(\mathsf{id}_a)
+\sim_{\mathcal H_{\mathcal C}(a,a)}
+\mathsf{id}_{(1_{\mathcal C})_0(a)}.
+$$
+For every displayed composable pair $u:a\to b$ and $v:b\to c$ with
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$ recording $v\circ_{\mathcal C}u$,
+$$
+(1_{\mathcal C})_1(w)
+\sim_{\mathcal H_{\mathcal C}(a,c)}
+(1_{\mathcal C})_1(v)\circ_{\mathcal C}(1_{\mathcal C})_1(u).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the identity functor data. The source row of
+\autoref{def:functor-source-specification} is the pair $(\mathcal C,\mathcal C)$,
+which is licensed by the displayed $\CategoryUp$ certificate. The pattern row
+of \autoref{def:functor-pattern-specification} is the pair of identity maps on
+objects and displayed morphisms.
+
+The carrier landing clause is definitional. A source hom-carrier
+$\mathcal H_{\mathcal C}(a,b,u)$ is sent to
+$\mathcal H_{\mathcal C}((1_{\mathcal C})_0(a),(1_{\mathcal C})_0(b),
+(1_{\mathcal C})_1(u))$, and this unfolds to the same proposition
+$\mathcal H_{\mathcal C}(a,b,u)$. This proves the displayed biconditional and
+shows that the classifier specification of \autoref{def:functor-classifier-specification}
+is inherited pointwise from the category classifier.
+
+For identity preservation, the source identity at $a$ and the codomain
+identity at $(1_{\mathcal C})_0(a)=a$ are the same witness $\mathsf{id}_a$.
+Morphism-classifier reflexivity from the category stability fields in
+\autoref{def:category-stability-certificate} gives the classifier comparison
+of $\mathsf{id}_a$ with itself.
+
+For composition preservation, take a source composition ledger
+$\mathsf{Comp}_{\mathcal C}(u,v,w)$. Since the morphism map is the identity,
+the image of the source composite is $w$. The codomain composite of the image
+pair is recorded by the same ledger, now read in the codomain copy of
+$\mathcal C$. Morphism-classifier reflexivity at the endpoint pair $(a,c)$
+therefore classifies $w$ with that codomain composite.
+
+The remaining stability rows in \autoref{def:functor-stability-certificate}
+are pointwise classifier laws and endpoint-replacement laws. Object classifier
+reflexivity, symmetry, and transitivity are the object classifier laws of
+$\mathcal C$; morphism classifier reflexivity, symmetry, and transitivity are
+the endpoint-indexed morphism classifier laws of $\mathcal C$. Source and
+target replacement for displayed morphisms is exactly the category endpoint
+transport field, because both functor maps are identities.
+
+The ledger row of \autoref{def:functor-ledger-policy} records the same
+category ledger on both sides, the same identity displays, and the same
+composition trees. Thus all carrier, source, pattern, classifier, stability,
+and ledger rows listed in \autoref{def:functor-certificate-obligations} are
+present for $1_{\mathcal C}:\mathcal C\to\mathcal C$.
+\end{proof}
