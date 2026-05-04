@@ -151,6 +151,24 @@ contradicts the empty/e-one no-confusion theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_visible\_endpoint\_absurd}
 
+\begin{theorem}[Metric empty-distance composite endpoint collapse]
+\label{thm:metric-distance-witness-empty-distance-composite-endpoint-collapse}
+For histories $x,y,z,d_{xy},d_{yz}$, if
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ and
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$ both have distance histories
+classified as $\emp$, then all three endpoints classify together:
+$$
+d_{xy}\hsame\emp\to d_{yz}\hsame\emp\to
+\HSame(x,y)\wedge\HSame(y,z)\wedge\HSame(x,z).
+$$
+\end{theorem}
+\begin{proof}
+Transport each distance witness to the empty-distance case. Empty-distance
+exactness identifies the corresponding endpoint pair with $\emp$, and
+transitivity through $\emp$ gives the three endpoint comparisons.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_distance\_composite\_endpoint\_collapse}
+
 \begin{theorem}[Metric e1-pair empty-distance impossibility]
 \label{thm:metric-distance-witness-e1-pair-empty-distance-absurd}
 For histories $x,y:\mathsf{BHist}$,

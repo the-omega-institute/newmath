@@ -43,6 +43,27 @@ exposed tail equality.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_tail\_hsame\_exact}
 
+\begin{theorem}[Metric distance witness right e1 result tail determinism]
+\label{thm:metric-distance-witness-right-e1-result-tail-deterministic}
+For histories $x,y,d,d'$, two metric distance witnesses with the same source,
+the same visible right endpoint, and visible results determine the same result
+tail:
+$$
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d))
+\Longrightarrow
+\mathsf{MetricDistanceWitness}(x,\Eone(y),\Eone(d'))
+\Longrightarrow
+\hsame(d,d').
+$$
+\end{theorem}
+\begin{proof}
+Project the continuation ledgers from the two metric witnesses. Continuation
+determinacy identifies the visible results
+$\hsame(\Eone(d),\Eone(d'))$, and one-constructor inversion descends this
+classifier to the tail relation $\hsame(d,d')$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_right\_e1\_result\_tail\_deterministic}
+
 \begin{theorem}[Metric distance witness right e1 source shape]
 \label{thm:metric-distance-witness-right-e1-source-shape}
 For histories $x,y,d$, every concrete metric distance witness whose right
