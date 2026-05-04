@@ -86,6 +86,52 @@ displayed endpoint $\hsame$ proof repackages the concrete classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_factors\_iff}
 
+\begin{theorem}[Concrete unary-history magma continuation result classifier factors]
+\label{thm:concrete-unary-history-magma-cont-result-classifier-factors}
+For histories $h,h',k,k',r,r':\mathsf{BHist}$, if
+$\Cont(h,k,r)$ and $\Cont(h',k',r')$, then the concrete unary-history magma
+classifier relates the two continuation results exactly when all four source
+factors are unary and the two results are history-same:
+$$
+R_U(r,r')
+\Longleftrightarrow
+U(h)\land U(k)\land U(h')\land U(k')\land\hsame(r,r').
+$$
+\end{theorem}
+\begin{proof}
+Eliminate the two continuation witnesses. The results become the displayed
+append endpoints $\mathsf{append}(h,k)$ and $\mathsf{append}(h',k')$. The
+append-factor classifier exactness theorem then supplies the four unary factor
+witnesses in the forward direction and rebuilds the result classifier from the
+four witnesses and the endpoint $\hsame$ proof in the reverse direction.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_cont\_result\_classifier\_factors\_iff}
+
+\begin{theorem}[Concrete unary-history magma classifier middle-context cancellation]
+\label{thm:concrete-unary-history-magma-classifier-append-middle-cancel}
+Let $U(h)$ abbreviate $\mathsf{UnaryHistory}(h)$ and let
+$$
+R_U(h,k):=U(h)\land U(k)\land\hsame(h,k).
+$$
+If $U(l)$ and $U(r)$, then the common append context cancels from the concrete
+magma classifier:
+$$
+R_U(\mathsf{append}(l,\mathsf{append}(m,r)),
+    \mathsf{append}(l,\mathsf{append}(m',r)))
+\Longleftrightarrow
+U(m)\land U(m')\land \hsame(m,m').
+$$
+\end{theorem}
+\begin{proof}
+The forward direction first applies unary append-factor exactness to the two
+classified contextual endpoints, exposing unary witnesses for the two middle
+histories. The classifier equality then cancels the common left append context
+and the common right append context, yielding $\hsame(m,m')$. Conversely, unary
+closure rebuilds both contextual endpoints, and the middle equality transports
+through the two fixed append contexts.
+\end{proof}
+\leanchecked{BEDC.Derived.MagmaUp.concrete\_unary\_history\_magma\_classifier\_append\_middle\_cancel\_iff}
+
 The ten-field per-object fit is: traditional target magma; BEDC source
 $\mathsf{BHist}$ restricted to unary histories; carrier $\mathsf{UnaryHistory}$;
 classifier carrier-aware $\hsame$ on unary endpoints; stability closure and
