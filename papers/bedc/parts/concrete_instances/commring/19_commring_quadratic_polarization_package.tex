@@ -100,7 +100,75 @@ polarization components first, followed by the two diagonal equalities supplied
 by the signed-square zero diagonal-extraction package.
 \end{proof}
 
-The ten-field fit is: traditional target a commutative-ring quadratic
+\begin{theorem}[CommRing quadratic positive-diagonal exit package]
+\label{thm:commring-quadratic-positive-diagonal-exit-package}
+For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the
+shared hypotheses of
+\autoref{thm:commring-quadratic-polarization-package} and
+\autoref{thm:commring-signed-square-zero-diagonal-extraction-package}, every
+$a,b : \mathsf{BHist}$ with
+$a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b$ carries the concrete
+positive-diagonal exit package
+$$
+\Bigl(
+((a+b)\cdot(a+b))+((a+(-b))\cdot(a+(-b)))\hsame
+(a\cdot a+a\cdot a)+(b\cdot b+b\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+b)\cdot(a+b))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(a\cdot b)+(a\cdot b)
+\Bigr)
+\land
+\Bigl(
+((a+(-b))\cdot(a+(-b)))+((-(a\cdot a))+(-(b\cdot b)))\hsame
+(-(a\cdot b))+(-(a\cdot b))
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Longleftrightarrow
+a\cdot a+b\cdot b\hsame a\cdot b+a\cdot b
+\Bigr)
+\land
+\Bigl(
+(a+(-b))\cdot(a+(-b))\hsame0
+\Bigr)
+\land
+\Bigl(
+(-(a\cdot a))+(-(b\cdot b))\hsame (-(a\cdot b))+(-(a\cdot b))
+\Bigr).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:commring-quadratic-polarization-package} to the shared
+hypotheses and the selected histories $a,b$. This gives the four
+quadratic-polarization components, including the signed-square zero exactness
+iff.
+
+Use the reverse direction of that iff on the assumed positive diagonal equality.
+This recovers the signed-square zero witness
+$(a+(-b))\cdot(a+(-b))\hsame0$.
+
+Apply
+\autoref{thm:commring-signed-square-zero-diagonal-extraction-package} to the same
+data and the recovered signed-square zero witness. Its second component gives
+the inverse diagonal ledger. Introduce conjunctions in the displayed order:
+the four polarization components first, the recovered signed-square zero
+witness next, and the inverse diagonal ledger last.
+\end{proof}
+
+The positive-diagonal ten-field fit is: traditional target positive-diagonal
+quadratic exit; BEDC source $\RingUp$ plus $\CommRingUp$ over $\mathsf{BHist}$;
+carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
+\autoref{thm:commring-quadratic-polarization-package} and
+\autoref{thm:commring-signed-square-zero-diagonal-extraction-package}; ledger the
+positive diagonal witness and recovered signed-square zero witness; core theorem
+this block; exactness the displayed package; downstream use $\FieldUp$ quadratic
+normalization and equal-square/zero-product reasoning; status
+$\mathsf{ProofTarget}$.
+
+The signed-square-zero ten-field fit is: traditional target a commutative-ring quadratic
 polarization interface; BEDC source $\RingUp$ plus $\CommRingUp$ over
 $\mathsf{BHist}$; carrier $\mathsf{BHist}$; classifier $\hsame$; stability from
 the shared distributivity, congruence, commutativity, and negative-product
