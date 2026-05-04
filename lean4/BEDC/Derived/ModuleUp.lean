@@ -513,6 +513,29 @@ theorem ModuleParityAction_scalar_associativity_counterexample :
     · intro same
       exact not_hsame_emp_e1 same
 
+theorem ModuleParitySmul_epsilon_empty_result_iff {m : BHist} :
+    hsame (ModuleParitySmul ModuleParityEps m) BHist.Empty ↔
+      (hsame m BHist.Empty -> False) := by
+  cases m with
+  | Empty =>
+      constructor
+      · intro sameResult _sameInput
+        exact not_hsame_e1_empty sameResult
+      · intro nonempty
+        exact False.elim (nonempty (hsame_refl BHist.Empty))
+  | e0 h =>
+      constructor
+      · intro _sameResult sameInput
+        exact not_hsame_e0_empty sameInput
+      · intro _nonempty
+        exact hsame_refl BHist.Empty
+  | e1 h =>
+      constructor
+      · intro _sameResult sameInput
+        exact not_hsame_e1_empty sameInput
+      · intro _nonempty
+        exact hsame_refl BHist.Empty
+
 theorem ModuleAdditive_duplicate_cancel_empty {add : BHist -> BHist -> BHist} {x : BHist}
     (right_empty : hsame (add x BHist.Empty) x)
     (left_cancel : forall {a b c : BHist}, hsame (add a b) (add a c) -> hsame b c)
