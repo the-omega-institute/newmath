@@ -4918,3 +4918,29 @@ Cleanly fits chapter 21 (module name certificate) as a sibling to the scalar ass
 
 ---
 
+### B-191 - Ring right distributivity over subtraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Ring right distributivity over subtraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under RingUp(R), for any a, b, c in R, (a -_R b) *_R c is history-same to (a *_R c) -_R (b *_R c) up to the ring classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+Concrete derived theorem at the same granularity as B-07 (lattice idempotence/absorption), B-08 (module scalar associativity), and B-09 (polynomial normalize commutativity): ring chapter records distributivity and additive-inverse fields as obligations, but no labeled theorem in the visible coverage proves the subtraction-form right distributivity. The proof routes through right distributivity over addition plus the (-b)*c = -(b*c) lemma — itself unproven on the board — making this a concrete certificate-projection target rather than a paraphrase of an existing entry. Distinct from B-08 (module scalar action), B-09 (polynomial normalization), B-23 (module representative transport), and B-28 (CommRing→Ring forgetful), which all treat different ring-adjacent obligations. Fits cleanly in concrete_instances/18_ring_namecert_construction.tex.
+
+---
+
