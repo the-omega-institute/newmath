@@ -289,6 +289,20 @@ theorem PadicPrimeScale_append_empty_result_empty_factors_iff {p w q n e r : BHi
   · intro partsEmpty
     exact Iff.mpr resultIff (append_eq_empty_iff.mpr partsEmpty)
 
+theorem PadicPrimeScale_append_empty_factor_result_hsame {p w q n e r : BHist} :
+    PadicPrimeScale p w n -> PadicPrimeScale p q e -> Cont n e r ->
+      (hsame w BHist.Empty -> hsame r e) ∧ (hsame q BHist.Empty -> hsame r n) := by
+  intro left right continuation
+  constructor
+  · intro wEmpty
+    have nEmpty : hsame n BHist.Empty :=
+      Iff.mpr (PadicPrimeScale_empty_result_iff_empty_exponent left) wEmpty
+    exact cont_respects_hsame nEmpty (hsame_refl e) continuation (cont_left_unit e)
+  · intro qEmpty
+    have eEmpty : hsame e BHist.Empty :=
+      Iff.mpr (PadicPrimeScale_empty_result_iff_empty_exponent right) qEmpty
+    exact cont_respects_hsame (hsame_refl n) eEmpty continuation (cont_right_unit n)
+
 theorem PadicPrimeScale_append_visible_exponent_result_nonempty {p q n e r tail : BHist} :
     (PadicPrimeScale p (BHist.e0 tail) n -> PadicPrimeScale p q e -> Cont n e r ->
       hsame r BHist.Empty -> False) ∧

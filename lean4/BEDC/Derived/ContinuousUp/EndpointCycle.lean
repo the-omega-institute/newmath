@@ -35,4 +35,30 @@ theorem ContinuousModulusWitness_endpoint_cycle_modulus_empty
   exact cont_right_unit_unique
     (cont_result_hsame_transport witness.right.right.right (hsame_symm sameEndpoint))
 
+theorem ContinuousModulusChain_empty_second_witness {source first second target : BHist} :
+    ContinuousModulusChain source first second target -> hsame second BHist.Empty ->
+      ContinuousModulusWitness source first target := by
+  intro chain secondEmpty
+  cases chain with
+  | intro sourceCarrier rest =>
+      cases rest with
+      | intro firstCarrier rest =>
+          cases rest with
+          | intro _secondCarrier rest =>
+              cases rest with
+              | intro targetCarrier witness =>
+                  cases witness with
+                  | intro middle middleData =>
+                      cases middleData with
+                      | intro firstRel secondRel =>
+                          have sameTargetMiddle : hsame target middle :=
+                            cont_respects_hsame (hsame_refl middle) secondEmpty secondRel
+                              (cont_right_unit middle)
+                          exact
+                            And.intro sourceCarrier
+                              (And.intro firstCarrier
+                                (And.intro targetCarrier
+                                  (cont_result_hsame_transport firstRel
+                                    (hsame_symm sameTargetMiddle))))
+
 end BEDC.Derived.ContinuousUp
