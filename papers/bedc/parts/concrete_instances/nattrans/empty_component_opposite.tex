@@ -36,3 +36,24 @@ $r$ over $a$. Apply empty-component opposite closure to this component with
 reflexive $\hsame(\emp,\emp)$, which reverses the endpoint prefixes.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_opposite\_closed}
+
+\begin{theorem}[NatTrans vertical empty result prefix readback]
+\label{thm:nattrans-prefix-component-vert-comp-empty-result-prefixes-hsame}
+For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
+$p\to q$ and $q\to r$ over $a$ vertically compose with empty result, then the
+adjacent prefixes agree:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)\land
+\mathsf{NatTransPrefixComponentCarrier}(q,r,a,\theta)\land
+\ContR(\eta,\theta,\emp)
+\Longrightarrow
+\hsame(p,q)\land\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Apply category empty-composite exactness to the two underlying component
+hom-carriers. It identifies the adjacent prefixed endpoints with the shared
+object suffix $a$. Right cancellation removes that common suffix and yields
+$\hsame(p,q)$ and $\hsame(q,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_prefixes\_hsame}
