@@ -354,6 +354,30 @@ witness supplies the carrier field for the chosen representative.
 \end{proof}
 \leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_representative\_transport\_iff}
 
+\begin{theorem}[Centralizer coset empty continuation classifier]
+\label{thm:quotientgroup-centralizer-coset-empty-continuation-classifier}
+If $\emp$ centralizes $a$ and $\ContR(p,q,r)$, then
+$$
+\mathsf{CentralizerCosetClassifier}(\mathsf{mul},a,\emp,r,h)
+\Longleftrightarrow
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,p)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,q)
+\wedge
+\mathsf{CentralizerCosetCarrier}(\mathsf{mul},a,\emp,h).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the empty-representative coset classifier. A classified continuation
+result gives $r\hsame\emp$; reading the continuation as an append endpoint and
+inverting empty append splits this into the two carrier comparisons for $p$
+and $q$, while the right classifier carrier supplies the comparison for $h$.
+Conversely, the two carrier comparisons for $p$ and $q$ rebuild an empty
+append endpoint for $r$, and the carrier comparison for $h$ closes the
+classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.QuotientGroupUp.CentralizerCosetClassifier\_empty\_continuation\_classifier\_iff}
+
 \begin{theorem}[Centralizer-normalizer QuotientGroupUp semantic certificate]
 \label{thm:quotientgroup-centralizer-normalizer-semantic-certificate}
 For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$

@@ -57,6 +57,25 @@ theorem ModuleSingletonSmul_classifier_readback_iff {r m n : BHist} :
         (And.intro classified.right.left
           (hsame_trans (hsame_symm carrierM) classified.right.right))
 
+theorem ModuleSingletonSmul_graph_empty_exact_iff {r m n : BHist} :
+    hsame (ModuleSingletonSmul r m) BHist.Empty ∧
+      (((ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧
+        ModuleSingletonClassifier (ModuleSingletonSmul r m) n) ↔
+          ModuleSingletonCarrier r ∧ ModuleSingletonCarrier m ∧ ModuleSingletonCarrier n)) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · intro graph
+      have endpoints :
+          hsame (ModuleSingletonSmul r m) BHist.Empty ∧ hsame n BHist.Empty :=
+        Iff.mp ModuleSingletonClassifier_empty_endpoints_iff graph.right.right
+      exact And.intro graph.left (And.intro graph.right.left endpoints.right)
+    · intro carriers
+      have classified : ModuleSingletonClassifier (ModuleSingletonSmul r m) n :=
+        Iff.mpr ModuleSingletonClassifier_empty_endpoints_iff
+          (And.intro (hsame_refl BHist.Empty) carriers.right.right)
+      exact And.intro carriers.left (And.intro carriers.right.left classified)
+
 theorem ModuleSingletonSmul_image_empty_endpoint_iff {h : BHist} :
     (Exists (fun r : BHist => Exists (fun m : BHist =>
       ModuleSingletonCarrier m /\ hsame h (ModuleSingletonSmul r m)))) <->
