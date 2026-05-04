@@ -310,6 +310,20 @@ identifies the displayed quotient result with the derivative candidate.
 \end{proof}
 \leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_witness\_nonzero\_unary\_step}
 
+\begin{theorem}[Empty-function differentiability has non-zero derivative]
+\label{thm:cplx-diff-at-empty-function-derivative-nonzero}
+If \(\mathsf{CplxDiffAt}(\emp,z,f')\) holds, then \(f'\) is non-zero as a
+complex history.
+\end{theorem}
+\begin{proof}
+Extract a displayed quotient witness \(h,q\) from pointwise differentiability.
+The empty-function quotient theorem gives non-zeroness of \(q\), and the
+classifier field of \(\mathsf{CplxDiffAt}\) identifies \(q\) with the derivative
+candidate \(f'\). Transporting a hypothetical \(f'\hsame\emp\) back along that
+classifier contradicts the non-zero witness for \(q\).
+\end{proof}
+\leanchecked{BEDC.Derived.ComplexDifferentiabilityUp.CplxDiffAt\_empty\_function\_derivative\_nonzero}
+
 \begin{theorem}[Pointwise differentiability rejects visible step branches]
 \label{thm:cplx-diff-at-visible-step-branches-absurd}
 If $\mathsf{CplxDiffAt}(f,z,f')$ holds, then two quotient witnesses at the

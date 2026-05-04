@@ -87,6 +87,19 @@ theorem CplxPureImaginary_hsame_transport_witness {theta z z' : BHist} :
         hsame_trans (hsame_symm sameZZ') sameZ
       exact And.intro (And.intro thetaUnary sameZ') sameZ'
 
+theorem CplxPureImaginary_phase_stability_witness {theta phi z : BHist} :
+    CplxPureImaginary theta z -> hsame theta phi ->
+      CplxPureImaginary phi z ∧ UnaryHistory phi ∧
+        hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+  intro pureImaginary sameThetaPhi
+  cases pureImaginary with
+  | intro thetaUnary sameZ =>
+      have phiUnary : UnaryHistory phi := unary_transport thetaUnary sameThetaPhi
+      have sameZPhi : hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 phi)) := by
+        cases sameThetaPhi
+        exact sameZ
+      exact And.intro (And.intro phiUnary sameZPhi) (And.intro phiUnary sameZPhi)
+
 theorem CplxPureImaginary_empty_absurd {theta : BHist} :
     CplxPureImaginary theta BHist.Empty -> False := by
   intro pureImaginary
