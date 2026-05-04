@@ -23,7 +23,9 @@ format:
   }
   main.content {
     padding: 0 !important; margin: 0 !important;
-    max-width: 100% !important; height: 100%;
+    max-width: 100% !important;
+    height: calc(100vh - 62px) !important;
+    overflow: hidden;
   }
   .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
@@ -34,13 +36,17 @@ format:
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
     /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
-       the shell just fills its parent. min-height is a tablet floor. */
+       the shell just fills its parent. min-height is a tablet floor.
+       overflow:hidden + min-height:0 on grid items prevents the
+       detail panel's min-content from inflating the grid past parent. */
     height: 100%;
     min-height: 540px;
+    overflow: hidden;
     gap: 0;
     background: #fbfbfa;
     border: 1px solid #e0e0e0;
   }
+  .map-shell > * { min-height: 0; min-width: 0; }
   main.content > .quarto-section-identifier { display: none; }
   .quarto-container { max-width: 100% !important; padding: 0 !important; }
   @media (max-width: 900px) {
@@ -413,9 +419,8 @@ function populatePicker() {
 function onPickerChange(id) {
   if (!id) return;
   showNodeDetail(id);
-  // Highlight the picked node + its dependency chain in the existing global
-  // view; do NOT change zoom. The graph stays at its fit-to-screen scale so
-  // the user keeps the full map context.
+  // showNodeDetail zooms into the connected subgraph; tapping an empty
+  // area restores the global fit.
 }
 
 // --- Glossary side pane ----------------------------------------------------
@@ -646,8 +651,13 @@ function renderCy() {
     if (evt.target === CY) {
       document.getElementById("detail-content").innerHTML =
         `<div class="hint">${t("hint")}</div>`;
-      CY.elements().removeClass("highlight");
+      CY.elements().removeClass("highlight").removeClass("faded");
       CY.nodes().unselect();
+      // Restore the global fit when the user taps an empty area.
+      CY.animate(
+        { fit: { eles: CY.elements(), padding: 16 } },
+        { duration: 350, easing: "ease-out" }
+      );
     }
   });
   // Global view: fit all nodes in the viewport. With the bigger font and
@@ -697,6 +707,18 @@ function showNodeDetail(id) {
     if (keep.has(s) && keep.has(t)) e.addClass("highlight");
     else e.addClass("faded");
   });
+
+  // Zoom into the connected subgraph (selected node + ancestors +
+  // descendants). Tap on background restores the global fit (see the
+  // tap-on-CY handler below).
+  const focusEles = CY.elements().filter(el => {
+    if (el.isNode()) return keep.has(el.id());
+    return keep.has(el.data("source")) && keep.has(el.data("target"));
+  });
+  CY.animate(
+    { fit: { eles: focusEles, padding: 60 } },
+    { duration: 350, easing: "ease-out" }
+  );
 
   const incoming = DEPS.edges
     .filter(e => e.target === id)
