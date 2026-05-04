@@ -3380,3 +3380,29 @@ BEDC's concrete_instances layer has many namecerts (Ring, CommRing, Module, Fiel
 
 ---
 
+### B-133 - Adjunction triangle carrier-swap involution
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Adjunction triangle carrier-swap involution |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under an adjunction triangle setup, applying the carrier-swap classifier twice to a triangle display yields a display componentwise classifier-same to the original.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+
+Rationale:
+The paper introduces def:adjunction-triangle-carrier, def:adjunction-unit-counit-carrier, and def:adjunction-unit-counit-carrier-swap-classifier as definitions, but the paper coverage list contains no theorem/lemma/cor stating that the swap is involutive up to the classifier. Involutivity of the carrier-swap is a basic structural property analogous to B-11 (functor composition closure) and B-14 (NT composition naturality) but for adjunction-level structure, and it does not duplicate any existing BOARD entry. It is a single-implication concrete claim, lands cleanly in concrete_instances, and fills a real gap left by the swap-classifier definition.
+
+---
+
