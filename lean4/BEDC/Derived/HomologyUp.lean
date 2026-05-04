@@ -50,6 +50,72 @@ def HomologyCycleCarrier (d : BHist -> BHist) (h : BHist) : Prop :=
 def HomologyBoundaryCarrier (d : BHist -> BHist) (h : BHist) : Prop :=
   Exists (fun u : BHist => hsame h (d u))
 
+theorem HomologyBoundaryCarrier_semanticNameCert {d : BHist -> BHist} :
+    SemanticNameCert (HomologyBoundaryCarrier d) (HomologyBoundaryCarrier d)
+      (HomologyBoundaryCarrier d)
+      (fun h k : BHist => HomologyBoundaryCarrier d h ∧ HomologyBoundaryCarrier d k ∧
+        hsame h k) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro (d BHist.Empty)
+        (Exists.intro BHist.Empty (hsame_refl (d BHist.Empty)))
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _carrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
+theorem HomologyCycleCarrier_empty_semanticNameCert {d : BHist -> BHist}
+    (dEmpty : hsame (d BHist.Empty) BHist.Empty) :
+    SemanticNameCert (HomologyCycleCarrier d) (HomologyCycleCarrier d)
+      (HomologyCycleCarrier d)
+      (fun h k : BHist => HomologyCycleCarrier d h ∧ HomologyCycleCarrier d k ∧
+        hsame h k) := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro BHist.Empty dEmpty
+      equiv_refl := by
+        intro h carrier
+        exact And.intro carrier (And.intro carrier (hsame_refl h))
+      equiv_symm := by
+        intro h k classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro h k r classifiedHK classifiedKR
+        exact And.intro classifiedHK.left
+          (And.intro classifiedKR.right.left
+            (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+      carrier_respects_equiv := by
+        intro h k classified _carrier
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
+
 theorem HomologyBoundaryCarrier_nonempty_preimage {d : BHist -> BHist} {h : BHist} :
     HomologyBoundaryCarrier d h -> (hsame h BHist.Empty -> False) ->
       Exists (fun u : BHist => hsame h (d u) ∧ (hsame (d u) BHist.Empty -> False)) := by
@@ -87,6 +153,21 @@ theorem HomologyCycleCarrier_append_closed {d : BHist -> BHist}
     have dhEmpty : d h = BHist.Empty := hsame_empty_iff.mp cycleH
     have dkEmpty : d k = BHist.Empty := hsame_empty_iff.mp cycleK
     exact append_eq_empty_iff.mpr (And.intro dhEmpty dkEmpty))
+
+theorem HomologyCycleCarrier_append_visible_differential_absurd {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k tail : BHist} :
+    HomologyCycleCarrier d h -> HomologyCycleCarrier d k ->
+      (hsame (d (append h k)) (BHist.e0 tail) -> False) ∧
+        (hsame (d (append h k)) (BHist.e1 tail) -> False) := by
+  intro cycleH cycleK
+  have cycleAppend : HomologyCycleCarrier d (append h k) :=
+    HomologyCycleCarrier_append_closed dAppend cycleH cycleK
+  constructor
+  · intro visible
+    exact not_hsame_e0_empty (hsame_trans (hsame_symm visible) cycleAppend)
+  · intro visible
+    exact not_hsame_e1_empty (hsame_trans (hsame_symm visible) cycleAppend)
 
 theorem HomologyBoundaryCarrier_append_closed {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
@@ -168,6 +249,25 @@ theorem HomologyBoundaryCarrier_cont_preimage_append {d : BHist -> BHist}
                 (And.intro witnessK
                   (hsame_trans resultRel
                     (hsame_trans appendWitness (hsame_symm (dAppend u v)))))))
+
+theorem HomologyBoundaryCarrier_cont_preimage_append_hsame_transport {d : BHist -> BHist}
+    (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
+    {h k r r' : BHist} :
+    HomologyBoundaryCarrier d h -> HomologyBoundaryCarrier d k -> Cont h k r -> hsame r r' ->
+      Exists (fun u : BHist => Exists (fun v : BHist =>
+        hsame h (d u) ∧ hsame k (d v) ∧ hsame r' (d (append u v)))) := by
+  intro boundaryH boundaryK resultRel sameResult
+  have preimages :=
+    HomologyBoundaryCarrier_cont_preimage_append dAppend boundaryH boundaryK resultRel
+  cases preimages with
+  | intro u uData =>
+      cases uData with
+      | intro v vData =>
+          exact Exists.intro u
+            (Exists.intro v
+              (And.intro vData.left
+                (And.intro vData.right.left
+                  (hsame_trans (hsame_symm sameResult) vData.right.right))))
 
 theorem HomologyBoundaryCarrier_cont_nonempty_preimage_append {d : BHist -> BHist}
     (dAppend : forall u v : BHist, hsame (d (append u v)) (append (d u) (d v)))
