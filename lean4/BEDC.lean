@@ -520,6 +520,7 @@ import BEDC.Derived.NatTransUp.FamilyReadback
 import BEDC.Derived.NatTransUp.IdentitySquare
 import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
+import BEDC.Derived.NatTransUp.TailCommClosed
 import BEDC.Derived.NatTransUp.EmptyObject
 import BEDC.Derived.AdjunctionUp
 import BEDC.Derived.YonedaUp
