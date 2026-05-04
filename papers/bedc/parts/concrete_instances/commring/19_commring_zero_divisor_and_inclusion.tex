@@ -29,6 +29,28 @@ $$
 \end{definition}
 \leandef{BEDC.Derived.CommRingUp.CommRingStrictZeroDivisor}
 
+\begin{theorem}[CommRing left zero-divisor strictness from commutativity]
+\label{thm:commring-left-zero-divisor-strict-of-mul-comm}
+For any BEDC history multiplication $mul$ satisfying multiplicative
+commutativity under $\hsame$, every left zero-divisor carries a two-sided
+annihilator witness:
+$$
+\mathsf{LeftZD}_R(x)
+\Longrightarrow
+\mathsf{ApartZero}_R(x)\land
+\exists c:\mathsf{BHist},\
+\mathsf{ApartZero}_R(c)\land x\cdot c\hsame0\land c\cdot x\hsame0.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the left zero-divisor data. It gives the apartness of $x$ and a witness
+$c$ with $\mathsf{ApartZero}_R(c)$ and $x\cdot c\hsame0$. Apply multiplicative
+commutativity to obtain $c\cdot x\hsame x\cdot c$, then compose by transitivity
+with the displayed left annihilation row. The same witness $c$ therefore supplies
+both annihilator orientations.
+\end{proof}
+\leanchecked{BEDC.Derived.CommRingUp.CommRingLeftZeroDivisor\_strict\_of\_mul\_comm}
+
 \begin{theorem}[CommRing zero-divisor product closure]
 \label{thm:commring-zero-divisor-product-closure}
 For BEDC history operations $add$, $mul$, $neg$, and $zero$ satisfying the

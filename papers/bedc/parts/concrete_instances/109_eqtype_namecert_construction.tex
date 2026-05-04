@@ -189,3 +189,24 @@ The pattern and ledger maps are the identity maps on the self-identity
 predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.EqtypeUp.EqtypeIdentity\_semanticNameCert}
+
+\begin{theorem}[EqType class carrier anchor transport]
+\label{thm:eqtype-class-carrier-anchor-hsame-transport}
+For BEDC histories $anchor$, $anchor'$, and $h$, if $h$ belongs to the
+ equality-type class anchored at $anchor$ and $anchor\hsame anchor'$, then $h$
+ belongs to the equality-type class anchored at $anchor'$:
+$$
+\mathsf{EqtypeClassCarrier}(anchor,h)
+\Longrightarrow
+anchor\hsame anchor'
+\Longrightarrow
+\mathsf{EqtypeClassCarrier}(anchor',h).
+$$
+\end{theorem}
+\begin{proof}
+By the carrier definition in \autoref{sec:eqtype-carrier}, membership in the
+class anchored at $anchor$ is the comparison $h\hsame anchor$. Compose this
+comparison with the displayed anchor comparison $anchor\hsame anchor'$ by
+transitivity of $\hsame$, obtaining $h\hsame anchor'$. This is exactly the
+carrier witness for the equality-type class anchored at $anchor'$.
+\end{proof}
