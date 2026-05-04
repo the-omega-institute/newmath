@@ -43,6 +43,23 @@ the origin.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_append\_unary\_closed}
 
+\begin{lemma}[Power series carrier prepend-unary closure]
+\label{thm:power-series-carrier-prepend-unary-closed}
+If $(a,z_0)$ is a power series carrier and $q$ is unary, then prepending $q$ to
+the origin and to every coefficient gives another power series carrier:
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(q,a_n),\mathsf{append}(q,z_0)).
+$$
+\end{lemma}
+\begin{proof}
+Unpack the power-series carrier into the unary origin, coefficient-wise
+complex-history carrier, and complex-history origin carrier. Unary histories
+are closed under append, and complex-history carriers are closed under prepend
+by a unary history; apply the latter pointwise to every coefficient and once
+to the origin.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.PowerSeriesCarrier\_prepend\_unary\_closed}
+
 \begin{definition}[Partial sum at a point]
 \label{def:part-sum-power-series}
 For a power series \((a, z_0)\) and a complex history \(z\), the partial sum predicate \(\mathsf{PartSum}(a, z_0, z, n, S_n)\) is the unary-indexed family of complex histories obtained by summing the first \(n\) terms \(a_k (z - z_0)^k\) via explicit unary recursion, using the complex multiplication and addition of \autoref{ch:concrete-instances-complex-namecert}.
@@ -274,6 +291,28 @@ apply geometric-bound append-unary coefficient closure to the supplied
 geometric bound. The same $K$ remains the witness function.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_append\_unary\_witness}
+
+\begin{lemma}[Convergence radius prepend-unary power-series witness]
+\label{thm:conv-rad-power-series-carrier-prepend-unary-witness}
+If $\mathsf{ConvRad}(a,R)$ holds, $z_0$ is a complex history, and $q$ is unary,
+then the convergence-radius witness function $K$ can be chosen so that every
+admitted radius row simultaneously gives
+$$
+\mathsf{PowerSeriesCarrier}(\lambda n.\mathsf{append}(q,a_n),\mathsf{append}(q,z_0))
+$$
+and
+$$
+\mathsf{GeomBound}(\lambda n.\mathsf{append}(q,a_n),r,K(r)).
+$$
+\end{lemma}
+\begin{proof}
+Choose the witness function supplied by
+\autoref{lem:conv-rad-power-series-carrier-witness}. For each admitted radius
+row, apply prepend-unary closure to the supplied power-series carrier and
+apply geometric-bound prepend-unary coefficient closure to the supplied
+geometric bound. The same $K$ remains the witness function.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_powerSeriesCarrier\_prepend\_unary\_witness}
 
 \begin{theorem}[Convergence radius visible radius witness endpoint package]
 \label{thm:convrad-visible-radius-witness-endpoint-package}
