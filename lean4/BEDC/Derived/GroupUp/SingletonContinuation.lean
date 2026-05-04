@@ -1,4 +1,4 @@
-import BEDC.Derived.GroupUp
+import BEDC.Derived.GroupUp.SingletonContext
 
 namespace BEDC.Derived.GroupUp
 
@@ -108,5 +108,32 @@ theorem GroupSingletonClassifier_continuation_terminal_collapse {P Q R r : BHist
       (And.intro (GroupSingletonClassifier_continuation_result_carrier_iff continuation)
         (fun classified =>
           GroupSingletonClassifier_continuation_visible_result_absurd classified)))
+
+theorem GroupSingletonClassifier_contextual_continuation_endpoint_equivalence_iff
+    {L R L' R' P Q S : BHist} :
+    GroupSingletonCarrier L -> GroupSingletonCarrier R -> GroupSingletonCarrier L' ->
+      GroupSingletonCarrier R' -> Cont P Q S ->
+        (GroupSingletonClassifier (append (append L S) L') (append (append R P) R') <->
+          GroupSingletonClassifier (append (append L S) L') (append (append R Q) R')) := by
+  intro carrierL carrierR carrierL' carrierR' continuation
+  have suffixLeft :=
+    GroupSingletonClassifier_right_context_cancel_iff (L := L') (R := R')
+      (Q := append L S) (S := append R P) carrierL' carrierR'
+  have suffixRight :=
+    GroupSingletonClassifier_right_context_cancel_iff (L := L') (R := R')
+      (Q := append L S) (S := append R Q) carrierL' carrierR'
+  have prefixLeft :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := S) (S := P) carrierL carrierR
+  have prefixRight :=
+    GroupSingletonClassifier_append_context_cancel_iff (L := L) (R := R)
+      (Q := S) (S := Q) carrierL carrierR
+  have endpoint :=
+    GroupSingletonClassifier_continuation_endpoint_equivalence_iff continuation
+  constructor
+  · intro classified
+    exact suffixRight.mpr (prefixRight.mpr (endpoint.mp (prefixLeft.mp (suffixLeft.mp classified))))
+  · intro classified
+    exact suffixLeft.mpr (prefixLeft.mpr (endpoint.mpr (prefixRight.mp (suffixRight.mp classified))))
 
 end BEDC.Derived.GroupUp

@@ -75,4 +75,29 @@ theorem GroupSingletonClassifier_continuation_product_unit_coverage_iff {P Q S T
     exact GroupSingletonClassifier_append_unit_split_iff.mpr
       (And.intro resultCarrier carriers.right.right)
 
+theorem GroupSingletonClassifier_two_sided_contextual_continuation_product_unit_exact_visibility_iff
+    {L0 R0 L1 R1 P Q S T r : BHist} :
+    GroupSingletonCarrier L0 -> GroupSingletonCarrier R0 -> GroupSingletonCarrier L1 ->
+      GroupSingletonCarrier R1 -> Cont P Q S ->
+      (GroupSingletonClassifier (append (append L0 (append S T)) L1)
+          (append (append R0 BHist.Empty) R1) <->
+        (GroupSingletonCarrier P ∧ GroupSingletonCarrier Q ∧ GroupSingletonCarrier T) ∧
+          (Cont P Q (BHist.e0 r) -> False) ∧
+            (Cont P Q (BHist.e1 r) -> False)) := by
+  intro carrierL0 carrierR0 carrierL1 carrierR1 continuation
+  have coverage :=
+    GroupSingletonClassifier_two_sided_contextual_continuation_product_unit_coverage_iff
+      (L0 := L0) (R0 := R0) (L1 := L1) (R1 := R1) (P := P) (Q := Q)
+      (S := S) (T := T) carrierL0 carrierR0 carrierL1 carrierR1 continuation
+  constructor
+  · intro classified
+    have visible :=
+      GroupSingletonClassifier_two_sided_contextual_continuation_product_unit_visible_absurd
+        (L0 := L0) (R0 := R0) (L1 := L1) (R1 := R1) (P := P) (Q := Q)
+        (S := S) (T := T) (r := r)
+        carrierL0 carrierR0 carrierL1 carrierR1 continuation classified
+    exact And.intro (coverage.mp classified) visible
+  · intro exactVisible
+    exact coverage.mpr exactVisible.left
+
 end BEDC.Derived.GroupUp
