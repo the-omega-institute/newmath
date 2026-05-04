@@ -58,3 +58,54 @@ unary endpoint components this repacks exactly as the displayed
 $\mathsf{IntPairClassifier}$.
 \end{proof}
 \leanchecked{BEDC.Derived.IntUp.IntPairClassifier\_balanced\_append\_context}
+
+\begin{theorem}[Integer pair classifier balanced append context reflection]
+\label{thm:int-pair-classifier-balanced-append-context-reflection}
+For $a,b,p,n,q,m:\mathsf{BHist}$, if $\mathsf{Unary}(a)$,
+$\mathsf{Unary}(b)$, and
+$$
+\mathsf{IntPairClassifier}
+((\mathsf{append}(a,p),\mathsf{append}(n,b)),
+(\mathsf{append}(a,q),\mathsf{append}(m,b))),
+$$
+then $\mathsf{IntPairClassifier}((p,n),(q,m))$.
+The ten-field fit is: traditional target signed-pair quotient reflection under
+adding the same positive and negative contexts; BEDC source
+$\mathsf{IntPairCarrier}$, $\mathsf{IntPairClassifier}$, $\mathsf{Unary}$,
+$\mathsf{append}$, $\hsame$, append associativity, append cancellation, and
+unary append factorization; carrier difference pairs; classifier cross-addition
+sameness; stability reflected balanced context cancellation; ledger the
+removable positive and negative unary contexts; core theorem this reflection
+block; exactness reflection of the quotient classifier; standard bridge
+ordinary cancellation of $(p+a,n+b)$ back to $(p,n)$; status
+$\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Unpack the displayed contextual classifier into its two carried endpoints and
+the cross-addition comparison between the contextual pairs. Unary append
+factorization applied to those carried endpoints, together with the supplied
+unary witnesses for $a$ and $b$, recovers unary evidence for $p$, $n$, $q$,
+and $m$.
+
+Reassociate the contextual cross-addition comparison on both sides. The left
+endpoint has the same $\hsame$-shape as
+$$
+\mathsf{append}(a,\mathsf{append}(\mathsf{append}(p,m),b)),
+$$
+and the right endpoint has the same $\hsame$-shape as
+$$
+\mathsf{append}(a,\mathsf{append}(\mathsf{append}(q,n),b)).
+$$
+
+Transitivity of $\hsame$ with these reassociation witnesses converts the
+displayed classifier comparison into a comparison with the common left prefix
+$a$ and the common right suffix $b$ exposed. Append-left cancellation removes
+the shared prefix and yields a comparison between
+$\mathsf{append}(\mathsf{append}(p,m),b)$ and
+$\mathsf{append}(\mathsf{append}(q,n),b)$.
+
+Append-right cancellation then removes the shared suffix $b$, giving
+$\mathsf{append}(p,m)\hsame\mathsf{append}(q,n)$. Repack this recovered
+cross-addition sameness with the recovered carrier witnesses for $(p,n)$ and
+$(q,m)$ to obtain $\mathsf{IntPairClassifier}((p,n),(q,m))$.
+\end{proof}
