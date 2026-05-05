@@ -145,4 +145,22 @@ theorem NumFieldRatReflexive_ledger_exactness
             (And.intro fieldRows.right.right.right.right.right.left
               (And.intro fieldRows.right.right.right.right.right.right coordClassifier))))))
 
+theorem NumFieldRatReflexive_fieldext_scope {h k r m product action : BHist} :
+    RatHistoryClassifier h k -> RatHistoryCarrier r -> RatHistoryCarrier m ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r) m action ->
+        SemanticNameCert RatHistoryCarrier
+            (fun z : BHist => RatHistoryCarrier (FieldExtSingletonEmbedding z))
+            (fun z : BHist => RatHistoryLedgerPolicy z (FieldExtSingletonEmbedding z))
+            RatHistoryClassifier ∧
+          RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+            RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+              RatHistoryClassifier product action ∧
+                RatHistoryCarrier product ∧
+                  RatHistoryCarrier action ∧ RatHistoryClassifier (FieldExtSingletonEmbedding r) r := by
+  intro classifiedHK carrierR carrierM productCont actionCont
+  have certRows := FieldExtRatReflexive_public_name_certificate
+  have ledgerRows :=
+    FieldExtRatReflexive_ledger_coverage classifiedHK carrierR carrierM productCont actionCont
+  exact And.intro certRows.left ledgerRows
+
 end BEDC.Derived.NumFieldUp
