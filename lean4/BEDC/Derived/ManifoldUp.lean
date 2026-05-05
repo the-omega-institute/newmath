@@ -177,6 +177,53 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_source_readback
+    {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      UnaryHistory transition ∧ hsame transition (append (append base index) chart) ∧
+        Cont (append base index) chart transition ∧ Cont base index domain ∧
+          Cont domain chart transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have sourceReadback : hsame transition (append (append base index) chart) := by
+    cases domainRow
+    cases transitionRow
+    rfl
+  have carriedTransition : Cont (append base index) chart transition := by
+    cases domainRow
+    exact transitionRow
+  exact And.intro transitionUnary
+    (And.intro sourceReadback
+      (And.intro carriedTransition (And.intro domainRow transitionRow)))
+
+theorem ManifoldAtlasPackage_transition_closure {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      UnaryHistory transition ∧ hsame transition (append domain chart) := by
+  intro package
+  exact And.intro package.right.right.right.right.left
+    package.right.right.right.right.right.right
+
+theorem ManifoldAtlasPackage_transition_append_readback {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      hsame transition (append base (append index chart)) ∧
+        Cont (append base index) chart transition ∧ UnaryHistory transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have appendTransition : hsame transition (append base (append index chart)) := by
+    cases domainRow
+    cases transitionRow
+    exact append_assoc base index chart
+  have composedRow : Cont (append base index) chart transition := by
+    cases domainRow
+    exact transitionRow
+  exact And.intro appendTransition (And.intro composedRow transitionUnary)
+
 theorem ManifoldAtlasPackage_transition_composition_readback
     {base index domain chart transition : BHist} :
     ManifoldAtlasPackage base index domain chart transition ->
@@ -213,6 +260,21 @@ theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
   cases pairRow
   cases tripleRow
   exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
+
+theorem ManifoldScopedBoundaryPackage_pair_transition_closure
+    {carrier i j k pair triple : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple ->
+      UnaryHistory pair ∧ hsame pair (append i j) ∧ UnaryHistory triple ∧
+        hsame triple (append pair k) := by
+  intro package
+  have iUnary : UnaryHistory i := package.right.left
+  have jUnary : UnaryHistory j := package.right.right.left
+  have kUnary : UnaryHistory k := package.right.right.right.left
+  have pairRow : Cont i j pair := package.right.right.right.right.left
+  have tripleRow : Cont pair k triple := package.right.right.right.right.right
+  have pairUnary : UnaryHistory pair := unary_cont_closed iUnary jUnary pairRow
+  have tripleUnary : UnaryHistory triple := unary_cont_closed pairUnary kUnary tripleRow
+  exact And.intro pairUnary (And.intro pairRow (And.intro tripleUnary tripleRow))
 
 theorem ManifoldSingleton_scoped_boundary_instance {chart domain value transition : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain ->
@@ -293,5 +355,68 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
   have resultUnary : UnaryHistory result :=
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
+
+theorem ManifoldSingleton_coherence_rows_empty {i j k self pair triple inverse cocycle : BHist} :
+    ManifoldSingletonCarrier i -> ManifoldSingletonCarrier j -> ManifoldSingletonCarrier k ->
+      Cont i i self -> Cont i j pair -> Cont pair k triple -> Cont self pair inverse ->
+        Cont triple self cocycle ->
+          hsame self BHist.Empty ∧ hsame pair BHist.Empty ∧ hsame triple BHist.Empty ∧
+            hsame inverse BHist.Empty ∧ hsame cocycle BHist.Empty ∧ UnaryHistory self ∧
+              UnaryHistory pair ∧ UnaryHistory triple ∧ UnaryHistory inverse ∧
+                UnaryHistory cocycle := by
+  intro carrierI carrierJ carrierK selfRow pairRow tripleRow inverseRow cocycleRow
+  have selfEmpty : hsame self BHist.Empty :=
+    cont_respects_hsame carrierI carrierI selfRow (cont_left_unit BHist.Empty)
+  have pairEmpty : hsame pair BHist.Empty :=
+    cont_respects_hsame carrierI carrierJ pairRow (cont_left_unit BHist.Empty)
+  have tripleEmpty : hsame triple BHist.Empty :=
+    cont_respects_hsame pairEmpty carrierK tripleRow (cont_left_unit BHist.Empty)
+  have inverseEmpty : hsame inverse BHist.Empty :=
+    cont_respects_hsame selfEmpty pairEmpty inverseRow (cont_left_unit BHist.Empty)
+  have cocycleEmpty : hsame cocycle BHist.Empty :=
+    cont_respects_hsame tripleEmpty selfEmpty cocycleRow (cont_left_unit BHist.Empty)
+  have selfUnary : UnaryHistory self :=
+    unary_transport unary_empty (hsame_symm selfEmpty)
+  have pairUnary : UnaryHistory pair :=
+    unary_transport unary_empty (hsame_symm pairEmpty)
+  have tripleUnary : UnaryHistory triple :=
+    unary_transport unary_empty (hsame_symm tripleEmpty)
+  have inverseUnary : UnaryHistory inverse :=
+    unary_transport unary_empty (hsame_symm inverseEmpty)
+  have cocycleUnary : UnaryHistory cocycle :=
+    unary_transport unary_empty (hsame_symm cocycleEmpty)
+  exact And.intro selfEmpty
+    (And.intro pairEmpty
+      (And.intro tripleEmpty
+        (And.intro inverseEmpty
+          (And.intro cocycleEmpty
+            (And.intro selfUnary
+              (And.intro pairUnary
+                (And.intro tripleUnary (And.intro inverseUnary cocycleUnary))))))))
+
+structure ManifoldChartedCarrier where
+  base : BHist
+  index : BHist
+  domain : BHist
+  chart : BHist
+  transition : BHist
+  base_unary : UnaryHistory base
+  index_unary : UnaryHistory index
+  domain_unary : UnaryHistory domain
+  chart_unary : UnaryHistory chart
+  transition_unary : UnaryHistory transition
+  domain_row : Cont base index domain
+  transition_row : Cont domain chart transition
+
+theorem ManifoldChartedCarrier_atlas_package (M : ManifoldChartedCarrier) :
+    ManifoldAtlasPackage M.base M.index M.domain M.chart M.transition ∧
+      Cont M.base M.index M.domain ∧ Cont M.domain M.chart M.transition := by
+  have package : ManifoldAtlasPackage M.base M.index M.domain M.chart M.transition :=
+    And.intro M.base_unary
+      (And.intro M.index_unary
+        (And.intro M.domain_unary
+          (And.intro M.chart_unary
+            (And.intro M.transition_unary (And.intro M.domain_row M.transition_row)))))
+  exact And.intro package (And.intro M.domain_row M.transition_row)
 
 end BEDC.Derived.ManifoldUp
