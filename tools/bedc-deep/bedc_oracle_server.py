@@ -56,7 +56,9 @@ MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
-MIN_SCRIPT_VERSION = "bedc-1.17"
+MIN_SCRIPT_VERSION = "bedc-1.18"
+BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc"
+BEDC_PROJECT_URL = f"https://chatgpt.com{BEDC_PROJECT_PREFIX}/project"
 
 # In-memory state (durable copy on disk)
 task_queue: deque[dict] = deque()
@@ -220,6 +222,16 @@ def _script_version_ok(version: str) -> bool:
     return _script_version_tuple(version) >= _script_version_tuple(MIN_SCRIPT_VERSION)
 
 
+def _page_in_bedc_project(url: str) -> bool:
+    if not url:
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    return parsed.netloc in {"chatgpt.com", "chat.openai.com"} and parsed.path.startswith(BEDC_PROJECT_PREFIX)
+
+
 def _queued_summary(now: float) -> list[dict]:
     items: list[dict] = []
     for task in list(task_queue)[:10]:
@@ -321,9 +333,22 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 "chatgpt_url": (qs.get("chatgpt_url", [""])[0] or ""),
             }
             compatible_script = _script_version_ok(poll_metrics["script_version"])
+            in_project = _page_in_bedc_project(poll_metrics["page_url"])
             with _lock:
                 _record_agent_seen(agent_id, event="poll", metrics=poll_metrics)
                 if agent_id in pending_tasks:
+                    if not in_project:
+                        print(
+                            f"[server] Ignored duplicate outside-project poll from {agent_id}: "
+                            f"agent outside BEDC Project ({poll_metrics['page_url'][-80:]})",
+                            flush=True,
+                        )
+                        self._send_json({
+                            "status": "idle",
+                            "required_project_url": BEDC_PROJECT_URL,
+                            "reason": "agent outside BEDC Project",
+                        })
+                        return
                     self._send_json(pending_tasks[agent_id])
                     return
                 if not compatible_script:
@@ -331,6 +356,13 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         "status": "idle",
                         "required_script_version": MIN_SCRIPT_VERSION,
                         "agent_script_version": poll_metrics["script_version"],
+                    })
+                    return
+                if not in_project:
+                    self._send_json({
+                        "status": "idle",
+                        "required_project_url": BEDC_PROJECT_URL,
+                        "reason": "agent outside BEDC Project",
                     })
                     return
                 if task_queue and len(pending_tasks) < MAX_AGENTS:
@@ -369,6 +401,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                         ((recent.get(aid, {}).get("metrics") or {}).get("script_version") or "")
                     )
                 ]
+                project_active_poll = [
+                    aid for aid in compatible_active_poll
+                    if _page_in_bedc_project(
+                        ((recent.get(aid, {}).get("metrics") or {}).get("page_url") or "")
+                    )
+                ]
                 stale_busy = [
                     aid for aid, task in pending_tasks.items()
                     if not _busy_agent_is_current(aid, recent.get(aid), task)
@@ -380,6 +418,8 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 ]
                 if task_queue and not pending_tasks and not compatible_active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
+                elif task_queue and not pending_tasks and not project_active_poll:
+                    diagnosis = "queue_waiting_for_project_agent"
                 elif pending_tasks:
                     diagnosis = "agent_busy_with_stale" if stale_busy else "agent_busy"
                 elif task_queue:
@@ -396,6 +436,7 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "active_recent_agents": active_recent,
                     "active_poll_agents": active_poll,
                     "compatible_active_poll_agents": compatible_active_poll,
+                    "project_active_poll_agents": project_active_poll,
                     "stale_busy_agents": stale_busy,
                     "mismatched_busy_agents": mismatched_busy,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
@@ -554,6 +595,14 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
         if not task_id or not response:
             self._send_json({"error": "task_id and response required"}, 400)
             return
+        if not _page_in_bedc_project(data.get("page_url", "")):
+            print(
+                f"[server] Ignored outside-project result {task_id} "
+                f"page={str(data.get('page_url', ''))[-80:]}",
+                flush=True,
+            )
+            self._send_json({"status": "ignored_outside_project", "task_id": task_id})
+            return
 
         # Pull the matching pending task (carries our conversation_id)
         with _lock:
@@ -671,6 +720,9 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 assigned_task_id = str((assigned or {}).get("task_id") or "")
                 still_pending = any(t.get("task_id") == task_id for t in pending_tasks.values())
                 seen_url = str(metrics.get("chatgpt_url") or metrics.get("page_url") or "")
+                if assigned and not _page_in_bedc_project(metrics.get("page_url", "")):
+                    self._send_json({"status": "cancelled", "task_id": task_id})
+                    return
                 if (
                     task_id in cancelled_tasks
                     or (assigned_task_id and assigned_task_id != task_id)
@@ -871,7 +923,7 @@ def main():
     print(f"[bedc-oracle] max {MAX_AGENTS} concurrent tabs (multi-turn capable)")
     print(f"[bedc-oracle] open tabs:")
     for i in range(1, MAX_AGENTS + 1):
-        print(f"  Tab {i}: https://chatgpt.com/?bedc={i}")
+        print(f"  Tab {i}: {BEDC_PROJECT_URL}?bedc={i}")
     print(f"[bedc-oracle] Ctrl+C to stop.\n")
     try:
         server.serve_forever()
