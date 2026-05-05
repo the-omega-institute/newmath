@@ -10141,3 +10141,29 @@ This is the natural contravariance theorem for finite polynomial-family zero-loc
 
 ---
 
+### B-388 - Inner derivation commutator identity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Inner derivation commutator identity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If L carries a \LieAlgebraUp certificate and x,y,z are carried endpoints, then [\operatorname{ad}^{L}_{x},\operatorname{ad}^{L}_{y}](z) \sim_{L} \operatorname{ad}^{L}_{[x,y]_{L}}(z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/121_adjointrep_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete Lie-algebra theorem landing in the existing \LieAlgebraUp and \AdjointRepUp surface. The paper already has the adjoint-action definition and the derivation law from Jacobi, but no labeled theorem for the inner-derivation commutator identity. It is not a marker, closurestatus change, or mere classifier-field echo; it packages a standard Jacobi consequence that supports the adjoint-representation certificate surface without duplicating any current BOARD entry.
+
+---
+
