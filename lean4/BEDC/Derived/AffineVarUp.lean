@@ -58,6 +58,17 @@ theorem AffineFiniteFamilyZeroLocus_inclusion_contravariant {AffPoint : BHist ->
   intro incl locusG
   exact And.intro locusG.left (AffineFiniteFamilyEquationRows_restrict incl locusG.right)
 
+theorem AffineFiniteFamilyZeroLocus_inclusion_reverse {AffPoint : BHist -> Prop}
+    {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
+    (forall {p : BHist}, InBundle p F -> InBundle p G) ->
+      AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero G x ->
+        AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero F x := by
+  intro inclusion locusG
+  exact And.intro locusG.left
+    (by
+      intro p memberF
+      exact locusG.right (inclusion memberF))
+
 theorem AffineFiniteFamilyZeroLocus_duplicate_head_insert {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F : ProbeBundle BHist} {p x : BHist} :
     InBundle p F ->
