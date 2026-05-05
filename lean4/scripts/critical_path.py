@@ -642,8 +642,61 @@ def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
     return max(0, tgt - cur)
 
 
+def _recent_paper_attack_chapter_counts(window_minutes: int = 30) -> dict[str, int]:
+    """Count, per chapter, how many DISTINCT recent commits modified
+    files under that chapter's paper paths.
+
+    Used to dedupe `top_root_unblocks`: if 6 paper rounds in the last
+    30 min all already attacked `manifold`, the chapter probably has
+    enough in-flight work; rotate it out of the suggestion list so
+    other root chapters (hilbert / topology / numfield) get airtime.
+    Without this, v3.3's HARD GATE pulls every paper round to the
+    same top_root_unblocks[0] entry, producing duplicate-label storms
+    on merge. (Observed: 18/30 paper targets all attacked `manifold`
+    in a recent 2h window; 8 dup-label audit fails per round followed.)
+
+    Path → chapter mapping examples:
+      papers/bedc/parts/concrete_instances/74_manifold_namecert_construction.tex
+        → "manifold"
+      papers/bedc/parts/concrete_instances/manifold/singleton_empty_chart.tex
+        → "manifold"
+    """
+    counts: dict[str, int] = {}
+    try:
+        out = subprocess.run(
+            ["git", "log", "--all",
+             f"--since={window_minutes} minutes ago",
+             "--name-only", "--pretty=format:%H END_OF_COMMIT"],
+            cwd=str(ROOT), capture_output=True, text=True,
+            check=True, timeout=10,
+        ).stdout
+    except Exception:
+        return counts
+    seen_in_commit: set[str] = set()
+    for line in out.splitlines():
+        if "END_OF_COMMIT" in line or not line.strip():
+            for c in seen_in_commit:
+                counts[c] = counts.get(c, 0) + 1
+            seen_in_commit = set()
+            continue
+        # Match either `<n>_<chapter>_namecert_*` (numbered hub or sibling)
+        # or `<chapter>/<sibling>.tex` (subdirectory under concrete_instances).
+        m = re.search(
+            r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)",
+            line,
+        )
+        if m:
+            # Strip trailing `_namecert_*` / sibling suffixes so the matched
+            # token is the canonical lowercase chapter name.
+            seen_in_commit.add(m.group(1))
+    for c in seen_in_commit:
+        counts[c] = counts.get(c, 0) + 1
+    return counts
+
+
 def compute_root_unblocks(horizons: dict[str, dict],
-                            threshold: int) -> list[dict]:
+                            threshold: int,
+                            *, recent_attack_threshold: int = 3) -> list[dict]:
     """Identify chapters whose `thms < threshold` are blocking the most
     downstream chapters from becoming `deps_ready`. These are the
     "root-of-tree" stubs that paper P-rounds should attack first to
@@ -656,9 +709,19 @@ def compute_root_unblocks(horizons: dict[str, dict],
     i.e. R is the SINGLE remaining blocker for M. Lifting R to ready
     immediately unblocks `unblock_count` downstream chapters.
 
-    Returns sorted list `[{name, thms, deps, unblock_count, file_paper}, ...]`
-    descending by unblock_count, only entries with unblock_count > 0.
+    Recency filter: chapters that already have
+    `recent_attack_threshold` or more commits in the last 30 min are
+    rotated OUT of the output, so concurrent paper rounds spread their
+    attention across the root tree instead of dogpiling the top entry.
+    `recent_attack_threshold=3` empirically matches the round latency
+    (a paper round takes ~10-15 min, so 3 commits/30min = the chapter
+    is being worked on by every active paper worker).
+
+    Returns sorted list `[{name, thms, deps, unblock_count, file_paper,
+    recent_attacks}, ...]` descending by unblock_count, only entries
+    with `unblock_count > 0` AND `recent_attacks < recent_attack_threshold`.
     """
+    recent = _recent_paper_attack_chapter_counts(window_minutes=30)
     candidates: list[dict] = []
     for n, info in horizons.items():
         if info.get("closed"):
@@ -686,14 +749,21 @@ def compute_root_unblocks(horizons: dict[str, dict],
                     other_blockers += 1
             if other_blockers == 0:
                 unblock += 1
-        if unblock > 0:
-            candidates.append({
-                "name": n,
-                "thms": info.get("thms", 0),
-                "deps": info.get("deps", []),
-                "unblock_count": unblock,
-                "file_paper": info.get("file_paper"),
-            })
+        if unblock <= 0:
+            continue
+        recent_count = recent.get(n, 0)
+        if recent_count >= recent_attack_threshold:
+            # Already getting heavy attention from concurrent rounds;
+            # rotate out so other roots get a turn.
+            continue
+        candidates.append({
+            "name": n,
+            "thms": info.get("thms", 0),
+            "deps": info.get("deps", []),
+            "unblock_count": unblock,
+            "recent_attacks": recent_count,
+            "file_paper": info.get("file_paper"),
+        })
     candidates.sort(key=lambda r: (-r["unblock_count"], r["thms"], r["name"]))
     return candidates
 
