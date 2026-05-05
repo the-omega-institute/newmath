@@ -177,6 +177,24 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_append_readback {base index domain chart transition : BHist} :
+    ManifoldAtlasPackage base index domain chart transition ->
+      hsame transition (append base (append index chart)) ∧
+        Cont (append base index) chart transition ∧ UnaryHistory transition := by
+  intro package
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainRow : Cont base index domain := package.right.right.right.right.right.left
+  have transitionRow : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have appendTransition : hsame transition (append base (append index chart)) := by
+    cases domainRow
+    cases transitionRow
+    exact append_assoc base index chart
+  have composedRow : Cont (append base index) chart transition := by
+    cases domainRow
+    exact transitionRow
+  exact And.intro appendTransition (And.intro composedRow transitionUnary)
+
 theorem ManifoldAtlasPackage_transition_composition_readback
     {base index domain chart transition : BHist} :
     ManifoldAtlasPackage base index domain chart transition ->
