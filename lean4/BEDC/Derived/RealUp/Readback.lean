@@ -159,6 +159,60 @@ theorem RealConstant_appended_tail_bridge_denominator_package
       · intro classified
         exact fromReal classified
 
+theorem RealConstant_appended_tail_bridge_appended_e0_tail_absurd
+    {d e tailD tailE uD uE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    (RatHistoryClassifier D E ->
+        (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+          (hsame E (append uE (BHist.e0 zE)) -> False)) ∧
+      (RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+          (hsame E (append uE (BHist.e0 zE)) -> False)) ∧
+      (RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ->
+        (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+          (hsame E (append uE (BHist.e0 zE)) -> False)) ∧
+      (RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) ->
+        (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+          (hsame E (append uE (BHist.e0 zE)) -> False)) := by
+  dsimp
+  let D := append d (BHist.e1 tailD)
+  let E := append e (BHist.e1 tailE)
+  have rows :=
+    RealConstant_appended_tail_bridge_denominator_package
+      (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
+      (r := r) (q := q)
+  dsimp at rows
+  have fromPackage :
+      RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧
+        PositiveUnaryDenominator E ∧ UnaryHistory d ∧ UnaryHistory tailD ∧
+          UnaryHistory e ∧ UnaryHistory tailE ∧ (hsame D BHist.Empty -> False) ∧
+            (hsame E BHist.Empty -> False) ∧ (hsame D (BHist.e0 zD) -> False) ∧
+              (hsame E (BHist.e0 zE) -> False) ∧ hsame D E ->
+        (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+          (hsame E (append uE (BHist.e0 zE)) -> False) := by
+    intro package
+    constructor
+    · intro displayed
+      exact PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport displayed package.right.left)
+    · intro displayed
+      exact PositiveUnaryDenominator_append_e0_tail_absurd
+        (PositiveUnaryDenominator_hsame_transport displayed package.right.right.left)
+  constructor
+  · intro classified
+    exact fromPackage (rows.left classified)
+  · constructor
+    · intro classified
+      exact fromPackage (rows.right.left classified)
+    · constructor
+      · intro classified
+        exact fromPackage (rows.right.right.left classified)
+      · intro classified
+        exact fromPackage (rows.right.right.right classified)
+
 theorem RealConstant_appended_tail_bridge_denominator_package_exactness
     {d e tailD tailE zD zE : BHist} {r q : BHist -> BHist} :
     let D := append d (BHist.e1 tailD)
