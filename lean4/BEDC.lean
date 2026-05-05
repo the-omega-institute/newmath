@@ -242,6 +242,7 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
+import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
@@ -452,6 +453,7 @@ import BEDC.Derived.LinearMapUp
 import BEDC.Derived.LinearMapUp.ContinuationAppendPair
 import BEDC.Derived.LinearMapUp.ContextContinuation
 import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
+import BEDC.Derived.LinearMapUp.ContinuationVisibleTarget
 import BEDC.Derived.LinearMapUp.ContextContinuationAppendResult
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
 import BEDC.Derived.LinearMapUp.EvalContextPair
@@ -462,6 +464,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
+import BEDC.Derived.MatrixUp.MulContinuation
 import BEDC.Derived.MatrixUp.ExponentCases
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveTail
