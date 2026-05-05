@@ -83,4 +83,35 @@ theorem PublicKeyDecryptEncrypt_correctness
       exact Exists.intro d
         (And.intro msgD (And.intro decryptRows.left decryptRows.right))
 
+theorem PublicKeyCertifiedEncryption_arbitrary_decryption
+    {Msg Pub Ciph : BHist -> Prop}
+    {MsgRel : BHist -> BHist -> Prop}
+    {PKKeyGen : BHist -> BHist -> Prop}
+    {PKEncrypt PKDecrypt : BHist -> BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert Msg Msg Msg MsgRel)
+    (exactness :
+      PublicKeyDecryptEncryptExact Msg MsgRel Pub Ciph PKKeyGen PKEncrypt PKDecrypt)
+    (determinacy :
+      forall pk sk c d e : BHist,
+        PKKeyGen pk sk -> PKDecrypt sk c d -> PKDecrypt sk c e -> MsgRel d e)
+    {pk sk m c d : BHist} :
+    PKKeyGen pk sk ->
+      PublicKeyCertifiedEnc Msg Pub Ciph PKEncrypt pk m c ->
+        PKDecrypt sk c d -> Msg d ∧ MsgRel d m := by
+  intro keypair certified decrypted
+  have msgM : Msg m := certified.right.left
+  have decryptWitness := exactness pk sk m c keypair certified
+  cases decryptWitness with
+  | intro e canonical =>
+      have sameDE : MsgRel d e :=
+        determinacy pk sk c d e keypair decrypted canonical.left
+      have sameEM : MsgRel e m := canonical.right
+      have sameDM : MsgRel d m :=
+        NameCert.equiv_trans msgCert.core sameDE sameEM
+      have sameMD : MsgRel m d :=
+        NameCert.equiv_symm msgCert.core sameDM
+      have msgD : Msg d :=
+        NameCert.carrier_respects_equiv msgCert.core sameMD msgM
+      exact And.intro msgD sameDM
+
 end BEDC.Derived.PublicKeyUp
