@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexLimitUp.LinearClosure
+import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 
 namespace BEDC.Derived.ComplexLimitUp
 
@@ -6,9 +7,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
-
-def ComplexPointwiseDifference (s t : BHist -> BHist) (n : BHist) : BHist :=
-  append (s n) (append BHist.Empty (t n))
 
 theorem ComplexLimit_pointwise_difference_closed {s t N M : BHist -> BHist} {z w : BHist} :
     ComplexLimit s N z M -> ComplexLimit t N w M ->
