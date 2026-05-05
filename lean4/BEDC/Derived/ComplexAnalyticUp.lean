@@ -36,6 +36,10 @@ theorem ComplexAnalytic_component_continuation_complex_carrier {real imag z : BH
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
+def CplxPower (a s w : BHist) : Prop :=
+  ComplexHistoryCarrier a ∧ ComplexHistoryCarrier s ∧ ComplexHistoryCarrier w ∧
+    hsame w (append s a)
+
 theorem CplxPureImaginary_e1_tail_iff {theta tail : BHist} :
     CplxPureImaginary theta (BHist.e1 tail) <->
       UnaryHistory theta /\ hsame tail (append (BHist.e1 BHist.Empty) theta) := by
