@@ -360,6 +360,15 @@ def PolynomialSingletonAddFold : List BHist -> BHist
   | [] => PolynomialSingletonZero
   | x :: xs => PolynomialSingletonAdd x (PolynomialSingletonAddFold xs)
 
+theorem PolynomialZeroRemainder_addFold_empty {xs : List BHist} :
+    PolynomialZeroRemainder xs -> hsame (PolynomialSingletonAddFold xs) BHist.Empty := by
+  intro zeroTail
+  induction zeroTail with
+  | nil =>
+      rfl
+  | cons hx _ ih =>
+      exact append_eq_empty_iff.mpr (And.intro hx ih)
+
 theorem PolynomialSingletonAddFold_list_classifier_hsame
     {xs ys : List BHist} :
     BEDC.Derived.ListUp.ListClassifierSpec hsame xs ys ->
