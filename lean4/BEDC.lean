@@ -444,6 +444,7 @@ import BEDC.Derived.LinearMapUp.ContinuationVisibleSource
 import BEDC.Derived.LinearMapUp.ContextContinuationAppendResult
 import BEDC.Derived.LinearMapUp.EvalContinuationPair
 import BEDC.Derived.ModuleUp
+import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp

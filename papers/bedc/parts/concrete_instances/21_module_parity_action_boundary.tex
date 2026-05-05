@@ -74,6 +74,27 @@ reverse direction follows by eliminating the impossible visible-vs-empty
 premise.
 \end{proof}
 
+\begin{theorem}[Module parity epsilon boolean orbit involution]
+\label{thm:module-parity-smul-epsilon-boolean-orbit-involutive}
+For every history $m:\mathsf{BHist}$, if $m$ is history-same to either
+$\emp$ or $\mathsf{ModuleParityOne}$, then two successive scalar actions by
+$\mathsf{ModuleParityEps}$ return $m$:
+$$
+\bigl(\HSame(m,\emp)\lor \HSame(m,\mathsf{ModuleParityOne})\bigr)
+\Longrightarrow
+\HSame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),m).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed endpoint assumption. In the empty endpoint branch, replace
+$m$ by $\emp$ and compute the two epsilon actions: the first reaches
+$\mathsf{ModuleParityOne}$ and the second returns to $\emp$. In the visible-one
+branch, replace $m$ by $\mathsf{ModuleParityOne}$ and compute the two epsilon
+actions in the opposite order, ending at the same visible-one endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_boolean\_orbit\_involutive}
+
 \begin{theorem}[Module parity epsilon empty endpoint has no fixed point]
 \label{thm:module-parity-smul-e0-empty-no-fixed-point}
 For every history $m:\mathsf{BHist}$,
@@ -90,3 +111,27 @@ $m=\Ezero(h)$ and $m=\Eone(h)$ the action produces $\emp$, contradicting the
 corresponding empty versus visible no-confusion law.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_e0\_empty\_no\_fixed\_point}
+
+\begin{theorem}[Module parity epsilon double action empty iff]
+\label{thm:module-parity-epsilon-double-action-empty-iff}
+For every history $m:\mathsf{BHist}$,
+$$
+\hsame(\mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParitySmul}(\mathsf{ModuleParityEps},m)),\emp)
+\Longleftrightarrow
+\hsame(m,\emp).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-parity-smul-epsilon-result-partition} to the first
+epsilon action on $m$. In the empty-input branch, the first action is
+$\mathsf{ModuleParityOne}$, so the second epsilon action reduces to $\emp$.
+This gives the forward endpoint and the reverse endpoint by the same empty
+branch witness.
+
+In the nonempty branch, the first action is $\emp$, so the second epsilon
+action reduces to $\mathsf{ModuleParityOne}$. Visible-one versus empty
+no-confusion rules out the left side of the displayed equivalence. Conversely,
+an assumed $\hsame(m,\emp)$ contradicts the nonempty premise supplied by the
+partition, so this branch contributes no empty-input witness.
+\end{proof}
