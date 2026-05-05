@@ -16,6 +16,11 @@ def GammaPoleLocus (s : BHist) : Prop :=
 def GammaDomainCore (s apart : BHist) : Prop :=
   ComplexHistoryCarrier s ∧ UnaryHistory apart ∧ (GammaPoleLocus s -> False)
 
+inductive GammaFactorial : BHist -> BHist -> Prop where
+  | zero : GammaFactorial BHist.Empty (BHist.e1 BHist.Empty)
+  | step {n m r : BHist} :
+      GammaFactorial n m -> Cont (BHist.e1 n) m r -> GammaFactorial (BHist.e1 n) r
+
 theorem GammaPoleLocus_complex_carrier_witness {s : BHist} :
     GammaPoleLocus s ->
       ∃ n : BHist,
