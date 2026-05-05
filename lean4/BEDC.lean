@@ -153,6 +153,7 @@ import BEDC.Derived.DerivativeUp
 import BEDC.Derived.ComplexLimitUp
 import BEDC.Derived.ComplexLimitUp.LinearClosure
 import BEDC.Derived.ComplexLimitUp.NameCertificate
+import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
@@ -175,10 +176,12 @@ import BEDC.Derived.HolomorphicUp.RadiusExtensionGapZeroHeaded
 import BEDC.Derived.HolomorphicUp.OpenDiskComponents
 import BEDC.Derived.HolomorphicUp.SeedSpecs
 import BEDC.Derived.ComplexTopologyUp
+import BEDC.Derived.ComplexTopologyUp.CertifiedSubradius
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.GammaUp
+import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
@@ -316,6 +319,7 @@ import BEDC.Derived.GroupUp.ConjugatedCommutatorOrbit
 import BEDC.Derived.GroupUp.AppendInverseObstruction
 import BEDC.Derived.GroupUp.InverseFiber
 import BEDC.Derived.GroupUp.InverseEmpty
+import BEDC.Derived.GroupUp.OppositeLaws
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.RightQuotientClassifier
@@ -521,6 +525,8 @@ import BEDC.Derived.MetricUp.CompositeEndpointCollapse
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.TotallyBoundedUp
+import BEDC.Derived.CompleteMetricUp
+import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompletionUp
 import BEDC.Derived.ContinuousUp
 import BEDC.Derived.ContinuousUp.Suffix
@@ -659,6 +665,7 @@ import BEDC.Derived.CategoryUp.CompTailSemanticCertificate
 import BEDC.Derived.CategoryUp.RightE0TailTargetCases
 import BEDC.Derived.CategoryUp.CompMiddleTransport
 import BEDC.Derived.CategoryUp.AssocEmptyResult
+import BEDC.Derived.CategoryUp.OppositeAssoc
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.PrefixCarrier
 import BEDC.Derived.FunctorUp.MorphismEmptyEndpoint
