@@ -596,3 +596,57 @@ These are precisely the opposite meet-congruence and opposite join-congruence ro
 
 The pattern row of \autoref{def:lattice-pattern-specification} is unchanged expression formation by two binary lattice operations; each opposite meet node is read as an original join node, and each opposite join node is read as an original meet node. The ledger row of \autoref{def:lattice-ledger-policy} is the same exchange: an opposite meet ledger records the original join bound-characterization certificate, and an opposite join ledger records the original meet bound-characterization certificate, with the order witnesses interpreted through $\le_C^{\mathrm{op}}$. Together with the opposite $\POSetUp$ rows supplied above, these are all carrier, source, pattern, classifier, stability, and ledger obligations required by \autoref{def:lattice-certificate-obligations}. Hence $C^{\mathrm{op}}$ carries a $\LatticeUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Double-opposite lattice certificate data identity]
+\label{thm:double-opposite-lattice-certificate-data-identity}
+Let $E$ be a $\LatticeUp$ certificate satisfying the obligations of \autoref{def:lattice-certificate-obligations}. Present its lattice data by a carrier predicate $\mathcal C$, classifier $\sim_C$, order relation $\le_C$, meet $\wedge_C$, join $\vee_C$, meet ledger row $\mathcal L_C^{\wedge}$, and join ledger row $\mathcal L_C^{\vee}$ as in \autoref{def:lattice-ledger-policy}. Let $E^{\mathrm{opop}}=(E^{\mathrm{op}})^{\mathrm{op}}$ be obtained by applying \autoref{def:opposite-lattice-certificate-data} twice. Then $E^{\mathrm{opop}}$ is a $\LatticeUp$ certificate, and its carrier predicate, classifier, order relation, meet, join, and lattice ledger rows are componentwise identical to those of $E$: for carried endpoints $a,b$,
+$$
+\begin{aligned}
+\mathcal C^{\mathrm{opop}}(a)&=\mathcal C(a),&
+a\sim_C^{\mathrm{opop}}b&=a\sim_C b,\\
+a\le_C^{\mathrm{opop}}b&=a\le_C b,&
+a\wedge_C^{\mathrm{opop}}b&=a\wedge_C b,\\
+a\vee_C^{\mathrm{opop}}b&=a\vee_C b,&
+\mathcal L_C^{\wedge,\mathrm{opop}}(a,b)&=\mathcal L_C^{\wedge}(a,b),\\
+\mathcal L_C^{\vee,\mathrm{opop}}(a,b)&=\mathcal L_C^{\vee}(a,b).
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+Because $E$ satisfies the $\LatticeUp$ obligations, \autoref{thm:opposite-lattice-certificate} makes $E^{\mathrm{op}}$ a certified $\LatticeUp$ instance. Applying the same theorem to that certified opposite data makes $E^{\mathrm{opop}}$ a certified $\LatticeUp$ instance.
+
+By \autoref{def:lattice-carrier} and \autoref{def:lattice-source-specification}, the inherited order part of $E$ is a certified $\POSetUp$ carrier with carrier predicate $\mathcal C$, classifier $\sim_C$, and order $\le_C$. Applying \autoref{thm:double-opposite-poset-certificate-data-identity} to this inherited part gives the carrier, classifier, order, and inherited antisymmetry-ledger identities after two opposites. Hence
+$$
+\mathcal C^{\mathrm{opop}}(a)=\mathcal C(a),
+\qquad
+a\sim_C^{\mathrm{opop}}b=a\sim_C b,
+\qquad
+a\le_C^{\mathrm{opop}}b=a\le_C b.
+$$
+
+For the lattice operations, two unfoldings of \autoref{def:opposite-lattice-certificate-data} give
+$$
+a\wedge_C^{\mathrm{opop}} b
+= a\vee_C^{\mathrm{op}} b
+= a\wedge_C b
+$$
+and
+$$
+a\vee_C^{\mathrm{opop}} b
+= a\wedge_C^{\mathrm{op}} b
+= a\vee_C b.
+$$
+Thus the double-opposite meet and join data are exactly the original meet and join data.
+
+The source row is a certified poset carrier plus meet and join operations, so the restored poset part together with the restored operation slots gives the original source row. The pattern row of \autoref{def:lattice-pattern-specification} is expression formation by meet and join over carrier witnesses; one opposite exchanges the two operation names and the second exchange restores them.
+
+The stability rows of \autoref{def:lattice-stability-certificate} are restored in the same componentwise way. In one opposite, the meet lower-bound and greatestness rows are the original join upper-bound and leastness rows read through the reversed order, while the join rows are the original meet rows read through the reversed order. The second opposite reverses the order again and exchanges the operation slots again, so the meet lower-bound, meet greatestness, join upper-bound, and join leastness rows are the original rows. Meet congruence and join congruence from \autoref{def:lattice-classifier-specification} are also exchanged twice and hence restored.
+
+Finally, \autoref{def:lattice-ledger-policy} records the operands and the bound-characterization certificate for each meet or join. A single opposite reads a meet ledger as the corresponding original join ledger and a join ledger as the corresponding original meet ledger, with order witnesses interpreted through $\le_C^{\mathrm{op}}$. The second opposite performs the same exchange again and the order has already returned to $\le_C$. Therefore
+$$
+\mathcal L_C^{\wedge,\mathrm{opop}}(a,b)=\mathcal L_C^{\wedge}(a,b),
+\qquad
+\mathcal L_C^{\vee,\mathrm{opop}}(a,b)=\mathcal L_C^{\vee}(a,b).
+$$
+Together these identities identify the double-opposite lattice certificate data with the original lattice certificate data.
+\end{proof}
