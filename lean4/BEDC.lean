@@ -62,6 +62,7 @@ import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -205,9 +206,12 @@ import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.BanachUp
 import BEDC.Derived.FieldExtUp
+import BEDC.Derived.GraphUp
+import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.FilterUp
+import BEDC.Derived.GraphUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
