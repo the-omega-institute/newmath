@@ -1,3 +1,54 @@
+\begin{theorem}[ContinuousMap function carrier metric graph exactness]
+\label{thm:continuousmap-function-carrier-metric-graph-exactness}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$, if
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)
+$$
+and
+$$
+\mathsf{MetricDistanceWitness}(source,map,dist)
+$$
+both hold, then the carrier exposes the graph continuation and the metric
+distance endpoint is exactly the same history as the graph target:
+$$
+\mathsf{Cont}(source,map,target)\land \hsame(dist,target).
+$$
+\end{theorem}
+\begin{proof}
+Read back the continuous-function carrier to obtain its graph continuation
+$\mathsf{Cont}(source,map,target)$. The metric witness supplies the continuation
+$\mathsf{Cont}(source,map,dist)$ over the same source and map. Continuation
+determinacy identifies the two endpoints, giving $\hsame(dist,target)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapFunctionCarrier\_metric\_graph\_exactness}
+
+\begin{theorem}[ContinuousMap empty map with empty distance boundaries]
+\label{thm:continuousmap-empty-map-empty-distance-boundaries}
+For histories $source$, $target$, $modulus$, and $cert$, a concrete
+continuous-map carrier with empty graph map and empty distance ledger is
+equivalent to empty source and target boundaries together with the empty-source
+modulus witness:
+$$
+\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)
+\Longleftrightarrow
+\hsame(source,\emp)\land\hsame(target,\emp)\land
+\mathsf{ContinuousModulusWitness}(\emp,modulus,cert).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, empty-map exactness for the continuous-function
+component gives a modulus witness over the target, while empty-distance
+exactness for the metric witness collapses both endpoint histories to
+$\emp$. Transporting across the target collapse presents the modulus witness
+over $\emp$.
+
+Conversely, the empty endpoint data presents the graph carrier as the
+empty-map exactness case, and metric empty-distance exactness builds the
+distance witness over the two empty endpoints. Their conjunction is exactly the
+concrete continuous-map carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_boundaries\_iff}
+
 \begin{theorem}[ContinuousMap prefix canonical distance closure]
 \label{thm:continuousmap-carrier-prefix-canonical-distance-closed}
 For histories $p,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
@@ -171,67 +222,3 @@ same unary prefix and original carrier. Its conclusion is precisely the iff
 between the displayed prefixed carrier and the $\hsame$ classifier for the
 canonical prefixed distance ledger.
 \end{proof}
-
-\begin{theorem}[ContinuousMap empty map and empty distance certificate readback]
-\label{thm:continuousmap-empty-map-empty-distance-certificate-readback}
-For histories $source$, $target$, $modulus$, and $cert$, if
-$\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)$, then
-the endpoint collapses and the modulus certificate reads back as a unary
-history equivalent to the modulus:
-$$
-\hsame(source,\emp)\land\hsame(target,\emp)\land
-\mathsf{UnaryHistory}(cert)\land\hsame(cert,modulus).
-$$
-\end{theorem}
-\begin{proof}
-Apply Theorem~\ref{thm:continuousmap-empty-map-empty-distance-boundaries} to
-the carrier. The forward implication yields $\hsame(source,\emp)$,
-$\hsame(target,\emp)$, and
-$\mathsf{ContinuousModulusWitness}(\emp,modulus,cert)$.
-
-Apply the empty-source modulus-witness readback theorem from the continuous
-chapter to the final witness. It gives $\mathsf{UnaryHistory}(cert)$ and
-$\hsame(modulus,cert)$; symmetry of $\hsame$ presents the last conjunct in the
-displayed certificate-to-modulus orientation.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_certificate\_readback}
-
-\begin{theorem}[ContinuousMap empty map and empty distance certificate exactness]
-\label{thm:continuousmap-empty-map-empty-distance-certificate-exactness}
-For histories $source$, $target$, $modulus$, and $cert$, a concrete
-continuous-map carrier with empty graph map and empty distance ledger is
-equivalent to empty endpoint boundaries together with a readable modulus
-certificate:
-$$
-\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)
-\Longleftrightarrow
-\hsame(source,\emp)\land\hsame(target,\emp)\land
-\mathsf{UnaryHistory}(cert)\land\hsame(cert,modulus).
-$$
-\end{theorem}
-\begin{proof}
-In the forward direction, apply
-Theorem~\ref{thm:continuousmap-empty-map-empty-distance-certificate-readback}.
-This is exactly the displayed endpoint collapse and certificate readback.
-
-For the reverse direction, start from the four displayed conjuncts. Apply
-Theorem~\ref{thm:continuous-modulus-witness-empty-source-iff} with target
-$cert$: the unary certificate field and symmetry of $\hsame(cert,modulus)$ give
-$\mathsf{ContinuousModulusWitness}(\emp,modulus,cert)$.
-
-Together with $\hsame(source,\emp)$ and $\hsame(target,\emp)$, this is the
-right-hand side of
-Theorem~\ref{thm:continuousmap-empty-map-empty-distance-boundaries}. Applying
-that theorem in the reverse direction rebuilds
-$\mathsf{ContinuousMapCarrier}(source,\emp,target,modulus,cert,\emp)$.
-\end{proof}
-\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_certificate\_exactness}
-\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_map\_empty\_distance\_certificate\_iff}
-
-The ten-field fit is: traditional target empty continuous-map readback, BEDC
-source ContinuousMapUp with ContinuousModulusWitness, carrier
-ContinuousMapCarrier, classifier $\hsame$, graph ledger $\emp$, distance ledger
-$\emp$, certificate ledger $cert$, core theorem
-Theorem~\ref{thm:continuousmap-empty-map-empty-distance-certificate-readback},
-exactness the displayed conjunction, and downstream consumer compact-continuous
-map endpoint readback.

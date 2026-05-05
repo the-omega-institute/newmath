@@ -340,3 +340,66 @@ By \autoref{def:descent-certificate}, this is exactly the respect field required
 
 For the stable-transformation statement, use the same composite map. If $h\sim_S k$, the respect field of $\tau_T$ gives $T(h)\sim_R T(k)$, and the respect field of $\tau_U$ gives $U(T(h))\sim_Q U(T(k))$. The ledger field of \autoref{def:stable-transformation} supplies witnesses $\ell_T:L_T$ and $\ell_U:L_U$; pair them as $(\ell_T,\ell_U):L_T\times L_U$. This gives the ledger field for the composite stable transformation. When the two ledgers are gap ledgers, the same pair records the first-stage ledger and the second-stage ledger pulled back along the intermediate interface, which is the composite ledger policy cited above.
 \end{proof}
+
+\begin{theorem}[NameCert composition for stable transformations]
+\label{thm:semantic-namecert-stable-transformation-composition}
+Let $S,R,Q,P_S,P_R,P_Q,L_S,L_R,L_Q:\mathsf{BHist}\to\mathsf{Prop}$, and let
+$$
+\sim_S,\sim_R,\sim_Q:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be classifier specifications. Assume semantic carrier certificates
+$$
+\mathcal{C}_S:\mathsf{SemanticNameCert}(S,P_S,L_S,\sim_S),\qquad
+\mathcal{C}_R:\mathsf{SemanticNameCert}(R,P_R,L_R,\sim_R),\qquad
+\mathcal{C}_Q:\mathsf{SemanticNameCert}(Q,P_Q,L_Q,\sim_Q).
+$$
+Let $T,U:\mathsf{BHist}\to\mathsf{BHist}$ have carrier-preservation fields
+$$
+\rho_T:\forall h.\;S(h)\to R(T(h)),
+\qquad
+\rho_U:\forall r.\;R(r)\to Q(U(r)).
+$$
+Let $\Lambda_T$ and $\Lambda_U$ be ledger witness types, and let
+$$
+\tau_T:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},\Lambda_T,\sim_S,\sim_R)
+$$
+and
+$$
+\tau_U:\mathsf{StableTransformation}(\mathsf{BHist},\mathsf{BHist},\Lambda_U,\sim_R,\sim_Q)
+$$
+be stable transformations with map fields $T$ and $U$. Let
+$$
+M_T,M_U:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}
+$$
+be their two-stage ledger predicates, with ledger soundness fields
+$$
+\lambda_T:\forall h.\;S(h)\to M_T(h,T(h)),
+\qquad
+\lambda_U:\forall r.\;R(r)\to M_U(r,U(r)).
+$$
+Define source-level composite pattern and ledger predicates by
+$$
+\mathsf{CompStab}_{T,U}(h)\Longleftrightarrow
+Q(U(T(h)))\land
+\forall k,\;h\sim_S k\to U(T(h))\sim_Q U(T(k))
+$$
+and
+$$
+\mathsf{CompLedger}_{T,U}(h)\Longleftrightarrow
+\exists r,\;r=T(h)\land M_T(h,r)\land M_U(r,U(r)).
+$$
+Then
+$$
+\mathsf{SemanticNameCert}(S,\mathsf{CompStab}_{T,U},\mathsf{CompLedger}_{T,U},\sim_S)
+$$
+holds. Its stability component is the composite descent witness for $U\circ T$, and its ledger component is the composite ledger policy.
+\end{theorem}
+\begin{proof}
+Use the core field of $\mathcal{C}_S$ as the core field of the displayed semantic certificate. By \autoref{def:lean-carrier-naming-certificate}, this is exactly the carrier-and-classifier certificate for $S$ and $\sim_S$. The core fields of $\mathcal{C}_R$ and $\mathcal{C}_Q$ place the intermediate and target classifiers in the same typed certificate discipline of \autoref{def:typed-naming-certificate-expanded-template}.
+
+For pattern soundness, fix $h$ with $Sh:S(h)$. Carrier preservation gives $\rho_T(h,Sh):R(T(h))$, and then $\rho_U(T(h),\rho_T(h,Sh)):Q(U(T(h)))$. If $h\sim_S k$, the respect field of $\tau_T$ gives $T(h)\sim_R T(k)$. Applying the respect field of $\tau_U$ gives $U(T(h))\sim_Q U(T(k))$. Hence $\mathsf{CompStab}_{T,U}(h)$.
+
+For ledger soundness at the same source history, choose the intermediate witness $r=T(h)$. The field $\lambda_T$ gives $M_T(h,T(h))$. The field $\rho_T$ gives $R(T(h))$, so $\lambda_U$ gives $M_U(T(h),U(T(h)))$. These witnesses prove $\mathsf{CompLedger}_{T,U}(h)$.
+
+The respect calculation is the descent certificate required by \autoref{def:descent-certificate}: a source-classifier witness is first transported along $T$ and then along $U$. By \autoref{def:naming-certificate-stability-field}, this fills the $\DescentCert$ and $\CompositionCert$ modes of the stability component. The ledger proof records the first-stage ledger together with the second-stage ledger pulled back along the intermediate witness. In gap-ledger cases this is the two-step witness of \autoref{def:hardening-composite-gap-ledger}, and \autoref{cor:ledger-composition-principle} identifies it as the composite ledger policy.
+\end{proof}
