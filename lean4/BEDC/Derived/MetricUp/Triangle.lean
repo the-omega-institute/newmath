@@ -347,6 +347,27 @@ theorem MetricDistanceWitness_triangle_bilateral_empty_edge_collapse
       (And.intro zEmpty
         (And.intro dxyzEmpty (And.intro depthZero emptyWitness))))
 
+theorem MetricDistanceWitness_two_sided_empty_triangle_witness_exactness
+    {x y z dxy dyz dxyz : BHist} :
+    MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
+      MetricDistanceWitness dxy z dxyz -> hsame dxy BHist.Empty ->
+        hsame dyz BHist.Empty ->
+          hsame dxyz BHist.Empty ∧ MetricDistanceWitness BHist.Empty BHist.Empty dxyz ∧
+            MetricDistanceWitness BHist.Empty z dxyz ∧
+              MetricDistanceWitness x BHist.Empty dxyz := by
+  intro xy yz xyz dxyEmpty dyzEmpty
+  have collapsed :=
+    MetricDistanceWitness_triangle_bilateral_empty_edge_collapse xy yz xyz dxyEmpty dyzEmpty
+  have leftBoundary :
+      MetricDistanceWitness BHist.Empty z dxyz :=
+    MetricDistanceWitness_triangle_left_empty_boundary_witness xy yz xyz dxyEmpty
+  have rightBoundary :
+      MetricDistanceWitness x BHist.Empty dxyz :=
+    MetricDistanceWitness_triangle_right_empty_boundary_witness xy yz xyz dyzEmpty
+  exact And.intro collapsed.right.right.right.left
+    (And.intro collapsed.right.right.right.right.right
+      (And.intro leftBoundary rightBoundary))
+
 theorem MetricDistanceWitness_visible_context_triangle_depth_zero_collapse
     {p q x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness (append p x) (append y q) (append (append p dxy) q) ->
