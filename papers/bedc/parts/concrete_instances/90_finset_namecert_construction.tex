@@ -419,3 +419,47 @@ $$
 $$
 Thus $j$ satisfies the pointwise carrier-and-classifier clause required for the inverse map $\pi^{-1}$. Since $j$ was arbitrary, the inverse certified bijection and this pointwise field repack as $\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)$.
 \end{proof}
+
+\begin{lemma}[Certified finite-position identity bijection]
+\label{lem:finset-enum-position-identity-bijection}
+For every finite BEDC-history spine $xs:\mathsf{HistSpine}$, the identity map on $\mathsf{Pos}(xs)$ is a certified finite-position bijection
+$$
+\mathsf{id}_{xs}:\mathsf{Pos}(xs)\cong\mathsf{Pos}(xs),
+$$
+with inverse map again the identity map.
+\end{lemma}
+\begin{proof}
+Take the forward position map to be $i\mapsto i$ and take the inverse position map to be the same function. The two inverse identities are the pointwise equalities $i=i$ and $j=j$ for positions of $xs$. These data are exactly the certified finite-position bijection data used in \autoref{def:finset-classifier-preserving-enumeration-permutation}.
+\end{proof}
+
+\begin{theorem}[EnumPerm identity closure]
+\label{thm:enumperm-identity-closure}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For every finite BEDC-history spine $xs:\mathsf{HistSpine}$, if every entry of $xs$ is carried by $A$,
+$$
+\forall i:\mathsf{Pos}(xs).\;A(\mathsf{entry}_{xs}(i)),
+$$
+then
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)
+$$
+holds.
+\end{theorem}
+\begin{proof}
+Use the certified identity bijection from \autoref{lem:finset-enum-position-identity-bijection}. It remains only to verify the pointwise preservation field required by \autoref{def:finset-classifier-preserving-enumeration-permutation}.
+
+Fix a position $i:\mathsf{Pos}(xs)$. The carried-entry hypothesis gives
+$$
+A(\mathsf{entry}_{xs}(i)).
+$$
+For the identity bijection, the matched source position and target position are both $i$, so the source and target entries in the matched pair are the same history $\mathsf{entry}_{xs}(i)$. The reflexivity field of $\mathsf{cert}$, supplied by the naming certificate in \autoref{def:lean-carrier-naming-certificate}, applies to the displayed carrier witness and gives
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Thus the matched pair at $i$ satisfies
+$$
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{xs}(i))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Since $i$ was arbitrary, the certified identity bijection carries the required pointwise classifier-preservation field. Repacking these data by \autoref{def:finset-classifier-preserving-enumeration-permutation} proves $\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)$.
+\end{proof}
