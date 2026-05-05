@@ -177,6 +177,27 @@ theorem ManifoldAtlasPackage_classifier_transport
   exact And.intro package
     (And.intro baseUnary (And.intro indexUnary (And.intro domainRow transitionRow)))
 
+theorem ManifoldAtlasPackage_transition_composition_scope
+    {base index domain chart transition next composed direct : BHist} :
+    ManifoldAtlasPackage base index domain chart transition -> UnaryHistory next ->
+      Cont transition next composed -> Cont domain (append chart next) direct ->
+        hsame composed direct ∧ UnaryHistory composed ∧ UnaryHistory direct := by
+  intro package nextUnary transitionNext domainChartNext
+  have domainUnary : UnaryHistory domain := package.right.right.left
+  have chartUnary : UnaryHistory chart := package.right.right.right.left
+  have transitionUnary : UnaryHistory transition := package.right.right.right.right.left
+  have domainChart : Cont domain chart transition :=
+    package.right.right.right.right.right.right
+  have chartNextUnary : UnaryHistory (append chart next) :=
+    unary_cont_closed chartUnary nextUnary (cont_intro rfl)
+  have composedDirect : hsame composed direct :=
+    cont_assoc_hsame domainChart transitionNext (cont_intro rfl) domainChartNext
+  have composedUnary : UnaryHistory composed :=
+    unary_cont_closed transitionUnary nextUnary transitionNext
+  have directUnary : UnaryHistory direct :=
+    unary_cont_closed domainUnary chartNextUnary domainChartNext
+  exact And.intro composedDirect (And.intro composedUnary directUnary)
+
 def ManifoldScopedBoundaryPackage (carrier i j k pair triple : BHist) : Prop :=
   UnaryHistory carrier ∧ UnaryHistory i ∧ UnaryHistory j ∧ UnaryHistory k ∧
     Cont i j pair ∧ Cont pair k triple
@@ -276,5 +297,20 @@ theorem ManifoldSingleton_transition_smoothness {source target result : BHist} :
   have resultUnary : UnaryHistory result :=
     unary_transport unary_empty (hsame_symm resultEmpty)
   exact And.intro resultEmpty (And.intro resultSource (And.intro resultTarget resultUnary))
+
+theorem ManifoldChartCoordinateTransportRow_coordinate_determinacy
+    (left right : ManifoldChartCoordinateTransportRow) (sameSource : hsame left.source right.source)
+    (sameTarget : hsame left.target right.target) :
+    hsame left.sourceValue right.sourceValue ∧ hsame left.targetValue right.targetValue ∧
+      UnaryHistory left.sourceValue ∧ UnaryHistory right.sourceValue ∧
+        UnaryHistory left.targetValue ∧ UnaryHistory right.targetValue := by
+  have sourceSame : hsame left.sourceValue right.sourceValue :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameSource left.sourceReadback right.sourceReadback
+  have targetSame : hsame left.targetValue right.targetValue :=
+    cont_respects_hsame (hsame_refl BHist.Empty) sameTarget left.targetReadback right.targetReadback
+  exact And.intro sourceSame
+    (And.intro targetSame
+      (And.intro left.sourceUnary
+        (And.intro right.sourceUnary (And.intro left.targetUnary right.targetUnary))))
 
 end BEDC.Derived.ManifoldUp
