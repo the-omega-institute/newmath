@@ -49,6 +49,17 @@ theorem NatMul_unit_right_iff {d n : BHist} :
     cases same
     exact NatMul.succ (NatMul.zero hd) (cont_left_unit d)
 
+theorem NatMul_unit_left_closed {q : BHist} :
+    UnaryHistory q -> NatMul (BHist.e1 BHist.Empty) q q := by
+  intro qUnary
+  induction q with
+  | Empty =>
+      exact NatMul.zero (unary_e1_closed unary_empty)
+  | e0 q =>
+      cases qUnary
+  | e1 q ih =>
+      exact NatMul.succ (ih qUnary) (cont_intro rfl)
+
 theorem NatDivides_unit_right_iff {d : BHist} :
     NatDivides d (BHist.e1 BHist.Empty) ↔ hsame d (BHist.e1 BHist.Empty) := by
   constructor
