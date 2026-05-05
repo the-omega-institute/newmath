@@ -141,4 +141,37 @@ theorem RealStreamClassifier_unary_denominator_context_selected_e1_tail_determin
           (And.intro sameAA'
             (And.intro sameBB' (And.intro readAB.right.right readA'B'.right.right))))))
 
+theorem RealStreamClassifier_unary_denominator_context_selected_e1_tail_pairwise_coherence
+    {x y pX pY tX tY mX mY oX oY : Nat -> BHist} {n : Nat}
+    {a a' b b' : BHist} :
+    RealStreamClassifier x y ->
+      (forall i : Nat, UnaryHistory (pX i)) ->
+        (forall i : Nat, UnaryHistory (tX i)) ->
+          (forall i : Nat, hsame (pX i) (pY i)) ->
+            (forall i : Nat, hsame (tX i) (tY i)) ->
+              (forall i : Nat, Cont (pX i) (x i) (mX i)) ->
+                (forall i : Nat, Cont (mX i) (tX i) (oX i)) ->
+                  (forall i : Nat, Cont (pY i) (y i) (mY i)) ->
+                    (forall i : Nat, Cont (mY i) (tY i) (oY i)) ->
+                      hsame (oX n) (BHist.e1 a) -> hsame (oX n) (BHist.e1 a') ->
+                        hsame (oY n) (BHist.e1 b) -> hsame (oY n) (BHist.e1 b') ->
+                          UnaryHistory a ∧ UnaryHistory a' ∧ UnaryHistory b ∧
+                            UnaryHistory b' ∧ hsame a a' ∧ hsame a b ∧
+                              hsame a b' ∧ hsame a' b ∧ hsame a' b' ∧
+                                hsame b b' := by
+  intro classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont sameLeft
+    sameLeft' sameRight sameRight'
+  have det :=
+    RealStreamClassifier_unary_denominator_context_selected_e1_tail_determinacy
+      (n := n) classified pXUnary tXUnary sameP sameT pXCont oXCont pYCont oYCont
+      sameLeft sameLeft' sameRight sameRight'
+  have sameAA' : hsame a a' := det.right.right.right.right.left
+  have sameBB' : hsame b b' := det.right.right.right.right.right.left
+  have sameAB : hsame a b := det.right.right.right.right.right.right.left
+  have sameA'B' : hsame a' b' := det.right.right.right.right.right.right.right
+  have sameAB' : hsame a b' := hsame_trans sameAB sameBB'
+  have sameA'B : hsame a' b := hsame_trans (hsame_symm sameAA') sameAB
+  exact ⟨det.left, det.right.left, det.right.right.left, det.right.right.right.left,
+    sameAA', sameAB, sameAB', sameA'B, sameA'B', sameBB'⟩
+
 end BEDC.Derived.RealUp

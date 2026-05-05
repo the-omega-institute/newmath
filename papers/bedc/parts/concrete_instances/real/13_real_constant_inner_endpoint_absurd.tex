@@ -344,106 +344,19 @@ empty, e-zero, and appended e-zero inner shapes; core theorem
 exactness full transported malformed sealed-denominator impossibility;
 standard bridge constant rational real names; status $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Real constant classifier full malformed endpoint exclusion package]
-\label{thm:real-constant-history-classifier-full-malformed-endpoint-exclusion-package}
-For histories
-$h,k,tail_h,tail_k,inner_h,inner_k,p_h,p_k,z_h,z_k:\mathsf{BHist}$, a
-constant real-history classifier excludes every malformed outer display and
-every sealed malformed inner display on either endpoint:
-$$
-\begin{array}{l}
-\mathsf{RealConstantHistoryClassifier}(h,k)\Longrightarrow\\
-\quad
-\bigl(\hsame(h,\emp)\Longrightarrow\mathsf{False}\bigr)
-\land
-\bigl(\hsame(k,\emp)\Longrightarrow\mathsf{False}\bigr)
-\land\\
-\quad
-\bigl(\hsame(h,\Ezero(tail_h))\Longrightarrow\mathsf{False}\bigr)
-\land
-\bigl(\hsame(k,\Ezero(tail_k))\Longrightarrow\mathsf{False}\bigr)
-\land\\
-\quad
-\bigl(\hsame(h,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr)
-\land
-\bigl(\hsame(k,\Eone(\emp))\Longrightarrow\mathsf{False}\bigr)
-\land\\
-\quad
-\bigl(\hsame(h,\Eone(\Ezero(inner_h)))\Longrightarrow\mathsf{False}\bigr)
-\land
-\bigl(\hsame(k,\Eone(\Ezero(inner_k)))\Longrightarrow\mathsf{False}\bigr)
-\land\\
-\quad
-\bigl(\hsame(h,\Eone(p_h\cdot\Ezero(z_h)))\Longrightarrow\mathsf{False}\bigr)
-\land
-\bigl(\hsame(k,\Eone(p_k\cdot\Ezero(z_k)))\Longrightarrow\mathsf{False}\bigr).
-\end{array}
-$$
-\end{theorem}
-\begin{proof}
-We prove the ten clauses by grouping the visible endpoint shapes.
-
-\begin{enumerate}
-  \item For the outer empty displays, transport the classifier along
-  $\hsame(h,\emp)$ or $\hsame(k,\emp)$ and the reflexive display on the other
-  endpoint. This gives an exact classifier with an $\emp$ endpoint, so the
-  corresponding empty endpoint clause of
-  \autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}
-  gives the contradiction.
-
-  \item For the outer $\Ezero$ displays, use the same endpoint transport with
-  $\hsame(h,\Ezero(tail_h))$ or $\hsame(k,\Ezero(tail_k))$. The transported
-  classifier has an exact $\Ezero$ endpoint, and the e-zero endpoint clause of
-  \autoref{thm:real-constant-history-classifier-invalid-endpoint-absurd}
-  excludes it.
-
-  \item For the sealed $\Eone(\Ezero(-))$ displays, apply
-  \autoref{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
-  directly to the original classifier. Its two projections are exactly the
-  two required exclusions for $inner_h$ and $inner_k$.
-
-  \item For the sealed empty displays, unpack the classifier enough to recover
-  an opposite sealed endpoint $k\hsame\Eone(d)$ or $h\hsame\Eone(d)$. Endpoint
-  transport then gives an exact classifier
-  $\mathsf{RealConstantHistoryClassifier}(\Eone(\emp),\Eone(d))$ or
-  $\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\emp))$. The two
-  orientations of
-  \autoref{thm:real-constant-history-classifier-e1-empty-endpoint-absurd}
-  exclude these exact sealed-empty classifiers.
-
-  \item For the appended e-zero sealed displays, unpack the same opposite
-  sealed endpoint and transport to
-  $\mathsf{RealConstantHistoryClassifier}
-  (\Eone(p_h\cdot\Ezero(z_h)),\Eone(d))$ or
-  $\mathsf{RealConstantHistoryClassifier}
-  (\Eone(d),\Eone(p_k\cdot\Ezero(z_k)))$. The two orientations of
-  \autoref{thm:real-constant-history-classifier-e1-append-e0-tail-absurd}
-  contradict those transported classifiers.
-\end{enumerate}
-\end{proof}
-
-The ten-field fit is: traditional target full malformed constant-real endpoint
-coverage package; BEDC source constant RealUp classifier endpoint transport
-and sealed rational endpoint exclusions; carrier $\mathsf{BHist}$; classifier
-$\mathsf{RealConstantHistoryClassifier}$; stability row outer endpoint
-transport plus sealed endpoint readback; ledger outer empty, outer e-zero,
-sealed empty, sealed e-zero, and sealed appended e-zero displays on both sides;
-core theorem
-\autoref{thm:real-constant-history-classifier-full-malformed-endpoint-exclusion-package};
-exactness no malformed outer or sealed inner constant-real endpoint display on
-either endpoint; downstream bridge RealUp carrier, NameCert, and dyadic
-embedding endpoint sanity; status $\mathsf{ProofTarget}$.
-
 \begin{definition}[Malformed sealed real denominator display]
 \label{def:real-constant-malformed-sealed-denominator-display}
 For a history $h:\mathsf{BHist}$, the predicate
-$\mathsf{MalformedRealSealedDenom}(h)$ records exactly the two sealed
-denominator displays excluded by the transported RealUp denominator sanity
-ledger:
+$\mathsf{MalformedRealSealedDenom}(h)$ records exactly the three sealed
+denominator displays excluded by the complete transported RealUp denominator
+sanity ledger:
 $$
 \mathsf{MalformedRealSealedDenom}(h)
 :=
 \hsame(h,\Eone(\emp))
+\lor
+\exists t:\mathsf{BHist},\
+\hsame(h,\Eone(\Ezero(t)))
 \lor
 \exists p,z:\mathsf{BHist},\
 \hsame(h,\Eone(p\cdot\Ezero(z))).
@@ -464,28 +377,38 @@ $$
 \end{theorem}
 \begin{proof}
 Unfold $\mathsf{MalformedRealSealedDenom}$ on the left endpoint. In the
-empty-display case, apply the first clause of
-\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd}.
+empty-display case, apply the first row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 
-In the appended e-zero-display case on the left endpoint, use the displayed
-witnesses $p,z$ and apply the third clause of the same theorem.
+In the inner e-zero-display case, use the displayed witness $t$ and apply the
+third row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+
+In the appended e-zero-display case, use the displayed witnesses $p,z$ and
+apply the fifth row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 
 Unfold $\mathsf{MalformedRealSealedDenom}$ on the right endpoint. In the
-empty-display case, apply the second clause of
-\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd}.
+empty-display case, apply the second row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 
-In the appended e-zero-display case on the right endpoint, use the displayed
-witnesses $p,z$ and apply the fourth clause of the same theorem.
+In the inner e-zero-display case, use the displayed witness $t$ and apply the
+fourth row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
+
+In the appended e-zero-display case, use the displayed witnesses $p,z$ and
+apply the sixth row of
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd}.
 \end{proof}
 
 The ten-field fit is: traditional target reusable transported RealUp
-denominator sanity predicate; BEDC source the four transported malformed
+denominator sanity predicate; BEDC source the six transported malformed
 sealed-endpoint exclusions; carrier $\mathsf{BHist}$; classifier
 $\mathsf{RealConstantHistoryClassifier}$; stability row endpoint transport
 already concentrated in
-\autoref{thm:real-constant-history-classifier-transported-malformed-inner-denominator-absurd};
-ledger exactly transported empty endpoints and appended e-zero denominator
-displays; core theorem
+\autoref{thm:real-constant-history-classifier-transported-complete-malformed-inner-denominator-absurd};
+ledger exactly transported empty, e-zero, and appended e-zero denominator
+displays on sealed endpoints; core theorem
 \autoref{thm:real-constant-classifier-no-malformed-sealed-denominator-displays};
 exactness one predicate forbidding every malformed sealed denominator display
 on either endpoint; downstream bridge RealUp NameCert and dyadic-embedding
