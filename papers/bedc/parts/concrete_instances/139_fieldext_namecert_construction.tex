@@ -179,107 +179,7 @@ source row.
 \section{The certificate}
 \label{sec:fieldext-certificate}
 
-\begin{theorem}[RatUp reflexive embedding transport]
-\label{thm:fieldext-reflexive-embedding-transport}
-For the concrete data of
-Definition~\ref{def:fieldext-reflexive-extension-carrier}, the identity
-embedding $\iota_{\mathsf{Rat}}$ transports carrier membership and classifier
-comparisons exactly. If $h,k:\mathsf{BHist}$, then
-$\mathsf{RatHistoryCarrier}(h)$ gives
-$\mathsf{RatHistoryCarrier}(\iota_{\mathsf{Rat}}(h))$, and
-$\mathsf{RatHistoryClassifier}(h,k)$ gives and is given by
-$\mathsf{RatHistoryClassifier}(\iota_{\mathsf{Rat}}(h),\iota_{\mathsf{Rat}}(k))$. The same
-identity transport preserves the zero, one, addition, negation,
-multiplication, apartness, and proof-indexed inverse rows of the
-$\FieldUp(\RatUp)$ certificate.
-\end{theorem}
-\begin{proof}
-Unfold $\iota_{\mathsf{Rat}}$. Carrier preservation is immediate because the base and
-ambient carriers are both $\mathsf{RatHistoryCarrier}$.
-
-The classifier transport has identical source and target assertions after
-unfolding the identity map. Reflexivity, symmetry, transitivity, and endpoint
-carrier extraction are the RatUp classifier fields recorded in
-\autoref{thm:rat-history-semantic-name-certificate}.
-
-For the operation rows, read the base and ambient field packages from
-\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. They use the same
-carrier, classifier, denominator tuple, contextual action, and affine source.
-Since the embedding is identity, every displayed FieldUp operation endpoint is
-compared with itself under $\mathsf{RatHistoryClassifier}$, including the
-proof-indexed inverse endpoint whenever the apartness witness is supplied.
-\end{proof}
-
-\begin{theorem}[RatUp reflexive vector-space package]
-\label{thm:fieldext-reflexive-vector-space-package}
-For the concrete data of
-Definition~\ref{def:fieldext-reflexive-extension-carrier}, the ambient
-$\RatUp$ carrier is a vector space over the base $\RatUp$ carrier. Its vector
-addition, zero, and negation are the FieldUp additive rows, and its scalar
-action is FieldUp multiplication. The vector carrier classifier is
-$\mathsf{RatHistoryClassifier}$, the scalar classifier is the same RatUp
-classifier, and scalar-action congruence is the multiplication congruence row
-of the concrete $\FieldUp(\RatUp)$ certificate.
-\end{theorem}
-\begin{proof}
-Start from the concrete field certificate
-\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. Its carrier and
-classifier are $\mathsf{RatHistoryCarrier}$ and
-$\mathsf{RatHistoryClassifier}$, and its algebraic rows include additive
-abelian-group laws, multiplication closure, distributivity, unit laws, and
-classifier congruence for multiplication.
-
-Use the field multiplication row as scalar action. Associativity of scalar
-action is exactly associativity of FieldUp multiplication. Left and right
-distributivity of scalar action are the two distributivity rows of the same
-FieldUp certificate, read with the first factor as scalar and the second
-factor as vector.
-
-The vector addition, zero, and negation rows are the additive rows already
-present in the field certificate. The projection principles
-\autoref{prop:vecspace-module-fragment-projection} and
-\autoref{cor:vecspace-additive-carrier-projection} identify these as the
-module-shaped and additive carrier rows expected by $\VecSpaceUp$ once the
-scalar field is fixed. Therefore the self-action package supplies the
-paper-side vector-space obligations over the unchanged RatUp carrier.
-\end{proof}
-
-\begin{theorem}[RatUp reflexive FieldExtUp certificate obligations]
-\label{thm:fieldext-reflexive-certificate-obligations}
-The data of Definition~\ref{def:fieldext-reflexive-extension-carrier} satisfy
-the paper-side $\FieldExtUp$ $\NameCert$ obligation package. The package
-contains the base and ambient $\FieldUp(\RatUp)$ certificates, the RatUp
-classifier, identity embedding stability, scalar-action congruence, the
-self-vector-space rows, exact endpoint classification, and ledger provenance
-from the same concrete FieldUp operation table.
-\end{theorem}
-\begin{proof}
-The two field endpoints are supplied by a single certificate:
-\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. Reading it twice
-fixes the base and ambient carriers to $\mathsf{RatHistoryCarrier}$ and fixes
-both classifiers to $\mathsf{RatHistoryClassifier}$.
-
-Embedding stability is
-\autoref{thm:fieldext-reflexive-embedding-transport}. It records carrier
-transport, classifier transport, and operation transport for the identity map
-on $\mathsf{BHist}$.
-
-The vector-space component is
-\autoref{thm:fieldext-reflexive-vector-space-package}. It uses FieldUp
-multiplication as scalar action and the FieldUp additive rows as vector
-addition, zero, and negation. The scalar-action congruence row is therefore
-the multiplication classifier-congruence row already present in the concrete
-FieldUp certificate.
-
-The ledger clauses do not introduce a second provenance source. Every scalar,
-vector, embedding, and operation endpoint is read from the same
-$\mathsf{RatUpFieldSource}_F$ tuple of
-\autoref{def:ratup-fieldup-concrete-source-tuple}. The exactness clauses are
-the RatUp classifier and FieldUp operation-table exactness rows assembled in
-\autoref{thm:ratup-fieldup-assembled-certificate-boundary}. These rows are
-precisely the carrier, classifier, embedding, vector-space, exactness, and
-ledger obligations named by the FieldExtUp certificate boundary.
-\end{proof}
+\input{parts/concrete_instances/fieldext/ratup_reflexive_certificate}
 
 \begin{theorem}[RatUp reflexive FieldExt operation-table coverage]
 \label{thm:fieldext-ratup-reflexive-operation-table-coverage}
@@ -403,6 +303,7 @@ endpoint to the extension-field multiplication endpoint. This gives the
 compatibility of embedded scalar multiplication with the singleton extension
 field product.
 \end{proof}
+\leanchecked{BEDC.Derived.FieldExtUp.FieldExtSingletonVectorSpace\_smul\_mul\_compatible}
 
 \begin{theorem}[Singleton FieldExt embedded scalar-action collapse]
 \label{thm:fieldext-singleton-embedded-scalar-action-collapse}
