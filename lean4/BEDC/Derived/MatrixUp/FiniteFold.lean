@@ -170,4 +170,66 @@ theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist
     exact And.intro foldedCarrier
       (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
 
+theorem MatrixSingletonAddFold_continuation_empty_result_spine_iff {xs : List BHist}
+    {y r : BHist} :
+    Cont (MatrixSingletonAddFold xs) y r ->
+      (hsame r BHist.Empty ↔ MatrixSingletonAddFoldSpineCarrier xs ∧ hsame y BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro resultEmpty
+    have continuationEmpty :
+        Cont (MatrixSingletonAddFold xs) y BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have parts := cont_empty_result_inversion continuationEmpty
+    exact And.intro (Iff.mp MatrixSingletonAddFold_carrier_iff parts.left) parts.right
+  · intro data
+    have foldEmpty : hsame (MatrixSingletonAddFold xs) BHist.Empty :=
+      Iff.mpr MatrixSingletonAddFold_carrier_iff data.left
+    exact cont_respects_hsame foldEmpty data.right continuation (cont_right_unit BHist.Empty)
+
+theorem MatrixSingletonAddFold_reverse_carrier_readback {xs : List BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      MatrixSingletonCarrier (MatrixSingletonAddFold xs.reverse) ∧
+        hsame (MatrixSingletonAddFold xs) (MatrixSingletonAddFold xs.reverse) := by
+  intro carrier
+  have reverseCarrier :
+      ∀ {ys : List BHist}, MatrixSingletonAddFoldSpineCarrier ys ->
+        MatrixSingletonAddFoldSpineCarrier ys.reverse := by
+    intro ys ysCarrier
+    have reverseAuxCarrier :
+        ∀ {tail acc : List BHist}, MatrixSingletonAddFoldSpineCarrier tail ->
+          MatrixSingletonAddFoldSpineCarrier acc ->
+            MatrixSingletonAddFoldSpineCarrier (List.reverseAux tail acc) := by
+      intro tail acc tailCarrier accCarrier
+      induction tail generalizing acc with
+      | nil =>
+          exact accCarrier
+      | cons y tail ih =>
+          exact ih tailCarrier.right (And.intro tailCarrier.left accCarrier)
+    exact reverseAuxCarrier ysCarrier (hsame_refl BHist.Empty)
+  have leftCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold xs) :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff carrier
+  have rightCarrier : MatrixSingletonCarrier (MatrixSingletonAddFold xs.reverse) :=
+    Iff.mpr MatrixSingletonAddFold_carrier_iff (reverseCarrier carrier)
+  exact And.intro rightCarrier (hsame_trans leftCarrier (hsame_symm rightCarrier))
+
+theorem MatrixSingletonAddFold_append_continuation_classifier
+    {xs ys : List BHist} {r : BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      MatrixSingletonAddFoldSpineCarrier ys ->
+        Cont (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys) r ->
+          MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys)) r := by
+  intro xsCarrier ysCarrier continuation
+  have displayedClassifier :
+      MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys))
+        (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+    Iff.mpr MatrixSingletonAddFold_append_display_classifier_iff
+      (And.intro xsCarrier ysCarrier)
+  have sameResult : hsame (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) r :=
+    cont_deterministic (cont_intro rfl) continuation
+  exact And.intro displayedClassifier.left
+    (And.intro
+      (hsame_trans (hsame_symm sameResult) displayedClassifier.right.left)
+      (hsame_trans displayedClassifier.right.right sameResult))
+
 end BEDC.Derived.MatrixUp
