@@ -8,3 +8,141 @@ The ideal interface $\IdealUp$ packages a sub-rng of a ring carrier closed under
 
 \section{The certificate}
 \label{sec:ideal-certificate}
+
+\begin{definition}[Ideal intersection predicate]
+\label{def:ideal-intersection-predicate}
+Let $R$ carry a $\RingUp$ certificate with carrier $C$, and let $I$ and $J$ be $\IdealUp$ carried predicates over $R$ in the sense of \autoref{sec:ideal-carrier}. The intersection predicate $I\cap_RJ$ is defined by
+$$
+(I\cap_RJ)(x)\Longleftrightarrow I(x)\land J(x).
+$$
+\end{definition}
+
+\begin{theorem}[Ideal intersection closure]
+\label{thm:ideal-intersection-closure}
+Let $R$ carry a $\RingUp$ certificate as in \autoref{ch:concrete-instances-ring-namecert}, with carrier $C$, classifier $\sim_R$, addition $+_R$, additive inverse $-_R$, zero $0_R$, and multiplication $\cdot_R$. Let $I$ and $J$ be $\IdealUp$ predicates over $R$. Assume the two ideal certificates provide the rows specified in \autoref{sec:ideal-certificate}: carrier support, zero membership, additive closure, additive inverse closure, internal multiplication closure, classifier transport, and left and right absorption by every carried ring endpoint. For $K:=I\cap_RJ$ as in \autoref{def:ideal-intersection-predicate}, $K$ is an $\IdealUp$ predicate over $R$. Explicitly, $K$ has carrier support and the rows
+$$
+K(0_R),\qquad
+K(x)\land K(y)\Longrightarrow K(x+_R y),\qquad
+K(x)\Longrightarrow K(-_R x),
+$$
+$$
+K(x)\land K(y)\Longrightarrow K(x\cdot_R y),\qquad
+K(x)\land x\sim_R y\Longrightarrow K(y),
+$$
+and, for every $r$ with $C(r)$,
+$$
+K(x)\Longrightarrow K(r\cdot_R x)\land K(x\cdot_R r).
+$$
+\end{theorem}
+\begin{proof}
+The carrier support row is immediate. If $K(x)$, then $I(x)$ and $J(x)$; the carrier-support row of either ideal gives $C(x)$.
+
+For zero, the zero rows for $I$ and $J$ give $I(0_R)$ and $J(0_R)$, hence $K(0_R)$.
+
+For additive closure, assume $K(x)$ and $K(y)$. Then $I(x)$, $I(y)$, $J(x)$, and $J(y)$. The additive-closure row for $I$ gives $I(x+_R y)$, and the additive-closure row for $J$ gives $J(x+_R y)$. Together these are $K(x+_R y)$.
+
+For additive inverse closure, assume $K(x)$. The inverse row for $I$ gives $I(-_R x)$, and the inverse row for $J$ gives $J(-_R x)$. Thus $K(-_R x)$.
+
+For internal multiplication closure, assume $K(x)$ and $K(y)$. Carrier support gives $C(y)$. Right absorption in $I$, applied to $I(x)$ and $C(y)$, gives $I(x\cdot_R y)$. Right absorption in $J$, applied to $J(x)$ and $C(y)$, gives $J(x\cdot_R y)$. Hence $K(x\cdot_R y)$, which supplies the multiplicative closure row required by the sub-rng part of $\IdealUp$.
+
+For classifier transport, assume $K(x)$ and $x\sim_R y$. The transport row for $I$ gives $I(y)$, and the transport row for $J$ gives $J(y)$. Therefore $K(y)$.
+
+For right absorption, assume $K(x)$ and $C(r)$. Right absorption in the two input ideal certificates gives $I(x\cdot_R r)$ and $J(x\cdot_R r)$, so $K(x\cdot_R r)$. For left absorption, the same argument with the left absorption rows gives $I(r\cdot_R x)$ and $J(r\cdot_R x)$, hence $K(r\cdot_R x)$.
+
+These rows are exactly the carrier, additive sub-rng, classifier-stability, and ambient two-sided absorption rows required of an $\IdealUp$ predicate over the given $\RingUp$ certificate.
+\end{proof}
+
+\begin{definition}[Ring map zero-fiber predicate]
+\label{def:ring-map-zero-fiber-predicate}
+Let $S$ and $T$ carry $\RingUp$ certificates, with carriers $C_S,C_T$, classifiers $\sim_S,\sim_T$, zeros $0_S,0_T$, additions $+_S,+_T$, additive inverses $-_S,-_T$, and multiplications $\cdot_S,\cdot_T$. For a function $f:S\to T$, the ring-map zero-fiber predicate on the source carrier is
+$$
+\mathsf{Ker}^{\mathrm{ring}}_f(x)\Longleftrightarrow C_S(x)\land f(x)\sim_T0_T.
+$$
+The first component records source-carrier evidence; the second records the target-zero classification.
+\end{definition}
+
+\begin{theorem}[Ring map zero fiber IdealUp closure]
+\label{thm:ring-map-zero-fiber-ideal-closure}
+Let $S$ and $T$ carry $\RingUp$ certificates as in \autoref{ch:concrete-instances-ring-namecert}, with notation as in \autoref{def:ring-map-zero-fiber-predicate}. Let $f:S\to T$ satisfy carrier preservation and classifier preservation on carried source endpoints:
+$$
+C_S(x)\Longrightarrow C_T(f(x))
+$$
+and
+$$
+C_S(x)\land C_S(y)\land x\sim_S y\Longrightarrow f(x)\sim_T f(y).
+$$
+Assume also that $f$ preserves zero, addition, additive inverse, and multiplication on carried source endpoints:
+$$
+f(0_S)\sim_T0_T,
+$$
+$$
+C_S(x)\land C_S(y)\Longrightarrow f(x+_S y)\sim_T f(x)+_T f(y),
+$$
+$$
+C_S(x)\Longrightarrow f(-_S x)\sim_T -_T f(x),
+$$
+and
+$$
+C_S(x)\land C_S(y)\Longrightarrow f(x\cdot_S y)\sim_T f(x)\cdot_T f(y).
+$$
+Then $K:=\mathsf{Ker}^{\mathrm{ring}}_f$ from \autoref{def:ring-map-zero-fiber-predicate} is an $\IdealUp$ predicate over the source ring $S$. Explicitly, $K$ has carrier support and the rows
+$$
+K(0_S),\qquad K(x)\land K(y)\Longrightarrow K(x+_S y),\qquad K(x)\Longrightarrow K(-_S x),
+$$
+$$
+K(x)\land K(y)\Longrightarrow K(x\cdot_S y),\qquad K(x)\land x\sim_S y\Longrightarrow K(y),
+$$
+and, for every $r$ with $C_S(r)$,
+$$
+K(x)\Longrightarrow K(r\cdot_S x)\land K(x\cdot_S r).
+$$
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:ring-map-zero-fiber-predicate}. Carrier support is the first component of a $K$ witness.
+
+For zero, the source $\RingUp$ certificate carries $0_S$, and the zero-preservation row gives $f(0_S)\sim_T0_T$. Hence $K(0_S)$.
+
+For classifier transport, assume $K(x)$ and $x\sim_S y$. The source carrier-transport row from \autoref{def:lean-carrier-naming-certificate} gives $C_S(y)$. Classifier preservation gives $f(x)\sim_T f(y)$. Target classifier symmetry and \autoref{thm:namecert-equivalence-transitivity} compose this with the zero-fiber witness $f(x)\sim_T0_T$ to obtain $f(y)\sim_T0_T$. Thus $K(y)$.
+
+For additive closure, assume $K(x)$ and $K(y)$. Source additive closure carries $x+_S y$. Addition preservation gives
+$$
+f(x+_S y)\sim_T f(x)+_T f(y).
+$$
+Target addition congruence, applied to the two zero-fiber witnesses, gives
+$$
+f(x)+_T f(y)\sim_T0_T+_T0_T.
+$$
+The target additive zero row contained in \autoref{def:ring-stability-certificate} reduces $0_T+_T0_T$ to $0_T$. Transitivity gives $f(x+_S y)\sim_T0_T$, so $K(x+_S y)$.
+
+For additive inverse closure, assume $K(x)$. Source inverse closure carries $-_S x$. Additive-inverse preservation gives
+$$
+f(-_S x)\sim_T -_T f(x).
+$$
+Target inverse congruence transports $f(x)\sim_T0_T$ to $-_T f(x)\sim_T -_T0_T$, and \autoref{thm:ring-neg-zero}, read in the target additive component, identifies $-_T0_T$ with $0_T$. Composing the classifier edges yields $f(-_S x)\sim_T0_T$, hence $K(-_S x)$.
+
+For internal multiplication closure, assume $K(x)$ and $K(y)$. Source multiplication closure carries $x\cdot_S y$. Multiplication preservation gives
+$$
+f(x\cdot_S y)\sim_T f(x)\cdot_T f(y).
+$$
+Target multiplication congruence transports the two zero-fiber witnesses to
+$$
+f(x)\cdot_T f(y)\sim_T0_T\cdot_T0_T.
+$$
+The zero-product rows of \autoref{def:ring-stability-certificate} reduce $0_T\cdot_T0_T$ to $0_T$. Thus $K(x\cdot_S y)$.
+
+For left absorption, assume $K(x)$ and $C_S(r)$. Source multiplication closure carries $r\cdot_S x$, and multiplication preservation gives
+$$
+f(r\cdot_S x)\sim_T f(r)\cdot_T f(x).
+$$
+Carrier preservation gives $C_T(f(r))$. Target multiplication congruence transports the right factor along $f(x)\sim_T0_T$, and the target right zero-product row gives
+$$
+f(r)\cdot_T0_T\sim_T0_T.
+$$
+Therefore $K(r\cdot_S x)$. For right absorption, the same argument starts from
+$$
+f(x\cdot_S r)\sim_T f(x)\cdot_T f(r),
+$$
+transports the left factor along $f(x)\sim_T0_T$, and uses the target left zero-product row $0_T\cdot_T f(r)\sim_T0_T$. This gives $K(x\cdot_S r)$.
+
+The displayed carrier support, zero, additive, inverse, multiplicative, classifier-transport, and two-sided absorption rows are exactly the $\IdealUp$ certificate rows listed in \autoref{sec:ideal-certificate} for a predicate over the source $\RingUp$ certificate.
+\end{proof}
