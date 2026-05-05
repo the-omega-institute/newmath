@@ -84,3 +84,92 @@ seals; core theorem
 \autoref{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-pairwise-coherence};
 exactness the selected-tail equivalence class; standard bridge dyadic
 selected-tail canonicalization; status $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real stream classifier transported iterated unary context selected e-one tail-class exactness]
+\label{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-class-exactness}
+For rational-observation streams
+$x,x',y,y',p_X,p_Y,t_X,t_Y,m_X,m_Y,u_X,u_Y,q_X,q_Y,s_X,s_Y,v_X,v_Y,o_X,o_Y:
+\mathbb{N}\to\Hist$, a selected index $n$, and histories $a,b:\Hist$, assume
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),
+$$
+and
+$$
+\mathsf{RealStreamClassifier}(x,y).
+$$
+Assume also that for every observation index $i$ the transported first context
+layer satisfies
+$$
+\mathsf{UnaryHistory}(p_X(i)),\quad \mathsf{UnaryHistory}(t_X(i)),\quad
+\hsame(p_X(i),p_Y(i)),\quad \hsame(t_X(i),t_Y(i)),
+$$
+$$
+\mathsf{Cont}(p_X(i),x'(i),m_X(i)),\quad
+\mathsf{Cont}(m_X(i),t_X(i),u_X(i)),
+$$
+$$
+\mathsf{Cont}(p_Y(i),y'(i),m_Y(i)),\quad
+\mathsf{Cont}(m_Y(i),t_Y(i),u_Y(i)),
+$$
+and that for every observation index $i$ the second context layer satisfies
+$$
+\mathsf{UnaryHistory}(q_X(i)),\quad \mathsf{UnaryHistory}(s_X(i)),\quad
+\hsame(q_X(i),q_Y(i)),\quad \hsame(s_X(i),s_Y(i)),
+$$
+$$
+\mathsf{Cont}(q_X(i),u_X(i),v_X(i)),\quad
+\mathsf{Cont}(v_X(i),s_X(i),o_X(i)),
+$$
+$$
+\mathsf{Cont}(q_Y(i),u_Y(i),v_Y(i)),\quad
+\mathsf{Cont}(v_Y(i),s_Y(i),o_Y(i)).
+$$
+If the chosen selected second-layer endpoint seals satisfy
+$$
+\hsame(o_X(n),\Eone(a)),\quad
+\hsame(o_Y(n),\Eone(b)),
+$$
+then for all histories $u,v:\Hist$,
+$$
+\begin{array}{l}
+\bigl(\hsame(o_X(n),\Eone(u))\land\hsame(o_Y(n),\Eone(v))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u)\land\mathsf{UnaryHistory}(v)\land
+\hsame(a,u)\land\hsame(b,v)\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the displayed selected-tail membership pair
+$\hsame(o_X(n),\Eone(u))$ and $\hsame(o_Y(n),\Eone(v))$. Apply
+\autoref{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-pairwise-coherence}
+with $(a,a',b,b')=(a,u,b,v)$ to the representative rows, the source stream
+classifier, both transported unary context layers, the two chosen endpoint
+seals, and the two membership displays. The resulting ten rows include
+$\mathsf{UnaryHistory}(u)$, $\mathsf{UnaryHistory}(v)$, $\hsame(a,u)$, and
+$\hsame(b,v)$.
+
+For the reverse direction, assume $\mathsf{UnaryHistory}(u)$,
+$\mathsf{UnaryHistory}(v)$, $\hsame(a,u)$, and $\hsame(b,v)$. Apply
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ to $\hsame(a,u)$ and compose the
+result with the chosen endpoint seal $\hsame(o_X(n),\Eone(a))$ by
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$. This gives
+$\hsame(o_X(n),\Eone(u))$.
+
+Apply the same e-one congruence and transitivity chain to $\hsame(b,v)$ and
+the chosen endpoint seal $\hsame(o_Y(n),\Eone(b))$. This gives
+$\hsame(o_Y(n),\Eone(v))$, and the two displays form the selected tail-class
+membership pair.
+\end{proof}
+
+Fit: traditional target transported iterated RegSeqRat selected-tail
+exactness; BEDC source RealUp streams, RatUp readback, $\mathsf{Cont}$,
+$\mathsf{UnaryHistory}$, and FKernel $\hsame$; carrier rational-observation
+streams; classifier $\mathsf{RealStreamClassifier}$; stability representative
+transport plus two unary context closures; ledger selected index, transport
+rows, two context layers, and e-one seals; core theorem
+\autoref{thm:real-stream-classifier-transported-iterated-unary-context-selected-e1-tail-class-exactness};
+exactness the displayed if-and-only-if; standard bridge dyadic selected-tail
+canonicalization; status $\mathsf{ProofTarget}$.
