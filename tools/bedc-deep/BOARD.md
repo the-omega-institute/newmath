@@ -9875,3 +9875,30 @@ This is a missing operation-law companion for the AnalyticContUp chapter. Unique
 
 ---
 
+### B-378 - ConvexSet raw finite weights normalize to affine spine
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | ConvexSet raw finite weights normalize to affine spine |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under ConvexSetUp over FieldUp(F) and VecSpaceUp(F,V), if xs and lambda are nonempty aligned finite spines, every point in xs is carried, every weight in lambda is NonNeg_F, and sum_F(lambda) ~_F 1_F, then there exists an endpoint z with ConvAffSpine_C(xs,lambda,z).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/20_field_namecert_construction.tex`
+
+Rationale:
+This lands directly in the existing ConvexSetUp chapter and is not a BOARD duplicate. The paper already defines ConvAffSpine_C and proves carrier closure from an existing ConvAffSpine witness, but this target supplies the missing normalization/construction step from raw finite affine weights to that witness. It is concrete theorem work rather than marker or verification-axis work, and the landing file is small and non-hub.
+
+---
+
