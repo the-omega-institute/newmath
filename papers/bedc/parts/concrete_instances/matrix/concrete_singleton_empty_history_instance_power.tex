@@ -158,6 +158,45 @@ step.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
 
+\begin{theorem}[Matrix singleton unary exponent cases]
+\label{thm:matrix-singleton-pow-unary-exponent-cases}
+For a unary exponent, the singleton power ledger has exactly the BEDC
+empty-or-successor shape needed for power readback: the empty exponent
+classifies the power ledger against \(I_M\), while a one-headed exponent
+exposes a unary tail and the displayed continuation by the base matrix:
+$$
+\rho_{\emp}(\mathsf{MatrixSingletonPow}(M,e),I_M)
+\quad\vee\quad
+\exists t.\ \Unary(t)\land
+\ContR(\mathsf{MatrixSingletonPow}(M,t),M,\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the exponent history. The empty case unfolds to \(I_M=\emp\) and
+closes by singleton classifier reflexivity. The zero-headed case is impossible
+for a unary exponent. The one-headed case returns its tail and the defining
+append continuation of \(\mathsf{MatrixSingletonPow}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_unary\_exponent\_cases}
+
+\begin{theorem}[Matrix singleton unary exponent carrier or base carrier]
+\label{thm:matrix-singleton-pow-unary-exponent-carrier-or-base-carrier}
+If a unary-exponent power ledger is singleton-carried, then either the exponent
+is the empty history or the base matrix itself is singleton-carried:
+$$
+\Unary(e)\land A_{\emp}(\mathsf{MatrixSingletonPow}(M,e))
+\Longrightarrow
+\hsame(e,\emp)\vee A_{\emp}(M).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the unary exponent. The empty branch supplies \(\hsame(e,\emp)\).
+The zero-headed branch contradicts unary membership. In the one-headed branch
+the power ledger unfolds as an append product whose right factor is \(M\);
+append empty-result inversion projects the singleton carrier of \(M\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_unary\_exponent\_carrier\_or\_base\_carrier}
+
 \begin{theorem}[Matrix singleton positive-exponent empty continuation base carrier]
 \label{thm:matrix-singleton-pow-positive-exponent-empty-continuation-base-carrier}
 If \(e\) is unary and not history-same as \(\emp\), and a continuation from

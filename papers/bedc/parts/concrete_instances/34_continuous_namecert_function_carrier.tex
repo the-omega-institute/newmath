@@ -101,6 +101,29 @@ $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_target\_iff}
 
+\begin{theorem}[Continuous modulus chain empty moduli exactness]
+\label{thm:continuous-modulus-chain-empty-moduli-iff}
+For histories $source,target$, a two-link continuous modulus chain with both
+moduli empty is exactly the conjunction that the endpoints are unary and the
+target is history-same to the source:
+$$
+\mathsf{ContinuousModulusChain}(source,\emp,\emp,target)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(source)\land\mathsf{UnaryHistory}(target)\land
+\hsame(target,source).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the middle history and the two continuation ledgers. Each empty-modulus
+leg is a right-unit continuation, so the middle endpoint is history-same to
+the source and the target endpoint is history-same to the middle endpoint.
+Transitivity gives $\hsame(target,source)$. Conversely, choose $source$ as the
+middle history, use the canonical right-unit continuation for the first leg,
+and use the displayed endpoint sameness to build the second right-unit
+continuation.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_empty\_moduli\_iff}
+
 \begin{theorem}[Continuous modulus chain empty second witness]
 \label{thm:continuous-modulus-chain-empty-second-witness}
 For histories $source,first,second,target$, if a two-link continuous modulus
@@ -152,6 +175,29 @@ Conversely, when all four histories are empty, the empty unary carrier and the
 two right-unit continuations rebuild the carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_cert\_iff}
+
+\begin{theorem}[Continuous function carrier empty-modulus exactness]
+\label{thm:continuous-function-carrier-empty-modulus-iff}
+For histories $source,map,target,cert$, a continuous-function carrier with
+empty modulus is exactly the graph carrier data together with the statement
+that the certificate is history-same to the target:
+$$
+\mathsf{ContinuousFunctionCarrier}(source,map,target,\emp,cert)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(source)\land\mathsf{UnaryHistory}(target)\land
+\mathsf{UnaryHistory}(map)\land
+\Cont(source,map,target)\land\hsame(cert,target).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the continuous-function carrier. The graph fields already supply the
+three displayed unary histories and the graph continuation ledger. The
+target-to-certificate leg has empty modulus, so the right-unit continuation
+law identifies $cert$ with $target$. Conversely, the displayed graph data, the
+empty unary carrier, and the right-unit continuation rebuilt from
+$\hsame(cert,target)$ reassemble the continuous-function carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_modulus\_iff}
 
 \begin{theorem}[Continuous function carrier empty-target exactness]
 \label{thm:continuous-function-carrier-empty-target-iff}

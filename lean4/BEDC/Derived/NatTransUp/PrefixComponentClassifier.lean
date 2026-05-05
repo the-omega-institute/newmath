@@ -316,4 +316,41 @@ theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_readback
     (And.intro rightClassified
       (And.intro emptyComponents.right.right.left emptyComponents.right.right.right))
 
+theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_components
+    {p q r a eta eta' theta theta' c c' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      NatTransPrefixComponentClassifier q r a theta theta' ->
+        Cont eta theta c -> Cont eta' theta' c' -> hsame c BHist.Empty ->
+          hsame c' BHist.Empty ->
+            hsame eta BHist.Empty ∧ hsame eta' BHist.Empty ∧ hsame theta BHist.Empty ∧
+              hsame theta' BHist.Empty ∧ hsame p q ∧ hsame q r := by
+  intro left right comp comp' resultEmpty resultEmpty'
+  have leftCarrier : NatTransPrefixComponentCarrier p q a eta :=
+    And.intro left.left
+      (And.intro left.right.left
+        (And.intro left.right.right.left left.right.right.right.left))
+  have rightCarrier : NatTransPrefixComponentCarrier q r a theta :=
+    And.intro right.left
+      (And.intro right.right.left
+        (And.intro right.right.right.left right.right.right.right.left))
+  have leftCarrier' : NatTransPrefixComponentCarrier p q a eta' :=
+    And.intro left.left
+      (And.intro left.right.left
+        (And.intro left.right.right.left left.right.right.right.right.left))
+  have rightCarrier' : NatTransPrefixComponentCarrier q r a theta' :=
+    And.intro right.left
+      (And.intro right.right.left
+        (And.intro right.right.right.left right.right.right.right.right.left))
+  have primaryData :=
+    (NatTransPrefixComponentCarrier_vert_comp_result_empty_iff leftCarrier rightCarrier comp).mp
+      resultEmpty
+  have secondaryData :=
+    (NatTransPrefixComponentCarrier_vert_comp_result_empty_iff leftCarrier' rightCarrier' comp').mp
+      resultEmpty'
+  exact And.intro primaryData.left
+    (And.intro secondaryData.left
+      (And.intro primaryData.right.left
+        (And.intro secondaryData.right.left
+          (And.intro primaryData.right.right.left primaryData.right.right.right))))
+
 end BEDC.Derived.NatTransUp
