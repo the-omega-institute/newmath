@@ -45,3 +45,33 @@ It remains to compare the direct and successive restrictions. By \autoref{def:co
 
 Ten-field fit: traditional target functorial restriction of uniformly continuous maps; BEDC source BHist with certified source predicates and ContinuousFunctionCarrier; carrier restricted graph witness; classifier ContinuousMap classifier; stability nested source-admission transport; ledger unchanged graph/modulus ledgers; core theorem this block; exactness direct-versus-successive restriction agreement; standard bridge restriction functoriality for uniformly continuous maps; status ProofTarget.
 \end{proof}
+
+\begin{theorem}[Uniform continuity restriction commutes with terminal modulus extension]
+\label{thm:uniform-continuity-restriction-terminal-modulus-commutes}
+Let $Y$ and $Z$ be certified $\MetricSpaceUp$ objects with the metric data of \autoref{def:metric-carrier}. Let $T$ and $U$ be certified source-subset witnesses in the totally bounded domain discipline of \autoref{def:continuous-source-specification}, with certified inclusion $i:U\subseteq T$. Let $f:T\to Z$ be a certified graph witness, and let
+$$
+source,map,target,modulus,cert,extra,modulus',cert':\mathsf{BHist}
+$$
+be the BEDC histories recording the source ledger for $T$, the graph ledger of $f$, the codomain classifier ledger, the original unary modulus, the terminal certificate, the additional terminal modulus, the composite modulus, and the terminal certificate after composition. Assume that $f$ satisfies the ContinuousMap carrier, totality, single-valuedness, and modulus-validity fields of \autoref{def:continuous-carrier} and \autoref{def:continuous-stability-certificate} over $T$, and assume
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert),\\
+\mathsf{ContinuousModulusWitness}(cert,extra,cert'),\\
+\ContR(modulus,extra,modulus').
+\end{array}
+$$
+Then the $\ContinuousMapUp$ witness obtained by restricting $f$ along $i$ and then applying terminal modulus extension with $extra$, $modulus'$, and $cert'$ is related by the classifier of \autoref{def:continuous-classifier-specification} to the witness obtained by first applying terminal modulus extension over $T$ and then restricting along $i$. Both witnesses present the restricted graph $f\!\restriction_U$, the source-admission transport through $i$, the codomain classifier ledger for $Z$, the composite modulus ledger $modulus'$, and the terminal certificate ledger $cert'$.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuous-function-carrier-terminal-modulus-extension} to the displayed carrier, the terminal modulus witness, and the composite continuation ledger. This gives a continuous-function carrier over $T$ with histories $source,map,target,modulus',cert'$.
+
+Restrict this extended carrier along $i:U\subseteq T$. Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} transports the modulus-validity field to $U$, while \autoref{def:continuous-pattern-specification} and \autoref{def:continuous-ledger-policy} keep the graph relation, target classifier, precision ledger, and modulus ledger fixed.
+
+For the other route, first apply Proposition~\ref{prop:uniform-continuity-modulus-restricts-along-subset-inclusion} to the original witness $f$. The restricted witness over $U$ carries the same graph ledger $map$, the same target ledger $target$, and the same modulus and certificate ledgers $modulus,cert$, with only the source-admission hypotheses narrowed through $i$.
+
+Now apply Theorem~\ref{thm:continuous-function-carrier-terminal-modulus-extension} to this restricted carrier using the same $\mathsf{ContinuousModulusWitness}(cert,extra,cert')$ and the same $\ContR(modulus,extra,modulus')$. The resulting restricted-then-extended witness has composite modulus $modulus'$ and terminal certificate $cert'$.
+
+It remains to compare the two route results. Their graph relation is the same relation read on $U$, source histories admitted by $U$ are transported to $T$ by the same inclusion certificate, the codomain classifier ledger is the same $Z$ ledger, and the composite modulus and terminal certificate ledgers are the same displayed histories. Therefore \autoref{def:continuous-classifier-specification} relates the two witnesses as $\ContinuousMapUp$ representatives.
+
+Ten-field fit: traditional target commutation of source restriction with terminal modulus extension; BEDC source $\mathsf{BHist}$ with certified source predicates, $\ContR$, and $\mathsf{ContinuousModulusWitness}$; carrier $\mathsf{ContinuousFunctionCarrier}$ with restricted graph witness; classifier ContinuousMap classifier; stability source-admission transport plus terminal modulus preservation; ledger unchanged graph relation, codomain classifier ledger, composite modulus ledger, and terminal certificate ledger; core theorem this block; exactness equality of the two route witnesses under \autoref{def:continuous-classifier-specification}; standard bridge restriction and modulus-normalization order independence for uniformly continuous maps; status ProofTarget.
+\end{proof}

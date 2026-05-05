@@ -79,6 +79,30 @@ component separately, preserving the displayed component histories.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_empty\_result\_components\_opposite\_closed}
 
+\begin{theorem}[NatTrans vertical empty result classifier componentwise opposite closure]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-components-opposite-closed}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta':\mathsf{BHist}$, if two
+prefix-component classifiers form a vertical pair and both displayed
+component rows compose to the empty history, then each classifier also closes
+under the componentwise opposite endpoint direction:
+$$
+\mathsf{NatTransPrefixComponentClassifier}(p,q,a,\eta,\eta')\land
+\mathsf{NatTransPrefixComponentClassifier}(q,r,a,\theta,\theta')\land
+\ContR(\eta,\theta,\emp)\land\ContR(\eta',\theta',\emp)
+\Longrightarrow
+\mathsf{NatTransPrefixComponentClassifier}(q,p,a,\eta,\eta')\land
+\mathsf{NatTransPrefixComponentClassifier}(r,q,a,\theta,\theta').
+$$
+\end{theorem}
+\begin{proof}
+Apply classifier empty-result component readback to the two vertical
+continuations. It identifies all four displayed component histories with
+$\emp$. The classifier empty-component opposite closure then reverses the
+first classifier from $p\to q$ to $q\to p$ and the second from $q\to r$ to
+$r\to q$, preserving the original classifier comparisons inside each row.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components\_opposite\_closed}
+
 \begin{theorem}[NatTrans vertical empty result prefix readback]
 \label{thm:nattrans-prefix-component-vert-comp-empty-result-prefixes-hsame}
 For histories $p,q,r,a,\eta,\theta:\mathsf{BHist}$, if components
