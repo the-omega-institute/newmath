@@ -85,6 +85,28 @@ theorem ManifoldSingleton_chart_value_transport {h k : BHist} :
       (And.intro kRows.right.left
         (And.intro hRows.right.right kRows.right.right)))
 
+theorem ManifoldSingleton_chart_coordinate_carrier_transport
+    {source target sourceDomain targetDomain sourceCoord targetCoord : BHist} :
+    UnaryHistory source -> UnaryHistory target -> hsame source target ->
+      Cont BHist.Empty source sourceDomain -> Cont BHist.Empty target targetDomain ->
+        Cont BHist.Empty source sourceCoord -> Cont BHist.Empty target targetCoord ->
+          hsame sourceDomain targetDomain ∧ hsame sourceCoord targetCoord := by
+  intro _sourceCarrier _targetCarrier sameSourceTarget sourceDomainReadback targetDomainReadback
+  intro sourceCoordReadback targetCoordReadback
+  have sameSourceDomain : hsame sourceDomain source :=
+    cont_left_unit_result sourceDomainReadback
+  have sameTargetDomain : hsame targetDomain target :=
+    cont_left_unit_result targetDomainReadback
+  have sameSourceCoord : hsame sourceCoord source :=
+    cont_left_unit_result sourceCoordReadback
+  have sameTargetCoord : hsame targetCoord target :=
+    cont_left_unit_result targetCoordReadback
+  exact And.intro
+    (hsame_trans sameSourceDomain
+      (hsame_trans sameSourceTarget (hsame_symm sameTargetDomain)))
+    (hsame_trans sameSourceCoord
+      (hsame_trans sameSourceTarget (hsame_symm sameTargetCoord)))
+
 structure ManifoldChartCoordinateTransportRow where
   package : BHist
   chartIndex : BHist

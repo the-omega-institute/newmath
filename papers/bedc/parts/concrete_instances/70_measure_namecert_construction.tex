@@ -8,6 +8,7 @@ The measure interface $\MeasureUp$ packages a carrier with a constructive $\sigm
 
 \begin{definition}[MeasureUp carrier surface]
 \label{def:measureup-carrier-surface}
+\label{def:measure-carrier-specification}
 A $\MeasureUp$ carrier surface is a tuple
 $$
 (\mathsf{MCarrier},\sim_M,\mathcal{A},\mu,\sim_R)
@@ -156,6 +157,11 @@ A $\MeasureUp$ certificate surface over the BEDC history substrate consists of t
 The dependencies of the surface are exactly the BEDC objects named above: $\NameCert$ supplies carrier and classifier transport; $\mathsf{BHist}$ supplies the visible code substrate; $\hsame$ and $\Cont$ supply history sameness and continuation discipline for event presentations; $\RealUp$ supplies the codomain classifier; and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies the addition, zero, congruence, and cancellation laws used by the displayed measure consequences.
 \end{definition}
 
+\begin{definition}[Measure classifier specification]
+\label{def:measure-classifier-specification}
+For two $\MeasureUp$ carriers $M$ and $N$ as in \autoref{def:measure-carrier-specification}, the public classifier $M\sim_{\MeasureUp}N$ consists of shared event-carrier sameness and endpoint agreement. Shared event-carrier sameness says that an event witness of $M$ and an event witness of $N$ classify the same displayed event precisely when their BHist presentations are related by the displayed $\hsame$ transport rows and their measurable witnesses transport between the two displayed measurable families. Endpoint agreement says that, for every such shared measurable event, the endpoints $\mu_M(E)$ and $\mu_N(E')$ compare through $\mathsf{RealConstantHistoryClassifier}$ and hence through the $\RealUp$ classifier of \autoref{def:real-classifier-specification}. The classifier does not assert quotient equality or host set equality; it only records the public event witness, measurable witness, and $\RealUp$ endpoint rows visible in the carrier ledger.
+\end{definition}
+
 \begin{theorem}[Measure carrier transport obligation]
 \label{thm:measure-obligation-carrier-transport}
 Let $\mathcal{M}$ be a $\MeasureUp$ certificate surface as in \autoref{def:measure-certificate-surface}. If $h,k:\mathsf{BHist}$ satisfy $\mathsf{MeasCode}(h)$ and $h\sim_M k$, then $\mathsf{MeasCode}(k)$. Moreover, every displayed row attached to the carried measure code, namely the measurable-family row, $\sigma$-algebra rows, $\RealUp$ endpoint map, $\sigma$-additivity row, head-tail row, and countable-sum classifier row, may be read at $k$ after transporting its carrier proof along $h\sim_M k$.
@@ -200,6 +206,22 @@ Thus both downstream arguments may replace a syntactically shifted empty countab
 
 \section{The certificate}
 \label{sec:measure-certificate}
+
+\begin{theorem}[Measure carrier and classifier stability]
+\label{thm:measure-carrier-and-classifier-stability}
+Let $M$ and $N$ be $\MeasureUp$ carriers as in \autoref{def:measure-carrier-specification}, related by the classifier of \autoref{def:measure-classifier-specification}. If $E$ is a displayed event of $M$, $E'$ is a displayed event of $N$, and the event presentations satisfy $\hsame(E,E')$, then the measurable witness for $E$ in $\mathcal A_M$ transports to a measurable witness for $E'$ in $\mathcal A_N$. Moreover the visible measure endpoints satisfy
+$$
+\mu_M(E)\sim_R\mu_N(E')
+$$
+through $\mathsf{RealConstantHistoryClassifier}$ and the $\RealUp$ classifier of \autoref{def:real-classifier-specification}.
+\end{theorem}
+\begin{proof}
+The shared event-carrier component of \autoref{def:measure-classifier-specification} is exactly the transport rule for displayed event witnesses. Apply it to the $\hsame(E,E')$ comparison to move the event witness and its measurable row from $M$ to $N$.
+
+The endpoint component of the classifier reads the two ledger endpoints attached to the transported measurable event. Since the carrier specification records the event witness, measurable witness, and $\RealUp$ endpoint in the same visible ledger, the endpoint comparison is the displayed $\mathsf{RealConstantHistoryClassifier}$ row.
+
+Finally, \autoref{def:real-classifier-specification} identifies that row as a valid $\RealUp$ classifier comparison. No quotient of event codes and no host equality of subsets is introduced.
+\end{proof}
 
 \begin{theorem}[MeasureUp classifier stability obligations]
 \label{thm:measureup-classifier-stability-obligations}
@@ -266,6 +288,39 @@ Two applications of head-tail readback expose the first two summands. The empty
 tail is classified as $0_R$ by the zero law, and the additive $\AbGroupUp$ row
 removes that unit. The resulting comparison is the statement of
 \autoref{thm:measure-finite-disjoint-union-additivity}.
+\end{proof}
+
+\begin{theorem}[Measure finite-support countable readback]
+\label{thm:measure-finite-support-countable-readback}
+Let $M$ be a $\MeasureUp$ carrier as in \autoref{def:measure-carrier-specification}. Let $E_\bullet$ be a pairwise-disjoint measurable sequence such that $E_n=\varnothing$ for every $n\geq2$. Write
+$$
+S:=\Sigma_\mu(E_\bullet),\qquad
+T:=\Sigma_\mu(E_{\bullet+1}),\qquad
+U:=\Sigma_\mu(E_{\bullet+2}).
+$$
+If the carrier supplies classifier-stable head-tail readback, pointwise countable-sum stability, and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} with zero $0_R$, then
+$$
+S\sim_R\mu(E_0)+\mu(E_1).
+$$
+\end{theorem}
+\begin{proof}
+Apply the head-tail row to the original sequence. It gives $S\sim_R\mu(E_0)+T$. Apply the same row to the shifted sequence. It gives $T\sim_R\mu(E_1)+U$.
+
+It remains to read back the empty tail. Let $F_n:=\varnothing$ for all $n$. Since $E_{n+2}=\varnothing$ by hypothesis, pointwise countable-sum stability gives $U\sim_R\Sigma_\mu(F_\bullet)$. The constant-empty $\sigma$-additivity row identifies $\mu(\varnothing)$ with $\Sigma_\mu(F_\bullet)$, and \autoref{thm:measure-empty-set-zero-from-sigma-additivity} identifies $\mu(\varnothing)$ with $0_R$.
+
+Transport this comparison through the additive congruence supplied by \autoref{def:abgroup-carrier}. The right-unit law then reads $\mu(E_1)+U$ as $\mu(E_1)$, and a final congruence step reads $\mu(E_0)+T$ as $\mu(E_0)+\mu(E_1)$.
+\end{proof}
+
+\begin{theorem}[Measure certificate obligation threshold]
+\label{thm:measure-certificate-obligation-threshold}
+A $\MeasureUp$ NameCert obligation threshold is reached by the following paper-side data: a carrier satisfying \autoref{def:measure-carrier-specification}, a classifier satisfying \autoref{def:measure-classifier-specification}, the stability row of \autoref{thm:measure-carrier-and-classifier-stability}, the finite-support countable readback row of \autoref{thm:measure-finite-support-countable-readback}, the empty-set-zero theorem \autoref{thm:measure-empty-set-zero-from-sigma-additivity}, and the finite disjoint-union additivity theorem \autoref{thm:measure-finite-disjoint-union-additivity}. These data provide the carrier transport, classifier transport, $\sigma$-additive readback, zero endpoint, binary additivity, and visible ledger rows required by the public $\MeasureUp$ certificate surface.
+\end{theorem}
+\begin{proof}
+The carrier and classifier definitions supply the public surface: event witnesses, measurable witnesses, endpoint rows, and classifier movement are all visible BHist and $\RealUp$ rows. The stability theorem is the transport field of the surface, with endpoint movement discharged by \autoref{def:real-classifier-specification}.
+
+The finite-support theorem turns the countable-sum row into the binary readback needed by finite disjoint union. The empty-set-zero theorem supplies the additive zero endpoint, and the additive $\AbGroupUp$ row of \autoref{def:abgroup-carrier} supplies the congruence and unit laws used in that readback.
+
+Finally, \autoref{thm:measure-finite-disjoint-union-additivity} packages these rows into the displayed binary additivity clause. The cancellation step used by the zero endpoint is exactly the group row cited in \autoref{thm:group-left-absorb-right-factor-unit}, so the threshold is assembled from visible certificate fields rather than from external set equality.
 \end{proof}
 
 \begin{theorem}[Measure empty set is zero]
