@@ -1,4 +1,5 @@
 import BEDC.Derived.RealUp.Core
+import BEDC.Derived.RealUp.ConstantStreamBridge
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 
 namespace BEDC.Derived.RealUp
@@ -157,6 +158,49 @@ theorem RealConstant_appended_tail_bridge_denominator_package
         exact fromReal (RealConstantHistoryClassifier_e1_iff_rat.mpr atEmpty)
       · intro classified
         exact fromReal classified
+
+theorem RealConstant_appended_tail_bridge_denominator_package_exactness
+    {d e tailD tailE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    (RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧ PositiveUnaryDenominator E ∧
+      UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+        (hsame D BHist.Empty -> False) ∧ (hsame E BHist.Empty -> False) ∧
+          (hsame D (BHist.e0 zD) -> False) ∧ (hsame E (BHist.e0 zE) -> False) ∧
+            hsame D E) ↔
+      RatHistoryClassifier D E ∧
+        RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) ∧
+          RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+            (fun n : BHist => RatConstStream E (q n)) ∧
+            RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) := by
+  dsimp
+  let D := append d (BHist.e1 tailD)
+  let E := append e (BHist.e1 tailE)
+  constructor
+  · intro package
+    have streamName :
+        RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) :=
+      And.intro
+        (Iff.mp (RealConstantStreamCarrier_reindexed_streamName_bridge
+          (d := D) (r := r)).left package.left.left)
+        (And.intro
+          (Iff.mp (RealConstantStreamCarrier_reindexed_streamName_bridge
+            (d := E) (r := q)).left package.left.right.left)
+          (fun _n _nUnary => package.left))
+    have unaryStream :
+        RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+          (fun n : BHist => RatConstStream E (q n)) :=
+      fun _n _nUnary => package.left
+    have constantHistory :
+        RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E) :=
+      Iff.mpr RealConstantHistoryClassifier_e1_iff_rat package.left
+    exact And.intro package.left (And.intro streamName (And.intro unaryStream constantHistory))
+  · intro rows
+    exact (RealConstant_appended_tail_bridge_denominator_package
+      (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
+      (r := r) (q := q)).right.right.right rows.right.right.right
 
 theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
     {left d e tailD tailE : BHist} :

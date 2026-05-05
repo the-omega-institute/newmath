@@ -1,6 +1,7 @@
 import BEDC.Derived.MetricUp.DepthZero
 import BEDC.Derived.MetricUp.BoundaryExactness
 import BEDC.Derived.MetricUp.HsameDeterminism
+import BEDC.Derived.MetricUp.Transport
 
 namespace BEDC.Derived.MetricUp
 
@@ -142,6 +143,25 @@ theorem MetricDistanceWitness_triangle_append_context_endpoint_deterministic
         MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
       MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
     exact MetricDistanceWitness_visible_context_target_deterministic canonical displayed
+
+theorem MetricDistanceWitness_triangle_append_context_endpoint_transport
+    {p q x x' y z dxy dyz dxyz e : BHist} :
+    UnaryHistory p -> UnaryHistory q -> MetricDistanceWitness x y dxy ->
+      MetricDistanceWitness y z dyz -> MetricDistanceWitness dxy z dxyz ->
+        hsame x x' -> hsame dyz e ->
+          MetricDistanceWitness (append p x') (append e q) (append (append p dxyz) q) := by
+  intro pCarrier qCarrier xy yz xyz sameX sameDyz
+  have canonical :
+      MetricDistanceWitness (append p x) (append dyz q) (append (append p dxyz) q) :=
+    MetricDistanceWitness_triangle_append_context_closed pCarrier qCarrier xy yz xyz
+  have sameSource : hsame (append p x) (append p x') := by
+    cases sameX
+    exact hsame_refl (append p x)
+  have sameTarget : hsame (append dyz q) (append e q) := by
+    cases sameDyz
+    exact hsame_refl (append dyz q)
+  exact MetricDistanceWitness_hsame_fields_transport sameSource sameTarget
+    (hsame_refl (append (append p dxyz) q)) canonical
 
 theorem MetricDistanceWitness_triangle_append_depth_add {x y z dxy dyz dxyz : BHist} :
     MetricDistanceWitness x y dxy -> MetricDistanceWitness y z dyz ->
