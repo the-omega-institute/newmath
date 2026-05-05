@@ -32,4 +32,26 @@ theorem MatrixSingletonAddFold_carrier_iff {xs : List BHist} :
         exact append_eq_empty_iff.mpr
           (And.intro spineCarrier.left (Iff.mpr ih spineCarrier.right))
 
+theorem MatrixSingletonAddFold_append_carrier_iff {xs ys : List BHist} :
+    hsame (MatrixSingletonAddFold (xs ++ ys)) BHist.Empty ↔
+      MatrixSingletonAddFoldSpineCarrier xs ∧ MatrixSingletonAddFoldSpineCarrier ys := by
+  induction xs with
+  | nil =>
+      constructor
+      · intro foldCarrier
+        exact And.intro (hsame_refl BHist.Empty)
+          (Iff.mp MatrixSingletonAddFold_carrier_iff foldCarrier)
+      · intro spineCarrier
+        exact Iff.mpr MatrixSingletonAddFold_carrier_iff spineCarrier.right
+  | cons x xs ih =>
+      constructor
+      · intro foldCarrier
+        have parts := append_eq_empty_iff.mp foldCarrier
+        have tailParts := Iff.mp ih parts.right
+        exact And.intro (And.intro parts.left tailParts.left) tailParts.right
+      · intro spineCarrier
+        exact append_eq_empty_iff.mpr
+          (And.intro spineCarrier.left.left
+            (Iff.mpr ih (And.intro spineCarrier.left.right spineCarrier.right)))
+
 end BEDC.Derived.MatrixUp

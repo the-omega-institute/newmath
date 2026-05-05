@@ -380,4 +380,30 @@ theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_components
         (And.intro secondaryData.right.left
           (And.intro primaryData.right.right.left primaryData.right.right.right))))
 
+theorem NatTransPrefixComponentClassifier_vert_comp_empty_result_cycle_closed
+    {p q r a eta eta' theta theta' : BHist} :
+    NatTransPrefixComponentClassifier p q a eta eta' ->
+      NatTransPrefixComponentClassifier q r a theta theta' ->
+        Cont eta theta BHist.Empty -> Cont eta' theta' BHist.Empty ->
+          NatTransPrefixComponentClassifier p r a BHist.Empty BHist.Empty ∧
+            NatTransPrefixComponentClassifier r p a BHist.Empty BHist.Empty ∧
+              hsame p q ∧ hsame q r ∧ hsame p r := by
+  intro left right comp comp'
+  have componentData :
+      hsame eta BHist.Empty ∧ hsame eta' BHist.Empty ∧ hsame theta BHist.Empty ∧
+        hsame theta' BHist.Empty ∧ hsame p q ∧ hsame q r :=
+    NatTransPrefixComponentClassifier_vert_comp_empty_result_components left right comp comp'
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  have forward : NatTransPrefixComponentClassifier p r a BHist.Empty BHist.Empty :=
+    NatTransPrefixComponentClassifier_vert_comp_congr left right comp comp'
+  have backward : NatTransPrefixComponentClassifier r p a BHist.Empty BHist.Empty :=
+    NatTransPrefixComponentClassifier_empty_component_opposite_closed forward
+      (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)
+  exact And.intro forward
+    (And.intro backward
+      (And.intro componentData.right.right.right.right.left
+        (And.intro componentData.right.right.right.right.right
+          (hsame_trans componentData.right.right.right.right.left
+            componentData.right.right.right.right.right))))
+
 end BEDC.Derived.NatTransUp

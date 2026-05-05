@@ -210,6 +210,30 @@ supplies emptiness of $\eta'$ and $\theta'$.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_components}
 
+\begin{theorem}[NatTrans classifier vertical empty-result cycle closure]
+\label{thm:nattrans-prefix-component-classifier-vert-comp-empty-result-cycle-closed}
+For histories $p,q,r,a,\eta,\eta',\theta,\theta'$, suppose
+$\mathsf{NatTransPrefixComponentClassifier}_{p,q,a}(\eta,\eta')$ and
+$\mathsf{NatTransPrefixComponentClassifier}_{q,r,a}(\theta,\theta')$ hold.
+If $\ContR(\eta,\theta,\emp)$ and $\ContR(\eta',\theta',\emp)$, then
+$$
+\begin{array}{l}
+\mathsf{NatTransPrefixComponentClassifier}_{p,r,a}(\emp,\emp)\land
+\mathsf{NatTransPrefixComponentClassifier}_{r,p,a}(\emp,\emp)\\[2pt]
+{}\land p\hsame q\land q\hsame r\land p\hsame r.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Vertical classifier congruence composes the two displayed classifier rows and
+gives the forward empty classifier from $p$ to $r$. The empty-result component
+readback supplies the four empty component witnesses and the adjacent prefix
+equalities $p\hsame q$ and $q\hsame r$. Since the forward component is empty,
+the empty-component opposite closure gives the reverse classifier from $r$ to
+$p$. Transitivity of $\hsame$ gives $p\hsame r$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentClassifier\_vert\_comp\_empty\_result\_cycle\_closed}
+
 \begin{theorem}[NatTrans vertical composite zero-headed component impossibility]
 \label{thm:nattrans-prefix-component-classifier-vert-comp-zero-headed-component-absurd}
 For vertically composable prefix component classifiers, none of the three

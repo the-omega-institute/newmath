@@ -63,6 +63,27 @@ tail-fold carrier with the tail spine carrier.
 \leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
 
+\begin{theorem}[Singleton additive fold append carrier readback]
+\label{thm:matrix-singleton-add-fold-append-carrier-iff}
+For finite singleton-matrix spines $xs$ and $ys$,
+$$
+\mathsf{MatrixSingletonCarrier}(\mathsf{MatrixSingletonAddFold}(xs\,{++}\,ys))
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $xs$. For the empty spine, the appended fold is the fold of $ys$,
+and the base fold readback identifies its carrier with the spine carrier of
+$ys$. For a cons spine, concrete singleton addition is kernel append, so
+empty-append inversion splits the folded endpoint into the head carrier and
+the appended tail-fold carrier. The induction hypothesis splits the tail-fold
+carrier into the tail spine carrier and the carrier of $ys$, and the reverse
+direction repacks those two splits through the same empty-append constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
