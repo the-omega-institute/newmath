@@ -58,6 +58,13 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def InCritStrip_open_interval_decidable (sigma : BHist) :
+    Decidable
+      (NatUnaryStrictPrefix BHist.Empty sigma ∧
+        NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)) := by
+  exact Decidable.isFalse
+    (fun strip => CritStripOpenInterval_empty_unit_absurd strip.left strip.right)
+
 def OnCritLine (sigma : BHist) : Prop :=
   hsame sigma (BHist.e1 (BHist.e1 BHist.Empty))
 

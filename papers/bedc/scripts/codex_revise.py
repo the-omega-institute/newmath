@@ -1791,6 +1791,16 @@ def verify_worktree_commits(
         for v in var_v[:10]:
             logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
 
+    # Gate F — axis-confusion (closure × verification): hard fail.
+    axis_v = gate_results.get("axis-confusion", [])
+    if axis_v:
+        logger.error(
+            f"[P{wt.round_number}] axis-confusion gate violations: {len(axis_v)}"
+        )
+        for v in axis_v[:20]:
+            logger.error(f"  {v}")
+        return False, new
+
     # Gate C — forbidden iteration-narrative vocabulary (advisory).
     vocab_v = gate_results.get("vocab", [])
     if vocab_v:

@@ -4,19 +4,22 @@
 This manuscript presents the Binary Emission Discovery Calculus as one maintained LaTeX source tree with a single compiled document.
 
 The organizing principle is:
-\[
+$$
 \text{finite-kernel theory} + \text{proof obligations} + \text{separate implementation contracts}.
-\]
+$$
 
 \paragraph{Layer discipline.}
 The theoretical core uses BEDC terminology and derived-interface notation. Implementation-facing text is placed in a separate part. This prevents the host language of a later proof assistant from contaminating the object theory.
 
+\paragraph{Closure and verification.}
+This manuscript separates theoretical closure from formal verification. A BEDC object may be theoretically closed at a stated scope when the paper supplies its source, classifier, exactness, stability, and ledger witnesses. A formalization marker records the independent verification status of those witnesses in a proof assistant. Machine checking strengthens reliability and auditability; it is not an object-language formation rule for closure. The discipline is recorded in \autoref{ch:closure-and-verification-discipline}.
+
 \paragraph{Proof boundary.}
 The proof boundary is the finite-kernel proof path:
-\[
+$$
 \msame\to \hsame\to \ExtR/\ContR\to \Sig\to \sameSig\to \PkgPol/\GapPol\to \CompGap\to \NameCert.
-\]
-Large derived interfaces such as \(\RealUp\), \(\CircleUp\), and \(\FoldUp\) remain thin interfaces whose full reconstruction is licensed only by separate naming certificates beyond the finite kernel.
+$$
+Large derived interfaces such as $\RealUp$, $\CircleUp$, and $\FoldUp$ remain thin interfaces whose full reconstruction is licensed only by separate naming certificates beyond the finite kernel.
 
 \paragraph{External model posture.}
 External semantic models remain explanatory artifacts. They do not alter the BEDC object theory and they do not replace the internal proof obligations recorded in the active chapters.

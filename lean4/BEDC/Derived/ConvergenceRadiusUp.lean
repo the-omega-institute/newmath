@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.NatUp
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
@@ -9,6 +10,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexSeriesUp
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.NatUp
 
@@ -361,5 +363,36 @@ theorem ConvRad_classifier_visible_radius_witness_endpoint_package
       UnaryHistory R' ∧ ConvRad b R' :=
     ConvRad_radius_coefficient_classifier_transport sameRadius targetUnary coeffClassified radius
   exact ConvRad_visible_radius_witness_endpoint_package transported.right visibleRadius
+
+theorem PowerSeriesComplexPartSum_exists_unique {zero n : BHist} {term : BHist -> BHist} :
+    ComplexHistoryCarrier zero ->
+      (forall {m : BHist}, UnaryHistory m -> ComplexHistoryCarrier (term m)) ->
+        UnaryHistory n ->
+          exists S : BHist, ComplexPartSum zero term n S ∧ ComplexHistoryCarrier S ∧
+            forall T : BHist, ComplexPartSum zero term n T -> hsame S T := by
+  intro zeroCarrier termCarrier unaryN
+  refine (unary_history_induction
+    (P := fun index =>
+      exists S : BHist, ComplexPartSum zero term index S ∧ ComplexHistoryCarrier S ∧
+        forall T : BHist, ComplexPartSum zero term index T -> hsame S T)
+    ?base ?step n unaryN)
+  · exact Exists.intro zero
+      (And.intro ComplexPartSum.zero
+        (And.intro zeroCarrier
+          (fun T other => ComplexPartSum_deterministic ComplexPartSum.zero other)))
+  · intro m unaryM previous
+    cases previous with
+    | intro S data =>
+        have current :
+            ComplexPartSum zero term (BHist.e1 m) (append S (term m)) :=
+          ComplexPartSum.step data.left (cont_intro rfl)
+        have termUnary : UnaryHistory (term m) :=
+          ComplexHistoryCarrier_unary (termCarrier unaryM)
+        have currentCarrier : ComplexHistoryCarrier (append S (term m)) :=
+          ComplexHistoryCarrier_append_unary_closed data.right.left termUnary
+        exact Exists.intro (append S (term m))
+          (And.intro current
+            (And.intro currentCarrier
+              (fun T other => ComplexPartSum_deterministic current other)))
 
 end BEDC.Derived.ConvergenceRadiusUp
