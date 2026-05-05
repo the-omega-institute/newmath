@@ -349,6 +349,33 @@ object, arithmetic or order laws, metric completeness, or a standard bridge.
 Those data are outside the scoped certificate boundary claimed here.
 \end{proof}
 
+\begin{theorem}[RealUp public rational-stream export]
+\label{thm:realup-public-rational-stream-export}
+The scoped $\RealUp$ certificate boundary exports the public $\RealUp$
+rational-stream certificate interface. Downstream chapters may cite the named
+package as the public $\RealUp$ carrier, classifier, stability, transport,
+ledger, and seal interface.
+
+This public export is limited to those faces over DyadicRatCore, $\RegSeqRat$,
+$\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\mathsf{RealConstantHistoryCarrier}$,
+$\mathsf{RealConstantHistoryClassifier}$,
+$\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-scoped-certificate-boundary}. That theorem already
+packages the carrier, classifier, stability, transport, ledger, and seal faces
+over the displayed rational-stream primitives.
+
+The public statement changes only the citation surface: the same scoped faces
+are presented as one $\RealUp$ export for downstream certificate chapters. No
+new carrier, classifier, ledger row, transport rule, or seal is introduced.
+
+The export remains limited to the named rational-stream interface. It does not
+supply quotient data, completion data, arithmetic or order closure, metric
+completeness, or any standard bridge.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
   \theoryclosure{\scopedClosure}
   \scopeclosed{The rational-stream certificate spine binds $\RatUp$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealUnaryStreamClassifier}$, the dyadic-tolerance ledger, and the $\RealUp$ seal as the visible $\RegSeqRat$ scope.}
@@ -360,13 +387,13 @@ Those data are outside the scoped certificate boundary claimed here.
 \end{closurestatus}
 
 \begin{closurestatus}{\RealUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} witnesses the scoped $\RealUp$ boundary over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:realup-scoped-certificate-boundary} and \autoref{thm:realup-public-rational-stream-export} witness the public $\RealUp$ rational-stream export over DyadicRatCore, $\RegSeqRat$, $\StreamNameUp$, $\RatUp$, $\mathsf{UnaryHistory}$, $\hsame$ transport, $\mathsf{RealConstantHistoryCarrier}$, $\mathsf{RealConstantHistoryClassifier}$, $\mathsf{RealUnaryStreamClassifier}$, and $\mathsf{RealLedgerPolicy}$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealUp.RealConstantHistory\_semanticNameCert}
   \bridgestatus{none}
   \notclaimed{This block does not close $\RealUp$ completeness, arithmetic or order closure, metric completeness, or any standard bridge.}
-  \upgradepath{The next paper grade is $\publicClosure$, requiring a public $\RealUp$ export theorem consumed by downstream certificates rather than additional scoped binding.}
+  \upgradepath{A stronger grade requires a bridge theorem relating this public $\RealUp$ export to the later standard or metric interface.}
 \end{closurestatus}
 
 \begin{theorem}[RealUp public scoped export]
