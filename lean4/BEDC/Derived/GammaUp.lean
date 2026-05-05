@@ -4,6 +4,7 @@ namespace BEDC.Derived.GammaUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ProdUp
@@ -141,5 +142,25 @@ theorem GammaDomainCore_hsame_transport_not_empty {s t apart : BHist} :
   have domainT : GammaDomainCore t apart :=
     And.intro carrierT (And.intro domain.right.left noPoleT)
   exact And.intro domainT (GammaDomainCore_not_empty domainT)
+
+theorem GammaDomainCore_semanticNameCert {s apart : BHist} (domain : GammaDomainCore s apart) :
+    SemanticNameCert (fun t : BHist => GammaDomainCore t apart)
+      (fun t : BHist => GammaDomainCore t apart)
+      (fun t : BHist => GammaDomainCore t apart) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro s domain
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact (GammaDomainCore_hsame_transport same carrier).left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
 
 end BEDC.Derived.GammaUp

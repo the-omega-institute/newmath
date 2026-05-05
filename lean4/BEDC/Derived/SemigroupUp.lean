@@ -23,6 +23,23 @@ theorem concrete_unary_history_semigroup_cont_assoc_classifier {h k l hk kl left
   exact And.intro unaryLeft
     (And.intro unaryRight (cont_assoc_hsame hhk hleft hkl hright))
 
+theorem concrete_unary_history_semigroup_opposite_cont_assoc_classifier
+    {h k l hk kl left right : BHist} :
+    UnaryHistory h -> UnaryHistory k -> UnaryHistory l ->
+      Cont k h hk -> Cont l hk left -> Cont l k kl -> Cont kl h right ->
+        (UnaryHistory left ∧ UnaryHistory right ∧ hsame left right) := by
+  intro unaryH unaryK unaryL hkh hlhk hlk hklh
+  have unaryKH : UnaryHistory hk :=
+    unary_cont_closed unaryK unaryH hkh
+  have unaryLeft : UnaryHistory left :=
+    unary_cont_closed unaryL unaryKH hlhk
+  have unaryLK : UnaryHistory kl :=
+    unary_cont_closed unaryL unaryK hlk
+  have unaryRight : UnaryHistory right :=
+    unary_cont_closed unaryLK unaryH hklh
+  exact And.intro unaryLeft
+    (And.intro unaryRight (hsame_symm (cont_assoc_hsame hlk hklh hkh hlhk)))
+
 theorem ConcreteUnaryHistorySemigroup_semanticNameCert :
     let Carrier : BHist -> Prop := UnaryHistory
     let Classifier : BHist -> BHist -> Prop :=

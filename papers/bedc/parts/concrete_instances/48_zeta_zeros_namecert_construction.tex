@@ -72,13 +72,14 @@ If \(\mathsf{ZetaZero}(s)\), then \(\mathsf{ZetaZero}(\overline{s})\), where \(\
 \(\zeta\) takes complex conjugates to complex conjugates, since the Dirichlet sum and analytic continuation both respect conjugation; if \(\zeta(s) = 0\), then \(\overline{\zeta(s)} = \zeta(\overline{s}) = 0\).
 \end{proof}
 
-\begin{theorem}[No zero on \(\Re(s) = 1\)]
-\label{thm:no-zero-real-part-one}
-For every \(s\) with \(\hsame(\sigma, \Eone(\emp))\) (i.e.\ \(\Re(s) = 1\)), \(\neg \mathsf{ZetaZero}(s)\). This is the classical non-vanishing of \(\zeta\) on the line \(\Re(s) = 1\), proved by an elementary trigonometric inequality (de la Vall\'ee-Poussin / Mertens) made constructive by explicit unary-history bounds.
-\end{theorem}
-\begin{proof}[Sketch]
-The classical inequality \(3 + 4 \cos\theta + \cos 2\theta \geq 0\) translates to a constructive product-bound on \(|\zeta(\sigma)^3 \zeta(\sigma + it)^4 \zeta(\sigma + 2it)|\), which forces \(\zeta(1 + it) \neq 0\) as \(\sigma \to 1^+\) with explicit modulus.
-\end{proof}
+\begin{definition}[Zeta boundary non-vanishing witness]
+\label{def:zeta-boundary-nonvanishing-witness}
+A zeta boundary non-vanishing witness consists of a complex history $s$, a displayed real component $\sigma$, component-display evidence linking $\sigma$ to the real component of $s$, a boundary row $\hsame(\sigma,\Eone(\emp))$, and a BEDC witness whose exported field has type
+$$
+\mathsf{ZetaZero}(s)\to\mathsf{False}.
+$$
+This datum is the certificate slot for excluding zeros on the displayed boundary line $\Re(s)=1$; the chapter records the slot without deriving the analytic non-vanishing argument from the current kernel.
+\end{definition}
 
 \section{The certificate}
 
@@ -230,12 +231,12 @@ pattern witnesses.
 
 \begin{definition}[Zeta zero stability certificate]
 \label{def:zeta-zero-stability-cert}
-The stability certificate consists of \(\hsame\)-respect of \(\mathsf{ZetaZero}\), conjugate symmetry of zeros, and the boundary exclusion witnesses (no zeros on \(\Re(s) = 1\), trivial zeros at negative even integers, no zeros on \(\Re(s) \geq 1\)).
+The stability certificate consists of $\hsame$-respect of $\mathsf{ZetaZero}$, conjugate symmetry of zeros, and supplied boundary exclusion data: zeta boundary non-vanishing witnesses on $\Re(s)=1$, trivial-zero witnesses at negative even integers, and explicit right-half-plane exclusion witnesses for the chosen source interface.
 \end{definition}
 
 \begin{definition}[Zeta zero ledger policy]
 \label{def:zeta-zero-ledger-policy}
-The ledger policy records: (i) trivial zeros at \(s = -2n\) for unary \(n \geq 1\), (ii) non-trivial zeros all lie strictly inside \(\mathsf{InCritStrip}\), (iii) conjugate symmetry, (iv) the explicit zero classifier under \(\hsame\). The ledger explicitly notes that exhaustive enumeration of non-trivial zeros is not constructively decidable from finite-precision data --- that gap is what RH (\autoref{ch:capstones-riemann-hypothesis}) addresses.
+The ledger policy records: (i) trivial zeros at $s = -2n$ for unary $n \geq 1$, (ii) boundary and right-half-plane exclusion only when the corresponding witness data is supplied, (iii) conjugate symmetry, (iv) the explicit zero classifier under $\hsame$. The ledger explicitly notes that exhaustive enumeration of non-trivial zeros is not constructively decidable from finite-precision data --- that gap is what RH (\autoref{ch:capstones-riemann-hypothesis}) addresses.
 \end{definition}
 
 \begin{theorem}[Concrete \(\ZetaZerosUp\) naming certificate]

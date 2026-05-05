@@ -35,6 +35,12 @@ def PolynomialSingletonEval (alpha : BHist) : List BHist -> BHist
   | c :: cs =>
       PolynomialSingletonAdd c (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha cs))
 
+def PolynomialSingletonRawAdd : List BHist -> List BHist -> List BHist
+  | [], [] => []
+  | a :: xs, [] => append a BHist.Empty :: PolynomialSingletonRawAdd xs []
+  | [], b :: ys => append BHist.Empty b :: PolynomialSingletonRawAdd [] ys
+  | a :: xs, b :: ys => append a b :: PolynomialSingletonRawAdd xs ys
+
 inductive PolynomialZeroRemainder : List BHist -> Prop where
   | nil : PolynomialZeroRemainder []
   | cons {x : BHist} {xs : List BHist} :
@@ -335,6 +341,55 @@ theorem PolynomialSingletonEval_singleton {alpha c : BHist} :
       (And.intro carrierC (hsame_trans evalCarrier (hsame_symm carrierC))))
     (append_empty_right c)
 
+theorem PolynomialSingletonEval_list_classifier_classified {alpha : BHist} {xs ys : List BHist} :
+    PolynomialSingletonCarrier alpha ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs ys ->
+        PolynomialSingletonClassifier (PolynomialSingletonEval alpha xs)
+          (PolynomialSingletonEval alpha ys) /\
+        Cont (PolynomialSingletonEval alpha xs) BHist.Empty (PolynomialSingletonEval alpha xs) := by
+  intro carrierAlpha classified
+  induction xs generalizing ys with
+  | nil =>
+      cases ys with
+      | nil =>
+          exact And.intro
+            (And.intro (hsame_refl BHist.Empty)
+              (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty)))
+            (cont_right_unit BHist.Empty)
+      | cons y ys =>
+          cases classified
+  | cons x xs ih =>
+      cases ys with
+      | nil =>
+          cases classified
+      | cons y ys =>
+          cases classified with
+          | intro headClassified tailClassified =>
+              have tailData := ih tailClassified
+              have alphaClassified :
+                  PolynomialSingletonClassifier alpha alpha :=
+                And.intro carrierAlpha (And.intro carrierAlpha (hsame_refl alpha))
+              have leftTailCont :
+                  Cont x
+                    (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha xs))
+                    (PolynomialSingletonEval alpha (x :: xs)) := by
+                rfl
+              have rightTailCont :
+                  Cont y
+                    (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha ys))
+                    (PolynomialSingletonEval alpha (y :: ys)) := by
+                rfl
+              have tailMulClassified :
+                  PolynomialSingletonClassifier
+                    (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha xs))
+                    (PolynomialSingletonMul alpha (PolynomialSingletonEval alpha ys)) :=
+                PolynomialSingletonClassifier_continuation_closed alphaClassified tailData.left
+                  (cont_intro rfl) (cont_intro rfl)
+              exact And.intro
+                (PolynomialSingletonClassifier_continuation_closed headClassified tailMulClassified
+                  leftTailCont rightTailCont)
+                (cont_right_unit (PolynomialSingletonEval alpha (x :: xs)))
+
 theorem PolynomialSingletonClassifier_cont_result_empty_classified {P Q r : BHist} :
     PolynomialSingletonCarrier P -> PolynomialSingletonCarrier Q -> Cont P Q r ->
       PolynomialSingletonClassifier r BHist.Empty := by
@@ -421,6 +476,16 @@ theorem PolynomialSingletonAddFold_list_classifier_hsame
                 (cont_respects_hsame headSame tailData.left leftCont rightCont)
                 (cont_right_unit (PolynomialSingletonAddFold (x :: xs)))
 
+theorem PolynomialSingletonAddFold_append_hsame {xs ys : List BHist} :
+    hsame (PolynomialSingletonAddFold (xs ++ ys))
+      (append (PolynomialSingletonAddFold xs) (PolynomialSingletonAddFold ys)) := by
+  induction xs with
+  | nil =>
+      exact (append_empty_left (PolynomialSingletonAddFold ys)).symm
+  | cons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (PolynomialSingletonAddFold xs) (PolynomialSingletonAddFold ys)).symm
+
 theorem PolynomialZeroRemainder_addFold_empty_classified {xs : List BHist} :
     PolynomialZeroRemainder xs ->
       PolynomialSingletonClassifier (PolynomialSingletonAddFold xs) BHist.Empty := by
@@ -444,5 +509,39 @@ theorem PolynomialSingletonAddFold_zero_remainder_empty {xs : List BHist} :
       exact hsame_refl BHist.Empty
   | cons xEmpty tailZero ih =>
       exact append_eq_empty_iff.mpr (And.intro xEmpty ih)
+
+theorem PolynomialSingletonEval_zero_point_zero_tail_invariance {xs t : List BHist} :
+    PolynomialZeroRemainder t ->
+      hsame (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t))
+        (PolynomialSingletonEval PolynomialSingletonZero xs) := by
+  intro zeroTail
+  have tailEvalEmpty :
+      hsame (PolynomialSingletonEval PolynomialSingletonZero t) BHist.Empty := by
+    induction zeroTail with
+    | nil =>
+        exact hsame_refl BHist.Empty
+    | cons headEmpty _tailZero tailEvalEmpty =>
+        exact append_eq_empty_iff.mpr
+          (And.intro headEmpty
+            (append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) tailEvalEmpty)))
+  induction xs with
+  | nil =>
+      exact tailEvalEmpty
+  | cons x xs ih =>
+      have sameTail :
+          hsame (append PolynomialSingletonZero
+              (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t)))
+            (append PolynomialSingletonZero
+              (PolynomialSingletonEval PolynomialSingletonZero xs)) := by
+        exact congrArg (fun u : BHist => append PolynomialSingletonZero u) ih
+      have sameEval :
+          hsame (append x
+              (append PolynomialSingletonZero
+                (PolynomialSingletonEval PolynomialSingletonZero (xs ++ t))))
+            (append x
+              (append PolynomialSingletonZero
+                (PolynomialSingletonEval PolynomialSingletonZero xs))) := by
+        exact congrArg (fun u : BHist => append x u) sameTail
+      exact sameEval
 
 end BEDC.Derived.PolynomialUp

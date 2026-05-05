@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Derived.ComplexUp
 import BEDC.Derived.HolomorphicUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.ComplexTopologyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.HolomorphicUp
@@ -19,6 +21,11 @@ def ComplexTopologyOpenDiskGap (center radius point gap : BHist) : Prop :=
 def ComplexTopologyClosedDiskGap (center radius point gap : BHist) : Prop :=
   ComplexHistoryCarrier center ∧ UnaryHistory radius ∧ ComplexHistoryCarrier point ∧
     UnaryHistory gap ∧ (Cont point gap radius ∨ hsame point radius)
+
+def ComplexTopologyOpenSet (U : BHist -> Prop) : Prop :=
+  forall {z : BHist}, U z ->
+    exists center radius gap : BHist,
+      ComplexTopologyOpenDiskGap center radius z gap ∧ Cont z gap radius
 
 theorem ComplexTopologyOpenDiskGap_gap_deterministic
     {center radius point gap gap' : BHist} :
@@ -108,6 +115,14 @@ theorem ComplexTopologyClosedDiskGap_hsame_transport
                                         (And.intro pointTarget
                                           (And.intro gapCarrier' boundary'))))
                                     boundary'
+
+theorem ComplexTopologyOpenSet_union_closed {I : Type} {U : I -> BHist -> Prop} :
+    (forall i : I, ComplexTopologyOpenSet (U i)) ->
+      ComplexTopologyOpenSet (fun z : BHist => exists i : I, U i z) := by
+  intro branchOpen _z unionMember
+  cases unionMember with
+  | intro i member =>
+      exact branchOpen i member
 
 theorem ComplexTopologyClosedDiskGap_strict_radius_not_empty
     {center radius point gap : BHist} :
@@ -448,5 +463,33 @@ theorem ComplexTopologyOpenDiskGap_center_point_unary_suffix_transport
                 (And.intro shiftedDisk.right.right.left
                   (And.intro shiftedDisk.right.right.right.left shiftedBoundary))))
             shiftedBoundary
+
+theorem ComplexTopologyOpenDiskGap_semanticNameCert {center radius point gap : BHist}
+    (witness : ComplexTopologyOpenDiskGap center radius point gap) :
+    SemanticNameCert (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g)
+      (fun g : BHist => ComplexTopologyOpenDiskGap center radius point g) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro gap witness
+    · intro g _carrier
+      exact hsame_refl g
+    · intro g g' same
+      exact hsame_symm same
+    · intro g g' g'' sameGG' sameG'G''
+      exact hsame_trans sameGG' sameG'G''
+    · intro g g' same carrier
+      have centerClass : ComplexHistoryClassifier center center :=
+        And.intro carrier.left (And.intro carrier.left (hsame_refl center))
+      have pointClass : ComplexHistoryClassifier point point :=
+        And.intro carrier.right.right.left
+          (And.intro carrier.right.right.left (hsame_refl point))
+      exact
+        (ComplexTopologyOpenDiskGap_hsame_transport carrier centerClass
+          (hsame_refl radius) pointClass same).left
+  · intro g source
+    exact source
+  · intro g source
+    exact source
 
 end BEDC.Derived.ComplexTopologyUp

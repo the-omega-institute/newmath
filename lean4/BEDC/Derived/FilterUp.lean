@@ -244,4 +244,128 @@ theorem ContinuousMap_image_principal_suffix_point_determinacy
   exact And.intro (hsame_trans (hsame_symm targetPointTarget0) targetPointTarget1)
     (And.intro targetPointTarget0 targetPointTarget1)
 
+theorem FilterPrincipalSuffix_continuousMap_image_package
+    {base map target modulus cert distance left right meet leftPoint rightPoint meetPoint : BHist} :
+    ContinuousMapCarrier base map target modulus cert distance -> UnaryHistory left ->
+      UnaryHistory right -> Cont left right meet -> Cont base left leftPoint ->
+        Cont base right rightPoint -> Cont base meet meetPoint ->
+          exists targetLeft targetRight targetMeet imageLeft imageRight imageMeet : BHist,
+            Cont target left targetLeft ∧ Cont target right targetRight ∧
+              Cont target meet targetMeet ∧ UnaryHistory targetMeet ∧
+                Cont targetLeft right targetMeet ∧ Cont targetRight left targetMeet ∧
+                  Cont leftPoint map imageLeft ∧ Cont rightPoint map imageRight ∧
+                    Cont meetPoint map imageMeet ∧ hsame targetLeft imageLeft ∧
+                      hsame targetRight imageRight ∧ hsame targetMeet imageMeet ∧
+                        (forall z : BHist, Cont targetLeft right z -> hsame targetMeet z) ∧
+                          (forall z : BHist,
+                            Cont targetRight left z -> hsame targetMeet z) ∧
+                            (forall lr rl : BHist, Cont targetLeft right lr ->
+                              Cont targetRight left rl -> hsame lr rl) ∧
+                              (forall z : BHist, Cont leftPoint map z -> hsame targetLeft z) ∧
+                                (forall z : BHist,
+                                  Cont rightPoint map z -> hsame targetRight z) ∧
+                                  (forall z : BHist,
+                                    Cont meetPoint map z -> hsame targetMeet z) := by
+  intro carrier leftCarrier rightCarrier leftRight baseLeft baseRight baseMeet
+  let targetLeft : BHist := append target left
+  let targetRight : BHist := append target right
+  let targetMeet : BHist := append target meet
+  let imageLeft : BHist := append leftPoint map
+  let imageRight : BHist := append rightPoint map
+  let imageMeet : BHist := append meetPoint map
+  have functionCarrier := carrier.left
+  have targetCarrier : UnaryHistory target := functionCarrier.right.left
+  have mapCarrier : UnaryHistory map := functionCarrier.right.right.left
+  have sourceMap : Cont base map target := functionCarrier.right.right.right.right.left
+  have meetCarrier : UnaryHistory meet :=
+    unary_cont_closed leftCarrier rightCarrier leftRight
+  have targetLeftRel : Cont target left targetLeft := by
+    rfl
+  have targetRightRel : Cont target right targetRight := by
+    rfl
+  have targetMeetRel : Cont target meet targetMeet := by
+    rfl
+  have imageLeftRel : Cont leftPoint map imageLeft := by
+    rfl
+  have imageRightRel : Cont rightPoint map imageRight := by
+    rfl
+  have imageMeetRel : Cont meetPoint map imageMeet := by
+    rfl
+  have sameTargetLeftImage : hsame targetLeft imageLeft := by
+    dsimp [targetLeft, imageLeft]
+    cases sourceMap
+    cases baseLeft
+    exact
+      (append_assoc base map left).trans
+        ((congrArg (append base) (unary_append_comm mapCarrier leftCarrier)).trans
+          (append_assoc base left map).symm)
+  have sameTargetRightImage : hsame targetRight imageRight := by
+    dsimp [targetRight, imageRight]
+    cases sourceMap
+    cases baseRight
+    exact
+      (append_assoc base map right).trans
+        ((congrArg (append base) (unary_append_comm mapCarrier rightCarrier)).trans
+          (append_assoc base right map).symm)
+  have sameTargetMeetImage : hsame targetMeet imageMeet := by
+    dsimp [targetMeet, imageMeet]
+    cases sourceMap
+    cases baseMeet
+    exact
+      (append_assoc base map meet).trans
+        ((congrArg (append base) (unary_append_comm mapCarrier meetCarrier)).trans
+          (append_assoc base meet map).symm)
+  have targetClosed :=
+    FilterPrincipalSuffix_unary_intersection_closed targetCarrier leftCarrier rightCarrier
+      leftRight targetLeftRel targetRightRel targetMeetRel
+  refine Exists.intro targetLeft ?_
+  refine Exists.intro targetRight ?_
+  refine Exists.intro targetMeet ?_
+  refine Exists.intro imageLeft ?_
+  refine Exists.intro imageRight ?_
+  refine Exists.intro imageMeet ?_
+  constructor
+  · exact targetLeftRel
+  constructor
+  · exact targetRightRel
+  constructor
+  · exact targetMeetRel
+  constructor
+  · exact targetClosed.left
+  constructor
+  · exact targetClosed.right.left
+  constructor
+  · exact targetClosed.right.right
+  constructor
+  · exact imageLeftRel
+  constructor
+  · exact imageRightRel
+  constructor
+  · exact imageMeetRel
+  constructor
+  · exact sameTargetLeftImage
+  constructor
+  · exact sameTargetRightImage
+  constructor
+  · exact sameTargetMeetImage
+  constructor
+  · intro z displayed
+    exact cont_deterministic targetClosed.right.left displayed
+  constructor
+  · intro z displayed
+    exact cont_deterministic targetClosed.right.right displayed
+  constructor
+  · intro lr rl lrRel rlRel
+    exact
+      FilterPrincipalSuffix_unary_commuting_square leftCarrier rightCarrier targetLeftRel
+        targetRightRel lrRel rlRel
+  constructor
+  · intro z displayed
+    exact hsame_trans sameTargetLeftImage (cont_deterministic imageLeftRel displayed)
+  constructor
+  · intro z displayed
+    exact hsame_trans sameTargetRightImage (cont_deterministic imageRightRel displayed)
+  · intro z displayed
+    exact hsame_trans sameTargetMeetImage (cont_deterministic imageMeetRel displayed)
+
 end BEDC.Derived.FilterUp
