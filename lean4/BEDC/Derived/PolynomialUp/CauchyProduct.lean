@@ -5,10 +5,6 @@ namespace BEDC.Derived.PolynomialUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 
-def PolynomialSingletonRawScale (a : BHist) : List BHist -> List BHist
-  | [] => []
-  | b :: ys => PolynomialSingletonMul a b :: PolynomialSingletonRawScale a ys
-
 def PolynomialSingletonRawMul : List BHist -> List BHist -> List BHist
   | [], _ => []
   | a :: xs, ys =>
