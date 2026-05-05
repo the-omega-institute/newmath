@@ -89,4 +89,27 @@ theorem FieldExtRatReflexive_ledger_provenance {h k r m product action : BHist} 
       (And.intro operationRows.left
         (And.intro operationRows.right.left operationRows.right.right.left)))
 
+theorem FieldExtRatReflexive_certificate_row_exhaustion
+    {h k r r' m m' product action : BHist} :
+    RatHistoryClassifier h k -> RatHistoryClassifier r r' -> RatHistoryClassifier m m' ->
+      Cont r m product -> Cont (FieldExtSingletonEmbedding r') m' action ->
+        RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+          RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+            PositiveUnaryDenominator (FieldExtSingletonEmbedding h) ∧
+              PositiveUnaryDenominator (FieldExtSingletonEmbedding k) ∧
+                RatHistoryClassifier product action ∧ RatHistoryCarrier product ∧
+                  RatHistoryCarrier action := by
+  intro classifiedHK classifiedRR classifiedMM productCont actionCont
+  have ledgerRows := FieldExtRatReflexiveEmbedding_ledger_source_lock classifiedHK
+  have denominatorRows := FieldExtRatReflexiveEmbedding_denominator_package classifiedHK
+  have operationRows :=
+    FieldExtRatReflexive_operation_table_source_coverage
+      classifiedRR classifiedMM productCont actionCont
+  exact And.intro ledgerRows.left
+    (And.intro ledgerRows.right.left
+      (And.intro denominatorRows.left
+        (And.intro denominatorRows.right.left
+          (And.intro operationRows.left
+            (And.intro operationRows.right.left operationRows.right.right.left)))))
+
 end BEDC.Derived.FieldExtUp
