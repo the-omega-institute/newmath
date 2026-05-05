@@ -8,3 +8,111 @@ The quantum-channel interface $\QuantumChannelUp$ packages a completely positive
 
 \section{The certificate}
 \label{sec:quantumchannel-certificate}
+
+\begin{definition}[DensityMatrix trace-class carrier]
+\label{def:densitymatrix-trace-class-carrier}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$ be the trace-class operator-ideal carrier supplied for $H$ by the $\OperatorIdealUp$ dependency of \autoref{ch:concrete-instances-densitymatrix-namecert}. Write $\mathsf{Pos}_H(T)$ for positivity of a trace-class operator on $H$ and $\operatorname{Tr}_H(T)$ for its trace. The concrete $\DensityMatrixUp(H)$ carrier is
+$$
+\mathsf{Dens}_H(\rho)
+:\Longleftrightarrow
+\rho\in\mathsf{TC}(H)\land \mathsf{Pos}_H(\rho)\land \operatorname{Tr}_H(\rho)=1.
+$$
+Thus a carried density matrix is exactly positive trace-class trace-one data on the Hilbert carrier named by \autoref{sec:densitymatrix-carrier}.
+\end{definition}
+
+\begin{definition}[QuantumChannel CPTP carrier]
+\label{def:quantumchannel-cptp-carrier}
+Let $H$ and $K$ be $\HilbertUp$ carriers. A map $\Phi:\mathsf{TC}(H)\to\mathsf{TC}(K)$ is carried by $\QuantumChannelUp(H,K)$, written $\mathsf{QChan}_{H,K}(\Phi)$, when it carries the $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(K))$ map-code of \autoref{def:linearmap-carrier} and satisfies the following two operator rows:
+\begin{enumerate}
+  \item complete positivity: for every finite ancilla Hilbert carrier $A$ and every positive trace-class operator $X$ on $A\otimes H$, the amplified operator $(\operatorname{id}_A\otimes\Phi)(X)$ is positive trace-class on $A\otimes K$;
+  \item trace preservation: for every $T\in\mathsf{TC}(H)$,
+$$
+\operatorname{Tr}_K(\Phi(T))=\operatorname{Tr}_H(T).
+$$
+\end{enumerate}
+The carrier is the CPTP linear-map interface announced in \autoref{ch:concrete-instances-quantumchannel-namecert}; its middle space for composition is the displayed trace-class carrier $\mathsf{TC}(K)$.
+\end{definition}
+
+\begin{lemma}[QuantumChannel density-matrix image]
+\label{lem:quantumchannel-densitymatrix-image}
+Let $H$ and $K$ be $\HilbertUp$ carriers. If
+$$
+\mathsf{QChan}_{H,K}(\Phi)
+\qquad\text{and}\qquad
+\mathsf{Dens}_H(\rho),
+$$
+then
+$$
+\mathsf{Dens}_K(\Phi(\rho)).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{Dens}_H(\rho)$ by \autoref{def:densitymatrix-trace-class-carrier}. It gives that $\rho$ is trace-class on $H$, positive, and has trace one. Unpack $\mathsf{QChan}_{H,K}(\Phi)$ by \autoref{def:quantumchannel-cptp-carrier}. The carried $\LinearMapUp$ row supplies output closure, so $\Phi(\rho)$ is trace-class on $K$.
+
+Apply complete positivity with the one-dimensional ancilla. The amplification by the one-dimensional identity is the original map on trace-class operators, hence positivity of $\rho$ gives positivity of $\Phi(\rho)$ on $K$. Trace preservation gives
+$$
+\operatorname{Tr}_K(\Phi(\rho))=\operatorname{Tr}_H(\rho)=1.
+$$
+The three rows are exactly the $\mathsf{Dens}_K$ carrier clauses in \autoref{def:densitymatrix-trace-class-carrier}.
+\end{proof}
+
+\begin{theorem}[QuantumChannel composition closure]
+\label{thm:quantumchannel-composition-closure}
+Let $H$, $K$, and $L$ be $\HilbertUp$ carriers with trace-class spaces $\mathsf{TC}(H)$, $\mathsf{TC}(K)$, and $\mathsf{TC}(L)$. If
+$$
+\mathsf{QChan}_{H,K}(\Phi)
+\qquad\text{and}\qquad
+\mathsf{QChan}_{K,L}(\Psi),
+$$
+then the composite map $\Psi\circ\Phi:\mathsf{TC}(H)\to\mathsf{TC}(L)$ is carried by $\QuantumChannelUp(H,L)$:
+$$
+\mathsf{QChan}_{H,L}(\Psi\circ\Phi).
+$$
+Moreover every $\DensityMatrixUp(H)$ input is sent to a $\DensityMatrixUp(L)$ output:
+$$
+\mathsf{Dens}_H(\rho)\Longrightarrow\mathsf{Dens}_L((\Psi\circ\Phi)(\rho)).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two channel carriers by \autoref{def:quantumchannel-cptp-carrier}. Their $\LinearMapUp$ rows are maps
+$$
+\Phi:\mathsf{TC}(H)\to\mathsf{TC}(K)
+\qquad\text{and}\qquad
+\Psi:\mathsf{TC}(K)\to\mathsf{TC}(L)
+$$
+with the matching middle trace-class carrier $\mathsf{TC}(K)$. The trace-class carriers are module and vector-space carriers inherited from the operator-ideal and Hilbert surfaces cited in \autoref{ch:concrete-instances-densitymatrix-namecert}. Therefore the composition row of \autoref{def:linearmap-stability-certificate}, concretely supplied by \autoref{thm:module-linearmap-composition-certificate}, gives the carried $\LinearMapUp(\mathsf{TC}(H),\mathsf{TC}(L))$ map-code for $\Psi\circ\Phi$.
+
+For complete positivity, let $A$ be a finite ancilla Hilbert carrier and let $X$ be a positive trace-class operator on $A\otimes H$. Complete positivity of $\Phi$ gives that
+$$
+Y:=(\operatorname{id}_A\otimes\Phi)(X)
+$$
+is positive trace-class on $A\otimes K$. Complete positivity of $\Psi$ applied to $Y$ gives that
+$$
+(\operatorname{id}_A\otimes\Psi)(Y)
+$$
+is positive trace-class on $A\otimes L$. The amplified-map ledger is functorial in the operator argument, so
+$$
+(\operatorname{id}_A\otimes\Psi)((\operatorname{id}_A\otimes\Phi)(X))
+=
+(\operatorname{id}_A\otimes(\Psi\circ\Phi))(X).
+$$
+Thus $\Psi\circ\Phi$ is completely positive.
+
+For trace preservation, let $T\in\mathsf{TC}(H)$. Output closure for $\Phi$ gives $\Phi(T)\in\mathsf{TC}(K)$. Trace preservation for $\Psi$, followed by trace preservation for $\Phi$, gives
+$$
+\operatorname{Tr}_L((\Psi\circ\Phi)(T))
+=
+\operatorname{Tr}_L(\Psi(\Phi(T)))
+=
+\operatorname{Tr}_K(\Phi(T))
+=
+\operatorname{Tr}_H(T).
+$$
+The linear-map row, complete positivity row, and trace-preservation row are precisely the three clauses of \autoref{def:quantumchannel-cptp-carrier}; hence $\mathsf{QChan}_{H,L}(\Psi\circ\Phi)$ holds.
+
+Finally assume $\mathsf{Dens}_H(\rho)$. Applying \autoref{lem:quantumchannel-densitymatrix-image} to the composite channel just constructed gives
+$$
+\mathsf{Dens}_L((\Psi\circ\Phi)(\rho)),
+$$
+which is the asserted $\DensityMatrixUp$ output closure.
+\end{proof}
