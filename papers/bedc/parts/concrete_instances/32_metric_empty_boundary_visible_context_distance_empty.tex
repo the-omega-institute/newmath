@@ -60,6 +60,27 @@ unit laws for finite-kernel append.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_append\_unit\_laws}
 
+\begin{theorem}[Metric empty-boundary visible context unit splice commute]
+\label{thm:metric-distance-witness-empty-boundary-visible-context-unit-splice-commute}
+For histories $p,q,d,l,r,out_L,out_R$, an empty-boundary visible-context
+distance witness makes left and right continuation through the central distance
+commute after one ordinary append splice:
+$$
+\mathsf{MetricDistanceWitness}(p\cdot\emp,\emp\cdot q,(p\cdot d)\cdot q)
+\Longrightarrow
+\ContR(l,d,out_L)\Longrightarrow
+\ContR(d,r,out_R)\Longrightarrow
+\hsame(out_L\cdot r,l\cdot out_R).
+$$
+\end{theorem}
+\begin{proof}
+The empty-boundary distance theorem identifies $d$ with $\emp$. The left
+continuation then has right-unit result $out_L\hsame l$, and the right
+continuation has left-unit result $out_R\hsame r$. Substituting these two unit
+identifications reduces the displayed splice comparison to reflexivity.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_empty\_boundary\_visible\_context\_unit\_splice\_commute}
+
 \begin{theorem}[Metric empty-boundary visible context left-unit witness]
 \label{thm:metric-distance-witness-empty-boundary-visible-context-left-unit-witness}
 For histories $p,q,d,r,out$, an empty-boundary visible-context distance witness
