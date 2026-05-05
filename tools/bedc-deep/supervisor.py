@@ -176,7 +176,8 @@ def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
     Returns dict of category → count when count >= min_count.
     Categories are normalized: 'item N' (hygiene checklist item N),
     'build_invariant' (label / undefined macro), 'content_duplication',
-    'non_latex_trailing'.
+    'non_latex_trailing', 'line_cap', 'bad_target_file',
+    'undefined_macro'.
     """
     if not STATE_DIR.exists():
         return {}
@@ -201,10 +202,25 @@ def stage2_reject_clusters(min_count: int = 3) -> dict[str, int]:
                 cat = "build_invariant"
             elif "content duplication" in r:
                 cat = "content_duplication"
+            elif "800" in r or "line cap" in r or "far past" in r or "would exceed" in r:
+                cat = "line_cap"
+            elif "does not exist" in r and ("target" in r or "file" in r):
+                cat = "bad_target_file"
+            elif "undefined control sequence" in r or "undefined macro" in r:
+                cat = "undefined_macro"
             elif "non-latex" in r or "trailing" in r:
                 cat = "non_latex_trailing"
             counts[cat] = counts.get(cat, 0) + 1
     return {k: v for k, v in counts.items() if v >= min_count}
+
+
+def stage2_reject_advice(clusters: dict[str, int]) -> str:
+    cats = set(clusters)
+    if cats and cats <= {"line_cap", "bad_target_file"}:
+        return "consider splitting or rerouting target files"
+    if cats and cats <= {"undefined_macro", "build_invariant"}:
+        return "consider hardening compile-hygiene checks"
+    return "consider hardening WRITE_PAPER_LATEX prompt"
 
 
 def macos_notify(title: str, body: str) -> None:
@@ -864,7 +880,7 @@ def main() -> int:
 
             clusters = stage2_reject_clusters()
             if clusters:
-                supervisor_log(f"stage2 reject clusters: {clusters} — consider hardening WRITE_PAPER_LATEX prompt")
+                supervisor_log(f"stage2 reject clusters: {clusters} — {stage2_reject_advice(clusters)}")
 
             if not args.no_loning_watch:
                 since_loning_watch_m = (_now() - last_loning_watch_ts) / 60.0
