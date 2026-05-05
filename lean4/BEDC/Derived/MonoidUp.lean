@@ -255,6 +255,21 @@ theorem unary_append_monoid_opposite_semantic_name_certificate :
       cases sameB
       exact hsame_refl (append b a))
 
+theorem unary_append_monoid_double_opposite_data_identity :
+    (forall {a b : BHist}, UnaryHistory a -> UnaryHistory b ->
+      hsame (append a b) (append a b)) ∧
+      hsame BHist.Empty BHist.Empty ∧
+        (forall {a b : BHist}, UnaryHistory a -> UnaryHistory b ->
+          MonoidHistoryClassifier UnaryHistory (append a b) (append a b)) := by
+  constructor
+  · intro a b _ _
+    exact hsame_refl (append a b)
+  · constructor
+    · exact hsame_refl BHist.Empty
+    · intro a b unaryA unaryB
+      exact And.intro (unary_append_closed unaryA unaryB)
+        (And.intro (unary_append_closed unaryA unaryB) (hsame_refl (append a b)))
+
 theorem unary_append_monoid_left_identity_empty {e : BHist} :
     UnaryHistory e ->
       (forall {h : BHist}, UnaryHistory h ->
