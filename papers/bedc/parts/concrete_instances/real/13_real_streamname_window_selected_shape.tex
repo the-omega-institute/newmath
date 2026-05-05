@@ -729,6 +729,50 @@ tail-class package.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_tail\_class\_exactness}
 
+\begin{theorem}[Real unary stream window restricted selected tail-class exactness]
+\label{thm:real-unary-stream-window-selected-tail-class-restricted-exactness}
+For observation maps $s,t:\Hist\to\Hist$ and histories
+$\alpha,\omega,\omega',k:\Hist$, assume
+$$
+\mathsf{RatStreamNameCarrier}(s),\quad
+\mathsf{RatStreamNameCarrier}(t),\quad
+\mathsf{RatStreamNameClassifier}(s,t),
+$$
+$$
+\mathsf{UnaryHistory}(\alpha),\quad
+\mathsf{UnaryOffsetLe}(\omega',\omega),\quad
+\mathsf{UnaryOffsetLe}(k,\omega').
+$$
+Then the selected tail class at the smaller offset $k$ is exact:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,\;
+\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(\alpha,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(\alpha,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two offset witnesses. The outer witness gives a unary tail from
+$\omega'$ to $\omega$, so unary closure along its continuation makes $\omega$
+unary. The inner and outer offset continuations compose to a direct
+$\mathsf{UnaryOffsetLe}(k,\omega)$ witness. The unrestricted selected
+tail-class exactness theorem then applies at the ambient window $\omega$.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_tail\_class\_restricted\_exactness}
+
 Fit. Traditional target: exact selected finite rational observation tails. BEDC
 source: $\StreamNameUp$ plus $\RealUp$ plus $\RatUp$ plus $\mathsf{FKernel}$
 e-one congruence and transitivity. Carrier:
