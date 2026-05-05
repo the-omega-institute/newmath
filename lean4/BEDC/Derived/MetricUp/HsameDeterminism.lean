@@ -102,4 +102,22 @@ theorem MetricDistanceWitness_right_e1_result_tail_deterministic {x y d d' : BHi
     cont_deterministic left.2.2.2 right.2.2.2
   exact hsame_e1_iff.mp visibleSame
 
+theorem MetricDistanceWitness_visible_context_right_e1_result_tail_deterministic
+    {p q p' q' x y d d' : BHist} :
+    MetricDistanceWitness (append p x) (append (BHist.e1 y) q)
+        (append (append p (BHist.e1 d)) q) ->
+      MetricDistanceWitness (append p' x) (append (BHist.e1 y) q')
+        (append (append p' (BHist.e1 d')) q') ->
+        hsame d d' := by
+  intro left right
+  have leftCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p) (q := q) (x := x)
+      (y := BHist.e1 y) (d := BHist.e1 d)).mp left
+  have rightCentral :=
+    (MetricDistanceWitness_visible_context_iff (p := p') (q := q') (x := x)
+      (y := BHist.e1 y) (d := BHist.e1 d')).mp right
+  have leftTail := MetricDistanceWitness_right_e1_result_exactness leftCentral.2.2
+  have rightTail := MetricDistanceWitness_right_e1_result_exactness rightCentral.2.2
+  exact cont_deterministic leftTail.2.2.2 rightTail.2.2.2
+
 end BEDC.Derived.MetricUp
