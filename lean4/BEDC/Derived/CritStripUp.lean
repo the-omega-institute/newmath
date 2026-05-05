@@ -58,6 +58,13 @@ def InCritStrip (sigma : BHist) : Prop :=
   NatUnaryStrictPrefix BHist.Empty sigma ∧
     NatUnaryStrictPrefix sigma (BHist.e1 BHist.Empty)
 
+def OnCritLine (sigma : BHist) : Prop :=
+  hsame sigma (BHist.e1 (BHist.e1 BHist.Empty))
+
+def OnCritLine_decidable (sigma : BHist) : Decidable (OnCritLine sigma) := by
+  unfold OnCritLine hsame
+  exact inferInstance
+
 theorem InCritStrip_boundary_excluded {sigma : BHist} :
     InCritStrip sigma ->
       (hsame sigma BHist.Empty -> False) ∧

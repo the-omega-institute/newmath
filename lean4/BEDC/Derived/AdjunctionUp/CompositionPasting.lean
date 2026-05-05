@@ -58,6 +58,7 @@ theorem AdjunctionCompositionPasting_triangle_determinacy
                   Cont c21 u21 r21 ->
                     Cont u21 c21 l21' ->
                       Cont c21 u21 r21' ->
+                      Cont c21 u21 r21' ->
                         hsame l21 l21' ∧ hsame r21 r21' := by
   intro _unitLeft _unitRight _counitLeft _counitRight _unitRel _counitRel leftTriangle
     rightTriangle displayedLeft displayedRight
@@ -65,5 +66,25 @@ theorem AdjunctionCompositionPasting_triangle_determinacy
     And.intro
       (cont_deterministic leftTriangle displayedLeft)
       (cont_deterministic rightTriangle displayedRight)
+
+theorem AdjunctionCompositionPasting_triangle_results_deterministic
+    {p21 q21 su sc a tu1 tu2 tc1 tc2 u21 c21 l21 r21 l21' r21' : BHist} :
+    NatTransPrefixComponentCarrier p21 su a tu1 ->
+      NatTransPrefixComponentCarrier su q21 a tu2 ->
+        NatTransPrefixComponentCarrier q21 sc a tc1 ->
+          NatTransPrefixComponentCarrier sc p21 a tc2 ->
+            Cont tu1 tu2 u21 ->
+              Cont tc1 tc2 c21 ->
+                Cont u21 c21 l21 ->
+                  Cont c21 u21 r21 ->
+                    Cont u21 c21 l21' ->
+                      Cont c21 u21 r21' -> hsame l21 l21' ∧ hsame r21 r21' := by
+  intro unitLeft unitRight counitLeft counitRight unitComp counitComp leftTriangle
+    rightTriangle leftTriangle' rightTriangle'
+  have carrier : AdjunctionUnitCounitCarrier p21 q21 a u21 c21 l21 r21 :=
+    AdjunctionCompositionPasting_unit_counit_carrier unitLeft unitRight counitLeft
+      counitRight unitComp counitComp leftTriangle rightTriangle
+  exact AdjunctionUnitCounitCarrier_triangle_results_deterministic carrier leftTriangle'
+    rightTriangle'
 
 end BEDC.Derived.AdjunctionUp

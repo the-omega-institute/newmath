@@ -181,6 +181,18 @@ theorem DirichletPartSum_index_unary {term : BHist -> BHist -> BHist} {s n S : B
   | step _ _ ih =>
       exact unary_e1_closed ih
 
+theorem DirichletPartSum_complexPartSum {term : BHist -> BHist -> BHist}
+    {s n S : BHist} :
+    DirichletPartSum term s n S ->
+      BEDC.Derived.ComplexSeriesUp.ComplexPartSum BHist.Empty
+        (fun m : BHist => term m s) n S := by
+  intro sum
+  induction sum with
+  | zero =>
+      exact BEDC.Derived.ComplexSeriesUp.ComplexPartSum.zero
+  | step _previous stepContinuation ih =>
+      exact BEDC.Derived.ComplexSeriesUp.ComplexPartSum.step ih stepContinuation
+
 theorem DirichletPartSum_successor_result_nonempty {term : BHist -> BHist -> BHist}
     {s n S : BHist} :
     (forall {m : BHist}, UnaryHistory m -> hsame (term m s) BHist.Empty -> False) ->
