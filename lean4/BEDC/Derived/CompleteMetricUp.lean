@@ -1,11 +1,13 @@
 import BEDC.Derived.MetricUp
 import BEDC.Derived.MetricUp.Transport
 import BEDC.Derived.RatUp
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompleteMetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.MetricUp
 open BEDC.Derived.RatUp
@@ -40,6 +42,30 @@ theorem CompleteMetricLimitWitness_hsame_transport {X : BHist -> Prop}
             (hsame_refl d) distanceData.left,
           RatHistoryClassifier_hsame_transport (hsame_refl d) (modulusTransport nUnary)
             distanceData.right.right⟩
+
+theorem CompleteMetricLimitWitness_name_certificate {X : BHist -> Prop}
+    (carrierTransport : ∀ {h k : BHist}, hsame h k -> X h -> X k)
+    {s M : BHist -> BHist} {limit : BHist}
+    (witness : CompleteMetricLimitWitness X s M limit) :
+    SemanticNameCert (CompleteMetricLimitWitness X s M) (CompleteMetricLimitWitness X s M)
+      (CompleteMetricLimitWitness X s M) hsame := by
+  constructor
+  · constructor
+    · exact Exists.intro limit witness
+    · intro h _carrier
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k same carrier
+      exact CompleteMetricLimitWitness_hsame_transport carrierTransport
+        (fun {n : BHist} _nUnary => hsame_refl (s n))
+        (fun {n : BHist} _nUnary => hsame_refl (M n)) same carrier
+  · intro _h source
+    exact source
+  · intro _h source
+    exact source
 
 theorem SingletonCompleteMetric_laws :
     hsame BHist.Empty BHist.Empty ∧
