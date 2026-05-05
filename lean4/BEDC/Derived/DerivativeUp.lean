@@ -179,6 +179,13 @@ theorem DerivativeMetricQuotient_empty_function_step_readback {z h q dist : BHis
   have sameHQHH : hsame (append h q) (append h h) := congrArg (append h) sameQH
   exact And.intro sameQH (And.intro metricLedger (hsame_trans sameDistHQ sameHQHH))
 
+theorem DerivativeMetricQuotient_empty_function_zero_step_absurd {z h q dist s : BHist} :
+    DerivativeMetricQuotient BHist.Empty z h q dist -> hsame h (BHist.e0 s) -> False := by
+  intro quotient sameStep
+  have visibleStep : UnaryHistory (BHist.e0 s) :=
+    unary_transport quotient.right.right.right.right.right.left sameStep
+  exact unary_no_zero_extension visibleStep
+
 theorem DerivativeCplxDiffAt_witness_step_unary {f z fp : BHist} :
     CplxDiffAt f z fp ->
       ∃ h : BHist, ∃ q : BHist, UnaryHistory h ∧ UnaryHistory q ∧ Cont f h q ∧ hsame q fp := by

@@ -235,6 +235,59 @@ theorem ResiduePoleData_integral_prefix_closure
                             (And.intro productCarrier integralqResidue))))
                       (And.intro prefixIntegral integralqResidue))
 
+theorem ResiduePoleData_integral_suffix_closure
+    {f center radius pole gap integral residue q fq : BHist} :
+    ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q -> Cont f q fq ->
+      exists integralq : BHist, ResiduePoleData fq center radius pole gap integralq residue ∧
+        Cont integral q integralq ∧ Cont integralq residue fq := by
+  intro data suffixCarrier functionSuffix
+  cases data with
+  | intro disk rest =>
+      cases rest with
+      | intro integralCarrier rest =>
+          cases rest with
+          | intro residueCarrier rest =>
+              cases rest with
+              | intro _productCarrier integralResidue =>
+                  let integralq := append integral q
+                  have integralqCarrier : ComplexHistoryCarrier integralq :=
+                    ComplexHistoryCarrier_append_unary_closed integralCarrier suffixCarrier
+                  have integralSuffix : Cont integral q integralq :=
+                    cont_intro rfl
+                  have residueUnary : UnaryHistory residue :=
+                    ComplexHistoryCarrier_unary residueCarrier
+                  have integralqResidueCanonical :
+                      Cont integralq residue (append integralq residue) :=
+                    cont_intro rfl
+                  have sameCanonicalFq : hsame (append integralq residue) fq := by
+                    have sameSwap : hsame (append q residue) (append residue q) :=
+                      unary_append_comm suffixCarrier residueUnary
+                    have sameNested :
+                        hsame (append integral (append q residue))
+                          (append integral (append residue q)) :=
+                      congrArg (append integral) sameSwap
+                    exact hsame_trans
+                      (append_assoc integral q residue)
+                        (hsame_trans sameNested
+                          (hsame_trans
+                            (hsame_symm (append_assoc integral residue q))
+                          (hsame_trans
+                            (hsame_symm (congrArg (fun visible => append visible q) integralResidue))
+                            (hsame_symm functionSuffix))))
+                  have integralqResidue : Cont integralq residue fq :=
+                    cont_result_hsame_transport integralqResidueCanonical sameCanonicalFq
+                  have productCarrier :
+                      ProdHistoryCarrier ComplexHistoryCarrier ComplexHistoryCarrier fq :=
+                    ProdHistoryCarrier_cont_intro integralqCarrier residueCarrier
+                      integralqResidue
+                  exact Exists.intro integralq
+                    (And.intro
+                      (And.intro disk
+                        (And.intro integralqCarrier
+                          (And.intro residueCarrier
+                            (And.intro productCarrier integralqResidue))))
+                      (And.intro integralSuffix integralqResidue))
+
 theorem ResiduePoleData_integral_prefix_empty_function_endpoints
     {f center radius pole gap integral residue q qf : BHist} :
     ResiduePoleData f center radius pole gap integral residue -> UnaryHistory q ->
