@@ -91,6 +91,27 @@ theorem BHistIndexedOpen_finite_intersection_closure (T : BHistIndexedOpenCarrie
       have openX : T.OpenAt (T.meet i j) x := Iff.mpr stable openY
       exact Iff.mpr carryX openX
 
+def BHistGeneratedOpenExact (T : BHistIndexedOpenCarrier) (U : BHist -> Prop) :
+    Prop :=
+  exists i : T.OpenIx, BHistCarriesOpen T i U
+
+theorem BHistGeneratedOpen_binary_meet_admission (T : BHistIndexedOpenCarrier)
+    {U V : BHist -> Prop} :
+    BHistGeneratedOpenExact T U ->
+      BHistGeneratedOpenExact T V ->
+        BHistGeneratedOpenExact T (fun x : BHist => U x ∧ V x) ∧
+          (forall {x y : BHist}, UnaryHistory x -> UnaryHistory y -> hsame x y ->
+            ((U x ∧ V x) <-> (U y ∧ V y))) := by
+  intro exactU exactV
+  cases exactU with
+  | intro i carryU =>
+      cases exactV with
+      | intro j carryV =>
+          have closure :=
+            BHistIndexedOpen_finite_intersection_closure (T := T) (i := i) (j := j)
+              (U := U) (V := V) carryU carryV
+          exact And.intro (Exists.intro (T.meet i j) closure.left) closure.right
+
 theorem BHistIndexedOpen_arbitrary_union_closure (T : BHistIndexedOpenCarrier)
     {A : Type} {u : T.OpenIx} {ι : A -> T.OpenIx} {U : A -> BHist -> Prop} :
     (forall {x : BHist}, UnaryHistory x ->
@@ -222,5 +243,50 @@ theorem TopologySingleton_boundary_open_laws :
       exact openH.right
     · intro carrierH
       exact And.intro (hsame_refl BHist.Empty) carrierH
+
+theorem TopologySingleton_union_bottom_exactness {A : Type} (ι : A -> BHist)
+    (allBottom : forall a : A, hsame (ι a) (BHist.e0 BHist.Empty)) :
+    forall h : BHist,
+      TopologySingletonOpenAt (BHist.e0 BHist.Empty) h <->
+        exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro h
+  constructor
+  · intro openBottom
+    exact False.elim (not_hsame_e0_empty openBottom.left)
+  · intro witness
+    cases witness with
+    | intro a openA =>
+        have bottomAtA : hsame (BHist.e0 BHist.Empty) (ι a) :=
+          hsame_symm (allBottom a)
+        have openBottom : TopologySingletonOpenAt (BHist.e0 BHist.Empty) h :=
+          And.intro (hsame_trans bottomAtA openA.left) openA.right
+        exact False.elim (not_hsame_e0_empty openBottom.left)
+
+theorem BHistSubspaceOpen_carrier_transport (T : BHistIndexedOpenCarrier)
+    {S : BHist -> Prop} {i : T.OpenIx} {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k -> (S h ∧ S k ∧ hsame h k) ->
+      ((S h ∧ T.OpenAt i h) <-> (S k ∧ T.OpenAt i k)) := by
+  intro unaryH unaryK restrictedSame
+  have stable : T.OpenAt i h <-> T.OpenAt i k :=
+    T.membership_stable unaryH unaryK restrictedSame.right.right
+  constructor
+  · intro subH
+    exact And.intro restrictedSame.right.left (Iff.mp stable subH.right)
+  · intro subK
+    exact And.intro restrictedSame.left (Iff.mpr stable subK.right)
+
+theorem TopologySingleton_union_top_exactness {A : Type} {ι : A -> BHist} (a0 : A) :
+    hsame (ι a0) BHist.Empty ->
+      forall h : BHist,
+        TopologySingletonOpenAt BHist.Empty h <->
+          exists a : A, TopologySingletonOpenAt (ι a) h := by
+  intro displayedTop h
+  constructor
+  · intro topOpen
+    exact Exists.intro a0 (And.intro displayedTop topOpen.right)
+  · intro indexedOpen
+    cases indexedOpen with
+    | intro a openA =>
+        exact And.intro (hsame_refl BHist.Empty) openA.right
 
 end BEDC.Derived.TopologyUp
