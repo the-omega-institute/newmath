@@ -9123,3 +9123,29 @@ This fills a paper-internal algebra gap between the complex partial-sum recursio
 
 ---
 
+### B-350 - EnumPerm identity reflexivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | EnumPerm identity reflexivity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If A(entry_xs(i)) holds for every position i under a fixed SetUp/NameCert, then the identity position bijection witnesses EnumPerm_A(xs,xs).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/89_set_namecert_construction.tex`
+- `papers/bedc/parts/core/08_typed_naming_certificates.tex`
+
+Rationale:
+This is a concrete finite-spine permutation closure fact in the existing FinSet certificate surface. The paper already has EnumPerm inverse symmetry and transitivity, but not the identity/reflexivity witness; adding this target would close the missing basic relation law without duplicating an existing BOARD entry or paper theorem.
+
+---
+
