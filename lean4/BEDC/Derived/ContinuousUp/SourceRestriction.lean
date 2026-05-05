@@ -140,6 +140,29 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_comm
       (hsame_refl modulus') (hsame_refl cert') extended
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
+theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_package
+    {restricted source map target modulus cert extra modulus' cert' displayedTarget displayedCert :
+      BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier source map target modulus cert ->
+        ContinuousModulusWitness cert extra cert' ->
+          Cont modulus extra modulus' ->
+            ContinuousFunctionCarrier restricted map displayedTarget modulus' displayedCert ->
+              ContinuousFunctionCarrier restricted map target modulus' cert' ∧
+                hsame target displayedTarget ∧ hsame cert' displayedCert := by
+  intro sourceRestriction carrier terminalWitness modulusRel displayed
+  have extended :
+      ContinuousFunctionCarrier source map target modulus' cert' :=
+    ContinuousFunctionCarrier_terminal_modulus_extension carrier terminalWitness modulusRel
+  have sameSource : hsame source restricted :=
+    sourceRestriction
+  have restrictedCarrier :
+      ContinuousFunctionCarrier restricted map target modulus' cert' :=
+    ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map) (hsame_refl target)
+      (hsame_refl modulus') (hsame_refl cert') extended
+  exact And.intro restrictedCarrier
+    (ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed)
+
 theorem ContinuousFunctionCarrier_empty_source_restriction_visible_terminal_modulus_commutes
     {restricted p q source map target modulus cert extra modulus' cert' displayedTarget
         displayedCert : BHist} :

@@ -27,4 +27,15 @@ theorem ComplexLimit_prepend_constant_closed {s N M : BHist -> BHist} {z q : BHi
                     Exists.intro (append (append q (s n)) (append q z))
                       (ComplexDistance_prepend_constant_closed unaryQ distance)))
 
+theorem ComplexLimit_pointwise_negation_closed {s N M : BHist -> BHist} {z : BHist} :
+    ComplexLimit s N z M ->
+      ComplexLimit (fun n : BHist => append BHist.Empty (s n)) N
+        (append BHist.Empty z) M := by
+  intro limit
+  have shiftedLimit :
+    ComplexLimit (fun n : BHist => append BHist.Empty (s n)) N z M :=
+    ComplexLimit_sequence_hsame_transport
+      (fun {n : BHist} _unaryN => hsame_symm (append_empty_left (s n))) limit
+  exact ComplexLimit_hsame_transport (hsame_symm (append_empty_left z)) shiftedLimit
+
 end BEDC.Derived.ComplexLimitUp
