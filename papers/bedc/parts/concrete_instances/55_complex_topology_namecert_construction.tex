@@ -320,6 +320,7 @@ For a complex-set predicate \(K\) and unary precision \(k\), a dyadic \(2^{-k}\)
 \(\mathsf{IsCompact}(K)\) holds when \(K\) is bounded (contained in some \(\mathsf{ClosedDisk}(\emp, R)\) for explicit unary \(R\)) and possesses an explicit dyadic \(2^{-k}\)-net for every unary precision \(k\) (i.e.\ a witnessing total function \(\mathsf{Net}_K : \mathsf{Unary} \to \mathsf{List}(\ComplexUp)\)).
 \end{definition}
 \leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCompact}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCompact\_precision\_radius\_not\_empty}
 
 \begin{theorem}[Closed disk is compact]
 \label{thm:cplx-topo-closed-disk-compact}
@@ -348,6 +349,7 @@ The half-plane predicate is a finite intersection of closed half-planes, each co
 \label{def:cplx-topo-density}
 For a center \(z_c \in \ComplexUp\) and an open set \(U\) with \(U(z_c)\), a quantitative density witness inside \(U\) is an explicit sequence \(\mathsf{Cluster} : \mathsf{Unary} \to \ComplexUp\) of distinct points \((z_n)_n\) with \(U(z_n)\), \(z_n \neq z_c\), and \(|z_n - z_c| \leq 2^{-n}\) for every unary \(n\). The witness is a total explicit function on the precision domain.
 \end{definition}
+\leandef{BEDC.Derived.ComplexTopologyUp.ComplexTopologyDensityWitness}
 
 \begin{theorem}[Open disks contain quantitative cluster sequences]
 \label{thm:cplx-topo-open-disk-clustering}
@@ -444,6 +446,7 @@ Define the restricted modulus by $\delta_{r'}(k,g')=\delta_r(k,g'\cdot e)$. The 
 
 All remaining fields are inherited by narrowing the domain of quantification. The function history and center history are unchanged. Disk-gap ledgers are sent to the parent disk by $g'\mapsto g'\cdot e$. Any ledger entry indexed by a further subradius of $r'$ is read in the parent ledger by composing that subradius with $e$ using \autoref{lem:holo-certified-subdisk-radius-compose}. The pointwise classifier clause of \autoref{def:holo-classifier-spec} is therefore exactly the parent pointwise classifier after the open-disk inclusion, while the restricted radius data are compared by reflexivity inside the smaller carrier and related to the parent carrier by the retained subradius ledger. These data satisfy the source, classifier, and ledger fields of \autoref{def:holo-source-spec}, \autoref{def:holo-classifier-spec}, and \autoref{def:holo-ledger-policy} for radius $r'$.
 \end{proof}
+\leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_openDiskGap\_extension\_gap\_readback}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyCertifiedSubradius\_open\_disk\_gap\_public\_readback}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_subradius\_extension\_public\_readback}
 \leanchecked{BEDC.Derived.ComplexTopologyUp.ComplexTopologyOpenDiskGap\_certified\_subradius\_extension}
