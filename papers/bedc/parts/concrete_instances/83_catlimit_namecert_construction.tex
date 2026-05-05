@@ -172,3 +172,77 @@ The classification of an arbitrary cone endomorphism with the identity is exactl
 
 Combining these field projections gives precisely the two comparison morphisms, the two composite witnesses, and the two identity classifications stated in \autoref{thm:catlimit-universal-cones-comparison-identities}. Each displayed equality is an instance of $\operatorname{MorEq}_{\mathcal C}$, and every object-level comparison used in the construction is one of the fields listed above.
 \end{proof}
+
+\begin{definition}[Pointwise certified diagram equivalence]
+\label{def:catlimit-pointwise-certified-diagram-equivalence}
+Fix $\CategoryUp$ certificates $\mathcal J$ and $\mathcal C$, and certified $\FunctorUp$ diagrams $D,E:\mathcal J\to\mathcal C$. A pointwise certified diagram equivalence between $D$ and $E$ is a pair of certified $\NatTransUp$ carriers
+$$
+\alpha:D\Rightarrow E,\qquad \beta:E\Rightarrow D,
+$$
+such that, for every object $j$ of $\mathcal J$, the component composites are classified as identities in $\mathcal C$. Thus there are composites $d_j:D(j)\to D(j)$ and $e_j:E(j)\to E(j)$ with
+$$
+\operatorname{Comp}_{\mathcal C}(D(j),E(j),D(j);\alpha_j,\beta_j,d_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(D(j),D(j);d_j,1_{D(j)}),
+$$
+and
+$$
+\operatorname{Comp}_{\mathcal C}(E(j),D(j),E(j);\beta_j,\alpha_j,e_j)
+\quad\text{and}\quad
+\operatorname{MorEq}_{\mathcal C}(E(j),E(j);e_j,1_{E(j)}).
+$$
+The naturality, component-carrier, and component-classifier rows are exactly the rows required by the $\NatTransUp$ carrier and certificate obligations.
+\end{definition}
+
+\begin{theorem}[CatLimit transport along pointwise certified diagram equivalence]
+\label{thm:catlimit-transport-pointwise-certified-diagram-equivalence}
+Let $\mathcal J$ and $\mathcal C$ satisfy the $\CategoryUp$ certificate obligations, and let $D,E:\mathcal J\to\mathcal C$ be certified $\FunctorUp$ diagrams. Suppose $(\alpha,\beta)$ is a pointwise certified diagram equivalence between $D$ and $E$ in the sense of \autoref{def:catlimit-pointwise-certified-diagram-equivalence}. If
+$$
+\operatorname{LimCone}_{D}(L,\lambda)
+$$
+holds, and if $\lambda^E$ is the component family obtained by certified composition
+$$
+\operatorname{Comp}_{\mathcal C}(L,D(j),E(j);\lambda_j,\alpha_j,\lambda^E_j)
+$$
+for every object $j$ of $\mathcal J$, then
+$$
+\operatorname{LimCone}_{E}(L,\lambda^E).
+$$
+\end{theorem}
+\begin{proof}
+First verify the $E$-cone ledger for $\lambda^E$. For a displayed morphism $u:j\to k$ in $\mathcal J$, the $D$-cone law for $\lambda$ classifies the composite of $\lambda_j$ followed by $D(u)$ with $\lambda_k$. Naturality of $\alpha$ classifies $\alpha_j$ followed by $E(u)$ with $D(u)$ followed by $\alpha_k$. Associativity and composition congruence from \autoref{def:category-stability-certificate} paste these two classifier comparisons and identify the composite of $\lambda^E_j$ followed by $E(u)$ with $\lambda^E_k$. Thus $\lambda^E$ is an $E$-cone with apex $L$.
+
+Let $\chi$ be any $E$-cone with apex $X$. Form a $D$-component family $\chi^D$ by composing each component with $\beta_j$:
+$$
+\operatorname{Comp}_{\mathcal C}(X,E(j),D(j);\chi_j,\beta_j,\chi^D_j).
+$$
+The $E$-cone law for $\chi$, naturality of $\beta$, and the same associativity and congruence fields show that $\chi^D$ is a $D$-cone. The universal existence field of $\operatorname{LimCone}_{D}(L,\lambda)$ therefore supplies a morphism $m:X\to L$ with
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;m).
+$$
+For each $j$, the component comparison of this cone morphism classifies $m$ followed by $\lambda_j$ with $\chi_j$ followed by $\beta_j$. Composing that comparison on the right with $\alpha_j$, using associativity, and then using the $E(j)$-identity row $\beta_j$ followed by $\alpha_j$ classified with $1_{E(j)}$, gives a classifier comparison between $m$ followed by $\lambda^E_j$ and $\chi_j$. The right identity law in $\mathcal C$ supplies the final comparison with $\chi_j$. Hence
+$$
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;m),
+$$
+which is the universal existence field for $\lambda^E$.
+
+It remains to verify universal uniqueness. Let $m,n:X\to L$ both satisfy
+$$
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;m)
+\quad\text{and}\quad
+\operatorname{ConeMor}_{E}(\chi,\lambda^E;n).
+$$
+For $m$, compose the component comparison $m;\lambda^E_j$ classified with $\chi_j$ on the right by $\beta_j$. Since $\lambda^E_j$ is the composite of $\lambda_j$ followed by $\alpha_j$, associativity rewrites the left side as $m;\lambda_j;\alpha_j;\beta_j$. The $D(j)$-identity row classifies $\alpha_j$ followed by $\beta_j$ with $1_{D(j)}$, and the right identity law reduces this to $m;\lambda_j$. The right side is the defining component $\chi^D_j$. Thus
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;m).
+$$
+The same argument gives
+$$
+\operatorname{ConeMor}_{D}(\chi^D,\lambda;n).
+$$
+The universal uniqueness field of $\operatorname{LimCone}_{D}(L,\lambda)$ applies to these two $D$-cone morphisms and yields
+$$
+\operatorname{MorEq}_{\mathcal C}(X,L;m,n).
+$$
+This is exactly the uniqueness field required for $\operatorname{LimCone}_{E}(L,\lambda^E)$.
+\end{proof}
