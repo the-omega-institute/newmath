@@ -198,6 +198,7 @@ together with the visible prefix and suffix contexts. The core theorem is this
 result. The exactness predicate is the displayed pair of $\hsame$ conclusions.
 The standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
 \end{proof}
+
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_modulus\_context\_target\_cert\_deterministic}
 
 \begin{theorem}[Continuous function carrier visible-context map determinacy]
@@ -453,3 +454,70 @@ visible context. The standard bridge is deferred, and the status is
 $\mathsf{ProofTarget}$.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_modulus\_context\_composition\_public\_readback}
+
+\begin{theorem}[Continuous function carrier visible-context composite ledger determinacy]
+\label{thm:continuous-function-carrier-visible-modulus-context-composite-ledger-determinacy}
+For histories $p,q,source,middle,target,f,g,fg,fg',modF,modG,modFG,modFG',
+certF,certG,cert,cert'$, suppose the two visible-context input carriers
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,f,p\cdot middle,
+modF\cdot q,(p\cdot certF)\cdot q)
+$$
+and
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot middle,g,p\cdot target,
+modG\cdot q,(p\cdot certG)\cdot q)
+$$
+hold. If both composite ledger triples
+$$
+\begin{array}{lll}
+\mathsf{Cont}(f,g,fg),&
+\mathsf{Cont}(modF,modG,modFG),&
+\mathsf{Cont}(target,modFG,cert),\\
+\mathsf{Cont}(f,g,fg'),&
+\mathsf{Cont}(modF,modG,modFG'),&
+\mathsf{Cont}(target,modFG',cert')
+\end{array}
+$$
+hold, then the public composite graph, composite modulus, and composite
+certificate ledgers are independent of the chosen admissible triple:
+$$
+\hsame(fg,fg')\land\hsame(modFG,modFG')\land\hsame(cert,cert').
+$$
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-comp-closed}
+to the two input carriers and the first composite ledger triple. This builds the
+visible composite carrier over $(fg,modFG,cert)$. Apply the same closure theorem
+to the same input carriers and the second composite ledger triple, giving the
+visible composite carrier over $(fg',modFG',cert')$.
+
+Apply continuation determinacy, Theorem~\ref{thm:continuation-determinacy}, to
+the two graph ledgers $\mathsf{Cont}(f,g,fg)$ and
+$\mathsf{Cont}(f,g,fg')$. Apply the same determinacy theorem to the two modulus
+ledgers $\mathsf{Cont}(modF,modG,modFG)$ and
+$\mathsf{Cont}(modF,modG,modFG')$. These give $\hsame(fg,fg')$ and
+$\hsame(modFG,modFG')$.
+
+Use Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
+to peel the visible prefix and suffix from the two composite carriers. Then use
+Theorem~\ref{thm:continuous-function-carrier-hsame-transport} to place the two
+central composite carriers over a common graph and modulus representative while
+leaving the target fixed.
+
+Now Theorem~\ref{thm:continuous-function-carrier-target-cert-deterministic}
+applies to the aligned central carriers. Its certificate conclusion gives
+$\hsame(cert,cert')$, which combines with the graph and modulus comparisons
+above to give the displayed triple classifier.
+
+The ten-field certificate fit is the following. The traditional target is
+composite-ledger well-definedness for continuous maps. The BEDC source is
+$\mathsf{BHist}$ equipped with $\mathsf{Cont}$. The carrier is
+$\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\hsame$. The
+stability obligation is composite ledger independence. The ledger consists of
+source, middle, target, map, modulus, certificate, prefix, and suffix histories.
+The core theorem is this determinacy result. The exactness claim is the
+displayed triple classifier. The downstream consumer is
+$\mathsf{ContinuousMapUp}$ composition well-definedness. The standard bridge is
+deferred, and the status is $\mathsf{ProofTarget}$.
+\end{proof}
