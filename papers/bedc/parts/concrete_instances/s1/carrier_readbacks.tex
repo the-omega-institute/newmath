@@ -520,3 +520,40 @@ each equation witness with that endpoint, and transitivity gives
 $\hsame(e,e')$.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_coordinate\_pair\_right\_deterministic}
+
+\begin{theorem}[SOne shared-point component equivalence]
+\label{thm:sone-shared-point-component-iff}
+For histories $x,x',y,y',e,e',p$, two concrete $\SOneUp$ carrier witnesses over
+the same displayed point ledger have the following shared-point component
+equivalence:
+$$
+\mathsf{SOneHistoryCarrier}(x,y,e,p)
+\Longrightarrow
+\mathsf{SOneHistoryCarrier}(x',y',e',p)
+\Longrightarrow
+(\hsame(x,x') \Longrightarrow \hsame(y,y')\land\hsame(e,e'))
+\land
+(\hsame(y,y') \Longrightarrow \hsame(x,x')\land\hsame(e,e')).
+$$
+\end{theorem}
+\begin{proof}
+Assume the two displayed carrier witnesses
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$ and
+$\mathsf{SOneHistoryCarrier}(x',y',e',p)$.
+
+For the first branch, suppose $\hsame(x,x')$. Apply
+\autoref{thm:sone-history-carrier-coordinate-pair-right-deterministic} to the
+two carrier witnesses and the first-coordinate equality. The hypotheses use the
+same displayed point ledger $p$, so right determinacy recovers both
+$\hsame(y,y')$ and $\hsame(e,e')$; the equation component is recovered against
+the fixed $\mathsf{SOneUnitHistory}$ ledger exposed by the carrier.
+
+For the second branch, suppose $\hsame(y,y')$. Apply
+\autoref{thm:sone-history-carrier-coordinate-pair-deterministic} to the same
+two carrier witnesses and the second-coordinate equality. The shared displayed
+point ledger is again $p$, so coordinate-pair determinacy recovers
+$\hsame(x,x')$ and the same equation-ledger comparison $\hsame(e,e')$ against
+$\mathsf{SOneUnitHistory}$.
+
+Pair the two implications.
+\end{proof}
