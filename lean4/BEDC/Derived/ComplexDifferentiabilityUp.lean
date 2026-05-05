@@ -18,6 +18,10 @@ def PartialReal (u z p : BHist) : Prop :=
 def PartialImag (u z q : BHist) : Prop :=
   UnaryHistory u ∧ UnaryHistory z ∧ CplxDiffAt u z q
 
+def CplxDiffSourceSpec (f z fp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧
+    ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q ∧ hsame q fp
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
@@ -53,6 +57,19 @@ theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
                                               (And.intro stepNonzero
                                                   (And.intro rebuilt
                                                     (And.intro ledger (classifier rebuilt)))))
+
+theorem CplxDiffSourceSpec_of_diff {f z fp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffSourceSpec f z fp := by
+  intro diff
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          exact And.intro diff
+            (Exists.intro h
+              (Exists.intro q
+                (And.intro data.right.left
+                  (And.intro data.right.right.left data.right.right.right))))
 
 theorem CplxDiffAt_witness_nonzero_unary_step {f z fp : BHist} :
     CplxDiffAt f z fp -> ∃ h : BHist, ∃ q : BHist,
@@ -332,5 +349,26 @@ theorem complex_diff_name_certificate {f z fp : BHist} (diff : CplxDiffAt f z fp
       intro h k classified carrier
       exact (CplxDiffAt_hsame_transport_witness carrier (hsame_refl z) classified.right.right).left
   }
+
+theorem CplxDiff_stability_certificate_fields :
+    (forall {f z z' fp gp : BHist}, CplxDiffAt f z fp -> hsame z z' ->
+      hsame fp gp -> CplxDiffAt f z' gp ∧
+        exists h : BHist, exists q : BHist,
+          CplxDiffQuot f z' h q ∧ Cont f h q ∧ hsame q gp) ∧
+    (forall {f z fp gp : BHist}, CplxDiffAt f z fp -> CplxDiffAt f z gp ->
+      hsame fp gp ∧
+        exists h : BHist, exists q : BHist, CplxDiffQuot f z h q ∧ Cont f h q) ∧
+    (forall {f f' z z' h h' q q' : BHist}, hsame f f' -> hsame z z' ->
+      hsame h h' -> hsame q q' -> CplxDiffQuot f z h q ->
+        CplxDiffQuot f' z' h' q' ∧ UnaryHistory z' ∧ CplxNonZero h' ∧
+          Cont f' h' q') := by
+  constructor
+  · intro f z z' fp gp diff sameZ sameFpGp
+    exact CplxDiffAt_hsame_transport_witness diff sameZ sameFpGp
+  · constructor
+    · intro f z fp gp leftDiff rightDiff
+      exact CplxDiffAt_derivative_unique leftDiff rightDiff
+    · intro f f' z z' h h' q q' sameF sameZ sameH sameQ quotient
+      exact CplxDiffQuot_hsame_transport sameF sameZ sameH sameQ quotient
 
 end BEDC.Derived.ComplexDifferentiabilityUp
