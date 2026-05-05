@@ -311,6 +311,58 @@ theorem RealConstant_appended_tail_bridge_full_denominator_tail_package
       · intro classified
         exact extend (rows.right.right.right classified)
 
+theorem RealConstant_appended_tail_bridge_full_denominator_tail_package_exactness
+    {d e tailD tailE uD uE zD zE : BHist} {r q : BHist -> BHist} :
+    let D := append d (BHist.e1 tailD)
+    let E := append e (BHist.e1 tailE)
+    let FullPackage : Prop :=
+      RatHistoryClassifier D E ∧ PositiveUnaryDenominator D ∧ PositiveUnaryDenominator E ∧
+        UnaryHistory d ∧ UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+          (hsame D BHist.Empty -> False) ∧ (hsame E BHist.Empty -> False) ∧
+            (hsame D (BHist.e0 zD) -> False) ∧ (hsame E (BHist.e0 zE) -> False) ∧
+              hsame D E ∧ (hsame D (append uD (BHist.e0 zD)) -> False) ∧
+                (hsame E (append uE (BHist.e0 zE)) -> False) ∧ hsame d e
+    hsame tailD tailE ->
+      (FullPackage ↔
+        RatHistoryClassifier D E ∧
+          RatStreamNameClassifier (fun n : BHist => RatConstStream D (r n))
+            (fun n : BHist => RatConstStream E (q n)) ∧
+            RealUnaryStreamClassifier (fun n : BHist => RatConstStream D (r n))
+              (fun n : BHist => RatConstStream E (q n)) ∧
+              RealConstantHistoryClassifier (BHist.e1 D) (BHist.e1 E)) := by
+  dsimp
+  intro sameTail
+  constructor
+  · intro fullPackage
+    have denominatorPackage :
+        RatHistoryClassifier (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) ∧
+          PositiveUnaryDenominator (append d (BHist.e1 tailD)) ∧
+            PositiveUnaryDenominator (append e (BHist.e1 tailE)) ∧ UnaryHistory d ∧
+              UnaryHistory tailD ∧ UnaryHistory e ∧ UnaryHistory tailE ∧
+                (hsame (append d (BHist.e1 tailD)) BHist.Empty -> False) ∧
+                  (hsame (append e (BHist.e1 tailE)) BHist.Empty -> False) ∧
+                    (hsame (append d (BHist.e1 tailD)) (BHist.e0 zD) -> False) ∧
+                      (hsame (append e (BHist.e1 tailE)) (BHist.e0 zE) -> False) ∧
+                        hsame (append d (BHist.e1 tailD)) (append e (BHist.e1 tailE)) := by
+      exact ⟨fullPackage.left, fullPackage.right.left, fullPackage.right.right.left,
+        fullPackage.right.right.right.left, fullPackage.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.right.right.right.right.left,
+        fullPackage.right.right.right.right.right.right.right.right.right.right.right.left⟩
+    exact (RealConstant_appended_tail_bridge_denominator_package_exactness
+      (d := d) (e := e) (tailD := tailD) (tailE := tailE) (zD := zD) (zE := zE)
+      (r := r) (q := q)).mp denominatorPackage
+  · intro rows
+    have fullRows :=
+      RealConstant_appended_tail_bridge_full_denominator_tail_package
+        (d := d) (e := e) (tailD := tailD) (tailE := tailE) (uD := uD) (uE := uE)
+        (zD := zD) (zE := zE) (r := r) (q := q) sameTail
+    exact fullRows.left rows.left
+
 theorem RealConstantHistoryClassifier_append_common_head_e1_tail_readback
     {left d e tailD tailE : BHist} :
     RealConstantHistoryClassifier (BHist.e1 (append left (append d (BHist.e1 tailD))))

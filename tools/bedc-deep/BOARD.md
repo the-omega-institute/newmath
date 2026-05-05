@@ -6160,3 +6160,57 @@ B-14 covers the vertical composite $\beta\circ\alpha$ along a shared middle func
 
 ---
 
+### B-238 - FPS Cauchy product associativity over RingUp scalars
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | FPS Cauchy product associativity over RingUp scalars |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under a RingUp scalar package with scalar associativity, left/right distributivity, finite additive folds, and the threefold split-spine fold swap, the FPS Cauchy product on coefficient lists is associative up to the FPS classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/fps_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/18_ring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/25_polynomial_namecert_construction.tex`
+
+Rationale:
+FPS chapter currently exposes only definitions (def:fps-carrier, def:fps-cauchy-coefficient-spine, def:fps-threefold-cauchy-split-spines, def:fps-pointwise-addition-coefficient, def:fps-stability-certificate, etc.) with no labeled theorems on Cauchy product algebraic laws. Associativity of the Cauchy product is the canonical multiplicative law for FPS and exactly what the threefold split-spine fold-swap definition was prepared to support, so a dedicated target consumes existing scaffolding rather than introducing new primitives. It is distinct from polynomial-side targets B-09 (normalize commutes with add/multiply), B-22 (poly multiplication zero-tail invariance), B-30/B-31 (poly addition trim/zero-tail), which all live under the polynomial chapter with normalization/trimming, whereas FPS works on full coefficient streams without trimming. It is also distinct from B-21 (trim invariance) which is normalization-shape, not bilinear associativity. The hypotheses are stated as classifier obligations on the scalar RingUp, matching how other concrete-instance theorems on this BOARD are framed.
+
+---
+
+### B-239 - Left adjoint uniqueness up to natural isomorphism
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Left adjoint uniqueness up to natural isomorphism |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If two adjunction unit-counit displays share the same right-adjoint prefix, their left-adjoint prefixes are connected by mutually inverse NatTransUp comparison components, giving uniqueness of left adjoints up to natural isomorphism in the BEDC adjunction certificate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/adjunction/carrier_swap_involutions.tex`
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Adjunction is an established BEDC topic with multiple definitions in the paper (def:adjunction-triangle-carrier, def:adjunction-unit-counit-carrier, def:adjunction-unit-counit-carrier-swap-classifier) and active work in papers/bedc/parts/concrete_instances/adjunction/, but no theorem currently captures the structural uniqueness of left adjoints relative to a fixed right adjoint. Existing BOARD entries on functors (B-11) and natural transformations (B-14) cover composition and naturality, not adjoint uniqueness, so this is a clean adjacent gap. The claim is a single implication in BEDC certificate form (NatTransUp inverse-pair witnessing) rather than a generic categorical platitude, and it requires combining the unit-counit triangle laws with NatTransUp composition naturality, which makes it a meaningful proof target rather than a paraphrase of existing entries.
+
+---
+
