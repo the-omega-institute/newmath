@@ -24,6 +24,37 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
 
+theorem RealAnalyticLeibnizPartSum_successor_result_deterministic
+    {term : BHist -> BHist} {n S T U : BHist} :
+    RealAnalyticLeibnizPartSum term n S ->
+      Cont S (term n) T ->
+        RealAnalyticLeibnizPartSum term (BHist.e1 n) U ->
+          hsame T U := by
+  have deterministic :
+      forall {n S T : BHist},
+        RealAnalyticLeibnizPartSum term n S ->
+          RealAnalyticLeibnizPartSum term n T ->
+            hsame S T := by
+    intro n S T left
+    induction left generalizing T with
+    | zero =>
+        intro right
+        cases right with
+        | zero =>
+            exact hsame_refl BHist.Empty
+    | step leftSum leftStep ih =>
+        intro right
+        cases right with
+        | step rightSum rightStep =>
+            have samePartial := ih rightSum
+            exact cont_respects_hsame samePartial (hsame_refl (term _)) leftStep rightStep
+  intro source stepContinuation target
+  cases target with
+  | step targetPrevious targetContinuation =>
+      have samePrevious := deterministic source targetPrevious
+      exact cont_respects_hsame samePrevious (hsame_refl (term n)) stepContinuation
+        targetContinuation
+
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n

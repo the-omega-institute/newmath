@@ -31,4 +31,29 @@ theorem ComplexTopologyCertifiedSubradius_comp {r0 r1 r2 e0 e1 e01 : BHist} :
           (And.intro e01Carrier radiusRel)))
       radiusRel
 
+theorem ComplexTopologyOpenDiskGap_subradius_inclusion
+    {center inner outer point gap tail combined : BHist} :
+    ComplexTopologyOpenDiskGap center inner point gap ->
+      ComplexTopologyCertifiedSubradius inner outer tail ->
+        Cont gap tail combined ->
+          ComplexTopologyOpenDiskGap center outer point combined ∧
+            Cont point combined outer := by
+  intro disk subradius gapTail
+  have combinedCarrier : UnaryHistory combined :=
+    unary_cont_closed disk.right.right.right.left subradius.right.right.left gapTail
+  have pointCombinedOuter : Cont point combined outer := by
+    apply cont_intro
+    exact
+      subradius.right.right.right.trans
+        ((congrArg (fun h => append h tail) disk.right.right.right.right).trans
+          ((append_assoc point gap tail).trans
+            (congrArg (append point) gapTail.symm)))
+  exact
+    And.intro
+      (And.intro disk.left
+        (And.intro subradius.right.left
+          (And.intro disk.right.right.left
+            (And.intro combinedCarrier pointCombinedOuter))))
+      pointCombinedOuter
+
 end BEDC.Derived.ComplexTopologyUp
