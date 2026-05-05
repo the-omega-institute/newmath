@@ -489,6 +489,11 @@ def AbsConvAbscissa (term : BHist -> BHist -> BHist) (sigma : BHist) : Prop :=
     forall {s S : BHist}, ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
       Cont sigma witness S -> ComplexHistoryCarrier S
 
+def DirichletSourceSpec
+    (term : BHist -> BHist -> BHist) (s sigma witness S : BHist) : Prop :=
+  AbsConvAbscissa term sigma ∧ ComplexHistoryCarrier s ∧ DirichletSeriesConv term s S ∧
+    UnaryHistory witness ∧ Cont sigma witness S
+
 theorem AbsConvAbscissa_witness_result_carrier
     {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
     AbsConvAbscissa term sigma -> ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
@@ -506,16 +511,25 @@ theorem AbsConvAbscissa_witness_result_carrier
                   witnessData.right sourceCarrier convergence continuation
                 resultCarrier))
 
-def DirichletSourceSpec (term : BHist -> BHist -> BHist) (sigma s S : BHist) : Prop :=
-  AbsConvAbscissa term sigma ∧ ComplexHistoryCarrier s ∧ DirichletSeriesConv term s S
+theorem DirichletSourceSpec_result_carrier
+    {term : BHist -> BHist -> BHist} {s sigma witness S : BHist} :
+    DirichletSourceSpec term s sigma witness S -> ComplexHistoryCarrier S := by
+  intro source
+  cases source.right.right.left with
+  | intro ps convRest =>
+      cases convRest with
+      | intro N convRest =>
+          cases convRest with
+          | intro M convData =>
+              exact convData.right.right.left
 
 theorem DirichletSourceSpec_witness_result_carrier
-    {term : BHist -> BHist -> BHist} {sigma s S : BHist} :
-    DirichletSourceSpec term sigma s S ->
+    {term : BHist -> BHist -> BHist} {s sigma witness S : BHist} :
+    DirichletSourceSpec term s sigma witness S ->
       ∃ witness : BHist, UnaryHistory witness ∧
         (Cont sigma witness S -> ComplexHistoryCarrier S) := by
   intro source
-  exact AbsConvAbscissa_witness_result_carrier source.left source.right.left source.right.right
+  exact AbsConvAbscissa_witness_result_carrier source.left source.right.left source.right.right.left
 
 theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
     {s S : BHist} :
