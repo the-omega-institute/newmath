@@ -19,3 +19,36 @@ rational classifier has an $\Ezero$ endpoint on one side, so the RatUp endpoint
 exclusion applies in the corresponding orientation.
 \end{proof}
 \leanchecked{BEDC.Derived.RealUp.RealConstantHistoryClassifier\_e1\_e0\_endpoint\_absurd}
+
+\begin{theorem}[Real constant classifier transported inner e-zero endpoint absurd]
+\label{thm:real-constant-history-classifier-transported-inner-e0-endpoint-absurd}
+For histories $h,k,tail:\mathsf{BHist}$, any constant real-history classifier
+excludes an $\Eone(\Ezero(tail))$ display on either classified endpoint:
+$$
+\begin{array}{l}
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(h,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr),\\
+\mathsf{RealConstantHistoryClassifier}(h,k)
+\Longrightarrow
+\bigl(\hsame(k,\Eone(\Ezero(tail)))\Longrightarrow\mathsf{False}\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the left endpoint, unpack the constant real classifier only far enough to
+recover the opposite endpoint display $k\hsame\Eone(d)$. Together with the
+assumed display $h\hsame\Eone(\Ezero(tail))$,
+\autoref{thm:real-constant-history-classifier-endpoint-transport} transports
+the classifier to the exact pair
+$\mathsf{RealConstantHistoryClassifier}(\Eone(\Ezero(tail)),\Eone(d))$.
+Then \autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}
+contradicts this exact sealed-zero shape.
+
+The right endpoint is symmetric. Unpack the classifier to recover
+$h\hsame\Eone(d)$, combine it with the assumed
+$k\hsame\Eone(\Ezero(tail))$, transport to
+$\mathsf{RealConstantHistoryClassifier}(\Eone(d),\Eone(\Ezero(tail)))$, and
+apply the opposite orientation of
+\autoref{thm:real-constant-history-classifier-e1-e0-endpoint-absurd}.
+\end{proof}
