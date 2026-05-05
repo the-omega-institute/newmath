@@ -10621,3 +10621,29 @@ This is a concrete bridge target from the Lie-algebra certificate to the existin
 
 ---
 
+### B-406 - Split epimorphisms are right-cancellative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Split epimorphisms are right-cancellative |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a CategoryUp certificate, if f:a->b has a split-epimorphism witness and u after f is hom-classifier equal to v after f for u,v:b->x, then u is hom-classifier equal to v.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws.tex`
+- `papers/bedc/parts/concrete_instances/category/carrier_and_hom_laws_associativity.tex`
+
+Rationale:
+The claim is a concrete single-implication category theorem that belongs in the existing CategoryUp surface. It is not a notation variant of the current BOARD category entries, which focus on functor composition and natural transformation composition, and the paper-side coverage only shows split-epimorphism data rather than this cancellativity consequence. It is close to existing category composition and determinacy material, so the novelty is moderate rather than high, but it gives a useful standalone cancellation target from a named witness.
+
+---
+
