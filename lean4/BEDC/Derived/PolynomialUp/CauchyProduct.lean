@@ -1,4 +1,4 @@
-import BEDC.Derived.PolynomialUp
+import BEDC.Derived.PolynomialUp.Evaluation
 
 namespace BEDC.Derived.PolynomialUp
 
@@ -58,5 +58,105 @@ theorem PolynomialSingletonEval_raw_scale_empty_classified
   exact And.intro leftEmpty
     (And.intro rightEmpty
       (And.intro leftEmpty (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))))
+
+theorem PolynomialSingletonRawAdd_zero_remainder
+    {xs ys : List BHist} :
+    PolynomialZeroRemainder xs -> PolynomialZeroRemainder ys ->
+      PolynomialZeroRemainder (PolynomialSingletonRawAdd xs ys) := by
+  intro zeroXs zeroYs
+  induction zeroXs generalizing ys with
+  | nil =>
+      induction zeroYs with
+      | nil =>
+          exact PolynomialZeroRemainder.nil
+      | cons headEmpty _tailZero tailRaw =>
+          exact PolynomialZeroRemainder.cons
+            (append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) headEmpty))
+            tailRaw
+  | cons headEmpty _tailZero tailRaw =>
+      cases ys with
+      | nil =>
+          exact PolynomialZeroRemainder.cons
+            (append_eq_empty_iff.mpr (And.intro headEmpty (hsame_refl BHist.Empty)))
+            (tailRaw PolynomialZeroRemainder.nil)
+      | cons y ys =>
+          cases zeroYs with
+          | cons yEmpty ysZero =>
+              exact PolynomialZeroRemainder.cons
+                (append_eq_empty_iff.mpr (And.intro headEmpty yEmpty))
+                (tailRaw ysZero)
+
+theorem PolynomialSingletonRawMul_zero_remainder
+    {xs ys : List BHist} :
+    PolynomialZeroRemainder xs -> PolynomialZeroRemainder ys ->
+      PolynomialZeroRemainder (PolynomialSingletonRawMul xs ys) := by
+  intro zeroXs zeroYs
+  induction zeroXs with
+  | nil =>
+      exact PolynomialZeroRemainder.nil
+  | cons headEmpty _tailZero tailProductZero =>
+      exact PolynomialSingletonRawAdd_zero_remainder
+        (PolynomialSingletonRawScale_zero_remainder headEmpty zeroYs)
+        (PolynomialZeroRemainder.cons (hsame_refl BHist.Empty) tailProductZero)
+
+theorem PolynomialSingletonEval_rawMul_classified {alpha : BHist} {xs ys : List BHist} :
+    PolynomialSingletonCarrier alpha ->
+      BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier xs xs ->
+        BEDC.Derived.ListUp.ListClassifierSpec PolynomialSingletonClassifier ys ys ->
+          PolynomialSingletonClassifier
+            (PolynomialSingletonEval alpha (PolynomialSingletonRawMul xs ys))
+            (append (PolynomialSingletonEval alpha xs) (PolynomialSingletonEval alpha ys)) := by
+  intro carrierAlpha classifiedXs classifiedYs
+  have zeroYs : PolynomialZeroRemainder ys :=
+    BEDC.Derived.PolynomialUp.PolynomialZeroRemainder_singleton_classifier_self classifiedYs
+  induction xs with
+  | nil =>
+      have evalYsEmpty : hsame (PolynomialSingletonEval alpha ys) BHist.Empty :=
+        PolynomialZeroRemainder_eval_empty carrierAlpha zeroYs
+      have rightEmpty :
+          hsame (append (PolynomialSingletonEval alpha []) (PolynomialSingletonEval alpha ys))
+            BHist.Empty :=
+        append_eq_empty_iff.mpr (And.intro (hsame_refl BHist.Empty) evalYsEmpty)
+      exact And.intro (hsame_refl BHist.Empty)
+        (And.intro rightEmpty (hsame_symm rightEmpty))
+  | cons x xs ih =>
+      cases classifiedXs with
+      | intro headClassified tailClassified =>
+          have zeroXs : PolynomialZeroRemainder xs :=
+            BEDC.Derived.PolynomialUp.PolynomialZeroRemainder_singleton_classifier_self
+              tailClassified
+          have scaledZero : PolynomialZeroRemainder (PolynomialSingletonRawScale x ys) :=
+            PolynomialSingletonRawScale_zero_remainder headClassified.left zeroYs
+          have productZero :
+              PolynomialZeroRemainder (PolynomialSingletonRawMul xs ys) :=
+            PolynomialSingletonRawMul_zero_remainder zeroXs zeroYs
+          have rawAddZero :
+              PolynomialZeroRemainder
+                (PolynomialSingletonRawAdd (PolynomialSingletonRawScale x ys)
+                  (BHist.Empty :: PolynomialSingletonRawMul xs ys)) :=
+            PolynomialSingletonRawAdd_zero_remainder scaledZero
+              (PolynomialZeroRemainder.cons (hsame_refl BHist.Empty) productZero)
+          have leftEmpty :
+              hsame
+                (PolynomialSingletonEval alpha
+                  (PolynomialSingletonRawAdd (PolynomialSingletonRawScale x ys)
+                    (BHist.Empty :: PolynomialSingletonRawMul xs ys)))
+                BHist.Empty :=
+            PolynomialZeroRemainder_eval_empty carrierAlpha rawAddZero
+          have classifiedCons :
+              BEDC.Derived.ListUp.ListClassifierSpec
+                PolynomialSingletonClassifier (x :: xs) (x :: xs) :=
+            And.intro headClassified tailClassified
+          have evalXEmpty : hsame (PolynomialSingletonEval alpha (x :: xs)) BHist.Empty :=
+            (PolynomialSingletonEval_list_classifier_classified carrierAlpha
+              classifiedCons).left.left
+          have evalYEmpty : hsame (PolynomialSingletonEval alpha ys) BHist.Empty :=
+            PolynomialZeroRemainder_eval_empty carrierAlpha zeroYs
+          have rightEmpty :
+              hsame (append (PolynomialSingletonEval alpha (x :: xs))
+                  (PolynomialSingletonEval alpha ys)) BHist.Empty :=
+            append_eq_empty_iff.mpr (And.intro evalXEmpty evalYEmpty)
+          exact And.intro leftEmpty
+            (And.intro rightEmpty (hsame_trans leftEmpty (hsame_symm rightEmpty)))
 
 end BEDC.Derived.PolynomialUp
