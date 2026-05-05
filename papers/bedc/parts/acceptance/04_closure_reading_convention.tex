@@ -1,0 +1,68 @@
+\chapter{Closure Reading Convention}
+\label{ch:closure-reading-convention}
+
+This short chapter records the convention by which a reader should read every closurestatus block in the manuscript.
+
+\section{Read both axes, separately}
+
+A line of the form $\TheoryGate(N, c)$ records what the paper has closed about $N$ at grade $c$. A line of the form $\FormalStatus(N, v)$ records the audit state of the cited Lean target at grade $v$. The two are independent: neither line implies the other, and the conjunction $\VerifiedGate(N, c, v)$ records both at once without merging them.
+
+\section{Read closure as a paper claim}
+
+The closure axis is read entirely from the manuscript. A reader interrogating a closure claim should ask whether the chapter exhibits, within the stated scope, a source, a classifier, an exactness theorem, a ledger or absence statement, and a stability witness. None of these inquiries asks anything about a Lean file.
+
+\section{Read verification as an audit claim}
+
+The verification axis is read entirely from the audit. A reader interrogating a verification claim should ask whether the cited Lean target exists, whether \texttt{lake build} accepts it, whether \texttt{bedc\_ci.py audit} resolves it, and whether \texttt{check-axioms.py} reports the transitive dependencies clean. None of these inquiries asks anything about whether the paper's mathematical reading is closed.
+
+\section{Per-object orientation table}
+
+The following table orients a reader who lands on a chapter and wants to know its present axes at a glance. The table is non-normative: each chapter's closurestatus block is the binding source of truth.
+
+\begin{longtable}{p{0.18\textwidth}p{0.20\textwidth}p{0.30\textwidth}p{0.20\textwidth}}
+\toprule
+\textbf{Object} & \textbf{Theory closure} & \textbf{Scope} & \textbf{Formal status}\\
+\midrule
+\endhead
+$\NatUp$         & $\scopedClosure$ & unary history certificate                                & $\theoremCheckedV$\\
+$\AddUp$         & $\scopedClosure$ & unary continuation certificate                           & $\theoremCheckedV$\\
+$\IntUp$         & $\scopedClosure$ & history pair certificate                                 & $\theoremCheckedV$\\
+$\RatUp$         & $\scopedClosure$ & history-pair semantic certificate                        & $\theoremCheckedV$\\
+$\BoolUp$        & $\scopedClosure$ & boolean history semantic certificate                     & $\theoremCheckedV$\\
+$\OptionUp$      & $\scopedClosure$ & tagged-option semantic certificate                       & $\theoremCheckedV$\\
+$\ProdUp$        & $\scopedClosure$ & product history semantic certificate                     & $\theoremCheckedV$\\
+$\SumUp$         & $\scopedClosure$ & sum history semantic certificate                         & $\theoremCheckedV$\\
+$\ListUp$        & $\scopedClosure$ & list spine bridge classifier certificate                 & $\theoremCheckedV$\\
+$\ComplexUp$     & $\scopedClosure$ & history pair semantic certificate                        & $\theoremCheckedV$\\
+$\MonoidUp$      & $\scopedClosure$ & monoid history semantic certificate                      & $\theoremCheckedV$\\
+$\GroupUp$       & $\scopedClosure$ & group stability certificate                              & $\theoremCheckedV$\\
+$\AbGroupUp$     & $\scopedClosure$ & singleton empty-history certificate                      & $\theoremCheckedV$\\
+$\CommRingUp$    & $\scopedClosure$ & singleton empty-history certificate                      & $\theoremCheckedV$\\
+$\FieldUp$       & $\scopedClosure$ & FieldApartZero / phase-exit certificate                  & $\theoremCheckedV$\\
+$\ModuleUp$      & $\scopedClosure$ & singleton smul image certificate                         & $\theoremCheckedV$\\
+$\VecSpaceUp$    & $\scopedClosure$ & singleton empty-history vector-space certificate         & $\theoremCheckedV$\\
+$\LinearMapUp$   & $\scopedClosure$ & singleton linear-map laws                                & $\theoremCheckedV$\\
+$\MetricUp$      & $\scopedClosure$ & empty-history distance certificate                       & $\theoremCheckedV$\\
+$\CategoryUp$    & $\scopedClosure$ & hom-carrier composition certificate                      & $\theoremCheckedV$\\
+$\FunctorUp$     & $\scopedClosure$ & prefix functor carrier certificate                       & $\theoremCheckedV$\\
+$\NatTransUp$    & $\scopedClosure$ & prefix-component classifier certificate                  & $\theoremCheckedV$\\
+$\YonedaUp$      & $\scopedClosure$ & empty-component-family certificate                       & $\theoremCheckedV$\\
+$\SubgroupUp$    & $\scopedClosure$ & subgroup centralizer certificate                         & $\theoremCheckedV$\\
+$\QuotientGroupUp$ & $\scopedClosure$ & centralizer-normalizer certificate                       & $\theoremCheckedV$\\
+$\DeterminantUp$ & $\scopedClosure$ & singleton determinant certificate                        & $\theoremCheckedV$\\
+$\HomologyUp$    & $\scopedClosure$ & singleton cycle certificate                              & $\theoremCheckedV$\\
+$\CohomologyUp$  & $\scopedClosure$ & singleton cocycle certificate                            & $\theoremCheckedV$\\
+$\PrimeUp$       & $\scopedClosure$ & prime semantic certificate                               & $\theoremCheckedV$\\
+$\RealUp$        & $\scopedClosure$ & rational embedding constant certificate                  & $\theoremCheckedV$\\
+\bottomrule
+\end{longtable}
+
+\begin{remark}[Why every entry is $\scopedClosure$]
+\label{rem:why-all-scoped}
+Every present BEDC chapter closes a precise, paper-recorded scope; none claims the full traditional object as a theorem package, and none has yet exhibited a paper-level standard bridge with all six fields argued. The closure axis grade therefore stops at $\scopedClosure$ across the manuscript. Upgrades to $\publicClosure$ require chapters that exhibit a public-object surface with constructors, readback, endpoint exactness, normal form, and a no-hidden-leakage statement; upgrades to $\bridgedClosure$ require a paper-level standard bridge per \autoref{ch:acceptance-bridge}. Each chapter's closurestatus block names the upgrade path explicitly.
+\end{remark}
+
+\begin{remark}[Verification axis is uniform but not constraining]
+\label{rem:verification-axis-uniform}
+Every present chapter is at $\theoremCheckedV$ on the verification axis: each closurestatus block names a Lean target that resolves under \texttt{lean4/BEDC/} and that \texttt{lake build} accepts. The audit script of \autoref{lem:audit-reflects-verification} is responsible for keeping this uniform; the closure axis grade is independent.
+\end{remark}

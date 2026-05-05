@@ -8,3 +8,48 @@ The subtype interface $\SubtypeUp$ packages the carrier of elements of a parent 
 
 \section{The certificate}
 \label{sec:subtype-certificate}
+
+\begin{definition}[Subtype restricted classifier]
+\label{def:subtype-restricted-classifier}
+Let $S$ be the certified point type of a parent $\NameCert_{\SetUp}$, with
+parent classifier $\sim_S$. Let $P:S\to\mathsf{Prop}$ be a decidable predicate
+stable under the parent classifier, meaning that for $x,y:S$,
+$$
+x\sim_S y\Longrightarrow P(x)\Longrightarrow P(y).
+$$
+The $\SubtypeUp$ carrier cut out by $P$ is
+$$
+S_P=\{(x,p)\mid x:S\ \text{and}\ p:P(x)\}.
+$$
+For subtype elements $(x,p_x)$ and $(y,p_y)$, the subtype classifier is the
+restriction of the parent classifier:
+$$
+(x,p_x)\sim_{S_P}(y,p_y)\quad:\Longleftrightarrow\quad x\sim_S y.
+$$
+\end{definition}
+
+\begin{theorem}[Subtype classifier reflects parent classifier]
+\label{thm:subtype-classifier-reflects-parent-classifier}
+Let $S$ be a parent $\NameCert_{\SetUp}$ with classifier $\sim_S$, and let
+$P:S\to\mathsf{Prop}$ be a decidable predicate stable under $\sim_S$. For all
+$x,y:S$ and witnesses $p_x:P(x)$ and $p_y:P(y)$, the classifier of
+\autoref{def:subtype-restricted-classifier} satisfies
+$$
+(x,p_x)\sim_{S_P}(y,p_y)
+\Longleftrightarrow
+x\sim_S y.
+$$
+Equivalently, a parent classifier witness between predicate-bearing endpoints
+induces the subtype classifier witness, and every subtype classifier witness
+projects to the parent classifier witness.
+\end{theorem}
+\begin{proof}
+Unfold the classifier clause in \autoref{def:subtype-restricted-classifier}.
+The forward implication is projection: a subtype classifier witness is a parent
+classifier witness between the first components. The reverse implication is
+inclusion: a witness of $x\sim_S y$ is, by the displayed definition, a witness
+of $(x,p_x)\sim_{S_P}(y,p_y)$ once the two subtype endpoints have been formed.
+The decidability and stability assumptions are the formation and transport rows
+for the $\SubtypeUp$ carrier; the restricted classifier itself carries no data
+beyond the parent comparison.
+\end{proof}

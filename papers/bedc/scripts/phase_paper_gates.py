@@ -15,7 +15,7 @@ Usage:
     python3 papers/bedc/scripts/phase_paper_gates.py \\
         --worktree /path/to/round_P1234 \\
         --base-sha abc123                     \\
-        [--gate register-only|vocab|math|oversized|leanvariant|all]
+        [--gate register-only|vocab|math|oversized|leanvariant|axis-confusion|all]
 
 With `--gate all` (default), prints a JSON object keyed by gate name.
 With a specific gate name, prints one violation per line.
@@ -276,12 +276,47 @@ def detect_leanvariant(*, worktree: Path, base_sha: str) -> list[str]:
     return violations
 
 
+AXIS_CONFUSION_PHRASES = (
+    re.compile(
+        r"theory(?:\s+is)?\s+closed\s+because\s+(?:it\s+is\s+|the\s+)?(?:lean|machine|formal)",
+        re.I,
+    ),
+    re.compile(
+        r"unchecked,?\s+therefore\s+not\s+closed",
+        re.I,
+    ),
+    re.compile(
+        r"\\theoryclosure\{[^}]*\}\s*=>?\s*\\formalstatus",
+    ),
+    re.compile(
+        r"\\formalstatus\{[^}]*\}\s*=>?\s*\\theoryclosure",
+    ),
+)
+
+
+def detect_axis_confusion(*, worktree: Path, base_sha: str) -> list[str]:
+    violations: list[str] = []
+    for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
+        for line_no, content in _added_lines_per_file(
+            worktree=worktree, base_sha=base_sha, rel_path=rel
+        ):
+            for pat in AXIS_CONFUSION_PHRASES:
+                if pat.search(content):
+                    violations.append(
+                        f"{rel}:{line_no}: closure/verification axis "
+                        f"confusion — {content.strip()[:120]}"
+                    )
+                    break
+    return violations
+
+
 GATE_DISPATCH = {
     "register-only": detect_register_only,
     "vocab": detect_vocab,
     "math": detect_math,
     "oversized": detect_oversized,
     "leanvariant": detect_leanvariant,
+    "axis-confusion": detect_axis_confusion,
 }
 
 

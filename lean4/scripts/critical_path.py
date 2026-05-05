@@ -159,18 +159,33 @@ UP_REF_RE = re.compile(r"\\?([A-Z][A-Za-z]*)Up\b")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 PAPER_LABEL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):")
 PAPER_LABEL_FULL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):([^}]+)\}")
-# `\closureat{<X>Up}{<strength>}` is the per-chapter binary closure marker
-# (preamble.tex). The chapter is "closed" iff a closureat with strength
-# `\checkedCertStr` or `\bridgeCertStr` is present anywhere under the
-# chapter's recursive include closure. Critical_path excludes closed
-# chapters from `top` so codex rounds focus on still-open horizons.
-CLOSUREAT_RE = re.compile(
-    r"\\closureat\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}\{\s*\\(\w+)Str\s*\}"
-    r"(?:\[\s*([^\]]+?)\s*\])?"
+CLOSURESTATUS_BEGIN_RE = re.compile(
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
+CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+THEORYCLOSURE_RE = re.compile(r"\\theoryclosure\{\\(\w+)\}")
+FORMALSTATUS_RE = re.compile(r"\\formalstatus\{\\(\w+)\}")
+LEANTARGET_RE = re.compile(r"\\leantarget\{([^}]+)\}")
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
-CLOSED_STRENGTHS = {"checkedCert", "bridgeCert"}
 PAPER_ROOT_DIR = ROOT / "papers" / "bedc"
+
+CLOSURE_GRADE_ORDER = [
+    "seedClosure", "obligationClosure", "scopedClosure",
+    "publicClosure", "bridgedClosure", "matureClosure",
+]
+FORMAL_GRADE_ORDER = [
+    "unformalizedV", "formalTargetV", "encodedDefV",
+    "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
+    "axiomCleanV", "bridgeCheckedV",
+]
+RETIREMENT_CLOSURE_THRESHOLD = "scopedClosure"
+RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
+
+
+def _grade_at_or_above(grade: str | None, threshold: str, order: list[str]) -> bool:
+    if grade is None or grade not in order or threshold not in order:
+        return False
+    return order.index(grade) >= order.index(threshold)
 
 
 def normalize_name(stem: str) -> str:
@@ -185,7 +200,7 @@ def derive_lean_camel_case(paper_key: str, paper_text: str) -> str:
     `paper_key` is the lowercase basename (e.g. "abgroup", "commring",
     "linearmap"). The naive .capitalize() pass yields "Abgroup",
     "Commring", "Linearmap" — wrong for the multi-word horizons. The
-    paper text always references the horizon as `\<X>Up`; we grep that
+    paper text always references the horizon as `\\<X>Up`; we grep that
     and take the first match whose lowercase form equals `paper_key`.
     Falls back to `.capitalize()` only if no `<X>Up` reference exists
     (which shouldn't happen for any chapter that has been written).
@@ -224,30 +239,30 @@ def _read_chapter_recursive(chapter_path: Path,
     return "".join(parts)
 
 
-def is_chapter_closed(chapter_text: str, name: str) -> "str | None":
-    """If chapter has `\\closureat{<Name>Up}{\\<strength>Str}` with strength
-    in CLOSED_STRENGTHS, return the strength string. Else None."""
-    target_lower = name.lower()
-    for m in CLOSUREAT_RE.finditer(chapter_text):
-        if m.group(1).lower() != target_lower:
+def is_chapter_retired_from_horizon(
+    chapter_text: str, name: str
+) -> tuple[bool, str | None, str | None, str | None]:
+    for m in CLOSURESTATUS_BEGIN_RE.finditer(chapter_text):
+        if m.group(1).lower() != name.lower():
             continue
-        strength = m.group(2)
-        if strength in CLOSED_STRENGTHS:
-            return strength
-    return None
-
-
-def chapter_closure_grounding(chapter_text: str, name: str) -> "str | None":
-    """If chapter declares `\\closureat{<Name>Up}{...}[<lean.target>]`, return
-    the grounding theorem with `\\_` resolved to `_`. Else None."""
-    target_lower = name.lower()
-    for m in CLOSUREAT_RE.finditer(chapter_text):
-        if m.group(1).lower() != target_lower:
-            continue
-        grounding = m.group(3)
-        if grounding:
-            return grounding.replace("\\_", "_").strip()
-    return None
+        tail = chapter_text[m.end():]
+        end = CLOSURESTATUS_END_RE.search(tail)
+        body = tail[:end.start()] if end else tail
+        tc_match = THEORYCLOSURE_RE.search(body)
+        fs_match = FORMALSTATUS_RE.search(body)
+        lt_match = LEANTARGET_RE.search(body)
+        tc = tc_match.group(1) if tc_match else None
+        fs = fs_match.group(1) if fs_match else None
+        lt = (
+            lt_match.group(1).replace("\\_", "_").strip()
+            if lt_match else None
+        )
+        retired = (
+            _grade_at_or_above(tc, RETIREMENT_CLOSURE_THRESHOLD, CLOSURE_GRADE_ORDER)
+            and _grade_at_or_above(fs, RETIREMENT_FORMAL_THRESHOLD, FORMAL_GRADE_ORDER)
+        )
+        return (retired, tc, fs, lt)
+    return (False, None, None, None)
 
 
 def extract_horizons() -> dict[str, dict]:
@@ -269,8 +284,15 @@ def extract_horizons() -> dict[str, dict]:
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
         deps.discard(name)
         thms = len(LEAN_MARKER_RE.findall(full_text))
-        closed_at = is_chapter_closed(full_text, name)
-        grounding = chapter_closure_grounding(full_text, name)
+        retired, theory_grade, formal_grade, lean_target = (
+            is_chapter_retired_from_horizon(full_text, name)
+        )
+        closed_at = [theory_grade, formal_grade] if retired else None
+        # Compute next-grade targets per axis. Used by phase B/C prompts to
+        # pick the right "level transition" target shape for the round.
+        theory_next = _next_grade(theory_grade, CLOSURE_GRADE_ORDER)
+        formal_next = _next_grade(formal_grade, FORMAL_GRADE_ORDER)
+        next_axis = _select_next_axis(theory_grade, formal_grade)
         camel = derive_lean_camel_case(name, text)
         lean_file = DERIVED_DIR / f"{camel}Up.lean"
         siblings = _collect_siblings(tex, name, camel, lean_file)
@@ -278,14 +300,65 @@ def extract_horizons() -> dict[str, dict]:
             "name": name,
             "deps": sorted(deps),
             "thms": thms,
-            "closed_at": closed_at,           # None | "checkedCert" | "bridgeCert"
-            "closed": closed_at is not None,
-            "closure_grounding": grounding,   # None | "BEDC.<...>"
+            "closed_at": closed_at,
+            "closed": retired,
+            "closure_grounding": lean_target,
+            "lean_target": lean_target,
+            "theory_grade": theory_grade,
+            "formal_grade": formal_grade,
+            "theory_grade_next": theory_next,
+            "formal_grade_next": formal_next,
+            "next_axis": next_axis,
+            "next_grade_transition": _format_transition(
+                theory_grade, formal_grade, theory_next, formal_next, next_axis
+            ),
             "file_paper": str(tex.relative_to(ROOT)),
             "file_lean": str(lean_file.relative_to(ROOT)),
             "siblings": siblings,
         }
     return horizons
+
+
+def _next_grade(current: str | None, order: list[str]) -> str | None:
+    """Next-higher grade in `order` after `current`. None if at top or
+    `current` is not in `order` (treat as needing the lowest grade)."""
+    if current is None:
+        return order[0] if order else None
+    if current not in order:
+        return order[0] if order else None
+    i = order.index(current)
+    if i + 1 >= len(order):
+        return None
+    return order[i + 1]
+
+
+def _select_next_axis(theory: str | None, formal: str | None) -> str:
+    """Choose which axis (theory_closure / formal_status) needs the next
+    bump first. Strategy: pick the axis that is FARTHEST below its
+    retirement threshold — the more lagging axis is the bottleneck for
+    retirement. Ties go to formal (lean rounds dominate the dispatcher)."""
+    def lag(grade, order, threshold):
+        if grade is None:
+            return len(order)  # "below the order" — max lag
+        try:
+            cur = order.index(grade)
+        except ValueError:
+            return len(order)
+        try:
+            tgt = order.index(threshold)
+        except ValueError:
+            return 0
+        return max(0, tgt - cur)
+    t_lag = lag(theory, CLOSURE_GRADE_ORDER, RETIREMENT_CLOSURE_THRESHOLD)
+    f_lag = lag(formal, FORMAL_GRADE_ORDER, RETIREMENT_FORMAL_THRESHOLD)
+    return "theory_closure" if t_lag > f_lag else "formal_status"
+
+
+def _format_transition(theory_cur, formal_cur, theory_next, formal_next, axis) -> str:
+    """Human-readable string codex can plan against."""
+    if axis == "theory_closure":
+        return f"theory: {theory_cur or '(none)'} -> {theory_next or '(top)'}"
+    return f"formal: {formal_cur or '(none)'} -> {formal_next or '(top)'}"
 
 
 def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
@@ -341,7 +414,9 @@ def _collect_siblings(parent_tex: Path, chapter_name: str, camel: str,
                               for m in PAPER_LABEL_FULL_RE.finditer(sib_text)}
             sib_labels = len(sib_label_set)
             sib_unmarked = max(0, sib_labels - sib_thms)
-            sib_closed = is_chapter_closed(sib_text, chapter_name) is not None
+            sib_closed = is_chapter_retired_from_horizon(
+                sib_text, chapter_name
+            )[0]
             siblings.append({
                 "name": chapter_name,
                 "sibling_id": sib.stem,
@@ -457,8 +532,7 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
     """Rank OPEN sibling fronts by transitive downstream impact.
 
     The graph is still chapter-level for closure / dep-readiness logic
-    (a horizon's `\\closureat{<X>Up}{checkedCert|bridgeCert}` and its
-    `\\<Dep>Up` references operate at chapter granularity). The ranking
+    and dependency references operate at chapter granularity. The ranking
     output is per-sibling: each chapter contributes one row PER OPEN
     SIBLING file under it. Workers can therefore claim distinct siblings
     of the same chapter without colliding on the cooldown lock.
@@ -501,15 +575,32 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
             # unmarked). Replaces the older chapter-level tiebreak which
             # didn't differentiate siblings within a chapter.
             sib_tiebreak = sib_effective_unmarked / (1.0 + sib["thms"])
+            # Distance from retirement (used in sort key — chapters
+            # closer to (scoped, theoremChecked) get a small boost so the
+            # tail closes faster while still respecting downstream order).
+            t_lag = _grade_lag(info.get("theory_grade"),
+                               CLOSURE_GRADE_ORDER, RETIREMENT_CLOSURE_THRESHOLD)
+            f_lag = _grade_lag(info.get("formal_grade"),
+                               FORMAL_GRADE_ORDER, RETIREMENT_FORMAL_THRESHOLD)
+            chapter_lag = t_lag + f_lag
             ranked.append({
                 "name": n,
                 "deps": info["deps"],
                 "thms": chapter_thms,
                 "closed_at": info.get("closed_at"),
+                "lean_target": info.get("lean_target"),
                 "closed": False,
                 "downstream": chapter_down,
                 "score": chapter_down,
                 "tiebreak": round(sib_tiebreak, 2),
+                # Grade metadata (Phase 1 layered closure planning):
+                "theory_grade": info.get("theory_grade"),
+                "formal_grade": info.get("formal_grade"),
+                "theory_grade_next": info.get("theory_grade_next"),
+                "formal_grade_next": info.get("formal_grade_next"),
+                "next_axis": info.get("next_axis"),
+                "next_grade_transition": info.get("next_grade_transition"),
+                "chapter_grade_lag": chapter_lag,
                 # Sibling-level fields:
                 "sibling_id": sib["sibling_id"],
                 "sibling_thms": sib["thms"],
@@ -520,13 +611,35 @@ def _rank_at_threshold(horizons: dict[str, dict], downstream: dict[str, int],
                 "file_paper": sib["file_paper"],
                 "file_lean": sib["file_lean"],
             })
-    # Sort: prefer high downstream, then HIGH effective_unmarked (slots not
-    # already claimed), then per-sibling tiebreak, then alphabetic.
+    # Sort: prefer high downstream, then chapters CLOSER to retirement
+    # (lower chapter_grade_lag = closer to scoped+theoremChecked → finish
+    # them off so retirement frees critical-path slots), then HIGH
+    # effective_unmarked, then per-sibling tiebreak, then alphabetic.
     ranked.sort(key=lambda r: (
-        -r["score"], -r["sibling_effective_unmarked"], -r["tiebreak"],
+        -r["score"],
+        r["chapter_grade_lag"],
+        -r["sibling_effective_unmarked"],
+        -r["tiebreak"],
         r["name"], r["sibling_id"],
     ))
     return ranked
+
+
+def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
+    """Number of grade steps between `grade` and `threshold` (≥0). Used by
+    the sort key to prefer chapters closer to retirement so the tail
+    closes faster."""
+    if grade is None:
+        return len(order)
+    try:
+        cur = order.index(grade)
+    except ValueError:
+        return len(order)
+    try:
+        tgt = order.index(threshold)
+    except ValueError:
+        return 0
+    return max(0, tgt - cur)
 
 
 def main() -> int:
@@ -551,15 +664,13 @@ def main() -> int:
 
     rolled = _claim_top_with_cooldown(ranked)
 
-    # Closure stats: how many of each strength under the binary closure
-    # marker `\closureat`. Useful for the daily self-check to track
-    # progress toward full theory closure.
-    closed_count = {"checkedCert": 0, "bridgeCert": 0}
+    closed_count: dict[str, int] = {}
     open_count = 0
     for info in horizons.values():
         c = info.get("closed_at")
-        if c in closed_count:
-            closed_count[c] += 1
+        if info.get("closed") and isinstance(c, list) and len(c) == 2:
+            key = f"{c[0]}/{c[1]}"
+            closed_count[key] = closed_count.get(key, 0) + 1
         elif not info.get("closed"):
             open_count += 1
 
