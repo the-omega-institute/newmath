@@ -7472,3 +7472,29 @@ Direct symmetric counterpart of the existing target-prefix transport theorem (th
 
 ---
 
+### B-288 - Gamma limit certificate hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Gamma limit certificate hsame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If s hsame t, GammaDom(s), and Gamma(s,z) hold with a Weierstrass limit witness, then Gamma(t,z) holds with the transported domain witness and the same Cauchy modulus, with z unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/53_gamma_function_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+The Gamma chapter ships transport theorems for the pole locus (thm:gamma-pole-locus-hsame-transport-witness), the domain core (thm:gamma-domain-core-hsame-transport), and the Weierstrass Cauchy modulus (thm:gamma-weierstrass-cauchy-modulus-hsame-transport), but no theorem closes the loop at the value level: Gamma(s,z) implies Gamma(t,z) under s hsame t. This theorem is the natural composition of the three existing transport theorems with ComplexLimitUp uniqueness, and it is the prerequisite needed for any downstream zeta argument that compares Gamma values across history-equivalent complex histories (notably the s ↦ 1-s reflection comparisons in the zeta functional equation chapter). Sits cleanly inside the existing concrete_instances/gamma scope, fills a known gap, and does not duplicate any existing BOARD entry.
+
+---
+
