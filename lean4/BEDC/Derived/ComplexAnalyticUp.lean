@@ -140,6 +140,29 @@ theorem CplxExp_output_hsame_transport {z w w' : BHist} :
 def CplxPureImaginary (theta z : BHist) : Prop :=
   UnaryHistory theta ∧ hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta))
 
+theorem CplxExp_pure_imaginary_component_witness {theta z w : BHist} :
+    CplxPureImaginary theta z -> CplxExp z w ->
+      exists real imag realOut imagOut : BHist,
+        RatHistoryCarrier real ∧ RatHistoryCarrier imag ∧ Cont real imag z ∧
+        RatHistoryCarrier realOut ∧ RatHistoryCarrier imagOut ∧ Cont realOut imagOut w ∧
+            hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 theta)) ∧
+              hsame realOut (append real imag) ∧ hsame imagOut (append imag real) := by
+  intro pureImaginary expWitness
+  cases expWitness with
+  | intro real expRest =>
+      cases expRest with
+      | intro imag expRest =>
+          cases expRest with
+          | intro realOut expRest =>
+              cases expRest with
+              | intro imagOut data =>
+                  exact ⟨real, imag, realOut, imagOut, data.left, data.right.left,
+                    data.right.right.left, data.right.right.right.left,
+                    data.right.right.right.right.left,
+                    data.right.right.right.right.right.left, pureImaginary.right,
+                    data.right.right.right.right.right.right.left,
+                    data.right.right.right.right.right.right.right⟩
+
 theorem CplxExp_pure_imaginary_euler_component_witness {theta z w : BHist} :
     CplxPureImaginary theta z -> CplxExp z w ->
       ∃ real imag realOut imagOut : BHist,
