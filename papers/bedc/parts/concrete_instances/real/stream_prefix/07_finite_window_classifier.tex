@@ -190,6 +190,32 @@ exactness endpoint projection
 \autoref{lem:real-unary-stream-window-endpoint-projection}; standard bridge
 finite rational observation windows; status $\mathsf{ProofTarget}$.
 
+\begin{theorem}[Real unary stream finite-window empty bound exactness]
+\label{thm:real-unary-stream-window-empty-bound-iff}
+For observation maps $s,t:\Hist\to\Hist$ and an anchor history $a:\Hist$,
+the empty finite-window bound is exactly the anchor row:
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,\emp)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land \mathsf{RatHistoryClassifier}(s(a),t(a)).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, the window classifier already stores the unary anchor
+row. The empty history is below the empty bound using the empty unary tail and
+the continuation identity $\ContR(\emp,\emp,\emp)$. Projecting the endpoint row
+at this offset gives
+$\mathsf{RatHistoryClassifier}(s(\mathsf{append}(a,\emp)),
+t(\mathsf{append}(a,\emp)))$, which is the displayed anchor classifier.
+
+For the reverse direction, assume the anchor unary row and the anchor
+classifier. The bound field is certified by unary emptiness. For any offset
+$k$ below $\emp$, the continuation witness into the empty result forces
+$k=\emp$. The endpoint demanded by the window classifier is therefore the
+stored anchor classifier.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_empty\_bound\_iff}
+
 \begin{lemma}[Unary offset bound transitivity]
 \label{lem:real-unary-offset-bound-transitivity}
 For histories $k,w,u:\Hist$,
@@ -310,6 +336,53 @@ theorem \autoref{thm:real-unary-stream-window-restriction}; exactness every
 endpoint below the restricted bound is an endpoint below the source bound;
 standard bridge RegSeqRat finite observation bounds; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[Real unary stream window selected tail-class exactness from window]
+\label{thm:real-unary-stream-window-selected-tail-class-exactness-from-window}
+For observation maps $s,t:\Hist\to\Hist$ and histories $a,w,k:\Hist$, assume
+the finite window classifier and a selected certified offset:
+$$
+\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)
+\land
+\mathsf{UnaryOffsetLe}(k,w).
+$$
+Then the selected tail class is exact:
+$$
+\begin{array}{l}
+\exists u,v:\Hist,\;
+\hsame(s(\mathsf{append}(a,k)),\Eone(u))\land
+\hsame(t(\mathsf{append}(a,k)),\Eone(v))\land\\
+\mathsf{UnaryHistory}(u)\land
+\mathsf{UnaryHistory}(v)\land
+\hsame(u,v)\land\\
+\forall u',v':\Hist,\,
+\bigl(\hsame(s(\mathsf{append}(a,k)),\Eone(u'))\land
+\hsame(t(\mathsf{append}(a,k)),\Eone(v'))\bigr)
+\Longleftrightarrow\\
+\qquad
+\bigl(\mathsf{UnaryHistory}(u')\land
+\mathsf{UnaryHistory}(v')\land
+\hsame(u,u')\land
+\hsame(v,v')\bigr).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Project the selected RatUp classifier directly from
+$\mathsf{RealUnaryStreamWindowClassifier}(s,t,a,w)$ at the offset $k$. Positive
+denominator readback supplies displayed one-headed representatives for both
+selected endpoints. Transport the selected rational classifier across these
+two endpoint displays, then apply the e-one tail classifier exactness theorem
+to obtain unary tails and their $\hsame$ classifier.
+
+For any displayed pair $u',v'$, transport the same selected classifier across
+the displayed endpoint rows and read back the e-one tails. Comparing the chosen
+endpoint displays with the arbitrary ones by $\hsame$ transitivity and
+e-one-tail inversion gives $\hsame(u,u')$ and $\hsame(v,v')$. Conversely,
+tail comparisons $\hsame(u,u')$ and $\hsame(v,v')$ lift by e-one congruence and
+compose with the chosen endpoint displays, giving the displayed pair.
+\end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_tail\_class\_exactness\_from\_window}
 
 \begin{definition}[Real stream finite window classifier]
 \label{def:real-stream-finite-window-classifier}
