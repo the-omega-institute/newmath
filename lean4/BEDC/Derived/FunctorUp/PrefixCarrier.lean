@@ -102,4 +102,15 @@ theorem PrefixFunctorCarrier_identity_public_readback {p a displayed : BHist} :
       (cont_right_unit BHist.Empty)
   exact CategoryHomCarrier_morphism_deterministic displayedCarrier identityCarrier
 
+theorem PrefixFunctorCarrier_comp_right_factor_endpoint_deterministic {p a b b' c f g g' fg : BHist} :
+    PrefixFunctorCarrier p -> CategoryHomCarrier a b f -> Cont f g fg ->
+      CategoryHomCarrier (append p a) (append p c) fg -> Cont f g' fg ->
+        CategoryHomCarrier b' c g' -> hsame b b' /\ hsame g g' := by
+  intro prefixCarrier left comp displayed comp' right'
+  have reflected : CategoryHomCarrier a c fg := prefixCarrier.hom_reflects displayed
+  have sameEndpoint : hsame b b' :=
+    CategoryHomCarrier_comp_middle_object_deterministic left right' comp' reflected
+  have sameTail : hsame g g' := cont_left_cancel comp comp'
+  exact And.intro sameEndpoint sameTail
+
 end BEDC.Derived.FunctorUp
