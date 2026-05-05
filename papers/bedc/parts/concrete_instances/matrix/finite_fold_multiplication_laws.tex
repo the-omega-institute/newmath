@@ -226,6 +226,37 @@ comparison between the appended fold and the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
 
+\begin{theorem}[Singleton additive fold continuation append display classifier]
+\label{thm:matrix-singleton-add-fold-continuation-append-display-classifier}
+For finite singleton-matrix spines \(xs\) and \(ys\), if
+\[
+\mathsf{Cont}\bigl(h,
+  \mathsf{append}(\mathsf{MatrixSingletonAddFold}(xs),
+                  \mathsf{MatrixSingletonAddFold}(ys)),r\bigr),
+\]
+then carriedness of the continuation result is exactly carriedness of the
+source history and of both input fold spines:
+\[
+\mathsf{MatrixSingletonCarrier}(r)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(h)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys).
+\]
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the continuation result to the empty
+history and invert the empty continuation. The append display is then empty,
+so empty-append inversion separates the two folded spines, and the fold carrier
+theorem reads each side back to its spine carrier.
+
+Conversely, the two spine carriers read forward to carriers for the two folded
+spines. Empty-append formation gives carriedness of the displayed append, and
+continuation respect for endpoint sameness transports the carried source and
+carried display to the result.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_append\_display\_classifier\_iff}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
