@@ -199,3 +199,26 @@ The ledger of a composite compression is not the last ledger alone. It is the fi
 \leanvariant{BEDC.FKernel.Gap.compGap\_pullback\_witnesses}
 \leanvariant{BEDC.FKernel.Gap.compGap\_four\_right\_nested\_iff}
 \leanvariant{BEDC.FKernel.Gap.ledger\_composition\_principle\_inverse}
+
+\begin{theorem}[Composite gap intermediate-witness sameness]
+\label{thm:composite-gap-intermediate-witness-sameness}
+Let $\mathsf{Source}$, $\mathsf{Inter}$, and $\mathsf{Final}$ be the source, intermediate, and final token types. Let $\mathsf{SourceOk}$ be the admitted-source predicate, let $\mathsf{firstGap}$ and $\mathsf{secondGap}$ be the layered gap relations, and let $\mathsf{interSame}$ be the intermediate sameness relation. Assume first-layer separation:
+$$
+\forall h,y_1,y_2,\ \mathsf{SourceOk}(h) \to
+\mathsf{firstGap}(y_1,h) \to
+\mathsf{firstGap}(y_2,h) \to
+\mathsf{interSame}(y_1,y_2).
+$$
+For an admitted source $h$ and final tokens $z_1,z_2$, suppose the two composite memberships over $h$ are presented with intermediate witnesses $y_1$ and $y_2$ in the sense that
+$$
+\mathsf{firstGap}(y_1,h) \wedge \mathsf{secondGap}(z_1,y_1)
+$$
+and
+$$
+\mathsf{firstGap}(y_2,h) \wedge \mathsf{secondGap}(z_2,y_2).
+$$
+These two displayed witness pairs exhibit $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_1,h)$ and $\CompGap(\mathsf{firstGap},\mathsf{secondGap},z_2,h)$ by \autoref{def:composite-gap-ledger}. If $\mathsf{SourceOk}(h)$, then $\mathsf{interSame}(y_1,y_2)$.
+\end{theorem}
+\begin{proof}
+The first displayed witness pair gives $\mathsf{firstGap}(y_1,h)$, and the second gives $\mathsf{firstGap}(y_2,h)$. Applying the first-layer separation hypothesis to the admitted-source certificate for $h$ and to these two first-layer memberships gives $\mathsf{interSame}(y_1,y_2)$.
+\end{proof}
