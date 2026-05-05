@@ -5,6 +5,7 @@ namespace BEDC.Derived.ComplexLimitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
@@ -252,6 +253,35 @@ theorem ComplexLimit_hsame_transport {s N M : BHist -> BHist} {z z' : BHist} :
                       (ComplexDistance_hsame_transport_with_relation
                         (hsame_refl (s n)) sameZ (hsame_refl d) distance).left))
 
+theorem ComplexLimit_semanticNameCert {s N M : BHist -> BHist} {z : BHist}
+    (limit : ComplexLimit s N z M) :
+    SemanticNameCert (fun h : BHist => ComplexLimit s N h M)
+      (fun h : BHist => ComplexLimit s N h M) (fun h : BHist => ComplexLimit s N h M)
+      hsame := by
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z limit
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        exact ComplexLimit_hsame_transport sameHK sourceH
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+
 theorem ComplexRegularSequence_constant {z : BHist} :
     UnaryHistory z -> ComplexRegularSequence (fun _ : BHist => z)
       (fun _ : BHist => BHist.Empty) := by
@@ -374,6 +404,61 @@ theorem ComplexLimit_append_constant_closed {s N M : BHist -> BHist} {z q : BHis
                     Exists.intro (append (append (s n) q) (append z q))
                       (ComplexDistance_append_constant_closed unaryQ distance)))
 
+theorem ComplexRegularSequence_pointwise_append_same_modulus_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (fun n : BHist => append (s n) (t n)) N := by
+  intro regularS regularT
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regularS k n m unaryK unaryN unaryM contN contM with
+  | intro dS distanceS =>
+      cases regularT k n m unaryK unaryN unaryM contN contM with
+      | intro dT distanceT =>
+          have leftUnary : UnaryHistory (append (s n) (t n)) :=
+            unary_append_closed distanceS.left distanceT.left
+          have rightUnary : UnaryHistory (append (s m) (t m)) :=
+            unary_append_closed distanceS.right.left distanceT.right.left
+          exact Exists.intro (append (append (s n) (t n)) (append (s m) (t m)))
+            (And.intro leftUnary
+              (And.intro rightUnary
+                (And.intro (unary_append_closed leftUnary rightUnary)
+                  (Or.inl (cont_intro rfl)))))
+
+theorem ComplexLimit_pointwise_append_same_modulus_closed {s t N M : BHist -> BHist}
+    {z w : BHist} :
+    ComplexLimit s N z M -> ComplexLimit t N w M ->
+      ComplexLimit (fun n : BHist => append (s n) (t n)) N (append z w) M := by
+  intro limitS limitT
+  cases limitS with
+  | intro regularS restS =>
+      cases restS with
+      | intro carrierZ modulusS =>
+          cases limitT with
+          | intro regularT restT =>
+              cases restT with
+              | intro carrierW modulusT =>
+                  have zUnary : UnaryHistory z := ComplexHistoryCarrier_unary carrierZ
+                  have carrierZW : ComplexHistoryCarrier (append z w) :=
+                    ComplexHistoryCarrier_append_unary_closed carrierZ
+                      (ComplexHistoryCarrier_unary carrierW)
+                  exact And.intro
+                    (ComplexRegularSequence_pointwise_append_same_modulus_closed
+                      regularS regularT)
+                    (And.intro carrierZW
+                      (fun k n unaryK unaryN controlled =>
+                        match modulusS k n unaryK unaryN controlled with
+                        | Exists.intro dS distanceS =>
+                            match modulusT k n unaryK unaryN controlled with
+                            | Exists.intro dT distanceT =>
+                                have leftUnary : UnaryHistory (append (s n) (t n)) :=
+                                  unary_append_closed distanceS.left distanceT.left
+                                have rightUnary : UnaryHistory (append z w) :=
+                                  unary_append_closed zUnary distanceT.right.left
+                                Exists.intro (append (append (s n) (t n)) (append z w))
+                                  (And.intro leftUnary
+                                    (And.intro rightUnary
+                                      (And.intro (unary_append_closed leftUnary rightUnary)
+                                        (Or.inl (cont_intro rfl)))))))
+
 theorem ComplexRegularSequence_append_constant_result_deterministic {s N : BHist -> BHist}
     {q k n m d' : BHist} :
     UnaryHistory q -> ComplexRegularSequence s N -> UnaryHistory k -> UnaryHistory n ->
@@ -478,5 +563,52 @@ theorem ComplexDistance_unary_append_comm_package {z q : BHist} :
       (And.intro rightCarrier
         (And.intro (unary_append_closed leftCarrier rightCarrier) (Or.inl (cont_intro rfl)))))
     (unary_append_comm_hsame qCarrier zCarrier)
+
+theorem complex_limit_semantic_name_certificate :
+    BEDC.FKernel.NameCert.SemanticNameCert
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h : BHist => exists s : BHist -> BHist, exists N : BHist -> BHist,
+        exists M : BHist -> BHist, ComplexLimit s N h M)
+      (fun h k : BHist =>
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N h M) ∧
+        (exists s : BHist -> BHist, exists N : BHist -> BHist,
+          exists M : BHist -> BHist, ComplexLimit s N k M) ∧ hsame h k) := by
+  cases complex_history_semantic_name_certificate.core.carrier_inhabited with
+  | intro z carrierZ =>
+      exact {
+        core := {
+          carrier_inhabited :=
+            Exists.intro z
+              (Exists.intro (fun _ : BHist => z)
+                (Exists.intro (fun _ : BHist => BHist.Empty)
+                  (Exists.intro (fun _ : BHist => BHist.Empty)
+                    (ComplexLimit_constant carrierZ))))
+          equiv_refl := by
+            intro h source
+            exact And.intro source (And.intro source (hsame_refl h))
+          equiv_symm := by
+            intro h k classified
+            exact And.intro classified.right.left
+              (And.intro classified.left (hsame_symm classified.right.right))
+          equiv_trans := by
+            intro h k r classifiedHK classifiedKR
+            exact And.intro classifiedHK.left
+              (And.intro classifiedKR.right.left
+                (hsame_trans classifiedHK.right.right classifiedKR.right.right))
+          carrier_respects_equiv := by
+            intro h k classified _sourceH
+            exact classified.right.left
+        }
+        pattern_sound := by
+          intro h source
+          exact source
+        ledger_sound := by
+          intro h source
+          exact source
+      }
 
 end BEDC.Derived.ComplexLimitUp

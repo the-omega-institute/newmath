@@ -45,6 +45,23 @@ theorem ContinuousFunctionCarrier_endpoint_cert_cycle_tails_empty
       (cont_result_hsame_transport carrier.right.right.right.right.right
         (hsame_symm sameEndpoint))
 
+theorem ContinuousFunctionCarrier_endpoint_cert_cycle_exactness
+    {source map target modulus cert : BHist} :
+    ContinuousFunctionCarrier source map target modulus cert -> hsame source cert ->
+      hsame map BHist.Empty ∧ hsame modulus BHist.Empty ∧ hsame target source ∧
+        hsame cert source := by
+  intro carrier sameEndpoint
+  have tails :=
+    ContinuousFunctionCarrier_endpoint_cert_cycle_tails_empty carrier sameEndpoint
+  have sourceEmptyTarget : Cont source BHist.Empty target :=
+    cont_hsame_transport (hsame_refl source) tails.left (hsame_refl target)
+      carrier.right.right.right.right.left
+  have sameTargetSource : hsame target source :=
+    cont_deterministic sourceEmptyTarget (cont_right_unit source)
+  exact And.intro tails.left
+    (And.intro tails.right
+      (And.intro sameTargetSource (hsame_symm sameEndpoint)))
+
 theorem ContinuousModulusChain_empty_second_witness {source first second target : BHist} :
     ContinuousModulusChain source first second target -> hsame second BHist.Empty ->
       ContinuousModulusWitness source first target := by
@@ -96,21 +113,5 @@ theorem ContinuousModulusChain_empty_first_witness {source first second target :
                                 (And.intro targetCarrier
                                   (cont_hsame_transport sameMiddleSource
                                     (hsame_refl second) (hsame_refl target) secondRel)))
-
-theorem ContinuousFunctionCarrier_endpoint_cert_cycle_exactness
-    {source map target modulus cert : BHist} :
-    ContinuousFunctionCarrier source map target modulus cert -> hsame source cert ->
-      hsame map BHist.Empty ∧ hsame modulus BHist.Empty ∧
-        hsame target source ∧ hsame cert source := by
-  intro carrier sameEndpoint
-  have tails :=
-    ContinuousFunctionCarrier_endpoint_cert_cycle_tails_empty carrier sameEndpoint
-  have sameTargetSource : hsame target source :=
-    cont_respects_hsame (hsame_refl source) tails.left carrier.right.right.right.right.left
-      (cont_right_unit source)
-  exact
-    And.intro tails.left
-      (And.intro tails.right
-        (And.intro sameTargetSource (hsame_symm sameEndpoint)))
 
 end BEDC.Derived.ContinuousUp
