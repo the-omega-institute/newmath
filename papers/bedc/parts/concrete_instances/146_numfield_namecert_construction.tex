@@ -197,6 +197,101 @@ the degree witness is the displayed singleton basis over the reflexive
 FieldExtUp vector-space row.
 \end{proof}
 
+\begin{theorem}[NumFieldUp reflexive degree-one basis exhaustion]
+\label{thm:numfield-reflexive-degree-one-basis-exhaustion}
+For the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}, the complete
+finite basis surface is the singleton unary row. Its only displayed basis
+endpoint is the RatUp unit endpoint $\mathbf{1}_{\mathsf{Rat}}$, every basis
+comparison is classified by $\mathsf{RatHistoryClassifier}$, and no
+polynomial-root row, primitive-element row, or host-field row belongs to the
+basis surface.
+\end{theorem}
+\begin{proof}
+Unfold
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. The finite
+basis field is the basis component of the checked singleton witness in
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness}; it has one
+displayed endpoint and uses the same RatUp classifier as the ambient endpoint
+carrier.
+
+The operation coverage is inherited from
+\autoref{thm:fieldext-ratup-reflexive-operation-table-coverage}. It accounts
+for the RatUp multiplication row used by the scalar action and leaves no
+separate operation table for a root, primitive element, or host field.
+
+Finally apply
+\autoref{thm:fieldext-ratup-reflexive-certificate-row-exhaustion}. The
+FieldExt rows are exhausted by the RatUp base and ambient certificates, the
+identity embedding, and the self-vector-space rows. Projecting the remaining
+basis component gives exactly the singleton unit row and the
+$\mathsf{RatHistoryClassifier}$ comparison row.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive coordinate readback determinacy]
+\label{thm:numfield-reflexive-coordinate-readback-determinacy}
+Let $m:\mathsf{BHist}$ be a carried ambient endpoint in the carrier of
+\autoref{def:numfield-reflexive-rational-field-extension-carrier}. If
+$c,c':\mathsf{BHist}$ are displayed coordinate histories whose coordinate rows
+read back through $\Cont(m,\mathsf{BHist.Empty},c)$ and
+$\Cont(m,\mathsf{BHist.Empty},c')$, then $c$ and $c'$ are both
+$\mathsf{RatHistoryClassifier}$-equivalent to $m$. Consequently $c$ and $c'$
+are $\mathsf{RatHistoryClassifier}$-equivalent to each other.
+\end{theorem}
+\begin{proof}
+Use the singleton finite-extension witness of
+\autoref{thm:numfield-reflexive-rational-finite-extension-witness} on the first
+displayed coordinate row. The witness reads the coordinate as the scalar $m$
+against the unique basis vector $\mathbf{1}_{\mathsf{Rat}}$, so RatUp
+multiplication classifies the endpoint $c$ with $m$.
+
+Apply the same witness to the second displayed coordinate row. The same
+singleton basis and scalar-action row classify $c'$ with $m$ through
+$\mathsf{RatHistoryClassifier}$.
+
+The RatUp classifier laws are the semantic certificate laws supplied by
+\autoref{thm:rat-history-semantic-name-certificate}. Symmetry turns the first
+classification into the needed direction when necessary, and transitivity
+combines the two classifications to obtain the displayed equivalence between
+$c$ and $c'$.
+\end{proof}
+
+\begin{theorem}[NumFieldUp reflexive finite-extension exactness package]
+\label{thm:numfield-reflexive-finite-extension-exactness-package}
+The concrete finite-extension part consumed by $\NumFieldUp$ in
+\autoref{def:numfield-reflexive-rational-field-extension-carrier} is exhausted
+by the identity embedding, the singleton basis of
+\autoref{thm:numfield-reflexive-degree-one-basis-exhaustion}, the
+coordinate-readback determinacy row of
+\autoref{thm:numfield-reflexive-coordinate-readback-determinacy}, the RatUp
+scalar-action row, and the RatUp/FieldExt ledger rows. No additional
+finite-extension clause is available to downstream $\NumFieldUp$ consumers.
+\end{theorem}
+\begin{proof}
+Start with the concrete carrier consumption statement
+\autoref{thm:numfield-reflexive-fieldext-consumption}. It identifies the
+underlying FieldExt surface as the RatUp reflexive extension with identity
+embedding and self-vector-space scalar action.
+
+The source side is fixed by
+\autoref{thm:numfield-reflexive-rational-source-scope}. It says that the
+rational carrier, classifier, stability, exactness, and bridge status are read
+from the RatUp and FieldExt rows already named there.
+
+For the finite basis field, apply
+\autoref{thm:numfield-reflexive-degree-one-basis-exhaustion}. For coordinate
+readback, apply
+\autoref{thm:numfield-reflexive-coordinate-readback-determinacy}. These two
+rows isolate the singleton basis endpoint and the deterministic coordinate
+classifier used by every carried ambient endpoint.
+
+Finally combine those rows with
+\autoref{thm:numfield-rat-reflexive-ledger-exactness}. The ledger theorem
+exhausts the FieldExt rows and the singleton basis row, so repacking with the
+identity embedding and RatUp scalar action gives the exact finite-extension
+package consumed by $\NumFieldUp$.
+\end{proof}
+
 \begin{theorem}[NumFieldUp reflexive rational NameCert obligation package]
 \label{thm:numfield-reflexive-rational-namecert-obligation-package}
 The carrier of
