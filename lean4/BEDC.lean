@@ -454,6 +454,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
+import BEDC.Derived.MatrixUp.ExponentCases
 import BEDC.Derived.MatrixUp.PowContinuation
 import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier

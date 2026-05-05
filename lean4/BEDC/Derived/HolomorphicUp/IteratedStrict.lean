@@ -51,4 +51,14 @@ theorem IteratedStrictCplxDiff_endpoint_hsame_absurd {seed h : BHist} {n : Nat} 
         NatUnaryStrictPrefix_tail_endpoint_hsame_absurd
           data.left data.right.left data.right.right sameEndpoint
 
+theorem IteratedStrictCplxDiff_zero_or_strict_prefix {seed h : BHist} {n : Nat} :
+    UnaryHistory seed -> IteratedStrictCplxDiff seed n h ->
+      hsame seed h ∨ NatUnaryStrictPrefix seed h := by
+  intro seedUnary diff
+  cases n with
+  | zero =>
+      exact Or.inl diff
+  | succ n =>
+      exact Or.inr (IteratedStrictCplxDiff_strict_prefix seedUnary diff)
+
 end BEDC.Derived.HolomorphicUp
