@@ -162,11 +162,13 @@ import BEDC.Derived.ComplexLimitUp.PointwiseDifference
 import BEDC.Derived.ComplexLimitUp.PointwiseNegation
 import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
+import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.ComplexSeriesUp
 import BEDC.Derived.ComplexSeriesUp.Convergence
 import BEDC.Derived.ComplexSeriesUp.AbsoluteConvergence
 import BEDC.Derived.ComplexSeriesUp.CauchyProductResultUnary
 import BEDC.Derived.ComplexSeriesUp.NameCertificate
+import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
@@ -494,6 +496,8 @@ import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FpsUp
+import BEDC.Derived.FpsUp.SourceSpec
+import BEDC.Derived.FpsUp.CauchyCoeffSpine
 import BEDC.Derived.FpsUp.CauchyProductAssociativity
 import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.LinearMapUp
