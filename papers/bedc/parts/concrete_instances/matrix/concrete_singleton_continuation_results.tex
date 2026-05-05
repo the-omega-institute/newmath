@@ -37,6 +37,25 @@ continuation at $\emp$ supplies the required continuation.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_result\_iff}
 
+\begin{theorem}[Matrix singleton carrier append-target continuation result iff]
+\label{thm:matrix-singleton-carrier-continuation-append-target-result-iff}
+Let \(M,N,h,R:\mathsf{BHist}\) be histories with \(M\) and \(N\) carried by the
+singleton matrix carrier \(A_{\emp}\). If
+\(\ContR(h,\mathsf{append}(M,N),R)\), then the result is singleton-carried
+exactly when the source is singleton-carried:
+$$
+A_{\emp}(R)\Longleftrightarrow A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, transport the continuation result to \(\emp\) and
+apply empty-result continuation inversion; the source endpoint must be
+\(\emp\). Conversely, the carrier witnesses for \(M\) and \(N\) split the
+append target as \(\emp\), and continuation respects the source and target
+identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonCarrier\_continuation\_append\_target\_result\_iff}
+
 \begin{theorem}[Matrix singleton nested append target continuation result]
 \label{thm:matrix-singleton-nested-append-target-continuation-result-iff}
 For histories $M,N,P,h,r:\mathsf{BHist}$, if
