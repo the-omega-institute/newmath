@@ -471,6 +471,60 @@ core theorem this bridge; exactness the displayed carrier conclusion; standard
 bridge deferred; status $\mathsf{ProofTarget}$.
 \end{proof}
 
+\begin{theorem}[ContinuousMap prefixed categorical canonical distance exactness]
+\label{thm:continuousmap-prefixed-categorical-canonical-distance-exactness}
+For histories
+$p,source,map,target,modulus,cert,distance,displayed:\mathsf{BHist}$, assume
+$\mathsf{UnaryHistory}(p)$, the categorical and continuity rows
+$$
+\begin{array}{l}
+\mathsf{CategoryHomCarrier}(source,target,map),\\
+\mathsf{ContinuousModulusWitness}(target,modulus,cert),
+\end{array}
+$$
+and the canonical source-target distance classifier
+$$
+\hsame(distance,\mathsf{append}(source,target)).
+$$
+Then the prefixed continuous-map carrier is exactly the prefixed canonical
+distance classifier:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}
+(\mathsf{append}(p,source),map,\mathsf{append}(p,target),modulus,
+\mathsf{append}(p,cert),displayed)\\
+\Longleftrightarrow
+\hsame(displayed,
+\mathsf{append}(\mathsf{append}(p,source),\mathsf{append}(p,target))).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First assemble the unprefixed central carrier. Apply
+Theorem~\ref{thm:continuousmap-carrier-categorical-canonical-distance-exactness}
+in the reverse direction to the categorical hom row, the
+target-side modulus witness, and
+$\hsame(distance,\mathsf{append}(source,target))$. This gives
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)$.
+
+With that carrier in hand, apply
+Theorem~\ref{thm:continuousmap-prefix-canonical-distance-exactness} to the
+unary prefix $p$ and the central carrier. Its conclusion is exactly the
+displayed equivalence between the prefixed carrier and the canonical prefixed
+source-target distance classifier.
+
+The ten-field fit is: traditional target continuous maps read as categorical
+arrows with visible modulus data under a unary prefix; BEDC source
+$\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuousModulusWitness}$, $\hsame$,
+and $\mathsf{UnaryHistory}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$ on the displayed prefixed distance; stability from
+categorical canonical-distance exactness and prefix canonical-distance
+exactness; ledger prefix, source, map, target, modulus, certificate, and
+displayed distance histories; core theorem this iff; exactness the displayed
+prefixed classifier; downstream use compact-continuous and category-bridge
+normalization; status $\mathsf{ProofTarget}$.
+\end{proof}
+
 \input{parts/concrete_instances/continuousmap/associative_composition_canonical_package}
 
 \begin{theorem}[ContinuousMap identity sandwich coherence]
