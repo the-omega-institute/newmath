@@ -5,6 +5,7 @@ namespace BEDC.Derived.RealUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
+open BEDC.Derived.StreamNameUp
 
 theorem RealUnaryStreamClassifier_transported_selected_endpoint_shape_package
     {s t s' t' : BHist -> BHist} {n a b zS zT : BHist} :
@@ -52,5 +53,45 @@ theorem RealUnaryStreamClassifier_transported_selected_endpoint_shape_package
                       PositiveUnaryDenominator_e0_absurd
                         (PositiveUnaryDenominator_hsame_transport sameZero positives.right))
                     tailReadback))))))))
+
+theorem RatStreamNameClassifier_selected_endpoint_tail_pairwise_coherence
+    {s t s' t' : BHist -> BHist} {n a a' b b' : BHist} :
+    RatStreamNameClassifier s t -> UnaryHistory n ->
+      (forall k : BHist, UnaryHistory k -> hsame (s k) (s' k)) ->
+      (forall k : BHist, UnaryHistory k -> hsame (t k) (t' k)) ->
+      hsame (s' n) (BHist.e1 a) -> hsame (s' n) (BHist.e1 a') ->
+      hsame (t' n) (BHist.e1 b) -> hsame (t' n) (BHist.e1 b') ->
+        UnaryHistory a ∧ UnaryHistory a' ∧ UnaryHistory b ∧ UnaryHistory b' ∧
+          hsame a a' ∧ hsame a b ∧ hsame a b' ∧ hsame a' b ∧ hsame a' b' ∧
+            hsame b b' := by
+  intro classified nUnary sameS sameT sameSA sameSA' sameTB sameTB'
+  have transported : RatHistoryClassifier (s' n) (t' n) :=
+    RatHistoryClassifier_hsame_transport (sameS n nUnary) (sameT n nUnary)
+      (classified.right.right n nUnary)
+  have displayedAB : RatHistoryClassifier (BHist.e1 a) (BHist.e1 b) :=
+    RatHistoryClassifier_hsame_transport sameSA sameTB transported
+  have displayedA'B' : RatHistoryClassifier (BHist.e1 a') (BHist.e1 b') :=
+    RatHistoryClassifier_hsame_transport sameSA' sameTB' transported
+  have tailsAB : UnaryHistory a ∧ UnaryHistory b ∧ hsame a b :=
+    RatHistoryClassifier_e1_tail_unary_iff.mp displayedAB
+  have tailsA'B' : UnaryHistory a' ∧ UnaryHistory b' ∧ hsame a' b' :=
+    RatHistoryClassifier_e1_tail_unary_iff.mp displayedA'B'
+  have sameAA' : hsame a a' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameSA) sameSA')
+  have sameBB' : hsame b b' :=
+    hsame_e1_iff.mp (hsame_trans (hsame_symm sameTB) sameTB')
+  have sameAB' : hsame a b' :=
+    hsame_trans tailsAB.right.right sameBB'
+  have sameA'B : hsame a' b :=
+    hsame_trans (hsame_symm sameAA') tailsAB.right.right
+  exact And.intro tailsAB.left
+    (And.intro tailsA'B'.left
+      (And.intro tailsAB.right.left
+        (And.intro tailsA'B'.right.left
+          (And.intro sameAA'
+            (And.intro tailsAB.right.right
+              (And.intro sameAB'
+                (And.intro sameA'B
+                  (And.intro tailsA'B'.right.right sameBB'))))))))
 
 end BEDC.Derived.RealUp

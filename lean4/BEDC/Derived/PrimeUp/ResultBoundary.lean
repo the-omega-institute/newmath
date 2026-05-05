@@ -1,4 +1,5 @@
 import BEDC.Derived.PrimeUp
+import BEDC.Derived.PrimeUp.NatMulTransport
 
 namespace BEDC.Derived.PrimeUp
 
@@ -72,5 +73,18 @@ theorem NatDivides_antisymmetry_hsame {d e : BHist} :
                   exact hsame_symm sameED
               | inr strictED =>
                   exact False.elim (NatUnaryStrictPrefix_asymm strictDE strictED)
+
+theorem NatMul_succ_result_eq_factor_empty_or_multiplier_empty {d q n : BHist} :
+    UnaryHistory d -> NatMul d (BHist.e1 q) n -> hsame n d ->
+      hsame d BHist.Empty ∨ hsame q BHist.Empty := by
+  intro _dUnary mul sameResult
+  cases NatMul_succ_inversion mul with
+  | intro p step =>
+      have displayed : Cont p d d := cont_result_hsame_transport step.right sameResult
+      have unitDisplayed : Cont BHist.Empty d d := cont_intro (append_empty_left d).symm
+      have pEmpty : hsame p BHist.Empty := cont_right_cancel displayed unitDisplayed
+      have emptyProduct : NatMul d q BHist.Empty :=
+        (NatMul_result_hsame_transport step.left pEmpty).right
+      exact NatMul_empty_result_factor_empty_or_multiplier_empty emptyProduct
 
 end BEDC.Derived.PrimeUp
