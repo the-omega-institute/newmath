@@ -211,6 +211,32 @@ comparison between the appended fold and the displayed append endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_display\_classifier\_iff}
 
+\begin{theorem}[Singleton additive fold continuation empty result spine iff]
+\label{thm:matrix-singleton-addfold-continuation-empty-result-spine-iff}
+For a continuation out of the singleton additive fold, an empty result is
+equivalent to the fold spine being carried and the continuation right input
+being empty:
+$$
+\ContR(\mathsf{MatrixSingletonAddFold}(xs),y,r)
+\Longrightarrow
+\bigl(r\hsame\emp
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land y\hsame\emp\bigr).
+$$
+\end{theorem}
+\begin{proof}
+In the forward direction, transport the continuation result to $\emp$ and use
+continuation empty-result inversion. The left factor is the folded endpoint,
+which the fold carrier readback identifies with the finite spine carrier; the
+right factor is the displayed $y\hsame\emp$ witness.
+
+Conversely, the spine carrier reads back to
+$\mathsf{MatrixSingletonAddFold}(xs)\hsame\emp$. Together with
+$y\hsame\emp$, continuation respect for history-sameness compares the supplied
+continuation with the empty right-unit continuation, yielding $r\hsame\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_empty\_result\_spine\_iff}
+
 \begin{theorem}[Singleton additive fold append continuation classifier]
 \label{thm:matrix-singleton-add-fold-append-continuation-classifier}
 If two finite singleton-matrix spines are carried and a continuation ledger
