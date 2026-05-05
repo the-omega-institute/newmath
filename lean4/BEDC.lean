@@ -487,6 +487,7 @@ import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
+import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.LatticeUp
 import BEDC.Derived.IntervalUp
