@@ -106,6 +106,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageCarrierEndpoint
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
+import BEDC.Derived.OptionUp.PayloadDescentImagePublicReadback
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
 import BEDC.Derived.OptionUp.PublicEndpointShapeCertificate
 import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
@@ -217,7 +218,11 @@ import BEDC.Derived.FieldExtUp.SingletonInverse
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.StabilityExactness
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
+import BEDC.Derived.FieldExtUp.RatReflexiveSourcePattern
+import BEDC.Derived.FieldExtUp.RatReflexiveCertificateObligations
+import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
+import BEDC.Derived.NumFieldUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
 import BEDC.Derived.GammaUp
@@ -275,6 +280,7 @@ import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
+import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure

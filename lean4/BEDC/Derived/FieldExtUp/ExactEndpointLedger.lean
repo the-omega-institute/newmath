@@ -5,7 +5,18 @@ namespace BEDC.Derived.FieldExtUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.Derived.FieldUp
+open BEDC.Derived.RatUp
 open BEDC.Derived.VecSpaceUp
+
+def FieldExtRatReflexive_exactness_ledger_interface
+    (h k r m out product : BHist) : Prop :=
+  RatHistoryClassifier h k ∧ RatHistoryCarrier r ∧ RatHistoryCarrier m ∧
+    Cont r m product ∧ Cont (FieldExtSingletonEmbedding r) m out ∧
+      RatHistoryClassifier (FieldExtSingletonEmbedding h) h ∧
+        RatHistoryClassifier (FieldExtSingletonEmbedding k) k ∧
+          RatHistoryLedgerPolicy h (FieldExtSingletonEmbedding h) ∧
+            RatHistoryLedgerPolicy k (FieldExtSingletonEmbedding k) ∧
+              RatHistoryClassifier out product
 
 theorem FieldExtSingletonLedgerPolicy_exact_endpoint_ledger {h : BHist} :
     FieldExtSingletonLedgerPolicy h ->
