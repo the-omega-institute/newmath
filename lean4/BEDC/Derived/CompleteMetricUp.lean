@@ -82,6 +82,28 @@ theorem SingletonCompleteMetric_laws :
   · intro x y sameX sameY
     exact hsame_trans sameX (hsame_symm sameY)
 
+theorem CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> MetricDistanceWitness (s n) limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  cases witness.right nUnary source with
+  | intro d distanceData =>
+      have sameDistance : hsame d BHist.Empty :=
+        hsame_trans distanceData.right.right.right.right sameModulus
+      exact MetricDistanceWitness_hsame_fields_transport
+        (hsame_refl (s n)) (hsame_refl limit) sameDistance distanceData.left
+
+theorem CompleteMetricLimitWitness_empty_modulus_observation_endpoint
+    {X : BHist -> Prop} {s M : BHist -> BHist} {limit n : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      hsame (M n) BHist.Empty -> hsame (s n) BHist.Empty ∧ hsame limit BHist.Empty := by
+  intro witness nUnary source sameModulus
+  exact
+    (MetricDistanceWitness_empty_distance_iff (x := s n) (y := limit)).mp
+      (CompleteMetricLimitWitness_empty_modulus_observation_metric_row
+        witness nUnary source sameModulus)
+
 theorem CompleteMetricLimitWitness_singleton_uniqueness
     {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
     CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
