@@ -80,3 +80,54 @@ Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff} with
 the recovered unary histories. It repacks the same prefix $p$ and suffix $q$
 around the central carrier, producing the displayed visible carrier conclusion.
 \end{proof}
+
+\begin{theorem}[Continuous function carrier visible terminal modulus extension transitive]
+\label{thm:continuous-function-carrier-visible-terminal-modulus-extension-transitive}
+For histories
+$p,q,source,map,target,modulus_0,cert_0,extra_1,modulus_1,cert_1,
+extra_2,modulus_2,cert_2$, visible continuous-function carrier data remain
+carrier data after two consecutive terminal certificate extensions and their
+two terminal modulus ledgers:
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus_0\cdot q,(p\cdot cert_0)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(cert_0,extra_1,cert_1)
+\Longrightarrow
+\ContR(modulus_0,extra_1,modulus_1)
+\Longrightarrow
+\mathsf{ContinuousModulusWitness}(cert_1,extra_2,cert_2)
+\Longrightarrow
+\ContR(modulus_1,extra_2,modulus_2)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus_2\cdot q,(p\cdot cert_2)\cdot q).
+$$
+\end{theorem}
+\begin{proof}
+Apply
+Theorem~\ref{thm:continuous-function-carrier-visible-terminal-modulus-extension}
+to the displayed visible carrier, the witness
+$\mathsf{ContinuousModulusWitness}(cert_0,extra_1,cert_1)$, and the first
+composition ledger $\ContR(modulus_0,extra_1,modulus_1)$. This gives the
+visible carrier with terminal modulus $modulus_1$ and terminal certificate
+$cert_1$.
+
+Apply the same theorem again to that intermediate carrier, the witness
+$\mathsf{ContinuousModulusWitness}(cert_1,extra_2,cert_2)$, and the second
+composition ledger $\ContR(modulus_1,extra_2,modulus_2)$. The result is the
+visible carrier whose terminal modulus is $modulus_2$ and whose terminal
+certificate is $cert_2$, which is the displayed conclusion.
+
+The ten-field certificate fit is the following. The traditional target is
+two-step terminal modulus extension for continuous maps. The BEDC source is
+$\mathsf{BHist}$ with $\ContR$,
+$\mathsf{ContinuousModulusWitness}$, and
+$\mathsf{ContinuousFunctionCarrier}$. The carrier is
+$\mathsf{ContinuousFunctionCarrier}$ and the classifier is $\hsame$. The
+stability obligation is preservation under two consecutive terminal modulus
+extensions. The ledger is the two extra modulus witnesses and the two composite
+modulus rows. The core theorem is this closure, exactness is the displayed
+carrier conclusion, the standard bridge is deferred, and the status is
+$\mathsf{ProofTarget}$.
+\end{proof}
