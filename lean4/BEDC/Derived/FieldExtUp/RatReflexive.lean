@@ -1,4 +1,4 @@
-import BEDC.Derived.FieldExtUp
+import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 
 namespace BEDC.Derived.FieldExtUp
 

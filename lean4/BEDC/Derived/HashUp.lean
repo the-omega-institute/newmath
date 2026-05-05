@@ -60,6 +60,9 @@ theorem HashCollisionSuccess_symmetric
           have msgDistinct : MsgClassifier x' x -> False := by
             intro reversed
             exact transcript.right.right.left (msgCert.core.equiv_symm reversed)
+          have notReverse : MsgClassifier x' x -> False := by
+            intro reverse
+            exact transcript.right.right.left (msgCert.core.equiv_symm reverse)
           exact Exists.intro d'
             (Exists.intro d
               (And.intro transcript.right.left
