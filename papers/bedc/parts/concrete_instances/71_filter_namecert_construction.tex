@@ -414,3 +414,63 @@ image continuation by continuation determinacy, and then composes that
 comparison with the corresponding target-image equality using the equivalence
 laws for $\hsame$ from \autoref{thm:history-sameness-equivalence}.
 \end{proof}
+\leanchecked{BEDC.Derived.FilterUp.FilterPrincipalSuffix\_continuousMap\_image\_package}
+
+\begin{theorem}[ContinuousMap image determinacy for principal suffix points]
+\label{thm:continuousmap-image-principal-suffix-point-determinacy}
+Let $base,map,target,modulus,cert,distance,suffix,sourcePoint,targetPoint,
+target_0,target_1,modulus_0,modulus_1,cert_0,cert_1,distance_0,distance_1:
+\mathsf{BHist}$. Assume the base continuous-map row
+$$
+\mathsf{ContinuousMapCarrier}(base,map,target,modulus,cert,distance),
+$$
+the principal suffix source and target displays
+$$
+\UnaryHistory(suffix),\qquad
+\ContR(base,suffix,sourcePoint),\qquad
+\ContR(target,suffix,targetPoint),
+$$
+and two displayed image rows over the same source point and the same graph
+history:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(sourcePoint,map,target_0,modulus_0,cert_0,distance_0),\\
+\mathsf{ContinuousMapCarrier}(sourcePoint,map,target_1,modulus_1,cert_1,distance_1).
+\end{array}
+$$
+Then the two displayed target histories are determined, and both read back to
+the target-side principal suffix point:
+$$
+\hsame(target_0,target_1)\land
+\hsame(targetPoint,target_0)\land
+\hsame(targetPoint,target_1).
+$$
+\end{theorem}
+\begin{proof}
+Project the continuous-function component from the base carrier using
+\autoref{def:continuousmap-carrier}. Applying
+\autoref{thm:continuous-function-carrier-graph-modulus-cont-readback} to that
+component gives the graph continuation $\ContR(base,map,target)$ and unary
+membership of the graph history $map$.
+
+Project the continuous-function components from the two displayed image rows in
+the same way. Their graph fields give
+$$
+\ContR(sourcePoint,map,target_0)
+\qquad\hbox{and}\qquad
+\ContR(sourcePoint,map,target_1).
+$$
+
+Apply \autoref{thm:filter-principal-suffix-unary-commuting-square} with base
+$base$, left suffix $suffix$, right suffix $map$, left point $sourcePoint$, and
+right point $target$. The first displayed image row supplies the upper-left path
+and $\ContR(target,suffix,targetPoint)$ supplies the upper-right path, so the
+square gives $\hsame(target_0,targetPoint)$. The same square applied to the
+second displayed image row gives $\hsame(target_1,targetPoint)$.
+
+Symmetry and transitivity of $\hsame$ from
+\autoref{thm:history-sameness-equivalence} orient these two comparisons as
+$\hsame(targetPoint,target_0)$ and $\hsame(targetPoint,target_1)$ and compose
+them to obtain $\hsame(target_0,target_1)$. Pairing the three comparisons gives
+the displayed conclusion.
+\end{proof}

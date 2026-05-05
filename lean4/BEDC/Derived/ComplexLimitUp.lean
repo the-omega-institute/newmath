@@ -236,6 +236,9 @@ def ComplexRegularSequence (s N : BHist -> BHist) : Prop :=
     Cont (N k) n n -> Cont (N k) m m ->
       exists d : BHist, ComplexDistance (s n) (s m) d
 
+def ComplexPointwiseSum (s t : BHist -> BHist) (n : BHist) : BHist :=
+  append (s n) (t n)
+
 def ComplexLimit (s N : BHist -> BHist) (z : BHist) (M : BHist -> BHist) : Prop :=
   ComplexRegularSequence s N ∧ ComplexHistoryCarrier z ∧
     forall k n : BHist, UnaryHistory k -> UnaryHistory n -> Cont (M k) n n ->
@@ -341,6 +344,26 @@ theorem ComplexRegularSequence_hsame_transport {s t N : BHist -> BHist} :
       exact Exists.intro d
         (ComplexDistance_hsame_transport_with_relation
           (pointwise unaryN) (pointwise unaryM) (hsame_refl d) distance).left
+
+theorem ComplexRegularSequence_pointwise_sum_closed {s t N : BHist -> BHist} :
+    ComplexRegularSequence s N -> ComplexRegularSequence t N ->
+      ComplexRegularSequence (ComplexPointwiseSum s t) N := by
+  intro regularS regularT
+  intro k n m unaryK unaryN unaryM contN contM
+  cases regularS k n m unaryK unaryN unaryM contN contM with
+  | intro _ds distanceS =>
+      cases regularT k n m unaryK unaryN unaryM contN contM with
+      | intro _dt distanceT =>
+          have leftUnary : UnaryHistory (ComplexPointwiseSum s t n) :=
+            unary_append_closed distanceS.left distanceT.left
+          have rightUnary : UnaryHistory (ComplexPointwiseSum s t m) :=
+            unary_append_closed distanceS.right.left distanceT.right.left
+          exact Exists.intro
+            (append (ComplexPointwiseSum s t n) (ComplexPointwiseSum s t m))
+            (And.intro leftUnary
+              (And.intro rightUnary
+                (And.intro (unary_append_closed leftUnary rightUnary)
+                  (Or.inl (cont_intro rfl)))))
 
 theorem ComplexLimit_sequence_hsame_transport {s t N M : BHist -> BHist} {z : BHist} :
     (forall {n : BHist}, UnaryHistory n -> hsame (s n) (t n)) ->

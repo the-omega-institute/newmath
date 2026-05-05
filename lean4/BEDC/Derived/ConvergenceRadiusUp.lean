@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.NatUp
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
@@ -9,6 +10,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
+open BEDC.Derived.NatUp
 
 def GeomBound (a : Nat -> BHist) (r K : BHist) : Prop :=
   UnaryHistory r ∧ UnaryHistory K ∧ ∀ n : Nat, ComplexHistoryCarrier (a n)
@@ -84,10 +86,26 @@ theorem ConvRad_radius_coefficient_classifier_transport {a b : Nat -> BHist} {R 
             (And.intro targetUnary
               (Exists.intro K
                 (fun {r : BHist} rUnary continuation =>
-                  let sourceBound := bound rUnary continuation
-                  And.intro sourceBound.left
-                    (And.intro sourceBound.right.left
-                      (fun n => (coeffClassified n).right.left)))))
+                let sourceBound := bound rUnary continuation
+                And.intro sourceBound.left
+                  (And.intro sourceBound.right.left
+                    (fun n => (coeffClassified n).right.left)))))
+
+theorem ConvRad_coefficient_ring_inclusion_monotone {a a' : Nat -> BHist} {rho : BHist} :
+    UnaryHistory rho -> (forall n : Nat, ComplexHistoryClassifier (a n) (a' n)) ->
+      ConvRad a rho -> ConvRad a' rho := by
+  intro rhoUnary coeffClassified radius
+  cases radius with
+  | intro _radiusUnary witness =>
+      cases witness with
+      | intro K boundAt =>
+          exact And.intro rhoUnary
+            (Exists.intro K
+              (fun {r : BHist} rUnary continuation =>
+                let sourceBound := boundAt rUnary continuation
+                And.intro sourceBound.left
+                  (And.intro sourceBound.right.left
+                    (fun n : Nat => (coeffClassified n).right.left))))
 
 theorem GeomBound_visible_radius_endpoint_package {a : Nat -> BHist} {K R tail : BHist} :
     GeomBound a (BHist.e1 tail) K -> Cont (BHist.e1 tail) K R ->
@@ -180,6 +198,16 @@ theorem GeomBound_semanticNameCert {a : Nat -> BHist} {r K : BHist}
       intro _h source
       exact source
   }
+
+theorem GeomBound_radius_shrink_closed {a : Nat -> BHist} {r' r K : BHist} :
+    NatUnaryStrictPrefix r' r -> GeomBound a r K -> UnaryHistory r' ∧ GeomBound a r' K := by
+  intro strict bound
+  cases strict with
+  | intro tail data =>
+      have radiusUnary : UnaryHistory r' :=
+        unary_cont_left_factor data.right.right bound.left
+      exact And.intro radiusUnary
+        (And.intro radiusUnary (And.intro bound.right.left bound.right.right))
 
 theorem GeomBound_coeff_classifier_append_unary_closed {a b : Nat -> BHist} {r K q : BHist} :
     (forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> GeomBound a r K ->

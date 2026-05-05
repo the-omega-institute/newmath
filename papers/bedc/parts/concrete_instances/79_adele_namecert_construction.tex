@@ -606,3 +606,30 @@ moves the same witnesses to the target history. Pattern and ledger soundness
 are identity maps on the carrier predicate.
 \end{proof}
 \leanchecked{BEDC.Derived.AdeleUp.AdeleHistoryCarrier\_semanticNameCert}
+
+\begin{theorem}[Adele visible-scale append result hsame transport]
+\label{thm:adele-history-carrier-visible-scale-append-result-hsame-transport}
+For histories $a,a',s:\mathsf{BHist}$, if $a$ is an adele-history carrier,
+the append endpoint $\mathsf{append}(a,s)$ is not history-same as $\emp$, and
+$a\hsame a'$, then the same visible scale $s$ has a nonempty append endpoint
+over $a'$:
+$$
+\mathsf{AdeleHistoryCarrier}(a)\land
+(\hsame(\mathsf{append}(a,s),\emp)\to\bot)\land
+ a\hsame a'
+\Longrightarrow
+\hsame(\mathsf{append}(a',s),\emp)\to\bot.
+$$
+\end{theorem}
+\begin{proof}
+The carrier premise fixes the source endpoint in the adele layer. Let
+$H$ be the nonempty premise for $\mathsf{append}(a,s)$ and let
+$\alpha:a\hsame a'$. By the reverse direction of
+\autoref{thm:append-hsame-right-context-cancel}, applied with the reflexive
+right-context comparison $s\hsame s$, the endpoint comparison $\alpha$ gives
+$$
+\hsame(\mathsf{append}(a,s),\mathsf{append}(a',s)).
+$$
+If $\mathsf{append}(a',s)\hsame\emp$, transitivity of $\hsame$ carries this
+empty comparison back to $\mathsf{append}(a,s)\hsame\emp$, contradicting $H$.
+\end{proof}

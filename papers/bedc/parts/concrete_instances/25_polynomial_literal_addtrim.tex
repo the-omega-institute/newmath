@@ -55,6 +55,7 @@ $$
 \mathsf{Eval}_{\alpha,R}(x)\sim_R\mathsf{eval}_{\alpha,R}(x).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialZeroRemainder\_addFold\_empty}
 \begin{proof}
 First prove the endpoint claim $\mathsf{eval}_{\alpha,R}(t)\sim_R0_R$ for every classified zero tail $t$. Induct on the displayed $\mathsf{ZeroRem}_R(t)$ witness. The nil clause is the defining equation $\mathsf{eval}_{\alpha,R}(\mathsf{nil})=0_R$ together with zero self-classification from \autoref{def:ring-stability-certificate}. In the cons clause, write $t=\mathsf{cons}(a,t^\prime)$. The constructor gives $a\sim_R0_R$ and the induction hypothesis gives $\mathsf{eval}_{\alpha,R}(t^\prime)\sim_R0_R$. Multiplication congruence and the zero-multiplication row in \autoref{def:ring-stability-certificate} classify $\alpha\cdot\mathsf{eval}_{\alpha,R}(t^\prime)$ with $0_R$. Addition congruence then classifies $a+\alpha\cdot\mathsf{eval}_{\alpha,R}(t^\prime)$ with $0_R+0_R$, and the additive left-zero law reduces the latter endpoint to $0_R$.
 
@@ -75,6 +76,7 @@ $$
 \mathsf{eval}_{\alpha,R}(x)+\mathsf{eval}_{\alpha,R}(y).
 $$
 \end{lemma}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonAddFold\_append\_hsame}
 \begin{proof}
 Perform induction on the two finite spines, following the four recursion clauses for $\mathsf{radd}_R$ in \autoref{def:polynomial-raw-add-comparison-data}.
 
@@ -173,6 +175,7 @@ b+\alpha\cdot\mathsf{eval}_{\alpha,R}(y').
 $$
 The cons recursion equation in \autoref{def:polynomial-horner-evaluation} identifies these two endpoints with $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(a,x'))$ and $\mathsf{eval}_{\alpha,R}(\mathsf{cons}(b,y'))$, respectively.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_list\_classifier\_classified}
 
 \begin{theorem}[Polynomial evaluation respects the polynomial classifier]
 \label{thm:polynomial-evaluation-respects-polynomial-classifier}
@@ -426,6 +429,7 @@ $$
 $$
 Symmetry of the second comparison and transitivity give the required comparison for the cons case.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_zero\_point\_zero\_tail\_invariance}
 
 \begin{theorem}[Polynomial evaluation at zero returns the constant coefficient]
 \label{thm:polynomial-evaluation-at-zero-constant-term}
@@ -794,3 +798,4 @@ $$
 $$
 By \autoref{def:polynomial-horner-evaluation}, $\mathsf{Eval}_{\alpha,R}(s)=\mathsf{eval}_{\alpha,R}(\mathsf{trim}_R(s))$. The one-coefficient trimming boundary in \autoref{def:polynomial-normalized-singleton-representative}, read with \autoref{def:polynomial-stability-certificate}, has exactly the empty zero branch and the retained singleton branch. In the empty zero branch, $c\sim_R0_R$ and $\mathsf{trim}_R(s)=\mathsf{nil}$; the nil Horner equation gives $\mathsf{Eval}_{\alpha,R}(s)=0_R$, and classifier symmetry gives $0_R\sim_Rc$. In the retained singleton branch, $\mathsf{trim}_R(s)=s$, so the raw computation above is the required normalized comparison. These are the two canonical trim branches for a singleton coefficient spine.
 \end{proof}
+\leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonEval\_singleton}
