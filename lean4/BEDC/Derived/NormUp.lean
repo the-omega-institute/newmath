@@ -69,4 +69,16 @@ theorem NormSingletonEmptyHistory_laws {m n : BHist} :
       (And.intro smulEmpty
         (And.intro mEmpty nEmpty)))
 
+theorem NormSingletonEmptyHistory_zero_exactness {m : BHist} :
+    VecSpaceSingletonCarrier m ->
+      (RealConstantHistoryClassifier (NormSingletonNorm m) (BHist.e1 (BHist.e1 BHist.Empty)) <->
+        VecSpaceSingletonClassifier m BHist.Empty) := by
+  intro carrierM
+  constructor
+  · intro _zeroClassified
+    exact And.intro carrierM
+      (And.intro (hsame_refl BHist.Empty) carrierM)
+  · intro vectorClassified
+    exact (NormSingletonEmptyHistory_carrier_classifier carrierM vectorClassified.right.left).right.right.left
+
 end BEDC.Derived.NormUp

@@ -160,3 +160,24 @@ $$
 $$
 By uniqueness of analytic continuation, \autoref{thm:ana-cont-unique}, they are classified by $\hsame$ pointwise on $D_1\cup(D_2\cup D_3)$. Transporting along associativity of union identifies this domain with $D_1\cup D_2\cup D_3$.
 \end{proof}
+
+\begin{theorem}[Analytic continuation identity law]
+\label{thm:ana-cont-identity-law}
+Let $D$ be an open domain of $\ComplexUp$, let $f$ be holomorphic on $D$, and let $U$ be an overlap region with $\mathsf{DomCompat}(D,D,U)$. Suppose the compatibility witness is non-trivial in the sense of \autoref{def:dom-compat}: its displayed open disk and quantitative cluster sequence lie inside the overlap region contained in $D\cap D$. Then
+$$
+\mathsf{AnaCont}(f,D,f,D,f)
+$$
+holds. Moreover, for every $h$,
+$$
+\mathsf{AnaCont}(f,D,f,D,h)\Longrightarrow
+\forall z,\ z\in D\Longrightarrow \hsame(h(z),f(z)).
+$$
+Equivalently, $h$ and $f$ are pointwise $\hsame$ on $D\cup D$, transported along the canonical idempotence equivalence $D\cup D=D$.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:ana-cont}. The output domain for the pair $(D,D)$ is $D\cup D$. This domain is constructively equivalent to $D$: membership in $D$ maps into $D\cup D$ by the left inclusion, and membership in $D\cup D$ returns membership in $D$ by case analysis on the two identical summands. Thus the given holomorphic carrier of $f$ on $D$ also presents $f$ as a holomorphic carrier on $D\cup D$.
+
+The first restriction clause is the restriction of $f$ from $D\cup D$ to the first copy of $D$, which is pointwise $\hsame$ to $f$ by reflexivity of the classifier. The second restriction clause is identical for the second copy of $D$. The overlap clause asks that the two input functions, both equal to $f$, agree on $U$; this is again pointwise reflexivity of $\hsame$. The non-trivial disk and cluster data in the compatibility witness supply exactly the admissible overlap record required by \autoref{def:dom-compat}. These three clauses give $\mathsf{AnaCont}(f,D,f,D,f)$.
+
+Now assume $\mathsf{AnaCont}(f,D,f,D,h)$. Comparing this witness with the identity witness just constructed, \autoref{thm:ana-cont-unique} gives pointwise $\hsame(h,f)$ on $D\cup D$. Transporting this classifier through the same idempotence equivalence $D\cup D=D$ yields, for every $z\in D$, the pointwise comparison $\hsame(h(z),f(z))$.
+\end{proof}

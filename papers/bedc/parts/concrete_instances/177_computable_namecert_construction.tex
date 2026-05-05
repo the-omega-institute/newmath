@@ -63,3 +63,52 @@ Build a $\SeqUp$ trace over the unary prefixes of $B$ by prefix recursion along 
 
 The transition rows are valid in all cases. Inside the first segment they are the transition rows of $P_F$; inside the second segment they are the transition rows of $P_G$; at the boundary they are the phase switch of $P_{G\circ F}$. Halted-state repetition in \autoref{def:computable-bounded-simulation-witness} permits the first bounded run to occupy its whole bound before the second phase begins. The endpoint of the composite bound corresponds to the endpoint of the $G$ trace, so it is halted with output $k$. Hence the assembled trace is a witness of $\mathsf{BoundedSim}(P_{G\circ F},n,B,k)$.
 \end{proof}
+
+\begin{theorem}[Computable bounded graph certificate is functional]
+\label{thm:computable-bounded-graph-certificate-functional}
+Let $F\subseteq\NatUp\times\NatUp$ be a partial graph carrying a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For unary histories $n$, $m$, and $m'$, if $F(n,m)$ and $F(n,m')$ both hold, then $m$ and $m'$ are classified as the same $\NatUp$ output:
+$$
+  m\hsame m'.
+$$
+\end{theorem}
+\begin{proof}
+Apply the graph-equivalence clause of the bounded certificate to the first graph membership. It converts $F(n,m)$ into a bounded simulation witness
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+Apply the same clause to the second graph membership, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m').
+$$
+These are bounded simulations for the same deterministic machine code, the same input history, and the same displayed bound, because the bound is the certificate modulus value $\beta_F(n)$. The output-determinacy clause of \autoref{def:computable-bounded-graph-certificate} therefore compares their endpoint readbacks and yields $m\hsame m'$. By the unary classifier specification of \autoref{def:unary-classifier-specification}, this is exactly sameness of the two $\NatUp$ output classes.
+\end{proof}
+
+\begin{theorem}[Computable bounded graph single-valuedness]
+\label{thm:computable-bounded-graph-single-valuedness}
+Let $F\subseteq\NatUp\times\NatUp$ carry a bounded $\ComputableUp$ graph certificate $(P_F,\beta_F)$ in the sense of \autoref{def:computable-bounded-graph-certificate}. For unary histories $n$, $m$, and $m'$, if $F(n,m)$ and $F(n,m')$ both hold, then the two accepted rows expand to bounded simulations at the same displayed certificate bound,
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m)
+  \quad\text{and}\quad
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m'),
+$$
+and their output histories are classified together:
+$$
+  m\hsame m'.
+$$
+Thus a bounded $\ComputableUp$ graph certificate makes the accepted output over each unary input single-valued up to the $\NatUp$ history classifier.
+\end{theorem}
+\begin{proof}
+Unpack the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}. Its graph-equivalence field states, for every unary input and unary output, that graph membership is equivalent to bounded simulation by the certified machine at the certified bound:
+$$
+  F(n,x)\Longleftrightarrow \mathsf{BoundedSim}(P_F,n,\beta_F(n),x).
+$$
+Apply this field with $x=m$ to the accepted row $F(n,m)$, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m).
+$$
+Apply the same field with $x=m'$ to the accepted row $F(n,m')$, obtaining
+$$
+  \mathsf{BoundedSim}(P_F,n,\beta_F(n),m').
+$$
+The two simulations now have the same deterministic code $P_F$, the same unary input $n$, and the same displayed ledger bound $\beta_F(n)$. The output-determinacy field of the same bounded graph certificate says that any two bounded simulations for one input return $\hsame$-classified output histories. Applying that field to the two displayed simulation witnesses gives $m\hsame m'$.
+\end{proof}
