@@ -10488,3 +10488,28 @@ Belongs to the probability-space chapter. The theorem P(A^c)=1-P(A) is a first-p
 
 ---
 
+### B-401 - LieAlgebra adjoint scalar linearity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | LieAlgebra adjoint scalar linearity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If L carries LieAlgebraUp and r, x, y are carried scalar/vector endpoints, then ad_x(r smul y) is classifier-equal to r smul ad_x(y).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/119_liealgebra_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+This is a concrete LieAlgebraUp theorem in the existing concrete_instances surface: the paper already has adjoint-action definition, Jacobi derivation, commutator identity, and additive linearity, but not the scalar-linearity half of the bracket bilinearity consequence. It is distinct from existing BOARD entries and from the present LieAlgebra labels, while still landing safely in the current LieAlgebra chapter as a focused theorem target.
+
+---
+
