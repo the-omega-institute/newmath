@@ -214,6 +214,36 @@ theorem ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy
   cases tripleRow
   exact And.intro pairUnary (And.intro tripleUnary (append_assoc i j k))
 
+theorem ManifoldScopedBoundaryPackage_transition_coherence_rows
+    {carrier i j k pair triple idRow inverseRow cocycleRow : BHist} :
+    ManifoldScopedBoundaryPackage carrier i j k pair triple -> Cont BHist.Empty pair idRow ->
+      Cont pair pair inverseRow -> Cont pair triple cocycleRow ->
+        UnaryHistory pair ∧ UnaryHistory triple ∧ hsame idRow pair ∧
+          hsame inverseRow (append pair pair) ∧ hsame cocycleRow (append pair triple) ∧
+            UnaryHistory idRow ∧ UnaryHistory inverseRow ∧ UnaryHistory cocycleRow := by
+  intro package idCont inverseCont cocycleCont
+  have overlapRows := ManifoldScopedBoundaryPackage_triple_overlap_source_determinacy package
+  have pairUnary : UnaryHistory pair := overlapRows.left
+  have tripleUnary : UnaryHistory triple := overlapRows.right.left
+  have idSame : hsame idRow pair :=
+    cont_left_unit_result idCont
+  have inverseSame : hsame inverseRow (append pair pair) :=
+    inverseCont
+  have cocycleSame : hsame cocycleRow (append pair triple) :=
+    cocycleCont
+  have idUnary : UnaryHistory idRow :=
+    unary_transport pairUnary (hsame_symm idSame)
+  have inverseUnary : UnaryHistory inverseRow :=
+    unary_cont_closed pairUnary pairUnary inverseCont
+  have cocycleUnary : UnaryHistory cocycleRow :=
+    unary_cont_closed pairUnary tripleUnary cocycleCont
+  exact And.intro pairUnary
+    (And.intro tripleUnary
+      (And.intro idSame
+        (And.intro inverseSame
+          (And.intro cocycleSame
+            (And.intro idUnary (And.intro inverseUnary cocycleUnary))))))
+
 theorem ManifoldSingleton_scoped_boundary_instance {chart domain value transition : BHist} :
     ManifoldSingletonCarrier chart -> Cont BHist.Empty chart domain ->
       Cont chart BHist.Empty value -> Cont domain value transition ->

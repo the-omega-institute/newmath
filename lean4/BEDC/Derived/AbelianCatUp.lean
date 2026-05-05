@@ -83,6 +83,25 @@ theorem AbelianCatAdditiveCarrier_classifier_transport
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right)))
 
+theorem AbelianCatAdditiveCarrier_additive_readback
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      hsame kernel zero ∧ CategoryHomCarrier source target zero ∧ GroupSingletonCarrier add ∧
+        Cont kernel cokernel factor ∧ UnaryHistory kernel ∧ UnaryHistory factor := by
+  intro carrier
+  have zeroCarrier : CategoryHomCarrier source target zero := carrier.left
+  have addSingleton : GroupSingletonCarrier add := carrier.right.left
+  have kernelUnary : UnaryHistory kernel := carrier.right.right.left
+  have factorUnary : UnaryHistory factor := carrier.right.right.right.right.left
+  have kernelRow : Cont zero add kernel := carrier.right.right.right.right.right.left
+  have factorRow : Cont kernel cokernel factor := carrier.right.right.right.right.right.right
+  have kernelZero : hsame kernel zero :=
+    cont_respects_hsame (hsame_refl zero) addSingleton kernelRow (cont_right_unit zero)
+  exact And.intro kernelZero
+    (And.intro zeroCarrier
+      (And.intro addSingleton
+        (And.intro factorRow (And.intro kernelUnary factorUnary))))
+
 theorem AbelianCatKernelCokernel_visible_factorization
     {f kerObj cokObj imageObj coimageObj comparison recomposed : BHist} :
     hsame f BHist.Empty -> Cont BHist.Empty f kerObj -> Cont f BHist.Empty cokObj ->
