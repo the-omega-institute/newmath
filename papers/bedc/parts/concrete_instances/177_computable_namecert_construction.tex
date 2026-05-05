@@ -32,6 +32,7 @@ $$
 $$
 and any two bounded simulations for the same input return $\hsame$-classified output histories. The modulus value $\beta_F(n)$ is part of the certificate ledger, so each accepted graph value carries its displayed time-step bound.
 \end{definition}
+\leanstmt{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate}
 
 \begin{theorem}[Computable composition by bounded simulation]
 \label{thm:computable-composition-bounded-simulation}
@@ -97,6 +98,7 @@ $$
 $$
 Thus a bounded $\ComputableUp$ graph certificate makes the accepted output over each unary input single-valued up to the $\NatUp$ history classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedSim\_same\_bound\_output\_deterministic}
 \begin{proof}
 Unpack the bounded graph certificate of \autoref{def:computable-bounded-graph-certificate}. Its graph-equivalence field states, for every unary input and unary output, that graph membership is equivalent to bounded simulation by the certified machine at the certified bound:
 $$
@@ -112,3 +114,4 @@ $$
 $$
 The two simulations now have the same deterministic code $P_F$, the same unary input $n$, and the same displayed ledger bound $\beta_F(n)$. The output-determinacy field of the same bounded graph certificate says that any two bounded simulations for one input return $\hsame$-classified output histories. Applying that field to the two displayed simulation witnesses gives $m\hsame m'$.
 \end{proof}
+\leanchecked{BEDC.Derived.ComputableUp.ComputableBoundedGraphCertificate\_single\_valuedness}
