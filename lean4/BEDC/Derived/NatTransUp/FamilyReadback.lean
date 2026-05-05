@@ -6,6 +6,19 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 
+def NatTransPrefixComponentFamilyCarrier (p q eta : BHist) : Prop :=
+  forall {a : BHist}, UnaryHistory a -> NatTransPrefixComponentCarrier p q a eta
+
+theorem NatTransPrefixComponentFamilyCarrier_vert_comp_closed
+    {p q r eta theta composite : BHist} :
+    NatTransPrefixComponentFamilyCarrier p q eta ->
+      NatTransPrefixComponentFamilyCarrier q r theta ->
+        Cont eta theta composite -> NatTransPrefixComponentFamilyCarrier p r composite := by
+  intro leftFamily rightFamily comp
+  intro a objectUnary
+  exact NatTransPrefixComponentCarrier_vert_comp_closed
+    (leftFamily objectUnary) (rightFamily objectUnary) comp
+
 theorem NatTransPrefixComponentCarrier_vert_comp_family_public_readback
     {p q r eta theta composite displayed : BHist} :
     (forall {a : BHist}, UnaryHistory a -> NatTransPrefixComponentCarrier p q a eta) ->
