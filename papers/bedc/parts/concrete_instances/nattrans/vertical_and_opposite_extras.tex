@@ -1,3 +1,24 @@
+\begin{theorem}[NatTrans prefix component vertical composite endpoint cycle boundary]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-endpoint-cycle-boundary}
+For prefix components over a common object $a$, if $\eta$ goes from $p$ to
+$q$, $\theta$ goes from $q$ to $r$, their vertical composite displays
+$composite$, and $\hsame(p,r)$, then the two components and their composite
+are empty and the intermediate prefixes collapse:
+$$
+\hsame(\eta,\emp)\land \hsame(\theta,\emp)\land
+\hsame(composite,\emp)\land \hsame(p,q)\land\hsame(q,r).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the two prefix components to category hom-carriers between
+$\mathsf{append}(p,a)$, $\mathsf{append}(q,a)$, and $\mathsf{append}(r,a)$.
+The endpoint equality $\hsame(p,r)$ extends across the shared suffix $a$.
+The category endpoint-cycle boundary theorem then gives empty component and
+composite histories plus endpoint equalities; cancelling the common suffix
+$a$ gives $\hsame(p,q)$ and $\hsame(q,r)$.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_endpoint\_cycle\_boundary}
+
 \begin{theorem}[NatTrans prefix component vertical composite nonempty source visibility]
 \label{thm:nattrans-prefix-component-carrier-vert-comp-nonempty-result-source-visible}
 For prefix components over a common object $a$, if $\eta$ goes from $p$ to
@@ -55,6 +76,27 @@ the same visible result payload, the visible target payload, and the displayed
 continuation ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_source\_target\_cases}
+
+\begin{theorem}[NatTrans prefix component nonempty right-identity visible readback]
+\label{thm:nattrans-prefix-component-carrier-vert-comp-nonempty-result-right-identity-visible-readback}
+For prefix components over a common object $a$, if $\eta$ goes from $p$ to
+$q$, $\theta$ goes from $q$ to $r$, their vertical composite displays
+$\Eone(k)$, the right-identity continuation displays $\ContR(\Eone(k),\emp,right)$,
+and the source endpoint $\mathsf{append}(p,a)$ is not history-same to $\emp$,
+then $right$ is a component from $p$ to $r$, $right\hsame\Eone(k)$, and the
+source-visible readback exposes visible source and target endpoints around
+the same payload $k$.
+\end{theorem}
+\begin{proof}
+First close the vertical composite as a prefix component from $p$ to $r$ with
+displayed history $\Eone(k)$. The right-identity closure for prefix components
+transports this component along the continuation with empty right factor and
+records $right\hsame\Eone(k)$. The existing source-visible nonempty-result
+readback applied to the original vertical composite supplies the visible
+source endpoint, visible target endpoint, unary payload witnesses, and the
+visible continuation ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_vert\_comp\_nonempty\_result\_right\_identity\_visible\_readback}
 
 \begin{theorem}[NatTrans vertical composition naturality]
 \label{thm:nattrans-vertical-composition-naturality}

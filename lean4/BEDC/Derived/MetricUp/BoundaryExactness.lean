@@ -189,4 +189,16 @@ theorem MetricDistanceWitness_left_boundary_visible_context_distance_target {p q
   · cases boundary.right.right.right
     rfl
 
+theorem MetricDistanceWitness_e1_endpoints_distance_e1_shape {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) d ->
+      exists d0 : BHist, d = BHist.e1 d0 ∧ UnaryHistory d0 := by
+  intro witness
+  cases d with
+  | Empty =>
+      exact False.elim (MetricDistanceWitness_e1_pair_empty_distance_absurd witness)
+  | e0 d0 =>
+      exact False.elim (unary_no_zero_extension witness.right.right.left)
+  | e1 d0 =>
+      exact Exists.intro d0 (And.intro rfl (unary_e1_inversion witness.right.right.left))
+
 end BEDC.Derived.MetricUp
