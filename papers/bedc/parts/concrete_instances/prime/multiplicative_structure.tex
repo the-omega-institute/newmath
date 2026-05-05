@@ -608,6 +608,27 @@ From the witnessing quotients \(q_1\) with \(\mathsf{NatMul}(d, q_1, e)\) and \(
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatDivides\_transitive}
 
+\begin{theorem}[Unary divisibility partial-order certificate]
+\label{thm:nat-divides-partial-order-certificate}
+On unary histories, $\mathsf{NatDivides}$ is reflexive and transitive, and it is
+antisymmetric modulo $\hsame$: for unary histories $d$, $e$, and $n$,
+$\mathsf{NatDivides}(d,d)$,
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,n) \Rightarrow
+\mathsf{NatDivides}(d,n)$, and
+$\mathsf{NatDivides}(d,e) \wedge \mathsf{NatDivides}(e,d) \Rightarrow
+d\hsame e$.
+\end{theorem}
+\begin{proof}
+The reflexive clause is \autoref{lem:divides-reflexive}, and the transitive
+clause is \autoref{lem:divides-transitive}. The antisymmetric clause is
+\autoref{thm:nat-divides-antisymmetry-hsame}.
+
+This is a paper-level bundled certificate rather than a distinct Lean marker
+site: the three checked laws are consumed together by bounded divisor search,
+Euclid's lemma, and factorization uniqueness as the order-like interface for
+unary divisibility.
+\end{proof}
+
 \begin{lemma}[Divisibility is closed under displayed continuation]
 \label{thm:nat-divides-cont-closed}
 If $\mathsf{NatDivides}(d,x)$ and $\mathsf{NatDivides}(d,y)$ hold, and
