@@ -95,6 +95,28 @@ power ledger from $A_{\emp}(M)$ and $\Unary(e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_carrier\_nonempty\_unary\_input\_iff}
 
+\begin{theorem}[Matrix singleton power positive exponent classifier iff]
+\label{thm:matrix-singleton-pow-positive-exponent-classifier-iff}
+Let $M,e,h:\mathsf{BHist}$. If $e$ is unary and not history-same to $\emp$,
+then the singleton classifier of the positive power ledger against $h$ is
+exactly the pair of singleton carrier conditions on the base and the displayed
+endpoint:
+$$
+\mathsf{MatrixSingletonClassifier}(\mathsf{MatrixSingletonPow}(M,e),h)
+\Longleftrightarrow
+\mathsf{MatrixSingletonCarrier}(M)\land\mathsf{MatrixSingletonCarrier}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the carried power endpoint from the classifier and
+uses positive-exponent carrier exactness to recover the singleton carrier of
+$M$; the right endpoint carrier is already part of the classifier. Conversely,
+the singleton carrier of $M$ and unary exponent closure carry the positive
+power ledger, and the carried endpoint $h$ completes the singleton classifier
+by transitivity through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_classifier\_iff}
+
 \begin{theorem}[Matrix singleton power nonempty unary suffix base carrier]
 \label{thm:matrix-singleton-pow-nonempty-unary-suffix-base-carrier}
 If $tail$ is unary and not history-same as $\emp$, then a singleton carrier
@@ -135,6 +157,45 @@ predecessor power ledger with $M$, so the continuation is the displayed append
 step.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_positive\_exponent\_cont\_readback}
+
+\begin{theorem}[Matrix singleton unary exponent cases]
+\label{thm:matrix-singleton-pow-unary-exponent-cases}
+For a unary exponent, the singleton power ledger has exactly the BEDC
+empty-or-successor shape needed for power readback: the empty exponent
+classifies the power ledger against \(I_M\), while a one-headed exponent
+exposes a unary tail and the displayed continuation by the base matrix:
+$$
+\rho_{\emp}(\mathsf{MatrixSingletonPow}(M,e),I_M)
+\quad\vee\quad
+\exists t.\ \Unary(t)\land
+\ContR(\mathsf{MatrixSingletonPow}(M,t),M,\mathsf{MatrixSingletonPow}(M,e)).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the exponent history. The empty case unfolds to \(I_M=\emp\) and
+closes by singleton classifier reflexivity. The zero-headed case is impossible
+for a unary exponent. The one-headed case returns its tail and the defining
+append continuation of \(\mathsf{MatrixSingletonPow}\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_unary\_exponent\_cases}
+
+\begin{theorem}[Matrix singleton unary exponent carrier or base carrier]
+\label{thm:matrix-singleton-pow-unary-exponent-carrier-or-base-carrier}
+If a unary-exponent power ledger is singleton-carried, then either the exponent
+is the empty history or the base matrix itself is singleton-carried:
+$$
+\Unary(e)\land A_{\emp}(\mathsf{MatrixSingletonPow}(M,e))
+\Longrightarrow
+\hsame(e,\emp)\vee A_{\emp}(M).
+$$
+\end{theorem}
+\begin{proof}
+Inspect the unary exponent. The empty branch supplies \(\hsame(e,\emp)\).
+The zero-headed branch contradicts unary membership. In the one-headed branch
+the power ledger unfolds as an append product whose right factor is \(M\);
+append empty-result inversion projects the singleton carrier of \(M\).
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_unary\_exponent\_carrier\_or\_base\_carrier}
 
 \begin{theorem}[Matrix singleton positive-exponent empty continuation base carrier]
 \label{thm:matrix-singleton-pow-positive-exponent-empty-continuation-base-carrier}
@@ -214,6 +275,26 @@ and append empty-result exactness carries the displayed multiplication endpoint.
 The continuation equation gives the classifier comparison.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_classifier\_readback}
+
+\begin{theorem}[Matrix singleton power append positive suffix classifier exact carrier criterion]
+\label{thm:matrix-singleton-pow-append-positive-suffix-classifier-iff}
+If $pref$ and $suffix$ are unary histories and $suffix$ is not history-same as
+$\emp$, then the singleton classifier of the append-positive power ledger
+against $h$ is exactly the pair of singleton carrier facts for $M$ and $h$:
+$$
+\rho_{\emp}\bigl(\mathsf{MatrixSingletonPow}(M,\mathsf{append}(pref,suffix)),h\bigr)
+\Longleftrightarrow
+A_{\emp}(M)\land A_{\emp}(h).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction reads the carriedness of $h$ from the classifier and
+applies nonempty unary suffix base-carrier readback to the carried power
+ledger. Conversely, unary append closure carries the appended power from
+$A_{\emp}(M)$, and the two singleton carrier witnesses compare the endpoints
+through $\emp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonPow\_append\_positive\_suffix\_classifier\_iff}
 
 \begin{theorem}[Matrix singleton power successor classifier]
 \label{thm:matrix-singleton-pow-succ-classifier}

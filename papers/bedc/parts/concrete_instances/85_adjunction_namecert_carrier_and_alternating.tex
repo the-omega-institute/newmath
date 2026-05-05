@@ -169,6 +169,27 @@ determinism separately to the left and right triangle rows.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_triangle\_results\_deterministic}
 
+\begin{theorem}[Adjunction unit-counit triangle results coincide]
+\label{thm:adjunction-unit-counit-triangle-results-hsame}
+Let \(unit:p\Rightarrow q\) and \(counit:q\Rightarrow p\) be prefix
+natural-transformation components at \(a\). If the two triangle ledgers are
+displayed by
+$$
+\Cont(unit,counit,left)
+\qquad\text{and}\qquad
+\Cont(counit,unit,right),
+$$
+then \(left\hsame right\).
+\end{theorem}
+\begin{proof}
+The first continuation is a vertical composite prefix component from \(p\) to
+\(p\), hence the endomorphism component exactness identifies \(left\) with
+\(\emp\). The second continuation is the symmetric composite from \(q\) to
+\(q\), so the same exactness identifies \(right\) with \(\emp\). Transitivity of
+\(\hsame\) gives \(left\hsame right\).
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitTriangle\_results\_hsame}
+
 \begin{theorem}[Adjunction unit-counit endomorphism boundary emptiness]
 \label{thm:adjunction-unit-counit-carrier-endomorphism-unit-counit-empty}
 For histories $p,a,unit,counit,left,right:\mathsf{BHist}$, if
@@ -323,6 +344,29 @@ along the empty result and applying empty-result inversion forces the left
 component to be empty.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitAlternating\_positive\_depth\_result\_empty\_unit\_empty}
+
+\begin{theorem}[Adjunction positive-depth empty alternating prefix readback]
+\label{thm:adjunction-unit-counit-carrier-alternating-positive-depth-empty-prefix-same}
+For histories $p,q,a,unit,counit,left,right,depth:\mathsf{BHist}$, suppose
+an adjunction unit-counit carrier holds, $depth$ is unary and nonempty, and
+the alternating unit-counit ledger is history-same to $\emp$. Then the source
+and target prefixes of the unit component are history-same:
+$$
+\mathsf{AdjunctionUnitCounitCarrier}(p,q,a,unit,counit,left,right)
+\land \Unary(depth)\land(\hsame(depth,\emp)\to\bot)
+\land
+\hsame(\mathsf{AdjunctionUnitCounitAlternating}(unit,counit,depth),\emp)
+\Longrightarrow
+\hsame(p,q).
+$$
+\end{theorem}
+\begin{proof}
+The positive-depth empty-result readback forces $unit\hsame\emp$. Transporting
+the unit component to the empty component case lets natural-transformation
+empty-identity exactness read back the endpoint-prefix equality
+$\hsame(p,q)$.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionUnitCounitCarrier\_alternating\_positive\_depth\_empty\_prefix\_same}
 
 \begin{theorem}[Adjunction visible unit positive-depth empty-result exclusion]
 \label{thm:adjunction-alternating-positive-depth-visible-unit-continuation-empty-result-absurd}

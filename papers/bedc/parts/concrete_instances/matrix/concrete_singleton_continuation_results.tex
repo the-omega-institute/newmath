@@ -17,3 +17,20 @@ history witnesses, and the classifier is rebuilt from those two carrier
 components and $\hsame(\emp,\emp)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonClassifier\_continuation\_comm\_closed}
+
+\begin{theorem}[Matrix singleton nested append target continuation result]
+\label{thm:matrix-singleton-nested-append-target-continuation-result-iff}
+For histories $M,N,P,h,r:\mathsf{BHist}$, if
+$\ContR(h,\mathsf{append}(M,\mathsf{append}(N,P)),r)$, then
+$$
+A_{\emp}(r)\Longleftrightarrow
+A_{\emp}(h)\land A_{\emp}(M)\land A_{\emp}(N)\land A_{\emp}(P).
+$$
+\end{theorem}
+\begin{proof}
+The forward direction transports the continuation result to $\emp$ and applies
+empty-result inversion for continuation, then splits the nested append endpoint
+twice. Conversely, the four carrier witnesses rebuild the nested target as
+$\emp$, and continuation respects the two endpoint identifications.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonNestedAppendTarget\_continuation\_result\_iff}

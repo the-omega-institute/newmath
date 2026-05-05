@@ -42,6 +42,7 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
+  const NO_OUTPUT_IDLE_TIMEOUT = 420000;
   const SCRIPT_VERSION = "bedc-1.17";
 
   let busy = false;
@@ -1053,6 +1054,16 @@
       if (elapsed - lastLogTime >= 300) {
         lastLogTime = elapsed;
         log(`Wait: ${elapsed}s, extracted=${responseText.length}, page=${mainLen}, stable=${stableCount}, gen=${generating}, url=${window.location.href.slice(-30)}`);
+      }
+      if (
+        !generating &&
+        responseText.length < 5 &&
+        Date.now() - startTime >= NO_OUTPUT_IDLE_TIMEOUT
+      ) {
+        throw new Error(
+          `No assistant output after ${Math.floor(NO_OUTPUT_IDLE_TIMEOUT / 1000)}s ` +
+          `(page=${mainLen}, url=${window.location.href.slice(-60)})`
+        );
       }
       if (responseText.length >= 5) {
         if (looksLikePromptEcho(responseText)) {

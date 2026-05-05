@@ -524,3 +524,57 @@ exactness every normalizer endpoint carries all four diagonal classifiers;
 downstream consumer $\QuotientGroupUp$; status $\mathsf{ProofTarget}$.
 
 \closureat{\SubgroupUp}{\checkedCertStr}[BEDC.Derived.SubgroupUp.SubgroupCentralizer\_semanticNameCert]
+
+\begin{definition}[Trivial SubgroupUp carrier]
+\label{def:subgroup-trivial-carrier}
+Fix a BEDC history-level $\GroupUp$ source over $\mathsf{BHist}$ with operation $\mathsf{mul}$, unit $e$, inverse operation $\mathsf{inv}$, and ambient classifier $\hsame$. Define
+$$
+\mathsf{Triv}_G(x) :\Longleftrightarrow x\hsame e.
+$$
+The inherited classifier on this carrier is the carrier-aware restriction of $\hsame$:
+$$
+\mathsf{TrivRel}_G(x,y) :\Longleftrightarrow
+\mathsf{Triv}_G(x)\land\mathsf{Triv}_G(y)\land x\hsame y.
+$$
+The operation, unit, and inverse are inherited unchanged from the ambient $\GroupUp$ source.
+\end{definition}
+
+\begin{theorem}[Trivial subgroup SubgroupUp certificate]
+\label{thm:subgroup-trivial-certificate}
+For a BEDC history-level $\GroupUp$ operation over $\mathsf{BHist}$ satisfying the monoid stability rows of \autoref{def:monoid-stability-certificate} and the inverse rows of \autoref{def:group-stability-certificate}, the carrier and classifier of \autoref{def:subgroup-trivial-carrier} satisfy the concrete $\SubgroupUp$ certificate rows:
+\begin{enumerate}
+\item $\mathsf{TrivRel}_G$ is a semantic naming classifier on $\mathsf{Triv}_G$.
+\item $\mathsf{Triv}_G(e)$.
+\item If $\mathsf{Triv}_G(x)$ and $\mathsf{Triv}_G(y)$, then $\mathsf{Triv}_G(\mathsf{mul}(x,y))$.
+\item If $\mathsf{Triv}_G(x)$, then $\mathsf{Triv}_G(\mathsf{inv}(x))$.
+\item If $\mathsf{Triv}_G(x)$ and $x\hsame y$, then $\mathsf{Triv}_G(y)$.
+\item If $\mathsf{TrivRel}_G(x,x')$ and $\mathsf{TrivRel}_G(y,y')$, then $\mathsf{TrivRel}_G(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$.
+\item If $\mathsf{TrivRel}_G(x,y)$, then $\mathsf{TrivRel}_G(\mathsf{inv}(x),\mathsf{inv}(y))$.
+\end{enumerate}
+Thus the singleton fiber of the group unit carries a $\SubgroupUp$ certificate over the inherited classifier.
+\end{theorem}
+\begin{proof}
+The semantic classifier row is inherited from $\hsame$. Reflexivity on a carried endpoint $x$ packages the carrier witness $\mathsf{Triv}_G(x)$ twice with $x\hsame x$. Symmetry and transitivity unpack the stored $\hsame$ comparisons, apply the corresponding ambient law, and repack the endpoint carrier fields already present in the classifier witnesses.
+
+The identity row is the reflexive witness $e\hsame e$, which is exactly $\mathsf{Triv}_G(e)$ by \autoref{def:subgroup-trivial-carrier}.
+
+For product closure, assume $\mathsf{Triv}_G(x)$ and $\mathsf{Triv}_G(y)$. These are the comparisons $x\hsame e$ and $y\hsame e$. Multiplication congruence from the monoid stability rows gives
+$$
+\mathsf{mul}(x,y)\hsame\mathsf{mul}(e,e).
+$$
+The left identity law at $e$ gives $\mathsf{mul}(e,e)\hsame e$. Transitivity proves $\mathsf{mul}(x,y)\hsame e$, hence $\mathsf{Triv}_G(\mathsf{mul}(x,y))$.
+
+For inverse closure, assume $\mathsf{Triv}_G(x)$, so $x\hsame e$. The derived inverse congruence theorem \autoref{thm:group-inverse-congruence-from-laws} gives
+$$
+\mathsf{inv}(x)\hsame\mathsf{inv}(e).
+$$
+The identity-inverse theorem \autoref{thm:group-inverse-identity} gives $\mathsf{inv}(e)\hsame e$. Transitivity proves $\mathsf{Triv}_G(\mathsf{inv}(x))$.
+
+For carrier transport, assume $\mathsf{Triv}_G(x)$ and $x\hsame y$. Symmetry gives $y\hsame x$, and transitivity with $x\hsame e$ gives $y\hsame e$. This is $\mathsf{Triv}_G(y)$.
+
+For multiplication compatibility of the inherited classifier, unpack the two $\mathsf{TrivRel}_G$ witnesses. Product closure supplies the two endpoint carrier rows for $\mathsf{mul}(x,y)$ and $\mathsf{mul}(x',y')$, while multiplication congruence transports the stored comparisons $x\hsame x'$ and $y\hsame y'$ to the product comparison. These three fields repack $\mathsf{TrivRel}_G(\mathsf{mul}(x,y),\mathsf{mul}(x',y'))$.
+
+For inverse compatibility, unpack $\mathsf{TrivRel}_G(x,y)$. Inverse closure supplies the endpoint carrier rows for $\mathsf{inv}(x)$ and $\mathsf{inv}(y)$, and \autoref{thm:group-inverse-congruence-from-laws} transports the stored comparison $x\hsame y$ to $\mathsf{inv}(x)\hsame\mathsf{inv}(y)$. Repacking gives the displayed inverse-classifier row.
+
+These are the identity, product, inverse, transport, and restricted-classifier fields required by the $\SubgroupUp$ row format used in \autoref{thm:subgroup-centralizer-certificate-target}.
+\end{proof}
