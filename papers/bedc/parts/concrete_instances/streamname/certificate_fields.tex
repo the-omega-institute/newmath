@@ -494,3 +494,69 @@ $\mathcal{P}$; in the right case apply the classifier on $\mathcal{Q}$. Both
 cases yield the same required conclusion
 $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
 \end{proof}
+
+\begin{theorem}[Rational stream-name finite-window stability fields]
+\label{thm:rat-stream-name-finite-window-stability-fields}
+For certified observation maps $s,t,u,s',t':\Hist\to\Hist$ and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, the finite-window classifier has the
+following stability fields.
+\begin{enumerate}
+  \item If every bundled unary observation of $s$ is carried,
+  $$
+  \forall n,\ \mathsf{InBundle}(n,\mathcal{P})\to
+  \mathsf{UnaryHistory}(n)\to\mathsf{RatHistoryCarrier}(s(n)),
+  $$
+  then $\mathsf{RatStreamNameFiniteWindowClassifier}(s,s,\mathcal{P})$.
+  \item $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$
+  implies
+  $\mathsf{RatStreamNameFiniteWindowClassifier}(t,s,\mathcal{P})$.
+  \item $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ and
+  $\mathsf{RatStreamNameFiniteWindowClassifier}(t,u,\mathcal{P})$ imply
+  $\mathsf{RatStreamNameFiniteWindowClassifier}(s,u,\mathcal{P})$.
+  \item If $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$
+  and the endpoints satisfy
+  $$
+  \forall n,\ \mathsf{InBundle}(n,\mathcal{P})\to
+  \mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n))
+  $$
+  and
+  $$
+  \forall n,\ \mathsf{InBundle}(n,\mathcal{P})\to
+  \mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)),
+  $$
+  then $\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P})$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Unfold Definition~\ref{def:rat-stream-name-finite-window-classifier}. For
+reflexivity, fix a bundled certified unary observation $(n,\pi,\nu)$. The
+given carrier row supplies $\mathsf{RatHistoryCarrier}(s(n))$, and RatUp
+classifier reflexivity turns that carrier witness into
+$\mathsf{RatHistoryClassifier}(s(n),s(n))$.
+
+For symmetry, fix the same bundled unary observation data. The finite-window
+classifier from $s$ to $t$ supplies the point classifier
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, and RatUp classifier symmetry
+reverses it.
+
+For transitivity, fix a bundled unary observation and read the two
+finite-window classifiers at it. RatUp classifier transitivity composes
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ with
+$\mathsf{RatHistoryClassifier}(t(n),u(n))$, giving the point classifier from
+$s(n)$ to $u(n)$.
+
+For endpoint transport, fix $(n,\pi,\nu)$ again. The source finite-window
+classifier gives $\mathsf{RatHistoryClassifier}(s(n),t(n))$, while the two
+endpoint transport rows give $\hsame(s(n),s'(n))$ and $\hsame(t(n),t'(n))$ at
+the same bundled unary observation. RatUp point classifier transport along
+these two $\hsame$ rows gives
+$\mathsf{RatHistoryClassifier}(s'(n),t'(n))$.
+\end{proof}
+
+The ten-field fit is: traditional target finite rational observation-window
+stability; BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier
+observation maps; classifier finite-window restriction; stability the four
+displayed rows; ledger the finite probe bundle and endpoint transports; core
+theorem \autoref{thm:rat-stream-name-finite-window-stability-fields};
+exactness pointwise RatUp classification; standard bridge finite prefixes of
+rational streams; status $\mathsf{ProofTarget}$.
