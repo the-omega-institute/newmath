@@ -42,6 +42,67 @@ $$
 A witnessed open of $\TopologyUp$ is such a pair $(i,h_i)$, with $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$.
 \end{definition}
 
+\begin{definition}[Topology neighbourhood interface]
+\label{def:topology-neighborhood-interface}
+For an indexed open topology carrier $\mathcal{T}$ over $X$, the neighbourhood predicate of a point $x:X$ at an open index $i:\mathsf{OpenIx}$ is
+$$
+\mathsf{Nbhd}_{\mathcal{T}}(x,i)
+:\Longleftrightarrow
+\mathsf{OpenAt}(i,x).
+$$
+This row is indexed-open data: it records membership in the displayed index of $\mathcal{T}$ and does not select an external powerset element.
+\end{definition}
+
+\begin{theorem}[Neighbourhood open membership]
+\label{thm:topology-neighborhood-open-membership}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. If an index $i:\mathsf{OpenIx}$ carries a predicate $U:X\to\mathsf{Prop}$, then for every point $x:X$,
+$$
+\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)
+\Longrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\Longleftrightarrow U(x)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $h_i:\mathsf{CarriesOpen}_{\mathcal{T}}(i,U)$ and fix $x:X$. By \autoref{def:topology-neighborhood-interface}, $\mathsf{Nbhd}_{\mathcal{T}}(x,i)$ is exactly $\mathsf{OpenAt}(i,x)$.
+
+The carrying equation of \autoref{def:topology-indexed-open-carried-predicate} gives $U(x)\Longleftrightarrow\mathsf{OpenAt}(i,x)$. Reading this equivalence in the opposite direction gives the displayed neighbourhood membership law.
+\end{proof}
+
+\begin{theorem}[Neighbourhood classifier transport]
+\label{thm:topology-neighborhood-classifier-transport}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. For every open index $i:\mathsf{OpenIx}$ and points $x,y:X$,
+$$
+\mathsf{same}_X(x,y)
+\Longrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\Longleftrightarrow\mathsf{Nbhd}_{\mathcal{T}}(y,i)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{same}_X(x,y)$. Unfolding \autoref{def:topology-neighborhood-interface} reduces the claim to transport of $\mathsf{OpenAt}(i,-)$.
+
+The membership-stability field of \autoref{def:topology-indexed-open-carrier}, applied to the fixed index $i$, gives exactly $\mathsf{OpenAt}(i,x)\Longleftrightarrow\mathsf{OpenAt}(i,y)$.
+\end{proof}
+
+\begin{theorem}[Neighbourhood finite-intersection]
+\label{thm:topology-neighborhood-finite-intersection}
+Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. For every pair of open indices $i,j:\mathsf{OpenIx}$ and every point $x:X$,
+$$
+\mathsf{Nbhd}_{\mathcal{T}}(x,i\wedge_{\TopologyUp}j)
+\Longleftrightarrow
+\bigl(\mathsf{Nbhd}_{\mathcal{T}}(x,i)\wedge\mathsf{Nbhd}_{\mathcal{T}}(x,j)\bigr).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the neighbourhood predicate of \autoref{def:topology-neighborhood-interface}. The desired statement becomes
+$$
+\mathsf{OpenAt}(i\wedge_{\TopologyUp}j,x)
+\Longleftrightarrow
+\bigl(\mathsf{OpenAt}(i,x)\wedge\mathsf{OpenAt}(j,x)\bigr).
+$$
+
+This is precisely the finite-intersection field included in the indexed open topology carrier of \autoref{def:topology-indexed-open-carrier}.
+\end{proof}
+
 \begin{theorem}[Topology indexed open finite-intersection closure]
 \label{thm:topology-indexed-open-finite-intersection}
 Let $\mathcal{T}$ be an indexed open topology carrier for $\TopologyUp$ over $X$. If indices $i,j:\mathsf{OpenIx}$ carry predicates $U,V:X\to\mathsf{Prop}$, then the certificate index $i\wedge_{\TopologyUp}j$ carries the finite intersection $U\cap V$:
