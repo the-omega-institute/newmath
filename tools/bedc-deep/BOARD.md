@@ -7472,3 +7472,216 @@ Direct symmetric counterpart of the existing target-prefix transport theorem (th
 
 ---
 
+### B-288 - Gamma limit certificate hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Gamma limit certificate hsame transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If s hsame t, GammaDom(s), and Gamma(s,z) hold with a Weierstrass limit witness, then Gamma(t,z) holds with the transported domain witness and the same Cauchy modulus, with z unchanged.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/53_gamma_function_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/core/03_relational_extension_and_continuation.tex`
+
+Rationale:
+The Gamma chapter ships transport theorems for the pole locus (thm:gamma-pole-locus-hsame-transport-witness), the domain core (thm:gamma-domain-core-hsame-transport), and the Weierstrass Cauchy modulus (thm:gamma-weierstrass-cauchy-modulus-hsame-transport), but no theorem closes the loop at the value level: Gamma(s,z) implies Gamma(t,z) under s hsame t. This theorem is the natural composition of the three existing transport theorems with ComplexLimitUp uniqueness, and it is the prerequisite needed for any downstream zeta argument that compares Gamma values across history-equivalent complex histories (notably the s ↦ 1-s reflection comparisons in the zeta functional equation chapter). Sits cleanly inside the existing concrete_instances/gamma scope, fills a known gap, and does not duplicate any existing BOARD entry.
+
+---
+
+### B-289 - MetricBallBudget 有限路径预算归纳
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | MetricBallBudget 有限路径预算归纳 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Met↑ 的 ball-budget setup 下, 若有限路径 x0,...,xn 的每条边满足 MetricBallBudget_d(x_i,x_{i+1}; r_i), 则 MetricBallBudget_d(x0,xn; r0+...+r_{n-1})。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`
+
+Rationale:
+Existing metric chapter has only the two-step composition theorem for ball budgets; this is the proper finite-path induction extension that closes path-budget transport via triangle inequality plus monotone budget addition. No BOARD entry covers metric ball-budget propagation, and paper labels show only def-level modulus / continuous data, not a path-budget theorem. Useful prerequisite for downstream compact and continuous targets, and small enough to close in one oracle round.
+
+---
+
+
+### B-290 - Compact 有限网见证的精度放宽
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact 有限网见证的精度放宽 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Compact↑ setup 下, 若 n 是 ε-有限网见证且 ordered-real 预算给出 ε ≤ ε′, 则同一网见证 n 也是 ε′-有限网见证。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/29_totalorder_namecert_construction.tex`
+
+Rationale:
+Compact stability certificate enumerates per-precision finite-net data plus precision-monotonicity as obligation fields, but neither BOARD nor paper labels (def:compact-uniform-finite-net, def:compact-finite-refinement-chain, etc.) elevate the precision-coarsening to a standalone theorem. Promoting it to a theorem unblocks later compact classifier and uniform finite-net ledger targets without overlapping prefix/refinement results. Short, concrete implication form; lands cleanly in concrete_instances.
+
+---
+
+
+### B-291 - Compact 见证分类器的传递闭合
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Compact 见证分类器的传递闭合 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+在 Compact↑ classifier setup 下, 若 K∼K′ 和 K′∼K″ 都由成员谓词的 carrier-sameness 双向等价给出, 则复合这些双向等价得到 K∼K″。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+Compact classifier specification defines compact-witness sameness via bidirectional membership evidence under carrier sameness; transitivity is the natural classification-style theorem but is not present in BOARD or paper labels (only def-level classifier specs appear). Distinct from prefix-closure/refinement targets — this is structural transitivity of the equivalence used for classifier sameness. Compact in size yet structurally important for downstream classifier-projection lemmas.
+
+---
+
+
+### B-292 - ContinuousMap 复合的代表元同余
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ContinuousMap 复合的代表元同余 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+在 ContinuousMap↑ setup 下, 若 f∼f′ 且 g∼g′ under ContinuousMap classifier 且复合两侧的源域、目标域和 totally-bounded witnesses 匹配, 则 g∘f ∼ g′∘f′。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/34_continuous_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/35_compact_namecert_construction.tex`
+
+Rationale:
+B-12 covers forward closure of uniform-continuity moduli under composition; this candidate is the sibling congruence theorem at the classifier level — composition transports representative sameness through both factors. Genuinely distinct because it requires graph-output replacement, modulus mutual refinement, and codomain classifier transitivity, not just modulus composition. Not in paper labels (continuousmapup-metric-* are def-level only).
+
+---
+
+
+### B-293 - LinearMap 证书的复合闭合
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | LinearMap 证书的复合闭合 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+在同一标量 Ring↑ 和三个 Module↑ setup 下, 若 f:M→N 与 g:N→P 是 certified LinearMap↑ carriers, 则 g∘f 携带 LinearMap↑ carrier、stability 和 ledger, 且其点态分类器由 f 与 g 的点态分类器复合给出。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/22_linearmap_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+
+Rationale:
+Linearmap chapter has carrier/source/pattern/classifier/stability/ledger definitions but no BOARD target on linear-map structural closure. Composition closure is the principal structure theorem for the linearmap certificate package, distinct from existing module-side targets B-08/B-23 (which are scalar-action obligations). Closes via additivity, scalar compatibility and pointwise classifier transport — clearly bounded scope.
+
+---
+
+
+### B-294 - Matrix 转置的双重刚性
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Matrix 转置的双重刚性 |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+在 Matrix↑ setup 下, 若转置操作按同一 scalar classifier 逐坐标搬运矩阵 carrier, 则任意矩阵 A 满足 (Aᵀ)ᵀ ∼ A under Matrix↑ classifier。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/23_matrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/19_commring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/11_list_namecert_construction.tex`
+
+Rationale:
+Matrix chapter has carrier/classifier/stability/transpose-certified-scalar-carrier definitions but no transpose-involution theorem in BOARD or paper labels. Small structural rigidity result — two row/column swaps composed back to global structural equality at the matrix classifier level — that is not just a scalar-classifier transport. Tight scope, easily closeable in a short oracle pass.
+
+---
+
+
+### B-295 - ConvRad checked 行不能推出 Cauchy-Hadamard
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ConvRad checked 行不能推出 Cauchy-Hadamard |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+在 ConvRad↑ setup 中只假设 checked carrier、radius transport、coefficient transport 与 append-unary closure 行而不加入 analytic ledger policy 时, 存在两个同 checked 行的政策解释使 Cauchy-Hadamard exactness 的真值不同。
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/41_convergence_radius_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_power_series_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/44_complex_series_namecert_construction.tex`
+
+Rationale:
+ConvRad chapter explicitly separates checked NameCert rows from analytic ledger laws and leaves Cauchy-Hadamard limsup characterization as a ledger-policy obligation. This candidate elevates that separation into an obstruction/independence theorem closeable by exhibiting two policy interpretations sharing all checked rows but disagreeing on exact-radius law — entirely BEDC-internal, not external complex analysis. No analogous BOARD entry; def:conv-rad-* labels are all def-level.
+
+---
+
