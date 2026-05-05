@@ -512,3 +512,35 @@ $$
 $$
 Thus $j$ satisfies the pointwise carrier-and-classifier clause required for the inverse map $\pi^{-1}$. Since $j$ was arbitrary, the inverse certified bijection and this pointwise field repack as $\mathsf{EnumPerm}_{A,\sim_A}(ys,xs)$.
 \end{proof}
+
+\begin{theorem}[EnumPerm identity reflexivity]
+\label{thm:enumperm-identity-reflexivity}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be the carrier of a fixed $\SetUp$ certificate, let $\sim_A$ be its classifier, and let $\mathsf{cert}:\NameCert(A,\sim_A)$. For every finite BEDC-history spine $xs:\mathsf{HistSpine}$, if every position entry is carried by $A$,
+$$
+\forall i:\mathsf{Pos}(xs).\;A(\mathsf{entry}_{xs}(i)),
+$$
+then
+$$
+\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)
+$$
+holds, witnessed by the identity bijection on $\mathsf{Pos}(xs)$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:finset-classifier-preserving-enumeration-permutation}. Supply the certified finite-position bijection whose forward map and inverse map are both the identity function on $\mathsf{Pos}(xs)$. The two inverse identities are the pointwise equalities $i=i$ and $j=j$, so this is a certified bijection from $\mathsf{Pos}(xs)$ to itself.
+
+It remains to verify the pointwise carrier-and-classifier field. Fix a position $i:\mathsf{Pos}(xs)$. The hypothesis gives
+$$
+A(\mathsf{entry}_{xs}(i)).
+$$
+Under the identity position map, the matched source and target entries are both $\mathsf{entry}_{xs}(i)$. The reflexivity field of $\mathsf{cert}$, supplied by \autoref{def:lean-carrier-naming-certificate}, gives
+$$
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Therefore the matched pair at $i$ satisfies
+$$
+A(\mathsf{entry}_{xs}(i))\land
+A(\mathsf{entry}_{xs}(i))\land
+\mathsf{entry}_{xs}(i)\sim_A\mathsf{entry}_{xs}(i).
+$$
+Since $i$ was arbitrary, the identity certified bijection has the required pointwise preservation field. Repacking these data proves $\mathsf{EnumPerm}_{A,\sim_A}(xs,xs)$.
+\end{proof}
