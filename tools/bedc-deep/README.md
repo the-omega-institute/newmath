@@ -92,8 +92,8 @@ python3 tools/bedc-deep/bedc_oracle_server.py
 Open one or more ChatGPT tabs with the BEDC userscript installed:
 
 ```text
-https://chatgpt.com/?bedc=1
-https://chatgpt.com/?bedc=2
+https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1
+https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=2
 ```
 
 Run a single target through Stage 1 → 1.5 → 2:
@@ -109,7 +109,8 @@ python3 tools/bedc-deep/oracle_client.py --loop --preflight-agent-wait 60
 ```
 
 Run the loop in parallel across N ChatGPT tabs (cap to active tabs; server
-allows up to `MAX_AGENTS = 3`). Open `?bedc=1`, `?bedc=2`, `?bedc=3` first:
+allows up to `MAX_AGENTS = 3`). Open the BEDC Project URLs with `?bedc=1`,
+`?bedc=2`, `?bedc=3` first:
 
 ```bash
 python3 tools/bedc-deep/oracle_client.py --loop --parallel 3 --preflight-agent-wait 60
