@@ -1,0 +1,285 @@
+\section{Carrier definition}
+\label{sec:continuousmap-carrier}
+
+\begin{definition}[ContinuousMap carrier]
+\label{def:continuousmap-carrier}
+For histories $source,map,target,modulus,cert,dist:\mathsf{BHist}$,
+$\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,dist)$ is the
+conjunction of the continuous-function carrier
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$ and the
+metric distance witness $\mathsf{MetricDistanceWitness}(source,target,dist)$.
+\end{definition}
+\leandef{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier}
+
+\begin{theorem}[ContinuousMap carrier category-metric decomposition]
+\label{thm:continuousmap-carrier-category-metric-decomposition}
+For histories $source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the carrier splits exactly into a categorical hom row, a target-side
+continuous-modulus row, and a metric-distance row:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,cert,distance)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\mathsf{MetricDistanceWitness}(source,target,distance).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack
+$\mathsf{ContinuousMapCarrier}$ into its continuous-function component and
+its metric-distance component. The continuous-function fields provide unary
+source, target, and map histories together with the graph continuation, hence
+the displayed $\mathsf{CategoryHomCarrier}(source,target,map)$. The same
+continuous-function component also exposes the target-modulus continuation,
+which is precisely
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$. The remaining
+projection is the displayed metric-distance witness.
+
+For the reverse direction, unpack the category hom row into unary source,
+target, and map histories plus the graph continuation. Unpack the modulus row
+into unary target, modulus, and certificate histories plus the terminal
+continuation. These two rows rebuild
+$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$, and
+pairing that carrier with the supplied
+$\mathsf{MetricDistanceWitness}(source,target,distance)$ gives the claimed
+$\mathsf{ContinuousMapCarrier}$.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_category\_metric\_decomposition}
+
+The ten-field fit is: traditional target continuous maps as categorical
+morphisms with a metric ledger; BEDC source
+$\mathsf{CategoryUp}/\mathsf{ContinuousUp}/\mathsf{MetricUp}/
+\mathsf{ContinuousMapUp}$; carrier $\mathsf{ContinuousMapCarrier}$;
+classifier $\hsame$; stability inherited from $\mathsf{CategoryHomCarrier}$,
+$\mathsf{ContinuousModulusWitness}$, and $\mathsf{MetricDistanceWitness}$;
+ledger map, modulus, certificate, and distance histories; core theorem
+Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition};
+exactness the displayed equivalence; standard bridge is deferred; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[ContinuousMap visible-context category-metric decomposition]
+\label{thm:continuousmap-carrier-visible-context-category-metric-decomposition}
+For histories $p,q,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the displayed carrier with visible continuous-function context and prefixed
+metric ledger is equivalent to unary context evidence together with the central
+categorical, continuity, and metric rows:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(p\cdot source,map,p\cdot target,modulus\cdot q,
+(p\cdot cert)\cdot q,p\cdot distance)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land\mathsf{UnaryHistory}(q)\land
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\mathsf{MetricDistanceWitness}(source,target,distance).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack $\mathsf{ContinuousMapCarrier}$ into its
+visible continuous-function component and its metric-distance component. Apply
+\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} to the
+function row to recover unary evidence for $p$ and $q$ together with the central
+continuous-function carrier.
+
+Apply
+\autoref{thm:continuous-function-carrier-graph-modulus-cont-readback} to that
+central carrier. Its graph row is exactly
+$\mathsf{CategoryHomCarrier}(source,target,map)$, and its target-modulus row is
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$. Apply
+\autoref{thm:metric-distance-witness-prefix-iff} to the metric row to read back
+the central $\mathsf{MetricDistanceWitness}(source,target,distance)$.
+
+For the reverse direction, start with the two unary context histories, the
+central categorical row, the target-modulus witness, and the central metric
+witness. The categorical row supplies the graph continuation and unary source,
+target, and map histories.
+
+The modulus row supplies the unary modulus and certificate histories plus the
+certificate continuation, so the central continuous-function carrier is
+reassembled.
+
+Apply
+\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} from
+right to left to restore the visible source, target, modulus, and certificate
+ledgers. Apply \autoref{thm:metric-distance-witness-prefix-iff} from right to
+left to restore the prefixed metric ledger, and pair the two rows into the
+displayed $\mathsf{ContinuousMapCarrier}$.
+\end{proof}
+
+The ten-field fit is: traditional continuous maps carried with explicit visible
+context on the continuous-function row and an exposed metric ledger; BEDC source
+$\mathsf{CategoryUp}/\mathsf{ContinuousUp}/\mathsf{MetricUp}/
+\mathsf{ContinuousMapUp}$; carrier $\mathsf{ContinuousMapCarrier}$; classifier
+$\hsame$; stability from visible continuous-function context, category hom
+readback, modulus readback, and metric prefix exactness; ledger visible
+contexts, map, modulus, certificate, and distance histories; core theorem
+Theorem~\ref{thm:continuousmap-carrier-visible-context-category-metric-decomposition};
+exactness the displayed equivalence; standard bridge is deferred; status
+$\mathsf{ProofTarget}$.
+
+\begin{theorem}[ContinuousMap canonical distance carrier]
+\label{thm:continuousmap-carrier-canonical-distance-iff}
+For histories $source,map,target,modulus,cert:\mathsf{BHist}$, the carrier
+with canonical distance ledger $\mathsf{append}(source,target)$ is exactly
+the underlying continuous-function carrier:
+$$
+\mathsf{ContinuousMapCarrier}
+(source,map,target,modulus,cert,\mathsf{append}(source,target))
+\Longleftrightarrow
+\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert).
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_canonical\_distance\_iff}
+\begin{proof}
+The forward direction projects the function-carrier component. Conversely, the
+function carrier supplies unary source and target histories; unary append
+closure and the reflexive continuation equation build the canonical metric
+distance witness.
+\end{proof}
+
+\begin{theorem}[ContinuousMap carrier empty distance exactness]
+\label{thm:continuousmap-carrier-empty-distance-exact}
+For histories $source,map,modulus,cert:\mathsf{BHist}$,
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(source,map,\emp,modulus,cert,\emp)\\
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(source)\land
+\mathsf{UnaryHistory}(map)\land
+\mathsf{UnaryHistory}(modulus)\land
+source\sim\emp\land map\sim\emp\land cert\sim modulus.
+\end{array}
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_distance\_exact}
+\begin{proof}
+Unpack the carrier into the continuous-function row and the metric-distance
+row. Empty distance forces the source endpoint to be $\emp$, while the
+continuous-function graph row into $\emp$ forces the map component to be
+$\emp$. The remaining certificate row is the left-unit continuation from
+$\emp$ to $modulus$, hence $cert\sim modulus$. Conversely, the displayed
+unary and boundary data build the two continuation rows and the empty-distance
+metric witness directly.
+\end{proof}
+
+\begin{theorem}[ContinuousMap empty map with empty distance]
+\label{thm:continuousmap-empty-map-empty-distance}
+For histories $source$, $modulus$, and $cert$, the empty graph map at the
+source together with an empty metric distance witness is exact for the source
+being empty and the modulus ledger being certified:
+$$
+\begin{array}{c}
+\mathsf{ContinuousFunctionCarrier}(source,\emp,source,modulus,cert)
+\land
+\mathsf{MetricDistanceWitness}(source,source,\emp)
+\\[2pt]
+\Longleftrightarrow
+\mathsf{ContinuousModulusWitness}(source,modulus,cert)
+\land
+\hsame(source,\emp).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+From the carrier, unpack the target-certificate continuation and the unary
+source and modulus ledgers; unary continuation closure supplies the certificate
+ledger, hence the displayed modulus witness. The empty-distance witness forces
+the source endpoint to be empty. Conversely, the modulus witness builds the
+empty-map identity carrier, and the empty source endpoint builds the empty
+metric distance witness.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_map\_empty\_distance\_iff}
+
+\begin{theorem}[ContinuousMap empty certificate exactness]
+\label{thm:continuousmap-carrier-empty-cert-exactness}
+For histories $source,map,target,modulus,dist:\mathsf{BHist}$,
+$$
+\mathsf{ContinuousMapCarrier}(source,map,target,modulus,\emp,dist)
+$$
+holds exactly when
+$$
+source \hsame \emp,\quad map \hsame \emp,\quad target \hsame \emp,\quad
+modulus \hsame \emp,\quad dist \hsame \emp .
+$$
+\end{theorem}
+\begin{proof}
+The function-carrier half gives empty source, map, target, and modulus by the
+empty-certificate theorem for $\mathsf{ContinuousFunctionCarrier}$. With source
+and target reduced to $\emp$, the metric-distance continuation is compared with
+the right unit continuation, forcing the displayed distance to be empty. The
+reverse direction reassembles the function witness and the empty distance
+witness after the five endpoint equalities are exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMapCarrier\_empty\_cert\_iff}
+
+\begin{theorem}[Empty identity maps reflect metric witnesses]
+\label{thm:continuousmap-empty-identity-metric-witness-reflects}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then every displayed metric witness
+$\mathsf{MetricDistanceWitness}(x',y',d)$ reflects to a source-side witness
+$\mathsf{MetricDistanceWitness}(x,y,d)$.
+\end{theorem}
+\begin{proof}
+The empty-map carrier readback identifies $x'$ with $x$ and $y'$ with $y$.
+Unary endpoint membership and the continuation field of the metric witness
+transport along these two $\hsame$ witnesses, while the distance history is
+held fixed.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_witness\_reflects}
+
+\begin{theorem}[Empty identity maps transport metric witnesses exactly]
+\label{thm:continuousmap-empty-identity-metric-witness-iff}
+For histories $x,y,x',y',d,m_x,m_y,c_x,c_y:\mathsf{BHist}$, if
+$\mathsf{ContinuousFunctionCarrier}(x,\emp,x',m_x,c_x)$ and
+$\mathsf{ContinuousFunctionCarrier}(y,\emp,y',m_y,c_y)$ are empty-map
+continuous carriers, then the image-side and source-side metric witnesses are
+equivalent:
+$$
+\mathsf{MetricDistanceWitness}(x',y',d)\Longleftrightarrow
+\mathsf{MetricDistanceWitness}(x,y,d).
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-reflects} to the
+two empty-map continuous carriers and the displayed image-side metric witness.
+
+For the reverse direction, apply
+Theorem~\ref{thm:continuous-function-carrier-empty-map-iff} to the two
+carriers. It reads back $x'\hsame x$ and $y'\hsame y$; symmetry orients these
+witnesses as $x\hsame x'$ and $y\hsame y'$. Combine them with reflexivity
+$d\hsame d$ and apply
+Theorem~\ref{thm:metric-distance-witness-hsame-fields-transport} to transport
+the source-side metric fields. Repacking those transported unary fields and
+the transported continuation ledger gives
+$\mathsf{MetricDistanceWitness}(x',y',d)$.
+\end{proof}
+
+The ten-field fit is: traditional target empty continuous-map metric readback,
+BEDC source ContinuousMapUp, carrier $\mathsf{ContinuousFunctionCarrier}$,
+classifier $\hsame$, empty-map graph ledger $\emp$, distance ledger $d$,
+metric certificate $\mathsf{MetricDistanceWitness}$, core theorem
+Theorem~\ref{thm:continuousmap-empty-identity-metric-witness-iff}, exactness
+the displayed iff, and downstream consumer compact-continuous metric readback.
+
+\begin{theorem}[Empty identity maps preserve metric result determinacy]
+\label{thm:continuousmap-empty-identity-metric-result-deterministic}
+For histories $x,y,x',y',d,d',m_x,m_y,c_x,c_y:\mathsf{BHist}$, if the two
+endpoints are carried by empty continuous maps, then an image-side metric
+witness $\mathsf{MetricDistanceWitness}(x',y',d)$ and a source-side metric
+witness $\mathsf{MetricDistanceWitness}(x,y,d')$ have $\hsame$ distance
+results.
+\end{theorem}
+\begin{proof}
+First reflect the image-side witness through the empty continuous maps to get
+$\mathsf{MetricDistanceWitness}(x,y,d)$. Metric witness result determinacy at
+reflexive source endpoints then compares the two displayed distance histories.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousMapUp.ContinuousMap\_empty\_identity\_metric\_result\_deterministic}

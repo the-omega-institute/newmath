@@ -26,6 +26,19 @@ that witness supplies the quotient carrier required by \(\mathsf{NatDivides}\).
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.PrimeFactorization\_cons\_head\_divides}
 
+\begin{theorem}[Prime factorization product result transport]
+\label{thm:prime-factorization-product-result-hsame-transport}
+If a prime factorization product yields \(n\), and \(n\hsame n'\), then the
+same factorization product yields \(n'\).
+\end{theorem}
+\begin{proof}
+Inspect the concrete list-product predicate. The empty product clause is
+transported by transitivity of \(\hsame\). In the cons clause, the tail product
+is unchanged, and the displayed \(\mathsf{NatMul}\) result witness is
+transported along \(n\hsame n'\).
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.PrimeFactorizationProduct\_result\_hsame\_transport}
+
 \begin{theorem}[Prime factorization products have nonempty result]
 \label{thm:prime-factorization-product-result-not-empty}
 If \(\mathsf{PrimeFactorizationProduct}(ps,n)\), then \(n\) is not

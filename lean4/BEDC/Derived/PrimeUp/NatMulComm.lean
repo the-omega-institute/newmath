@@ -33,6 +33,17 @@ private theorem unary_hsame_of_bwordLength_eq {h k : BHist} :
       | e1 k =>
           exact hsame_e1_congr (ih uh uk (Nat.succ.inj lengthEq))
 
+private theorem nat_mul_assoc_pure (a b c : Nat) : (a * b) * c = a * (b * c) := by
+  induction c with
+  | zero =>
+      rfl
+  | succ c ih =>
+      calc
+        (a * b) * Nat.succ c = (a * b) * c + a * b := Nat.mul_succ (a * b) c
+        _ = a * (b * c) + a * b := congrArg (fun x => x + a * b) ih
+        _ = a * (b * c + b) := (Nat.mul_add a (b * c) b).symm
+        _ = a * (b * Nat.succ c) := congrArg (fun x => a * x) (Nat.mul_succ b c).symm
+
 theorem NatMul_bwordLength {d q n : BHist} :
     NatMul d q n -> bwordLength n = bwordLength d * bwordLength q := by
   intro mul
@@ -58,5 +69,24 @@ theorem NatMul_comm_hsame {d q n m : BHist} :
     bwordLength n = bwordLength d * bwordLength q := NatMul_bwordLength left
     _ = bwordLength q * bwordLength d := Nat.mul_comm (bwordLength d) (bwordLength q)
     _ = bwordLength m := (NatMul_bwordLength right).symm
+
+theorem NatMul_assoc_hsame {a b c ab left bc right : BHist} :
+    UnaryHistory a -> UnaryHistory b -> UnaryHistory c -> NatMul a b ab ->
+      NatMul ab c left -> NatMul b c bc -> NatMul a bc right -> hsame left right := by
+  intro ha _hb _hc mulAB mulLeft mulBC mulRight
+  have unaryAB : UnaryHistory ab := NatMul_result_unary ha mulAB
+  have unaryBC : UnaryHistory bc := NatMul_right_unary mulRight
+  have unaryLeft : UnaryHistory left := NatMul_result_unary unaryAB mulLeft
+  have unaryRight : UnaryHistory right := NatMul_result_unary ha mulRight
+  apply unary_hsame_of_bwordLength_eq unaryLeft unaryRight
+  calc
+    bwordLength left = bwordLength ab * bwordLength c := NatMul_bwordLength mulLeft
+    _ = (bwordLength a * bwordLength b) * bwordLength c :=
+      congrArg (fun x => x * bwordLength c) (NatMul_bwordLength mulAB)
+    _ = bwordLength a * (bwordLength b * bwordLength c) :=
+      nat_mul_assoc_pure (bwordLength a) (bwordLength b) (bwordLength c)
+    _ = bwordLength a * bwordLength bc :=
+      congrArg (fun x => bwordLength a * x) (NatMul_bwordLength mulBC).symm
+    _ = bwordLength right := (NatMul_bwordLength mulRight).symm
 
 end BEDC.Derived.PrimeUp

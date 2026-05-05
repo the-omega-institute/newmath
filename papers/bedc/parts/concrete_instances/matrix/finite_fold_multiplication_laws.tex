@@ -95,6 +95,64 @@ forces \(r\) to be carried by the singleton matrix carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_continuation\_result\_iff}
 
+\begin{theorem}[Singleton additive fold visible head exclusion]
+\label{thm:matrix-singleton-add-fold-visible-head-absurd}
+For every history $m$ and finite spine $xs$, folding a singleton additive spine
+whose head is $\Ezero(m)$ or $\Eone(m)$ cannot read back to the empty carrier:
+$$
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(\Ezero(m)::xs),\emp)
+\quad\wedge\quad
+\neg\hsame(\mathsf{MatrixSingletonAddFold}(\Eone(m)::xs),\emp).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the cons case of the finite singleton additive fold. The head is the
+left factor of a kernel append, and empty-append inversion would identify
+$\Ezero(m)$ or $\Eone(m)$ with $\emp$. Both alternatives contradict constructor
+separation in $\mathsf{BHist}$.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_visible\_head\_absurd}
+
+\begin{theorem}[Singleton additive fold append carrier readback]
+\label{thm:matrix-singleton-add-fold-append-carrier-iff}
+For finite singleton-matrix spines $xs$ and $ys$,
+$$
+\mathsf{MatrixSingletonCarrier}(\mathsf{MatrixSingletonAddFold}(xs\,{++}\,ys))
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs)\land
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(ys).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $xs$. For the empty spine, the appended fold is the fold of $ys$,
+and the base fold readback identifies its carrier with the spine carrier of
+$ys$. For a cons spine, concrete singleton addition is kernel append, so
+empty-append inversion splits the folded endpoint into the head carrier and
+the appended tail-fold carrier. The induction hypothesis splits the tail-fold
+carrier into the tail spine carrier and the carrier of $ys$, and the reverse
+direction repacks those two splits through the same empty-append constructor.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_carrier\_iff}
+
+\begin{theorem}[Singleton additive fold append readback]
+\label{thm:matrix-singleton-add-fold-append-hsame}
+For finite singleton-matrix spines \(xs\) and \(ys\), folding their appended
+spine by concrete singleton addition is history-same as appending the two
+individual singleton additive folds:
+$$
+\mathsf{MatrixSingletonAddFold}(xs\mathbin{+\!\!+}ys)\hsame
+\mathsf{append}(\mathsf{MatrixSingletonAddFold}(xs),
+\mathsf{MatrixSingletonAddFold}(ys)).
+$$
+\end{theorem}
+\begin{proof}
+Induct on \(xs\). The nil case is the left-unit law for kernel append. In the
+cons case, unfold singleton addition as kernel append, apply the induction
+hypothesis under the common head, and reassociate by the kernel append
+associativity law.
+\end{proof}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_append\_hsame}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
@@ -696,3 +754,6 @@ $$
 $$
 Classifier transitivity composes the left expansion, this rectangular fold reindexing, and the symmetry of the right expansion. Thus every entry of $(A\cdot_{\mathrm{Mat}}B)\cdot_{\mathrm{Mat}}C$ is scalar-classified with the corresponding entry of $A\cdot_{\mathrm{Mat}}(B\cdot_{\mathrm{Mat}}C)$. The pointwise classifier of \autoref{def:matrix-classifier-specification} packages these entrywise comparisons as the displayed matrix classifier, and \autoref{def:matrix-ledger-policy} records that the dimension witnesses are unchanged.
 \end{proof}
+
+\input{parts/concrete_instances/matrix/transpose_opposite_ring}
+\input{parts/concrete_instances/matrix/two_index_fold_swap_from_finite_permutation_invariance}
