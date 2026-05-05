@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.1 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.3 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Environment
 
@@ -315,6 +315,12 @@ If `hit == false` AND no genuine three-condition blocker exists for all of `top[
 
 This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
 
+### Paper-label claim — INERT in pure-formalization mode
+
+Pure-formalization mode (Step 4 above) means lean rounds NEVER introduce new `\label{...}` blocks. The cross-round label collision race is eliminated at the source. The `claim_paper_label.py` subprocess gate is therefore inert for lean rounds — you do NOT need to call it. (Paper rounds still call it from `phase_review.txt` because P-rounds are the only side that introduces new labels.)
+
+Skip this section entirely.
+
 ## HARD GATE — Derived shape saturation
 
 Before emitting a target under `BEDC.Derived.<X>Up.*`:
@@ -400,13 +406,18 @@ Steps:
 
    Newly-unlocked horizons (post schema-only unlock: e.g. CommRingUp, FieldUp, ModuleUp) are common in-flight targets across 7 parallel workers; this check is mandatory there.
 
-4. Discovery fallback (only when Step 3 cannot fill 3 slots after the HARD GATE filter): you MAY supplement the round with up to 3 total discovery targets — NEW theorem or definition statements that do not yet appear in any paper block but capture genuinely new content over BEDC primitives. Allowed shapes:
-   - Constructor inversion / no-confusion / determinacy / functionality lemma for an existing `inductive` or relation that lacks one.
-   - Chain / composition theorem combining 2+ existing \leanchecked theorems into a non-trivial multi-step conclusion.
-   - Setup-class field-projection theorem extracting one structure field as a standalone result.
-   - Carrier definition or NameCert spec field for a canonical math object in the BEDC licensing horizon: BoolUp / OptionUp / ProdUp / SumUp / ListUp / IntUp / RatUp / RealUp (Bishop) / ComplexUp / MonoidUp / GroupUp / AbGroupUp / RingUp / CommRingUp / FieldUp / ModuleUp / VecSpaceUp / LinearMapUp / MatrixUp / PolynomialUp / FormalPowerSeriesUp / PreorderUp / POSetUp / TotalOrderUp / LatticeUp / IntervalUp / MetricSpaceUp / S1Up / ContinuousFunctionUp / CompactUp / CategoryUp / FunctorUp / NatTransUp.
+4. **No `discovery` targets — pure formalization mode (HARD BAN).** Lean rounds MUST NOT propose new paper theorem / definition / lemma blocks. The paper side (P-rounds + external bedc-deep supervisor) owns all proposal of new `\label{thm:...}` / `\label{def:...}` blocks. Lean rounds register `\leanchecked` markers on theorems the paper has ALREADY captured.
 
-   A discovery target is INVALID if its proof reduces to `exact T` / `apply T` / `T.symm` / `T.mp` / `T.mpr` / single-step rewrite of any existing \leanchecked theorem T (those are variants — already disallowed elsewhere). JSON requires `paper_block_status: "discovery"`, `novelty_justification` (one sentence on what new content is captured), and `paper_target_chapter` (the existing chapter file into which Phase C will insert the new \begin{...} block).
+   Every emitted target MUST have `paper_block_status: "exists_without_marker"`. The `paper_label` field MUST resolve to a `\label{...}` that already exists somewhere under `papers/bedc/parts/` and lacks a `\leanchecked` marker. Verify with:
+   ```bash
+   git grep -nE "\\\\label\\{<your-label>\\}" -- 'papers/bedc/parts/'
+   git grep -nE "leanchecked\\{<your-target-decl>\\}" -- 'papers/bedc/parts/'
+   ```
+   First grep must return ≥1 hit; second must return 0. If first returns 0 (paper hasn't captured the claim yet), DROP that target and pick a different one whose paper site exists.
+
+   If after applying this filter you cannot fill 3 slots from `critical_path top[0..2]`, emit `{"targets": []}` — empty round is preferred over creating-from-scratch on the paper side. Paper rounds will catch up; the next dispatched lean round will find more `exists_without_marker` candidates.
+
+   This eliminates the R-round vs P-round label-collision race at its source: only the paper pipeline ever introduces new labels.
 
 ## Output Format (MUST follow exactly)
 Output a single JSON block:
@@ -423,9 +434,7 @@ Output a single JSON block:
       "difficulty": "low/medium/high",
       "chapter": "core/proof_obligations/concrete_instances/etc",
       "grep_confirmed_missing": true,
-      "paper_block_status": "exists_without_marker | discovery",
-      "novelty_justification": "(discovery only) one sentence on what new content this captures",
-      "paper_target_chapter": "(discovery only) e.g. parts/concrete_instances/15_monoid_namecert_construction.tex"
+      "paper_block_status": "exists_without_marker"
     }
   ]
 }

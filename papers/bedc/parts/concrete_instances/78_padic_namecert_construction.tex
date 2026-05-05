@@ -436,6 +436,29 @@ $\ContR(p,e,\mathsf{append}(p,e))$.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_result\_hsame}
 
+\begin{theorem}[Prime scale append unit left result nonempty]
+\label{thm:padic-prime-scale-append-unit-left-result-not-empty}
+For unary $q$, if $\mathsf{PadicPrimeScale}(p,q,e)$ and
+$\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)$ hold, then the
+appended unit-left scale result cannot be empty:
+$$
+\mathsf{PadicPrimeScale}(p,q,e)\land
+\mathsf{PadicPrimeScale}(p,\mathsf{append}(\Eone(\emp),q),r)\land
+r\hsame\emp
+\Longrightarrow \bot.
+$$
+\end{theorem}
+\begin{proof}
+Read back the unit-left predecessor as a right-factor scale result $pred$ and
+a continuation $\ContR(p,pred,r)$. If $r\hsame\emp$, continuation empty-result
+inversion forces both $p$ and $pred$ to be empty. The uniqueness clause
+identifies $pred$ with the displayed right-factor result $e$, and the
+empty-result iff for $\mathsf{PadicPrimeScale}(p,q,e)$ reads this back to the
+right exponent. The prime-base empty contradiction applied to $p$ closes the
+case.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_unit\_left\_result\_not\_empty}
+
 \begin{lemma}[Prime scale append continuation result functional]
 \label{lem:padic-prime-scale-append-cont-result-functional}
 Under the hypotheses of
@@ -554,6 +577,27 @@ scales reduces \(r\hsame\emp\) to
 that condition into the two factor witnesses.
 \end{proof}
 \leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_empty\_result\_empty\_factors\_iff}
+
+\begin{theorem}[Prime scale append factor empty alignment]
+\label{thm:padic-prime-scale-append-factor-empty-alignment-iff}
+Under the hypotheses of
+\autoref{thm:padic-prime-scale-append-cont-closure}, the two factor results
+and the composite continuation result are all empty exactly when the two
+exponent factors are empty:
+$$
+n\hsame\emp\land e\hsame\emp\land r\hsame\emp
+\Longleftrightarrow
+w\hsame\emp\land q\hsame\emp.
+$$
+\end{theorem}
+\begin{proof}
+Prime-scale empty-result exactness identifies \(n\hsame\emp\) with
+\(w\hsame\emp\) and \(e\hsame\emp\) with \(q\hsame\emp\). The appended
+empty-result split identifies \(r\hsame\emp\) with the same two exponent
+factor conditions, so the three result-side empty witnesses align exactly
+with the two empty exponent factors.
+\end{proof}
+\leanchecked{BEDC.Derived.PadicUp.PadicPrimeScale\_append\_factor\_empty\_alignment\_iff}
 
 \begin{theorem}[Prime scale appended empty factor result readback]
 \label{thm:padic-prime-scale-append-empty-factor-result-hsame}
