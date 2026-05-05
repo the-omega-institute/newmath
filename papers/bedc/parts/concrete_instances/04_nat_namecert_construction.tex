@@ -83,6 +83,15 @@ $\emp$ and $\mathsf{Cont}(h,t,k)$.
 \end{definition}
 \leandef{BEDC.Derived.NatUp.NatUnaryStrictPrefix}
 
+\begin{lemma}[Unary continuation tail cases]
+\label{lem:nat-unary-prefix-cont-tail-cases}
+If a unary tail \(t\) displays \(\Cont(h,t,k)\), then either \(h\hsame k\) or \(h\) is a strict unary prefix of \(k\).
+\end{lemma}
+\begin{proof}
+Split the unary tail. The empty tail gives the right-unit continuation and therefore endpoint history-sameness. A zero-headed tail contradicts unary generation. A one-headed tail is nonempty, so the displayed continuation is exactly the witness for \(\mathsf{NatUnaryStrictPrefix}(h,k)\).
+\end{proof}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryPrefix\_cont\_tail\_cases}
+
 \begin{theorem}[Unary prefix trichotomy into sameness or strict prefix]
 \label{thm:nat-unary-prefix-trichotomy-hsame-strict}
 If $h$ and $k$ are unary histories, then either $h\hsame k$, or $h$ is a
