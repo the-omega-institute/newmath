@@ -129,3 +129,99 @@ those fields repack as
 $\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda)$, so the
 composition surface adds no host-level quotient or unrecorded operation row.
 \end{proof}
+
+\begin{theorem}[Banach bounded linear operator composition closure]
+\label{thm:banach-bounded-linear-operator-composition-closure}
+Let $C,D,E$ be $\BanachUp$ candidates with vector carriers $C_V,D_V,E_V$,
+classifiers $\sim_C,\sim_D,\sim_E$, norms $\nu_C,\nu_D,\nu_E$, and
+norm-induced distances $d_C,d_D,d_E$. If
+$$
+\mathsf{BanachBLOp}(C,D,T,K,\Lambda)
+$$
+and
+$$
+\mathsf{BanachBLOp}(D,E,S,L,\Gamma)
+$$
+are carried, then the endpoint composite $S\circ T:C_V\to E_V$ is carried by
+$$
+\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda).
+$$
+The composed ledger $\Gamma\star\Lambda$ records the two operator ledgers and
+the RealUp multiplication, monotonicity, associativity, and non-negativity
+rows needed for the product bound $L\cdot K$.
+\end{theorem}
+\begin{proof}
+Unfold the operator carrier of
+\autoref{def:banach-bounded-linear-operator-carrier}. For a carried source
+endpoint $x:C_V$, the target endpoint row of $\Lambda$ carries $T(x):D_V$.
+The target endpoint row of $\Gamma$ then carries $S(Tx):E_V$, which is the
+endpoint value of $(S\circ T)(x)$.
+
+For classifier-respect, suppose $x\sim_C x'$ with both source endpoints
+carried. The classifier row of $\Lambda$ gives $T(x)\sim_D T(x')$. Applying
+the classifier row of $\Gamma$ gives $S(Tx)\sim_E S(Tx')$, which is the
+classifier row for the composite endpoint map.
+
+For additivity, let $x,y:C_V$ be carried. The additive row of $\Lambda$ gives
+$$
+T(x+_C y)\sim_D T(x)+_D T(y).
+$$
+Both middle endpoints in this comparison are carried by the $D$ vector
+carrier, so the classifier-respect row of $\Gamma$ transports it to
+$$
+S(T(x+_C y))\sim_E S(T(x)+_D T(y)).
+$$
+The additive row of $\Gamma$, applied to the carried middle endpoints $T(x)$
+and $T(y)$, gives
+$$
+S(T(x)+_D T(y))\sim_E S(Tx)+_E S(Ty).
+$$
+Transitivity of the target vector classifier yields
+$$
+(S\circ T)(x+_C y)\sim_E (S\circ T)(x)+_E(S\circ T)(y).
+$$
+
+For homogeneity, let $a$ be a carried RealUp scalar endpoint and let
+$x:C_V$ be carried. The scalar row of $\Lambda$ gives
+$$
+T(a\cdot_C x)\sim_D a\cdot_D T(x).
+$$
+Transport this comparison through the classifier row of $\Gamma$, then apply
+the scalar row of $\Gamma$ to the carried middle endpoint $T(x)$. The target
+classifier transitivity row gives
+$$
+(S\circ T)(a\cdot_C x)\sim_E a\cdot_E(S\circ T)(x).
+$$
+
+It remains to verify the product bound. The non-negativity rows in the two
+operator carriers give $K\ge 0$ and $L\ge 0$, so the RealUp multiplication row
+carries $L\cdot K\ge 0$. For a carried source endpoint $x$, the bound row of
+$\Gamma$ applied to the carried middle endpoint $T(x)$ gives
+$$
+\nu_E(S(Tx))\le L\cdot\nu_D(Tx).
+$$
+The bound row of $\Lambda$ gives
+$$
+\nu_D(Tx)\le K\cdot\nu_C(x).
+$$
+Using $L\ge 0$, RealUp multiplication monotonicity transports the second
+comparison to
+$$
+L\cdot\nu_D(Tx)\le L\cdot(K\cdot\nu_C(x)).
+$$
+RealUp associativity identifies the right-hand side with
+$(L\cdot K)\cdot\nu_C(x)$. Composing the displayed inequalities gives
+$$
+\nu_E((S\circ T)(x))\le (L\cdot K)\cdot\nu_C(x),
+$$
+which is the bound row required for
+$\mathsf{BanachBLOp}(C,E,S\circ T,L\cdot K,\Gamma\star\Lambda)$.
+
+The ledger clause is exactly the ordered concatenation described in
+\autoref{def:banach-bounded-linear-operator-composition-carrier}: it keeps the
+source-to-middle endpoint, classifier, linearity, and bound rows from
+$\Lambda$, the middle-to-target rows from $\Gamma$, and the RealUp product
+rows used above. These rows are precisely the fields of
+\autoref{def:banach-bounded-linear-operator-carrier} for the composite
+endpoint map, so the displayed composite operator carrier is carried.
+\end{proof}
