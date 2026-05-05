@@ -171,6 +171,7 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
+import BEDC.Derived.ComputableUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
@@ -496,6 +497,7 @@ import BEDC.Derived.FieldUp.RatClassifiedFactors
 import BEDC.Derived.FieldUp.RatContinuationTwoSidedUnit
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.TailFactor
+import BEDC.Derived.FieldExtUp
 import BEDC.Derived.RatUp.HistoryLedgerContextEndpoint
 import BEDC.Derived.FieldUp.RatDenomUnitContextEndpoint
 import BEDC.Derived.EquivCatUp
