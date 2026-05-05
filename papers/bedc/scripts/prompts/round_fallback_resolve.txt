@@ -30,6 +30,11 @@ The first command that errors is what you need to fix.
 - "unresolved Lean markers" — a `\leanchecked{{X}}` (or stmt/def variant)
   references a Lean name that doesn't exist anywhere under
   `lean4/BEDC/`. Drop the marker.
+- "closurestatus audit failure" — a `closurestatus` block has a
+  `\leantarget` that does not resolve, is missing one of its seven
+  fields, or conflates theoryclosure × formalstatus. Repair the block
+  only when this round can justify both axes; otherwise delete this
+  round's whole block.
 - "case-collision" — git index has two paths differing only by case.
   `git update-index --force-remove <wrong-case-path>` then commit.
 
