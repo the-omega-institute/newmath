@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.CritStripUp
 
 namespace BEDC.Derived.ZetaZerosUp
 
@@ -41,6 +42,19 @@ def ZetaVal (s z : BHist) : Prop :=
 def ZetaZero (s : BHist) : Prop :=
   exists z : BHist, ZetaVal s z ∧
     hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
+def NontrivialZeroWitness (s sigma tau : BHist) : Prop :=
+  ZetaZero s ∧ BEDC.Derived.CritStripUp.CritStripComplexCarrier s sigma tau
+
+theorem NontrivialZeroWitness_continuation_contradicts_zero_source {s sigma tau : BHist} :
+    NontrivialZeroWitness s sigma tau -> Cont sigma tau s -> ZetaZeroSourceSpec s -> False := by
+  intro witness continuation source
+  have _sourceCarrier : ComplexHistoryCarrier s := source.left
+  have carrier : BEDC.Derived.CritStripUp.CritStripComplexCarrier s sigma tau :=
+    And.intro witness.right.left
+      (And.intro witness.right.right.left
+        (And.intro continuation witness.right.right.right.right))
+  exact (BEDC.Derived.CritStripUp.CritStripComplexCarrier_strict_interval_absurd carrier).right
 
 theorem ZetaVal_well_defined {s z z' : BHist} :
     ZetaVal s z -> ZetaVal s z' -> ComplexHistoryClassifier z z' := by
