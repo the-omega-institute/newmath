@@ -62,23 +62,4 @@ theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_transitive
     (ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier witness1 rel1)
     witness2 rel2
 
-theorem ContinuousFunctionCarrier_visible_terminal_modulus_extension_output_determinacy
-    {p q source map target target' modulus cert extra modulus' cert' cert'' : BHist} :
-    ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
-        (append (append p cert) q) ->
-      ContinuousModulusWitness cert extra cert' ->
-        Cont modulus extra modulus' ->
-          ContinuousFunctionCarrier (append p source) map (append p target')
-            (append modulus' q) (append (append p cert'') q) ->
-            hsame target target' ∧ hsame cert' cert'' := by
-  intro carrier terminalWitness modulusRel displayed
-  have canonical :
-      ContinuousFunctionCarrier (append p source) map (append p target)
-        (append modulus' q) (append (append p cert') q) :=
-    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier terminalWitness
-      modulusRel
-  exact
-    ContinuousFunctionCarrier_visible_modulus_context_target_cert_deterministic
-      canonical displayed
-
 end BEDC.Derived.ContinuousUp
