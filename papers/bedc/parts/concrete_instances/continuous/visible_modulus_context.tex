@@ -65,50 +65,88 @@ theorem identifies the two central second moduli.
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousModulusChain\_visible\_context\_second\_deterministic}
 
-\begin{theorem}[Continuous function carrier visible-context target-certificate determinacy]
-\label{thm:continuous-function-carrier-visible-modulus-context-target-cert-deterministic}
-For histories $p,q,source,map,target,target',modulus,cert,cert'$, if both
-visible-modulus-context carrier presentations
+\begin{theorem}[Continuous function carrier visible-context field determinacy]
+\label{thm:continuous-function-carrier-visible-modulus-context-field-determinacy}
+For histories $p,q,source,source',map,map',target,target',modulus,modulus',
+cert,cert'$, visible-modulus-context continuous-function carriers determine
+each central public field as follows.
+\begin{enumerate}
+\item Same visible source, target, modulus, and certificate determine the map:
 $$
+\begin{array}{l}
 \mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
 modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map',p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\hsame(map,map').
+\end{array}
 $$
-and
+\item Same visible map, target, modulus, and certificate determine the source:
 $$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(p\cdot source',map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\hsame(source,source').
+\end{array}
+$$
+\item Same visible source, map, target, and certificate determine the modulus:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus'\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
+\hsame(modulus,modulus').
+\end{array}
+$$
+\item Same visible source, map, and modulus determine the target and
+certificate:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target,
+modulus\cdot q,(p\cdot cert)\cdot q)
+\Longrightarrow
 \mathsf{ContinuousFunctionCarrier}(p\cdot source,map,p\cdot target',
 modulus\cdot q,(p\cdot cert')\cdot q)
-$$
-hold, then the public target and certificate ledgers are determined by the
-central presentation:
-$$
+\Longrightarrow
 \hsame(target,target')\land\hsame(cert,cert').
+\end{array}
 $$
+\end{enumerate}
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}
-to the first visible carrier. This recovers the unary context histories
-$\mathsf{UnaryHistory}(p)$ and $\mathsf{UnaryHistory}(q)$ together with the
-central witness
-$\mathsf{ContinuousFunctionCarrier}(source,map,target,modulus,cert)$.
+\begin{enumerate}
+\item In the map clause, apply
+Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff} to
+the two displayed visible carriers. The exposed central carriers share source,
+target, modulus, and certificate, so
+Theorem~\ref{thm:continuous-function-carrier-map-deterministic} gives
+$\hsame(map,map')$.
 
-Apply the same exactness theorem to the second visible carrier. The common
-visible prefix and suffix are peeled in the same way, producing the central
-witness
-$\mathsf{ContinuousFunctionCarrier}(source,map,target',modulus,cert')$.
+\item In the source clause, apply the same exactness theorem to the two
+displayed visible carriers. The exposed central carriers share map, target,
+modulus, and certificate, so
+Theorem~\ref{thm:continuous-function-carrier-source-deterministic} gives
+$\hsame(source,source')$.
 
-Now apply
-Theorem~\ref{thm:continuous-function-carrier-target-cert-deterministic} to the
-two central carrier witnesses. It gives the displayed
-$\hsame(target,target')$ and $\hsame(cert,cert')$ conclusions, which are already
-the public target and certificate comparisons required here.
+\item In the modulus clause, apply the same exactness theorem to the two
+displayed visible carriers. The exposed central carriers share source, map,
+target, and certificate, so
+Theorem~\ref{thm:continuous-function-carrier-modulus-deterministic} gives
+$\hsame(modulus,modulus')$.
 
-The ten-field certificate fit is the following. The traditional target is
-public target-certificate determinacy for visible continuous-function carrier
-presentations. The BEDC source is $\mathsf{BHist}$ equipped with
-$\mathsf{Cont}$. The carrier is $\mathsf{ContinuousFunctionCarrier}$ and the classifier is
-$\hsame$. The stability obligation is visible-context public readback. The
-ledger is source, map, target, modulus, and certificate histories together
-with the visible prefix and suffix contexts. The core theorem is this result.
-The exactness predicate is the displayed pair of $\hsame$ conclusions. The
-standard bridge is deferred, and the status is $\mathsf{ProofTarget}$.
+\item In the target-certificate clause, apply the same exactness theorem to
+the two displayed visible carriers. The exposed central carriers share source,
+map, and modulus, so
+Theorem~\ref{thm:continuous-function-carrier-target-cert-deterministic} gives
+$\hsame(target,target')\land\hsame(cert,cert')$.
+\end{enumerate}
 \end{proof}
