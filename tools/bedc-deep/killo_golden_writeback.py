@@ -157,6 +157,37 @@ def claude_exec(prompt: str, *, timeout: int = DEFAULT_TIMEOUT, log_tag: str = "
     return (rc == 0, stdout, rc)
 
 
+def codex_json_fallback(
+    prompt: str,
+    *,
+    timeout: int = DEFAULT_TIMEOUT,
+    log_tag: str = "",
+    role_note: str = "Claude is unavailable for this BEDC gate.",
+) -> tuple[bool, dict, str, str]:
+    """Run an independent read-only Codex JSON gate when Claude is unavailable."""
+    import codex_orchestrator
+
+    fallback_prompt = (
+        f"{role_note}\n"
+        "Act as the independent fallback checker for this gate. Preserve the "
+        "same acceptance standard and return only the JSON object required by "
+        "the original prompt. Do not edit files.\n\n"
+        f"{prompt}"
+    )
+    tag = (log_tag or "stage2") + "_codex_fallback"
+    result = codex_orchestrator.codex_exec(
+        fallback_prompt,
+        timeout=timeout,
+        log_tag=tag,
+    )
+    if not result.ok:
+        return (False, {}, result.raw_output, result.error or f"codex rc={result.rc}")
+    parsed = result.parsed or _extract_json_object(result.raw_output) or {}
+    if not parsed:
+        return (False, {}, result.raw_output, "codex fallback output was not JSON")
+    return (True, parsed, result.raw_output, "")
+
+
 def _all_paper_labels() -> set[str]:
     """Return all \\label{X} values from papers/bedc/parts/**/*.tex.
 
@@ -353,14 +384,41 @@ def writeback(
         prompt += "\n## Blocking issues (require your judgement)\n"
         for b in all_blocking:
             prompt += f"- {b}\n"
-        ok, stdout, rc = claude_exec(prompt, log_tag=f"writeback_{target_id}")
+        log_tag = f"writeback_{target_id}"
+        ok, stdout, rc = claude_exec(prompt, log_tag=log_tag)
         if not ok:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error=f"claude exec rc={rc}: {stdout[:400]}")
-        parsed = _extract_json_object(stdout)
+            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+                prompt,
+                log_tag=log_tag,
+                role_note=(
+                    "Claude is unavailable for the BEDC killo-golden writeback "
+                    "gate; run the same hygiene and safety gate as an independent "
+                    "Codex fallback."
+                ),
+            )
+            if not fallback_ok:
+                return WritebackResult(False, "error", "", False, False, [],
+                                        error=(
+                                            f"claude exec rc={rc}: {stdout[:400]}; "
+                                            f"codex fallback: {fallback_error[:400]}"
+                                        ))
+            stdout = fallback_stdout
+        else:
+            parsed = _extract_json_object(stdout)
         if not parsed:
-            return WritebackResult(False, "error", "", False, False, [],
-                                    error="claude output was not JSON")
+            fallback_ok, parsed, fallback_stdout, fallback_error = codex_json_fallback(
+                prompt,
+                log_tag=log_tag,
+                role_note=(
+                    "Claude returned non-JSON for the BEDC killo-golden writeback "
+                    "gate; run the same hygiene and safety gate as an independent "
+                    "Codex fallback."
+                ),
+            )
+            if not fallback_ok:
+                return WritebackResult(False, "error", "", False, False, [],
+                                        error=f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
+            stdout = fallback_stdout
         verdict = str(parsed.get("verdict", "")).lower()
         rejection_reasons = parsed.get("rejection_reasons") or []
         if verdict != "accept":
