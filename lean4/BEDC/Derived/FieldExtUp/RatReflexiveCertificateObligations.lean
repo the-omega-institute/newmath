@@ -1,6 +1,5 @@
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
-import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 
 namespace BEDC.Derived.FieldExtUp
 
@@ -34,22 +33,5 @@ theorem FieldExtRatReflexive_certificate_obligations {h k r r' m m' product acti
         (And.intro operationRows.left
           (And.intro operationRows.right.left
             (And.intro operationRows.right.right.left operationRows.right.right.right)))))
-
-theorem FieldExtRatReflexive_source_pattern_classifier_obligations {h k : BHist} :
-    RatHistoryClassifier h k ->
-      FieldExtRatReflexiveCarrier h ∧ FieldExtRatReflexiveCarrier k ∧
-        RatHistoryClassifier (FieldExtSingletonEmbedding h) (FieldExtSingletonEmbedding k) ∧
-          Cont BHist.Empty h (FieldExtSingletonEmbedding h) ∧
-            Cont BHist.Empty k (FieldExtSingletonEmbedding k) := by
-  intro classified
-  have carrierH : FieldExtRatReflexiveCarrier h :=
-    FieldExtRatReflexiveCarrier_rat_history_closure classified.left
-  have carrierK : FieldExtRatReflexiveCarrier k :=
-    FieldExtRatReflexiveCarrier_rat_history_closure classified.right.left
-  have lock := FieldExtRatReflexive_source_pattern_lock classified
-  exact And.intro carrierH
-    (And.intro carrierK
-      (And.intro lock.right.right.left
-        (And.intro lock.right.right.right.left lock.right.right.right.right)))
 
 end BEDC.Derived.FieldExtUp
