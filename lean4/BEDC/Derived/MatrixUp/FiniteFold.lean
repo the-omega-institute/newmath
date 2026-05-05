@@ -170,4 +170,23 @@ theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist
     exact And.intro foldedCarrier
       (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
 
+theorem MatrixSingletonAddFold_append_continuation_classifier
+    {xs ys : List BHist} {r : BHist} :
+    MatrixSingletonAddFoldSpineCarrier xs ->
+      MatrixSingletonAddFoldSpineCarrier ys ->
+        Cont (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys) r ->
+          MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys)) r := by
+  intro xsCarrier ysCarrier continuation
+  have displayedClassifier :
+      MatrixSingletonClassifier (MatrixSingletonAddFold (xs ++ ys))
+        (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) :=
+    Iff.mpr MatrixSingletonAddFold_append_display_classifier_iff
+      (And.intro xsCarrier ysCarrier)
+  have sameResult : hsame (append (MatrixSingletonAddFold xs) (MatrixSingletonAddFold ys)) r :=
+    cont_deterministic (cont_intro rfl) continuation
+  exact And.intro displayedClassifier.left
+    (And.intro
+      (hsame_trans (hsame_symm sameResult) displayedClassifier.right.left)
+      (hsame_trans displayedClassifier.right.right sameResult))
+
 end BEDC.Derived.MatrixUp
