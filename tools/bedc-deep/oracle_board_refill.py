@@ -205,14 +205,26 @@ def submit_refill(server_url: str, prompt: str) -> dict:
         return json.loads(resp.read().decode("utf-8"), strict=False)
 
 
-def poll_result(server_url: str, task_id: str, timeout: int, poll_interval: int) -> str:
+def poll_result(
+    server_url: str,
+    task_id: str,
+    timeout: int,
+    poll_interval: int,
+) -> Optional[str]:
     start = time.time()
     last_log = start
     while time.time() - start < timeout:
         try:
             data = _http_get(f"{server_url}/result/{task_id}", timeout=10)
-            if data.get("status") == "completed":
+            status = data.get("status")
+            if status == "completed":
                 return data.get("response", "")
+            if status in {"cancelled", "failed", "error"}:
+                print(
+                    f"[board_refill] task ended with status={status}",
+                    flush=True,
+                )
+                return None
         except Exception:
             pass
         if time.time() - last_log > 60:
@@ -292,6 +304,9 @@ def main() -> int:
     print(f"[board_refill] submitted task={task_id} conv={conv_id[:14]}", flush=True)
 
     response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
+    if response is None:
+        print("[board_refill] stopped before receiving a response", flush=True)
+        return 1
     if not response:
         print(f"[board_refill] timeout waiting for response (limit={args.timeout}s)",
               flush=True)
