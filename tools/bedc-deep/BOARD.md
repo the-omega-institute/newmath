@@ -9283,3 +9283,57 @@ The combinatorial optimization slice is nearly empty: papers/bedc/parts/concrete
 
 ---
 
+### B-356 - Finite ideal intersection closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Finite ideal intersection closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under a RingUp certificate, if every predicate in a finite indexed family is IdealUp over the same RingUp data, then their pointwise finite intersection is IdealUp.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+This is a concrete closure theorem for the IdealUp chapter. The paper has binary ideal intersection closure, but not a finite indexed intersection package; the finite form is distinct enough to merit a narrow target because it packages the closure rows over a finite spine or finite-set witness and can land safely in the short IdealUp file using existing RingUp and FinSet/List infrastructure.
+
+---
+
+
+### B-357 - Ideal kernel closure for ring maps
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Ideal kernel closure for ring maps |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under source and target RingUp certificates, if f preserves carrier classification, zero, addition, additive inverse, and multiplication, then the zero-fiber predicate of f is an IdealUp predicate on the source ring.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/59_ideal_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/ring/18_ring_certificate_and_additive_laws.tex`
+- `papers/bedc/parts/concrete_instances/61_quotientring_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/21_module_linearmap_kernel_and_inverse_action.tex`
+
+Rationale:
+This is a concrete zero-fiber closure target for IdealUp and is not covered by the existing quotient-ring or module-linear-map kernel theorems. It gives the ring-level sibling of the LinearMap kernel submodule pattern while using IdealUp absorption and RingUp zero-product rows, so it fits the concrete_instances surface without duplicating an existing BOARD entry.
+
+---
+
