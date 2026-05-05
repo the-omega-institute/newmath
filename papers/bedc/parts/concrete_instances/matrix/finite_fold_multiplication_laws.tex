@@ -39,6 +39,30 @@ the folded comparison after unfolding
 \autoref{def:finite-additive-scalar-fold}.
 \end{proof}
 
+\begin{theorem}[Singleton additive fold carrier readback]
+\label{thm:matrix-singleton-add-fold-carrier-iff}
+For the singleton matrix carrier, let
+\(\mathsf{MatrixSingletonAddFold}\) fold a finite spine by the concrete
+singleton addition \(\mathsf{MatrixSingletonAdd}\), and let
+\(\mathsf{MatrixSingletonAddFoldSpineCarrier}\) record that every spine entry
+is carried. Then
+$$
+\mathsf{MatrixSingletonCarrier}(\mathsf{MatrixSingletonAddFold}(xs))
+\Longleftrightarrow
+\mathsf{MatrixSingletonAddFoldSpineCarrier}(xs).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the finite spine. The nil fold is \(\emp\), so both sides are the
+empty endpoint readback. In the cons case, singleton addition is kernel
+append; empty-append inversion splits the folded endpoint into the head
+carrier and the tail-fold carrier, and the induction hypothesis identifies the
+tail-fold carrier with the tail spine carrier.
+\end{proof}
+\leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFold}
+\leandef{BEDC.Derived.MatrixUp.MatrixSingletonAddFoldSpineCarrier}
+\leanchecked{BEDC.Derived.MatrixUp.MatrixSingletonAddFold\_carrier\_iff}
+
 \begin{lemma}[Finite Kronecker selector sum]
 \label{lem:matrix-finite-kronecker-selector-sum}
 Let $J=\mathsf{Fin}(p)$ be a finite index carrier licensed by the $\NatUp$
