@@ -8,3 +8,83 @@ The density-matrix interface $\DensityMatrixUp$ packages a positive trace-class 
 
 \section{The certificate}
 \label{sec:densitymatrix-certificate}
+
+\begin{definition}[DensityMatrix affine mixture spine]
+\label{def:densitymatrix-affine-mixture-spine}
+Let $H$ be a $\HilbertUp$ carrier, and let $\mathsf{TC}(H)$, $\mathsf{Pos}_H$, $\operatorname{Tr}_H$, and $\mathsf{Dens}_H$ be as in \autoref{def:densitymatrix-trace-class-carrier}. Use the real trace-class scalar action $\odot_H$ and trace-class addition $+_{\mathsf{TC}(H)}$ inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependency surfaces of \autoref{ch:concrete-instances-densitymatrix-namecert}. For a finite trace-class spine $xs:\mathsf{ListCarrier}(\mathsf{TC}(H))$, a finite real-weight spine $\lambda:\mathsf{ListCarrier}(\RealUp)$, and an endpoint $\rho_{\mathrm{mix}}\in\mathsf{TC}(H)$, define
+$$
+\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})
+:\Longleftrightarrow
+\mathsf{ConvAffSpine}_{\mathsf{Dens}_H}(xs,\lambda,\rho_{\mathrm{mix}})
+$$
+where the right side is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} read with carrier $C=\mathsf{Dens}_H$, scalar action $\odot_H$, and vector addition $+_{\mathsf{TC}(H)}$. Thus the datum records a position match between density-matrix entries and real weights, nonnegative weights whose finite sum is classified as $1_{\RealUp}$, and a recursive bracketing endpoint for the displayed affine mixture.
+\end{definition}
+
+\begin{lemma}[DensityMatrix binary convex closure]
+\label{lem:densitymatrix-binary-convex-closure}
+Let $H$ be a $\HilbertUp$ carrier. Let $\rho,\sigma\in\mathsf{TC}(H)$ and let $a,b$ be real scalar coefficients. If
+$$
+\mathsf{Dens}_H(\rho)\land \mathsf{Dens}_H(\sigma)
+\land \mathsf{NonNeg}_{\RealUp}(a)\land \mathsf{NonNeg}_{\RealUp}(b)
+\land a+b=1,
+$$
+then the binary affine mixture is a carried density matrix:
+$$
+\mathsf{Dens}_H\bigl((a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\sigma)\bigr).
+$$
+\end{lemma}
+\begin{proof}
+Unpack $\mathsf{Dens}_H$ by \autoref{def:densitymatrix-trace-class-carrier}. The two input hypotheses give
+$$
+\rho,\sigma\in\mathsf{TC}(H),
+\qquad
+\mathsf{Pos}_H(\rho),\mathsf{Pos}_H(\sigma),
+\qquad
+\operatorname{Tr}_H(\rho)=\operatorname{Tr}_H(\sigma)=1.
+$$
+The trace-class carrier is closed under real scalar action and addition by the vector-space surface inherited from the $\OperatorIdealUp$ and $\HilbertUp$ dependencies, so
+$$
+(a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\sigma)\in\mathsf{TC}(H).
+$$
+The positivity cone on trace-class operators is closed under multiplication by nonnegative real scalars and under addition. The two nonnegativity hypotheses therefore give
+$$
+\mathsf{Pos}_H\bigl((a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\sigma)\bigr).
+$$
+Trace linearity over the same trace-class vector carrier gives
+$$
+\operatorname{Tr}_H\bigl((a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\sigma)\bigr)
+=
+a\operatorname{Tr}_H(\rho)+b\operatorname{Tr}_H(\sigma)
+=
+a+b
+=
+1.
+$$
+These are exactly the trace-class, positivity, and trace-one clauses of \autoref{def:densitymatrix-trace-class-carrier} for the displayed affine mixture.
+\end{proof}
+
+\begin{theorem}[DensityMatrix finite affine mixture closure]
+\label{thm:densitymatrix-finite-affine-mixture-closure}
+Let $H$ be a $\HilbertUp$ carrier. For every finite trace-class spine $xs:\mathsf{ListCarrier}(\mathsf{TC}(H))$, finite real-weight spine $\lambda:\mathsf{ListCarrier}(\RealUp)$, and endpoint $\rho_{\mathrm{mix}}\in\mathsf{TC}(H)$, if
+$$
+\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}}),
+$$
+then
+$$
+\mathsf{Dens}_H(\rho_{\mathrm{mix}}).
+$$
+Equivalently, any finite affine mixture of carried $\DensityMatrixUp(H)$ entries with nonnegative real weights whose finite sum is classified as one is again a carried $\DensityMatrixUp(H)$ entry.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:densitymatrix-affine-mixture-spine}. The hypothesis is the finite affine-spine datum of \autoref{def:convexset-finite-affine-spine-data} specialized to the concrete carrier $C=\mathsf{Dens}_H$ on the trace-class vector carrier $\mathsf{TC}(H)$. It contains both the finite readback of carried entries and nonnegative unit-sum weights, and a local bracketing witness for the endpoint $\rho_{\mathrm{mix}}$.
+
+Induct on that local bracketing witness. In the singleton clause, the endpoint is the displayed trace-class operator $\rho$, and the clause itself supplies $\mathsf{Dens}_H(\rho)$.
+
+In the binary clause, the induction hypothesis gives that the tail endpoint $\tau$ is carried by $\mathsf{Dens}_H$. The same clause supplies a carried head $\rho$, nonnegative real coefficients $a,b$, and the local unit-sum identity $a+b=1$. Applying \autoref{lem:densitymatrix-binary-convex-closure} to $\rho$, $\tau$, $a$, and $b$ gives
+$$
+\mathsf{Dens}_H\bigl((a\odot_H\rho)+_{\mathsf{TC}(H)}(b\odot_H\tau)\bigr),
+$$
+which is exactly the endpoint named by the binary bracketing clause.
+
+The induction covers every recursive affine bracketing packaged by $\mathsf{DensAffSpine}_H(xs,\lambda,\rho_{\mathrm{mix}})$. Hence the finite mixture endpoint $\rho_{\mathrm{mix}}$ satisfies $\mathsf{Dens}_H(\rho_{\mathrm{mix}})$.
+\end{proof}
