@@ -7265,3 +7265,132 @@ Chapter 65 has 12 theorems (65_tensorproduct_namecert_construction.tex lines 18,
 
 ---
 
+### B-280 - Derivative empty-function quotient step zero result is absurd
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Derivative empty-function quotient step zero result is absurd |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If DerivativeMetricQuotient(∅, z, h, q, dist) holds and the witness step displays as Ezero(s) for some s, then ⊥.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/100_derivative_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+100_derivative_namecert_construction.tex has 19 theorems and 0 completed-target hits. thm:derivative-metric-quotient-empty-function-step-readback (line 100) handles the empty-function step but only proves q hsame h for a generic step. The exclusion of an Ezero-displayed step under the empty-function quotient regime is structurally analogous to thm:filter-principal-suffix-unary-intersection-zero-result-absurd (71_filter line 146) and thm:derivative-metric-quotient-distance-result-nonempty (line 118), but the empty-function-specific Ezero exclusion does not exist. Concrete single-implication, opens analysis chapter.
+
+---
+
+
+### B-281 - Residue pole data integral suffix closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Residue pole data integral suffix closure |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If ResiduePoleData(f, z₀, r, p, g, I, ρ) holds, q is unary, and ContR(f, q, fq), then there exists Iq with ResiduePoleData(fq, z₀, r, p, g, Iq, ρ), ContR(I, q, Iq), and ContR(Iq, ρ, fq).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/103_residue_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/49_contour_integral_operation.tex`
+
+Rationale:
+103_residue_namecert_construction.tex has 10 theorems and 0 completed-target hits. thm:residue-pole-data-residue-suffix-closure (line 56) proves residue suffix closure and thm:residue-pole-data-integral-prefix-closure (line 142) proves the integral prefix closure, but the integral SUFFIX closure (the obvious dual where q is appended after f rather than prefixed) is missing — there is no thm:residue-pole-data-integral-suffix-closure label. Single-implication concrete claim, structurally identical to the existing prefix variant. Opens an untouched complex-analysis chapter.
+
+---
+
+
+### B-282 - EquivCat empty-roundtrip identity carrier hsame transport in target prefix
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EquivCat empty-roundtrip identity carrier hsame transport in target prefix |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the empty-roundtrip identity carrier exists for prefixes (p, q) and HSame(q, q'), then the empty-roundtrip identity carrier exists for (p, q').
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/88_equivcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/85_adjunction_namecert_construction.tex`
+
+Rationale:
+88_equivcat_namecert_construction.tex has 11 theorems and 0 completed-target hits. The chapter has determinacy theorems for source-prefix (line 212) and target-prefix (line 148) but NO hsame-transport theorem for the identity carrier under target prefix — labels at lines 10, 30, 64, 85, 107, 130, 148, 171, 192, 212, 234 are exclusively about determinacy/exclusion/exactness rather than transport. This is the basic stability claim required before composition of equivalences can ever be opened, and it follows directly from unary transport plus determinacy. Opens an untouched CT chapter.
+
+---
+
+
+### B-283 - Gamma Weierstrass Cauchy modulus stable under domain-core hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Gamma Weierstrass Cauchy modulus stable under domain-core hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If GammaDom(s) holds at apartness precision k₀ with Weierstrass modulus N(k) for the partial products P_N(s), and s hsame s', then GammaDom(s') holds at precision k₀ and the partial products P_N(s') admit the same modulus N(k).
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/53_gamma_function_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/40_complex_limit_namecert_construction.tex`
+
+Rationale:
+53_gamma_function_namecert_construction.tex has 19 theorems and 0 completed-target hits. thm:gamma-domain-core-hsame-transport (line 128) transports GammaDom membership under hsame and lem:gamma-weierstrass-cauchy (line 196) gives the explicit modulus, but the COMPOSITE — that the modulus itself is hsame-invariant on the GammaDom — is the natural missing stability claim. It is the classifier-level prerequisite for both thm:gamma-recurrence (line 220) and thm:gamma-reflection (line 239) to lift to representative-stable form. Opens special-functions chapter the loop has never touched.
+
+---
+
+
+### B-284 - Adele history-carrier visible-scale append result hsame transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Adele history-carrier visible-scale append result hsame transport |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the visible-scale append result is nonempty for adele history a and scale s, and a hsame a', then the visible-scale append result is nonempty for a' at the same scale s.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/79_adele_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/78_padic_namecert_construction.tex`
+
+Rationale:
+79_adele_namecert_construction.tex has 30 theorems and 0 completed-target hits. The chapter has thm:adele-constant-slice-carrier-hsame-transport (line 572) for the constant slice and thm:adele-visible-scale-append-not-empty (line 242) for nonempty results, but there is no hsame-transport for the visible-scale append result itself — labels at lines 122, 143, 185, 204, 242, 464-538 cover the carrier nonempty / readback structure without relating different histories under hsame. A single-implication transport theorem is the missing structural prerequisite for adele-level carrier reasoning. Opens number-theory chapter the loop has never touched.
+
+---
+
