@@ -10221,3 +10221,57 @@ This fills a real structural gap: the paper has MeasureUp finite disjoint-union 
 
 ---
 
+### B-391 - Quantum channel identity closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Quantum channel identity closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a fixed Hilbert carrier H, the identity trace-class map id_TC(H) is carried by QuantumChannelUp(H,H), and every DensityMatrixUp(H) input is fixed as a DensityMatrixUp(H) output.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+
+Rationale:
+The quantum-channel surface already has density-matrix image closure and binary composition closure, but it does not state the identity-channel unit law. This is a concrete closure target, not a marker or parameter echo, and it safely lands beside the existing QuantumChannel carrier and composition theorem while using the existing LinearMap identity certificate as local support.
+
+---
+
+
+### B-392 - Density matrix convex mixture closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Density matrix convex mixture closure |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a fixed Hilbert carrier H, if a finite spine of trace-class operators are DensityMatrixUp(H) carriers and the weights are nonnegative with total weight one, then the finite affine mixture is again a DensityMatrixUp(H) carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/198_densitymatrix_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/199_quantumchannel_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/186_convexset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/191_operatorideal_namecert_construction.tex`
+
+Rationale:
+The paper has a concrete density-matrix carrier definition and a general ConvexSet finite affine-spine closure theorem, but no density-matrix-specific convexity theorem. This is a concrete closure result for an existing BEDC object, distinct from existing quantum-channel and convex-set entries, and it would make the mixed-state interface materially stronger.
+
+---
+
