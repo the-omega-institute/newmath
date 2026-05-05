@@ -38,4 +38,14 @@ theorem ComplexLimit_pointwise_negation_closed {s N M : BHist -> BHist} {z : BHi
       (fun {n : BHist} _unaryN => hsame_symm (append_empty_left (s n))) limit
   exact ComplexLimit_hsame_transport (hsame_symm (append_empty_left z)) shiftedLimit
 
+theorem ComplexLimit_binary_affine_combination_closed {a b : BHist}
+    {s t N M : BHist -> BHist} {z w : BHist} :
+    UnaryHistory a -> UnaryHistory b -> ComplexLimit s N z M -> ComplexLimit t N w M ->
+      ComplexLimit (ComplexPointwiseBinaryAffineCombination a b s t) N
+        (append (append a z) (append b w)) M := by
+  intro unaryA unaryB limitS limitT
+  exact ComplexLimit_pointwise_append_same_modulus_closed
+    (ComplexLimit_prepend_constant_closed unaryA limitS)
+    (ComplexLimit_prepend_constant_closed unaryB limitT)
+
 end BEDC.Derived.ComplexLimitUp
