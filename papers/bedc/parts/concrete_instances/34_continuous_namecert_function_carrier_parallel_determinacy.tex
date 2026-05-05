@@ -1,0 +1,61 @@
+\begin{theorem}[Continuous function carrier parallel composite determinacy]
+\label{thm:continuous-function-carrier-parallel-composite-determinacy}
+For BHist histories $source,middle,target,f,g,fg,fg',mod_F,mod_G,mod_{FG},
+mod_{FG}',cert_F,cert_G,cert,cert'$, suppose
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,f,middle,mod_F,cert_F),\\
+\mathsf{ContinuousFunctionCarrier}(middle,g,target,mod_G,cert_G),\\
+\mathsf{Cont}(f,g,fg),\quad \mathsf{Cont}(f,g,fg'),\\
+\mathsf{Cont}(mod_F,mod_G,mod_{FG}),\quad
+\mathsf{Cont}(mod_F,mod_G,mod_{FG}'),\\
+\mathsf{Cont}(target,mod_{FG},cert),\quad
+\mathsf{Cont}(target,mod_{FG}',cert')
+\end{array}
+$$
+hold. Then the two exposed composites are both continuous function carriers
+and their graph, modulus, and certificate histories are determined:
+$$
+\begin{array}{l}
+\mathsf{ContinuousFunctionCarrier}(source,fg,target,mod_{FG},cert)\land\\
+\mathsf{ContinuousFunctionCarrier}(source,fg',target,mod_{FG}',cert')\land\\
+\hsame(fg,fg')\land\hsame(mod_{FG},mod_{FG}')\land\hsame(cert,cert').
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+First compose through the first visible ledger. The two given base carriers,
+together with $\mathsf{Cont}(f,g,fg)$, $\mathsf{Cont}(mod_F,mod_G,mod_{FG})$,
+and $\mathsf{Cont}(target,mod_{FG},cert)$, satisfy the hypotheses of
+Theorem~\ref{thm:continuous-function-carrier-comp-closed}. This gives
+$\mathsf{ContinuousFunctionCarrier}(source,fg,target,mod_{FG},cert)$.
+
+The second displayed ledger has the same two base carriers. Applying the same
+composition theorem to $\mathsf{Cont}(f,g,fg')$,
+$\mathsf{Cont}(mod_F,mod_G,mod_{FG}')$, and
+$\mathsf{Cont}(target,mod_{FG}',cert')$ gives
+$\mathsf{ContinuousFunctionCarrier}(source,fg',target,mod_{FG}',cert')$.
+
+Map determinacy is local to the shared graph rows. Continuation determinacy
+for the two rows $\mathsf{Cont}(f,g,fg)$ and $\mathsf{Cont}(f,g,fg')$ gives
+$\hsame(fg,fg')$; the same kernel determinacy applied to the two modulus rows
+gives $\hsame(mod_{FG},mod_{FG}')$.
+
+Finally compare the terminal certificate rows. They share the target history,
+and the recovered modulus sameness transports the row
+$\mathsf{Cont}(target,mod_{FG}',cert')$ back across
+$\mathsf{Cont}(target,mod_{FG},cert)$, yielding $\hsame(cert,cert')$. These
+five outputs are exactly the two composite carriers plus the three exposed
+history-sameness conclusions.
+\end{proof}
+\leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_parallel\_composite\_determinacy}
+
+\begin{closurestatus}{\ContinuousFunctionCarrierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter records the continuous function carrier ledger and its local composition-determinacy seed.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_comp\_closed}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close the public continuous-map bridge or the full higher coherence package.}
+  \upgradepath{Formalize the parallel composite determinacy theorem and bind the carrier ledger into the public ContinuousMapUp interface.}
+\end{closurestatus}

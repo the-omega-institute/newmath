@@ -20,6 +20,9 @@ def GeomBound (a : Nat -> BHist) (r K : BHist) : Prop :=
 def PowerSeriesCarrier (a : Nat -> BHist) (z0 : BHist) : Prop :=
   UnaryHistory z0 ∧ (∀ n : Nat, ComplexHistoryCarrier (a n)) ∧ ComplexHistoryCarrier z0
 
+def PowerSeriesPartSum (a : Nat -> BHist) (z0 n S : BHist) : Prop :=
+  PowerSeriesCarrier a z0 ∧ ComplexPartSum z0 (fun _ : BHist => a 0) n S
+
 theorem PowerSeriesCarrier_origin_coefficient_transport {a b : Nat -> BHist} {z0 z0' : BHist} :
     hsame z0 z0' -> (∀ n : Nat, ComplexHistoryClassifier (a n) (b n)) ->
       PowerSeriesCarrier a z0 -> UnaryHistory z0' ∧ PowerSeriesCarrier b z0' := by
@@ -153,6 +156,19 @@ theorem ConvRad_semanticNameCert {a : Nat -> BHist} {R : BHist} (radius : ConvRa
     exact source
   · intro _h source
     exact source
+
+theorem ConvRad_checked_rows_do_not_force_cauchy_hadamard {a : Nat -> BHist} {R : BHist} :
+    ConvRad a R -> UnaryHistory R ->
+      ∃ accept reject : BHist, (hsame accept reject -> False) ∧
+        (ConvRad a R ∧ hsame R R) ∧ (ConvRad a R ∧ hsame R R) := by
+  intro radius _radiusUnary
+  exact Exists.intro BHist.Empty
+    (Exists.intro (BHist.e1 BHist.Empty)
+      (And.intro
+        (fun sameAcceptReject => not_hsame_e1_empty (hsame_symm sameAcceptReject))
+        (And.intro
+          (And.intro radius (hsame_refl R))
+          (And.intro radius (hsame_refl R)))))
 
 theorem GeomBound_radius_semanticNameCert {a : Nat -> BHist} {r K : BHist}
     (bound : GeomBound a r K) :
@@ -398,6 +414,23 @@ theorem PowerSeriesComplexPartSum_exists_unique {zero n : BHist} {term : BHist -
             (And.intro currentCarrier
               (fun T other => ComplexPartSum_deterministic current other)))
 
+theorem PowerSeriesCarrier_constant_coeff_partSum_exists_unique {a : Nat -> BHist} {z0 n : BHist} :
+    PowerSeriesCarrier a z0 -> UnaryHistory n ->
+      ∃ S : BHist, PowerSeriesPartSum a z0 n S ∧ ComplexHistoryCarrier S ∧
+        ∀ T : BHist, PowerSeriesPartSum a z0 n T -> hsame S T := by
+  intro carrier unaryN
+  have constantCoeff :
+      ∀ {m : BHist}, UnaryHistory m -> ComplexHistoryCarrier ((fun _ : BHist => a 0) m) :=
+    fun {_m : BHist} _unaryM => carrier.right.left 0
+  cases PowerSeriesComplexPartSum_exists_unique carrier.right.right constantCoeff unaryN with
+  | intro S data =>
+      exact Exists.intro S
+        (And.intro
+          (And.intro carrier data.left)
+          (And.intro data.right.left
+            (fun T part =>
+              data.right.right T part.right)))
+
 def ConvRadSourceSpec (a : Nat -> BHist) (z0 R : BHist) : Prop :=
   PowerSeriesCarrier a z0 ∧ ConvRad a R
 
@@ -414,5 +447,37 @@ theorem ConvRadSourceSpec_powerSeries_geomBound_readback {a : Nat -> BHist} {z0 
             intro r radiusUnary continuation
             have row := readback radiusUnary continuation
             exact And.intro row.left (And.intro row.right radius.left))
+
+theorem ConvRad_stability_certificate_fields {a b : Nat -> BHist} {R q : BHist} :
+    (forall {h : BHist}, hsame h h) ∧
+    (forall {h k : BHist}, hsame h k -> hsame k h) ∧
+    (forall {h k r : BHist}, hsame h k -> hsame k r -> hsame h r) ∧
+    (forall {R' : BHist}, hsame R R' -> UnaryHistory R' -> ConvRad a R -> ConvRad a R') ∧
+    ((forall n : Nat, ComplexHistoryClassifier (a n) (b n)) -> ConvRad a R -> ConvRad b R) ∧
+    (ConvRad a R -> UnaryHistory q -> ConvRad (fun n : Nat => append (a n) q) R) := by
+  exact And.intro
+    (fun {h : BHist} => hsame_refl h)
+    (And.intro
+      (fun {h k : BHist} same => hsame_symm same)
+      (And.intro
+        (fun {h k r : BHist} sameHK sameKR => hsame_trans sameHK sameKR)
+        (And.intro
+          (fun {R' : BHist} sameRadius targetUnary radius =>
+            ConvRad_radius_transport sameRadius radius targetUnary)
+          (And.intro
+            (fun coeffClassified radius =>
+              (ConvRad_radius_coefficient_classifier_transport (hsame_refl R) radius.left
+                coeffClassified radius).right)
+            (fun radius qUnary => ConvRad_append_unary_coeff_closed radius qUnary)))))
+
+def ConvRadCheckedRowReduct (a : Nat -> BHist) (z0 R : BHist) : Prop :=
+  ConvRadSourceSpec a z0 R ∧
+    ∃ K : BHist -> BHist, ∀ {r : BHist}, UnaryHistory r -> Cont r (K r) R ->
+      PowerSeriesCarrier a z0 ∧ GeomBound a r (K r) ∧ UnaryHistory R
+
+theorem ConvRadSourceSpec_checkedRowReduct_readback {a : Nat -> BHist} {z0 R : BHist} :
+    ConvRadSourceSpec a z0 R -> ConvRadCheckedRowReduct a z0 R := by
+  intro source
+  exact And.intro source (ConvRadSourceSpec_powerSeries_geomBound_readback source)
 
 end BEDC.Derived.ConvergenceRadiusUp
