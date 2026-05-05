@@ -89,4 +89,20 @@ theorem RealAnalyticComplexAbsPartSum_index_result_unary {zero : BHist}
       exact And.intro (unary_e1_closed ih.left)
         (unary_cont_closed ih.right (modulusUnary ih.left) stepContinuation)
 
+theorem RealAnalyticComplexAbsPartSum_closed_pointwise_index_result_unary_transport
+    {zero zero' : BHist} {modulus modulus' : BHist -> BHist} {n M T : BHist}
+    (zeroUnary : UnaryHistory zero)
+    (sameZero : hsame zero zero')
+    (modulusUnary : forall {m : BHist}, UnaryHistory m -> UnaryHistory (modulus m))
+    (modulusSame : forall {m : BHist}, UnaryHistory m -> hsame (modulus m) (modulus' m)) :
+    ComplexAbsPartSum zero modulus n M -> ComplexAbsPartSum zero' modulus' n T ->
+      UnaryHistory n ∧ UnaryHistory T := by
+  intro source target
+  have unaryN : UnaryHistory n :=
+    (RealAnalyticComplexAbsPartSum_index_result_unary zeroUnary modulusUnary source).left
+  have unaryT : UnaryHistory T :=
+    RealAnalyticComplexAbsPartSum_pointwise_result_unary_transport zeroUnary sameZero
+      modulusUnary modulusSame unaryN source target
+  exact And.intro unaryN unaryT
+
 end BEDC.Derived.RealAnalyticUp
