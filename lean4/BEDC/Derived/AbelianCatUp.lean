@@ -43,6 +43,25 @@ theorem AbelianCatKernelCokernelCarrier_factorization_rows
       (And.intro carrier.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right factorUnary)))
 
+theorem AbelianCatKernelCokernelCarrier_zero_biproduct_readback
+    {obj hom zero biprod add kernel cokernel factor : BHist} :
+    AbelianCatKernelCokernelCarrier obj hom zero biprod add kernel cokernel factor ->
+      GroupSingletonCarrier zero ∧ Cont BHist.Empty hom biprod ∧ Cont hom BHist.Empty add ∧
+        hsame biprod hom ∧ hsame add hom ∧ UnaryHistory biprod ∧ UnaryHistory add := by
+  intro carrier
+  have homUnary : UnaryHistory hom := carrier.right.left
+  have zeroCarrier : GroupSingletonCarrier zero := carrier.right.right.right.left
+  have biprodRow : Cont BHist.Empty hom biprod := carrier.right.right.right.right.left
+  have addRow : Cont hom BHist.Empty add := carrier.right.right.right.right.right.left
+  have biprodHom : hsame biprod hom := cont_left_unit_result biprodRow
+  have addHom : hsame add hom := cont_right_unit_result addRow
+  have biprodUnary : UnaryHistory biprod := unary_transport homUnary (hsame_symm biprodHom)
+  have addUnary : UnaryHistory add := unary_transport homUnary (hsame_symm addHom)
+  exact And.intro zeroCarrier
+    (And.intro biprodRow
+      (And.intro addRow
+        (And.intro biprodHom (And.intro addHom (And.intro biprodUnary addUnary)))))
+
 def AbelianCatAdditiveCarrier
     (source target zero add kernel cokernel factor : BHist) : Prop :=
   CategoryHomCarrier source target zero ∧ GroupSingletonCarrier add ∧ UnaryHistory kernel ∧
