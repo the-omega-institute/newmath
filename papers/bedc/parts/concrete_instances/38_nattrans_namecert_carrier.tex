@@ -11,6 +11,25 @@ Use an object-indexed family of codomain morphisms \(\eta_X:F(X)\to G(X)\) plus 
 \end{definition}
 \leandef{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier}
 
+\begin{theorem}[NatTrans prefix component unary object suffix exactness]
+\label{thm:nattrans-prefix-component-carrier-unary-object-suffix-iff}
+For histories $p,q,a,\eta$, a prefix component over the shared object suffix
+$a$ is equivalent to unary membership of $a$ together with the unsuffixed
+category hom carrier:
+$$
+\mathsf{NatTransPrefixComponentCarrier}(p,q,a,\eta)
+\Longleftrightarrow
+\mathsf{UnaryHistory}(a)\land\mathsf{CategoryHomCarrier}(p,q,\eta).
+$$
+\end{theorem}
+\begin{proof}
+Unfold the prefix component carrier. The category hom-carrier suffix theorem
+peels the common unary object suffix from
+$\mathsf{append}(p,a)$ and $\mathsf{append}(q,a)$, and the reverse direction
+repackages that suffixed hom-carrier with the component fields.
+\end{proof}
+\leanchecked{BEDC.Derived.NatTransUp.NatTransPrefixComponentCarrier\_unary\_object\_suffix\_iff}
+
 \begin{theorem}[NatTrans prefix component empty identity exactness]
 \label{thm:nattrans-prefix-component-carrier-empty-identity-iff}
 For prefix components over unary histories, the empty component from
