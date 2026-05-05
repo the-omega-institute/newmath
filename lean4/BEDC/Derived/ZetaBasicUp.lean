@@ -17,6 +17,9 @@ def ZetaBasicPartSum (s n z : BHist) : Prop :=
 def ZetaBasic (s z : BHist) : Prop :=
   DirichletSeriesConv ZetaBasicUnitTerm s z
 
+def ZetaBasicPatternSpec (s n z : BHist) : Prop :=
+  UnaryHistory n ∧ ZetaBasicPartSum s n z ∧ hsame (ZetaBasicUnitTerm n s) (BHist.e1 s)
+
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
   intro unaryS unaryN sum
@@ -86,6 +89,18 @@ theorem ZetaBasicPartSum_successor_step_inversion {s n z : BHist} :
   | step previousSum stepCont =>
       unfold ZetaBasicUnitTerm at stepCont
       exact Exists.intro _ (And.intro previousSum stepCont)
+
+theorem ZetaBasicPatternSpec_successor_step_inversion {s n z : BHist} :
+    ZetaBasicPatternSpec s (BHist.e1 n) z ->
+      ∃ previous : BHist, ZetaBasicPatternSpec s n previous ∧ Cont previous (BHist.e1 s) z := by
+  intro pattern
+  have step := ZetaBasicPartSum_successor_step_inversion pattern.right.left
+  cases step with
+  | intro previous previousData =>
+      have unaryN : UnaryHistory n := unary_e1_inversion pattern.left
+      exact Exists.intro previous
+        (And.intro (And.intro unaryN (And.intro previousData.left (hsame_refl _)))
+          previousData.right)
 
 theorem ZetaBasicPartSum_empty_source_successor_result_shape {n z : BHist} :
     ZetaBasicPartSum BHist.Empty (BHist.e1 n) z ->
