@@ -460,4 +460,27 @@ theorem ConvRadSourceSpec_checkedRowReduct_readback {a : Nat -> BHist} {z0 R : B
   intro source
   exact And.intro source (ConvRadSourceSpec_powerSeries_geomBound_readback source)
 
+def ConvRadLedgerPolicy (a : Nat -> BHist) (z0 R : BHist) : Prop :=
+  ConvRadCheckedRowReduct a z0 R ∧ forall {q : BHist}, UnaryHistory q ->
+    ConvRad (fun n : Nat => append (a n) q) R ∧ ConvRad (fun n : Nat => append q (a n)) R
+
+theorem ConvRadCheckedRowReduct_append_prepend_ledger
+    {a : Nat -> BHist} {z0 R q : BHist} :
+    ConvRadCheckedRowReduct a z0 R -> UnaryHistory q ->
+      ConvRadLedgerPolicy a z0 R ∧ ConvRad (fun n : Nat => append (a n) q) R ∧
+        ConvRad (fun n : Nat => append q (a n)) R := by
+  intro checked qUnary
+  have radius : ConvRad a R := checked.left.right
+  have appendRadius : ConvRad (fun n : Nat => append (a n) q) R :=
+    ConvRad_append_unary_coeff_closed radius qUnary
+  have prependRadius : ConvRad (fun n : Nat => append q (a n)) R :=
+    ConvRad_prepend_unary_coeff_closed radius qUnary
+  exact And.intro
+    (And.intro checked
+      (fun {_q : BHist} qUnary' =>
+        And.intro
+          (ConvRad_append_unary_coeff_closed radius qUnary')
+          (ConvRad_prepend_unary_coeff_closed radius qUnary')))
+    (And.intro appendRadius prependRadius)
+
 end BEDC.Derived.ConvergenceRadiusUp
