@@ -1,4 +1,5 @@
 import BEDC.Derived.ComplexUp
+import BEDC.Derived.CritStripUp
 
 namespace BEDC.Derived.ZetaZerosUp
 
@@ -8,6 +9,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.FKernel.NameCert
 open BEDC.Derived.ComplexUp
+open BEDC.Derived.CritStripUp
 open BEDC.Derived.ProdUp
 open BEDC.Derived.RatUp
 
@@ -55,8 +57,20 @@ def ZetaVal (s z : BHist) : Prop :=
       ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
 
 def ZetaZero (s : BHist) : Prop :=
-  exists z : BHist, ZetaVal s z ∧
-    hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+  exists z : BHist,
+    ZetaVal s z ∧
+      ComplexHistoryClassifier z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)) ∧
+        hsame z (append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty))
+
+def NontrivialZero (s : BHist) : Prop :=
+  ZetaZero s ∧ InCritStrip s
+
+theorem NontrivialZero_in_crit_strip {s : BHist} :
+    NontrivialZero s ->
+      InCritStrip s ∧ (hsame s BHist.Empty -> False) ∧
+        (hsame s (BHist.e1 BHist.Empty) -> False) := by
+  intro nontrivial
+  exact And.intro nontrivial.right (InCritStrip_boundary_excluded nontrivial.right)
 
 theorem ZetaVal_well_defined {s z z' : BHist} :
     ZetaVal s z -> ZetaVal s z' -> ComplexHistoryClassifier z z' := by

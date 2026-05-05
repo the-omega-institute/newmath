@@ -66,7 +66,7 @@ theorem ResiduePoleData_result_determinism
           cases leftRest with
           | intro _leftResidueCarrier leftRest =>
               cases leftRest with
-              | intro _leftProductCarrier leftLedger =>
+              | intro _leftProductCarrier leftCont =>
                   cases rightData with
                   | intro _rightDisk rightRest =>
                       cases rightRest with
@@ -74,10 +74,10 @@ theorem ResiduePoleData_result_determinism
                           cases rightRest with
                           | intro _rightResidueCarrier rightRest =>
                               cases rightRest with
-                              | intro _rightProductCarrier rightLedger =>
+                              | intro _rightProductCarrier rightCont =>
                                   exact And.intro
-                                    (cont_deterministic leftLedger rightLedger)
-                                    (And.intro leftLedger rightLedger)
+                                    (cont_deterministic leftCont rightCont)
+                                    (And.intro leftCont rightCont)
 
 theorem ResiduePoleData_empty_function_endpoints
     {f center radius pole gap integral residue : BHist} :
@@ -333,5 +333,15 @@ theorem ResiduePoleData_integral_prefix_empty_function_endpoints
         (And.intro closedData.left
           (And.intro closedData.right.left
             (And.intro endpoints.left endpoints.right)))
+
+theorem ResiduePoleData_result_determinism_with_continuations
+    {f f' center radius pole gap integral residue : BHist} :
+    ResiduePoleData f center radius pole gap integral residue ->
+      ResiduePoleData f' center radius pole gap integral residue ->
+        Cont integral residue f ∧ Cont integral residue f' ∧ hsame f f' := by
+  intro leftData rightData
+  have leftCont : Cont integral residue f := leftData.right.right.right.right
+  have rightCont : Cont integral residue f' := rightData.right.right.right.right
+  exact And.intro leftCont (And.intro rightCont (cont_deterministic leftCont rightCont))
 
 end BEDC.Derived.ResidueUp

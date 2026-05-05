@@ -1,5 +1,6 @@
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.FramedEndpoint
+import BEDC.Derived.ListUp.Length
 import BEDC.Derived.ListUp.SpineCoherence
 
 namespace BEDC.Derived.ListUp
@@ -141,5 +142,44 @@ theorem ListSpineBridgeClassifier_public_prefix_append_left_cancel {A : BHist ->
                     exact Exists.intro ys
                       (Exists.intro zs
                         (And.intro tailLeftRep (And.intro tailRightRep tails)))
+
+theorem ListSpineRep_cons_boundary_length_deterministic {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs')
+    {m : BHist} {xs ys : ListCarrier BHist} :
+    ListSpineRep A m xs -> ListSpineRep A m ys -> xs.length = ys.length := by
+  intro repX repY
+  have coherent :
+      forall {h : BHist} {xs ys : ListCarrier BHist},
+        ListSpineRep A h xs -> ListSpineRep A h ys -> ListClassifierSpec Rel xs ys :=
+    BEDC.Derived.ListUp.ListSpineRep_coherent_from_cons_boundary boundary
+  exact ListClassifierSpec_length_eq (coherent repX repY)
+
+theorem ListSpineBridgeClassifier_public_cons_readback_deterministic {A : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop}
+    (boundary :
+      forall {m a a' t t' p p' : BHist} {xs xs' : ListCarrier BHist},
+        A a -> A a' -> ListSpineRep A t xs -> ListSpineRep A t' xs' ->
+          Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+            hsame m (BHist.e1 p') -> Rel a a' ∧ ListClassifierSpec Rel xs xs')
+    {m a a' t t' p p' : BHist} :
+    A a -> A a' -> ListSpineHistoryCarrier A t -> ListSpineHistoryCarrier A t' ->
+      Cont a t p -> Cont a' t' p' -> hsame m (BHist.e1 p) ->
+        hsame m (BHist.e1 p') -> Rel a a' ∧ ListSpineBridgeClassifier A Rel t t' := by
+  intro sourceA sourceA' carrierT carrierT' leftCont rightCont sameLeft sameRight
+  cases carrierT with
+  | intro xs repT =>
+      cases carrierT' with
+      | intro xs' repT' =>
+          have readback :=
+            boundary sourceA sourceA' repT repT' leftCont rightCont sameLeft sameRight
+          exact And.intro readback.left
+            (Exists.intro xs
+              (Exists.intro xs'
+                (And.intro repT (And.intro repT' readback.right))))
 
 end BEDC.Derived.ListUp
