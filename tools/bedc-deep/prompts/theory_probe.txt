@@ -9,6 +9,9 @@ Pipeline lane (what bedc-deep does):
 - Output is a NEW LaTeX block (theorem with complete proof) appended into an
   existing chapter file under papers/bedc/parts/
 - Does NOT add `\leanchecked` / Lean markers — that's the OTHER lane (codex_formalize on lean4-codex-auto-dev)
+- Does NOT add or repair `closurestatus` blocks. Those combine a paper
+  closure axis with a Lean verification axis and belong to the gate /
+  formalization lane, not B's theorem-extension lane.
 - Operates within the eight existing chapters: core / proof_obligations /
   concrete_hardening / concrete_instances / hardening / formalization /
   proof_sprint / proof_standing / project_governance
@@ -29,6 +32,16 @@ A genuine open target must satisfy ALL:
 4. Within an existing chapter directory.
 5. Has clear local context — you cite which existing definitions / theorems
    it builds on, by file:line.
+6. NOT a parameter-transport echo: reject claims whose only content is
+   "if carrier/classifier A is equivalent to carrier/classifier B, then
+   every field/property transports". Valid targets are concrete closure,
+   inversion, coverage, determinacy, uniqueness, or obstruction claims about
+   an existing BEDC object.
+7. Targets a concrete body file. If the natural landing file is a hub
+   mostly containing `\input{{...}}` lines, pick a child file instead. Avoid
+   proposing append targets for files already at or above 760 lines unless
+   the candidate is a smaller prerequisite that clearly belongs in an
+   existing child file.
 
 Audit method (execute thoroughly — many tool calls expected, take your time):
 
@@ -59,7 +72,10 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
    candidate is NOT open — drop it. If you find only a remark or definition,
    it may still be open (proceed).
 
-5. Output a single JSON object on stdout, no prose, no markdown fences:
+5. Filter lane-mismatches. Drop marker-only, `closurestatus`, Lean
+   verification, parameter-echo, hub-file, and near-line-cap candidates.
+
+6. Output a single JSON object on stdout, no prose, no markdown fences:
 
 {{
   "candidates": [
