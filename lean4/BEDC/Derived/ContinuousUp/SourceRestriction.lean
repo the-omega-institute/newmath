@@ -1,5 +1,6 @@
 import BEDC.Derived.ContinuousUp.Transport
 import BEDC.Derived.ContinuousUp.TerminalModulusExtension
+import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 
 namespace BEDC.Derived.ContinuousUp
 
@@ -84,6 +85,34 @@ theorem ContinuousFunctionCarrier_empty_source_restriction_terminal_modulus_comm
       ContinuousFunctionCarrier restricted map target modulus' cert' :=
     ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map) (hsame_refl target)
       (hsame_refl modulus') (hsame_refl cert') extended
+  exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
+
+theorem ContinuousFunctionCarrier_empty_source_restriction_visible_terminal_modulus_commutes
+    {restricted p q source map target modulus cert extra modulus' cert' displayedTarget
+        displayedCert : BHist} :
+    Cont restricted BHist.Empty source ->
+      ContinuousFunctionCarrier (append p source) map (append p target) (append modulus q)
+          (append (append p cert) q) ->
+        ContinuousModulusWitness cert extra cert' ->
+          Cont modulus extra modulus' ->
+            ContinuousFunctionCarrier (append p restricted) map displayedTarget
+                (append modulus' q) displayedCert ->
+              hsame (append p target) displayedTarget ∧
+                hsame (append (append p cert') q) displayedCert := by
+  intro sourceRestriction carrier terminalWitness modulusRel displayed
+  have extended :
+      ContinuousFunctionCarrier (append p source) map (append p target)
+        (append modulus' q) (append (append p cert') q) :=
+    ContinuousFunctionCarrier_visible_terminal_modulus_extension carrier terminalWitness modulusRel
+  have sameSource : hsame (append p source) (append p restricted) := by
+    cases sourceRestriction
+    rfl
+  have restrictedCarrier :
+      ContinuousFunctionCarrier (append p restricted) map (append p target)
+        (append modulus' q) (append (append p cert') q) :=
+    ContinuousFunctionCarrier_hsame_transport sameSource (hsame_refl map)
+      (hsame_refl (append p target)) (hsame_refl (append modulus' q))
+      (hsame_refl (append (append p cert') q)) extended
   exact ContinuousFunctionCarrier_target_cert_deterministic restrictedCarrier displayed
 
 theorem ContinuousFunctionCarrier_empty_source_restriction_iterated_terminal_modulus_commutes

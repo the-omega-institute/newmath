@@ -9,6 +9,9 @@ open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 open BEDC.Derived.ComplexDiffUp
 
+def CplxRealProj (f u v : BHist) : Prop :=
+  UnaryHistory u ∧ UnaryHistory v ∧ Cont u v f
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
