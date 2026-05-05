@@ -24,6 +24,10 @@ inductive RealAnalyticLeibnizPartSum (term : BHist -> BHist) : BHist -> BHist ->
       RealAnalyticLeibnizPartSum term n S -> Cont S (term n) T ->
         RealAnalyticLeibnizPartSum term (BHist.e1 n) T
 
+def RealAnalyticPiLocalData (leibnizTerm : BHist -> BHist) (n sum pi : BHist) : Prop :=
+  UnaryHistory n ∧ RealAnalyticLeibnizPartSum leibnizTerm n sum ∧ UnaryHistory sum ∧
+    Cont sum sum pi
+
 def RealAnalyticExpPart (x n S : BHist) : Prop :=
   ComplexHistoryCarrier x ∧
     ComplexPartSum x (fun m : BHist => append x m) n S ∧ UnaryHistory n
