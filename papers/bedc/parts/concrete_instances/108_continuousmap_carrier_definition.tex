@@ -65,6 +65,68 @@ Theorem~\ref{thm:continuousmap-carrier-category-metric-decomposition};
 exactness the displayed equivalence; standard bridge is deferred; status
 $\mathsf{ProofTarget}$.
 
+\begin{theorem}[ContinuousMap visible-context category-metric decomposition]
+\label{thm:continuousmap-carrier-visible-context-category-metric-decomposition}
+For histories $p,q,source,map,target,modulus,cert,distance:\mathsf{BHist}$,
+the displayed carrier with visible continuous-function context and prefixed
+metric ledger is equivalent to unary context evidence together with the central
+categorical, continuity, and metric rows:
+$$
+\begin{array}{l}
+\mathsf{ContinuousMapCarrier}(p\cdot source,map,p\cdot target,modulus\cdot q,
+(p\cdot cert)\cdot q,p\cdot distance)
+\\[2pt]
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(p)\land\mathsf{UnaryHistory}(q)\land
+\mathsf{CategoryHomCarrier}(source,target,map)\land
+\mathsf{ContinuousModulusWitness}(target,modulus,cert)\land
+\mathsf{MetricDistanceWitness}(source,target,distance).
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For the forward direction, unpack $\mathsf{ContinuousMapCarrier}$ into its
+visible continuous-function component and its metric-distance component. Apply
+\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} to the
+function row to recover unary evidence for $p$ and $q$ together with the central
+continuous-function carrier.
+
+Apply
+\autoref{thm:continuous-function-carrier-graph-modulus-cont-readback} to that
+central carrier. Its graph row is exactly
+$\mathsf{CategoryHomCarrier}(source,target,map)$, and its target-modulus row is
+$\mathsf{ContinuousModulusWitness}(target,modulus,cert)$. Apply
+\autoref{thm:metric-distance-witness-prefix-iff} to the metric row to read back
+the central $\mathsf{MetricDistanceWitness}(source,target,distance)$.
+
+For the reverse direction, start with the two unary context histories, the
+central categorical row, the target-modulus witness, and the central metric
+witness. The categorical row supplies the graph continuation and unary source,
+target, and map histories.
+
+The modulus row supplies the unary modulus and certificate histories plus the
+certificate continuation, so the central continuous-function carrier is
+reassembled.
+
+Apply
+\autoref{thm:continuous-function-carrier-visible-modulus-context-iff} from
+right to left to restore the visible source, target, modulus, and certificate
+ledgers. Apply \autoref{thm:metric-distance-witness-prefix-iff} from right to
+left to restore the prefixed metric ledger, and pair the two rows into the
+displayed $\mathsf{ContinuousMapCarrier}$.
+\end{proof}
+
+The ten-field fit is: traditional continuous maps carried with explicit visible
+context on the continuous-function row and an exposed metric ledger; BEDC source
+$\mathsf{CategoryUp}/\mathsf{ContinuousUp}/\mathsf{MetricUp}/
+\mathsf{ContinuousMapUp}$; carrier $\mathsf{ContinuousMapCarrier}$; classifier
+$\hsame$; stability from visible continuous-function context, category hom
+readback, modulus readback, and metric prefix exactness; ledger visible
+contexts, map, modulus, certificate, and distance histories; core theorem
+Theorem~\ref{thm:continuousmap-carrier-visible-context-category-metric-decomposition};
+exactness the displayed equivalence; standard bridge is deferred; status
+$\mathsf{ProofTarget}$.
+
 \begin{theorem}[ContinuousMap canonical distance carrier]
 \label{thm:continuousmap-carrier-canonical-distance-iff}
 For histories $source,map,target,modulus,cert:\mathsf{BHist}$, the carrier
