@@ -429,6 +429,36 @@ def DirichletSeriesConv (term : BHist -> BHist -> BHist) (s S : BHist) : Prop :=
     (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) /\
       ComplexLimit ps N S M
 
+def DirichletClassifierSpec (term : BHist -> BHist -> BHist) (s S T : BHist) : Prop :=
+  DirichletSeriesConv term s S ∧ hsame S T
+
+theorem DirichletClassifierSpec_limit_transport {term : BHist -> BHist -> BHist}
+    {s S T U : BHist} :
+    DirichletClassifierSpec term s S T -> hsame T U ->
+      exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+        (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) ∧
+          ComplexLimit ps N U M ∧ DirichletClassifierSpec term s S U := by
+  intro classified sameTU
+  cases classified with
+  | intro conv sameST =>
+      cases conv with
+      | intro ps convRest =>
+          cases convRest with
+          | intro N convRest =>
+              cases convRest with
+              | intro M data =>
+                  have sameSU : hsame S U := hsame_trans sameST sameTU
+                  exact Exists.intro ps
+                    (Exists.intro N
+                      (Exists.intro M
+                        (And.intro data.left
+                          (And.intro (ComplexLimit_hsame_transport sameSU data.right)
+                            (And.intro
+                              (Exists.intro ps
+                                (Exists.intro N
+                                  (Exists.intro M (And.intro data.left data.right))))
+                              sameSU)))))
+
 def AbsConvAbscissa (term : BHist -> BHist -> BHist) (sigma : BHist) : Prop :=
   UnaryHistory sigma ∧ exists witness : BHist, UnaryHistory witness ∧
     forall {s S : BHist}, ComplexHistoryCarrier s -> DirichletSeriesConv term s S ->
