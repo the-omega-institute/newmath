@@ -242,6 +242,7 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.SemanticCertificate
 import BEDC.Derived.PadicUp
+import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.RealUp
 import BEDC.Derived.RealUp.EndpointAbsurd
 import BEDC.Derived.RealUp.ConstantCarrierContext
