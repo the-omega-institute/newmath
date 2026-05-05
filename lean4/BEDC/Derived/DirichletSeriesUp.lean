@@ -5,7 +5,9 @@ namespace BEDC.Derived.DirichletSeriesUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexLimitUp
 
 inductive DirichletPartSum (term : BHist -> BHist -> BHist) (s : BHist) :
     BHist -> BHist -> Prop where
@@ -348,5 +350,50 @@ theorem DirichletPositiveIndex_append_iff {m n : BHist} :
         exact DirichletPositiveIndex_append_unary_closed positiveM unaryN
     | inr positiveN =>
         exact DirichletPositiveIndex_prepend_unary_closed unaryM positiveN
+
+def DirichletSeriesConv (term : BHist -> BHist -> BHist) (s S : BHist) : Prop :=
+  exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+    (forall n : BHist, UnaryHistory n -> DirichletPartSum term s n (ps n)) /\
+      ComplexLimit ps N S M
+
+theorem dirichlet_semantic_name_certificate {term : BHist -> BHist -> BHist}
+    {s S : BHist} :
+    DirichletSeriesConv term s S ->
+      SemanticNameCert (DirichletSeriesConv term s) (DirichletSeriesConv term s)
+        (DirichletSeriesConv term s) hsame := by
+  intro conv
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S conv
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same carrier
+        cases carrier with
+        | intro ps carrierRest =>
+            cases carrierRest with
+            | intro N carrierRest =>
+                cases carrierRest with
+                | intro M data =>
+                    exact Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro data.left
+                            (ComplexLimit_hsame_transport same data.right))))
+    }
+    pattern_sound := by
+      intro _h source
+      exact source
+    ledger_sound := by
+      intro _h source
+      exact source
+  }
 
 end BEDC.Derived.DirichletSeriesUp
