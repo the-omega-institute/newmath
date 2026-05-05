@@ -24,6 +24,10 @@ def SOneComponentClassifier (x y e p x' y' e' p' : BHist) : Prop :=
   SOneHistoryCarrier x y e p ∧ SOneHistoryCarrier x' y' e' p' ∧ hsame x x' ∧
     hsame y y'
 
+def SOneSourceSpec (x y equation point : BHist) : Prop :=
+  SOneHistoryCarrier x y equation point ∧ SOneProductHistoryCarrier point ∧
+    hsame equation SOneUnitHistory ∧ Cont x y point
+
 theorem SOneHistoryCarrier_rational_components {h : BHist} :
     SOneProductHistoryCarrier h →
       ∃ x y dx dy : BHist,
@@ -270,6 +274,13 @@ theorem SOneHistoryCarrier_public_readback {x y equation point : BHist} :
                                       (And.intro dxCarrier
                                         (And.intro sameY
                                           (And.intro dyCarrier pointCont)))))))
+
+theorem SOneSourceSpec_history_carrier_fields {x y equation point : BHist} :
+    SOneHistoryCarrier x y equation point -> SOneSourceSpec x y equation point := by
+  intro carrier
+  have readback := SOneHistoryCarrier_public_readback carrier
+  exact And.intro carrier
+    (And.intro readback.left (And.intro readback.right.left carrier.right.right.right))
 
 theorem SOneComponentClassifier_public_readback {x y e p x' y' e' p' : BHist} :
     SOneComponentClassifier x y e p x' y' e' p' ->
