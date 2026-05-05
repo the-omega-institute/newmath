@@ -1,0 +1,22 @@
+\begin{lemma}[Continuation nonempty right-tail result cases]
+\label{lem:cont-right-tail-result-nonempty-cases}
+For histories $h,k,r:\mathsf{BHist}$, if $\ContR(h,k,r)$ and $k$ is not
+history-same to $\emp$, then the empty-tail branch of the right-tail result
+classification is impossible. Hence either
+$$
+\exists t,u:\mathsf{BHist},\
+\HSame(k,\Ezero(t))\land\HSame(r,\Ezero(u))\land\ContR(h,t,u),
+$$
+or
+$$
+\exists t,u:\mathsf{BHist},\
+\HSame(k,\Eone(t))\land\HSame(r,\Eone(u))\land\ContR(h,t,u).
+$$
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:cont-right-tail-result-cases} to the continuation witness.
+The empty-tail branch gives $\HSame(k,\emp)$ and is eliminated by the
+nonempty hypothesis. The remaining two branches are already the zero-headed
+and one-headed witness alternatives, so they are returned unchanged.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.cont\_right\_tail\_result\_nonempty\_cases}
