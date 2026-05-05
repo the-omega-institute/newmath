@@ -6497,3 +6497,30 @@ Chapters 37 and 38 are 100% definition-only, and `def:functor-whiskered-nattrans
 
 ---
 
+### B-251 - Continuation fixed left-unit probe forces empty source
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Continuation fixed left-unit probe forces empty source |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If for all r, ContR(u, p, r) implies HSame(r, p), then HSame(u, emp).
+
+Local inputs:
+- `papers/bedc/parts/core/continuation_relation.tex`
+- `papers/bedc/parts/core/continuation_step_rules.tex`
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+- `lean4/BEDC/FKernel/Continuation.lean`
+
+Rationale:
+Single-implication structural probe over the core continuation relation: it characterizes the empty history as the only left source whose continuations all collapse onto the right argument. The paper has rich continuation infrastructure (def:continuation-relation, def:continuation-step-rules, def:continuation-morphism-comp-closed, def:continuation-morphism-composite-left-factor, def:continuation-pattern-hardening) but no theorem extracting an emptiness conclusion from a universal probe condition. No board entry addresses left-unit probing of ContR — B-06/B-18 concern naming-certificate boundaries (additive vs unary) rather than the underlying continuation relation. The statement is testable on the closed inductive history structures (BHist/probes) without auxiliary axioms, so the formalization route is clean.
+
+---
+

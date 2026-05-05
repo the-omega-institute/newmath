@@ -522,100 +522,87 @@ $$
 Symmetry of the $\mathcal E$ morphism classifier, recorded in \autoref{def:category-stability-certificate}, reverses this comparison, and the right-hand side is the horizontal component by definition.
 \end{proof}
 
-\begin{theorem}[NatTrans horizontal-vertical interchange]
+\paragraph{Capstone.}
+
+\begin{theorem}[Horizontal-vertical interchange for natural transformations]
 \label{thm:nattrans-horizontal-vertical-interchange}
-Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $F,G,J:\mathcal C\to\mathcal D$ and $H,K,L:\mathcal D\to\mathcal E$ be $\FunctorUp$ certificates satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,J_0,H_0,K_0,L_0$ and morphism maps $F_1,G_1,J_1,H_1,K_1,L_1$. Let $\alpha:F\Rightarrow G$, $\alpha':G\Rightarrow J$, $\beta:H\Rightarrow K$, and $\beta':K\Rightarrow L$ be $\NatTransUp$ certificates satisfying \autoref{def:nattrans-certificate-obligations}. Then the two $\NatTransUp$ carriers
-
+Let $\mathcal C$, $\mathcal D$, and $\mathcal E$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $F,G,H:\mathcal C\to\mathcal D$ and $K,L,M:\mathcal D\to\mathcal E$ be certified $\FunctorUp$ carriers satisfying \autoref{def:functor-certificate-obligations}, with object maps $F_0,G_0,H_0,K_0,L_0,M_0$ and morphism maps $F_1,G_1,H_1,K_1,L_1,M_1$. Let $\alpha:F\Rightarrow G$, $\alpha':G\Rightarrow H$, $\beta:K\Rightarrow L$, and $\beta':L\Rightarrow M$ be certified $\NatTransUp$ carriers satisfying \autoref{def:nattrans-certificate-obligations}. Then the two natural transformations
 $$
-(\beta'\circ\beta)\diamond(\alpha'\circ\alpha)
+((\beta'\circ\beta)\diamond(\alpha'\circ\alpha)):K\circ F\Rightarrow M\circ H
 \qquad\text{and}\qquad
-(\beta'\diamond\alpha')\circ(\beta\diamond\alpha)
+((\beta'\diamond\alpha')\circ(\beta\diamond\alpha)):K\circ F\Rightarrow M\circ H
 $$
-
-from $H\circ F$ to $L\circ J$ have componentwise target morphism-classifier equal components. For every object $X$ of $\mathcal C$,
-
+are componentwise classified together by the morphism classifier of $\mathcal E$. For every object $X$ of $\mathcal C$,
 $$
 ((\beta'\circ\beta)\diamond(\alpha'\circ\alpha))_X
 \sim_{\mathcal E}
 ((\beta'\diamond\alpha')\circ(\beta\diamond\alpha))_X.
 $$
-
-Equivalently, after unfolding the component formulas, the comparison is
-
+Equivalently, after unfolding the component formulas, the classifier comparison at $X$ is
 $$
-(\beta'_{J_0(X)}\circ_{\mathcal E}\beta_{J_0(X)})\circ_{\mathcal E}H_1(\alpha'_X\circ_{\mathcal D}\alpha_X)
+(\beta'_{H_0(X)}\circ_{\mathcal E}\beta_{H_0(X)})\circ_{\mathcal E}K_1(\alpha'_X\circ_{\mathcal D}\alpha_X)
 \sim_{\mathcal E}
-(\beta'_{J_0(X)}\circ_{\mathcal E}K_1(\alpha'_X))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X)).
+(\beta'_{H_0(X)}\circ_{\mathcal E}L_1(\alpha'_X))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}K_1(\alpha_X)).
 $$
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:functor-composite-preservation-witnesses} to the relevant composable pairs among $F,G,J$ and $H,K,L$. This reads $H\circ F$, $K\circ G$, and $L\circ J$, together with the intermediate composite functors used below, as certified $\FunctorUp$ carriers with the displayed source and target categories.
+This result composes the vertical-composition block, the whiskering blocks, and the horizontal-composition block already present in this chapter; it is not a one-theorem restatement. The named blocks provide the certified carriers on both routes, while the comparison below identifies their components in the codomain classifier.
 
-Fix an object $X$ of $\mathcal C$. The vertical-composition row of \autoref{def:nattrans-stability-certificate}, in the form used by \autoref{thm:nattrans-vertical-composition-naturality}, gives
-
+The vertical-composition row of \autoref{def:nattrans-stability-certificate}, in the form used in \autoref{thm:nattrans-vertical-composition-naturality}, gives
 $$
 (\alpha'\circ\alpha)_X=\alpha'_X\circ_{\mathcal D}\alpha_X
 $$
 
 and
-
 $$
-(\beta'\circ\beta)_{J_0(X)}=\beta'_{J_0(X)}\circ_{\mathcal E}\beta_{J_0(X)}.
+(\beta'\circ\beta)_{H_0(X)}=\beta'_{H_0(X)}\circ_{\mathcal E}\beta_{H_0(X)}.
 $$
-
-Applying \autoref{thm:nattrans-horizontal-composition-certificate} to these vertical composites reads the component of $(\beta'\circ\beta)\diamond(\alpha'\circ\alpha)$ as the left displayed expression.
-
-Apply \autoref{thm:nattrans-horizontal-composition-certificate} separately to $(\beta,\alpha)$ and $(\beta',\alpha')$. Their horizontal components are
-
+Unfolding the horizontal-composition component formula of \autoref{def:nattrans-horizontal-composition-certificate-data} for these two vertical composites reads the first route as
 $$
-(\beta\diamond\alpha)_X=\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X)
+((\beta'\circ\beta)\diamond(\alpha'\circ\alpha))_X
+=
+(\beta'_{H_0(X)}\circ_{\mathcal E}\beta_{H_0(X)})\circ_{\mathcal E}K_1(\alpha'_X\circ_{\mathcal D}\alpha_X).
 $$
 
+Applying the same horizontal component formula before vertical composition gives
+$$
+(\beta\diamond\alpha)_X=\beta_{G_0(X)}\circ_{\mathcal E}K_1(\alpha_X)
+$$
 and
-
 $$
-(\beta'\diamond\alpha')_X=\beta'_{J_0(X)}\circ_{\mathcal E}K_1(\alpha'_X).
+(\beta'\diamond\alpha')_X=\beta'_{H_0(X)}\circ_{\mathcal E}L_1(\alpha'_X).
+$$
+The vertical-composition row then reads the second route as
+$$
+((\beta'\diamond\alpha')\circ(\beta\diamond\alpha))_X
+=
+(\beta'_{H_0(X)}\circ_{\mathcal E}L_1(\alpha'_X))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}K_1(\alpha_X)).
 $$
 
-The same vertical-composition row then reads the component of $(\beta'\diamond\alpha')\circ(\beta\diamond\alpha)$ as the right displayed expression.
-
-It remains to compare these two target morphisms. The composition-preservation witness for $H$, recorded in \autoref{def:functor-stability-certificate} and used by \autoref{thm:functor-composite-preservation-witnesses}, gives
-
+It remains to compare the displayed target morphisms. The composition-preservation row of the functor $K$, recorded in \autoref{def:functor-stability-certificate} and used by \autoref{thm:functor-composite-preservation-witnesses}, gives
 $$
-H_1(\alpha'_X\circ_{\mathcal D}\alpha_X)
+K_1(\alpha'_X\circ_{\mathcal D}\alpha_X)
 \sim_{\mathcal E}
-H_1(\alpha'_X)\circ_{\mathcal E}H_1(\alpha_X).
+K_1(\alpha'_X)\circ_{\mathcal E}K_1(\alpha_X).
+$$
+After this replacement, category associativity in $\mathcal E$ classifies the first route with
+$$
+(\beta'_{H_0(X)}\circ_{\mathcal E}(\beta_{H_0(X)}\circ_{\mathcal E}K_1(\alpha'_X)))\circ_{\mathcal E}K_1(\alpha_X).
 $$
 
-Composition congruence transports this inside the outer factor, and associativity in the target category classifies the left displayed expression with
-
+The carrier field of $\alpha'$ makes $\alpha'_X:G_0(X)\to H_0(X)$ a displayed morphism of $\mathcal D$. Naturality of $\beta:K\Rightarrow L$ at this component gives
 $$
-(\beta'_{J_0(X)}\circ_{\mathcal E}\beta_{J_0(X)})\circ_{\mathcal E}(H_1(\alpha'_X)\circ_{\mathcal E}H_1(\alpha_X)).
-$$
-
-Associativity under the $\mathcal E$ morphism classifier, listed in \autoref{def:category-stability-certificate}, rebrackets this expression so that the middle square is exposed:
-
-$$
-\beta'_{J_0(X)}\circ_{\mathcal E}((\beta_{J_0(X)}\circ_{\mathcal E}H_1(\alpha'_X))\circ_{\mathcal E}H_1(\alpha_X)).
-$$
-
-The carrier field of $\alpha'$ makes $\alpha'_X:G_0(X)\to J_0(X)$ a displayed morphism of $\mathcal D$. Naturality of $\beta:H\Rightarrow K$ at this displayed morphism gives
-
-$$
-K_1(\alpha'_X)\circ_{\mathcal E}\beta_{G_0(X)}
+\beta_{H_0(X)}\circ_{\mathcal E}K_1(\alpha'_X)
 \sim_{\mathcal E}
-\beta_{J_0(X)}\circ_{\mathcal E}H_1(\alpha'_X).
+L_1(\alpha'_X)\circ_{\mathcal E}\beta_{G_0(X)}.
 $$
-
-Using symmetry and composition congruence for the $\mathcal E$ classifier, this replaces the exposed middle square by $K_1(\alpha'_X)\circ_{\mathcal E}\beta_{G_0(X)}$. A final associativity pass classifies the result with
-
+Composition congruence transports this comparison inside the outer composite, and associativity in $\mathcal E$ classifies the result with
 $$
-(\beta'_{J_0(X)}\circ_{\mathcal E}K_1(\alpha'_X))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}H_1(\alpha_X)).
+(\beta'_{H_0(X)}\circ_{\mathcal E}L_1(\alpha'_X))\circ_{\mathcal E}(\beta_{G_0(X)}\circ_{\mathcal E}K_1(\alpha_X)).
 $$
+Symmetry is used where a displayed comparison is oriented opposite the transport direction, and transitivity of the same morphism classifier composes the chain.
 
-Transitivity of the same classifier composes the displayed comparisons.
-
-Since \autoref{def:nattrans-classifier-specification} relates $\NatTransUp$ carriers componentwise by the target morphism classifier, these objectwise comparisons are exactly the stated horizontal-vertical interchange comparison.
+Since \autoref{def:nattrans-classifier-specification} relates natural transformations componentwise by the target category morphism classifier, these component comparisons are exactly the $\NatTransUp$ classifier comparison between the vertical composite of horizontal composites and the horizontal composite of vertical composites.
 \end{proof}
 
 \begin{theorem}[Functor whiskering preserves vertical composition]
@@ -670,4 +657,51 @@ K_1(\beta_X\circ_{\mathcal D}\alpha_X)
 K_1(\beta_X)\circ_{\mathcal E}K_1(\alpha_X).
 $$
 Substituting the two component formulas above gives the displayed comparison between $(K_{\ast}(\beta\circ\alpha))_X$ and $((K_{\ast}\beta)\circ(K_{\ast}\alpha))_X$. The classifier specification of \autoref{def:nattrans-classifier-specification} compares natural transformations componentwise by the target morphism classifier, so these objectwise comparisons are exactly the componentwise classifier identity of the two carriers.
+\end{proof}
+
+\begin{theorem}[NatTrans prewhiskering preserves vertical composition]
+\label{thm:nattrans-prewhiskering-preserves-vertical-composition}
+Let $\mathcal B$, $\mathcal C$, and $\mathcal D$ be $\CategoryUp$ certificates satisfying \autoref{def:category-certificate-obligations}. Let $L:\mathcal B\to\mathcal C$ and $F,G,H:\mathcal C\to\mathcal D$ be $\FunctorUp$ certificates satisfying \autoref{def:functor-certificate-obligations}, with object maps $L_0,F_0,G_0,H_0$ and morphism maps $L_1,F_1,G_1,H_1$. Let $\alpha:F\Rightarrow G$ and $\beta:G\Rightarrow H$ satisfy the $\NatTransUp$ certificate obligations of \autoref{def:nattrans-certificate-obligations}, and let $\beta\circ\alpha$ be the vertical composite carrier supplied by \autoref{def:nattrans-stability-certificate}. Then the two natural transformation carriers
+$$
+(\beta\circ\alpha)\ast L:F\circ L\Rightarrow H\circ L
+\qquad\text{and}\qquad
+(\beta\ast L)\circ(\alpha\ast L):F\circ L\Rightarrow H\circ L
+$$
+are classified together by the $\NatTransUp$ component classifier. For every object $X$ of $\mathcal B$,
+$$
+((\beta\circ\alpha)\ast L)_X
+\sim_{\mathcal D}
+((\beta\ast L)\circ(\alpha\ast L))_X
+$$
+at the endpoint pair $F_0(L_0(X)),H_0(L_0(X))$. Equivalently, after unfolding the component clauses, both sides are read as the target-category component history
+$$
+\beta_{L_0(X)}\circ_{\mathcal D}\alpha_{L_0(X)}.
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:functor-composite-preservation-witnesses} to the pairs $(L,F)$, $(L,G)$, and $(L,H)$. This reads $F\circ L$, $G\circ L$, and $H\circ L$ as certified $\FunctorUp$ carriers from $\mathcal B$ to $\mathcal D$, with object maps $F_0(L_0(-))$, $G_0(L_0(-))$, and $H_0(L_0(-))$.
+
+The vertical-composition row of \autoref{def:nattrans-stability-certificate}, in the form used by \autoref{thm:nattrans-vertical-composition-naturality}, supplies a carrier $\gamma=\beta\circ\alpha:F\Rightarrow H$ with component
+$$
+\gamma_Y=\beta_Y\circ_{\mathcal D}\alpha_Y
+$$
+for every object $Y$ of $\mathcal C$. Applying \autoref{thm:nattrans-prewhiskering-by-functor-certificate} to $\gamma$ and $L$ gives a carrier $(\beta\circ\alpha)\ast L:F\circ L\Rightarrow H\circ L$ whose component at $X$ is
+$$
+((\beta\circ\alpha)\ast L)_X=\gamma_{L_0(X)}
+=\beta_{L_0(X)}\circ_{\mathcal D}\alpha_{L_0(X)}.
+$$
+
+Apply the same prewhiskering theorem separately to $\alpha$ and $\beta$. Their prewhiskered components are
+$$
+(\alpha\ast L)_X=\alpha_{L_0(X)},
+\qquad
+(\beta\ast L)_X=\beta_{L_0(X)}.
+$$
+These two carriers share the middle functor $G\circ L$, so vertical composition closure gives $(\beta\ast L)\circ(\alpha\ast L):F\circ L\Rightarrow H\circ L$ with component
+$$
+((\beta\ast L)\circ(\alpha\ast L))_X
+=\beta_{L_0(X)}\circ_{\mathcal D}\alpha_{L_0(X)}.
+$$
+
+The carrier fields of \autoref{def:nattrans-carrier} make $\alpha_{L_0(X)}$ and $\beta_{L_0(X)}$ composable displayed morphisms in $\mathcal D$, and the category stability field of \autoref{def:category-stability-certificate} gives reflexivity of the morphism classifier on their displayed composite. The componentwise classifier specification of \autoref{def:nattrans-classifier-specification} therefore classifies the two prewhiskering routes together at every object $X$.
 \end{proof}
