@@ -152,4 +152,21 @@ theorem MatrixSingletonAddFold_append_display_classifier_iff {xs ys : List BHist
     exact And.intro foldedCarrier
       (And.intro displayedCarrier MatrixSingletonAddFold_append_hsame)
 
+theorem MatrixSingletonAddFold_continuation_empty_result_spine_iff {xs : List BHist}
+    {y r : BHist} :
+    Cont (MatrixSingletonAddFold xs) y r ->
+      (hsame r BHist.Empty ↔ MatrixSingletonAddFoldSpineCarrier xs ∧ hsame y BHist.Empty) := by
+  intro continuation
+  constructor
+  · intro resultEmpty
+    have continuationEmpty :
+        Cont (MatrixSingletonAddFold xs) y BHist.Empty :=
+      cont_result_hsame_transport continuation resultEmpty
+    have parts := cont_empty_result_inversion continuationEmpty
+    exact And.intro (Iff.mp MatrixSingletonAddFold_carrier_iff parts.left) parts.right
+  · intro data
+    have foldEmpty : hsame (MatrixSingletonAddFold xs) BHist.Empty :=
+      Iff.mpr MatrixSingletonAddFold_carrier_iff data.left
+    exact cont_respects_hsame foldEmpty data.right continuation (cont_right_unit BHist.Empty)
+
 end BEDC.Derived.MatrixUp
