@@ -10302,3 +10302,28 @@ This is a concrete determinacy target for the existing PublicKeyUp surface: the 
 
 ---
 
+### B-394 - Matroid restriction certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Matroid restriction certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under a MatroidUp independent-set certificate over ground E and a FinSetUp subset K of E, the family of independent predicates contained in K satisfies the MatroidUp certificate rows over K.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/90_finset_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete certificate-construction implication inside the existing MatroidUp and FinSetUp surface. It is not covered by existing BOARD targets, and the current matroid paper content only gives intersection preservation of independence rather than the full restricted-certificate construction with inherited empty, hereditary, ground, finite, and exchange rows.
+
+---
+
