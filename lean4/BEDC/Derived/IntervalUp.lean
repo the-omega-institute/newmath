@@ -195,6 +195,17 @@ theorem IntervalClassifierSpec_symm {lower upper : BEDC.FKernel.Hist.BHist -> Pr
       | intro carrierK sameHK =>
           exact ⟨carrierK, carrierH, BEDC.FKernel.Hist.hsame_symm sameHK⟩
 
+theorem IntervalCarrier_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
+    BHist -> Prop} {h : BHist}
+    (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
+    (upperMap : forall x : BHist, upperInner x -> upperOuter x) :
+    IntervalCarrier lowerInner upperInner h ->
+      UnaryHistory h ∧ IntervalCarrier lowerOuter upperOuter h := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.left
+      (And.intro (lowerMap h carrier.right.left) (upperMap h carrier.right.right)))
+
 theorem IntervalClassifierSpec_boundary_weakening {lowerOuter lowerInner upperOuter upperInner :
     BHist -> Prop} {h k : BHist}
     (lowerMap : forall x : BHist, lowerInner x -> lowerOuter x)
