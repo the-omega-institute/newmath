@@ -279,6 +279,7 @@ import BEDC.Derived.MonoidUp
 import BEDC.Derived.MatchingUp
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.PublicKeyUp
+import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
