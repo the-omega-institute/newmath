@@ -476,6 +476,7 @@ import BEDC.Derived.MatrixUp.PositiveSuffix
 import BEDC.Derived.MatrixUp.VisibleBaseCarrier
 import BEDC.Derived.MatrixUp.VisibleCarrier
 import BEDC.Derived.MatrixUp.NestedAppendTarget
+import BEDC.Derived.MatrixUp.SemanticCertificate
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.EigenUp
 import BEDC.Derived.PolynomialUp
