@@ -83,6 +83,30 @@ theorem AbelianCatAdditiveCarrier_classifier_transport
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right)))
 
+theorem AbelianCatAdditiveCarrier_factor_unary_closure
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      UnaryHistory factor ∧ hsame factor (append kernel cokernel) := by
+  intro carrier
+  exact And.intro carrier.right.right.right.right.left carrier.right.right.right.right.right.right
+
+theorem AbelianCatAdditiveCarrier_factor_append_readback
+    {source target zero add kernel cokernel factor : BHist} :
+    AbelianCatAdditiveCarrier source target zero add kernel cokernel factor ->
+      hsame factor (append (append zero add) cokernel) ∧
+        Cont (append zero add) cokernel factor ∧ UnaryHistory factor := by
+  intro carrier
+  have factorUnary : UnaryHistory factor := carrier.right.right.right.right.left
+  have kernelRow : Cont zero add kernel := carrier.right.right.right.right.right.left
+  have factorRow : Cont kernel cokernel factor := carrier.right.right.right.right.right.right
+  have factorAppend : hsame factor (append (append zero add) cokernel) := by
+    cases kernelRow
+    exact factorRow
+  have composedRow : Cont (append zero add) cokernel factor := by
+    cases kernelRow
+    exact factorRow
+  exact And.intro factorAppend (And.intro composedRow factorUnary)
+
 theorem AbelianCatKernelCokernel_visible_factorization
     {f kerObj cokObj imageObj coimageObj comparison recomposed : BHist} :
     hsame f BHist.Empty -> Cont BHist.Empty f kerObj -> Cont f BHist.Empty cokObj ->
