@@ -155,6 +155,26 @@ def RealAnalyticLog (x logValue : BHist) (bisect M : BHist -> BHist) : Prop :=
     ComplexLimit bisect (fun _ : BHist => BHist.Empty) logValue M ∧
       forall {n : BHist}, UnaryHistory n -> UnaryHistory (bisect n)
 
+theorem RealAnalyticLog_hsame_transport_value_unary {x x' logValue logValue' : BHist}
+    {bisect bisect' M : BHist -> BHist} :
+    hsame x x' -> hsame logValue logValue' ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (bisect n) (bisect' n)) ->
+        RealAnalyticLog x logValue bisect M ->
+          RealAnalyticLog x' logValue' bisect' M ∧ UnaryHistory logValue' := by
+  intro sameX sameLogValue sameBisect logData
+  have xCarrier' : ComplexHistoryCarrier x' :=
+    ComplexHistoryLedgerPolicy_visible_carrier (And.intro logData.left sameX)
+  have limitBisect' : ComplexLimit bisect' (fun _ : BHist => BHist.Empty) logValue M :=
+    ComplexLimit_sequence_hsame_transport sameBisect logData.right.left
+  have limitValue' : ComplexLimit bisect' (fun _ : BHist => BHist.Empty) logValue' M :=
+    ComplexLimit_hsame_transport sameLogValue limitBisect'
+  have bisectUnary' : forall {n : BHist}, UnaryHistory n -> UnaryHistory (bisect' n) := by
+    intro n unaryN
+    exact unary_transport (logData.right.right unaryN) (sameBisect unaryN)
+  exact And.intro
+    (And.intro xCarrier' (And.intro limitValue' bisectUnary'))
+    (ComplexHistoryCarrier_unary limitValue'.right.left)
+
 def RealAnalyticExp (x bound modulus y : BHist) : Prop :=
   ComplexHistoryCarrier x ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
     exists n S : BHist, UnaryHistory n ∧ RealAnalyticExpPart x n S ∧ Cont S modulus y

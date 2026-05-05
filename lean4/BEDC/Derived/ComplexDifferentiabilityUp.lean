@@ -21,6 +21,10 @@ def PartialImag (u z q : BHist) : Prop :=
 def CplxDiffClassifierSpec (f z fp g w gp : BHist) : Prop :=
   CplxDiffAt f z fp ∧ CplxDiffAt g w gp ∧ hsame f g ∧ hsame z w ∧ hsame fp gp
 
+def CplxDiffSourceSpec (f z fp : BHist) : Prop :=
+  CplxDiffAt f z fp ∧
+    ∃ h : BHist, ∃ q : BHist, CplxDiffQuot f z h q ∧ Cont f h q ∧ hsame q fp
+
 theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
     CplxDiffAt f z fp ->
       exists h : BHist, exists q : BHist,
@@ -56,6 +60,19 @@ theorem CplxDiffAt_witness_step_nonzero {f z fp : BHist} :
                                               (And.intro stepNonzero
                                                   (And.intro rebuilt
                                                     (And.intro ledger (classifier rebuilt)))))
+
+theorem CplxDiffSourceSpec_of_diff {f z fp : BHist} :
+    CplxDiffAt f z fp -> CplxDiffSourceSpec f z fp := by
+  intro diff
+  cases CplxDiffAt_witness_step_nonzero diff with
+  | intro h witness =>
+      cases witness with
+      | intro q data =>
+          exact And.intro diff
+            (Exists.intro h
+              (Exists.intro q
+                (And.intro data.right.left
+                  (And.intro data.right.right.left data.right.right.right))))
 
 theorem CplxDiffAt_witness_nonzero_unary_step {f z fp : BHist} :
     CplxDiffAt f z fp -> ∃ h : BHist, ∃ q : BHist,
