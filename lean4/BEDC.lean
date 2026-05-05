@@ -171,6 +171,7 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
+import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
