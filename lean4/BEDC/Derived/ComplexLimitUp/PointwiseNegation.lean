@@ -7,6 +7,9 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.ComplexUp
 
+def ComplexPointwiseNegation (s : BHist -> BHist) (n : BHist) : BHist :=
+  append BHist.Empty (s n)
+
 theorem ComplexLimit_pointwise_negation {s N M : BHist -> BHist} {z : BHist} :
     ComplexLimit s N z M ->
       ComplexLimit (fun n : BHist => append BHist.Empty (s n)) N
