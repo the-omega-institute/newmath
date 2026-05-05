@@ -21,4 +21,17 @@ theorem NatPrime_successor_tail_nonempty {p : BHist} :
           cases tailEmpty
           exact NatPrime_unit_absurd prime⟩
 
+theorem NatPrime_strict_unit_successor_shape {p : BHist} :
+    NatPrime p -> ∃ tail : BHist, hsame p (BHist.e1 (BHist.e1 tail)) ∧
+      UnaryHistory tail := by
+  intro prime
+  have successor := NatPrime_successor_tail_nonempty prime
+  cases successor with
+  | intro firstTail firstData =>
+      have strictTail := unary_history_nonempty_e1_tail firstData.2.1 firstData.2.2
+      cases strictTail with
+      | intro tail tailData =>
+          cases tailData.1
+          exact ⟨tail, firstData.1, tailData.2⟩
+
 end BEDC.Derived.PrimeUp

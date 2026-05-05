@@ -93,3 +93,19 @@ $t\hsame\emp$, the original prime witness becomes a prime witness for the unit,
 contradicting the unit non-primality theorem above.
 \end{proof}
 \leanchecked{BEDC.Derived.PrimeUp.NatPrime\_successor\_tail\_nonempty}
+
+\begin{theorem}[Prime strict unit successor shape]
+\label{thm:nat-prime-strict-unit-successor-shape}
+If $\mathsf{NatPrime}(p)$ holds, then $p$ has a two-step successor shape:
+$$
+\exists t:\mathsf{BHist}.\;
+\hsame(p,\Eone(\Eone(t)))\ \wedge\ \mathsf{UnaryHistory}(t).
+$$
+\end{theorem}
+\begin{proof}
+The prime successor-tail theorem writes \(p\) as \(\Eone(t_0)\) with a unary
+tail \(t_0\) that is not classified as empty. Unary nonempty shape inversion
+therefore writes \(t_0\) as \(\Eone(t)\) with unary tail \(t\), giving the
+displayed strict unit-successor shape.
+\end{proof}
+\leanchecked{BEDC.Derived.PrimeUp.NatPrime\_strict\_unit\_successor\_shape}
