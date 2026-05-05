@@ -174,6 +174,37 @@ witness with that displayed equation is the required conjunction.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_empty\_distance\_continuation\_witness\_depth}
 
+\begin{theorem}[Metric visible-context empty-distance two-sided endpoint witness transport]
+\label{thm:metric-visible-context-empty-distance-two-sided-endpoint-witness-transport}
+For histories $p,q,x,y,l,r,m,n,o:\mathsf{BHist}$, suppose
+$$
+\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot\emp)\cdot q)
+$$
+holds together with $\mathsf{UnaryHistory}(l)$, $\mathsf{UnaryHistory}(r)$,
+$\ContR(l,x,m)$, $\ContR(y,r,n)$, and $\ContR(l,r,o)$. Then the two reduced
+endpoint continuations carry the same metric distance witness:
+$$
+\mathsf{MetricDistanceWitness}(m,n,o).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-visible-context-empty-distance-endpoint-continuation-units}
+to the visible-context empty-distance witness and the two endpoint continuation
+ledgers. This gives $\hsame(m,l)$ and $\hsame(n,r)$.
+
+The unary endpoint hypotheses for $l$ and $r$, together with the direct
+continuation ledger $\ContR(l,r,o)$, build the concrete direct metric witness
+$\mathsf{MetricDistanceWitness}(l,r,o)$.
+
+Now use
+\autoref{thm:metric-distance-witness-hsame-fields-transport}. Transport the
+first endpoint along the symmetry of $\hsame(m,l)$, the second endpoint along
+the symmetry of $\hsame(n,r)$, and the result endpoint along reflexivity of
+$\hsame(o,o)$. The continuation ledger transports with the same three
+relations, so the transported fields package as
+$\mathsf{MetricDistanceWitness}(m,n,o)$.
+\end{proof}
+
 The ten-field fit is: traditional target visible-context zero-distance splice;
 BEDC source $\mathsf{MetricDistanceWitness}$ plus $\ContR$; carrier
 $\mathsf{MetricDistanceWitness}$; classifier $\hsame$; stability obligations
