@@ -559,6 +559,13 @@ theorem MetricDistanceWitness_right_e1_visible_source_exactness {x y d x1 : BHis
     MetricDistanceWitness_right_e1_result_exactness witness
   cases sameSource
   exact tailWitness
+theorem MetricDistanceWitness_left_e1_result_depth_add {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) y (BHist.e1 d) ->
+      MetricDistanceDepth d = MetricDistanceDepth x + MetricDistanceDepth y := by
+  intro witness
+  exact Nat.succ.inj ((MetricDistanceWitness_depth_add witness).trans
+    (Nat.succ_add (MetricDistanceDepth x) (MetricDistanceDepth y)))
+
 theorem MetricDistanceWitness_right_e1_empty_source_exactness {y d : BHist} :
     MetricDistanceWitness BHist.Empty (BHist.e1 y) (BHist.e1 d) ->
       UnaryHistory y ∧ hsame d y := by
