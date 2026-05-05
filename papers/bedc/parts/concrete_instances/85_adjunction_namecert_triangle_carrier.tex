@@ -102,3 +102,23 @@ the two endpoint prefixes.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_empty\_component\_prefix\_readback}
 
+\begin{theorem}[Adjunction triangle roundtrip total collapse]
+\label{thm:adjunction-triangle-roundtrip-total-collapse}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, every adjunction triangle carrier has empty displayed components,
+empty roundtrip legs, and equal endpoint prefixes:
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\Longrightarrow
+\hsame(unit,\emp)\land\hsame(counit,\emp)\land
+\hsame(leftLeg,\emp)\land\hsame(rightLeg,\emp)\land\hsame(left,right).
+$$
+\end{theorem}
+\begin{proof}
+Apply the prefix unit-counit composite empty theorem to the $unit$ followed
+by $counit$ and again in the reverse order. These two applications make both
+roundtrip legs $\hsame$ to $\emp$. The roundtrip empty component-prefix
+readback theorem then recovers empty $unit$ and $counit$ components and the
+endpoint prefix equality.
+\end{proof}
+\leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_total\_collapse}

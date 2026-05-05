@@ -29,4 +29,32 @@ theorem LinearMapSingletonEval_context_continuation_append_result_carrier_iff
       cont_result_hsame_transport continuation resultCarrier
     exact (cont_empty_result_inversion emptyContinuation).right
 
+theorem LinearMapSingletonClassifier_continuation_append_source_append_result_iff
+    {p q r s t h : BHist} :
+    Cont (append p q) r (append s t) ->
+      (LinearMapSingletonClassifier (append s t) h <->
+        LinearMapSingletonCarrier p /\ LinearMapSingletonCarrier q /\
+          LinearMapSingletonCarrier r /\ LinearMapSingletonCarrier s /\
+            LinearMapSingletonCarrier t /\ LinearMapSingletonCarrier h) := by
+  intro continuation
+  constructor
+  · intro classified
+    have sourceData :=
+      (LinearMapSingletonClassifier_continuation_append_source_classifier_iff
+        (p := p) (q := q) (r := r) (h := append s t) (t := h) continuation).mp
+        classified
+    have resultParts := append_eq_empty_iff.mp classified.left
+    exact And.intro sourceData.left
+      (And.intro sourceData.right.left
+        (And.intro sourceData.right.right.left
+          (And.intro resultParts.left
+            (And.intro resultParts.right sourceData.right.right.right))))
+  · intro carriers
+    exact
+      (LinearMapSingletonClassifier_continuation_append_source_classifier_iff
+        (p := p) (q := q) (r := r) (h := append s t) (t := h) continuation).mpr
+        (And.intro carriers.left
+          (And.intro carriers.right.left
+            (And.intro carriers.right.right.left carriers.right.right.right.right.right)))
+
 end BEDC.Derived.LinearMapUp
