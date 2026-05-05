@@ -146,6 +146,27 @@ depth-add equation reduces the claim to left cancellation for addition in
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_append\_left\_cancel}
 
+\begin{theorem}[Metric distance depth visible-context cancellation]
+\label{thm:metric-distance-depth-visible-context-cancel}
+For histories $p,q,d,e:\mathsf{BHist}$, equality of structural depths after a
+common visible prefix and suffix cancels both contexts:
+$$
+\mathsf{MetricDistanceDepth}((p\cdot d)\cdot q)
+=
+\mathsf{MetricDistanceDepth}((p\cdot e)\cdot q)
+\Longrightarrow
+\mathsf{MetricDistanceDepth}(d)=\mathsf{MetricDistanceDepth}(e).
+$$
+\end{theorem}
+\begin{proof}
+Induct on the visible suffix $q$. The empty suffix is exactly
+\autoref{thm:metric-distance-depth-append-left-cancel}. In the two visible
+constructor cases, both displayed depths have a common successor head, so
+successor injectivity removes the suffix constructor and the induction
+hypothesis cancels the remaining visible context.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricUp.MetricDistanceDepth\_visible\_context\_cancel}
+
 \begin{theorem}[Metric distance depth append-right equality emptiness]
 \label{thm:metric-distance-depth-append-right-eq-iff-empty}
 For histories $p$ and $d$, appending $p$ on the right preserves structural

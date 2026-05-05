@@ -6081,3 +6081,82 @@ The complex-limit certificate has pointwise sum and scalar-multiplication carrie
 
 ---
 
+### B-235 - Lattice operation monotonicity from directional bounds
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Lattice operation monotonicity from directional bounds |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under the LatticeUp directional bound setup, if $a\le_C a'$ then $a\wedge c\le_C a'\wedge c$ and $c\wedge a\le_C c\wedge a'$, and if $b\le_C b'$ then $b\vee c\le_C b'\vee c$ and $c\vee b\le_C c\vee b'$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/30_lattice_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/28_poset_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/27_preorder_namecert_construction.tex`
+
+Rationale:
+Monotonicity is the missing structural law in the lattice directional-bound family on BOARD. Existing entries cover idempotence/absorption (B-07), commutativity (B-25), associativity (B-26), opposite absorption (B-27), and bound uniqueness (B-29), but none state that meet and join are order-preserving in their arguments. Following the BOARD precedent set by B-25/B-26/B-27 (one entry per law family, covering both meet and join), the two codex sub-claims are consolidated into a single monotonicity entry covering all four argument slots. The proof reuses the same directional GLB/LUB and inherited preorder transitivity ingredients already invoked by B-26, so it lands cleanly in chapter 30.
+
+---
+
+### B-236 - NatTrans prewhiskering by a functor yields a natural transformation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | NatTrans prewhiskering by a functor yields a natural transformation |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If $\alpha:F\Rightarrow G$ is a $\NatTransUp$ certificate over $\mathcal C\to\mathcal D$ and $K:\mathcal B\to\mathcal C$ is a $\FunctorUp$ certificate, then $\alpha\ast K:F\circ K\Rightarrow G\circ K$ is a $\NatTransUp$ carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+Chapter 38 (nattrans) is currently 100% definitions / 0 theorems, exactly the structural gap B-14 already identified. The paper carries `def:functor-whiskered-nattrans-certificate-data` as a definition site, but no theorem upgrades the whiskered data to a NatTransUp carrier. Prewhiskering is the most elementary categorical operation on natural transformations beyond plain vertical composition — it is strictly weaker than horizontal composition (the other accepted candidate) and uses only the source FunctorUp certificate's morphism action. Distinct from B-14 (vertical β∘α along a shared middle functor) and from B-11 (functor composition's hom-carrier classifier), so no BOARD overlap. A natural standalone target for the loop because the proof obligation reduces to chasing the naturality square along $K(f)$ for $f$ in $\mathcal B$, exposing exactly which FunctorUp fields the NatTransUp certificate transports through.
+
+---
+
+
+### B-237 - Horizontal composition of natural transformations
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | Horizontal composition of natural transformations |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If $\alpha:F\Rightarrow G$ between $\mathcal C\to\mathcal D$ and $\beta:H\Rightarrow K$ between $\mathcal D\to\mathcal E$ are composable $\NatTransUp$ certificates, then the component family $\beta_{G(X)}\circ H_1(\alpha_X)$ forms a $\NatTransUp$ carrier $H\circ F\Rightarrow K\circ G$.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/38_nattrans_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/37_functor_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/36_category_namecert_construction.tex`
+
+Rationale:
+B-14 covers the vertical composite $\beta\circ\alpha$ along a shared middle functor $G$; horizontal composition has different source/target functors and a fundamentally different naturality square (it depends on both functor's morphism actions, plus the interchange equality $\beta_{G(X)}\circ H_1(\alpha_X) = K_1(\alpha_X)\circ\beta_{F(X)}$). Independent of the accepted prewhiskering target: horizontal composition is the symmetric general case, prewhiskering is the special case where $\beta$ is the identity on a functor. Sits in the same 0-theorem chapter as B-14, addressing a different proof obligation. The claim is stated as a single implication on certificate data and is squarely in concrete_instances scope; not present in paper_coverage (no `\label{thm:nattrans-horizontal-...}` or similar exists).
+
+---
+
