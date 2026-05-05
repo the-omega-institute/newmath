@@ -213,3 +213,66 @@ Ten-field fit: traditional target commutation of source restriction with visible
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_source\_restriction\_terminal\_modulus\_commutes}
 \leanchecked{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_visible\_empty\_source\_restriction\_terminal\_modulus\_commutes}
+
+\begin{theorem}[Uniform continuity visible restriction commutes with modulus chains]
+\label{thm:uniform-continuity-visible-restriction-modulus-chain-commutes}
+Let
+$$
+p,q,\mathit{restricted},\mathit{source},\mathit{map},\mathit{target},\mathit{target}',\mathit{oldMod},\mathit{oldCert},\delta_1,\delta_2,\delta,\mathit{cert},\mathit{cert}' : \mathsf{BHist}
+$$
+be histories. Assume the source restriction ledger
+$$
+\ContR(\mathit{restricted},\emp,\mathit{source}),
+$$
+the visible continuous-function carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{source},\mathit{map},p\cdot \mathit{target},
+\mathit{oldMod}\cdot q,(p\cdot \mathit{oldCert})\cdot q),
+$$
+the two-link modulus chain
+$$
+\mathsf{ContinuousModulusChain}(\mathit{target},\delta_1,\delta_2,\mathit{cert}),
+$$
+the composite modulus ledger
+$$
+\ContR(\delta_1,\delta_2,\delta),
+$$
+and a displayed restricted carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{restricted},\mathit{map},p\cdot \mathit{target}',
+\delta\cdot q,(p\cdot \mathit{cert}')\cdot q).
+$$
+Then the canonical visible restricted carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{restricted},\mathit{map},p\cdot \mathit{target},
+\delta\cdot q,(p\cdot \mathit{cert})\cdot q),
+$$
+the central witness
+$$
+\mathsf{ContinuousModulusWitness}(\mathit{target},\delta,\mathit{cert}),
+$$
+and the readback
+$$
+\hsame(\mathit{target},\mathit{target}')\land\hsame(\mathit{cert},\mathit{cert}')
+$$
+hold.
+\end{theorem}
+\begin{proof}
+Peel the displayed visible carrier by Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}. This exposes the central carrier over $(\mathit{source},\mathit{map},\mathit{target},\mathit{oldMod},\mathit{oldCert})$ while retaining the same visible prefix $p$ and suffix $q$.
+
+Apply the checked central chain theorem recorded above, namely $\mathsf{BEDC.Derived.ContinuousUp.ContinuousFunctionCarrier\_empty\_source\_restriction\_modulus\_chain}$, to the exposed carrier, the source restriction ledger, the displayed modulus chain, and the composite ledger $\ContR(\delta_1,\delta_2,\delta)$. It yields the central restricted carrier
+$$
+\mathsf{ContinuousFunctionCarrier}(\mathit{restricted},\mathit{map},\mathit{target},\delta,\mathit{cert})
+$$
+and the witness $\mathsf{ContinuousModulusWitness}(\mathit{target},\delta,\mathit{cert})$.
+
+Reattach the visible prefix and suffix with the reverse direction of Theorem~\ref{thm:continuous-function-carrier-visible-modulus-context-iff}. The resulting public carrier is exactly
+$$
+\mathsf{ContinuousFunctionCarrier}(p\cdot \mathit{restricted},\mathit{map},p\cdot \mathit{target},
+\delta\cdot q,(p\cdot \mathit{cert})\cdot q).
+$$
+
+It remains to compare this canonical carrier with the displayed restricted carrier. The visible-context target-certificate determinacy theorem applies to the two carriers with the same visible source, graph, modulus, prefix, and suffix data, so it returns $\hsame(\mathit{target},\mathit{target}')\land\hsame(\mathit{cert},\mathit{cert}')$.
+
+Ten-field fit: traditional target commutation of visible source restriction with finite modulus-chain normalization; BEDC source $\mathsf{BHist}$ with $\ContR$, visible contexts, and $\mathsf{ContinuousModulusChain}$; carrier visible $\mathsf{ContinuousFunctionCarrier}$ with restricted source; classifier $\hsame$ on target and certificate histories; stability central chain witness plus visible-context transport; ledger composite modulus $\delta$ with unchanged graph ledger; core theorem this visible chain replacement law; exactness target-certificate readback against any displayed restricted carrier; standard bridge visible uniformly continuous restriction under modulus-chain normalization; status ProofTarget.
+\end{proof}
