@@ -36,7 +36,10 @@ The certificate fit has ten fields:
   same empty-history endpoint.
   \item Core theorem list:
   Theorems~\ref{thm:fieldext-singleton-embedding-laws},
-  \ref{thm:fieldext-singleton-vector-space-compatibility}, and
+  \ref{thm:fieldext-singleton-vector-space-compatibility},
+  \ref{thm:fieldext-singleton-carrier-coincidence},
+  \ref{thm:fieldext-singleton-identity-tower-composition},
+  \ref{thm:fieldext-singleton-exact-endpoint-ledger}, and
   \ref{thm:fieldext-singleton-namecert-obligations}.
   \item Exactness predicate: singleton endpoint collapse.
   \item Standard bridge: the terminal field extension.
@@ -111,6 +114,116 @@ empty-history endpoint, the classifier $\rho_{\emp}$ relates the scalar-action
 endpoint to the extension-field multiplication endpoint. This gives the
 compatibility of embedded scalar multiplication with the singleton extension
 field product.
+\end{proof}
+
+\begin{definition}[Singleton field-extension ledger policy]
+\label{def:fieldext-singleton-ledger-policy}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, the endpoint ledger
+records exactly the base carrier $A_{\emp}$, the extension carrier $A_{\emp}$,
+the vector carrier $A_{\emp}$, the identity embedding
+$\iota_{\emp}(h):=h$, the singleton field operations on the base and extension
+fields, the singleton vector action over the base field, and empty-history
+endpoint provenance for each displayed row.
+
+The ledger classifier attached to every carrier, embedding, field-operation,
+and vector-action endpoint is the concrete classifier
+$$
+\rho_{\emp}(h,k):=
+A_{\emp}(h)\land A_{\emp}(k)\land\hsame(h,k).
+$$
+No additional endpoint object is recorded by the singleton field-extension
+certificate.
+\end{definition}
+
+\begin{theorem}[Singleton field-extension carrier coincidence]
+\label{thm:fieldext-singleton-carrier-coincidence}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier} and the ledger policy
+of Definition~\ref{def:fieldext-singleton-ledger-policy}, the base field
+carrier, extension field carrier, and vector carrier are all $A_{\emp}$. The
+embedding $\iota_{\emp}$ preserves and reflects carrier membership:
+$$
+A_{\emp}(h)
+\quad\text{if and only if}\quad
+A_{\emp}(\iota_{\emp}(h)).
+$$
+Every displayed classifier in the field-extension certificate is the concrete
+$\rho_{\emp}$ classifier.
+\end{theorem}
+\begin{proof}
+Unfold the concrete carrier definition and the ledger policy. The three carrier
+slots are all assigned the same singleton predicate $A_{\emp}$, so the carrier
+coincidence is definitional.
+
+The embedding is the identity on histories. Hence preserving and reflecting
+carrier membership both reduce to the same assertion $A_{\emp}(h)$.
+
+The classifier rows are the rows already used by
+Theorem~\ref{thm:fieldext-singleton-embedding-laws} and
+Theorem~\ref{thm:fieldext-singleton-vector-space-compatibility}. Each row is
+displayed with the same concrete predicate $\rho_{\emp}$, so no transport across
+distinct classifiers is required.
+\end{proof}
+
+\begin{theorem}[Singleton identity field-extension tower composition]
+\label{thm:fieldext-singleton-identity-tower-composition}
+Compose two copies of the singleton field-extension certificate of
+Definition~\ref{def:fieldext-singleton-embedding-carrier}, both governed by the
+ledger policy of Definition~\ref{def:fieldext-singleton-ledger-policy}. The
+composite tower again has base carrier $A_{\emp}$, middle carrier $A_{\emp}$,
+top carrier $A_{\emp}$, identity composite embedding
+$\iota_{\emp}\circ\iota_{\emp}=\iota_{\emp}$, singleton field-operation rows,
+and the same singleton vector-space-over-base scalar action. All embedding and
+scalar-action rows in the composite tower are classified by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+The embedding part follows from
+Theorem~\ref{thm:fieldext-singleton-embedding-laws}. Since both embeddings are
+the identity on $\mathsf{BHist}$, their composite is again the identity
+embedding $\iota_{\emp}$.
+
+The field-operation rows in the base, middle, and top fields collapse to the
+same singleton endpoint by
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. Thus tower
+composition introduces no field endpoint beyond the empty-history endpoint.
+
+The scalar-action rows are supplied by
+Theorem~\ref{thm:fieldext-singleton-vector-space-compatibility}. The endpoint
+collapse for the singleton vector action is exactly
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}, so the
+composite tower keeps the same $\rho_{\emp}$ classifier on its action rows.
+\end{proof}
+
+\begin{theorem}[Singleton field-extension exact endpoint ledger]
+\label{thm:fieldext-singleton-exact-endpoint-ledger}
+For the concrete data of
+Definition~\ref{def:fieldext-singleton-embedding-carrier} and the ledger policy
+of Definition~\ref{def:fieldext-singleton-ledger-policy}, every embedding
+endpoint, every extension-field operation endpoint, and every
+vector-space-over-base action endpoint recorded in the ledger collapses to the
+empty history $\emp$ and is classified by $\rho_{\emp}$.
+\end{theorem}
+\begin{proof}
+For embedding endpoints, apply
+Theorem~\ref{thm:fieldext-singleton-embedding-laws}. The embedding is the
+identity, so the only carried endpoint is the same singleton history already
+classified by $\rho_{\emp}$.
+
+For extension-field operation endpoints, apply
+Theorem~\ref{thm:field-singleton-concrete-operation-table-collapse}. The zero,
+one, addition, negation, multiplication, and proof-indexed inverse rows all
+collapse to $\emp$ in the singleton field table.
+
+For vector-space-over-base action endpoints, use
+Theorem~\ref{thm:fieldext-singleton-vector-space-compatibility} together with
+Theorem~\ref{thm:singleton-empty-history-vecspace-endpoint-collapse}. The
+scalar action collapses to the same empty-history endpoint as the compatible
+extension-field multiplication row.
+
+The ledger policy records no further endpoint kind. Therefore every recorded
+endpoint row in the singleton field-extension certificate is exact at $\emp$
+and classified by $\rho_{\emp}$.
 \end{proof}
 
 \begin{theorem}[Singleton field-extension NameCert obligations]
