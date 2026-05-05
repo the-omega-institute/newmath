@@ -193,8 +193,15 @@ def poll_result(
     while time.time() - start < timeout:
         try:
             data = http_get(f"{server_url}/result/{task_id}", timeout=10)
-            if data.get("status") == "completed":
+            status = data.get("status")
+            if status == "completed":
                 return data.get("response", "")
+            if status in {"cancelled", "failed", "error"}:
+                print(
+                    f"[wait:{task_id}] task ended with status={status}",
+                    flush=True,
+                )
+                return ""
         except Exception:
             pass
         now = time.time()
