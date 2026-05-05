@@ -6,12 +6,18 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+open BEDC.Derived.ComplexLimitUp
 open BEDC.Derived.DirichletSeriesUp
 
 def ZetaBasicUnitTerm (_n s : BHist) : BHist := BHist.e1 s
 
 def ZetaBasicPartSum (s n z : BHist) : Prop :=
   DirichletPartSum ZetaBasicUnitTerm s n z
+
+def ZetaBasic (s z : BHist) : Prop :=
+  exists ps : BHist -> BHist, exists N : BHist -> BHist, exists M : BHist -> BHist,
+    (forall n : BHist, UnaryHistory n -> ZetaBasicPartSum s n (ps n)) ∧
+      ComplexLimit ps N z M
 
 theorem ZetaBasicPartSum_unary_result {s n z : BHist} :
     UnaryHistory s -> UnaryHistory n -> ZetaBasicPartSum s n z -> UnaryHistory z := by
@@ -184,5 +190,43 @@ theorem ZetaBasicPartSum_successor_source_result_nonempty_transport {s t n z : B
             (And.intro targetSum
               (And.intro stepData.right.right
                 (ZetaBasicPartSum_successor_result_nonempty targetSum)))
+
+theorem ZetaBasic_semanticNameCert {s z : BHist} :
+    ZetaBasic s z ->
+      SemanticNameCert (ZetaBasic s) (ZetaBasic s) (ZetaBasic s) hsame := by
+  intro basic
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro z basic
+      equiv_refl := by
+        intro result _source
+        exact hsame_refl result
+      equiv_symm := by
+        intro result result' sameResult
+        exact hsame_symm sameResult
+      equiv_trans := by
+        intro result result' result'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro result result' sameResult source
+        cases source with
+        | intro ps sourceRest =>
+            cases sourceRest with
+            | intro N sourceRest =>
+                cases sourceRest with
+                | intro M sourceData =>
+                    exact Exists.intro ps
+                      (Exists.intro N
+                        (Exists.intro M
+                          (And.intro sourceData.left
+                            (ComplexLimit_hsame_transport sameResult sourceData.right))))
+    }
+    pattern_sound := by
+      intro _result source
+      exact source
+    ledger_sound := by
+      intro _result source
+      exact source
+  }
 
 end BEDC.Derived.ZetaBasicUp
