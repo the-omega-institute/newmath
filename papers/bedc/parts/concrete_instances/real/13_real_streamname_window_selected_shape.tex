@@ -562,6 +562,7 @@ $\hsame(v,v')$, $\hsame(u',v)$, and $\hsame(u,v')$. Repack these rows under the
 universal clause and then package the chosen $u$ and $v$ as the displayed
 canonical selected-tail witnesses.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealUnaryStreamWindowClassifier\_selected\_canonical\_e1\_tail\_witness}
 
 Fit. Traditional target: canonical finite rational observation tail. BEDC
 source: $\StreamNameUp$ plus $\RealUp$ plus $\RatUp$ plus $\mathsf{FKernel}$
@@ -575,8 +576,8 @@ theorem:
 Exactness: existence plus uniqueness up to $\hsame$. Standard bridge: finite
 rational observation windows for RegSeqRat. Status: $\mathsf{ProofTarget}$.
 
-\begin{theorem}[Real unary StreamNameUp finite-window selected canonical full endpoint package]
-\label{thm:real-unary-streamname-finite-window-selected-canonical-full-endpoint-package}
+\begin{theorem}[Real unary StreamNameUp finite-window selected canonical e-one tail full package]
+\label{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-full-package}
 For observation maps $s,t:\Hist\to\Hist$ and histories
 $\alpha,\omega,k,z_s,z_t,d_s,d_t:\Hist$, assume
 $$
@@ -589,13 +590,12 @@ $$
 \mathsf{UnaryHistory}(\omega),\quad
 \mathsf{UnaryOffsetLe}(k,\omega).
 $$
-Then there exist histories $u,v:\Hist$ such that the selected endpoints have
-canonical e-one tail displays, the full selected endpoint package holds for
-those same witnesses, and every other selected e-one display is coherent with
-them:
+Then there exist histories $u,v:\Hist$ such that the selected endpoints carry
+the complete displayed e-one certificate and every other selected e-one display
+is coherent with those witnesses:
 $$
 \begin{array}{l}
-\exists u,v:\Hist,\,
+\exists u,v:\Hist,
 \hsame(s(\mathsf{append}(\alpha,k)),\Eone(u))\land
 \hsame(t(\mathsf{append}(\alpha,k)),\Eone(v))\land\\
 \mathsf{RealUnaryStreamWindowClassifier}(s,t,\alpha,\omega)\land\\
@@ -631,43 +631,39 @@ $$
 \begin{proof}
 Apply
 \autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-coverage-package}
-with the displayed histories $z_s,z_t,d_s,d_t$. This chooses selected e-one
-tails $u$ and $v$ and supplies the two endpoint displays, the
-$\mathsf{RealUnaryStreamWindowClassifier}$ row, the selected
-$\mathsf{RatHistoryClassifier}$ row, the displayed
-$\mathsf{RatHistoryClassifier}(\Eone(u),\Eone(v))$ row, the unary tail rows, the
-tail $\hsame$ row, the positive-denominator rows, the selected unary endpoint
-rows, the nonempty exclusions, the zero-head exclusions, and the two appended
-e-zero-tail exclusions.
+with the displayed histories $z_s,z_t,d_s,d_t$. The resulting witnesses $u$ and
+$v$ carry the two selected endpoint displays, the RealUp window classifier row,
+the selected RatHistoryClassifier rows, the unary tail rows, the denominator
+rows, the endpoint unary rows, the nonempty exclusions, the zero-head
+exclusions, and the appended e-zero-tail exclusions.
 
-Now fix arbitrary histories $u',v'$ whose selected endpoint displays have
-e-one heads. Apply
+Now fix arbitrary histories $u',v'$ with the same selected e-one endpoint
+displays. Apply
 \autoref{thm:real-unary-streamname-finite-window-selected-e1-tail-pairwise-coherence}
-with $a=u$, $a'=u'$, $b=v$, and $b'=v'$. The coverage package provides the
-chosen endpoint displays, while the arbitrary pair supplies the primed endpoint
-displays.
+with $a=u$, $a'=u'$, $b=v$, and $b'=v'$. The required displayed endpoint
+comparisons are exactly the two chosen displays and the two arbitrary displays.
 
-Project the pairwise coherence rows. They give $\mathsf{UnaryHistory}(u')$,
-$\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$, $\hsame(v,v')$, $\hsame(u',v)$,
-and $\hsame(u,v')$.
-
-Repack the retained coverage rows together with this universal coherence
-clause. The resulting witnesses $u$ and $v$ therefore carry both the full
-endpoint readback package and canonical uniqueness of selected e-one tails up
-to $\hsame$.
+Project the rows supplied by pairwise coherence. They give
+$\mathsf{UnaryHistory}(u')$, $\mathsf{UnaryHistory}(v')$, $\hsame(u,u')$,
+$\hsame(v,v')$, $\hsame(u',v)$, and $\hsame(u,v')$. Repack this universal
+coherence clause after the full coverage rows and package $u,v$ as the displayed
+canonical full witnesses.
 \end{proof}
 
-Fit. Traditional target: canonical finite rational observation tail with full
-endpoint readback. BEDC source: $\StreamNameUp+\RealUp+\RatUp$ plus
-$\mathsf{FKernel}$ e-one inversion. Carrier:
-$\mathsf{RatStreamNameCarrier}$. Classifier: $\mathsf{RatStreamNameClassifier}$
-through $\mathsf{RealUnaryStreamWindowClassifier}$. Stability: endpoint
-$\hsame$, positive-denominator transport, and pairwise tail coherence. Ledger:
-anchor, bound, offset, zero-head tests, and appended-tail tests. Core theorem:
-\autoref{thm:real-unary-streamname-finite-window-selected-canonical-full-endpoint-package}.
-Exactness: existence plus the full endpoint package plus uniqueness up to
-$\hsame$. Standard bridge: finite rational observation windows for RegSeqRat.
-Status: $\mathsf{ProofTarget}$.
+Fit. Traditional target: canonical finite-window selected rational endpoint
+certificate for RealUp StreamNameUp classifiers. BEDC source:
+$\StreamNameUp+\RealUp+\RatUp$ over $\mathsf{BHist}$. Carrier:
+$\mathsf{RatStreamNameCarrier}$. Classifier:
+$\mathsf{RatStreamNameClassifier}$ through
+$\mathsf{RealUnaryStreamWindowClassifier}$. Stability: selected endpoint
+$\hsame$ transport plus pairwise e-one tail coherence. Ledger: carrier,
+classifier, unary anchor, unary bound, selected offset, selected endpoint
+displays, RatHistoryClassifier rows, positive denominator rows, endpoint
+unary rows, and endpoint exclusion rows. Core theorem:
+\autoref{thm:real-unary-streamname-finite-window-selected-canonical-e1-tail-full-package}.
+Exactness: existence, selected endpoint exactness, denominator exclusions,
+appended-tail exclusions, and uniqueness up to $\hsame$. Standard bridge: finite
+RegSeqRat observation windows. Status: $\mathsf{ProofTarget}$.
 
 \begin{theorem}[Real unary StreamNameUp finite-window selected tail-class exactness]
 \label{thm:real-unary-streamname-finite-window-selected-tail-class-exactness}
