@@ -96,6 +96,40 @@ theorem CompleteMetricLimitWitness_singleton_uniqueness
   intro witness0 witness1
   exact hsame_trans witness0.left (hsame_symm witness1.left)
 
+theorem CompleteMetricSingletonLimitSelector_visible_context_metric {s : BHist -> BHist}
+    {p q n : BHist} :
+    UnaryHistory p -> UnaryHistory q -> UnaryHistory n -> hsame (s n) BHist.Empty ->
+      MetricDistanceWitness (append p (s n)) (append BHist.Empty q)
+          (append (append p BHist.Empty) q) ∧
+        Cont (append p (s n)) q (append (append p BHist.Empty) q) := by
+  intro pUnary qUnary _nUnary sourceEmpty
+  constructor
+  · exact
+      (MetricDistanceWitness_visible_context_empty_distance_iff (p := p) (q := q)
+        (x := s n) (y := BHist.Empty)).mpr
+        ⟨pUnary, qUnary, sourceEmpty, hsame_refl BHist.Empty⟩
+  · exact
+      cont_intro (congrArg (fun x : BHist => append (append p x) q)
+        (hsame_symm sourceEmpty))
+
+theorem CompleteMetricLimitWitness_row_result_alignment {X : BHist -> Prop}
+    {s M : BHist -> BHist} {limit n d e : BHist} :
+    CompleteMetricLimitWitness X s M limit -> UnaryHistory n -> X (s n) ->
+      MetricDistanceWitness (s n) limit e -> Cont (s n) limit d ->
+        RatHistoryClassifier d (M n) ->
+          hsame d e ∧ RatHistoryClassifier e (M n) := by
+  intro witness nUnary source rowMetric rowCont rowRat
+  cases witness.right nUnary source with
+  | intro witnessDistance witnessData =>
+      have sameMetric : hsame witnessDistance e :=
+        MetricDistanceWitness_hsame_result_deterministic (hsame_refl (s n))
+          (hsame_refl limit) witnessData.left rowMetric
+      have sameCont : hsame d witnessDistance :=
+        cont_deterministic rowCont witnessData.right.left
+      have sameDE : hsame d e := hsame_trans sameCont sameMetric
+      exact ⟨sameDE,
+        RatHistoryClassifier_hsame_transport sameDE (hsame_refl (M n)) rowRat⟩
+
 theorem CompleteMetricLimitWitness_singleton_classifier_distance
     {s M0 M1 : BHist -> BHist} {l0 l1 : BHist} :
     CompleteMetricLimitWitness (fun h : BHist => hsame h BHist.Empty) s M0 l0 ->
