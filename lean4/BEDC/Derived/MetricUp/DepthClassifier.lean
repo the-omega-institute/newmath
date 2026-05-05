@@ -130,6 +130,21 @@ theorem MetricDistanceDepth_append_left_cancel {p d e : BHist} :
   exact addLeftCancel (MetricDistanceDepth p) (MetricDistanceDepth d) (MetricDistanceDepth e)
     expanded
 
+theorem MetricDistanceDepth_visible_context_cancel {p q d e : BHist} :
+    MetricDistanceDepth (append (append p d) q) =
+      MetricDistanceDepth (append (append p e) q) ->
+        MetricDistanceDepth d = MetricDistanceDepth e := by
+  induction q with
+  | Empty =>
+      intro sameDepth
+      exact MetricDistanceDepth_append_left_cancel (p := p) sameDepth
+  | e0 q ih =>
+      intro sameDepth
+      exact ih (Nat.succ.inj sameDepth)
+  | e1 q ih =>
+      intro sameDepth
+      exact ih (Nat.succ.inj sameDepth)
+
 theorem MetricDistanceDepth_append_right_eq_iff_empty {p d : BHist} :
     MetricDistanceDepth (append d p) = MetricDistanceDepth d ↔ hsame p BHist.Empty := by
   have depthAppend :
