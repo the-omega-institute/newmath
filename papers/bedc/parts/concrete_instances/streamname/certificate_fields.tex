@@ -441,12 +441,57 @@ RatUp classifier rows repack exactly as
 $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$.
 \end{proof}
 
+\begin{theorem}[Rational stream-name finite-window coverage after certified reindexing and point maps]
+\label{thm:rat-stream-name-finite-window-reindexed-map-coverage}
+For certified observation maps $s,t,r:\Hist\to\Hist$, a history point map
+$F:\Hist\to\Hist$, and a probe bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$, suppose $r$ preserves certified unary
+observations:
+$$
+\forall n,\ \mathsf{UnaryHistory}(n)\to\mathsf{UnaryHistory}(r(n)).
+$$
+Suppose also that $F$ preserves RatUp carriers and classifiers:
+$$
+\forall h,\ \mathsf{RatHistoryCarrier}(h)\to
+\mathsf{RatHistoryCarrier}(F(h))
+$$
+and
+$$
+\forall h,k,\ \mathsf{RatHistoryClassifier}(h,k)\to
+\mathsf{RatHistoryClassifier}(F(h),F(k)).
+$$
+If $\mathsf{RatStreamNameClassifier}(s,t)$, then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}
+(F\circ s\circ r,F\circ t\circ r,\mathcal{P}).
+$$
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-reindexing-and-map-stability} to the observation
+reindexer $r$. The reindexing row sends the given stream-name classifier for
+$s$ and $t$ to a classifier for $s\circ r$ and $t\circ r$.
+
+Apply the mapped-classifier row of the same theorem to the point map $F$ and
+to the reindexed classifier just obtained. The carrier-preservation hypothesis
+is part of that stability package, while the classifier-preservation hypothesis
+transports every RatUp point classifier through $F$. This yields
+$\mathsf{RatStreamNameClassifier}(F\circ s\circ r,F\circ t\circ r)$.
+
+Finally apply
+\autoref{thm:rat-stream-name-finite-window-from-classifier} to this transported
+stream-name classifier and the selected probe bundle $\mathcal{P}$. The result
+is precisely the displayed finite-window classifier for the reindexed and
+point-mapped observation streams.
+\end{proof}
+
 The ten-field fit is: traditional target finite certified observation windows;
 BEDC source $\RatUp+\StreamNameUp+\mathsf{ProbeBundle}$; carrier observation
 maps; classifier finite probe-window restriction of the stream classifier;
 stability pointwise classifier projection; ledger the bundle and selected
 observation; core theorem
-\autoref{thm:rat-stream-name-finite-window-from-classifier}; exactness
+\autoref{thm:rat-stream-name-finite-window-from-classifier} and
+\autoref{thm:rat-stream-name-finite-window-reindexed-map-coverage}; exactness
 pointwise RatUp classification on bundled unary observations; standard bridge
 finite prefixes of rational streams; status $\mathsf{ProofTarget}$.
 
