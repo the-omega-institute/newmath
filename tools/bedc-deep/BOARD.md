@@ -8656,3 +8656,84 @@ This is a standard formal-power-series ring law, smaller than product identity o
 
 ---
 
+### B-332 - Topology finite-intersection closure from indexed opens
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Topology finite-intersection closure from indexed opens |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a TopologyUp carrier supplies indexed open-set witnesses and two opens U and V are carried by those witnesses, then the finite-intersection witness carries U ∩ V as an open and transports membership under the carrier classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+
+Rationale:
+The generic topology chapter is still only a skeleton: papers/bedc/parts/concrete_instances/66_topology_namecert_construction.tex:4 says TopologyUp packages open subsets closed under finite intersections and arbitrary unions, but the file has no companion theorem body. The closest developed content is specialized ComplexTopologyUp, where generated open disks, finite intersection, and arbitrary union are proved at papers/bedc/parts/concrete_instances/55_complex_topology_namecert_construction.tex:285-307. BOARD coverage around tools/bedc-deep/BOARD.md:8066 and tools/bedc-deep/BOARD.md:8173 is complex/HoloOnDisk-specific rather than the generic TopologyUp closure step.
+
+---
+
+
+### B-333 - Norm-induced metric certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Norm-induced metric certificate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a NormUp vector-space carrier has subtraction, norm non-negativity, positive definiteness, symmetry of subtraction, triangle inequality, and classifier congruence, then d(x,y)=norm(x-y) satisfies the MetricSpaceUp distance obligations.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/67_norm_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/68_banach_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/22_vecspace_namecert_construction.tex`
+
+Rationale:
+NormUp is under-represented: papers/bedc/parts/concrete_instances/67_norm_namecert_construction.tex:4 lists positive definiteness, absolute homogeneity, and triangle inequality, while BanachUp explicitly depends on the metric induced by the norm at papers/bedc/parts/concrete_instances/68_banach_namecert_construction.tex:4. The target is a missing middle step to MetricSpaceUp, whose required obligations are enumerated at papers/bedc/parts/concrete_instances/32_metric_namecert_construction.tex:30-38. Existing metric BOARD work focuses on ball budgets and compactness-style behavior, not on deriving the metric certificate from NormUp.
+
+---
+
+
+### B-334 - Measure empty-set zero from sigma-additivity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Measure empty-set zero from sigma-additivity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a MeasureUp carrier has sigma-additivity on a designated sigma-algebra and the empty set is measurable, then the measure of the empty set is RealUp-classified as zero.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/17_abgroup_namecert_construction.tex`
+
+Rationale:
+MeasureUp appears as a definition-only substrate: papers/bedc/parts/concrete_instances/70_measure_namecert_construction.tex:4 says it packages a constructive sigma-additive non-negative real-valued set function, and IntegralUp depends on MeasureUp at papers/bedc/parts/concrete_instances/101_integral_namecert_construction.tex:4. BOARD contour-integral work such as tools/bedc-deep/BOARD.md:5628-5648 covers ContourUp operation closure, but not the generic MeasureUp sanity theorem that sigma-additivity forces the empty set to have zero measure. This is a small concrete implication with a clear algebraic cancellation dependency rather than a survey of measure theory.
+
+---
+
