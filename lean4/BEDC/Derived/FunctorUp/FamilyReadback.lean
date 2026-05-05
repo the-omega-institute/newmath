@@ -96,4 +96,11 @@ theorem RawFunctorHomCarrier_landing_obstruction :
       · intro landing
         cases landing
 
+theorem RawFunctorTargetHom_reverse_arrow_endpoint_readback {s t : BHist} :
+    RawFunctorTargetHom s t (BHist.e1 (BHist.e1 BHist.Empty)) ->
+      hsame s (BHist.e1 BHist.Empty) ∧ hsame t BHist.Empty := by
+  intro targetHom
+  cases targetHom
+  exact And.intro (hsame_refl (BHist.e1 BHist.Empty)) (hsame_refl BHist.Empty)
+
 end BEDC.Derived.FunctorUp
