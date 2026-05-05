@@ -143,4 +143,26 @@ theorem RealStreamClassifier_transported_contextual_e1_tail_determinacy
             (And.intro sameBB'
               (And.intro firstTails.right.right secondTails.right.right))))))
 
+theorem RealStreamClassifier_transported_contextual_e1_tail_cross_hsame
+    {x x' y y' prefX prefY tailX tailY midX midY outX outY : Nat -> BHist}
+    {n : Nat} {a a' b b' : BHist} :
+    (forall i : Nat, hsame (x i) (x' i)) ->
+      (forall i : Nat, hsame (y i) (y' i)) ->
+        RealStreamClassifier x y -> UnaryHistory (prefX n) -> UnaryHistory (tailX n) ->
+          hsame (prefX n) (prefY n) -> hsame (tailX n) (tailY n) ->
+            Cont (prefX n) (x' n) (midX n) -> Cont (midX n) (tailX n) (outX n) ->
+              Cont (prefY n) (y' n) (midY n) -> Cont (midY n) (tailY n) (outY n) ->
+                hsame (outX n) (BHist.e1 a) -> hsame (outX n) (BHist.e1 a') ->
+                  hsame (outY n) (BHist.e1 b) -> hsame (outY n) (BHist.e1 b') ->
+                    hsame a b' ∧ hsame a' b := by
+  intro sameX sameY classified prefUnary tailUnary prefSame tailSame prefCont outXCont
+    prefYCont outYCont outXOne outXOne' outYOne outYOne'
+  have tails := RealStreamClassifier_transported_contextual_e1_tail_determinacy
+    sameX sameY classified prefUnary tailUnary prefSame tailSame prefCont outXCont prefYCont
+    outYCont outXOne outXOne' outYOne outYOne'
+  have sameAA' : hsame a a' := tails.right.right.right.right.left
+  have sameBB' : hsame b b' := tails.right.right.right.right.right.left
+  have sameAB : hsame a b := tails.right.right.right.right.right.right.left
+  exact And.intro (hsame_trans sameAB sameBB') (hsame_trans (hsame_symm sameAA') sameAB)
+
 end BEDC.Derived.RealUp

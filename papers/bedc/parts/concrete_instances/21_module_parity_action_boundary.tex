@@ -95,6 +95,27 @@ actions in the opposite order, ending at the same visible-one endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.ModuleUp.ModuleParitySmul\_epsilon\_boolean\_orbit\_involutive}
 
+\begin{theorem}[Module parity epsilon multiplication boolean orbit involution]
+\label{thm:module-parity-mul-epsilon-boolean-orbit-involutive}
+For every history $r:\mathsf{BHist}$, if $r$ is history-same to either
+$\emp$ or $\mathsf{ModuleParityEps}$, then two successive parity
+multiplications by $\mathsf{ModuleParityEps}$ return $r$:
+$$
+\bigl(\HSame(r,\emp)\lor \HSame(r,\mathsf{ModuleParityEps})\bigr)
+\Longrightarrow
+\HSame(\mathsf{ModuleParityMul}(\mathsf{ModuleParityEps},
+  \mathsf{ModuleParityMul}(\mathsf{ModuleParityEps},r)),r).
+$$
+\end{theorem}
+\begin{proof}
+Split the displayed endpoint assumption. In the empty endpoint branch, replace
+$r$ by $\emp$ and compute the two epsilon multiplications. In the epsilon
+endpoint branch, replace $r$ by $\mathsf{ModuleParityEps}$ and compute the same
+two multiplications. Each branch closes by reflexivity of the displayed
+endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.ModuleUp.ModuleParityMul\_epsilon\_boolean\_orbit\_involutive}
+
 \begin{theorem}[Module parity epsilon empty endpoint has no fixed point]
 \label{thm:module-parity-smul-e0-empty-no-fixed-point}
 For every history $m:\mathsf{BHist}$,
