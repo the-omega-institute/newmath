@@ -6,5 +6,201 @@ The Banach-space interface $\BanachUp$ packages a normed vector space carrier to
 \section{Carrier definition}
 \label{sec:banach-carrier}
 
+\begin{definition}[Complete normed-history Banach carrier]
+\label{def:banach-complete-normed-carrier}
+A $\BanachUp$ candidate is a $\VecSpaceUp$ carrier $C_V$ with vector
+classifier $\sim_V$, zero endpoint $0_V$, additive difference operation
+$x-_V y$, and scalar source read over $\NameCert_{\RealUp}$, together with a
+$\NormUp$ norm
+$$
+\nu:C_V\to \RealUp
+$$
+whose classifier is the RealUp classifier. Its induced distance predicate is
+the RealUp value
+$$
+d_\nu(x,y):=\nu(x-_V y)
+$$
+on carried vector endpoints $x,y:C_V$. A regular Cauchy completion witness for
+the candidate is a row assigning to every regular Cauchy sequence
+$(X,\mu):\mathbb{N}\to C_V$ for $d_\nu$ a carried limit endpoint
+$\lim_\nu(X,\mu):C_V$, a convergence modulus, and a uniqueness certificate up
+to $\sim_V$.
+
+The BEDC source is $\NameCert_{\NormUp}$ together with the real-completeness
+capstone of \autoref{ch:capstones-real-completeness}. The carrier choice is
+$C_V$, the classifier is $\sim_V$, the stability obligations are norm transport
+and Cauchy-sequence transport across $\sim_V$, the ledger records all moduli and
+proof-index data used by the norm and completion rows, and the status is
+$\mathsf{ProofTarget}$.
+\end{definition}
+
 \section{The certificate}
 \label{sec:banach-certificate}
+
+\begin{theorem}[Banach norm-induced metric obligations]
+\label{thm:banach-metric-induced-by-norm}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, the distance predicate
+$d_\nu(x,y)=\nu(x-_V y)$ satisfies the $\MetricSpaceUp$ witness obligations on
+the vector carrier $C_V$: it is RealUp-valued and non-negative, it is zero
+exactly on $\sim_V$-classified endpoints, it is symmetric, and it satisfies the
+triangle inequality
+$$
+d_\nu(x,z)\le d_\nu(x,y)+d_\nu(y,z)
+$$
+for carried $x,y,z:C_V$.
+\end{theorem}
+\begin{proof}
+The RealUp carrier and non-negativity rows are exactly the codomain and
+non-negativity clauses of the supplied $\NormUp$ norm. For carried endpoints
+$x$ and $y$, the vector-space difference $x-_V y$ is carried by the
+$\VecSpaceUp$ additive stability rows, so applying $\nu$ gives a carried
+RealUp distance.
+
+Zero exactness is the positive-definiteness clause of $\NormUp$ applied to the
+difference endpoint $x-_V y$. The vector-space additive inverse and zero laws
+identify $x-_V y$ with $0_V$ exactly when $x\sim_V y$, and classifier transport
+converts this vector statement into the displayed distance-zero statement.
+
+For symmetry, the vector-space inverse law identifies $x-_V y$ with the
+additive inverse of $y-_V x$. The $\NormUp$ absolute-homogeneity row for the
+scalar $-1$ and the RealUp absolute-value row $|-1|=1$ show that the two norm
+values are classified by the RealUp classifier.
+
+For the triangle inequality, use the vector identity
+$x-_V z\sim_V (x-_V y)+_V(y-_V z)$. Norm transport moves $\nu$ across this
+classifier comparison, and the triangle-inequality row of $\NormUp$ bounds the
+right-hand side by $\nu(x-_V y)+\nu(y-_V z)$. This is the required
+$\MetricSpaceUp$ triangle row for $d_\nu$.
+\end{proof}
+
+\begin{theorem}[Banach classifier transport obligation]
+\label{thm:banach-classifier-transport-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, if $x\sim_V x'$ and
+$y\sim_V y'$ with all four endpoints carried by $C_V$, then the norm values and
+induced distances transport:
+$$
+\mathsf{RealClassifier}(\nu(x),\nu(x'))
+$$
+and
+$$
+\mathsf{RealClassifier}(d_\nu(x,y),d_\nu(x',y')).
+$$
+\end{theorem}
+\begin{proof}
+The first displayed row is the norm-transport stability obligation contained
+in the $\NormUp$ certificate. It reads the vector classifier comparison
+$x\sim_V x'$ and returns the RealUp classifier comparison between the two norm
+values.
+
+For the distance row, apply the $\VecSpaceUp$ congruence laws to the two input
+classifier comparisons. They transport additive inverse and addition, giving
+$x-_V y\sim_V x'-_V y'$ in the vector classifier.
+
+Applying the same norm-transport row to this difference comparison yields
+$\mathsf{RealClassifier}(\nu(x-_V y),\nu(x'-_V y'))$. Unfolding the definition
+of $d_\nu$ on both sides gives the stated distance transport.
+\end{proof}
+
+\begin{theorem}[Banach regular Cauchy completion obligation]
+\label{thm:banach-regular-cauchy-completion-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, every regular Cauchy sequence
+$(X,\mu):\mathbb{N}\to C_V$ for the induced metric $d_\nu$ has the supplied
+limit endpoint $\lim_\nu(X,\mu):C_V$. The endpoint comes with an explicit
+convergence modulus for $d_\nu$, and any two endpoints satisfying the same
+regular Cauchy limit specification are classified by $\sim_V$.
+\end{theorem}
+\begin{proof}
+The regular Cauchy input contains a carried vector endpoint $X_n$ at each
+index and a modulus $\mu$ witnessing that the distances
+$d_\nu(X_m,X_n)$ enter every requested positive RealUp tolerance after
+$\mu(\varepsilon)$. By
+\autoref{thm:banach-metric-induced-by-norm}, these distances are legitimate
+$\MetricSpaceUp$ distances.
+
+The completion row in the carrier definition is then applied directly to
+$(X,\mu)$. It returns the carried endpoint $\lim_\nu(X,\mu)$, the convergence
+modulus, and the ledger entries recording the modulus calls and the norm rows
+used to read each distance.
+
+If $p$ and $q$ are two carried endpoints satisfying the same limit
+specification, the real-completeness capstone supplies uniqueness of the
+RealUp distance-to-zero limit for the two difference sequences
+$X_n-_V p$ and $X_n-_V q$. The vector-space subtraction identity rewrites
+$p-_V q$ through those two tails, and the positive-definiteness row of
+$\NormUp$ reflects distance zero back to $p\sim_V q$.
+\end{proof}
+
+\begin{theorem}[Banach zero-sequence limit obligation]
+\label{thm:banach-zero-sequence-limit-obligation}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, the constant sequence
+$Z_n=0_V$ is regular Cauchy for the induced metric $d_\nu$, and its supplied
+completion endpoint is classified with the vector zero:
+$$
+\lim_\nu(Z,\mu_0)\sim_V 0_V
+$$
+for the constant zero modulus $\mu_0$.
+\end{theorem}
+\begin{proof}
+The vector zero endpoint is carried by the $\VecSpaceUp$ zero row, so the
+constant sequence $Z_n=0_V$ is a sequence in $C_V$. For any pair of indices,
+$Z_m-_V Z_n$ is classified with $0_V$ by the additive identity and inverse
+laws.
+
+Positive definiteness and norm transport convert that vector zero comparison
+into RealUp distance zero. Thus every requested tolerance is met by the
+constant modulus $\mu_0$, and the sequence is regular Cauchy for $d_\nu$.
+
+Apply
+\autoref{thm:banach-regular-cauchy-completion-obligation} to obtain the
+completion endpoint and its convergence modulus. The endpoint $0_V$ itself
+satisfies the same limit specification by the preceding distance-zero row, so
+the uniqueness part of the completion obligation classifies
+$\lim_\nu(Z,\mu_0)$ with $0_V$.
+\end{proof}
+
+\begin{theorem}[Banach certificate obligation assembly]
+\label{thm:banach-certificate-obligation-assembly}
+The data of a $\BanachUp$ candidate in
+\autoref{def:banach-complete-normed-carrier}, together with the four obligation
+rows of
+\autoref{thm:banach-metric-induced-by-norm},
+\autoref{thm:banach-classifier-transport-obligation},
+\autoref{thm:banach-regular-cauchy-completion-obligation}, and
+\autoref{thm:banach-zero-sequence-limit-obligation}, assemble the paper-side
+$\NameCert_{\BanachUp}$ obligation set. Its carrier is $C_V$, its classifier is
+$\sim_V$, its metric witness is $d_\nu$, its stability rows are vector
+classifier transport through $\nu$ and $d_\nu$, its ledger is the norm ledger
+together with all regular Cauchy moduli and proof indices, and its completion
+row is the supplied $\lim_\nu$ operation with uniqueness up to $\sim_V$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier fields are copied from the underlying
+$\VecSpaceUp$ certificate, and the norm field is copied from the supplied
+$\NormUp$ certificate. By
+\autoref{thm:banach-metric-induced-by-norm}, the expression
+$d_\nu(x,y)=\nu(x-_V y)$ supplies the metric witness expected by
+$\MetricSpaceUp$.
+
+The stability fields are the transport rows of
+\autoref{thm:banach-classifier-transport-obligation}. They show that both
+norm values and induced distances are invariant under the vector classifier,
+which is the exact endpoint-respect condition required by the naming
+certificate.
+
+The completion fields are supplied by
+\autoref{thm:banach-regular-cauchy-completion-obligation}. The special zero
+row of \autoref{thm:banach-zero-sequence-limit-obligation} anchors the
+certificate at the vector zero and records that the completion operation agrees
+with the vector structure on the constant zero sequence.
+
+Combining these rows gives the ten-field fit: traditional target Banach
+spaces; BEDC source $\NameCert_{\NormUp}$ plus the RealUp completion capstone;
+carrier $C_V$; classifier $\sim_V$; stability norm and distance transport;
+ledger norm provenance, moduli, and proof indices; core theorem the completion
+obligation; exactness zero distance iff vector classifier equality; standard
+bridge ordinary complete normed vector spaces; status $\mathsf{ProofTarget}$.
+\end{proof}
