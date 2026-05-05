@@ -565,6 +565,13 @@ theorem MetricDistanceWitness_right_e1_empty_source_exactness {y d : BHist} :
   intro witness
   exact (MetricDistanceWitness_empty_left_iff (y := y) (d := d)).mp
     (MetricDistanceWitness_right_e1_result_exactness witness)
+theorem MetricDistanceWitness_left_e1_visible_target_result_source_absurd {x y d : BHist} :
+    MetricDistanceWitness (BHist.e1 x) (BHist.e1 y) (BHist.e1 d) ->
+      (hsame y BHist.Empty -> False) -> hsame d (BHist.e1 x) -> False := by
+  intro witness targetNonempty sameResult
+  have tailWitness := MetricDistanceWitness_right_e1_result_exactness witness
+  exact targetNonempty (cont_right_unit_unique
+    (cont_result_hsame_transport tailWitness.2.2.2 sameResult))
 theorem MetricDistanceWitness_semanticNameCert {x y : BHist} :
     UnaryHistory x -> UnaryHistory y ->
       BEDC.FKernel.NameCert.SemanticNameCert (MetricDistanceWitness x y)
